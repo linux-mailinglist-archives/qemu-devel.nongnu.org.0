@@ -2,70 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBCB6BD2D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 15:59:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7890E6BD318
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 16:14:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcp3R-0005OU-8J; Thu, 16 Mar 2023 10:58:09 -0400
+	id 1pcpHY-0001Qo-Nf; Thu, 16 Mar 2023 11:12:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pcp3P-0005OI-4m
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 10:58:07 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pcpHN-0001QN-Fc
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:12:33 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pcp3N-0002zV-3U
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 10:58:06 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pcpHL-0003HV-2K
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:12:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678978683;
+ s=mimecast20190719; t=1678979549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=25xY9sFL573myU0M0eDnl5E/sPs2CIun/8GxV7tEV4U=;
- b=hTEqK6EFbcgqhAA3E50M1Nf6FtZhkdupf+tFxen0KgDHY+nCuyifD3y8A83gtbrmDgpJKJ
- mV4zgk/mE2Z/6tV66QoGNXLYs3S6m9L1x6cXaHf2advAtB7rN4JuzHlSnMcxswgdiFQBgT
- cWK+h47kiZQy5cYj8+UMBuZ2tyEoXMA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=G+70bySaviziP5TlEV1lrGMYkOioXW1zh+xkXqvOiEM=;
+ b=N2c9/BIQNUMOtI4yQqW1oJproDTul0ODQj12v8UVmK2C0p45Fl9HxDebj3urN3PbGNhQMy
+ au29MDENnZOjN8KcYJiLUoPH12/WIGUIvYdpdVw1LiwudGhI+N+vgz42jrp6ZHHs2AllVB
+ +t4lvvcmL7+GiERF38Y5ag+xFdZA3YI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-UL4wMMHEMWOw9LGAR9XTdQ-1; Thu, 16 Mar 2023 10:57:58 -0400
-X-MC-Unique: UL4wMMHEMWOw9LGAR9XTdQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-463-AGbVT0JxOl-kTer02jWYdw-1; Thu, 16 Mar 2023 11:12:27 -0400
+X-MC-Unique: AGbVT0JxOl-kTer02jWYdw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76EA12807D76;
- Thu, 16 Mar 2023 14:57:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30B542A68;
- Thu, 16 Mar 2023 14:57:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2A3EE21E675B; Thu, 16 Mar 2023 15:57:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Stefan
- Berger <stefanb@linux.vnet.ibm.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  Juan
- Quintela <quintela@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 2/3] qapi: Do not generate empty enum
-References: <20230315112811.22355-1-philmd@linaro.org>
- <20230315112811.22355-3-philmd@linaro.org>
- <87cz58ubcn.fsf@pond.sub.org> <ZBMfosr0JDyfjhqs@redhat.com>
-Date: Thu, 16 Mar 2023 15:57:57 +0100
-In-Reply-To: <ZBMfosr0JDyfjhqs@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 16 Mar 2023 13:54:42 +0000")
-Message-ID: <873564spze.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 401482807D76
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 15:12:27 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.195.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5F10492B06;
+ Thu, 16 Mar 2023 15:12:26 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PULL 0/7] Migration 20230316 patches
+Date: Thu, 16 Mar 2023 16:12:18 +0100
+Message-Id: <20230316151225.11362-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,164 +76,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+The following changes since commit 9636e513255362c4a329e3e5fb2c97dab3c5ce47:
 
-> On Thu, Mar 16, 2023 at 01:31:04PM +0100, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
->>=20
->> > Per the C++ standard, empty enum are ill-formed. Do not generate
+  Merge tag 'misc-next-pull-request' of https://gitlab.com/berrange/qemu into staging (2023-03-15 17:20:04 +0000)
 
-The C standard.  The C++ standard doesn't apply here :)
+are available in the Git repository at:
 
->> > them in order to avoid:
->> >
->> >   In file included from qga/qga-qapi-emit-events.c:14:
->> >   qga/qga-qapi-emit-events.h:20:1: error: empty enum is invalid
->> >      20 | } qga_QAPIEvent;
->> >         | ^
->> >
->> > Reported-by: Markus Armbruster <armbru@redhat.com>
->> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->>=20
->> Two failures in "make check-qapi-schema" (which is run by "make check"):
->>=20
->> 1. Positive test case qapi-schema-test
->>=20
->>     --- /work/armbru/qemu/bld-x86/../tests/qapi-schema/qapi-schema-test.=
-out
->>     +++=20
->>     @@ -19,7 +19,6 @@
->>          member enum2: EnumOne optional=3DTrue
->>          member enum3: EnumOne optional=3DFalse
->>          member enum4: EnumOne optional=3DTrue
->>     -enum MyEnum
->>      object Empty1
->>      object Empty2
->>          base Empty1
->>=20
->>    You forgot to update expected test output.  No big deal.
->>=20
->> 2. Negative test case union-empty
->>=20
->>     --- /work/armbru/qemu/bld-x86/../tests/qapi-schema/union-empty.err
->>     +++=20
->>     @@ -1,2 +1,2 @@
->>     -union-empty.json: In union 'Union':
->>     -union-empty.json:4: union has no branches
->>     +union-empty.json: In struct 'Base':
->>     +union-empty.json:3: member 'type' uses unknown type 'Empty'
->>     stderr:
->>     qapi-schema-test FAIL
->>     union-empty FAIL
->>=20
->>    The error message regresses.
->>=20
->>    I can see two ways to fix this:
->>=20
->>    (A) You can't just drop empty enumeration types on the floor.  To not
->>        generate code for them, you need to skip them wherever we
->>        generate code for enumeration types.
->>=20
->>    (B) Outlaw empty enumeration types.
->>=20
->> I recommend to give (B) a try, it's likely simpler.
->
-> Possible trap-door with (B), if we have any enums where *every*
-> member is conditionalized on a CONFIG_XXX rule, there might be
-> certain build scenarios where an enum suddenly becomes empty.
+  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230316-pull-request
 
-True.  Scratch the idea.
+for you to fetch changes up to fa76c854ae837328187bef41d80af5d1ad36681f:
 
-Trap-door also applies to (A): we can still end up with empty enums.
+  migration: fix populate_vfio_info (2023-03-16 16:07:07 +0100)
 
-(C) Always emit a dummy member.  This is actually what we do now:
+----------------------------------------------------------------
+Migration Pull request
 
-    typedef enum OnOffAuto {
-        ON_OFF_AUTO_AUTO =3D 1,
-        ON_OFF_AUTO_ON =3D 2,
-        ON_OFF_AUTO_OFF =3D 3,
-        ON_OFF_AUTO__MAX,               <--- the dummy
-    } OnOffAuto;
+Hi
 
-But the next patch changes it to
+This is just fixes for migration.
+- Fix rdma (dave)
+- Remove unused variable (Zhijian)
+- Fix AVX512 and XBZRLE (Matheus)
+- Fix migration preempt (Peter)
+- Fix populate_vfio_info (Steve)
+- Fix multifd send trace (Wei)
 
-    typedef enum OnOffAuto {
-        ON_OFF_AUTO_AUTO,
-        ON_OFF_AUTO_ON,
-        ON_OFF_AUTO_OFF,
-    #define ON_OFF_AUTO__MAX 3
-    } OnOffAuto;
+Please apply.
 
-Two problems, actually.
+Later, Juan.
 
-One, we lose the dummy.  We could add one back like
+----------------------------------------------------------------
 
-    typedef enum OnOffAuto {
-        ON_OFF_AUTO__DUMMY =3D 0,
-        ON_OFF_AUTO_AUTO =3D 0,
-        ON_OFF_AUTO_ON,
-        ON_OFF_AUTO_OFF,
-    #define ON_OFF_AUTO__MAX 3
-    } OnOffAuto;
+Dr. David Alan Gilbert (1):
+  migration/rdma: Fix return-path case
 
-But all of this falls apart with conditional members!
+Li Zhijian (1):
+  migration/rdma: Remove deprecated variable rdma_return_path
 
-Example 1 (taken from qapi/block-core.json):
+Matheus Tavares Bernardino (2):
+  migration/xbzrle: use ctz64 to avoid undefined result
+  migration/xbzrle: fix out-of-bounds write with axv512
 
-    { 'enum': 'BlockdevAioOptions',
-      'data': [ 'threads', 'native',
-                { 'name': 'io_uring', 'if': 'CONFIG_LINUX_IO_URING' } ] }
+Peter Xu (1):
+  migration: Wait on preempt channel in preempt thread
 
-Generates now:
+Steve Sistare (1):
+  migration: fix populate_vfio_info
 
-    typedef enum BlockdevAioOptions {
-        BLOCKDEV_AIO_OPTIONS_THREADS,
-        BLOCKDEV_AIO_OPTIONS_NATIVE,
-    #if defined(CONFIG_LINUX_IO_URING)
-        BLOCKDEV_AIO_OPTIONS_IO_URING,
-    #endif /* defined(CONFIG_LINUX_IO_URING) */
-        BLOCKDEV_AIO_OPTIONS__MAX,
-    } BlockdevAioOptions;
+Wei Wang (1):
+  migration/multifd: correct multifd_send_thread to trace the flags
 
-BLOCKDEV_AIO_OPTIONS__MAX is 3 if defined(CONFIG_LINUX_IO_URING), else
-2.
+ migration/multifd.c      |  3 ++-
+ migration/postcopy-ram.c | 11 ++++++-----
+ migration/rdma.c         | 11 ++++++-----
+ migration/target.c       |  2 +-
+ migration/xbzrle.c       | 12 ++++++------
+ 5 files changed, 21 insertions(+), 18 deletions(-)
 
-After the next patch:
-
-    typedef enum BlockdevAioOptions {
-        BLOCKDEV_AIO_OPTIONS_THREADS,
-        BLOCKDEV_AIO_OPTIONS_NATIVE,
-    #if defined(CONFIG_LINUX_IO_URING)
-        BLOCKDEV_AIO_OPTIONS_IO_URING,
-    #endif /* defined(CONFIG_LINUX_IO_URING) */
-    #define BLOCKDEV_AIO_OPTIONS__MAX 3
-    } BlockdevAioOptions;
-
-Now it's always 3.
-
-Example 2 (same with members reordered):
-
-    { 'enum': 'BlockdevAioOptions',
-      'data': [ { 'name': 'io_uring', 'if': 'CONFIG_LINUX_IO_URING' },
-                'threads', 'native' ] }
-
-Same problem for __MAX, additional problem for __DUMMY:
-
-    typedef enum BlockdevAioOptions {
-        BLOCKDEV_AIO_OPTIONS__DUMMY =3D 0,
-    #if defined(CONFIG_LINUX_IO_URING)
-        BLOCKDEV_AIO_OPTIONS_IO_URING =3D 0,
-    #endif /* defined(CONFIG_LINUX_IO_URING) */
-        BLOCKDEV_AIO_OPTIONS_THREADS,
-        BLOCKDEV_AIO_OPTIONS_NATIVE,
-    #define BLOCKDEV_AIO_OPTIONS__MAX 3
-    } BlockdevAioOptions;
-
-If CONFIG_LINUX_IO_URING is off, the enum starts at 1 instead of 0.
-
-Arrays indexed by the enum start with a hole.  Code using them is
-probably not prepared for holes.
-
-*Sigh*
+-- 
+2.39.2
 
 
