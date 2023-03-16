@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127706BCEFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D1C6BCF06
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 13:08:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcmMK-0002lT-Hx; Thu, 16 Mar 2023 08:05:28 -0400
+	id 1pcmPA-0007h5-Ai; Thu, 16 Mar 2023 08:08:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pcmMH-0002jS-K0
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:05:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pcmP8-0007fy-0m
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:08:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pcmMF-0002pb-PE
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:05:25 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pcmP5-0003Gq-QQ
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 08:08:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678968322;
+ s=mimecast20190719; t=1678968498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BFXEqi3+afrhJ6fKwOMxcErtjjrlJEkqPpu5/+P9lp4=;
- b=Vn5BUPlxHMu2qHt+alvkOxovZ1J8FZ/dskWetO0Ylihpd6Dh5Nz/vfeOVWlkn8OcfF0ugJ
- pTitzhsAk7+tVLLFY2dFSzrdNKFO8ZFXzlKE4zT/8FGha6T2AsC8Z7P36ngKlXi+L6SBDA
- vnZ84BYfk862dHBSfu2SbAuQ3eV2b1M=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176--elP1ARMODmbaDirN3Hf8Q-1; Thu, 16 Mar 2023 08:05:19 -0400
-X-MC-Unique: -elP1ARMODmbaDirN3Hf8Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A6921C06EEE;
- Thu, 16 Mar 2023 12:05:19 +0000 (UTC)
-Received: from toolbox.redhat.com (unknown [10.33.36.180])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97757140EBF4;
- Thu, 16 Mar 2023 12:05:17 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Eric Blake <eblake@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sergio Lopez <slp@redhat.com>
-Subject: [PATCH v2 6/6] ui/gtk: enable backend to send multi-touch events
-Date: Thu, 16 Mar 2023 13:06:24 +0100
-Message-Id: <20230316120624.46410-7-slp@redhat.com>
-In-Reply-To: <20230316120624.46410-1-slp@redhat.com>
-References: <20230316120624.46410-1-slp@redhat.com>
+ bh=1MyRpqu/xXm6Eb84sakJXzvy8GcchjfmR1Y4ZbgH668=;
+ b=Yxloj5Ko3Ye6q3NtWjyTZBAU+btR1vv9CVUQwwnqPrDFDSc/IeOTfmBJ06Afr15K3aO8Uq
+ CufOv/1rlW/YsuiQySfNGD/XRyjWQf3srcym8kF2uJ+M5JiMAqV/HBNJAh4UFUmw76kMp5
+ uoCyiMQSgUmQ/IsGE/kamh4YZ4wXR50=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-103-mO9g0Zx8PJuS49ooc2c81A-1; Thu, 16 Mar 2023 08:08:17 -0400
+X-MC-Unique: mO9g0Zx8PJuS49ooc2c81A-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ev6-20020a056402540600b004bc2358ac04so2736177edb.21
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 05:08:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678968496;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1MyRpqu/xXm6Eb84sakJXzvy8GcchjfmR1Y4ZbgH668=;
+ b=MgSDN8Ub5b8hU/KQ4CGpS9FPCFk99PRXrWbu1EeEynxCJEz40+Qrd9N0XBDYd+8jeK
+ llOwtDc4bRqOY3RxgCcCUvOn+7TEq9tdrpliNPqrdp11J3NY5CIF5KveTFkc9uzhXCG5
+ tXaZRqiHTpxru7rfccMZN4g6azWRAW7ouH7cU585d/rjmRryYy6O4YTQ6jNGDyZ5dosi
+ HUeNG0gb/PUuj7ZeZzEexG/UrZdnGS8qiZugqPrbwQXQ2/NtkpXr4Eynq/V97/wqxe12
+ l1Y2Bv9e9oHODOyXcbbS6Ni9j9kB+okxFEt+D1XTcX8L1X125LB9cqOvBEiYy1bAaE8B
+ 1j/w==
+X-Gm-Message-State: AO0yUKU7tTPWadAsj2UhiYIi89v+lCly0cHN5so3ntJtYhU8nqxQfeI0
+ Z9lMMZwNy4zBHSTMBM7hLajJJ5S1FzAaKyZubO0jHbMVDpLkQzaB9oB6oAzfMtbmWyibeT+6vha
+ kXtlYcXEA7PAzu/w=
+X-Received: by 2002:a17:906:6b98:b0:8f6:ad32:cd51 with SMTP id
+ l24-20020a1709066b9800b008f6ad32cd51mr10667115ejr.62.1678968496532; 
+ Thu, 16 Mar 2023 05:08:16 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8rivAyBncG81DkhUr356SITBvf3CcUgrvRpo5jn4ly107zTtwB0Gb4putQEoGDMjrHy9jlEw==
+X-Received: by 2002:a17:906:6b98:b0:8f6:ad32:cd51 with SMTP id
+ l24-20020a1709066b9800b008f6ad32cd51mr10667076ejr.62.1678968496198; 
+ Thu, 16 Mar 2023 05:08:16 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-176-151.web.vodafone.de.
+ [109.43.176.151]) by smtp.gmail.com with ESMTPSA id
+ oy12-20020a170907104c00b00931024e96c5sm217748ejb.99.2023.03.16.05.08.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Mar 2023 05:08:15 -0700 (PDT)
+Message-ID: <d755da2b-edd9-8337-1975-548c961fbe88@redhat.com>
+Date: Thu, 16 Mar 2023 13:08:14 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] docs/sphinx/kerneldoc.py: Honour --enable-werror
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20230314114431.1096972-1-peter.maydell@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230314114431.1096972-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,162 +100,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-GTK3 provides the infrastructure to receive and process multi-touch
-events through the "touch-event" signal and the GdkEventTouch type.
-Make use of it to transpose events from the host to the guest.
+On 14/03/2023 12.44, Peter Maydell wrote:
+> Currently, the kerneldoc Sphinx plugin doesn't honour the
+> --enable-werror configure option, so its warnings are never fatal.
+> This is because although we do pass sphinx-build the -W switch, the
+> warnings from kerneldoc are produced by the scripts/kernel-doc script
+> directly and don't go through Sphinx's "emit a warning" function.
+> 
+> When --enable-werror is in effect, pass sphinx-build an extra
+> argument -Dkerneldoc_werror=1.  The kerneldoc plugin can then use
+> this to determine whether it should be passing the kernel-doc script
+> -Werror.
+> 
+> We do this because there is no documented mechanism for
+> a Sphinx plugin to determine whether sphinx-build was
+> passed -W or not; if one is provided then we can switch to
+> that at a later date:
+> https://github.com/sphinx-doc/sphinx/issues/11239
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> NB: we need to land the fix for the current outstanding
+> warning before this one can go in...
+> https://lore.kernel.org/qemu-devel/20230310103123.2118519-11-alex.bennee@linaro.org/
+> ---
+>   docs/meson.build         | 2 +-
+>   docs/sphinx/kerneldoc.py | 5 +++++
+>   2 files changed, 6 insertions(+), 1 deletion(-)
 
-This allows users of machines with hardware capable of receiving
-multi-touch events to run guests that can also receive those events
-and interpret them as gestures, when appropriate.
-
-An example of this in action can be seen here:
-
- https://fosstodon.org/@slp/109545849296546767
-
-Signed-off-by: Sergio Lopez <slp@redhat.com>
----
- ui/gtk.c | 92 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
-
-diff --git a/ui/gtk.c b/ui/gtk.c
-index fd82e9b1ca..3a667bfba6 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -130,6 +130,13 @@ typedef struct VCChardev VCChardev;
- DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
-                          TYPE_CHARDEV_VC)
- 
-+struct touch_slot {
-+    int x;
-+    int y;
-+    int tracking_id;
-+};
-+static struct touch_slot touch_slots[INPUT_EVENT_SLOTS_MAX];
-+
- bool gtk_use_gl_area;
- 
- static void gd_grab_pointer(VirtualConsole *vc, const char *reason);
-@@ -1058,6 +1065,82 @@ static gboolean gd_scroll_event(GtkWidget *widget, GdkEventScroll *scroll,
- }
- 
- 
-+static gboolean gd_touch_event(GtkWidget *widget, GdkEventTouch *touch,
-+                               void *opaque)
-+{
-+    VirtualConsole *vc = opaque;
-+    struct touch_slot *slot;
-+    uint64_t num_slot = GPOINTER_TO_UINT(touch->sequence);
-+    bool needs_sync = false;
-+    int update;
-+    int type = -1;
-+    int i;
-+
-+    if (num_slot >= INPUT_EVENT_SLOTS_MAX) {
-+        fprintf(stderr, "%s: unexpected touch slot number: %ld >= %d\n",
-+                __func__, num_slot, INPUT_EVENT_SLOTS_MAX);
-+        return FALSE;
-+    }
-+
-+    slot = &touch_slots[num_slot];
-+    slot->x = touch->x;
-+    slot->y = touch->y;
-+
-+    switch (touch->type) {
-+    case GDK_TOUCH_BEGIN:
-+        type = INPUT_MULTITOUCH_TYPE_BEGIN;
-+        slot->tracking_id = num_slot;
-+        break;
-+    case GDK_TOUCH_UPDATE:
-+        type = INPUT_MULTITOUCH_TYPE_UPDATE;
-+        break;
-+    case GDK_TOUCH_END:
-+    case GDK_TOUCH_CANCEL:
-+        type = INPUT_MULTITOUCH_TYPE_END;
-+        break;
-+    default:
-+        fprintf(stderr, "%s: unexpected touch event\n", __func__);
-+    }
-+
-+    for (i = 0; i < INPUT_EVENT_SLOTS_MAX; ++i) {
-+        if (i == num_slot) {
-+            update = type;
-+        } else {
-+            update = INPUT_MULTITOUCH_TYPE_UPDATE;
-+        }
-+
-+        slot = &touch_slots[i];
-+
-+        if (slot->tracking_id == -1) {
-+            continue;
-+        }
-+
-+        if (update == INPUT_MULTITOUCH_TYPE_END) {
-+            slot->tracking_id = -1;
-+            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->tracking_id);
-+            needs_sync = true;
-+        } else {
-+            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->tracking_id);
-+            qemu_input_queue_btn(vc->gfx.dcl.con, INPUT_BUTTON_TOUCH, true);
-+            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
-+                                     INPUT_AXIS_X, (int) slot->x,
-+                                     0, surface_width(vc->gfx.ds),
-+                                     i, slot->tracking_id);
-+            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
-+                                     INPUT_AXIS_Y, (int) slot->y,
-+                                     0, surface_height(vc->gfx.ds),
-+                                     i, slot->tracking_id);
-+            needs_sync = true;
-+        }
-+    }
-+
-+    if (needs_sync) {
-+        qemu_input_event_sync();
-+    }
-+
-+    return TRUE;
-+}
-+
- static const guint16 *gd_get_keymap(size_t *maplen)
- {
-     GdkDisplay *dpy = gdk_display_get_default();
-@@ -1977,6 +2060,8 @@ static void gd_connect_vc_gfx_signals(VirtualConsole *vc)
-                          G_CALLBACK(gd_key_event), vc);
-         g_signal_connect(vc->gfx.drawing_area, "key-release-event",
-                          G_CALLBACK(gd_key_event), vc);
-+        g_signal_connect(vc->gfx.drawing_area, "touch-event",
-+                         G_CALLBACK(gd_touch_event), vc);
- 
-         g_signal_connect(vc->gfx.drawing_area, "enter-notify-event",
-                          G_CALLBACK(gd_enter_event), vc);
-@@ -2086,6 +2171,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                               GSList *group, GtkWidget *view_menu)
- {
-     bool zoom_to_fit = false;
-+    int i;
- 
-     vc->label = qemu_console_get_label(con);
-     vc->s = s;
-@@ -2133,6 +2219,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                           GDK_BUTTON_PRESS_MASK |
-                           GDK_BUTTON_RELEASE_MASK |
-                           GDK_BUTTON_MOTION_MASK |
-+                          GDK_TOUCH_MASK |
-                           GDK_ENTER_NOTIFY_MASK |
-                           GDK_LEAVE_NOTIFY_MASK |
-                           GDK_SCROLL_MASK |
-@@ -2168,6 +2255,11 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-         s->free_scale = true;
-     }
- 
-+    for (i = 0; i < INPUT_EVENT_SLOTS_MAX; i++) {
-+        struct touch_slot *slot = &touch_slots[i];
-+        slot->tracking_id = -1;
-+    }
-+
-     return group;
- }
- 
--- 
-2.38.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
