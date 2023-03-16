@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6219E6BD11F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 14:42:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5C86BD120
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 14:43:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcnrx-0000KV-7k; Thu, 16 Mar 2023 09:42:13 -0400
+	id 1pcnsf-0001Xs-T2; Thu, 16 Mar 2023 09:42:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pcnrv-0000FJ-8m
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 09:42:11 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ id 1pcnse-0001XH-5x
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 09:42:56 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pcnrt-0002UF-1B
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 09:42:10 -0400
-Received: by mail-pg1-x532.google.com with SMTP id y19so942302pgk.5
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 06:42:08 -0700 (PDT)
+ id 1pcnsc-0002Yr-3m
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 09:42:55 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id s8so1042171pfk.5
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 06:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678974127;
+ d=linaro.org; s=google; t=1678974172;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Apye2Rbn9g02f7KVerpT1+IoZIGGJf4C6uxn1AtIaAc=;
- b=zHKE0rEokKaIe5c79NfBv/i3ArooFzMRfKzt5cSQXJ/DN6GxYPE/DaPFQH6QejafCo
- d5cxXwfAqmPYi5EMrq+Smwz+vvG4lnDfXivKpOMvA0hjMJjrhnyD3IlHAuAqHxGUq5/l
- PRprYhvp4rDdLego9VI1DLzu19GYLvrth4uAn1rkcOnbyC0mXJjzXbNoTAK4xex+9vjT
- 0fpbvFsZ8uK6OzV1a7mW89S/9oXFBOR4pdrkOXCwh2GqEk7ZEXFRtxqT7Iy82oFJiBYn
- 9gJY4MNGT15nWd4psfc5N2MqNFSzDsiGacCIUioaIVkUK2G+9O4xgJsX7HooHmeD8LiB
- 50wg==
+ bh=uNa1IvKBI6YwaZck5BxEV6vCD8ZEYxZqLISguOw2G64=;
+ b=u8HBxecxMBJltHsLlBvqxGFqvcZDuuXXXMjYALI9tFgcFI8UA0aMPYULLLR8Yapowb
+ KCvUuhC04rux1BgYtCJ+LWjKKSVMGmguwFhhNoimg7H04Vvx2ufknD9IsvLf52rZfMRN
+ 5RmJukR2+iRk2u0Ps5HHHqPWBiKpKYxAOWLLp2BsPxAHq6EJSEiwhPP6cOuZSBHnpUr/
+ ym0R9EmNHlGfFBgRf2w7Vj6kegn7lcXfEJ5IWZz6VLDNUSLxDupLLJ1jwrXnzSx1YyIY
+ 9OInFXLPQS2KYavYiCYpzrj4vIqcbhpRS3bI+1fJ6ou4osTifzMjl7QtWhVPj7sl7/8u
+ nFLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678974127;
+ d=1e100.net; s=20210112; t=1678974172;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Apye2Rbn9g02f7KVerpT1+IoZIGGJf4C6uxn1AtIaAc=;
- b=De5RWvs7T9BTdvx1nmk+Wz03qDJPgA7a+tSQN7Pj+Rgp3d7YyJLCflhI4llQzo3cxu
- 0XXvxmXn2RTyh8YrxyBfINFnvRxFnvdXzlR1GQdTVKvLkRqoPivFtAz6+feHDAPMf7Ec
- icH+fEeUis3nG8fGS9VMMfG/Q1gIHNAYW/7PN/MwZo5cpA9bYVG1DZOEf6M7aLKVsXhQ
- 1c/PE++a6w48UMqkFrQeW6WIw+EvWS5ZSM0J4grdQBnf86PHhvObvK9VOeLHcORwMvQM
- Sp77zvYERMQ6F5rEOhuFb8n7LIMiJITUB9hRUx1yLV/VC2RWgMyeAzZ6/oMRLmWLi63P
- 0Drw==
-X-Gm-Message-State: AO0yUKXD0bBo4lvx4p8ZLPDT+H0l3LKMlCjUPZToPSogOGDvAIRu8BmD
- 3+GLQYduc2Wbq3YebFUjwsrRaU8AFy9Tb6pssU1XVg==
-X-Google-Smtp-Source: AK7set/TBcKC7DP/gArkBQqL2o5hGVwG5dP9O36ZOkNXIwOnA5RNSuMAA8rUllciyvLybeV1xCDUnKptWjtPGbJRO6w=
+ bh=uNa1IvKBI6YwaZck5BxEV6vCD8ZEYxZqLISguOw2G64=;
+ b=KAw2k38M+KQZxs2h+rl2AgINrhfe02/xZbUhSOweVW2kyxJJLcyuZ5UrCo2cOp2eew
+ wclsGpD1SiQB/rGvZeaIXZTtAZr6tJHQ8+OHWvnpP4Tz4pf/U5rykJUIG3grWCscJV8F
+ I1lxW0I7gg6FvOCiGkGJ+84mfDSNupypetAyp/3EpyDi1Whp3kyHoHa9Jcm6R9vYA6sJ
+ SHr6LjeRFb0Z2fefVPqvEPvkUEmMS2UkJiot9xqvObePxDzBn3etUN9jnsFNR2Lf09FR
+ YvUAbKibemLKEZwCdn0qDHtS6FtybRgmjKeEGZiPEj4vi/tJKJRvdTTpnMQPMqvlku+e
+ mFTQ==
+X-Gm-Message-State: AO0yUKVgnFP3RuQ8S7+qmJlQQJAvFuzLcR9THJQvsoDy21xcWGlgj8bo
+ VIhtOJ5M+TuoYXUjUiDFF+MUPEzhvLAxhL8WZEN9gA==
+X-Google-Smtp-Source: AK7set9Zpu1FBpojaYPRnXj84Dgo7zLpcuBll/NiM35nUns78pTf2gttmN1i4HURYB9kuBjFBcEZH117LqcPHi/nn0A=
 X-Received: by 2002:a65:5087:0:b0:503:a26a:2e7a with SMTP id
- r7-20020a655087000000b00503a26a2e7amr903666pgp.6.1678974127409; Thu, 16 Mar
- 2023 06:42:07 -0700 (PDT)
+ r7-20020a655087000000b00503a26a2e7amr904333pgp.6.1678974172412; Thu, 16 Mar
+ 2023 06:42:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200313014551.12554-1-linux@roeck-us.net>
- <20200313014551.12554-2-linux@roeck-us.net>
-In-Reply-To: <20200313014551.12554-2-linux@roeck-us.net>
+References: <20230314114431.1096972-1-peter.maydell@linaro.org>
+ <8f048b8a-55f0-d124-3cb7-9a34e863149f@vivier.eu>
+In-Reply-To: <8f048b8a-55f0-d124-3cb7-9a34e863149f@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Mar 2023 13:41:56 +0000
-Message-ID: <CAFEAcA_PT9kD1WCn9RWVem3uEY4AvmyA5T=-ouVsq9sbvDymKg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] hw/usb: Add basic i.MX USB Phy support
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
- qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x532.google.com
+Date: Thu, 16 Mar 2023 13:42:41 +0000
+Message-ID: <CAFEAcA_wAUgEiL1T_E9mKKW7PCpdRASKaBnTEydJuC9cPGme2w@mail.gmail.com>
+Subject: Re: [PATCH] docs/sphinx/kerneldoc.py: Honour --enable-werror
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000002255bb05f704a3b3"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,103 +87,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 13 Mar 2020 at 01:45, Guenter Roeck <linux@roeck-us.net> wrote:
+--0000000000002255bb05f704a3b3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 16 Mar 2023 at 13:40, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> Add basic USB PHY support as implemented in i.MX23, i.MX28, i.MX6,
-> and i.MX7 SoCs.
->
-> The only support really needed - at least to boot Linux - is support
-> for soft reset, which needs to reset various registers to their initial
-> value. Otherwise, just record register values.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Le 14/03/2023 =C3=A0 12:44, Peter Maydell a =C3=A9crit :
+> > Currently, the kerneldoc Sphinx plugin doesn't honour the
+> > --enable-werror configure option, so its warnings are never fatal.
+> > This is because although we do pass sphinx-build the -W switch, the
+> > warnings from kerneldoc are produced by the scripts/kernel-doc script
+> > directly and don't go through Sphinx's "emit a warning" function.
+> >
+> > When --enable-werror is in effect, pass sphinx-build an extra
+> > argument -Dkerneldoc_werror=3D1.  The kerneldoc plugin can then use
+> > this to determine whether it should be passing the kernel-doc script
+> > -Werror.
+> >
+> > We do this because there is no documented mechanism for
+> > a Sphinx plugin to determine whether sphinx-build was
+> > passed -W or not; if one is provided then we can switch to
+> > that at a later date:
+> > https://github.com/sphinx-doc/sphinx/issues/11239
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > NB: we need to land the fix for the current outstanding
+> > warning before this one can go in...
+> >
+https://lore.kernel.org/qemu-devel/20230310103123.2118519-11-alex.bennee@li=
+naro.org/
+> > ---
+> >   docs/meson.build         | 2 +-
+> >   docs/sphinx/kerneldoc.py | 5 +++++
+> >   2 files changed, 6 insertions(+), 1 deletion(-)
 
-Hi Guenter; we've had a fuzzer report that this device model
-accesses off the end of the usbphy[] array:
-https://gitlab.com/qemu-project/qemu/-/issues/1408
+> I've applied it to my trivial-patches branch,
+> but if you want to apply it via some doc or misc branches, let me know.
 
-> +static uint64_t imx_usbphy_read(void *opaque, hwaddr offset, unsigned size)
-> +{
-> +    IMXUSBPHYState *s = (IMXUSBPHYState *)opaque;
-> +    uint32_t index = offset >> 2;
-> +    uint32_t value;
+Trivial is fine, but make sure you've put in the fix for
+the outstanding warning first :-)
 
-
-> +    default:
-> +        value = s->usbphy[index];
-
-No bounds check in the default case (or ditto in the write function)...
-
-> +        break;
-> +    }
-> +    return (uint64_t)value;
-> +}
-
-> +static void imx_usbphy_realize(DeviceState *dev, Error **errp)
-> +{
-> +    IMXUSBPHYState *s = IMX_USBPHY(dev);
-> +
-> +    memory_region_init_io(&s->iomem, OBJECT(s), &imx_usbphy_ops, s,
-> +                          "imx-usbphy", 0x1000);
-
-...and the memory region is created at size 0x1000 so the read/write
-fns can be called with offsets up to that size...
-
-> +    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
-> +}
-
-> +enum IMXUsbPhyRegisters {
-> +    USBPHY_PWD,
-> +    USBPHY_PWD_SET,
-> +    USBPHY_PWD_CLR,
-> +    USBPHY_PWD_TOG,
-> +    USBPHY_TX,
-> +    USBPHY_TX_SET,
-> +    USBPHY_TX_CLR,
-> +    USBPHY_TX_TOG,
-> +    USBPHY_RX,
-> +    USBPHY_RX_SET,
-> +    USBPHY_RX_CLR,
-> +    USBPHY_RX_TOG,
-> +    USBPHY_CTRL,
-> +    USBPHY_CTRL_SET,
-> +    USBPHY_CTRL_CLR,
-> +    USBPHY_CTRL_TOG,
-> +    USBPHY_STATUS,
-> +    USBPHY_DEBUG = 0x14,
-> +    USBPHY_DEBUG_SET,
-> +    USBPHY_DEBUG_CLR,
-> +    USBPHY_DEBUG_TOG,
-> +    USBPHY_DEBUG0_STATUS,
-> +    USBPHY_DEBUG1 = 0x1c,
-> +    USBPHY_DEBUG1_SET,
-> +    USBPHY_DEBUG1_CLR,
-> +    USBPHY_DEBUG1_TOG,
-> +    USBPHY_VERSION,
-> +    USBPHY_MAX
-> +};
-> +
-> +#define USBPHY_CTRL_SFTRST BIT(31)
-> +
-> +#define TYPE_IMX_USBPHY "imx.usbphy"
-> +#define IMX_USBPHY(obj) OBJECT_CHECK(IMXUSBPHYState, (obj), TYPE_IMX_USBPHY)
-> +
-> +typedef struct IMXUSBPHYState {
-> +    /* <private> */
-> +    SysBusDevice parent_obj;
-> +
-> +    /* <public> */
-> +    MemoryRegion iomem;
-> +
-> +    uint32_t usbphy[USBPHY_MAX];
-
-...but the array is only created with USBPHY_MAX entries.
-
-Do you know what the device is supposed to do with these
-off-the-end acceses? We could either reduce the memory region
-size or bounds check and RAZ/WI the out-of-range accesses.
-
-thanks
 -- PMM
+
+--0000000000002255bb05f704a3b3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Thu, 16 Mar 2023 at 13:40, Laurent Vivier &lt;<=
+a href=3D"mailto:laurent@vivier.eu">laurent@vivier.eu</a>&gt; wrote:<br>&gt=
+;<br>&gt; Le 14/03/2023 =C3=A0 12:44, Peter Maydell a =C3=A9crit :<br>&gt; =
+&gt; Currently, the kerneldoc Sphinx plugin doesn&#39;t honour the<br>&gt; =
+&gt; --enable-werror configure option, so its warnings are never fatal.<br>=
+&gt; &gt; This is because although we do pass sphinx-build the -W switch, t=
+he<br>&gt; &gt; warnings from kerneldoc are produced by the scripts/kernel-=
+doc script<br>&gt; &gt; directly and don&#39;t go through Sphinx&#39;s &quo=
+t;emit a warning&quot; function.<br>&gt; &gt;<br>&gt; &gt; When --enable-we=
+rror is in effect, pass sphinx-build an extra<br>&gt; &gt; argument -Dkerne=
+ldoc_werror=3D1.=C2=A0 The kerneldoc plugin can then use<br>&gt; &gt; this =
+to determine whether it should be passing the kernel-doc script<br>&gt; &gt=
+; -Werror.<br>&gt; &gt;<br>&gt; &gt; We do this because there is no documen=
+ted mechanism for<br>&gt; &gt; a Sphinx plugin to determine whether sphinx-=
+build was<br>&gt; &gt; passed -W or not; if one is provided then we can swi=
+tch to<br>&gt; &gt; that at a later date:<br>&gt; &gt; <a href=3D"https://g=
+ithub.com/sphinx-doc/sphinx/issues/11239">https://github.com/sphinx-doc/sph=
+inx/issues/11239</a><br>&gt; &gt;<br>&gt; &gt; Signed-off-by: Peter Maydell=
+ &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</=
+a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; NB: we need to land the fix for the cu=
+rrent outstanding<br>&gt; &gt; warning before this one can go in...<br>&gt;=
+ &gt; <a href=3D"https://lore.kernel.org/qemu-devel/20230310103123.2118519-=
+11-alex.bennee@linaro.org/">https://lore.kernel.org/qemu-devel/202303101031=
+23.2118519-11-alex.bennee@linaro.org/</a><br>&gt; &gt; ---<br>&gt; &gt; =C2=
+=A0 docs/meson.build =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>&gt; &gt; =C2=A0=
+ docs/sphinx/kerneldoc.py | 5 +++++<br>&gt; &gt; =C2=A0 2 files changed, 6 =
+insertions(+), 1 deletion(-)<br><br>&gt; I&#39;ve applied it to my trivial-=
+patches branch,<br><div>&gt; but if you want to apply it via some doc or mi=
+sc branches, let me know.</div><div><br></div><div>Trivial is fine, but mak=
+e sure you&#39;ve put in the fix for</div><div>the outstanding warning firs=
+t :-)</div><div><br></div><div>-- PMM<br><br></div><br></div>
+
+--0000000000002255bb05f704a3b3--
 
