@@ -2,100 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560496BC1E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 00:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8C76BC2AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 01:32:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcazZ-0005oQ-QC; Wed, 15 Mar 2023 19:57:13 -0400
+	id 1pcbWZ-0003zT-B6; Wed, 15 Mar 2023 20:31:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pcazX-0005ng-Dx; Wed, 15 Mar 2023 19:57:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pcazV-0007PX-3x; Wed, 15 Mar 2023 19:57:11 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32FMWIaP023419; Wed, 15 Mar 2023 23:57:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=DNR3gjlrQrcAN9KAWcCCnW6EaxXixu/69GNGqI8FhV0=;
- b=fK99pcGy73ERPdhHSwfXy+IK911LG02sQSB2GOHEBeOCMpg+yIvdhN/3YaEB3B/bfxDR
- zAXScaWtqKz/zpOtYgHDFWfmhzsHmbFp56cXNJYjGqThko2fHg9fDVHnqk86w/JBDJIE
- JXPQF6jo5fKHKVzQgSMaJlCMV7hB+uMDyUzQj9/X/fy0tnXH7eKfV5MBVxc/yC4Z2n10
- vlXBalJlgAT6DqD//zbsfnxVDuR/cM5pfun/DX7kw18oq3ikuC9HzyMy2mQ7mSxDB352
- p7x9Kqph1kXKsSwL5HXn/FYqJR1ackdRTBIsgpJ/HK3AfmsJQKzrA+xLOpQMkbBw3wwK 6g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpwbsfxu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Mar 2023 23:57:06 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32FNv5UX008768;
- Wed, 15 Mar 2023 23:57:05 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpwbsfx6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Mar 2023 23:57:05 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32FLoebh002458;
- Wed, 15 Mar 2023 23:57:03 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pbp9qr31g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Mar 2023 23:57:03 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32FNv0SL4522578
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Mar 2023 23:57:01 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D851A20040;
- Wed, 15 Mar 2023 23:57:00 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4488620043;
- Wed, 15 Mar 2023 23:57:00 +0000 (GMT)
-Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.19.28])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 15 Mar 2023 23:57:00 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 2/2] tests/tcg/s390x: Add rxsbg.c
-Date: Thu, 16 Mar 2023 00:56:42 +0100
-Message-Id: <20230315235642.118002-3-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230315235642.118002-1-iii@linux.ibm.com>
-References: <20230315235642.118002-1-iii@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: UFQsl4CAgH3MpxgqJTF6WAyh8gL5IzxU
-X-Proofpoint-GUID: 2OvO0yEPiCIbvQx2t1EgOiBjEqqV_oxr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-15_12,2023-03-15_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- impostorscore=0 mlxlogscore=912 clxscore=1015 malwarescore=0
- lowpriorityscore=0 spamscore=0 mlxscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303150192
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3UGMSZAsKCoclnvp2wp94yrrzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--ackerleytng.bounces.google.com>)
+ id 1pcbWW-0003yx-QN
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 20:31:16 -0400
+Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3UGMSZAsKCoclnvp2wp94yrrzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--ackerleytng.bounces.google.com>)
+ id 1pcbWU-0007c1-UE
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 20:31:16 -0400
+Received: by mail-pf1-x44a.google.com with SMTP id
+ s20-20020a056a00179400b005c4d1dedc1fso174321pfg.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 17:31:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1678926672;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hT7y2XaFexWW4GTLeQpLaRg79NNFfwA0Go2glRLgBd0=;
+ b=Nz5kUB5UsktVLM+1ioYn0/f+EE3tG8bYDmBZ7k4J/Gt/p5gTfQtvXXnoIclpQPuDya
+ iUSZv4Ya8c29iPtlOA7O8kWfsasypPc8z6XfRhbOcsmBwYKUvOolqz9fQyk7NgQiLh/7
+ c/HaSbFKMHr9gsoqPFgvukhunTri9uzxM+/T1bb2dlQR9ihIBftzfIgbbB2EA9ig0QfN
+ QH/Qst7Frnk64y0MYkI8/9p+OMNZJnbfWHBkKL+LoqwoHnfU22JRu1wnbHr5/KauoW4g
+ wseQ2RJb2qNMKAO2J1HN6p/Ws+7+zkBAtzloNtEG5key9qZ2BL1aJc7RLJD21ClZZS8U
+ CQZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678926672;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hT7y2XaFexWW4GTLeQpLaRg79NNFfwA0Go2glRLgBd0=;
+ b=qFoVzw1YupFMw9liq1cjy3tmxe68gz9PdVs6zEaKbwhJA1d8544wTBSOwIoPxG6gS0
+ F3agvrmkh9ZcPdMMa6el+3B6UzNpE4uJJCR98r99c58p/DkWf2o/PuRakhk9FucFZye0
+ QE/T+Q97T+FlksuzQCjLWIGXnVUIfslD3gDtPwWe70AkvHWtVa7j0Q8MbQOyZoQpsxyP
+ x44IbUFSTcPjo+mB7p+5R8Vw9zVscWTEAVgtt9b3Ws86TwAQ5P/KhOZE7kHSXU7VZiHb
+ 87CgfLWlM6+COsQzWhJVatA+QB408X9H95zMVEJqsfCHGjmZ3Y9O6Bqf8IBtMsc/bwTZ
+ TO2w==
+X-Gm-Message-State: AO0yUKXJj04asuav3VnPnE6qPtNGk3iAaRJozPK5Fis2WY61Yqkouu+f
+ /XXUNLZFt6QaZANzj8yoT4aZJaYEmEzMmSf8RQ==
+X-Google-Smtp-Source: AK7set8RzBYOsHbOBr2r5L/IBVJur+dXP5lqulE2m7qrJjHyB4MEFVa/vv90/0ZD7J2Luh92QLgQMrMQJM0g7dhFsw==
+X-Received: from ackerleytng-cloudtop.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a17:90a:ea89:b0:237:2516:f76a with
+ SMTP id h9-20020a17090aea8900b002372516f76amr548955pjz.2.1678926672510; Wed,
+ 15 Mar 2023 17:31:12 -0700 (PDT)
+Date: Thu, 16 Mar 2023 00:30:53 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
+Message-ID: <cover.1678926164.git.ackerleytng@google.com>
+Subject: [RFC PATCH 00/10] Additional selftests for restrictedmem
+From: Ackerley Tng <ackerleytng@google.com>
+To: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, qemu-devel@nongnu.org
+Cc: aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org, 
+ arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, 
+ chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com, 
+ david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com, 
+ hughd@google.com, jlayton@kernel.org, jmattson@google.com, joro@8bytes.org, 
+ jun.nakajima@intel.com, kirill.shutemov@linux.intel.com, linmiaohe@huawei.com, 
+ luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com, 
+ michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com, 
+ pbonzini@redhat.com, qperret@google.com, rppt@kernel.org, seanjc@google.com, 
+ shuah@kernel.org, steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
+ vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com, 
+ wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org, 
+ yu.c.zhang@linux.intel.com, Ackerley Tng <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
+ envelope-from=3UGMSZAsKCoclnvp2wp94yrrzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--ackerleytng.bounces.google.com;
+ helo=mail-pf1-x44a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,86 +103,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a small test for RXSBG with T=1 to prevent regressions.
+Hello,
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.target |  3 +++
- tests/tcg/s390x/rxsbg.c         | 46 +++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 tests/tcg/s390x/rxsbg.c
+This is a series containing additional selftests for restrictedmem,
+prepared to be used with the next iteration of the restrictedmem
+series after v10.
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index cf93b966862..3c940ac952e 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -29,10 +29,13 @@ TESTS+=clst
- TESTS+=long-double
- TESTS+=cdsg
- TESTS+=chrl
-+TESTS+=rxsbg
- 
- cdsg: CFLAGS+=-pthread
- cdsg: LDFLAGS+=-pthread
- 
-+rxsbg: CFLAGS+=-O2
-+
- Z13_TESTS=vistr
- $(Z13_TESTS): CFLAGS+=-march=z13 -O2
- TESTS+=$(Z13_TESTS)
-diff --git a/tests/tcg/s390x/rxsbg.c b/tests/tcg/s390x/rxsbg.c
-new file mode 100644
-index 00000000000..4b155db304e
---- /dev/null
-+++ b/tests/tcg/s390x/rxsbg.c
-@@ -0,0 +1,46 @@
-+/*
-+ * Test the RXSBG instruction.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include <assert.h>
-+#include <stdlib.h>
-+
-+static inline __attribute__((__always_inline__)) void
-+rxsbg(unsigned long *r1, unsigned long r2, int i3, int i4, int i5, int *cc)
-+{
-+    asm("rxsbg %[r1],%[r2],%[i3],%[i4],%[i5]\n"
-+        "ipm %[cc]"
-+        : [r1] "+r" (*r1), [cc] "=r" (*cc)
-+        : [r2] "r" (r2) , [i3] "i" (i3) , [i4] "i" (i4) , [i5] "i" (i5)
-+        : "cc");
-+    *cc = (*cc >> 28) & 3;
-+}
-+
-+void test_cc0(void)
-+{
-+    unsigned long r1 = 6;
-+    int cc;
-+
-+    rxsbg(&r1, 3, 61 | 0x80, 62, 1, &cc);
-+    assert(r1 == 6);
-+    assert(cc == 0);
-+}
-+
-+void test_cc1(void)
-+{
-+    unsigned long r1 = 2;
-+    int cc;
-+
-+    rxsbg(&r1, 3, 61 | 0x80, 62, 1, &cc);
-+    assert(r1 == 2);
-+    assert(cc == 1);
-+}
-+
-+int main(void)
-+{
-+    test_cc0();
-+    test_cc1();
-+
-+    return EXIT_SUCCESS;
-+}
--- 
-2.39.2
+restrictedmem=C2=A0v10 is available at
+https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.int=
+el.com/T/.
 
+The tree can be found at
+https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-additional-=
+selftests-rfc-v1/.
+
+Dependencies
++ The next iteration of the restrictedmem series
+    + branch: https://github.com/chao-p/linux/commits/privmem-v11.4
+    + commit: https://github.com/chao-p/linux/tree/ddd2c92b268a2fdc6158f82a=
+6169ad1a57f2a01d
++ Proposed fix to adjust VM's initial stack address to align with SysV
+  ABI spec: https://lore.kernel.org/lkml/20230227180601.104318-1-ackerleytn=
+g@google.com/
+
+Ackerley Tng (10):
+  KVM: selftests: Test error message fixes for memfd_restricted
+    selftests
+  KVM: selftests: Test that ftruncate to non-page-aligned size on a
+    restrictedmem fd should fail
+  KVM: selftests: Test that VM private memory should not be readable
+    from host
+  KVM: selftests: Exercise restrictedmem allocation and truncation code
+    after KVM invalidation code has been unbound
+  KVM: selftests: Generalize private_mem_conversions_test for parallel
+    execution
+  KVM: selftests: Default private_mem_conversions_test to use 1 memslot
+    for test data
+  KVM: selftests: Add vm_userspace_mem_region_add_with_restrictedmem
+  KVM: selftests: Default private_mem_conversions_test to use 1
+    restrictedmem file for test data
+  KVM: selftests: Add tests around sharing a restrictedmem fd
+  KVM: selftests: Test KVM exit behavior for private memory/access
+
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../selftests/kvm/include/kvm_util_base.h     |   4 +
+ tools/testing/selftests/kvm/lib/kvm_util.c    |  46 ++-
+ .../selftests/kvm/set_memory_region_test.c    |  29 +-
+ .../kvm/x86_64/private_mem_conversions_test.c | 295 +++++++++++++++---
+ .../kvm/x86_64/private_mem_kvm_exits_test.c   | 124 ++++++++
+ tools/testing/selftests/vm/memfd_restricted.c |   9 +-
+ 7 files changed, 455 insertions(+), 53 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/x86_64/private_mem_kvm_exit=
+s_test.c
+
+--
+2.40.0.rc2.332.ga46443480c-goog
 
