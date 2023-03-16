@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228BA6BD3B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 16:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39006BD3FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 16:38:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcpY0-0004aO-L4; Thu, 16 Mar 2023 11:29:44 -0400
+	id 1pcpfV-0006lL-1R; Thu, 16 Mar 2023 11:37:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <randrianasulu@gmail.com>)
- id 1pcpXy-0004a8-G5; Thu, 16 Mar 2023 11:29:42 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <randrianasulu@gmail.com>)
- id 1pcpXw-0007Jh-Nq; Thu, 16 Mar 2023 11:29:42 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id u20so912641pfk.12;
- Thu, 16 Mar 2023 08:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678980579;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CeSNddIAqkslo1JvAN/dhyFDBh7yAtPinY4cxOnZJ6w=;
- b=Kh9iOtGtd8++PG5UompPtFq/MonY2v6RgEMy6Phvbn6YNjCvluKfkL2bXZoVkvq242
- hhjq/BhgsiyOXWk4HIxpwj/Dg75rDSA8NIXCAS7/f0ymqOpB1KQ9Udgo+M+Rtno4TkTh
- PkiCdx31YHyWyy++pbPEN1ZKfIHjIbBQk2VeUlSRQtUaOEfPegwNSzL3vXTxOGSHFuAn
- KWvjJ1uxzejmv9vv6X/6MARef0V9UF98wOwHv6rIHd4sliWe/p2JveB9IFqMppDCywn4
- YW5i5veO4siIpbE4dsSgARFIV37VsanmvuuPcKeNxvVmOLe7k38TT/boqCyn11qSecgi
- xPgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678980579;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CeSNddIAqkslo1JvAN/dhyFDBh7yAtPinY4cxOnZJ6w=;
- b=H4RhQAeqa04B/CDpJsRWhYAXZS5rF+EsX9PIF5m0TFz9Cb+3gP5aQxJ2INeYvE2L0J
- bvxElCF9Sq6BoaCVgNPD2MhjI6hMGnKBvRf5EJjfcYUDcp+v/0fcB3s+kXzCS6qrzN52
- NbhXy7y3dFK51vTq6r4FcEO4dEoA38WkY7XFhtwQlAgmJZULiVuTTcmgFjmbVDI6PRum
- U4Sha7KmnxgATIKhmHnmyCrI9xYnHtN8Eqh1eQ4kA/4xOBiYo8D6flM2Ae1MofJSsRLw
- qYeGg4RtquDwEOkjPftH83czTrezu8necSJPfy/y2ZcHIvQ29g7taAP0uI8OcebmrZtO
- BRpw==
-X-Gm-Message-State: AO0yUKXaRAG84LZghbo0IPNTMMGqV6fNH7yMv9Wq8U91Aaa2OZQy3Sgy
- r2qiIMZ8GZ+0UJwmFR/tYk6PujPdlkcgVem+lJs=
-X-Google-Smtp-Source: AK7set9sc4baTz8TcYs6limkMuRRlWwfiXxiGAx7+EVJkgEcln0lkxr8ILJwCicWYVqaKzebMx1ULRC+XKyJbNcGBYg=
-X-Received: by 2002:a05:6a00:1792:b0:624:a3b6:bede with SMTP id
- s18-20020a056a00179200b00624a3b6bedemr1905985pfg.6.1678980578838; Thu, 16 Mar
- 2023 08:29:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pcpfN-0006kJ-6I
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:37:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pcpfK-0005jX-PK
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 11:37:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678981033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6fOvcCIGyuwF+q73UO4mi5McSmHVa7JUvhH2dMP2j+s=;
+ b=WkjgZtxnpf6sVVxd7LXRurU33t6TO7+R54Pf/5TD5vET/JreeM0gMA/EbxnEN9AjBU6u5h
+ s314Rd35ca4+UQZ8xCBQc4LL1R+yW2qkwY4Y/aeMZi3mZUK9qzaDZwyL1ZEtXmtooBSynv
+ TNMB8ZmKsr5EN97hcAKsbanlWMlN3h4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-331-wAgT8nb6P0igvN7KvMl7Mg-1; Thu, 16 Mar 2023 11:37:11 -0400
+X-MC-Unique: wAgT8nb6P0igvN7KvMl7Mg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C5163C20EF8
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 15:37:00 +0000 (UTC)
+Received: from t480s.in.tum.de (unknown [10.39.194.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6E6E35453;
+ Thu, 16 Mar 2023 15:36:58 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
+Subject: [PATCH v2 0/3] vhost: memslot handling improvements
+Date: Thu, 16 Mar 2023 16:36:55 +0100
+Message-Id: <20230316153658.214487-1-david@redhat.com>
 MIME-Version: 1.0
-References: <CA+rFky6A9Q_5sJ4WDO-Z2HBT59qiNgr8A-xk+O7-gnAMZmHt2A@mail.gmail.com>
- <f06fddef-1e40-1858-2715-50a0518a97f6@linaro.org>
- <CA+rFky5=kc0Pwf3RRhuKrBqtRVkmtm=NDKhrVgJV2_Ame2nUOQ@mail.gmail.com>
- <c33b0e07-5c46-6ebe-fe4c-5308ce508a70@linaro.org>
- <632e7256-34f5-ca87-ff60-a5c11aa1dd7f@redhat.com>
- <CA+rFky6WqdLjNpeU3sCXwjwMEuEK+XVHE5BBCKYC=umRGK81eg@mail.gmail.com>
- <CA+rFky4su7ZEo8pNQGk3qEkTOLEkFAqO2Tsrh6VyDaNOf7w=_Q@mail.gmail.com>
- <ac632c34-42e0-d715-52d9-b70ead6296a7@redhat.com>
- <CA+rFky6Tt0hcv9TuthS7Q-5SMXtPi+3W8B5qX5itJ0A+meh_Ew@mail.gmail.com>
- <ZBMNEdz9WnUsckd7@redhat.com>
- <CA+rFky6hnaCxF10ST=qsLsBjH6=M__kQPA=yoZhdCoB8sH96ug@mail.gmail.com>
- <0e06c704-40d7-b511-8353-0218c3d45d3b@redhat.com>
- <CANCZdfo3UHiAWXgS3MBXB3XRzVtX+HOgimMXAyNwTkJQR6=PjA@mail.gmail.com>
-In-Reply-To: <CANCZdfo3UHiAWXgS3MBXB3XRzVtX+HOgimMXAyNwTkJQR6=PjA@mail.gmail.com>
-From: Andrew Randrianasulu <randrianasulu@gmail.com>
-Date: Thu, 16 Mar 2023 18:29:24 +0300
-Message-ID: <CA+rFky7kcL=SCetUjbxOOsNS2sZ+Xt98H9erk7vUNY9TkoYo7A@mail.gmail.com>
-Subject: Re: dropping 32-bit host support
-To: Warner Losh <imp@bsdimp.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-discuss@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>, 
- Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000fc8d7b05f7062007"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=randrianasulu@gmail.com; helo=mail-pf1-x42e.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,94 +76,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000fc8d7b05f7062007
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Following up on my previous work to make virtio-mem consume multiple
+memslots dynamically [1] that requires precise accounting between used vs.
+reserved memslots, I realized that vhost makes this extra hard by
+filtering out some memory region sections (so they don't consume a
+memslot) in the vhost-user case, which messes up the whole memslot
+accounting.
 
-=D1=87=D1=82, 16 =D0=BC=D0=B0=D1=80. 2023 =D0=B3., 18:21 Warner Losh <imp@b=
-sdimp.com>:
+This series fixes what I found to be broken and prepares for more work on
+[1]. Further, it cleanes up the merge checks that I consider unnecessary.
 
->
->
-> On Thu, Mar 16, 2023 at 7:33=E2=80=AFAM Thomas Huth <thuth@redhat.com> wr=
-ote:
->
->> If you'd followed the QEMU project, you'd know that there are very
->> helpful
->> people around, from all kind of companies, Linaro guys who help with
->> reviewing and merging non-ARM patches, Red Hatters who help with BSD
->
-> and Haiku patches, etc.
->>
->
-> Without this help, bsd-user would be dead. As it is, it is struggling wit=
-h
-> its own
-> resource issues, but the kind help I've received from the QEMU project ha=
-s
-> motivated me to keep going in upstreaming what our fork has, as well as
-> working to make the code better.
->
-> I'll only add that FreeBSD's efforts to improve its CI story was derailed
-> for two
-> years by people like this, so it makes me happy to see lines being drawn
-> in this thread.
->
+[1] https://lkml.kernel.org/r/20211027124531.57561-8-david@redhat.com
 
-Yeah, this. Just it seems we are ended up on different sides of said line.
-But this is ok.
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 
+v1 -> v2:
+- "vhost: Rework memslot filtering and fix "used_memslot" tracking"
+-- New approach: keep filtering, but make filtering less generic and
+   track separately. This should keep any existing setups working.
+- "softmmu/physmem: Fixup qemu_ram_block_from_host() documentation"
+-- As requested by Igor
 
-They aren't unreasonable, and look to me to be in the best
-> interest of the QEMU project. You can't make everybody happy all the time=
-.
-> And while it's good to try sometimes, other times it bogs down real
-> efforts to
-> make things better. This is one of those times.
->
-> Warner
->
+David Hildenbrand (3):
+  vhost: Rework memslot filtering and fix "used_memslot" tracking
+  vhost: Remove vhost_backend_can_merge() callback
+  softmmu/physmem: Fixup qemu_ram_block_from_host() documentation
 
---000000000000fc8d7b05f7062007
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ hw/virtio/vhost-user.c            | 21 ++---------
+ hw/virtio/vhost-vdpa.c            |  1 -
+ hw/virtio/vhost.c                 | 62 ++++++++++++++++++++++++-------
+ include/exec/cpu-common.h         | 15 ++++++++
+ include/hw/virtio/vhost-backend.h |  9 +----
+ softmmu/physmem.c                 | 17 ---------
+ 6 files changed, 68 insertions(+), 57 deletions(-)
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">=D1=87=D1=82, 16 =D0=BC=D0=B0=D1=80. 2023 =D0=B3., 18:=
-21 Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt;=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"=
-><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Thu, Mar 16, 2023 at 7:33=E2=80=AFAM Thomas Huth &lt;<a href=3D"mai=
-lto:thuth@redhat.com" target=3D"_blank" rel=3D"noreferrer">thuth@redhat.com=
-</a>&gt; wrote:</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-If you&#39;d followed the QEMU project, you&#39;d know that there are very =
-helpful <br>
-people around, from all kind of companies, Linaro guys who help with <br>
-reviewing and merging non-ARM patches, Red Hatters who help with BSD=C2=A0<=
-/blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"> and Haiku pa=
-tches, etc.<br></blockquote><div><br></div><div>Without this help, bsd-user=
- would be dead. As it is, it is struggling with its own</div><div>resource =
-issues, but the kind help I&#39;ve received from the QEMU project has</div>=
-<div>motivated me to keep going in upstreaming what our fork has, as well a=
-s</div><div>working to make the code better.</div><div><br></div><div>I&#39=
-;ll only add that FreeBSD&#39;s efforts to improve its CI story was deraile=
-d for two</div><div>years by people like this, so it makes me happy to see =
-lines being drawn</div><div>in this thread. </div></div></div></blockquote>=
-</div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Yeah, this. Just =
-it seems we are ended up on different sides of said line. But this is ok.</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"lt=
-r"><div class=3D"gmail_quote"><div>They aren&#39;t unreasonable, and look t=
-o me to be in the best</div><div>interest of the QEMU project. You can&#39;=
-t make everybody happy all the time.</div><div>And while it&#39;s good to t=
-ry sometimes, other times it bogs down real efforts to</div><div>make thing=
-s better. This is one of those times.</div><div><br></div><div>Warner=C2=A0=
-<br></div></div></div>
-</blockquote></div></div></div>
+-- 
+2.39.2
 
---000000000000fc8d7b05f7062007--
 
