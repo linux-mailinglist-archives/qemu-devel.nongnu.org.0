@@ -2,84 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD866BC982
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 09:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C4C6BC9E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 09:51:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcjCH-0007DF-SP; Thu, 16 Mar 2023 04:42:54 -0400
+	id 1pcjJd-0001en-D7; Thu, 16 Mar 2023 04:50:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1pcjC4-0007CC-HY
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 04:42:42 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1pcjC2-0000IK-Ld
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 04:42:40 -0400
-Received: by mail-ed1-x529.google.com with SMTP id ek18so4489533edb.6
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 01:42:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20210112.gappssmtp.com; s=20210112; t=1678956157;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U6UE0pxjYqpGo8+rx+bk5TnMdUSYKQpgaPq5XHSzEIw=;
- b=eRJzPjH3vDOqfv/mbMGw5yMgdfDUBo1yLM68q6tNCt0dTGTDV5ieMFfWiGmRyjG2GM
- e9h5qMQ8clPU6TueL5+yjOHvGMkNdqYhRZ2O0NcXTzl7IGEidh8od3w4uUZhwqbkl0JM
- PDnB5t46/0n2CzvC8alxPwU2lWolGZ+cnysgbHd1GdkbLhPbQEbJ9PrqleSlwC+3+Bzi
- SagXGKSq8j/VcWNv4ZvWTRtpxfsnRJArVF22MiCQya/E1di1m8UR6gHud8A6qz1DG7kQ
- mkc6cU0hwrfPRue2qo4G89BmLJgQgfu4bnEhUBLmir9Iwobvui61xPHPOGnvvdVvmfs0
- lbIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678956157;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=U6UE0pxjYqpGo8+rx+bk5TnMdUSYKQpgaPq5XHSzEIw=;
- b=os7VFz0aYgOmPTocvr8AXhAJ3B0smpqCBWG2QBylhYewJIHJ6w40ZwyC4hgCvdaOWK
- 1RZcVDPUPwtxu2OKvV1ED7PIAM5yjIznljS1S2JNFoZ1/VKYHu+5KM3jloNYK4GesuUk
- /gh4EiPJCa1Pk4v16L23fN8obOCcCH+ejTvcX/lz7hrecZIzW0xjzkPCAivCUOJVxO1v
- C9VMphQG+mzZr9doo0oTcZJaSa8pYdF6uhxIscGjARlffaB953NK1n0oGgUf4FnhYOrd
- ++j69OR7EDI/iVESPS9fksHxrg0+2CPTm68OsH16QKeJLATJ+6NmzeV9IUfzesqScUF4
- mmjg==
-X-Gm-Message-State: AO0yUKVuL3pPPa5QEhHISJiysdT7F5biIkwOMiVFvrH6fWXzgXhCKE9z
- 12MKQRwMf1RiWELzflxJdPZmBg==
-X-Google-Smtp-Source: AK7set/Vy1UIFnJ7e0olf0CqDksyDZM1slftO/B39f19rxC5Gvl7xh6nG2wlZ7wOKlDQ6yo1TG9Q4A==
-X-Received: by 2002:a17:907:d08b:b0:92e:41ee:7564 with SMTP id
- vc11-20020a170907d08b00b0092e41ee7564mr7764751ejc.65.1678956157038; 
- Thu, 16 Mar 2023 01:42:37 -0700 (PDT)
-Received: from smtpclient.apple ([188.25.247.154])
- by smtp.gmail.com with ESMTPSA id
- hx3-20020a170906846300b0092a3b199db8sm3545889ejc.186.2023.03.16.01.42.36
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 16 Mar 2023 01:42:36 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.2\))
-Subject: Re: dropping 32-bit host support
-From: Liviu Ionescu <ilg@livius.net>
-In-Reply-To: <5fbcb311-228f-2590-e5c5-21e7f043c1cf@redhat.com>
-Date: Thu, 16 Mar 2023 10:42:35 +0200
-Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Andrew Randrianasulu <randrianasulu@gmail.com>, qemu-discuss@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <379B4C23-61C2-4AA3-A851-EEFC98A9AFF6@livius.net>
-References: <CA+rFky6A9Q_5sJ4WDO-Z2HBT59qiNgr8A-xk+O7-gnAMZmHt2A@mail.gmail.com>
- <3DD8295F-4BE0-4262-8C68-4A85A56D63C7@livius.net>
- <35022ff8-bf4b-1f52-73f9-db25c776cec1@linaro.org>
- <5C828A13-12A1-42D5-9DC1-9DB232294798@livius.net>
- <F852C238-77B8-4E24-9494-8D060EB78F9F@livius.net>
- <5fbcb311-228f-2590-e5c5-21e7f043c1cf@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.2)
-Received-SPF: none client-ip=2a00:1450:4864:20::529;
- envelope-from=ilg@livius.net; helo=mail-ed1-x529.google.com
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pcjJb-0001eR-Ip; Thu, 16 Mar 2023 04:50:27 -0400
+Received: from mout.kundenserver.de ([212.227.126.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pcjJW-0004U3-Vi; Thu, 16 Mar 2023 04:50:25 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MYvoW-1pyg1X2kBU-00Urzm; Thu, 16 Mar 2023 09:50:15 +0100
+Message-ID: <3bfefc7f-a999-7679-d448-7e9eb4b4f9dd@vivier.eu>
+Date: Thu, 16 Mar 2023 09:50:14 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH for 8.0] exec/memory: Fix kernel-doc warning
+Content-Language: fr
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>
+References: <20230315072552.47117-1-shentey@gmail.com>
+ <49850BA4-972F-4177-A18B-8E9C65FA60E9@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <49850BA4-972F-4177-A18B-8E9C65FA60E9@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:zXatc7aOkDgSifjr9/iomOHi5PjD2s5fON2OV3wQx9JbGClH806
+ +p1A826NyBW6W9w3R8RrC2QuXpyJeAWdRgilzaaVluzjsM6FoED4FQ6LtHww7EZbpnpTEt6
+ HpQgamvRF2rbLv1V4EOr4GtgRBClY8GLs33YW6drTvQXmFtb3Eoo4HnJAZIDFHdzZqJ57AH
+ pHWJZJA+x3gH/kJfpcy9Q==
+UI-OutboundReport: notjunk:1;M01:P0:U93WCIY32c4=;RFDtUmtwacEYi64TXZU4TKSBZ4n
+ XxsHWbxuIb68R1Zf8WWTLv/eE72y1YA6DORWU93VmuLrsVcQgOslDCSAyGyvSMVyGqN0hhZK8
+ YPwQqnNm9oigI8eguleU/AIMJDVmDqb3kO2kEIeYzuTurJKxv5K4oxTu/yaj1C55OmVIcie+h
+ UiZlWu6I7MSlSSmaDWzrpR/g6MExObqYqFE0nBWAW2CFhWOwNtOPr3XNI3zcJf9BUoVGV0Xa5
+ jA+3g+NX8GTey/ZyHYbAn9A0QQtA3sh49zDhl/B/W8ag8aIWoQ+DpveqxVgYtaJSUp9VBLFlo
+ 8Sgr0pwj0vfQJ66/+Vg+RuW7Qjd99hvfJcKnkPXRR7D/nB+SePMT6GSfcC2SVywpcRJvQESip
+ MADeaXHWVwT2TEQvySrXgIE4awCXoilj+MdjIdQSM6TPX0awBHSbqhF4l0+imF1sgqSZdDeT2
+ 3KBDc4QJHFHKLE5CwD1zWkGrs0+gMsjofkdhLnLW38+GSPgw0RD9NCP4bBjNwA6X3I8fjlxK4
+ tuF7UYGRUReOsjCIojQvjXgFrs700t4XgASJ7s+lSmmT59uozabLkiengU5ekiTYX84dspV/m
+ ofvrgdweOEZ/EAQCIBk0a+F0qGbZigUs3jmh2jAMqo7u14JM23S8E0kf6c4+iBJofmt/Y//aT
+ WWrTnGwK6Eb4JfdCCJS0uF2Qjt15nEhzDFuOxpo//w==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,21 +75,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Le 15/03/2023 à 08:57, Bernhard Beschow a écrit :
+> + qemu-trivial
+> 
+> Am 15. März 2023 07:25:52 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
+>> During build the kernel-doc script complains about the following issue:
+>>
+>>   src/docs/../include/exec/memory.h:1741: warning: Function parameter or member 'n' not described in 'memory_region_unmap_iommu_notifier_range'
+>>   src/docs/../include/exec/memory.h:1741: warning: Excess function parameter 'notifier' description in 'memory_region_unmap_iommu_notifier_range'
+>>
+>> Settle on "notifier" for consistency with other memory functions.
+>>
+>> Fixes: 7caebbf9ea53
+>>        ("memory: introduce memory_region_unmap_iommu_notifier_range()")
+>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>> ---
+>> include/exec/memory.h | 2 +-
+>> softmmu/memory.c      | 8 ++++----
+>> 2 files changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/include/exec/memory.h b/include/exec/memory.h
+>> index 6fa0b071f0..15ade918ba 100644
+>> --- a/include/exec/memory.h
+>> +++ b/include/exec/memory.h
+>> @@ -1738,7 +1738,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+>>   *
+>>   * @notifier: the notifier to be notified
+>>   */
+>> -void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n);
+>> +void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *notifier);
+>>
+>>
+>> /**
+>> diff --git a/softmmu/memory.c b/softmmu/memory.c
+>> index 4699ba55ec..5305aca7ca 100644
+>> --- a/softmmu/memory.c
+>> +++ b/softmmu/memory.c
+>> @@ -1996,17 +1996,17 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+>>      }
+>> }
+>>
+>> -void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n)
+>> +void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *notifier)
+>> {
+>>      IOMMUTLBEvent event;
+>>
+>>      event.type = IOMMU_NOTIFIER_UNMAP;
+>>      event.entry.target_as = &address_space_memory;
+>> -    event.entry.iova = n->start;
+>> +    event.entry.iova = notifier->start;
+>>      event.entry.perm = IOMMU_NONE;
+>> -    event.entry.addr_mask = n->end - n->start;
+>> +    event.entry.addr_mask = notifier->end - notifier->start;
+>>
+>> -    memory_region_notify_iommu_one(n, &event);
+>> +    memory_region_notify_iommu_one(notifier, &event);
+>> }
+>>
+>> void memory_region_notify_iommu(IOMMUMemoryRegion *iommu_mr,
+> 
 
+Applied to my trivial-patches branch.
 
-> On 16 Mar 2023, at 10:36, Thomas Huth <thuth@redhat.com> wrote:
->=20
-> ... It will take another year (or maybe more) until the deprecation =
-will turn into a real unsupported state. I assume by that point in time, =
-more and more RPi users will have switched to a 64-bit OS instead.
-
-There is an easy and accurate way to know this, if by that time =
-Raspberry no longer recommends the 32-bit OS, it is time to switch to =
-64-bit.
-
-
-Regards,
-
-Liviu
+Thanks,
+Laurent
 
 
