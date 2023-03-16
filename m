@@ -2,93 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275956BC2AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 01:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5326BC2D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 01:34:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcbWs-00047h-Oq; Wed, 15 Mar 2023 20:31:38 -0400
+	id 1pcbZj-0002r1-9T; Wed, 15 Mar 2023 20:34:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3Y2MSZAsKCpo46E8LF8SNHAAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--ackerleytng.bounces.google.com>)
- id 1pcbWq-00047F-9b
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 20:31:36 -0400
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3Y2MSZAsKCpo46E8LF8SNHAAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--ackerleytng.bounces.google.com>)
- id 1pcbWo-0007jO-6s
- for qemu-devel@nongnu.org; Wed, 15 Mar 2023 20:31:35 -0400
-Received: by mail-pg1-x54a.google.com with SMTP id
- q1-20020a656841000000b0050be5e5bb24so21680pgt.3
- for <qemu-devel@nongnu.org>; Wed, 15 Mar 2023 17:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1678926692;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=YxU1hhaZ4SyfL9lxoIcMNBPPAq0yfPS0xuipesTDclo=;
- b=W0G3AmVBhmaEPW1mzeOzfktEstHk/ayT4Fca4WpYB+uqnQXqFONecZpHfNEM3EVkI8
- dMoU+aBolGRnKrvqkSWbCeJFkilUlbcTqWcVH0y2O7kmHEk9EOK0BEV0KFKuPFrnCkbs
- QOotzJYDWHJggJes5/KIvM96osSnaCvae3qKB3LUHRBB+uNwEOmmHmd8zvTbRGoEVjUL
- rVFdyBsTEprlo4ciiWa3+M8yKhD16Tn+oY0bqfI0h7Rz5RgpgT08FQynab2lujb51lp7
- x7X7TlFctPEGFqxyshGyufJ1XL1Zen+FPj5jvwOG/5BAnYWpY1i72h9z5SjlNs7jYsNa
- hwdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678926692;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YxU1hhaZ4SyfL9lxoIcMNBPPAq0yfPS0xuipesTDclo=;
- b=3BHct8ciH3NAR3sVJr414E3bHQk51xGBAB84z3mtipfb8Zf3Noohq9J4jmLvx+lQFl
- WCKS4QpPtieDht36Zwm1fnCAExilyPdoFEm61Qk4r4OCf+x0t5BKBJv4QmYt4wVOPYVx
- g3jZAy+jiDSRQT70pgWmFZI20rovl2bv9sSHD2g+rwYWChQPlQGPWTeBxkdlVws5nFiG
- eH8utlf9di6ng4ZjU3reT2ID6DZS2cfh3dt2PTvT2WoMFQlRlVvOnBM7MIdU5CMT7u5m
- LZJVrzlW+Vp97qOhq2a/ws/SKSYGhrlkSpwbgEivOcjarPDjqjEk+xzPCC7tqtH6qvwL
- qusQ==
-X-Gm-Message-State: AO0yUKVGm6E8MJeKP+EABdM7PK7yuxh15FlVvfauJVtiYaUbuz7ruONN
- p8mF4kvsXvor12zYhqedAKCbUX31b6Ak0Y8MSQ==
-X-Google-Smtp-Source: AK7set/r1L80ZGqvN1Jqjj7ZwUbt+f+1AOqGwiuE9AJvattpTxM2ZIa1Wyqx7LP6pavKwLlYqhK3jR4rdgiNHjRokg==
-X-Received: from ackerleytng-cloudtop.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a65:530d:0:b0:502:fd12:83ce with SMTP
- id m13-20020a65530d000000b00502fd1283cemr347381pgq.5.1678926691968; Wed, 15
- Mar 2023 17:31:31 -0700 (PDT)
-Date: Thu, 16 Mar 2023 00:31:03 +0000
-In-Reply-To: <cover.1678926164.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1678926164.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
-Message-ID: <90aaa4ab85fa5e3d5641793e2a4873282eb16556.1678926164.git.ackerleytng@google.com>
-Subject: [RFC PATCH 10/10] KVM: selftests: Test KVM exit behavior for private
- memory/access
-From: Ackerley Tng <ackerleytng@google.com>
-To: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, qemu-devel@nongnu.org
-Cc: aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org, 
- arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, 
- chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com, 
- david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com, 
- hughd@google.com, jlayton@kernel.org, jmattson@google.com, joro@8bytes.org, 
- jun.nakajima@intel.com, kirill.shutemov@linux.intel.com, linmiaohe@huawei.com, 
- luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com, 
- michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com, 
- pbonzini@redhat.com, qperret@google.com, rppt@kernel.org, seanjc@google.com, 
- shuah@kernel.org, steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
- vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com, 
- wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org, 
- yu.c.zhang@linux.intel.com, Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3Y2MSZAsKCpo46E8LF8SNHAAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--ackerleytng.bounces.google.com;
- helo=mail-pg1-x54a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pcbZg-0002qF-H2
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 20:34:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pcbZe-000070-9P
+ for qemu-devel@nongnu.org; Wed, 15 Mar 2023 20:34:32 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32FMWDEW024391; Thu, 16 Mar 2023 00:34:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=dVSyntriDL92wsOjFQcRl1pSq9UrHeH+DAEvjG0D+Ss=;
+ b=NnJWJShlDJCLGTgsgx8z0ajLYtNpQooPv5svHJ46/aBfTUL2GmKGK8ohF3QTyp5ab8uh
+ D2Ci5SjypcdaYdti2FwFlzyT4CtPfkDTG36ZppIrlMXm0UjAtTVzLZbtAKmCkLT51quJ
+ 7wQTDjgesKXQSleakDhw96nbevuuOIb3/AKFwwzI0mFEf75528ZArslEo5/pmDlvNl1r
+ o4TePwUDrp5B88GnOn8sXIrx5LJ0c6U0xHq5FaqVcJIGr/YU+VL0HLP6fmgeEbG4IK7R
+ 1z6SVqVODlVTEvL5mmp1KVZqdjKPH20TE7Y7MUKn2h4CrLRb9rEwyZRs7qxrUOAw1YhO iQ== 
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pbpw9t4t2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 00:34:27 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32FKKUKF006944;
+ Thu, 16 Mar 2023 00:34:25 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3pbmyh055j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 00:34:25 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32G0YMiY47120846
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Mar 2023 00:34:23 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E06AA20040;
+ Thu, 16 Mar 2023 00:34:22 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 62EF12004B;
+ Thu, 16 Mar 2023 00:34:22 +0000 (GMT)
+Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.19.28])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Mar 2023 00:34:22 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2] target/sh4: Honor QEMU_LOG_FILENAME with QEMU_LOG=cpu
+Date: Thu, 16 Mar 2023 01:34:11 +0100
+Message-Id: <20230316003411.129462-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: WBO04LZJtOzMaCY-rNvlb_twI2z__fpg
+X-Proofpoint-ORIG-GUID: WBO04LZJtOzMaCY-rNvlb_twI2z__fpg
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-15_12,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0
+ clxscore=1011 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=999 mlxscore=0 adultscore=0 malwarescore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303160003
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,164 +101,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Testing private access when memslot gets deleted" tests the behavior
-of KVM when a private memslot gets deleted while the VM is using the
-private memslot. When KVM looks up the deleted (slot = NULL) memslot,
-KVM should exit to userspace with KVM_EXIT_MEMORY_FAULT.
+When using QEMU_LOG=cpu on sh4, QEMU_LOG_FILENAME is partially ignored.
+Fix by using qemu_fprintf() instead of qemu_printf() in the respective
+places.
 
-In the second test, upon a private access to non-private memslot, KVM
-should also exit to userspace with KVM_EXIT_MEMORY_FAULT.
-
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Fixes: 90c84c560067 ("qom/cpu: Simplify how CPUClass:cpu_dump_state() prints")
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../kvm/x86_64/private_mem_kvm_exits_test.c   | 124 ++++++++++++++++++
- 2 files changed, 125 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
 
-diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-index bafee3c43b2e..0ad588852a1d 100644
---- a/tools/testing/selftests/kvm/Makefile
-+++ b/tools/testing/selftests/kvm/Makefile
-@@ -80,6 +80,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/nested_exceptions_test
- TEST_GEN_PROGS_x86_64 += x86_64/platform_info_test
- TEST_GEN_PROGS_x86_64 += x86_64/pmu_event_filter_test
- TEST_GEN_PROGS_x86_64 += x86_64/private_mem_conversions_test
-+TEST_GEN_PROGS_x86_64 += x86_64/private_mem_kvm_exits_test
- TEST_GEN_PROGS_x86_64 += x86_64/set_boot_cpu_id
- TEST_GEN_PROGS_x86_64 += x86_64/set_sregs_test
- TEST_GEN_PROGS_x86_64 += x86_64/smaller_maxphyaddr_emulation_test
-diff --git a/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c b/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
-new file mode 100644
-index 000000000000..c8667dfbbf0a
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86_64/private_mem_kvm_exits_test.c
-@@ -0,0 +1,124 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2022, Google LLC.
-+ */
-+#include "kvm_util_base.h"
-+#include <linux/kvm.h>
-+#include <pthread.h>
-+#include <stdint.h>
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "test_util.h"
-+
-+/* Arbitrarily selected to avoid overlaps with anything else */
-+#define EXITS_TEST_GVA 0xc0000000
-+#define EXITS_TEST_GPA EXITS_TEST_GVA
-+#define EXITS_TEST_NPAGES 1
-+#define EXITS_TEST_SIZE (EXITS_TEST_NPAGES * PAGE_SIZE)
-+#define EXITS_TEST_SLOT 10
-+
-+static uint64_t guest_repeatedly_read(void)
-+{
-+	volatile uint64_t value;
-+
-+	while (true)
-+		value = *((uint64_t *) EXITS_TEST_GVA);
-+
-+	return value;
-+}
-+
-+static uint32_t run_vcpu_get_exit_reason(struct kvm_vcpu *vcpu)
-+{
-+	vcpu_run(vcpu);
-+
-+	return vcpu->run->exit_reason;
-+}
-+
-+const struct vm_shape protected_vm_shape = {
-+	.mode = VM_MODE_DEFAULT,
-+	.type = KVM_X86_PROTECTED_VM,
-+};
-+
-+static void test_private_access_memslot_deleted(void)
-+{
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *vcpu;
-+	pthread_t vm_thread;
-+	void *thread_return;
-+	uint32_t exit_reason;
-+
-+	vm = vm_create_shape_with_one_vcpu(protected_vm_shape, &vcpu,
-+					   guest_repeatedly_read);
-+
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    EXITS_TEST_GPA, EXITS_TEST_SLOT,
-+				    EXITS_TEST_NPAGES,
-+				    KVM_MEM_PRIVATE);
-+
-+	virt_map(vm, EXITS_TEST_GVA, EXITS_TEST_GPA, EXITS_TEST_NPAGES);
-+
-+	/* Request to access page privately */
-+	vm_mem_map_shared_or_private(vm, EXITS_TEST_GPA, EXITS_TEST_SIZE, false);
-+
-+	pr_info("Testing private access when memslot gets deleted\n");
-+
-+	pthread_create(&vm_thread, NULL,
-+		       (void *(*)(void *))run_vcpu_get_exit_reason,
-+		       (void *)vcpu);
-+
-+	vm_mem_region_delete(vm, EXITS_TEST_SLOT);
-+
-+	pthread_join(vm_thread, &thread_return);
-+	exit_reason = (uint32_t)(uint64_t)thread_return;
-+
-+	ASSERT_EQ(exit_reason, KVM_EXIT_MEMORY_FAULT);
-+	ASSERT_EQ(vcpu->run->memory.flags, KVM_MEMORY_EXIT_FLAG_PRIVATE);
-+	ASSERT_EQ(vcpu->run->memory.gpa, EXITS_TEST_GPA);
-+	ASSERT_EQ(vcpu->run->memory.size, EXITS_TEST_SIZE);
-+
-+	pr_info("\t ... PASSED\n");
-+
-+	kvm_vm_free(vm);
-+}
-+
-+static void test_private_access_memslot_not_private(void)
-+{
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *vcpu;
-+	uint32_t exit_reason;
-+
-+	vm = vm_create_shape_with_one_vcpu(protected_vm_shape, &vcpu,
-+					   guest_repeatedly_read);
-+
-+	/* Add a non-private memslot (flags = 0) */
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    EXITS_TEST_GPA, EXITS_TEST_SLOT,
-+				    EXITS_TEST_NPAGES, 0);
-+
-+	virt_map(vm, EXITS_TEST_GVA, EXITS_TEST_GPA, EXITS_TEST_NPAGES);
-+
-+	/* Request to access page privately */
-+	vm_set_memory_attributes(vm, EXITS_TEST_GPA, EXITS_TEST_SIZE,
-+				 KVM_MEMORY_ATTRIBUTE_PRIVATE);
-+
-+	pr_info("Testing private access to non-private memslot\n");
-+
-+	exit_reason = run_vcpu_get_exit_reason(vcpu);
-+
-+	ASSERT_EQ(exit_reason, KVM_EXIT_MEMORY_FAULT);
-+	ASSERT_EQ(vcpu->run->memory.flags, KVM_MEMORY_EXIT_FLAG_PRIVATE);
-+	ASSERT_EQ(vcpu->run->memory.gpa, EXITS_TEST_GPA);
-+	ASSERT_EQ(vcpu->run->memory.size, EXITS_TEST_SIZE);
-+
-+	pr_info("\t ... PASSED\n");
-+
-+	kvm_vm_free(vm);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_VM_TYPES) & BIT(KVM_X86_PROTECTED_VM));
-+
-+	test_private_access_memslot_deleted();
-+	test_private_access_memslot_not_private();
-+}
+Resend of https://patchew.org/QEMU/20220725142854.177451-1-iii@linux.ibm.com/
+with a trivial rebase.
+
+ target/sh4/translate.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index 97da8bce488..6e40d5dd6a1 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -171,16 +171,16 @@ void superh_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     qemu_fprintf(f, "sgr=0x%08x dbr=0x%08x delayed_pc=0x%08x fpul=0x%08x\n",
+                  env->sgr, env->dbr, env->delayed_pc, env->fpul);
+     for (i = 0; i < 24; i += 4) {
+-        qemu_printf("r%d=0x%08x r%d=0x%08x r%d=0x%08x r%d=0x%08x\n",
+-		    i, env->gregs[i], i + 1, env->gregs[i + 1],
+-		    i + 2, env->gregs[i + 2], i + 3, env->gregs[i + 3]);
++        qemu_fprintf(f, "r%d=0x%08x r%d=0x%08x r%d=0x%08x r%d=0x%08x\n",
++                     i, env->gregs[i], i + 1, env->gregs[i + 1],
++                     i + 2, env->gregs[i + 2], i + 3, env->gregs[i + 3]);
+     }
+     if (env->flags & TB_FLAG_DELAY_SLOT) {
+-        qemu_printf("in delay slot (delayed_pc=0x%08x)\n",
+-		    env->delayed_pc);
++        qemu_fprintf(f, "in delay slot (delayed_pc=0x%08x)\n",
++                     env->delayed_pc);
+     } else if (env->flags & TB_FLAG_DELAY_SLOT_COND) {
+-        qemu_printf("in conditional delay slot (delayed_pc=0x%08x)\n",
+-		    env->delayed_pc);
++        qemu_fprintf(f, "in conditional delay slot (delayed_pc=0x%08x)\n",
++                     env->delayed_pc);
+     } else if (env->flags & TB_FLAG_DELAY_SLOT_RTE) {
+         qemu_fprintf(f, "in rte delay slot (delayed_pc=0x%08x)\n",
+                      env->delayed_pc);
 -- 
-2.40.0.rc2.332.ga46443480c-goog
+2.39.2
 
 
