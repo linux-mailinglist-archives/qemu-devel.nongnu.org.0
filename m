@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CD16BD4B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 17:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5466BD4B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 17:08:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcq8M-0001zF-8p; Thu, 16 Mar 2023 12:07:18 -0400
+	id 1pcq9B-0002GP-Ki; Thu, 16 Mar 2023 12:08:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcq8I-0001yw-WB
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 12:07:15 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pcq99-0002Fj-SA
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 12:08:07 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pcq8H-0000yy-77
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 12:07:14 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- c8-20020a05600c0ac800b003ed2f97a63eso3504017wmr.3
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 09:07:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pcq98-00014D-6m
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 12:08:07 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id cn6so2120876pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 09:08:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678982831;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=linaro.org; s=google; t=1678982884;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6Q2+l+0N+IZN/SHLxOylATejDmtpy+1r6rkUg0rqyl8=;
- b=fy4m95jBCLVWB819HkCazd2WOjzZYdK5nR9of/oeQDsqfIGDUXiaTCzxoUmiwUf7CF
- mZOdsDTHiZ07dMko2j+8PL1xbJe64wjab/iFOC31MvkO5uRJVekAeqsvAomnYHEZcwJp
- F6/LA8LpfAVvjN2TAVoKx/MwxC5GTDP9AYecXgOyv/m0C8AEOmTsZnMHupjv0QnxgzMf
- 71FKC5VDuXvp2TVTEaihTcT+kxX0y+P1gF2rYbY+9xs++RNdpSEDjbCSCpTc5zp5Z9Qt
- xNPm7xiQYeqSdyRupOSePyLB+7stdidTnBLf7WrkmsL2VuoqXCQ6StlNmI78AIt1xmAf
- 844w==
+ bh=jl4BoFSNkm/Dx5PulAYexwRN3z2BPF4NJacUt8sMmz4=;
+ b=BYSgAqIrxTWNwgKBXzcNy9B6zkBGsWs9ty5fXSrawOVZNTUhjovGyCGi8Wp6MSvh5X
+ fb4jhsec5/tWt3DQjAspN4krFZr5ZOnuU1+Dy3mHrX8z1R3SOeR03AtFW5pcVxzc93YS
+ CeAwa4G/3epupDRqUQejIOI4DYJnFUa1WmjzPc36zMuZYMlbpF3tB/iCnSNL35jkbxfD
+ q5fGRMhX6850H/Paki9godFtqwEU2VKriW5m6uQ2vw7EJztLk6CKc3jBnke6c0LDSao1
+ CY4iSYzisUZR4w7I5cO6nPU5eaKqQpNN7Kj6LxkLecLBUTFoqtki24U1tvlJG3HWBgTL
+ 8z4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678982831;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20210112; t=1678982884;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6Q2+l+0N+IZN/SHLxOylATejDmtpy+1r6rkUg0rqyl8=;
- b=J0xMbaHzNtUkCCA2+XURCBQidi64AuyCdVGHZcgHgIandSQILaGou2o90RwAKnx52T
- lQQjsOMABOV95PJy1agTHJEMaOAYvjYaIm2PMVgMtq7F/gyuRgjMLzzrqJ3MzVsDJVx+
- X4EW1A2bJBXdqdlBXit66K6AIb3yxDwrpEbzPQOerrSK23KWPFITKkLdQZzPtAM2Oxe2
- U3WbF34RpwxcBvy6LjGGPri8EGh5Fb/q8LahoQEvSnt2AyOraRCgLOtaOx9FImPBeTiZ
- hUv2kO/hySqGGkEChClPPf2SPnu0xAxxKcV/Sz1T4uK/xdq/jsvcrD4ACXRWY/uvAgYb
- cAcA==
-X-Gm-Message-State: AO0yUKUQmFjr6uYDwqTZWpfH10uFqq6a/Me9oD9qZslcbxsxiCY9tMjV
- vaRAlzVoxEybme2XmJgADCLdTQ==
-X-Google-Smtp-Source: AK7set8rvYHTHO0LVvnjne+xkr+AJBgok3974IwQdQ0w0vdHV2yIrSFgDVNAeZuwKh+w6Mxo4Y4EfQ==
-X-Received: by 2002:a05:600c:190c:b0:3eb:38e6:f65d with SMTP id
- j12-20020a05600c190c00b003eb38e6f65dmr21917871wmq.11.1678982831355; 
- Thu, 16 Mar 2023 09:07:11 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- bi7-20020a05600c3d8700b003e89e3284fasm5312930wmb.36.2023.03.16.09.07.10
+ bh=jl4BoFSNkm/Dx5PulAYexwRN3z2BPF4NJacUt8sMmz4=;
+ b=ycLGW2oNT01vMYrvxWDizWSsQfrkNUfaZuq+cKfYFUZ4Jo62ZuhF7n/CT5ikOvCEEU
+ TNjyIKeKcOb/+eG+yXfr1wIGD5JKgtsJs1f98t/+JY86H8TuVv1s3SCnXQcTXNBfHSHI
+ nJHu3LI0SW4gBx7BBVYShjL3LGat5LtxiWx8Jq/mfMLYDN6hRvSK1r3uoTWIBxuC2OFL
+ JazkCTP1Ji6nI+YMXz9/OFPsnZKMlPPKXYCJrmCxB3qdwtnvbdrB6r1fnyDVxX9yL2YD
+ v6arkl5P42uzmdTe3igGIbSspr+PGCKdO/iYby+OLSarSEqQdTBo6WSqIjZsLYz1tkvs
+ hkEg==
+X-Gm-Message-State: AO0yUKVYbjBYzR+NKPqHH+WHFO8aQN+9gQrUNFdXZTfCCajDR/zLsEBl
+ OR1R9sPGqEKfmv3TYOCEm13kow==
+X-Google-Smtp-Source: AK7set9i2kwM/7ddRrhXtrauQTJ+B8oWAkl74fyNse6LFx14AHp6RBCPqK5JDvDsJWlal/r3CauH9A==
+X-Received: by 2002:a05:6a20:a01c:b0:cd:83b1:4236 with SMTP id
+ p28-20020a056a20a01c00b000cd83b14236mr5210550pzj.36.1678982883682; 
+ Thu, 16 Mar 2023 09:08:03 -0700 (PDT)
+Received: from [192.168.57.227] (96-82-119-43-static.hfc.comcastbusiness.net.
+ [96.82.119.43]) by smtp.gmail.com with ESMTPSA id
+ b14-20020aa7870e000000b005810c4286d6sm5680685pfo.0.2023.03.16.09.08.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 09:07:10 -0700 (PDT)
-Message-ID: <5b224a32-cad8-28e9-3314-b57282771819@linaro.org>
-Date: Thu, 16 Mar 2023 17:07:09 +0100
+ Thu, 16 Mar 2023 09:08:03 -0700 (PDT)
+Message-ID: <b6ff821a-e9b7-01d0-7f8c-e6a1062fe07a@linaro.org>
+Date: Thu, 16 Mar 2023 09:08:00 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH for 8.0 v2] igb: Save the entire Tx context descriptor
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 06/32] include/qemu: add documentation for memory
+ callbacks
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, quintela@redhat.com
-References: <20230316155707.27007-1-akihiko.odaki@daynix.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230316155707.27007-1-akihiko.odaki@daynix.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230315174331.2959-1-alex.bennee@linaro.org>
+ <20230315174331.2959-7-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230315174331.2959-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,23 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/3/23 16:57, Akihiko Odaki wrote:
-> The current implementation of igb uses only part of a advanced Tx
-> context descriptor because it misses some features and sniffs the trait
-> of the packet instead of respecting the packet type specified in the
-> descriptor. However, we will certainly need the entire Tx context
-> descriptor when we update igb to respect these ignored fields. Save the
-> entire Tx context descriptor to prepare for such a change.
+On 3/15/23 10:43, Alex Bennée wrote:
+> Some API documentation was missed, rectify that.
 > 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> Fixes:https://gitlab.com/qemu-project/qemu/-/issues/1497
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
-> V1 -> V2: Bump igb-tx version
-> 
->   hw/net/igb.c      | 10 ++++++----
->   hw/net/igb_core.c | 17 ++++++++++-------
->   hw/net/igb_core.h |  3 +--
->   3 files changed, 17 insertions(+), 13 deletions(-)
+>   include/qemu/qemu-plugin.h | 47 ++++++++++++++++++++++++++++++++++----
+>   1 file changed, 43 insertions(+), 4 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
