@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A066BC6A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 08:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252396BC6DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 08:15:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pchkw-00028y-Gj; Thu, 16 Mar 2023 03:10:34 -0400
+	id 1pchoE-0003rg-EL; Thu, 16 Mar 2023 03:13:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pchfq-0003qV-VV
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:05:28 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pchfo-000675-Ka
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:05:18 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id m35so492703wms.4
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 00:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678950311;
- h=content-transfer-encoding:in-reply-to:cc:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DJr0AKZfo6D8KKt5N56cKtNSh8oDsqkHRdpz55dfKMg=;
- b=ttzsdJTVO0UsMWcnUrs1E0jL/kvJWNMAQA56eZG3KtUSAgBlpdHbeWPNJfHIpSjbSG
- PmNFHH+HZkP8MGXFi0Vks6kj7XEAf0QJrElrgHL1YHucEZKUyEgq0F8IYBfcAHnxOI7B
- J/vSxNht2nVZ9i2lQxq7lamKUagwuF8k0DwmHMyHlSIDscjbcYujCE6Afa0c53GbeaM/
- dRJ9Rh4rcwgzHfH1QgMJT++a0Lgi4p/rqzq6s4wJtPBNn32NZYWaeJuY/vCfixNQ+gVp
- lkIepUBCM5b6Ef1n7LCniiTFLxI0j1VaJwayLHFdqLFwCdD//ol9DgLLjR6PeZor7EUp
- v/1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678950311;
- h=content-transfer-encoding:in-reply-to:cc:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DJr0AKZfo6D8KKt5N56cKtNSh8oDsqkHRdpz55dfKMg=;
- b=Bm91eR7qYgEcm/g9fwgPgMPGXriT7RzW0nyUkmeuTYOl+gDTkyGqQklchXtOEfsD8X
- VXZ3ZddHpeo+cPGuL4lbFLuDYalj9DiGrPuTXeEKGzQdNQBJMyrXYlXmLEY9JlYpGWPx
- Pe2jQ92mjdHMGOEN3XbFggXqm/SDVmfmzTzQez6SWNL2N3nXKyJuumUJCdAhYNBjA3sb
- ldY9/P8+Lb/Xg/N1+QD6IB0EJeqljb5DrK2KGNBagybJV6EXdJtEtbjnXOQPXG6Je40+
- zRCXbr+rqNnrjYdjWKgld9dRt99A719LL7Q7OrXxsmpAuaOBrOcED1kqxgZv95do7oKT
- LguA==
-X-Gm-Message-State: AO0yUKUUklEq6PgFAn/CgJTEkCD4CyxlsK0FkcXUl0LLKomdcHPLLC1V
- hLd2OhTxokF8K2bdoTqTmVFotw==
-X-Google-Smtp-Source: AK7set+tGKbnI0jAt7tIpySqV6YCuOq4n+1TssQBy9ea2TV+m5YV8d+is7jbTK43CPH6cXg08J+Mew==
-X-Received: by 2002:a05:600c:1912:b0:3ed:2217:4636 with SMTP id
- j18-20020a05600c191200b003ed22174636mr12993016wmq.19.1678950311613; 
- Thu, 16 Mar 2023 00:05:11 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o9-20020a05600c4fc900b003ea57808179sm4453414wmq.38.2023.03.16.00.05.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 00:05:10 -0700 (PDT)
-Message-ID: <f06fddef-1e40-1858-2715-50a0518a97f6@linaro.org>
-Date: Thu, 16 Mar 2023 08:05:09 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pchnw-0003lr-HE
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:13:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pchnq-0004Y9-1T
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 03:13:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678950809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zDO0mm1C5rACLO6JHyICYOAPeFWd5Zwv3j7fmCaUXYY=;
+ b=dmx723bcrMbjCqtb+Y9BgsPckaCBrHIHte/Jj2ngAXvt7LSnJYHxyM4k+gTHYO0X6+LQZS
+ GTnRK03bmGvg2SOXOyWBYbclkltuEViS0znBCs2nj2WhMxsGIFC9q93Hi6V1jQJIzgR1Jm
+ bsKRvuMhsKWE+EeoOn4u5hCgwwxqbe0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-329-GR67GZrbNIeWyFG9Pedc1A-1; Thu, 16 Mar 2023 03:13:27 -0400
+X-MC-Unique: GR67GZrbNIeWyFG9Pedc1A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1AD371C0758A;
+ Thu, 16 Mar 2023 07:13:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE251140E95F;
+ Thu, 16 Mar 2023 07:13:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E712C21E6806; Thu, 16 Mar 2023 08:13:25 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, marcandre.lureau@redhat.com, berrange@redhat.com,
+ eblake@redhat.com, jsnow@redhat.com
+Subject: [PATCH 00/14] qapi: Fix minor bugs,
+ require boxed for conditional arguments
+Date: Thu, 16 Mar 2023 08:13:11 +0100
+Message-Id: <20230316071325.492471-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: dropping 32-bit host support
-Content-Language: en-US
-To: Andrew Randrianasulu <randrianasulu@gmail.com>, qemu-discuss@nongnu.org
-References: <CA+rFky6A9Q_5sJ4WDO-Z2HBT59qiNgr8A-xk+O7-gnAMZmHt2A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CA+rFky6A9Q_5sJ4WDO-Z2HBT59qiNgr8A-xk+O7-gnAMZmHt2A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,49 +77,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Andrew,
+PATCH 01-08 fix a few minor bugs I found on the way.  Could be a
+separate series, but keeping them here seems simpler.
 
-On 16/3/23 01:57, Andrew Randrianasulu wrote:
-> Looking at https://wiki.qemu.org/ChangeLog/8.0 
-> <https://wiki.qemu.org/ChangeLog/8.0>
-> 
-> ===
-> System emulation on 32-bit x86 and ARM hosts has been deprecated. The 
-> QEMU project no longer considers 32-bit x86 and ARM support for system 
-> emulation to be an effective use of its limited resources, and thus 
-> intends to discontinue.
-> 
->   ==
-> 
-> well, I guess arguing from memory-consuption point on 32 bit x86 hosts 
-> (like my machine where I run 32 bit userspace on 64 bit kernel) is not 
+PATCH 09-12 improve tests for 'if' conditionals.
 
-If you use a 64-bit kernel, then your host is 64-bit :)
+PATCH 13 fixes a code generation regression, and PATCH 14 rejects uses
+conditionals that never worked and aren't worth fixing.
 
-host: hardware where you run QEMU
-guest: what is run within QEMU
+Markus Armbruster (14):
+  qapi: Fix error message format regression
+  qapi/schema: Use super()
+  qapi: Clean up after removal of simple unions
+  qapi: Split up check_type()
+  qapi: Improve error message for unexpected array types
+  qapi: Simplify code a bit after previous commit
+  qapi: Fix error message when type name or array is expected
+  qapi: Fix to reject 'data': 'mumble' in struct
+  tests/qapi-schema: Improve union discriminator coverage
+  tests/qapi-schema: Rename a few conditionals
+  tests/qapi-schema: Clean up positive test for conditionals
+  tests/qapi-schema: Cover optional conditional struct member
+  qapi: Fix code generated for optional conditional struct member
+  qapi: Require boxed for conditional command and event arguments
 
-Running 32-bit *guest* on your 64-bit *host* is still supported.
+ docs/devel/qapi-code-gen.rst                  |   5 +-
+ scripts/qapi/commands.py                      |   1 +
+ scripts/qapi/expr.py                          | 115 ++++++++++--------
+ scripts/qapi/gen.py                           |   1 +
+ scripts/qapi/main.py                          |   2 +-
+ scripts/qapi/schema.py                        |  16 ++-
+ scripts/qapi/visit.py                         |   2 +
+ tests/qapi-schema/args-if-implicit.err        |   2 +
+ tests/qapi-schema/args-if-implicit.json       |   4 +
+ tests/qapi-schema/args-if-implicit.out        |   0
+ tests/qapi-schema/args-if-unboxed.err         |   2 +
+ tests/qapi-schema/args-if-unboxed.json        |   6 +
+ tests/qapi-schema/args-if-unboxed.out         |   0
+ tests/qapi-schema/bad-data.err                |   2 +-
+ tests/qapi-schema/event-args-if-unboxed.err   |   2 +
+ tests/qapi-schema/event-args-if-unboxed.json  |   4 +
+ tests/qapi-schema/event-args-if-unboxed.out   |   0
+ tests/qapi-schema/event-nest-struct.err       |   2 +-
+ tests/qapi-schema/meson.build                 |   3 +
+ tests/qapi-schema/nested-struct-data.err      |   2 +-
+ tests/qapi-schema/qapi-schema-test.json       |  20 +--
+ tests/qapi-schema/qapi-schema-test.out        |  32 ++---
+ tests/qapi-schema/returns-dict.err            |   2 +-
+ tests/qapi-schema/struct-data-typename.err    |   2 +
+ tests/qapi-schema/struct-data-typename.json   |   2 +
+ tests/qapi-schema/struct-data-typename.out    |   0
+ tests/qapi-schema/struct-member-invalid.err   |   2 +-
+ tests/qapi-schema/union-array-branch.err      |   2 +-
+ .../union-invalid-discriminator.err           |   2 +-
+ .../union-invalid-discriminator.json          |   4 +-
+ 30 files changed, 141 insertions(+), 98 deletions(-)
+ create mode 100644 tests/qapi-schema/args-if-implicit.err
+ create mode 100644 tests/qapi-schema/args-if-implicit.json
+ create mode 100644 tests/qapi-schema/args-if-implicit.out
+ create mode 100644 tests/qapi-schema/args-if-unboxed.err
+ create mode 100644 tests/qapi-schema/args-if-unboxed.json
+ create mode 100644 tests/qapi-schema/args-if-unboxed.out
+ create mode 100644 tests/qapi-schema/event-args-if-unboxed.err
+ create mode 100644 tests/qapi-schema/event-args-if-unboxed.json
+ create mode 100644 tests/qapi-schema/event-args-if-unboxed.out
+ create mode 100644 tests/qapi-schema/struct-data-typename.err
+ create mode 100644 tests/qapi-schema/struct-data-typename.json
+ create mode 100644 tests/qapi-schema/struct-data-typename.out
 
-We don't plan to support running 32-bit WinXP x86 (guest) on 32-bit
-Raspberry Pi 2 (host) for example.
+-- 
+2.39.2
 
-> going anywhere, but what about 32bit userspace on Android tablets, 
-> either via Limbo emulator or qemu itself in Termux?
-
-*System* emulation [on 32-bit hosts] is deprecated. User emulation
-(such linux-user) is not. For example, you can still run 64-bit x86_64
-Linux binaries on a 32-bit ARM Raspberry Pi.
-
-> At least I hope it will be not *actively* (intentionally) broken, just 
-> ...unsupported (so users who know how to run git revert still will get 
-> their build for some more time).
-
-Unsupported code almost always unintentionally end bit-rotting...
-
-I hope this is clearer.
-
-Regards,
-
-Phil.
 
