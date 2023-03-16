@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5466BD4B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 17:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FED6BD4EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 17:16:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcq9B-0002GP-Ki; Thu, 16 Mar 2023 12:08:09 -0400
+	id 1pcqG5-0004Lj-UA; Thu, 16 Mar 2023 12:15:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pcq99-0002Fj-SA
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 12:08:07 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pcqG4-0004LO-GU
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 12:15:16 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pcq98-00014D-6m
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 12:08:07 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id cn6so2120876pjb.2
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 09:08:04 -0700 (PDT)
+ id 1pcqG2-0005Js-95
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 12:15:16 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id iw3so2288897plb.6
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 09:15:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678982884;
+ d=linaro.org; s=google; t=1678983312;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=jl4BoFSNkm/Dx5PulAYexwRN3z2BPF4NJacUt8sMmz4=;
- b=BYSgAqIrxTWNwgKBXzcNy9B6zkBGsWs9ty5fXSrawOVZNTUhjovGyCGi8Wp6MSvh5X
- fb4jhsec5/tWt3DQjAspN4krFZr5ZOnuU1+Dy3mHrX8z1R3SOeR03AtFW5pcVxzc93YS
- CeAwa4G/3epupDRqUQejIOI4DYJnFUa1WmjzPc36zMuZYMlbpF3tB/iCnSNL35jkbxfD
- q5fGRMhX6850H/Paki9godFtqwEU2VKriW5m6uQ2vw7EJztLk6CKc3jBnke6c0LDSao1
- CY4iSYzisUZR4w7I5cO6nPU5eaKqQpNN7Kj6LxkLecLBUTFoqtki24U1tvlJG3HWBgTL
- 8z4A==
+ bh=PQDDb4C/FeUQ0xgtaRmBgH7tkekHTBXXnSZZNYn6luc=;
+ b=HtcvST/07ydQTTCkUrHAwxrpU5vi8MuHCt75GEVW6AHPPvrNtSPw99WCvTO7RNCffQ
+ f41lxadjzd3WR7Kqg8d9WYuM+NERkOKTP3cAwBItoxjRH1BYitLczSVu+FyzxGAOP7Iw
+ cIZUuGolhS/NKLUEQv/I55xc6y69HR3mT4kucWMojLjsdvAvJhuThAfkGqcjo3JetU7T
+ /ZwWkz3c0rJDhnbFIuQu/4mbgkr9/6fI1Iy7OhCNpvWLGqfJECWFdwGf9DKrlFodpuBz
+ 9O79e6bRgLy73O0WXpzbiaEVnE5x2qGobWCIZBUcs6rPdeojMCaRrPuf1C1aKvMX6XmH
+ pilA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678982884;
+ d=1e100.net; s=20210112; t=1678983312;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jl4BoFSNkm/Dx5PulAYexwRN3z2BPF4NJacUt8sMmz4=;
- b=ycLGW2oNT01vMYrvxWDizWSsQfrkNUfaZuq+cKfYFUZ4Jo62ZuhF7n/CT5ikOvCEEU
- TNjyIKeKcOb/+eG+yXfr1wIGD5JKgtsJs1f98t/+JY86H8TuVv1s3SCnXQcTXNBfHSHI
- nJHu3LI0SW4gBx7BBVYShjL3LGat5LtxiWx8Jq/mfMLYDN6hRvSK1r3uoTWIBxuC2OFL
- JazkCTP1Ji6nI+YMXz9/OFPsnZKMlPPKXYCJrmCxB3qdwtnvbdrB6r1fnyDVxX9yL2YD
- v6arkl5P42uzmdTe3igGIbSspr+PGCKdO/iYby+OLSarSEqQdTBo6WSqIjZsLYz1tkvs
- hkEg==
-X-Gm-Message-State: AO0yUKVYbjBYzR+NKPqHH+WHFO8aQN+9gQrUNFdXZTfCCajDR/zLsEBl
- OR1R9sPGqEKfmv3TYOCEm13kow==
-X-Google-Smtp-Source: AK7set9i2kwM/7ddRrhXtrauQTJ+B8oWAkl74fyNse6LFx14AHp6RBCPqK5JDvDsJWlal/r3CauH9A==
-X-Received: by 2002:a05:6a20:a01c:b0:cd:83b1:4236 with SMTP id
- p28-20020a056a20a01c00b000cd83b14236mr5210550pzj.36.1678982883682; 
- Thu, 16 Mar 2023 09:08:03 -0700 (PDT)
+ bh=PQDDb4C/FeUQ0xgtaRmBgH7tkekHTBXXnSZZNYn6luc=;
+ b=2XkZ9OLflEAJPM9mZGZaz8Dj4vwtfBo4tSs/zjB6YiE8a/OwrEQF8YKEW/gtpjZThR
+ MhOZWrOQBw/4fwt5nxFHjOoLIvApukURSkvJ4Z52g8z+GQqO8hJbKFZBcDUgjjnC95Sq
+ y8nMfG/uJoqUGIJn3aMw/1AaLv59PUpUNLHG2LYw52QGKZJ+6mUovnSTW7stsnPtGFAO
+ 6CXV3/rYbPlJclBDE8YF5TmQVX3fkGYXwbcLiTfHoske34ZJfzR4ZU3AlI1Y+Fj4mHkU
+ bRhS38a83yauqtnoLLJFwZnuYKW7sCXenij+bvKNR/1zewIHGOlVlBjneEhTM+flLhxc
+ 2u4g==
+X-Gm-Message-State: AO0yUKVSFFxTyOujc2+A7z0J0RELjhXXHVGPiMLSWPl9UIYJ5sbhjYD1
+ 2cC3hMKEj38ee/OkVpkCdGO6UQ==
+X-Google-Smtp-Source: AK7set8tEiLzyOUjBLIBVF+S4MgO7Yd5+C1CwNjmVE8RhsxcrFjbAGZJM1IGrNHB2Ifw6sJ1Qve95w==
+X-Received: by 2002:a17:90b:33cd:b0:23f:3:49c5 with SMTP id
+ lk13-20020a17090b33cd00b0023f000349c5mr4767466pjb.2.1678983312234; 
+ Thu, 16 Mar 2023 09:15:12 -0700 (PDT)
 Received: from [192.168.57.227] (96-82-119-43-static.hfc.comcastbusiness.net.
  [96.82.119.43]) by smtp.gmail.com with ESMTPSA id
- b14-20020aa7870e000000b005810c4286d6sm5680685pfo.0.2023.03.16.09.08.02
+ g6-20020a17090ae58600b0023317104415sm3377180pjz.17.2023.03.16.09.15.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 09:08:03 -0700 (PDT)
-Message-ID: <b6ff821a-e9b7-01d0-7f8c-e6a1062fe07a@linaro.org>
-Date: Thu, 16 Mar 2023 09:08:00 -0700
+ Thu, 16 Mar 2023 09:15:11 -0700 (PDT)
+Message-ID: <16b374f8-c5ad-7bd1-4a9b-ab6ce43d08f5@linaro.org>
+Date: Thu, 16 Mar 2023 09:15:09 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 06/32] include/qemu: add documentation for memory
- callbacks
+Subject: Re: [PATCH v2 07/32] tests/tcg: add some help output for running
+ individual tests
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
- <20230315174331.2959-7-alex.bennee@linaro.org>
+ <20230315174331.2959-8-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230315174331.2959-7-alex.bennee@linaro.org>
+In-Reply-To: <20230315174331.2959-8-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,15 +96,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/15/23 10:43, Alex Bennée wrote:
-> Some API documentation was missed, rectify that.
+> So you can do:
 > 
-> Fixes:https://gitlab.com/qemu-project/qemu/-/issues/1497
+>    cd tests/tcg/aarch64-linux-user
+>    make -f ../Makefile.target help
+> 
+> To see the list of tests. You can then run each one individually.
+> 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   include/qemu/qemu-plugin.h | 47 ++++++++++++++++++++++++++++++++++----
->   1 file changed, 43 insertions(+), 4 deletions(-)
+>   tests/tcg/Makefile.target | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
