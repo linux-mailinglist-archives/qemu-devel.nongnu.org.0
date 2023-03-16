@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C4C6BC9E8
+	by mail.lfdr.de (Postfix) with ESMTPS id 711816BC9E9
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 09:51:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcjJd-0001en-D7; Thu, 16 Mar 2023 04:50:29 -0400
+	id 1pcjKL-0001t9-Ut; Thu, 16 Mar 2023 04:51:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pcjJb-0001eR-Ip; Thu, 16 Mar 2023 04:50:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.131])
+ id 1pcjKK-0001sj-BW; Thu, 16 Mar 2023 04:51:12 -0400
+Received: from mout.kundenserver.de ([212.227.126.135])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pcjJW-0004U3-Vi; Thu, 16 Mar 2023 04:50:25 -0400
+ id 1pcjKI-0004lj-JY; Thu, 16 Mar 2023 04:51:12 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MYvoW-1pyg1X2kBU-00Urzm; Thu, 16 Mar 2023 09:50:15 +0100
-Message-ID: <3bfefc7f-a999-7679-d448-7e9eb4b4f9dd@vivier.eu>
-Date: Thu, 16 Mar 2023 09:50:14 +0100
+ 1MCbZL-1plIA40LeV-009e11; Thu, 16 Mar 2023 09:50:59 +0100
+Message-ID: <1dc809b6-a51d-eb7c-5828-e9cfae0905f5@vivier.eu>
+Date: Thu, 16 Mar 2023 09:50:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH for 8.0] exec/memory: Fix kernel-doc warning
+Subject: Re: [PATCH v2] target/sh4: Honor QEMU_LOG_FILENAME with QEMU_LOG=cpu
 Content-Language: fr
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-Cc: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>
-References: <20230315072552.47117-1-shentey@gmail.com>
- <49850BA4-972F-4177-A18B-8E9C65FA60E9@gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20230316003411.129462-1-iii@linux.ibm.com>
+ <c854655d-642c-21dc-61a5-4d93b98fc7b1@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <49850BA4-972F-4177-A18B-8E9C65FA60E9@gmail.com>
+In-Reply-To: <c854655d-642c-21dc-61a5-4d93b98fc7b1@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zXatc7aOkDgSifjr9/iomOHi5PjD2s5fON2OV3wQx9JbGClH806
- +p1A826NyBW6W9w3R8RrC2QuXpyJeAWdRgilzaaVluzjsM6FoED4FQ6LtHww7EZbpnpTEt6
- HpQgamvRF2rbLv1V4EOr4GtgRBClY8GLs33YW6drTvQXmFtb3Eoo4HnJAZIDFHdzZqJ57AH
- pHWJZJA+x3gH/kJfpcy9Q==
-UI-OutboundReport: notjunk:1;M01:P0:U93WCIY32c4=;RFDtUmtwacEYi64TXZU4TKSBZ4n
- XxsHWbxuIb68R1Zf8WWTLv/eE72y1YA6DORWU93VmuLrsVcQgOslDCSAyGyvSMVyGqN0hhZK8
- YPwQqnNm9oigI8eguleU/AIMJDVmDqb3kO2kEIeYzuTurJKxv5K4oxTu/yaj1C55OmVIcie+h
- UiZlWu6I7MSlSSmaDWzrpR/g6MExObqYqFE0nBWAW2CFhWOwNtOPr3XNI3zcJf9BUoVGV0Xa5
- jA+3g+NX8GTey/ZyHYbAn9A0QQtA3sh49zDhl/B/W8ag8aIWoQ+DpveqxVgYtaJSUp9VBLFlo
- 8Sgr0pwj0vfQJ66/+Vg+RuW7Qjd99hvfJcKnkPXRR7D/nB+SePMT6GSfcC2SVywpcRJvQESip
- MADeaXHWVwT2TEQvySrXgIE4awCXoilj+MdjIdQSM6TPX0awBHSbqhF4l0+imF1sgqSZdDeT2
- 3KBDc4QJHFHKLE5CwD1zWkGrs0+gMsjofkdhLnLW38+GSPgw0RD9NCP4bBjNwA6X3I8fjlxK4
- tuF7UYGRUReOsjCIojQvjXgFrs700t4XgASJ7s+lSmmT59uozabLkiengU5ekiTYX84dspV/m
- ofvrgdweOEZ/EAQCIBk0a+F0qGbZigUs3jmh2jAMqo7u14JM23S8E0kf6c4+iBJofmt/Y//aT
- WWrTnGwK6Eb4JfdCCJS0uF2Qjt15nEhzDFuOxpo//w==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:hzUAmul7IfeqKy88MGC1oWlFwRcev7ls4vOusM6v34m1yBdo/Ep
+ LV/iRHQQX/Joo9dbvGzSoYy6FY6yPcxK0h2xWjqSVAKA8fH2MsKy7nVH6vtHBjGoK0cyhbW
+ uBIgo1AMBfihdqxf42seOE/l5EQzCowYgy0htXhxLYSv6+vPkeQqUpy+/VY899J3zAXNI06
+ NbYYuTl8VXOngBm8sUmIQ==
+UI-OutboundReport: notjunk:1;M01:P0:KR0qDQc/kHo=;xpkCZPpOG5AaXgt2Wr/mh2cDpmv
+ EslbR2zA73Hx0N5+R7G7Rg+mSXqAZHYkIi++9hpTTexTN5O1CcCRyVRIvYovzn0Uw8ghV6j8m
+ j9lhufeo6afrsNtbBMvC5lPsr+YQ1dnUSVBCNBuG2apT+mF8C/h60zqxKTn68H27TnGZyEwM9
+ cEafIcWazUeQzGd1/hlVSHDUOwlJzrRNAjIdMt76+v/6ZHt7UH/qj5QvHvEMuDISAoEWFawHT
+ g/0KT/Z8CS0/KF34tabWkYwr9RDbFXL8JaIoO3IJ5uiWLuhdYBg4sibUpO5YPXBTB5r3+NzgZ
+ iY6a6HRP5XVZda4abv/A13JjFLpd5oiMh2gbn1KW/Lj+Z21sV2fBYoeljgsmSKwB4God6S7IW
+ pt6tuDhEC52E4WQAwiMqf75wXfg5z+uX0JI+WA+fC/nbWDrgrF4y5x7a9gQr8R/urzFIH70pu
+ h2nlhagvpYVEPAv+TaM7ZO8cCvT0nY1mKeNryZDfyuN+frci4e5REiJzp0YRjhzzCNG4AzMH7
+ 1rI4sgm118vfYv3EGOOLuzDmHU+iEyEr1r2NwHX8wgTqEm38JXFzptqRrUMyHgzcfEzsxHzhl
+ 8sWk+8FgUdAv2Iui6J4phV1GNQDmdrFcYMkDyTdXURjwYtHbZwzy53FsCEq7GhLo11Vw621ue
+ geNeWaaEAhOfqTR8NTRCJ4rdT2MJp2G0XmzWNv+udQ==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,64 +75,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 15/03/2023 à 08:57, Bernhard Beschow a écrit :
-> + qemu-trivial
-> 
-> Am 15. März 2023 07:25:52 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
->> During build the kernel-doc script complains about the following issue:
+Le 16/03/2023 à 08:52, Philippe Mathieu-Daudé a écrit :
+> On 16/3/23 01:34, Ilya Leoshkevich wrote:
+>> When using QEMU_LOG=cpu on sh4, QEMU_LOG_FILENAME is partially ignored.
+>> Fix by using qemu_fprintf() instead of qemu_printf() in the respective
+>> places.
 >>
->>   src/docs/../include/exec/memory.h:1741: warning: Function parameter or member 'n' not described in 'memory_region_unmap_iommu_notifier_range'
->>   src/docs/../include/exec/memory.h:1741: warning: Excess function parameter 'notifier' description in 'memory_region_unmap_iommu_notifier_range'
->>
->> Settle on "notifier" for consistency with other memory functions.
->>
->> Fixes: 7caebbf9ea53
->>        ("memory: introduce memory_region_unmap_iommu_notifier_range()")
->> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>> Fixes: 90c84c560067 ("qom/cpu: Simplify how CPUClass:cpu_dump_state() prints")
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+>> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 >> ---
->> include/exec/memory.h | 2 +-
->> softmmu/memory.c      | 8 ++++----
->> 2 files changed, 5 insertions(+), 5 deletions(-)
 >>
->> diff --git a/include/exec/memory.h b/include/exec/memory.h
->> index 6fa0b071f0..15ade918ba 100644
->> --- a/include/exec/memory.h
->> +++ b/include/exec/memory.h
->> @@ -1738,7 +1738,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
->>   *
->>   * @notifier: the notifier to be notified
->>   */
->> -void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n);
->> +void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *notifier);
+>> Resend of https://patchew.org/QEMU/20220725142854.177451-1-iii@linux.ibm.com/
+>> with a trivial rebase.
 >>
->>
->> /**
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index 4699ba55ec..5305aca7ca 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -1996,17 +1996,17 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
->>      }
->> }
->>
->> -void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n)
->> +void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *notifier)
->> {
->>      IOMMUTLBEvent event;
->>
->>      event.type = IOMMU_NOTIFIER_UNMAP;
->>      event.entry.target_as = &address_space_memory;
->> -    event.entry.iova = n->start;
->> +    event.entry.iova = notifier->start;
->>      event.entry.perm = IOMMU_NONE;
->> -    event.entry.addr_mask = n->end - n->start;
->> +    event.entry.addr_mask = notifier->end - notifier->start;
->>
->> -    memory_region_notify_iommu_one(n, &event);
->> +    memory_region_notify_iommu_one(notifier, &event);
->> }
->>
->> void memory_region_notify_iommu(IOMMUMemoryRegion *iommu_mr,
+>>   target/sh4/translate.c | 14 +++++++-------
+>>   1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
 > 
 
 Applied to my trivial-patches branch.
