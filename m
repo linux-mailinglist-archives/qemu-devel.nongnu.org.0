@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8B66BD270
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 15:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3DC16BD278
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 15:37:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcofK-0005si-Lt; Thu, 16 Mar 2023 10:33:14 -0400
+	id 1pcoiV-0006sL-V6; Thu, 16 Mar 2023 10:36:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pcofI-0005sX-S1
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 10:33:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pcoiU-0006sD-VS
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 10:36:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pcofH-00023e-EX
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 10:33:12 -0400
+ id 1pcoiT-0004Wr-Ik
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 10:36:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678977190;
+ s=mimecast20190719; t=1678977388;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Vsmm5zdQ5BK0oup4Mb+sDHj9EkheEAurwV4iAG2d5r8=;
- b=Ad6mDgG9GOI7IRQ4+9Nx2liQamB3rfV2Gqn5QiBTUnMx7xl6Ch8j7OlESVRetTQNWoprhO
- 3S9M+pYVpV0MSwWNRl7NIJrcVKAwTeh7WJ5B6zWyV67JXnwE5ujgSB7B9gjzLQ7TRFF/sO
- ArLV79wKrLcnXiSj43cPpOLLLTBAqS4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-382-S2COIgGVM-OSpu-0lvohwg-1; Thu, 16 Mar 2023 10:33:09 -0400
-X-MC-Unique: S2COIgGVM-OSpu-0lvohwg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m28-20020a05600c3b1c00b003ed307fddadso2716472wms.4
- for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 07:33:09 -0700 (PDT)
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ayZb1+1ylW8R0TeoPsdKOQ/sX6QE1oy3CVj3lrzUzjU=;
+ b=gYX1/CZhtb5aUn8evEOOgsFzEzfJE8vcp0a4ZGGaGOraBZsKrb4U72xej7kg42juc+PYwJ
+ brIjrMlJXvQKVARxCL/RguYnSDNSnWUDEQ3WGfkN3jkwWmnFLjF7+mzZSY/jG0eYSS+bDM
+ uXyFkD/HtiGW4sOMkibAz1NiO6a4hx4=
+Received: from mail-wm1-f69.google.com (209.85.128.69 [209.85.128.69]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-361-GvPjsLTLMwihHMsjwV-afA-1; Thu,
+ 16 Mar 2023 10:36:27 -0400
+X-MC-Unique: GvPjsLTLMwihHMsjwV-afA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ az7-20020a05600c600700b003ed25435106so752709wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 07:36:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678977188;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Vsmm5zdQ5BK0oup4Mb+sDHj9EkheEAurwV4iAG2d5r8=;
- b=jk6KqygBZclrpBvqjU+esSX7tmpl4jFNwpy/ya9RPUxjZmLzZ9UJL0STWj6qU5Z9wq
- yA6QNgEUDX2GK/La+r1nCFBslhclGTVPY+FaCuXcnHEsoxlmh9ngMlWYOtvPzwGAMdwv
- vWEgHD3kdlH3ezA6YvRbkXeqII3SmFao7ceMThlPD/wUHX8zQJyN7PvxwM5i+0OxPtIH
- PcHqP4gFfbJNyH/uzGd93SKfONfp6aurPM2+gVcyF5pEz8JfUur3MSNibXM6H/b17ssk
- SgG70nkJH3ioHSmH/mzA1C+Q2cAlEnM5rHpIZDIdnRrGnge4uLilMFpi4HRuIO1RY1xs
- j44g==
-X-Gm-Message-State: AO0yUKVBFMmYYYJLIfM2kNPZkrjS4qzogo43DuqSGJO3II/xoDwmHw40
- fvVPDTXUdCfEkQvgfI+J/yGhbe6tx1l/tCoGuo/+0YQ+lWgeuNccAs1BdkHok8GSmmuR6dbOZSD
- 2ApvwAC7UGdOEdgE=
-X-Received: by 2002:a05:600c:4e8f:b0:3ed:32cd:be64 with SMTP id
- f15-20020a05600c4e8f00b003ed32cdbe64mr6587437wmq.29.1678977188279; 
- Thu, 16 Mar 2023 07:33:08 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+jwyXs5/PvzMSXgtqj+ZATd0HiTvMbSnVvLqOveFRYdvyhR0gAOoaI/URsjNLNRI1zR8rZzg==
-X-Received: by 2002:a05:600c:4e8f:b0:3ed:32cd:be64 with SMTP id
- f15-20020a05600c4e8f00b003ed32cdbe64mr6587417wmq.29.1678977188002; 
- Thu, 16 Mar 2023 07:33:08 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678977385;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ayZb1+1ylW8R0TeoPsdKOQ/sX6QE1oy3CVj3lrzUzjU=;
+ b=5yQLAcj1RB3l7jbR/muTb4JgbW2pMSjw7sEFdyhMd7t+ogshjMXonEo+njLeDVOeY1
+ 9NdjyN99lDl+BCYOqAyDNU9JCvh4oHAigBgj9knECz42mHf+HfFsjT02yv1qhtFalBl+
+ ggrMM2DFiPCJRxWiDWEj/MlcKeLVgT/ps93SD9TsoekG+lihdTTsWx+1arzHeJxfXe6h
+ UIGQjmTY1xVyevI55pvA0gcezwPx4nEhm+AtNKJcgl4SzSIlolf/S6bfH2V3JlH48IUA
+ Y1bM9md2cQislF5VS0VKemNRUrXM2y4K3qdWI3ACFiPxs7vry6KusLOZO5G2NWT6VufH
+ YtUw==
+X-Gm-Message-State: AO0yUKW33mlmGphrPprSsJffF61fQRGDSpNUCY2o1YA1KoFb/eZgYGvy
+ 2wgHw7TPHZlEIDPYpQ5Y0OG0JZ3K7oXJiYB/3ggOPMEB2GKHu4z+7kyPm1Wl6LRkAEmFyP5csdB
+ 8aVUbuqbtVbeML7Su8PnKhqcDaOQI
+X-Received: by 2002:a05:600c:4f8e:b0:3e2:662:ade6 with SMTP id
+ n14-20020a05600c4f8e00b003e20662ade6mr20931144wmq.26.1678977385764; 
+ Thu, 16 Mar 2023 07:36:25 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8pWKBVAW1oRIAUXtiFU5eeefG3FdLdb1P0NjUmTHtctKQW4k1qGFpjFxpMu9IyplagHw6P5g==
+X-Received: by 2002:a05:600c:4f8e:b0:3e2:662:ade6 with SMTP id
+ n14-20020a05600c4f8e00b003e20662ade6mr20931126wmq.26.1678977385378; 
+ Thu, 16 Mar 2023 07:36:25 -0700 (PDT)
 Received: from redhat.com (62.117.238.225.dyn.user.ono.com. [62.117.238.225])
  by smtp.gmail.com with ESMTPSA id
- z19-20020a1c4c13000000b003ed246c1d28sm5329152wmf.44.2023.03.16.07.33.06
+ u22-20020a05600c00d600b003e203681b26sm5242742wmm.29.2023.03.16.07.36.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 07:33:07 -0700 (PDT)
+ Thu, 16 Mar 2023 07:36:24 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: Wei Wang <wei.w.wang@intel.com>
-Cc: dgilbert@redhat.com,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v1] migration/multifd: correct multifd_send_thread to
- trace the flags
-In-Reply-To: <20230309102956.8030-1-wei.w.wang@intel.com> (Wei Wang's message
- of "Thu, 9 Mar 2023 18:29:56 +0800")
-References: <20230309102956.8030-1-wei.w.wang@intel.com>
+To: Steve Sistare <steven.sistare@oracle.com>
+Cc: qemu-devel@nongnu.org,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>
+Subject: Re: [PATCH V2 01/20] migration: fix populate_vfio_info
+In-Reply-To: <1675795623-234945-1-git-send-email-steven.sistare@oracle.com>
+ (Steve Sistare's message of "Tue, 7 Feb 2023 10:47:03 -0800")
+References: <1675795623-234945-1-git-send-email-steven.sistare@oracle.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 16 Mar 2023 15:33:06 +0100
-Message-ID: <87v8j0lqal.fsf@secure.mitica>
+Date: Thu, 16 Mar 2023 15:36:23 +0100
+Message-ID: <87pm98lq54.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,20 +105,18 @@ Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Wei Wang <wei.w.wang@intel.com> wrote:
-> The p->flags could be updated via the send_prepare callback, e.g. OR-ed
-> with MULTIFD_FLAG_ZLIB via zlib_send_prepare. Assign p->flags to the
-> local "flags" before the send_prepare callback could only get partial of
-> p->flags. Fix it by moving the assignment of p->flags to the local flags
-> after the callback, so that the correct flags can be traced.
+Steve Sistare <steven.sistare@oracle.com> wrote:
+> Include CONFIG_DEVICES so that populate_vfio_info is instantiated for
+> CONFIG_VFIO.  Without it, the 'info migrate' command never returns
+> info about vfio.
 >
-> Fixes: ab7cbb0b9a3b ("multifd: Make no compression operations into its own structure")
-> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
-
+> Fixes: 43bd0bf30f ("migration: Move populate_vfio_info() into a separate =
+file")
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Good catch.  Thanks.
 queued.
 
 
