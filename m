@@ -2,102 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5A46BD785
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 18:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379CD6BD7AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 18:59:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcrk6-0003pb-5y; Thu, 16 Mar 2023 13:50:22 -0400
+	id 1pcrrV-0005vk-Dl; Thu, 16 Mar 2023 13:58:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pcrjx-0003oq-Tf; Thu, 16 Mar 2023 13:50:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pcrrT-0005v8-Bx
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 13:57:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pcrju-0004bq-V7; Thu, 16 Mar 2023 13:50:13 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32GHCMXA022781; Thu, 16 Mar 2023 17:50:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=KoygIkRcxgzjvSdLK3lx+evv+G1JnBqBiaQcdUpXcvk=;
- b=a3lPaX1P4QQU1L6ygH8V6YyezQzgPilJoq2guAXgPmkUu+hskvREG5KK+1RrEWHahAhc
- odmoqRwMW/MA+bBVYVct2zyQzMCpfmgsImgS3x8uGITTJClAT33xcaKOxDFfWWZIOq0c
- 6b3uDkSWUfYJ+MwTIS4Fe7mcPXTrBuvrlKJ4LE8yyMF56TPFfISgb8s2XBoSKJkLOXNo
- e9ay2+QXkgsjvq2ZlP3CzjYDymdx/GTcpkRiPsBMBL0QnURMmAAHwC29e8AedruBtbj2
- IOjugUlmRrnXDGjblIuqUGo/trZZj+6Kia8jHAu3vk1YfyMwsldexYfyVwOXDx+OpeYz +w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pc7a4h2du-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 17:50:06 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32GHa8cp020165;
- Thu, 16 Mar 2023 17:50:05 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pc7a4h2ct-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 17:50:05 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32GEuwAL015019;
- Thu, 16 Mar 2023 17:50:03 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pbsf3h2wc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 17:50:03 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32GHo0lf19137204
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Mar 2023 17:50:00 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C05F22004F;
- Thu, 16 Mar 2023 17:50:00 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8E2B120040;
- Thu, 16 Mar 2023 17:50:00 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.178.56]) by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 16 Mar 2023 17:50:00 +0000 (GMT)
-Message-ID: <5289dc2f8cc7c1b2ee3b6693b54b3b98746b4d0b.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 2/2] tests/tcg/s390x: Add ex-relative-long.c
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Richard Henderson
- <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Date: Thu, 16 Mar 2023 18:50:00 +0100
-In-Reply-To: <20230315001117.337128-3-iii@linux.ibm.com>
-References: <20230315001117.337128-1-iii@linux.ibm.com>
- <20230315001117.337128-3-iii@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pcrrR-0007ap-E9
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 13:57:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678989476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/m0CCdz5mLF0ZLDNJuVEZ0BF2rSVtUL99LOkQTzgzOA=;
+ b=VZeOEphJEVOEvvUfFTb7o5zACEZVWis5gshHok6bxDIAui9lqdeOCtjyEQO2YUPTIQhVyd
+ IFqdkBCVu9cgyqDxoU6Lfwf0Jsoh3V/jq6NCH3XGdX21VAZjLLvSPs2Tzc5ltPLQbZG6c7
+ luRa+JWpOtnoqaGVHeygHwbh6Ir7DkI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-136-EYTwYe6OPkCTLvOmQrOXMQ-1; Thu, 16 Mar 2023 13:57:51 -0400
+X-MC-Unique: EYTwYe6OPkCTLvOmQrOXMQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABB7496DC83;
+ Thu, 16 Mar 2023 17:57:50 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8F70492B00;
+ Thu, 16 Mar 2023 17:57:49 +0000 (UTC)
+Date: Thu, 16 Mar 2023 13:57:48 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ damien.lemoal@opensource.wdc.com, hare@suse.de,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ dmitry.fomichev@wdc.com, Thomas Huth <thuth@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH v16 0/8] Add support for zoned device
+Message-ID: <20230316175748.GA63600@fedora>
+References: <20230310102403.61347-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: kWeN7j8hS4ozcCNxxaJTXJ11p_D1oXdb
-X-Proofpoint-ORIG-GUID: 4L0bqp2FTDTwlShBjaslPiCpzRmkiYIR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-16_11,2023-03-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- bulkscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0 mlxscore=0
- clxscore=1015 spamscore=0 suspectscore=0 impostorscore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303160135
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xInePHa6e0PjMl6x"
+Content-Disposition: inline
+In-Reply-To: <20230310102403.61347-1-faithilikerun@gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,317 +86,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-03-15 at 01:11 +0100, Ilya Leoshkevich wrote:
-> > Test EXECUTE and EXECUTE RELATIVE LONG with relative long instructions
-> > as targets.
-> >=20
-> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+--xInePHa6e0PjMl6x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Some comments below.
+On Fri, Mar 10, 2023 at 06:23:55PM +0800, Sam Li wrote:
+> Zoned Block Devices (ZBDs) devide the LBA space to block regions called z=
+ones
+> that are larger than the LBA size. It can only allow sequential writes, w=
+hich
+> reduces write amplification in SSD, leading to higher throughput and incr=
+eased
+> capacity. More details about ZBDs can be found at:
+>=20
+> https://zonedstorage.io/docs/introduction/zoned-storage
+>=20
+> The zoned device support aims to let guests (virtual machines) access zon=
+ed
+> storage devices on the host (hypervisor) through a virtio-blk device. This
+> involves extending QEMU's block layer and virtio-blk emulation code.  In =
+its
+> current status, the virtio-blk device is not aware of ZBDs but the guest =
+sees
+> host-managed drives as regular drive that will runs correctly under the m=
+ost
+> common write workloads.
+>=20
+> This patch series extend the block layer APIs with the minimum set of zon=
+ed
+> commands that are necessary to support zoned devices. The commands are - =
+Report
+> Zones, four zone operations and Zone Append.
+>=20
+> There has been a debate on whethre introducing new zoned_host_device Bloc=
+kDriver
+> specifically for zoned devices. In the end, it's been decided to stick to
+> existing host_device BlockDriver interface by only adding new zoned opera=
+tions
+> inside it. The benefit of that is to avoid further changes - one example =
+is
+> command line syntax - to the applications like Libvirt using QEMU zoned
+> emulation.
+>=20
+> It can be tested on a null_blk device using qemu-io or qemu-iotests. For
+> example, to test zone report using qemu-io:
+> $ path/to/qemu-io --image-opts -n driver=3Dhost_device,filename=3D/dev/nu=
+llb0
+> -c "zrp offset nr_zones"
+>=20
+> v16:
+> - update zoned_host device name to host_device [Stefan]
+> - fix probing zoned device blocksizes [Stefan]
+> - Use empty fields instead of changing struct size of BlkRwCo [Kevin, Ste=
+fan]
+>=20
+> v15:
+> - drop zoned_host_device BlockDriver
+> - add zoned device option to host_device driver instead of introducing a =
+new
+>   zoned_host_device BlockDriver [Stefan]
+>=20
+> v14:
+> - address Stefan's comments of probing block sizes
+>=20
+> v13:
+> - add some tracing points for new zone APIs [Dmitry]
+> - change error handling in zone_mgmt [Damien, Stefan]
+>=20
+> v12:
+> - address review comments
+>   * drop BLK_ZO_RESET_ALL bit [Damien]
+>   * fix error messages, style, and typos[Damien, Hannes]
+>=20
+> v11:
+> - address review comments
+>   * fix possible BLKZONED config compiling warnings [Stefan]
+>   * fix capacity field compiling warnings on older kernel [Stefan,Damien]
+>=20
+> v10:
+> - address review comments
+>   * deal with the last small zone case in zone_mgmt operations [Damien]
+>   * handle the capacity field outdated in old kernel(before 5.9) [Damien]
+>   * use byte unit in block layer to be consistent with QEMU [Eric]
+>   * fix coding style related problems [Stefan]
+>=20
+> v9:
+> - address review comments
+>   * specify units of zone commands requests [Stefan]
+>   * fix some error handling in file-posix [Stefan]
+>   * introduce zoned_host_devcie in the commit message [Markus]
+>=20
+> v8:
+> - address review comments
+>   * solve patch conflicts and merge sysfs helper funcations into one patch
+>   * add cache.direct=3Don check in config
+>=20
+> v7:
+> - address review comments
+>   * modify sysfs attribute helper funcations
+>   * move the input validation and error checking into raw_co_zone_* funct=
+ion
+>   * fix checks in config
+>=20
+> v6:
+> - drop virtio-blk emulation changes
+> - address Stefan's review comments
+>   * fix CONFIG_BLKZONED configs in related functions
+>   * replace reading fd by g_file_get_contents() in get_sysfs_str_val()
+>   * rewrite documentation for zoned storage
+>=20
+> v5:
+> - add zoned storage emulation to virtio-blk device
+> - add documentation for zoned storage
+> - address review comments
+>   * fix qemu-iotests
+>   * fix check to block layer
+>   * modify interfaces of sysfs helper functions
+>   * rename zoned device structs according to QEMU styles
+>   * reorder patches
+>=20
+> v4:
+> - add virtio-blk headers for zoned device
+> - add configurations for zoned host device
+> - add zone operations for raw-format
+> - address review comments
+>   * fix memory leak bug in zone_report
+>   * add checks to block layers
+>   * fix qemu-iotests format
+>   * fix sysfs helper functions
+>=20
+> v3:
+> - add helper functions to get sysfs attributes
+> - address review comments
+>   * fix zone report bugs
+>   * fix the qemu-io code path
+>   * use thread pool to avoid blocking ioctl() calls
+>=20
+> v2:
+> - add qemu-io sub-commands
+> - address review comments
+>   * modify interfaces of APIs
+>=20
+> v1:
+> - add block layer APIs resembling Linux ZoneBlockDevice ioctls
+>=20
+> Sam Li (8):
+>   include: add zoned device structs
+>   file-posix: introduce helper functions for sysfs attributes
+>   block: add block layer APIs resembling Linux ZonedBlockDevice ioctls
+>   raw-format: add zone operations to pass through requests
+>   config: add check to block layer
+>   qemu-iotests: test new zone operations
+>   block: add some trace events for new block layer APIs
+>   docs/zoned-storage: add zoned device documentation
+>=20
+>  block.c                                |  19 ++
+>  block/block-backend.c                  | 133 ++++++++
+>  block/file-posix.c                     | 446 +++++++++++++++++++++++--
+>  block/io.c                             |  41 +++
+>  block/raw-format.c                     |  18 +
+>  block/trace-events                     |   2 +
+>  docs/devel/zoned-storage.rst           |  43 +++
+>  docs/system/qemu-block-drivers.rst.inc |   6 +
+>  include/block/block-common.h           |  43 +++
+>  include/block/block-io.h               |   9 +
+>  include/block/block_int-common.h       |  29 ++
+>  include/block/raw-aio.h                |   6 +-
+>  include/sysemu/block-backend-io.h      |  18 +
+>  meson.build                            |   4 +
+>  qemu-io-cmds.c                         | 149 +++++++++
+>  tests/qemu-iotests/tests/zoned.out     |  53 +++
+>  tests/qemu-iotests/tests/zoned.sh      |  86 +++++
+>  17 files changed, 1068 insertions(+), 37 deletions(-)
+>  create mode 100644 docs/devel/zoned-storage.rst
+>  create mode 100644 tests/qemu-iotests/tests/zoned.out
+>  create mode 100755 tests/qemu-iotests/tests/zoned.sh
+>=20
+> --=20
+> 2.39.2
+>=20
 
-> > ---
-> >  tests/tcg/s390x/Makefile.target    |   1 +
-> >  tests/tcg/s390x/ex-relative-long.c | 159 +++++++++++++++++++++++++++++
-> >  2 files changed, 160 insertions(+)
-> >  create mode 100644 tests/tcg/s390x/ex-relative-long.c
-> >=20
-> > diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile=
-.target
-> > index cf93b966862..90bc48227db 100644
-> > --- a/tests/tcg/s390x/Makefile.target
-> > +++ b/tests/tcg/s390x/Makefile.target
-> > @@ -29,6 +29,7 @@ TESTS+=3Dclst
-> >  TESTS+=3Dlong-double
-> >  TESTS+=3Dcdsg
-> >  TESTS+=3Dchrl
-> > +TESTS+=3Dex-relative-long
-> > =20
-> >  cdsg: CFLAGS+=3D-pthread
-> >  cdsg: LDFLAGS+=3D-pthread
-> > diff --git a/tests/tcg/s390x/ex-relative-long.c b/tests/tcg/s390x/ex-re=
-lative-long.c
-> > new file mode 100644
-> > index 00000000000..4caa8c1b962
-> > --- /dev/null
-> > +++ b/tests/tcg/s390x/ex-relative-long.c
-> > @@ -0,0 +1,159 @@
-> > +/* Check EXECUTE with relative long instructions as targets. */
-> > +#include <stdlib.h>
-> > +#include <stdio.h>
-> > +
-> > +struct test {
-> > +    const char *name;
-> > +    long (*func)(long reg, long *cc);
-> > +    long exp_reg;
-> > +    long exp_mem;
-> > +    long exp_cc;
-> > +};
-> > +
-> > +/*
-> > + * Each test sets the MEM_IDXth element of the mem array to MEM and us=
-es a
-> > + * single relative long instruction on it. The other elements remain z=
-ero.
-> > + * This is in order to prevent stumbling upon MEM in random memory in =
-case
-> > + * there is an off-by-a-small-value bug.
-> > + *
-> > + * Note that while gcc supports the ZL constraint for relative long op=
-erands,
-> > + * clang doesn't, so the assembly code accesses mem[MEM_IDX] using MEM=
-_ASM.
-> > + */
-> > +long mem[0x1000];
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-This could be static, no?
+--xInePHa6e0PjMl6x
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > +#define MEM_IDX 0x800
-> > +#define MEM_ASM "mem+0x800*8"
-> > +
-> > +/* Initial %r2 value. */
-> > +#define REG 0x1234567887654321
-> > +
-> > +/* Initial mem[MEM_IDX] value. */
-> > +#define MEM 0xfedcba9889abcdef
-> > +
-> > +/* Initial cc value. */
-> > +#define CC 0
-> > +
-> > +/* Relative long instructions and their expected effects. */
-> > +#define FOR_EACH_INSN(F)                                              =
-         \
+-----BEGIN PGP SIGNATURE-----
 
-You could define some macros and then calculate a bunch of values in the ta=
-ble, i.e.
-#define SL(v) ((long)(v))
-#define UL(v) ((unsigned long)(v))
-#define SI(v, i) ((int)(v >> ((1 - i) * 32)))
-#define UI(v, i) ((unsigned int)(v >> ((1 - i) * 32)))
-#define SH(v, i) ((short)(v >> ((3 - i) * 16)))
-#define UH(v, i) ((unsigned short)(v >> ((3 - i) * 16)))
-#define CMP(f, s) ((f) =3D=3D (s) ? 0 : ((f) < (s) ? 1 : 2 ))
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQTWJwACgkQnKSrs4Gr
+c8jZuwgApjWTNHu9S6y3J6NT9CmF22vxHMJJIXfTktXq17olbtGGhBGoTVB8f5Nr
+lmcI0wXEg6R/bjx9VVm9T/7PfNaDcgmaNopF2CwvpYtsJPGw5xD3Ud57BpNPowjx
+Vh9uP8ECcfX6QI+4VY02PVtOIoBpx7A3fgSgvARKUIWt5HvTqIDINT5w0i8mAU1g
+HTG35DjFjt6DJmelgwfR75/C3rCsibSaZ5y25qBS31teqYE6LOlLwy5Ckau9W6iN
+6XhseWnU3yp9D/SJvhlbwZ76vwy7bZWPP6r/K8CqzKkR9ssl92i1W8F4lBENJnrf
+56hpZnHj8k3zy+EipJTof0IjDwVPDg==
+=BGav
+-----END PGP SIGNATURE-----
 
-F(cgfrl,  REG,                 MEM,                CMP(SL(REG), SI(MEM, 0))
-
-But everything checks out, so no need.
-
-> > +    F(cgfrl,  REG,                 MEM,                2)             =
-         \
-> > +    F(cghrl,  REG,                 MEM,                2)             =
-         \
-> > +    F(cgrl,   REG,                 MEM,                2)             =
-         \
-> > +    F(chrl,   REG,                 MEM,                1)             =
-         \
-> > +    F(clgfrl, REG,                 MEM,                2)             =
-         \
-> > +    F(clghrl, REG,                 MEM,                2)             =
-         \
-> > +    F(clgrl,  REG,                 MEM,                1)             =
-         \
-> > +    F(clhrl,  REG,                 MEM,                2)             =
-         \
-> > +    F(clrl,   REG,                 MEM,                1)             =
-         \
-> > +    F(crl,    REG,                 MEM,                1)             =
-         \
-> > +    F(larl,   (long)&mem[MEM_IDX], MEM,                CC)            =
-         \
-> > +    F(lgfrl,  0xfffffffffedcba98,  MEM,                CC)            =
-         \
-> > +    F(lghrl,  0xfffffffffffffedc,  MEM,                CC)            =
-         \
-> > +    F(lgrl,   MEM,                 MEM,                CC)            =
-         \
-> > +    F(lhrl,   0x12345678fffffedc,  MEM,                CC)            =
-         \
-> > +    F(llghrl, 0x000000000000fedc,  MEM,                CC)            =
-         \
-> > +    F(llhrl,  0x123456780000fedc,  MEM,                CC)            =
-         \
-> > +    F(lrl,    0x12345678fedcba98,  MEM,                CC)            =
-         \
-> > +    F(stgrl,  REG,                 REG,                CC)            =
-         \
-> > +    F(sthrl,  REG,                 0x4321ba9889abcdef, CC)            =
-         \
-> > +    F(strl,   REG,                 0x8765432189abcdef, CC)
-> > +
-> > +/* Test functions. */
-> > +#define DEFINE_EX_TEST(insn, exp_reg, exp_mem, exp_cc)                =
-         \
-> > +    static long test_ex_ ## insn(long reg, long *cc)                  =
-         \
-> > +    {                                                                 =
-         \
-> > +        register long reg_val asm("r2");                              =
-         \
-> > +        long cc_val, mask, target;                                    =
-         \
-> > +                                                                      =
-         \
-> > +        reg_val =3D reg;                                              =
-           \
-> > +        asm("xgr %[cc_val],%[cc_val]\n"  /* initial cc */             =
-         \
-
-This confused me for a bit because it's not about cc_val at all.
-Maybe do "cr %%r0,%%r0\n" instead?
-Could also push it down before the ex, since that's where the change we car=
-e about
-takes place.
-
-> > +            "lghi %[mask],0x20\n"        /* make target use %r2 */    =
-         \
-> > +            "larl %[target],0f\n"                                     =
-         \
-> > +            "ex %[mask],0(%[target])\n"                               =
-         \
-> > +            "jg 1f\n"                                                 =
-         \
-> > +            "0: " #insn " %%r0," MEM_ASM "\n"                         =
-         \
-> > +            "1: ipm %[cc_val]\n"                                      =
-         \
-> > +            : [cc_val] "=3D&r" (cc_val)                               =
-           \
-> > +            , [mask] "=3D&r" (mask)                                   =
-           \
-> > +            , [target] "=3D&r" (target)                               =
-           \
-> > +            , [reg_val] "+&r" (reg_val)                               =
-         \
-> > +            : : "cc", "memory");                                      =
-         \
-> > +        reg =3D reg_val;                                              =
-           \
-
-What is the point of this assignment?
-
-> > +        *cc =3D (cc_val >> 28) & 3;                                   =
-           \
-> > +                                                                      =
-         \
-> > +        return reg_val;                                               =
-         \
-> > +    }
-> > +
-> > +#define DEFINE_EXRL_TEST(insn, exp_reg, exp_mem, exp_cc)              =
-         \
-> > +    static long test_exrl_ ## insn(long reg, long *cc)                =
-         \
-> > +    {                                                                 =
-         \
-> > +        register long reg_val asm("r2");                              =
-         \
-> > +        long cc_val, mask;                                            =
-         \
-> > +                                                                      =
-         \
-> > +        reg_val =3D reg;                                              =
-           \
-> > +        asm("xgr %[cc_val],%[cc_val]\n"  /* initial cc */             =
-         \
-> > +            "lghi %[mask],0x20\n"        /* make target use %r2 */    =
-         \
-> > +            "exrl %[mask],0f\n"                                       =
-         \
-> > +            "jg 1f\n"                                                 =
-         \
-> > +            "0: " #insn " %%r0," MEM_ASM "\n"                         =
-         \
-> > +            "1: ipm %[cc_val]\n"                                      =
-         \
-> > +            : [cc_val] "=3D&r" (cc_val)                               =
-           \
-> > +            , [mask] "=3D&r" (mask)                                   =
-           \
-> > +            , [reg_val] "+&r" (reg_val)                               =
-         \
-> > +            : : "cc", "memory");                                      =
-         \
-> > +        reg =3D reg_val;                                              =
-           \
-> > +        *cc =3D (cc_val >> 28) & 3;                                   =
-           \
-> > +                                                                      =
-         \
-> > +        return reg_val;                                               =
-         \
-> > +    }
-> > +
-> > +FOR_EACH_INSN(DEFINE_EX_TEST)
-> > +FOR_EACH_INSN(DEFINE_EXRL_TEST)
-> > +
-> > +/* Test definitions. */
-> > +#define REGISTER_EX_EXRL_TEST(ex_insn, insn, _exp_reg, _exp_mem, _exp_=
-cc)      \
-> > +    {                                                                 =
-         \
-> > +        .name =3D #ex_insn " " #insn,                                 =
-           \
-> > +        .func =3D test_ ## ex_insn ## _ ## insn,                      =
-           \
-> > +        .exp_reg =3D (long)(_exp_reg),                                =
-           \
-> > +        .exp_mem =3D (long)(_exp_mem),                                =
-           \
-> > +        .exp_cc =3D (long)(_exp_cc),                                  =
-           \
-
-You don't need the casts, do you?
-
-> > +    },
-> > +
-> > +#define REGISTER_EX_TEST(insn, exp_reg, exp_mem, exp_cc)              =
-         \
-> > +    REGISTER_EX_EXRL_TEST(ex, insn, exp_reg, exp_mem, exp_cc)
-> > +
-> > +#define REGISTER_EXRL_TEST(insn, exp_reg, exp_mem, exp_cc)            =
-         \
-> > +    REGISTER_EX_EXRL_TEST(exrl, insn, exp_reg, exp_mem, exp_cc)
-> > +
-> > +static const struct test tests[] =3D {
-> > +    FOR_EACH_INSN(REGISTER_EX_TEST)
-> > +    FOR_EACH_INSN(REGISTER_EXRL_TEST)
-> > +};
-> > +
-> > +/* Loop over all tests and run them. */
-> > +int main(void)
-> > +{
-> > +    const struct test *test;
-> > +    int ret =3D EXIT_SUCCESS;
-> > +    long reg, cc;
-> > +    size_t i;
-> > +
-> > +    for (i =3D 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
-> > +        test =3D &tests[i];
-> > +        mem[MEM_IDX] =3D MEM;
-> > +        cc =3D -1;
-> > +        reg =3D test->func(REG, &cc);
-> > +#define ASSERT_EQ(expected, actual) do {                              =
-         \
-> > +    if (expected !=3D actual) {                                       =
-           \
-> > +        fprintf(stderr, "%s: " #expected " (0x%lx) !=3D " #actual " (0=
-x%lx)\n",  \
-> > +                test->name, expected, actual);                        =
-         \
-> > +        ret =3D EXIT_FAILURE;                                         =
-           \
-> > +    }                                                                 =
-         \
-> > +} while (0)
-> > +        ASSERT_EQ(test->exp_reg, reg);
-> > +        ASSERT_EQ(test->exp_mem, mem[MEM_IDX]);
-> > +        ASSERT_EQ(test->exp_cc, cc);
-> > +#undef ASSERT_EQ
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-
+--xInePHa6e0PjMl6x--
 
 
