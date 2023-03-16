@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A8B6BCB9E
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D606BCB9B
 	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 10:55:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pckJm-0001Mg-0w; Thu, 16 Mar 2023 05:54:42 -0400
+	id 1pckJk-0001M2-KR; Thu, 16 Mar 2023 05:54:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pckJk-0001M3-4x
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 05:54:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pckJi-0001Lh-Ik
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 05:54:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pckJi-0008R1-JR
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 05:54:39 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pckJg-0008Qu-UU
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 05:54:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678960477;
+ s=mimecast20190719; t=1678960475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KzXSWvS3WphAtrC1nmb2sejuoYPah4Of5n/G+rwFMF0=;
- b=MkFI6RRxvyUuSCwwKq3VW4idaD6cNOu1EEFjYdeuXmezECELMbpRgS/xl0vzXx8WjfGN2T
- Fkj477ncQaN6NTl+bgDeCGPz1wNpr1vEWg7b/H6kHArWWsPOOO5jQapUDhCjBrERNJFgWo
- Vc5sEKhr2+uS1urbBex5DThCbGJxN8Y=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DndkP7rxaCJuMh8eSLslzEewJWi6k8NcWE+Pw5U3mYA=;
+ b=CRX5tO1zCRmBga0gjCvwrAkTPqFKdcXTfoYLkm7WGSDzrOym56rrg774W8COHKeyG25lg3
+ sDHq/WkRRsKyO4s1Uw2BxGHrPhWIknDjgd8B8WIf0dQnc44cVKIWP20wCLERhq1p95D3IY
+ 8V6Kfma0I5j1GXcI5ywBl3sHjqPkDFE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-MUtpefDxNfSjIcicyQcnBQ-1; Thu, 16 Mar 2023 05:54:34 -0400
-X-MC-Unique: MUtpefDxNfSjIcicyQcnBQ-1
+ us-mta-13-rE_PAbU0MA6pStsd3DlT8A-1; Thu, 16 Mar 2023 05:54:34 -0400
+X-MC-Unique: rE_PAbU0MA6pStsd3DlT8A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 241C387A9E1;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1EAF396DC85;
  Thu, 16 Mar 2023 09:54:34 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.211])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C92A835453;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C925B2A68;
  Thu, 16 Mar 2023 09:54:33 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3D2631801CF6; Thu, 16 Mar 2023 10:54:32 +0100 (CET)
+ id 49FB11801E90; Thu, 16 Mar 2023 10:54:32 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH 0/6] edk2: update to 2023-02 stable tag
-Date: Thu, 16 Mar 2023 10:54:26 +0100
-Message-Id: <20230316095432.1514080-1-kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH 1/6] acpi: enable tests/data/acpi updates
+Date: Thu, 16 Mar 2023 10:54:27 +0100
+Message-Id: <20230316095432.1514080-2-kraxel@redhat.com>
+In-Reply-To: <20230316095432.1514080-1-kraxel@redhat.com>
+References: <20230316095432.1514080-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,57 +80,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Turned out to be a bit more complicated than just
-"update submodule + binaries, done".  One acpi
-test case needs a fix to not use too small numa
-nodes.  So posting this as patch series for
-review first.
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-The patch updating the binaries will probably
-not make it to to the list.  So for testing the
-the branch can be pulled here:
-
-git://git.kraxel.org/qemu edk2-stable202302
-
-Alternatively use "make -C roms efi" to build
-locally (needs cross compilers for arm, aarch64
-and riscv64).
-
-Gerd Hoffmann (6):
-  acpi: enable tests/data/acpi updates
-  bios-tables-test: use 128M numa nodes on aarch64
-  acpi: disable tests/data/acpi updates
-  edk2: update submodule to edk2-stable202302
-  edk2: replace build scripts
-  edk2: update firmware binaries
-
- roms/edk2-build.py                     | 380 +++++++++++++++++++++++++
- tests/qtest/bios-tables-test.c         |   6 +-
- pc-bios/README                         |   4 +-
- pc-bios/edk2-aarch64-code.fd.bz2       | Bin 1161290 -> 1508184 bytes
- pc-bios/edk2-arm-code.fd.bz2           | Bin 1161845 -> 1483149 bytes
- pc-bios/edk2-i386-code.fd.bz2          | Bin 1282120 -> 1695318 bytes
- pc-bios/edk2-i386-secure-code.fd.bz2   | Bin 1473677 -> 1922002 bytes
- pc-bios/edk2-riscv.fd.bz2              | Bin 0 -> 1096418 bytes
- pc-bios/edk2-x86_64-code.fd.bz2        | Bin 1327522 -> 1796544 bytes
- pc-bios/edk2-x86_64-microvm.fd.bz2     | Bin 1309407 -> 1697788 bytes
- pc-bios/edk2-x86_64-secure-code.fd.bz2 | Bin 1513711 -> 1999841 bytes
- roms/Makefile                          |  29 +-
- roms/Makefile.edk2                     | 178 ------------
- roms/edk2                              |   2 +-
- roms/edk2-build.config                 | 124 ++++++++
- roms/edk2-build.sh                     |  55 ----
- roms/edk2-funcs.sh                     | 273 ------------------
- tests/data/acpi/virt/SRAT.acpihmatvirt | Bin 240 -> 240 bytes
- tests/data/acpi/virt/SSDT.memhp        | Bin 1817 -> 1817 bytes
- 19 files changed, 517 insertions(+), 534 deletions(-)
- create mode 100755 roms/edk2-build.py
- create mode 100644 pc-bios/edk2-riscv.fd.bz2
- delete mode 100644 roms/Makefile.edk2
- create mode 100644 roms/edk2-build.config
- delete mode 100755 roms/edk2-build.sh
- delete mode 100644 roms/edk2-funcs.sh
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8bf4..b5ed0904b5ff 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/SRAT.acpihmatvirt",
 -- 
 2.39.2
 
