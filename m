@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A616BD988
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 20:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433D26BDA05
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Mar 2023 21:21:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pctZH-00073O-9i; Thu, 16 Mar 2023 15:47:19 -0400
+	id 1pcu4Y-0000zK-Un; Thu, 16 Mar 2023 16:19:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pctYy-0006xi-O7
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 15:47:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pctYx-0008BA-25
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 15:47:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678996018;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bdTdOJ6+s2GcSWJg3glgRqHLDbFvhpyQGCderohXZ7Y=;
- b=CQ+qbdEJZhMM+ReGBkOcIUBzngbJ7dOeVFc7vNKZRmJF6WkLYtU7lCX3l/lbWX8o4LRgCh
- OklSAioE+HHsrFViJLDjzC9WDV9CbdOutcj6bZR36Nfam4otLFJrWapDaIDDoSx+Eh1UL9
- RkuZzAlkdYkq3WAV79FPvMbCKq3XgMw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-sl2LBpVNMXS-1l3sltPdWw-1; Thu, 16 Mar 2023 15:46:52 -0400
-X-MC-Unique: sl2LBpVNMXS-1l3sltPdWw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2179C884EC3;
- Thu, 16 Mar 2023 19:46:52 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92E5D2166B26;
- Thu, 16 Mar 2023 19:46:51 +0000 (UTC)
-Date: Thu, 16 Mar 2023 15:24:23 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, damien.lemoal@opensource.wdc.com,
- Hanna Reitz <hreitz@redhat.com>, hare@suse.de,
- qemu-block@nongnu.org, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, dmitry.fomichev@wdc.com,
- Cornelia Huck <cohuck@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH v7 0/4] Add zoned storage emulation to virtio-blk driver
-Message-ID: <20230316192423.GG63600@fedora>
-References: <20230310105431.64271-1-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1pcu4S-0000ye-AA
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 16:19:33 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1pcu4Q-0003Jd-J1
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 16:19:31 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ f6-20020a17090ac28600b0023b9bf9eb63so2776592pjt.5
+ for <qemu-devel@nongnu.org>; Thu, 16 Mar 2023 13:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678997968;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VBmt17FzJBkGOsoE6jT9m+lLM5V80VLvu7Mazev7Pbs=;
+ b=CaQQ67DHgs11P5cVlHLt4RbytOk/d+CWw27lgZWjvAdpC/jz25q+Rb54jG+zWVRH8c
+ g2UUveXqQJW3qPxNOX7nO5i134n3k2ggXCGsYZuJ2CBFoOisRYlUhiy+hJ5Wgkp0vKHz
+ DpLD7sc21J+VjGulrBaSuJC6sMp5OYMzTzSNUU34Fq2NQ2/gweh/aHPxS8HGVcCKcRNE
+ 1Gc/hfLF35XMoYOOFUkFLFB9WilHwYezYr83T63A4KNrbwkqIdVfEaWUPGo2IVg86Pi5
+ N4odEgix7QqpEJJDy+msR7uyIBW8xo9/1i1+l9kJ8uO9w72n9hjbDgIqjZsqv1Vzn5Vo
+ p/Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678997968;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VBmt17FzJBkGOsoE6jT9m+lLM5V80VLvu7Mazev7Pbs=;
+ b=1mXVBzR05aO1TCxecliH3cMZkwbc47UTfNBXuzqksBiq4eno3ByHOxx3t9L3/okU1U
+ TSa8yz9g1RQxWzziFa2gff8O/WjyRyfObmGbOjrgaqRqs1CS0Z2ZDvK0WrBKXLT/n8Hb
+ DK3iTvuoE8edpVn06ARA7zc7EI693YlD5ImlxlZKSUJHkCKd8OwbsJ6qLtPqzFma4Bak
+ K8yFpo7Wx09/dAxFxS85niJwle0u+doujkP42hsqOU5/W/yf1g3jMsjB8lINwfbYLxio
+ kg393rY0U7nsCfQWdFNLI+UdW0OfO7r6aVl3TgSO6CWUNPISTFwNy7yfeo6m0qwVbZS6
+ M4vw==
+X-Gm-Message-State: AO0yUKXg9O2r94VApUvbwY/Za2F7xFPcgtxfIkATDoVEcMGiBT4mQQ7u
+ +kNodjylNMFKuxjhCg+7ES3XOgprIIg=
+X-Google-Smtp-Source: AK7set94CPURaQ8I7MIJ5lneAKUNXA8aLuEXxeuSV6KwoEtU9UymGVV8XlZ+MmRXVqypC0T1WYcLnA==
+X-Received: by 2002:a17:90b:1d11:b0:23e:f855:79ee with SMTP id
+ on17-20020a17090b1d1100b0023ef85579eemr5344080pjb.38.1678997968271; 
+ Thu, 16 Mar 2023 13:19:28 -0700 (PDT)
+Received: from octofox.hsd1.ca.comcast.net
+ ([2601:641:401:1d20:4ae:f94c:559c:68f4])
+ by smtp.gmail.com with ESMTPSA id
+ x61-20020a17090a38c300b0023d01900d7bsm149765pjb.0.2023.03.16.13.19.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Mar 2023 13:19:27 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PULL 0/2] target/xtensa TCG test updates
+Date: Thu, 16 Mar 2023 13:19:04 -0700
+Message-Id: <20230316201904.2284949-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="g/veVqzWPfdd0/XF"
-Content-Disposition: inline
-In-Reply-To: <20230310105431.64271-1-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,52 +91,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Peter,
 
---g/veVqzWPfdd0/XF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+please pull the following updates for the target/xtensa TCG tests.
 
-On Fri, Mar 10, 2023 at 06:54:27PM +0800, Sam Li wrote:
-> This patch adds zoned storage emulation to the virtio-blk driver.
->=20
-> The patch implements the virtio-blk ZBD support standardization that is
-> recently accepted by virtio-spec. The link to related commit is at
->=20
-> https://github.com/oasis-tcs/virtio-spec/commit/b4e8efa0fa6c8d844328090ad=
-15db65af8d7d981
->=20
-> The Linux zoned device code that implemented by Dmitry Fomichev has been
-> released at the latest Linux version v6.3-rc1.
->=20
-> Aside: adding zoned=3Don alike options to virtio-blk device will be
-> considered as following-ups in future.
->=20
-> v6:
-> - update headers to v6.3-rc1
+The following changes since commit 27a03171d02ee0de8de4e2d3bed241795d672859:
 
-Hi Sam,
-I had some minor comments but overall this looks good. Looking forward
-to merging it soon!
+  Merge tag 'pull-tcg-20230313' of https://gitlab.com/rth7680/qemu into staging (2023-03-14 10:09:15 +0000)
 
-Thanks,
-Stefan
+are available in the Git repository at:
 
---g/veVqzWPfdd0/XF
-Content-Type: application/pgp-signature; name="signature.asc"
+  https://github.com/OSLL/qemu-xtensa.git tags/20230316-xtensa
 
------BEGIN PGP SIGNATURE-----
+for you to fetch changes up to 51139fb3e7b05dd7daeca8f00748678ce9e087e5:
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQTbOcACgkQnKSrs4Gr
-c8iN3gf/cTsBjYPDxFs2/VXzgYz1TXBEUx7BWJNxiaoZHbU04tw6KYTM2O6qNPql
-kZF3eyAsin3lrIx7JpcPzyKOPycw2G+5aCdGcpGz5dtGPI4ux5j7dB2dixF++XDL
-y85GkodKuGraq6Iv1aEkUZk+ibF19/V/OI/YKcBnydhSYwOo8lW1qDsUA8hdSr6V
-cDG+gPS6wxyrgLZQW1/bBKzr0Kwq+VFvDFEmT/qvgKQwmjiG+sv71Xz2NX2nqNJj
-SMgXCIHAZZo4HAwxBQf/lj30GiqodJHdXt82m8uCeKzG/+zKzH2fS/LorsQtS4do
-xtYAPuhVMZFPVxb8TkI4Z6kLrDZARw==
-=K3sE
------END PGP SIGNATURE-----
+  tests/tcg/xtensa: allow testing big-endian cores (2023-03-15 05:08:04 -0700)
 
---g/veVqzWPfdd0/XF--
+----------------------------------------------------------------
+target/xtensa updates for v8.0:
 
+- enable testing big-endian xtensa cores
+
+----------------------------------------------------------------
+Max Filippov (2):
+      tests/tcg/xtensa: add linker.ld to CLEANFILES
+      tests/tcg/xtensa: allow testing big-endian cores
+
+ MAINTAINERS                                | 1 +
+ tests/tcg/xtensa/Makefile.softmmu-target   | 5 +++--
+ tests/tcg/xtensaeb/Makefile.softmmu-target | 5 +++++
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/xtensaeb/Makefile.softmmu-target
+
+-- 
+Thanks.
+-- Max
 
