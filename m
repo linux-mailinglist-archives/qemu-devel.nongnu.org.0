@@ -2,171 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EF76BEF62
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76AB86BEF79
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:20:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdDhD-0005Uq-Pa; Fri, 17 Mar 2023 13:16:51 -0400
+	id 1pdDkP-0006lt-WD; Fri, 17 Mar 2023 13:20:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Luis.Machado@arm.com>)
- id 1pdDhB-0005UV-TY; Fri, 17 Mar 2023 13:16:49 -0400
-Received: from mail-db3eur04on0629.outbound.protection.outlook.com
- ([2a01:111:f400:fe0c::629]
- helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pdDkN-0006li-OL
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:20:07 -0400
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Luis.Machado@arm.com>)
- id 1pdDhA-0008ER-1X; Fri, 17 Mar 2023 13:16:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgGmCn+uxi2N0k0TyzRZe+PS0aqi8151IkC3L9W4HSs=;
- b=64KlUa2rIigzY1O3yUXgoMhwHIjeF38h9GHmGRQzXEClYVqILOt4Gbhzw9TZTEYbfmMaiHhdAxxwNZgOS/7xrxwKZzzJxM34vOquWfip12o3ieJ3lBzlSqLkzlP2n5WNQVA1CdR/0EfngdMG7ZBDBBw5aJaJD2ffNsOByG29EEA=
-Received: from AM6P195CA0059.EURP195.PROD.OUTLOOK.COM (2603:10a6:209:87::36)
- by AM0PR08MB5489.eurprd08.prod.outlook.com (2603:10a6:208:18e::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.35; Fri, 17 Mar
- 2023 17:16:43 +0000
-Received: from AM7EUR03FT012.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:209:87:cafe::e4) by AM6P195CA0059.outlook.office365.com
- (2603:10a6:209:87::36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.35 via Frontend
- Transport; Fri, 17 Mar 2023 17:16:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT012.mail.protection.outlook.com (100.127.141.26) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6199.20 via Frontend Transport; Fri, 17 Mar 2023 17:16:42 +0000
-Received: ("Tessian outbound cfb430c87a1e:v135");
- Fri, 17 Mar 2023 17:16:42 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 5a9e2311daf09709
-X-CR-MTA-TID: 64aa7808
-Received: from 0238a42ca147.1
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 38221751-AD7A-44B4-B3EA-3D353A9DD488.1; 
- Fri, 17 Mar 2023 17:16:35 +0000
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0238a42ca147.1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Fri, 17 Mar 2023 17:16:35 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fbJ0ibbSxkKIKtKu4vstfzMrrwUZvHAZQgq3hlrUnf/QdeYMdWeqRQeY7NJSFrecmcERsMT9ge8Rjhe61ZvOkXBlKwWqMDsFkX0/dGxd+ox0SV9A+fEnb6wt3BFIqqbtxZeos7XnJ8RdDh0q6WiGUjeqiwSqI0knxnz4wYL3kZ/VyZd3T/jORs8ecKl9Pd0JA6EQoM3g3kRXsjyvlk3JjgeUCMxu1ftqq1DZQhCCA+h3R3+/S+39Md91YMw3I9jqXKouFeSexuBA/eVEIUdfaJLp37uDc/AmTO2doqapEkLUhsBhkzjslW8Kr0IANZUspyLBsEP5/AILL/04wrzg3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fgGmCn+uxi2N0k0TyzRZe+PS0aqi8151IkC3L9W4HSs=;
- b=Gkql3aGIzVp8N6vTqW0Jh82ZjY9lNEzsnLNLhodv2VBWMMdAgVWikEI7OI0o47SXtHRBKmR3TsU64zEzupkiBqB0oUlQQJ7FRqZTonhfO3aM7XIVSCjOEHhcPcfgC0Tx4YsquniWj/fGrCWO37nkQ9hbZ2FpunLPsSIWkmR5F7Tidbam3yUrzGq9ACPHMnQtKR4LHnEM5XtvO/8zDa4ggOd3nKIcUP/bT0ERO8jdUiHgb/AaWGVnK6z91+6z6Ws0mM3QcuEQrQWE0wK2+jXulgXBw/YaDexFJ75T5Du99T0yVhpA6IwIWlqyTdmDKZ7LrgjsFTqM1EO818Qmj6UnlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgGmCn+uxi2N0k0TyzRZe+PS0aqi8151IkC3L9W4HSs=;
- b=64KlUa2rIigzY1O3yUXgoMhwHIjeF38h9GHmGRQzXEClYVqILOt4Gbhzw9TZTEYbfmMaiHhdAxxwNZgOS/7xrxwKZzzJxM34vOquWfip12o3ieJ3lBzlSqLkzlP2n5WNQVA1CdR/0EfngdMG7ZBDBBw5aJaJD2ffNsOByG29EEA=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI1PR08MB3919.eurprd08.prod.outlook.com (2603:10a6:803:c4::31)
- by DB9PR08MB9537.eurprd08.prod.outlook.com (2603:10a6:10:459::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.29; Fri, 17 Mar
- 2023 17:16:31 +0000
-Received: from VI1PR08MB3919.eurprd08.prod.outlook.com
- ([fe80::bced:32a3:b77e:90a6]) by VI1PR08MB3919.eurprd08.prod.outlook.com
- ([fe80::bced:32a3:b77e:90a6%5]) with mapi id 15.20.6178.035; Fri, 17 Mar 2023
- 17:16:30 +0000
-Message-ID: <24f4ee9e-0155-403b-06ee-ea4b1f0512e2@arm.com>
-Date: Fri, 17 Mar 2023 17:16:16 +0000
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pdDkL-0000Jq-5I
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:20:07 -0400
+Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:5398:0:640:443b:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 6E7B960275;
+ Fri, 17 Mar 2023 20:19:50 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b68e::1:34] (unknown
+ [2a02:6b8:b081:b68e::1:34])
+ by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id lJpxgO0h3iE0-me8MNWSD; Fri, 17 Mar 2023 20:19:49 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1679073589; bh=6LomDRG4nR+efSRxGTuQTm5WspZMhTAGhIr+0ABV5MM=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=SeMcZe3CsVRsXDYdv10C0YBC1vn6XBZhJ2C/FGbHtVw0Lage0NJjb5UiVuprUYyvx
+ WWOKPkPUK60mIV8yWvbw1a1OUlKaXRhJwZgRwkW0px5OTEo3H9Nkh91R3xDKHJ9QMy
+ CjlpNBHGGTUnNPjXrFrHb9Yy7G064UQkB4b8RZP8=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <035ba8d3-7943-ae8d-f4b2-76ac4fd74cf0@yandex-team.ru>
+Date: Fri, 17 Mar 2023 19:19:46 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 09/11] tests/tcg: disable pauth for aarch64 gdb tests
-Content-Language: en-US
-From: Luis Machado <luis.machado@arm.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, gdb <gdb@gnu.org>,
- Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
- Omair Javaid <omair.javaid@linaro.org>
-References: <20230310103123.2118519-1-alex.bennee@linaro.org>
- <20230310103123.2118519-10-alex.bennee@linaro.org>
- <CAFEAcA89K6_-Uc0XmEa1q+_z_yuppq1kvh=uPfv9V80MBH=aQg@mail.gmail.com>
- <87wn3ocwqz.fsf@suse.de> <87sfeclb8o.fsf@linaro.org>
- <CAFEAcA8SFtzMAFPaE=_CJtwXDYiJQ8rDWgEE+Nx2Qz=-FjCmMA@mail.gmail.com>
- <9bb8ab52-c6ae-95a7-e6c8-64bcce166c19@arm.com>
- <caf97353-d116-976c-72c7-953b0cad956c@arm.com>
- <CAFEAcA9WbEaCUXWcGT1+nj5u+zjWrm_+58X1-ZyrvUoeWcOdZQ@mail.gmail.com>
- <7b032516-913f-87fa-eeb7-c38a8676465a@arm.com>
- <CAFEAcA8gDqrg3Hjv=0P-6m-bHytoHrYRSrrY1anu3gGZuQaL1Q@mail.gmail.com>
- <284bbdeb-f68c-a0fb-4bec-e000eeef771f@arm.com>
-In-Reply-To: <284bbdeb-f68c-a0fb-4bec-e000eeef771f@arm.com>
+Subject: Re: [RFC 2/2] vhost-user-fs: Implement stateful migration
+Content-Language: en-US, ru-RU
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20230313174833.28790-1-hreitz@redhat.com>
+ <20230313174833.28790-3-hreitz@redhat.com>
+From: Anton Kuchin <antonkuchin@yandex-team.ru>
+In-Reply-To: <20230313174833.28790-3-hreitz@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SN7PR04CA0190.namprd04.prod.outlook.com
- (2603:10b6:806:126::15) To VI1PR08MB3919.eurprd08.prod.outlook.com
- (2603:10a6:803:c4::31)
-MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI1PR08MB3919:EE_|DB9PR08MB9537:EE_|AM7EUR03FT012:EE_|AM0PR08MB5489:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6a6f4f22-139b-45f6-f044-08db270b60d1
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: HCTmb52iY4ivHSrF52lG9jXKNHPPTcFWeeoTh3cxKOUKqzr96eKvofhK4xIToWp3oaA0GnhoMCs43tK6sC4h/K+ewxy5yrNXHLXAY1c8u+tlA9mnlaX6hYKJp4fMpJaLz28dPHF4hpeFaCdO0XUcORGTPv7QbfFN3o6tVxb9w97boHR3fXacwqM4DZQHK//nh+BhqtjpgkZhVdF7Uvc9aewxSsDJBix3Tz1j09g5W/HR0vLIrWsK+rCj1LNlOb8fjrzMMIP5vEdVPfOwDLP9fECsMe2UmXcF+J+fTAJRRdms6EFBJEMPRh2FAx70WAlvYjPZDGrh1m2UXW68QI8uTHm8hTwt/bdw7vQptFRo6tDoIcu9ECmdDwZK3zme5IIfjFEs4xQSYmbPJS8d0BFy5etWMUKAZee0sm357sZ7P4JGh3fmXENXX8JmuzMr/GWjA8AXg80oJqoXrjdQ29drxb+OUUFHZDtHBeM0eL8JzvzV4W5sZDfADCgR7cjfPsLtTIoegjKFv48egbrqptGLnBcCRkO5s0/OsmGZyq5XfFfzO87M6jysd3fyRekyFj8VkPL9g81yrirP9BOmi+p4Um+tf1TnkLOyoFeKei4A7NwwhAGzZvcnutz71cGosuxkQiJeZYw9ZpxYPM6yUoAbJw3y/Lp9fxhMCNtORHpvRH2VFjNR7/b2do3NhvZ8VxZkxWJYTL8ngALsEwKmhY/3HYbAP1MFgI0Der6LFpViii4=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI1PR08MB3919.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(136003)(396003)(346002)(39860400002)(366004)(451199018)(6486002)(31686004)(6666004)(2906002)(186003)(26005)(6512007)(53546011)(6506007)(7416002)(5660300002)(2616005)(66476007)(44832011)(478600001)(36756003)(31696002)(8676002)(6916009)(83380400001)(54906003)(4326008)(38100700002)(316002)(8936002)(66556008)(66946007)(86362001)(41300700001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB9537
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT012.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: f7a50f9e-f62d-41fc-9e42-08db270b5954
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KfRL8u5OBQwgaISyW7JwZPEYOAZd7BC3Ax2vUlXB6lgept/NNcvE1T8tPUCuMDr0zipbnt4yr02AxKiaMhbs27Xp03+h6KDQZmrHbb+jvqwlRWt/yPD4nbIw4NNBfR4AJkt7sP+I7nZL6c1LwUBoT6dmSw1Vw664MzqomwNeO9SBQnQpEBe6+uzhmn02IZ4YXPD/UVv6rPSbbW0RU0Jda4ExIVYKBi8WhlGL/FG+5IE/h4PFY0Q8SQkvXFtpO6T09jcMEABlobnXGq9hO0J3lzGYK/wCyhWPowArSpfStEt5N2A5GtQ6M6a3LfuX4vEUgagasKkfKQaGmZ+6A81Q5gMygUne8yJpJ08e90FrxlZTqIhRy7jOoNXVD7TWSRa0P+KXLGZEydtc9K+064z7iqGSBINELP+Co5xVsX55z23+/4wYWskbiaaDG8VxsCgtVo/zQDS9cKaUH35qng4ercKnILGWOdnNKL4xsI86X4Fn4nbNnYrejXVIXiDfqdatD+PfX2BuOzxYc0j0tap4Gn5ea3PsUvZAAHSLTEgJlM/jKBaImiJ3KkG70NKXbgczXBFUW4tsN9BkQDLs+c2PccczV2cndO40rFalM6S+bvcrRsvItCAtJmtn41H6lAH8bscHTEUa8La6BnNA+zQKyNA101GqhjnjTsZwanR/QaZVSa1zphPtPXghk6PcrrqXojAnzzL4GL6pwq8IGooaz6qG3u7M7VuVK8VNfOXJx84=
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(376002)(136003)(396003)(346002)(451199018)(40470700004)(46966006)(36840700001)(31686004)(40460700003)(36756003)(44832011)(41300700001)(8936002)(6862004)(2906002)(31696002)(5660300002)(36860700001)(356005)(86362001)(81166007)(82740400003)(478600001)(450100002)(8676002)(6666004)(6486002)(70586007)(70206006)(4326008)(82310400005)(47076005)(336012)(40480700001)(6512007)(316002)(107886003)(83380400001)(54906003)(186003)(53546011)(2616005)(6506007)(26005)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2023 17:16:42.4770 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a6f4f22-139b-45f6-f044-08db270b60d1
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT012.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5489
-Received-SPF: pass client-ip=2a01:111:f400:fe0c::629;
- envelope-from=Luis.Machado@arm.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -182,75 +79,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/17/23 17:12, Luis Machado wrote:
-> On 3/17/23 17:07, Peter Maydell wrote:
->> On Fri, 17 Mar 2023 at 16:55, Luis Machado <luis.machado@arm.com> wrote:
->>> On 3/17/23 16:37, Peter Maydell wrote:
->>>> Having run into this problem in another couple of situations, one of
->>>> which involved gdb 10, I think I'm increasingly favouring option
->>>> 2 here. The affected gdbs seem to be quite widely deployed, and
->>>> the bug results in crashes even for users who didn't really
->>>> care about pauth. So I'd rather we didn't release a QEMU 8.0
->>>> which crashes these affected deployed gdbs.
->>>>
->>>
->>> Are the affected gdb's packaged by distros? If so, a backport the distr=
-os can pick up
->>> will solve this in a quick package update.
->>
->> Yes, it's exactly because these gdbs are distro-packaged
->> that I don't want QEMU to make them crash. I think it's
->> going to take a long time for the fix to go into gdb branches
->> and gdb to make a point release and distros to pick up that
->> point release, and in the meantime that's a lot of crashing
->> gdb bug reports that we're going to have to field.
+On 13/03/2023 19:48, Hanna Czenczek wrote:
+> A virtio-fs device's VM state consists of:
+> - the virtio device (vring) state (VMSTATE_VIRTIO_DEVICE)
+> - the back-end's (virtiofsd's) internal state
 >
-> Just to clarify, there won't be any point releases for gdb's 9/10/11/12. =
- We might have a bug fix
-> release for gdb 13 though (which isn't affected).
+> We get/set the latter via the new vhost-user operations FS_SET_STATE_FD,
+> FS_GET_STATE, and FS_SET_STATE.
 >
+> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+> ---
+>   hw/virtio/vhost-user-fs.c | 171 +++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 170 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index 83fc20e49e..df1fb02acc 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -20,8 +20,10 @@
+>   #include "hw/virtio/virtio-bus.h"
+>   #include "hw/virtio/virtio-access.h"
+>   #include "qemu/error-report.h"
+> +#include "qemu/memfd.h"
+>   #include "hw/virtio/vhost.h"
+>   #include "hw/virtio/vhost-user-fs.h"
+> +#include "migration/qemu-file-types.h"
+>   #include "monitor/monitor.h"
+>   #include "sysemu/sysemu.h"
+>   
+> @@ -298,9 +300,176 @@ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
+>       return &fs->vhost_dev;
+>   }
+>   
+> +/**
+> + * Fetch the internal state from the back-end (virtiofsd) and save it
+> + * to `f`.
+> + */
+> +static int vuf_save_state(QEMUFile *f, void *pv, size_t size,
+> +                          const VMStateField *field, JSONWriter *vmdesc)
+> +{
+> +    VirtIODevice *vdev = pv;
+> +    VHostUserFS *fs = VHOST_USER_FS(vdev);
+> +    int memfd = -1;
+> +    /* Size of the shared memory through which to transfer the state */
+> +    const size_t chunk_size = 4 * 1024 * 1024;
+> +    size_t state_offset;
+> +    ssize_t remaining;
+> +    void *shm_buf;
+> +    Error *local_err = NULL;
+> +    int ret, ret2;
+> +
+> +    /* Set up shared memory through which to receive the state from virtiofsd */
+> +    shm_buf = qemu_memfd_alloc("vhost-fs-state", chunk_size,
+> +                               F_SEAL_SEAL | F_SEAL_SHRINK | F_SEAL_GROW,
+> +                               &memfd, &local_err);
+> +    if (!shm_buf) {
+> +        error_report_err(local_err);
+> +        ret = -ENOMEM;
+> +        goto early_fail;
+> +    }
+> +
+> +    /* Share the SHM area with virtiofsd */
+> +    ret = vhost_fs_set_state_fd(&fs->vhost_dev, memfd, chunk_size);
+> +    if (ret < 0) {
+> +        goto early_fail;
 
-Just to complement, my plan is to make the backports available (via stable =
-branch commits) so distro package
-maintainers can pick those up easily. No new releases will be made for olde=
-r gdb's, so the package maintainers
-can pick the backport up as soon as they are pushed. There won't be waiting=
- for a new release of gdb.
+Don't we need some log message here too?
 
->>
->>> If we decide qemu should now emit a different xml for pauth, it will fi=
-x the crashes, but it also
->>> means older gdb's (9/10/11/12) will not be able to backtrace properly t=
-hrough pauth-signed frames.
->>>
->>> Maybe that's a reasonable drawback for qemu users?
->>
->> "No backtrace through pauth frames" is the situation we've
->> been in ever since we implemented pauth in 2019, so I think
->> that's fine. It's not regressing something that used to work.
->>
->
-> Fair enough.
->
->>> If someone decides to implement a debugging stub that reports pauth (fa=
-st models, for example), it will
->>> also crash gdb, so I still plan to do the backport anyway.
->>
->> If you're backporting the fix, you could also backport the
->> (hopefully tiny) change that says "treat pauth_v2 the same
->> way we do pauth", and then users with an updated older
->> gdb will also get working backtraces.
->
-> I can negotiate that as well, though it borders being a new feature.
->
->>
->> thanks
->> -- PMM
->
+> +    }
+> +
+> +    /* Receive the virtiofsd state in chunks, and write them to `f` */
+> +    state_offset = 0;
+> +    do {
+> +        size_t this_chunk_size;
+> +
+> +        remaining = vhost_fs_get_state(&fs->vhost_dev, state_offset,
+> +                                       chunk_size);
+> +        if (remaining < 0) {
+> +            ret = remaining;
+> +            goto fail;
+> +        }
+> +
+> +        /* Prefix the whole state by its total length */
+> +        if (state_offset == 0) {
+> +            qemu_put_be64(f, remaining);
+> +        }
+> +
+> +        this_chunk_size = MIN(remaining, chunk_size);
+> +        qemu_put_buffer(f, shm_buf, this_chunk_size);
+> +        state_offset += this_chunk_size;
+> +    } while (remaining >= chunk_size);
+> +
+> +    ret = 0;
+> +fail:
+> +    /* Have virtiofsd close the shared memory */
+> +    ret2 = vhost_fs_set_state_fd(&fs->vhost_dev, -1, 0);
+> +    if (ret2 < 0) {
+> +        error_report("Failed to remove state FD from the vhost-user-fs back "
+> +                     "end: %s", strerror(-ret));
+> +        if (ret == 0) {
+> +            ret = ret2;
+> +        }
+> +    }
+> +
+> +early_fail:
+> +    if (shm_buf) {
+> +        qemu_memfd_free(shm_buf, chunk_size, memfd);
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +/**
+> + * Load the back-end's (virtiofsd's) internal state from `f` and send
+> + * it over to that back-end.
+> + */
+> +static int vuf_load_state(QEMUFile *f, void *pv, size_t size,
+> +                          const VMStateField *field)
+> +{
+> +    VirtIODevice *vdev = pv;
+> +    VHostUserFS *fs = VHOST_USER_FS(vdev);
+> +    int memfd = -1;
+> +    /* Size of the shared memory through which to transfer the state */
+> +    const size_t chunk_size = 4 * 1024 * 1024;
+> +    size_t state_offset;
+> +    uint64_t remaining;
+> +    void *shm_buf;
+> +    Error *local_err = NULL;
+> +    int ret, ret2;
+> +
+> +    /* The state is prefixed by its total length, read that first */
+> +    remaining = qemu_get_be64(f);
+> +
+> +    /* Set up shared memory through which to send the state to virtiofsd */
+> +    shm_buf = qemu_memfd_alloc("vhost-fs-state", chunk_size,
+> +                               F_SEAL_SEAL | F_SEAL_SHRINK | F_SEAL_GROW,
+> +                               &memfd, &local_err);
+> +    if (!shm_buf) {
+> +        error_report_err(local_err);
+> +        ret = -ENOMEM;
+> +        goto early_fail;
+> +    }
+> +
+> +    /* Share the SHM area with virtiofsd */
+> +    ret = vhost_fs_set_state_fd(&fs->vhost_dev, memfd, chunk_size);
+> +    if (ret < 0) {
+> +        goto early_fail;
+> +    }
+> +
+> +    /*
+> +     * Read the virtiofsd state in chunks from `f`, and send them over
+> +     * to virtiofsd
+> +     */
+> +    state_offset = 0;
+> +    do {
+> +        size_t this_chunk_size = MIN(remaining, chunk_size);
+> +
+> +        if (qemu_get_buffer(f, shm_buf, this_chunk_size) < this_chunk_size) {
+> +            ret = -EINVAL;
+> +            goto fail;
+> +        }
+> +
+> +        ret = vhost_fs_set_state(&fs->vhost_dev, state_offset, this_chunk_size);
+> +        if (ret < 0) {
+> +            goto fail;
+> +        }
+> +
+> +        state_offset += this_chunk_size;
+> +        remaining -= this_chunk_size;
+> +    } while (remaining > 0);
+> +
+> +    ret = 0;
+> +fail:
+> +    ret2 = vhost_fs_set_state_fd(&fs->vhost_dev, -1, 0);
+> +    if (ret2 < 0) {
+> +        error_report("Failed to remove state FD from the vhost-user-fs back "
+> +                     "end -- perhaps it failed to deserialize/apply the state: "
+> +                     "%s", strerror(-ret2));
+> +        if (ret == 0) {
+> +            ret = ret2;
+> +        }
+> +    }
+> +
+> +early_fail:
+> +    if (shm_buf) {
+> +        qemu_memfd_free(shm_buf, chunk_size, memfd);
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>   static const VMStateDescription vuf_vmstate = {
+>       .name = "vhost-user-fs",
+> -    .unmigratable = 1,
+> +    .version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_VIRTIO_DEVICE,
+> +        {
+> +            .name = "back-end",
+> +            .info = &(const VMStateInfo) {
+> +                .name = "virtio-fs back-end state",
+> +                .get = vuf_load_state,
+> +                .put = vuf_save_state,
+> +            },
+> +        },
 
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.
+I've been working on stateless migration patch [1] and there was 
+discussed that we
+need to keep some kind of blocker by default if orchestrators rely on 
+unmigratable
+field in virtio-fs vmstate to block the migration.
+For this purpose I've implemented flag that selects "none" or "external" 
+and is checked
+in pre_save, so it could be extended with "internal" option.
+We didn't come to conclusion if we also need to check incoming 
+migration, the discussion
+has stopped for a while but I'm going back to it now.
+
+I would appreciate if you have time to take a look at the discussion and 
+consider the idea
+proposed there to store internal state as a subsection of vmstate to 
+make it as an option
+but not mandatory.
+
+[1] 
+https://patchew.org/QEMU/20230217170038.1273710-1-antonkuchin@yandex-team.ru/
+
+> +        VMSTATE_END_OF_LIST()
+> +    },
+>   };
+>   
+>   static Property vuf_properties[] = {
 
