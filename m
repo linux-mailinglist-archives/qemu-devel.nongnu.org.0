@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB9C6BF1C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 20:38:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451A16BF212
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 21:04:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdFsj-0000ac-5Q; Fri, 17 Mar 2023 15:36:53 -0400
+	id 1pdGHs-0007ES-Hy; Fri, 17 Mar 2023 16:02:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pdFsg-0000aU-73
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 15:36:50 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pdFsd-00027R-TR
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 15:36:49 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:5398:0:640:443b:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id D8B755F010;
- Fri, 17 Mar 2023 22:36:38 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b71c::1:38] (unknown
- [2a02:6b8:b081:b71c::1:38])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id bar3NP0h2qM0-nQxCr9yP; Fri, 17 Mar 2023 22:36:38 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1679081798; bh=ukNjw6t7ISwvdzm8TjplhCb+t32irVPl5byJyCp1vJc=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=uphR0vsrwpBeEmD1eb6tsdJQdz6QRqS7+3DxSd4gau5O0h2u47rT418EW6DRTlgBs
- EprSdLv41WTB80vN2+oS27INi+le6np2iwJ6oP38v61TMTkw4ozYDz8wPb1RYy/lXF
- njc69tyB7fs822uFcVy2vuYYsjzam2l73gHyHIrc=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <70b83c92-c11d-0715-97e1-b2dd6f6dfffd@yandex-team.ru>
-Date: Fri, 17 Mar 2023 22:36:37 +0300
+ (Exim 4.90_1) (envelope-from <maverickk1778@gmail.com>)
+ id 1pdGHp-0007ED-Kt
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 16:02:49 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maverickk1778@gmail.com>)
+ id 1pdGHn-0001kO-LA
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 16:02:49 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id g6so2789958iov.13
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 13:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679083366;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7m5Nl1TLBO2YdThwBhpaNfE1OKnGNkWKV0Wipt/SmVA=;
+ b=WYUK5vtwIuIRwEzMLX5imckcs4PIHGXHI6HSbk6n0StU9HdmIjveMmZiLYL3zgYIdn
+ hnB1G793afac3XcmFJUAk9qgiTG1NK33l8p9KD1GPk9nxj12vk2lQsfaEFp+VOwWd/Zk
+ zAvhcWb3IQOiGFT1qgtTjexAFIq4EYoOLdHHYbiFMUCWiH/5fSpV3Zxqvs7srGRhQl2s
+ KpKTnYquiluOX6jfuzSz4sD6MtmuBdI/nhpLiFa5mP+NevyXdO++/2sT7EN7vYIU1qAB
+ lCko7pg8syTociG96IqZMIyjrOFwzQ7NMsjpbcz9uzUeQVW0Bo2CyJRmtk8n42KUvPDA
+ yZ7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679083366;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7m5Nl1TLBO2YdThwBhpaNfE1OKnGNkWKV0Wipt/SmVA=;
+ b=yB0Of3g7coBubKBkwdGvIknRo4l+zfvJRqF1qNTHFXrcuuHAs9mtIjbBIJfGO3H5Sl
+ oa0ZctWMMfymTz48jp2BkpjcxPdrbexjngh8Kku6oj/Qem5Mh3MtcuiUbNoKN8jn34ix
+ 7AMmpf4b/Wf9G7ywaCbZKsBdfLEC30qrO84chop8o2lEWNC8nUHZvLBeaZLj9uOVevtb
+ fE9iWJxb6PFIJ9jUpx32nYQuPn3qoFsMW7f4gHXRoRQX8QIOG5bO0Ntcxlxibn2OSrIA
+ CetcNXPHXO3wXwxQ/HPqkTHtXHHwmPMwErfn/baBGVawQtdDP8BEK999ccKpbcToOZGU
+ yNmQ==
+X-Gm-Message-State: AO0yUKUpcP7SK/AW6x96iAbVMvFRiqCAk+J4k+m3NJYSSvShTFTQue02
+ lHQ/brNIKWvYn65EWI70CAte+dFn7VcfCr3Vg1M=
+X-Google-Smtp-Source: AK7set8d5oY1f8zW+ESxBRQrk2iLKb8JpQMQNhOx855BHP8y6L9f8C98KNC6ceCAZ0JpRm8LUQi8+tgBX0rZgLg8bno=
+X-Received: by 2002:a6b:90e:0:b0:74d:5a9:b55a with SMTP id
+ t14-20020a6b090e000000b0074d05a9b55amr326392ioi.0.1679083366071; 
+ Fri, 17 Mar 2023 13:02:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 3/3] python/qemu/machine: use socketpair() for QMP by
- default
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: berrange@redhat.com, Beraldo Leal <bleal@redhat.com>,
- John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Maksim Davydov <davydov-max@yandex-team.ru>
-References: <20230111080101.969151-1-marcandre.lureau@redhat.com>
- <20230111080101.969151-4-marcandre.lureau@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230111080101.969151-4-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CALfBBTuELntcARWxvHyGmYvHbEACujhBq8bphHKnUv_C_z33Bg@mail.gmail.com>
+ <20230317163720.00005c23@Huawei.com> <20230317181205.0000002d@huawei.com>
+In-Reply-To: <20230317181205.0000002d@huawei.com>
+From: Maverickk 78 <maverickk1778@gmail.com>
+Date: Sat, 18 Mar 2023 01:32:35 +0530
+Message-ID: <CALfBBTusFvQJ-dFO-2xZ3e437syvyUC9mgJ4Gi4MT50Cc5iamA@mail.gmail.com>
+Subject: Re: Call failed: MCTP Endpoint did not respond: Qemu CXL switch with
+ mctp-1.0
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Cameron via <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=maverickk1778@gmail.com; helo=mail-io1-xd2f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,160 +86,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi!
+Hi Jonathan,
 
-By my investigation, this commit (bd4c0ef409140bd1be393407c04005ac077d4574) breaks long qmp output again.
-
-Simple test:
-
-$ cd python
-$ cat test.py
-#!/usr/bin/env python3
-
-import sys
-from qemu.machine import QEMUMachine
-
-monitor_address = sys.argv[2] if len(sys.argv) > 2 else None
-vm = QEMUMachine('../build/qemu-system-x86_64',
-                  monitor_address=monitor_address)
-vm.launch()
-
-for x in range(int(sys.argv[1])):
-     vm.qmp('blockdev-add', {'driver': 'null-co', 'node-name': f'x{x}'})
-
-vm.qmp('query-named-block-nodes')
-vm.shutdown()
+Thanks for the quick response, this patch works!
 
 
-./test.py 1000 /tmp/sock
+Regards
+Raghu
 
-   - works, but if use default behavior (socketpair) we get:
-
-$ ./test.py 1000
-Traceback (most recent call last):
-   File "/home/vsementsov/work/src/qemu/master/python/./test.py", line 14, in <module>
-     vm.qmp('query-named-block-nodes')
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/machine/machine.py", line 686, in qmp
-     ret = self._qmp.cmd(cmd, args=qmp_args)
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/legacy.py", line 216, in cmd
-     return self.cmd_obj(qmp_cmd)
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/legacy.py", line 190, in cmd_obj
-     self._sync(
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/legacy.py", line 105, in _sync
-     return self._aloop.run_until_complete(
-   File "/usr/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
-     return future.result()
-   File "/usr/lib/python3.10/asyncio/tasks.py", line 408, in wait_for
-     return await fut
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/qmp_client.py", line 547, in _raw
-     return await self._execute(msg, assign_id=assign_id)
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/qmp_client.py", line 496, in _execute
-     return await self._reply(exec_id)
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/qmp_client.py", line 463, in _reply
-     raise result
-qemu.qmp.qmp_client.ExecInterruptedError: Disconnected
-Exception ignored in: <function QEMUMonitorProtocol.__del__ at 0x7f8708283eb0>
-Traceback (most recent call last):
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/legacy.py", line 318, in __del__
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/legacy.py", line 289, in close
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/legacy.py", line 105, in _sync
-   File "/usr/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
-   File "/usr/lib/python3.10/asyncio/tasks.py", line 408, in wait_for
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/protocol.py", line 413, in disconnect
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/protocol.py", line 725, in _wait_disconnect
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/protocol.py", line 876, in _bh_loop_forever
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/protocol.py", line 914, in _bh_recv_message
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/protocol.py", line 1015, in _recv
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/qmp_client.py", line 402, in _do_recv
-   File "/home/vsementsov/work/src/qemu/master/python/qemu/qmp/protocol.py", line 979, in _readline
-   File "/usr/lib/python3.10/asyncio/streams.py", line 534, in readline
-ValueError: Separator is not found, and chunk exceed the limit
-
-
-
-./test.py 100
-   - works well.
-
-
-On 11.01.23 11:01, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> When no monitor address is given, establish the QMP communication through
-> a socketpair() (API is also supported on Windows since Python 3.5)
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+On Fri, 17 Mar 2023 at 23:42, Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+>
+> On Fri, 17 Mar 2023 16:37:20 +0000
+> Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+>
+> > On Fri, 17 Mar 2023 00:11:10 +0530
+> > Maverickk 78 <maverickk1778@gmail.com> wrote:
+> >
+> > > Hi
+> > >
+> > >  I am trying mctp & mctpd with aspeed +buildroot(master) + linux v6.2
+> > > with Qemu 7.2.
+> > >
+> > >
+> > > I have added necessary FMAPI related patches into QEMU to support CLX
+> > > switch emulation
+> > >
+> > > RFC-1-2-misc-i2c_mctp_cxl_fmapi-Initial-device-emulation.diff
+> > >
+> > > RFC-2-3-hw-i2c-add-mctp-core.diff
+> > >
+> > > RFC-4-4-hw-misc-add-a-toy-i2c-echo-device.diff
+> > >
+> > > RFC-2-2-arm-virt-Add-aspeed-i2c-controller-and-MCTP-EP-to-enable-MCTP-testing.diff
+> > >
+> > > RFC-3-3-hw-nvme-add-nvme-management-interface-model.diff
+> > >
+> > >
+> > > Executed following mctp commands to setup the binding,
+> > >
+> > > mctp link set mctpi2c15 up
+> > >
+> > > mctp addr add 50 dev mctpi2c15
+> > >
+> > > mctp link set mctpi2c15 net 11
+> > >
+> > > systemctl restart mctpd.service
+> > >
+> > > busctl call xyz.openbmc_project.MCTP /xyz/openbmc_project/mctp
+> > > au.com.CodeConstruct.MCTP AssignEndpoint say mctpi2c15 1 0x4d
+> > >
+> > >
+> > >  The above busctl configuration is reaching fmapi patch and sets up
+> > > the endpoint id but then mctpd fails with log after timeout.
+> > >
+> > > Call failed: MCTP Endpoint did not respond
+> > >
+> > > Any clue what's going on?
+> >
+> > Hi Raghu,
+> >
+> > Yikes. Didn't think anyone would still use that series.
+> > Not even sure I still have a tree with it on.
+> >
+> > I'll try and bring up again and get back to you. Might be a little
+> > while though.
+>
+> It is Friday and this was more interesting than what I was planning to do. :)
+>
+> I think the breakage comes from the async send i2c series that was a month
+> or so after the PoC was posted. Issues was it was only entering the _bh once.
+>
+> Following hack works for me on current mainline (+ CXL patches that shouldn't
+> affect this.)
+>
+>
+>
+>
+> From c8d819835faaec2b2a4755eb891284fe21c0747d Mon Sep 17 00:00:00 2001
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Date: Fri, 17 Mar 2023 18:07:08 +0000
+> Subject: [PATCH] misc/i2c_mctp_fmapi: Hack
+>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 > ---
->   python/qemu/machine/machine.py | 24 ++++++++++++++++--------
->   1 file changed, 16 insertions(+), 8 deletions(-)
-> 
-> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> index 748a0d807c..5b2e499e68 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -158,17 +158,13 @@ def __init__(self,
->           self._qmp_timer = qmp_timer
->   
->           self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
-> +        self._sock_pair: Optional[Tuple[socket.socket, socket.socket]] = None
->           self._temp_dir: Optional[str] = None
->           self._base_temp_dir = base_temp_dir
->           self._sock_dir = sock_dir
->           self._log_dir = log_dir
->   
-> -        if monitor_address is not None:
-> -            self._monitor_address = monitor_address
-> -        else:
-> -            self._monitor_address = os.path.join(
-> -                self.sock_dir, f"{self._name}-monitor.sock"
-> -            )
-> +        self._monitor_address = monitor_address
->   
->           self._console_log_path = console_log
->           if self._console_log_path:
-> @@ -303,7 +299,11 @@ def _base_args(self) -> List[str]:
->           args = ['-display', 'none', '-vga', 'none']
->   
->           if self._qmp_set:
-> -            if isinstance(self._monitor_address, tuple):
-> +            if self._sock_pair:
-> +                fd = self._sock_pair[0].fileno()
-> +                os.set_inheritable(fd, True)
-> +                moncdev = f"socket,id=mon,fd={fd}"
-> +            elif isinstance(self._monitor_address, tuple):
->                   moncdev = "socket,id=mon,host={},port={}".format(
->                       *self._monitor_address
->                   )
-> @@ -337,10 +337,17 @@ def _pre_launch(self) -> None:
->               self._remove_files.append(self._console_address)
->   
->           if self._qmp_set:
-> +            monitor_address = None
-> +            sock = None
-> +            if self._monitor_address is None:
-> +                self._sock_pair = socket.socketpair()
-> +                sock = self._sock_pair[1]
->               if isinstance(self._monitor_address, str):
->                   self._remove_files.append(self._monitor_address)
-> +                monitor_address = self._monitor_address
->               self._qmp_connection = QEMUMonitorProtocol(
-> -                self._monitor_address,
-> +                address=monitor_address,
-> +                sock=sock,
->                   server=True,
->                   nickname=self._name
->               )
-> @@ -360,6 +367,7 @@ def _pre_launch(self) -> None:
->           ))
->   
->       def _post_launch(self) -> None:
-> +        self._sock_pair[0].close()
->           if self._qmp_connection:
->               self._qmp.accept(self._qmp_timer)
->   
-
--- 
-Best regards,
-Vladimir
-
+>  hw/misc/i2c_mctp_cxl_fmapi.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/misc/i2c_mctp_cxl_fmapi.c b/hw/misc/i2c_mctp_cxl_fmapi.c
+> index 219e30bfd5..2e2da80264 100644
+> --- a/hw/misc/i2c_mctp_cxl_fmapi.c
+> +++ b/hw/misc/i2c_mctp_cxl_fmapi.c
+> @@ -330,7 +330,7 @@ static int i2c_mctp_cxl_switch_event(I2CSlave *i2c, enum i2c_event event)
+>      case I2C_FINISH:
+>          s->len = 0;
+>          s->state = MCTP_I2C_PROCESS_REQUEST;
+> -        qemu_bh_schedule(s->bh);
+> +        i2c_bus_master(s->bus, s->bh);
+>          return 0;
+>      case I2C_NACK:
+>      default:
+> @@ -671,12 +671,11 @@ static void mctp_bh(void *opaque)
+>
+>      switch (s->state) {
+>      case MCTP_I2C_PROCESS_REQUEST:
+> -        i2c_bus_master(s->bus, s->bh);
+>          s->state = MCTP_I2C_START_SEND;
+> -        return;
+> -
+> +//        return;
+> +        //fallthrough
+>      case MCTP_I2C_START_SEND:
+> -        i2c_start_send(s->bus, s->source_slave_addr);
+> +        i2c_start_send_async(s->bus, s->source_slave_addr);
+>          s->send_buf[s->len] = s->source_slave_addr << 1;
+>          s->len++;
+>          s->state = MCTP_I2C_ACK;
+> --
+> 2.37.2
+>
+>
+> >
+> > Jonathan
+> >
+> >
+> > >
+> > >
+> > > Regards
+> > > Raghu
+> >
+> >
+> >
+>
 
