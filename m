@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422416BED6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 16:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDAE56BEDD4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:16:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdCQr-00036V-5L; Fri, 17 Mar 2023 11:55:53 -0400
+	id 1pdCjQ-00075f-AG; Fri, 17 Mar 2023 12:15:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pdCQn-00034s-T0
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 11:55:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pdCQm-00089a-8u
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 11:55:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679068547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nWx9MbfP6OgPvrdPS3SNZz+FNirgS/HNmlAdI9k6A+o=;
- b=NVVM7sFtm1HXztW4F763IpXvTFmLy+9YtIVMeWYWmbYCd1o8ZC+5/UIOSCkio7tzX3CJIB
- uOpuKOjKn8f6F90rrXaa312bY8KIfTNPGJOg5DJo8AiaYhWOZnFywe00IkOUTXieKWA9uT
- skfiOef07wOevCUVs+Bt72N7ItxPcn8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-318-I7l4vlmVNlauXXUs6e7GWw-1; Fri, 17 Mar 2023 11:55:46 -0400
-X-MC-Unique: I7l4vlmVNlauXXUs6e7GWw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 045B0185A790;
- Fri, 17 Mar 2023 15:55:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D48E540C6E67;
- Fri, 17 Mar 2023 15:55:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D59C721E6806; Fri, 17 Mar 2023 16:55:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Michael Roth
- <michael.roth@amd.com>,  Het Gala <het.gala@nutanix.com>
-Subject: Re: [PATCH v2 0/3] qapi: allow unions to contain further unions
-References: <20230223134027.2294640-1-berrange@redhat.com>
-Date: Fri, 17 Mar 2023 16:55:44 +0100
-In-Reply-To: <20230223134027.2294640-1-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 23 Feb 2023 13:40:24
- +0000")
-Message-ID: <87v8ize5j3.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pdCjO-00074x-0y
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:15:02 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pdCjM-0007Kq-0a
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:15:01 -0400
+Received: by mail-wr1-x433.google.com with SMTP id j2so4925948wrh.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 09:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679069697;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/+ZMtt2tNQNA7w5Hxe1OjrVVL6nDbw/jp+A5wl86/aE=;
+ b=OtLuND8wUCOdMCeCSPpjPCISeauWMbM5zf+pfaCASm06tGhcI4nnffE50aT1uGg3jj
+ ovYqmSMvkAPCxnuiGOQHQgCxCZeiEJEtxc4Bg/Bh/MhFDKKfNSrksg3i0jRm8IKrfEmR
+ 97S+mT2d7TyZe8d4+Ksz9V735NGfcyBPhWteGgSq0epS7tQkQxWwdQNKBmiVQvdLL93j
+ 0o7xOVcUXsxRHWj4c+ncOPuMbWoCxeMn/jMeV0uL72ShkQA5ia6VdfD7gA5uwW35rDZH
+ h0I2NS2tBTz+6dKa+QMvv1mNuVRXudC+Hhk7k72iPbtQSPbUgdYdhulECxOwODlkBxWi
+ YLZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679069697;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=/+ZMtt2tNQNA7w5Hxe1OjrVVL6nDbw/jp+A5wl86/aE=;
+ b=fYg5KJCeBSEVuUnTpg/0+ftLfkg4sBOLKbkIzyn1fkDiMa37k5hBXFKfHaV9S62tn3
+ X09U/8Lvx1BZvmX9xnvyYZNdAi49xgQBpNexFhTodrDfAOw1A1FlX3jxCOiGUImQXTLE
+ 9Kb96CTuy85KPyxa6q6gu/fKM+aq/8D9fjUbAjy40N8934P0+ON8QajputBrVsbdFFvz
+ 9SnsuUt9S6DikBEhKS/WuLqiCfZTPnLe9l1OZBcE+sg5ut5gKh0gKKamqzak1VCwd+lD
+ ywLrTEdInI+QrEPattFWP2NfM3c8BoHqm99R0cJDdmkcGplCJ7Aozj9+bgINhbt+qIkK
+ 4qeA==
+X-Gm-Message-State: AO0yUKUNHNkfjDBqPItuJKMehi4cVAvMr2rwpRn1Nv/YJwO9NyeUMW3M
+ yOwtQni5O7pt9PIXcemp280/mg==
+X-Google-Smtp-Source: AK7set+OMnrvtih7O4O01XbtsY4TcpuNvxytzbt2AitwwDgp32YeS2etvGBT79MtszPTPqsQaRghkg==
+X-Received: by 2002:a5d:4ed1:0:b0:2ce:a944:2c6a with SMTP id
+ s17-20020a5d4ed1000000b002cea9442c6amr7005974wrv.70.1679069697633; 
+ Fri, 17 Mar 2023 09:14:57 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ u13-20020adfdb8d000000b002d2b117a6a6sm2295879wri.41.2023.03.17.09.14.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Mar 2023 09:14:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 076B81FFB7;
+ Fri, 17 Mar 2023 16:14:57 +0000 (GMT)
+References: <CAJ1un7j0FNpYaaviQxoKQN4O+C8RejqA918CdBamPySKyAEJUQ@mail.gmail.com>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Abhishek Singh Dagur <abhishek@drut.io>
+Cc: openbmc@lists.ozlabs.org, qemu-devel@nongnu.org, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>, =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@kaod.org>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Using QEMU how to redirect serial /dev/ttyS2 output of guest
+ machine to host machine.
+Date: Fri, 17 Mar 2023 16:06:43 +0000
+In-reply-to: <CAJ1un7j0FNpYaaviQxoKQN4O+C8RejqA918CdBamPySKyAEJUQ@mail.gmail.com>
+Message-ID: <87mt4b73sv.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,24 +97,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> Currently it is not possible for a union type to contain a
-> further union as one (or more) of its branches. This relaxes
-> that restriction and adds the calls needed to validate field
-> name uniqueness as unions are flattened.
+Abhishek Singh Dagur <abhishek@drut.io> writes:
 
-I apologize for the long delay.  Sick child, sick me, much snot, little
-sleep.
+(cc aspeed maintainers)
 
-PATCH 1 is wrong, but I was able to figure out what's going on there,
-and suggested a patch that hopefully works.
+> Hi all,
+>
+> We are using obmc-phosphor-image on an ast2500 board which is trying to c=
+ommunicate with other devices
+> over serial port /dev/ttyS2.
+> As we are trying to emulate the machine on qemu we need to redirect the r=
+equest to the host machine so
+> that it can handle this request and return appropriately.
+> We tried using QEMU options like -serial ,-chardev but still not the
+> concrete way we get to do it.
 
-PATCH 2 is okay.  I suggested a few tweaks.  I'd put it first, but
-that's up to you.
+Yeah I'm afraid its non-obvious, certainly for built in serial ports.
+Try something like:
 
-PATCH 3 looks good.
+  ./qemu-system-aarch64 -M ast2500-evb \
+    -serial null -serial null -serial chardev:myserial \
+    -chardev file,id=3Dmyserial,path=3Doutput.txt \
+    $MORE_OPTIONS
 
-Looking forward to v3.
+You have to add a -serial for each serial port up to the one you care
+about and then set the chardev for it.
 
+If you where adding a device to the system then you can explicitly set
+the target chardev for it with something like:
+
+  -device isa-serial,iobase=3Dnnn,irq=3Dnnn,chardev=3DID
+
+> It will be very helpful if you can provide us some guidance on this.
+
+Another quirk for the aspeed boards seems to be the default uart can be
+an arbitrary one depending on the board model:
+
+334:    aspeed_soc_uart_set_chr(s, amc->uart_default, serial_hd(0));=20
+336:        if (uart =3D=3D amc->uart_default) {=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+1112:    amc->uart_default =3D ASPEED_DEV_UART5;=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+1407:    amc->uart_default =3D ASPEED_DEV_UART1;=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+
+as a result ASPEED_DEV_UART5 will always be the first serial port
+(serial_hd(0)). I don't know how Linux numbers them but worth being
+aware of.
+
+>
+> Thank you,
+> Abhishek
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
