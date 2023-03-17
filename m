@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1C96BEFA2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 954C16BEFAB
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:28:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdDqm-0001ok-S1; Fri, 17 Mar 2023 13:26:44 -0400
+	id 1pdDs6-0002tk-Ty; Fri, 17 Mar 2023 13:28:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pdDql-0001nQ-Gd
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:26:43 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1pdDs3-0002sa-Qt
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:28:04 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pdDqj-0002ds-Vt
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:26:43 -0400
-Received: by mail-pl1-x631.google.com with SMTP id k2so6024734pll.8
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 10:26:41 -0700 (PDT)
+ id 1pdDs2-0002qK-4M
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:28:03 -0400
+Received: by mail-pf1-x431.google.com with SMTP id fa2so1967034pfb.7
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 10:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679074000;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5pcs5rVYYWTe1wsOB9ATbEmtsmSIbU5zUtrKNqRUMnQ=;
- b=SrJWeBSPWydRGoa15c33zsI+mNdxjSBmmiHrWu3nZfAMzSP6dkKFdLvRGdz2mZE5tx
- igN1CR10p1nLPYZ3kGRJBWt195ZhIEv+Gi5KM9AMPF/5LEqPGriZNrqYrb7um/RDaBkR
- 6rz/5IrToRLBxQfFfulTs29W+InF05+oGU7GyNY/KLQyDA8a6TWB/8+ESGCPg5veFcWP
- Cxc4VsjTANFeGY4BQ8mrXJVv6pgisrQ9got6wuuujmTvpXVKIwG47NETbd5lp1KdPSSZ
- kdXBxSWU9o5ACT6UrG5gQ/M895VKh/rbmXIX8YNmE5L37FZ4+Pa2fi0TG9oV7M6kYJnc
- KULA==
+ d=linaro.org; s=google; t=1679074080;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=H/LmUNzVYO4FxndFu4Tp0LEGnEDAeI8ZDFVoUgYyYNM=;
+ b=NWBnfzBJnVCWBZANXJNigbtlogeNBqZfxvGE1LDOUhd2ceF7Tl4ZxUGQBrwTqz/323
+ I9Glch/Vh3bMurC5KDSuLz/p5AnptIpaVek/QNCO4s0BKtn87vVieb2kGsDyERLmQODT
+ qqhG5saXDP3eZCFgSLtNNBQW9vj30K7AFMBZ2+jhg8UZlaiIMKpqPPiJX4GJp7b0To7n
+ 3NsijlTa82GLu5EAhaRuSisDYc5ijfJ4KK72dpD+d65SHSyFRPzSD1i6XjyqQkhSyLme
+ oi0y3YD5FHVd7U0uGME16HbRiwsXAneucsanI59yC7gRHNgBFSjFm7aYzO1afONZS8Tq
+ ctSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679074000;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5pcs5rVYYWTe1wsOB9ATbEmtsmSIbU5zUtrKNqRUMnQ=;
- b=SmqY+pQNMGkw+p/vEUS4tZE75KVKnZSP9eYnRcRzO6MQHO9dQaCPI8LEkyg7wbBc4M
- jH6nC23LccvFX//hfZ3OStD+/Wxt9ka2I8d7FseVa0xk+d8kq1GhkD2YIJm2uwc/GmOI
- kbZevxbYZThKwYLI4hyGUlKWP77EW0hysf3w/U8sTjGoL2Q/VMNIv4Oslryg/Hi7G7g8
- 4fPZWq88i/5Y99b1koDce0OBbSCBONS8Qgca4zSWqoB3EeEYOZNyDQxYwI1C1wvqp5At
- chVmpjKxtXrZ2sR/yAzahlGi6zVAsKRJ3zxcNvTRO1fRgKC/2pOxH4uC8bdwoP1yAuZM
- eZPg==
-X-Gm-Message-State: AO0yUKWMcIxqTe5k0a+XytjJ25fbn13o4FeIY7MkZo7H8xaUjhjfkQcA
- GqB+OX/O/+szvCJLN8Rk78b+2sYrsQRq0XEIeZDMXg==
-X-Google-Smtp-Source: AK7set/FX6uHPZzkdm2rj6m+WnLJQrvP8NuuqcuC/2JWBLVt/kVuZ64qZhDLriL8YOzL8aANKLe2WkhUDBMtTk/qF3o=
-X-Received: by 2002:a17:903:234e:b0:19a:5953:e85c with SMTP id
- c14-20020a170903234e00b0019a5953e85cmr1582123plh.1.1679074000396; Fri, 17 Mar
- 2023 10:26:40 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679074080;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=H/LmUNzVYO4FxndFu4Tp0LEGnEDAeI8ZDFVoUgYyYNM=;
+ b=eIByoMdmStS+/uoHOk6aZ8gxI2FRR2Jmo+QXty+nbCvhAoknO+8ZBNPJCfcD73rgIx
+ OxunvmHZyyb6AaSszrreiPGEfyWJcZTexrpC9AovCLKi4AHNyW96/Kv3KqPjNIeoI/3/
+ nujjAbzDO7LA4muwfrQ9jSq5OnYgE80VzSPgv5s2gkEssEuVyu+UnhU+4P9Q5g4ds7cK
+ oxiZR0yUmyEOTHNrP+7cJZl/JEgnVIcaUcMrysbq3o4hdqW88txTrkFDYVtUsjoO1Mon
+ yxNIGqkA0igUZ8VBcasO3g9xdby8z2ZgBnffnhO+SXmb+zC1RYbVhTkDHqb+PMwQ5jNC
+ BHWw==
+X-Gm-Message-State: AO0yUKXjpawichWEzcD6nEtBLkc31Ia30Gy2e306/0bOBJngy78rrxHS
+ cNu2XQ4AAm+C6xxulzO2LHHkt2x3iDgjEzSQs+9xWQ==
+X-Google-Smtp-Source: AK7set9oy05rSDK1zDbxUtSLRjVHV93BDvS1aBTLzBhzzVY6ML2NbD2S/EpS6Bnl4FxfTNnNIxN1JjT73AHA4NmEyVs=
+X-Received: by 2002:a05:6a00:2d8f:b0:624:1261:918f with SMTP id
+ fb15-20020a056a002d8f00b006241261918fmr3743423pfb.1.1679074080165; Fri, 17
+ Mar 2023 10:28:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230317165057.1522743-1-peter.maydell@linaro.org>
- <87ilez70mt.fsf@linaro.org>
-In-Reply-To: <87ilez70mt.fsf@linaro.org>
+References: <20230316201904.2284949-1-jcmvbkbc@gmail.com>
+In-Reply-To: <20230316201904.2284949-1-jcmvbkbc@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Mar 2023 17:26:29 +0000
-Message-ID: <CAFEAcA9qt9UToEjX7r2MWCLZ3i-zyPPgQHFvFUyLXCHF6QUKXg@mail.gmail.com>
-Subject: Re: [PATCH for-8.0] target/arm: Don't advertise aarch64-pauth.xml to
- gdb
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>,
- Luis Machado <luis.machado@arm.com>
+Date: Fri, 17 Mar 2023 17:27:48 +0000
+Message-ID: <CAFEAcA_T41ASq6puUZ9UeUPKcjG20ctekPYLPYBu=959MVYtOw@mail.gmail.com>
+Subject: Re: [PULL 0/2] target/xtensa TCG test updates
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,30 +83,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 17 Mar 2023 at 17:23, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+On Thu, 16 Mar 2023 at 20:19, Max Filippov <jcmvbkbc@gmail.com> wrote:
 >
+> Hi Peter,
 >
-> Peter Maydell <peter.maydell@linaro.org> writes:
+> please pull the following updates for the target/xtensa TCG tests.
 >
-> > Unfortunately a bug in older versions of gdb means that they will
-> > crash if QEMU sends them the aarch64-pauth.xml.  This bug is fixed in
-> > gdb commit 1ba3a3222039eb25, and there are plans to backport that to
-> > affected gdb release branches, but since the bug affects gdb 9
-> > through 12 it is very widely deployed (for instance by distros).
-> >
-> > It is not currently clear what the best way to deal with this is; it
-> > has been proposed to define a new XML feature name that old gdb will
-> > ignore but newer gdb can handle.  Since QEMU's 8.0 release is
-> > imminent and at least one of our CI runners is now falling over this,
-> > disable the pauth XML for the moment.  We can follow up with a more
-> > considered fix either in time for 8.0 or else for the 8.1 release.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> The following changes since commit 27a03171d02ee0de8de4e2d3bed241795d672859:
 >
-> Queued to pr/170323-for-8.0-1, thanks.
+>   Merge tag 'pull-tcg-20230313' of https://gitlab.com/rth7680/qemu into staging (2023-03-14 10:09:15 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/OSLL/qemu-xtensa.git tags/20230316-xtensa
+>
+> for you to fetch changes up to 51139fb3e7b05dd7daeca8f00748678ce9e087e5:
+>
+>   tests/tcg/xtensa: allow testing big-endian cores (2023-03-15 05:08:04 -0700)
+>
+> ----------------------------------------------------------------
+> target/xtensa updates for v8.0:
+>
+> - enable testing big-endian xtensa cores
+>
 
-I'll take this via target-arm.next, so please unqueue this one.
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
 -- PMM
 
