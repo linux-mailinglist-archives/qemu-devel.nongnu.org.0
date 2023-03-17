@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFB86BDE13
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 02:17:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21A06BDF1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 03:59:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcyiX-0006VM-SZ; Thu, 16 Mar 2023 21:17:13 -0400
+	id 1pd0II-00071k-Nn; Thu, 16 Mar 2023 22:58:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pcyiV-0006VB-Hg
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 21:17:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pd0ID-0006zL-2y
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 22:58:09 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pcyiU-0002z2-0V
- for qemu-devel@nongnu.org; Thu, 16 Mar 2023 21:17:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679015829;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uNBOawNcreteF3XHvkKFBVu5B10HbYFaGGSt0AABsIU=;
- b=a9Ted0aLtXROKPnPl0iSx1cPXiNuotglU+G4XV8+SSeiOi6uMsqyxGo6X6/37p0JUPjpNk
- 4RNGwOKRX+ByZhjETtUMPECGqRZVBAkAN69s7wliR1KG4uOJ58TM/c1FfMrWHe9WntsMSc
- 8gjrLejjdM3gPGexHUQp7ZTff4k0EuI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387--liodvEdNUmyPBp0vuxkRQ-1; Thu, 16 Mar 2023 21:17:07 -0400
-X-MC-Unique: -liodvEdNUmyPBp0vuxkRQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2561729A9D2A;
- Fri, 17 Mar 2023 01:17:07 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A18E2027040;
- Fri, 17 Mar 2023 01:17:06 +0000 (UTC)
-Date: Thu, 16 Mar 2023 20:17:04 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, michael.roth@amd.com,
- marcandre.lureau@redhat.com, berrange@redhat.com, jsnow@redhat.com
-Subject: Re: [PATCH 14/14] qapi: Require boxed for conditional command and
- event arguments
-Message-ID: <20230317011704.unzjvlklwa63nmqv@redhat.com>
-References: <20230316071325.492471-1-armbru@redhat.com>
- <20230316071325.492471-15-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pd0IA-0000qW-Jw
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 22:58:08 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=2; SR=0;
+ TI=SMTPD_---0Ve1JEqB_1679021871; 
+Received: from 30.221.99.193(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0Ve1JEqB_1679021871) by smtp.aliyun-inc.com;
+ Fri, 17 Mar 2023 10:57:51 +0800
+Message-ID: <66de3418-1fbf-ead1-bf29-f9e06523cdf2@linux.alibaba.com>
+Date: Fri, 17 Mar 2023 10:57:50 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230316071325.492471-15-armbru@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Subject: Question about TCG liveness_pass_1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.130;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-130.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,35 +62,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 16, 2023 at 08:13:25AM +0100, Markus Armbruster wrote:
-> The C code generator fails to honor 'if' conditions of command and
-> event arguments.
->
-...
-> 
-> Conditional arguments work fine with 'boxed': true, simply because
-> complex types with conditional members work fine.  Not worth breaking.
-> 
-> Reject conditional arguments unless boxed.
+Hi Richard,
 
-Yay - matches my earlier suggestion at how to avoid #if in the middle
-of a parameter list.
+When I read the tcg code, I find a corner case which may be a bug in 
+liveness_pass_1.
 
-> 
-> Move the tests cases covering unboxed conditional arguments out of
-> tests/qapi-schema/qapi-schema-test.json.  Cover boxed conditional
-> arguments there instead.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
+I see all TEMP_TBs or global temps are set to TS_DEAD | TS_MEM when 
+enter liveness_pass_1. Think about the  sequence.
 
-A big end to the series, but I'm glad we got here.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+1)Write_global_temp_0 // 0->TS_DEAD, but not recorded in arg_life
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2)INDEX_op_qemu_st   //trigger an exception here.
+
+3)Ref_global_temp_0   // TS_DEAD->0
+
+4)Write_global_temp_0 // TS_DEAD | TS_MEM -> TS_DEAD
+
+As 1) will not write to memory, its register will be reused by the 3).  
+I think it may miss a write to global_temp_0 when enter an exception.
+
+
+Best Regards,
+Zhiwei
 
 
