@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99F46BE2FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD1B6BE2FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:21:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd5JJ-00070J-Rz; Fri, 17 Mar 2023 04:19:37 -0400
+	id 1pd5JP-00071P-9T; Fri, 17 Mar 2023 04:19:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pd5JH-000707-LL
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:19:35 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pd5JL-00070a-Jk
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:19:39 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pd5JG-0006SN-06
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:19:35 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id p20so4538663plw.13
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:19:33 -0700 (PDT)
+ id 1pd5JJ-0006Sv-VN
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:19:39 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ h12-20020a17090aea8c00b0023d1311fab3so4431019pjz.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:19:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1679041172;
+ d=bytedance.com; s=google; t=1679041176;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=g9aFN8Ma91UuxeJMWpFWAGfhx+Xhxyy3JILvaccFafU=;
- b=QwminStduRfZUjPoT7+Lo7Y/tM/saw/kCDKmFYfWdnmIN7dkJXMyFBOIG4Nc+X88BV
- ddo32y2CQ4Yf3RJoIWVIYbG+/lHXSuPim7G3YiD2iUwD3DuSX0RJuY+qR4odDGaXcWjn
- h/+TkeC/i33INuhq0gs9bXE93er+wJpSivNsXm3LuiwsBYdAp5f04QlL4+GLk1gohrFU
- hZT5674oIIl8gUZPK0u0wy6ea8pWHvriut+W+YehuG67VrNbXmLRLofxwS2dX8K+y6Ab
- Vsx+8XRorK1KpErUBQJcaf+MlDgoRRdGXpT0pgSbfx+MvdNi9Cpga4lMczmvYZYkvT6A
- eCTA==
+ bh=AP9kMZ+IWsggIfpBp8YbbnkPCWJhhQYUg0buOuv8PNk=;
+ b=gRAF9DZyS0JAjPLvmwqkHXrj3tHTnGGmdo7IthY2iFKoucar8b2TT5Nf2OD8/jW0m1
+ aRkhWf3rBUWNgEBkotWeYgLDKT4b4SkTkg6nUr2m6gQNRUdIxLPIPA9je/ZEO1iGUNVx
+ xIRkwNuhz7dq/Jrzc8PDYi80byHFMQfBwdGzpf1xKlVTw18OUwTVJ+guFyBpjycXvMdA
+ 94uxsizsh3xHafjH2DJhqXWb2J6cAh32AfuRqEIU1WJUZqNrulNCn15t5bNzbaFG+/uX
+ QNmJv+Vs1IzqUEVSMzmMP2/OhXgERTS5GZAAWa7AIqC3PYsjo4hH/2zX/ZjVo0Lf3o7N
+ trOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679041172;
+ d=1e100.net; s=20210112; t=1679041176;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=g9aFN8Ma91UuxeJMWpFWAGfhx+Xhxyy3JILvaccFafU=;
- b=T7bcYj9Wo1ziznWmM3JvrVyx4euxQglhSlmRawV6dudwqxak2UsLOFgJ5jGSR7BUFd
- MZsmmic0B13RbyKRixBcrdtUEj2EAyBltxD/opk+BtxjuwQwFs17xlTC2FoZ0anZo2dJ
- MXVPulXXXf1ov2kaDbl2Z4EFLBltXCB3tKrmVugo+F308ZxfAfZWqC/GoODshKgzTxsF
- bXNukwYcLS3JsTkBBht9LGoR0AKRtpEa5kJbcAJCo4Eyi5YtqN5aGaYWApFi/OSAWMuE
- hNR8fQwpV5IilXxBw9OqEewUJxl7/JmDiiZKY1U2K8kysdLYN6PrcRMFzF0T8dRsr79V
- S+KA==
-X-Gm-Message-State: AO0yUKXyp6n8h8bP+elk2hcnMs1BvQVZ5SOF3cb1KjQrzVpLZCxXIWqK
- HXaV9HjAKfVAZM/oIiUS9OWGCjmzeLhXMXQG170=
-X-Google-Smtp-Source: AK7set+yxP3QMX7Xxk+8LV3KBjD4zvMl90+zIuqRPxUk4e0T/n/o0gizYHPZDgB6N5zDb9kFgCNvQA==
-X-Received: by 2002:a05:6a20:a111:b0:d3:76e0:89fd with SMTP id
- q17-20020a056a20a11100b000d376e089fdmr8204758pzk.50.1679041172550; 
- Fri, 17 Mar 2023 01:19:32 -0700 (PDT)
+ bh=AP9kMZ+IWsggIfpBp8YbbnkPCWJhhQYUg0buOuv8PNk=;
+ b=J8lynyInKCTh87YANmYZ7P/oeddLk3boVkU280uu3JBvCLLYdiWfMrjaL8I6FDGdSy
+ iPYhOyu5omp15rET6m3k5/6tGw494d0GqzMuCaUbdSjBS0oeRTAOdvcmpIe1+QyURU6D
+ 7Bjt0sMcJvp7q1MK32WMiw0og4CTmtddBK32WKHUAo2Eqzew8fLFFkvYBvgYd98m/RCh
+ suRRmY7UCLsuEh9U1D6AkhT+WXXsU7hu+lI7IuhmevbVW853cBEasEI6euWF2SJz3mmW
+ sv3uJJSlyLfIQReYYVTXMYw6x3Ibwnm2CClIAztGvLhhEGnbgdjJsViIXO4NSqItbV1c
+ fSpw==
+X-Gm-Message-State: AO0yUKUiWISiZ7d3/LGwux1h3N+uKulQho08XFizQYQvbDnm9n6Hjbtq
+ TTdX+o4XJt78mY9wn7aZluMnFwMz8lRdigL3lXI=
+X-Google-Smtp-Source: AK7set9M7O2VuxnX/bIofmPuDuUcXRApeW7JjYibZetUIFAA9mTSZ58FB5k2KjW1QNawcBMh+huHQw==
+X-Received: by 2002:a17:903:2306:b0:19a:b588:6fe2 with SMTP id
+ d6-20020a170903230600b0019ab5886fe2mr2299083plh.13.1679041176339; 
+ Fri, 17 Mar 2023 01:19:36 -0700 (PDT)
 Received: from MacBook-Pro.local.bytedance.net ([139.177.225.249])
  by smtp.gmail.com with ESMTPSA id
- p36-20020a631e64000000b0050be8e0b94csm873304pgm.90.2023.03.17.01.19.29
+ p36-20020a631e64000000b0050be8e0b94csm873304pgm.90.2023.03.17.01.19.32
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 17 Mar 2023 01:19:32 -0700 (PDT)
+ Fri, 17 Mar 2023 01:19:35 -0700 (PDT)
 From: Chuang Xu <xuchuangxclwt@bytedance.com>
 To: qemu-devel@nongnu.org
 Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com,
  peterx@redhat.com, david@redhat.com, philmd@linaro.org,
  zhouyibo@bytedance.com, Chuang Xu <xuchuangxclwt@bytedance.com>
-Subject: [PATCH v8 4/6] memory: Add do_commit() and sanity check in
- address_space_to_flatview
-Date: Fri, 17 Mar 2023 16:19:02 +0800
-Message-Id: <20230317081904.24389-5-xuchuangxclwt@bytedance.com>
+Subject: [PATCH v8 5/6] migration: Reduce time of loading non-iterable vmstate
+Date: Fri, 17 Mar 2023 16:19:03 +0800
+Message-Id: <20230317081904.24389-6-xuchuangxclwt@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20230317081904.24389-1-xuchuangxclwt@bytedance.com>
 References: <20230317081904.24389-1-xuchuangxclwt@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -93,81 +93,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In next patch, we wrap the vm_load into a whole mr transaction to speed
-up vm_load. This brings a problem, old flatviews may be referenced
-during the vm_load. vm_load contains far more memory updates than
-referencing to a specific flatview, hence we introduce do_commit to
-make sure address_space_to_flatview will return the newest flatview and
-it should logically only be triggered in a few spots during vm_load.
+The duration of loading non-iterable vmstate accounts for a significant
+portion of downtime (starting with the timestamp of source qemu stop and
+ending with the timestamp of target qemu start). Most of the time is spent
+committing memory region changes repeatedly.
 
-Other than that, sanity check whether BQL or rcu is held before using
-any flatview.
+This patch packs all the changes to memory region during the period of
+loading non-iterable vmstate in a single memory transaction. With the
+increase of devices, this patch will greatly improve the performance.
+
+Note that the following test results are based on the application of the
+next patch. Without the next patch, the improvement will be reduced.
+
+Here are the test1 results:
+test info:
+- Host
+  - Intel(R) Xeon(R) Platinum 8362 CPU
+  - Mellanox Technologies MT28841
+- VM
+  - 32 CPUs 128GB RAM VM
+  - 8 16-queue vhost-net device
+  - 16 4-queue vhost-user-blk device.
+
+	time of loading non-iterable vmstate     downtime
+before		about 112 ms			  285 ms
+after		about 20 ms			  194 ms
+
+In test2, we keep the number of the device the same as test1, reduce the
+number of queues per device:
+
+Here are the test2 results:
+test info:
+- Host
+  - Intel(R) Xeon(R) Platinum 8362 CPU
+  - Mellanox Technologies MT28841
+- VM
+  - 32 CPUs 128GB RAM VM
+  - 8 1-queue vhost-net device
+  - 16 1-queue vhost-user-blk device.
+
+	time of loading non-iterable vmstate     downtime
+before		about 65 ms			 about 151 ms
+
+after		about 19 ms			 about 100 ms
+
+In test3, we keep the number of queues per device the same as test1, reduce
+the number of devices:
+
+Here are the test3 results:
+test info:
+- Host
+  - Intel(R) Xeon(R) Platinum 8362 CPU
+  - Mellanox Technologies MT28841
+- VM
+  - 32 CPUs 128GB RAM VM
+  - 1 16-queue vhost-net device
+  - 1 4-queue vhost-user-blk device.
+
+	time of loading non-iterable vmstate     downtime
+before		about 24 ms			 about 51 ms
+after		about 9 ms			 about 36 ms
+
+As we can see from the test results above, both the number of queues and
+the number of devices have a great impact on the time of loading non-iterable
+vmstate. The growth of the number of devices and queues will lead to more
+mr commits, and the time consumption caused by the flatview reconstruction
+will also increase.
 
 Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
 ---
- include/exec/memory.h | 23 +++++++++++++++++++++++
- softmmu/memory.c      |  5 +++++
- 2 files changed, 28 insertions(+)
+ migration/savevm.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 6fa0b071f0..d6fd89db64 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -27,6 +27,7 @@
- #include "qemu/notify.h"
- #include "qom/object.h"
- #include "qemu/rcu.h"
-+#include "qemu/main-loop.h"
+diff --git a/migration/savevm.c b/migration/savevm.c
+index aa54a67fda..ecf7b27000 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2787,7 +2787,25 @@ int qemu_loadvm_state(QEMUFile *f)
  
- #define RAM_ADDR_INVALID (~(ram_addr_t)0)
+     cpu_synchronize_all_pre_loadvm();
  
-@@ -1095,8 +1096,30 @@ struct FlatView {
-     MemoryRegion *root;
- };
++    /*
++     * Call memory_region_transaction_begin() before loading vmstate.
++     * This call is paired with memory_region_transaction_commit() at
++     * the end of qemu_loadvm_state_main(), in order to pack all the
++     * changes to memory region during the period of loading
++     * non-iterable vmstate in a single memory transaction.
++     * This operation will reduce time of loading non-iterable vmstate
++     */
++    memory_region_transaction_begin();
++
+     ret = qemu_loadvm_state_main(f, mis);
++
++    /*
++     * Call memory_region_transaction_commit() after loading vmstate.
++     * At this point, qemu actually completes all the previous memory
++     * region transactions.
++     */
++    memory_region_transaction_commit();
++
+     qemu_event_set(&mis->main_thread_load_event);
  
-+bool memory_region_transaction_in_progress(void);
-+
-+void memory_region_transaction_do_commit(void);
-+
- static inline FlatView *address_space_to_flatview(AddressSpace *as)
- {
-+    if (qemu_mutex_iothread_locked()) {
-+        /* We exclusively own the flatview now.. */
-+        if (memory_region_transaction_in_progress()) {
-+            /*
-+             * Fetch the flatview within a transaction in-progress, it
-+             * means current_map may not be the latest, we need to update
-+             * immediately to make sure the caller won't see obsolete
-+             * mapping.
-+             */
-+            memory_region_transaction_do_commit();
-+        }
-+
-+        /* No further protection needed to access current_map */
-+        return as->current_map;
-+    }
-+
-+    /* Otherwise we must have had the RCU lock or something went wrong */
-+    assert(rcu_read_is_locked());
-     return qatomic_rcu_read(&as->current_map);
- }
- 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 33ecc62ee9..6a8e8b4e71 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1130,6 +1130,11 @@ void memory_region_transaction_commit(void)
-     }
- }
- 
-+bool memory_region_transaction_in_progress(void)
-+{
-+    return memory_region_transaction_depth != 0;
-+}
-+
- static void memory_region_destructor_none(MemoryRegion *mr)
- {
- }
+     trace_qemu_loadvm_state_post_main(ret);
 -- 
 2.20.1
 
