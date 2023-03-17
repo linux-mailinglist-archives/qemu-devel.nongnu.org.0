@@ -2,91 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F036BE420
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:45:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DDD6BE432
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:46:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd5gQ-0007tU-Fk; Fri, 17 Mar 2023 04:43:30 -0400
+	id 1pd5ij-00017F-3D; Fri, 17 Mar 2023 04:45:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd5gL-0007sc-LY
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:43:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pd5iL-00014a-Jj; Fri, 17 Mar 2023 04:45:30 -0400
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd5gJ-0006Tv-R8
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:43:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679042602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BVmL7ZIakAcmY9BF78doPGdjHEPzVDpz6OhckmVz/ig=;
- b=ZmbuPavs7mfJLUFpGduFS6xRH71X2rm3jPxCJBIeC/yhen8xqc8e7HCp6GrMqDySYfxHNp
- KsMUMtioU8/DQJjqOsg1Km05Gq/G1OrHTVquq8OYSvJQK3i+ORgnWe6Rv1e8EWbPR+yCcf
- KHqsivCXSuIgcLj9Z++ROB7DlbxDMs0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-531-Omw5NefVOhGtTA8OLMqqwg-1; Fri, 17 Mar 2023 04:43:15 -0400
-X-MC-Unique: Omw5NefVOhGtTA8OLMqqwg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n18-20020a05600c501200b003ed24740ea4so3961592wmr.3
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:43:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679042594;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BVmL7ZIakAcmY9BF78doPGdjHEPzVDpz6OhckmVz/ig=;
- b=epkOqmYOrHSHuyDc7cVqo5r9AR1w76lc9XW3MmbcAeUR2s+n/+PrnTsAsXMRNY70G8
- Pi4I2z/7wCvGZ/yT46EpSHDlp1BiU715BZaSODOdT6529CwWMYK21vmJjSTXYlZgzKwV
- CLNK7Sb3aIyKDUl72cJKWz/39pFtZr6mU8SbLQ9XNk9eiGcSiDcktVbZysPJ0IgY0L2r
- l0kTt7dQYaODFwowzfwLvLu9uS7WMJhGKc1Pvrr/q4j9OGPHFIiFlDmVyvqmDaMxu5yp
- uunRWQc797cHsbpN2sXgBmR43CDfyFOeMYfzt31SWRnl/SHJ87ZfhVKpxD8AAEzoGhTN
- 3Pug==
-X-Gm-Message-State: AO0yUKVyppimY1im8FWJn0LcZi9MSaLfWKKhrxEt7S0cSd1wLLw8NZ0w
- xhfcM377SxFADVe2siXUoFdpjwooWlLMOFL17BQ4O+vIc3C56aUDRIxI5smGCyK9P9Djdn/yScI
- 07KtLxmNf/viOiDY=
-X-Received: by 2002:a1c:7314:0:b0:3eb:3998:8c05 with SMTP id
- d20-20020a1c7314000000b003eb39988c05mr1678308wmb.6.1679042594175; 
- Fri, 17 Mar 2023 01:43:14 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+1hC2liG2r2m+01cym7Cwax7c3Y0cTyVKg3AF28UMSfs83HcV3UcSnG5bsiUhKsTbU3t8New==
-X-Received: by 2002:a1c:7314:0:b0:3eb:3998:8c05 with SMTP id
- d20-20020a1c7314000000b003eb39988c05mr1678300wmb.6.1679042593947; 
- Fri, 17 Mar 2023 01:43:13 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-176-33.web.vodafone.de.
- [109.43.176.33]) by smtp.gmail.com with ESMTPSA id
- a3-20020a05600c224300b003eae73f0fc1sm1346065wmm.18.2023.03.17.01.43.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 01:43:13 -0700 (PDT)
-Message-ID: <ae1a8740-f220-b4c3-081a-d771b88d7039@redhat.com>
-Date: Fri, 17 Mar 2023 09:43:11 +0100
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pd5iH-00074v-Rz; Fri, 17 Mar 2023 04:45:29 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R811e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
+ TI=SMTPD_---0Ve2A8YH_1679042714; 
+Received: from 30.221.99.193(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0Ve2A8YH_1679042714) by smtp.aliyun-inc.com;
+ Fri, 17 Mar 2023 16:45:15 +0800
+Message-ID: <f10cd434-343d-49c0-ebd5-304190421327@linux.alibaba.com>
+Date: Fri, 17 Mar 2023 16:45:13 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v4 12/12] tests/tcg/s390x: Test unaligned accesses
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4] target/riscv: fix H extension TVM trap
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20230316164428.275147-1-iii@linux.ibm.com>
- <20230316164428.275147-13-iii@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230316164428.275147-13-iii@linux.ibm.com>
+To: Yi Chen <chenyi2000@zju.edu.cn>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: <20230312120538.15286-1-chenyi2000@zju.edu.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230312120538.15286-1-chenyi2000@zju.edu.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=115.124.30.98;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-98.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,18 +67,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/03/2023 17.44, Ilya Leoshkevich wrote:
-> Add a number of small test that check whether accessing unaligned
-> addresses in various ways leads to a specification exception.
-> 
-> Run these test both in softmmu and user configurations; expect a PGM
-> in one case and SIGILL in the other.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+
+On 2023/3/12 20:05, Yi Chen wrote:
+> - Trap satp/hgatp accesses from HS-mode when MSTATUS.TVM is enabled.
+> - Trap satp accesses from VS-mode when HSTATUS.VTVM is enabled.
+> - Raise RISCV_EXCP_ILLEGAL_INST when U-mode executes SFENCE.VMA/SINVAL.VMA.
+> - Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
+>    SFENCE.VMA/SINVAL.VMA or VS-mode executes SFENCE.VMA/SINVAL.VMA with
+>    HSTATUS.VTVM enabled.
+> - Raise RISCV_EXCP_VIRT_INSTRUCTION_FAULT when VU-mode executes
+>    HFENCE.GVMA/HFENCE.VVMA/HINVAL.GVMA/HINVAL.VVMA.
+>
+> Signed-off-by: Yi Chen <chenyi2000@zju.edu.cn>
+> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 > ---
+> Add reviewed-by
+> Replace "env->priv <= PRV_S && riscv_cpu_virt_enabled(env)" with "riscv_cpu_virt_enabled(env)"
+>   target/riscv/csr.c       | 56 +++++++++++++++++++++++++---------------
+>   target/riscv/op_helper.c | 12 ++++-----
+>   2 files changed, 41 insertions(+), 27 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index d522efc0b6..26a02e57bd 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -443,6 +443,30 @@ static RISCVException sstc_32(CPURISCVState *env, int csrno)
+>       return sstc(env, csrno);
+>   }
+>   
+> +static RISCVException satp(CPURISCVState *env, int csrno)
+> +{
+> +    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
+> +        get_field(env->mstatus, MSTATUS_TVM)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env) &&
+> +        get_field(env->hstatus, HSTATUS_VTVM)) {
+> +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +    }
+> +
+> +    return smode(env, csrno);
+> +}
+> +
+> +static RISCVException hgatp(CPURISCVState *env, int csrno)
+> +{
+> +    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
+> +        get_field(env->mstatus, MSTATUS_TVM)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    return hmode(env, csrno);
+> +}
+> +
+>   /* Checks if PointerMasking registers could be accessed */
+>   static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+>   {
+> @@ -2655,13 +2679,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
+>           *val = 0;
+>           return RISCV_EXCP_NONE;
+>       }
+> -
+> -    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+> -        return RISCV_EXCP_ILLEGAL_INST;
+> -    } else {
+> -        *val = env->satp;
+> -    }
+> -
+> +    *val = env->satp;
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+> @@ -2684,18 +2702,14 @@ static RISCVException write_satp(CPURISCVState *env, int csrno,
+>       }
+>   
+>       if (vm && mask) {
+> -        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+> -            return RISCV_EXCP_ILLEGAL_INST;
+> -        } else {
+> -            /*
+> -             * The ISA defines SATP.MODE=Bare as "no translation", but we still
+> -             * pass these through QEMU's TLB emulation as it improves
+> -             * performance.  Flushing the TLB on SATP writes with paging
+> -             * enabled avoids leaking those invalid cached mappings.
+> -             */
+> -            tlb_flush(env_cpu(env));
+> -            env->satp = val;
+> -        }
+> +        /*
+> +         * The ISA defines SATP.MODE=Bare as "no translation", but we still
+> +         * pass these through QEMU's TLB emulation as it improves
+> +         * performance.  Flushing the TLB on SATP writes with paging
+> +         * enabled avoids leaking those invalid cached mappings.
+> +         */
+> +        tlb_flush(env_cpu(env));
+> +        env->satp = val;
+>       }
+>       return RISCV_EXCP_NONE;
+>   }
+> @@ -4180,7 +4194,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                            .min_priv_ver = PRIV_VERSION_1_12_0 },
+>   
+>       /* Supervisor Protection and Translation */
+> -    [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
+> +    [CSR_SATP]     = { "satp",     satp, read_satp,     write_satp     },
+>   
+>       /* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
+>       [CSR_SISELECT]   = { "siselect",   aia_smode, NULL, NULL, rmw_xiselect },
+> @@ -4217,7 +4231,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                             .min_priv_ver = PRIV_VERSION_1_12_0                },
+>       [CSR_HGEIP]       = { "hgeip",       hmode,   read_hgeip,
+>                             .min_priv_ver = PRIV_VERSION_1_12_0                },
+> -    [CSR_HGATP]       = { "hgatp",       hmode,   read_hgatp,   write_hgatp,
+> +    [CSR_HGATP]       = { "hgatp",       hgatp,   read_hgatp,   write_hgatp,
+>                             .min_priv_ver = PRIV_VERSION_1_12_0                },
+>       [CSR_HTIMEDELTA]  = { "htimedelta",  hmode,   read_htimedelta,
+>                             write_htimedelta,
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index 84ee018f7d..8e16020f8d 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -381,12 +381,12 @@ void helper_wfi(CPURISCVState *env)
+>   void helper_tlb_flush(CPURISCVState *env)
+>   {
+>       CPUState *cs = env_cpu(env);
+> -    if (!(env->priv >= PRV_S) ||
+> -        (env->priv == PRV_S &&
+> -         get_field(env->mstatus, MSTATUS_TVM))) {
+> +    if (!riscv_cpu_virt_enabled(env) &&
+> +        (env->priv == PRV_U ||
+> +         (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)))) {
+>           riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+> -    } else if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
+> -               get_field(env->hstatus, HSTATUS_VTVM)) {
+> +    } else if (riscv_cpu_virt_enabled(env) &&
+> +               (env->priv == PRV_U || get_field(env->hstatus, HSTATUS_VTVM))) {
+>           riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+>       } else {
+>           tlb_flush(cs);
+> @@ -403,7 +403,7 @@ void helper_hyp_tlb_flush(CPURISCVState *env)
+>   {
+>       CPUState *cs = env_cpu(env);
+>   
+> -    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env)) {
+> +    if (riscv_cpu_virt_enabled(env)) {
+>           riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+>       }
 
-Thanks for reworking this! It looks much nicer now, indeed!
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Zhiwei
 
+>   
 
