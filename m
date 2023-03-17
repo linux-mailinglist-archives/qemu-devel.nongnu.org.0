@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76AB86BEF79
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:20:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFFC6BEF94
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:24:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdDkP-0006lt-WD; Fri, 17 Mar 2023 13:20:10 -0400
+	id 1pdDnd-00088u-1S; Fri, 17 Mar 2023 13:23:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pdDkN-0006li-OL
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:20:07 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pdDkL-0000Jq-5I
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:20:07 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:5398:0:640:443b:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 6E7B960275;
- Fri, 17 Mar 2023 20:19:50 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b68e::1:34] (unknown
- [2a02:6b8:b081:b68e::1:34])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id lJpxgO0h3iE0-me8MNWSD; Fri, 17 Mar 2023 20:19:49 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1679073589; bh=6LomDRG4nR+efSRxGTuQTm5WspZMhTAGhIr+0ABV5MM=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=SeMcZe3CsVRsXDYdv10C0YBC1vn6XBZhJ2C/FGbHtVw0Lage0NJjb5UiVuprUYyvx
- WWOKPkPUK60mIV8yWvbw1a1OUlKaXRhJwZgRwkW0px5OTEo3H9Nkh91R3xDKHJ9QMy
- CjlpNBHGGTUnNPjXrFrHb9Yy7G064UQkB4b8RZP8=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <035ba8d3-7943-ae8d-f4b2-76ac4fd74cf0@yandex-team.ru>
-Date: Fri, 17 Mar 2023 19:19:46 +0200
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pdDnb-00087p-74
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:23:27 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pdDnZ-0001zM-PD
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:23:26 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ c8-20020a05600c0ac800b003ed2f97a63eso5570617wmr.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 10:23:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679073803;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UjVwRmqHiqjATDmp7gXchu/uri7n09a06LCVDDM4dqE=;
+ b=SITDI9I87fVlKlhD5tYY62z6x1hZcRjB/+PEpdiGz35gl1Hi/t0KI7fJPjH7y1bYaC
+ zeDhErWmIuUoSiXyw5lQxPf8ImOgV0OJpHAKdJPtUBZE0mpK3hyIsPlrXYiwS3WDRFjt
+ /6VDIaYNNI//l/q8HgT8IeSeCgoMULcxzUqyaYjPQDOB5Wg1O2pQJTmbHNe4v/RNe3gT
+ Qk7EZZq4gnCsw37FVHt5o5nf5ya+flT4ivCK1p6iYQwyju2sFNGA007urNtb+PKv4sUB
+ zUsnSl4qpp110KZZnmFmjyVd9kMk9PTl19cQhvOMhhTE9VH9LO4kPRC40B4bRXCn19At
+ 0SyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679073803;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UjVwRmqHiqjATDmp7gXchu/uri7n09a06LCVDDM4dqE=;
+ b=ybqj59lnUz9fG4itkTuaWuB57XEu6kq4YSWBc61H3DZVx1/YYpbbZfmSw+wYGap3cP
+ 6Au9u2JkE/HeKN3hAXJaDI+bhvTwui7I7ouMWK5ujxpuoiTifYmw3eOUVEb4IQDMI3FV
+ e0G7V36NG4u/8APQVGz9LDLhrDgrSGT3aeZB2Gb50f/WDeQXaXIJ9Dq6lLu/nmxiG1NZ
+ Gg9sRJ3kJ2xa6c2Wg9JcznsPMhmejH8XDSySmGS3DH0MBTQM22F71oXXI1C1iRG9ZzZ8
+ d0C46SiGLRIfA8dhHfRkICA+2HpfjxlhzjGsRv2PpG3djyd5QXc7b2GdGlz349yUWLeU
+ soKQ==
+X-Gm-Message-State: AO0yUKVVVOVYKTBkfQBCnjVumlToDQ9wAvgSvbgStEzv+3lte3C+bZWl
+ 6P2Xv2kC5pV37VWqwJMUA1xasg==
+X-Google-Smtp-Source: AK7set9XhIqHPsxWZXfScezB3X8PABYE8/GH6fu9njNy5/+YBALd5LQ9LQfmWzafo4LMcV+oE6CBGA==
+X-Received: by 2002:a7b:c8da:0:b0:3ed:9a09:183 with SMTP id
+ f26-20020a7bc8da000000b003ed9a090183mr1063372wml.2.1679073803233; 
+ Fri, 17 Mar 2023 10:23:23 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ p15-20020a7bcdef000000b003dc4480df80sm8328321wmj.34.2023.03.17.10.23.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Mar 2023 10:23:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8E1571FFB7;
+ Fri, 17 Mar 2023 17:23:22 +0000 (GMT)
+References: <20230317165057.1522743-1-peter.maydell@linaro.org>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Richard Henderson
+ <richard.henderson@linaro.org>, Luis Machado <luis.machado@arm.com>
+Subject: Re: [PATCH for-8.0] target/arm: Don't advertise aarch64-pauth.xml
+ to gdb
+Date: Fri, 17 Mar 2023 17:23:16 +0000
+In-reply-to: <20230317165057.1522743-1-peter.maydell@linaro.org>
+Message-ID: <87ilez70mt.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC 2/2] vhost-user-fs: Implement stateful migration
-Content-Language: en-US, ru-RU
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20230313174833.28790-1-hreitz@redhat.com>
- <20230313174833.28790-3-hreitz@redhat.com>
-From: Anton Kuchin <antonkuchin@yandex-team.ru>
-In-Reply-To: <20230313174833.28790-3-hreitz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,235 +97,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/03/2023 19:48, Hanna Czenczek wrote:
-> A virtio-fs device's VM state consists of:
-> - the virtio device (vring) state (VMSTATE_VIRTIO_DEVICE)
-> - the back-end's (virtiofsd's) internal state
+
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> Unfortunately a bug in older versions of gdb means that they will
+> crash if QEMU sends them the aarch64-pauth.xml.  This bug is fixed in
+> gdb commit 1ba3a3222039eb25, and there are plans to backport that to
+> affected gdb release branches, but since the bug affects gdb 9
+> through 12 it is very widely deployed (for instance by distros).
 >
-> We get/set the latter via the new vhost-user operations FS_SET_STATE_FD,
-> FS_GET_STATE, and FS_SET_STATE.
+> It is not currently clear what the best way to deal with this is; it
+> has been proposed to define a new XML feature name that old gdb will
+> ignore but newer gdb can handle.  Since QEMU's 8.0 release is
+> imminent and at least one of our CI runners is now falling over this,
+> disable the pauth XML for the moment.  We can follow up with a more
+> considered fix either in time for 8.0 or else for the 8.1 release.
 >
-> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
-> ---
->   hw/virtio/vhost-user-fs.c | 171 +++++++++++++++++++++++++++++++++++++-
->   1 file changed, 170 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index 83fc20e49e..df1fb02acc 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -20,8 +20,10 @@
->   #include "hw/virtio/virtio-bus.h"
->   #include "hw/virtio/virtio-access.h"
->   #include "qemu/error-report.h"
-> +#include "qemu/memfd.h"
->   #include "hw/virtio/vhost.h"
->   #include "hw/virtio/vhost-user-fs.h"
-> +#include "migration/qemu-file-types.h"
->   #include "monitor/monitor.h"
->   #include "sysemu/sysemu.h"
->   
-> @@ -298,9 +300,176 @@ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
->       return &fs->vhost_dev;
->   }
->   
-> +/**
-> + * Fetch the internal state from the back-end (virtiofsd) and save it
-> + * to `f`.
-> + */
-> +static int vuf_save_state(QEMUFile *f, void *pv, size_t size,
-> +                          const VMStateField *field, JSONWriter *vmdesc)
-> +{
-> +    VirtIODevice *vdev = pv;
-> +    VHostUserFS *fs = VHOST_USER_FS(vdev);
-> +    int memfd = -1;
-> +    /* Size of the shared memory through which to transfer the state */
-> +    const size_t chunk_size = 4 * 1024 * 1024;
-> +    size_t state_offset;
-> +    ssize_t remaining;
-> +    void *shm_buf;
-> +    Error *local_err = NULL;
-> +    int ret, ret2;
-> +
-> +    /* Set up shared memory through which to receive the state from virtiofsd */
-> +    shm_buf = qemu_memfd_alloc("vhost-fs-state", chunk_size,
-> +                               F_SEAL_SEAL | F_SEAL_SHRINK | F_SEAL_GROW,
-> +                               &memfd, &local_err);
-> +    if (!shm_buf) {
-> +        error_report_err(local_err);
-> +        ret = -ENOMEM;
-> +        goto early_fail;
-> +    }
-> +
-> +    /* Share the SHM area with virtiofsd */
-> +    ret = vhost_fs_set_state_fd(&fs->vhost_dev, memfd, chunk_size);
-> +    if (ret < 0) {
-> +        goto early_fail;
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Don't we need some log message here too?
+Queued to pr/170323-for-8.0-1, thanks.
 
-> +    }
-> +
-> +    /* Receive the virtiofsd state in chunks, and write them to `f` */
-> +    state_offset = 0;
-> +    do {
-> +        size_t this_chunk_size;
-> +
-> +        remaining = vhost_fs_get_state(&fs->vhost_dev, state_offset,
-> +                                       chunk_size);
-> +        if (remaining < 0) {
-> +            ret = remaining;
-> +            goto fail;
-> +        }
-> +
-> +        /* Prefix the whole state by its total length */
-> +        if (state_offset == 0) {
-> +            qemu_put_be64(f, remaining);
-> +        }
-> +
-> +        this_chunk_size = MIN(remaining, chunk_size);
-> +        qemu_put_buffer(f, shm_buf, this_chunk_size);
-> +        state_offset += this_chunk_size;
-> +    } while (remaining >= chunk_size);
-> +
-> +    ret = 0;
-> +fail:
-> +    /* Have virtiofsd close the shared memory */
-> +    ret2 = vhost_fs_set_state_fd(&fs->vhost_dev, -1, 0);
-> +    if (ret2 < 0) {
-> +        error_report("Failed to remove state FD from the vhost-user-fs back "
-> +                     "end: %s", strerror(-ret));
-> +        if (ret == 0) {
-> +            ret = ret2;
-> +        }
-> +    }
-> +
-> +early_fail:
-> +    if (shm_buf) {
-> +        qemu_memfd_free(shm_buf, chunk_size, memfd);
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +/**
-> + * Load the back-end's (virtiofsd's) internal state from `f` and send
-> + * it over to that back-end.
-> + */
-> +static int vuf_load_state(QEMUFile *f, void *pv, size_t size,
-> +                          const VMStateField *field)
-> +{
-> +    VirtIODevice *vdev = pv;
-> +    VHostUserFS *fs = VHOST_USER_FS(vdev);
-> +    int memfd = -1;
-> +    /* Size of the shared memory through which to transfer the state */
-> +    const size_t chunk_size = 4 * 1024 * 1024;
-> +    size_t state_offset;
-> +    uint64_t remaining;
-> +    void *shm_buf;
-> +    Error *local_err = NULL;
-> +    int ret, ret2;
-> +
-> +    /* The state is prefixed by its total length, read that first */
-> +    remaining = qemu_get_be64(f);
-> +
-> +    /* Set up shared memory through which to send the state to virtiofsd */
-> +    shm_buf = qemu_memfd_alloc("vhost-fs-state", chunk_size,
-> +                               F_SEAL_SEAL | F_SEAL_SHRINK | F_SEAL_GROW,
-> +                               &memfd, &local_err);
-> +    if (!shm_buf) {
-> +        error_report_err(local_err);
-> +        ret = -ENOMEM;
-> +        goto early_fail;
-> +    }
-> +
-> +    /* Share the SHM area with virtiofsd */
-> +    ret = vhost_fs_set_state_fd(&fs->vhost_dev, memfd, chunk_size);
-> +    if (ret < 0) {
-> +        goto early_fail;
-> +    }
-> +
-> +    /*
-> +     * Read the virtiofsd state in chunks from `f`, and send them over
-> +     * to virtiofsd
-> +     */
-> +    state_offset = 0;
-> +    do {
-> +        size_t this_chunk_size = MIN(remaining, chunk_size);
-> +
-> +        if (qemu_get_buffer(f, shm_buf, this_chunk_size) < this_chunk_size) {
-> +            ret = -EINVAL;
-> +            goto fail;
-> +        }
-> +
-> +        ret = vhost_fs_set_state(&fs->vhost_dev, state_offset, this_chunk_size);
-> +        if (ret < 0) {
-> +            goto fail;
-> +        }
-> +
-> +        state_offset += this_chunk_size;
-> +        remaining -= this_chunk_size;
-> +    } while (remaining > 0);
-> +
-> +    ret = 0;
-> +fail:
-> +    ret2 = vhost_fs_set_state_fd(&fs->vhost_dev, -1, 0);
-> +    if (ret2 < 0) {
-> +        error_report("Failed to remove state FD from the vhost-user-fs back "
-> +                     "end -- perhaps it failed to deserialize/apply the state: "
-> +                     "%s", strerror(-ret2));
-> +        if (ret == 0) {
-> +            ret = ret2;
-> +        }
-> +    }
-> +
-> +early_fail:
-> +    if (shm_buf) {
-> +        qemu_memfd_free(shm_buf, chunk_size, memfd);
-> +    }
-> +
-> +    return ret;
-> +}
-> +
->   static const VMStateDescription vuf_vmstate = {
->       .name = "vhost-user-fs",
-> -    .unmigratable = 1,
-> +    .version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_VIRTIO_DEVICE,
-> +        {
-> +            .name = "back-end",
-> +            .info = &(const VMStateInfo) {
-> +                .name = "virtio-fs back-end state",
-> +                .get = vuf_load_state,
-> +                .put = vuf_save_state,
-> +            },
-> +        },
-
-I've been working on stateless migration patch [1] and there was 
-discussed that we
-need to keep some kind of blocker by default if orchestrators rely on 
-unmigratable
-field in virtio-fs vmstate to block the migration.
-For this purpose I've implemented flag that selects "none" or "external" 
-and is checked
-in pre_save, so it could be extended with "internal" option.
-We didn't come to conclusion if we also need to check incoming 
-migration, the discussion
-has stopped for a while but I'm going back to it now.
-
-I would appreciate if you have time to take a look at the discussion and 
-consider the idea
-proposed there to store internal state as a subsection of vmstate to 
-make it as an option
-but not mandatory.
-
-[1] 
-https://patchew.org/QEMU/20230217170038.1273710-1-antonkuchin@yandex-team.ru/
-
-> +        VMSTATE_END_OF_LIST()
-> +    },
->   };
->   
->   static Property vuf_properties[] = {
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
