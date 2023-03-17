@@ -2,91 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598BB6BE77C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 12:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2196BE781
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 12:02:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd7p0-0000SF-7p; Fri, 17 Mar 2023 07:00:31 -0400
+	id 1pd7qs-0001OU-JO; Fri, 17 Mar 2023 07:02:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd7om-0000Qi-BG
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 07:00:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pd7qp-0001O0-IY; Fri, 17 Mar 2023 07:02:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd7ok-0000QR-Jg
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 07:00:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679050813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lR2gh4iULY9yvtOEtoUJzdswtC1dksdCf3aB01Bmi1M=;
- b=fLd5DRnDao/eHJDJXIntrUUkpjZDssqLcYHhrR/DL1g1JUgZf6vo20qfYP5Vk6KJzhsEfZ
- 4ai1m0xpuoF/nN/LHsG5AawlWpdSrh0OESWnmO9XjIBsLwORFHorg48esV6UPhKFHuTMTs
- AodMlMkvhHc7cZEeNkCv9LISNUinCdk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-74-M2pwzg3QPPyUqmOEPzh_SQ-1; Fri, 17 Mar 2023 07:00:12 -0400
-X-MC-Unique: M2pwzg3QPPyUqmOEPzh_SQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n2-20020adf8b02000000b002d26515fc49so698089wra.17
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 04:00:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679050810;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lR2gh4iULY9yvtOEtoUJzdswtC1dksdCf3aB01Bmi1M=;
- b=ZOFQfRAcKULx2rZDPRSKOrjW2IZxFmQ6MSpLTFjDFt0fc7S2Y6rsZMdnFdyTFbXY/0
- gThdvQtHdXeVs/p50adeqJZypvc1B4TpJRkh73CrT69mNnSmbhUHkdTELks3x/YQgVMD
- JmL7X0X/loGQne3XJ7hBVX66mNuIPQlveeneI9U5WE6LPpKnKG7f13zV1RQoDZgY7r/q
- ALW9vKKl5Y8L74s2m1iRHCHW/bsmrX7JIbWDb4/87FZSrlVwie/oNK8MMfd/tlU4JFkj
- lNJ0AWHQXivjpwmbLK2Q+pptH8xaR3b68ExKVk+m+xGe7b2kzxKiyJhSfUr8WLf4xrZJ
- O8sQ==
-X-Gm-Message-State: AO0yUKXpqk635eGJon1x+T2gsZaJCnDdZhoRWMI0DsLiPkdMIx8Exhfb
- eQMtJYLyIBycBLTd4bulgndR8vnO9uGl+KXY8tKyVdGXLE8HTtK7i+Vf3usELWGdMFnj6WS1qXL
- dKIAAs3hUy++QMDc=
-X-Received: by 2002:a05:600c:474c:b0:3ed:355c:4610 with SMTP id
- w12-20020a05600c474c00b003ed355c4610mr7904705wmo.35.1679050810759; 
- Fri, 17 Mar 2023 04:00:10 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8McvnjgI06smeKj1/uEcXS3KZk2/5X3v1uvYzXRSbSiHWiu90pirJOIXm7vWPSV+6N8xigPw==
-X-Received: by 2002:a05:600c:474c:b0:3ed:355c:4610 with SMTP id
- w12-20020a05600c474c00b003ed355c4610mr7904681wmo.35.1679050810472; 
- Fri, 17 Mar 2023 04:00:10 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-176-33.web.vodafone.de.
- [109.43.176.33]) by smtp.gmail.com with ESMTPSA id
- u13-20020a7bc04d000000b003eb0d6f48f3sm7483603wmc.27.2023.03.17.04.00.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 04:00:09 -0700 (PDT)
-Message-ID: <c7e9b213-bcf6-1f11-6c12-e62666a9def5@redhat.com>
-Date: Fri, 17 Mar 2023 12:00:07 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1pd7qn-0000xA-Jp; Fri, 17 Mar 2023 07:02:23 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32HAoXKK005672; Fri, 17 Mar 2023 11:02:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=lfheVAlfdJjBcsWMm59AMtD5uwi+wFZNzDbvBXKjXLw=;
+ b=eIN/5M+p6rgYsyJKbhXi7Gbu5wTXJg/u9nwgkyZnA3MrD483QrQ1wuJR9dGhWH2BF10K
+ Q3/3DXmzc6GMUFfAgORLlql1jW+LWOy9fjSWuH7s9IfbdwM/MGE1b6Nfa1HLTL9LyajT
+ 9LzexqBiS0tM2U/lxF9D/axfsoGbh4iLa0h4U16/7G4RokBsn+Txl6mbI3MqPVgbM6bi
+ GMa+fXmZD60A4ozbyFJiDwQ5SezypXWBmvvKOLqnnJvVp9QxRFb3qujIECKEglRDJuDr
+ qQW3e6ylHTG0CQxNYususMMIryASYuPwoilWNshG3EvMfwN5qnksDgaSNN7sYhyVxTYy 4Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcptdg7n5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Mar 2023 11:02:18 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32HAq0Uo008387;
+ Fri, 17 Mar 2023 11:02:17 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pcptdg7mc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Mar 2023 11:02:17 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32GIdd76028849;
+ Fri, 17 Mar 2023 11:02:16 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3pbsyxsne0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Mar 2023 11:02:15 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32HB2DbO26345968
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Mar 2023 11:02:13 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7CC392004D;
+ Fri, 17 Mar 2023 11:02:13 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1F3782004F;
+ Fri, 17 Mar 2023 11:02:13 +0000 (GMT)
+Received: from [9.171.2.157] (unknown [9.171.2.157])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 17 Mar 2023 11:02:13 +0000 (GMT)
+Message-ID: <b60eab8dde6cb3f762d5d39015345bed970552dc.camel@linux.ibm.com>
 Subject: Re: [PATCH v4 12/12] tests/tcg/s390x: Test unaligned accesses
-Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>
 Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Date: Fri, 17 Mar 2023 12:02:12 +0100
+In-Reply-To: <c7e9b213-bcf6-1f11-6c12-e62666a9def5@redhat.com>
 References: <20230316164428.275147-1-iii@linux.ibm.com>
  <20230316164428.275147-13-iii@linux.ibm.com>
  <41989f42-bca7-759f-8942-8b295d9f48eb@redhat.com>
-In-Reply-To: <41989f42-bca7-759f-8942-8b295d9f48eb@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ <c7e9b213-bcf6-1f11-6c12-e62666a9def5@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rMVSAzZGzqcREhD15LHLVba3JImWMaZm
+X-Proofpoint-ORIG-GUID: TJ5XHvoeecdBok8QF-H55oBZDvahg4pt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-17_06,2023-03-16_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 spamscore=0 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303170071
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,118 +114,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/03/2023 11.54, Thomas Huth wrote:
-> On 16/03/2023 17.44, Ilya Leoshkevich wrote:
->> Add a number of small test that check whether accessing unaligned
->> addresses in various ways leads to a specification exception.
->>
->> Run these test both in softmmu and user configurations; expect a PGM
->> in one case and SIGILL in the other.
->>
->> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
->> ---
-> ...
->> diff --git a/tests/tcg/s390x/Makefile.softmmu-target 
->> b/tests/tcg/s390x/Makefile.softmmu-target
->> index 725b6c598db..6d8bf299b28 100644
->> --- a/tests/tcg/s390x/Makefile.softmmu-target
->> +++ b/tests/tcg/s390x/Makefile.softmmu-target
->> @@ -1,11 +1,20 @@
->>   S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
->>   VPATH+=$(S390X_SRC)
->>   QEMU_OPTS=-action panic=exit-failure -kernel
->> +LINK_SCRIPT=$(S390X_SRC)/softmmu.ld
->> +LDFLAGS=-nostdlib -static -Wl,-T$(LINK_SCRIPT)
->> -%: %.S
->> -    $(CC) -march=z13 -m64 -nostdlib -static -Wl,-Ttext=0 \
->> -        -Wl,--build-id=none $< -o $@
->> +%.o: %.S
->> +    $(CC) -march=z13 -m64 -c $< -o $@
->> +
->> +%: %.o $(LINK_SCRIPT)
->> +    $(CC) $< -o $@ $(LDFLAGS)
->>   TESTS += unaligned-lowcore
->>   TESTS += bal
->>   TESTS += sam
->> +
->> +include $(S390X_SRC)/pgm-specification.mak
->> +$(PGM_SPECIFICATION_TESTS): pgm-specification-softmmu.o
->> +$(PGM_SPECIFICATION_TESTS): LDFLAGS+=pgm-specification-softmmu.o
->> +TESTS += $(PGM_SPECIFICATION_TESTS)
->> diff --git a/tests/tcg/s390x/Makefile.target 
->> b/tests/tcg/s390x/Makefile.target
->> index cf93b966862..1002ab79886 100644
->> --- a/tests/tcg/s390x/Makefile.target
->> +++ b/tests/tcg/s390x/Makefile.target
->> @@ -2,6 +2,9 @@ S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
->>   VPATH+=$(S390X_SRC)
->>   CFLAGS+=-march=zEC12 -m64
->> +%.o: %.c
->> +    $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
->> +
->>   config-cc.mak: Makefile
->>       $(quiet-@)( \
->>           $(call cc-option,-march=z14, CROSS_CC_HAS_Z14); \
->> @@ -33,6 +36,11 @@ TESTS+=chrl
->>   cdsg: CFLAGS+=-pthread
->>   cdsg: LDFLAGS+=-pthread
->> +include $(S390X_SRC)/pgm-specification.mak
->> +$(PGM_SPECIFICATION_TESTS): pgm-specification-user.o
->> +$(PGM_SPECIFICATION_TESTS): LDFLAGS+=pgm-specification-user.o
->> +TESTS += $(PGM_SPECIFICATION_TESTS)
-> ...
->> diff --git a/tests/tcg/s390x/softmmu.ld b/tests/tcg/s390x/softmmu.ld
->> new file mode 100644
->> index 00000000000..ea944eaa3cb
->> --- /dev/null
->> +++ b/tests/tcg/s390x/softmmu.ld
->> @@ -0,0 +1,20 @@
->> +/*
->> + * Linker script for the softmmu test kernels.
->> + *
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> + */
->> +
->> +ENTRY(_start)
->> +
->> +SECTIONS {
->> +    . = 0;
->> +
->> +    .text : {
->> +        *(.head)
->> +        *(.text)
->> +    }
->> +
->> +    /DISCARD/ : {
->> +        *(*)
->> +    }
->> +}
-> 
-> I just gave it a try, and while it's basically working, I see a lot of these 
-> messages in the console:
-> 
-> /usr/bin/ld: warning: .note.gnu.build-id section discarded, --build-id ignored
-> 
-> I think you should either pass --build-id=none to the linker, or add a 
-> .note.gnu.build-id section to the linker script?
+On Fri, 2023-03-17 at 12:00 +0100, Thomas Huth wrote:
+> On 17/03/2023 11.54, Thomas Huth wrote:
+> > On 16/03/2023 17.44, Ilya Leoshkevich wrote:
+> > > Add a number of small test that check whether accessing unaligned
+> > > addresses in various ways leads to a specification exception.
+> > >=20
+> > > Run these test both in softmmu and user configurations; expect a
+> > > PGM
+> > > in one case and SIGILL in the other.
+> > >=20
+> > > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> > > ---
+> > ...
+> > > diff --git a/tests/tcg/s390x/Makefile.softmmu-target=20
+> > > b/tests/tcg/s390x/Makefile.softmmu-target
+> > > index 725b6c598db..6d8bf299b28 100644
+> > > --- a/tests/tcg/s390x/Makefile.softmmu-target
+> > > +++ b/tests/tcg/s390x/Makefile.softmmu-target
+> > > @@ -1,11 +1,20 @@
+> > > =C2=A0 S390X_SRC=3D$(SRC_PATH)/tests/tcg/s390x
+> > > =C2=A0 VPATH+=3D$(S390X_SRC)
+> > > =C2=A0 QEMU_OPTS=3D-action panic=3Dexit-failure -kernel
+> > > +LINK_SCRIPT=3D$(S390X_SRC)/softmmu.ld
+> > > +LDFLAGS=3D-nostdlib -static -Wl,-T$(LINK_SCRIPT)
+> > > -%: %.S
+> > > -=C2=A0=C2=A0=C2=A0 $(CC) -march=3Dz13 -m64 -nostdlib -static -Wl,-Tt=
+ext=3D0 \
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -Wl,--build-id=3Dnone $< =
+-o $@
+> > > +%.o: %.S
+> > > +=C2=A0=C2=A0=C2=A0 $(CC) -march=3Dz13 -m64 -c $< -o $@
+> > > +
+> > > +%: %.o $(LINK_SCRIPT)
+> > > +=C2=A0=C2=A0=C2=A0 $(CC) $< -o $@ $(LDFLAGS)
+> > > =C2=A0 TESTS +=3D unaligned-lowcore
+> > > =C2=A0 TESTS +=3D bal
+> > > =C2=A0 TESTS +=3D sam
+> > > +
+> > > +include $(S390X_SRC)/pgm-specification.mak
+> > > +$(PGM_SPECIFICATION_TESTS): pgm-specification-softmmu.o
+> > > +$(PGM_SPECIFICATION_TESTS): LDFLAGS+=3Dpgm-specification-softmmu.o
+> > > +TESTS +=3D $(PGM_SPECIFICATION_TESTS)
+> > > diff --git a/tests/tcg/s390x/Makefile.target=20
+> > > b/tests/tcg/s390x/Makefile.target
+> > > index cf93b966862..1002ab79886 100644
+> > > --- a/tests/tcg/s390x/Makefile.target
+> > > +++ b/tests/tcg/s390x/Makefile.target
+> > > @@ -2,6 +2,9 @@ S390X_SRC=3D$(SRC_PATH)/tests/tcg/s390x
+> > > =C2=A0 VPATH+=3D$(S390X_SRC)
+> > > =C2=A0 CFLAGS+=3D-march=3DzEC12 -m64
+> > > +%.o: %.c
+> > > +=C2=A0=C2=A0=C2=A0 $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@
+> > > +
+> > > =C2=A0 config-cc.mak: Makefile
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(quiet-@)( \
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(call cc-opti=
+on,-march=3Dz14, CROSS_CC_HAS_Z14); \
+> > > @@ -33,6 +36,11 @@ TESTS+=3Dchrl
+> > > =C2=A0 cdsg: CFLAGS+=3D-pthread
+> > > =C2=A0 cdsg: LDFLAGS+=3D-pthread
+> > > +include $(S390X_SRC)/pgm-specification.mak
+> > > +$(PGM_SPECIFICATION_TESTS): pgm-specification-user.o
+> > > +$(PGM_SPECIFICATION_TESTS): LDFLAGS+=3Dpgm-specification-user.o
+> > > +TESTS +=3D $(PGM_SPECIFICATION_TESTS)
+> > ...
+> > > diff --git a/tests/tcg/s390x/softmmu.ld
+> > > b/tests/tcg/s390x/softmmu.ld
+> > > new file mode 100644
+> > > index 00000000000..ea944eaa3cb
+> > > --- /dev/null
+> > > +++ b/tests/tcg/s390x/softmmu.ld
+> > > @@ -0,0 +1,20 @@
+> > > +/*
+> > > + * Linker script for the softmmu test kernels.
+> > > + *
+> > > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > > + */
+> > > +
+> > > +ENTRY(_start)
+> > > +
+> > > +SECTIONS {
+> > > +=C2=A0=C2=A0=C2=A0 . =3D 0;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0 .text : {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *(.head)
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *(.text)
+> > > +=C2=A0=C2=A0=C2=A0 }
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0 /DISCARD/ : {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *(*)
+> > > +=C2=A0=C2=A0=C2=A0 }
+> > > +}
+> >=20
+> > I just gave it a try, and while it's basically working, I see a lot
+> > of these=20
+> > messages in the console:
+> >=20
+> > /usr/bin/ld: warning: .note.gnu.build-id section discarded, --
+> > build-id ignored
+> >=20
+> > I think you should either pass --build-id=3Dnone to the linker, or
+> > add a=20
+> > .note.gnu.build-id section to the linker script?
+>=20
+> This seems to work:
+>=20
+> diff --git a/tests/tcg/s390x/Makefile.softmmu-target
+> b/tests/tcg/s390x/Makefile.softmmu-target
+> --- a/tests/tcg/s390x/Makefile.softmmu-target
+> +++ b/tests/tcg/s390x/Makefile.softmmu-target
+> @@ -2,7 +2,7 @@ S390X_SRC=3D$(SRC_PATH)/tests/tcg/s390x
+> =C2=A0 VPATH+=3D$(S390X_SRC)
+> =C2=A0 QEMU_OPTS=3D-action panic=3Dexit-failure -kernel
+> =C2=A0 LINK_SCRIPT=3D$(S390X_SRC)/softmmu.ld
+> -LDFLAGS=3D-nostdlib -static -Wl,-T$(LINK_SCRIPT)
+> +LDFLAGS=3D-nostdlib -static -Wl,-T$(LINK_SCRIPT) -Wl,--build-id=3Dnone
+> =C2=A0=20
+> =C2=A0 %.o: %.S
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(CC) -march=3Dz13 -m64 =
+-c $< -o $@
+>=20
+> I'll squash that in ... no need to resend.
+>=20
+> =C2=A0 Thomas
 
-This seems to work:
+Thanks! The Makefile used to have this, but I thought that the linker
+script would replace this (since it /DISCARD/s the build id), and I did
+not notice the warnings.
 
-diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
---- a/tests/tcg/s390x/Makefile.softmmu-target
-+++ b/tests/tcg/s390x/Makefile.softmmu-target
-@@ -2,7 +2,7 @@ S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
-  VPATH+=$(S390X_SRC)
-  QEMU_OPTS=-action panic=exit-failure -kernel
-  LINK_SCRIPT=$(S390X_SRC)/softmmu.ld
--LDFLAGS=-nostdlib -static -Wl,-T$(LINK_SCRIPT)
-+LDFLAGS=-nostdlib -static -Wl,-T$(LINK_SCRIPT) -Wl,--build-id=none
-  
-  %.o: %.S
-         $(CC) -march=z13 -m64 -c $< -o $@
-
-I'll squash that in ... no need to resend.
-
-  Thomas
-
+Your diff looks good to me.
 
