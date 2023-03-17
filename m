@@ -2,133 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965896BE1E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 08:27:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E526BE1F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 08:34:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd4Tp-0008Rh-GO; Fri, 17 Mar 2023 03:26:25 -0400
+	id 1pd4an-0001fZ-3A; Fri, 17 Mar 2023 03:33:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd4Tn-0008Qf-M3
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 03:26:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pd4ah-0001eg-Ul; Fri, 17 Mar 2023 03:33:31 -0400
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd4Tl-0006h6-ER
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 03:26:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679037980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HqrnyekWZtj3autRtqGDoL7x0MtC0GOcxCuc87fpusU=;
- b=cwqTXZ6Rf74awlOSXm30HQtAMEbGYIqy6g9ONZEL/6Obr36tmsNChL72QgAajhJ/6V/l8B
- ZIywMCqnc65ZvcGuIarBCBRY4sa8WFo+x0+My3mYbrEGFCDSUDto4BXtesvQCpIvMrJx9x
- ujnqI2r5XxU1Fu1ZEKJRL48xKjnEv+g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-166-oDloyfc4P3O7zWTwthDnOg-1; Fri, 17 Mar 2023 03:26:17 -0400
-X-MC-Unique: oDloyfc4P3O7zWTwthDnOg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j36-20020a05600c1c2400b003ed245a452fso1887178wms.3
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 00:26:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679037976;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HqrnyekWZtj3autRtqGDoL7x0MtC0GOcxCuc87fpusU=;
- b=kOHJe4gqK2wFYljbHfWrx16Yp2s7Mzc0GMl5RSyfpsOEe0xLlcIwajfEvLiVMPfD12
- 2767g/QlgkA9q+iX7xASlQv2RqCfvTzDM5E1f/mKO9YzLvusltnT13pBp+Td6la8xg+N
- r5Zv1h6YRJ+BRpH4bgWiVixC+jgJDnIgnqhGAUnlvUE6TaUG/vb4QB5GEKJxekfZPHxJ
- XCDoQRjl1FLAxexDJEg1hwU0FkrJJ0J3lJH3N9p6ebCTsoweIDbz6ahBBAg+uwotEcqC
- buzhj1EhYJ0ffCAf1vTHw424n0CacMrePGa/8jTGkczKijLassB4sNPxaQ4qbZVg0qwq
- drsA==
-X-Gm-Message-State: AO0yUKXAh8nBZjXD+qltbEeRzEVSvTvu8t4DypPleDZ0CmH+ItEaCx03
- Tsqn1nLl07kvDgFgYf3dKTpCq4Lexgo06ntYG4USrpn6fI6xavJJFRl82HBOrHVhZoxvEiykiAk
- lzkfjxv/WA7zb6s0=
-X-Received: by 2002:a05:600c:4fce:b0:3ed:24f6:1089 with SMTP id
- o14-20020a05600c4fce00b003ed24f61089mr16092904wmq.15.1679037976118; 
- Fri, 17 Mar 2023 00:26:16 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/Gl8eTfcazshyynddIacq5+dgKonMcbVTvMaTdoQMnA6FrXfJgH39r0LtsNqEKcjgiAOfLyA==
-X-Received: by 2002:a05:600c:4fce:b0:3ed:24f6:1089 with SMTP id
- o14-20020a05600c4fce00b003ed24f61089mr16092826wmq.15.1679037975745; 
- Fri, 17 Mar 2023 00:26:15 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-176-33.web.vodafone.de.
- [109.43.176.33]) by smtp.gmail.com with ESMTPSA id
- c22-20020a7bc856000000b003dc42d48defsm1479979wml.6.2023.03.17.00.26.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 00:26:14 -0700 (PDT)
-Message-ID: <e3e19ba8-6574-c989-ad02-25fabe5956f9@redhat.com>
-Date: Fri, 17 Mar 2023 08:26:09 +0100
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pd4af-0008Lt-Ea; Fri, 17 Mar 2023 03:33:31 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R891e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0Ve277gm_1679038399; 
+Received: from 30.221.99.193(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0Ve277gm_1679038399) by smtp.aliyun-inc.com;
+ Fri, 17 Mar 2023 15:33:19 +0800
+Message-ID: <83b96d54-1f02-5c88-7f1c-b55b11f53b8d@linux.alibaba.com>
+Date: Fri, 17 Mar 2023 15:33:18 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 31/32] contrib/gitdm: add more individual contributors
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH qemu v2] linux-user: Emulate /proc/cpuinfo output for riscv
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-riscv@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
- Igor Mammedov <imammedo@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Hao Wu <wuhaotsh@google.com>,
- Cleber Rosa <crosa@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Jan Kiszka <jan.kiszka@web.de>, Aurelien Jarno <aurelien@aurel32.net>,
- qemu-arm@nongnu.org, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Alexandre Iooss <erdnaxe@crans.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, qemu-ppc@nongnu.org,
- Juan Quintela <quintela@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stafford Horne <shorne@gmail.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Sunil V L <sunilvl@ventanamicro.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>, Vijai Kumar K <vijai@behindbytes.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- David Gibson <david@gibson.dropbear.id.au>, Song Gao <gaosong@loongson.cn>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Greg Kurz <groug@kaod.org>,
- Laurent Vivier <laurent@vivier.eu>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-block@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, David Woodhouse <dwmw2@infradead.org>,
- qemu-s390x@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
- Bandan Das <bsd@redhat.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Tyrone Ting <kfting@nuvoton.com>, Kevin Wolf <kwolf@redhat.com>,
- David Hildenbrand <david@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Paul Durrant <paul@xen.org>,
- Bin Meng <bin.meng@windriver.com>, Sunil Muthuswamy
- <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
- Peter Xu <peterx@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- Amarjargal Gundjalam <amarjargal16@gmail.com>, Bin Meng <bmeng@tinylab.org>,
- "Jason A . Donenfeld" <Jason@zx2c4.com>
-References: <20230315174331.2959-1-alex.bennee@linaro.org>
- <20230315174331.2959-32-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230315174331.2959-32-alex.bennee@linaro.org>
+To: ~abordado <afonsobordado@gmail.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-riscv@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+References: <167873059442.9885.15152085316575248452-0@git.sr.ht>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <167873059442.9885.15152085316575248452-0@git.sr.ht>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.124.30.131;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-131.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -144,32 +66,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/03/2023 18.43, Alex Bennée wrote:
-> I've only added the names explicitly acked.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Bernhard Beschow <shentey@gmail.com>
-> Cc: Amarjargal Gundjalam <amarjargal16@gmail.com>
-> Cc: Bin Meng <bmeng@tinylab.org>
-> Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-> Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-> Acked-by: Bernhard Beschow <shentey@gmail.com>
-> Message-Id: <20230310180332.2274827-10-alex.bennee@linaro.org>
-> ---
->   contrib/gitdm/group-map-individuals | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-> index e2263a5ee3..3264c7383d 100644
-> --- a/contrib/gitdm/group-map-individuals
-> +++ b/contrib/gitdm/group-map-individuals
-> @@ -38,3 +38,4 @@ paul@nowt.org
->   git@xen0n.name
->   simon@simonsafar.com
->   research_trasio@irq.a4lg.com
-> +shentey@gmail.com
 
-FWIW:
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+On 2023/3/5 22:34, ~abordado wrote:
+> From: Afonso Bordado <afonsobordado@gmail.com>
+>
+> RISC-V does not expose all extensions via hwcaps, thus some userspace
+> applications may want to query these via /proc/cpuinfo.
+>
+> Currently when querying this file the host's file is shown instead
+> which is slightly confusing. Emulate a basic /proc/cpuinfo file
+> with mmu info and an ISA string.
+>
+> Changes from V1:
+>
+> - Call `g_free` on ISA string.
+> - Use `riscv_cpu_cfg` API.
+> - Query `cpu_env->xl` to check for RV32.
+>
+> Signed-off-by: Afonso Bordado <afonsobordado@gmail.com>
+> Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   linux-user/syscall.c              | 34 +++++++++++++++++++++++++++++--
+>   tests/tcg/riscv64/Makefile.target |  1 +
+>   tests/tcg/riscv64/cpuinfo.c       | 30 +++++++++++++++++++++++++++
+>   3 files changed, 63 insertions(+), 2 deletions(-)
+>   create mode 100644 tests/tcg/riscv64/cpuinfo.c
+>
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 24cea6fb6a..0388f8b0b0 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8230,7 +8230,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
+>   }
+>   
+>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
+> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
+> +    defined(TARGET_RISCV)
+>   static int is_proc(const char *filename, const char *entry)
+>   {
+>       return strcmp(filename, entry) == 0;
+> @@ -8308,6 +8309,35 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   }
+>   #endif
+>   
+> +#if defined(TARGET_RISCV)
+> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+> +{
+> +    int i;
+> +    int num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+> +    RISCVCPU *cpu = env_archcpu(cpu_env);
+> +    const RISCVCPUConfig *cfg = riscv_cpu_cfg((CPURISCVState *) cpu_env);
+> +    char *isa_string = riscv_isa_string(cpu);
+> +    const char *mmu;
+> +
+> +    if (cfg->mmu) {
+> +        mmu = (cpu_env->xl == MXL_RV32) ? "sv32"  : "sv48";
+> +    } else {
+> +        mmu = "none";
+> +    }
+> +
+> +    for (i = 0; i < num_cpus; i++) {
+> +        dprintf(fd, "processor\t: %d\n", i);
+> +        dprintf(fd, "hart\t\t: %d\n", i);
+> +        dprintf(fd, "isa\t\t: %s\n", isa_string);
+> +        dprintf(fd, "mmu\t\t: %s\n", mmu);
+> +        dprintf(fd, "uarch\t\t: qemu\n\n");
+> +    }
+> +
+> +    g_free(isa_string);
+> +    return 0;
+> +}
+> +#endif
+> +
+>   #if defined(TARGET_M68K)
+>   static int open_hardware(CPUArchState *cpu_env, int fd)
+>   {
+> @@ -8332,7 +8362,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
+>           { "/proc/net/route", open_net_route, is_proc },
+>   #endif
+> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
+> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
+>           { "/proc/cpuinfo", open_cpuinfo, is_proc },
+>   #endif
+>   #if defined(TARGET_M68K)
+> diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
+> index cc3ed65ffd..df93a2ce1f 100644
+> --- a/tests/tcg/riscv64/Makefile.target
+> +++ b/tests/tcg/riscv64/Makefile.target
+> @@ -4,6 +4,7 @@
+>   VPATH += $(SRC_PATH)/tests/tcg/riscv64
+>   TESTS += test-div
+>   TESTS += noexec
+> +TESTS += cpuinfo
+>   
+>   # Disable compressed instructions for test-noc
+>   TESTS += test-noc
+> diff --git a/tests/tcg/riscv64/cpuinfo.c b/tests/tcg/riscv64/cpuinfo.c
+> new file mode 100644
+> index 0000000000..296abd0a8c
+> --- /dev/null
+> +++ b/tests/tcg/riscv64/cpuinfo.c
+> @@ -0,0 +1,30 @@
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <assert.h>
+> +
+> +#define BUFFER_SIZE 1024
+> +
+> +int main(void)
+> +{
+> +    char buffer[BUFFER_SIZE];
+> +    FILE *fp = fopen("/proc/cpuinfo", "r");
+> +    assert(fp != NULL);
+> +
+> +    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
+> +        if (strstr(buffer, "processor") != NULL) {
+> +            assert(strstr(buffer, "processor\t: ") == buffer);
+> +        } else if (strstr(buffer, "hart") != NULL) {
+> +            assert(strstr(buffer, "hart\t\t: ") == buffer);
+> +        } else if (strstr(buffer, "isa") != NULL) {
+> +            assert(strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n") == 0);
+> +        } else if (strstr(buffer, "mmu") != NULL) {
+> +            assert(strcmp(buffer, "mmu\t\t: sv48\n") == 0);
+> +        } else if (strstr(buffer, "uarch") != NULL) {
+> +            assert(strcmp(buffer, "uarch\t\t: qemu\n") == 0);
+> +        }
+> +    }
+> +
+> +    fclose(fp);
+> +    return 0;
+> +}
+
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+
+Zhiwei
 
 
