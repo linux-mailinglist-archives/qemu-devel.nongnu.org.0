@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60B46BEEF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0D86BEEFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:56:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdDNH-0005kJ-Ry; Fri, 17 Mar 2023 12:56:15 -0400
+	id 1pdDNj-0006nK-5w; Fri, 17 Mar 2023 12:56:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pdDNG-0005j2-1A
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:56:14 -0400
+ id 1pdDNh-0006lz-Ld
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:56:41 -0400
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pdDNC-0001vK-PU
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:56:13 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PdVcz2X6Dz67xNS;
- Sat, 18 Mar 2023 00:55:47 +0800 (CST)
+ id 1pdDNf-000201-Oo
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:56:41 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PdVdY5kvsz689W8;
+ Sat, 18 Mar 2023 00:56:17 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 17 Mar 2023 16:56:07 +0000
+ 15.1.2507.21; Fri, 17 Mar 2023 16:56:37 +0000
 To: Michael Tsirkin <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  <qemu-devel@nongnu.org>
 CC: <linuxarm@huawei.com>, <ani@anisinha.ca>, <berrange@redhat.com>, Fan Ni
  <fan.ni@samsung.com>, Dave Jiang <dave.jiang@intel.com>
-Subject: [RFC PATCH 3/4] hw/i386/acpi: Separate PXB related parts of DSDT into
- an SSDT table.
-Date: Fri, 17 Mar 2023 16:54:39 +0000
-Message-ID: <20230317165440.24846-4-Jonathan.Cameron@huawei.com>
+Subject: [RFC PATCH 4/4] tests/acpi: Updated DSDT and SSDT due to move of PXB
+ info to SSDT
+Date: Fri, 17 Mar 2023 16:54:40 +0000
+Message-ID: <20230317165440.24846-5-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230317165440.24846-1-Jonathan.Cameron@huawei.com>
 References: <20230317165440.24846-1-Jonathan.Cameron@huawei.com>
@@ -68,386 +68,90 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The dependencies between the CRS entries and bus numbers due to
-PCI eXpander Bridges taking resources from the primary bus make this
-a slightly complex dance.
-
-The rules we have to fit into are:
-1) FACP is first table in RSDT and points to the DSDT.
-2) Thus DSDT is created before FACP
-3) SSDT must be pointed to by a later entry in RSDT so must
-   be created after DSDT.
-4) The main PCI bus in DSDT contains entries that are dependent on
-   bus walks done to establish the entries for the PXB buses which
-   are now in SSDT.
-
-Solution is to precompute what will go in SSDT (CRS ranges and bus
-numbers) then to create the DSDT + FACTP as normal.
-
-After that create the SSDT, including rerunning some of the earlier
-bus walking code (which will give the same answers).
-
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
 ---
-RFC because:
- - There are lots of ways this could be done and I'm not sure people
-   will like this one.
- - Is it a good idea in general?
- - Should we just move all the PCI stuff including the main bus
-   to an SSDT table? - That feels like overkill to me.
----
- hw/i386/acpi-build.c | 250 +++++++++++++++++++++++++++----------------
- 1 file changed, 160 insertions(+), 90 deletions(-)
+ tests/data/acpi/q35/DSDT.cxl                | Bin 9673 -> 8474 bytes
+ tests/data/acpi/q35/DSDT.viot               | Bin 9470 -> 8429 bytes
+ tests/data/acpi/q35/SSDT.cxl                | Bin 0 -> 1235 bytes
+ tests/data/acpi/q35/SSDT.viot               | Bin 0 -> 1077 bytes
+ tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+ 5 files changed, 4 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index d79d1d6f13..f0c4959455 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1423,28 +1423,158 @@ static void build_acpi0017(Aml *table)
-     aml_append(table, scope);
- }
- 
-+/*
-+ * Precompute the crs ranges and bus numbers that will be used in PXB entries
-+ * in PXB SSDT.
-+ */
-+static void get_pxb_info(MachineState *machine, CrsRangeSet *crs_range_set,
-+                         int *root_bus_limit)
-+{
-+    PCMachineState *pcms = PC_MACHINE(machine);
-+    PCIBus *bus = PC_MACHINE(machine)->bus;
-+    
-+    QLIST_FOREACH(bus, &bus->child, sibling) {
-+        uint8_t bus_num = pci_bus_num(bus);
-+
-+        /* look only for expander root buses */
-+        if (!pci_bus_is_root(bus)) {
-+            continue;
-+        }
-+
-+        if (bus_num < *root_bus_limit) {
-+            *root_bus_limit = bus_num - 1;
-+        }
-+
-+        build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), crs_range_set,
-+                  0, 0, 0, 0, NULL);
-+
-+        /* Handle the ranges for the PXB expanders */
-+        if (pci_bus_is_cxl(bus)) {
-+            MemoryRegion *mr = &pcms->cxl_devices_state.host_mr;
-+            uint64_t base = mr->addr;
-+
-+            crs_range_insert(crs_range_set->mem_ranges, base,
-+                             base + memory_region_size(mr) - 1);
-+        }
-+    }
-+}
-+
-+static void build_pxb_ssdt(GArray *table_offsets, GArray *table_data, BIOSLinker *linker,
-+                           MachineState *machine)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(machine);
-+    AcpiTable table = { .sig = "SSDT", .rev = 1,
-+                        .oem_id = x86ms->oem_id, .oem_table_id = "PXB" };
-+    Aml *ssdt, *scope, *dev, *crs;
-+    bool cxl_present = false;
-+    PCIBus *bus;
-+
-+    /*
-+     * Check if there are any PXB instances so as to avoid the aml setup
-+     * if there won't be a PXB SSDT
-+     */
-+    bus = PC_MACHINE(machine)->bus;
-+    if (!bus) {
-+        return;
-+    }
-+
-+    QLIST_FOREACH(bus, &bus->child, sibling) {
-+        if (pci_bus_is_root(bus)) {
-+            break;
-+        }
-+    }
-+    if (!bus) {
-+        return;
-+    }
-+
-+    /* SSDT will exist so add a pointer that will end up RSDT/XSDT */
-+    acpi_add_table(table_offsets, table_data);
-+    acpi_table_begin(&table, table_data);
-+    ssdt = init_aml_allocator();
-+
-+    bus = PC_MACHINE(machine)->bus;
-+
-+    QLIST_FOREACH(bus, &bus->child, sibling) {
-+        uint8_t bus_num = pci_bus_num(bus);
-+        uint8_t numa_node = pci_bus_numa_node(bus);
-+
-+        /* look only for expander root buses */
-+        if (!pci_bus_is_root(bus)) {
-+            continue;
-+        }
-+
-+        scope = aml_scope("\\_SB");
-+
-+        if (pci_bus_is_cxl(bus)) {
-+            dev = aml_device("CL%.02X", bus_num);
-+        } else {
-+            dev = aml_device("PI%.02X", bus_num);
-+        }
-+        aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-+        aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-+        if (pci_bus_is_cxl(bus)) {
-+            struct Aml *pkg = aml_package(2);
-+
-+            aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0016")));
-+            aml_append(pkg, aml_eisaid("PNP0A08"));
-+            aml_append(pkg, aml_eisaid("PNP0A03"));
-+            aml_append(dev, aml_name_decl("_CID", pkg));
-+            aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-+            build_cxl_osc_method(dev);
-+        } else if (pci_bus_is_express(bus)) {
-+            aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-+            aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-+
-+            /* Expander bridges do not have ACPI PCI Hot-plug enabled */
-+            aml_append(dev, build_q35_osc_method(true));
-+        } else {
-+            aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-+        }
-+
-+        if (numa_node != NUMA_NODE_UNASSIGNED) {
-+            aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
-+        }
-+
-+        aml_append(dev, build_prt(false));
-+        crs = aml_resource_template();
-+        build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), NULL,
-+                  0, 0, 0, 0, crs);
-+        aml_append(dev, aml_name_decl("_CRS", crs));
-+        aml_append(scope, dev);
-+        aml_append(ssdt, scope);
-+
-+        if (pci_bus_is_cxl(bus)) {
-+            cxl_present = true;
-+        }
-+    }
-+
-+    if (cxl_present) {
-+        build_acpi0017(ssdt);
-+    }
-+    g_array_append_vals(table_data, ssdt->buf->data, ssdt->buf->len);
-+    acpi_table_end(linker, &table);
-+    free_aml_allocator();
-+}
-+
- static void
- build_dsdt(GArray *table_data, BIOSLinker *linker,
-            AcpiPmInfo *pm, AcpiMiscInfo *misc,
--           Range *pci_hole, Range *pci_hole64, MachineState *machine)
-+           Range *pci_hole, Range *pci_hole64, MachineState *machine,
-+           CrsRangeSet *crs_range_set, int root_bus_limit)
- {
-     Object *i440fx = object_resolve_type_unambiguous(TYPE_I440FX_PCI_HOST_BRIDGE);
-     Object *q35 = object_resolve_type_unambiguous(TYPE_Q35_HOST_DEVICE);
-     CrsRangeEntry *entry;
-     Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
--    CrsRangeSet crs_range_set;
-     PCMachineState *pcms = PC_MACHINE(machine);
-     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(machine);
-     X86MachineState *x86ms = X86_MACHINE(machine);
-     AcpiMcfgInfo mcfg;
-     bool mcfg_valid = !!acpi_get_mcfg(&mcfg);
-     uint32_t nr_mem = machine->ram_slots;
--    int root_bus_limit = 0xFF;
--    PCIBus *bus = NULL;
- #ifdef CONFIG_TPM
-     TPMIf *tpm = tpm_find();
- #endif
--    bool cxl_present = false;
-     int i;
-     VMBusBridge *vmbus_bridge = vmbus_bridge_find();
-     AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
-@@ -1557,78 +1687,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-                                  pcms->memhp_io_base);
-     }
- 
--    crs_range_set_init(&crs_range_set);
--    bus = PC_MACHINE(machine)->bus;
--    if (bus) {
--        QLIST_FOREACH(bus, &bus->child, sibling) {
--            uint8_t bus_num = pci_bus_num(bus);
--            uint8_t numa_node = pci_bus_numa_node(bus);
--
--            /* look only for expander root buses */
--            if (!pci_bus_is_root(bus)) {
--                continue;
--            }
--
--            if (bus_num < root_bus_limit) {
--                root_bus_limit = bus_num - 1;
--            }
--
--            scope = aml_scope("\\_SB");
--
--            if (pci_bus_is_cxl(bus)) {
--                dev = aml_device("CL%.02X", bus_num);
--            } else {
--                dev = aml_device("PC%.02X", bus_num);
--            }
--            aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
--            aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
--            if (pci_bus_is_cxl(bus)) {
--                struct Aml *pkg = aml_package(2);
--
--                aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0016")));
--                aml_append(pkg, aml_eisaid("PNP0A08"));
--                aml_append(pkg, aml_eisaid("PNP0A03"));
--                aml_append(dev, aml_name_decl("_CID", pkg));
--                aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
--                build_cxl_osc_method(dev);
--            } else if (pci_bus_is_express(bus)) {
--                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
--                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
--
--                /* Expander bridges do not have ACPI PCI Hot-plug enabled */
--                aml_append(dev, build_q35_osc_method(true));
--            } else {
--                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
--            }
--
--            if (numa_node != NUMA_NODE_UNASSIGNED) {
--                aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
--            }
--
--            aml_append(dev, build_prt(false));
--            crs = aml_resource_template();
--            build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set,
--                      0, 0, 0, 0, crs);
--            aml_append(dev, aml_name_decl("_CRS", crs));
--            aml_append(scope, dev);
--            aml_append(dsdt, scope);
--
--            /* Handle the ranges for the PXB expanders */
--            if (pci_bus_is_cxl(bus)) {
--                MemoryRegion *mr = &pcms->cxl_devices_state.host_mr;
--                uint64_t base = mr->addr;
--
--                cxl_present = true;
--                crs_range_insert(crs_range_set.mem_ranges, base,
--                                 base + memory_region_size(mr) - 1);
--            }
--        }
--    }
--
--    if (cxl_present) {
--        build_acpi0017(dsdt);
--    }
--
-     /*
-      * At this point crs_range_set has all the ranges used by pci
-      * busses *other* than PCI0.  These ranges will be excluded from
-@@ -1636,7 +1694,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-      * too.
-      */
-     if (mcfg_valid) {
--        crs_range_insert(crs_range_set.mem_ranges,
-+        crs_range_insert(crs_range_set->mem_ranges,
-                          mcfg.base, mcfg.base + mcfg.size - 1);
-     }
- 
-@@ -1654,9 +1712,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-                     AML_POS_DECODE, AML_ENTIRE_RANGE,
-                     0x0000, 0x0000, 0x0CF7, 0x0000, 0x0CF8));
- 
--    crs_replace_with_free_ranges(crs_range_set.io_ranges, 0x0D00, 0xFFFF);
--    for (i = 0; i < crs_range_set.io_ranges->len; i++) {
--        entry = g_ptr_array_index(crs_range_set.io_ranges, i);
-+    crs_replace_with_free_ranges(crs_range_set->io_ranges, 0x0D00, 0xFFFF);
-+    for (i = 0; i < crs_range_set->io_ranges->len; i++) {
-+        entry = g_ptr_array_index(crs_range_set->io_ranges, i);
-         aml_append(crs,
-             aml_word_io(AML_MIN_FIXED, AML_MAX_FIXED,
-                         AML_POS_DECODE, AML_ENTIRE_RANGE,
-@@ -1669,11 +1727,11 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-                          AML_CACHEABLE, AML_READ_WRITE,
-                          0, 0x000A0000, 0x000BFFFF, 0, 0x00020000));
- 
--    crs_replace_with_free_ranges(crs_range_set.mem_ranges,
-+    crs_replace_with_free_ranges(crs_range_set->mem_ranges,
-                                  range_lob(pci_hole),
-                                  range_upb(pci_hole));
--    for (i = 0; i < crs_range_set.mem_ranges->len; i++) {
--        entry = g_ptr_array_index(crs_range_set.mem_ranges, i);
-+    for (i = 0; i < crs_range_set->mem_ranges->len; i++) {
-+        entry = g_ptr_array_index(crs_range_set->mem_ranges, i);
-         aml_append(crs,
-             aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
-                              AML_NON_CACHEABLE, AML_READ_WRITE,
-@@ -1682,11 +1740,11 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     }
- 
-     if (!range_is_empty(pci_hole64)) {
--        crs_replace_with_free_ranges(crs_range_set.mem_64bit_ranges,
-+        crs_replace_with_free_ranges(crs_range_set->mem_64bit_ranges,
-                                      range_lob(pci_hole64),
-                                      range_upb(pci_hole64));
--        for (i = 0; i < crs_range_set.mem_64bit_ranges->len; i++) {
--            entry = g_ptr_array_index(crs_range_set.mem_64bit_ranges, i);
-+        for (i = 0; i < crs_range_set->mem_64bit_ranges->len; i++) {
-+            entry = g_ptr_array_index(crs_range_set->mem_64bit_ranges, i);
-             aml_append(crs,
-                        aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-                                         AML_MAX_FIXED,
-@@ -1722,8 +1780,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     aml_append(dev, aml_name_decl("_CRS", crs));
-     aml_append(scope, dev);
- 
--    crs_range_set_free(&crs_range_set);
--
-     /* reserve PCIHP resources */
-     if (pm->pcihp_io_len && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
-         dev = aml_device("PHPR");
-@@ -2485,6 +2541,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-     AcpiMiscInfo misc;
-     AcpiMcfgInfo mcfg;
-     Range pci_hole = {}, pci_hole64 = {};
-+    int root_bus_limit = 0xFF;
-+    CrsRangeSet crs_range_set;
-     uint8_t *u;
-     size_t aml_len = 0;
-     GArray *tables_blob = tables->table_data;
-@@ -2527,10 +2585,20 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-     facs = tables_blob->len;
-     build_facs(tables_blob);
- 
-+    crs_range_set_init(&crs_range_set);
-+
-+    /*
-+     * Before creating the entries for the main PCI bus, establish
-+     * if space needs to be made for any PXB instances.
-+     */
-+    get_pxb_info(machine, &crs_range_set, &root_bus_limit);
-     /* DSDT is pointed to by FADT */
-     dsdt = tables_blob->len;
-     build_dsdt(tables_blob, tables->linker, &pm, &misc,
--               &pci_hole, &pci_hole64, machine);
-+               &pci_hole, &pci_hole64, machine, &crs_range_set,
-+               root_bus_limit);
-+
-+    crs_range_set_free(&crs_range_set);
- 
-     /* Count the size of the DSDT and SSDT, we will need it for legacy
-      * sizing of ACPI tables.
-@@ -2546,6 +2614,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-     build_fadt(tables_blob, tables->linker, &pm.fadt, oem_id, oem_table_id);
-     aml_len += tables_blob->len - fadt;
- 
-+    build_pxb_ssdt(table_offsets, tables_blob, tables->linker, machine);
-+
-     acpi_add_table(table_offsets, tables_blob);
-     acpi_build_madt(tables_blob, tables->linker, x86ms,
-                     ACPI_DEVICE_IF(x86ms->acpi_dev), x86ms->oem_id,
+diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
+index f049f414f0e789324e82916cfd0aa955211408c4..88783c368d3afeea2fd20e9e72e4807436aeb78d 100644
+GIT binary patch
+delta 24
+gcmX@<J<Ey9CD<iIN|Awq@$W`1N!iVp6u&bA0AK?L^Z)<=
+
+delta 1139
+zcmeH{v2W8r6vm(JsJK@*a!LdO5fwoZYeHL?P-EXA5yc5noT^AcIy>=Dl*K|~C{g8#
+zg(yr>fPsayct?mCv9NSQLQF`7zkvk?TJz3sBM@Qhh==#yec!uxmhPu}Ztj)|vsq*J
+z5`gshH93<D*uoudo4on3e34r0hRRn<jO?l0G^--rEU{UG)=K$&;VP({me`yoYsLqn
+zilC_6V0BRK)mjZy+NfJ`P2-wE)=KkRHcj<AK-pShRMiH<^~_14H!GhPzt5j5K3f~S
+zo60BJ%%^Ybci;CbZ?8W&tFL_g+3%1P?z)0m#k}Z?;B*}_KlpMv5RN!CR>i@-Bm5Cd
+z{d1az4NEvp$Gj}|E#Uwvie(%?H$@?d5O%iHVpWKLpb&Pl#c5uvH^85hw;UhbooaC6
+zsY|x}2QHDJ<#+G7Eg%ZCNBXdhUDGK5t6FB@2|*eQ1`3&Bo5*9uJXDmiLc#MlH(Er8
+znJ9vu2jF*IoZa&z@V%bn!hJV%0=$a4onceNd2|{;lOXx_qiAJ6DU0yCbN(QT_`xLS
+zB|71uBSUW%WDVQ);44N2HbDP_kUWhEX%a0#1k-UNGI(|BKN4+nOh^<FiC`iU4qp6=
+riAZdtv-1}c8l;bqSV*3X9KCH-jsVc(N8%b}Rc<#72&Fd{azB(`uhcHS
+
+diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
+index 3ad4d26b7f5c183fd3e146b67ebb23662b5108eb..cf9d844c065fc1eeebf6dedd9883f58b917cf0ac 100644
+GIT binary patch
+delta 24
+fcmez8`PPxkCD<k8tpWoBqu)j@N!iUNil>+XZh;5U
+
+delta 717
+zcmaFs_|KEeCD<k8p9%v5<Km56lCp+gqA~HoPVv!Aj-mn1#s(bmp`I>WK+4I<4@7x*
+zy6`w&;NswjcZRT-C(d<bl%IItrrv=wJ|HNBp+JbKA)$aFagiVU)I_d^f~rI=CWfSf
+z>Y~IX1}<iX<OKqglYxpjSr{06{JdQlQa}QXZ~;f4fZ*h0E+)8$6I6s5F5=9PQczo&
+z#3jJM{r^8hM+yT&L3Lsr(D05FMuvivj)X*p(!?bRKsN>j3yN|Hb?`DU@h~tj7yu#A
+zqYRY{0w~@zf_hT{;!Pkmq`j%Ypn%nzhEQ(`K)ea02Cp}D2*;)Xg8<Z<o0ViwGXns!
+CTCXku
+
+diff --git a/tests/data/acpi/q35/SSDT.cxl b/tests/data/acpi/q35/SSDT.cxl
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..598c4751f629eb7766d978566a906701b7ca5acb 100644
+GIT binary patch
+literal 1235
+zcmeHHU2D@|6h29dX793+ZUsS<4crfCx7A&ZHF;lQWoZ|hjuj>(X@hL^Cdj;)WjOT0
+z(mNOR)@<f)2wwODgdtuC!{6YIH*WEqW)?r{9}r*2Ifv&tUvM5`+oE}z1(2Q?8+^^4
+zvswnwlkhWI7ALQX`MZv7INOicZ*f!HQJl@HU}uVB7<F=MRWYS=t6D6UZiC|Rs+d+~
+zRe#SEG8x6uMFSLj)3QL}&4xLQ`7q{CFmuj^&9j3paIsa2>guy_CqKiq?b@fsud_EQ
+zFSqvew<{m-rRd~`FFU*M2DLXU&#!B%r{4x$mc_aS^a}dLfQ;L7*{mCBN8zq?KwXDi
+zDVjM7hjfZ*#8CbMtu`#A?E;r_B9Z;;Kot{~a3D1(Q{56a;1rax0jKU|iA>x*&ZV<x
+z$5PxaR3;p&(S%@HK6C@{PU=@*c<eBE=rI}ELGQlT29|+Nq=g+!n!v-D^>qP00n!N2
+z5y*!fCXW!~63L7Z4t{X3-)0(2CJFR?fS~7L@4hcV;P+h*9(b{f*J{{#afP{0uK}oZ
+zZF=WPvU;9|75JH%yGRn}VjS}tnfQ{Cp+5z(ifL!?8Eppke-lxWry^2Q5uy7pqJK<8
+u6%^5<u_AI&DzC<h=op!kKSZQL?uUrx)Bn&--ZE>yXl5A-ieoo*h^6n_kVX&y
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/q35/SSDT.viot b/tests/data/acpi/q35/SSDT.viot
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..6a746d34b01b87bc054093cd38801fddadb2daad 100644
+GIT binary patch
+literal 1077
+zcmeH@KWoB37>D0Pi}7mV{I?a%M=(mEOTk<+Xlr9I76l7QG?W&XqqKt!f^-UwhIUSi
+zAEY0lTZev-j`q$3htkE}JMMnR^S*a*k7en-lQe*EN;+E8lFb1DJ_NSNz|?r+^YXQA
+z5qtQomd#eZD%n>p9kC$9;L&X9IrS4slC8z3RH>b@JC>GSOhD87N@N^_xA`K%!^`jb
+zPvyAr+J8_#&c1FI6O?8RHI@>~I^~<=JE-DBcp2UaGk$$jQ=;NB+>~R6d4)QhyyarV
+zpHfznQX^}d-5$__ICm(x??&duMRWS(A`wQ^zjsG~QZSBiIA%>*_WQPRp@YYPumvgu
+z`EZQHEg=a>ZHWdRolQpw!{K@jfd@c+m%SZ$0#Gk-TzGU>4)fBr@?}&AjzG*Yp;b1y
+m;^`l?wM4BPt7WlQyQ5ke<bTyFiCP@1WwBSgqgo6&QTq#m&k+y+
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 0307b25f93..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,5 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/q35/DSDT.cxl",
+-"tests/data/acpi/q35/DSDT.viot",
+-"tests/data/acpi/q35/SSDT.cxl",
+-"tests/data/acpi/q35/SSDT.viot",
 -- 
 2.37.2
 
