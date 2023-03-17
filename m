@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF076BEFAD
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8CE6BEFC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:36:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdDsK-0002vb-LB; Fri, 17 Mar 2023 13:28:20 -0400
+	id 1pdDyg-0005wp-Nd; Fri, 17 Mar 2023 13:34:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pdDsI-0002v7-DD
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:28:18 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pdDsG-0002un-Na
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:28:18 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- qe8-20020a17090b4f8800b0023f07253a2cso5950506pjb.3
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 10:28:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679074095;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xduJVcuAgQuB7bxyjGWP8oKwzv/ArE6QVMLy0HUQ6XM=;
- b=MW6pxty4jvCSJZsHjJCrZf4dRn6sk2QjmuTtOfKOeCbzGWGBNJ+IyTZrvq9cJSy6si
- YJx/A/GeEmUlZzrvGzYzX4ZLGyh+0ZIN/+6WASKha19GGZ3PnVNcZD39mekK1dhLb3GU
- QlwTCkVVTTK9JeGfuNhS+VGODwNt5U4JuDq7EWIfA/V46QD1TSKDz5G/H8H91tZVu+q7
- CAPa4DagUeNjtuDetgGi41Qk9JsH77vtmznsASVmHWJD+q9n0ytU1FaZjMrVTojAByPQ
- Y7dP8QRwHp+c5dXYNHzZPssF/R0OkKkSP9XO9K2pO8WOFcqrA+usheXLZQ4Hb/r4lQoD
- 4y0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679074095;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xduJVcuAgQuB7bxyjGWP8oKwzv/ArE6QVMLy0HUQ6XM=;
- b=N10ybTVoeNBP3uSjq+WVAnr4/aBHF/hn+ItelwWpb2AE3VmFgiZ0FeWy3zoMdBuzkd
- id2Z66hgwAjiPJoOYCo7WQd7hFwtR7sT/yFqi0uqTnbm9YNj7IugoY7YCnflHPto4fiE
- uf/ZPtB2aahx1UFq1RlWfgCZ1RJX71LB34su6QJBUdM6164EHGYcFNfvIpHBYFVRZaOk
- eHOjI/0uJvxm5GUUAamcEH48O/o39L9rmtbwYao6pYjTMlFULNhv4tZfu8Zgg+riiAYD
- dDCtBmzKNN4ZUPymDKCyz/Goc5Yvm7rt5mDMFFTOeon0NGmiIsK1A+wjZNvUHsuvse4L
- Fo5Q==
-X-Gm-Message-State: AO0yUKXfrif/YsytvTbhhLI1/1Evy3PgqAg8bJ3q30r/2cJvLN3r4kgX
- RLn43dOc1VFYKvSqa1CiSJVKNHKopGj8Gha8uON3aKfG/Cy1Qm+k
-X-Google-Smtp-Source: AK7set/OIrPFz9AyfEBnv1dIVtVQHz69pK0hIzjNK2UtxQOTTtCRDQPfbRR/YCqmQCrrFfztA7wzO1LECTiwbiDT2lc=
-X-Received: by 2002:a17:903:24d:b0:19f:2339:b2ef with SMTP id
- j13-20020a170903024d00b0019f2339b2efmr3267286plh.9.1679074095303; Fri, 17 Mar
- 2023 10:28:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pdDyf-0005v8-8w
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:34:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pdDyd-00050r-L0
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:34:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679074490;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ormTE2lLRJXcN5dZp0aF+vrKU34MfIwNVUyXwZ+juWA=;
+ b=L9VnLXsq5gHUVcZCeYS4UzinLPeCKdlEUNWkMOhk2FDTgcK7xJZgnc4L/aaWmMVZSRRn3v
+ iniJBRqH6KLNu7j/Clrynvb5DRamRZ2d6Ke/G7nLfZOBIB+24OkqOvyLSPLHnCM+s7+Y0C
+ ZVjCrASTT8jNGB2UD4djkRmTYTCsqIM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-417-JQ4tMv4_Pa-CE3-pvtsJYA-1; Fri, 17 Mar 2023 13:34:47 -0400
+X-MC-Unique: JQ4tMv4_Pa-CE3-pvtsJYA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01F731C05152;
+ Fri, 17 Mar 2023 17:34:47 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 381AC40D1C7;
+ Fri, 17 Mar 2023 17:34:44 +0000 (UTC)
+Date: Fri, 17 Mar 2023 17:34:40 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL v2 08/18] ui: keep current cursor with QemuConsole
+Message-ID: <ZBSksLx7EhkA1plf@redhat.com>
+References: <20230313200134.503083-1-marcandre.lureau@redhat.com>
+ <20230313200134.503083-9-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20230317141808.826875-1-laurent@vivier.eu>
-In-Reply-To: <20230317141808.826875-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Mar 2023 17:28:04 +0000
-Message-ID: <CAFEAcA-J3a8YM_g5uSLPGnVZc4iqpiJpy96yQKufUt1GiMbQzQ@mail.gmail.com>
-Subject: Re: [PULL 0/3] Trivial branch for 8.0 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230313200134.503083-9-marcandre.lureau@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,36 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 17 Mar 2023 at 14:19, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 652737c8090eb3792f8b4c4b22ab12d7cc32073f:
->
->   Update version for v8.0.0-rc0 release (2023-03-14 19:25:05 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-8.0-pull-request
->
-> for you to fetch changes up to 364206640c6b34bae3bb9e428817e51d23a794d0:
->
->   docs/sphinx/kerneldoc.py: Honour --enable-werror (2023-03-16 14:39:10 +0100)
->
-> ----------------------------------------------------------------
-> Trivial branch pull request 20230317
->
-> Fix doc
-> Fix sh4 cpu log output
->
-> ----------------------------------------------------------------
+On Tue, Mar 14, 2023 at 12:01:24AM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Keeping the current cursor around is useful, not only for VNC, but for
+> other displays. Let's move it down, see the following patches for other
+> usages.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  include/ui/console.h | 1 +
+>  ui/vnc.h             | 1 -
+>  ui/console.c         | 8 ++++++++
+>  ui/vnc.c             | 7 ++-----
+>  4 files changed, 11 insertions(+), 6 deletions(-)
+
+Unfortunately this commit appears to have casued a regresion leading
+to a SEGV crash in VNC reported by a user:
+
+  https://gitlab.com/qemu-project/qemu/-/issues/1548
 
 
-Applied, thanks.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
 
