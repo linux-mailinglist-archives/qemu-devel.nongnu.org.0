@@ -2,138 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C006BECDA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 16:27:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B106BED4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 16:50:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdByD-00042g-D5; Fri, 17 Mar 2023 11:26:17 -0400
+	id 1pdCKM-0000tC-C7; Fri, 17 Mar 2023 11:49:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pdByB-00042X-T7
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 11:26:15 -0400
-Received: from mail-he1eur04on0723.outbound.protection.outlook.com
- ([2a01:111:f400:fe0d::723]
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pdCKJ-0000si-OK
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 11:49:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pdBy9-0007p1-Gf
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 11:26:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GAGlBiKteYt3/AMiN+iDc3RiXgjuOz8ytdfq6UP5j4Zuhp1Airy6N/0J+72CgS35h+BVL7eXUxmUDKADr79LhV6lkKr/ebcEvB+KkdTgGHJoq0y1N1/IdYmehrnqQnoiWHtwh6pOcWN6XVTmEO+1NaB6aE7zH6RRQZWsxHvd0fB99C8Qsjr5HpsNfquQQLL03cQXvA1ggDJ53raeJq6GnlgKh5wF0Gnb4eFortMqUHrOULVzxbaS5mCo6Eo0dzIXIScIZeFNQjAVKMW9cQ7oc8o5EOS8D3wpH3Q05nfGvjS1Uv+e19mnTR3woYZcn5QFGDQuAKiYtol6Io9jI1YCmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sIwc88YGpLIB8FunmPBSMGtgIWVGG1W4UPwNOGwZjwo=;
- b=Sa72JVyFJQ2sfp5hhnRQu3gTo8VfQA4CXmZHiigqboYYfDlc9rb891NvhXA/JA6GZ1olm5K2AjcJqgmxA1AwnLbj5pQ2TKgFov82E3enLb04SvYYVfvTlQwS1/Y2qR0CoBNpYSE54kDUWFkkJllPLa54TQYFsCsDp9wuEZeoiwVI/P1KbpqDo0MpFqcRVzwfnSzZrPqCSsUNUB/upolpPJ+jttOXdF66v5Uk8EuT0mm9qNgD45E6/eiscvK+NtxMR9KS4yXarUz5asXP6oTurZxq02nUxG3Ml3ZMAGyCmzZA1uGMe8Sb+V6FHgsNFOD3w4P5U8drGQxk/9qXbO2gLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
- s=selector2-estab-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sIwc88YGpLIB8FunmPBSMGtgIWVGG1W4UPwNOGwZjwo=;
- b=jKMjWP6aI2Ov4+VG82Kuw1g9yFI6J0E4f8PUYnqN/bs+BEKpxDxkMfoQZ1OWs3wF004G+IJh/Phci/cjY4Db4mlNcg9l5RO7E1Bq3tlez1el/M1A4mb3lmyS8T7ma8uQxV/nnwTEs3Q5NlGch2OI2bZpdmuRZIZc9AJAWqkA+Aw=
-Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
- by PR3P189MB0940.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:2a::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.31; Fri, 17 Mar
- 2023 15:26:06 +0000
-Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
- ([fe80::13ad:a312:15c6:91dc]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
- ([fe80::13ad:a312:15c6:91dc%8]) with mapi id 15.20.6178.035; Fri, 17 Mar 2023
- 15:26:06 +0000
-From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Jason Wang
- <jasowang@redhat.com>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
-Subject: RE: [PATCH for 8.0] igb: Save more Tx states
-Thread-Topic: [PATCH for 8.0] igb: Save more Tx states
-Thread-Index: AQHZWMuINZfMJXSP7k6iKUkWCvi8Ia7+7pkggAAXEQCAABDmcA==
-Date: Fri, 17 Mar 2023 15:26:06 +0000
-Message-ID: <DBBP189MB1433E35BE3BACCC9D6DC753B95BD9@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
-References: <20230317122456.43461-1-akihiko.odaki@daynix.com>
- <DBBP189MB1433B24E821E8E3F0B6B540C95BD9@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
- <345cb091-2906-579e-83ef-c5be75769199@daynix.com>
-In-Reply-To: <345cb091-2906-579e-83ef-c5be75769199@daynix.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DBBP189MB1433:EE_|PR3P189MB0940:EE_
-x-ms-office365-filtering-correlation-id: 9663f137-6cea-4744-9af0-08db26fbed4d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wO5r6s/TkxvDMa9GsdLDXfURoVtntNoKMnbUHLR5CMgLXD8//gFw78rILizU9MmC84kYE3C/t1Hbm5RYBzTlQc+VpmGZXKRj5vNNaa14+/F07uAmTE7ZYlyBgl0tV1CzU850ITJqLiAe3QMw3+8qCpHTLeyYd6pDMsCq9tH4xfYDOCVzy4LZ9qLVNBlH8oxf3TsqxjZl4Tg/KjpDrF1JNDV5wENOcvbwddoQ52vJTlD6YO+2lTw9z7cP6/gmb1oVJsmg+PoVB2sqRfb6GTsge2SGSZqtluke9TSAIu6Hsz0F+M1Go6J3JDWldZLVAJRYJxaJKgmN2As3VdHHhnsF/nPrnwUzvomaVrp0ixT8JC4L0WFmyo7XALRWGKrtyPeyWvpbLSMnro4DQmO2ua0LXnqT63sQZyljgOvspwVIeBw8o+fld9/xRViKbDRiRdLnkaIqv7TgsV+U16lzBA/umToGvtUVQI89N7ocPnNIByXHHp++pBn4cEInnLbKUdZSw9V/Cqu/j9ktgKazT3J6oTVBESijJO4sfRFRLk84WJCkm5inVYlQRENRh7o9ioZpEhHWgaLaCJ5jg6pspo98W8NzkrZ8UCqcO0WnghtdYGdzzbVXeX8qtR/go09JnbTPTEOngW9FL7Wld/yZsv4ydgkzc/9kD1KUu3rwQb9OT/9GvcL1WwqkAr7a+z2MJ/nhhr4W3j3USIwIuznm0DRrA3VfF1swB7NhVoQnhwUdjzs=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230025)(366004)(376002)(39840400004)(346002)(136003)(396003)(451199018)(86362001)(122000001)(38070700005)(52536014)(2906002)(33656002)(7696005)(38100700002)(44832011)(8936002)(5660300002)(41300700001)(26005)(9686003)(53546011)(6506007)(83380400001)(4326008)(316002)(186003)(54906003)(71200400001)(6916009)(66946007)(66476007)(66446008)(66556008)(8676002)(55016003)(478600001)(76116006)(64756008)(21103001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Um82SVQxVUFsNjhrcmRJVllvQ2YxMUF6ZkJLREJKUXRhTElFWVU3VGhLc1Rj?=
- =?utf-8?B?V0hEMWl3d3h5SHpJdTFjN1ZtV0FadDUzdURFSSttWldwZ3hKcjAzQ2Rtdnk1?=
- =?utf-8?B?Qi9vZHRqY3FuWS9HZm1RS3pQMUtlN0VQdFRrSDdycEtxdU80UVFBYlN4SGpI?=
- =?utf-8?B?UG1wYUsrNWVvVDFyQ0JnY0t3NFovbzh0bFJGVlU2Q1pZcnhnRlNtS3h0eXI4?=
- =?utf-8?B?WFU3aUJ5Z0pjMWhVckJmNXlCRXZVUTRjdFBHNXl4TTJGM05kOVMwMFhZK2xJ?=
- =?utf-8?B?MmVDdmlWdDVoZ0kycHE5QmFkVjFLV011VVdXWVJxSmdiYTNMYU9pNkN1VWU4?=
- =?utf-8?B?RTdpYzNKUk05bm9jQXFuZTV1ZEw5NlZqUjgwWHFyVzBMZHA0K3U0VDdzb2E0?=
- =?utf-8?B?SVJoQlNHRnBRckRXdmpUc3lTV05MWDBCOVNsTFpyUHZzQ09kWG4zQ0FwMzdY?=
- =?utf-8?B?aUVvVGJJZ0t6RXJtZEl2S3VxK3pOMXM0Q0ZiUmVNb05DVGFaamFCNG9WQXUz?=
- =?utf-8?B?UkxRQXduL1FieEQ3L09kbVpza0I5Y3hCUGJuU0hBZEdkcWd2eGJCc2JUWXV3?=
- =?utf-8?B?a3NXVHZWa2RRYUNVVGlyRS9RWU81UEorQ21NRVhpK2R3SHA5bUsxRmh2V2Er?=
- =?utf-8?B?YU0rS21mTGVmcURRVTFBOEJseXA0YkR1dUFhOXVTeVV1VXg3VnBGRnZqRi9N?=
- =?utf-8?B?Y2NZU2tlajNPMDEzd05sWFFNMXBWMlM0dkxoTDRoNXdZRlFydDd1MWFCR3RK?=
- =?utf-8?B?VEFxNis0VHZhM1cvdzE3SkQzbTg5VGd2dWE4eThvLzlkZ1NrZmUzYzk2cFFi?=
- =?utf-8?B?dHM5ckdjWEREWXp1czRlMFhWZ0ZNbVNnQXVucGppUmF6MER5ai9EcGZNSU44?=
- =?utf-8?B?TS84cUFCblJHV2VJdGszRGRySUwwOW1qRDhuR25WSWw5amgzd25haWpxNFZL?=
- =?utf-8?B?a1dZU1BJTkMzVGFqT1ozWno0ZmFzckVxMTZ5cHpPR0FROWEyR2NtZ3F6WHFZ?=
- =?utf-8?B?VEttMDVvQzRzbkUzeDZqWHRQNjVGM0xhekxUaWNHYzdXK0gyYXVjRVpsM2ZO?=
- =?utf-8?B?YWVDNFlLWTRZVlZpY0xKcmdxakowYVlXK0hKUk0vVG5UeHFGRzVjeXZuckNZ?=
- =?utf-8?B?WGhwK3JNenZZdks0VU9lTFJubnVYSU9YbnJHSUxlMStoRllhY0VmYkRpWmRT?=
- =?utf-8?B?L252UEZRZXAveEhJQXhwcmx4cHBNV3pjbE5hUG16L1JMVDNkSUdZTUJNMzVp?=
- =?utf-8?B?bUpCUUFKdmYyemd3WHdaK0lGNHFCSFFVRkQ5clRhcFdhNUR2UllDM1hUUGt0?=
- =?utf-8?B?Nkhod1FkVGhGZUI3UitzVGhGalJNVU9kVnIvQU1uYUJkVkNDTHA4K3d3NHVT?=
- =?utf-8?B?b0RDc0hURmRNNEZYNlNNV09sSE4yMDloV1M1K1ZycjRCaGdyY08vM2dRNkNw?=
- =?utf-8?B?SWtDYlNBTTQ2RDlFcWIzM3E0N3BKYkhWa0tXcjNpclhBLzloZHlDUFhwVVdP?=
- =?utf-8?B?b042dnUxQjFBOFBPenROWmtCSEZ5RzNSdGpuZHNRamlyVytraTJ3ODMzZmRw?=
- =?utf-8?B?Q0ttWkV0UGVwUXpxR1ZOTFBRQ2FlSGdSR1FyMFZsWm5XZGo1QlZrZHdLMUI5?=
- =?utf-8?B?ekdmTjV6SDk4YnpsbVQrL0pQbnRpOHJwK2Z1bjF1enVwWjlNbk5LS1pNYlpr?=
- =?utf-8?B?UXkxWVZBUEVLTDUyRzZjejhPb21XT2o4MkN1ZGVoWDhIeHg4NzhQWEZvSlFt?=
- =?utf-8?B?Mmc4bmNQVUhUYnhLcnY3Y2FybWxFYTM0alN0SmVWWGppRFdwbk5SZk4rV0ZT?=
- =?utf-8?B?bVZraW9kUjZyY3FRSitodGFyMjV3UVF4bExFc0gxN0V1VExzMzVOWTMyTTRm?=
- =?utf-8?B?ZWhvWExGaXd2TmlvK1pTSnkrNG1RZi8yUmNKakpNbEpwbWVxQUVtS05qbU1C?=
- =?utf-8?B?T2tZSDlHbTAxdFhESlY4SWJqV3JDM29Sa25ERzFhblNZMFRMbkJncWY2UCsw?=
- =?utf-8?B?bG1NQkQ5aFFoQzB3NUI5VWNxZENMa0ZDS0lXdzh0Y0Z2WUl2Zmp4VXRFYVR5?=
- =?utf-8?B?MUlMVWlXWDUxYzBWRUFuK0N4aDA5ZE5xZTZwR2ZzKzFZR0xxZzRXdGF4cTRw?=
- =?utf-8?Q?X06JRpADDNHxn8JN11dioUgcV?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pdCKH-0006jz-4z
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 11:49:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679068143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=08Atvw5ojceGCcyGXTFADvFlSUdCfM45KpfBB3E31B0=;
+ b=iwLmXXgzoeCrfSwz3+to8Rqgw4wMkckuECY4528EzIlHJCODYnEPJ2TYQigiAj+4GszQ9U
+ XyeQOUbnQIoNL44RN7EWrMfz50TxyyHOWfRfeE6+JjhiU6ep2BDv08bdJWb6NNV76LevZj
+ kyXW/q/ClP9kJXd4ZEXVQrXoPcshpl8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-425-joiNfBdbOAu7vDdQT2wC9w-1; Fri, 17 Mar 2023 11:49:00 -0400
+X-MC-Unique: joiNfBdbOAu7vDdQT2wC9w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 376501C075B7;
+ Fri, 17 Mar 2023 15:49:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82F682166B26;
+ Fri, 17 Mar 2023 15:48:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7DCDC21E681C; Fri, 17 Mar 2023 16:48:57 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Michael Roth
+ <michael.roth@amd.com>,  Het Gala <het.gala@nutanix.com>
+Subject: Re: [PATCH v2 3/3] qapi: allow unions to contain further unions
+References: <20230223134027.2294640-1-berrange@redhat.com>
+ <20230223134027.2294640-4-berrange@redhat.com>
+Date: Fri, 17 Mar 2023 16:48:57 +0100
+In-Reply-To: <20230223134027.2294640-4-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 23 Feb 2023 13:40:27
+ +0000")
+Message-ID: <87ilezfkeu.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9663f137-6cea-4744-9af0-08db26fbed4d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2023 15:26:06.2522 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HbEl1oQocN3/sNbBzwe3QzXWcfR4NKWdBRfNlcnGHibS1WJnsk44t4ilbGLZDSr/6NQDVSI6JSUYWOM15oCfGFD3+5H7b12hvcFHppu5HqI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB0940
-Received-SPF: pass client-ip=2a01:111:f400:fe0d::723;
- envelope-from=sriram.yagnaraman@est.tech;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -150,182 +83,423 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFraWhpa28gT2Rha2kgPGFr
-aWhpa28ub2Rha2lAZGF5bml4LmNvbT4NCj4gU2VudDogRnJpZGF5LCAxNyBNYXJjaCAyMDIzIDE1
-OjIxDQo+IFRvOiBTcmlyYW0gWWFnbmFyYW1hbiA8c3JpcmFtLnlhZ25hcmFtYW5AZXN0LnRlY2g+
-DQo+IENjOiBxZW11LWRldmVsQG5vbmdudS5vcmc7IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhh
-dC5jb20+OyBEbWl0cnkNCj4gRmxleXRtYW4gPGRtaXRyeS5mbGV5dG1hbkBnbWFpbC5jb20+OyBx
-dWludGVsYUByZWRoYXQuY29tOyBQaGlsaXBwZQ0KPiBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQGxp
-bmFyby5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggZm9yIDguMF0gaWdiOiBTYXZlIG1vcmUg
-VHggc3RhdGVzDQo+IA0KPiBPbiAyMDIzLzAzLzE3IDIyOjA4LCBTcmlyYW0gWWFnbmFyYW1hbiB3
-cm90ZToNCj4gPg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZy
-b206IEFraWhpa28gT2Rha2kgPGFraWhpa28ub2Rha2lAZGF5bml4LmNvbT4NCj4gPj4gU2VudDog
-RnJpZGF5LCAxNyBNYXJjaCAyMDIzIDEzOjI1DQo+ID4+IENjOiBxZW11LWRldmVsQG5vbmdudS5v
-cmc7IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+Ow0KPiBEbWl0cnkNCj4gPj4gRmxl
-eXRtYW4gPGRtaXRyeS5mbGV5dG1hbkBnbWFpbC5jb20+OyBxdWludGVsYUByZWRoYXQuY29tOyBQ
-aGlsaXBwZQ0KPiA+PiBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQGxpbmFyby5vcmc+OyBTcmlyYW0g
-WWFnbmFyYW1hbg0KPiA+PiA8c3JpcmFtLnlhZ25hcmFtYW5AZXN0LnRlY2g+OyBBa2loaWtvIE9k
-YWtpDQo+ID4+IDxha2loaWtvLm9kYWtpQGRheW5peC5jb20+DQo+ID4+IFN1YmplY3Q6IFtQQVRD
-SCBmb3IgOC4wXSBpZ2I6IFNhdmUgbW9yZSBUeCBzdGF0ZXMNCj4gPj4NCj4gPj4gVGhlIGN1cnJl
-bnQgaW1wbGVtZW50YXRpb24gb2YgaWdiIHVzZXMgb25seSBwYXJ0IG9mIGEgYWR2YW5jZWQgVHgN
-Cj4gPj4gY29udGV4dCBkZXNjcmlwdG9yIGFuZCBmaXJzdCBkYXRhIGRlc2NyaXB0b3IgYmVjYXVz
-ZSBpdCBtaXNzZXMgc29tZQ0KPiA+PiBmZWF0dXJlcyBhbmQgc25pZmZzIHRoZSB0cmFpdCBvZiB0
-aGUgcGFja2V0IGluc3RlYWQgb2YgcmVzcGVjdGluZyB0aGUNCj4gPj4gcGFja2V0IHR5cGUgc3Bl
-Y2lmaWVkIGluIHRoZSBkZXNjcmlwdG9yLiBIb3dldmVyLCB3ZSB3aWxsIGNlcnRhaW5seQ0KPiA+
-PiBuZWVkIHRoZSBlbnRpcmUgVHggY29udGV4dCBkZXNjcmlwdG9yIHdoZW4gd2UgdXBkYXRlIGln
-YiB0byByZXNwZWN0DQo+ID4+IHRoZXNlIGlnbm9yZWQgZmllbGRzLiBTYXZlIHRoZSBlbnRpcmUg
-Y29udGV4dCBkZXNjcmlwdG9yIGFuZCBmaXJzdA0KPiA+PiBkYXRhIGRlc2NyaXB0b3IgZXhjZXB0
-IHRoZSBidWZmZXIgYWRkcmVzcyB0byBwcmVwYXJlIGZvciBzdWNoIGEgY2hhbmdlLg0KPiA+Pg0K
-PiA+PiBUaGlzIGFsc28gaW50cm9kdWNlcyB0aGUgZGlzdGluY3Rpb24gb2YgY29udGV4dHMgd2l0
-aCBkaWZmZXJlbnQNCj4gPj4gaW5kZXhlcywgd2hpY2ggd2FzIG5vdCBwcmVzZW50IGluIGUxMDAw
-ZSBidXQgaW4gaWdiLg0KPiA+Pg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBBa2loaWtvIE9kYWtpIDxh
-a2loaWtvLm9kYWtpQGRheW5peC5jb20+DQo+ID4+IC0tLQ0KPiA+PiBTdXBlcnNlZGVzOiA8MjAy
-MzAzMTYxNTU3MDcuMjcwMDctMS1ha2loaWtvLm9kYWtpQGRheW5peC5jb20+DQo+ID4+DQo+ID4+
-ICAgaHcvbmV0L2lnYi5jICAgICAgfCAyNSArKysrKysrKysrKysrKysrKystLS0tLS0tDQo+ID4+
-ICAgaHcvbmV0L2lnYl9jb3JlLmMgfCAzNiArKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0t
-LS0tLS0NCj4gPj4gICBody9uZXQvaWdiX2NvcmUuaCB8ICA4ICsrKy0tLS0tDQo+ID4+ICAgMyBm
-aWxlcyBjaGFuZ2VkLCA0MCBpbnNlcnRpb25zKCspLCAyOSBkZWxldGlvbnMoLSkNCj4gPj4NCj4g
-Pj4gZGlmZiAtLWdpdCBhL2h3L25ldC9pZ2IuYyBiL2h3L25ldC9pZ2IuYyBpbmRleCBjNmQ3NTNk
-Zjg3Li43YzA1ODk2MzI1DQo+ID4+IDEwMDY0NA0KPiA+PiAtLS0gYS9ody9uZXQvaWdiLmMNCj4g
-Pj4gKysrIGIvaHcvbmV0L2lnYi5jDQo+ID4+IEBAIC01MDIsMTYgKzUwMiwyNyBAQCBzdGF0aWMg
-aW50IGlnYl9wb3N0X2xvYWQodm9pZCAqb3BhcXVlLCBpbnQNCj4gPj4gdmVyc2lvbl9pZCkNCj4g
-Pj4gICAgICAgcmV0dXJuIGlnYl9jb3JlX3Bvc3RfbG9hZCgmcy0+Y29yZSk7ICB9DQo+ID4+DQo+
-ID4+IC1zdGF0aWMgY29uc3QgVk1TdGF0ZURlc2NyaXB0aW9uIGlnYl92bXN0YXRlX3R4ID0gew0K
-PiA+PiAtICAgIC5uYW1lID0gImlnYi10eCIsDQo+ID4+ICtzdGF0aWMgY29uc3QgVk1TdGF0ZURl
-c2NyaXB0aW9uIGlnYl92bXN0YXRlX3R4X2N0eCA9IHsNCj4gPj4gKyAgICAubmFtZSA9ICJpZ2It
-dHgtY3R4IiwNCj4gPj4gICAgICAgLnZlcnNpb25faWQgPSAxLA0KPiA+PiAgICAgICAubWluaW11
-bV92ZXJzaW9uX2lkID0gMSwNCj4gPj4gICAgICAgLmZpZWxkcyA9IChWTVN0YXRlRmllbGRbXSkg
-ew0KPiA+PiAtICAgICAgICBWTVNUQVRFX1VJTlQxNih2bGFuLCBzdHJ1Y3QgaWdiX3R4KSwNCj4g
-Pj4gLSAgICAgICAgVk1TVEFURV9VSU5UMTYobXNzLCBzdHJ1Y3QgaWdiX3R4KSwNCj4gPj4gLSAg
-ICAgICAgVk1TVEFURV9CT09MKHRzZSwgc3RydWN0IGlnYl90eCksDQo+ID4+IC0gICAgICAgIFZN
-U1RBVEVfQk9PTChpeHNtLCBzdHJ1Y3QgaWdiX3R4KSwNCj4gPj4gLSAgICAgICAgVk1TVEFURV9C
-T09MKHR4c20sIHN0cnVjdCBpZ2JfdHgpLA0KPiA+PiArICAgICAgICBWTVNUQVRFX1VJTlQzMih2
-bGFuX21hY2lwX2xlbnMsIHN0cnVjdA0KPiBlMTAwMF9hZHZfdHhfY29udGV4dF9kZXNjKSwNCj4g
-Pj4gKyAgICAgICAgVk1TVEFURV9VSU5UMzIoc2VxbnVtX3NlZWQsIHN0cnVjdCBlMTAwMF9hZHZf
-dHhfY29udGV4dF9kZXNjKSwNCj4gPj4gKyAgICAgICAgVk1TVEFURV9VSU5UMzIodHlwZV90dWNt
-ZF9tbGhsLCBzdHJ1Y3QNCj4gPj4gZTEwMDBfYWR2X3R4X2NvbnRleHRfZGVzYyksDQo+ID4+ICsg
-ICAgICAgIFZNU1RBVEVfVUlOVDMyKG1zc19sNGxlbl9pZHgsIHN0cnVjdCBlMTAwMF9hZHZfdHhf
-Y29udGV4dF9kZXNjKSwNCj4gPj4gKyAgICB9DQo+ID4+ICt9Ow0KPiA+PiArDQo+ID4+ICtzdGF0
-aWMgY29uc3QgVk1TdGF0ZURlc2NyaXB0aW9uIGlnYl92bXN0YXRlX3R4ID0gew0KPiA+PiArICAg
-IC5uYW1lID0gImlnYi10eCIsDQo+ID4+ICsgICAgLnZlcnNpb25faWQgPSAyLA0KPiA+PiArICAg
-IC5taW5pbXVtX3ZlcnNpb25faWQgPSAyLA0KPiA+PiArICAgIC5maWVsZHMgPSAoVk1TdGF0ZUZp
-ZWxkW10pIHsNCj4gPj4gKyAgICAgICAgVk1TVEFURV9TVFJVQ1RfQVJSQVkoY3R4LCBzdHJ1Y3Qg
-aWdiX3R4LCAyLCAwLCBpZ2Jfdm1zdGF0ZV90eF9jdHgsDQo+ID4+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHN0cnVjdCBlMTAwMF9hZHZfdHhfY29udGV4dF9kZXNjKSwNCj4gPj4gKyAg
-ICAgICAgVk1TVEFURV9VSU5UMzIoZmlyc3RfY21kX3R5cGVfbGVuLCBzdHJ1Y3QgaWdiX3R4KSwN
-Cj4gPj4gKyAgICAgICAgVk1TVEFURV9VSU5UMzIoZmlyc3Rfb2xpbmZvX3N0YXR1cywgc3RydWN0
-IGlnYl90eCksDQo+ID4+ICAgICAgICAgICBWTVNUQVRFX0JPT0woZmlyc3QsIHN0cnVjdCBpZ2Jf
-dHgpLA0KPiA+PiAgICAgICAgICAgVk1TVEFURV9CT09MKHNraXBfY3AsIHN0cnVjdCBpZ2JfdHgp
-LA0KPiA+PiAgICAgICAgICAgVk1TVEFURV9FTkRfT0ZfTElTVCgpDQo+ID4+IGRpZmYgLS1naXQg
-YS9ody9uZXQvaWdiX2NvcmUuYyBiL2h3L25ldC9pZ2JfY29yZS5jIGluZGV4DQo+ID4+IGE3Yzdi
-ZmRjNzUuLjM2MDI3YzJiNTQgMTAwNjQ0DQo+ID4+IC0tLSBhL2h3L25ldC9pZ2JfY29yZS5jDQo+
-ID4+ICsrKyBiL2h3L25ldC9pZ2JfY29yZS5jDQo+ID4+IEBAIC0zODksOCArMzg5LDEwIEBAIGln
-Yl9yc3NfcGFyc2VfcGFja2V0KElHQkNvcmUgKmNvcmUsIHN0cnVjdA0KPiA+PiBOZXRSeFBrdCAq
-cGt0LCBib29sIHR4LCAgc3RhdGljIGJvb2wgIGlnYl9zZXR1cF90eF9vZmZsb2FkcyhJR0JDb3Jl
-DQo+ID4+ICpjb3JlLCBzdHJ1Y3QgaWdiX3R4DQo+ID4+ICp0eCkgIHsNCj4gPj4gLSAgICBpZiAo
-dHgtPnRzZSkgew0KPiA+PiAtICAgICAgICBpZiAoIW5ldF90eF9wa3RfYnVpbGRfdmhlYWRlcih0
-eC0+dHhfcGt0LCB0cnVlLCB0cnVlLCB0eC0+bXNzKSkgew0KPiA+PiArICAgIGlmICh0eC0+Zmly
-c3RfY21kX3R5cGVfbGVuICYgRTEwMDBfQURWVFhEX0RDTURfVFNFKSB7DQo+ID4+ICsgICAgICAg
-IHVpbnQzMl90IGlkeCA9ICh0eC0+Zmlyc3Rfb2xpbmZvX3N0YXR1cyA+PiA0KSAmIDE7DQo+ID4N
-Cj4gPiBbLi4uXSBNb3JlIGJlbG93DQo+ID4NCj4gPj4gKyAgICAgICAgdWludDMyX3QgbXNzID0g
-dHgtPmN0eFtpZHhdLm1zc19sNGxlbl9pZHggPj4gMTY7DQo+ID4+ICsgICAgICAgIGlmICghbmV0
-X3R4X3BrdF9idWlsZF92aGVhZGVyKHR4LT50eF9wa3QsIHRydWUsIHRydWUsIG1zcykpDQo+ID4+
-ICsgew0KPiA+PiAgICAgICAgICAgICAgIHJldHVybiBmYWxzZTsNCj4gPj4gICAgICAgICAgIH0N
-Cj4gPj4NCj4gPj4gQEAgLTM5OSwxMyArNDAxLDEzIEBAIGlnYl9zZXR1cF90eF9vZmZsb2FkcyhJ
-R0JDb3JlICpjb3JlLCBzdHJ1Y3QNCj4gPj4gaWdiX3R4DQo+ID4+ICp0eCkNCj4gPj4gICAgICAg
-ICAgIHJldHVybiB0cnVlOw0KPiA+PiAgICAgICB9DQo+ID4+DQo+ID4+IC0gICAgaWYgKHR4LT50
-eHNtKSB7DQo+ID4+ICsgICAgaWYgKHR4LT5maXJzdF9vbGluZm9fc3RhdHVzICYgRTEwMDBfQURW
-VFhEX1BPVFNfVFhTTSkgew0KPiA+PiAgICAgICAgICAgaWYgKCFuZXRfdHhfcGt0X2J1aWxkX3Zo
-ZWFkZXIodHgtPnR4X3BrdCwgZmFsc2UsIHRydWUsIDApKSB7DQo+ID4+ICAgICAgICAgICAgICAg
-cmV0dXJuIGZhbHNlOw0KPiA+PiAgICAgICAgICAgfQ0KPiA+PiAgICAgICB9DQo+ID4+DQo+ID4+
-IC0gICAgaWYgKHR4LT5peHNtKSB7DQo+ID4+ICsgICAgaWYgKHR4LT5maXJzdF9vbGluZm9fc3Rh
-dHVzICYgRTEwMDBfQURWVFhEX1BPVFNfSVhTTSkgew0KPiA+PiAgICAgICAgICAgbmV0X3R4X3Br
-dF91cGRhdGVfaXBfaGRyX2NoZWNrc3VtKHR4LT50eF9wa3QpOw0KPiA+PiAgICAgICB9DQo+ID4+
-DQo+ID4+IEBAIC01MjcsNyArNTI5LDcgQEAgaWdiX3Byb2Nlc3NfdHhfZGVzYyhJR0JDb3JlICpj
-b3JlLCAgew0KPiA+PiAgICAgICBzdHJ1Y3QgZTEwMDBfYWR2X3R4X2NvbnRleHRfZGVzYyAqdHhf
-Y3R4X2Rlc2M7DQo+ID4+ICAgICAgIHVpbnQzMl90IGNtZF90eXBlX2xlbjsNCj4gPj4gLSAgICB1
-aW50MzJfdCBvbGluZm9fc3RhdHVzOw0KPiA+PiArICAgIHVpbnQzMl90IGlkeDsNCj4gPj4gICAg
-ICAgdWludDY0X3QgYnVmZmVyX2FkZHI7DQo+ID4+ICAgICAgIHVpbnQxNl90IGxlbmd0aDsNCj4g
-Pj4NCj4gPj4gQEAgLTUzOCwyMCArNTQwLDE5IEBAIGlnYl9wcm9jZXNzX3R4X2Rlc2MoSUdCQ29y
-ZSAqY29yZSwNCj4gPj4gICAgICAgICAgICAgICBFMTAwMF9BRFZUWERfRFRZUF9EQVRBKSB7DQo+
-ID4+ICAgICAgICAgICAgICAgLyogYWR2YW5jZWQgdHJhbnNtaXQgZGF0YSBkZXNjcmlwdG9yICov
-DQo+ID4+ICAgICAgICAgICAgICAgaWYgKHR4LT5maXJzdCkgew0KPiA+PiAtICAgICAgICAgICAg
-ICAgIG9saW5mb19zdGF0dXMgPSBsZTMyX3RvX2NwdSh0eF9kZXNjLT5yZWFkLm9saW5mb19zdGF0
-dXMpOw0KPiA+PiAtDQo+ID4+IC0gICAgICAgICAgICAgICAgdHgtPnRzZSA9ICEhKGNtZF90eXBl
-X2xlbiAmIEUxMDAwX0FEVlRYRF9EQ01EX1RTRSk7DQo+ID4+IC0gICAgICAgICAgICAgICAgdHgt
-Pml4c20gPSAhIShvbGluZm9fc3RhdHVzICYgRTEwMDBfQURWVFhEX1BPVFNfSVhTTSk7DQo+ID4+
-IC0gICAgICAgICAgICAgICAgdHgtPnR4c20gPSAhIShvbGluZm9fc3RhdHVzICYgRTEwMDBfQURW
-VFhEX1BPVFNfVFhTTSk7DQo+ID4+IC0NCj4gPj4gKyAgICAgICAgICAgICAgICB0eC0+Zmlyc3Rf
-Y21kX3R5cGVfbGVuID0gY21kX3R5cGVfbGVuOw0KPiA+PiArICAgICAgICAgICAgICAgIHR4LT5m
-aXJzdF9vbGluZm9fc3RhdHVzID0NCj4gPj4gKyBsZTMyX3RvX2NwdSh0eF9kZXNjLT5yZWFkLm9s
-aW5mb19zdGF0dXMpOw0KPiA+PiAgICAgICAgICAgICAgICAgICB0eC0+Zmlyc3QgPSBmYWxzZTsN
-Cj4gPj4gICAgICAgICAgICAgICB9DQo+ID4+ICAgICAgICAgICB9IGVsc2UgaWYgKChjbWRfdHlw
-ZV9sZW4gJiBFMTAwMF9BRFZUWERfRFRZUF9DVFhUKSA9PQ0KPiA+PiAgICAgICAgICAgICAgICAg
-ICAgICBFMTAwMF9BRFZUWERfRFRZUF9DVFhUKSB7DQo+ID4+ICAgICAgICAgICAgICAgLyogYWR2
-YW5jZWQgdHJhbnNtaXQgY29udGV4dCBkZXNjcmlwdG9yICovDQo+ID4+ICAgICAgICAgICAgICAg
-dHhfY3R4X2Rlc2MgPSAoc3RydWN0IGUxMDAwX2Fkdl90eF9jb250ZXh0X2Rlc2MgKil0eF9kZXNj
-Ow0KPiA+PiAtICAgICAgICAgICAgdHgtPnZsYW4gPSBsZTMyX3RvX2NwdSh0eF9jdHhfZGVzYy0+
-dmxhbl9tYWNpcF9sZW5zKSA+PiAxNjsNCj4gPj4gLSAgICAgICAgICAgIHR4LT5tc3MgPSBsZTMy
-X3RvX2NwdSh0eF9jdHhfZGVzYy0+bXNzX2w0bGVuX2lkeCkgPj4gMTY7DQo+ID4+ICsgICAgICAg
-ICAgICBpZHggPSAodHhfY3R4X2Rlc2MtPm1zc19sNGxlbl9pZHggPj4gNCkgJiAxOw0KPiA+DQo+
-ID4gSSBkbyBub3Qga25vdyBpZiB0aGVyZSBhcmUgYW55IG90aGVyIGRyaXZlcnMgdGhhdCB1c2Ug
-bW9yZSB0aGFuIDIgY29udGV4dHMsDQo+IGJ1dCBhcyBJIHJlYWQgNy4yLjIuMi4xMSBJRFggKDMp
-LCBJRFggaXMgYSAzIGJpdCBmaWVsZC4NCj4gPiBUaGUgYWJvdmUgbGluZSB3aWxsIGludGVycHJl
-dCAzLCA1IGFuZCA3IGFzIDEgZm9yIGUuZy4NCj4gDQo+IDcuMi4xLjQgIlRyYW5zbWl0IENvbnRl
-eHRzIiBzYXlzOg0KPiAgPiBUaGUgODI1NzYgc3VwcG9ydHMgMzIgY29udGV4dCByZWdpc3RlciBz
-ZXRzIG9uLWNoaXAgKHR3byBwZXIgcXVldWUpDQo+IA0KPiBEUERLIGFsc28gdXNlcyBvbmx5IHR3
-byBjb250ZXh0cyB3aGlsZSBpdHMgZGVzaWduIGlzIGV4dGVuc2libGUgYW5kIGNhbiB1c2UNCj4g
-bW9yZSBpZiB0aGUgaGFyZHdhcmUgYWxsb3dzLiBUaGVyZWZvcmUsIGl0IGNhbiBiZSBjb25jbHVk
-ZWQgdGhhdCB0aGUgZGV2aWNlDQo+IGFjdHVhbGx5IGhhcyBvbmx5IHR3byBjb250ZXh0cy4NCj4g
-DQo+IEkgZG9uJ3Qga25vdyB3aHkgSURYIGlzIGRlZmluZWQgYXMgMy1iaXQgZmllbGQsIGJ1dCBJ
-IHRoaW5rIGl0J3Mgc2FmZSB0byBpZ25vcmUgdGhlDQo+IG90aGVyIHR3byBiaXRzIGFzIHdlIGRv
-IGZvciB0aGUgb3RoZXIgcmVzZXJ2ZWQgYml0cy4NCg0KNy4yLjEuNCBhbHNvIGNsZWFybHkgc3Bl
-Y2lmaWVzIHRoYXQgIlRoZSBJRFggZmllbGQgY29udGFpbnMgYW4gaW5kZXggdG8gb25lIG9mIHRo
-ZSB0d28gcXVldWUgY29udGV4dHMiLg0KVGhhbmtzIGZvciByZXBseWluZyB0byBteSBjb21tZW50
-cy4NCg0KPiANCj4gPg0KPiA+PiArICAgICAgICAgICAgdHgtPmN0eFtpZHhdLnZsYW5fbWFjaXBf
-bGVucyA9IGxlMzJfdG9fY3B1KHR4X2N0eF9kZXNjLQ0KPiA+Pj4gdmxhbl9tYWNpcF9sZW5zKTsN
-Cj4gPj4gKyAgICAgICAgICAgIHR4LT5jdHhbaWR4XS5zZXFudW1fc2VlZCA9IGxlMzJfdG9fY3B1
-KHR4X2N0eF9kZXNjLQ0KPiA+c2VxbnVtX3NlZWQpOw0KPiA+PiArICAgICAgICAgICAgdHgtPmN0
-eFtpZHhdLnR5cGVfdHVjbWRfbWxobCA9IGxlMzJfdG9fY3B1KHR4X2N0eF9kZXNjLQ0KPiA+Pj4g
-dHlwZV90dWNtZF9tbGhsKTsNCj4gPj4gKyAgICAgICAgICAgIHR4LT5jdHhbaWR4XS5tc3NfbDRs
-ZW5faWR4ID0NCj4gPj4gKyBsZTMyX3RvX2NwdSh0eF9jdHhfZGVzYy0+bXNzX2w0bGVuX2lkeCk7
-DQo+ID4+ICAgICAgICAgICAgICAgcmV0dXJuOw0KPiA+PiAgICAgICAgICAgfSBlbHNlIHsNCj4g
-Pj4gICAgICAgICAgICAgICAvKiB1bmtub3duIGRlc2NyaXB0b3IgdHlwZSAqLyBAQCAtNTc1LDgg
-KzU3NiwxMCBAQA0KPiA+PiBpZ2JfcHJvY2Vzc190eF9kZXNjKElHQkNvcmUgKmNvcmUsDQo+ID4+
-ICAgICAgIGlmIChjbWRfdHlwZV9sZW4gJiBFMTAwMF9UWERfQ01EX0VPUCkgew0KPiA+PiAgICAg
-ICAgICAgaWYgKCF0eC0+c2tpcF9jcCAmJiBuZXRfdHhfcGt0X3BhcnNlKHR4LT50eF9wa3QpKSB7
-DQo+ID4+ICAgICAgICAgICAgICAgaWYgKGNtZF90eXBlX2xlbiAmIEUxMDAwX1RYRF9DTURfVkxF
-KSB7DQo+ID4+IC0gICAgICAgICAgICAgICAgbmV0X3R4X3BrdF9zZXR1cF92bGFuX2hlYWRlcl9l
-eCh0eC0+dHhfcGt0LCB0eC0+dmxhbiwNCj4gPj4gLSAgICAgICAgICAgICAgICAgICAgY29yZS0+
-bWFjW1ZFVF0gJiAweGZmZmYpOw0KPiA+PiArICAgICAgICAgICAgICAgIGlkeCA9ICh0eC0+Zmly
-c3Rfb2xpbmZvX3N0YXR1cyA+PiA0KSAmIDE7DQo+ID4+ICsgICAgICAgICAgICAgICAgdWludDE2
-X3QgdmxhbiA9IHR4LT5jdHhbaWR4XS52bGFuX21hY2lwX2xlbnMgPj4gMTY7DQo+ID4+ICsgICAg
-ICAgICAgICAgICAgdWludDE2X3QgdmV0ID0gY29yZS0+bWFjW1ZFVF0gJiAweGZmZmY7DQo+ID4+
-ICsgICAgICAgICAgICAgICAgbmV0X3R4X3BrdF9zZXR1cF92bGFuX2hlYWRlcl9leCh0eC0+dHhf
-cGt0LCB2bGFuLA0KPiA+PiArIHZldCk7DQo+ID4+ICAgICAgICAgICAgICAgfQ0KPiA+PiAgICAg
-ICAgICAgICAgIGlmIChpZ2JfdHhfcGt0X3NlbmQoY29yZSwgdHgsIHF1ZXVlX2luZGV4KSkgew0K
-PiA+PiAgICAgICAgICAgICAgICAgICBpZ2Jfb25fdHhfZG9uZV91cGRhdGVfc3RhdHMoY29yZSwg
-dHgtPnR4X3BrdCk7IEBADQo+ID4+IC00MDI0LDgNCj4gPj4gKzQwMjcsNyBAQCBzdGF0aWMgdm9p
-ZCBpZ2JfcmVzZXQoSUdCQ29yZSAqY29yZSwgYm9vbCBzdykNCj4gPj4gICAgICAgZm9yIChpID0g
-MDsgaSA8IEFSUkFZX1NJWkUoY29yZS0+dHgpOyBpKyspIHsNCj4gPj4gICAgICAgICAgIHR4ID0g
-JmNvcmUtPnR4W2ldOw0KPiA+PiAgICAgICAgICAgbmV0X3R4X3BrdF9yZXNldCh0eC0+dHhfcGt0
-KTsNCj4gPj4gLSAgICAgICAgdHgtPnZsYW4gPSAwOw0KPiA+PiAtICAgICAgICB0eC0+bXNzID0g
-MDsNCj4gPj4gKyAgICAgICAgbWVtc2V0KCZ0eC0+Y3R4LCAwLCBzaXplb2YodHgtPmN0eCkpOw0K
-PiA+PiAgICAgICAgICAgdHgtPnRzZSA9IGZhbHNlOw0KPiA+PiAgICAgICAgICAgdHgtPml4c20g
-PSBmYWxzZTsNCj4gPj4gICAgICAgICAgIHR4LT50eHNtID0gZmFsc2U7DQo+ID4+IGRpZmYgLS1n
-aXQgYS9ody9uZXQvaWdiX2NvcmUuaCBiL2h3L25ldC9pZ2JfY29yZS5oIGluZGV4DQo+ID4+IDgx
-NGMxZTI2NGIuLjg5MTRlMGI4MDEgMTAwNjQ0DQo+ID4+IC0tLSBhL2h3L25ldC9pZ2JfY29yZS5o
-DQo+ID4+ICsrKyBiL2h3L25ldC9pZ2JfY29yZS5oDQo+ID4+IEBAIC03MiwxMSArNzIsOSBAQCBz
-dHJ1Y3QgSUdCQ29yZSB7DQo+ID4+ICAgICAgIFFFTVVUaW1lciAqYXV0b25lZ190aW1lcjsNCj4g
-Pj4NCj4gPj4gICAgICAgc3RydWN0IGlnYl90eCB7DQo+ID4+IC0gICAgICAgIHVpbnQxNl90IHZs
-YW47ICAvKiBWTEFOIFRhZyAqLw0KPiA+PiAtICAgICAgICB1aW50MTZfdCBtc3M7ICAgLyogTWF4
-aW11bSBTZWdtZW50IFNpemUgKi8NCj4gPj4gLSAgICAgICAgYm9vbCB0c2U7ICAgICAgIC8qIFRD
-UC9VRFAgU2VnbWVudGF0aW9uIEVuYWJsZSAqLw0KPiA+PiAtICAgICAgICBib29sIGl4c207ICAg
-ICAgLyogSW5zZXJ0IElQIENoZWNrc3VtICovDQo+ID4+IC0gICAgICAgIGJvb2wgdHhzbTsgICAg
-ICAvKiBJbnNlcnQgVENQL1VEUCBDaGVja3N1bSAqLw0KPiA+PiArICAgICAgICBzdHJ1Y3QgZTEw
-MDBfYWR2X3R4X2NvbnRleHRfZGVzYyBjdHhbMl07DQo+ID4+ICsgICAgICAgIHVpbnQzMl90IGZp
-cnN0X2NtZF90eXBlX2xlbjsNCj4gPj4gKyAgICAgICAgdWludDMyX3QgZmlyc3Rfb2xpbmZvX3N0
-YXR1czsNCj4gPj4NCj4gPj4gICAgICAgICAgIGJvb2wgZmlyc3Q7DQo+ID4+ICAgICAgICAgICBi
-b29sIHNraXBfY3A7DQo+ID4+IC0tDQo+ID4+IDIuMzkuMg0KPiA+DQoNCkxHVE0NClJldmlld2Vk
-LWJ5OiBTcmlyYW0gWWFnbmFyYW1hbiA8c3JpcmFtLnlhZ25hcmFtYW5AZXN0LnRlY2g+DQo=
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+
+> This extends the QAPI schema validation to permit unions inside unions,
+> provided the checks for clashing fields pass.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  scripts/qapi/schema.py                        |  6 +-
+>  tests/qapi-schema/meson.build                 |  2 +
+>  tests/qapi-schema/qapi-schema-test.json       | 32 ++++++++++
+>  tests/qapi-schema/qapi-schema-test.out        | 29 ++++++++++
+>  .../union-invalid-union-subfield.err          |  2 +
+>  .../union-invalid-union-subfield.json         | 30 ++++++++++
+>  .../union-invalid-union-subfield.out          |  0
+>  .../union-invalid-union-subtype.err           |  2 +
+>  .../union-invalid-union-subtype.json          | 29 ++++++++++
+>  .../union-invalid-union-subtype.out           |  0
+>  tests/unit/test-qobject-input-visitor.c       | 47 +++++++++++++++
+>  tests/unit/test-qobject-output-visitor.c      | 58 +++++++++++++++++++
+>  12 files changed, 234 insertions(+), 3 deletions(-)
+>  create mode 100644 tests/qapi-schema/union-invalid-union-subfield.err
+>  create mode 100644 tests/qapi-schema/union-invalid-union-subfield.json
+>  create mode 100644 tests/qapi-schema/union-invalid-union-subfield.out
+>  create mode 100644 tests/qapi-schema/union-invalid-union-subtype.err
+>  create mode 100644 tests/qapi-schema/union-invalid-union-subtype.json
+>  create mode 100644 tests/qapi-schema/union-invalid-union-subtype.out
+>
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 6c481ab0c0..5c4457f789 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -465,9 +465,10 @@ def check(self, schema):
+>      # on behalf of info, which is not necessarily self.info
+>      def check_clash(self, info, seen):
+>          assert self._checked
+> -        assert not self.variants       # not implemented
+>          for m in self.members:
+>              m.check_clash(info, seen)
+> +        if self.variants:
+> +            self.variants.check_clash(info, seen)
+>=20=20
+>      def connect_doc(self, doc=3DNone):
+>          super().connect_doc(doc)
+> @@ -652,8 +653,7 @@ def check(self, schema, seen):
+>                          self.info,
+>                          "branch '%s' is not a value of %s"
+>                          % (v.name, self.tag_member.type.describe()))
+> -                if (not isinstance(v.type, QAPISchemaObjectType)
+> -                        or v.type.variants):
+> +                if not isinstance(v.type, QAPISchemaObjectType):
+>                      raise QAPISemError(
+>                          self.info,
+>                          "%s cannot use %s"
+
+I stared at the code some to convince myself this is complete.
+
+> diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+> index d85b14f28c..1591eb322b 100644
+> --- a/tests/qapi-schema/meson.build
+> +++ b/tests/qapi-schema/meson.build
+> @@ -194,6 +194,8 @@ schemas =3D [
+>    'union-invalid-data.json',
+>    'union-invalid-discriminator.json',
+>    'union-invalid-if-discriminator.json',
+> +  'union-invalid-union-subfield.json',
+> +  'union-invalid-union-subtype.json',
+>    'union-no-base.json',
+>    'union-optional-discriminator.json',
+>    'union-string-discriminator.json',
+> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
+qapi-schema-test.json
+> index ba7302f42b..40f1a3d88d 100644
+> --- a/tests/qapi-schema/qapi-schema-test.json
+> +++ b/tests/qapi-schema/qapi-schema-test.json
+> @@ -114,6 +114,38 @@
+>  { 'struct': 'UserDefC',
+>    'data': { 'string1': 'str', 'string2': 'str' } }
+>=20=20
+> +# this tests that unions can contain other unions in their branches
+> +{ 'enum': 'TestUnionEnum',
+> +  'data': [ 'value-a', 'value-b' ] }
+> +
+> +{ 'enum': 'TestUnionEnumA',
+> +  'data': [ 'value-a1', 'value-a2' ] }
+> +
+> +{ 'struct': 'TestUnionTypeA1',
+> +  'data': { 'integer': 'int',
+> +            'name': 'str'} }
+> +
+> +{ 'struct': 'TestUnionTypeA2',
+> +  'data': { 'integer': 'int',
+> +            'size': 'int' } }
+> +
+> +{ 'union': 'TestUnionTypeA',
+> +  'base': { 'type-a': 'TestUnionEnumA' },
+> +  'discriminator': 'type-a',
+> +  'data': { 'value-a1': 'TestUnionTypeA1',
+> +            'value-a2': 'TestUnionTypeA2' } }
+> +
+> +{ 'struct': 'TestUnionTypeB',
+> +  'data': { 'integer': 'int',
+> +            'onoff': 'bool' } }
+> +
+> +{ 'union': 'TestUnionInUnion',
+> +  'base': { 'type': 'TestUnionEnum' },
+> +  'discriminator': 'type',
+> +  'data': { 'value-a': 'TestUnionTypeA',
+> +            'value-b': 'TestUnionTypeB' } }
+> +
+> +
+>  # for testing use of 'number' within alternates
+>  { 'alternate': 'AltEnumBool', 'data': { 'e': 'EnumOne', 'b': 'bool' } }
+>  { 'alternate': 'AltEnumNum', 'data': { 'e': 'EnumOne', 'n': 'number' } }
+> diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
+api-schema-test.out
+> index 043d75c655..9fe1038944 100644
+> --- a/tests/qapi-schema/qapi-schema-test.out
+> +++ b/tests/qapi-schema/qapi-schema-test.out
+> @@ -105,6 +105,35 @@ alternate UserDefAlternate
+>  object UserDefC
+>      member string1: str optional=3DFalse
+>      member string2: str optional=3DFalse
+> +enum TestUnionEnum
+> +    member value-a
+> +    member value-b
+> +enum TestUnionEnumA
+> +    member value-a1
+> +    member value-a2
+> +object TestUnionTypeA1
+> +    member integer: int optional=3DFalse
+> +    member name: str optional=3DFalse
+> +object TestUnionTypeA2
+> +    member integer: int optional=3DFalse
+> +    member size: int optional=3DFalse
+> +object q_obj_TestUnionTypeA-base
+> +    member type-a: TestUnionEnumA optional=3DFalse
+> +object TestUnionTypeA
+> +    base q_obj_TestUnionTypeA-base
+> +    tag type-a
+> +    case value-a1: TestUnionTypeA1
+> +    case value-a2: TestUnionTypeA2
+> +object TestUnionTypeB
+> +    member integer: int optional=3DFalse
+> +    member onoff: bool optional=3DFalse
+> +object q_obj_TestUnionInUnion-base
+> +    member type: TestUnionEnum optional=3DFalse
+> +object TestUnionInUnion
+> +    base q_obj_TestUnionInUnion-base
+> +    tag type
+> +    case value-a: TestUnionTypeA
+> +    case value-b: TestUnionTypeB
+>  alternate AltEnumBool
+>      tag type
+>      case e: EnumOne
+
+Looks good to me.  I also inspected the generated code; no complaints.
+
+> diff --git a/tests/qapi-schema/union-invalid-union-subfield.err b/tests/q=
+api-schema/union-invalid-union-subfield.err
+> new file mode 100644
+> index 0000000000..43574dea79
+> --- /dev/null
+> +++ b/tests/qapi-schema/union-invalid-union-subfield.err
+> @@ -0,0 +1,2 @@
+> +union-invalid-union-subfield.json: In union 'TestUnion':
+> +union-invalid-union-subfield.json:25: member 'teeth' of type 'TestTypeFi=
+sh' collides with base member 'teeth' of type 'TestUnion-base'
+
+Bad error message, see my review of PATCH 1.
+
+> diff --git a/tests/qapi-schema/union-invalid-union-subfield.json b/tests/=
+qapi-schema/union-invalid-union-subfield.json
+> new file mode 100644
+> index 0000000000..e1639d3a96
+> --- /dev/null
+> +++ b/tests/qapi-schema/union-invalid-union-subfield.json
+> @@ -0,0 +1,30 @@
+> +# Clash between common member and union variant's variant member
+> +# Base's member 'teeth' clashes with TestTypeFish's
+> +
+> +{ 'enum': 'TestEnum',
+> +  'data': [ 'animals', 'plants' ] }
+> +
+> +{ 'enum': 'TestAnimals',
+> +  'data': [ 'fish', 'birds'] }
+> +
+> +{ 'struct': 'TestTypeFish',
+> +  'data': { 'scales': 'int', 'teeth': 'int' } }
+> +
+> +{ 'struct': 'TestTypeBirds',
+> +  'data': { 'feathers': 'int' } }
+> +
+> +{ 'union': 'TestTypeAnimals',
+> +  'base': { 'atype': 'TestAnimals' },
+> +  'discriminator': 'atype',
+> +  'data': { 'fish': 'TestTypeFish',
+> +            'birds': 'TestTypeBirds' } }
+> +
+> +{ 'struct': 'TestTypePlants',
+> +  'data': { 'integer': 'int' } }
+> +
+> +{ 'union': 'TestUnion',
+> +  'base': { 'type': 'TestEnum',
+> +            'teeth': 'int' },
+> +  'discriminator': 'type',
+> +  'data': { 'animals': 'TestTypeAnimals',
+> +            'plants': 'TestTypePlants' } }
+> diff --git a/tests/qapi-schema/union-invalid-union-subfield.out b/tests/q=
+api-schema/union-invalid-union-subfield.out
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/qapi-schema/union-invalid-union-subtype.err b/tests/qa=
+pi-schema/union-invalid-union-subtype.err
+> new file mode 100644
+> index 0000000000..e45f330cec
+> --- /dev/null
+> +++ b/tests/qapi-schema/union-invalid-union-subtype.err
+> @@ -0,0 +1,2 @@
+> +union-invalid-union-subtype.json: In union 'TestUnion':
+> +union-invalid-union-subtype.json:25: base member 'type' of type 'TestTyp=
+eA-base' collides with base member 'type' of type 'TestUnion-base'
+
+Likewise.
+
+> diff --git a/tests/qapi-schema/union-invalid-union-subtype.json b/tests/q=
+api-schema/union-invalid-union-subtype.json
+> new file mode 100644
+> index 0000000000..ce1de51d8d
+> --- /dev/null
+> +++ b/tests/qapi-schema/union-invalid-union-subtype.json
+> @@ -0,0 +1,29 @@
+> +# Clash between common member and union variant's common member
+> +# Base's member 'type' clashes with TestTypeA's
+> +
+> +{ 'enum': 'TestEnum',
+> +  'data': [ 'value-a', 'value-b' ] }
+> +
+> +{ 'enum': 'TestEnumA',
+> +  'data': [ 'value-a1', 'value-a2' ] }
+> +
+> +{ 'struct': 'TestTypeA1',
+> +  'data': { 'integer': 'int' } }
+> +
+> +{ 'struct': 'TestTypeA2',
+> +  'data': { 'integer': 'int' } }
+> +
+> +{ 'union': 'TestTypeA',
+> +  'base': { 'type': 'TestEnumA' },
+> +  'discriminator': 'type',
+> +  'data': { 'value-a1': 'TestTypeA1',
+> +            'value-a2': 'TestTypeA2' } }
+> +
+> +{ 'struct': 'TestTypeB',
+> +  'data': { 'integer': 'int' } }
+> +
+> +{ 'union': 'TestUnion',
+> +  'base': { 'type': 'TestEnum' },
+> +  'discriminator': 'type',
+> +  'data': { 'value-a': 'TestTypeA',
+> +            'value-b': 'TestTypeB' } }
+> diff --git a/tests/qapi-schema/union-invalid-union-subtype.out b/tests/qa=
+pi-schema/union-invalid-union-subtype.out
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/unit/test-qobject-input-visitor.c b/tests/unit/test-qo=
+bject-input-visitor.c
+> index 77fbf985be..9b3e2dbe14 100644
+> --- a/tests/unit/test-qobject-input-visitor.c
+> +++ b/tests/unit/test-qobject-input-visitor.c
+> @@ -706,6 +706,51 @@ static void test_visitor_in_union_flat(TestInputVisi=
+torData *data,
+>      g_assert(&base->enum1 =3D=3D &tmp->enum1);
+>  }
+>=20=20
+> +static void test_visitor_in_union_in_union(TestInputVisitorData *data,
+> +                                           const void *unused)
+> +{
+> +    Visitor *v;
+> +    g_autoptr(TestUnionInUnion) tmp =3D NULL;
+> +
+> +    v =3D visitor_input_test_init(data,
+> +                                "{ 'type': 'value-a', "
+> +                                "  'type-a': 'value-a1', "
+> +                                "  'integer': 2, "
+> +                                "  'name': 'fish' }");
+> +
+> +    visit_type_TestUnionInUnion(v, NULL, &tmp, &error_abort);
+> +    g_assert_cmpint(tmp->type, =3D=3D, TEST_UNION_ENUM_VALUE_A);
+> +    g_assert_cmpint(tmp->u.value_a.type_a, =3D=3D, TEST_UNION_ENUMA_VALU=
+E_A1);
+> +    g_assert_cmpint(tmp->u.value_a.u.value_a1.integer, =3D=3D, 2);
+> +    g_assert_cmpint(strcmp(tmp->u.value_a.u.value_a1.name, "fish"), =3D=
+=3D, 0);
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +
+> +    v =3D visitor_input_test_init(data,
+> +                                "{ 'type': 'value-a', "
+> +                                "  'type-a': 'value-a2', "
+> +                                "  'integer': 1729, "
+> +                                "  'size': 87539319 }");
+> +
+> +    visit_type_TestUnionInUnion(v, NULL, &tmp, &error_abort);
+> +    g_assert_cmpint(tmp->type, =3D=3D, TEST_UNION_ENUM_VALUE_A);
+> +    g_assert_cmpint(tmp->u.value_a.type_a, =3D=3D, TEST_UNION_ENUMA_VALU=
+E_A2);
+> +    g_assert_cmpint(tmp->u.value_a.u.value_a2.integer, =3D=3D, 1729);
+> +    g_assert_cmpint(tmp->u.value_a.u.value_a2.size, =3D=3D, 87539319);
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +
+> +    v =3D visitor_input_test_init(data,
+> +                                "{ 'type': 'value-b', "
+> +                                "  'integer': 1729, "
+> +                                "  'onoff': true }");
+> +
+> +    visit_type_TestUnionInUnion(v, NULL, &tmp, &error_abort);
+> +    g_assert_cmpint(tmp->type, =3D=3D, TEST_UNION_ENUM_VALUE_B);
+> +    g_assert_cmpint(tmp->u.value_b.integer, =3D=3D, 1729);
+> +    g_assert_cmpint(tmp->u.value_b.onoff, =3D=3D, true);
+> +}
+> +
+>  static void test_visitor_in_alternate(TestInputVisitorData *data,
+>                                        const void *unused)
+>  {
+> @@ -1216,6 +1261,8 @@ int main(int argc, char **argv)
+>                             NULL, test_visitor_in_null);
+>      input_visitor_test_add("/visitor/input/union-flat",
+>                             NULL, test_visitor_in_union_flat);
+> +    input_visitor_test_add("/visitor/input/union-in-union",
+> +                           NULL, test_visitor_in_union_in_union);
+>      input_visitor_test_add("/visitor/input/alternate",
+>                             NULL, test_visitor_in_alternate);
+>      input_visitor_test_add("/visitor/input/errors",
+> diff --git a/tests/unit/test-qobject-output-visitor.c b/tests/unit/test-q=
+object-output-visitor.c
+> index 7f054289fe..1535b3ad17 100644
+> --- a/tests/unit/test-qobject-output-visitor.c
+> +++ b/tests/unit/test-qobject-output-visitor.c
+> @@ -352,6 +352,62 @@ static void test_visitor_out_union_flat(TestOutputVi=
+sitorData *data,
+>      qapi_free_UserDefFlatUnion(tmp);
+>  }
+>=20=20
+> +static void test_visitor_out_union_in_union(TestOutputVisitorData *data,
+> +                                            const void *unused)
+> +{
+> +    QDict *qdict;
+> +
+> +    TestUnionInUnion *tmp =3D g_new0(TestUnionInUnion, 1);
+> +    tmp->type =3D TEST_UNION_ENUM_VALUE_A;
+> +    tmp->u.value_a.type_a =3D TEST_UNION_ENUMA_VALUE_A1;
+> +    tmp->u.value_a.u.value_a1.integer =3D 42;
+> +    tmp->u.value_a.u.value_a1.name =3D g_strdup("fish");
+> +
+> +    visit_type_TestUnionInUnion(data->ov, NULL, &tmp, &error_abort);
+> +    qdict =3D qobject_to(QDict, visitor_get(data));
+> +    g_assert(qdict);
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type"), =3D=3D, "value-a");
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type-a"), =3D=3D, "value-a1");
+> +    g_assert_cmpint(qdict_get_int(qdict, "integer"), =3D=3D, 42);
+> +    g_assert_cmpstr(qdict_get_str(qdict, "name"), =3D=3D, "fish");
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +
+> +
+> +    visitor_reset(data);
+> +    tmp =3D g_new0(TestUnionInUnion, 1);
+> +    tmp->type =3D TEST_UNION_ENUM_VALUE_A;
+> +    tmp->u.value_a.type_a =3D TEST_UNION_ENUMA_VALUE_A2;
+> +    tmp->u.value_a.u.value_a2.integer =3D 1729;
+> +    tmp->u.value_a.u.value_a2.size =3D 87539319;
+> +
+> +    visit_type_TestUnionInUnion(data->ov, NULL, &tmp, &error_abort);
+> +    qdict =3D qobject_to(QDict, visitor_get(data));
+> +    g_assert(qdict);
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type"), =3D=3D, "value-a");
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type-a"), =3D=3D, "value-a2");
+> +    g_assert_cmpint(qdict_get_int(qdict, "integer"), =3D=3D, 1729);
+> +    g_assert_cmpint(qdict_get_int(qdict, "size"), =3D=3D, 87539319);
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +
+> +
+> +    visitor_reset(data);
+> +    tmp =3D g_new0(TestUnionInUnion, 1);
+> +    tmp->type =3D TEST_UNION_ENUM_VALUE_B;
+> +    tmp->u.value_b.integer =3D 1729;
+> +    tmp->u.value_b.onoff =3D true;
+> +
+> +    visit_type_TestUnionInUnion(data->ov, NULL, &tmp, &error_abort);
+> +    qdict =3D qobject_to(QDict, visitor_get(data));
+> +    g_assert(qdict);
+> +    g_assert_cmpstr(qdict_get_str(qdict, "type"), =3D=3D, "value-b");
+> +    g_assert_cmpint(qdict_get_int(qdict, "integer"), =3D=3D, 1729);
+> +    g_assert_cmpint(qdict_get_bool(qdict, "onoff"), =3D=3D, true);
+> +
+> +    qapi_free_TestUnionInUnion(tmp);
+> +}
+> +
+>  static void test_visitor_out_alternate(TestOutputVisitorData *data,
+>                                         const void *unused)
+>  {
+> @@ -586,6 +642,8 @@ int main(int argc, char **argv)
+>                              &out_visitor_data, test_visitor_out_list_qap=
+i_free);
+>      output_visitor_test_add("/visitor/output/union-flat",
+>                              &out_visitor_data, test_visitor_out_union_fl=
+at);
+> +    output_visitor_test_add("/visitor/output/union-in-union",
+> +                            &out_visitor_data, test_visitor_out_union_in=
+_union);
+>      output_visitor_test_add("/visitor/output/alternate",
+>                              &out_visitor_data, test_visitor_out_alternat=
+e);
+>      output_visitor_test_add("/visitor/output/null",
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
 
