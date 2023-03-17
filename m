@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2266BE2F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:20:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99F46BE2FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:21:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd5JH-0006zw-73; Fri, 17 Mar 2023 04:19:35 -0400
+	id 1pd5JJ-00070J-Rz; Fri, 17 Mar 2023 04:19:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pd5JE-0006yo-ON
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:19:33 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1pd5JH-000707-LL
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:19:35 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pd5JC-0006RN-Uv
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:19:32 -0400
-Received: by mail-pl1-x636.google.com with SMTP id u5so4555427plq.7
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:19:29 -0700 (PDT)
+ id 1pd5JG-0006SN-06
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:19:35 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id p20so4538663plw.13
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1679041169;
+ d=bytedance.com; s=google; t=1679041172;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GG2aqHgGCiNg5mZ5qJ5G1bt8sGQLaCInJg5o3vlkQmc=;
- b=NdBW6N6cleaBklMeIPcenkiLkKNGdSUVoOxrC8eQU8gwukL1XNGjnAEh3NqNmGTNrZ
- x2t97sH31KbfZapDPtcLK186vmjYKQQP+VG8uLGDbr5wqirMwqz+4BVn704eYWUtzriB
- IUADIsVspY5mGKQ3Fx0oeOyALKt09FYG/OibmehPHptscgXY9klvLp5q0kE3kc3fF7xK
- 7XwTG0KJvuBS2Ov8GRtCYQ2pWAio27PP2rvvNhPo9QKKHBF3PfMeq0ptwFim+J774Fze
- EPP17JXgxjSvOnnflEZJxMx9R/Wqi8bFx5zUmbZRdNDNiWQJiNYV7wSPlAAicH+hlaay
- 1Qow==
+ bh=g9aFN8Ma91UuxeJMWpFWAGfhx+Xhxyy3JILvaccFafU=;
+ b=QwminStduRfZUjPoT7+Lo7Y/tM/saw/kCDKmFYfWdnmIN7dkJXMyFBOIG4Nc+X88BV
+ ddo32y2CQ4Yf3RJoIWVIYbG+/lHXSuPim7G3YiD2iUwD3DuSX0RJuY+qR4odDGaXcWjn
+ h/+TkeC/i33INuhq0gs9bXE93er+wJpSivNsXm3LuiwsBYdAp5f04QlL4+GLk1gohrFU
+ hZT5674oIIl8gUZPK0u0wy6ea8pWHvriut+W+YehuG67VrNbXmLRLofxwS2dX8K+y6Ab
+ Vsx+8XRorK1KpErUBQJcaf+MlDgoRRdGXpT0pgSbfx+MvdNi9Cpga4lMczmvYZYkvT6A
+ eCTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679041169;
+ d=1e100.net; s=20210112; t=1679041172;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GG2aqHgGCiNg5mZ5qJ5G1bt8sGQLaCInJg5o3vlkQmc=;
- b=piZphegFL2NMpvlYSf9KSJQWdYVQVsvjiJ3pMgu499suvDVUmak5jj1pC27vLiesrf
- fUPZ7cRRmDyemVYSIGN9F6pqQ2b3KQSNx1VZad2DsDEvWRIbug2rDc01k9S4LKm6g6Lo
- kebSU0TCVAKJyZzdLdqjixNaFJ+MDFHlxS6nn1j3LniftKPq1GG3Xg3uutUjwY9X9wb8
- dtk2MKoFFLvt/4xcbDGvqRxIpi6N+T7UemXELApuBthHRM9W+vzScjitndgko3H7+jJJ
- oU9ne1DgePVGLSjqQnAPihOMOzFrAe1I7G51D4OpyqnyQk9grWvSCqSP6oCXB4T6ZtE2
- MvwA==
-X-Gm-Message-State: AO0yUKVqbqQTk3s2HeR8jg+72OXQG0tsapJ8dFg/mwcMyEbHJULNxNw9
- 3JUEQ9pFUa30hCL0AirY0HrLcUzovVztWwKRZTo=
-X-Google-Smtp-Source: AK7set9wJ4R9anzfyXdbxYPRegGTQ3LtMZ/GMexmI8rTosrN6/SUeoa+1OvkZ0BlsLuZ0FO1aBJYMQ==
-X-Received: by 2002:a05:6a20:8f25:b0:d6:9939:b0a9 with SMTP id
- b37-20020a056a208f2500b000d69939b0a9mr2356238pzk.25.1679041168814; 
- Fri, 17 Mar 2023 01:19:28 -0700 (PDT)
+ bh=g9aFN8Ma91UuxeJMWpFWAGfhx+Xhxyy3JILvaccFafU=;
+ b=T7bcYj9Wo1ziznWmM3JvrVyx4euxQglhSlmRawV6dudwqxak2UsLOFgJ5jGSR7BUFd
+ MZsmmic0B13RbyKRixBcrdtUEj2EAyBltxD/opk+BtxjuwQwFs17xlTC2FoZ0anZo2dJ
+ MXVPulXXXf1ov2kaDbl2Z4EFLBltXCB3tKrmVugo+F308ZxfAfZWqC/GoODshKgzTxsF
+ bXNukwYcLS3JsTkBBht9LGoR0AKRtpEa5kJbcAJCo4Eyi5YtqN5aGaYWApFi/OSAWMuE
+ hNR8fQwpV5IilXxBw9OqEewUJxl7/JmDiiZKY1U2K8kysdLYN6PrcRMFzF0T8dRsr79V
+ S+KA==
+X-Gm-Message-State: AO0yUKXyp6n8h8bP+elk2hcnMs1BvQVZ5SOF3cb1KjQrzVpLZCxXIWqK
+ HXaV9HjAKfVAZM/oIiUS9OWGCjmzeLhXMXQG170=
+X-Google-Smtp-Source: AK7set+yxP3QMX7Xxk+8LV3KBjD4zvMl90+zIuqRPxUk4e0T/n/o0gizYHPZDgB6N5zDb9kFgCNvQA==
+X-Received: by 2002:a05:6a20:a111:b0:d3:76e0:89fd with SMTP id
+ q17-20020a056a20a11100b000d376e089fdmr8204758pzk.50.1679041172550; 
+ Fri, 17 Mar 2023 01:19:32 -0700 (PDT)
 Received: from MacBook-Pro.local.bytedance.net ([139.177.225.249])
  by smtp.gmail.com with ESMTPSA id
- p36-20020a631e64000000b0050be8e0b94csm873304pgm.90.2023.03.17.01.19.25
+ p36-20020a631e64000000b0050be8e0b94csm873304pgm.90.2023.03.17.01.19.29
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 17 Mar 2023 01:19:28 -0700 (PDT)
+ Fri, 17 Mar 2023 01:19:32 -0700 (PDT)
 From: Chuang Xu <xuchuangxclwt@bytedance.com>
 To: qemu-devel@nongnu.org
 Cc: dgilbert@redhat.com, quintela@redhat.com, pbonzini@redhat.com,
  peterx@redhat.com, david@redhat.com, philmd@linaro.org,
  zhouyibo@bytedance.com, Chuang Xu <xuchuangxclwt@bytedance.com>
-Subject: [PATCH v8 3/6] memory: Introduce memory_region_transaction_do_commit()
-Date: Fri, 17 Mar 2023 16:19:01 +0800
-Message-Id: <20230317081904.24389-4-xuchuangxclwt@bytedance.com>
+Subject: [PATCH v8 4/6] memory: Add do_commit() and sanity check in
+ address_space_to_flatview
+Date: Fri, 17 Mar 2023 16:19:02 +0800
+Message-Id: <20230317081904.24389-5-xuchuangxclwt@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20230317081904.24389-1-xuchuangxclwt@bytedance.com>
 References: <20230317081904.24389-1-xuchuangxclwt@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -92,82 +93,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Split memory_region_transaction_do_commit() from
-memory_region_transaction_commit().
+In next patch, we wrap the vm_load into a whole mr transaction to speed
+up vm_load. This brings a problem, old flatviews may be referenced
+during the vm_load. vm_load contains far more memory updates than
+referencing to a specific flatview, hence we introduce do_commit to
+make sure address_space_to_flatview will return the newest flatview and
+it should logically only be triggered in a few spots during vm_load.
 
-We'll call do_commit() in address_space_to_flatview() in the later patch.
+Other than that, sanity check whether BQL or rcu is held before using
+any flatview.
 
 Signed-off-by: Chuang Xu <xuchuangxclwt@bytedance.com>
 ---
- softmmu/memory.c | 47 +++++++++++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 20 deletions(-)
+ include/exec/memory.h | 23 +++++++++++++++++++++++
+ softmmu/memory.c      |  5 +++++
+ 2 files changed, 28 insertions(+)
 
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 6fa0b071f0..d6fd89db64 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -27,6 +27,7 @@
+ #include "qemu/notify.h"
+ #include "qom/object.h"
+ #include "qemu/rcu.h"
++#include "qemu/main-loop.h"
+ 
+ #define RAM_ADDR_INVALID (~(ram_addr_t)0)
+ 
+@@ -1095,8 +1096,30 @@ struct FlatView {
+     MemoryRegion *root;
+ };
+ 
++bool memory_region_transaction_in_progress(void);
++
++void memory_region_transaction_do_commit(void);
++
+ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+ {
++    if (qemu_mutex_iothread_locked()) {
++        /* We exclusively own the flatview now.. */
++        if (memory_region_transaction_in_progress()) {
++            /*
++             * Fetch the flatview within a transaction in-progress, it
++             * means current_map may not be the latest, we need to update
++             * immediately to make sure the caller won't see obsolete
++             * mapping.
++             */
++            memory_region_transaction_do_commit();
++        }
++
++        /* No further protection needed to access current_map */
++        return as->current_map;
++    }
++
++    /* Otherwise we must have had the RCU lock or something went wrong */
++    assert(rcu_read_is_locked());
+     return qatomic_rcu_read(&as->current_map);
+ }
+ 
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index a992a365d9..33ecc62ee9 100644
+index 33ecc62ee9..6a8e8b4e71 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -1093,34 +1093,41 @@ void memory_region_transaction_begin(void)
-     ++memory_region_transaction_depth;
+@@ -1130,6 +1130,11 @@ void memory_region_transaction_commit(void)
+     }
  }
  
--void memory_region_transaction_commit(void)
-+void memory_region_transaction_do_commit(void)
- {
-     AddressSpace *as;
- 
--    assert(memory_region_transaction_depth);
-     assert(qemu_mutex_iothread_locked());
- 
--    --memory_region_transaction_depth;
--    if (!memory_region_transaction_depth) {
--        if (memory_region_update_pending) {
--            flatviews_reset();
-+    if (memory_region_update_pending) {
-+        flatviews_reset();
- 
--            MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
-+        MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
- 
--            QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--                address_space_set_flatview(as);
--                address_space_update_ioeventfds(as);
--            }
--            memory_region_update_pending = false;
--            ioeventfd_update_pending = false;
--            MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
--        } else if (ioeventfd_update_pending) {
--            QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--                address_space_update_ioeventfds(as);
--            }
--            ioeventfd_update_pending = false;
-+        QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-+            address_space_set_flatview(as);
-+            address_space_update_ioeventfds(as);
-+        }
-+        memory_region_update_pending = false;
-+        ioeventfd_update_pending = false;
-+        MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
-+    } else if (ioeventfd_update_pending) {
-+        QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-+            address_space_update_ioeventfds(as);
-         }
--   }
-+        ioeventfd_update_pending = false;
-+    }
++bool memory_region_transaction_in_progress(void)
++{
++    return memory_region_transaction_depth != 0;
 +}
 +
-+void memory_region_transaction_commit(void)
-+{
-+    assert(memory_region_transaction_depth);
-+    assert(qemu_mutex_iothread_locked());
-+
-+    --memory_region_transaction_depth;
-+    if (!memory_region_transaction_depth) {
-+        memory_region_transaction_do_commit();
-+    }
- }
- 
  static void memory_region_destructor_none(MemoryRegion *mr)
+ {
+ }
 -- 
 2.20.1
 
