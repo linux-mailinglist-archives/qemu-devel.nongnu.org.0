@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DCE6BF028
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:51:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A9A76BF032
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:52:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdEDu-0003JB-1L; Fri, 17 Mar 2023 13:50:38 -0400
+	id 1pdEFt-0006vI-W2; Fri, 17 Mar 2023 13:52:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pdEDr-0003IY-HJ
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:50:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pdEFk-0006uY-Fb
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:52:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pdEDp-0001tQ-CX
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:50:35 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pdEFi-0002LX-EO
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:52:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679075431;
+ s=mimecast20190719; t=1679075549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dxbujlmIm17bJAmGAy2mXMVgq8Bq8dCuw5A2QqXTsy0=;
- b=XEoQyIR8khuBCnqDy/u4Ey9lAr4OllxstxAw0NgoX00wxKmsi4FY5GtHdxX10of2T6cKLH
- lLC3cT68HTW5UgGggYeaz+9/HP4d8xOAxEdsSlEqFNP7ZUchjnPIOO5zmEKX0h9tSKf2aD
- 6esUJWxvbZe9dVJC++itcQJcfXZprmg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-341-PjazCVtYPs26mmUMUXBHZg-1; Fri, 17 Mar 2023 13:50:28 -0400
-X-MC-Unique: PjazCVtYPs26mmUMUXBHZg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13DF785A588;
- Fri, 17 Mar 2023 17:50:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B6965C15BA0;
- Fri, 17 Mar 2023 17:50:27 +0000 (UTC)
-From: Hanna Czenczek <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Hanna Czenczek <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: [PATCH 4/4] iotests/iov-padding: New test
-Date: Fri, 17 Mar 2023 18:50:19 +0100
-Message-Id: <20230317175019.10857-5-hreitz@redhat.com>
-In-Reply-To: <20230317175019.10857-1-hreitz@redhat.com>
-References: <20230317175019.10857-1-hreitz@redhat.com>
+ bh=KlPip0HefSzzLR6+oySbfjIK8KqluHLB69+7XwAgj2Q=;
+ b=BWTPQeRBE9pFGxe+Z2d560vPWo9fSMVK2NdYvWde3J7BQT13pwalndHi+j5yNwtIGPzYn2
+ oY+8YGVSjNwbM6qTq0auyQyu7T7RZ6OW3qCzYWbr//e0Swcxiuo2riUIvwo0waTpjcTLhr
+ QC/fm/uZOdeJoz8M3v6sYGa0e8zUH9g=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-490-Lg0z5a9tOam-SEaOoj053Q-1; Fri, 17 Mar 2023 13:52:28 -0400
+X-MC-Unique: Lg0z5a9tOam-SEaOoj053Q-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ p36-20020a056402502400b004bb926a3d54so8932744eda.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 10:52:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679075547;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KlPip0HefSzzLR6+oySbfjIK8KqluHLB69+7XwAgj2Q=;
+ b=0tFH5PGGdB6OlMvpzeyWJpEH7AFZtXrjHbeEgtDihR+GLKyPtEH4HVnFPqGJKsv53y
+ /A6i4DWrMWj0f+BQhWToCvON3iXFVJO38xGuUStFFpSBhlqOhtDlKO7MO4GZfOFtEAzN
+ 2uTATdgZiFuzh3GEza2LzCkZWnbpkGmqCABib6F9nhFn5iXnolGXtMZhKhr8Yil6bFYS
+ n1s+d5+pVl6VrA7KwobnEQl3iSfCq9obyAvK8JWPYRw8opZFhpEi/S5gTjoPnjEN1c8c
+ EEMn5Drl6F+m59VXS52ZF24HRVCOsz4JM6O83tDz2wffPX6klj3AMqXtoYw/S97h2Yye
+ h66g==
+X-Gm-Message-State: AO0yUKWMC7BEphvdGedOJbbNJo5XKA9YsW+jWHN6DccttXnaaMPkhZRM
+ itWVGERrJzFApIZXN+SsqjE31/rKswsmDqyUlWC3nrzXl528SF5J/MO2S1uFqQVW8n5OhBW+Cqp
+ Yni/o8cGRjBMEyKM=
+X-Received: by 2002:a50:ff1a:0:b0:4fd:215e:b691 with SMTP id
+ a26-20020a50ff1a000000b004fd215eb691mr4147792edu.4.1679075546912; 
+ Fri, 17 Mar 2023 10:52:26 -0700 (PDT)
+X-Google-Smtp-Source: AK7set90F8x46yHTglbCC2fxXOUrBP9y1AYINXtx8SI3FcMDJBHAbXpICeu+AHWlCo/J0QBAB6jMrA==
+X-Received: by 2002:a50:ff1a:0:b0:4fd:215e:b691 with SMTP id
+ a26-20020a50ff1a000000b004fd215eb691mr4147775edu.4.1679075546625; 
+ Fri, 17 Mar 2023 10:52:26 -0700 (PDT)
+Received: from ?IPV6:2003:cf:d72b:b3c3:84ec:cc63:3ddf:7d93?
+ (p200300cfd72bb3c384eccc633ddf7d93.dip0.t-ipconnect.de.
+ [2003:cf:d72b:b3c3:84ec:cc63:3ddf:7d93])
+ by smtp.gmail.com with ESMTPSA id
+ v15-20020a50c40f000000b004d8d2735251sm1381956edf.43.2023.03.17.10.52.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Mar 2023 10:52:26 -0700 (PDT)
+Message-ID: <6892623a-f761-c334-b0a3-891a83e65125@redhat.com>
+Date: Fri, 17 Mar 2023 18:52:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [Virtio-fs] [RFC 2/2] vhost-user-fs: Implement stateful migration
+Content-Language: en-US
+To: Anton Kuchin <antonkuchin@yandex-team.ru>
+Cc: Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin"
+ <mst@redhat.com>, qemu-devel@nongnu.org, virtio-fs@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20230313174833.28790-1-hreitz@redhat.com>
+ <20230313174833.28790-3-hreitz@redhat.com>
+ <035ba8d3-7943-ae8d-f4b2-76ac4fd74cf0@yandex-team.ru>
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <035ba8d3-7943-ae8d-f4b2-76ac4fd74cf0@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,174 +105,264 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Test that even vectored IO requests with 1024 vector elements that are
-not aligned to the device's request alignment will succeed.
+On 17.03.23 18:19, Anton Kuchin wrote:
+> On 13/03/2023 19:48, Hanna Czenczek wrote:
+>> A virtio-fs device's VM state consists of:
+>> - the virtio device (vring) state (VMSTATE_VIRTIO_DEVICE)
+>> - the back-end's (virtiofsd's) internal state
+>>
+>> We get/set the latter via the new vhost-user operations FS_SET_STATE_FD,
+>> FS_GET_STATE, and FS_SET_STATE.
+>>
+>> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+>> ---
+>>   hw/virtio/vhost-user-fs.c | 171 +++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 170 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+>> index 83fc20e49e..df1fb02acc 100644
+>> --- a/hw/virtio/vhost-user-fs.c
+>> +++ b/hw/virtio/vhost-user-fs.c
+>> @@ -20,8 +20,10 @@
+>>   #include "hw/virtio/virtio-bus.h"
+>>   #include "hw/virtio/virtio-access.h"
+>>   #include "qemu/error-report.h"
+>> +#include "qemu/memfd.h"
+>>   #include "hw/virtio/vhost.h"
+>>   #include "hw/virtio/vhost-user-fs.h"
+>> +#include "migration/qemu-file-types.h"
+>>   #include "monitor/monitor.h"
+>>   #include "sysemu/sysemu.h"
+>>   @@ -298,9 +300,176 @@ static struct vhost_dev 
+>> *vuf_get_vhost(VirtIODevice *vdev)
+>>       return &fs->vhost_dev;
+>>   }
+>>   +/**
+>> + * Fetch the internal state from the back-end (virtiofsd) and save it
+>> + * to `f`.
+>> + */
+>> +static int vuf_save_state(QEMUFile *f, void *pv, size_t size,
+>> +                          const VMStateField *field, JSONWriter 
+>> *vmdesc)
+>> +{
+>> +    VirtIODevice *vdev = pv;
+>> +    VHostUserFS *fs = VHOST_USER_FS(vdev);
+>> +    int memfd = -1;
+>> +    /* Size of the shared memory through which to transfer the state */
+>> +    const size_t chunk_size = 4 * 1024 * 1024;
+>> +    size_t state_offset;
+>> +    ssize_t remaining;
+>> +    void *shm_buf;
+>> +    Error *local_err = NULL;
+>> +    int ret, ret2;
+>> +
+>> +    /* Set up shared memory through which to receive the state from 
+>> virtiofsd */
+>> +    shm_buf = qemu_memfd_alloc("vhost-fs-state", chunk_size,
+>> +                               F_SEAL_SEAL | F_SEAL_SHRINK | 
+>> F_SEAL_GROW,
+>> +                               &memfd, &local_err);
+>> +    if (!shm_buf) {
+>> +        error_report_err(local_err);
+>> +        ret = -ENOMEM;
+>> +        goto early_fail;
+>> +    }
+>> +
+>> +    /* Share the SHM area with virtiofsd */
+>> +    ret = vhost_fs_set_state_fd(&fs->vhost_dev, memfd, chunk_size);
+>> +    if (ret < 0) {
+>> +        goto early_fail;
+>
+> Don't we need some log message here too?
 
-Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
----
- tests/qemu-iotests/tests/iov-padding     | 85 ++++++++++++++++++++++++
- tests/qemu-iotests/tests/iov-padding.out | 59 ++++++++++++++++
- 2 files changed, 144 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/iov-padding
- create mode 100644 tests/qemu-iotests/tests/iov-padding.out
+Sure, why not.  There are other places in this patch that just return 
+-errno but print no error, I think they could all use a verbose error 
+message.
 
-diff --git a/tests/qemu-iotests/tests/iov-padding b/tests/qemu-iotests/tests/iov-padding
-new file mode 100755
-index 0000000000..b9604900c7
---- /dev/null
-+++ b/tests/qemu-iotests/tests/iov-padding
-@@ -0,0 +1,85 @@
-+#!/usr/bin/env bash
-+# group: rw quick
-+#
-+# Check the interaction of request padding (to fit alignment restrictions) with
-+# vectored I/O from the guest
-+#
-+# Copyright Red Hat
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=$(basename $0)
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+cd ..
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt raw
-+_supported_proto file
-+
-+_make_test_img 1M
-+
-+IMGSPEC="driver=blkdebug,align=4096,image.driver=file,image.filename=$TEST_IMG"
-+
-+# Four combinations:
-+# - Offset 4096, length 1023 * 512 + 512: Fully aligned to 4k
-+# - Offset 4096, length 1023 * 512 + 4096: Head is aligned, tail is not
-+# - Offset 512, length 1023 * 512 + 512: Neither head nor tail are aligned
-+# - Offset 512, length 1023 * 512 + 4096: Tail is aligned, head is not
-+for start_offset in 4096 512; do
-+    for last_element_length in 512 4096; do
-+        length=$((1023 * 512 + $last_element_length))
-+
-+        echo
-+        echo "== performing 1024-element vectored requests to image (offset: $start_offset; length: $length) =="
-+
-+        # Fill with data for testing
-+        $QEMU_IO -c 'write -P 1 0 1M' "$TEST_IMG" | _filter_qemu_io
-+
-+        # 1023 512-byte buffers, and then one with length $last_element_length
-+        cmd_params="-P 2 $start_offset $(yes 512 | head -n 1023 | tr '\n' ' ') $last_element_length"
-+        QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" $QEMU_IO \
-+            -c "writev $cmd_params" \
-+            --image-opts \
-+            "$IMGSPEC" \
-+            | _filter_qemu_io
-+
-+        # Read all patterns -- read the part we just wrote with writev twice,
-+        # once "normally", and once with a readv, so we see that that works, too
-+        QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" $QEMU_IO \
-+            -c "read -P 1 0 $start_offset" \
-+            -c "read -P 2 $start_offset $length" \
-+            -c "readv $cmd_params" \
-+            -c "read -P 1 $((start_offset + length)) $((1024 * 1024 - length - start_offset))" \
-+            --image-opts \
-+            "$IMGSPEC" \
-+            | _filter_qemu_io
-+    done
-+done
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/tests/iov-padding.out b/tests/qemu-iotests/tests/iov-padding.out
-new file mode 100644
-index 0000000000..e07a91fac7
---- /dev/null
-+++ b/tests/qemu-iotests/tests/iov-padding.out
-@@ -0,0 +1,59 @@
-+QA output created by iov-padding
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+
-+== performing 1024-element vectored requests to image (offset: 4096; length: 524288) ==
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 524288/524288 bytes at offset 4096
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 4096
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 4096
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 520192/520192 bytes at offset 528384
-+508 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== performing 1024-element vectored requests to image (offset: 4096; length: 527872) ==
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 527872/527872 bytes at offset 4096
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 527872/527872 bytes at offset 4096
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 527872/527872 bytes at offset 4096
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 516608/516608 bytes at offset 531968
-+504.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== performing 1024-element vectored requests to image (offset: 512; length: 524288) ==
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 524288/524288 bytes at offset 512
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 512/512 bytes at offset 0
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 512
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 512
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 523776/523776 bytes at offset 524800
-+511.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+== performing 1024-element vectored requests to image (offset: 512; length: 527872) ==
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 527872/527872 bytes at offset 512
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 512/512 bytes at offset 0
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 527872/527872 bytes at offset 512
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 527872/527872 bytes at offset 512
-+515.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 520192/520192 bytes at offset 528384
-+508 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
--- 
-2.39.1
+>> +    }
+>> +
+>> +    /* Receive the virtiofsd state in chunks, and write them to `f` */
+>> +    state_offset = 0;
+>> +    do {
+>> +        size_t this_chunk_size;
+>> +
+>> +        remaining = vhost_fs_get_state(&fs->vhost_dev, state_offset,
+>> +                                       chunk_size);
+>> +        if (remaining < 0) {
+>> +            ret = remaining;
+>> +            goto fail;
+>> +        }
+>> +
+>> +        /* Prefix the whole state by its total length */
+>> +        if (state_offset == 0) {
+>> +            qemu_put_be64(f, remaining);
+>> +        }
+>> +
+>> +        this_chunk_size = MIN(remaining, chunk_size);
+>> +        qemu_put_buffer(f, shm_buf, this_chunk_size);
+>> +        state_offset += this_chunk_size;
+>> +    } while (remaining >= chunk_size);
+>> +
+>> +    ret = 0;
+>> +fail:
+>> +    /* Have virtiofsd close the shared memory */
+>> +    ret2 = vhost_fs_set_state_fd(&fs->vhost_dev, -1, 0);
+>> +    if (ret2 < 0) {
+>> +        error_report("Failed to remove state FD from the 
+>> vhost-user-fs back "
+>> +                     "end: %s", strerror(-ret));
+>> +        if (ret == 0) {
+>> +            ret = ret2;
+>> +        }
+>> +    }
+>> +
+>> +early_fail:
+>> +    if (shm_buf) {
+>> +        qemu_memfd_free(shm_buf, chunk_size, memfd);
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +/**
+>> + * Load the back-end's (virtiofsd's) internal state from `f` and send
+>> + * it over to that back-end.
+>> + */
+>> +static int vuf_load_state(QEMUFile *f, void *pv, size_t size,
+>> +                          const VMStateField *field)
+>> +{
+>> +    VirtIODevice *vdev = pv;
+>> +    VHostUserFS *fs = VHOST_USER_FS(vdev);
+>> +    int memfd = -1;
+>> +    /* Size of the shared memory through which to transfer the state */
+>> +    const size_t chunk_size = 4 * 1024 * 1024;
+>> +    size_t state_offset;
+>> +    uint64_t remaining;
+>> +    void *shm_buf;
+>> +    Error *local_err = NULL;
+>> +    int ret, ret2;
+>> +
+>> +    /* The state is prefixed by its total length, read that first */
+>> +    remaining = qemu_get_be64(f);
+>> +
+>> +    /* Set up shared memory through which to send the state to 
+>> virtiofsd */
+>> +    shm_buf = qemu_memfd_alloc("vhost-fs-state", chunk_size,
+>> +                               F_SEAL_SEAL | F_SEAL_SHRINK | 
+>> F_SEAL_GROW,
+>> +                               &memfd, &local_err);
+>> +    if (!shm_buf) {
+>> +        error_report_err(local_err);
+>> +        ret = -ENOMEM;
+>> +        goto early_fail;
+>> +    }
+>> +
+>> +    /* Share the SHM area with virtiofsd */
+>> +    ret = vhost_fs_set_state_fd(&fs->vhost_dev, memfd, chunk_size);
+>> +    if (ret < 0) {
+>> +        goto early_fail;
+>> +    }
+>> +
+>> +    /*
+>> +     * Read the virtiofsd state in chunks from `f`, and send them over
+>> +     * to virtiofsd
+>> +     */
+>> +    state_offset = 0;
+>> +    do {
+>> +        size_t this_chunk_size = MIN(remaining, chunk_size);
+>> +
+>> +        if (qemu_get_buffer(f, shm_buf, this_chunk_size) < 
+>> this_chunk_size) {
+>> +            ret = -EINVAL;
+>> +            goto fail;
+>> +        }
+>> +
+>> +        ret = vhost_fs_set_state(&fs->vhost_dev, state_offset, 
+>> this_chunk_size);
+>> +        if (ret < 0) {
+>> +            goto fail;
+>> +        }
+>> +
+>> +        state_offset += this_chunk_size;
+>> +        remaining -= this_chunk_size;
+>> +    } while (remaining > 0);
+>> +
+>> +    ret = 0;
+>> +fail:
+>> +    ret2 = vhost_fs_set_state_fd(&fs->vhost_dev, -1, 0);
+>> +    if (ret2 < 0) {
+>> +        error_report("Failed to remove state FD from the 
+>> vhost-user-fs back "
+>> +                     "end -- perhaps it failed to deserialize/apply 
+>> the state: "
+>> +                     "%s", strerror(-ret2));
+>> +        if (ret == 0) {
+>> +            ret = ret2;
+>> +        }
+>> +    }
+>> +
+>> +early_fail:
+>> +    if (shm_buf) {
+>> +        qemu_memfd_free(shm_buf, chunk_size, memfd);
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>>   static const VMStateDescription vuf_vmstate = {
+>>       .name = "vhost-user-fs",
+>> -    .unmigratable = 1,
+>> +    .version_id = 1,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_VIRTIO_DEVICE,
+>> +        {
+>> +            .name = "back-end",
+>> +            .info = &(const VMStateInfo) {
+>> +                .name = "virtio-fs back-end state",
+>> +                .get = vuf_load_state,
+>> +                .put = vuf_save_state,
+>> +            },
+>> +        },
+>
+> I've been working on stateless migration patch [1] and there was 
+> discussed that we
+> need to keep some kind of blocker by default if orchestrators rely on 
+> unmigratable
+> field in virtio-fs vmstate to block the migration.
+> For this purpose I've implemented flag that selects "none" or 
+> "external" and is checked
+> in pre_save, so it could be extended with "internal" option.
+> We didn't come to conclusion if we also need to check incoming 
+> migration, the discussion
+> has stopped for a while but I'm going back to it now.
+>
+> I would appreciate if you have time to take a look at the discussion 
+> and consider the idea
+> proposed there to store internal state as a subsection of vmstate to 
+> make it as an option
+> but not mandatory.
+>
+> [1] 
+> https://patchew.org/QEMU/20230217170038.1273710-1-antonkuchin@yandex-team.ru/
+
+So far I’ve mostly considered these issues orthogonal.  If your 
+stateless migration goes in first, then state is optional and I’ll 
+adjust this series.  If stateful migration goes in first, then your 
+series can simply make state optional by introducing the external 
+option, no?
+
+But maybe we could also consider making stateless migration a special 
+case of stateful migration; if we had stateful migration, can’t we just 
+implement stateless migration by telling virtiofsd that it should submit 
+a special “I have no state” pseudo-state, i.e. by having a switch on 
+virtiofsd instead?
+
+Off the top of my head, some downsides of that approach would be (1) 
+it’d need a switch on the virtiofsd side, not on the qemu side (not sure 
+if that’s a downside, but a difference for sure), and (2) we’d need at 
+least some support for this on the virtiofsd side, i.e. practically 
+can’t come quicker than stateful migration support.
+
+Hanna
 
 
