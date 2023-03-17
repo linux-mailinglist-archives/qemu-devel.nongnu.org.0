@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10EC6BE274
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:03:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5886BE27E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:04:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd53E-0007eu-0K; Fri, 17 Mar 2023 04:03:00 -0400
+	id 1pd53t-00085E-0s; Fri, 17 Mar 2023 04:03:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pd53B-0007eP-AN
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:02:57 -0400
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
+ id 1pd53q-00083U-E6
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:03:38 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pd539-0001og-7V
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:02:57 -0400
-Received: by mail-lj1-x22b.google.com with SMTP id a32so4208886ljq.1
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:02:54 -0700 (PDT)
+ id 1pd53o-0001sC-C6
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:03:38 -0400
+Received: by mail-lj1-x233.google.com with SMTP id y14so4200156ljq.4
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679040173;
+ d=gmail.com; s=20210112; t=1679040214;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SbN2Uv6wIZ/ofcHrI2qC2q1YgcS8hcr1rp7G2uD9e/E=;
- b=fj4YiG8C29ubHnShmo8+5fztUFNR3IJr3vnVjZCMtqCTR4z8BOnMAkmWH504pWIeo9
- +L5S9BlIAMfLf9XCH6BB2/Sudu7URVkjgT6DZvL6nTPQZ2Nor8b8pY17+PjmBIS44tsQ
- x0b7YhJBEzvlsiSrFyBhjOZtLLeFFq39SupgIykZvN1sZuaHwsV3aLbQzxbloMShl7t8
- Kph8hFNQUPjcOCJYDHN1IOoIKvHKV7FdxVd+yFf0NwL7Y6t4JnvquvQwdWazlo8quMlw
- kiS5Cb/Pj5uc79Y00vYArc0yytFKatyrcF5oKjK5UPx2zaPKVwneql+6nLcMIMsGwKF5
- 30vg==
+ bh=P4JCzMe0/ffFe+YpUEYG7PF0uOql1LWDqtks99mS+yY=;
+ b=Faxqt/URtuvxPGrQqcGnszAV2o7nvXpEAqs0Et2jEG+vedLp3eYKxjQNzl2//A0wNI
+ j6mRwomRXTEiGh351NaHJ3uznvDXoNEPuERlR5Yr7s5PPeVBrbYkNqgTC9hCStRU/StY
+ LG9Rh2mTDpFJhuC6QeYFvmeoys8VSrmZt0TfRI6auCVFm5kcWHW0ITQhNoBrmoP0VBoT
+ s4Axp1T0WMV2/taBxwuWed7UDC/Nd2U5XKDONivzuP/uryv+YDPI8Wc3vHgMToGL9rsi
+ L9q+DLTOzgZJEWCwWi6QSBPs43KRxitmXW/lxZIl/Pl+j6lJT9bx0sUXl+K6gqMWlxj/
+ JXgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679040173;
+ d=1e100.net; s=20210112; t=1679040214;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SbN2Uv6wIZ/ofcHrI2qC2q1YgcS8hcr1rp7G2uD9e/E=;
- b=rTvtCYxFdnDJRAzdvRMVdJBjVmB7ftX45nGfBvk80ViD7sqKfa/Ibpn4p+qHUwgKkY
- P0UjPT3l4Cv9PqzfRg5SQIk0fHlm+Ys7KdsRIzj0OkOrEqMWdv5mSIe+TBhAjFUR3NhU
- YAezrl4Q3h6G7nRWZsi8RKnj/ByRRy8Iuuz6VMgKzzxskmk9IdCxHUI2cv6VCvdj7f5a
- adUCz5HMXKP0VwRRx1C8wgzXT8HoLXW7zB2CUbF0bnDqcdGcqeJ/klEcc0meAlLVzA3T
- 9ScngAiGaISAb/ANNibo2V/JoPI1h3wzZBi/DjJyEVGZqEWJJIPSuFfQchRKRCzMmoeI
- 3H4g==
-X-Gm-Message-State: AO0yUKUb1fwOLaJNvlq5D118JyWMcUZOB8bOoohbw9bPwzeIoaRcCBtK
- m+R1Pf0pI9C/+LSw4HwB5PwgUq6uy+8XcFCu4tc=
-X-Google-Smtp-Source: AK7set/1dB2vDlcSmlkbiSsZjagvxF/If23LKUeXIrmFtVUFdEfRzNMjye60ON/eay59Za6AJ2sSHJ/y5YV5lGoMPwk=
-X-Received: by 2002:a2e:b4aa:0:b0:295:b026:8c33 with SMTP id
- q10-20020a2eb4aa000000b00295b0268c33mr3083491ljm.0.1679040172569; Fri, 17 Mar
- 2023 01:02:52 -0700 (PDT)
+ bh=P4JCzMe0/ffFe+YpUEYG7PF0uOql1LWDqtks99mS+yY=;
+ b=JzwT3h4+HNahdQP/x3a66bxgub3Er8vuiuHCc7ISOraBfTFN9HHOIt82tHt+8dbx6J
+ SnFmmaYkTGox1x7TJqFhXp9YzxDlUa030euCcIz43FinaBtMrMiqtN6/VrMWvZATo7Uq
+ sQ1/gCwHCAqFXNIrBOyc+kd672Z73prvEQKclxKFo2MtBO35s5jrISRj5c8uIk0CELS0
+ dqJs/EdSu7jp4SsEV98S+0ntqfsxLTlVX8ogj1eiab6nh8GzTzWAwO1WT5Ko37OrIbbQ
+ P9Px5gH+B1Y1/sQW0lY7wwNpcpo7CXlbigS5lB2SQ5XsHf1TEIs50RstGQXjD5SbeOgc
+ US4A==
+X-Gm-Message-State: AO0yUKWYwuIltLf8IJk+C5fTf12haGEwUUg8X84uFiU1QYbYdVdr+VT4
+ Z6IhVSA5VlY7ROoTTcLvhLWlk/HYHsg43z32JwU=
+X-Google-Smtp-Source: AK7set+87xM/SMIFZOkjZctWVEZEHOZ86Hy0WRUvzJJYUVc4G5geDyBfetjJKaarl+e6UUUhilr0O5rTKWFA1PDROLs=
+X-Received: by 2002:a2e:9bca:0:b0:299:ac68:480b with SMTP id
+ w10-20020a2e9bca000000b00299ac68480bmr1170720ljj.0.1679040214408; Fri, 17 Mar
+ 2023 01:03:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230316120624.46410-1-slp@redhat.com>
- <20230316120624.46410-7-slp@redhat.com>
-In-Reply-To: <20230316120624.46410-7-slp@redhat.com>
+ <20230316120624.46410-3-slp@redhat.com>
+In-Reply-To: <20230316120624.46410-3-slp@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 17 Mar 2023 12:02:41 +0400
-Message-ID: <CAJ+F1CLVevQJPb0tnB3qTq3GjJATejyEcyYbxkQurFN30iORXA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] ui/gtk: enable backend to send multi-touch events
+Date: Fri, 17 Mar 2023 12:03:22 +0400
+Message-ID: <CAJ+F1CJ_L861E648w4KSYSs2tFeNpgTD9-FTcGsy=N6+U4z2zA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] ui: add the infrastructure to support MT events
 To: Sergio Lopez <slp@redhat.com>
 Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
@@ -66,8 +66,8 @@ Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x233.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,179 +95,233 @@ Hi
 On Thu, Mar 16, 2023 at 4:07=E2=80=AFPM Sergio Lopez <slp@redhat.com> wrote=
 :
 >
-> GTK3 provides the infrastructure to receive and process multi-touch
-> events through the "touch-event" signal and the GdkEventTouch type.
-> Make use of it to transpose events from the host to the guest.
->
-> This allows users of machines with hardware capable of receiving
-> multi-touch events to run guests that can also receive those events
-> and interpret them as gestures, when appropriate.
->
-> An example of this in action can be seen here:
->
->  https://fosstodon.org/@slp/109545849296546767
+> Add the required infrastructure to support generating multitouch events.
 >
 > Signed-off-by: Sergio Lopez <slp@redhat.com>
+> ---
+>  include/ui/input.h    |  3 +++
+>  qapi/ui.json          | 45 ++++++++++++++++++++++++++++++++++++++++---
+>  replay/replay-input.c | 18 +++++++++++++++++
+>  ui/input.c            |  6 ++++++
+>  ui/trace-events       |  1 +
+>  5 files changed, 70 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/ui/input.h b/include/ui/input.h
+> index c86219a1c1..2a3dffd417 100644
+> --- a/include/ui/input.h
+> +++ b/include/ui/input.h
+> @@ -8,9 +8,12 @@
+>  #define INPUT_EVENT_MASK_BTN   (1<<INPUT_EVENT_KIND_BTN)
+>  #define INPUT_EVENT_MASK_REL   (1<<INPUT_EVENT_KIND_REL)
+>  #define INPUT_EVENT_MASK_ABS   (1<<INPUT_EVENT_KIND_ABS)
+> +#define INPUT_EVENT_MASK_MTT   (1<<INPUT_EVENT_KIND_MTT)
+>
+>  #define INPUT_EVENT_ABS_MIN    0x0000
+>  #define INPUT_EVENT_ABS_MAX    0x7FFF
+> +#define INPUT_EVENT_SLOTS_MIN  0x0
+> +#define INPUT_EVENT_SLOTS_MAX  0xa
+>
+>  typedef struct QemuInputHandler QemuInputHandler;
+>  typedef struct QemuInputHandlerState QemuInputHandlerState;
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 98322342f7..dee9c2b5bb 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1014,7 +1014,7 @@
+>  ##
+>  { 'enum'  : 'InputButton',
+>    'data'  : [ 'left', 'middle', 'right', 'wheel-up', 'wheel-down', 'side=
+',
+> -  'extra', 'wheel-left', 'wheel-right' ] }
+> +  'extra', 'wheel-left', 'wheel-right', 'touch' ] }
+>
+>  ##
+>  # @InputAxis:
+> @@ -1026,6 +1026,17 @@
+>  { 'enum'  : 'InputAxis',
+>    'data'  : [ 'x', 'y' ] }
+>
+> +##
+> +# @InputMultitouchType:
+> +#
+> +# Type of a multitouch event.
+> +#
+> +# Since: 8.1
+> +##
+> +{ 'enum'  : 'InputMultitouchType',
+> +  'data'  : [ 'begin', 'update', 'end', 'cancel', 'data' ] }
+> +
+> +
+>  ##
+>  # @InputKeyEvent:
+>  #
+> @@ -1069,13 +1080,31 @@
+>    'data'  : { 'axis'    : 'InputAxis',
+>                'value'   : 'int' } }
+>
+> +##
+> +# @InputMultitouchEvent:
+> +#
+> +# Multitouch input event.
+> +#
+> +# @axis: Which axis is referenced by @value.
+> +# @value: Pointer position.  For absolute coordinates the
+> +#         valid range is 0 -> 0x7ffff
 
+What about documenting @slot and @tracking-id ?
+
+otherwise, lgtm
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
-> ---
->  ui/gtk.c | 92 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 92 insertions(+)
->
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index fd82e9b1ca..3a667bfba6 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -130,6 +130,13 @@ typedef struct VCChardev VCChardev;
->  DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
->                           TYPE_CHARDEV_VC)
->
-> +struct touch_slot {
-> +    int x;
-> +    int y;
-> +    int tracking_id;
-> +};
-> +static struct touch_slot touch_slots[INPUT_EVENT_SLOTS_MAX];
-> +
->  bool gtk_use_gl_area;
->
->  static void gd_grab_pointer(VirtualConsole *vc, const char *reason);
-> @@ -1058,6 +1065,82 @@ static gboolean gd_scroll_event(GtkWidget *widget,=
- GdkEventScroll *scroll,
->  }
->
->
-> +static gboolean gd_touch_event(GtkWidget *widget, GdkEventTouch *touch,
-> +                               void *opaque)
-> +{
-> +    VirtualConsole *vc =3D opaque;
-> +    struct touch_slot *slot;
-> +    uint64_t num_slot =3D GPOINTER_TO_UINT(touch->sequence);
-> +    bool needs_sync =3D false;
-> +    int update;
-> +    int type =3D -1;
-> +    int i;
-> +
-> +    if (num_slot >=3D INPUT_EVENT_SLOTS_MAX) {
-> +        fprintf(stderr, "%s: unexpected touch slot number: %ld >=3D %d\n=
-",
-> +                __func__, num_slot, INPUT_EVENT_SLOTS_MAX);
 
-(may be better use warn_report?).
-
-> +        return FALSE;
-> +    }
+> +#
+> +# Since: 8.1
+> +##
+> +{ 'struct'  : 'InputMultitouchEvent',
+> +  'data'  : { 'type'       : 'InputMultitouchType',
+> +              'slot'       : 'int',
+> +              'tracking-id': 'int',
+> +              'axis'       : 'InputAxis',
+> +              'value'      : 'int' } }
 > +
-> +    slot =3D &touch_slots[num_slot];
-> +    slot->x =3D touch->x;
-> +    slot->y =3D touch->y;
+>  ##
+>  # @InputEventKind:
+>  #
+>  # Since: 2.0
+>  ##
+>  { 'enum': 'InputEventKind',
+> -  'data': [ 'key', 'btn', 'rel', 'abs' ] }
+> +  'data': [ 'key', 'btn', 'rel', 'abs', 'mtt' ] }
+>
+>  ##
+>  # @InputKeyEventWrapper:
+> @@ -1101,6 +1130,14 @@
+>  { 'struct': 'InputMoveEventWrapper',
+>    'data': { 'data': 'InputMoveEvent' } }
+>
+> +##
+> +# @InputMultitouchEventWrapper:
+> +#
+> +# Since: 8.1
+> +##
+> +{ 'struct': 'InputMultitouchEventWrapper',
+> +  'data': { 'data': 'InputMultitouchEvent' } }
 > +
-> +    switch (touch->type) {
-> +    case GDK_TOUCH_BEGIN:
-> +        type =3D INPUT_MULTITOUCH_TYPE_BEGIN;
-> +        slot->tracking_id =3D num_slot;
+>  ##
+>  # @InputEvent:
+>  #
+> @@ -1112,6 +1149,7 @@
+>  #        - 'btn': Input event of pointer buttons
+>  #        - 'rel': Input event of relative pointer motion
+>  #        - 'abs': Input event of absolute pointer motion
+> +#        - 'mtt': Input event of Multitouch
+>  #
+>  # Since: 2.0
+>  ##
+> @@ -1121,7 +1159,8 @@
+>    'data'  : { 'key'     : 'InputKeyEventWrapper',
+>                'btn'     : 'InputBtnEventWrapper',
+>                'rel'     : 'InputMoveEventWrapper',
+> -              'abs'     : 'InputMoveEventWrapper' } }
+> +              'abs'     : 'InputMoveEventWrapper',
+> +              'mtt'     : 'InputMultitouchEventWrapper' } }
+>
+>  ##
+>  # @input-send-event:
+> diff --git a/replay/replay-input.c b/replay/replay-input.c
+> index 1147e3d34e..092f6b5ee9 100644
+> --- a/replay/replay-input.c
+> +++ b/replay/replay-input.c
+> @@ -22,6 +22,7 @@ void replay_save_input_event(InputEvent *evt)
+>      InputKeyEvent *key;
+>      InputBtnEvent *btn;
+>      InputMoveEvent *move;
+> +    InputMultitouchEvent *mtt;
+>      replay_put_dword(evt->type);
+>
+>      switch (evt->type) {
+> @@ -58,6 +59,14 @@ void replay_save_input_event(InputEvent *evt)
+>          replay_put_dword(move->axis);
+>          replay_put_qword(move->value);
+>          break;
+> +    case INPUT_EVENT_KIND_MTT:
+> +        mtt =3D evt->u.mtt.data;
+> +        replay_put_dword(mtt->type);
+> +        replay_put_qword(mtt->slot);
+> +        replay_put_qword(mtt->tracking_id);
+> +        replay_put_dword(mtt->axis);
+> +        replay_put_qword(mtt->value);
 > +        break;
-> +    case GDK_TOUCH_UPDATE:
-> +        type =3D INPUT_MULTITOUCH_TYPE_UPDATE;
+>      case INPUT_EVENT_KIND__MAX:
+>          /* keep gcc happy */
+>          break;
+> @@ -73,6 +82,7 @@ InputEvent *replay_read_input_event(void)
+>      InputBtnEvent btn;
+>      InputMoveEvent rel;
+>      InputMoveEvent abs;
+> +    InputMultitouchEvent mtt;
+>
+>      evt.type =3D replay_get_dword();
+>      switch (evt.type) {
+> @@ -109,6 +119,14 @@ InputEvent *replay_read_input_event(void)
+>          evt.u.abs.data->axis =3D (InputAxis)replay_get_dword();
+>          evt.u.abs.data->value =3D replay_get_qword();
+>          break;
+> +    case INPUT_EVENT_KIND_MTT:
+> +        evt.u.mtt.data =3D &mtt;
+> +        evt.u.mtt.data->type =3D (InputMultitouchType)replay_get_dword()=
+;
+> +        evt.u.mtt.data->slot =3D replay_get_qword();
+> +        evt.u.mtt.data->tracking_id =3D replay_get_qword();
+> +        evt.u.mtt.data->axis =3D (InputAxis)replay_get_dword();
+> +        evt.u.mtt.data->value =3D replay_get_qword();
 > +        break;
-> +    case GDK_TOUCH_END:
-> +    case GDK_TOUCH_CANCEL:
-> +        type =3D INPUT_MULTITOUCH_TYPE_END;
+>      case INPUT_EVENT_KIND__MAX:
+>          /* keep gcc happy */
+>          break;
+> diff --git a/ui/input.c b/ui/input.c
+> index f2d1e7a3a7..f788db20f7 100644
+> --- a/ui/input.c
+> +++ b/ui/input.c
+> @@ -212,6 +212,7 @@ static void qemu_input_event_trace(QemuConsole *src, =
+InputEvent *evt)
+>      InputKeyEvent *key;
+>      InputBtnEvent *btn;
+>      InputMoveEvent *move;
+> +    InputMultitouchEvent *mtt;
+>
+>      if (src) {
+>          idx =3D qemu_console_get_index(src);
+> @@ -250,6 +251,11 @@ static void qemu_input_event_trace(QemuConsole *src,=
+ InputEvent *evt)
+>          name =3D InputAxis_str(move->axis);
+>          trace_input_event_abs(idx, name, move->value);
+>          break;
+> +    case INPUT_EVENT_KIND_MTT:
+> +        mtt =3D evt->u.mtt.data;
+> +        name =3D InputAxis_str(mtt->axis);
+> +        trace_input_event_mtt(idx, name, mtt->value);
 > +        break;
-> +    default:
-> +        fprintf(stderr, "%s: unexpected touch event\n", __func__);
-
-same
-
-> +    }
-> +
-> +    for (i =3D 0; i < INPUT_EVENT_SLOTS_MAX; ++i) {
-> +        if (i =3D=3D num_slot) {
-> +            update =3D type;
-> +        } else {
-> +            update =3D INPUT_MULTITOUCH_TYPE_UPDATE;
-> +        }
-> +
-> +        slot =3D &touch_slots[i];
-> +
-> +        if (slot->tracking_id =3D=3D -1) {
-> +            continue;
-> +        }
-> +
-> +        if (update =3D=3D INPUT_MULTITOUCH_TYPE_END) {
-> +            slot->tracking_id =3D -1;
-> +            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->track=
-ing_id);
-> +            needs_sync =3D true;
-> +        } else {
-> +            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->track=
-ing_id);
-> +            qemu_input_queue_btn(vc->gfx.dcl.con, INPUT_BUTTON_TOUCH, tr=
-ue);
-> +            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
-> +                                     INPUT_AXIS_X, (int) slot->x,
-> +                                     0, surface_width(vc->gfx.ds),
-> +                                     i, slot->tracking_id);
-> +            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
-> +                                     INPUT_AXIS_Y, (int) slot->y,
-> +                                     0, surface_height(vc->gfx.ds),
-> +                                     i, slot->tracking_id);
-> +            needs_sync =3D true;
-> +        }
-> +    }
-> +
-> +    if (needs_sync) {
-> +        qemu_input_event_sync();
-> +    }
-> +
-> +    return TRUE;
-> +}
-> +
->  static const guint16 *gd_get_keymap(size_t *maplen)
->  {
->      GdkDisplay *dpy =3D gdk_display_get_default();
-> @@ -1977,6 +2060,8 @@ static void gd_connect_vc_gfx_signals(VirtualConsol=
-e *vc)
->                           G_CALLBACK(gd_key_event), vc);
->          g_signal_connect(vc->gfx.drawing_area, "key-release-event",
->                           G_CALLBACK(gd_key_event), vc);
-> +        g_signal_connect(vc->gfx.drawing_area, "touch-event",
-> +                         G_CALLBACK(gd_touch_event), vc);
->
->          g_signal_connect(vc->gfx.drawing_area, "enter-notify-event",
->                           G_CALLBACK(gd_enter_event), vc);
-> @@ -2086,6 +2171,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, V=
-irtualConsole *vc,
->                                GSList *group, GtkWidget *view_menu)
->  {
->      bool zoom_to_fit =3D false;
-> +    int i;
->
->      vc->label =3D qemu_console_get_label(con);
->      vc->s =3D s;
-> @@ -2133,6 +2219,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, V=
-irtualConsole *vc,
->                            GDK_BUTTON_PRESS_MASK |
->                            GDK_BUTTON_RELEASE_MASK |
->                            GDK_BUTTON_MOTION_MASK |
-> +                          GDK_TOUCH_MASK |
->                            GDK_ENTER_NOTIFY_MASK |
->                            GDK_LEAVE_NOTIFY_MASK |
->                            GDK_SCROLL_MASK |
-> @@ -2168,6 +2255,11 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, =
-VirtualConsole *vc,
->          s->free_scale =3D true;
->      }
->
-> +    for (i =3D 0; i < INPUT_EVENT_SLOTS_MAX; i++) {
-> +        struct touch_slot *slot =3D &touch_slots[i];
-> +        slot->tracking_id =3D -1;
-> +    }
-> +
->      return group;
->  }
+>      case INPUT_EVENT_KIND__MAX:
+>          /* keep gcc happy */
+>          break;
+> diff --git a/ui/trace-events b/ui/trace-events
+> index 977577fbba..6747361745 100644
+> --- a/ui/trace-events
+> +++ b/ui/trace-events
+> @@ -90,6 +90,7 @@ input_event_key_qcode(int conidx, const char *qcode, bo=
+ol down) "con %d, key qco
+>  input_event_btn(int conidx, const char *btn, bool down) "con %d, button =
+%s, down %d"
+>  input_event_rel(int conidx, const char *axis, int value) "con %d, axis %=
+s, value %d"
+>  input_event_abs(int conidx, const char *axis, int value) "con %d, axis %=
+s, value 0x%x"
+> +input_event_mtt(int conidx, const char *axis, int value) "con %d, axis %=
+s, value 0x%x"
+>  input_event_sync(void) ""
+>  input_mouse_mode(int absolute) "absolute %d"
 >
 > --
 > 2.38.1
@@ -275,6 +329,6 @@ VirtualConsole *vc,
 >
 
 
---=20
+--
 Marc-Andr=C3=A9 Lureau
 
