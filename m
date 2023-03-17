@@ -2,54 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0D86BEEFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258756BEEF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:55:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdDNj-0006nK-5w; Fri, 17 Mar 2023 12:56:43 -0400
+	id 1pdDMT-0003Ee-3x; Fri, 17 Mar 2023 12:55:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pdDNh-0006lz-Ld
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:56:41 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pdDMM-0003Dt-03
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:55:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pdDNf-000201-Oo
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:56:41 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PdVdY5kvsz689W8;
- Sat, 18 Mar 2023 00:56:17 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 17 Mar 2023 16:56:37 +0000
-To: Michael Tsirkin <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- <qemu-devel@nongnu.org>
-CC: <linuxarm@huawei.com>, <ani@anisinha.ca>, <berrange@redhat.com>, Fan Ni
- <fan.ni@samsung.com>, Dave Jiang <dave.jiang@intel.com>
-Subject: [RFC PATCH 4/4] tests/acpi: Updated DSDT and SSDT due to move of PXB
- info to SSDT
-Date: Fri, 17 Mar 2023 16:54:40 +0000
-Message-ID: <20230317165440.24846-5-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230317165440.24846-1-Jonathan.Cameron@huawei.com>
-References: <20230317165440.24846-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pdDMJ-0001iJ-3Q
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:55:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679072113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SykpPfy1te9EVTFRls+clt2tZyxyhnTYRdhxDsQi3HA=;
+ b=IxsLEi71tmajtft+n9oghmWXTcWmtd/RJRHPzHZVqC6XrGjtquNrF28cu0E5OCW/NfJpIQ
+ oQ6u+SuNzoKQgu3ABT/lPtNjeorhT9HrsfAbgIg7PHHSRiSNVhwt5HyTKtIPmfzF8xWY4W
+ NUgz0tiIq+VVSBg4vCw6he/IaRPPSrU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-269-70LzTOSGMPalaefvWKoNHQ-1; Fri, 17 Mar 2023 12:55:10 -0400
+X-MC-Unique: 70LzTOSGMPalaefvWKoNHQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C520C185A78F;
+ Fri, 17 Mar 2023 16:55:09 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7D996B590;
+ Fri, 17 Mar 2023 16:55:07 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, Liviu Ionescu <ilg@livius.net>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH] Revert "docs/about/deprecated: Deprecate 32-bit arm hosts for
+ system emulation"
+Date: Fri, 17 Mar 2023 17:55:04 +0100
+Message-Id: <20230317165504.613172-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,96 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+This reverts commit 1d0a8eba38cdddd028ea02c6e0b68f0a4c9a3cbf.
+
+The commit made the wrong assumption that 64-bit distros are most
+common these days on arm devices, but as Liviu Ionescu pointed out,
+the recommended OS for the very popular Raspberry Pi boards is still
+the 32-bit variant, and thus likely still used by a lot of people:
+
+ https://www.raspberrypi.com/software/operating-systems/
+
+Thus it's likely still a little bit too early to put this host
+environment on the deprecation list and we should wait a little
+bit longer 'til 64-bit distros are the predominant ones.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/data/acpi/q35/DSDT.cxl                | Bin 9673 -> 8474 bytes
- tests/data/acpi/q35/DSDT.viot               | Bin 9470 -> 8429 bytes
- tests/data/acpi/q35/SSDT.cxl                | Bin 0 -> 1235 bytes
- tests/data/acpi/q35/SSDT.viot               | Bin 0 -> 1077 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
- 5 files changed, 4 deletions(-)
+ docs/about/deprecated.rst | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
-index f049f414f0e789324e82916cfd0aa955211408c4..88783c368d3afeea2fd20e9e72e4807436aeb78d 100644
-GIT binary patch
-delta 24
-gcmX@<J<Ey9CD<iIN|Awq@$W`1N!iVp6u&bA0AK?L^Z)<=
-
-delta 1139
-zcmeH{v2W8r6vm(JsJK@*a!LdO5fwoZYeHL?P-EXA5yc5noT^AcIy>=Dl*K|~C{g8#
-zg(yr>fPsayct?mCv9NSQLQF`7zkvk?TJz3sBM@Qhh==#yec!uxmhPu}Ztj)|vsq*J
-z5`gshH93<D*uoudo4on3e34r0hRRn<jO?l0G^--rEU{UG)=K$&;VP({me`yoYsLqn
-zilC_6V0BRK)mjZy+NfJ`P2-wE)=KkRHcj<AK-pShRMiH<^~_14H!GhPzt5j5K3f~S
-zo60BJ%%^Ybci;CbZ?8W&tFL_g+3%1P?z)0m#k}Z?;B*}_KlpMv5RN!CR>i@-Bm5Cd
-z{d1az4NEvp$Gj}|E#Uwvie(%?H$@?d5O%iHVpWKLpb&Pl#c5uvH^85hw;UhbooaC6
-zsY|x}2QHDJ<#+G7Eg%ZCNBXdhUDGK5t6FB@2|*eQ1`3&Bo5*9uJXDmiLc#MlH(Er8
-znJ9vu2jF*IoZa&z@V%bn!hJV%0=$a4onceNd2|{;lOXx_qiAJ6DU0yCbN(QT_`xLS
-zB|71uBSUW%WDVQ);44N2HbDP_kUWhEX%a0#1k-UNGI(|BKN4+nOh^<FiC`iU4qp6=
-riAZdtv-1}c8l;bqSV*3X9KCH-jsVc(N8%b}Rc<#72&Fd{azB(`uhcHS
-
-diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
-index 3ad4d26b7f5c183fd3e146b67ebb23662b5108eb..cf9d844c065fc1eeebf6dedd9883f58b917cf0ac 100644
-GIT binary patch
-delta 24
-fcmez8`PPxkCD<k8tpWoBqu)j@N!iUNil>+XZh;5U
-
-delta 717
-zcmaFs_|KEeCD<k8p9%v5<Km56lCp+gqA~HoPVv!Aj-mn1#s(bmp`I>WK+4I<4@7x*
-zy6`w&;NswjcZRT-C(d<bl%IItrrv=wJ|HNBp+JbKA)$aFagiVU)I_d^f~rI=CWfSf
-z>Y~IX1}<iX<OKqglYxpjSr{06{JdQlQa}QXZ~;f4fZ*h0E+)8$6I6s5F5=9PQczo&
-z#3jJM{r^8hM+yT&L3Lsr(D05FMuvivj)X*p(!?bRKsN>j3yN|Hb?`DU@h~tj7yu#A
-zqYRY{0w~@zf_hT{;!Pkmq`j%Ypn%nzhEQ(`K)ea02Cp}D2*;)Xg8<Z<o0ViwGXns!
-CTCXku
-
-diff --git a/tests/data/acpi/q35/SSDT.cxl b/tests/data/acpi/q35/SSDT.cxl
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..598c4751f629eb7766d978566a906701b7ca5acb 100644
-GIT binary patch
-literal 1235
-zcmeHHU2D@|6h29dX793+ZUsS<4crfCx7A&ZHF;lQWoZ|hjuj>(X@hL^Cdj;)WjOT0
-z(mNOR)@<f)2wwODgdtuC!{6YIH*WEqW)?r{9}r*2Ifv&tUvM5`+oE}z1(2Q?8+^^4
-zvswnwlkhWI7ALQX`MZv7INOicZ*f!HQJl@HU}uVB7<F=MRWYS=t6D6UZiC|Rs+d+~
-zRe#SEG8x6uMFSLj)3QL}&4xLQ`7q{CFmuj^&9j3paIsa2>guy_CqKiq?b@fsud_EQ
-zFSqvew<{m-rRd~`FFU*M2DLXU&#!B%r{4x$mc_aS^a}dLfQ;L7*{mCBN8zq?KwXDi
-zDVjM7hjfZ*#8CbMtu`#A?E;r_B9Z;;Kot{~a3D1(Q{56a;1rax0jKU|iA>x*&ZV<x
-z$5PxaR3;p&(S%@HK6C@{PU=@*c<eBE=rI}ELGQlT29|+Nq=g+!n!v-D^>qP00n!N2
-z5y*!fCXW!~63L7Z4t{X3-)0(2CJFR?fS~7L@4hcV;P+h*9(b{f*J{{#afP{0uK}oZ
-zZF=WPvU;9|75JH%yGRn}VjS}tnfQ{Cp+5z(ifL!?8Eppke-lxWry^2Q5uy7pqJK<8
-u6%^5<u_AI&DzC<h=op!kKSZQL?uUrx)Bn&--ZE>yXl5A-ieoo*h^6n_kVX&y
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/q35/SSDT.viot b/tests/data/acpi/q35/SSDT.viot
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..6a746d34b01b87bc054093cd38801fddadb2daad 100644
-GIT binary patch
-literal 1077
-zcmeH@KWoB37>D0Pi}7mV{I?a%M=(mEOTk<+Xlr9I76l7QG?W&XqqKt!f^-UwhIUSi
-zAEY0lTZev-j`q$3htkE}JMMnR^S*a*k7en-lQe*EN;+E8lFb1DJ_NSNz|?r+^YXQA
-z5qtQomd#eZD%n>p9kC$9;L&X9IrS4slC8z3RH>b@JC>GSOhD87N@N^_xA`K%!^`jb
-zPvyAr+J8_#&c1FI6O?8RHI@>~I^~<=JE-DBcp2UaGk$$jQ=;NB+>~R6d4)QhyyarV
-zpHfznQX^}d-5$__ICm(x??&duMRWS(A`wQ^zjsG~QZSBiIA%>*_WQPRp@YYPumvgu
-z`EZQHEg=a>ZHWdRolQpw!{K@jfd@c+m%SZ$0#Gk-TzGU>4)fBr@?}&AjzG*Yp;b1y
-m;^`l?wM4BPt7WlQyQ5ke<bTyFiCP@1WwBSgqgo6&QTq#m&k+y+
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 0307b25f93..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,5 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT.cxl",
--"tests/data/acpi/q35/DSDT.viot",
--"tests/data/acpi/q35/SSDT.cxl",
--"tests/data/acpi/q35/SSDT.viot",
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 33b942283f..1ca9dc33d6 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -206,15 +206,6 @@ be an effective use of its limited resources, and thus intends to discontinue
+ it. Since all recent x86 hardware from the past >10 years is capable of the
+ 64-bit x86 extensions, a corresponding 64-bit OS should be used instead.
+ 
+-System emulation on 32-bit arm hosts (since 8.0)
+-''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-Since QEMU needs a strong host machine for running full system emulation, and
+-all recent powerful arm hosts support 64-bit, the QEMU project deprecates the
+-support for running any system emulation on 32-bit arm hosts in general. Use
+-64-bit arm hosts for system emulation instead. (Note: "user" mode emulation
+-continues to be supported on 32-bit arm hosts, too)
+-
+ 
+ QEMU API (QAPI) events
+ ----------------------
 -- 
-2.37.2
+2.31.1
 
 
