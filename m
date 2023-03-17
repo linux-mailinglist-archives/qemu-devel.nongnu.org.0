@@ -2,53 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85FE16BEE88
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B60E6BEE87
 	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:38:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdD5I-0005ma-Sh; Fri, 17 Mar 2023 12:37:40 -0400
+	id 1pdD5O-0005uc-1W; Fri, 17 Mar 2023 12:37:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pdD5F-0005m5-NP
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:37:37 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pdD5C-0005k6-Vu
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:37:37 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PdV860f3pz6J9fG
- for <qemu-devel@nongnu.org>; Sat, 18 Mar 2023 00:34:14 +0800 (CST)
-Received: from localhost (10.48.148.142) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 17 Mar
- 2023 16:37:22 +0000
-Date: Fri, 17 Mar 2023 16:37:20 +0000
-To: Maverickk 78 <maverickk1778@gmail.com>
-CC: <qemu-devel@nongnu.org>
-Subject: Re: Call failed: MCTP Endpoint did not respond: Qemu CXL switch
- with mctp-1.0
-Message-ID: <20230317163720.00005c23@Huawei.com>
-In-Reply-To: <CALfBBTuELntcARWxvHyGmYvHbEACujhBq8bphHKnUv_C_z33Bg@mail.gmail.com>
-References: <CALfBBTuELntcARWxvHyGmYvHbEACujhBq8bphHKnUv_C_z33Bg@mail.gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pdD5M-0005r7-6v
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:37:44 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pdD5K-0005l5-D7
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:37:43 -0400
+Received: by mail-pf1-x429.google.com with SMTP id fa2so1880501pfb.7
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 09:37:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679071061;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bXjDhVXGMhnumxyVHUzpj0olGsdargOsMsFYmhE4nEk=;
+ b=EAsZfvAcqTW192AqI28UuUCFzeJ/Y1isNdi+8QpeTQV9rN8WhBTt2X/dDDGF3EWXq6
+ cai7r2bikB5MKpJjrEHaOh7JLshA4yOpY8jFo+dQN1H9UG1XIWDbZuOoeTGw2AvE5Cv5
+ OnZ4M0epayxXujbs32XOfMMrREmJ+dSDXvNBEDlWRwIMBaXbii6ky+zIm6agVq3AseVQ
+ tuQod8byxNUuaTBnPULHyha9edEooAuI6D6mxZ76Ov1k+EY6Cd5OsOSkt9grGKqXQLBb
+ VJBAX9SLko5acaMYFJvSsYOQp2ummKKZZ1HMGBiNzorxjWKz00kvnhjK5JmevZGNXsBC
+ fRcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679071061;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bXjDhVXGMhnumxyVHUzpj0olGsdargOsMsFYmhE4nEk=;
+ b=tubcXZTdhDjI29dkUXC4288Vc12X95mgYrutdMrH8/ah3In/J9yda17PD4nbLhuZHH
+ 9UlzNUHHk60ijGwTmFmQF2ioHY/U/rSt6AcPdNhPoIEYjMR5PdHVmtScHGcJ+tu82LjT
+ iHAqiP9fBE8WipVcsjvJqjhCDgm/lpsusnKex6BGjygGv0Z12SLTg+IefL+F3FZ8TTca
+ BH5cRWD97J2x6Fifmr69tnSsV2OyeZwQje89e5+ubHmykooRVbRbeHRm3ePSlhNbTNmb
+ Ib6lRxfvNDp0Ky2VcMJ0DPcvPdPkHtxotZGWoqa0NsPBGlORCD3JU05Sp1abwPpgym/I
+ 84TA==
+X-Gm-Message-State: AO0yUKUJDSCRE0y0U25cdDOHa9P6Ay2KowOAUFLZwklJpBI1/c7PTs1F
+ xpC+3dhNYyCmRTPEVu4xlSSTmiSrC/QidAMgJsLeRw==
+X-Google-Smtp-Source: AK7set8rCN/moXRSQZiutfvZ8gC+LveEcdQh80LRcFgwNHE9ebfl7xe5nhSJG73LV00oRxPpkc5p9lHEWXDIeLkZ9dk=
+X-Received: by 2002:a65:4544:0:b0:4fc:2369:811 with SMTP id
+ x4-20020a654544000000b004fc23690811mr2035530pgr.6.1679071060848; Fri, 17 Mar
+ 2023 09:37:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.48.148.142]
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20230310103123.2118519-1-alex.bennee@linaro.org>
+ <20230310103123.2118519-10-alex.bennee@linaro.org>
+ <CAFEAcA89K6_-Uc0XmEa1q+_z_yuppq1kvh=uPfv9V80MBH=aQg@mail.gmail.com>
+ <87wn3ocwqz.fsf@suse.de> <87sfeclb8o.fsf@linaro.org>
+ <CAFEAcA8SFtzMAFPaE=_CJtwXDYiJQ8rDWgEE+Nx2Qz=-FjCmMA@mail.gmail.com>
+ <9bb8ab52-c6ae-95a7-e6c8-64bcce166c19@arm.com>
+ <caf97353-d116-976c-72c7-953b0cad956c@arm.com>
+In-Reply-To: <caf97353-d116-976c-72c7-953b0cad956c@arm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 17 Mar 2023 16:37:29 +0000
+Message-ID: <CAFEAcA9WbEaCUXWcGT1+nj5u+zjWrm_+58X1-ZyrvUoeWcOdZQ@mail.gmail.com>
+Subject: Re: [PATCH 09/11] tests/tcg: disable pauth for aarch64 gdb tests
+To: Luis Machado <luis.machado@arm.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org, 
+ David Hildenbrand <david@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org, 
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Beraldo Leal <bleal@redhat.com>, gdb <gdb@gnu.org>, 
+ Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
+ Omair Javaid <omair.javaid@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,69 +97,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 17 Mar 2023 00:11:10 +0530
-Maverickk 78 <maverickk1778@gmail.com> wrote:
+On Wed, 15 Mar 2023 at 09:51, Luis Machado <luis.machado@arm.com> wrote:
+> On 3/13/23 11:44, Luis Machado wrote:
+> > On 3/13/23 11:22, Peter Maydell via Gdb wrote:
+> >> Luis and I came up with two options:
+> >>
+> >> (1) leave QEMU outputting the pauth xml as-is, and tell people
+> >> whose gdb 12 crashes that they should upgrade to a newer gdb
+> >>
+> >> (2) make QEMU output the pauth info under a different XML namespace,
+> >> and tell people who need backtraces when pauth is enabled
+> >> that they should upgrade to a newer gdb
+> >>
+> >> Neither of these feel great, but on balance I guess 2 is better?
+> >>
+> >> Luis: I think that rather than doing (2) with a QEMU namespace,
+> >> we should define a gdb namespace for this. That makes it clear
+> >> that this is still a gdb-upstream-sanctioned way of exposing
+> >> the pauth registers.
+> >
+> > That should be fine as well, and would work to side-step the gdb 12 bug so it doesn't crash.
+> >
+> > We could name the feature "org.gnu.gdb.aarch64.pauth_v2" or somesuch, and slowly stop using the original
+> > "org.gnu.gdb.aarch64.pauth" feature. I can document the requirements for a compliant pauth_v2.
+> >
+> > FYI, I've pushed a better documentation for the arm/aarch64 xml descriptions here:
+> >
+> > https://sourceware.org/git?p=binutils-gdb.git;a=commit;h=d7001b29e9f256dfc60acb481d9df8f91f2ee623
+> > https://sourceware.org/git?p=binutils-gdb.git;a=commit;h=e0994165d1b8469dfc27b09b62ac74862d535812
 
-> Hi
-> 
->  I am trying mctp & mctpd with aspeed +buildroot(master) + linux v6.2
-> with Qemu 7.2.
-> 
-> 
-> I have added necessary FMAPI related patches into QEMU to support CLX
-> switch emulation
-> 
-> RFC-1-2-misc-i2c_mctp_cxl_fmapi-Initial-device-emulation.diff
-> 
-> RFC-2-3-hw-i2c-add-mctp-core.diff
-> 
-> RFC-4-4-hw-misc-add-a-toy-i2c-echo-device.diff
-> 
-> RFC-2-2-arm-virt-Add-aspeed-i2c-controller-and-MCTP-EP-to-enable-MCTP-testing.diff
-> 
-> RFC-3-3-hw-nvme-add-nvme-management-interface-model.diff
-> 
-> 
-> Executed following mctp commands to setup the binding,
-> 
-> mctp link set mctpi2c15 up
-> 
-> mctp addr add 50 dev mctpi2c15
-> 
-> mctp link set mctpi2c15 net 11
-> 
-> systemctl restart mctpd.service
-> 
-> busctl call xyz.openbmc_project.MCTP /xyz/openbmc_project/mctp
-> au.com.CodeConstruct.MCTP AssignEndpoint say mctpi2c15 1 0x4d
-> 
-> 
->  The above busctl configuration is reaching fmapi patch and sets up
-> the endpoint id but then mctpd fails with log after timeout.
-> 
-> Call failed: MCTP Endpoint did not respond
-> 
-> Any clue what's going on?
+> Just an update on this. I had a chat with Richard Henderson yesterday, and it might actually be easier and more convenient to backport
+> fixes to older gdb versions (at least gdb-12 and gdb-11, but gdb-10 and gdb-9 are also affected). This will ensure those won't crash when
+> they connect to a qemu that advertises the pauth feature.
+>
+> It also means we won't need qemu-side changes. My understanding is that we're close to the 8.0.0 release, and the code is already in place.
 
-Hi Raghu,
+Having run into this problem in another couple of situations, one of
+which involved gdb 10, I think I'm increasingly favouring option
+2 here. The affected gdbs seem to be quite widely deployed, and
+the bug results in crashes even for users who didn't really
+care about pauth. So I'd rather we didn't release a QEMU 8.0
+which crashes these affected deployed gdbs.
 
-Yikes. Didn't think anyone would still use that series.
-Not even sure I still have a tree with it on.
+So:
+ (a) if on the gdb side you can define (within the next week) a
+suitable new XML name you want QEMU to expose, we can commit a
+change to switch to that before we do the 8.0 release
+ (b) if that's too tight a timescale, we can commit a patch which
+just stops QEMU from exposing the pauth.xml, and we can come up
+with a better solution after 8.0 releases
 
-I'll try and bring up again and get back to you. Might be a little
-while though.
+In fact, I think I'm going to submit a patch to do (b) for
+now and we can follow up with a patch for (a) if we want.
 
-Jonathan
-
-
-> 
-> 
-> Regards
-> Raghu
-
+thanks
+-- PMM
 
