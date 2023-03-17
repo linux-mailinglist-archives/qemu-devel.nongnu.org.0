@@ -2,74 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C4B6BEA6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 14:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7DC6BEA86
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 14:59:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdAPy-00069J-Jq; Fri, 17 Mar 2023 09:46:50 -0400
+	id 1pdAal-00017R-OM; Fri, 17 Mar 2023 09:57:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pdAPw-00068J-Bb
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 09:46:48 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pdAPu-0004cr-LB
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 09:46:48 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id ix20so5346261plb.3
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 06:46:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679060805;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aI5/+qbhXbb9yXfNr6krILKSD+1O4FNP+tPqZ99lLPc=;
- b=a84BR6tNGq/qAjsfekCdyNBec5bPstuYRnQlJCBURRUjIQ+9CCQp3zHgG9tDTt+3w8
- eRGepkEv7q8N1XOEMlFIhvQ25xEGwcTC1gweT8GUffWD5OUO1rQt9zjvGt4SgEkpK8NG
- v5P05W/rVL9zTXkJkGyWRsgH7JohrhAKg7a77tgMNZGapJrObCul/pNL25AcoaYV52kA
- PEq7NKRRfYF8+BxvVgfWiplNZsJTtYLeBLUTPvYSjMk7UueGd4AolafRx1EoiATH8TTx
- 0jESGf6uvQEWUpW5G1OUPh8+299840fG4DYWueASHJgEV5a3/Vi6XV1LLf3kZLfEo5oJ
- Hz/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679060805;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aI5/+qbhXbb9yXfNr6krILKSD+1O4FNP+tPqZ99lLPc=;
- b=4NhqN/z6WZjpdrvUJ+cCUS8xy0kkd1Z25wewKMVkF+UI9tDgyrPdphGzUnUfNEotb+
- mkW3hDoEowGeN61mKHfk+/8GLhpfrxYUnf8Dd3cyw2oIPSAK1vWyCfl7sNzdeBPePofb
- DBYXUy+Utsyfl3qqoCwYvKsmtIBLFz/z2neue8S1Oo1nBLnv23KiMosNSD1s0faM4ADi
- ARPkYlEw1y5swGSFHh50n0MWxGiIMkL15HYn3GGxWheL//JRObHwIbuNDp7joGh+YYh0
- UGaPOhtKdPCTPanJM/HO7iQd53lCcNJD9qE47RLCfIMFNhfmNxSgpdpoDVxeAt2n9BdF
- OgwQ==
-X-Gm-Message-State: AO0yUKWLpMra83l7XiHfwNxOsA9bpgbrzjTHKZyQ8/fPrwPw48r6/coq
- KKC+o2k28SDberc/WRdvbrTcm6U2xaezQwPHn+Y5XQ==
-X-Google-Smtp-Source: AK7set9ycZu5ta0xbpcYJMF3sZwyM7+SFRcmCQjrNb+Iw2T0oLxCeP6qqW/YLGOFx+UkY8T8VyggSzoyRUJ7XpCisSA=
-X-Received: by 2002:a17:90b:3747:b0:23d:2de7:717d with SMTP id
- ne7-20020a17090b374700b0023d2de7717dmr2378550pjb.0.1679060804891; Fri, 17 Mar
- 2023 06:46:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pdAae-00016j-7v
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 09:57:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pdAaX-0007yx-6U
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 09:57:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679061463;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=K+peMdtBkm4f6xEadc5Qr7oCuQUcHDVM/i+t3wrIj80=;
+ b=Za4TtVXPxcY2watxJi0Pl5fC30CJxdtmwSibkExDRl4oXzZ5J85IlAJLDyP+Hw2dBpLz8V
+ pSVOYYJCDe8/ygsD1NkZCq8Tpb8GfvSSp9EecEMBtHTaCIo5qSOi58ZoJtqbf7Td7YHDzK
+ oVqVaXFRfc28eDCSQ3frBfIJS+zVYJU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-lyPyIF1MOHiSDqD7pWRU4g-1; Fri, 17 Mar 2023 09:57:40 -0400
+X-MC-Unique: lyPyIF1MOHiSDqD7pWRU4g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3E49101A531;
+ Fri, 17 Mar 2023 13:57:39 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7E1E2166B29;
+ Fri, 17 Mar 2023 13:57:38 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org,
+	Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] target/s390x/tcg/mem_helper: Remove bad assert() statement
+Date: Fri, 17 Mar 2023 14:57:37 +0100
+Message-Id: <20230317135737.597570-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20230316234926.208874-1-linux@roeck-us.net>
-In-Reply-To: <20230316234926.208874-1-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Mar 2023 13:46:33 +0000
-Message-ID: <CAFEAcA_jcAaSdfF1CK=EW1XgzuFBiVvK8t1dGjobRahQWkw64w@mail.gmail.com>
-Subject: Re: [PATCH] hw/usb/imx: Fix out of bounds access in imx_usbphy_read()
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org, Qiang Liu <cyruscyliu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62a.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,23 +74,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Mar 2023 at 23:49, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> The i.MX USB Phy driver does not check register ranges, resulting in out of
-> bounds accesses if an attempt is made to access non-existing PHY registers.
-> Add range check and conditionally report bad accesses to fix the problem.
->
-> While at it, also conditionally log attempted writes to non-existing or
-> read-only registers.
->
-> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> Link: https://gitlab.com/qemu-project/qemu/-/issues/1408
-> Fixes: 0701a5efa015 ("hw/usb: Add basic i.MX USB Phy support")
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+The "assert(!nonfault)" statement can be triggered by running the
+"mvpg" s390x kvm-unit-test with TCG. According to Richard: "... the
+assert looks backward. We should only arrive there if nonfault was
+true for the probe (otherwise the probe would have raised the
+exception directly).  I would think we could just remove the assert."
 
+Fixes: 4049431478 ("target/s390x: Fix s390_probe_access for user-only")
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ target/s390x/tcg/mem_helper.c | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index 6835c26dda..adbc79b446 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -149,7 +149,6 @@ static inline int s390_probe_access(CPUArchState *env, target_ulong addr,
+                                    nonfault, phost, ra);
+ 
+     if (unlikely(flags & TLB_INVALID_MASK)) {
+-        assert(!nonfault);
+ #ifdef CONFIG_USER_ONLY
+         /* Address is in TEC in system mode; see s390_cpu_record_sigsegv. */
+         env->__excp_addr = addr & TARGET_PAGE_MASK;
+-- 
+2.31.1
 
-Applied to target-arm.next, thanks.
-
--- PMM
 
