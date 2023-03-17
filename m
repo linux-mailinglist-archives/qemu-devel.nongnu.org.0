@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F136BEBAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:47:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6886BEBEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:57:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdBLe-0006ed-EV; Fri, 17 Mar 2023 10:46:26 -0400
+	id 1pdBUw-0000PF-Gz; Fri, 17 Mar 2023 10:56:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pdBLc-0006dK-Dh
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:46:24 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pdBLa-0005GA-Ju
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:46:23 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- e15-20020a17090ac20f00b0023d1b009f52so9362689pjt.2
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 07:46:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679064381;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Mav6bocCWV6sxsoPa02ZnhU4GgrYox8+kSkZtzNYfng=;
- b=GjeUfTQF1Wqphm/9WWU+LPm+C8ErhsPTeG+QErQkRX8ajffDbJ65XguybdUVSXC3bb
- veBpbiH+YhkjHv4ZkE670IYZZPmvdaKBgZAr9c8DiOn1u9arzg5VIpZx4I4+ukAVCBMa
- maCqFusA2YWHJUajeEPrhjGJTE0J+vQM6Bbw8MHaJ6UzZrHM/oblZ0qhSmOls5kD7h6p
- hdhGMU/J+anWKM0mRi2lK7lUTz28lF74dhiYyCO97yegQHq0aI0+HRSN2qcNpJpoZW/S
- AwxEAQSkk1Y8SbWyB298Z2QMeGdyixX1mr4df45999+H4E8peK4D7GurHH+CVzkL0L0t
- LZBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679064381;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Mav6bocCWV6sxsoPa02ZnhU4GgrYox8+kSkZtzNYfng=;
- b=fQ+c/dY1g8VOjoTHEv7spuJwUeoIMd5aCx9+8NVHSBJpBHBTho7nBJadU0Ctr3Iuzu
- OjZOjXZI+D/PwHt3uLNymBDG7IA3wJeP1okbz+mcjnM36pVw26d/Br/DzOCoQOyGig2N
- oEpOcFlPNyp6n/H4J63mK9VAE2E6CPU9kejPWahGFIMF5ifGVDnGytPIqmcEGBYwPAfK
- DMw+NZz4kOKQ7XgmBJMNsCvP9uCKiprin3YviaN1vN1pSnCYa2sMq5sh/ycBwNjxiX8u
- NygCY1K2gyX6/Hoqo6fMLqjYK60Tg1CSHn0OET7D04zYdurg2jcrj5f3nFwfTD1Nrg0d
- cP6Q==
-X-Gm-Message-State: AO0yUKWIoKZo7gGUAHn+TNbGiKnagF4ky+tLxF4GLJy0hR0prgdbjf5q
- 8tfP+JIoiSUU/9UvVjIYv6d9rw==
-X-Google-Smtp-Source: AK7set+O8Jqeyn9VPnjT/aCsJ6Y+aqw8p5WwoaP9d2uS8EODoJLwi4tUeJV5JkXRyQ2sJ/tOnvZUkg==
-X-Received: by 2002:a05:6a20:7fa8:b0:cc:a5d4:c31e with SMTP id
- d40-20020a056a207fa800b000cca5d4c31emr8834638pzj.10.1679064380830; 
- Fri, 17 Mar 2023 07:46:20 -0700 (PDT)
-Received: from [192.168.57.227] (96-82-119-43-static.hfc.comcastbusiness.net.
- [96.82.119.43]) by smtp.gmail.com with ESMTPSA id
- j6-20020a62e906000000b00625e885a6ffsm1720191pfh.18.2023.03.17.07.46.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 07:46:20 -0700 (PDT)
-Message-ID: <2c4ad288-d805-c130-f1c7-0a42d1125d12@linaro.org>
-Date: Fri, 17 Mar 2023 07:46:16 -0700
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pdBUo-0000OD-K8
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:55:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pdBUm-0007Jp-3V
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:55:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679064950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zLXUAwG0qA+Ze2K7Oy/VTXUEG+8+R1uY3kJW4PuAz4M=;
+ b=X2MbZjjv7IUQ44MmVIBEi/e6QqfYFmVCkAjaGz1HLYhFUn20pdEq1nayPKaabgDEiF22zz
+ FINePHaBSVJ2eNFlGm9w6g9IGGbpP25O5UDCX6hUTUq9PSRlQ0L5lNAp+ts6Tw519oKOnb
+ ru7f1KJlfuHd10bi/lzmnz2yjjO8XYw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-282-W4kEZSR1Mum-679rfrCToA-1; Fri, 17 Mar 2023 10:55:47 -0400
+X-MC-Unique: W4kEZSR1Mum-679rfrCToA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CDDD96DCA1;
+ Fri, 17 Mar 2023 14:55:46 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA8A143FBE;
+ Fri, 17 Mar 2023 14:55:43 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: alvaro.karsz@solid-run.com, Laurent Vivier <lvivier@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Jason Wang <jasowang@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ si-wei.liu@oracle.com, Stefano Garzarella <sgarzare@redhat.com>,
+ longpeng2@huawei.com, Cindy Lu <lulu@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
+Subject: [RFC PATCH for 8.1 0/6] Move ASID test to vhost-vdpa net
+ initialization
+Date: Fri, 17 Mar 2023 15:55:36 +0100
+Message-Id: <20230317145542.347368-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/9] linux-user: Diagnose incorrect -R size
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20230306021307.1879483-1-richard.henderson@linaro.org>
- <20230306021307.1879483-2-richard.henderson@linaro.org>
- <CAFEAcA81_bQMYK9w0LitTrBkp+ue33gUocUMZco_HG0AxgGeaw@mail.gmail.com>
- <004c0c81-958c-ba34-a743-6f2a4a4d133a@linaro.org>
- <CAFEAcA8M+1jSK4+gzA6rkoQQY579RuBpMDM9eQk=aN5gPhHNbw@mail.gmail.com>
- <CAFEAcA_dYmf-6kF58CvrcvL+NjpXYaau+_=vRJPuOXEuNYmEeA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_dYmf-6kF58CvrcvL+NjpXYaau+_=vRJPuOXEuNYmEeA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,24 +85,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/7/23 02:17, Peter Maydell wrote:
-> It looks like we (inadvertently) broke "-R 0 means turn off"
-> in 2019 with commit dc18baaef36d95e5; prior to that the
-> 64-on-32 default was set by the initial value of the global
-> variable and could be overridden on the command line. After
-> that we ended up doing the default-value stuff after the
-> command line was parsed instead.
-
-(Not 64-on-32, but 32-on-64.)
-
-I don't understand how 32-on-64 would ever work without reserved_va.  The host kernel 
-would otherwise place mmap blocks anywhere it chooses, which may not be within 4GB of any 
-given guest_base.
-
-I would not characterize that patch as "inadvertently broke" but "fixed bug but didn't 
-record that fact in the commit message".
-
-
-r~
+QEMU v8.0.0-rc0 is able to switch dynamically between vhost-vdpa passthroug=
+h=0D
+and SVQ mode as long as the net device does not have CVQ.  The net device=0D
+state followed (and migrated) by CVQ requires special care.=0D
+=0D
+A pre-requisite to add CVQ to that framework is to determine if devices wit=
+h=0D
+CVQ are migratable or not at initialization time.  The solution to it is to=
+=0D
+always shadow only CVQ, and vq groups and ASID are used for that.=0D
+=0D
+However, current qemu version only checks ASID at device start (as "driver =
+set=0D
+DRIVER_OK status bit"), not at device initialization.  A check at=0D
+initialization time is required.  Otherwise, the guest would be able to set=
+=0D
+and remove migration blockers at will [1].=0D
+=0D
+This series is a requisite for migration of vhost-vdpa net devices with CVQ=
+.=0D
+However it already makes sense by its own, as it reduces the number of ioct=
+ls=0D
+at migration time, decreasing the error paths there.=0D
+=0D
+[1] https://lore.kernel.org/qemu-devel/2616f0cd-f9e8-d183-ea78-db1be4825d9c=
+@redhat.com/=0D
+=0D
+Eugenio P=C3=A9rez (6):=0D
+  vdpa: Remove status in reset tracing=0D
+  vdpa: add vhost_vdpa_reset_status_fd=0D
+  vdpa: add vhost_vdpa_set_dev_features_fd=0D
+  vdpa: return errno in vhost_vdpa_get_vring_group error=0D
+  vdpa: move CVQ isolation check to net_init_vhost_vdpa=0D
+  vdpa: Cache cvq group in VhostVDPAState=0D
+=0D
+ include/hw/virtio/vhost-vdpa.h |   2 +=0D
+ hw/virtio/vhost-vdpa.c         |  78 +++++++++----=0D
+ net/vhost-vdpa.c               | 205 +++++++++++++++++++++++++++------=0D
+ hw/virtio/trace-events         |   2 +-=0D
+ 4 files changed, 227 insertions(+), 60 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
 
