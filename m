@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861E26BE9DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 14:12:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDB26BE9F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 14:19:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd9s6-0005BD-Bt; Fri, 17 Mar 2023 09:11:50 -0400
+	id 1pd9yg-0007Hn-Qj; Fri, 17 Mar 2023 09:18:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pd9s3-000580-7z
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 09:11:48 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ (Exim 4.90_1) (envelope-from <abhishek@drut.io>) id 1pd9tZ-0006XM-My
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 09:13:21 -0400
+Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pd9s0-0001aN-H5
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 09:11:46 -0400
-Received: by mail-pl1-x631.google.com with SMTP id v21so5219268ple.9
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 06:11:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <abhishek@drut.io>) id 1pd9tX-0001q3-EA
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 09:13:21 -0400
+Received: by mail-qk1-x72b.google.com with SMTP id 24so1688961qka.11
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 06:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679058702;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=AhYAB7O+IMkakaxctTanNpAosRaUAatcuWdrwxF4m/Q=;
- b=nRCdfGIvYXYlEv9aCaeEkJ2UF/L7QBezAJnUnot7S+kOkRzNIXP98r7DH2eCJCUySB
- tx2/Bk1fAqPBoX0UXapHjorr7isN8iDuIPNOeGDoCml0IOsUZHtjKW0jJ0/HGSZ8NLUM
- 62R3R39zFhHfi+mE6Z51tzXmnOGjb6z/a1Fly0bkjvsqOoNiNB8OAveUz0cCck+07L31
- LmG+PFhgOuBW8YN0RN4RsfBxIU+C9eEmzFlixIdxIPifNGdbJX4OUdNaBDTYbeok5njb
- SfYVA8p6iJpl3ED5Ohx1AIYc+sWjsHMpK8DhqUol9hc/SmED9IZIu1ofUvbhQiOzps1X
- 8fXg==
+ d=drut-io.20210112.gappssmtp.com; s=20210112; t=1679058798;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=PDbfr/QAhA0Hqe3m2Zq4snKHSzB0kg4IKsUnWvepz0s=;
+ b=wvSfu3osZtXaOyduA35I8iksif3OU/R0YlNMdxMwpZN92nzCOndssUW7vmzJbmI9vC
+ iDCXt9SQui269PI6QmKXy3Q42vmJp+Q8BcClqnmdLHSntzRjYBp9Lzdm15fMHnJmn2ij
+ AMKBlz/nbPHwZPVDFS6qNrNQ9qY3OLvdsTRroN1lqy+JEZgh1wwUUPbgRdAyXbDEp0W5
+ u3AcVXomfQK1uVm/gYcOUTsSXP8zkttMioUHB8gF+3rHSCAiEjkM3mJCTIPADDLQFqvp
+ 2k4jzZHqKE/k7eJ1X6NfvzL4QmQiOKJFT5u3Ph0Y+FGg1PouVri2uKwF/4sdO9bzI5Q6
+ w32A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679058702;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AhYAB7O+IMkakaxctTanNpAosRaUAatcuWdrwxF4m/Q=;
- b=l07qvr2MyDg9XepQG2POqUwhfGW/nZMxv+CpWPUFvlid0X3jEW5vi9anqOVWywH5ng
- P82OorvuDzLdtOwOVtBaomtbzvo52Sl31qx83Quzon/uo6t6PpR5hEbLLt3AaFjztI1P
- S+kjVrIBRVyDyIxlHisA3rsD2CYEKa0x2i/HSrMNBf9ApRYb5a8g8/CzNpbRBz9PJiYv
- CQKkJ4hKEhCpRaoi9c/WVmDYiOB46Lh2UOvbRATDVKHTn5s5N7RgLyQo8Iyf+yJ3gV2G
- EOF6G0W+TeazTm5VzO3Z/LEBESs7YqAiAmJc5MDSkHXcUbUbwah81TLw3CtPZSC5dkb1
- hZdA==
-X-Gm-Message-State: AO0yUKVhti3e7UztoOBJachoz0JOvtlpCRQQnvWcsbCCSnq1zWAohVrN
- kOnAXNOuybJkfsuEPs3dKwsUm2KDvVpFESJw8S/iqqzXwP5lVSza
-X-Google-Smtp-Source: AK7set+KvO94gwSfZHkU/KJoSFN1hEAcd3Pd9D1VOXaf1R2nvDY+tpf8kvt9i7WmoEc4PbI9nOhHKutXSSwu28WP2l8=
-X-Received: by 2002:a17:902:db09:b0:1a0:4be5:ccea with SMTP id
- m9-20020a170902db0900b001a04be5cceamr2865755plx.9.1679058702546; Fri, 17 Mar
- 2023 06:11:42 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679058798;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PDbfr/QAhA0Hqe3m2Zq4snKHSzB0kg4IKsUnWvepz0s=;
+ b=xNL4mfsJF1w/RaMn8XOszJ20FbbhpCKjPhmnB71wdZLi4Afdxp+5heMKEz/1xFuQPb
+ xX7jT8kqfugqGYxBK3JXjJ84e1gR3MjlNda/o+aZ4dbVWuwAwzCWOijyhgeYa7wJOnyV
+ EvS7oeS4iN55XswhazY50wwdN0YOYO36QJbHRpBakIq65sa1/gMbo71RsaN0ST4L4ONh
+ 6tybWEMyRgUI5mhaXclSgG33//gIuuxgPbNUOGthct9NCr01Sx88rnCXvKHdaeBpW2oV
+ C1FbIm4QjA5okU2sO3xg1s9qdH2qizmweW5jPUZGDuQl47zMi1+jwRePRo+rd++ZUgtS
+ A5uA==
+X-Gm-Message-State: AO0yUKWBsAMcPX31fBf4AfBjeQTy7DtfR6MO+U1oc8yvkQsHJ7tF03Fv
+ Om9eGUu+gJ0FgWw0MqhHjNwDR9qPL8i+9o6b/2Iu3yQjkpdYJu5kw7u+5Q==
+X-Google-Smtp-Source: AK7set+LY1yqDIQ9LaJiizkAbaUCo1EmOVwoH84O6snphiWSiAsUafYig4HZHqHqfhMCUjplfmZTjR3WLS2UNVGoRl8=
+X-Received: by 2002:a05:620a:211b:b0:745:72b3:304f with SMTP id
+ l27-20020a05620a211b00b0074572b3304fmr5151488qkl.5.1679058797970; Fri, 17 Mar
+ 2023 06:13:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230316151225.11362-1-quintela@redhat.com>
-In-Reply-To: <20230316151225.11362-1-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Mar 2023 13:11:31 +0000
-Message-ID: <CAFEAcA_G6uqDfk6hFKYzk3QbA4Kge4t7bf5SLF8+peCdVVRaCw@mail.gmail.com>
-Subject: Re: [PULL 0/7] Migration 20230316 patches
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Abhishek Singh Dagur <abhishek@drut.io>
+Date: Fri, 17 Mar 2023 18:43:06 +0530
+Message-ID: <CAJ1un7j0FNpYaaviQxoKQN4O+C8RejqA918CdBamPySKyAEJUQ@mail.gmail.com>
+Subject: Using QEMU how to redirect serial /dev/ttyS2 output of guest machine
+ to host machine.
+To: openbmc@lists.ozlabs.org
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000035daa405f718572f"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=abhishek@drut.io; helo=mail-qk1-x72b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 17 Mar 2023 09:18:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,42 +79,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Mar 2023 at 15:13, Juan Quintela <quintela@redhat.com> wrote:
->
-> The following changes since commit 9636e513255362c4a329e3e5fb2c97dab3c5ce47:
->
->   Merge tag 'misc-next-pull-request' of https://gitlab.com/berrange/qemu into staging (2023-03-15 17:20:04 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/juan.quintela/qemu.git tags/migration-20230316-pull-request
->
-> for you to fetch changes up to fa76c854ae837328187bef41d80af5d1ad36681f:
->
->   migration: fix populate_vfio_info (2023-03-16 16:07:07 +0100)
->
-> ----------------------------------------------------------------
-> Migration Pull request
->
-> Hi
->
-> This is just fixes for migration.
-> - Fix rdma (dave)
-> - Remove unused variable (Zhijian)
-> - Fix AVX512 and XBZRLE (Matheus)
-> - Fix migration preempt (Peter)
-> - Fix populate_vfio_info (Steve)
-> - Fix multifd send trace (Wei)
->
-> Please apply.
->
-> Later, Juan.
+--00000000000035daa405f718572f
+Content-Type: text/plain; charset="UTF-8"
 
+Hi all,
 
-Applied, thanks.
+We are using obmc-phosphor-image on an ast2500 board which is trying to
+communicate with other devices over serial port /dev/ttyS2.
+As we are trying to emulate the machine on qemu we need to redirect the
+request to the host machine so that it can handle this request and return
+appropriately.
+We tried using QEMU options like -serial ,-chardev but still not the
+concrete way we get to do it.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+It will be very helpful if you can provide us some guidance on this.
 
--- PMM
+Thank you,
+Abhishek
+
+--00000000000035daa405f718572f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi all,<div><br></div><div>We are using=C2=A0obmc-phosphor=
+-image on an ast2500 board which is trying to communicate=C2=A0with other d=
+evices over serial port /dev/ttyS2.</div><div>As we are trying to emulate t=
+he machine on qemu we need to redirect the request to the host machine so t=
+hat it can handle this request and return appropriately.</div><div>We tried=
+ using QEMU options like -serial ,-chardev but still not the concrete way w=
+e get to do it.</div><div><br></div><div>It will be very=C2=A0helpful=C2=A0=
+if you can provide us some guidance on this.</div><div><br></div><div>Thank=
+ you,</div><div>Abhishek</div></div>
+
+--00000000000035daa405f718572f--
 
