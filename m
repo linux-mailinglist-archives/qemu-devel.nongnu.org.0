@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989CA6BE8DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 13:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80AEE6BE8EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 13:12:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd8t5-0003Xa-OC; Fri, 17 Mar 2023 08:08:47 -0400
+	id 1pd8vk-000560-Hy; Fri, 17 Mar 2023 08:11:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd8t3-0003Wd-TI
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 08:08:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd8vg-00054Z-E2
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 08:11:28 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd8t2-0005EH-I5
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 08:08:45 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pd8ve-0006hQ-PS
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 08:11:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679054924;
+ s=mimecast20190719; t=1679055086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kScjxjWF3/DNY8MH6JIoXktFOWCux+jIyciHRIIYQeY=;
- b=N42YPBJEUJG0NbVx2e2g129OSDmJmS3Y9nfoC1lQyV/YvIvz6LHJA7Xp3yuY+soiz2+AA2
- ihttzQx0L+nlVfuas1gCiobjCOJPTxYtu8wcV6wkmbBkhIVSz8ak3BL+PC3RTiHE8m94ZJ
- 1m1uZ0h0Cq8tEiPIteNuRODSBNNkMxg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VdyWJZv8vhAFDbVlVpAgxslKT4rLXftuJGVINjtZsvM=;
+ b=CEPdX4NaI9crYZivXErfMqNkOJgle2YnaiGqawKzM7idwH4GZCb+x/h77Jv8YoafpvSSNF
+ UtglDLBSolPFHsEypbaLOnsWqfL+Tfdh1w/QFnpyef/HkOGE46xa/HcENxBjx/NU2dnlvy
+ fOjDvlukKVFVsz8wcCVnjrEIQRXTUQw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-232-wBk5UuTlOOu08uo2xUfjkw-1; Fri, 17 Mar 2023 08:08:35 -0400
-X-MC-Unique: wBk5UuTlOOu08uo2xUfjkw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- m5-20020a056000024500b002ceaa6f78a0so781866wrz.12
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 05:08:35 -0700 (PDT)
+ us-mta-42-zqbQ7EpiNh2FBukD4YTAvw-1; Fri, 17 Mar 2023 08:11:24 -0400
+X-MC-Unique: zqbQ7EpiNh2FBukD4YTAvw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003ed40f09355so2178369wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 05:11:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679054914;
+ d=1e100.net; s=20210112; t=1679055083;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kScjxjWF3/DNY8MH6JIoXktFOWCux+jIyciHRIIYQeY=;
- b=IxmkeJLT4Ul6QP2d92GsMnZvCfqfA79rhWt3xRzBy+Nowao685kyL6lZOePsrR8GEq
- RuD65V7B9sw6iZOx4wCGLeHzLAn/wsbQm68dbn4lmnoI7Xwiz/NnP0S5dQz0GN2AAjfD
- Xr8MdVI62ei8y0RnJnzXRnJkgqkZ8UfUBvMHSFdvlTL0JaB08zNgdxkxA+MSe04do+r8
- VI1z33u6TpljPbzmgpOUvEeUMcBdOjVXVolkoKmt15gjiE2BLTy5H0+ffhbTK+1wSInp
- I2o4d2XuTDmgIGNQ3BIzAO096NwN/VXql9LVBqlyVv0fswPyC9rXrp+Wy//YhEkRnDqL
- ohlw==
-X-Gm-Message-State: AO0yUKWdbEyBKsS2Tzg1q7LQCzCafKaoYKbPfd98JbV0509Oae1EVc+k
- ioSvNmE8rRKij3dURV/J6Da9FhYlmIB9jy1qJz6yal7mFlxiuP+DYTcWCxAut9KgzsNnjmo26H6
- 6cHAJGBdHhglkVCI=
-X-Received: by 2002:adf:f150:0:b0:2c9:70a4:4f94 with SMTP id
- y16-20020adff150000000b002c970a44f94mr7656686wro.18.1679054914258; 
- Fri, 17 Mar 2023 05:08:34 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8BjzNtWSjj0hviwgMCvvExxTLEB7Z7kxpInt7PqehO0hi0hW9EyLdwSex7xipSCivTOE1MHA==
-X-Received: by 2002:adf:f150:0:b0:2c9:70a4:4f94 with SMTP id
- y16-20020adff150000000b002c970a44f94mr7656656wro.18.1679054913951; 
- Fri, 17 Mar 2023 05:08:33 -0700 (PDT)
+ bh=VdyWJZv8vhAFDbVlVpAgxslKT4rLXftuJGVINjtZsvM=;
+ b=HNd4rVeoFV9Iai0sMwHdhBcFWbTG5wlZypAMA5d3lCdABujMFzwhKchcWzUqdOwdpN
+ CY8j1loxkgQ+7EhAL9fNW/HLrAVWLyqIrg+ajw6495CwBPTmHtHcYESoRqVS7/F54v8n
+ R1N/yTgN9OmHOrxuNaNclC9PIxPVJQ18OrrPBbPZ6XbTkpAhpU9sEmjZ/I09qoZzvMmA
+ Yk95fO/BvmGNugsLQA9iHMBXtaFDSgh1YdkIMKpkMD8mk8b47J+4lYqgdIJt+uT8+0pU
+ 5JweskDcuBEgnvytsVBHwYzYA2Rmr7CWnB5WrNJFd3QyXaVenH5dmNmZrk3A57I0i5zg
+ fOkQ==
+X-Gm-Message-State: AO0yUKVPIGaD7agZB7QuBoXgDgShSbZtyL8PfpuEAIUzseopm/zgHKgH
+ 4Lli1/Bu2W2Vl65/JGCNNflBAZwCqoxJWtSy0HlP1+Hl+AYA7hHz02ui8nI6rvx9SN9Yos3AFMr
+ zqO39pFb6GqaRjvg=
+X-Received: by 2002:a05:6000:110a:b0:2ce:a93d:41a7 with SMTP id
+ z10-20020a056000110a00b002cea93d41a7mr6815338wrw.40.1679055083556; 
+ Fri, 17 Mar 2023 05:11:23 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+Drn8o6/nNTBEgK8SgVpgvMd4RO9wUeVwEOco0AOkK3H0Ve2COt2l+fdAqjqS7xNs1SwZQWg==
+X-Received: by 2002:a05:6000:110a:b0:2ce:a93d:41a7 with SMTP id
+ z10-20020a056000110a00b002cea93d41a7mr6815266wrw.40.1679055083247; 
+ Fri, 17 Mar 2023 05:11:23 -0700 (PDT)
 Received: from [192.168.0.3] (ip-109-43-176-33.web.vodafone.de.
  [109.43.176.33]) by smtp.gmail.com with ESMTPSA id
- j20-20020a5d6e54000000b002cea8664304sm1791406wrz.91.2023.03.17.05.08.30
+ u4-20020a5d4344000000b002c5526234d2sm1861459wrr.8.2023.03.17.05.11.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 05:08:33 -0700 (PDT)
-Message-ID: <162c7939-abed-bdb5-47bb-e7b9e873f6b6@redhat.com>
-Date: Fri, 17 Mar 2023 13:08:29 +0100
+ Fri, 17 Mar 2023 05:11:22 -0700 (PDT)
+Message-ID: <5f003318-c22d-b13b-3976-94b0f874c720@redhat.com>
+Date: Fri, 17 Mar 2023 13:11:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 07/32] tests/tcg: add some help output for running
- individual tests
+Subject: Re: [PATCH v2 06/32] include/qemu: add documentation for memory
+ callbacks
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -114,9 +114,9 @@ Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
  <sunilmut@microsoft.com>, Hanna Reitz <hreitz@redhat.com>,
  Peter Xu <peterx@redhat.com>
 References: <20230315174331.2959-1-alex.bennee@linaro.org>
- <20230315174331.2959-8-alex.bennee@linaro.org>
+ <20230315174331.2959-7-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230315174331.2959-8-alex.bennee@linaro.org>
+In-Reply-To: <20230315174331.2959-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -144,33 +144,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 15/03/2023 18.43, Alex Bennée wrote:
-> So you can do:
+> Some API documentation was missed, rectify that.
 > 
->    cd tests/tcg/aarch64-linux-user
->    make -f ../Makefile.target help
-> 
-> To see the list of tests. You can then run each one individually.
-> 
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1497
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   tests/tcg/Makefile.target | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-> index a3b0aaf8af..8318caf924 100644
-> --- a/tests/tcg/Makefile.target
-> +++ b/tests/tcg/Makefile.target
-> @@ -201,3 +201,10 @@ clean:
->   
->   distclean:
->   	rm -f config-cc.mak config-target.mak ../config-$(TARGET).mak
-> +
-> +.PHONY: help
-> +help:
-> +	@echo "TCG tests help $(TARGET_NAME)"
-> +	@echo "Built with $(CC)"
-> +	@echo "Available tests:"
-> +	@$(foreach t,$(RUN_TESTS),echo "  $t";)
+>   include/qemu/qemu-plugin.h | 47 ++++++++++++++++++++++++++++++++++----
+>   1 file changed, 43 insertions(+), 4 deletions(-)
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
