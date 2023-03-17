@@ -2,98 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B3A6BEFC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:37:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3066BEFEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:40:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdE0F-0006cB-VY; Fri, 17 Mar 2023 13:36:31 -0400
+	id 1pdE3N-0007gC-28; Fri, 17 Mar 2023 13:39:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pdE0D-0006bk-Q4
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:36:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pdE3I-0007fS-W5
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:39:43 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pdE0C-0005MJ-6g
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:36:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679074587;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wvJ2Bj5igWJHkhlKgwXphX2XEEepvMEsNXVHe8pcWJA=;
- b=Fa71TTKUGyOsNnHwzV+EJW5cTjMJju7Sxlu/GOYqTam3poPZW7jDrmW/Xu0vcEZE8V2xxD
- OOXMzTG5nqwwIT9c8TULRDw7DhkFix9TaJJuQwmIz1QZ6oLRkccQSClIHP0QXVrbm07tY5
- C28TQgdQF4JXrXj46YtEr8q1gtQ0wh4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-JdofJ6D2NHaJsHS-4UAIOQ-1; Fri, 17 Mar 2023 13:36:26 -0400
-X-MC-Unique: JdofJ6D2NHaJsHS-4UAIOQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- ay12-20020a05600c1e0c00b003ed201dcf71so2555642wmb.4
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 10:36:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679074585;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wvJ2Bj5igWJHkhlKgwXphX2XEEepvMEsNXVHe8pcWJA=;
- b=TDbhxdKu6yOKE93ARWJP1J0uNnt4+M3SuxZKfji9BzAnhPkfUiG3meC5f4CxhKDeud
- JOQdxOeqnW/YaXwXMf+NkfsbC00AGPIEOv1n6NMRTnRHIiBQNTGhwkxhp07ETEFMuGr/
- JSoEkhg1N9E1tp6KI5D7IploI5rKdHEYpn3HDlADirEH+ihU47tDTORv3qzo8R0u57YR
- LSe5tdGSmDsiB1l0ipVVweXMFoWksjshHPznikLumbF6DpJhn4DrvEdEdbwF0LOPg4cN
- /Qf0EdRkEqP7eAlX9N2WaN8cnycO1C89OlDb5C6Kje48BCmXQld+GaGn6L0GLOAEL+Zt
- tk0g==
-X-Gm-Message-State: AO0yUKU3ZMkbuW/gqDmqEBTNCxqeeyM8z7NqiLDZzvL6ssfBVX2vVMcn
- FJTKzYQJqHtnVdzPfJe/zqev8+d4R3J7MN+vChu3FQEQ5KXRhlPpQ+iwUoayRXhZmE/1f/m1TWB
- oCEUBirWBgidOjgU=
-X-Received: by 2002:adf:e941:0:b0:2ce:e571:5cc3 with SMTP id
- m1-20020adfe941000000b002cee5715cc3mr3261679wrn.28.1679074585169; 
- Fri, 17 Mar 2023 10:36:25 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9rS7giSWzxLFMSa6Au9t//M5el/lr1/YiMUmx9/lZIXF5ptilXVFvKTst3OZ9BLspQTYxxVg==
-X-Received: by 2002:adf:e941:0:b0:2ce:e571:5cc3 with SMTP id
- m1-20020adfe941000000b002cee5715cc3mr3261660wrn.28.1679074584883; 
- Fri, 17 Mar 2023 10:36:24 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- n2-20020adffe02000000b002cfeffb442bsm2449773wrr.57.2023.03.17.10.36.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 10:36:24 -0700 (PDT)
-Message-ID: <afcc10e8-b983-1b67-c4fb-38fdcb3acd6d@redhat.com>
-Date: Fri, 17 Mar 2023 18:36:22 +0100
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pdE3G-0005up-Cr
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:39:40 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:5da4:0:640:ef2d:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 499095EA25;
+ Fri, 17 Mar 2023 20:39:29 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b68e::1:34] (unknown
+ [2a02:6b8:b081:b68e::1:34])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id PdpX6S0h5mI0-r4WflCYh; Fri, 17 Mar 2023 20:39:27 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1679074768; bh=I/GHiPsXRoRGgF9IphXwCY8oTFvQrDo7RnVQXZzJn3A=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=OCMoEw10WVv6ixHsVznesFSo9tUtojo7YJYD2qLslZa/Q/RCM1rzvWEXavQJLMss+
+ kuPrwnPYmQdL+mgR5wakpbnbCuL4ueplBGiVgBkuL64jT/Kssm1BPrapT/P03RGQiD
+ lEc509NxNF4xRE3FkendKf2BhmxFvcLukTIDBQeo=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <8dc9cba8-b6fa-f0e7-8ec8-3d4152ad7a5e@yandex-team.ru>
+Date: Fri, 17 Mar 2023 19:39:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [RFC PATCH v2 02/11] hw/arm/smmuv3: Update translation config to
- hold stage-2
-Content-Language: en-US
-To: Mostafa Saleh <smostafa@google.com>
-Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org,
- peter.maydell@linaro.org, qemu-arm@nongnu.org, richard.henderson@linaro.org
-References: <20230226220650.1480786-1-smostafa@google.com>
- <20230226220650.1480786-3-smostafa@google.com>
- <0f65997a-9b35-6e41-3960-c5de6ac13ec9@redhat.com>
- <ZBR8rjjP+qQoNUaC@google.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <ZBR8rjjP+qQoNUaC@google.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.7.1
+Subject: Re: [RFC 1/2] vhost-user: Add interface for virtio-fs migration
+Content-Language: en-US, ru-RU
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20230313174833.28790-1-hreitz@redhat.com>
+ <20230313174833.28790-2-hreitz@redhat.com>
+From: Anton Kuchin <antonkuchin@yandex-team.ru>
+In-Reply-To: <20230313174833.28790-2-hreitz@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,112 +76,369 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Mostafa,
+On 13/03/2023 19:48, Hanna Czenczek wrote:
+> Add a virtio-fs-specific vhost-user interface to facilitate migrating
+> back-end-internal state.  We plan to migrate the internal state simply
+> as a binary blob after the streaming phase, so all we need is a way to
+> transfer such a blob from and to the back-end.  We do so by using a
+> dedicated area of shared memory through which the blob is transferred in
+> chunks.
+>
+> This patch adds the following vhost operations (and implements them for
+> vhost-user):
+>
+> - FS_SET_STATE_FD: The front-end passes a dedicated shared memory area
+>    to the back-end.  This area will be used to transfer state via the
+>    other two operations.
+>    (After the transfer FS_SET_STATE_FD detaches the shared memory area
+>    again.)
+>
+> - FS_GET_STATE: The front-end asks the back-end to place a chunk of
+>    internal state into the shared memory area.
+>
+> - FS_SET_STATE: The front-end puts a chunk of internal state into the
+>    shared memory area, and asks the back-end to fetch it.
+>
+> On the source side, the back-end is expected to serialize its internal
+> state either when FS_SET_STATE_FD is invoked, or when FS_GET_STATE is
+> invoked the first time.  On subsequent FS_GET_STATE calls, it memcpy()s
+> parts of that serialized state into the shared memory area.
+>
+> On the destination side, the back-end is expected to collect the state
+> blob over all FS_SET_STATE calls, and then deserialize and apply it once
+> FS_SET_STATE_FD detaches the shared memory area.
+>
+> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+> ---
+>   include/hw/virtio/vhost-backend.h |   9 ++
+>   include/hw/virtio/vhost.h         |  68 +++++++++++++++
+>   hw/virtio/vhost-user.c            | 138 ++++++++++++++++++++++++++++++
+>   hw/virtio/vhost.c                 |  29 +++++++
+>   4 files changed, 244 insertions(+)
+>
+> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+> index ec3fbae58d..fa3bd19386 100644
+> --- a/include/hw/virtio/vhost-backend.h
+> +++ b/include/hw/virtio/vhost-backend.h
+> @@ -42,6 +42,12 @@ typedef int (*vhost_backend_init)(struct vhost_dev *dev, void *opaque,
+>   typedef int (*vhost_backend_cleanup)(struct vhost_dev *dev);
+>   typedef int (*vhost_backend_memslots_limit)(struct vhost_dev *dev);
+>   
+> +typedef ssize_t (*vhost_fs_get_state_op)(struct vhost_dev *dev,
+> +                                         uint64_t state_offset, size_t size);
+> +typedef int (*vhost_fs_set_state_op)(struct vhost_dev *dev,
+> +                                     uint64_t state_offset, size_t size);
+> +typedef int (*vhost_fs_set_state_fd_op)(struct vhost_dev *dev, int memfd,
+> +                                        size_t size);
+>   typedef int (*vhost_net_set_backend_op)(struct vhost_dev *dev,
+>                                   struct vhost_vring_file *file);
+>   typedef int (*vhost_net_set_mtu_op)(struct vhost_dev *dev, uint16_t mtu);
+> @@ -138,6 +144,9 @@ typedef struct VhostOps {
+>       vhost_backend_init vhost_backend_init;
+>       vhost_backend_cleanup vhost_backend_cleanup;
+>       vhost_backend_memslots_limit vhost_backend_memslots_limit;
+> +    vhost_fs_get_state_op vhost_fs_get_state;
+> +    vhost_fs_set_state_op vhost_fs_set_state;
+> +    vhost_fs_set_state_fd_op vhost_fs_set_state_fd;
+>       vhost_net_set_backend_op vhost_net_set_backend;
+>       vhost_net_set_mtu_op vhost_net_set_mtu;
+>       vhost_scsi_set_endpoint_op vhost_scsi_set_endpoint;
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index a52f273347..b1ad9785dd 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -336,4 +336,72 @@ int vhost_dev_set_inflight(struct vhost_dev *dev,
+>                              struct vhost_inflight *inflight);
+>   int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+>                              struct vhost_inflight *inflight);
+> +
+> +/**
+> + * vhost_fs_set_state_fd(): Share memory with a virtio-fs vhost
+> + * back-end for transferring internal state for the purpose of
+> + * migration.  Calling this function again will have the back-end
+> + * unregister (free) the previously shared memory area.
+> + *
+> + * @dev: The vhost device
+> + * @memfd: File descriptor associated with the shared memory to share.
+> + *         If negative, no memory area is shared, only releasing the
+> + *         previously shared area, and announcing the end of transfer
+> + *         (which, on the destination side, should lead to the
+> + *         back-end deserializing and applying the received state).
+> + * @size: Size of the shared memory area
+> + *
+> + * Returns 0 on success, and -errno on failure.
+> + */
+> +int vhost_fs_set_state_fd(struct vhost_dev *dev, int memfd, size_t size);
+> +
+> +/**
+> + * vhost_fs_get_state(): Request the virtio-fs vhost back-end to place
+> + * a chunk of migration state into the shared memory area negotiated
+> + * through vhost_fs_set_state_fd().  May only be used for migration,
+> + * and only by the source side.
+> + *
+> + * The back-end-internal migration state is treated as a binary blob,
+> + * which is transferred in chunks to fit into the shared memory area.
+> + *
+> + * @dev: The vhost device
+> + * @state_offset: Offset into the state blob of the first byte to be
+> + *                transferred
+> + * @size: Number of bytes to transfer at most; must not exceed the
+> + *        size of the shared memory area
+> + *
+> + * On success, returns the number of bytes that remain in the full
+> + * state blob from the beginning of this chunk (i.e. the full size of
+> + * the blob, minus @state_offset).  When transferring the final chunk,
+> + * this may be less than @size.  The shared memory will contain the
+> + * requested data, starting at offset 0 into the SHM, and counting
+> + * `MIN(@size, returned value)` bytes.
+> + *
+> + * On failure, returns -errno.
+> + */
+> +ssize_t vhost_fs_get_state(struct vhost_dev *dev, uint64_t state_offset,
+> +                           uint64_t size);
+> +
+> +/**
+> + * vhost_fs_set_state(): Request the virtio-fs vhost back-end to fetch
+> + * a chunk of migration state from the shared memory area negotiated
+> + * through vhost_fs_set_state_fd().  May only be used for migration,
+> + * and only by the destination side.
+> + *
+> + * The back-end-internal migration state is treated as a binary blob,
+> + * which is transferred in chunks to fit into the shared memory area.
+> + *
+> + * The front-end (i.e. the caller) must transfer the whole state to
+> + * the back-end, without holes.
+> + *
+> + * @vdev: the VirtIODevice structure
+> + * @state_offset: Offset into the state blob of the first byte to be
+> + *                transferred
+> + * @size: Length of the chunk to transfer; must not exceed the size of
+> + *        the shared memory area
+> + *
+> + * Returns 0 on success, and -errno on failure.
+> + */
+> +int vhost_fs_set_state(struct vhost_dev *dev, uint64_t state_offset,
+> +                       uint64_t size);
+>   #endif
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index e5285df4ba..7fd1fb1ed3 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -130,6 +130,9 @@ typedef enum VhostUserRequest {
+>       VHOST_USER_REM_MEM_REG = 38,
+>       VHOST_USER_SET_STATUS = 39,
+>       VHOST_USER_GET_STATUS = 40,
+> +    VHOST_USER_FS_SET_STATE_FD = 41,
+> +    VHOST_USER_FS_GET_STATE = 42,
+> +    VHOST_USER_FS_SET_STATE = 43,
+>       VHOST_USER_MAX
+>   } VhostUserRequest;
+>   
+> @@ -210,6 +213,15 @@ typedef struct {
+>       uint32_t size; /* the following payload size */
+>   } QEMU_PACKED VhostUserHeader;
+>   
+> +/*
+> + * Request and reply payloads of VHOST_USER_FS_GET_STATE, and request
+> + * payload of VHOST_USER_FS_SET_STATE.
+> + */
+> +typedef struct VhostUserFsState {
+> +    uint64_t state_offset;
+> +    uint64_t size;
+> +} VhostUserFsState;
+> +
+>   typedef union {
+>   #define VHOST_USER_VRING_IDX_MASK   (0xff)
+>   #define VHOST_USER_VRING_NOFD_MASK  (0x1 << 8)
+> @@ -224,6 +236,7 @@ typedef union {
+>           VhostUserCryptoSession session;
+>           VhostUserVringArea area;
+>           VhostUserInflight inflight;
+> +        VhostUserFsState fs_state;
+>   } VhostUserPayload;
+>   
+>   typedef struct VhostUserMsg {
+> @@ -2240,6 +2253,128 @@ static int vhost_user_net_set_mtu(struct vhost_dev *dev, uint16_t mtu)
+>       return 0;
+>   }
+>   
+> +static int vhost_user_fs_set_state_fd(struct vhost_dev *dev, int memfd,
+> +                                      size_t size)
+> +{
+> +    int ret;
+> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> +    VhostUserMsg msg = {
+> +        .hdr = {
+> +            .request = VHOST_USER_FS_SET_STATE_FD,
+> +            .flags = VHOST_USER_VERSION,
+> +            .size = sizeof(msg.payload.u64),
+> +        },
+> +        .payload.u64 = size,
+> +    };
+> +
+> +    if (reply_supported) {
+> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> +    }
+> +
+> +    if (memfd < 0) {
+> +        assert(size == 0);
+> +        ret = vhost_user_write(dev, &msg, NULL, 0);
+> +    } else {
+> +        ret = vhost_user_write(dev, &msg, &memfd, 1);
+> +    }
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    if (reply_supported) {
+> +        return process_message_reply(dev, &msg);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static ssize_t vhost_user_fs_get_state(struct vhost_dev *dev,
+> +                                       uint64_t state_offset,
+> +                                       size_t size)
+> +{
 
-On 3/17/23 15:43, Mostafa Saleh wrote:
-> Hi Eric,
->
-> Thanks for reviewing the patch.
->
-> On Fri, Mar 17, 2023 at 12:37:11PM +0100, Eric Auger wrote:
->> Hi Mostafa,
->>
->> On 2/26/23 23:06, Mostafa Saleh wrote:
->>> In preparation for adding stage-2 support, add a S2 config
->>> struct(SMMUS2Cfg), composed of the following fields and embedded in
->>> the main SMMUTransCfg:
->>>  -tsz: Input range
->>>  -sl0: start level of translation
->>>  -affd: AF fault disable
->>>  -granule_sz: Granule page shift
->>>  -vmid: VMID
->>>  -vttb: PA of translation table
->>>  -oas: Output address size
->>>
->>> They will be used in the next patches in stage-2 address translation.
->>>
->>> No functional change intended.
->>>
->>> Signed-off-by: Mostafa Saleh <smostafa@google.com>
->>> ---
->>> Changes in v2:
->>> -Add oas
->>> ---
->>>  include/hw/arm/smmu-common.h | 11 +++++++++++
->>>  1 file changed, 11 insertions(+)
->>>
->>> diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
->>> index 9fcff26357..2deead08d6 100644
->>> --- a/include/hw/arm/smmu-common.h
->>> +++ b/include/hw/arm/smmu-common.h
->>> @@ -58,6 +58,16 @@ typedef struct SMMUTLBEntry {
->>>      uint8_t granule;
->>>  } SMMUTLBEntry;
->>>  
->>> +typedef struct SMMUS2Cfg {
->>> +    uint8_t tsz;            /* Input range */
->> nit: Size of IPA input region. Called t0sz
-> I named it this way to be similar to stage-1, as SMMUTransTableInfo
-> just calls it tsz, I guess that is because it can hold either t0sz or
-> t1sz.
-> I can rename it for stage-2 to t0sz.
-no strong opinion though, you can simply add this in the comment
->
->>> +    uint8_t sl0;            /* Start level of translation */
->>> +    bool affd;              /* AF Fault Disable */
->>> +    uint8_t granule_sz;     /* Granule page shift */
->>> +    uint8_t oas;            /* Output address size */
->> called s2ps. if you don't want to rename you may add this in the comment.
-> This is not the S2PS parsed from the STE, but the effective value which is
-> capped to SMMU_IDR5.OAS, which is used for checking output size, I can add
-> a clarifying comment.
-ok
->
->> I am suprised to not see S2R which would match S1 record_faults.
-> I was thinking about this also, right now we piggy back on record_faults
-> in SMMUTransCfg.
-> But it makes more sense to separate this from the beginning as other
-> fields. I will update that by adding record_faults field in SMMUS2Cfg.
-ok
->
->> Also without further reading we can wonder wheter the parent
->> iotlb_hits/misses also record S2 events?
-> For iotlb_*, they are shared also. However, I think this is not important for now as
-> it is not architectural, and it produces the correct output as only one
-> stage is advertised at the moment.
-> When nesting is supported, TLB implementation might change and then we
-> can take a decision about this.
->
->> I think we need to be/make clear what fields of the original S1 parent
->> struct also are relevant for the S2 only case.
->> Maybe tag them with a specific comment S1-only or S1 | S2. It may be
->> cleaner to introduce a union and common fields in the parent struct though.
-> I agree, maybe we encapsulate stage-1 only fields in a similar struct
-> and leave common fields outside.
->
-> struct SMMUTransCfg:
-> 	stage, bypassed, disabled, iotlb_* //common fields
-> 	struct SMMUS2Cfg
-> 	struct SMMUS1Cfg
-> 		ttb,asid....
->
-> Or we can add SMMUS1Cfg and SMMUS2Cfg in a union for now and when nesting is supported we
-> separate them.
+Am I right to assume that vrings are supposed to be stopped to get/set 
+state?
+If I am shouldn't we check it before sending message or do you believe it is
+better to return error from backend in these cases?
 
-yeah that would be cleaner but it is also more invasive. At least make
-it clear in the comments and commit msg what is used for each stage.
-
-Thanks
-
-Eric
->
->
-> Thanks,
-> Mostafa
->
-
+> +    int ret;
+> +    VhostUserMsg msg = {
+> +        .hdr = {
+> +            .request = VHOST_USER_FS_GET_STATE,
+> +            .flags = VHOST_USER_VERSION,
+> +            .size = sizeof(msg.payload.fs_state),
+> +        },
+> +        .payload.fs_state = {
+> +            .state_offset = state_offset,
+> +            .size = size,
+> +        },
+> +    };
+> +
+> +    ret = vhost_user_write(dev, &msg, NULL, 0);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    ret = vhost_user_read(dev, &msg);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    if (msg.hdr.request != VHOST_USER_FS_GET_STATE) {
+> +        error_report("Received unexpected message type: "
+> +                     "Expected %d, received %d",
+> +                     VHOST_USER_FS_GET_STATE, msg.hdr.request);
+> +        return -EPROTO;
+> +    }
+> +
+> +    if (msg.hdr.size != sizeof(VhostUserFsState)) {
+> +        error_report("Received unexpected message length: "
+> +                     "Expected %" PRIu32 ", received %zu",
+> +                     msg.hdr.size, sizeof(VhostUserFsState));
+> +        return -EPROTO;
+> +    }
+> +
+> +    if (msg.payload.fs_state.size > SSIZE_MAX) {
+> +        error_report("Remaining state size returned by back end is too high: "
+> +                     "Expected up to %zd, reported %" PRIu64,
+> +                     SSIZE_MAX, msg.payload.fs_state.size);
+> +        return -EPROTO;
+> +    }
+> +
+> +    return msg.payload.fs_state.size;
+> +}
+> +
+> +static int vhost_user_fs_set_state(struct vhost_dev *dev,
+> +                                   uint64_t state_offset,
+> +                                   size_t size)
+> +{
+> +    int ret;
+> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> +    VhostUserMsg msg = {
+> +        .hdr = {
+> +            .request = VHOST_USER_FS_SET_STATE,
+> +            .flags = VHOST_USER_VERSION,
+> +            .size = sizeof(msg.payload.fs_state),
+> +        },
+> +        .payload.fs_state = {
+> +            .state_offset = state_offset,
+> +            .size = size,
+> +        },
+> +    };
+> +
+> +    if (reply_supported) {
+> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> +    }
+> +
+> +    ret = vhost_user_write(dev, &msg, NULL, 0);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    if (reply_supported) {
+> +        return process_message_reply(dev, &msg);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   static int vhost_user_send_device_iotlb_msg(struct vhost_dev *dev,
+>                                               struct vhost_iotlb_msg *imsg)
+>   {
+> @@ -2716,4 +2851,7 @@ const VhostOps user_ops = {
+>           .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
+>           .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
+>           .vhost_dev_start = vhost_user_dev_start,
+> +        .vhost_fs_set_state_fd = vhost_user_fs_set_state_fd,
+> +        .vhost_fs_get_state = vhost_user_fs_get_state,
+> +        .vhost_fs_set_state = vhost_user_fs_set_state,
+>   };
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index a266396576..ef8252c90e 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -2075,3 +2075,32 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
+>   
+>       return -ENOSYS;
+>   }
+> +
+> +int vhost_fs_set_state_fd(struct vhost_dev *dev, int memfd, size_t size)
+> +{
+> +    if (dev->vhost_ops->vhost_fs_set_state_fd) {
+> +        return dev->vhost_ops->vhost_fs_set_state_fd(dev, memfd, size);
+> +    }
+> +
+> +    return -ENOSYS;
+> +}
+> +
+> +ssize_t vhost_fs_get_state(struct vhost_dev *dev, uint64_t state_offset,
+> +                           uint64_t size)
+> +{
+> +    if (dev->vhost_ops->vhost_fs_get_state) {
+> +        return dev->vhost_ops->vhost_fs_get_state(dev, state_offset, size);
+> +    }
+> +
+> +    return -ENOSYS;
+> +}
+> +
+> +int vhost_fs_set_state(struct vhost_dev *dev, uint64_t state_offset,
+> +                       uint64_t size)
+> +{
+> +    if (dev->vhost_ops->vhost_fs_set_state) {
+> +        return dev->vhost_ops->vhost_fs_set_state(dev, state_offset, size);
+> +    }
+> +
+> +    return -ENOSYS;
+> +}
 
