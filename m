@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDAE56BEDD4
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B12D6BEE1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:26:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdCjQ-00075f-AG; Fri, 17 Mar 2023 12:15:04 -0400
+	id 1pdCtn-00014Z-6X; Fri, 17 Mar 2023 12:25:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pdCjO-00074x-0y
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:15:02 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pdCjM-0007Kq-0a
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:15:01 -0400
-Received: by mail-wr1-x433.google.com with SMTP id j2so4925948wrh.9
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 09:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679069697;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/+ZMtt2tNQNA7w5Hxe1OjrVVL6nDbw/jp+A5wl86/aE=;
- b=OtLuND8wUCOdMCeCSPpjPCISeauWMbM5zf+pfaCASm06tGhcI4nnffE50aT1uGg3jj
- ovYqmSMvkAPCxnuiGOQHQgCxCZeiEJEtxc4Bg/Bh/MhFDKKfNSrksg3i0jRm8IKrfEmR
- 97S+mT2d7TyZe8d4+Ksz9V735NGfcyBPhWteGgSq0epS7tQkQxWwdQNKBmiVQvdLL93j
- 0o7xOVcUXsxRHWj4c+ncOPuMbWoCxeMn/jMeV0uL72ShkQA5ia6VdfD7gA5uwW35rDZH
- h0I2NS2tBTz+6dKa+QMvv1mNuVRXudC+Hhk7k72iPbtQSPbUgdYdhulECxOwODlkBxWi
- YLZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679069697;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=/+ZMtt2tNQNA7w5Hxe1OjrVVL6nDbw/jp+A5wl86/aE=;
- b=fYg5KJCeBSEVuUnTpg/0+ftLfkg4sBOLKbkIzyn1fkDiMa37k5hBXFKfHaV9S62tn3
- X09U/8Lvx1BZvmX9xnvyYZNdAi49xgQBpNexFhTodrDfAOw1A1FlX3jxCOiGUImQXTLE
- 9Kb96CTuy85KPyxa6q6gu/fKM+aq/8D9fjUbAjy40N8934P0+ON8QajputBrVsbdFFvz
- 9SnsuUt9S6DikBEhKS/WuLqiCfZTPnLe9l1OZBcE+sg5ut5gKh0gKKamqzak1VCwd+lD
- ywLrTEdInI+QrEPattFWP2NfM3c8BoHqm99R0cJDdmkcGplCJ7Aozj9+bgINhbt+qIkK
- 4qeA==
-X-Gm-Message-State: AO0yUKUNHNkfjDBqPItuJKMehi4cVAvMr2rwpRn1Nv/YJwO9NyeUMW3M
- yOwtQni5O7pt9PIXcemp280/mg==
-X-Google-Smtp-Source: AK7set+OMnrvtih7O4O01XbtsY4TcpuNvxytzbt2AitwwDgp32YeS2etvGBT79MtszPTPqsQaRghkg==
-X-Received: by 2002:a5d:4ed1:0:b0:2ce:a944:2c6a with SMTP id
- s17-20020a5d4ed1000000b002cea9442c6amr7005974wrv.70.1679069697633; 
- Fri, 17 Mar 2023 09:14:57 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- u13-20020adfdb8d000000b002d2b117a6a6sm2295879wri.41.2023.03.17.09.14.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Mar 2023 09:14:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 076B81FFB7;
- Fri, 17 Mar 2023 16:14:57 +0000 (GMT)
-References: <CAJ1un7j0FNpYaaviQxoKQN4O+C8RejqA918CdBamPySKyAEJUQ@mail.gmail.com>
-User-agent: mu4e 1.9.22; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Abhishek Singh Dagur <abhishek@drut.io>
-Cc: openbmc@lists.ozlabs.org, qemu-devel@nongnu.org, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@kaod.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Using QEMU how to redirect serial /dev/ttyS2 output of guest
- machine to host machine.
-Date: Fri, 17 Mar 2023 16:06:43 +0000
-In-reply-to: <CAJ1un7j0FNpYaaviQxoKQN4O+C8RejqA918CdBamPySKyAEJUQ@mail.gmail.com>
-Message-ID: <87mt4b73sv.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pdCtl-000147-3Q
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:25:45 -0400
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pdCtj-0001XT-5F
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:25:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.219])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 478D622195;
+ Fri, 17 Mar 2023 16:25:30 +0000 (UTC)
+Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 17 Mar
+ 2023 17:25:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-110S004e816bdf7-33a0-4acf-9c66-c250c43c054a,
+ AA89701AE41F08E1E89E0E4F443EB3D827D1D8AD) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <03a56c04-8afd-d4eb-b117-34698eb19484@kaod.org>
+Date: Fri, 17 Mar 2023 17:25:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH for 8.0 v3] memory: Prevent recursive memory access
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+CC: <qemu-devel@nongnu.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, David Hildenbrand <david@redhat.com>, Peter Xu
+ <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini
+ <pbonzini@redhat.com>
+References: <20230316162044.31607-1-akihiko.odaki@daynix.com>
+Content-Language: en-US
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230316162044.31607-1-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.110]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: c7ba82eb-1d8c-4e37-aca4-89d9494b9d0e
+X-Ovh-Tracer-Id: 10698863867766541161
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefvddgkeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejteffvddviedtvedvhfdttefgteefheffgfehfffgfeelkeetleeghfeivdefveenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrkhhihhhikhhordhouggrkhhisegurgihnhhigidrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphhhihhlmhgusehlihhnrghrohdrohhrghdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhpvghtvghrgiesrhgvughhrghtrdgtohhmpdgrlhignhgurhessghurdgvughupdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,61 +75,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hello,
 
-Abhishek Singh Dagur <abhishek@drut.io> writes:
+On 3/16/23 17:20, Akihiko Odaki wrote:
+> A guest may request ask a memory-mapped device to perform DMA. If the
+> address specified for DMA is the device performing DMA, it will create
+> recursion. It is very unlikely that device implementations are prepared
+> for such an abnormal access, which can result in unpredictable behavior.
+> 
+> In particular, such a recursion breaks e1000e, a network device. If
+> the device is configured to write the received packet to the register
+> to trigger receiving, it triggers re-entry to the Rx logic of e1000e.
+> This causes use-after-free since the Rx logic is not re-entrant.
+> 
+> As there should be no valid reason to perform recursive memory access,
+> check for recursion before accessing memory-mapped device.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1543
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+> V1 -> V2: Marked the variable thread-local. Introduced linked list.
+> 
+>   softmmu/memory.c | 81 ++++++++++++++++++++++++++++++++++++++----------
+>   1 file changed, 64 insertions(+), 17 deletions(-)
+> 
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 4699ba55ec..6be33a9e3e 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -61,6 +61,15 @@ struct AddrRange {
+>       Int128 size;
+>   };
+>   
+> +typedef struct AccessedRegion AccessedRegion;
+> +
+> +struct AccessedRegion {
+> +    const Object *owner;
+> +    const AccessedRegion *next;
+> +};
+> +
+> +static __thread const AccessedRegion *accessed_region;
+> +
+>   static AddrRange addrrange_make(Int128 start, Int128 size)
+>   {
+>       return (AddrRange) { start, size };
+> @@ -1394,6 +1403,16 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>           return false;
+>       }
+>   
+> +    for (const AccessedRegion *ar = accessed_region; ar; ar = ar->next) {
+> +        if (ar->owner == mr->owner) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
+> +                          ", size %u, region '%s', reason: recursive access\n",
+> +                          is_write ? "write" : "read",
+> +                          addr, size, memory_region_name(mr));
+> +            return false;
+> +        }
+> +    }
+> +
+>       /* Treat zero as compatibility all valid */
+>       if (!mr->ops->valid.max_access_size) {
+>           return true;
+> @@ -1413,6 +1432,29 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>       return true;
+>   }
+>   
+> +static bool memory_region_access_start(MemoryRegion *mr,
+> +                                       hwaddr addr,
+> +                                       unsigned size,
+> +                                       bool is_write,
+> +                                       MemTxAttrs attrs,
+> +                                       AccessedRegion *ar)
+> +{
+> +    if (!memory_region_access_valid(mr, addr, size, is_write, attrs)) {
+> +        return false;
+> +    }
+> +
+> +    ar->owner = mr->owner;
+> +    ar->next = accessed_region;
+> +    accessed_region = ar->next;
 
-(cc aspeed maintainers)
+Isn't 'accessed_region' always NULL ?
 
-> Hi all,
->
-> We are using obmc-phosphor-image on an ast2500 board which is trying to c=
-ommunicate with other devices
-> over serial port /dev/ttyS2.
-> As we are trying to emulate the machine on qemu we need to redirect the r=
-equest to the host machine so
-> that it can handle this request and return appropriately.
-> We tried using QEMU options like -serial ,-chardev but still not the
-> concrete way we get to do it.
+> +
+> +    return true;
+> +}
+> +
+> +static void memory_region_access_end(void)
+> +{
+> +    accessed_region = accessed_region->next;
+> +}
+and so, this is a segv.
 
-Yeah I'm afraid its non-obvious, certainly for built in serial ports.
-Try something like:
+Thanks,
 
-  ./qemu-system-aarch64 -M ast2500-evb \
-    -serial null -serial null -serial chardev:myserial \
-    -chardev file,id=3Dmyserial,path=3Doutput.txt \
-    $MORE_OPTIONS
-
-You have to add a -serial for each serial port up to the one you care
-about and then set the chardev for it.
-
-If you where adding a device to the system then you can explicitly set
-the target chardev for it with something like:
-
-  -device isa-serial,iobase=3Dnnn,irq=3Dnnn,chardev=3DID
-
-> It will be very helpful if you can provide us some guidance on this.
-
-Another quirk for the aspeed boards seems to be the default uart can be
-an arbitrary one depending on the board model:
-
-334:    aspeed_soc_uart_set_chr(s, amc->uart_default, serial_hd(0));=20
-336:        if (uart =3D=3D amc->uart_default) {=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-1112:    amc->uart_default =3D ASPEED_DEV_UART5;=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-1407:    amc->uart_default =3D ASPEED_DEV_UART1;=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20
-
-as a result ASPEED_DEV_UART5 will always be the first serial port
-(serial_hd(0)). I don't know how Linux numbers them but worth being
-aware of.
-
->
-> Thank you,
-> Abhishek
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+C.
 
