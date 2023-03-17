@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8286BDD70
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 01:14:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3203D6BDDB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 01:35:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcxjE-00066H-NT; Thu, 16 Mar 2023 20:13:52 -0400
+	id 1pcy2X-00031g-J0; Thu, 16 Mar 2023 20:33:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pcxj5-0005kt-KL; Thu, 16 Mar 2023 20:13:44 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
+ (Exim 4.90_1) (envelope-from <clopez@suse.de>)
+ id 1pcy2V-00031M-QZ; Thu, 16 Mar 2023 20:33:47 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pcxj2-0004St-4q; Thu, 16 Mar 2023 20:13:42 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id r27so4493353lfe.10;
- Thu, 16 Mar 2023 17:13:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679012018;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xfZjNMjzWHrnALAVPW0l5NgU6D15/Iv55fFst8PORK8=;
- b=a6jHcY4R91CJmYGbXSHvN4ENjYSfKRyiFxBtoRlSCMgBm7AWU5meRyU0s6tHfauQUV
- GDCRrHJJoZ54oDPQ4ADAwsdO/2w6a5Xv1azdxYPHmuAiv1wzKI+4qnkDB/EhPcwkW8KT
- vxo9WXzJS53QWz2baJ1EKNAZuePBuhj1EOXpj5PqqDtDpCGuFbVbEtxznRcmJCTkImLd
- kC6uGYG8tCy2o+NbCv7Dc86MtUgwkXxp/tCf/NUIVARPprdVXs42/y9d4fPJx7ThaTZG
- uz9pNKtmGvm9fMvR3rU63WTDk8CadVSSCzR9A6cAu350JwFFzerfEZ+sd3ANEzC+rwJh
- J+Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679012018;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xfZjNMjzWHrnALAVPW0l5NgU6D15/Iv55fFst8PORK8=;
- b=CG203iNitApCupr6hSUEE0ueP8zKx5v1k91KtPoOcL5Z/5yfFDZmr0hhHase6p1DuN
- YLO1wl5xa1AsdOMa/J/JlpDI41BKydYzf0s9id3+wP4mpyEGMVBXdHomntVInZxMeMY2
- tc5bRCzo88OumldVw6tSU60g9TFDuD0PRXrH75d7n+ROMRwBi09cURSnI/pzQmtFzSFC
- r0Exbs8Vf2vpSP9XvhdYLlpYMffyKNBTQWJNB9hELRoxA8ZYTEnhcOM1DHW35+EH9bCM
- xMOKA4KduFWgaSqF1YH2jPM53SsG3qtCd3EeEBPFxnhMTFK59QvZP1ygjHtuxGsVjwrA
- Zk5w==
-X-Gm-Message-State: AO0yUKXe+7lCNpdiDnsutxE2nRpMj6VHv4feFKEhxwDhOzxWr04VPKWM
- Tp99AdEWfntlEBxdXDmN3GV0TWJjO9g1NZffO/8=
-X-Google-Smtp-Source: AK7set9mWgNvftohHw8c6u9R6SRLx4hMcLxYLkmgqBKK4q3XYtNB+XQVr0Ag36/Vle20+TMeGH+j1A==
-X-Received: by 2002:a19:7613:0:b0:4db:1fdf:4c64 with SMTP id
- c19-20020a197613000000b004db1fdf4c64mr213170lff.54.1679012018308; 
- Thu, 16 Mar 2023 17:13:38 -0700 (PDT)
-Received: from penguin.lxd (213-67-202-254-no43.tbcn.telia.com.
- [213.67.202.254]) by smtp.googlemail.com with ESMTPSA id
- y17-20020ac24211000000b004ddaea30ba6sm97776lfh.235.2023.03.16.17.13.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 17:13:38 -0700 (PDT)
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-X-Google-Original-From: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: [PATCH v2 4/4] tests/avocado: Add reboot tests to Cubieboard
-Date: Fri, 17 Mar 2023 01:12:06 +0100
-Message-Id: <20230317001203.18425-5-strahinja.p.jankovic@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230317001203.18425-1-strahinja.p.jankovic@gmail.com>
-References: <20230317001203.18425-1-strahinja.p.jankovic@gmail.com>
+ (Exim 4.90_1) (envelope-from <clopez@suse.de>)
+ id 1pcy2U-0003aZ-2w; Thu, 16 Mar 2023 20:33:47 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9B1A921866;
+ Fri, 17 Mar 2023 00:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1679013222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zhXW6aaqjrMS4mVaw0Pewr+CcVLOlwEE+qT5F52AQdc=;
+ b=WfS1l+0pmDI7LjCzQHDabVtJblpWgVzpzLtokEWgKMR+FWKwx/8q94qKYdF8anJwYurC3F
+ FbsIJaMe1ONihuFGgys+Gr94nZYEpDuqaj8FZ8Ckk0upZAxu9Q7kARB1rk6LlTDTrM9C+4
+ qbG2IrRc+LSYDC0g+3R06jTi0/947iA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1679013222;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zhXW6aaqjrMS4mVaw0Pewr+CcVLOlwEE+qT5F52AQdc=;
+ b=Q/yn4M05qUdplvzuEziYUOh1mM2TKEv2VjdCcYfFNCgd1c/I4T9ub8eNLaF1uH3FQ2j+NN
+ QOd0t+5WKBsFRmBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C08AD133E0;
+ Fri, 17 Mar 2023 00:33:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id VwleKmW1E2R5dwAAMHmgww
+ (envelope-from <clopez@suse.de>); Fri, 17 Mar 2023 00:33:41 +0000
+From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>,
+ qemu-s390x@nongnu.org (open list:virtio-ccw)
+Subject: [PATCH v2] virtio: refresh vring region cache after updating a
+ virtqueue size
+Date: Fri, 17 Mar 2023 01:27:51 +0100
+Message-Id: <20230317002749.27379-1-clopez@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=clopez@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,58 +89,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cubieboard tests end with comment "reboot not functioning; omit test".
-Fix this so reboot is done at the end of each test.
+When a virtqueue size is changed by the guest via
+virtio_queue_set_num(), its region cache is not automatically updated.
+If the size was increased, this could lead to accessing the cache out
+of bounds. For example, in vring_get_used_event():
 
-Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+    static inline uint16_t vring_get_used_event(VirtQueue *vq)
+    {
+        return vring_avail_ring(vq, vq->vring.num);
+    }
 
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+    static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
+    {
+        VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
+        hwaddr pa = offsetof(VRingAvail, ring[i]);
+
+        if (!caches) {
+            return 0;
+        }
+
+        return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
+    }
+
+vq->vring.num will be greater than caches->avail.len, which will
+trigger a failed assertion down the call path of
+virtio_lduw_phys_cached().
+
+Fix this by calling virtio_init_region_cache() after
+virtio_queue_set_num() if we are not already calling
+virtio_queue_set_rings(). In the legacy path this is already done by
+virtio_queue_update_rings().
+
+Signed-off-by: Carlos López <clopez@suse.de>
 ---
- tests/avocado/boot_linux_console.py | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+v2: use virtio_init_region_cache() instead of
+virtio_queue_update_rings() in the path for modern devices.
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index 574609bf43..c0675809e6 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -581,7 +581,10 @@ def test_arm_cubieboard_initrd(self):
-                                                 'Allwinner sun4i/sun5i')
-         exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
-                                                 'system-control@1c00000')
--        # cubieboard's reboot is not functioning; omit reboot test.
-+        exec_command_and_wait_for_pattern(self, 'reboot',
-+                                                'reboot: Restarting system')
-+        # Wait for VM to shut down gracefully
-+        self.vm.wait()
+ hw/s390x/virtio-ccw.c      | 1 +
+ hw/virtio/virtio-mmio.c    | 1 +
+ hw/virtio/virtio-pci.c     | 1 +
+ hw/virtio/virtio.c         | 2 +-
+ include/hw/virtio/virtio.h | 1 +
+ 5 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+index e33e5207ab..f44de1a8c1 100644
+--- a/hw/s390x/virtio-ccw.c
++++ b/hw/s390x/virtio-ccw.c
+@@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
+                 return -EINVAL;
+             }
+             virtio_queue_set_num(vdev, index, num);
++            virtio_init_region_cache(vdev, index);
+         } else if (virtio_queue_get_num(vdev, index) > num) {
+             /* Fail if we don't have a big enough queue. */
+             return -EINVAL;
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 23ba625eb6..c2c6d85475 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -354,6 +354,7 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
+         if (proxy->legacy) {
+             virtio_queue_update_rings(vdev, vdev->queue_sel);
+         } else {
++            virtio_init_region_cache(vdev, vdev->queue_sel);
+             proxy->vqs[vdev->queue_sel].num = value;
+         }
+         break;
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 247325c193..02fb84a8fa 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1554,6 +1554,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+         proxy->vqs[vdev->queue_sel].num = val;
+         virtio_queue_set_num(vdev, vdev->queue_sel,
+                              proxy->vqs[vdev->queue_sel].num);
++        virtio_init_region_cache(vdev, vdev->queue_sel);
+         break;
+     case VIRTIO_PCI_COMMON_Q_MSIX:
+         vector = virtio_queue_vector(vdev, vdev->queue_sel);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 98c4819fcc..272d930721 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -226,7 +226,7 @@ static void virtio_virtqueue_reset_region_cache(struct VirtQueue *vq)
+     }
+ }
  
-     def test_arm_cubieboard_sata(self):
-         """
-@@ -625,7 +628,10 @@ def test_arm_cubieboard_sata(self):
-                                                 'Allwinner sun4i/sun5i')
-         exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
-                                                 'sda')
--        # cubieboard's reboot is not functioning; omit reboot test.
-+        exec_command_and_wait_for_pattern(self, 'reboot',
-+                                                'reboot: Restarting system')
-+        # Wait for VM to shut down gracefully
-+        self.vm.wait()
- 
-     @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
-     def test_arm_cubieboard_openwrt_22_03_2(self):
-@@ -672,7 +678,10 @@ def test_arm_cubieboard_openwrt_22_03_2(self):
- 
-         exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-                                                 'Allwinner sun4i/sun5i')
--        # cubieboard's reboot is not functioning; omit reboot test.
-+        exec_command_and_wait_for_pattern(self, 'reboot',
-+                                                'reboot: Restarting system')
-+        # Wait for VM to shut down gracefully
-+        self.vm.wait()
- 
-     @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
-     def test_arm_quanta_gsj(self):
+-static void virtio_init_region_cache(VirtIODevice *vdev, int n)
++void virtio_init_region_cache(VirtIODevice *vdev, int n)
+ {
+     VirtQueue *vq = &vdev->vq[n];
+     VRingMemoryRegionCaches *old = vq->vring.caches;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 77c6c55929..fed5fff049 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -309,6 +309,7 @@ int virtio_get_num_queues(VirtIODevice *vdev);
+ void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
+                             hwaddr avail, hwaddr used);
+ void virtio_queue_update_rings(VirtIODevice *vdev, int n);
++void virtio_init_region_cache(VirtIODevice *vdev, int n);
+ void virtio_queue_set_align(VirtIODevice *vdev, int n, int align);
+ void virtio_queue_notify(VirtIODevice *vdev, int n);
+ uint16_t virtio_queue_vector(VirtIODevice *vdev, int n);
 -- 
-2.30.2
+2.35.3
 
 
