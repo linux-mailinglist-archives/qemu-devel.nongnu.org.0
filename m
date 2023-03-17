@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3203D6BDDB1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 01:35:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232056BDDBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 01:39:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pcy2X-00031g-J0; Thu, 16 Mar 2023 20:33:49 -0400
+	id 1pcy7o-0004Lx-TK; Thu, 16 Mar 2023 20:39:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clopez@suse.de>)
- id 1pcy2V-00031M-QZ; Thu, 16 Mar 2023 20:33:47 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <clopez@suse.de>)
- id 1pcy2U-0003aZ-2w; Thu, 16 Mar 2023 20:33:47 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pcy7j-0004If-Ak
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 20:39:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pcy7h-0004fO-I9
+ for qemu-devel@nongnu.org; Thu, 16 Mar 2023 20:39:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679013542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nFpH8rDqeOkdmRKJxU1UlaNluFs+g8JqYL2X+o5HyEg=;
+ b=XHZo8ABjNxhAWUdqZoLM7TbWOcNbqM7oD3e6rtouGRRfdA/VceU0yGstRIrStoSpFW/Snj
+ W19mRaczHRTZP9Bd8oLvmHU3B4YSa2AFDWFRlwUsdnqm6bQTNz4mzpBgy4lxJrJ3QQzThL
+ L5UdUgJ6wau9iv+bZiNEVY3Hg4TthyU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-577-160mEmr_Pny-FVW9H2CGOQ-1; Thu, 16 Mar 2023 20:39:00 -0400
+X-MC-Unique: 160mEmr_Pny-FVW9H2CGOQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9B1A921866;
- Fri, 17 Mar 2023 00:33:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679013222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zhXW6aaqjrMS4mVaw0Pewr+CcVLOlwEE+qT5F52AQdc=;
- b=WfS1l+0pmDI7LjCzQHDabVtJblpWgVzpzLtokEWgKMR+FWKwx/8q94qKYdF8anJwYurC3F
- FbsIJaMe1ONihuFGgys+Gr94nZYEpDuqaj8FZ8Ckk0upZAxu9Q7kARB1rk6LlTDTrM9C+4
- qbG2IrRc+LSYDC0g+3R06jTi0/947iA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679013222;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zhXW6aaqjrMS4mVaw0Pewr+CcVLOlwEE+qT5F52AQdc=;
- b=Q/yn4M05qUdplvzuEziYUOh1mM2TKEv2VjdCcYfFNCgd1c/I4T9ub8eNLaF1uH3FQ2j+NN
- QOd0t+5WKBsFRmBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C08AD133E0;
- Fri, 17 Mar 2023 00:33:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id VwleKmW1E2R5dwAAMHmgww
- (envelope-from <clopez@suse.de>); Fri, 17 Mar 2023 00:33:41 +0000
-From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- qemu-s390x@nongnu.org (open list:virtio-ccw)
-Subject: [PATCH v2] virtio: refresh vring region cache after updating a
- virtqueue size
-Date: Fri, 17 Mar 2023 01:27:51 +0100
-Message-Id: <20230317002749.27379-1-clopez@suse.de>
-X-Mailer: git-send-email 2.35.3
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8129C889047;
+ Fri, 17 Mar 2023 00:38:59 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DED57202701E;
+ Fri, 17 Mar 2023 00:38:58 +0000 (UTC)
+Date: Thu, 16 Mar 2023 19:38:55 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com,
+ marcandre.lureau@redhat.com, berrange@redhat.com, jsnow@redhat.com
+Subject: Re: [PATCH 03/14] qapi: Clean up after removal of simple unions
+Message-ID: <20230317003855.xovwxugwrcj5lm2b@redhat.com>
+References: <20230316071325.492471-1-armbru@redhat.com>
+ <20230316071325.492471-4-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=clopez@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230316071325.492471-4-armbru@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,111 +78,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When a virtqueue size is changed by the guest via
-virtio_queue_set_num(), its region cache is not automatically updated.
-If the size was increased, this could lead to accessing the cache out
-of bounds. For example, in vring_get_used_event():
+On Thu, Mar 16, 2023 at 08:13:14AM +0100, Markus Armbruster wrote:
+> Commit 4e99f4b12c0 (qapi: Drop simple unions) missed a bit of code
+> dealing with simple union branches.  Drop it.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-    static inline uint16_t vring_get_used_event(VirtQueue *vq)
-    {
-        return vring_avail_ring(vq, vq->vring.num);
-    }
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-    static inline uint16_t vring_avail_ring(VirtQueue *vq, int i)
-    {
-        VRingMemoryRegionCaches *caches = vring_get_region_caches(vq);
-        hwaddr pa = offsetof(VRingAvail, ring[i]);
-
-        if (!caches) {
-            return 0;
-        }
-
-        return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
-    }
-
-vq->vring.num will be greater than caches->avail.len, which will
-trigger a failed assertion down the call path of
-virtio_lduw_phys_cached().
-
-Fix this by calling virtio_init_region_cache() after
-virtio_queue_set_num() if we are not already calling
-virtio_queue_set_rings(). In the legacy path this is already done by
-virtio_queue_update_rings().
-
-Signed-off-by: Carlos López <clopez@suse.de>
----
-v2: use virtio_init_region_cache() instead of
-virtio_queue_update_rings() in the path for modern devices.
-
- hw/s390x/virtio-ccw.c      | 1 +
- hw/virtio/virtio-mmio.c    | 1 +
- hw/virtio/virtio-pci.c     | 1 +
- hw/virtio/virtio.c         | 2 +-
- include/hw/virtio/virtio.h | 1 +
- 5 files changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index e33e5207ab..f44de1a8c1 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
-                 return -EINVAL;
-             }
-             virtio_queue_set_num(vdev, index, num);
-+            virtio_init_region_cache(vdev, index);
-         } else if (virtio_queue_get_num(vdev, index) > num) {
-             /* Fail if we don't have a big enough queue. */
-             return -EINVAL;
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 23ba625eb6..c2c6d85475 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -354,6 +354,7 @@ static void virtio_mmio_write(void *opaque, hwaddr offset, uint64_t value,
-         if (proxy->legacy) {
-             virtio_queue_update_rings(vdev, vdev->queue_sel);
-         } else {
-+            virtio_init_region_cache(vdev, vdev->queue_sel);
-             proxy->vqs[vdev->queue_sel].num = value;
-         }
-         break;
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 247325c193..02fb84a8fa 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1554,6 +1554,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-         proxy->vqs[vdev->queue_sel].num = val;
-         virtio_queue_set_num(vdev, vdev->queue_sel,
-                              proxy->vqs[vdev->queue_sel].num);
-+        virtio_init_region_cache(vdev, vdev->queue_sel);
-         break;
-     case VIRTIO_PCI_COMMON_Q_MSIX:
-         vector = virtio_queue_vector(vdev, vdev->queue_sel);
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 98c4819fcc..272d930721 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -226,7 +226,7 @@ static void virtio_virtqueue_reset_region_cache(struct VirtQueue *vq)
-     }
- }
- 
--static void virtio_init_region_cache(VirtIODevice *vdev, int n)
-+void virtio_init_region_cache(VirtIODevice *vdev, int n)
- {
-     VirtQueue *vq = &vdev->vq[n];
-     VRingMemoryRegionCaches *old = vq->vring.caches;
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 77c6c55929..fed5fff049 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -309,6 +309,7 @@ int virtio_get_num_queues(VirtIODevice *vdev);
- void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
-                             hwaddr avail, hwaddr used);
- void virtio_queue_update_rings(VirtIODevice *vdev, int n);
-+void virtio_init_region_cache(VirtIODevice *vdev, int n);
- void virtio_queue_set_align(VirtIODevice *vdev, int n, int align);
- void virtio_queue_notify(VirtIODevice *vdev, int n);
- uint16_t virtio_queue_vector(VirtIODevice *vdev, int n);
 -- 
-2.35.3
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
