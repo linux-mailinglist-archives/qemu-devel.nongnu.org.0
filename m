@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D1C6BEA9B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:02:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0B76BEACD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:14:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdAeo-0002Bb-AP; Fri, 17 Mar 2023 10:02:10 -0400
+	id 1pdAor-0004hQ-8Z; Fri, 17 Mar 2023 10:12:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pdAem-0002BN-8E
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:02:08 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pdAek-0000yk-Q3
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:02:08 -0400
-Received: by mail-pl1-x635.google.com with SMTP id iw3so5381054plb.6
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 07:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679061725;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=MldaVXgdD29W3lBwG487teXpEZpP+Of1U1146PHbGsg=;
- b=HIHG/o4lpxc8FSPyKRb1B1m1yJ7NJ637TkpqzIPSOAMe+EKbAxljqh1PukIuaVU3VK
- DPlCYO7HJyR4/nK0/RdeBWDuuzXfWXBBtreh+9C3t8tyh0mTRPjwQj1oR58FunLWsAkr
- rgMStEhfeSH0OPALXFspyQaI3RLGFrWMQGe5PjECbNA6LEy/UCbAsUCWTAyhO6DXWkZj
- 7vxGOnECOGujPE68B9r3mYGhCYwjT0MYSAw1L4/hGSIiYbIOI6oQVwbYnupb95PalZP2
- J+DrvzqNs0ZhGM0y/moRaHII7eC9Pz1F3LnJWZI/FyWAU2uGvKwBCRa91yoEV356TpOY
- f17g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679061725;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MldaVXgdD29W3lBwG487teXpEZpP+Of1U1146PHbGsg=;
- b=wGLL/cvKRSARTDi2prF2WIo97WoD/5JEoUP4ZBYGqZ+EaA8laqSqrz+PiYBCgDwv/C
- I3ALHw8kVmH/kZnlBz4/b9fGSkwDPUeXKDr83KiPqTKiZ1QakvNbP/ukrcDNAGRFYbN4
- HBHPBcQ3IKO9K4ro6xzpJpWGeRlLdzJWcc4VcTnMOtaGHQzjgDNSIjZTs4Komshz4KMN
- NPl4bAHSpqcLvEInatyEeCpjKZY1kTXMtjUMN0f+tYuy1Lk0eyfv/lqH3tShlbymtf96
- 1PfZjQVnHs6/v9yDR2woOGFafrF6Qm52J9w6xOQ2BmP608D7Bs4GxWUaFr/hXjKVi4hE
- zlZg==
-X-Gm-Message-State: AO0yUKUHJ/hzYcj3LlNpVPYvDe9VlMuMryrxJyZgrdDxvEKisJ1+AoYy
- 8Df8ccsBIcVaV+P8Y0H6YzQg0g==
-X-Google-Smtp-Source: AK7set+Qo2eTUEWXfYLsa3aLYv7uvw0hMylPtJYTVDmxccsOjG4M95JVX8bdv7gW33gotwco6d9mBQ==
-X-Received: by 2002:a05:6a20:3d89:b0:d4:6190:582 with SMTP id
- s9-20020a056a203d8900b000d461900582mr9308173pzi.34.1679061725031; 
- Fri, 17 Mar 2023 07:02:05 -0700 (PDT)
-Received: from [192.168.57.227] (96-82-119-43-static.hfc.comcastbusiness.net.
- [96.82.119.43]) by smtp.gmail.com with ESMTPSA id
- g23-20020a63f417000000b0050bd9c8c53dsm1524411pgi.23.2023.03.17.07.02.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 07:02:04 -0700 (PDT)
-Message-ID: <a8d13f61-6354-454d-2983-eeb65cb6bc61@linaro.org>
-Date: Fri, 17 Mar 2023 07:02:01 -0700
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1pdAom-0004gz-GU
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:12:29 -0400
+Received: from mailgw.felk.cvut.cz ([147.32.82.15])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
+ id 1pdAoj-0003OY-WC
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:12:28 -0400
+Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
+ by mailgw.felk.cvut.cz (Proxmox) with ESMTP id CFF6430DF6B9;
+ Fri, 17 Mar 2023 15:11:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ cmp.felk.cvut.cz; h=cc:cc:content-transfer-encoding:content-type
+ :content-type:date:from:from:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=felkmail; bh=aXWl+
+ Fw1UnXRrkJt/zKu1dsNgf05EiYXIRAWwRtLEJE=; b=PPQ7AXwwAy3V3k81xq+T2
+ CXVmsQJyj4T5M5WsBrHhgHrY9Xr0LxWWds94tnjAH+ACQlHmnpD11EI+Oe7wU531
+ 6MaZLTbOFRsLctbFBJ59uazkaFPPJj9kehvqyA+hNFY9bGCkv43dETNBGoiIhziX
+ 0PLrYUTTsHjGliEnm3AA0IU3QJHb8OjEQUKjW+AWmY2MYODv54WvoeQBfIPC1VQQ
+ tz4ElmPbaTuPjfeu4837Wj00jMlzcvy09wWiT3u8iQortofHgMA+T1pSkK6iYLwM
+ xMtcBP1zeOkrt3wrLvzNEIJoISSNyEyGKu+bJIklz0Pk0H9VvVAM2zEFt89rFTRH
+ w==
+Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
+ by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id A5F0630DF6A9;
+ Fri, 17 Mar 2023 15:11:40 +0100 (CET)
+Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
+ by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
+ 32HEBeKm003935; Fri, 17 Mar 2023 15:11:40 +0100
+Received: (from pisa@localhost)
+ by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 32HEBdiV003933;
+ Fri, 17 Mar 2023 15:11:39 +0100
+X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
+ pisa@cmp.felk.cvut.cz using -f
+From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+To: Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: Re: [PATCH v2] hw/net/can: Add mcp25625 model
+Date: Fri, 17 Mar 2023 15:11:00 +0100
+User-Agent: KMail/1.9.10
+Cc: qemu-devel@nongnu.org, jasowang@redhat.com, fnu.vikram@xilinx.com,
+ nazar.kazakov@codethink.co.uk, lawrence.hunter@codethink.co.uk,
+ frank.chang@sifive.com, paul.walmsley@sifive.com,
+ Ben Dooks <ben.dooks@sifive.com>
+References: <20230316124113.148463-1-ben.dooks@codethink.co.uk>
+In-Reply-To: <20230316124113.148463-1-ben.dooks@codethink.co.uk>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: Question about TCG liveness_pass_1
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-References: <66de3418-1fbf-ead1-bf29-f9e06523cdf2@linux.alibaba.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <66de3418-1fbf-ead1-bf29-f9e06523cdf2@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202303171511.00937.pisa@cmp.felk.cvut.cz>
+Received-SPF: none client-ip=147.32.82.15; envelope-from=pisa@cmp.felk.cvut.cz;
+ helo=mailgw.felk.cvut.cz
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,34 +84,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/16/23 19:57, LIU Zhiwei wrote:
-> Hi Richard,
-> 
-> When I read the tcg code, I find a corner case which may be a bug in liveness_pass_1.
-> 
-> I see all TEMP_TBs or global temps are set to TS_DEAD | TS_MEM when enter liveness_pass_1. 
-> Think about the  sequence.
-> 
-> 
-> 1)Write_global_temp_0 // 0->TS_DEAD, but not recorded in arg_life
+Hello Ben,
 
-Here TS_MEM->TS_DEAD, so *is* recorded in arg_life.
+thanks for update.
 
-> 2)INDEX_op_qemu_st   //trigger an exception here.
+On Thursday 16 of March 2023 13:41:13 Ben Dooks wrote:
+> From: Ben Dooks <ben.dooks@sifive.com>
+>
+> Add support for Microchip MCP25625 SPI based CAN controller which is
+> very similar to the MCP2515 (and covered by the same Linux driver).
+>
+> This can be added to any machine with SPI support in the machine
+> model file.
+>
+> Example for using this when configured into a machine:
+>
+> 	-object can-bus,id=canbus0 \
+> 	-object can-host-socketcan,id=canhost0,if=vcan0,canbus=canbus0 \
+> 	-global driver=mcp25625,property=canbus,value=canbus0
+>
+> There is tracing support with --trace "*mcp25*"
 
-Here TCG_OPF_SIDE_EFFECTS is set, so call la_global_sync, so  0->TS_MEM.
+Code looks good, I have patched actual QEMU sources and build
+it successfully with your change.
 
-> 
-> 3)Ref_global_temp_0   // TS_DEAD->0
-> 
-> 4)Write_global_temp_0 // TS_DEAD | TS_MEM -> TS_DEAD
-> 
-> As 1) will not write to memory, its register will be reused by the 3). I think it may miss 
-> a write to global_temp_0 when enter an exception.
+I have not seen any warning.
 
-Was there a specific test case that you find is miscompiled?
+I would like to test the mcp25625 CAN functionality.
 
+I would prefer against some target which is already available
+in QEMU and Linux kernel mainlines, so if somebody can suggest
+some ARM which can connect SPI/SSI device it would be great.
 
-r~
+I have setup /srv/nfs/debian-riscv64 chroot and used
+it to prepare minimal 3 MB ramdisk.cpio with busybox
+and full GLIBC and ip package.
+
+I can run it with Debian provided RISC-V kernel
+under QEMU compiled with your mcp25625 chip emulation
+
+qemu-system-riscv64 -m 1G -M sifive_u -smp 2 \
+      -initrd ramdisk.cpio \
+      -kernel vmlinux-6.1.0-6-riscv64 \
+      -nographic \
+      -object can-bus,id=canbus0 \
+      -object can-host-socketcan,id=canhost0,if=can0,canbus=canbus0 \
+      -global driver=mcp25625,property=canbus,value=canbus0
+
+I can see
+
+/sys/bus/platform/devices/10040000.spi
+/sys/bus/platform/devices/10050000.spi
+
+I can run
+
+  modprobe spi-sifive.ko
+
+[   41.524160] sifive_spi 10040000.spi: mapped; irq=21, cs=1
+[   41.529305] sifive_spi 10050000.spi: mapped; irq=22, cs=1
+
+  modprobe mcp251x.ko
+
+I can imagine to build device tree overlay and setup it from within
+kernel if the device is already mapped
+
+  cd /sys/kernel/config/device-tree/overlays
+  [ -d  sifive_u-mcp25625 ] && rmdir sifive_u-mcp25625
+  mkdir sifive_u-mcp25625
+  cd sifive_u-mcp25625
+  cat sifive_u-mcp25625.dtbo >dtbo
+  echo 1 >status
+
+which is what we do with CTU CAN FD ip on Zynq system
+to run PL/FPGA update.
+
+But from QEMU info qtree, I see that device is not mapped in QEMU...
+Which is logic...
+
+So please, can you send instruction how to proceed forward.
+
+Do you have DTB prepared for testing or something similar?
+
+In a longer term perspective, it would be ideal to provide
+some update for documentation, how to use mcp25625 emulation
+
+  https://www.qemu.org/docs/master/system/devices/can.html
+
+By the way, if the Raspberry Pi emulation does not provide
+right SPI emulation as you have noticed, what about BeagleBoneBlack?
+
+Does it support SPI? It could be good target to test that mcp25625
+chip emulation is portable..
+
+Best wishes,
+                Pavel
+--
+                Pavel Pisa
+    phone:      +420 603531357
+    e-mail:     pisa@cmp.felk.cvut.cz
+    Department of Control Engineering FEE CVUT
+    Karlovo namesti 13, 121 35, Prague 2
+    university: http://control.fel.cvut.cz/
+    personal:   http://cmp.felk.cvut.cz/~pisa
+    projects:   https://www.openhub.net/accounts/ppisa
+    CAN related:http://canbus.pages.fel.cvut.cz/
+    RISC-V education: https://comparch.edu.cvut.cz/
+    Open Technologies Research Education and Exchange Services
+    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
 
 
