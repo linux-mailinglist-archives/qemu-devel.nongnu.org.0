@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204A16BEBF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:57:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4636BEBF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:57:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdBUz-0000Pz-AJ; Fri, 17 Mar 2023 10:56:05 -0400
+	id 1pdBV9-0000R5-0G; Fri, 17 Mar 2023 10:56:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pdBUr-0000OY-3V
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:55:57 -0400
+ id 1pdBV6-0000QQ-3U
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:56:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pdBUo-0007Jx-Rf
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:55:56 -0400
+ id 1pdBUr-0007KF-EE
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:55:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679064954;
+ s=mimecast20190719; t=1679064956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X3nK4ZpQgMUN43K3mekqrzfFLQ5w2ZvOSOOq3BPDe50=;
- b=SjpnqiQ88bJaNCc8XkOwFg+YglFdrhA7JtE8cs7TBeCwysjQ7UtjyaaU6A/Kk5ghWIDMDn
- tvjlRB/cwiItQUQqN6jcMwQvRzvgDHWFab9vqtXVB4bSD55PtKC7/ovLUlpGDMSSqRBMmE
- lqvyuydR8OaLZd0il0LznB+JHVI6I9c=
+ bh=V6G854HLuZuQfow/C6K0fkFxQ0GSyQoJl9oDAp5MsxI=;
+ b=EY/5Iz+2Y03qlV4GU9BEPVgIduaf2cW1m6ZzDVMPPhNWI8gmDGJSiaOWoi2/OQEBL/BlnC
+ H352eqsN6i+RNhaz3zmLMAV+3vf7xkHhVGonbfIkTELV/YClNJc1jlps6QTmVDvlUcGNZZ
+ IY+jxayanmeKG0D/4TjaiZSttdHU6H8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-P7c4QFVNN46tjVd6pyNBQw-1; Fri, 17 Mar 2023 10:55:50 -0400
-X-MC-Unique: P7c4QFVNN46tjVd6pyNBQw-1
+ us-mta-553-nmgaRIB-P-eSy50x1hGh1w-1; Fri, 17 Mar 2023 10:55:53 -0400
+X-MC-Unique: nmgaRIB-P-eSy50x1hGh1w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 68684884EC0;
- Fri, 17 Mar 2023 14:55:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EA2188B7B4;
+ Fri, 17 Mar 2023 14:55:52 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA13543FBE;
- Fri, 17 Mar 2023 14:55:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A56A443FBE;
+ Fri, 17 Mar 2023 14:55:49 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alvaro.karsz@solid-run.com, Laurent Vivier <lvivier@redhat.com>,
@@ -54,9 +54,9 @@ Cc: alvaro.karsz@solid-run.com, Laurent Vivier <lvivier@redhat.com>,
  longpeng2@huawei.com, Cindy Lu <lulu@redhat.com>,
  Parav Pandit <parav@mellanox.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
  Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
-Subject: [RFC PATCH for 8.1 1/6] vdpa: Remove status in reset tracing
-Date: Fri, 17 Mar 2023 15:55:37 +0100
-Message-Id: <20230317145542.347368-2-eperezma@redhat.com>
+Subject: [RFC PATCH for 8.1 2/6] vdpa: add vhost_vdpa_reset_status_fd
+Date: Fri, 17 Mar 2023 15:55:38 +0100
+Message-Id: <20230317145542.347368-3-eperezma@redhat.com>
 In-Reply-To: <20230317145542.347368-1-eperezma@redhat.com>
 References: <20230317145542.347368-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -87,41 +87,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is always 0 and it is not useful to route call through file
-descriptor.
+This allows to reset a vhost-vdpa device from external subsystems like
+vhost-net.  It is used in subsequent patches to negotiate features and
+probe for CVQ ASID isolation.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 2 +-
- hw/virtio/trace-events | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ include/hw/virtio/vhost-vdpa.h |  1 +
+ hw/virtio/vhost-vdpa.c         | 58 +++++++++++++++++++++++-----------
+ 2 files changed, 41 insertions(+), 18 deletions(-)
 
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index c278a2a8de..28de7da91e 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -54,6 +54,7 @@ typedef struct vhost_vdpa {
+     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+ } VhostVDPA;
+ 
++void vhost_vdpa_reset_status_fd(int fd);
+ int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range);
+ 
+ int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index bc6bad23d5..bbabea18f3 100644
+index bbabea18f3..7a2053b8d9 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -716,7 +716,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
-     uint8_t status = 0;
+@@ -335,38 +335,45 @@ static const MemoryListener vhost_vdpa_memory_listener = {
+     .region_del = vhost_vdpa_listener_region_del,
+ };
  
-     ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
--    trace_vhost_vdpa_reset_device(dev, status);
-+    trace_vhost_vdpa_reset_device(dev);
-     v->suspended = false;
+-static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
+-                             void *arg)
++static int vhost_vdpa_dev_fd(const struct vhost_dev *dev)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+-    int fd = v->device_fd;
+-    int ret;
+ 
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
++    return v->device_fd;
++}
++
++static int vhost_vdpa_call_fd(int fd, unsigned long int request, void *arg)
++{
++    int ret = ioctl(fd, request, arg);
+ 
+-    ret = ioctl(fd, request, arg);
+     return ret < 0 ? -errno : ret;
+ }
+ 
+-static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
++static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
++                           void *arg)
++{
++    return vhost_vdpa_call_fd(vhost_vdpa_dev_fd(dev), request, arg);
++}
++
++static int vhost_vdpa_add_status_fd(int fd, uint8_t status)
+ {
+     uint8_t s;
+     int ret;
+ 
+-    trace_vhost_vdpa_add_status(dev, status);
+-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
++    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+     if (ret < 0) {
+         return ret;
+     }
+ 
+     s |= status;
+ 
+-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
++    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &s);
+     if (ret < 0) {
+         return ret;
+     }
+ 
+-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
++    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -378,6 +385,12 @@ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+     return 0;
+ }
+ 
++static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
++{
++    trace_vhost_vdpa_add_status(dev, status);
++    return vhost_vdpa_add_status_fd(vhost_vdpa_dev_fd(dev), status);
++}
++
+ int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range)
+ {
+     int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
+@@ -709,16 +722,20 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
      return ret;
  }
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 8f8d05cf9b..6265231683 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -44,7 +44,7 @@ vhost_vdpa_set_mem_table(void *dev, uint32_t nregions, uint32_t padding) "dev: %
- vhost_vdpa_dump_regions(void *dev, int i, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, uint64_t flags_padding) "dev: %p %d: guest_phys_addr: 0x%"PRIx64" memory_size: 0x%"PRIx64" userspace_addr: 0x%"PRIx64" flags_padding: 0x%"PRIx64
- vhost_vdpa_set_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
- vhost_vdpa_get_device_id(void *dev, uint32_t device_id) "dev: %p device_id %"PRIu32
--vhost_vdpa_reset_device(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
-+vhost_vdpa_reset_device(void *dev) "dev: %p"
- vhost_vdpa_get_vq_index(void *dev, int idx, int vq_idx) "dev: %p idx: %d vq idx: %d"
- vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
- vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
+ 
++static int vhost_vdpa_reset_device_fd(int fd)
++{
++    uint8_t status = 0;
++
++    return vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &status);
++}
++
+ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+-    int ret;
+-    uint8_t status = 0;
+ 
+-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+-    trace_vhost_vdpa_reset_device(dev);
+     v->suspended = false;
+-    return ret;
++    trace_vhost_vdpa_reset_device(dev);
++    return vhost_vdpa_reset_device_fd(vhost_vdpa_dev_fd(dev));
+ }
+ 
+ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
+@@ -1170,6 +1187,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+     return 0;
+ }
+ 
++void vhost_vdpa_reset_status_fd(int fd)
++{
++    vhost_vdpa_reset_device_fd(fd);
++    vhost_vdpa_add_status_fd(fd, VIRTIO_CONFIG_S_ACKNOWLEDGE |
++                                 VIRTIO_CONFIG_S_DRIVER);
++}
++
+ static void vhost_vdpa_reset_status(struct vhost_dev *dev)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+@@ -1178,9 +1202,7 @@ static void vhost_vdpa_reset_status(struct vhost_dev *dev)
+         return;
+     }
+ 
+-    vhost_vdpa_reset_device(dev);
+-    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+-                               VIRTIO_CONFIG_S_DRIVER);
++    vhost_vdpa_reset_status_fd(vhost_vdpa_dev_fd(dev));
+     memory_listener_unregister(&v->listener);
+ }
+ 
 -- 
 2.31.1
 
