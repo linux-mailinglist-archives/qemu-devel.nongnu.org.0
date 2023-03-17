@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECD76BEB02
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F796BEB68
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:34:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdAwg-00010M-Qp; Fri, 17 Mar 2023 10:20:38 -0400
+	id 1pdB8v-0002xK-GM; Fri, 17 Mar 2023 10:33:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pdAwf-000100-EZ
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:20:37 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pdB8t-0002wy-C0
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:33:15 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pdAwd-0005Nx-55
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:20:37 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- f6-20020a17090ac28600b0023b9bf9eb63so5325168pjt.5
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 07:20:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pdB8r-0000yq-NJ
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:33:15 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id v21so5463728ple.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 07:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679062833;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1679063592;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=PJAK1AsmS8a3FLukpfq1q89ZflRMei33dNMbQaPW2p4=;
- b=GIYqD0rBh92lTGEF3bjQAcnzDfT7qjumH2CcZ9qttLomeeaMGlfD3v5K4/aetpJAqq
- XQSwjm3/Y0X6y0TDMKUqZxzZGvaTkk2Nf+4w/dOIzZ9UvJAcbyccRCdOJ4NpSF+oVuOI
- p/J7yDooMNIq7Gnf/ypL+cgVi2WraK1T23c8NbBApk3K3Fx18rUBrgz8HWCS/7IzY9iQ
- nC/lnT7fws8YiH15jqGp/KA4NyF1DhoW3eFTMfiK7DX/3uX7OzQUCWkSNLTO1SIyI57s
- V0Ix5e8sFcTxNKfbjl9BWP8cxKGPdkSN1JRFsLF/I9PPtOUbszeInuaLpYvI6CuaqOLq
- DVFw==
+ bh=veLySn1tdbUtZDD62cKg3Nvp0VTtfUNvQBkosWOL9SQ=;
+ b=kZGf63fggAz97xTaqfEPvXrQRkg6D2HRyKxTaDngmLu/rOi8sQhyJ9L/QyBcj5rWSx
+ dUwHnNCKgeshWv2B8JeBJclI+nfh1DMYiTmKXe3st9qo7FIQd2YOBXgcg2IwpsperPhz
+ xthWJo5aXRzVUW/mCmvVBZies/eebTMK2VfFrPJO2soK3YgfGdJ2IRPbc70FQQGW/VJw
+ YT/2Ip1hMsb/7bKOx+PXjljmwMktWRLT0RilodG+xQD74JIOy9hO7FFg96uiXmYw/L7w
+ t8KJV9NrR2CTg4R4T3HcgpuN0z3BCcpxoAUcipJpFOUXbGnoO6DIdHYqz3jgOxkcA6G1
+ tXfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679062833;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1679063592;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PJAK1AsmS8a3FLukpfq1q89ZflRMei33dNMbQaPW2p4=;
- b=5pUHSWkOlsvlPAf7767nVSYsgNDc/73kob23HQximYNnG5iEp7eHgaYJHdWAocWbCf
- tzs+IBNzL7yNQ9/l2PQmizaPO/6LH1fLOlsNN3yk8rbFwI66Xlgx0b355jwey9LwYydk
- mpGZ4r3cBNRKw/biKWgcFyLcRW81GwYLj+CKD4AaUjwrpyGTmKobbygOH/RJu3Dc0Gl4
- KsLm6QiDOgXhjht5lh5XOdGmPHAM6ciWZrQE1MVOEL/cPbVq2rnzp0Llak7KXVn2t8iS
- 6SxV1WnLJUOY7zHFVZ13FQBo4iPP9IkilvFoGr9asWpG6SbCmhmJ3cFeFnaJfuLMXb+R
- S3dA==
-X-Gm-Message-State: AO0yUKWfK+i4DEuWUiNn6xm79l+AOe54TAc5dvWmASikcQFfwuZ6w4pV
- Z8wDXafKRZEo5MSJl1iw7cSuxA==
-X-Google-Smtp-Source: AK7set9PM7wnLZug8I+8uKaqEVd8LA8g0EiF3cn4cIOkMa9vfMh9rEYaktifJP+QgK+MXFm9o9lXoQ==
-X-Received: by 2002:a05:6a20:2d8:b0:d3:c1c4:5e37 with SMTP id
- 24-20020a056a2002d800b000d3c1c45e37mr7429823pzb.53.1679062833491; 
- Fri, 17 Mar 2023 07:20:33 -0700 (PDT)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- r1-20020a62e401000000b005e4c3e2022fsm1641218pfh.72.2023.03.17.07.20.31
+ bh=veLySn1tdbUtZDD62cKg3Nvp0VTtfUNvQBkosWOL9SQ=;
+ b=sxAfe7kmGjrXLl7ftJdJ+//H7x6OnL/DNvIUl+Cx5sZGVvSl7fBubajggjWxTIfzZb
+ x3zCE2r2i0M8NIeztWu8NAkFwvktxbJxEUa9Wk1LVNJEJug/1tGMD3Uqj37kp69G3hhE
+ gIacG6WZkMfgerLXgP74GpBaqC5aeG/jIMSxNFuPwVuH6tHQX1eNUX1iPC71/ZkXFIqc
+ 98IZt15OjIoHPsGjmk1UaJX52lEessTE7QQFTzhfG3ZiX8rj5SB0RSYaFpYAc6wuxYL5
+ l1G18s1D0Hjq6uZ2FffhCLbTKmcQiDnOn2iDnjrrj58JQxbyEQ/v/9S1UfMsPD5jMV2A
+ iYsQ==
+X-Gm-Message-State: AO0yUKUh+P+5lqBDEyIJk3PVBrcWweY90fZq44NXIbi9JILaf1tDZnde
+ Z+SU5BfLeBFGN5jdlyOV2Ile+Q==
+X-Google-Smtp-Source: AK7set/qdRyU2DFzQgXKQoeDxrdKyUi0uPBpyCOOJVlyt0q7krp4KxGN7Set3F8vGut8qYylR9s3qg==
+X-Received: by 2002:a17:90b:4f4a:b0:234:1a60:a6b0 with SMTP id
+ pj10-20020a17090b4f4a00b002341a60a6b0mr8354454pjb.34.1679063591918; 
+ Fri, 17 Mar 2023 07:33:11 -0700 (PDT)
+Received: from [192.168.57.227] (96-82-119-43-static.hfc.comcastbusiness.net.
+ [96.82.119.43]) by smtp.gmail.com with ESMTPSA id
+ mj23-20020a17090b369700b00233b18e6fb3sm1621240pjb.1.2023.03.17.07.33.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 07:20:32 -0700 (PDT)
-Message-ID: <345cb091-2906-579e-83ef-c5be75769199@daynix.com>
-Date: Fri, 17 Mar 2023 23:20:30 +0900
+ Fri, 17 Mar 2023 07:33:11 -0700 (PDT)
+Message-ID: <85cfe4cf-d546-a6fe-adb4-f3d64e6eaf84@linaro.org>
+Date: Fri, 17 Mar 2023 07:33:07 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH for 8.0] igb: Save more Tx states
-To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
- <dmitry.fleytman@gmail.com>, "quintela@redhat.com" <quintela@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230317122456.43461-1-akihiko.odaki@daynix.com>
- <DBBP189MB1433B24E821E8E3F0B6B540C95BD9@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH] target/s390x/tcg/mem_helper: Remove bad assert() statement
 Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <DBBP189MB1433B24E821E8E3F0B6B540C95BD9@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
+To: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230317135737.597570-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230317135737.597570-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,212 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/03/17 22:08, Sriram Yagnaraman wrote:
+On 3/17/23 06:57, Thomas Huth wrote:
+> The "assert(!nonfault)" statement can be triggered by running the
+> "mvpg" s390x kvm-unit-test with TCG. According to Richard: "... the
+> assert looks backward. We should only arrive there if nonfault was
+> true for the probe (otherwise the probe would have raised the
+> exception directly).  I would think we could just remove the assert."
 > 
-> 
->> -----Original Message-----
->> From: Akihiko Odaki <akihiko.odaki@daynix.com>
->> Sent: Friday, 17 March 2023 13:25
->> Cc: qemu-devel@nongnu.org; Jason Wang <jasowang@redhat.com>; Dmitry
->> Fleytman <dmitry.fleytman@gmail.com>; quintela@redhat.com; Philippe
->> Mathieu-Daudé <philmd@linaro.org>; Sriram Yagnaraman
->> <sriram.yagnaraman@est.tech>; Akihiko Odaki <akihiko.odaki@daynix.com>
->> Subject: [PATCH for 8.0] igb: Save more Tx states
->>
->> The current implementation of igb uses only part of a advanced Tx context
->> descriptor and first data descriptor because it misses some features and sniffs
->> the trait of the packet instead of respecting the packet type specified in the
->> descriptor. However, we will certainly need the entire Tx context descriptor
->> when we update igb to respect these ignored fields. Save the entire context
->> descriptor and first data descriptor except the buffer address to prepare for
->> such a change.
->>
->> This also introduces the distinction of contexts with different indexes, which
->> was not present in e1000e but in igb.
->>
->> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->> ---
->> Supersedes: <20230316155707.27007-1-akihiko.odaki@daynix.com>
->>
->>   hw/net/igb.c      | 25 ++++++++++++++++++-------
->>   hw/net/igb_core.c | 36 +++++++++++++++++++-----------------
->>   hw/net/igb_core.h |  8 +++-----
->>   3 files changed, 40 insertions(+), 29 deletions(-)
->>
->> diff --git a/hw/net/igb.c b/hw/net/igb.c index c6d753df87..7c05896325
->> 100644
->> --- a/hw/net/igb.c
->> +++ b/hw/net/igb.c
->> @@ -502,16 +502,27 @@ static int igb_post_load(void *opaque, int
->> version_id)
->>       return igb_core_post_load(&s->core);  }
->>
->> -static const VMStateDescription igb_vmstate_tx = {
->> -    .name = "igb-tx",
->> +static const VMStateDescription igb_vmstate_tx_ctx = {
->> +    .name = "igb-tx-ctx",
->>       .version_id = 1,
->>       .minimum_version_id = 1,
->>       .fields = (VMStateField[]) {
->> -        VMSTATE_UINT16(vlan, struct igb_tx),
->> -        VMSTATE_UINT16(mss, struct igb_tx),
->> -        VMSTATE_BOOL(tse, struct igb_tx),
->> -        VMSTATE_BOOL(ixsm, struct igb_tx),
->> -        VMSTATE_BOOL(txsm, struct igb_tx),
->> +        VMSTATE_UINT32(vlan_macip_lens, struct e1000_adv_tx_context_desc),
->> +        VMSTATE_UINT32(seqnum_seed, struct e1000_adv_tx_context_desc),
->> +        VMSTATE_UINT32(type_tucmd_mlhl, struct
->> e1000_adv_tx_context_desc),
->> +        VMSTATE_UINT32(mss_l4len_idx, struct e1000_adv_tx_context_desc),
->> +    }
->> +};
->> +
->> +static const VMStateDescription igb_vmstate_tx = {
->> +    .name = "igb-tx",
->> +    .version_id = 2,
->> +    .minimum_version_id = 2,
->> +    .fields = (VMStateField[]) {
->> +        VMSTATE_STRUCT_ARRAY(ctx, struct igb_tx, 2, 0, igb_vmstate_tx_ctx,
->> +                             struct e1000_adv_tx_context_desc),
->> +        VMSTATE_UINT32(first_cmd_type_len, struct igb_tx),
->> +        VMSTATE_UINT32(first_olinfo_status, struct igb_tx),
->>           VMSTATE_BOOL(first, struct igb_tx),
->>           VMSTATE_BOOL(skip_cp, struct igb_tx),
->>           VMSTATE_END_OF_LIST()
->> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c index
->> a7c7bfdc75..36027c2b54 100644
->> --- a/hw/net/igb_core.c
->> +++ b/hw/net/igb_core.c
->> @@ -389,8 +389,10 @@ igb_rss_parse_packet(IGBCore *core, struct NetRxPkt
->> *pkt, bool tx,  static bool  igb_setup_tx_offloads(IGBCore *core, struct igb_tx
->> *tx)  {
->> -    if (tx->tse) {
->> -        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->mss)) {
->> +    if (tx->first_cmd_type_len & E1000_ADVTXD_DCMD_TSE) {
->> +        uint32_t idx = (tx->first_olinfo_status >> 4) & 1;
-> 
-> [...] More below
-> 
->> +        uint32_t mss = tx->ctx[idx].mss_l4len_idx >> 16;
->> +        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, mss)) {
->>               return false;
->>           }
->>
->> @@ -399,13 +401,13 @@ igb_setup_tx_offloads(IGBCore *core, struct igb_tx
->> *tx)
->>           return true;
->>       }
->>
->> -    if (tx->txsm) {
->> +    if (tx->first_olinfo_status & E1000_ADVTXD_POTS_TXSM) {
->>           if (!net_tx_pkt_build_vheader(tx->tx_pkt, false, true, 0)) {
->>               return false;
->>           }
->>       }
->>
->> -    if (tx->ixsm) {
->> +    if (tx->first_olinfo_status & E1000_ADVTXD_POTS_IXSM) {
->>           net_tx_pkt_update_ip_hdr_checksum(tx->tx_pkt);
->>       }
->>
->> @@ -527,7 +529,7 @@ igb_process_tx_desc(IGBCore *core,  {
->>       struct e1000_adv_tx_context_desc *tx_ctx_desc;
->>       uint32_t cmd_type_len;
->> -    uint32_t olinfo_status;
->> +    uint32_t idx;
->>       uint64_t buffer_addr;
->>       uint16_t length;
->>
->> @@ -538,20 +540,19 @@ igb_process_tx_desc(IGBCore *core,
->>               E1000_ADVTXD_DTYP_DATA) {
->>               /* advanced transmit data descriptor */
->>               if (tx->first) {
->> -                olinfo_status = le32_to_cpu(tx_desc->read.olinfo_status);
->> -
->> -                tx->tse = !!(cmd_type_len & E1000_ADVTXD_DCMD_TSE);
->> -                tx->ixsm = !!(olinfo_status & E1000_ADVTXD_POTS_IXSM);
->> -                tx->txsm = !!(olinfo_status & E1000_ADVTXD_POTS_TXSM);
->> -
->> +                tx->first_cmd_type_len = cmd_type_len;
->> +                tx->first_olinfo_status =
->> + le32_to_cpu(tx_desc->read.olinfo_status);
->>                   tx->first = false;
->>               }
->>           } else if ((cmd_type_len & E1000_ADVTXD_DTYP_CTXT) ==
->>                      E1000_ADVTXD_DTYP_CTXT) {
->>               /* advanced transmit context descriptor */
->>               tx_ctx_desc = (struct e1000_adv_tx_context_desc *)tx_desc;
->> -            tx->vlan = le32_to_cpu(tx_ctx_desc->vlan_macip_lens) >> 16;
->> -            tx->mss = le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 16;
->> +            idx = (tx_ctx_desc->mss_l4len_idx >> 4) & 1;
-> 
-> I do not know if there are any other drivers that use more than 2 contexts, but as I read 7.2.2.2.11 IDX (3), IDX is a 3 bit field.
-> The above line will interpret 3, 5 and 7 as 1 for e.g.
+> Fixes: 4049431478 ("target/s390x: Fix s390_probe_access for user-only")
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Thomas Huth<thuth@redhat.com>
+> ---
+>   target/s390x/tcg/mem_helper.c | 1 -
+>   1 file changed, 1 deletion(-)
 
-7.2.1.4 "Transmit Contexts" says:
- > The 82576 supports 32 context register sets on-chip (two per queue)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-DPDK also uses only two contexts while its design is extensible and can 
-use more if the hardware allows. Therefore, it can be concluded that the 
-device actually has only two contexts.
-
-I don't know why IDX is defined as 3-bit field, but I think it's safe to 
-ignore the other two bits as we do for the other reserved bits.
-
-> 
->> +            tx->ctx[idx].vlan_macip_lens = le32_to_cpu(tx_ctx_desc-
->>> vlan_macip_lens);
->> +            tx->ctx[idx].seqnum_seed = le32_to_cpu(tx_ctx_desc->seqnum_seed);
->> +            tx->ctx[idx].type_tucmd_mlhl = le32_to_cpu(tx_ctx_desc-
->>> type_tucmd_mlhl);
->> +            tx->ctx[idx].mss_l4len_idx =
->> + le32_to_cpu(tx_ctx_desc->mss_l4len_idx);
->>               return;
->>           } else {
->>               /* unknown descriptor type */ @@ -575,8 +576,10 @@
->> igb_process_tx_desc(IGBCore *core,
->>       if (cmd_type_len & E1000_TXD_CMD_EOP) {
->>           if (!tx->skip_cp && net_tx_pkt_parse(tx->tx_pkt)) {
->>               if (cmd_type_len & E1000_TXD_CMD_VLE) {
->> -                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, tx->vlan,
->> -                    core->mac[VET] & 0xffff);
->> +                idx = (tx->first_olinfo_status >> 4) & 1;
->> +                uint16_t vlan = tx->ctx[idx].vlan_macip_lens >> 16;
->> +                uint16_t vet = core->mac[VET] & 0xffff;
->> +                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, vlan, vet);
->>               }
->>               if (igb_tx_pkt_send(core, tx, queue_index)) {
->>                   igb_on_tx_done_update_stats(core, tx->tx_pkt); @@ -4024,8
->> +4027,7 @@ static void igb_reset(IGBCore *core, bool sw)
->>       for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
->>           tx = &core->tx[i];
->>           net_tx_pkt_reset(tx->tx_pkt);
->> -        tx->vlan = 0;
->> -        tx->mss = 0;
->> +        memset(&tx->ctx, 0, sizeof(tx->ctx));
->>           tx->tse = false;
->>           tx->ixsm = false;
->>           tx->txsm = false;
->> diff --git a/hw/net/igb_core.h b/hw/net/igb_core.h index
->> 814c1e264b..8914e0b801 100644
->> --- a/hw/net/igb_core.h
->> +++ b/hw/net/igb_core.h
->> @@ -72,11 +72,9 @@ struct IGBCore {
->>       QEMUTimer *autoneg_timer;
->>
->>       struct igb_tx {
->> -        uint16_t vlan;  /* VLAN Tag */
->> -        uint16_t mss;   /* Maximum Segment Size */
->> -        bool tse;       /* TCP/UDP Segmentation Enable */
->> -        bool ixsm;      /* Insert IP Checksum */
->> -        bool txsm;      /* Insert TCP/UDP Checksum */
->> +        struct e1000_adv_tx_context_desc ctx[2];
->> +        uint32_t first_cmd_type_len;
->> +        uint32_t first_olinfo_status;
->>
->>           bool first;
->>           bool skip_cp;
->> --
->> 2.39.2
-> 
+r~
 
