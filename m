@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5886BE27E
+	by mail.lfdr.de (Postfix) with ESMTPS id DB57E6BE27D
 	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 09:04:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pd53t-00085E-0s; Fri, 17 Mar 2023 04:03:41 -0400
+	id 1pd540-000886-I8; Fri, 17 Mar 2023 04:03:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pd53q-00083U-E6
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:03:38 -0400
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
+ id 1pd53w-000863-3m
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:03:44 -0400
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pd53o-0001sC-C6
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:03:38 -0400
-Received: by mail-lj1-x233.google.com with SMTP id y14so4200156ljq.4
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:03:36 -0700 (PDT)
+ id 1pd53t-0001sb-Bx
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 04:03:43 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id x17so5466590lfu.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 01:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679040214;
+ d=gmail.com; s=20210112; t=1679040219;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=P4JCzMe0/ffFe+YpUEYG7PF0uOql1LWDqtks99mS+yY=;
- b=Faxqt/URtuvxPGrQqcGnszAV2o7nvXpEAqs0Et2jEG+vedLp3eYKxjQNzl2//A0wNI
- j6mRwomRXTEiGh351NaHJ3uznvDXoNEPuERlR5Yr7s5PPeVBrbYkNqgTC9hCStRU/StY
- LG9Rh2mTDpFJhuC6QeYFvmeoys8VSrmZt0TfRI6auCVFm5kcWHW0ITQhNoBrmoP0VBoT
- s4Axp1T0WMV2/taBxwuWed7UDC/Nd2U5XKDONivzuP/uryv+YDPI8Wc3vHgMToGL9rsi
- L9q+DLTOzgZJEWCwWi6QSBPs43KRxitmXW/lxZIl/Pl+j6lJT9bx0sUXl+K6gqMWlxj/
- JXgA==
+ bh=a81L//j8cKxhwxARuK0WrpSzcboxsHtWDA2Mjb+pfgI=;
+ b=IF4yM1CJ0N+mWUU6Xk5D/fsMXm+3FyFeAmriERRXkaIBRdpnXRszgVIPUbmFDvybUx
+ Rknw8HKExpMAphaO+y6ebosR8zAlPqB9ZT0ER/WFqposZqkBha0Q0pkg0FPgsogfIAiB
+ fyXbWb2z7nE/o5IGmx17bc6xgZLydCup56fY5Zfbxr2dP2BzwM1ILCF/peALm3hJ2t6y
+ pHWBuz8Q9/e1YkfnVnrBR8yuAixgJ6U1WfGYaYUeRNSvwwKode7K7yw8272YaYIFLlR1
+ AkUCUJrBHii+swAymPpeIgQVhW5sV/sYPR10zpepSWd9IJEo2cxSRoMsRM74OCd1x1e1
+ eGbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679040214;
+ d=1e100.net; s=20210112; t=1679040219;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=P4JCzMe0/ffFe+YpUEYG7PF0uOql1LWDqtks99mS+yY=;
- b=JzwT3h4+HNahdQP/x3a66bxgub3Er8vuiuHCc7ISOraBfTFN9HHOIt82tHt+8dbx6J
- SnFmmaYkTGox1x7TJqFhXp9YzxDlUa030euCcIz43FinaBtMrMiqtN6/VrMWvZATo7Uq
- sQ1/gCwHCAqFXNIrBOyc+kd672Z73prvEQKclxKFo2MtBO35s5jrISRj5c8uIk0CELS0
- dqJs/EdSu7jp4SsEV98S+0ntqfsxLTlVX8ogj1eiab6nh8GzTzWAwO1WT5Ko37OrIbbQ
- P9Px5gH+B1Y1/sQW0lY7wwNpcpo7CXlbigS5lB2SQ5XsHf1TEIs50RstGQXjD5SbeOgc
- US4A==
-X-Gm-Message-State: AO0yUKWYwuIltLf8IJk+C5fTf12haGEwUUg8X84uFiU1QYbYdVdr+VT4
- Z6IhVSA5VlY7ROoTTcLvhLWlk/HYHsg43z32JwU=
-X-Google-Smtp-Source: AK7set+87xM/SMIFZOkjZctWVEZEHOZ86Hy0WRUvzJJYUVc4G5geDyBfetjJKaarl+e6UUUhilr0O5rTKWFA1PDROLs=
-X-Received: by 2002:a2e:9bca:0:b0:299:ac68:480b with SMTP id
- w10-20020a2e9bca000000b00299ac68480bmr1170720ljj.0.1679040214408; Fri, 17 Mar
- 2023 01:03:34 -0700 (PDT)
+ bh=a81L//j8cKxhwxARuK0WrpSzcboxsHtWDA2Mjb+pfgI=;
+ b=1+pMgsZG4ZdjfeneW2MmcIFwcBgRSUB4CA01Vt9dwzUmw3dlrx3uK2DdIOcIckLbiX
+ zSSgrokh/OovOrTZcUbPFWy4vAbPUNolbLRNOUS9vLRLF/lGAtcpDa/m+/UmJV9rDi1Q
+ H7yTvLalWx1EVafpJFvJ6zjAfNnAcpchJKJaixUEDQUVlV7fF8G95udgHTnhnrLwBL6Z
+ sl0P6kLpMl+9TzG7rE2/3vFwwpA6NEWF94is/SAIb2RZnRhnMiCe/gEPCCA7ezMz/k2Y
+ 45PUFpmmUj1I6DIeOse/hGHkRSdrAwa3EIJ3JZuT0qkmu8KZB3lJ4KDWngQ8NQx3x6tu
+ TWKA==
+X-Gm-Message-State: AO0yUKXeaa7A59tVwRBtAXhVd5DbzLrjWzl0BnmsYy17DKA/eSDmGjez
+ 85Bi2LqJMeIqLZAZsGBzL8glM/7Mu3tLbDnMKKs=
+X-Google-Smtp-Source: AK7set/ODtyfIcooSKvMiZ1hTZvv9NWGsDoN81NcoM+BoPh/NWU53MmsmwsgnUTr5GJ+i1wMstomHfEM9t+FMNHKaG8=
+X-Received: by 2002:ac2:562b:0:b0:4e8:426d:123f with SMTP id
+ b11-20020ac2562b000000b004e8426d123fmr4050676lff.11.1679040219366; Fri, 17
+ Mar 2023 01:03:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230316120624.46410-1-slp@redhat.com>
- <20230316120624.46410-3-slp@redhat.com>
-In-Reply-To: <20230316120624.46410-3-slp@redhat.com>
+ <20230316120624.46410-4-slp@redhat.com>
+In-Reply-To: <20230316120624.46410-4-slp@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 17 Mar 2023 12:03:22 +0400
-Message-ID: <CAJ+F1CJ_L861E648w4KSYSs2tFeNpgTD9-FTcGsy=N6+U4z2zA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] ui: add the infrastructure to support MT events
+Date: Fri, 17 Mar 2023 12:03:27 +0400
+Message-ID: <CAJ+F1CJ_Uymhzg9K-eWzp99bMVoKKWFGwapchxPLoP9b+XYCxw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] virtio-input: add a virtio-mulitouch device
 To: Sergio Lopez <slp@redhat.com>
 Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
@@ -66,8 +66,8 @@ Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x233.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,239 +90,227 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
-
 On Thu, Mar 16, 2023 at 4:07=E2=80=AFPM Sergio Lopez <slp@redhat.com> wrote=
 :
 >
-> Add the required infrastructure to support generating multitouch events.
+> Add a virtio-multitouch device to the family of devices emulated by
+> virtio-input implementing the Multi-touch protocol as descripted here:
+>
+> https://www.kernel.org/doc/html/latest/input/multi-touch-protocol.html?hi=
+ghlight=3Dmulti+touch
+>
+> This patch just add the device itself, without connecting it to any
+> backends. The following patches will add a PCI-based multitouch device,
+> some helpers in "ui" and will enable the GTK3 backend to transpose
+> multi-touch events from the host to the guest.
 >
 > Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
->  include/ui/input.h    |  3 +++
->  qapi/ui.json          | 45 ++++++++++++++++++++++++++++++++++++++++---
->  replay/replay-input.c | 18 +++++++++++++++++
->  ui/input.c            |  6 ++++++
->  ui/trace-events       |  1 +
->  5 files changed, 70 insertions(+), 3 deletions(-)
->
-> diff --git a/include/ui/input.h b/include/ui/input.h
-> index c86219a1c1..2a3dffd417 100644
-> --- a/include/ui/input.h
-> +++ b/include/ui/input.h
-> @@ -8,9 +8,12 @@
->  #define INPUT_EVENT_MASK_BTN   (1<<INPUT_EVENT_KIND_BTN)
->  #define INPUT_EVENT_MASK_REL   (1<<INPUT_EVENT_KIND_REL)
->  #define INPUT_EVENT_MASK_ABS   (1<<INPUT_EVENT_KIND_ABS)
-> +#define INPUT_EVENT_MASK_MTT   (1<<INPUT_EVENT_KIND_MTT)
->
->  #define INPUT_EVENT_ABS_MIN    0x0000
->  #define INPUT_EVENT_ABS_MAX    0x7FFF
-> +#define INPUT_EVENT_SLOTS_MIN  0x0
-> +#define INPUT_EVENT_SLOTS_MAX  0xa
->
->  typedef struct QemuInputHandler QemuInputHandler;
->  typedef struct QemuInputHandlerState QemuInputHandlerState;
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 98322342f7..dee9c2b5bb 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1014,7 +1014,7 @@
->  ##
->  { 'enum'  : 'InputButton',
->    'data'  : [ 'left', 'middle', 'right', 'wheel-up', 'wheel-down', 'side=
-',
-> -  'extra', 'wheel-left', 'wheel-right' ] }
-> +  'extra', 'wheel-left', 'wheel-right', 'touch' ] }
->
->  ##
->  # @InputAxis:
-> @@ -1026,6 +1026,17 @@
->  { 'enum'  : 'InputAxis',
->    'data'  : [ 'x', 'y' ] }
->
-> +##
-> +# @InputMultitouchType:
-> +#
-> +# Type of a multitouch event.
-> +#
-> +# Since: 8.1
-> +##
-> +{ 'enum'  : 'InputMultitouchType',
-> +  'data'  : [ 'begin', 'update', 'end', 'cancel', 'data' ] }
-> +
-> +
->  ##
->  # @InputKeyEvent:
->  #
-> @@ -1069,13 +1080,31 @@
->    'data'  : { 'axis'    : 'InputAxis',
->                'value'   : 'int' } }
->
-> +##
-> +# @InputMultitouchEvent:
-> +#
-> +# Multitouch input event.
-> +#
-> +# @axis: Which axis is referenced by @value.
-> +# @value: Pointer position.  For absolute coordinates the
-> +#         valid range is 0 -> 0x7ffff
 
-What about documenting @slot and @tracking-id ?
-
-otherwise, lgtm
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
 
-> +#
-> +# Since: 8.1
-> +##
-> +{ 'struct'  : 'InputMultitouchEvent',
-> +  'data'  : { 'type'       : 'InputMultitouchType',
-> +              'slot'       : 'int',
-> +              'tracking-id': 'int',
-> +              'axis'       : 'InputAxis',
-> +              'value'      : 'int' } }
+> ---
+>  hw/input/virtio-input-hid.c      | 118 ++++++++++++++++++++++++++++++-
+>  include/hw/virtio/virtio-input.h |   9 +--
+>  2 files changed, 120 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/input/virtio-input-hid.c b/hw/input/virtio-input-hid.c
+> index d28dab69ba..742235d3fa 100644
+> --- a/hw/input/virtio-input-hid.c
+> +++ b/hw/input/virtio-input-hid.c
+> @@ -16,9 +16,10 @@
+>
+>  #include "standard-headers/linux/input.h"
+>
+> -#define VIRTIO_ID_NAME_KEYBOARD "QEMU Virtio Keyboard"
+> -#define VIRTIO_ID_NAME_MOUSE    "QEMU Virtio Mouse"
+> -#define VIRTIO_ID_NAME_TABLET   "QEMU Virtio Tablet"
+> +#define VIRTIO_ID_NAME_KEYBOARD     "QEMU Virtio Keyboard"
+> +#define VIRTIO_ID_NAME_MOUSE        "QEMU Virtio Mouse"
+> +#define VIRTIO_ID_NAME_TABLET       "QEMU Virtio Tablet"
+> +#define VIRTIO_ID_NAME_MULTITOUCH   "QEMU Virtio Multitouch"
+>
+>  /* ----------------------------------------------------------------- */
+>
+> @@ -30,6 +31,7 @@ static const unsigned short keymap_button[INPUT_BUTTON_=
+_MAX] =3D {
+>      [INPUT_BUTTON_WHEEL_DOWN]        =3D BTN_GEAR_DOWN,
+>      [INPUT_BUTTON_SIDE]              =3D BTN_SIDE,
+>      [INPUT_BUTTON_EXTRA]             =3D BTN_EXTRA,
+> +    [INPUT_BUTTON_TOUCH]             =3D BTN_TOUCH,
+>  };
+>
+>  static const unsigned short axismap_rel[INPUT_AXIS__MAX] =3D {
+> @@ -42,6 +44,11 @@ static const unsigned short axismap_abs[INPUT_AXIS__MA=
+X] =3D {
+>      [INPUT_AXIS_Y]                   =3D ABS_Y,
+>  };
+>
+> +static const unsigned short axismap_tch[INPUT_AXIS__MAX] =3D {
+> +    [INPUT_AXIS_X]                   =3D ABS_MT_POSITION_X,
+> +    [INPUT_AXIS_Y]                   =3D ABS_MT_POSITION_Y,
+> +};
 > +
->  ##
->  # @InputEventKind:
->  #
->  # Since: 2.0
->  ##
->  { 'enum': 'InputEventKind',
-> -  'data': [ 'key', 'btn', 'rel', 'abs' ] }
-> +  'data': [ 'key', 'btn', 'rel', 'abs', 'mtt' ] }
+>  /* ----------------------------------------------------------------- */
 >
->  ##
->  # @InputKeyEventWrapper:
-> @@ -1101,6 +1130,14 @@
->  { 'struct': 'InputMoveEventWrapper',
->    'data': { 'data': 'InputMoveEvent' } }
->
-> +##
-> +# @InputMultitouchEventWrapper:
-> +#
-> +# Since: 8.1
-> +##
-> +{ 'struct': 'InputMultitouchEventWrapper',
-> +  'data': { 'data': 'InputMultitouchEvent' } }
-> +
->  ##
->  # @InputEvent:
->  #
-> @@ -1112,6 +1149,7 @@
->  #        - 'btn': Input event of pointer buttons
->  #        - 'rel': Input event of relative pointer motion
->  #        - 'abs': Input event of absolute pointer motion
-> +#        - 'mtt': Input event of Multitouch
->  #
->  # Since: 2.0
->  ##
-> @@ -1121,7 +1159,8 @@
->    'data'  : { 'key'     : 'InputKeyEventWrapper',
->                'btn'     : 'InputBtnEventWrapper',
->                'rel'     : 'InputMoveEventWrapper',
-> -              'abs'     : 'InputMoveEventWrapper' } }
-> +              'abs'     : 'InputMoveEventWrapper',
-> +              'mtt'     : 'InputMultitouchEventWrapper' } }
->
->  ##
->  # @input-send-event:
-> diff --git a/replay/replay-input.c b/replay/replay-input.c
-> index 1147e3d34e..092f6b5ee9 100644
-> --- a/replay/replay-input.c
-> +++ b/replay/replay-input.c
-> @@ -22,6 +22,7 @@ void replay_save_input_event(InputEvent *evt)
+>  static void virtio_input_extend_config(VirtIOInput *vinput,
+> @@ -81,6 +88,7 @@ static void virtio_input_handle_event(DeviceState *dev,=
+ QemuConsole *src,
 >      InputKeyEvent *key;
->      InputBtnEvent *btn;
 >      InputMoveEvent *move;
+>      InputBtnEvent *btn;
 > +    InputMultitouchEvent *mtt;
->      replay_put_dword(evt->type);
 >
 >      switch (evt->type) {
-> @@ -58,6 +59,14 @@ void replay_save_input_event(InputEvent *evt)
->          replay_put_dword(move->axis);
->          replay_put_qword(move->value);
+>      case INPUT_EVENT_KIND_KEY:
+> @@ -137,6 +145,24 @@ static void virtio_input_handle_event(DeviceState *d=
+ev, QemuConsole *src,
+>          event.value =3D cpu_to_le32(move->value);
+>          virtio_input_send(vinput, &event);
 >          break;
 > +    case INPUT_EVENT_KIND_MTT:
 > +        mtt =3D evt->u.mtt.data;
-> +        replay_put_dword(mtt->type);
-> +        replay_put_qword(mtt->slot);
-> +        replay_put_qword(mtt->tracking_id);
-> +        replay_put_dword(mtt->axis);
-> +        replay_put_qword(mtt->value);
+> +        if (mtt->type =3D=3D INPUT_MULTITOUCH_TYPE_DATA) {
+> +            event.type  =3D cpu_to_le16(EV_ABS);
+> +            event.code  =3D cpu_to_le16(axismap_tch[mtt->axis]);
+> +            event.value =3D cpu_to_le32(mtt->value);
+> +            virtio_input_send(vinput, &event);
+> +        } else {
+> +            event.type  =3D cpu_to_le16(EV_ABS);
+> +            event.code  =3D cpu_to_le16(ABS_MT_SLOT);
+> +            event.value =3D cpu_to_le32(mtt->slot);
+> +            virtio_input_send(vinput, &event);
+> +            event.type  =3D cpu_to_le16(EV_ABS);
+> +            event.code  =3D cpu_to_le16(ABS_MT_TRACKING_ID);
+> +            event.value =3D cpu_to_le32(mtt->tracking_id);
+> +            virtio_input_send(vinput, &event);
+> +        }
 > +        break;
->      case INPUT_EVENT_KIND__MAX:
+>      default:
 >          /* keep gcc happy */
 >          break;
-> @@ -73,6 +82,7 @@ InputEvent *replay_read_input_event(void)
->      InputBtnEvent btn;
->      InputMoveEvent rel;
->      InputMoveEvent abs;
-> +    InputMultitouchEvent mtt;
+> @@ -515,12 +541,98 @@ static const TypeInfo virtio_tablet_info =3D {
 >
->      evt.type =3D replay_get_dword();
->      switch (evt.type) {
-> @@ -109,6 +119,14 @@ InputEvent *replay_read_input_event(void)
->          evt.u.abs.data->axis =3D (InputAxis)replay_get_dword();
->          evt.u.abs.data->value =3D replay_get_qword();
->          break;
-> +    case INPUT_EVENT_KIND_MTT:
-> +        evt.u.mtt.data =3D &mtt;
-> +        evt.u.mtt.data->type =3D (InputMultitouchType)replay_get_dword()=
-;
-> +        evt.u.mtt.data->slot =3D replay_get_qword();
-> +        evt.u.mtt.data->tracking_id =3D replay_get_qword();
-> +        evt.u.mtt.data->axis =3D (InputAxis)replay_get_dword();
-> +        evt.u.mtt.data->value =3D replay_get_qword();
-> +        break;
->      case INPUT_EVENT_KIND__MAX:
->          /* keep gcc happy */
->          break;
-> diff --git a/ui/input.c b/ui/input.c
-> index f2d1e7a3a7..f788db20f7 100644
-> --- a/ui/input.c
-> +++ b/ui/input.c
-> @@ -212,6 +212,7 @@ static void qemu_input_event_trace(QemuConsole *src, =
-InputEvent *evt)
->      InputKeyEvent *key;
->      InputBtnEvent *btn;
->      InputMoveEvent *move;
-> +    InputMultitouchEvent *mtt;
+>  /* ----------------------------------------------------------------- */
 >
->      if (src) {
->          idx =3D qemu_console_get_index(src);
-> @@ -250,6 +251,11 @@ static void qemu_input_event_trace(QemuConsole *src,=
- InputEvent *evt)
->          name =3D InputAxis_str(move->axis);
->          trace_input_event_abs(idx, name, move->value);
->          break;
-> +    case INPUT_EVENT_KIND_MTT:
-> +        mtt =3D evt->u.mtt.data;
-> +        name =3D InputAxis_str(mtt->axis);
-> +        trace_input_event_mtt(idx, name, mtt->value);
-> +        break;
->      case INPUT_EVENT_KIND__MAX:
->          /* keep gcc happy */
->          break;
-> diff --git a/ui/trace-events b/ui/trace-events
-> index 977577fbba..6747361745 100644
-> --- a/ui/trace-events
-> +++ b/ui/trace-events
-> @@ -90,6 +90,7 @@ input_event_key_qcode(int conidx, const char *qcode, bo=
-ol down) "con %d, key qco
->  input_event_btn(int conidx, const char *btn, bool down) "con %d, button =
-%s, down %d"
->  input_event_rel(int conidx, const char *axis, int value) "con %d, axis %=
-s, value %d"
->  input_event_abs(int conidx, const char *axis, int value) "con %d, axis %=
-s, value 0x%x"
-> +input_event_mtt(int conidx, const char *axis, int value) "con %d, axis %=
-s, value 0x%x"
->  input_event_sync(void) ""
->  input_mouse_mode(int absolute) "absolute %d"
+> +static QemuInputHandler virtio_multitouch_handler =3D {
+> +    .name  =3D VIRTIO_ID_NAME_MULTITOUCH,
+> +    .mask  =3D INPUT_EVENT_MASK_BTN | INPUT_EVENT_MASK_MTT,
+> +    .event =3D virtio_input_handle_event,
+> +    .sync  =3D virtio_input_handle_sync,
+> +};
+> +
+> +static struct virtio_input_config virtio_multitouch_config[] =3D {
+> +    {
+> +        .select    =3D VIRTIO_INPUT_CFG_ID_NAME,
+> +        .size      =3D sizeof(VIRTIO_ID_NAME_MULTITOUCH),
+> +        .u.string  =3D VIRTIO_ID_NAME_MULTITOUCH,
+> +    },{
+> +        .select    =3D VIRTIO_INPUT_CFG_ID_DEVIDS,
+> +        .size      =3D sizeof(struct virtio_input_devids),
+> +        .u.ids     =3D {
+> +            .bustype =3D const_le16(BUS_VIRTUAL),
+> +            .vendor  =3D const_le16(0x0627), /* same we use for usb hid =
+devices */
+> +            .product =3D const_le16(0x0003),
+> +            .version =3D const_le16(0x0001),
+> +        },
+> +    },{
+> +        .select    =3D VIRTIO_INPUT_CFG_ABS_INFO,
+> +        .subsel    =3D ABS_MT_SLOT,
+> +        .size      =3D sizeof(virtio_input_absinfo),
+> +        .u.abs.min =3D const_le32(INPUT_EVENT_SLOTS_MIN),
+> +        .u.abs.max =3D const_le32(INPUT_EVENT_SLOTS_MAX),
+> +    },{
+> +        .select    =3D VIRTIO_INPUT_CFG_ABS_INFO,
+> +        .subsel    =3D ABS_MT_TRACKING_ID,
+> +        .size      =3D sizeof(virtio_input_absinfo),
+> +        .u.abs.min =3D const_le32(INPUT_EVENT_SLOTS_MIN),
+> +        .u.abs.max =3D const_le32(INPUT_EVENT_SLOTS_MAX),
+> +    },{
+> +        .select    =3D VIRTIO_INPUT_CFG_ABS_INFO,
+> +        .subsel    =3D ABS_MT_POSITION_X,
+> +        .size      =3D sizeof(virtio_input_absinfo),
+> +        .u.abs.min =3D const_le32(INPUT_EVENT_ABS_MIN),
+> +        .u.abs.max =3D const_le32(INPUT_EVENT_ABS_MAX),
+> +    },{
+> +        .select    =3D VIRTIO_INPUT_CFG_ABS_INFO,
+> +        .subsel    =3D ABS_MT_POSITION_Y,
+> +        .size      =3D sizeof(virtio_input_absinfo),
+> +        .u.abs.min =3D const_le32(INPUT_EVENT_ABS_MIN),
+> +        .u.abs.max =3D const_le32(INPUT_EVENT_ABS_MAX),
+> +    },
+> +    { /* end of list */ },
+> +};
+> +
+> +static void virtio_multitouch_init(Object *obj)
+> +{
+> +    VirtIOInputHID *vhid =3D VIRTIO_INPUT_HID(obj);
+> +    VirtIOInput *vinput =3D VIRTIO_INPUT(obj);
+> +    unsigned short abs_props[] =3D {
+> +        INPUT_PROP_DIRECT,
+> +    };
+> +    unsigned short abs_bits[] =3D {
+> +        ABS_MT_SLOT,
+> +        ABS_MT_TRACKING_ID,
+> +        ABS_MT_POSITION_X,
+> +        ABS_MT_POSITION_Y,
+> +    };
+> +
+> +    vhid->handler =3D &virtio_multitouch_handler;
+> +    virtio_input_init_config(vinput, virtio_multitouch_config);
+> +    virtio_input_extend_config(vinput, keymap_button,
+> +                               ARRAY_SIZE(keymap_button),
+> +                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
+> +    virtio_input_extend_config(vinput, abs_props,
+> +                               ARRAY_SIZE(abs_props),
+> +                               VIRTIO_INPUT_CFG_PROP_BITS, 0);
+> +    virtio_input_extend_config(vinput, abs_bits,
+> +                               ARRAY_SIZE(abs_bits),
+> +                               VIRTIO_INPUT_CFG_EV_BITS, EV_ABS);
+> +}
+> +
+> +static const TypeInfo virtio_multitouch_info =3D {
+> +    .name          =3D TYPE_VIRTIO_MULTITOUCH,
+> +    .parent        =3D TYPE_VIRTIO_INPUT_HID,
+> +    .instance_size =3D sizeof(VirtIOInputHID),
+> +    .instance_init =3D virtio_multitouch_init,
+> +};
+> +
+> +/* ----------------------------------------------------------------- */
+> +
+>  static void virtio_register_types(void)
+>  {
+>      type_register_static(&virtio_input_hid_info);
+>      type_register_static(&virtio_keyboard_info);
+>      type_register_static(&virtio_mouse_info);
+>      type_register_static(&virtio_tablet_info);
+> +    type_register_static(&virtio_multitouch_info);
+>  }
 >
+>  type_init(virtio_register_types)
+> diff --git a/include/hw/virtio/virtio-input.h b/include/hw/virtio/virtio-=
+input.h
+> index f2da63d309..08f1591424 100644
+> --- a/include/hw/virtio/virtio-input.h
+> +++ b/include/hw/virtio/virtio-input.h
+> @@ -24,10 +24,11 @@ OBJECT_DECLARE_TYPE(VirtIOInput, VirtIOInputClass,
+>  #define VIRTIO_INPUT_GET_PARENT_CLASS(obj) \
+>          OBJECT_GET_PARENT_CLASS(obj, TYPE_VIRTIO_INPUT)
+>
+> -#define TYPE_VIRTIO_INPUT_HID "virtio-input-hid-device"
+> -#define TYPE_VIRTIO_KEYBOARD  "virtio-keyboard-device"
+> -#define TYPE_VIRTIO_MOUSE     "virtio-mouse-device"
+> -#define TYPE_VIRTIO_TABLET    "virtio-tablet-device"
+> +#define TYPE_VIRTIO_INPUT_HID  "virtio-input-hid-device"
+> +#define TYPE_VIRTIO_KEYBOARD   "virtio-keyboard-device"
+> +#define TYPE_VIRTIO_MOUSE      "virtio-mouse-device"
+> +#define TYPE_VIRTIO_TABLET     "virtio-tablet-device"
+> +#define TYPE_VIRTIO_MULTITOUCH "virtio-multitouch-device"
+>
+>  OBJECT_DECLARE_SIMPLE_TYPE(VirtIOInputHID, VIRTIO_INPUT_HID)
+>  #define VIRTIO_INPUT_HID_GET_PARENT_CLASS(obj) \
 > --
 > 2.38.1
 >
