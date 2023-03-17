@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B60E6BEE87
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59616BEEDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 17:52:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdD5O-0005uc-1W; Fri, 17 Mar 2023 12:37:46 -0400
+	id 1pdDII-0001Uf-UC; Fri, 17 Mar 2023 12:51:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pdD5M-0005r7-6v
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:37:44 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ id 1pdDIG-0001U7-PM
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:51:04 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pdD5K-0005l5-D7
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:37:43 -0400
-Received: by mail-pf1-x429.google.com with SMTP id fa2so1880501pfb.7
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 09:37:42 -0700 (PDT)
+ id 1pdDIE-0000yj-4e
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 12:51:04 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so5500380wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 09:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679071061;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bXjDhVXGMhnumxyVHUzpj0olGsdargOsMsFYmhE4nEk=;
- b=EAsZfvAcqTW192AqI28UuUCFzeJ/Y1isNdi+8QpeTQV9rN8WhBTt2X/dDDGF3EWXq6
- cai7r2bikB5MKpJjrEHaOh7JLshA4yOpY8jFo+dQN1H9UG1XIWDbZuOoeTGw2AvE5Cv5
- OnZ4M0epayxXujbs32XOfMMrREmJ+dSDXvNBEDlWRwIMBaXbii6ky+zIm6agVq3AseVQ
- tuQod8byxNUuaTBnPULHyha9edEooAuI6D6mxZ76Ov1k+EY6Cd5OsOSkt9grGKqXQLBb
- VJBAX9SLko5acaMYFJvSsYOQp2ummKKZZ1HMGBiNzorxjWKz00kvnhjK5JmevZGNXsBC
- fRcg==
+ d=linaro.org; s=google; t=1679071860;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=pcjeNQpYtfjnbCVp1jPfUN6yC3n9EwkQ1XDGv0Ar4fQ=;
+ b=IR4T/+vwPMsWe13l5Ri/VHW+QLrQi+hBBZq2nUG/G1I7bUM55W3uFiErbJT03HYtM0
+ 5KO9W0MpwMFbFq8jg/zLda7UtCnHfPLA3tKD38J0/aPkUV6p6xSulVygC2HVsQdsP2pi
+ AdHrekxgCFAnH3NID6OdO9AwRgU1aVgpV9Jf+9kjDDJxU7wLXiJI8lv//WCuzCeqE0Iq
+ 6YyQrL8jcXPLaH8D8sZ95UM1/0W8aEvy57lZy4fQhSHN2YT/yv8ef4VZMsVlyVLc1RCE
+ +S8Eg08fK5lV0jX1eHDvshNaiR1eFm3eTMOSf1Vk7mFR9bnIlP2D+IpzaIpHs9RcFG4/
+ gYhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679071061;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20210112; t=1679071860;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bXjDhVXGMhnumxyVHUzpj0olGsdargOsMsFYmhE4nEk=;
- b=tubcXZTdhDjI29dkUXC4288Vc12X95mgYrutdMrH8/ah3In/J9yda17PD4nbLhuZHH
- 9UlzNUHHk60ijGwTmFmQF2ioHY/U/rSt6AcPdNhPoIEYjMR5PdHVmtScHGcJ+tu82LjT
- iHAqiP9fBE8WipVcsjvJqjhCDgm/lpsusnKex6BGjygGv0Z12SLTg+IefL+F3FZ8TTca
- BH5cRWD97J2x6Fifmr69tnSsV2OyeZwQje89e5+ubHmykooRVbRbeHRm3ePSlhNbTNmb
- Ib6lRxfvNDp0Ky2VcMJ0DPcvPdPkHtxotZGWoqa0NsPBGlORCD3JU05Sp1abwPpgym/I
- 84TA==
-X-Gm-Message-State: AO0yUKUJDSCRE0y0U25cdDOHa9P6Ay2KowOAUFLZwklJpBI1/c7PTs1F
- xpC+3dhNYyCmRTPEVu4xlSSTmiSrC/QidAMgJsLeRw==
-X-Google-Smtp-Source: AK7set8rCN/moXRSQZiutfvZ8gC+LveEcdQh80LRcFgwNHE9ebfl7xe5nhSJG73LV00oRxPpkc5p9lHEWXDIeLkZ9dk=
-X-Received: by 2002:a65:4544:0:b0:4fc:2369:811 with SMTP id
- x4-20020a654544000000b004fc23690811mr2035530pgr.6.1679071060848; Fri, 17 Mar
- 2023 09:37:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230310103123.2118519-1-alex.bennee@linaro.org>
- <20230310103123.2118519-10-alex.bennee@linaro.org>
- <CAFEAcA89K6_-Uc0XmEa1q+_z_yuppq1kvh=uPfv9V80MBH=aQg@mail.gmail.com>
- <87wn3ocwqz.fsf@suse.de> <87sfeclb8o.fsf@linaro.org>
- <CAFEAcA8SFtzMAFPaE=_CJtwXDYiJQ8rDWgEE+Nx2Qz=-FjCmMA@mail.gmail.com>
- <9bb8ab52-c6ae-95a7-e6c8-64bcce166c19@arm.com>
- <caf97353-d116-976c-72c7-953b0cad956c@arm.com>
-In-Reply-To: <caf97353-d116-976c-72c7-953b0cad956c@arm.com>
+ bh=pcjeNQpYtfjnbCVp1jPfUN6yC3n9EwkQ1XDGv0Ar4fQ=;
+ b=tx2EE/Oj4eUdtlKLnvnf/bsHFW70d9nK/+auuw6NmSiPTFIcGs280IsM6VPxidZDN7
+ yNz+ZEN/1grfOJeggDfPylP6Ck3PFfstLeUMsPHIkR1u7vzaC+CE/7VcDg9XbKEuEBnG
+ yERItxPgKob3mbAuvT8naKvKulbh8dYQqDJHehejnOha/wGLe1h6fGtc80Aj8thllZjz
+ PnEnngaRYVUU3F2DISRfTf51QOj5FoNPBpq7SZ5NZJx01A4z/7ruxn5Ge9p/AltfRm16
+ Fb/hvMEsAqYM3MxwQZWngO5O+nfwo9wHNVhbY1RLqJ3YSnTaZ36BzGFxP38e7G9enDS9
+ kKLw==
+X-Gm-Message-State: AO0yUKWBjhB68N7sbzn5jCdNWEPygMmkhDrVU6RLsruuvPEMRm1MOBMO
+ ZK026rjBiTmwpJqnMVKhxjPvgg==
+X-Google-Smtp-Source: AK7set9sq2bZPzy4KLStvSM2/bgSJXJIMkLMG5tGNW4TW0+MUHdsy8OyL9fr8AKgiq5kJIcDzpjZcQ==
+X-Received: by 2002:a05:600c:3c83:b0:3ea:ed4d:38eb with SMTP id
+ bg3-20020a05600c3c8300b003eaed4d38ebmr24571505wmb.24.1679071860295; 
+ Fri, 17 Mar 2023 09:51:00 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ y6-20020a05600c364600b003ed2c0a0f37sm2460106wmq.35.2023.03.17.09.50.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Mar 2023 09:50:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Mar 2023 16:37:29 +0000
-Message-ID: <CAFEAcA9WbEaCUXWcGT1+nj5u+zjWrm_+58X1-ZyrvUoeWcOdZQ@mail.gmail.com>
-Subject: Re: [PATCH 09/11] tests/tcg: disable pauth for aarch64 gdb tests
-To: Luis Machado <luis.machado@arm.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org, 
- David Hildenbrand <david@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org, 
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>, gdb <gdb@gnu.org>, 
- Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
- Omair Javaid <omair.javaid@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x429.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Luis Machado <luis.machado@arm.com>
+Subject: [PATCH for-8.0] target/arm: Don't advertise aarch64-pauth.xml to gdb
+Date: Fri, 17 Mar 2023 16:50:57 +0000
+Message-Id: <20230317165057.1522743-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,59 +91,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 15 Mar 2023 at 09:51, Luis Machado <luis.machado@arm.com> wrote:
-> On 3/13/23 11:44, Luis Machado wrote:
-> > On 3/13/23 11:22, Peter Maydell via Gdb wrote:
-> >> Luis and I came up with two options:
-> >>
-> >> (1) leave QEMU outputting the pauth xml as-is, and tell people
-> >> whose gdb 12 crashes that they should upgrade to a newer gdb
-> >>
-> >> (2) make QEMU output the pauth info under a different XML namespace,
-> >> and tell people who need backtraces when pauth is enabled
-> >> that they should upgrade to a newer gdb
-> >>
-> >> Neither of these feel great, but on balance I guess 2 is better?
-> >>
-> >> Luis: I think that rather than doing (2) with a QEMU namespace,
-> >> we should define a gdb namespace for this. That makes it clear
-> >> that this is still a gdb-upstream-sanctioned way of exposing
-> >> the pauth registers.
-> >
-> > That should be fine as well, and would work to side-step the gdb 12 bug so it doesn't crash.
-> >
-> > We could name the feature "org.gnu.gdb.aarch64.pauth_v2" or somesuch, and slowly stop using the original
-> > "org.gnu.gdb.aarch64.pauth" feature. I can document the requirements for a compliant pauth_v2.
-> >
-> > FYI, I've pushed a better documentation for the arm/aarch64 xml descriptions here:
-> >
-> > https://sourceware.org/git?p=binutils-gdb.git;a=commit;h=d7001b29e9f256dfc60acb481d9df8f91f2ee623
-> > https://sourceware.org/git?p=binutils-gdb.git;a=commit;h=e0994165d1b8469dfc27b09b62ac74862d535812
+Unfortunately a bug in older versions of gdb means that they will
+crash if QEMU sends them the aarch64-pauth.xml.  This bug is fixed in
+gdb commit 1ba3a3222039eb25, and there are plans to backport that to
+affected gdb release branches, but since the bug affects gdb 9
+through 12 it is very widely deployed (for instance by distros).
 
-> Just an update on this. I had a chat with Richard Henderson yesterday, and it might actually be easier and more convenient to backport
-> fixes to older gdb versions (at least gdb-12 and gdb-11, but gdb-10 and gdb-9 are also affected). This will ensure those won't crash when
-> they connect to a qemu that advertises the pauth feature.
->
-> It also means we won't need qemu-side changes. My understanding is that we're close to the 8.0.0 release, and the code is already in place.
+It is not currently clear what the best way to deal with this is; it
+has been proposed to define a new XML feature name that old gdb will
+ignore but newer gdb can handle.  Since QEMU's 8.0 release is
+imminent and at least one of our CI runners is now falling over this,
+disable the pauth XML for the moment.  We can follow up with a more
+considered fix either in time for 8.0 or else for the 8.1 release.
 
-Having run into this problem in another couple of situations, one of
-which involved gdb 10, I think I'm increasingly favouring option
-2 here. The affected gdbs seem to be quite widely deployed, and
-the bug results in crashes even for users who didn't really
-care about pauth. So I'd rather we didn't release a QEMU 8.0
-which crashes these affected deployed gdbs.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/gdbstub.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-So:
- (a) if on the gdb side you can define (within the next week) a
-suitable new XML name you want QEMU to expose, we can commit a
-change to switch to that before we do the 8.0 release
- (b) if that's too tight a timescale, we can commit a patch which
-just stops QEMU from exposing the pauth.xml, and we can come up
-with a better solution after 8.0 releases
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 78105b8078b..3bd86cee979 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -520,11 +520,18 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+                                      aarch64_gdb_set_fpu_reg,
+                                      34, "aarch64-fpu.xml", 0);
+         }
++#if 0
++        /*
++         * GDB versions 9 through 12 have a bug which means they will
++         * crash if they see this XML from QEMU; disable it for the 8.0
++         * release, pending a better solution.
++         */
+         if (isar_feature_aa64_pauth(&cpu->isar)) {
+             gdb_register_coprocessor(cs, aarch64_gdb_get_pauth_reg,
+                                      aarch64_gdb_set_pauth_reg,
+                                      4, "aarch64-pauth.xml", 0);
+         }
++#endif
+ #endif
+     } else {
+         if (arm_feature(env, ARM_FEATURE_NEON)) {
+-- 
+2.34.1
 
-In fact, I think I'm going to submit a patch to do (b) for
-now and we can follow up with a patch for (a) if we want.
-
-thanks
--- PMM
 
