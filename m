@@ -2,73 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134BB6BEAD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0C46BEAF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 15:19:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdAql-0005TO-H1; Fri, 17 Mar 2023 10:14:31 -0400
+	id 1pdAuU-0006Wp-2p; Fri, 17 Mar 2023 10:18:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pdAqj-0005TE-LJ
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:14:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pdAuO-0006WC-Dt; Fri, 17 Mar 2023 10:18:16 -0400
+Received: from mout.kundenserver.de ([212.227.17.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pdAqi-0003qp-92
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 10:14:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679062466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=L+EjyYLsUdcwIuhiGRSQc5QBxxULaagwf/qDgRJjAi0=;
- b=GgYfAlmAwh37bEuZnj2cVXOr6vIXkIjQZIsAgBJ/HpkJIYEg7zdn0R2oDJHpQarOZspieW
- Nzpfz3p3C/1b51EJdR4M/23juBhPagF2AiitfYBH2Dnphtr1RZYpwDx5nsp1Dcciy/CjFT
- nPnaVwgbeBIfG+xhfZO/7dgIKLWENys=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-j_ncna6yP0aEuWaYDRt_BA-1; Fri, 17 Mar 2023 10:14:25 -0400
-X-MC-Unique: j_ncna6yP0aEuWaYDRt_BA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E985585A588;
- Fri, 17 Mar 2023 14:14:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 66FDC40D1C7;
- Fri, 17 Mar 2023 14:14:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5D41121E681C; Fri, 17 Mar 2023 15:14:23 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,
- marcandre.lureau@redhat.com,  berrange@redhat.com,  jsnow@redhat.com
-Subject: Re: [PATCH 11/14] tests/qapi-schema: Clean up positive test for
- conditionals
-References: <20230316071325.492471-1-armbru@redhat.com>
- <20230316071325.492471-12-armbru@redhat.com>
- <20230317010950.6oxwhloomaup4m2l@redhat.com>
- <87jzzfoqkz.fsf@pond.sub.org>
- <20230317122924.lbx4kni45tes5byo@redhat.com>
-Date: Fri, 17 Mar 2023 15:14:23 +0100
-In-Reply-To: <20230317122924.lbx4kni45tes5byo@redhat.com> (Eric Blake's
- message of "Fri, 17 Mar 2023 07:29:24 -0500")
-Message-ID: <87lejvh3cw.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pdAuM-0004t8-IN; Fri, 17 Mar 2023 10:18:16 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MpDVx-1qImmj0ZTj-00ql7J; Fri, 17
+ Mar 2023 15:18:10 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 0/3] Trivial branch for 8.0 patches
+Date: Fri, 17 Mar 2023 15:18:05 +0100
+Message-Id: <20230317141808.826875-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:LrgWGrO3jG4Os6eZUtHHUea7bQzbyGm34oquIGhYTbteK6V8XPn
+ iOIiN/VXzmVdqj93vlJv1et726CZ/qc2yrSnoGuI8QZQYhUuR0AuO0xqSMkg3EpCBQf2jSa
+ R+EKkprUGbaX096AaDZLt9Wn3EOiyhlA8Sz0hNUA3kKvjbh+hK+iF+oGUP3rxsKIjgYZBHL
+ EjoJnRxlzmZ76feXd790Q==
+UI-OutboundReport: notjunk:1;M01:P0:9SnXGM6ThRE=;/gzGBn3tbMWd1FGMzLG7h3kDHJz
+ y2mhvOdBt6aLe20nswkZTatnDuOyXGcwh2Kgu1pPVRbps4FzAnkxXj6fzlBe00AyJJEmcg4BP
+ CymkISmLNTTefzdlTqWsLAZP9V+LEnGypB2ew2tb57RjSCj+KrQKIiS08QuPI5DSoKYP9sTHH
+ 5Ubvr1/qXrSlMldJe64IlLi6HdFKh+ZFX2AXLhhAEuV/oRuh7nrRUlvL482MuUx6QsIxauilz
+ +LGWIT+kQz+POXSbpGOVv+G9lvUS5Alvf1tJB9YKqJ5EEpNT5UF4D2IopuYR+0Cnn6FcsLQoh
+ 5gJ845ooynktSRSv9csEZnL9QXuc0IZHwiCEXz1VY4af+f8uE35mxFpDN80mUEAU0MsLSE9sr
+ qnleK/9dJxTD0R2LgkAszAosd/HzF26xfUEUg3ezsYvmaDG5QLT4jeHTlTmtAFDRrzb5xegPb
+ JMdDP0zCENSDU3cRbUESUsrSHbVzsuoiV+eU0IkM8r8gxQJu1EYmCT7QNaoG1RJecKXWuNBwN
+ dO9RjZUxZKJ3NwuSbkHuucn+JSd4yB/l3xO1AC04QSJp+k22hvwcGjE1oNz2BElwzUtdm+C/j
+ 60gqROea8U1Zk7JShlfp9GE7ZG2wvlssl4eAOIvPYKF+GbqwIO9lwCDnuaAnO2VGp35FMvJ4G
+ mecXq/37owY/9wjiEUm6W6M6jv0bPurHLNdE9jDeMA==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,27 +68,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Eric Blake <eblake@redhat.com> writes:
+The following changes since commit 652737c8090eb3792f8b4c4b22ab12d7cc32073f:
 
-> On Fri, Mar 17, 2023 at 07:10:52AM +0100, Markus Armbruster wrote:
->> Eric Blake <eblake@redhat.com> writes:
->> 
->> > On Thu, Mar 16, 2023 at 08:13:22AM +0100, Markus Armbruster wrote:
->> >> Union TestIfUnion is conditional on macros TEST_IF_UNION and
->> >> TEST_IF_STRUCT.  It uses TestIfEnum, which is conditional on macro
->> >> TEST_IF_ENUM.  If TEST_IF_ENUM and TEST_IF_STRUCT are defined, but
->> >> TEST_IF_ENUM isn't, the generated code won't compile.
->> >
->> > s/ENUM/UNION/ in one of these two uses in this sentence.
->> 
->> Yes: If TEST_IF_UNION and TEST_IF_UNION are defined, ...
->
-> If TEST_IF_UNION and TEST_IF_STRUCT are defined, ...
->
-> (you are stuck in a maze of twisty little passages, all alike)
+  Update version for v8.0.0-rc0 release (2023-03-14 19:25:05 +0000)
 
-I am!
+are available in the Git repository at:
 
-Thanks :)
+  https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-8.0-pull-request
+
+for you to fetch changes up to 364206640c6b34bae3bb9e428817e51d23a794d0:
+
+  docs/sphinx/kerneldoc.py: Honour --enable-werror (2023-03-16 14:39:10 +0100)
+
+----------------------------------------------------------------
+Trivial branch pull request 20230317
+
+Fix doc
+Fix sh4 cpu log output
+
+----------------------------------------------------------------
+
+Bernhard Beschow (1):
+  exec/memory: Fix kernel-doc warning
+
+Ilya Leoshkevich (1):
+  target/sh4: Honor QEMU_LOG_FILENAME with QEMU_LOG=cpu
+
+Peter Maydell (1):
+  docs/sphinx/kerneldoc.py: Honour --enable-werror
+
+ docs/meson.build         |  2 +-
+ docs/sphinx/kerneldoc.py |  5 +++++
+ include/exec/memory.h    |  2 +-
+ softmmu/memory.c         |  8 ++++----
+ target/sh4/translate.c   | 14 +++++++-------
+ 5 files changed, 18 insertions(+), 13 deletions(-)
+
+-- 
+2.39.2
 
 
