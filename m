@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD156BEFAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:28:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF076BEFAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Mar 2023 18:28:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdDsH-0002ug-Lg; Fri, 17 Mar 2023 13:28:17 -0400
+	id 1pdDsK-0002vb-LB; Fri, 17 Mar 2023 13:28:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pdDsG-0002uX-6C
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:28:16 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pdDsI-0002v7-DD
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:28:18 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pdDsE-0002sr-Ld
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:28:15 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- p13-20020a05600c358d00b003ed346d4522so3849803wmq.2
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 10:28:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pdDsG-0002un-Na
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 13:28:18 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ qe8-20020a17090b4f8800b0023f07253a2cso5950506pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 10:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679074092;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=isWmQVRQWCcDWr1/H7IGY07CSL7Rod9EcBW9Jh+DIss=;
- b=qju08C+pmAumDXYzlKGSf9iZ4TXqBx4av9TtwIx2D/etQyEUfujfmA6K7Ou8+77ksb
- 8j8oKCVRrkbE8tQke9uaW+RCa8Y2D01AfA9tZU+SODhuUvJR23GGW7M9iHZFJ7DDn1nl
- 6JJ+bHE5MFvl0im6D/WDvuJRnKttEJwk2hOc58b0es75Y77dRhvAPcNYADh2rFQXn0sA
- ffF3DyuO5HTn/blYyAP9kKuzM+G0VkXiK/37yf6bSRiRwklhvnhcPj3fMGfHtLbxNvcr
- vdhoTJi7531LbodfFxmCGumy8axGiFxSyViwZFIQyALLcTOLvkjw8tc+679iXXcwnkxl
- 6UyQ==
+ d=linaro.org; s=google; t=1679074095;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xduJVcuAgQuB7bxyjGWP8oKwzv/ArE6QVMLy0HUQ6XM=;
+ b=MW6pxty4jvCSJZsHjJCrZf4dRn6sk2QjmuTtOfKOeCbzGWGBNJ+IyTZrvq9cJSy6si
+ YJx/A/GeEmUlZzrvGzYzX4ZLGyh+0ZIN/+6WASKha19GGZ3PnVNcZD39mekK1dhLb3GU
+ QlwTCkVVTTK9JeGfuNhS+VGODwNt5U4JuDq7EWIfA/V46QD1TSKDz5G/H8H91tZVu+q7
+ CAPa4DagUeNjtuDetgGi41Qk9JsH77vtmznsASVmHWJD+q9n0ytU1FaZjMrVTojAByPQ
+ Y7dP8QRwHp+c5dXYNHzZPssF/R0OkKkSP9XO9K2pO8WOFcqrA+usheXLZQ4Hb/r4lQoD
+ 4y0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679074092;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=isWmQVRQWCcDWr1/H7IGY07CSL7Rod9EcBW9Jh+DIss=;
- b=c9sFy5rmhhM5wUA/0BX1vAEm9PMZTSMYMePRekNIGeBwUUaxBFZVe1UTVPFTRk6AzD
- SgEx4scBLix+zKfD563XuVdGMuIQrNHBt7KH8/NqnVlSnopHOPqn1hpaovOYKgubUvdY
- SQL6yrlpWLXuWWQjvTZQY51Lnvm+qk3dX0dPQxKX10zfVwzZDL32gt+mvUcnnwT2B/k3
- Xn+6sdRHMIQoQgwKpWluhgdIRC2AcK9gUouhtjo46rbqUW7KmH9PEa3LjgGVvKu1mZdC
- s6ZjNc1Vo/QjyZRo54kezcMjYpVOU0blPFHVme0Z4pzPtMj5VnmcERx/xQti9X8Qv4+n
- TBUQ==
-X-Gm-Message-State: AO0yUKVI0pRzRt1X1a8C0iAGszD2RP9IcwR8oSWxictK3GVgg5H1LuVJ
- 4DpAgJg4oeZroTi52+5+l02nConP8eUF6xazgBE=
-X-Google-Smtp-Source: AK7set+eqgg+xZET6g+q4AfkVK1jm6fBU276kaoRp/CYwAjA5HPhukJPUaA/LK3cQKpvd2fTFflROQ==
-X-Received: by 2002:a05:600c:34c1:b0:3eb:383c:1876 with SMTP id
- d1-20020a05600c34c100b003eb383c1876mr25848854wmq.6.1679074092389; 
- Fri, 17 Mar 2023 10:28:12 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- t14-20020a1c770e000000b003daf7721bb3sm8415030wmi.12.2023.03.17.10.28.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Mar 2023 10:28:12 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C3A9F1FFB7;
- Fri, 17 Mar 2023 17:28:11 +0000 (GMT)
-References: <20230317170553.592707-1-berrange@redhat.com>
-User-agent: mu4e 1.9.22; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] qtests: avoid printing comments before g_test_init()
-Date: Fri, 17 Mar 2023 17:28:04 +0000
-In-reply-to: <20230317170553.592707-1-berrange@redhat.com>
-Message-ID: <87edpn70es.fsf@linaro.org>
+ d=1e100.net; s=20210112; t=1679074095;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xduJVcuAgQuB7bxyjGWP8oKwzv/ArE6QVMLy0HUQ6XM=;
+ b=N10ybTVoeNBP3uSjq+WVAnr4/aBHF/hn+ItelwWpb2AE3VmFgiZ0FeWy3zoMdBuzkd
+ id2Z66hgwAjiPJoOYCo7WQd7hFwtR7sT/yFqi0uqTnbm9YNj7IugoY7YCnflHPto4fiE
+ uf/ZPtB2aahx1UFq1RlWfgCZ1RJX71LB34su6QJBUdM6164EHGYcFNfvIpHBYFVRZaOk
+ eHOjI/0uJvxm5GUUAamcEH48O/o39L9rmtbwYao6pYjTMlFULNhv4tZfu8Zgg+riiAYD
+ dDCtBmzKNN4ZUPymDKCyz/Goc5Yvm7rt5mDMFFTOeon0NGmiIsK1A+wjZNvUHsuvse4L
+ Fo5Q==
+X-Gm-Message-State: AO0yUKXfrif/YsytvTbhhLI1/1Evy3PgqAg8bJ3q30r/2cJvLN3r4kgX
+ RLn43dOc1VFYKvSqa1CiSJVKNHKopGj8Gha8uON3aKfG/Cy1Qm+k
+X-Google-Smtp-Source: AK7set/OIrPFz9AyfEBnv1dIVtVQHz69pK0hIzjNK2UtxQOTTtCRDQPfbRR/YCqmQCrrFfztA7wzO1LECTiwbiDT2lc=
+X-Received: by 2002:a17:903:24d:b0:19f:2339:b2ef with SMTP id
+ j13-20020a170903024d00b0019f2339b2efmr3267286plh.9.1679074095303; Fri, 17 Mar
+ 2023 10:28:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+References: <20230317141808.826875-1-laurent@vivier.eu>
+In-Reply-To: <20230317141808.826875-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 17 Mar 2023 17:28:04 +0000
+Message-ID: <CAFEAcA-J3a8YM_g5uSLPGnVZc4iqpiJpy96yQKufUt1GiMbQzQ@mail.gmail.com>
+Subject: Re: [PULL 0/3] Trivial branch for 8.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,29 +84,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-> The TAP protocol version line must be the first thing printed on
-> stdout. The migration test failed that requirement in certain
-> scenarios:
+On Fri, 17 Mar 2023 at 14:19, Laurent Vivier <laurent@vivier.eu> wrote:
 >
->   # Skipping test: Userfault not available (builtdtime)
->   TAP version 13
->   # random seed: R02Sc120c807f11053eb90bfea845ba1e368
->   1..32
->   # Start of x86_64 tests
->   # Start of migration tests
->   ....
+> The following changes since commit 652737c8090eb3792f8b4c4b22ab12d7cc32073f:
 >
-> The TAP version is printed by g_test_init(), so we need to make
-> sure that any methods which print are run after that.
+>   Update version for v8.0.0-rc0 release (2023-03-14 19:25:05 +0000)
 >
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-8.0-pull-request
+>
+> for you to fetch changes up to 364206640c6b34bae3bb9e428817e51d23a794d0:
+>
+>   docs/sphinx/kerneldoc.py: Honour --enable-werror (2023-03-16 14:39:10 +0100)
+>
+> ----------------------------------------------------------------
+> Trivial branch pull request 20230317
+>
+> Fix doc
+> Fix sh4 cpu log output
+>
+> ----------------------------------------------------------------
 
-Queued to pr/170323-for-8.0-1, thanks.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
