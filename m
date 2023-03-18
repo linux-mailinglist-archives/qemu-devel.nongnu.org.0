@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34AEA6BF83D
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 07:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB716BF848
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 07:12:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdPhQ-00031o-OK; Sat, 18 Mar 2023 02:05:52 -0400
+	id 1pdPmi-0004ix-VH; Sat, 18 Mar 2023 02:11:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pdPh7-000308-LE
- for qemu-devel@nongnu.org; Sat, 18 Mar 2023 02:05:38 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1pdPmT-0004iU-HS
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 02:11:07 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pdPh5-0005ao-0L
- for qemu-devel@nongnu.org; Sat, 18 Mar 2023 02:05:33 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- o6-20020a17090a9f8600b0023f32869993so7429450pjp.1
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 23:05:30 -0700 (PDT)
+ id 1pdPmR-0006sO-RR
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 02:11:05 -0400
+Received: by mail-pf1-x432.google.com with SMTP id ay18so4290943pfb.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 23:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679119529;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679119862;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=bnkYWVD6KHJVndNjBEYuBge2ZTEEmmRCp+k1GGFqPpY=;
- b=P+cFTGZoi2TXEEptZg2EPpc/iY8tC7/Dqj9+6/XK+HlAk5CDATEQTIQwwBHO3cuRW3
- C8jC8fZHcEVXam/Fvh6RrVa00TrK5fqZnUyWSPNZndT4VQ6DHEsqDIkW38RCCo7SKx5i
- UvJRxA1XC/NYRQwhZmWfZnCGD50xfmQe+nzTx0XNb4sdoBXxRmSrCXqM+XzncArI1ijB
- YulNsOriq7neJ73H1j2fwcmpVmR9I+D/5dzOgCVpfY5W/2np7VVw+Ca/KILmPJBKjqbP
- IzdvbaGcKkhfUJYTdIFdB+ViPXGZeGv2jig2XvTmglu7kr4bxwvXDYtjdGUPv6Ly+dpW
- PU3g==
+ bh=2PumKDP0T9AGbrlg9ULgOVbL9K9S9B8XgGHaoLBF0aY=;
+ b=Re+AgLn5rslhTrDsEHkD6f7yGA/6rZXwqOkbMPmZA21t1A3HtSEeH3DyB0z9mUpf44
+ 9MZxeuwGXl/qBn4N89MJLmUjunOoOVLuMOrKRjs4knu7Pjz7qqwZYIs72OR3IwIhYQTE
+ VxY7ORKWPwz+OPEUlJmPPbWgdXULDUX5OyIf4AE2TXCbMtl6ZqYYwr+lO62EUCSlhECQ
+ RMOwuOrwqNSdvfD/awRLZqYDFaIBu/d4peGjb8TvBkB5R113+ckwgNOm8BC11FU3zEUs
+ NYx5Uxn9s/JIqdVybI66QCjTTVnpc5zp6EDnoQCbixiebR5c6XqZqCwAmHJkhhYNvtWF
+ +ecA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679119529;
+ d=1e100.net; s=20210112; t=1679119862;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bnkYWVD6KHJVndNjBEYuBge2ZTEEmmRCp+k1GGFqPpY=;
- b=YxZ5EMCl8n1JieUsbg0mJU/zSTKmVrV8RJS01gK9G3ixOVdSQxQqVSnnijC7BzPA+d
- jQBR7Fn6BsWKuqKP6st6mV+hV23xRDiB+12UKvW43czn/jiVRNhej3hfFUUlXneG9roo
- 0/fKkTFntJRrRo6g9Iqt+osvO8M1ln0o2nF+E8HDASqx7sio2nil4kJhRwlR9Oa3+6iC
- fxJpGqu/QR5YF/cYZV4F80caENZlK07ED0at4PDDAXdv+WM5YnMGqv5piYouIAYBUH0C
- tAshx4cPuIICIOQVYNsba8NtZ9gCUQZjHLAFlOMwhKxWkQUzfsv0DHCd4/rCNOZghLeg
- /Yxw==
-X-Gm-Message-State: AO0yUKWSFAqDnHw59Ouv8z+oyBBzJH7Bn1Rurfh9cDFSty1fxlkjFmXa
- AKXZnHz9spHZ7LYi47s2oyWLrw==
-X-Google-Smtp-Source: AK7set97lBXA8+F3L99vqoCSHJF6c5iE0Aug1WFHbClMqqyZTCoYgn7dqTjed60dAyTmCijvC7JlIw==
-X-Received: by 2002:a17:902:e749:b0:1a0:45f6:d7ce with SMTP id
- p9-20020a170902e74900b001a045f6d7cemr10956185plf.32.1679119529270; 
- Fri, 17 Mar 2023 23:05:29 -0700 (PDT)
+ bh=2PumKDP0T9AGbrlg9ULgOVbL9K9S9B8XgGHaoLBF0aY=;
+ b=V1oQPD60Yus3E/PLEnU0TQfxFvsmwQL8jR/TLduf4yZUW4gRGW18sAp89BAMIojRWT
+ 8tSglJ9ORlEij2oGBTXZC1eVOM6StSqLoq274VWVTzVgzypFh79tuvebCylZzRwf3Lyv
+ UYSyKua3oz9+8mx7zv1Dw6Yp86Iws7JnoSZYE4K8ScXZiWA+1XhP6iKqCigSx7+ZmjDI
+ 0X6KuBuO/iFPDOfPSQxN95vq1AIY/RGNx3J5ifoF6AUyZISJBwknmFWaVEXiFP4daK4V
+ +Zt+oB2Nc39Fez3vtNE45r5M+EsQ2xDeJmn9uh37TIENHtQNd6znY140Qp0ovwgydrLz
+ JHIQ==
+X-Gm-Message-State: AO0yUKUQPsaKNB+9JmQFuMSF8Fdw0kkUTJfjEFm1ftXv2jxKJw+Ibe+z
+ /Xu5t+5MeAy5IRFAEDxibEoW9Q==
+X-Google-Smtp-Source: AK7set8EwXIc/dv3ZtuDBbBYr8Tu6PurmPduNJUs0EGzxKRTXlrD3OEQ3JA4CeY7VLlagrw/0YQHew==
+X-Received: by 2002:a05:6a00:9d:b0:624:ace6:c658 with SMTP id
+ c29-20020a056a00009d00b00624ace6c658mr7653272pfj.28.1679119861713; 
+ Fri, 17 Mar 2023 23:11:01 -0700 (PDT)
 Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
  ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- g7-20020a170902934700b001994a0f3380sm2445610plp.265.2023.03.17.23.05.27
+ d1-20020aa78141000000b0062608a7557fsm2503234pfn.75.2023.03.17.23.10.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 23:05:28 -0700 (PDT)
-Message-ID: <29d71180-b9b3-e670-f25c-978d4d0b5491@daynix.com>
-Date: Sat, 18 Mar 2023 15:05:26 +0900
+ Fri, 17 Mar 2023 23:11:01 -0700 (PDT)
+Message-ID: <3d6089c8-21a6-acc6-28fe-16c00e49fa01@daynix.com>
+Date: Sat, 18 Mar 2023 15:10:58 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 Subject: Re: [PATCH for 8.0 v3] memory: Prevent recursive memory access
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philmd@linaro.org>, David Hildenbrand <david@redhat.com>,
  Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
  Paolo Bonzini <pbonzini@redhat.com>
 References: <20230316162044.31607-1-akihiko.odaki@daynix.com>
- <03a56c04-8afd-d4eb-b117-34698eb19484@kaod.org>
+ <CAFEAcA-creBruZ5FRkb__BtDiVW6BWL8hJr9QcN0SEK=gcpf-g@mail.gmail.com>
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <03a56c04-8afd-d4eb-b117-34698eb19484@kaod.org>
+In-Reply-To: <CAFEAcA-creBruZ5FRkb__BtDiVW6BWL8hJr9QcN0SEK=gcpf-g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1036;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1036.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::432;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -98,10 +97,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/03/18 1:25, Cédric Le Goater wrote:
-> Hello,
-> 
-> On 3/16/23 17:20, Akihiko Odaki wrote:
+On 2023/03/18 1:30, Peter Maydell wrote:
+> On Thu, 16 Mar 2023 at 16:21, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>
 >> A guest may request ask a memory-mapped device to perform DMA. If the
 >> address specified for DMA is the device performing DMA, it will create
 >> recursion. It is very unlikely that device implementations are prepared
@@ -119,89 +117,26 @@ On 2023/03/18 1:25, Cédric Le Goater wrote:
 >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 >> ---
 >> V1 -> V2: Marked the variable thread-local. Introduced linked list.
->>
->>   softmmu/memory.c | 81 ++++++++++++++++++++++++++++++++++++++----------
->>   1 file changed, 64 insertions(+), 17 deletions(-)
->>
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index 4699ba55ec..6be33a9e3e 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -61,6 +61,15 @@ struct AddrRange {
->>       Int128 size;
->>   };
->> +typedef struct AccessedRegion AccessedRegion;
->> +
->> +struct AccessedRegion {
->> +    const Object *owner;
->> +    const AccessedRegion *next;
->> +};
->> +
->> +static __thread const AccessedRegion *accessed_region;
->> +
->>   static AddrRange addrrange_make(Int128 start, Int128 size)
->>   {
->>       return (AddrRange) { start, size };
->> @@ -1394,6 +1403,16 @@ bool memory_region_access_valid(MemoryRegion *mr,
->>           return false;
->>       }
->> +    for (const AccessedRegion *ar = accessed_region; ar; ar = 
->> ar->next) {
->> +        if (ar->owner == mr->owner) {
->> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" 
->> HWADDR_PRIX
->> +                          ", size %u, region '%s', reason: recursive 
->> access\n",
->> +                          is_write ? "write" : "read",
->> +                          addr, size, memory_region_name(mr));
->> +            return false;
->> +        }
->> +    }
->> +
->>       /* Treat zero as compatibility all valid */
->>       if (!mr->ops->valid.max_access_size) {
->>           return true;
->> @@ -1413,6 +1432,29 @@ bool memory_region_access_valid(MemoryRegion *mr,
->>       return true;
->>   }
->> +static bool memory_region_access_start(MemoryRegion *mr,
->> +                                       hwaddr addr,
->> +                                       unsigned size,
->> +                                       bool is_write,
->> +                                       MemTxAttrs attrs,
->> +                                       AccessedRegion *ar)
->> +{
->> +    if (!memory_region_access_valid(mr, addr, size, is_write, attrs)) {
->> +        return false;
->> +    }
->> +
->> +    ar->owner = mr->owner;
->> +    ar->next = accessed_region;
->> +    accessed_region = ar->next;
 > 
-> Isn't 'accessed_region' always NULL ?
+> Don't we already have proposals on the mailing list for
+> addressing this? How does this patch differ from those?
 > 
->> +
->> +    return true;
->> +}
->> +
->> +static void memory_region_access_end(void)
->> +{
->> +    accessed_region = accessed_region->next;
->> +}
-> and so, this is a segv.
+> Also, "device A DMAs to device A" is only a subset of the problems --
+> you can also have "device A DMAs to device B which triggers DMA to
+> device A" and more complicated situations.
 > 
-> Thanks,
-> 
-> C.
+> thanks
+> -- PMM
 
-It was intended to be: accessed_region = ar;
-
-Anyway, I'm no longer pushing this forward as there is a better alternative:
+I was not aware of the proposals when I wrote this. Alexander's proposal 
+is better than this as it covers bottom half API and can disable the 
+check if not appropriate.
 https://lore.kernel.org/qemu-devel/20230313082417.827484-1-alxndr@bu.edu/
 
-This can detect a re-entrancy problem involving bottom half API, and 
-disable the check where re-entrancy is allowed.
+My patch can handle the case "device A DMAs to device B which triggers 
+DMA to device A" as the accessed memory region is recorded with a linked 
+list, and a DMA won't overwrite the history of the prior DMAs. But it 
+cannot handle asynchronous case while Alexander's patch can.
 
 Regards,
 Akihiko Odaki
