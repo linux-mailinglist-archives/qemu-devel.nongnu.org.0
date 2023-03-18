@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C956BFC0F
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 18:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5090F6BFC10
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 18:56:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdalY-0007aU-5u; Sat, 18 Mar 2023 13:54:52 -0400
+	id 1pdamu-0008Gi-5f; Sat, 18 Mar 2023 13:56:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pdalU-0007aK-DF
- for qemu-devel@nongnu.org; Sat, 18 Mar 2023 13:54:48 -0400
-Received: from mailout08.t-online.de ([194.25.134.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pdalN-0000L0-QT
- for qemu-devel@nongnu.org; Sat, 18 Mar 2023 13:54:47 -0400
-Received: from fwd74.dcpf.telekom.de (fwd74.aul.t-online.de [10.223.144.100])
- by mailout08.t-online.de (Postfix) with SMTP id 9975C1FF71;
- Sat, 18 Mar 2023 18:54:32 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.29.86]) by fwd74.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pdal6-1x9PxB0; Sat, 18 Mar 2023 18:54:25 +0100
-Message-ID: <834dcfd8-ca29-e5f6-413c-dcaa3dcc1288@t-online.de>
-Date: Sat, 18 Mar 2023 18:54:24 +0100
+ (Exim 4.90_1) (envelope-from <abhishek@drut.io>) id 1pdams-0008DO-HV
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 13:56:14 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <abhishek@drut.io>) id 1pdamq-0000wl-9X
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 13:56:14 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id j10so2650841qkg.12
+ for <qemu-devel@nongnu.org>; Sat, 18 Mar 2023 10:56:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=drut-io.20210112.gappssmtp.com; s=20210112; t=1679162168;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BjAKaepWncF6u/H1Pa+P+d/hZgx3SRRXSBdLXH1jpIA=;
+ b=Z4XcFK0SahQipoajB6s/LnuSsJ2OMB6ez+4THJKCQLDLdMJ9h7ZlnLeZgavhgQ+Ebr
+ i262icLWJ0163R35MD1DG1KRLKi5x2yzS8htn6vx5ADEpRn2qYYAXMlkpug8eG5WF8h+
+ tY/UcBfKOsq6vjSEZD14Ulvse4QlVtMQagwct6wW+lOxC+ykA6WyqHkKnv3J8Gc7fD2B
+ P612cobkhOKySRw6CQZGJUoXq8Thgfv0+ITNulPYmzcRPnmenlAeigVpWPcPghu5YrBy
+ bAqsjaChiSFxdgJUcz3nAPsrWTjQ50ezYYxQo8V2SI92Z78FxKxpxv/hFCQruNY7dToH
+ 7CXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679162168;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BjAKaepWncF6u/H1Pa+P+d/hZgx3SRRXSBdLXH1jpIA=;
+ b=BK+Uo0fKEsj0SMYGLP7MrHY8Hkz3BPjTD1fU3kRllE+ozdfPOrg3FI1Ulptm+wLY5S
+ eFEvY4Q9sIyiscerRRN1usjMvH5LtRIDo1KshsAawLLXpaPiXpWzJe50gUrtp0P1MxNl
+ 0uHxxmuzlV8KGZgm3TAkES2Y4Xq50nnwfqbL1kjl4LYG+51bqb7LdNW5Jqq5djCHFvwD
+ pQcIWgocyXkBMKukn39Zo33aLkfX7C403g4NcUm+jTYo9PYe2yfIrzLvQN+I4L10BEew
+ Ha1W9JbAAXQx98q4ASqUwqpUQ7Cn6HiTdgBsm9ND9lsAwmvrhQ9K42J+Ew4S7KecWO3E
+ bcbQ==
+X-Gm-Message-State: AO0yUKVLpP/DOa7JVJs+MP3JbJGC34X0BSeo/U0Y1wjm9cYKHHQVfLb7
+ 4uzdoPujDql+MmaAD8TUZfdz7NZ3aFA3eTfgii//cA==
+X-Google-Smtp-Source: AK7set99mEWc5QiRWK5ztS6qVx5r9ZGqpV1XvEsO7KjQFrwfvtCVQpv1ykidfEakfCpbXBcsSJQn2YmzMQV9PgsZBdg=
+X-Received: by 2002:a05:620a:a1d:b0:745:6bad:76a1 with SMTP id
+ i29-20020a05620a0a1d00b007456bad76a1mr6343363qka.5.1679162168572; Sat, 18 Mar
+ 2023 10:56:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH v8] audio/pwaudio.c: Add Pipewire audio backend for QEMU
-To: Dorinda Bassey <dbassey@redhat.com>
-Cc: marcandre.lureau@gmail.com, kraxel@redhat.com, armbru@redhat.com,
- qemu_oss@crudebyte.com, pbonzini@redhat.com, wtaymans@redhat.com,
- qemu-devel@nongnu.org
-References: <20230315164633.60924-1-dbassey@redhat.com>
-Content-Language: en-US
-In-Reply-To: <20230315164633.60924-1-dbassey@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1679162065-B202B007-91132D96/0/0 CLEAN NORMAL
-X-TOI-MSGID: ff95cd5a-fd1c-4c8b-86b2-1c681c6bf51d
-Received-SPF: none client-ip=194.25.134.20; envelope-from=vr_qemu@t-online.de;
- helo=mailout08.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <CAJ1un7j0FNpYaaviQxoKQN4O+C8RejqA918CdBamPySKyAEJUQ@mail.gmail.com>
+ <87mt4b73sv.fsf@linaro.org> <b2c11d07-ee58-715d-2994-3add1c60b95d@kaod.org>
+In-Reply-To: <b2c11d07-ee58-715d-2994-3add1c60b95d@kaod.org>
+From: Abhishek Singh Dagur <abhishek@drut.io>
+Date: Sat, 18 Mar 2023 23:25:58 +0530
+Message-ID: <CAJ1un7gM4Zf1ZRCG9c-FAcrgUcEtrRX5C0PXFxqOjMq=FzQvvw@mail.gmail.com>
+Subject: Re: Using QEMU how to redirect serial /dev/ttyS2 output of guest
+ machine to host machine.
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Srinivas Kodali <srini@drut.io>, qemu-devel@nongnu.org,
+ Anand Moon <anand@drut.io>
+Content-Type: multipart/alternative; boundary="00000000000094119405f7306813"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=abhishek@drut.io; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, HTML_OBFUSCATE_05_10=0.26,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,1184 +84,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Dorinda,
+--00000000000094119405f7306813
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> This commit adds a new audiodev backend to allow QEMU to use Pipewire as
-> both an audio sink and source. This backend is available on most systems
+Hi Alex , C=C3=A9dric,
+we have tried this *option:-serial *pty* -serial *pty* -serial *pty
+*-serial *pty *-serial *pty to check the serial output on screen.
+
+Here we are providing 2 scenarios without and with the changes
+suggested by @C=C3=A9dric
+Le Goater <clg@kaod.org> .
+In first we are able to get /dev/ttyS4 serial port not /dev/ttyS2
+In second we are able to get /dev/ttyS2 not /dev/ttyS4
+
+*Scenario1:* *previously with normal qemu build i have tried emulation as:*
+
+qemu-system-arm -m 512 -M ast2500-evb,fmc-model=3Dmx66u51235f,spi-model=3Dm=
+x66u
+51235f -nographic -drive file=3D./pru-1.2.4_dev-rc1.static.mtd,format=3Draw=
+,if=3Dmtd
+-serial pty -serial pty -serial pty -serial pty
+
+which gives us output as.
+
+QEMU 7.2.0 monitor - type 'help' for more information
+(qemu) char device redirected to /dev/pts/15 (label serial0)
+char device redirected to /dev/pts/16 (label serial1)
+char device redirected to /dev/pts/17 (label serial2)
+char device redirected to /dev/pts/18 (label serial3)
+
+so we can use *screen *to interact with the ttyS4 serial port like :
+screen /dev/pts/15
+In which we have our boot process and shell prompt .
+
+*Scenario2:* *when I am using the newly build image with the changes *@C=C3=
+=A9dric
+Le Goater <clg@kaod.org>*  provided*
+
+With the below command:
+./qemu-system-arm -m 512 -M ast2500-evb,uart-default=3Duart2,fmc-model=3Dmx=
+66u
+51235f,spi-model=3Dmx66u51235f -nographic -drive
+file=3D./pru-1.2.4_dev-rc1.static.mtd,format=3Draw,if=3Dmtd
+-serial pty -serial pty -serial pty -serial pty
+
+got the output:
+
+QEMU 7.2.90 monitor - type 'help' for more information
+(qemu) char device redirected to /dev/pts/4 (label serial0)
+char device redirected to /dev/pts/5 (label serial1)
+char device redirected to /dev/pts/6 (label serial2)
+char device redirected to /dev/pts/7 (label serial3)
+where we are able to get the output of /dev/ttyS2 serial in the *screen*
+/dev/pts/7
+but we are not getting the output of serial /dev/ttyS4
+we have tried increasing the number of *-serial pty* options also
+and checked the output of each with a screen but no success.
+
+Can you please guide us further.
+
+Regards,
+Abhishek
+
+
+
+
 >
-> Add Pipewire entry points for QEMU Pipewire audio backend
-> Add wrappers for QEMU Pipewire audio backend in qpw_pcm_ops()
-> qpw_write function returns the current state of the stream to pwaudio
-> and Writes some data to the server for playback streams using pipewire
-> spa_ringbuffer implementation.
-> qpw_read function returns the current state of the stream to pwaudio and
-> reads some data from the server for capture streams using pipewire
-> spa_ringbuffer implementation. These functions qpw_write and qpw_read
-> are called during playback and capture.
-> Added some functions that convert pw audio formats to QEMU audio format
-> and vice versa which would be needed in the pipewire audio sink and
-> source functions qpw_init_in() & qpw_init_out().
-> These methods that implement playback and recording will create streams
-> for playback and capture that will start processing and will result in
-> the on_process callbacks to be called.
-> Built a connection to the Pipewire sound system server in the
-> qpw_audio_init() method.
->
-> Signed-off-by: Dorinda Bassey<dbassey@redhat.com>
-> ---
-> v8:
-> Improve error handling
-> Improve code documentation
-> Improve latency handling
-> Refactor playback process
-> Add qpw_buffer_get_free method
-> Change latency options
-> Fix typo
->
->   audio/audio.c                 |   3 +
->   audio/audio_template.h        |   4 +
->   audio/meson.build             |   1 +
->   audio/pwaudio.c               | 820 ++++++++++++++++++++++++++++++++++
->   audio/trace-events            |   7 +
->   meson.build                   |   8 +
->   meson_options.txt             |   4 +-
->   qapi/audio.json               |  42 ++
->   qemu-options.hx               |  17 +
->   scripts/meson-buildoptions.sh |   8 +-
->   10 files changed, 911 insertions(+), 3 deletions(-)
->   create mode 100644 audio/pwaudio.c
->
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 70b096713c..90c7c49d11 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -2061,6 +2061,9 @@ void audio_create_pdos(Audiodev *dev)
->   #ifdef CONFIG_AUDIO_PA
->           CASE(PA, pa, Pa);
->   #endif
-> +#ifdef CONFIG_AUDIO_PIPEWIRE
-> +        CASE(PIPEWIRE, pipewire, Pipewire);
-> +#endif
->   #ifdef CONFIG_AUDIO_SDL
->           CASE(SDL, sdl, Sdl);
->   #endif
-> diff --git a/audio/audio_template.h b/audio/audio_template.h
-> index e42326c20d..dc0c74aa74 100644
-> --- a/audio/audio_template.h
-> +++ b/audio/audio_template.h
-> @@ -362,6 +362,10 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
->       case AUDIODEV_DRIVER_PA:
->           return qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.TYPE);
->   #endif
-> +#ifdef CONFIG_AUDIO_PIPEWIRE
-> +    case AUDIODEV_DRIVER_PIPEWIRE:
-> +        return qapi_AudiodevPipewirePerDirectionOptions_base(dev->u.pipewire.TYPE);
-> +#endif
->   #ifdef CONFIG_AUDIO_SDL
->       case AUDIODEV_DRIVER_SDL:
->           return qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.TYPE);
-> diff --git a/audio/meson.build b/audio/meson.build
-> index 0722224ba9..65a49c1a10 100644
-> --- a/audio/meson.build
-> +++ b/audio/meson.build
-> @@ -19,6 +19,7 @@ foreach m : [
->     ['sdl', sdl, files('sdlaudio.c')],
->     ['jack', jack, files('jackaudio.c')],
->     ['sndio', sndio, files('sndioaudio.c')],
-> +  ['pipewire', pipewire, files('pwaudio.c')],
->     ['spice', spice, files('spiceaudio.c')]
->   ]
->     if m[1].found()
-> diff --git a/audio/pwaudio.c b/audio/pwaudio.c
-> new file mode 100644
-> index 0000000000..8d11bbb92b
-> --- /dev/null
-> +++ b/audio/pwaudio.c
-> @@ -0,0 +1,820 @@
-> +/*
-> + * QEMU Pipewire audio driver
-> + *
-> + * Copyright (c) 2023 Red Hat Inc.
-> + *
-> + * Author: Dorinda Bassey<dbassey@redhat.com>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/module.h"
-> +#include "audio.h"
-> +#include <errno.h>
-> +#include "qemu/error-report.h"
-> +#include <spa/param/audio/format-utils.h>
-> +#include <spa/utils/ringbuffer.h>
-> +#include <spa/utils/result.h>
-> +
-> +#include <pipewire/pipewire.h>
-> +#include "trace.h"
-> +
-> +#define AUDIO_CAP "pipewire"
-> +#define RINGBUFFER_SIZE    (1u << 22)
-> +#define RINGBUFFER_MASK    (RINGBUFFER_SIZE - 1)
-> +
-> +#include "audio_int.h"
-> +
-> +enum {
-> +    MODE_SINK,
-> +    MODE_SOURCE
-> +};
-> +
-> +typedef struct pwaudio {
-> +    Audiodev *dev;
-> +    struct pw_thread_loop *thread_loop;
-> +    struct pw_context *context;
-> +
-> +    struct pw_core *core;
-> +    struct spa_hook core_listener;
-> +    int seq;
-> +} pwaudio;
-> +
-> +typedef struct PWVoice {
-> +    pwaudio *g;
-> +    bool enabled;
-> +    struct pw_stream *stream;
-> +    struct spa_hook stream_listener;
-> +    struct spa_audio_info_raw info;
-> +    uint32_t highwater_mark;
-> +    uint32_t frame_size;
-> +    struct spa_ringbuffer ring;
-> +    uint8_t buffer[RINGBUFFER_SIZE];
-> +
-> +    uint32_t mode;
-> +    struct pw_properties *props;
 
-props is unused.
+--00000000000094119405f7306813
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +} PWVoice;
-> +
-> +typedef struct PWVoiceOut {
-> +    HWVoiceOut hw;
-> +    PWVoice v;
-> +} PWVoiceOut;
-> +
-> +typedef struct PWVoiceIn {
-> +    HWVoiceIn hw;
-> +    PWVoice v;
-> +} PWVoiceIn;
-> +
-> +static void
-> +stream_destroy(void *data)
-> +{
-> +    PWVoice *v = (PWVoice *) data;
-> +    spa_hook_remove(&v->stream_listener);
-> +    v->stream = NULL;
-> +}
-> +
-> +/* output data processing function to read stuffs from the buffer */
-> +static void
-> +playback_on_process(void *data)
-> +{
-> +    PWVoice *v = (PWVoice *) data;
-> +    void *p;
-> +    struct pw_buffer *b;
-> +    struct spa_buffer *buf;
-> +    uint32_t req, index, n_bytes;
-> +    int32_t avail;
-> +
-> +    if (!v->stream) {
-> +        return;
-> +    }
-> +
-> +    /* obtain a buffer to read from */
-> +    b = pw_stream_dequeue_buffer(v->stream);
-> +    if (b == NULL) {
-> +        error_report("out of buffers: %s", strerror(errno));
-> +        return;
-> +    }
-> +
-> +    buf = b->buffer;
-> +    p = buf->datas[0].data;
-> +    if (p == NULL) {
-> +        return;
-> +    }
-> +    /* calculate the total no of bytes to read data from buffer */
-> +    req = b->requested * v->frame_size;
-> +    if (req == 0) {
-> +        req = (uint64_t)v->g->dev->timer_period * v->info.rate
-> +                * 1 / 2 / 1000000 * v->frame_size;
+<div dir=3D"ltr"><div dir=3D"ltr"><font face=3D"arial, sans-serif">Hi Alex =
+,=C2=A0<span style=3D"color:rgb(31,31,31);white-space:nowrap">C=C3=A9dric,<=
+/span></font><div><font face=3D"arial, sans-serif">we have tried this=C2=A0=
+<b>option:-serial=C2=A0</b>pty<b>=C2=A0-serial=C2=A0</b>pty<b>=C2=A0-serial=
+=C2=A0</b>pty=C2=A0<b>-serial=C2=A0</b>pty=C2=A0<b>-serial=C2=A0</b>pty to =
+check the serial output on screen.</font></div><div><font face=3D"arial, sa=
+ns-serif"><br></font></div><div><font face=3D"arial, sans-serif">Here we ar=
+e providing 2 scenarios without and with the changes=C2=A0suggested by=C2=
+=A0<a class=3D"gmail_plusreply" id=3D"plusReplyChip-1" href=3D"mailto:clg@k=
+aod.org" tabindex=3D"-1">@C=C3=A9dric Le Goater</a>=C2=A0.</font></div><div=
+><font face=3D"arial, sans-serif">In first we are able to get /dev/ttyS4 se=
+rial port not /dev/ttyS2=C2=A0</font></div><div><font face=3D"arial, sans-s=
+erif">In second we are able to get /dev/ttyS2 not /dev/ttyS4</font></div><d=
+iv><font face=3D"arial, sans-serif"><br></font></div><div><span style=3D"fo=
+nt-family:arial,sans-serif"><b>Scenario1:</b></span><span style=3D"color:rg=
+b(31,31,31);white-space:nowrap"><font face=3D"arial, sans-serif"><b>=C2=A0<=
+/b></font></span><b style=3D"font-family:arial,sans-serif;color:rgb(31,31,3=
+1);white-space:nowrap">previously=C2=A0with normal qemu build i have tried =
+emulation as:</b></div><div><span style=3D"color:rgb(31,31,31);white-space:=
+nowrap"><font face=3D"arial, sans-serif"><br></font></span></div><div><div =
+style=3D"color:rgb(0,0,0);line-height:19px;white-space:pre"><div><font face=
+=3D"arial, sans-serif">qemu-system-arm -m <span style=3D"color:rgb(9,134,88=
+)">512</span> -M ast<span style=3D"color:rgb(9,134,88)">2500</span>-evb,fmc=
+-model=3Dmx<span style=3D"color:rgb(9,134,88)">66</span>u<span style=3D"col=
+or:rgb(9,134,88)">51235</span>f,spi-model=3Dmx<span style=3D"color:rgb(9,13=
+4,88)">66</span>u<span style=3D"color:rgb(9,134,88)">51235</span>f -nograph=
+ic -drive file=3D./pru<span style=3D"color:rgb(9,134,88)">-1.2</span>.<span=
+ style=3D"color:rgb(9,134,88)">4</span>_dev-rc<span style=3D"color:rgb(9,13=
+4,88)">1</span>.static.mtd,format=3Draw,if=3Dmtd -serial pty -serial pty -s=
+erial pty -serial pty</font></div></div></div><div><font face=3D"arial, san=
+s-serif"><br></font></div><div><font face=3D"arial, sans-serif">which gives=
+ us output as.</font></div><div><font face=3D"arial, sans-serif"><br></font=
+></div><div><div style=3D"color:rgb(0,0,0);line-height:19px;white-space:pre=
+"><div><font face=3D"arial, sans-serif">QEMU <span style=3D"color:rgb(9,134=
+,88)">7.2</span>.<span style=3D"color:rgb(9,134,88)">0</span> monitor - typ=
+e &#39;help&#39; for more information</font></div><div><font face=3D"arial,=
+ sans-serif">(qemu) char device redirected to /dev/pts/<span style=3D"color=
+:rgb(9,134,88)">15</span> (label serial<span style=3D"color:rgb(9,134,88)">=
+0</span>)</font></div><div><font face=3D"arial, sans-serif">char device red=
+irected to /dev/pts/<span style=3D"color:rgb(9,134,88)">16</span> (label se=
+rial<span style=3D"color:rgb(9,134,88)">1</span>)</font></div><div><font fa=
+ce=3D"arial, sans-serif">char device redirected to /dev/pts/<span style=3D"=
+color:rgb(9,134,88)">17</span> (label serial<span style=3D"color:rgb(9,134,=
+88)">2</span>)</font></div><div><font face=3D"arial, sans-serif">char devic=
+e redirected to /dev/pts/<span style=3D"color:rgb(9,134,88)">18</span> (lab=
+el serial<span style=3D"color:rgb(9,134,88)">3</span>)</font></div></div></=
+div><div><span style=3D"color:rgb(31,31,31);white-space:nowrap"><font face=
+=3D"arial, sans-serif"><br></font></span></div><div><font color=3D"#1f1f1f"=
+ face=3D"arial, sans-serif"><span style=3D"white-space:nowrap">so we can us=
+e <b>screen </b>to interact with the ttyS4 serial port like :</span></font>=
+</div><div><font face=3D"arial, sans-serif"><span style=3D"color:rgb(0,0,0)=
+;white-space:pre">screen /dev/pts/</span><span style=3D"white-space:pre;col=
+or:rgb(9,134,88)">15 </span></font></div><div><span style=3D"white-space:no=
+wrap;color:rgb(31,31,31)"><font face=3D"arial, sans-serif">In which we have=
+ our=C2=A0boot process and shell prompt .</font></span></div><div><span sty=
+le=3D"white-space:nowrap;color:rgb(31,31,31)"><font face=3D"arial, sans-ser=
+if"><br></font></span></div><div><span style=3D"font-family:arial,sans-seri=
+f"><b>Scenario2:</b>=C2=A0</span><span style=3D"white-space:nowrap;color:rg=
+b(31,31,31)"><font face=3D"arial, sans-serif"><b>when I am using the newly =
+build image with the changes=C2=A0</b></font><a class=3D"gmail_plusreply" i=
+d=3D"gmail-plusReplyChip-0" href=3D"mailto:clg@kaod.org" tabindex=3D"-1" st=
+yle=3D"">@C=C3=A9dric Le Goater</a><font face=3D"arial, sans-serif"><b>=C2=
+=A0 provided</b></font></span></div><div><span style=3D"white-space:nowrap;=
+color:rgb(31,31,31)"><font face=3D"arial, sans-serif"><br></font></span></d=
+iv><div><font color=3D"#1f1f1f" face=3D"arial, sans-serif"><span style=3D"w=
+hite-space:nowrap">With the below command:</span></font></div><div><div sty=
+le=3D"color:rgb(0,0,0);line-height:19px;white-space:pre"><div><font face=3D=
+"arial, sans-serif">./qemu-system-arm -m <span style=3D"color:rgb(9,134,88)=
+">512</span> -M ast<span style=3D"color:rgb(9,134,88)">2500</span>-evb,uart=
+-default=3Duart<span style=3D"color:rgb(9,134,88)">2</span>,fmc-model=3Dmx<=
+span style=3D"color:rgb(9,134,88)">66</span>u<span style=3D"color:rgb(9,134=
+,88)">51235</span>f,spi-model=3Dmx<span style=3D"color:rgb(9,134,88)">66</s=
+pan>u<span style=3D"color:rgb(9,134,88)">51235</span>f -nographic -drive fi=
+le=3D./pru<span style=3D"color:rgb(9,134,88)">-1.2</span>.<span style=3D"co=
+lor:rgb(9,134,88)">4</span>_dev-rc<span style=3D"color:rgb(9,134,88)">1</sp=
+an>.static.mtd,format=3Draw,if=3Dmtd -serial pty -serial pty -serial pty -s=
+erial pty</font></div><div><font face=3D"arial, sans-serif"><br></font></di=
+v><div><font face=3D"arial, sans-serif">got the output:</font></div><div><f=
+ont face=3D"arial, sans-serif"><br></font></div><div><font face=3D"arial, s=
+ans-serif">
 
-This term is constant for the lifetime of the playback stream. It could 
-be precalculated in qpw_init_out().
+</font><div style=3D"line-height:19px"><div><font face=3D"arial, sans-serif=
+">QEMU <span style=3D"color:rgb(9,134,88)">7.2</span>.<span style=3D"color:=
+rgb(9,134,88)">90</span> monitor - type &#39;help&#39; for more information=
+</font></div><div><font face=3D"arial, sans-serif">(qemu) char device redir=
+ected to /dev/pts/<span style=3D"color:rgb(9,134,88)">4</span> (label seria=
+l<span style=3D"color:rgb(9,134,88)">0</span>)</font></div><div><font face=
+=3D"arial, sans-serif">char device redirected to /dev/pts/<span style=3D"co=
+lor:rgb(9,134,88)">5</span> (label serial<span style=3D"color:rgb(9,134,88)=
+">1</span>)</font></div><div><font face=3D"arial, sans-serif">char device r=
+edirected to /dev/pts/<span style=3D"color:rgb(9,134,88)">6</span> (label s=
+erial<span style=3D"color:rgb(9,134,88)">2</span>)</font></div><div><font f=
+ace=3D"arial, sans-serif">char device redirected to /dev/pts/<span style=3D=
+"color:rgb(9,134,88)">7</span> (label serial<span style=3D"color:rgb(9,134,=
+88)">3</span>)</font></div></div><font face=3D"arial, sans-serif">
+where we are able to get the output of /dev/ttyS2 serial in the <b>screen</=
+b> /dev/pts/<span style=3D"color:rgb(9,134,88)">7</span></font></div><font =
+face=3D"arial, sans-serif">but we are not getting the output of serial /dev=
+/ttyS4 </font></div></div><div style=3D"color:rgb(0,0,0);line-height:19px;w=
+hite-space:pre"><font face=3D"arial, sans-serif">we have tried increasing t=
+he number of <b>-serial pty</b> options also</font></div><div style=3D"colo=
+r:rgb(0,0,0);line-height:19px;white-space:pre"><font face=3D"arial, sans-se=
+rif">and checked the output of each with a screen but no success.</font></d=
+iv><div style=3D"color:rgb(0,0,0);line-height:19px;white-space:pre"><font f=
+ace=3D"arial, sans-serif"><br></font></div><div style=3D"color:rgb(0,0,0);l=
+ine-height:19px;white-space:pre"><font face=3D"arial, sans-serif">Can you p=
+lease guide us further.</font></div><div style=3D"color:rgb(0,0,0);line-hei=
+ght:19px;white-space:pre"><br></div><div style=3D"color:rgb(0,0,0);line-hei=
+ght:19px;white-space:pre">Regards,</div><div style=3D"color:rgb(0,0,0);line=
+-height:19px;white-space:pre"><font face=3D"arial, sans-serif">Abhishek</fo=
+nt></div><div style=3D"color:rgb(0,0,0);line-height:19px;white-space:pre"><=
+font face=3D"arial, sans-serif"><br></font></div><div style=3D"color:rgb(0,=
+0,0);font-family:&quot;FiraCode NF&quot;,&quot;FiraCode NF&quot;,&quot;Fira=
+Code NF&quot;,Consolas,&quot;Courier New&quot;,monospace;line-height:19px;w=
+hite-space:pre"><br></div><div style=3D"color:rgb(0,0,0);font-family:&quot;=
+FiraCode NF&quot;,&quot;FiraCode NF&quot;,&quot;FiraCode NF&quot;,Consolas,=
+&quot;Courier New&quot;,monospace;line-height:19px;white-space:pre"><br></d=
+iv></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><br>
+</blockquote></div></div>
 
-> +    }
-> +    n_bytes = SPA_MIN(req, buf->datas[0].maxsize);
-> +
-> +    /* get no of available bytes to read data from buffer */
-> +
-> +    avail = spa_ringbuffer_get_read_index(&v->ring, &index);
-> +
-> +    if (!v->enabled) {
-> +        avail = 0;
-> +    }
-
-The if (!v->enabled) block isn't needed. When the guest stops the 
-playback stream, it won't write new samples. After the pipewire 
-ringbuffer is drained, avail is always 0. It's better to drain the 
-ringbuffer, otherwise the first thing you will hear after playback 
-starts again will be stale audio samples.
-
-You removed the code to play silence on a buffer underrun. I suggest to 
-add it again. Use a trace point with the "simple" trace backend to see 
-how often pipewire now calls the callback in short succession for a 
-disabled stream before giving up.
-
-> +
-> +    if (avail < (int32_t) n_bytes) {
-> +        n_bytes = avail;
-> +    }
-> +
-> +    spa_ringbuffer_read_data(&v->ring,
-> +                                v->buffer, RINGBUFFER_SIZE,
-> +                                index & RINGBUFFER_MASK, p, n_bytes);
-> +
-> +    index += n_bytes;
-> +    spa_ringbuffer_read_update(&v->ring, index);
-> +
-> +    buf->datas[0].chunk->offset = 0;
-> +    buf->datas[0].chunk->stride = v->frame_size;
-> +    buf->datas[0].chunk->size = n_bytes;
-> +
-> +    /* queue the buffer for playback */
-> +    pw_stream_queue_buffer(v->stream, b);
-> +}
-> +
-> +/* output data processing function to generate stuffs in the buffer */
-> +static void
-> +capture_on_process(void *data)
-> +{
-> +    PWVoice *v = (PWVoice *) data;
-> +    void *p;
-> +    struct pw_buffer *b;
-> +    struct spa_buffer *buf;
-> +    int32_t filled;
-> +    uint32_t index, offs, n_bytes;
-> +
-> +    if (!v->stream) {
-> +        return;
-> +    }
-> +
-> +    /* obtain a buffer */
-> +    b = pw_stream_dequeue_buffer(v->stream);
-> +    if (b == NULL) {
-> +        error_report("out of buffers: %s", strerror(errno));
-> +        return;
-> +    }
-> +
-> +    /* Write data into buffer */
-> +    buf = b->buffer;
-> +    p = buf->datas[0].data;
-> +    if (p == NULL) {
-> +        return;
-> +    }
-> +    offs = SPA_MIN(buf->datas[0].chunk->offset, buf->datas[0].maxsize);
-> +    n_bytes = SPA_MIN(buf->datas[0].chunk->size, buf->datas[0].maxsize - offs);
-> +
-> +    filled = spa_ringbuffer_get_write_index(&v->ring, &index);
-> +
-> +    if (!v->enabled) {
-> +        n_bytes = 0;
-> +    }
-> +
-> +    if (filled < 0) {
-> +        error_report("%p: underrun write:%u filled:%d", p, index, filled);
-> +    } else {
-> +        if ((uint32_t) filled + n_bytes > RINGBUFFER_SIZE) {
-> +            error_report("%p: overrun write:%u filled:%d + size:%u > max:%u",
-> +            p, index, filled, n_bytes, RINGBUFFER_SIZE);
-> +        }
-> +    }
-> +    spa_ringbuffer_write_data(&v->ring,
-> +                                v->buffer, RINGBUFFER_SIZE,
-> +                                index & RINGBUFFER_MASK,
-> +                                SPA_PTROFF(p, offs, void), n_bytes);
-> +    index += n_bytes;
-> +    spa_ringbuffer_write_update(&v->ring, index);
-> +
-> +    /* queue the buffer for playback */
-> +    pw_stream_queue_buffer(v->stream, b);
-> +}
-> +
-> +static void
-> +on_stream_state_changed(void *_data, enum pw_stream_state old,
-> +                        enum pw_stream_state state, const char *error)
-> +{
-> +    PWVoice *v = (PWVoice *) _data;
-> +
-> +    trace_pw_state_changed(pw_stream_state_as_string(state));
-> +
-> +    switch (state) {
-> +    case PW_STREAM_STATE_ERROR:
-> +    case PW_STREAM_STATE_UNCONNECTED:
-> +        {
-> +            break;
-> +        }
-> +    case PW_STREAM_STATE_PAUSED:
-> +        trace_pw_node(pw_stream_get_node_id(v->stream));
-> +        break;
-> +    case PW_STREAM_STATE_CONNECTING:
-> +    case PW_STREAM_STATE_STREAMING:
-> +        break;
-> +    }
-> +}
-> +
-> +static const struct pw_stream_events capture_stream_events = {
-> +    PW_VERSION_STREAM_EVENTS,
-> +    .destroy = stream_destroy,
-> +    .state_changed = on_stream_state_changed,
-> +    .process = capture_on_process
-> +};
-> +
-> +static const struct pw_stream_events playback_stream_events = {
-> +    PW_VERSION_STREAM_EVENTS,
-> +    .destroy = stream_destroy,
-> +    .state_changed = on_stream_state_changed,
-> +    .process = playback_on_process
-> +};
-> +
-> +static size_t
-> +qpw_read(HWVoiceIn *hw, void *data, size_t len)
-> +{
-> +    PWVoiceIn *pw = (PWVoiceIn *) hw;
-> +    PWVoice *v = &pw->v;
-> +    pwaudio *c = v->g;
-> +    const char *error = NULL;
-> +    size_t l;
-> +    int32_t avail;
-> +    uint32_t index;
-> +
-> +    pw_thread_loop_lock(c->thread_loop);
-> +    if (pw_stream_get_state(v->stream, &error) != PW_STREAM_STATE_STREAMING) {
-> +        /* wait for stream to become ready */
-> +        l = 0;
-> +        goto done_unlock;
-> +    }
-> +    /* get no of available bytes to read data from buffer */
-> +    avail = spa_ringbuffer_get_read_index(&v->ring, &index);
-> +
-> +    trace_pw_read(avail, index, len);
-> +
-> +    if (avail < (int32_t) len) {
-> +        len = avail;
-> +    }
-> +
-> +    spa_ringbuffer_read_data(&v->ring,
-> +                             v->buffer, RINGBUFFER_SIZE,
-> +                             index & RINGBUFFER_MASK, data, len);
-> +    index += len;
-> +    spa_ringbuffer_read_update(&v->ring, index);
-> +    l = len;
-> +
-> +done_unlock:
-> +    pw_thread_loop_unlock(c->thread_loop);
-> +    return l;
-> +}
-> +
-> +static size_t qpw_buffer_get_free(HWVoiceOut *hw)
-> +{
-> +    PWVoiceOut *pw = (PWVoiceOut *)hw;
-> +    PWVoice *v = &pw->v;
-> +    pwaudio *c = v->g;
-> +    const char *error = NULL;
-> +    int32_t filled, avail;
-> +    uint32_t index;
-> +
-> +    pw_thread_loop_lock(c->thread_loop);
-> +    if (pw_stream_get_state(v->stream, &error) != PW_STREAM_STATE_STREAMING) {
-> +        /* wait for stream to become ready */
-> +        avail = 0;
-> +        goto done_unlock;
-> +    }
-> +
-> +    filled = spa_ringbuffer_get_write_index(&v->ring, &index);
-> +    avail = v->highwater_mark - filled;
-> +
-> +done_unlock:
-> +    pw_thread_loop_unlock(c->thread_loop);
-> +    return avail;
-> +}
-> +
-> +static size_t
-> +qpw_write(HWVoiceOut *hw, void *data, size_t len)
-> +{
-> +    PWVoiceOut *pw = (PWVoiceOut *) hw;
-> +    PWVoice *v = &pw->v;
-> +    pwaudio *c = v->g;
-> +    const char *error = NULL;
-> +    int32_t filled, avail;
-> +    uint32_t index;
-> +
-> +    pw_thread_loop_lock(c->thread_loop);
-> +    if (pw_stream_get_state(v->stream, &error) != PW_STREAM_STATE_STREAMING) {
-> +        /* wait for stream to become ready */
-> +        len = 0;
-> +        goto done_unlock;
-> +    }
-> +    filled = spa_ringbuffer_get_write_index(&v->ring, &index);
-> +    avail = v->highwater_mark - filled;
-> +
-> +    trace_pw_write(filled, avail, index, len);
-> +
-> +    if (len > avail) {
-> +        len = avail;
-> +    }
-> +
-> +    if (filled < 0) {
-> +        error_report("%p: underrun write:%u filled:%d", pw, index, filled);
-> +    } else {
-> +        if ((uint32_t) filled + len > RINGBUFFER_SIZE) {
-> +            error_report("%p: overrun write:%u filled:%d + size:%zu > max:%u",
-> +            pw, index, filled, len, RINGBUFFER_SIZE);
-> +        }
-> +    }
-> +
-> +    spa_ringbuffer_write_data(&v->ring,
-> +                                v->buffer, RINGBUFFER_SIZE,
-> +                                index & RINGBUFFER_MASK, data, len);
-> +    index += len;
-> +    spa_ringbuffer_write_update(&v->ring, index);
-> +
-> +done_unlock:
-> +    pw_thread_loop_unlock(c->thread_loop);
-> +    return len;
-> +}
-> +
-> +static int
-> +audfmt_to_pw(AudioFormat fmt, int endianness)
-> +{
-> +    int format;
-> +
-> +    switch (fmt) {
-> +    case AUDIO_FORMAT_S8:
-> +        format = SPA_AUDIO_FORMAT_S8;
-> +        break;
-> +    case AUDIO_FORMAT_U8:
-> +        format = SPA_AUDIO_FORMAT_U8;
-> +        break;
-> +    case AUDIO_FORMAT_S16:
-> +        format = endianness ? SPA_AUDIO_FORMAT_S16_BE : SPA_AUDIO_FORMAT_S16_LE;
-> +        break;
-> +    case AUDIO_FORMAT_U16:
-> +        format = endianness ? SPA_AUDIO_FORMAT_U16_BE : SPA_AUDIO_FORMAT_U16_LE;
-> +        break;
-> +    case AUDIO_FORMAT_S32:
-> +        format = endianness ? SPA_AUDIO_FORMAT_S32_BE : SPA_AUDIO_FORMAT_S32_LE;
-> +        break;
-> +    case AUDIO_FORMAT_U32:
-> +        format = endianness ? SPA_AUDIO_FORMAT_U32_BE : SPA_AUDIO_FORMAT_U32_LE;
-> +        break;
-> +    case AUDIO_FORMAT_F32:
-> +        format = endianness ? SPA_AUDIO_FORMAT_F32_BE : SPA_AUDIO_FORMAT_F32_LE;
-> +        break;
-> +    default:
-> +        dolog("Internal logic error: Bad audio format %d\n", fmt);
-> +        format = SPA_AUDIO_FORMAT_U8;
-> +        break;
-> +    }
-> +    return format;
-> +}
-> +
-> +static AudioFormat
-> +pw_to_audfmt(enum spa_audio_format fmt, int *endianness,
-> +             uint32_t *frame_size)
-> +{
-> +    switch (fmt) {
-> +    case SPA_AUDIO_FORMAT_S8:
-> +        *frame_size = 1;
-> +        return AUDIO_FORMAT_S8;
-> +    case SPA_AUDIO_FORMAT_U8:
-> +        *frame_size = 1;
-> +        return AUDIO_FORMAT_U8;
-> +    case SPA_AUDIO_FORMAT_S16_BE:
-> +        *frame_size = 2;
-> +        *endianness = 1;
-> +        return AUDIO_FORMAT_S16;
-> +    case SPA_AUDIO_FORMAT_S16_LE:
-> +        *frame_size = 2;
-> +        *endianness = 0;
-> +        return AUDIO_FORMAT_S16;
-> +    case SPA_AUDIO_FORMAT_U16_BE:
-> +        *frame_size = 2;
-> +        *endianness = 1;
-> +        return AUDIO_FORMAT_U16;
-> +    case SPA_AUDIO_FORMAT_U16_LE:
-> +        *frame_size = 2;
-> +        *endianness = 0;
-> +        return AUDIO_FORMAT_U16;
-> +    case SPA_AUDIO_FORMAT_S32_BE:
-> +        *frame_size = 4;
-> +        *endianness = 1;
-> +        return AUDIO_FORMAT_S32;
-> +    case SPA_AUDIO_FORMAT_S32_LE:
-> +        *frame_size = 4;
-> +        *endianness = 0;
-> +        return AUDIO_FORMAT_S32;
-> +    case SPA_AUDIO_FORMAT_U32_BE:
-> +        *frame_size = 4;
-> +        *endianness = 1;
-> +        return AUDIO_FORMAT_U32;
-> +    case SPA_AUDIO_FORMAT_U32_LE:
-> +        *frame_size = 4;
-> +        *endianness = 0;
-> +        return AUDIO_FORMAT_U32;
-> +    case SPA_AUDIO_FORMAT_F32_BE:
-> +        *frame_size = 4;
-> +        *endianness = 1;
-> +        return AUDIO_FORMAT_F32;
-> +    case SPA_AUDIO_FORMAT_F32_LE:
-> +        *frame_size = 4;
-> +        *endianness = 0;
-> +        return AUDIO_FORMAT_F32;
-> +    default:
-> +        *frame_size = 1;
-> +        dolog("Internal logic error: Bad spa_audio_format %d\n", fmt);
-> +        return AUDIO_FORMAT_U8;
-> +    }
-> +}
-> +
-> +static int
-> +create_stream(pwaudio *c, PWVoice *v, const char *name)
-> +{
-> +    int res;
-> +    uint32_t n_params;
-> +    const struct spa_pod *params[2];
-> +    uint8_t buffer[1024];
-> +    struct spa_pod_builder b;
-> +    struct pw_properties *props;
-> +
-> +    props = pw_properties_new(NULL, NULL);
-> +    pw_properties_setf(props, PW_KEY_NODE_LATENCY, "%" PRIu64 "/%u",
-> +                       (uint64_t)v->g->dev->timer_period * v->info.rate
-> +                       * 3 / 4 / 1000000, v->info.rate);
-> +    v->stream = pw_stream_new(c->core, name, props);
-> +
-> +    if (v->stream == NULL) {
-> +        return -1;
-> +    }
-> +
-> +    if (v->mode == MODE_SOURCE) {
-> +        pw_stream_add_listener(v->stream,
-> +                            &v->stream_listener, &capture_stream_events, v);
-> +    } else {
-> +        pw_stream_add_listener(v->stream,
-> +                            &v->stream_listener, &playback_stream_events, v);
-> +    }
-> +
-> +    n_params = 0;
-> +    spa_pod_builder_init(&b, buffer, sizeof(buffer));
-> +    params[n_params++] = spa_format_audio_raw_build(&b,
-> +                            SPA_PARAM_EnumFormat,
-> +                            &v->info);
-> +
-> +    /* connect the stream to a sink or source */
-> +    res = pw_stream_connect(v->stream,
-> +                            v->mode ==
-> +                            MODE_SOURCE ? PW_DIRECTION_INPUT :
-> +                            PW_DIRECTION_OUTPUT, PW_ID_ANY,
-> +                            PW_STREAM_FLAG_AUTOCONNECT |
-> +                            PW_STREAM_FLAG_MAP_BUFFERS |
-> +                            PW_STREAM_FLAG_RT_PROCESS, params, n_params);
-> +    if (res < 0) {
-> +        pw_stream_destroy(v->stream);
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static int
-> +qpw_stream_new(pwaudio *c, PWVoice *v, const char *name)
-> +{
-> +    int r;
-> +
-> +    switch (v->info.channels) {
-> +    case 8:
-> +        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
-> +        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
-> +        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
-> +        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
-> +        v->info.position[4] = SPA_AUDIO_CHANNEL_RL;
-> +        v->info.position[5] = SPA_AUDIO_CHANNEL_RR;
-> +        v->info.position[6] = SPA_AUDIO_CHANNEL_SL;
-> +        v->info.position[7] = SPA_AUDIO_CHANNEL_SR;
-> +        break;
-> +    case 6:
-> +        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
-> +        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
-> +        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
-> +        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
-> +        v->info.position[4] = SPA_AUDIO_CHANNEL_RL;
-> +        v->info.position[5] = SPA_AUDIO_CHANNEL_RR;
-> +        break;
-> +    case 5:
-> +        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
-> +        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
-> +        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
-> +        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
-> +        v->info.position[4] = SPA_AUDIO_CHANNEL_RC;
-> +        break;
-> +    case 4:
-> +        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
-> +        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
-> +        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
-> +        v->info.position[3] = SPA_AUDIO_CHANNEL_RC;
-> +        break;
-> +    case 3:
-> +        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
-> +        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
-> +        v->info.position[2] = SPA_AUDIO_CHANNEL_LFE;
-> +        break;
-> +    case 2:
-> +        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
-> +        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
-> +        break;
-> +    case 1:
-> +        v->info.position[0] = SPA_AUDIO_CHANNEL_MONO;
-> +        break;
-> +    default:
-> +        for (size_t i = 0; i < v->info.channels; i++) {
-> +            v->info.position[i] = SPA_AUDIO_CHANNEL_UNKNOWN;
-> +        }
-> +        break;
-> +    }
-> +
-> +    /* create a new unconnected pwstream */
-> +    r = create_stream(c, v, name);
-> +    if (r < 0) {
-> +        AUD_log(AUDIO_CAP, "Failed to create stream.");
-> +        return -1;
-> +    }
-> +
-> +    return r;
-> +}
-> +
-> +static int
-> +qpw_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
-> +{
-> +    PWVoiceOut *pw = (PWVoiceOut *) hw;
-> +    PWVoice *v = &pw->v;
-> +    struct audsettings obt_as = *as;
-> +    pwaudio *c = v->g = drv_opaque;
-> +    AudiodevPipewireOptions *popts = &c->dev->u.pipewire;
-> +    AudiodevPipewirePerDirectionOptions *ppdo = popts->out;
-> +    int r;
-> +    v->enabled = false;
-> +
-> +    v->mode = MODE_SINK;
-> +
-> +    pw_thread_loop_lock(c->thread_loop);
-> +
-> +    v->info.format = audfmt_to_pw(as->fmt, as->endianness);
-> +    v->info.channels = as->nchannels;
-> +    v->info.rate = as->freq;
-> +
-> +    obt_as.fmt =
-> +        pw_to_audfmt(v->info.format, &obt_as.endianness, &v->frame_size);
-> +    v->frame_size *= as->nchannels;
-> +
-> +    /* call the function that creates a new stream for playback */
-> +    r = qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id);
-> +    if (r < 0) {
-> +        error_report("qpw_stream_new for playback failed");
-> +        pw_thread_loop_unlock(c->thread_loop);
-> +        return -1;
-> +    }
-> +
-> +    /* report the audio format we support */
-> +    audio_pcm_init_info(&hw->info, &obt_as);
-> +
-> +    /* report the buffer size to qemu */
-> +    hw->samples = audio_buffer_frames(
-> +        qapi_AudiodevPipewirePerDirectionOptions_base(ppdo), &obt_as, 46440);
-> +    v->highwater_mark = MIN(RINGBUFFER_SIZE,
-> +                            (ppdo->has_latency ? ppdo->latency : 46440)
-> +                            * (uint64_t)v->info.rate / 1000000 * v->frame_size);
-> +
-> +    pw_thread_loop_unlock(c->thread_loop);
-> +    return 0;
-> +}
-> +
-> +static int
-> +qpw_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-> +{
-> +    PWVoiceIn *pw = (PWVoiceIn *) hw;
-> +    PWVoice *v = &pw->v;
-> +    struct audsettings obt_as = *as;
-> +    pwaudio *c = v->g = drv_opaque;
-> +    AudiodevPipewireOptions *popts = &c->dev->u.pipewire;
-> +    AudiodevPipewirePerDirectionOptions *ppdo = popts->in;
-> +    int r;
-> +    v->enabled = false;
-> +
-> +    v->mode = MODE_SOURCE;
-> +    pw_thread_loop_lock(c->thread_loop);
-> +
-> +    v->info.format = audfmt_to_pw(as->fmt, as->endianness);
-> +    v->info.channels = as->nchannels;
-> +    v->info.rate = as->freq;
-> +
-> +    obt_as.fmt =
-> +        pw_to_audfmt(v->info.format, &obt_as.endianness, &v->frame_size);
-> +    v->frame_size *= as->nchannels;
-> +
-> +    /* call the function that creates a new stream for recording */
-> +    r = qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id);
-> +    if (r < 0) {
-> +        error_report("qpw_stream_new for recording failed");
-> +        pw_thread_loop_unlock(c->thread_loop);
-> +        return -1;
-> +    }
-> +
-> +    /* report the audio format we support */
-> +    audio_pcm_init_info(&hw->info, &obt_as);
-> +
-> +    /* report the buffer size to qemu */
-> +    hw->samples = audio_buffer_frames(
-> +        qapi_AudiodevPipewirePerDirectionOptions_base(ppdo), &obt_as, 46440);
-> +
-> +    pw_thread_loop_unlock(c->thread_loop);
-> +    return 0;
-> +}
-> +
-> +static void
-> +qpw_fini_out(HWVoiceOut *hw)
-> +{
-> +    PWVoiceOut *pw = (PWVoiceOut *) hw;
-> +    PWVoice *v = &pw->v;
-> +
-> +    if (v->stream) {
-> +        pwaudio *c = v->g;
-> +        pw_thread_loop_lock(c->thread_loop);
-> +        pw_stream_destroy(v->stream);
-> +        v->stream = NULL;
-> +        pw_thread_loop_unlock(c->thread_loop);
-> +    }
-> +}
-> +
-> +static void
-> +qpw_fini_in(HWVoiceIn *hw)
-> +{
-> +    PWVoiceIn *pw = (PWVoiceIn *) hw;
-> +    PWVoice *v = &pw->v;
-> +
-> +    if (v->stream) {
-> +        pwaudio *c = v->g;
-> +        pw_thread_loop_lock(c->thread_loop);
-> +        pw_stream_destroy(v->stream);
-> +        v->stream = NULL;
-> +        pw_thread_loop_unlock(c->thread_loop);
-> +    }
-> +}
-> +
-> +static void
-> +qpw_enable_out(HWVoiceOut *hw, bool enable)
-> +{
-> +    PWVoiceOut *po = (PWVoiceOut *) hw;
-> +    PWVoice *v = &po->v;
-> +    v->enabled = enable;
-> +}
-> +
-> +static void
-> +qpw_enable_in(HWVoiceIn *hw, bool enable)
-> +{
-> +    PWVoiceIn *pi = (PWVoiceIn *) hw;
-> +    PWVoice *v = &pi->v;
-> +    v->enabled = enable;
-> +}
-
-Please read again Marc-André's comments for the v7 version of the 
-pipewire backend. When the guest enables/disables an audio stream, 
-pipewire should know this. It's unnecessary that pipewire calls the 
-callback code for disabled streams. Don't forget to connect the stream 
-with the flag PW_STREAM_FLAG_INACTIVE. Every QEMU audio device enables 
-the stream before playback/recording starts.
-
-> +
-> +static void
-> +on_core_error(void *data, uint32_t id, int seq, int res, const char *message)
-> +{
-> +    pwaudio *pw = data;
-> +
-> +    error_report("error id:%u seq:%d res:%d (%s): %s",
-> +                id, seq, res, spa_strerror(res), message);
-> +
-> +    /* stop and exit the thread loop */
-> +    pw_thread_loop_signal(pw->thread_loop, FALSE);
-> +}
-> +
-> +static void
-> +on_core_done(void *data, uint32_t id, int seq)
-> +{
-> +    pwaudio *pw = data;
-> +    if (id == PW_ID_CORE) {
-> +        pw->seq = seq;
-> +        /* stop and exit the thread loop */
-> +        pw_thread_loop_signal(pw->thread_loop, FALSE);
-> +    }
-> +}
-> +
-> +static const struct pw_core_events core_events = {
-> +    PW_VERSION_CORE_EVENTS,
-> +    .done = on_core_done,
-> +    .error = on_core_error,
-> +};
-> +
-> +static void *
-> +qpw_audio_init(Audiodev *dev)
-> +{
-> +    g_autofree pwaudio *pw = g_new0(pwaudio, 1);
-> +    pw_init(NULL, NULL);
-> +
-> +    trace_pw_audio_init();
-> +    assert(dev->driver == AUDIODEV_DRIVER_PIPEWIRE);
-> +
-> +    pw->dev = dev;
-> +    pw->thread_loop = pw_thread_loop_new("Pipewire thread loop", NULL);
-> +    if (pw->thread_loop == NULL) {
-> +        error_report("Could not create Pipewire loop");
-> +        goto fail;
-> +    }
-> +
-> +    pw->context =
-> +        pw_context_new(pw_thread_loop_get_loop(pw->thread_loop), NULL, 0);
-> +    if (pw->context == NULL) {
-> +        error_report("Could not create Pipewire context");
-> +        goto fail;
-> +    }
-> +
-> +    if (pw_thread_loop_start(pw->thread_loop) < 0) {
-> +        error_report("Could not start Pipewire loop");
-> +        goto fail;
-> +    }
-> +
-> +    pw_thread_loop_lock(pw->thread_loop);
-> +
-> +    pw->core = pw_context_connect(pw->context, NULL, 0);
-> +    if (pw->core == NULL) {
-> +        pw_thread_loop_unlock(pw->thread_loop);
-> +        goto fail;
-> +    }
-> +
-> +    pw_core_add_listener(pw->core, &pw->core_listener, &core_events, pw);
-> +
-> +    pw_thread_loop_unlock(pw->thread_loop);
-> +
-> +    return g_steal_pointer(&pw);
-> +
-> +fail:
-> +    AUD_log(AUDIO_CAP, "Failed to initialize PW context");
-> +    if (pw->thread_loop) {
-> +        pw_thread_loop_stop(pw->thread_loop);
-> +        g_clear_pointer(&pw->thread_loop, pw_thread_loop_destroy);
-> +    }
-> +    if (pw->context) {
-> +        g_clear_pointer(&pw->context, pw_context_destroy);
-> +    }
-> +    return NULL;
-> +}
-> +
-> +static void
-> +qpw_audio_fini(void *opaque)
-> +{
-> +    pwaudio *pw = opaque;
-> +
-> +    pw_thread_loop_stop(pw->thread_loop);
-> +
-> +    if (pw->core) {
-> +        spa_hook_remove(&pw->core_listener);
-> +        spa_zero(pw->core_listener);
-> +        pw_core_disconnect(pw->core);
-> +    }
-> +
-> +    if (pw->context) {
-> +        pw_context_destroy(pw->context);
-> +    }
-> +    pw_thread_loop_destroy(pw->thread_loop);
-> +
-> +    g_free(pw);
-> +}
-> +
-> +static struct audio_pcm_ops qpw_pcm_ops = {
-> +    .init_out = qpw_init_out,
-> +    .fini_out = qpw_fini_out,
-> +    .write = qpw_write,
-> +    .buffer_get_free = qpw_buffer_get_free,
-> +    .run_buffer_out = audio_generic_run_buffer_out,
-> +    .enable_out = qpw_enable_out,
-> +
-> +    .init_in = qpw_init_in,
-> +    .fini_in = qpw_fini_in,
-> +    .read = qpw_read,
-> +    .run_buffer_in = audio_generic_run_buffer_in,
-> +    .enable_in = qpw_enable_in
-> +};
-
-The pcm_ops functions volume_out and volume_in are missing. Probably 
-SPA_PROP_channelVolumes can be used to adjust the stream volumes. 
-Without these functions the guest can adjust the stream volume and the 
-host has an independent way to adjust the stream volume. This is 
-sometimes irritating.
-
-> +
-> +static struct audio_driver pw_audio_driver = {
-> +    .name = "pipewire",
-> +    .descr ="http://www.pipewire.org/",
-> +    .init = qpw_audio_init,
-> +    .fini = qpw_audio_fini,
-> +    .pcm_ops = &qpw_pcm_ops,
-> +    .can_be_default = 1,
-> +    .max_voices_out = INT_MAX,
-> +    .max_voices_in = INT_MAX,
-> +    .voice_size_out = sizeof(PWVoiceOut),
-> +    .voice_size_in = sizeof(PWVoiceIn),
-> +};
-> +
-> +static void
-> +register_audio_pw(void)
-> +{
-> +    audio_driver_register(&pw_audio_driver);
-> +}
-> +
-> +type_init(register_audio_pw);
-> diff --git a/audio/trace-events b/audio/trace-events
-> index e1ab643add..e0acf9ac56 100644
-> --- a/audio/trace-events
-> +++ b/audio/trace-events
-> @@ -18,6 +18,13 @@ dbus_audio_register(const char *s, const char *dir) "sender = %s, dir = %s"
->   dbus_audio_put_buffer_out(size_t len) "len = %zu"
->   dbus_audio_read(size_t len) "len = %zu"
->   
-> +# pwaudio.c
-> +pw_state_changed(const char *s) "stream state: %s"
-> +pw_node(int nodeid) "node id: %d"
-> +pw_read(int32_t avail, uint32_t index, size_t len) "avail=%u index=%u len=%zu"
-> +pw_write(int32_t filled, int32_t avail, uint32_t index, size_t len) "filled=%u avail=%u index=%u len=%zu"
-> +pw_audio_init(void) "Initialize Pipewire context"
-> +
->   # audio.c
->   audio_timer_start(int interval) "interval %d ms"
->   audio_timer_stop(void) ""
-> diff --git a/meson.build b/meson.build
-> index 29f8644d6d..31bf280c0d 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -730,6 +730,12 @@ if not get_option('jack').auto() or have_system
->     jack = dependency('jack', required: get_option('jack'),
->                       method: 'pkg-config', kwargs: static_kwargs)
->   endif
-> +pipewire = not_found
-> +if not get_option('pipewire').auto() or (targetos == 'linux' and have_system)
-> +  pipewire = dependency('libpipewire-0.3', version: '>=0.3.60',
-> +                    required: get_option('pipewire'),
-> +                    method: 'pkg-config', kwargs: static_kwargs)
-> +endif
->   sndio = not_found
->   if not get_option('sndio').auto() or have_system
->     sndio = dependency('sndio', required: get_option('sndio'),
-> @@ -1667,6 +1673,7 @@ if have_system
->       'jack': jack.found(),
->       'oss': oss.found(),
->       'pa': pulse.found(),
-> +    'pipewire': pipewire.found(),
->       'sdl': sdl.found(),
->       'sndio': sndio.found(),
->     }
-> @@ -3980,6 +3987,7 @@ if targetos == 'linux'
->     summary_info += {'ALSA support':    alsa}
->     summary_info += {'PulseAudio support': pulse}
->   endif
-> +summary_info += {'Pipewire support':   pipewire}
->   summary_info += {'JACK support':      jack}
->   summary_info += {'brlapi support':    brlapi}
->   summary_info += {'vde support':       vde}
-> diff --git a/meson_options.txt b/meson_options.txt
-> index fc9447d267..9ae1ec7f47 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -21,7 +21,7 @@ option('tls_priority', type : 'string', value : 'NORMAL',
->   option('default_devices', type : 'boolean', value : true,
->          description: 'Include a default selection of devices in emulators')
->   option('audio_drv_list', type: 'array', value: ['default'],
-> -       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'sdl', 'sndio'],
-> +       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'pipewire', 'sdl', 'sndio'],
->          description: 'Set audio driver list')
->   option('block_drv_rw_whitelist', type : 'string', value : '',
->          description: 'set block driver read-write whitelist (by default affects only QEMU, not tools like qemu-img)')
-> @@ -255,6 +255,8 @@ option('oss', type: 'feature', value: 'auto',
->          description: 'OSS sound support')
->   option('pa', type: 'feature', value: 'auto',
->          description: 'PulseAudio sound support')
-> +option('pipewire', type: 'feature', value: 'auto',
-> +       description: 'Pipewire sound support')
->   option('sndio', type: 'feature', value: 'auto',
->          description: 'sndio sound support')
->   
-> diff --git a/qapi/audio.json b/qapi/audio.json
-> index 4e54c00f51..60be24857b 100644
-> --- a/qapi/audio.json
-> +++ b/qapi/audio.json
-> @@ -324,6 +324,45 @@
->       '*out':    'AudiodevPaPerDirectionOptions',
->       '*server': 'str' } }
->   
-> +##
-> +# @AudiodevPipewirePerDirectionOptions:
-> +#
-> +# Options of the Pipewire backend that are used for both playback and
-> +# recording.
-> +#
-> +# @name: name of the sink/source to use
-> +#
-> +# @stream-name: name of the Pipewire stream created by qemu.  Can be
-> +#               used to identify the stream in Pipewire when you
-> +#               create multiple Pipewire devices or run multiple qemu
-> +#               instances (default: audiodev's id)
-> +#
-
-@latency: is missing.
-
-> +#
-> +# Since: 8.0
-> +##
-
-I don't think the pipewire backend will be accepted for the 8.0 release 
-in three weeks. It's probably Since: 8.1
-
-> +{ 'struct': 'AudiodevPipewirePerDirectionOptions',
-> +  'base': 'AudiodevPerDirectionOptions',
-> +  'data': {
-> +    '*name': 'str',
-> +    '*stream-name': 'str',
-> +    '*latency': 'uint32' } }
-> +
-> +##
-> +# @AudiodevPipewireOptions:
-> +#
-> +# Options of the Pipewire audio backend.
-> +#
-> +# @in: options of the capture stream
-> +#
-> +# @out: options of the playback stream
-> +#
-> +# Since: 8.0
-> +##
-
-Since: 8.1
-
-> +{ 'struct': 'AudiodevPipewireOptions',
-> +  'data': {
-> +    '*in':     'AudiodevPipewirePerDirectionOptions',
-> +    '*out':    'AudiodevPipewirePerDirectionOptions' } }
-> +
->   ##
->   # @AudiodevSdlPerDirectionOptions:
->   #
-> @@ -416,6 +455,7 @@
->               { 'name': 'jack', 'if': 'CONFIG_AUDIO_JACK' },
->               { 'name': 'oss', 'if': 'CONFIG_AUDIO_OSS' },
->               { 'name': 'pa', 'if': 'CONFIG_AUDIO_PA' },
-> +            { 'name': 'pipewire', 'if': 'CONFIG_AUDIO_PIPEWIRE' },
->               { 'name': 'sdl', 'if': 'CONFIG_AUDIO_SDL' },
->               { 'name': 'sndio', 'if': 'CONFIG_AUDIO_SNDIO' },
->               { 'name': 'spice', 'if': 'CONFIG_SPICE' },
-> @@ -456,6 +496,8 @@
->                      'if': 'CONFIG_AUDIO_OSS' },
->       'pa':        { 'type': 'AudiodevPaOptions',
->                      'if': 'CONFIG_AUDIO_PA' },
-> +    'pipewire':  { 'type': 'AudiodevPipewireOptions',
-> +                   'if': 'CONFIG_AUDIO_PIPEWIRE' },
->       'sdl':       { 'type': 'AudiodevSdlOptions',
->                      'if': 'CONFIG_AUDIO_SDL' },
->       'sndio':     { 'type': 'AudiodevSndioOptions',
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 59bdf67a2c..17e1b7ad24 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -779,6 +779,11 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
->       "                in|out.name= source/sink device name\n"
->       "                in|out.latency= desired latency in microseconds\n"
->   #endif
-> +#ifdef CONFIG_AUDIO_PIPEWIRE
-> +    "-audiodev pipewire,id=id[,prop[=value][,...]]\n"
-> +    "                in|out.name= source/sink device name\n"
-
-The in|out.stream-name options are missing.
-
-> +    "                latency= desired latency in microseconds\n"
-> +#endif
->   #ifdef CONFIG_AUDIO_SDL
->       "-audiodev sdl,id=id[,prop[=value][,...]]\n"
->       "                in|out.buffer-count= number of buffers\n"
-> @@ -942,6 +947,18 @@ SRST
->           Desired latency in microseconds. The PulseAudio server will try
->           to honor this value but actual latencies may be lower or higher.
->   
-> +``-audiodev pipewire,id=id[,prop[=value][,...]]``
-> +    Creates a backend using Pipewire. This backend is available on
-> +    most systems.
-> +
-> +    Pipewire specific options are:
-> +
-> +    ``in|out.latency=usecs``
-> +        Desired latency in microseconds.
-> +
-> +    ``in|out.name=sink``
-> +        Use the specified source/sink for recording/playback.
-
-The in|out.stream-name options are missing.
-
-The pipewire backend code doesn't use the in|out.name options. Please 
-either remove the name options or add code to connect to the specified 
-source/sink. I would prefer the latter. PW_KEY_TARGET_OBJECT looks 
-promising.
-
-With best regards,
-Volker
-
-> +
->   ``-audiodev sdl,id=id[,prop[=value][,...]]``
->       Creates a backend using SDL. This backend is available on most
->       systems, but you should use your platform's native backend if
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> index 009fab1515..ba1057b62c 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -1,7 +1,8 @@
->   # This file is generated by meson-buildoptions.py, do not edit!
->   meson_options_help() {
-> -  printf "%s\n" '  --audio-drv-list=CHOICES Set audio driver list [default] (choices: alsa/co'
-> -  printf "%s\n" '                           reaudio/default/dsound/jack/oss/pa/sdl/sndio)'
-> +  printf "%s\n" '  --audio-drv-list=CHOICES Set audio driver list [default] (choices: al'
-> +  printf "%s\n" '                           sa/coreaudio/default/dsound/jack/oss/pa/'
-> +  printf "%s\n" '                           pipewire/sdl/sndio)'
->     printf "%s\n" '  --block-drv-ro-whitelist=VALUE'
->     printf "%s\n" '                           set block driver read-only whitelist (by default'
->     printf "%s\n" '                           affects only QEMU, not tools like qemu-img)'
-> @@ -136,6 +137,7 @@ meson_options_help() {
->     printf "%s\n" '  oss             OSS sound support'
->     printf "%s\n" '  pa              PulseAudio sound support'
->     printf "%s\n" '  parallels       parallels image format support'
-> +  printf "%s\n" '  pipewire        Pipewire sound support'
->     printf "%s\n" '  png             PNG support with libpng'
->     printf "%s\n" '  pvrdma          Enable PVRDMA support'
->     printf "%s\n" '  qcow1           qcow1 image format support'
-> @@ -370,6 +372,8 @@ _meson_option_parse() {
->       --disable-pa) printf "%s" -Dpa=disabled ;;
->       --enable-parallels) printf "%s" -Dparallels=enabled ;;
->       --disable-parallels) printf "%s" -Dparallels=disabled ;;
-> +    --enable-pipewire) printf "%s" -Dpipewire=enabled ;;
-> +    --disable-pipewire) printf "%s" -Dpipewire=disabled ;;
->       --with-pkgversion=*) quote_sh "-Dpkgversion=$2" ;;
->       --enable-png) printf "%s" -Dpng=enabled ;;
->       --disable-png) printf "%s" -Dpng=disabled ;;
-
+--00000000000094119405f7306813--
 
