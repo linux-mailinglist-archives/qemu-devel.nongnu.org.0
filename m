@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F6C6BF6FE
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 01:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34AEA6BF83D
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 07:07:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdKaU-0000wm-Cw; Fri, 17 Mar 2023 20:38:22 -0400
+	id 1pdPhQ-00031o-OK; Sat, 18 Mar 2023 02:05:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pdKaS-0000wO-FM
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 20:38:20 -0400
-Received: from ams.source.kernel.org ([145.40.68.75])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pdKaQ-00064m-LK
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 20:38:20 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 61469B82743;
- Sat, 18 Mar 2023 00:38:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEE6C433EF;
- Sat, 18 Mar 2023 00:38:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679099895;
- bh=fYCkolcIq5ttiT2XygvfAMF3lcbIHcilUkWWt62IQe4=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=aK4J5tnFMPpgBWMwjVFaHoGcZd4X/87BeD3/foSMvyHjTdjoQe/k+kBTkoCff2FJU
- hVkH1h7W0ihd9p6CXEGOU1sKGCk0G1PMM+kQz7U7OJ8FdTi2L8GgAZFP5YBZ3Y36Ag
- tlWpReIwJZaQEaAw9sOG2NUTzYgSP8zuunLixqO1OK4LGZHXTY3QWjfbtjWUo8EGZ0
- 1wscwRjLEbTWG/CviQsiuB7SoHe8uF3NgvNbjWCzl02aedbmjbsCph+iCZL/y4pArJ
- AgWUyyi63eHwpgHln/kIbiGMSH6K+/DjtKe43+7aU8OnQJAogxvE08WGVufONcwMmy
- 5OD4eU3x/oIjg==
-Date: Fri, 17 Mar 2023 17:38:10 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Huang Rui <ray.huang@amd.com>
-cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Anthony PERARD <anthony.perard@citrix.com>, 
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
- Jan Beulich <jbeulich@suse.com>, 
- Antonio Caggiano <antonio.caggiano@collabora.com>, 
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, 
- Robert Beckett <bob.beckett@collabora.com>, qemu-devel@nongnu.org, 
- xen-devel@lists.xenproject.org, Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Stewart Hildebrand <Stewart.Hildebrand@amd.com>, 
- Xenia Ragiadakou <burzalodowa@gmail.com>, 
- Honglei Huang <honglei1.huang@amd.com>, Julia Zhang <julia.zhang@amd.com>, 
- Chen Jiqian <Jiqian.Chen@amd.com>
-Subject: Re: [RFC QEMU PATCH 13/18] hw/i386/xen/xen-hvm: Introduce
- xen_ram_block_check function
-In-Reply-To: <20230312092244.451465-14-ray.huang@amd.com>
-Message-ID: <alpine.DEB.2.22.394.2303171735020.3359@ubuntu-linux-20-04-desktop>
-References: <20230312092244.451465-1-ray.huang@amd.com>
- <20230312092244.451465-14-ray.huang@amd.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pdPh7-000308-LE
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 02:05:38 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pdPh5-0005ao-0L
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 02:05:33 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ o6-20020a17090a9f8600b0023f32869993so7429450pjp.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 23:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679119529;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bnkYWVD6KHJVndNjBEYuBge2ZTEEmmRCp+k1GGFqPpY=;
+ b=P+cFTGZoi2TXEEptZg2EPpc/iY8tC7/Dqj9+6/XK+HlAk5CDATEQTIQwwBHO3cuRW3
+ C8jC8fZHcEVXam/Fvh6RrVa00TrK5fqZnUyWSPNZndT4VQ6DHEsqDIkW38RCCo7SKx5i
+ UvJRxA1XC/NYRQwhZmWfZnCGD50xfmQe+nzTx0XNb4sdoBXxRmSrCXqM+XzncArI1ijB
+ YulNsOriq7neJ73H1j2fwcmpVmR9I+D/5dzOgCVpfY5W/2np7VVw+Ca/KILmPJBKjqbP
+ IzdvbaGcKkhfUJYTdIFdB+ViPXGZeGv2jig2XvTmglu7kr4bxwvXDYtjdGUPv6Ly+dpW
+ PU3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679119529;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bnkYWVD6KHJVndNjBEYuBge2ZTEEmmRCp+k1GGFqPpY=;
+ b=YxZ5EMCl8n1JieUsbg0mJU/zSTKmVrV8RJS01gK9G3ixOVdSQxQqVSnnijC7BzPA+d
+ jQBR7Fn6BsWKuqKP6st6mV+hV23xRDiB+12UKvW43czn/jiVRNhej3hfFUUlXneG9roo
+ 0/fKkTFntJRrRo6g9Iqt+osvO8M1ln0o2nF+E8HDASqx7sio2nil4kJhRwlR9Oa3+6iC
+ fxJpGqu/QR5YF/cYZV4F80caENZlK07ED0at4PDDAXdv+WM5YnMGqv5piYouIAYBUH0C
+ tAshx4cPuIICIOQVYNsba8NtZ9gCUQZjHLAFlOMwhKxWkQUzfsv0DHCd4/rCNOZghLeg
+ /Yxw==
+X-Gm-Message-State: AO0yUKWSFAqDnHw59Ouv8z+oyBBzJH7Bn1Rurfh9cDFSty1fxlkjFmXa
+ AKXZnHz9spHZ7LYi47s2oyWLrw==
+X-Google-Smtp-Source: AK7set97lBXA8+F3L99vqoCSHJF6c5iE0Aug1WFHbClMqqyZTCoYgn7dqTjed60dAyTmCijvC7JlIw==
+X-Received: by 2002:a17:902:e749:b0:1a0:45f6:d7ce with SMTP id
+ p9-20020a170902e74900b001a045f6d7cemr10956185plf.32.1679119529270; 
+ Fri, 17 Mar 2023 23:05:29 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ g7-20020a170902934700b001994a0f3380sm2445610plp.265.2023.03.17.23.05.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Mar 2023 23:05:28 -0700 (PDT)
+Message-ID: <29d71180-b9b3-e670-f25c-978d4d0b5491@daynix.com>
+Date: Sat, 18 Mar 2023 15:05:26 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=sstabellini@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH for 8.0 v3] memory: Prevent recursive memory access
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, David Hildenbrand <david@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20230316162044.31607-1-akihiko.odaki@daynix.com>
+ <03a56c04-8afd-d4eb-b117-34698eb19484@kaod.org>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <03a56c04-8afd-d4eb-b117-34698eb19484@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,84 +98,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 12 Mar 2023, Huang Rui wrote:
-> Introduce xen_ram_block_check function to check whether current ramblock
-> is xen ram memory.
+On 2023/03/18 1:25, Cédric Le Goater wrote:
+> Hello,
 > 
-> Signed-off-by: Huang Rui <ray.huang@amd.com>
-> ---
->  hw/i386/xen/xen-hvm.c | 15 +++++++++++++++
->  include/hw/xen/xen.h  |  1 +
->  2 files changed, 16 insertions(+)
+> On 3/16/23 17:20, Akihiko Odaki wrote:
+>> A guest may request ask a memory-mapped device to perform DMA. If the
+>> address specified for DMA is the device performing DMA, it will create
+>> recursion. It is very unlikely that device implementations are prepared
+>> for such an abnormal access, which can result in unpredictable behavior.
+>>
+>> In particular, such a recursion breaks e1000e, a network device. If
+>> the device is configured to write the received packet to the register
+>> to trigger receiving, it triggers re-entry to the Rx logic of e1000e.
+>> This causes use-after-free since the Rx logic is not re-entrant.
+>>
+>> As there should be no valid reason to perform recursive memory access,
+>> check for recursion before accessing memory-mapped device.
+>>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1543
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> ---
+>> V1 -> V2: Marked the variable thread-local. Introduced linked list.
+>>
+>>   softmmu/memory.c | 81 ++++++++++++++++++++++++++++++++++++++----------
+>>   1 file changed, 64 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/softmmu/memory.c b/softmmu/memory.c
+>> index 4699ba55ec..6be33a9e3e 100644
+>> --- a/softmmu/memory.c
+>> +++ b/softmmu/memory.c
+>> @@ -61,6 +61,15 @@ struct AddrRange {
+>>       Int128 size;
+>>   };
+>> +typedef struct AccessedRegion AccessedRegion;
+>> +
+>> +struct AccessedRegion {
+>> +    const Object *owner;
+>> +    const AccessedRegion *next;
+>> +};
+>> +
+>> +static __thread const AccessedRegion *accessed_region;
+>> +
+>>   static AddrRange addrrange_make(Int128 start, Int128 size)
+>>   {
+>>       return (AddrRange) { start, size };
+>> @@ -1394,6 +1403,16 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>>           return false;
+>>       }
+>> +    for (const AccessedRegion *ar = accessed_region; ar; ar = 
+>> ar->next) {
+>> +        if (ar->owner == mr->owner) {
+>> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" 
+>> HWADDR_PRIX
+>> +                          ", size %u, region '%s', reason: recursive 
+>> access\n",
+>> +                          is_write ? "write" : "read",
+>> +                          addr, size, memory_region_name(mr));
+>> +            return false;
+>> +        }
+>> +    }
+>> +
+>>       /* Treat zero as compatibility all valid */
+>>       if (!mr->ops->valid.max_access_size) {
+>>           return true;
+>> @@ -1413,6 +1432,29 @@ bool memory_region_access_valid(MemoryRegion *mr,
+>>       return true;
+>>   }
+>> +static bool memory_region_access_start(MemoryRegion *mr,
+>> +                                       hwaddr addr,
+>> +                                       unsigned size,
+>> +                                       bool is_write,
+>> +                                       MemTxAttrs attrs,
+>> +                                       AccessedRegion *ar)
+>> +{
+>> +    if (!memory_region_access_valid(mr, addr, size, is_write, attrs)) {
+>> +        return false;
+>> +    }
+>> +
+>> +    ar->owner = mr->owner;
+>> +    ar->next = accessed_region;
+>> +    accessed_region = ar->next;
 > 
-> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-> index e4293d6d66..a4f12aefce 100644
-> --- a/hw/i386/xen/xen-hvm.c
-> +++ b/hw/i386/xen/xen-hvm.c
-> @@ -32,6 +32,7 @@
->  #include "sysemu/xen.h"
->  #include "sysemu/xen-mapcache.h"
->  #include "trace.h"
-> +#include "include/exec/ramblock.h"
->  
->  #include <xen/hvm/ioreq.h>
->  #include <xen/hvm/e820.h>
-> @@ -1564,6 +1565,20 @@ void xen_register_framebuffer(MemoryRegion *mr)
->      framebuffer = mr;
->  }
->  
-> +bool xen_ram_block_check(RAMBlock *rb)
-> +{
-> +	bool ret;
-> +
-> +	if (!rb)
-> +		return false;
-> +
-> +	ret = (rb == ram_memory.ram_block);
-> +	if (ret)
-> +		rb->offset = 0;
-
-I take that this is needed because there is a ramblock that is
-ram_memory but with offset != 0?  So it would fail the block->offset ==
-0 check in qemu_ram_ptr_length (which is meant to capture all accesses
-to ram_memory, but failing at it)?
-
-If so, would it be possible to just do this instead:
-
-
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index fb412a56e1..3e2640dabd 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2149,7 +2149,7 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
-          * because we don't want to map the entire memory in QEMU.
-          * In that case just map the requested area.
-          */
--        if (block->offset == 0) {
-+        if (block->offset == 0 || block == ram_memory.ram_block) {
-             return xen_map_cache(addr, *size, lock, lock);
-         }
- 
-
-
-> +	return ret;
-> +}
-> +
->  void xen_shutdown_fatal_error(const char *fmt, ...)
->  {
->      va_list ap;
-> diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-> index afdf9c436a..99a383eb17 100644
-> --- a/include/hw/xen/xen.h
-> +++ b/include/hw/xen/xen.h
-> @@ -31,5 +31,6 @@ qemu_irq *xen_interrupt_controller_init(void);
->  void xenstore_store_pv_console_info(int i, Chardev *chr);
->  
->  void xen_register_framebuffer(struct MemoryRegion *mr);
-> +bool xen_ram_block_check(RAMBlock *rb);
->  
->  #endif /* QEMU_HW_XEN_H */
-> -- 
-> 2.25.1
+> Isn't 'accessed_region' always NULL ?
 > 
+>> +
+>> +    return true;
+>> +}
+>> +
+>> +static void memory_region_access_end(void)
+>> +{
+>> +    accessed_region = accessed_region->next;
+>> +}
+> and so, this is a segv.
+> 
+> Thanks,
+> 
+> C.
+
+It was intended to be: accessed_region = ar;
+
+Anyway, I'm no longer pushing this forward as there is a better alternative:
+https://lore.kernel.org/qemu-devel/20230313082417.827484-1-alxndr@bu.edu/
+
+This can detect a re-entrancy problem involving bottom half API, and 
+disable the check where re-entrancy is allowed.
+
+Regards,
+Akihiko Odaki
 
