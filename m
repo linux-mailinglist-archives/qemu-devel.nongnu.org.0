@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4B46BF64B
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 00:26:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C245C6BF6F3
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 01:33:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdJR4-0006kG-9l; Fri, 17 Mar 2023 19:24:34 -0400
+	id 1pdKUB-0007HE-6M; Fri, 17 Mar 2023 20:31:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1pdJR2-0006jt-7z
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 19:24:32 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1pdJR0-0004H8-Gl
- for qemu-devel@nongnu.org; Fri, 17 Mar 2023 19:24:31 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id ek18so26181131edb.6
- for <qemu-devel@nongnu.org>; Fri, 17 Mar 2023 16:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20210112.gappssmtp.com; s=20210112; t=1679095468;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dH3p97h/EAUFoh5IOOrT0ILgfSJ+vnvdG3hCCHLcdPk=;
- b=CB5rN7p8rFRCRvY5heaLi0N3iyL9Yfnh89EEsaCcJRzuwQYnAKhWOLpaCw99+aze3X
- J5H5HczKYqVck1WhFuv5kLxBZ6STWx+mOpNxub8UIBH+GflascjIQFo258I29Cp7vJ4a
- yVUGIaahPSJ9cDKGYL/gXoqw4ozSEe9p/HXZPPN9fz1AzaIukY09ch/84A0A+sQt19MD
- A8bU9H9FczE1WpAMT8gKyIcoXoK/CroJQmmM2mn3wDOHJKSHExFezhOj1gF0gpvkqaTp
- jnsJBv8KVzSSOc9aml8ORWrkZPVSmTtnuCeXHI37LddH0HREhKF2TdHOm6lusZo5qnHE
- lL3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679095468;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dH3p97h/EAUFoh5IOOrT0ILgfSJ+vnvdG3hCCHLcdPk=;
- b=7OQYctfcXYN4chbYJRKoetljAFLzNbANXPVUxUDKMQQIKWCsaLnfcIf6P9N5xJBRq8
- uR6SYF5uZ2050HWQRaqYddKJ/NLpRul6BEQeQhgmPHoDMwR891gbquJWWNsmgziBVsjU
- e8c1nt1UmsSdNOrtOeQaFYXCC+O/k0Up0EhPxWu7FZqQFGgSpX8Q9+yw8Aj0rYUbn5wl
- 2O+o7yDTgZ1I90JeXR3RseA2kjRiPhXSH04VqHqc7JPhkKYklpU08X3NJtzCJzxDVc0P
- sr0nJZMur2sIw1fTQHJH27n+owtBPNLbtekdpSYJJjqWagKYevxAZnJggKtj6E8TW+P3
- fmUg==
-X-Gm-Message-State: AO0yUKUWFN6zcxEnQf+3zFGjkhhwcL7joGuvmU9oKk5+5JNa573PB/AF
- Jdh4Z1+QlphyAPiqZ2lBsTUuVQ==
-X-Google-Smtp-Source: AK7set/mJIqr/U13r2QyXOZORufmh01bLIdxodSYuC1t6rQ10fMbZhGFfBxZH7MAR527zgMYoHdvFA==
-X-Received: by 2002:a17:906:5393:b0:92f:7c42:8631 with SMTP id
- g19-20020a170906539300b0092f7c428631mr1033339ejo.16.1679095468652; 
- Fri, 17 Mar 2023 16:24:28 -0700 (PDT)
-Received: from smtpclient.apple ([188.25.247.154])
- by smtp.gmail.com with ESMTPSA id
- f3-20020a17090624c300b0092a59ee224csm1457961ejb.185.2023.03.17.16.24.27
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 17 Mar 2023 16:24:28 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.2\))
-Subject: Re: [PATCH] Revert "docs/about/deprecated: Deprecate 32-bit arm hosts
- for system emulation"
-From: Liviu Ionescu <ilg@livius.net>
-In-Reply-To: <20230317165504.613172-1-thuth@redhat.com>
-Date: Sat, 18 Mar 2023 01:24:26 +0200
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?utf-8?Q?=22Daniel_P_=2E_Berrang=C3=A9=22?= <berrange@redhat.com>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Content-Transfer-Encoding: 7bit
-Message-Id: <A0D0927D-9A93-4E51-B69E-A1BD926D66F7@livius.net>
-References: <20230317165504.613172-1-thuth@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.2)
-Received-SPF: none client-ip=2a00:1450:4864:20::52e;
- envelope-from=ilg@livius.net; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1pdKU8-0007Gy-HB
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 20:31:48 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1pdKU6-00048a-Rx
+ for qemu-devel@nongnu.org; Fri, 17 Mar 2023 20:31:48 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0624060C8E;
+ Sat, 18 Mar 2023 00:31:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5DEDC433D2;
+ Sat, 18 Mar 2023 00:31:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1679099493;
+ bh=DBSUpqHFxRsGHOAqc/0x27DXPhRxpRQpYIOQSUw/imc=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=YrME8qNBHwf1Gxmu7UWYr3sR5T+hEu/K/0WBBKBPI2d1rbt15NG0r+45amqlvs39I
+ 8Z/NGTyGFFQlSngcoehkJGACpinyfbLMAwcH12GuqUcVisBOjW7Gg3yqKcIVQzHlFx
+ BqOOVNy7smILe49E+0FvX73Cmj97MGLLR5kjkZwMBVnyWs4fnqjW36F/dXz+d7y0wP
+ 92wHHLh3cSXo0pGnUZQZ0YAc5iU4i/nXJkqWTg95Opp7Y6iNIn66TyCgvb27oc8j8F
+ sb/Tm9BZZLZflE+jwibKSBibCUDlxIQ8HZHxaLjR8U63cTrg5+9c+7lKjOjTBt9Ovw
+ Fj4prNdT6Amxg==
+Date: Fri, 17 Mar 2023 17:31:28 -0700 (PDT)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To: Huang Rui <ray.huang@amd.com>
+cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, 
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Anthony PERARD <anthony.perard@citrix.com>, 
+ =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
+ Jan Beulich <jbeulich@suse.com>, 
+ Antonio Caggiano <antonio.caggiano@collabora.com>, 
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, 
+ Robert Beckett <bob.beckett@collabora.com>, qemu-devel@nongnu.org, 
+ xen-devel@lists.xenproject.org, Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Stewart Hildebrand <Stewart.Hildebrand@amd.com>, 
+ Xenia Ragiadakou <burzalodowa@gmail.com>, 
+ Honglei Huang <honglei1.huang@amd.com>, Julia Zhang <julia.zhang@amd.com>, 
+ Chen Jiqian <Jiqian.Chen@amd.com>, Xenia.Ragiadakou@amd.com
+Subject: Re: [RFC QEMU PATCH 12/18] softmmu: Fix the size to map cache with
+ xen for host virtual address
+In-Reply-To: <20230312092244.451465-13-ray.huang@amd.com>
+Message-ID: <alpine.DEB.2.22.394.2303171626541.3359@ubuntu-linux-20-04-desktop>
+References: <20230312092244.451465-1-ray.huang@amd.com>
+ <20230312092244.451465-13-ray.huang@amd.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,14 +86,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Sun, 12 Mar 2023, Huang Rui wrote:
+> The xen_map_cache function wants to pass offset and size of this memory
+> block as the input parameters to map the host virtual address. However,
+> block->offset is too large as 0x100000000 (4G), if we assign the size as
+> block->max_length (0x110000000), the mapped host address will be out of
+> block->max_length and easy to overflow.
+
+Hi Ray,
+
+Is this patch still required after all the other fixes?
+
+If it is required, where is the overflow that it is trying to prevent?
+Is it a failure in the hypercall mapping the memory to QEMU
+(hw/i386/xen/xen-mapcache.c:xen_remap_bucket) ?
 
 
-> On 17 Mar 2023, at 18:55, Thomas Huth <thuth@redhat.com> wrote:
+> We have to assign the size as
+> (block->max_length - block->offset), then that is able to ensure the
+> address will be located in legal range inside of max_length.
+>
+> {rcu = {next = 0x0, func = 0x0}, mr = 0x55555681b620, host = 0x0,
+> colo_cache = 0x0, offset = 0x100000000, used_length = 0x110000000,
+> max_length = 0x110000000, resized = 0x0, flags = 0x10, idstr = {0x78,
+> 0x65, 0x6e, 0x2e, 0x72, 0x61, 0x6d, 0x0 <repeats 249 times>}, next = {
+>     le_next = 0x5555568c61b0, le_prev = 0x55555681c640},
+> ramblock_notifiers = {lh_first = 0x0}, fd = 0xffffffff, page_size =
+> 0x1000, bmap = 0x0, receivedmap = 0x0, clear_bmap = 0x0,
+> clear_bmap_shift = 0x0, postcopy_length = 0x0}
 > 
-> This reverts commit 1d0a8eba38cdddd028ea02c6e0b68f0a4c9a3cbf...
+> Signed-off-by: Huang Rui <ray.huang@amd.com>
+> ---
+>  softmmu/physmem.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 1b606a3002..1b0bb35da9 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -2304,7 +2304,7 @@ void *qemu_map_ram_ptr(RAMBlock *ram_block, ram_addr_t addr)
+>              return xen_map_cache(addr, 0, 0, false);
+>          }
+>  
+> -        block->host = xen_map_cache(block->offset, block->max_length, 1, false);
+> +	block->host = xen_map_cache(block->offset, block->max_length, 1, false);
 
-Thank you, Thomas!
+Coding style: indentation is 4 spaces. In any case, this looks like a
+spurious change?
 
-Liviu
 
+>      }
+>      return ramblock_ptr(block, addr);
+>  }
+> @@ -2337,7 +2337,8 @@ static void *qemu_ram_ptr_length(RAMBlock *ram_block, ram_addr_t addr,
+>              return xen_map_cache(addr, *size, lock, lock);
+>          }
+>  
+> -        block->host = xen_map_cache(block->offset, block->max_length, 1, lock);
+> +	block->host = xen_map_cache(block->offset,
+> +				    block->max_length - block->offset, 1, lock);
+>      }
+>      return ramblock_ptr(block, addr);
+
+
+block->offset is the address of the beginning of the block, and
+block->max_length is the size. Here the behavior is theoretically
+correct: if block->host is not set (not mapped in QEMU yet), then call
+xen_map_cache to map the entire block from beginning to end, setting
+block->host with a pointer to the beginning of the mapped area in QEMU.
+From that point onward, ramblock_ptr() will then behave correctly.
+
+Of course if xen_map_cache fails to map the entire region at once
+because it is too large or other error, then we have a big problem.
+
+But I think in that case this patch would still cause issues. In this
+example offset (start of the ramblock) is 0x100000000, and max_length
+(size of the ramblock) is 0x110000000. So with this change we are
+mapping 0x110000000-0x100000000 = 0x10000000 which is only the first
+256MB of the region which is more than 4GB.
+
+What happens the next time qemu_ram_ptr_length is called for an address
+above the first 256MB? It will break because block->host != NULL so the
+function will behave as if the entire ramblock is mapped in QEMU while
+it is not (only the first 256MB are). ramblock_ptr will return
+block->host + something-more-than-256MB which is actually invalid.
+
+
+I think we would need more something along this line where we fall back
+to temporary mappings of a smaller region if we can't map it all at once.
+MAX_SIZE would be the max size where a single mapping still succeeds,
+maybe 4GB?
+
+        if (block->offset == 0 || block->max_length > MAX_SIZE) {
+            return xen_map_cache(addr, *size, lock, lock);
+        }
+
+
+Otherwise, maybe the error could be due to max_length being incorrect to
+begin with?
 
