@@ -2,81 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F0E6BF9A1
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 12:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25836BF9AD
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 12:49:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdV1Q-0004li-LV; Sat, 18 Mar 2023 07:46:52 -0400
+	id 1pdV1X-0004ot-V1; Sat, 18 Mar 2023 07:46:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pdV1N-0004l8-6f
- for qemu-devel@nongnu.org; Sat, 18 Mar 2023 07:46:49 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ id 1pdV1O-0004lT-FS
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 07:46:50 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pdV1L-0007CN-5I
- for qemu-devel@nongnu.org; Sat, 18 Mar 2023 07:46:48 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id i9so6503377wrp.3
+ id 1pdV1L-0007CS-ED
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 07:46:50 -0400
+Received: by mail-wr1-x436.google.com with SMTP id j2so6488329wrh.9
  for <qemu-devel@nongnu.org>; Sat, 18 Mar 2023 04:46:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1679140005;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=SUcQBH3qGjgl3Nzx8Rs2ZTQ7/cVyAuUSPC74fjtVce0=;
- b=cTAqSFeGCiepj4rVSt+1KB5XNksCVX/2+107+OLmAixPsmm2FtA63k/+fP/VkMUws+
- fBC+gwN7ppHgRgF+gyXXOkxBmGXACk1UoOCxmLmhw0Lxmusl7I/MDy3EItHPN36ud8/T
- J84huQgrxwl8BLYcGUm4Y9f3vEM/c3esd3SKAbwpox0ZERc3IHGK7X5UEonV5iWaRsg3
- 0Sc5SbAdiVoRN+2dIS0Fs3wNHbvrZ8E/+UVdkdFWAORRl/ocRGQ+qLSbri4VatyM1rRx
- 8IU80qkcffzL+1nPmlWaM5MZzYZo2exXRFMtCsEKbTmUgsPoFfQLgTCTygeHMP1iJgFy
- gK2g==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IytrMAvWC1Jh7uTr+86aE9RmM4K+C1Isx+W5vQcB/p8=;
+ b=m2DB8WRavOI3rr0mCb5ehYrj5z1VrPcF6WMyg5aSDMSEN3LJPpzhGoCFjJEVR4HXeW
+ geuBY+D9N1ZUuB9SS8In+5HQpJkdBUHfqC/7HNCuZNGRVNal6xZbe2sVSMKJpXnIBWEx
+ QzVKT0oQU3m5r2sQhFAb8ehcczHzwkZ479kDUIx/UkUqgqCGVfUJPEAYd7z4wjfXN7yM
+ PNGfsN1LeVq3fQ6rwNUGpioFcoZ/iTZPMc7IKhXs6j1nWZM0uT5tPH6IvEo/frQi9ZyE
+ wKXVi0D/TICfT3e5qyQqCQ3cMdDxUGiUeStp5QZb7wDgA2X9jfjo0z3Q4X4Qm65KL5Hf
+ gb8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1679140005;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SUcQBH3qGjgl3Nzx8Rs2ZTQ7/cVyAuUSPC74fjtVce0=;
- b=ev0mhflO4KcnKqSG9pRv6oS9SD8kG1ESz+Axaet0M19PvrYsoJaruGUHit/xPskEdl
- B/NkFsn/uKLyYfQKmrfEepWzOu/2JGP/7aQn8gXVR26p0kxOiLyCfhZS4EDs5ihKLjhQ
- cH4MCpYGbLUfNy07SPjW+qARnZTqTLHXaOGBWGVl62oJFYzCfckGnJcAJhu56JS/vo2a
- Xkk/Pw2SZ2AwfCCKnG50odsB/DHhQJtBdtq+bsUu2EnTKxxMqe+D/3E/YHX/zKZIJNIq
- hMnSLznZYprGXXqVzmJUEkRCMCFkzCPc4b+LjGvSUKJXqWGeifP6CZVOZ2jpWNNzjRXY
- hHXg==
-X-Gm-Message-State: AO0yUKVyMDY7Eoq3GXKU3uMmNMD2MUbNFiEzTExkLVckxgKJqabhUPI5
- A3M9yz3fw2D5Q8ASejlGzXDc4A==
-X-Google-Smtp-Source: AK7set8/G/xmL74ZriTny35h6XtEQmnB2KN7VFmAu5tDe+IJnhCsUaiaWgDmHgFI8vI2byNOUK0kqA==
-X-Received: by 2002:a5d:4990:0:b0:2cf:e739:9fbb with SMTP id
- r16-20020a5d4990000000b002cfe7399fbbmr8842202wrq.22.1679140005422; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IytrMAvWC1Jh7uTr+86aE9RmM4K+C1Isx+W5vQcB/p8=;
+ b=rSw0MPVe9pciYhwfCp11KGvUKfl/DcnPJUjsyOf0G3hIz3GsH+UZTq0YH/K6AiA46N
+ w7Qeg2a1eOQ0r49SVV9e8YqjVUBsZED2O96xafixmRrcjrLufyKx0cgh7hCtuBb2uZ7L
+ dChDhIjdfMcHoBSkFMKElWdWQQTT52sjA3qYJbxdS2G1U9w0FhfOVEiYEFuSr5g0MXBC
+ AYCkkDxqOTw32ZD5YQh/P2ujlRCBd0NYTQjfkEA9KImVfF8aj2MCudZZu2DB+hyci+3w
+ LNV5POkeKvnreNKtXmrfZGAiwgfmmHwexS7A5uOknOyuId/xmVRm+9b66eWdxa68yqJF
+ l+6A==
+X-Gm-Message-State: AO0yUKV+3RrVQDAeWEIuLlf5dTjLLcPZpWjJPOnfVLmooE8qz/FDxs40
+ yYlnE1010yzv5vGtA+vwziyfwQ==
+X-Google-Smtp-Source: AK7set+ic6FoEU2NVYpvx38uhrwbzp1FxJGwDfHPX1QdpTX+PJecM1DqM2G9UUgmQL84MHmqFRyJVw==
+X-Received: by 2002:a5d:5914:0:b0:2c7:aed:b97b with SMTP id
+ v20-20020a5d5914000000b002c70aedb97bmr8258696wrd.62.1679140005592; 
  Sat, 18 Mar 2023 04:46:45 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- u8-20020adfdb88000000b002cff06039d7sm4162104wri.39.2023.03.18.04.46.44
+ a17-20020a5d5091000000b002c7b229b1basm4160135wrt.15.2023.03.18.04.46.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 18 Mar 2023 04:46:45 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 97A051FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id AD8971FFB8;
  Sat, 18 Mar 2023 11:46:44 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 00/31] various fixes (testing, plugins, gitdm)
-Date: Sat, 18 Mar 2023 11:46:13 +0000
-Message-Id: <20230318114644.1340899-1-alex.bennee@linaro.org>
+ Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-arm@nongnu.org (open list:Virt)
+Subject: [PULL 01/31] tests/avocado: update AArch64 tests to Alpine 3.17.2
+Date: Sat, 18 Mar 2023 11:46:14 +0000
+Message-Id: <20230318114644.1340899-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230318114644.1340899-1-alex.bennee@linaro.org>
+References: <20230318114644.1340899-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,166 +100,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 74c581b6452394e591f13beba9fea2ec0688e2f5:
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 
-  Merge tag 'trivial-branch-for-8.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2023-03-17 14:22:01 +0000)
+To test Alpine boot on SBSA-Ref target we need Alpine Linux
+'standard' image as 'virt' one lacks kernel modules.
 
-are available in the Git repository at:
+So to minimalize Avocado cache I move test to 'standard' image.
 
-  https://gitlab.com/stsquad/qemu.git tags/pull-for-8.0-170323-4
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20230302191146.1790560-1-marcin.juszkiewicz@linaro.org>
+Message-Id: <20230315174331.2959-2-alex.bennee@linaro.org>
 
-for you to fetch changes up to 4f2c431acd43d0aa505494229d05fa343762f272:
-
-  qtests: avoid printing comments before g_test_init() (2023-03-17
-  17:50:19 +0000)
-
-You can see my CI run on the branch here:
-
-  https://gitlab.com/stsquad/qemu/-/pipelines/810271620
-
-The failures:
-
-  FreeBSD's time out on a migration test
-  Centos8 Stream because my private runner needs more disk space
-
-----------------------------------------------------------------
-Misc fixes for 8.0 (testing, plugins, gitdm)
-
-  - update Alpine image used for testing images
-  - include libslirp in custom runner build env
-  - update gitlab-runner recipe for CentOS
-  - update docker calls for better caching behaviour
-  - document some plugin callbacks
-  - don't use tags to define drives for lkft baseline tests
-  - fix missing clear of plugin_mem_cbs
-  - fix iotests to report individual results
-  - update the gitdm metadata for contributors
-  - avoid printing comments before g_test_init()
-
-----------------------------------------------------------------
-Alex Bennée (14):
-      tests/docker: all add DOCKER_BUILDKIT to RUNC environment
-      scripts/ci: add libslirp-devel to build-environment
-      scripts/ci: update gitlab-runner playbook to handle CentOS
-      gitlab: update centos-8-stream job
-      include/qemu: add documentation for memory callbacks
-      tests/tcg: add some help output for running individual tests
-      tests/avocado: don't use tags to define drive
-      contrib/gitdm: Add ASPEED Technology to the domain map
-      contrib/gitdm: Add SYRMIA to the domain map
-      contrib/gitdm: add Amazon to the domain map
-      contrib/gitdm: add Alibaba to the domain-map
-      contrib/gitdm: add revng to domain map
-      contrib/gitdm: add more individual contributors
-      contrib/gitdm: add group map for AMD
-
-Daniel P. Berrangé (9):
-      iotests: explicitly pass source/build dir to 'check' command
-      iotests: allow test discovery before building
-      iotests: strip subdir path when listing tests
-      iotests: print TAP protocol version when reporting tests
-      iotests: connect stdin to /dev/null when running tests
-      iotests: always use a unique sub-directory per test
-      iotests: register each I/O test separately with meson
-      iotests: remove the check-block.sh script
-      qtests: avoid printing comments before g_test_init()
-
-Marcin Juszkiewicz (1):
-      tests/avocado: update AArch64 tests to Alpine 3.17.2
-
-Richard Henderson (7):
-      tcg: Clear plugin_mem_cbs on TB exit
-      tcg: Drop plugin_gen_disable_mem_helpers from tcg_gen_exit_tb
-      include/qemu/plugin: Remove QEMU_PLUGIN_ASSERT
-      *: Add missing includes of qemu/error-report.h
-      *: Add missing includes of qemu/plugin.h
-      include/qemu: Split out plugin-event.h
-      include/qemu/plugin: Inline qemu_plugin_disable_mem_helpers
-
- include/hw/core/cpu.h                              |  2 +-
- include/qemu/plugin-event.h                        | 26 ++++++++++
- include/qemu/plugin.h                              | 27 +++-------
- include/qemu/qemu-plugin.h                         | 47 +++++++++++++++--
- include/user/syscall-trace.h                       |  1 +
- accel/accel-softmmu.c                              |  2 +-
- accel/tcg/cpu-exec-common.c                        |  3 ++
- accel/tcg/cpu-exec.c                               |  5 +-
- block/monitor/block-hmp-cmds.c                     |  1 +
- cpu.c                                              |  1 +
- dump/dump.c                                        |  1 +
- dump/win_dump.c                                    |  1 +
- gdbstub/gdbstub.c                                  |  1 +
- hw/arm/collie.c                                    |  2 +
- hw/arm/cubieboard.c                                |  1 +
- hw/arm/musicpal.c                                  |  2 +
- hw/arm/npcm7xx_boards.c                            |  2 +
- hw/arm/nseries.c                                   |  2 +
- hw/arm/omap_sx1.c                                  |  2 +
- hw/arm/orangepi.c                                  |  1 +
- hw/arm/palm.c                                      |  2 +
- hw/core/loader.c                                   |  1 +
- hw/core/machine-smp.c                              |  2 +
- hw/i386/kvm/xen_evtchn.c                           |  1 +
- hw/i386/kvm/xen_xenstore.c                         |  1 +
- hw/i386/sgx.c                                      |  1 +
- hw/intc/apic.c                                     |  1 +
- hw/loongarch/acpi-build.c                          |  1 +
- hw/loongarch/virt.c                                |  2 +
- hw/m68k/next-cube.c                                |  1 +
- hw/m68k/q800.c                                     |  1 +
- hw/m68k/virt.c                                     |  1 +
- hw/mem/memory-device.c                             |  1 +
- hw/mem/sparse-mem.c                                |  1 +
- hw/openrisc/boot.c                                 |  1 +
- hw/ppc/ppc4xx_sdram.c                              |  1 +
- hw/ppc/spapr_softmmu.c                             |  2 +
- hw/riscv/opentitan.c                               |  1 +
- hw/riscv/shakti_c.c                                |  1 +
- hw/riscv/virt-acpi-build.c                         |  1 +
- hw/vfio/display.c                                  |  1 +
- hw/vfio/igd.c                                      |  1 +
- hw/vfio/migration.c                                |  1 +
- linux-user/elfload.c                               |  1 +
- linux-user/exit.c                                  |  1 +
- linux-user/syscall.c                               |  1 +
- migration/dirtyrate.c                              |  1 +
- migration/exec.c                                   |  1 +
- plugins/core.c                                     | 11 ----
- target/i386/cpu.c                                  |  1 +
- target/i386/host-cpu.c                             |  1 +
- target/i386/kvm/xen-emu.c                          |  1 +
- target/i386/sev.c                                  |  1 +
- target/i386/whpx/whpx-apic.c                       |  1 +
- target/mips/cpu.c                                  |  1 +
- target/s390x/cpu-sysemu.c                          |  1 +
- target/s390x/cpu_models.c                          |  1 +
- target/s390x/diag.c                                |  2 +
- tcg/tcg-op.c                                       |  1 -
- tests/qtest/migration-test.c                       | 10 ++--
- .../custom-runners/centos-stream-8-x86_64.yml      | 18 +++----
- contrib/gitdm/domain-map                           |  8 ++-
- contrib/gitdm/group-map-alibaba                    |  7 +++
- contrib/gitdm/group-map-amd                        |  8 +++
- contrib/gitdm/group-map-individuals                |  4 ++
- gitdm.config                                       |  2 +
- .../ci/org.centos/stream/8/build-environment.yml   |  1 +
- scripts/ci/setup/gitlab-runner.yml                 | 20 +++++++-
- tests/avocado/machine_aarch64_virt.py              |  8 +--
- tests/avocado/tuxrun_baselines.py                  | 60 +++++++++-------------
- tests/check-block.sh                               | 43 ----------------
- tests/docker/Makefile.include                      |  2 +-
- tests/qemu-iotests/check                           | 30 +++++++++--
- tests/qemu-iotests/meson.build                     | 35 ++++++++++---
- tests/qemu-iotests/testenv.py                      | 20 ++++----
- tests/qemu-iotests/testrunner.py                   | 43 +++++-----------
- tests/tcg/Makefile.target                          |  7 +++
- ui/cocoa.m                                         |  1 +
- 78 files changed, 316 insertions(+), 195 deletions(-)
- create mode 100644 include/qemu/plugin-event.h
- create mode 100644 contrib/gitdm/group-map-alibaba
- create mode 100644 contrib/gitdm/group-map-amd
- delete mode 100755 tests/check-block.sh
-
+diff --git a/tests/avocado/machine_aarch64_virt.py b/tests/avocado/machine_aarch64_virt.py
+index 25dab8dc00..a90dc6ff4b 100644
+--- a/tests/avocado/machine_aarch64_virt.py
++++ b/tests/avocado/machine_aarch64_virt.py
+@@ -38,11 +38,11 @@ def test_alpine_virt_tcg_gic_max(self):
+         :avocado: tags=accel:tcg
+         """
+         iso_url = ('https://dl-cdn.alpinelinux.org/'
+-                   'alpine/v3.16/releases/aarch64/'
+-                   'alpine-virt-3.16.3-aarch64.iso')
++                   'alpine/v3.17/releases/aarch64/'
++                   'alpine-standard-3.17.2-aarch64.iso')
+ 
+         # Alpine use sha256 so I recalculated this myself
+-        iso_sha1 = '0683bc089486d55c91bf6607d5ecb93925769bc0'
++        iso_sha1 = '76284fcd7b41fe899b0c2375ceb8470803eea839'
+         iso_path = self.fetch_asset(iso_url, asset_hash=iso_sha1)
+ 
+         self.vm.set_console()
+@@ -65,7 +65,7 @@ def test_alpine_virt_tcg_gic_max(self):
+         self.vm.add_args('-object', 'rng-random,id=rng0,filename=/dev/urandom')
+ 
+         self.vm.launch()
+-        self.wait_for_console_pattern('Welcome to Alpine Linux 3.16')
++        self.wait_for_console_pattern('Welcome to Alpine Linux 3.17')
+ 
+ 
+     def common_aarch64_virt(self, machine):
 -- 
 2.39.2
 
