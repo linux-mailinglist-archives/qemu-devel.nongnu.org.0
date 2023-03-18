@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DE16BFC98
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 21:07:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E8F6BFCBD
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Mar 2023 21:31:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdcoV-0006ph-Dx; Sat, 18 Mar 2023 16:06:03 -0400
+	id 1pddBp-0007jT-Re; Sat, 18 Mar 2023 16:30:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pdcoS-0006Tp-GW
- for qemu-devel@nongnu.org; Sat, 18 Mar 2023 16:06:00 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pddBn-0007j2-AH
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 16:30:07 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pdcoQ-0007Gw-3d
- for qemu-devel@nongnu.org; Sat, 18 Mar 2023 16:06:00 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id
- v2-20020a056830090200b0069c6952f4d3so4717725ott.7
- for <qemu-devel@nongnu.org>; Sat, 18 Mar 2023 13:05:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pddBl-0003ON-4f
+ for qemu-devel@nongnu.org; Sat, 18 Mar 2023 16:30:06 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id t14so8426489ljd.5
+ for <qemu-devel@nongnu.org>; Sat, 18 Mar 2023 13:30:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1679169956;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20210112; t=1679171403;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zD0xvzavcMOlqDmOuShYZOckRPbY+zDaBi9jT5/rz+A=;
- b=IeJVIH/q/jq9RoSzYObuC817WaFDlXTEdiHOndp5Te0CbGEo8ND/7OJjNDwhoFo/km
- NrhNgWC7QUPnoWg3opQsNJbKtOzthDZ/Qz5bUnpDovBO9VWRuZSeL5q8hkzjJFsIZmlW
- /jj3ylnyvxREqs7ZS3K9/9IDVfpKb17b9W2gb0WaFlS43xbrhDwqKeG2fkk1qTjuPS3U
- fOl7n0t76d5Im716ecFbqtaXOG0i9FiFMLF8d00nOH9fPsuYtFDA1sooIzrZQQpSZPmO
- M8S9+KNb0oqRr+uQnt0rjDEywNEtukeY2OQRh7vIrBvJ3LCdTUj2CuUM8vyKebspIq2l
- axig==
+ bh=Rhh0yqzaC/JCYmytfjp00tl+vwD38NkWFcefPes7rwA=;
+ b=FM8Ieid2Oizygtl5h+7Sn6OPNjPtdKreLTYVrB/i5X+ltcLeruKqDKvCkTEHcyANy2
+ UBRtvDZyUGdRMhtaTUicbjoYtdloF1/FlCyPdMjxVjh6BUSdKp/xXvRt1MUgaaemIiOy
+ HiRbb78eoFuYwW1R0LBPdXzSbuRqjshsKCUww3p74GsbzBD61uGknvs6MouObv3pJr9j
+ LMM7Yuu3iFj48aHwo3BpXL0CLQMO0o44smWDAWX8Ba4IpoKZl/i1yIyuJM7HjYnyCRa7
+ 8qRHodHoTV7fmUED/mEzlITBBoX5CSokRbYuGFe15/s5e2XdOWaU4QPozBShmrMfN5rc
+ +WOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679169956;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1679171403;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zD0xvzavcMOlqDmOuShYZOckRPbY+zDaBi9jT5/rz+A=;
- b=HEWKaIdumiCBA6Uj/PBD2UHJpP7/xNmnc/fKM6JJ/H9tjWbe0hKx1G9stYfltYxNtY
- 9Qp32VyqLv/9NaDJ9IKUpiGM44IUz4rdhiw1WA39yMn6kX7pDPg6a9Afgx6RbdEKRM+Z
- FgAw6sXPwOAcmqptjU9nHAqTmO0JHpz4ZQFAVqC4H0yR83lGAp3hqFWiv/hoK6Pj3ppE
- Bl+CweCzHuEMojOV/EjK1TKCgLp6Rj+0UgkWS2psxvC0UGposI2+qwD8DRRdgG9XkgT4
- d57MmIFAAJcOJVDb/2TQRuyBSzq1/mcqOCl4Is9mdxDMNKHhtjYk4CliGCmqEBIVEua9
- 0mSA==
-X-Gm-Message-State: AO0yUKU+j1JhSFUB4M6IG/AFsmE9IUw4DKpIuHaQhH6782f2/iXxjPK+
- 60Zx0BET8zLquH3p7zQPFX5lz/qm/3jH1v5LX+U=
-X-Google-Smtp-Source: AK7set9DILmrHXBNblRkySraNmNTt5EkG6fc926qHkwEgteNDgMCcpTxCB3o5eYH14AwvpEd8vzU2Q==
-X-Received: by 2002:a9d:75c5:0:b0:693:db45:8b71 with SMTP id
- c5-20020a9d75c5000000b00693db458b71mr1500717otl.8.1679169956435; 
- Sat, 18 Mar 2023 13:05:56 -0700 (PDT)
-Received: from grind.dc1.ventanamicro.com ([177.95.89.231])
- by smtp.gmail.com with ESMTPSA id
- f69-20020a4a5848000000b004a3d98b2ccdsm2122219oob.42.2023.03.18.13.05.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Mar 2023 13:05:56 -0700 (PDT)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+ bh=Rhh0yqzaC/JCYmytfjp00tl+vwD38NkWFcefPes7rwA=;
+ b=u/fSPOARBlw3cBhSAwV3/VJ4Q/d+ebd72CScG0wB0Rq80N0fmZNGqijKEILEfqhwdb
+ h7fIPCkbewJMYbHzuh4SCcxlZfbFVfpKdIWkKlC9wwpmM1JBeofz4A0477zoquYLHWJy
+ YIIcoTFK+ROWKxc6Qy0y6H4eAIOqEdoaJec+Zna1YqzK3sLF508N9hDE5XxlrSacHXNb
+ oO6Le9rSt8KbsjHJp2l71d+Wc7IYbzcTvOZOGq2Zg+UaUUKbfamW9wSWEkgfUSwMNS6p
+ tJU3poH8aVePF4kaRReCiV+c1SXIsItEGPcByZnX+cgk202hjaMldke+2WGAmIIo5tEi
+ nVNw==
+X-Gm-Message-State: AO0yUKXt83nbyrN7flsCMAHYIkOr+TeHPM4XFn1HjBeHSXJqHd8dj44P
+ M7+jpNMwRPKemI8IWdCompK+PQw/c7M=
+X-Google-Smtp-Source: AK7set/Bk4+CZJyXXnzsdKw+uaHCBweZM6zKtnlm0J3vG05jTwdbnbdzmfCvA+kxQGG2Z/1u1xBWmw==
+X-Received: by 2002:a17:906:c293:b0:8af:3382:e578 with SMTP id
+ r19-20020a170906c29300b008af3382e578mr4007114ejz.4.1679170998181; 
+ Sat, 18 Mar 2023 13:23:18 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-011-121-187.77.11.pool.telefonica.de.
+ [77.11.121.187]) by smtp.gmail.com with ESMTPSA id
+ r10-20020a1709063d6a00b00930e95446d0sm2491556ejf.120.2023.03.18.13.23.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Mar 2023 13:23:17 -0700 (PDT)
+Date: Sat, 18 Mar 2023 20:23:09 +0000
+From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH for-8.1 v3 26/26] target/riscv: allow write_misa() to enable
- RVV
-Date: Sat, 18 Mar 2023 17:04:36 -0300
-Message-Id: <20230318200436.299464-27-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230318200436.299464-1-dbarboza@ventanamicro.com>
-References: <20230318200436.299464-1-dbarboza@ventanamicro.com>
+CC: Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Stefan Weil <sw@weilnetz.de>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_for_8=2E0=5D_qemu/osdep=3A_Switch?=
+ =?US-ASCII?Q?_position_of_=22extern=22_and_=22G=5FNORETURN=22?=
+In-Reply-To: <20230318185931.181659-1-shentey@gmail.com>
+References: <20230318185931.181659-1-shentey@gmail.com>
+Message-ID: <63A14BB7-4ED0-4BA4-BC6C-5704AED811C1@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32f.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=shentey@gmail.com; helo=mail-lj1-x22c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,108 +91,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Allow write_misa() to enable RVV like we did with RVG. We'll need a
-riscv_cpu_enable_v() to enable all related misa bits and Z extensions.
-This new helper validates the existing 'env' conf by using the existing
-riscv_cpu_validate_v(). We'll also check if we'll be able to enable 'F'
-by checking for ext_zfinx.
++ Thomas, Daniel (gitlab issue) and Stefan (Windows)
 
-As with RVG, enabling RVV is considered to be a standalone operation in
-write_misa(). This means that we'll guarantee that we're not being
-inconsistent in riscv_cpu_enable_v() and that we're okay with skipping
-regular validation.
-
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- target/riscv/cpu.c | 35 +++++++++++++++++++++++++++++++++++
- target/riscv/cpu.h |  1 +
- target/riscv/csr.c | 14 ++++++++++++++
- 3 files changed, 50 insertions(+)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 73a5fa46ee..9c16b29f27 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -983,6 +983,41 @@ static void riscv_cpu_validate_v(CPURISCVState *env,
-     env->vext_ver = vext_version;
- }
- 
-+target_ulong riscv_cpu_enable_v(RISCVCPU *cpu, Error **errp)
-+{
-+    CPURISCVState *env = &cpu->env;
-+    RISCVCPUConfig *cfg = &cpu->cfg;
-+    Error *local_err = NULL;
-+
-+    riscv_cpu_validate_v(env, cfg, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return 0;
-+    }
-+
-+    if (cpu->cfg.ext_zfinx) {
-+        error_setg(errp, "Unable to enable V: Zfinx is enabled, "
-+                         "so F can not be enabled");
-+        return 0;
-+    }
-+
-+    cfg->ext_f = true;
-+    env->misa_ext |= RVF;
-+
-+    cfg->ext_d = true;
-+    env->misa_ext |= RVD;
-+
-+    /*
-+     * The V vector extension depends on the
-+     *  Zve32f, Zve64f and Zve64d extensions.
-+     */
-+    cpu->cfg.ext_zve64d = true;
-+    cpu->cfg.ext_zve64f = true;
-+    cpu->cfg.ext_zve32f = true;
-+
-+    return env->misa_ext;
-+}
-+
- static void riscv_cpu_validate_priv_spec(RISCVCPU *cpu, Error **errp)
- {
-     CPURISCVState *env = &cpu->env;
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 3ca1d4903c..45e801d926 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -600,6 +600,7 @@ void riscv_cpu_validate_extensions(RISCVCPU *cpu, uint32_t misa_ext,
- void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu, uint32_t misa_ext);
- 
- target_ulong riscv_cpu_enable_g(RISCVCPU *cpu, Error **errp);
-+target_ulong riscv_cpu_enable_v(RISCVCPU *cpu, Error **errp);
- 
- #define cpu_list riscv_cpu_list
- #define cpu_mmu_index riscv_cpu_mmu_index
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 4335398c19..e9e1afc57e 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1395,6 +1395,20 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
-         goto commit;
-     }
- 
-+    if (val & RVV && !(env->misa_ext & RVV)) {
-+        /*
-+         * If the write wants to enable RVV, only RVV and
-+         * its dependencies will be updated in the CSR.
-+         */
-+        val = riscv_cpu_enable_v(cpu, &local_err);
-+        if (local_err != NULL) {
-+            return RISCV_EXCP_NONE;
-+        }
-+
-+        val |= RVV;
-+        goto commit;
-+    }
-+
-     /*
-      * This flow is similar to what riscv_cpu_realize() does,
-      * with the difference that we will update env->misa_ext
--- 
-2.39.2
-
+Am 18=2E M=C3=A4rz 2023 18:59:31 UTC schrieb Bernhard Beschow <shentey@gma=
+il=2Ecom>:
+>Fixes the Windows build under msys2 using GCC 12 which fails with the fol=
+lowing
+>error:
+>
+>  [184/579] Compiling C++ object qga/vss-win32/qga-vss=2Edll=2Ep/install=
+=2Ecpp=2Eobj
+>  FAILED: qga/vss-win32/qga-vss=2Edll=2Ep/install=2Ecpp=2Eobj
+>  "c++" "-m64" "-mcx16" "-Iqga/vss-win32/qga-vss=2Edll=2Ep" "-Iqga/vss-wi=
+n32" "-I=2E=2E/src/qga/vss-win32" "-I=2E" "-Iqapi" "-Itrace" "-Iui" "-Iui/s=
+hader" "-IC:/msys64/mingw64/include/glib-2=2E0" "-IC:/msys64/mingw64/lib/gl=
+ib-2=2E0/include" "-fdiagnostics-color=3Dauto" "-Wall" "-Winvalid-pch" "-Wn=
+on-virtual-dtor" "-Werror" "-std=3Dgnu++11" "-g" "-iquote" "=2E" "-iquote" =
+"C:/msys64/home/shentey/Projects/qemu/src" "-iquote" "C:/msys64/home/shente=
+y/Projects/qemu/src/include" "-iquote" "C:/msys64/home/shentey/Projects/qem=
+u/src/tcg/i386" "-D__STDC_LIMIT_MACROS" "-D__STDC_CONSTANT_MACROS" "-D__STD=
+C_FORMAT_MACROS" "-fno-pie" "-no-pie" "-D_GNU_SOURCE" "-D_FILE_OFFSET_BITS=
+=3D64" "-D_LARGEFILE_SOURCE" "-fno-strict-aliasing" "-fno-common" "-fwrapv"=
+ "-Wundef" "-Wwrite-strings" "-Wtype-limits" "-Wformat-security" "-Wformat-=
+y2k" "-Winit-self" "-Wignored-qualifiers" "-Wempty-body" "-Wendif-labels" "=
+-Wexpansion-to-defined" "-Wimplicit-fallthrough=3D2" "-Wmissing-format-attr=
+ibute" "-Wno-missing-include-dirs" "-Wno-shift-negative-value" "-Wno-psabi"=
+ "-fstack-protector-strong" "-Wno-unknown-pragmas" "-Wno-delete-non-virtual=
+-dtor" "-Wno-non-virtual-dtor" -MD -MQ qga/vss-win32/qga-vss=2Edll=2Ep/inst=
+all=2Ecpp=2Eobj -MF "qga/vss-win32/qga-vss=2Edll=2Ep/install=2Ecpp=2Eobj=2E=
+d" -o qga/vss-win32/qga-vss=2Edll=2Ep/install=2Ecpp=2Eobj "-c" =2E=2E/src/q=
+ga/vss-win32/install=2Ecpp
+>  In file included from C:/msys64/mingw64/lib/glib-2=2E0/include/glibconf=
+ig=2Eh:9,
+>              from C:/msys64/mingw64/include/glib-2=2E0/glib/gtypes=2Eh:3=
+4,
+>              from C:/msys64/mingw64/include/glib-2=2E0/glib/galloca=2Eh:=
+34,
+>              from C:/msys64/mingw64/include/glib-2=2E0/glib=2Eh:32,
+>              from C:/msys64/home/shentey/Projects/qemu/src/include/glib-=
+compat=2Eh:32,
+>              from C:/msys64/home/shentey/Projects/qemu/src/include/qemu/=
+osdep=2Eh:144,
+>              from =2E=2E/src/qga/vss-win32/install=2Ecpp:13:
+>  C:/msys64/mingw64/include/glib-2=2E0/glib/gmacros=2Eh:1075:21: error: s=
+tandard attributes in middle of decl-specifiers
+>  1075 | # define G_NORETURN [[noreturn]]
+>        |                     ^
+>  C:/msys64/home/shentey/Projects/qemu/src/include/qemu/osdep=2Eh:240:8: =
+note: in expansion of macro 'G_NORETURN'
+>  240 | extern G_NORETURN
+>        |        ^~~~~~~~~~
+>  C:/msys64/mingw64/include/glib-2=2E0/glib/gmacros=2Eh:1075:21: note: st=
+andard attributes must precede the decl-specifiers to apply to the declarat=
+ion, or follow them to apply to the type
+>  1075 | # define G_NORETURN [[noreturn]]
+>        |                     ^
+>  C:/msys64/home/shentey/Projects/qemu/src/include/qemu/osdep=2Eh:240:8: =
+note: in expansion of macro 'G_NORETURN'
+>  240 | extern G_NORETURN
+>        |        ^~~~~~~~~~
+>  C:/msys64/mingw64/include/glib-2=2E0/glib/gmacros=2Eh:1075:21: error: a=
+ttribute ignored [-Werror=3Dattributes]
+>  1075 | # define G_NORETURN [[noreturn]]
+>        |                     ^
+>  C:/msys64/home/shentey/Projects/qemu/src/include/qemu/osdep=2Eh:240:8: =
+note: in expansion of macro 'G_NORETURN'
+>  240 | extern G_NORETURN
+>        |        ^~~~~~~~~~
+>  C:/msys64/mingw64/include/glib-2=2E0/glib/gmacros=2Eh:1075:21: note: an=
+ attribute that appertains to a type-specifier is ignored
+>  1075 | # define G_NORETURN [[noreturn]]
+>        |                     ^
+>  C:/msys64/home/shentey/Projects/qemu/src/include/qemu/osdep=2Eh:240:8: =
+note: in expansion of macro 'G_NORETURN'
+>  240 | extern G_NORETURN
+>        |        ^~~~~~~~~~
+>  cc1plus=2Eexe: all warnings being treated as errors
+>
+>Apparently it also fixes the compilation with Clang 15 (see
+>https://gitlab=2Ecom/qemu-project/qemu/-/issues/1541 )=2E
+>
+>Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>---
+> include/qemu/osdep=2Eh | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/include/qemu/osdep=2Eh b/include/qemu/osdep=2Eh
+>index f68b5d8708=2E=2E9eff0be95b 100644
+>--- a/include/qemu/osdep=2Eh
+>+++ b/include/qemu/osdep=2Eh
+>@@ -237,7 +237,7 @@ extern "C" {
+>  * supports QEMU_ERROR, this will be reported at compile time; otherwise
+>  * this will be reported at link time due to the missing symbol=2E
+>  */
+>-extern G_NORETURN
+>+G_NORETURN extern
+> void QEMU_ERROR("code path is reachable")
+>     qemu_build_not_reached_always(void);
+> #if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
 
