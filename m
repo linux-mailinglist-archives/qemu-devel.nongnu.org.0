@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4EA66C023E
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Mar 2023 15:08:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F576C0251
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Mar 2023 15:16:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pdtgZ-00065H-Lp; Sun, 19 Mar 2023 10:07:00 -0400
+	id 1pdtoo-0007lK-60; Sun, 19 Mar 2023 10:15:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pdtgQ-00064s-VX
- for qemu-devel@nongnu.org; Sun, 19 Mar 2023 10:06:51 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833])
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pdtol-0007kH-57
+ for qemu-devel@nongnu.org; Sun, 19 Mar 2023 10:15:27 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pdtgO-00056C-Tw
- for qemu-devel@nongnu.org; Sun, 19 Mar 2023 10:06:50 -0400
-Received: by mail-qt1-x833.google.com with SMTP id n2so10484780qtp.0
- for <qemu-devel@nongnu.org>; Sun, 19 Mar 2023 07:06:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pdtoj-0008MP-BP
+ for qemu-devel@nongnu.org; Sun, 19 Mar 2023 10:15:26 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id x1so10438637qtr.7
+ for <qemu-devel@nongnu.org>; Sun, 19 Mar 2023 07:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=braap-org.20210112.gappssmtp.com; s=20210112; t=1679234806;
+ d=braap-org.20210112.gappssmtp.com; s=20210112; t=1679235324;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Zerjc4o/6krhz8Vy+JMWVoFR5qxPdhsILurfPhrIxl0=;
- b=Sytx95GPQJZYrPNfNJTRBNJAcdMIv4+73X2bfSQ8ZBq1rogebBNecDSYRfysvU1lMs
- E39vGBqz70+tIrozWX4xwiDTAjfVcjCC7rnkGEPQihTh2A2ZWd758Lee/wMuZ47gNAGg
- OhceWCSZ7arKO/Nv1CUTCPn/szZcXRviQ3r3GDcu653uR4dqJkGH3Lk7baUWnNfhFqWf
- SY+36UxGra+KmWa78GFoArf4z8XrmINC8nZmG8gH4NxBaa5Pk2tPslnPPNY+F8y+xQzZ
- /skAJOWUEvWLgVEPrAvoPN1fEjSgpBf1ggx+pKpIl0zu8Fhi7NbQnoQ/y7KrCmc1YYtS
- +Ojw==
+ bh=VNg753/yIWoQptKRN8msylhG5torULvAip8ekSKy+FI=;
+ b=fN1vScaEKVnBa6GWysokh3MKO8Zc55ibYhUls/inGIV4ueK3NTFDfp31A52eua1KBR
+ 5eWwiIY30+7MgFhfGRNWuRiX8JNhi9lq1hiRpRGvPDXaEWIJetzvYZU2654++xJthkNc
+ rVcuzb25rqsXfthy3mkIO4V3DB+9SJBB/duKjsOPyMC/J+AiVUzSZt1yGgqRB+XeV9gv
+ o4x6h93wf14EdF6zvM6QCUB8FAg5dA7T0EiiXvb/uQr8v77GgpjUhS8wRoiP1q8CtTY9
+ DvNBGqguWEQm9cLds7qFy1/caLJx4KnHeCwRd4qRKP1wATKGONmueYASB+ai6KQVHHcj
+ +Xhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679234806;
+ d=1e100.net; s=20210112; t=1679235324;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Zerjc4o/6krhz8Vy+JMWVoFR5qxPdhsILurfPhrIxl0=;
- b=sgmgtWnOGIqJqKynFoN7QyxwkliSeo6A3W7lczmg68vudgcpXvo3Kbld8NnOEYlJJ/
- Nz10GApwSms+3eLAY7NG/m2AlEQYWcyqSFrKjhCgIhkw6dGRVhOKRXxqFlPI1dVGLw3N
- FaTms3F3ylNE8ju5sAKKNGRW0xbF8nHx5pE7MAYsQXRedejHqMQ/MGRlftfi1YJDB1DN
- Lpwg352FRDKNI4w0lnPHR514k0GshcFXOuLK302S/PXI0Bv/SklSgLp8IyT7O2fWzj6q
- Xnw+NEiHS2ZvJWjv2oA4MXHDsBr0zwQ97PVXMOQ+EFr5Wbowo9uzw//t5j2KTOCtDnVT
- ZTrg==
-X-Gm-Message-State: AO0yUKW2+/clDe+TeRhmki3wePJH3Kir+yzACtWqmFsQ4SAYMiERxTfb
- UuDfB2xjPIcYPlVS+4PKzVb6vuPHQ66Gy3YZCmYt9A==
-X-Google-Smtp-Source: AK7set8+5LUoq/SN2XJ2ymDvWWPzuVlN94+dfbLPNFKIsR+DiUm54lD1SqR79ZaEhTvOX1ph7BA56Q==
-X-Received: by 2002:ac8:7d96:0:b0:3bf:cc89:9c8f with SMTP id
- c22-20020ac87d96000000b003bfcc899c8fmr21431933qtd.68.1679234806589; 
- Sun, 19 Mar 2023 07:06:46 -0700 (PDT)
+ bh=VNg753/yIWoQptKRN8msylhG5torULvAip8ekSKy+FI=;
+ b=cmjwaVUMgc+Jj0XrfEC0spUnHe3plvrYmppQR3BT0ujgSJDvyCC0SiXWr3bk5ayaTz
+ /44geTK3cxfpPOhkbK1Op9ayeezJ0QnvjvjdCz1o/+Tg9isPTtDZIFaJsL7be5UuxBoM
+ Oo//Izaa/55D6rsSLA3jp+ARc/Av5VQfATi6KzvJbKo1062XSL+8uIW9KcPneRPezXh8
+ BfITBX33qR/ze/euOcubpABpF/WjECdsrHU8gTkDZ8/k4y5EeGo2ELNnsyqUN6bHqMBz
+ xJ8mXARQIC1Th1bUMv71+NK0OlZ1b0o3W5bSDaT04Ux4D6aymKep5HRUAcZoQOrqIvH2
+ Msjw==
+X-Gm-Message-State: AO0yUKWw/aQrpeUHwn04YrrLt+Bw4Ap8k/SMwILG/Bq1Y3xbEMb7LKvB
+ q0PubowCTnhAJ4qretelOZY4gA==
+X-Google-Smtp-Source: AK7set/wmYg8CgPu/DmvgkY+TkhJlukN+z8JO+ZjE0/SGeduum3w1DBZ2zywMc+ybMHGmi7j/NJeow==
+X-Received: by 2002:ac8:59cb:0:b0:3db:575e:613a with SMTP id
+ f11-20020ac859cb000000b003db575e613amr12471376qtf.23.1679235323879; 
+ Sun, 19 Mar 2023 07:15:23 -0700 (PDT)
 Received: from localhost ([143.244.47.76]) by smtp.gmail.com with ESMTPSA id
- h23-20020ac85157000000b003b848759ed8sm4681938qtn.47.2023.03.19.07.06.45
+ h26-20020ac846da000000b003bfb5fd72a7sm4698172qto.86.2023.03.19.07.15.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Mar 2023 07:06:46 -0700 (PDT)
-Date: Sun, 19 Mar 2023 10:06:44 -0400
+ Sun, 19 Mar 2023 07:15:23 -0700 (PDT)
+Date: Sun, 19 Mar 2023 10:15:21 -0400
 From: Emilio Cota <cota@braap.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org
-Subject: Re: [PATCH v2 0/7] plugin: fix clearing of plugin_mem_cbs on TB exit
-Message-ID: <ZBcW9PeFAlQQlPeR@cota-l14>
-References: <20230310195252.210956-1-richard.henderson@linaro.org>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 0/2] fix for #285
+Message-ID: <ZBcY+WL+65D7Zi5F@cota-l14>
+References: <20230205163758.416992-1-cota@braap.org>
+ <Y+92tpDQVytnfvnd@cota-l14>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230310195252.210956-1-richard.henderson@linaro.org>
-Received-SPF: softfail client-ip=2607:f8b0:4864:20::833;
- envelope-from=cota@braap.org; helo=mail-qt1-x833.google.com
+In-Reply-To: <Y+92tpDQVytnfvnd@cota-l14>
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=cota@braap.org; helo=mail-qt1-x82f.google.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -85,23 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 10, 2023 at 11:52:45 -0800, Richard Henderson wrote:
-> Changes for v2:
-(snip)
-> Richard Henderson (7):
->   tcg: Clear plugin_mem_cbs on TB exit
->   tcg: Drop plugin_gen_disable_mem_helpers from tcg_gen_exit_tb
->   include/qemu/plugin: Remove QEMU_PLUGIN_ASSERT
->   *: Add missing includes of qemu/error-report.h
->   *: Add missing includes of qemu/plugin.h
->   include/qemu: Split out plugin-event.h
->   include/qemu/plugin: Inline qemu_plugin_disable_mem_helpers
+Ping. Any feedback on these two patches?
 
-Reviewed-by: Emilio Cota <cota@braap.org>
+https://patchew.org/QEMU/20230205163758.416992-1-cota@braap.org/
+https://lore.kernel.org/qemu-devel/20230205163758.416992-1-cota@braap.org/
 
-Thanks, Richard!
+Happy to resend if needed.
 
-Alex: is it too late to add my R-b tags to the series?
-
+Thanks,
 		Emilio
+
+
+On Fri, Feb 17, 2023 at 07:44:38 -0500, Emilio Cota wrote:
+> Ping.
+> 
+> This fixes a bug (admittedly with a big hammer) that affects
+> users with heavily multi-threaded user-mode workloads.
+> 
+> Thanks,
+> 		Emilio
+> 
+> On Sun, Feb 05, 2023 at 11:37:56 -0500, Emilio Cota wrote:
+> > Changes since v1:
+> > 
+> > - Add configure check to only use QTree if Glib still implements gslice.
+> >   If Glib doesn't, then we call Glib directly with inline functions.
+> > - Add TODO's so that in the future (i.e. when the minimum version of
+> >   Glib that we use doesn't implement gslice) we remove QTree.
+> > - Add comment to the top of qtree.h.
+> > - Make qtree-bench results more robust by running longer or more times.
+> > - Drop deprecated API calls (they're unused in QEMU).
+> > - Drop API calls that are too recent (they're unused in QEMU).
+> > - Drop macro benchmark results from the TCG patch since they're too noisy.
+> > - Add test program to the commit log so that we don't lose it in the future
+> >   even if the bug tracker goes away.
+> > 
+> > Thanks,
+> > 		Emilio
+> > 
+> > 
 
