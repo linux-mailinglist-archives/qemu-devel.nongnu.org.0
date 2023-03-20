@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E92F6C1B3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E486C1B33
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:20:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peIFF-0007SB-EE; Mon, 20 Mar 2023 12:20:25 -0400
+	id 1peIFG-0007TW-1u; Mon, 20 Mar 2023 12:20:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIFD-0007Qs-1c
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIFE-0007RG-9s
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIF7-0005w7-KI
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:21 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIFC-0005xC-MM
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679329216;
+ s=mimecast20190719; t=1679329220;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9QsduCswNIMQH+YanLaFYu2M2t5NcOsDNUy/2/tF16w=;
- b=e6d5eainCk8taJ3xLN7xLlDPjv9j9BojTmFOkGUiKEbowDoDo/IrlKdCJs+cvTilDclLyl
- HqNwwKOIRu23Sp4VVN3YbTE0VhYT9vwGNZWLYGdgSQYmBvwGtQDlBRxMPayNo2GgEMEkKV
- fIMKYVPajZRP3DIIwJB4k0iBt6nTTCU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=daL2F8vI5WYXi9WJ2wV3aB/xfnG8SJevtn6y3oTOgWs=;
+ b=dAT4uIvZ8+/kqwZdB+pbvN9x6mPwrAjxNjoVko/ZP5vDpAG3rctBEk0A0NUkyIkWpLZipi
+ L/kn10X3iFrRieR4yC2fwqN+okTOY00a9/4/jNgSCLqHp1BvxxbbCUNAW0yBatWk2sWea0
+ St0+DwmYg4A7Ue1rH/fE96jt8oruq1g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-424-L0cK7zh-PQ6IreLkKV1YiQ-1; Mon, 20 Mar 2023 12:20:11 -0400
-X-MC-Unique: L0cK7zh-PQ6IreLkKV1YiQ-1
+ us-mta-613-5Qk_oHvBO1OrjcLlbiDetQ-1; Mon, 20 Mar 2023 12:20:13 -0400
+X-MC-Unique: 5Qk_oHvBO1OrjcLlbiDetQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D18085C069
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 16:20:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A251D3C10225
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 16:20:12 +0000 (UTC)
 Received: from server.redhat.com (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F0C92166B29;
- Mon, 20 Mar 2023 16:20:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B55B72166B29;
+ Mon, 20 Mar 2023 16:20:10 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com,
 	jasowang@redhat.com,
 	mst@redhat.com
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH v14 2/4] vhost_vdpa: fix the input in
- trace_vhost_vdpa_listener_region_del()
-Date: Tue, 21 Mar 2023 00:19:57 +0800
-Message-Id: <20230320161959.650841-3-lulu@redhat.com>
+Subject: [PATCH v14 3/4] vhost-vdpa: Add check for full 64-bit in region delete
+Date: Tue, 21 Mar 2023 00:19:58 +0800
+Message-Id: <20230320161959.650841-4-lulu@redhat.com>
 In-Reply-To: <20230320161959.650841-1-lulu@redhat.com>
 References: <20230320161959.650841-1-lulu@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,28 +77,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In trace_vhost_vdpa_listener_region_del, the value for llend
-should change to int128_get64(int128_sub(llend, int128_one()))
+The unmap ioctl doesn't accept a full 64-bit span. So need to
+add check for the section's size in vhost_vdpa_listener_region_del().
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-vdpa.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index bc6bad23d5..92c2413c76 100644
+index 92c2413c76..0c8c37e786 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -288,7 +288,8 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-     iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-     llend = vhost_vdpa_section_end(section);
+@@ -316,10 +316,28 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+         vhost_iova_tree_remove(v->iova_tree, *result);
+     }
+     vhost_vdpa_iotlb_batch_begin_once(v);
++    /*
++     * The unmap ioctl doesn't accept a full 64-bit. need to check it
++     */
++    if (int128_eq(llsize, int128_2_64())) {
++        llsize = int128_rshift(llsize, 1);
++        ret = vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova,
++                                   int128_get64(llsize));
++
++        if (ret) {
++            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
++                         "0x%" HWADDR_PRIx ") = %d (%m)",
++                         v, iova, int128_get64(llsize), ret);
++        }
++        iova += int128_get64(llsize);
++    }
+     ret = vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova,
+                                int128_get64(llsize));
++
+     if (ret) {
+-        error_report("vhost_vdpa dma unmap error!");
++        error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
++                     "0x%" HWADDR_PRIx ") = %d (%m)",
++                     v, iova, int128_get64(llsize), ret);
+     }
  
--    trace_vhost_vdpa_listener_region_del(v, iova, int128_get64(llend));
-+    trace_vhost_vdpa_listener_region_del(v, iova,
-+        int128_get64(int128_sub(llend, int128_one())));
- 
-     if (int128_ge(int128_make64(iova), llend)) {
-         return;
+     memory_region_unref(section->mr);
 -- 
 2.34.3
 
