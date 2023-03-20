@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDBA56C14A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 15:25:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100B46C14D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 15:36:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peGRO-0004nS-0w; Mon, 20 Mar 2023 10:24:50 -0400
+	id 1peGav-0000um-1k; Mon, 20 Mar 2023 10:34:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGRL-0004iQ-4O
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:24:47 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1peGat-0000qR-L0
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:34:39 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGRJ-0000LY-Di
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:24:46 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- r19-20020a05600c459300b003eb3e2a5e7bso7648886wmo.0
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 07:24:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1peGas-0004rT-13
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:34:39 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ p13-20020a05600c358d00b003ed346d4522so7667486wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 07:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679322284;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OcBwyyJCzTCgmblNjI0dvsp2ZbyooI12dlGfQm/MrMY=;
- b=VFqQWj1g37MKKalzANwcMjtBCGtS5g9cDcK8wggTQJY9QuL0k05M5gENkM2AhvUZPa
- QjxWhm26h8J1yYyakXOnIN9KK1s6NwuvDcrFxkDTvyNv3KM/hSKVVyCaKRnZ1TEfMRW2
- oAsEtYi88v+esJ3TvCg/tRxS7RwZk9tBZtnwtThEJJND35aoSwoPp3SQDusa6QjiyKrP
- rNS7RqN+FYJ1z4Hwd80jxlCt19UtW/tLpoX1QojFwzy1If+nkKbb/26oQTW3TKY3b2NF
- 0BNU6EeoK3ht4MY21VYePHcMbYAhreOej3wRlhRVJS2NdBy+m/VnxRVOa/Zi7JK+lyVu
- 55vA==
+ d=linaro.org; s=google; t=1679322876;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nzy7gtN9RUqnwNU6WqaIhR4OIdHsA9NU8aHvQIvK4z4=;
+ b=Tq6QulfBpwOqMq5HgvBmYja7/PZr1LfWXFNcRTkWGTpKqft4b8yIlr+K23xRj8u9iW
+ hoprzG4QUMj//PcD8db18xXxIxBLy+wxS82KFeW93RpUDhuYnf5GRjt5YO1oU73F7S0j
+ EM+byo7LVSL8JCXOI5zj3o9dAXF5vP1lrrJs3SFHyG+u9n4Hm2yuZq+Pvk4cAOiSr6x/
+ YKmReqkw7VWLpxYXPTyfKMuvwlZx0J/5xN8jEKYuKbH6cAhlLUeLCd/0fYDgSWr46KL4
+ C9wx9E52xlu3DNBvMAwJSvoWM/VK8wkkOIk1EOX81+XFB78xSrZ79jN+Ctc52TGltmUP
+ Lf9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679322284;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OcBwyyJCzTCgmblNjI0dvsp2ZbyooI12dlGfQm/MrMY=;
- b=WiSnK/b/DgZeORe3G0/FNHN7kOhCd0sd6CHa8CPSl80Q8MAHiRkh3RPZ6zfPA61C7Z
- k0sZ2On5qzU+LbaANQOMcjHCjpXI3MoyYKx0jfd7h5h5rT7XIY4XFMjtpFlm+t8V9vQq
- VGC/QlFN7QWahs63Ze65HruJG1yKM1HC3lXvEZZWIaMBBlhxs7z7JLWQTvA+Ch8UFF97
- hasb72bcDtZS1Ohy6UzEv6Qs4N5ZyfA+/KHY7TnUf5droapAeDB8k6HslpViuF1/H7os
- ME6mqYgf9FplYojlpL0oMxfavZU9ws+FB08zy+j+TWTJQxi1Tl4RRyXSIoQl60SEIJG3
- E6kA==
-X-Gm-Message-State: AO0yUKXGmwyGmz3GROGH3mOLJNIVZl+iOyNhg9O3TdHtO5U/FCyY15L+
- viXPcP+IrPe0OfarOY+TZN8X/Q==
-X-Google-Smtp-Source: AK7set8otthNas5MYLHYB7q0JW9GkCZbC2TfrzD9IF17xl9Q5BlyHU3vSFtsqSdZ5cUrrdN2qAQVyQ==
-X-Received: by 2002:a05:600c:2303:b0:3ed:b048:73f4 with SMTP id
- 3-20020a05600c230300b003edb04873f4mr6984711wmo.5.1679322283760; 
- Mon, 20 Mar 2023 07:24:43 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- z9-20020a05600c0a0900b003ede04deb14sm4683478wmp.48.2023.03.20.07.24.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 07:24:43 -0700 (PDT)
-Message-ID: <c3f5aaf7-7689-29c8-e7e0-1651b341aca2@linaro.org>
-Date: Mon, 20 Mar 2023 15:24:42 +0100
+ d=1e100.net; s=20210112; t=1679322876;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=nzy7gtN9RUqnwNU6WqaIhR4OIdHsA9NU8aHvQIvK4z4=;
+ b=ek6haVEicQCm34JvuhvYSM7mPzvpLAPCYZ7XgWiNFm2m4zyeg4DBXXdl5Wh6WF7Kef
+ eHWxP4ZMjHJ10oLbs+MuhK2U5qchlBa9ikwBkDSmjkJ/rlHKGK0iqGxam2F0HzGpsqbR
+ vkuSeE5Ml5PkkEKfHHWnYPv9a1vkNmvPA10+7S2WGRINfOqQ2ZpyQy176QdBzzc7z1La
+ BEf34wQ2Y5WOFtMaPj0Qu9CxfeEZzg7Yxo2KtSw0JJsfnNrkHYPJuZdAU4Dnh+iBhBUa
+ beWKJRTwRzt6aNO0ujaFXG8gPvHhr2Ly/I+8JOrnsAJ+wEu2sgh1/BmXkumpntxa5a9B
+ 0z0w==
+X-Gm-Message-State: AO0yUKVuFR7+FS7//lnNFcPHB5lOxCBf6H1YIm16O2s++BWks2rCeQ9j
+ N7KMa9tR3tDX1jSJAWyZBcPShw==
+X-Google-Smtp-Source: AK7set8BiLUJHdAYvQxcpol4x5Z5XTDM5JQBHtniz27Bnbu3MOspABt/woz5+X+URG5kG5xOYQviWg==
+X-Received: by 2002:a05:600c:548d:b0:3eb:2da5:e19 with SMTP id
+ iv13-20020a05600c548d00b003eb2da50e19mr33219180wmb.27.1679322876111; 
+ Mon, 20 Mar 2023 07:34:36 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ v26-20020a05600c215a00b003eafc47eb09sm10582293wml.43.2023.03.20.07.34.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 07:34:35 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 705F61FFB7;
+ Mon, 20 Mar 2023 14:34:35 +0000 (GMT)
+References: <20230320101035.2214196-1-alex.bennee@linaro.org>
+ <20230320101035.2214196-3-alex.bennee@linaro.org>
+ <c6e1bf23-618f-410d-a53b-6f4cbd007e7b@suse.de> <87355z8ry2.fsf@linaro.org>
+ <34fc1e42-a0f7-c0fe-300f-3ad78deb8e6c@suse.de>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Alessandro Di Federico <ale@rev.ng>, Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?=
+ <philmd@linaro.org>, qemu-devel@nongnu.org, Richard Henderson
+ <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Fabiano Rosas
+ <fabiano.rosas@suse.com>
+Subject: Re: [PATCH 02/10] accel/tcg: move cpu_reloading_memory_map into
+ cpu-exec-softmmu
+Date: Mon, 20 Mar 2023 14:33:52 +0000
+In-reply-to: <34fc1e42-a0f7-c0fe-300f-3ad78deb8e6c@suse.de>
+Message-ID: <87y1nr7apw.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH-for-8.0] qemu/osdep.h: Do not declare function prototypes
- using extern keyword
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Sebastian Wilhelmi <wilhelmi@google.com>,
- Eric Blake <eblake@redhat.com>, Sebastian Wilhelmi <seppi@seppi.de>,
- =?UTF-8?Q?Simon_W=c3=b6rner?= <contact@simon-woerner.de>,
- Bernhard Beschow <shentey@gmail.com>
-References: <20230320131426.16348-1-philmd@linaro.org>
- <ZBhfRmJc0M93s1F5@redhat.com>
- <42cc3cee-b148-aab0-cfd5-a684ce55d7f6@linaro.org>
- <7921104c-65e4-3b09-3a01-16b5f4ceb76c@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <7921104c-65e4-3b09-3a01-16b5f4ceb76c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,54 +104,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/3/23 15:04, Thomas Huth wrote:
-> On 20/03/2023 14.47, Philippe Mathieu-Daudé wrote:
->> On 20/3/23 14:27, Daniel P. Berrangé wrote:
->>> On Mon, Mar 20, 2023 at 02:14:26PM +0100, Philippe Mathieu-Daudé wrote:
->>>> By default, C function prototypes declared in headers are visible,
->>>> so there is no need to declare them as 'extern' functions. Remove
->>>> this redundancy. This also fixes when building under MSYS2:
->>>>
->>>>    C:/msys64/mingw64/include/glib-2.0/glib/gmacros.h:1075:21: error: 
->>>> standard attributes in middle of decl-specifiers
->>>>    1075 | # define G_NORETURN [[noreturn]]
->>>>          |                     ^
->>>>    C:/msys64/code/qemu/src/include/qemu/osdep.h:240:8: note: in 
->>>> expansion of macro 'G_NORETURN'
->>>>    240 | extern G_NORETURN
->>>>          |        ^~~~~~~~~~
->>>>
->>>> Reported-by: Simon Wörner <contact@simon-woerner.de>
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1541
->>>
->>> There's already a fix for that issue included in a PULL request from
->>> Thomas:
->>>
->>> https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg05225.html
->>
->> Not the same patch. I'll rebase and post for 8.1 then I guess :)
->>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>>> ---
->>>>   include/qemu/osdep.h | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
->>>> index f68b5d8708..79c26c748a 100644
->>>> --- a/include/qemu/osdep.h
->>>> +++ b/include/qemu/osdep.h
->>>> @@ -237,7 +237,7 @@ extern "C" {
->>>>    * supports QEMU_ERROR, this will be reported at compile time; 
->>>> otherwise
->>>>    * this will be reported at link time due to the missing symbol.
->>>>    */
->>>> -extern G_NORETURN
->>>> +G_NORETURN
-> 
-> Removing the "extern" sounds like a better idea than swapping it... 
-> since my PR was not in the staging branch yet, I went ahead and replaced 
-> the patch.
 
-Thank you!
+Claudio Fontana <cfontana@suse.de> writes:
 
+> On 3/20/23 14:32, Alex Benn=C3=A9e wrote:
+>>=20
+>> Claudio Fontana <cfontana@suse.de> writes:
+>>=20
+>>> How is this conditional on CONFIG_TCG? To me it looks like this breaks =
+!CONFIG_TCG.
+>>> Careful, the meson.build in accel/tcg/meson.build is always recursed.
+>>=20
+>> Surely it shouldn't be in accel/tcg then?
+>
+>
+> Hi Alex,
+>
+> maybe we did not understand each other.
+>
+> What I mean is that accel/tcg/meson.build is not conditionally read, it i=
+s _always_ read.
+>
+> Therefore TCG-specific code needs to be conditionally included using
+> the CONFIG_TCG.
+
+Ahh I see now, right I can fix that up next revision if there is
+interest in this approach.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
