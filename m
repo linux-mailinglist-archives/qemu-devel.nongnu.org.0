@@ -2,96 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA146C1AE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:06:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0F56C1AEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:09:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peI13-00083L-8m; Mon, 20 Mar 2023 12:05:45 -0400
+	id 1peI4a-00012A-Ex; Mon, 20 Mar 2023 12:09:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1peI0z-00080n-4r
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:05:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <ernunes@redhat.com>)
+ id 1peI4Y-00011o-2i
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:09:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1peI0x-00026I-8j
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:05:40 -0400
+ (Exim 4.90_1) (envelope-from <ernunes@redhat.com>)
+ id 1peI4W-0003TM-8T
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:09:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679328338;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sUMv9A7RNpRYk7oPygg+/jkNCczRL3lw9XXXmM/bsQg=;
- b=V4mYQl3qHVc/ygDDRYGuUmO1BV6PXaigS5Uw49RZmTBZq45IgX1Dj91QgaehutJWgnF3Eu
- ZqkpExzOwxlem3KgGYqSJQ6nziVzsvcddjbJDs52eUyVIp5/4SHkzZe6sEbaTI6S7aBhkG
- wOxCoEYwlEBy0vLmy1n9Y6LBhbGubYg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-99-TclZiSdAOQ6H2nxLLxIYmw-1; Mon, 20 Mar 2023 12:05:36 -0400
-X-MC-Unique: TclZiSdAOQ6H2nxLLxIYmw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- o5-20020adf8b85000000b002d58b4b7698so454904wra.19
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 09:05:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679328334;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sUMv9A7RNpRYk7oPygg+/jkNCczRL3lw9XXXmM/bsQg=;
- b=ZEWU0nKHAoCwV1Y5DnJZNx/xje9cuVWF+SHbj+x1C0N9unvDFIx4XaioX/gTe/Jp+2
- URR19u5DXychou33pqBLkE2RBKtiS/tVl1c6Lot5tds0yHjPV0R9kRWnp5vCNE7Gc9Qz
- 7YEfEXMstPgESmUnpM5d48A7eN6FjrUdxjeELUBMAmXeCkn3GVnbV5Kzr6FFVPM/0zFD
- Bk5iHDCfyViqlv8qyolJRVOhe7IEI6rcpTjIrFR+xPIHiGCtV+i1/ZWRGKyHFDNqzY5H
- mZl9riKDbALQdGQDI1YVTprOJuFCt5ypkq+bX70G2bU1K8JCHIT4ONrH8H8e8kZnthF8
- EMQw==
-X-Gm-Message-State: AO0yUKU2kQAJWSZ1XN4N3yA+6g+Xq6ihxP31V3pfD8Xr1m+cG0MQA3UF
- +zzOnhMCQOxRokqoVzct/KFuAyXmKwWXFJUx07Eo9RujEvL2NBA19Xb7m6+8w+pigIR5XkFlBIg
- UCaI8Tl908kD4p9TrePTD4TY=
-X-Received: by 2002:a5d:5955:0:b0:2cf:e29f:d7f5 with SMTP id
- e21-20020a5d5955000000b002cfe29fd7f5mr13106318wri.25.1679328334013; 
- Mon, 20 Mar 2023 09:05:34 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/J+/tiPLcffmWmeuDv+D6PqZtA4jtgriH3kDBDUZ4LHI4hFRmS6mtl1JHze6Pw4Dp0RGStmA==
-X-Received: by 2002:a5d:5955:0:b0:2cf:e29f:d7f5 with SMTP id
- e21-20020a5d5955000000b002cfe29fd7f5mr13106292wri.25.1679328333658; 
- Mon, 20 Mar 2023 09:05:33 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- j1-20020a5d4481000000b002d2033ec465sm9249725wrq.36.2023.03.20.09.05.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 09:05:33 -0700 (PDT)
-Message-ID: <45961bdc-cd3a-c35a-8f10-bb9a52dd2e33@redhat.com>
-Date: Mon, 20 Mar 2023 17:05:31 +0100
+ s=mimecast20190719; t=1679328558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DMH4oXHpGBtFxwo5IeR8CzFSvedQH3hCGSGmbysd89M=;
+ b=WSWFHLmo8MvLCkFPKzeJmBJ6PD7OhLD3yfPoJbhKC0OyEpQ5xX+80isufsqz0cvl6fSQO3
+ 8gvBQgneYK3DjslFpzpwFAWMqLob2xHmlnSVvQLv6VAMFzkRD79JYmjhMqE0ZxHDA6EFCe
+ r9tA9GBT+UID42ORPx+VNjeKyO3uvxY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-586-Vz4RUeX5P1KGb16JgWRxzw-1; Mon, 20 Mar 2023 12:09:16 -0400
+X-MC-Unique: Vz4RUeX5P1KGb16JgWRxzw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE8AE885622
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 16:09:16 +0000 (UTC)
+Received: from centennial.enunes.eu (unknown [10.43.17.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B5C62166B29;
+ Mon, 20 Mar 2023 16:09:16 +0000 (UTC)
+From: Erico Nunes <ernunes@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Erico Nunes <ernunes@redhat.com>
+Subject: [PATCH 1/2] ui/gtk: use widget size for cursor motion event
+Date: Mon, 20 Mar 2023 17:08:55 +0100
+Message-Id: <20230320160856.364319-1-ernunes@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [RFC PATCH v2 06/11] hw/arm/smmuv3: Make TLB lookup work for
- stage-2
-Content-Language: en-US
-To: Mostafa Saleh <smostafa@google.com>, qemu-devel@nongnu.org
-Cc: jean-philippe@linaro.org, peter.maydell@linaro.org, qemu-arm@nongnu.org,
- richard.henderson@linaro.org
-References: <20230226220650.1480786-1-smostafa@google.com>
- <20230226220650.1480786-7-smostafa@google.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20230226220650.1480786-7-smostafa@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ernunes@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,121 +71,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Mostafa,
+The gd_motion_event size has some calculations for the cursor position,
+which also take into account things like different size of the
+framebuffer compared to the window size.
+The use of window size makes things more difficult though, as at least
+in the case of Wayland includes the size of ui elements like a menu bar
+at the top of the window. This leads to a wrong position calculation by
+a few pixels.
+Fix it by using the size of the widget, which already returns the size
+of the actual space to render the framebuffer.
 
-On 2/26/23 23:06, Mostafa Saleh wrote:
-> Right now, either stage-1 or stage-2 are supported, this simplifies
-> how we can deal with TLBs.
-> This patch makes TLB lookup work if stage-2 is enabled instead of
-> stage-1.
-> TLB lookup is done before a PTW, if a valid entry is found we won't
-> do the PTW.
-> To be able to do TLB lookup, we need the correct tagging info, as
-> granularity and input size, so we get this based on the supported
-> translation stage. The TLB entries are added correctly from each
-> stage PTW.
->
-> When nested translation is supported, this would need to change, for
-> example if we go with a combined TLB implementation, we would need to
-> use the min of the granularities in TLB.
->
-> As stage-2 shouldn't be tagged by ASID, it will be set to -1 if S1P
-> is not enabled.
->
-> Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> ---
-> Changes in v2:
-> - check if S1 is enabled(not supported) when reading S1 TT.
-> ---
->  hw/arm/smmuv3.c | 45 ++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 34 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index dc74a5442d..ce193e9598 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -697,6 +697,9 @@ static int smmuv3_decode_config(IOMMUMemoryRegion *mr, SMMUTransCfg *cfg,
->      STE ste;
->      CD cd;
->  
-> +    /* ASID defaults to -1 (if s1 is not supported). */
-> +    cfg->asid = -1;
-> +
->      ret = smmu_find_ste(s, sid, &ste, event);
->      if (ret) {
->          return ret;
-> @@ -787,6 +790,7 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->      SMMUTLBEntry *cached_entry = NULL;
->      SMMUTransTableInfo *tt;
->      SMMUTransCfg *cfg = NULL;
-> +    uint8_t granule_sz, tsz;
->      IOMMUTLBEntry entry = {
->          .target_as = &address_space_memory,
->          .iova = addr,
-> @@ -822,21 +826,40 @@ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->          goto epilogue;
->      }
->  
-> -    tt = select_tt(cfg, addr);
-> -    if (!tt) {
-> -        if (cfg->record_faults) {
-> -            event.type = SMMU_EVT_F_TRANSLATION;
-> -            event.u.f_translation.addr = addr;
-> -            event.u.f_translation.rnw = flag & 0x1;
-> +    if (cfg->stage == 1) {
-> +        /* Select stage1 translation table. */
-> +        tt = select_tt(cfg, addr);
-> +        if (!tt) {
-> +            if (cfg->record_faults) {
-> +                event.type = SMMU_EVT_F_TRANSLATION;
-> +                event.u.f_translation.addr = addr;
-> +                event.u.f_translation.rnw = flag & 0x1;
-> +            }
-> +            status = SMMU_TRANS_ERROR;
-> +            goto epilogue;
->          }
-> -        status = SMMU_TRANS_ERROR;
-> -        goto epilogue;
-> -    }
-> +        granule_sz = tt->granule_sz;
-> +        tsz = tt->tsz;
->  
-> -    page_mask = (1ULL << (tt->granule_sz)) - 1;
-> +    } else {
-> +        /* Stage2. */
-> +        granule_sz = cfg->s2cfg.granule_sz;
-> +        tsz = cfg->s2cfg.tsz;
-> +    }
-> +    /*
-> +     * TLB lookup looks for granule and input size for a translation stage,
-> +     * as only one stage is supported right now, choose the right values
-> +     * from the configuration.
-> +     */
-> +    page_mask = (1ULL << granule_sz) - 1;
->      aligned_addr = addr & ~page_mask;
->  
-> -    cached_entry = smmu_iotlb_lookup(bs, cfg, tt, aligned_addr);
-> +    SMMUTransTableInfo temp = {
-Move the declaration at the top. Also rename temp into tt to be more
-explicit about what it is?
-> +        .granule_sz = granule_sz,
-> +        .tsz = tsz,
-> +    };
-> +
-> +    cached_entry = smmu_iotlb_lookup(bs, cfg, &temp, aligned_addr);
->      if (cached_entry) {
->          if ((flag & IOMMU_WO) && !(cached_entry->entry.perm & IOMMU_WO)) {
->              status = SMMU_TRANS_ERROR;
-Besides, looks good to me
+Signed-off-by: Erico Nunes <ernunes@redhat.com>
+---
+ ui/gtk.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-
-Thanks
-
-Eric
+diff --git a/ui/gtk.c b/ui/gtk.c
+index fd82e9b1ca..d1b2a80c2b 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -868,7 +868,6 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+ {
+     VirtualConsole *vc = opaque;
+     GtkDisplayState *s = vc->s;
+-    GdkWindow *window;
+     int x, y;
+     int mx, my;
+     int fbh, fbw;
+@@ -881,10 +880,9 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+     fbw = surface_width(vc->gfx.ds) * vc->gfx.scale_x;
+     fbh = surface_height(vc->gfx.ds) * vc->gfx.scale_y;
+ 
+-    window = gtk_widget_get_window(vc->gfx.drawing_area);
+-    ww = gdk_window_get_width(window);
+-    wh = gdk_window_get_height(window);
+-    ws = gdk_window_get_scale_factor(window);
++    ww = gtk_widget_get_allocated_width(widget);
++    wh = gtk_widget_get_allocated_height(widget);
++    ws = gtk_widget_get_scale_factor(widget);
+ 
+     mx = my = 0;
+     if (ww > fbw) {
+-- 
+2.39.2
 
 
