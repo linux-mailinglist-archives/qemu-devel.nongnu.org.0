@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35E76C1210
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 13:41:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C916C1275
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 13:58:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peEoO-000552-MI; Mon, 20 Mar 2023 08:40:28 -0400
+	id 1peF45-000860-6Y; Mon, 20 Mar 2023 08:56:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1peEo4-00053U-1s
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 08:40:08 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1peEo1-0006T2-6V
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 08:40:07 -0400
-Received: from mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
- [IPv6:2a02:6b8:c14:1383:0:640:c144:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id D2DB260753;
- Mon, 20 Mar 2023 15:39:56 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b513::1:1f] (unknown
- [2a02:6b8:b081:b513::1:1f])
- by mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id rdn2i80OqKo0-bbEfplmp; Mon, 20 Mar 2023 15:39:55 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1679315996; bh=Uh97Baa4TqR6hx/D/YYf8JOsztFws40gaf6I5EprcyU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=FVaqIkKRXaQ5NOGF08B7RoUWcfE4We+/yQAiyNR+G9GnJzn1uo9EJOoiRUIKMBekF
- TxEO6u+ZgWdn7N43AnXtIfE2gLNVP+iggA2WfGFdBNT2mJsSqcn3pS/fy+/kJ3SAza
- i3ckieI3/NhkIUi7cMX3Tgulnd3ThnScwZloSh4w=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <06ffc2ce-8cec-139e-9c46-a6c62acb75b6@yandex-team.ru>
-Date: Mon, 20 Mar 2023 14:39:53 +0200
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peF43-00084c-D6
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 08:56:39 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peF41-0003Fz-A0
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 08:56:39 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BDE051F85D;
+ Mon, 20 Mar 2023 12:56:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1679316995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RjCQJ/UQYvvlLzZp5zQcmIqh+zxkGzMx9IjQROA6R/8=;
+ b=eI7XYgDm1UA5ya1TV6EVmi3G5lcxJRhUOC3eWj9DuI4LvjkzozO+qy0ZIk8OfLeNDLjcU6
+ xaAGcm4EHkpk6H9vF79Xq1Sg3EJVWC4xDp+S1PVUc5gaw/Z14rkLFOESdF2XAHxZS/7zJZ
+ AB29fprDpFjjUg//1DkrUNSsq0bguA8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1679316995;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RjCQJ/UQYvvlLzZp5zQcmIqh+zxkGzMx9IjQROA6R/8=;
+ b=o9a6huPkuNtqCtWoYn1GeZLeZoqMR8/pN94QxgM6KpuoPpZzhNzH5eV1ayUpiTiBwC9aXu
+ csDbYyqEZpyPtlCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 756D513A00;
+ Mon, 20 Mar 2023 12:56:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id AkT9GgNYGGSTbAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 20 Mar 2023 12:56:35 +0000
+Message-ID: <c6e1bf23-618f-410d-a53b-6f4cbd007e7b@suse.de>
+Date: Mon, 20 Mar 2023 13:56:35 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Virtio-fs] [RFC 2/2] vhost-user-fs: Implement stateful migration
-Content-Language: en-US, ru-RU
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: virtio-fs@redhat.com, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20230313174833.28790-1-hreitz@redhat.com>
- <20230313174833.28790-3-hreitz@redhat.com>
- <035ba8d3-7943-ae8d-f4b2-76ac4fd74cf0@yandex-team.ru>
- <6892623a-f761-c334-b0a3-891a83e65125@redhat.com>
- <172b000e-1776-f98e-6e22-3e805de2e8d4@yandex-team.ru>
- <85b7d10f-6846-066c-026f-ce75850846f4@redhat.com>
-From: Anton Kuchin <antonkuchin@yandex-team.ru>
-In-Reply-To: <85b7d10f-6846-066c-026f-ce75850846f4@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 02/10] accel/tcg: move cpu_reloading_memory_map into
+ cpu-exec-softmmu
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Alessandro Di Federico <ale@rev.ng>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Fabiano Rosas <fabiano.rosas@suse.com>
+References: <20230320101035.2214196-1-alex.bennee@linaro.org>
+ <20230320101035.2214196-3-alex.bennee@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20230320101035.2214196-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,138 +94,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/03/2023 11:33, Hanna Czenczek wrote:
-> On 17.03.23 19:37, Anton Kuchin wrote:
->> On 17/03/2023 19:52, Hanna Czenczek wrote:
->>> On 17.03.23 18:19, Anton Kuchin wrote:
->>>> On 13/03/2023 19:48, Hanna Czenczek wrote:
->>>>> A virtio-fs device's VM state consists of:
->>>>> - the virtio device (vring) state (VMSTATE_VIRTIO_DEVICE)
->>>>> - the back-end's (virtiofsd's) internal state
->>>>>
->>>>> We get/set the latter via the new vhost-user operations 
->>>>> FS_SET_STATE_FD,
->>>>> FS_GET_STATE, and FS_SET_STATE.
->>>>>
->
-> [...]
->
->>>>>   static const VMStateDescription vuf_vmstate = {
->>>>>       .name = "vhost-user-fs",
->>>>> -    .unmigratable = 1,
->>>>> +    .version_id = 1,
->>>>> +    .fields = (VMStateField[]) {
->>>>> +        VMSTATE_VIRTIO_DEVICE,
->>>>> +        {
->>>>> +            .name = "back-end",
->>>>> +            .info = &(const VMStateInfo) {
->>>>> +                .name = "virtio-fs back-end state",
->>>>> +                .get = vuf_load_state,
->>>>> +                .put = vuf_save_state,
->>>>> +            },
->>>>> +        },
->>>>
->>>> I've been working on stateless migration patch [1] and there was 
->>>> discussed that we
->>>> need to keep some kind of blocker by default if orchestrators rely 
->>>> on unmigratable
->>>> field in virtio-fs vmstate to block the migration.
->>>> For this purpose I've implemented flag that selects "none" or 
->>>> "external" and is checked
->>>> in pre_save, so it could be extended with "internal" option.
->>>> We didn't come to conclusion if we also need to check incoming 
->>>> migration, the discussion
->>>> has stopped for a while but I'm going back to it now.
->>>>
->>>> I would appreciate if you have time to take a look at the 
->>>> discussion and consider the idea
->>>> proposed there to store internal state as a subsection of vmstate 
->>>> to make it as an option
->>>> but not mandatory.
->>>>
->>>> [1] 
->>>> https://patchew.org/QEMU/20230217170038.1273710-1-antonkuchin@yandex-team.ru/
->>>
->>> So far I’ve mostly considered these issues orthogonal.  If your 
->>> stateless migration goes in first, then state is optional and I’ll 
->>> adjust this series.
->>> If stateful migration goes in first, then your series can simply 
->>> make state optional by introducing the external option, no?
->>
->> Not really. State can be easily extended by subsections but not 
->> trimmed. Maybe this can be worked around by defining two types of 
->> vmstate and selecting the correct one at migration, but I'm not sure.
->
-> I thought your patch included a switch on the vhost-user-fs device (on 
-> the qemu side) to tell qemu what migration data to expect. Can we not 
-> transfer a 0-length state for 'external', and assert this on the 
-> destination side?
+How is this conditional on CONFIG_TCG? To me it looks like this breaks !CONFIG_TCG.
+Careful, the meson.build in accel/tcg/meson.build is always recursed.
 
-Looks like I really need to make the description of my patch and the 
-documentation more clear :) My patch proposes switch on _source_ side to 
-select which data to save in the stream mostly to protect old 
-orchestrators that don't expect virtio-fs to be migratable (and for 
-internal case it can be extended to select if qemu needs to request 
-state from backend), Michael insists that we also need to check on 
-destination but I disagree because I believe that we can figure this out 
-from stream data without additional device flags.
+This code was in tcg_ss before, why not simply add it to tcg_ss and then to specific_ss along with the other tcg pieces?
 
->
->>>
->>> But maybe we could also consider making stateless migration a 
->>> special case of stateful migration; if we had stateful migration, 
->>> can’t we just implement stateless migration by telling virtiofsd 
->>> that it should submit a special “I have no state” pseudo-state, i.e. 
->>> by having a switch on virtiofsd instead?
->>
->> Sure. Backend can send empty state (as your patch treats 0 length as 
->> a valid response and not error) or dummy state that can be recognized 
->> as stateless. The only potential problem is that then we need support 
->> in backend for new commands even to return dummy state, and if 
->> backend can support both types then we'll need some switch in backend 
->> to reply with real or empty state.
->
-> Yes, exactly.
->
->>>
->>> Off the top of my head, some downsides of that approach would be
->>> (1) it’d need a switch on the virtiofsd side, not on the qemu side 
->>> (not sure if that’s a downside, but a difference for sure),
->>
->> Why would you? It seems to me that this affects only how qemu treats 
->> the vmstate of device. If the state was requested backend sends it to 
->> qemu. If state subsection is present in stream qemu sends it to the 
->> backend for loading. Stateless one just doesn't request state from 
->> the backend. Or am I missing something?
->>
->>> and (2) we’d need at least some support for this on the virtiofsd 
->>> side, i.e. practically can’t come quicker than stateful migration 
->>> support.
->>
->> Not much, essentially this is just a reconnect. I've sent a draft of 
->> a reconnect patch for old C-virtiofsd, for rust version it takes much 
->> longer because I'm learning rust and I'm not really good at it yet.
->
-> I meant these two downsides not for your proposal, but instead if we 
-> implemented stateless migration only in the back-end; i.e. the 
-> front-end would only implement stateful migration, and the back-end 
-> would send and accept an empty state.
->
-> Then, qemu would always request a “state” (even if it turns out empty 
-> for stateless migration), and qemu would always treat it the same, so 
-> there wouldn’t be a switch on the qemu side, but only on the virtiofsd 
-> side.  Doesn’t really matter, but what does matter is that we’d need 
-> to implement the migration interface in virtiofsd, even if in the end 
-> no state is transferred.
->
-> So exactly what you’ve said above (“The only potential problem is 
-> […]”). :)
->
-> Hanna
->
+Ciao,
 
-Oh, yes, we were talking about the same thing. So do you agree that 
-storing internal state data in subsection will allow backend code to be 
-more straightforward without additional switches?
+C
+
+
+On 3/20/23 11:10, Alex Bennée wrote:
+> This doesn't save much as cpu-exec-common still needs to be built
+> per-target for its knowledge of CPUState but this helps with keeping
+> things organised.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  accel/tcg/cpu-exec-common.c  | 30 ----------------------
+>  accel/tcg/cpu-exec-softmmu.c | 50 ++++++++++++++++++++++++++++++++++++
+>  accel/tcg/meson.build        | 10 ++++++++
+>  3 files changed, 60 insertions(+), 30 deletions(-)
+>  create mode 100644 accel/tcg/cpu-exec-softmmu.c
+> 
+> diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
+> index e7962c9348..c6b0ad303e 100644
+> --- a/accel/tcg/cpu-exec-common.c
+> +++ b/accel/tcg/cpu-exec-common.c
+> @@ -32,36 +32,6 @@ void cpu_loop_exit_noexc(CPUState *cpu)
+>      cpu_loop_exit(cpu);
+>  }
+>  
+> -#if defined(CONFIG_SOFTMMU)
+> -void cpu_reloading_memory_map(void)
+> -{
+> -    if (qemu_in_vcpu_thread() && current_cpu->running) {
+> -        /* The guest can in theory prolong the RCU critical section as long
+> -         * as it feels like. The major problem with this is that because it
+> -         * can do multiple reconfigurations of the memory map within the
+> -         * critical section, we could potentially accumulate an unbounded
+> -         * collection of memory data structures awaiting reclamation.
+> -         *
+> -         * Because the only thing we're currently protecting with RCU is the
+> -         * memory data structures, it's sufficient to break the critical section
+> -         * in this callback, which we know will get called every time the
+> -         * memory map is rearranged.
+> -         *
+> -         * (If we add anything else in the system that uses RCU to protect
+> -         * its data structures, we will need to implement some other mechanism
+> -         * to force TCG CPUs to exit the critical section, at which point this
+> -         * part of this callback might become unnecessary.)
+> -         *
+> -         * This pair matches cpu_exec's rcu_read_lock()/rcu_read_unlock(), which
+> -         * only protects cpu->as->dispatch. Since we know our caller is about
+> -         * to reload it, it's safe to split the critical section.
+> -         */
+> -        rcu_read_unlock();
+> -        rcu_read_lock();
+> -    }
+> -}
+> -#endif
+> -
+>  void cpu_loop_exit(CPUState *cpu)
+>  {
+>      /* Undo the setting in cpu_tb_exec.  */
+> diff --git a/accel/tcg/cpu-exec-softmmu.c b/accel/tcg/cpu-exec-softmmu.c
+> new file mode 100644
+> index 0000000000..2318dd8c7d
+> --- /dev/null
+> +++ b/accel/tcg/cpu-exec-softmmu.c
+> @@ -0,0 +1,50 @@
+> +/*
+> + *  Emulator main CPU execution loop, softmmu bits
+> + *
+> + *  Copyright (c) 2003-2005 Fabrice Bellard
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/core/cpu.h"
+> +#include "sysemu/cpus.h"
+> +
+> +void cpu_reloading_memory_map(void)
+> +{
+> +    if (qemu_in_vcpu_thread() && current_cpu->running) {
+> +        /* The guest can in theory prolong the RCU critical section as long
+> +         * as it feels like. The major problem with this is that because it
+> +         * can do multiple reconfigurations of the memory map within the
+> +         * critical section, we could potentially accumulate an unbounded
+> +         * collection of memory data structures awaiting reclamation.
+> +         *
+> +         * Because the only thing we're currently protecting with RCU is the
+> +         * memory data structures, it's sufficient to break the critical section
+> +         * in this callback, which we know will get called every time the
+> +         * memory map is rearranged.
+> +         *
+> +         * (If we add anything else in the system that uses RCU to protect
+> +         * its data structures, we will need to implement some other mechanism
+> +         * to force TCG CPUs to exit the critical section, at which point this
+> +         * part of this callback might become unnecessary.)
+> +         *
+> +         * This pair matches cpu_exec's rcu_read_lock()/rcu_read_unlock(), which
+> +         * only protects cpu->as->dispatch. Since we know our caller is about
+> +         * to reload it, it's safe to split the critical section.
+> +         */
+> +        rcu_read_unlock();
+> +        rcu_read_lock();
+> +    }
+> +}
+> diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
+> index aeb20a6ef0..bdc086b90d 100644
+> --- a/accel/tcg/meson.build
+> +++ b/accel/tcg/meson.build
+> @@ -1,3 +1,9 @@
+> +#
+> +# Currently most things here end up in specific_ss eventually because
+> +# they need knowledge of CPUState. Stuff that that doesn't can live in
+> +# common user, softmmu or overall code
+> +#
+> +
+>  tcg_ss = ss.source_set()
+>  tcg_ss.add(files(
+>    'tcg-all.c',
+> @@ -9,6 +15,7 @@ tcg_ss.add(files(
+>    'translate-all.c',
+>    'translator.c',
+>  ))
+> +
+>  tcg_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-exec.c'))
+>  tcg_ss.add(when: 'CONFIG_SOFTMMU', if_false: files('user-exec-stub.c'))
+>  tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: [files('plugin-gen.c')])
+> @@ -27,3 +34,6 @@ tcg_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
+>    'tcg-accel-ops-icount.c',
+>    'tcg-accel-ops-rr.c',
+>  ))
+> +
+> +# Common softmmu code
+> +softmmu_ss.add(files('cpu-exec-softmmu.c'))
 
 
