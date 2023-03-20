@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832C96C15FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 16:01:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9FA6C1672
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 16:06:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peGzn-0003v5-FK; Mon, 20 Mar 2023 11:00:23 -0400
+	id 1peH4P-0006Gk-Vg; Mon, 20 Mar 2023 11:05:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGzk-0003uv-95
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:00:20 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peH4O-0006G2-0T
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:05:08 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGzi-0006B7-4A
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:00:19 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id m2so10655166wrh.6
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 08:00:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peH4L-000798-9j
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:05:07 -0400
+Received: by mail-wm1-x330.google.com with SMTP id p16so7733015wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 08:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679324416;
+ d=linaro.org; s=google; t=1679324703;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=PombwltuzV7Ef45PIeeCiVJxcKlB3/jEZ4P6YMl/cLw=;
- b=uoDooxlEsOGjpJlJzEdAmPL25NTahxw2gwfkGaRN7tFAEccGCeNTzQG40ce9zvzgrl
- rnZ1u5EHMIPS2uABnebH5WD/aCZWT5QrkVjnHOpWQEWc60cLc3z0jMPbgxhFdUI8Q6GC
- 58X26HZU5tKTDMKjpmwGwr3lceZZkOlOXZaZTdmwU/9c1crpefkKmre1u9BckxeyDhhp
- YeEgnZ6aN9HJDMLF3fa+0G0m0aj5MdHW89wX3WDgIbTw6ipoeyXC6jFeCdMlr42frozp
- a5HJm0w45iFHjVxW+ty0pJ7w1mMuY//v3GuT2A7CfoC0CFbNtIYGJ5UDP+9uMqf2u0tf
- iarg==
+ bh=jgvv1QZjJG37CU3afJeyCdVBNX5o0VRmrK2H6w2X2rI=;
+ b=WAqF3wjbhW+U5kfbDIAs87ir6pFWYMOGTV4KwHHOtH9BVnjChWJ1mG5PHcfe/lcl6+
+ qioVfz+INnBvRxJK6dUMMKJJ1jANRFtpbuQL3YF7jwtIeK33jfM+CGodmC94o7gijrzs
+ vnbNj9wqrGuG/6CpphTtPvFk8cSsGu0/M55lZMp+V8Ik1Zr/UywdXn1SbK3kLgL7Gjda
+ sHBx4XS0xXbN042KLxeSKXSeFRrHiJBD1sgBx3LEOqxSRluwQsbmHmmz6iBAkhhiO+q1
+ Zcg37nmFrceKgY+fKT3FXURFEO4G5Re5aGolNBeDwv5WGrEIy6RG5X8rXSyHgeAWCr7M
+ Af/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679324416;
+ d=1e100.net; s=20210112; t=1679324703;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PombwltuzV7Ef45PIeeCiVJxcKlB3/jEZ4P6YMl/cLw=;
- b=YR+PE16FzfaA1xenRuxvB3jfuW7E4VESWkGdGhx0phpqmMruBlid/t7DTXpHbcTGc5
- qRMr9QirkJTt+v7L3a1TOULeU3PsZjPW5c6LNLI4751hXg+tjrUF3ukw0j+BxLbvT0se
- gFuW9+HQ7VLKg77hNrQVp81de/Qt4FA7Y3W8ROuK1ug/nLMvCd1aMyLFHkJFu91yN29T
- 4yVu8qFnpzhndgTeNzkjPWHAiqHoeqi0HrAgPQb9UkEkqQ5oH9DBrfvTCNkNbI28knuS
- 8m5qHPPXeHgKm3oYWdzhXq7OyfRVmoIzaEEvwYUH4X3lEPhhp6nh51EYyYDk2kYl8elw
- 7jXg==
-X-Gm-Message-State: AO0yUKXxzS45HLjql0F2JORJ4pICO9QNjRvlsUUT9JPnVxBwMUUsSySl
- edlNBY9GPYL5TkTw3LddQ1xF2Q==
-X-Google-Smtp-Source: AK7set8n8hz8ZsjOjFqizp7eHfKEMtrRxgPTxql4cRV36aFyNoTs6xrdqdqTwKRMwMzly7c2MNkG4w==
-X-Received: by 2002:adf:ef0e:0:b0:2cf:ee6b:36aa with SMTP id
- e14-20020adfef0e000000b002cfee6b36aamr14558355wro.64.1679324416370; 
- Mon, 20 Mar 2023 08:00:16 -0700 (PDT)
+ bh=jgvv1QZjJG37CU3afJeyCdVBNX5o0VRmrK2H6w2X2rI=;
+ b=GASkLbfiPUygLA3jsZ7pavVggNsD3JvyzZrYtQ07tCG/NOHZrTHYu3AHuOnCrIFzV5
+ d8XFevPug0UMihPGWOXgXweKBhX2/uIZj/bWw0afyWeKXEP8DSRz0QQKLyvo6I9DhUVc
+ WhUZtjjKNbHaWkffQkYKO8RtrqhlNRzBuPYWsy7RWZf48SM4WUw+8UVTxYfLP0paMxhP
+ yXpZifAAGGKTYFVQ6sgUwD9PjQmRUqRrgcjy/izx8MlZtpSVnAyrZBF73guAnXtCJIrN
+ g8dwryMFS2bUM3AFRZOURFKamsF2PABb/d08DDj9H7Izoa1WEWg7nX43xLqkpM759eh1
+ wVng==
+X-Gm-Message-State: AO0yUKVnyoG35XKIxBGRc53ONKRNt6cGhKWdSpVRYZ9y5c26/cnyhLIx
+ fB1dY2KVXw3YeHy2fwxBqGh8Tw==
+X-Google-Smtp-Source: AK7set936UDZ4QI2VigXQr5mmQMNqTED5QQYlD1a2/uSOrU+VjdnE2ZvK/al5m1G60iuu8aE3pVKlg==
+X-Received: by 2002:a05:600c:2185:b0:3ed:8780:f27b with SMTP id
+ e5-20020a05600c218500b003ed8780f27bmr10125601wme.16.1679324703006; 
+ Mon, 20 Mar 2023 08:05:03 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h10-20020adffa8a000000b002ce3d3d17e5sm9198061wrr.79.2023.03.20.08.00.15
+ k16-20020a7bc310000000b003ed2433aa4asm10685645wmj.41.2023.03.20.08.05.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 08:00:15 -0700 (PDT)
-Message-ID: <b641d439-c772-b3e5-1c22-268acaa2cf6b@linaro.org>
-Date: Mon, 20 Mar 2023 16:00:14 +0100
+ Mon, 20 Mar 2023 08:05:02 -0700 (PDT)
+Message-ID: <002645e6-75a0-0409-a0ae-90265e4e4d1c@linaro.org>
+Date: Mon, 20 Mar 2023 16:05:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PULL 00/31] various fixes (testing, plugins, gitdm)
+Subject: Re: [PATCH v2 0/2] fix for #285
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-References: <20230318114644.1340899-1-alex.bennee@linaro.org>
- <CAFEAcA-f=tDQqmisqaJQxwYjgYOv+1XbCUDcaZkH_Jikt1iYNg@mail.gmail.com>
- <ZBhqd7uyT0X6tRK7@redhat.com>
- <59d95542-c706-bb81-568d-372a4bf3e210@linaro.org>
- <ZBh0KPhu0rYbxTfE@redhat.com>
+To: Emilio Cota <cota@braap.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20230205163758.416992-1-cota@braap.org>
+ <Y+92tpDQVytnfvnd@cota-l14> <ZBcY+WL+65D7Zi5F@cota-l14>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <ZBh0KPhu0rYbxTfE@redhat.com>
+In-Reply-To: <ZBcY+WL+65D7Zi5F@cota-l14>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,79 +94,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/3/23 15:56, Daniel P. Berrangé wrote:
-> On Mon, Mar 20, 2023 at 03:43:07PM +0100, Philippe Mathieu-Daudé wrote:
->> On 20/3/23 15:15, Daniel P. Berrangé wrote:
->>> On Mon, Mar 20, 2023 at 01:42:46PM +0000, Peter Maydell wrote:
->>>> On Sat, 18 Mar 2023 at 11:46, Alex Bennée <alex.bennee@linaro.org> wrote:
->>>>>
->>>>> The following changes since commit 74c581b6452394e591f13beba9fea2ec0688e2f5:
->>>>>
->>>>>     Merge tag 'trivial-branch-for-8.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2023-03-17 14:22:01 +0000)
->>>>>
->>>>> are available in the Git repository at:
->>>>>
->>>>>     https://gitlab.com/stsquad/qemu.git tags/pull-for-8.0-170323-4
->>>>>
->>>>> for you to fetch changes up to 4f2c431acd43d0aa505494229d05fa343762f272:
->>>>>
->>>>>     qtests: avoid printing comments before g_test_init() (2023-03-17
->>>>>     17:50:19 +0000)
->>>>>
->>>>> You can see my CI run on the branch here:
->>>>>
->>>>>     https://gitlab.com/stsquad/qemu/-/pipelines/810271620
->>>>>
->>>>> The failures:
->>>>>
->>>>>     FreeBSD's time out on a migration test
->>>>>     Centos8 Stream because my private runner needs more disk space
->>>>>
->>>>> ----------------------------------------------------------------
->>>>> Misc fixes for 8.0 (testing, plugins, gitdm)
->>>>>
->>>>>     - update Alpine image used for testing images
->>>>>     - include libslirp in custom runner build env
->>>>>     - update gitlab-runner recipe for CentOS
->>>>>     - update docker calls for better caching behaviour
->>>>>     - document some plugin callbacks
->>>>>     - don't use tags to define drives for lkft baseline tests
->>>>>     - fix missing clear of plugin_mem_cbs
->>>>>     - fix iotests to report individual results
->>>>>     - update the gitdm metadata for contributors
->>>>>     - avoid printing comments before g_test_init()
->>>>>
->>>>
->>>> This seems to consistently fail an avocado test on the
->>>> centos-stream-8-x86_64 job:
->>>> (21/51) tests/avocado/multiprocess.py:Multiprocess.test_multiprocess_x86_64:
->>>> ERROR: ConnectError: Failed to establish session: EOFError\n Exit
->>>> code: 1\n Command: ./qemu-system-x86_64 -display none -vga none
->>>> -chardev socket,id=mon,fd=17 -mon chardev=mon,mode=control -machine
->>>> x-remote -nodefaults -device lsi53c895a,id=lsi1 -object x-remote-o...
->>>> (0.10 s)
->>>>
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/3962028269
->>>> https://gitlab.com/qemu-project/qemu/-/jobs/3965134190
->>>>
->>>>
->>>>
->>>> The iotests also don't seem to pass on the OpenBSD VM after this;
->>>> which test fails varies from run to run but the common factor
->>>> is a complaint about running out of disk space:
->>>
->>> This must be caused by the change in the way we register the
->>> iotests with meson, as I don't see any other interesting changes
->>> in this series.
->>
->> See "05/31 gitlab: update centos-8-stream job", now we call
->> 'make check-avocado' instead of
->> scripts/ci/org.centos/stream/8/x86_64/test-avocado.
-> 
-> I was referring to Peter's comment about the OpenBSD Vms showing
-> failures wrt out of disk space. That won't be connected to any
-> change to the centos 8 job
+Hi Emilio,
 
-): I really need more coffee
+On 19/3/23 15:15, Emilio Cota wrote:
+> Ping. Any feedback on these two patches?
+> 
+> https://patchew.org/QEMU/20230205163758.416992-1-cota@braap.org/
+> https://lore.kernel.org/qemu-devel/20230205163758.416992-1-cota@braap.org/
+> 
+> Happy to resend if needed.
+
+Since we are past hard-freeze, this series likely missed the v8.0
+release IMO. Note that doesn't mean maintainers can't queue it and
+send the pull request later when the next development window opens.
+
+> On Fri, Feb 17, 2023 at 07:44:38 -0500, Emilio Cota wrote:
+>> Ping.
+>>
+>> This fixes a bug (admittedly with a big hammer) that affects
+>> users with heavily multi-threaded user-mode workloads.
+>>
+>> Thanks,
+>> 		Emilio
+>>
+>> On Sun, Feb 05, 2023 at 11:37:56 -0500, Emilio Cota wrote:
+>>> Changes since v1:
+>>>
+>>> - Add configure check to only use QTree if Glib still implements gslice.
+>>>    If Glib doesn't, then we call Glib directly with inline functions.
+>>> - Add TODO's so that in the future (i.e. when the minimum version of
+>>>    Glib that we use doesn't implement gslice) we remove QTree.
+>>> - Add comment to the top of qtree.h.
+>>> - Make qtree-bench results more robust by running longer or more times.
+>>> - Drop deprecated API calls (they're unused in QEMU).
+>>> - Drop API calls that are too recent (they're unused in QEMU).
+>>> - Drop macro benchmark results from the TCG patch since they're too noisy.
+>>> - Add test program to the commit log so that we don't lose it in the future
+>>>    even if the bug tracker goes away.
+>>>
+>>> Thanks,
+>>> 		Emilio
+>>>
+>>>
+> 
 
 
