@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D3D6C1E99
+	by mail.lfdr.de (Postfix) with ESMTPS id 4695A6C1E9A
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 18:52:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peJf8-0004jv-Pu; Mon, 20 Mar 2023 13:51:14 -0400
+	id 1peJfL-0004on-W2; Mon, 20 Mar 2023 13:51:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1peJf7-0004jZ-49
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 13:51:13 -0400
+ id 1peJfJ-0004nz-G4
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 13:51:25 -0400
 Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1peJf3-0001NB-W7
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 13:51:12 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id fd25so7465603pfb.1
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 10:51:09 -0700 (PDT)
+ id 1peJfI-0001Pt-1C
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 13:51:25 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id z11so7445979pfh.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 10:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679334668;
+ d=linaro.org; s=google; t=1679334682;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5T0QJBAB3StnkTQLYZ9bw5DoLVzXEGfPe7fP3cuFQfo=;
- b=IGxUPVi/NGNPl7RQhwqZNAbxsZ4YU+sWpxIcnztIKOPB4X9fVaClhbTmjMyqezFA0B
- ZytspiRXvQ4WgxBH+0pfPNvGd3R0kqBjlFP2FpTCCV4Q163mMOo1UIpAeFvz/E8Wvihe
- h+Th6fweECpuedo+qdzKPIMrKpcTBE/y4KkPWQXBhliffEmom2S/UAgNYAPWzJjA7MnM
- EzMtWjOecytaN1G/T2FqNRyBwsDiVXQmh6WdqUq+y51Iwd5J4gwNA/W2LJ4VCc8RL5Ds
- A8aXV7d+ZPeuTpEmqvTMRuqp515TepvxvIaKchzQnuOeWCgtzgTLTIf/znhvm2jSEELt
- LBCg==
+ bh=PoR1HzKOaChNPD/INe1BrjAiLswjQvz9c1vkeDLzZVI=;
+ b=YopzoZOs0qIT9jICAqGJczXRQVrT3dd0ddnO3AUZcYT6OvrZE6YFTbz9c7thXYl4Lc
+ MNrYz5PfdYZmTZXzPCjNlosbeGmp/682YK6YSE73EVsJ9uioenEvJ+fgtSgdRgvmFpH4
+ Yvw6HpL+XGAf/VwPL1q6Uk97w36ds42VCoTH+/llNT6hKrfv5jAZ6Dx/fZY8A5ZBqlkN
+ yf02ymdn/F4lF6zwYMxn9ZmWN8V+uWsaWZ4nASXMjKodj80OtRQwY3s3vCD8dEJLqOAe
+ N9JHGU8Xjh4rlQW/5iN/TpWvwGKEdCCANc3BY1ObSz9DQP+sFg0MlBn0h8w5e735zTu8
+ YgHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679334668;
+ d=1e100.net; s=20210112; t=1679334682;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=5T0QJBAB3StnkTQLYZ9bw5DoLVzXEGfPe7fP3cuFQfo=;
- b=He085JU4WlP+sCH/uIXg8DKsEctPIzx3iDQLapH3/s2U6Eh6pribtMaZ5yWHqrjmCT
- oewwwuyX7PlOpg2B6l5aW61nrxmRD0GxzA4NQ0nJknz3sUYMB1L45lMdwjK5WVcKKhsF
- o0z081ZiSh2rOA42o+wjhH9DcnEqED+UmMY8KE0dBDFwgIKphTA4fHV5jM0wtDVaadcA
- 1aacPPagmgmW3xT3mNlqistwaOEDEkVQfHGUDvd/d6Dj5sUC5kgKeKr4fEcZ/duRIbGp
- P+97jhRwsZasDDZA9UyLfQYW4/sj9tVRZI9J94LGsarGgc5tGdYheBnh4gVQzDY+SLVh
- Zyjw==
-X-Gm-Message-State: AO0yUKUMwN586du3nZKl0aXcvYIKiiCfOdCudHVIF+B2OweIzSXHsem5
- vn9ujkw3voN5j3ljohDWcCYsDERNz1qIJKGI0DOHEA==
-X-Google-Smtp-Source: AK7set81Jx5mO/14juPOyFvyLusTP/yJN1qAMdIRsNecZVegoah/FPT/ZYdaE4bQZrmML1QASm9MpJkunN1Eaj1KlEs=
-X-Received: by 2002:a05:6a00:2d8f:b0:624:1261:918f with SMTP id
- fb15-20020a056a002d8f00b006241261918fmr7608112pfb.1.1679334668139; Mon, 20
- Mar 2023 10:51:08 -0700 (PDT)
+ bh=PoR1HzKOaChNPD/INe1BrjAiLswjQvz9c1vkeDLzZVI=;
+ b=wlP3rImRzDvLqnCJwjwm8aq/HjNuptvmk+CueRO909FGmzFaRrKjC0pXnoDSisLvvJ
+ RbF6ULA9ouJsNF8RZVfndz9aiLpWowEXL14Nkr1dirj3acxLIhBxtqBY2fg6iF2aeT7O
+ MfTxfBLbKMAMfkWlb18hobf31j/3Rz+vur1ixsRAMntsU6HQYgepnK+ROjEpb0UnQHcs
+ H7PK9Kt5o8Woi6pdybJ07+F9x6SLPIWKfHaA+W4blxHenGi1Uhvg3D7EtDLnXdi5r6+T
+ SWKzQEqeiBhP0Pb4K4FsM5fFY/dTiyWvny4vnAv0gYuDJouJKWIOkcAqdfUcgX5kb4Za
+ HT+w==
+X-Gm-Message-State: AO0yUKU09Q1cDuGR4sEUBgQaZeDy1/G1LkGcw7uNajBSjPzkucJbGOu8
+ v2epL7v1mtsp7//VTNxPYtdAiWolOF75J/4gvcWT5Q==
+X-Google-Smtp-Source: AK7set9GVNZW1JYOIRXGt3n9rsYH0f6n3NHn9i3icv4Jni+oYxYXQqJlzMUOIIiH8BDkzmY6qrB/e8aMbXZBy/3ByQk=
+X-Received: by 2002:a05:6a00:a95:b0:625:659e:65c with SMTP id
+ b21-20020a056a000a9500b00625659e065cmr7012961pfl.1.1679334682436; Mon, 20 Mar
+ 2023 10:51:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230320130330.406378-1-thuth@redhat.com>
-In-Reply-To: <20230320130330.406378-1-thuth@redhat.com>
+References: <20230320093847.539751-1-kraxel@redhat.com>
+In-Reply-To: <20230320093847.539751-1-kraxel@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Mar 2023 17:50:56 +0000
-Message-ID: <CAFEAcA_pyT9NM5NFG0D6VRwC-_ZZRNwXBdtz2hxhGJYn0u1LMg@mail.gmail.com>
-Subject: Re: [PULL 00/24] s390x and misc patches for 8.0-rc1
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org
+Date: Mon, 20 Mar 2023 17:51:11 +0000
+Message-ID: <CAFEAcA9vP3+zL6DCmSPtpymeBVdsNB8Jw1RiVpy42kdTsd85=A@mail.gmail.com>
+Subject: Re: [PULL 0/6] Edk2 stable202302 20230320 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
  envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42f.google.com
@@ -83,9 +85,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 20 Mar 2023 at 13:03, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter!
+On Mon, 20 Mar 2023 at 09:39, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
 > The following changes since commit 74c581b6452394e591f13beba9fea2ec0688e2f5:
 >
@@ -93,19 +93,15 @@ On Mon, 20 Mar 2023 at 13:03, Thomas Huth <thuth@redhat.com> wrote:
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2023-03-20
+>   https://gitlab.com/kraxel/qemu.git tags/edk2-stable202302-20230320-pull-request
 >
-> for you to fetch changes up to 48805df9c22a0700fba4b3b548fafaa21726ca68:
+> for you to fetch changes up to 86305e864191123dcf87c3af639fddfc59352ac6:
 >
->   replace TABs with spaces (2023-03-20 12:43:50 +0100)
->
-> ----------------------------------------------------------------
-> * Mark Nios II as orphan
-> * Many s390x emulation fixes
-> * Disable flaky complete_in_standby blockjob unit test
-> * White space cleanups in various files
+>   edk2: update firmware binaries (2023-03-20 10:36:31 +0100)
 >
 > ----------------------------------------------------------------
+> update edk2 to 202302 stable tag
+>
 
 
 Applied, thanks.
