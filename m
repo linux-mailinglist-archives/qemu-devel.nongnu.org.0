@@ -2,93 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124C96C1A0C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 16:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6486C1A26
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 16:48:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peHeV-0004am-1d; Mon, 20 Mar 2023 11:42:27 -0400
+	id 1peHjd-0005l6-9T; Mon, 20 Mar 2023 11:47:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peHeS-0004aH-Jw
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:42:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peHeR-0002ah-0U
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:42:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679326941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JrJtzWEgtJj0fEoqH3dl8GWOrxc7wVKtpUdlU44CorE=;
- b=a4ilCvDyPSCLuUrO+Y3MSDyXB9IBKR6Xi1XWmUKDerO4cLckF2ndgrT7JYY+sEBM5ZI8lI
- aF5C/5+oU958ZhkwaTE19QkO5wuXsNTajbLP8uB2v2qhgu8ecUZmr7SMLWwzMvbXm4sWZ0
- +S4yp5vv+bbiOPxI6wpHD9Dip1Dr/ko=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-591-GcFO4ESMNs-07NG6c4xqRw-1; Mon, 20 Mar 2023 11:42:20 -0400
-X-MC-Unique: GcFO4ESMNs-07NG6c4xqRw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- e5-20020a05600c4e4500b003edc5824521so3185220wmq.0
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 08:42:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peHjb-0005kl-1z
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:47:43 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peHjW-0004uw-Ba
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:47:39 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ az3-20020a05600c600300b003ed2920d585so9465331wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 08:47:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679327256;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=703RDtzK5aHBgd1F3RzHtlXSIxMPVA8GxQPmUARvs7g=;
+ b=BjqaExN/LKmn5OeTxyUL6JrGqpABOM6tnX1rjdmokdWuIDt9IE2+RtNIJxDlZX+UdD
+ /WJh/7wE9ibdDvmw1MUicV/9r0hJE1aRcJom8zzkWGOUycXMUAbVmAB4LQtUYCPrzdzR
+ CBl43XJdFTwVRC7RgBIbQxO+taTuER/j8y4YvbwTchhOwm4RAlRdazdhLiixotxXlCCD
+ i3P7wFw8qjVtZNfboRHgoCM/DandYmpQkuvXziXcub4/R/L52EKLBMlkhYm7s8VTseLY
+ BHMkuZ/BDSmp/uegBS8pi4pueNwV1n6OSYSO3c8LiRzS4hxQ7HR4AJYD0INffM5ARpv1
+ IykQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679326939;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20210112; t=1679327256;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JrJtzWEgtJj0fEoqH3dl8GWOrxc7wVKtpUdlU44CorE=;
- b=a1PJ/U75viuTkv+yVb4HjmxCko1hqnilQaOZ+ymgAcoPVx1t6mCHMB6pKYedVJWmA/
- bra4H37xESarSnPg8BlRQ2kp2NFaoWymniNVRhd8ujTASXZbyWnx0/6wLA9e0WFI7i3t
- TbHc1Z5qU7Gg0kIaPA7oiby3Ohz/xXtzAc2i+FKXUGP9TboLeJHD2cr8Q3NZhxwNUcBH
- kcRS9+l8im5yG6/nif7enTEcTe7zzxX2wDLPryPBA87yw2pdvcWW21z1kmNx+6Lwghdk
- Ccc9FHk8fpsNUcbmPW0c09ESukzJhUfdIeV35vMRGcFjHvBJJ/jiM8/smic9sYX9RmoO
- DZ5Q==
-X-Gm-Message-State: AO0yUKUtThV4Qa4kp4IxJAYoQrYQkaFR3yzcUJ7s6RV7pCU4oQB3A6Cf
- hCofPiiBKqMu4XQKimJT5x9Fxm7DTF+0UUva1bUzUiR8kUoEtdOCfkEC3YcZ7IUS9W+P/mm4h8O
- zQZ8zG4QunoOj5fs=
-X-Received: by 2002:adf:ecc4:0:b0:2cf:e3e3:5b01 with SMTP id
- s4-20020adfecc4000000b002cfe3e35b01mr13156475wro.56.1679326939204; 
- Mon, 20 Mar 2023 08:42:19 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/ixN/uKM6XZZmNXdci3Ejl4FaXQJAIeyuD8+FKOO4gi0RyefdikTg9NBeRwzm4HHFkgTNckg==
-X-Received: by 2002:adf:ecc4:0:b0:2cf:e3e3:5b01 with SMTP id
- s4-20020adfecc4000000b002cfe3e35b01mr13156454wro.56.1679326938932; 
- Mon, 20 Mar 2023 08:42:18 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-234.web.vodafone.de.
- [109.43.179.234]) by smtp.gmail.com with ESMTPSA id
- e23-20020a5d5957000000b002cfefa50a8esm9135538wri.98.2023.03.20.08.42.17
+ bh=703RDtzK5aHBgd1F3RzHtlXSIxMPVA8GxQPmUARvs7g=;
+ b=dBi41nC69tQ96AX6kRqpVxul6NtqBYTOGSXd2Z+lndNutwxQGm4eh8K0rRRpEldxlE
+ Ahw5UEs1ZlKYfWL3Fj6wHk/97uIqiBV0vdRludBPnmtClyYlLG75MrpmFBaV/GYI51Gz
+ 4u1hDAHH/P8SwrMiAdw5Zp2yGf1Ih8gDIBK8LJXE7/7LsipIO7JAOrqeLJPbuVhMV42t
+ 868RaF1In0g6BsEk80HFj0Ud+FSWv3oygaqodqVkrXL9/6TvTciwyYBLR+x4H2x/LlI0
+ AnCMNY7yuMsFBBqqiMV3bYp7wOTjyGF9jHEKbvA1DvoX/E/f+BJD8uf+i6sA1aYcCUMX
+ 4u4A==
+X-Gm-Message-State: AO0yUKWswMEGOnTsDYaFB1R+ciXOEkkA5Msg3RA4bWsmI0lBVhotI+Cz
+ fXsF0MVxKhurJchtrm+IJD+ufg==
+X-Google-Smtp-Source: AK7set8oBw1PIRS3MshO0LCSlLZeMQAAh25+LtrkjAdNcVPhcFUP4Ze/WbgNM59FgOJ7LXmw6DDbug==
+X-Received: by 2002:a7b:c382:0:b0:3ed:2949:985b with SMTP id
+ s2-20020a7bc382000000b003ed2949985bmr4100wmj.23.1679327256272; 
+ Mon, 20 Mar 2023 08:47:36 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l26-20020a05600c2cda00b003dd1bd0b915sm16964570wmc.22.2023.03.20.08.47.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 08:42:18 -0700 (PDT)
-Message-ID: <6a9ef526-1b30-e9a6-37ee-59ca3dadea9d@redhat.com>
-Date: Mon, 20 Mar 2023 16:42:17 +0100
+ Mon, 20 Mar 2023 08:47:35 -0700 (PDT)
+Message-ID: <393c8070-e126-70de-4e85-11ac41d6f6be@linaro.org>
+Date: Mon, 20 Mar 2023 16:47:33 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 1/1] util/async-teardown: wire up
- query-command-line-options
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: KVM call for agenda for 2023-03-21
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
- borntraeger@de.ibm.com, frankja@linux.ibm.com, fiuczy@linux.ibm.com,
- pasic@linux.ibm.com, berrange@redhat.com, alex.bennee@linaro.org
-References: <20230320131648.61728-1-imbrenda@linux.ibm.com>
- <20230320131648.61728-2-imbrenda@linux.ibm.com> <87v8ivmocr.fsf@pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <87v8ivmocr.fsf@pond.sub.org>
+To: quintela@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
+ kvm-devel <kvm@vger.kernel.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <87zg8aj5z3.fsf@secure.mitica>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, BALATON Zoltan <balaton@eik.bme.hu>,
+ "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <87zg8aj5z3.fsf@secure.mitica>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,78 +100,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/03/2023 16.31, Markus Armbruster wrote:
-> Claudio Imbrenda <imbrenda@linux.ibm.com> writes:
-> 
->> The recently introduced -async-teardown commandline option was not
->> wired up properly and did not show up in the output of the QMP command
->> query-command-line-options. This means that libvirt will have no way to
->> discover whether the feature is supported.
-> 
-> There was nothing improper in its wiring.  The issue is that
-> query-command-line-options is junk.  See my recent post
-> 
->      Subject: query-command-line-options (was: [PATCH 1/7] qemu: capabilities: Introduce QEMU_CAPS_MACHINE_ACPI)
->      Date: Tue, 07 Mar 2023 10:40:23 +0100
->      Message-ID: <87jzzsc320.fsf_-_@pond.sub.org>
-> 
->> This patch fixes the issue by correctly wiring up the commandline
->> option so that it appears in the output of query-command-line-options.
->>
->> Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
->> Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
->> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
->> ---
->>   util/async-teardown.c | 17 +++++++++++++++++
->>   1 file changed, 17 insertions(+)
->>
->> diff --git a/util/async-teardown.c b/util/async-teardown.c
->> index 62cdeb0f20..c9b9a3cdb2 100644
->> --- a/util/async-teardown.c
->> +++ b/util/async-teardown.c
->> @@ -12,6 +12,9 @@
->>    */
->>   
->>   #include "qemu/osdep.h"
->> +#include "qemu/config-file.h"
->> +#include "qemu/option.h"
->> +#include "qemu/module.h"
->>   #include <dirent.h>
->>   #include <sys/prctl.h>
->>   #include <sched.h>
->> @@ -144,3 +147,17 @@ void init_async_teardown(void)
->>       clone(async_teardown_fn, new_stack_for_clone(), CLONE_VM, NULL);
->>       sigprocmask(SIG_SETMASK, &old_signals, NULL);
->>   }
->> +
->> +static QemuOptsList qemu_async_teardown_opts = {
->> +    .name = "async-teardown",
->> +    .head = QTAILQ_HEAD_INITIALIZER(qemu_async_teardown_opts.head),
->> +    .desc = {
->> +        { /* end of list */ }
->> +    },
->> +};
->> +
->> +static void register_async_teardown(void)
->> +{
->> +    qemu_add_opts(&qemu_async_teardown_opts);
->> +}
->> +opts_init(register_async_teardown);
-> 
-> Now it *is* improperly wired up :)
-> 
-> You're defining new QemuOpts config group "async-teardown" with
-> arbitrary option parameters, but don't actually use it for parsing or
-> recording the option.  I figure because you can't: there is no option
-> argument to parse and record, which is what QemuOpts is designed to do.
-> 
-> If you need the feature to be visible in query-command-line-options, you
-> should make it an option parameter (a KEY, not a GROUP), preferably of
-> an existing group / option.
+Hi Juan,
 
-Would it make sense to add it e.g. to "-action" instead, i.e. something like 
-"-action teardown=async" ?
+On 18/3/23 18:59, Juan Quintela wrote:
+> 
+> Hi
+> 
+> NOTE, NOTE, NOTE
+> 
+> Remember that we are back in that crazy part of the year when daylight
+> saving applies.  Call is done on US timezone.  If you are anything else,
+> just doublecheck that it is working for you properly.
+> 
+> NOTE, NOTE, NOTE
+> 
+> Topics in the backburner:
+> - single qemu binary
+>    Philippe?
 
-  Thomas
+Well we wanted a slot to discuss a bit the design problems we have
+around some PCI-to-ISA bridges like the PIIX and VIA south bridges.
 
+One of the main problem is figure how to instantiate circular IRQs
+with QOM. Ex:
+
+   devA exposes irqAo output
+        wires to irqAi input
+
+   devB exposes irqBo output
+        wires to irqBi input
+
+How to wire irqAo -> irqBi *AND* irqBo -> irqAi?
+
+However personally I was busy with debugging issues opened for the
+8.0 release, and it is probably very late to schedule with Mark and
+Bernhard for tomorrow...
+
+> - The future of icount.
+>    Alex?  My understanding is that you are interested in
+>    qemu 8.1 to open.
+> 
+> Anything else?
+> 
+> 
+> Please, send any topic that you are interested in covering.
+> 
+> At the end of Monday I will send an email with the agenda or the
+> cancellation of the call, so hurry up.
 
