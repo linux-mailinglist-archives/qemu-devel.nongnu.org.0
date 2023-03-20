@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF966C1875
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D576C1874
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 16:24:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peHM1-0003yw-I8; Mon, 20 Mar 2023 11:23:21 -0400
+	id 1peHMs-0004BB-B6; Mon, 20 Mar 2023 11:24:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peHLx-0003yh-VX
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:23:18 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peHLv-0005gW-U2
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 11:23:17 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <klaus.ripke@secunet.com>)
+ id 1peHMl-00049T-MK; Mon, 20 Mar 2023 11:24:07 -0400
+Received: from a.mx.secunet.com ([62.96.220.36])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <klaus.ripke@secunet.com>)
+ id 1peHMh-0005ng-Gd; Mon, 20 Mar 2023 11:24:07 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by a.mx.secunet.com (Postfix) with ESMTP id 2A14F200A3;
+ Mon, 20 Mar 2023 16:23:57 +0100 (CET)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+ by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id KD9popSaMhtN; Mon, 20 Mar 2023 16:23:56 +0100 (CET)
+Received: from mailout1.secunet.com (mailout1.secunet.com [62.96.220.44])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8AE8F1F88D;
- Mon, 20 Mar 2023 15:23:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679325792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qdqKe1kxnV7W30WKtbImRJ4UpZpGvQQmViPUZ4akqSU=;
- b=N7oJnuNDfY0nRWWUo6N8Vc+fMuHSXIf8SvH5fvSGRTI8hdPklQiPjNTgxvwDJnFHo+4H37
- 6geaZJGIXBq0TitpSVMAshCR0MzVBT/ZOQnlVnwYjxCFvTIydgxznaQ7TujC3nge8NVUWH
- 7yVFFfbzTi2a4krlvayYyBIYLOxBuGg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679325792;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qdqKe1kxnV7W30WKtbImRJ4UpZpGvQQmViPUZ4akqSU=;
- b=77H/z8Yk2qI7afK3xzOqW8EQRlQ65FOcvFPCsJ8Hqx/QDu/msu4jEeXPfWWlYC7MNzPYNb
- USECFLxwTJIhHECg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E45E13A00;
- Mon, 20 Mar 2023 15:23:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AIp0DWB6GGTOQwAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 20 Mar 2023 15:23:12 +0000
-Message-ID: <9abe3d28-9d35-85cc-118c-083cb267db59@suse.de>
-Date: Mon, 20 Mar 2023 16:23:11 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 03/10] accel/tcg: move i386 halt handling to sysemu_ops
+ by a.mx.secunet.com (Postfix) with ESMTPS id 615C32007F;
+ Mon, 20 Mar 2023 16:23:56 +0100 (CET)
+Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
+ by mailout1.secunet.com (Postfix) with ESMTP id 5288980004A;
+ Mon, 20 Mar 2023 16:23:56 +0100 (CET)
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Mon, 20 Mar 2023 16:23:56 +0100
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ mbx-essen-01.secunet.de (10.53.40.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Mon, 20 Mar 2023 16:23:55 +0100
+Received: from mbx-essen-01.secunet.de ([fe80::1522:bd4f:78cd:ce75]) by
+ mbx-essen-01.secunet.de ([fe80::1522:bd4f:78cd:ce75%6]) with mapi id
+ 15.01.2507.017; Mon, 20 Mar 2023 16:23:55 +0100
+From: "Ripke, Klaus" <klaus.ripke@secunet.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "kraxel@redhat.com" <kraxel@redhat.com>, "qemu-trivial@nongnu.org"
+ <qemu-trivial@nongnu.org>, "marcandre.lureau@gmail.com"
+ <marcandre.lureau@gmail.com>
+Subject: [PATCH v2] add option for a multislot usb ccid device
+Thread-Topic: [PATCH v2] add option for a multislot usb ccid device
+Thread-Index: AQHZWz/8wBBg4+O45E2yb5rRaBpvVg==
+Date: Mon, 20 Mar 2023 15:23:55 +0000
+Message-ID: <7f321e2fc335be07f44db3b539ee172dbdc4ed2d.camel@secunet.com>
+Accept-Language: de-DE, en-US
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Alessandro Di Federico <ale@rev.ng>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Fabiano Rosas <fabiano.rosas@suse.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230320101035.2214196-1-alex.bennee@linaro.org>
- <20230320101035.2214196-4-alex.bennee@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20230320101035.2214196-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3D0A4B9C6650C14EA566454CEDAA136B@secunet.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+Received-SPF: pass client-ip=62.96.220.36;
+ envelope-from=klaus.ripke@secunet.com; helo=a.mx.secunet.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,148 +83,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Alex, all,
-
-again, this moves TCG-only code to common code, no?
-
-Even if this happens to work, the idea is to avoid adding unneeded accel TCG code to a KVM-only binary.
-
-We need to keep in mind all dimensions when we do refactorings:
-
-user-mode vs sysemu,
-the architecture,
-the accel, in particular tcg, non-tcg (which could be not compiled in, built-in, or loaded as separate module).
-
-In many cases, testing with --disable-tcg --enable-kvm helps to avoid breakages,
-but it is possible also to move in unneeded code in a way that does not generate compile or link-time errors, so we need to be a bit alert to that.
-
-Ciao,
-
-C 
-
-
-On 3/20/23 11:10, Alex Bennée wrote:
-> We don't want to be polluting the core run loop code with target
-> specific handling, punt it to sysemu_ops where it belongs.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  include/hw/core/sysemu-cpu-ops.h |  5 +++++
->  target/i386/cpu-internal.h       |  1 +
->  accel/tcg/cpu-exec.c             | 14 +++-----------
->  target/i386/cpu-sysemu.c         | 12 ++++++++++++
->  target/i386/cpu.c                |  1 +
->  5 files changed, 22 insertions(+), 11 deletions(-)
-> 
-> diff --git a/include/hw/core/sysemu-cpu-ops.h b/include/hw/core/sysemu-cpu-ops.h
-> index ee169b872c..c9d30172c4 100644
-> --- a/include/hw/core/sysemu-cpu-ops.h
-> +++ b/include/hw/core/sysemu-cpu-ops.h
-> @@ -48,6 +48,11 @@ typedef struct SysemuCPUOps {
->       * GUEST_PANICKED events.
->       */
->      GuestPanicInformation* (*get_crash_info)(CPUState *cpu);
-> +    /**
-> +     * @handle_cpu_halt: Callback for special handling during cpu_handle_halt()
-> +     * @cs: The CPUState
-> +     */
-> +    void (*handle_cpu_halt)(CPUState *cpu);
->      /**
->       * @write_elf32_note: Callback for writing a CPU-specific ELF note to a
->       * 32-bit VM coredump.
-> diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
-> index 9baac5c0b4..75b302fb33 100644
-> --- a/target/i386/cpu-internal.h
-> +++ b/target/i386/cpu-internal.h
-> @@ -65,6 +65,7 @@ void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
->  void x86_cpu_apic_create(X86CPU *cpu, Error **errp);
->  void x86_cpu_apic_realize(X86CPU *cpu, Error **errp);
->  void x86_cpu_machine_reset_cb(void *opaque);
-> +void x86_cpu_handle_halt(CPUState *cs);
->  #endif /* !CONFIG_USER_ONLY */
->  
->  #endif /* I386_CPU_INTERNAL_H */
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index c815f2dbfd..5e5906e199 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -22,6 +22,7 @@
->  #include "qapi/error.h"
->  #include "qapi/type-helpers.h"
->  #include "hw/core/tcg-cpu-ops.h"
-> +#include "hw/core/sysemu-cpu-ops.h"
->  #include "trace.h"
->  #include "disas/disas.h"
->  #include "exec/exec-all.h"
-> @@ -30,9 +31,6 @@
->  #include "qemu/rcu.h"
->  #include "exec/log.h"
->  #include "qemu/main-loop.h"
-> -#if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
-> -#include "hw/i386/apic.h"
-> -#endif
->  #include "sysemu/cpus.h"
->  #include "exec/cpu-all.h"
->  #include "sysemu/cpu-timers.h"
-> @@ -650,15 +648,9 @@ static inline bool cpu_handle_halt(CPUState *cpu)
->  {
->  #ifndef CONFIG_USER_ONLY
->      if (cpu->halted) {
-> -#if defined(TARGET_I386)
-> -        if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
-> -            X86CPU *x86_cpu = X86_CPU(cpu);
-> -            qemu_mutex_lock_iothread();
-> -            apic_poll_irq(x86_cpu->apic_state);
-> -            cpu_reset_interrupt(cpu, CPU_INTERRUPT_POLL);
-> -            qemu_mutex_unlock_iothread();
-> +        if (cpu->cc->sysemu_ops->handle_cpu_halt) {
-> +            cpu->cc->sysemu_ops->handle_cpu_halt(cpu);
->          }
-> -#endif /* TARGET_I386 */
->          if (!cpu_has_work(cpu)) {
->              return true;
->          }
-> diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
-> index 28115edf44..e545bf7590 100644
-> --- a/target/i386/cpu-sysemu.c
-> +++ b/target/i386/cpu-sysemu.c
-> @@ -18,6 +18,7 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "qemu/main-loop.h"
->  #include "cpu.h"
->  #include "sysemu/xen.h"
->  #include "sysemu/whpx.h"
-> @@ -310,6 +311,17 @@ void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
->       }
->  }
->  
-> +void x86_cpu_handle_halt(CPUState *cpu)
-> +{
-> +    if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
-> +        X86CPU *x86_cpu = X86_CPU(cpu);
-> +        qemu_mutex_lock_iothread();
-> +        apic_poll_irq(x86_cpu->apic_state);
-> +        cpu_reset_interrupt(cpu, CPU_INTERRUPT_POLL);
-> +        qemu_mutex_unlock_iothread();
-> +    }
-> +}
-> +
->  GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs)
->  {
->      X86CPU *cpu = X86_CPU(cs);
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 6576287e5b..67027d28b0 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -7241,6 +7241,7 @@ static const struct SysemuCPUOps i386_sysemu_ops = {
->      .get_phys_page_attrs_debug = x86_cpu_get_phys_page_attrs_debug,
->      .asidx_from_attrs = x86_asidx_from_attrs,
->      .get_crash_info = x86_cpu_get_crash_info,
-> +    .handle_cpu_halt = x86_cpu_handle_halt,
->      .write_elf32_note = x86_cpu_write_elf32_note,
->      .write_elf64_note = x86_cpu_write_elf64_note,
->      .write_elf32_qemunote = x86_cpu_write_elf32_qemunote,
-
+U2lnbmVkLW9mZi1ieTogS2xhdXMgUmlwa2UgPGtsYXVzLnJpcGtlQHNlY3VuZXQuY29tPgoKaHcv
+dXNiL2Rldi1zbWFydGNhcmQtcmVhZGVyLmM6CmFkZCBvcHRpb24gZm9yIGEgbXVsdGlzbG90IHVz
+YiBjY2lkIGRldmljZSwgc2ltaWxhciB0byBhdWRpbyBtdWx0aS4KCih2MiB3aXRoIHNsaWdodCBm
+b3JtYXR0aW5nIGZpeCBvbiAiICsgIikKCi0tLQrCoGh3L3VzYi9kZXYtc21hcnRjYXJkLXJlYWRl
+ci5jIHwgMTA2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KwqAxIGZpbGUgY2hh
+bmdlZCwgMTAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvaHcv
+dXNiL2Rldi1zbWFydGNhcmQtcmVhZGVyLmMgYi9ody91c2IvZGV2LXNtYXJ0Y2FyZC0KcmVhZGVy
+LmMKaW5kZXggYmUwYTRmYzNiYy4uMzBkODg5MmI0ZSAxMDA2NDQKLS0tIGEvaHcvdXNiL2Rldi1z
+bWFydGNhcmQtcmVhZGVyLmMKKysrIGIvaHcvdXNiL2Rldi1zbWFydGNhcmQtcmVhZGVyLmMKQEAg
+LTkwLDEwICs5MCwxMyBAQCBPQkpFQ1RfREVDTEFSRV9TSU1QTEVfVFlQRShVU0JDQ0lEU3RhdGUs
+ClVTQl9DQ0lEX0RFVikKwqAgKsKgIHVzYmNjaWQuc3lzICh3aW54cCwgb3RoZXJzIHVudGVzdGVk
+KSBpcyBhIGNsYXNzIGRyaXZlciBzbyBpdApkb2Vzbid0IGNhcmUuCsKgICrCoCBsaW51eCBoYXMg
+YSBudW1iZXIgb2YgY2xhc3MgZHJpdmVycywgYnV0IG9wZW5jdCBmaWx0ZXJzIGJhc2VkIG9uCsKg
+ICrCoMKgIHZlbmRvci9wcm9kdWN0ICgvZXRjL29wZW5jdC5jb25mIHVuZGVyIGZlZG9yYSksIGhl
+bmNlIEdlbXBsdXMuCisgKiBVc2UgYSBPbW5pa2V5L0hJRCAzMTIxIHdpdGggbXVsdGlzbG90IGZv
+ciBkaXN0aW5jdGlvbi4KwqAgKi8KwqAjZGVmaW5lIENDSURfVkVORE9SX0lEwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDA4ZTYKwqAjZGVmaW5lIENDSURfUFJPRFVDVF9JRMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDB4NDQzMwrCoCNkZWZpbmUgQ0NJRF9ERVZJ
+Q0VfVkVSU0lPTsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDAwMDAKKyNkZWZpbmUgQ0NJRF9W
+RU5ET1JfSURfTVVMVEnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDB4MDc2YgorI2RlZmluZSBDQ0lE
+X1BST0RVQ1RfSURfTVVMVEnCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDMwMjEKwqAKwqAvKgrCoCAq
+IEJVTEtfT1VUIG1lc3NhZ2VzIGZyb20gUEMgdG8gUmVhZGVyCkBAIC0zMTIsNyArMzE1LDkgQEAg
+c3RydWN0IFVTQkNDSURTdGF0ZSB7CsKgwqDCoMKgIHVpbnQ4X3TCoCBibVNsb3RJQ0NTdGF0ZTsK
+wqDCoMKgwqAgdWludDhfdMKgIHBvd2VyZWQ7CsKgwqDCoMKgIHVpbnQ4X3TCoCBub3RpZnlfc2xv
+dF9jaGFuZ2U7CivCoMKgwqAgLyogcHJvcGVydGllcyAqLwrCoMKgwqDCoCB1aW50OF90wqAgZGVi
+dWc7CivCoMKgwqAgYm9vbMKgwqDCoMKgIG11bHRpOwrCoH07CsKgCsKgLyoKQEAgLTQxMSw2ICs0
+MTYsMzQgQEAgc3RhdGljIGNvbnN0IHVpbnQ4X3QgcWVtdV9jY2lkX2Rlc2NyaXB0b3JbXSA9IHsK
+wqDCoMKgwqDCoMKgwqDCoCAweDAxLMKgwqDCoMKgwqDCoCAvKiB1OMKgIGJNYXhDQ0lEQnVzeVNs
+b3RzOyAqLwrCoH07CsKgCitzdGF0aWMgY29uc3QgdWludDhfdCBxZW11X2NjaWRfZGVzY3JpcHRv
+cl9tdWx0aVtdID0geworwqDCoMKgwqDCoMKgwqAgLyogU21hcnQgQ2FyZCBEZXZpY2UgQ2xhc3Mg
+RGVzY3JpcHRvciAqLworwqDCoMKgwqDCoMKgwqAgMHgzNizCoMKgwqDCoMKgwqAgLyogdTjCoCBi
+TGVuZ3RoOyAqLworwqDCoMKgwqDCoMKgwqAgMHgyMSzCoMKgwqDCoMKgwqAgLyogdTjCoCBiRGVz
+Y3JpcHRvclR5cGU7IEZ1bmN0aW9uYWwgKi8KK8KgwqDCoMKgwqDCoMKgIDB4MTAsIDB4MDEsIC8q
+IHUxNiBiY2RDQ0lEOyBDQ0lEIFNwZWNpZmljYXRpb24gUmVsZWFzZSBOdW1iZXIuCiovCivCoMKg
+wqDCoMKgwqDCoCAweDBlLMKgwqDCoMKgwqDCoCAvKiB1OMKgIGJNYXhTbG90SW5kZXg7IDE0LCBh
+cyAxNiBzbG90cyBjYW4gY2F1c2UKdHJvdWJsZS4gKi8KK8KgwqDCoMKgwqDCoMKgIDB4MDcswqDC
+oMKgwqDCoMKgIC8qIHU4wqAgYlZvbHRhZ2VTdXBwb3J0OyAwMWggLSA1LjB2LCAwMmggLSAzLjAs
+IDAzCi0gMS44ICovCisKK8KgwqDCoMKgwqDCoMKgIDB4MDEsIDB4MDAsIC8qIHUzMiBkd1Byb3Rv
+Y29sczsgUlJSUiBQUFBQLiBSUlJSID0gMDAwMGguKi8KK8KgwqDCoMKgwqDCoMKgIDB4MDAsIDB4
+MDAsIC8qIFBQUFA6IHNlZSBhYm92ZSAqLworwqDCoMKgwqDCoMKgwqAgMHhhMCwgMHgwZiwgMHgw
+MCwgMHgwMCwgLyogdTMyIGR3TWF4aW11bUNsb2NrOyAqLworwqDCoMKgwqDCoMKgwqAgMHgwMCwg
+MHgwMCwgMHgwMSwgMHgwMCwKK8KgwqDCoMKgwqDCoMKgIDB4MDAsIC8qIHU4IGJOdW1DbG9ja1N1
+cHBvcnRlZDsgc2VlIGFib3ZlICovCivCoMKgwqDCoMKgwqDCoCAweDgwLCAweDI1LCAweDAwLCAw
+eDAwLCAvKiB1MzIgZHdNYXhEYXRhUmF0ZSA7IHNlZSBhYm92ZSAqLworwqDCoMKgwqDCoMKgwqAg
+MHgwMCwgMHhDMiwgMHgwMSwgMHgwMCwKK8KgwqDCoMKgwqDCoMKgIDB4MDAswqDCoMKgwqDCoMKg
+IC8qIHU4wqAgYk51bURhdGFSYXRlc1N1cHBvcnRlZDsgc2VlIGFib3ZlICovCivCoMKgwqDCoMKg
+wqDCoCAweGZlLCAweDAwLCAweDAwLCAweDAwLCAvKiB1MzIgZHdNYXhJRlNEOyBzZWUgYWJvdmUg
+Ki8KK8KgwqDCoMKgwqDCoMKgIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDAsIC8qIHUzMiBkd1N5bmNQ
+cm90b2NvbHM7IHNlZSBhYm92ZSAqLworwqDCoMKgwqDCoMKgwqAgMHgwMCwgMHgwMCwgMHgwMCwg
+MHgwMCwgLyogdTMyIGR3TWVjaGFuaWNhbDsgc2VlIGFib3ZlICovCivCoMKgwqDCoMKgwqDCoCAw
+eGZlLCAweDA0LCAweDA0LCAweDAwLCAvKiB1MzIgZHdGZWF0dXJlczsgNDAwIGZvciBiZXR0ZXIK
+Y29tcGF0LiAqLworwqDCoMKgwqDCoMKgwqAgMHgxMiwgMHgwMCwgMHgwMSwgMHgwMCwgLyogdTMy
+IGR3TWF4Q0NJRE1lc3NhZ2VMZW5ndGg7IHNlZQphYm92ZSAqLworwqDCoMKgwqDCoMKgwqAgMHhG
+RizCoMKgwqDCoMKgwqAgLyogdTjCoCBiQ2xhc3NHZXRSZXNwb25zZTsgc2VlIGFib3ZlICovCivC
+oMKgwqDCoMKgwqDCoCAweEZGLMKgwqDCoMKgwqDCoCAvKiB1OMKgIGJDbGFzc0VudmVsb3BlOyBz
+ZWUgYWJvdmUgKi8KK8KgwqDCoMKgwqDCoMKgIDB4MDAsIDB4MDAsIC8qIHUxNiB3TGNkTGF5b3V0
+OyBzZWUgYWJvdmUgKi8KK8KgwqDCoMKgwqDCoMKgIDB4MDEswqDCoMKgwqDCoMKgIC8qIHU4wqAg
+YlBJTlN1cHBvcnQ7IHNlZSBhYm92ZSAqLworwqDCoMKgwqDCoMKgwqAgMHgwZizCoMKgwqDCoMKg
+wqAgLyogdTjCoCBiTWF4Q0NJREJ1c3lTbG90czsgbW9kaWZpZWQgZnJvbSAxICovCit9OworCsKg
+ZW51bSB7CsKgwqDCoMKgIFNUUl9NQU5VRkFDVFVSRVIgPSAxLArCoMKgwqDCoCBTVFJfUFJPRFVD
+VCwKQEAgLTQ1Nyw2ICs0OTAsMzggQEAgc3RhdGljIGNvbnN0IFVTQkRlc2NJZmFjZSBkZXNjX2lm
+YWNlMCA9IHsKwqDCoMKgwqAgfQrCoH07CsKgCitzdGF0aWMgY29uc3QgVVNCRGVzY0lmYWNlIGRl
+c2NfaWZhY2UwX211bHRpID0geworwqDCoMKgIC5iSW50ZXJmYWNlTnVtYmVywqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgPSAwLAorwqDCoMKgIC5iTnVtRW5kcG9pbnRzwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgPSAzLAorwqDCoMKgIC5iSW50ZXJmYWNlQ2xhc3PCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgID0gVVNCX0NMQVNTX0NTQ0lELAorwqDCoMKgIC5iSW50ZXJmYWNl
+U3ViQ2xhc3PCoMKgwqDCoMKgwqDCoMKgwqDCoMKgID0gVVNCX1NVQkNMQVNTX1VOREVGSU5FRCwK
+K8KgwqDCoCAuYkludGVyZmFjZVByb3RvY29swqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA9IDB4MDAs
+CivCoMKgwqAgLmlJbnRlcmZhY2XCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCA9IFNUUl9JTlRFUkZBQ0UsCivCoMKgwqAgLm5kZXNjwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgID0gMSwKK8KgwqDCoCAuZGVzY3MgPSAoVVNCRGVzY090
+aGVyW10pIHsKK8KgwqDCoMKgwqDCoMKgIHsKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogc21h
+cnRjYXJkIGRlc2NyaXB0b3IgKi8KK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmRhdGEgPSBxZW11
+X2NjaWRfZGVzY3JpcHRvcl9tdWx0aSwKK8KgwqDCoMKgwqDCoMKgIH0sCivCoMKgwqAgfSwKK8Kg
+wqDCoCAuZXBzID0gKFVTQkRlc2NFbmRwb2ludFtdKSB7CivCoMKgwqDCoMKgwqDCoCB7CivCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIC5iRW5kcG9pbnRBZGRyZXNzwqDCoMKgwqDCoCA9IFVTQl9ESVJf
+SU4gfCBDQ0lEX0lOVF9JTl9FUCwKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmJtQXR0cmlidXRl
+c8KgwqDCoMKgwqDCoMKgwqDCoCA9IFVTQl9FTkRQT0lOVF9YRkVSX0lOVCwKK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgLmJJbnRlcnZhbMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA9IDI1NSwKK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgLndNYXhQYWNrZXRTaXplwqDCoMKgwqDCoMKgwqAgPSA2NCwK
+K8KgwqDCoMKgwqDCoMKgIH0seworwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuYkVuZHBvaW50QWRk
+cmVzc8KgwqDCoMKgwqAgPSBVU0JfRElSX0lOIHwgQ0NJRF9CVUxLX0lOX0VQLAorwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAuYm1BdHRyaWJ1dGVzwqDCoMKgwqDCoMKgwqDCoMKgID0gVVNCX0VORFBP
+SU5UX1hGRVJfQlVMSywKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLndNYXhQYWNrZXRTaXplwqDC
+oMKgwqDCoMKgwqAgPSA2NCwKK8KgwqDCoMKgwqDCoMKgIH0seworwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAuYkVuZHBvaW50QWRkcmVzc8KgwqDCoMKgwqAgPSBVU0JfRElSX09VVCB8IENDSURfQlVM
+S19PVVRfRVAsCivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5ibUF0dHJpYnV0ZXPCoMKgwqDCoMKg
+wqDCoMKgwqAgPSBVU0JfRU5EUE9JTlRfWEZFUl9CVUxLLAorwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCAud01heFBhY2tldFNpemXCoMKgwqDCoMKgwqDCoCA9IDY0LAorwqDCoMKgwqDCoMKgwqAgfSwK
+K8KgwqDCoCB9Cit9OworCsKgc3RhdGljIGNvbnN0IFVTQkRlc2NEZXZpY2UgZGVzY19kZXZpY2Ug
+PSB7CsKgwqDCoMKgIC5iY2RVU0LCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgID0gMHgwMTEwLArCoMKgwqDCoCAuYk1heFBhY2tldFNpemUwwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCA9IDY0LApAQCAtNDc0LDYgKzUzOSwyMyBAQCBzdGF0aWMgY29uc3Qg
+VVNCRGVzY0RldmljZSBkZXNjX2RldmljZSA9IHsKwqDCoMKgwqAgfSwKwqB9OwrCoAorc3RhdGlj
+IGNvbnN0IFVTQkRlc2NEZXZpY2UgZGVzY19kZXZpY2VfbXVsdGkgPSB7CivCoMKgwqAgLmJjZFVT
+QsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgPSAweDAxMTAs
+CivCoMKgwqAgLmJNYXhQYWNrZXRTaXplMMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgPSA2
+NCwKK8KgwqDCoCAuYk51bUNvbmZpZ3VyYXRpb25zwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA9IDEs
+CivCoMKgwqAgLmNvbmZzID0gKFVTQkRlc2NDb25maWdbXSkgeworwqDCoMKgwqDCoMKgwqAgewor
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuYk51bUludGVyZmFjZXPCoMKgwqDCoMKgwqDCoCA9IDEs
+CivCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5iQ29uZmlndXJhdGlvblZhbHVlwqDCoCA9IDEsCivC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5ibUF0dHJpYnV0ZXPCoMKgwqDCoMKgwqDCoMKgwqAgPSBV
+U0JfQ0ZHX0FUVF9PTkUgfApVU0JfQ0ZHX0FUVF9TRUxGUE9XRVIgfAorwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IFVTQl9DRkdfQVRUX1dBS0VVUCwKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmJNYXhQb3dlcsKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA9IDUwLAorwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAubmlm
+ID0gMSwKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmlmcyA9ICZkZXNjX2lmYWNlMF9tdWx0aSwK
+K8KgwqDCoMKgwqDCoMKgIH0sCivCoMKgwqAgfSwKK307CisKwqBzdGF0aWMgY29uc3QgVVNCRGVz
+YyBkZXNjX2NjaWQgPSB7CsKgwqDCoMKgIC5pZCA9IHsKwqDCoMKgwqDCoMKgwqDCoCAuaWRWZW5k
+b3LCoMKgwqDCoMKgwqDCoMKgwqAgPSBDQ0lEX1ZFTkRPUl9JRCwKQEAgLTQ4Nyw2ICs1NjksMTkg
+QEAgc3RhdGljIGNvbnN0IFVTQkRlc2MgZGVzY19jY2lkID0gewrCoMKgwqDCoCAuc3RywqAgPSBk
+ZXNjX3N0cmluZ3MsCsKgfTsKwqAKK3N0YXRpYyBjb25zdCBVU0JEZXNjIGRlc2NfY2NpZF9tdWx0
+aSA9IHsKK8KgwqDCoCAuaWQgPSB7CivCoMKgwqDCoMKgwqDCoCAuaWRWZW5kb3LCoMKgwqDCoMKg
+wqDCoMKgwqAgPSBDQ0lEX1ZFTkRPUl9JRF9NVUxUSSwKK8KgwqDCoMKgwqDCoMKgIC5pZFByb2R1
+Y3TCoMKgwqDCoMKgwqDCoMKgID0gQ0NJRF9QUk9EVUNUX0lEX01VTFRJLAorwqDCoMKgwqDCoMKg
+wqAgLmJjZERldmljZcKgwqDCoMKgwqDCoMKgwqAgPSBDQ0lEX0RFVklDRV9WRVJTSU9OLAorwqDC
+oMKgwqDCoMKgwqAgLmlNYW51ZmFjdHVyZXLCoMKgwqDCoCA9IFNUUl9NQU5VRkFDVFVSRVIsCivC
+oMKgwqDCoMKgwqDCoCAuaVByb2R1Y3TCoMKgwqDCoMKgwqDCoMKgwqAgPSBTVFJfUFJPRFVDVCwK
+K8KgwqDCoMKgwqDCoMKgIC5pU2VyaWFsTnVtYmVywqDCoMKgwqAgPSBTVFJfU0VSSUFMTlVNQkVS
+LAorwqDCoMKgIH0sCivCoMKgwqAgLmZ1bGwgPSAmZGVzY19kZXZpY2VfbXVsdGksCivCoMKgwqAg
+LnN0csKgID0gZGVzY19zdHJpbmdzLAorfTsKKwrCoHN0YXRpYyBjb25zdCB1aW50OF90ICpjY2lk
+X2NhcmRfZ2V0X2F0cihDQ0lEQ2FyZFN0YXRlICpjYXJkLCB1aW50MzJfdAoqbGVuKQrCoHsKwqDC
+oMKgwqAgQ0NJRENhcmRDbGFzcyAqY2MgPSBDQ0lEX0NBUkRfR0VUX0NMQVNTKGNhcmQpOwpAQCAt
+MTI5MywxMCArMTM4OCwxMiBAQCBzdGF0aWMgdm9pZCBjY2lkX2NhcmRfcmVhbGl6ZShEZXZpY2VT
+dGF0ZQoqcWRldiwgRXJyb3IgKiplcnJwKQrCoMKgwqDCoCBVU0JEZXZpY2UgKmRldiA9IFVTQl9E
+RVZJQ0UocWRldi0+cGFyZW50X2J1cy0+cGFyZW50KTsKwqDCoMKgwqAgVVNCQ0NJRFN0YXRlICpz
+ID0gVVNCX0NDSURfREVWKGRldik7CsKgwqDCoMKgIEVycm9yICpsb2NhbF9lcnIgPSBOVUxMOwor
+wqDCoMKgIGNvbnN0IFVTQkRlc2MgKmRlc2MgPSB1c2JfZGV2aWNlX2dldF91c2JfZGVzYyhkZXYp
+OworwqDCoMKgIHVpbnQ4X3QgYk1heFNsb3RJbmRleCA9IGRlc2MtPmZ1bGwtPmNvbmZzWzBdLmlm
+cy0KPmRlc2NzWzBdLmRhdGFbNF07CsKgCi3CoMKgwqAgaWYgKGNhcmQtPnNsb3QgIT0gMCkgewot
+wqDCoMKgwqDCoMKgwqAgZXJyb3Jfc2V0ZyhlcnJwLCAidXNiLWNjaWQgc3VwcG9ydHMgb25lIHNs
+b3QsIGNhbid0IGFkZCAlZCIsCi3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Y2FyZC0+c2xvdCk7CivCoMKgwqAgaWYgKGNhcmQtPnNsb3QgPiBiTWF4U2xvdEluZGV4KSB7CivC
+oMKgwqDCoMKgwqDCoCBlcnJvcl9zZXRnKGVycnAsICJ1c2ItY2NpZCBzdXBwb3J0cyAlZCBzbG90
+cywgY2FuJ3QgYWRkICVkIiwKK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBi
+TWF4U2xvdEluZGV4ICsgMSwgY2FyZC0+c2xvdCk7CsKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwrC
+oMKgwqDCoCB9CsKgwqDCoMKgIGlmIChzLT5jYXJkICE9IE5VTEwpIHsKQEAgLTEzMTcsNiArMTQx
+NCw4IEBAIHN0YXRpYyB2b2lkIGNjaWRfcmVhbGl6ZShVU0JEZXZpY2UgKmRldiwgRXJyb3IKKipl
+cnJwKQrCoHsKwqDCoMKgwqAgVVNCQ0NJRFN0YXRlICpzID0gVVNCX0NDSURfREVWKGRldik7CsKg
+CivCoMKgwqAgZGV2LT51c2JfZGVzYyA9IHMtPm11bHRpID8gJmRlc2NfY2NpZF9tdWx0aSA6ICZk
+ZXNjX2NjaWQ7CisKwqDCoMKgwqAgdXNiX2Rlc2NfY3JlYXRlX3NlcmlhbChkZXYpOwrCoMKgwqDC
+oCB1c2JfZGVzY19pbml0KGRldik7CsKgwqDCoMKgIHFidXNfaW5pdCgmcy0+YnVzLCBzaXplb2Yo
+cy0+YnVzKSwgVFlQRV9DQ0lEX0JVUywgREVWSUNFKGRldiksCk5VTEwpOwpAQCAtMTQzMyw2ICsx
+NTMyLDcgQEAgc3RhdGljIGNvbnN0IFZNU3RhdGVEZXNjcmlwdGlvbiBjY2lkX3Ztc3RhdGUgPSB7
+CsKgCsKgc3RhdGljIFByb3BlcnR5IGNjaWRfcHJvcGVydGllc1tdID0gewrCoMKgwqDCoCBERUZJ
+TkVfUFJPUF9VSU5UOCgiZGVidWciLCBVU0JDQ0lEU3RhdGUsIGRlYnVnLCAwKSwKK8KgwqDCoCBE
+RUZJTkVfUFJPUF9CT09MKCJtdWx0aSIsIFVTQkNDSURTdGF0ZSwgbXVsdGksIGZhbHNlKSwKwqDC
+oMKgwqAgREVGSU5FX1BST1BfRU5EX09GX0xJU1QoKSwKwqB9OwrCoAotLSAKMi4zNC4xCgotLSAK
+S2xhdXMgUmlwa2UKU2VuaW9yIERldmVsb3BlcgpQdWJsaWMgQXV0aG9yaXRpZXMgRGl2aXNpb24K
+c2VjdW5ldCBTZWN1cml0eSBOZXR3b3JrcyBBRwoKVGVsZWZvbjogICs0OSAyMDEgNTQ1NC0yOTgy
+Cg==
 
