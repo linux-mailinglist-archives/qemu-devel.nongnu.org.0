@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD44B6C12B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F366C12A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:06:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFBD-0001IC-Se; Mon, 20 Mar 2023 09:04:03 -0400
+	id 1peFBE-0001ID-7P; Mon, 20 Mar 2023 09:04:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB3-0001E8-On
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB7-0001Fc-SW
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB2-0006E2-5y
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB5-0006Ei-0e
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679317431;
+ s=mimecast20190719; t=1679317434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HTW/eZM5VOWRA8LXbY6a6TXxO21BjMV3BWXOkV9aKdA=;
- b=YniIP+U5aevc9ovxb6HQZlIyB6jEsx0hYcMCfKj2607DcMGDT0nGiZs4wZjFde1R9YxKwq
- 50um/8ooBZ9gulw6frled0XHK0pbgr7zLKH4KNjsyii/seJn9n3hNPNJteCszvD/65YSsL
- rF/yfR3N7n/V8YDmIUjW4yNrRBNiZuM=
+ bh=dSrvt4iA86tzz4nVxKnJ7ZwDw3bFDc8/9j66s/T2nGg=;
+ b=LCugZsMjaNyh7wi1oAqC5F8So5UdDV3gYUeYol3noI54kimfEG5KmHMPAYZpLXHGGCBUE+
+ y3U06cg0mS7x848JkB4qYO05elGm4yOCmRJoiJUQrljRVF1vCFoFR8YuS6y2qbd60nMSDT
+ WuwdQj/3LslR2kbQVnJLHN7EybLTC00=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-68-TKpFImhjPjmgJC0qHLXAZA-1; Mon, 20 Mar 2023 09:03:48 -0400
-X-MC-Unique: TKpFImhjPjmgJC0qHLXAZA-1
+ us-mta-398-Vdar9BkzOjGmAcLXYvtgzA-1; Mon, 20 Mar 2023 09:03:50 -0400
+X-MC-Unique: Vdar9BkzOjGmAcLXYvtgzA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBEE41C05AAD;
- Mon, 20 Mar 2023 13:03:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37F523C16E9C;
+ Mon, 20 Mar 2023 13:03:49 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D88A9C15BA0;
- Mon, 20 Mar 2023 13:03:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C697C15BA0;
+ Mon, 20 Mar 2023 13:03:48 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
  Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 11/24] target/s390x: Handle LGRL from non-aligned addresses
-Date: Mon, 20 Mar 2023 14:03:17 +0100
-Message-Id: <20230320130330.406378-12-thuth@redhat.com>
+Subject: [PULL 12/24] target/s390x: Handle LRL and LGFRL from non-aligned
+ addresses
+Date: Mon, 20 Mar 2023 14:03:18 +0100
+Message-Id: <20230320130330.406378-13-thuth@redhat.com>
 In-Reply-To: <20230320130330.406378-1-thuth@redhat.com>
 References: <20230320130330.406378-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -87,55 +88,68 @@ Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Suggested-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230316164428.275147-4-iii@linux.ibm.com>
+Message-Id: <20230316164428.275147-5-iii@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/insn-data.h.inc | 6 +++---
- target/s390x/tcg/translate.c     | 3 ++-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ target/s390x/tcg/insn-data.h.inc | 14 +++++++-------
+ target/s390x/tcg/translate.c     |  3 ++-
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
-index 6fe8ca5143..d439d80350 100644
+index d439d80350..5aff4c0873 100644
 --- a/target/s390x/tcg/insn-data.h.inc
 +++ b/target/s390x/tcg/insn-data.h.inc
-@@ -414,7 +414,7 @@
-     C(0xe358, LY,      RXY_a, LD,  0, a2, new, r1_32, ld32s, 0)
+@@ -410,12 +410,12 @@
+ 
+ /* LOAD */
+     C(0x1800, LR,      RR_a,  Z,   0, r2_o, 0, cond_r1r2_32, mov2, 0)
+-    C(0x5800, L,       RX_a,  Z,   0, a2, new, r1_32, ld32s, 0)
+-    C(0xe358, LY,      RXY_a, LD,  0, a2, new, r1_32, ld32s, 0)
++    D(0x5800, L,       RX_a,  Z,   0, a2, new, r1_32, ld32s, 0, 0)
++    D(0xe358, LY,      RXY_a, LD,  0, a2, new, r1_32, ld32s, 0, 0)
      C(0xb904, LGR,     RRE,   Z,   0, r2_o, 0, r1, mov2, 0)
      C(0xb914, LGFR,    RRE,   Z,   0, r2_32s, 0, r1, mov2, 0)
--    C(0xe304, LG,      RXY_a, Z,   0, a2, r1, 0, ld64, 0)
-+    D(0xe304, LG,      RXY_a, Z,   0, a2, r1, 0, ld64, 0, 0)
-     C(0xe314, LGF,     RXY_a, Z,   0, a2, r1, 0, ld32s, 0)
+     D(0xe304, LG,      RXY_a, Z,   0, a2, r1, 0, ld64, 0, 0)
+-    C(0xe314, LGF,     RXY_a, Z,   0, a2, r1, 0, ld32s, 0)
++    D(0xe314, LGF,     RXY_a, Z,   0, a2, r1, 0, ld32s, 0, 0)
      F(0x2800, LDR,     RR_a,  Z,   0, f2, 0, f1, mov2, 0, IF_AFP1 | IF_AFP2)
      F(0x6800, LD,      RX_a,  Z,   0, m2_64, 0, f1, mov2, 0, IF_AFP1)
-@@ -427,7 +427,7 @@
+     F(0xed65, LDY,     RXY_a, LD,  0, m2_64, 0, f1, mov2, 0, IF_AFP1)
+@@ -426,9 +426,9 @@
+ /* LOAD IMMEDIATE */
      C(0xc001, LGFI,    RIL_a, EI,  0, i2, 0, r1, mov2, 0)
  /* LOAD RELATIVE LONG */
-     C(0xc40d, LRL,     RIL_b, GIE, 0, ri2, new, r1_32, ld32s, 0)
--    C(0xc408, LGRL,    RIL_b, GIE, 0, ri2, r1, 0, ld64, 0)
-+    D(0xc408, LGRL,    RIL_b, GIE, 0, ri2, r1, 0, ld64, 0, MO_ALIGN)
-     C(0xc40c, LGFRL,   RIL_b, GIE, 0, ri2, r1, 0, ld32s, 0)
+-    C(0xc40d, LRL,     RIL_b, GIE, 0, ri2, new, r1_32, ld32s, 0)
++    D(0xc40d, LRL,     RIL_b, GIE, 0, ri2, new, r1_32, ld32s, 0, MO_ALIGN)
+     D(0xc408, LGRL,    RIL_b, GIE, 0, ri2, r1, 0, ld64, 0, MO_ALIGN)
+-    C(0xc40c, LGFRL,   RIL_b, GIE, 0, ri2, r1, 0, ld32s, 0)
++    D(0xc40c, LGFRL,   RIL_b, GIE, 0, ri2, r1, 0, ld32s, 0, MO_ALIGN)
  /* LOAD ADDRESS */
      C(0x4100, LA,      RX_a,  Z,   0, a2, 0, r1, mov2, 0)
-@@ -457,7 +457,7 @@
+     C(0xe371, LAY,     RXY_a, LD,  0, a2, 0, r1, mov2, 0)
+@@ -456,9 +456,9 @@
+     C(0x1200, LTR,     RR_a,  Z,   0, r2_o, 0, cond_r1r2_32, mov2, s32)
      C(0xb902, LTGR,    RRE,   Z,   0, r2_o, 0, r1, mov2, s64)
      C(0xb912, LTGFR,   RRE,   Z,   0, r2_32s, 0, r1, mov2, s64)
-     C(0xe312, LT,      RXY_a, EI,  0, a2, new, r1_32, ld32s, s64)
--    C(0xe302, LTG,     RXY_a, EI,  0, a2, r1, 0, ld64, s64)
-+    D(0xe302, LTG,     RXY_a, EI,  0, a2, r1, 0, ld64, s64, 0)
-     C(0xe332, LTGF,    RXY_a, GIE, 0, a2, r1, 0, ld32s, s64)
+-    C(0xe312, LT,      RXY_a, EI,  0, a2, new, r1_32, ld32s, s64)
++    D(0xe312, LT,      RXY_a, EI,  0, a2, new, r1_32, ld32s, s64, 0)
+     D(0xe302, LTG,     RXY_a, EI,  0, a2, r1, 0, ld64, s64, 0)
+-    C(0xe332, LTGF,    RXY_a, GIE, 0, a2, r1, 0, ld32s, s64)
++    D(0xe332, LTGF,    RXY_a, GIE, 0, a2, r1, 0, ld32s, s64, 0)
      F(0xb302, LTEBR,   RRE,   Z,   0, e2, 0, cond_e1e2, mov2, f32, IF_BFP)
      F(0xb312, LTDBR,   RRE,   Z,   0, f2, 0, f1, mov2, f64, IF_BFP)
+     F(0xb342, LTXBR,   RRE,   Z,   x2h, x2l, 0, x1_P, movx, f128, IF_BFP)
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index a6d81ed16b..e76f05f83b 100644
+index e76f05f83b..8f6202bc9c 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -2782,7 +2782,8 @@ static DisasJumpType op_ld32u(DisasContext *s, DisasOps *o)
+@@ -2770,7 +2770,8 @@ static DisasJumpType op_ld16u(DisasContext *s, DisasOps *o)
  
- static DisasJumpType op_ld64(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_ld32s(DisasContext *s, DisasOps *o)
  {
--    tcg_gen_qemu_ld64(o->out, o->in2, get_mem_index(s));
-+    tcg_gen_qemu_ld_i64(o->out, o->in2, get_mem_index(s),
-+                        MO_TEUQ | s->insn->data);
+-    tcg_gen_qemu_ld32s(o->out, o->in2, get_mem_index(s));
++    tcg_gen_qemu_ld_tl(o->out, o->in2, get_mem_index(s),
++                       MO_TESL | s->insn->data);
      return DISAS_NEXT;
  }
  
