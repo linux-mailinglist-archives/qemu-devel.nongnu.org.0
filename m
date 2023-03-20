@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627886C1329
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AFF6C1340
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:27:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFSq-0005zx-Hj; Mon, 20 Mar 2023 09:22:16 -0400
+	id 1peFX7-0007i3-H3; Mon, 20 Mar 2023 09:26:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ricky.zhou@gmail.com>)
- id 1peFSn-0005zm-PW
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:22:14 -0400
-Received: from mail-il1-f179.google.com ([209.85.166.179])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ricky.zhou@gmail.com>)
- id 1peFSl-0004Om-Ad
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:22:12 -0400
-Received: by mail-il1-f179.google.com with SMTP id bp11so6452915ilb.3
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 06:22:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679318529;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1FB0iFKEV6YRhEIB37pqJB+1qhVrBk4KxPaUE+sJ7HE=;
- b=nZKH6Gvq27zChtu/zX8y2vbmexrQ4RAps2EONxR7jRG0oLEpNDnA/wFtgGAbo3TtuI
- Qy0LWmzrHx5CHTjxapMsumOqyO1d7yBVZ31iSmx+hB1zeldvunWw+nUeH4qhsu+xZ3WW
- nZS/1AQcQfItFHpXStrvOfVISMmtFhLQxTNiLaLq0pX4JVha1GVUg6sq7mdPR4wKWXhE
- 5Uzc2aHVTZNoBmZqCJ8Oi3jP1BZw134CU3BoHWYEKOVFTWw7wKdHasUahtEifrvJp3MG
- c81HP8txXTmxoKJ+JIAShPG7P4Ughfb69nSo6KkLHA+1cW/lsNLtdVcPdiRZLW3fVPGt
- M8Pg==
-X-Gm-Message-State: AO0yUKV8DzV2naKbu3stpg6DADb6YrXtyijYzfWn2PLOPXw/yzMKvJGB
- g0xa+qUQT0wKQU45IbAvJkumbdQIH+lha7jAip6XiJAdjco=
-X-Google-Smtp-Source: AK7set+J7CD5NLyb+IftQbErCEo6l2HCwOyBgGVSKWbYwzwWK1NwdXlizHnHMpmrp2XAuidnAReo9NCxsfGvFC9jRdI=
-X-Received: by 2002:a05:6e02:13c4:b0:316:f93f:6f83 with SMTP id
- v4-20020a056e0213c400b00316f93f6f83mr3031505ilj.6.1679318529166; Mon, 20 Mar
- 2023 06:22:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230212082812.55101-1-ricky@rzhou.org>
-In-Reply-To: <20230212082812.55101-1-ricky@rzhou.org>
-From: Ricky Zhou <ricky@rzhou.org>
-Date: Mon, 20 Mar 2023 06:21:58 -0700
-Message-ID: <CAFoVXjhT-gsyxuRL9VGziBAj17P_1=_brmrNsoZ1Nz7360iaWA@mail.gmail.com>
-Subject: Re: [PATCH] target/i386: Fix exception classes for SSE/AVX
- instructions.
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1peFX2-0007hX-Sy
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:26:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1peFX1-0005Jw-Bk
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:26:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679318793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pgGPI/+0JyDkYCw+7zcejWHVsLLFVD8wPcdS0SsY7CA=;
+ b=HJz52/Nq28+OGOKAVw+Zr/1zt2eGbHJizeFkIYvEtqM9wA9l5dk2cGdKpKgQZSJyWUo70l
+ 4/tLAcZnxid70vo2KM32ZHboCLTBcc8rxCE2dsxiYMdTMvJwxE9JSQqO0SPTx7uyDAAYuk
+ muW7T0MhinEWr3gVnoqU1PEzp1kwZ34=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-466-_OmjG6fnPmSpJfspsvc_Rg-1; Mon, 20 Mar 2023 09:26:29 -0400
+X-MC-Unique: _OmjG6fnPmSpJfspsvc_Rg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3E168828C0;
+ Mon, 20 Mar 2023 13:26:28 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F49840C6E67;
+ Mon, 20 Mar 2023 13:26:27 +0000 (UTC)
+From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.179; envelope-from=ricky.zhou@gmail.com;
- helo=mail-il1-f179.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+Cc: berrange@redhat.com, shentey@gmail.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2] ui/gtk: fix cursor moved to left corner
+Date: Mon, 20 Mar 2023 17:26:24 +0400
+Message-Id: <20230320132624.1612464-1-marcandre.lureau@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,13 +78,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Feb 12, 2023 at 12:28 AM Ricky Zhou <ricky@rzhou.org> wrote:
-> Fix the exception classes for some SSE/AVX instructions to match what is
-> documented in the Intel manual.
-Friendly ping :-) Does this change seem reasonable to folks?
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Patchew link: https://patchew.org/QEMU/20230212082812.55101-1-ricky@rzhou.org/
+Do not attempt to move the pointer if the widget is not yet realized.
+The mouse cursor is placed to the corner of the screen, on X11 at least,
+as x_root and y_root are then miscalculated. (this is not reproducible
+on Wayland, because Gtk doesn't implement device warping there)
 
-Thanks,
-Ricky
+This also fixes the following warning at start:
+qemu: Gdk: gdk_window_get_root_coords: assertion 'GDK_IS_WINDOW (window)' failed
+
+Fixes: 6effaa16ac98 ("ui: set cursor position upon listener
+registration")
+Reported-by: Bernhard Beschow <shentey@gmail.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ ui/gtk.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/ui/gtk.c b/ui/gtk.c
+index fd82e9b1ca..e9564f2baa 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -450,7 +450,8 @@ static void gd_mouse_set(DisplayChangeListener *dcl,
+     GdkDisplay *dpy;
+     gint x_root, y_root;
+ 
+-    if (qemu_input_is_absolute()) {
++    if (!gtk_widget_get_realized(vc->gfx.drawing_area) ||
++        qemu_input_is_absolute()) {
+         return;
+     }
+ 
+-- 
+2.39.2
+
 
