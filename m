@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A576C1310
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30B16C130F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:18:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFOd-0002u4-OJ; Mon, 20 Mar 2023 09:17:55 -0400
+	id 1peFOd-0002v3-Qh; Mon, 20 Mar 2023 09:17:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1peDug-0001sj-Ls
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:42:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1peDue-0003jX-QZ
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:42:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679312571;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Odhw3mm7MA8ZJ3F11MhA7NeX2k0egTnIEvW4gQYadXI=;
- b=XRgg2+Wr1mKFW0vcc9XJr8msQSO7DaLB2ADuW8olyDP84oAJqxS257HH/NjE4gQIEOJ1vr
- 1Rqeac7S9Nr0BXJ8tmgOlTMvKeb2sts4fRIUquIRkUUQ3ReEunq5N2Kxu5asJWXea6lZoB
- JvzIZAriTnjU6QmLQNTP7QUKvEiQkUI=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-381-7uVD26yTNEq3mdqMW7uDpw-1; Mon, 20 Mar 2023 07:42:50 -0400
-X-MC-Unique: 7uVD26yTNEq3mdqMW7uDpw-1
-Received: by mail-pj1-f72.google.com with SMTP id
- kx3-20020a17090b228300b0023cfd09ed94so6755202pjb.4
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 04:42:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kozlowski.mateuszpl@gmail.com>)
+ id 1peEpt-0005tj-En; Mon, 20 Mar 2023 08:42:01 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kozlowski.mateuszpl@gmail.com>)
+ id 1peEpr-0007TY-D0; Mon, 20 Mar 2023 08:42:01 -0400
+Received: by mail-pl1-x636.google.com with SMTP id o11so12288398ple.1;
+ Mon, 20 Mar 2023 05:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679316114;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=uELllllIT6ap0txurg9j0z4sGzWjdXJWHDI95ZuPdr4=;
+ b=Exklrgzz0xM9Y0OZRIdvdoIHmDxxVfhIfqatPr6w9FJU+/SrVnT0XoBTPXsLQnzF+O
+ M1CvZR+5QkzcZRFaegxAuSUeU24CPbDPjL+GJnYd7At0FQk5rIzE2Wj02ldMEtJKPF4b
+ /PfwbOaywPY2Qf15GNZJHjpjECAOp7SCS0fg3cKEiwaqAxLMCntPkT4VTJdlz533qBvV
+ gVQIRoG/crWcJdZerUB5r3FqcUDrIrtwEHpyeD/ysiqY+DZ2/in4133GrVuQzFI7I6pD
+ kTpLxZcvEyo/hHqYFqL7RkocBYwQivW5grZ3oGBqvMPz69LZLOO4j0+X2fC8A6Ch5+qX
+ jZ5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679312569;
+ d=1e100.net; s=20210112; t=1679316114;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Odhw3mm7MA8ZJ3F11MhA7NeX2k0egTnIEvW4gQYadXI=;
- b=Wfv4/djs3XSk3tDIjm8jciTREZoEdou27XaN0ix3UU8ksEvqMKH7vZOxxujpsZbpfx
- WPK14clR4v8HTsdgKE+jrwZZ/ulz8aXQd3mKM5EAjtuZRW5lJrfWMWfGsT4+XFlrq6E3
- TW9WF+CLGF9lSycvy0h1w2QTdA9FGKDY9ghl9qFSW3kcu/NR49B7Tc5M2hA7cYI6yxu7
- T/RU/7FQhL8HKgpaA7BUq6kxi/YkQ6FaVb9fA6NoBSSvItwD2REq9tZcfwa8xngFabfW
- ZAY4wC2bc/11gxzIty7KgYWZM+pewf9wFA87HUrtfB9Xy07p7TiRBuyRke8MbLsS4/oz
- ligg==
-X-Gm-Message-State: AO0yUKWANel2XcHMwJynahAKip+5JZaNY9BZ/3FNioGqAmJHoBTpHw0X
- kLnMfnyoCq3cnoOKh0vzMTPkAleTG8UnDa1vOGCAFbXKT0DSj/qnxH8iWJZOJfsvbu0d6U1ZhHq
- jgQ4RU5rpA2wtjK0=
-X-Received: by 2002:a17:90b:33c8:b0:23f:5fe7:25a1 with SMTP id
- lk8-20020a17090b33c800b0023f5fe725a1mr12076529pjb.13.1679312569143; 
- Mon, 20 Mar 2023 04:42:49 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/nihbYvM+tL3x2LG0+pwELkZbaYsgZlU8SeSwVUgsqGX6o3WbiHduBXbTNuNWNKee7x6/4Wg==
-X-Received: by 2002:a17:90b:33c8:b0:23f:5fe7:25a1 with SMTP id
- lk8-20020a17090b33c800b0023f5fe725a1mr12076509pjb.13.1679312568825; 
- Mon, 20 Mar 2023 04:42:48 -0700 (PDT)
-Received: from localhost.localdomain ([203.163.233.223])
- by smtp.googlemail.com with ESMTPSA id
- jx21-20020a17090b46d500b0020b21019086sm19930386pjb.3.2023.03.20.04.42.46
+ bh=uELllllIT6ap0txurg9j0z4sGzWjdXJWHDI95ZuPdr4=;
+ b=oG43SAO3H1AKkih0Pl51E1Y1f7u/DEA4sudrhhIqfptVY5Gie7y3eODzWYSeSzwaIr
+ auc8GGtCTR43CjjqVfJP9/kgeKVTJpYTW1e2ia1b0bNcXjhJNgsidTMWfIB/9TzUYFAn
+ S8T1/K7Oh0Oc3t950weoOUAGYqF/EYU1GWjEP4D2gkVYbvGDbtvGUUsRuw7glTnAmRjL
+ LFKeKpAbZuudUXEMidTQuP0xuXNKiGtIgmgLWsgG/GDcZx6jM7NIlmHxkScC//vCvjmd
+ fC7yC9O5SPXoAdFF9Gh0IsV/7GBFX2hxnXtxcYJI1kmQWdfIrfhkcAkDtGX7t2FQYUKS
+ SX6g==
+X-Gm-Message-State: AO0yUKU01sKW2Kv0PWnTHwk6FguN2r525kBsqduz6DD7n/lEvkWfzkMj
+ D4NKqBdrN62wm9ZpWLhS0Ng6K1rQqJBFwkP+nHtLrw==
+X-Google-Smtp-Source: AK7set/qz+MDASqGMnCgzd9TwzKjTZc9C9vB/yN0ng/5wXSqWhk5vlN2yTFhAu6QvkFF7nvfY42XPw==
+X-Received: by 2002:a05:6a20:a794:b0:d9:e6a9:d3e2 with SMTP id
+ bx20-20020a056a20a79400b000d9e6a9d3e2mr1775147pzb.3.1679316113777; 
+ Mon, 20 Mar 2023 05:41:53 -0700 (PDT)
+Received: from localhost.localdomain ([134.238.136.60])
+ by smtp.gmail.com with ESMTPSA id
+ m7-20020aa79007000000b005a8b28c644esm6295016pfo.4.2023.03.20.05.41.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 04:42:48 -0700 (PDT)
-From: Ani Sinha <anisinha@redhat.com>
-To: Ani Sinha <anisinha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>,
-	qemu-devel@nongnu.org
-Subject: [PATCH] Add my old and new work email mapping and use work email to
- support biosbits
-Date: Mon, 20 Mar 2023 17:12:33 +0530
-Message-Id: <20230320114233.90638-1-anisinha@redhat.com>
-X-Mailer: git-send-email 2.39.2
+ Mon, 20 Mar 2023 05:41:53 -0700 (PDT)
+From: Mateusz Kozlowski <kozlowski.mateuszpl@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: mateusz.kozlowski@solidigm.com,
+ Mateusz Kozlowski <kozlowski.mateuszpl@gmail.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ qemu-block@nongnu.org (open list:nvme)
+Subject: [PATCH] hw/nvme: Change alignment in dma functions for nvme_blk_*
+Date: Mon, 20 Mar 2023 13:40:36 +0100
+Message-Id: <20230320124042.1404-1-kozlowski.mateuszpl@gmail.com>
+X-Mailer: git-send-email 2.37.1.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SORBS_WEB=1.5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=kozlowski.mateuszpl@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 20 Mar 2023 09:17:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,58 +89,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ani Sinha <ani@anisinha.ca>
+Since the nvme_blk_read/write are used by both the data and metadata
+portions of the IO, it can't have the 512B alignment requirement.
+Without this change any metadata transfer, which length isn't a multiple
+of 512B and which is bigger than 512B, will result in only a partial
+transfer.
 
-Update mailmap to indicate ani@anisinha.ca and anisinha@redhat.com are one and
-the same person. Additionally update MAINTAINERS and bits documentation to use
-my work (redhat) email.
-
-Signed-off-by: Ani Sinha <anisinha@redhat.com>
+Signed-off-by: Mateusz Kozlowski <kozlowski.mateuszpl@gmail.com>
 ---
- .mailmap                 | 1 +
- MAINTAINERS              | 2 +-
- docs/devel/acpi-bits.rst | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ hw/nvme/ctrl.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/.mailmap b/.mailmap
-index fad2aff5aa..460aac992f 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -54,6 +54,7 @@ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
- Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
-+Ani Sinha <anisinha@redhat.com> <ani@anisinha.ca>
- Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
- Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
- Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 011fd85a09..1e31cfad32 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1899,7 +1899,7 @@ F: hw/acpi/viot.c
- F: hw/acpi/viot.h
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 49c1210fce..291009545f 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -1434,26 +1434,26 @@ uint16_t nvme_bounce_mdata(NvmeCtrl *n, void *ptr, uint32_t len,
+ }
  
- ACPI/AVOCADO/BIOSBITS
--M: Ani Sinha <ani@anisinha.ca>
-+M: Ani Sinha <anisinha@redhat.com>
- M: Michael S. Tsirkin <mst@redhat.com>
- S: Supported
- F: tests/avocado/acpi-bits/*
-diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-index 9eb4b9e666..22e2580200 100644
---- a/docs/devel/acpi-bits.rst
-+++ b/docs/devel/acpi-bits.rst
-@@ -135,7 +135,7 @@ Under ``tests/avocado/`` as the root we have:
-    (c) They need not be loaded by avocado framework when running tests.
+ static inline void nvme_blk_read(BlockBackend *blk, int64_t offset,
+-                                 BlockCompletionFunc *cb, NvmeRequest *req)
++                                 uint32_t align, BlockCompletionFunc *cb,
++                                 NvmeRequest *req)
+ {
+     assert(req->sg.flags & NVME_SG_ALLOC);
  
+     if (req->sg.flags & NVME_SG_DMA) {
+-        req->aiocb = dma_blk_read(blk, &req->sg.qsg, offset, BDRV_SECTOR_SIZE,
+-                                  cb, req);
++        req->aiocb = dma_blk_read(blk, &req->sg.qsg, offset, align, cb, req);
+     } else {
+         req->aiocb = blk_aio_preadv(blk, offset, &req->sg.iov, 0, cb, req);
+     }
+ }
  
--Author: Ani Sinha <ani@anisinha.ca>
-+Author: Ani Sinha <anisinha@redhat.com>
+ static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
+-                                  BlockCompletionFunc *cb, NvmeRequest *req)
++                                  uint32_t align, BlockCompletionFunc *cb,
++                                  NvmeRequest *req)
+ {
+     assert(req->sg.flags & NVME_SG_ALLOC);
  
- References:
- -----------
+     if (req->sg.flags & NVME_SG_DMA) {
+-        req->aiocb = dma_blk_write(blk, &req->sg.qsg, offset, BDRV_SECTOR_SIZE,
+-                                   cb, req);
++        req->aiocb = dma_blk_write(blk, &req->sg.qsg, offset, align, cb, req);
+     } else {
+         req->aiocb = blk_aio_pwritev(blk, offset, &req->sg.iov, 0, cb, req);
+     }
+@@ -2207,10 +2207,10 @@ static void nvme_rw_cb(void *opaque, int ret)
+             }
+ 
+             if (req->cmd.opcode == NVME_CMD_READ) {
+-                return nvme_blk_read(blk, offset, nvme_rw_complete_cb, req);
++                return nvme_blk_read(blk, offset, 1, nvme_rw_complete_cb, req);
+             }
+ 
+-            return nvme_blk_write(blk, offset, nvme_rw_complete_cb, req);
++            return nvme_blk_write(blk, offset, 1, nvme_rw_complete_cb, req);
+         }
+     }
+ 
+@@ -3437,7 +3437,7 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
+ 
+     block_acct_start(blk_get_stats(blk), &req->acct, data_size,
+                      BLOCK_ACCT_READ);
+-    nvme_blk_read(blk, data_offset, nvme_rw_cb, req);
++    nvme_blk_read(blk, data_offset, BDRV_SECTOR_SIZE, nvme_rw_cb, req);
+     return NVME_NO_COMPLETE;
+ 
+ invalid:
+@@ -3607,7 +3607,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+ 
+         block_acct_start(blk_get_stats(blk), &req->acct, data_size,
+                          BLOCK_ACCT_WRITE);
+-        nvme_blk_write(blk, data_offset, nvme_rw_cb, req);
++        nvme_blk_write(blk, data_offset, BDRV_SECTOR_SIZE, nvme_rw_cb, req);
+     } else {
+         req->aiocb = blk_aio_pwrite_zeroes(blk, data_offset, data_size,
+                                            BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
 -- 
-2.39.2
+2.34.1
 
 
