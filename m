@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE29B6C139B
+	by mail.lfdr.de (Postfix) with ESMTPS id E74AD6C139C
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:38:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFh8-0002yk-GQ; Mon, 20 Mar 2023 09:37:02 -0400
+	id 1peFhG-0002zO-TP; Mon, 20 Mar 2023 09:37:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1peFh6-0002yL-BC
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:37:00 -0400
+ id 1peFhE-0002z0-An
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:37:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1peFh4-0000Cq-Fc
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:37:00 -0400
+ id 1peFhC-0000EA-Ry
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:37:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679319417;
+ s=mimecast20190719; t=1679319425;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J6MAm4KpI9ZtW2RYicApZgCO2UNL2tmhgVcp2j2ojYY=;
- b=Mn9d3aSf6R9gUg4fUubimyGBeN3qfZAt4VsPIYtLvDOwyKB1FuoKSt0QLtsTjq+ZVwZCXX
- vGSb4xGkpeRmmoqeV7gdLmKkxsYNalHEHs9e2Rsltb7p63tpYC6Z31DMZbcvhPqG3OR9Jc
- W1uOKW9S1LwUpe6+p2trABscMRuDpPU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BUyMeTTjy6ngKW7/BI4gPLuQkk4HNuIn8h0LVT6p+jM=;
+ b=dLokOvIJ/dnlo9UBoWMuMpBAjhXUl7+KV658mYB+JRMazWDSGgodsi7YUZIQbIXnGc8uPL
+ acmAJ1CMQX5wN+0CK6MT24dXXRZptqIx3Vna+tWlapmMqIYam7oMisfMq21CEYAsvnjEn3
+ QHPIqU0K12fG+jigPH8UyMZfzxH9o1o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-470--A7_hVY7Ot-uSaHiKjIqSQ-1; Mon, 20 Mar 2023 09:36:56 -0400
-X-MC-Unique: -A7_hVY7Ot-uSaHiKjIqSQ-1
+ us-mta-318-NxIempl3OCuLApAdS6XZgQ-1; Mon, 20 Mar 2023 09:37:02 -0400
+X-MC-Unique: NxIempl3OCuLApAdS6XZgQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F54D38221C2;
- Mon, 20 Mar 2023 13:36:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC6E4101A553;
+ Mon, 20 Mar 2023 13:37:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8831440C6E69;
- Mon, 20 Mar 2023 13:36:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB22A40C6E67;
+ Mon, 20 Mar 2023 13:36:59 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, berrange@redhat.com,
  Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 2/3] ui/spice: fix SOCKET handling regression
-Date: Mon, 20 Mar 2023 17:36:42 +0400
-Message-Id: <20230320133643.1618437-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 3/3] ui/dbus: fix passing SOCKET to GSocket API & leak
+Date: Mon, 20 Mar 2023 17:36:43 +0400
+Message-Id: <20230320133643.1618437-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20230320133643.1618437-1-marcandre.lureau@redhat.com>
 References: <20230320133643.1618437-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -83,84 +83,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Spice uses SOCKET on win32, but QEMU now uses file-descriptors.
+-display dbus is not currently available to win32 users, so it's not
+considered a regression.
 
-Fixes "8.0.0rc0 Regression: spicy windows doesn't open":
-https://gitlab.com/qemu-project/qemu/-/issues/1549
+Note also the close() leak fix in case of error.
 
-Fixes: commit abe34282b ("win32: avoid mixing SOCKET and file descriptor space")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- ui/spice-core.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ ui/dbus.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index b05c830086..67cfd3ca9c 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -90,13 +90,23 @@ struct SpiceWatch {
- static void watch_read(void *opaque)
- {
-     SpiceWatch *watch = opaque;
--    watch->func(watch->fd, SPICE_WATCH_EVENT_READ, watch->opaque);
-+    int fd = watch->fd;
-+
-+#ifdef WIN32
-+    fd = _get_osfhandle(fd);
-+#endif
-+    watch->func(fd, SPICE_WATCH_EVENT_READ, watch->opaque);
- }
- 
- static void watch_write(void *opaque)
- {
-     SpiceWatch *watch = opaque;
--    watch->func(watch->fd, SPICE_WATCH_EVENT_WRITE, watch->opaque);
-+    int fd = watch->fd;
-+
-+#ifdef WIN32
-+    fd = _get_osfhandle(fd);
-+#endif
-+    watch->func(fd, SPICE_WATCH_EVENT_WRITE, watch->opaque);
- }
- 
- static void watch_update_mask(SpiceWatch *watch, int event_mask)
-@@ -117,6 +127,14 @@ static SpiceWatch *watch_add(int fd, int event_mask, SpiceWatchFunc func, void *
- {
-     SpiceWatch *watch;
+diff --git a/ui/dbus.c b/ui/dbus.c
+index 0513de9918..b9e9698503 100644
+--- a/ui/dbus.c
++++ b/ui/dbus.c
+@@ -304,11 +304,20 @@ dbus_display_add_client(int csock, Error **errp)
+         g_cancellable_cancel(dbus_display->add_client_cancellable);
+     }
  
 +#ifdef WIN32
-+    fd = _open_osfhandle(fd, _O_BINARY);
-+    if (fd < 0) {
-+        error_setg_win32(&error_warn, WSAGetLastError(), "Couldn't associate a FD with the SOCKET");
-+        return NULL;
-+    }
++    socket = g_socket_new_from_fd(_get_osfhandle(csock), &err);
++#else
+     socket = g_socket_new_from_fd(csock, &err);
 +#endif
-+
-     watch = g_malloc0(sizeof(*watch));
-     watch->fd     = fd;
-     watch->func   = func;
-@@ -129,6 +147,10 @@ static SpiceWatch *watch_add(int fd, int event_mask, SpiceWatchFunc func, void *
- static void watch_remove(SpiceWatch *watch)
- {
-     qemu_set_fd_handler(watch->fd, NULL, NULL, NULL);
+     if (!socket) {
+         error_setg(errp, "Failed to setup D-Bus socket: %s", err->message);
++        close(csock);
+         return false;
+     }
 +#ifdef WIN32
-+    /* SOCKET is owned by spice */
-+    qemu_close_to_socket(watch->fd);
++    /* socket owns the SOCKET handle now, so release our osf handle */
++    qemu_close_socket_osfhandle(csock);
 +#endif
-     g_free(watch);
- }
  
-@@ -908,6 +930,9 @@ static int qemu_spice_set_pw_expire(time_t expires)
+     conn = g_socket_connection_factory_create_connection(socket);
  
- static int qemu_spice_display_add_client(int csock, int skipauth, int tls)
- {
-+#ifdef WIN32
-+    csock = qemu_close_socket_osfhandle(csock);
-+#endif
-     if (tls) {
-         return spice_server_add_ssl_client(spice_server, csock, skipauth);
-     } else {
 -- 
 2.39.2
 
