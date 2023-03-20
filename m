@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1722A6C1379
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 021E86C1399
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:38:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFd5-0000zC-Pq; Mon, 20 Mar 2023 09:32:51 -0400
+	id 1peFh3-0002xV-2g; Mon, 20 Mar 2023 09:36:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1peFd3-0000yU-RN
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:32:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1peFgz-0002xN-P7
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:36:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1peFd2-0006La-7R
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:32:49 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1peFgy-0000BI-AJ
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:36:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679319167;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Th9aGFJSdcBq95GWzGEzKE0U1sz+mkWoj3+dThbdJpk=;
- b=Eew3S+Kzh9XFYzJM4aiz0FRVXnKfLv1b3fY19uR9jQ4yv8eCXaPntJTi85SY7hheEf0ssy
- 4PcJStzvNvr3Q8TAo7kOMsZNkqyi7ds6ElVEYqdN2C6lawxWCQVmBQ72+NHM6DyyPHNSYd
- nIskt7xOQVMAaseKsNROErUP/CeLLMk=
+ s=mimecast20190719; t=1679319411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RL7R4+BLQRYCapu2sFDDTQoEdLdVYW8LhjLo8DkWvLs=;
+ b=VFZB0BPhtbHAZI8Ih5/o3amru4AazuBHrcNYf8h1/4j2zKAldQh3fVYwknK4ZBMX6BNiBO
+ qXgRdlWrhAFs096uQqjV89rJeu4rxZZwDSVmIDSAHMA2VKyY53+/VOEPlECG6gY/Vgwbb+
+ iS4imAUIe/CisWbkImW33enDIEd44W8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-tKwRNE2bNB6CcF7kmnW_FA-1; Mon, 20 Mar 2023 09:32:45 -0400
-X-MC-Unique: tKwRNE2bNB6CcF7kmnW_FA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-207-o51AAQYsNMyl8UwoW8k4cA-1; Mon, 20 Mar 2023 09:36:47 -0400
+X-MC-Unique: o51AAQYsNMyl8UwoW8k4cA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 416731C189B0;
- Mon, 20 Mar 2023 13:32:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D4D61121315;
- Mon, 20 Mar 2023 13:32:44 +0000 (UTC)
-Date: Mon, 20 Mar 2023 13:32:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, shentey@gmail.com, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2] ui/gtk: fix cursor moved to left corner
-Message-ID: <ZBhgen5zqT92fFyr@redhat.com>
-References: <20230320132624.1612464-1-marcandre.lureau@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8545C3C0E443;
+ Mon, 20 Mar 2023 13:36:47 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CDA740C6E67;
+ Mon, 20 Mar 2023 13:36:46 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, berrange@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 0/3] Fix Spice regression on win32
+Date: Mon, 20 Mar 2023 17:36:40 +0400
+Message-Id: <20230320133643.1618437-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230320132624.1612464-1-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,64 +75,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 20, 2023 at 05:26:24PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Do not attempt to move the pointer if the widget is not yet realized.
-> The mouse cursor is placed to the corner of the screen, on X11 at least,
-> as x_root and y_root are then miscalculated. (this is not reproducible
-> on Wayland, because Gtk doesn't implement device warping there)
-> 
-> This also fixes the following warning at start:
-> qemu: Gdk: gdk_window_get_root_coords: assertion 'GDK_IS_WINDOW (window)' failed
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Ah, this assertion means that gdk_window_get_root_coords returns
-control without setting x_root and y_root. So they contain
-whatever garbage is on the stack. They could end up pointing anywhere,
-and because max value of an 'int' is way larger than the screen size
-they'll usually get capped at the sceen size and thus end up bottom
-right corner.
+Hi,
 
-> 
-> Fixes: 6effaa16ac98 ("ui: set cursor position upon listener
-> registration")
-> Reported-by: Bernhard Beschow <shentey@gmail.com>
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  ui/gtk.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+v2: (suggestions from Daniel Berrange)
+- change function qemu_close_socket_osfhandle()
+- add some documentation for it
+- simplify a bit the dbus-related code
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Marc-André Lureau (3):
+  win32: add qemu_close_socket_osfhandle()
+  ui/spice: fix SOCKET handling regression
+  ui/dbus: fix passing SOCKET to GSocket API & leak
 
+ include/sysemu/os-win32.h | 15 ++++++--
+ ui/dbus.c                 |  9 +++++
+ ui/spice-core.c           | 29 +++++++++++++--
+ util/oslib-win32.c        | 75 +++++++++++++++++++++------------------
+ 4 files changed, 89 insertions(+), 39 deletions(-)
 
-> 
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index fd82e9b1ca..e9564f2baa 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -450,7 +450,8 @@ static void gd_mouse_set(DisplayChangeListener *dcl,
->      GdkDisplay *dpy;
->      gint x_root, y_root;
->  
-> -    if (qemu_input_is_absolute()) {
-> +    if (!gtk_widget_get_realized(vc->gfx.drawing_area) ||
-> +        qemu_input_is_absolute()) {
->          return;
->      }
->  
-> -- 
-> 2.39.2
-> 
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.39.2
 
 
