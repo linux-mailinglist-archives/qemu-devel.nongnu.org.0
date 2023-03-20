@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4346C118A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 13:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA986C118B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 13:10:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peEK4-0003f2-Ox; Mon, 20 Mar 2023 08:09:08 -0400
+	id 1peELD-0004KG-LH; Mon, 20 Mar 2023 08:10:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <secalert@redhat.com>)
- id 1peEK1-0003eX-Uk; Mon, 20 Mar 2023 08:09:05 -0400
-Received: from outbound404.service-now.com ([149.96.5.209])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peELA-0004Js-Pb
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 08:10:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <secalert@redhat.com>)
- id 1peEK0-0004Ch-4A; Mon, 20 Mar 2023 08:09:05 -0400
-Received: from outbound25.service-now.com (unknown [10.248.2.211])
- by outbound404.service-now.com (Postfix) with ESMTPS id D968E21A4B1E;
- Mon, 20 Mar 2023 05:09:01 -0700 (PDT)
-Received: from app139045.ytz3.service-now.com (unknown [10.248.2.236])
- by outbound25.service-now.com (Postfix) with ESMTP id 167CE60A7363;
- Mon, 20 Mar 2023 05:08:58 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 outbound25.service-now.com 167CE60A7363
-Date: Mon, 20 Mar 2023 05:08:58 -0700 (PDT)
-From: Red Hat Product Security <secalert@redhat.com>
-To: marcel.apfelbaum@gmail.com, mcascell@redhat.com,
- qemu-security@nongnu.org, yuval.shaia.ml@gmail.com,
- qemu-devel@nongnu.org, soulchen8650@gmail.com
-Message-ID: <9832229.27994.1679314138081@app139045.ytz3.service-now.com>
-Subject: Re: [PATCH v1] hw/pvrdma: Protect against buggy or malicious guest
- driver
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peEL8-0004rZ-FU
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 08:10:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679314212;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kNzLS6JcwDNUk5uzD9Btx7Xd7xeoYUStGmsCKwIgd0c=;
+ b=KugM3lYZVQNKPekaaYvECyn26BZBTrGuON1Ek15EL53WIs71sfDMgus+wM/1/pMkQgi4MQ
+ JfpqV8ZsY6PPzbG1qjXQxUzrjWUbNotiwZBI7O52nbjzrEGSqdm4eIbQOQ/8j1hvLGaL2F
+ gRZU669TXAIb1mtcunI7z1GDuYmG4us=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-zrnVo_hcNaiqTnQk7ILuyw-1; Mon, 20 Mar 2023 08:10:11 -0400
+X-MC-Unique: zrnVo_hcNaiqTnQk7ILuyw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 491B1185A791;
+ Mon, 20 Mar 2023 12:10:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E8C3140EBF4;
+ Mon, 20 Mar 2023 12:10:10 +0000 (UTC)
+Date: Mon, 20 Mar 2023 12:10:07 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 1/3] win32: add qemu_close_to_socket()
+Message-ID: <ZBhNH11aUoRTWHD1@redhat.com>
+References: <20230320111412.1516419-1-marcandre.lureau@redhat.com>
+ <20230320111412.1516419-2-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
- boundary="----=_Part_27992_3739619.1679314138081"
-X-ServiceNow-Source: Notification-ec04d32213ede300196f7e276144b04e
-X-ServiceNow-SysEmail-Version: 2
-Precedence: bulk
-Auto-Submitted: auto-generated
-X-ServiceNow-Generated: true
-Received-SPF: pass client-ip=149.96.5.209; envelope-from=secalert@redhat.com;
- helo=outbound404.service-now.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230320111412.1516419-2-marcandre.lureau@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,135 +80,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Red Hat Product Security <secalert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-------=_Part_27992_3739619.1679314138081
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_27993_28304353.1679314138081"
+On Mon, Mar 20, 2023 at 03:14:10PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Close the given file descriptor, but returns the underlying SOCKET.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  include/sysemu/os-win32.h |  1 +
+>  util/oslib-win32.c        | 68 +++++++++++++++++++++------------------
+>  2 files changed, 38 insertions(+), 31 deletions(-)
+> 
+> diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+> index e2849f88ab..95cba6b284 100644
+> --- a/include/sysemu/os-win32.h
+> +++ b/include/sysemu/os-win32.h
+> @@ -174,6 +174,7 @@ bool qemu_socket_unselect(int sockfd, Error **errp);
+>  /* We wrap all the sockets functions so that we can
+>   * set errno based on WSAGetLastError()
+>   */
+> +SOCKET qemu_close_to_socket(int fd);
 
-------=_Part_27993_28304353.1679314138081
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Took me a while to understand what this function is actually doing.
 
-Hello!
+IIUC, it assumes 'fd' was previously created by _open_osfhandle,
+and close this OSF handle, leaving the SOCKET still open.
 
-INC2534320 ([PATCH v1] hw/pvrdma: Protect against buggy or malicious guest =
-driver) has been updated.
+Could we call this one  'qemu_close_socket_osfhandle' and also
+add a comment describing what this does.
 
-Opened for:=C2=A0yuval.shaia.ml@gmail.com
-Followers:=C2=A0qemu-devel@nongnu.org, soulchen8650@gmail.com, Mauro Matteo=
- Cascella, qemu-security@nongnu.org, yuval.shaia.ml@gmail.com, marcel.apfel=
-baum@gmail.com
+>  
+>  #undef close
+>  #define close qemu_close_wrap
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index 16f8a67f7e..e37276b414 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -479,52 +479,58 @@ int qemu_bind_wrap(int sockfd, const struct sockaddr *addr,
+>      return ret;
+>  }
+>  
+> -
+>  #undef close
+> -int qemu_close_wrap(int fd)
+> +SOCKET qemu_close_to_socket(int fd)
+>  {
+> -    int ret;
+> +    SOCKET s = _get_osfhandle(fd);
+>      DWORD flags = 0;
+> -    SOCKET s = INVALID_SOCKET;
+> -
+> -    if (fd_is_socket(fd)) {
+> -        s = _get_osfhandle(fd);
+>  
+> -        /*
+> -         * If we were to just call _close on the descriptor, it would close the
+> -         * HANDLE, but it wouldn't free any of the resources associated to the
+> -         * SOCKET, and we can't call _close after calling closesocket, because
+> -         * closesocket has already closed the HANDLE, and _close would attempt to
+> -         * close the HANDLE again, resulting in a double free. We can however
+> -         * protect the HANDLE from actually being closed long enough to close the
+> -         * file descriptor, then close the socket itself.
+> -         */
+> -        if (!GetHandleInformation((HANDLE)s, &flags)) {
+> -            errno = EACCES;
+> -            return -1;
+> -        }
+> -
+> -        if (!SetHandleInformation((HANDLE)s, HANDLE_FLAG_PROTECT_FROM_CLOSE, HANDLE_FLAG_PROTECT_FROM_CLOSE)) {
+> -            errno = EACCES;
+> -            return -1;
+> -        }
+> +    /*
+> +     * If we were to just call _close on the descriptor, it would close the
+> +     * HANDLE, but it wouldn't free any of the resources associated to the
+> +     * SOCKET, and we can't call _close after calling closesocket, because
+> +     * closesocket has already closed the HANDLE, and _close would attempt to
+> +     * close the HANDLE again, resulting in a double free. We can however
+> +     * protect the HANDLE from actually being closed long enough to close the
+> +     * file descriptor, then close the socket itself.
+> +     */
+> +    if (!GetHandleInformation((HANDLE)s, &flags)) {
+> +        errno = EACCES;
+> +        return INVALID_SOCKET;
+>      }
+>  
+> -    ret = close(fd);
+> -
+> -    if (s != INVALID_SOCKET && !SetHandleInformation((HANDLE)s, flags, flags)) {
+> +    if (!SetHandleInformation((HANDLE)s, HANDLE_FLAG_PROTECT_FROM_CLOSE, HANDLE_FLAG_PROTECT_FROM_CLOSE)) {
+>          errno = EACCES;
+> -        return -1;
+> +        return INVALID_SOCKET;
+>      }
+>  
+>      /*
+>       * close() returns EBADF since we PROTECT_FROM_CLOSE the underlying handle,
+>       * but the FD is actually freed
+>       */
+> -    if (ret < 0 && (s == INVALID_SOCKET || errno != EBADF)) {
+> -        return ret;
+> +    if (close(fd) < 0 && errno != EBADF) {
+> +        return INVALID_SOCKET;
+> +    }
+> +
+> +    if (!SetHandleInformation((HANDLE)s, flags, flags)) {
+> +        errno = EACCES;
+> +        return INVALID_SOCKET;
+> +    }
+> +
+> +    return s;
+> +}
+> +
+> +int qemu_close_wrap(int fd)
+> +{
+> +    SOCKET s = INVALID_SOCKET;
+> +    int ret = -1;
+> +
+> +    if (!fd_is_socket(fd)) {
+> +        return close(fd);
+>      }
+>  
+> +    s = qemu_close_to_socket(fd);
+> +
+>      if (s != INVALID_SOCKET) {
+>          ret = closesocket(s);
+>          if (ret < 0) {
+> -- 
+> 2.39.2
+> 
 
-A Guest updated your request with the following comments:
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Reply from: yuval.shaia.ml@gmail.com [mailto:yuval.shaia.ml@gmail.com]
-=C2=A0Hi,
-Patch is currently under review.
-From my end, it was tested and proved to solve the problem.
-=C2=A0To follow up you may need to check qemu-devel@nongnu.org [mailto:qemu=
--devel@nongnu.org] from time to time.
-=C2=A0Marcel, any feedback?
-=C2=A0Yuval
-=C2=A0On Mon, 13 Mar 2023 at 18:56, Red Hat Product Security <secalert@redh=
-at.com [mailto:secalert@redhat.com]>
-wrote:
-=C2=A0> Hello!
->
-> INC2534320 ([PATCH v1] hw/pvrdma: Protect against buggy or malicious gues=
-t
-> driver) has been updated.
->
-> Opened for: yuval.shaia.ml@gmail.com [mailto:yuval.shaia.ml@gmail.com]
-> Followers: qemu-devel@nongnu.org [mailto:qemu-devel@nongnu.org], soulchen=
-8650@gmail.com [mailto:soulchen8650@gmail.com], Mauro Matteo
-> Cascella, qemu-security@nongnu.org [mailto:qemu-security@nongnu.org], yuv=
-al.shaia.ml@gmail.com [mailto:yuval.shaia.ml@gmail.com],
-> marcel.apfelbaum@gmail.com [mailto:marcel.apfelbaum@gmail.com]
->
-> A Guest updated your request with the following comments:
-> Reply from: pjp@fedoraproject.org [mailto:pjp@fedoraproject.org]
->
-> Hello Yuval,
->
-> *How can I track and update my request?*
->
-> To respond, reply to this email. You may also create a new email and
-> include the request number (INC2534320) in the subject.
->
-> Thank you,
-> Product Security
->
-> Ref:MSG71528958
->
-
-How can I track and update my request?
-
-To respond, reply to this email. You may also create a new email and includ=
-e the request number (INC2534320) in the subject.
-
-Thank you,
-Product Security
-
-Ref:MSG71828656
-------=_Part_27993_28304353.1679314138081
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-
-<html><head></head><body><div><p style=3D"margin-top:0;margin-bottom:10px;"=
->Hello!</p><p style=3D"margin-top:0;margin-bottom:10px;">INC2534320 ([PATCH=
- v1] hw/pvrdma: Protect against buggy or malicious guest driver) has been u=
-pdated.</p><p style=3D"margin-top:0;margin-bottom:10px;">Opened for:&nbsp;y=
-uval.shaia.ml@gmail.com<br>Followers:&nbsp;qemu-devel@nongnu.org, soulchen8=
-650@gmail.com, Mauro Matteo Cascella, qemu-security@nongnu.org, yuval.shaia=
-.ml@gmail.com, marcel.apfelbaum@gmail.com</p></div>
-<p style=3D"margin-top: 10px; margin-bottom: 10px;">A Guest updated your re=
-quest with the following comments:</p>
-<div style=3D"padding: 10px 0 10px 10px; background-color: ivory;"><div>Rep=
-ly from: <a target=3D"_blank" href=3D"mailto:yuval.shaia.ml@gmail.com" rel=
-=3D"noopener noreferrer nofollow">yuval.shaia.ml@gmail.com</a></div><div>&n=
-bsp;</div><div>Hi,</div><div>Patch is currently under review.</div><div>Fro=
-m my end, it was tested and proved to solve the problem.</div><div>&nbsp;</=
-div><div>To follow up you may need to check <a target=3D"_blank" href=3D"ma=
-ilto:qemu-devel@nongnu.org" rel=3D"noopener noreferrer nofollow">qemu-devel=
-@nongnu.org</a> from time to time.</div><div>&nbsp;</div><div>Marcel, any f=
-eedback?</div><div>&nbsp;</div><div>Yuval</div><div>&nbsp;</div><div>On Mon=
-, 13 Mar 2023 at 18:56, Red Hat Product Security &lt;<a target=3D"_blank" h=
-ref=3D"mailto:secalert@redhat.com" rel=3D"noopener noreferrer nofollow">sec=
-alert@redhat.com</a>&gt;</div><div>wrote:</div><div>&nbsp;</div><div>&gt; H=
-ello!</div><div>&gt;</div><div>&gt; INC2534320 ([PATCH v1] hw/pvrdma: Prote=
-ct against buggy or malicious guest</div><div>&gt; driver) has been updated=
-.</div><div>&gt;</div><div>&gt; Opened for: <a target=3D"_blank" href=3D"ma=
-ilto:yuval.shaia.ml@gmail.com" rel=3D"noopener noreferrer nofollow">yuval.s=
-haia.ml@gmail.com</a></div><div>&gt; Followers: <a target=3D"_blank" href=
-=3D"mailto:qemu-devel@nongnu.org" rel=3D"noopener noreferrer nofollow">qemu=
--devel@nongnu.org</a>, <a target=3D"_blank" href=3D"mailto:soulchen8650@gma=
-il.com" rel=3D"noopener noreferrer nofollow">soulchen8650@gmail.com</a>, Ma=
-uro Matteo</div><div>&gt; Cascella, <a target=3D"_blank" href=3D"mailto:qem=
-u-security@nongnu.org" rel=3D"noopener noreferrer nofollow">qemu-security@n=
-ongnu.org</a>, <a target=3D"_blank" href=3D"mailto:yuval.shaia.ml@gmail.com=
-" rel=3D"noopener noreferrer nofollow">yuval.shaia.ml@gmail.com</a>,</div><=
-div>&gt; <a target=3D"_blank" href=3D"mailto:marcel.apfelbaum@gmail.com" re=
-l=3D"noopener noreferrer nofollow">marcel.apfelbaum@gmail.com</a></div><div=
->&gt;</div><div>&gt; A Guest updated your request with the following commen=
-ts:</div><div>&gt; Reply from: <a target=3D"_blank" href=3D"mailto:pjp@fedo=
-raproject.org" rel=3D"noopener noreferrer nofollow">pjp@fedoraproject.org</=
-a></div><div>&gt;</div><div>&gt; Hello Yuval,</div><div>&gt;</div><div>&gt;=
- *How can I track and update my request?*</div><div>&gt;</div><div>&gt; To =
-respond, reply to this email. You may also create a new email and</div><div=
->&gt; include the request number (INC2534320) in the subject.</div><div>&gt=
-;</div><div>&gt; Thank you,</div><div>&gt; Product Security</div><div>&gt;<=
-/div><div>&gt; Ref:MSG71528958</div><div>&gt;</div></div>
-<div><p style=3D"margin-top:20px;margin-bottom:10px;"><strong>How can I tra=
-ck and update my request?</strong></p><p style=3D"margin-top:0;margin-botto=
-m:10px;">To respond, reply to this email. You may also create a new email a=
-nd include the request number (INC2534320) in the subject.</p></div>
-<p style=3D"margin-top: 14px; margin-bottom: 0;">Thank you,<br>Product Secu=
-rity</p><div>&nbsp;</div><div style=3D"display:inline">Ref:MSG71828656</div=
-></body></html>
-------=_Part_27993_28304353.1679314138081--
-
-------=_Part_27992_3739619.1679314138081--
 
