@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B27D6C2426
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 22:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4F56C2424
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 22:56:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peNTc-0005Z5-Tx; Mon, 20 Mar 2023 17:55:36 -0400
+	id 1peNTc-0005Yc-6I; Mon, 20 Mar 2023 17:55:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3UtYYZAYKCok6v6754t11tyr.p1z3rz7-qr8ry010t07.14t@flex--titusr.bounces.google.com>)
- id 1peNTZ-0005Wg-Ud
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:33 -0400
-Received: from mail-ua1-x94a.google.com ([2607:f8b0:4864:20::94a])
+ <3U9YYZAYKCoo7w7865u22uzs.q204s08-rs9sz121u18.25u@flex--titusr.bounces.google.com>)
+ id 1peNTa-0005X0-D5
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:34 -0400
+Received: from mail-ua1-x949.google.com ([2607:f8b0:4864:20::949])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3UtYYZAYKCok6v6754t11tyr.p1z3rz7-qr8ry010t07.14t@flex--titusr.bounces.google.com>)
- id 1peNTY-0006Z4-5L
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:33 -0400
-Received: by mail-ua1-x94a.google.com with SMTP id
- w24-20020ab00918000000b0075e9c7ffadfso5781554uag.13
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 14:55:30 -0700 (PDT)
+ <3U9YYZAYKCoo7w7865u22uzs.q204s08-rs9sz121u18.25u@flex--titusr.bounces.google.com>)
+ id 1peNTY-0006ZM-GY
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:34 -0400
+Received: by mail-ua1-x949.google.com with SMTP id
+ a6-20020ab03c86000000b00761dc4d3e30so2900954uax.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 14:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1679349330;
+ d=google.com; s=20210112; t=1679349331;
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=SkjeIjBf24fTWVjbXjCodVjSEoYMWjTjsoIFCGcOfx4=;
- b=AI9pbGhJAlwjWNMAdtIJKZ/+Ecsd5jdACKlpZsZM0mRz7KySerAq9gIYPUyBH6tfWi
- STZ7EUjy/6jHSPchL+rVo/ZbJxaXWUnU+GiCD2pAdLPB20kJh8MqvnPCOOSOwdJ+OPev
- Eca6SDKCv5MbEyFNde6dykrEyhfLqyqKjfrbOhscDepY/Q0qJYHIn50uQQxo1mW8D2GH
- DYnCw8AT6BfmwEEZXGRdWltaMl3YLXGZ7OBvz0bm937ZaL1nOmdKeq5fCzdqN4qTBnO2
- OoIXGbOMJJtomQvGTHGH++cu+saUg2yNaM3frN5GvmOaEY4Hl1UzBJRMQ0YI8yI8zhvC
- qKCQ==
+ :reply-to; bh=i6nuB1IuoNGeIVShStw0JikBLyXc87vR696JX/dK70I=;
+ b=mMSVP1Ak1+3zj62Sy548BqNIS0GveTVxemOCYzBE6HvVq7KyH6pObeeb2c5ZDMr3Ba
+ PpaKvQytCE4aYfWSYT5SDgu5epDPr9aaQ9vjs4HcW+JZBW8YrWMhC/nHunRSguIdJ2z0
+ 7bvdpSw6P92yQ16jEwm+aqE3KBWdoIUbiBVM6bmUYjTKbUscxw5slkk/y9klWZm4dja5
+ fpxgbbOPjl2bpe4xpWGxs5avcINlSLnsVdyVCo5YBt5LJOBiytmZfhCXTWoJFua7NoCA
+ GswDw+E6CJAQU7sKCvrMCNrD/o5cnpPMVn2/K2la85l1xKoxofY6ddSPQ+HutlN/XkgO
+ lPOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679349330;
+ d=1e100.net; s=20210112; t=1679349331;
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=SkjeIjBf24fTWVjbXjCodVjSEoYMWjTjsoIFCGcOfx4=;
- b=wXQiVbcoBDfeuAeOWqOi4ColfEHkZhoZMBP+B3HEYc5hCnJH6RJo/5uB84dChlkI+e
- vq68Q1/1109gEy5NkiAFRBkqN16fDsfS5KryYiuiKEHuU+UhkWYtNsMJIz56XrYsEZxS
- 8czVIpMsiMWzdfNcuV7T4Kdqfw9VoPDFT/5YjPxGotFr07GpSBtLGUKTTctH6vbJBD8b
- kQjBNeqEjjLjCRrcasTD1QXBo7HWQJxLapDEQkr6DF+xhJXU1tTWC43rswOUKEH4TT1H
- n688jVTcdJ8A/C9cqX+SNZJBnhnLxuvXwOv+eXK6sblRQ2gxU7/ML8QcifJm20iIk8VO
- Ey2A==
-X-Gm-Message-State: AAQBX9drQTwBk8rI8t3ZMfqAEe1oNSnK9Gml8YOTQsnLv4amEI8gu/OF
- OwGiAy+UzDfDWkWmrNzM+ToOllIOVLw=
-X-Google-Smtp-Source: AKy350ZEXRJuoMLl+ri1+AVn5Uw2ymN59XG+bjAyhljzTVQMapdkIOrQopbdgYVaCmjcepoMVzwk0qNqMEg=
+ bh=i6nuB1IuoNGeIVShStw0JikBLyXc87vR696JX/dK70I=;
+ b=CdPzrD/f/K5Ja+L0TLFa+oXrJZn56wC6EKeopvREKplWc2+rIxvM+V4lT/5DQI5hjA
+ 07S5I+J5g9yPq1I9q7nDbpnvrkJHLXqusmEO3m4bpRqxv69QN6zQsN9lx8VyTkCMojs2
+ 0Zut1tVUnIhF4bN21loRrCYhu3TzGVMMI6TUDhX4o1P7SnZf1yM/Qh09TUj0QGtI0Txf
+ NXBGaer/+GOEbA9DCLUb8I3vV1QJ1LzusNfp75vWpE9NNrVWaGtXgRndratPzw3nHIe7
+ DNY4ZcQk6t0MrXUWfAbDaGdDguram/FArlUTd9R9x18zFCeNl/IOn0NFxEgWt7u0V+A8
+ 2uWg==
+X-Gm-Message-State: AO0yUKWw/BNlTuK0fm+tIZtqHWCOcx1AQgbrZZVcsod2RRvqfoWckhs2
+ KELOMQ4E5qypZZaMOiqA3R+OzLiLuzY=
+X-Google-Smtp-Source: AK7set+QO0BqXppY61J8ekXjcmdiY7Hy1shW6ztHg5i9Erm1TdixYHhHVFld2K5g/MeBAae1T5eWa3Q+jh0=
 X-Received: from titusr.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:22b8])
- (user=titusr job=sendgmr) by 2002:ab0:6ca5:0:b0:75d:782c:f31b with SMTP id
- j5-20020ab06ca5000000b0075d782cf31bmr14342uaa.0.1679349330444; Mon, 20 Mar
- 2023 14:55:30 -0700 (PDT)
-Date: Mon, 20 Mar 2023 21:54:57 +0000
+ (user=titusr job=sendgmr) by 2002:a67:e04a:0:b0:425:f836:59ba with SMTP id
+ n10-20020a67e04a000000b00425f83659bamr332395vsl.7.1679349331280; Mon, 20 Mar
+ 2023 14:55:31 -0700 (PDT)
+Date: Mon, 20 Mar 2023 21:54:58 +0000
 In-Reply-To: <20230320215500.722960-1-titusr@google.com>
 Mime-Version: 1.0
 References: <20230320215500.722960-1-titusr@google.com>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-Message-ID: <20230320215500.722960-4-titusr@google.com>
-Subject: [PATCH v3 3/5] hw/gpio: add PCA9536 i2c gpio expander
+Message-ID: <20230320215500.722960-5-titusr@google.com>
+Subject: [PATCH v3 4/5] hw/i2c: add canonical path to i2c event traces
 From: Titus Rwantare <titusr@google.com>
 To: philmd@linaro.org, minyard@acm.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, peter.maydell@linaro.org, 
- Titus Rwantare <titusr@google.com>, Hao Wu <wuhaotsh@google.com>
+ Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::94a;
- envelope-from=3UtYYZAYKCok6v6754t11tyr.p1z3rz7-qr8ry010t07.14t@flex--titusr.bounces.google.com;
- helo=mail-ua1-x94a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::949;
+ envelope-from=3U9YYZAYKCoo7w7865u22uzs.q204s08-rs9sz121u18.25u@flex--titusr.bounces.google.com;
+ helo=mail-ua1-x949.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -91,84 +91,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This device has the same register layout as the pca9538, but 4 fewer
-gpio pins. This commit lowers the number of pins initialised, and reuses
-the pca9538 logic.
-
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
 Signed-off-by: Titus Rwantare <titusr@google.com>
 ---
- hw/gpio/pca_i2c_gpio.c         | 18 ++++++++++++++++++
- include/hw/gpio/pca_i2c_gpio.h |  2 ++
- tests/lcitool/libvirt-ci       |  2 +-
- 3 files changed, 21 insertions(+), 1 deletion(-)
+ hw/i2c/core.c       | 8 +++++---
+ hw/i2c/trace-events | 2 +-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/gpio/pca_i2c_gpio.c b/hw/gpio/pca_i2c_gpio.c
-index 00ba343f95..14da58e5c4 100644
---- a/hw/gpio/pca_i2c_gpio.c
-+++ b/hw/gpio/pca_i2c_gpio.c
-@@ -337,6 +337,19 @@ static void pca9538_gpio_class_init(ObjectClass *klass=
-, void *data)
-     k->send =3D pca953x_send;
- }
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index bed594fe59..896da359f5 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -161,7 +161,8 @@ static int i2c_do_start_transfer(I2CBus *bus, uint8_t a=
+ddress,
+            start condition.  */
 =20
-+static void pca9536_gpio_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    I2CSlaveClass *k =3D I2C_SLAVE_CLASS(klass);
-+    PCAGPIOClass *pc =3D PCA_I2C_GPIO_CLASS(klass);
-+
-+    dc->desc =3D "PCA9536 4-bit I/O expander";
-+    pc->num_pins =3D PCA9536_NUM_PINS;
-+
-+    k->recv =3D pca953x_recv;
-+    k->send =3D pca953x_send;
-+}
-+
- static void pca_i2c_gpio_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -387,6 +400,11 @@ static const TypeInfo pca_gpio_types[] =3D {
-     .parent =3D TYPE_PCA_I2C_GPIO,
-     .class_init =3D pca9538_gpio_class_init,
-     },
-+    {
-+        .name =3D TYPE_PCA9536_GPIO,
-+        .parent =3D TYPE_PCA_I2C_GPIO,
-+        .class_init =3D pca9536_gpio_class_init,
-+    },
- };
+         if (sc->event) {
+-            trace_i2c_event(event =3D=3D I2C_START_SEND ? "start" : "start=
+_async",
++            trace_i2c_event(DEVICE(s)->canonical_path,
++                            event =3D=3D I2C_START_SEND ? "start" : "start=
+_async",
+                             s->address);
+             rv =3D sc->event(s, event);
+             if (rv && !bus->broadcast) {
+@@ -244,7 +245,7 @@ void i2c_end_transfer(I2CBus *bus)
+         I2CSlave *s =3D node->elt;
+         sc =3D I2C_SLAVE_GET_CLASS(s);
+         if (sc->event) {
+-            trace_i2c_event("finish", s->address);
++            trace_i2c_event(DEVICE(s)->canonical_path, "finish", s->addres=
+s);
+             sc->event(s, I2C_FINISH);
+         }
+         QLIST_REMOVE(node, next);
+@@ -321,7 +322,8 @@ void i2c_nack(I2CBus *bus)
+     QLIST_FOREACH(node, &bus->current_devs, next) {
+         sc =3D I2C_SLAVE_GET_CLASS(node->elt);
+         if (sc->event) {
+-            trace_i2c_event("nack", node->elt->address);
++            trace_i2c_event(DEVICE(node->elt)->canonical_path,
++                            "nack", node->elt->address);
+             sc->event(node->elt, I2C_NACK);
+         }
+     }
+diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
+index 8e88aa24c1..f42a1ff539 100644
+--- a/hw/i2c/trace-events
++++ b/hw/i2c/trace-events
+@@ -9,7 +9,7 @@ bitbang_i2c_data(unsigned dat, unsigned clk, unsigned old_o=
+ut, unsigned new_out)
 =20
- DEFINE_TYPES(pca_gpio_types);
-diff --git a/include/hw/gpio/pca_i2c_gpio.h b/include/hw/gpio/pca_i2c_gpio.=
-h
-index a4220105e8..deb4528065 100644
---- a/include/hw/gpio/pca_i2c_gpio.h
-+++ b/include/hw/gpio/pca_i2c_gpio.h
-@@ -20,6 +20,7 @@
- #define PCA_I2C_MAX_PINS                     16
- #define PCA6416_NUM_PINS                     16
- #define PCA9538_NUM_PINS                     8
-+#define PCA9536_NUM_PINS                     4
+ # core.c
 =20
- typedef struct PCAGPIOClass {
-     I2CSlaveClass parent;
-@@ -63,5 +64,6 @@ OBJECT_DECLARE_TYPE(PCAGPIOState, PCAGPIOClass, PCA_I2C_G=
-PIO)
-=20
- #define TYPE_PCA6416_GPIO "pca6416"
- #define TYPE_PCA9538_GPIO "pca9538"
-+#define TYPE_PCA9536_GPIO "pca9536"
-=20
- #endif
-diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
-index e3eb28cf2e..232f41f160 160000
---- a/tests/lcitool/libvirt-ci
-+++ b/tests/lcitool/libvirt-ci
-@@ -1 +1 @@
--Subproject commit e3eb28cf2e17fbcf7fe7e19505ee432b8ec5bbb5
-+Subproject commit 232f41f160d4567b8c82dd52aa96c2bc3a5b75c1
+-i2c_event(const char *event, uint8_t address) "%s(addr:0x%02x)"
++i2c_event(const char *id, const char *event, uint8_t address) "%s: %s(addr=
+:0x%02x)"
+ i2c_send(uint8_t address, uint8_t data) "send(addr:0x%02x) data:0x%02x"
+ i2c_send_async(uint8_t address, uint8_t data) "send_async(addr:0x%02x) dat=
+a:0x%02x"
+ i2c_recv(uint8_t address, uint8_t data) "recv(addr:0x%02x) data:0x%02x"
 --=20
 2.40.0.rc1.284.g88254d51c5-goog
 
