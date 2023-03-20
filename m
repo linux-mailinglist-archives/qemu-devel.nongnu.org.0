@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294B96C12A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532206C129C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:05:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFBN-0001M3-3s; Mon, 20 Mar 2023 09:04:13 -0400
+	id 1peFBJ-0001JW-9L; Mon, 20 Mar 2023 09:04:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBG-0001Ja-3o
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBF-0001J5-2N
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:05 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBD-0006L5-MU
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:05 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBD-0006Kx-B5
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1679317442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TPncnNJorVgck5EHppvungNuLJIC67JqBc0VGUiHC6o=;
- b=gJw7wyG/0lxI4TDrXUpV6V4Y08CaBttPVqun/+T78ML1/HuVtcM4Ig1HNFIveMJEFECxv1
- 5F8q7eY0kvfpLaKga1LLkP8tZ9UBwfy7kqjGN3bo4mSlLhM/E7steEwJmS8jcwstkH5Bd4
- Bms20vdrZegBvhuJLUq/eNqoL01tSvM=
+ bh=IEZoy54UNTSWw9dnjNawsZEl0xUoegcInF2dFQwV8eQ=;
+ b=VYNCpM6HbsA4IbtUF86XyM2OxY2k8533xGbNaqpyPhPNnPL5ZIgXwoOuA++R3/xf+UNuVz
+ Swag0pqaDrmo9IceqNz0rqdJRy2OEXIJFPtBRw3+mpP7swwIPO4vqWGAZxoycdTu88p8uY
+ 7E6/TTx9tHRIYJLz7t6ZODhvGamLlAE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457-zlrWBewJMSah0UEgp6GMWg-1; Mon, 20 Mar 2023 09:03:57 -0400
-X-MC-Unique: zlrWBewJMSah0UEgp6GMWg-1
+ us-mta-29-s7RQu7HbMt2VrMN3zEssBA-1; Mon, 20 Mar 2023 09:03:59 -0400
+X-MC-Unique: s7RQu7HbMt2VrMN3zEssBA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2011F85530F;
- Mon, 20 Mar 2023 13:03:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E1CC8526FC;
+ Mon, 20 Mar 2023 13:03:58 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17C05C15BA0;
- Mon, 20 Mar 2023 13:03:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 655FDC15BA0;
+ Mon, 20 Mar 2023 13:03:57 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 18/24] target/s390x: Handle STGRL to non-aligned addresses
-Date: Mon, 20 Mar 2023 14:03:24 +0100
-Message-Id: <20230320130330.406378-19-thuth@redhat.com>
+Subject: [PULL 19/24] target/s390x: Update do_unaligned_access() comment
+Date: Mon, 20 Mar 2023 14:03:25 +0100
+Message-Id: <20230320130330.406378-20-thuth@redhat.com>
 In-Reply-To: <20230320130330.406378-1-thuth@redhat.com>
 References: <20230320130330.406378-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -80,57 +79,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Use MO_ALIGN and let do_unaligned_access() generate a specification
-exception.
+Relative long instructions now depend on do_unaligned_access() too.
 
-Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Suggested-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230316164428.275147-11-iii@linux.ibm.com>
+Message-Id: <20230316164428.275147-12-iii@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/insn-data.h.inc | 8 ++++----
- target/s390x/tcg/translate.c     | 3 ++-
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ target/s390x/tcg/excp_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
-index 30c02b3fcd..597d968b0e 100644
---- a/target/s390x/tcg/insn-data.h.inc
-+++ b/target/s390x/tcg/insn-data.h.inc
-@@ -842,14 +842,14 @@
- /* STORE */
-     D(0x5000, ST,      RX_a,  Z,   r1_o, a2, 0, 0, st32, 0, 0)
-     D(0xe350, STY,     RXY_a, LD,  r1_o, a2, 0, 0, st32, 0, 0)
--    C(0xe324, STG,     RXY_a, Z,   r1_o, a2, 0, 0, st64, 0)
--    F(0x6000, STD,     RX_a,  Z,   f1, a2, 0, 0, st64, 0, IF_AFP1)
--    F(0xed67, STDY,    RXY_a, LD,  f1, a2, 0, 0, st64, 0, IF_AFP1)
-+    D(0xe324, STG,     RXY_a, Z,   r1_o, a2, 0, 0, st64, 0, 0)
-+    E(0x6000, STD,     RX_a,  Z,   f1, a2, 0, 0, st64, 0, 0, IF_AFP1)
-+    E(0xed67, STDY,    RXY_a, LD,  f1, a2, 0, 0, st64, 0, 0, IF_AFP1)
-     E(0x7000, STE,     RX_a,  Z,   e1, a2, 0, 0, st32, 0, 0, IF_AFP1)
-     E(0xed66, STEY,    RXY_a, LD,  e1, a2, 0, 0, st32, 0, 0, IF_AFP1)
- /* STORE RELATIVE LONG */
-     D(0xc40f, STRL,    RIL_b, GIE, r1_o, ri2, 0, 0, st32, 0, MO_ALIGN)
--    C(0xc40b, STGRL,   RIL_b, GIE, r1_o, ri2, 0, 0, st64, 0)
-+    D(0xc40b, STGRL,   RIL_b, GIE, r1_o, ri2, 0, 0, st64, 0, MO_ALIGN)
- /* STORE CHARACTER */
-     C(0x4200, STC,     RX_a,  Z,   r1_o, a2, 0, 0, st8, 0)
-     C(0xe372, STCY,    RXY_a, LD,  r1_o, a2, 0, 0, st8, 0)
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 4250c052b9..2d9b4bbb1f 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -4399,7 +4399,8 @@ static DisasJumpType op_st32(DisasContext *s, DisasOps *o)
+diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
+index a7829b1e49..228aa9f237 100644
+--- a/target/s390x/tcg/excp_helper.c
++++ b/target/s390x/tcg/excp_helper.c
+@@ -85,8 +85,8 @@ void HELPER(data_exception)(CPUS390XState *env, uint32_t dxc)
  
- static DisasJumpType op_st64(DisasContext *s, DisasOps *o)
- {
--    tcg_gen_qemu_st64(o->in1, o->in2, get_mem_index(s));
-+    tcg_gen_qemu_st_i64(o->in1, o->in2, get_mem_index(s),
-+                        MO_TEUQ | s->insn->data);
-     return DISAS_NEXT;
- }
- 
+ /*
+  * Unaligned accesses are only diagnosed with MO_ALIGN.  At the moment,
+- * this is only for the atomic operations, for which we want to raise a
+- * specification exception.
++ * this is only for the atomic and relative long operations, for which we want
++ * to raise a specification exception.
+  */
+ static G_NORETURN
+ void do_unaligned_access(CPUState *cs, uintptr_t retaddr)
 -- 
 2.31.1
 
