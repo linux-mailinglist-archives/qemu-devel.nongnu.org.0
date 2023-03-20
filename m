@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FFA6C1B35
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E92F6C1B3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:21:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peIF8-0007Nf-Ch; Mon, 20 Mar 2023 12:20:18 -0400
+	id 1peIFF-0007SB-EE; Mon, 20 Mar 2023 12:20:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIF3-0007MR-71
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:14 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIFD-0007Qs-1c
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:23 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIEz-0005ua-TG
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:12 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIF7-0005w7-KI
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679329209;
+ s=mimecast20190719; t=1679329216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nHc5K8ecg/Ku686Rv6/nnOa24qMbEoZx2bSCskCcpRM=;
- b=M6zpdXY+Mg0+Gz62OMrNWL9W1nPVPf94DAEZ5ZCbi4HyoO1rEu/3lb0a1KhHPQitpZSpii
- RjXzOXyTYMCiD4eLRectuaSNfINZWhlKjectp40WEjbrzRwBvQRVJUvgcjx6169p+84/78
- 9AadQA3Q7PoN+pzzFAdxUU3W8wmzsRk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9QsduCswNIMQH+YanLaFYu2M2t5NcOsDNUy/2/tF16w=;
+ b=e6d5eainCk8taJ3xLN7xLlDPjv9j9BojTmFOkGUiKEbowDoDo/IrlKdCJs+cvTilDclLyl
+ HqNwwKOIRu23Sp4VVN3YbTE0VhYT9vwGNZWLYGdgSQYmBvwGtQDlBRxMPayNo2GgEMEkKV
+ fIMKYVPajZRP3DIIwJB4k0iBt6nTTCU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-472-0ydqJ8U0P2GWhJCqlt0eZQ-1; Mon, 20 Mar 2023 12:20:07 -0400
-X-MC-Unique: 0ydqJ8U0P2GWhJCqlt0eZQ-1
+ us-mta-424-L0cK7zh-PQ6IreLkKV1YiQ-1; Mon, 20 Mar 2023 12:20:11 -0400
+X-MC-Unique: L0cK7zh-PQ6IreLkKV1YiQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B3EC1C04321
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 16:20:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D18085C069
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 16:20:10 +0000 (UTC)
 Received: from server.redhat.com (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9ED112166B2A;
- Mon, 20 Mar 2023 16:20:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F0C92166B29;
+ Mon, 20 Mar 2023 16:20:07 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com,
 	jasowang@redhat.com,
 	mst@redhat.com
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH v14 1/4] vhost: expose function vhost_dev_has_iommu()
-Date: Tue, 21 Mar 2023 00:19:56 +0800
-Message-Id: <20230320161959.650841-2-lulu@redhat.com>
+Subject: [PATCH v14 2/4] vhost_vdpa: fix the input in
+ trace_vhost_vdpa_listener_region_del()
+Date: Tue, 21 Mar 2023 00:19:57 +0800
+Message-Id: <20230320161959.650841-3-lulu@redhat.com>
 In-Reply-To: <20230320161959.650841-1-lulu@redhat.com>
 References: <20230320161959.650841-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -77,39 +78,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To support vIOMMU in vdpa, need to exposed the function
-vhost_dev_has_iommu, vdpa will use this function to check
-if vIOMMU enable.
+In trace_vhost_vdpa_listener_region_del, the value for llend
+should change to int128_get64(int128_sub(llend, int128_one()))
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/vhost.c         | 2 +-
- include/hw/virtio/vhost.h | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-vdpa.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index a266396576..fd746b085b 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -107,7 +107,7 @@ static void vhost_dev_sync_region(struct vhost_dev *dev,
-     }
- }
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index bc6bad23d5..92c2413c76 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -288,7 +288,8 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+     iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+     llend = vhost_vdpa_section_end(section);
  
--static bool vhost_dev_has_iommu(struct vhost_dev *dev)
-+bool vhost_dev_has_iommu(struct vhost_dev *dev)
- {
-     VirtIODevice *vdev = dev->vdev;
+-    trace_vhost_vdpa_listener_region_del(v, iova, int128_get64(llend));
++    trace_vhost_vdpa_listener_region_del(v, iova,
++        int128_get64(int128_sub(llend, int128_one())));
  
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index a52f273347..f7f10c8fb7 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -336,4 +336,5 @@ int vhost_dev_set_inflight(struct vhost_dev *dev,
-                            struct vhost_inflight *inflight);
- int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
-                            struct vhost_inflight *inflight);
-+bool vhost_dev_has_iommu(struct vhost_dev *dev);
- #endif
+     if (int128_ge(int128_make64(iova), llend)) {
+         return;
 -- 
 2.34.3
 
