@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BA66C0E74
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 11:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F666C0EE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 11:33:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peCXY-0002Ct-DF; Mon, 20 Mar 2023 06:14:56 -0400
+	id 1peCnc-0004to-Re; Mon, 20 Mar 2023 06:31:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1peCXW-0002Cl-6a
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:14:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1peCnY-0004tG-E2; Mon, 20 Mar 2023 06:31:28 -0400
+Received: from forwardcorp1a.mail.yandex.net
+ ([2a02:6b8:c0e:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1peCXU-0001MA-C2
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:14:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679307291;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U3MVD6C4EqdShDyJQhAMRfv/heZdnz28CMoIhlRtZcc=;
- b=N2vWv3UFEaceYDMJjouFmA6MYrjGVhqztyE9+3wVkFXujamWSM0wH+DcNLtTjdgyJnv8s0
- x9W8AnuUVIMpbS470EQATdAAFdeIK30weLb9iCInGy8dWkncFhzw2iAI+YRdzNAIBWfjIj
- MxwHfygVA+Z0g3SHnHO6y3ybpF3Ck0Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-GA-6apKuMgSlHq50T1h83Q-1; Mon, 20 Mar 2023 06:14:49 -0400
-X-MC-Unique: GA-6apKuMgSlHq50T1h83Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6370A101A551;
- Mon, 20 Mar 2023 10:14:49 +0000 (UTC)
-Received: from localhost (unknown [10.33.36.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7F2C2027047;
- Mon, 20 Mar 2023 10:14:48 +0000 (UTC)
-Date: Mon, 20 Mar 2023 11:16:07 +0100
-From: Sergio Lopez <slp@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 6/6] ui/gtk: enable backend to send multi-touch events
-Message-ID: <20230320101607.eljur6bp6ir6jn2f@mhamilton>
-References: <20230316120624.46410-1-slp@redhat.com>
- <20230316120624.46410-7-slp@redhat.com>
- <CAJ+F1CLVevQJPb0tnB3qTq3GjJATejyEcyYbxkQurFN30iORXA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1peCnV-0004KB-N4; Mon, 20 Mar 2023 06:31:28 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0d:3786:0:640:7c97:0])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id E101F601A3;
+ Mon, 20 Mar 2023 13:31:14 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b71c::1:38] (unknown
+ [2a02:6b8:b081:b71c::1:38])
+ by mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id DVlKir0h9W20-Ehw6NFIl; Mon, 20 Mar 2023 13:31:14 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1679308274; bh=AV8985OHD3YEPp6/LVBVsTqA5wmbu/CyDzkalq7ZAAo=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=tProonWBi0IFBIT3DaXb9j2YhgtSefXzNy/3xt1B+GUy52UG9q5jnH6P846V9JqtN
+ AFWW45OIm88AqbnbNyjo19P+elVpIy+/kpugz2oLZVozF3FWzDDYdJohYYxCQPfzaJ
+ JJYTiJe5ywNa3/f7pBU2XtMvwNkXrNOhfn98fe5A=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <794be57d-9bbb-4de4-00ef-32df10cc3eaa@yandex-team.ru>
+Date: Mon, 20 Mar 2023 13:31:13 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2u2o4do2dbhkrhcz"
-Content-Disposition: inline
-In-Reply-To: <CAJ+F1CLVevQJPb0tnB3qTq3GjJATejyEcyYbxkQurFN30iORXA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=slp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 2/4] block: Split padded I/O vectors exceeding IOV_MAX
+Content-Language: en-US
+To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>
+References: <20230317175019.10857-1-hreitz@redhat.com>
+ <20230317175019.10857-3-hreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230317175019.10857-3-hreitz@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,228 +76,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 17.03.23 20:50, Hanna Czenczek wrote:
+> When processing vectored guest requests that are not aligned to the
+> storage request alignment, we pad them by adding head and/or tail
+> buffers for a read-modify-write cycle.
+> 
+> The guest can submit I/O vectors up to IOV_MAX (1024) in length, but
+> with this padding, the vector can exceed that limit.  As of
+> 4c002cef0e9abe7135d7916c51abce47f7fc1ee2 ("util/iov: make
+> qemu_iovec_init_extended() honest"), we refuse to pad vectors beyond the
+> limit, instead returning an error to the guest.
+> 
+> To the guest, this appears as a random I/O error.  We should not return
+> an I/O error to the guest when it issued a perfectly valid request.
+> 
+> Before 4c002cef0e9abe7135d7916c51abce47f7fc1ee2, we just made the vector
+> longer than IOV_MAX, which generally seems to work (because the guest
+> assumes a smaller alignment than we really have, file-posix's
+> raw_co_prw() will generally see bdrv_qiov_is_aligned() return false, and
+> so emulate the request, so that the IOV_MAX does not matter).  However,
+> that does not seem exactly great.
+> 
+> I see two ways to fix this problem:
+> 1. We split such long requests into two requests.
+> 2. We join some elements of the vector into new buffers to make it
+>     shorter.
+> 
+> I am wary of (1), because it seems like it may have unintended side
+> effects.
+> 
+> (2) on the other hand seems relatively simple to implement, with
+> hopefully few side effects, so this patch does that.
+> 
+> To do this, the use of qemu_iovec_init_extended() in bdrv_pad_request()
+> is effectively replaced by the new function bdrv_create_padded_qiov(),
+> which not only wraps the request IOV with padding head/tail, but also
+> ensures that the resulting vector will not have more than IOV_MAX
+> elements.  Putting that functionality into qemu_iovec_init_extended() is
+> infeasible because it requires allocating a bounce buffer; doing so
+> would require many more parameters (buffer alignment, how to initialize
+> the buffer, and out parameters like the buffer, its length, and the
+> original elements), which is not reasonable.
+> 
+> Conversely, it is not difficult to move qemu_iovec_init_extended()'s
+> functionality into bdrv_create_padded_qiov() by using public
+> qemu_iovec_* functions, so that is what this patch does.
+> 
+> Because bdrv_pad_request() was the only "serious" user of
+> qemu_iovec_init_extended(), the next patch will remove the latter
+> function, so the functionality is not implemented twice.
+> 
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2141964
+> Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+> ---
+>   block/io.c | 153 +++++++++++++++++++++++++++++++++++++++++++++++++----
+>   1 file changed, 143 insertions(+), 10 deletions(-)
+> 
+> diff --git a/block/io.c b/block/io.c
+> index 8974d46941..1e9cdba17a 100644
+> --- a/block/io.c
+> +++ b/block/io.c
 
---2u2o4do2dbhkrhcz
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[..]
 
-On Fri, Mar 17, 2023 at 12:02:41PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> Hi
->=20
-> On Thu, Mar 16, 2023 at 4:07=E2=80=AFPM Sergio Lopez <slp@redhat.com> wro=
-te:
-> >
-> > GTK3 provides the infrastructure to receive and process multi-touch
-> > events through the "touch-event" signal and the GdkEventTouch type.
-> > Make use of it to transpose events from the host to the guest.
-> >
-> > This allows users of machines with hardware capable of receiving
-> > multi-touch events to run guests that can also receive those events
-> > and interpret them as gestures, when appropriate.
-> >
-> > An example of this in action can be seen here:
-> >
-> >  https://fosstodon.org/@slp/109545849296546767
-> >
-> > Signed-off-by: Sergio Lopez <slp@redhat.com>
->=20
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->=20
->=20
-> > ---
-> >  ui/gtk.c | 92 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 92 insertions(+)
-> >
-> > diff --git a/ui/gtk.c b/ui/gtk.c
-> > index fd82e9b1ca..3a667bfba6 100644
-> > --- a/ui/gtk.c
-> > +++ b/ui/gtk.c
-> > @@ -130,6 +130,13 @@ typedef struct VCChardev VCChardev;
-> >  DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
-> >                           TYPE_CHARDEV_VC)
-> >
-> > +struct touch_slot {
-> > +    int x;
-> > +    int y;
-> > +    int tracking_id;
-> > +};
-> > +static struct touch_slot touch_slots[INPUT_EVENT_SLOTS_MAX];
-> > +
-> >  bool gtk_use_gl_area;
-> >
-> >  static void gd_grab_pointer(VirtualConsole *vc, const char *reason);
-> > @@ -1058,6 +1065,82 @@ static gboolean gd_scroll_event(GtkWidget *widge=
-t, GdkEventScroll *scroll,
-> >  }
-> >
-> >
-> > +static gboolean gd_touch_event(GtkWidget *widget, GdkEventTouch *touch,
-> > +                               void *opaque)
-> > +{
-> > +    VirtualConsole *vc =3D opaque;
-> > +    struct touch_slot *slot;
-> > +    uint64_t num_slot =3D GPOINTER_TO_UINT(touch->sequence);
-> > +    bool needs_sync =3D false;
-> > +    int update;
-> > +    int type =3D -1;
-> > +    int i;
-> > +
-> > +    if (num_slot >=3D INPUT_EVENT_SLOTS_MAX) {
-> > +        fprintf(stderr, "%s: unexpected touch slot number: %ld >=3D %d=
-\n",
-> > +                __func__, num_slot, INPUT_EVENT_SLOTS_MAX);
->=20
-> (may be better use warn_report?).
->=20
-> > +        return FALSE;
-> > +    }
-> > +
-> > +    slot =3D &touch_slots[num_slot];
-> > +    slot->x =3D touch->x;
-> > +    slot->y =3D touch->y;
-> > +
-> > +    switch (touch->type) {
-> > +    case GDK_TOUCH_BEGIN:
-> > +        type =3D INPUT_MULTITOUCH_TYPE_BEGIN;
-> > +        slot->tracking_id =3D num_slot;
-> > +        break;
-> > +    case GDK_TOUCH_UPDATE:
-> > +        type =3D INPUT_MULTITOUCH_TYPE_UPDATE;
-> > +        break;
-> > +    case GDK_TOUCH_END:
-> > +    case GDK_TOUCH_CANCEL:
-> > +        type =3D INPUT_MULTITOUCH_TYPE_END;
-> > +        break;
-> > +    default:
-> > +        fprintf(stderr, "%s: unexpected touch event\n", __func__);
->=20
-> same
+> +    pad->write = write;
+> +
+>       return true;
+>   }
+>   
+> @@ -1545,6 +1561,18 @@ zero_mem:
+>   
+>   static void bdrv_padding_destroy(BdrvRequestPadding *pad)
 
-I've used "fprintf" for consistency, because it was already being used in
-gd_win_grab() and gtk_display_init(). I don't have a preference, would it be
-better to use "warn_report" instead?
+Maybe, rename to _finalize, to stress that it's not only freeing memory.
 
-Sergio.
+>   {
+> +    if (pad->collapse_bounce_buf) {
+> +        if (!pad->write) {
+> +            /*
+> +             * If padding required elements in the vector to be collapsed into a
+> +             * bounce buffer, copy the bounce buffer content back
+> +             */
+> +            qemu_iovec_from_buf(&pad->pre_collapse_qiov, 0,
+> +                                pad->collapse_bounce_buf, pad->collapse_len);
+> +        }
+> +        qemu_vfree(pad->collapse_bounce_buf);
+> +        qemu_iovec_destroy(&pad->pre_collapse_qiov);
+> +    }
+>       if (pad->buf) {
+>           qemu_vfree(pad->buf);
+>           qemu_iovec_destroy(&pad->local_qiov);
+> @@ -1552,6 +1580,101 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
+>       memset(pad, 0, sizeof(*pad));
+>   }
+>   
+> +/*
+> + * Create pad->local_qiov by wrapping @iov in the padding head and tail, while
+> + * ensuring that the resulting vector will not exceed IOV_MAX elements.
+> + *
+> + * To ensure this, when necessary, the first couple of elements (up to three)
 
-> > +    }
-> > +
-> > +    for (i =3D 0; i < INPUT_EVENT_SLOTS_MAX; ++i) {
-> > +        if (i =3D=3D num_slot) {
-> > +            update =3D type;
-> > +        } else {
-> > +            update =3D INPUT_MULTITOUCH_TYPE_UPDATE;
-> > +        }
-> > +
-> > +        slot =3D &touch_slots[i];
-> > +
-> > +        if (slot->tracking_id =3D=3D -1) {
-> > +            continue;
-> > +        }
-> > +
-> > +        if (update =3D=3D INPUT_MULTITOUCH_TYPE_END) {
-> > +            slot->tracking_id =3D -1;
-> > +            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->tra=
-cking_id);
-> > +            needs_sync =3D true;
-> > +        } else {
-> > +            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->tra=
-cking_id);
-> > +            qemu_input_queue_btn(vc->gfx.dcl.con, INPUT_BUTTON_TOUCH, =
-true);
-> > +            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
-> > +                                     INPUT_AXIS_X, (int) slot->x,
-> > +                                     0, surface_width(vc->gfx.ds),
-> > +                                     i, slot->tracking_id);
-> > +            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
-> > +                                     INPUT_AXIS_Y, (int) slot->y,
-> > +                                     0, surface_height(vc->gfx.ds),
-> > +                                     i, slot->tracking_id);
-> > +            needs_sync =3D true;
-> > +        }
-> > +    }
-> > +
-> > +    if (needs_sync) {
-> > +        qemu_input_event_sync();
-> > +    }
-> > +
-> > +    return TRUE;
-> > +}
-> > +
-> >  static const guint16 *gd_get_keymap(size_t *maplen)
-> >  {
-> >      GdkDisplay *dpy =3D gdk_display_get_default();
-> > @@ -1977,6 +2060,8 @@ static void gd_connect_vc_gfx_signals(VirtualCons=
-ole *vc)
-> >                           G_CALLBACK(gd_key_event), vc);
-> >          g_signal_connect(vc->gfx.drawing_area, "key-release-event",
-> >                           G_CALLBACK(gd_key_event), vc);
-> > +        g_signal_connect(vc->gfx.drawing_area, "touch-event",
-> > +                         G_CALLBACK(gd_touch_event), vc);
-> >
-> >          g_signal_connect(vc->gfx.drawing_area, "enter-notify-event",
-> >                           G_CALLBACK(gd_enter_event), vc);
-> > @@ -2086,6 +2171,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s,=
- VirtualConsole *vc,
-> >                                GSList *group, GtkWidget *view_menu)
-> >  {
-> >      bool zoom_to_fit =3D false;
-> > +    int i;
-> >
-> >      vc->label =3D qemu_console_get_label(con);
-> >      vc->s =3D s;
-> > @@ -2133,6 +2219,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s,=
- VirtualConsole *vc,
-> >                            GDK_BUTTON_PRESS_MASK |
-> >                            GDK_BUTTON_RELEASE_MASK |
-> >                            GDK_BUTTON_MOTION_MASK |
-> > +                          GDK_TOUCH_MASK |
-> >                            GDK_ENTER_NOTIFY_MASK |
-> >                            GDK_LEAVE_NOTIFY_MASK |
-> >                            GDK_SCROLL_MASK |
-> > @@ -2168,6 +2255,11 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s=
-, VirtualConsole *vc,
-> >          s->free_scale =3D true;
-> >      }
-> >
-> > +    for (i =3D 0; i < INPUT_EVENT_SLOTS_MAX; i++) {
-> > +        struct touch_slot *slot =3D &touch_slots[i];
-> > +        slot->tracking_id =3D -1;
-> > +    }
-> > +
-> >      return group;
-> >  }
-> >
-> > --
-> > 2.38.1
-> >
-> >
->=20
->=20
-> --=20
-> Marc-Andr=C3=A9 Lureau
->=20
+maybe, "first two-three elements"
 
---2u2o4do2dbhkrhcz
-Content-Type: application/pgp-signature; name="signature.asc"
+> + * of @iov are merged into pad->collapse_bounce_buf and replaced by a reference
+> + * to that bounce buffer in pad->local_qiov.
+> + *
+> + * After performing a read request, the data from the bounce buffer must be
+> + * copied back into pad->pre_collapse_qiov (e.g. by bdrv_padding_destroy()).
+> + */
+> +static int bdrv_create_padded_qiov(BlockDriverState *bs,
+> +                                   BdrvRequestPadding *pad,
+> +                                   struct iovec *iov, int niov,
+> +                                   size_t iov_offset, size_t bytes)
+> +{
+> +    int padded_niov, surplus_count, collapse_count;
+> +
+> +    /* Assert this invariant */
+> +    assert(niov <= IOV_MAX);
+> +
+> +    /*
+> +     * Cannot pad if resulting length would exceed SIZE_MAX.  Returning an error
+> +     * to the guest is not ideal, but there is little else we can do.  At least
+> +     * this will practically never happen on 64-bit systems.
+> +     */
+> +    if (SIZE_MAX - pad->head < bytes ||
+> +        SIZE_MAX - pad->head - bytes < pad->tail)
+> +    {
+> +        return -EINVAL;
+> +    }
+> +
+> +    /* Length of the resulting IOV if we just concatenated everything */
+> +    padded_niov = !!pad->head + niov + !!pad->tail;
+> +
+> +    qemu_iovec_init(&pad->local_qiov, MIN(padded_niov, IOV_MAX));
+> +
+> +    if (pad->head) {
+> +        qemu_iovec_add(&pad->local_qiov, pad->buf, pad->head);
+> +    }
+> +
+> +    /*
+> +     * If padded_niov > IOV_MAX, we cannot just concatenate everything.
+> +     * Instead, merge the first couple of elements of @iov to reduce the number
 
------BEGIN PGP SIGNATURE-----
+maybe, "first two-three elements"
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmQYMmMACgkQ9GknjS8M
-AjUygw/9HPTUw5mbKp5qwdHTQTjTiNmPbFaSyukTvuYOJriS3Y0bR946ovS8utMS
-hiIJVIqvz2NMnWVIbZaYAvuSqPkDDpfOS6i1EdjaeqTPx0VlDtZD/yXdGOzHrf3A
-6MUm3hJnvZP+/46Sazfi8ONDZ8H3Ar3HnqlfwVoMBRN/1P3aqg5zEJaP+LSVAqw+
-jeDSnTgGrj7YAFRFgD9cg8pWe86r0NA8rASeUPFzQXiLCQqpGz5OP/kHFRrFEbjk
-VmS7dcEXxI1S19zjfy1pD53eDx6//6IbFWZTqIxEsGkddWGYFbqMVgIK+g4hQZu6
-SxvNpmF97dbVQo28dXfH2m9b5JmDCOsL5RyNW4svoX1ZLWe1+3o1fN+96Z4DjhHh
-TjRUjEkpWcGrKJ18QtGbOQRvNehDs7fXsGNrzJ0iPGXAkJkuDT3tkqRCGHcc65SL
-EcEsxjJNwGS+oHxDKWpwfCvcVOEWhEXs+PGDHfwfDHLNJEWrzbRJ9LdX88Fs3Wb5
-NLpMTssyrYyGeKUyoFH2Dqu2KJfpGpsdEFtCnesKwO/fHZnv2S5vNSouCs1rvKfH
-vSP4Rp21oUXI6tFTdR3gtEeKTvPjbQqyeJmL1cqYIhk8BsUft6J/+nlaGJtM4lux
-O0BFm0hoaiM/c0kqRW3ZTQa0wrEYbOID86E7iH+TkBkwD4p/NnM=
-=DnIE
------END PGP SIGNATURE-----
+> +     * of vector elements as necessary.
+> +     */
+> +    if (padded_niov > IOV_MAX) {
+>
 
---2u2o4do2dbhkrhcz--
+[..]
+
+> @@ -1653,8 +1786,8 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
+>           flags |= BDRV_REQ_COPY_ON_READ;
+>       }
+>   
+> -    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
+> -                           NULL, &flags);
+> +    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, false,
+> +                           &pad, NULL, &flags);
+>       if (ret < 0) {
+>           goto fail;
+>       }
+
+a bit later:
+
+tracked_request_end(&req);
+bdrv_padding_destroy(&pad);
+
+
+Now, the request is formally finished inside bdrv_padding_destroy().. Not sure, does it really violate something, but seems safer to swap these two calls. With that:
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+
+
+PS, I feel here still exists small space for optimization:
+
+move the logic to bdrv_init_padding(), and
+
+1. allocate only one buffer
+2. make the new collpase are to be attached to head or tail padding
+3. avoid creating extra iov-slice, maybe with help of some new qemu_iovec_* API that can control number of copied/to-be-copied iovs and/or calculation number of iovs in qiov/qiov_offset/bytes slice
+
+
+
+-- 
+Best regards,
+Vladimir
 
 
