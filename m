@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775096C0E14
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 11:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D442C6C0E57
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 11:11:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peCMo-0002XN-TT; Mon, 20 Mar 2023 06:03:50 -0400
+	id 1peCTf-0003oR-5I; Mon, 20 Mar 2023 06:10:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1peCMm-0002Wu-5y
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:03:48 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1peCMj-0004yK-Pd
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:03:47 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.2])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4F9F320E12;
- Mon, 20 Mar 2023 10:03:41 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 20 Mar
- 2023 11:03:40 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R00226a079ac-243b-45d9-9c82-7a235fc64134,
- F0E6F0E3EAC8DE216C47088D2AA2F9E7F08C2096) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7db48667-11e2-b806-03f7-eb516a7be157@kaod.org>
-Date: Mon, 20 Mar 2023 11:03:40 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1peCTT-0003kz-AI
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:10:44 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1peCTP-0000CN-Hz
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:10:41 -0400
+Received: by mail-wr1-x433.google.com with SMTP id m2so9752817wrh.6
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 03:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679307036;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=l59c9lso4K7bEwKaiD8KQ/Ithn+PwV5VTKVOr0L+32M=;
+ b=Zr6lfSrHzsuVrKHM9eDmnF1LQUv28uYmvlhr/K8EQmyNt1XdRbKu2izyq1tKXGiaEA
+ u1I69m39BhPHxnJAbQdm1ZMv9DMAWx4ysYPcfbS/X4okMTcF9+J0eRBOEWAuTwgjV7Ku
+ rZOvKlOZ9p6T46RZWGJpEU9M0AlEkoeksqSxDZrrkyS7mP/nv1P3zx0KtN8SExH20mog
+ behU9AKQkTdy9GAM0WNVQxQA06dvuNjDnp5CRwAzYTSq4esL3SRXWCx82necdJB+yI0n
+ lyaxRrB643JjEsGKYY6ByMCd4dotK9DExJcio8LWnZNLpGAgWkHmx21HZeOekNup9/5z
+ kbVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679307036;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=l59c9lso4K7bEwKaiD8KQ/Ithn+PwV5VTKVOr0L+32M=;
+ b=5beOft88by3OJFyHQHUkCVs9W92faDODkc6nAiXif7ZoQ2+bwg0PGisHqhcs52W50o
+ aRQG+P26lNN0SCjfAXjbf+sVHiLrG69Nih8PdNexpa0UVNqAGwemwcON7GIWYQ9zIUyT
+ sY9s9iiBMz9s21JI892LSIhBc5j7W9W/xTrFt7fU5XzezOech9uOqh1httpUWej1hFZE
+ c3RFUbtUAsvz2/KgJnS46x2dfHgctWblt7ptnLBo1bZVXeZPMImpFanZ+mH6XklhtsMz
+ 9tCrCrb8R+j/S1OtJ9KyxdgBRh39O13FZxFi1MJRKuygeZVdozj+Uhjf3Z35AQVnBwOp
+ xttA==
+X-Gm-Message-State: AO0yUKV/1M6LofZvCcd32t80lcpDGxFidtUxApqtoN7pS0AT6exgMFB2
+ lLDjubstopvg6Q57CEgeE63l5Q==
+X-Google-Smtp-Source: AK7set8+PoNFQWM9wZslHZm1lH9fzbPgsV+mzgvR4M7QKjUcUjSGvGJVWLn5sswAS3xmX/ZRRcowXA==
+X-Received: by 2002:a5d:4ecc:0:b0:2d0:c73d:ef2a with SMTP id
+ s12-20020a5d4ecc000000b002d0c73def2amr12100538wrv.24.1679307036576; 
+ Mon, 20 Mar 2023 03:10:36 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ h10-20020adffa8a000000b002ce3d3d17e5sm8589260wrr.79.2023.03.20.03.10.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 03:10:36 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CEB751FFB7;
+ Mon, 20 Mar 2023 10:10:35 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Alessandro Di Federico <ale@rev.ng>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 00/10] accel/tcg: refactor the cpu-exec loop
+Date: Mon, 20 Mar 2023 10:10:25 +0000
+Message-Id: <20230320101035.2214196-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] vfio/pci: add support for VF token
-Content-Language: en-US
-To: <minwoo.im@samsung.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "alex.williamson@redhat.com" <alex.williamson@redhat.com>, SSDR Gost Dev
- <gost.dev@samsung.com>, Klaus Birkelund Jensen <k.jensen@samsung.com>
-References: <CGME20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780@epcms2p4>
- <20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780@epcms2p4>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780@epcms2p4>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 7fa0f0fe-4984-42ac-9f8d-d1f43c7fe8a0
-X-Ovh-Tracer-Id: 3421891293897657251
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefkedguddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekhfevhfehieffudevhfefieethfelvedugfekudejudeiteeffffgffdvleeuleenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhhinhifohhordhimhesshgrmhhsuhhnghdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprghlvgigrdifihhllhhirghmshhonhesrhgvughhrghtrdgtohhmpdhgohhsthdruggvvhesshgrmhhsuhhnghdrtghomhdpkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -74,86 +95,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/20/23 08:35, Minwoo Im wrote:
-> VF token was introduced [1] to kernel vfio-pci along with SR-IOV
-> support [2].  This patch adds support VF token among PF and VF(s). To
-> passthu PCIe VF to a VM, kernel >= v5.7 needs this.
-> 
-> It can be configured with UUID like:
-> 
->    -device vfio-pci,host=DDDD:BB:DD:F,vf-token=<uuid>,...
-> 
-> [1] https://lore.kernel.org/linux-pci/158396393244.5601.10297430724964025753.stgit@gimli.home/
-> [2] https://lore.kernel.org/linux-pci/158396044753.5601.14804870681174789709.stgit@gimli.home/
-> 
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Signed-off-by: Minwoo Im <minwoo.im@samsung.com>
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->   hw/vfio/pci.c | 13 ++++++++++++-
->   hw/vfio/pci.h |  1 +
->   2 files changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index ec9a854361..cf27f28936 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2856,6 +2856,8 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->       int groupid;
->       int i, ret;
->       bool is_mdev;
-> +    char uuid[UUID_FMT_LEN];
-> +    char *name;
->   
->       if (!vbasedev->sysfsdev) {
->           if (!(~vdev->host.domain || ~vdev->host.bus ||
-> @@ -2936,7 +2938,15 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->           goto error;
->       }
->   
-> -    ret = vfio_get_device(group, vbasedev->name, vbasedev, errp);
-> +    if (!qemu_uuid_is_null(&vdev->vf_token)) {
-> +        qemu_uuid_unparse(&vdev->vf_token, uuid);
-> +        name = g_strdup_printf("%s vf_token=%s", vbasedev->name, uuid);
-> +    } else {
-> +        name = vbasedev->name;
-> +    }
-> +
-> +    ret = vfio_get_device(group, name, vbasedev, errp);
-> +    g_free(name);
->       if (ret) {
->           vfio_put_group(group);
->           goto error;
+This is an RFC for something I was playing with over the weekend to
+try and reduce target specific details polluting cpu-exec. In the end
+it does get rid of TARGET_I386 #ifdef'ery but I couldn't go further to
+just building one version of cpu-exec-user and cpu-exec-softmmu
+because there are still per target differences.
 
-Shouldn't we set the VF token in the kernel also ? See this QEMU implementation
+Anyway what do people think?
 
-   https://lore.kernel.org/lkml/20200204161737.34696b91@w520.home/
+Alex Bennée (10):
+  metadata: add .git-blame-ignore-revs
+  accel/tcg: move cpu_reloading_memory_map into cpu-exec-softmmu
+  accel/tcg: move i386 halt handling to sysemu_ops
+  accel/tcg: don't bother with ifdef for CPU_DUMP_CCOP
+  accel/tcg: remove the fake_user_interrupt guards
+  includes: move irq definitions out of cpu-all.h
+  accel/tcg: use QEMU_IOTHREAD_LOCK_GUARD to cover the exit
+  accel/tcg: push i386 specific hacks into handle_cpu_interrupt callback
+  accel/tcg: re-inline the filtering of virtual IRQs but data driven
+  accel/tcg: remove unused includes
 
-May be I misunderstood.
+ include/exec/cpu-all.h           |  52 +--------------
+ include/exec/cpu-irq.h           |  83 +++++++++++++++++++++++
+ include/exec/poison.h            |  13 ----
+ include/hw/core/sysemu-cpu-ops.h |  16 +++++
+ include/hw/core/tcg-cpu-ops.h    |   7 +-
+ target/i386/cpu-internal.h       |   2 +
+ accel/tcg/cpu-exec-common.c      |  30 ---------
+ accel/tcg/cpu-exec-softmmu.c     |  66 +++++++++++++++++++
+ accel/tcg/cpu-exec.c             | 109 ++++++++++---------------------
+ target/i386/cpu-sysemu.c         |  29 ++++++++
+ target/i386/cpu.c                |   2 +
+ target/i386/tcg/tcg-cpu.c        |   1 +
+ .git-blame-ignore-revs           |  18 +++++
+ accel/tcg/meson.build            |  10 +++
+ 14 files changed, 267 insertions(+), 171 deletions(-)
+ create mode 100644 include/exec/cpu-irq.h
+ create mode 100644 accel/tcg/cpu-exec-softmmu.c
+ create mode 100644 .git-blame-ignore-revs
 
-Thanks,
-
-C.
-
-> @@ -3268,6 +3278,7 @@ static void vfio_instance_init(Object *obj)
->   
->   static Property vfio_pci_dev_properties[] = {
->       DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
-> +    DEFINE_PROP_UUID_NODEFAULT("vf-token", VFIOPCIDevice, vf_token),
->       DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
->       DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
->                               vbasedev.pre_copy_dirty_page_tracking,
-> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-> index 177abcc8fb..2674476d6c 100644
-> --- a/hw/vfio/pci.h
-> +++ b/hw/vfio/pci.h
-> @@ -137,6 +137,7 @@ struct VFIOPCIDevice {
->       VFIOVGA *vga; /* 0xa0000, 0x3b0, 0x3c0 */
->       void *igd_opregion;
->       PCIHostDeviceAddress host;
-> +    QemuUUID vf_token;
->       EventNotifier err_notifier;
->       EventNotifier req_notifier;
->       int (*resetfn)(struct VFIOPCIDevice *);
+-- 
+2.39.2
 
 
