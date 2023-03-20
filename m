@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6076C1AD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:03:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8131C6C1AE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:06:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peHwU-0000Ms-7A; Mon, 20 Mar 2023 12:01:02 -0400
+	id 1peI0d-0007VM-EU; Mon, 20 Mar 2023 12:05:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peHwQ-0000LX-Kg
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:00:58 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peHwO-0008Qm-2J
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:00:58 -0400
-Received: by mail-wr1-x432.google.com with SMTP id j2so10851009wrh.9
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 09:00:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679328054;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zIOz46OTW9kT5cLvOFiHzM8Jk5IDc5NLDdQjY+d2pg8=;
- b=M7gnBPJ4hGDOUN7418SuBoZMtgzKalxwKzWE9UXMpHKCb4V/0pWah/A5qXe7elgIqa
- L5hW7dJHtA4Wt4MX4j5pJSS2qWnntuTFzMGKQ85W6mAHvoLgikH1wu3W8G3EG8mRe1Uh
- 7xsz/db/8asZYYFspyXQE1JxviS1z3VS+OqdwIaBkU39hyuZZO5OxkPkD85GAfEZP8c4
- elF7EYwQaykdMER36bSam9xGJXxEsE5LxA0n7adsUXZBdOBoxdalAG9lPvE/lQcL1/NC
- +elCMXcDAWrnKLz5F1rOCfu5A7JCAm0pQiSrRGv48ka2vUcp8l/eymHR900Twpa/b8CG
- Uo5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679328054;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zIOz46OTW9kT5cLvOFiHzM8Jk5IDc5NLDdQjY+d2pg8=;
- b=1eRXLX7Mk+seHeQoROIvXJkdP0jdh+om7zUOdbozmEjfgyVLkt7NBVZREklwKP+ybj
- 4YCRGZJeRUepESB8hMPn7dgGKKHWzreSR4IYcrZUd8saNUDLupuRQmgGXcAjWUVKJK8X
- AqvMDslGeR4R4yaxCeY5IFG/aHqgzmYUtxYRKipVdNYHUIZzgdGAw4eqWj8RFtJM2+fC
- TwokGl7B6gVIUJs7akw4QiW+RGLWOv9YymQ6XGj7nFsYyEwkkw231Jld5+SGLbxYMBvT
- BWZ7NaWANHD7dXifKxMfSyMvD4EvTrKjdK0q5bq1gTadyXsG38rCmBm/VdqhjDHyTM0/
- 0JAQ==
-X-Gm-Message-State: AO0yUKUn+UhSVUabjZlIwF5T6h9G+VdUlHfXMu1yXtdaHcicXgqR09SS
- ZGUy85eORH1WzkKynETh69CM4iZEhM/Eli/WYIDQTw==
-X-Google-Smtp-Source: AK7set8e3P0Jwsm6eVPNI3ygYpZuYX4Df4Vq1EgAAS5ltvhHOnvobyz2s0aCs7SsPSs0GKjPqxibQw==
-X-Received: by 2002:a5d:40c4:0:b0:2cf:ecd0:d1ab with SMTP id
- b4-20020a5d40c4000000b002cfecd0d1abmr13472702wrq.49.1679328054471; 
- Mon, 20 Mar 2023 09:00:54 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h18-20020a5d6e12000000b002c70851bfcasm9235065wrz.28.2023.03.20.09.00.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 09:00:53 -0700 (PDT)
-Message-ID: <68e849c7-e945-5330-20b2-840f002de2c0@linaro.org>
-Date: Mon, 20 Mar 2023 17:00:52 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1peI0a-0007Sc-Gp
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:05:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1peI0Y-00023g-Ci
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:05:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679328313;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Sr6cFuc7VBPgEaXrnLmuCBWkJEpAcrjeL0w32Yz6r8Q=;
+ b=K/VZVeHx3lVhbGfYaHL3Uxf/lKTmQPCLmm/Ob6btTFqTeg9n8bzTJG1GSgxfVhxHNfv03O
+ UzNLxTDopmatUvMcG4fIc/+xjP3YS5sCaR1QypFUdvMSYAZBHoXQSxCvOuj6ozQbZjKmw6
+ 1aVGDcQnaaJIE3aTReeEF0Dw1P/wQM8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-519-JczZ95nSMPyG0AJMKge9rw-1; Mon, 20 Mar 2023 12:05:10 -0400
+X-MC-Unique: JczZ95nSMPyG0AJMKge9rw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 501BB96DC83;
+ Mon, 20 Mar 2023 16:05:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25B4140C20FA;
+ Mon, 20 Mar 2023 16:05:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E81DA21E6926; Mon, 20 Mar 2023 17:05:07 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>,  pbonzini@redhat.com,
+ qemu-devel@nongnu.org,  david@redhat.com,  borntraeger@de.ibm.com,
+ frankja@linux.ibm.com,  fiuczy@linux.ibm.com,  pasic@linux.ibm.com,
+ berrange@redhat.com,  alex.bennee@linaro.org
+Subject: Re: [PATCH v2 1/1] util/async-teardown: wire up
+ query-command-line-options
+References: <20230320131648.61728-1-imbrenda@linux.ibm.com>
+ <20230320131648.61728-2-imbrenda@linux.ibm.com>
+ <87v8ivmocr.fsf@pond.sub.org>
+ <6a9ef526-1b30-e9a6-37ee-59ca3dadea9d@redhat.com>
+Date: Mon, 20 Mar 2023 17:05:07 +0100
+In-Reply-To: <6a9ef526-1b30-e9a6-37ee-59ca3dadea9d@redhat.com> (Thomas Huth's
+ message of "Mon, 20 Mar 2023 16:42:17 +0100")
+Message-ID: <87355zmmrw.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH-for-8.1] block/dmg: Declare a type definition for DMG
- uncompress function
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-trivial@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>
-References: <20230320152610.32052-1-philmd@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230320152610.32052-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,18 +85,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/3/23 16:26, Philippe Mathieu-Daudé wrote:
-> Introduce the BdrvDmgUncompressFunc type defintion. To emphasis
+Thomas Huth <thuth@redhat.com> writes:
 
-Typo "definition".
+> On 20/03/2023 16.31, Markus Armbruster wrote:
+>> Claudio Imbrenda <imbrenda@linux.ibm.com> writes:
+>> 
+>>> The recently introduced -async-teardown commandline option was not
+>>> wired up properly and did not show up in the output of the QMP command
+>>> query-command-line-options. This means that libvirt will have no way to
+>>> discover whether the feature is supported.
+>> 
+>> There was nothing improper in its wiring.  The issue is that
+>> query-command-line-options is junk.  See my recent post
+>> 
+>>      Subject: query-command-line-options (was: [PATCH 1/7] qemu: capabilities: Introduce QEMU_CAPS_MACHINE_ACPI)
+>>      Date: Tue, 07 Mar 2023 10:40:23 +0100
+>>      Message-ID: <87jzzsc320.fsf_-_@pond.sub.org>
+>> 
+>>> This patch fixes the issue by correctly wiring up the commandline
+>>> option so that it appears in the output of query-command-line-options.
+>>>
+>>> Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
+>>> Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
+>>> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+>>> ---
+>>>   util/async-teardown.c | 17 +++++++++++++++++
+>>>   1 file changed, 17 insertions(+)
+>>>
+>>> diff --git a/util/async-teardown.c b/util/async-teardown.c
+>>> index 62cdeb0f20..c9b9a3cdb2 100644
+>>> --- a/util/async-teardown.c
+>>> +++ b/util/async-teardown.c
+>>> @@ -12,6 +12,9 @@
+>>>    */
+>>>   
+>>>   #include "qemu/osdep.h"
+>>> +#include "qemu/config-file.h"
+>>> +#include "qemu/option.h"
+>>> +#include "qemu/module.h"
+>>>   #include <dirent.h>
+>>>   #include <sys/prctl.h>
+>>>   #include <sched.h>
+>>> @@ -144,3 +147,17 @@ void init_async_teardown(void)
+>>>       clone(async_teardown_fn, new_stack_for_clone(), CLONE_VM, NULL);
+>>>       sigprocmask(SIG_SETMASK, &old_signals, NULL);
+>>>   }
+>>> +
+>>> +static QemuOptsList qemu_async_teardown_opts = {
+>>> +    .name = "async-teardown",
+>>> +    .head = QTAILQ_HEAD_INITIALIZER(qemu_async_teardown_opts.head),
+>>> +    .desc = {
+>>> +        { /* end of list */ }
+>>> +    },
+>>> +};
+>>> +
+>>> +static void register_async_teardown(void)
+>>> +{
+>>> +    qemu_add_opts(&qemu_async_teardown_opts);
+>>> +}
+>>> +opts_init(register_async_teardown);
+>> 
+>> Now it *is* improperly wired up :)
+>> 
+>> You're defining new QemuOpts config group "async-teardown" with
+>> arbitrary option parameters, but don't actually use it for parsing or
+>> recording the option.  I figure because you can't: there is no option
+>> argument to parse and record, which is what QemuOpts is designed to do.
+>> 
+>> If you need the feature to be visible in query-command-line-options, you
+>> should make it an option parameter (a KEY, not a GROUP), preferably of
+>> an existing group / option.
+>
+> Would it make sense to add it e.g. to "-action" instead, i.e. something like 
+> "-action teardown=async" ?
 
-> dmg_uncompress_bz2 and dmg_uncompress_lzfse are pointer to functions,
-> declare them using this new typedef.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   block/dmg.h | 8 ++++----
->   block/dmg.c | 7 ++-----
->   2 files changed, 6 insertions(+), 9 deletions(-)
+I believe the new parameter "teardown" would be visible in
+query-command-line-options.
+
+How well does it fit -action?
 
 
