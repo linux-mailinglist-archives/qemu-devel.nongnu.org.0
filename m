@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381F36C12AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:06:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12866C12A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:06:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFBE-0001IG-Pj; Mon, 20 Mar 2023 09:04:04 -0400
+	id 1peFBa-0001al-Up; Mon, 20 Mar 2023 09:04:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB9-0001Fv-3e
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBS-0001O3-8L
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB7-0006K4-KA
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:58 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBQ-0006Nr-Q2
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679317436;
+ s=mimecast20190719; t=1679317456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1I20786qNoN23VKWv7n55xY+wa8iUWEYq20lM3Y78pM=;
- b=fboGPgGEcg+LrFb9iJu+sPwHSHt4XQ3ch/naJD0XyUJai09cvyDjshpxVmgqFp0Y4yCyG9
- oRpm35OMeve2rQEFm883Ut/NdzyyZjLBsftQZMHnghVy6TVho9cISjghihKBOywp0ysOsB
- fEdcoAFMdzRPsOfM8cBCU2FT9AqZgJ8=
+ bh=3O7fV5jcSP72cQ+AkXRKDbs7jMinH4A+NsPJvHhmqzY=;
+ b=MLWPr+EiucuO+YY54at1plzZ/moDulaC/fEogqdXzr8vVasiRtx/F4yUerCTNxy/IVurhm
+ z2YNNh220rl0j03Bfykq86Rg8fLQ1vLJYgyaQ6Knp8wE2Is8UPKeXV+tEHot6aYoZuwOVp
+ ekEBZdrba9qvF7THnmjSNRK/hVwHQPc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-k74dVLyxO0O7tpu4AETJoQ-1; Mon, 20 Mar 2023 09:03:54 -0400
-X-MC-Unique: k74dVLyxO0O7tpu4AETJoQ-1
+ us-mta-590-i6cZmrXDP_6inhs3AHA0xw-1; Mon, 20 Mar 2023 09:04:10 -0400
+X-MC-Unique: i6cZmrXDP_6inhs3AHA0xw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12A7E100DEBB;
- Mon, 20 Mar 2023 13:03:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5ABC5823D44;
+ Mon, 20 Mar 2023 13:03:54 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1550AC15BA0;
- Mon, 20 Mar 2023 13:03:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5301EC15BA0;
+ Mon, 20 Mar 2023 13:03:53 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
  Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 15/24] target/s390x: Handle CGRL and CLGRL with non-aligned
+Subject: [PULL 16/24] target/s390x: Handle CLRL and CLGFRL with non-aligned
  addresses
-Date: Mon, 20 Mar 2023 14:03:21 +0100
-Message-Id: <20230320130330.406378-16-thuth@redhat.com>
+Date: Mon, 20 Mar 2023 14:03:22 +0100
+Message-Id: <20230320130330.406378-17-thuth@redhat.com>
 In-Reply-To: <20230320130330.406378-1-thuth@redhat.com>
 References: <20230320130330.406378-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -88,25 +88,25 @@ Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Suggested-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230316164428.275147-8-iii@linux.ibm.com>
+Message-Id: <20230316164428.275147-9-iii@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
  target/s390x/tcg/translate.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index e3c8212e93..d80b670543 100644
+index d80b670543..0de3edd2eb 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -5906,7 +5906,8 @@ static void in2_mri2_32u(DisasContext *s, DisasOps *o)
- static void in2_mri2_64(DisasContext *s, DisasOps *o)
+@@ -5899,7 +5899,8 @@ static void in2_mri2_32s(DisasContext *s, DisasOps *o)
+ static void in2_mri2_32u(DisasContext *s, DisasOps *o)
  {
      o->in2 = tcg_temp_new_i64();
--    tcg_gen_qemu_ld64(o->in2, gen_ri2(s), get_mem_index(s));
-+    tcg_gen_qemu_ld_i64(o->in2, gen_ri2(s), get_mem_index(s),
-+                        MO_TEUQ | MO_ALIGN);
+-    tcg_gen_qemu_ld32u(o->in2, gen_ri2(s), get_mem_index(s));
++    tcg_gen_qemu_ld_tl(o->in2, gen_ri2(s), get_mem_index(s),
++                       MO_TEUL | MO_ALIGN);
  }
- #define SPEC_in2_mri2_64 0
+ #define SPEC_in2_mri2_32u 0
  
 -- 
 2.31.1
