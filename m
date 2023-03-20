@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C916C1275
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 13:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3D56C130D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:18:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peF45-000860-6Y; Mon, 20 Mar 2023 08:56:41 -0400
+	id 1peFOe-0002z3-Dk; Mon, 20 Mar 2023 09:17:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peF43-00084c-D6
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 08:56:39 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peF41-0003Fz-A0
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 08:56:39 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BDE051F85D;
- Mon, 20 Mar 2023 12:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679316995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RjCQJ/UQYvvlLzZp5zQcmIqh+zxkGzMx9IjQROA6R/8=;
- b=eI7XYgDm1UA5ya1TV6EVmi3G5lcxJRhUOC3eWj9DuI4LvjkzozO+qy0ZIk8OfLeNDLjcU6
- xaAGcm4EHkpk6H9vF79Xq1Sg3EJVWC4xDp+S1PVUc5gaw/Z14rkLFOESdF2XAHxZS/7zJZ
- AB29fprDpFjjUg//1DkrUNSsq0bguA8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679316995;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RjCQJ/UQYvvlLzZp5zQcmIqh+zxkGzMx9IjQROA6R/8=;
- b=o9a6huPkuNtqCtWoYn1GeZLeZoqMR8/pN94QxgM6KpuoPpZzhNzH5eV1ayUpiTiBwC9aXu
- csDbYyqEZpyPtlCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 756D513A00;
- Mon, 20 Mar 2023 12:56:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AkT9GgNYGGSTbAAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 20 Mar 2023 12:56:35 +0000
-Message-ID: <c6e1bf23-618f-410d-a53b-6f4cbd007e7b@suse.de>
-Date: Mon, 20 Mar 2023 13:56:35 +0100
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1peDjF-0008OP-9X
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:31:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1peDjC-0007Iv-AL
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:31:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679311860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tjYNd17dPEGgXMFTPsqJqqomUFE9X2KXeZ6Xvxjrguk=;
+ b=WtoEtMP1mGGrd5CwbO9z416U3Bk638RxscbYuU8Xg3f0AnczOk3PTfBPLk5A3RFu/gtS2m
+ ixWgbB0GKRMaTMfwABSS++dZAQ+tPOMmxin1gyK8/bICzUXRwIo5yVx5z6cn0IpzuDCwCB
+ Z9Txcx3gQJSvOmsV08zh4ToDgGvwdEs=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-83-rbpVvE_UPrKR_mC1G33y1A-1; Mon, 20 Mar 2023 07:29:31 -0400
+X-MC-Unique: rbpVvE_UPrKR_mC1G33y1A-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ oj9-20020a17090b4d8900b0023f61bd2340so3277380pjb.7
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 04:29:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679311771;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tjYNd17dPEGgXMFTPsqJqqomUFE9X2KXeZ6Xvxjrguk=;
+ b=7KnYvA4V7Zzzr586tq3PKLVozYaL4nS6GBQwkqGZq00euYrVRTvHODkeOBhCt9plIA
+ v1wzkyaiFfAfc9WIF/tffA79NS0V7TEg5zcrS8dQds8q71EoE36oO2bgEwD72FMo06YH
+ Ft3VBtqtF1cA+XbTG6TW13z5QDlzbo95vxnJhbeud0jY9FbGgFLBf4hrHtf2wr4O/UlG
+ Hg10v1lCIQx6mkGuNx2RZvRwldrLxf5567mKEftytbmfc/DIrpwM134QGiXcYNLgIjtI
+ jfKP2Fo1Ze7nfzChDf2rqF1dvHZFKx+/QY493zxiP1iWY/AcodBF4RQTk/YZ6MgYfGZF
+ GAXQ==
+X-Gm-Message-State: AO0yUKUQ5kPXaxwD2F90G8heZdnbWRsJ80I5wCWVaJED0uu9avrA3mti
+ 2JvEJVUgQZKTGf1LfmxvsyrFvL+bYOIyDMbJJhGjVDA9FG+k+8YLAAHGDYHy0snUrX5mEbyM6Ug
+ a5hCmkw0r/TEFmDA=
+X-Received: by 2002:a17:903:1c2:b0:1a1:d366:b085 with SMTP id
+ e2-20020a17090301c200b001a1d366b085mr3364804plh.21.1679311770771; 
+ Mon, 20 Mar 2023 04:29:30 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+RQUVAn28DOpPFaMcTXfX/o6xPFWTz8tDO6Rh8Or3ynovxmrxJNhHUtyek5sOMgwEd+5eCZQ==
+X-Received: by 2002:a17:903:1c2:b0:1a1:d366:b085 with SMTP id
+ e2-20020a17090301c200b001a1d366b085mr3364782plh.21.1679311770491; 
+ Mon, 20 Mar 2023 04:29:30 -0700 (PDT)
+Received: from localhost.localdomain ([203.163.233.223])
+ by smtp.googlemail.com with ESMTPSA id
+ j1-20020a17090276c100b0019e81c8fd01sm6302375plt.249.2023.03.20.04.29.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 04:29:30 -0700 (PDT)
+From: Ani Sinha <anisinha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: jusual@redhat.com, Ani Sinha <anisinha@redhat.com>, qemu-devel@nongnu.org
+Subject: [PATCH] hw/acpi: limit warning on acpi table size to pc machines
+ older than version 2.3
+Date: Mon, 20 Mar 2023 16:59:02 +0530
+Message-Id: <20230320112902.90160-1-anisinha@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 02/10] accel/tcg: move cpu_reloading_memory_map into
- cpu-exec-softmmu
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Alessandro Di Federico <ale@rev.ng>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Fabiano Rosas <fabiano.rosas@suse.com>
-References: <20230320101035.2214196-1-alex.bennee@linaro.org>
- <20230320101035.2214196-3-alex.bennee@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20230320101035.2214196-3-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 20 Mar 2023 09:17:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,154 +101,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-How is this conditional on CONFIG_TCG? To me it looks like this breaks !CONFIG_TCG.
-Careful, the meson.build in accel/tcg/meson.build is always recursed.
+i440fx machine versions 2.3 and newer and q35 machines supports dynamic ram
+resizing. Please see commit a1666142db6233 ("acpi-build: make ROMs RAM blocks resizeable") .
+Hence the warning when the ACPI table size exceeds a pre-defined value does
+not apply to those machines. Add a check limiting the warning message to only
+those machines that does not support expandable ram blocks, that is, i440fx
+machines with version 2.2 and older.
 
-This code was in tcg_ss before, why not simply add it to tcg_ss and then to specific_ss along with the other tcg pieces?
+Signed-off-by: Ani Sinha <anisinha@redhat.com>
+---
+ hw/i386/acpi-build.c | 6 ++++--
+ hw/i386/pc.c         | 1 +
+ hw/i386/pc_piix.c    | 1 +
+ include/hw/i386/pc.h | 3 +++
+ 4 files changed, 9 insertions(+), 2 deletions(-)
 
-Ciao,
-
-C
-
-
-On 3/20/23 11:10, Alex Bennée wrote:
-> This doesn't save much as cpu-exec-common still needs to be built
-> per-target for its knowledge of CPUState but this helps with keeping
-> things organised.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  accel/tcg/cpu-exec-common.c  | 30 ----------------------
->  accel/tcg/cpu-exec-softmmu.c | 50 ++++++++++++++++++++++++++++++++++++
->  accel/tcg/meson.build        | 10 ++++++++
->  3 files changed, 60 insertions(+), 30 deletions(-)
->  create mode 100644 accel/tcg/cpu-exec-softmmu.c
-> 
-> diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
-> index e7962c9348..c6b0ad303e 100644
-> --- a/accel/tcg/cpu-exec-common.c
-> +++ b/accel/tcg/cpu-exec-common.c
-> @@ -32,36 +32,6 @@ void cpu_loop_exit_noexc(CPUState *cpu)
->      cpu_loop_exit(cpu);
->  }
->  
-> -#if defined(CONFIG_SOFTMMU)
-> -void cpu_reloading_memory_map(void)
-> -{
-> -    if (qemu_in_vcpu_thread() && current_cpu->running) {
-> -        /* The guest can in theory prolong the RCU critical section as long
-> -         * as it feels like. The major problem with this is that because it
-> -         * can do multiple reconfigurations of the memory map within the
-> -         * critical section, we could potentially accumulate an unbounded
-> -         * collection of memory data structures awaiting reclamation.
-> -         *
-> -         * Because the only thing we're currently protecting with RCU is the
-> -         * memory data structures, it's sufficient to break the critical section
-> -         * in this callback, which we know will get called every time the
-> -         * memory map is rearranged.
-> -         *
-> -         * (If we add anything else in the system that uses RCU to protect
-> -         * its data structures, we will need to implement some other mechanism
-> -         * to force TCG CPUs to exit the critical section, at which point this
-> -         * part of this callback might become unnecessary.)
-> -         *
-> -         * This pair matches cpu_exec's rcu_read_lock()/rcu_read_unlock(), which
-> -         * only protects cpu->as->dispatch. Since we know our caller is about
-> -         * to reload it, it's safe to split the critical section.
-> -         */
-> -        rcu_read_unlock();
-> -        rcu_read_lock();
-> -    }
-> -}
-> -#endif
-> -
->  void cpu_loop_exit(CPUState *cpu)
->  {
->      /* Undo the setting in cpu_tb_exec.  */
-> diff --git a/accel/tcg/cpu-exec-softmmu.c b/accel/tcg/cpu-exec-softmmu.c
-> new file mode 100644
-> index 0000000000..2318dd8c7d
-> --- /dev/null
-> +++ b/accel/tcg/cpu-exec-softmmu.c
-> @@ -0,0 +1,50 @@
-> +/*
-> + *  Emulator main CPU execution loop, softmmu bits
-> + *
-> + *  Copyright (c) 2003-2005 Fabrice Bellard
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/core/cpu.h"
-> +#include "sysemu/cpus.h"
-> +
-> +void cpu_reloading_memory_map(void)
-> +{
-> +    if (qemu_in_vcpu_thread() && current_cpu->running) {
-> +        /* The guest can in theory prolong the RCU critical section as long
-> +         * as it feels like. The major problem with this is that because it
-> +         * can do multiple reconfigurations of the memory map within the
-> +         * critical section, we could potentially accumulate an unbounded
-> +         * collection of memory data structures awaiting reclamation.
-> +         *
-> +         * Because the only thing we're currently protecting with RCU is the
-> +         * memory data structures, it's sufficient to break the critical section
-> +         * in this callback, which we know will get called every time the
-> +         * memory map is rearranged.
-> +         *
-> +         * (If we add anything else in the system that uses RCU to protect
-> +         * its data structures, we will need to implement some other mechanism
-> +         * to force TCG CPUs to exit the critical section, at which point this
-> +         * part of this callback might become unnecessary.)
-> +         *
-> +         * This pair matches cpu_exec's rcu_read_lock()/rcu_read_unlock(), which
-> +         * only protects cpu->as->dispatch. Since we know our caller is about
-> +         * to reload it, it's safe to split the critical section.
-> +         */
-> +        rcu_read_unlock();
-> +        rcu_read_lock();
-> +    }
-> +}
-> diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-> index aeb20a6ef0..bdc086b90d 100644
-> --- a/accel/tcg/meson.build
-> +++ b/accel/tcg/meson.build
-> @@ -1,3 +1,9 @@
-> +#
-> +# Currently most things here end up in specific_ss eventually because
-> +# they need knowledge of CPUState. Stuff that that doesn't can live in
-> +# common user, softmmu or overall code
-> +#
-> +
->  tcg_ss = ss.source_set()
->  tcg_ss.add(files(
->    'tcg-all.c',
-> @@ -9,6 +15,7 @@ tcg_ss.add(files(
->    'translate-all.c',
->    'translator.c',
->  ))
-> +
->  tcg_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-exec.c'))
->  tcg_ss.add(when: 'CONFIG_SOFTMMU', if_false: files('user-exec-stub.c'))
->  tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: [files('plugin-gen.c')])
-> @@ -27,3 +34,6 @@ tcg_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
->    'tcg-accel-ops-icount.c',
->    'tcg-accel-ops-rr.c',
->  ))
-> +
-> +# Common softmmu code
-> +softmmu_ss.add(files('cpu-exec-softmmu.c'))
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index b19fb4259e..2311bea082 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2616,7 +2616,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+         int legacy_table_size =
+             ROUND_UP(tables_blob->len - aml_len + legacy_aml_len,
+                      ACPI_BUILD_ALIGN_SIZE);
+-        if (tables_blob->len > legacy_table_size) {
++        if ((tables_blob->len > legacy_table_size) &&
++            !pcmc->resizable_ram_block) {
+             /* Should happen only with PCI bridges and -M pc-i440fx-2.0.  */
+             warn_report("ACPI table size %u exceeds %d bytes,"
+                         " migration may not work",
+@@ -2627,7 +2628,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+         g_array_set_size(tables_blob, legacy_table_size);
+     } else {
+         /* Make sure we have a buffer in case we need to resize the tables. */
+-        if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
++        if ((tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) &&
++            !pcmc->resizable_ram_block) {
+             /* As of QEMU 2.1, this fires with 160 VCPUs and 255 memory slots.  */
+             warn_report("ACPI table size %u exceeds %d bytes,"
+                         " migration may not work",
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 7bebea57e3..822d5de333 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1936,6 +1936,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     pcmc->acpi_data_size = 0x20000 + 0x8000;
+     pcmc->pvh_enabled = true;
+     pcmc->kvmclock_create_always = true;
++    pcmc->resizable_ram_block = true;
+     assert(!mc->get_hotplug_handler);
+     mc->get_hotplug_handler = pc_get_hotplug_handler;
+     mc->hotplug_allowed = pc_hotplug_allowed;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 2f16011bab..3c74dfcfb4 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -745,6 +745,7 @@ static void pc_i440fx_2_2_machine_options(MachineClass *m)
+     compat_props_add(m->compat_props, hw_compat_2_2, hw_compat_2_2_len);
+     compat_props_add(m->compat_props, pc_compat_2_2, pc_compat_2_2_len);
+     pcmc->rsdp_in_ram = false;
++    pcmc->resizable_ram_block = false;
+ }
+ 
+ DEFINE_I440FX_MACHINE(v2_2, "pc-i440fx-2.2", pc_compat_2_2_fn,
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 8206d5405a..3427a35f73 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -127,6 +127,9 @@ struct PCMachineClass {
+ 
+     /* create kvmclock device even when KVM PV features are not exposed */
+     bool kvmclock_create_always;
++
++    /* resizable memory block compat */
++    bool resizable_ram_block;
+ };
+ 
+ #define TYPE_PC_MACHINE "generic-pc-machine"
+-- 
+2.39.2
 
 
