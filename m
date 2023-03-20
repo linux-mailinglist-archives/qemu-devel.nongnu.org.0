@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BA06C1AD2
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6076C1AD1
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:03:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peHwO-0000Ka-GL; Mon, 20 Mar 2023 12:00:56 -0400
+	id 1peHwU-0000Ms-7A; Mon, 20 Mar 2023 12:01:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peHwD-0000Ea-2G
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:00:45 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peHwQ-0000LX-Kg
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:00:58 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peHw9-0008Jq-Ub
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:00:44 -0400
-Received: by mail-wr1-x435.google.com with SMTP id i9so10866415wrp.3
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 09:00:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peHwO-0008Qm-2J
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:00:58 -0400
+Received: by mail-wr1-x432.google.com with SMTP id j2so10851009wrh.9
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 09:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679328036;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ d=linaro.org; s=google; t=1679328054;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5thuQEM6F+28ApesuOqQjVYijU3KtFdlWazOrYWSE54=;
- b=hhJc1w2CnZ4C/ilzTVp//k1fbNBVf7jLYCaftGiJgfDk4dhfHuDtALdr3/XW2rbdaU
- kufZkgmfWpIIZoEDm7SWufF/KXXZWMk7vwcQphFkTioq5JWdZuhLknxGEmlgpQQBsUGe
- paCnmzOnKunQPnR3XklDZGrGexu0QXkBLkPPTqUehSo8KPHwrH5lmeBbqL445t46VETe
- hi0tUePHaLNqamVCX54Kf4hJtlOLX/3rxE3Tl98zx3VMt63Do54fARzl2YHQFz99dDj3
- d5SlRtewqIbGMbtKhw1x7cnV9zqXmsdgqkq2PL+Dz7wTC0EWN9YUP74SEy7hHatjjgZl
- vP3g==
+ bh=zIOz46OTW9kT5cLvOFiHzM8Jk5IDc5NLDdQjY+d2pg8=;
+ b=M7gnBPJ4hGDOUN7418SuBoZMtgzKalxwKzWE9UXMpHKCb4V/0pWah/A5qXe7elgIqa
+ L5hW7dJHtA4Wt4MX4j5pJSS2qWnntuTFzMGKQ85W6mAHvoLgikH1wu3W8G3EG8mRe1Uh
+ 7xsz/db/8asZYYFspyXQE1JxviS1z3VS+OqdwIaBkU39hyuZZO5OxkPkD85GAfEZP8c4
+ elF7EYwQaykdMER36bSam9xGJXxEsE5LxA0n7adsUXZBdOBoxdalAG9lPvE/lQcL1/NC
+ +elCMXcDAWrnKLz5F1rOCfu5A7JCAm0pQiSrRGv48ka2vUcp8l/eymHR900Twpa/b8CG
+ Uo5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679328036;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ d=1e100.net; s=20210112; t=1679328054;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5thuQEM6F+28ApesuOqQjVYijU3KtFdlWazOrYWSE54=;
- b=Z6XWocoC69U+wEc0d3p0C2GnVQ7iOfeppAGqINOdeEQc02vahB9PjueTwK8OyboP1R
- vlro/Z3tndDr5ghxZlG/QUg2/pGPjuIOlYfcJnxhcUsXDxsWyf3ChDwo9eRZY/pbWdgl
- tGF4vhIBvl5aUNVztNiWDA0d+A9mibG7lxrjRWwJGdPX8BW1lSdTqDQypoUeyJRkOFaz
- M+quYL9zgxOoobeN/oF2mJeFDroAJqgXwVahoxNLsd0ixtI9oVSyS0N7JAb3iP7ubT3R
- 3aQ9EE4JaV6b3O6fO/0vIqE4VfPnayk4m7RazvjCoJeYtLSrUgg756CXHPoR5A1JqrBW
- iKTw==
-X-Gm-Message-State: AO0yUKXSCREoK7lVsmkYnzmTiCBcs2PFb1B1MW0gDQDhA0xd3m+SQQcK
- c0nZgLZ/E77P2qJURXxrXr40Gxon022WmUJ2VZhPZg==
-X-Google-Smtp-Source: AK7set9Y9cKdQ+HXxIVg5zOAvBEoPBR+zlRDnt9X0F3mY+LJ/aKTc9+VmMG7Qzi1S8KkzsQMOs/vLQ==
-X-Received: by 2002:adf:ff85:0:b0:2ce:ae4c:c424 with SMTP id
- j5-20020adfff85000000b002ceae4cc424mr14275702wrr.4.1679328036010; 
- Mon, 20 Mar 2023 09:00:36 -0700 (PDT)
+ bh=zIOz46OTW9kT5cLvOFiHzM8Jk5IDc5NLDdQjY+d2pg8=;
+ b=1eRXLX7Mk+seHeQoROIvXJkdP0jdh+om7zUOdbozmEjfgyVLkt7NBVZREklwKP+ybj
+ 4YCRGZJeRUepESB8hMPn7dgGKKHWzreSR4IYcrZUd8saNUDLupuRQmgGXcAjWUVKJK8X
+ AqvMDslGeR4R4yaxCeY5IFG/aHqgzmYUtxYRKipVdNYHUIZzgdGAw4eqWj8RFtJM2+fC
+ TwokGl7B6gVIUJs7akw4QiW+RGLWOv9YymQ6XGj7nFsYyEwkkw231Jld5+SGLbxYMBvT
+ BWZ7NaWANHD7dXifKxMfSyMvD4EvTrKjdK0q5bq1gTadyXsG38rCmBm/VdqhjDHyTM0/
+ 0JAQ==
+X-Gm-Message-State: AO0yUKUn+UhSVUabjZlIwF5T6h9G+VdUlHfXMu1yXtdaHcicXgqR09SS
+ ZGUy85eORH1WzkKynETh69CM4iZEhM/Eli/WYIDQTw==
+X-Google-Smtp-Source: AK7set8e3P0Jwsm6eVPNI3ygYpZuYX4Df4Vq1EgAAS5ltvhHOnvobyz2s0aCs7SsPSs0GKjPqxibQw==
+X-Received: by 2002:a5d:40c4:0:b0:2cf:ecd0:d1ab with SMTP id
+ b4-20020a5d40c4000000b002cfecd0d1abmr13472702wrq.49.1679328054471; 
+ Mon, 20 Mar 2023 09:00:54 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- z8-20020adfec88000000b002c5691f13eesm9189732wrn.50.2023.03.20.09.00.34
+ h18-20020a5d6e12000000b002c70851bfcasm9235065wrz.28.2023.03.20.09.00.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 09:00:35 -0700 (PDT)
-Message-ID: <f012b07b-493a-1d13-6d5a-3ace5ba1f6bc@linaro.org>
-Date: Mon, 20 Mar 2023 17:00:34 +0100
+ Mon, 20 Mar 2023 09:00:53 -0700 (PDT)
+Message-ID: <68e849c7-e945-5330-20b2-840f002de2c0@linaro.org>
+Date: Mon, 20 Mar 2023 17:00:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.0
 Subject: Re: [PATCH-for-8.1] block/dmg: Declare a type definition for DMG
  uncompress function
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org, Evan Nemerson <evan@nemerson.com>
+To: qemu-devel@nongnu.org
 Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  qemu-trivial@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
  <berrange@redhat.com>, qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>
 References: <20230320152610.32052-1-philmd@linaro.org>
- <19ac8d20-5626-b014-aa77-607c757aee46@linaro.org>
-In-Reply-To: <19ac8d20-5626-b014-aa77-607c757aee46@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230320152610.32052-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,47 +93,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/3/23 16:56, Philippe Mathieu-Daudé wrote:
-> On 20/3/23 16:26, Philippe Mathieu-Daudé wrote:
->> Introduce the BdrvDmgUncompressFunc type defintion. To emphasis
->> dmg_uncompress_bz2 and dmg_uncompress_lzfse are pointer to functions,
->> declare them using this new typedef.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->>   block/dmg.h | 8 ++++----
->>   block/dmg.c | 7 ++-----
->>   2 files changed, 6 insertions(+), 9 deletions(-)
-> 
-> 
->> diff --git a/block/dmg.c b/block/dmg.c
->> index e10b9a2ba5..2769900359 100644
->> --- a/block/dmg.c
->> +++ b/block/dmg.c
->> @@ -31,11 +31,8 @@
->>   #include "qemu/memalign.h"
->>   #include "dmg.h"
->> -int (*dmg_uncompress_bz2)(char *next_in, unsigned int avail_in,
->> -                          char *next_out, unsigned int avail_out);
->> -
->> -int (*dmg_uncompress_lzfse)(char *next_in, unsigned int avail_in,
->> -                            char *next_out, unsigned int avail_out);
->> +BdrvDmgUncompressFunc *dmg_uncompress_bz2;
->> +BdrvDmgUncompressFunc *dmg_uncompress_lzfse;
-> 
-> Unrelated, but since DMG maintainers are Cc'ed, upstream lzfse warning:
-> 
-> In file included from ../../block/dmg-lzfse.c:26:
-> /opt/homebrew/Cellar/lzfse/1.0/include/lzfse.h:56:43: warning: this 
-> function declaration is not a prototype [-Wstrict-prototypes]
-> LZFSE_API size_t lzfse_encode_scratch_size();
->                                            ^
->                                             void
+On 20/3/23 16:26, Philippe Mathieu-Daudé wrote:
+> Introduce the BdrvDmgUncompressFunc type defintion. To emphasis
 
-Reported in 2016:
-https://github.com/lzfse/lzfse/issues/3#issuecomment-226574719
+Typo "definition".
 
-> Unfortunately last upstream activity was 6 years ago...
-> https://github.com/lzfse/lzfse/pulls
+> dmg_uncompress_bz2 and dmg_uncompress_lzfse are pointer to functions,
+> declare them using this new typedef.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   block/dmg.h | 8 ++++----
+>   block/dmg.c | 7 ++-----
+>   2 files changed, 6 insertions(+), 9 deletions(-)
 
 
