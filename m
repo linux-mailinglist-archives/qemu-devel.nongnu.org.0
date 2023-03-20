@@ -2,106 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B033C6C0CEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 10:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0834C6C0D4B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 10:30:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peBaU-000226-D6; Mon, 20 Mar 2023 05:13:54 -0400
+	id 1peBoj-0004TW-VM; Mon, 20 Mar 2023 05:28:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1peBaR-00021o-Ml
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 05:13:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <quic_mliebel@quicinc.com>)
+ id 1peBof-0004TA-9K
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 05:28:33 -0400
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1peBaN-0003k9-W7
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 05:13:50 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32K7ulHV024107; Mon, 20 Mar 2023 09:13:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=AbdDdN6P7ZKuMGysCFjE3a+NI9+s+q4kSBpJalgLinA=;
- b=lHXJb1k4dFUDiqcvztMgzDh+8rBYnMYQChtxNa/OQ5Lys8aCMD4wZPjJtzhlkVLxe4dx
- zwVIXkE1gLT7buuMSAaB+GDm7sn7OYLq8iv0XenRpu6Z/2TbWMS1977ej3X2o+N2AaJO
- JOHz/J6eGYfgddvmUpCVWm0AXs5HFUpHoN0CU1eBhFXcQOoQ3e02g6VULwlLPNRS3aRd
- y6ureGAl5ZSPbPCcG5+B2/YCxcacdTEaVore7gE800tpq/qw8wfAmOyCOav1JNt750E7
- ByV+msnqVWptOZrTk9l0lVm+PbdK+O5ymbTVSXNif5pTc47dk9Z4ptL+OItvFBGcg34x 7w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pdprjbf6c-1
+ (Exim 4.90_1) (envelope-from <quic_mliebel@quicinc.com>)
+ id 1peBod-000093-Hm
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 05:28:33 -0400
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32K8OLpL019526; Mon, 20 Mar 2023 09:28:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=TG/SVGu6tJBMzchPlR8sP6B/mtK2brVFUkwfbuZA7e4=;
+ b=QFNi1j5uK2qsq6NhOqUGIKxC8mdsjWucaj/7NlLZQijD44HpAPQaYUwWyLR0UShhosbL
+ zSjLUSCCyXmjPw8K8VPm/ecigMrowuVlWjlKuJcGCdAMn1byx27alAqcYScCgRQ9v7iW
+ FGKUU8xomp5S9pYT1ex4q6zZtQpoAagAZgi+bJAS8F7fq5MIyiKhiLc+NK7eAyscf0zJ
+ KXFT6FUANibDDzCB1HMlb9HgMI3ogm9XTgHQ5CVCKseyAqDd5SqJQPoXy0S689y9Ud+U
+ IA/ewRYVMNzpLX/oSEZGfc5Qw/vra+s7xAhBjdpJuCfj2UCXxiKosS1wva7xlVbhxXwA 3w== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pd4w8vd26-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Mar 2023 09:13:42 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32K8L1N6025258;
- Mon, 20 Mar 2023 09:13:42 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pdprjbf5q-1
+ Mon, 20 Mar 2023 09:28:26 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32K9SP7T004147
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Mar 2023 09:13:42 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32K4Jkd8023079;
- Mon, 20 Mar 2023 09:13:40 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3pd4x6ayym-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Mar 2023 09:13:39 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32K9DaLq29950488
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 20 Mar 2023 09:13:36 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2488A20043;
- Mon, 20 Mar 2023 09:13:36 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8B19520040;
- Mon, 20 Mar 2023 09:13:35 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.155.208.187])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 20 Mar 2023 09:13:35 +0000 (GMT)
-Date: Mon, 20 Mar 2023 10:13:33 +0100
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
- borntraeger@de.ibm.com, frankja@linux.ibm.com, fiuczy@linux.ibm.com,
- pasic@linux.ibm.com, berrange@redhat.com, alex.bennee@linaro.org,
- armbru@redhat.com
-Subject: Re: [PATCH v1 1/1] util/async-teardown: wire up
- query-command-line-options
-Message-ID: <20230320101333.12cb1dd7@p-imbrenda>
-In-Reply-To: <5a8a18e1-f4ad-59dd-a2a9-e68684182b6a@redhat.com>
-References: <20230320074855.11130-1-imbrenda@linux.ibm.com>
- <5a8a18e1-f4ad-59dd-a2a9-e68684182b6a@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ Mon, 20 Mar 2023 09:28:25 GMT
+Received: from hu-mliebel-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Mon, 20 Mar 2023 02:28:25 -0700
+From: Marco Liebel <quic_mliebel@quicinc.com>
+To: <qemu-devel@nongnu.org>
+CC: Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>, "Markus
+ Armbruster" <armbru@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Marco Liebel <quic_mliebel@quicinc.com>
+Subject: [PATCH v3 0/2] Use f-strings and black code style
+Date: Mon, 20 Mar 2023 02:25:31 -0700
+Message-ID: <20230320092533.2859433-1-quic_mliebel@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: IArCOj0hFujpxolchFjPsawrJB7-gFP4
-X-Proofpoint-GUID: Hs7iq6i3dkOETEM17bigecUZ9tc_WpT5
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: bjDZYr1_hwEhRCqMKp-vZ2ZIRrFP2wFt
+X-Proofpoint-ORIG-GUID: bjDZYr1_hwEhRCqMKp-vZ2ZIRrFP2wFt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-20_06,2023-03-16_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0 bulkscore=0
- adultscore=0 mlxlogscore=999 phishscore=0 priorityscore=1501
- suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303200077
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 impostorscore=0
+ bulkscore=0 clxscore=1011 spamscore=0 adultscore=0 mlxlogscore=407
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303200080
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=quic_mliebel@quicinc.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,81 +99,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 20 Mar 2023 09:56:05 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+Replaces python 2 format strings with f-strings and applies black code
+style to all python files in target/hexagon.
 
-> On 20/03/2023 08.48, Claudio Imbrenda wrote:
-> > The recently introduced -async-teardown commandline option was not
-> > wired up properly and did not show up in the output of the QMP command
-> > query-command-line-options. This means that libvirt will have no way to
-> > discover whether the feature is supported.
-> > 
-> > This patch fixes the issue by correctly wiring up the commandline
-> > option so that it appears in the output of query-command-line-options.
-> > 
-> > Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
-> > Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
-> > Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> > ---
-> >   util/async-teardown.c | 18 ++++++++++++++++++
-> >   1 file changed, 18 insertions(+)
-> > 
-> > diff --git a/util/async-teardown.c b/util/async-teardown.c
-> > index 62cdeb0f20..9a2e7bc146 100644
-> > --- a/util/async-teardown.c
-> > +++ b/util/async-teardown.c
-> > @@ -12,6 +12,9 @@
-> >    */
-> >   
-> >   #include "qemu/osdep.h"
-> > +#include "qemu/config-file.h"
-> > +#include "qemu/option.h"
-> > +#include "qemu/module.h"
-> >   #include <dirent.h>
-> >   #include <sys/prctl.h>
-> >   #include <sched.h>
-> > @@ -144,3 +147,18 @@ void init_async_teardown(void)
-> >       clone(async_teardown_fn, new_stack_for_clone(), CLONE_VM, NULL);
-> >       sigprocmask(SIG_SETMASK, &old_signals, NULL);
-> >   }
-> > +
-> > +static QemuOptsList qemu_async_teardown_opts = {
-> > +    .name = "async-teardown",
-> > +    .implied_opt_name = "enable",  
-> 
-> Are you sure about the "implied_opt_name" field? If I got that right, it's 
+Marco Liebel (2):
+  Use f-strings in python scripts
+  Use black code style for python scripts
 
-yeah that should not be there, I'll fix and send a v2
+ target/hexagon/dectree.py               | 396 +++++++------
+ target/hexagon/gen_analyze_funcs.py     | 226 ++++----
+ target/hexagon/gen_helper_funcs.py      | 364 ++++++------
+ target/hexagon/gen_helper_protos.py     | 169 +++---
+ target/hexagon/gen_idef_parser_funcs.py |  83 +--
+ target/hexagon/gen_op_attribs.py        |  10 +-
+ target/hexagon/gen_op_regs.py           |  77 +--
+ target/hexagon/gen_opcodes_def.py       |   6 +-
+ target/hexagon/gen_printinsn.py         |  82 +--
+ target/hexagon/gen_shortcode.py         |  17 +-
+ target/hexagon/gen_tcg_func_table.py    |  16 +-
+ target/hexagon/gen_tcg_funcs.py         | 729 +++++++++++++-----------
+ target/hexagon/hex_common.py            | 181 +++---
+ 13 files changed, 1290 insertions(+), 1066 deletions(-)
 
-> used for options where you can omit the part before the "=" in the first 
-> paramter, e.g.
-> 
->   -netdev user
-> 
-> is the same as:
-> 
->   -netdev type=user
-> 
-> ... but as far as I can see, there is no way to use
-> 
->   -async-teardown enable=off
-> 
-> at the command line?
-> 
->   Thomas
-> 
-> 
-> > +    .head = QTAILQ_HEAD_INITIALIZER(qemu_async_teardown_opts.head),
-> > +    .desc = {
-> > +        { /* end of list */ }
-> > +    },
-> > +};
-> > +
-> > +static void register_async_teardown(void)
-> > +{
-> > +    qemu_add_opts(&qemu_async_teardown_opts);
-> > +}
-> > +opts_init(register_async_teardown);  
-> 
+-- 
+2.25.1
 
 
