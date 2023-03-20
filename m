@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6070C6C13E8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:47:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D964F6C13F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:49:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFrL-0006ZG-BZ; Mon, 20 Mar 2023 09:47:35 -0400
+	id 1peFsO-0007KA-Ho; Mon, 20 Mar 2023 09:48:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peFrI-0006Yt-S4
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:47:32 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peFrH-0005If-4g
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:47:32 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id y14so10413809wrq.4
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 06:47:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679320044;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=issrWhWxlumlWILR//l08NRcX1QmWeSPROM7hvZL8fU=;
- b=VG4SCy9juTPWuqnEthIQZEP0YJeVFL52THQHz3wQlhjT5aNUaq3OmdQz+dW14/AdzL
- yQb1rhk8NUGbS7m1pAAi3YTen4ZhIYSAqvIZcEdjWjbCqKxWKtjZN9QLYi0kE25/Vrwr
- YBVR+TForB5uz/jSx5KQsdUbDFK/rgJomJCdu/zfbXfsWSEDa5/4PxFpSVOIWqlOwxCS
- +CBIqsp49SiL3a01EQGJA7LHhTOEBlZQGUjdPmiyWYeGJwHZo0kRZHXqcGMhBsx5RI1P
- x8q1gWcrIRSixue2BzL5g0agTEsZXbkK8hs25AnmfNQIqZLoRXD8OLeMWznTS72VBOIL
- xW9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679320044;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=issrWhWxlumlWILR//l08NRcX1QmWeSPROM7hvZL8fU=;
- b=VqMaWhyGkGYVnX6Tdn4n1qFLWHOb65PPSoU9c1H4xAD5+OVYRKWUj+JHE0VfKcTR1n
- KT9ked1GSRKwrUuhPTt1JXSo8NkLlPir2fYdzs+efSuSdYUMRedf07w474TB5OJ2v+Mg
- igHl5rLvVijSTw3eYiD/4CV7BMaqPwm295/IREpUQtBAaKyvhkD2FaaCOTnJY57wYz/6
- MYJrVeWYv0Hcoaq8bz7N0RA9pzoTBA1zoQsCzbsTUndPxzkM/3xwO/lW6R8hfjdkqP2e
- BpXstlxhXEWreutoKPY9W7ijkkpAy5vaXVA6uL9/1GWurF4UzPhIFb3x4Lssta4P50jH
- ouow==
-X-Gm-Message-State: AO0yUKVExnypOuozVCSNPLkhPPcMjhkeevih+5duYGjLmf7hLcw5zl6w
- gqIADTBneyHrKH7Ozqt/xoRlNgnW4qDCeP7ZpQx8gg==
-X-Google-Smtp-Source: AK7set9bMEKkaDyGJy7DS0v+IbwIJ9bvU6p2X+5NWWPlHS4HaQFhUBdYoGhv1auKtdrHaf7riEj+Ug==
-X-Received: by 2002:a5d:490f:0:b0:2d4:766d:e02f with SMTP id
- x15-20020a5d490f000000b002d4766de02fmr6458509wrq.59.1679320043851; 
- Mon, 20 Mar 2023 06:47:23 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j6-20020a5d5646000000b002d2f0e23acbsm8962436wrw.12.2023.03.20.06.47.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 06:47:23 -0700 (PDT)
-Message-ID: <42cc3cee-b148-aab0-cfd5-a684ce55d7f6@linaro.org>
-Date: Mon, 20 Mar 2023 14:47:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH-for-8.0] qemu/osdep.h: Do not declare function prototypes
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peFsJ-0007JV-TS
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:48:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peFsH-00064V-2K
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:48:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679320112;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nB8jDRvF4InxzdYsKwDk5IU8RqNst0djb4nl+V9qIeY=;
+ b=bIeutRX8Z3wfQo0zeakwGDXdKrRCxs+rJ9JMbvICrDeUf8Zd1uYmfF84IgEJAvPojIKw7+
+ U45Kzx7KIjNy0YZ+nYjew5zr5z4cH7P4gbX6giL56pJak+KqdsZ6hoZ9mM/YwEsRGcaSv4
+ /XohY1KQCC8JOwhnrzwlFx/eHaRqRvM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-217-CV0XY9JSOlCYuAhr_QvM2g-1; Mon, 20 Mar 2023 09:48:28 -0400
+X-MC-Unique: CV0XY9JSOlCYuAhr_QvM2g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5DACD800B23;
+ Mon, 20 Mar 2023 13:48:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 957E8C15BA0;
+ Mon, 20 Mar 2023 13:48:21 +0000 (UTC)
+Date: Mon, 20 Mar 2023 13:48:18 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Tyrone Ting <kfting@nuvoton.com>, Hao Wu <wuhaotsh@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>, Riku Voipio <riku.voipio@iki.fi>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ xen-devel@lists.xenproject.org, kvm@vger.kernel.org
+Subject: Re: [PATCH-for-8.1 4/5] bulk: Do not declare function prototypes
  using extern keyword
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Sebastian Wilhelmi <wilhelmi@google.com>,
- Eric Blake <eblake@redhat.com>, Sebastian Wilhelmi <seppi@seppi.de>,
- =?UTF-8?Q?Simon_W=c3=b6rner?= <contact@simon-woerner.de>
-References: <20230320131426.16348-1-philmd@linaro.org>
- <ZBhfRmJc0M93s1F5@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <ZBhfRmJc0M93s1F5@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Message-ID: <ZBhkIjelEtR7lckj@redhat.com>
+References: <20230320134219.22489-1-philmd@linaro.org>
+ <20230320134219.22489-5-philmd@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+In-Reply-To: <20230320134219.22489-5-philmd@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,55 +96,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/3/23 14:27, Daniel P. Berrangé wrote:
-> On Mon, Mar 20, 2023 at 02:14:26PM +0100, Philippe Mathieu-Daudé wrote:
->> By default, C function prototypes declared in headers are visible,
->> so there is no need to declare them as 'extern' functions. Remove
->> this redundancy. This also fixes when building under MSYS2:
->>
->>    C:/msys64/mingw64/include/glib-2.0/glib/gmacros.h:1075:21: error: standard attributes in middle of decl-specifiers
->>    1075 | # define G_NORETURN [[noreturn]]
->>          |                     ^
->>    C:/msys64/code/qemu/src/include/qemu/osdep.h:240:8: note: in expansion of macro 'G_NORETURN'
->>    240 | extern G_NORETURN
->>          |        ^~~~~~~~~~
->>
->> Reported-by: Simon Wörner <contact@simon-woerner.de>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1541
+On Mon, Mar 20, 2023 at 02:42:18PM +0100, Philippe Mathieu-Daudé wrote:
+> By default, C function prototypes declared in headers are visible,
+> so there is no need to declare them as 'extern' functions.
+> Remove this redundancy in a single bulk commit; do not modify:
 > 
-> There's already a fix for that issue included in a PULL request from
-> Thomas:
+>   - meson.build (used to check function availability at runtime)
+>   - pc-bios
+>   - libdecnumber
+>   - *.c
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg05225.html
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>  block/dmg.h                    |  8 +++----
+>  bsd-user/bsd-file.h            |  6 ++---
+>  crypto/hmacpriv.h              | 13 +++++------
+>  hw/xen/xen_pt.h                |  8 +++----
+>  include/crypto/secret_common.h | 14 +++++-------
+>  include/exec/page-vary.h       |  4 ++--
+>  include/hw/misc/aspeed_scu.h   |  2 +-
+>  include/hw/nvram/npcm7xx_otp.h |  4 ++--
+>  include/hw/qdev-core.h         |  4 ++--
+>  include/qemu/crc-ccitt.h       |  4 ++--
+>  include/qemu/osdep.h           |  2 +-
+>  include/qemu/rcu.h             | 14 ++++++------
+>  include/qemu/sys_membarrier.h  |  4 ++--
+>  include/qemu/uri.h             |  6 ++---
+>  include/sysemu/accel-blocker.h | 14 ++++++------
+>  include/sysemu/os-win32.h      |  4 ++--
+>  include/user/safe-syscall.h    |  4 ++--
+>  target/i386/sev.h              |  6 ++---
+>  target/mips/cpu.h              |  4 ++--
+>  tcg/tcg-internal.h             |  4 ++--
+>  tests/tcg/minilib/minilib.h    |  2 +-
+>  include/exec/memory_ldst.h.inc | 42 +++++++++++++++++-----------------
+>  roms/seabios                   |  2 +-
 
-Not the same patch. I'll rebase and post for 8.1 then I guess :)
+Accidental submodule commit.,
 
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->>   include/qemu/osdep.h | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
->> index f68b5d8708..79c26c748a 100644
->> --- a/include/qemu/osdep.h
->> +++ b/include/qemu/osdep.h
->> @@ -237,7 +237,7 @@ extern "C" {
->>    * supports QEMU_ERROR, this will be reported at compile time; otherwise
->>    * this will be reported at link time due to the missing symbol.
->>    */
->> -extern G_NORETURN
->> +G_NORETURN
->>   void QEMU_ERROR("code path is reachable")
->>       qemu_build_not_reached_always(void);
->>   #if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
->> -- 
->> 2.38.1
->>
+>  23 files changed, 84 insertions(+), 91 deletions(-)
 > 
-> With regards,
-> Daniel
+> diff --git a/block/dmg.h b/block/dmg.h
+> index e488601b62..ed209b5dec 100644
+> --- a/block/dmg.h
+> +++ b/block/dmg.h
+> @@ -51,10 +51,10 @@ typedef struct BDRVDMGState {
+>      z_stream zstream;
+>  } BDRVDMGState;
+>  
+> -extern int (*dmg_uncompress_bz2)(char *next_in, unsigned int avail_in,
+> -                                 char *next_out, unsigned int avail_out);
+> +int (*dmg_uncompress_bz2)(char *next_in, unsigned int avail_in,
+> +                          char *next_out, unsigned int avail_out);
+>  
+> -extern int (*dmg_uncompress_lzfse)(char *next_in, unsigned int avail_in,
+> -                                   char *next_out, unsigned int avail_out);
+> +int (*dmg_uncompress_lzfse)(char *next_in, unsigned int avail_in,
+> +                            char *next_out, unsigned int avail_out);
+
+These are variable declarations, so with this change you'll get multiple
+copies of the variable if this header is included from multiple source
+files. IOW, the 'extern' usage is correct.
+
+> diff --git a/roms/seabios b/roms/seabios
+> index ea1b7a0733..3208b098f5 160000
+> --- a/roms/seabios
+> +++ b/roms/seabios
+> @@ -1 +1 @@
+> -Subproject commit ea1b7a0733906b8425d948ae94fba63c32b1d425
+> +Subproject commit 3208b098f51a9ef96d0dfa71d5ec3a3eaec88f0a
+
+Nope !
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
