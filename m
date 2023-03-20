@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C87A6C23C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 22:35:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20096C241A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 22:51:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peN9q-0000VS-QD; Mon, 20 Mar 2023 17:35:10 -0400
+	id 1peNNp-0003x7-7x; Mon, 20 Mar 2023 17:49:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peN9p-0000V5-3e
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:35:09 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peN9m-0000Zh-RP
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:35:08 -0400
-Received: by mail-ed1-x531.google.com with SMTP id o12so52338829edb.9
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 14:35:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679348105;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Xyp8qiXr7MaDJI9wlZ+/XWVwFRtw0SZJlb3ctOImlkM=;
- b=d7ObDDfJxTxCyA8NR1KCiGbN3Yn2nd2jS3IjyD828rspBJwRsUiuRfXhUgLkNOGyee
- c9t+yjmNYtC9ZeeP+2krOukOyPC2ECpV/lf4ZxsoT5ieW0UXm47NXAa5Y4YoZOy8tslI
- eNhIJedT7kU3HH6eSmIgxJeuNctmZ1nHD94nzQhMilPy2cYLFbTX3OyW20dpaVXl8HsY
- mssFVxv3IWF4Dq/Oz8IzUspIdO8517XpfjQ/eBKluWk1GF3MQe7NYBR/ldVKz+S1I+0X
- db8NC9cKTTFaKvXpEo8wYNSyXU/X/An3phdsSeeUON55FMzN8LF1QXYpfODK2Mh/Lo0S
- XrqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679348105;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Xyp8qiXr7MaDJI9wlZ+/XWVwFRtw0SZJlb3ctOImlkM=;
- b=gk0jeYvUZXGr9iaC5+C1s6yTxQ3roVRRMpAinbstEpdMP52GxfX2Le/iOjxD6i2KQc
- QzNqh3mYT9Hx5Uh1wSncfqOWpKXtTpsNHydflvtZUWRZoOb02694jTZ464XfNETlwkf1
- OKck1KMnkQctUrtTzzmBma7Y7YcYkIKw4kntsD9vwroprQ4kdAANWCNwhGphMR3P73y7
- mDYX51f0R0sXHAE+szAM+CmIvQ2o3U5q7BL0aUXrG+XHj+rmyLAye0ZzCQ4BaQEwlX1H
- E4H713FzMjjuNv2RuwaZ4wuIA20jDhyzhIypIgggWAyiTNgAyk41X4hQWOhKYt8YXDh9
- x/ew==
-X-Gm-Message-State: AO0yUKVhr0gARFyu/rO3BlBElDjj6d9otbx5VSIHUEEEe1y5G8rgaYAd
- tFS53eoTk8McHRetsvzGd5MuHw==
-X-Google-Smtp-Source: AK7set9MeXmj0iiJHsw97YQZ00jDz2LBQ7/dkQI+RecMmdq5ywf2Umy5Ofwnzbr6ZFovyf/CAQew1A==
-X-Received: by 2002:a17:906:11cd:b0:8b1:264f:3776 with SMTP id
- o13-20020a17090611cd00b008b1264f3776mr579138eja.23.1679348104923; 
- Mon, 20 Mar 2023 14:35:04 -0700 (PDT)
-Received: from [192.168.69.115] (did75-h03-176-184-22-219.dsl.sta.abo.bbox.fr.
- [176.184.22.219]) by smtp.gmail.com with ESMTPSA id
- d13-20020a170906344d00b009318ad4a583sm4901941ejb.210.2023.03.20.14.35.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 14:35:04 -0700 (PDT)
-Message-ID: <7ae07f41-17d1-cdbb-3140-fec5d9986558@linaro.org>
-Date: Mon, 20 Mar 2023 22:35:02 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1peNNn-0003wz-QJ
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:49:35 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1peNNk-0004zV-2r
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:49:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=WyY8B4viD4bbQ+bFV2SBsFF2kC5CdxEpDJvMdyYf1TY=; b=PYiYoZPPC0ELlnHt8BthSJV1gJ
+ bgv5NzvfOCQ5tdjinwmuvyiHO1+sxSBq8XdbF4qIUT5FJ3Ge8+UmQah5ULiPmFxLxg6yHM8Oim7t4
+ IfbBSG1nm1vcsio6LifbGsPK468bwdGDDkx+tXS47wj8Y90SmbKtrBsERbNG42uvf8naHm24toyaC
+ zCb+VRgtIXTgbzNGJzClEPVTwfTve/DSxjz98L3JzUVUXtIht33PwB2D45ayI7OwuYX9ZRC6gz/Jp
+ 0ZhjIFUC5J7hiUDU74IRv8ScYLLsSquUTEFLLlFe33mpXNGvt3ApZ4+/WLRw9avJr0fq6Ed//yMHi
+ FUQjqaY91JsAoVfnZOgv1GQxs6o+EPHLEa8DXWpRZydsWqOerrcxv68N5r974Tzl0lQeTRT7l3EMI
+ 7bA28y0pi60+PU2xAEoYlIexaC9Tyk0mt71NWxacwCKvjiTLbCEBEXxvugduOdnD2bgRTV1SejvT7
+ oeP8WTcgcw8Euw7JUyxeE1w1bCeqUqI9zY7ZZElVgpr3/64QI3FrCW7Gq8fav2GMIBOu8idrCGBj3
+ 06bCdtoP0ApohM69/QVHJFJYRDx8P6vsPZWJ9SNo91UYDNgqz8zL3ruApXl//f0/RWBmdMMtVzEn1
+ c94hFWqDjsU20i05fXyda9EKkPYOxPt9rRqea9keg=;
+Received: from [2a00:23c4:8bac:200:3870:f067:8488:5afb]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1peNMz-000B2U-8K; Mon, 20 Mar 2023 21:48:45 +0000
+Message-ID: <b971a675-065e-4e0a-a9bc-babc244ff21b@ilande.co.uk>
+Date: Mon, 20 Mar 2023 21:49:22 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH v2 8/9] accel/tcg: Pass last not end to
- tb_invalidate_phys_page_range__locked
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-References: <20230317155455.341843-1-richard.henderson@linaro.org>
- <20230317155455.341843-9-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230317155455.341843-9-richard.henderson@linaro.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ quintela@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
+ kvm-devel <kvm@vger.kernel.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, BALATON Zoltan <balaton@eik.bme.hu>,
+ "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+References: <87zg8aj5z3.fsf@secure.mitica>
+ <393c8070-e126-70de-4e85-11ac41d6f6be@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <393c8070-e126-70de-4e85-11ac41d6f6be@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x531.google.com
+X-SA-Exim-Connect-IP: 2a00:23c4:8bac:200:3870:f067:8488:5afb
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: KVM call for agenda for 2023-03-21
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,20 +89,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/3/23 16:54, Richard Henderson wrote:
-> Pass the address of the last byte to be changed, rather than
-> the first address past the last byte.  This avoids overflow
-> when the last page of the address space is involved.
-> 
-> Properly truncate tb_last to the end of the page; the comment about
-> tb_end being past the end of the page being ok is not correct,
-> considering overflow.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   accel/tcg/tb-maint.c | 26 ++++++++++++--------------
->   1 file changed, 12 insertions(+), 14 deletions(-)
+On 20/03/2023 15:47, Philippe Mathieu-Daudé wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Hi Juan,
+> 
+> On 18/3/23 18:59, Juan Quintela wrote:
+>>
+>> Hi
+>>
+>> NOTE, NOTE, NOTE
+>>
+>> Remember that we are back in that crazy part of the year when daylight
+>> saving applies.  Call is done on US timezone.  If you are anything else,
+>> just doublecheck that it is working for you properly.
+>>
+>> NOTE, NOTE, NOTE
+>>
+>> Topics in the backburner:
+>> - single qemu binary
+>>    Philippe?
+> 
+> Well we wanted a slot to discuss a bit the design problems we have
+> around some PCI-to-ISA bridges like the PIIX and VIA south bridges.
+> 
+> One of the main problem is figure how to instantiate circular IRQs
+> with QOM. Ex:
+> 
+>    devA exposes irqAo output
+>         wires to irqAi input
+> 
+>    devB exposes irqBo output
+>         wires to irqBi input
+> 
+> How to wire irqAo -> irqBi *AND* irqBo -> irqAi?
+> 
+> However personally I was busy with debugging issues opened for the
+> 8.0 release, and it is probably very late to schedule with Mark and
+> Bernhard for tomorrow...
 
+Yeah unfortunately it's impossible for me to guarantee I'll be around for the call on 
+Tuesdays, but then I've also had an idea that models the hardware in a different way 
+so that circular IRQs aren't needed. I'm a bit backlogged with QEMU bits and pieces 
+this week, so it will take a little time to come up with a suitable proposal.
+
+
+ATB,
+
+Mark.
 
