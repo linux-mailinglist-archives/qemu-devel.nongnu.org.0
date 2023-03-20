@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2783D6C1298
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A737B6C1292
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:04:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFBO-0001Mg-Rs; Mon, 20 Mar 2023 09:04:14 -0400
+	id 1peFBR-0001N9-04; Mon, 20 Mar 2023 09:04:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBH-0001Ke-9H
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:07 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBG-0001Jo-G1
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBF-0006Lp-8n
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBD-0006LH-Ud
  for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679317444;
+ s=mimecast20190719; t=1679317443;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5X+8oAkTsNpFQXdC8yAlHVgHqpbucrRL3yhevs6aLBI=;
- b=CYxpiRfIT9Vk0BOTM++IpTQhS8Ip8g3rA8699wLrTPheU8UUmi7JyebI99kXVzD/CT8Sqt
- lytJC8iViLZs8nIKObAGdloFfeDzzXZVI7P043HGdXjNaRyIjOwy7ZLr3khR++8yC8ydpk
- B1y/GyPKZv4YUhFGVGQUcgJUBJsJRN8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3cwqlw8oWlou3+tFn5+hA7fC3dHFru2/VHUK4twtGTo=;
+ b=dCWZsS45ZlwSuWXqfC0mnAFz9ftWZUALg8ML1LEdS6BFiBgmltxa00TTvo1Jn5bO7nD9wb
+ 6rMaBj0mVxAr+qqQ5+8gOJZPWHRTFiMbh45FjyMlNa0k8C3RJyUzvF96DvXMXy5U2kQNz7
+ 24ErW2B18TpD5rPXDRTVtedXAh2BUHU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-323--4MjQhd9NACI3-iDCsIaYA-1; Mon, 20 Mar 2023 09:04:01 -0400
-X-MC-Unique: -4MjQhd9NACI3-iDCsIaYA-1
+ us-mta-263-YORwVLMMOeusOuGGBOvudQ-1; Mon, 20 Mar 2023 09:04:01 -0400
+X-MC-Unique: YORwVLMMOeusOuGGBOvudQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B4CF1C05AB2;
- Mon, 20 Mar 2023 13:04:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7EAE6855300;
+ Mon, 20 Mar 2023 13:04:01 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A753AC15BA0;
- Mon, 20 Mar 2023 13:03:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0233C15BA0;
+ Mon, 20 Mar 2023 13:04:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Subject: [PULL 21/24] target/s390x/tcg/mem_helper: Remove bad assert()
- statement
-Date: Mon, 20 Mar 2023 14:03:27 +0100
-Message-Id: <20230320130330.406378-22-thuth@redhat.com>
+Subject: [PULL 22/24] tests/unit/test-blockjob: Disable complete_in_standby
+ test
+Date: Mon, 20 Mar 2023 14:03:28 +0100
+Message-Id: <20230320130330.406378-23-thuth@redhat.com>
 In-Reply-To: <20230320130330.406378-1-thuth@redhat.com>
 References: <20230320130330.406378-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,34 +76,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The "assert(!nonfault)" statement can be triggered by running the
-"mvpg" s390x kvm-unit-test with TCG. According to Richard: "... the
-assert looks backward. We should only arrive there if nonfault was
-true for the probe (otherwise the probe would have raised the
-exception directly).  I would think we could just remove the assert."
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Fixes: 4049431478 ("target/s390x: Fix s390_probe_access for user-only")
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230317135737.597570-1-thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
+The blockjob/complete_in_standby test is flaky and fails
+intermittently in CI:
+
+172/621 qemu:unit / test-blockjob
+           ERROR           0.26s   killed by signal 6 SIGABRT
+11:03:46 MALLOC_PERTURB_=176
+G_TEST_SRCDIR=/Users/pm215/src/qemu-for-merges/tests/unit
+G_TEST_BUILDDIR=/Users/pm215/src/qemu-for-merges/build/all/tests/unit
+/Users/pm215/src/qemu-for-merges/build/all/tests/unit/test-blockjob
+--tap -k
+----------------------------------- output -----------------------------------
+stdout:
+# random seed: R02S8c79d6e1c01ce0b25475b2210a253242
+1..9
+# Start of blockjob tests
+ok 1 /blockjob/ids
+stderr:
+Assertion failed: (job->status == JOB_STATUS_STANDBY), function
+test_complete_in_standby, file ../../tests/unit/test-blockjob.c, line
+499.
+
+Seen on macOS/x86_64, FreeBSD 13/x86_64, msys2-64bit, eg:
+
+https://gitlab.com/qemu-project/qemu/-/jobs/3872508803
+https://gitlab.com/qemu-project/qemu/-/jobs/3950667240
+
+Disable this subtest until somebody has time to investigate.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20230317143534.1481947-1-peter.maydell@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/mem_helper.c | 1 -
- 1 file changed, 1 deletion(-)
+ tests/unit/test-blockjob.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index 96b8ef61b5..b93dbd3dad 100644
---- a/target/s390x/tcg/mem_helper.c
-+++ b/target/s390x/tcg/mem_helper.c
-@@ -149,7 +149,6 @@ static inline int s390_probe_access(CPUArchState *env, target_ulong addr,
-                                    nonfault, phost, ra);
- 
-     if (unlikely(flags & TLB_INVALID_MASK)) {
--        assert(!nonfault);
- #ifdef CONFIG_USER_ONLY
-         /* Address is in TEC in system mode; see s390_cpu_record_sigsegv. */
-         env->__excp_addr = addr & TARGET_PAGE_MASK;
+diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
+index c0426bd10c..a130f6fefb 100644
+--- a/tests/unit/test-blockjob.c
++++ b/tests/unit/test-blockjob.c
+@@ -531,6 +531,13 @@ int main(int argc, char **argv)
+     g_test_add_func("/blockjob/cancel/standby", test_cancel_standby);
+     g_test_add_func("/blockjob/cancel/pending", test_cancel_pending);
+     g_test_add_func("/blockjob/cancel/concluded", test_cancel_concluded);
+-    g_test_add_func("/blockjob/complete_in_standby", test_complete_in_standby);
++
++    /*
++     * This test is flaky and sometimes fails in CI and otherwise:
++     * don't run unless user opts in via environment variable.
++     */
++    if (getenv("QEMU_TEST_FLAKY_TESTS")) {
++        g_test_add_func("/blockjob/complete_in_standby", test_complete_in_standby);
++    }
+     return g_test_run();
+ }
 -- 
 2.31.1
 
