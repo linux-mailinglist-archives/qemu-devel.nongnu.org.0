@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0056C1B1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:17:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76EE6C1B26
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:18:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peICe-0005RQ-73; Mon, 20 Mar 2023 12:17:44 -0400
+	id 1peIDU-0006gD-Uc; Mon, 20 Mar 2023 12:18:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1peICL-0005Kv-17
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:17:27 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1peIDS-0006fj-Na
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:18:34 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1peICJ-0005KU-J3
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:17:24 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id x11so10741944pja.5
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 09:17:23 -0700 (PDT)
+ id 1peIDR-0005Yu-3A
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:18:34 -0400
+Received: by mail-pg1-x530.google.com with SMTP id x37so6918159pga.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 09:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679329042;
+ d=linaro.org; s=google; t=1679329111;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dZLSHyCcjEvWiiw3JBWVmrDtc12R0VvfFRzDPOGnYTw=;
- b=GUWmN5FG8a3/OXK42d9Wu4V5q+4MjmzHmDXpSGBFXV/RgYC530SHXB3+mZHyE6EosY
- zJX1R+tWdeH0rItYi9nZUqZdAxjVPz938C5euxesHO7CWDVnyYwh2fCjG1NN0OvTOnmg
- 0OtZVyu3FA7GP4yzhD2/vh8df56OmXtkSQE1w5jNAjLQVl9Lb1XgNUAYDzYp16z6c67j
- ZAQSk0Gz4eeu8i+3aco81+QxVq8k1Oa3dA/X6AM8U50XBK+yclwM9P3KoNP0PuKQFuMm
- U39YK6QAR88wzgV2MNdUcANke7xEe3bwp4QtRIOUHCaT2SnLD0o1mQ3fUsoeYye90JSh
- BY/w==
+ bh=Cne79HYDcx04Txx66SXBhhqnUWZGJyUl3dwelflvP7Q=;
+ b=d1TpUCNU7uHMj4s8TgjzjIv06qYCi1mijhtSsJJXaS0t29k2feHLr7yJbl7beDXtze
+ bf+ckGCK5cvdawCmd3KxtE6xB1hHxlkGhAeKMJcAihvVK8yPa58k6MsdoabIna/UnBs4
+ Vt7i7hYZepa8k5+l3S8U+CFsRCInLJCkoRoezu00/2P2vurQ4X1PrXp/WRjrv/rYoXK6
+ kFMviWpo89nPKEV5IFe3S1fGk2vVCZTW1r24Zcd5c1J0XvDCFVuSUQlUDluairFjEXqW
+ /pVJ+GbXiheU5d6hycQ3ytmtwokNPJACt/TJBkQkpm5EV2daTOj1VwVmSpbGdto650GQ
+ xtTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679329042;
+ d=1e100.net; s=20210112; t=1679329111;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dZLSHyCcjEvWiiw3JBWVmrDtc12R0VvfFRzDPOGnYTw=;
- b=YF47A82tOxHH9qkQADok7PdBJ7plebSubevnDZ+hoc5ihtt7R+W+KFUt3ThhLkn38p
- sZi9fELmF3hltSIK1fJI7Q7c63RlBifplnX17OnB/A2D3ReQpJ0WK7tBCUbxtCePD9Zj
- jdv70jSr1XEH20mW44y4aXuLWW+xbt1tffy3TDtR/Ht4YuQqfwwt42m2r9E9dIEv9ogv
- rr87F+QTguCmSw/eEEfkiA/uL0ju7GQxLmiZ+jnU0+/WaWBKnaOLqCTiFSWUBCcRZEt7
- zsnWP4Ae9HcZjr1o55OtzZLJM9V3TaguzkK1g79fkkm0dv68f6CCbaIpyUJEHKJpQIxq
- LmAw==
-X-Gm-Message-State: AO0yUKXbEMYEKBw+aXTcC3E8SX4r/EUnqCTExHs0A2USOq59ka7NieJ6
- YpSyBwf22/kTp1MTBc1aYjuVsg==
-X-Google-Smtp-Source: AK7set+eTvTVw39XHnc5Z7jA/4jVywm2tWOjbJvEXG8D6K+hR4UZ0J3Qe5vWpBh8ZsKfmXpSIRsrdA==
-X-Received: by 2002:a17:903:1c6:b0:19a:9055:6658 with SMTP id
- e6-20020a17090301c600b0019a90556658mr14951277plh.18.1679329042141; 
- Mon, 20 Mar 2023 09:17:22 -0700 (PDT)
+ bh=Cne79HYDcx04Txx66SXBhhqnUWZGJyUl3dwelflvP7Q=;
+ b=fU02kM2CEEIBD9shoUxcBFkCucxeGTKFSggXdhFjjjttuIrVttlijo6shZfD5TMcsT
+ xMN7yt6ZYtSu7x/fMmCr+Cn4oni1rEwz0i1AIjm0DsETHjQ5E/7cRqtAzYPMbtSK+CKG
+ rceZvXByWH3dCNwwz6ap6LQss+esTN077T0UCzu79aNBDMtrIevmCY6Xsws/QVP7eWs6
+ kH20bQzgCM664UkEPM1QdmgC2JJHTKOjMR7OGOqlV2jhVUtIPH+52FjskxlBFZ4TXT77
+ HVdLUAGrGNCCMnHFOMbSwXoAJc3daNX6Ikh5M/+gD9TH5JQjIiLnS58xa6ThaZ60m9nR
+ 7OYg==
+X-Gm-Message-State: AO0yUKV3EvvLYeuc7XapVbSPQpeZz6SkTYpd1nV9wS0OsaSoNP92xWGb
+ whl+Hf0PFrlIZDYJWY28Bws3Ug==
+X-Google-Smtp-Source: AK7set/TcGaHzSiwPhSnZeH5h19x4ngKKytUia7n+adhanfqOil2TTq9Px5wfP7/JB2w4hJV6ynT7w==
+X-Received: by 2002:a62:f252:0:b0:627:e677:bc70 with SMTP id
+ y18-20020a62f252000000b00627e677bc70mr7197429pfl.14.1679329111522; 
+ Mon, 20 Mar 2023 09:18:31 -0700 (PDT)
 Received: from [192.168.4.112] (096-041-163-098.res.spectrum.com.
  [96.41.163.98]) by smtp.gmail.com with ESMTPSA id
- x3-20020a17090aa38300b0023d386e4806sm6331295pjp.57.2023.03.20.09.17.20
+ v17-20020aa78091000000b005d503abc8fesm6496486pff.218.2023.03.20.09.18.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 09:17:21 -0700 (PDT)
-Message-ID: <11b0801c-7e37-1735-a596-a4e1ce463420@linaro.org>
-Date: Mon, 20 Mar 2023 09:17:18 -0700
+ Mon, 20 Mar 2023 09:18:31 -0700 (PDT)
+Message-ID: <dfdbcd1d-f566-ba88-3491-400cdf214421@linaro.org>
+Date: Mon, 20 Mar 2023 09:18:28 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 04/10] accel/tcg: don't bother with ifdef for CPU_DUMP_CCOP
+Subject: Re: [PATCH 05/10] accel/tcg: remove the fake_user_interrupt guards
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Alessandro Di Federico <ale@rev.ng>,
@@ -68,13 +68,13 @@ To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
 References: <20230320101035.2214196-1-alex.bennee@linaro.org>
- <20230320101035.2214196-5-alex.bennee@linaro.org>
+ <20230320101035.2214196-6-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230320101035.2214196-5-alex.bennee@linaro.org>
+In-Reply-To: <20230320101035.2214196-6-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,9 +98,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/20/23 03:10, Alex Bennée wrote:
-> +                int flags = CPU_DUMP_CCOP;;
+> At the cost of an empty tcg_ops field for most targets we can avoid
+> target specific hacks in cpu-exec.c
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   include/hw/core/tcg-cpu-ops.h |  2 +-
+>   accel/tcg/cpu-exec.c          | 14 +++++++-------
+>   2 files changed, 8 insertions(+), 8 deletions(-)
 
-Actually, since you can't turn it off, we should just remove it and the test in i386.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
