@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D4486C1F53
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 19:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD6D6C2072
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 19:54:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peK2I-0004Xr-0W; Mon, 20 Mar 2023 14:15:10 -0400
+	id 1peKcu-0006p1-6b; Mon, 20 Mar 2023 14:53:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abhishek@drut.io>) id 1peK2F-0004Vd-31
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 14:15:07 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c])
+ (Exim 4.90_1) (envelope-from <smostafa@google.com>)
+ id 1peKcs-0006od-9V
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 14:52:58 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <abhishek@drut.io>) id 1peK2B-00026l-Q8
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 14:15:05 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id bz27so2434239qtb.1
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 11:15:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <smostafa@google.com>)
+ id 1peKcq-0007vB-8q
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 14:52:58 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-3ed3080d17bso100005e9.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 11:52:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=drut-io.20210112.gappssmtp.com; s=20210112; t=1679336102;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Hf9hz4NUJdpXs+dw5Khx3qhvNC2im4M463xojKbf3FI=;
- b=ujG9tY1aTsCivFLbXMQOaEuoDJvy78RPFh6zIMwl+afv01fxQ8VcSde4xm16N7Dzet
- 3WznHzHGna55wjQ+ZPURVHw8ibdSitkW/e5vYCaRjWZZhXPEiNl5NQ77xcDpSVUZ9n3I
- OqV3ZUXdWuhV5GuQ+NVFKfV+1GXq2EnslSY0xfXzWSXdekwj6DLHRdndC0md4ZXuKRvT
- dI72lphxYiQLmiwVsLxqUY+f27dOIXil6VolX61b45K1HjuC+wlAI1bjnAKbvgMZowwl
- SyRWpugiMQfiKcAo7c+BM41sfBryR/WrAQHMRpa5gULcE0IYVwPpBFfKC1euydntIb31
- egrA==
+ d=google.com; s=20210112; t=1679338374;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PmHDZ0OSX45EnJkygiw9fM3a/jrVjyyOOyV2AmOTDyo=;
+ b=dZbiDhWnp89Xo9mP9tl7A4G3EPTKUbC1Hu6fCVlN1ws0Jb/luOstnN2pxieac9r9Zd
+ dAVJcoL9srlKXgnsvpa2o9XfDpxVBloqjdSBjU9ETpGXaRYMpObkXhCSHbldDEbdKtlI
+ dcduPYGIEEoaceX/eczB5ZAuV1x67Co8pumMTEdUoJFWOfNyNnmjRQpfqKqEJKLBGKaJ
+ Fak90O+riguFxx5HXOr9g9cGGFEqGG92ArXkBQ+D2o5nhOz+UhsHOn3SUr2EW9pTmAbk
+ Jo8k+iwqudabv1pXywZyvZKFDM24z/t2OVZVCXNguzDcyHjAY0bTRN0wHQ5Zm2RXlLuE
+ ieBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679336102;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Hf9hz4NUJdpXs+dw5Khx3qhvNC2im4M463xojKbf3FI=;
- b=rLKWMmZZUnviWVFdGeOibZFe4nvIrwZil0rhnzT7G+FKhHht+nU9TYnLhRvscOFso4
- 3q6nrgFK16tyxK79OuqE3JCxlcSYKJ9WpVmbv/uDSJJOrzScJZspZV4DxGhdt9tmNewd
- pyMON10odQmkSGBdnhfUklxwqL6k8KSU7SNn6SfxzWVN8nQdmLRmmbw+XBVmUC3cuaFZ
- YVcdN4PF/3dGnpTMxbT+Wq2bKHP9eNstvQSmr7J2dDKkTluTydv/r0xZZKo1fG3FT0IK
- FkynJX1OINq/6JQ4SrxLvtixaezb5Ps+kAellb7IPxI1KRoDS0A4MJOQEpuTxuDJBf3Z
- hpRA==
-X-Gm-Message-State: AO0yUKWTj0vEB2h5KMYuU5iOy108VFvgfS4YcWABkCNPHh+wDAxiWcEF
- kqDQuIt9n1ujlZkzkKJVm4E7XGqeGwGSJ7FzQNCUGz8ditcUd8P+
-X-Google-Smtp-Source: AK7set/1w8Ql9IREtRmg3rCW2M9szggNTbeUpxdlb2N3GQMIz68OQ3xZveMfQ0omksQN/VjLivWEPt3dOaDKW0nq4Yw=
-X-Received: by 2002:ac8:5c91:0:b0:3df:bda6:692f with SMTP id
- r17-20020ac85c91000000b003dfbda6692fmr29166qta.6.1679336102141; Mon, 20 Mar
- 2023 11:15:02 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679338374;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PmHDZ0OSX45EnJkygiw9fM3a/jrVjyyOOyV2AmOTDyo=;
+ b=jfP8ZlXDkZ1oYGazxBM4maYHgUhtZOcqsuBTbOt9aQMLFMfhiKHXJ03061BY7P100K
+ h8zTgUeZj+n83mxKGTG7m4XPnkYBgohNpOd/e9wwVltWrDOYG4XqD09r1qDS/lHNl82W
+ E9LhLF1IvHL+eMiU07AC9mjwdR4YptHhFKdCLPuKCZqIpRnh0b6g/9VfZyIj9AikvUaf
+ gRdIib2q9+N0V/ajdjvkP731xzHIlkkjMT5cRXU8Ll7ojbu/GZ6CgFp0fhO96jM/EB5G
+ UB7V03BXWFFQ8+zbqap9ihVM/miQmcpqQeB0ONvxWGTemFaOReALM0gq8Wstm12MGDRu
+ bF3Q==
+X-Gm-Message-State: AO0yUKU8agmO17dKQISy9lXSFtlQojCwupAoyU4bXosF1ruWntVTVuV/
+ tX4AU7mWoH9wUNVN9g4FhORVKA==
+X-Google-Smtp-Source: AK7set/yOkM9wiY/o3n8pCx+wWWCODlU7h/HQsouB16YMeg4eCrjRI28pzUMqRgrEwYEaSSHUJ0waQ==
+X-Received: by 2002:a05:600c:4744:b0:3ed:8826:256e with SMTP id
+ w4-20020a05600c474400b003ed8826256emr23752wmo.1.1679338374015; 
+ Mon, 20 Mar 2023 11:52:54 -0700 (PDT)
+Received: from google.com (44.232.78.34.bc.googleusercontent.com.
+ [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
+ q13-20020a05600c46cd00b003e1202744f2sm17637628wmo.31.2023.03.20.11.52.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 11:52:53 -0700 (PDT)
+Date: Mon, 20 Mar 2023 18:52:49 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org, richard.henderson@linaro.org
+Subject: Re: [RFC PATCH v2 04/11] hw/arm/smmuv3: Add page table walk for
+ stage-2
+Message-ID: <ZBirgXmGvvJ4Cguu@google.com>
+References: <20230226220650.1480786-1-smostafa@google.com>
+ <20230226220650.1480786-5-smostafa@google.com>
+ <2432f1f4-6cb8-3811-86cf-ee856fe9b3d8@redhat.com>
 MIME-Version: 1.0
-References: <CAJ1un7j0FNpYaaviQxoKQN4O+C8RejqA918CdBamPySKyAEJUQ@mail.gmail.com>
- <87mt4b73sv.fsf@linaro.org> <b2c11d07-ee58-715d-2994-3add1c60b95d@kaod.org>
- <CAJ1un7gM4Zf1ZRCG9c-FAcrgUcEtrRX5C0PXFxqOjMq=FzQvvw@mail.gmail.com>
- <1f589f04-8d48-36bd-9518-357d3a0cbfd1@kaod.org>
-In-Reply-To: <1f589f04-8d48-36bd-9518-357d3a0cbfd1@kaod.org>
-From: Abhishek Singh Dagur <abhishek@drut.io>
-Date: Mon, 20 Mar 2023 23:44:50 +0530
-Message-ID: <CAJ1un7i1xut-6dF-Eqij8Ge8Ykm=jiE8GN-NaBzDOnGR2+pHSw@mail.gmail.com>
-Subject: Re: Using QEMU how to redirect serial /dev/ttyS2 output of guest
- machine to host machine.
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Srinivas Kodali <srini@drut.io>, qemu-devel@nongnu.org,
- Anand Moon <anand@drut.io>
-Content-Type: multipart/alternative; boundary="000000000000d3bb6005f758e760"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=abhishek@drut.io; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2432f1f4-6cb8-3811-86cf-ee856fe9b3d8@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=smostafa@google.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,166 +97,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000d3bb6005f758e760
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Eric,
 
-Thanks a lot. It's working fine =F0=9F=98=81 now.
+On Mon, Mar 20, 2023 at 03:56:26PM +0100, Eric Auger wrote:
+> Hi Mostafa,
+> 
+> On 2/26/23 23:06, Mostafa Saleh wrote:
+> > In preparation for adding stage-2 support, add Stage-2 PTW code.
+> > Only Aarch64 format is supported as stage-1.
+> >
+> > Nesting stage-1 and stage-2 is not supported right now.
+> >
+> > HTTU is not supported, SW is expected to maintain the Access flag.
+> > This is described in the SMMUv3 manual "5.2. Stream Table Entry" in
+> > "[181] S2AFFD".
+> > This flag determines the behavior on access of a stage-2 page whose
+> > descriptor has AF == 0:
+> > - 0b0: An Access flag fault occurs (stall not supported).
+> > - 0b1: An Access flag fault never occurs.
+> > An Access fault takes priority over a Permission fault.
+> >
+> > Checks for IPA and output PA are done according to the user manual
+> > "3.4 Address sizes".
+> replace user manual by the exact ref of the doc. I guess this is IHI0070E
+Will do.
 
-Abhishek.
+> > + * Return 0 on success, < 0 on error. In case of error, @info is filled
+> > + * and tlbe->perm is set to IOMMU_NONE.
+> > + * Upon success, @tlbe is filled with translated_addr and entry
+> > + * permission rights.
+> > + */
+> > +static int smmu_ptw_64_s2(SMMUTransCfg *cfg,
+> > +                          dma_addr_t iova, IOMMUAccessFlags perm,
+> Rename iova into ipa?
+Will do.
 
-On Sun, 19 Mar, 2023, 11:27 pm C=C3=A9dric Le Goater, <clg@kaod.org> wrote:
+> > +                          SMMUTLBEntry *tlbe, SMMUPTWEventInfo *info)
+> > +{
+> > +    const int stage = 2;
+> > +    int granule_sz = cfg->s2cfg.granule_sz;
+> > +    /* ARM ARM: Table D8-7. */
+> You may refer the full reference
+> in  DDI0487I.a as the chapter/table may vary. For instance in
+> ARM DDI 0487F.c D8 corresponds to the activity monitor extensions
+Will do.
 
-> Hello Abhishek,
->
-> On 3/18/23 18:55, Abhishek Singh Dagur wrote:
-> > Hi Alex , C=C3=A9dric,
-> > we have tried this *option:-serial *pty* -serial *pty* -serial *pty
-> *-serial *pty *-serial *pty to check the serial output on screen.
-> >
-> > Here we are providing 2 scenarios without and with the changes suggeste=
-d
-> by @C=C3=A9dric Le Goater <mailto:clg@kaod.org> .
-> > In first we are able to get /dev/ttyS4 serial port not /dev/ttyS2
-> > In second we are able to get /dev/ttyS2 not /dev/ttyS4
-> >
-> > *Scenario1:****previously with normal qemu build i have tried emulation
-> as:*
-> >
-> > qemu-system-arm -m 512 -M
-> ast2500-evb,fmc-model=3Dmx66u51235f,spi-model=3Dmx66u51235f -nographic -d=
-rive
-> file=3D./pru-1.2.4_dev-rc1.static.mtd,format=3Draw,if=3Dmtd -serial pty -=
-serial
-> pty -serial pty -serial pty
-> >
-> > which gives us output as.
-> >
-> > QEMU 7.2.0 monitor - type 'help' for more information
-> > (qemu) char device redirected to /dev/pts/15 (label serial0)
-> > char device redirected to /dev/pts/16 (label serial1)
-> > char device redirected to /dev/pts/17 (label serial2)
-> > char device redirected to /dev/pts/18 (label serial3)
-> >
-> > so we can use *screen *to interact with the ttyS4 serial port like :
-> > screen /dev/pts/15
-> > In which we have our boot process and shell prompt .
-> >
-> > *Scenario2:* *when I am using the newly build image with the changes
-> *@C=C3=A9dric Le Goater <mailto:clg@kaod.org>*  provided*
-> >
-> > With the below command:
-> > ./qemu-system-arm -m 512 -M
-> ast2500-evb,uart-default=3Duart2,fmc-model=3Dmx66u51235f,spi-model=3Dmx66=
-u51235f
-> -nographic -drive file=3D./pru-1.2.4_dev-rc1.static.mtd,format=3Draw,if=
-=3Dmtd
-> -serial pty -serial pty -serial pty -serial pty
->
-> Since the machine expect /dev/ttyS2 to be the boot console, the SoC devic=
-e
-> to attach to the first serial is UART3. This command line should output
-> the console logs in the same terminal :
->
->    ./qemu-system-arm -m 512 -M
-> ast2500-evb,uart-default=3Duart3,fmc-model=3Dmx66u51235f,spi-model=3Dmx66=
-u51235f
-> -net user -nographic -drive
-> file=3D./pru-1.2.4_dev-rc1.static.mtd,format=3Draw,if=3Dmtd -serial mon:s=
-tdio
->
-> I have updated the patch in my aspeed-8.0 tree :
->
->
-> https://github.com/legoater/qemu/commit/20fe705361dd7ed1d9129747a8a0b6434=
-10869e3
->
-> Please note that in this last version, the machine option is simply "uart=
-".
->
-> Thanks,
->
-> C.
->
+> > +    int inputsize = 64 - cfg->s2cfg.tsz;
+> > +    int level = get_start_level(cfg->s2cfg.sl0, granule_sz);
+> > +    int stride = SMMU_STRIDE(granule_sz);
+> > +    int idx = pgd_idx(level, granule_sz, iova);
+> > +    /*
+> > +     * Get the ttb from concatenated structure.
+> > +     * The offset is the idx * size of each ttb(number of ptes * (sizeof(pte))
+> > +     */
+> what I don't get is the spec that concatenated tables are used if the
+> initial lookup level would require less or equal than 16 entries. I
+> don't see such kind of check or is done implicitly somewhere else?
+Yes, this is checked in the STE patch in function
+s2_pgtable_config_valid, where it checks that the max input will not
+need more than 16 tables which means that the pagetable config is
+inconsistent, which means the STE is ILLEGAL.
 
---000000000000d3bb6005f758e760
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> > +    uint64_t baseaddr = extract64(cfg->s2cfg.vttb, 0, 48) + (1 << stride) *
+> > +                                  idx * sizeof(uint64_t);
+> > +    dma_addr_t indexmask = SMMU_IDXMSK(inputsize, stride, level);
+> > +
+> > +    baseaddr &= ~indexmask;
+> > +
+> > +    /*
+> > +     * If the input address of a transaction exceeds the size of the IAS, a
+> > +     * stage 1 Address Size fault occurs.
+> > +     * For AA64, IAS = OAS
+> then you may use a local variable max_as = cfg->s2cfg.oas used below and
+> in 
+> 
+> if (gpa >= (1ULL << cfg->s2cfg.oas)) {
+> this is not obvious though that the ias = oas. Where does it come from?
+> 
+> In implementations of SMMUv3.1 and later, this value is Reserved and S2PS behaves as 0b110 (52 bits).
+> Effective_S2PS = MIN(STE.S2PS, SMMU_IDR5.OAS);
+> OAS is a maximum of 52 bits in SMMUv3.1 and later
+IAS = OAS for AA64. Described in "3.4 Address sizes".
+The first check is actually not correct, as input address should be
+compared to IAS(or OAS) while s2cfg.oas is effective PS.
+I will rename s2cfg.oas to s2cfg.eff_ps to avoid confusion.
+I will change the check here to be against s2t0sz and in this case it
+causes stage-2 addr size fault.
 
-<div dir=3D"auto">Thanks a lot. It&#39;s working fine =F0=9F=98=81 now.<div=
- dir=3D"auto"><br></div><div dir=3D"auto">Abhishek.</div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 19 Mar, 20=
-23, 11:27 pm C=C3=A9dric Le Goater, &lt;<a href=3D"mailto:clg@kaod.org">clg=
-@kaod.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hello Ab=
-hishek,<br>
-<br>
-On 3/18/23 18:55, Abhishek Singh Dagur wrote:<br>
-&gt; Hi Alex , C=C3=A9dric,<br>
-&gt; we have tried this *option:-serial *pty*=C2=A0-serial *pty*=C2=A0-seri=
-al *pty *-serial *pty *-serial *pty to check the serial output on screen.<b=
-r>
-&gt; <br>
-&gt; Here we are providing 2 scenarios without and with the changes=C2=A0su=
-ggested by @C=C3=A9dric Le Goater &lt;mailto:<a href=3D"mailto:clg@kaod.org=
-" target=3D"_blank" rel=3D"noreferrer">clg@kaod.org</a>&gt;=C2=A0.<br>
-&gt; In first we are able to get /dev/ttyS4 serial port not /dev/ttyS2<br>
-&gt; In second we are able to get /dev/ttyS2 not /dev/ttyS4<br>
-&gt; <br>
-&gt; *Scenario1:****previously=C2=A0with normal qemu build i have tried emu=
-lation as:*<br>
-&gt; <br>
-&gt; qemu-system-arm -m 512 -M ast2500-evb,fmc-model=3Dmx66u51235f,spi-mode=
-l=3Dmx66u51235f -nographic -drive file=3D./pru-1.2.4_dev-rc1.static.mtd,for=
-mat=3Draw,if=3Dmtd -serial pty -serial pty -serial pty -serial pty<br>
-&gt; <br>
-&gt; which gives us output as.<br>
-&gt; <br>
-&gt; QEMU 7.2.0 monitor - type &#39;help&#39; for more information<br>
-&gt; (qemu) char device redirected to /dev/pts/15 (label serial0)<br>
-&gt; char device redirected to /dev/pts/16 (label serial1)<br>
-&gt; char device redirected to /dev/pts/17 (label serial2)<br>
-&gt; char device redirected to /dev/pts/18 (label serial3)<br>
-&gt; <br>
-&gt; so we can use *screen *to interact with the ttyS4 serial port like :<b=
-r>
-&gt; screen /dev/pts/15<br>
-&gt; In which we have our=C2=A0boot process and shell prompt .<br>
-&gt; <br>
-&gt; *Scenario2:* *when I am using the newly build image with the changes *=
-@C=C3=A9dric Le Goater &lt;mailto:<a href=3D"mailto:clg@kaod.org" target=3D=
-"_blank" rel=3D"noreferrer">clg@kaod.org</a>&gt;*=C2=A0 provided*<br>
-&gt; <br>
-&gt; With the below command:<br>
-&gt; ./qemu-system-arm -m 512 -M ast2500-evb,uart-default=3Duart2,fmc-model=
-=3Dmx66u51235f,spi-model=3Dmx66u51235f -nographic -drive file=3D./pru-1.2.4=
-_dev-rc1.static.mtd,format=3Draw,if=3Dmtd -serial pty -serial pty -serial p=
-ty -serial pty<br>
-<br>
-Since the machine expect /dev/ttyS2 to be the boot console, the SoC device<=
-br>
-to attach to the first serial is UART3. This command line should output<br>
-the console logs in the same terminal :<br>
-<br>
-=C2=A0 =C2=A0./qemu-system-arm -m 512 -M ast2500-evb,uart-default=3Duart3,f=
-mc-model=3Dmx66u51235f,spi-model=3Dmx66u51235f -net user -nographic -drive =
-file=3D./pru-1.2.4_dev-rc1.static.mtd,format=3Draw,if=3Dmtd -serial mon:std=
-io<br>
-<br>
-I have updated the patch in my aspeed-8.0 tree :<br>
-<br>
-=C2=A0 =C2=A0<a href=3D"https://github.com/legoater/qemu/commit/20fe705361d=
-d7ed1d9129747a8a0b643410869e3" rel=3D"noreferrer noreferrer" target=3D"_bla=
-nk">https://github.com/legoater/qemu/commit/20fe705361dd7ed1d9129747a8a0b64=
-3410869e3</a><br>
-<br>
-Please note that in this last version, the machine option is simply &quot;u=
-art&quot;.<br>
-<br>
-Thanks,<br>
-<br>
-C.<br>
-</blockquote></div>
+I think the check for the IAS shouldn't be done here.
 
---000000000000d3bb6005f758e760--
+> > +     */
+> > +    if (iova >= (1ULL << cfg->s2cfg.oas)) {
+> > +        info->type = SMMU_PTW_ERR_ADDR_SIZE;
+> > +        info->stage = 1;
+> > +        goto error_no_stage;
+> > +    }
+> > +
+> > +    while (level < SMMU_LEVELS) {
+> I would rename SMMU_LEVELs
+You mean replace SMMU_LEVELS with SMMU_LEVELs?
+
+> >  
+> > +#define PTE_AF(pte) \
+> > +    (extract64(pte, 10, 1))
+> >  /*
+> >   * TODO: At the moment all transactions are considered as privileged (EL1)
+> >   * as IOMMU translation callback does not pass user/priv attributes.
+> > @@ -73,6 +75,9 @@
+> >  #define is_permission_fault(ap, perm) \
+> >      (((perm) & IOMMU_WO) && ((ap) & 0x2))
+> >  
+> > +#define is_permission_fault_s2(ap, perm) \
+> I would rename ap param into s2ap. This is the name of the field in the spec
+Will do.
+
+> > +    (!((ap & perm) == perm))
+> > +
+> >  #define PTE_AP_TO_PERM(ap) \
+> >      (IOMMU_ACCESS_FLAG(true, !((ap) & 0x2)))
+> >  
+> > @@ -96,6 +101,40 @@ uint64_t iova_level_offset(uint64_t iova, int inputsize,
+> >              MAKE_64BIT_MASK(0, gsz - 3);
+> >  }
+> >  
+> > +#define SMMU_MAX_S2_CONCAT    16
+> it is not really an SMMU property (same as SMMU_LEVELS by the way). This
+> is rather something related to VMSA spec, no?.
+Yes, they are part of VMSA, however they are named this way as they are
+part of SMMU headers, should we rename them to something else?
+
+> > +
+> > +/*
+> > + * Relies on correctness of gran and sl0 from caller.
+> I would remove the above line as we generally expect the caller to
+> behave properly or do you mean we do not handle any sanity check?
+> I refer to some of them in target/arm/ptw.c:check_s2_mmu_setup()
+We do sanity check in STE parsing, I added this line as this function
+is in a header file and anyone can use it, so to make it clear.
+However, it is very trivial, I will remove the comment.
+
+> > + * FEAT_LPA2 and FEAT_TTST are not implemented.
+> > + */
+> > +static inline int get_start_level(int sl0 , int gran)
+> > +{
+> > +    /* ARM ARM: Table D8-12. */
+> > +    if (gran == 12) {
+> > +        return 2 - sl0;
+> > +    }
+> > +    /* ARM ARM: Table D8-22 and Table D8-31. */
+> > +    return 3 - sl0;
+> > +}
+> > +
+> > +/*
+> > + * Index in a concatenated first level stage-2 page table.
+> > + * ARM ARM: D8.2.2 Concatenated translation tables.
+> > + */
+> > +static inline int pgd_idx(int start_level, int granule, dma_addr_t iova)
+> then the name of the function may better reflect what is does?
+This returns the index of the page table descriptor in a concatenated
+structure, this is actually close to what kvm calls it
+“kvm_pgd_page_idx()”, however, I can call it something more clear as
+pgd_concatenated_idx()?
+
+> > +{
+> > +    uint64_t ret;
+> > +    /*
+> > +     * Get the number of bits handled by next levels, then any extra bits in
+> > +     * the address should index the concatenated tables. This relation can
+> > +     * deduced from tables in ARM ARM: D8.2.7-9
+> > +     */
+> > +    int shift = (SMMU_LEVELS - start_level) * (granule - 3) + granule;
+> this looks like level_shift() with level = start_level - 1, no.
+Yes, I will use level_shift() instead.
+> s/granule_sz/gsz or granule_sz to match the rest of the code
+Will do.
+
+Thanks,
+Mostafa
 
