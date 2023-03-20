@@ -2,86 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD6D6C2072
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 19:54:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939B06C2106
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 20:14:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peKcu-0006p1-6b; Mon, 20 Mar 2023 14:53:00 -0400
+	id 1peKxO-0005Bg-RW; Mon, 20 Mar 2023 15:14:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1peKcs-0006od-9V
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 14:52:58 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <smostafa@google.com>)
- id 1peKcq-0007vB-8q
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 14:52:58 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3ed3080d17bso100005e9.0
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 11:52:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1679338374;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PmHDZ0OSX45EnJkygiw9fM3a/jrVjyyOOyV2AmOTDyo=;
- b=dZbiDhWnp89Xo9mP9tl7A4G3EPTKUbC1Hu6fCVlN1ws0Jb/luOstnN2pxieac9r9Zd
- dAVJcoL9srlKXgnsvpa2o9XfDpxVBloqjdSBjU9ETpGXaRYMpObkXhCSHbldDEbdKtlI
- dcduPYGIEEoaceX/eczB5ZAuV1x67Co8pumMTEdUoJFWOfNyNnmjRQpfqKqEJKLBGKaJ
- Fak90O+riguFxx5HXOr9g9cGGFEqGG92ArXkBQ+D2o5nhOz+UhsHOn3SUr2EW9pTmAbk
- Jo8k+iwqudabv1pXywZyvZKFDM24z/t2OVZVCXNguzDcyHjAY0bTRN0wHQ5Zm2RXlLuE
- ieBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679338374;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PmHDZ0OSX45EnJkygiw9fM3a/jrVjyyOOyV2AmOTDyo=;
- b=jfP8ZlXDkZ1oYGazxBM4maYHgUhtZOcqsuBTbOt9aQMLFMfhiKHXJ03061BY7P100K
- h8zTgUeZj+n83mxKGTG7m4XPnkYBgohNpOd/e9wwVltWrDOYG4XqD09r1qDS/lHNl82W
- E9LhLF1IvHL+eMiU07AC9mjwdR4YptHhFKdCLPuKCZqIpRnh0b6g/9VfZyIj9AikvUaf
- gRdIib2q9+N0V/ajdjvkP731xzHIlkkjMT5cRXU8Ll7ojbu/GZ6CgFp0fhO96jM/EB5G
- UB7V03BXWFFQ8+zbqap9ihVM/miQmcpqQeB0ONvxWGTemFaOReALM0gq8Wstm12MGDRu
- bF3Q==
-X-Gm-Message-State: AO0yUKU8agmO17dKQISy9lXSFtlQojCwupAoyU4bXosF1ruWntVTVuV/
- tX4AU7mWoH9wUNVN9g4FhORVKA==
-X-Google-Smtp-Source: AK7set/yOkM9wiY/o3n8pCx+wWWCODlU7h/HQsouB16YMeg4eCrjRI28pzUMqRgrEwYEaSSHUJ0waQ==
-X-Received: by 2002:a05:600c:4744:b0:3ed:8826:256e with SMTP id
- w4-20020a05600c474400b003ed8826256emr23752wmo.1.1679338374015; 
- Mon, 20 Mar 2023 11:52:54 -0700 (PDT)
-Received: from google.com (44.232.78.34.bc.googleusercontent.com.
- [34.78.232.44]) by smtp.gmail.com with ESMTPSA id
- q13-20020a05600c46cd00b003e1202744f2sm17637628wmo.31.2023.03.20.11.52.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 11:52:53 -0700 (PDT)
-Date: Mon, 20 Mar 2023 18:52:49 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Eric Auger <eric.auger@redhat.com>
-Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org,
- peter.maydell@linaro.org, qemu-arm@nongnu.org, richard.henderson@linaro.org
-Subject: Re: [RFC PATCH v2 04/11] hw/arm/smmuv3: Add page table walk for
- stage-2
-Message-ID: <ZBirgXmGvvJ4Cguu@google.com>
-References: <20230226220650.1480786-1-smostafa@google.com>
- <20230226220650.1480786-5-smostafa@google.com>
- <2432f1f4-6cb8-3811-86cf-ee856fe9b3d8@redhat.com>
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1peKxM-00059Z-Av
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 15:14:08 -0400
+Received: from mail-dm6nam10on2064.outbound.protection.outlook.com
+ ([40.107.93.64] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1peKxH-00073M-W7
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 15:14:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=im00wn4RtiihvtjNqes0NddaPIayDVxlGh0kva17tg3ns9CE6qg+rNSc9bviVRBCf14IoRNzwH8kSd8jEUkcTF0lhF9Yxe+M2iDDQ0XcCjKk6lX1autzh3PCy6razwmMtrMCSpa9zDOKAlGWL5ZokTbYx+4MvITqaeN8D4NPXWORxEAlWBw4so5DnS7+765u7Arv5ms6Yq0PiCg4JHjyWqm29rUUSUdpe/LoT0yJN/SgYDCTSz642tCFsEfiT7s0m04QYEwJEtdY4z+1ov9blUfJ1eVk47WIa7NCsY3msti3eKYhvLcGzG1RhHozptj/Ok69rSFoOecJ8chqEtdHKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5NLlAPZwMiSazJEbO/+mgSBbKlTZVM+3pZVnxsQgw6U=;
+ b=bZBAu3a99pJ4HEVeyPbRx3O0guuFPmdv2/P61v87K2SUZ4XQ/zG4yp946JwIaKvJXegGRGhW+1tngTd8+oQPLunO1a61Oj/ln9AFysG0E5xBzckEjhHNu8IdRVIpkq8rhlKPydGT8lFlJuLSZrZ2dvWdQwPNvTmi+E6PoTLl6AYdUEsk8Zpkr7zDtC7x3/KYxVLWeET7mWRm9HsT0vDad5WG9bw8XSoBLV632Ro4q0UVmGhaQuXzac+xWGc6ZmwvNR3p+ZcrTOlBQ8GjD3EdS/vEgpkIVrdhB+6BA0VksTtjVap6cmFhz2BcuiQw92MXss3fkbsFJ+JIadfr+I/3Yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5NLlAPZwMiSazJEbO/+mgSBbKlTZVM+3pZVnxsQgw6U=;
+ b=kXQcxgoQ4Txx7PnMIte47ih3PYC/NXw8L9Av1/I6He9bSUwqcn0VCBJei+OAa+lVwDWEKgbUVxX07cX4kbfZrhHqaKK4hGLZwNmdpJKjDO4HvV5Yl1GhPsMbO7GUiib7u2QbUub1KrqTtDyk4uqa3fT6WDlxxtsep+2bJe4x/R8=
+Received: from DM6PR02CA0089.namprd02.prod.outlook.com (2603:10b6:5:1f4::30)
+ by MW4PR12MB6731.namprd12.prod.outlook.com (2603:10b6:303:1eb::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 20 Mar
+ 2023 19:08:54 +0000
+Received: from DM6NAM11FT093.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1f4:cafe::b4) by DM6PR02CA0089.outlook.office365.com
+ (2603:10b6:5:1f4::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37 via Frontend
+ Transport; Mon, 20 Mar 2023 19:08:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT093.mail.protection.outlook.com (10.13.172.235) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6222.16 via Frontend Transport; Mon, 20 Mar 2023 19:08:54 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 20 Mar
+ 2023 14:08:53 -0500
+Date: Mon, 20 Mar 2023 14:08:36 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: "Nikunj A. Dadhania" <nikunj@amd.com>
+CC: Chao Peng <chao.p.peng@linux.intel.com>, <kvm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov
+ <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim Mattson
+ <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi
+ <naoya.horiguchi@nec.com>, Miaohe Lin <linmiaohe@huawei.com>,
+ <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins
+ <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields"
+ <bfields@fieldses.org>, Andrew Morton <akpm@linux-foundation.org>, Shuah Khan
+ <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>, Steven Price
+ <steven.price@arm.com>, "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, <luto@kernel.org>,
+ <jun.nakajima@intel.com>, <dave.hansen@intel.com>, <ak@linux.intel.com>,
+ <david@redhat.com>, <aarcange@redhat.com>, <ddutile@redhat.com>,
+ <dhildenb@redhat.com>, Quentin Perret <qperret@google.com>,
+ <tabba@google.com>, <mhocko@suse.com>, <wei.w.wang@intel.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20230320190836.z2rqrhybke3egiuu@amd.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <86d7cc82-8ff9-769b-f80f-ff18fe28f44d@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2432f1f4-6cb8-3811-86cf-ee856fe9b3d8@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=smostafa@google.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <86d7cc82-8ff9-769b-f80f-ff18fe28f44d@amd.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT093:EE_|MW4PR12MB6731:EE_
+X-MS-Office365-Filtering-Correlation-Id: de5474ad-425d-4847-530e-08db29768c62
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6OSETOd3/d0/TdfWptG6EQZdZ2VsQ6H93+9cEYnqeDNTrUInSl5t+LAYRCKdh5V7eJ0VFJq6KJ5oG1zTxgs65+GIrM6iohaF/xnRIeDk4/l8D9Z3wpmGXKxJ7n6YvnoP3fNikk4TG85yP10434dCXMi2dsfar5FiL+EeIZlcXM0UT+PbkzpoXMPIJ1infiWVnl9fYrS8bi0Yz4U6BV+phE/1ukNxo1q6M+b03/CbNycJ3RVQ8pikrnV0lteV0+ZQp4EhaFRVGIpRApi0odLuvvlcaL+1WI9+BhMx1ilaYcm2UORWE63I6onSjCk0TrPErJquj7um8SKDhOdS7vbSAQK82+HLvrs8hM24ZmQgin3/bFWRBk5e8mMtarKMoWGcX8K7K5XHBaKi/VehHKokskRhHdhQKDYcemq5f139zJ7BfyNxYfeGnqdLbWFEjr+uNAPdo6uansTVyWMNmSOcSnIMiPmdzplE/2miVNxFFrkc0giHR0brQi+eKhbVop7ZB1XNeTaik8g1//ykBd2nHtPPXB4/V8300QvzWyrzwa+UWrsmOSxdmglcPMfKFYUTRW0erFvvHPqhDh1PyGikTP+F+Sa8B/xFY+3ajNwQLYgD8Qdhl3NhCFZ/onxsThUyZZo0jajx8mMQL1hjpHUN60MPUWA8ES8ON0Bc+ifI7edMMtfK69uSmpCTboMiHVQVz1bl5je1KWEnjKNLl/6n83TRDg3DCkYC34Olw+P12dI=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(376002)(396003)(136003)(346002)(451199018)(40470700004)(46966006)(36840700001)(6862004)(7416002)(44832011)(5660300002)(7406005)(36860700001)(41300700001)(82310400005)(86362001)(356005)(40480700001)(8936002)(36756003)(82740400003)(40460700003)(81166007)(2906002)(6666004)(4326008)(966005)(336012)(83380400001)(478600001)(426003)(47076005)(2616005)(16526019)(186003)(1076003)(26005)(8676002)(37006003)(6636002)(316002)(54906003)(70586007)(70206006)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 19:08:54.0409 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: de5474ad-425d-4847-530e-08db29768c62
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT093.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6731
+Received-SPF: softfail client-ip=40.107.93.64;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,181 +144,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Eric,
-
-On Mon, Mar 20, 2023 at 03:56:26PM +0100, Eric Auger wrote:
-> Hi Mostafa,
+On Thu, Feb 16, 2023 at 03:21:21PM +0530, Nikunj A. Dadhania wrote:
 > 
-> On 2/26/23 23:06, Mostafa Saleh wrote:
-> > In preparation for adding stage-2 support, add Stage-2 PTW code.
-> > Only Aarch64 format is supported as stage-1.
-> >
-> > Nesting stage-1 and stage-2 is not supported right now.
-> >
-> > HTTU is not supported, SW is expected to maintain the Access flag.
-> > This is described in the SMMUv3 manual "5.2. Stream Table Entry" in
-> > "[181] S2AFFD".
-> > This flag determines the behavior on access of a stage-2 page whose
-> > descriptor has AF == 0:
-> > - 0b0: An Access flag fault occurs (stall not supported).
-> > - 0b1: An Access flag fault never occurs.
-> > An Access fault takes priority over a Permission fault.
-> >
-> > Checks for IPA and output PA are done according to the user manual
-> > "3.4 Address sizes".
-> replace user manual by the exact ref of the doc. I guess this is IHI0070E
-Will do.
-
-> > + * Return 0 on success, < 0 on error. In case of error, @info is filled
-> > + * and tlbe->perm is set to IOMMU_NONE.
-> > + * Upon success, @tlbe is filled with translated_addr and entry
-> > + * permission rights.
-> > + */
-> > +static int smmu_ptw_64_s2(SMMUTransCfg *cfg,
-> > +                          dma_addr_t iova, IOMMUAccessFlags perm,
-> Rename iova into ipa?
-Will do.
-
-> > +                          SMMUTLBEntry *tlbe, SMMUPTWEventInfo *info)
+> > +static struct file *restrictedmem_file_create(struct file *memfd)
 > > +{
-> > +    const int stage = 2;
-> > +    int granule_sz = cfg->s2cfg.granule_sz;
-> > +    /* ARM ARM: Table D8-7. */
-> You may refer the full reference
-> in  DDI0487I.a as the chapter/table may vary. For instance in
-> ARM DDI 0487F.c D8 corresponds to the activity monitor extensions
-Will do.
-
-> > +    int inputsize = 64 - cfg->s2cfg.tsz;
-> > +    int level = get_start_level(cfg->s2cfg.sl0, granule_sz);
-> > +    int stride = SMMU_STRIDE(granule_sz);
-> > +    int idx = pgd_idx(level, granule_sz, iova);
-> > +    /*
-> > +     * Get the ttb from concatenated structure.
-> > +     * The offset is the idx * size of each ttb(number of ptes * (sizeof(pte))
-> > +     */
-> what I don't get is the spec that concatenated tables are used if the
-> initial lookup level would require less or equal than 16 entries. I
-> don't see such kind of check or is done implicitly somewhere else?
-Yes, this is checked in the STE patch in function
-s2_pgtable_config_valid, where it checks that the max input will not
-need more than 16 tables which means that the pagetable config is
-inconsistent, which means the STE is ILLEGAL.
-
-> > +    uint64_t baseaddr = extract64(cfg->s2cfg.vttb, 0, 48) + (1 << stride) *
-> > +                                  idx * sizeof(uint64_t);
-> > +    dma_addr_t indexmask = SMMU_IDXMSK(inputsize, stride, level);
+> > +	struct restrictedmem_data *data;
+> > +	struct address_space *mapping;
+> > +	struct inode *inode;
+> > +	struct file *file;
 > > +
-> > +    baseaddr &= ~indexmask;
+> > +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> > +	if (!data)
+> > +		return ERR_PTR(-ENOMEM);
 > > +
-> > +    /*
-> > +     * If the input address of a transaction exceeds the size of the IAS, a
-> > +     * stage 1 Address Size fault occurs.
-> > +     * For AA64, IAS = OAS
-> then you may use a local variable max_as = cfg->s2cfg.oas used below and
-> in 
+> > +	data->memfd = memfd;
+> > +	mutex_init(&data->lock);
+> > +	INIT_LIST_HEAD(&data->notifiers);
+> > +
+> > +	inode = alloc_anon_inode(restrictedmem_mnt->mnt_sb);
+> > +	if (IS_ERR(inode)) {
+> > +		kfree(data);
+> > +		return ERR_CAST(inode);
+> > +	}
 > 
-> if (gpa >= (1ULL << cfg->s2cfg.oas)) {
-> this is not obvious though that the ias = oas. Where does it come from?
-> 
-> In implementations of SMMUv3.1 and later, this value is Reserved and S2PS behaves as 0b110 (52 bits).
-> Effective_S2PS = MIN(STE.S2PS, SMMU_IDR5.OAS);
-> OAS is a maximum of 52 bits in SMMUv3.1 and later
-IAS = OAS for AA64. Described in "3.4 Address sizes".
-The first check is actually not correct, as input address should be
-compared to IAS(or OAS) while s2cfg.oas is effective PS.
-I will rename s2cfg.oas to s2cfg.eff_ps to avoid confusion.
-I will change the check here to be against s2t0sz and in this case it
-causes stage-2 addr size fault.
+> alloc_anon_inode() uses new_pseudo_inode() to get the inode. As per the comment, new inode 
+> is not added to the superblock s_inodes list.
 
-I think the check for the IAS shouldn't be done here.
+Another issue somewhat related to alloc_anon_inode() is that the shmem code
+in some cases assumes the inode struct was allocated via shmem_alloc_inode(),
+which allocates a struct shmem_inode_info, which is a superset of struct inode
+with additional fields for things like spinlocks.
 
-> > +     */
-> > +    if (iova >= (1ULL << cfg->s2cfg.oas)) {
-> > +        info->type = SMMU_PTW_ERR_ADDR_SIZE;
-> > +        info->stage = 1;
-> > +        goto error_no_stage;
-> > +    }
-> > +
-> > +    while (level < SMMU_LEVELS) {
-> I would rename SMMU_LEVELs
-You mean replace SMMU_LEVELS with SMMU_LEVELs?
+These additional fields don't get allocated/ininitialized in the case of
+restrictedmem, so when restrictedmem_getattr() tries to pass the inode on to
+shmem handler, it can cause a crash.
 
-> >  
-> > +#define PTE_AF(pte) \
-> > +    (extract64(pte, 10, 1))
-> >  /*
-> >   * TODO: At the moment all transactions are considered as privileged (EL1)
-> >   * as IOMMU translation callback does not pass user/priv attributes.
-> > @@ -73,6 +75,9 @@
-> >  #define is_permission_fault(ap, perm) \
-> >      (((perm) & IOMMU_WO) && ((ap) & 0x2))
-> >  
-> > +#define is_permission_fault_s2(ap, perm) \
-> I would rename ap param into s2ap. This is the name of the field in the spec
-Will do.
+For instance, the following trace was seen when executing 'sudo lsof' while a
+process/guest was running with an open memfd FD:
 
-> > +    (!((ap & perm) == perm))
-> > +
-> >  #define PTE_AP_TO_PERM(ap) \
-> >      (IOMMU_ACCESS_FLAG(true, !((ap) & 0x2)))
-> >  
-> > @@ -96,6 +101,40 @@ uint64_t iova_level_offset(uint64_t iova, int inputsize,
-> >              MAKE_64BIT_MASK(0, gsz - 3);
-> >  }
-> >  
-> > +#define SMMU_MAX_S2_CONCAT    16
-> it is not really an SMMU property (same as SMMU_LEVELS by the way). This
-> is rather something related to VMSA spec, no?.
-Yes, they are part of VMSA, however they are named this way as they are
-part of SMMU headers, should we rename them to something else?
+    [24393.121409] general protection fault, probably for non-canonical address 0xfe9fb182fea3f077: 0000 [#1] PREEMPT SMP NOPTI
+    [24393.133546] CPU: 2 PID: 590073 Comm: lsof Tainted: G            E      6.1.0-rc4-upm10b-host-snp-v8b+ #4
+    [24393.144125] Hardware name: AMD Corporation ETHANOL_X/ETHANOL_X, BIOS RXM1009B 05/14/2022
+    [24393.153150] RIP: 0010:native_queued_spin_lock_slowpath+0x3a3/0x3e0
+    [24393.160049] Code: f3 90 41 8b 04 24 85 c0 74 ea eb f4 c1 ea 12 83 e0 03 83 ea 01 48 c1 e0 05 48 63 d2 48 05 00 41 04 00 48 03 04 d5 e0 ea 8b 82 <48> 89 18 8b 43 08 85 c0 75 09 f3 90 8b 43 08 85 c0 74 f7 48 8b 13
+    [24393.181004] RSP: 0018:ffffc9006b6a3cf8 EFLAGS: 00010086
+    [24393.186832] RAX: fe9fb182fea3f077 RBX: ffff889fcc144100 RCX: 0000000000000000
+    [24393.194793] RDX: 0000000000003ffe RSI: ffffffff827acde9 RDI: ffffc9006b6a3cdf
+    [24393.202751] RBP: ffffc9006b6a3d20 R08: 0000000000000001 R09: 0000000000000000
+    [24393.210710] R10: 0000000000000000 R11: 000000000000ffff R12: ffff888179fa50e0
+    [24393.218670] R13: ffff889fcc144100 R14: 00000000000c0000 R15: 00000000000c0000
+    [24393.226629] FS:  00007f9440f45400(0000) GS:ffff889fcc100000(0000) knlGS:0000000000000000
+    [24393.235692] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    [24393.242101] CR2: 000055c55a9cf088 CR3: 0008000220e9c003 CR4: 0000000000770ee0
+    [24393.250059] PKRU: 55555554
+    [24393.253073] Call Trace:
+    [24393.255797]  <TASK>
+    [24393.258133]  do_raw_spin_lock+0xc4/0xd0
+    [24393.262410]  _raw_spin_lock_irq+0x50/0x70
+    [24393.266880]  ? shmem_getattr+0x4c/0xf0
+    [24393.271060]  shmem_getattr+0x4c/0xf0
+    [24393.275044]  restrictedmem_getattr+0x34/0x40
+    [24393.279805]  vfs_getattr_nosec+0xbd/0xe0
+    [24393.284178]  vfs_getattr+0x37/0x50
+    [24393.287971]  vfs_statx+0xa0/0x150
+    [24393.291668]  vfs_fstatat+0x59/0x80
+    [24393.295462]  __do_sys_newstat+0x35/0x70
+    [24393.299739]  __x64_sys_newstat+0x16/0x20
+    [24393.304111]  do_syscall_64+0x3b/0x90
+    [24393.308098]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-> > +
-> > +/*
-> > + * Relies on correctness of gran and sl0 from caller.
-> I would remove the above line as we generally expect the caller to
-> behave properly or do you mean we do not handle any sanity check?
-> I refer to some of them in target/arm/ptw.c:check_s2_mmu_setup()
-We do sanity check in STE parsing, I added this line as this function
-is in a header file and anyone can use it, so to make it clear.
-However, it is very trivial, I will remove the comment.
+As a workaround we've been doing the following, but it's probably not the
+proper fix:
 
-> > + * FEAT_LPA2 and FEAT_TTST are not implemented.
-> > + */
-> > +static inline int get_start_level(int sl0 , int gran)
-> > +{
-> > +    /* ARM ARM: Table D8-12. */
-> > +    if (gran == 12) {
-> > +        return 2 - sl0;
-> > +    }
-> > +    /* ARM ARM: Table D8-22 and Table D8-31. */
-> > +    return 3 - sl0;
-> > +}
-> > +
-> > +/*
-> > + * Index in a concatenated first level stage-2 page table.
-> > + * ARM ARM: D8.2.2 Concatenated translation tables.
-> > + */
-> > +static inline int pgd_idx(int start_level, int granule, dma_addr_t iova)
-> then the name of the function may better reflect what is does?
-This returns the index of the page table descriptor in a concatenated
-structure, this is actually close to what kvm calls it
-“kvm_pgd_page_idx()”, however, I can call it something more clear as
-pgd_concatenated_idx()?
+  https://github.com/AMDESE/linux/commit/0378116b5c4e373295c9101727f2cb5112d6b1f4
 
-> > +{
-> > +    uint64_t ret;
-> > +    /*
-> > +     * Get the number of bits handled by next levels, then any extra bits in
-> > +     * the address should index the concatenated tables. This relation can
-> > +     * deduced from tables in ARM ARM: D8.2.7-9
-> > +     */
-> > +    int shift = (SMMU_LEVELS - start_level) * (granule - 3) + granule;
-> this looks like level_shift() with level = start_level - 1, no.
-Yes, I will use level_shift() instead.
-> s/granule_sz/gsz or granule_sz to match the rest of the code
-Will do.
+-Mike
 
-Thanks,
-Mostafa
 
