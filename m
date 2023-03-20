@@ -2,71 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723AB6C1480
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 15:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0486C14A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 15:24:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peGIS-0001q6-Bz; Mon, 20 Mar 2023 10:15:36 -0400
+	id 1peGQM-0004Gu-43; Mon, 20 Mar 2023 10:23:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1peGIP-0001nu-MA
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:15:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1peGIN-0006wV-CK
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:15:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679321728;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JjSKqhVnzj+HyAgwPCKU6RSR/7YeUfX1cxjrPaB/lAo=;
- b=A3v8TfWgV3wX0aOc665y4hMcyFng4S/IGkMz+lFh3eE5le1Hc2c9fJbXhhRrF6OoJ8C1Qv
- rXti4yNmiZyeFTvd+mUMuw3BUTTtA1pZOvBLj4b5FGjHn63fhJL1bAzA5w7LAP81wcfU6A
- n004Q26SZo9Nz9XqJMFYLjwTNbAhdBk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-284-zVAsjkAbP-WzbZCHYqjWCQ-1; Mon, 20 Mar 2023 10:15:27 -0400
-X-MC-Unique: zVAsjkAbP-WzbZCHYqjWCQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E736F855313;
- Mon, 20 Mar 2023 14:15:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 062451121315;
- Mon, 20 Mar 2023 14:15:25 +0000 (UTC)
-Date: Mon, 20 Mar 2023 14:15:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PULL 00/31] various fixes (testing, plugins, gitdm)
-Message-ID: <ZBhqd7uyT0X6tRK7@redhat.com>
-References: <20230318114644.1340899-1-alex.bennee@linaro.org>
- <CAFEAcA-f=tDQqmisqaJQxwYjgYOv+1XbCUDcaZkH_Jikt1iYNg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGQK-0004G4-1h
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:23:44 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGQI-0000Cb-9p
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:23:43 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ u11-20020a05600c19cb00b003edcc414997so2766245wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 07:23:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679322221;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wDFPVnK26gTPvQ7OQnmaMHAo8uxTCxn0wjupc66n0+g=;
+ b=iupUAOLOVvIo5M2FeGbu2pABScMqZ1WtjEgwgzAmbLp8n1wBphdMsJVh/nBr2ctxaq
+ niYu4FF+KJTk+QSzJev4lNK//Wy/Yhv2xD0lLuBLZslRJqBIMiTdxNYJxSEs1KxrsHJR
+ HXKgVtUZ7tM96cRGbKte3pAoXlUVUeGIklTPLppMnqAsDyzgnvesrxlGGjLmAxHwP2Z8
+ oOTJXlxwRgHOZRq+NQU2XjlOeW0QinUZw0n+V/hg5OrnJccCE8/JVuMQzPi0BC01UBxH
+ +gRQI2RsNKHxJHJ8loygXyNNQB1Q6krKKZ6IgKVxC7ORtE9QtzBgoDcVrwecwQ2JsPM+
+ E8LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679322221;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wDFPVnK26gTPvQ7OQnmaMHAo8uxTCxn0wjupc66n0+g=;
+ b=6ilKN12elwqWrb/N5OoGpjZ8INvBYAONc3x64X5BHZNzQuk2J3rGY0mULIHEbHybjG
+ Ak1rVycOK1oEDE2zwX3lGm4EpKUHySjf6DaThoBQD6E5XvWNY5vCBSzZj54Z5B80E46j
+ SLlE/hxeLscPR53LuSncw9jJeUqMc5bLMZjkMOSD4txuAtNuINwr0QVfaECosrLUxmkZ
+ RUIo0+5C50yl0oQ99LlwZCe0gZMY3CDDGcoLgZD9CmvAvXkkILAq7vDorSeeCl+Y+YEk
+ aRCw8cQy3DJdUnWb9qbhysntzw9QPTuR7Z+W/NAmIJfhVbZvFh18YSLzqo7eiutcRX09
+ MjNg==
+X-Gm-Message-State: AO0yUKV70GAST9rOmGujHirQzDwyOGKu1ct8iwO5LASY3WvWN9/Dxg5m
+ bI6nzhJRaNZ2AwkQooPfVTtbgw==
+X-Google-Smtp-Source: AK7set/aRqtnWw0m8lIYSvCcTJKy8bYXEjcr1/Crqm07tlo2b+OzQuFfio36H5QqfOmps9fL+g8D5g==
+X-Received: by 2002:a05:600c:3b24:b0:3ed:296b:4899 with SMTP id
+ m36-20020a05600c3b2400b003ed296b4899mr26844308wms.15.1679322220744; 
+ Mon, 20 Mar 2023 07:23:40 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ p9-20020a1c5449000000b003dc1d668866sm16596895wmi.10.2023.03.20.07.23.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Mar 2023 07:23:40 -0700 (PDT)
+Message-ID: <cdf53d5e-d74d-9316-f1bc-3efc36e1c3bc@linaro.org>
+Date: Mon, 20 Mar 2023 15:23:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH-for-8.1 4/5] bulk: Do not declare function prototypes
+ using extern keyword
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, Tyrone Ting <kfting@nuvoton.com>,
+ Hao Wu <wuhaotsh@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>, Riku Voipio <riku.voipio@iki.fi>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Aurelien Jarno
+ <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ xen-devel@lists.xenproject.org, kvm@vger.kernel.org
+References: <20230320134219.22489-1-philmd@linaro.org>
+ <20230320134219.22489-5-philmd@linaro.org> <ZBhkIjelEtR7lckj@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <ZBhkIjelEtR7lckj@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA-f=tDQqmisqaJQxwYjgYOv+1XbCUDcaZkH_Jikt1iYNg@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,195 +105,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 20, 2023 at 01:42:46PM +0000, Peter Maydell wrote:
-> On Sat, 18 Mar 2023 at 11:46, Alex Bennée <alex.bennee@linaro.org> wrote:
-> >
-> > The following changes since commit 74c581b6452394e591f13beba9fea2ec0688e2f5:
-> >
-> >   Merge tag 'trivial-branch-for-8.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2023-03-17 14:22:01 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.com/stsquad/qemu.git tags/pull-for-8.0-170323-4
-> >
-> > for you to fetch changes up to 4f2c431acd43d0aa505494229d05fa343762f272:
-> >
-> >   qtests: avoid printing comments before g_test_init() (2023-03-17
-> >   17:50:19 +0000)
-> >
-> > You can see my CI run on the branch here:
-> >
-> >   https://gitlab.com/stsquad/qemu/-/pipelines/810271620
-> >
-> > The failures:
-> >
-> >   FreeBSD's time out on a migration test
-> >   Centos8 Stream because my private runner needs more disk space
-> >
-> > ----------------------------------------------------------------
-> > Misc fixes for 8.0 (testing, plugins, gitdm)
-> >
-> >   - update Alpine image used for testing images
-> >   - include libslirp in custom runner build env
-> >   - update gitlab-runner recipe for CentOS
-> >   - update docker calls for better caching behaviour
-> >   - document some plugin callbacks
-> >   - don't use tags to define drives for lkft baseline tests
-> >   - fix missing clear of plugin_mem_cbs
-> >   - fix iotests to report individual results
-> >   - update the gitdm metadata for contributors
-> >   - avoid printing comments before g_test_init()
-> >
+On 20/3/23 14:48, Daniel P. Berrangé wrote:
+> On Mon, Mar 20, 2023 at 02:42:18PM +0100, Philippe Mathieu-Daudé wrote:
+>> By default, C function prototypes declared in headers are visible,
+>> so there is no need to declare them as 'extern' functions.
+>> Remove this redundancy in a single bulk commit; do not modify:
+>>
+>>    - meson.build (used to check function availability at runtime)
+>>    - pc-bios
+>>    - libdecnumber
+>>    - *.c
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   block/dmg.h                    |  8 +++----
+>>   bsd-user/bsd-file.h            |  6 ++---
+>>   crypto/hmacpriv.h              | 13 +++++------
+>>   hw/xen/xen_pt.h                |  8 +++----
+>>   include/crypto/secret_common.h | 14 +++++-------
+>>   include/exec/page-vary.h       |  4 ++--
+>>   include/hw/misc/aspeed_scu.h   |  2 +-
+>>   include/hw/nvram/npcm7xx_otp.h |  4 ++--
+>>   include/hw/qdev-core.h         |  4 ++--
+>>   include/qemu/crc-ccitt.h       |  4 ++--
+>>   include/qemu/osdep.h           |  2 +-
+>>   include/qemu/rcu.h             | 14 ++++++------
+>>   include/qemu/sys_membarrier.h  |  4 ++--
+>>   include/qemu/uri.h             |  6 ++---
+>>   include/sysemu/accel-blocker.h | 14 ++++++------
+>>   include/sysemu/os-win32.h      |  4 ++--
+>>   include/user/safe-syscall.h    |  4 ++--
+>>   target/i386/sev.h              |  6 ++---
+>>   target/mips/cpu.h              |  4 ++--
+>>   tcg/tcg-internal.h             |  4 ++--
+>>   tests/tcg/minilib/minilib.h    |  2 +-
+>>   include/exec/memory_ldst.h.inc | 42 +++++++++++++++++-----------------
+>>   roms/seabios                   |  2 +-
 > 
-> This seems to consistently fail an avocado test on the
-> centos-stream-8-x86_64 job:
-> (21/51) tests/avocado/multiprocess.py:Multiprocess.test_multiprocess_x86_64:
-> ERROR: ConnectError: Failed to establish session: EOFError\n Exit
-> code: 1\n Command: ./qemu-system-x86_64 -display none -vga none
-> -chardev socket,id=mon,fd=17 -mon chardev=mon,mode=control -machine
-> x-remote -nodefaults -device lsi53c895a,id=lsi1 -object x-remote-o...
-> (0.10 s)
+> Accidental submodule commit.,
 > 
-> https://gitlab.com/qemu-project/qemu/-/jobs/3962028269
-> https://gitlab.com/qemu-project/qemu/-/jobs/3965134190
+>>   23 files changed, 84 insertions(+), 91 deletions(-)
+>>
+>> diff --git a/block/dmg.h b/block/dmg.h
+>> index e488601b62..ed209b5dec 100644
+>> --- a/block/dmg.h
+>> +++ b/block/dmg.h
+>> @@ -51,10 +51,10 @@ typedef struct BDRVDMGState {
+>>       z_stream zstream;
+>>   } BDRVDMGState;
+>>   
+>> -extern int (*dmg_uncompress_bz2)(char *next_in, unsigned int avail_in,
+>> -                                 char *next_out, unsigned int avail_out);
+>> +int (*dmg_uncompress_bz2)(char *next_in, unsigned int avail_in,
+>> +                          char *next_out, unsigned int avail_out);
+>>   
+>> -extern int (*dmg_uncompress_lzfse)(char *next_in, unsigned int avail_in,
+>> -                                   char *next_out, unsigned int avail_out);
+>> +int (*dmg_uncompress_lzfse)(char *next_in, unsigned int avail_in,
+>> +                            char *next_out, unsigned int avail_out);
 > 
-> 
-> 
-> The iotests also don't seem to pass on the OpenBSD VM after this;
-> which test fails varies from run to run but the common factor
-> is a complaint about running out of disk space:
+> These are variable declarations, so with this change you'll get multiple
+> copies of the variable if this header is included from multiple source
+> files. IOW, the 'extern' usage is correct.
 
-This must be caused by the change in the way we register the
-iotests with meson, as I don't see any other interesting changes
-in this series.
+Doh indeed, good catch, thanks.
 
-At a high level we have four scenarios we're testing
-
- qcow2 + quick
- raw  + slow
- qed + thorough
- vmdk + thorough
- vpc + thorough
-
-Previously each scenario was serialized wrt other scenarios, but
-within a scenario things run in parallel. So we could have more
-parallelization than we did in the past.
-
-They were also serialized wrt any other tests QEMU runs.
-
-IIUC, we skip any 'slow' and 'thorough' tests by default
-
-  add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
-  add_test_setup('slow', exclude_suites: ['thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
-  add_test_setup('thorough', env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
-
-
-so in practice we should only be runing the qcow2 + quick
-tests, not the raw/qed/vmdk/vpc tests.
-
-So the change in parallelism is that we can potentially run the
-block I/O tests in parallel with unit tests. Maybe parallel with
-avocado tests too, I'm not sure ?
-
-
+>> diff --git a/roms/seabios b/roms/seabios
+>> index ea1b7a0733..3208b098f5 160000
+>> --- a/roms/seabios
+>> +++ b/roms/seabios
+>> @@ -1 +1 @@
+>> -Subproject commit ea1b7a0733906b8425d948ae94fba63c32b1d425
+>> +Subproject commit 3208b098f51a9ef96d0dfa71d5ec3a3eaec88f0a
 > 
-> 
-> 
-> 719/774 qemu:block / io-qcow2-177
->            ERROR           4.21s   exit status 1
-> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
-> stderr:
-> --- /home/qemu/qemu-test.8HLwgo/src/tests/qemu-iotests/177.out
-> +++ /home/qemu/qemu-test.8HLwgo/build/scratch/qcow2-file-177/177.out.bad
-> @@ -5,8 +5,7 @@
->  wrote 134217728/134217728 bytes at offset 0
->  128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
-> backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-> -wrote 134217728/134217728 bytes at offset 0
-> -128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-> +write failed: No space left on device
-> 
->  == constrained alignment and max-transfer ==
->  wrote 131072/131072 bytes at offset 1000
-> @@ -27,22 +26,27 @@
->  30 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-> 
-> 
-> (etc)
-> 
-> and in another run
-> 
-> stderr:
-> --- /home/qemu/qemu-test.ZfU510/src/tests/qemu-iotests/040.out
-> +++ /home/qemu/qemu-test.ZfU510/build/scratch/qcow2-file-040/040.out.bad
-> @@ -1,5 +1,54 @@
-> -.................................................................
-> +................................EE...............................
-> +======================================================================
-> +ERROR: testIntermediateReadErrorReport (__main__.TestErrorHandling)
-> +----------------------------------------------------------------------
-> +Traceback (most recent call last):
-> +  File "/home/qemu/qemu-test.ZfU510/src/python/qemu/machine/machine.py",
-> line 433, in launch
-> +    self._launch()
-> +  File "/home/qemu/qemu-test.ZfU510/src/python/qemu/machine/machine.py",
-> line 460, in _launch
-> +    self._pre_launch()
-> +  File "/home/qemu/qemu-test.ZfU510/src/tests/qemu-iotests/iotests.py",
-> line 837, in _pre_launch
-> +    super()._pre_launch()
-> +  File "/home/qemu/qemu-test.ZfU510/src/python/qemu/machine/qtest.py",
-> line 142, in _pre_launch
-> +    super()._pre_launch()
-> +  File "/home/qemu/qemu-test.ZfU510/src/python/qemu/machine/machine.py",
-> line 358, in _pre_launch
-> +    self._qemu_log_path = os.path.join(self.log_dir, self._name + ".log")
-> +  File "/home/qemu/qemu-test.ZfU510/src/python/qemu/machine/machine.py",
-> line 905, in log_dir
-> +    return self.temp_dir
-> +  File "/home/qemu/qemu-test.ZfU510/src/python/qemu/machine/machine.py",
-> line 886, in temp_dir
-> +    self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
-> +  File "/usr/local/lib/python3.9/tempfile.py", line 363, in mkdtemp
-> +    _os.mkdir(file, 0o700)
-> +OSError: [Errno 28] No space left on device:
-> '/home/qemu/qemu-test.ZfU510/build/scratch/qcow2-file-040/qemu-machine-g_v0pby3'
-> +
-> +The above exception was the direct cause of the following exception:
-> +
-> +Traceback (most recent call last):
-> +  File "/home/qemu/qemu-test.ZfU510/src/tests/qemu-iotests/040", line
-> 472, in setUp
-> +    self.vm.launch()
-> +  File "/home/qemu/qemu-test.ZfU510/src/python/qemu/machine/machine.py",
-> line 446, in launch
-> +    raise VMLaunchFailure(
-> +qemu.machine.machine.VMLaunchFailure: OSError: [Errno 28] No space
-> left on device:
-> '/home/qemu/qemu-test.ZfU510/build/scratch/qcow2-file-040/qemu-machine-g_v0pby3'
-> +       Command:
-> +       Output: None
-> +
-> 
-> The host machine (hackbox) doesn't seem to have disk space issues
-> so presumably the iotests want to use too much disk space for
-> whatever the image size is that the tests/vm infrastructure
-> creates ?
-> 
-> thanks
-> -- PMM
-> 
+> Nope !
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Oops...
 
 
