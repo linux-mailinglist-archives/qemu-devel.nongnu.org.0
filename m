@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FAE6C13CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:43:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 394286C13D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:44:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFmL-0006UI-Vv; Mon, 20 Mar 2023 09:42:26 -0400
+	id 1peFmP-0006VS-Gh; Mon, 20 Mar 2023 09:42:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1peFmH-0006To-Ft
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:42:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1peFmE-0001o5-D5
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:42:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679319737;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nonIRmWiDJQoDzKg5KNGS2SNC9CVSUvyVSVp8oTXgUQ=;
- b=BsxMzhJXIITkYJDNoqoNsKFj+GcqnRQd8E6FKECPrJ/hNdfwxxZgM0WwlnJKu/mr1Hycn1
- A1Q/yYiMJnDaL+mwuFpE/tdnwMMyErAd1t53hBeQYFC4pd7pHH3/X6CZlGzxhsQ0GjJE3K
- XN5wjt094f+Glm1KF+WSxDjZRjOCTuE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-b-J9YHo1MFGKZVZZHiUUzw-1; Mon, 20 Mar 2023 09:42:16 -0400
-X-MC-Unique: b-J9YHo1MFGKZVZZHiUUzw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C81CD1C17426;
- Mon, 20 Mar 2023 13:42:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E20092166B29;
- Mon, 20 Mar 2023 13:42:14 +0000 (UTC)
-Date: Mon, 20 Mar 2023 13:42:10 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 1/3] win32: add qemu_close_socket_osfhandle()
-Message-ID: <ZBhishy1paJdaZQn@redhat.com>
-References: <20230320133643.1618437-1-marcandre.lureau@redhat.com>
- <20230320133643.1618437-2-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peFmN-0006Up-F9
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:42:27 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peFmJ-0001ou-Hi
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:42:27 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ az3-20020a05600c600300b003ed2920d585so9198499wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 06:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679319741;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sILs22r46Wg0crNJ/Z4XykLGZPrHT32y697ld2keEmA=;
+ b=tB6a5/jheCoeECKQBBLeM/ZlgO+LRW4UR0mTDHwX5xGpRQZ3+b3f8iCKnZfJpW0YfF
+ 8DHS9AzxdKXiohRam78HCzfyCHi0NrOvN78Q4GD12XwrHh1fmDNUVlOQ5Xr/8S5KspND
+ JGC5qDm4oEl86zZ7U9gSB1dzlhcXwcGNjaxpGd7RYK9lGOL+bFOBgys4lJJZYKFxABr7
+ AoU/T5jANb+3Bz/tlUZ2vu2a/CFsSayE3WicsoRlz6R0MLcijDCLyw1tTTznx1/Xcx72
+ 6Wv8NGyx/MBKdI3XFumnz6H9HTNcliKXXEE4TECRAa8xwROhBmaiNBbIyojUKJdgwNwe
+ Mu0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679319741;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sILs22r46Wg0crNJ/Z4XykLGZPrHT32y697ld2keEmA=;
+ b=de0mOlOlwxqbBNphG0/8lDnRsyI8CbRkxzx4Z7me1umHkPTkc6VoG0NnTI/qLMJxe9
+ nitbuqxTMbbNlyonNHIGMt4uuCQPdixGEPf1tnsQm7QETK8P6QAatVFTWfeMYFfFYA7x
+ s6ViF2Rx86Hpq9qZxp+9iVvfkxus+gswY+i2OrsrWnlJz4JX5hJZDJ4np5JdznV91bg7
+ GsEe2b3+0A2APnBK11xywU91FSZwcy6AVOdZJsRSbulop7h9mnkL7i0juelikFddcW7Q
+ UZ9+6DnuCVRuSrUGD4YACjaG61OTIC6BxOvToyEp5Imn+cvYljdt/ClFjPXaw9a6A4Y1
+ uYSQ==
+X-Gm-Message-State: AO0yUKXAxGOArBftSVUmqw6fZhEQsDIukNX967PnhDxzzcGOhOP76CwK
+ 0GJ5Q2t1Lol4na83W4EJSmgwOYlh2yI2cljNCYlDQg==
+X-Google-Smtp-Source: AK7set+iSH8lUmxCX4jFuDUPvP13VIOFDN/tzJgkiKf6Ksm78PEqzyd4r0ZGBb2JKn+HBl9gGbhlxA==
+X-Received: by 2002:a05:600c:3492:b0:3ed:de03:7f0a with SMTP id
+ a18-20020a05600c349200b003edde037f0amr3907492wmq.10.1679319741673; 
+ Mon, 20 Mar 2023 06:42:21 -0700 (PDT)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ 16-20020a05600c025000b003ed1ff06faasm10524249wmj.19.2023.03.20.06.42.20
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 20 Mar 2023 06:42:21 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH-for-8.1 0/5] bulk: Do not declare function prototypes using
+ 'extern' keyword
+Date: Mon, 20 Mar 2023 14:42:14 +0100
+Message-Id: <20230320134219.22489-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230320133643.1618437-2-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,160 +86,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 20, 2023 at 05:36:41PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Close the given file descriptor, but returns the underlying SOCKET.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  include/sysemu/os-win32.h | 15 ++++++--
->  util/oslib-win32.c        | 75 +++++++++++++++++++++------------------
->  2 files changed, 53 insertions(+), 37 deletions(-)
-> 
-> diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-> index e2849f88ab..15c296e0eb 100644
-> --- a/include/sysemu/os-win32.h
-> +++ b/include/sysemu/os-win32.h
-> @@ -171,10 +171,21 @@ bool qemu_socket_select(int sockfd, WSAEVENT hEventObject,
->  
->  bool qemu_socket_unselect(int sockfd, Error **errp);
->  
-> -/* We wrap all the sockets functions so that we can
-> - * set errno based on WSAGetLastError()
-> +/* We wrap all the sockets functions so that we can set errno based on
-> + * WSAGetLastError(), and use file-descriptors instead of SOCKET.
->   */
->  
-> +/*
-> + * qemu_close_socket_osfhandle:
-> + * @fd: a file descriptor associated with a SOCKET
-> + *
-> + * Close only the C run-time file descriptor, leave the SOCKET opened.
-> + *
-> + * Returns zero on success. On error, -1 is returned, and errno is set to
-> + * indicate the error.
-> + */
-> +int qemu_close_socket_osfhandle(int fd);
-> +
->  #undef close
->  #define close qemu_close_wrap
->  int qemu_close_wrap(int fd);
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index 16f8a67f7e..a98638729a 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -479,40 +479,27 @@ int qemu_bind_wrap(int sockfd, const struct sockaddr *addr,
->      return ret;
->  }
->  
-> -
->  #undef close
-> -int qemu_close_wrap(int fd)
-> +int qemu_close_socket_osfhandle(int fd)
->  {
-> -    int ret;
-> +    SOCKET s = _get_osfhandle(fd);
->      DWORD flags = 0;
-> -    SOCKET s = INVALID_SOCKET;
-> -
-> -    if (fd_is_socket(fd)) {
-> -        s = _get_osfhandle(fd);
-> -
-> -        /*
-> -         * If we were to just call _close on the descriptor, it would close the
-> -         * HANDLE, but it wouldn't free any of the resources associated to the
-> -         * SOCKET, and we can't call _close after calling closesocket, because
-> -         * closesocket has already closed the HANDLE, and _close would attempt to
-> -         * close the HANDLE again, resulting in a double free. We can however
-> -         * protect the HANDLE from actually being closed long enough to close the
-> -         * file descriptor, then close the socket itself.
-> -         */
-> -        if (!GetHandleInformation((HANDLE)s, &flags)) {
-> -            errno = EACCES;
-> -            return -1;
-> -        }
->  
-> -        if (!SetHandleInformation((HANDLE)s, HANDLE_FLAG_PROTECT_FROM_CLOSE, HANDLE_FLAG_PROTECT_FROM_CLOSE)) {
-> -            errno = EACCES;
-> -            return -1;
-> -        }
-> +    /*
-> +     * If we were to just call _close on the descriptor, it would close the
-> +     * HANDLE, but it wouldn't free any of the resources associated to the
-> +     * SOCKET, and we can't call _close after calling closesocket, because
-> +     * closesocket has already closed the HANDLE, and _close would attempt to
-> +     * close the HANDLE again, resulting in a double free. We can however
-> +     * protect the HANDLE from actually being closed long enough to close the
-> +     * file descriptor, then close the socket itself.
-> +     */
-> +    if (!GetHandleInformation((HANDLE)s, &flags)) {
-> +        errno = EACCES;
-> +        return -1;
->      }
->  
-> -    ret = close(fd);
-> -
-> -    if (s != INVALID_SOCKET && !SetHandleInformation((HANDLE)s, flags, flags)) {
-> +    if (!SetHandleInformation((HANDLE)s, HANDLE_FLAG_PROTECT_FROM_CLOSE, HANDLE_FLAG_PROTECT_FROM_CLOSE)) {
->          errno = EACCES;
->          return -1;
->      }
-> @@ -521,15 +508,33 @@ int qemu_close_wrap(int fd)
->       * close() returns EBADF since we PROTECT_FROM_CLOSE the underlying handle,
->       * but the FD is actually freed
->       */
-> -    if (ret < 0 && (s == INVALID_SOCKET || errno != EBADF)) {
-> -        return ret;
-> +    if (close(fd) < 0 && errno != EBADF) {
-> +        return -1;
->      }
->  
-> -    if (s != INVALID_SOCKET) {
-> -        ret = closesocket(s);
-> -        if (ret < 0) {
-> -            errno = socket_error();
-> -        }
-> +    if (!SetHandleInformation((HANDLE)s, flags, flags)) {
-> +        errno = EACCES;
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +int qemu_close_wrap(int fd)
-> +{
-> +    SOCKET s = INVALID_SOCKET;
-> +    int ret = -1;
-> +
-> +    if (!fd_is_socket(fd)) {
-> +        return close(fd);
-> +    }
-> +
-> +    s = _get_osfhandle(fd);
-> +    qemu_close_socket_osfhandle(fd);
-> +
-> +    ret = closesocket(s);
-> +    if (ret < 0) {
-> +        errno = socket_error();
->      }
+- Remove the 'extern' keyword on function prototypes declared
+  in header.
+- Replace __attribute__((noreturn)) -> G_NORETURN
+- Trivial cleanups to keep the previous commits generic.
 
-Shouldn't the closesocket() and return check be wrapped in
+TODO: Add a rule in scripts/checkpatch.pl :)
 
-   if (s != INVALID_SOCKET) { .... }
+Based-on: <20230320131426.16348-1-philmd@linaro.org>
 
-as the old code had that conditional invokation of closesocket() ?
+Philippe Mathieu-Daudé (5):
+  qemu/osdep.h: Do not declare function prototypes using extern keyword
+  block/dmg: Remove duplicated prototype declarations
+  qemu/uri: Use QueryParams type definition
+  bulk: Do not declare function prototypes using extern keyword
+  bulk: Replace __attribute__((noreturn)) -> G_NORETURN
 
-With regards,
-Daniel
+ block/dmg.h                    |  8 +++----
+ bsd-user/bsd-file.h            |  6 ++---
+ crypto/hmacpriv.h              | 13 +++++------
+ hw/xen/xen_pt.h                |  8 +++----
+ include/crypto/secret_common.h | 14 +++++-------
+ include/exec/page-vary.h       |  4 ++--
+ include/hw/misc/aspeed_scu.h   |  2 +-
+ include/hw/nvram/npcm7xx_otp.h |  4 ++--
+ include/hw/qdev-core.h         |  4 ++--
+ include/qemu/crc-ccitt.h       |  4 ++--
+ include/qemu/osdep.h           |  4 ++--
+ include/qemu/rcu.h             | 14 ++++++------
+ include/qemu/sys_membarrier.h  |  4 ++--
+ include/qemu/uri.h             |  6 ++---
+ include/sysemu/accel-blocker.h | 14 ++++++------
+ include/sysemu/os-win32.h      |  4 ++--
+ include/user/safe-syscall.h    |  4 ++--
+ target/i386/sev.h              |  6 ++---
+ target/mips/cpu.h              |  4 ++--
+ tcg/tcg-internal.h             |  4 ++--
+ tests/tcg/minilib/minilib.h    |  2 +-
+ include/exec/memory_ldst.h.inc | 42 +++++++++++++++++-----------------
+ block/dmg.c                    |  6 -----
+ tests/migration/stress.c       |  2 +-
+ roms/seabios                   |  2 +-
+ 25 files changed, 86 insertions(+), 99 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.38.1
 
 
