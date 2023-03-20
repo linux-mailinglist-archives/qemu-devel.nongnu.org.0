@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A426C1B32
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56926C1B3C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 17:21:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peIFe-00084y-1l; Mon, 20 Mar 2023 12:20:50 -0400
+	id 1peIFZ-0007yg-S2; Mon, 20 Mar 2023 12:20:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIFc-00080q-BZ
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1peIFa-0006WG-Ff
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679329245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sk064ClysnT6/rK1ZTrOiSAwqMVQJeu1f3KkGaQRfns=;
- b=Lfhf/+48kA4qafbjIXVZsLHwMyl0QQu+1ZG31yYyU/IV/VvDNEPVeF7iQ93EzudtAz5IC9
- /vNsso+oCifRlGiClBuRA0PCwDcIv9yPiuv+oE1Mf+XZiI/aG2U2sFgNSUKgT6vk0wOGXI
- 6W6psLil2+sr4g8PlTaaeqtVFbUT7M4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-348-3VXEcNF0O42B63Zd-BUdfw-1; Mon, 20 Mar 2023 12:20:37 -0400
-X-MC-Unique: 3VXEcNF0O42B63Zd-BUdfw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C5BBD96DC81
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 16:20:36 +0000 (UTC)
-Received: from server.redhat.com (ovpn-12-41.pek2.redhat.com [10.72.12.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D24BB40C20FA;
- Mon, 20 Mar 2023 16:20:34 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com,
-	jasowang@redhat.com,
-	mst@redhat.com
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH v14 4/4] vhost-vdpa: Add support for vIOMMU.
-Date: Tue, 21 Mar 2023 00:19:59 +0800
-Message-Id: <20230320161959.650841-5-lulu@redhat.com>
-In-Reply-To: <20230320161959.650841-1-lulu@redhat.com>
-References: <20230320161959.650841-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1peIFX-0007ul-A3
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:43 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1peIFV-0006Lx-MJ
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 12:20:43 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ f6-20020a17090ac28600b0023b9bf9eb63so12957368pjt.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 09:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679329240;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=CDxq+gq8WiTyha1564PAJFGxTBIIKSmVZTCyUGdgAXA=;
+ b=iJkSOMQoCFR5Eour1OMYEehTQzjaJt8OkfoYk/p0qKsqflWpmIOFt3w7QpV8vPoo7/
+ eiMYoEItGBa61iuSIgTn0VXXBwPxK/4QywXs+/gdaHJsDUwJp8wWCd2pNHW+CneqvVCb
+ AivQWLPkfhUwyoMiVwTRP2cvRgx0FIDLkVDaY+gO34/d40C+MuLwQuq+GAFylO00qfZr
+ 7lTwhsVI4njbCD9HzsAPOreljBxqQC/DbkVLR4fSu5EafxiqhTg3Nim5vxKU2mlvlvi1
+ +S2I//6fLpWaVr8cggYjW6LIfLlca9MljkjKdJWOjfi5tSiLIs4W4WlQkGLNtNdw3PoJ
+ +rqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679329240;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CDxq+gq8WiTyha1564PAJFGxTBIIKSmVZTCyUGdgAXA=;
+ b=gtdEDZQNKa0I7XjG3UE2C7+6hiHcRK135arAukhpuajbqaKrzFg1KK5jqD/+Jplbmt
+ YfWeb8ex8z/hbtZ+ujDkKHQJpd1Y3bcGPIUgVPRWh9mnlmstjtD/VtJ4f59NrgbkJ6kg
+ vdGULI8GMXVSDP5Oz7J6QjJ0QqvFeyAMRfMtDUNF7qcxf+bMo3sD03gAiO6Wo8V32uOp
+ B//xFH+X8qS1ZzbNtiJSuiy7G5lLISnV9KoiBD/IPXpeSzpWo38NNai9mn7dtkr27pFL
+ JOEyWUMSEqnpJ28vzifWGbY/fK8VhyDNjniUaGClhtuIJYEyTs9bT03jDSLPuzcWk6px
+ mP9A==
+X-Gm-Message-State: AO0yUKW5qvi48vFgf9+sXRZ+YY8/pmfzPtxHvoQpEd4ojZcwqearI0Fp
+ b2I66UTJxmJ3brmzITVKJF1iaw==
+X-Google-Smtp-Source: AK7set+gB2cprObIemm+NTceTx94l3e1NVxR9C17cIHw9W8861rZjLnbYevt8WxmrAM38Kn3jfhNOA==
+X-Received: by 2002:a17:90b:4b50:b0:23d:1b82:7236 with SMTP id
+ mi16-20020a17090b4b5000b0023d1b827236mr20731536pjb.16.1679329239973; 
+ Mon, 20 Mar 2023 09:20:39 -0700 (PDT)
+Received: from [192.168.4.112] (096-041-163-098.res.spectrum.com.
+ [96.41.163.98]) by smtp.gmail.com with ESMTPSA id
+ u21-20020a17090ae01500b0023f3fc5d162sm7098666pjy.25.2023.03.20.09.20.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Mar 2023 09:20:39 -0700 (PDT)
+Message-ID: <ddf7c941-3e98-5745-4e88-719bb616d2e0@linaro.org>
+Date: Mon, 20 Mar 2023 09:20:36 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 06/10] includes: move irq definitions out of cpu-all.h
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Alessandro Di Federico <ale@rev.ng>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+References: <20230320101035.2214196-1-alex.bennee@linaro.org>
+ <20230320101035.2214196-7-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230320101035.2214196-7-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,251 +98,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-1. The vIOMMU support will make vDPA can work in IOMMU mode. This
-will fix security issues while using the no-IOMMU mode.
-To support this feature we need to add new functions for IOMMU MR adds and
-deletes.
+On 3/20/23 03:10, Alex Bennée wrote:
+> These are common across all versions of the system so it would help if
+> we could use them for common code.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   include/exec/cpu-all.h | 52 +-------------------------
+>   include/exec/cpu-irq.h | 83 ++++++++++++++++++++++++++++++++++++++++++
+>   include/exec/poison.h  | 13 -------
+>   3 files changed, 84 insertions(+), 64 deletions(-)
+>   create mode 100644 include/exec/cpu-irq.h
 
-Also since the SVQ does not support vIOMMU yet, add the check for IOMMU
-in vhost_vdpa_dev_start, if the SVQ and IOMMU enable at the same time
-the function will return fail.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-2. Skip the iova_max check vhost_vdpa_listener_skipped_section(). While
-MR is IOMMU, move this check to  vhost_vdpa_iommu_map_notify()
-
-Verified in vp_vdpa and vdpa_sim_net driver
-
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/vhost-vdpa.c         | 149 +++++++++++++++++++++++++++++++--
- include/hw/virtio/vhost-vdpa.h |  11 +++
- 2 files changed, 152 insertions(+), 8 deletions(-)
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 0c8c37e786..b36922b365 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -26,6 +26,7 @@
- #include "cpu.h"
- #include "trace.h"
- #include "qapi/error.h"
-+#include "hw/virtio/virtio-access.h"
- 
- /*
-  * Return one past the end of the end of section. Be careful with uint64_t
-@@ -60,15 +61,22 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
-                      iova_min, section->offset_within_address_space);
-         return true;
-     }
-+    /*
-+     * While using vIOMMU, sometimes the section will be larger than iova_max,
-+     * but the memory that actually maps is smaller, so move the check to
-+     * function vhost_vdpa_iommu_map_notify(). That function will use the actual
-+     * size that maps to the kernel
-+     */
- 
--    llend = vhost_vdpa_section_end(section);
--    if (int128_gt(llend, int128_make64(iova_max))) {
--        error_report("RAM section out of device range (max=0x%" PRIx64
--                     ", end addr=0x%" PRIx64 ")",
--                     iova_max, int128_get64(llend));
--        return true;
-+    if (!memory_region_is_iommu(section->mr)) {
-+        llend = vhost_vdpa_section_end(section);
-+        if (int128_gt(llend, int128_make64(iova_max))) {
-+            error_report("RAM section out of device range (max=0x%" PRIx64
-+                         ", end addr=0x%" PRIx64 ")",
-+                         iova_max, int128_get64(llend));
-+            return true;
-+        }
-     }
--
-     return false;
- }
- 
-@@ -185,6 +193,118 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-     v->iotlb_batch_begin_sent = false;
- }
- 
-+static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-+{
-+    struct vdpa_iommu *iommu = container_of(n, struct vdpa_iommu, n);
-+
-+    hwaddr iova = iotlb->iova + iommu->iommu_offset;
-+    struct vhost_vdpa *v = iommu->dev;
-+    void *vaddr;
-+    int ret;
-+    Int128 llend;
-+
-+    if (iotlb->target_as != &address_space_memory) {
-+        error_report("Wrong target AS \"%s\", only system memory is allowed",
-+                     iotlb->target_as->name ? iotlb->target_as->name : "none");
-+        return;
-+    }
-+    RCU_READ_LOCK_GUARD();
-+    /* check if RAM section out of device range */
-+    llend = int128_add(int128_makes64(iotlb->addr_mask), int128_makes64(iova));
-+    if (int128_gt(llend, int128_make64(v->iova_range.last))) {
-+        error_report("RAM section out of device range (max=0x%" PRIx64
-+                     ", end addr=0x%" PRIx64 ")",
-+                     v->iova_range.last, int128_get64(llend));
-+        return;
-+    }
-+
-+    vhost_vdpa_iotlb_batch_begin_once(v);
-+
-+    if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
-+        bool read_only;
-+
-+        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, NULL)) {
-+            return;
-+        }
-+
-+        ret = vhost_vdpa_dma_map(v, VHOST_VDPA_GUEST_PA_ASID, iova,
-+                                 iotlb->addr_mask + 1, vaddr, read_only);
-+        if (ret) {
-+            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
-+                         "0x%" HWADDR_PRIx ", %p) = %d (%m)",
-+                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
-+        }
-+    } else {
-+        ret = vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova,
-+                                   iotlb->addr_mask + 1);
-+        if (ret) {
-+            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
-+                         "0x%" HWADDR_PRIx ") = %d (%m)",
-+                         v, iova, iotlb->addr_mask + 1, ret);
-+        }
-+    }
-+}
-+
-+static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
-+                                        MemoryRegionSection *section)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+
-+    struct vdpa_iommu *iommu;
-+    Int128 end;
-+    int iommu_idx;
-+    IOMMUMemoryRegion *iommu_mr;
-+    int ret;
-+
-+    iommu_mr = IOMMU_MEMORY_REGION(section->mr);
-+
-+    iommu = g_malloc0(sizeof(*iommu));
-+    end = int128_add(int128_make64(section->offset_within_region),
-+                     section->size);
-+    end = int128_sub(end, int128_one());
-+    iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
-+                                                   MEMTXATTRS_UNSPECIFIED);
-+    iommu->iommu_mr = iommu_mr;
-+    iommu_notifier_init(&iommu->n, vhost_vdpa_iommu_map_notify,
-+                        IOMMU_NOTIFIER_IOTLB_EVENTS,
-+                        section->offset_within_region,
-+                        int128_get64(end),
-+                        iommu_idx);
-+    iommu->iommu_offset = section->offset_within_address_space -
-+                          section->offset_within_region;
-+    iommu->dev = v;
-+
-+    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
-+    if (ret) {
-+        g_free(iommu);
-+        return;
-+    }
-+
-+    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
-+    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
-+
-+    return;
-+}
-+
-+static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
-+                                        MemoryRegionSection *section)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+
-+    struct vdpa_iommu *iommu;
-+
-+    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
-+    {
-+        if (MEMORY_REGION(iommu->iommu_mr) == section->mr &&
-+            iommu->n.start == section->offset_within_region) {
-+            memory_region_unregister_iommu_notifier(section->mr, &iommu->n);
-+            QLIST_REMOVE(iommu, iommu_next);
-+            g_free(iommu);
-+            break;
-+        }
-+    }
-+}
-+
- static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                                            MemoryRegionSection *section)
- {
-@@ -199,6 +319,10 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                                             v->iova_range.last)) {
-         return;
-     }
-+    if (memory_region_is_iommu(section->mr)) {
-+        vhost_vdpa_iommu_region_add(listener, section);
-+        return;
-+    }
- 
-     if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
-                  (section->offset_within_region & ~TARGET_PAGE_MASK))) {
-@@ -278,6 +402,9 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-                                             v->iova_range.last)) {
-         return;
-     }
-+    if (memory_region_is_iommu(section->mr)) {
-+        vhost_vdpa_iommu_region_del(listener, section);
-+    }
- 
-     if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
-                  (section->offset_within_region & ~TARGET_PAGE_MASK))) {
-@@ -1182,7 +1309,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-     }
- 
-     if (started) {
--        memory_listener_register(&v->listener, &address_space_memory);
-+        if (vhost_dev_has_iommu(dev) && (v->shadow_vqs_enabled)) {
-+            error_report("SVQ can not work while IOMMU enable, please disable"
-+                         "IOMMU and try again");
-+            return -1;
-+        }
-+        memory_listener_register(&v->listener, dev->vdev->dma_as);
-+
-         return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-     }
- 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index c278a2a8de..e64bfc7f98 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -52,6 +52,8 @@ typedef struct vhost_vdpa {
-     struct vhost_dev *dev;
-     Error *migration_blocker;
-     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-+    QLIST_HEAD(, vdpa_iommu) iommu_list;
-+    IOMMUNotifier n;
- } VhostVDPA;
- 
- int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range);
-@@ -61,4 +63,13 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
- int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
-                          hwaddr size);
- 
-+typedef struct vdpa_iommu {
-+    struct vhost_vdpa *dev;
-+    IOMMUMemoryRegion *iommu_mr;
-+    hwaddr iommu_offset;
-+    IOMMUNotifier n;
-+    QLIST_ENTRY(vdpa_iommu) iommu_next;
-+} VDPAIOMMUState;
-+
-+
- #endif
--- 
-2.34.3
-
+r~
 
