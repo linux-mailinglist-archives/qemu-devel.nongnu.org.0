@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36106C0DFA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 11:02:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775096C0E14
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 11:04:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peCK2-0001Qz-Jm; Mon, 20 Mar 2023 06:00:58 -0400
+	id 1peCMo-0002XN-TT; Mon, 20 Mar 2023 06:03:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1peCJp-0001Lv-Sk; Mon, 20 Mar 2023 06:00:45 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1peCMm-0002Wu-5y
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:03:48 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1peCJn-0003oF-Be; Mon, 20 Mar 2023 06:00:45 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:21a2:0:640:91f7:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 30E5D5FCB0;
- Mon, 20 Mar 2023 13:00:30 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b71c::1:38] (unknown
- [2a02:6b8:b081:b71c::1:38])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id S0lRdH0OnuQ0-C3uwTjcm; Mon, 20 Mar 2023 13:00:29 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1679306429; bh=7ngorHNUPb4H1FV0L7hUIttYOiSMRecyX6FhrResjbM=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=A59qivj97QfiYU7iiC76lC/oaxcjwdPdYNfFdHSUpLQMJ6u4ssIEXXpTqKMitmgLN
- 61HpKp2whjuODWEI8+zYND/UhZNQMVIDaJ9rcbmFfZHL4lxsOlpdwV4aMd+Oy1ylNc
- gmrPyKh9BgWr76H9IEdtvCATMHQFbeX3YhlYr+us=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <2dae93dc-dd1c-8d5c-8621-17f0280d32a7@yandex-team.ru>
-Date: Mon, 20 Mar 2023 13:00:28 +0300
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1peCMj-0004yK-Pd
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:03:47 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.2])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4F9F320E12;
+ Mon, 20 Mar 2023 10:03:41 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 20 Mar
+ 2023 11:03:40 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R00226a079ac-243b-45d9-9c82-7a235fc64134,
+ F0E6F0E3EAC8DE216C47088D2AA2F9E7F08C2096) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <7db48667-11e2-b806-03f7-eb516a7be157@kaod.org>
+Date: Mon, 20 Mar 2023 11:03:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 1/4] util/iov: Make qiov_slice() public
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] vfio/pci: add support for VF token
 Content-Language: en-US
-To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>
-References: <20230317175019.10857-1-hreitz@redhat.com>
- <20230317175019.10857-2-hreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230317175019.10857-2-hreitz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: <minwoo.im@samsung.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "alex.williamson@redhat.com" <alex.williamson@redhat.com>, SSDR Gost Dev
+ <gost.dev@samsung.com>, Klaus Birkelund Jensen <k.jensen@samsung.com>
+References: <CGME20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780@epcms2p4>
+ <20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780@epcms2p4>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780@epcms2p4>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 7fa0f0fe-4984-42ac-9f8d-d1f43c7fe8a0
+X-Ovh-Tracer-Id: 3421891293897657251
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefkedguddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekhfevhfehieffudevhfefieethfelvedugfekudejudeiteeffffgffdvleeuleenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhhinhifohhordhimhesshgrmhhsuhhnghdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprghlvgigrdifihhllhhirghmshhonhesrhgvughhrghtrdgtohhmpdhgohhsthdruggvvhesshgrmhhsuhhnghdrtghomhdpkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,26 +74,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17.03.23 20:50, Hanna Czenczek wrote:
-> We want to inline qemu_iovec_init_extended() in block/io.c for padding
-> requests, and having access to qiov_slice() is useful for this.
+On 3/20/23 08:35, Minwoo Im wrote:
+> VF token was introduced [1] to kernel vfio-pci along with SR-IOV
+> support [2].  This patch adds support VF token among PF and VF(s). To
+> passthu PCIe VF to a VM, kernel >= v5.7 needs this.
 > 
-> (We will need to count the number of I/O vector elements of a slice
-> there, and then later process this slice.  Without qiov_slice(), we
-> would need to call qemu_iovec_subvec_niov(), and all further
-> IOV-processing functions may need to skip prefixing elements to
-> accomodate for a qiov_offset.  Because qemu_iovec_subvec_niov()
-> internally calls qiov_slice(), we can just have the block/io.c code call
-> qiov_slice() itself, thus get the number of elements, and also create an
-> iovec array with the superfluous prefixing elements stripped, so the
-> following processing functions no longer need to skip them.)
+> It can be configured with UUID like:
 > 
-> Signed-off-by: Hanna Czenczek<hreitz@redhat.com>
+>    -device vfio-pci,host=DDDD:BB:DD:F,vf-token=<uuid>,...
+> 
+> [1] https://lore.kernel.org/linux-pci/158396393244.5601.10297430724964025753.stgit@gimli.home/
+> [2] https://lore.kernel.org/linux-pci/158396044753.5601.14804870681174789709.stgit@gimli.home/
+> 
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Signed-off-by: Minwoo Im <minwoo.im@samsung.com>
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>   hw/vfio/pci.c | 13 ++++++++++++-
+>   hw/vfio/pci.h |  1 +
+>   2 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index ec9a854361..cf27f28936 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -2856,6 +2856,8 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>       int groupid;
+>       int i, ret;
+>       bool is_mdev;
+> +    char uuid[UUID_FMT_LEN];
+> +    char *name;
+>   
+>       if (!vbasedev->sysfsdev) {
+>           if (!(~vdev->host.domain || ~vdev->host.bus ||
+> @@ -2936,7 +2938,15 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>           goto error;
+>       }
+>   
+> -    ret = vfio_get_device(group, vbasedev->name, vbasedev, errp);
+> +    if (!qemu_uuid_is_null(&vdev->vf_token)) {
+> +        qemu_uuid_unparse(&vdev->vf_token, uuid);
+> +        name = g_strdup_printf("%s vf_token=%s", vbasedev->name, uuid);
+> +    } else {
+> +        name = vbasedev->name;
+> +    }
+> +
+> +    ret = vfio_get_device(group, name, vbasedev, errp);
+> +    g_free(name);
+>       if (ret) {
+>           vfio_put_group(group);
+>           goto error;
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Shouldn't we set the VF token in the kernel also ? See this QEMU implementation
 
--- 
-Best regards,
-Vladimir
+   https://lore.kernel.org/lkml/20200204161737.34696b91@w520.home/
+
+May be I misunderstood.
+
+Thanks,
+
+C.
+
+> @@ -3268,6 +3278,7 @@ static void vfio_instance_init(Object *obj)
+>   
+>   static Property vfio_pci_dev_properties[] = {
+>       DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
+> +    DEFINE_PROP_UUID_NODEFAULT("vf-token", VFIOPCIDevice, vf_token),
+>       DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
+>       DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
+>                               vbasedev.pre_copy_dirty_page_tracking,
+> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+> index 177abcc8fb..2674476d6c 100644
+> --- a/hw/vfio/pci.h
+> +++ b/hw/vfio/pci.h
+> @@ -137,6 +137,7 @@ struct VFIOPCIDevice {
+>       VFIOVGA *vga; /* 0xa0000, 0x3b0, 0x3c0 */
+>       void *igd_opregion;
+>       PCIHostDeviceAddress host;
+> +    QemuUUID vf_token;
+>       EventNotifier err_notifier;
+>       EventNotifier req_notifier;
+>       int (*resetfn)(struct VFIOPCIDevice *);
 
 
