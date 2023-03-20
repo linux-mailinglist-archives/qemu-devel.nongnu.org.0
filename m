@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABC26C12B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1156C1299
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:05:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFB8-0001Fq-Od; Mon, 20 Mar 2023 09:03:58 -0400
+	id 1peFB9-0001Fu-OX; Mon, 20 Mar 2023 09:03:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB1-0001Dc-Si
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB2-0001Dm-N8
  for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB0-0006DS-8I
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFB1-0006Dl-7G
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679317429;
+ s=mimecast20190719; t=1679317430;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kzVjN9YG4Oheb+FJ6E8OSV8+d+7w4HRcR1MW8JbCO3k=;
- b=cyanecHnNDymu+ft3aXG/c+nv1DRV0nIiPhZPXZG49T4kSGOjp0HTZDwm1DUkjNgVMMabc
- kM1JchuL7+ydHTqwVopThvxlMDJba4nJF5qwIfuCEm45XvaZCfRxry0VsQs3Sucm/unvUW
- 8RR1+VMziZk4bvDQz1GGptr/iIpRclM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=e0faJywpToeqtN5qkzjetD1B1Bf2nSpiRGZ60JHmoO8=;
+ b=IUzzX51CSu+YHkQi5GrOCjL46XmJ/Wiz36PtZiPAK6+SY/UFeW40j2LRHi3DFHUWA0JL3S
+ 36Nimneaf+fL1K2Sqk+3TPS+HiUPCvRefvUMUYmmNAnYNLudmcNI70AwEv77ccC2VGTqHt
+ w79S0fFTHm5pGLWZGzd+LKEh5iw0WG0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-564-MAzis6NLPX-wQW-Ynf04Nw-1; Mon, 20 Mar 2023 09:03:46 -0400
-X-MC-Unique: MAzis6NLPX-wQW-Ynf04Nw-1
+ us-mta-611-DmlrSYVcNjahNjbSxJUurQ-1; Mon, 20 Mar 2023 09:03:47 -0400
+X-MC-Unique: DmlrSYVcNjahNjbSxJUurQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E10D385557F;
- Mon, 20 Mar 2023 13:03:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 923361818E46;
+ Mon, 20 Mar 2023 13:03:46 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F10FCC15BA0;
- Mon, 20 Mar 2023 13:03:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CA0DC15BA0;
+ Mon, 20 Mar 2023 13:03:45 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- Harold Grovesteen <h.grovsteen@tx.rr.com>,
  Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 09/24] target/s390x: Handle branching to odd addresses
-Date: Mon, 20 Mar 2023 14:03:15 +0100
-Message-Id: <20230320130330.406378-10-thuth@redhat.com>
+Subject: [PULL 10/24] target/s390x: Handle EXECUTE of odd addresses
+Date: Mon, 20 Mar 2023 14:03:16 +0100
+Message-Id: <20230320130330.406378-11-thuth@redhat.com>
 In-Reply-To: <20230320130330.406378-1-thuth@redhat.com>
 References: <20230320130330.406378-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,47 +80,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Let branching happen and try to generate a new translation block with
-an odd address. Generate a specification exception in
-cpu_get_tb_cpu_state().
+Generate a specification exception in the helper before trying to fetch
+the instruction.
 
-Reported-by: Harold Grovesteen <h.grovsteen@tx.rr.com>
 Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230316164428.275147-2-iii@linux.ibm.com>
+Message-Id: <20230316164428.275147-3-iii@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/cpu.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/s390x/tcg/mem_helper.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 82c2f575bb..c47e7adcb1 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -29,6 +29,7 @@
- #include "cpu_models.h"
- #include "exec/cpu-defs.h"
- #include "qemu/cpu-float.h"
-+#include "tcg/tcg_s390x.h"
- 
- #define ELF_MACHINE_UNAME "S390X"
- 
-@@ -383,6 +384,14 @@ static inline int cpu_mmu_index(CPUS390XState *env, bool ifetch)
- static inline void cpu_get_tb_cpu_state(CPUS390XState* env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index 00afae2b64..96b8ef61b5 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -2468,8 +2468,16 @@ void HELPER(stpq_parallel)(CPUS390XState *env, uint64_t addr,
+ */
+ void HELPER(ex)(CPUS390XState *env, uint32_t ilen, uint64_t r1, uint64_t addr)
  {
-+    if (env->psw.addr & 1) {
-+        /*
-+         * Instructions must be at even addresses.
-+         * This needs to be checked before address translation.
-+         */
-+        env->int_pgm_ilen = 2; /* see s390_cpu_tlb_fill() */
-+        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, 0);
+-    uint64_t insn = cpu_lduw_code(env, addr);
+-    uint8_t opc = insn >> 8;
++    uint64_t insn;
++    uint8_t opc;
++
++    /* EXECUTE targets must be at even addresses.  */
++    if (addr & 1) {
++        tcg_s390_program_interrupt(env, PGM_SPECIFICATION, GETPC());
 +    }
-     *pc = env->psw.addr;
-     *cs_base = env->ex_value;
-     *flags = (env->psw.mask >> FLAG_MASK_PSW_SHIFT) & FLAG_MASK_PSW;
++
++    insn = cpu_lduw_code(env, addr);
++    opc = insn >> 8;
+ 
+     /* Or in the contents of R1[56:63].  */
+     insn |= r1 & 0xff;
 -- 
 2.31.1
 
