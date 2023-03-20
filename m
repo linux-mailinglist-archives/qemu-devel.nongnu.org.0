@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4776C10AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 12:21:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796AB6C10C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 12:26:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peDYo-0005OQ-TP; Mon, 20 Mar 2023 07:20:18 -0400
+	id 1peDdg-0007HT-6n; Mon, 20 Mar 2023 07:25:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1peDYk-0005NU-1O
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:20:15 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peDdd-0007Gq-GS
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:25:17 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1peDYh-0004DV-Q6
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:20:13 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peDdZ-0005RG-PL
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:25:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679311210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1679311510;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=toJaONG2WkJxw+2UWyEm9jhMxor5tOoNyF08m8MOKNY=;
- b=Y8osddGnHXl3E9phBC9PNXb7PxkHrXnCwMDQENbDw4SjxgJukUl0iH3WJSVa4krwh2vrSO
- h0U5XZN4GFi3VNjTWRVgrifUsiEHxE13GrEQXk7OBVNsu/QPHGAUZZOpzbFKEoxEdFyxHw
- fuhl6XLYm1nqQgUBEvzXg0X2gF8JjKA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-380-nXr113oOPw60hnC3Gm7cWA-1; Mon, 20 Mar 2023 07:20:06 -0400
-X-MC-Unique: nXr113oOPw60hnC3Gm7cWA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- e5-20020a05600c4e4500b003edc5824521so2835288wmq.0
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 04:20:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679311205;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=toJaONG2WkJxw+2UWyEm9jhMxor5tOoNyF08m8MOKNY=;
- b=b/u3L0GiSnFRFalXJpB+3daO+pn3uO28DlJ9wZkEOEdHu6I5RKWMBu+pU7sqksWsqx
- 7ZljQ/in2Gtzgpis0JokU83uZrDJXYDP5W45/pQr+Z9qdohBnbRULJrOj6Jte/EdPVPd
- ZbCEIBumg0SDE6xswqe4RqCXbjEtuUJOZ6CP6t1LbFQjLg0LpTgGIFg/kakRFZqphdq0
- fYE+Q3CBwmOUsqEsf3QfYimEmkp9fNHZfV9xbqkLGtW9LikLeR1z4mAKUSbGMUfhkPVI
- 8caWNnqM9/3VaCPNd/G7a4uWjlnmt8QR7mEFq/CHXV7ssNZ1301srd/CaIu3/MiCGZLc
- xulw==
-X-Gm-Message-State: AO0yUKVgh+6l3GRIQSnfLY5fBCNyAdAbKY9IUA3dlBzZSgfy+Vcpqqh5
- ykv172e/5Uv++zSem7jYE/aiAEAP05Ipw9CyYYKj/FkvgnMBYljPYNoLObmap4KneHCYpn1m4IX
- /qIFf0rmM32K3fa4=
-X-Received: by 2002:a1c:e901:0:b0:3ed:7700:eb88 with SMTP id
- q1-20020a1ce901000000b003ed7700eb88mr10342801wmc.13.1679311204968; 
- Mon, 20 Mar 2023 04:20:04 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+Wn/hhKtO4xLTXtc83Ek886krk2SYIe7tmVvdqGhQ8d8sEXXu4ciDpR7f49r3Z5Hw0CSAk1A==
-X-Received: by 2002:a1c:e901:0:b0:3ed:7700:eb88 with SMTP id
- q1-20020a1ce901000000b003ed7700eb88mr10342778wmc.13.1679311204659; 
- Mon, 20 Mar 2023 04:20:04 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c702:4100:a064:1ded:25ec:cf2f?
- (p200300cbc7024100a0641ded25eccf2f.dip0.t-ipconnect.de.
- [2003:cb:c702:4100:a064:1ded:25ec:cf2f])
- by smtp.gmail.com with ESMTPSA id
- p9-20020a05600c358900b003edd2ae9acfsm5002652wmq.35.2023.03.20.04.20.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 04:20:04 -0700 (PDT)
-Message-ID: <276a8dd2-64d6-182e-e9ef-7ec45953b62c@redhat.com>
-Date: Mon, 20 Mar 2023 12:20:03 +0100
+ bh=fTzYg673LX3aw+UZ8tnN9uyK1Ik+aTKah7XJjvR+gvw=;
+ b=aixtIEwQbz8EZ0kKPe/Bgjhlz1mGc9q/8lKw4Rmbn2i73msXSyzaHHtqAefd3krmS4IpzV
+ 1yLzkXdybCbuWpf1QP0nbCIP3+bt5K+jJLVrhLD54rjsR4zk+SqfZajDG/K3G+LLEe4GBG
+ IKOF+xwi0SJgjnC3CFJMY6w+02FTlRU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-260-SWQMa7p8N5CuuZWFaqDxaQ-1; Mon, 20 Mar 2023 07:25:07 -0400
+X-MC-Unique: SWQMa7p8N5CuuZWFaqDxaQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ADAAA96DC81;
+ Mon, 20 Mar 2023 11:25:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48EAAC15BA0;
+ Mon, 20 Mar 2023 11:25:05 +0000 (UTC)
+Date: Mon, 20 Mar 2023 11:25:02 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: fabiano.rosas@suse.com, Nikolay Borisov <nborisov@suse.com>,
+ dgilbert@redhat.com, qemu-devel@nongnu.org, jfehlig@suse.com,
+ Claudio.Fontana@suse.com, dfaggioli@suse.com
+Subject: Re: [PATCH v3 00/14] File-based migration support and fixed-ram
+ features
+Message-ID: <ZBhCjpdhUPFmetYd@redhat.com>
+References: <20221028103914.908728-1-nborisov@suse.com>
+ <734376eb-0098-8885-190f-f328ddedf81b@suse.de>
+ <Y+ZkKR+dry3aiynr@redhat.com>
+ <650337f7-3433-c702-8d04-8f796a20bfe1@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] target/s390x/tcg/mem_helper: Remove bad assert() statement
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230317135737.597570-1-thuth@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230317135737.597570-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <650337f7-3433-c702-8d04-8f796a20bfe1@suse.de>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,27 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17.03.23 14:57, Thomas Huth wrote:
-> The "assert(!nonfault)" statement can be triggered by running the
-> "mvpg" s390x kvm-unit-test with TCG. According to Richard: "... the
-> assert looks backward. We should only arrive there if nonfault was
-> true for the probe (otherwise the probe would have raised the
-> exception directly).  I would think we could just remove the assert."
+On Mon, Mar 20, 2023 at 12:14:53PM +0100, Claudio Fontana wrote:
+> (adding Fabiano to the thread)
 > 
-> Fixes: 4049431478 ("target/s390x: Fix s390_probe_access for user-only")
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
+> On 2/10/23 16:35, Daniel P. Berrangé wrote:
+> > On Thu, Feb 09, 2023 at 02:32:01PM +0100, Claudio Fontana wrote:
+> >> Hello Daniel and all,
+> >>
+> >> resurrecting this series from end of last year,
+> >>
+> >> do we think that this is the right approach and first step to
+> >> be able to provide good performance for virsh save and virsh
+> >> restore?
+> > 
+> > I've looked through the series in some more detail now and will
+> > send review comments separately. Overall, I'm pretty pleased with
+> > the series and think it is on the right path. The new format it
+> > provides should be amenable to parallel I/O with multifd and
+> > be able to support O_DIRECT to avoid burning through the host I/O
+> > cache.
+> 
+> Just wanted to add a thought we had with Fabiano a few days ago:
+> 
+> experimentally, it is clear that fixed-ram is an optimization, but the actual scalability seems to come from the successive parallel I/O with multifd.
+> 
+> Since the goal is being able to transfer _to disk_ (fdatasync) the whole 30G memory in 5 seconds, the need to split the cpu-intensive work into smaller tasks remains,
+> and the main scalability solution seems to come from the multifd part of the work (or another way to split the problem), combined with the O_DIRECT friendliness to avoid the trap of the cache trashing.
+> 
+> Not adding much, just highlighting that fixed-ram _alone_ does not seem to suffice, we probably need all pieces of the puzzle in place.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Agreed, the only thing that fixed-ram alone really does is to
+ensure you have a finite file size if you're saving the state
+while the VM is running, because successive dirtying of the
+same block will write to the same location in file. Nice to
+avoid wasting storage and gives a small speed up on restore.
 
+It isn't going to give the massive speedup you're looking for
+though. multifd + O_DIRECT is a critical followup piece to
+achieve the major performance improvement. The fixed-ram
+feature makes it practical to use multifd, without needing
+to split content streams across many files, or have to invent
+a way to splice multiple streams into the same file.
 
+With regards,
+Daniel
 -- 
-Thanks,
-
-David / dhildenb
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
