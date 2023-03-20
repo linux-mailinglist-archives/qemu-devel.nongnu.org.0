@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE77B6C1081
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FA26C1080
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 12:15:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peDTJ-0000eF-Cc; Mon, 20 Mar 2023 07:14:37 -0400
+	id 1peDTh-0000nx-3E; Mon, 20 Mar 2023 07:15:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1peDTG-0000ck-4a
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:14:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1peDTE-000314-Rp
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:14:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679310872;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peDTe-0000kh-3T
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:14:58 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peDTc-00032z-7h
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:14:57 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2A90D21B70;
+ Mon, 20 Mar 2023 11:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1679310894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k5ric0u+KBFd+a5PgFmmEkkfokYS8eoybV5l22EaY8w=;
- b=IW6IixrdLue+1V5tX/iJiGqbGCHCsAYiqyuFs1L93bnA2SaEoWCCb5YosoNsGlzjht4AR2
- 49MZKRBhmC+g+wc6rYMmWXJ5q2lg9FGDvaS32M1tD7i8QoO6+FSuX2FaJpqC919TgN1Us8
- WdaJyaAYh/PUvGrTjWfY3Bww3ijPAUo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-nAJX0hWXPEmaAAaLRfUNZg-1; Mon, 20 Mar 2023 07:14:29 -0400
-X-MC-Unique: nAJX0hWXPEmaAAaLRfUNZg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=ELaAk+xj2RYoXM3NW36PFRU90yhRLpvQdC9FbDlukzQ=;
+ b=ewlLRwUmw1pTfhCa0wvaxqFfcm5J9k2XmaQdOZv73V2goTCL1tcsSq37cmAWxSOrCUiJ6f
+ dNDmlc70i4g0Rd8C4z2T4Z7P21Dx5hmx0eCuP5jF9iKaN8K6WUB0krV3kwhlr2qWUFF4XQ
+ y5dW+LJW2dPjG9DckTHNbh3Q8CEBUyM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1679310894;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ELaAk+xj2RYoXM3NW36PFRU90yhRLpvQdC9FbDlukzQ=;
+ b=hHkhfQcz8k9Of4HReUZrmP3pZbJCDuol/vUzknezMoXg+nuZmwBULUnYg3OaUH48U2SetX
+ 5CSeMVHtojww3sBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA17529A9CA3;
- Mon, 20 Mar 2023 11:14:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 003932166B29;
- Mon, 20 Mar 2023 11:14:27 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, berrange@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 3/3] ui/dbus: fix passing SOCKET to GSocket API & leak
-Date: Mon, 20 Mar 2023 15:14:12 +0400
-Message-Id: <20230320111412.1516419-4-marcandre.lureau@redhat.com>
-In-Reply-To: <20230320111412.1516419-1-marcandre.lureau@redhat.com>
-References: <20230320111412.1516419-1-marcandre.lureau@redhat.com>
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DFE7F13416;
+ Mon, 20 Mar 2023 11:14:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id yMPzNC1AGGR4LgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 20 Mar 2023 11:14:53 +0000
+Message-ID: <650337f7-3433-c702-8d04-8f796a20bfe1@suse.de>
+Date: Mon, 20 Mar 2023 12:14:53 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 00/14] File-based migration support and fixed-ram
+ features
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ fabiano.rosas@suse.com
+Cc: Nikolay Borisov <nborisov@suse.com>, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
+ dfaggioli@suse.com
+References: <20221028103914.908728-1-nborisov@suse.com>
+ <734376eb-0098-8885-190f-f328ddedf81b@suse.de> <Y+ZkKR+dry3aiynr@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <Y+ZkKR+dry3aiynr@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,41 +92,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+(adding Fabiano to the thread)
 
--display dbus is not currently available to win32 users, so it's not
-considered a regression.
+On 2/10/23 16:35, Daniel P. Berrangé wrote:
+> On Thu, Feb 09, 2023 at 02:32:01PM +0100, Claudio Fontana wrote:
+>> Hello Daniel and all,
+>>
+>> resurrecting this series from end of last year,
+>>
+>> do we think that this is the right approach and first step to
+>> be able to provide good performance for virsh save and virsh
+>> restore?
+> 
+> I've looked through the series in some more detail now and will
+> send review comments separately. Overall, I'm pretty pleased with
+> the series and think it is on the right path. The new format it
+> provides should be amenable to parallel I/O with multifd and
+> be able to support O_DIRECT to avoid burning through the host I/O
+> cache.
 
-Note also the close() leak fix in case of error.
+Just wanted to add a thought we had with Fabiano a few days ago:
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- ui/dbus.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+experimentally, it is clear that fixed-ram is an optimization, but the actual scalability seems to come from the successive parallel I/O with multifd.
 
-diff --git a/ui/dbus.c b/ui/dbus.c
-index 0513de9918..5389ac493f 100644
---- a/ui/dbus.c
-+++ b/ui/dbus.c
-@@ -304,9 +304,17 @@ dbus_display_add_client(int csock, Error **errp)
-         g_cancellable_cancel(dbus_display->add_client_cancellable);
-     }
- 
-+#ifdef WIN32
-+    csock = qemu_close_to_socket(csock);
-+#endif
-     socket = g_socket_new_from_fd(csock, &err);
-     if (!socket) {
-         error_setg(errp, "Failed to setup D-Bus socket: %s", err->message);
-+#ifdef WIN32
-+        closesocket(csock);
-+#else
-+        close(csock);
-+#endif
-         return false;
-     }
- 
--- 
-2.39.2
+Since the goal is being able to transfer _to disk_ (fdatasync) the whole 30G memory in 5 seconds, the need to split the cpu-intensive work into smaller tasks remains,
+and the main scalability solution seems to come from the multifd part of the work (or another way to split the problem), combined with the O_DIRECT friendliness to avoid the trap of the cache trashing.
+
+Not adding much, just highlighting that fixed-ram _alone_ does not seem to suffice, we probably need all pieces of the puzzle in place.
+
+Thanks!
+
+Claudio
+
+> 
+> There is obviously a bit of extra complexity from having a new
+> way to map RAM to the output, but it looks fairly well contained
+> in just a couple of places of the code. The performance wins
+> should be able to justify the extra maint burden IMHO.
+> 
+>> Do we still agree on this way forward, any comments? Thanks,
+> 
+> I'm not a migration maintainer, but overall I think it is
+> good.
+> 
+> With regards,
+> Daniel
 
 
