@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3D56C130D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A576C1310
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:18:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFOe-0002z3-Dk; Mon, 20 Mar 2023 09:17:56 -0400
+	id 1peFOd-0002u4-OJ; Mon, 20 Mar 2023 09:17:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1peDjF-0008OP-9X
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:31:05 -0400
+ id 1peDug-0001sj-Ls
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:42:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1peDjC-0007Iv-AL
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:31:04 -0400
+ id 1peDue-0003jX-QZ
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 07:42:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679311860;
+ s=mimecast20190719; t=1679312571;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=tjYNd17dPEGgXMFTPsqJqqomUFE9X2KXeZ6Xvxjrguk=;
- b=WtoEtMP1mGGrd5CwbO9z416U3Bk638RxscbYuU8Xg3f0AnczOk3PTfBPLk5A3RFu/gtS2m
- ixWgbB0GKRMaTMfwABSS++dZAQ+tPOMmxin1gyK8/bICzUXRwIo5yVx5z6cn0IpzuDCwCB
- Z9Txcx3gQJSvOmsV08zh4ToDgGvwdEs=
+ bh=Odhw3mm7MA8ZJ3F11MhA7NeX2k0egTnIEvW4gQYadXI=;
+ b=XRgg2+Wr1mKFW0vcc9XJr8msQSO7DaLB2ADuW8olyDP84oAJqxS257HH/NjE4gQIEOJ1vr
+ 1Rqeac7S9Nr0BXJ8tmgOlTMvKeb2sts4fRIUquIRkUUQ3ReEunq5N2Kxu5asJWXea6lZoB
+ JvzIZAriTnjU6QmLQNTP7QUKvEiQkUI=
 Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
  [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-83-rbpVvE_UPrKR_mC1G33y1A-1; Mon, 20 Mar 2023 07:29:31 -0400
-X-MC-Unique: rbpVvE_UPrKR_mC1G33y1A-1
+ us-mta-381-7uVD26yTNEq3mdqMW7uDpw-1; Mon, 20 Mar 2023 07:42:50 -0400
+X-MC-Unique: 7uVD26yTNEq3mdqMW7uDpw-1
 Received: by mail-pj1-f72.google.com with SMTP id
- oj9-20020a17090b4d8900b0023f61bd2340so3277380pjb.7
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 04:29:31 -0700 (PDT)
+ kx3-20020a17090b228300b0023cfd09ed94so6755202pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 04:42:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679311771;
+ d=1e100.net; s=20210112; t=1679312569;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=tjYNd17dPEGgXMFTPsqJqqomUFE9X2KXeZ6Xvxjrguk=;
- b=7KnYvA4V7Zzzr586tq3PKLVozYaL4nS6GBQwkqGZq00euYrVRTvHODkeOBhCt9plIA
- v1wzkyaiFfAfc9WIF/tffA79NS0V7TEg5zcrS8dQds8q71EoE36oO2bgEwD72FMo06YH
- Ft3VBtqtF1cA+XbTG6TW13z5QDlzbo95vxnJhbeud0jY9FbGgFLBf4hrHtf2wr4O/UlG
- Hg10v1lCIQx6mkGuNx2RZvRwldrLxf5567mKEftytbmfc/DIrpwM134QGiXcYNLgIjtI
- jfKP2Fo1Ze7nfzChDf2rqF1dvHZFKx+/QY493zxiP1iWY/AcodBF4RQTk/YZ6MgYfGZF
- GAXQ==
-X-Gm-Message-State: AO0yUKUQ5kPXaxwD2F90G8heZdnbWRsJ80I5wCWVaJED0uu9avrA3mti
- 2JvEJVUgQZKTGf1LfmxvsyrFvL+bYOIyDMbJJhGjVDA9FG+k+8YLAAHGDYHy0snUrX5mEbyM6Ug
- a5hCmkw0r/TEFmDA=
-X-Received: by 2002:a17:903:1c2:b0:1a1:d366:b085 with SMTP id
- e2-20020a17090301c200b001a1d366b085mr3364804plh.21.1679311770771; 
- Mon, 20 Mar 2023 04:29:30 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+RQUVAn28DOpPFaMcTXfX/o6xPFWTz8tDO6Rh8Or3ynovxmrxJNhHUtyek5sOMgwEd+5eCZQ==
-X-Received: by 2002:a17:903:1c2:b0:1a1:d366:b085 with SMTP id
- e2-20020a17090301c200b001a1d366b085mr3364782plh.21.1679311770491; 
- Mon, 20 Mar 2023 04:29:30 -0700 (PDT)
+ bh=Odhw3mm7MA8ZJ3F11MhA7NeX2k0egTnIEvW4gQYadXI=;
+ b=Wfv4/djs3XSk3tDIjm8jciTREZoEdou27XaN0ix3UU8ksEvqMKH7vZOxxujpsZbpfx
+ WPK14clR4v8HTsdgKE+jrwZZ/ulz8aXQd3mKM5EAjtuZRW5lJrfWMWfGsT4+XFlrq6E3
+ TW9WF+CLGF9lSycvy0h1w2QTdA9FGKDY9ghl9qFSW3kcu/NR49B7Tc5M2hA7cYI6yxu7
+ T/RU/7FQhL8HKgpaA7BUq6kxi/YkQ6FaVb9fA6NoBSSvItwD2REq9tZcfwa8xngFabfW
+ ZAY4wC2bc/11gxzIty7KgYWZM+pewf9wFA87HUrtfB9Xy07p7TiRBuyRke8MbLsS4/oz
+ ligg==
+X-Gm-Message-State: AO0yUKWANel2XcHMwJynahAKip+5JZaNY9BZ/3FNioGqAmJHoBTpHw0X
+ kLnMfnyoCq3cnoOKh0vzMTPkAleTG8UnDa1vOGCAFbXKT0DSj/qnxH8iWJZOJfsvbu0d6U1ZhHq
+ jgQ4RU5rpA2wtjK0=
+X-Received: by 2002:a17:90b:33c8:b0:23f:5fe7:25a1 with SMTP id
+ lk8-20020a17090b33c800b0023f5fe725a1mr12076529pjb.13.1679312569143; 
+ Mon, 20 Mar 2023 04:42:49 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/nihbYvM+tL3x2LG0+pwELkZbaYsgZlU8SeSwVUgsqGX6o3WbiHduBXbTNuNWNKee7x6/4Wg==
+X-Received: by 2002:a17:90b:33c8:b0:23f:5fe7:25a1 with SMTP id
+ lk8-20020a17090b33c800b0023f5fe725a1mr12076509pjb.13.1679312568825; 
+ Mon, 20 Mar 2023 04:42:48 -0700 (PDT)
 Received: from localhost.localdomain ([203.163.233.223])
  by smtp.googlemail.com with ESMTPSA id
- j1-20020a17090276c100b0019e81c8fd01sm6302375plt.249.2023.03.20.04.29.26
+ jx21-20020a17090b46d500b0020b21019086sm19930386pjb.3.2023.03.20.04.42.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 04:29:30 -0700 (PDT)
+ Mon, 20 Mar 2023 04:42:48 -0700 (PDT)
 From: Ani Sinha <anisinha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: jusual@redhat.com, Ani Sinha <anisinha@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH] hw/acpi: limit warning on acpi table size to pc machines
- older than version 2.3
-Date: Mon, 20 Mar 2023 16:59:02 +0530
-Message-Id: <20230320112902.90160-1-anisinha@redhat.com>
+To: Ani Sinha <anisinha@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] Add my old and new work email mapping and use work email to
+ support biosbits
+Date: Mon, 20 Mar 2023 17:12:33 +0530
+Message-Id: <20230320114233.90638-1-anisinha@redhat.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -86,7 +84,7 @@ X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SORBS_WEB=1.5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 20 Mar 2023 09:17:41 -0400
+X-Mailman-Approved-At: Mon, 20 Mar 2023 09:17:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,83 +99,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-i440fx machine versions 2.3 and newer and q35 machines supports dynamic ram
-resizing. Please see commit a1666142db6233 ("acpi-build: make ROMs RAM blocks resizeable") .
-Hence the warning when the ACPI table size exceeds a pre-defined value does
-not apply to those machines. Add a check limiting the warning message to only
-those machines that does not support expandable ram blocks, that is, i440fx
-machines with version 2.2 and older.
+From: Ani Sinha <ani@anisinha.ca>
+
+Update mailmap to indicate ani@anisinha.ca and anisinha@redhat.com are one and
+the same person. Additionally update MAINTAINERS and bits documentation to use
+my work (redhat) email.
 
 Signed-off-by: Ani Sinha <anisinha@redhat.com>
 ---
- hw/i386/acpi-build.c | 6 ++++--
- hw/i386/pc.c         | 1 +
- hw/i386/pc_piix.c    | 1 +
- include/hw/i386/pc.h | 3 +++
- 4 files changed, 9 insertions(+), 2 deletions(-)
+ .mailmap                 | 1 +
+ MAINTAINERS              | 2 +-
+ docs/devel/acpi-bits.rst | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index b19fb4259e..2311bea082 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2616,7 +2616,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-         int legacy_table_size =
-             ROUND_UP(tables_blob->len - aml_len + legacy_aml_len,
-                      ACPI_BUILD_ALIGN_SIZE);
--        if (tables_blob->len > legacy_table_size) {
-+        if ((tables_blob->len > legacy_table_size) &&
-+            !pcmc->resizable_ram_block) {
-             /* Should happen only with PCI bridges and -M pc-i440fx-2.0.  */
-             warn_report("ACPI table size %u exceeds %d bytes,"
-                         " migration may not work",
-@@ -2627,7 +2628,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-         g_array_set_size(tables_blob, legacy_table_size);
-     } else {
-         /* Make sure we have a buffer in case we need to resize the tables. */
--        if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
-+        if ((tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) &&
-+            !pcmc->resizable_ram_block) {
-             /* As of QEMU 2.1, this fires with 160 VCPUs and 255 memory slots.  */
-             warn_report("ACPI table size %u exceeds %d bytes,"
-                         " migration may not work",
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 7bebea57e3..822d5de333 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1936,6 +1936,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     pcmc->acpi_data_size = 0x20000 + 0x8000;
-     pcmc->pvh_enabled = true;
-     pcmc->kvmclock_create_always = true;
-+    pcmc->resizable_ram_block = true;
-     assert(!mc->get_hotplug_handler);
-     mc->get_hotplug_handler = pc_get_hotplug_handler;
-     mc->hotplug_allowed = pc_hotplug_allowed;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 2f16011bab..3c74dfcfb4 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -745,6 +745,7 @@ static void pc_i440fx_2_2_machine_options(MachineClass *m)
-     compat_props_add(m->compat_props, hw_compat_2_2, hw_compat_2_2_len);
-     compat_props_add(m->compat_props, pc_compat_2_2, pc_compat_2_2_len);
-     pcmc->rsdp_in_ram = false;
-+    pcmc->resizable_ram_block = false;
- }
+diff --git a/.mailmap b/.mailmap
+index fad2aff5aa..460aac992f 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -54,6 +54,7 @@ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
++Ani Sinha <anisinha@redhat.com> <ani@anisinha.ca>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 011fd85a09..1e31cfad32 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1899,7 +1899,7 @@ F: hw/acpi/viot.c
+ F: hw/acpi/viot.h
  
- DEFINE_I440FX_MACHINE(v2_2, "pc-i440fx-2.2", pc_compat_2_2_fn,
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 8206d5405a..3427a35f73 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -127,6 +127,9 @@ struct PCMachineClass {
+ ACPI/AVOCADO/BIOSBITS
+-M: Ani Sinha <ani@anisinha.ca>
++M: Ani Sinha <anisinha@redhat.com>
+ M: Michael S. Tsirkin <mst@redhat.com>
+ S: Supported
+ F: tests/avocado/acpi-bits/*
+diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
+index 9eb4b9e666..22e2580200 100644
+--- a/docs/devel/acpi-bits.rst
++++ b/docs/devel/acpi-bits.rst
+@@ -135,7 +135,7 @@ Under ``tests/avocado/`` as the root we have:
+    (c) They need not be loaded by avocado framework when running tests.
  
-     /* create kvmclock device even when KVM PV features are not exposed */
-     bool kvmclock_create_always;
-+
-+    /* resizable memory block compat */
-+    bool resizable_ram_block;
- };
  
- #define TYPE_PC_MACHINE "generic-pc-machine"
+-Author: Ani Sinha <ani@anisinha.ca>
++Author: Ani Sinha <anisinha@redhat.com>
+ 
+ References:
+ -----------
 -- 
 2.39.2
 
