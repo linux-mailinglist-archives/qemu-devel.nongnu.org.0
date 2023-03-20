@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65166C0D83
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 10:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621866C0DB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 10:52:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peByr-0001XE-LD; Mon, 20 Mar 2023 05:39:05 -0400
+	id 1peC9y-0006m9-VG; Mon, 20 Mar 2023 05:50:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1peBym-0001Tp-VH
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 05:39:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1peByh-0003SW-OE
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 05:39:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679305135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LJrCjkjUlBik/3dh3MElKLP0EIatgPyPNbV2DBetjSQ=;
- b=HPXuGhen3+gLewFPjVEdXslM5IcJqNf/K0oJfdDTwSBh7T0bYN/WFYOMzQJpEFmfnYRDOe
- bbB+2SSjTsKkRy2fHei0i3wzquRLWRSf9u7znFM+oGEz0jh87OsSVShLW4I8A3p7etVDYt
- RPEIjyAz0oqNV5wnNd/ktfDB1w8CJKI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-Lqme1ne-Olmh4mVU8OtMhg-1; Mon, 20 Mar 2023 05:38:53 -0400
-X-MC-Unique: Lqme1ne-Olmh4mVU8OtMhg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 244233C218A1;
- Mon, 20 Mar 2023 09:38:53 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 633841410F1C;
- Mon, 20 Mar 2023 09:38:52 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0715E1800383; Mon, 20 Mar 2023 10:38:48 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
-Subject: [PULL 5/6] edk2: replace build scripts
-Date: Mon, 20 Mar 2023 10:38:46 +0100
-Message-Id: <20230320093847.539751-6-kraxel@redhat.com>
-In-Reply-To: <20230320093847.539751-1-kraxel@redhat.com>
-References: <20230320093847.539751-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1peC9p-0006ji-PX; Mon, 20 Mar 2023 05:50:26 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1peC9i-00085Q-FK; Mon, 20 Mar 2023 05:50:25 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id o12so44190849edb.9;
+ Mon, 20 Mar 2023 02:50:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679305813;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lJKLy/RH8jk7LzIm0pkt1OSjL81D87Q9s3BvX/SWYDk=;
+ b=j6n72V1NNOD+/QCuX4lkBjNBRxCqrKVAkxZPUSaRX/R3+p3HNP9KLhCSSTcA3ytx61
+ Asgmq5myvyfqUV+KCy34qAUewfWInqey5roZ/7f06Zz4Sb55r9aRwLhxrQ/eXhUVy+sS
+ rcP/8x7bsZerdJmb+tO15TQOx84x39lUYboCm0DKyWfgMwT6UcXRnjrTu7jDetdx5rfG
+ cDtW7HzB6DtCyVGcfbLgmThDdIVBBuHna0FQuXSEUYoUy7tv7Fsn1j16utAEXYbUCgLl
+ aYKYdCbschEcWR4kAxIssgJmyRQxrU/xYIFqHfoaS09QT3X4cCyFSMhLDnxbO3xPm38/
+ AsAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679305813;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lJKLy/RH8jk7LzIm0pkt1OSjL81D87Q9s3BvX/SWYDk=;
+ b=Pg10JRTH1DvkqKW9QuNLuf6uH+ArNRJMNaBL1+s6ytqjMtpp+AW7QcvfmQn9/7Ifyl
+ keWbhqM2F/Rq6TfR8lNp002mYTJoUYmPa/5Jge42iSbzMFRoZhN+q2WquH6jGw1A465P
+ agRqdDxPil/0baUinoz1soS1vWIa/1Ku5XP8dH/uBzeFPTY6UGg+7QO0r1yUeWjZYxo0
+ OpWLKcfAK74zzhzVcl48EPmu8u6MvZhH63X9I4sxx3oOzSJnmufTOxM5HJ7zQZu0TvGO
+ jJOL7kT1tKpNt53W2TFwo7qU4Z7F0GkiSR7IYhgzExB5Z6Df6X0Whv6MXQG3oZ5/0a2+
+ EGvA==
+X-Gm-Message-State: AO0yUKWDrYzNbcaQJztN8UzmY4ujC41/NWOn0QYIv1EGk5Lb6BRwdfaZ
+ ih4MTUyUvJAnW55PfUBBC5E3CiyYYzGkSrghfJI=
+X-Google-Smtp-Source: AK7set/fEhfIq0sPa5PXkY+GvMjl/TJ98lmABqsw65+rFk9TTsYRQfZajQtiXdSO5fbUXRZ2YfLDUSi+sP6RW4vrvwU=
+X-Received: by 2002:a50:999d:0:b0:4fb:e0e8:5140 with SMTP id
+ m29-20020a50999d000000b004fbe0e85140mr6070581edb.6.1679305812851; Mon, 20 Mar
+ 2023 02:50:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230302114102.32236-1-qianfanguijin@163.com>
+ <CAPan3Wr=jqP5CVzsMtNmUTj-NvPZouxPWwC9DivY=GL65XJX4Q@mail.gmail.com>
+ <7bea1905-139c-bdf6-e160-74b9aa99f9c9@163.com>
+In-Reply-To: <7bea1905-139c-bdf6-e160-74b9aa99f9c9@163.com>
+From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
+Date: Mon, 20 Mar 2023 10:50:01 +0100
+Message-ID: <CABtshVSvWMJgAa8P3Ju53XfrWwbf4Ut1+ZUpjAUY_OXMurYt6w@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 00/12] *** Add allwinner R40 device support ***
+To: qianfan <qianfanguijin@163.com>
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000071bed305f751daac"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,1120 +86,423 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Remove Makefile.edk2 and the edk2*.sh scripts and replace them
-with a python script (which already handles fedora rpm builds)
-and a config file for it.
+--00000000000071bed305f751daac
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- roms/edk2-build.py     | 380 +++++++++++++++++++++++++++++++++++++++++
- roms/Makefile          |  29 +---
- roms/Makefile.edk2     | 178 -------------------
- roms/edk2-build.config | 124 ++++++++++++++
- roms/edk2-build.sh     |  55 ------
- roms/edk2-funcs.sh     | 273 -----------------------------
- 6 files changed, 511 insertions(+), 528 deletions(-)
- create mode 100755 roms/edk2-build.py
- delete mode 100644 roms/Makefile.edk2
- create mode 100644 roms/edk2-build.config
- delete mode 100755 roms/edk2-build.sh
- delete mode 100644 roms/edk2-funcs.sh
+Hi,
 
-diff --git a/roms/edk2-build.py b/roms/edk2-build.py
-new file mode 100755
-index 000000000000..870893f7c8e3
---- /dev/null
-+++ b/roms/edk2-build.py
-@@ -0,0 +1,380 @@
-+#!/usr/bin/python3
-+"""
-+build helper script for edk2, see
-+https://gitlab.com/kraxel/edk2-build-config
-+
-+"""
-+import os
-+import sys
-+import shutil
-+import argparse
-+import subprocess
-+import configparser
-+
-+rebase_prefix    = ""
-+version_override = None
-+release_date     = None
-+
-+# pylint: disable=unused-variable
-+def check_rebase():
-+    """ detect 'git rebase -x edk2-build.py master' testbuilds """
-+    global rebase_prefix
-+    global version_override
-+    gitdir = '.git'
-+
-+    if os.path.isfile(gitdir):
-+        with open(gitdir, 'r', encoding = 'utf-8') as f:
-+            (unused, gitdir) = f.read().split()
-+
-+    if not os.path.exists(f'{gitdir}/rebase-merge/msgnum'):
-+        return
-+    with open(f'{gitdir}/rebase-merge/msgnum', 'r', encoding = 'utf-8') as f:
-+        msgnum = int(f.read())
-+    with open(f'{gitdir}/rebase-merge/end', 'r', encoding = 'utf-8') as f:
-+        end = int(f.read())
-+    with open(f'{gitdir}/rebase-merge/head-name', 'r', encoding = 'utf-8') as f:
-+        head = f.read().strip().split('/')
-+
-+    rebase_prefix = f'[ {int(msgnum/2)} / {int(end/2)} - {head[-1]} ] '
-+    if msgnum != end and not version_override:
-+        # fixed version speeds up builds
-+        version_override = "test-build-patch-series"
-+
-+def get_coredir(cfg):
-+    if cfg.has_option('global', 'core'):
-+        return os.path.abspath(cfg['global']['core'])
-+    return os.getcwd()
-+
-+def get_version(cfg):
-+    coredir = get_coredir(cfg)
-+    if version_override:
-+        version = version_override
-+        print('')
-+        print(f'### version [override]: {version}')
-+        return version
-+    if os.environ.get('RPM_PACKAGE_NAME'):
-+        version = os.environ.get('RPM_PACKAGE_NAME')
-+        version += '-' + os.environ.get('RPM_PACKAGE_VERSION')
-+        version += '-' + os.environ.get('RPM_PACKAGE_RELEASE')
-+        print('')
-+        print(f'### version [rpmbuild]: {version}')
-+        return version
-+    if os.path.exists(coredir + '/.git'):
-+        cmdline = [ 'git', 'describe', '--tags', '--abbrev=8',
-+                    '--match=edk2-stable*' ]
-+        result = subprocess.run(cmdline, cwd = coredir,
-+                                stdout = subprocess.PIPE,
-+                                check = True)
-+        version = result.stdout.decode().strip()
-+        print('')
-+        print(f'### version [git]: {version}')
-+        return version
-+    return None
-+
-+def pcd_string(name, value):
-+    return f'{name}=L{value}\\0'
-+
-+def pcd_version(cfg):
-+    version = get_version(cfg)
-+    if version is None:
-+        return []
-+    return [ '--pcd', pcd_string('PcdFirmwareVersionString', version) ]
-+
-+def pcd_release_date():
-+    if release_date is None:
-+        return []
-+    return [ '--pcd', pcd_string('PcdFirmwareReleaseDateString', release_date) ]
-+
-+def build_message(line, line2 = None):
-+    if os.environ.get('TERM') in [ 'xterm', 'xterm-256color' ]:
-+        # setxterm  title
-+        start  = '\x1b]2;'
-+        end    = '\x07'
-+        print(f'{start}{rebase_prefix}{line}{end}', end = '')
-+
-+    print('')
-+    print('###')
-+    print(f'### {rebase_prefix}{line}')
-+    if line2:
-+        print(f'### {line2}')
-+    print('###', flush = True)
-+
-+def build_run(cmdline, name, section, silent = False):
-+    print(cmdline, flush = True)
-+    if silent:
-+        print('### building in silent mode ...', flush = True)
-+        result = subprocess.run(cmdline, check = False,
-+                                stdout = subprocess.PIPE,
-+                                stderr = subprocess.STDOUT)
-+
-+        logfile = f'{section}.log'
-+        print(f'### writing log to {logfile} ...')
-+        with open(logfile, 'wb') as f:
-+            f.write(result.stdout)
-+
-+        if result.returncode:
-+            print('### BUILD FAILURE')
-+            print('### output')
-+            print(result.stdout.decode())
-+            print(f'### exit code: {result.returncode}')
-+        else:
-+            print('### OK')
-+    else:
-+        result = subprocess.run(cmdline, check = False)
-+    if result.returncode:
-+        print(f'ERROR: {cmdline[0]} exited with {result.returncode}'
-+              f' while building {name}')
-+        sys.exit(result.returncode)
-+
-+def build_copy(plat, tgt, dstdir, copy):
-+    srcdir = f'Build/{plat}/{tgt}_GCC5'
-+    names = copy.split()
-+    srcfile = names[0]
-+    if len(names) > 1:
-+        dstfile = names[1]
-+    else:
-+        dstfile = os.path.basename(srcfile)
-+    print(f'# copy: {srcdir} / {srcfile}  =>  {dstdir} / {dstfile}')
-+
-+    src = srcdir + '/' + srcfile
-+    dst = dstdir + '/' + dstfile
-+    os.makedirs(os.path.dirname(dst), exist_ok = True)
-+    shutil.copy(src, dst)
-+
-+def pad_file(dstdir, pad):
-+    args = pad.split()
-+    if len(args) < 2:
-+        raise RuntimeError(f'missing arg for pad ({args})')
-+    name = args[0]
-+    size = args[1]
-+    cmdline = [
-+        'truncate',
-+        '--size', size,
-+        dstdir + '/' + name,
-+    ]
-+    print(f'# padding: {dstdir} / {name}  =>  {size}')
-+    subprocess.run(cmdline, check = True)
-+
-+# pylint: disable=too-many-branches
-+def build_one(cfg, build, jobs = None, silent = False):
-+    cmdline  = [ 'build' ]
-+    cmdline += [ '-t', 'GCC5' ]
-+    cmdline += [ '-p', cfg[build]['conf'] ]
-+
-+    if (cfg[build]['conf'].startswith('OvmfPkg/') or
-+        cfg[build]['conf'].startswith('ArmVirtPkg/')):
-+        cmdline += pcd_version(cfg)
-+        cmdline += pcd_release_date()
-+
-+    if jobs:
-+        cmdline += [ '-n', jobs ]
-+    for arch in cfg[build]['arch'].split():
-+        cmdline += [ '-a', arch ]
-+    if 'opts' in cfg[build]:
-+        for name in cfg[build]['opts'].split():
-+            section = 'opts.' + name
-+            for opt in cfg[section]:
-+                cmdline += [ '-D', opt + '=' + cfg[section][opt] ]
-+    if 'pcds' in cfg[build]:
-+        for name in cfg[build]['pcds'].split():
-+            section = 'pcds.' + name
-+            for pcd in cfg[section]:
-+                cmdline += [ '--pcd', pcd + '=' + cfg[section][pcd] ]
-+    if 'tgts' in cfg[build]:
-+        tgts = cfg[build]['tgts'].split()
-+    else:
-+        tgts = [ 'DEBUG' ]
-+    for tgt in tgts:
-+        desc = None
-+        if 'desc' in cfg[build]:
-+            desc = cfg[build]['desc']
-+        build_message(f'building: {cfg[build]["conf"]} ({cfg[build]["arch"]}, {tgt})',
-+                      f'description: {desc}')
-+        build_run(cmdline + [ '-b', tgt ],
-+                  cfg[build]['conf'],
-+                  build + '.' + tgt,
-+                  silent)
-+
-+        if 'plat' in cfg[build]:
-+            # copy files
-+            for cpy in cfg[build]:
-+                if not cpy.startswith('cpy'):
-+                    continue
-+                build_copy(cfg[build]['plat'],
-+                           tgt,
-+                           cfg[build]['dest'],
-+                           cfg[build][cpy])
-+            # pad builds
-+            for pad in cfg[build]:
-+                if not pad.startswith('pad'):
-+                    continue
-+                pad_file(cfg[build]['dest'],
-+                         cfg[build][pad])
-+
-+def build_basetools(silent = False):
-+    build_message('building: BaseTools')
-+    basedir = os.environ['EDK_TOOLS_PATH']
-+    cmdline = [ 'make', '-C', basedir ]
-+    build_run(cmdline, 'BaseTools', 'build.basetools', silent)
-+
-+def binary_exists(name):
-+    for pdir in os.environ['PATH'].split(':'):
-+        if os.path.exists(pdir + '/' + name):
-+            return True
-+    return False
-+
-+def prepare_env(cfg):
-+    """ mimic Conf/BuildEnv.sh """
-+    workspace = os.getcwd()
-+    packages = [ workspace, ]
-+    path = os.environ['PATH'].split(':')
-+    dirs = [
-+        'BaseTools/Bin/Linux-x86_64',
-+        'BaseTools/BinWrappers/PosixLike'
-+    ]
-+
-+    if cfg.has_option('global', 'pkgs'):
-+        for pkgdir in cfg['global']['pkgs'].split():
-+            packages.append(os.path.abspath(pkgdir))
-+    coredir = get_coredir(cfg)
-+    if coredir != workspace:
-+        packages.append(coredir)
-+
-+    # add basetools to path
-+    for pdir in dirs:
-+        p = coredir + '/' + pdir
-+        if not os.path.exists(p):
-+            continue
-+        if p in path:
-+            continue
-+        path.insert(0, p)
-+
-+    # run edksetup if needed
-+    toolsdef = coredir + '/Conf/tools_def.txt'
-+    if not os.path.exists(toolsdef):
-+        os.makedirs(os.path.dirname(toolsdef), exist_ok = True)
-+        build_message('running BaseTools/BuildEnv')
-+        cmdline = [ 'bash', 'BaseTools/BuildEnv' ]
-+        subprocess.run(cmdline, cwd = coredir, check = True)
-+
-+    # set variables
-+    os.environ['PATH'] = ':'.join(path)
-+    os.environ['PACKAGES_PATH'] = ':'.join(packages)
-+    os.environ['WORKSPACE'] = workspace
-+    os.environ['EDK_TOOLS_PATH'] = coredir + '/BaseTools'
-+    os.environ['CONF_PATH'] = coredir + '/Conf'
-+    os.environ['PYTHON_COMMAND'] = '/usr/bin/python3'
-+    os.environ['PYTHONHASHSEED'] = '1'
-+
-+    # for cross builds
-+    if binary_exists('arm-linux-gnu-gcc'):
-+        os.environ['GCC5_ARM_PREFIX'] = 'arm-linux-gnu-'
-+    if binary_exists('loongarch64-linux-gnu-gcc'):
-+        os.environ['GCC5_LOONGARCH64_PREFIX'] = 'loongarch64-linux-gnu-'
-+
-+    hostarch = os.uname().machine
-+    if binary_exists('aarch64-linux-gnu-gcc') and hostarch != 'aarch64':
-+        os.environ['GCC5_AARCH64_PREFIX'] = 'aarch64-linux-gnu-'
-+    if binary_exists('riscv64-linux-gnu-gcc') and hostarch != 'riscv64':
-+        os.environ['GCC5_RISCV64_PREFIX'] = 'riscv64-linux-gnu-'
-+    if binary_exists('x86_64-linux-gnu-gcc') and hostarch != 'x86_64':
-+        os.environ['GCC5_IA32_PREFIX'] = 'x86_64-linux-gnu-'
-+        os.environ['GCC5_X64_PREFIX'] = 'x86_64-linux-gnu-'
-+        os.environ['GCC5_BIN'] = 'x86_64-linux-gnu-'
-+
-+def build_list(cfg):
-+    for build in cfg.sections():
-+        if not build.startswith('build.'):
-+            continue
-+        name = build.lstrip('build.')
-+        desc = 'no description'
-+        if 'desc' in cfg[build]:
-+            desc = cfg[build]['desc']
-+        print(f'# {name:20s} - {desc}')
-+
-+def main():
-+    parser = argparse.ArgumentParser(prog = 'edk2-build',
-+                                     description = 'edk2 build helper script')
-+    parser.add_argument('-c', '--config', dest = 'configfile',
-+                        type = str, default = '.edk2.builds', metavar = 'FILE',
-+                        help = 'read configuration from FILE (default: .edk2.builds)')
-+    parser.add_argument('-C', '--directory', dest = 'directory', type = str,
-+                        help = 'change to DIR before building', metavar = 'DIR')
-+    parser.add_argument('-j', '--jobs', dest = 'jobs', type = str,
-+                        help = 'allow up to JOBS parallel build jobs',
-+                        metavar = 'JOBS')
-+    parser.add_argument('-m', '--match', dest = 'match', type = str,
-+                        help = 'only run builds matching INCLUDE (substring)',
-+                        metavar = 'INCLUDE')
-+    parser.add_argument('-x', '--exclude', dest = 'exclude', type = str,
-+                        help = 'skip builds matching EXCLUDE (substring)',
-+                        metavar = 'EXCLUDE')
-+    parser.add_argument('-l', '--list', dest = 'list',
-+                        action = 'store_true', default = False,
-+                        help = 'list build configs available')
-+    parser.add_argument('--silent', dest = 'silent',
-+                        action = 'store_true', default = False,
-+                        help = 'write build output to logfiles, '
-+                        'write to console only on errors')
-+    parser.add_argument('--core', dest = 'core', type = str, metavar = 'DIR',
-+                        help = 'location of the core edk2 repository '
-+                        '(i.e. where BuildTools are located)')
-+    parser.add_argument('--pkg', '--package', dest = 'pkgs',
-+                        type = str, action = 'append', metavar = 'DIR',
-+                        help = 'location(s) of additional packages '
-+                        '(can be specified multiple times)')
-+    parser.add_argument('--version-override', dest = 'version_override',
-+                        type = str, metavar = 'VERSION',
-+                        help = 'set firmware build version')
-+    parser.add_argument('--release-date', dest = 'release_date',
-+                        type = str, metavar = 'DATE',
-+                        help = 'set firmware build release date (in MM/DD/YYYY format)')
-+    options = parser.parse_args()
-+
-+    if options.directory:
-+        os.chdir(options.directory)
-+
-+    if not os.path.exists(options.configfile):
-+        print('config file "{options.configfile}" not found')
-+        return 1
-+
-+    cfg = configparser.ConfigParser()
-+    cfg.optionxform = str
-+    cfg.read(options.configfile)
-+
-+    if options.list:
-+        build_list(cfg)
-+        return
-+
-+    if not cfg.has_section('global'):
-+        cfg.add_section('global')
-+    if options.core:
-+        cfg.set('global', 'core', options.core)
-+    if options.pkgs:
-+        cfg.set('global', 'pkgs', ' '.join(options.pkgs))
-+
-+    global version_override
-+    global release_date
-+    check_rebase()
-+    if options.version_override:
-+        version_override = options.version_override
-+    if options.release_date:
-+        release_date = options.release_date
-+
-+    prepare_env(cfg)
-+    build_basetools(options.silent)
-+    for build in cfg.sections():
-+        if not build.startswith('build.'):
-+            continue
-+        if options.match and options.match not in build:
-+            print(f'# skipping "{build}" (not matching "{options.match}")')
-+            continue
-+        if options.exclude and options.exclude in build:
-+            print(f'# skipping "{build}" (matching "{options.exclude}")')
-+            continue
-+        build_one(cfg, build, options.jobs, options.silent)
-+
-+    return 0
-+
-+if __name__ == '__main__':
-+    sys.exit(main())
-diff --git a/roms/Makefile b/roms/Makefile
-index 955f92286de0..6859685290bf 100644
---- a/roms/Makefile
-+++ b/roms/Makefile
-@@ -126,25 +126,6 @@ build-efi-roms: build-pxe-roms
- 		CROSS_COMPILE=$(x86_64_cross_prefix) \
- 		$(patsubst %,bin-x86_64-efi/%.efidrv,$(pxerom_targets))
- 
--# Build scripts can pass compiler/linker flags to the EDK2
--# build tools via the EDK2_BASETOOLS_OPTFLAGS (CFLAGS) and
--# EDK2_BASETOOLS_LDFLAGS (LDFLAGS) environment variables.
--#
--# Example:
--#
--#  make -C roms \
--#    EDK2_BASETOOLS_OPTFLAGS='...' \
--#    EDK2_BASETOOLS_LDFLAGS='...' \
--#    efirom
--#
--edk2-basetools:
--	cd edk2/BaseTools && git submodule update --init --force \
--		Source/C/BrotliCompress/brotli
--	$(MAKE) -C edk2/BaseTools \
--		PYTHON_COMMAND=$${EDK2_PYTHON_COMMAND:-python3} \
--		EXTRA_OPTFLAGS='$(EDK2_BASETOOLS_OPTFLAGS)' \
--		EXTRA_LDFLAGS='$(EDK2_BASETOOLS_LDFLAGS)'
--
- slof:
- 	$(MAKE) -C SLOF CROSS=$(powerpc64_cross_prefix) qemu
- 	cp SLOF/boot_rom.bin ../pc-bios/slof.bin
-@@ -165,8 +146,12 @@ skiboot:
- 	$(MAKE) -C skiboot CROSS=$(powerpc64_cross_prefix)
- 	cp skiboot/skiboot.lid ../pc-bios/skiboot.lid
- 
--efi: edk2-basetools
--	$(MAKE) -f Makefile.edk2
-+efi:
-+	python3 edk2-build.py --config edk2-build.config \
-+		--version-override "edk2-stable202302-for-qemu" \
-+		--release-date "03/01/2023"
-+	rm -f ../pc-bios/edk2-*.fd.bz2
-+	bzip2 --verbose ../pc-bios/edk2-*.fd
- 
- opensbi32-generic:
- 	$(MAKE) -C opensbi \
-@@ -200,7 +185,7 @@ clean:
- 	rm -rf u-boot/build-e500
- 	$(MAKE) -C u-boot-sam460ex distclean
- 	$(MAKE) -C skiboot clean
--	$(MAKE) -f Makefile.edk2 clean
-+	rm -rf Build
- 	$(MAKE) -C opensbi clean
- 	$(MAKE) -C qboot clean
- 	$(MAKE) -C vbootrom clean
-diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-deleted file mode 100644
-index 485f2244b159..000000000000
---- a/roms/Makefile.edk2
-+++ /dev/null
-@@ -1,178 +0,0 @@
--# Makefile for building firmware binaries and variable store templates for a
--# number of virtual platforms in edk2.
--#
--# Copyright (C) 2019 Red Hat, Inc.
--#
--# This program and the accompanying materials are licensed and made available
--# under the terms and conditions of the BSD License that accompanies this
--# distribution. The full text of the license may be found at
--# <http://opensource.org/licenses/bsd-license.php>.
--#
--# THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS, WITHOUT
--# WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
--
--SHELL = /bin/bash
--
--target = RELEASE
--toolchain = $(shell source ./edk2-funcs.sh && qemu_edk2_get_toolchain $(1))
--
--licenses := \
--	edk2/License.txt \
--	edk2/License-History.txt \
--	edk2/OvmfPkg/License.txt \
--	edk2/ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3/COPYING.txt \
--	edk2/CryptoPkg/Library/OpensslLib/openssl/LICENSE
--
--# The "edk2-arm-vars.fd" varstore template is suitable for aarch64 as well.
--# Similarly, the "edk2-i386-vars.fd" varstore template is suitable for x86_64
--# as well, independently of "secure" too.
--flashdevs := \
--	aarch64-code \
--	arm-code \
--	i386-code \
--	i386-secure-code \
--	x86_64-code \
--	x86_64-secure-code \
--	x86_64-microvm \
--	\
--	arm-vars \
--	i386-vars
--
--all: $(foreach flashdev,$(flashdevs),../pc-bios/edk2-$(flashdev).fd.bz2) \
--	../pc-bios/edk2-licenses.txt
--
--../pc-bios/edk2-%.fd.bz2: ../pc-bios/edk2-%.fd
--	bzip2 -9 -c $< > $@
--
--# When the build completes, we need not keep the uncompressed flash device
--# files.
--.INTERMEDIATE: $(foreach flashdev,$(flashdevs),../pc-bios/edk2-$(flashdev).fd)
--
--# Fetch edk2 submodule's submodules. If it is not in a git tree, assume
--# we're building from a tarball and that they've already been fetched by
--# make-release/tarball scripts.
--submodules:
--	if test -e edk2/.git; then \
--		cd edk2 && git submodule update --init --force -- \
--			ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3 \
--			BaseTools/Source/C/BrotliCompress/brotli \
--			CryptoPkg/Library/OpensslLib/openssl \
--			MdeModulePkg/Library/BrotliCustomDecompressLib/brotli \
--		; \
--	fi
--
--# See notes on the ".NOTPARALLEL" target and the "+" indicator in
--# "tests/uefi-test-tools/Makefile".
--.NOTPARALLEL:
--
--../pc-bios/edk2-aarch64-code.fd: submodules
--	+./edk2-build.sh \
--		aarch64 \
--		--arch=AARCH64 \
--		--platform=ArmVirtPkg/ArmVirtQemu.dsc \
--		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE \
--		-D NETWORK_TLS_ENABLE \
--		-D TPM2_ENABLE \
--		-D TPM2_CONFIG_ENABLE
--	cp edk2/Build/ArmVirtQemu-AARCH64/$(target)_$(call toolchain,aarch64)/FV/QEMU_EFI.fd \
--		$@
--	truncate --size=64M $@
--
--../pc-bios/edk2-arm-code.fd: submodules
--	+./edk2-build.sh \
--		arm \
--		--arch=ARM \
--		--platform=ArmVirtPkg/ArmVirtQemu.dsc \
--		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE \
--		-D NETWORK_TLS_ENABLE \
--		-D TPM2_ENABLE \
--		-D TPM2_CONFIG_ENABLE
--	cp edk2/Build/ArmVirtQemu-ARM/$(target)_$(call toolchain,arm)/FV/QEMU_EFI.fd \
--		$@
--	truncate --size=64M $@
--
--../pc-bios/edk2-i386-code.fd: submodules
--	+./edk2-build.sh \
--		i386 \
--		--arch=IA32 \
--		--platform=OvmfPkg/OvmfPkgIa32.dsc \
--		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE \
--		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
--		-D TPM_CONFIG_ENABLE
--	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
--
--../pc-bios/edk2-i386-secure-code.fd: submodules
--	+./edk2-build.sh \
--		i386 \
--		--arch=IA32 \
--		--platform=OvmfPkg/OvmfPkgIa32.dsc \
--		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE \
--		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
--		-D TPM_CONFIG_ENABLE \
--		-D SECURE_BOOT_ENABLE \
--		-D SMM_REQUIRE
--	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
--
--../pc-bios/edk2-x86_64-code.fd: submodules
--	+./edk2-build.sh \
--		x86_64 \
--		--arch=X64 \
--		--platform=OvmfPkg/OvmfPkgX64.dsc \
--		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE \
--		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
--		-D TPM_CONFIG_ENABLE
--	cp edk2/Build/OvmfX64/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
--
--../pc-bios/edk2-x86_64-secure-code.fd: submodules
--	+./edk2-build.sh \
--		x86_64 \
--		--arch=IA32 \
--		--arch=X64 \
--		--platform=OvmfPkg/OvmfPkgIa32X64.dsc \
--		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE \
--		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
--		-D TPM_CONFIG_ENABLE \
--		-D SECURE_BOOT_ENABLE \
--		-D SMM_REQUIRE
--	cp edk2/Build/Ovmf3264/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
--
--../pc-bios/edk2-x86_64-microvm.fd: submodules
--	+./edk2-build.sh \
--		x86_64 \
--		--arch=X64 \
--		--platform=OvmfPkg/Microvm/MicrovmX64.dsc \
--		-D NETWORK_IP6_ENABLE \
--		-D NETWORK_HTTP_BOOT_ENABLE \
--		-D NETWORK_TLS_ENABLE
--	cp edk2/Build/MicrovmX64/$(target)_$(call toolchain,x86_64)/FV/MICROVM.fd $@
--
--../pc-bios/edk2-arm-vars.fd: ../pc-bios/edk2-arm-code.fd
--	cp edk2/Build/ArmVirtQemu-ARM/$(target)_$(call toolchain,arm)/FV/QEMU_VARS.fd \
--		$@
--	truncate --size=64M $@
--
--../pc-bios/edk2-i386-vars.fd: ../pc-bios/edk2-i386-code.fd
--	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_VARS.fd $@
--
--# The license file accumulates several individual licenses from under edk2,
--# prefixing each individual license with a header (generated by "tail") that
--# states its pathname.
--../pc-bios/edk2-licenses.txt: submodules
--	tail -n $(shell cat $(licenses) | wc -l) $(licenses) > $@
--	dos2unix $@
--
--clean:
--	rm -rf edk2/Build
--	cd edk2/Conf && \
--		rm -rf .cache BuildEnv.sh build_rule.txt target.txt \
--			tools_def.txt
-diff --git a/roms/edk2-build.config b/roms/edk2-build.config
-new file mode 100644
-index 000000000000..66ef9ffcb91f
---- /dev/null
-+++ b/roms/edk2-build.config
-@@ -0,0 +1,124 @@
-+[global]
-+core = edk2
-+
-+####################################################################################
-+# options
-+
-+[opts.common]
-+NETWORK_HTTP_BOOT_ENABLE = TRUE
-+NETWORK_IP6_ENABLE       = TRUE
-+NETWORK_TLS_ENABLE       = TRUE
-+NETWORK_ISCSI_ENABLE     = TRUE
-+NETWORK_ALLOW_HTTP_CONNECTIONS = TRUE
-+TPM2_ENABLE              = TRUE
-+TPM2_CONFIG_ENABLE       = TRUE
-+TPM1_ENABLE              = TRUE
-+CAVIUM_ERRATUM_27456     = TRUE
-+
-+[opts.ovmf.sb.smm]
-+SECURE_BOOT_ENABLE       = TRUE
-+SMM_REQUIRE              = TRUE
-+
-+[opts.armvirt.silent]
-+DEBUG_PRINT_ERROR_LEVEL  = 0x80000000
-+
-+[pcds.nx.broken.grub]
-+# grub.efi uses EfiLoaderData for code
-+PcdDxeNxMemoryProtectionPolicy = 0xC000000000007FD1
-+
-+####################################################################################
-+# i386
-+
-+[build.ovmf.i386]
-+desc = ovmf build (32-bit)
-+conf = OvmfPkg/OvmfPkgIa32.dsc
-+arch = IA32
-+opts = common
-+plat = OvmfIa32
-+dest = ../pc-bios
-+cpy1 = FV/OVMF_CODE.fd edk2-i386-code.fd
-+cpy2 = FV/OVMF_VARS.fd edk2-i386-vars.fd
-+
-+[build.ovmf.i386.secure]
-+desc = ovmf build (32-bit, secure boot)
-+conf = OvmfPkg/OvmfPkgIa32.dsc
-+arch = IA32
-+opts = common
-+       ovmf.sb.smm
-+plat = OvmfIa32
-+dest = ../pc-bios
-+cpy1 = FV/OVMF_CODE.fd edk2-i386-secure-code.fd
-+
-+####################################################################################
-+# x86_64
-+
-+[build.ovmf.x86_64]
-+desc = ovmf build (64-bit)
-+conf = OvmfPkg/OvmfPkgX64.dsc
-+arch = X64
-+opts = common
-+plat = OvmfX64
-+dest = ../pc-bios
-+cpy1 = FV/OVMF_CODE.fd edk2-x86_64-code.fd
-+
-+[build.ovmf.x86_64.secure]
-+desc = ovmf build (64-bit, secure boot)
-+conf = OvmfPkg/OvmfPkgIa32X64.dsc
-+arch = IA32 X64
-+opts = common
-+       ovmf.sb.smm
-+plat = Ovmf3264
-+dest = ../pc-bios
-+cpy1 = FV/OVMF_CODE.fd edk2-x86_64-secure-code.fd
-+
-+[build.ovmf.microvm]
-+desc = ovmf build for microvm
-+conf = OvmfPkg/Microvm/MicrovmX64.dsc
-+arch = X64
-+opts = common
-+plat = MicrovmX64
-+dest = ../pc-bios
-+cpy1 = FV/MICROVM.fd  edk2-x86_64-microvm.fd
-+
-+####################################################################################
-+# arm
-+
-+[build.armvirt.arm]
-+desc = ArmVirt build, 32-bit (arm v7)
-+conf = ArmVirtPkg/ArmVirtQemu.dsc
-+arch = ARM
-+opts = common
-+       armvirt.silent
-+pcds = nx.broken.grub
-+plat = ArmVirtQemu-ARM
-+dest = ../pc-bios
-+cpy1 = FV/QEMU_EFI.fd    edk2-arm-code.fd
-+cpy2 = FV/QEMU_VARS.fd   edk2-arm-vars.fd
-+pad1 = edk2-arm-code.fd  64m
-+pad2 = edk2-arm-vars.fd  64m
-+
-+####################################################################################
-+# aarch64
-+
-+[build.armvirt.aa64]
-+desc = ArmVirt build, 64-bit (arm v8)
-+conf = ArmVirtPkg/ArmVirtQemu.dsc
-+arch = AARCH64
-+opts = common
-+       armvirt.silent
-+pcds = nx.broken.grub
-+plat = ArmVirtQemu-AARCH64
-+dest = ../pc-bios
-+cpy1 = FV/QEMU_EFI.fd  edk2-aarch64-code.fd
-+pad1 = edk2-aarch64-code.fd  64m
-+
-+####################################################################################
-+# riscv64
-+
-+[build.riscv.qemu]
-+conf = OvmfPkg/RiscVVirt/RiscVVirtQemu.dsc
-+arch = RISCV64
-+plat = RiscVVirtQemu
-+dest = ../pc-bios
-+cpy1 = FV/RISCV_VIRT.fd  edk2-riscv.fd
-+pad1 = edk2-riscv.fd     32m
-diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
-deleted file mode 100755
-index ea79dc27a269..000000000000
---- a/roms/edk2-build.sh
-+++ /dev/null
-@@ -1,55 +0,0 @@
--#!/bin/bash
--
--# Wrapper shell script for building a  virtual platform firmware in edk2.
--#
--# Copyright (C) 2019 Red Hat, Inc.
--#
--# This program and the accompanying materials are licensed and made available
--# under the terms and conditions of the BSD License that accompanies this
--# distribution. The full text of the license may be found at
--# <http://opensource.org/licenses/bsd-license.php>.
--#
--# THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS, WITHOUT
--# WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
--
--set -e -u -C
--
--# Save the command line arguments. We need to reset $# to 0 before sourcing
--# "edksetup.sh", as it will inherit $@.
--emulation_target=$1
--shift
--num_args=0
--args=()
--for arg in "$@"; do
--  args[num_args++]="$arg"
--done
--shift $num_args
--
--cd edk2
--
--export PYTHON_COMMAND=${EDK2_PYTHON_COMMAND:-python3}
--
--# Source "edksetup.sh" carefully.
--set +e +u +C
--source ./edksetup.sh
--ret=$?
--set -e -u -C
--if [ $ret -ne 0 ]; then
--  exit $ret
--fi
--
--# Fetch some option arguments, and set the cross-compilation environment (if
--# any), for the edk2 "build" utility.
--source ../edk2-funcs.sh
--edk2_toolchain=$(qemu_edk2_get_toolchain "$emulation_target")
--MAKEFLAGS=$(qemu_edk2_quirk_tianocore_1607 "$MAKEFLAGS")
--edk2_thread_count=$(qemu_edk2_get_thread_count "$MAKEFLAGS")
--qemu_edk2_set_cross_env "$emulation_target"
--
--# Build the platform firmware.
--build \
--  --cmd-len=65536 \
--  -n "$edk2_thread_count" \
--  --buildtarget=RELEASE \
--  --tagname="$edk2_toolchain" \
--  "${args[@]}"
-diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
-deleted file mode 100644
-index cd6e4f2c82d2..000000000000
---- a/roms/edk2-funcs.sh
-+++ /dev/null
-@@ -1,273 +0,0 @@
--# Shell script that defines functions for determining some environmental
--# characteristics for the edk2 "build" utility.
--#
--# This script is meant to be sourced, in a bash environment.
--#
--# Copyright (C) 2019 Red Hat, Inc.
--#
--# This program and the accompanying materials are licensed and made available
--# under the terms and conditions of the BSD License that accompanies this
--# distribution. The full text of the license may be found at
--# <http://opensource.org/licenses/bsd-license.php>.
--#
--# THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS, WITHOUT
--# WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
--
--
--# Verify whether the QEMU system emulation target is supported by the UEFI spec
--# and edk2. Print a message to the standard error, and return with nonzero
--# status, if verification fails.
--#
--# Parameters:
--#   $1: QEMU system emulation target
--qemu_edk2_verify_arch()
--{
--  local emulation_target="$1"
--  local program_name=$(basename -- "$0")
--
--  case "$emulation_target" in
--    (arm|aarch64|i386|x86_64)
--      ;;
--    (*)
--      printf '%s: unknown/unsupported QEMU system emulation target "%s"\n' \
--        "$program_name" "$emulation_target" >&2
--      return 1
--      ;;
--  esac
--}
--
--
--# Translate the QEMU system emulation target to the edk2 architecture
--# identifier. Print the result to the standard output.
--#
--# Parameters:
--#   $1: QEMU system emulation target
--qemu_edk2_get_arch()
--{
--  local emulation_target="$1"
--
--  if ! qemu_edk2_verify_arch "$emulation_target"; then
--    return 1
--  fi
--
--  case "$emulation_target" in
--    (arm)
--      printf 'ARM\n'
--      ;;
--    (aarch64)
--      printf 'AARCH64\n'
--      ;;
--    (i386)
--      printf 'IA32\n'
--      ;;
--    (x86_64)
--      printf 'X64\n'
--      ;;
--  esac
--}
--
--
--# Translate the QEMU system emulation target to the gcc cross-compilation
--# architecture identifier. Print the result to the standard output.
--#
--# Parameters:
--#   $1: QEMU system emulation target
--qemu_edk2_get_gcc_arch()
--{
--  local emulation_target="$1"
--
--  if ! qemu_edk2_verify_arch "$emulation_target"; then
--    return 1
--  fi
--
--  case "$emulation_target" in
--    (arm|aarch64|x86_64)
--      printf '%s\n' "$emulation_target"
--      ;;
--    (i386)
--      printf 'i686\n'
--      ;;
--  esac
--}
--
--
--# Determine the gcc cross-compiler prefix (if any) for use with the edk2
--# toolchain. Print the result to the standard output.
--#
--# Parameters:
--#   $1: QEMU system emulation target
--qemu_edk2_get_cross_prefix()
--{
--  local emulation_target="$1"
--  local gcc_arch
--  local host_arch
--
--  if ! gcc_arch=$(qemu_edk2_get_gcc_arch "$emulation_target"); then
--    return 1
--  fi
--
--  host_arch=$(uname -m)
--
--  if [ "$gcc_arch" == "$host_arch" ] ||
--     ( [ "$gcc_arch" == i686 ] && [ "$host_arch" == x86_64 ] ); then
--    # no cross-compiler needed
--    :
--  elif ( [ -e /etc/debian_version ] && [ "$gcc_arch" == arm ] ); then
--    # force soft-float cross-compiler on Debian
--    printf 'arm-linux-gnueabi-'
--  else
--    printf '%s-linux-gnu-\n' "$gcc_arch"
--  fi
--}
--
--
--# Determine the edk2 toolchain tag for the QEMU system emulation target. Print
--# the result to the standard output. Print a message to the standard error, and
--# return with nonzero status, if the (conditional) gcc version check fails.
--#
--# Parameters:
--#   $1: QEMU system emulation target
--qemu_edk2_get_toolchain()
--{
--  local emulation_target="$1"
--  local program_name=$(basename -- "$0")
--  local cross_prefix
--  local gcc_version
--
--  if ! qemu_edk2_verify_arch "$emulation_target"; then
--    return 1
--  fi
--
--  case "$emulation_target" in
--    (arm|aarch64)
--      printf 'GCC5\n'
--      ;;
--
--    (i386|x86_64)
--      if ! cross_prefix=$(qemu_edk2_get_cross_prefix "$emulation_target"); then
--        return 1
--      fi
--
--      gcc_version=$("${cross_prefix}gcc" -v 2>&1 | tail -1 | awk '{print $3}')
--      # Run "git-blame" on "OvmfPkg/build.sh" in edk2 for more information on
--      # the mapping below.
--      case "$gcc_version" in
--        ([1-3].*|4.[0-7].*)
--          printf '%s: unsupported gcc version "%s"\n' \
--            "$program_name" "$gcc_version" >&2
--          return 1
--          ;;
--        (4.8.*)
--          printf 'GCC48\n'
--          ;;
--        (4.9.*|6.[0-2].*)
--          printf 'GCC49\n'
--          ;;
--        (*)
--          printf 'GCC5\n'
--          ;;
--      esac
--      ;;
--  esac
--}
--
--
--# Determine the name of the environment variable that exposes the
--# cross-compiler prefix to the edk2 "build" utility. Print the result to the
--# standard output.
--#
--# Parameters:
--#   $1: QEMU system emulation target
--qemu_edk2_get_cross_prefix_var()
--{
--  local emulation_target="$1"
--  local edk2_toolchain
--  local edk2_arch
--
--  if ! edk2_toolchain=$(qemu_edk2_get_toolchain "$emulation_target"); then
--    return 1
--  fi
--
--  case "$emulation_target" in
--    (arm|aarch64)
--      if ! edk2_arch=$(qemu_edk2_get_arch "$emulation_target"); then
--        return 1
--      fi
--      printf '%s_%s_PREFIX\n' "$edk2_toolchain" "$edk2_arch"
--      ;;
--    (i386|x86_64)
--      printf '%s_BIN\n' "$edk2_toolchain"
--      ;;
--  esac
--}
--
--
--# Set and export the environment variable(s) necessary for cross-compilation,
--# whenever needed by the edk2 "build" utility.
--#
--# Parameters:
--#   $1: QEMU system emulation target
--qemu_edk2_set_cross_env()
--{
--  local emulation_target="$1"
--  local cross_prefix
--  local cross_prefix_var
--
--  if ! cross_prefix=$(qemu_edk2_get_cross_prefix "$emulation_target"); then
--    return 1
--  fi
--
--  if [ -z "$cross_prefix" ]; then
--    # Nothing to do.
--    return 0
--  fi
--
--  if ! cross_prefix_var=$(qemu_edk2_get_cross_prefix_var \
--                            "$emulation_target"); then
--    return 1
--  fi
--
--  eval "export $cross_prefix_var=\$cross_prefix"
--}
--
--
--# Determine the "-n" option argument (that is, the number of modules to build
--# in parallel) for the edk2 "build" utility. Print the result to the standard
--# output.
--#
--# Parameters:
--#   $1: the value of the MAKEFLAGS variable
--qemu_edk2_get_thread_count()
--{
--  local makeflags="$1"
--
--  if [[ "$makeflags" == *--jobserver-auth=* ]] ||
--     [[ "$makeflags" == *--jobserver-fds=* ]]; then
--    # If there is a job server, allow the edk2 "build" utility to parallelize
--    # as many module builds as there are logical CPUs in the system. The "make"
--    # instances forked by "build" are supposed to limit themselves through the
--    # job server. The zero value below causes the edk2 "build" utility to fetch
--    # the logical CPU count with Python's multiprocessing.cpu_count() method.
--    printf '0\n'
--  else
--    # Build a single module at a time.
--    printf '1\n'
--  fi
--}
--
--
--# Work around <https://bugzilla.tianocore.org/show_bug.cgi?id=1607> by
--# filtering jobserver-related flags out of MAKEFLAGS. Print the result to the
--# standard output.
--#
--# Parameters:
--#   $1: the value of the MAKEFLAGS variable
--qemu_edk2_quirk_tianocore_1607()
--{
--  local makeflags="$1"
--
--  printf %s "$makeflags" \
--  | LC_ALL=C sed --regexp-extended \
--      --expression='s/--jobserver-(auth|fds)=[0-9]+,[0-9]+//' \
--      --expression='s/-j([0-9]+)?//'
--}
--- 
-2.39.2
+Could you try maybe running OpenWRT instead of Armbian?
 
+Link to the stable image for M2 Ultra is is
+https://downloads.openwrt.org/releases/22.03.3/targets/sunxi/cortexa7/openw=
+rt-22.03.3-sunxi-cortexa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img.gz
+
+Best reregards ,
+Strahinja
+
+
+
+On Mon, Mar 20, 2023, 9:52 AM qianfan <qianfanguijin@163.com> wrote:
+
+>
+>
+> =E5=9C=A8 2023/3/9 4:47, Niek Linnenbank =E5=86=99=E9=81=93:
+> > Hello Qianfan Zhao,
+> >
+> > Thanks for contributing this work to Qemu! With your contribution, we
+> > would get yet another Allwinner SoC supported, making it three in
+> > total (A10/H3/R40). That's great.
+> > My thoughts are that maybe we should try to re-use commonality between
+> > these SoCs where we can. Ofcourse, that may be difficult as the
+> > internals/peripherals of these SoCs often really are different.
+> >
+> > Your patches look good already, and I saw patches 02 and 03 are
+> > already merged too. I did a quick regression test with
+> > avocado for cubieboard/orangepi-pc with your patches applied and that
+> > went OK:
+> >
+> > $ ARMBIAN_ARTIFACTS_CACHED=3Dyes AVOCADO_ALLOW_LARGE_STORAGE=3Dyes
+> > ./build/tests/venv/bin/avocado --show=3Dapp,console run -t
+> > machine:orangepi-pc -t machine:cubieboard
+> > tests/avocado/boot_linux_console.py
+> > ...
+> > PASS (22.09 s)
+> > RESULTS    : PASS 8 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
+> > | CANCEL 0
+> > JOB TIME   : 169.73 s
+> >
+> > For now, I have only two suggestions for you to consider:
+> > 1) You could add a new acceptance test for the new bananapi board to
+> > ./tests/avocado/boot_linux_console.py.
+> > This helps in your current work to (re)test your code quickly, and
+> > after the code is merged it helps to keep to board working when other
+> > changes are done.
+> > 2) If time permits, it may be interesting to document your board for
+> > example in a new file at ./docs/system/arm/bananapi.rst
+> >    If you do this, it will make the board a lot more valuable for
+> > other people to use, since you can add some basic instructions on how
+> > to use the board with qemu there.
+> >    Additionally, it also helps yourself to store this information
+> > somewhere, since it can be easy to forget all the specific
+> > commands/flags/arguments and links to board specific images.
+> >
+> > Once you have progressed with your patches beyond the RFC stage, I'll
+> > try to find some time for a more detailed review of your patches.
+> Hi:
+>
+> Thanks for yours guide. avocado test case and documents will be
+> introduced later.
+>
+> My work are stucked when I am writting avocado test case due to the
+> armbian image with
+> linux 6.1 can't boot, the kernel paniced when loading hdmi driver:
+>
+> [    0.925906] sun8i-dw-hdmi 1ee0000.hdmi: supply hvcc not found, using
+> dummy regulator
+> Invalid read at addr 0x1EF002C, size 4, region '(null)', reason: rejected
+> [    0.927444] 8<--- cut here ---
+> [    0.927780] Unhandled fault: external abort on non-linefetch (0x008)
+> at 0xe091002c
+> [    0.928250] [e091002c] *pgd=3D4100a811, *pte=3D01ef0653, *ppte=3D01ef0=
+453
+> [    0.929441] Internal error: : 8 [#1] SMP ARM
+> [    0.929925] Modules linked in:
+> [    0.930332] CPU: 3 PID: 52 Comm: kworker/u8:2 Not tainted
+> 6.3.0-rc3-ge8d018dd0257 #217
+> [    0.931082] Hardware name: Allwinner sun8i Family
+> [    0.931630] Workqueue: events_unbound deferred_probe_work_func
+> [    0.932443] PC is at regmap_mmio_read32le+0x8/0x14
+> [    0.932888] LR is at regmap_mmio_read+0x38/0x54
+>
+> All my work are based on linux 5.15 in the previous days, I will take
+> many times to solve this.
+>
+> >
+> > Kind regards,
+> > Niek Linnenbank
+> >
+> > On Thu, Mar 2, 2023 at 12:41=E2=80=AFPM <qianfanguijin@163.com> wrote:
+> >
+> >     From: qianfan Zhao <qianfanguijin@163.com>
+> >
+> >     v1: 2023-03-02
+> >
+> >     The first three patches try fix allwinner i2c driver and I already
+> >     send them
+> >     as a standalone PR and can read it from:
+> >
+> >
+> https://patchwork.kernel.org/project/qemu-devel/patch/20230220081252.2534=
+8-3-qianfanguijin@163.com/
+> >
+> >     Hope that patch can merged first before this.
+> >
+> >     The next patches will add allwinner R40 device support, including
+> >     ccu, mmc, i2c,
+> >     axp221 pmic, sdram controller, emac and gmac. Now the mainline
+> >     u-boot and
+> >     kernel can work fine (It doesn't support booting allwinner bsp
+> >     code and there
+> >     are no plans to support it now).
+> >
+> >     qianfan Zhao (12):
+> >       hw: allwinner-i2c: Make the trace message more readable
+> >       hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG on SUN6i SoCs
+> >       hw: arm: allwinner-h3: Fix and complete H3 i2c devices
+> >       hw: arm: Add bananapi M2-Ultra and allwinner-r40 support
+> >       hw/arm/allwinner-r40: add Clock Control Unit
+> >       hw: allwinner-r40: Complete uart devices
+> >       hw: arm: allwinner-r40: Add 5 TWI controllers
+> >       hw/misc: AXP221 PMU Emulation
+> >       hw/arm/allwinner-r40: add SDRAM controller device
+> >       hw: sd: allwinner-sdhost: Add sun50i-a64 SoC support
+> >       hw: arm: allwinner-r40: Fix the mmc controller's type
+> >       hw: arm: allwinner-r40: Add emac and gmac support
+> >
+> >      configs/devices/arm-softmmu/default.mak |   1 +
+> >      hw/arm/Kconfig                          |  10 +
+> >      hw/arm/allwinner-h3.c                   |  29 +-
+> >      hw/arm/allwinner-r40.c                  | 555
+> >     ++++++++++++++++++++++++
+> >      hw/arm/bananapi_m2u.c                   | 128 ++++++
+> >      hw/arm/meson.build                      |   1 +
+> >      hw/i2c/allwinner-i2c.c                  | 136 +++++-
+> >      hw/i2c/trace-events                     |   5 +-
+> >      hw/misc/Kconfig                         |   4 +
+> >      hw/misc/allwinner-r40-ccu.c             | 207 +++++++++
+> >      hw/misc/allwinner-r40-dramc.c           | 499 ++++++++++++++++++++=
++
+> >      hw/misc/axp221.c                        | 196 +++++++++
+> >      hw/misc/meson.build                     |   3 +
+> >      hw/misc/trace-events                    |  19 +
+> >      hw/sd/allwinner-sdhost.c                |  70 ++-
+> >      include/hw/arm/allwinner-h3.h           |   6 +
+> >      include/hw/arm/allwinner-r40.h          | 148 +++++++
+> >      include/hw/i2c/allwinner-i2c.h          |   6 +
+> >      include/hw/misc/allwinner-r40-ccu.h     |  65 +++
+> >      include/hw/misc/allwinner-r40-dramc.h   | 108 +++++
+> >      include/hw/sd/allwinner-sdhost.h        |   9 +
+> >      21 files changed, 2191 insertions(+), 14 deletions(-)
+> >      create mode 100644 hw/arm/allwinner-r40.c
+> >      create mode 100644 hw/arm/bananapi_m2u.c
+> >      create mode 100644 hw/misc/allwinner-r40-ccu.c
+> >      create mode 100644 hw/misc/allwinner-r40-dramc.c
+> >      create mode 100644 hw/misc/axp221.c
+> >      create mode 100644 include/hw/arm/allwinner-r40.h
+> >      create mode 100644 include/hw/misc/allwinner-r40-ccu.h
+> >      create mode 100644 include/hw/misc/allwinner-r40-dramc.h
+> >
+> >     --
+> >     2.25.1
+> >
+> >
+> >
+> > --
+> > Niek Linnenbank
+> >
+>
+>
+
+--00000000000071bed305f751daac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hi,<div dir=3D"auto"><br></div>Could you try maybe runnin=
+g OpenWRT instead of Armbian?<div dir=3D"auto"><br></div><div dir=3D"auto">=
+Link to the stable image for M2 Ultra is is <a href=3D"https://downloads.op=
+enwrt.org/releases/22.03.3/targets/sunxi/cortexa7/openwrt-22.03.3-sunxi-cor=
+texa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img.gz">https://downloads.open=
+wrt.org/releases/22.03.3/targets/sunxi/cortexa7/openwrt-22.03.3-sunxi-corte=
+xa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img.gz</a></div><div dir=3D"auto=
+"><br></div><div dir=3D"auto">Best reregards ,</div><div dir=3D"auto">Strah=
+inja</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br><div dir=3D"aut=
+o"><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Mon, Mar 20, 2023, 9:52 AM qianfan &lt;<a href=3D"mailto:qianf=
+anguijin@163.com">qianfanguijin@163.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex"><br>
+<br>
+=E5=9C=A8 2023/3/9 4:47, Niek Linnenbank =E5=86=99=E9=81=93:<br>
+&gt; Hello Qianfan Zhao,<br>
+&gt;<br>
+&gt; Thanks for contributing this work to Qemu! With your contribution, we =
+<br>
+&gt; would get yet another Allwinner SoC supported, making it three in <br>
+&gt; total (A10/H3/R40). That&#39;s great.<br>
+&gt; My thoughts are that maybe we should try to re-use commonality between=
+ <br>
+&gt; these SoCs where we can. Ofcourse, that may be difficult as the <br>
+&gt; internals/peripherals of these SoCs often really are different.<br>
+&gt;<br>
+&gt; Your patches look good already, and I saw patches 02 and 03 are <br>
+&gt; already merged too. I did a quick regression test with<br>
+&gt; avocado for cubieboard/orangepi-pc with your patches applied and that =
+<br>
+&gt; went OK:<br>
+&gt;<br>
+&gt; $ ARMBIAN_ARTIFACTS_CACHED=3Dyes AVOCADO_ALLOW_LARGE_STORAGE=3Dyes <br=
+>
+&gt; ./build/tests/venv/bin/avocado --show=3Dapp,console run -t <br>
+&gt; machine:orangepi-pc -t machine:cubieboard <br>
+&gt; tests/avocado/boot_linux_console.py<br>
+&gt; ...<br>
+&gt; PASS (22.09 s)<br>
+&gt; RESULTS =C2=A0 =C2=A0: PASS 8 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | I=
+NTERRUPT 0 <br>
+&gt; | CANCEL 0<br>
+&gt; JOB TIME =C2=A0 : 169.73 s<br>
+&gt;<br>
+&gt; For now, I have only two suggestions for you to consider:<br>
+&gt; 1) You could add a new acceptance test for the new bananapi board to <=
+br>
+&gt; ./tests/avocado/boot_linux_console.py.<br>
+&gt; This helps in your current work to (re)test your code quickly, and <br=
+>
+&gt; after the code is merged it helps to keep to board working when other =
+<br>
+&gt; changes are done.<br>
+&gt; 2) If time permits, it may be interesting to document your board for <=
+br>
+&gt; example in a new file at ./docs/system/arm/bananapi.rst<br>
+&gt; =C2=A0=C2=A0 If you do this, it will make the board a lot more valuabl=
+e for <br>
+&gt; other people to use, since you can add some basic instructions on how =
+<br>
+&gt; to use the board with qemu there.<br>
+&gt; =C2=A0=C2=A0 Additionally, it also helps yourself to store this inform=
+ation <br>
+&gt; somewhere, since it can be easy to forget all the specific <br>
+&gt; commands/flags/arguments and links to board specific images.<br>
+&gt;<br>
+&gt; Once you have progressed with your patches beyond the RFC stage, I&#39=
+;ll <br>
+&gt; try to find some time for a more detailed review of your patches.<br>
+Hi:<br>
+<br>
+Thanks for yours guide. avocado test case and documents will be <br>
+introduced later.<br>
+<br>
+My work are stucked when I am writting avocado test case due to the <br>
+armbian image with<br>
+linux 6.1 can&#39;t boot, the kernel paniced when loading hdmi driver:<br>
+<br>
+[=C2=A0=C2=A0=C2=A0 0.925906] sun8i-dw-hdmi 1ee0000.hdmi: supply hvcc not f=
+ound, using <br>
+dummy regulator<br>
+Invalid read at addr 0x1EF002C, size 4, region &#39;(null)&#39;, reason: re=
+jected<br>
+[=C2=A0=C2=A0=C2=A0 0.927444] 8&lt;--- cut here ---<br>
+[=C2=A0=C2=A0=C2=A0 0.927780] Unhandled fault: external abort on non-linefe=
+tch (0x008) <br>
+at 0xe091002c<br>
+[=C2=A0=C2=A0=C2=A0 0.928250] [e091002c] *pgd=3D4100a811, *pte=3D01ef0653, =
+*ppte=3D01ef0453<br>
+[=C2=A0=C2=A0=C2=A0 0.929441] Internal error: : 8 [#1] SMP ARM<br>
+[=C2=A0=C2=A0=C2=A0 0.929925] Modules linked in:<br>
+[=C2=A0=C2=A0=C2=A0 0.930332] CPU: 3 PID: 52 Comm: kworker/u8:2 Not tainted=
+ <br>
+6.3.0-rc3-ge8d018dd0257 #217<br>
+[=C2=A0=C2=A0=C2=A0 0.931082] Hardware name: Allwinner sun8i Family<br>
+[=C2=A0=C2=A0=C2=A0 0.931630] Workqueue: events_unbound deferred_probe_work=
+_func<br>
+[=C2=A0=C2=A0=C2=A0 0.932443] PC is at regmap_mmio_read32le+0x8/0x14<br>
+[=C2=A0=C2=A0=C2=A0 0.932888] LR is at regmap_mmio_read+0x38/0x54<br>
+<br>
+All my work are based on linux 5.15 in the previous days, I will take <br>
+many times to solve this.<br><br>
+&gt;<br>
+&gt; Kind regards,<br>
+&gt; Niek Linnenbank<br>
+&gt;<br>
+&gt; On Thu, Mar 2, 2023 at 12:41=E2=80=AFPM &lt;<a href=3D"mailto:qianfang=
+uijin@163.com" target=3D"_blank" rel=3D"noreferrer">qianfanguijin@163.com</=
+a>&gt; wrote:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0From: qianfan Zhao &lt;<a href=3D"mailto:qianfangui=
+jin@163.com" target=3D"_blank" rel=3D"noreferrer">qianfanguijin@163.com</a>=
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0v1: 2023-03-02<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0The first three patches try fix allwinner i2c drive=
+r and I already<br>
+&gt;=C2=A0 =C2=A0 =C2=A0send them<br>
+&gt;=C2=A0 =C2=A0 =C2=A0as a standalone PR and can read it from:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://patchwork.kernel.org/project/qem=
+u-devel/patch/20230220081252.25348-3-qianfanguijin@163.com/" rel=3D"norefer=
+rer noreferrer" target=3D"_blank">https://patchwork.kernel.org/project/qemu=
+-devel/patch/20230220081252.25348-3-qianfanguijin@163.com/</a><br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Hope that patch can merged first before this.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0The next patches will add allwinner R40 device supp=
+ort, including<br>
+&gt;=C2=A0 =C2=A0 =C2=A0ccu, mmc, i2c,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0axp221 pmic, sdram controller, emac and gmac. Now t=
+he mainline<br>
+&gt;=C2=A0 =C2=A0 =C2=A0u-boot and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0kernel can work fine (It doesn&#39;t support bootin=
+g allwinner bsp<br>
+&gt;=C2=A0 =C2=A0 =C2=A0code and there<br>
+&gt;=C2=A0 =C2=A0 =C2=A0are no plans to support it now).<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0qianfan Zhao (12):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: allwinner-i2c: Make the trace message mo=
+re readable<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG on =
+SUN6i SoCs<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: arm: allwinner-h3: Fix and complete H3 i=
+2c devices<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: arm: Add bananapi M2-Ultra and allwinner=
+-r40 support<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/arm/allwinner-r40: add Clock Control Unit=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: allwinner-r40: Complete uart devices<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: arm: allwinner-r40: Add 5 TWI controller=
+s<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/misc: AXP221 PMU Emulation<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw/arm/allwinner-r40: add SDRAM controller d=
+evice<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: sd: allwinner-sdhost: Add sun50i-a64 SoC=
+ support<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: arm: allwinner-r40: Fix the mmc controll=
+er&#39;s type<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 hw: arm: allwinner-r40: Add emac and gmac su=
+pport<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0configs/devices/arm-softmmu/default.mak |=C2=
+=A0 =C2=A01 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/arm/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 10 +<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/arm/allwinner-h3.c=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 29 +-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/arm/allwinner-r40.c=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 555<br>
+&gt;=C2=A0 =C2=A0 =C2=A0++++++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/arm/bananapi_m2u.c=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 128 ++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/arm/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/i2c/allwinner-i2c.c=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 136 +++++-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/i2c/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A05 +-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/misc/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A04 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/misc/allwinner-r40-ccu.c=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 207 +++++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/misc/allwinner-r40-dramc.c=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0| 499 +++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/misc/axp221.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 196 +++++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/misc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/misc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 19 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0hw/sd/allwinner-sdhost.c=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 70 ++-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/arm/allwinner-h3.h=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/arm/allwinner-r40.h=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 148 +++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/i2c/allwinner-i2c.h=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/misc/allwinner-r40-ccu.h=C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 65 +++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/misc/allwinner-r40-dramc.h=C2=A0 =
+=C2=A0| 108 +++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0include/hw/sd/allwinner-sdhost.h=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 |=C2=A0 =C2=A09 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A021 files changed, 2191 insertions(+), 14 dele=
+tions(-)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0create mode 100644 hw/arm/allwinner-r40.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0create mode 100644 hw/arm/bananapi_m2u.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0create mode 100644 hw/misc/allwinner-r40-ccu.=
+c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0create mode 100644 hw/misc/allwinner-r40-dram=
+c.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0create mode 100644 hw/misc/axp221.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0create mode 100644 include/hw/arm/allwinner-r=
+40.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0create mode 100644 include/hw/misc/allwinner-=
+r40-ccu.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0create mode 100644 include/hw/misc/allwinner-=
+r40-dramc.h<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-- <br>
+&gt;=C2=A0 =C2=A0 =C2=A02.25.1<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; -- <br>
+&gt; Niek Linnenbank<br>
+&gt;<br>
+<br>
+</blockquote></div></div></div></div>
+
+--00000000000071bed305f751daac--
 
