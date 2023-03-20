@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021E86C1399
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCB26C139A
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:38:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFh3-0002xV-2g; Mon, 20 Mar 2023 09:36:57 -0400
+	id 1peFh5-0002y8-Sw; Mon, 20 Mar 2023 09:36:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1peFgz-0002xN-P7
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:36:54 -0400
+ id 1peFh3-0002xx-TA
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:36:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1peFgy-0000BI-AJ
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:36:53 -0400
+ id 1peFh2-0000CA-8d
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:36:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679319411;
+ s=mimecast20190719; t=1679319415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RL7R4+BLQRYCapu2sFDDTQoEdLdVYW8LhjLo8DkWvLs=;
- b=VFZB0BPhtbHAZI8Ih5/o3amru4AazuBHrcNYf8h1/4j2zKAldQh3fVYwknK4ZBMX6BNiBO
- qXgRdlWrhAFs096uQqjV89rJeu4rxZZwDSVmIDSAHMA2VKyY53+/VOEPlECG6gY/Vgwbb+
- iS4imAUIe/CisWbkImW33enDIEd44W8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MxFVrjr23RmzfOH4M1hN0g7VfzXGELnKdK7ZPeHxp1s=;
+ b=ghapp8R6t4IAPZdZsWE1n/DV95hK7IJO4H7eA9MMpb3ofn/FGgiNINVkqa1k4Jvs2z5Uc9
+ h4GAvA0I99pgR124EXf8pRe54pIO5h0IGIp3+kTEkaVk5eP1E/HllXwhjgdpGaRspv0qW8
+ eD66dnlGmwyiAsrF1NXbg+gUNTIrP1o=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-o51AAQYsNMyl8UwoW8k4cA-1; Mon, 20 Mar 2023 09:36:47 -0400
-X-MC-Unique: o51AAQYsNMyl8UwoW8k4cA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-367-frx-olMWMZ6eSxMcpBWhPg-1; Mon, 20 Mar 2023 09:36:52 -0400
+X-MC-Unique: frx-olMWMZ6eSxMcpBWhPg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8545C3C0E443;
- Mon, 20 Mar 2023 13:36:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1E8D1C05EB6;
+ Mon, 20 Mar 2023 13:36:51 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CDA740C6E67;
- Mon, 20 Mar 2023 13:36:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF05640C83B6;
+ Mon, 20 Mar 2023 13:36:50 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, berrange@redhat.com,
  Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 0/3] Fix Spice regression on win32
-Date: Mon, 20 Mar 2023 17:36:40 +0400
-Message-Id: <20230320133643.1618437-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 1/3] win32: add qemu_close_socket_osfhandle()
+Date: Mon, 20 Mar 2023 17:36:41 +0400
+Message-Id: <20230320133643.1618437-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20230320133643.1618437-1-marcandre.lureau@redhat.com>
+References: <20230320133643.1618437-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -80,24 +83,143 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,
+Close the given file descriptor, but returns the underlying SOCKET.
 
-v2: (suggestions from Daniel Berrange)
-- change function qemu_close_socket_osfhandle()
-- add some documentation for it
-- simplify a bit the dbus-related code
-
-Marc-André Lureau (3):
-  win32: add qemu_close_socket_osfhandle()
-  ui/spice: fix SOCKET handling regression
-  ui/dbus: fix passing SOCKET to GSocket API & leak
-
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
  include/sysemu/os-win32.h | 15 ++++++--
- ui/dbus.c                 |  9 +++++
- ui/spice-core.c           | 29 +++++++++++++--
  util/oslib-win32.c        | 75 +++++++++++++++++++++------------------
- 4 files changed, 89 insertions(+), 39 deletions(-)
+ 2 files changed, 53 insertions(+), 37 deletions(-)
 
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index e2849f88ab..15c296e0eb 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -171,10 +171,21 @@ bool qemu_socket_select(int sockfd, WSAEVENT hEventObject,
+ 
+ bool qemu_socket_unselect(int sockfd, Error **errp);
+ 
+-/* We wrap all the sockets functions so that we can
+- * set errno based on WSAGetLastError()
++/* We wrap all the sockets functions so that we can set errno based on
++ * WSAGetLastError(), and use file-descriptors instead of SOCKET.
+  */
+ 
++/*
++ * qemu_close_socket_osfhandle:
++ * @fd: a file descriptor associated with a SOCKET
++ *
++ * Close only the C run-time file descriptor, leave the SOCKET opened.
++ *
++ * Returns zero on success. On error, -1 is returned, and errno is set to
++ * indicate the error.
++ */
++int qemu_close_socket_osfhandle(int fd);
++
+ #undef close
+ #define close qemu_close_wrap
+ int qemu_close_wrap(int fd);
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 16f8a67f7e..a98638729a 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -479,40 +479,27 @@ int qemu_bind_wrap(int sockfd, const struct sockaddr *addr,
+     return ret;
+ }
+ 
+-
+ #undef close
+-int qemu_close_wrap(int fd)
++int qemu_close_socket_osfhandle(int fd)
+ {
+-    int ret;
++    SOCKET s = _get_osfhandle(fd);
+     DWORD flags = 0;
+-    SOCKET s = INVALID_SOCKET;
+-
+-    if (fd_is_socket(fd)) {
+-        s = _get_osfhandle(fd);
+-
+-        /*
+-         * If we were to just call _close on the descriptor, it would close the
+-         * HANDLE, but it wouldn't free any of the resources associated to the
+-         * SOCKET, and we can't call _close after calling closesocket, because
+-         * closesocket has already closed the HANDLE, and _close would attempt to
+-         * close the HANDLE again, resulting in a double free. We can however
+-         * protect the HANDLE from actually being closed long enough to close the
+-         * file descriptor, then close the socket itself.
+-         */
+-        if (!GetHandleInformation((HANDLE)s, &flags)) {
+-            errno = EACCES;
+-            return -1;
+-        }
+ 
+-        if (!SetHandleInformation((HANDLE)s, HANDLE_FLAG_PROTECT_FROM_CLOSE, HANDLE_FLAG_PROTECT_FROM_CLOSE)) {
+-            errno = EACCES;
+-            return -1;
+-        }
++    /*
++     * If we were to just call _close on the descriptor, it would close the
++     * HANDLE, but it wouldn't free any of the resources associated to the
++     * SOCKET, and we can't call _close after calling closesocket, because
++     * closesocket has already closed the HANDLE, and _close would attempt to
++     * close the HANDLE again, resulting in a double free. We can however
++     * protect the HANDLE from actually being closed long enough to close the
++     * file descriptor, then close the socket itself.
++     */
++    if (!GetHandleInformation((HANDLE)s, &flags)) {
++        errno = EACCES;
++        return -1;
+     }
+ 
+-    ret = close(fd);
+-
+-    if (s != INVALID_SOCKET && !SetHandleInformation((HANDLE)s, flags, flags)) {
++    if (!SetHandleInformation((HANDLE)s, HANDLE_FLAG_PROTECT_FROM_CLOSE, HANDLE_FLAG_PROTECT_FROM_CLOSE)) {
+         errno = EACCES;
+         return -1;
+     }
+@@ -521,15 +508,33 @@ int qemu_close_wrap(int fd)
+      * close() returns EBADF since we PROTECT_FROM_CLOSE the underlying handle,
+      * but the FD is actually freed
+      */
+-    if (ret < 0 && (s == INVALID_SOCKET || errno != EBADF)) {
+-        return ret;
++    if (close(fd) < 0 && errno != EBADF) {
++        return -1;
+     }
+ 
+-    if (s != INVALID_SOCKET) {
+-        ret = closesocket(s);
+-        if (ret < 0) {
+-            errno = socket_error();
+-        }
++    if (!SetHandleInformation((HANDLE)s, flags, flags)) {
++        errno = EACCES;
++        return -1;
++    }
++
++    return 0;
++}
++
++int qemu_close_wrap(int fd)
++{
++    SOCKET s = INVALID_SOCKET;
++    int ret = -1;
++
++    if (!fd_is_socket(fd)) {
++        return close(fd);
++    }
++
++    s = _get_osfhandle(fd);
++    qemu_close_socket_osfhandle(fd);
++
++    ret = closesocket(s);
++    if (ret < 0) {
++        errno = socket_error();
+     }
+ 
+     return ret;
 -- 
 2.39.2
 
