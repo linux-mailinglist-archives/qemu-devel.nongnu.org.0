@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752FB6C0E53
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 11:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1A56C0E65
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 11:12:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peCTf-0003oS-Uf; Mon, 20 Mar 2023 06:10:55 -0400
+	id 1peCTb-0003mR-KL; Mon, 20 Mar 2023 06:10:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1peCTT-0003l2-EH
+ id 1peCTU-0003l4-Pm
  for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:10:44 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1peCTR-0000D9-6k
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:10:43 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- i5-20020a05600c354500b003edd24054e0so2024372wmq.4
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 03:10:40 -0700 (PDT)
+ id 1peCTT-0000Dc-2s
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 06:10:44 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ l15-20020a05600c4f0f00b003ed58a9a15eso7100673wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 03:10:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679307040;
+ d=linaro.org; s=google; t=1679307041;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4kskGeJQrf9Cxcn5vNzrmuB/lHaeNa1KLZhaRS/P5FA=;
- b=tVTfBFQe7Sr0LP39/RjEGZK8aR/R4trqGKJMo7w/nuXxEgYRWEQWUG5wtWPORLpejv
- UlBZzE/17C8FCh9Ys5BHHRbrMexpQetN/bRd1kyU6iPi3NCZKcyT+m/JcvQ2TB6bgppT
- onvtmiQozBvdnMw+0QgrSED0wuFgz2sQMou7KJsNVqRhZ41wWWkG6vhEKVZFqkbrB6IW
- 8VAKRIsLt/MHQawn3y7C3waDU5HQHY74qqZwfAbZZbO9r7D+0S6AfgE2TRMJFoax9+5P
- LtYKn0dydklvLcjkU/+hDMhHmtHoxfQZaErhfhI+mMgHTI3V2gI3LP09eGzWyTqSoWy4
- j/4Q==
+ bh=DLYB3843FF7GnXqw2uZL62dMpE0zmO1Pq0/V+yySmyc=;
+ b=tsGUSQCeACRFIz7OGFa4rQgpCLODKhLW2IkVHWthOFOdfzuX8D6BhStoczeCT/LBIk
+ FaLCibdY1ctY1InlCQsgIwLkl0Hoe1YuzhLFmOxPOrvgi6FUDeqbkc1vNE73SIYVrWDa
+ 0Op8FYGelfIb7yeB/Kj3nSukroyJWvyi1TlL5bkj23RQ4bc3Ji2IstVwyBNvjTf28sbk
+ KVPHRQz/rcvv5hCel2Pl1pIP8fRQZFU9USzP1F3pji6nPr70jRmiV8Upv+ZIJClh1q0F
+ I7Wt4L7FLqolfOd5zuxuBOt6IdxJsxM8lrJoHx9ZgaZ5B5mgoYoLisYdAx91+Q08bZvc
+ Sb/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679307040;
+ d=1e100.net; s=20210112; t=1679307041;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4kskGeJQrf9Cxcn5vNzrmuB/lHaeNa1KLZhaRS/P5FA=;
- b=LcYMXBJUKsaF0LXzm6roahSIwDIBb6BQ4FMCE9kDRMfmt95RS4HTDdF/hfr5eutMB4
- p3uSCROyFlTr3mYK43t1tIhxB0ctlf9/HZCNalPHP8vsThNyFoRwdaPKiA9fPn+oO+Nm
- IYoAAe6/WBBN5z0LqG2PfT55qOC+gknztvap1UEzvy+1hkJC4mWIqChJsv4Xgll/mu9A
- HN6xXcD4zTh4b1ayNFl/bW0qUoCoHtKjtfW12hLcqms1f9MCzc3/c9lgfajRnV3atERV
- h71yogRDibISORYxR5rJY+jQSQWT7Nqvsu6vKJKiNW/AWlMthvO+FZ6knlykkKnix27w
- RwQQ==
-X-Gm-Message-State: AO0yUKVX4O5Hg5a2OiEGokm+ihRtOGiIrr8vISgj9+vFQXqwzbhPofdC
- CzmtkSArRtahY0EnIIC8ENTXyg==
-X-Google-Smtp-Source: AK7set907v7gMikYK5L6/NPEw6FbCm0WHmBTxh3a78sigQsEG6P7upheKDhoJZJ+QyzfoaJ5uJOhug==
-X-Received: by 2002:a1c:4c05:0:b0:3ed:6a32:d792 with SMTP id
- z5-20020a1c4c05000000b003ed6a32d792mr11410851wmf.7.1679307039854; 
- Mon, 20 Mar 2023 03:10:39 -0700 (PDT)
+ bh=DLYB3843FF7GnXqw2uZL62dMpE0zmO1Pq0/V+yySmyc=;
+ b=XfKkI6egbwy/u2IDNv9JhOSg2a2djgq1opE/wpy4Ztp767u0M+ZfGIKtQMSBDveF17
+ XaQNS8vrsYHHQNPIQzVGspqFptMrseq3qBXUSp/lhaVHrWZ+PQsmUofKSdVzGaBcjVzB
+ Y+4VEpr63Z+cMTbyhVZgquKXkITLn/2u3qts/1wlCz3N/tB7X3GkTCVYh5Vc/Y3Stf57
+ axQq3RAWcnG5uUiWey3H4v2eDoTeV/n8aJJVdR/kLr2doz8cGCT1SPayV2mtOleVxAy5
+ iACXbZQJM9jL82AEs7GAA5QK0y0xT0kxchu+GnH2r4eKMLyKWoGqtA/ZWu0xpQ1/JVoO
+ JjQw==
+X-Gm-Message-State: AO0yUKWS+MXj1cfkiVL6WtGN4H7PgLzJppOpa0apqCFEfxQnpcQv4Rb9
+ 77eIia3toRDaZBWAdnX7qyv+iA==
+X-Google-Smtp-Source: AK7set8Jre+gC9YyZMgkPg6FTd25Z5W1a5W9QDQJPT2PU5k+ToIrr/DdP1mijVWqkso+r/Or+hBM1g==
+X-Received: by 2002:a05:600c:350f:b0:3eb:3843:9f31 with SMTP id
+ h15-20020a05600c350f00b003eb38439f31mr32018972wmq.10.1679307040592; 
+ Mon, 20 Mar 2023 03:10:40 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- i26-20020a1c541a000000b003ed246f76a2sm16364366wmb.1.2023.03.20.03.10.37
+ m25-20020a7bca59000000b003ed341d2d68sm9910364wml.16.2023.03.20.03.10.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 20 Mar 2023 03:10:38 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8A80B1FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id AD1611FFB7;
  Mon, 20 Mar 2023 10:10:36 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Alessandro Di Federico <ale@rev.ng>,
@@ -66,18 +66,18 @@ To: Alessandro Di Federico <ale@rev.ng>,
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 07/10] accel/tcg: use QEMU_IOTHREAD_LOCK_GUARD to cover the
- exit
-Date: Mon, 20 Mar 2023 10:10:32 +0000
-Message-Id: <20230320101035.2214196-8-alex.bennee@linaro.org>
+Subject: [PATCH 08/10] accel/tcg: push i386 specific hacks into
+ handle_cpu_interrupt callback
+Date: Mon, 20 Mar 2023 10:10:33 +0000
+Message-Id: <20230320101035.2214196-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230320101035.2214196-1-alex.bennee@linaro.org>
 References: <20230320101035.2214196-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,77 +100,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This avoids us having to make sure each exit path does an unlock.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ include/hw/core/sysemu-cpu-ops.h | 11 +++++++++++
+ target/i386/cpu-internal.h       |  1 +
+ accel/tcg/cpu-exec-softmmu.c     | 16 ++++++++++++++++
+ accel/tcg/cpu-exec.c             | 31 ++++++++++---------------------
+ target/i386/cpu-sysemu.c         | 17 +++++++++++++++++
+ target/i386/cpu.c                |  1 +
+ 6 files changed, 56 insertions(+), 21 deletions(-)
 
+diff --git a/include/hw/core/sysemu-cpu-ops.h b/include/hw/core/sysemu-cpu-ops.h
+index c9d30172c4..d53907b517 100644
+--- a/include/hw/core/sysemu-cpu-ops.h
++++ b/include/hw/core/sysemu-cpu-ops.h
+@@ -53,6 +53,15 @@ typedef struct SysemuCPUOps {
+      * @cs: The CPUState
+      */
+     void (*handle_cpu_halt)(CPUState *cpu);
++    /**
++     * @handle_cpu_interrupt: handle init/reset interrupts
++     * @cs: The CPUState
++     * @irq_request: the interrupt request
++     *
++     * Most architectures share a common handler. Returns true if the
++     * handler did indeed handle and interrupt.
++     */
++    bool (*handle_cpu_interrupt)(CPUState *cpu,  int irq_request);
+     /**
+      * @write_elf32_note: Callback for writing a CPU-specific ELF note to a
+      * 32-bit VM coredump.
+@@ -94,4 +103,6 @@ typedef struct SysemuCPUOps {
+ 
+ } SysemuCPUOps;
+ 
++bool common_cpu_handle_interrupt(CPUState *cpu,  int irq_request);
++
+ #endif /* SYSEMU_CPU_OPS_H */
+diff --git a/target/i386/cpu-internal.h b/target/i386/cpu-internal.h
+index 75b302fb33..4fee4e125e 100644
+--- a/target/i386/cpu-internal.h
++++ b/target/i386/cpu-internal.h
+@@ -66,6 +66,7 @@ void x86_cpu_apic_create(X86CPU *cpu, Error **errp);
+ void x86_cpu_apic_realize(X86CPU *cpu, Error **errp);
+ void x86_cpu_machine_reset_cb(void *opaque);
+ void x86_cpu_handle_halt(CPUState *cs);
++bool x86_cpu_handle_interrupt(CPUState *cpu,  int irq_request);
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ #endif /* I386_CPU_INTERNAL_H */
+diff --git a/accel/tcg/cpu-exec-softmmu.c b/accel/tcg/cpu-exec-softmmu.c
+index 2318dd8c7d..89e6cb2e3a 100644
+--- a/accel/tcg/cpu-exec-softmmu.c
++++ b/accel/tcg/cpu-exec-softmmu.c
+@@ -18,7 +18,11 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "exec/replay-core.h"
++#include "exec/cpu-irq.h"
+ #include "hw/core/cpu.h"
++#include "hw/core/sysemu-cpu-ops.h"
+ #include "sysemu/cpus.h"
+ 
+ void cpu_reloading_memory_map(void)
+@@ -48,3 +52,15 @@ void cpu_reloading_memory_map(void)
+         rcu_read_lock();
+     }
+ }
++
++/* Called with BQL held */
++bool common_cpu_handle_interrupt(CPUState *cpu,  int interrupt_request)
++{
++    if (interrupt_request & CPU_INTERRUPT_RESET) {
++        replay_interrupt();
++        cpu_reset(cpu);
++        return true;
++    } else {
++        return false;
++    }
++}
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index ea2e7004fe..daa6e24daf 100644
+index daa6e24daf..8fa19b7222 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -774,7 +774,9 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
- 
-     if (unlikely(qatomic_read(&cpu->interrupt_request))) {
-         int interrupt_request;
--        qemu_mutex_lock_iothread();
-+        /* If we exit via cpu_loop_exit/longjmp it is reset in cpu_exec */
-+        QEMU_IOTHREAD_LOCK_GUARD();
-+
-         interrupt_request = cpu->interrupt_request;
-         if (unlikely(cpu->singlestep_enabled & SSTEP_NOIRQ)) {
-             /* Mask out external interrupts for this step. */
-@@ -783,7 +785,6 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-         if (interrupt_request & CPU_INTERRUPT_DEBUG) {
-             cpu->interrupt_request &= ~CPU_INTERRUPT_DEBUG;
-             cpu->exception_index = EXCP_DEBUG;
--            qemu_mutex_unlock_iothread();
-             return true;
-         }
- #if !defined(CONFIG_USER_ONLY)
-@@ -794,7 +795,6 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-             cpu->interrupt_request &= ~CPU_INTERRUPT_HALT;
-             cpu->halted = 1;
+@@ -797,28 +797,17 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
              cpu->exception_index = EXCP_HLT;
--            qemu_mutex_unlock_iothread();
              return true;
          }
- #if defined(TARGET_I386)
-@@ -805,14 +805,12 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-             cpu_svm_check_intercept_param(env, SVM_EXIT_INIT, 0, 0);
-             do_cpu_init(x86_cpu);
-             cpu->exception_index = EXCP_HALTED;
--            qemu_mutex_unlock_iothread();
+-#if defined(TARGET_I386)
+-        else if (interrupt_request & CPU_INTERRUPT_INIT) {
+-            X86CPU *x86_cpu = X86_CPU(cpu);
+-            CPUArchState *env = &x86_cpu->env;
+-            replay_interrupt();
+-            cpu_svm_check_intercept_param(env, SVM_EXIT_INIT, 0, 0);
+-            do_cpu_init(x86_cpu);
+-            cpu->exception_index = EXCP_HALTED;
+-            return true;
+-        }
+-#else
+-        else if (interrupt_request & CPU_INTERRUPT_RESET) {
+-            replay_interrupt();
+-            cpu_reset(cpu);
++        else if (cpu->cc->sysemu_ops->handle_cpu_interrupt &&
++                 cpu->cc->sysemu_ops->handle_cpu_interrupt(cpu, interrupt_request)) {
++                return true;
++        } else if (common_cpu_handle_interrupt(cpu, interrupt_request)) {
              return true;
-         }
- #else
-         else if (interrupt_request & CPU_INTERRUPT_RESET) {
-             replay_interrupt();
-             cpu_reset(cpu);
--            qemu_mutex_unlock_iothread();
-             return true;
-         }
- #endif /* !TARGET_I386 */
-@@ -835,7 +833,6 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-                  */
-                 if (unlikely(cpu->singlestep_enabled)) {
-                     cpu->exception_index = EXCP_DEBUG;
--                    qemu_mutex_unlock_iothread();
-                     return true;
-                 }
-                 cpu->exception_index = -1;
-@@ -852,9 +849,6 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-                the program flow was changed */
-             *last_tb = NULL;
-         }
--
--        /* If we exit via cpu_loop_exit/longjmp it is reset in cpu_exec */
--        qemu_mutex_unlock_iothread();
-     }
+-        }
+-#endif /* !TARGET_I386 */
+-        /* The target hook has 3 exit conditions:
+-           False when the interrupt isn't processed,
+-           True when it is, and we should restart on a new TB,
+-           and via longjmp via cpu_loop_exit.  */
+-        else {
++        } else {
++            /*
++             * The target hook has 3 exit conditions: False when the
++             * interrupt isn't processed, True when it is, and we should
++             * restart on a new TB, and via longjmp via cpu_loop_exit.
++             */
+             CPUClass *cc = CPU_GET_CLASS(cpu);
  
-     /* Finally, check if we need to exit to the main loop.  */
+             if (cc->tcg_ops->cpu_exec_interrupt &&
+diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
+index e545bf7590..5638ed4aa4 100644
+--- a/target/i386/cpu-sysemu.c
++++ b/target/i386/cpu-sysemu.c
+@@ -31,6 +31,7 @@
+ #include "hw/qdev-properties.h"
+ 
+ #include "exec/address-spaces.h"
++#include "exec/replay-core.h"
+ #include "hw/i386/apic_internal.h"
+ 
+ #include "cpu-internal.h"
+@@ -322,6 +323,22 @@ void x86_cpu_handle_halt(CPUState *cpu)
+     }
+ }
+ 
++/* Called with BQL held */
++bool x86_cpu_handle_interrupt(CPUState *cpu, int interrupt_request)
++{
++    if (interrupt_request & CPU_INTERRUPT_INIT) {
++        X86CPU *x86_cpu = X86_CPU(cpu);
++        CPUArchState *env = &x86_cpu->env;
++        replay_interrupt();
++        cpu_svm_check_intercept_param(env, SVM_EXIT_INIT, 0, 0);
++        do_cpu_init(x86_cpu);
++        cpu->exception_index = EXCP_HALTED;
++        return true;
++    } else {
++        return false;
++    }
++}
++
+ GuestPanicInformation *x86_cpu_get_crash_info(CPUState *cs)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 67027d28b0..1b66583987 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -7242,6 +7242,7 @@ static const struct SysemuCPUOps i386_sysemu_ops = {
+     .asidx_from_attrs = x86_asidx_from_attrs,
+     .get_crash_info = x86_cpu_get_crash_info,
+     .handle_cpu_halt = x86_cpu_handle_halt,
++    .handle_cpu_interrupt = x86_cpu_handle_interrupt,
+     .write_elf32_note = x86_cpu_write_elf32_note,
+     .write_elf64_note = x86_cpu_write_elf64_note,
+     .write_elf32_qemunote = x86_cpu_write_elf32_qemunote,
 -- 
 2.39.2
 
