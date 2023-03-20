@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFEE6C152E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 15:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B999B6C159C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 15:53:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peGkP-0005eZ-Je; Mon, 20 Mar 2023 10:44:29 -0400
+	id 1peGru-0007Rk-67; Mon, 20 Mar 2023 10:52:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGkN-0005e3-Hz
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:44:27 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGro-0007R7-G6
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:52:08 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGkL-0007ib-Ny
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:44:27 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id i9so10607306wrp.3
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 07:44:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peGrm-0002IK-In
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 10:52:08 -0400
+Received: by mail-wm1-x333.google.com with SMTP id p34so2680540wms.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 07:52:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679323464;
+ d=linaro.org; s=google; t=1679323924;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=mX9hcCpQzhFD7W9B8PzVpcMVOtdv56JWV0tv5D5CX8k=;
- b=CW2uoUEhQHwbK3FJfK6JccG34wcJHuee92Fo6tBswnH9xo+3Mvjrcod4r0oyfq4a34
- 1611XrJ/pz/640r3LL3HI4fn8h1aQdzSj1N/yFhNUSuFevhoKJ+hNfxA1TwiMmllygKT
- iw17HifoDTyIgrGv4aqTOMWsJv5REFwvD4CIcEQsomuyzQQG4dWr84xYnHa2dPyS9v54
- 5riCGElUH6xuv3j95rpR4Gve6eV/oReWgXxLD47/l3bdbJ/jjT2/oqYDZj8qt+V4WSML
- WNNyv7yzDDPjRERPwjvjpRPmdrvdG/oEaPCOBCEyH9MIJs2Zzf8NnMhoW+nAerknNtTk
- CzFA==
+ bh=HBPgA5ZTWsal5oBuRn+VO7Jcx+UaJEt+6bHlSHLrCHg=;
+ b=y9q+pNNgssDNWzjtfdk57vNtRPabVHS5R0lX+zOTdfeE/Ad9H/vMu1W7K2u2jad/Eo
+ ZkBp6mp/+PH3ysR+wfWwan5kmIX6Tkb+Ak+gsBSPZfrpZBQZfSnv1bCX1U3t7XseTc4C
+ g+PgJSM/9DbXPPC5cZPMj6LjZQwo7Sx6JyHdA22TiVxCin1ycq+bptKDVfPNVNWvNXUI
+ bibbMASu6XPO5sZmrFblnI6+g2P6ia3fH9iwfMl6mO+qpCSTNi7IYZy9zFIIe29uxOPv
+ bApKwnoKzHXYFgj29MTFOeAiCE0o5xbnyAITah0ewrAlM0LojCJBxxrgqNSERNJduCSl
+ Mw6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679323464;
+ d=1e100.net; s=20210112; t=1679323924;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mX9hcCpQzhFD7W9B8PzVpcMVOtdv56JWV0tv5D5CX8k=;
- b=Q/dwCj/6NFm3On7zZ2mtlSzDdlnZEvRggmNSwnrm5Wf7XP0YQ2tg3Yv86EaGI4rmNU
- YQr/GV09DH0IMhDF72fl2o2FG9k57U4UD4iViZcafczhdHuI2uWybsqis0kP8vPtT5A7
- J5QEoGuLXZg11xc3nrY4DoNGx2A9kygmnN33gdyA6ovD9YADyTRpMZei7Nm2/QLsb3Tt
- ID4P54OxL6k/dHHgQWaAoiNMuzfpQr0AUAZ3KiTw4mXR7wHGr6spoRZ9/m0WIYiYqVG3
- DRVobgHi9Zdh8Y0Pr/4J2oloOQftfjuabCIakKJuv0F6H7FWEwaY7fsymdMoyQcEFjNr
- 61wQ==
-X-Gm-Message-State: AO0yUKXAgzANImDRKMoXOm/fJekxLft663y1qCS3/65aVLg9rD8263Pr
- 4MHbzdOUu5ws/oh/oI8/mb2S0Gm+kwAcDi5DUVc6pA==
-X-Google-Smtp-Source: AK7set8RG3bMiRfbhBBMNxpJPYjIztLXXlnOexXYfDkArQO/dLndnBGsHosDCCXnRhOmiGe5gIYR1g==
-X-Received: by 2002:a5d:4bd1:0:b0:2d2:e9d3:2b72 with SMTP id
- l17-20020a5d4bd1000000b002d2e9d32b72mr10181471wrt.35.1679323463918; 
- Mon, 20 Mar 2023 07:44:23 -0700 (PDT)
+ bh=HBPgA5ZTWsal5oBuRn+VO7Jcx+UaJEt+6bHlSHLrCHg=;
+ b=6hC0ZxX9laAuXNxbtGaSiE5n3iXeg5fFHZtl45QIJ1my5wwlZzSLgmP4Wb1gkRAs1I
+ miAO5Pq8TIHiA5Qyg1tuLoaNq8GX0LIQK4p0CngxD8kWpHdoKO33nh9U4s9heQs6GXfR
+ hBtsARl3swXRVdDUah0sRO2u5UmOEkflw+ichu8NCFttk/n7G/MB5iyD48stNlesQLoZ
+ /JT6PpnFeXbb21k6Vc11TottJQGoRc9wXZSzsxsDGz/L8qRuu+ulXqJM57HYnHoirj2Y
+ XSBhc+7u6UU6JbSxfVpjnl4in/Lphm0B3DLarYAjWQTgpRxJwx0tQE03+LSG9wW0HYpt
+ EHFA==
+X-Gm-Message-State: AO0yUKXSP/FSZwR8iRGADdHK0ujr7pLThnTif+hCL4CMBApFFH+rCVSi
+ Aaur+QRW8PDut4foUeVnFwR40w==
+X-Google-Smtp-Source: AK7set8XBs/EJ+mc6dDJZ1MFtkXMzY9msdmOvNOjHmdanVaF8uTY8U5SOVfe5eC6qou+dtt9MRYQCA==
+X-Received: by 2002:a1c:7419:0:b0:3ee:1239:1ba7 with SMTP id
+ p25-20020a1c7419000000b003ee12391ba7mr1554368wmc.27.1679323924448; 
+ Mon, 20 Mar 2023 07:52:04 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- p14-20020a5d48ce000000b002d45575643esm7044699wrs.43.2023.03.20.07.44.23
+ m17-20020a05600c4f5100b003ed51cdb94csm13718248wmq.26.2023.03.20.07.52.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 07:44:23 -0700 (PDT)
-Message-ID: <43cbcd1f-22f3-47f6-6c86-8f8a642b064c@linaro.org>
-Date: Mon, 20 Mar 2023 15:44:22 +0100
+ Mon, 20 Mar 2023 07:52:04 -0700 (PDT)
+Message-ID: <a8ffdade-2519-9139-65a9-d1d5f8477b13@linaro.org>
+Date: Mon, 20 Mar 2023 15:52:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PULL 05/31] gitlab: update centos-8-stream job
+Subject: Re: [PATCH 03/10] accel/tcg: move i386 halt handling to sysemu_ops
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230318114644.1340899-1-alex.bennee@linaro.org>
- <20230318114644.1340899-6-alex.bennee@linaro.org>
+ Alessandro Di Federico <ale@rev.ng>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+References: <20230320101035.2214196-1-alex.bennee@linaro.org>
+ <20230320101035.2214196-4-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230318114644.1340899-6-alex.bennee@linaro.org>
+In-Reply-To: <20230320101035.2214196-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,59 +93,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/3/23 12:46, Alex Bennée wrote:
-> A couple of clean-ups here:
-> 
->    - inherit from the custom runners job for artefacts
-
-"artifacts"
-
->    - call check-avocado directly
->    - add some comments to the top about setup
+On 20/3/23 11:10, Alex Bennée wrote:
+> We don't want to be polluting the core run loop code with target
+> specific handling, punt it to sysemu_ops where it belongs.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20230315174331.2959-6-alex.bennee@linaro.org>
-> 
-> diff --git a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-> index 068b0c4335..367424db78 100644
-> --- a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-> +++ b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-> @@ -1,4 +1,9 @@
-> +# All centos-stream-8 jobs should run successfully in an environment
-> +# setup by the scripts/ci/setup/stream/8/build-environment.yml task
-> +# "Installation of extra packages to build QEMU"
-> +
->   centos-stream-8-x86_64:
-> + extends: .custom_runner_template
->    allow_failure: true
->    needs: []
->    stage: build
-> @@ -8,15 +13,6 @@ centos-stream-8-x86_64:
->    rules:
->    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
->    - if: "$CENTOS_STREAM_8_x86_64_RUNNER_AVAILABLE"
-> - artifacts:
-> -   name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-> -   when: on_failure
-> -   expire_in: 7 days
-> -   paths:
-> -     - build/tests/results/latest/results.xml
-> -     - build/tests/results/latest/test-results
-> -   reports:
-> -     junit: build/tests/results/latest/results.xml
->    before_script:
->    - JOBS=$(expr $(nproc) + 1)
->    script:
-> @@ -25,6 +21,4 @@ centos-stream-8-x86_64:
->    - ../scripts/ci/org.centos/stream/8/x86_64/configure
->      || { cat config.log meson-logs/meson-log.txt; exit 1; }
->    - make -j"$JOBS"
-> - - make NINJA=":" check
-> -   || { cat meson-logs/testlog.txt; exit 1; } ;
-> - - ../scripts/ci/org.centos/stream/8/x86_64/test-avocado
-> + - make NINJA=":" check check-avocado
+> ---
+>   include/hw/core/sysemu-cpu-ops.h |  5 +++++
+>   target/i386/cpu-internal.h       |  1 +
+>   accel/tcg/cpu-exec.c             | 14 +++-----------
+>   target/i386/cpu-sysemu.c         | 12 ++++++++++++
+>   target/i386/cpu.c                |  1 +
+>   5 files changed, 22 insertions(+), 11 deletions(-)
 
-Missing removing scripts/ci/org.centos/stream/8/x86_64/test-avocado
-along with this patch.
+
+> diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
+> index 28115edf44..e545bf7590 100644
+> --- a/target/i386/cpu-sysemu.c
+> +++ b/target/i386/cpu-sysemu.c
+> @@ -18,6 +18,7 @@
+>    */
+>   
+>   #include "qemu/osdep.h"
+> +#include "qemu/main-loop.h"
+>   #include "cpu.h"
+>   #include "sysemu/xen.h"
+>   #include "sysemu/whpx.h"
+
+Missing "hw/i386/apic.h" which declares apic_poll_irq() ...
+
+
+> @@ -310,6 +311,17 @@ void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
+>        }
+>   }
+>   
+> +void x86_cpu_handle_halt(CPUState *cpu)
+> +{
+> +    if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
+> +        X86CPU *x86_cpu = X86_CPU(cpu);
+> +        qemu_mutex_lock_iothread();
+> +        apic_poll_irq(x86_cpu->apic_state);
+
+... used here.
+
+> +        cpu_reset_interrupt(cpu, CPU_INTERRUPT_POLL);
+> +        qemu_mutex_unlock_iothread();
+> +    }
+> +}
+
+Otherwise,
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
