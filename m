@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD12B6C12B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A5F6C129D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 14:05:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peFBQ-0001Mz-4L; Mon, 20 Mar 2023 09:04:16 -0400
+	id 1peFB3-0001DH-Dn; Mon, 20 Mar 2023 09:03:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBG-0001Js-Gw
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFAw-0001BU-SU
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:47 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFBD-0006LK-UT
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:04:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peFAt-0006Aa-MD
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 09:03:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679317443;
+ s=mimecast20190719; t=1679317421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9flI4PdQTvDEg4fhxYyN1CJSUU2qCeiYzo+5BWJ2aFk=;
- b=d4L15GAR/jJXcJBI8AxAs3FQEQ7UhOzr+tb3fs8vNJUSJuU5pnsrGAkDL5ygAbu9LtwUct
- p8K75LD0ztgk/1O2qsvnoUogeUJn0A3+7f93keZ+E04WLOjwJoQnqLtuwji25Ly5J5n6XQ
- Rg2hX2gEQACpza2WkovzarwDKI+J5e4=
+ bh=5D82ZElhu3SNpr6BvVZ4dy/q8S0YCRhrxSrjSftshiI=;
+ b=BqT8OnXt75nhXdRbf6TAT25RXIAsOn3Hk5Ga5IemXSW4vubjySi8sbkWo4rHU3LS+vynUV
+ 9grHMp4FZFsRdi/Z+enZ66tecn5G3eSP2FcQZb76z5n8a18X9Mq6zYoHcvWI9zrPdc1CAo
+ Fkg1s65/cl28SrvvaOKsebG0g2qW2VY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-345-ZRZ5O-spPb6BSwaLpH_h1w-1; Mon, 20 Mar 2023 09:04:02 -0400
-X-MC-Unique: ZRZ5O-spPb6BSwaLpH_h1w-1
+ us-mta-287-UBTLW1FZPdWGFT1NOZsXnw-1; Mon, 20 Mar 2023 09:03:38 -0400
+X-MC-Unique: UBTLW1FZPdWGFT1NOZsXnw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C356F8825FA;
- Mon, 20 Mar 2023 13:03:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4B228065C5;
+ Mon, 20 Mar 2023 13:03:37 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9CA7C15BA0;
- Mon, 20 Mar 2023 13:03:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12F47C15BA0;
+ Mon, 20 Mar 2023 13:03:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>
-Subject: [PULL 03/24] target/s390x: Implement Early Exception Recognition
-Date: Mon, 20 Mar 2023 14:03:09 +0100
-Message-Id: <20230320130330.406378-4-thuth@redhat.com>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PULL 04/24] tests/tcg/s390x: Add PSW modification tests
+Date: Mon, 20 Mar 2023 14:03:10 +0100
+Message-Id: <20230320130330.406378-5-thuth@redhat.com>
 In-Reply-To: <20230320130330.406378-1-thuth@redhat.com>
 References: <20230320130330.406378-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -80,129 +78,275 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Generate a specification exception if a reserved bit is set in the PSW
-mask or if the PSW address is out of bounds dictated by the addressing
-mode.
+Add several small tests that check the PSW modification instructions:
 
-Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+* lpsw.S checks whether LPSW works correctly in the "happy" case.
+
+* lpswe-early.S checks whether early exceptions are recognized and
+  whether the correct ILC and old PSW are stored when they happen.
+
+* ssm-early.S, stosm-early.S and exrl-ssm-early.S check the special
+  handling of SSM and STOSM with respect to early exceptions.
+
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20230315020408.384766-3-iii@linux.ibm.com>
+Message-Id: <20230315020408.384766-4-iii@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/cpu.h             |  1 +
- target/s390x/cpu.c             | 26 ++++++++++++++++++++++++++
- target/s390x/tcg/excp_helper.c |  3 ++-
- target/s390x/tcg/translate.c   | 16 ++++++++++++++++
- 4 files changed, 45 insertions(+), 1 deletion(-)
+ tests/tcg/s390x/Makefile.softmmu-target |  5 +++
+ tests/tcg/s390x/exrl-ssm-early.S        | 43 +++++++++++++++++++++++++
+ tests/tcg/s390x/lpsw.S                  | 36 +++++++++++++++++++++
+ tests/tcg/s390x/lpswe-early.S           | 38 ++++++++++++++++++++++
+ tests/tcg/s390x/ssm-early.S             | 41 +++++++++++++++++++++++
+ tests/tcg/s390x/stosm-early.S           | 41 +++++++++++++++++++++++
+ 6 files changed, 204 insertions(+)
+ create mode 100644 tests/tcg/s390x/exrl-ssm-early.S
+ create mode 100644 tests/tcg/s390x/lpsw.S
+ create mode 100644 tests/tcg/s390x/lpswe-early.S
+ create mode 100644 tests/tcg/s390x/ssm-early.S
+ create mode 100644 tests/tcg/s390x/stosm-early.S
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 7d6d01325b..16f6354751 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -292,6 +292,7 @@ extern const VMStateDescription vmstate_s390_cpu;
- #define PSW_MASK_32             0x0000000080000000ULL
- #define PSW_MASK_SHORT_ADDR     0x000000007fffffffULL
- #define PSW_MASK_SHORT_CTRL     0xffffffff80000000ULL
-+#define PSW_MASK_RESERVED       0xb80800fe7fffffffULL
- 
- #undef PSW_ASC_PRIMARY
- #undef PSW_ASC_ACCREG
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index b10a8541ff..40fdeaa905 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -41,6 +41,26 @@
- #define CR0_RESET       0xE0UL
- #define CR14_RESET      0xC2000000UL;
- 
-+#ifndef CONFIG_USER_ONLY
-+static bool is_early_exception_psw(uint64_t mask, uint64_t addr)
-+{
-+    if (mask & PSW_MASK_RESERVED) {
-+        return true;
-+    }
+diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
+index 725b6c598d..607f6ba21a 100644
+--- a/tests/tcg/s390x/Makefile.softmmu-target
++++ b/tests/tcg/s390x/Makefile.softmmu-target
+@@ -9,3 +9,8 @@ QEMU_OPTS=-action panic=exit-failure -kernel
+ TESTS += unaligned-lowcore
+ TESTS += bal
+ TESTS += sam
++TESTS += lpsw
++TESTS += lpswe-early
++TESTS += ssm-early
++TESTS += stosm-early
++TESTS += exrl-ssm-early
+diff --git a/tests/tcg/s390x/exrl-ssm-early.S b/tests/tcg/s390x/exrl-ssm-early.S
+new file mode 100644
+index 0000000000..68fbd87b3a
+--- /dev/null
++++ b/tests/tcg/s390x/exrl-ssm-early.S
+@@ -0,0 +1,43 @@
++/*
++ * Test early exception recognition using EXRL + SSM.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++    .org 0x8d
++ilc:
++    .org 0x8e
++program_interruption_code:
++    .org 0x150
++program_old_psw:
++    .org 0x1D0                         /* program new PSW */
++    .quad 0,pgm
++    .org 0x200                         /* lowcore padding */
 +
-+    switch (mask & (PSW_MASK_32 | PSW_MASK_64)) {
-+    case 0:
-+        return addr & ~0xffffffULL;
-+    case PSW_MASK_32:
-+        return addr & ~0x7fffffffULL;
-+    case PSW_MASK_32 | PSW_MASK_64:
-+        return false;
-+    default: /* PSW_MASK_64 */
-+        return true;
-+    }
-+}
-+#endif
++    .globl _start
++_start:
++    exrl %r0,ssm
++expected_pswa:
++    j failure
++ssm:
++    ssm ssm_op
 +
- void s390_cpu_set_psw(CPUS390XState *env, uint64_t mask, uint64_t addr)
- {
- #ifndef CONFIG_USER_ONLY
-@@ -57,6 +77,12 @@ void s390_cpu_set_psw(CPUS390XState *env, uint64_t mask, uint64_t addr)
-     env->cc_op = (mask >> 44) & 3;
- 
- #ifndef CONFIG_USER_ONLY
-+    if (is_early_exception_psw(mask, addr)) {
-+        env->int_pgm_ilen = 0;
-+        trigger_pgm_exception(env, PGM_SPECIFICATION);
-+        return;
-+    }
++pgm:
++    chhsi program_interruption_code,0x6          /* specification exception? */
++    jne failure
++    cli ilc,6                                    /* ilc for EXRL? */
++    jne failure
++    clc program_old_psw(16),expected_old_psw     /* correct old PSW? */
++    jne failure
++    lpswe success_psw
++failure:
++    lpswe failure_psw
 +
-     if ((old_mask ^ mask) & PSW_MASK_PER) {
-         s390_cpu_recompute_watchpoints(env_cpu(env));
-     }
-diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
-index bc767f0443..a7829b1e49 100644
---- a/target/s390x/tcg/excp_helper.c
-+++ b/target/s390x/tcg/excp_helper.c
-@@ -212,7 +212,8 @@ static void do_program_interrupt(CPUS390XState *env)
-     LowCore *lowcore;
-     int ilen = env->int_pgm_ilen;
- 
--    assert(ilen == 2 || ilen == 4 || ilen == 6);
-+    assert((env->int_pgm_code == PGM_SPECIFICATION && ilen == 0) ||
-+           ilen == 2 || ilen == 4 || ilen == 6);
- 
-     switch (env->int_pgm_code) {
-     case PGM_PER:
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 2e1e7e046a..7832cf02a6 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -4068,9 +4068,23 @@ static DisasJumpType op_sske(DisasContext *s, DisasOps *o)
-     return DISAS_NEXT;
- }
- 
-+static void gen_check_psw_mask(DisasContext *s)
-+{
-+    TCGv_i64 reserved = tcg_temp_new_i64();
-+    TCGLabel *ok = gen_new_label();
++ssm_op:
++    .byte 0x08                                   /* bit 4 set */
++    .align 8
++expected_old_psw:
++    .quad 0x0800000180000000,expected_pswa       /* bit 2 set */
++success_psw:
++    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
++failure_psw:
++    .quad 0x2000000000000,0            /* disabled wait */
+diff --git a/tests/tcg/s390x/lpsw.S b/tests/tcg/s390x/lpsw.S
+new file mode 100644
+index 0000000000..b37dec59b7
+--- /dev/null
++++ b/tests/tcg/s390x/lpsw.S
+@@ -0,0 +1,36 @@
++/*
++ * Test the LPSW instruction.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++    .org 0x140
++svc_old_psw:
++    .org 0x1c0                         /* supervisor call new PSW */
++    .quad 0x80000000,svc               /* 31-bit mode */
++    .org 0x200                         /* lowcore padding */
 +
-+    tcg_gen_andi_i64(reserved, psw_mask, PSW_MASK_RESERVED);
-+    tcg_gen_brcondi_i64(TCG_COND_EQ, reserved, 0, ok);
-+    gen_program_exception(s, PGM_SPECIFICATION);
-+    gen_set_label(ok);
-+}
++    .globl _start
++_start:
++    lpsw short_psw
++lpsw_target:
++    svc 0
++expected_pswa:
++    j failure
 +
- static DisasJumpType op_ssm(DisasContext *s, DisasOps *o)
- {
-     tcg_gen_deposit_i64(psw_mask, psw_mask, o->in2, 56, 8);
++svc:
++    clc svc_old_psw(16),expected_psw   /* correct full PSW? */
++    jne failure
++    lpswe success_psw
++failure:
++    lpswe failure_psw
 +
-+    gen_check_psw_mask(s);
++    .align 8
++short_psw:
++    .long 0x90001,0x80000000+lpsw_target         /* problem state,
++                                                    64-bit mode */
++expected_psw:
++    .quad 0x1000180000000,expected_pswa          /* corresponds to short_psw */
++success_psw:
++    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
++failure_psw:
++    .quad 0x2000000000000,0            /* disabled wait */
+diff --git a/tests/tcg/s390x/lpswe-early.S b/tests/tcg/s390x/lpswe-early.S
+new file mode 100644
+index 0000000000..90a7f213df
+--- /dev/null
++++ b/tests/tcg/s390x/lpswe-early.S
+@@ -0,0 +1,38 @@
++/*
++ * Test early exception recognition using LPSWE.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++    .org 0x8d
++ilc:
++    .org 0x8e
++program_interruption_code:
++    .org 0x150
++program_old_psw:
++    .org 0x1D0                         /* program new PSW */
++    .quad 0,pgm
++    .org 0x200                         /* lowcore padding */
 +
-     /* Exit to main loop to reevaluate s390_cpu_exec_interrupt.  */
-     s->exit_to_mainloop = true;
-     return DISAS_TOO_MANY;
-@@ -4331,6 +4345,8 @@ static DisasJumpType op_stnosm(DisasContext *s, DisasOps *o)
-         tcg_gen_ori_i64(psw_mask, psw_mask, i2 << 56);
-     }
- 
-+    gen_check_psw_mask(s);
++    .globl _start
++_start:
++    lpswe bad_psw
++    j failure
 +
-     /* Exit to main loop to reevaluate s390_cpu_exec_interrupt.  */
-     s->exit_to_mainloop = true;
-     return DISAS_TOO_MANY;
++pgm:
++    chhsi program_interruption_code,0x6          /* specification exception? */
++    jne failure
++    cli ilc,0                                    /* ilc zero? */
++    jne failure
++    clc program_old_psw(16),bad_psw              /* correct old PSW? */
++    jne failure
++    lpswe success_psw
++failure:
++    lpswe failure_psw
++
++    .align 8
++bad_psw:
++    .quad 0x8000000000000000,0xfedcba9876543210  /* bit 0 set */
++success_psw:
++    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
++failure_psw:
++    .quad 0x2000000000000,0            /* disabled wait */
+diff --git a/tests/tcg/s390x/ssm-early.S b/tests/tcg/s390x/ssm-early.S
+new file mode 100644
+index 0000000000..6dfe40c597
+--- /dev/null
++++ b/tests/tcg/s390x/ssm-early.S
+@@ -0,0 +1,41 @@
++/*
++ * Test early exception recognition using SSM.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++    .org 0x8d
++ilc:
++    .org 0x8e
++program_interruption_code:
++    .org 0x150
++program_old_psw:
++    .org 0x1D0                         /* program new PSW */
++    .quad 0,pgm
++    .org 0x200                         /* lowcore padding */
++
++    .globl _start
++_start:
++    ssm ssm_op
++expected_pswa:
++    j failure
++
++pgm:
++    chhsi program_interruption_code,0x6          /* specification exception? */
++    jne failure
++    cli ilc,4                                    /* ilc for SSM? */
++    jne failure
++    clc program_old_psw(16),expected_old_psw     /* correct old PSW? */
++    jne failure
++    lpswe success_psw
++failure:
++    lpswe failure_psw
++
++ssm_op:
++    .byte 0x20                                   /* bit 2 set */
++    .align 8
++expected_old_psw:
++    .quad 0x2000000180000000,expected_pswa       /* bit 2 set */
++success_psw:
++    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
++failure_psw:
++    .quad 0x2000000000000,0            /* disabled wait */
+diff --git a/tests/tcg/s390x/stosm-early.S b/tests/tcg/s390x/stosm-early.S
+new file mode 100644
+index 0000000000..0689924f3a
+--- /dev/null
++++ b/tests/tcg/s390x/stosm-early.S
+@@ -0,0 +1,41 @@
++/*
++ * Test early exception recognition using STOSM.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++    .org 0x8d
++ilc:
++    .org 0x8e
++program_interruption_code:
++    .org 0x150
++program_old_psw:
++    .org 0x1D0                         /* program new PSW */
++    .quad 0,pgm
++    .org 0x200                         /* lowcore padding */
++
++    .globl _start
++_start:
++    stosm ssm_op,0x10                            /* bit 3 set */
++expected_pswa:
++    j failure
++
++pgm:
++    chhsi program_interruption_code,0x6          /* specification exception? */
++    jne failure
++    cli ilc,4                                    /* ilc for STOSM? */
++    jne failure
++    clc program_old_psw(16),expected_old_psw     /* correct old PSW? */
++    jne failure
++    lpswe success_psw
++failure:
++    lpswe failure_psw
++
++ssm_op:
++    .byte 0
++    .align 8
++expected_old_psw:
++    .quad 0x1000000180000000,expected_pswa       /* bit 3 set */
++success_psw:
++    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
++failure_psw:
++    .quad 0x2000000000000,0            /* disabled wait */
 -- 
 2.31.1
 
