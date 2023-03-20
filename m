@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A0C6C2422
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 22:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F6E6C2428
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 22:56:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peNTa-0005Wf-I9; Mon, 20 Mar 2023 17:55:34 -0400
+	id 1peNTa-0005Wk-OK; Mon, 20 Mar 2023 17:55:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <3UNYYZAYKCoc4t4532rzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--titusr.bounces.google.com>)
- id 1peNTX-0005UX-Lt
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:32 -0400
-Received: from mail-vs1-xe49.google.com ([2607:f8b0:4864:20::e49])
+ id 1peNTZ-0005WE-21
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:33 -0400
+Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
  <3UNYYZAYKCoc4t4532rzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--titusr.bounces.google.com>)
- id 1peNTW-0006YR-2i
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:31 -0400
-Received: by mail-vs1-xe49.google.com with SMTP id
- h25-20020a67c199000000b00426372db235so813132vsj.10
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 14:55:28 -0700 (PDT)
+ id 1peNTW-0006Ye-Aa
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:32 -0400
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-541a39df9f4so136424777b3.20
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 14:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1679349328;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=9TQ8MIG/ABiPoAVWjvrkNmohRgr/91qEVY2JL4G1ozA=;
- b=QxbTy5+8J7w3g3x2kBgVlDZo3XSpom3nCLSqkP1qtfDkC5RIb+Osyu7K/BbzIueOMo
- h6MO1ChS6v5pgcvuWur6Gu0vLulJywwCBICsv6pNweldE4AH/BpfDXDpDfzTgp93hG27
- ylRvdJkKr+mhGLBr8TV9cSsR7lsu1BzWUvI1BI6zd/F8e6EwbTZJ5WlJAs8K8xTTpcNW
- s0lLD+XBlF3Sfamqw5mK59g5ENKkRUs9LuNsq29TtMbC0793Hb2iAeUcV9wIXh4k0Add
- JC3MqrirrNu9vu5SJLXCNDlbp4EioRg1pB/+svpj+r1vezpUdKAnec6f0r4YObMkXs7d
- LVYA==
+ d=google.com; s=20210112; t=1679349329;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Kl9Rnc3jC5wN7ou+/okayIAPmuVV14qj7WXT6LiSRPk=;
+ b=Tyhvs+k/tPaFAgnWcIHKjCvZ2oKuT9qiO/B9VpGSyIbJzdKSzJe7C97tp2kLWTb46V
+ UcsVaFVOM5dkj+/yglxK9fapRktqx537fXiVq+wywrhyrbNWSvT3b/0WXD3byFuscnEj
+ Rw06GOQ5Z481IKLXCa9uXT3VmAvqAnG2VccNFVTqYXZidVYcvL1AzYaV+Z4T4RG7w7hf
+ gG5ysnknOCqssPxIFedxpSgt12U3ErEakgYSU5TloKf4C8Yk5I9xBcZP7fwja7GLonoV
+ e44Udl+Lz31BmyXL8l9UEIT3LgdO2/hG3NWHvE47b5X1UCL146aKg7P2yR4YMH8lCK19
+ vnaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679349328;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9TQ8MIG/ABiPoAVWjvrkNmohRgr/91qEVY2JL4G1ozA=;
- b=SZhTQvUG3BXrC7m4BmlG+TrDIWr4nQN6JFw8sst4kmu/RvPW0C6uT7sjMbsMbZPkRq
- IhJY7Lnoa6XoH+3EUbwPnSodeA7kP2El95Slf2CuZX0Vr/bAfu3eQ4+jKk07WvkgbN4K
- UPnn7V6PiWc6llbXwLLn7LnewIifAM7h1E33Rb/1+qLzh1Z5apqmJ8BVDhDhQTiSetWP
- HCSyEIbDiIBvVwMnrr10aj4KfdyL/QtHKoxfaTxdsYoycS7OD7zI3bvkQN3eZKpvhZqJ
- 5zo6/lcrXRsdBO0Hl64lzJVUfYa2FG5W5rHTBSZhJ3Oq7FsS9hfcTXVOzOJ2grcDzJtF
- wcMw==
-X-Gm-Message-State: AO0yUKWxlWyYUnFcWI8mpGbOFJpZn3zS2q7YN4Gx9qOAPaxtLzWFLq+u
- aHt+LdrtZpL+qcVRsLj1S4P/GBmmstk=
-X-Google-Smtp-Source: AK7set+KntFTl7550TE6WK2CPIPoICVU0Qoy+PtrD7tkib7dWcnlThqMtSS1MDFApQ9NdWL6HpNCD2WI4b8=
+ d=1e100.net; s=20210112; t=1679349329;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Kl9Rnc3jC5wN7ou+/okayIAPmuVV14qj7WXT6LiSRPk=;
+ b=hpJ4ZcT0rvIwXDK8xkb/2YySO9gY7xT2vfcFnciGGZIqPffpD6WDuLP/4KKjqk8+KY
+ SMB9YYM5NgQyAkMOYCnWeYdCSTnTqBcT3n8lPYSlXhIjvKMY18LK5tby0GsjI+//Q2p3
+ ps6di49kM0bO8VBGAjAU8Ie1zD4aqGdi5s4kxXmCmqRH4CQEr9pMgcsNwZFAL2g2gHx/
+ Au3vIuK4fYAzbYEmSdxKLqc7Qxl3KZ6KELVA6UNlt/6+K9pQksOB9DLPk8yUY1597l5r
+ as6G55Eg4CUCsW3XIhEYtq4eqo/UnCKgUHMvC+5HP9aJSYXnJkftcAe5lho6/CSbD1eK
+ z8dA==
+X-Gm-Message-State: AO0yUKWPHoJi9q4foon8VWzmcAK7WwlagxL2nh88xZUtgeLDEUsJ6Lpu
+ 4N6O2T+1oJlIgYldfqaCvN/cT97wP44=
+X-Google-Smtp-Source: AK7set/V/uHhl42zcrnYa36qXYmGJq22yDUjNGdfoLxPngYGq33g6hs9zqG3qkSWFI7RtmSt4Oog4zkX1Ng=
 X-Received: from titusr.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:22b8])
- (user=titusr job=sendgmr) by 2002:a1f:aa15:0:b0:432:6b9b:bbd8 with SMTP id
- t21-20020a1faa15000000b004326b9bbbd8mr103223vke.1.1679349328173; Mon, 20 Mar
- 2023 14:55:28 -0700 (PDT)
-Date: Mon, 20 Mar 2023 21:54:54 +0000
+ (user=titusr job=sendgmr) by 2002:a81:b663:0:b0:52b:fd10:4809 with SMTP id
+ h35-20020a81b663000000b0052bfd104809mr11343138ywk.0.1679349328865; Mon, 20
+ Mar 2023 14:55:28 -0700 (PDT)
+Date: Mon, 20 Mar 2023 21:54:55 +0000
+In-Reply-To: <20230320215500.722960-1-titusr@google.com>
 Mime-Version: 1.0
+References: <20230320215500.722960-1-titusr@google.com>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-Message-ID: <20230320215500.722960-1-titusr@google.com>
-Subject: [PATCH v3 0/5] PCA I2C GPIO expanders
+Message-ID: <20230320215500.722960-2-titusr@google.com>
+Subject: [PATCH v3 1/5] bitops.h: add deposit16 function
 From: Titus Rwantare <titusr@google.com>
 To: philmd@linaro.org, minyard@acm.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, peter.maydell@linaro.org, 
  Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e49;
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1149;
  envelope-from=3UNYYZAYKCoc4t4532rzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--titusr.bounces.google.com;
- helo=mail-vs1-xe49.google.com
+ helo=mail-yw1-x1149.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
 X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,63 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch series contains a set of i2c GPIO expanders,
-with support for 4, 8, and 16 GPIO connections.
+Makes it more explicit that 16 bit values are being used
 
-The devices are configured as GPIO inputs by default, but can have pins
-configured to be inputs with qmp commands.
+Signed-off-by: Titus Rwantare <titusr@google.com>
+---
+ include/qemu/bitops.h | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-For example, the following snippet in a board file for a system,
-configures a 16 bit pca6416 to have pins 8-11 as inputs, then asserts
-them.
-
-    dev = DEVICE(i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 3), "pca6416", 0x72));
-    object_property_set_uint(OBJECT(dev), "gpio_config", 0x0F00, &error_abort);
-    object_property_set_uint(OBJECT(dev), "gpio_input", 0x0F00, &error_abort);
-
-We currently use these to test hardware presence and LEDs in simulation.
-
-Thanks
-
-Since v2:
-- switched to extract / deposit API
-- added deposit16 to bitops.h
-- squashed PCA9538 patch into PCA6416 to use the same send and recv
-  functions
-- updated unit tests use asymmetric 16-bit test values
-- add patch to imply I2C devices on NPCM7xx boards
-
-Since v1:
-- addressed comments
-- fixed typos in commit messages
-
-Titus Rwantare (5):
-  bitops.h: add deposit16 function
-  hw/gpio: add PCA953x i2c GPIO expanders
-  hw/gpio: add PCA9536 i2c gpio expander
-  hw/i2c: add canonical path to i2c event traces
-  hw/arm: imply I2C_DEVICES on NPCM7xx
-
- hw/arm/Kconfig                  |   1 +
- hw/gpio/Kconfig                 |   5 +
- hw/gpio/meson.build             |   1 +
- hw/gpio/pca_i2c_gpio.c          | 410 ++++++++++++++++++++++++++++++++
- hw/gpio/trace-events            |   5 +
- hw/i2c/core.c                   |   8 +-
- hw/i2c/trace-events             |   2 +-
- include/hw/gpio/pca_i2c_gpio.h  |  69 ++++++
- include/qemu/bitops.h           |  26 ++
- roms/edk2                       |   2 +-
- roms/openbios                   |   2 +-
- roms/opensbi                    |   2 +-
- roms/seabios                    |   2 +-
- tests/qtest/meson.build         |   1 +
- tests/qtest/pca_i2c_gpio-test.c | 188 +++++++++++++++
- 15 files changed, 716 insertions(+), 8 deletions(-)
- create mode 100644 hw/gpio/pca_i2c_gpio.c
- create mode 100644 include/hw/gpio/pca_i2c_gpio.h
- create mode 100644 tests/qtest/pca_i2c_gpio-test.c
-
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 03213ce952..887b8f8ce8 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -446,6 +446,32 @@ static inline int64_t sextract64(uint64_t value, int start, int length)
+     return ((int64_t)(value << (64 - length - start))) >> (64 - length);
+ }
+ 
++/**
++ * deposit16:
++ * @value: initial value to insert bit field into
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ * @fieldval: the value to insert into the bit field
++ *
++ * Deposit @fieldval into the 16 bit @value at the bit field specified
++ * by the @start and @length parameters, and return the modified
++ * @value. Bits of @value outside the bit field are not modified.
++ * Bits of @fieldval above the least significant @length bits are
++ * ignored. The bit field must lie entirely within the 16 bit word.
++ * It is valid to request that all 16 bits are modified (ie @length
++ * 16 and @start 0).
++ *
++ * Returns: the modified @value.
++ */
++static inline uint16_t deposit16(uint16_t value, int start, int length,
++                                 uint16_t fieldval)
++{
++    uint16_t mask;
++    assert(start >= 0 && length > 0 && length <= 16 - start);
++    mask = (~0U >> (16 - length)) << start;
++    return (value & ~mask) | ((fieldval << start) & mask);
++}
++
+ /**
+  * deposit32:
+  * @value: initial value to insert bit field into
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 
