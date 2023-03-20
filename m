@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20096C241A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 22:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A0C6C2422
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 22:56:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peNNp-0003x7-7x; Mon, 20 Mar 2023 17:49:37 -0400
+	id 1peNTa-0005Wf-I9; Mon, 20 Mar 2023 17:55:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1peNNn-0003wz-QJ
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:49:35 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1peNNk-0004zV-2r
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:49:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=WyY8B4viD4bbQ+bFV2SBsFF2kC5CdxEpDJvMdyYf1TY=; b=PYiYoZPPC0ELlnHt8BthSJV1gJ
- bgv5NzvfOCQ5tdjinwmuvyiHO1+sxSBq8XdbF4qIUT5FJ3Ge8+UmQah5ULiPmFxLxg6yHM8Oim7t4
- IfbBSG1nm1vcsio6LifbGsPK468bwdGDDkx+tXS47wj8Y90SmbKtrBsERbNG42uvf8naHm24toyaC
- zCb+VRgtIXTgbzNGJzClEPVTwfTve/DSxjz98L3JzUVUXtIht33PwB2D45ayI7OwuYX9ZRC6gz/Jp
- 0ZhjIFUC5J7hiUDU74IRv8ScYLLsSquUTEFLLlFe33mpXNGvt3ApZ4+/WLRw9avJr0fq6Ed//yMHi
- FUQjqaY91JsAoVfnZOgv1GQxs6o+EPHLEa8DXWpRZydsWqOerrcxv68N5r974Tzl0lQeTRT7l3EMI
- 7bA28y0pi60+PU2xAEoYlIexaC9Tyk0mt71NWxacwCKvjiTLbCEBEXxvugduOdnD2bgRTV1SejvT7
- oeP8WTcgcw8Euw7JUyxeE1w1bCeqUqI9zY7ZZElVgpr3/64QI3FrCW7Gq8fav2GMIBOu8idrCGBj3
- 06bCdtoP0ApohM69/QVHJFJYRDx8P6vsPZWJ9SNo91UYDNgqz8zL3ruApXl//f0/RWBmdMMtVzEn1
- c94hFWqDjsU20i05fXyda9EKkPYOxPt9rRqea9keg=;
-Received: from [2a00:23c4:8bac:200:3870:f067:8488:5afb]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1peNMz-000B2U-8K; Mon, 20 Mar 2023 21:48:45 +0000
-Message-ID: <b971a675-065e-4e0a-a9bc-babc244ff21b@ilande.co.uk>
-Date: Mon, 20 Mar 2023 21:49:22 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- quintela@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
- kvm-devel <kvm@vger.kernel.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Bernhard Beschow <shentey@gmail.com>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
- <hpoussin@reactos.org>, BALATON Zoltan <balaton@eik.bme.hu>,
- "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <87zg8aj5z3.fsf@secure.mitica>
- <393c8070-e126-70de-4e85-11ac41d6f6be@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <393c8070-e126-70de-4e85-11ac41d6f6be@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8bac:200:3870:f067:8488:5afb
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: KVM call for agenda for 2023-03-21
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3UNYYZAYKCoc4t4532rzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--titusr.bounces.google.com>)
+ id 1peNTX-0005UX-Lt
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:32 -0400
+Received: from mail-vs1-xe49.google.com ([2607:f8b0:4864:20::e49])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3UNYYZAYKCoc4t4532rzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--titusr.bounces.google.com>)
+ id 1peNTW-0006YR-2i
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 17:55:31 -0400
+Received: by mail-vs1-xe49.google.com with SMTP id
+ h25-20020a67c199000000b00426372db235so813132vsj.10
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 14:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1679349328;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=9TQ8MIG/ABiPoAVWjvrkNmohRgr/91qEVY2JL4G1ozA=;
+ b=QxbTy5+8J7w3g3x2kBgVlDZo3XSpom3nCLSqkP1qtfDkC5RIb+Osyu7K/BbzIueOMo
+ h6MO1ChS6v5pgcvuWur6Gu0vLulJywwCBICsv6pNweldE4AH/BpfDXDpDfzTgp93hG27
+ ylRvdJkKr+mhGLBr8TV9cSsR7lsu1BzWUvI1BI6zd/F8e6EwbTZJ5WlJAs8K8xTTpcNW
+ s0lLD+XBlF3Sfamqw5mK59g5ENKkRUs9LuNsq29TtMbC0793Hb2iAeUcV9wIXh4k0Add
+ JC3MqrirrNu9vu5SJLXCNDlbp4EioRg1pB/+svpj+r1vezpUdKAnec6f0r4YObMkXs7d
+ LVYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679349328;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9TQ8MIG/ABiPoAVWjvrkNmohRgr/91qEVY2JL4G1ozA=;
+ b=SZhTQvUG3BXrC7m4BmlG+TrDIWr4nQN6JFw8sst4kmu/RvPW0C6uT7sjMbsMbZPkRq
+ IhJY7Lnoa6XoH+3EUbwPnSodeA7kP2El95Slf2CuZX0Vr/bAfu3eQ4+jKk07WvkgbN4K
+ UPnn7V6PiWc6llbXwLLn7LnewIifAM7h1E33Rb/1+qLzh1Z5apqmJ8BVDhDhQTiSetWP
+ HCSyEIbDiIBvVwMnrr10aj4KfdyL/QtHKoxfaTxdsYoycS7OD7zI3bvkQN3eZKpvhZqJ
+ 5zo6/lcrXRsdBO0Hl64lzJVUfYa2FG5W5rHTBSZhJ3Oq7FsS9hfcTXVOzOJ2grcDzJtF
+ wcMw==
+X-Gm-Message-State: AO0yUKWxlWyYUnFcWI8mpGbOFJpZn3zS2q7YN4Gx9qOAPaxtLzWFLq+u
+ aHt+LdrtZpL+qcVRsLj1S4P/GBmmstk=
+X-Google-Smtp-Source: AK7set+KntFTl7550TE6WK2CPIPoICVU0Qoy+PtrD7tkib7dWcnlThqMtSS1MDFApQ9NdWL6HpNCD2WI4b8=
+X-Received: from titusr.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:22b8])
+ (user=titusr job=sendgmr) by 2002:a1f:aa15:0:b0:432:6b9b:bbd8 with SMTP id
+ t21-20020a1faa15000000b004326b9bbbd8mr103223vke.1.1679349328173; Mon, 20 Mar
+ 2023 14:55:28 -0700 (PDT)
+Date: Mon, 20 Mar 2023 21:54:54 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
+Message-ID: <20230320215500.722960-1-titusr@google.com>
+Subject: [PATCH v3 0/5] PCA I2C GPIO expanders
+From: Titus Rwantare <titusr@google.com>
+To: philmd@linaro.org, minyard@acm.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, peter.maydell@linaro.org, 
+ Titus Rwantare <titusr@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e49;
+ envelope-from=3UNYYZAYKCoc4t4532rzzrwp.nzx1px5-op6pwyzyry5.z2r@flex--titusr.bounces.google.com;
+ helo=mail-vs1-xe49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,51 +87,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/03/2023 15:47, Philippe Mathieu-Daudé wrote:
+This patch series contains a set of i2c GPIO expanders,
+with support for 4, 8, and 16 GPIO connections.
 
-> Hi Juan,
-> 
-> On 18/3/23 18:59, Juan Quintela wrote:
->>
->> Hi
->>
->> NOTE, NOTE, NOTE
->>
->> Remember that we are back in that crazy part of the year when daylight
->> saving applies.  Call is done on US timezone.  If you are anything else,
->> just doublecheck that it is working for you properly.
->>
->> NOTE, NOTE, NOTE
->>
->> Topics in the backburner:
->> - single qemu binary
->>    Philippe?
-> 
-> Well we wanted a slot to discuss a bit the design problems we have
-> around some PCI-to-ISA bridges like the PIIX and VIA south bridges.
-> 
-> One of the main problem is figure how to instantiate circular IRQs
-> with QOM. Ex:
-> 
->    devA exposes irqAo output
->         wires to irqAi input
-> 
->    devB exposes irqBo output
->         wires to irqBi input
-> 
-> How to wire irqAo -> irqBi *AND* irqBo -> irqAi?
-> 
-> However personally I was busy with debugging issues opened for the
-> 8.0 release, and it is probably very late to schedule with Mark and
-> Bernhard for tomorrow...
+The devices are configured as GPIO inputs by default, but can have pins
+configured to be inputs with qmp commands.
 
-Yeah unfortunately it's impossible for me to guarantee I'll be around for the call on 
-Tuesdays, but then I've also had an idea that models the hardware in a different way 
-so that circular IRQs aren't needed. I'm a bit backlogged with QEMU bits and pieces 
-this week, so it will take a little time to come up with a suitable proposal.
+For example, the following snippet in a board file for a system,
+configures a 16 bit pca6416 to have pins 8-11 as inputs, then asserts
+them.
 
+    dev = DEVICE(i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 3), "pca6416", 0x72));
+    object_property_set_uint(OBJECT(dev), "gpio_config", 0x0F00, &error_abort);
+    object_property_set_uint(OBJECT(dev), "gpio_input", 0x0F00, &error_abort);
 
-ATB,
+We currently use these to test hardware presence and LEDs in simulation.
 
-Mark.
+Thanks
+
+Since v2:
+- switched to extract / deposit API
+- added deposit16 to bitops.h
+- squashed PCA9538 patch into PCA6416 to use the same send and recv
+  functions
+- updated unit tests use asymmetric 16-bit test values
+- add patch to imply I2C devices on NPCM7xx boards
+
+Since v1:
+- addressed comments
+- fixed typos in commit messages
+
+Titus Rwantare (5):
+  bitops.h: add deposit16 function
+  hw/gpio: add PCA953x i2c GPIO expanders
+  hw/gpio: add PCA9536 i2c gpio expander
+  hw/i2c: add canonical path to i2c event traces
+  hw/arm: imply I2C_DEVICES on NPCM7xx
+
+ hw/arm/Kconfig                  |   1 +
+ hw/gpio/Kconfig                 |   5 +
+ hw/gpio/meson.build             |   1 +
+ hw/gpio/pca_i2c_gpio.c          | 410 ++++++++++++++++++++++++++++++++
+ hw/gpio/trace-events            |   5 +
+ hw/i2c/core.c                   |   8 +-
+ hw/i2c/trace-events             |   2 +-
+ include/hw/gpio/pca_i2c_gpio.h  |  69 ++++++
+ include/qemu/bitops.h           |  26 ++
+ roms/edk2                       |   2 +-
+ roms/openbios                   |   2 +-
+ roms/opensbi                    |   2 +-
+ roms/seabios                    |   2 +-
+ tests/qtest/meson.build         |   1 +
+ tests/qtest/pca_i2c_gpio-test.c | 188 +++++++++++++++
+ 15 files changed, 716 insertions(+), 8 deletions(-)
+ create mode 100644 hw/gpio/pca_i2c_gpio.c
+ create mode 100644 include/hw/gpio/pca_i2c_gpio.h
+ create mode 100644 tests/qtest/pca_i2c_gpio-test.c
+
+-- 
+2.40.0.rc1.284.g88254d51c5-goog
+
 
