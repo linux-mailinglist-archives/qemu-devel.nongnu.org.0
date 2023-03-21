@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32A26C287C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 04:12:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7065F6C287E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 04:15:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peSOP-0006Fz-4e; Mon, 20 Mar 2023 23:10:33 -0400
+	id 1peSS9-00089D-7J; Mon, 20 Mar 2023 23:14:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1peSOM-0006Fl-Iv; Mon, 20 Mar 2023 23:10:30 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1peSOJ-0003EC-OP; Mon, 20 Mar 2023 23:10:30 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.243])
- by APP-05 (Coremail) with SMTP id zQCowACnlxQVIBlkKQxEBw--.46239S2;
- Tue, 21 Mar 2023 11:10:15 +0800 (CST)
-Message-ID: <2e856b86-f454-9e42-9ffa-6a8e029e8984@iscas.ac.cn>
-Date: Tue, 21 Mar 2023 11:10:13 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1peSS6-000871-J7
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 23:14:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1peSS4-0005Ka-Va
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 23:14:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679368460;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AJ5xi/aN9ykh0TqPqTfpwvr6Y2DveRVL5GE911NHMSU=;
+ b=epLzYl9BJMFC36OBdBTAy4bHMiObF3/7iACbs7O+vmfKVyJIy5u6DhE85xgospfOordd2o
+ EXWGQ6iWOHs0mvvy9PnMmG4a5gNu7u3Z3iSYLecmGC+EbcXQX64xmtNt8ffLkcVYRG6mec
+ NdLoNScaF2M9zhpH2t5jCN0fGXoXOSo=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-638-8fyH8lQCMFCkYegMsnWhww-1; Mon, 20 Mar 2023 23:14:18 -0400
+X-MC-Unique: 8fyH8lQCMFCkYegMsnWhww-1
+Received: by mail-oa1-f69.google.com with SMTP id
+ 586e51a60fabf-17abfe9fd10so7981362fac.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 20:14:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679368458;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AJ5xi/aN9ykh0TqPqTfpwvr6Y2DveRVL5GE911NHMSU=;
+ b=jQHgkXDUXTAJ5BlTqqaF6k0W26Y3A8lXJlAbQljV5Pp8nNGVVYeLjpdokWPP3Nr8dQ
+ glwROvdWH5jKGyirFyOMu3IbtRDG+4sbJ9MG5aRRPp5arKzSiFSaMDikYKAryQGz9MOo
+ /jF+o1iU9xzh8U+yJVsIKg8LDsdU2fhMHqawu6yixDPZV3b+YnA3Vm1V+YHhkCy4/GPX
+ OjWovvpC2ow2aKnsMcTFloIq5GSQotQBT+SDwppPGUc3BKOQ4ymBnl5SutelV9XxLJB5
+ cKP+pThuIJ6l8DxKsXUibGUoHVP1GkZauWah2W9esG2VCSrr73YZ7LBJqwWzrDsSzZQ6
+ foCQ==
+X-Gm-Message-State: AO0yUKU58ydo6qJ76YPOziOrl8s3fPybSQR4mBNpVOsdFYjhIrWUERGR
+ ACZ+ym6ySBbd0nYKxMvVa4jCcR0CdPkAtXbx1ECS0w7YNkfUIsAxPfH8eokkBjZMi44T+mhmD57
+ Q/XdcTwobofKGOBe9srh+xp08o3UVU2c=
+X-Received: by 2002:a05:6808:3a1:b0:384:c4a:1b49 with SMTP id
+ n1-20020a05680803a100b003840c4a1b49mr138416oie.9.1679368457930; 
+ Mon, 20 Mar 2023 20:14:17 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/2a7XLxyeLS1ZFQBtHs8j/2hB61SGvI2bd30L1Sr/3JUS+sEkP5tPinpSRX0uHk/iskKuu+kYRzrfiPmANkU0=
+X-Received: by 2002:a05:6808:3a1:b0:384:c4a:1b49 with SMTP id
+ n1-20020a05680803a100b003840c4a1b49mr138409oie.9.1679368457710; Mon, 20 Mar
+ 2023 20:14:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Cc: liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- bmeng@tinylab.org, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-Subject: Re: [PATCH for-8.1 v3 15/26] target/riscv/cpu.c: split RVG code from
- validate_set_extensions()
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-References: <20230318200436.299464-1-dbarboza@ventanamicro.com>
- <20230318200436.299464-16-dbarboza@ventanamicro.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230318200436.299464-16-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowACnlxQVIBlkKQxEBw--.46239S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJF4UKFWkCFy3tF18Xr4rAFb_yoWrGw1Dpr
- WUC39IyryDJF47X393Xr98KFn5Wr4kWayIg3s3W3W3WFs8tr9rJF1qkw1j9FW8JFZ5Xa1a
- vFyUKFyDursrAa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
- IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [180.165.240.243]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+References: <20230320161959.650841-1-lulu@redhat.com>
+ <20230320161959.650841-4-lulu@redhat.com>
+In-Reply-To: <20230320161959.650841-4-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 21 Mar 2023 11:14:06 +0800
+Message-ID: <CACGkMEtx7JpUAmN17uJHUwa6qV7X=HX2MdQ8L0Gb4s9mqasbXQ@mail.gmail.com>
+Subject: Re: [PATCH v14 3/4] vhost-vdpa: Add check for full 64-bit in region
+ delete
+To: Cindy Lu <lulu@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,133 +95,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Mar 21, 2023 at 12:20=E2=80=AFAM Cindy Lu <lulu@redhat.com> wrote:
+>
+> The unmap ioctl doesn't accept a full 64-bit span. So need to
+> add check for the section's size in vhost_vdpa_listener_region_del().
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
 
-On 2023/3/19 04:04, Daniel Henrique Barboza wrote:
-> We can set all RVG related extensions during realize time, before
-> validate_set_extensions() itself. Put it in a separated function so the
-> validate function already uses the updated state.
->
-> Note that we're adding an extra constraint: ext_zfinx is a blocker for
-> F, which is a requirement to enable G. If zfinx is enabled we'll have to
-> error out.
->
-> Note that we're setting both cfg->ext_N and env->misa_ext bits, instead
-> of just setting cfg->ext_N. The intention here is to start syncing all
-> misa_ext operations with its cpu->cfg flags, in preparation to allow for
-> the validate function to operate using a misa_ext. This doesn't make any
-> difference for the current code state, but will be a requirement for
-> write_misa() later on.
->
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+Thanks
+
 > ---
->   target/riscv/cpu.c | 66 +++++++++++++++++++++++++++++++++++-----------
->   1 file changed, 51 insertions(+), 15 deletions(-)
+>  hw/virtio/vhost-vdpa.c | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 48ad7372b9..110b52712c 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -281,6 +281,42 @@ static uint32_t riscv_get_misa_ext_with_cpucfg(RISCVCPUConfig *cfg)
->       return ext;
->   }
->   
-> +static void riscv_cpu_enable_g(RISCVCPU *cpu, Error **errp)
-> +{
-> +    CPURISCVState *env = &cpu->env;
-> +    RISCVCPUConfig *cfg = &cpu->cfg;
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 92c2413c76..0c8c37e786 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -316,10 +316,28 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
+stener *listener,
+>          vhost_iova_tree_remove(v->iova_tree, *result);
+>      }
+>      vhost_vdpa_iotlb_batch_begin_once(v);
+> +    /*
+> +     * The unmap ioctl doesn't accept a full 64-bit. need to check it
+> +     */
+> +    if (int128_eq(llsize, int128_2_64())) {
+> +        llsize =3D int128_rshift(llsize, 1);
+> +        ret =3D vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova,
+> +                                   int128_get64(llsize));
 > +
-> +    if (cpu->cfg.ext_zfinx) {
-> +        error_setg(errp, "Unable to enable G: Zfinx is enabled, "
-> +                         "so F can not be enabled");
-> +        return;
-> +    }
-
-This check is not very necessary here, since check Zfinx against F will 
-be done in following code.
-
-Regards,
-
-Weiwei Li
-
-> +
-> +    if (!(cfg->ext_i && cfg->ext_m && cfg->ext_a &&
-> +          cfg->ext_f && cfg->ext_d &&
-> +          cfg->ext_icsr && cfg->ext_ifencei)) {
-> +
-> +        warn_report("Setting G will also set IMAFD_Zicsr_Zifencei");
-> +        cfg->ext_i = true;
-> +        env->misa_ext |= RVI;
-> +
-> +        cfg->ext_m = true;
-> +        env->misa_ext |= RVM;
-> +
-> +        cfg->ext_a = true;
-> +        env->misa_ext |= RVA;
-> +
-> +        cfg->ext_f = true;
-> +        env->misa_ext |= RVF;
-> +
-> +        cfg->ext_d = true;
-> +        env->misa_ext |= RVD;
-> +
-> +        cfg->ext_icsr = true;
-> +        cfg->ext_ifencei = true;
-> +    }
-> +}
-> +
->   static void riscv_set_cpucfg_with_misa(RISCVCPUConfig *cfg,
->                                          uint32_t misa_ext)
->   {
-> @@ -1036,21 +1072,6 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
->           return;
->       }
->   
-> -    /* Do some ISA extension error checking */
-> -    if (cpu->cfg.ext_g && !(cpu->cfg.ext_i && cpu->cfg.ext_m &&
-> -                            cpu->cfg.ext_a && cpu->cfg.ext_f &&
-> -                            cpu->cfg.ext_d &&
-> -                            cpu->cfg.ext_icsr && cpu->cfg.ext_ifencei)) {
-> -        warn_report("Setting G will also set IMAFD_Zicsr_Zifencei");
-> -        cpu->cfg.ext_i = true;
-> -        cpu->cfg.ext_m = true;
-> -        cpu->cfg.ext_a = true;
-> -        cpu->cfg.ext_f = true;
-> -        cpu->cfg.ext_d = true;
-> -        cpu->cfg.ext_icsr = true;
-> -        cpu->cfg.ext_ifencei = true;
-> -    }
-> -
->       if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
->           error_setg(errp,
->                      "I and E extensions are incompatible");
-> @@ -1293,6 +1314,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       CPUState *cs = CPU(dev);
->       RISCVCPU *cpu = RISCV_CPU(dev);
->       RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-> +    CPURISCVState *env = &cpu->env;
->       Error *local_err = NULL;
->   
->       cpu_exec_realizefn(cs, &local_err);
-> @@ -1313,6 +1335,20 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->           return;
->       }
->   
-> +    if (cpu->cfg.ext_g) {
-> +        riscv_cpu_enable_g(cpu, &local_err);
-> +        if (local_err != NULL) {
-> +            error_propagate(errp, local_err);
-> +            return;
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ") =3D %d (%m)",
+> +                         v, iova, int128_get64(llsize), ret);
 > +        }
-> +
-> +        /*
-> +         * Sync env->misa_ext_mask with the new
-> +         * env->misa_ext val.
-> +         */
-> +        env->misa_ext_mask = env->misa_ext;
+> +        iova +=3D int128_get64(llsize);
 > +    }
+>      ret =3D vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova,
+>                                 int128_get64(llsize));
 > +
->       riscv_cpu_validate_set_extensions(cpu, &local_err);
->       if (local_err != NULL) {
->           error_propagate(errp, local_err);
+>      if (ret) {
+> -        error_report("vhost_vdpa dma unmap error!");
+> +        error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
+> +                     "0x%" HWADDR_PRIx ") =3D %d (%m)",
+> +                     v, iova, int128_get64(llsize), ret);
+>      }
+>
+>      memory_region_unref(section->mr);
+> --
+> 2.34.3
+>
 
 
