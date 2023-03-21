@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A316C3CF4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 22:45:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE096C3CFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 22:49:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pejlo-0005hr-5f; Tue, 21 Mar 2023 17:43:52 -0400
+	id 1pejq9-00071K-PE; Tue, 21 Mar 2023 17:48:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pejlc-0005h9-BS
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:43:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pejla-0000oa-NX
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:43:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679435015;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iVDih0PH4hb6i02KBCosDeCNytNuKtUJi41V045I5LE=;
- b=MabK5BMQoQQkd0yHkm1pdhBcssbtknErM0X5bJGnV7Ytz34jX0IzqmcEKlAWJApQqRstOG
- 6XVDPn93cWEf5pWPjasZhKqSXu0IJCxFk+CfGYgFt7jNHHRomktpefeot847wNSIzVkQ2r
- b4k/Q5QS1nRJwCEzost4wEWfRbweAB4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-45-cNqzDWFbOui0hDnsdOPEng-1; Tue, 21 Mar 2023 17:43:31 -0400
-X-MC-Unique: cNqzDWFbOui0hDnsdOPEng-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFCC91C041AB;
- Tue, 21 Mar 2023 21:43:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A82F52166B29;
- Tue, 21 Mar 2023 21:43:29 +0000 (UTC)
-Date: Tue, 21 Mar 2023 16:43:27 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 2/3] qapi: Do not generate empty enum
-Message-ID: <20230321214327.xgxyvm2iw7pkiogz@redhat.com>
-References: <20230315112811.22355-1-philmd@linaro.org>
- <20230315112811.22355-3-philmd@linaro.org>
- <87cz58ubcn.fsf@pond.sub.org> <ZBMfosr0JDyfjhqs@redhat.com>
- <873564spze.fsf@pond.sub.org>
- <aad2628c-196a-3f91-d184-20c034518de7@linaro.org>
- <ZBnLAIXT3pTmjqAy@redhat.com>
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pejq6-00070b-Ie
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:48:19 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pejq4-00058T-Us
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:48:18 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ bg16-20020a05600c3c9000b003eb34e21bdfso11901899wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 14:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679435293;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NYFC2uoTfU8j1+UKS3OFw33rKZJQTBVIH1oPFtmPJ9Y=;
+ b=SuocZ80bsUBP1dz6CKNU10voVmEBKbrFbLZNvf32IsLSX08ecs1UXtFR3TKmDkn8yl
+ J0DoTSkcO8VKyPmIfH9Nz/RBMNTGZvZmqkIj4NDn0pGBMq5cjUAJa2u8i7UnipEZP5Gc
+ u7s1cyEKJDeRX3kXqUMOUfP/YTQ0+ps7rXDDOnNpEmq/8+2o80qHLNvc7kS2ysWWl4B9
+ k0JIKOcpIe8oPT8UKsDVQHEvQEqKz6QTYNYNl/xbNPSPn/fAmMJ3a7lNkoLTZj7PnF2K
+ nSPfMlSxbH4lsWmHL6A37b3owSHpWqk3Sf7xXMb52uOfUFhL4Yr5aPprkn3gY6mRxlr+
+ FNCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679435293;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NYFC2uoTfU8j1+UKS3OFw33rKZJQTBVIH1oPFtmPJ9Y=;
+ b=mpWsGd86CeZe6hH7TAGryFV+bFprqcUX127XagPnFaXHVm9b0Xk3HsG4Nc/pMsI6uO
+ e/+f7i3fhwPX42eK3/2py69hivuj618QpM+cix8cmP6x72KXJl2G1pCFRfxNWh9ysDre
+ 2h3pzhvKaq1px2CFBq29xXkKYTNQAcb8LkTiqvhqf3X1dnLuyn0FucIH1UlaPGXn46oT
+ sJ/w0+rSfs3DVZHjR7mhXGLOjrz2SB9TbOeXlceoG4iMtCtwxgtXYQK+PtqTfSVXOiBm
+ +V5VOpYXANqnGiYTc/bSYw4kx3qDl2JGUl0i5S0XRT/SV5fdaoMbFoXRHAMIhhwup00H
+ xsiQ==
+X-Gm-Message-State: AO0yUKVEnG726BpvYNOXu4JUFE7XAvaHWbhi1ySXrF18cSUsTWDbPzAt
+ wKHuWVzcioV5ef2J/vaDDbe9oioCp+QXENgrhOo=
+X-Google-Smtp-Source: AK7set9QQ1fhYaOnmBJikUzfD4E6ZWWSPQ6Z3Uc/VrZplXUMAGc9lx2+K7aKOvVDkHGTRIhPxfUIrg==
+X-Received: by 2002:a1c:7714:0:b0:3ed:c84c:7efe with SMTP id
+ t20-20020a1c7714000000b003edc84c7efemr35755wmi.7.1679435292894; 
+ Tue, 21 Mar 2023 14:48:12 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:5cc:caa0:1f0d:1c02:17f3:df40?
+ ([2a01:e0a:5cc:caa0:1f0d:1c02:17f3:df40])
+ by smtp.gmail.com with ESMTPSA id
+ v1-20020a1cf701000000b003ee42696acesm2153807wmh.16.2023.03.21.14.48.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 14:48:12 -0700 (PDT)
+Message-ID: <cfde8400-2df9-73d7-3eb0-b3a81f838311@linaro.org>
+Date: Tue, 21 Mar 2023 22:48:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZBnLAIXT3pTmjqAy@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 3/4] qga/vss-win32: fix warning for clang++-15
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
+ richard.henderson@linaro.org, alex.bennee@linaro.org,
+ peter.maydell@linaro.org, philmd@linaro.org
+References: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
+ <20230221153006.20300-4-pierrick.bouvier@linaro.org>
+From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+In-Reply-To: <20230221153006.20300-4-pierrick.bouvier@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=pierrick.bouvier@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,55 +98,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 21, 2023 at 03:19:28PM +0000, Daniel P. Berrangé wrote:
-> On Tue, Mar 21, 2023 at 03:31:56PM +0100, Philippe Mathieu-Daudé wrote:
-> > On 16/3/23 15:57, Markus Armbruster wrote:
-> > > Daniel P. Berrangé <berrange@redhat.com> writes:
-> > > 
-> > > > On Thu, Mar 16, 2023 at 01:31:04PM +0100, Markus Armbruster wrote:
-> > > > > Philippe Mathieu-Daudé <philmd@linaro.org> writes:
-> > > > > 
-> > > > > > Per the C++ standard, empty enum are ill-formed. Do not generate
-> > > 
-> > > The C standard.  The C++ standard doesn't apply here :)
-> > 
-> > I can't find how empty enums are considered by the C standard...
-> 
-> The C standard doesn't really matter either.
-> 
-> What we actually care about is whether GCC and CLang consider the
-> empty enums to be permissible or not. or to put it another way...
-> if it compiles, ship it :-)
-
-But it doesn't compile:
-
-$ cat foo.c
-typedef enum Blah {
-} Blah;
-int main(void) {
-  Blah b = 0;
-}
-$ gcc -o foo -Wall foo.c
-foo.c:2:1: error: empty enum is invalid
-    2 | } Blah;
-      | ^
-foo.c: In function ‘main’:
-foo.c:4:5: error: unknown type name ‘Blah’; use ‘enum’ keyword to refer to the type
-    4 |     Blah b = 0;
-      |     ^~~~
-      |     enum 
-foo.c:4:10: warning: unused variable ‘b’ [-Wunused-variable]
-    4 |     Blah b = 0;
-      |          ^
-
-So we _do_ need to avoid creating an enum with all members optional in
-the configuration where all options are disabled, if we want that
-configuration to compile.  Or require that all QAPI enums have at
-least one non-optional member.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+U29ycnkgdG8gY29tZSBiYWNrIG9uIHRoaXMsIGJ1dCBpdCBzZWVtcyB0aGlzIHNwZWNpZmlj
+IGNvbW1pdCB3YXMgbm90IA0KaW50ZWdyYXRlZCBpbiB0cnVuay4NCg0KQEtvbnN0YW50aW4g
+S29zdGl1azogSWYgeW91IHBsYW4gdG8gaW50ZWdyYXRlIHRoaXMgbGF0ZXIgKGJlZm9yZSA4
+LjAgDQp0YWcpLCBzb3JyeSBmb3IgdGhlIG5vaXNlLiBTaW5jZSByYzEgd2FzIHB1Ymxpc2hl
+ZCB0b2RheSwgSSB0aGluayBpdCBtYXkgDQpoYXZlIGJlZW4gImxvc3QiLg0KDQpJZiBzb21l
+b25lIHdhbnRzIHRvIG1lcmdlIGl0LCB0aGF0IHdvdWxkIGJlIG5pY2UuDQoNClRoYW5rcywN
+ClBpZXJyaWNrDQoNCk9uIDIvMjEvMjMgMTY6MzAsIFBpZXJyaWNrIEJvdXZpZXIgd3JvdGU6
+DQo+IFJlcG9ydGVkIHdoZW4gY29tcGlsaW5nIHdpdGggY2xhbmctd2luZG93cy1hcm02NC4N
+Cj4gDQo+IC4uL3FnYS92c3Mtd2luMzIvaW5zdGFsbC5jcHA6NTM3Ojk6IGVycm9yOiB2YXJp
+YWJsZSAnaHInIGlzIHVzZWQgdW5pbml0aWFsaXplZCB3aGVuZXZlciAnaWYnIGNvbmRpdGlv
+biBpcyBmYWxzZSBbLVdlcnJvciwtV3NvbWV0aW1lcy11bmluaXRpYWxpemVkXQ0KPiAgICAg
+IGlmICghKENvbnRyb2xTZXJ2aWNlKHNlcnZpY2UsIFNFUlZJQ0VfQ09OVFJPTF9TVE9QLCBO
+VUxMKSkpIHsNCj4gICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+IC4uL3FnYS92c3Mtd2luMzIvaW5zdGFsbC5jcHA6
+NTQ1OjEyOiBub3RlOiB1bmluaXRpYWxpemVkIHVzZSBvY2N1cnMgaGVyZQ0KPiAgICAgIHJl
+dHVybiBocjsNCj4gICAgICAgICAgICAgXn4NCj4gU2lnbmVkLW9mZi1ieTogUGllcnJpY2sg
+Qm91dmllciA8cGllcnJpY2suYm91dmllckBsaW5hcm8ub3JnPg0KPiBGaXhlczogOTE3ZWJj
+YjE3MCAoInFnYS13aW46IEZpeCBRR0EgVlNTIFByb3ZpZGVyIHNlcnZpY2Ugc3RvcCBmYWls
+dXJlIikNCj4gUmV2aWV3ZWQtYnk6IEtvbnN0YW50aW4gS29zdGl1ayA8a2tvc3RpdWtAcmVk
+aGF0LmNvbT4NCj4gUmV2aWV3ZWQtYnk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGls
+bWRAbGluYXJvLm9yZz4NCj4gLS0tDQo+ICAgcWdhL3Zzcy13aW4zMi9pbnN0YWxsLmNwcCB8
+IDIgKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkNCj4gDQo+IGRpZmYgLS1naXQgYS9xZ2EvdnNzLXdpbjMyL2luc3RhbGwuY3BwIGIvcWdh
+L3Zzcy13aW4zMi9pbnN0YWxsLmNwcA0KPiBpbmRleCBiNTc1MDhmYmUwLi5iODA4N2U1YmFh
+IDEwMDY0NA0KPiAtLS0gYS9xZ2EvdnNzLXdpbjMyL2luc3RhbGwuY3BwDQo+ICsrKyBiL3Fn
+YS92c3Mtd2luMzIvaW5zdGFsbC5jcHANCj4gQEAgLTUxOCw3ICs1MTgsNyBAQCBuYW1lc3Bh
+Y2UgX2NvbV91dGlsDQo+ICAgLyogU3RvcCBRR0EgVlNTIHByb3ZpZGVyIHNlcnZpY2UgdXNp
+bmcgV2luc3ZjIEFQSSAgKi8NCj4gICBTVERBUEkgU3RvcFNlcnZpY2Uodm9pZCkNCj4gICB7
+DQo+IC0gICAgSFJFU1VMVCBocjsNCj4gKyAgICBIUkVTVUxUIGhyID0gU19PSzsNCj4gICAg
+ICAgU0NfSEFORExFIG1hbmFnZXIgPSBPcGVuU0NNYW5hZ2VyKE5VTEwsIE5VTEwsIFNDX01B
+TkFHRVJfQUxMX0FDQ0VTUyk7DQo+ICAgICAgIFNDX0hBTkRMRSBzZXJ2aWNlID0gTlVMTDsN
+Cj4gICANCg==
 
