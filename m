@@ -2,93 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6166C3B8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 21:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1176C3BBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 21:25:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peiPK-0004Ii-MP; Tue, 21 Mar 2023 16:16:35 -0400
+	id 1peiXK-0000cr-7l; Tue, 21 Mar 2023 16:24:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3chAaZAsKCiM9BJDQKDXSMFFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--ackerleytng.bounces.google.com>)
- id 1peiOc-00047x-Bk
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 16:15:57 -0400
-Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3chAaZAsKCiM9BJDQKDXSMFFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--ackerleytng.bounces.google.com>)
- id 1peiOZ-00024w-SL
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 16:15:50 -0400
-Received: by mail-pl1-x64a.google.com with SMTP id
- q9-20020a170902dac900b001a18ceff5ebso9367477plx.4
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 13:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1679429746;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=WUxn3KVcBxbFXkgOhZJm8jHzCo14A+URwIfQXLEPszQ=;
- b=gOamuZL09TvaiKBWLNigfj5XfPQ9ZV+G8B5xxWIHP7ReVAgFwkb2mMOqoMmAQj4JA5
- a71uvwvqvuhm9Mla+M6MKfVBfAeZv8j+Ais4qiGHYQbdzN04WOFDIvW+KHiX6/6UcG3g
- krfkQwX/3y0i/lIiZnvQ0cDeDcI7B671x+yj/K+Slq7czkPMQa4ZsYo4hXCLHwgEBbR6
- wcEzyW5vDv1w52aGipOfZRkfsbrmcbzAncEZk/uv+Uo6h534K0mNscTMHh24KGiLks3G
- i+rXSGXGfinc7T1/3sxRE9aQe0lPV9r2mPkO1dm8fdQ094x0CRIh1SLftIFzpGONkFQy
- Gw5A==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1peiXI-0000cU-5h
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 16:24:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1peiXG-0006Oz-5U
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 16:24:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679430283;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=g2kbcRG/1aYNVAp9q4sdsYpOCa4KtQS9lIifXgmZ9/w=;
+ b=Zqa5z621HVCTbOiMcd11koqvZI7kmLXjv86fqrU86X4RSlSbMYAC5bd9ZR9zGfPVEm3lNh
+ JG5nl3dCDOpAPbU6F/FfNGlMSE28GXcZ6eDP0XHQn+UtPgD+8FcP5f82dYDkkcqS7straZ
+ LkPNnnI2db9j7EZoKKa5krYNDEn4ouc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-473-Ohgbtc32MWm4LTc1feTtWA-1; Tue, 21 Mar 2023 16:24:41 -0400
+X-MC-Unique: Ohgbtc32MWm4LTc1feTtWA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ u6-20020a05600c19c600b003ed7cb98a8dso5330783wmq.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 13:24:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679429746;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WUxn3KVcBxbFXkgOhZJm8jHzCo14A+URwIfQXLEPszQ=;
- b=fCjRs0G+zxuJx40XpBWlaTFppDd6vdjKyO7oTvrY9rIu+Qh5LupgGz2mFnIdF9cF/4
- tg3WjUaKgh9RF+ZOPTD9ZeWh31MW8Q8OHLGuq6YivjZ43LtrbAokOdSGBCIZB7mbpTEE
- XW5GNsrsJHa+KMBVVCM5zqI+GHxtnr/7pPJKMJARcPjneM0BKbbyvFDcIhcWX6m+MiO/
- a37VZSpC6NguEH6qB8DK/SLVa+bebEsJd/XpBBb/9Ygm0JGpE5vK4pLR6s+tPSYe+yGF
- 6gUEFl9r4kOyJ7Vac3HdgSd7pXOjL//OXftFPH7OGqrCk13uQUeEGHG091WigJUQEjOy
- WuYA==
-X-Gm-Message-State: AO0yUKV7CQNdu0ZBI8SZ9+A0hB4gA5hxFKEYU9H+Yw0M/o2bBWHcIANg
- TLPvbHGbZpviTbk7rG/V11q4VtKnGR5kNd2lDg==
-X-Google-Smtp-Source: AK7set+dSS5L5IQsR2QM90zFjxvQz3FiYFZP+Sm9POtIwngHMs0+tu5Z0jbahBkmyz+8xgu0gtCE94fpBCegZt4AyQ==
-X-Received: from ackerleytng-cloudtop.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a05:6a00:99d:b0:628:fc:9049 with SMTP
- id u29-20020a056a00099d00b0062800fc9049mr654427pfg.4.1679429746071; Tue, 21
- Mar 2023 13:15:46 -0700 (PDT)
-Date: Tue, 21 Mar 2023 20:15:33 +0000
-In-Reply-To: <cover.1679428901.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1679428901.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
-Message-ID: <4db33a8976193f3eff80dbd4515335c36aeeb416.1679428901.git.ackerleytng@google.com>
-Subject: [RFC PATCH v2 2/2] selftests: restrictedmem: Check hugepage-ness of
- shmem file backing restrictedmem fd
-From: Ackerley Tng <ackerleytng@google.com>
-To: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, qemu-devel@nongnu.org
-Cc: aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org, 
- arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, 
- chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com, 
- david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com, 
- hughd@google.com, jlayton@kernel.org, jmattson@google.com, joro@8bytes.org, 
- jun.nakajima@intel.com, kirill.shutemov@linux.intel.com, linmiaohe@huawei.com, 
- luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com, 
- michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com, 
- pbonzini@redhat.com, qperret@google.com, rppt@kernel.org, seanjc@google.com, 
- shuah@kernel.org, steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
- vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com, 
- wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org, 
- yu.c.zhang@linux.intel.com, Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
- envelope-from=3chAaZAsKCiM9BJDQKDXSMFFNNFKD.BNLPDLT-CDUDKMNMFMT.NQF@flex--ackerleytng.bounces.google.com;
- helo=mail-pl1-x64a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ d=1e100.net; s=20210112; t=1679430280;
+ h=user-agent:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g2kbcRG/1aYNVAp9q4sdsYpOCa4KtQS9lIifXgmZ9/w=;
+ b=YWWhyUh0oHIjDv1myomq6reQKeqbwREiLoGcH7wY34/6TL1ZepqIDoKStMMHUElNbq
+ ThnekGa6bMyBUhlr9cmvBwu06FQDK79tsOcCtnpQeLKxTcxRWIgYei8Ce1v4JF20RcDs
+ WpJoOR0wUqw7ajEfYl/oqeg2NGHU3EMs83QOqUI5tRDpx4ux3V1UT/GeSZQegumNIcZS
+ /rwEs6DACkJ5uR1SZouztR+XqNnYREvrjAVB2ELfTn00lRn6zNc3WgqxiE3LaKzF5gH/
+ +RCkGodM5GsuDgJf6XFvVoVf2uvPxm34BPVHyH08Gt5CvMrDbgg7VXwS8dam8rRoecNT
+ 6RtQ==
+X-Gm-Message-State: AO0yUKW1H2X+C9m5cXm5B3IZUsekFAmASXmDfx5u2aadog0eIQMRH2yX
+ tWIq+Eob2lpDWmBQqnXeIKfbg8nQiguHAKsjl26Ip+IOnJ6USpsIlOusgzHsSOj12S6ETCqo+gn
+ Oh7HAoWqdr8XGIsU=
+X-Received: by 2002:a5d:4211:0:b0:2ce:a777:90c4 with SMTP id
+ n17-20020a5d4211000000b002cea77790c4mr3434663wrq.31.1679430280262; 
+ Tue, 21 Mar 2023 13:24:40 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/2nvykDdoDQ3h1rpsM5FIs7ySUQV2n0QDgb9fSyDAve1LengsFU/Pn7Q7V/EHrZjpMD6E+0w==
+X-Received: by 2002:a5d:4211:0:b0:2ce:a777:90c4 with SMTP id
+ n17-20020a5d4211000000b002cea77790c4mr3434647wrq.31.1679430279904; 
+ Tue, 21 Mar 2023 13:24:39 -0700 (PDT)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ k5-20020adfe8c5000000b002d748d46565sm5397062wrn.74.2023.03.21.13.24.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Mar 2023 13:24:39 -0700 (PDT)
+Date: Tue, 21 Mar 2023 20:24:37 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: peterx@redhat.com, peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Subject: s390 migration crash
+Message-ID: <ZBoShWArKDPpX/D7@work-vm>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,565 +96,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For memfd_restricted() calls without a userspace mount, the backing
-file should be the shmem mount in the kernel, and the size of backing
-pages should be as defined by system-wide shmem configuration.
+Hi Peter's,
+  Peter M pointed me to a seg in a migration test in CI; I can reproduce
+it:
+  * On an s390 host
+  * only as part of a make check - running migration-test by itself
+doesn't trigger for me.
+  * It looks like it's postcopy preempt
 
-If a userspace mount is provided, the size of backing pages should be
-as defined in the mount.
+(gdb) bt full
+#0  iov_size (iov=iov@entry=0x2aa00e60670, iov_cnt=<optimized out>) at ../util/iov.c:88
+        len = 13517923312037845750
+        i = 17305
+#1  0x000002aa004d068c in qemu_fflush (f=0x2aa00e58630) at ../migration/qemu-file.c:307
+        local_error = 0x0
+#2  0x000002aa004d0e04 in qemu_fflush (f=<optimized out>) at ../migration/qemu-file.c:297
+#3  0x000002aa00613962 in postcopy_preempt_shutdown_file (s=s@entry=0x2aa00d1b4e0) at ../migration/ram.c:4657
+#4  0x000002aa004e12b4 in migration_completion (s=0x2aa00d1b4e0) at ../migration/migration.c:3469
+        ret = <optimized out>
+        current_active_state = 5
+        must_precopy = 0
+        can_postcopy = 0
+        in_postcopy = true
+        pending_size = 0
+        __func__ = "migration_iteration_run"
+        iter_state = <optimized out>
+        s = 0x2aa00d1b4e0
+        thread = <optimized out>
+        setup_start = <optimized out>
+        thr_error = <optimized out>
+        urgent = <optimized out>
+#5  migration_iteration_run (s=0x2aa00d1b4e0) at ../migration/migration.c:3882
+        must_precopy = 0
+        can_postcopy = 0
+        in_postcopy = true
+        pending_size = 0
+        __func__ = "migration_iteration_run"
+        iter_state = <optimized out>
+        s = 0x2aa00d1b4e0
+        thread = <optimized out>
+        setup_start = <optimized out>
+        thr_error = <optimized out>
+        urgent = <optimized out>
+#6  migration_thread (opaque=opaque@entry=0x2aa00d1b4e0) at ../migration/migration.c:4124
+        iter_state = <optimized out>
+        s = 0x2aa00d1b4e0
+--Type <RET> for more, q to quit, c to continue without paging--
+        thread = <optimized out>
+        setup_start = <optimized out>
+        thr_error = <optimized out>
+        urgent = <optimized out>
+#7  0x000002aa00819b8c in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:541
+        __cancel_buf = 
+            {__cancel_jmp_buf = {{__cancel_jmp_buf = {{__gregs = {4396782422080, 4393751543808, 4397299389454, 4396844235904, 2929182727824, 2929182933488, 4396843986792, 4397299389455, 33679382915066768, 33678512846981306}, __fpregs = {4396774031360, 8392704, 2929182933488, 0, 4396782422272, 2929172491858, 4396774031360, 1}}}, __mask_was_saved = 0}}, __pad = {0x3ffb4a77a60, 0x0, 0x0, 0x0}}
+        __cancel_routine = 0x2aa00819bf0 <qemu_thread_atexit_notify>
+        __not_first_call = <optimized out>
+        start_routine = 0x2aa004e08f0 <migration_thread>
+        arg = 0x2aa00d1b4e0
+        r = <optimized out>
+#8  0x000003ffb7b1e2e6 in start_thread () at /lib64/libc.so.6
+#9  0x000003ffb7aafdbe in thread_start () at /lib64/libc.so.6
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- tools/testing/selftests/Makefile              |   1 +
- .../selftests/restrictedmem/.gitignore        |   3 +
- .../testing/selftests/restrictedmem/Makefile  |  15 +
- .../testing/selftests/restrictedmem/common.c  |   9 +
- .../testing/selftests/restrictedmem/common.h  |   8 +
- .../restrictedmem_hugepage_test.c             | 459 ++++++++++++++++++
- 6 files changed, 495 insertions(+)
- create mode 100644 tools/testing/selftests/restrictedmem/.gitignore
- create mode 100644 tools/testing/selftests/restrictedmem/Makefile
- create mode 100644 tools/testing/selftests/restrictedmem/common.c
- create mode 100644 tools/testing/selftests/restrictedmem/common.h
- create mode 100644 tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
+It looks like it's in the preempt test:
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index f07aef7c592c..44078eeefb79 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -60,6 +60,7 @@ TARGETS += pstore
- TARGETS += ptrace
- TARGETS += openat2
- TARGETS += resctrl
-+TARGETS += restrictedmem
- TARGETS += rlimits
- TARGETS += rseq
- TARGETS += rtc
-diff --git a/tools/testing/selftests/restrictedmem/.gitignore b/tools/testing/selftests/restrictedmem/.gitignore
-new file mode 100644
-index 000000000000..2581bcc8ff29
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/.gitignore
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+restrictedmem_hugepage_test
-diff --git a/tools/testing/selftests/restrictedmem/Makefile b/tools/testing/selftests/restrictedmem/Makefile
-new file mode 100644
-index 000000000000..8e5378d20226
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/Makefile
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+CFLAGS = $(KHDR_INCLUDES)
-+CFLAGS += -Wall -Wstrict-prototypes -Wuninitialized -std=gnu99
-+
-+TEST_GEN_PROGS += restrictedmem_hugepage_test
-+
-+include ../lib.mk
-+
-+EXTRA_CLEAN = $(OUTPUT)/common.o
-+
-+$(OUTPUT)/common.o: common.c
-+	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c -ffreestanding $< -o $@
-+
-+$(TEST_GEN_PROGS): $(OUTPUT)/common.o
-diff --git a/tools/testing/selftests/restrictedmem/common.c b/tools/testing/selftests/restrictedmem/common.c
-new file mode 100644
-index 000000000000..03dac843404f
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/common.c
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+
-+int memfd_restricted(unsigned int flags, int mount_fd)
-+{
-+	return syscall(__NR_memfd_restricted, flags, mount_fd);
-+}
-diff --git a/tools/testing/selftests/restrictedmem/common.h b/tools/testing/selftests/restrictedmem/common.h
-new file mode 100644
-index 000000000000..06284ed86baf
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/common.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef SELFTESTS_RESTRICTEDMEM_COMMON_H
-+#define SELFTESTS_RESTRICTEDMEM_COMMON_H
-+
-+int memfd_restricted(unsigned int flags, int mount_fd);
-+
-+#endif  // SELFTESTS_RESTRICTEDMEM_COMMON_H
-diff --git a/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c b/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-new file mode 100644
-index 000000000000..ae37148342fe
---- /dev/null
-+++ b/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-@@ -0,0 +1,459 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#define _GNU_SOURCE /* for O_PATH */
-+#define _POSIX_C_SOURCE /* for PATH_MAX */
-+#include <limits.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <unistd.h>
-+
-+#include "linux/restrictedmem.h"
-+
-+#include "common.h"
-+#include "../kselftest_harness.h"
-+
-+/*
-+ * Expect policy to be one of always, within_size, advise, never,
-+ * deny, force
-+ */
-+#define POLICY_BUF_SIZE 12
-+
-+static int get_hpage_pmd_size(void)
-+{
-+	FILE *fp;
-+	char buf[100];
-+	char *ret;
-+	int size;
-+
-+	fp = fopen("/sys/kernel/mm/transparent_hugepage/hpage_pmd_size", "r");
-+	if (!fp)
-+		return -1;
-+
-+	ret = fgets(buf, 100, fp);
-+	if (ret != buf) {
-+		size = -1;
-+		goto out;
-+	}
-+
-+	if (sscanf(buf, "%d\n", &size) != 1)
-+		size = -1;
-+
-+out:
-+	fclose(fp);
-+
-+	return size;
-+}
-+
-+static bool is_valid_shmem_thp_policy(char *policy)
-+{
-+	if (strcmp(policy, "always") == 0)
-+		return true;
-+	if (strcmp(policy, "within_size") == 0)
-+		return true;
-+	if (strcmp(policy, "advise") == 0)
-+		return true;
-+	if (strcmp(policy, "never") == 0)
-+		return true;
-+	if (strcmp(policy, "deny") == 0)
-+		return true;
-+	if (strcmp(policy, "force") == 0)
-+		return true;
-+
-+	return false;
-+}
-+
-+static int get_shmem_thp_policy(char *policy)
-+{
-+	FILE *fp;
-+	char buf[100];
-+	char *left = NULL;
-+	char *right = NULL;
-+	int ret = -1;
-+
-+	fp = fopen("/sys/kernel/mm/transparent_hugepage/shmem_enabled", "r");
-+	if (!fp)
-+		return -1;
-+
-+	if (fgets(buf, 100, fp) != buf)
-+		goto out;
-+
-+	/*
-+	 * Expect shmem_enabled to be of format like "always within_size advise
-+	 * [never] deny force"
-+	 */
-+	left = memchr(buf, '[', 100);
-+	if (!left)
-+		goto out;
-+
-+	right = memchr(buf, ']', 100);
-+	if (!right)
-+		goto out;
-+
-+	memcpy(policy, left + 1, right - left - 1);
-+
-+	ret = !is_valid_shmem_thp_policy(policy);
-+
-+out:
-+	fclose(fp);
-+	return ret;
-+}
-+
-+static int write_string_to_file(const char *path, const char *string)
-+{
-+	FILE *fp;
-+	size_t len = strlen(string);
-+	int ret = -1;
-+
-+	fp = fopen(path, "w");
-+	if (!fp)
-+		return ret;
-+
-+	if (fwrite(string, 1, len, fp) != len)
-+		goto out;
-+
-+	ret = 0;
-+
-+out:
-+	fclose(fp);
-+	return ret;
-+}
-+
-+static int set_shmem_thp_policy(char *policy)
-+{
-+	int ret = -1;
-+	/* +1 for newline */
-+	char to_write[POLICY_BUF_SIZE + 1] = { 0 };
-+
-+	if (!is_valid_shmem_thp_policy(policy))
-+		return ret;
-+
-+	ret = snprintf(to_write, POLICY_BUF_SIZE + 1, "%s\n", policy);
-+	if (ret != strlen(policy) + 1)
-+		return -1;
-+
-+	ret = write_string_to_file(
-+		"/sys/kernel/mm/transparent_hugepage/shmem_enabled", to_write);
-+
-+	return ret;
-+}
-+
-+FIXTURE(reset_shmem_enabled)
-+{
-+	char shmem_enabled[POLICY_BUF_SIZE];
-+};
-+
-+FIXTURE_SETUP(reset_shmem_enabled)
-+{
-+	memset(self->shmem_enabled, 0, POLICY_BUF_SIZE);
-+	ASSERT_EQ(0, get_shmem_thp_policy(self->shmem_enabled));
-+}
-+
-+FIXTURE_TEARDOWN(reset_shmem_enabled)
-+{
-+	ASSERT_EQ(0, set_shmem_thp_policy(self->shmem_enabled));
-+}
-+
-+TEST_F(reset_shmem_enabled, restrictedmem_fstat_shmem_enabled_never)
-+{
-+	int fd = -1;
-+	struct stat stat;
-+
-+	ASSERT_EQ(0, set_shmem_thp_policy("never"));
-+
-+	fd = memfd_restricted(0, -1);
-+	ASSERT_NE(-1, fd);
-+
-+	ASSERT_EQ(0, fstat(fd, &stat));
-+
-+	/*
-+	 * st_blksize is set based on the superblock's s_blocksize_bits. For
-+	 * shmem, this is set to PAGE_SHIFT
-+	 */
-+	ASSERT_EQ(stat.st_blksize, getpagesize());
-+
-+	close(fd);
-+}
-+
-+TEST_F(reset_shmem_enabled, restrictedmem_fstat_shmem_enabled_always)
-+{
-+	int fd = -1;
-+	struct stat stat;
-+
-+	ASSERT_EQ(0, set_shmem_thp_policy("always"));
-+
-+	fd = memfd_restricted(0, -1);
-+	ASSERT_NE(-1, fd);
-+
-+	ASSERT_EQ(0, fstat(fd, &stat));
-+
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(fd);
-+}
-+
-+TEST(restrictedmem_tmpfile_invalid_fd)
-+{
-+	int fd = memfd_restricted(RMFD_TMPFILE, -2);
-+
-+	ASSERT_EQ(-1, fd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+TEST(restrictedmem_tmpfile_fd_not_a_mount)
-+{
-+	int fd = memfd_restricted(RMFD_TMPFILE, STDOUT_FILENO);
-+
-+	ASSERT_EQ(-1, fd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+TEST(restrictedmem_tmpfile_not_tmpfs_mount)
-+{
-+	int fd = -1;
-+	int mfd = -1;
-+
-+	mfd = open("/proc", O_PATH);
-+	ASSERT_NE(-1, mfd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, mfd);
-+
-+	ASSERT_EQ(-1, fd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+FIXTURE(tmpfs_hugepage_sfd)
-+{
-+	int sfd;
-+};
-+
-+FIXTURE_SETUP(tmpfs_hugepage_sfd)
-+{
-+	self->sfd = fsopen("tmpfs", 0);
-+	ASSERT_NE(-1, self->sfd);
-+}
-+
-+FIXTURE_TEARDOWN(tmpfs_hugepage_sfd)
-+{
-+	close(self->sfd);
-+}
-+
-+TEST_F(tmpfs_hugepage_sfd, restrictedmem_fstat_tmpfs_huge_always)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	fsconfig(self->sfd, FSCONFIG_SET_STRING, "huge", "always", 0);
-+	fsconfig(self->sfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-+
-+	mfd = fsmount(self->sfd, 0, 0);
-+	ASSERT_NE(-1, mfd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, mfd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* User can close reference to mount */
-+	ret = close(mfd);
-+	ASSERT_EQ(0, ret);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(fd);
-+}
-+
-+TEST_F(tmpfs_hugepage_sfd, restrictedmem_fstat_tmpfs_huge_never)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	fsconfig(self->sfd, FSCONFIG_SET_STRING, "huge", "never", 0);
-+	fsconfig(self->sfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-+
-+	mfd = fsmount(self->sfd, 0, 0);
-+	ASSERT_NE(-1, mfd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, mfd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* User can close reference to mount */
-+	ret = close(mfd);
-+	ASSERT_EQ(0, ret);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, getpagesize());
-+
-+	close(fd);
-+}
-+
-+static bool directory_exists(const char *path)
-+{
-+	struct stat sb;
-+
-+	return stat(path, &sb) == 0 && S_ISDIR(sb.st_mode);
-+}
-+
-+FIXTURE(tmpfs_hugepage_mount_path)
-+{
-+	char *mount_path;
-+};
-+
-+FIXTURE_SETUP(tmpfs_hugepage_mount_path)
-+{
-+	int ret = -1;
-+
-+	/* /tmp is an FHS-mandated world-writable directory */
-+	self->mount_path = "/tmp/restrictedmem-selftest-mnt";
-+
-+	if (!directory_exists(self->mount_path)) {
-+		ret = mkdir(self->mount_path, 0777);
-+		ASSERT_EQ(0, ret);
-+	}
-+}
-+
-+FIXTURE_TEARDOWN(tmpfs_hugepage_mount_path)
-+{
-+	int ret = -1;
-+
-+	if (!directory_exists(self->mount_path))
-+		return;
-+
-+	ret = umount2(self->mount_path, MNT_FORCE);
-+	EXPECT_EQ(0, ret);
-+	if (ret == -1 && errno == EINVAL)
-+		fprintf(stderr, "%s was not mounted\n", self->mount_path);
-+
-+	ret = rmdir(self->mount_path);
-+	EXPECT_EQ(0, ret);
-+	if (ret == -1)
-+		fprintf(stderr, "rmdir(%s) failed\n", self->mount_path);
-+}
-+
-+/*
-+ * When the restrictedmem's fd is open, a user should not be able to unmount or
-+ * remove the mounted directory
-+ */
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_umount_rmdir_while_file_open)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	mfd = open(self->mount_path, O_PATH);
-+	ASSERT_NE(-1, mfd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, mfd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* We don't need this reference to the mount anymore */
-+	ret = close(mfd);
-+	ASSERT_EQ(0, ret);
-+
-+	/* restrictedmem's fd should still be usable */
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	/* User should not be able to unmount directory */
-+	ret = umount2(self->mount_path, MNT_FORCE);
-+	ASSERT_EQ(-1, ret);
-+	ASSERT_EQ(EBUSY, errno);
-+
-+	ret = rmdir(self->mount_path);
-+	ASSERT_EQ(-1, ret);
-+	ASSERT_EQ(EBUSY, errno);
-+
-+	close(fd);
-+}
-+
-+/* The fd of a file on the mount can be provided as mount_fd */
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_provide_fd_of_file)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int ffd = -1;
-+	char tmp_file_path[PATH_MAX] = { 0 };
-+	struct stat stat;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	snprintf(tmp_file_path, PATH_MAX, "%s/tmp-file", self->mount_path);
-+	ret = write_string_to_file(tmp_file_path, "filler\n");
-+	ASSERT_EQ(0, ret);
-+
-+	ffd = open(tmp_file_path, O_RDWR);
-+	ASSERT_NE(-1, ffd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, ffd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* We don't need this reference anymore */
-+	ret = close(ffd);
-+	ASSERT_EQ(0, ret);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(fd);
-+	remove(tmp_file_path);
-+}
-+
-+/*
-+ * The fd of any file on the mount (including subdirectories) can be provided as
-+ * mount_fd
-+ */
-+TEST_F(tmpfs_hugepage_mount_path, restrictedmem_provide_fd_of_file_in_subdir)
-+{
-+	int ret = -1;
-+	int fd = -1;
-+	int ffd = -1;
-+	char tmp_dir_path[PATH_MAX] = { 0 };
-+	char tmp_file_path[PATH_MAX] = { 0 };
-+	struct stat stat;
-+
-+	ret = mount("name", self->mount_path, "tmpfs", 0, "huge=always");
-+	ASSERT_EQ(0, ret);
-+
-+	snprintf(tmp_dir_path, PATH_MAX, "%s/tmp-subdir", self->mount_path);
-+	ret = mkdir(tmp_dir_path, 0777);
-+	ASSERT_EQ(0, ret);
-+
-+	snprintf(tmp_file_path, PATH_MAX, "%s/tmp-subdir/tmp-file",
-+		 self->mount_path);
-+	ret = write_string_to_file(tmp_file_path, "filler\n");
-+	ASSERT_EQ(0, ret);
-+
-+	ffd = open(tmp_file_path, O_RDWR);
-+	ASSERT_NE(-1, ffd);
-+
-+	fd = memfd_restricted(RMFD_TMPFILE, ffd);
-+	ASSERT_NE(-1, fd);
-+
-+	/* We don't need this reference anymore */
-+	ret = close(ffd);
-+	ASSERT_EQ(0, ret);
-+
-+	ret = fstat(fd, &stat);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(fd);
-+	remove(tmp_file_path);
-+	rmdir(tmp_dir_path);
-+}
-+
-+TEST_HARNESS_MAIN
+(gdb) where
+#0  0x000003ffb17a0126 in __pthread_kill_implementation () from /lib64/libc.so.6
+#1  0x000003ffb1750890 in raise () from /lib64/libc.so.6
+#2  0x000003ffb172a340 in abort () from /lib64/libc.so.6
+#3  0x000002aa0041c130 in qtest_check_status (s=<optimized out>) at ../tests/qtest/libqtest.c:194
+#4  0x000003ffb1a3b5de in g_hook_list_invoke () from /lib64/libglib-2.0.so.0
+#5  <signal handler called>
+#6  0x000003ffb17a0126 in __pthread_kill_implementation () from /lib64/libc.so.6
+#7  0x000003ffb1750890 in raise () from /lib64/libc.so.6
+#8  0x000003ffb172a340 in abort () from /lib64/libc.so.6
+#9  0x000002aa00420318 in qmp_fd_receive (fd=<optimized out>) at ../tests/qtest/libqmp.c:80
+#10 0x000002aa0041d5ee in qtest_qmp_receive_dict (s=0x2aa01eb2700) at ../tests/qtest/libqtest.c:713
+#11 qtest_qmp_receive (s=0x2aa01eb2700) at ../tests/qtest/libqtest.c:701
+#12 qtest_vqmp (s=s@entry=0x2aa01eb2700, fmt=fmt@entry=0x2aa00487100 "{ 'execute': 'query-migrate' }", ap=ap@entry=0x3ffc247cc68)
+    at ../tests/qtest/libqtest.c:765
+#13 0x000002aa00413f1e in wait_command (who=who@entry=0x2aa01eb2700, command=command@entry=0x2aa00487100 "{ 'execute': 'query-migrate' }")
+    at ../tests/qtest/migration-helpers.c:73
+#14 0x000002aa00414078 in migrate_query (who=who@entry=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:139
+#15 migrate_query_status (who=who@entry=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:161
+#16 0x000002aa00414480 in check_migration_status (ungoals=0x0, goal=0x2aa00495c7e "completed", who=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:177
+#17 wait_for_migration_status (who=0x2aa01eb2700, goal=<optimized out>, ungoals=0x0) at ../tests/qtest/migration-helpers.c:202
+#18 0x000002aa0041300e in migrate_postcopy_complete (from=from@entry=0x2aa01eb2700, to=to@entry=0x2aa01eb3000, args=args@entry=0x3ffc247cf48)
+    at ../tests/qtest/migration-test.c:1137
+#19 0x000002aa004131a4 in test_postcopy_common (args=0x3ffc247cf48) at ../tests/qtest/migration-test.c:1162
+#20 test_postcopy_preempt () at ../tests/qtest/migration-test.c:1178
+
+Looking at the iov and file it's garbage; so it makes me think this is
+something like a flush on a closed file.
+
+Dave
+
 -- 
-2.40.0.rc2.332.ga46443480c-goog
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
