@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174D56C32C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:24:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FA56C329A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:22:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pebux-00006g-Oi; Tue, 21 Mar 2023 09:20:47 -0400
+	id 1pebuy-00008G-5b; Tue, 21 Mar 2023 09:20:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pebuv-00005N-Hs
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:45 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ id 1pebuw-00005y-1N
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:46 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pebut-0006dM-KM
+ id 1pebuu-0006dk-9A
  for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:45 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id o32so3155630wms.1
+Received: by mail-wm1-x331.google.com with SMTP id
+ l15-20020a05600c4f0f00b003ed58a9a15eso9436749wmq.5
  for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679404842;
+ d=linaro.org; s=google; t=1679404843;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=IZWERytkNXmomft2NnojCvM5GGqoNQvPAxE/TFJNbOI=;
- b=gSt0QxYU1p5KtZ6vCHhAz1OIcB2NuRSIZF1SMOd+HYPltzm3uLj3StFMYmV6XHA6eg
- IhcHUuOGhD7Ls7BU9OIvHfejs6SKwaVOzagZvX+b+fkvdXig5Nk31NCWGY5sRVm+jLvs
- UtIu7Ml62hV3e9J16Iq/CTiEP8SWLzsxjOcl4MhaKLg36QEf0hM8olAe96Vn05INAQRx
- MWraBSc3RZE07SZt94adiSzPC19mK2WwzD6+V5bRi8Yp60RoKGIV9fqDA8Q8QanBurnq
- muLhzBiP82YqarYpOMjESLSXRRYDio+ROoEA+A/KIHVzYEZCgErGfzwr45zlzhPC1Jxb
- mwFQ==
+ :reply-to; bh=hltfvwW9lBaJea+gwuBtyl1R81ssrvkZkLQe6XX9gms=;
+ b=KNfK6xJxYBL62r0yjkLQrBtPxgbOMKvgHFpxxym9rwzBFuNiGr6Ke0U+DSliyhLSsD
+ Bjo0ZnAFNm2wVRDmgv93uXwlun2bhtxMmRCpQLbwjvo8NR6FsMWpyIRULWa2AlUP4ogW
+ cdTSrNeId6FJ3zwV2Rza4AYvjqV6RFZvw/r48pgX74GJAzuuMATgwNMCWFVRhWOS2Fzb
+ DNSGVvCGWPWMteR6PO4yblS/1zbCtDGjSwuUiYF7wBDOAMbAvmr2AEqrhUoZPxfRapB+
+ JCjcxD0LBNox7C5T0Xnx4trjGk4UhfbN5xjpc8dnqpqXNgbrDlG1r9+cxKrO9FWEDw8K
+ FBQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679404842;
+ d=1e100.net; s=20210112; t=1679404843;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IZWERytkNXmomft2NnojCvM5GGqoNQvPAxE/TFJNbOI=;
- b=YNqKyL5L3SsC0mNQQsN27ELyDPwgjvl9k8RL4r9LMy2lGnb9dPeLVEluVQR+55sDI7
- RkhZh6QCrNe5zRt3jvrCnlVPhsEydfhFO4f704Ae5VC5qPTt058b5U2wPkBwlZOwJXBA
- 6+ic+mSqOsGJRAYC3kxjSNvtRZLjZGDybj26Kh5UP0mKtQja1edGKySdLSpO2wMR/g18
- RSLu0CaCol2WJ7ovUARtNNawHDWms4DqXOer8vIdBjuUiKohWMInoAHWnqeT+TzMCtKh
- CNAFRd6MdVMHxUnhvIEVx08FVgodCdHNHlLQYmKPRL4A7JtcsHI7QCm5u1oq/vuAt+jj
- 4Zfg==
-X-Gm-Message-State: AO0yUKUi1dmmYQk4HMHpCvuTRg1+bTh6dWEnfKanmHFN1DzG+aueN5Jd
- MwXPHF/84G/n8bA7QKJ8LIu6G6uV0kfeeSj7LWU=
-X-Google-Smtp-Source: AK7set8G+R5O8RUnRImPo9ChAPdL9Z1kbfBgEwrGJwsD+pDVeQc1x49LURcDEymclV3RCl/Q1pBsEw==
-X-Received: by 2002:a05:600c:2101:b0:3ed:276d:81a4 with SMTP id
- u1-20020a05600c210100b003ed276d81a4mr2561860wml.32.1679404841905; 
- Tue, 21 Mar 2023 06:20:41 -0700 (PDT)
+ bh=hltfvwW9lBaJea+gwuBtyl1R81ssrvkZkLQe6XX9gms=;
+ b=OYvk+LBpbXnmlbv1q1Zj0slAxbS5rKS15C40aTVBxdbUbG0zHb3VAuDppreo67/yK7
+ izSmBUAx/m9VCeXSBhfOWIWx6BUF/6yQ6RFhkg7UVn6kQZljRNRpuV9q7GgiCeSUMD8j
+ E/lfw9eFT+eA39o9mePPwB0fyyr5m7IiiFb+Isfa4Kc4R7OZQ+Rsav52YpXcdqiXyfPC
+ woqbnpOKz2Xcu1XS3vv6FeAWAid2vc8HvZoiq8RTK2qqp/T/Kx+7yz7YNNAyGw/8CjV8
+ fn4+FKsSWBCwQCuOiEkfcdpSKNOqM6COHli3M3nSPkxy+BGjxjoAaknknZvNjE4oDf8c
+ qK+Q==
+X-Gm-Message-State: AO0yUKV0J0Sv+KqX6UoeXxsfTUDyNBF2hRxs363v8ggv6hWsSlYevVAj
+ K5vXQVVCQ4jMYhJf49sA6enLYU9zyKwebh8rYx4=
+X-Google-Smtp-Source: AK7set/yi3AWANjatu37kA82IiucRievQb4FhNyvkAgOnCWPuxqSa/2LbqawO1XMBCXkutLZONcchQ==
+X-Received: by 2002:a7b:ce13:0:b0:3ed:8360:e54 with SMTP id
+ m19-20020a7bce13000000b003ed83600e54mr2531584wmc.8.1679404842807; 
+ Tue, 21 Mar 2023 06:20:42 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j19-20020a05600c191300b003eddc6aa5fasm7897918wmq.39.2023.03.21.06.20.40
+ j19-20020a05600c191300b003eddc6aa5fasm7897918wmq.39.2023.03.21.06.20.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Mar 2023 06:20:40 -0700 (PDT)
+ Tue, 21 Mar 2023 06:20:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] contrib/elf2dmp: fix code style
-Date: Tue, 21 Mar 2023 13:20:31 +0000
-Message-Id: <20230321132036.1836617-4-peter.maydell@linaro.org>
+Subject: [PULL 4/8] contrib/elf2dmp: move PE dir search to
+ pe_get_data_dir_entry
+Date: Tue, 21 Mar 2023 13:20:32 +0000
+Message-Id: <20230321132036.1836617-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230321132036.1836617-1-peter.maydell@linaro.org>
 References: <20230321132036.1836617-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,190 +93,113 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Viktor Prutyanov <viktor@daynix.com>
 
-Originally elf2dmp were added with some code style issues,
-especially in pe.h header, and some were introduced by
-2d0fc797faaa73fbc1d30f5f9e90407bf3dd93f0. Fix them now.
+Move out PE directory search functionality to be reused not only
+for Debug Directory processing but for arbitrary PE directory.
 
 Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
 Reviewed-by: Annie Li <annie.li@oracle.com>
-Message-id: 20230222211246.883679-2-viktor@daynix.com
+Message-id: 20230222211246.883679-3-viktor@daynix.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- contrib/elf2dmp/pe.h        | 100 ++++++++++++++++++------------------
- contrib/elf2dmp/addrspace.c |   1 +
- contrib/elf2dmp/main.c      |   9 ++--
- 3 files changed, 57 insertions(+), 53 deletions(-)
+ contrib/elf2dmp/main.c | 71 +++++++++++++++++++++++++-----------------
+ 1 file changed, 42 insertions(+), 29 deletions(-)
 
-diff --git a/contrib/elf2dmp/pe.h b/contrib/elf2dmp/pe.h
-index c2a4a6ba7c2..807d0063649 100644
---- a/contrib/elf2dmp/pe.h
-+++ b/contrib/elf2dmp/pe.h
-@@ -33,70 +33,70 @@ typedef struct IMAGE_DOS_HEADER {
- } __attribute__ ((packed)) IMAGE_DOS_HEADER;
- 
- typedef struct IMAGE_FILE_HEADER {
--  uint16_t  Machine;
--  uint16_t  NumberOfSections;
--  uint32_t  TimeDateStamp;
--  uint32_t  PointerToSymbolTable;
--  uint32_t  NumberOfSymbols;
--  uint16_t  SizeOfOptionalHeader;
--  uint16_t  Characteristics;
-+    uint16_t  Machine;
-+    uint16_t  NumberOfSections;
-+    uint32_t  TimeDateStamp;
-+    uint32_t  PointerToSymbolTable;
-+    uint32_t  NumberOfSymbols;
-+    uint16_t  SizeOfOptionalHeader;
-+    uint16_t  Characteristics;
- } __attribute__ ((packed)) IMAGE_FILE_HEADER;
- 
- typedef struct IMAGE_DATA_DIRECTORY {
--  uint32_t VirtualAddress;
--  uint32_t Size;
-+    uint32_t VirtualAddress;
-+    uint32_t Size;
- } __attribute__ ((packed)) IMAGE_DATA_DIRECTORY;
- 
- #define IMAGE_NUMBEROF_DIRECTORY_ENTRIES 16
- 
- typedef struct IMAGE_OPTIONAL_HEADER64 {
--  uint16_t  Magic; /* 0x20b */
--  uint8_t   MajorLinkerVersion;
--  uint8_t   MinorLinkerVersion;
--  uint32_t  SizeOfCode;
--  uint32_t  SizeOfInitializedData;
--  uint32_t  SizeOfUninitializedData;
--  uint32_t  AddressOfEntryPoint;
--  uint32_t  BaseOfCode;
--  uint64_t  ImageBase;
--  uint32_t  SectionAlignment;
--  uint32_t  FileAlignment;
--  uint16_t  MajorOperatingSystemVersion;
--  uint16_t  MinorOperatingSystemVersion;
--  uint16_t  MajorImageVersion;
--  uint16_t  MinorImageVersion;
--  uint16_t  MajorSubsystemVersion;
--  uint16_t  MinorSubsystemVersion;
--  uint32_t  Win32VersionValue;
--  uint32_t  SizeOfImage;
--  uint32_t  SizeOfHeaders;
--  uint32_t  CheckSum;
--  uint16_t  Subsystem;
--  uint16_t  DllCharacteristics;
--  uint64_t  SizeOfStackReserve;
--  uint64_t  SizeOfStackCommit;
--  uint64_t  SizeOfHeapReserve;
--  uint64_t  SizeOfHeapCommit;
--  uint32_t  LoaderFlags;
--  uint32_t  NumberOfRvaAndSizes;
--  IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
-+    uint16_t  Magic; /* 0x20b */
-+    uint8_t   MajorLinkerVersion;
-+    uint8_t   MinorLinkerVersion;
-+    uint32_t  SizeOfCode;
-+    uint32_t  SizeOfInitializedData;
-+    uint32_t  SizeOfUninitializedData;
-+    uint32_t  AddressOfEntryPoint;
-+    uint32_t  BaseOfCode;
-+    uint64_t  ImageBase;
-+    uint32_t  SectionAlignment;
-+    uint32_t  FileAlignment;
-+    uint16_t  MajorOperatingSystemVersion;
-+    uint16_t  MinorOperatingSystemVersion;
-+    uint16_t  MajorImageVersion;
-+    uint16_t  MinorImageVersion;
-+    uint16_t  MajorSubsystemVersion;
-+    uint16_t  MinorSubsystemVersion;
-+    uint32_t  Win32VersionValue;
-+    uint32_t  SizeOfImage;
-+    uint32_t  SizeOfHeaders;
-+    uint32_t  CheckSum;
-+    uint16_t  Subsystem;
-+    uint16_t  DllCharacteristics;
-+    uint64_t  SizeOfStackReserve;
-+    uint64_t  SizeOfStackCommit;
-+    uint64_t  SizeOfHeapReserve;
-+    uint64_t  SizeOfHeapCommit;
-+    uint32_t  LoaderFlags;
-+    uint32_t  NumberOfRvaAndSizes;
-+    IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
- } __attribute__ ((packed)) IMAGE_OPTIONAL_HEADER64;
- 
- typedef struct IMAGE_NT_HEADERS64 {
--  uint32_t Signature;
--  IMAGE_FILE_HEADER FileHeader;
--  IMAGE_OPTIONAL_HEADER64 OptionalHeader;
-+    uint32_t Signature;
-+    IMAGE_FILE_HEADER FileHeader;
-+    IMAGE_OPTIONAL_HEADER64 OptionalHeader;
- } __attribute__ ((packed)) IMAGE_NT_HEADERS64;
- 
- typedef struct IMAGE_DEBUG_DIRECTORY {
--  uint32_t Characteristics;
--  uint32_t TimeDateStamp;
--  uint16_t MajorVersion;
--  uint16_t MinorVersion;
--  uint32_t Type;
--  uint32_t SizeOfData;
--  uint32_t AddressOfRawData;
--  uint32_t PointerToRawData;
-+    uint32_t Characteristics;
-+    uint32_t TimeDateStamp;
-+    uint16_t MajorVersion;
-+    uint16_t MinorVersion;
-+    uint32_t Type;
-+    uint32_t SizeOfData;
-+    uint32_t AddressOfRawData;
-+    uint32_t PointerToRawData;
- } __attribute__ ((packed)) IMAGE_DEBUG_DIRECTORY;
- 
- #define IMAGE_DEBUG_TYPE_CODEVIEW   2
-diff --git a/contrib/elf2dmp/addrspace.c b/contrib/elf2dmp/addrspace.c
-index 53ded170618..0b04cba00e5 100644
---- a/contrib/elf2dmp/addrspace.c
-+++ b/contrib/elf2dmp/addrspace.c
-@@ -11,6 +11,7 @@
- static struct pa_block *pa_space_find_block(struct pa_space *ps, uint64_t pa)
- {
-     size_t i;
-+
-     for (i = 0; i < ps->block_nr; i++) {
-         if (ps->block[i].paddr <= pa &&
-                 pa <= ps->block[i].paddr + ps->block[i].size) {
 diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-index d77b8f98f78..92247642395 100644
+index 92247642395..2f6028d8eb3 100644
 --- a/contrib/elf2dmp/main.c
 +++ b/contrib/elf2dmp/main.c
-@@ -282,14 +282,16 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
-     };
+@@ -333,6 +333,45 @@ static int fill_context(KDDEBUGGER_DATA64 *kdbg,
+     return 0;
+ }
  
-     for (i = 0; i < ps->block_nr; i++) {
--        h.PhysicalMemoryBlock.NumberOfPages += ps->block[i].size / ELF2DMP_PAGE_SIZE;
-+        h.PhysicalMemoryBlock.NumberOfPages +=
-+                ps->block[i].size / ELF2DMP_PAGE_SIZE;
-         h.PhysicalMemoryBlock.Run[i] = (WinDumpPhyMemRun64) {
-             .BasePage = ps->block[i].paddr / ELF2DMP_PAGE_SIZE,
-             .PageCount = ps->block[i].size / ELF2DMP_PAGE_SIZE,
-         };
++static int pe_get_data_dir_entry(uint64_t base, void *start_addr, int idx,
++        void *entry, size_t size, struct va_space *vs)
++{
++    const char e_magic[2] = "MZ";
++    const char Signature[4] = "PE\0\0";
++    IMAGE_DOS_HEADER *dos_hdr = start_addr;
++    IMAGE_NT_HEADERS64 nt_hdrs;
++    IMAGE_FILE_HEADER *file_hdr = &nt_hdrs.FileHeader;
++    IMAGE_OPTIONAL_HEADER64 *opt_hdr = &nt_hdrs.OptionalHeader;
++    IMAGE_DATA_DIRECTORY *data_dir = nt_hdrs.OptionalHeader.DataDirectory;
++
++    QEMU_BUILD_BUG_ON(sizeof(*dos_hdr) >= ELF2DMP_PAGE_SIZE);
++
++    if (memcmp(&dos_hdr->e_magic, e_magic, sizeof(e_magic))) {
++        return 1;
++    }
++
++    if (va_space_rw(vs, base + dos_hdr->e_lfanew,
++                &nt_hdrs, sizeof(nt_hdrs), 0)) {
++        return 1;
++    }
++
++    if (memcmp(&nt_hdrs.Signature, Signature, sizeof(Signature)) ||
++            file_hdr->Machine != 0x8664 || opt_hdr->Magic != 0x020b) {
++        return 1;
++    }
++
++    if (va_space_rw(vs,
++                base + data_dir[idx].VirtualAddress,
++                entry, size, 0)) {
++        return 1;
++    }
++
++    printf("Data directory entry #%d: RVA = 0x%08"PRIx32"\n", idx,
++            (uint32_t)data_dir[idx].VirtualAddress);
++
++    return 0;
++}
++
+ static int write_dump(struct pa_space *ps,
+         WinDumpHeader64 *hdr, const char *name)
+ {
+@@ -369,42 +408,16 @@ static int write_dump(struct pa_space *ps,
+ static int pe_get_pdb_symstore_hash(uint64_t base, void *start_addr,
+         char *hash, struct va_space *vs)
+ {
+-    const char e_magic[2] = "MZ";
+-    const char Signature[4] = "PE\0\0";
+     const char sign_rsds[4] = "RSDS";
+-    IMAGE_DOS_HEADER *dos_hdr = start_addr;
+-    IMAGE_NT_HEADERS64 nt_hdrs;
+-    IMAGE_FILE_HEADER *file_hdr = &nt_hdrs.FileHeader;
+-    IMAGE_OPTIONAL_HEADER64 *opt_hdr = &nt_hdrs.OptionalHeader;
+-    IMAGE_DATA_DIRECTORY *data_dir = nt_hdrs.OptionalHeader.DataDirectory;
+     IMAGE_DEBUG_DIRECTORY debug_dir;
+     OMFSignatureRSDS rsds;
+     char *pdb_name;
+     size_t pdb_name_sz;
+     size_t i;
+ 
+-    QEMU_BUILD_BUG_ON(sizeof(*dos_hdr) >= ELF2DMP_PAGE_SIZE);
+-
+-    if (memcmp(&dos_hdr->e_magic, e_magic, sizeof(e_magic))) {
+-        return 1;
+-    }
+-
+-    if (va_space_rw(vs, base + dos_hdr->e_lfanew,
+-                &nt_hdrs, sizeof(nt_hdrs), 0)) {
+-        return 1;
+-    }
+-
+-    if (memcmp(&nt_hdrs.Signature, Signature, sizeof(Signature)) ||
+-            file_hdr->Machine != 0x8664 || opt_hdr->Magic != 0x020b) {
+-        return 1;
+-    }
+-
+-    printf("Debug Directory RVA = 0x%08"PRIx32"\n",
+-            (uint32_t)data_dir[IMAGE_FILE_DEBUG_DIRECTORY].VirtualAddress);
+-
+-    if (va_space_rw(vs,
+-                base + data_dir[IMAGE_FILE_DEBUG_DIRECTORY].VirtualAddress,
+-                &debug_dir, sizeof(debug_dir), 0)) {
++    if (pe_get_data_dir_entry(base, start_addr, IMAGE_FILE_DEBUG_DIRECTORY,
++                &debug_dir, sizeof(debug_dir), vs)) {
++        eprintf("Failed to get Debug Directory\n");
+         return 1;
      }
  
--    h.RequiredDumpSpace += h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
-+    h.RequiredDumpSpace +=
-+            h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
- 
-     *hdr = h;
- 
-@@ -299,7 +301,8 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
- static int fill_context(KDDEBUGGER_DATA64 *kdbg,
-         struct va_space *vs, QEMU_Elf *qe)
- {
--        int i;
-+    int i;
-+
-     for (i = 0; i < qe->state_nr; i++) {
-         uint64_t Prcb;
-         uint64_t Context;
 -- 
 2.34.1
 
