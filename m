@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DA66C24FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Mar 2023 23:58:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EDF6C2652
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 01:29:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peOQn-0006rv-5X; Mon, 20 Mar 2023 18:56:46 -0400
+	id 1pePrQ-0004GD-Oa; Mon, 20 Mar 2023 20:28:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1peOQi-0006rn-HU
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 18:56:40 -0400
-Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1peOQg-00018l-Do
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 18:56:40 -0400
-Received: by mail-oo1-xc35.google.com with SMTP id
- n27-20020a4ad63b000000b005252709efdbso2187269oon.4
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 15:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista.com; s=google; t=1679352995;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8aPY/b7GcVNZm3CA+5FOlTR5HyNImowtmdM7C5obSQU=;
- b=FNg6DOQwBJaS2hXVcxoKDdEN3Cd0QKG8DPQacN0A68Gu1C1ivtdk8z465ZGJUp8TrZ
- ww3OFMGHT6D4qqJFpZZYlIRVVAOwvOXc/rfGn0ebuKNhw36nwtCq7ObzfQjTF36Ogk/M
- e6ULlp5A0C93obz2EbXAvu68m7xcx6nrh9Mhs=
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pePrM-0004Fo-Md
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 20:28:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pePrK-0004m9-T3
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 20:28:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679358492;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tRbwWg5rg8YIMGirGci7fxvgL/Eera6inDPnKKJfl5w=;
+ b=PLON+UpbNe1jnNNb+H/q2QSXK0uUDPm8NOLL8cHZLa0NToVrKyTPK4oeTYfcZX1FiRm4qM
+ sIkz/Y7xAEwBMLww1aDth1/uWrfAURKwOIrewV78Aqo8BEEUQjBpCpXPJD245uMRn53YNQ
+ q6i3m93tMNMArvT+dAAAxLu6Uu50NzA=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-340-LXW0Q_q8OVi3kOiJyx51Eg-1; Mon, 20 Mar 2023 20:28:11 -0400
+X-MC-Unique: LXW0Q_q8OVi3kOiJyx51Eg-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ y186-20020a62cec3000000b00627df3d6ec4so3782751pfg.12
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 17:28:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679352995;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1679358490;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8aPY/b7GcVNZm3CA+5FOlTR5HyNImowtmdM7C5obSQU=;
- b=rGc7w8RQrNW0lgJWUoV4uQ3DVmk0p63cX/n33HkKqX4v+krUdWathO2XUfoogVnav8
- bk88y3/PxDgyWI3yA2yKyutyU9EX5rO/a/Z3ZRg53xo66I0/Ud1SGgKDawzsTHFmUQXF
- dmYJm+OT8Smocml+7lgITq+KJYFkpyw+FndLTyQquGS7YeRHT/ziFJTZCHRMkHEzQGuH
- WUj074eFx3HwSwMEqEyGuSHh8+EgwFIxH9VUiMiVszcmqeCiXfASuHIrpssHcQiytNaR
- FcUEfX61YeRPSwh7O5AW7plYM8emEJZbPCu3PmceVGCrA4unJlmhL3gG3luX1k1vOy9D
- pUQQ==
-X-Gm-Message-State: AO0yUKU+ZAyegr9ygU0bBUGkmh+ChOWcbs46tP7sJiDnQM7ZbabrOhaN
- dhCddSLAAMfHhtErZ/t2HlO0wQ==
-X-Google-Smtp-Source: AK7set/4XxLSrG4KEoDlY9yaWD71ubJ7lCIK5cDQ6UrxiODaRCERbyrMiHA8xZ4POU/jMvZeat09eQ==
-X-Received: by 2002:a4a:eb14:0:b0:51a:182f:65e3 with SMTP id
- f20-20020a4aeb14000000b0051a182f65e3mr639436ooj.1.1679352995574; 
- Mon, 20 Mar 2023 15:56:35 -0700 (PDT)
-Received: from minyard.net ([2001:470:b8f6:1b:fdc0:6131:570d:3c9])
- by smtp.gmail.com with ESMTPSA id
- d6-20020a056830004600b0069451a9274bsm4496668otp.28.2023.03.20.15.56.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 15:56:34 -0700 (PDT)
-Date: Mon, 20 Mar 2023 17:56:32 -0500
-From: Corey Minyard <cminyard@mvista.com>
-To: Joe Komlodi <komlodi@google.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] hw/i2c: Reset fixes
-Message-ID: <ZBjkoGqk5Uo8Skg4@minyard.net>
-References: <20230320221419.2225561-1-komlodi@google.com>
+ bh=tRbwWg5rg8YIMGirGci7fxvgL/Eera6inDPnKKJfl5w=;
+ b=MIPA2Uv7j3VzerGV6emC8/IM5KCCseNSPzsUIVUNqivs8FuTlmjnBs47BDaB7brm29
+ TNg0Kr320MAjh6rnfTrtXv6SCHFUquLjp4u5CGTaeXI9vT0ydWla3po8F59woO9lqZwM
+ TzhNs58Rdu7urcSmD/9Gupb4/PmQlxvqBWyKPIctdVVZm9I4oJvO7EikORWRERB8mU49
+ qz9oDJG1SO8ETHBy0m1C2kFU99/u4GcYM/50ghoGWYY66yenJuiyOwfu7gEgeNwNDjY1
+ 939EFm4p5N/eABFhCk2q65SgWL/OyMj6bDcJRmijG4++/Y2Xa/Z3Gd1Owue5mhMa7OZp
+ pQ/A==
+X-Gm-Message-State: AO0yUKULq+jyAbZ5QbZRthdgMubPf9g2jOYVD9WS9Cn1FYlBGRbcsSFo
+ 5bJES860yiVaOqE8p2lX0FbQUYc1p+rskKOeY9SjI6VCnvvo3RFDOevxb4m8SzcsBQssqHlbjEG
+ mBueKNsbGYYQ8PSnTwb7YB5bFSSIyVBA=
+X-Received: by 2002:a65:568c:0:b0:503:77cd:8748 with SMTP id
+ v12-20020a65568c000000b0050377cd8748mr142229pgs.8.1679358490149; 
+ Mon, 20 Mar 2023 17:28:10 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8dfW34AFNqh57AClPwUq7MUjeVU1/Ci7bUGCFw/mbCJ5sSWeDTECTw+GEvzxPd6T5r/XoS0Tkw0Ve2gTZwXPE=
+X-Received: by 2002:a65:568c:0:b0:503:77cd:8748 with SMTP id
+ v12-20020a65568c000000b0050377cd8748mr142220pgs.8.1679358489801; Mon, 20 Mar
+ 2023 17:28:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature";
- micalg=sha-256; boundary="BcoKJK1Qn2ii9wHM"
-Content-Disposition: inline
-In-Reply-To: <20230320221419.2225561-1-komlodi@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=cminyard@mvista.com; helo=mail-oo1-xc35.google.com
+References: <20230320105404.637661-1-berrange@redhat.com>
+ <00341422-35d7-7091-5be4-808e1431f113@yandex-team.ru>
+In-Reply-To: <00341422-35d7-7091-5be4-808e1431f113@yandex-team.ru>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 20 Mar 2023 20:27:58 -0400
+Message-ID: <CAFn=p-bFgZYJO5bMbAXXJkdtov5CiEC2YAx6AN_DOF0B_i+OKg@mail.gmail.com>
+Subject: Re: [PATCH] python: honour message limit when using pre-opened socket
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,125 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---BcoKJK1Qn2ii9wHM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Mar 20, 2023 at 10:14:17PM +0000, Joe Komlodi wrote:
-> Hi all,
->=20
-> This series fixes some I2C state variables not being reset when a reset
-> would happen.
->=20
-> These stale variables would infrequently cause issues, something around
-> the order of 5/1000 runs, since the machine would have to be reset at a
-> point where they would be in a state that would cause problems.
-
-These look good to me.  Definitely a missing needed function.  Looking
-through the way it's handled, I think the proper things are being reset
-and the proper ones are being left alone.  There's no checking of the
-reset type, but there's only one reset type right now, so I guess any
-changes due to reset type will have to come when new types come.
-
-Acked-by: Corey Minyard <cminyard@mvista.com>
-
-for another tree, or I can take them.
-
-Thanks,
-
--corey
-
->=20
+On Mon, Mar 20, 2023 at 8:20=E2=80=AFAM Vladimir Sementsov-Ogievskiy
+<vsementsov@yandex-team.ru> wrote:
+>
+> On 20.03.23 13:54, Daniel P. Berrang=C3=A9 wrote:
+> > The default message recv limit in asyncio is smaller than our needs, so
+> > when opening connections we override it. This was done when opening a
+> > connection using a socket address, but was missed when using a
+> > pre-opened socket file descriptor.
+> >
+> > This latent bug was exposed when the QEMUMachine class was enhanced to
+> > use socketpair() when no socket address was passed by:
+> >
+> >    commit bd4c0ef409140bd1be393407c04005ac077d4574
+> >    Author: Marc-Andr=C3=A9 Lureau<marcandre.lureau@redhat.com>
+> >    Date:   Wed Jan 11 12:01:01 2023 +0400
+> >
+> >      python/qemu/machine: use socketpair() for QMP by default
+> >
+> > Signed-off-by: Daniel P. Berrang=C3=A9<berrange@redhat.com>
+>
+> Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>
 > Thanks!
-> Joe
->=20
-> Joe Komlodi (2):
->   hw/i2c: smbus_slave: Reset state on reset
->   hw/i2c: core: Add reset
->=20
->  hw/i2c/core.c        | 25 ++++++++++++++++++++++---
->  hw/i2c/smbus_slave.c |  9 +++++++++
->  2 files changed, 31 insertions(+), 3 deletions(-)
->=20
-> --=20
-> 2.40.0.rc2.332.ga46443480c-goog
->=20
+>
+> --
+> Best regards,
+> Vladimir
+>
 
---BcoKJK1Qn2ii9wHM
-Content-Type: application/x-pkcs7-signature
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+Thanks x3. Will stage in both places.
 
-MIINXgYJKoZIhvcNAQcCoIINTzCCDUsCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0B
-BwGgggqSMIIFXzCCBEegAwIBAgIQD/rh8xorQzw9muFtZDtYizANBgkqhkiG9w0BAQsFADBl
-MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGln
-aWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJvb3QgRzIwHhcNMTkw
-OTIzMTIyNTMyWhcNMzQwOTIzMTIyNTMyWjBqMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGln
-aUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSkwJwYDVQQDEyBEaWdpQ2Vy
-dCBBc3N1cmVkIElEIENsaWVudCBDQSBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
-ggEBAOqxRa06rLwKBvrDb/qQ8RtXfeKA9o0A42oZbLF4GYr4Xdt9JE8r3PJRIOUZD1U3mEln
-4S/aZoS54Q+5Ecs3q2GGT/Z82VeAPLeGvJoT0LS5t/zXeUcbMuDFWgyj33kiesnuusnOWvpI
-SoxN+oBH4oo0+oUiHI65mMjMAlb93x6sabh9kKvHQvHC4x2u7wYv5+NXjnbOhJS/1NjGq+ug
-LMXeldFMz0O5qFIDpn3aQGU0htyJQ2SZyxEqlUrgunsrYj9wgfW7XuhAi2j0y5d9oMT0SuVe
-KFFnQhTEk5B3fq+OBOW0AU2JdW1r929UtRbAr8RpLt05WI2G2RNVVlHYaU0CAwEAAaOCAgQw
-ggIAMB0GA1UdDgQWBBSlYiBQ3LtbV5etI4814lRsqX75TjAfBgNVHSMEGDAWgBTOw0q5mVXy
-uNtgv6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwTAYDVR0lBEUwQwYIKwYBBQUHAwIGCCsG
-AQUFBwMEBgorBgEEAYI3CgMEBgorBgEEAYI3FAICBgorBgEEAYI3CgMMBgkqhkiG9y8BAQUw
-EgYDVR0TAQH/BAgwBgEB/wIBADA0BggrBgEFBQcBAQQoMCYwJAYIKwYBBQUHMAGGGGh0dHA6
-Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBFBgNVHR8EPjA8MDqgOKA2hjRodHRwOi8vY3JsMy5kaWdp
-Y2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURSb290RzIuY3JsMIHOBgNVHSAEgcYwgcMwgcAG
-BFUdIAAwgbcwKAYIKwYBBQUHAgEWHGh0dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9DUFMwgYoG
-CCsGAQUFBwICMH4MfEFueSB1c2Ugb2YgdGhpcyBDZXJ0aWZpY2F0ZSBjb25zdGl0dXRlcyBh
-Y2NlcHRhbmNlIG9mIHRoZSBSZWx5aW5nIFBhcnR5IEFncmVlbWVudCBsb2NhdGVkIGF0IGh0
-dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9ycGEtdWEwDQYJKoZIhvcNAQELBQADggEBAHZrbCQC
-o3MAIqR0kekGYrC70EAGRDRq11COufNEXhcpv3YH6BMhUoVinPPNgfo5HPrZAFrLK/KPXYdJ
-dgkASGsINabAfY2ljUaJwKlpIewwjS6KuGEn59MgidaAUPh6lbetIoRsLhCqCzAnX1aL99fj
-CMf4NMWLUC8TqotnnrKNuw4JSjx4fcQs+U5T1bbgnyDx+8ybONuIEDvinHdKDu2VjoECzez2
-y/1IVTPlh57zBfjHJQFqLWzHdou8M+ucdJtr2swXII6s3nkq4pfEn7KnbzMS9quFSuyOGILc
-g/3qVwaHNLM5R+8nB5gPI5+u5Uh56w1i+9Ds1pjYAiTHdeUwggUrMIIEE6ADAgECAhAI91Yw
-DXfxkIfRnG2PuTKcMA0GCSqGSIb3DQEBCwUAMGoxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxE
-aWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xKTAnBgNVBAMTIERpZ2lD
-ZXJ0IEFzc3VyZWQgSUQgQ2xpZW50IENBIEcyMB4XDTIyMDUwNTAwMDAwMFoXDTI0MDUwNTIz
-NTk1OVowQjEcMBoGA1UEAwwTY21pbnlhcmRAbXZpc3RhLmNvbTEiMCAGCSqGSIb3DQEJARYT
-Y21pbnlhcmRAbXZpc3RhLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANjY
-cQZ5HQOSUjRGxztwfw4ev2HrLkWD+q2XodUa4cJviNLPKjbKzal4cuHH3v0tZenndhg4atln
-f3htoY0+ahiltcn9bmT9pZcru98ibD6DBuB64eFzYOkcmGh70NRFW32AM7zZIyNH8gqpJXCD
-jkkcHEXvQSquFIF4ySAZMrG99xTa2kPG0FUvS/GDzX8WVqJ7rIj2ECsksw4KYKdhGIj62BPo
-EWyUMFewJYQq+MR8wkyc1VK1NSJeZIFDLQeIORITeV3OGCfsZ9gFZdcnJKU8rgeFOi9tXVPV
-UMALBS62pkIZQ0E2KW7jVKj7OTZ5VEGGQe90WTyqEO/eRA1mDP0CAwEAAaOCAfMwggHvMB8G
-A1UdIwQYMBaAFKViIFDcu1tXl60jjzXiVGypfvlOMB0GA1UdDgQWBBTWsIdx8IZ4jupYlE50
-qQfzLzONGjAMBgNVHRMBAf8EAjAAMB4GA1UdEQQXMBWBE2NtaW55YXJkQG12aXN0YS5jb20w
-DgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMEBggrBgEFBQcDAjBDBgNVHSAE
-PDA6MDgGCmCGSAGG/WwEAQEwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQu
-Y29tL0NQUzCBiwYDVR0fBIGDMIGAMD6gPKA6hjhodHRwOi8vY3JsMy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkSURDbGllbnRDQUcyLmNybDA+oDygOoY4aHR0cDovL2NybDQuZGln
-aWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEQ2xpZW50Q0FHMi5jcmwwfQYIKwYBBQUHAQEE
-cTBvMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wRwYIKwYBBQUHMAKG
-O2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRENsaWVudENB
-RzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBSm5bBRgylRT6A8rEzMQ86RAGn0FH1kEX38qvl
-ZTlVqS3iE+zWeZDf9av4eYHiWVwmPwMz90je9jZaWyvTJ0FaLZkM3ZD41tqlC15P1LMSf86m
-zvZvM7OQP9wzKnG1a8n6JSBVh4wbo6CX2bdQycqAMaP6U374Rm3qaYcE3CpWbnSU9DFhiXww
-CqVVlHP3ldil7h0o+Ke2eu5X1Keamd8rIOJsXn8ZnfIwh3rbkZR04IDlbpRJ73K1ytilKi03
-F4rHlra9IHk8OQfdslIgus5Djm4GCXBa8MxeO56eHxgzjgl+hZFULTaeIKzusKXR2swrlf90
-hTtvcpjVVC2D6wyoMYICkDCCAowCAQEwfjBqMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGln
-aUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSkwJwYDVQQDEyBEaWdpQ2Vy
-dCBBc3N1cmVkIElEIENsaWVudCBDQSBHMgIQCPdWMA138ZCH0Zxtj7kynDANBglghkgBZQME
-AgEFAKCB5DAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMzAz
-MjAyMjU2MzJaMC8GCSqGSIb3DQEJBDEiBCC+fOZbeXJS4xfljPxsx/1NNIB6qoh55Mj+xwTu
-Q7dQEzB5BgkqhkiG9w0BCQ8xbDBqMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJYIZI
-AWUDBAECMAoGCCqGSIb3DQMHMA4GCCqGSIb3DQMCAgIAgDANBggqhkiG9w0DAgIBQDAHBgUr
-DgMCBzANBggqhkiG9w0DAgIBKDANBgkqhkiG9w0BAQEFAASCAQAVyioiX9mhKxvaZyfjGC9T
-wzdepF/wRSpU/dCmuzcrTM5kl2wVGwN3d/bQ68NmVxF1tRxR6ks5JelipbEjLKVzcv7DEltU
-xHIV9bJQ46ODBx1BdF6L9ZLZUbi9gtSb6AYCvZUH5QdbQN+Rl+KhqpLbXh75NMCdSNKZ0PH5
-yPFjoDADDH6BqHRjAtb3+zddyvLlWsiVbCy2pwHh6PZWXIsSoWyE1hpQkrpC/a75BiR8T0b+
-Nkj4Aasmiy0Msdr8W0tFxdTVH0M0eaScThpq4KEAlxSE3hYVJPSA2LUAk1eACZ1uzglmcOEB
-Kvev3O7/yZy8CWR6zo3OWCocvMxlyxBL
+--js
 
---BcoKJK1Qn2ii9wHM--
 
