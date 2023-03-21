@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EC26C2C35
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 09:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168836C2C3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 09:23:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peXGT-0003Tx-1r; Tue, 21 Mar 2023 04:22:41 -0400
+	id 1peXH6-0004Oi-42; Tue, 21 Mar 2023 04:23:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1peXGQ-0003Sy-91
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:22:38 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1peXGv-0004JL-UU
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:23:09 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1peXGO-0006KY-2S
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:22:37 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- bg16-20020a05600c3c9000b003eb34e21bdfso10590065wmb.0
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 01:22:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1peXGt-0006UR-RE
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:23:09 -0400
+Received: by mail-wr1-x429.google.com with SMTP id i9so12729962wrp.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 01:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112; t=1679386953;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112; t=1679386986;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CZPABWh82cjNog4VM0HrA5YkX7FOdNCyGEQna9XQgFU=;
- b=EGbb1RFaKuGBLX9YnqSgq+C7QqTKARIR0g4h6CNWzW4OOUi0SsKr4/+heqpHDNkDy0
- 9/76KSycLj6M90QVLpMGlXFMt3K3Sxm7T6F6q+Bc42StzMruteO0TlfJcf2VdHxAGBtH
- d+lP5zDTM3unVjnqG/h5wbvynxQotCn7cNvZYa1bvS2YtmnRREKTzTRd5FuP9WPfpNhz
- VzfaSOGOOQYmv5pYB21GMFZXgRPHgpQGvfHs1IdQxQ55nBg9jKRUTTVo7RAzArd3wae8
- 431/8CnwrO6PlmdVGwCKs4cOpesUL1OTzk/y2KcOZaBrCTDYnsC8EB+6yE4AR5zMnUJl
- OE9Q==
+ bh=afNgq1D2QXqYvXFmdiDcZ72USqxf3taFmgJjCEfZhWU=;
+ b=KOMEtsrpXKzo6NBJrs3L0NXt1aR1Naca9/JguubuJ/VW2BQcirNf+CI6EqFxAQwnd2
+ SIYJ0Sory6O6G79aAdCS2lqEwWiF2G52lyx+KhYPTCjkJa8pvnyyeKGTaH7ndxyLEmU1
+ c9Z64xr78rflPZg+IZ/pIp7crxi4whhe93MedKkkZF+PSHz6snMTgWUm3r2AKVADV/B8
+ onSGpeSVrtd9SvuYMGaWDIk7ewT7VPrtcRjKIh4P2TupIQoewoxOmf0SMRBP9fXIEN09
+ 0UUC1T3monV5OVsoB8yUb1YUVB+werl93AWQaHvc3JvPHz6ElcUR1ttxVw98XqD3cck0
+ MWiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679386953;
+ d=1e100.net; s=20210112; t=1679386986;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CZPABWh82cjNog4VM0HrA5YkX7FOdNCyGEQna9XQgFU=;
- b=REqFbSFdzGJ4DSWIqtGCIKPY5F09JbFRgn5OqGYy21IMKIv9a+G5mYZk0uTO5o6wa+
- QFjhhL9OfNPwYl1c1Mp89N0Tmut+uH9+/GB1+zXzZVtmATNl3DLIW0Tl0arty7lNb0Tu
- /3VdGu85w4N/8+gE+9QxKxOEg7/uScAdVT2aX3gFAnE2yvN2jfnVnZkams0FqbgF4EO+
- 7A1mLFHyYkq2yOGQ/cVE3Lxhrt31rvHUoa1/88BThIYNUlMAWl/qnEpMSBDR2dPGx2IH
- au5O0FT+ilH8EnTKZ5WzfFdq5b0OhZLh8y7JRYCdukn5M+0/1iefaqAHpi9EQf/ccM31
- ndAQ==
-X-Gm-Message-State: AO0yUKVxYR81sw9yU0XyMo2CuHbxrRELM1Txr0f+TAxhFC6SHlVfrpKa
- hBIqgtE7ruBZ+I8qKqhi59A3nb7Nj8VHUjZsnOjmbt7Tz4VIwqDYDzI=
-X-Google-Smtp-Source: AK7set92ZpVWP5JssJ0FYvaPKRUXqrwz/lbGfDNh3MAPxAQVSw6F/2TxiBg+kgG3j+btJ+uYgK7A9y3yTlke5Bz2x/4=
-X-Received: by 2002:a05:600c:2109:b0:3ed:aa86:58fa with SMTP id
- u9-20020a05600c210900b003edaa8658famr519206wml.6.1679386953186; Tue, 21 Mar
- 2023 01:22:33 -0700 (PDT)
+ bh=afNgq1D2QXqYvXFmdiDcZ72USqxf3taFmgJjCEfZhWU=;
+ b=xZcOBgWF64AXS03LPQhR6LARmXmb8lK/ZVwFTk19rEcjk9OnmF+uiSvO7oVsBXpnIN
+ So9w94VykwstdIV4ceDFQ8f5KQatuzO6IxEkD1EiYveQnUMU0bf63j2g7Pq9k1GLVs1U
+ 6gm2G/46Gyl1z99FJQ8vBtKlvks9xdj7GO0ax2EXXVl2foqDCOYb+ZdwWddHLW+c49Na
+ 8huYFw9RLidnWdiVcUJBcrc2ZHwL154sqyOwjNPzTdE9R+9WKeqdXA0wfsbny2k5jeCS
+ 96tCNun+ybHAA/UgM5J4gRLz8kK3UhOz9ITUevr9mxcRkferJxOPvCHOeS5MwjIbKMaa
+ wWNw==
+X-Gm-Message-State: AO0yUKWDe64DZHoIugfEXfKzM3c267W0D2O9v6bn13cMWs4sMMWsnuev
+ dM2kVz2Qci2FpJ5aTWH6+RaYs0+Pr/f6s+UxthWQ9Q==
+X-Google-Smtp-Source: AK7set/DF0PlmvgNv2WRGHBNmH/fNxj2ERd1mUEa4eUgAAtLvbplZGEDWammKwmBDv7tvMLxlhLX4Qf3qnwWg6qOqpE=
+X-Received: by 2002:a5d:5012:0:b0:2c7:1b1b:4f92 with SMTP id
+ e18-20020a5d5012000000b002c71b1b4f92mr444556wrt.0.1679386986185; Tue, 21 Mar
+ 2023 01:23:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230320093847.539751-1-kraxel@redhat.com>
- <20230320093847.539751-3-kraxel@redhat.com>
-In-Reply-To: <20230320093847.539751-3-kraxel@redhat.com>
+ <20230320093847.539751-2-kraxel@redhat.com>
+In-Reply-To: <20230320093847.539751-2-kraxel@redhat.com>
 From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 21 Mar 2023 13:52:22 +0530
-Message-ID: <CAARzgwwjguG-teRcv2jEB+McZgkcmF6ji7WisagEV+LdvfT4OA@mail.gmail.com>
-Subject: Re: [PULL 2/6] bios-tables-test: use 128M numa nodes on aarch64
+Date: Tue, 21 Mar 2023 13:52:55 +0530
+Message-ID: <CAARzgwwjV=sb1=i2aZRTSdGJj5ZpnRrh3ksM+4Hwz-d=XRGYew@mail.gmail.com>
+Subject: Re: [PULL 1/6] acpi: enable tests/data/acpi updates
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
  Igor Mammedov <imammedo@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::32c;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x32c.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::429;
+ envelope-from=ani@anisinha.ca; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,64 +88,22 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Mon, Mar 20, 2023 at 3:08=E2=80=AFPM Gerd Hoffmann <kraxel@redhat.com> w=
 rote:
 >
-> Recent edk2 versions don't boot with very small numa nodes.
-> Bump the size from 64M to 128M.
-
-Can you please add the ASL diff between the binary blobs as a result
-of the change?
-Otherwise.
-
->
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
-
 > ---
->  tests/qtest/bios-tables-test.c         |   6 +++---
->  tests/data/acpi/virt/SRAT.acpihmatvirt | Bin 240 -> 240 bytes
->  tests/data/acpi/virt/SSDT.memhp        | Bin 1817 -> 1817 bytes
->  3 files changed, 3 insertions(+), 3 deletions(-)
+>  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-tes=
-t.c
-> index 76d510091177..873358943784 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1679,9 +1679,9 @@ static void test_acpi_virt_tcg_acpi_hmat(void)
->      test_acpi_one(" -machine hmat=3Don"
->                    " -cpu cortex-a57"
->                    " -smp 4,sockets=3D2"
-> -                  " -m 256M"
-> -                  " -object memory-backend-ram,size=3D64M,id=3Dram0"
-> -                  " -object memory-backend-ram,size=3D64M,id=3Dram1"
-> +                  " -m 384M"
-> +                  " -object memory-backend-ram,size=3D128M,id=3Dram0"
-> +                  " -object memory-backend-ram,size=3D128M,id=3Dram1"
->                    " -object memory-backend-ram,size=3D128M,id=3Dram2"
->                    " -numa node,nodeid=3D0,memdev=3Dram0"
->                    " -numa node,nodeid=3D1,memdev=3Dram1"
-> diff --git a/tests/data/acpi/virt/SRAT.acpihmatvirt b/tests/data/acpi/vir=
-t/SRAT.acpihmatvirt
-> index 691ef56e34bc84509270db316d908f5979c209bb..6fe55dd7d07fef0f8fe16a209=
-e96a89dd48ca240 100644
-> GIT binary patch
-> delta 67
-> zcmeys_<@ltILI;N0|NsC^R$Uvjf@-<d*mlxmepX?U;>JPK>(EIfYJ<%Fb0qY0P4I6
-> AJ^%m!
->
-> delta 59
-> zcmeys_<@ltILI;N0|NsC^Qwtljf^Z4d*l^dfLst@flv$#j4%d}X4GJsxL6ecZ+{66
->
-> diff --git a/tests/data/acpi/virt/SSDT.memhp b/tests/data/acpi/virt/SSDT.=
-memhp
-> index 2fcfc5fda955dc4ba78a5f4116eed99ec7202fbd..ef93c44464f1fe38f7e5babd5=
-d67f345cc6363a6 100644
-> GIT binary patch
-> delta 22
-> dcmbQqH<OPmIM^jblAVEpap^`bUUsI7&Hz1t1wsG-
->
-> delta 22
-> dcmbQqH<OPmIM^jblAVEpv2i08FFVs$X8=3D5?1wsG-
->
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bi=
+os-tables-test-allowed-diff.h
+> index dfb8523c8bf4..b5ed0904b5ff 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1 +1,2 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/virt/SRAT.acpihmatvirt",
+
+Should we also add   tests/data/acpi/virt/SSDT.memh ?
+
 > --
 > 2.39.2
 >
