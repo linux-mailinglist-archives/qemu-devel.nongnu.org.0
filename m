@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF0C6C2D7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7CA6C2D8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:05:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peXuX-0000NR-1g; Tue, 21 Mar 2023 05:04:05 -0400
+	id 1peXuZ-0000OJ-Lh; Tue, 21 Mar 2023 05:04:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1peXuR-0000N5-N0
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:03:59 -0400
+ id 1peXuY-0000O2-0O
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:04:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1peXuQ-0001kx-Be
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:03:59 -0400
+ id 1peXuW-0001lM-E0
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:04:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679389437;
+ s=mimecast20190719; t=1679389441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=awOXNY7RbBzJ2qqhZZ+juO6HXjBOqJzzWOEUtsenNTo=;
- b=h9RKb8gWaXNPDOnNn7gNZcvbeUDQ2b+62x/EHiTmF+unvGHyq8V+Y9Vdc7ct6H7VI6/HdR
- lh3sT4GtjyW/uynwl2dG+z8NjBhxOdxsDLjGH7vlBRzbkqIC/aiZ8cS8QacTwEBIVLKeuq
- 6dJd6qmZYoTqSqrpfNKayaGdvBF0ivM=
+ bh=AgK4wygSPELOpiFGSCtUt00Nxqa7d+Vmm2uKT2n8E1s=;
+ b=Z4wZtXlFtdE58DPzBtu1Be1QhGSCzgaSQ3mQeGL/cSB6Ih2xnY6E62ButOqu1VWqmExGD9
+ J5G3heVP/Q4ljHC7Welpq9Et6n4XThrlEH2/EIXyK4UF5G3vSM9QIYqBsQhLJZTQI5nogf
+ eoCPrEC2imfU+jj4il/eLOdfN0WSgR0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-f6-cQY60PWCYynQLnAN5FQ-1; Tue, 21 Mar 2023 05:03:56 -0400
-X-MC-Unique: f6-cQY60PWCYynQLnAN5FQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-658-dAlBC6XaNdWHab5CQcVjeg-1; Tue, 21 Mar 2023 05:03:59 -0400
+X-MC-Unique: dAlBC6XaNdWHab5CQcVjeg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9D5F3810B07;
- Tue, 21 Mar 2023 09:03:55 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D1F23810B0D;
+ Tue, 21 Mar 2023 09:03:59 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E1DDC15BA0;
- Tue, 21 Mar 2023 09:03:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6C7640C94AC;
+ Tue, 21 Mar 2023 09:03:58 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, berrange@redhat.com,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Stefan Weil <sw@weilnetz.de>
-Subject: [PULL 4/7] ui/gtk: fix cursor moved to left corner
-Date: Tue, 21 Mar 2023 13:03:31 +0400
-Message-Id: <20230321090334.1841607-5-marcandre.lureau@redhat.com>
+Subject: [PULL 5/7] ui: return the default console cursor when con == NULL
+Date: Tue, 21 Mar 2023 13:03:32 +0400
+Message-Id: <20230321090334.1841607-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20230321090334.1841607-1-marcandre.lureau@redhat.com>
 References: <20230321090334.1841607-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,38 +83,33 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Do not attempt to move the pointer if the widget is not yet realized.
-The mouse cursor is placed to the corner of the screen, on X11 at least,
-as x_root and y_root are then miscalculated. (this is not reproducible
-on Wayland, because Gtk doesn't implement device warping there)
+VNC code relies on con==NULL to mean the default console.
 
-This also fixes the following warning at start:
-qemu: Gdk: gdk_window_get_root_coords: assertion 'GDK_IS_WINDOW (window)' failed
+Fixes:
+https://gitlab.com/qemu-project/qemu/-/issues/1548
 
-Fixes: 6effaa16ac98 ("ui: set cursor position upon listener
-registration")
-Reported-by: Bernhard Beschow <shentey@gmail.com>
+Fixes: commit 385ac97f8 ("ui: keep current cursor with QemuConsole")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Bernhard Beschow <shentey@gmail.com>
-Message-Id: <20230320132624.1612464-1-marcandre.lureau@redhat.com>
+Reported-by: Helge Konetzka <hk@zapateado.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230319111017.1319880-1-marcandre.lureau@redhat.com>
 ---
- ui/gtk.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ ui/console.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index fd82e9b1ca..e9564f2baa 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -450,7 +450,8 @@ static void gd_mouse_set(DisplayChangeListener *dcl,
-     GdkDisplay *dpy;
-     gint x_root, y_root;
+diff --git a/ui/console.c b/ui/console.c
+index f3783021e5..6e8a3cdc62 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -2303,6 +2303,9 @@ QemuConsole *qemu_console_lookup_unused(void)
  
--    if (qemu_input_is_absolute()) {
-+    if (!gtk_widget_get_realized(vc->gfx.drawing_area) ||
-+        qemu_input_is_absolute()) {
-         return;
-     }
+ QEMUCursor *qemu_console_get_cursor(QemuConsole *con)
+ {
++    if (con == NULL) {
++        con = active_console;
++    }
+     return con->cursor;
+ }
  
 -- 
 2.39.2
