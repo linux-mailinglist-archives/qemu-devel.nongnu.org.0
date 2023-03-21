@@ -2,170 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2429D6C3126
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 13:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99126C3135
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 13:04:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peafu-0001nf-BO; Tue, 21 Mar 2023 08:01:10 -0400
+	id 1peahm-00032c-1H; Tue, 21 Mar 2023 08:03:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1peafY-0001cz-QE; Tue, 21 Mar 2023 08:01:02 -0400
-Received: from mga02.intel.com ([134.134.136.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1peafV-0006pF-RV; Tue, 21 Mar 2023 08:00:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679400045; x=1710936045;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=n+CVCjMJEmBRK1uWpEgHzlSGRZG4G1WRjXFHWuTFJDM=;
- b=b/JY8gvsGqpL22ifnHXHqgp3zRNcYydlHYbtLwqvhZWIk8fzDrYh3gNl
- KfObBZhd4PswQQPqWftIawuN8veSSg7K077iOqlIvuqaj5HdejfOG6inH
- gFpM735VIAaIYrj9nZWGoFS54GudjnMiKpgC7g0IHqhj0cyGIjceHkcMi
- QG0DcY5fOA0nH+vPqGnzZitDiRbEFLy7QEkhGKiVKdMeWEt0tGUabPAYs
- ReEScJG4zR0wG0PGQ1NWptlqb0bjtnNSbIJZhJsAghZfLSMuiuVMiGNbG
- NbbmQB5FQ/sCsB9ExE/EIpcqCHbEPtERArznj/Cjlbrl0BlIZcy4sjF8z Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="327295110"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="327295110"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 05:00:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="770600744"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="770600744"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by FMSMGA003.fm.intel.com with ESMTP; 21 Mar 2023 05:00:37 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 21 Mar 2023 05:00:36 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Tue, 21 Mar 2023 05:00:36 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Tue, 21 Mar 2023 05:00:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l/3Kq9m4G7vfEyoiH21Ihd1TNp3yEPnaOWobj4b8ipSts8PGBBSmbyWmAkPtvuw8ZUqkg3MF22LWa77/GvbjOTAg+WRSs9m2pXp98ioUNMTsSGQQ3dviLtt7uo4X8k2/jrGLfXbXmoK9d+K1wp47LbE20rRcOgHX+1uOfsqZSDhI3qxvVoSKCD/AFbyGmNG1wB2IxjDswh/izXXoQy22gzkU9xKYIv7iR8u1kBIxSOZTsamqOdIgMj/s+jeV9OhikYyQaaYDyQ4EkGs2wg2kFqc6bIUv7xRkteKo2K/qt5WuL9/HZJcHQJei22ij7oKai5onwT8tXLtnBeRkE5NtSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9Hso4fAr06CYiXsvtitIrhRm8Ah28Kn/EpKGjD70WXY=;
- b=aPQ73Jp/sSEp9p/j/OTdLT5VvpV3vCbCuk/i+gyxLMlWPcRkxOkLeydPzKoW/LW13wJPCNsG8ELYr99WEbjjLPzwcyUTWMGCsRT+A9DVohEXea6DdWY1ArVKhAAjkzCp10bRNbfcT0l7jpDCrGPYGPnqU6jh+FiQ01dFXOMODAwGh7IbJcw8GZc0eRNP9yy5IX9nTtC/H3hQ079OB0B0JzK55F5lWrrwI7SN5uf781LGDcWUHopv5Hk+h6hEKI3YfjCI2oOlJ9BN6HTpExtDmyFF91xVx90OaDcn/pmMow6b/uWPJH6qg2tabkgWHZWYXFX3n1KhEb4SsdJvJ4vG6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4500.namprd11.prod.outlook.com (2603:10b6:a03:1c3::24)
- by IA1PR11MB6074.namprd11.prod.outlook.com (2603:10b6:208:3d6::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Tue, 21 Mar
- 2023 12:00:27 +0000
-Received: from BY5PR11MB4500.namprd11.prod.outlook.com
- ([fe80::68a4:ef95:6726:3fc5]) by BY5PR11MB4500.namprd11.prod.outlook.com
- ([fe80::68a4:ef95:6726:3fc5%4]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
- 12:00:27 +0000
-Message-ID: <84fecc21-4fba-ace3-c55b-316257d195a7@intel.com>
-Date: Tue, 21 Mar 2023 20:00:17 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
-Content-Language: en-US
-To: liweiwei <liweiwei@iscas.ac.cn>
-CC: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>, Bin Meng
- <bin.meng@windriver.com>, Daniel Henrique Barboza
- <dbarboza@ventanamicro.com>, "open list:RISC-V TCG CPUs"
- <qemu-riscv@nongnu.org>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20230321063746.151107-1-fei2.wu@intel.com>
- <cf407a04-9717-6a82-6405-d836874c5613@iscas.ac.cn>
- <ddeaba54-e9fc-0309-4f35-7ee72052264d@intel.com>
- <8029cbcf-520f-cfd3-5b5a-923685a1da80@iscas.ac.cn>
- <5e358d79-76be-b230-194c-a25ffad324c2@intel.com>
- <bf1b2b8f-66cf-5f22-843c-f9a7fbf29d99@iscas.ac.cn>
-From: "Wu, Fei" <fei2.wu@intel.com>
-In-Reply-To: <bf1b2b8f-66cf-5f22-843c-f9a7fbf29d99@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SGAP274CA0008.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::20)
- To BY5PR11MB4500.namprd11.prod.outlook.com
- (2603:10b6:a03:1c3::24)
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1peahZ-0002zq-25
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 08:02:53 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1peahV-0007Xi-F3
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 08:02:52 -0400
+Received: by mail-wr1-x434.google.com with SMTP id o7so13401949wrg.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 05:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vrull.eu; s=google; t=1679400165;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=No6GsNXikNsyLPm1p6Xx7U9s7yJRaxe7Q0AfqeDqth0=;
+ b=tLrglERRc7AUvszwBF0B81yQOjLho/G/KX6RlYVEEgcuRte++AG47DetrrYahSZuNO
+ 44urCZmyrzt1I2QvVzkRhVVCjP5yuNstgRUcYZB74FbCPlbkg6nnBfoVrIu42r5k8xhe
+ I/RcQTks54cnbSgyBjfwsusaQbja1ulYHMm+bWZKrlmg12yYYB3CqXx55X3XIFRTUctX
+ F5Ed7tEs6Acn4ghhC0BecbNdn/JvueGo/5eH4c7N18ulloC7y3E4FQkakFWyLPEuoKcp
+ xy/BH7MZf2zRHSbhkJdlArUhcEW2AlqfSoRjzyNRb58iAKC/qsO6GpR0e/OldPgvGZEf
+ 5Rvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679400165;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=No6GsNXikNsyLPm1p6Xx7U9s7yJRaxe7Q0AfqeDqth0=;
+ b=G2mtrhDGsvXC/hNeWZXotaWP1YLXYG0vxBfPFTqg9kG3fflfwnHhRSd9zxJB3NL/U7
+ Am+SP1k1jAbfvvYPTRkOcKChA0nWGgvIMc3YA/Hz3Vnu87P+OngjDFyjVbW6/2dYigMo
+ OEesYliRabqVPGDhfwVca0FZzv1shKan8J5S5vjdYtOODtOqQiHU3WZnaN2JuQyJOlo6
+ edYCESK+u85Mxs1POGCFJJVIkPpY3jhS3cl4my4i8GRzJnXjgQxPgxSNYzocgjZ3bGtj
+ GxJa1CBRNrJEYCeLTi8WhniE7zh6bySg0KXNdgHBGHctHcrVz/Qr9w694ztvLo+6xwuc
+ oRTA==
+X-Gm-Message-State: AO0yUKWQZPXAUFodAkniejQQnA4xqNv6Efjz+F/nEzOEi4M6K4WNQexa
+ jjTsnCI1n17AzVHlnVAd0jIQRaa9zP6ARy+8wCtb8g==
+X-Google-Smtp-Source: AK7set9JzmJib45q5Wb1VyPUCiObVrSSwD1PMc+oS/RsMdMdIgffVCHOqJpNhORg4bKnVL/ZClLIhPTxlmZr/QkFM8E=
+X-Received: by 2002:a5d:67c3:0:b0:2c7:3d2:fa20 with SMTP id
+ n3-20020a5d67c3000000b002c703d2fa20mr477077wrw.13.1679400165039; Tue, 21 Mar
+ 2023 05:02:45 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4500:EE_|IA1PR11MB6074:EE_
-X-MS-Office365-Filtering-Correlation-Id: 51461ce2-d0ee-4092-dbfc-08db2a03dbd3
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: edDGQzfp/nNls+pGITZUBwV6aeAuEMvF8GYifws1VD7mfXE46FPNZwUKvKI9vy2Y0yK5soi84LYSn5LCTFQgTIIqvISASdHf3fEELOZ5F0/BY0o4hJ0F5Zi54wg3symQgyc68W7j61q90Z8A6oOw46TvOYWnYsokymUW8eJWBmo6WFE24x0WIMjlakh9uAQr3j4jVRswFRlqdLIGTk/UD06XfexSC1B+v0LNZeLdJ6GG5hruF/xz0rQev5YVi4ierbcUi0KxUiOAy2wxS/rY8NxTjtcUwAWEaQ74AsUTOZhk+Lc4t9gw2jQveCAwgdoqck1WF/hDL1k4EAcAPTPNXo+if6F9pI6jnTnycyWUhTnaxOGqmBmrLwghDUKbXHOGTdwxvDrZ22zWbRmCq68hjzgqQkiWp/dpxlIGGQMpUo5JdnpzvkGWIb/opCEWsD8AnWIGPUjUXdR6akFFQnQLEO5BUu+lCOk6RxWGih2wx7wuc98/b47YyEzQ+FgB7sDOlfULclhcYJFWoe24kGmBRpnVk+M3dL6d6Y4hyRhtD2qWrQ6lfYUQdPkW8WQJ//3cHYbnTtx1up3BYKuGXrDyF9Ow7HU6lny8VoSOCAJC5DC8C+LzTCkLGzBN8lPijO6en52pBkQNrVhssxsQ0lgyVd4bz88ItEYVmunHwi0XdzOJBVEetQ6JhUHCk0zX5O4NjJEQhywOwR/eonq6Pa+fdwTd5hpbBuHVPdqueqeZACs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4500.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(396003)(366004)(39860400002)(376002)(136003)(451199018)(31696002)(478600001)(2616005)(2906002)(82960400001)(66946007)(6916009)(66476007)(4326008)(83380400001)(8676002)(8936002)(66556008)(41300700001)(36756003)(5660300002)(86362001)(54906003)(316002)(6666004)(6486002)(26005)(53546011)(186003)(6512007)(31686004)(6506007)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eUF2TkUzbzYzeFoxOFIydE1Kb1FlSGF1bHowa3NBdjk1SmJSZmEvL3NvellN?=
- =?utf-8?B?RVRGMGRGVktWdVRMQ0lCdHp0U0drSGpwcHJCWU5BTXFpcng4NlVhM1JLcFBE?=
- =?utf-8?B?ZnVRUVlSYUQ5eGZramVGVmdsN1BjbkVLS0M0K0dkM3FodHNTZnZrei9nQnYv?=
- =?utf-8?B?dmlqaStSSmk4NFVMMEVyU01yTUt2OStLa3lwdE9pT1lrd3MvZUtZOE5ENVFo?=
- =?utf-8?B?ZDhzZnB6THduRjB6VGVyWkh3WFJ0YU1vY1B5Q0RLSTVFUVBQNWo5VjdqcG85?=
- =?utf-8?B?QWdmQ29XdGlPZzd5K1N3OU5DN3M1TnVhYVZ3MVhhdlpoeXFLQ0g3MjVMVEFS?=
- =?utf-8?B?Ty9Gdi9vRFZjZ1dKZDI5UksvTGI0ZlEvSzZvZzEvVmkwa1IzZndIUlFkUzVW?=
- =?utf-8?B?anlhbTNMYXowNVl5Q0VtQXhNOFZQTE1iNUIzOUIrckN0OWJRR3dwWnJORXc5?=
- =?utf-8?B?TTRKWGtITDk3VzUwYi8vbzdUVjhhR0o5RmJJTkNGbnVRMkVCVnhvaFpXdVI4?=
- =?utf-8?B?ekwwYXVWOFdGVWo0Wk9DamVWK0JrdzR4bndObG9jWXYzNk9FSkRESFdCNDhj?=
- =?utf-8?B?b2ZzRnh6SGNaZGxqa2lYbXYvOGluWEF0Z1o1WUEzQ090N0wxVmlhYk4xZTdO?=
- =?utf-8?B?cHdqaEEyMU1xdUEvTmZsSzYzUGQ5bUxMdHhhSDlFN1V1Wjhhbi9RV0VRa2lr?=
- =?utf-8?B?UDNvLzZ5S1YzZ3A4K2I2dXdXZmFaWHNUSjRCU1l1SWl2ZTE3aE84cStJMTJj?=
- =?utf-8?B?ekRDQS83a1pCektxMDNiNWk5QkRUYm9SM1RhZUtFNUZnNWU1WmhwQjNYSTlS?=
- =?utf-8?B?cUtIMWxnWDQ3MmtMbUZMV0oxL3lxSzlVWjhCTXVCcGpmZlFidHFTREdsN01B?=
- =?utf-8?B?RWx4Y2p6TlRocVhpaHY5Z3hWek5hSzNUY2xsRHV5dDY5VUNFRUxGbVpQNjM2?=
- =?utf-8?B?ZGtXN3FESXN4RVFRT0pScVM3bWRHY1NIalM0SWQrZW5LNDB3bjY3MjRIeS8z?=
- =?utf-8?B?Y2RXNVArWkNZMjBTQXNxNmlsemE0TGNMQ0w0SUgvUGlJUHo5WjRDNmdya2Ji?=
- =?utf-8?B?T1lLVmRWQ3lob1dEV2kxZTlaSFhBeEFZVWE1RjJjVWRsTU9CZTRQQ1RVelFK?=
- =?utf-8?B?b2FsTkZxaDN5NlAyTHJEUlNlc1NQSUhPdjQrY2YvbXFkdUkrMXVpUW9Mak92?=
- =?utf-8?B?WGNDVXdRd0VrVXdSVHZZdVBGUVlzT1MrcGE0bHRtZVVDWmJ1VVBQeFVIbG1r?=
- =?utf-8?B?SmVNSWQzQlQ2WTRSR2NNZXIxVjdUU1M2TzcvZjJOYlVlajVJcllKVjFwMGxW?=
- =?utf-8?B?aGF5ODAwNHZsMW1Zb2tYOUR0bmx6U08xMUQvWURnYmdlZEtkQ1l5bzR6Yzg4?=
- =?utf-8?B?Wkd1YVpCaGVYeHQ1RitieHFZbGQ5M2tYTkxJQVl1MDlMblVPYjltOHlUUU91?=
- =?utf-8?B?bjY5eXdSaWJoYkk1NFN4bFBtS1dyMWphd3EzdkdtQVFMV1g1MkdiY3hFcDFY?=
- =?utf-8?B?ZjdTMTNIbjZtZWIwaTV1V0F3RmVGQUhWMlkydDJ6d204Y3ZNNEpLcXNublVQ?=
- =?utf-8?B?STlJZFJrVGo1SzVRRHArTyt2MkhCZzJoU1VicHVaYWllMHZpTFdIVk1IVnZ3?=
- =?utf-8?B?c3FNT0NlNy9YWkJxVlpOaWEyZ1IrQ0Z4djhzdjRtcHN0WnNJdnhQR1RqWHFt?=
- =?utf-8?B?UUN1NmJidmFyT0ZtbzJNejJETVhic1B4QVVTVytjNmNaWDduWDJBTUpXUVdX?=
- =?utf-8?B?b2thaVpTM0gyQ1RpMmpJM3hueE5DeVlNSE1QUE0rZzdneHhQelhsTkxVSmdO?=
- =?utf-8?B?cFEvTkc2SXhuR3RLV2xyZVZZYkRHR0JuY3JleExXQjMrSDZxdWZ2dkRUZlEr?=
- =?utf-8?B?ZXB4KzNLOXhGQW1KRUhtdXVqWE1SSkg0eEdMbUV2VkFZOWdqWVQ1TURpbDZ2?=
- =?utf-8?B?ZWpOS1hCellHalFUTEFWSHFkL2RLRnlteW83WnNiY1J2ZFpoMUcxa2pMYUI5?=
- =?utf-8?B?TW9pTUF5RW9BcXJpbmNESjBkRWNtL21hQ1pIUmgrRDhvNlVPYVh2dVJyT3d2?=
- =?utf-8?B?dzViT1dOMWoyTXVxTldMUHZZbE9UZkJsTEROS2tTa0t0NGxHS2JDSGZTcUVz?=
- =?utf-8?Q?mb1h1PEQH9+GzypmibhQWAicg?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51461ce2-d0ee-4092-dbfc-08db2a03dbd3
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4500.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2023 12:00:26.8638 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SrHmrpTyZZYMjScXAChkx2uN9abY97r7lvwLeAHKKOzaPOnaeiEaPuMBHAvsNjwKChTCuSTT6RAyrvsOurYThg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6074
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=fei2.wu@intel.com;
- helo=mga02.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+References: <20230310160346.1193597-1-lawrence.hunter@codethink.co.uk>
+ <20230310160346.1193597-3-lawrence.hunter@codethink.co.uk>
+In-Reply-To: <20230310160346.1193597-3-lawrence.hunter@codethink.co.uk>
+From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
+Date: Tue, 21 Mar 2023 13:02:31 +0100
+Message-ID: <CAEg0e7j=yGrz6uSCZirthZB7FEF-BtB73e+D-UB_hXQTJEtmyw@mail.gmail.com>
+Subject: Re: [PATCH 02/45] target/riscv: Refactor some of the generic vector
+ functionality
+To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+Cc: qemu-devel@nongnu.org, dickon.hood@codethink.co.uk, 
+ nazar.kazakov@codethink.co.uk, kiran.ostrolenk@codethink.co.uk, 
+ frank.chang@sifive.com, palmer@dabbelt.com, alistair.francis@wdc.com, 
+ bin.meng@windriver.com, pbonzini@redhat.com, philipp.tomsich@vrull.eu, 
+ kvm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -182,175 +91,614 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/21/2023 5:47 PM, liweiwei wrote:
-> 
-> On 2023/3/21 17:14, Wu, Fei wrote:
->> On 3/21/2023 4:50 PM, liweiwei wrote:
->>> On 2023/3/21 16:40, Wu, Fei wrote:
->>>> On 3/21/2023 4:28 PM, liweiwei wrote:
->>>>> On 2023/3/21 14:37, fei2.wu@intel.com wrote:
->>>>>> From: Fei Wu <fei2.wu@intel.com>
->>>>>>
->>>>>> Kernel needs to access user mode memory e.g. during syscalls, the
->>>>>> window
->>>>>> is usually opened up for a very limited time through MSTATUS.SUM, the
->>>>>> overhead is too much if tlb_flush() gets called for every SUM change.
->>>>>> This patch saves addresses accessed when SUM=1, and flushs only these
->>>>>> pages when SUM changes to 0. If the buffer is not large enough to
->>>>>> save
->>>>>> all the pages during SUM=1, it will fall back to tlb_flush when
->>>>>> necessary.
->>>>>>
->>>>>> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
->>>>>> most of the time kernel accesses 1 or 2 pages, it's very rare to see
->>>>>> more than 4 pages accessed.
->>>>>>
->>>>>> It's not necessary to save/restore these new added status, as
->>>>>> tlb_flush() is always called after restore.
->>>>>>
->>>>>> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407.
->>>>>> Many
->>>>>> other syscalls benefit a lot from this one too.
->>>>>>
->>>>>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
->>>>>> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->>>>>> ---
->>>>>>     target/riscv/cpu.h        |  4 ++++
->>>>>>     target/riscv/cpu_helper.c |  7 +++++++
->>>>>>     target/riscv/csr.c        | 14 +++++++++++++-
->>>>>>     3 files changed, 24 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>>>>> index 638e47c75a..926dbce59f 100644
->>>>>> --- a/target/riscv/cpu.h
->>>>>> +++ b/target/riscv/cpu.h
->>>>>> @@ -383,6 +383,10 @@ struct CPUArchState {
->>>>>>         uint64_t kvm_timer_compare;
->>>>>>         uint64_t kvm_timer_state;
->>>>>>         uint64_t kvm_timer_frequency;
->>>>>> +
->>>>>> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
->>>>>> +    uint64_t sum_u_count;
->>>>>> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
->>>>>>     };
->>>>>>       OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
->>>>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>>>>> index f88c503cf4..5ad0418eb6 100644
->>>>>> --- a/target/riscv/cpu_helper.c
->>>>>> +++ b/target/riscv/cpu_helper.c
->>>>>> @@ -1068,6 +1068,13 @@ restart:
->>>>>>                         (access_type == MMU_DATA_STORE || (pte &
->>>>>> PTE_D))) {
->>>>>>                     *prot |= PAGE_WRITE;
->>>>>>                 }
->>>>>> +            if ((pte & PTE_U) && (mode & PRV_S) &&
->>>>>> +                    get_field(env->mstatus, MSTATUS_SUM)) {
->>>>>> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
->>>>>> +                    env->sum_u_addr[env->sum_u_count] = addr;
->>>>>> +                }
->>>>>> +                ++env->sum_u_count;
->>>>>> +            }
->>>>>>                 return TRANSLATE_SUCCESS;
->>>>>>             }
->>>>>>         }
->>>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>>>> index ab566639e5..74b7638c8a 100644
->>>>>> --- a/target/riscv/csr.c
->>>>>> +++ b/target/riscv/csr.c
->>>>>> @@ -1246,9 +1246,21 @@ static RISCVException
->>>>>> write_mstatus(CPURISCVState *env, int csrno,
->>>>>>           /* flush tlb on mstatus fields that affect VM */
->>>>>>         if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP |
->>>>>> MSTATUS_MPV |
->>>>>> -            MSTATUS_MPRV | MSTATUS_SUM)) {
->>>>>> +            MSTATUS_MPRV)) {
->>>>>>             tlb_flush(env_cpu(env));
->>>>>> +        env->sum_u_count = 0;
->>>>>> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
->>>>>> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
->>>>>> +            tlb_flush(env_cpu(env));
->>>>>> +        } else {
->>>>>> +            for (int i = 0; i < env->sum_u_count; ++i) {
->>>>>> +                tlb_flush_page_by_mmuidx(env_cpu(env),
->>>>>> env->sum_u_addr[i],
->>>>>> +                                         1 << PRV_S | 1 << PRV_M);
->>>>>> +            }
->>>>>> +        }
->>>>>> +        env->sum_u_count = 0;
->>>>>>         }
->>>>> Whether tlb should  be flushed when SUM is changed from 0 to 1?
->>>>>
->>>> When SUM is changed from 0 to 1, all the existing tlb entries remain
->>>> valid as the permission is elevated instead of reduced, so I don't
->>>> think
->>>> it's necessary to flush tlb.
->>> If elevated not unchanged, I think the tlb also needs update, since new
->>> permitted access rights may be added to the tlb.
->>>
->> Assume the following flow, if the new rights have been added to tlb
->> during SUM=0, they're visible and still valid after setting SUM=1 again.
->> Could you please add a specific counter example in this flow?
->>
-> Assuming addr0 cannot be access from S mode when SUM = 0, but can be
-> accessed from S mode if SUM=1,
-> 
-> and there is a tlb entry for it when SUM = 0
-> 
->> enable uaccess (set SUM = 1)
-> if we don't flush it when we change SUM to 1 in this step
->> ... (access user mem from S mode)
-> when we access addr0 here, tlb will be hit( not updated) and the access
-> will trigger fault instead of allowing the access
->> disable uaccess (set SUM = 0)
->>
->> ... (update TLB_SUM_0)
->>
->>      <-- flush tlb or not right before enabling uaccess?
->> enable uaccess (set SUM = 1)
->>      <-- okay to access TLB_SUM_0?
->> disable uaccess (set SUM = 0)
-> 
-> So, I think the question is whether the rights in TLB entry can be
-> elevated. Or whether there is legal tlb entry for this addr0 when SUM = 0?
-> 
-I think there is no such tlb entry:
-* If it's loaded into tlb when SUM = 0. This is impossible as it's not
-accessible when SUM = 0, it's a fault instead of being loaded into tlb.
-* If it's loaded into tlb when SUM = 1. It will be flushed when SUM sets
-to 0.
+On Fri, Mar 10, 2023 at 5:06=E2=80=AFPM Lawrence Hunter
+<lawrence.hunter@codethink.co.uk> wrote:
+>
+> From: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
+>
+> Summary of refactoring:
+>
+> * take some functions/macros out of `vector_helper` and put them in a
+> new module called `vector_internals`
+>
+> * factor the non SEW-specific stuff out of `GEN_OPIVV_TRANS` into
+> function `opivv_trans` (similar to `opivi_trans`)
 
-Thanks,
-Fei.
+I think splitting this commit into two changes would be better.
+Besides that the two changes look reasonable and correct.
 
-> If not,  all my above assumption will not be right.
-> 
-> Regards,
-> 
-> Weiwei Li
-> 
->>
->> Thanks,
->> Fei.
->>
-> 
-> 
-> 
->>> Regards,
->>>
->>> Weiwei Li
->>>
->>>> Thanks,
->>>> Fei.
->>>>
->>>>> Regards,
->>>>>
->>>>> Weiwei Li
->>>>>
->>>>>> +
->>>>>>         mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE |
->>>>>> MSTATUS_MPIE |
->>>>>>             MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
->>>>>>             MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
-> 
+BR
+Christoph
 
+>
+> All this refactoring ensures more functions/macros can be used by both
+> vector and vector-crypto helpers (latter implemented in proceeding
+> commit).
+>
+> Signed-off-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
+> ---
+>  target/riscv/insn_trans/trans_rvv.c.inc |  62 +++++-----
+>  target/riscv/meson.build                |   1 +
+>  target/riscv/vector_helper.c            | 155 +-----------------------
+>  target/riscv/vector_internals.c         |  57 +++++++++
+>  target/riscv/vector_internals.h         | 155 ++++++++++++++++++++++++
+>  5 files changed, 246 insertions(+), 184 deletions(-)
+>  create mode 100644 target/riscv/vector_internals.c
+>  create mode 100644 target/riscv/vector_internals.h
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
+trans/trans_rvv.c.inc
+> index f2e3d38515..4106bd6994 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -1643,38 +1643,40 @@ GEN_OPIWX_WIDEN_TRANS(vwadd_wx)
+>  GEN_OPIWX_WIDEN_TRANS(vwsubu_wx)
+>  GEN_OPIWX_WIDEN_TRANS(vwsub_wx)
+>
+> +static bool opivv_trans(uint32_t vd, uint32_t vs1, uint32_t vs2, uint32_=
+t vm,
+> +                        gen_helper_gvec_4_ptr *fn, DisasContext *s)
+> +{
+> +    uint32_t data =3D 0;
+> +    TCGLabel *over =3D gen_new_label();
+> +    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+> +    tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);
+> +
+> +    data =3D FIELD_DP32(data, VDATA, VM, vm);
+> +    data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+> +    data =3D FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);
+> +    data =3D FIELD_DP32(data, VDATA, VMA, s->vma);
+> +    tcg_gen_gvec_4_ptr(vreg_ofs(s, vd), vreg_ofs(s, 0), vreg_ofs(s, vs1)=
+,
+> +                       vreg_ofs(s, vs2), cpu_env, s->cfg_ptr->vlen / 8,
+> +                       s->cfg_ptr->vlen / 8, data, fn);
+> +    mark_vs_dirty(s);
+> +    gen_set_label(over);
+> +    return true;
+> +}
+> +
+>  /* Vector Integer Add-with-Carry / Subtract-with-Borrow Instructions */
+>  /* OPIVV without GVEC IR */
+> -#define GEN_OPIVV_TRANS(NAME, CHECK)                               \
+> -static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
+> -{                                                                  \
+> -    if (CHECK(s, a)) {                                             \
+> -        uint32_t data =3D 0;                                         \
+> -        static gen_helper_gvec_4_ptr * const fns[4] =3D {            \
+> -            gen_helper_##NAME##_b, gen_helper_##NAME##_h,          \
+> -            gen_helper_##NAME##_w, gen_helper_##NAME##_d,          \
+> -        };                                                         \
+> -        TCGLabel *over =3D gen_new_label();                          \
+> -        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+> -        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
+> -                                                                   \
+> -        data =3D FIELD_DP32(data, VDATA, VM, a->vm);                 \
+> -        data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+> -        data =3D FIELD_DP32(data, VDATA, VTA, s->vta);               \
+> -        data =3D                                                     \
+> -            FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);\
+> -        data =3D FIELD_DP32(data, VDATA, VMA, s->vma);               \
+> -        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
+> -                           vreg_ofs(s, a->rs1),                    \
+> -                           vreg_ofs(s, a->rs2), cpu_env,           \
+> -                           s->cfg_ptr->vlen / 8,                   \
+> -                           s->cfg_ptr->vlen / 8, data,             \
+> -                           fns[s->sew]);                           \
+> -        mark_vs_dirty(s);                                          \
+> -        gen_set_label(over);                                       \
+> -        return true;                                               \
+> -    }                                                              \
+> -    return false;                                                  \
+> +#define GEN_OPIVV_TRANS(NAME, CHECK)                                    =
+ \
+> +static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                  =
+ \
+> +{                                                                       =
+ \
+> +    if (CHECK(s, a)) {                                                  =
+ \
+> +        static gen_helper_gvec_4_ptr * const fns[4] =3D {               =
+   \
+> +            gen_helper_##NAME##_b, gen_helper_##NAME##_h,               =
+ \
+> +            gen_helper_##NAME##_w, gen_helper_##NAME##_d,               =
+ \
+> +        };                                                              =
+ \
+> +        return opivv_trans(a->rd, a->rs1, a->rs2, a->vm, fns[s->sew], s)=
+;\
+> +    }                                                                   =
+ \
+> +    return false;                                                       =
+ \
+>  }
+>
+>  /*
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index 5dee37a242..a94fc3f598 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -16,6 +16,7 @@ riscv_ss.add(files(
+>    'gdbstub.c',
+>    'op_helper.c',
+>    'vector_helper.c',
+> +  'vector_internals.c',
+>    'bitmanip_helper.c',
+>    'translate.c',
+>    'm128_helper.c',
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 2423affe37..f0e8ceff80 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -26,6 +26,7 @@
+>  #include "fpu/softfloat.h"
+>  #include "tcg/tcg-gvec-desc.h"
+>  #include "internals.h"
+> +#include "vector_internals.h"
+>  #include <math.h>
+>
+>  target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
+> @@ -75,68 +76,6 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target=
+_ulong s1,
+>      return vl;
+>  }
+>
+> -/*
+> - * Note that vector data is stored in host-endian 64-bit chunks,
+> - * so addressing units smaller than that needs a host-endian fixup.
+> - */
+> -#if HOST_BIG_ENDIAN
+> -#define H1(x)   ((x) ^ 7)
+> -#define H1_2(x) ((x) ^ 6)
+> -#define H1_4(x) ((x) ^ 4)
+> -#define H2(x)   ((x) ^ 3)
+> -#define H4(x)   ((x) ^ 1)
+> -#define H8(x)   ((x))
+> -#else
+> -#define H1(x)   (x)
+> -#define H1_2(x) (x)
+> -#define H1_4(x) (x)
+> -#define H2(x)   (x)
+> -#define H4(x)   (x)
+> -#define H8(x)   (x)
+> -#endif
+> -
+> -static inline uint32_t vext_nf(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, NF);
+> -}
+> -
+> -static inline uint32_t vext_vm(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, VM);
+> -}
+> -
+> -/*
+> - * Encode LMUL to lmul as following:
+> - *     LMUL    vlmul    lmul
+> - *      1       000       0
+> - *      2       001       1
+> - *      4       010       2
+> - *      8       011       3
+> - *      -       100       -
+> - *     1/8      101      -3
+> - *     1/4      110      -2
+> - *     1/2      111      -1
+> - */
+> -static inline int32_t vext_lmul(uint32_t desc)
+> -{
+> -    return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
+> -}
+> -
+> -static inline uint32_t vext_vta(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, VTA);
+> -}
+> -
+> -static inline uint32_t vext_vma(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, VMA);
+> -}
+> -
+> -static inline uint32_t vext_vta_all_1s(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, VTA_ALL_1S);
+> -}
+> -
+>  /*
+>   * Get the maximum number of elements can be operated.
+>   *
+> @@ -155,21 +94,6 @@ static inline uint32_t vext_max_elems(uint32_t desc, =
+uint32_t log2_esz)
+>      return scale < 0 ? vlenb >> -scale : vlenb << scale;
+>  }
+>
+> -/*
+> - * Get number of total elements, including prestart, body and tail eleme=
+nts.
+> - * Note that when LMUL < 1, the tail includes the elements past VLMAX th=
+at
+> - * are held in the same vector register.
+> - */
+> -static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t=
+ desc,
+> -                                            uint32_t esz)
+> -{
+> -    uint32_t vlenb =3D simd_maxsz(desc);
+> -    uint32_t sew =3D 1 << FIELD_EX64(env->vtype, VTYPE, VSEW);
+> -    int8_t emul =3D ctzl(esz) - ctzl(sew) + vext_lmul(desc) < 0 ? 0 :
+> -                  ctzl(esz) - ctzl(sew) + vext_lmul(desc);
+> -    return (vlenb << emul) / esz;
+> -}
+> -
+>  static inline target_ulong adjust_addr(CPURISCVState *env, target_ulong =
+addr)
+>  {
+>      return (addr & env->cur_pmmask) | env->cur_pmbase;
+> @@ -202,20 +126,6 @@ static void probe_pages(CPURISCVState *env, target_u=
+long addr,
+>      }
+>  }
+>
+> -/* set agnostic elements to 1s */
+> -static void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t=
+ cnt,
+> -                              uint32_t tot)
+> -{
+> -    if (is_agnostic =3D=3D 0) {
+> -        /* policy undisturbed */
+> -        return;
+> -    }
+> -    if (tot - cnt =3D=3D 0) {
+> -        return;
+> -    }
+> -    memset(base + cnt, -1, tot - cnt);
+> -}
+> -
+>  static inline void vext_set_elem_mask(void *v0, int index,
+>                                        uint8_t value)
+>  {
+> @@ -225,18 +135,6 @@ static inline void vext_set_elem_mask(void *v0, int =
+index,
+>      ((uint64_t *)v0)[idx] =3D deposit64(old, pos, 1, value);
+>  }
+>
+> -/*
+> - * Earlier designs (pre-0.9) had a varying number of bits
+> - * per mask value (MLEN). In the 0.9 design, MLEN=3D1.
+> - * (Section 4.5)
+> - */
+> -static inline int vext_elem_mask(void *v0, int index)
+> -{
+> -    int idx =3D index / 64;
+> -    int pos =3D index  % 64;
+> -    return (((uint64_t *)v0)[idx] >> pos) & 1;
+> -}
+> -
+>  /* elements operations for load and store */
+>  typedef void vext_ldst_elem_fn(CPURISCVState *env, target_ulong addr,
+>                                 uint32_t idx, void *vd, uintptr_t retaddr=
+);
+> @@ -739,18 +637,11 @@ GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
+>   *** Vector Integer Arithmetic Instructions
+>   */
+>
+> -/* expand macro args before macro */
+> -#define RVVCALL(macro, ...)  macro(__VA_ARGS__)
+> -
+>  /* (TD, T1, T2, TX1, TX2) */
+>  #define OP_SSS_B int8_t, int8_t, int8_t, int8_t, int8_t
+>  #define OP_SSS_H int16_t, int16_t, int16_t, int16_t, int16_t
+>  #define OP_SSS_W int32_t, int32_t, int32_t, int32_t, int32_t
+>  #define OP_SSS_D int64_t, int64_t, int64_t, int64_t, int64_t
+> -#define OP_UUU_B uint8_t, uint8_t, uint8_t, uint8_t, uint8_t
+> -#define OP_UUU_H uint16_t, uint16_t, uint16_t, uint16_t, uint16_t
+> -#define OP_UUU_W uint32_t, uint32_t, uint32_t, uint32_t, uint32_t
+> -#define OP_UUU_D uint64_t, uint64_t, uint64_t, uint64_t, uint64_t
+>  #define OP_SUS_B int8_t, uint8_t, int8_t, uint8_t, int8_t
+>  #define OP_SUS_H int16_t, uint16_t, int16_t, uint16_t, int16_t
+>  #define OP_SUS_W int32_t, uint32_t, int32_t, uint32_t, int32_t
+> @@ -774,16 +665,6 @@ GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
+>  #define NOP_UUU_H uint16_t, uint16_t, uint32_t, uint16_t, uint32_t
+>  #define NOP_UUU_W uint32_t, uint32_t, uint64_t, uint32_t, uint64_t
+>
+> -/* operation of two vector elements */
+> -typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
+> -
+> -#define OPIVV2(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
+> -static void do_##NAME(void *vd, void *vs1, void *vs2, int i)    \
+> -{                                                               \
+> -    TX1 s1 =3D *((T1 *)vs1 + HS1(i));                             \
+> -    TX2 s2 =3D *((T2 *)vs2 + HS2(i));                             \
+> -    *((TD *)vd + HD(i)) =3D OP(s2, s1);                           \
+> -}
+>  #define DO_SUB(N, M) (N - M)
+>  #define DO_RSUB(N, M) (M - N)
+>
+> @@ -796,40 +677,6 @@ RVVCALL(OPIVV2, vsub_vv_h, OP_SSS_H, H2, H2, H2, DO_=
+SUB)
+>  RVVCALL(OPIVV2, vsub_vv_w, OP_SSS_W, H4, H4, H4, DO_SUB)
+>  RVVCALL(OPIVV2, vsub_vv_d, OP_SSS_D, H8, H8, H8, DO_SUB)
+>
+> -static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+> -                       CPURISCVState *env, uint32_t desc,
+> -                       opivv2_fn *fn, uint32_t esz)
+> -{
+> -    uint32_t vm =3D vext_vm(desc);
+> -    uint32_t vl =3D env->vl;
+> -    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta =3D vext_vta(desc);
+> -    uint32_t vma =3D vext_vma(desc);
+> -    uint32_t i;
+> -
+> -    for (i =3D env->vstart; i < vl; i++) {
+> -        if (!vm && !vext_elem_mask(v0, i)) {
+> -            /* set masked-off elements to 1s */
+> -            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);
+> -            continue;
+> -        }
+> -        fn(vd, vs1, vs2, i);
+> -    }
+> -    env->vstart =3D 0;
+> -    /* set tail elements to 1s */
+> -    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);
+> -}
+> -
+> -/* generate the helpers for OPIVV */
+> -#define GEN_VEXT_VV(NAME, ESZ)                            \
+> -void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+> -                  void *vs2, CPURISCVState *env,          \
+> -                  uint32_t desc)                          \
+> -{                                                         \
+> -    do_vext_vv(vd, v0, vs1, vs2, env, desc,               \
+> -               do_##NAME, ESZ);                           \
+> -}
+> -
+>  GEN_VEXT_VV(vadd_vv_b, 1)
+>  GEN_VEXT_VV(vadd_vv_h, 2)
+>  GEN_VEXT_VV(vadd_vv_w, 4)
+> diff --git a/target/riscv/vector_internals.c b/target/riscv/vector_intern=
+als.c
+> new file mode 100644
+> index 0000000000..95efaa79cb
+> --- /dev/null
+> +++ b/target/riscv/vector_internals.c
+> @@ -0,0 +1,57 @@
+> +/*
+> + * RISC-V Vector Extension Internals
+> + *
+> + * Copyright (c) 2020 T-Head Semiconductor Co., Ltd. All rights reserved=
+.
+> + *
+> + * This program is free software; you can redistribute it and/or modify =
+it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOU=
+T
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License alo=
+ng with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "vector_internals.h"
+> +
+> +/* set agnostic elements to 1s */
+> +void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
+> +                       uint32_t tot)
+> +{
+> +    if (is_agnostic =3D=3D 0) {
+> +        /* policy undisturbed */
+> +        return;
+> +    }
+> +    if (tot - cnt =3D=3D 0) {
+> +        return ;
+> +    }
+> +    memset(base + cnt, -1, tot - cnt);
+> +}
+> +
+> +void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+> +                CPURISCVState *env, uint32_t desc,
+> +                opivv2_fn *fn, uint32_t esz)
+> +{
+> +    uint32_t vm =3D vext_vm(desc);
+> +    uint32_t vl =3D env->vl;
+> +    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);
+> +    uint32_t vta =3D vext_vta(desc);
+> +    uint32_t vma =3D vext_vma(desc);
+> +    uint32_t i;
+> +
+> +    for (i =3D env->vstart; i < vl; i++) {
+> +        if (!vm && !vext_elem_mask(v0, i)) {
+> +            /* set masked-off elements to 1s */
+> +            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);
+> +            continue;
+> +        }
+> +        fn(vd, vs1, vs2, i);
+> +    }
+> +    env->vstart =3D 0;
+> +    /* set tail elements to 1s */
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);
+> +}
+> diff --git a/target/riscv/vector_internals.h b/target/riscv/vector_intern=
+als.h
+> new file mode 100644
+> index 0000000000..a04b7321fb
+> --- /dev/null
+> +++ b/target/riscv/vector_internals.h
+> @@ -0,0 +1,155 @@
+> +/*
+> + * RISC-V Vector Extension Internals
+> + *
+> + * Copyright (c) 2020 T-Head Semiconductor Co., Ltd. All rights reserved=
+.
+> + *
+> + * This program is free software; you can redistribute it and/or modify =
+it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOU=
+T
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License alo=
+ng with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef TARGET_RISCV_VECTOR_INTERNALS_H
+> +#define TARGET_RISCV_VECTOR_INTERNALS_H
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/bitops.h"
+> +#include "cpu.h"
+> +#include "tcg/tcg-gvec-desc.h"
+> +#include "internals.h"
+> +
+> +static inline uint32_t vext_nf(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, NF);
+> +}
+> +
+> +/*
+> + * Note that vector data is stored in host-endian 64-bit chunks,
+> + * so addressing units smaller than that needs a host-endian fixup.
+> + */
+> +#if HOST_BIG_ENDIAN
+> +#define H1(x)   ((x) ^ 7)
+> +#define H1_2(x) ((x) ^ 6)
+> +#define H1_4(x) ((x) ^ 4)
+> +#define H2(x)   ((x) ^ 3)
+> +#define H4(x)   ((x) ^ 1)
+> +#define H8(x)   ((x))
+> +#else
+> +#define H1(x)   (x)
+> +#define H1_2(x) (x)
+> +#define H1_4(x) (x)
+> +#define H2(x)   (x)
+> +#define H4(x)   (x)
+> +#define H8(x)   (x)
+> +#endif
+> +
+> +/*
+> + * Encode LMUL to lmul as following:
+> + *     LMUL    vlmul    lmul
+> + *      1       000       0
+> + *      2       001       1
+> + *      4       010       2
+> + *      8       011       3
+> + *      -       100       -
+> + *     1/8      101      -3
+> + *     1/4      110      -2
+> + *     1/2      111      -1
+> + */
+> +static inline int32_t vext_lmul(uint32_t desc)
+> +{
+> +    return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
+> +}
+> +
+> +static inline uint32_t vext_vm(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VM);
+> +}
+> +
+> +static inline uint32_t vext_vma(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VMA);
+> +}
+> +
+> +static inline uint32_t vext_vta(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VTA);
+> +}
+> +
+> +static inline uint32_t vext_vta_all_1s(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VTA_ALL_1S);
+> +}
+> +
+> +/*
+> + * Earlier designs (pre-0.9) had a varying number of bits
+> + * per mask value (MLEN). In the 0.9 design, MLEN=3D1.
+> + * (Section 4.5)
+> + */
+> +static inline int vext_elem_mask(void *v0, int index)
+> +{
+> +    int idx =3D index / 64;
+> +    int pos =3D index  % 64;
+> +    return (((uint64_t *)v0)[idx] >> pos) & 1;
+> +}
+> +
+> +/*
+> + * Get number of total elements, including prestart, body and tail eleme=
+nts.
+> + * Note that when LMUL < 1, the tail includes the elements past VLMAX th=
+at
+> + * are held in the same vector register.
+> + */
+> +static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t=
+ desc,
+> +                                            uint32_t esz)
+> +{
+> +    uint32_t vlenb =3D simd_maxsz(desc);
+> +    uint32_t sew =3D 1 << FIELD_EX64(env->vtype, VTYPE, VSEW);
+> +    int8_t emul =3D ctzl(esz) - ctzl(sew) + vext_lmul(desc) < 0 ? 0 :
+> +                  ctzl(esz) - ctzl(sew) + vext_lmul(desc);
+> +    return (vlenb << emul) / esz;
+> +}
+> +
+> +/* set agnostic elements to 1s */
+> +void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
+> +                       uint32_t tot);
+> +
+> +/* expand macro args before macro */
+> +#define RVVCALL(macro, ...)  macro(__VA_ARGS__)
+> +
+> +/* (TD, T1, T2, TX1, TX2) */
+> +#define OP_UUU_B uint8_t, uint8_t, uint8_t, uint8_t, uint8_t
+> +#define OP_UUU_H uint16_t, uint16_t, uint16_t, uint16_t, uint16_t
+> +#define OP_UUU_W uint32_t, uint32_t, uint32_t, uint32_t, uint32_t
+> +#define OP_UUU_D uint64_t, uint64_t, uint64_t, uint64_t, uint64_t
+> +
+> +/* operation of two vector elements */
+> +typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
+> +
+> +#define OPIVV2(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
+> +static void do_##NAME(void *vd, void *vs1, void *vs2, int i)    \
+> +{                                                               \
+> +    TX1 s1 =3D *((T1 *)vs1 + HS1(i));                             \
+> +    TX2 s2 =3D *((T2 *)vs2 + HS2(i));                             \
+> +    *((TD *)vd + HD(i)) =3D OP(s2, s1);                           \
+> +}
+> +
+> +void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+> +                CPURISCVState *env, uint32_t desc,
+> +                opivv2_fn *fn, uint32_t esz);
+> +
+> +/* generate the helpers for OPIVV */
+> +#define GEN_VEXT_VV(NAME, ESZ)                            \
+> +void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+> +                  void *vs2, CPURISCVState *env,          \
+> +                  uint32_t desc)                          \
+> +{                                                         \
+> +    do_vext_vv(vd, v0, vs1, vs2, env, desc,               \
+> +               do_##NAME, ESZ);                           \
+> +}
+> +
+> +#endif /* TARGET_RISCV_VECTOR_INTERNALS_H */
+> --
+> 2.39.2
+>
+>
 
