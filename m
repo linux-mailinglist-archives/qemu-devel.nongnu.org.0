@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BFB6C2ECE
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 11:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9176C2F09
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 11:32:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peZCy-0004fr-MD; Tue, 21 Mar 2023 06:27:12 -0400
+	id 1peZHo-000170-9c; Tue, 21 Mar 2023 06:32:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1peZCw-0004VL-Nl; Tue, 21 Mar 2023 06:27:10 -0400
-Received: from m12.mail.163.com ([220.181.12.217])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qianfanguijin@163.com>)
- id 1peZCu-0000JI-2y; Tue, 21 Mar 2023 06:27:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=8fSOj
- 9FHLD20tnFbzWLo8vjwarYRhtlzUZh39dyHPG8=; b=ENXLtr1oOSGfAUGsBO8Cg
- /7M/4H9+GVzptEIO+dIT630yaHa/bYd+2z4OrHYeqnd+PF+R82CKDHeP7aWZyVXv
- kj2Id7vkLQawzFsb0vm497RP4JbP+k8EBZR8Brjx1W6vRdF5vVVdPdR5mm987piY
- e3yig0uL0u3NZ2kWI15WNU=
-Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
- by zwqz-smtp-mta-g1-0 (Coremail) with SMTP id _____wDXaolehhlkADcWAA--.8313S2; 
- Tue, 21 Mar 2023 18:26:38 +0800 (CST)
-From: qianfanguijin@163.com
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH v1 11/11] docs: system: arm: Introduce bananapi_m2u
-Date: Tue, 21 Mar 2023 18:26:13 +0800
-Message-Id: <20230321102613.16856-1-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peZHm-00016T-GA
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 06:32:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peZHk-0001Su-O9
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 06:32:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679394727;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w4W/4nrAHP64mnQYHJhv+Eu0Nz1CUM1J7m8M3JqQtww=;
+ b=DXRW35j/SvLtlWZdZJ/E/na6IG6F/IC/vuNbEc0B6G+hO9CTvFg1lCurhpc7L0FHpUhV3x
+ 6I3QIL76tvgyg8/RYKIxBNvZWcaq67M0rpv0Y/FH+xsqAe1cq2zw4LyOCgRaHdxi3tgmIA
+ VecTp+R0SRwwvUEWAIxfLpGvrGn1kzA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-471-mG01RzpAM_qadCBMGhWecg-1; Tue, 21 Mar 2023 06:30:20 -0400
+X-MC-Unique: mG01RzpAM_qadCBMGhWecg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FD91101A553;
+ Tue, 21 Mar 2023 10:30:20 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E374140E95F;
+ Tue, 21 Mar 2023 10:30:18 +0000 (UTC)
+Date: Tue, 21 Mar 2023 10:30:16 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH for-8.0 1/3] async: Suppress GCC13 false positive in
+ aio_bh_poll()
+Message-ID: <ZBmHOBEfTCLsA0US@redhat.com>
+References: <20230321083322.663561-1-clg@kaod.org>
+ <20230321083322.663561-2-clg@kaod.org>
+ <895227cc-243a-1e93-26c2-da22bd8864c5@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDXaolehhlkADcWAA--.8313S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxuw4fCF4ruF4fCr1xZw47urg_yoW7Aw4fpF
- yvka15KrWkJF1Fya97Kw1fWFy5Xas5ArWUJF1kJ34rtF98Kr1vvwn3Kwn8Wasrtw4Ivw10
- qrW7GF12gwn8J3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zKYLdrUUUUU=
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiQgE57VaEEu4H5QAAsb
-Received-SPF: pass client-ip=220.181.12.217;
- envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
+In-Reply-To: <895227cc-243a-1e93-26c2-da22bd8864c5@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,164 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: qianfan Zhao <qianfanguijin@163.com>
+On Tue, Mar 21, 2023 at 11:22:33AM +0100, Paolo Bonzini wrote:
+> On 3/21/23 09:33, Cédric Le Goater wrote:
+> > From: Cédric Le Goater<clg@redhat.com>
+> > 
+> > GCC13 reports an error :
+> > 
+> > ../util/async.c: In function ‘aio_bh_poll’:
+> > include/qemu/queue.h:303:22: error: storing the address of local variable ‘slice’ in ‘*ctx.bh_slice_list.sqh_last’ [-Werror=dangling-pointer=]
+> >    303 |     (head)->sqh_last = &(elm)->field.sqe_next;                          \
+> >        |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+> > ../util/async.c:169:5: note: in expansion of macro ‘QSIMPLEQ_INSERT_TAIL’
+> >    169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+> >        |     ^~~~~~~~~~~~~~~~~~~~
+> > ../util/async.c:161:17: note: ‘slice’ declared here
+> >    161 |     BHListSlice slice;
+> >        |                 ^~~~~
+> > ../util/async.c:161:17: note: ‘ctx’ declared here
+> > 
+> > But the local variable 'slice' is removed from the global context list
+> > in following loop of the same routine. Add an intermediate helper to
+> > silent GCC. No functional change.
+> 
+> Before doing this, I would like to see a case where this bug was _not_
+> caught by either Coverity (which is currently offline but I'm fixing it
+> right now) or just cursory review.
 
-Add documents for Banana Pi M2U
+IMHO coverity is not a substitute for this, because it is only available
+post merge, while the GCC warning is available to all maintainers on
+every build. As for code review, mistakes inevitably happen. 
 
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
----
- docs/system/arm/bananapi_m2u.rst | 138 +++++++++++++++++++++++++++++++
- 1 file changed, 138 insertions(+)
- create mode 100644 docs/system/arm/bananapi_m2u.rst
+Personally I find the code in this method pretty obtuse. It is hard to
+reason about it to convince yourself that it is safe to be adding the
+local variable to the global linked list and have it removed again
+before returning.
 
-diff --git a/docs/system/arm/bananapi_m2u.rst b/docs/system/arm/bananapi_m2u.rst
-new file mode 100644
-index 0000000000..ae7194a9df
---- /dev/null
-+++ b/docs/system/arm/bananapi_m2u.rst
-@@ -0,0 +1,138 @@
-+Banana Pi BPI-M2U (``bpim2u``)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Banana Pi BPI-M2 Ultra is a quad-core mini single board computer built with
-+Allwinner A40i/R40/V40 SoC. It features 2GB of RAM and 8GB eMMC. It also
-+has onboard WiFi and BT. On the ports side, the BPI-M2 Ultra has 2 USB A
-+2.0 ports, 1 USB OTG port, 1 HDMI port, 1 audio jack, a DC power port,
-+and last but not least, a SATA port.
-+
-+Supported devices
-+"""""""""""""""""
-+
-+The Banana Pi M2U machine supports the following devices:
-+
-+ * SMP (Quad Core Cortex-A7)
-+ * Generic Interrupt Controller configuration
-+ * SRAM mappings
-+ * SDRAM controller
-+ * Timer device (re-used from Allwinner A10)
-+ * UART
-+ * SD/MMC storage controller
-+ * EMAC ethernet
-+ * GMAC ethernet
-+ * Clock Control Unit
-+ * TWI (I2C)
-+
-+Limitations
-+"""""""""""
-+
-+Currently, Banana Pi M2U does *not* support the following features:
-+
-+- Graphical output via HDMI, GPU and/or the Display Engine
-+- Audio output
-+- Hardware Watchdog
-+- Real Time Clock
-+- USB 2.0 interfaces
-+
-+Also see the 'unimplemented' array in the Allwinner R40 SoC module
-+for a complete list of unimplemented I/O devices: ``./hw/arm/allwinner-r40.c``
-+
-+Boot options
-+""""""""""""
-+
-+The Banana Pi M2U machine can start using the standard -kernel functionality
-+for loading a Linux kernel or ELF executable. Additionally, the Banana Pi M2U
-+machine can also emulate the BootROM which is present on an actual Allwinner R40
-+based SoC, which loads the bootloader from a SD card, specified via the -sd
-+argument to qemu-system-arm.
-+
-+Running mainline Linux
-+""""""""""""""""""""""
-+
-+To build a Linux mainline kernel that can be booted by the Banana Pi M2U machine,
-+simply configure the kernel using the sunxi_defconfig configuration:
-+
-+.. code-block:: bash
-+
-+  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make mrproper
-+  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make sunxi_defconfig
-+
-+To boot the newly build linux kernel in QEMU with the Banana Pi M2U machine, use:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M bpim2u -nographic \
-+      -kernel /path/to/linux/arch/arm/boot/zImage \
-+      -append 'console=ttyS0,115200' \
-+      -dtb /path/to/linux/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dtb
-+
-+Banana Pi M2U images
-+""""""""""""""""""""
-+
-+Note that the mainline kernel does not have a root filesystem. You can choose
-+to build you own image with buildroot using the bananapi_m2_ultra_defconfig.
-+Also see https://buildroot.org for more information.
-+
-+Another possibility is to run an OpenWrt image for Banana Pi M2U which
-+can be downloaded from:
-+
-+   https://downloads.openwrt.org/releases/22.03.3/targets/sunxi/cortexa7/
-+
-+When using an image as an SD card, it must be resized to a power of two. This can be
-+done with the ``qemu-img`` command. It is recommended to only increase the image size
-+instead of shrinking it to a power of two, to avoid loss of data. For example,
-+to prepare a downloaded Armbian image, first extract it and then increase
-+its size to one gigabyte as follows:
-+
-+.. code-block:: bash
-+
-+  $ qemu-img resize \
-+    openwrt-22.03.3-sunxi-cortexa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img \
-+    1G
-+
-+Instead of providing a custom Linux kernel via the -kernel command you may also
-+choose to let the Banana Pi M2U machine load the bootloader from SD card, just like
-+a real board would do using the BootROM. Simply pass the selected image via the -sd
-+argument and remove the -kernel, -append, -dbt and -initrd arguments:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M bpim2u -nic user -nographic \
-+    -sd openwrt-22.03.3-sunxi-cortexa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img
-+
-+Running U-Boot
-+""""""""""""""
-+
-+U-Boot mainline can be build and configured using the Bananapi_M2_Ultra_defconfig
-+using similar commands as describe above for Linux. Note that it is recommended
-+for development/testing to select the following configuration setting in U-Boot:
-+
-+  Device Tree Control > Provider for DTB for DT Control > Embedded DTB
-+
-+The BootROM of allwinner R40 loading u-boot from the 8KiB offset of sdcard.
-+Let's create an bootable disk image:
-+
-+.. code-block:: bash
-+
-+  $ dd if=/dev/zero of=sd.img bs=32M count=1
-+  $ dd if=u-boot-sunxi-with-spl.bin of=sd.img bs=1k seek=8 conv=notrunc
-+
-+And then boot it.
-+
-+.. code-block:: bash
-+  $ qemu-system-arm -M bpim2u -nographic -sd sd.img
-+
-+Banana Pi M2U integration tests
-+""""""""""""""""""""""""""""""
-+
-+The Banana Pi M2U machine has several integration tests included.
-+To run the whole set of tests, build QEMU from source and simply
-+provide the following command:
-+
-+.. code-block:: bash
-+
-+  $ cd qemu-build-dir
-+  $ AVOCADO_ALLOW_LARGE_STORAGE=yes tests/venv/bin/avocado \
-+    --verbose --show=app,console run -t machine:bpim2u \
-+    ../tests/avocado/boot_linux_console.py
+Stefan has explained why it is correct, but I tend to think of the compiler
+warning here as a sign that the code might be better to be written in a
+different way that is more obviously correct. If this really is the best
+way to write this method though, an alternative could be selectively
+disabling the warning with a local pragma, along with adding a comment
+to the method to explain why this unusual code pattern is indeed safe.
+
+With regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
