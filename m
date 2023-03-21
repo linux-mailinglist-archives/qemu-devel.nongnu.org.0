@@ -2,51 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1646C2F83
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 11:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B87A6C2FB0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 11:59:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peZYc-0005PT-4L; Tue, 21 Mar 2023 06:49:34 -0400
+	id 1peZgW-00084P-QA; Tue, 21 Mar 2023 06:57:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
- id 1peZYW-0005NR-CN
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 06:49:29 -0400
-Received: from imap4.hz.codethink.co.uk ([188.40.203.114])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1peZgS-00084B-32
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 06:57:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
- id 1peZYU-00033O-DQ
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 06:49:27 -0400
-Received: from [167.98.27.226] (helo=[10.35.5.186])
- by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
- id 1peZYK-003j6N-MB; Tue, 21 Mar 2023 10:49:16 +0000
-Message-ID: <e37a42ad-dcb9-05f1-7541-8fe861bfcc79@codethink.co.uk>
-Date: Tue, 21 Mar 2023 10:49:15 +0000
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1peZgQ-0007HW-6a
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 06:57:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679396255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SGaQfEfu5XebyvZfQDHvSftBcJF+kjP3M4pc8qGGyEs=;
+ b=MkxliANEJnE+SCEZNKF5N9uHxq9RwAy0dfKZItda8x8wlONBRYjXDu/JmWkiKS+wxjNUXb
+ ocU68o0Ilca4N+d13v1rUmU6xXsP4D9OxnD6aDgtpZWe45UpMe7x780tw89K3svOXHuEZs
+ 2wXzjWCl2BcFEnsr1dxc3GruNZsYn3I=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-70-ffYIM6XhMRGYomU_VBKILA-1; Tue, 21 Mar 2023 06:57:34 -0400
+X-MC-Unique: ffYIM6XhMRGYomU_VBKILA-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ z8-20020a67d288000000b00425d16237c4so3556834vsi.19
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 03:57:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679396253;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SGaQfEfu5XebyvZfQDHvSftBcJF+kjP3M4pc8qGGyEs=;
+ b=6cmpVduq5Pt9L1iyW6Er0++vqPWmsW+YL5hWoLDM1j4NdwQfE0bJI31QyyrOGO3lwD
+ YNKfwrz3ci73E8/mbEu/PUxLoN/1J8q4M48oJ9+xUzRV+yvQef1j9+NE6Jr718k3z428
+ q1QlZOIMDqqs3mT9A9VwyDlVsqZK3iZZtlF+FR3603Z0x9gwcV5YbeseTz+st3ehmXQV
+ /t2BnW5O8o0ZhWhttwfU/Rzw6S0e7zxPRukWlROYT7Xv/zcjo2Nt0BJ8/Fc5oCy/dKRu
+ pRooUsS1ooJ1M/KQhXGAMqpU6sKgkwCTMdtXFvpqL2u6CT1ioKCBDynO9b00NH6r9fKf
+ nRbQ==
+X-Gm-Message-State: AO0yUKWQXwRpvQAbA4W0emPuFCmNgtSKvkl8VYm6nNDukyZNxtXD8Ynx
+ lBMYPtYEAqun4tVOpYnN2KH09UxQsH4fhxGMHNo/Hx7MWtTsW54/2mBQNkx9dXpKEOa4d1HC5zt
+ JVbLwcWEAkJQvf6idYaCjagmrExvrQus=
+X-Received: by 2002:a67:d29b:0:b0:425:e623:360a with SMTP id
+ z27-20020a67d29b000000b00425e623360amr1252703vsi.1.1679396253553; 
+ Tue, 21 Mar 2023 03:57:33 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8yxYsrL4YYrxBCj82VzP5oeCdHZLVPJhvtqetsqeAxNFl9Jnc67QEvkrWhbg/hZX/1OqD+niJjytoPorowI3o=
+X-Received: by 2002:a67:d29b:0:b0:425:e623:360a with SMTP id
+ z27-20020a67d29b000000b00425e623360amr1252696vsi.1.1679396253326; Tue, 21 Mar
+ 2023 03:57:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] hw/net/can: Add mcp25625 model
-Content-Language: en-GB
-To: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Cc: qemu-devel@nongnu.org, jasowang@redhat.com, fnu.vikram@xilinx.com,
- nazar.kazakov@codethink.co.uk, lawrence.hunter@codethink.co.uk,
- frank.chang@sifive.com, paul.walmsley@sifive.com,
- Ben Dooks <ben.dooks@sifive.com>
-References: <20230316124113.148463-1-ben.dooks@codethink.co.uk>
- <202303171511.00937.pisa@cmp.felk.cvut.cz>
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-In-Reply-To: <202303171511.00937.pisa@cmp.felk.cvut.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=188.40.203.114;
- envelope-from=ben.dooks@codethink.co.uk; helo=imap4.hz.codethink.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230321083322.663561-1-clg@kaod.org>
+ <20230321083322.663561-2-clg@kaod.org>
+ <895227cc-243a-1e93-26c2-da22bd8864c5@redhat.com>
+ <ZBmHOBEfTCLsA0US@redhat.com>
+In-Reply-To: <ZBmHOBEfTCLsA0US@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 21 Mar 2023 11:57:22 +0100
+Message-ID: <CABgObfYDQAGVt5RsY3vrLH61WcZMpfinZr+O2ZE7nL7-zBMgtw@mail.gmail.com>
+Subject: Re: [PATCH for-8.0 1/3] async: Suppress GCC13 false positive in
+ aio_bh_poll()
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001def7205f766e954"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,112 +98,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/03/2023 14:11, Pavel Pisa wrote:
-> Hello Ben,
-> 
-> thanks for update.
-> 
-> On Thursday 16 of March 2023 13:41:13 Ben Dooks wrote:
->> From: Ben Dooks <ben.dooks@sifive.com>
->>
->> Add support for Microchip MCP25625 SPI based CAN controller which is
->> very similar to the MCP2515 (and covered by the same Linux driver).
->>
->> This can be added to any machine with SPI support in the machine
->> model file.
->>
->> Example for using this when configured into a machine:
->>
->> 	-object can-bus,id=canbus0 \
->> 	-object can-host-socketcan,id=canhost0,if=vcan0,canbus=canbus0 \
->> 	-global driver=mcp25625,property=canbus,value=canbus0
->>
->> There is tracing support with --trace "*mcp25*"
-> 
-> Code looks good, I have patched actual QEMU sources and build
-> it successfully with your change.
-> 
-> I have not seen any warning.
-> 
-> I would like to test the mcp25625 CAN functionality.
-> 
-> I would prefer against some target which is already available
-> in QEMU and Linux kernel mainlines, so if somebody can suggest
-> some ARM which can connect SPI/SSI device it would be great.
-> 
-> I have setup /srv/nfs/debian-riscv64 chroot and used
-> it to prepare minimal 3 MB ramdisk.cpio with busybox
-> and full GLIBC and ip package.
-> 
-> I can run it with Debian provided RISC-V kernel
-> under QEMU compiled with your mcp25625 chip emulation
-> 
-> qemu-system-riscv64 -m 1G -M sifive_u -smp 2 \
->        -initrd ramdisk.cpio \
->        -kernel vmlinux-6.1.0-6-riscv64 \
->        -nographic \
->        -object can-bus,id=canbus0 \
->        -object can-host-socketcan,id=canhost0,if=can0,canbus=canbus0 \
->        -global driver=mcp25625,property=canbus,value=canbus0
-> 
-> I can see
-> 
-> /sys/bus/platform/devices/10040000.spi
-> /sys/bus/platform/devices/10050000.spi
-> 
-> I can run
-> 
->    modprobe spi-sifive.ko
-> 
-> [   41.524160] sifive_spi 10040000.spi: mapped; irq=21, cs=1
-> [   41.529305] sifive_spi 10050000.spi: mapped; irq=22, cs=1
-> 
->    modprobe mcp251x.ko
-> 
-> I can imagine to build device tree overlay and setup it from within
-> kernel if the device is already mapped
-> 
->    cd /sys/kernel/config/device-tree/overlays
->    [ -d  sifive_u-mcp25625 ] && rmdir sifive_u-mcp25625
->    mkdir sifive_u-mcp25625
->    cd sifive_u-mcp25625
->    cat sifive_u-mcp25625.dtbo >dtbo
->    echo 1 >status
-> 
-> which is what we do with CTU CAN FD ip on Zynq system
-> to run PL/FPGA update.
-> 
-> But from QEMU info qtree, I see that device is not mapped in QEMU...
-> Which is logic...
-> 
-> So please, can you send instruction how to proceed forward.
-> 
-> Do you have DTB prepared for testing or something similar?
-> 
-> In a longer term perspective, it would be ideal to provide
-> some update for documentation, how to use mcp25625 emulation
-> 
->    https://www.qemu.org/docs/master/system/devices/can.html
-> 
-> By the way, if the Raspberry Pi emulation does not provide
-> right SPI emulation as you have noticed, what about BeagleBoneBlack?
+--0000000000001def7205f766e954
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-At the moment it seems that the as a whole qemu doesn't have a good
-way of adding a generic spi device to a bus.
+Il mar 21 mar 2023, 11:30 Daniel P. Berrang=C3=A9 <berrange@redhat.com> ha
+scritto:
 
-> Does it support SPI? It could be good target to test that mcp25625
-> chip emulation is portable..
+> On Tue, Mar 21, 2023 at 11:22:33AM +0100, Paolo Bonzini wrote:
+> > On 3/21/23 09:33, C=C3=A9dric Le Goater wrote:
+> > > From: C=C3=A9dric Le Goater<clg@redhat.com>
+> > >
+> > > GCC13 reports an error :
+> > >
+> > > ../util/async.c: In function =E2=80=98aio_bh_poll=E2=80=99:
+> > > include/qemu/queue.h:303:22: error: storing the address of local
+> variable =E2=80=98slice=E2=80=99 in =E2=80=98*ctx.bh_slice_list.sqh_last=
+=E2=80=99
+> [-Werror=3Ddangling-pointer=3D]
+> > >    303 |     (head)->sqh_last =3D &(elm)->field.sqe_next;
+>           \
+> > >        |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+> > > ../util/async.c:169:5: note: in expansion of macro
+> =E2=80=98QSIMPLEQ_INSERT_TAIL=E2=80=99
+> > >    169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+> > >        |     ^~~~~~~~~~~~~~~~~~~~
+> > > ../util/async.c:161:17: note: =E2=80=98slice=E2=80=99 declared here
+> > >    161 |     BHListSlice slice;
+> > >        |                 ^~~~~
+> > > ../util/async.c:161:17: note: =E2=80=98ctx=E2=80=99 declared here
+> > >
+> > > But the local variable 'slice' is removed from the global context lis=
+t
+> > > in following loop of the same routine. Add an intermediate helper to
+> > > silent GCC. No functional change.
+> >
+> > Before doing this, I would like to see a case where this bug was _not_
+> > caught by either Coverity (which is currently offline but I'm fixing it
+> > right now) or just cursory review.
+>
+> IMHO coverity is not a substitute for this, because it is only available
+> post merge, while the GCC warning is available to all maintainers on
+> every build. As for code review, mistakes inevitably happen.
+>
 
-I've pushed our test branch out to:
-https://gitlab.com/CodethinkLabs/qemu/-/commits/mcp25625_test
+Okay, then I would like to see a single SIGSEGV in QEMU that was caused by
+a local variable making its way to a global pointer.
 
-That adds an spi channel to the sifive_u machine and puts the
-right dtb entry in there.
+As to this specific case, we could add a bool removed flag to BHListSlice
+and assert it before aio_bh_poll() returns, but I think even that is
+overkill.
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
+Paolo
 
-https://www.codethink.co.uk/privacy.html
+--0000000000001def7205f766e954
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il mar 21 mar 2023, 11:30 Daniel P. Berrang=C3=A9 &lt;=
+<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; ha scrit=
+to:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">On Tue, Mar 21, 2023 at 11:22:3=
+3AM +0100, Paolo Bonzini wrote:<br>
+&gt; On 3/21/23 09:33, C=C3=A9dric Le Goater wrote:<br>
+&gt; &gt; From: C=C3=A9dric Le Goater&lt;<a href=3D"mailto:clg@redhat.com" =
+target=3D"_blank" rel=3D"noreferrer">clg@redhat.com</a>&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; GCC13 reports an error :<br>
+&gt; &gt; <br>
+&gt; &gt; ../util/async.c: In function =E2=80=98aio_bh_poll=E2=80=99:<br>
+&gt; &gt; include/qemu/queue.h:303:22: error: storing the address of local =
+variable =E2=80=98slice=E2=80=99 in =E2=80=98*ctx.bh_slice_list.sqh_last=E2=
+=80=99 [-Werror=3Ddangling-pointer=3D]<br>
+&gt; &gt;=C2=A0 =C2=A0 303 |=C2=A0 =C2=A0 =C2=A0(head)-&gt;sqh_last =3D &am=
+p;(elm)-&gt;field.sqe_next;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0~~~~~~~~~~~~~~~~~=
+^~~~~~~~~~~~~~~~~~~~~~~~<br>
+&gt; &gt; ../util/async.c:169:5: note: in expansion of macro =E2=80=98QSIMP=
+LEQ_INSERT_TAIL=E2=80=99<br>
+&gt; &gt;=C2=A0 =C2=A0 169 |=C2=A0 =C2=A0 =C2=A0QSIMPLEQ_INSERT_TAIL(&amp;c=
+tx-&gt;bh_slice_list, &amp;slice, next);<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0^~~~~~~~~~~~~~~~~=
+~~~<br>
+&gt; &gt; ../util/async.c:161:17: note: =E2=80=98slice=E2=80=99 declared he=
+re<br>
+&gt; &gt;=C2=A0 =C2=A0 161 |=C2=A0 =C2=A0 =C2=A0BHListSlice slice;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~<br>
+&gt; &gt; ../util/async.c:161:17: note: =E2=80=98ctx=E2=80=99 declared here=
+<br>
+&gt; &gt; <br>
+&gt; &gt; But the local variable &#39;slice&#39; is removed from the global=
+ context list<br>
+&gt; &gt; in following loop of the same routine. Add an intermediate helper=
+ to<br>
+&gt; &gt; silent GCC. No functional change.<br>
+&gt; <br>
+&gt; Before doing this, I would like to see a case where this bug was _not_=
+<br>
+&gt; caught by either Coverity (which is currently offline but I&#39;m fixi=
+ng it<br>
+&gt; right now) or just cursory review.<br>
+<br>
+IMHO coverity is not a substitute for this, because it is only available<br=
+>
+post merge, while the GCC warning is available to all maintainers on<br>
+every build. As for code review, mistakes inevitably happen.<br></blockquot=
+e></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Okay, then I wo=
+uld like to see a single SIGSEGV in QEMU that was caused by a local variabl=
+e making its way to a global pointer.</div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto">As to this specific case, we could add a bool removed flag to=
+ BHListSlice and assert it before aio_bh_poll() returns, but I think even t=
+hat is overkill.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</=
+div></div>
+
+--0000000000001def7205f766e954--
 
 
