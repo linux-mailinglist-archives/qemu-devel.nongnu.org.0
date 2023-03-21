@@ -2,66 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272826C2A88
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 07:38:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96B96C2A9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 07:44:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peVc5-0000Qw-HA; Tue, 21 Mar 2023 02:36:53 -0400
+	id 1peVjN-0002JA-Ja; Tue, 21 Mar 2023 02:44:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1peVc2-0000Pm-Hb; Tue, 21 Mar 2023 02:36:50 -0400
-Received: from mga17.intel.com ([192.55.52.151])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1peVjI-0002IZ-Nt
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 02:44:21 -0400
+Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1peVbz-0001ST-UO; Tue, 21 Mar 2023 02:36:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679380607; x=1710916607;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=T20dgz041mAKoOsM1UKi64go9mCORNyet3agOm7n79Y=;
- b=cJrcWj6YVrbYUHDQUJM8GTAMLEDQ1vk4TTxOlAL59EpB7zbkdF5h6Wru
- zytcL9SEvfjQaJ2XxRhf1lpeL2/6xo3MwkhPx1I9sqmcZnZ4aioCMYl5U
- IgkI2ayNBh+SlaWIOkTa/OIUNjUJJfyFqdvyboDmneIo86gHnCw3KuO2N
- 3v0vT4FUhIZq5fj378yJloSN8JrPDIkbFDvAkj4if65zhggE/fGmBZWuF
- PN664JnwT7qD8SiaVo5hHAmaxM9kWfGmd1wfdS2SOxGcEBqa3SPzcX+Mg
- RarETdccdj487wsbUQy7OUigLMpxKO0EAp4Sx9V9G//HtMBpLCK7jg5/w A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="319255497"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="319255497"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 23:36:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="1010815244"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="1010815244"
-Received: from wufei-optiplex-7090.sh.intel.com ([10.238.200.247])
- by fmsmga005.fm.intel.com with ESMTP; 20 Mar 2023 23:36:33 -0700
-From: fei2.wu@intel.com
-To: 
-Cc: Fei Wu <fei2.wu@intel.com>, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs),
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
-Date: Tue, 21 Mar 2023 14:37:46 +0800
-Message-Id: <20230321063746.151107-1-fei2.wu@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1peVjE-00041k-Uq
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 02:44:19 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=2; SR=0;
+ TI=SMTPD_---0VeLwDzI_1679381048; 
+Received: from 30.221.98.101(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VeLwDzI_1679381048) by smtp.aliyun-inc.com;
+ Tue, 21 Mar 2023 14:44:08 +0800
+Message-ID: <ee34a299-3b57-1f97-cc08-19cebfcc0c6e@linux.alibaba.com>
+Date: Tue, 21 Mar 2023 14:44:07 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] tcg/tcg: Avoid TS_DEAD for basic block ending
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230321045340.838-1-zhiwei_liu@linux.alibaba.com>
+ <6a240bc1-4321-9891-3291-1320a96d1310@linaro.org>
+Content-Language: en-US
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <6a240bc1-4321-9891-3291-1320a96d1310@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=fei2.wu@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.124;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-124.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,95 +64,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fei Wu <fei2.wu@intel.com>
 
-Kernel needs to access user mode memory e.g. during syscalls, the window
-is usually opened up for a very limited time through MSTATUS.SUM, the
-overhead is too much if tlb_flush() gets called for every SUM change.
-This patch saves addresses accessed when SUM=1, and flushs only these
-pages when SUM changes to 0. If the buffer is not large enough to save
-all the pages during SUM=1, it will fall back to tlb_flush when
-necessary.
+On 2023/3/21 14:06, Richard Henderson wrote:
+> On 3/20/23 21:53, LIU Zhiwei wrote:
+>> TS_DEAD means we will release the register allocated for this 
+>> temporary. But
+>> at basic block ending, we can still use the allocted register.
+>>
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+>
+> Test case?
 
-The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
-most of the time kernel accesses 1 or 2 pages, it's very rare to see
-more than 4 pages accessed.
+I have run an Ubuntu image after this patch. It can boot.
 
-It's not necessary to save/restore these new added status, as
-tlb_flush() is always called after restore.
+But I can't find a direct test case.  Because the IRs supported with 
+flags TCG_OPF_BB_END do not have  input or output parameter, such as the 
+set_label or br.
 
-Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
-other syscalls benefit a lot from this one too.
+Best Regards,
+Zhiwei
 
-Signed-off-by: Fei Wu <fei2.wu@intel.com>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
----
- target/riscv/cpu.h        |  4 ++++
- target/riscv/cpu_helper.c |  7 +++++++
- target/riscv/csr.c        | 14 +++++++++++++-
- 3 files changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 638e47c75a..926dbce59f 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -383,6 +383,10 @@ struct CPUArchState {
-     uint64_t kvm_timer_compare;
-     uint64_t kvm_timer_state;
-     uint64_t kvm_timer_frequency;
-+
-+#define MAX_CACHED_SUM_U_ADDR_NUM 4
-+    uint64_t sum_u_count;
-+    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
- };
- 
- OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f88c503cf4..5ad0418eb6 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -1068,6 +1068,13 @@ restart:
-                     (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-                 *prot |= PAGE_WRITE;
-             }
-+            if ((pte & PTE_U) && (mode & PRV_S) &&
-+                    get_field(env->mstatus, MSTATUS_SUM)) {
-+                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
-+                    env->sum_u_addr[env->sum_u_count] = addr;
-+                }
-+                ++env->sum_u_count;
-+            }
-             return TRANSLATE_SUCCESS;
-         }
-     }
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index ab566639e5..74b7638c8a 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1246,9 +1246,21 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
- 
-     /* flush tlb on mstatus fields that affect VM */
-     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
--            MSTATUS_MPRV | MSTATUS_SUM)) {
-+            MSTATUS_MPRV)) {
-         tlb_flush(env_cpu(env));
-+        env->sum_u_count = 0;
-+    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
-+        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
-+            tlb_flush(env_cpu(env));
-+        } else {
-+            for (int i = 0; i < env->sum_u_count; ++i) {
-+                tlb_flush_page_by_mmuidx(env_cpu(env), env->sum_u_addr[i],
-+                                         1 << PRV_S | 1 << PRV_M);
-+            }
-+        }
-+        env->sum_u_count = 0;
-     }
-+
-     mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-         MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
-         MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
--- 
-2.25.1
-
+>
+>
+> r~
+>
+>> ---
+>>   tcg/tcg.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/tcg/tcg.c b/tcg/tcg.c
+>> index bb52bc060b..0c93e6e6f8 100644
+>> --- a/tcg/tcg.c
+>> +++ b/tcg/tcg.c
+>> @@ -2822,7 +2822,7 @@ static void la_bb_end(TCGContext *s, int ng, 
+>> int nt)
+>>           case TEMP_FIXED:
+>>           case TEMP_GLOBAL:
+>>           case TEMP_TB:
+>> -            state = TS_DEAD | TS_MEM;
+>> +            state = TS_MEM;
+>>               break;
+>>           case TEMP_EBB:
+>>           case TEMP_CONST:
 
