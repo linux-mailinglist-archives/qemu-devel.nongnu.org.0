@@ -2,82 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC986C3CFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 22:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEBE6C3EA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 00:37:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pejrI-0007gs-Kh; Tue, 21 Mar 2023 17:49:32 -0400
+	id 1pelW4-0003XB-Kc; Tue, 21 Mar 2023 19:35:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pejrD-0007gS-Pn
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:49:27 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pejrB-0005On-Pv
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:49:27 -0400
-Received: by mail-wr1-x430.google.com with SMTP id y14so15162339wrq.4
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 14:49:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679435364;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KLDEjLsqaIXRv45y93TTZOgUoiU7wkQNHRp8YMXFdAI=;
- b=DCTJueUz4k4Q68ePJtTT45+xRVQZ/BGfC6v5Q7tt8p7UEq66XeDcSbDrbRTSkrqOkX
- Ze5b+pQ6p2aM+KijpN2mMD+O7a5w66uGzyIc2wnXcxNjvrQ0IDG7es48q5OqTEFUGf4/
- jmm666FygqHk+guystI4KBdBXb6ZiDKuUR3zidup1EQm8dmbxzkYCAnVnFXHp7DOHHYj
- icLx+yEWlu7Cz7MbSG0oCnmIVk5ZhZVM9biw1ra0s653ug46JFNUZnf5q2P7qPnlsXsw
- P/GgqbeBLyj6QLPltyqDYWziH/wmUzIU16Wcplatg9XOrgd4cTMccpy6IluHYlfsHcs4
- GHpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679435364;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KLDEjLsqaIXRv45y93TTZOgUoiU7wkQNHRp8YMXFdAI=;
- b=hUJfODCVMP3TnUwXf7wItkTTLQDIC+uNhdLNPTWCXjwZch2B4J+HJ1MdC+GXk3TnuJ
- ab4/qv4SajiQ8DMODW/8inaoMJVpQysOL59J+g/QZLBKnq+jAp5M4hp5OyNFfMtSxCxC
- ABd6BoNfxZARztVHYUvnmyZpV/8X22FrcnOvRP+/hxUutjGI3Mbcx9TO8ibB78BaGm/A
- +dfgEDGL7j9JxxacdFDWLx82uA0UUieCii6RyrBQUOxEvxlXmFijr50cnTDKgaHIEcJc
- 5uQtFBgx+WB/WugrKwpaBW+vbboekmhvcUdCSJ5vTwMoltOVRiV7lluHYBAwApyEBF+m
- Hfgg==
-X-Gm-Message-State: AO0yUKXptELZKdSDmMqQIvgJHGILGGuntJL3wkGmSB00FTT6rY4cqCZZ
- DmGk9tvsd0Cv3eaDZ1mAox2BQQ==
-X-Google-Smtp-Source: AK7set9ANLIh3YDFBMKsBHK30rzAUqxJeTeiw4rRc8RH4J4qzLHdoU3y00VWbMYQjZmWNMdnbCD9dA==
-X-Received: by 2002:adf:f64a:0:b0:2d8:96b4:5ed9 with SMTP id
- x10-20020adff64a000000b002d896b45ed9mr3240624wrp.38.1679435363715; 
- Tue, 21 Mar 2023 14:49:23 -0700 (PDT)
-Received: from [192.168.69.115] (brc29-h02-176-184-12-93.dsl.sta.abo.bbox.fr.
- [176.184.12.93]) by smtp.gmail.com with ESMTPSA id
- d10-20020adfe88a000000b002c70e60abd4sm12334350wrm.2.2023.03.21.14.49.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Mar 2023 14:49:23 -0700 (PDT)
-Message-ID: <1bc74e87-1cbc-4a40-f9b6-7ebf6110c16c@linaro.org>
-Date: Tue, 21 Mar 2023 22:49:21 +0100
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pelW1-0003Wy-8E
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 19:35:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pelVy-0004KH-MM
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 19:35:40 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32LLRg3D006799; Tue, 21 Mar 2023 23:35:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=usVZzyn6ymgc9eQ12yMOCKr2ptlbhaHtLUhYmB2AyVE=;
+ b=HV4OSfcbDLOL7yavPDfPxeJSUbngxNAHRTWBpXD03QxTVO3VO5BRf4eF6bKw8t+dhTEj
+ WizRwNJuvkySTuFOtTfYCaUWdHqg0wukKvDgFmShgdDBN/iZg4EkevMzOs7oOc5x/Jiq
+ 29P0Hbjn3Swla1t1SqiogWhzHu8iM0pdg7FNmq1ZwnNqCD3upQzPQ+YmNHCT0UMnzby5
+ L3tNn7rQ05WYIG0G8KUxjv/14hyfPSWyIPWFJ/c1RzfdfZfwlOT3bUYg5ZhkYb+LGlaV
+ xQnW6mRnhzUxgSs0dS0ZgA/c8joCIkW5L/VhCwLyfrlVZ/RSJS8ItnGDY0dqbiurM4Br gw== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pfmh0jdm7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Mar 2023 23:35:22 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32LLiC5i022636;
+ Tue, 21 Mar 2023 23:35:21 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
+ by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7jm7b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Mar 2023 23:35:21 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
+ [10.39.53.228])
+ by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32LNZKDQ13173350
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Mar 2023 23:35:20 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 23FE15804B;
+ Tue, 21 Mar 2023 23:35:20 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9D4DA58059;
+ Tue, 21 Mar 2023 23:35:19 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 21 Mar 2023 23:35:19 +0000 (GMT)
+Message-ID: <e0fda1cd-9a2a-a502-727b-4e8025f1c664@linux.ibm.com>
+Date: Tue, 21 Mar 2023 19:35:19 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [RFC PATCH] tests/avocado: re-factor igb test to avoid timeouts
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/3] Add support for TPM devices over I2C bus
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Cleber Rosa <crosa@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230321181741.3748845-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230321181741.3748845-1-alex.bennee@linaro.org>
+To: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
+References: <20230321053001.3886666-1-ninad@linux.ibm.com>
+ <20230321053001.3886666-2-ninad@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20230321053001.3886666-2-ninad@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: suKiWbzZ2vM2reAnHWcWg88en2gmde-r
+X-Proofpoint-ORIG-GUID: suKiWbzZ2vM2reAnHWcWg88en2gmde-r
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-21_11,2023-03-21_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
+ mlxscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303210186
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,193 +109,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/3/23 19:17, Alex Bennée wrote:
-> The core of the test was utilising "ethtool -t eth1 offline" to run
-> through a test sequence. For reasons unknown the test hangs under some
-> configurations of the build on centos8-stream. Fundamentally running
-> the old fedora-31 cloud-init is just too much for something that is
-> directed at testing one device. So we:
+
+
+On 3/21/23 01:29, Ninad Palsule wrote:
+> This is a documentation change for I2C TPM device support.
 > 
->    - replace fedora with a custom kernel + buildroot rootfs
->    - rename the test from IGB to NetDevEthtool
->    - re-factor the common code, add (currently skipped) tests for other
->       devices which support ethtool
->    - remove the KVM limitation as its fast enough to run in KVM or TCG
+> Qemu already supports devices attached to ISA and sysbus.
+> This drop adds support for the I2C bus attached TPM devices.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Akihiko Odaki <akihiko.odaki@daynix.com>
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 > ---
->   tests/avocado/igb.py            | 38 --------------
->   tests/avocado/netdev-ethtool.py | 93 +++++++++++++++++++++++++++++++++
->   2 files changed, 93 insertions(+), 38 deletions(-)
->   delete mode 100644 tests/avocado/igb.py
->   create mode 100644 tests/avocado/netdev-ethtool.py
+>   docs/specs/tpm.rst | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/tests/avocado/igb.py b/tests/avocado/igb.py
-> deleted file mode 100644
-> index abf5dfa07f..0000000000
-> --- a/tests/avocado/igb.py
-> +++ /dev/null
-> @@ -1,38 +0,0 @@
-> -# SPDX-License-Identifier: GPL-2.0-or-later
-> -# ethtool tests for igb registers, interrupts, etc
-> -
-> -from avocado_qemu import LinuxTest
-> -
-> -class IGB(LinuxTest):
-> -    """
-> -    :avocado: tags=accel:kvm
-> -    :avocado: tags=arch:x86_64
-> -    :avocado: tags=distro:fedora
-> -    :avocado: tags=distro_version:31
-> -    :avocado: tags=machine:q35
-> -    """
-> -
-> -    timeout = 180
-> -
-> -    def test(self):
-> -        self.require_accelerator('kvm')
-> -        kernel_url = self.distro.pxeboot_url + 'vmlinuz'
-> -        kernel_hash = '5b6f6876e1b5bda314f93893271da0d5777b1f3c'
-> -        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-> -        initrd_url = self.distro.pxeboot_url + 'initrd.img'
-> -        initrd_hash = 'dd0340a1b39bd28f88532babd4581c67649ec5b1'
-> -        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-> -
-> -        # Ideally we want to test MSI as well, but it is blocked by a bug
-> -        # fixed with:
-> -        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=28e96556baca7056d11d9fb3cdd0aba4483e00d8
-> -        kernel_params = self.distro.default_kernel_params + ' pci=nomsi'
-> -
-> -        self.vm.add_args('-kernel', kernel_path,
-> -                         '-initrd', initrd_path,
-> -                         '-append', kernel_params,
-> -                         '-accel', 'kvm',
-> -                         '-device', 'igb')
-> -        self.launch_and_wait()
-> -        self.ssh_command('dnf -y install ethtool')
-> -        self.ssh_command('ethtool -t eth1 offline')
-> diff --git a/tests/avocado/netdev-ethtool.py b/tests/avocado/netdev-ethtool.py
-> new file mode 100644
-> index 0000000000..da0a22d51c
-> --- /dev/null
-> +++ b/tests/avocado/netdev-ethtool.py
-> @@ -0,0 +1,93 @@
-> +# ethtool tests for emulated network devices
-> +#
-> +# This test leverages ethtool's --test sequence to validate network
-> +# device behaviour.
-> +#
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +import time
-> +
-> +from avocado import skip
-> +
-> +from avocado_qemu import QemuSystemTest
-> +from avocado_qemu import exec_command, exec_command_and_wait_for_pattern
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +class NetDevEthtool(QemuSystemTest):
-> +    """
-> +    :avocado: tags=arch:x86_64
-> +    :avocado: tags=machine:q35
-> +    """
-> +
-> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 root=/dev/sda console=ttyS0 '
-> +    # Runs in about 20s under KVM, 26s under TCG, 37s under GCOV
-> +    timeout = 45
-> +
-> +    def common_test_code(self, netdev, extra_args=None):
-> +        base_url = ('https://fileserver.linaro.org/s/'
-> +                    'kE4nCFLdQcoBF9t/download?'
-> +                    'path=%2Figb-net-test&files=' )
-> +
-> +        # This custom kernel has drivers for all the supported network
-> +        # devices we can emulate in QEMU
-> +        kernel_url = base_url + 'bzImage'
-> +        kernel_hash = '784daede6dab993597f36efbf01f69f184c55152'
-> +        kernel_path = self.fetch_asset(name="bzImage",
-> +                                       locations=(kernel_url), asset_hash=kernel_hash)
-> +
-> +        rootfs_url = base_url + 'rootfs.ext4'
-> +        rootfs_hash = '7d28c1bf429de3b441a63756a51f163442ea574b'
-> +        rootfs_path = self.fetch_asset(name="rootfs.ext4",
-> +                                       locations=(rootfs_url),
-> +                                       asset_hash=rootfs_hash)
-> +
-> +        kernel_params = self.KERNEL_COMMON_COMMAND_LINE
-> +        if extra_args:
-> +            kernel_params += extra_args
-> +
-> +        self.vm.add_args('-kernel', kernel_path,
-> +                         '-append', kernel_params,
-> +                         '-blockdev',
-> +                         f"driver=raw,file.driver=file,file.filename={rootfs_path},node-name=hd0",
-> +                         '-device', 'driver=ide-hd,bus=ide.0,unit=0,drive=hd0',
-> +                         '-device', netdev)
-> +
-> +        self.vm.set_console(console_index=0)
-> +        self.vm.launch()
-> +
-> +        wait_for_console_pattern(self, "Welcome to Buildroot", vm=None)
-> +        time.sleep(0.2)
-> +        exec_command(self, 'root')
-> +        time.sleep(0.2)
-> +        exec_command_and_wait_for_pattern(self,
-> +                                          "ethtool -t eth1 offline",
-> +                                          "The test result is PASS",
-> +                                          "The test result is FAIL")
-> +        time.sleep(0.2)
-> +        exec_command_and_wait_for_pattern(self, 'halt', "reboot: System halted")
-> +
-> +    # Skip testing for MSI for now. Allegedly it was fixed by:
-> +    #   28e96556ba (igb: Allocate MSI-X vector when testing)
-> +    # but I'm seeing oops in the kernel
-> +    @skip("Kernel bug with MSI enabled")
-> +    def test_igb(self):
-
-            """
-            :avocado: tags=device:igb
-            """
+> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+> index 535912a92b..79a79f0640 100644
+> --- a/docs/specs/tpm.rst
+> +++ b/docs/specs/tpm.rst
+> @@ -21,11 +21,14 @@ QEMU files related to TPM TIS interface:
+>    - ``hw/tpm/tpm_tis_common.c``
+>    - ``hw/tpm/tpm_tis_isa.c``
+>    - ``hw/tpm/tpm_tis_sysbus.c``
+> + - ``hw/tpm/tpm_tis_i2c.c``
+>    - ``hw/tpm/tpm_tis.h``
+>   
+>   Both an ISA device and a sysbus device are available. The former is
+>   used with pc/q35 machine while the latter can be instantiated in the
+> -Arm virt machine.
+> +Arm virt machine. An I2C device support is also added which can be
+> +instantiated in the arm based emulation machine. I2C model only supports
+> +TPM2 protocol.
 
 
-> +        self.common_test_code("igb")
-> +
-> +    def test_igb_nomsi(self):
+An I2C device is also supported for the Arm virt machine. This device only supports the TPM 2 protocol.
 
-            """
-            :avocado: tags=device:igb
-            """
+    Stefan
 
-> +        self.common_test_code("igb", "pci=nomsi")
-> +
-> +
-> +    # It seems the other popular cards we model in QEMU currently fail
-> +    # the pattern test with:
-> +    #
-> +    #   pattern test failed (reg 0x00178): got 0x00000000 expected 0x00005A5A
-> +    #
-> +    # So for now we skip them.
-> +
-> +    @skip("Incomplete reg 0x00178 support")
-> +    def test_e1000(self):
-
-            """
-            :avocado: tags=device:e1000
-            """
-
-> +        self.common_test_code("e1000")
-> +
-> +    @skip("Incomplete reg 0x00178 support")
-> +    def test_i82550(self):
-
-            """
-            :avocado: tags=device:i82550
-            """
-
-> +        self.common_test_code("i82550")
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+>   
+>   CRB interface
+>   -------------
 
