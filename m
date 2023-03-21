@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1776C33BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 15:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FA56C33C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 15:12:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pecgC-0000Wv-Qh; Tue, 21 Mar 2023 10:09:36 -0400
+	id 1pecic-0001Wp-T9; Tue, 21 Mar 2023 10:12:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pecgB-0000Wk-0Q
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 10:09:35 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pecia-0001Wh-48
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 10:12:04 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pecg9-00065s-Cf
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 10:09:34 -0400
-Received: by mail-pg1-x531.google.com with SMTP id z18so8609071pgj.13
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 07:09:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peciY-0007ez-I9
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 10:12:03 -0400
+Received: by mail-ed1-x530.google.com with SMTP id x3so60159417edb.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 07:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679407771;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SiR70lJlKx1xiW3Y/p3/gGTVxkK/lMtTJgiYH0xJQrk=;
- b=s/lGue2VP4c7gdRZYehT8Kr7gUAhBHELE0jUA5fMke33XSCeNX/asRf0H9oFMtoCOm
- WNwypArpZRekc7yQnUMT8V2sB8mAoWIGcNetk76FQp6qFVbGt4GyxslmzNFErsd0Fvoy
- cwz8W6gm/46Ebkp0k1/+c7vBUUAahznIKl/rwOCbhsZTiAsifoJZotz1dLGuHpgcPYSK
- EB3PJy8/yv3VrMLx/o89T49Rrddx/1zTojiQFYszUZDlQyRx1T7z3PEXjaMD+mmlJTKS
- t/1Wy5I8mq6t7wHG+eWdiQFw6bt9N7ffooMy2ZvLuj5tVpqwny8UxfSnjNSuElJhbAwD
- njWA==
+ d=linaro.org; s=google; t=1679407920;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Jk4+9vFmens7LgYOXkDFDnR7zEu/42wV5eJkW7qMZBg=;
+ b=F/UHiZknBSW1TyBCldBWwOWwUu8gMWtR5xfWdf+ide+7UYDthifh00Oxb6sQtVzPmK
+ chDv2+NZZ4dMIa9htGGr6DA0BH39ciPzJev3v8B3LLhAKqb6UNQMcG3F09Ni+VJmQ83l
+ EZFuRH+QTrPXlgUUsnPF9UEFTJmBPUuHoAYesqt+Nl2xgaJS95N0SmdIodPmjLTeEaSq
+ jyKO7cQEOu6aI0A+s5IBRUMgH7bvwySVb71td5hRMu0kF5grHQc9bOhnmEil7xNwCvBC
+ v+eo1eMV3Ac84WqAX4ynEutsBUN/5l2dg4ubh6/sAjm4T26PHeV1SwuKbUWi/+hbCitV
+ Iy8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679407771;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SiR70lJlKx1xiW3Y/p3/gGTVxkK/lMtTJgiYH0xJQrk=;
- b=AmHHfCgpyvKpBEr7pRtAL1JqpzZH0uVI1v8tS23Ujxs72fvaONBsZICg08CYOXOnSn
- 3fCTGZlLKlpjujAruxaCWyH+UhDYB/T/uRseu9dfm9KV9wIVVZkd3oIXj+ROZR+YQ2J+
- razfMnLQXqmJaxkGdZ/abwotZGTKuejc3fTKHeXwHHIF3biMlGbthwCC1BM4Ogn4hOyZ
- u+LOdjDWe1b92FfTUoOoT13SSmuchFP0JXXv1yOVvUVq7ybsQ/txYXJHNKqCZRdQKzHo
- Hed2XiBfcCxfP044p+7KggU8LfRWExZS5jHtgks8I25cvtVMIggVZP3SFLYmxcCz23MG
- IOsg==
-X-Gm-Message-State: AO0yUKVD99LitXXTbC6CPSnbQWAJS71X+V8x4UnSvFY9zLwxPzb46/oa
- 9k9MMhqWIGIZeUbXlBGoFc5TkuH3iCS6fKwu6zsKCw==
-X-Google-Smtp-Source: AK7set9ii7+qh55B1XJMA9OfFoxSJ+jOksm6zFLj0reQBtO13AZIIE8CPD3kCTcHW7sjfKdjDWQRaAdxR0Zj/cNIaaI=
-X-Received: by 2002:a65:63cf:0:b0:502:e4df:5f3f with SMTP id
- n15-20020a6563cf000000b00502e4df5f3fmr710863pgv.6.1679407771670; Tue, 21 Mar
- 2023 07:09:31 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679407920;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jk4+9vFmens7LgYOXkDFDnR7zEu/42wV5eJkW7qMZBg=;
+ b=rDiEy9n+MGoaSNXOLn6/V6GVuZuVsU81TL9naCaEftj0EGry9Djh6ilKrWygT73diI
+ 2TWO38H94N1JGfG16qEx7eu9JiwPr1AVQodqReaHAF8+JmgGVyAhIRrgdWDrLCRcSjrS
+ tef/veb5D7DqsDa12R+SkKJ7+Fx//V2KuLPk2T5J09zVIj6cs0QBuFEFQDzxSvcgyVC6
+ 89gvJlMtYOHgutLPe5fhmu+G5An2PrUmagAieo94T630swVou1voLUDc8KvJwcWnSz+D
+ YG0BMGjv9jN4Tho3GZ9FkAGgtS9mRsF5by71/jzuNkBZoXLsWxJ9wnmw1MzVCaakAyGL
+ bUvw==
+X-Gm-Message-State: AO0yUKWVZE7iPOgIZY3GlBT+wN+awzKJBPOn/TUi948S8P7OWn/OQTKc
+ KM1p+4JQUf70gCS+fWMQ1Hh/DQ==
+X-Google-Smtp-Source: AK7set8mlDJxpkHxHvjmHtO4hNIYVmQ2zDgyYhQ2rsYv5Gk6eNFrGU6sCy5clB2hXPZiEwa1mCgDDQ==
+X-Received: by 2002:aa7:d3c1:0:b0:4fe:9bba:1d65 with SMTP id
+ o1-20020aa7d3c1000000b004fe9bba1d65mr3306540edr.21.1679407920639; 
+ Tue, 21 Mar 2023 07:12:00 -0700 (PDT)
+Received: from [192.168.69.115] (did75-h03-176-184-22-219.dsl.sta.abo.bbox.fr.
+ [176.184.22.219]) by smtp.gmail.com with ESMTPSA id
+ i3-20020a508703000000b004fbd365fb33sm6423765edb.38.2023.03.21.07.11.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 07:12:00 -0700 (PDT)
+Message-ID: <57fb1481-4e91-9120-186a-2383833665bd@linaro.org>
+Date: Tue, 21 Mar 2023 15:11:58 +0100
 MIME-Version: 1.0
-References: <20230321090334.1841607-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20230321090334.1841607-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Mar 2023 14:09:20 +0000
-Message-ID: <CAFEAcA_WnceaUsAgVa5u65h+dKRXV3_UXtrL63JhEFvLV8YMfw@mail.gmail.com>
-Subject: Re: [PULL 0/7] ui/ fixes for 8.0
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- berrange@redhat.com, Stefan Weil <sw@weilnetz.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x531.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH v4 0/9] improvement to Python detection, preparation for
+ dropping 3.6
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: jsnow@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
+ alex.bennee@linaro.org, armbru@redhat.com, berrange@redhat.com
+References: <20230222143752.466090-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230222143752.466090-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,35 +93,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Mar 2023 at 09:04, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The following changes since commit aa9e7fa4689d1becb2faf67f65aafcbcf664f1=
-ce:
->
->   Merge tag 'edk2-stable202302-20230320-pull-request' of https://gitlab.c=
-om/kraxel/qemu into staging (2023-03-20 13:43:35 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/marcandre.lureau/qemu.git tags/ui-pull-request
->
-> for you to fetch changes up to 49152ac47003ca21fc6f2a5c3e517f79649e1541:
->
->   ui: fix crash on serial reset, during init (2023-03-21 11:46:22 +0400)
->
-> ----------------------------------------------------------------
-> ui/ fixes for 8.0
->
-> ----------------------------------------------------------------
->
+On 22/2/23 15:37, Paolo Bonzini wrote:
+> This is my take on John's patches to improve Python detection and to
+> prepare for dropping Python 3.6 support.
+> 
+> The main change with respect to John's work is that lcitool is updated
+> and the container images for CI can install Sphinx via pip; this
+> way documentation is still built on the CentOS 8 jobs.
+> 
+> A smaller change is that patch "configure: Look for auxiliary Python
+> installations" will only look at the $PYTHON variable if it is set,
+> without falling back to a PATH search.
+> 
+> This series includes the final patch to drop support for Python 3.6,
+> but it makes sense even without it.
+> 
+> Paolo
+> 
+> Supersedes: <20230221012456.2607692-1-jsnow@redhat.com>
 
+FWIW:
 
-Applied, thanks.
+Different patches 1 & 2 have been merged 2 days after you posted
+this series (merge commit c3aeccc0ab):
+- commit aef633e765 ("python: support pylint 2.16")
+- commit 6832189fd7 ("python: drop pipenv")
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+Patch 3 clashes with commit 1b1be8d3cc ("meson: stop
+looking for 'sphinx-build-3'")
 
--- PMM
+> John Snow (5):
+>    python: support pylint 2.16
+>    python: drop pipenv
+>    meson: prefer 'sphinx-build' to 'sphinx-build-3'
+>    configure: Look for auxiliary Python installations
+>    configure: Add courtesy hint to Python version failure message
+> 
+> Paolo Bonzini (5):
+>    configure: protect against escaping venv when running Meson
+>    lcitool: update submodule
+>    docs/devel: update and clarify lcitool instructions
+>    ci, docker: update CentOS and OpenSUSE Python to non-EOL versions
+>    Python: Drop support for Python 3.6
+
 
