@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168836C2C3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 09:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E936C2C59
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 09:29:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peXH6-0004Oi-42; Tue, 21 Mar 2023 04:23:22 -0400
+	id 1peXM1-0005go-SE; Tue, 21 Mar 2023 04:28:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1peXGv-0004JL-UU
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:23:09 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1peXGt-0006UR-RE
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:23:09 -0400
-Received: by mail-wr1-x429.google.com with SMTP id i9so12729962wrp.3
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 01:23:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112; t=1679386986;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=afNgq1D2QXqYvXFmdiDcZ72USqxf3taFmgJjCEfZhWU=;
- b=KOMEtsrpXKzo6NBJrs3L0NXt1aR1Naca9/JguubuJ/VW2BQcirNf+CI6EqFxAQwnd2
- SIYJ0Sory6O6G79aAdCS2lqEwWiF2G52lyx+KhYPTCjkJa8pvnyyeKGTaH7ndxyLEmU1
- c9Z64xr78rflPZg+IZ/pIp7crxi4whhe93MedKkkZF+PSHz6snMTgWUm3r2AKVADV/B8
- onSGpeSVrtd9SvuYMGaWDIk7ewT7VPrtcRjKIh4P2TupIQoewoxOmf0SMRBP9fXIEN09
- 0UUC1T3monV5OVsoB8yUb1YUVB+werl93AWQaHvc3JvPHz6ElcUR1ttxVw98XqD3cck0
- MWiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679386986;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=afNgq1D2QXqYvXFmdiDcZ72USqxf3taFmgJjCEfZhWU=;
- b=xZcOBgWF64AXS03LPQhR6LARmXmb8lK/ZVwFTk19rEcjk9OnmF+uiSvO7oVsBXpnIN
- So9w94VykwstdIV4ceDFQ8f5KQatuzO6IxEkD1EiYveQnUMU0bf63j2g7Pq9k1GLVs1U
- 6gm2G/46Gyl1z99FJQ8vBtKlvks9xdj7GO0ax2EXXVl2foqDCOYb+ZdwWddHLW+c49Na
- 8huYFw9RLidnWdiVcUJBcrc2ZHwL154sqyOwjNPzTdE9R+9WKeqdXA0wfsbny2k5jeCS
- 96tCNun+ybHAA/UgM5J4gRLz8kK3UhOz9ITUevr9mxcRkferJxOPvCHOeS5MwjIbKMaa
- wWNw==
-X-Gm-Message-State: AO0yUKWDe64DZHoIugfEXfKzM3c267W0D2O9v6bn13cMWs4sMMWsnuev
- dM2kVz2Qci2FpJ5aTWH6+RaYs0+Pr/f6s+UxthWQ9Q==
-X-Google-Smtp-Source: AK7set/DF0PlmvgNv2WRGHBNmH/fNxj2ERd1mUEa4eUgAAtLvbplZGEDWammKwmBDv7tvMLxlhLX4Qf3qnwWg6qOqpE=
-X-Received: by 2002:a5d:5012:0:b0:2c7:1b1b:4f92 with SMTP id
- e18-20020a5d5012000000b002c71b1b4f92mr444556wrt.0.1679386986185; Tue, 21 Mar
- 2023 01:23:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1peXLy-0005fx-RH; Tue, 21 Mar 2023 04:28:22 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1peXLw-0002mC-2Q; Tue, 21 Mar 2023 04:28:22 -0400
+Received: from [192.168.0.120] (unknown [180.165.240.243])
+ by APP-01 (Coremail) with SMTP id qwCowAB3kNSZahlkdD9HFA--.29435S2;
+ Tue, 21 Mar 2023 16:28:11 +0800 (CST)
+Message-ID: <cf407a04-9717-6a82-6405-d836874c5613@iscas.ac.cn>
+Date: Tue, 21 Mar 2023 16:28:09 +0800
 MIME-Version: 1.0
-References: <20230320093847.539751-1-kraxel@redhat.com>
- <20230320093847.539751-2-kraxel@redhat.com>
-In-Reply-To: <20230320093847.539751-2-kraxel@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 21 Mar 2023 13:52:55 +0530
-Message-ID: <CAARzgwwjV=sb1=i2aZRTSdGJj5ZpnRrh3ksM+4Hwz-d=XRGYew@mail.gmail.com>
-Subject: Re: [PULL 1/6] acpi: enable tests/data/acpi updates
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::429;
- envelope-from=ani@anisinha.ca; helo=mail-wr1-x429.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
+Content-Language: en-US
+To: fei2.wu@intel.com
+Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20230321063746.151107-1-fei2.wu@intel.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230321063746.151107-1-fei2.wu@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAB3kNSZahlkdD9HFA--.29435S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFykZw13urWfZFy7GF4Durg_yoW5uw13pr
+ WkG39xKrWDGrZ2ya1fXr4qgrn8Aws5Wr1UCw1ktF45AF4rJrWF9FZ8K34UCr9rX3WxCrWj
+ 9FWUur97AF47ZrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
+ r21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.165.240.243]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,26 +80,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 20, 2023 at 3:08=E2=80=AFPM Gerd Hoffmann <kraxel@redhat.com> w=
-rote:
+
+On 2023/3/21 14:37, fei2.wu@intel.com wrote:
+> From: Fei Wu <fei2.wu@intel.com>
 >
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Kernel needs to access user mode memory e.g. during syscalls, the window
+> is usually opened up for a very limited time through MSTATUS.SUM, the
+> overhead is too much if tlb_flush() gets called for every SUM change.
+> This patch saves addresses accessed when SUM=1, and flushs only these
+> pages when SUM changes to 0. If the buffer is not large enough to save
+> all the pages during SUM=1, it will fall back to tlb_flush when
+> necessary.
+>
+> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
+> most of the time kernel accesses 1 or 2 pages, it's very rare to see
+> more than 4 pages accessed.
+>
+> It's not necessary to save/restore these new added status, as
+> tlb_flush() is always called after restore.
+>
+> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
+> other syscalls benefit a lot from this one too.
+>
+> Signed-off-by: Fei Wu <fei2.wu@intel.com>
+> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 > ---
->  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
->  1 file changed, 1 insertion(+)
+>   target/riscv/cpu.h        |  4 ++++
+>   target/riscv/cpu_helper.c |  7 +++++++
+>   target/riscv/csr.c        | 14 +++++++++++++-
+>   3 files changed, 24 insertions(+), 1 deletion(-)
 >
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bi=
-os-tables-test-allowed-diff.h
-> index dfb8523c8bf4..b5ed0904b5ff 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,2 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/virt/SRAT.acpihmatvirt",
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 638e47c75a..926dbce59f 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -383,6 +383,10 @@ struct CPUArchState {
+>       uint64_t kvm_timer_compare;
+>       uint64_t kvm_timer_state;
+>       uint64_t kvm_timer_frequency;
+> +
+> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
+> +    uint64_t sum_u_count;
+> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
+>   };
+>   
+>   OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index f88c503cf4..5ad0418eb6 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -1068,6 +1068,13 @@ restart:
+>                       (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+>                   *prot |= PAGE_WRITE;
+>               }
+> +            if ((pte & PTE_U) && (mode & PRV_S) &&
+> +                    get_field(env->mstatus, MSTATUS_SUM)) {
+> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
+> +                    env->sum_u_addr[env->sum_u_count] = addr;
+> +                }
+> +                ++env->sum_u_count;
+> +            }
+>               return TRANSLATE_SUCCESS;
+>           }
+>       }
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index ab566639e5..74b7638c8a 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1246,9 +1246,21 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+>   
+>       /* flush tlb on mstatus fields that affect VM */
+>       if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+> -            MSTATUS_MPRV | MSTATUS_SUM)) {
+> +            MSTATUS_MPRV)) {
+>           tlb_flush(env_cpu(env));
+> +        env->sum_u_count = 0;
+> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
+> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
+> +            tlb_flush(env_cpu(env));
+> +        } else {
+> +            for (int i = 0; i < env->sum_u_count; ++i) {
+> +                tlb_flush_page_by_mmuidx(env_cpu(env), env->sum_u_addr[i],
+> +                                         1 << PRV_S | 1 << PRV_M);
+> +            }
+> +        }
+> +        env->sum_u_count = 0;
+>       }
 
-Should we also add   tests/data/acpi/virt/SSDT.memh ?
+Whether tlb should  be flushed when SUM is changed from 0 to 1?
 
-> --
-> 2.39.2
->
+Regards,
+
+Weiwei Li
+
+> +
+>       mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+>           MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
+>           MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+
 
