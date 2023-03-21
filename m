@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCD46C2CDC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 09:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A586C2D11
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 09:51:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peXed-0005Me-67; Tue, 21 Mar 2023 04:47:39 -0400
+	id 1peXiE-0006FY-Mm; Tue, 21 Mar 2023 04:51:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peXeb-0005ME-BQ
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:47:37 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1peXeZ-00039t-Ah
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:47:36 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 702381FD6D;
- Tue, 21 Mar 2023 08:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679388453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dy7pVUy6QCuqQOZrzplj4TYF/fcnD/hRxMkZfem7SCY=;
- b=LGdhQ/pafYEkYxFtz1/PunfTEFh62p+sFMvIF2fnYNybceeOmzUTdEcBt7qxq2yK87F1cn
- zIm7KLXJPGu9dNoE6+dJdfu4i/IgUxfQAsbDoMERfalXVnfg3F1aVVb0f60On4wC5/97xl
- 6U0LbYHJU2CC+F8y832BqQ1j3gqWTxc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679388453;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dy7pVUy6QCuqQOZrzplj4TYF/fcnD/hRxMkZfem7SCY=;
- b=UOqyhH19j2OuXJF0IIrkrvcIIOGfGIM8zE84H7vJcA2YE+GB6asPmoJ9mfsyxj1vOoIDOR
- LFJlDg4c891cqeBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 22EB913451;
- Tue, 21 Mar 2023 08:47:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 7XzkBiVvGWRVUwAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 21 Mar 2023 08:47:33 +0000
-Message-ID: <a886906c-2933-c072-1202-597f53c36660@suse.de>
-Date: Tue, 21 Mar 2023 09:47:32 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1peXi7-0006Ep-TI; Tue, 21 Mar 2023 04:51:17 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1peXi1-0004mi-KB; Tue, 21 Mar 2023 04:51:14 -0400
+Received: from [192.168.0.120] (unknown [180.165.240.243])
+ by APP-01 (Coremail) with SMTP id qwCowAAHD8_sbxlkSndKFA--.10916S2;
+ Tue, 21 Mar 2023 16:50:54 +0800 (CST)
+Message-ID: <8029cbcf-520f-cfd3-5b5a-923685a1da80@iscas.ac.cn>
+Date: Tue, 21 Mar 2023 16:50:51 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 03/10] accel/tcg: move i386 halt handling to sysemu_ops
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Alessandro Di Federico <ale@rev.ng>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Fabiano Rosas <fabiano.rosas@suse.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230320101035.2214196-1-alex.bennee@linaro.org>
- <20230320101035.2214196-4-alex.bennee@linaro.org>
- <9abe3d28-9d35-85cc-118c-083cb267db59@suse.de>
- <15e31292-9365-7eb4-6bcd-d74c1a50c5a0@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <15e31292-9365-7eb4-6bcd-d74c1a50c5a0@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+To: "Wu, Fei" <fei2.wu@intel.com>, liweiwei <liweiwei@iscas.ac.cn>
+Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20230321063746.151107-1-fei2.wu@intel.com>
+ <cf407a04-9717-6a82-6405-d836874c5613@iscas.ac.cn>
+ <ddeaba54-e9fc-0309-4f35-7ee72052264d@intel.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <ddeaba54-e9fc-0309-4f35-7ee72052264d@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: qwCowAAHD8_sbxlkSndKFA--.10916S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtw1UKr1UZw15Ww1xtw48tFb_yoW7GF43pr
+ 1kJay7Gry5Jr97Jw12qr1UWryUAr1UGw1DAr10qF15Ar43Jryj9r4UXr1q9rnrJF48Jr1j
+ yr1Uur9rZr4UJrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUU
+ U==
+X-Originating-IP: [180.165.240.243]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,88 +83,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/20/23 16:34, Philippe Mathieu-Daudé wrote:
-> On 20/3/23 16:23, Claudio Fontana wrote:
->> Hi Alex, all,
->>
->> again, this moves TCG-only code to common code, no?
-> 
-> Oh, good point.
-> 
->> Even if this happens to work, the idea is to avoid adding unneeded accel TCG code to a KVM-only binary.
-> 
-> Could yet another AccelSysemuCPUOps *accel struct in SysemuCPUOps
-> help being stricter? ...
 
-Just a thought, in general I wonder if we could devise a less error prone way to keep things in the right place.
-Just thinking out loud here, something like a QEMU_ATTRIBUTE_TCG, _KVM, ... to add to symbols to avoid ending up in the wrong binary.
-
-Keeping in mind all these dimensions is probably very taxing, maybe getting some support from the build system would be beneficial,
-checking that a build requested with specific features contains only compatible objects.
-
-Any ideas?
-
-Ciao,
-
-C
-
-> 
->> We need to keep in mind all dimensions when we do refactorings:
->>
->> user-mode vs sysemu,
->> the architecture,
->> the accel, in particular tcg, non-tcg (which could be not compiled in, built-in, or loaded as separate module).
->>
->> In many cases, testing with --disable-tcg --enable-kvm helps to avoid breakages,
->> but it is possible also to move in unneeded code in a way that does not generate compile or link-time errors, so we need to be a bit alert to that.
->>
->> Ciao,
->>
->> C
->>
->>
->> On 3/20/23 11:10, Alex Bennée wrote:
->>> We don't want to be polluting the core run loop code with target
->>> specific handling, punt it to sysemu_ops where it belongs.
+On 2023/3/21 16:40, Wu, Fei wrote:
+> On 3/21/2023 4:28 PM, liweiwei wrote:
+>> On 2023/3/21 14:37, fei2.wu@intel.com wrote:
+>>> From: Fei Wu <fei2.wu@intel.com>
 >>>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> Kernel needs to access user mode memory e.g. during syscalls, the window
+>>> is usually opened up for a very limited time through MSTATUS.SUM, the
+>>> overhead is too much if tlb_flush() gets called for every SUM change.
+>>> This patch saves addresses accessed when SUM=1, and flushs only these
+>>> pages when SUM changes to 0. If the buffer is not large enough to save
+>>> all the pages during SUM=1, it will fall back to tlb_flush when
+>>> necessary.
+>>>
+>>> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
+>>> most of the time kernel accesses 1 or 2 pages, it's very rare to see
+>>> more than 4 pages accessed.
+>>>
+>>> It's not necessary to save/restore these new added status, as
+>>> tlb_flush() is always called after restore.
+>>>
+>>> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
+>>> other syscalls benefit a lot from this one too.
+>>>
+>>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
+>>> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 >>> ---
->>>   include/hw/core/sysemu-cpu-ops.h |  5 +++++
->>>   target/i386/cpu-internal.h       |  1 +
->>>   accel/tcg/cpu-exec.c             | 14 +++-----------
->>>   target/i386/cpu-sysemu.c         | 12 ++++++++++++
->>>   target/i386/cpu.c                |  1 +
->>>   5 files changed, 22 insertions(+), 11 deletions(-)
+>>>    target/riscv/cpu.h        |  4 ++++
+>>>    target/riscv/cpu_helper.c |  7 +++++++
+>>>    target/riscv/csr.c        | 14 +++++++++++++-
+>>>    3 files changed, 24 insertions(+), 1 deletion(-)
 >>>
->>> diff --git a/include/hw/core/sysemu-cpu-ops.h b/include/hw/core/sysemu-cpu-ops.h
->>> index ee169b872c..c9d30172c4 100644
->>> --- a/include/hw/core/sysemu-cpu-ops.h
->>> +++ b/include/hw/core/sysemu-cpu-ops.h
->>> @@ -48,6 +48,11 @@ typedef struct SysemuCPUOps {
->>>        * GUEST_PANICKED events.
->>>        */
->>>       GuestPanicInformation* (*get_crash_info)(CPUState *cpu);
->>> +    /**
->>> +     * @handle_cpu_halt: Callback for special handling during cpu_handle_halt()
->>> +     * @cs: The CPUState
->>> +     */
-> 
-> Perhaps insert within a 'tcg' structure for now.
-> 
->      #ifdef CONFIG_TCG
->      struct {
-> 
->>> +    void (*handle_cpu_halt)(CPUState *cpu);
-> 
->      } tcg;
->      #endif
-> 
-> Then we could extract as accel.
-> 
->>>       /**
->>>        * @write_elf32_note: Callback for writing a CPU-specific ELF note to a
->>>        * 32-bit VM coredump.
-> 
-> 
+>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>>> index 638e47c75a..926dbce59f 100644
+>>> --- a/target/riscv/cpu.h
+>>> +++ b/target/riscv/cpu.h
+>>> @@ -383,6 +383,10 @@ struct CPUArchState {
+>>>        uint64_t kvm_timer_compare;
+>>>        uint64_t kvm_timer_state;
+>>>        uint64_t kvm_timer_frequency;
+>>> +
+>>> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
+>>> +    uint64_t sum_u_count;
+>>> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
+>>>    };
+>>>      OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
+>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>>> index f88c503cf4..5ad0418eb6 100644
+>>> --- a/target/riscv/cpu_helper.c
+>>> +++ b/target/riscv/cpu_helper.c
+>>> @@ -1068,6 +1068,13 @@ restart:
+>>>                        (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+>>>                    *prot |= PAGE_WRITE;
+>>>                }
+>>> +            if ((pte & PTE_U) && (mode & PRV_S) &&
+>>> +                    get_field(env->mstatus, MSTATUS_SUM)) {
+>>> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
+>>> +                    env->sum_u_addr[env->sum_u_count] = addr;
+>>> +                }
+>>> +                ++env->sum_u_count;
+>>> +            }
+>>>                return TRANSLATE_SUCCESS;
+>>>            }
+>>>        }
+>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>>> index ab566639e5..74b7638c8a 100644
+>>> --- a/target/riscv/csr.c
+>>> +++ b/target/riscv/csr.c
+>>> @@ -1246,9 +1246,21 @@ static RISCVException
+>>> write_mstatus(CPURISCVState *env, int csrno,
+>>>          /* flush tlb on mstatus fields that affect VM */
+>>>        if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+>>> -            MSTATUS_MPRV | MSTATUS_SUM)) {
+>>> +            MSTATUS_MPRV)) {
+>>>            tlb_flush(env_cpu(env));
+>>> +        env->sum_u_count = 0;
+>>> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
+>>> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
+>>> +            tlb_flush(env_cpu(env));
+>>> +        } else {
+>>> +            for (int i = 0; i < env->sum_u_count; ++i) {
+>>> +                tlb_flush_page_by_mmuidx(env_cpu(env),
+>>> env->sum_u_addr[i],
+>>> +                                         1 << PRV_S | 1 << PRV_M);
+>>> +            }
+>>> +        }
+>>> +        env->sum_u_count = 0;
+>>>        }
+>> Whether tlb should  be flushed when SUM is changed from 0 to 1?
+>>
+> When SUM is changed from 0 to 1, all the existing tlb entries remain
+> valid as the permission is elevated instead of reduced, so I don't think
+> it's necessary to flush tlb.
+
+If elevated not unchanged, I think the tlb also needs update, since new 
+permitted access rights may be added to the tlb.
+
+Regards,
+
+Weiwei Li
+
+>
+> Thanks,
+> Fei.
+>
+>> Regards,
+>>
+>> Weiwei Li
+>>
+>>> +
+>>>        mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+>>>            MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
+>>>            MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
 
 
