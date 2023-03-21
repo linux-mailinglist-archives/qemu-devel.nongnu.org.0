@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892DD6C3802
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 18:16:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168C46C3813
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 18:20:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pefZb-00042z-SE; Tue, 21 Mar 2023 13:14:59 -0400
+	id 1pefeS-0005yJ-3N; Tue, 21 Mar 2023 13:20:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pefZZ-00042a-K8
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 13:14:57 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1pefeP-0005y8-Ma
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 13:19:57 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pefZX-0003B8-W5
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 13:14:57 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- j3-20020a17090adc8300b0023d09aea4a6so20999207pjv.5
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 10:14:55 -0700 (PDT)
+ id 1pefeO-00048F-68
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 13:19:57 -0400
+Received: by mail-pf1-x435.google.com with SMTP id u38so4679497pfg.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 10:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679418894;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jkuvpVheAWHLThM0d/DQm1CPn+1YmjkT33Vqs0aNNRs=;
- b=Zg4irEBv8AwyLbbIQFCIK32IKJdD9DZZTGl+4c+1bZ8OpWUIXefilC/jiRrY4xjEzZ
- eRAwKX61qg3RD08bPzyfO1SHJy3dGYoQTz+3x1amQ5l1V4zkIePOjMml3344iruD/o2L
- N3R7JKRGPsb4CsvRTRzK4nBTsBmSg9dg+eF9CLZisN+Dp/uDoCPa0KOyp1JEPPf3YJ9Q
- juLXR9XLlZ0mOb18AoPSWbm9B0h5Lo5EXEa08DQ0Xv0dXKMl4Z9XFlcOaIhMI9PY1X7S
- D7dupsdiJGInvF29e0n+VPaAu2APLmfSETvhGSV/V6z0vSHWXHosSqmV4EfX+bvZb5nx
- kmAA==
+ d=linaro.org; s=google; t=1679419194;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9Z8nUybaxsdI3Cum3ag4w0ujCfxe+YEwKcSi6g1PSf8=;
+ b=lKE5TKBiDY7Dimc6mvTqeNg0uBlwYZM2wiltPH0c3r5trb6f6V8wVvkNDXwocC5b+I
+ eroJGtGaxcBmRziMJntPVoW+sPWCWuH7KX8Ofo18IczWCogo3Rbau3je3W8cYlhIw29j
+ /t5KyFikoXAVBF5Wj1mNht5qh+Vdv9/JjRl9y2VUcFqDf1iDyoTnkZ/qoW1LIiSo0wYq
+ rodEfEnCZrY0jQaubDKGmu9Q+w/jSx3F25rtUNPE+QAhPuzz4pb5jHq4zawAh+hTEtbK
+ sNYiXrmZWAVqR7BLl2B5NdOvEoMpcZz9+C+fVg+JtfqKQBpWmVgSpAwaRHL9GhE5d3Hj
+ Prkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679418894;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jkuvpVheAWHLThM0d/DQm1CPn+1YmjkT33Vqs0aNNRs=;
- b=5dU8Kb1qQEWA5l1aUFKql86+GTHFEy1JxJyb1DPoich+1HOjX3+DeyiLyXzJxHwMB7
- +4ES9CkYueRQbzXyDn+xcgVNaxemS9k7VbJfqOYJfGnoie8CI60sT1gVDDOEaZQ4QAx6
- M3sgcJXLudTZJTRg/PzrwrcLU08EVetDNb/S/bYXYP/uwDy+rVIEsBff40JQLvmAnhsI
- 5PwFE/9WNYhmW3BUoaSA/V3Cjl2sG0GvAi9EcjiKL8501p63tO9ZgsU8t13UX8uXIIT/
- /qZ5jb5aQSxS4HAr3AFGQD8w14ADyassMk7MtK8C7pkvynIKy7MEdVZP6S8KPBkM//HI
- it3w==
-X-Gm-Message-State: AO0yUKXoszDW1yfxoEHVSoWCHL6nXcFtXCcPiV71fWj7dF/s+nih6Wih
- Fn+Sni+vpEdR+DB8Exc83iqwWoYz60WYFEA+VoVtD6Yj4K5EnyT1
-X-Google-Smtp-Source: AK7set8sXEK6DEdbYym7+3YJYyX3JcY4F/kHi4ie4Vw8/usx7DeMRfX0YptvKCOBxUH62T7E2ntwE3NS1loVYLtGCUQ=
-X-Received: by 2002:a17:902:c949:b0:19a:5953:e85c with SMTP id
- i9-20020a170902c94900b0019a5953e85cmr1725696pla.1.1679418894187; Tue, 21 Mar
- 2023 10:14:54 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679419194;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9Z8nUybaxsdI3Cum3ag4w0ujCfxe+YEwKcSi6g1PSf8=;
+ b=AruECQ8cZYZQGALeBKNup1KSGG9LPOQRmPSwM7Mf6ajRenGq22LNwxSJUacHlzkRqi
+ yBgr9+5wqTO+6WQHpUTcPrBU9kCMEKT79/IODok0yLft1hfwSgOdUEHvt74tBdkdW4e7
+ 0QHgpo7p+bbx3utt+eE8UtCbJWzd0PhOH7SZJNESMs8f6jXkbG1K+IS/VjAKhBhpnbYx
+ Mjx3Wxhb0srKe0DrOS3MK5qthDME3WlbrSGsfA/Ji7vz+DFOx2Evncy1naRvYUN75Sbl
+ GhKeIP657ZanDy2nqdbyaehVJhiJkFL59W4PWq6LgR7VuV0YwX3mTZ2SgvOn7c2Rmz4j
+ EMGQ==
+X-Gm-Message-State: AO0yUKXIaT6GqSz5ad4yFCWM0r4uWOMZB0d3rVVcaEY3qwxzO8CmpfsT
+ I798DOMlVNCn2Sfj0GUHmVLHmNwjW5Z6PMeQs7xzLQ==
+X-Google-Smtp-Source: AK7set+5BZqx4qToq30hPTGczW2TQEpXaG0XMi7qCni9Iwkat/v8qd4Rx5IjipcspQqj7jJrr2TeC1nB+15RcTnYecI=
+X-Received: by 2002:a65:56c6:0:b0:50c:bd0:eb8c with SMTP id
+ w6-20020a6556c6000000b0050c0bd0eb8cmr886757pgs.6.1679419194454; Tue, 21 Mar
+ 2023 10:19:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230321132036.1836617-1-peter.maydell@linaro.org>
-In-Reply-To: <20230321132036.1836617-1-peter.maydell@linaro.org>
+References: <20230321141206.751719-1-quic_mliebel@quicinc.com>
+ <20230321141206.751719-3-quic_mliebel@quicinc.com>
+In-Reply-To: <20230321141206.751719-3-quic_mliebel@quicinc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Mar 2023 17:14:42 +0000
-Message-ID: <CAFEAcA-D=aSj6MfThikXfPC71k9WFE3V3nuC9C4mjNuyyRA+wg@mail.gmail.com>
-Subject: Re: [PULL 0/8] target-arm queue
-To: qemu-devel@nongnu.org
+Date: Tue, 21 Mar 2023 17:19:43 +0000
+Message-ID: <CAFEAcA8mt=iisDOMz716FuG-Nu2WUWeEskyk6QLL8tsntc6i7g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Add test for storing .new vector
+To: Marco Liebel <quic_mliebel@quicinc.com>
+Cc: qemu-devel@nongnu.org, Taylor Simpson <tsimpson@quicinc.com>, 
+ Matheus Bernardino <quic_mathbern@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,35 +85,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Mar 2023 at 13:20, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, 21 Mar 2023 at 14:13, Marco Liebel <quic_mliebel@quicinc.com> wrote:
 >
-> The following changes since commit aa9e7fa4689d1becb2faf67f65aafcbcf664f1ce:
->
->   Merge tag 'edk2-stable202302-20230320-pull-request' of https://gitlab.com/kraxel/qemu into staging (2023-03-20 13:43:35 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230321
->
-> for you to fetch changes up to 5787d17a42f7af4bd117e5d6bfa54b1fdf93c255:
->
->   target/arm: Don't advertise aarch64-pauth.xml to gdb (2023-03-21 13:19:08 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * contrib/elf2dmp: Support Windows Server 2022
->  * hw/char/cadence_uart: Fix guards on invalid BRGR/BDIV settings
->  * target/arm: Add Neoverse-N1 IMPDEF registers
->  * hw/usb/imx: Fix out of bounds access in imx_usbphy_read()
->  * docs/system/arm/cpu-features.rst: Fix formatting
->  * target/arm: Don't advertise aarch64-pauth.xml to gdb
->
+> Hexagon toolchain version 16.0.0 fixes a bug where the ecoding of
+> storing a .new vector was incorrect. This resulted in an incorrect
+> valued being stored. The test checks that the correct value is used.
 
+So is this a compiler/assembler bug? Do we need to have tests
+relating to those in QEMU's test suite ?
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
