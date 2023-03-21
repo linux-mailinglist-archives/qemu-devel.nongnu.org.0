@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7F46C2E35
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:49:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031766C2E39
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:50:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peYbG-0008Ud-3N; Tue, 21 Mar 2023 05:48:14 -0400
+	id 1peYdG-0001j5-4k; Tue, 21 Mar 2023 05:50:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1peYbD-0008UL-Af; Tue, 21 Mar 2023 05:48:11 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1peYbA-0003vX-F7; Tue, 21 Mar 2023 05:48:11 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.243])
- by APP-05 (Coremail) with SMTP id zQCowACnrc1LfRlkP91+Bw--.30997S2;
- Tue, 21 Mar 2023 17:47:57 +0800 (CST)
-Message-ID: <bf1b2b8f-66cf-5f22-843c-f9a7fbf29d99@iscas.ac.cn>
-Date: Tue, 21 Mar 2023 17:47:54 +0800
+ (Exim 4.90_1) (envelope-from <ayushdevel1325@gmail.com>)
+ id 1peYdC-0001ci-0O
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:50:14 -0400
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ayushdevel1325@gmail.com>)
+ id 1peYdA-00054T-6g
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:50:13 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id f16so14838883ljq.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 02:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679392209;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=1aaZH204BEwrgBF5ozoNYfAvIavSfheRkWomA5Tt2Ik=;
+ b=FYA8wEwFQw93pf7NxPDUfBhSos9ddzuzriLWtsWeeGeowgsOkjv/IBivEzPg0ymUrj
+ SyA7gag48RmfuSFDHnoT19A9ec8s101ZExJ3Xdjh9GBm/o9dogUEt0+uNxOvn4RgUPCP
+ J0asW+fIpD691Dnon6Q6tp7eo3GudQnf3Rj+reD2PHG3j97+9MO2Dt+vj9hTYY50cvtB
+ W6n8XbWO+I2fpF/qUuHbai3D7xJ91vKoe9xQsQN+sFsgWlQHhJJ661WZa9Bw+pd6KjV6
+ lHNvPa+iUaxaOxcG3951mcYCOvVliD/M+l531WqXj+lFNBVOqjk346T4F81odjiUVCJt
+ Weew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679392209;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1aaZH204BEwrgBF5ozoNYfAvIavSfheRkWomA5Tt2Ik=;
+ b=fATkdFiNLFbPs4xDs6kE4pzo44YzOl5ufHRzSZh36je/3e03ksduAvhN7KjNWoaQfD
+ FkZg3Y2Md6yuDrdddOdYLMvFWT74FMnyzc7d+wJIiDlQH5K6b1v5LME31R7Af6jl37OD
+ X0vBz+TdKMi5zC/d6lt4qE4uXaaBqXIgKF30zzGxpIS/xFG9ePCE+4UwBc/GUj3o+LP3
+ SeJ+zXK7XN3WHuxKYTIYusSQl8xw0VYemvrWyavjoSQiTIuGsqisPSHDyv9VCEyF/XEH
+ DFRPrZpG4YM+FxeN71GQtUsH2v6P69sL5vktXDjQG/Foqj2n4YU4MG3eWxGAtcaiVgPV
+ PnCg==
+X-Gm-Message-State: AO0yUKUd4GMg5TsxP/88cn8BmKj7GRu0HMml7N545Rxzmh6N14mZ+yqa
+ TNxr0y8/E5DW/yNtO/PPyPwwKjAOQcEhyr4g0BYEPsGSnRvppQ==
+X-Google-Smtp-Source: AK7set85I8+nXjGbjjPRSrgX+voCm7PGcpdDlUpJEe2Q4OMe6UPmzsjSooRG5zHRoBwa+gxmN9hgaik+m46di8eTt0g=
+X-Received: by 2002:a2e:7801:0:b0:299:aa73:c7c8 with SMTP id
+ t1-20020a2e7801000000b00299aa73c7c8mr671356ljc.4.1679392209063; Tue, 21 Mar
+ 2023 02:50:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
-Content-Language: en-US
-To: "Wu, Fei" <fei2.wu@intel.com>, liweiwei <liweiwei@iscas.ac.cn>
-Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20230321063746.151107-1-fei2.wu@intel.com>
- <cf407a04-9717-6a82-6405-d836874c5613@iscas.ac.cn>
- <ddeaba54-e9fc-0309-4f35-7ee72052264d@intel.com>
- <8029cbcf-520f-cfd3-5b5a-923685a1da80@iscas.ac.cn>
- <5e358d79-76be-b230-194c-a25ffad324c2@intel.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <5e358d79-76be-b230-194c-a25ffad324c2@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACnrc1LfRlkP91+Bw--.30997S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtw1Utw43tFyDCF4kJr17GFg_yoWxWryxpr
- 1kJay7GrW5Jry8J3W2qw1UXFyjyr1UJw1DXr18tF15AFs8tryYgr4UXr1j9r1DJr48Gr1j
- vr1UZry7Zr1UJrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
- r21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
- WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
- 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
- 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
- 42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [180.165.240.243]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+From: Ayush Singh <ayushdevel1325@gmail.com>
+Date: Tue, 21 Mar 2023 15:19:18 +0530
+Message-ID: <CA+Yfj7sxaon6u+NgWV7SBW=3ohxsqE+jdjuh8pA5Oc5voJXKqg@mail.gmail.com>
+Subject: Applying for GSoC 2023: RDP Server
+To: qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com
+Content-Type: multipart/alternative; boundary="0000000000000f50ae05f765f823"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
+ envelope-from=ayushdevel1325@gmail.com; helo=mail-lj1-x22e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,159 +81,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--0000000000000f50ae05f765f823
+Content-Type: text/plain; charset="UTF-8"
 
-On 2023/3/21 17:14, Wu, Fei wrote:
-> On 3/21/2023 4:50 PM, liweiwei wrote:
->> On 2023/3/21 16:40, Wu, Fei wrote:
->>> On 3/21/2023 4:28 PM, liweiwei wrote:
->>>> On 2023/3/21 14:37, fei2.wu@intel.com wrote:
->>>>> From: Fei Wu <fei2.wu@intel.com>
->>>>>
->>>>> Kernel needs to access user mode memory e.g. during syscalls, the
->>>>> window
->>>>> is usually opened up for a very limited time through MSTATUS.SUM, the
->>>>> overhead is too much if tlb_flush() gets called for every SUM change.
->>>>> This patch saves addresses accessed when SUM=1, and flushs only these
->>>>> pages when SUM changes to 0. If the buffer is not large enough to save
->>>>> all the pages during SUM=1, it will fall back to tlb_flush when
->>>>> necessary.
->>>>>
->>>>> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
->>>>> most of the time kernel accesses 1 or 2 pages, it's very rare to see
->>>>> more than 4 pages accessed.
->>>>>
->>>>> It's not necessary to save/restore these new added status, as
->>>>> tlb_flush() is always called after restore.
->>>>>
->>>>> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
->>>>> other syscalls benefit a lot from this one too.
->>>>>
->>>>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
->>>>> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->>>>> ---
->>>>>     target/riscv/cpu.h        |  4 ++++
->>>>>     target/riscv/cpu_helper.c |  7 +++++++
->>>>>     target/riscv/csr.c        | 14 +++++++++++++-
->>>>>     3 files changed, 24 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>>>> index 638e47c75a..926dbce59f 100644
->>>>> --- a/target/riscv/cpu.h
->>>>> +++ b/target/riscv/cpu.h
->>>>> @@ -383,6 +383,10 @@ struct CPUArchState {
->>>>>         uint64_t kvm_timer_compare;
->>>>>         uint64_t kvm_timer_state;
->>>>>         uint64_t kvm_timer_frequency;
->>>>> +
->>>>> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
->>>>> +    uint64_t sum_u_count;
->>>>> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
->>>>>     };
->>>>>       OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
->>>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>>>> index f88c503cf4..5ad0418eb6 100644
->>>>> --- a/target/riscv/cpu_helper.c
->>>>> +++ b/target/riscv/cpu_helper.c
->>>>> @@ -1068,6 +1068,13 @@ restart:
->>>>>                         (access_type == MMU_DATA_STORE || (pte &
->>>>> PTE_D))) {
->>>>>                     *prot |= PAGE_WRITE;
->>>>>                 }
->>>>> +            if ((pte & PTE_U) && (mode & PRV_S) &&
->>>>> +                    get_field(env->mstatus, MSTATUS_SUM)) {
->>>>> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
->>>>> +                    env->sum_u_addr[env->sum_u_count] = addr;
->>>>> +                }
->>>>> +                ++env->sum_u_count;
->>>>> +            }
->>>>>                 return TRANSLATE_SUCCESS;
->>>>>             }
->>>>>         }
->>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>>> index ab566639e5..74b7638c8a 100644
->>>>> --- a/target/riscv/csr.c
->>>>> +++ b/target/riscv/csr.c
->>>>> @@ -1246,9 +1246,21 @@ static RISCVException
->>>>> write_mstatus(CPURISCVState *env, int csrno,
->>>>>           /* flush tlb on mstatus fields that affect VM */
->>>>>         if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
->>>>> -            MSTATUS_MPRV | MSTATUS_SUM)) {
->>>>> +            MSTATUS_MPRV)) {
->>>>>             tlb_flush(env_cpu(env));
->>>>> +        env->sum_u_count = 0;
->>>>> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
->>>>> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
->>>>> +            tlb_flush(env_cpu(env));
->>>>> +        } else {
->>>>> +            for (int i = 0; i < env->sum_u_count; ++i) {
->>>>> +                tlb_flush_page_by_mmuidx(env_cpu(env),
->>>>> env->sum_u_addr[i],
->>>>> +                                         1 << PRV_S | 1 << PRV_M);
->>>>> +            }
->>>>> +        }
->>>>> +        env->sum_u_count = 0;
->>>>>         }
->>>> Whether tlb should  be flushed when SUM is changed from 0 to 1?
->>>>
->>> When SUM is changed from 0 to 1, all the existing tlb entries remain
->>> valid as the permission is elevated instead of reduced, so I don't think
->>> it's necessary to flush tlb.
->> If elevated not unchanged, I think the tlb also needs update, since new
->> permitted access rights may be added to the tlb.
->>
-> Assume the following flow, if the new rights have been added to tlb
-> during SUM=0, they're visible and still valid after setting SUM=1 again.
-> Could you please add a specific counter example in this flow?
->
-Assuming addr0 cannot be access from S mode when SUM = 0, but can be 
-accessed from S mode if SUM=1,
+Hello everyone, I am a Third-Year University Student from India. I am
+interested in implementing the RDP server for Qemu in Rust [1]. I have
+already introduced myself to the mailing list earlier.
 
-and there is a tlb entry for it when SUM = 0
+In short, the project will involve the following:
+1. Improve and implement missing portions required for the RDB server into
+IronRDB.
+2. Implement the Qemu RDB server in the qemu-display [2] repo.
 
-> enable uaccess (set SUM = 1)
-if we don't flush it when we change SUM to 1 in this step
-> ... (access user mem from S mode)
-when we access addr0 here, tlb will be hit( not updated) and the access 
-will trigger fault instead of allowing the access
-> disable uaccess (set SUM = 0)
->
-> ... (update TLB_SUM_0)
->
->      <-- flush tlb or not right before enabling uaccess?
-> enable uaccess (set SUM = 1)
->      <-- okay to access TLB_SUM_0?
-> disable uaccess (set SUM = 0)
+I have submitted an initial version of the proposal. I will be happy to
+receive feedback and/or questions from anyone interested in the project.
 
-So, I think the question is whether the rights in TLB entry can be 
-elevated. Or whether there is legal tlb entry for this addr0 when SUM = 0?
+Yours Sincerely
+Ayush Singh
 
-If not,  all my above assumption will not be right.
+[1]: https://wiki.qemu.org/Google_Summer_of_Code_2023#RDP_server
+[2]: https://gitlab.com/marcandre.lureau/qemu-display
 
-Regards,
+--0000000000000f50ae05f765f823
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Weiwei Li
+<div dir=3D"ltr"><div>Hello everyone, I am a Third-Year University Student =
+from India. I am interested in implementing the RDP server for Qemu in Rust=
+ [1]. I have already introduced myself to the mailing list earlier.</div><d=
+iv><br></div><div>In short, the project will involve the following:</div><d=
+iv>1. Improve and implement missing portions required for the RDB server in=
+to IronRDB.<br>2. Implement the Qemu RDB server in the qemu-display [2] rep=
+o.</div><div><br></div><div>I have submitted an initial version of the prop=
+osal. I will be happy to receive feedback and/or questions from anyone inte=
+rested in the project.</div><div><br></div><div>Yours Sincerely</div><div>A=
+yush Singh</div><div><br></div><div>[1]: <a href=3D"https://wiki.qemu.org/G=
+oogle_Summer_of_Code_2023#RDP_server">https://wiki.qemu.org/Google_Summer_o=
+f_Code_2023#RDP_server</a></div><div>[2]: <a href=3D"https://gitlab.com/mar=
+candre.lureau/qemu-display">https://gitlab.com/marcandre.lureau/qemu-displa=
+y</a></div></div>
 
->
-> Thanks,
-> Fei.
->
-
-
-
->> Regards,
->>
->> Weiwei Li
->>
->>> Thanks,
->>> Fei.
->>>
->>>> Regards,
->>>>
->>>> Weiwei Li
->>>>
->>>>> +
->>>>>         mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
->>>>>             MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
->>>>>             MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
-
+--0000000000000f50ae05f765f823--
 
