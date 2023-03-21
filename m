@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98AE6C283D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 03:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E41C6C2842
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 03:33:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peRly-0000Fh-5l; Mon, 20 Mar 2023 22:30:50 -0400
+	id 1peRnn-00015K-HG; Mon, 20 Mar 2023 22:32:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1peRlv-0000Ew-Ah
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 22:30:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1peRnW-00014A-69
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 22:32:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1peRlt-0006d1-ST
- for qemu-devel@nongnu.org; Mon, 20 Mar 2023 22:30:47 -0400
+ id 1peRnU-0006xG-QR
+ for qemu-devel@nongnu.org; Mon, 20 Mar 2023 22:32:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679365843;
+ s=mimecast20190719; t=1679365944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9vYYoD/QlSpZt/ssAg14uOeshV9x7R6DoAQt0OqnYv8=;
- b=ScD7cw8GmpAPqbmiMrY6goslEsIPyZQQGWFP0A6egeGKdH2TxU12V7rHyIHfTSjhQPhJ99
- L70fHP0K3hsnVXDldk8cxbyUYfcQPcXlXNGma8TQgvWWRlQW2CPqH3O1xB8lYpT6XaYRU5
- 1CCZPNxQ5RnfGBT9zCzjhysmZp5FZ70=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3RG/b0bCXgzHnja1xdfbqL85250oFIMcBMlyYGxZXi0=;
+ b=hgHFL03R+N9s0OuRDz1esR+bviPqg4Q0HoOzm7qdUALk1VLQiuKXxRj5s3pV0vSLoPAWKr
+ dAzH3uv41qdYmueMuSknV7DPnYhZyAAN2vcFZFNDDtjgKVpv24Z8H0E2jJ1hD6VoN2BZdm
+ FlkBkiqPIKSxLSBPywUDqOypr72FOdg=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-rxRBJOjXPiWXkO19-BFv7g-1; Mon, 20 Mar 2023 22:30:42 -0400
-X-MC-Unique: rxRBJOjXPiWXkO19-BFv7g-1
-Received: by mail-oo1-f72.google.com with SMTP id
- e3-20020a4ad243000000b00536a31d36e6so4150445oos.9
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 19:30:42 -0700 (PDT)
+ us-mta-448-GIoHpk3cMy-CM-cgKPcsMg-1; Mon, 20 Mar 2023 22:32:22 -0400
+X-MC-Unique: GIoHpk3cMy-CM-cgKPcsMg-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ 71-20020a9d064d000000b00697e5dc461bso6494718otn.7
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 19:32:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679365841;
+ d=1e100.net; s=20210112; t=1679365941;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9vYYoD/QlSpZt/ssAg14uOeshV9x7R6DoAQt0OqnYv8=;
- b=AYpJYBOVpOtXlzfrV0Z0nlerCi436hQtnYmJ6QKP6dxzrzPpGQBmpr1Vs82J/05UFA
- +QNpcthtCyV2Vi2iKsEiZ5yVwUaASiPX+LGu9Uxg5iXIpnldBRrOWLdLSE/64b5vZ4CQ
- chIvC4IyLo812lRPC1901336I9jHJd8iWAIt4+TjTuWfPnVovK99vQ/hhRIQLeZxROox
- hgY71oZcgJ763yTKjQPdAXyNQT3v43I6okwRpWxxGBIrYVUb2NtX+xQOjz8EVtPF8jWN
- 596npR5WI9HarixtoLwqlHZdQpSvM0OhHA8q/b+mSHui7bGVAhabQMq0b255dQhtN/xU
- 7iOw==
-X-Gm-Message-State: AO0yUKWo6ykrpnggRbyEx+ePJ/3egqI1vVkFSVgPa95f/7T9qC3xEr7n
- xB8yUGKgES+o5U7h5ifaBrCzW8vptGJCagrXB1sfxTbxGDzj4rqrm3rIU3414jh/l1nAAkpkuDH
- +oyLv83dYU5H9g+9cbfoYrpzAOf3hdKQ=
-X-Received: by 2002:a05:6870:17aa:b0:177:b9c0:bcba with SMTP id
- r42-20020a05687017aa00b00177b9c0bcbamr205107oae.3.1679365841482; 
- Mon, 20 Mar 2023 19:30:41 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/oP3OQKFm8klz0RCZHhbZdSp3rr64q75mfLH/jfIYETKh+FAtC70t5/aheGGyOKH/KbCGdNGIfjZiLyK7WVEk=
-X-Received: by 2002:a05:6870:17aa:b0:177:b9c0:bcba with SMTP id
- r42-20020a05687017aa00b00177b9c0bcbamr205100oae.3.1679365841236; Mon, 20 Mar
- 2023 19:30:41 -0700 (PDT)
+ bh=3RG/b0bCXgzHnja1xdfbqL85250oFIMcBMlyYGxZXi0=;
+ b=Ow7h8H+L8RHoJmef5qSt1Kh8E/J50RO2MBO+Lzwm4bgmzPH5cGv/E1sGeaHSSP6T5f
+ AQ/a70EfjmzylIENXb7N3bEnKO5YuEsMiyP9TwmXfrACV++kHIgIYe0iF3pFFrqqbS7G
+ EZgC7GHf0M6A5banKmgtxNuF1zErYlo3tL3FGJfKF94caOVafx8AI6BU+y4T4+6AeAGN
+ PKW+My2VPFsxEXJHl7NPKkLbtlb80Am5vSOeK3R43TfxjHiyRUqDnMHEzcfyXIreYD38
+ 1R0vSOvp10crVFpiOz5tmbUEmlOZ+iHI7ROFzfx7UTXHot6PDiV4A0zoBITzUei9vP7h
+ Cr1A==
+X-Gm-Message-State: AO0yUKX2Xf3t3zre+kn2lFz0NJ+8CYuqDfPcu3PGdMl0XcDNL0tmcRS6
+ Jnbs7HOQBehHp8HtML/7esNEpEmEZh7FeUixUZ6QT/tLegwTxX6FnbiOdkuvrTWFB39dZS/JI1P
+ Ej/MVVhUSdqYm17yiCFzgAYSbuqUeOoY=
+X-Received: by 2002:a05:6808:616:b0:384:27f0:bd0a with SMTP id
+ y22-20020a056808061600b0038427f0bd0amr151691oih.9.1679365941767; 
+ Mon, 20 Mar 2023 19:32:21 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+oR/UhmBh2Tg1Rdd675rKNu5/qKIahhUQZNYt4bashwZJZEnQU/MQk9sGq8WKK7Ev3Xg/dxIC4UaLuxB6tmcw=
+X-Received: by 2002:a05:6808:616:b0:384:27f0:bd0a with SMTP id
+ y22-20020a056808061600b0038427f0bd0amr151686oih.9.1679365941518; Mon, 20 Mar
+ 2023 19:32:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230320161959.650841-1-lulu@redhat.com>
- <20230320161959.650841-2-lulu@redhat.com>
-In-Reply-To: <20230320161959.650841-2-lulu@redhat.com>
+ <20230320161959.650841-3-lulu@redhat.com>
+In-Reply-To: <20230320161959.650841-3-lulu@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 21 Mar 2023 10:30:30 +0800
-Message-ID: <CACGkMEthACNr440rgn0Jcv33==dv7j53eyZw7tY8MhV0mMXXnA@mail.gmail.com>
-Subject: Re: [PATCH v14 1/4] vhost: expose function vhost_dev_has_iommu()
+Date: Tue, 21 Mar 2023 10:32:10 +0800
+Message-ID: <CACGkMEta6NAz7qgCb+L_=773z0nA36p3cx0HQhYdM4YTkfZ12Q@mail.gmail.com>
+Subject: Re: [PATCH v14 2/4] vhost_vdpa: fix the input in
+ trace_vhost_vdpa_listener_region_del()
 To: Cindy Lu <lulu@redhat.com>
 Cc: mst@redhat.com, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -96,9 +97,8 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Tue, Mar 21, 2023 at 12:20=E2=80=AFAM Cindy Lu <lulu@redhat.com> wrote:
 >
-> To support vIOMMU in vdpa, need to exposed the function
-> vhost_dev_has_iommu, vdpa will use this function to check
-> if vIOMMU enable.
+> In trace_vhost_vdpa_listener_region_del, the value for llend
+> should change to int128_get64(int128_sub(llend, int128_one()))
 >
 > Signed-off-by: Cindy Lu <lulu@redhat.com>
 
@@ -107,34 +107,24 @@ Acked-by: Jason Wang <jasowang@redhat.com>
 Thanks
 
 > ---
->  hw/virtio/vhost.c         | 2 +-
->  include/hw/virtio/vhost.h | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
+>  hw/virtio/vhost-vdpa.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index a266396576..fd746b085b 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -107,7 +107,7 @@ static void vhost_dev_sync_region(struct vhost_dev *d=
-ev,
->      }
->  }
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index bc6bad23d5..92c2413c76 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -288,7 +288,8 @@ static void vhost_vdpa_listener_region_del(MemoryList=
+ener *listener,
+>      iova =3D TARGET_PAGE_ALIGN(section->offset_within_address_space);
+>      llend =3D vhost_vdpa_section_end(section);
 >
-> -static bool vhost_dev_has_iommu(struct vhost_dev *dev)
-> +bool vhost_dev_has_iommu(struct vhost_dev *dev)
->  {
->      VirtIODevice *vdev =3D dev->vdev;
+> -    trace_vhost_vdpa_listener_region_del(v, iova, int128_get64(llend));
+> +    trace_vhost_vdpa_listener_region_del(v, iova,
+> +        int128_get64(int128_sub(llend, int128_one())));
 >
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index a52f273347..f7f10c8fb7 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
-> @@ -336,4 +336,5 @@ int vhost_dev_set_inflight(struct vhost_dev *dev,
->                             struct vhost_inflight *inflight);
->  int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
->                             struct vhost_inflight *inflight);
-> +bool vhost_dev_has_iommu(struct vhost_dev *dev);
->  #endif
+>      if (int128_ge(int128_make64(iova), llend)) {
+>          return;
 > --
 > 2.34.3
 >
