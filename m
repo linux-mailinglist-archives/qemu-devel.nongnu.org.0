@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AD96C3310
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:39:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC99F6C3311
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:39:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pecC0-0001rV-1P; Tue, 21 Mar 2023 09:38:24 -0400
+	id 1pecCM-0002QQ-Tf; Tue, 21 Mar 2023 09:38:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pecBy-0001rM-Tn
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:38:22 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pecBx-00088C-54
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:38:22 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id i5so12881389eda.0
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679405898;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vEcyY8YPGz3mZhhjho1Ps+avAHFAMbR+XWeki8hnHmg=;
- b=V8k8r4+UIC7tk57TQA4JFsdT9doxoQsA4emzYyautbHU02X1ilbMeSXwZ50An7hswF
- sXF3HUY5cYE3yuIt/0Esuc2mD8sLEtwHHdUyfvsd4nLTZwZ19Opy02nNvZa6XrUEemge
- HCQ0SoI2l8jRmkpyLuQod/fBK1jKjyd0/fLeqnu/v5IY+wWCbezGVtdGwTv3ozJXA4oB
- jtLkxYVlYtc9m+T4m7asc6xM1ChFXJFCz1nEdpgMFzoGcmdzaF+Vki2b2cVssHnD8lHg
- bup/Kj6pMD3scN35nvNo5H4nLpI71UbCBg5cwOH1wqkqiziFjZugKoaeKshmoaLeYUgI
- 4xLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679405898;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vEcyY8YPGz3mZhhjho1Ps+avAHFAMbR+XWeki8hnHmg=;
- b=drEmwmvgD5lWnUso1M1lbUBQmjVX/X1Btz7x3QIJz3tdgvRsBNEnotbE2VhAtAK1rK
- yZNn7GujBZZF4RfgsvGzhcgoOwNOKdEogTHlui1xJIo0sxowR5+UrKHg6ClA7D25oKXj
- QXe6yOR5kfuaLDAiD2pmkC5lZeSrUWWQ/h/eQ2iA7bRKLoGtW8vonGq5SQcOesHqi/Vx
- gwe8TbjE7aSfaXt8svTLPB+BB+kz8I2HEQRB0Nsrb+q3lnmIQ+z5mGXQljR5ldEkiDjs
- ejGrn7XXrBCCMzvZR/NjchxvfsS/NExwQ6qcTGRjqpWW4WoRukR9ZZ7Ng6Fq0zYwX5rL
- 5vIQ==
-X-Gm-Message-State: AO0yUKX8ZicvUzYKJm5xyuDVCv66Egb0373IrFKyOHjxGTYvSJMM5AjT
- 8XjTY3GN1Ted9/O0n5rQr2fyLA==
-X-Google-Smtp-Source: AK7set+g4R5jr8RuaV2XlN3X/2dvoBZloXilqjTAlR5Z605IIaZlzadym3H1Kso/SgYG7oFkxIttpg==
-X-Received: by 2002:a17:906:1559:b0:933:2dfd:2f50 with SMTP id
- c25-20020a170906155900b009332dfd2f50mr3149947ejd.30.1679405897984; 
- Tue, 21 Mar 2023 06:38:17 -0700 (PDT)
-Received: from [192.168.69.115] (did75-h03-176-184-22-219.dsl.sta.abo.bbox.fr.
- [176.184.22.219]) by smtp.gmail.com with ESMTPSA id
- v8-20020a1709063bc800b0093341746105sm4014099ejf.117.2023.03.21.06.38.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Mar 2023 06:38:17 -0700 (PDT)
-Message-ID: <e072cbd3-f497-b384-ab46-16c88c70a12a@linaro.org>
-Date: Tue, 21 Mar 2023 14:38:15 +0100
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
+ id 1pecCK-0002Om-1e; Tue, 21 Mar 2023 09:38:44 -0400
+Received: from mga02.intel.com ([134.134.136.20])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
+ id 1pecCH-0008Ct-9n; Tue, 21 Mar 2023 09:38:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679405921; x=1710941921;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Q+irz7wqODGcTXhzuVullh2tnka/6YgGaDpRpLHqZ+8=;
+ b=OEteEQq+3ak/dgYT/tdRp7ErKg2EbvuapL66sxyhH4U6gsmohwYFlFr6
+ cnUFMc4MDlyErkm8w7FJ/iJeEqup1A9keOm53qgtlOHTDLctL5oy1sb6b
+ 2MXTcQKdIVK/g7RN8XF1yEgN52T+4tE6QgVx5CSSmfh3OLW+rTLC7yQWP
+ 9XEosUg6+Ll5eI/hceDnHUxi2apwa3HYH7HIKEWoI/QGsZohb0UFVvBsH
+ YckxhFM1Y/kcU55WYZUsizWGgOSOWEw7PYdGUxxurBo8G0cYg2WOdXq+l
+ cwcbDTuJLlJTTs8VA8BktPr63sHQgOT4nTh1bdoA8cvsTkk7D5Glstd0j g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="327317034"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="327317034"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 06:38:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="674839724"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="674839724"
+Received: from wufei-optiplex-7090.sh.intel.com ([10.238.200.247])
+ by orsmga007.jf.intel.com with ESMTP; 21 Mar 2023 06:38:35 -0700
+From: Fei Wu <fei2.wu@intel.com>
+To: 
+Cc: Fei Wu <fei2.wu@intel.com>, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs),
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH v2] target/riscv: reduce overhead of MSTATUS_SUM change
+Date: Tue, 21 Mar 2023 21:40:09 +0800
+Message-Id: <20230321134009.156071-1-fei2.wu@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [RFC PATCH] tests/avocado: probe for multi-process support before
- running test
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230321111752.2681128-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230321111752.2681128-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=fei2.wu@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,36 +77,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/3/23 12:17, Alex Bennée wrote:
-> A recent attempt to let avocado run more tests on the CentOS stream
-> build failed because there was no gating on the multiprocess feature.
-> Like missing accelerators avocado should gracefully skip when the
-> feature is not enabled.
-> 
-> In this case we use the existence of the proxy device as a proxy for
-> multi-process support.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Cc: Jagannathan Raman <jag.raman@oracle.com>
-> Cc: John G Johnson <john.g.johnson@oracle.com>
-> ---
->   tests/avocado/avocado_qemu/__init__.py | 10 ++++++++++
->   tests/avocado/multiprocess.py          |  1 +
->   2 files changed, 11 insertions(+)
+Kernel needs to access user mode memory e.g. during syscalls, the window
+is usually opened up for a very limited time through MSTATUS.SUM, the
+overhead is too much if tlb_flush() gets called for every SUM change.
+This patch saves addresses accessed when SUM=1, and flushs only these
+pages when SUM changes to 0. If the buffer is not large enough to save
+all the pages during SUM=1, it will fall back to tlb_flush when
+necessary.
 
+The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
+most of the time kernel accesses 1 or 2 pages, it's very rare to see
+more than 4 pages accessed.
 
-> +        """
-> +        Test for the presence of the x-pci-proxy-dev which is required
-> +        to support multiprocess.
-> +        """
-> +        devhelp = run_cmd([self.qemu_bin,
-> +                           '-M', 'none', '-device', 'help'])[0];
-> +        if devhelp.find('x-pci-proxy-dev') < 0:
-> +            self.cancel('no support for multiprocess device emulation')
+It's not necessary to save/restore these new added status, as
+tlb_flush() is always called after restore.
 
-FYI a more generic alternative to this method:
-https://lore.kernel.org/qemu-devel/20200129212345.20547-14-philmd@redhat.com/
+Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
+other syscalls benefit a lot from this one too.
 
-But yours just works :)
+Signed-off-by: Fei Wu <fei2.wu@intel.com>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+---
+ target/riscv/cpu.h        |  4 ++++
+ target/riscv/cpu_helper.c |  7 +++++++
+ target/riscv/csr.c        | 14 +++++++++++++-
+ 3 files changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 638e47c75a..926dbce59f 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -383,6 +383,10 @@ struct CPUArchState {
+     uint64_t kvm_timer_compare;
+     uint64_t kvm_timer_state;
+     uint64_t kvm_timer_frequency;
++
++#define MAX_CACHED_SUM_U_ADDR_NUM 4
++    uint64_t sum_u_count;
++    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
+ };
+ 
+ OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f88c503cf4..d701017a60 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1068,6 +1068,13 @@ restart:
+                     (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+                 *prot |= PAGE_WRITE;
+             }
++            if ((pte & PTE_U) && (mode == PRV_S) &&
++                    get_field(env->mstatus, MSTATUS_SUM)) {
++                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
++                    env->sum_u_addr[env->sum_u_count] = addr;
++                }
++                ++env->sum_u_count;
++            }
+             return TRANSLATE_SUCCESS;
+         }
+     }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index ab566639e5..e7dfdc6a93 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1246,9 +1246,21 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+ 
+     /* flush tlb on mstatus fields that affect VM */
+     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+-            MSTATUS_MPRV | MSTATUS_SUM)) {
++            MSTATUS_MPRV)) {
+         tlb_flush(env_cpu(env));
++        env->sum_u_count = 0;
++    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
++        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
++            tlb_flush_by_mmuidx(env_cpu(env), 1 << PRV_S | 1 << PRV_M);
++        } else {
++            for (int i = 0; i < env->sum_u_count; ++i) {
++                tlb_flush_page_by_mmuidx(env_cpu(env), env->sum_u_addr[i],
++                                         1 << PRV_S | 1 << PRV_M);
++            }
++        }
++        env->sum_u_count = 0;
+     }
++
+     mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+         MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
+         MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+-- 
+2.25.1
+
 
