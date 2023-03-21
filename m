@@ -2,53 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96B96C2A9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 07:44:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5A16C2B62
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 08:31:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peVjN-0002JA-Ja; Tue, 21 Mar 2023 02:44:25 -0400
+	id 1peWRt-0001qr-65; Tue, 21 Mar 2023 03:30:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1peVjI-0002IZ-Nt
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 02:44:21 -0400
-Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1peVjE-00041k-Uq
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 02:44:19 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=2; SR=0;
- TI=SMTPD_---0VeLwDzI_1679381048; 
-Received: from 30.221.98.101(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VeLwDzI_1679381048) by smtp.aliyun-inc.com;
- Tue, 21 Mar 2023 14:44:08 +0800
-Message-ID: <ee34a299-3b57-1f97-cc08-19cebfcc0c6e@linux.alibaba.com>
-Date: Tue, 21 Mar 2023 14:44:07 +0800
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1peWRr-0001qQ-0g
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 03:30:23 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1peWRp-00010C-9s
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 03:30:22 -0400
+Received: by mail-lf1-x134.google.com with SMTP id j11so17907075lfg.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 00:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679383818;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8eBCWRR7DuII9lGMAh5QFvxnApWHfcj3gCzC7x9FHtM=;
+ b=afKufYPL1mP7OFFWSP6UD5VXWgKLS93lOC+FTvyCBQMi56Lp6jt7fdms05qrQ37Iyi
+ kuNqjuvsnH4iB1z3WK1EFSMwrLT8pJESa1IDhsVEG4NprUW2qaOI63DPBUGainLjWVAg
+ DFX/WE/GoNRr3HZxaTzuhRc5PQfLe/gKl1J9K6uBS+Ek/c3WDlDP8olbXJhZUTXihHIu
+ VPnjWrVcbiPRQRG9CRhu3GVGQmU/5mDE3n42TH4NSenYnKmJLhDdqfY93+LDxduSAZaE
+ dWlrIlO45Y9Z+12xmP8b8zCMozcp4xWDcWN7cPur9RZIfYtkBPCFYYBnivovXE6NJbf8
+ pSbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679383818;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8eBCWRR7DuII9lGMAh5QFvxnApWHfcj3gCzC7x9FHtM=;
+ b=LZpVPj1Yp0mSIdEi/GS+RrHDoCA1OG1RykMAdYRp/yr22ied2MlKs/QrEZm19FDA1R
+ 32ZMKvZb/yH84wQbVgRhy5tGfqGMIaafYn0RbnN2VfrWasmg9dfchSzbiK3Dyi8MImtD
+ hWlGbrmzGcoUyf7iYMEMv3oXDAeppNIQJ3i/bujUk6uV3GXenAds1C/tgNWOx5RedHHk
+ XFVb3Pujs7gWsKnvQZPP124d4RMh/FRLvk8ZxklGOwsmxTEK9x4xQnmcqYH02E8uBeg7
+ 2SnwtV/ieffSexSRls4YnZpdcXTgL7QfT/cINS5N2+arZffPZr3/gvW0CbfWCMJU88v3
+ ZDwg==
+X-Gm-Message-State: AO0yUKXvyV3ESPLW5vPo8TUrYeKoO5XDMetLjU6WlPfGZRJhdF7S99M9
+ G0TNTKuXmnyW718SoeC8ShG9gizsvvz/NLA4WN6tRVDYurQ=
+X-Google-Smtp-Source: AK7set8/uitNLekZgq2IOoYSRgKJ6D9DxQ4pcv9anQ5NUTkBI7c74iqC29xFgxMDT4FaIKYqCC1ObD84/wEcUz9uE+0=
+X-Received: by 2002:ac2:41cf:0:b0:4e8:9988:f8ab with SMTP id
+ d15-20020ac241cf000000b004e89988f8abmr485429lfi.11.1679383818619; Tue, 21 Mar
+ 2023 00:30:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] tcg/tcg: Avoid TS_DEAD for basic block ending
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230321045340.838-1-zhiwei_liu@linux.alibaba.com>
- <6a240bc1-4321-9891-3291-1320a96d1310@linaro.org>
-Content-Language: en-US
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <6a240bc1-4321-9891-3291-1320a96d1310@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.124;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-124.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20230307123027.2485499-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20230307123027.2485499-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 21 Mar 2023 11:30:06 +0400
+Message-ID: <CAJ+F1CKqPfU6_L+LYty-di2BDNMBrHPynOEGc1sTFOH2PgCeBg@mail.gmail.com>
+Subject: Re: [PATCH] .editorconfig: set max line at 70 chars for QAPI files
+To: qemu-devel@nongnu.org
+Cc: armbru@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,46 +85,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi
 
-On 2023/3/21 14:06, Richard Henderson wrote:
-> On 3/20/23 21:53, LIU Zhiwei wrote:
->> TS_DEAD means we will release the register allocated for this 
->> temporary. But
->> at basic block ending, we can still use the allocted register.
->>
->> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+On Tue, Mar 7, 2023 at 4:32=E2=80=AFPM <marcandre.lureau@redhat.com> wrote:
 >
-> Test case?
-
-I have run an Ubuntu image after this patch. It can boot.
-
-But I can't find a direct test case.  Because the IRs supported with 
-flags TCG_OPF_BB_END do not have  input or output parameter, such as the 
-set_label or br.
-
-Best Regards,
-Zhiwei
-
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
+> This seems to be the preferred style.
 >
-> r~
+> The EditorConfig property is not supported by all editors:
+> https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties=
+#max_line_length
 >
->> ---
->>   tcg/tcg.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/tcg/tcg.c b/tcg/tcg.c
->> index bb52bc060b..0c93e6e6f8 100644
->> --- a/tcg/tcg.c
->> +++ b/tcg/tcg.c
->> @@ -2822,7 +2822,7 @@ static void la_bb_end(TCGContext *s, int ng, 
->> int nt)
->>           case TEMP_FIXED:
->>           case TEMP_GLOBAL:
->>           case TEMP_TB:
->> -            state = TS_DEAD | TS_MEM;
->> +            state = TS_MEM;
->>               break;
->>           case TEMP_EBB:
->>           case TEMP_CONST:
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  .editorconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/.editorconfig b/.editorconfig
+> index 7303759ed7..8c5ebc6a1b 100644
+> --- a/.editorconfig
+> +++ b/.editorconfig
+> @@ -47,3 +47,4 @@ emacs_mode =3D glsl
+>  [*.json]
+>  indent_style =3D space
+>  emacs_mode =3D python
+> +max_line_length =3D 70
+
+ack or nack ?
 
