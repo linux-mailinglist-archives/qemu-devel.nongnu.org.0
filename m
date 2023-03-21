@@ -2,62 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3B16C3B6F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 21:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F191A6C3B8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 21:17:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peiMv-0002Zq-1V; Tue, 21 Mar 2023 16:14:05 -0400
+	id 1peiPK-0004Im-MA; Tue, 21 Mar 2023 16:16:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1peiMr-0002YO-LO; Tue, 21 Mar 2023 16:14:02 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1peiMp-0000t0-Aq; Tue, 21 Mar 2023 16:14:01 -0400
-Received: from mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net
- [IPv6:2a02:6b8:c14:5708:0:640:5704:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id AAC845EA80;
- Tue, 21 Mar 2023 23:13:47 +0300 (MSK)
-Received: from vsementsov-win.yandex-team.ru (unknown
- [2a02:6b8:b081:1224::1:29])
- by mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id fDwl040OnOs0-BxPhDACI; Tue, 21 Mar 2023 23:13:46 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1679429626; bh=350kmENVs4y4oRc6fDqn78MOAWx6tQ9idjyBULPH48w=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=IXL9j6Yy+wfaAE9ClMHm2wppqRl7ag64Pzv6SPlKoIi1JoqVIXiKnNsD2Vl41imTs
- rqqffxDu1JO10leTQlqwj5cxpE9a0J9SEGYksnYKlDkFHnbpj+fRoZgCf+8xsk2KGa
- lUAWvPMImxJIusFZ2fCE0CkECBGs//UMFX4ea0Hg=
-Authentication-Results: mail-nwsmtp-smtp-corp-canary-81.sas.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, mst@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
- Coiby.Xu@gmail.com, yc-core@yandex-team.ru,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH] vhost-user-blk-server: notify client about disk resize
-Date: Tue, 21 Mar 2023 23:13:23 +0300
-Message-Id: <20230321201323.3695923-1-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3bhAaZAsKCh857F9MG9TOIBBJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--ackerleytng.bounces.google.com>)
+ id 1peiOZ-00044f-1F
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 16:15:48 -0400
+Received: from mail-yw1-x114a.google.com ([2607:f8b0:4864:20::114a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3bhAaZAsKCh857F9MG9TOIBBJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--ackerleytng.bounces.google.com>)
+ id 1peiOW-0001wB-S8
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 16:15:46 -0400
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-54463468d06so164762397b3.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 13:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1679429742;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=e2RhtQenWH6Mmh2njKfsOonde6iRcUbhqsfef2trssA=;
+ b=dnKqgSgEzV+DXuBj2wvXDWtPBqMuV2pwg2Ct8dJ2rJdc95M/lMmTlgUP2dyyQzQZCx
+ Iq/GSx8zfNi6cjpPXlkvFiOhBlsMCmXfLOq2dWRkj0Zbu4B9VrBzE1cjAeJDG4LmIiwg
+ a9p667GlxYr1b3vFk56oQTORyucJI5+lnS4aHOLrWZKn48LKgZbwlngGZRNrH23IiQia
+ BTjGsvcRLxI3EBaHYPgl4POvKLFsuX54uyRRVU32IC2UmWI9FBGXUcJ03hDcw7BY7FEu
+ rCQmjrE3DmckWD6OUpMbPS8UMoHoyUpzCmWhtOkP6a7Lv2e0ND7qGYcbxH/6oa0I4dOE
+ 4qTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679429742;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e2RhtQenWH6Mmh2njKfsOonde6iRcUbhqsfef2trssA=;
+ b=20KItga/Z4pyIT22i0/VBdCo0fDYk3MlK9usRcdLid+F8d6af677YFQkuUcGwym16i
+ uzv6tRBkbT36MM8fbNEPpIL3zmtTz9OyPoSLkvKjpervRBnQOqUOcJNklITUr19V3YV1
+ UE/rbZqXrnmD2NQ6HmbTduq4R8zI4KzAbZMosePkRQ71WefSbriyf3FuLt3oy+Yf2Lto
+ HV0MJasRM+m6whOzoE4LjnmThyOKl9IR/78jL5bVS5UOen+ylbzUN0nm1udMr97TS/jX
+ TokhDrDFjfq8kI7IYrmxHGni17ILwDtu2g27Dw3lJsQ2z/C1tbY1lQ7rxNc1TbGGYU3f
+ BIdw==
+X-Gm-Message-State: AO0yUKUmOPWT+VHb+ERtUoMwlW54uVQq8oIyEiiBP5V6KbhdhH9z86fZ
+ Jj2FUC/AOtHzjHzlCbBY70c2IgrOTmTDwWfqrg==
+X-Google-Smtp-Source: AK7set/rS/BOrm2SUEMWHr+PlfeqSewwcb3Q0X8SWpfhSHb/ZXYj5MKa4Pc4uyKe/dNqM06Z778BYQX2stVtaLtYJQ==
+X-Received: from ackerleytng-cloudtop.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
+ (user=ackerleytng job=sendgmr) by 2002:a05:690c:d88:b0:544:bbd2:74be with
+ SMTP id da8-20020a05690c0d8800b00544bbd274bemr11229418ywb.4.1679429742690;
+ Tue, 21 Mar 2023 13:15:42 -0700 (PDT)
+Date: Tue, 21 Mar 2023 20:15:31 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.rc2.332.ga46443480c-goog
+Message-ID: <cover.1679428901.git.ackerleytng@google.com>
+Subject: [RFC PATCH v2 0/2] Providing mount in memfd_restricted() syscall
+From: Ackerley Tng <ackerleytng@google.com>
+To: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, qemu-devel@nongnu.org
+Cc: aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org, 
+ arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, 
+ chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com, 
+ david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com, 
+ hughd@google.com, jlayton@kernel.org, jmattson@google.com, joro@8bytes.org, 
+ jun.nakajima@intel.com, kirill.shutemov@linux.intel.com, linmiaohe@huawei.com, 
+ luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com, 
+ michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com, 
+ pbonzini@redhat.com, qperret@google.com, rppt@kernel.org, seanjc@google.com, 
+ shuah@kernel.org, steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
+ vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com, 
+ wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org, 
+ yu.c.zhang@linux.intel.com, Ackerley Tng <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
+ envelope-from=3bhAaZAsKCh857F9MG9TOIBBJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--ackerleytng.bounces.google.com;
+ helo=mail-yw1-x114a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,134 +103,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently block_resize qmp command is simply ignored by vhost-user-blk
-export. So, the block-node is successfully resized, but virtio config
-is unchanged and guest doesn't see that disk is resized.
+Hello,
 
-Let's handle the resize by modifying the config and notifying the guest
-appropriately.
+This patchset builds upon the memfd_restricted() system call that was
+discussed in the 'KVM: mm: fd-based approach for supporting KVM' patch
+series, at
+https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.int=
+el.com/T/#m7e944d7892afdd1d62a03a287bd488c56e377b0c
 
-After this comment, lsblk in linux guest with attached
-vhost-user-blk-pci device shows new size immediately after block_resize
-QMP command on vhost-user exported block node.
+The tree can be found at:
+https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-provide-mou=
+nt-fd
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
+In this patchset, a modification to the memfd_restricted() syscall is
+proposed, which allows userspace to provide a mount, on which the
+restrictedmem file will be created and returned from the
+memfd_restricted().
 
-Hi all! Seems, we have everything except this tiny patch to support live
-disk resize for vhost-user export.
+Allowing userspace to provide a mount allows userspace to control
+various memory binding policies via tmpfs mount options, such as
+Transparent HugePage memory allocation policy through
+'huge=3Dalways/never' and NUMA memory allocation policy through
+'mpol=3Dlocal/bind:*'.
 
-How I test:
+Changes since RFCv1:
++ Use fd to represent mount instead of path string, as Kirill
+  suggested. I believe using fds makes this syscall interface more
+  aligned with the other syscalls like fsopen(), fsconfig(), and
+  fsmount() in terms of using and passing around fds
++ Remove unused variable char *orig_shmem_enabled from selftests
 
-./build/storage-daemon/qemu-storage-daemon --blockdev file,filename=a,node-name=f1 --export vhost-user-blk,node-name=f1,addr.type=unix,addr.path=/tmp/sock,writable=on,id=gg --chardev socket,path=qmp.sock,server=on,wait=off,id=char1 --monitor chardev=char1
+Dependencies:
++ Sean's iteration of the =E2=80=98KVM: mm: fd-based approach for supportin=
+g
+  KVM=E2=80=99 patch series at
+  https://github.com/sean-jc/linux/tree/x86/upm_base_support
++ Proposed fixes for these issues mentioned on the mailing list:
+    + https://lore.kernel.org/lkml/diqzzga0fv96.fsf@ackerleytng-cloudtop-sg=
+.c.googlers.com/
 
-In another terminal, connect to qmp interface by
+Links to earlier patch series:
++ RFC v1:
+  https://lore.kernel.org/lkml/cover.1676507663.git.ackerleytng@google.com/=
+T/
 
-nc -U qmp.sock
+Ackerley Tng (2):
+  mm: restrictedmem: Allow userspace to specify mount for
+    memfd_restricted
+  selftests: restrictedmem: Check hugepage-ness of shmem file backing
+    restrictedmem fd
 
-Launch QEMU:
+ include/linux/syscalls.h                      |   2 +-
+ include/uapi/linux/restrictedmem.h            |   8 +
+ mm/restrictedmem.c                            |  63 ++-
+ tools/testing/selftests/Makefile              |   1 +
+ .../selftests/restrictedmem/.gitignore        |   3 +
+ .../testing/selftests/restrictedmem/Makefile  |  15 +
+ .../testing/selftests/restrictedmem/common.c  |   9 +
+ .../testing/selftests/restrictedmem/common.h  |   8 +
+ .../restrictedmem_hugepage_test.c             | 459 ++++++++++++++++++
+ 9 files changed, 561 insertions(+), 7 deletions(-)
+ create mode 100644 include/uapi/linux/restrictedmem.h
+ create mode 100644 tools/testing/selftests/restrictedmem/.gitignore
+ create mode 100644 tools/testing/selftests/restrictedmem/Makefile
+ create mode 100644 tools/testing/selftests/restrictedmem/common.c
+ create mode 100644 tools/testing/selftests/restrictedmem/common.h
+ create mode 100644 tools/testing/selftests/restrictedmem/restrictedmem_hug=
+epage_test.c
 
-./build/qemu-system-x86_64 -M q35,accel=kvm,memory-backend=mem -object memory-backend-file,share=on,id=mem,size=1G,mem-path=/dev/shm/qemu-ram -drive file=/home/vsementsov/work/vms/ub -chardev socket,path=/tmp/sock,id=char0 -device vhost-user-blk-pci,chardev=char0
-
-Then, run in the guest lsblk command to check current size of vhost-user
-driven disk.
-
-Then in nc terminal:
-{'execute': 'qmp_capabilities'}
-{'execute': 'block_resize', 'arguments': {'node-name': 'f1', 'size': 628531200}}
-
-Then, check in the guest that lsblk shows new size.
-
-
- subprojects/libvhost-user/libvhost-user.h |  2 ++
- block/export/vhost-user-blk-server.c      | 24 +++++++++++++++++++++++
- subprojects/libvhost-user/libvhost-user.c | 10 ++++++++++
- 3 files changed, 36 insertions(+)
-
-diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
-index 8c5a2719e3..49208cceaa 100644
---- a/subprojects/libvhost-user/libvhost-user.h
-+++ b/subprojects/libvhost-user/libvhost-user.h
-@@ -585,6 +585,8 @@ bool vu_queue_empty(VuDev *dev, VuVirtq *vq);
-  */
- void vu_queue_notify(VuDev *dev, VuVirtq *vq);
- 
-+void vu_config_change_msg(VuDev *dev);
-+
- /**
-  * vu_queue_notify_sync:
-  * @dev: a VuDev context
-diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
-index 3409d9e02e..e56b92f2e2 100644
---- a/block/export/vhost-user-blk-server.c
-+++ b/block/export/vhost-user-blk-server.c
-@@ -10,6 +10,7 @@
-  * later.  See the COPYING file in the top-level directory.
-  */
- #include "qemu/osdep.h"
-+#include "qemu/error-report.h"
- #include "block/block.h"
- #include "subprojects/libvhost-user/libvhost-user.h" /* only for the type definitions */
- #include "standard-headers/linux/virtio_blk.h"
-@@ -251,6 +252,27 @@ static void vu_blk_exp_request_shutdown(BlockExport *exp)
-     vhost_user_server_stop(&vexp->vu_server);
- }
- 
-+static void vu_blk_exp_resize(void *opaque)
-+{
-+    VuBlkExport *vexp = opaque;
-+    BlockDriverState *bs = blk_bs(vexp->handler.blk);
-+    int64_t new_size = bdrv_getlength(bs);
-+
-+    if (new_size < 0) {
-+        error_printf("Failed to get length of block node '%s'",
-+                     bdrv_get_node_name(bs));
-+        return;
-+    }
-+
-+    vexp->blkcfg.capacity = cpu_to_le64(new_size >> VIRTIO_BLK_SECTOR_BITS);
-+
-+    vu_config_change_msg(&vexp->vu_server.vu_dev);
-+}
-+
-+static const BlockDevOps vu_blk_dev_ops = {
-+    .resize_cb = vu_blk_exp_resize,
-+};
-+
- static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-                              Error **errp)
- {
-@@ -292,6 +314,8 @@ static int vu_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-                                  vexp);
- 
-+    blk_set_dev_ops(exp->blk, &vu_blk_dev_ops, vexp);
-+
-     if (!vhost_user_server_start(&vexp->vu_server, vu_opts->addr, exp->ctx,
-                                  num_queues, &vu_blk_iface, errp)) {
-         blk_remove_aio_context_notifier(exp->blk, blk_aio_attached,
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 0200b78e8e..0abd898a52 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -2455,6 +2455,16 @@ void vu_queue_notify_sync(VuDev *dev, VuVirtq *vq)
-     _vu_queue_notify(dev, vq, true);
- }
- 
-+void vu_config_change_msg(VuDev *dev)
-+{
-+    VhostUserMsg vmsg = {
-+        .request = VHOST_USER_BACKEND_CONFIG_CHANGE_MSG,
-+        .flags = VHOST_USER_VERSION,
-+    };
-+
-+    vu_message_write(dev, dev->slave_fd, &vmsg);
-+}
-+
- static inline void
- vring_used_flags_set_bit(VuVirtq *vq, int mask)
- {
--- 
-2.34.1
-
+--
+2.40.0.rc2.332.ga46443480c-goog
 
