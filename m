@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30B06C3302
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:35:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AD96C3310
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:39:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pec9D-00086s-95; Tue, 21 Mar 2023 09:35:31 -0400
+	id 1pecC0-0001rV-1P; Tue, 21 Mar 2023 09:38:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pec8s-0007wv-ID
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:35:12 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pecBy-0001rM-Tn
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:38:22 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pec8q-0006aD-SI
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:35:10 -0400
-Received: by mail-pl1-x633.google.com with SMTP id z19so5596487plo.2
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:35:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pecBx-00088C-54
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:38:22 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id i5so12881389eda.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679405707;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rGrzFl5Bhcl+a4kQ8MCP6bco7fvFT4woifSqH8nXkvY=;
- b=m31IgdDCbgsz2GBhh+HP+A65A2xxv87w2KJTWCA9OxP3PGZG3FVYGjKBhQWpeGmP92
- Vrf68FomCrxE+HPejB2gpQsgRPFIQ1qO87Nqfqu4pYTjJw46B/xWOdGwnjBxwemI3BfW
- gY0yPdTxHue28iuHrOZnL2Ig5uzHdqEdgqtef4I+lsb+dOURJFrvkSu49jvQmuIl61af
- 949ZlJQwZQ0LzdRDZBd6XPG8iqnHiKtBI/52WWOg50x3KPc2saciVY4waEVHQpR4st+Q
- FidbvBJbLY3XRG5vLIn6TZ+dl/q3APbN5/203Y4tAZtolD0orhsbSk4HJ2Ohqk3XgLw3
- Iabw==
+ d=linaro.org; s=google; t=1679405898;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vEcyY8YPGz3mZhhjho1Ps+avAHFAMbR+XWeki8hnHmg=;
+ b=V8k8r4+UIC7tk57TQA4JFsdT9doxoQsA4emzYyautbHU02X1ilbMeSXwZ50An7hswF
+ sXF3HUY5cYE3yuIt/0Esuc2mD8sLEtwHHdUyfvsd4nLTZwZ19Opy02nNvZa6XrUEemge
+ HCQ0SoI2l8jRmkpyLuQod/fBK1jKjyd0/fLeqnu/v5IY+wWCbezGVtdGwTv3ozJXA4oB
+ jtLkxYVlYtc9m+T4m7asc6xM1ChFXJFCz1nEdpgMFzoGcmdzaF+Vki2b2cVssHnD8lHg
+ bup/Kj6pMD3scN35nvNo5H4nLpI71UbCBg5cwOH1wqkqiziFjZugKoaeKshmoaLeYUgI
+ 4xLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679405707;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rGrzFl5Bhcl+a4kQ8MCP6bco7fvFT4woifSqH8nXkvY=;
- b=R0h5fJ/Pdr2WSrsGj6uurLgrmQahzfnZ6WBNHIHI2Ordt4WKhWoCn8cfhpmKwZzFTP
- tJenhoZnv+ulNmIRK7roucru+lmKH5zrdjIIgOXFaJITDCbsVdZwu71DIfKIGB9sisEP
- 17bixk9r0IS7mOM0PDHybAGuPhDwCaaM0p4ywN50ItlczrU6HhCpDGst5vQstGOSSIVq
- 4gdpUVMNmCtpS6wOCDPuS+vURc3r+INE9VvGl4fEK4uVkmgza8dwxlwUQN5KPoRmVY1g
- 253bX2YoKFTDjvsQPlDw/N4U0+hiSlOtoHT4tnSED3vzdtgwmCHvWstfkaQdawqhFXNE
- YyAA==
-X-Gm-Message-State: AO0yUKXYQogMzoWqmslC/L0V1hLmf19ayHGyan8pRbikkOzMPdXkIHDR
- Bth5t2+JgIWSX/405vilp+6t+BYv60itrv1bSPJ9SA==
-X-Google-Smtp-Source: AK7set+VnUKRBI877/jOgQSCgNKg3dBjW93Ocbk+IajkJ9WeXdWn06jy3vU/HEd1UIs0LHlCS8ZlIBCxo6RR+IWZTNs=
-X-Received: by 2002:a17:902:efc6:b0:1a0:4be5:ccea with SMTP id
- ja6-20020a170902efc600b001a04be5cceamr908559plb.9.1679405707245; Tue, 21 Mar
- 2023 06:35:07 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679405898;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vEcyY8YPGz3mZhhjho1Ps+avAHFAMbR+XWeki8hnHmg=;
+ b=drEmwmvgD5lWnUso1M1lbUBQmjVX/X1Btz7x3QIJz3tdgvRsBNEnotbE2VhAtAK1rK
+ yZNn7GujBZZF4RfgsvGzhcgoOwNOKdEogTHlui1xJIo0sxowR5+UrKHg6ClA7D25oKXj
+ QXe6yOR5kfuaLDAiD2pmkC5lZeSrUWWQ/h/eQ2iA7bRKLoGtW8vonGq5SQcOesHqi/Vx
+ gwe8TbjE7aSfaXt8svTLPB+BB+kz8I2HEQRB0Nsrb+q3lnmIQ+z5mGXQljR5ldEkiDjs
+ ejGrn7XXrBCCMzvZR/NjchxvfsS/NExwQ6qcTGRjqpWW4WoRukR9ZZ7Ng6Fq0zYwX5rL
+ 5vIQ==
+X-Gm-Message-State: AO0yUKX8ZicvUzYKJm5xyuDVCv66Egb0373IrFKyOHjxGTYvSJMM5AjT
+ 8XjTY3GN1Ted9/O0n5rQr2fyLA==
+X-Google-Smtp-Source: AK7set+g4R5jr8RuaV2XlN3X/2dvoBZloXilqjTAlR5Z605IIaZlzadym3H1Kso/SgYG7oFkxIttpg==
+X-Received: by 2002:a17:906:1559:b0:933:2dfd:2f50 with SMTP id
+ c25-20020a170906155900b009332dfd2f50mr3149947ejd.30.1679405897984; 
+ Tue, 21 Mar 2023 06:38:17 -0700 (PDT)
+Received: from [192.168.69.115] (did75-h03-176-184-22-219.dsl.sta.abo.bbox.fr.
+ [176.184.22.219]) by smtp.gmail.com with ESMTPSA id
+ v8-20020a1709063bc800b0093341746105sm4014099ejf.117.2023.03.21.06.38.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 06:38:17 -0700 (PDT)
+Message-ID: <e072cbd3-f497-b384-ab46-16c88c70a12a@linaro.org>
+Date: Tue, 21 Mar 2023 14:38:15 +0100
 MIME-Version: 1.0
-References: <20230226220650.1480786-1-smostafa@google.com>
- <20230226220650.1480786-11-smostafa@google.com>
- <6e6810c3-c01a-5a2f-4fed-64c9391e22ba@redhat.com>
- <ZBmruj7OME3Pfbh1@google.com>
- <d2e9d8d5-1cf6-67fe-e780-41038fcaa376@redhat.com>
-In-Reply-To: <d2e9d8d5-1cf6-67fe-e780-41038fcaa376@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Mar 2023 13:34:55 +0000
-Message-ID: <CAFEAcA_NZiby7=DWaDBu7b5Dbo5sXF9N7T-0_wskZ46FR9Esxw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 10/11] hw/arm/smmuv3: Populate OAS based on CPU
- PARANGE
-To: eric.auger@redhat.com
-Cc: Mostafa Saleh <smostafa@google.com>, qemu-devel@nongnu.org,
- jean-philippe@linaro.org, 
- qemu-arm@nongnu.org, richard.henderson@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x633.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [RFC PATCH] tests/avocado: probe for multi-process support before
+ running test
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230321111752.2681128-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230321111752.2681128-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,58 +97,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Mar 2023 at 13:23, Eric Auger <eric.auger@redhat.com> wrote:
->
-> Hi Mostafa,
->
-> On 3/21/23 14:06, Mostafa Saleh wrote:
-> > Hi Eric,
-> >
-> >>> +     * According to 6.3.6 SMMU_IDR5, OAS must match the system physical address
-> >>> +     * size.
-> >>> +     */
-> >>> +    ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(0));
-> >>> +    uint8_t oas = FIELD_EX64(armcpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
-> >> is this working in accelerated mode?
-> > I didn't try with accel, I will give it a try, but from what I see, that
-> > ARM_CPU() is used to get the CPU in traget/arm/kvm.c which is used from
-> > accel/kvm-all.c, so it seems this would work for accelerated mode.
->
-> yeah I ma not familiar enough with that code but it is worth to be checked.
+On 21/3/23 12:17, Alex Bennée wrote:
+> A recent attempt to let avocado run more tests on the CentOS stream
+> build failed because there was no gating on the multiprocess feature.
+> Like missing accelerators avocado should gracefully skip when the
+> feature is not enabled.
+> 
+> In this case we use the existence of the proxy device as a proxy for
+> multi-process support.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Cc: Jagannathan Raman <jag.raman@oracle.com>
+> Cc: John G Johnson <john.g.johnson@oracle.com>
+> ---
+>   tests/avocado/avocado_qemu/__init__.py | 10 ++++++++++
+>   tests/avocado/multiprocess.py          |  1 +
+>   2 files changed, 11 insertions(+)
 
-I'm a bit unsure about fishing around in the CPU ID registers for this.
-That's not what you would do in real hardware, you'd just say "the
-system is supposed to configure the CPU and the SMMU correctly".
 
-Also, there is no guarantee that CPU 0 is related to this SMMU in
-particular.
+> +        """
+> +        Test for the presence of the x-pci-proxy-dev which is required
+> +        to support multiprocess.
+> +        """
+> +        devhelp = run_cmd([self.qemu_bin,
+> +                           '-M', 'none', '-device', 'help'])[0];
+> +        if devhelp.find('x-pci-proxy-dev') < 0:
+> +            self.cancel('no support for multiprocess device emulation')
 
-> >
-> >>> +
-> >>>      /**
-> >>>       * IDR0: stage1 only, AArch64 only, coherent access, 16b ASID,
-> >>>       *       multi-level stream table
-> >>> @@ -265,7 +272,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
-> >>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
-> >>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN16K, 1);
-> >>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
-> >>> -    s->idr[5] = FIELD_DP32(s->idr[5], IDR5, OAS, SMMU_IDR5_OAS); /* 44 bits */
-> >>> +    s->idr[5] = FIELD_DP32(s->idr[5], IDR5, OAS, oas);
-> >> I am not sure you can change that easily. In case of migration this is
-> >> going to change the behavior of the device, no?
-> > I see IDR registers are not migrated. I guess we can add them in a
-> > subsection and if they were not passed (old instances) we set OAS to
-> > 44.
-> > Maybe this should be another change outside of this series.
-> Indeed tehy are not migrated so it can lead to inconsistent behavior in
-> both source and dest. This deserves more analysis to me. In case you
-> would decide to migrate IDR regs this would need to be done in that
-> series I think. Migration must not be broken by this series.
+FYI a more generic alternative to this method:
+https://lore.kernel.org/qemu-devel/20200129212345.20547-14-philmd@redhat.com/
 
-Jumping in here without having read much of the context, but why
-would we need to migrate the ID registers? They are constant, read-only,
-so they will be the same value on both source and destination.
-
-thanks
--- PMM
+But yours just works :)
 
