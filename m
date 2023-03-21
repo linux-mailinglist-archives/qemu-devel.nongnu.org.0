@@ -2,94 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7702E6C3218
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 13:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BFA6C3223
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 13:59:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pebXQ-00074t-Bv; Tue, 21 Mar 2023 08:56:28 -0400
+	id 1pebZz-00080I-JR; Tue, 21 Mar 2023 08:59:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pebXN-00074P-DP
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 08:56:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pebXL-0006WX-T0
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 08:56:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679403382;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IiFVpn9jj6h337K3NSpiQFh78X4x0ZgqQ+4RHW0aroc=;
- b=dYobzfrMKzRtxr1444VytPbDPS9cW5wmKlwGlXEZ5WsJCuaGjcAkZwoCDCnjmN0fG9gZmL
- kRLdpvXhKstFhnLEbSGDJ3F6OFlpuh0CgWzEZC26A+DNXbg6xztwzfE/4+gzR1GauzljCS
- Y8D2KDQluO5pduUnYzLy/4tD87dZW60=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-186-htoAmp6JNB2-j1CJfkxtQg-1; Tue, 21 Mar 2023 08:56:20 -0400
-X-MC-Unique: htoAmp6JNB2-j1CJfkxtQg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j27-20020a05600c1c1b00b003edd2023418so4048234wms.4
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 05:56:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679403379;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IiFVpn9jj6h337K3NSpiQFh78X4x0ZgqQ+4RHW0aroc=;
- b=g3juwMqv7InePhKSlWmG2qo9kjIwyc2m0FahZ1aTBjs1HR517ClWfXUypiORoP8s4A
- oHu2Gq4ikEWl3PyxDWvm3yfXwAgq7Ft2vpiqM0sIt0CRs8kPRrVjE2ZA7jZVhhcli+oq
- XfZD32ZYXCZNKM4PpnihOPhYY8HuyIqhh+x/xqDqeZHyqkTuhJ3GZeYYW+/h6VKf76Vp
- o3jvt/oc6eBshLrEQ5CQ2UGW1ZswL3/Q5Ccp1dH9zLq/LoBKvaKRqWWjSiwpCmxGlqy/
- vqN1CDT/+AlLmLYl472uBfmcZjcGJCyeJ0R2Mtz0tZG8wrRbCehHpt2u/U4MxtPezwQc
- HFzw==
-X-Gm-Message-State: AO0yUKVdzKzD3rm9HxQ6uEJ0Nt/90rmh/stcgjxGGsIJ3kpzWJ5clSBt
- 2V9pANeg8caPqMcQDch696Lk+ROOgj6CAAO661OFmW2dKWhzjyr/eUMz2V6e4Mjgub1/mX26w0I
- PJJyXtQ7jF3XwChA=
-X-Received: by 2002:adf:edcd:0:b0:2cf:e3e3:5b01 with SMTP id
- v13-20020adfedcd000000b002cfe3e35b01mr2198735wro.56.1679403379798; 
- Tue, 21 Mar 2023 05:56:19 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8XrEjtv2gHFlYtrP+Al1IJ4Dz1hfwY1bOy3NH2Gq0zit81C6P2mj1ERTd53zLRyPdKyHbyCQ==
-X-Received: by 2002:adf:edcd:0:b0:2cf:e3e3:5b01 with SMTP id
- v13-20020adfedcd000000b002cfe3e35b01mr2198722wro.56.1679403379508; 
- Tue, 21 Mar 2023 05:56:19 -0700 (PDT)
-Received: from redhat.com (62.117.238.225.dyn.user.ono.com. [62.117.238.225])
- by smtp.gmail.com with ESMTPSA id
- p14-20020a5d48ce000000b002d45575643esm9247132wrs.43.2023.03.21.05.56.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Mar 2023 05:56:19 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org,  qemu-arm@nongnu.org,  qemu-block@nongnu.org,
- Stefan Weil <sw@weilnetz.de>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>
-Subject: Re: [PATCH-for-8.1 5/5] bulk: Replace __attribute__((noreturn)) ->
- G_NORETURN
-In-Reply-To: <20230320134219.22489-6-philmd@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 20 Mar 2023 14:42:19
- +0100")
-References: <20230320134219.22489-1-philmd@linaro.org>
- <20230320134219.22489-6-philmd@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Tue, 21 Mar 2023 13:56:18 +0100
-Message-ID: <87bkkmjma5.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pebZx-0007zW-AE; Tue, 21 Mar 2023 08:59:05 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pebZp-0003HL-K6; Tue, 21 Mar 2023 08:59:04 -0400
+Received: from [192.168.0.120] (unknown [180.165.240.243])
+ by APP-01 (Coremail) with SMTP id qwCowACHj88GqhlkubdsFA--.2114S2;
+ Tue, 21 Mar 2023 20:58:47 +0800 (CST)
+Message-ID: <6648a495-d5d4-60df-cf88-90c98cc429c6@iscas.ac.cn>
+Date: Tue, 21 Mar 2023 20:58:46 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
+Content-Language: en-US
+To: fei2.wu@intel.com
+Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20230321063746.151107-1-fei2.wu@intel.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230321063746.151107-1-fei2.wu@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: qwCowACHj88GqhlkubdsFA--.2114S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFykZw13urWfZFy7GF4Durg_yoW5tr1kpr
+ Z7G39xKrWDGrZ2ya1fXr4qgrn8Cws5Wr1UCw1ktFs8Za1rJrWF9FZ8K342kr9rXF18GrWj
+ 9FWUur97AF47ZrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
+ r21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOGQDUUUUU
+X-Originating-IP: [180.165.240.243]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,17 +77,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
-> Under MSYS2, G_NORETURN is expanded to '[[noreturn]]'.
-> Simpler to use the same definition everywhere, unifying
-> the code style.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+On 2023/3/21 14:37, fei2.wu@intel.com wrote:
+> From: Fei Wu <fei2.wu@intel.com>
+>
+> Kernel needs to access user mode memory e.g. during syscalls, the window
+> is usually opened up for a very limited time through MSTATUS.SUM, the
+> overhead is too much if tlb_flush() gets called for every SUM change.
+> This patch saves addresses accessed when SUM=1, and flushs only these
+> pages when SUM changes to 0. If the buffer is not large enough to save
+> all the pages during SUM=1, it will fall back to tlb_flush when
+> necessary.
+>
+> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
+> most of the time kernel accesses 1 or 2 pages, it's very rare to see
+> more than 4 pages accessed.
+>
+> It's not necessary to save/restore these new added status, as
+> tlb_flush() is always called after restore.
+>
+> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
+> other syscalls benefit a lot from this one too.
+>
+> Signed-off-by: Fei Wu <fei2.wu@intel.com>
+> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> ---
+>   target/riscv/cpu.h        |  4 ++++
+>   target/riscv/cpu_helper.c |  7 +++++++
+>   target/riscv/csr.c        | 14 +++++++++++++-
+>   3 files changed, 24 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 638e47c75a..926dbce59f 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -383,6 +383,10 @@ struct CPUArchState {
+>       uint64_t kvm_timer_compare;
+>       uint64_t kvm_timer_state;
+>       uint64_t kvm_timer_frequency;
+> +
+> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
+> +    uint64_t sum_u_count;
+> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
+>   };
+>   
+>   OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index f88c503cf4..5ad0418eb6 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -1068,6 +1068,13 @@ restart:
+>                       (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+>                   *prot |= PAGE_WRITE;
+>               }
+> +            if ((pte & PTE_U) && (mode & PRV_S) &&
+> +                    get_field(env->mstatus, MSTATUS_SUM)) {
+> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
+> +                    env->sum_u_addr[env->sum_u_count] = addr;
+> +                }
+> +                ++env->sum_u_count;
+> +            }
+>               return TRANSLATE_SUCCESS;
+>           }
+>       }
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index ab566639e5..74b7638c8a 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1246,9 +1246,21 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+>   
+>       /* flush tlb on mstatus fields that affect VM */
+>       if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+> -            MSTATUS_MPRV | MSTATUS_SUM)) {
+> +            MSTATUS_MPRV)) {
+>           tlb_flush(env_cpu(env));
+> +        env->sum_u_count = 0;
+> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
+> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
+> +            tlb_flush(env_cpu(env));
+
+SUM seems only affect S mode TLB. Maybe we can only flush S mode TLB here.
+
+> +        } else {
+> +            for (int i = 0; i < env->sum_u_count; ++i) {
+> +                tlb_flush_page_by_mmuidx(env_cpu(env), env->sum_u_addr[i],
+> +                                         1 << PRV_S | 1 << PRV_M);
+
+Similar case here.
+
+Regards,
+
+Weiwei Li
+
+> +            }
+> +        }
+> +        env->sum_u_count = 0;
+>       }
+> +
+>       mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+>           MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
+>           MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
 
 
