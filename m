@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4484C6C301D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 12:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D40E6C3077
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 12:33:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pea0A-0006Rk-Kq; Tue, 21 Mar 2023 07:18:02 -0400
+	id 1peaDO-0000wn-Di; Tue, 21 Mar 2023 07:31:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pea08-0006RV-BM
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 07:18:00 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pea06-0002Uf-JD
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 07:17:59 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id m2so13253859wrh.6
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 04:17:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679397476;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dtMdpGocr62ge5sh3wVlQKfA9cyOF99U8VoIMH9fQsk=;
- b=ALStwZu+KZOp2yoQ51qjkjlVPwzpJt7D4zyWIHIvr6PachMCE9mw/N7wTzqe4NjbQK
- rJv8HkKZHIDCVHekHNFRCAlOCY2Pm76mDsonItc5OoPXlLBRJyVp8VDip1LMrxVeg460
- H5RN1lVDN6V5ZHLPb7BgQiAfuQjnSA/PZYcWq7KEVf9jGzKjSfCbwkWG5ffK3HOpusgo
- 57Dzg0+RnBWpyU5kSAGzLoFSM7h/CAEfCE2hPwJiTcFHRgzSVPGrfWCL12SGo9tdItgQ
- nF6AuWnb+LrNBmbvREXKn09oTJyZZXLxcbIXQN6uvOSXzxqdvE5nSODaBjLtaomPBQXs
- /CmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679397476;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dtMdpGocr62ge5sh3wVlQKfA9cyOF99U8VoIMH9fQsk=;
- b=KISk+qmiDtX2g3kx13O1cP1Vq/tJQyHCyHuAPyv9tYwNJ3rc/V2lpolSP/ryL8jEld
- nAo5G7dgEsVWFeqGAKZwyvE1i3hEmqpbb+kgKJQ0n7o05L3mWqrHDtjlFdF/uBl91cuO
- rUinqZmMsmWrbiYDgEHwgNKOcikW+do5l0enCdZ1OaOOhtLcOExQApce7Dt6JkBB6vSe
- 23a9607ALEsnu0pJCrRTCCWO+1ya2G0hrA5/+Qtz9dC/tiEDO/NRao+qn+1g4DLWLSmi
- 68LdPAPelPy3BRFFlQMNrHVIOyhuoka8hcz6Jg8I7ppyFrqc7PVvVQrYSS61vFV7wI4B
- Zw0g==
-X-Gm-Message-State: AO0yUKWLjZCYaj2eP+FW+GM4M31O3yq2bwUDLNf5KL0G8D16JL7GwlFF
- VWk04twEJdzkauCKJKnfGRQ/7Q==
-X-Google-Smtp-Source: AK7set+Z+eQUYmgqln7LxTmF4GRkBIrSyX1vLrU6rLuhFVBEufJuBeNHBdBN1mA+dEmtyxjpTlLh2g==
-X-Received: by 2002:a5d:654a:0:b0:2c7:1a86:aecd with SMTP id
- z10-20020a5d654a000000b002c71a86aecdmr1908802wrv.2.1679397476592; 
- Tue, 21 Mar 2023 04:17:56 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- e8-20020adffc48000000b002c8476dde7asm11028605wrs.114.2023.03.21.04.17.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Mar 2023 04:17:56 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D5CC51FFB7;
- Tue, 21 Mar 2023 11:17:55 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [RFC PATCH] tests/avocado: probe for multi-process support before
- running test
-Date: Tue, 21 Mar 2023 11:17:52 +0000
-Message-Id: <20230321111752.2681128-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1peaDL-0000wa-4l
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 07:31:39 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1peaDI-0002Ub-98
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 07:31:38 -0400
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8BxttiMlRlkQ2MPAA--.27682S3;
+ Tue, 21 Mar 2023 19:31:25 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Axnr6MlRlkUooIAA--.30155S3; 
+ Tue, 21 Mar 2023 19:31:24 +0800 (CST)
+Subject: Re: [RFC PATCH 40/43] target/loongarch: Implement vreplve vpack vpick
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-41-gaosong@loongson.cn>
+ <f47ae8f2-9563-750a-d190-d6ad90600be6@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <9191ffdb-9bd7-97f4-232b-fa8f5f4d240c@loongson.cn>
+Date: Tue, 21 Mar 2023 19:31:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <f47ae8f2-9563-750a-d190-d6ad90600be6@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Axnr6MlRlkUooIAA--.30155S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7ArWfCw4kKw1fJw4ruFWxWFg_yoW8Wr4fpw
+ 4rJr48GryDtw18W3WDW34DK3sIyrnIgw1UAwn5GF1jqrWUJFy2qrZFqr4jgry5Kr40vr1x
+ tw1SvrWjvF15Jr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+ kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
+ 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
+ k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+ MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr4
+ 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+ IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL05UUUUU==
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,57 +79,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A recent attempt to let avocado run more tests on the CentOS stream
-build failed because there was no gating on the multiprocess feature.
-Like missing accelerators avocado should gracefully skip when the
-feature is not enabled.
+Hi, Richard
 
-In this case we use the existence of the proxy device as a proxy for
-multi-process support.
+在 2022/12/25 上午5:12, Richard Henderson 写道:
+> On 12/24/22 00:16, Song Gao wrote:
+>> +TRANS(vreplve_b, gen_vvr, gen_helper_vreplve_b)
+>> +TRANS(vreplve_h, gen_vvr, gen_helper_vreplve_h)
+>> +TRANS(vreplve_w, gen_vvr, gen_helper_vreplve_w)
+>> +TRANS(vreplve_d, gen_vvr, gen_helper_vreplve_d)
+>> +TRANS(vreplvei_b, gen_vv_i, gen_helper_vreplvei_b)
+>> +TRANS(vreplvei_h, gen_vv_i, gen_helper_vreplvei_h)
+>> +TRANS(vreplvei_w, gen_vv_i, gen_helper_vreplvei_w)
+>> +TRANS(vreplvei_d, gen_vv_i, gen_helper_vreplvei_d)
+> tcg_gen_gvec_dupm.
+>
+> In the case of imm, this will be cpu_env + offsetof.
+e.g  vreplvei_b  vd, vj, imm
+vd->B(i) = Vj->B(imm);
+tcg_gen_gvec_dup_mem(MO_8,  vreg_full_offset(a->vd), 
+offsetof(CPULoongArchState,  fpr[a->vj].vreg.B(a->imm)),
+                                                  16, 16);
+this case no problem.
+> In the case of reg, compute cpu_env + register offset + offsetof.
+>
+but for this case.
+e.g
+vreplve_b  vd vj, rk
+index  = gpr[rk] % (128/8);
+Vd->B(i) = Vj->B(index);
+tcg_gen_gvec_dup_mem(MO_8, vreg_full_offset(a->vd), 
+offsetof(CPULoongArchState, fpr[a->vj].vreg.B(index))), 16, 16 );
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Cc: Jagannathan Raman <jag.raman@oracle.com>
-Cc: John G Johnson <john.g.johnson@oracle.com>
----
- tests/avocado/avocado_qemu/__init__.py | 10 ++++++++++
- tests/avocado/multiprocess.py          |  1 +
- 2 files changed, 11 insertions(+)
+How can we get the index with cpu_env? or  need env->gpr[rk]?
+The index type is not TCGv.
+I have no idea.
 
-diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-index a313e88c07..cb71f50db9 100644
---- a/tests/avocado/avocado_qemu/__init__.py
-+++ b/tests/avocado/avocado_qemu/__init__.py
-@@ -309,6 +309,16 @@ def require_netdev(self, netdevname):
-         if netdevhelp.find('\n' + netdevname + '\n') < 0:
-             self.cancel('no support for user networking')
- 
-+    def require_multiprocess(self):
-+        """
-+        Test for the presence of the x-pci-proxy-dev which is required
-+        to support multiprocess.
-+        """
-+        devhelp = run_cmd([self.qemu_bin,
-+                           '-M', 'none', '-device', 'help'])[0];
-+        if devhelp.find('x-pci-proxy-dev') < 0:
-+            self.cancel('no support for multiprocess device emulation')
-+
-     def _new_vm(self, name, *args):
-         self._sd = tempfile.TemporaryDirectory(prefix="qemu_")
-         vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
-diff --git a/tests/avocado/multiprocess.py b/tests/avocado/multiprocess.py
-index 80a3b8f442..9112a4cacc 100644
---- a/tests/avocado/multiprocess.py
-+++ b/tests/avocado/multiprocess.py
-@@ -22,6 +22,7 @@ def do_test(self, kernel_url, initrd_url, kernel_command_line,
-                 machine_type):
-         """Main test method"""
-         self.require_accelerator('kvm')
-+        self.require_multiprocess()
- 
-         # Create socketpair to connect proxy and remote processes
-         proxy_sock, remote_sock = socket.socketpair(socket.AF_UNIX,
--- 
-2.39.2
+Thanks.
+Song Gao
+>> +TRANS(vbsll_v, gen_vv_i, gen_helper_vbsll_v)
+>> +TRANS(vbsrl_v, gen_vv_i, gen_helper_vbsrl_v)
+>
+> These can use tcg_gen_extract2_i64, with imm * 8 bit shift.
+>
+>
+> r~
 
 
