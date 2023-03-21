@@ -2,69 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28BFA6C3223
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 13:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C400A6C3239
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:03:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pebZz-00080I-JR; Tue, 21 Mar 2023 08:59:07 -0400
+	id 1pebdZ-0000jv-0g; Tue, 21 Mar 2023 09:02:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pebZx-0007zW-AE; Tue, 21 Mar 2023 08:59:05 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pebZp-0003HL-K6; Tue, 21 Mar 2023 08:59:04 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.243])
- by APP-01 (Coremail) with SMTP id qwCowACHj88GqhlkubdsFA--.2114S2;
- Tue, 21 Mar 2023 20:58:47 +0800 (CST)
-Message-ID: <6648a495-d5d4-60df-cf88-90c98cc429c6@iscas.ac.cn>
-Date: Tue, 21 Mar 2023 20:58:46 +0800
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pebdV-0000hq-S3
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:02:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pebdU-0004jR-BV
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:02:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679403761;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L37zGIdrCI0lKWKM3Q8kK4VrVtRuY89p3/9wlNMNzE0=;
+ b=V9iz+eYGNLc8fhcI97zxZGrjwaS0iNSN72PWRrQdywi9PZa85F0no5Ryv8KYzTMbG+WAdD
+ fjVvCXm55oQ+60p/tyMCIp8fRmW4m0NqDk/7nJuwAzUQInAG0NCT7DV+lAEqKx67DB6RGl
+ ifhljvwxXucx0qmhU1kOssWZpyFeX0c=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-119-g_5_0ungNXK2Zx7hDmGJhg-1; Tue, 21 Mar 2023 09:02:40 -0400
+X-MC-Unique: g_5_0ungNXK2Zx7hDmGJhg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ b9-20020a05600018a900b002cfe70737d2so1746051wri.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:02:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679403759;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=L37zGIdrCI0lKWKM3Q8kK4VrVtRuY89p3/9wlNMNzE0=;
+ b=itfMrfpTN99oxdm8PvEj9tZi/e0vSdwo9TcrEtpHiu2OgLqKUlRZu0JxZ+XtD7C4BH
+ V6jHGSavl0/u9dj4fpeUXT4bBbmBkCfE6EUYB5SYgVviGsmb4dtL9EpETtKEwbgnFntq
+ q7LQHq54kfq9jjSoXF2hTujtcJPcIkDBFUF8ekQgYnivNg4yfEB7X/pn9/TJBjv519Rt
+ KRVZ2j1OwazG8tZjsyzUdPG9489mmOGKHpXZW7WbvZclOwDdRFQ95qoGS2NdikqVy5LJ
+ ydZbUdOlqFEDxXLiC8b4Q9Q2GBIh0y8lSAbYz9za3Oi/1VZ+bVQanhZRLhGRS0X1Rxg5
+ lgig==
+X-Gm-Message-State: AO0yUKXhmWMZR8GAFBsX9GrpCPRAtVCIMjlv3AmU29IduLqqpKtKpUa/
+ USxdDNF0dYwR3TmBauWl6kv+feSHNcAoGrsX2BY8LJKxkDHD8XCD+RS0nSitFqzvx2jBoBAJm3D
+ LUs8Sm6km+zSwsqY=
+X-Received: by 2002:a05:600c:258:b0:3ed:33a1:ba8e with SMTP id
+ 24-20020a05600c025800b003ed33a1ba8emr2363617wmj.1.1679403759448; 
+ Tue, 21 Mar 2023 06:02:39 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8yBsQzuclVQl+rtkzgjnx4u4RElImpqSg19WRhtzY9IR04tFNAo/4mrbBb18hYIhWbM9dtmQ==
+X-Received: by 2002:a05:600c:258:b0:3ed:33a1:ba8e with SMTP id
+ 24-20020a05600c025800b003ed33a1ba8emr2363592wmj.1.1679403759120; 
+ Tue, 21 Mar 2023 06:02:39 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ q13-20020a05600c46cd00b003e1202744f2sm19919648wmo.31.2023.03.21.06.02.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 06:02:36 -0700 (PDT)
+Message-ID: <44a1041b-62b3-f779-7c8a-6a92123c8f1f@redhat.com>
+Date: Tue, 21 Mar 2023 14:02:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
+Subject: Re: [PATCH for-8.0 1/3] async: Suppress GCC13 false positive in
+ aio_bh_poll()
 Content-Language: en-US
-To: fei2.wu@intel.com
-Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20230321063746.151107-1-fei2.wu@intel.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230321063746.151107-1-fei2.wu@intel.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20230321083322.663561-1-clg@kaod.org>
+ <20230321083322.663561-2-clg@kaod.org>
+ <1dc87cd2-2f86-3580-3f29-a89de375c79d@redhat.com>
+ <fabc9edf-697e-41d3-101a-bd7a6ddda84a@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <fabc9edf-697e-41d3-101a-bd7a6ddda84a@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: qwCowACHj88GqhlkubdsFA--.2114S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFykZw13urWfZFy7GF4Durg_yoW5tr1kpr
- Z7G39xKrWDGrZ2ya1fXr4qgrn8Cws5Wr1UCw1ktFs8Za1rJrWF9FZ8K342kr9rXF18GrWj
- 9FWUur97AF47ZrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
- r21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
- WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
- 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
- 4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
- 42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOGQDUUUUU
-X-Originating-IP: [180.165.240.243]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,105 +108,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 3/21/23 13:16, Cédric Le Goater wrote:
+> 
+> +    /*
+> +     * GCC13 [-Werror=dangling-pointer=] complains that the local variable
+> +     * 'slice' is being stored in the global list 'ctx->bh_slice_list'.
+> +     */
+> +#pragma GCC diagnostic push
+> +#pragma GCC diagnostic ignored "-Wdangling-pointer="
+>       QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+> +#pragma GCC diagnostic pop
+> 
+>       while ((s = QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
+>           QEMUBH *bh;
 
-On 2023/3/21 14:37, fei2.wu@intel.com wrote:
-> From: Fei Wu <fei2.wu@intel.com>
->
-> Kernel needs to access user mode memory e.g. during syscalls, the window
-> is usually opened up for a very limited time through MSTATUS.SUM, the
-> overhead is too much if tlb_flush() gets called for every SUM change.
-> This patch saves addresses accessed when SUM=1, and flushs only these
-> pages when SUM changes to 0. If the buffer is not large enough to save
-> all the pages during SUM=1, it will fall back to tlb_flush when
-> necessary.
->
-> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
-> most of the time kernel accesses 1 or 2 pages, it's very rare to see
-> more than 4 pages accessed.
->
-> It's not necessary to save/restore these new added status, as
-> tlb_flush() is always called after restore.
->
-> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
-> other syscalls benefit a lot from this one too.
->
-> Signed-off-by: Fei Wu <fei2.wu@intel.com>
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> ---
->   target/riscv/cpu.h        |  4 ++++
->   target/riscv/cpu_helper.c |  7 +++++++
->   target/riscv/csr.c        | 14 +++++++++++++-
->   3 files changed, 24 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 638e47c75a..926dbce59f 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -383,6 +383,10 @@ struct CPUArchState {
->       uint64_t kvm_timer_compare;
->       uint64_t kvm_timer_state;
->       uint64_t kvm_timer_frequency;
-> +
-> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
-> +    uint64_t sum_u_count;
-> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
->   };
->   
->   OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index f88c503cf4..5ad0418eb6 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -1068,6 +1068,13 @@ restart:
->                       (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
->                   *prot |= PAGE_WRITE;
->               }
-> +            if ((pte & PTE_U) && (mode & PRV_S) &&
-> +                    get_field(env->mstatus, MSTATUS_SUM)) {
-> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
-> +                    env->sum_u_addr[env->sum_u_count] = addr;
-> +                }
-> +                ++env->sum_u_count;
-> +            }
->               return TRANSLATE_SUCCESS;
->           }
->       }
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index ab566639e5..74b7638c8a 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1246,9 +1246,21 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
->   
->       /* flush tlb on mstatus fields that affect VM */
->       if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-> -            MSTATUS_MPRV | MSTATUS_SUM)) {
-> +            MSTATUS_MPRV)) {
->           tlb_flush(env_cpu(env));
-> +        env->sum_u_count = 0;
-> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
-> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
-> +            tlb_flush(env_cpu(env));
+Yeah, that's clearer.  Maybe even add "but the list is emptied before 
+this function returns".
 
-SUM seems only affect S mode TLB. Maybe we can only flush S mode TLB here.
+> May be that's more explicit. I wonder if we need to ifdef clang also.
 
-> +        } else {
-> +            for (int i = 0; i < env->sum_u_count; ++i) {
-> +                tlb_flush_page_by_mmuidx(env_cpu(env), env->sum_u_addr[i],
-> +                                         1 << PRV_S | 1 << PRV_M);
+I think clang understand the GCC pragma as well.
 
-Similar case here.
-
-Regards,
-
-Weiwei Li
-
-> +            }
-> +        }
-> +        env->sum_u_count = 0;
->       }
-> +
->       mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
->           MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
->           MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+Paolo
 
 
