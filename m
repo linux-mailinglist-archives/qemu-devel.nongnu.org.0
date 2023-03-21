@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985466C3298
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174D56C32C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:24:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pebuw-000061-Iw; Tue, 21 Mar 2023 09:20:46 -0400
+	id 1pebux-00006g-Oi; Tue, 21 Mar 2023 09:20:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pebut-00004v-SJ
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:43 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1pebuv-00005N-Hs
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:45 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pebur-0006b9-NY
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:43 -0400
-Received: by mail-wm1-x331.google.com with SMTP id w11so8492091wmo.2
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:20:41 -0700 (PDT)
+ id 1pebut-0006dM-KM
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:45 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id o32so3155630wms.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679404840;
+ d=linaro.org; s=google; t=1679404842;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=dI61HmBS8dvo6fODWjrvfFsUUviRSWQ6NsX3TJ+/KQg=;
- b=BnEu2D6qCAmwC+r5DI2G+2rr84OymAC3mH6NXy3bKH6T41tOM3cLfjBBbrNiBLLgvv
- FECFy3dslAwRkV4IDkBPjb1+FMKP7RJa6NEDUXguuxLEz2nz0aZygSsgZrbXxa03Ucpt
- Xy3FuPSJtu7Jz7p/comjW80pG++ZtR5VccW6rdQBsmci1buyYa2+mR/SXW5yYaaFN2ZR
- YZCIUhgqi5hIsxN+ne6ChpiYsU6zfJV0f5+2Lz4r1p1TDq+1nqDd0Rl/5Ct+lbrlFReE
- 7ETKt/nf3UX3EUHmMDlAiPczGfkrD73itoVkxg9eVTiXi35+UYM0exv2cKJ91SzLILQ8
- KyhA==
+ :reply-to; bh=IZWERytkNXmomft2NnojCvM5GGqoNQvPAxE/TFJNbOI=;
+ b=gSt0QxYU1p5KtZ6vCHhAz1OIcB2NuRSIZF1SMOd+HYPltzm3uLj3StFMYmV6XHA6eg
+ IhcHUuOGhD7Ls7BU9OIvHfejs6SKwaVOzagZvX+b+fkvdXig5Nk31NCWGY5sRVm+jLvs
+ UtIu7Ml62hV3e9J16Iq/CTiEP8SWLzsxjOcl4MhaKLg36QEf0hM8olAe96Vn05INAQRx
+ MWraBSc3RZE07SZt94adiSzPC19mK2WwzD6+V5bRi8Yp60RoKGIV9fqDA8Q8QanBurnq
+ muLhzBiP82YqarYpOMjESLSXRRYDio+ROoEA+A/KIHVzYEZCgErGfzwr45zlzhPC1Jxb
+ mwFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679404840;
+ d=1e100.net; s=20210112; t=1679404842;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dI61HmBS8dvo6fODWjrvfFsUUviRSWQ6NsX3TJ+/KQg=;
- b=D/DqrhN9Ti9qltsat2xfMei3lUlI5ddYrG1AQoIajYeUGFA8vhagc6YdiIMve2cFn2
- Su/eaHsWQhNlQIahS0w/HKvvkEhRZwzoxnxV/g3c7tzpod9+oPin2ZCM84fjJmy1LbE0
- g5pKW9FtUjYvEHzCnfEMqHPdPEKdSRSK6n48FejZasUxwc6h/V4STT2WW9ImOKz5F7p+
- oVimIPMKAsuxJtC2Ny0MhbVB1XF5DnJP0pe8p6YzP/87Epu8xVvTsgFYIGd32nDGxnyJ
- lEwK5m6jetybh085z48Z9Bn2txtoCmLb/QVArhbmk/S0srIsaoE+BzAlbDYkeq3OJhlB
- g1yw==
-X-Gm-Message-State: AO0yUKVSToSgJEn1Eevc+yJtJ/49kvCY+UAkE2s25tSxHKc3hPwMpXx/
- bVv3dSvM91V2MWmcdgqH0WKEHG2nEzNAH1rvp8A=
-X-Google-Smtp-Source: AK7set/L8atKi/+a9oEkAKEXxgZDAAYLNnerHUai4yAI1XOWbnVXAqkSS1FcvjeTktyTBpnWAo/xtQ==
-X-Received: by 2002:a05:600c:3793:b0:3ed:2702:feea with SMTP id
- o19-20020a05600c379300b003ed2702feeamr2023951wmr.41.1679404840164; 
- Tue, 21 Mar 2023 06:20:40 -0700 (PDT)
+ bh=IZWERytkNXmomft2NnojCvM5GGqoNQvPAxE/TFJNbOI=;
+ b=YNqKyL5L3SsC0mNQQsN27ELyDPwgjvl9k8RL4r9LMy2lGnb9dPeLVEluVQR+55sDI7
+ RkhZh6QCrNe5zRt3jvrCnlVPhsEydfhFO4f704Ae5VC5qPTt058b5U2wPkBwlZOwJXBA
+ 6+ic+mSqOsGJRAYC3kxjSNvtRZLjZGDybj26Kh5UP0mKtQja1edGKySdLSpO2wMR/g18
+ RSLu0CaCol2WJ7ovUARtNNawHDWms4DqXOer8vIdBjuUiKohWMInoAHWnqeT+TzMCtKh
+ CNAFRd6MdVMHxUnhvIEVx08FVgodCdHNHlLQYmKPRL4A7JtcsHI7QCm5u1oq/vuAt+jj
+ 4Zfg==
+X-Gm-Message-State: AO0yUKUi1dmmYQk4HMHpCvuTRg1+bTh6dWEnfKanmHFN1DzG+aueN5Jd
+ MwXPHF/84G/n8bA7QKJ8LIu6G6uV0kfeeSj7LWU=
+X-Google-Smtp-Source: AK7set8G+R5O8RUnRImPo9ChAPdL9Z1kbfBgEwrGJwsD+pDVeQc1x49LURcDEymclV3RCl/Q1pBsEw==
+X-Received: by 2002:a05:600c:2101:b0:3ed:276d:81a4 with SMTP id
+ u1-20020a05600c210100b003ed276d81a4mr2561860wml.32.1679404841905; 
+ Tue, 21 Mar 2023 06:20:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j19-20020a05600c191300b003eddc6aa5fasm7897918wmq.39.2023.03.21.06.20.39
+ j19-20020a05600c191300b003eddc6aa5fasm7897918wmq.39.2023.03.21.06.20.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Mar 2023 06:20:39 -0700 (PDT)
+ Tue, 21 Mar 2023 06:20:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/8] hw/char/cadence_uart: Fix guards on invalid BRGR/BDIV
- settings
-Date: Tue, 21 Mar 2023 13:20:30 +0000
-Message-Id: <20230321132036.1836617-3-peter.maydell@linaro.org>
+Subject: [PULL 3/8] contrib/elf2dmp: fix code style
+Date: Tue, 21 Mar 2023 13:20:31 +0000
+Message-Id: <20230321132036.1836617-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230321132036.1836617-1-peter.maydell@linaro.org>
 References: <20230321132036.1836617-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,50 +89,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The cadence UART attempts to avoid allowing the guest to set invalid
-baud rate register values in the uart_write() function.  However it
-does the "mask to the size of the register field" and "check for
-invalid values" in the wrong order, which means that a malicious
-guest can get a bogus value into the register by setting also some
-high bits in the value, and cause QEMU to crash by division-by-zero.
+From: Viktor Prutyanov <viktor@daynix.com>
 
-Do the mask before the bounds check instead of afterwards.
+Originally elf2dmp were added with some code style issues,
+especially in pe.h header, and some were introduced by
+2d0fc797faaa73fbc1d30f5f9e90407bf3dd93f0. Fix them now.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1493
+Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
+Reviewed-by: Annie Li <annie.li@oracle.com>
+Message-id: 20230222211246.883679-2-viktor@daynix.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
-Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Qiang Liu <cyruscyliu@gmail.com>
-Message-id: 20230314170804.1196232-1-peter.maydell@linaro.org
 ---
- hw/char/cadence_uart.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ contrib/elf2dmp/pe.h        | 100 ++++++++++++++++++------------------
+ contrib/elf2dmp/addrspace.c |   1 +
+ contrib/elf2dmp/main.c      |   9 ++--
+ 3 files changed, 57 insertions(+), 53 deletions(-)
 
-diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index c069a30842e..807e3985419 100644
---- a/hw/char/cadence_uart.c
-+++ b/hw/char/cadence_uart.c
-@@ -450,13 +450,15 @@ static MemTxResult uart_write(void *opaque, hwaddr offset,
-         }
-         break;
-     case R_BRGR: /* Baud rate generator */
-+        value &= 0xffff;
-         if (value >= 0x01) {
--            s->r[offset] = value & 0xFFFF;
-+            s->r[offset] = value;
-         }
-         break;
-     case R_BDIV:    /* Baud rate divider */
-+        value &= 0xff;
-         if (value >= 0x04) {
--            s->r[offset] = value & 0xFF;
-+            s->r[offset] = value;
-         }
-         break;
-     default:
+diff --git a/contrib/elf2dmp/pe.h b/contrib/elf2dmp/pe.h
+index c2a4a6ba7c2..807d0063649 100644
+--- a/contrib/elf2dmp/pe.h
++++ b/contrib/elf2dmp/pe.h
+@@ -33,70 +33,70 @@ typedef struct IMAGE_DOS_HEADER {
+ } __attribute__ ((packed)) IMAGE_DOS_HEADER;
+ 
+ typedef struct IMAGE_FILE_HEADER {
+-  uint16_t  Machine;
+-  uint16_t  NumberOfSections;
+-  uint32_t  TimeDateStamp;
+-  uint32_t  PointerToSymbolTable;
+-  uint32_t  NumberOfSymbols;
+-  uint16_t  SizeOfOptionalHeader;
+-  uint16_t  Characteristics;
++    uint16_t  Machine;
++    uint16_t  NumberOfSections;
++    uint32_t  TimeDateStamp;
++    uint32_t  PointerToSymbolTable;
++    uint32_t  NumberOfSymbols;
++    uint16_t  SizeOfOptionalHeader;
++    uint16_t  Characteristics;
+ } __attribute__ ((packed)) IMAGE_FILE_HEADER;
+ 
+ typedef struct IMAGE_DATA_DIRECTORY {
+-  uint32_t VirtualAddress;
+-  uint32_t Size;
++    uint32_t VirtualAddress;
++    uint32_t Size;
+ } __attribute__ ((packed)) IMAGE_DATA_DIRECTORY;
+ 
+ #define IMAGE_NUMBEROF_DIRECTORY_ENTRIES 16
+ 
+ typedef struct IMAGE_OPTIONAL_HEADER64 {
+-  uint16_t  Magic; /* 0x20b */
+-  uint8_t   MajorLinkerVersion;
+-  uint8_t   MinorLinkerVersion;
+-  uint32_t  SizeOfCode;
+-  uint32_t  SizeOfInitializedData;
+-  uint32_t  SizeOfUninitializedData;
+-  uint32_t  AddressOfEntryPoint;
+-  uint32_t  BaseOfCode;
+-  uint64_t  ImageBase;
+-  uint32_t  SectionAlignment;
+-  uint32_t  FileAlignment;
+-  uint16_t  MajorOperatingSystemVersion;
+-  uint16_t  MinorOperatingSystemVersion;
+-  uint16_t  MajorImageVersion;
+-  uint16_t  MinorImageVersion;
+-  uint16_t  MajorSubsystemVersion;
+-  uint16_t  MinorSubsystemVersion;
+-  uint32_t  Win32VersionValue;
+-  uint32_t  SizeOfImage;
+-  uint32_t  SizeOfHeaders;
+-  uint32_t  CheckSum;
+-  uint16_t  Subsystem;
+-  uint16_t  DllCharacteristics;
+-  uint64_t  SizeOfStackReserve;
+-  uint64_t  SizeOfStackCommit;
+-  uint64_t  SizeOfHeapReserve;
+-  uint64_t  SizeOfHeapCommit;
+-  uint32_t  LoaderFlags;
+-  uint32_t  NumberOfRvaAndSizes;
+-  IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
++    uint16_t  Magic; /* 0x20b */
++    uint8_t   MajorLinkerVersion;
++    uint8_t   MinorLinkerVersion;
++    uint32_t  SizeOfCode;
++    uint32_t  SizeOfInitializedData;
++    uint32_t  SizeOfUninitializedData;
++    uint32_t  AddressOfEntryPoint;
++    uint32_t  BaseOfCode;
++    uint64_t  ImageBase;
++    uint32_t  SectionAlignment;
++    uint32_t  FileAlignment;
++    uint16_t  MajorOperatingSystemVersion;
++    uint16_t  MinorOperatingSystemVersion;
++    uint16_t  MajorImageVersion;
++    uint16_t  MinorImageVersion;
++    uint16_t  MajorSubsystemVersion;
++    uint16_t  MinorSubsystemVersion;
++    uint32_t  Win32VersionValue;
++    uint32_t  SizeOfImage;
++    uint32_t  SizeOfHeaders;
++    uint32_t  CheckSum;
++    uint16_t  Subsystem;
++    uint16_t  DllCharacteristics;
++    uint64_t  SizeOfStackReserve;
++    uint64_t  SizeOfStackCommit;
++    uint64_t  SizeOfHeapReserve;
++    uint64_t  SizeOfHeapCommit;
++    uint32_t  LoaderFlags;
++    uint32_t  NumberOfRvaAndSizes;
++    IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
+ } __attribute__ ((packed)) IMAGE_OPTIONAL_HEADER64;
+ 
+ typedef struct IMAGE_NT_HEADERS64 {
+-  uint32_t Signature;
+-  IMAGE_FILE_HEADER FileHeader;
+-  IMAGE_OPTIONAL_HEADER64 OptionalHeader;
++    uint32_t Signature;
++    IMAGE_FILE_HEADER FileHeader;
++    IMAGE_OPTIONAL_HEADER64 OptionalHeader;
+ } __attribute__ ((packed)) IMAGE_NT_HEADERS64;
+ 
+ typedef struct IMAGE_DEBUG_DIRECTORY {
+-  uint32_t Characteristics;
+-  uint32_t TimeDateStamp;
+-  uint16_t MajorVersion;
+-  uint16_t MinorVersion;
+-  uint32_t Type;
+-  uint32_t SizeOfData;
+-  uint32_t AddressOfRawData;
+-  uint32_t PointerToRawData;
++    uint32_t Characteristics;
++    uint32_t TimeDateStamp;
++    uint16_t MajorVersion;
++    uint16_t MinorVersion;
++    uint32_t Type;
++    uint32_t SizeOfData;
++    uint32_t AddressOfRawData;
++    uint32_t PointerToRawData;
+ } __attribute__ ((packed)) IMAGE_DEBUG_DIRECTORY;
+ 
+ #define IMAGE_DEBUG_TYPE_CODEVIEW   2
+diff --git a/contrib/elf2dmp/addrspace.c b/contrib/elf2dmp/addrspace.c
+index 53ded170618..0b04cba00e5 100644
+--- a/contrib/elf2dmp/addrspace.c
++++ b/contrib/elf2dmp/addrspace.c
+@@ -11,6 +11,7 @@
+ static struct pa_block *pa_space_find_block(struct pa_space *ps, uint64_t pa)
+ {
+     size_t i;
++
+     for (i = 0; i < ps->block_nr; i++) {
+         if (ps->block[i].paddr <= pa &&
+                 pa <= ps->block[i].paddr + ps->block[i].size) {
+diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+index d77b8f98f78..92247642395 100644
+--- a/contrib/elf2dmp/main.c
++++ b/contrib/elf2dmp/main.c
+@@ -282,14 +282,16 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
+     };
+ 
+     for (i = 0; i < ps->block_nr; i++) {
+-        h.PhysicalMemoryBlock.NumberOfPages += ps->block[i].size / ELF2DMP_PAGE_SIZE;
++        h.PhysicalMemoryBlock.NumberOfPages +=
++                ps->block[i].size / ELF2DMP_PAGE_SIZE;
+         h.PhysicalMemoryBlock.Run[i] = (WinDumpPhyMemRun64) {
+             .BasePage = ps->block[i].paddr / ELF2DMP_PAGE_SIZE,
+             .PageCount = ps->block[i].size / ELF2DMP_PAGE_SIZE,
+         };
+     }
+ 
+-    h.RequiredDumpSpace += h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
++    h.RequiredDumpSpace +=
++            h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
+ 
+     *hdr = h;
+ 
+@@ -299,7 +301,8 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
+ static int fill_context(KDDEBUGGER_DATA64 *kdbg,
+         struct va_space *vs, QEMU_Elf *qe)
+ {
+-        int i;
++    int i;
++
+     for (i = 0; i < qe->state_nr; i++) {
+         uint64_t Prcb;
+         uint64_t Context;
 -- 
 2.34.1
 
