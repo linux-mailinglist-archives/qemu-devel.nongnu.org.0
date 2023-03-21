@@ -2,100 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B296C3325
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4212F6C3374
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:54:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pecJH-0006Ss-Ml; Tue, 21 Mar 2023 09:45:55 -0400
+	id 1pecQi-0000rs-9u; Tue, 21 Mar 2023 09:53:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pecJE-0006Sb-44
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:45:52 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pecQb-0000rD-Sh
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:53:29 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pecJC-0000PY-FI
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:45:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pecQa-0004IZ-4v
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:53:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679406349;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1679406807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BdbwfzBWRr6BZiOyaVRLLqLIOYDy4EK3PvbS00YnxdY=;
- b=XedWV8UySY/ZAZRhDRJpfXyPnBFcNxwMzcC/5xtkOaE9plzDiJRx27S3qn5SrsyOQfBrpS
- oS34sEpn0MfBnQyO1lQuSmf3pgXstXRtr3DxXOW65pwSSpQvKkM+eXkLXumCxnSR6wNncU
- DrXGJ6/w5EKdd6Qoc7ESEr2NO2p1xCc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-36-Nlm-FEYcOharPJ5tEYMWrQ-1; Tue, 21 Mar 2023 09:45:47 -0400
-X-MC-Unique: Nlm-FEYcOharPJ5tEYMWrQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j16-20020a05600c1c1000b003edfa11fa91so2417629wms.3
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:45:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679406346;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BdbwfzBWRr6BZiOyaVRLLqLIOYDy4EK3PvbS00YnxdY=;
- b=FvH1ui7E94qf2tCpVWw77OOlxRUA1QRR+HSb/AEhpEdugdG10zlfksgjdmfd95OO21
- VuJ7XxhKxP3FCDPKAt7w+mIJAZl6ZPJV4dGHQEhh+IRfyElUbvhaBeZ62uG0rqOQLCSd
- HfN26jPjfE03nn5BcZupMiCmlGJxOlO3oxG3P8wV0l2qqR3MgWBYWGOuk48Gtuthr1Lh
- +s8eSa14HV8lcvbdHJRe5ljm8jCUTXNtapO8m6VGMC5tkA1pHFPO9kNxCNfS8TS3oMvx
- HP+Fm5Zo9DZsiLZl/sUrYsmP6oMCdGU5k66nZt8xOLBlpCC83wonbu4eaECOEvopnCmQ
- CscQ==
-X-Gm-Message-State: AO0yUKVk1FK8Jq9d6yZDiOdF5OLmDM/NKTkH2ae7EjRBaVVM34RObpkd
- tpP3FUJe9q4//xIeO0FPK+yzGNFA0FKbKaY9mS7t2Wg7rfvGGTbHgUVFYqQf2MhGFuLyCp+tq8W
- GtuK6Q7bullYNtAo=
-X-Received: by 2002:a05:600c:b43:b0:3ed:af6b:7faa with SMTP id
- k3-20020a05600c0b4300b003edaf6b7faamr2319965wmr.17.1679406346515; 
- Tue, 21 Mar 2023 06:45:46 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9R4mOn/QuiMjxBlZ3kMkR6ymZqDkrDJvqushliVa9opcsjvIwgf4n65GD27RVX5+P7wRr7gQ==
-X-Received: by 2002:a05:600c:b43:b0:3ed:af6b:7faa with SMTP id
- k3-20020a05600c0b4300b003edaf6b7faamr2319941wmr.17.1679406346218; 
- Tue, 21 Mar 2023 06:45:46 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- x33-20020a05600c18a100b003ede3f5c81fsm7376526wmp.41.2023.03.21.06.45.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Mar 2023 06:45:45 -0700 (PDT)
-Message-ID: <c4e60ae8-35a3-d02e-a224-0f3a21dd516a@redhat.com>
-Date: Tue, 21 Mar 2023 14:45:44 +0100
+ bh=jlWA1md+A4CLbQ2P0ooYpDsj6x879jUGn+g6ne+9sOI=;
+ b=Xgi3x+/dMV5GiwB6k0Ka9UJHKMwlHRVj1Uxtl0WKASTQZguz2reAJoj1zX7vN+QHz2QXxT
+ uXqJ9C0QTLf5XHMAsxOheyGJKKXLySaWeV6Oqs7BSX2SSDeXSRd9l0MFdBzYWJ+BmSMxB4
+ mTcOvHSNiGg/ghTbcA7LFCVUab0MOs8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-398-yQ_UAOFiOqSR5HLiGpd6ZQ-1; Tue, 21 Mar 2023 09:53:25 -0400
+X-MC-Unique: yQ_UAOFiOqSR5HLiGpd6ZQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2EF4855304;
+ Tue, 21 Mar 2023 13:53:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ACD4240C6E67;
+ Tue, 21 Mar 2023 13:53:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 94AC721E6926; Tue, 21 Mar 2023 14:53:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] .editorconfig: set max line at 70 chars for QAPI files
+References: <20230307123027.2485499-1-marcandre.lureau@redhat.com>
+ <CAJ+F1CKqPfU6_L+LYty-di2BDNMBrHPynOEGc1sTFOH2PgCeBg@mail.gmail.com>
+Date: Tue, 21 Mar 2023 14:53:23 +0100
+In-Reply-To: <CAJ+F1CKqPfU6_L+LYty-di2BDNMBrHPynOEGc1sTFOH2PgCeBg@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Tue, 21 Mar 2023
+ 11:30:06 +0400")
+Message-ID: <87bkkmfbxo.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [RFC PATCH v2 10/11] hw/arm/smmuv3: Populate OAS based on CPU
- PARANGE
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Mostafa Saleh <smostafa@google.com>, qemu-devel@nongnu.org,
- jean-philippe@linaro.org, qemu-arm@nongnu.org, richard.henderson@linaro.org
-References: <20230226220650.1480786-1-smostafa@google.com>
- <20230226220650.1480786-11-smostafa@google.com>
- <6e6810c3-c01a-5a2f-4fed-64c9391e22ba@redhat.com>
- <ZBmruj7OME3Pfbh1@google.com>
- <d2e9d8d5-1cf6-67fe-e780-41038fcaa376@redhat.com>
- <CAFEAcA_NZiby7=DWaDBu7b5Dbo5sXF9N7T-0_wskZ46FR9Esxw@mail.gmail.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <CAFEAcA_NZiby7=DWaDBu7b5Dbo5sXF9N7T-0_wskZ46FR9Esxw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,22 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Peter,
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-On 3/21/23 14:34, Peter Maydell wrote:
-> thout having read much of the context, but why
-> would we need to migrate the ID registers? They are constant, read-only,
-> so they will be the same value on both source and destination.
-this series modifies the values of IDR[5] (oas).  So my understanding is
-the guest is likely to behave differently on src and dst, depending on
-the qemu version, no?
+> Hi
+>
+> On Tue, Mar 7, 2023 at 4:32=E2=80=AFPM <marcandre.lureau@redhat.com> wrot=
+e:
+>>
+>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>
+>> This seems to be the preferred style.
+>>
+>> The EditorConfig property is not supported by all editors:
+>> https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Propertie=
+s#max_line_length
+>>
+>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>  .editorconfig | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/.editorconfig b/.editorconfig
+>> index 7303759ed7..8c5ebc6a1b 100644
+>> --- a/.editorconfig
+>> +++ b/.editorconfig
+>> @@ -47,3 +47,4 @@ emacs_mode =3D glsl
+>>  [*.json]
+>>  indent_style =3D space
+>>  emacs_mode =3D python
+>> +max_line_length =3D 70
+>
+> ack or nack ?
 
-Thanks
-
-Eric
+I think we should first address the doc syntax misfeature that pushes us
+to the right, and clean up existing overlong lines.  Can't say how hard
+the former would be, so I'm having a look.
 
 
