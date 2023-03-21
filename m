@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A586C2D11
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 09:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617866C2D7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:04:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peXiE-0006FY-Mm; Tue, 21 Mar 2023 04:51:22 -0400
+	id 1peXuE-0000JT-Jm; Tue, 21 Mar 2023 05:03:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1peXi7-0006Ep-TI; Tue, 21 Mar 2023 04:51:17 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1peXi1-0004mi-KB; Tue, 21 Mar 2023 04:51:14 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.243])
- by APP-01 (Coremail) with SMTP id qwCowAAHD8_sbxlkSndKFA--.10916S2;
- Tue, 21 Mar 2023 16:50:54 +0800 (CST)
-Message-ID: <8029cbcf-520f-cfd3-5b5a-923685a1da80@iscas.ac.cn>
-Date: Tue, 21 Mar 2023 16:50:51 +0800
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1peXuB-0000J1-NZ
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:03:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1peXuA-0001i4-0B
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:03:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679389420;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=52soMhBlCkjbvBRoejdvJ4uPUTekawyDRv9a1hNkCds=;
+ b=iv6U58GOnBQ/oWR+lxBAFExGHpnhQI8ioNmPE/fckhOObCLPStIHfaB+6H+5oPy2vRF/GN
+ 58CI8L2wsAf5sbyhuzp9RgV2gLGy0VINZtHrKPUOBtTC84oF349jTN4TPHDcUkTXLFFqaN
+ nJ2uWmav/QgmbOm6OAa0EzVZEPQcvRA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-589-K05fMyq2OOeirhS65GptaQ-1; Tue, 21 Mar 2023 05:03:39 -0400
+X-MC-Unique: K05fMyq2OOeirhS65GptaQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A80E296DC81;
+ Tue, 21 Mar 2023 09:03:38 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E8E01121314;
+ Tue, 21 Mar 2023 09:03:37 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, berrange@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PULL 0/7] ui/ fixes for 8.0
+Date: Tue, 21 Mar 2023 13:03:27 +0400
+Message-Id: <20230321090334.1841607-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
-Content-Language: en-US
-To: "Wu, Fei" <fei2.wu@intel.com>, liweiwei <liweiwei@iscas.ac.cn>
-Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20230321063746.151107-1-fei2.wu@intel.com>
- <cf407a04-9717-6a82-6405-d836874c5613@iscas.ac.cn>
- <ddeaba54-e9fc-0309-4f35-7ee72052264d@intel.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <ddeaba54-e9fc-0309-4f35-7ee72052264d@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAAHD8_sbxlkSndKFA--.10916S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtw1UKr1UZw15Ww1xtw48tFb_yoW7GF43pr
- 1kJay7Gry5Jr97Jw12qr1UWryUAr1UGw1DAr10qF15Ar43Jryj9r4UXr1q9rnrJF48Jr1j
- yr1Uur9rZr4UJrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
- IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUU
- U==
-X-Originating-IP: [180.165.240.243]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,118 +78,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-On 2023/3/21 16:40, Wu, Fei wrote:
-> On 3/21/2023 4:28 PM, liweiwei wrote:
->> On 2023/3/21 14:37, fei2.wu@intel.com wrote:
->>> From: Fei Wu <fei2.wu@intel.com>
->>>
->>> Kernel needs to access user mode memory e.g. during syscalls, the window
->>> is usually opened up for a very limited time through MSTATUS.SUM, the
->>> overhead is too much if tlb_flush() gets called for every SUM change.
->>> This patch saves addresses accessed when SUM=1, and flushs only these
->>> pages when SUM changes to 0. If the buffer is not large enough to save
->>> all the pages during SUM=1, it will fall back to tlb_flush when
->>> necessary.
->>>
->>> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
->>> most of the time kernel accesses 1 or 2 pages, it's very rare to see
->>> more than 4 pages accessed.
->>>
->>> It's not necessary to save/restore these new added status, as
->>> tlb_flush() is always called after restore.
->>>
->>> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
->>> other syscalls benefit a lot from this one too.
->>>
->>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
->>> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->>> ---
->>>    target/riscv/cpu.h        |  4 ++++
->>>    target/riscv/cpu_helper.c |  7 +++++++
->>>    target/riscv/csr.c        | 14 +++++++++++++-
->>>    3 files changed, 24 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>> index 638e47c75a..926dbce59f 100644
->>> --- a/target/riscv/cpu.h
->>> +++ b/target/riscv/cpu.h
->>> @@ -383,6 +383,10 @@ struct CPUArchState {
->>>        uint64_t kvm_timer_compare;
->>>        uint64_t kvm_timer_state;
->>>        uint64_t kvm_timer_frequency;
->>> +
->>> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
->>> +    uint64_t sum_u_count;
->>> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
->>>    };
->>>      OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
->>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>> index f88c503cf4..5ad0418eb6 100644
->>> --- a/target/riscv/cpu_helper.c
->>> +++ b/target/riscv/cpu_helper.c
->>> @@ -1068,6 +1068,13 @@ restart:
->>>                        (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
->>>                    *prot |= PAGE_WRITE;
->>>                }
->>> +            if ((pte & PTE_U) && (mode & PRV_S) &&
->>> +                    get_field(env->mstatus, MSTATUS_SUM)) {
->>> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
->>> +                    env->sum_u_addr[env->sum_u_count] = addr;
->>> +                }
->>> +                ++env->sum_u_count;
->>> +            }
->>>                return TRANSLATE_SUCCESS;
->>>            }
->>>        }
->>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>> index ab566639e5..74b7638c8a 100644
->>> --- a/target/riscv/csr.c
->>> +++ b/target/riscv/csr.c
->>> @@ -1246,9 +1246,21 @@ static RISCVException
->>> write_mstatus(CPURISCVState *env, int csrno,
->>>          /* flush tlb on mstatus fields that affect VM */
->>>        if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
->>> -            MSTATUS_MPRV | MSTATUS_SUM)) {
->>> +            MSTATUS_MPRV)) {
->>>            tlb_flush(env_cpu(env));
->>> +        env->sum_u_count = 0;
->>> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
->>> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
->>> +            tlb_flush(env_cpu(env));
->>> +        } else {
->>> +            for (int i = 0; i < env->sum_u_count; ++i) {
->>> +                tlb_flush_page_by_mmuidx(env_cpu(env),
->>> env->sum_u_addr[i],
->>> +                                         1 << PRV_S | 1 << PRV_M);
->>> +            }
->>> +        }
->>> +        env->sum_u_count = 0;
->>>        }
->> Whether tlb should  be flushed when SUM is changed from 0 to 1?
->>
-> When SUM is changed from 0 to 1, all the existing tlb entries remain
-> valid as the permission is elevated instead of reduced, so I don't think
-> it's necessary to flush tlb.
+The following changes since commit aa9e7fa4689d1becb2faf67f65aafcbcf664f1ce:
 
-If elevated not unchanged, I think the tlb also needs update, since new 
-permitted access rights may be added to the tlb.
+  Merge tag 'edk2-stable202302-20230320-pull-request' of https://gitlab.com/kraxel/qemu into staging (2023-03-20 13:43:35 +0000)
 
-Regards,
+are available in the Git repository at:
 
-Weiwei Li
+  https://gitlab.com/marcandre.lureau/qemu.git tags/ui-pull-request
 
->
-> Thanks,
-> Fei.
->
->> Regards,
->>
->> Weiwei Li
->>
->>> +
->>>        mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
->>>            MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
->>>            MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+for you to fetch changes up to 49152ac47003ca21fc6f2a5c3e517f79649e1541:
+
+  ui: fix crash on serial reset, during init (2023-03-21 11:46:22 +0400)
+
+----------------------------------------------------------------
+ui/ fixes for 8.0
+
+----------------------------------------------------------------
+
+Erico Nunes (1):
+  ui/sdl2: remove workaround forcing x11
+
+Marc-André Lureau (6):
+  win32: add qemu_close_socket_osfhandle()
+  ui/spice: fix SOCKET handling regression
+  ui/dbus: fix passing SOCKET to GSocket API & leak
+  ui/gtk: fix cursor moved to left corner
+  ui: return the default console cursor when con == NULL
+  ui: fix crash on serial reset, during init
+
+ include/sysemu/os-win32.h | 15 ++++++--
+ ui/console.c              |  3 ++
+ ui/dbus.c                 |  9 +++++
+ ui/gtk.c                  |  7 ++--
+ ui/sdl2.c                 | 16 ---------
+ ui/spice-core.c           | 29 +++++++++++++--
+ util/oslib-win32.c        | 75 +++++++++++++++++++++------------------
+ 7 files changed, 97 insertions(+), 57 deletions(-)
+
+-- 
+2.39.2
 
 
