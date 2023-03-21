@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE096C3CFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 22:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC986C3CFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 22:49:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pejq9-00071K-PE; Tue, 21 Mar 2023 17:48:21 -0400
+	id 1pejrI-0007gs-Kh; Tue, 21 Mar 2023 17:49:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pejq6-00070b-Ie
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:48:19 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pejrD-0007gS-Pn
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:49:27 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pejq4-00058T-Us
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:48:18 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- bg16-20020a05600c3c9000b003eb34e21bdfso11901899wmb.0
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 14:48:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pejrB-0005On-Pv
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 17:49:27 -0400
+Received: by mail-wr1-x430.google.com with SMTP id y14so15162339wrq.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 14:49:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679435293;
+ d=linaro.org; s=google; t=1679435364;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=NYFC2uoTfU8j1+UKS3OFw33rKZJQTBVIH1oPFtmPJ9Y=;
- b=SuocZ80bsUBP1dz6CKNU10voVmEBKbrFbLZNvf32IsLSX08ecs1UXtFR3TKmDkn8yl
- J0DoTSkcO8VKyPmIfH9Nz/RBMNTGZvZmqkIj4NDn0pGBMq5cjUAJa2u8i7UnipEZP5Gc
- u7s1cyEKJDeRX3kXqUMOUfP/YTQ0+ps7rXDDOnNpEmq/8+2o80qHLNvc7kS2ysWWl4B9
- k0JIKOcpIe8oPT8UKsDVQHEvQEqKz6QTYNYNl/xbNPSPn/fAmMJ3a7lNkoLTZj7PnF2K
- nSPfMlSxbH4lsWmHL6A37b3owSHpWqk3Sf7xXMb52uOfUFhL4Yr5aPprkn3gY6mRxlr+
- FNCw==
+ bh=KLDEjLsqaIXRv45y93TTZOgUoiU7wkQNHRp8YMXFdAI=;
+ b=DCTJueUz4k4Q68ePJtTT45+xRVQZ/BGfC6v5Q7tt8p7UEq66XeDcSbDrbRTSkrqOkX
+ Ze5b+pQ6p2aM+KijpN2mMD+O7a5w66uGzyIc2wnXcxNjvrQ0IDG7es48q5OqTEFUGf4/
+ jmm666FygqHk+guystI4KBdBXb6ZiDKuUR3zidup1EQm8dmbxzkYCAnVnFXHp7DOHHYj
+ icLx+yEWlu7Cz7MbSG0oCnmIVk5ZhZVM9biw1ra0s653ug46JFNUZnf5q2P7qPnlsXsw
+ P/GgqbeBLyj6QLPltyqDYWziH/wmUzIU16Wcplatg9XOrgd4cTMccpy6IluHYlfsHcs4
+ GHpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679435293;
+ d=1e100.net; s=20210112; t=1679435364;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NYFC2uoTfU8j1+UKS3OFw33rKZJQTBVIH1oPFtmPJ9Y=;
- b=mpWsGd86CeZe6hH7TAGryFV+bFprqcUX127XagPnFaXHVm9b0Xk3HsG4Nc/pMsI6uO
- e/+f7i3fhwPX42eK3/2py69hivuj618QpM+cix8cmP6x72KXJl2G1pCFRfxNWh9ysDre
- 2h3pzhvKaq1px2CFBq29xXkKYTNQAcb8LkTiqvhqf3X1dnLuyn0FucIH1UlaPGXn46oT
- sJ/w0+rSfs3DVZHjR7mhXGLOjrz2SB9TbOeXlceoG4iMtCtwxgtXYQK+PtqTfSVXOiBm
- +V5VOpYXANqnGiYTc/bSYw4kx3qDl2JGUl0i5S0XRT/SV5fdaoMbFoXRHAMIhhwup00H
- xsiQ==
-X-Gm-Message-State: AO0yUKVEnG726BpvYNOXu4JUFE7XAvaHWbhi1ySXrF18cSUsTWDbPzAt
- wKHuWVzcioV5ef2J/vaDDbe9oioCp+QXENgrhOo=
-X-Google-Smtp-Source: AK7set9QQ1fhYaOnmBJikUzfD4E6ZWWSPQ6Z3Uc/VrZplXUMAGc9lx2+K7aKOvVDkHGTRIhPxfUIrg==
-X-Received: by 2002:a1c:7714:0:b0:3ed:c84c:7efe with SMTP id
- t20-20020a1c7714000000b003edc84c7efemr35755wmi.7.1679435292894; 
- Tue, 21 Mar 2023 14:48:12 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:5cc:caa0:1f0d:1c02:17f3:df40?
- ([2a01:e0a:5cc:caa0:1f0d:1c02:17f3:df40])
- by smtp.gmail.com with ESMTPSA id
- v1-20020a1cf701000000b003ee42696acesm2153807wmh.16.2023.03.21.14.48.12
+ bh=KLDEjLsqaIXRv45y93TTZOgUoiU7wkQNHRp8YMXFdAI=;
+ b=hUJfODCVMP3TnUwXf7wItkTTLQDIC+uNhdLNPTWCXjwZch2B4J+HJ1MdC+GXk3TnuJ
+ ab4/qv4SajiQ8DMODW/8inaoMJVpQysOL59J+g/QZLBKnq+jAp5M4hp5OyNFfMtSxCxC
+ ABd6BoNfxZARztVHYUvnmyZpV/8X22FrcnOvRP+/hxUutjGI3Mbcx9TO8ibB78BaGm/A
+ +dfgEDGL7j9JxxacdFDWLx82uA0UUieCii6RyrBQUOxEvxlXmFijr50cnTDKgaHIEcJc
+ 5uQtFBgx+WB/WugrKwpaBW+vbboekmhvcUdCSJ5vTwMoltOVRiV7lluHYBAwApyEBF+m
+ Hfgg==
+X-Gm-Message-State: AO0yUKXptELZKdSDmMqQIvgJHGILGGuntJL3wkGmSB00FTT6rY4cqCZZ
+ DmGk9tvsd0Cv3eaDZ1mAox2BQQ==
+X-Google-Smtp-Source: AK7set9ANLIh3YDFBMKsBHK30rzAUqxJeTeiw4rRc8RH4J4qzLHdoU3y00VWbMYQjZmWNMdnbCD9dA==
+X-Received: by 2002:adf:f64a:0:b0:2d8:96b4:5ed9 with SMTP id
+ x10-20020adff64a000000b002d896b45ed9mr3240624wrp.38.1679435363715; 
+ Tue, 21 Mar 2023 14:49:23 -0700 (PDT)
+Received: from [192.168.69.115] (brc29-h02-176-184-12-93.dsl.sta.abo.bbox.fr.
+ [176.184.12.93]) by smtp.gmail.com with ESMTPSA id
+ d10-20020adfe88a000000b002c70e60abd4sm12334350wrm.2.2023.03.21.14.49.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Mar 2023 14:48:12 -0700 (PDT)
-Message-ID: <cfde8400-2df9-73d7-3eb0-b3a81f838311@linaro.org>
-Date: Tue, 21 Mar 2023 22:48:11 +0100
+ Tue, 21 Mar 2023 14:49:23 -0700 (PDT)
+Message-ID: <1bc74e87-1cbc-4a40-f9b6-7ebf6110c16c@linaro.org>
+Date: Tue, 21 Mar 2023 22:49:21 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v4 3/4] qga/vss-win32: fix warning for clang++-15
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [RFC PATCH] tests/avocado: re-factor igb test to avoid timeouts
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- richard.henderson@linaro.org, alex.bennee@linaro.org,
- peter.maydell@linaro.org, philmd@linaro.org
-References: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
- <20230221153006.20300-4-pierrick.bouvier@linaro.org>
-From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-In-Reply-To: <20230221153006.20300-4-pierrick.bouvier@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Cleber Rosa <crosa@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230321181741.3748845-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230321181741.3748845-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=pierrick.bouvier@linaro.org; helo=mail-wm1-x329.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,36 +94,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-U29ycnkgdG8gY29tZSBiYWNrIG9uIHRoaXMsIGJ1dCBpdCBzZWVtcyB0aGlzIHNwZWNpZmlj
-IGNvbW1pdCB3YXMgbm90IA0KaW50ZWdyYXRlZCBpbiB0cnVuay4NCg0KQEtvbnN0YW50aW4g
-S29zdGl1azogSWYgeW91IHBsYW4gdG8gaW50ZWdyYXRlIHRoaXMgbGF0ZXIgKGJlZm9yZSA4
-LjAgDQp0YWcpLCBzb3JyeSBmb3IgdGhlIG5vaXNlLiBTaW5jZSByYzEgd2FzIHB1Ymxpc2hl
-ZCB0b2RheSwgSSB0aGluayBpdCBtYXkgDQpoYXZlIGJlZW4gImxvc3QiLg0KDQpJZiBzb21l
-b25lIHdhbnRzIHRvIG1lcmdlIGl0LCB0aGF0IHdvdWxkIGJlIG5pY2UuDQoNClRoYW5rcywN
-ClBpZXJyaWNrDQoNCk9uIDIvMjEvMjMgMTY6MzAsIFBpZXJyaWNrIEJvdXZpZXIgd3JvdGU6
-DQo+IFJlcG9ydGVkIHdoZW4gY29tcGlsaW5nIHdpdGggY2xhbmctd2luZG93cy1hcm02NC4N
-Cj4gDQo+IC4uL3FnYS92c3Mtd2luMzIvaW5zdGFsbC5jcHA6NTM3Ojk6IGVycm9yOiB2YXJp
-YWJsZSAnaHInIGlzIHVzZWQgdW5pbml0aWFsaXplZCB3aGVuZXZlciAnaWYnIGNvbmRpdGlv
-biBpcyBmYWxzZSBbLVdlcnJvciwtV3NvbWV0aW1lcy11bmluaXRpYWxpemVkXQ0KPiAgICAg
-IGlmICghKENvbnRyb2xTZXJ2aWNlKHNlcnZpY2UsIFNFUlZJQ0VfQ09OVFJPTF9TVE9QLCBO
-VUxMKSkpIHsNCj4gICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+IC4uL3FnYS92c3Mtd2luMzIvaW5zdGFsbC5jcHA6
-NTQ1OjEyOiBub3RlOiB1bmluaXRpYWxpemVkIHVzZSBvY2N1cnMgaGVyZQ0KPiAgICAgIHJl
-dHVybiBocjsNCj4gICAgICAgICAgICAgXn4NCj4gU2lnbmVkLW9mZi1ieTogUGllcnJpY2sg
-Qm91dmllciA8cGllcnJpY2suYm91dmllckBsaW5hcm8ub3JnPg0KPiBGaXhlczogOTE3ZWJj
-YjE3MCAoInFnYS13aW46IEZpeCBRR0EgVlNTIFByb3ZpZGVyIHNlcnZpY2Ugc3RvcCBmYWls
-dXJlIikNCj4gUmV2aWV3ZWQtYnk6IEtvbnN0YW50aW4gS29zdGl1ayA8a2tvc3RpdWtAcmVk
-aGF0LmNvbT4NCj4gUmV2aWV3ZWQtYnk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGls
-bWRAbGluYXJvLm9yZz4NCj4gLS0tDQo+ICAgcWdhL3Zzcy13aW4zMi9pbnN0YWxsLmNwcCB8
-IDIgKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkNCj4gDQo+IGRpZmYgLS1naXQgYS9xZ2EvdnNzLXdpbjMyL2luc3RhbGwuY3BwIGIvcWdh
-L3Zzcy13aW4zMi9pbnN0YWxsLmNwcA0KPiBpbmRleCBiNTc1MDhmYmUwLi5iODA4N2U1YmFh
-IDEwMDY0NA0KPiAtLS0gYS9xZ2EvdnNzLXdpbjMyL2luc3RhbGwuY3BwDQo+ICsrKyBiL3Fn
-YS92c3Mtd2luMzIvaW5zdGFsbC5jcHANCj4gQEAgLTUxOCw3ICs1MTgsNyBAQCBuYW1lc3Bh
-Y2UgX2NvbV91dGlsDQo+ICAgLyogU3RvcCBRR0EgVlNTIHByb3ZpZGVyIHNlcnZpY2UgdXNp
-bmcgV2luc3ZjIEFQSSAgKi8NCj4gICBTVERBUEkgU3RvcFNlcnZpY2Uodm9pZCkNCj4gICB7
-DQo+IC0gICAgSFJFU1VMVCBocjsNCj4gKyAgICBIUkVTVUxUIGhyID0gU19PSzsNCj4gICAg
-ICAgU0NfSEFORExFIG1hbmFnZXIgPSBPcGVuU0NNYW5hZ2VyKE5VTEwsIE5VTEwsIFNDX01B
-TkFHRVJfQUxMX0FDQ0VTUyk7DQo+ICAgICAgIFNDX0hBTkRMRSBzZXJ2aWNlID0gTlVMTDsN
-Cj4gICANCg==
+On 21/3/23 19:17, Alex Bennée wrote:
+> The core of the test was utilising "ethtool -t eth1 offline" to run
+> through a test sequence. For reasons unknown the test hangs under some
+> configurations of the build on centos8-stream. Fundamentally running
+> the old fedora-31 cloud-init is just too much for something that is
+> directed at testing one device. So we:
+> 
+>    - replace fedora with a custom kernel + buildroot rootfs
+>    - rename the test from IGB to NetDevEthtool
+>    - re-factor the common code, add (currently skipped) tests for other
+>       devices which support ethtool
+>    - remove the KVM limitation as its fast enough to run in KVM or TCG
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   tests/avocado/igb.py            | 38 --------------
+>   tests/avocado/netdev-ethtool.py | 93 +++++++++++++++++++++++++++++++++
+>   2 files changed, 93 insertions(+), 38 deletions(-)
+>   delete mode 100644 tests/avocado/igb.py
+>   create mode 100644 tests/avocado/netdev-ethtool.py
+> 
+> diff --git a/tests/avocado/igb.py b/tests/avocado/igb.py
+> deleted file mode 100644
+> index abf5dfa07f..0000000000
+> --- a/tests/avocado/igb.py
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0-or-later
+> -# ethtool tests for igb registers, interrupts, etc
+> -
+> -from avocado_qemu import LinuxTest
+> -
+> -class IGB(LinuxTest):
+> -    """
+> -    :avocado: tags=accel:kvm
+> -    :avocado: tags=arch:x86_64
+> -    :avocado: tags=distro:fedora
+> -    :avocado: tags=distro_version:31
+> -    :avocado: tags=machine:q35
+> -    """
+> -
+> -    timeout = 180
+> -
+> -    def test(self):
+> -        self.require_accelerator('kvm')
+> -        kernel_url = self.distro.pxeboot_url + 'vmlinuz'
+> -        kernel_hash = '5b6f6876e1b5bda314f93893271da0d5777b1f3c'
+> -        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+> -        initrd_url = self.distro.pxeboot_url + 'initrd.img'
+> -        initrd_hash = 'dd0340a1b39bd28f88532babd4581c67649ec5b1'
+> -        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+> -
+> -        # Ideally we want to test MSI as well, but it is blocked by a bug
+> -        # fixed with:
+> -        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=28e96556baca7056d11d9fb3cdd0aba4483e00d8
+> -        kernel_params = self.distro.default_kernel_params + ' pci=nomsi'
+> -
+> -        self.vm.add_args('-kernel', kernel_path,
+> -                         '-initrd', initrd_path,
+> -                         '-append', kernel_params,
+> -                         '-accel', 'kvm',
+> -                         '-device', 'igb')
+> -        self.launch_and_wait()
+> -        self.ssh_command('dnf -y install ethtool')
+> -        self.ssh_command('ethtool -t eth1 offline')
+> diff --git a/tests/avocado/netdev-ethtool.py b/tests/avocado/netdev-ethtool.py
+> new file mode 100644
+> index 0000000000..da0a22d51c
+> --- /dev/null
+> +++ b/tests/avocado/netdev-ethtool.py
+> @@ -0,0 +1,93 @@
+> +# ethtool tests for emulated network devices
+> +#
+> +# This test leverages ethtool's --test sequence to validate network
+> +# device behaviour.
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +import time
+> +
+> +from avocado import skip
+> +
+> +from avocado_qemu import QemuSystemTest
+> +from avocado_qemu import exec_command, exec_command_and_wait_for_pattern
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class NetDevEthtool(QemuSystemTest):
+> +    """
+> +    :avocado: tags=arch:x86_64
+> +    :avocado: tags=machine:q35
+> +    """
+> +
+> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 root=/dev/sda console=ttyS0 '
+> +    # Runs in about 20s under KVM, 26s under TCG, 37s under GCOV
+> +    timeout = 45
+> +
+> +    def common_test_code(self, netdev, extra_args=None):
+> +        base_url = ('https://fileserver.linaro.org/s/'
+> +                    'kE4nCFLdQcoBF9t/download?'
+> +                    'path=%2Figb-net-test&files=' )
+> +
+> +        # This custom kernel has drivers for all the supported network
+> +        # devices we can emulate in QEMU
+> +        kernel_url = base_url + 'bzImage'
+> +        kernel_hash = '784daede6dab993597f36efbf01f69f184c55152'
+> +        kernel_path = self.fetch_asset(name="bzImage",
+> +                                       locations=(kernel_url), asset_hash=kernel_hash)
+> +
+> +        rootfs_url = base_url + 'rootfs.ext4'
+> +        rootfs_hash = '7d28c1bf429de3b441a63756a51f163442ea574b'
+> +        rootfs_path = self.fetch_asset(name="rootfs.ext4",
+> +                                       locations=(rootfs_url),
+> +                                       asset_hash=rootfs_hash)
+> +
+> +        kernel_params = self.KERNEL_COMMON_COMMAND_LINE
+> +        if extra_args:
+> +            kernel_params += extra_args
+> +
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-append', kernel_params,
+> +                         '-blockdev',
+> +                         f"driver=raw,file.driver=file,file.filename={rootfs_path},node-name=hd0",
+> +                         '-device', 'driver=ide-hd,bus=ide.0,unit=0,drive=hd0',
+> +                         '-device', netdev)
+> +
+> +        self.vm.set_console(console_index=0)
+> +        self.vm.launch()
+> +
+> +        wait_for_console_pattern(self, "Welcome to Buildroot", vm=None)
+> +        time.sleep(0.2)
+> +        exec_command(self, 'root')
+> +        time.sleep(0.2)
+> +        exec_command_and_wait_for_pattern(self,
+> +                                          "ethtool -t eth1 offline",
+> +                                          "The test result is PASS",
+> +                                          "The test result is FAIL")
+> +        time.sleep(0.2)
+> +        exec_command_and_wait_for_pattern(self, 'halt', "reboot: System halted")
+> +
+> +    # Skip testing for MSI for now. Allegedly it was fixed by:
+> +    #   28e96556ba (igb: Allocate MSI-X vector when testing)
+> +    # but I'm seeing oops in the kernel
+> +    @skip("Kernel bug with MSI enabled")
+> +    def test_igb(self):
+
+            """
+            :avocado: tags=device:igb
+            """
+
+
+> +        self.common_test_code("igb")
+> +
+> +    def test_igb_nomsi(self):
+
+            """
+            :avocado: tags=device:igb
+            """
+
+> +        self.common_test_code("igb", "pci=nomsi")
+> +
+> +
+> +    # It seems the other popular cards we model in QEMU currently fail
+> +    # the pattern test with:
+> +    #
+> +    #   pattern test failed (reg 0x00178): got 0x00000000 expected 0x00005A5A
+> +    #
+> +    # So for now we skip them.
+> +
+> +    @skip("Incomplete reg 0x00178 support")
+> +    def test_e1000(self):
+
+            """
+            :avocado: tags=device:e1000
+            """
+
+> +        self.common_test_code("e1000")
+> +
+> +    @skip("Incomplete reg 0x00178 support")
+> +    def test_i82550(self):
+
+            """
+            :avocado: tags=device:i82550
+            """
+
+> +        self.common_test_code("i82550")
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
