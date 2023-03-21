@@ -2,68 +2,165 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE086C2CB6
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B226C2CB5
 	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 09:41:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peXY5-0002b1-B2; Tue, 21 Mar 2023 04:40:53 -0400
+	id 1peXYV-0002oM-Sh; Tue, 21 Mar 2023 04:41:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <batmanustc@gmail.com>)
- id 1peXY3-0002ab-8x
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:40:51 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <batmanustc@gmail.com>)
- id 1peXY1-0000oH-3t
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 04:40:51 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- p3-20020a17090a74c300b0023f69bc7a68so10693140pjl.4
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 01:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679388047;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=nVA2X1R5NHUFBhIFiJsXVMAjmx3AHqae3chBSYA0qlg=;
- b=CJUHRFXGt7tlQjrzyq2d0+Z+nZijwCo3bl055soG0gWWNsGI313+dStTDZHcbiToAq
- LK+tUCrdvhcqEpYNaFQyiXzBZPXHkrR45xmL+LDf5Li/70E4e6HWK2aDf4d7A/Kzuye+
- Z0+qSySKBwuEk5eEmcQxALmQXeh/Ixlf6Ufq/lJWB3jPce/cXjbvSpi3jckc3Hp+EfV9
- bIwYhhf183G3tgafsatMQ+1vSo093u2HhVufXNr5+2gT5dUgbmM87zPBAvTwrMro98tQ
- FGmUCEPf9d9XyCeBstPdUdFqbgZMYys9LnhMzDV0CprEbXUruin1G6az1ugViFo4PMqZ
- nyKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679388047;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=nVA2X1R5NHUFBhIFiJsXVMAjmx3AHqae3chBSYA0qlg=;
- b=hPfTbW9zrB4TdWF3SJtDIqDsdymibJxDgd3oXfrFFv1iQvQIGvgCjXUjeh7ZU1iC3R
- ZH/w72mZII1SmQrwo3a2kuEEnBysrk45KnzytHEoUSDeQlAyT+JvCzybUk0Ok4y6Une6
- GrdxGCiCcnT2dRLZYB+cIGV5rVgQKioi0zq9iHyWJqjlqqswbdsPJBavHgw5M39jwxTI
- 2vJLFwgyv4+let1J9PeRkJnMAq31HyFRr7KV44S2n/XUvclBKaKtu8BSvCnDt7jfgvMp
- H/i0f8BXvnehXyt9DRL4ZqBQOSTPaiGxJoNyp4zlpwz6KM+scNm5ulXiGgQ2HYWeytFY
- VKMw==
-X-Gm-Message-State: AO0yUKVnGn+Wh/ztmiu3RTlA6TmLjw/h9e7vsGSrHqJmHV0t39fLM24C
- x77IMiZFWhkfB9S0FTUCqK5rjk3+ItwE795UvIPY6q8R0zhInA==
-X-Google-Smtp-Source: AK7set/BcXaMho6ndfCGpxJ+7nrAKrltYjUZgofecZompfQ5ApxvYlFA8J2Eb3YfPhGU0DiUpz4h+15kg1abBe3M90A=
-X-Received: by 2002:a17:90a:d78f:b0:23f:76a1:61fb with SMTP id
- z15-20020a17090ad78f00b0023f76a161fbmr423444pju.6.1679388046731; Tue, 21 Mar
- 2023 01:40:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
+ id 1peXYP-0002jf-FW; Tue, 21 Mar 2023 04:41:13 -0400
+Received: from mga11.intel.com ([192.55.52.93])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
+ id 1peXYM-0000qN-Rl; Tue, 21 Mar 2023 04:41:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679388070; x=1710924070;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=tpfAChH6/dnMXyrE71GYoIVyyY9NMBW1Zehb1cgLjrg=;
+ b=DqfJlhFKFsGbVDqDO8RlY7hPOqtWtGEgtKbFRoD55wcsS0OPPWyJAYs9
+ Nelqy9qa4dab+sH+BOl7GEJqsain94D19tukkPJ5Omwg9WMiHypbGsJcY
+ H6VVC2SxFOTvbCQNGYa6Dq17k3yY80sWvW/Mg2R1Z+f4f1zBVDsX9ySxC
+ h4vPDgGqOA+/OT6gR2ZVK+9pXKxXuRaET+D1B8mPrIRMTFoUCJJrijZ7n
+ Mu8ItH/hGJ94YYoXHv/Q/G4ZP7Wh9QvXpv/Rdlv+dUtAoJiMpzdVHNDy4
+ LhtSRTxZF60QNXu6jGeQIzFr46uqo+1/GZjaT2J8Hdz2dCLpc7ffDb1GE g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="336385866"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="336385866"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 01:41:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="631479440"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="631479440"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga003.jf.intel.com with ESMTP; 21 Mar 2023 01:41:06 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 21 Mar 2023 01:41:06 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 21 Mar 2023 01:41:06 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Tue, 21 Mar 2023 01:41:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L9lj+ybrxV+ysCKewsIKVToAWv50L0N5OBxyd9J9VLcRWvFCPRurY0mq0wHFFqK1KOgFDfHhZuwkS0dDAEuBNp/aocF9xjtAUxvklQfEiPov9OldYWxUlq3ayfqCZFhdmpv0rhBFPLfd26klGLBKMkJi2eqzixIzbj1FyzA2DimeSR5T2DMtwExY8MXRa63RJdQg0Ry+ap1NCent5a58XfjKPcM6FT3BoE0rgy7/ye3JL1ZMG6TK6iBbpm4JFkYOXeeO37epDIupijsEytIBPuxs+T8fpYVWMYhPKF0dBRci2fAKGBxebFFBu8/ROiL+sN1AR0/ECUdORR91b7h/5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v7Irr2QkPJc3oX4kbkCSY1mPhwFYCVf2iHcTRe6QCd8=;
+ b=FunDmTsn+woLbpIu4pXem455lgFUQMkZQbEimJ0lVp1yHuLAGs3W2re3Cx0jRGLjzt8LfvfoeYZT1jRtzRkoFKaddFIU67Naq+bkJg53B9XFgGi79zboYnvk+jetu+0+87lFYlEKjaFz0GYTLxq6N8REMk0REDuT9IJySVkuHoyY0zXZ5xsULLHyPjkX4PEf+KGADaF+6WG3Cpb0VUdG1AECNfQCnx6f7hmLeaIOKDvUynUn/kErKinTyM4wtQs6FyaydJDO8PTl67RzEftQst3/7xynkl4XoFVwcg7onWt9jAjzgyIsVpD+J3/LLcSrwlb67I1QfCMUHT4t4okc6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4500.namprd11.prod.outlook.com (2603:10b6:a03:1c3::24)
+ by CY8PR11MB7747.namprd11.prod.outlook.com (2603:10b6:930:87::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Tue, 21 Mar
+ 2023 08:41:03 +0000
+Received: from BY5PR11MB4500.namprd11.prod.outlook.com
+ ([fe80::68a4:ef95:6726:3fc5]) by BY5PR11MB4500.namprd11.prod.outlook.com
+ ([fe80::68a4:ef95:6726:3fc5%4]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
+ 08:41:02 +0000
+Message-ID: <ddeaba54-e9fc-0309-4f35-7ee72052264d@intel.com>
+Date: Tue, 21 Mar 2023 16:40:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
+Content-Language: en-US
+To: liweiwei <liweiwei@iscas.ac.cn>
+CC: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>, Bin Meng
+ <bin.meng@windriver.com>, Daniel Henrique Barboza
+ <dbarboza@ventanamicro.com>, "open list:RISC-V TCG CPUs"
+ <qemu-riscv@nongnu.org>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+References: <20230321063746.151107-1-fei2.wu@intel.com>
+ <cf407a04-9717-6a82-6405-d836874c5613@iscas.ac.cn>
+From: "Wu, Fei" <fei2.wu@intel.com>
+In-Reply-To: <cf407a04-9717-6a82-6405-d836874c5613@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR01CA0112.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:40::16) To BY5PR11MB4500.namprd11.prod.outlook.com
+ (2603:10b6:a03:1c3::24)
 MIME-Version: 1.0
-From: Simon Jones <batmanustc@gmail.com>
-Date: Tue, 21 Mar 2023 08:40:34 +0000
-Message-ID: <CAOE=1Z26OKgDB1=9M0rSjT50GbNi2BR7gbQ_5EbAoMRNGgP9og@mail.gmail.com>
-Subject: [BUG][KVM_SET_USER_MEMORY_REGION] KVM_SET_USER_MEMORY_REGION failed
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000f72d1f05f764ff6f"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=batmanustc@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4500:EE_|CY8PR11MB7747:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10d04c02-7acc-4c31-2004-08db29e800a2
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v1poFRc3eWGtsz88YGJuBOytdOp3I1A7jIIrDjMU//oaGzlnLvDWrQQqm5R2Mg+G1hpQVd49lRWb0+Z0mzWVdGbXME58zU9ee1JWW6KnDfpGRhA0YOeBqktmk1mlWAhPwglG2fJ3746zIucgkZxpJNOTjxBzaznXojMjjTvtHkgz+FU3AsW8aU6oXR4LbaSU548ZWMi0SbELjFZmG/8d77S9B1baE+BHmaCZLP8LxLeHhozaM0051SQ0wwB6qJWxpX0SA0yGy6XuQdVQXgCAbf9bIfQu8f87rHJ2co2qPjPxHvN8SDwBynuK1vwx9p2/iydHIi9r7JuskTu6gg2vdQhHhmgTLiUihjw27ojaVfz+sl7xAUEjybEYq38ACNitTIug2pFMBJShdfFc2tfwteqCPE3dPUvdIlufSWxmIn0roeyUhiVjupwRYMZSSWCA+ML9EOiaZu0aFrCA3bQT4f6oDdou4AscxIcB7b4NRUf2GtKa4jizikPjl+8XhzGM7sY+UPnUuNghnoxHKIKpF4qB5whBlBtDeikC56TtWzNGnePUFzAVr7IGFXAMvz4aq/7PZH5TJGHXkE9o1cLAo71PPDnJmhJPUwkyhWkIQUbBIdZqOuoM2lGMEa975yekuEE2wzyE5t6SLwp/+Ko3hKPNwfBPmLlbOUdzJzZ9CFMSpVrUIqIWUeXqiS7qPxmtguJe1rSeqjcug7c3km+ERUPRBTt8GGUdCbd+iVFLBds=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4500.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(396003)(136003)(376002)(366004)(346002)(39860400002)(451199018)(86362001)(31696002)(36756003)(83380400001)(66556008)(316002)(6916009)(4326008)(66946007)(478600001)(8676002)(66476007)(186003)(54906003)(6512007)(26005)(6506007)(31686004)(2616005)(53546011)(6486002)(6666004)(38100700002)(8936002)(5660300002)(41300700001)(2906002)(82960400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eloyV2ZibjN4NWhrSTZLM0p6WHNNZHBVblc4Y3VqdW9aT0V2UzF1cDREYVVi?=
+ =?utf-8?B?azhRSDh2VGRQeG45eWpwR2QxcGZVYmVCYXhwN2FncnFRczdCYkxaelpjVVVt?=
+ =?utf-8?B?c1hsdVJxZHFVYmdjY1Z6TjRuZTN1MG84Z0RJdyszZ0w0cUYzd0hLMTVSVVMy?=
+ =?utf-8?B?QXN6cjVNVGJwNHMxTXJ1Q2dtVkhySCtBRnpvSkprQ1FhMzNFUjFJeFFxc1FY?=
+ =?utf-8?B?OXVqbU1zMGFJMUdiam1XUFFKM3ZaMi9DQU9zbXhEbVJ0ZDZ0TTdRejFKVGZH?=
+ =?utf-8?B?NCt5UCsvaS9PMVUyM1BpN2t2Q0RLWEgyUnB3K04zdXg0aEVsUXlkYjFnSEZw?=
+ =?utf-8?B?V1RaOUFaaXlxRW9sTHg0Wnh6bDNFZnY0MXQ5Uy9BdGZhK3R4ZUFpWVM3WXFR?=
+ =?utf-8?B?MzEzY2NjcG1tUys5cHBvV0FKZVJtcnZCS2ZreHpWNVRZTHVIUXk1YjdGN3Bi?=
+ =?utf-8?B?WWljWG45U25kd1RPbkxGRmdIemVDZ1BGUHVwYk1QeUZRbG1hVHFibm5Sd1Jl?=
+ =?utf-8?B?WTl0SlNJMzRIMGU5RDFUb29udFV1UjhabHFOM3NVc3NveW1QdkFmRFNJdXUx?=
+ =?utf-8?B?RGk5cHNtdTNaRk8zWjF6Uy82SWNlT2dmTTViaEJJNUxLcXdQRFh6N0QwY0FS?=
+ =?utf-8?B?U0VyYitaQS9qaHVJdUgxOHpDbFNORUovSlpYWURIMElObXEySDlpQmJMc1FG?=
+ =?utf-8?B?MzArd3J5VlQyL1hKSjluRXk3VGtvYXU4WVoyOTlXY3BPM082MThyMzlLblZv?=
+ =?utf-8?B?N3c3SFVHcXVlUm1XeGZVNUVsQ2srd2lNZjJYOEI0VVR5cmFFbi96U0l6M09M?=
+ =?utf-8?B?Mzc3b3hMcTYwL0xlSjJZdmlvOHlhRmY1STNsL0pRbU5BNHpwdHV3VzU1bWtp?=
+ =?utf-8?B?YWhWOTgvSjJMWUxwQkNHMytPemJtRXRkTE5DMjAvTXRBeHdjMTEyb0xDcEF5?=
+ =?utf-8?B?WDIvdkUvUTFPMm1Pd0doU0pMbFNVMzlDRFowYXRiVDM1OU9JR3NyMUJLMjRU?=
+ =?utf-8?B?YnFoWmY1b3dDanFidFRhT2REVXo4V3ppdXovcThUMXU5cVhnWjBOK1pXcmg4?=
+ =?utf-8?B?ekhRNHVNMVFyTVgybG1OczV5VmhXNngrenFKbHBCdXkwWWxQVXJyY3BkNXFX?=
+ =?utf-8?B?bkRXQjV4N0piWUNwY0tweDZLVWxlaXd5aTAxMlpnNU1RZHB3SXRhMWJmRnoz?=
+ =?utf-8?B?VEMyZmpORWxJcm5Iay9KbFptU25HMXRIMno0RDdPbXBoUzRDamxtWEJIUnoy?=
+ =?utf-8?B?c20vOUx3Z08wRlFMdWZqYWVXakNrYXIraGpUZTFuSDBzMWZtYlVKR1Z2cFRw?=
+ =?utf-8?B?UU40S1RtWVRpZVBqTGtuazRydlJDblNWMFY5WTByQk1BM1ZseHFkZWdPQkdv?=
+ =?utf-8?B?QklwbG9aSUZEdDNtTVpOdDB4UUxzS3VGQTBDTGlMYVJFMVVHaDlEc2RpMi9B?=
+ =?utf-8?B?K29SVXd5bVB3L2YyQUdiL2RYQ0tUSHp2SlkzZEVHNWlwMGNTRVhVMThMUlFs?=
+ =?utf-8?B?K3VEdi9iek1PQmhzck5jVXdUeVN0dWFpUnFwbVFaY3hxSzB5aFlMelg5bkpD?=
+ =?utf-8?B?cnQyVnR1b3pEK3ZHdUhieHpWOW5VOVdDZnlGWmE2d0diZC9NK3lSM2I5NmNk?=
+ =?utf-8?B?NExZcjdtejkwTzhNOVRpQkRMNzdueEgxR05xUzB6VHRCRzdmMll4aElSVmJw?=
+ =?utf-8?B?RnBhOXBYbmNsQU9BS0ZDOEF2ODUyQ1ZVNVkzdkdjSm1LTFNhd3d3aHZ2YzlX?=
+ =?utf-8?B?cmF6OTI2WTVmVjB1ZTR1bE9pdUlCVWJMdWtpRUMyTmExV2dFQmJWRFpxSU5p?=
+ =?utf-8?B?MnVXR042YUZxaWk3bVhiYS9YQmhaTEdESHZMMFR6NGRib1ExeVlLZUZKU3pV?=
+ =?utf-8?B?REN1eDRYZUhHUVhpeXRmMjFYZEFubjF0dFo5WGtxbndSQ3FXQjBDNU5iRmU3?=
+ =?utf-8?B?YzY4QWloaG85K3hYTThxUDNsNlgxOGh1M3FMK094MmQ1WitEL2dEK3J3ais3?=
+ =?utf-8?B?Uk1xdk9FdmNCNk9DVG1icms1NGd5RU9lOW5BN2lCc2t3eSswc01YSnZYekFn?=
+ =?utf-8?B?MHpZWkJreEE5cWhHdDJlbFZRWGt6WjAwbW5OaFhsSjNJTUtBaC9OdlhscVoy?=
+ =?utf-8?Q?QJQ56z8fD/O48YceMqFejIy7w?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10d04c02-7acc-4c31-2004-08db29e800a2
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4500.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2023 08:41:02.6427 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KMr63EQPnu83WrrrKisgJbYg+XGUYbsJqhFfAwMraGPu+ltMBho3fpVF30owkKaf1vNO/gm3aburuYnmaL75EQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7747
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=fei2.wu@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,311 +177,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000f72d1f05f764ff6f
-Content-Type: text/plain; charset="UTF-8"
+On 3/21/2023 4:28 PM, liweiwei wrote:
+> 
+> On 2023/3/21 14:37, fei2.wu@intel.com wrote:
+>> From: Fei Wu <fei2.wu@intel.com>
+>>
+>> Kernel needs to access user mode memory e.g. during syscalls, the window
+>> is usually opened up for a very limited time through MSTATUS.SUM, the
+>> overhead is too much if tlb_flush() gets called for every SUM change.
+>> This patch saves addresses accessed when SUM=1, and flushs only these
+>> pages when SUM changes to 0. If the buffer is not large enough to save
+>> all the pages during SUM=1, it will fall back to tlb_flush when
+>> necessary.
+>>
+>> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
+>> most of the time kernel accesses 1 or 2 pages, it's very rare to see
+>> more than 4 pages accessed.
+>>
+>> It's not necessary to save/restore these new added status, as
+>> tlb_flush() is always called after restore.
+>>
+>> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
+>> other syscalls benefit a lot from this one too.
+>>
+>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
+>> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+>> ---
+>>   target/riscv/cpu.h        |  4 ++++
+>>   target/riscv/cpu_helper.c |  7 +++++++
+>>   target/riscv/csr.c        | 14 +++++++++++++-
+>>   3 files changed, 24 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 638e47c75a..926dbce59f 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -383,6 +383,10 @@ struct CPUArchState {
+>>       uint64_t kvm_timer_compare;
+>>       uint64_t kvm_timer_state;
+>>       uint64_t kvm_timer_frequency;
+>> +
+>> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
+>> +    uint64_t sum_u_count;
+>> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
+>>   };
+>>     OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
+>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> index f88c503cf4..5ad0418eb6 100644
+>> --- a/target/riscv/cpu_helper.c
+>> +++ b/target/riscv/cpu_helper.c
+>> @@ -1068,6 +1068,13 @@ restart:
+>>                       (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+>>                   *prot |= PAGE_WRITE;
+>>               }
+>> +            if ((pte & PTE_U) && (mode & PRV_S) &&
+>> +                    get_field(env->mstatus, MSTATUS_SUM)) {
+>> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
+>> +                    env->sum_u_addr[env->sum_u_count] = addr;
+>> +                }
+>> +                ++env->sum_u_count;
+>> +            }
+>>               return TRANSLATE_SUCCESS;
+>>           }
+>>       }
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index ab566639e5..74b7638c8a 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -1246,9 +1246,21 @@ static RISCVException
+>> write_mstatus(CPURISCVState *env, int csrno,
+>>         /* flush tlb on mstatus fields that affect VM */
+>>       if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+>> -            MSTATUS_MPRV | MSTATUS_SUM)) {
+>> +            MSTATUS_MPRV)) {
+>>           tlb_flush(env_cpu(env));
+>> +        env->sum_u_count = 0;
+>> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
+>> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
+>> +            tlb_flush(env_cpu(env));
+>> +        } else {
+>> +            for (int i = 0; i < env->sum_u_count; ++i) {
+>> +                tlb_flush_page_by_mmuidx(env_cpu(env),
+>> env->sum_u_addr[i],
+>> +                                         1 << PRV_S | 1 << PRV_M);
+>> +            }
+>> +        }
+>> +        env->sum_u_count = 0;
+>>       }
+> 
+> Whether tlb should  be flushed when SUM is changed from 0 to 1?
+> 
+When SUM is changed from 0 to 1, all the existing tlb entries remain
+valid as the permission is elevated instead of reduced, so I don't think
+it's necessary to flush tlb.
 
-Hi all,
+Thanks,
+Fei.
 
-I start a VM in openstack, and openstack use libvirt to start qemu VM, but
-now log show this ERROR.
-Is there any one know this?
+> Regards,
+> 
+> Weiwei Li
+> 
+>> +
+>>       mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+>>           MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
+>>           MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
+> 
 
-The ERROR log from /var/log/libvirt/qemu/instance-0000000e.log
-```
-2023-03-14T10:09:17.674114Z qemu-system-x86_64: kvm_set_user_memory_region:
-KVM_SET_USER_MEMORY_REGION failed, slot=4, start=0xfffffffffe000000,
-size=0x2000: Invalid argument
-kvm_set_phys_mem: error registering slot: Invalid argument
-2023-03-14 10:09:18.198+0000: shutting down, reason=crashed
-```
-
-The xml file
-```
-root@c1c2:~# cat /etc/libvirt/qemu/instance-0000000e.xml
-<!--
-WARNING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE
-OVERWRITTEN AND LOST. Changes to this xml configuration should be made
-using:
-  virsh edit instance-0000000e
-or other application using the libvirt API.
--->
-
-<domain type='kvm'>
-  <name>instance-0000000e</name>
-  <uuid>ff91d2dc-69a1-43ef-abde-c9e4e9a0305b</uuid>
-  <metadata>
-    <nova:instance xmlns:nova="http://openstack.org/xmlns/libvirt/nova/1.1">
-      <nova:package version="25.1.0"/>
-      <nova:name>provider-instance</nova:name>
-      <nova:creationTime>2023-03-14 10:09:13</nova:creationTime>
-      <nova:flavor name="cirros-os-dpu-test-1">
-        <nova:memory>64</nova:memory>
-        <nova:disk>1</nova:disk>
-        <nova:swap>0</nova:swap>
-        <nova:ephemeral>0</nova:ephemeral>
-        <nova:vcpus>1</nova:vcpus>
-      </nova:flavor>
-      <nova:owner>
-        <nova:user uuid="ff627ad39ed94479b9c5033bc462cf78">admin</nova:user>
-        <nova:project
-uuid="512866f9994f4ad8916d8539a7cdeec9">admin</nova:project>
-      </nova:owner>
-      <nova:root type="image" uuid="9e58cb69-316a-4093-9f23-c1d1bd8edffe"/>
-      <nova:ports>
-        <nova:port uuid="77c1dc00-af39-4463-bea0-12808f4bc340">
-          <nova:ip type="fixed" address="172.1.1.43" ipVersion="4"/>
-        </nova:port>
-      </nova:ports>
-    </nova:instance>
-  </metadata>
-  <memory unit='KiB'>65536</memory>
-  <currentMemory unit='KiB'>65536</currentMemory>
-  <vcpu placement='static'>1</vcpu>
-  <sysinfo type='smbios'>
-    <system>
-      <entry name='manufacturer'>OpenStack Foundation</entry>
-      <entry name='product'>OpenStack Nova</entry>
-      <entry name='version'>25.1.0</entry>
-      <entry name='serial'>ff91d2dc-69a1-43ef-abde-c9e4e9a0305b</entry>
-      <entry name='uuid'>ff91d2dc-69a1-43ef-abde-c9e4e9a0305b</entry>
-      <entry name='family'>Virtual Machine</entry>
-    </system>
-  </sysinfo>
-  <os>
-    <type arch='x86_64' machine='pc-i440fx-6.2'>hvm</type>
-    <boot dev='hd'/>
-    <smbios mode='sysinfo'/>
-  </os>
-  <features>
-    <acpi/>
-    <apic/>
-    <vmcoreinfo state='on'/>
-  </features>
-  <cpu mode='host-model' check='partial'>
-    <topology sockets='1' dies='1' cores='1' threads='1'/>
-  </cpu>
-  <clock offset='utc'>
-    <timer name='pit' tickpolicy='delay'/>
-    <timer name='rtc' tickpolicy='catchup'/>
-    <timer name='hpet' present='no'/>
-  </clock>
-  <on_poweroff>destroy</on_poweroff>
-  <on_reboot>restart</on_reboot>
-  <on_crash>destroy</on_crash>
-  <devices>
-    <emulator>/usr/bin/qemu-system-x86_64</emulator>
-    <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2' cache='none'/>
-      <source
-file='/var/lib/nova/instances/ff91d2dc-69a1-43ef-abde-c9e4e9a0305b/disk'/>
-      <target dev='vda' bus='virtio'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x03'
-function='0x0'/>
-    </disk>
-    <controller type='usb' index='0' model='piix3-uhci'>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x01'
-function='0x2'/>
-    </controller>
-    <controller type='pci' index='0' model='pci-root'/>
-    <interface type='hostdev' managed='yes'>
-      <mac address='fa:16:3e:aa:d9:23'/>
-      <source>
-        <address type='pci' domain='0x0000' bus='0x01' slot='0x00'
-function='0x5'/>
-      </source>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x04'
-function='0x0'/>
-    </interface>
-    <serial type='pty'>
-      <log
-file='/var/lib/nova/instances/ff91d2dc-69a1-43ef-abde-c9e4e9a0305b/console.log'
-append='off'/>
-      <target type='isa-serial' port='0'>
-        <model name='isa-serial'/>
-      </target>
-    </serial>
-    <console type='pty'>
-      <log
-file='/var/lib/nova/instances/ff91d2dc-69a1-43ef-abde-c9e4e9a0305b/console.log'
-append='off'/>
-      <target type='serial' port='0'/>
-    </console>
-    <input type='tablet' bus='usb'>
-      <address type='usb' bus='0' port='1'/>
-    </input>
-    <input type='mouse' bus='ps2'/>
-    <input type='keyboard' bus='ps2'/>
-    <graphics type='vnc' port='-1' autoport='yes' listen='0.0.0.0'>
-      <listen type='address' address='0.0.0.0'/>
-    </graphics>
-    <audio id='1' type='none'/>
-    <video>
-      <model type='virtio' heads='1' primary='yes'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x02'
-function='0x0'/>
-    </video>
-    <hostdev mode='subsystem' type='pci' managed='yes'>
-      <source>
-        <address domain='0x0000' bus='0x01' slot='0x00' function='0x6'/>
-      </source>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x05'
-function='0x0'/>
-    </hostdev>
-    <memballoon model='virtio'>
-      <stats period='10'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x06'
-function='0x0'/>
-    </memballoon>
-    <rng model='virtio'>
-      <backend model='random'>/dev/urandom</backend>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x07'
-function='0x0'/>
-    </rng>
-  </devices>
-</domain>
-```
-
-
-----
-Simon Jones
-
---000000000000f72d1f05f764ff6f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><br><br>Hi all,<br><br>I start a VM in openstack, and=
- openstack use libvirt to start qemu VM, but now log show this ERROR.<br>Is=
- there any one know this?<br><br>The ERROR log from /var/log/libvirt/qemu/i=
-nstance-0000000e.log<br>```<br>2023-03-14T10:09:17.674114Z qemu-system-x86_=
-64: kvm_set_user_memory_region: KVM_SET_USER_MEMORY_REGION failed, slot=3D4=
-, start=3D0xfffffffffe000000, size=3D0x2000: Invalid argument<br>kvm_set_ph=
-ys_mem: error registering slot: Invalid argument<br>2023-03-14 10:09:18.198=
-+0000: shutting down, reason=3Dcrashed<br>```<br><br>The xml file<br>```<br=
->root@c1c2:~# cat /etc/libvirt/qemu/instance-0000000e.xml<br>&lt;!--<br>WAR=
-NING: THIS IS AN AUTO-GENERATED FILE. CHANGES TO IT ARE LIKELY TO BE<br>OVE=
-RWRITTEN AND LOST. Changes to this xml configuration should be made using:<=
-br>=C2=A0 virsh edit instance-0000000e<br>or other application using the li=
-bvirt API.<br>--&gt;<br><br>&lt;domain type=3D&#39;kvm&#39;&gt;<br>=C2=A0 &=
-lt;name&gt;instance-0000000e&lt;/name&gt;<br>=C2=A0 &lt;uuid&gt;ff91d2dc-69=
-a1-43ef-abde-c9e4e9a0305b&lt;/uuid&gt;<br>=C2=A0 &lt;metadata&gt;<br>=C2=A0=
- =C2=A0 &lt;nova:instance xmlns:nova=3D&quot;<a href=3D"http://openstack.or=
-g/xmlns/libvirt/nova/1.1">http://openstack.org/xmlns/libvirt/nova/1.1</a>&q=
-uot;&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;nova:package version=3D&quot;25.1.0&qu=
-ot;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;nova:name&gt;provider-instance&lt;/nov=
-a:name&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;nova:creationTime&gt;2023-03-14 10:0=
-9:13&lt;/nova:creationTime&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;nova:flavor name=
-=3D&quot;cirros-os-dpu-test-1&quot;&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;=
-nova:memory&gt;64&lt;/nova:memory&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;no=
-va:disk&gt;1&lt;/nova:disk&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;nova:swap=
-&gt;0&lt;/nova:swap&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;nova:ephemeral&g=
-t;0&lt;/nova:ephemeral&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;nova:vcpus&gt=
-;1&lt;/nova:vcpus&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;/nova:flavor&gt;<br>=C2=
-=A0 =C2=A0 =C2=A0 &lt;nova:owner&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;nov=
-a:user uuid=3D&quot;ff627ad39ed94479b9c5033bc462cf78&quot;&gt;admin&lt;/nov=
-a:user&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;nova:project uuid=3D&quot;512=
-866f9994f4ad8916d8539a7cdeec9&quot;&gt;admin&lt;/nova:project&gt;<br>=C2=A0=
- =C2=A0 =C2=A0 &lt;/nova:owner&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;nova:root ty=
-pe=3D&quot;image&quot; uuid=3D&quot;9e58cb69-316a-4093-9f23-c1d1bd8edffe&qu=
-ot;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;nova:ports&gt;<br>=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 &lt;nova:port uuid=3D&quot;77c1dc00-af39-4463-bea0-12808f4bc340&quo=
-t;&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;nova:ip type=3D&quot;fixed=
-&quot; address=3D&quot;172.1.1.43&quot; ipVersion=3D&quot;4&quot;/&gt;<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;/nova:port&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;=
-/nova:ports&gt;<br>=C2=A0 =C2=A0 &lt;/nova:instance&gt;<br>=C2=A0 &lt;/meta=
-data&gt;<br>=C2=A0 &lt;memory unit=3D&#39;KiB&#39;&gt;65536&lt;/memory&gt;<=
-br>=C2=A0 &lt;currentMemory unit=3D&#39;KiB&#39;&gt;65536&lt;/currentMemory=
-&gt;<br>=C2=A0 &lt;vcpu placement=3D&#39;static&#39;&gt;1&lt;/vcpu&gt;<br>=
-=C2=A0 &lt;sysinfo type=3D&#39;smbios&#39;&gt;<br>=C2=A0 =C2=A0 &lt;system&=
-gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;entry name=3D&#39;manufacturer&#39;&gt;Open=
-Stack Foundation&lt;/entry&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;entry name=3D&#3=
-9;product&#39;&gt;OpenStack Nova&lt;/entry&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;=
-entry name=3D&#39;version&#39;&gt;25.1.0&lt;/entry&gt;<br>=C2=A0 =C2=A0 =C2=
-=A0 &lt;entry name=3D&#39;serial&#39;&gt;ff91d2dc-69a1-43ef-abde-c9e4e9a030=
-5b&lt;/entry&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;entry name=3D&#39;uuid&#39;&gt=
-;ff91d2dc-69a1-43ef-abde-c9e4e9a0305b&lt;/entry&gt;<br>=C2=A0 =C2=A0 =C2=A0=
- &lt;entry name=3D&#39;family&#39;&gt;Virtual Machine&lt;/entry&gt;<br>=C2=
-=A0 =C2=A0 &lt;/system&gt;<br>=C2=A0 &lt;/sysinfo&gt;<br>=C2=A0 &lt;os&gt;<=
-br>=C2=A0 =C2=A0 &lt;type arch=3D&#39;x86_64&#39; machine=3D&#39;pc-i440fx-=
-6.2&#39;&gt;hvm&lt;/type&gt;<br>=C2=A0 =C2=A0 &lt;boot dev=3D&#39;hd&#39;/&=
-gt;<br>=C2=A0 =C2=A0 &lt;smbios mode=3D&#39;sysinfo&#39;/&gt;<br>=C2=A0 &lt=
-;/os&gt;<br>=C2=A0 &lt;features&gt;<br>=C2=A0 =C2=A0 &lt;acpi/&gt;<br>=C2=
-=A0 =C2=A0 &lt;apic/&gt;<br>=C2=A0 =C2=A0 &lt;vmcoreinfo state=3D&#39;on&#3=
-9;/&gt;<br>=C2=A0 &lt;/features&gt;<br>=C2=A0 &lt;cpu mode=3D&#39;host-mode=
-l&#39; check=3D&#39;partial&#39;&gt;<br>=C2=A0 =C2=A0 &lt;topology sockets=
-=3D&#39;1&#39; dies=3D&#39;1&#39; cores=3D&#39;1&#39; threads=3D&#39;1&#39;=
-/&gt;<br>=C2=A0 &lt;/cpu&gt;<br>=C2=A0 &lt;clock offset=3D&#39;utc&#39;&gt;=
-<br>=C2=A0 =C2=A0 &lt;timer name=3D&#39;pit&#39; tickpolicy=3D&#39;delay&#3=
-9;/&gt;<br>=C2=A0 =C2=A0 &lt;timer name=3D&#39;rtc&#39; tickpolicy=3D&#39;c=
-atchup&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;timer name=3D&#39;hpet&#39; present=
-=3D&#39;no&#39;/&gt;<br>=C2=A0 &lt;/clock&gt;<br>=C2=A0 &lt;on_poweroff&gt;=
-destroy&lt;/on_poweroff&gt;<br>=C2=A0 &lt;on_reboot&gt;restart&lt;/on_reboo=
-t&gt;<br>=C2=A0 &lt;on_crash&gt;destroy&lt;/on_crash&gt;<br>=C2=A0 &lt;devi=
-ces&gt;<br>=C2=A0 =C2=A0 &lt;emulator&gt;/usr/bin/qemu-system-x86_64&lt;/em=
-ulator&gt;<br>=C2=A0 =C2=A0 &lt;disk type=3D&#39;file&#39; device=3D&#39;di=
-sk&#39;&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;driver name=3D&#39;qemu&#39; type=
-=3D&#39;qcow2&#39; cache=3D&#39;none&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;=
-source file=3D&#39;/var/lib/nova/instances/ff91d2dc-69a1-43ef-abde-c9e4e9a0=
-305b/disk&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;target dev=3D&#39;vda&#39; =
-bus=3D&#39;virtio&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39=
-;pci&#39; domain=3D&#39;0x0000&#39; bus=3D&#39;0x00&#39; slot=3D&#39;0x03&#=
-39; function=3D&#39;0x0&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;/disk&gt;<br>=C2=A0 =
-=C2=A0 &lt;controller type=3D&#39;usb&#39; index=3D&#39;0&#39; model=3D&#39=
-;piix3-uhci&#39;&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39;pci&#3=
-9; domain=3D&#39;0x0000&#39; bus=3D&#39;0x00&#39; slot=3D&#39;0x01&#39; fun=
-ction=3D&#39;0x2&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;/controller&gt;<br>=C2=A0 =
-=C2=A0 &lt;controller type=3D&#39;pci&#39; index=3D&#39;0&#39; model=3D&#39=
-;pci-root&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;interface type=3D&#39;hostdev&#39;=
- managed=3D&#39;yes&#39;&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;mac address=3D&#39=
-;fa:16:3e:aa:d9:23&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;source&gt;<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39;pci&#39; domain=3D&#39;0x0=
-000&#39; bus=3D&#39;0x01&#39; slot=3D&#39;0x00&#39; function=3D&#39;0x5&#39=
-;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;/source&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;=
-address type=3D&#39;pci&#39; domain=3D&#39;0x0000&#39; bus=3D&#39;0x00&#39;=
- slot=3D&#39;0x04&#39; function=3D&#39;0x0&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;/=
-interface&gt;<br>=C2=A0 =C2=A0 &lt;serial type=3D&#39;pty&#39;&gt;<br>=C2=
-=A0 =C2=A0 =C2=A0 &lt;log file=3D&#39;/var/lib/nova/instances/ff91d2dc-69a1=
--43ef-abde-c9e4e9a0305b/console.log&#39; append=3D&#39;off&#39;/&gt;<br>=C2=
-=A0 =C2=A0 =C2=A0 &lt;target type=3D&#39;isa-serial&#39; port=3D&#39;0&#39;=
-&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;model name=3D&#39;isa-serial&#39;/&=
-gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;/target&gt;<br>=C2=A0 =C2=A0 &lt;/serial&gt=
-;<br>=C2=A0 =C2=A0 &lt;console type=3D&#39;pty&#39;&gt;<br>=C2=A0 =C2=A0 =
-=C2=A0 &lt;log file=3D&#39;/var/lib/nova/instances/ff91d2dc-69a1-43ef-abde-=
-c9e4e9a0305b/console.log&#39; append=3D&#39;off&#39;/&gt;<br>=C2=A0 =C2=A0 =
-=C2=A0 &lt;target type=3D&#39;serial&#39; port=3D&#39;0&#39;/&gt;<br>=C2=A0=
- =C2=A0 &lt;/console&gt;<br>=C2=A0 =C2=A0 &lt;input type=3D&#39;tablet&#39;=
- bus=3D&#39;usb&#39;&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39;us=
-b&#39; bus=3D&#39;0&#39; port=3D&#39;1&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;/inpu=
-t&gt;<br>=C2=A0 =C2=A0 &lt;input type=3D&#39;mouse&#39; bus=3D&#39;ps2&#39;=
-/&gt;<br>=C2=A0 =C2=A0 &lt;input type=3D&#39;keyboard&#39; bus=3D&#39;ps2&#=
-39;/&gt;<br>=C2=A0 =C2=A0 &lt;graphics type=3D&#39;vnc&#39; port=3D&#39;-1&=
-#39; autoport=3D&#39;yes&#39; listen=3D&#39;0.0.0.0&#39;&gt;<br>=C2=A0 =C2=
-=A0 =C2=A0 &lt;listen type=3D&#39;address&#39; address=3D&#39;0.0.0.0&#39;/=
-&gt;<br>=C2=A0 =C2=A0 &lt;/graphics&gt;<br>=C2=A0 =C2=A0 &lt;audio id=3D&#3=
-9;1&#39; type=3D&#39;none&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;video&gt;<br>=C2=
-=A0 =C2=A0 =C2=A0 &lt;model type=3D&#39;virtio&#39; heads=3D&#39;1&#39; pri=
-mary=3D&#39;yes&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39;p=
-ci&#39; domain=3D&#39;0x0000&#39; bus=3D&#39;0x00&#39; slot=3D&#39;0x02&#39=
-; function=3D&#39;0x0&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;/video&gt;<br>=C2=A0 =
-=C2=A0 &lt;hostdev mode=3D&#39;subsystem&#39; type=3D&#39;pci&#39; managed=
-=3D&#39;yes&#39;&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;source&gt;<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &lt;address domain=3D&#39;0x0000&#39; bus=3D&#39;0x01&#39=
-; slot=3D&#39;0x00&#39; function=3D&#39;0x6&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=
-=A0 &lt;/source&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39;pci&#39=
-; domain=3D&#39;0x0000&#39; bus=3D&#39;0x00&#39; slot=3D&#39;0x05&#39; func=
-tion=3D&#39;0x0&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;/hostdev&gt;<br>=C2=A0 =C2=
-=A0 &lt;memballoon model=3D&#39;virtio&#39;&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt=
-;stats period=3D&#39;10&#39;/&gt;<br>=C2=A0 =C2=A0 =C2=A0 &lt;address type=
-=3D&#39;pci&#39; domain=3D&#39;0x0000&#39; bus=3D&#39;0x00&#39; slot=3D&#39=
-;0x06&#39; function=3D&#39;0x0&#39;/&gt;<br>=C2=A0 =C2=A0 &lt;/memballoon&g=
-t;<br>=C2=A0 =C2=A0 &lt;rng model=3D&#39;virtio&#39;&gt;<br>=C2=A0 =C2=A0 =
-=C2=A0 &lt;backend model=3D&#39;random&#39;&gt;/dev/urandom&lt;/backend&gt;=
-<br>=C2=A0 =C2=A0 =C2=A0 &lt;address type=3D&#39;pci&#39; domain=3D&#39;0x0=
-000&#39; bus=3D&#39;0x00&#39; slot=3D&#39;0x07&#39; function=3D&#39;0x0&#39=
-;/&gt;<br>=C2=A0 =C2=A0 &lt;/rng&gt;<br>=C2=A0 &lt;/devices&gt;<br>&lt;/dom=
-ain&gt;<br>```<br></div><div><br></div><div><br></div><div><div dir=3D"ltr"=
- class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"l=
-tr"><div><div dir=3D"ltr"><div>----</div>Simon Jones</div></div></div></div=
-></div></div>
-
---000000000000f72d1f05f764ff6f--
 
