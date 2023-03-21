@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520C66C32CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:24:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 985466C3298
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:22:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pebuv-000059-Ut; Tue, 21 Mar 2023 09:20:45 -0400
+	id 1pebuw-000061-Iw; Tue, 21 Mar 2023 09:20:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pebut-0008WI-KM
+ id 1pebut-00004v-SJ
  for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:43 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pebur-0006aw-LB
+ id 1pebur-0006b9-NY
  for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:43 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id iw17so4210683wmb.0
+Received: by mail-wm1-x331.google.com with SMTP id w11so8492091wmo.2
  for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679404839;
+ d=linaro.org; s=google; t=1679404840;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=UgGX9i1g+q2y1PHAwmYRpRwyR7y/+LqvXLTfsWRfm90=;
- b=fKXLX6tsCuwzriNqDywuKHarMXhucw+GX3lNrgTCOnMD4VOHRAE1aG4TfPUgpvsoxV
- K6eVghOQt2tgvuG4IkBUQpizV5V0P3FXCEqPo2KzhFA0rTTRts7JV86k0arGR7tLX0j+
- HappEPrwubcmqa+VVbcV94kqxFcJjtmIwoA4lFW7xFaRBsPsefXwxX9iWQJ8pw8Taxn4
- 6aPK+88GYMnogGYkoz5moLd9EDmRTa4ccgGUQYwSXK5H2/idd/qsHbbaSK/02POldk2M
- r+F1VDtHXKgkVmDjbb7WDeMXegNWhQ+fSqVeIZPKmYdI4VmYpHHV9/2pRFkvviV6m0R0
- 4l8w==
+ :reply-to; bh=dI61HmBS8dvo6fODWjrvfFsUUviRSWQ6NsX3TJ+/KQg=;
+ b=BnEu2D6qCAmwC+r5DI2G+2rr84OymAC3mH6NXy3bKH6T41tOM3cLfjBBbrNiBLLgvv
+ FECFy3dslAwRkV4IDkBPjb1+FMKP7RJa6NEDUXguuxLEz2nz0aZygSsgZrbXxa03Ucpt
+ Xy3FuPSJtu7Jz7p/comjW80pG++ZtR5VccW6rdQBsmci1buyYa2+mR/SXW5yYaaFN2ZR
+ YZCIUhgqi5hIsxN+ne6ChpiYsU6zfJV0f5+2Lz4r1p1TDq+1nqDd0Rl/5Ct+lbrlFReE
+ 7ETKt/nf3UX3EUHmMDlAiPczGfkrD73itoVkxg9eVTiXi35+UYM0exv2cKJ91SzLILQ8
+ KyhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679404839;
+ d=1e100.net; s=20210112; t=1679404840;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UgGX9i1g+q2y1PHAwmYRpRwyR7y/+LqvXLTfsWRfm90=;
- b=Lmg8Z4zEe7q5Y/avvXkpRJHcZvIPUutH9QqJPbLn/i7wZvi0xE6joLIg3YSQVPdvVB
- PU0+zjqYQNljkBsLyV5IBcNhmse5R0Gza/in6TTduWUeKzGTDowSnTBbGECWUhZFLTdC
- iu6IkEbI9/hOfUCpL0NfMk6kRUc/DNowhI0f7QC2x6IVZ0M64iUupU1W5rd/rd/BOJHF
- EeL1DnV6pkFvUQuYd8yg20BHulmaxvJ6AqAy8ESCNUwGY2/572KbI0EX1crrYlQy+yM7
- nhBCM+Lue4NFxxZWe/nZFyVAfPVT1P69EGFFeR9xJW1tZO3O3JtWIeipOHDNml3BF8xA
- 9V/Q==
-X-Gm-Message-State: AO0yUKVsyLxe+Huk0loaH++iry9bBhDhaEUu+0G2Zl4gxZStzxvQoiCB
- sDGq40Vh6zdFPjhPQ8Sg3kDA3tCi9Q9IpRWYDPc=
-X-Google-Smtp-Source: AK7set9oTYF8vAOX8RiN62Vc9frUHYRGgs3qIAt0w0FonEXUxZkx6UY0oV4j2yKcqIDSbeG7gCG71Q==
-X-Received: by 2002:a05:600c:204f:b0:3ed:fddf:b771 with SMTP id
- p15-20020a05600c204f00b003edfddfb771mr2757967wmg.12.1679404839387; 
- Tue, 21 Mar 2023 06:20:39 -0700 (PDT)
+ bh=dI61HmBS8dvo6fODWjrvfFsUUviRSWQ6NsX3TJ+/KQg=;
+ b=D/DqrhN9Ti9qltsat2xfMei3lUlI5ddYrG1AQoIajYeUGFA8vhagc6YdiIMve2cFn2
+ Su/eaHsWQhNlQIahS0w/HKvvkEhRZwzoxnxV/g3c7tzpod9+oPin2ZCM84fjJmy1LbE0
+ g5pKW9FtUjYvEHzCnfEMqHPdPEKdSRSK6n48FejZasUxwc6h/V4STT2WW9ImOKz5F7p+
+ oVimIPMKAsuxJtC2Ny0MhbVB1XF5DnJP0pe8p6YzP/87Epu8xVvTsgFYIGd32nDGxnyJ
+ lEwK5m6jetybh085z48Z9Bn2txtoCmLb/QVArhbmk/S0srIsaoE+BzAlbDYkeq3OJhlB
+ g1yw==
+X-Gm-Message-State: AO0yUKVSToSgJEn1Eevc+yJtJ/49kvCY+UAkE2s25tSxHKc3hPwMpXx/
+ bVv3dSvM91V2MWmcdgqH0WKEHG2nEzNAH1rvp8A=
+X-Google-Smtp-Source: AK7set/L8atKi/+a9oEkAKEXxgZDAAYLNnerHUai4yAI1XOWbnVXAqkSS1FcvjeTktyTBpnWAo/xtQ==
+X-Received: by 2002:a05:600c:3793:b0:3ed:2702:feea with SMTP id
+ o19-20020a05600c379300b003ed2702feeamr2023951wmr.41.1679404840164; 
+ Tue, 21 Mar 2023 06:20:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j19-20020a05600c191300b003eddc6aa5fasm7897918wmq.39.2023.03.21.06.20.38
+ j19-20020a05600c191300b003eddc6aa5fasm7897918wmq.39.2023.03.21.06.20.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Mar 2023 06:20:38 -0700 (PDT)
+ Tue, 21 Mar 2023 06:20:39 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/8] target/arm: Add Neoverse-N1 registers
-Date: Tue, 21 Mar 2023 13:20:29 +0000
-Message-Id: <20230321132036.1836617-2-peter.maydell@linaro.org>
+Subject: [PULL 2/8] hw/char/cadence_uart: Fix guards on invalid BRGR/BDIV
+ settings
+Date: Tue, 21 Mar 2023 13:20:30 +0000
+Message-Id: <20230321132036.1836617-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230321132036.1836617-1-peter.maydell@linaro.org>
 References: <20230321132036.1836617-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,115 +91,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Chen Baozi <chenbaozi@phytium.com.cn>
+The cadence UART attempts to avoid allowing the guest to set invalid
+baud rate register values in the uart_write() function.  However it
+does the "mask to the size of the register field" and "check for
+invalid values" in the wrong order, which means that a malicious
+guest can get a bogus value into the register by setting also some
+high bits in the value, and cause QEMU to crash by division-by-zero.
 
-Add implementation defined registers for neoverse-n1 which
-would be accessed by TF-A. Since there is no DSU in Qemu,
-CPUCFR_EL1.SCU bit is set to 1 to avoid DSU registers definition.
+Do the mask before the bounds check instead of afterwards.
 
-Signed-off-by: Chen Baozi <chenbaozi@phytium.com.cn>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Tested-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Message-id: 20230313033936.585669-1-chenbaozi@phytium.com.cn
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1493
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
+Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Qiang Liu <cyruscyliu@gmail.com>
+Message-id: 20230314170804.1196232-1-peter.maydell@linaro.org
 ---
- target/arm/cpu64.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
+ hw/char/cadence_uart.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 4066950da15..0fb07cc7b6d 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "cpu.h"
-+#include "cpregs.h"
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
- #include "sysemu/hvf.h"
-@@ -1027,6 +1028,72 @@ static void aarch64_a64fx_initfn(Object *obj)
-     /* TODO:  Add A64FX specific HPC extension registers */
- }
- 
-+static const ARMCPRegInfo neoverse_n1_cp_reginfo[] = {
-+    { .name = "ATCR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 7, .opc2 = 0,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "ATCR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 15, .crm = 7, .opc2 = 0,
-+      .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "ATCR_EL3", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 7, .opc2 = 0,
-+      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "ATCR_EL12", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 5, .crn = 15, .crm = 7, .opc2 = 0,
-+      .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "AVTCR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 15, .crm = 7, .opc2 = 1,
-+      .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "CPUACTLR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 1, .opc2 = 0,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "CPUACTLR2_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 1, .opc2 = 1,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "CPUACTLR3_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 1, .opc2 = 2,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    /*
-+     * Report CPUCFR_EL1.SCU as 1, as we do not implement the DSU
-+     * (and in particular its system registers).
-+     */
-+    { .name = "CPUCFR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 0, .opc2 = 0,
-+      .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 4 },
-+    { .name = "CPUECTLR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 1, .opc2 = 4,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0x961563010 },
-+    { .name = "CPUPCR_EL3", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 8, .opc2 = 1,
-+      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "CPUPMR_EL3", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 8, .opc2 = 3,
-+      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "CPUPOR_EL3", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 8, .opc2 = 2,
-+      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "CPUPSELR_EL3", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 6, .crn = 15, .crm = 8, .opc2 = 0,
-+      .access = PL3_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "CPUPWRCTLR_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 2, .opc2 = 7,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "ERXPFGCDN_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 2, .opc2 = 2,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "ERXPFGCTL_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 2, .opc2 = 1,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "ERXPFGF_EL1", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 0, .crn = 15, .crm = 2, .opc2 = 0,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+};
-+
-+static void define_neoverse_n1_cp_reginfo(ARMCPU *cpu)
-+{
-+    define_arm_cp_regs(cpu, neoverse_n1_cp_reginfo);
-+}
-+
- static void aarch64_neoverse_n1_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -1094,6 +1161,8 @@ static void aarch64_neoverse_n1_initfn(Object *obj)
- 
-     /* From D5.1 AArch64 PMU register summary */
-     cpu->isar.reset_pmcr_el0 = 0x410c3000;
-+
-+    define_neoverse_n1_cp_reginfo(cpu);
- }
- 
- static void aarch64_host_initfn(Object *obj)
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index c069a30842e..807e3985419 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -450,13 +450,15 @@ static MemTxResult uart_write(void *opaque, hwaddr offset,
+         }
+         break;
+     case R_BRGR: /* Baud rate generator */
++        value &= 0xffff;
+         if (value >= 0x01) {
+-            s->r[offset] = value & 0xFFFF;
++            s->r[offset] = value;
+         }
+         break;
+     case R_BDIV:    /* Baud rate divider */
++        value &= 0xff;
+         if (value >= 0x04) {
+-            s->r[offset] = value & 0xFF;
++            s->r[offset] = value;
+         }
+         break;
+     default:
 -- 
 2.34.1
 
