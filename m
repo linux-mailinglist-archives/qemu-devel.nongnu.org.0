@@ -2,98 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F2A6C32C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:23:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55ECF6C32E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:29:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pebxO-0005vc-7b; Tue, 21 Mar 2023 09:23:18 -0400
+	id 1pec1p-0003cm-JR; Tue, 21 Mar 2023 09:27:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pebxI-0005kG-N6
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:23:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pebxG-0008Qy-Sv
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:23:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679404990;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fadMJGg/aM6de+s+5IKvugmInuaa86crxGsVLbONVkA=;
- b=bkcfPztxHNnxr75YLtU93m2JUaIXpnE+0o4PHq6ydtTlwOnrcIuBP+aWIzHUk+gAKz+ma/
- I51NGddQisztj2OQMK2sGnLInS9wrlDER67f0EpFTlPJMnuLb5StDWlgNtMtyHdNru94Q3
- ncPYO03dRY7yy4iWTCJdBdxnmn/eLac=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-461-zv4pHP-0MMWMtkUIYi14SA-1; Tue, 21 Mar 2023 09:23:08 -0400
-X-MC-Unique: zv4pHP-0MMWMtkUIYi14SA-1
-Received: by mail-qt1-f200.google.com with SMTP id
- c11-20020ac85a8b000000b003bfdd43ac76so8705802qtc.5
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:23:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679404988;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fadMJGg/aM6de+s+5IKvugmInuaa86crxGsVLbONVkA=;
- b=PKc6IIK4FRgWVUdJy9w9igNBo72bP4eV5xmbfmmT6CiBGxFDDdpP4LbbLVCku1+ktQ
- 4N0in9o3P4QnIuzsRsxkQsYM2wwd1p78JrcVXP6fORuI+6H9NHbZTpQujlQuL08voEiI
- /JGqm+X4Hbjkt3CSPv7Y21hyanXiH18TZHU7yXjU5F1t74xfpP8ROi5k7v4U4MQRwd2b
- lLZ4GhU9V0vgUmVvEFxy4s5VmgzLOAMARTOLrRL6ERoH/7aU5vuPNhvz6gITnnYbr0Va
- dSJQk3e99aGgXalpooVE6vRpbvsw/WNeaEWcHZqMfcHl3aSZT+cyK/C4sbgQHHYMBPeG
- gAew==
-X-Gm-Message-State: AO0yUKVseTFbqvIYXs63RPdDgPsyxg/Mic26oYYs/FXNXFoS7igcEsNo
- iMS46QkOipo03CZZjPFqFnjgLQLHsjKLw3M6841kVhHJul4JN8Rv3oEGqeB4KwsgLLr1ybhsbTJ
- 4zFOJtJ52/JUSctQ=
-X-Received: by 2002:a05:622a:1446:b0:3c0:3db8:387 with SMTP id
- v6-20020a05622a144600b003c03db80387mr4445346qtx.11.1679404988452; 
- Tue, 21 Mar 2023 06:23:08 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9yXv/xJF6P9W3j1la4Z8D27Jhb01ZYtpVQ5W0CHybpnnSDvzPiklRWyQQZnLjl8pXyLiBRYg==
-X-Received: by 2002:a05:622a:1446:b0:3c0:3db8:387 with SMTP id
- v6-20020a05622a144600b003c03db80387mr4445148qtx.11.1679404986351; 
- Tue, 21 Mar 2023 06:23:06 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- l6-20020ac848c6000000b003bfb0ea8094sm1712039qtr.83.2023.03.21.06.23.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Mar 2023 06:23:05 -0700 (PDT)
-Message-ID: <d2e9d8d5-1cf6-67fe-e780-41038fcaa376@redhat.com>
-Date: Tue, 21 Mar 2023 14:23:03 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pec1m-0003br-H3; Tue, 21 Mar 2023 09:27:50 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pec1j-0002Sd-4d; Tue, 21 Mar 2023 09:27:50 -0400
+Received: from [192.168.0.120] (unknown [180.165.240.243])
+ by APP-01 (Coremail) with SMTP id qwCowAA3O0fGsBlkpRtxFA--.8904S2;
+ Tue, 21 Mar 2023 21:27:36 +0800 (CST)
+Message-ID: <ac04846c-4823-ae77-8bbd-c9bf16431b91@iscas.ac.cn>
+Date: Tue, 21 Mar 2023 21:27:34 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [RFC PATCH v2 10/11] hw/arm/smmuv3: Populate OAS based on CPU
- PARANGE
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
 Content-Language: en-US
-To: Mostafa Saleh <smostafa@google.com>
-Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org,
- peter.maydell@linaro.org, qemu-arm@nongnu.org, richard.henderson@linaro.org
-References: <20230226220650.1480786-1-smostafa@google.com>
- <20230226220650.1480786-11-smostafa@google.com>
- <6e6810c3-c01a-5a2f-4fed-64c9391e22ba@redhat.com>
- <ZBmruj7OME3Pfbh1@google.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <ZBmruj7OME3Pfbh1@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: "Wu, Fei" <fei2.wu@intel.com>, liweiwei <liweiwei@iscas.ac.cn>
+Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20230321063746.151107-1-fei2.wu@intel.com>
+ <6648a495-d5d4-60df-cf88-90c98cc429c6@iscas.ac.cn>
+ <c9c33a1e-73fc-921c-8c3b-c6d2cfca5016@intel.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <c9c33a1e-73fc-921c-8c3b-c6d2cfca5016@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAA3O0fGsBlkpRtxFA--.8904S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXFy3Cr1rJF15Zw1rJF48Crg_yoW7JrWxpr
+ 1kJay7Gry5GrykJw1xtr1UWry5Ar1UGw1DCr10qF15Ar4UJryj9rWUXr1q9rnrJF48Jr1j
+ yr1UZr9rZr47JrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+ 6r4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxv
+ r21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5sjjDUUUU
+X-Originating-IP: [180.165.240.243]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,54 +79,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Mostafa,
 
-On 3/21/23 14:06, Mostafa Saleh wrote:
-> Hi Eric,
->
->>> +     * According to 6.3.6 SMMU_IDR5, OAS must match the system physical address
->>> +     * size.
->>> +     */
->>> +    ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(0));
->>> +    uint8_t oas = FIELD_EX64(armcpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
->> is this working in accelerated mode?
-> I didn't try with accel, I will give it a try, but from what I see, that
-> ARM_CPU() is used to get the CPU in traget/arm/kvm.c which is used from
-> accel/kvm-all.c, so it seems this would work for accelerated mode.
-
-yeah I ma not familiar enough with that code but it is worth to be checked.
->
+On 2023/3/21 21:22, Wu, Fei wrote:
+> On 3/21/2023 8:58 PM, liweiwei wrote:
+>> On 2023/3/21 14:37, fei2.wu@intel.com wrote:
+>>> From: Fei Wu <fei2.wu@intel.com>
+>>>
+>>> Kernel needs to access user mode memory e.g. during syscalls, the window
+>>> is usually opened up for a very limited time through MSTATUS.SUM, the
+>>> overhead is too much if tlb_flush() gets called for every SUM change.
+>>> This patch saves addresses accessed when SUM=1, and flushs only these
+>>> pages when SUM changes to 0. If the buffer is not large enough to save
+>>> all the pages during SUM=1, it will fall back to tlb_flush when
+>>> necessary.
+>>>
+>>> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
+>>> most of the time kernel accesses 1 or 2 pages, it's very rare to see
+>>> more than 4 pages accessed.
+>>>
+>>> It's not necessary to save/restore these new added status, as
+>>> tlb_flush() is always called after restore.
+>>>
+>>> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
+>>> other syscalls benefit a lot from this one too.
+>>>
+>>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
+>>> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+>>> ---
+>>>    target/riscv/cpu.h        |  4 ++++
+>>>    target/riscv/cpu_helper.c |  7 +++++++
+>>>    target/riscv/csr.c        | 14 +++++++++++++-
+>>>    3 files changed, 24 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>>> index 638e47c75a..926dbce59f 100644
+>>> --- a/target/riscv/cpu.h
+>>> +++ b/target/riscv/cpu.h
+>>> @@ -383,6 +383,10 @@ struct CPUArchState {
+>>>        uint64_t kvm_timer_compare;
+>>>        uint64_t kvm_timer_state;
+>>>        uint64_t kvm_timer_frequency;
 >>> +
->>>      /**
->>>       * IDR0: stage1 only, AArch64 only, coherent access, 16b ASID,
->>>       *       multi-level stream table
->>> @@ -265,7 +272,7 @@ static void smmuv3_init_regs(SMMUv3State *s)
->>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN4K, 1);
->>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN16K, 1);
->>>      s->idr[5] = FIELD_DP32(s->idr[5], IDR5, GRAN64K, 1);
->>> -    s->idr[5] = FIELD_DP32(s->idr[5], IDR5, OAS, SMMU_IDR5_OAS); /* 44 bits */
->>> +    s->idr[5] = FIELD_DP32(s->idr[5], IDR5, OAS, oas);
->> I am not sure you can change that easily. In case of migration this is
->> going to change the behavior of the device, no?
-> I see IDR registers are not migrated. I guess we can add them in a
-> subsection and if they were not passed (old instances) we set OAS to
-> 44.
-> Maybe this should be another change outside of this series.
-Indeed tehy are not migrated so it can lead to inconsistent behavior in
-both source and dest. This deserves more analysis to me. In case you
-would decide to migrate IDR regs this would need to be done in that
-series I think. Migration must not be broken by this series.
+>>> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
+>>> +    uint64_t sum_u_count;
+>>> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
+>>>    };
+>>>      OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
+>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>>> index f88c503cf4..5ad0418eb6 100644
+>>> --- a/target/riscv/cpu_helper.c
+>>> +++ b/target/riscv/cpu_helper.c
+>>> @@ -1068,6 +1068,13 @@ restart:
+>>>                        (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+>>>                    *prot |= PAGE_WRITE;
+>>>                }
+>>> +            if ((pte & PTE_U) && (mode & PRV_S) &&
+>>> +                    get_field(env->mstatus, MSTATUS_SUM)) {
+>>> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
+>>> +                    env->sum_u_addr[env->sum_u_count] = addr;
+>>> +                }
+>>> +                ++env->sum_u_count;
+>>> +            }
+>>>                return TRANSLATE_SUCCESS;
+>>>            }
+>>>        }
+>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>>> index ab566639e5..74b7638c8a 100644
+>>> --- a/target/riscv/csr.c
+>>> +++ b/target/riscv/csr.c
+>>> @@ -1246,9 +1246,21 @@ static RISCVException
+>>> write_mstatus(CPURISCVState *env, int csrno,
+>>>          /* flush tlb on mstatus fields that affect VM */
+>>>        if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+>>> -            MSTATUS_MPRV | MSTATUS_SUM)) {
+>>> +            MSTATUS_MPRV)) {
+>>>            tlb_flush(env_cpu(env));
+>>> +        env->sum_u_count = 0;
+>>> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
+>>> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
+>>> +            tlb_flush(env_cpu(env));
+>> SUM seems only affect S mode TLB. Maybe we can only flush S mode TLB here.
+>>
+> It's also in effect when MPRV=1 and MPP=S in M mode, we can only flush
+> the tlb of PRV_S and PRV_M.
 
-Thanks
+OK. Good point.
 
-Eric
+Regards,
+
+Weiwei Li
+
 >
 > Thanks,
-> Mostafa
+> Fei.
 >
+>>> +        } else {
+>>> +            for (int i = 0; i < env->sum_u_count; ++i) {
+>>> +                tlb_flush_page_by_mmuidx(env_cpu(env),
+>>> env->sum_u_addr[i],
+>>> +                                         1 << PRV_S | 1 << PRV_M);
+>> Similar case here.
+>>
+>> Regards,
+>>
+>> Weiwei Li
+>>
+>>> +            }
+>>> +        }
+>>> +        env->sum_u_count = 0;
+>>>        }
+>>> +
+>>>        mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+>>>            MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
+>>>            MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
 
 
