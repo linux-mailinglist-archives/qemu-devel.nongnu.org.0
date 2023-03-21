@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AD76C3299
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06FB6C32BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 14:23:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pebuz-00009v-Ev; Tue, 21 Mar 2023 09:20:49 -0400
+	id 1pebv0-0000BQ-Py; Tue, 21 Mar 2023 09:20:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pebux-00008H-IE
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:47 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1pebuz-0000AC-39
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:49 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pebuv-0006eo-PC
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:47 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- p13-20020a05600c358d00b003ed346d4522so9456779wmq.2
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:20:45 -0700 (PDT)
+ id 1pebux-0006fQ-0x
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 09:20:48 -0400
+Received: by mail-wr1-x433.google.com with SMTP id i9so13656731wrp.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 06:20:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679404844;
+ d=linaro.org; s=google; t=1679404845;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=iwkiT7Zpz45TeXAiHKpnDMHEOhc1nyveHRog1XQ/w7I=;
- b=e8kO6iqs88eDLoiAlYMCfMuNaA+bL6ONcAJx95/BdvhMrk3fRPKgB3maY8xE803mp4
- nLLdY7r2wYiKxTZkcKLB0WEbQ56k9WrrmQ+oK70vxCvF/dzmtK+FiI/LF+AawRFXI8Nq
- PVxdmOYU+0A9YQVymTEAchY67mWxdj6sIgL5Cyl486oTf9LYTn4O+/uE/Rdenr9Tv0H7
- cSGM/jXphUbAt2dtKk+h4wXNKr7+EDaPYZh1x7WhBS9ELIb7EW3JTns+rLJjE/Awzmv8
- eMmX4q/u4XuQY6ExBGAqeUzH/q1dM+mcVww4hTm5HlbTo6veNM1lenMjlNnmPRmR0Ne6
- 24gQ==
+ :reply-to; bh=vWEI0dihWwQ7A+H3p/2Im0qszRcvXvLKRn/Ij7lgink=;
+ b=WHhXtcJFs4knxW9urnRQhG3ONNDy6VqFe3HMIDAws38VFYuejl8rXJbQBVs5QROPCA
+ K7vnw7LzjmRhOst2Bx2BDWw7t5/IAg9hTaaaW4kIJs9BP08CbmQ3jFsmmZls2PDGkdTE
+ AZkAYEXJnFkc1eGXi05wcRRit95hzvD9JZaSV9DV8+Qjo9AuyEOEWeotL3p5kCPqai1U
+ ECCvTe5gM6/NdkCS+ljfv2h+s4DH1NRnzryZQgC7ATLu6Ek/7BdgwdLLgZhD6TdtDJde
+ pFpmyzbz0v5DT9sF6ia0LQJWK5tA4HjxP5k/PcMAsG8u+b3K03PLvWi6AzL/tIF5GrFR
+ UkvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679404844;
+ d=1e100.net; s=20210112; t=1679404845;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iwkiT7Zpz45TeXAiHKpnDMHEOhc1nyveHRog1XQ/w7I=;
- b=jLmLnztGmJxonLYPhBrmHnMi36XtLmO7Lw+BmzztVtRFfzLt60kF9f77DHffpVgozD
- SVLqPnO4kUjsQ5azjiEYNsH6dC6GBUjSy3p8RXyNITePrbwLAUtSk7pDV3L4NchYXkH3
- M02LhTiXizoLwglVbyR1muCXC6kWx3rrNLYUkRbn3E/IYuvjkvYfR3mZzSx2qGMeNzSd
- lWEPZjfQ/69JnI1OFpXnuIa+xX26zgNuuixJjqXJOzfAuI8gUoWywK+1+WNNrkh50bRC
- l1Rh1H+PZn1G4MhXDvE148oEZMhSSC4bG1/VWXVDIZ/fbxdARAN1eP41usxmAvdWft8B
- GhnQ==
-X-Gm-Message-State: AO0yUKXa/5qT5cQ6nWQr0NrlbrkLGdU4h8CVN5jqQ6pmnd2MUadse5IO
- m5Ylg1KPUvHgTaLQ9uCHsIt9y+cibgL4ifsCc1E=
-X-Google-Smtp-Source: AK7set/6qSLcYrHqkUVQM2VjGS4OoMqapfwytgzYVEeGKkI+70QS/KXnD6eOd9GmdKWQ5cHkq+Ywaw==
-X-Received: by 2002:a1c:ed18:0:b0:3eb:4162:7344 with SMTP id
- l24-20020a1ced18000000b003eb41627344mr2264534wmh.22.1679404844462; 
- Tue, 21 Mar 2023 06:20:44 -0700 (PDT)
+ bh=vWEI0dihWwQ7A+H3p/2Im0qszRcvXvLKRn/Ij7lgink=;
+ b=7qgXjovvunXc7J5Ro5YPcJv2NZyFfEUj3rocvXORPWOpjdAMJW7hQ9gR7Akj9KbjdV
+ zkb0FyhP3bWKkaCHxLMK2Zl6bXWf7Yo1I6EvrQ1p4OxAi8iLiw5n7VtW3CW9l/K/v/p+
+ 5pJbP1LCtm1SCvp1jPj2f3rFHU/BFp5uQ8GwH6jqB4WtQSb0mpg7xKDYYOAdi5vqn+ch
+ VIy90MbEDceWQgAb31z0DUk9XRX7ViJQYBWu7rhobu7ADF0QipO/5NkZzcpDaSH5KMld
+ LTO3Y/a1AAjDkT0EKBxu8PjDaesMODR5DRLdK+HAZclQJIhm3bpt+0f5bKJlM03rW30+
+ uNRw==
+X-Gm-Message-State: AO0yUKXi9vbYu5/u6D+ra8z1KwC65an++0o6lSHTLoC1AMyJd5+pR8Q7
+ 1l3ubhpjpzthuxQcUfyioskIq6lP7J6UKpmWPD4=
+X-Google-Smtp-Source: AK7set/arMjHAc2uhJ5UvuNGTPHKKKxmcpNMbUL1MvMaaQDVMNfylmuRLVcUB4zKlUZReurPbJ8N/g==
+X-Received: by 2002:adf:e842:0:b0:2ce:ac31:54fb with SMTP id
+ d2-20020adfe842000000b002ceac3154fbmr2263571wrn.33.1679404845208; 
+ Tue, 21 Mar 2023 06:20:45 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j19-20020a05600c191300b003eddc6aa5fasm7897918wmq.39.2023.03.21.06.20.43
+ j19-20020a05600c191300b003eddc6aa5fasm7897918wmq.39.2023.03.21.06.20.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Mar 2023 06:20:43 -0700 (PDT)
+ Tue, 21 Mar 2023 06:20:44 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/8] hw/usb/imx: Fix out of bounds access in imx_usbphy_read()
-Date: Tue, 21 Mar 2023 13:20:34 +0000
-Message-Id: <20230321132036.1836617-7-peter.maydell@linaro.org>
+Subject: [PULL 7/8] docs/system/arm/cpu-features.rst: Fix formatting
+Date: Tue, 21 Mar 2023 13:20:35 +0000
+Message-Id: <20230321132036.1836617-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230321132036.1836617-1-peter.maydell@linaro.org>
 References: <20230321132036.1836617-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,72 +89,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Guenter Roeck <linux@roeck-us.net>
+The markup for the Arm CPU feature documentation is incorrect,
+and results in the HTML not rendering correctly -- the first
+line of each description is rendered in boldface as if it
+were part of the option name.
 
-The i.MX USB Phy driver does not check register ranges, resulting in out of
-bounds accesses if an attempt is made to access non-existing PHY registers.
-Add range check and conditionally report bad accesses to fix the problem.
+Reformat to match the styling used in cpu-models-x86.rst.inc.
 
-While at it, also conditionally log attempted writes to non-existing or
-read-only registers.
-
-Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Tested-by: Qiang Liu <cyruscyliu@gmail.com>
-Message-id: 20230316234926.208874-1-linux@roeck-us.net
-Link: https://gitlab.com/qemu-project/qemu/-/issues/1408
-Fixes: 0701a5efa015 ("hw/usb: Add basic i.MX USB Phy support")
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1479
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20230316105808.1414003-1-peter.maydell@linaro.org
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/usb/imx-usb-phy.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ docs/system/arm/cpu-features.rst | 68 ++++++++++++++------------------
+ 1 file changed, 30 insertions(+), 38 deletions(-)
 
-diff --git a/hw/usb/imx-usb-phy.c b/hw/usb/imx-usb-phy.c
-index 5d7a549e34d..1a97b36a119 100644
---- a/hw/usb/imx-usb-phy.c
-+++ b/hw/usb/imx-usb-phy.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "hw/usb/imx-usb-phy.h"
- #include "migration/vmstate.h"
-+#include "qemu/log.h"
- #include "qemu/module.h"
+diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
+index 00c444042ff..f4524b6d3e7 100644
+--- a/docs/system/arm/cpu-features.rst
++++ b/docs/system/arm/cpu-features.rst
+@@ -177,39 +177,32 @@ are named with the prefix "kvm-".  KVM VCPU features may be probed,
+ enabled, and disabled in the same way as other CPU features.  Below is
+ the list of KVM VCPU features and their descriptions.
  
- static const VMStateDescription vmstate_imx_usbphy = {
-@@ -90,7 +91,15 @@ static uint64_t imx_usbphy_read(void *opaque, hwaddr offset, unsigned size)
-         value = s->usbphy[index - 3];
-         break;
-     default:
--        value = s->usbphy[index];
-+        if (index < USBPHY_MAX) {
-+            value = s->usbphy[index];
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Read from non-existing USB PHY register 0x%"
-+                          HWADDR_PRIx "\n",
-+                          __func__, offset);
-+            value = 0;
-+        }
-         break;
-     }
-     return (uint64_t)value;
-@@ -168,7 +177,13 @@ static void imx_usbphy_write(void *opaque, hwaddr offset, uint64_t value,
-         s->usbphy[index - 3] ^= value;
-         break;
-     default:
--        /* Other registers are read-only */
-+        /* Other registers are read-only or do not exist */
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Write to %s USB PHY register 0x%"
-+                      HWADDR_PRIx "\n",
-+                      __func__,
-+                      index >= USBPHY_MAX ? "non-existing" : "read-only",
-+                      offset);
-         break;
-     }
- }
+-  kvm-no-adjvtime          By default kvm-no-adjvtime is disabled.  This
+-                           means that by default the virtual time
+-                           adjustment is enabled (vtime is not *not*
+-                           adjusted).
++``kvm-no-adjvtime``
++  By default kvm-no-adjvtime is disabled.  This means that by default
++  the virtual time adjustment is enabled (vtime is not *not* adjusted).
+ 
+-                           When virtual time adjustment is enabled each
+-                           time the VM transitions back to running state
+-                           the VCPU's virtual counter is updated to ensure
+-                           stopped time is not counted.  This avoids time
+-                           jumps surprising guest OSes and applications,
+-                           as long as they use the virtual counter for
+-                           timekeeping.  However it has the side effect of
+-                           the virtual and physical counters diverging.
+-                           All timekeeping based on the virtual counter
+-                           will appear to lag behind any timekeeping that
+-                           does not subtract VM stopped time.  The guest
+-                           may resynchronize its virtual counter with
+-                           other time sources as needed.
++  When virtual time adjustment is enabled each time the VM transitions
++  back to running state the VCPU's virtual counter is updated to
++  ensure stopped time is not counted.  This avoids time jumps
++  surprising guest OSes and applications, as long as they use the
++  virtual counter for timekeeping.  However it has the side effect of
++  the virtual and physical counters diverging.  All timekeeping based
++  on the virtual counter will appear to lag behind any timekeeping
++  that does not subtract VM stopped time.  The guest may resynchronize
++  its virtual counter with other time sources as needed.
+ 
+-                           Enable kvm-no-adjvtime to disable virtual time
+-                           adjustment, also restoring the legacy (pre-5.0)
+-                           behavior.
++  Enable kvm-no-adjvtime to disable virtual time adjustment, also
++  restoring the legacy (pre-5.0) behavior.
+ 
+-  kvm-steal-time           Since v5.2, kvm-steal-time is enabled by
+-                           default when KVM is enabled, the feature is
+-                           supported, and the guest is 64-bit.
++``kvm-steal-time``
++  Since v5.2, kvm-steal-time is enabled by default when KVM is
++  enabled, the feature is supported, and the guest is 64-bit.
+ 
+-                           When kvm-steal-time is enabled a 64-bit guest
+-                           can account for time its CPUs were not running
+-                           due to the host not scheduling the corresponding
+-                           VCPU threads.  The accounting statistics may
+-                           influence the guest scheduler behavior and/or be
+-                           exposed to the guest userspace.
++  When kvm-steal-time is enabled a 64-bit guest can account for time
++  its CPUs were not running due to the host not scheduling the
++  corresponding VCPU threads.  The accounting statistics may influence
++  the guest scheduler behavior and/or be exposed to the guest
++  userspace.
+ 
+ TCG VCPU Features
+ =================
+@@ -217,16 +210,15 @@ TCG VCPU Features
+ TCG VCPU features are CPU features that are specific to TCG.
+ Below is the list of TCG VCPU features and their descriptions.
+ 
+-  pauth-impdef             When ``FEAT_Pauth`` is enabled, either the
+-                           *impdef* (Implementation Defined) algorithm
+-                           is enabled or the *architected* QARMA algorithm
+-                           is enabled.  By default the impdef algorithm
+-                           is disabled, and QARMA is enabled.
++``pauth-impdef``
++  When ``FEAT_Pauth`` is enabled, either the *impdef* (Implementation
++  Defined) algorithm is enabled or the *architected* QARMA algorithm
++  is enabled.  By default the impdef algorithm is disabled, and QARMA
++  is enabled.
+ 
+-                           The architected QARMA algorithm has good
+-                           cryptographic properties, but can be quite slow
+-                           to emulate.  The impdef algorithm used by QEMU
+-                           is non-cryptographic but significantly faster.
++  The architected QARMA algorithm has good cryptographic properties,
++  but can be quite slow to emulate.  The impdef algorithm used by QEMU
++  is non-cryptographic but significantly faster.
+ 
+ SVE CPU Properties
+ ==================
 -- 
 2.34.1
 
