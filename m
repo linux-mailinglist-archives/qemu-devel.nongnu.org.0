@@ -2,168 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA4B6C2DAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7266A6C2DC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:25:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peY5m-0000Jn-72; Tue, 21 Mar 2023 05:15:46 -0400
+	id 1peYDv-0002OC-NY; Tue, 21 Mar 2023 05:24:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1peY5W-0000Gg-Cn; Tue, 21 Mar 2023 05:15:26 -0400
-Received: from mga07.intel.com ([134.134.136.100])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1peYDs-0002Nx-Fi
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:24:04 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1peY5T-0000jU-RS; Tue, 21 Mar 2023 05:15:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679390123; x=1710926123;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=8pPH76yu07djS9plpg5AtsYku+mLe3vetUjFIoXv/rc=;
- b=M3HsoHTOaODyOI7LOWKwyNW7ZSp37BlkdGBO3epb1ERRtPlKFGq3gG7h
- FYyujDDaYfMRy1Jim5jIUQPmY6hh7Ix5il2AuZM0xMI96B4kk3HhsQPyr
- 9vGERo6eFcQrp2B8bcv1F+RO+2fAcjRsS7PNjhdFW3zLmtIQvminENZ+A
- Z6rcZ1tOLufW7UeJ2wYQcfnITChoca+Gn3xQaZIa5v5tk/W1jL60lXaY6
- wuQMPbk402rfxDpwN+0nrzZSVSQXRUO3Vn2ZsqxbIsJM3pY0yzxxeLGat
- tKVWYZycd3gDZ8TJ4lWKFDf5HBMnXHmTnNpjISJViq+DzHOf1dra2K1jw w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="403762983"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="403762983"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 02:15:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="791996699"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="791996699"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga002.fm.intel.com with ESMTP; 21 Mar 2023 02:15:13 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 21 Mar 2023 02:15:12 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Tue, 21 Mar 2023 02:15:12 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Tue, 21 Mar 2023 02:15:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aBF+ryDC0WgreT5a1NBOqRtqvioKmLRvJ07Us6EEvzAyKQ5D6kRsrT/A7S9tq6BLrEeS6/g7d/bJZ0ECdj5O0aZaEq8u9elhsqFCvPXoH7v1lJrWkYfv014H5AFvG/QyFoMDF77QF3VAj0m3tkCxCpayC+cYVmLCF1M1JYa8ZosTm3fIKZhJd0WTNy8Hn6WHT+I/D+4EXrjunShKRmvrmc2DY20JPI314vzo4q69ywqPLli030IlY56RvpTpowqNIxgfe5n6LhwMorHWgxFWyY38eDSnPzFuB9zmA10bQU5pKRURts28BWBMkKJDA+kzOyjTw2Ba3xas9Cu6AzAnrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g4UxbAPi3dO4BzDg9FHgkKpBuhPWf/qX6BtC83l5QDw=;
- b=Gjw9ejEjf2saty3uw3iBJBJXUnTOeByd1AAcgrfDk//gJgODDI6H2XG3YQra/7eCtjpoxT5A7UwCsCivYNWJD0dJRFpKaTZnXd0qoW4Bscm7IBxDQW7Q63tkcn4D+GkRxAOsH13J00C6TOTjtbYpsuM8tnxA7AQh3X1hyciLhAUWtmXS+vLpYzjvgvH2hUwa3qqOp5Ku/RKS2FpnLn1XKWaaL5tD2IrYNFHBJU4i1dzW+vN2DUc9NOVMPLnTd0EdAjIm5z0A7g2RkK2xVHsx9titUZinGxsba+lvZ9IFdkpCQTS2gXrTBNx4p1tmmk8bZdw5GbSrY8vAvdzYkeYp9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4500.namprd11.prod.outlook.com (2603:10b6:a03:1c3::24)
- by SA1PR11MB6760.namprd11.prod.outlook.com (2603:10b6:806:25f::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Tue, 21 Mar
- 2023 09:15:07 +0000
-Received: from BY5PR11MB4500.namprd11.prod.outlook.com
- ([fe80::68a4:ef95:6726:3fc5]) by BY5PR11MB4500.namprd11.prod.outlook.com
- ([fe80::68a4:ef95:6726:3fc5%4]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
- 09:15:07 +0000
-Message-ID: <5e358d79-76be-b230-194c-a25ffad324c2@intel.com>
-Date: Tue, 21 Mar 2023 17:14:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] target/riscv: reduce overhead of MSTATUS_SUM change
-Content-Language: en-US
-To: liweiwei <liweiwei@iscas.ac.cn>
-CC: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>, Bin Meng
- <bin.meng@windriver.com>, Daniel Henrique Barboza
- <dbarboza@ventanamicro.com>, "open list:RISC-V TCG CPUs"
- <qemu-riscv@nongnu.org>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20230321063746.151107-1-fei2.wu@intel.com>
- <cf407a04-9717-6a82-6405-d836874c5613@iscas.ac.cn>
- <ddeaba54-e9fc-0309-4f35-7ee72052264d@intel.com>
- <8029cbcf-520f-cfd3-5b5a-923685a1da80@iscas.ac.cn>
-From: "Wu, Fei" <fei2.wu@intel.com>
-In-Reply-To: <8029cbcf-520f-cfd3-5b5a-923685a1da80@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR03CA0088.apcprd03.prod.outlook.com
- (2603:1096:4:7c::16) To BY5PR11MB4500.namprd11.prod.outlook.com
- (2603:10b6:a03:1c3::24)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4500:EE_|SA1PR11MB6760:EE_
-X-MS-Office365-Filtering-Correlation-Id: 578cab6b-ca23-49c6-e2f2-08db29ecc345
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3WzcC2g00JIp/Sd6Whuk6cmONM1oVa4rujAXnMed1f2JSN2S8Zm5RnwIN6qS2cWjHZV9WhqxnJR25U83lZXz9iZh092JBPh8cpeKg0n2bFTJC+iojkNouG/I6uLgsWGYy/OJKXf7tgD3PsdKGTcGpl4I7CyvO3n7kRJZjJpq3pEFbDRUPlZw5klhtLKUe9dBoQc+80IppzBO8AXmXDlsYpMXMvDx9jVYf/JBVOzEqq6b/ujkqh/vqct8p59h4ThXtjyK/JrZfWoJGUnIOJVYjTgf9C17rjEcFkvC1HxgCd0ZzLkpHS9XRqrNpSt9OCa7Y5lkk4SfP5DRO6VbC3dt6PMM2FMJq2IWvuMDN5bsF2qQBJ3LKqDqg+UXeqba0khr1jDlmkPVeQ5SOhepRUw/R1jbyZrCuuZTrp0RQ+m7AG2ZFiVkrpglCFTnd5SU9wwbnNdK01WLjbgZOZ/UI63hVAapogjonm3do7+xQ1zHi0quU/T8N5tfP9HbyYQfCoqSVHJYzfdilTSFfIrPH0TihJmBwtYbGY1U+Jp/g+hNZmM8UlZdnNlbrHv0RlZdjAPhzQaYzwTn0GRXYdCylHlAs3z3K9cqDJYmh8CMKZIajB1Ph3ehLdw5eqxYxAxWXShbSbFSKxPuUdK8fW6Gim54XTu/pq7+yxf0d/aKNfxSMCRHRz6s/qs7qkvGC8wpL501U96uUdtyLjyl0tJQ222exCWuMGZj1i1N7qhT0y/38dk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4500.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(136003)(366004)(396003)(376002)(346002)(39860400002)(451199018)(6666004)(478600001)(186003)(6486002)(6506007)(83380400001)(6512007)(26005)(31686004)(53546011)(2616005)(316002)(66946007)(54906003)(66556008)(66476007)(8676002)(6916009)(4326008)(8936002)(5660300002)(41300700001)(82960400001)(38100700002)(2906002)(86362001)(31696002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWdkREFqUytEenByRWQ1Wk1ZY09RYVF4OEprcFZPY1NUSjIxV3RUTUtDaVlm?=
- =?utf-8?B?SlVHTlkvc2NPSTZMTmR1UW1NTFBBbUJUbjhDWDdOSCtoUjlDZWxWSkZETVNt?=
- =?utf-8?B?c294VHU4QjQxSGNsWVRlOXVnN3k0TG5zbjhFZE1vRlJJZFNlamNJWU9HWlZu?=
- =?utf-8?B?a3F2UFJoTkVYREhPUDduckppSzJsVWJXQi9xYkN5YUZCUTk5S2pTMFRRT3Rj?=
- =?utf-8?B?T25OZjFzc2Y0UllESWQzOTZpcUpqamJPRnRra2tQS3hVYzBXcG1xayt4UzFy?=
- =?utf-8?B?cTBheXZQOWlSaGZkdlQzcks5bHNkUE9xZWMrdFEyd245U3RMRldobDZ5SUVB?=
- =?utf-8?B?YmtET24zcWJKSjRaa1BxNWp0WnFyTzEvWVh6bTgwa0dGeGlXVFdvQkdVbjBB?=
- =?utf-8?B?VVJ2ZW4weUNJWXVyZGZiNG1ackVkM2x4bWVZT0ZneHJsL21QSWErQXBsWnFC?=
- =?utf-8?B?QmRTMmlIY1Voa1Y1emlYeTRoa3dMcWZHdVFxcFNBYVJIM0ZvUFdLVlFja3Zm?=
- =?utf-8?B?dTJHQlh6cXBvNTBiUlQrakwvV0VqRE8xdFA2T2haUzFCMWIvazFwWktMYWNB?=
- =?utf-8?B?b2VOcGhNVkcxemhvZFpzYUxWYnJtNGZvSVNGWmVGOVE3ZERqVEZPc3lqR1FR?=
- =?utf-8?B?SHFOY0ZqM2NOYVJBT0VUVFVBZmM5TjVUY0pkVTY1SktFcGVvQ1VaRGZ0Z2VL?=
- =?utf-8?B?TUdTMTlOTk5LckRVcTJDNzBlOGhuZncxSVlZMkhxS3I3NTk3eVZxRlFrSWk5?=
- =?utf-8?B?MkNRVnRMYXFOWW05WW9VOXJlVHZjY1lnSGZhM2xUTktNK1ZpU1hna0psbDJz?=
- =?utf-8?B?NVJPUDdrS2JMSUxNcjBPODN3Mnl5RnNGa3hSTFB3djVnbmRFcHJoZm1ob2lW?=
- =?utf-8?B?Zi9zalVUQW1FODhGcTdnWU1XTkxuemNBVld4TFd6REZ6RVNUV3NIeEhodE9C?=
- =?utf-8?B?cHBRSys0eXNjaDFIMHkrL2Z6NGNUeUFEY25hZWQ0SWYxY1hIRFU1Z1RxV25N?=
- =?utf-8?B?NXFNVmdSSTZzbzBuRGNVZlA2ZXBSdnkzRmJQVnl4OXZsZGhnQklOMTlkMHJ2?=
- =?utf-8?B?QmNUaTRKK0pYNlhBU0NOVUhzK0FpeTVWWEFyeEREeWdOZDVrbmxBcGZ2cWdM?=
- =?utf-8?B?SE81MkFSVWVFZVN5SmU2TUpmK1FEREE1c3FmMUFaeVg5MEE0YmZUWk1aR2l2?=
- =?utf-8?B?NFEwTncwZXZETm4zbktkTEU2SE9VcHhEdWlDUlNCU1pTdWlWSmZDS2lqU0lh?=
- =?utf-8?B?bDdOOE5tNlBzUzJOZUFlS2dyV0syakxOeFNWeHBMbmFYTHhrN1MzN2dCZVhx?=
- =?utf-8?B?dmN5d3hOMXVkbXFrMnJ6YnVET1I4ZVZQZzlIdERKTk1FeUw2UTNCSU9KQytS?=
- =?utf-8?B?b3ZBa1QvWm9KdE51VG52dllrSWMrcUtMYXd2Q3ZkK1B5enh5OU5pZFpVSDVr?=
- =?utf-8?B?OTE1QzFyY25FaWd3WnpDUmNpQUg2b2U2ejQyL2w3bG96UjgxRS9HQmhZK2d6?=
- =?utf-8?B?czB6K1pVbjJhZ3gzeCtNaUhKdXZVMDNDb0Q3ZjBFN2JxOUppZGxScVBlNlFj?=
- =?utf-8?B?UVV5RjB5NGRkZXhxTnkzcUcza0NNR0ZRTU9acSswdWxlMUIycmJKWjdmZlV5?=
- =?utf-8?B?UDF3MVUyWlNKU05DQUxjdUlOSFFCMWdpYlNSY21SbktMWEV5Z3haaGhWQm5I?=
- =?utf-8?B?ekRYMDkrMmlEZ0RkZkc3UEVQNHJWWXJEQk1DMHNveElicVhjdnNvbWxKRThw?=
- =?utf-8?B?RVBST1lUNVpVdndOZFZuRkNQekNGVnJXeUJQL0JMSldLd1QxM0R1V1B2MGdw?=
- =?utf-8?B?cDE0WitlSjRqZGJySUJRa2hwcmFoSXJNSFZvQTFDOFN2cUtTcGF1bzMvSXdD?=
- =?utf-8?B?ZytCSFkwM2tLWXpuTjVGak40aWxqbWU0S3J6UWRxUU1UZGlRWGxFbVRiQ0pi?=
- =?utf-8?B?VFp0NzIvakFRTEd1QXlicmxGYmZ2Z3lLbnlWZWZQZUtRdEY4NXhacmNVVG9r?=
- =?utf-8?B?clpzYVpqTFRzNGE3OHUzZmE5bkROQmwrbGVibm9KQnhoS1pyVHhOOTNoSFdH?=
- =?utf-8?B?Q25sNmU5WnNxa3NpNjhkNUNwOTgzTnJyUnN2VFl6Sm1SZ0txVzVmRnllNjdV?=
- =?utf-8?Q?nggjTpglkGxexfucLG8xXRgpK?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 578cab6b-ca23-49c6-e2f2-08db29ecc345
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4500.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2023 09:15:07.1964 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u1z4dT6WfU9JRHkQvZoIDL6pYRrn9u+6CxVwf2zfe7aCA8ykqOMEvvjzE/s1Hl48/TG4j845XWReKdygooelDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6760
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.100; envelope-from=fei2.wu@intel.com;
- helo=mga07.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1peYDo-0000WQ-5y
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:24:03 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id BA77C320092B;
+ Tue, 21 Mar 2023 05:23:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 21 Mar 2023 05:23:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1679390636; x=1679477036; bh=ew9BcfHmPGofM5txeJJf4sOZetiZUYlrTEL
+ 8ObP0Uys=; b=IV0mnHrE7WPBcuqSyYZ1UdlmekclVRcOg/InPrHlltPUatvh0u8
+ GtUkblcfqvtefnY45Iyx7edEHmfUWD8/wzQaZ3Ci9tT9NFUt+oFaGomFQ4JKbbgk
+ 4akljpmToKbYgJKovjowK13UbYcs0B6fpNZL5KM8Og8iRjAxLhHnWn/gy5VjkO1+
+ AbHSv9jeuH92yg0CIxNfoEsAxa+D2tg58f0c03YsCTJlsIwcbm2w5A0UW54iqhrl
+ glTTTBHo9EyHOK8VzLADSr+dCXCx+yEtyQagfNlXC6LrC2W90/lCyr4ruinh7u+w
+ Y6Q5S+5pg27ynFbaYVv4yLp3B2x2Ztuz/MQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1679390636; x=1679477036; bh=ew9BcfHmPGofM5txeJJf4sOZetiZUYlrTEL
+ 8ObP0Uys=; b=YMSi58nLe6b1PgD52a6VbBdETkDuYceblg/ihP1168xED0wQQ5w
+ 1ykkvxbLdedmLNzhobDMasbzRjME+eujOpKJfgKkmDXcJf5jqcuiCnlJxeL3Jz/v
+ K7ceztV7D1OVc8No3XIzNmTUPH9aw7bcv1XLPl0q+YcAKNkvM5Ke5Zd0WiZhRzr1
+ g/YUvgcNGOHB77pxBXRVOqB62K14MjpGI58FEyY45ApKib+fcOx6PPaj9k1yFmtp
+ BZYGAHc9D0JtiqlZH7qHaJERTdEEQu2a0iNiVV6kQ/4wuPmuj3kjIcBGiYaaH33A
+ czqno7fWFqzni+VLFOOwdjGCXBfLErceMNg==
+X-ME-Sender: <xms:rHcZZBk40crQJ7aggabdWYoSOYQ3ZFg_nXg_V2b2jElJyvPbAdA1qg>
+ <xme:rHcZZM10fQAJ_uiGTn1p1Sn-O5qIR5Xd2ci4QA7poSr1ZkWvoxRDeXFueDxJLB96F
+ d0lpMNzPu8HgXxgqcs>
+X-ME-Received: <xmr:rHcZZHpBt1ZnZY2ulZUWXJ7elR5UWAc7H5ud5WQYXMUX8KXIY1g-gnx0ZkwramhscH6z>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdegtddgtdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
+ gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
+ cuggftrfgrthhtvghrnhepuddugfeigeduhfejtdetfefgheehgeeviedutefgjeeuvddu
+ keejkeevjedtieffnecuffhomhgrihhnpegtihhpuhhnihhtvggurdgtohhmnecuvehluh
+ hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdih
+ rghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:rHcZZBnpNf5hX7ResURVYZxszuvrgi3lnUxb1_2W5cqur8JwZvEN-g>
+ <xmx:rHcZZP15sHmP_GyN03FuhpsYC4BG1f9bqORs2GGIpRoQyZR8tW4Dlw>
+ <xmx:rHcZZAvb37m9jdPhQ0YIWJfPFCT55Z6GgaZckQHi_f44a4iJok0YXg>
+ <xmx:rHcZZI-erZOa0gz-eTxhvZ64wAm4CocunlyUXcYAIHsKtqBhq1KSKw>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 21 Mar 2023 05:23:55 -0400 (EDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
+Subject: Re: [PATCH] linux-user/mips: Low down switchable NaN2008 requirement
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <616442ce-157f-2ca2-5cf8-b0f67cdf47be@linaro.org>
+Date: Tue, 21 Mar 2023 09:23:44 +0000
+Cc: QEMU devel <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <94E0E41A-5B77-4DE0-B45C-9561239F30B9@flygoat.com>
+References: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
+ <aca2a158-ebb6-4010-3b94-8b60026a30ac@linaro.org>
+ <A26A47BA-643C-46AE-B148-2B06A1D7BDAB@flygoat.com>
+ <616442ce-157f-2ca2-5cf8-b0f67cdf47be@linaro.org>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+X-Mailer: Apple Mail (2.3731.400.51.1.1)
+Received-SPF: pass client-ip=64.147.123.19;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -179,142 +108,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/21/2023 4:50 PM, liweiwei wrote:
-> 
-> On 2023/3/21 16:40, Wu, Fei wrote:
->> On 3/21/2023 4:28 PM, liweiwei wrote:
->>> On 2023/3/21 14:37, fei2.wu@intel.com wrote:
->>>> From: Fei Wu <fei2.wu@intel.com>
->>>>
->>>> Kernel needs to access user mode memory e.g. during syscalls, the
->>>> window
->>>> is usually opened up for a very limited time through MSTATUS.SUM, the
->>>> overhead is too much if tlb_flush() gets called for every SUM change.
->>>> This patch saves addresses accessed when SUM=1, and flushs only these
->>>> pages when SUM changes to 0. If the buffer is not large enough to save
->>>> all the pages during SUM=1, it will fall back to tlb_flush when
->>>> necessary.
->>>>
->>>> The buffer size is set to 4 since in this MSTATUS.SUM open-up window,
->>>> most of the time kernel accesses 1 or 2 pages, it's very rare to see
->>>> more than 4 pages accessed.
->>>>
->>>> It's not necessary to save/restore these new added status, as
->>>> tlb_flush() is always called after restore.
->>>>
->>>> Result of 'pipe 10' from unixbench boosts from 223656 to 1327407. Many
->>>> other syscalls benefit a lot from this one too.
->>>>
->>>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
->>>> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+
+
+> 2023=E5=B9=B43=E6=9C=8815=E6=97=A5 08:18=EF=BC=8CPhilippe =
+Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> On 11/3/23 13:39, Jiaxun Yang wrote:
+>>> 2023=E5=B9=B43=E6=9C=889=E6=97=A5 12:32=EF=BC=8CPhilippe =
+Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>>>=20
+>>> Hi Jiaxun,
+>>>=20
+>>> On 11/2/23 18:34, Jiaxun Yang wrote:
+>>>> Previously switchable NaN2008 requires fcsr31.nan2008 to be =
+writable
+>>>> for guest. However as per MIPS arch spec this bit can never be =
+writable.
+>>>> This cause NaN2008 ELF to be rejected by QEMU.
+>>>> NaN2008 can be enabled on R2~R5 processors, just make it available
+>>>> unconditionally.
+>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 >>>> ---
->>>>    target/riscv/cpu.h        |  4 ++++
->>>>    target/riscv/cpu_helper.c |  7 +++++++
->>>>    target/riscv/csr.c        | 14 +++++++++++++-
->>>>    3 files changed, 24 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>>> index 638e47c75a..926dbce59f 100644
->>>> --- a/target/riscv/cpu.h
->>>> +++ b/target/riscv/cpu.h
->>>> @@ -383,6 +383,10 @@ struct CPUArchState {
->>>>        uint64_t kvm_timer_compare;
->>>>        uint64_t kvm_timer_state;
->>>>        uint64_t kvm_timer_frequency;
->>>> +
->>>> +#define MAX_CACHED_SUM_U_ADDR_NUM 4
->>>> +    uint64_t sum_u_count;
->>>> +    uint64_t sum_u_addr[MAX_CACHED_SUM_U_ADDR_NUM];
->>>>    };
->>>>      OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
->>>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>>> index f88c503cf4..5ad0418eb6 100644
->>>> --- a/target/riscv/cpu_helper.c
->>>> +++ b/target/riscv/cpu_helper.c
->>>> @@ -1068,6 +1068,13 @@ restart:
->>>>                        (access_type == MMU_DATA_STORE || (pte &
->>>> PTE_D))) {
->>>>                    *prot |= PAGE_WRITE;
->>>>                }
->>>> +            if ((pte & PTE_U) && (mode & PRV_S) &&
->>>> +                    get_field(env->mstatus, MSTATUS_SUM)) {
->>>> +                if (env->sum_u_count < MAX_CACHED_SUM_U_ADDR_NUM) {
->>>> +                    env->sum_u_addr[env->sum_u_count] = addr;
->>>> +                }
->>>> +                ++env->sum_u_count;
->>>> +            }
->>>>                return TRANSLATE_SUCCESS;
->>>>            }
->>>>        }
->>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>> index ab566639e5..74b7638c8a 100644
->>>> --- a/target/riscv/csr.c
->>>> +++ b/target/riscv/csr.c
->>>> @@ -1246,9 +1246,21 @@ static RISCVException
->>>> write_mstatus(CPURISCVState *env, int csrno,
->>>>          /* flush tlb on mstatus fields that affect VM */
->>>>        if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
->>>> -            MSTATUS_MPRV | MSTATUS_SUM)) {
->>>> +            MSTATUS_MPRV)) {
->>>>            tlb_flush(env_cpu(env));
->>>> +        env->sum_u_count = 0;
->>>> +    } else if ((mstatus & MSTATUS_SUM) && !(val & MSTATUS_SUM)) {
->>>> +        if (env->sum_u_count > MAX_CACHED_SUM_U_ADDR_NUM) {
->>>> +            tlb_flush(env_cpu(env));
->>>> +        } else {
->>>> +            for (int i = 0; i < env->sum_u_count; ++i) {
->>>> +                tlb_flush_page_by_mmuidx(env_cpu(env),
->>>> env->sum_u_addr[i],
->>>> +                                         1 << PRV_S | 1 << PRV_M);
->>>> +            }
->>>> +        }
->>>> +        env->sum_u_count = 0;
->>>>        }
->>> Whether tlb should  be flushed when SUM is changed from 0 to 1?
->>>
->> When SUM is changed from 0 to 1, all the existing tlb entries remain
->> valid as the permission is elevated instead of reduced, so I don't think
->> it's necessary to flush tlb.
-> 
-> If elevated not unchanged, I think the tlb also needs update, since new
-> permitted access rights may be added to the tlb.
-> 
-Assume the following flow, if the new rights have been added to tlb
-during SUM=0, they're visible and still valid after setting SUM=1 again.
-Could you please add a specific counter example in this flow?
+>>>>  linux-user/mips/cpu_loop.c | 3 +--
+>>>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>>> diff --git a/linux-user/mips/cpu_loop.c =
+b/linux-user/mips/cpu_loop.c
+>>>> index d5c1c7941d..b5c2ca4a3e 100644
+>>>> --- a/linux-user/mips/cpu_loop.c
+>>>> +++ b/linux-user/mips/cpu_loop.c
+>>>> @@ -301,8 +301,7 @@ void target_cpu_copy_regs(CPUArchState *env, =
+struct target_pt_regs *regs)
+>>>>      }
+>>>>      if (((info->elf_flags & EF_MIPS_NAN2008) !=3D 0) !=3D
+>>>>          ((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) !=3D 0)) {
+>>>> -        if ((env->active_fpu.fcr31_rw_bitmask &
+>>>> -              (1 << FCR31_NAN2008)) =3D=3D 0) {
+>>>> +        if (!(env->insn_flags & ISA_MIPS_R2)) {
+>>>>              fprintf(stderr, "ELF binary's NaN mode not supported =
+by CPU\n");
+>>>>              exit(1);
+>>>>          }
+>>>=20
+>>> Looking at R6.06 revision history:
+>>>=20
+>>>  5.03 August 21, 2013
+>>>=20
+>>>  =E2=80=A2 ABS2008 and NAN2008 fields of Table 5.7 =E2=80=9CFCSR =
+RegisterField
+>>>    Descriptions=E2=80=9D were optional in release 3 and could be =
+R/W,
+>>>    but as of release 5 are required, read-only, and preset by
+>>>    hardware.
+>>> So I tried with this change:
+>>>=20
+>>> -- >8 --
+>>> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+>>> index 05caf54999..5f1364ffaf 100644
+>>> --- a/target/mips/cpu.c
+>>> +++ b/target/mips/cpu.c
+>>> @@ -243,6 +243,13 @@ static void mips_cpu_reset_hold(Object *obj)
+>>>     env->CP0_EBaseWG_rw_bitmask =3D =
+env->cpu_model->CP0_EBaseWG_rw_bitmask;
+>>>     env->active_fpu.fcr0 =3D env->cpu_model->CP1_fcr0;
+>>>     env->active_fpu.fcr31_rw_bitmask =3D =
+env->cpu_model->CP1_fcr31_rw_bitmask;
+>>> +    if (env->insn_flags & ISA_MIPS_R5) {
+>>> +        assert(!(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << =
+FCR31_ABS2008)));
+>>> +        assert(!(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << =
+FCR31_NAN2008)));
+>>> +    } else if (env->insn_flags & ISA_MIPS_R3) {
+>>> +        assert(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << =
+FCR31_ABS2008));
+>>> +        assert(env->cpu_model->CP1_fcr31_rw_bitmask & (1 << =
+FCR31_NAN2008));
+>>> +    }
+>>>     env->active_fpu.fcr31 =3D env->cpu_model->CP1_fcr31;
+>>>     env->msair =3D env->cpu_model->MSAIR;
+>>>     env->insn_flags =3D env->cpu_model->insn_flags;
+>>> ---
+>>>=20
+>>> and got:
+>>>=20
+>>> $ for cpu in $(./qemu-system-mips64el -cpu help | cut -d\' -f2); do =
+\
+>>>  echo -n ${cpu}...;echo q \
+>>>  | ./qemu-system-mips64el -accel tcg -cpu ${cpu} \
+>>>                           -S -monitor stdio 1> /dev/null || break; \
+>>>  echo OK; done
+>>> 4Kc...OK
+>>> 4Km...OK
+>>> 4KEcR1...OK
+>>> 4KEmR1...OK
+>>> 4KEc...OK
+>>> 4KEm...OK
+>>> 24Kc...OK
+>>> 24KEc...OK
+>>> 24Kf...OK
+>>> 34Kf...OK
+>>> 74Kf...OK
+>>> M14K...OK
+>>> M14Kc...OK
+>>> P5600...OK
+>>> mips32r6-generic...OK
+>>> I7200...OK
+>>> R4000...OK
+>>> VR5432...OK
+>>> 5Kc...OK
+>>> 5Kf...OK
+>>> 20Kc...OK
+>>> MIPS64R2-generic...OK
+>>> 5KEc...OK
+>>> 5KEf...OK
+>>> I6400...OK
+>>> I6500...OK
+>>> Loongson-2E...OK
+>>> Loongson-2F...OK
+>>> Loongson-3A1000...OK
+>>> Loongson-3A4000...OK
+>>> mips64dspr2...OK
+>>> Octeon68XX...OK
+>>> $
+>> Well that=E2=80=99s because there is no CPU being marked as MIPS =
+Release 3 in QEMU, and only
+>> P5600 is marked as MIPS Release 5.
+>> In reality R3 implementations are all advertising themself as R2, and =
+later RCs of microAptiv
+>> and interaptiv can all be configured as NaN2008 only. So for those =
+CPUs we have binary compiled
+>> with -march=3Dmips32r2 -mnan=3D2008.
+>> Given that default CPU of mips32r2 in QEMU is 24Kf, I think the best =
+approach to deal with such
+>> situation is to allow NaN2008 to be enabled for early processors for =
+linux-user.
+>> There is a NAN2008 Debian port for test:
+>> =
+http://repo.oss.cipunited.com/mipsel-nan2008/tarball/sid-mipsel-nan2008-20=
+230309-1.tar.xz
+>=20
+> $ qemu-mipsel -L sid-mipsel-nan2008-20230313-1/usr -cpu P5600 =
+usr/bin/uname  -ms
+> Linux mips
+>=20
+> What about something like:
 
+That would lost capability of testing NaN2008 binaries again other CPU =
+models.
 
-enable uaccess (set SUM = 1)
-... (access user mem from S mode)
-disable uaccess (set SUM = 0)
+Thanks
+- Jiaxun
 
-... (update TLB_SUM_0)
+>=20
+> -- >8 --
+> --- a/linux-user/mips/target_elf.h
+> +++ b/linux-user/mips/target_elf.h
+> @@ -15,6 +15,9 @@ static inline const char *cpu_get_model(uint32_t =
+eflags)
+>     if ((eflags & EF_MIPS_MACH) =3D=3D EF_MIPS_MACH_5900) {
+>         return "R5900";
+>     }
+> +    if (eflags & EF_MIPS_NAN2008) {
+> +        return "P5600";
+> +    }
+>     return "24Kf";
+> }
+> #endif
+> ---
 
-    <-- flush tlb or not right before enabling uaccess?
-enable uaccess (set SUM = 1)
-    <-- okay to access TLB_SUM_0?
-disable uaccess (set SUM = 0)
-
-
-Thanks,
-Fei.
-
-> Regards,
-> 
-> Weiwei Li
-> 
->>
->> Thanks,
->> Fei.
->>
->>> Regards,
->>>
->>> Weiwei Li
->>>
->>>> +
->>>>        mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
->>>>            MSTATUS_SPP | MSTATUS_MPRV | MSTATUS_SUM |
->>>>            MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
-> 
 
 
