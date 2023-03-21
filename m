@@ -2,85 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D5C6C38B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 18:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F106C38CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 19:02:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pegDF-0000X4-Dt; Tue, 21 Mar 2023 13:55:57 -0400
+	id 1pegIC-0001sz-BV; Tue, 21 Mar 2023 14:01:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pegDC-0000Wn-IN
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 13:55:54 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pegD5-0005SS-S4
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 13:55:49 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- mp3-20020a17090b190300b0023fcc8ce113so6159832pjb.4
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 10:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679421345;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WlQRdqHXEtNMcX28wvDYNDJfGJhofHNrDUripGn97zo=;
- b=AyCpWmvBRhjifV4th0GMODYaQiq4i7wRfIBDBw8X8wGOK5GXfngUws6DuKYBXSY1Ch
- mBExhVc7yEoPDYNZwRhII3vTDXZTlyJ4iks4X4mjQd8wGkaBpqASSHzJsitx9+NgTwUS
- rl895yDpLZ8Co597oelm4sg2WxZ2SDesOyRtq0gHRBnSJYphqYhfHXDAGRfAsTCR5qLY
- 3UNqe7Pc2u19M9pda0dFC0NaMfL7gDHx+cbJTP441G/Y3ZHEu90XJ0lF9VwglpkBkvWc
- rAYJwmOxFVG9+i98pjtw0m/Dwba2uWI0lgVOu+GKvFcj8KiTIdGpntZ3+v+2lnldXUfe
- BWlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679421345;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WlQRdqHXEtNMcX28wvDYNDJfGJhofHNrDUripGn97zo=;
- b=LHJuoMmSRG317XHU4UIv6B9Q4QUDXU/37gqJMyngZPVY8L63Enrq/p2186vQcMefKG
- Jwxy1A3ucQYliFYmOMezhmu7LBAuU/BmV8kiHMx9dw9gcD+y2hp0FgsZe1FqS+AFh8qL
- MugQGOd+wjcVwxim4K0Gl2zNtIUXQnFx1bueaD7gQTXjJv7YYCWsC0x+DY/Zt9u2c351
- 1CpKfZI7g1aT5P3govhl6o7k1DlPlIN+PZzctiqV1uyO3HV8RCl0CwG872lMrQ4SYOsP
- rTSJn83sNDyAoMhz8NBvJcTGdd3YLD4+KEugxssVSqgeDtXrqwV2+gwZhKTb+lRtCOIx
- 4Pyw==
-X-Gm-Message-State: AO0yUKWEWqLFsUhbGez4Vxb+BHLzRvGph9sPQvYgrdqwOIb9fQ57TOX3
- rn1AiC8tYyIvDtjJv1f4+JHLdw==
-X-Google-Smtp-Source: AK7set/qGwb8YrM7cFht4JveIFXggohPxPZLT3SYeTcxmEPnzQXrti8m5bpnCSjeF0bBOxZY/iGDig==
-X-Received: by 2002:a17:902:ec88:b0:1a1:d544:e5ef with SMTP id
- x8-20020a170902ec8800b001a1d544e5efmr4202509plg.33.1679421345388; 
- Tue, 21 Mar 2023 10:55:45 -0700 (PDT)
-Received: from [192.168.165.227] (097-090-106-114.biz.spectrum.com.
- [97.90.106.114]) by smtp.gmail.com with ESMTPSA id
- f17-20020a170902ab9100b001966d94cb2esm8946958plr.288.2023.03.21.10.55.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Mar 2023 10:55:44 -0700 (PDT)
-Message-ID: <b4b65760-c967-0fff-bb51-8e7173faec2f@linaro.org>
-Date: Tue, 21 Mar 2023 10:55:41 -0700
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pegI1-0001sC-K1
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 14:00:53 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pegHy-0001d9-LX
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 14:00:52 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PgzrX3sMnz6J7GD;
+ Wed, 22 Mar 2023 01:59:24 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 21 Mar 2023 18:00:37 +0000
+To: Michael Tsirkin <mst@redhat.com>, <qemu-devel@nongnu.org>
+CC: <linuxarm@huawei.com>, Fan Ni <fan.ni@samsung.com>, Dave Jiang
+ <dave.jiang@intel.com>, <linux-cxl@vger.kernel.org>
+Subject: [PATCH 1/2] hw/cxl: Fix endian handling for decoder commit.
+Date: Tue, 21 Mar 2023 18:00:11 +0000
+Message-ID: <20230321180012.2545-2-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230321180012.2545-1-Jonathan.Cameron@huawei.com>
+References: <20230321180012.2545-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 0/2] fix for #285
-Content-Language: en-US
-To: Emilio Cota <cota@braap.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20230205163758.416992-1-cota@braap.org>
- <Y+92tpDQVytnfvnd@cota-l14> <ZBcY+WL+65D7Zi5F@cota-l14>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <ZBcY+WL+65D7Zi5F@cota-l14>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,54 +61,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/19/23 07:15, Emilio Cota wrote:
-> Ping. Any feedback on these two patches?
-> 
-> https://patchew.org/QEMU/20230205163758.416992-1-cota@braap.org/
-> https://lore.kernel.org/qemu-devel/20230205163758.416992-1-cota@braap.org/
+Not a real problem yet as all supported architectures are
+little endian, but continue to tidy these up when touching
+code for other reasons.
 
-Queued to tcg-next.
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ hw/cxl/cxl-component-utils.c | 10 ++++------
+ hw/mem/cxl_type3.c           |  9 ++++++---
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-
-r~
-
-> 
-> Happy to resend if needed.
-> 
-> Thanks,
-> 		Emilio
-> 
-> 
-> On Fri, Feb 17, 2023 at 07:44:38 -0500, Emilio Cota wrote:
->> Ping.
->>
->> This fixes a bug (admittedly with a big hammer) that affects
->> users with heavily multi-threaded user-mode workloads.
->>
->> Thanks,
->> 		Emilio
->>
->> On Sun, Feb 05, 2023 at 11:37:56 -0500, Emilio Cota wrote:
->>> Changes since v1:
->>>
->>> - Add configure check to only use QTree if Glib still implements gslice.
->>>    If Glib doesn't, then we call Glib directly with inline functions.
->>> - Add TODO's so that in the future (i.e. when the minimum version of
->>>    Glib that we use doesn't implement gslice) we remove QTree.
->>> - Add comment to the top of qtree.h.
->>> - Make qtree-bench results more robust by running longer or more times.
->>> - Drop deprecated API calls (they're unused in QEMU).
->>> - Drop API calls that are too recent (they're unused in QEMU).
->>> - Drop macro benchmark results from the TCG patch since they're too noisy.
->>> - Add test program to the commit log so that we don't lose it in the future
->>>    even if the bug tracker goes away.
->>>
->>> Thanks,
->>> 		Emilio
->>>
->>>
+diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+index b665d4f565..a3e6cf75cf 100644
+--- a/hw/cxl/cxl-component-utils.c
++++ b/hw/cxl/cxl-component-utils.c
+@@ -47,14 +47,12 @@ static void dumb_hdm_handler(CXLComponentState *cxl_cstate, hwaddr offset,
+         break;
+     }
+ 
+-    memory_region_transaction_begin();
+-    stl_le_p((uint8_t *)cache_mem + offset, value);
+     if (should_commit) {
+-        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
+-        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERR, 0);
+-        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
++        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
++        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
++        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
+     }
+-    memory_region_transaction_commit();
++    stl_le_p((uint8_t *)cache_mem + offset, value);
+ }
+ 
+ static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index abe60b362c..846089ccda 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -314,14 +314,17 @@ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+ {
+     ComponentRegisters *cregs = &ct3d->cxl_cstate.crb;
+     uint32_t *cache_mem = cregs->cache_mem_registers;
++    uint32_t ctrl;
+ 
+     assert(which == 0);
+ 
++    ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
+     /* TODO: Sanity checks that the decoder is possible */
+-    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
+-    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERR, 0);
++    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
++    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
++    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
+ 
+-    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
++    stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
+ }
+ 
+ static int ct3d_qmp_uncor_err_to_cxl(CxlUncorErrorType qmp_err)
+-- 
+2.37.2
 
 
