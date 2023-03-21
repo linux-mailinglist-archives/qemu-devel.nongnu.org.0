@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CBE6C2E3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:50:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19536C2E5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 11:02:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peYcv-0001VS-Tj; Tue, 21 Mar 2023 05:49:57 -0400
+	id 1peYnd-0004Df-CJ; Tue, 21 Mar 2023 06:01:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peYcu-0001Uz-DV
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:49:56 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1peYnS-0004AN-9a
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 06:00:59 -0400
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peYcs-0004Nh-Sy
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:49:56 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id i5so10331426eda.0
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 02:49:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1peYnQ-0003n8-G5
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 06:00:49 -0400
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-177b78067ffso15688189fac.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 03:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679392193;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=c9bpwthhF0dsabN6Li9aje0DlmpFhyF3ptVbHzSd1Rc=;
- b=r8Z3TWv84EHS1uGfrgP+/ci4/fQPZ1cw6Jo8u/pMNqrUlqGFKoyrFQyuw8RyIn2skE
- ruiiEu4XB7JJuXQjQTCVBWdqW9ObTQTIypea+peurLSngN9RAMrPbkBnImbuMY8vr1YZ
- jc2uv/m6LSA/MoeyCuRdhxsNhbeVJ2+vQXKBkVXsvr+cQHlEUwQNuEMEyPa/MdWB1ueV
- 5xQDWQJbgcuTVF2t1VR8E/VTXrdcb8x/cthxIagF4YlU7PrhuY5QqF/1YpAtoveXFigM
- tnOcLcAgjOJmc2VigsWH3lDM5V3ZjuQFF3SUM/xet5HyGlIyLp0bz43IBAeRAf0u1FDa
- nE3g==
+ d=ventanamicro.com; s=google; t=1679392847;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7isQY0Gf/ZKpAQJZikZ2n5MpvW1BpR3pcSkScuhygic=;
+ b=aeCgFUovkTh2ig6GHRBxcLO5FZbd6wieuPf0upkiGCfd8QiMLkshNzuXnY6o/FLm/n
+ D8HJIxbfvhYjkumDSx282JfGGMrgKslPl/tEIcXWbe8/GZTO1slROSb8JVpYI+98ZOFr
+ hZwAWssqjxkOCyiRIzouWPeeWjaAcB9gQAVVeprNkY/0mjx2h4ji+2DGw23jEnyPog6T
+ RskAPsgBxoKwbkMKo0KbQJ2zF8q3CxHhx7+u8ZimbtjDbCP9AYZhhQNAENr++xQ6rl4w
+ beysquLgHjV7zqUUIXi36tt+i/FRRlCVQWxGm8L8lsJwDQ1zEyA9mIvhNs99dX92pqIQ
+ EFZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679392193;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=c9bpwthhF0dsabN6Li9aje0DlmpFhyF3ptVbHzSd1Rc=;
- b=dGkmVfl9cVHfLIaTg/66X71kUp4RTvPzcV0If72zEk467hP+WNLHh+V+sJ8Ic/FrLX
- Jmr61ORm+Q0jCIfPVeBPxuxyAsKHGbMvTZvxVjAhhDN3oV4yP7iq+MZ/zAERoFOLwJmb
- 9Q0/ymS7anSmsnyor8gqtAEpY74P+Vy/webj2Utkyv/WOkYCn/ptSj+l8QQeUR3106uo
- lYGgO0O47vMFuO2kYxI273dqt5I26WUjB6abUfHoDcQCyPnPozsVeghTbtDDCYOYpx3U
- va3bFJ4rw50muPuyHjPi3ta6YNImlEBsC9fBL+BmTQgt9t2HhP6gb7D85I1ijYBmxkhT
- QI9Q==
-X-Gm-Message-State: AO0yUKWDyTlLP5fgw/IF0WiwKtQpbM6jtw1v7S7/IkGyVoMAV3jDNpmq
- i9HgwvUJHKr4G3EagpH6lmpwigjJYlpuqSpd9PghIQ==
-X-Google-Smtp-Source: AK7set+TDmn6dctTm/e/+QpuLTxzpc0OnJgOMraHjoZGKENps30btWa+/hZSpfg0AhXWy3E+XsC4jA==
-X-Received: by 2002:a17:906:344f:b0:8b1:75a0:e5c6 with SMTP id
- d15-20020a170906344f00b008b175a0e5c6mr2266994ejb.18.1679392193033; 
- Tue, 21 Mar 2023 02:49:53 -0700 (PDT)
-Received: from localhost.localdomain
- (did75-h03-176-184-22-219.dsl.sta.abo.bbox.fr. [176.184.22.219])
+ d=1e100.net; s=20210112; t=1679392847;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7isQY0Gf/ZKpAQJZikZ2n5MpvW1BpR3pcSkScuhygic=;
+ b=FfHzhtoAXEUCIeCwx4MmGEqpk2gUEKokCNcjTUwTt8ta5AjS7eck07g8vOVc2yD9kn
+ edZrCn1vIZdKpFGt/BSDXSKvcFC/rnLYfT5sLmfKb2DeQsI9GKzGff56rsYOQxTlIbiw
+ PFnGD2a5ffLYKb6BhqorZm0keP0o14PtOEw2+FBx5fsgi2PYGGTN5WAkEKfvF1dJG+h6
+ VEWLooh8xyEu6TVX4qkyMVGPvkHS2Jf6QlyJk4s7PBEjTXT8kWcKQhUcA4J8is232VEn
+ 6+1pQEmkHhxpGNhGCjvYEYQyEi3abzT7uFscS6hCyPJfPRwn2TRJz+Tennc1M9ekCszp
+ QscA==
+X-Gm-Message-State: AO0yUKUutTq3jcga3oKpZuAVRreIT6nHM6JBSY5iBi5ZFP4vCkD7SP8S
+ Y3J2/SprH6Br5ROrhn3xvDB1RQ==
+X-Google-Smtp-Source: AK7set/HqbG+BdIAyE/NYMyaNWf8P2qp2rl51NyV60cTEOQgfDV4rO+VlSZhUfc++WY9ixLPQm0fsw==
+X-Received: by 2002:a05:6870:9689:b0:17a:a7af:6cee with SMTP id
+ o9-20020a056870968900b0017aa7af6ceemr901562oaq.51.1679392846801; 
+ Tue, 21 Mar 2023 03:00:46 -0700 (PDT)
+Received: from [192.168.68.107] ([177.95.89.231])
  by smtp.gmail.com with ESMTPSA id
- a27-20020a509b5b000000b00501dd53dbfbsm524192edj.75.2023.03.21.02.49.52
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 21 Mar 2023 02:49:52 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH-for-8.1] target/m68k/fpu_helper: Use FloatRelation enum to
- hold comparison result
-Date: Tue, 21 Mar 2023 10:49:50 +0100
-Message-Id: <20230321094950.43902-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ ui4-20020a0568714e0400b001718e65a5d0sm4050075oab.57.2023.03.21.03.00.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 03:00:46 -0700 (PDT)
+Message-ID: <e1abc83c-ff54-e752-9ca0-f0f97c4e67f4@ventanamicro.com>
+Date: Tue, 21 Mar 2023 07:00:42 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52f.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] target/riscv: Fix priv version dependency for vector and
+ zfh
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org
+References: <20230321043415.754-1-zhiwei_liu@linux.alibaba.com>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230321043415.754-1-zhiwei_liu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,38 +96,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the FloatRelation enum to hold the comparison result (missed
-in commit 71bfd65c5f "softfloat: Name compare relation enum").
 
-Inspired-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- target/m68k/fpu_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
-index 3a37d8f584..ab120b5f59 100644
---- a/target/m68k/fpu_helper.c
-+++ b/target/m68k/fpu_helper.c
-@@ -349,7 +349,7 @@ void HELPER(fsgldiv)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
-     PREC_END();
- }
- 
--static int float_comp_to_cc(int float_compare)
-+static int float_comp_to_cc(FloatRelation float_compare)
- {
-     switch (float_compare) {
-     case float_relation_equal:
-@@ -367,7 +367,7 @@ static int float_comp_to_cc(int float_compare)
- 
- void HELPER(fcmp)(CPUM68KState *env, FPReg *val0, FPReg *val1)
- {
--    int float_compare;
-+    FloatRelation float_compare;
- 
-     float_compare = floatx80_compare(val1->d, val0->d, &env->fp_status);
-     env->fpsr = (env->fpsr & ~FPSR_CC_MASK) | float_comp_to_cc(float_compare);
--- 
-2.38.1
+On 3/21/23 01:34, LIU Zhiwei wrote:
+> Vector implicitly enables zve64d, zve64f, zve32f sub extensions. As vector
+> only requires PRIV_1_10_0, these sub extensions should not require priv version
+> higher than that.
+> 
+> The same for Zfh.
+> 
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> ---
 
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+>   target/riscv/cpu.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1e97473af2..eaf75a00a6 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -84,7 +84,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+>       ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
+>       ISA_EXT_DATA_ENTRY(zawrs, true, PRIV_VERSION_1_12_0, ext_zawrs),
+>       ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_11_0, ext_zfh),
+> -    ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
+> +    ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_11_0, ext_zfhmin),
+>       ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
+>       ISA_EXT_DATA_ENTRY(zdinx, true, PRIV_VERSION_1_12_0, ext_zdinx),
+>       ISA_EXT_DATA_ENTRY(zba, true, PRIV_VERSION_1_12_0, ext_zba),
+> @@ -104,9 +104,9 @@ static const struct isa_ext_data isa_edata_arr[] = {
+>       ISA_EXT_DATA_ENTRY(zksed, true, PRIV_VERSION_1_12_0, ext_zksed),
+>       ISA_EXT_DATA_ENTRY(zksh, true, PRIV_VERSION_1_12_0, ext_zksh),
+>       ISA_EXT_DATA_ENTRY(zkt, true, PRIV_VERSION_1_12_0, ext_zkt),
+> -    ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
+> -    ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
+> -    ISA_EXT_DATA_ENTRY(zve64d, true, PRIV_VERSION_1_12_0, ext_zve64d),
+> +    ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_10_0, ext_zve32f),
+> +    ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_10_0, ext_zve64f),
+> +    ISA_EXT_DATA_ENTRY(zve64d, true, PRIV_VERSION_1_10_0, ext_zve64d),
+>       ISA_EXT_DATA_ENTRY(zvfh, true, PRIV_VERSION_1_12_0, ext_zvfh),
+>       ISA_EXT_DATA_ENTRY(zvfhmin, true, PRIV_VERSION_1_12_0, ext_zvfhmin),
+>       ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
 
