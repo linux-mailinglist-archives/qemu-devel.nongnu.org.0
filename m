@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031766C2E39
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CBE6C2E3A
 	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 10:50:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peYdG-0001j5-4k; Tue, 21 Mar 2023 05:50:18 -0400
+	id 1peYcv-0001VS-Tj; Tue, 21 Mar 2023 05:49:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ayushdevel1325@gmail.com>)
- id 1peYdC-0001ci-0O
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:50:14 -0400
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peYcu-0001Uz-DV
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:49:56 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ayushdevel1325@gmail.com>)
- id 1peYdA-00054T-6g
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:50:13 -0400
-Received: by mail-lj1-x22e.google.com with SMTP id f16so14838883ljq.10
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 02:50:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peYcs-0004Nh-Sy
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 05:49:56 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id i5so10331426eda.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 02:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679392209;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=1aaZH204BEwrgBF5ozoNYfAvIavSfheRkWomA5Tt2Ik=;
- b=FYA8wEwFQw93pf7NxPDUfBhSos9ddzuzriLWtsWeeGeowgsOkjv/IBivEzPg0ymUrj
- SyA7gag48RmfuSFDHnoT19A9ec8s101ZExJ3Xdjh9GBm/o9dogUEt0+uNxOvn4RgUPCP
- J0asW+fIpD691Dnon6Q6tp7eo3GudQnf3Rj+reD2PHG3j97+9MO2Dt+vj9hTYY50cvtB
- W6n8XbWO+I2fpF/qUuHbai3D7xJ91vKoe9xQsQN+sFsgWlQHhJJ661WZa9Bw+pd6KjV6
- lHNvPa+iUaxaOxcG3951mcYCOvVliD/M+l531WqXj+lFNBVOqjk346T4F81odjiUVCJt
- Weew==
+ d=linaro.org; s=google; t=1679392193;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=c9bpwthhF0dsabN6Li9aje0DlmpFhyF3ptVbHzSd1Rc=;
+ b=r8Z3TWv84EHS1uGfrgP+/ci4/fQPZ1cw6Jo8u/pMNqrUlqGFKoyrFQyuw8RyIn2skE
+ ruiiEu4XB7JJuXQjQTCVBWdqW9ObTQTIypea+peurLSngN9RAMrPbkBnImbuMY8vr1YZ
+ jc2uv/m6LSA/MoeyCuRdhxsNhbeVJ2+vQXKBkVXsvr+cQHlEUwQNuEMEyPa/MdWB1ueV
+ 5xQDWQJbgcuTVF2t1VR8E/VTXrdcb8x/cthxIagF4YlU7PrhuY5QqF/1YpAtoveXFigM
+ tnOcLcAgjOJmc2VigsWH3lDM5V3ZjuQFF3SUM/xet5HyGlIyLp0bz43IBAeRAf0u1FDa
+ nE3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679392209;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1aaZH204BEwrgBF5ozoNYfAvIavSfheRkWomA5Tt2Ik=;
- b=fATkdFiNLFbPs4xDs6kE4pzo44YzOl5ufHRzSZh36je/3e03ksduAvhN7KjNWoaQfD
- FkZg3Y2Md6yuDrdddOdYLMvFWT74FMnyzc7d+wJIiDlQH5K6b1v5LME31R7Af6jl37OD
- X0vBz+TdKMi5zC/d6lt4qE4uXaaBqXIgKF30zzGxpIS/xFG9ePCE+4UwBc/GUj3o+LP3
- SeJ+zXK7XN3WHuxKYTIYusSQl8xw0VYemvrWyavjoSQiTIuGsqisPSHDyv9VCEyF/XEH
- DFRPrZpG4YM+FxeN71GQtUsH2v6P69sL5vktXDjQG/Foqj2n4YU4MG3eWxGAtcaiVgPV
- PnCg==
-X-Gm-Message-State: AO0yUKUd4GMg5TsxP/88cn8BmKj7GRu0HMml7N545Rxzmh6N14mZ+yqa
- TNxr0y8/E5DW/yNtO/PPyPwwKjAOQcEhyr4g0BYEPsGSnRvppQ==
-X-Google-Smtp-Source: AK7set85I8+nXjGbjjPRSrgX+voCm7PGcpdDlUpJEe2Q4OMe6UPmzsjSooRG5zHRoBwa+gxmN9hgaik+m46di8eTt0g=
-X-Received: by 2002:a2e:7801:0:b0:299:aa73:c7c8 with SMTP id
- t1-20020a2e7801000000b00299aa73c7c8mr671356ljc.4.1679392209063; Tue, 21 Mar
- 2023 02:50:09 -0700 (PDT)
-MIME-Version: 1.0
-From: Ayush Singh <ayushdevel1325@gmail.com>
-Date: Tue, 21 Mar 2023 15:19:18 +0530
-Message-ID: <CA+Yfj7sxaon6u+NgWV7SBW=3ohxsqE+jdjuh8pA5Oc5voJXKqg@mail.gmail.com>
-Subject: Applying for GSoC 2023: RDP Server
+ d=1e100.net; s=20210112; t=1679392193;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=c9bpwthhF0dsabN6Li9aje0DlmpFhyF3ptVbHzSd1Rc=;
+ b=dGkmVfl9cVHfLIaTg/66X71kUp4RTvPzcV0If72zEk467hP+WNLHh+V+sJ8Ic/FrLX
+ Jmr61ORm+Q0jCIfPVeBPxuxyAsKHGbMvTZvxVjAhhDN3oV4yP7iq+MZ/zAERoFOLwJmb
+ 9Q0/ymS7anSmsnyor8gqtAEpY74P+Vy/webj2Utkyv/WOkYCn/ptSj+l8QQeUR3106uo
+ lYGgO0O47vMFuO2kYxI273dqt5I26WUjB6abUfHoDcQCyPnPozsVeghTbtDDCYOYpx3U
+ va3bFJ4rw50muPuyHjPi3ta6YNImlEBsC9fBL+BmTQgt9t2HhP6gb7D85I1ijYBmxkhT
+ QI9Q==
+X-Gm-Message-State: AO0yUKWDyTlLP5fgw/IF0WiwKtQpbM6jtw1v7S7/IkGyVoMAV3jDNpmq
+ i9HgwvUJHKr4G3EagpH6lmpwigjJYlpuqSpd9PghIQ==
+X-Google-Smtp-Source: AK7set+TDmn6dctTm/e/+QpuLTxzpc0OnJgOMraHjoZGKENps30btWa+/hZSpfg0AhXWy3E+XsC4jA==
+X-Received: by 2002:a17:906:344f:b0:8b1:75a0:e5c6 with SMTP id
+ d15-20020a170906344f00b008b175a0e5c6mr2266994ejb.18.1679392193033; 
+ Tue, 21 Mar 2023 02:49:53 -0700 (PDT)
+Received: from localhost.localdomain
+ (did75-h03-176-184-22-219.dsl.sta.abo.bbox.fr. [176.184.22.219])
+ by smtp.gmail.com with ESMTPSA id
+ a27-20020a509b5b000000b00501dd53dbfbsm524192edj.75.2023.03.21.02.49.52
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 21 Mar 2023 02:49:52 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com
-Content-Type: multipart/alternative; boundary="0000000000000f50ae05f765f823"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=ayushdevel1325@gmail.com; helo=mail-lj1-x22e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH-for-8.1] target/m68k/fpu_helper: Use FloatRelation enum to
+ hold comparison result
+Date: Tue, 21 Mar 2023 10:49:50 +0100
+Message-Id: <20230321094950.43902-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=philmd@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,45 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000000f50ae05f765f823
-Content-Type: text/plain; charset="UTF-8"
+Use the FloatRelation enum to hold the comparison result (missed
+in commit 71bfd65c5f "softfloat: Name compare relation enum").
 
-Hello everyone, I am a Third-Year University Student from India. I am
-interested in implementing the RDP server for Qemu in Rust [1]. I have
-already introduced myself to the mailing list earlier.
+Inspired-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ target/m68k/fpu_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-In short, the project will involve the following:
-1. Improve and implement missing portions required for the RDB server into
-IronRDB.
-2. Implement the Qemu RDB server in the qemu-display [2] repo.
+diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
+index 3a37d8f584..ab120b5f59 100644
+--- a/target/m68k/fpu_helper.c
++++ b/target/m68k/fpu_helper.c
+@@ -349,7 +349,7 @@ void HELPER(fsgldiv)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+     PREC_END();
+ }
+ 
+-static int float_comp_to_cc(int float_compare)
++static int float_comp_to_cc(FloatRelation float_compare)
+ {
+     switch (float_compare) {
+     case float_relation_equal:
+@@ -367,7 +367,7 @@ static int float_comp_to_cc(int float_compare)
+ 
+ void HELPER(fcmp)(CPUM68KState *env, FPReg *val0, FPReg *val1)
+ {
+-    int float_compare;
++    FloatRelation float_compare;
+ 
+     float_compare = floatx80_compare(val1->d, val0->d, &env->fp_status);
+     env->fpsr = (env->fpsr & ~FPSR_CC_MASK) | float_comp_to_cc(float_compare);
+-- 
+2.38.1
 
-I have submitted an initial version of the proposal. I will be happy to
-receive feedback and/or questions from anyone interested in the project.
-
-Yours Sincerely
-Ayush Singh
-
-[1]: https://wiki.qemu.org/Google_Summer_of_Code_2023#RDP_server
-[2]: https://gitlab.com/marcandre.lureau/qemu-display
-
---0000000000000f50ae05f765f823
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello everyone, I am a Third-Year University Student =
-from India. I am interested in implementing the RDP server for Qemu in Rust=
- [1]. I have already introduced myself to the mailing list earlier.</div><d=
-iv><br></div><div>In short, the project will involve the following:</div><d=
-iv>1. Improve and implement missing portions required for the RDB server in=
-to IronRDB.<br>2. Implement the Qemu RDB server in the qemu-display [2] rep=
-o.</div><div><br></div><div>I have submitted an initial version of the prop=
-osal. I will be happy to receive feedback and/or questions from anyone inte=
-rested in the project.</div><div><br></div><div>Yours Sincerely</div><div>A=
-yush Singh</div><div><br></div><div>[1]: <a href=3D"https://wiki.qemu.org/G=
-oogle_Summer_of_Code_2023#RDP_server">https://wiki.qemu.org/Google_Summer_o=
-f_Code_2023#RDP_server</a></div><div>[2]: <a href=3D"https://gitlab.com/mar=
-candre.lureau/qemu-display">https://gitlab.com/marcandre.lureau/qemu-displa=
-y</a></div></div>
-
---0000000000000f50ae05f765f823--
 
