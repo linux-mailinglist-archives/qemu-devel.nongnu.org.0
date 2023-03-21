@@ -2,58 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DB46C34CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 15:54:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB756C3501
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 16:03:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pedMj-00057w-NX; Tue, 21 Mar 2023 10:53:33 -0400
+	id 1pedV0-0008Ms-N7; Tue, 21 Mar 2023 11:02:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew.jones@linux.dev>)
- id 1pedMh-00057X-Ov
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 10:53:31 -0400
-Received: from out-25.mta0.migadu.com ([2001:41d0:1004:224b::19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew.jones@linux.dev>)
- id 1pedMg-0000Rc-8c
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 10:53:31 -0400
-Date: Tue, 21 Mar 2023 15:53:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1679410408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v7nt2ZcLJI8v874JEFEjYqSymW12b5rJowFOtO9NW+s=;
- b=a+wfCfzb7+0szC1XzKTnNenvmBweKKpql/zf6uP0rwrey2NFzQ/HB3kibfl114mn8CYK4I
- CbqIbIQZ24Wf1W62V28WtzSAcWYSS/CNQEFecyaM1XuPUwv2q/1BJUJBSD/IDuw0+cB2GH
- 3fI+oEds7aY/76gwmjP6XwcqF5khQjg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Andrew Jones <andrew.jones@linux.dev>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
- qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvmarm@lists.linux.dev,
- qemu-arm@nongnu.org
-Subject: Re: [kvm-unit-tests PATCH v10 2/7] add .gitpublish metadata
-Message-ID: <20230321145327.oetnj7ao7jxjp5ac@orel>
-References: <20230307112845.452053-1-alex.bennee@linaro.org>
- <20230307112845.452053-3-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pedUy-0008Lm-Nb
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 11:02:04 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pedUx-0006Zp-7W
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 11:02:04 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id s8so9050766pfk.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 08:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679410921;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Z2y9ah178Sy2OwC76k56DxfXR+VkGAdOoPaEomNhdYw=;
+ b=VoxCWiJn2omI69KOVicUlv1SFKgyqIQwi8eH5CpRNC/biS6apDKErKWdMr+JftT5DW
+ BeHs7a9L0plCUsHBK6Oti4L1F8LX76LamsRcsKshYPeCCNQ2NtjNWT8ZH5XpXxq/YvKP
+ sca7SB6+G/t8ELXkOkLKdXIK7OFbStxy3SzPVbLm7GgfCNYAGcUhEtLq/KSlGIeN6dKv
+ ntUKV0jLLJhanHCBu+Lk1cc1cn0WVYOcfteMLHyqwQtfcWcjZ/bpMp+TnlGtreHv22tG
+ lVNiTCmMmdgTqKisECvG9r3AjVdNB3e+VzC4mkY6cJrmTbQDlQIzJS4QE5qQSBlx+34q
+ JHHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679410921;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z2y9ah178Sy2OwC76k56DxfXR+VkGAdOoPaEomNhdYw=;
+ b=IqnR8/Bv1PhyNamotfxnYAywYRIDt1nWQ2BoXwJ7ft3yaSKm1tudE/n1ix8V/Misif
+ 4gi/h0JlqZes0ZTk5uR3s9ESakZ4OM6u3tKaW6s/lq3WcedToXycv8F+Ju/JM/jdwg2q
+ tkTf3VQ5+2IPo9NxtlQquV50UnGnNgwJGWSKKIk2pXJSKciTZhgRi+37NwlkSIrqn/2S
+ 6LncQe5+kIKDtISlWEhavQTct1LoOgZITBwdDrc14i6cdtfQVHmeXNyH3MVd1Jw4Z1N1
+ mxFMYMJXcjBgst9EJP9+SAiisYHuttllqjqiskY/l63YNMWpuV7fhPQggRE006UYcL4i
+ ccNQ==
+X-Gm-Message-State: AO0yUKXMhfBH5b0xY1aSiHQgqMP6P5AKvqvD2gfjOHKWeCZa28kC73MJ
+ iig9huq97hFzOvNqMby0Fk/S+Q==
+X-Google-Smtp-Source: AK7set+fKG8sU1QVNqmh7dwvuaRkPgB7CBY+EzdagGh3a4OtkvjW5e71OO0QnBdhcSi2M8yCc9jc7g==
+X-Received: by 2002:a62:2581:0:b0:627:e69c:8488 with SMTP id
+ l123-20020a622581000000b00627e69c8488mr106067pfl.14.1679410921469; 
+ Tue, 21 Mar 2023 08:02:01 -0700 (PDT)
+Received: from [192.168.149.130] (097-090-106-114.biz.spectrum.com.
+ [97.90.106.114]) by smtp.gmail.com with ESMTPSA id
+ 132-20020a63038a000000b004f27761a9e7sm8136018pgd.12.2023.03.21.08.02.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 08:02:00 -0700 (PDT)
+Message-ID: <0fbbb95b-218c-df49-9cfc-347341214b13@linaro.org>
+Date: Tue, 21 Mar 2023 08:01:58 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH-for-8.1] target/m68k/fpu_helper: Use FloatRelation enum to
+ hold comparison result
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-trivial@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20230321094950.43902-1-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230321094950.43902-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307112845.452053-3-alex.bennee@linaro.org>
-X-Migadu-Flow: FLOW_OUT
-Received-SPF: pass client-ip=2001:41d0:1004:224b::19;
- envelope-from=andrew.jones@linux.dev; helo=out-25.mta0.migadu.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,51 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 07, 2023 at 11:28:40AM +0000, Alex Bennée wrote:
-> This allows for users of git-publish to have default routing for kvm
-> and kvmarm patches.
+On 3/21/23 02:49, Philippe Mathieu-DaudÃ© wrote:
+> Use the FloatRelation enum to hold the comparison result (missed
+> in commit 71bfd65c5f "softfloat: Name compare relation enum").
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Inspired-by: CÃ©dric Le Goater<clg@kaod.org>
+> Signed-off-by: Philippe Mathieu-DaudÃ©<philmd@linaro.org>
 > ---
->  .gitpublish | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->  create mode 100644 .gitpublish
-> 
-> diff --git a/.gitpublish b/.gitpublish
-> new file mode 100644
-> index 00000000..39130f93
-> --- /dev/null
-> +++ b/.gitpublish
-> @@ -0,0 +1,18 @@
-> +#
-> +# Common git-publish profiles that can be used to send patches to QEMU upstream.
-> +#
-> +# See https://github.com/stefanha/git-publish for more information
-> +#
-> +[gitpublishprofile "default"]
-> +base = master
-> +to = kvm@vger.kernel.org
-> +cc = qemu-devel@nongnu.org
-> +cccmd = scripts/get_maintainer.pl --noroles --norolestats --nogit --nogit-fallback 2>/dev/null
-> +
-> +[gitpublishprofile "arm"]
-> +base = master
-> +to = kvmarm@lists.cs.columbia.edu
-> +cc = kvm@vger.kernel.org
-> +cc = qemu-devel@nongnu.org
-> +cc = qemu-arm@nongnu.org
-> +cccmd = scripts/get_maintainer.pl --noroles --norolestats --nogit --nogit-fallback 2>/dev/null
+>   target/m68k/fpu_helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Should we also set the prefix for these?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
- prefix = kvm-unit-tests PATCH
-
-And maybe even, 'signoff = true'?
-
-Otherwise,
-
-Acked-by: Andrew Jones <andrew.jones@linux.dev>
-
-Thanks,
-drew
+r~
 
