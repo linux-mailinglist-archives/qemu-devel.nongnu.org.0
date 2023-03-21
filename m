@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D18F6C2A26
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 07:04:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33096C2A2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 07:06:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peV6W-00077D-9f; Tue, 21 Mar 2023 02:04:16 -0400
+	id 1peV8Q-00005A-Ri; Tue, 21 Mar 2023 02:06:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1peV6U-000772-Ao
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 02:04:14 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1peV8O-0008WC-Nk
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 02:06:12 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1peV6S-0001xT-UQ
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 02:04:14 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- e15-20020a17090ac20f00b0023d1b009f52so19108824pjt.2
- for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 23:04:12 -0700 (PDT)
+ id 1peV8L-0002VO-Eg
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 02:06:12 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ lr16-20020a17090b4b9000b0023f187954acso14886151pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Mar 2023 23:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679378651;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1679378768;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hzbDJl66CBQbYGOo/GigoMQScWqjIQRa1eGjJugSDn4=;
- b=iC4AvJX6nzXXuHJOTu/AwzWccQlEL8p1G7CneJ3iu7gqH391HoYdHh4PHLwC60LdB6
- mbTAAmvEFLsKzzRqIWeoIpOeHbCudmGs+yGxTQZA3jvPLUljALbcHonA7G25G3femuUx
- 8/anJ2E3C/ETPYfaZM5qDns14+u3UMsdfVODvRqTy9vdbpVqrjY+2WDVlPz/3NCXet7A
- dyJv6BHO0wQER2TBi1IPhPF6zCKBgJvKEIxdSHkjsQlMV4WOOo+VuzvRjbsXMnAqQfi2
- U5mBds7XesT85mfHYD2MDTFZKARQnXp5RUQZcNDxnA7C2pq3QUINzTP7CxyPKTDnPQF5
- A00Q==
+ bh=kY8W4n5MzDDB7VJh4rM2EO16kH78QlE3i7++iFHc+/o=;
+ b=qVu6uiGu45Ib9nOw1hcJjBmTRgEfj2joKhKeP9jB+LfLxf17yXH1vWW0JECg/dXwje
+ zAg7LYXWL9PM9f5K93NkItNw0Lh8LAq47KA50mEeAi1wbIHB0KlfMmeidUcrjkV5JK5D
+ Wy6xfQO0Z9flk9ZsYuButfvYtmPy0t6pBVlGcEy1NA6tZjS8Sq90nbi9jAWvC5WlybAY
+ JiA8imPffmiJSRGFiWz1XPHA6VhLKMjw8mXgXUP1CLdjGE4hNyYU1TDC+XpWBdU+AqO0
+ Xiy9SrmLKkC3ywn0C0eaADogtm0Ej2M/SJpMb2ai9t97EvKYfa+LmD8pQX2VV4iuJOTv
+ gmxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679378651;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1679378768;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hzbDJl66CBQbYGOo/GigoMQScWqjIQRa1eGjJugSDn4=;
- b=mWyMwetzAZK3fJu3ZjgOJIxTqg+4TASBmIrsGs8HX+/cvQaibzNEqqUprirkaghBwV
- T/gLLaxnxD/aiLb2g022M7bbIqZEAn+USYGJJkbcQplIeTP8/7+FQSjPAQ7tK5vJcmCP
- M+vPaeAwLQ2fmnbfA3NpD/6LkZu+mjOx1WLCU2plJGN9ybNnoI3KDNA/FZctdTIyge6X
- WoUnjflmZdCd0q5eWiJeZDvBVIWvfhlSRH8Yc+ArL2FoYeVQ9vEcehe+yLV3IRNap8cU
- 2qJgmJBRa5AmwF4KtU5kJiUalyscaj5sre3cTk9AWTzkUy1ihxxVsva8mVypNbzxe8ci
- vxiQ==
-X-Gm-Message-State: AO0yUKUJRR9/l4TRukpe7bvIW5ecc9wkQR9t5FED3v+ejt4668aWY+9g
- glmZdfoSl6aNPzAhfS4at039EA==
-X-Google-Smtp-Source: AK7set+6QK0NdkS8OZpHcnmyD5IoBVVlAaDxFtG8TpBLqanW4W1XX4OHhGkJZ+yGycIZMhajiXD4ew==
-X-Received: by 2002:a17:902:da8a:b0:19e:b38c:860b with SMTP id
- j10-20020a170902da8a00b0019eb38c860bmr1393475plx.24.1679378651324; 
- Mon, 20 Mar 2023 23:04:11 -0700 (PDT)
+ bh=kY8W4n5MzDDB7VJh4rM2EO16kH78QlE3i7++iFHc+/o=;
+ b=cO1q5koVRtn91A68lYg36quZPJMUCPzlGLvoJBvZdDy+x70OdU5EBpD+x0tb4G2u+c
+ LW1GYIaQpXnoqczpNUtBbDNB+phVT+Kq5WytXGxP3NYK9oX8ygH2A1jDJdeuKwiuztSL
+ DY42LiBM4ejlbUmjO53jNCtfSv4JNyHres/I5iSeAxHCUkt4ZiCfRLzeqVMMv8cKhgYH
+ QCqaAGUUgfN+QChLNnjvtE9VCmGyX8kpG7eEY3TfVZ4W/ZmbWPOE2FbiRTCR+Q2450TE
+ c/4ezQZCVX5yMpLD0btkvo2XBgVpOTQxjLn5VUFYogniM/bhzfzfCEVytRy0jwPu3kY3
+ rUHw==
+X-Gm-Message-State: AO0yUKVxy3+gvkrrMkOdgtBi2l2ozp2Mik1EbJda6x8UuXd0nXcQXhTy
+ 0YDT+D3DwQ+n6lRps5OYcLlINLTHqlC6i4AnzV8=
+X-Google-Smtp-Source: AK7set+Do0rbnOoCGLkUFZruea+ru2/XnFOM1v8RJImXeriUzPTtVgeOeqvoo3sqFsweJyNXFeoEPw==
+X-Received: by 2002:a17:903:64b:b0:1a1:a8eb:d33e with SMTP id
+ kh11-20020a170903064b00b001a1a8ebd33emr1001758plb.8.1679378767798; 
+ Mon, 20 Mar 2023 23:06:07 -0700 (PDT)
 Received: from [192.168.149.130] (097-090-106-114.biz.spectrum.com.
  [97.90.106.114]) by smtp.gmail.com with ESMTPSA id
- f21-20020a170902ab9500b001a076568da9sm7704308plr.216.2023.03.20.23.04.09
+ c10-20020a170902b68a00b0019edf07eb06sm7745062pls.122.2023.03.20.23.06.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 23:04:10 -0700 (PDT)
-Message-ID: <ce58f200-3b80-ba7e-19e1-96ca5526e400@linaro.org>
-Date: Mon, 20 Mar 2023 23:04:07 -0700
+ Mon, 20 Mar 2023 23:06:07 -0700 (PDT)
+Message-ID: <6a240bc1-4321-9891-3291-1320a96d1310@linaro.org>
+Date: Mon, 20 Mar 2023 23:06:05 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 08/10] accel/tcg: push i386 specific hacks into
- handle_cpu_interrupt callback
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Alessandro Di Federico <ale@rev.ng>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-References: <20230320101035.2214196-1-alex.bennee@linaro.org>
- <20230320101035.2214196-9-alex.bennee@linaro.org>
- <c49afab1-9842-e90e-7d1b-69b849b1e63e@linaro.org> <87mt47738o.fsf@linaro.org>
+Subject: Re: [PATCH] tcg/tcg: Avoid TS_DEAD for basic block ending
 Content-Language: en-US
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
+References: <20230321045340.838-1-zhiwei_liu@linux.alibaba.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87mt47738o.fsf@linaro.org>
+In-Reply-To: <20230321045340.838-1-zhiwei_liu@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,21 +93,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/20/23 10:14, Alex Bennée wrote:
->> This should be a tcg hook, not a sysemu hook, per the previous one.
->> I would very much like it to never be NULL, but instead your new
->> common_cpu_handle_interrupt function.
+On 3/20/23 21:53, LIU Zhiwei wrote:
+> TS_DEAD means we will release the register allocated for this temporary. But
+> at basic block ending, we can still use the allocted register.
 > 
-> I was trying to figure out how to instantiate a default but ran into
-> const problems eventually forcing me to give up.
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-You initialize it for each instance individually, not in one central place.
-
-> Why a TCG hook? Do we not process any interrupts for KVM or HVF?
-
-No.
+Test case?
 
 
 r~
+
+> ---
+>   tcg/tcg.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index bb52bc060b..0c93e6e6f8 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -2822,7 +2822,7 @@ static void la_bb_end(TCGContext *s, int ng, int nt)
+>           case TEMP_FIXED:
+>           case TEMP_GLOBAL:
+>           case TEMP_TB:
+> -            state = TS_DEAD | TS_MEM;
+> +            state = TS_MEM;
+>               break;
+>           case TEMP_EBB:
+>           case TEMP_CONST:
 
 
