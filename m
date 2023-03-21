@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0A26C300E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 12:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4484C6C301D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Mar 2023 12:18:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peZxb-0005Mv-Pp; Tue, 21 Mar 2023 07:15:23 -0400
+	id 1pea0A-0006Rk-Kq; Tue, 21 Mar 2023 07:18:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1peZxQ-0005MV-DA
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 07:15:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1peZxO-0001kH-R3
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 07:15:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679397308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lHGu6nfn0O+6PKQtsgvZsLQEgtdouiXVkl6wARC0V44=;
- b=Et3UCbwmorSJ6y6fS4FTd4wjZi/KORNTAWFjwdmnSaI5h+m+BJjzoyj5jveS62RWMNwB1R
- r3JaOQepK/ehkQcVHbfeZOZnGkIyE3L+7GA0x6VRP3lLAyK1ZQbnV29ILnlJXimZHaKgkm
- nBcVYbyO1UZ47EUBNC6tUeXfZCecCzg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-nkR1G4SPN8OMkBhBmmfllw-1; Tue, 21 Mar 2023 07:15:06 -0400
-X-MC-Unique: nkR1G4SPN8OMkBhBmmfllw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3AA42101A531;
- Tue, 21 Mar 2023 11:15:06 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B52EA2166B29;
- Tue, 21 Mar 2023 11:15:05 +0000 (UTC)
-Date: Tue, 21 Mar 2023 07:15:03 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: qemu-devel@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH for-8.0 1/3] async: Suppress GCC13 false positive in
- aio_bh_poll()
-Message-ID: <20230321111503.GA1073811@fedora>
-References: <20230321083322.663561-1-clg@kaod.org>
- <20230321083322.663561-2-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pea08-0006RV-BM
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 07:18:00 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pea06-0002Uf-JD
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 07:17:59 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id m2so13253859wrh.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 04:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679397476;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dtMdpGocr62ge5sh3wVlQKfA9cyOF99U8VoIMH9fQsk=;
+ b=ALStwZu+KZOp2yoQ51qjkjlVPwzpJt7D4zyWIHIvr6PachMCE9mw/N7wTzqe4NjbQK
+ rJv8HkKZHIDCVHekHNFRCAlOCY2Pm76mDsonItc5OoPXlLBRJyVp8VDip1LMrxVeg460
+ H5RN1lVDN6V5ZHLPb7BgQiAfuQjnSA/PZYcWq7KEVf9jGzKjSfCbwkWG5ffK3HOpusgo
+ 57Dzg0+RnBWpyU5kSAGzLoFSM7h/CAEfCE2hPwJiTcFHRgzSVPGrfWCL12SGo9tdItgQ
+ nF6AuWnb+LrNBmbvREXKn09oTJyZZXLxcbIXQN6uvOSXzxqdvE5nSODaBjLtaomPBQXs
+ /CmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679397476;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dtMdpGocr62ge5sh3wVlQKfA9cyOF99U8VoIMH9fQsk=;
+ b=KISk+qmiDtX2g3kx13O1cP1Vq/tJQyHCyHuAPyv9tYwNJ3rc/V2lpolSP/ryL8jEld
+ nAo5G7dgEsVWFeqGAKZwyvE1i3hEmqpbb+kgKJQ0n7o05L3mWqrHDtjlFdF/uBl91cuO
+ rUinqZmMsmWrbiYDgEHwgNKOcikW+do5l0enCdZ1OaOOhtLcOExQApce7Dt6JkBB6vSe
+ 23a9607ALEsnu0pJCrRTCCWO+1ya2G0hrA5/+Qtz9dC/tiEDO/NRao+qn+1g4DLWLSmi
+ 68LdPAPelPy3BRFFlQMNrHVIOyhuoka8hcz6Jg8I7ppyFrqc7PVvVQrYSS61vFV7wI4B
+ Zw0g==
+X-Gm-Message-State: AO0yUKWLjZCYaj2eP+FW+GM4M31O3yq2bwUDLNf5KL0G8D16JL7GwlFF
+ VWk04twEJdzkauCKJKnfGRQ/7Q==
+X-Google-Smtp-Source: AK7set+Z+eQUYmgqln7LxTmF4GRkBIrSyX1vLrU6rLuhFVBEufJuBeNHBdBN1mA+dEmtyxjpTlLh2g==
+X-Received: by 2002:a5d:654a:0:b0:2c7:1a86:aecd with SMTP id
+ z10-20020a5d654a000000b002c71a86aecdmr1908802wrv.2.1679397476592; 
+ Tue, 21 Mar 2023 04:17:56 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ e8-20020adffc48000000b002c8476dde7asm11028605wrs.114.2023.03.21.04.17.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Mar 2023 04:17:56 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D5CC51FFB7;
+ Tue, 21 Mar 2023 11:17:55 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH] tests/avocado: probe for multi-process support before
+ running test
+Date: Tue, 21 Mar 2023 11:17:52 +0000
+Message-Id: <20230321111752.2681128-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lSJbyntFQp47/LbD"
-Content-Disposition: inline
-In-Reply-To: <20230321083322.663561-2-clg@kaod.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,64 +98,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+A recent attempt to let avocado run more tests on the CentOS stream
+build failed because there was no gating on the multiprocess feature.
+Like missing accelerators avocado should gracefully skip when the
+feature is not enabled.
 
---lSJbyntFQp47/LbD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In this case we use the existence of the proxy device as a proxy for
+multi-process support.
 
-On Tue, Mar 21, 2023 at 09:33:20AM +0100, C=C3=A9dric Le Goater wrote:
-> From: C=C3=A9dric Le Goater <clg@redhat.com>
->=20
-> GCC13 reports an error :
->=20
-> ../util/async.c: In function =E2=80=98aio_bh_poll=E2=80=99:
-> include/qemu/queue.h:303:22: error: storing the address of local variable=
- =E2=80=98slice=E2=80=99 in =E2=80=98*ctx.bh_slice_list.sqh_last=E2=80=99 [=
--Werror=3Ddangling-pointer=3D]
->   303 |     (head)->sqh_last =3D &(elm)->field.sqe_next;                 =
-         \
->       |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-> ../util/async.c:169:5: note: in expansion of macro =E2=80=98QSIMPLEQ_INSE=
-RT_TAIL=E2=80=99
->   169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
->       |     ^~~~~~~~~~~~~~~~~~~~
-> ../util/async.c:161:17: note: =E2=80=98slice=E2=80=99 declared here
->   161 |     BHListSlice slice;
->       |                 ^~~~~
-> ../util/async.c:161:17: note: =E2=80=98ctx=E2=80=99 declared here
->=20
-> But the local variable 'slice' is removed from the global context list
-> in following loop of the same routine. Add an intermediate helper to
-> silent GCC. No functional change.
->=20
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: C=C3=A9dric Le Goater <clg@redhat.com>
-> ---
->  util/async.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Cc: Jagannathan Raman <jag.raman@oracle.com>
+Cc: John G Johnson <john.g.johnson@oracle.com>
+---
+ tests/avocado/avocado_qemu/__init__.py | 10 ++++++++++
+ tests/avocado/multiprocess.py          |  1 +
+ 2 files changed, 11 insertions(+)
 
-Thanks!
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---lSJbyntFQp47/LbD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQZkbcACgkQnKSrs4Gr
-c8jxCAf+N4BL7YPk+NiCBLbygyWBN5E9WlevDLn/2lspewno4T1wMYjdffgiH8Y3
-YnkTrBJHG4e1V9ro2dt/Dzsmre71Npd+1zoHtAyJ/FKi/ZSxzarMYFz4IVnAJshq
-G81Hhw38D8bxyKV81ToFUItjgP6O5ouW/i42ZaCs8MouYejZVdw5Ayk2uLbkuVZU
-Z0lsOH8kNm8pf7fYe/3OADT9GXuOL1HsCw39Nt40qq0PjHIc15eHDUhnG1GXp0si
-eqwtvERaU91n952BFzHXkfc/rbaqcHoY8dQ29scVnrlUu2BqZ44kY62esRaqo79j
-7KjgSDbG2QY7TXjMtFBjW5DA69/xfA==
-=dbEp
------END PGP SIGNATURE-----
-
---lSJbyntFQp47/LbD--
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index a313e88c07..cb71f50db9 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -309,6 +309,16 @@ def require_netdev(self, netdevname):
+         if netdevhelp.find('\n' + netdevname + '\n') < 0:
+             self.cancel('no support for user networking')
+ 
++    def require_multiprocess(self):
++        """
++        Test for the presence of the x-pci-proxy-dev which is required
++        to support multiprocess.
++        """
++        devhelp = run_cmd([self.qemu_bin,
++                           '-M', 'none', '-device', 'help'])[0];
++        if devhelp.find('x-pci-proxy-dev') < 0:
++            self.cancel('no support for multiprocess device emulation')
++
+     def _new_vm(self, name, *args):
+         self._sd = tempfile.TemporaryDirectory(prefix="qemu_")
+         vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
+diff --git a/tests/avocado/multiprocess.py b/tests/avocado/multiprocess.py
+index 80a3b8f442..9112a4cacc 100644
+--- a/tests/avocado/multiprocess.py
++++ b/tests/avocado/multiprocess.py
+@@ -22,6 +22,7 @@ def do_test(self, kernel_url, initrd_url, kernel_command_line,
+                 machine_type):
+         """Main test method"""
+         self.require_accelerator('kvm')
++        self.require_multiprocess()
+ 
+         # Create socketpair to connect proxy and remote processes
+         proxy_sock, remote_sock = socket.socketpair(socket.AF_UNIX,
+-- 
+2.39.2
 
 
