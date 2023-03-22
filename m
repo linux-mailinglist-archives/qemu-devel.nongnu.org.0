@@ -2,103 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5CD66C5369
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 19:15:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8946C53A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 19:24:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf2yf-0006ux-9N; Wed, 22 Mar 2023 14:14:25 -0400
+	id 1pf36f-0001Ch-7g; Wed, 22 Mar 2023 14:22:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pf2yb-0006uf-Qt
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:14:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pf36c-0001By-WC
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:22:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pf2ya-0000Cr-4q
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:14:21 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32MICgxJ002564; Wed, 22 Mar 2023 18:14:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : to : cc : from : subject : content-type :
- content-transfer-encoding; s=pp1;
- bh=z0yLq+hy32FOQLpJseIrH4Mt7pTROB+5zSD1/2aV730=;
- b=WB6q59Y/xCMP0gtZ8crcpncrpu2vny/HqcKh18UFS+i3vhuzLIRnlMp00HE/VZPnF7+D
- 8KPY3Do7N3yV4qNLPOvuXWapEsRNTgWRchyXWKWDdTn2SczFqBkkSuqT01hkyCWY9MBT
- 2u5vtQsLVpt7tpbeBFeKS9ENZcywGc2gZKBHjBSm4Gb5QnxTB7YIE+9ARua3rRKXtqeH
- YdP00wDBWrsA32BkJH8ahxfPnUXe0QKPX3kUyfHN9PsjJVesyxUBKOXbK9YMhqlIm+RZ
- Gq5p+rV0Kzqg6dxp+hGh5QvmVZHpbI3VcB3abYoFjXSwzVEhrXqGx8dbOCq95I8aPcH0 cg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg6rdr0xr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Mar 2023 18:14:14 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32MIDeGb004869;
- Wed, 22 Mar 2023 18:14:14 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg6rdr0xc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Mar 2023 18:14:14 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MHKjX5014964;
- Wed, 22 Mar 2023 18:14:13 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7r09x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Mar 2023 18:14:13 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
- [10.241.53.105])
- by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32MIEBDc22414038
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Mar 2023 18:14:11 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 758F858055;
- Wed, 22 Mar 2023 18:14:11 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1736C58043;
- Wed, 22 Mar 2023 18:14:11 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 22 Mar 2023 18:14:11 +0000 (GMT)
-Message-ID: <dd43ec84-51e4-11f7-e067-2fb57a567f09@linux.ibm.com>
-Date: Wed, 22 Mar 2023 14:14:10 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pf36b-0002ft-EL
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:22:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679509355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dgm8GvGjiSix+6ZJ/nRrCAuItoeap+7OWPmLlDaMUpo=;
+ b=UaRBuDUwIE9NRlcyXYB0rtChbHain5AfTLKjyweHlSDpRsBGoANS3P6Fx3DbUATyYSMRHb
+ 8yyR5gC//lAAlqRiCMrb9GtkmcNCHp4B9/TwSnRXCBkCpcD3Zspyk8v+BvnclUsdE1j4QZ
+ 0oMNhczDGAltrKJSUe0Y05yiDnVqUQI=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-132--FdEjEzsNdKHaADKV4fezA-1; Wed, 22 Mar 2023 14:22:30 -0400
+X-MC-Unique: -FdEjEzsNdKHaADKV4fezA-1
+Received: by mail-io1-f71.google.com with SMTP id
+ b26-20020a5d805a000000b0074cfe3a44aeso10237258ior.10
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 11:22:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679509349;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Dgm8GvGjiSix+6ZJ/nRrCAuItoeap+7OWPmLlDaMUpo=;
+ b=GdioPKJED3Y8bAeLClxlzZ0EMjShqe8yNs7xiqoeW0mXZAQ2qiEfonaHlfZjZxnlNN
+ bMxvFzvyREZBcM6V7uXHnC7G0ZxNzSlTt+B7tHjpPCov4fvebNf8k+AnoE7C1gDXJz/E
+ R5+xEHDpathN+UV+azZPgRsHMeB407bthC2RuktCeeJh8HNlDFXMAJb9IxSR62p2ydCv
+ cxYnJuTbFoZz9Jqf/1CMAZMsyrJ+npE2I/vvMgKwMrcB6zKqlG9zJOUDkTD8IN7JAra0
+ 3haee8IMFP/l2dJlMGT29jMiQGr5JIjoy8yH0cmChIUVL0V50rm3Ab+xvHwOHPvQ11gG
+ iLxA==
+X-Gm-Message-State: AO0yUKW3ItUF3cb8OVmYCwkRpVSywIlMauM89p7LWgIXLG8nFZBw72qx
+ 6A+mrdTxb1DOgjGRnb7aptq1j89EiWeQMuiytBxlDwV3bpRq7RZuCWE4LmOW3jOiRKHtYa6Nk/D
+ v4VyRWCNweZw28lZ+LA3JJDk=
+X-Received: by 2002:a6b:4a03:0:b0:74c:97ee:3e56 with SMTP id
+ w3-20020a6b4a03000000b0074c97ee3e56mr4417378iob.19.1679509349156; 
+ Wed, 22 Mar 2023 11:22:29 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+y2AlAuCIiIuVOP42TOppVXXWRP1VghpNEb409lK+HK69VQpBPpNH/wD6+khgJHUEKgJXu3g==
+X-Received: by 2002:a6b:4a03:0:b0:74c:97ee:3e56 with SMTP id
+ w3-20020a6b4a03000000b0074c97ee3e56mr4417370iob.19.1679509348926; 
+ Wed, 22 Mar 2023 11:22:28 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ cl4-20020a0566383d0400b003ab21c8fa84sm5215565jab.121.2023.03.22.11.22.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Mar 2023 11:22:28 -0700 (PDT)
+Date: Wed, 22 Mar 2023 12:22:27 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Yang Zhong <yang.zhong@linux.intel.com>
+Cc: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: About the instance_finalize callback in VFIO PCI
+Message-ID: <20230322122227.01a51193.alex.williamson@redhat.com>
+In-Reply-To: <ZBr+PNMHHVZ/mEs/@yangzhon>
+References: <ZBgn90bjw9iRaTrw@yangzhon>
+ <1d364b78-3dbb-87cb-daff-e92f40444ab7@kaod.org>
+ <ZBr0dr7xPjZrn3e5@yangzhon>
+ <62b9e8b3-a619-573d-c641-d80a12c3ab59@kaod.org>
+ <ZBr+PNMHHVZ/mEs/@yangzhon>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Content-Language: en-US
-To: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, ninadpalsule@us.ibm.com
-From: Stefan Berger <stefanb@linux.ibm.com>
-Subject: Test for TPM TIS on I2C bus
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: rujVzmfc7PDUP12mJQp3hGpapCyWc0ao
-X-Proofpoint-ORIG-GUID: WQZVFCvrfxLSWRIFcdB1h1a4fAkyirO8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_15,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxlogscore=969 clxscore=1015 mlxscore=0 phishscore=0
- bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303220127
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,10 +104,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello!
+On Wed, 22 Mar 2023 09:10:20 -0400
+Yang Zhong <yang.zhong@linux.intel.com> wrote:
 
-   Ninad wrote an emulator for TPM TIS on I2C bus and I was wondering how one could implement a test case for it so that we can for example read and write registers. All existing TPM test cases are using qtest API and we spawn a thread to emulate a TPM and use the qtest API to read/write the ISA TIS's MMIO registers. The test cases that I see for i2c are all using the qos type of API. I have tried to use both in a test case but I am not sure whether they go together at all (from the errors I have seen they don't go together). So what options would we have? I thought that one could maybe write an i2c driver to transfer bytes to the device but the i2c in hw/i2c/aspeed_i2c.c looks complex to reverse engineer to try to get a byte to a connected device. Do you have any other suggestions?
+> On Wed, Mar 22, 2023 at 01:56:13PM +0100, C=C3=A9dric Le Goater wrote:
+> > On 3/22/23 13:28, Yang Zhong wrote: =20
+> > > On Tue, Mar 21, 2023 at 06:30:14PM +0100, C=C3=A9dric Le Goater wrote=
+: =20
+> > > > On 3/20/23 10:31, Yang Zhong wrote: =20
+> > > > > Hello Alex and Paolo,
+> > > > >=20
+> > > > > There is one instance_finalize callback definition in hw/vfio/pci=
+.c, but
+> > > > > i find this callback(vfio_instance_finalize()) never be called du=
+ring the
+> > > > > VM shutdown with close VM or "init 0" command in guest.
+> > > > >=20
+> > > > > The Qemu related command:
+> > > > >      ......
+> > > > >      -device vfio-pci,host=3Dd9:00.0
+> > > > >      ...... =20
+> > > >=20
+> > > > well, the finalize op is correctly called for hot unplugged devices=
+, using
+> > > > device_add.
+> > > >  =20
+> > >     Thanks C=C3=A9dric, i can use device_del command in the monitor to
+> > >     trigger this instance_finalize callback function in the VFIO PCI.
+> > >     thanks! =20
+> >=20
+> > yes. I think that in the shutdown case, QEMU simply relies on exit() to
+> > do the cleanup. On the kernel side, unmaps, fds being closed trigger any
+> > allocated resources.
+> >=20
+> > Out of curiosity, what were you trying to achieve in the finalize op ?
+> >  =20
+> =20
+>  We are doing one new feature, which need this callback to do some
+>  cleanup work with VFIO/iommufd kernel module. thanks!
 
-   Regards,
-       Stefan
+This sounds dangerously like relying on userspace for cleanup.  Kernel
+drivers need to be able to perform all cleanup themselves when file
+descriptors are closed.  They must expect that userspace can be killed
+at any point in time w/o an opportunity to do cleanup work.  Thanks,
+
+Alex
+
 
