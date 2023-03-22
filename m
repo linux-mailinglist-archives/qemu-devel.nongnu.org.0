@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCB56C4F98
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 16:41:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93E06C4FAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 16:48:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf0ZW-0000uN-Ra; Wed, 22 Mar 2023 11:40:18 -0400
+	id 1pf0fr-0003ai-6F; Wed, 22 Mar 2023 11:46:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pf0ZN-0000r7-5Z
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:40:09 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pf0fl-0003YG-I9
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:46:45 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pf0ZK-0001Lj-O3
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:40:08 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pf0fj-0004zK-HF
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:46:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679499604;
+ s=mimecast20190719; t=1679500001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFCkAPo26od6h1m/cZd8bvD7ikgAk8sWGPbnWs2XRg4=;
- b=VtRrb3ZolwsALCrmhEozqMUezYme8btYRtUMUeV6cCBgZJT5id4XDO4y6ruFHZCYUoSGPJ
- 5XU4bp7xWwTgZeyDEKmIifouBjcwHURcxFHWHj8K72sSdyDdUJEM2sYaWCKXcNQbBC93w2
- AxkfvcGg9zvHA1ek6MJbk2ic1ZK2gBA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/W42FwC4mgrX2w2zy4EaN000rpZycWJSjEe0gWE8wRg=;
+ b=dgD/5KdJmMi1nTQdAeAh9CbusvycsIqx7G9a7u/HWgJuYO79dw2+TkvIvp1+vceqPIgCpC
+ RPHs/IVMX8yi115DPGSPErVVVhpN2UdRXAIVZDV5/8BMEBSS+wWB9wCMNE6pWXjqSRWycA
+ WmPuop3KwkNbN4EJhusee4sk2LjBNg8=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-512-aW5ser7IOMSokfAwM38R3Q-1; Wed, 22 Mar 2023 11:40:02 -0400
-X-MC-Unique: aW5ser7IOMSokfAwM38R3Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- r19-20020a50aad3000000b005002e950cd3so28020524edc.11
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 08:40:01 -0700 (PDT)
+ us-mta-668-WI8DS42XOp60qSlcGZeFMg-1; Wed, 22 Mar 2023 11:46:40 -0400
+X-MC-Unique: WI8DS42XOp60qSlcGZeFMg-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-5417f156cb9so192135407b3.8
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 08:46:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679499600;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gFCkAPo26od6h1m/cZd8bvD7ikgAk8sWGPbnWs2XRg4=;
- b=INealHcX1dtXcCCmvheJ36AS40UHOg7Z096s5Sf0MW/xiNLSmUfuHFOogxRgl6cDQJ
- 9XN3KNCtL9Wu+iKIYwIa38vnXjOrNjkeU52umO5q5TFNyL3DUbPf4FPDTGwE+NcD0trn
- N4ZuQAlmnthfIfOj77Qr42G9val0o/wwluZQ/4NrIlUa4vfuKnJ1090JGVh/ajVRe45S
- 03qW7YscnAFHvprex/tECWDrJ7PovyVEffOP3fHGtbJqYSc5x0w8Euob4l4dCfRetaxB
- Km/DfgZIZS3va2gOvvkDsdhvUN9LmyZl3yTgC0LyeZcTycRws7TwNXHwGzrn8zaB+gEO
- K0cQ==
-X-Gm-Message-State: AO0yUKV55uq4bG+uss8Xv+wqw6ubjieYtDFdwuXbC40pR3NRH7IasUyR
- Rjdo3gKkPLw5ii9kYgJQFwmni9zkdIG97DamMNoM+ncFgua2Zo/w8gYk6Yx7f4KMWFeCvYXiolA
- m8XmQoaAkEAFTnQQ=
-X-Received: by 2002:a17:906:4dc4:b0:931:c077:2b63 with SMTP id
- f4-20020a1709064dc400b00931c0772b63mr2995447ejw.17.1679499600303; 
- Wed, 22 Mar 2023 08:40:00 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8JUWHea2nuJwZ0F1AUJrX+1kx38GQpJxaZbVu+x6ducCPEiLW5yMEpb9BoG+Am7os9Tbbqlw==
-X-Received: by 2002:a17:906:4dc4:b0:931:c077:2b63 with SMTP id
- f4-20020a1709064dc400b00931c0772b63mr2995430ejw.17.1679499600060; 
- Wed, 22 Mar 2023 08:40:00 -0700 (PDT)
-Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.googlemail.com with ESMTPSA id
- v2-20020a1709064e8200b008d9ddd2da88sm7390203eju.6.2023.03.22.08.39.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 08:39:59 -0700 (PDT)
-Message-ID: <e5f7dc9a-4116-9ffc-670b-c2a6180b1164@redhat.com>
-Date: Wed, 22 Mar 2023 16:39:58 +0100
+ d=1e100.net; s=20210112; t=1679499997;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/W42FwC4mgrX2w2zy4EaN000rpZycWJSjEe0gWE8wRg=;
+ b=tndio214z1znAmbnpjhMuDpCaWlvzeySyVTSQ5ZpjKnZJkHsE1pkHE4Gmjph2A6Lcx
+ +ewga86LMR0XoDFTDRpQp0v4yPFEJImjqMz3LmFUB0C9saqckA+w1IycU8k/mYhCMBbl
+ 63eLscyRQbBveRN+IZvArz8cjkPwj1Agrci9YuN/BAXgkMs+AOPrT+y+r96LCsZJ/5sv
+ JEPlYlpinKaRkxxdBFAoISNutS5NNHVGhRVS7S0nh1Z5G4kDBZrHZfWPDqe1aG2XA6mD
+ LI0vVZGegtGPxrS1Kp0OkepK2sgNDIN+ThGF1lH3AJkyz2jmjHKyebuR4Ah2NqGEO3JF
+ gAmw==
+X-Gm-Message-State: AAQBX9clW8cZxNUA9/i7PlvyzEdWJEPc7GR0ZsWqe8Hbt7417xWrYj4p
+ Oc4+6mHuueRXpJpfLxpA8FlP6HnMYuNduzZQ8+qVFNKnIOHEMfTOmqZ5X4wj/1iFWtL6KMUU9c5
+ HEdOlSsn8AqPklJFcjYNZAwPGVBHqriM=
+X-Received: by 2002:a05:690c:298d:b0:542:927b:1c79 with SMTP id
+ eh13-20020a05690c298d00b00542927b1c79mr68437ywb.3.1679499996724; 
+ Wed, 22 Mar 2023 08:46:36 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aEsEBRLIY92+IHo9WnbVfZoLVivCC8mXjgrjta8UTsRngnifcw+vlQKkWCocEsc6SPiwKoh6HoyKSUj3XXRvs=
+X-Received: by 2002:a05:690c:298d:b0:542:927b:1c79 with SMTP id
+ eh13-20020a05690c298d00b00542927b1c79mr68420ywb.3.1679499996492; Wed, 22 Mar
+ 2023 08:46:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [qemu-web PATCH] add post about plans for Python venvs
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, jsnow@redhat.com, berrange@redhat.com
-References: <20230322151529.1020525-1-pbonzini@redhat.com>
- <CAFEAcA8U0bW72SWMK7k0tiFOMMZbk5Cd6kX=SwKFxqiLe0+YEw@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA8U0bW72SWMK7k0tiFOMMZbk5Cd6kX=SwKFxqiLe0+YEw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+References: <20230317145542.347368-1-eperezma@redhat.com>
+ <20230317145542.347368-2-eperezma@redhat.com>
+ <20230322142214.ib7vxerutdn4jqdp@sgarzare-redhat>
+In-Reply-To: <20230322142214.ib7vxerutdn4jqdp@sgarzare-redhat>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 22 Mar 2023 16:46:00 +0100
+Message-ID: <CAJaqyWdckDEw3DzZ95zjT-xJbb+j3cPV9qADb+9hzdONCzS+yw@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.1 1/6] vdpa: Remove status in reset tracing
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com, 
+ Laurent Vivier <lvivier@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Jason Wang <jasowang@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ si-wei.liu@oracle.com, longpeng2@huawei.com, Cindy Lu <lulu@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,32 +103,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/22/23 16:18, Peter Maydell wrote:
-> On Wed, 22 Mar 2023 at 15:15, Paolo Bonzini<pbonzini@redhat.com>  wrote:
->> +Some of these tools are run through the `python3` executable, while others
->> +are invoked directly as `sphinx-build` or `meson`, and this can create
->> +inconsistencies.  For example, QEMU's `configure` script checks for a
->> +minimum version of Python and rejects too-old interpreters.  What would
->> +happen if code run via Sphinx or Meson used a different version?
-> ...this is why configure also separately checks that when you run sphinx
-> it is executing with a new enough Python version.
+On Wed, Mar 22, 2023 at 3:22=E2=80=AFPM Stefano Garzarella <sgarzare@redhat=
+.com> wrote:
+>
+> On Fri, Mar 17, 2023 at 03:55:37PM +0100, Eugenio P=C3=A9rez wrote:
+> >It is always 0 and it is not useful to route call through file
+> >descriptor.
+>
+> I didn't get the second part of the sentence (after "and"),
 
-Point taken, though "new enough" is not "the same version" used by 
---python or $PYTHON.  I will tweak the end of the introduction as follows:
+Right, it is totally not explained.
 
-====
-As a result, even if `configure` is told to use `/usr/bin/python3.8` for 
-the build, QEMU's custom Sphinx extensions would still run under Python 
-3.6.  configure does separately check that Sphinx is executing with a 
-new enough Python version, but it would be nice if there were a more 
-generic way to prepare a consistent Python environment.
+Next patches need to call VHOST_VDPA_SET_STATUS(0) using vdpa file
+descriptor, not struct vhost_dev. This patch prepares the way to
+transform this function that way.
 
-This post will explain how QEMU 8.1 will ensure that a single 
-interpreter is used for the whole of the build process.  Getting there 
-will require some familiarity with Python packaging, so let's start with 
-virtual environments.
-====
+I'll add in the log for the next version, thanks!
 
-Paolo
+> anyway the
+> patch LGTM:
+>
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+>
+> >
+> >Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >---
+> > hw/virtio/vhost-vdpa.c | 2 +-
+> > hw/virtio/trace-events | 2 +-
+> > 2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> >diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> >index bc6bad23d5..bbabea18f3 100644
+> >--- a/hw/virtio/vhost-vdpa.c
+> >+++ b/hw/virtio/vhost-vdpa.c
+> >@@ -716,7 +716,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev =
+*dev)
+> >     uint8_t status =3D 0;
+> >
+> >     ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+> >-    trace_vhost_vdpa_reset_device(dev, status);
+> >+    trace_vhost_vdpa_reset_device(dev);
+> >     v->suspended =3D false;
+> >     return ret;
+> > }
+> >diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> >index 8f8d05cf9b..6265231683 100644
+> >--- a/hw/virtio/trace-events
+> >+++ b/hw/virtio/trace-events
+> >@@ -44,7 +44,7 @@ vhost_vdpa_set_mem_table(void *dev, uint32_t nregions,=
+ uint32_t padding) "dev: %
+> > vhost_vdpa_dump_regions(void *dev, int i, uint64_t guest_phys_addr, uin=
+t64_t memory_size, uint64_t userspace_addr, uint64_t flags_padding) "dev: %=
+p %d: guest_phys_addr: 0x%"PRIx64" memory_size: 0x%"PRIx64" userspace_addr:=
+ 0x%"PRIx64" flags_padding: 0x%"PRIx64
+> > vhost_vdpa_set_features(void *dev, uint64_t features) "dev: %p features=
+: 0x%"PRIx64
+> > vhost_vdpa_get_device_id(void *dev, uint32_t device_id) "dev: %p device=
+_id %"PRIu32
+> >-vhost_vdpa_reset_device(void *dev, uint8_t status) "dev: %p status: 0x%=
+"PRIx8
+> >+vhost_vdpa_reset_device(void *dev) "dev: %p"
+> > vhost_vdpa_get_vq_index(void *dev, int idx, int vq_idx) "dev: %p idx: %=
+d vq idx: %d"
+> > vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
+> > vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
+> >--
+> >2.31.1
+> >
+>
 
 
