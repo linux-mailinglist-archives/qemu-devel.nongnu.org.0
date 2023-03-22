@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61EA6C47BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 11:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF9886C485E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 11:59:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pevnm-0007wo-U2; Wed, 22 Mar 2023 06:34:42 -0400
+	id 1pewAJ-0005yo-1B; Wed, 22 Mar 2023 06:57:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pevnj-0007wY-KI
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:34:39 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pewAG-0005yO-P1
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:57:56 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pevnh-0008Ta-Es
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:34:38 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- o40-20020a05600c512800b003eddedc47aeso5602446wms.3
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 03:34:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pewAE-0001Bh-Ij
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:57:56 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id v1so10441593wrv.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 03:57:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679481276;
+ d=linaro.org; s=google; t=1679482673;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=RYkfG22HjGs03l4ehDPCyiQgubtep/FS2RbjbyPAMKU=;
- b=mw1Rk2Evr2Rb822D/JkRjVOtW4/ZadooypbQMLQakBrT5nsjjawNDD7DyVO5uve7py
- hhrmqoE4n6pN4wLLIlOjHkxhDV+ktp3DgIhuQSNxhjIxNhyc+UBzo16/WG7wGeX8cuqW
- QSHzNN3hWcabPdX6zUAbiEqR93zd8HzWAOTLZAy8ZiZ2GTOPfwHLbiKN3S1dCFZL9tIv
- hTbRdp998Y39uJs8ogrP3r5R214m8WyZPjmRcpNdPTqtadEBYNhNceNX5qK3vduVxq/b
- eJYNWmoharT0A8wHFgla7WTlEsreuZTeSe0j2KvQMyVL1LdvejbgubFdM1xn4bf7/O+r
- 6mZg==
+ bh=INcR64Rt0QDCZYXn5pYcgy52RtwXtHQx+iTvo3+eCQA=;
+ b=rdGWXySZsto+5cZqq3/71MGF+IzsEuN3MIN+L7T0M9xLe4jZn7DUwzy0c8huaBCQsz
+ zJNbihD7F5klzqXZc/PVUHBrBhNfQx1B+a+YDeoPptP9Dyy/3IyI7y0OxlrN6jS5x4gZ
+ 4NVWqVV7uKGICvTOQ9cob2cnrCOW6LEk+DX2GmR6s5MXDd47hm4ubQK3p4vKbAW81iuV
+ DyUyvMDYrkAQWG8Jn51ZGMgdKV4vzqYBEWm9v53k8YJ4OSSeYEgmjl6U1otBYc+QJum0
+ 9Q2zgB3y78/xE//MQEl3khFm/PHdJ2eHvXM5bQW2pVVChcm2oUDthcwkHIKVlvEZ3tJL
+ biYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679481276;
+ d=1e100.net; s=20210112; t=1679482673;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RYkfG22HjGs03l4ehDPCyiQgubtep/FS2RbjbyPAMKU=;
- b=3XOXvNIChNoo6Hhn2vI7g2bXShalwHv7BN37wfBwN/EHnVlAUq7XkQK5rXcdN9MREi
- LSt0aU74MKZQ0t6hSGS5PU/SzEZ79xbn/xTRmnCBQ/GCBa5UCqhQpzhvaz9LNTAcRlNH
- SwZbaGORG393I5DIkIrVfKkJ5WvdE7ipfUCZnGocMwn6YbhyZnag6B42b9hM11Ee4ihA
- 3lENn3fv5OiOmZppTm+yQxktnspTGgJDGa5yO5KvvP+TFjWg1WCJYvWlh87na8dFSQw+
- kud2AknfjYJtIvm+YryNB64QKYHtZqyu4JhpWIYIVYG/J9Qs84/KW5oCDB/0fAydqD3Q
- 6XXw==
-X-Gm-Message-State: AO0yUKV3dUbaOgvkwoM1boZjllmJpC1LRS4kqKbetGxd5rpxQl9rZkqY
- uW3qiusHiGsduRVTQCYSHc1c5g==
-X-Google-Smtp-Source: AK7set/DZnvlMmeRk+0KDqjB7LCGWSlykJixPT378PklHt04EXgENQgDHwcOY8qGnUzaSXMFeyB9rQ==
-X-Received: by 2002:a7b:c383:0:b0:3df:eecc:de2b with SMTP id
- s3-20020a7bc383000000b003dfeeccde2bmr4976466wmj.11.1679481275777; 
- Wed, 22 Mar 2023 03:34:35 -0700 (PDT)
+ bh=INcR64Rt0QDCZYXn5pYcgy52RtwXtHQx+iTvo3+eCQA=;
+ b=dz/uVTlech3kpBQ56fEFzkId7rkax9/Kf5Kb3sTB6jMZ3tQUSsgafjO9JSHRDrJjNl
+ IfgR7Xvvh/ZjZz7p22Bt6dGbLjrLCXTEpWlYDbD6VwpY0cae0Z4v3SdjB4oDwRLK04Wv
+ IobImJc2bPsBOTco0tJNRMDqfFdra7OQ69ScYPpLrssftnpsbhOPA93tKTAopJGKVlz1
+ Io5u7hJsdk6AohfGQQEPqi3TnoZe/YfYKr1YRbyDTwlOqmbUgzjYWxV2rY4LPRA7ho+g
+ 5HgfqdVCysUC6HXlCtdpLZjCaXjUHOT6ffo815ezU9I/bCOBfaUH6AagDPeUB9rEmaj0
+ QJbQ==
+X-Gm-Message-State: AO0yUKVOB/e6DS2CEJfzeQhVDm3OefuurmYgXEGWFhL4w7kpjj5pjG5R
+ qIrkeW9lkIP1N4c8n+Q0PnDGEA==
+X-Google-Smtp-Source: AK7set/ZwcCbyDTe1j0u362qPqYoiV327EDWCNHU9RKc01k3OA1nT8syaACZZPgM10+BLkNzNZJHug==
+X-Received: by 2002:adf:e484:0:b0:2cf:e3c7:5975 with SMTP id
+ i4-20020adfe484000000b002cfe3c75975mr1497398wrm.34.1679482672875; 
+ Wed, 22 Mar 2023 03:57:52 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k22-20020a05600c1c9600b003ee6a91b596sm870914wms.29.2023.03.22.03.34.34
+ b9-20020a05600010c900b002c7163660a9sm13562316wrx.105.2023.03.22.03.57.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 03:34:35 -0700 (PDT)
-Message-ID: <366919e9-e7ca-28bf-f61a-813634c4a115@linaro.org>
-Date: Wed, 22 Mar 2023 11:34:34 +0100
+ Wed, 22 Mar 2023 03:57:52 -0700 (PDT)
+Message-ID: <4b8292bf-fbb3-aed9-23f3-7b079d3d5298@linaro.org>
+Date: Wed, 22 Mar 2023 11:57:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [RESEND PATCH 1/2] hw/cxl: Fix endian handling for decoder commit.
+Subject: Re: [PATCH] ui/spice: fix compilation on win32
 Content-Language: en-US
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Michael Tsirkin <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: linuxarm@huawei.com, Fan Ni <fan.ni@samsung.com>,
- Dave Jiang <dave.jiang@intel.com>, linux-cxl@vger.kernel.org
-References: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
- <20230322102731.4219-2-Jonathan.Cameron@huawei.com>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, berrange@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
+ <c2c4b00e-53b8-0205-e627-93860bb67720@linaro.org>
+ <CAJ+F1C+Ge1v+F_D5_NzMSu1ZAocRQdzyuUHApFwfz_VzBYRdGg@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230322102731.4219-2-Jonathan.Cameron@huawei.com>
+In-Reply-To: <CAJ+F1C+Ge1v+F_D5_NzMSu1ZAocRQdzyuUHApFwfz_VzBYRdGg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,45 +94,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/3/23 11:27, Jonathan Cameron via wrote:
-> Not a real problem yet as all supported architectures are
-> little endian, but continue to tidy these up when touching
-> code for other reasons.
+On 22/3/23 11:22, Marc-André Lureau wrote:
+> Hi
 > 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->   hw/cxl/cxl-component-utils.c | 10 ++++------
->   hw/mem/cxl_type3.c           |  9 ++++++---
->   2 files changed, 10 insertions(+), 9 deletions(-)
+> On Wed, Mar 22, 2023 at 1:01 PM Philippe Mathieu-Daudé
+> <philmd@linaro.org> wrote:
+>>
+>> On 22/3/23 08:52, marcandre.lureau@redhat.com wrote:
+>>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>>
+>>> qemu_close_to_socket() renaming left-over.
+>>>
+>>> Fixes:
+>>> https://gitlab.com/qemu-project/qemu/-/issues/1553
+>>>
+>>> Fixes: commit e40283d9a ("ui/spice: fix SOCKET handling regression")
+>>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>> ---
+>>>    ui/spice-core.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/ui/spice-core.c b/ui/spice-core.c
+>>> index 67cfd3ca9c..52a59386d7 100644
+>>> --- a/ui/spice-core.c
+>>> +++ b/ui/spice-core.c
+>>> @@ -149,7 +149,7 @@ static void watch_remove(SpiceWatch *watch)
+>>>        qemu_set_fd_handler(watch->fd, NULL, NULL, NULL);
+>>>    #ifdef WIN32
+>>>        /* SOCKET is owned by spice */
+>>> -    qemu_close_to_socket(watch->fd);
+>>> +    qemu_close_socket_osfhandle(watch->fd);
+>>>    #endif
+>>>        g_free(watch);
+>>>    }
+>>
+>> Wondering why this hasn't been caught by CI, apparently we miss
+>> the spice package:
+>>
+>> -- >8 --
+>> diff --git a/.cirrus.yml b/.cirrus.yml
+>> @@ -41,6 +41,7 @@ windows_msys2_task:
+>>          mingw-w64-x86_64-curl
+>>          mingw-w64-x86_64-gnutls
+>>          mingw-w64-x86_64-libnfs
+>> +      mingw-w64-x86_64-spice
+>>        "
+>>        CHERE_INVOKING: 1
+>>      msys2_cache:
+>> ---
 > 
-> diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-> index b665d4f565..a3e6cf75cf 100644
-> --- a/hw/cxl/cxl-component-utils.c
-> +++ b/hw/cxl/cxl-component-utils.c
-> @@ -47,14 +47,12 @@ static void dumb_hdm_handler(CXLComponentState *cxl_cstate, hwaddr offset,
->           break;
->       }
->   
-> -    memory_region_transaction_begin();
-> -    stl_le_p((uint8_t *)cache_mem + offset, value);
->       if (should_commit) {
-> -        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
-> -        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERR, 0);
-> -        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
-> +        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
-> +        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
-> +        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
->       }
-> -    memory_region_transaction_commit();
+> Can you send a patch? I will trigger CI to check it.
 
-Indeed the memory_region_transaction guard seems pointless here,
-but it is a different change, so should go in a preliminary patch IMHO.
+I was waiting the job to complete. It is sufficient to reproduce:
 
-Conditional to this patch being split:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+[1851/5253] Compiling C object libcommon.fa.p/ui_spice-core.c.obj
+FAILED: libcommon.fa.p/ui_spice-core.c.obj
+"cc" "-m64" "-mcx16" "-Ilibcommon.fa.p" "-I../dtc/libfdt" 
+"-IC:/tools/msys64/mingw64/include/pixman-1" 
+"-IC:/tools/msys64/mingw64/include/libpng16" 
+"-IC:/tools/msys64/mingw64/include/spice-server" 
+"-IC:/tools/msys64/mingw64/include/spice-1" 
+"-IC:/tools/msys64/mingw64/include/glib-2.0" 
+"-IC:/tools/msys64/mingw64/lib/glib-2.0/include" 
+"-IC:/tools/msys64/mingw64/include/p11-kit-1" 
+"-IC:/tools/msys64/mingw64/include/SDL2" 
+"-IC:/tools/msys64/mingw64/include/ncursesw" 
+"-IC:/tools/msys64/mingw64/include/gtk-3.0" 
+"-IC:/tools/msys64/mingw64/include/pango-1.0" 
+"-IC:/tools/msys64/mingw64/include/harfbuzz" 
+"-IC:/tools/msys64/mingw64/include/freetype2" 
+"-IC:/tools/msys64/mingw64/include/fribidi" 
+"-IC:/tools/msys64/mingw64/include/cairo" 
+"-IC:/tools/msys64/mingw64/include/gdk-pixbuf-2.0" 
+"-IC:/tools/msys64/mingw64/include/webp" 
+"-IC:/tools/msys64/mingw64/include/atk-1.0" 
+"-IC:/tools/msys64/mingw64/include/libusb-1.0" 
+"-fdiagnostics-color=auto" "-Wall" "-Winvalid-pch" "-Werror" 
+"-std=gnu11" "-O2" "-g" "-iquote" "." "-iquote" 
+"C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build" 
+"-iquote" 
+"C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/include" 
+"-iquote" 
+"C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/tcg/i386" 
+"-U_FORTIFY_SOURCE" "-D_FORTIFY_SOURCE=2" "-fno-pie" "-no-pie" 
+"-D_GNU_SOURCE" "-D_FILE_OFFSET_BITS=64" "-D_LARGEFILE_SOURCE" 
+"-fno-strict-aliasing" "-fno-common" "-fwrapv" "-Wundef" 
+"-Wwrite-strings" "-Wmissing-prototypes" "-Wstrict-prototypes" 
+"-Wredundant-decls" "-Wold-style-declaration" "-Wold-style-definition" 
+"-Wtype-limits" "-Wformat-security" "-Wformat-y2k" "-Winit-self" 
+"-Wignored-qualifiers" "-Wempty-body" "-Wnested-externs" 
+"-Wendif-labels" "-Wexpansion-to-defined" "-Wimplicit-fallthrough=2" 
+"-Wmissing-format-attribute" "-Wno-missing-include-dirs" 
+"-Wno-shift-negative-value" "-Wno-psabi" "-fstack-protector-strong" 
+"-DHWY_SHARED_DEFINE" "-DLIBDEFLATE_DLL" "-D_POSIX_C_SOURCE=199506L" 
+"-DNCURSES_WIDECHAR" "-DNCURSES_WIDECHAR=1" "-Dmain=SDL_main" 
+"-Wno-undef" "-DSTRUCT_IOVEC_DEFINED" -MD -MQ 
+libcommon.fa.p/ui_spice-core.c.obj -MF 
+"libcommon.fa.p/ui_spice-core.c.obj.d" -o 
+libcommon.fa.p/ui_spice-core.c.obj "-c" ../ui/spice-core.c
+../ui/spice-core.c: In function 'watch_remove':
+../ui/spice-core.c:152:5: error: implicit declaration of function 
+'qemu_close_to_socket' [-Werror=implicit-function-declaration]
+   152 |     qemu_close_to_socket(watch->fd);
+       |     ^~~~~~~~~~~~~~~~~~~~
+../ui/spice-core.c:152:5: error: nested extern declaration of 
+'qemu_close_to_socket' [-Werror=nested-externs]
+cc1.exe: all warnings being treated as errors
 
-> +    stl_le_p((uint8_t *)cache_mem + offset, value);
->   }
-
+ninja: build stopped: subcommand failed.
+make: *** [Makefile:165: run-ninja] Error 1
+Exit status: 2
 
 
