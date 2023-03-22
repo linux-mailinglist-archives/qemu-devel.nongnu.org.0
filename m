@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422D46C5A72
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 00:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026226C5A59
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 00:30:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf78P-0007Pm-IL; Wed, 22 Mar 2023 18:40:45 -0400
+	id 1pf77Q-0007KU-Cz; Wed, 22 Mar 2023 18:39:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1pf78H-0007Pb-Vb
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:40:38 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1pf78F-0008JR-EB
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:40:37 -0400
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 12DD942832
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 22:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1679524828;
- bh=9L1OH6atSkVKYfJMATKZxhZw/mAzRGonpHStysuqqYo=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=aFeCF9mPyU7KbQneHw8Kdy5jY+JeYJiiERVIXO4uNFOK6fshoxA3i2iPgs9LTzIHV
- cAWAqF8AAg00GsBjbuYariRONxB67Mg7tnBgS0neUrFyxGKdSRxruQjRIgvjdhPMrA
- 9NiNZlG6BwIdVyX/CjMOFPqoO813HTvOFCrZTBHGt09hkSzgyk3wiMalP2Q6reMS2L
- YOMMFzph9eHp0xXEeHisK4ghtDkASq8ZywSynkkluZ+bK4jDMKeysSE3WNqhvazUEe
- GvlfNQ0y6q7MKZEZQiWftzmzRfH6vSoXRMMLAdI+02H7itjevU6l4qzyHqbbs2cWvi
- GxrEbgFBA5FcA==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id 4F3B43F56B
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 22:40:27 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pf77N-0007Jc-HB
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:39:41 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pf77G-0007wI-RD
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:39:41 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id bc12so20031244plb.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 15:39:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679524773;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JkdAZHib7lR8FysgoNWuV/psgaBBczZUKNI5U8fBuUU=;
+ b=nOv+CREbCvKaW4xH7cTQl19e64E1d0MA81XhLqKanWCBHZkxqEQRJpvSXfayZpSHwZ
+ 5SWOI4k38Cftb8lOQOp4pUFDIZKPmfar37WsrpYAJMaNX8b6MoxzOEuzDAymJY/fLCmT
+ aEdy2VlMKfe7N0NoWN3rdH/FcjDofm1qf7DTFBpp47r6OOkMZVqR2LIHduQh+n8PYPkq
+ RihV90K9QiHTQEGeiC0LJL5u1wDt2komdiDx/X3cWRHRAkF5T0JGrt1cWiF4SaCv3LAO
+ T46zTOXvYphjIcArt0CyXvjx+8h8bP4/hbzYQdHsR0chohfjPLMyqq/3OJ2FPEnJCVMT
+ blFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679524773;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JkdAZHib7lR8FysgoNWuV/psgaBBczZUKNI5U8fBuUU=;
+ b=m7f5XOBV7nN4YT9u7l7+gT3FxZttR8nD+6BUyX+liolavRqZjjqzoGMGEOt4aJDhRQ
+ 4dXrN38ZecNgGKvoPtfLzi75vXuc5YnFcZDfc18EShRj0+dBE/HsN+2LiVxUBNLxPye1
+ PyCwBGyt3y2n3PRDcVg+vD0ziHZdP93nxj3ZhcHl5cROpCg3fKVf7IO//HdOlDHYDcR5
+ fvlcsRA05not8zfyPnJsUylE3KDMU40YgCeNCysFjsakCK+3WgWyiGegKwagACBsXATJ
+ 8/N5JPwPV2OBHVu1ILHl0goNSdjkt61zd67LHg9B4p7kvZ1BMo6HXGVbIBDbSuchxvIq
+ cUjA==
+X-Gm-Message-State: AO0yUKUEPZLavuQVxJg8M8M6XQl/oXLnma3gbCelSVq2w2JOmx0o/PtN
+ k/bCQnsRneKtqK6RKfAotPvQqA==
+X-Google-Smtp-Source: AK7set++Aq8+vn/mx9+Tn5xja0Qah2o1vUKjgZpN4mxLRLsNHyrBqRfO+k8a5mVyhIXUTmjlsCkgUg==
+X-Received: by 2002:a17:90a:195b:b0:23f:8752:98c0 with SMTP id
+ 27-20020a17090a195b00b0023f875298c0mr5513258pjh.19.1679524772738; 
+ Wed, 22 Mar 2023 15:39:32 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1544:6601:226e:47e1:b8cd:a957?
+ ([2602:ae:1544:6601:226e:47e1:b8cd:a957])
+ by smtp.gmail.com with ESMTPSA id
+ x15-20020a17090a6b4f00b0023acdac248dsm32804pjl.15.2023.03.22.15.39.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Mar 2023 15:39:32 -0700 (PDT)
+Message-ID: <976fc94f-ad21-3130-014a-4da848d1cfbf@linaro.org>
+Date: Wed, 22 Mar 2023 15:39:30 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Mar 2023 22:32:07 -0000
-From: Nelo <1703506@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ak-launchpad amnevar babumoger ehabkost imatimba
- janitor nelo390 ptx0 rs-databay ryzen27 scix th-huth
-X-Launchpad-Bug-Reporter: A S (scix)
-X-Launchpad-Bug-Modifier: Nelo (nelo390)
-References: <149974876377.6612.10329067332937096720.malonedeb@gac.canonical.com>
-Message-Id: <167952432774.3031.15041843477170240488.malone@angus.canonical.com>
-Subject: [Bug 1703506] Re: SMT not supported by QEMU on AMD Ryzen CPU
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c5a134908fde0a645e56f24c14f906bf278db3e0"; Instance="production"
-X-Launchpad-Hash: 89db0d1d2fc3a22436e0abd3794f78f236bf5143
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 6/7] target/arm: Implement v8.3 FPAC and FPACCOMBINE
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Vincent Dehors <vincent.dehors@smile.fr>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230222193544.3392713-1-aaron@os.amperecomputing.com>
+ <20230222193544.3392713-7-aaron@os.amperecomputing.com>
+ <989f380e-9d70-a377-9f56-6d42935459c2@linaro.org>
+ <ZBtmAEYfI8T8Y/zT@strawberry.localdomain>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <ZBtmAEYfI8T8Y/zT@strawberry.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,50 +97,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1703506 <1703506@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This affected me. Took me several days.
+On 3/22/23 13:33, Aaron Lindsay wrote:
+> On Feb 22 11:37, Richard Henderson wrote:
+>> On 2/22/23 09:35, Aaron Lindsay wrote:
+>>> @@ -406,6 +421,16 @@ static uint64_t pauth_auth(CPUARMState *env, uint64_t ptr, uint64_t modifier,
+>>>            uint64_t xor_mask = MAKE_64BIT_MASK(bot_bit, top_bit - bot_bit + 1) &
+>>>                ~MAKE_64BIT_MASK(55, 1);
+>>>            result = ((ptr ^ pac) & xor_mask) | (ptr & ~xor_mask);
+>>> +        if (cpu_isar_feature(aa64_fpac_combine, env_archcpu(env)) ||
+>>> +                (cpu_isar_feature(aa64_fpac, env_archcpu(env)) &&
+>>> +                 !is_combined)) {
+>>
+>> Indentation is off.
+> 
+> I pulled `env_archcpu(env)` out of this if-statement in my latest
+> patchset in addition to the indentation, but am not confident I have
+> done what you intended. The QEMU Coding Style guide doesn't seem to
+> address longer statements like this in its section on indentation, so I
+> attempted to follow other examples in the code, but I'll take further
+> direction here.
 
 
-The solution posted by asd fghjkl (ryzen27) worked for me as  well:
+     if (function(a) ||
+         (function(b) &&
+          function(c))) {
+         ...
+1234567890
 
-sudo nano /etc/modprobe.d/kvm.conf
-options kvm ignore_msrs=3D1
-and then rebooted
 
-I'm very glad i found this thread. Don't know where to report this or if
-it's even a bug, But hope it gets fixed!
-
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1703506
-
-Title:
-  SMT not supported by QEMU on AMD Ryzen CPU
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  HyperThreading/SMT is supported by AMD Ryzen CPUs but results in this
-  message when setting the topology to threads=3D2:
-
-  qemu-system-x86_64: AMD CPU doesn't support hyperthreading. Please
-  configure -smp options properly.
-
-  Checking in a Windows 10 guest reveals that SMT is not enabled, and
-  from what I understand, QEMU converts the topology from threads to
-  cores internally on AMD CPUs. This appears to cause performance
-  problems in the guest perhaps because programs are assuming that these
-  threads are actual cores.
-
-  Software: Linux 4.12, qemu 2.9.0 host with KVM enabled, Windows 10 pro
-  guest
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1703506/+subscriptions
-
+r~
 
