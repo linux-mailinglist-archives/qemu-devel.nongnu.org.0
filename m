@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3386C5322
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 18:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92DB6C5323
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 18:58:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf2hP-00006I-TY; Wed, 22 Mar 2023 13:56:35 -0400
+	id 1pf2hR-00007m-DM; Wed, 22 Mar 2023 13:56:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3T0EbZAYKCmYXMXYWVKSSKPI.GSQUIQY-HIZIPRSRKRY.SVK@flex--titusr.bounces.google.com>)
- id 1pf2hO-000061-9O
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 13:56:34 -0400
-Received: from mail-vs1-xe49.google.com ([2607:f8b0:4864:20::e49])
+ <3UEEbZAYKCmcYNYZXWLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--titusr.bounces.google.com>)
+ id 1pf2hP-00006M-Is
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 13:56:35 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3T0EbZAYKCmYXMXYWVKSSKPI.GSQUIQY-HIZIPRSRKRY.SVK@flex--titusr.bounces.google.com>)
- id 1pf2hM-0002FN-Rn
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 13:56:34 -0400
-Received: by mail-vs1-xe49.google.com with SMTP id
- i21-20020a05610221b500b004258d5ee8c4so5260071vsb.0
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 10:56:31 -0700 (PDT)
+ <3UEEbZAYKCmcYNYZXWLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--titusr.bounces.google.com>)
+ id 1pf2hN-0002Fe-Po
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 13:56:35 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ e129-20020a251e87000000b00b56598237f5so20273742ybe.16
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 10:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1679507791;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=bBc8nJSLiVzdxFPEpKJGMX3a4bJpKjM1r87UkXJvpN4=;
- b=UAoUZFl+wa+3030Wj02P1ENAAPVjfZhajJAtQSqAqTFFXSw598hFJGoF6a1UdgX1Tg
- 9j6jmgBvlZzz00r8PAsezf9sENnwZe2qw8mpQWeonBaCcn5ezMocH7U/bvrqKDy6vsk5
- 3WRe3olLdllf+l23Ilb9Pr1NXWBcJJNjVqpUWsmdITpJFUb0mvTRbErP8bEUa+aw/76S
- /RhXgZKfXwhNddlT5KLAMDcHN08nnBNE7xUcpMF/ACWvznfseKX37iB7m3N50eNWrFgH
- NnIiATihI1dV1yru2w5ArhiwwZJVsI3ieEDg1TULimPCe+yqBVjLLb6orthfzYlmVwrB
- mutQ==
+ d=google.com; s=20210112; t=1679507792;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2T5B4kmhyEWAy1vn/gaQP2yNmdYM7rv0n//EHdFKaCI=;
+ b=N8QTU+1ND/S+CLRk0HAnO7gylmQ/p2Z2t57NotAO7i2MkzX6Nk7KZaCH7QJme6t8Vz
+ VGrVpqOmxdbavLeD8ZgoADOB8sb5a5tEumgtxxwH3jTWdu+FY7ogmauJx4DxZ2t/+PoA
+ cKHVryYcHXffymaOn7NogEAJTbgMVRFRN85ir1UTb4rKLshWvGqepO4bRR2d9fci+aKB
+ MHe2U23Ij8lGRSktyRp4AWOptGP7uUuKLX/dLfckoe5fTmBoMRBc8uFanhppMeqkYKeC
+ bTs7W1YSk0qE/Uu7VR6WRj1Mpp/7xyH1olMZbJ0tWzkA/BHH/blsfGy/P6X6EgKUM3Jp
+ TpFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679507791;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bBc8nJSLiVzdxFPEpKJGMX3a4bJpKjM1r87UkXJvpN4=;
- b=shNKCHq/qd+I9rD7eSbVWlReJhQaCRLq0ZX8cLBFKt4xfoAN7BSPZ7ApbpEuf/vu29
- GDOFKaM2nUsIz53C1aqA8iRDYCf/Kux/e2bYYecyq42Cd6g9HP9U8rw/bYN6CfCUKBwc
- mH/+4xgCLbNJexz9Upf6wqtpPluyO1Sn9zLWJ0qTqKf6GzzVtD4Y9KczwSwMA7I0KgRU
- YNe9v+gSKXGDJTP0GYHclgNDaACQz6uzLMRXT/z75Yxp5/FqtWk0QBVapm/eTU2OKmOK
- 4CZ61bFBYOUiba9LBMS8zbBvY7PtN5b4s2Y3uq+tuUSFPLAr62BmfdvoMRi8mY141ZKc
- kUrA==
-X-Gm-Message-State: AAQBX9eBuBd41XKSpTvML10PLx+vf41w4R3zXwGZNyAd9xRwSrwq14fu
- H2VGb9rtf/pOhmzWFh+XTrHwS9tjVe4=
-X-Google-Smtp-Source: AKy350bz0a1Q9yedPzmTe4Oglj7Ang7uq4bZzzcy7xVGJn7rDTy8aLz0ZlfPELEgR8jW1N4pNSjxcin1EvA=
+ d=1e100.net; s=20210112; t=1679507792;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2T5B4kmhyEWAy1vn/gaQP2yNmdYM7rv0n//EHdFKaCI=;
+ b=QNgvp8T4P3Qgeu28wUf9KPaLLawwt9X/aRDoOp9U2MC0u032SpGrs61gTvifI8Q2db
+ B6oGJ2elANKu2LfpcB//SHX2b3hb7KPyS1wvT/bnzH71gyv5Z+e8f1LxXUrJlpw81oB0
+ zCBYfqUYewndmxMB+PYe6C8raZ2/3k1xLqHx/LX7RRcUVxa9mow8bZgt0dkG8zUYl8AP
+ 9Sdmoey6jtoVrKy69+faAN4Kb3eA9hsE5InK/iH3OB9LCzFKdGIvU4yx0oxitd1jxXeE
+ N5aiNtH3Pu4feO/ZgE+mxeUZL054u1s3gMHw5gEdFBvxB3kANUWpOPIzYHfwtPOui4jj
+ 2dXA==
+X-Gm-Message-State: AAQBX9ev0O7e1I7agHx8djHA194cFTIh0LCQDw0eQixE74Pdgv5fIooF
+ eIRQMlCUwlspX07rkTd/to078CW0msY=
+X-Google-Smtp-Source: AKy350YeZFYzpyAjNphOgXMSyKXpnOReDaT5+D0XX7sAgGl/yVUle6ZgCrjjtr/WMo4tQLR7B1D+ND4ATds=
 X-Received: from titusr.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:22b8])
- (user=titusr job=sendgmr) by 2002:a05:6130:290:b0:688:d612:2024 with SMTP id
- q16-20020a056130029000b00688d6122024mr3685662uac.2.1679507791244; Wed, 22 Mar
- 2023 10:56:31 -0700 (PDT)
-Date: Wed, 22 Mar 2023 17:55:08 +0000
+ (user=titusr job=sendgmr) by 2002:a81:b203:0:b0:545:64c4:7701 with SMTP id
+ q3-20020a81b203000000b0054564c47701mr386939ywh.3.1679507792164; Wed, 22 Mar
+ 2023 10:56:32 -0700 (PDT)
+Date: Wed, 22 Mar 2023 17:55:09 +0000
+In-Reply-To: <20230322175513.1550412-1-titusr@google.com>
 Mime-Version: 1.0
+References: <20230322175513.1550412-1-titusr@google.com>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-Message-ID: <20230322175513.1550412-1-titusr@google.com>
-Subject: [PATCH 0/5] PMBus fixes and new functions
+Message-ID: <20230322175513.1550412-2-titusr@google.com>
+Subject: [PATCH 1/5] hw/i2c: pmbus add support for block receive
 From: Titus Rwantare <titusr@google.com>
 To: philmd@linaro.org, minyard@acm.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Titus Rwantare <titusr@google.com>
+ Titus Rwantare <titusr@google.com>, Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e49;
- envelope-from=3T0EbZAYKCmYXMXYWVKSSKPI.GSQUIQY-HIZIPRSRKRY.SVK@flex--titusr.bounces.google.com;
- helo=mail-vs1-xe49.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3UEEbZAYKCmcYNYZXWLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--titusr.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -87,32 +89,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch series contains fixes and improvements to PMBus support in QEMU.
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Signed-off-by: Titus Rwantare <titusr@google.com>
+---
+ hw/i2c/pmbus_device.c         | 30 +++++++++++++++++++++++++++++-
+ include/hw/i2c/pmbus_device.h |  7 +++++++
+ 2 files changed, 36 insertions(+), 1 deletion(-)
 
-The following has been added:
-   - Support for block receive
-   - Support for devices with fans
-   - Support for the VCAP register for devices with onboard energy storage
-   - A bitfield struct for the vout mode register, whose bits determine the formatting of several read commands in PMBus
-Fixes:
-   - String read now handles now logs an error when passed an empty string
-
-This series is in preparation for some additional sensors that exercise
-this functionality that will be incoming shortly.
-
-Thanks
-
-Titus Rwantare (5):
-  hw/i2c: pmbus add support for block receive
-  hw/i2c: pmbus: add vout mode bitfields
-  hw/i2c: pmbus: add fan support
-  hw/i2c: pmbus: block uninitialised string reads
-  hw/i2c: pmbus: add VCAP register
-
- hw/i2c/pmbus_device.c         | 221 +++++++++++++++++++++++++++++++++-
- include/hw/i2c/pmbus_device.h |  17 +++
- 2 files changed, 237 insertions(+), 1 deletion(-)
-
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+index c3d6046784..02647769cd 100644
+--- a/hw/i2c/pmbus_device.c
++++ b/hw/i2c/pmbus_device.c
+@@ -95,7 +95,6 @@ void pmbus_send64(PMBusDevice *pmdev, uint64_t data)
+ void pmbus_send_string(PMBusDevice *pmdev, const char *data)
+ {
+     size_t len = strlen(data);
+-    g_assert(len > 0);
+     g_assert(len + pmdev->out_buf_len < SMBUS_DATA_MAX_LEN);
+     pmdev->out_buf[len + pmdev->out_buf_len] = len;
+ 
+@@ -105,6 +104,35 @@ void pmbus_send_string(PMBusDevice *pmdev, const char *data)
+     pmdev->out_buf_len += len + 1;
+ }
+ 
++uint8_t pmbus_receive_block(PMBusDevice *pmdev, uint8_t *dest, size_t len)
++{
++    /* dest may contain data from previous writes */
++    memset(dest, 0, len);
++
++    /* Exclude command code from return value */
++    pmdev->in_buf++;
++    pmdev->in_buf_len--;
++
++    /* The byte after the command code denotes the length */
++    uint8_t sent_len = pmdev->in_buf[0];
++
++    if (sent_len != pmdev->in_buf_len - 1) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: length mismatch. Expected %d bytes, got %d bytes\n",
++                      __func__, sent_len, pmdev->in_buf_len - 1);
++    }
++
++    /* exclude length byte */
++    pmdev->in_buf++;
++    pmdev->in_buf_len--;
++
++    if (pmdev->in_buf_len < len) {
++        len = pmdev->in_buf_len;
++    }
++    memcpy(dest, pmdev->in_buf, len);
++    return len;
++}
++
+ 
+ static uint64_t pmbus_receive_uint(PMBusDevice *pmdev)
+ {
+diff --git a/include/hw/i2c/pmbus_device.h b/include/hw/i2c/pmbus_device.h
+index 93f5d57c9d..7dc00cc4d9 100644
+--- a/include/hw/i2c/pmbus_device.h
++++ b/include/hw/i2c/pmbus_device.h
+@@ -501,6 +501,13 @@ void pmbus_send64(PMBusDevice *state, uint64_t data);
+  */
+ void pmbus_send_string(PMBusDevice *state, const char *data);
+ 
++/**
++ * @brief Receive data sent with Block Write.
++ * @param dest - memory with enough capacity to receive the write
++ * @param len - the capacity of dest
++ */
++uint8_t pmbus_receive_block(PMBusDevice *pmdev, uint8_t *dest, size_t len);
++
+ /**
+  * @brief Receive data over PMBus
+  * These methods help track how much data is being received over PMBus
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 
