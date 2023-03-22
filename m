@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042486C4D7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0A56C4D77
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:22:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pezLw-00086Q-47; Wed, 22 Mar 2023 10:22:12 -0400
+	id 1pezM0-0008B2-2x; Wed, 22 Mar 2023 10:22:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pezLt-000860-V5
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:22:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pezLx-00087B-Ct
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:22:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pezLs-0007OF-1t
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:22:09 -0400
+ id 1pezLv-0007PV-RU
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:22:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679494927;
+ s=mimecast20190719; t=1679494931;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cy45JThKfhw+pOczCa5UvFFxft7EmjKUU3fwffIkfGE=;
- b=bticcc1Vmq9LoUHbO+yj5ZSYm2JdeklOMbjFt8JMf3Id0Z0Kh0UPpOiXKp12XfDstkRPep
- ia6K0viuGfZ3HXpmjezdmAJAQcg9LIbYzVjcBRaFD4xwkqPlKdUFrTqkuLh15wAo9pM4U4
- NIcfGXbawd+8xPpEDZWKPbRuQosmqp8=
+ bh=E5wvpndhRCwTda5Q3tQ0X6OyRA7fdM9iBx5DMXb0RVI=;
+ b=c3qcJpCfSoRyY1Ekid6FoLz85/4HJKcDhJXeEKlHf6LfVbJQglya65xZfltr/C2+ebQQZ3
+ 5RiAMS5in1f/nNPT6cyEKQGAqB/Ku3ZqSsexB2deQqWrgEGhY1mValivpBRJBaDR67hPo6
+ 747CISgrhj1/6EarTvvN0R4on2J7Fu0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-Fn0hgK4AOB-qQDuVRWAhCg-1; Wed, 22 Mar 2023 10:22:04 -0400
-X-MC-Unique: Fn0hgK4AOB-qQDuVRWAhCg-1
+ us-mta-168-j9tEj7ACMXS-bYXCPL6B2w-1; Wed, 22 Mar 2023 10:22:06 -0400
+X-MC-Unique: j9tEj7ACMXS-bYXCPL6B2w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22483858F09;
- Wed, 22 Mar 2023 14:22:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 879FB185A792;
+ Wed, 22 Mar 2023 14:22:06 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.45.226.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8064540C6E67;
- Wed, 22 Mar 2023 14:22:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7900740C6E67;
+ Wed, 22 Mar 2023 14:22:03 +0000 (UTC)
 From: Albert Esteve <aesteve@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, fmartine@redhat.com,
@@ -51,15 +51,15 @@ Cc: Thomas Huth <thuth@redhat.com>, fmartine@redhat.com,
  sgarzare@redhat.com,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  peter.griffin@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 09/12] tests/qtest: add virtio-video test
-Date: Wed, 22 Mar 2023 15:21:29 +0100
-Message-Id: <20230322142132.22909-10-aesteve@redhat.com>
+Subject: [PATCH 10/12] vhost-user-video: add dev_type to CLI
+Date: Wed, 22 Mar 2023 15:21:30 +0100
+Message-Id: <20230322142132.22909-11-aesteve@redhat.com>
 In-Reply-To: <20230322142132.22909-1-aesteve@redhat.com>
 References: <20230322142132.22909-1-aesteve@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=aesteve@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=aesteve@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,318 +83,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add some minimal testing of the vhost-user-video
-backend similar to what is tested for other
-vhost-user devices. For now it only stresses
-the backend instantiation and some message
-passing through the control socket.
+Add dev_type to the command line interface.
+This way we can select dev_type=encoder or
+dev_type=decoder and assign the virtio ID
+appropiately. If ommited, default virtio
+ID used is decoder's ID.
+
+Example:
+-device vhost-user-video-pci,chardev=video,dev_type=encoder,id=video
 
 Signed-off-by: Albert Esteve <aesteve@redhat.com>
 ---
- tests/qtest/libqos/meson.build    |   1 +
- tests/qtest/libqos/virtio-video.c | 179 ++++++++++++++++++++++++++++++
- tests/qtest/libqos/virtio-video.h |  39 +++++++
- tests/qtest/vhost-user-test.c     |  32 ++++++
- 4 files changed, 251 insertions(+)
- create mode 100644 tests/qtest/libqos/virtio-video.c
- create mode 100644 tests/qtest/libqos/virtio-video.h
+ docs/system/devices/vhost-user-video.rst |  2 +-
+ hw/display/vhost-user-video.c            | 13 +++++++++++--
+ include/hw/virtio/vhost-user-video.h     |  1 +
+ 3 files changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index cc209a8de5..055bd47928 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -46,6 +46,7 @@ libqos_srcs = files(
-         'virtio-serial.c',
-         'virtio-iommu.c',
-         'virtio-gpio.c',
-+        'virtio-video.c',
-         'generic-pcihost.c',
+diff --git a/docs/system/devices/vhost-user-video.rst b/docs/system/devices/vhost-user-video.rst
+index ff0a8fe5c7..d428a773e2 100644
+--- a/docs/system/devices/vhost-user-video.rst
++++ b/docs/system/devices/vhost-user-video.rst
+@@ -72,7 +72,7 @@ use to communicate as well as share the guests memory over a memfd.
+ ::
  
-         # qgraph machines:
-diff --git a/tests/qtest/libqos/virtio-video.c b/tests/qtest/libqos/virtio-video.c
-new file mode 100644
-index 0000000000..f61c34753d
---- /dev/null
-+++ b/tests/qtest/libqos/virtio-video.c
-@@ -0,0 +1,179 @@
-+/*
-+ * libqos virtio-video driver
-+ *
-+ * Copyright (c) 2023 Red Hat Inc.
-+ * 
-+ * Authors:
-+ *  Albert Esteve <aesteve@redhat.com>
-+ *   (based on virtio-gpio.c)
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "standard-headers/linux/virtio_config.h"
-+#include "../libqtest.h"
-+#include "qemu/module.h"
-+#include "qgraph.h"
-+#include "virtio-video.h"
-+
-+#define NUM_VQUEUES 2
-+#define PCI_SLOT    0x04
-+#define PCI_FN      0x00
-+
-+static QGuestAllocator *alloc;
-+
-+static void virtio_video_cleanup(QVhostUserVideo *video)
-+{
-+    QVirtioDevice *vdev = video->vdev;
-+    int i;
-+
-+    for (i = 0; i < NUM_VQUEUES; i++) {
-+        qvirtqueue_cleanup(vdev->bus, video->queues[i], alloc);
-+    }
-+    g_free(video->queues);
-+}
-+
-+/*
-+ * This handles the VirtIO setup from the point of view of the driver
-+ * frontend and therefore doesn't present any vhost specific features
-+ * and in fact masks off the re-used bit.
-+ */
-+static void virtio_video_setup(QVhostUserVideo *video)
-+{
-+    QVirtioDevice *vdev = video->vdev;
-+    uint64_t features;
-+    int i;
-+
-+    features = qvirtio_get_features(vdev);
-+    features &= ~QVIRTIO_F_BAD_FEATURE;
-+    qvirtio_set_features(vdev, features);
-+
-+    video->queues = g_new(QVirtQueue *, NUM_VQUEUES);
-+    for (i = 0; i < NUM_VQUEUES; i++) {
-+        video->queues[i] = qvirtqueue_setup(vdev, alloc, i);
-+    }
-+    qvirtio_set_driver_ok(vdev);
-+}
-+
-+static void *qvirtio_video_get_driver(QVhostUserVideo *v_video,
-+                                      const char *interface)
-+{
-+    if (!g_strcmp0(interface, "vhost-user-video")) {
-+        return v_video;
-+    }
-+    if (!g_strcmp0(interface, "virtio")) {
-+        return v_video->vdev;
-+    }
-+
-+    g_assert_not_reached();
-+}
-+
-+static void *qvirtio_video_device_get_driver(void *object,
-+                                             const char *interface)
-+{
-+    QVhostUserVideoDevice *v_video = object;
-+    return qvirtio_video_get_driver(&v_video->video, interface);
-+}
-+
-+/* virtio-video (mmio) */
-+static void qvirtio_video_device_destructor(QOSGraphObject *obj)
-+{
-+    QVhostUserVideoDevice *video_dev = (QVhostUserVideoDevice *) obj;
-+    virtio_video_cleanup(&video_dev->video);
-+}
-+
-+static void qvirtio_video_device_start_hw(QOSGraphObject *obj)
-+{
-+    QVhostUserVideoDevice *video_dev = (QVhostUserVideoDevice *) obj;
-+    virtio_video_setup(&video_dev->video);
-+}
-+
-+static void *virtio_video_device_create(void *virtio_dev,
-+                                       QGuestAllocator *t_alloc,
-+                                       void *addr)
-+{
-+    QVhostUserVideoDevice *virtio_device = g_new0(QVhostUserVideoDevice, 1);
-+    QVhostUserVideo *interface = &virtio_device->video;
-+
-+    interface->vdev = virtio_dev;
-+    alloc = t_alloc;
-+
-+    virtio_device->obj.get_driver = qvirtio_video_device_get_driver;
-+    virtio_device->obj.start_hw = qvirtio_video_device_start_hw;
-+    virtio_device->obj.destructor = qvirtio_video_device_destructor;
-+
-+    return &virtio_device->obj;
-+}
-+
-+/* virtio-video-pci */
-+static void qvirtio_video_pci_destructor(QOSGraphObject *obj)
-+{
-+    QVhostUserVideoPCI *video_pci = (QVhostUserVideoPCI *) obj;
-+    QOSGraphObject *pci_vobj = &video_pci->pci_vdev.obj;
-+
-+    virtio_video_cleanup(&video_pci->video);
-+    qvirtio_pci_destructor(pci_vobj);
-+}
-+
-+static void qvirtio_video_pci_start_hw(QOSGraphObject *obj)
-+{
-+    QVhostUserVideoPCI *video_pci = (QVhostUserVideoPCI *) obj;
-+    QOSGraphObject *pci_vobj = &video_pci->pci_vdev.obj;
-+
-+    qvirtio_pci_start_hw(pci_vobj);
-+    virtio_video_setup(&video_pci->video);
-+}
-+
-+static void *qvirtio_video_pci_get_driver(void *object, const char *interface)
-+{
-+    QVhostUserVideoPCI *v_video = object;
-+
-+    if (!g_strcmp0(interface, "pci-device")) {
-+        return v_video->pci_vdev.pdev;
-+    }
-+    return qvirtio_video_get_driver(&v_video->video, interface);
-+}
-+
-+static void *virtio_video_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
-+                                    void *addr)
-+{
-+    QVhostUserVideoPCI *virtio_spci = g_new0(QVhostUserVideoPCI, 1);
-+    QVhostUserVideo *interface = &virtio_spci->video;
-+    QOSGraphObject *obj = &virtio_spci->pci_vdev.obj;
-+
-+    virtio_pci_init(&virtio_spci->pci_vdev, pci_bus, addr);
-+    interface->vdev = &virtio_spci->pci_vdev.vdev;
-+    alloc = t_alloc;
-+
-+    obj->get_driver = qvirtio_video_pci_get_driver;
-+    obj->start_hw = qvirtio_video_pci_start_hw;
-+    obj->destructor = qvirtio_video_pci_destructor;
-+
-+    return obj;
-+}
-+
-+static void virtio_video_register_nodes(void)
-+{
-+    QPCIAddress addr = {
-+        .devfn = QPCI_DEVFN(PCI_SLOT, PCI_FN),
-+    };
-+
-+    QOSGraphEdgeOptions edge_opts = {
-+        .extra_device_opts = "id=video0,chardev=chr-vhost-user-test",
-+    };
-+
-+    /* vhost-user-video-device */
-+    qos_node_create_driver("vhost-user-video-device",
-+                            virtio_video_device_create);
-+    qos_node_consumes("vhost-user-video-device", "virtio-bus", &edge_opts);
-+    qos_node_produces("vhost-user-video-device", "vhost-user-video");
-+
-+    /* vhost-user-video-pci */
-+    add_qpci_address(&edge_opts, &addr);
-+    qos_node_create_driver("vhost-user-video-pci", virtio_video_pci_create);
-+    qos_node_consumes("vhost-user-video-pci", "pci-bus", &edge_opts);
-+    qos_node_produces("vhost-user-video-pci", "vhost-user-video");
-+}
-+
-+libqos_init(virtio_video_register_nodes);
-diff --git a/tests/qtest/libqos/virtio-video.h b/tests/qtest/libqos/virtio-video.h
-new file mode 100644
-index 0000000000..6ce42f5edb
---- /dev/null
-+++ b/tests/qtest/libqos/virtio-video.h
-@@ -0,0 +1,39 @@
-+/*
-+ * libqos virtio-video definitions
-+ *
-+ * Copyright (c) 2023 Red Hat Inc.
-+ *
-+ * Authors:
-+ *  Albert Esteve <aesteve@redhat.com>
-+ *   (based on virtio-gpio.h)
-+ * 
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef TESTS_LIBQOS_VIRTIO_VIDEO_H
-+#define TESTS_LIBQOS_VIRTIO_VIDEO_H
-+
-+#include "qgraph.h"
-+#include "virtio.h"
-+#include "virtio-pci.h"
-+
-+typedef struct QVhostUserVideo QVhostUserVideo;
-+typedef struct QVhostUserVideoPCI QVhostUserVideoPCI;
-+typedef struct QVhostUserVideoDevice QVhostUserVideoDevice;
-+
-+struct QVhostUserVideo {
-+    QVirtioDevice *vdev;
-+    QVirtQueue **queues;
-+};
-+
-+struct QVhostUserVideoPCI {
-+    QVirtioPCIDevice pci_vdev;
-+    QVhostUserVideo video;
-+};
-+
-+struct QVhostUserVideoDevice {
-+    QOSGraphObject obj;
-+    QVhostUserVideo video;
-+};
-+
-+#endif /* TESTS_LIBQOS_VIRTIO_VIDEO_H */
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index bf9f7c4248..27d5c4042e 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -33,6 +33,7 @@
- #include "standard-headers/linux/virtio_ids.h"
- #include "standard-headers/linux/virtio_net.h"
- #include "standard-headers/linux/virtio_gpio.h"
-+#include "standard-headers/linux/virtio_video.h"
+     host# qemu-system								\
+-        -device vhost-user-video-pci,chardev=video,id=video                     \
++        -device vhost-user-video-pci,chardev=video,dev_type=decoder,id=video    \
+         -chardev socket,path=/tmp//video.sock,id=video                          \
+         -m 4096 		        					\
+         -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on	\
+diff --git a/hw/display/vhost-user-video.c b/hw/display/vhost-user-video.c
+index 9cc6a717d5..469e9e7c89 100644
+--- a/hw/display/vhost-user-video.c
++++ b/hw/display/vhost-user-video.c
+@@ -300,8 +300,16 @@ static void vhost_user_video_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
  
- #ifdef CONFIG_LINUX
- #include <sys/vfs.h>
-@@ -145,6 +146,7 @@ enum {
- enum {
-     VHOST_USER_NET,
-     VHOST_USER_GPIO,
-+    VHOST_USER_VIDEO,
+-    /* TODO Implement VIDEO_ENC, currently only support VIDEO_DEC */
+-    virtio_init(vdev, VIRTIO_ID_VIDEO_DECODER, sizeof(struct virtio_video_config));
++    if (video->conf.type == NULL || !strcmp(video->conf.type, "decoder")) {
++        virtio_init(vdev, VIRTIO_ID_VIDEO_DECODER,
++                    sizeof(struct virtio_video_config));
++    } else if (!strcmp(video->conf.type, "encoder")) {
++        virtio_init(vdev, VIRTIO_ID_VIDEO_ENCODER,
++                    sizeof(struct virtio_video_config));
++    } else {
++        error_report("invalid type received: %s", video->conf.type);
++        goto vhost_dev_init_failed;
++    }
+ 
+     /* one command queue and one event queue */
+     video->vhost_dev.nvqs = 2;
+@@ -375,6 +383,7 @@ static const VMStateDescription vhost_user_video_vmstate = {
+ 
+ static Property vhost_user_video_properties[] = {
+     DEFINE_PROP_CHR("chardev", VHostUserVIDEO, conf.chardev),
++    DEFINE_PROP_STRING("dev_type", VHostUserVIDEO, conf.type),
+     DEFINE_PROP_END_OF_LIST(),
  };
  
- typedef struct TestServer {
-@@ -1156,3 +1158,33 @@ static void register_vhost_gpio_test(void)
-                  "vhost-user-gpio", test_read_guest_mem, &opts);
- }
- libqos_init(register_vhost_gpio_test);
-+
-+static uint64_t vu_video_get_features(TestServer *s)
-+{
-+    return 0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
-+}
-+
-+static struct vhost_user_ops g_vu_video_ops = {
-+    .type = VHOST_USER_VIDEO,
-+
-+    .append_opts = append_vhost_gpio_opts,
-+
-+    .get_features = vu_video_get_features,
-+    .set_features = vu_net_set_features,
-+    .get_protocol_features = vu_gpio_get_protocol_features,
-+};
-+
-+static void register_vhost_video_test(void)
-+{
-+    QOSGraphTestOptions opts = {
-+        .before = vhost_user_test_setup,
-+        .subprocess = true,
-+        .arg = &g_vu_video_ops,
-+    };
-+
-+    qemu_add_opts(&qemu_chardev_opts);
-+
-+    qos_add_test("read-guest-mem/memfile",
-+                 "vhost-user-video", test_read_guest_mem, &opts);
-+}
-+libqos_init(register_vhost_video_test);
+diff --git a/include/hw/virtio/vhost-user-video.h b/include/hw/virtio/vhost-user-video.h
+index f8329c3b36..3fe00b79a6 100644
+--- a/include/hw/virtio/vhost-user-video.h
++++ b/include/hw/virtio/vhost-user-video.h
+@@ -22,6 +22,7 @@
+ 
+ typedef struct {
+     CharBackend chardev;
++    char *type;
+     struct virtio_video_config config;
+ } VHostUserVIDEOConf;
+ 
 -- 
 2.39.2
 
