@@ -2,85 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A8E6C4C9E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:58:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1356C4CBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:02:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peyyB-00010P-Nr; Wed, 22 Mar 2023 09:57:39 -0400
+	id 1pez0r-0003qa-LP; Wed, 22 Mar 2023 10:00:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyyA-000104-Bs
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:38 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyy8-0001AG-AP
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:38 -0400
-Received: by mail-wm1-x334.google.com with SMTP id p16so11596859wmq.5
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:57:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679493455;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RefK/fZ4A/1aRNykjhv1QicsTPvUD23obAEq0f+RH2M=;
- b=lDbzIpvIs2/ob8sRd8N6Sa31gd+8SAMM533la7Vg7oCEhMYKggbmayEg9zBA+fwFbT
- qfIHiH8hE0p09EXHnqkMmctP8qSMi5Z21NAFW8iiO6UH7cSNxb3FtVJOzT508h0ZStGJ
- 404+F3Gf8lDtKXEj8I8qDMl28pumCSZ3VWGE2MZI5djmWykhMibsCHyDA/bA9OFoi4dH
- mE8exCvMPoTUIG2+k2a+Uxa9WAGRRuCdzbHvp6IFiBSiiAlLdN7GXSl23vsvzXciPF82
- A49e6Hgq9tSvicy2aYAnq6de/VlwiDExdal99SvfKX6o6z7L8O3kNPotYukPZj8ZNYZV
- +Smg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pez0l-0003me-Gx
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:00:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pez0j-0002Ri-RQ
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:00:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679493616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CDTdM+fY1A7Jn4pQFBFnaP+fwfjQvlJtbHWrnLWg0Po=;
+ b=H1tcMsKzyU21jaqrFVul5G54nTr71XsA7fZkNcQOrPuvG4RogwEYvep2yu2XGZ+ee9s8Uy
+ q0+o1I0QWGnNm5Kf5KPKJS+K2YKFTbQbN9JHx6Ogzg7QSrBrhFwP7mU+vVdSRifoznQ5OS
+ LF5b/Iih7S39M3u7XpjMHb/mlEfLTK8=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-673-Ratf8Gn6PZmOhtuYWrI9EQ-1; Wed, 22 Mar 2023 10:00:15 -0400
+X-MC-Unique: Ratf8Gn6PZmOhtuYWrI9EQ-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ dg8-20020a056214084800b005acc280bf19so9308900qvb.22
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 07:00:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679493455;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RefK/fZ4A/1aRNykjhv1QicsTPvUD23obAEq0f+RH2M=;
- b=gAOtSCj80Dvedgynu/FwtLBsU8om6S7kC7qJreVaqgMNyQM1EMNHlAj0w1YpJa19hk
- bVZvJldDR7fQWF1QbmFhrdj3VZYSUJgLhU13nSrm7zq7TfeToKioxP1ir90a42S1fwIX
- v2bH7rSHh0FeNRu3ieJ96HygmVKGkucZDd2uCp5pcy0vF95YWsKXrxYo217uaXsBDa5H
- CUecGpsO4fUzKXRpw6/oZK4jLhVocnNqBb2VWj2BHNivRRl/KzeP9jZrR4ADq5tAzKTT
- HDpLpbYTlPdc3hq/eeHCetEfqoA8n4rt9gzC5HJQ8jeKutB8RMlG77qZcqzq087OTRCc
- pixQ==
-X-Gm-Message-State: AO0yUKUL73D7pD0HCbk9fiWNtd2PAkpiJ/DlsiSxRSqrIHGY9wLfHAMP
- t6xbJrUDYDa+IOktbcMSisBHBx0fUTXiu3bstjodog==
-X-Google-Smtp-Source: AK7set87pSWtYTHekSo+aWX1c89Lkr5NxTfCWHPPaQY/85VO2PSscP1KdORg3HVC8zsQ/TqT/Ray4w==
-X-Received: by 2002:a05:600c:b46:b0:3df:deb5:6ff5 with SMTP id
- k6-20020a05600c0b4600b003dfdeb56ff5mr5066826wmr.24.1679493454692; 
- Wed, 22 Mar 2023 06:57:34 -0700 (PDT)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- t20-20020a1c7714000000b003ee10fb56ebsm7585361wmi.9.2023.03.22.06.57.33
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 22 Mar 2023 06:57:34 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Jintao Yin <nicememory@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 2/2] cirrus-ci: Remove MSYS2 jobs duplicated with gitlab-ci
-Date: Wed, 22 Mar 2023 14:57:21 +0100
-Message-Id: <20230322135721.61138-3-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230322135721.61138-1-philmd@linaro.org>
-References: <20230322135721.61138-1-philmd@linaro.org>
+ d=1e100.net; s=20210112; t=1679493614;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CDTdM+fY1A7Jn4pQFBFnaP+fwfjQvlJtbHWrnLWg0Po=;
+ b=zJRydS3k4G9hHk31UFLHTkPRkmXtNBgjgnf4tm1FZikhzL9vwWsVU5HGlOujiuq8HQ
+ dfT2IueW1p1s7tA6nhanJIIJyxjvK1sADPrM1eYJT/6QktLuOfWBDm4Fx/5MqonJ4ll+
+ Z8dosA9p7g95K797AyX286IzJkPZa3DpEThVv5Z3TAv+mBoIsg9jIMe7ev2TbbwAm4bj
+ 0sXT6zEPpJJ3l0DHcqhNWt4ploRZvgOnMTnvkPw3ZVUhM6pzqgvizJPTaVjSgdW1thgb
+ aJWcYarmXApdTNnbL3F9ewR+vbZbSLYcloIoLBBWIOX+uY5j3yJgTb8VWA3wGDcGm7NQ
+ RGDw==
+X-Gm-Message-State: AO0yUKVT73HJ7Wxebt5O0m8WnHVYTyP42dqZ0edhkg2/OOl46KTaToSW
+ giXtuU8gzwEdzOln+8UraOfh7Lc6Sa/H0YaINWp+s3WKc/R4PdQr7uay+4CqCNMMJffXXz9k0Y0
+ WQ82Z0B+a46CoX0Q=
+X-Received: by 2002:a05:622a:1456:b0:3e0:4e3d:6f5c with SMTP id
+ v22-20020a05622a145600b003e04e3d6f5cmr5778729qtx.49.1679493614353; 
+ Wed, 22 Mar 2023 07:00:14 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/q0NXz6CTY+PSovtNleYkScKKNgbPj3Sj4cRld0prvhOeQ1LqTYoQvHd859kgM7hdOIhprdQ==
+X-Received: by 2002:a05:622a:1456:b0:3e0:4e3d:6f5c with SMTP id
+ v22-20020a05622a145600b003e04e3d6f5cmr5778662qtx.49.1679493613941; 
+ Wed, 22 Mar 2023 07:00:13 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-177-44.web.vodafone.de.
+ [109.43.177.44]) by smtp.gmail.com with ESMTPSA id
+ c7-20020ac86e87000000b003e1ff058350sm5232203qtv.63.2023.03.22.07.00.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Mar 2023 07:00:13 -0700 (PDT)
+Message-ID: <3237c289-b8c2-6ea2-8bfb-7eeed637efc7@redhat.com>
+Date: Wed, 22 Mar 2023 15:00:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel
+ <qemu-devel@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ "Borntraeger, Christian" <borntraeger@de.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, fiuczy@linux.ibm.com,
+ Halil Pasic <pasic@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20230320131648.61728-1-imbrenda@linux.ibm.com>
+ <20230320131648.61728-2-imbrenda@linux.ibm.com> <87v8ivmocr.fsf@pond.sub.org>
+ <6a9ef526-1b30-e9a6-37ee-59ca3dadea9d@redhat.com>
+ <CABgObfaN3sLipc2UuoZc2yHP0YK3e59sK5wn8gpkJ8xgNHc7qg@mail.gmail.com>
+ <ZBrKVGVHRtqyaKvL@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 1/1] util/async-teardown: wire up
+ query-command-line-options
+In-Reply-To: <ZBrKVGVHRtqyaKvL@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,164 +111,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-- Various developers are reluctant to git Cirrus-CI the permissions
-  requested to access their GitHub account.
+On 22/03/2023 10.28, Daniel P. Berrangé wrote:
+> On Tue, Mar 21, 2023 at 09:47:57PM +0100, Paolo Bonzini wrote:
+>> Il lun 20 mar 2023, 16:42 Thomas Huth <thuth@redhat.com> ha scritto:
+>>
+>>> Would it make sense to add it e.g. to "-action" instead, i.e. something
+>>> like
+>>> "-action teardown=async" ?
+>>>
+>>
+>> -action is just a wrapper for the action-set QMP command. I don't think it
+>> fits very well; its arguments are only guest actions while asynchronous
+>> tear down happens for example when you issue a quit command on the monitor.
+> 
+> Right, we discussed -action when this feature was first proposed and
+> that was the reason it was discounted.
 
-- When we use the cirrus-run script to trigger Cirrus-CI job from
-  GitLab-CI, the GitLab-CI job is restricted to a 1h timeout
-  (often not enough).
+I guess that was this thread here :
 
-- Although Cirrus-CI VMs are more powerful than GitLab-CI ones,
-  its free plan is limited in 2 concurrent jobs.
+  https://mail.gnu.org/archive/html/qemu-devel/2022-08/msg04479.html
 
-- The GitLab-CI MSYS2 jobs are a 1:1 mapping with the Cirrus-CI ones
-  (modulo the environment caching).
+?
 
-Reduce the maintenance burden by removing the Cirrus-CI config file,
-keeping the GitLab-CI jobs.
+Anyway, how to continue now here? If I've got that right, we currently need 
+an option that takes a parameter if we want to make it visible via QAPI, right?
 
-Update Yonggang Luo's maintenance file list to the new file, which
-use the same environment shell.
+So maybe remove the previous option (since it cannot be used by upper layer 
+like libvirt anyway yet), and introduce a new one like "-teardown 
+async|sync" ? Or rework the current one into "-async-teardown on|off" 
+(similar to "-sandbox on")? Any preferences?
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- MAINTAINERS |   3 +-
- .cirrus.yml | 111 ----------------------------------------------------
- 2 files changed, 1 insertion(+), 113 deletions(-)
- delete mode 100644 .cirrus.yml
+Or do we want something even more generic instead, e.g.:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9b56ccdd92..34b50b267c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3818,8 +3818,7 @@ W: https://cirrus-ci.com/github/qemu/qemu
- Windows Hosted Continuous Integration
- M: Yonggang Luo <luoyonggang@gmail.com>
- S: Maintained
--F: .cirrus.yml
--W: https://cirrus-ci.com/github/qemu/qemu
-+F: .gitlab-ci.d/windows.yml
- 
- Guest Test Compilation Support
- M: Alex Bennée <alex.bennee@linaro.org>
-diff --git a/.cirrus.yml b/.cirrus.yml
-deleted file mode 100644
-index 5fb00da73d..0000000000
---- a/.cirrus.yml
-+++ /dev/null
-@@ -1,111 +0,0 @@
--env:
--  CIRRUS_CLONE_DEPTH: 1
--
--windows_msys2_task:
--  timeout_in: 90m
--  windows_container:
--    image: cirrusci/windowsservercore:2019
--    os_version: 2019
--    cpu: 8
--    memory: 8G
--  env:
--    CIRRUS_SHELL: powershell
--    MSYS: winsymlinks:native
--    MSYSTEM: MINGW64
--    MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2022-06-03/msys2-base-x86_64-20220603.sfx.exe
--    MSYS2_FINGERPRINT: 0
--    MSYS2_PACKAGES: "
--      diffutils git grep make pkg-config sed
--      mingw-w64-x86_64-python
--      mingw-w64-x86_64-python-sphinx
--      mingw-w64-x86_64-toolchain
--      mingw-w64-x86_64-SDL2
--      mingw-w64-x86_64-SDL2_image
--      mingw-w64-x86_64-gtk3
--      mingw-w64-x86_64-glib2
--      mingw-w64-x86_64-ninja
--      mingw-w64-x86_64-jemalloc
--      mingw-w64-x86_64-lzo2
--      mingw-w64-x86_64-zstd
--      mingw-w64-x86_64-libjpeg-turbo
--      mingw-w64-x86_64-pixman
--      mingw-w64-x86_64-libgcrypt
--      mingw-w64-x86_64-libpng
--      mingw-w64-x86_64-libssh
--      mingw-w64-x86_64-snappy
--      mingw-w64-x86_64-libusb
--      mingw-w64-x86_64-usbredir
--      mingw-w64-x86_64-libtasn1
--      mingw-w64-x86_64-nettle
--      mingw-w64-x86_64-cyrus-sasl
--      mingw-w64-x86_64-curl
--      mingw-w64-x86_64-gnutls
--      mingw-w64-x86_64-libnfs
--    "
--    CHERE_INVOKING: 1
--  msys2_cache:
--    folder: C:\tools\archive
--    reupload_on_changes: false
--    # These env variables are used to generate fingerprint to trigger the cache procedure
--    # If wanna to force re-populate msys2, increase MSYS2_FINGERPRINT
--    fingerprint_script:
--      - |
--        echo $env:CIRRUS_TASK_NAME
--        echo $env:MSYS2_URL
--        echo $env:MSYS2_FINGERPRINT
--        echo $env:MSYS2_PACKAGES
--    populate_script:
--      - |
--        md -Force C:\tools\archive\pkg
--        $start_time = Get-Date
--        bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND $env:MSYS2_URL C:\tools\archive\base.exe
--        Write-Output "Download time taken: $((Get-Date).Subtract($start_time))"
--        cd C:\tools
--        C:\tools\archive\base.exe -y
--        del -Force C:\tools\archive\base.exe
--        Write-Output "Base install time taken: $((Get-Date).Subtract($start_time))"
--        $start_time = Get-Date
--
--        ((Get-Content -path C:\tools\msys64\etc\\post-install\\07-pacman-key.post -Raw) -replace '--refresh-keys', '--version') | Set-Content -Path C:\tools\msys64\etc\\post-install\\07-pacman-key.post
--        C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/^CheckSpace/#CheckSpace/g' /etc/pacman.conf"
--        C:\tools\msys64\usr\bin\bash.exe -lc "export"
--        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -Sy
--        echo Y | C:\tools\msys64\usr\bin\pacman.exe --noconfirm -Suu --overwrite=*
--        taskkill /F /FI "MODULES eq msys-2.0.dll"
--        tasklist
--        C:\tools\msys64\usr\bin\bash.exe -lc "mv -f /etc/pacman.conf.pacnew /etc/pacman.conf || true"
--        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Syuu --overwrite=*"
--        Write-Output "Core install time taken: $((Get-Date).Subtract($start_time))"
--        $start_time = Get-Date
--
--        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed $env:MSYS2_PACKAGES"
--        Write-Output "Package install time taken: $((Get-Date).Subtract($start_time))"
--        $start_time = Get-Date
--
--        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\etc\mtab
--        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\fd
--        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stderr
--        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stdin
--        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stdout
--        del -Force -Recurse -ErrorAction SilentlyContinue C:\tools\msys64\var\cache\pacman\pkg
--        tar cf C:\tools\archive\msys64.tar -C C:\tools\ msys64
--
--        Write-Output "Package archive time taken: $((Get-Date).Subtract($start_time))"
--        del -Force -Recurse -ErrorAction SilentlyContinue c:\tools\msys64 
--  install_script:
--    - |
--      $start_time = Get-Date
--      cd C:\tools
--      ls C:\tools\archive\msys64.tar
--      tar xf C:\tools\archive\msys64.tar
--      Write-Output "Extract msys2 time taken: $((Get-Date).Subtract($start_time))"
--  script:
--    - mkdir build
--    - cd build
--    - C:\tools\msys64\usr\bin\bash.exe -lc "../configure --python=python3
--        --target-list-exclude=i386-softmmu,ppc64-softmmu,aarch64-softmmu,mips64-softmmu,mipsel-softmmu,sh4-softmmu"
--    - C:\tools\msys64\usr\bin\bash.exe -lc "make -j8"
--    - exit $LastExitCode
--  test_script:
--    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
--    - exit $LastExitCode
--- 
-2.38.1
+  -run-with teardown=async
+  -run-with daemonized=on
+  -run-with chroot=/path/to/chroot/dir
+  -run-with userid=UID
+
+... so we could get rid of -deamonize, -chroot and -runas and other similar 
+options one day?
+
+  Thomas
 
 
