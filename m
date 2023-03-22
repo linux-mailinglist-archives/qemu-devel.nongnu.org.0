@@ -2,52 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3093F6C4799
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 11:28:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEF16C479A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 11:29:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pevhM-00047j-TJ; Wed, 22 Mar 2023 06:28:04 -0400
+	id 1peviN-0004pc-99; Wed, 22 Mar 2023 06:29:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pevhJ-0003zs-0u
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:28:01 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pevhH-00073x-3b
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:28:00 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PhPmd3Pk8z6J7Yk;
- Wed, 22 Mar 2023 18:27:29 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 22 Mar 2023 10:27:56 +0000
-To: Michael Tsirkin <mst@redhat.com>, <qemu-devel@nongnu.org>
-CC: <linuxarm@huawei.com>, Fan Ni <fan.ni@samsung.com>, Dave Jiang
- <dave.jiang@intel.com>, <linux-cxl@vger.kernel.org>
-Subject: [RESEND PATCH 1/2] hw/cxl: Fix endian handling for decoder commit.
-Date: Wed, 22 Mar 2023 10:27:30 +0000
-Message-ID: <20230322102731.4219-2-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
-References: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pevi3-0004nk-ID
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:28:49 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pevi0-0007F2-VK
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:28:46 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ j18-20020a05600c1c1200b003ee5157346cso1347976wms.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 03:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679480923;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=p71unVlNmWSUSoxj+ibKOU2GzDMTVgdFdmVKaVlg/DI=;
+ b=BWVbtf0ydpYahzM8IHPi/vrQxxLAP2b7mZLxa5UjUmeH5nx51f5Qi9fbsx5rFzm3Cw
+ bogfQYty9NxDEHB25PKEFzJxluVnvXlI5NjVV23i35V/fIbUmLbQAZeBa+hYCq0/TLJx
+ 4pxtxu02qrcITDMcGT4mj/d0DrBlukoy8FYXOigBwsXOD3mtHUEwp3qGlAqfai+GeajP
+ MuFYEmUrSHqhTfusnnI1gEVc8QPVRnJd0pyz3YPUTxJOyX+jvVkxsM3kNSuLq9FatRmC
+ 70ir7ljTIMJ/MasgSq5/3zZMpz/Z8AjyaA679JkRpNduUn9QYzLyd2Ezl9sMMUe1Exk5
+ iUTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679480923;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=p71unVlNmWSUSoxj+ibKOU2GzDMTVgdFdmVKaVlg/DI=;
+ b=hch9WEBkeu2gHWPjE6iiwwrdVD3Wn7FoOw6huAd7nwBCWIEapH/4Vi55BzqW0z4/VM
+ 9rObP3spL/dYxWyWTm6PhRrsmFu8z+IDKYeMSHrcx/8wo1W2nYQmEm+ZRzmlis8tAUlr
+ 1huhrmlrY80er2x1pR3YcWy3gGJB/rpJWTlYlrYrLFC3kH+IAWp/pMVcYvSOm/miGwIX
+ 86Qkh6xdoazA/dHiTzJKFdMSpIHqAVNby1y+eI9R9Vpcu2/H3I+huz+l9xMReoK+aasi
+ bDZd2gObOQWTGyrijAXCq3nR2HqXRiSXOKXF6y4p2WnKlKufc6ZxA149LECrd9z0qTIR
+ vFeg==
+X-Gm-Message-State: AO0yUKVuJnEpehS8oPo7Fs1FQ663V3Tl2vDqi8Rn/JhE9iedLC/FdvmP
+ Ww5Mj+Zte0mjWpyZyJShxpPYbA==
+X-Google-Smtp-Source: AK7set+AjMAZ1YuvJqgTbuCSQrXBcL58ssPhtnhZNL8WDOFEUrtMk2BTLPExbmgWWd4eAySh8sqXXg==
+X-Received: by 2002:a1c:4b1a:0:b0:3ed:514d:e07f with SMTP id
+ y26-20020a1c4b1a000000b003ed514de07fmr4830054wma.3.1679480923436; 
+ Wed, 22 Mar 2023 03:28:43 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ u13-20020adfdb8d000000b002d2b117a6a6sm13496893wri.41.2023.03.22.03.28.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Mar 2023 03:28:43 -0700 (PDT)
+Message-ID: <40559c3f-9c42-3877-3e63-45c72cfa1dc6@linaro.org>
+Date: Wed, 22 Mar 2023 11:28:41 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH v8 2/8] igb: handle PF/VF reset properly
+Content-Language: en-US
+To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230322092704.22776-1-sriram.yagnaraman@est.tech>
+ <20230322092704.22776-3-sriram.yagnaraman@est.tech>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230322092704.22776-3-sriram.yagnaraman@est.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,70 +92,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Not a real problem yet as all supported architectures are
-little endian, but continue to tidy these up when touching
-code for other reasons.
+On 22/3/23 10:26, Sriram Yagnaraman wrote:
+> Use PFRSTD to reset RSTI bit for VFs, and raise VFLRE interrupt when VF
+> is reset.
+> 
+> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+> ---
+>   hw/net/igb_core.c   | 33 +++++++++++++++++++++------------
+>   hw/net/igb_regs.h   |  3 +++
+>   hw/net/trace-events |  2 ++
+>   3 files changed, 26 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index 596039aab8..fe6c7518e9 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -1895,14 +1895,6 @@ static void igb_set_eims(IGBCore *core, int index, uint32_t val)
+>       igb_update_interrupt_state(core);
+>   }
+>   
+> -static void igb_vf_reset(IGBCore *core, uint16_t vfn)
+> -{
+> -    /* TODO: Reset of the queue enable and the interrupt registers of the VF. */
+> -
+> -    core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
+> -    core->mac[V2PMAILBOX0 + vfn] = E1000_V2PMAILBOX_RSTD;
+> -}
+> -
+>   static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)
+>   {
+>       uint32_t ent = core->mac[VTIVAR_MISC + vfn];
+> @@ -1980,6 +1972,17 @@ static void igb_set_vfmailbox(IGBCore *core, int index, uint32_t val)
+>       }
+>   }
+>   
+> +static void igb_vf_reset(IGBCore *core, uint16_t vfn)
+> +{
+> +    /* disable Rx and Tx for the VF*/
+> +    core->mac[VFTE] &= ~BIT(vfn);
+> +    core->mac[VFRE] &= ~BIT(vfn);
+> +    /* indicate VF reset to PF */
+> +    core->mac[VFLRE] |= BIT(vfn);
+> +    /* VFLRE and mailbox use the same interrupt cause */
+> +    mailbox_interrupt_to_pf(core);
+> +}
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/cxl/cxl-component-utils.c | 10 ++++------
- hw/mem/cxl_type3.c           |  9 ++++++---
- 2 files changed, 10 insertions(+), 9 deletions(-)
-
-diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-index b665d4f565..a3e6cf75cf 100644
---- a/hw/cxl/cxl-component-utils.c
-+++ b/hw/cxl/cxl-component-utils.c
-@@ -47,14 +47,12 @@ static void dumb_hdm_handler(CXLComponentState *cxl_cstate, hwaddr offset,
-         break;
-     }
- 
--    memory_region_transaction_begin();
--    stl_le_p((uint8_t *)cache_mem + offset, value);
-     if (should_commit) {
--        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
--        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERR, 0);
--        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
-+        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
-+        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
-+        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
-     }
--    memory_region_transaction_commit();
-+    stl_le_p((uint8_t *)cache_mem + offset, value);
- }
- 
- static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index abe60b362c..846089ccda 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -314,14 +314,17 @@ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
- {
-     ComponentRegisters *cregs = &ct3d->cxl_cstate.crb;
-     uint32_t *cache_mem = cregs->cache_mem_registers;
-+    uint32_t ctrl;
- 
-     assert(which == 0);
- 
-+    ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
-     /* TODO: Sanity checks that the decoder is possible */
--    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
--    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERR, 0);
-+    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
-+    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
-+    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
- 
--    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
-+    stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
- }
- 
- static int ct3d_qmp_uncor_err_to_cxl(CxlUncorErrorType qmp_err)
--- 
-2.37.2
-
+Orthogonal to this patch, I'm surprised to see a function named
+igb_vf_reset() which is not called by igb_reset().
 
