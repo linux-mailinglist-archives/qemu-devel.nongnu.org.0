@@ -2,71 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908116C5267
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 18:24:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA13D6C5275
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 18:29:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf2By-0005Mh-7u; Wed, 22 Mar 2023 13:24:06 -0400
+	id 1pf2G3-00071i-TI; Wed, 22 Mar 2023 13:28:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pf2Bu-0005MW-OQ
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 13:24:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1pf2G2-00071U-9z; Wed, 22 Mar 2023 13:28:18 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pf2Bt-0008C5-2z
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 13:24:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679505839;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=c/EVp/f9nkekG2X5CydgMKaW+E2UccIMcSkI3UntYlI=;
- b=aLk5PQX6kenN7vylmt7OXBVs1aQ8jg/HilN+mX0OBl5AuvjL15kmNWfn96PNok6kC4fu1C
- xASwUrxe0efe44MjnTCPga7/e2VYQKHc3ojm+oeHyZ+7WmFmUcTEtRClQNs8V+NlSUOrfi
- EJs/nIoroOtAOXaA18lD7m1fNgqYa9Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-281-xCLYiBMnOJicqesW7X_g8A-1; Wed, 22 Mar 2023 13:23:56 -0400
-X-MC-Unique: xCLYiBMnOJicqesW7X_g8A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BBC8088FBA1;
- Wed, 22 Mar 2023 17:23:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B8284140E96A;
- Wed, 22 Mar 2023 17:23:54 +0000 (UTC)
-Date: Wed, 22 Mar 2023 17:23:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org,
- sw@weilnetz.de, clg@kaod.org
-Subject: Re: [PATCH v4 3/4] qga/vss-win32: fix warning for clang++-15
-Message-ID: <ZBs5qMkfIk8+n3HJ@redhat.com>
-References: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
- <20230221153006.20300-4-pierrick.bouvier@linaro.org>
- <cfde8400-2df9-73d7-3eb0-b3a81f838311@linaro.org>
- <CAPMcbCoat--fGMLXYUodctORdiws9=H1dL7GiL3q_jv3VKJLLg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1pf2Fz-0000n2-IO; Wed, 22 Mar 2023 13:28:17 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32MGN401019272; Wed, 22 Mar 2023 17:28:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=qWnQtV/6kizcWTP/1igOtXM6RLmrrVdVptrICSjKjOQ=;
+ b=I+RIaO54BlkImNCvxQdtVjjxNMim5ApHtwDl3WdE+xvQ4MWWjBTJTmNLbqlLWqGTAVsW
+ 6GjA69cs1ofLtWlPldV566qv3qSLAMcPf4iW9x4oZbNRYU1QsMqAzJ5VlYpG/ouqhr0g
+ Hmc2KiauuCiMuEgqN+xsoJXEsOXS++ZvIS+ljTSIQVXv5FLayhcxDOcaDBEodza99YI4
+ yP72PCvfXP0pSmGzuRcKD31ew1Gh61b4zYThF9N5DHEvwQ8zQ4owiWN8mvCi/nfnokdm
+ GsZYgbbP2r5RbqYKT5+6grBb+485bBh6fooLLoqxWXPiojpcAYyXDUXvAzZWK3iQYV0y Rg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg558hn7p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 17:28:11 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32MGNFVE019508;
+ Wed, 22 Mar 2023 17:28:11 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg558hn6r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 17:28:10 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MGQ00X015074;
+ Wed, 22 Mar 2023 17:28:08 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3pd4jfe7gf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 17:28:08 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32MHS5LE8847898
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Mar 2023 17:28:05 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0AF5720040;
+ Wed, 22 Mar 2023 17:28:05 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C526920043;
+ Wed, 22 Mar 2023 17:28:04 +0000 (GMT)
+Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown
+ [9.152.224.212])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Mar 2023 17:28:04 +0000 (GMT)
+Date: Wed, 22 Mar 2023 18:24:33 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: Carlos =?UTF-8?B?TMOzcGV6?= <clopez@suse.de>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
+ <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:virtio-ccw" <qemu-s390x@nongnu.org>, Halil Pasic
+ <pasic@linux.ibm.com>
+Subject: Re: [PATCH v2] virtio: refresh vring region cache after updating a
+ virtqueue size
+Message-ID: <20230322182433.695270d0.pasic@linux.ibm.com>
+In-Reply-To: <87y1npglk0.fsf@redhat.com>
+References: <20230317002749.27379-1-clopez@suse.de> <87y1npglk0.fsf@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPMcbCoat--fGMLXYUodctORdiws9=H1dL7GiL3q_jv3VKJLLg@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: CHaQicEbEgbpXbuNFwwcEpMMdghK-Y2O
+X-Proofpoint-GUID: xKWu4E-Hv9iVcMXBBC7WjkqROPp-0Ymq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_14,2023-03-22_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 spamscore=0
+ mlxscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 phishscore=0
+ bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303220117
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,29 +116,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 22, 2023 at 07:18:11PM +0200, Konstantin Kostiuk wrote:
-> Hi Pierrick,
+On Wed, 22 Mar 2023 10:52:31 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
+[..]
+> >
+> > diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+> > index e33e5207ab..f44de1a8c1 100644
+> > --- a/hw/s390x/virtio-ccw.c
+> > +++ b/hw/s390x/virtio-ccw.c
+> > @@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
+> >                  return -EINVAL;
+> >              }
+> >              virtio_queue_set_num(vdev, index, num);
+> > +            virtio_init_region_cache(vdev, index);  
 > 
-> Thanks for reminding me. You are fully right to ping me. I really lost this
-> commit.
-> As QEMU is already at the code freeze stage, I don't want to push this into
-> 8.0.
+> Hmm... this is not wrong, but looking at it again, I see that the guest
+> has no way to change num after our last call to
+> virtio_init_region_cache() (while setting up the queue addresses.) IOW,
+> this introduces an extra round trip that is not really needed.
+> 
 
-FWIW, this kind of fix is perfectly ok to merge during code freeze,
-especially in rc0/rc1 timeframe. The initial freeze date merely cuts
-off new feature additions, but bug fixes are still allowed. Once we
-get to rc2 then we're more focused on bug fixes that target regressions
-from the previous release.
+I don't quite understand. AFAIU the virtio_init_region_cache() would see
+the (new) queue addresses but not the new size (num). Yes virtio-ccw
+already knows the new num but it is yet to call
+to put it into vdev->vq[n].vring.num from where
+virtio_init_region_cache() picks it up.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+If we were to first virtio_queue_set_num() and only then the address
+I would understand. But with the code as is, I don't. Am I missing
+something?
 
+[..]
+> OTOH, all other transports need this call, as setting the addresses and
+> setting num are two distinct operations. So I think we have two options:
+> 
+> - apply your patch, and accept that we have the extra round trip for ccw
+>   (which should not really be an issue, we're processing a channel
+>   command anyway)
+> 
+> - leave it out for ccw and add a comment why it isn't needed
+> 
+> (I think I'd prefer to just go ahead with your patch.)
+> 
+
+Provided we really don't need it: Why do unnecessary work? I would prefer
+the "add a comment solution" because doing unnecessary work is
+confusing. If we decide to do the unnecessary (and AFAIU completely
+useless) work, I believe we should also add a comment why this is done.
+
+OTOH, my current understanding is that we do need it. Or we need to change
+the order of virtio_queue_set_rings() and virtio_queue_set_num() which
+may or may not be possible.
+
+> Question (mostly for the other ccw folks): Do you think it is a problem
+> that ccw sets up queue addresses and size via one command, while pci and
+> mmio set addresses and size independently? I guess not; if anything, not
+> setting them in one go may lead to issues like the one this patch is
+> fixing.
+> 
+> 
+
+I tend to agree: I don't think it is a problem.
+
+Regards,
+Halil
 
