@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0BE6C4ACE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 13:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E906C6C4ACD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 13:37:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pexi4-0006Qw-Q1; Wed, 22 Mar 2023 08:36:56 -0400
+	id 1pexi4-0006Qu-QK; Wed, 22 Mar 2023 08:36:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pexi1-0006Nn-2G
+ id 1pexi1-0006No-6c
  for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:36:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pexhv-0002Eh-W2
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:36:51 -0400
+ id 1pexhy-0002Iz-97
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:36:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679488607;
+ s=mimecast20190719; t=1679488609;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6ys8zBikavZJIhIu+OsX3tufFiRQ8v778QGJTmjOx7s=;
- b=F0eGM7gv1PYEQblgJEdgTqMd5ltI8mq8AprD3CUlaDNXpIRFW7bt43BPMtDuXMiilwJL3g
- w255lfI4tRJ7S2bl4pKYwn3nExuw8KaIqwjGuYwuH83umWANYgzBgDCDdDqqPr/Czbd1Kr
- VrWnUpEw09RavFxDCSr2zfM5lEwW3C8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cCukNSu5Rc5x0NXrcZy9gul+MfHzbNAmdQwKx1W0BKA=;
+ b=gM/9VNNktM31t4Bt/DBYYfjj2JLai6xrMvq0mcQnsAPI8oVYMpra9yCEiYyNzI6OmowSUA
+ VmG8ylgUJLZ4PQzaiVUSnNe/nnFYjSzf0qJjxpYFEiPRBkQYlJ3FuHZ4PeHN4xkZt07+ij
+ 6lMJmyz2WlX0Euyhg3t2MH168B6w/5M=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-psXWDINkNQaGoHPoVChUMQ-1; Wed, 22 Mar 2023 08:36:43 -0400
-X-MC-Unique: psXWDINkNQaGoHPoVChUMQ-1
+ us-mta-231-PJWK_9b9Po6f04iRA_3WuA-1; Wed, 22 Mar 2023 08:36:45 -0400
+X-MC-Unique: PJWK_9b9Po6f04iRA_3WuA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 18FB6185A78F;
- Wed, 22 Mar 2023 12:36:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6A0C2999B31;
+ Wed, 22 Mar 2023 12:36:44 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE1F140B934;
- Wed, 22 Mar 2023 12:36:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 599034021B1;
+ Wed, 22 Mar 2023 12:36:43 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Brad Smith <brad@comstyle.com>, Thomas Huth <thuth@redhat.com>,
@@ -50,14 +51,16 @@ Cc: Brad Smith <brad@comstyle.com>, Thomas Huth <thuth@redhat.com>,
  Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 0/2] tests/vm: fix ENOSPC in the openbsd VM image
-Date: Wed, 22 Mar 2023 12:36:37 +0000
-Message-Id: <20230322123639.836104-1-berrange@redhat.com>
+Subject: [PATCH 1/2] tests/vm: skip X11 in openbsd installation
+Date: Wed, 22 Mar 2023 12:36:38 +0000
+Message-Id: <20230322123639.836104-2-berrange@redhat.com>
+In-Reply-To: <20230322123639.836104-1-berrange@redhat.com>
+References: <20230322123639.836104-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,24 +84,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The openbsd VM builds only have 3.5 GB of space available in /home, out
-of the 20 GB disk image. This is insufficient when running iotests in
-parallel with all other tests.
+As a VM used only for automated testing there is no need to
+install the X11 stack.
 
-Note, after applying this series:
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ tests/vm/openbsd | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-  rm ~/.cache/qemu-vm/images/openbsd.img
-
-is needed for it to take effect if you've previously used the openbsd
-image.
-
-Daniel P. Berrangé (2):
-  tests/vm: skip X11 in openbsd installation
-  tests/vm: custom openbsd partitioning to increase /home space
-
- tests/vm/openbsd | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
-
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index eaeb201e91..6af7afac0d 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -106,8 +106,7 @@ class OpenBSDVM(basevm.BaseVM):
+         self.console_wait("Password for root account")
+         self.console_send("%s\n" % self._config["root_pass"])
+         self.console_wait_send("Start sshd(8)",           "yes\n")
+-        self.console_wait_send("X Window System",         "\n")
+-        self.console_wait_send("xenodm",                  "\n")
++        self.console_wait_send("X Window System",         "no\n")
+         self.console_wait_send("console to com0",         "\n")
+         self.console_wait_send("Which speed",             "\n")
+ 
 -- 
 2.39.2
 
