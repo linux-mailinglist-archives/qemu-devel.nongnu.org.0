@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A896C48E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 12:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DF56C4918
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 12:25:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pewUS-0008Ly-5T; Wed, 22 Mar 2023 07:18:48 -0400
+	id 1pewaz-0002Ut-SU; Wed, 22 Mar 2023 07:25:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pewUP-0008LS-Gp
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:18:45 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pewUM-0002aa-FN
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:18:45 -0400
-Received: from mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
- [IPv6:2a02:6b8:c14:1383:0:640:c144:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 4C5735FCBD;
- Wed, 22 Mar 2023 14:18:34 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:a421::1:28] (unknown
- [2a02:6b8:b081:a421::1:28])
- by mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id UIobr00OkW20-zVcihHzG; Wed, 22 Mar 2023 14:18:33 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1679483913; bh=UPd7HgCvNw6JdNnwCgT6gPpEcYfIIpLc4RSfNWz71Qw=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=wkfHUZsfiUtF+i9STmx5Kq1R+nEcpg7Nc0gOY78b1cE2OSfRmGthSf8w14Zq6W15+
- ThmH59Ul2YyZLcP9Gwy3EeuGwLwGlK80jnqElkNQLA8yF9C0mAE4QtS2RYdE4eaOn+
- sZIouGwPEP0ubpDSXta2CJjppW5pQ5MKQ5g5+JRI=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <9ebadb03-553d-9d2c-9120-f3ab359d043d@yandex-team.ru>
-Date: Wed, 22 Mar 2023 13:18:30 +0200
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1peway-0002Uj-6t
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:25:32 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pewaw-0006Z3-AY
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:25:31 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id o7so16654985wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 04:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679484328;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rCHdNv3gUXnbPxH/7AFihI8taoYrWrjPCG/TsWP+LIY=;
+ b=mMcb/9ITjlojKWI4tk20bY7Ac+q29gcW0bfyThhYYwWYJtw0fXzPeGgrVab0c90MPh
+ p3XWCyjWZfd6IPWsWceSP1EXqXlaIlS8aDv+hgKc4VeRoGQY3XK8mnyfkM4bjj/U7iN9
+ 8TZa0LlFWeT2bO2wvkx6tfK6/EVU12oElZpEgMwQd1VtK9BpJslC4oI03L5wiYuA7O2N
+ mLQrtlJt7mNQfnmcTaZXvP7EKShdx8dLKZHoYjI/D8g5WBooBa3y/szxVfL1LssGR0zd
+ NgnEijSLNjloG+NQG8yAnwLeYpLE4B/eeSxwiiA08QNRZt8xLnjMnbqjCnAf5RKpPBsB
+ widQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679484328;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rCHdNv3gUXnbPxH/7AFihI8taoYrWrjPCG/TsWP+LIY=;
+ b=ZqSRfhyDgg4hCbU9FXk/ljiQDIfJHt64f6SavySUFFLQBiWCD/Z9ld/siP9JtUsC8x
+ Pbl+4Ej/NY2z1m/E5ICvAhmnKl6a6RzhZQWyUG6YH1iqLKeObS3z+Qp37/8ZgoRAtwKX
+ QAYIwVZ66se1SOJg5kBHm2oq19KTYEvmDT5Lj+nPvVaPX3+DyaA5/PLpMilMola1pXW8
+ RW/1rtuRJFjs5rwvNmfcpmuFdb75U+D5Lg/zqB1Jqr5Jub/IZw2O6y0mVBMECn1qrGO4
+ 5+CDw2Sz1gTGF8QNOYV5w63TMvNLtEDxR4QabJN+KWjXh4b1maB8IVL0Tjb3cj05dTlf
+ Ox8Q==
+X-Gm-Message-State: AO0yUKU2lPyJXwMZr6AUMpMwBkEKLAUrOfU9YGbRxS6HbydiriBIQt6c
+ LplTDjSdd3q2Q2JQMyiUEEfY2g==
+X-Google-Smtp-Source: AK7set/BAe2+Z3sUgPq6Exi9nvCDHMmwZSrpjbwZQLliEUlYjlq8HfAJsdukwSauabadhFSG8YtQdQ==
+X-Received: by 2002:a5d:448a:0:b0:2ce:9fd8:8e6d with SMTP id
+ j10-20020a5d448a000000b002ce9fd88e6dmr4614594wrq.8.1679484328200; 
+ Wed, 22 Mar 2023 04:25:28 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ a6-20020a056000100600b002c8ed82c56csm13643978wrx.116.2023.03.22.04.25.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Mar 2023 04:25:27 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8E6891FFB7;
+ Wed, 22 Mar 2023 11:25:27 +0000 (GMT)
+References: <20230321181741.3748845-1-alex.bennee@linaro.org>
+ <a06b7763-04fb-60d3-be81-65585ba5c058@daynix.com>
+ <87wn395bqf.fsf@linaro.org>
+ <3571bd36-e1e3-ebea-77a6-8042856dcab2@daynix.com>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Wainer dos Santos
+ Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: Re: [RFC PATCH] tests/avocado: re-factor igb test to avoid timeouts
+Date: Wed, 22 Mar 2023 11:22:38 +0000
+In-reply-to: <3571bd36-e1e3-ebea-77a6-8042856dcab2@daynix.com>
+Message-ID: <87jzz958pk.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Virtio-fs] [RFC 2/2] vhost-user-fs: Implement stateful migration
-Content-Language: en-US, ru-RU
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: virtio-fs@redhat.com, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20230313174833.28790-1-hreitz@redhat.com>
- <20230313174833.28790-3-hreitz@redhat.com>
- <035ba8d3-7943-ae8d-f4b2-76ac4fd74cf0@yandex-team.ru>
- <6892623a-f761-c334-b0a3-891a83e65125@redhat.com>
- <172b000e-1776-f98e-6e22-3e805de2e8d4@yandex-team.ru>
- <85b7d10f-6846-066c-026f-ce75850846f4@redhat.com>
- <06ffc2ce-8cec-139e-9c46-a6c62acb75b6@yandex-team.ru>
- <ed4deff4-b4d5-aa29-c427-1a4b9023f796@redhat.com>
-From: Anton Kuchin <antonkuchin@yandex-team.ru>
-In-Reply-To: <ed4deff4-b4d5-aa29-c427-1a4b9023f796@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,198 +99,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/03/2023 19:49, Hanna Czenczek wrote:
-> On 20.03.23 13:39, Anton Kuchin wrote:
->> On 20/03/2023 11:33, Hanna Czenczek wrote:
->>> On 17.03.23 19:37, Anton Kuchin wrote:
->>>> On 17/03/2023 19:52, Hanna Czenczek wrote:
->>>>> On 17.03.23 18:19, Anton Kuchin wrote:
->>>>>> On 13/03/2023 19:48, Hanna Czenczek wrote:
->>>>>>> A virtio-fs device's VM state consists of:
->>>>>>> - the virtio device (vring) state (VMSTATE_VIRTIO_DEVICE)
->>>>>>> - the back-end's (virtiofsd's) internal state
->>>>>>>
->>>>>>> We get/set the latter via the new vhost-user operations 
->>>>>>> FS_SET_STATE_FD,
->>>>>>> FS_GET_STATE, and FS_SET_STATE.
->>>>>>>
->>>
->>> [...]
->>>
->>>>>>>   static const VMStateDescription vuf_vmstate = {
->>>>>>>       .name = "vhost-user-fs",
->>>>>>> -    .unmigratable = 1,
->>>>>>> +    .version_id = 1,
->>>>>>> +    .fields = (VMStateField[]) {
->>>>>>> +        VMSTATE_VIRTIO_DEVICE,
->>>>>>> +        {
->>>>>>> +            .name = "back-end",
->>>>>>> +            .info = &(const VMStateInfo) {
->>>>>>> +                .name = "virtio-fs back-end state",
->>>>>>> +                .get = vuf_load_state,
->>>>>>> +                .put = vuf_save_state,
->>>>>>> +            },
->>>>>>> +        },
->>>>>>
->>>>>> I've been working on stateless migration patch [1] and there was 
->>>>>> discussed that we
->>>>>> need to keep some kind of blocker by default if orchestrators 
->>>>>> rely on unmigratable
->>>>>> field in virtio-fs vmstate to block the migration.
->>>>>> For this purpose I've implemented flag that selects "none" or 
->>>>>> "external" and is checked
->>>>>> in pre_save, so it could be extended with "internal" option.
->>>>>> We didn't come to conclusion if we also need to check incoming 
->>>>>> migration, the discussion
->>>>>> has stopped for a while but I'm going back to it now.
->>>>>>
->>>>>> I would appreciate if you have time to take a look at the 
->>>>>> discussion and consider the idea
->>>>>> proposed there to store internal state as a subsection of vmstate 
->>>>>> to make it as an option
->>>>>> but not mandatory.
->>>>>>
->>>>>> [1] 
->>>>>> https://patchew.org/QEMU/20230217170038.1273710-1-antonkuchin@yandex-team.ru/
->>>>>
->>>>> So far I’ve mostly considered these issues orthogonal.  If your 
->>>>> stateless migration goes in first, then state is optional and I’ll 
->>>>> adjust this series.
->>>>> If stateful migration goes in first, then your series can simply 
->>>>> make state optional by introducing the external option, no?
->>>>
->>>> Not really. State can be easily extended by subsections but not 
->>>> trimmed. Maybe this can be worked around by defining two types of 
->>>> vmstate and selecting the correct one at migration, but I'm not sure.
->>>
->>> I thought your patch included a switch on the vhost-user-fs device 
->>> (on the qemu side) to tell qemu what migration data to expect. Can 
->>> we not transfer a 0-length state for 'external', and assert this on 
->>> the destination side?
->>
->> Looks like I really need to make the description of my patch and the 
->> documentation more clear :) My patch proposes switch on _source_ side 
->> to select which data to save in the stream mostly to protect old 
->> orchestrators that don't expect virtio-fs to be migratable (and for 
->> internal case it can be extended to select if qemu needs to request 
->> state from backend), Michael insists that we also need to check on 
->> destination but I disagree because I believe that we can figure this 
->> out from stream data without additional device flags.
->>
->>>
->>>>>
->>>>> But maybe we could also consider making stateless migration a 
->>>>> special case of stateful migration; if we had stateful migration, 
->>>>> can’t we just implement stateless migration by telling virtiofsd 
->>>>> that it should submit a special “I have no state” pseudo-state, 
->>>>> i.e. by having a switch on virtiofsd instead?
->>>>
->>>> Sure. Backend can send empty state (as your patch treats 0 length 
->>>> as a valid response and not error) or dummy state that can be 
->>>> recognized as stateless. The only potential problem is that then we 
->>>> need support in backend for new commands even to return dummy 
->>>> state, and if backend can support both types then we'll need some 
->>>> switch in backend to reply with real or empty state.
->>>
->>> Yes, exactly.
->>>
->>>>>
->>>>> Off the top of my head, some downsides of that approach would be
->>>>> (1) it’d need a switch on the virtiofsd side, not on the qemu side 
->>>>> (not sure if that’s a downside, but a difference for sure),
->>>>
->>>> Why would you? It seems to me that this affects only how qemu 
->>>> treats the vmstate of device. If the state was requested backend 
->>>> sends it to qemu. If state subsection is present in stream qemu 
->>>> sends it to the backend for loading. Stateless one just doesn't 
->>>> request state from the backend. Or am I missing something?
->>>>
->>>>> and (2) we’d need at least some support for this on the virtiofsd 
->>>>> side, i.e. practically can’t come quicker than stateful migration 
->>>>> support.
->>>>
->>>> Not much, essentially this is just a reconnect. I've sent a draft 
->>>> of a reconnect patch for old C-virtiofsd, for rust version it takes 
->>>> much longer because I'm learning rust and I'm not really good at it 
->>>> yet.
->>>
->>> I meant these two downsides not for your proposal, but instead if we 
->>> implemented stateless migration only in the back-end; i.e. the 
->>> front-end would only implement stateful migration, and the back-end 
->>> would send and accept an empty state.
->>>
->>> Then, qemu would always request a “state” (even if it turns out 
->>> empty for stateless migration), and qemu would always treat it the 
->>> same, so there wouldn’t be a switch on the qemu side, but only on 
->>> the virtiofsd side.  Doesn’t really matter, but what does matter is 
->>> that we’d need to implement the migration interface in virtiofsd, 
->>> even if in the end no state is transferred.
->>>
->>> So exactly what you’ve said above (“The only potential problem is 
->>> […]”). :)
->>>
->>> Hanna
->>>
->>
->> Oh, yes, we were talking about the same thing. So do you agree that 
->> storing internal state data in subsection will allow backend code to 
->> be more straightforward without additional switches?
->
-> Sounds good.  I think we should rename VHOST_USER_MIGRATION_TYPE_NONE 
-> to ..._INTERNAL, though, and then use that (default) mode for stateful 
-> migration (via VMState), because I think that should be the default 
-> migration type (and while there’s no support for it, it will just 
-> continue to block migration).
 
-My plan was to add new ..._INTERNAL option and keep ..._NONE as default 
-one that blocks migration unless orchestrator explicitly selects 
-migration type to avoid accidental migrations of old orchestrators that 
-expect blocker for virtio-fs. But if INTERNAL blocks migration when 
-backend doesn't support new commands your idea to make it default may be 
-even better.
+Akihiko Odaki <akihiko.odaki@daynix.com> writes:
 
+> On 2023/03/22 19:04, Alex Benn=C3=A9e wrote:
+>> Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+>>=20
+>>> On 2023/03/22 3:17, Alex Benn=C3=A9e wrote:
+>>>> The core of the test was utilising "ethtool -t eth1 offline" to run
+>>>> through a test sequence. For reasons unknown the test hangs under some
+>>>> configurations of the build on centos8-stream. Fundamentally running
+>>>> the old fedora-31 cloud-init is just too much for something that is
+>>>> directed at testing one device. So we:
+>>>>     - replace fedora with a custom kernel + buildroot rootfs
+>>>>     - rename the test from IGB to NetDevEthtool
+>>>>     - re-factor the common code, add (currently skipped) tests for oth=
+er
+>>>>        devices which support ethtool
+>>>>     - remove the KVM limitation as its fast enough to run in KVM or TCG
+>>>
+>>> I tried this but it seems the rootfs is corrupted:
+>>> 2023-03-22 13:53:06,728 __init__         L0153 DEBUG| EXT4-fs (sda):
+>>> INFO: recovery required on readonly filesystem
+>>> 2023-03-22 13:53:06,728 __init__         L0153 DEBUG| EXT4-fs (sda):
+>>> write access will be enabled during recovery
+>>> (snip)
+>>> 2023-03-22 13:54:24,534 __init__         L0153 DEBUG| EXT4-fs (sda):
+>>> I/O error while writing superblock
+>>> 2023-03-22 13:54:24,535 __init__         L0153 DEBUG| EXT4-fs (sda):
+>>> error loading journal
+>>> 2023-03-22 13:54:24,542 __init__         L0153 DEBUG| VFS: Cannot open
+>>> root device "sda" or unknown-block(8,0): error -5
+>> That's weird. I'm not seeing it when running here. However I can
+>> regenerate the whole thing and re-upload. Are there any other network
+>> tools worth adding?
 >
+> Only ethtool is needed for testing Intel NICs.
 >
-> So I suppose you mean something like this, where 
-> vuf_stateful_migration() basically returns `fs->migration_type == 
-> VHOST_USER_MIGRATION_TYPE_INTERNAL`, and on the destination, you’d 
-> check whether the subsection is present to decide which kind of 
-> migration it is, right?
+>>=20
+>>> I have a few more comments:
+>>>
+>>> - It may be possible to use microvm to trim it down further.
+>> Does microvm have PCI now? Most of the saving comes down to having a
+>> much lighter rootfs than the full cloud init of fedora. I think there is
+>> only really a syslogd and a klogd running at the start.
+>
+> microvm supports PCIe. You can enable it by specifying e.g., -M
+> microvm,pcie=3Don
+>
+>>=20
+>>> - I'm worried that having a rootfs for a single test is too costly to
+>>>    maintain. If you just want to avoid cloud-init, you can just
+>>>   specify:
+>>> init=3D/bin/sh
+>> Not really too bad. Buildroot makes it pretty easy. The config can
+>> be
+>> found here:
+>>    https://fileserver.linaro.org/s/Lk8z7kN3s3ds7kd
+>
+> Buildroot indeed automates everything to build rootfs, but it still
+> takes lots of time to build because it needs to build everything. It
+> also fetches sources from the origins of the packages if I understand
+> it correctly, and I'm worried that may harm the reproducibility of the
+> builds.
+>
+> These problems are not present with Fedora: you can add or replace a
+> particular component with a package (in this case ethtool is added),
+> and Fedora mirrors everything to build the binary.
 
-Yes, exactly.
+It's certainly preferable to lean on the distros and their
+infrastructure although:
 
->
->
-> static const VMStateDescription vuf_backend_vmstate;
->
-> static const VMStateDescription vuf_vmstate = {
->     .name = "vhost-user-fs",
->     .version_id = 0,
->     .fields = (VMStateField[]) {
->         VMSTATE_VIRTIO_DEVICE,
->         VMSTATE_END_OF_LIST()
->     },
->     .subsections = (const VMStateDescription*[]) {
->         &vuf_backend_vmstate,
->         NULL,
->     }
-> };
->
-> static const VMStateDescription vuf_backend_vmstate = {
->     .name = "vhost-user-fs-backend",
->     .version_id = 0,
->     .needed = vuf_stateful_migration,
->     .fields = (VMStateField[]) {
->         {
->             .name = "back-end",
->             .info = &(const VMStateInfo) {
->                 .name = "virtio-fs back-end state",
->                 .get = vuf_load_state,
->                 .put = vuf_save_state,
->             },
->         },
->         VMSTATE_END_OF_LIST()
->     },
-> };
->
+  - Fedora is a poor choice given the support lifetime
+  - The various "full-fat" distros we run avocado tests for seem to be
+    very bloated (esp compared to my local Debian setup which boots very
+    quickly)
+  - It's hard to argue with the time saving and stability improvements,
+    especially as we are limited on CI time these days
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
