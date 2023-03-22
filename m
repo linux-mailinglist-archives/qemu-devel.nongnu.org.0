@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7F56C4C98
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6376F6C4CA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:59:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peyy2-0000ye-5G; Wed, 22 Mar 2023 09:57:30 -0400
+	id 1peyy6-0000zZ-Cg; Wed, 22 Mar 2023 09:57:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyy0-0000yJ-FX
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:28 -0400
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyy4-0000z7-TA
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:32 -0400
 Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyxy-00016P-GI
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:28 -0400
-Received: by mail-wr1-x434.google.com with SMTP id y14so17184159wrq.4
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:57:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyy3-00018b-8W
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:32 -0400
+Received: by mail-wr1-x434.google.com with SMTP id l12so17173439wrm.10
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679493444;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WUcZYkCfek8U5HTQqE0ZRnri9xU+leU8uMo6zS0IeAM=;
- b=I0fgFMmUCt8vwS+zyVM/+i25AD79bsrWXAZRcOs/YEEUJ+/mtD3DHPhfX6xqzl+FvH
- bJho93nfFc+S1OcDLuurEanMFHKblqllYLBJGHtUJ2QSd1jRxHr7OQcSp1MSjEEtJRXO
- aJC0sTXzN3Nab8Nrf6DN+cRvZghba+/FV6qHEDC2Qxpqu8kIdKRESz6T87v8yYKutKbk
- 8+BNDqfM2rGgkePaczwnUqd7kS/8VrGWSyhvFd+tSAXz5vmpPamorvlpqs+eKGiddl9e
- WRUuUOfqMQEjK8qKlMfxWkOruoeXCjesMcQm9qtppoHKxmDRW7PKyN0TWq/D1MYL2MX/
- qA/A==
+ d=linaro.org; s=google; t=1679493449;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uI/PqPnh+syqktubN6Cm0y9rYGZLvTWBD1kNl80Dgig=;
+ b=vxi78SETQOIfBY5C9bYL0F6CtD0NG38r2kCWBIk+qRMt6975wQWmipc9BTSm5sAjAJ
+ oUX62Q9pgGgaWsQn7C/By1Uyx+jLOfG7aMPJFXF1LeHOSeUBXRBsLS0GKPTaKXPJJ2Uo
+ oS31NupZs3N33qGNEljbMk3dlWZ+EaoBzU8V94YYcLJBaAOsZS3Fn0cRQIt/2LQ2FYzC
+ QCP5niel7h5nDseZ7tMWtAH6mh9Kh013G8CIdn5e/X2LweZr5zHHImwdRUdEHxJaSp2m
+ XFnYaSr/3UeNQ01Dhg22whtCh0i6b9UqA2ytk3UmfY+DL3zD0NzEwX5utLRfCmirw0Qs
+ lpIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679493444;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WUcZYkCfek8U5HTQqE0ZRnri9xU+leU8uMo6zS0IeAM=;
- b=b8H0Go4xXXfioq+PDqVhXrv5IwAxLR13J44cT1K6tC3Kaxf5eJlM5gRKKJcWnd2QsS
- xx3L35kQYHb0tBqa/K5TCwyADErbNvVTgxwhxqHTfcwkhBv8mUG6mGrKbTItO50giZmR
- Xs1nU55oOsmHmG58/K0snTPEDUerOBowp9L7p3RetnfeL044yeI8CMUiYJXdzVkTZwHE
- DDkEDXStcJkuKB6yKodzCQp2DDFsg9E4JP3cKMHvcqSjmKKDgIh5u5mtJm3eDl1FFqPl
- 7DYcdRxRXXG5B8RNU6/nEGMLyTTwPyKuwo1pwJi0Cl7seoLrlAsbI5jZObwSiuijpzsj
- AbfQ==
-X-Gm-Message-State: AO0yUKXKQkLCs+X+P20lSdMjrqCtaSkkfajw7BVBmbTM+EMTnYeNyWiL
- 0akgbCYpcbhjcP07RU5r2scImmf8uqUB6UTOPn5rwA==
-X-Google-Smtp-Source: AK7set97TrIT3ODxYyfX5AuoZpeNLKFzyaJar+xBa++EfmuMZLoTiStKegnUn2WoAhM9dN3Ni3RgPg==
-X-Received: by 2002:a05:6000:548:b0:2cf:e8d2:b550 with SMTP id
- b8-20020a056000054800b002cfe8d2b550mr4977930wrf.14.1679493444605; 
- Wed, 22 Mar 2023 06:57:24 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679493449;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uI/PqPnh+syqktubN6Cm0y9rYGZLvTWBD1kNl80Dgig=;
+ b=qYC13beLh5zc/y2ROykw0eGoWiRnAhovrWeY4tRCir5cfiPfKOSfNztHYye7uxbu8S
+ Zsjt4Dd1vJ3U5i6cKt6z3Zr0F/BVgCajjSBvEzMoCFe52GwFGFLifSC8Omqm7RiLajrh
+ zyBt4Bb44Wd6bqy19zNFk+3gqFQveIDjcf2i0NU4RkdQkVk4weTxkCqT2S08MdM2HfrU
+ WkX5EPyoWLGSC3HKM6cQrse5JQK9foEqMGHzlzlcJ6s3VZ2PMsYzmp9iH6oifK/4+6w2
+ ixfHXFRdDBr/qKcC2h8vZEZhFBE6aCHhGQwz4Suk9tlUxY1vz2kPVsrxbPn5QJt0Eh0F
+ UDUw==
+X-Gm-Message-State: AO0yUKVUs9AJxGnio39S+952nYlTZKr0bmL+N16PsZh1X+7MHRT1Qr8Y
+ mbzD3FfoFrJPL2Dp1IShFgjqRmgPSjkF374iHv6Csw==
+X-Google-Smtp-Source: AK7set/fLYf/z1/XIfyD2wUCwccenUWGdQV1ndFnXPZKHtKg6uLLzWKJuOSgwxxNDFR/L7bJZ0k3tg==
+X-Received: by 2002:adf:ebcf:0:b0:2cf:f35b:9aa2 with SMTP id
+ v15-20020adfebcf000000b002cff35b9aa2mr5499493wrn.19.1679493449667; 
+ Wed, 22 Mar 2023 06:57:29 -0700 (PDT)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p5-20020a5d4e05000000b002d75909c76esm7018482wrt.73.2023.03.22.06.57.23
+ k5-20020adfe8c5000000b002d748d46565sm7188703wrn.74.2023.03.22.06.57.28
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 22 Mar 2023 06:57:24 -0700 (PDT)
+ Wed, 22 Mar 2023 06:57:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -62,13 +63,14 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Yonggang Luo <luoyonggang@gmail.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 0/2] ci: Remove cirrus-ci & cover SPICE in MSYS2 at
- gitlab-ci
-Date: Wed, 22 Mar 2023 14:57:19 +0100
-Message-Id: <20230322135721.61138-1-philmd@linaro.org>
+Subject: [PATCH v2 1/2] gitlab-ci: Cover SPICE in the MSYS2 job
+Date: Wed, 22 Mar 2023 14:57:20 +0100
+Message-Id: <20230322135721.61138-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230322135721.61138-1-philmd@linaro.org>
+References: <20230322135721.61138-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::434;
  envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
@@ -94,21 +96,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-See individual patch descriptions.
+Include the mingw-w64-x86_64-spice package so SPICE is covered:
 
-Based-on: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
-Supersedes: <20230322110521.59949-1-philmd@linaro.org>
+  C compiler for the host machine: cc -m64 -mcx16 (gcc 12.2.0 "cc (Rev10, Built by MSYS2 project) 12.2.0")
+  ...
+  Run-time dependency spice-protocol found: YES 0.14.4
+  Run-time dependency spice-server found: YES 0.15.1
 
-Philippe Mathieu-Daudé (2):
-  gitlab-ci: Cover SPICE in the MSYS2 job
-  cirrus-ci: Remove MSYS2 jobs duplicated with gitlab-ci
+In particular this would have helped catching the build issue
+reported as https://gitlab.com/qemu-project/qemu/-/issues/1553:
 
- MAINTAINERS              |   3 +-
- .cirrus.yml              | 111 ---------------------------------------
- .gitlab-ci.d/windows.yml |   2 +
- 3 files changed, 3 insertions(+), 113 deletions(-)
- delete mode 100644 .cirrus.yml
+  [1851/5253] Compiling C object libcommon.fa.p/ui_spice-core.c.obj
+  FAILED: libcommon.fa.p/ui_spice-core.c.obj
+  ../ui/spice-core.c: In function 'watch_remove':
+  ../ui/spice-core.c:152:5: error: implicit declaration of function 'qemu_close_to_socket' [-Werror=implicit-function-declaration]
+  152 |     qemu_close_to_socket(watch->fd);
+      |     ^~~~~~~~~~~~~~~~~~~~
+  ../ui/spice-core.c:152:5: error: nested extern declaration of 'qemu_close_to_socket' [-Werror=nested-externs]
 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+See https://gitlab.com/philmd/qemu/-/jobs/3980693656#L2378
+---
+ .gitlab-ci.d/windows.yml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 87235e43b4..472bacd2e2 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -59,6 +59,7 @@ msys2-64bit:
+       mingw-w64-x86_64-SDL2
+       mingw-w64-x86_64-SDL2_image
+       mingw-w64-x86_64-snappy
++      mingw-w64-x86_64-spice
+       mingw-w64-x86_64-usbredir
+       mingw-w64-x86_64-zstd "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+@@ -108,6 +109,7 @@ msys2-32bit:
+       mingw-w64-i686-SDL2
+       mingw-w64-i686-SDL2_image
+       mingw-w64-i686-snappy
++      mingw-w64-i686-spice
+       mingw-w64-i686-usbredir
+       mingw-w64-i686-zstd "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
 -- 
 2.38.1
 
