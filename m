@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90F16C4D8C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:25:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032EB6C4D92
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:26:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pezOb-0008KD-Ic; Wed, 22 Mar 2023 10:24:57 -0400
+	id 1pezPe-0000ll-IW; Wed, 22 Mar 2023 10:26:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pezOY-0008Ji-W8
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:24:55 -0400
+ id 1pezPX-0000lK-TB
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:25:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pezOX-0000Og-DS
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:24:54 -0400
+ id 1pezPV-0000wk-Q1
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:25:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679495092;
+ s=mimecast20190719; t=1679495152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RoX1h+ii1M/I1LZq4uL1rddAkyuGbushONdGQ21z6ic=;
- b=a53WqqW4fh4Ioe/MssIaeQgBfORB+SjfSe0gegHiM6Da0dm5MAmMYpF+40W/v+08zLWnWO
- jd5TADyMrikE6q3R6FldjxKcJFZ2RtHCGijVxOBWkTnYJjxVznaD5E1WPcUHvPespxUE62
- uXO5Kumc3peEIAuYcjpLKD2Qm7/1Vwc=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DyzXCoG3+1CRpJ2a4w5YN5srqbMX2pKYaMARxjpzawY=;
+ b=NqFNYIHfMMZ2Q/3Wq8vHsHhHcaYAT+If+l4wBvZPTmCtX79egirJwh9muxR4CTwBqfeSMn
+ CTLtH5kTmbiIJUbmcdjx+/0Et5SLdZwuReRL+00nBctQ35F3FpPyxk262/OZm0LVMprIFV
+ /Lq6l9qqLyPwd02iLNctOwLPRhLnBp4=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-0Nc_-m6dMxmHhK9JKV2vIA-1; Wed, 22 Mar 2023 10:24:51 -0400
-X-MC-Unique: 0Nc_-m6dMxmHhK9JKV2vIA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- f3-20020a0cc303000000b005c9966620daso4778774qvi.4
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 07:24:51 -0700 (PDT)
+ us-mta-479-gzltf9nXNa6_hcF1UQrI5w-1; Wed, 22 Mar 2023 10:25:48 -0400
+X-MC-Unique: gzltf9nXNa6_hcF1UQrI5w-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ i2-20020ac84882000000b003d6fee1d438so10988761qtq.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 07:25:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679495090;
+ d=1e100.net; s=20210112; t=1679495148;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RoX1h+ii1M/I1LZq4uL1rddAkyuGbushONdGQ21z6ic=;
- b=KCsfAtNxpw4dN7kjx2n8CKWzYldtyaHHwl9Kgj1pcJhVQ+fO02zHdk8Y4YOu6mjF0K
- oN6Lh76lQlCPjBYIJnLGrR3aqeZj3BAsqfXj6wumdwAbxzP5wZHrWGhc3uayWV27gj7i
- Y30PSDLjhHOC6yauiEgJEVwiY6yT7l3u9QmOwwm7pLrxM8FnQxOvoTiXoMImWfsdQn7/
- pshADEJAXGqaXiNSwFMPMsgF2Yku7s4XM+//vdV1acsNjCOam+2TLsNnUlHyNTK8c9vQ
- hepIsyompriflQTos4O2Xg4mzppeHr0G1yMSosbTUovoQKFqxMJBJu+AJgKqHJRbT2il
- n0lg==
-X-Gm-Message-State: AO0yUKUwgg+cbMueLECliQ2sTDGJZX0lZRT4t3ccgrpbHrIOQZYaBap/
- JyOkn21eo11Uy6m2rKBbSWAL10vxGEwX+7t1G+oaowl6dDySg/N8jAXwomv+9ShQfvf8boCK/fl
- jNUY5sxviijmZn1Y=
-X-Received: by 2002:ac8:5a8a:0:b0:3e1:8288:c88d with SMTP id
- c10-20020ac85a8a000000b003e18288c88dmr6556253qtc.20.1679495090706; 
- Wed, 22 Mar 2023 07:24:50 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9IDcip+gAAANXqQLLUyZNNOiD1pXFY5DNv7kMP5jptIUheJo3KYqQn4rzzvAmNvOhJB30HdA==
-X-Received: by 2002:ac8:5a8a:0:b0:3e1:8288:c88d with SMTP id
- c10-20020ac85a8a000000b003e18288c88dmr6556221qtc.20.1679495090421; 
- Wed, 22 Mar 2023 07:24:50 -0700 (PDT)
+ bh=DyzXCoG3+1CRpJ2a4w5YN5srqbMX2pKYaMARxjpzawY=;
+ b=MCat24XO3h+gQa0iPxYvLUtiyKwfOVSCxHwtani2SC2yxlLgdotlOygpL+rXJTbhAY
+ osxcJQ6yzd2VPIamXiPxA3rXwwTwgzRRgS6211uuwFn0acghnGM6BNtK9CVuiDrHchl0
+ +WwpyL4YY1lLWb1wLEv/exBhRKM7Htmo4jLixyXnlKlGjU4MHTaTqc0ikSiMVYcBx0DF
+ +T50iIM1+CFv63CiWrEFdoFOfH9Y1o48uHr0Tfap4VemnYqhVWUhQoEs+E0NLM47HplF
+ ynQ8PPfWQ3BRGiNJ9sChsdOytfNNPUdwSuOvKq6RhLM4u4zCXT0COUzazj370S+YxMAf
+ Ap/w==
+X-Gm-Message-State: AO0yUKU1g72g0AjrChoP7iJXAyua3Y2XgvjD+vJ6FuD/SCxlX+bjoZ9H
+ 05bBEJpmMAqvZNYZ2raEp6AJ0v9xKgfEZaRFhjMoT6I6eakpV1P0Qpvh+XpePxPZiOc2SHhaE6A
+ WXHGIEshhfvrlyV4=
+X-Received: by 2002:ac8:5f90:0:b0:3e3:7e16:5a8c with SMTP id
+ j16-20020ac85f90000000b003e37e165a8cmr6023413qta.16.1679495148159; 
+ Wed, 22 Mar 2023 07:25:48 -0700 (PDT)
+X-Google-Smtp-Source: AK7set80fXhprYksNMaPgNBFgeOHEbiGnpRrgU+3G1ft5s6r6mbUd9tvFd47sdpSZUkbp/LGGpMENg==
+X-Received: by 2002:ac8:5f90:0:b0:3e3:7e16:5a8c with SMTP id
+ j16-20020ac85f90000000b003e37e165a8cmr6023379qta.16.1679495147919; 
+ Wed, 22 Mar 2023 07:25:47 -0700 (PDT)
 Received: from sgarzare-redhat (host-82-57-51-170.retail.telecomitalia.it.
  [82.57.51.170]) by smtp.gmail.com with ESMTPSA id
- 11-20020a37060b000000b0071d0f1d01easm5286361qkg.57.2023.03.22.07.24.47
+ u12-20020ac8750c000000b003e38f8d564fsm205997qtq.66.2023.03.22.07.25.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 07:24:49 -0700 (PDT)
-Date: Wed, 22 Mar 2023 15:24:45 +0100
+ Wed, 22 Mar 2023 07:25:47 -0700 (PDT)
+Date: Wed, 22 Mar 2023 15:25:42 +0100
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com,
@@ -77,15 +77,15 @@ Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com,
  Cindy Lu <lulu@redhat.com>, Parav Pandit <parav@mellanox.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>,
  Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
-Subject: Re: [RFC PATCH for 8.1 2/6] vdpa: add vhost_vdpa_reset_status_fd
-Message-ID: <20230322142445.cocojplrzn5gtlfw@sgarzare-redhat>
+Subject: Re: [RFC PATCH for 8.1 3/6] vdpa: add vhost_vdpa_set_dev_features_fd
+Message-ID: <20230322142542.3wnllk4cux4yfgxv@sgarzare-redhat>
 References: <20230317145542.347368-1-eperezma@redhat.com>
- <20230317145542.347368-3-eperezma@redhat.com>
+ <20230317145542.347368-4-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230317145542.347368-3-eperezma@redhat.com>
+In-Reply-To: <20230317145542.347368-4-eperezma@redhat.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -110,134 +110,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 17, 2023 at 03:55:38PM +0100, Eugenio Pérez wrote:
->This allows to reset a vhost-vdpa device from external subsystems like
->vhost-net.  It is used in subsequent patches to negotiate features and
->probe for CVQ ASID isolation.
+On Fri, Mar 17, 2023 at 03:55:39PM +0100, Eugenio Pérez wrote:
+>This allows to set the features of a vhost-vdpa device from external
+>subsystems like vhost-net.  It is used in subsequent patches to
+>negotiate features and probe for CVQ ASID isolation.
 >
 >Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 >---
 > include/hw/virtio/vhost-vdpa.h |  1 +
-> hw/virtio/vhost-vdpa.c         | 58 +++++++++++++++++++++++-----------
-> 2 files changed, 41 insertions(+), 18 deletions(-)
->
->diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
->index c278a2a8de..28de7da91e 100644
->--- a/include/hw/virtio/vhost-vdpa.h
->+++ b/include/hw/virtio/vhost-vdpa.h
->@@ -54,6 +54,7 @@ typedef struct vhost_vdpa {
->     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> } VhostVDPA;
->
->+void vhost_vdpa_reset_status_fd(int fd);
-> int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range);
->
-> int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
->diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->index bbabea18f3..7a2053b8d9 100644
->--- a/hw/virtio/vhost-vdpa.c
->+++ b/hw/virtio/vhost-vdpa.c
->@@ -335,38 +335,45 @@ static const MemoryListener vhost_vdpa_memory_listener = {
->     .region_del = vhost_vdpa_listener_region_del,
-> };
->
->-static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
->-                             void *arg)
->+static int vhost_vdpa_dev_fd(const struct vhost_dev *dev)
+> hw/virtio/vhost-vdpa.c         | 20 +++++++++++++-------
+> 2 files changed, 14 insertions(+), 7 deletions(-)
 
-What is the purpose of this refactoring?
-I guess, since vhost_net does not have `struct vhost_dev *` we want to
-use fd directly?
-
-It might be better to split this patch into two.
-
-> {
->     struct vhost_vdpa *v = dev->opaque;
->-    int fd = v->device_fd;
->-    int ret;
->
->     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
->+    return v->device_fd;
->+}
->+
->+static int vhost_vdpa_call_fd(int fd, unsigned long int request, void *arg)
->+{
->+    int ret = ioctl(fd, request, arg);
->
->-    ret = ioctl(fd, request, arg);
->     return ret < 0 ? -errno : ret;
-> }
->
->-static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->+static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
->+                           void *arg)
->+{
->+    return vhost_vdpa_call_fd(vhost_vdpa_dev_fd(dev), request, arg);
->+}
->+
->+static int vhost_vdpa_add_status_fd(int fd, uint8_t status)
-> {
->     uint8_t s;
->     int ret;
->
->-    trace_vhost_vdpa_add_status(dev, status);
->-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
->+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
->     if (ret < 0) {
->         return ret;
->     }
->
->     s |= status;
->
->-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
->+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &s);
->     if (ret < 0) {
->         return ret;
->     }
->
->-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
->+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
->     if (ret < 0) {
->         return ret;
->     }
->@@ -378,6 +385,12 @@ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->     return 0;
-> }
->
->+static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->+{
->+    trace_vhost_vdpa_add_status(dev, status);
->+    return vhost_vdpa_add_status_fd(vhost_vdpa_dev_fd(dev), status);
->+}
->+
-> int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range)
-> {
->     int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
->@@ -709,16 +722,20 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
->     return ret;
-> }
->
->+static int vhost_vdpa_reset_device_fd(int fd)
->+{
->+    uint8_t status = 0;
->+
->+    return vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &status);
->+}
->+
-> static int vhost_vdpa_reset_device(struct vhost_dev *dev)
-> {
->     struct vhost_vdpa *v = dev->opaque;
->-    int ret;
->-    uint8_t status = 0;
->
->-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
->-    trace_vhost_vdpa_reset_device(dev);
->     v->suspended = false;
-
-I think it is pre-existing, but if VHOST_VDPA_SET_STATUS fails,
-should we set anyway `v->suspended = false`?
-
-Thanks,
-Stefano
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
