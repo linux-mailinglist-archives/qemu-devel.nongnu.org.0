@@ -2,79 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928736C5A57
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 00:30:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429846C5A7F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 00:35:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf6mQ-0006Lb-IP; Wed, 22 Mar 2023 18:18:02 -0400
+	id 1pf7gq-0005Xw-E0; Wed, 22 Mar 2023 19:16:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1pf6mK-0006LP-M3
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:17:56 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1pf6m5-00068o-RR
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:17:53 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id l7so2465015qvh.5
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 15:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista.com; s=google; t=1679523431; x=1682115431;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wNgDi8+wF0YlZKvWKii9teKxQGa60IbB0WrlRsxEVjg=;
- b=QoHqR+mNb21I5ga/Xx9iS/v50pYL7VxrrOxPxVf76f56yIGuWsy8aOAkEDBJlqnwb7
- /qxpbrEnKvLdCmX8FQxJWzx7eO0lsWSUYPg9Yb1H4O6CDpDS72Onw93FOYhw3ZNqXJrk
- WJn5zKV1LH8X3O70JOHCAkxY0IjhG45Ue+ED8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679523431; x=1682115431;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wNgDi8+wF0YlZKvWKii9teKxQGa60IbB0WrlRsxEVjg=;
- b=7agLYbsM9WY40Y4PvPaRt9l1HpsAaDX7P8yK4Rvdmge+pPf7qRIvGZ8U3D2cRn8SQ2
- NMZ0saR3flnm3Ngsij+PZaEFGac+UhoqIarbXDZ7B9KFghvHunPCx0YBaDtSbkeXKSx5
- eR9EVZbLNDVG8atIJruK3Yym1ENL5npf6I3eEQRYtZr/leUDbEqbSH2st4SREIH9/76k
- ofaVUR/lwBUbWpr53Z7uM0XjW6CRZkfvQag7+KQIczc4ZvRcOcRys796HhqXtIddNMsG
- ZU/2/Zd4EaaCvLh863LqZn5DOVz2tLjC8z9BsbWA052OD9H4QZHo5yeYSY39LGP3rUNB
- QrpQ==
-X-Gm-Message-State: AO0yUKXLpnIIpNY80rzn2l1hBKSmp5ZqWeRg2C91Rq5zA9F85h1pEnTQ
- 1hmXGeMidJ8mk8ztk2yAoKuD211wMZ0BsWiclPPWvA==
-X-Google-Smtp-Source: AK7set9fAqrA9MyahleWrhJqvX4N9kLCoVy94YCJM1phVx0oo0Ufg5FQRmXvjO+2McbZK+aSsiMgcw==
-X-Received: by 2002:a05:622a:1a17:b0:3bf:a60d:43b9 with SMTP id
- f23-20020a05622a1a1700b003bfa60d43b9mr13555758qtb.4.1679519946401; 
- Wed, 22 Mar 2023 14:19:06 -0700 (PDT)
-Received: from minyard.net ([2001:470:b8f6:1b:3214:777f:4ba9:15f6])
- by smtp.gmail.com with ESMTPSA id
- o16-20020ac86990000000b003bf9f9f1844sm10738717qtq.71.2023.03.22.14.19.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 14:19:05 -0700 (PDT)
-Date: Wed, 22 Mar 2023 16:19:03 -0500
-From: Corey Minyard <cminyard@mvista.com>
-To: Patrick Venture <venture@google.com>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Hao Wu <wuhaotsh@google.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH RESEND v2] hw/i2c: Enable an id for the pca954x devices
-Message-ID: <ZBtwxzc7xpazByqK@minyard.net>
-References: <20230322172136.48010-1-venture@google.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature";
- micalg=sha-256; boundary="lOaaaqfcI0ci4hLW"
-Content-Disposition: inline
-In-Reply-To: <20230322172136.48010-1-venture@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=cminyard@mvista.com; helo=mail-qv1-xf36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <minwoo.im@samsung.com>)
+ id 1pf7gl-0005X3-PO
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 19:16:16 -0400
+Received: from mailout1.samsung.com ([203.254.224.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <minwoo.im@samsung.com>)
+ id 1pf7gi-00048j-Kv
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 19:16:15 -0400
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20230322211946epoutp013ec6a45504569d662227d074fccefe00~O2oeUZ1OF0303703037epoutp01H
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 21:19:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20230322211946epoutp013ec6a45504569d662227d074fccefe00~O2oeUZ1OF0303703037epoutp01H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1679519986;
+ bh=q3Mx+tFrpm50/INklgaCX01vrfi/g8TsU98MzNC68bY=;
+ h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+ b=gzRCBPTVIQu6qDMZG/UwtceHNMm9ffeYeeFyb6FyHHRRDauSk1Yhcbmng+M8SKX7q
+ xJsJNGgdVFCEbFtghUBCTpinrms5r4OjbG63I5ILRjnjcm0LCMFPCwgmkqfZ7R9+OA
+ KBLAVDm4kzJnDpKA3MI/6gIOtmMN2se4xHP5QLEA=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas2p1.samsung.com (KnoxPortal) with ESMTP id
+ 20230322211946epcas2p11b4645c708a3918d5f6cb20eb0f6f786~O2od0jID_0176601766epcas2p1J;
+ Wed, 22 Mar 2023 21:19:46 +0000 (GMT)
+Received: from epsmges2p2.samsung.com (unknown [182.195.36.98]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4PhhFG05Y1z4x9Pq; Wed, 22 Mar
+ 2023 21:19:46 +0000 (GMT)
+X-AuditID: b6c32a46-743fa70000007a4b-60-641b70f148ee
+Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
+ epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 7C.21.31307.1F07B146; Thu, 23 Mar 2023 06:19:45 +0900 (KST)
+Mime-Version: 1.0
+Subject: RE: [PATCH] vfio/pci: add support for VF token
+From: Minwoo Im <minwoo.im@samsung.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+CC: =?UTF-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, SSDR Gost Dev
+ <gost.dev@samsung.com>, Klaus Birkelund Jensen <k.jensen@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <20230320093931.29015496.alex.williamson@redhat.com>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20230322211945epcms2p4fdcdcfdc3857d2451f24ac229f3992a8@epcms2p4>
+Date: Thu, 23 Mar 2023 06:19:45 +0900
+X-CMS-MailID: 20230322211945epcms2p4fdcdcfdc3857d2451f24ac229f3992a8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKKsWRmVeSWpSXmKPExsWy7bCmme7HAukUg5udZhbf/vewWTR072Oz
+ uHlgJ5PFycY9rBbHe3ewOLB67D0l7fHk2mYmj/f7rrJ59G1ZxRjAEpVtk5GamJJapJCal5yf
+ kpmXbqvkHRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIToOuWmQO0V0mhLDGnFCgUkFhcrKRvZ1OU
+ X1qSqpCRX1xiq5RakJJTYF6gV5yYW1yal66Xl1piZWhgYGQKVJiQnbH21jXmgjsaFUun/2Ru
+ YDyj3sXIySEhYCIx4fUcpi5GLg4hgR2MEjde3wByODh4BQQl/u4QBqkRFjCXuHllHgtIWEhA
+ XuLHKwOIsKbEu91nWEFsNgF1iYapr1hAbBEBA4mvnyeAjWQWOMgo8fjaBGaIXbwSM9qfskDY
+ 0hLbl29lBJnJKeAo8W9ZNURYQ+LHsl6oclGJm6vfssPY74/NZ4SwRSRa752FqhGUePBzN1Rc
+ SmL//LlQdrVEw/FnTBB2hcSv9w+g6s0lft/fDXYzr4CvxNF368DqWQRUJTb9uwZV7yKxf8V2
+ NhCbWUBbYtnC18wgZzID/bt+lz6IKSGgLHHkFgtEBZ9Ex+G/7DAP7pj3BGqKssTHQ4egtkpK
+ LL/0mg3C9pCYevks4wRGxVmIYJ6FZNcshF0LGJlXMYqlFhTnpqcWGxUYwWM2OT93EyM4/Wm5
+ 7WCc8vaD3iFGJg7GQ4wSHMxKIrxuzBIpQrwpiZVVqUX58UWlOanFhxhNgb6cyCwlmpwPTMB5
+ JfGGJpYGJmZmhuZGpgbmSuK80rYnk4UE0hNLUrNTUwtSi2D6mDg4pRqYTshPu8UgbpDOKJEW
+ 5XNQd4Nobvw31/dNDTk/t+4It1Q5nrlL3uu+pUx2RahQQLraPLa8tAVd4QYLFkyKj8hJY+G3
+ Y5l9edqeD6dOHEtddUVRs7XtrvGf/t/zhDjLDzKJ9jMlml66ci2xP8DBvKNhr3IG5z6b1gXd
+ V5aeNz3lZy5Y4b3acnW3tObrA0V5Wmx+lY98zh6bn5Z0TijoxBOjs4/16j6V+Kr5XKjIfvde
+ Wmb5uT+24v+vXxT6JfvrkN7zZ0Izex2DN2pqumlOPf4mds09xoW3Xqwxf3mGO9x+0xPODRFl
+ G0RXXHoaVrfqXIbO+ZKsy93/xXgvr2Gw7z7wuThVhb3auNot6twGs89KLMUZiYZazEXFiQBE
+ 8J8JCAQAAA==
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780
+References: <20230320093931.29015496.alex.williamson@redhat.com>
+ <20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780@epcms2p4>
+ <7db48667-11e2-b806-03f7-eb516a7be157@kaod.org>
+ <CGME20230320073522epcms2p48f682ecdb73e0ae1a4850ad0712fd780@epcms2p4>
+Received-SPF: pass client-ip=203.254.224.24;
+ envelope-from=minwoo.im@samsung.com; helo=mailout1.samsung.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,184 +110,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
+Reply-To: minwoo.im@samsung.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---lOaaaqfcI0ci4hLW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Mar 22, 2023 at 10:21:36AM -0700, Patrick Venture wrote:
-> This allows the devices to be more readily found and specified.
-> Without setting the name field, they can only be found by device type
-> name, which doesn't let you specify the second of the same device type
-> behind a bus.
->=20
-> Tested: Verified that by default the device was findable with the name
-> 'pca954x[77]', for an instance attached at that address.
-
-This looks good to me.
-
-Acked-by: Corey Minyard <cminyard@mvista.com>
-
-if you are taking this in through another tree.  Or do you want me to
-take this?
-
--corey
-
->=20
-> Signed-off-by: Patrick Venture <venture@google.com>
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
-> v2: s/id/name/g to use name as the identifier field. left 'id' in subject=
- for email chain.
-> ---
->  hw/i2c/i2c_mux_pca954x.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->=20
-> diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
-> index 3945de795c..76e69bebc5 100644
-> --- a/hw/i2c/i2c_mux_pca954x.c
-> +++ b/hw/i2c/i2c_mux_pca954x.c
-> @@ -20,6 +20,7 @@
->  #include "hw/i2c/i2c_mux_pca954x.h"
->  #include "hw/i2c/smbus_slave.h"
->  #include "hw/qdev-core.h"
-> +#include "hw/qdev-properties.h"
->  #include "hw/sysbus.h"
->  #include "qemu/log.h"
->  #include "qemu/module.h"
-> @@ -43,6 +44,8 @@ typedef struct Pca954xState {
-> =20
->      bool enabled[PCA9548_CHANNEL_COUNT];
->      I2CBus *bus[PCA9548_CHANNEL_COUNT];
-> +
-> +    char *name;
->  } Pca954xState;
-> =20
->  /*
-> @@ -181,6 +184,17 @@ static void pca9548_class_init(ObjectClass *klass, v=
-oid *data)
->      s->nchans =3D PCA9548_CHANNEL_COUNT;
->  }
-> =20
-> +static void pca954x_realize(DeviceState *dev, Error **errp)
-> +{
-> +    Pca954xState *s =3D PCA954X(dev);
-> +    DeviceState *d =3D DEVICE(s);
-> +    if (s->name) {
-> +        d->id =3D g_strdup(s->name);
-> +    } else {
-> +        d->id =3D g_strdup_printf("pca954x[%x]", s->parent.i2c.address);
-> +    }
-> +}
-> +
->  static void pca954x_init(Object *obj)
->  {
->      Pca954xState *s =3D PCA954X(obj);
-> @@ -197,6 +211,11 @@ static void pca954x_init(Object *obj)
->      }
->  }
-> =20
-> +static Property pca954x_props[] =3D {
-> +    DEFINE_PROP_STRING("nane", Pca954xState, name),
-> +    DEFINE_PROP_END_OF_LIST()
-> +};
-> +
->  static void pca954x_class_init(ObjectClass *klass, void *data)
->  {
->      I2CSlaveClass *sc =3D I2C_SLAVE_CLASS(klass);
-> @@ -209,9 +228,12 @@ static void pca954x_class_init(ObjectClass *klass, v=
-oid *data)
->      rc->phases.enter =3D pca954x_enter_reset;
-> =20
->      dc->desc =3D "Pca954x i2c-mux";
-> +    dc->realize =3D pca954x_realize;
-> =20
->      k->write_data =3D pca954x_write_data;
->      k->receive_byte =3D pca954x_read_byte;
-> +
-> +    device_class_set_props(dc, pca954x_props);
->  }
-> =20
->  static const TypeInfo pca954x_info[] =3D {
-> --=20
-> 2.40.0.rc1.284.g88254d51c5-goog
->=20
-
---lOaaaqfcI0ci4hLW
-Content-Type: application/x-pkcs7-signature
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIINXgYJKoZIhvcNAQcCoIINTzCCDUsCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0B
-BwGgggqSMIIFXzCCBEegAwIBAgIQD/rh8xorQzw9muFtZDtYizANBgkqhkiG9w0BAQsFADBl
-MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGln
-aWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJvb3QgRzIwHhcNMTkw
-OTIzMTIyNTMyWhcNMzQwOTIzMTIyNTMyWjBqMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGln
-aUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSkwJwYDVQQDEyBEaWdpQ2Vy
-dCBBc3N1cmVkIElEIENsaWVudCBDQSBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
-ggEBAOqxRa06rLwKBvrDb/qQ8RtXfeKA9o0A42oZbLF4GYr4Xdt9JE8r3PJRIOUZD1U3mEln
-4S/aZoS54Q+5Ecs3q2GGT/Z82VeAPLeGvJoT0LS5t/zXeUcbMuDFWgyj33kiesnuusnOWvpI
-SoxN+oBH4oo0+oUiHI65mMjMAlb93x6sabh9kKvHQvHC4x2u7wYv5+NXjnbOhJS/1NjGq+ug
-LMXeldFMz0O5qFIDpn3aQGU0htyJQ2SZyxEqlUrgunsrYj9wgfW7XuhAi2j0y5d9oMT0SuVe
-KFFnQhTEk5B3fq+OBOW0AU2JdW1r929UtRbAr8RpLt05WI2G2RNVVlHYaU0CAwEAAaOCAgQw
-ggIAMB0GA1UdDgQWBBSlYiBQ3LtbV5etI4814lRsqX75TjAfBgNVHSMEGDAWgBTOw0q5mVXy
-uNtgv6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwTAYDVR0lBEUwQwYIKwYBBQUHAwIGCCsG
-AQUFBwMEBgorBgEEAYI3CgMEBgorBgEEAYI3FAICBgorBgEEAYI3CgMMBgkqhkiG9y8BAQUw
-EgYDVR0TAQH/BAgwBgEB/wIBADA0BggrBgEFBQcBAQQoMCYwJAYIKwYBBQUHMAGGGGh0dHA6
-Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBFBgNVHR8EPjA8MDqgOKA2hjRodHRwOi8vY3JsMy5kaWdp
-Y2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURSb290RzIuY3JsMIHOBgNVHSAEgcYwgcMwgcAG
-BFUdIAAwgbcwKAYIKwYBBQUHAgEWHGh0dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9DUFMwgYoG
-CCsGAQUFBwICMH4MfEFueSB1c2Ugb2YgdGhpcyBDZXJ0aWZpY2F0ZSBjb25zdGl0dXRlcyBh
-Y2NlcHRhbmNlIG9mIHRoZSBSZWx5aW5nIFBhcnR5IEFncmVlbWVudCBsb2NhdGVkIGF0IGh0
-dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9ycGEtdWEwDQYJKoZIhvcNAQELBQADggEBAHZrbCQC
-o3MAIqR0kekGYrC70EAGRDRq11COufNEXhcpv3YH6BMhUoVinPPNgfo5HPrZAFrLK/KPXYdJ
-dgkASGsINabAfY2ljUaJwKlpIewwjS6KuGEn59MgidaAUPh6lbetIoRsLhCqCzAnX1aL99fj
-CMf4NMWLUC8TqotnnrKNuw4JSjx4fcQs+U5T1bbgnyDx+8ybONuIEDvinHdKDu2VjoECzez2
-y/1IVTPlh57zBfjHJQFqLWzHdou8M+ucdJtr2swXII6s3nkq4pfEn7KnbzMS9quFSuyOGILc
-g/3qVwaHNLM5R+8nB5gPI5+u5Uh56w1i+9Ds1pjYAiTHdeUwggUrMIIEE6ADAgECAhAI91Yw
-DXfxkIfRnG2PuTKcMA0GCSqGSIb3DQEBCwUAMGoxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxE
-aWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xKTAnBgNVBAMTIERpZ2lD
-ZXJ0IEFzc3VyZWQgSUQgQ2xpZW50IENBIEcyMB4XDTIyMDUwNTAwMDAwMFoXDTI0MDUwNTIz
-NTk1OVowQjEcMBoGA1UEAwwTY21pbnlhcmRAbXZpc3RhLmNvbTEiMCAGCSqGSIb3DQEJARYT
-Y21pbnlhcmRAbXZpc3RhLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANjY
-cQZ5HQOSUjRGxztwfw4ev2HrLkWD+q2XodUa4cJviNLPKjbKzal4cuHH3v0tZenndhg4atln
-f3htoY0+ahiltcn9bmT9pZcru98ibD6DBuB64eFzYOkcmGh70NRFW32AM7zZIyNH8gqpJXCD
-jkkcHEXvQSquFIF4ySAZMrG99xTa2kPG0FUvS/GDzX8WVqJ7rIj2ECsksw4KYKdhGIj62BPo
-EWyUMFewJYQq+MR8wkyc1VK1NSJeZIFDLQeIORITeV3OGCfsZ9gFZdcnJKU8rgeFOi9tXVPV
-UMALBS62pkIZQ0E2KW7jVKj7OTZ5VEGGQe90WTyqEO/eRA1mDP0CAwEAAaOCAfMwggHvMB8G
-A1UdIwQYMBaAFKViIFDcu1tXl60jjzXiVGypfvlOMB0GA1UdDgQWBBTWsIdx8IZ4jupYlE50
-qQfzLzONGjAMBgNVHRMBAf8EAjAAMB4GA1UdEQQXMBWBE2NtaW55YXJkQG12aXN0YS5jb20w
-DgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMEBggrBgEFBQcDAjBDBgNVHSAE
-PDA6MDgGCmCGSAGG/WwEAQEwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQu
-Y29tL0NQUzCBiwYDVR0fBIGDMIGAMD6gPKA6hjhodHRwOi8vY3JsMy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkSURDbGllbnRDQUcyLmNybDA+oDygOoY4aHR0cDovL2NybDQuZGln
-aWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEQ2xpZW50Q0FHMi5jcmwwfQYIKwYBBQUHAQEE
-cTBvMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wRwYIKwYBBQUHMAKG
-O2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRENsaWVudENB
-RzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBSm5bBRgylRT6A8rEzMQ86RAGn0FH1kEX38qvl
-ZTlVqS3iE+zWeZDf9av4eYHiWVwmPwMz90je9jZaWyvTJ0FaLZkM3ZD41tqlC15P1LMSf86m
-zvZvM7OQP9wzKnG1a8n6JSBVh4wbo6CX2bdQycqAMaP6U374Rm3qaYcE3CpWbnSU9DFhiXww
-CqVVlHP3ldil7h0o+Ke2eu5X1Keamd8rIOJsXn8ZnfIwh3rbkZR04IDlbpRJ73K1ytilKi03
-F4rHlra9IHk8OQfdslIgus5Djm4GCXBa8MxeO56eHxgzjgl+hZFULTaeIKzusKXR2swrlf90
-hTtvcpjVVC2D6wyoMYICkDCCAowCAQEwfjBqMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGln
-aUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSkwJwYDVQQDEyBEaWdpQ2Vy
-dCBBc3N1cmVkIElEIENsaWVudCBDQSBHMgIQCPdWMA138ZCH0Zxtj7kynDANBglghkgBZQME
-AgEFAKCB5DAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMzAz
-MjIyMTE5MDNaMC8GCSqGSIb3DQEJBDEiBCBicfdShDrbCNAS9gFp+Rr8GYRyxlE10RzBaRcD
-wQBupjB5BgkqhkiG9w0BCQ8xbDBqMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJYIZI
-AWUDBAECMAoGCCqGSIb3DQMHMA4GCCqGSIb3DQMCAgIAgDANBggqhkiG9w0DAgIBQDAHBgUr
-DgMCBzANBggqhkiG9w0DAgIBKDANBgkqhkiG9w0BAQEFAASCAQBgpIk4uYz8aRvulxtMN3S1
-gcknRGmQZA6JtCn3+nNUYlNPmUgOXOnOkcmXMQE/XCjoeSCATOukqTIN0E02BEgR+X+L/+F1
-MADQoLKR0KIY3prMZaRFfT6kzel5ekZzfxq7Pqqn9petG/BTB/HrBNNKW72uxFrF541D47Hk
-wQm+usaX39OdYJgTrbIHUo4IKUi+dbLPDKNs8yaktbfn6Zfx27pRkwDp5HXfCSI2wjpW8EoF
-7m/lY+fcj+hBWiWVAoBPmZYK94MGOHEhYgPJHoSj0ZH8LrHRNwwYdd1u6j5gk/ZzNG/OcIP6
-5w4u8zwCM1uflVnHBAlp8MAfc5qC5drp
-
---lOaaaqfcI0ci4hLW--
+> On Mon, 20 Mar 2023 11:03:40 +0100
+> C=C3=A9dric=20Le=20Goater=20<clg=40kaod.org>=20wrote:=0D=0A>=20=0D=0A>=20=
+>=20On=203/20/23=2008:35,=20Minwoo=20Im=20wrote:=0D=0A>=20>=20>=20VF=20toke=
+n=20was=20introduced=20=5B1=5D=20to=20kernel=20vfio-pci=20along=20with=20SR=
+-IOV=0D=0A>=20>=20>=20support=20=5B2=5D.=20=20This=20patch=20adds=20support=
+=20VF=20token=20among=20PF=20and=20VF(s).=20To=0D=0A>=20>=20>=20passthu=20P=
+CIe=20VF=20to=20a=20VM,=20kernel=20>=3D=20v5.7=20needs=20this.=0D=0A>=20>=
+=20>=0D=0A>=20>=20>=20It=20can=20be=20configured=20with=20UUID=20like:=0D=
+=0A>=20>=20>=0D=0A>=20>=20>=20=20=20=20-device=20vfio-pci,host=3DDDDD:BB:DD=
+:F,vf-token=3D<uuid>,...=0D=0A>=20>=20>=0D=0A>=20>=20>=20=5B1=5D=20https://=
+lore.kernel.org/linux-=0D=0A>=20pci/158396393244.5601.10297430724964025753.=
+stgit=40gimli.home/=0D=0A>=20>=20>=20=5B2=5D=20https://lore.kernel.org/linu=
+x-=0D=0A>=20pci/158396044753.5601.14804870681174789709.stgit=40gimli.home/=
+=0D=0A>=20>=20>=0D=0A>=20>=20>=20Cc:=20Alex=20Williamson=20<alex.williamson=
+=40redhat.com>=0D=0A>=20>=20>=20Signed-off-by:=20Minwoo=20Im=20<minwoo.im=
+=40samsung.com>=0D=0A>=20>=20>=20Reviewed-by:=20Klaus=20Jensen=20<k.jensen=
+=40samsung.com>=0D=0A>=20>=20>=20---=0D=0A>=20>=20>=20=20=20hw/vfio/pci.c=
+=20=7C=2013=20++++++++++++-=0D=0A>=20>=20>=20=20=20hw/vfio/pci.h=20=7C=20=
+=201=20+=0D=0A>=20>=20>=20=20=202=20files=20changed,=2013=20insertions(+),=
+=201=20deletion(-)=0D=0A>=20>=20>=0D=0A>=20>=20>=20diff=20--git=20a/hw/vfio=
+/pci.c=20b/hw/vfio/pci.c=0D=0A>=20>=20>=20index=20ec9a854361..cf27f28936=20=
+100644=0D=0A>=20>=20>=20---=20a/hw/vfio/pci.c=0D=0A>=20>=20>=20+++=20b/hw/v=
+fio/pci.c=0D=0A>=20>=20>=20=40=40=20-2856,6=20+2856,8=20=40=40=20static=20v=
+oid=20vfio_realize(PCIDevice=20*pdev,=20Error=20**errp)=0D=0A>=20>=20>=20=
+=20=20=20=20=20=20int=20groupid;=0D=0A>=20>=20>=20=20=20=20=20=20=20int=20i=
+,=20ret;=0D=0A>=20>=20>=20=20=20=20=20=20=20bool=20is_mdev;=0D=0A>=20>=20>=
+=20+=20=20=20=20char=20uuid=5BUUID_FMT_LEN=5D;=0D=0A>=20>=20>=20+=20=20=20=
+=20char=20*name;=0D=0A>=20>=20>=0D=0A>=20>=20>=20=20=20=20=20=20=20if=20(=
+=21vbasedev->sysfsdev)=20=7B=0D=0A>=20>=20>=20=20=20=20=20=20=20=20=20=20=
+=20if=20(=21(=7Evdev->host.domain=20=7C=7C=20=7Evdev->host.bus=20=7C=7C=0D=
+=0A>=20>=20>=20=40=40=20-2936,7=20+2938,15=20=40=40=20static=20void=20vfio_=
+realize(PCIDevice=20*pdev,=20Error=20**errp)=0D=0A>=20>=20>=20=20=20=20=20=
+=20=20=20=20=20=20goto=20error;=0D=0A>=20>=20>=20=20=20=20=20=20=20=7D=0D=
+=0A>=20>=20>=0D=0A>=20>=20>=20-=20=20=20=20ret=20=3D=20vfio_get_device(grou=
+p,=20vbasedev->name,=20vbasedev,=20errp);=0D=0A>=20>=20>=20+=20=20=20=20if=
+=20(=21qemu_uuid_is_null(&vdev->vf_token))=20=7B=0D=0A>=20>=20>=20+=20=20=
+=20=20=20=20=20=20qemu_uuid_unparse(&vdev->vf_token,=20uuid);=0D=0A>=20>=20=
+>=20+=20=20=20=20=20=20=20=20name=20=3D=20g_strdup_printf(=22%s=20vf_token=
+=3D%s=22,=20vbasedev->name,=20uuid);=0D=0A>=20>=20>=20+=20=20=20=20=7D=20el=
+se=20=7B=0D=0A>=20>=20>=20+=20=20=20=20=20=20=20=20name=20=3D=20vbasedev->n=
+ame;=0D=0A>=20>=20>=20+=20=20=20=20=7D=0D=0A>=20>=20>=20+=0D=0A>=20>=20>=20=
++=20=20=20=20ret=20=3D=20vfio_get_device(group,=20name,=20vbasedev,=20errp)=
+;=0D=0A>=20>=20>=20+=20=20=20=20g_free(name);=0D=0A>=20>=20>=20=20=20=20=20=
+=20=20if=20(ret)=20=7B=0D=0A>=20>=20>=20=20=20=20=20=20=20=20=20=20=20vfio_=
+put_group(group);=0D=0A>=20>=20>=20=20=20=20=20=20=20=20=20=20=20goto=20err=
+or;=0D=0A>=20>=0D=0A>=20>=20Shouldn't=20we=20set=20the=20VF=20token=20in=20=
+the=20kernel=20also=20?=20See=20this=20QEMU=20implementation=0D=0A>=20>=0D=
+=0A>=20>=20=20=20=20https://lore.kernel.org/lkml/20200204161737.34696b91=40=
+w520.home/=0D=0A>=20>=0D=0A>=20>=20May=20be=20I=20misunderstood.=0D=0A>=20>=
+=0D=0A>=20=0D=0A>=20I=20think=20you're=20referring=20to=20the=20part=20ther=
+e=20that=20calls=0D=0A>=20VFIO_DEVICE_FEATURE=20in=20order=20to=20set=20a=
+=20VF=20token.=20=20I=20don't=20think=20that's=0D=0A>=20necessarily=20appli=
+cable=20here.=20=20I=20believe=20this=20patch=20is=20only=20trying=20to=0D=
+=0A>=20make=20it=20so=20that=20QEMU=20can=20consume=20a=20VF=20associated=
+=20with=20a=20PF=20owned=20by=20a=0D=0A>=20userspace=20vfio=20driver,=20ie.=
+=20not=20QEMU.=0D=0A=0D=0AYes,=20that's=20what=20this=20patch=20exactly=20d=
+oes.=0D=0A=0D=0A>=20=0D=0A>=20Setting=20the=20VF=20token=20is=20only=20rele=
+vant=20to=20PFs,=20which=20would=20require=0D=0A>=20significantly=20more=20=
+SR-IOV=20infrastructure=20in=20QEMU=20than=20sketched=20out=20in=0D=0A>=20t=
+hat=20proof-of-concept=20patch.=20=20Even=20if=20we=20did=20have=20a=20QEMU=
+=20owned=20PF=20where=0D=0A>=20we=20wanted=20to=20generate=20VFs,=20the=20t=
+oken=20we=20use=20in=20that=20case=20would=20likely=0D=0A>=20need=20to=20be=
+=20kept=20private=20to=20QEMU,=20not=20passed=20on=20the=20command=20line.=
+=0D=0A>=20Thanks,=0D=0A=0D=0ACan=20we=20also=20take=20a=20command=20line=20=
+property=20for=20the=20PF=20for=20that=20case=20that=0D=0AQEMU=20owns=20a=
+=20PF?=20=20I=20think=20the=20one=20who=20wants=20to=20make=20QEMU=20owns=
+=20PF=20or=20VF=0D=0Ashould=20know=20the=20VF=20token.=20=20If=20I've=20mis=
+sed=20anything,=20please=20let=20me=20know.=0D=0A=0D=0AThanks=21
 
