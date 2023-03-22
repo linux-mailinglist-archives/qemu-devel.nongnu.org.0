@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280026C456C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 09:54:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F4F6C4586
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 10:01:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peuEe-0008FR-NS; Wed, 22 Mar 2023 04:54:20 -0400
+	id 1peuKZ-0001UR-12; Wed, 22 Mar 2023 05:00:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peuEd-0008FB-Qu
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 04:54:19 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peuKW-0001UA-QE
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 05:00:25 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peuEc-00078h-C1
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 04:54:19 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o7so16174384wrg.5
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 01:54:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peuKU-0000fj-Pc
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 05:00:24 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id v1so10080987wrv.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 02:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679475257;
+ d=linaro.org; s=google; t=1679475621;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=o2Ea5p3Qj/ZViK4PKyUf/eN2Y++dSZRQH/ZAY/6PC7c=;
- b=MpiMAzff36BAFJ7KiPR6mBWygvhS4IXvPmrOfMHMHSaP8VbyQxodRwykflRNM02YZe
- bGxBKvvwZDUCacgg6dqm6BQ0QwC3OWmTnR4jPUprFj3bjjSl5sDsf+h9ddf4JsSQjK8e
- H2KfDzJO+Od6iPkXknpWnA6IC+SsCV17ngx9C8nD1dT0OVd4tLtc+o6+x+4xOPToSrb+
- 3k9XUnQyyS0GRx2gCl1DKyPmbIeWabP8je/JaJRQJqacZi6fRvJcNMzoVuTnoJ3yG7tF
- 1ULlgOn8IMb/dDrHZvYWwWWx8V3mRNGxCykMtor2qfPJ2RYSzXzriQntL5pcxkurVBO5
- Rn0w==
+ bh=fBIhGmn1dzoUfswgoc8dLiZoqDVuabwddS+wN6KZj80=;
+ b=qXk2KluBU49x7kCOApdS311nh2V/73mO9OgHpgAIN17S5I8Cai2824mKOI9D0yu6LX
+ nkQyzqu1Jhrh7lcy6cpQoSvb4Fj2IAjlCk8r4easWfydruqaHRHbYda6pwBQ9vdMubr1
+ FomUR4im9alaMps+6ItauV0gCE16yA75O1OkLJD7iAaPFEAxYbPAkrUb32j+JceuKMat
+ LOdjAdMcbg5ZELQpzqmZPLx8YNRGl3xgB5H6nFvJKVFt1wTfS1d8GW0YGGQ9N34pn25X
+ +7C1jkuQr9O2Xdh9cntM69xuRoJ9VvKfJU2zcgOmPnCoPramJep72k5g5/xmdCHzUbzz
+ o4SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679475257;
+ d=1e100.net; s=20210112; t=1679475621;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o2Ea5p3Qj/ZViK4PKyUf/eN2Y++dSZRQH/ZAY/6PC7c=;
- b=2zrmTPyOlZ9waehUrQM5qkIYLi7vIJiMGvZ3OVmp5DepN+6MeCZ265b/xonIii6j7n
- Ev5Bf8WctuBOi44SRTOIiwTzCbez0LyQLYH0ylNeGrT8eQlXCFa0JKeFO4mYyoaoHjC7
- d6psMFho9MnBm2gCimAk+Cpw85+eYoPoQkjjcs2QFuW2o0MyxB2pC4xK17PaACbOnPpg
- Ash7/dEyiu8rTEXwm/KSig21SE4P7fR6Gamc2D95sVcEP9pT1mNksBLbumZMionXYVH6
- mA/Fh7hGcXw/Ii2/BlhQ5eTRC/u75gt5CNHUfKVrZBlUrmVMXkvXM/zHAfIUIMr0wKKn
- ZZmQ==
-X-Gm-Message-State: AO0yUKWK4L49ouKz2cui89tjzX51hmt4jzeNu3gpicg+LyKrV5YwE57r
- KQ8fj+oKzCiNFQ1v8TWHdluWHA==
-X-Google-Smtp-Source: AK7set8yo6/NrGwp2po+K6f5A4y9oCfIoBRZLw972/iEnkmBl4NyzmkkrrtoKP3cHEXKG/in21ly1A==
-X-Received: by 2002:adf:ef06:0:b0:2c5:3cd2:b8e with SMTP id
- e6-20020adfef06000000b002c53cd20b8emr4404821wro.1.1679475256883; 
- Wed, 22 Mar 2023 01:54:16 -0700 (PDT)
+ bh=fBIhGmn1dzoUfswgoc8dLiZoqDVuabwddS+wN6KZj80=;
+ b=zCYK5D9cst7zVEi0hh3UZ9PI5qoZJWQP1WswJ4xdb8nXB2rhgbEtpMtAYZUTj6mXKo
+ 14gA9p1GiTuELFN4ZeIYhoSW7bkPK/dtXarfGS9cb1Nk1atlvUttlnHyFBUDUNJRZlEE
+ OMLx1r+bRyjakLqTgvrBVp2WmN8KRzaF5VJPg6EjPgchPsno246StZ7zKRwdyc8v9HE5
+ PWYrT/a5CSa1xDreTbJ7w4TblFIQBw8dkZDPxFNiLkrTgnaGFuGNo45rfUurV0PU+0nb
+ WX6r43bnfWwIzEzMgTmG9NvwnSgyRWrERnfABFm4XQqksR0HB4NX/GF9Ozlf+ns430HF
+ LG9g==
+X-Gm-Message-State: AO0yUKUKnnRqdBf60nfcfV3M1XG7okl0l33yVqzuvycnONDkDrDeGvrs
+ pOCybi8dyuay2SrXxwW6et5e4g==
+X-Google-Smtp-Source: AK7set9ejLxi6ND/ixogu0W0hI+1SL0RuIBtyFGrH7h2aEwXL9zSmBZdphsctoJtlfgvIRfN+l/2gw==
+X-Received: by 2002:adf:e44a:0:b0:2ce:ae57:71db with SMTP id
+ t10-20020adfe44a000000b002ceae5771dbmr4658226wrm.33.1679475621036; 
+ Wed, 22 Mar 2023 02:00:21 -0700 (PDT)
 Received: from [192.168.18.115] ([91.219.21.246])
  by smtp.gmail.com with ESMTPSA id
- n1-20020a5d67c1000000b002cfe685bfd6sm13331518wrw.108.2023.03.22.01.54.15
+ s13-20020a5d510d000000b002c794495f6fsm10314980wrt.117.2023.03.22.02.00.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 01:54:16 -0700 (PDT)
-Message-ID: <40ae1dd3-3061-603d-bb06-2bd71c54d4f9@linaro.org>
-Date: Wed, 22 Mar 2023 09:54:15 +0100
+ Wed, 22 Mar 2023 02:00:20 -0700 (PDT)
+Message-ID: <c2c4b00e-53b8-0205-e627-93860bb67720@linaro.org>
+Date: Wed, 22 Mar 2023 10:00:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [RFC PATCH] tests/qemu-iotests: serialise all the qemu-iotests
+Subject: Re: [PATCH] ui/spice: fix compilation on win32
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>
-References: <20230321235102.3832417-1-alex.bennee@linaro.org>
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: berrange@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Thomas Huth <thuth@redhat.com>
+References: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230321235102.3832417-1-alex.bennee@linaro.org>
+In-Reply-To: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,35 +92,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/3/23 00:51, Alex Bennée wrote:
-> Something on OpenBSD fails with multiple tests running at once and
-> fiddling with J=1 on invocation just made everything else very slow.
+On 22/3/23 08:52, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Based-on: 20230318114644.1340899-1-alex.bennee@linaro.org
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> qemu_close_to_socket() renaming left-over.
+> 
+> Fixes:
+> https://gitlab.com/qemu-project/qemu/-/issues/1553
+> 
+> Fixes: commit e40283d9a ("ui/spice: fix SOCKET handling regression")
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   tests/qemu-iotests/meson.build | 1 +
->   1 file changed, 1 insertion(+)
+>   ui/spice-core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-> index a162f683ef..d572205a60 100644
-> --- a/tests/qemu-iotests/meson.build
-> +++ b/tests/qemu-iotests/meson.build
-> @@ -64,6 +64,7 @@ foreach format, speed: qemu_iotests_formats
->              depends: qemu_iotests_binaries,
->              env: qemu_iotests_env,
->              protocol: 'tap',
-> +           is_parallel : false,
+> diff --git a/ui/spice-core.c b/ui/spice-core.c
+> index 67cfd3ca9c..52a59386d7 100644
+> --- a/ui/spice-core.c
+> +++ b/ui/spice-core.c
+> @@ -149,7 +149,7 @@ static void watch_remove(SpiceWatch *watch)
+>       qemu_set_fd_handler(watch->fd, NULL, NULL, NULL);
+>   #ifdef WIN32
+>       /* SOCKET is owned by spice */
+> -    qemu_close_to_socket(watch->fd);
+> +    qemu_close_socket_osfhandle(watch->fd);
+>   #endif
+>       g_free(watch);
+>   }
 
-Per the commit description, what about:
+Wondering why this hasn't been caught by CI, apparently we miss
+the spice package:
 
-               is_parallel: targetos != 'openbsd',
-
-?
-
->              timeout: 180,
->              suite: suites)
->     endforeach
-
+-- >8 --
+diff --git a/.cirrus.yml b/.cirrus.yml
+@@ -41,6 +41,7 @@ windows_msys2_task:
+        mingw-w64-x86_64-curl
+        mingw-w64-x86_64-gnutls
+        mingw-w64-x86_64-libnfs
++      mingw-w64-x86_64-spice
+      "
+      CHERE_INVOKING: 1
+    msys2_cache:
+---
 
