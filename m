@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0576C487F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 12:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABE46C4888
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 12:05:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pewFz-0008B0-Io; Wed, 22 Mar 2023 07:03:51 -0400
+	id 1pewHi-0001Hu-FI; Wed, 22 Mar 2023 07:05:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pewFq-00089N-Rt
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:03:43 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pewHX-0001GJ-5q
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:05:28 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pewFp-0004wO-0C
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:03:42 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- t17-20020a05600c451100b003edc906aeeaso430437wmo.1
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 04:03:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pewHV-0005V4-C9
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:05:26 -0400
+Received: by mail-wr1-x429.google.com with SMTP id d17so8132442wrb.11
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 04:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679483019;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zfycQ24w1qaNQX6mYTGjZFyYzeQSuj5d0Bl+q8qXb00=;
- b=K/8NmqlvAlsRntkQ7eQ26iDgsUqlILApdq4K2ivCLgpChfyh4L6pvhpFdeeGojHHZd
- xFyWIusWz3YCrhijKpLFuwFt7dYO3HSQPjtnEoJZBu9Pl+YK0zYeYrAxXBawK34L7kIW
- s+nl1TESZAzAHG93bAv2sIVoIZGIUNkhsh2LccaUxrKHpzTCva+yzmlZH9AZu1ZvKE6S
- X3+hpXeL4f0YMFYKIWri3mH0m4QFwY2hnpt6orAqAj78C2TtZmDFI1q4Lhuv5qOIb2Ai
- pX4G5lOBZn0CwWsGmogZNTEeGjdJEdoe/WwlsdCwqK1KxSr8VTEkunzJH92YcyH8DF/6
- UiWg==
+ d=linaro.org; s=google; t=1679483123;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=l8GtnK76XfUw78o0kCPIMz+svD5yze6zrn507ibZyMA=;
+ b=nur+yQLrZjQeGNHUMhMkN9iPuVKawlKPSErCgKQwhO0I2DQkJGDCYaMXledc6AAvgE
+ FA4YWESgmdPQpIWz/0ZwZ8yc6HCQcS6zm7EVtCT+7+JJSBxPZrwgU+aP25kDuG0FC9Lp
+ ovSrLzvIfLGX1qBH/Y7s4Jx0xV85Ogd3yV95MmAufB8JDDPSUI+JC/ceQSgDdWWQK6gr
+ zB/TU5xYBSJgB+v4UEYA11MsjG7pdzmD4KtK+LSQvPQ2KhfL4oYx3512xPw91yN9qjWs
+ Jjt23631RYaWnjW6gEnmwGdQUPQXx8GpNVa7W+bZPlHH/Z/7exURW1HkPj7oBQ0uhJWZ
+ YgkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679483019;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zfycQ24w1qaNQX6mYTGjZFyYzeQSuj5d0Bl+q8qXb00=;
- b=RYgw6MJRYsWFkvSLBaEouFuOms8J93q4pgkEyJ1hRZZrzDDOKVGRfC4hN83Gl5QPe1
- H0heSnA5eJox6XH/8jhcOo+qXNgAQ8AqeODVpTAD/iRCXRMG2e8/zqFFM1f5WLBPal5q
- eDbTGMw9btbLQA/W1ruYME+RyvIBzM7JDw5H+7G/RK/YQcJ95ylHHPq7E5s0Tsim0KNz
- Rr0ib7iaWRgIqTDpx1S6FchOdlDtL956sgMSFG8r9M0oqCAxdQQrt8YYpuDtH8rQARKb
- DyHWNhvcHBmJwnxhua45OusrRY64nUZ/CK5r0oI1zgJ5ipd8vjo3BhxQckzihzRTz+jC
- tbXA==
-X-Gm-Message-State: AO0yUKWIE8d3oQTUFlqhMl8kN5qWz0ikCg9Uj9uk7c2aSVPEkGcG5BcU
- dSW+hgvkiTLhiIgEXRNdxbYBFA==
-X-Google-Smtp-Source: AK7set+5Ua1isAK5579KI7QOmMRtEWYPu4ID4yWX6UIgPNUDhMY2OXGgBNmWKsQSlXpDitd35yxXDQ==
-X-Received: by 2002:a05:600c:2110:b0:3eb:f59f:6daf with SMTP id
- u16-20020a05600c211000b003ebf59f6dafmr5009694wml.34.1679483018955; 
- Wed, 22 Mar 2023 04:03:38 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- x6-20020a05600c21c600b003ede3e54ed7sm10024719wmj.6.2023.03.22.04.03.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 04:03:38 -0700 (PDT)
-Message-ID: <f23faa51-0e21-2072-6cc6-08be8ad99492@linaro.org>
-Date: Wed, 22 Mar 2023 12:03:37 +0100
+ d=1e100.net; s=20210112; t=1679483123;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=l8GtnK76XfUw78o0kCPIMz+svD5yze6zrn507ibZyMA=;
+ b=vyv8x9r62tCI43yTwRGTyGqvRT1QAN34DNl+JoT/GvAx/02spEMS8En4HpHwxG+n2j
+ DUMBO4myIQqm76TN0kqtMl18iZT11pjPSrX4k0dxA/bDjMjFm63YepEm+Bf8J+mwXl7z
+ 0sp2HYtWnpaG1YXNMA5nC42ijBSbmrT+XFZPAdlWdm2l6Q9462Tn4vHnUbzQs0GNnjph
+ NlMkEYIau4jTd4aUvnUoTeyh4RkYFCukaXa7FU7Z0XKMnkxhFdtj3QO1k3fAiaIrPfQe
+ 2uDzNd7ME9XEBcPJSgaFOTQ+veIDejM9omlMOFxZnVdRhLQD4YOj1utHEzVEADiuQfkv
+ ct+w==
+X-Gm-Message-State: AO0yUKWq7jarKfY0xx3QTgnbj49oz7tE3AvfiJNhNOjbz/IQdxpc7xk4
+ FVZ8FB55ovcEAV8ZHkvAG0+h6nXUu9ytwNz8SjEJ0g==
+X-Google-Smtp-Source: AK7set+g4Q8KeDyErOMsqJ7TwkFZdpZwzmI+1tweg5Tva+QezxCh/HTHiXElhBIxPT5ILN23sT6LTA==
+X-Received: by 2002:adf:de89:0:b0:2cf:aa6e:3ade with SMTP id
+ w9-20020adfde89000000b002cfaa6e3ademr4427004wrl.15.1679483123373; 
+ Wed, 22 Mar 2023 04:05:23 -0700 (PDT)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ l5-20020adfe585000000b002cea9d931e6sm13632737wrm.78.2023.03.22.04.05.22
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 22 Mar 2023 04:05:23 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Yonggang Luo <luoyonggang@gmail.com>, Jintao Yin <nicememory@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] cirrus.yml: Cover SPICE in the MSYS2 job
+Date: Wed, 22 Mar 2023 12:05:21 +0100
+Message-Id: <20230322110521.59949-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH] ui/spice: fix compilation on win32
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: berrange@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- Jintao Yin <nicememory@gmail.com>
-References: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,35 +89,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/3/23 08:52, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> qemu_close_to_socket() renaming left-over.
-> 
-> Fixes:
-> https://gitlab.com/qemu-project/qemu/-/issues/1553
-> 
+Include the mingw-w64-x86_64-spice package so SPICE is covered:
 
-Reported-by: Jintao Yin <nicememory@gmail.com>
+  C compiler for the host machine: cc -m64 -mcx16 (gcc 12.2.0 "cc (Rev10, Built by MSYS2 project) 12.2.0")
+  ...
+  Run-time dependency spice-protocol found: YES 0.14.4
+  Run-time dependency spice-server found: YES 0.15.1
 
-> Fixes: commit e40283d9a ("ui/spice: fix SOCKET handling regression")
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   ui/spice-core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/ui/spice-core.c b/ui/spice-core.c
-> index 67cfd3ca9c..52a59386d7 100644
-> --- a/ui/spice-core.c
-> +++ b/ui/spice-core.c
-> @@ -149,7 +149,7 @@ static void watch_remove(SpiceWatch *watch)
->       qemu_set_fd_handler(watch->fd, NULL, NULL, NULL);
->   #ifdef WIN32
->       /* SOCKET is owned by spice */
-> -    qemu_close_to_socket(watch->fd);
-> +    qemu_close_socket_osfhandle(watch->fd);
->   #endif
->       g_free(watch);
->   }
+In particular this would have helped catching the build issue
+reported as https://gitlab.com/qemu-project/qemu/-/issues/1553:
+
+  [1851/5253] Compiling C object libcommon.fa.p/ui_spice-core.c.obj
+  FAILED: libcommon.fa.p/ui_spice-core.c.obj
+  ../ui/spice-core.c: In function 'watch_remove':
+  ../ui/spice-core.c:152:5: error: implicit declaration of function 'qemu_close_to_socket' [-Werror=implicit-function-declaration]
+  152 |     qemu_close_to_socket(watch->fd);
+      |     ^~~~~~~~~~~~~~~~~~~~
+  ../ui/spice-core.c:152:5: error: nested extern declaration of 'qemu_close_to_socket' [-Werror=nested-externs]
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+See https://cirrus-ci.com/task/6189732569284608?logs=main#L891
+
+Based-on: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
+---
+ .cirrus.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 5fb00da73d..eb1640814d 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -41,6 +41,7 @@ windows_msys2_task:
+       mingw-w64-x86_64-curl
+       mingw-w64-x86_64-gnutls
+       mingw-w64-x86_64-libnfs
++      mingw-w64-x86_64-spice
+     "
+     CHERE_INVOKING: 1
+   msys2_cache:
+-- 
+2.38.1
 
 
