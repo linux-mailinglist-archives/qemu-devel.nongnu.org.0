@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932AB6C4C23
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D096C4BB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:29:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peylj-0005yq-UI; Wed, 22 Mar 2023 09:44:47 -0400
+	id 1peyVC-0007mi-H6; Wed, 22 Mar 2023 09:27:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1peyli-0005yh-3B
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:44:46 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1peylf-0001Tm-RR
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:44:45 -0400
-Received: by mail-pg1-x535.google.com with SMTP id z10so10578075pgr.8
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679492682;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Cn4WZ4/RTP3q5lpTmQoCTy2PbCwZDk0aQ5OChlW2kN8=;
- b=OzJd+PpxnGc3GUwfXHPpH2wCgApz/a6/q65BgcrTdqk91h9SS2kpre4x/1qEer/h7Q
- 5VZxPhhxpP6l+LlBD88uZ1100x2gCH35S6o/wmwtXlSd7mWBHuHVTEcexhlEVgpAmWBq
- sFbS5NRnkYyOdB8GVjBE5vT8nSc6rnMkXfYMmh5QeJahurPm/sVwmZQywdJNly8t6ClA
- Gc9gxxDG0bQjOH0Fgi/QeEMSJ7oUah/5s2RD4/EaAzYK3vFpstnDhKb7PVMz0LWkvqLC
- hWswIwRzN3jiMcoJMYr8g9nU45gHzYMSwCuzYh5BW4VkeasegqAoGzbzzW1e8wC6NiDm
- 9rXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679492682;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Cn4WZ4/RTP3q5lpTmQoCTy2PbCwZDk0aQ5OChlW2kN8=;
- b=KYV0uDrZmo6d1SoG/hwiTxliVhVs2nHsvmNKotan7TVEOhfOKsesydTFBkyaxvXZ/a
- 5DlYAzjiGRT/kcZ4S5Bkdo/2d5uOH9xwlVHhDv+6n9Uta9cHRFRKRs6aJe9QPH1xrPwR
- sA2FQC8Ja00hR+9xGk2IQPnUXN4mwsTyHvWEv+GjzRUu5CCcUmEJnvvDam0Ufc0Lqzea
- YcwIDGT9TXx3BkU5pFoXP3mg0qr2Cjj3iwjrs9jW6bWe2eueynHMbUYIO1bsrTzX6/Gq
- VwR2vA+ur/TNKkTIwV9OizCNp6q0giWZ/myvIF7lhJEpljZt1bYXxgSm+k0WLwNHVSOB
- sGhQ==
-X-Gm-Message-State: AO0yUKXVXdfuzPU/4TOeEs5A7F237cU69GuOBGqCOw9S6ImMvQPs3tFf
- HqjBzgYv5tB2beXxT94S0zPiZxyeYxOepqlmBt9veQ==
-X-Google-Smtp-Source: AK7set9BrQRpVQgcaTZ7cEdoshCp9gGH15nD2aNJc8EXAOh5hX47NwidfzUG1y488oKFzU2Act2dmQiqizlFkI0WnK8=
-X-Received: by 2002:a65:484b:0:b0:50c:a00:c1f9 with SMTP id
- i11-20020a65484b000000b0050c0a00c1f9mr804297pgs.7.1679492682198; Wed, 22 Mar
- 2023 06:44:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1peyV1-0007m3-FD
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:27:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1peyUx-0007J6-UJ
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:27:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679491642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XkHvhE/T0A9ITKExEBw4Qym5d4l/WUn3s/AdG1AJwQw=;
+ b=e2PnVb4EV4YXPNU8TirmfK1PfNnCd0cidKy/fnGQH1lYm+W0VQPz+9C7+QPUmbGmoeR45Z
+ Ug7szw9q5xkOWfiuZ5vE/eD4FMuXYa1K3PhUFSMEjAfEORGmgEnlxlB+u8YcXjzc5rabjz
+ QEloBIXgzLKC8HFmEdNpICB6uP+xH3w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-468-03IMqW_hPC6PFesRy9B8Fg-1; Wed, 22 Mar 2023 09:27:18 -0400
+X-MC-Unique: 03IMqW_hPC6PFesRy9B8Fg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 60D53801206;
+ Wed, 22 Mar 2023 13:27:18 +0000 (UTC)
+Received: from localhost (unknown [10.2.16.179])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 338241121315;
+ Wed, 22 Mar 2023 13:27:18 +0000 (UTC)
+Date: Wed, 22 Mar 2023 09:27:17 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH for-8.0 v2 1/3] async: Suppress GCC13 false positive in
+ aio_bh_poll()
+Message-ID: <20230322132717.GA1191181@fedora>
+References: <20230321161609.716474-1-clg@kaod.org>
+ <20230321161609.716474-2-clg@kaod.org>
+ <14e4785e-6d3c-0891-1d59-3be4cbd700cd@redhat.com>
 MIME-Version: 1.0
-References: <20230219162100.174318-1-andrew@daynix.com>
- <20230219162100.174318-4-andrew@daynix.com>
- <Y/NCQhGmqIadlw0y@redhat.com>
- <CAOEp5Of-sC1nuz4rAZkt8YoL2ctnSPAQ9QyxoQ97XiQ17wZ1Fg@mail.gmail.com>
- <Y/5CQ5md6huqNsx4@redhat.com> <877cw1ipgg.fsf@toke.dk>
- <Y/5QHonZyB+7vzEN@redhat.com>
- <87ttz5h1mj.fsf@toke.dk> <Y/8bQjj8VZ/7qal1@redhat.com>
- <871qm8h69w.fsf@toke.dk>
- <Y/9prSBDTQoL7yn5@redhat.com> <87k000f637.fsf@toke.dk>
-In-Reply-To: <87k000f637.fsf@toke.dk>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Wed, 22 Mar 2023 15:26:59 +0200
-Message-ID: <CABcq3pH3SRF1Y91jh=gEZ_xO=SuS0Mm-660nWChWSzY6zByTnA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
-To: =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, jasowang@redhat.com,
- mst@redhat.com, 
- pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com, 
- philmd@linaro.org, armbru@redhat.com, eblake@redhat.com, 
- qemu-devel@nongnu.org, mprivozn@redhat.com, yan@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::535;
- envelope-from=andrew@daynix.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EL1xIV2Dgqp66Hit"
+Content-Disposition: inline
+In-Reply-To: <14e4785e-6d3c-0891-1d59-3be4cbd700cd@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,163 +84,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi all,
-I've researched an issue a bit. The solution with passing eBPF blob
-and loading in the Libvirt looks promising.
-Overall, the possible solution looks like this:
- * Libvirt checks virtio-net properties and understands that eBPF
-steering may be required.
- * Libvirt requests eBPF blob through QMP.
- * Libvirt loads blob for virtio-net and passes fds from eBPF to QEMU.
 
-I think that it's a good idea to pass only eBPF blob without
-additional metainformation. Most metainfo that we need could be
-retrieved from eBPF blob, and the only question is to pass fds
-sequence to QEMU.
-I propose to pass them as they appear in the blob itself, like
-"virtio-net-pci,ebpf_rss_fds=3D<prog>,<map1>,<map2>,<map3>...".
-Also, I think it's a good idea to make a "general" QMP request for
-eBPF blobs. Something like "request_ebpf <arg>"(g.e "request_ebpf
-virtio-net-rss").
+--EL1xIV2Dgqp66Hit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'll prepare new RFC patches if you have questions or something to
-discuss, please let me know.
+On Wed, Mar 22, 2023 at 08:11:37AM +0100, Thomas Huth wrote:
+> On 21/03/2023 17.16, C=C3=A9dric Le Goater wrote:
+> > From: C=C3=A9dric Le Goater <clg@redhat.com>
+> >=20
+> > GCC13 reports an error :
+> >=20
+> > ../util/async.c: In function =E2=80=98aio_bh_poll=E2=80=99:
+> > include/qemu/queue.h:303:22: error: storing the address of local variab=
+le =E2=80=98slice=E2=80=99 in =E2=80=98*ctx.bh_slice_list.sqh_last=E2=80=99=
+ [-Werror=3Ddangling-pointer=3D]
+> >    303 |     (head)->sqh_last =3D &(elm)->field.sqe_next;              =
+            \
+> >        |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+> > ../util/async.c:169:5: note: in expansion of macro =E2=80=98QSIMPLEQ_IN=
+SERT_TAIL=E2=80=99
+> >    169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+> >        |     ^~~~~~~~~~~~~~~~~~~~
+> > ../util/async.c:161:17: note: =E2=80=98slice=E2=80=99 declared here
+> >    161 |     BHListSlice slice;
+> >        |                 ^~~~~
+> > ../util/async.c:161:17: note: =E2=80=98ctx=E2=80=99 declared here
+> >=20
+> > But the local variable 'slice' is removed from the global context list
+> > in following loop of the same routine. Add a pragma to silent GCC.
+> >=20
+> > Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > Signed-off-by: C=C3=A9dric Le Goater <clg@redhat.com>
+> > ---
+> >   util/async.c | 13 +++++++++++++
+> >   1 file changed, 13 insertions(+)
+> >=20
+> > diff --git a/util/async.c b/util/async.c
+> > index 21016a1ac7..de9b431236 100644
+> > --- a/util/async.c
+> > +++ b/util/async.c
+> > @@ -164,7 +164,20 @@ int aio_bh_poll(AioContext *ctx)
+> >       /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue(=
+).  */
+> >       QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
+> > +
+> > +    /*
+> > +     * GCC13 [-Werror=3Ddangling-pointer=3D] complains that the local =
+variable
+> > +     * 'slice' is being stored in the global 'ctx->bh_slice_list' but =
+the
+> > +     * list is emptied before this function returns.
+> > +     */
+> > +#if !defined(__clang__)
+> > +#pragma GCC diagnostic push
+> > +#pragma GCC diagnostic ignored "-Wdangling-pointer=3D"
+>=20
+> That warning parameter looks like a new one in GCC 13 ?
+> ... so you have to check whether it's available before disabling
+> it, otherwise this will fail with older versions of GCC. I just
+> gave it a try with my GCC 8.5 and got this:
+>=20
+> ../../devel/qemu/util/async.c: In function =E2=80=98aio_bh_poll=E2=80=99:
+> ../../devel/qemu/util/async.c:175:32: error: unknown option after =E2=80=
+=98#pragma GCC diagnostic=E2=80=99 kind [-Werror=3Dpragmas]
+>  #pragma GCC diagnostic ignored "-Wdangling-pointer=3D"
+>                                 ^~~~~~~~~~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
+>=20
+>  Thomas
+>=20
+> What about reworking the code like this:
+>=20
+> diff --git a/util/async.c b/util/async.c
+> index 21016a1ac7..b236bdfbd8 100644
+> --- a/util/async.c
+> +++ b/util/async.c
+> @@ -156,15 +156,14 @@ void aio_bh_call(QEMUBH *bh)
+>  }
+>  /* Multiple occurrences of aio_bh_poll cannot be called concurrently. */
+> -int aio_bh_poll(AioContext *ctx)
+> +static int aio_bh_poll_slice(AioContext *ctx, BHListSlice *slice)
+>  {
+> -    BHListSlice slice;
+>      BHListSlice *s;
+>      int ret =3D 0;
+>      /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in aio_bh_enqueue(). =
+ */
+> -    QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
+> -    QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+> +    QSLIST_MOVE_ATOMIC(&slice->bh_list, &ctx->bh_list);
+> +    QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, slice, next);
+>      while ((s =3D QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
+>          QEMUBH *bh;
+> @@ -191,6 +190,13 @@ int aio_bh_poll(AioContext *ctx)
+>      return ret;
+>  }
+> +int aio_bh_poll(AioContext *ctx)
+> +{
+> +    BHListSlice slice;
+> +
+> +    return aio_bh_poll_slice(ctx, &slice);
+> +}
+> +
+>  void qemu_bh_schedule_idle(QEMUBH *bh)
+>  {
+>      aio_bh_enqueue(bh, BH_SCHEDULED | BH_IDLE);
+>=20
+> Would that work with GCC 13 and be acceptable?
 
-On Thu, Mar 2, 2023 at 12:40=E2=80=AFAM Toke H=C3=B8iland-J=C3=B8rgensen <t=
-oke@redhat.com> wrote:
->
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->
-> > On Wed, Mar 01, 2023 at 03:53:47PM +0100, Toke H=C3=B8iland-J=C3=B8rgen=
-sen wrote:
-> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-> >>
-> >> > On Tue, Feb 28, 2023 at 11:21:56PM +0100, Toke H=C3=B8iland-J=C3=B8r=
-gensen wrote:
-> >> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-> >> >>
-> >> >> > On Tue, Feb 28, 2023 at 08:01:51PM +0100, Toke H=C3=B8iland-J=C3=
-=B8rgensen wrote:
-> >> >> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-> >> >> >>
-> >> >> >> Just to interject a note on this here: the skeleton code is most=
-ly a
-> >> >> >> convenience feature used to embed BPF programs into the calling =
-binary.
-> >> >> >> It is perfectly possible to just have the BPF object file itself=
- reside
-> >> >> >> directly in the file system and just use the regular libbpf APIs=
- to load
-> >> >> >> it. Some things get a bit more cumbersome (mostly setting values=
- of
-> >> >> >> global variables, if the BPF program uses those).
-> >> >> >>
-> >> >> >> So the JSON example above could just be a regular compiled-from-=
-clang
-> >> >> >> BPF object file, and the management program can load that, inspe=
-ct its
-> >> >> >> contents using the libbpf APIs and pass the file descriptors on =
-to Qemu.
-> >> >> >> It's even possible to embed version information into this so tha=
-t Qemu
-> >> >> >> can check if it understands the format and bail out if it doesn'=
-t - just
-> >> >> >> stick a version field in the configuration map as the first entr=
-y :)
-> >> >> >
-> >> >> > If all you have is the BPF object file is it possible to interrog=
-ate
-> >> >> > it to get a list of all the maps, and get FDs associated for them=
- ?
-> >> >> > I had a look at the libbpf API and wasn't sure about that, it see=
-med
-> >> >> > like you had to know the required maps upfront ?  If it is possib=
-le
-> >> >> > to auto-discover everything you need, soley from the BPF object f=
-ile
-> >> >> > as input, then just dealing with that in isolation would feel sim=
-pler.
-> >> >>
-> >> >> It is. You load the object file, and bpf_object__for_each_map() let=
-s you
-> >> >> discover which maps it contains, with the different bpf_map__*() AP=
-Is
-> >> >> telling you the properties of that map (and you can modify them too
-> >> >> before loading the object if needed).
-> >> >>
-> >> >> The only thing that's not in the object file is any initial data yo=
-u
-> >> >> want to put into the map(s). But except for read-only maps that can=
- be
-> >> >> added by userspace after loading the maps, so you could just let Qe=
-mu do
-> >> >> that...
-> >> >>
-> >> >> > It occurrs to me that exposing the BPF program as data rather tha=
-n
-> >> >> > via binary will make more practical to integrate this into KubeVi=
-rt's
-> >> >> > architecture. In their deployment setup both QEMU and libvirt are
-> >> >> > running unprivileged inside a container. For any advanced nmetwor=
-king
-> >> >> > a completely separate component creates the TAP device and passes=
- it
-> >> >> > into the container running QEMU. I don't think that the separate
-> >> >> > precisely matched helper binary would be something they can use, =
-but
-> >> >> > it might be possible to expose a data file providing the BPF prog=
-ram
-> >> >> > blob and describing its maps.
-> >> >>
-> >> >> Well, "a data file providing the BPF program blob and describing it=
-s
-> >> >> maps" is basically what a BPF .o file is. It just happens to be enc=
-oded
-> >> >> in ELF format :)
-> >> >>
-> >> >> You can embed it into some other data structure and have libbpf loa=
-d it
-> >> >> from a blob in memory as well as from the filesystem, though; that =
-is
-> >> >> basically what the skeleton file does (notice the big character str=
-ing
-> >> >> at the end, that's just the original .o file contents).
-> >> >
-> >> > Ok, in that case I'm really wondering why any of this helper program
-> >> > stuff was proposed. I recall the rationale was that it was impossibl=
-e
-> >> > for an external program to load the BPF object on behalf of QEMU,
-> >> > because it would not know how todo that without QEMU specific
-> >> > knowledge.
-> >>
-> >> I'm not sure either. Was there some bits that initially needed to be s=
-et
-> >> before the program was loaded (read-only maps or something)? Also,
-> >> upstream does encourage the use of skeletons for embedding into
-> >> applications, so it's not an unreasonable thing to start with if you
-> >> don't have the kind of deployment constraints that Qemu does in this
-> >> case.
-> >>
-> >> > It looks like we can simply expose the BPF object blob to mgmt apps
-> >> > directly and get rid of this helper program entirely.
-> >>
-> >> I believe so, yes. You'd still need to be sure that the BPF object fil=
-e
-> >> itself comes from a trusted place, but hopefully it should be enough t=
-o
-> >> load it from a known filesystem path? (Sorry if this is a stupid
-> >> question, I only have a fuzzy idea of how all the pieces fit together
-> >> here).
-> >
-> > It could be from a well known location on the filesystem, but might
-> > be better to make it possible to query it from QMP, which is mostly
-> > safe *provided* you've not yet started guest CPUs running. It could
-> > be queried at startup and then cached for future use.
->
-> Right, I don't have a strong opinion about the exact mechanism, just
-> wanted to convey a general "loading an untrusted BPF program is bad"
-> kind of vibe ;)
->
-> -Toke
->
+Fine by me. Please add a comment into aio_bh_poll() explaining that this
+wrapper function exists to silence the gcc dangling-pointer warning.
+Otherwise someone may be tempted to remove the function.
+
+Stefan
+
+--EL1xIV2Dgqp66Hit
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQbAjUACgkQnKSrs4Gr
+c8hojAgAkyWpN7ZJYH/vyoLqJtYNW7TUNm1/R/HgM2uqZMT1Ub3aSa2EBIO3a/ne
+2e24HB5KUyf57CCGPuYtKyPzD4eeE0Q8wC1e8yMekgPqAO46AYnmM/E13bfAx8Xq
+st4S0LXyJtW/FquT9xkzcVr3ZozBnpyhaU9iGNnBjVjUdB7gImHcFQecWbptfDoa
+1XkpuRTDX+oSUqxTBdDNo1UGSHMvPNWwEz00xTvqJM5xsaIEPp7omF9mFnrEHRis
+xl0MNG7qB69N0ato9yR9mA6dVd8QzskNg5eOHTF8fWSG60btgRTxTZLB00RyfeBs
+/vGeJ5M3N2/Fp7ekEERD1nzclqxW5g==
+=aa7y
+-----END PGP SIGNATURE-----
+
+--EL1xIV2Dgqp66Hit--
+
 
