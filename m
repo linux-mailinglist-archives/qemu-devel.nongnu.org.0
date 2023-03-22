@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CCD6C57B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 21:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C206C57CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 21:38:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf59N-00019Y-26; Wed, 22 Mar 2023 16:33:37 -0400
+	id 1pf5Cq-0002pJ-7J; Wed, 22 Mar 2023 16:37:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1pf59L-00019H-2K; Wed, 22 Mar 2023 16:33:35 -0400
-Received: from mail-dm3nam02on2070e.outbound.protection.outlook.com
- ([2a01:111:f400:7e83::70e]
- helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+ id 1pf5Co-0002n9-17; Wed, 22 Mar 2023 16:37:10 -0400
+Received: from mail-dm6nam10on20702.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::702]
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1pf59J-0007ZH-0P; Wed, 22 Mar 2023 16:33:34 -0400
+ id 1pf5Cm-0000ef-Em; Wed, 22 Mar 2023 16:37:09 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ODatvEXEHmhzJS4++tH/E8gz9FfPWWpRCy6u0CTEPVEz8HO/Klt1oCA9pKLGD3ujWhadMTJnKAgBFiHcAh378OX9IT6649dhGGr1EY7ScBw85l9mrT1/DEnvczZvS3mtlrPn2fWj+wrPyGmoyrSSWnFla0SJD+BbDX1bxzT1Jxm3o9R1rPSXR9AHhno9n5vrEQFz8ROAGZWGXP3gTAmml9Zwcsd8eaF5qOhIzZwg4zHCU3xWNU2sJhCNwJI7hwqvV9jtpGr8cv+VhcFSt9O6YFW3Zh/klZnz2PMKojIn84ZH/xlX/tgABoxTwNlfv3l2cLBYkboibARZYfM0B3tfPA==
+ b=Tw6MQSmGM+c8P0LntYqb08ajW6CpQr9rFgDIx3IqXRZNtGHzr6w2JmwszvzIM9fC0wtweOUyymxlc84qCgz0oX9uh+QJcqoNQA2tvPRwtcHdLoyellHLxTidcfR8tjdXIlyg1GKDaZDfB91F5RR3p77ZXeKwLL+olpIB7Cx32FcY2r2A/gFA5dbO198GwQIeCdoN/0flGctrFnzn5l2rA+gsHxFFtyTZs6h7AUckN0XclSURUA/x1IG1UQE52gUVtb51UeDxXWd9A/xVXqoISqHjSiIRpeGPL3oHuXDGX1lGkuE82YcA5sQYqbF3+eI4HlOjl4zyXBWrREVavI/nyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GWVX/X2Pnv3Mby6dKBNDDSP7kWiPb9m+tpxmGj4z7lo=;
- b=ciuuthTjCva4R33VGBe5/iTL3/d7OXE6u+4LB4HVs7tAl0yi5mh0VgBSBUIgCKjK6UdhVwbQz5mp0QcM0LSdaQZgO5/1/NkSKUFJqVJAo4owrzCV9PFOoAIivRCu0Jizv4utZwa87mVpv5yOEql2EzOWByup195gjyQJcZNtV1Zh+lGCZ72mObyRUzIYmXGc6CpmzSdMzMWAaLIYE9oUZHOjipZOUa4ISqLTr8pgE8cwgxUAw9C4AUOOl9FfslNG1rh/xrijKTZho4EUg1w7z4wHz9OjkJ7cScMyEj1Zn01Qo8O/OsbfsV55HHAHycwv0PYIgoWnaKOydF5+wOtDdQ==
+ bh=Lq+pZPrr5hMqX910SeHWO1Tfoytuq+1WS1STRmCJFlA=;
+ b=E99cSfO4bVDNS71tnDMGt34ShSzaoMHpWIayjox46B8CUtGVS8OgcYgJzgzNGflc/HKnzCN2S4OzzzmfX1a4v7K+acKoWn4ql8dpAE6aSrsO+sFWfFvP4BIEYzUvt/ZcX7M8wDrUkZU4xKzYEfuDYeKl36VzDsVCPlh81ki/jv7c++YApMPknulytzHeQdCs08jG8O5Y8NrEbARW3GFGMNIId03GxuQXGS6uCEPq6HbRj3OSYuwa8d2UtHHrmw7jsHFFpS6qTPZgVUQ6qTC+DUlK7/k4m9czy64m/whIzoVOnnXg3jX4LWOT59wxiQE8Lqm8TMrDB1DBp3g3rfSAqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
  header.from=os.amperecomputing.com; dkim=pass
@@ -32,90 +32,91 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GWVX/X2Pnv3Mby6dKBNDDSP7kWiPb9m+tpxmGj4z7lo=;
- b=thV80z0NQtlTtpHpQwAM6O7AKqSklsXj8j+j87Io1/F38/b5+XqTPULSb6aB8WIz7Bxk43B7H58s5yAe0VyfMhtYc9qKQiqkypOnt+ERGBJ7gvDC65teKAjOxBfTSgi4kfvIBQA3O8aCPqF3xlPcwjGlMWzNtsbSNCxzDwc8Mhw=
+ bh=Lq+pZPrr5hMqX910SeHWO1Tfoytuq+1WS1STRmCJFlA=;
+ b=uAdsc1dgwHzIxoUSW7t/XnI3NQlbe9koM4fqXTWhI+nIbf1aZLiLh6ddLKorjdV/iwvO5g7pKjp5R9WQ+foyLhNw0Sj2lZ7AAT+eWad/pJYyCiw0Zx2rFRkouwpVd51NoSKxaeoUHXrkptF+vJcN6dosHUMk+BKkgfUjK22hubo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
 Received: from CH0PR01MB7124.prod.exchangelabs.com (2603:10b6:610:f3::20) by
- MN2PR01MB5469.prod.exchangelabs.com (2603:10b6:208:114::30) with Microsoft
+ SA3PR01MB7919.prod.exchangelabs.com (2603:10b6:806:313::6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.37; Wed, 22 Mar 2023 20:33:24 +0000
+ 15.20.6178.37; Wed, 22 Mar 2023 20:37:03 +0000
 Received: from CH0PR01MB7124.prod.exchangelabs.com
  ([fe80::cf62:d511:8228:b39c]) by CH0PR01MB7124.prod.exchangelabs.com
  ([fe80::cf62:d511:8228:b39c%8]) with mapi id 15.20.6222.010; Wed, 22 Mar 2023
- 20:33:24 +0000
-Date: Wed, 22 Mar 2023 16:33:04 -0400
+ 20:37:03 +0000
+Date: Wed, 22 Mar 2023 16:36:39 -0400
 From: Aaron Lindsay <aaron@os.amperecomputing.com>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
  Vincent Dehors <vincent.dehors@smile.fr>,
  Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 6/7] target/arm: Implement v8.3 FPAC and FPACCOMBINE
-Message-ID: <ZBtmAEYfI8T8Y/zT@strawberry.localdomain>
+Subject: Re: [PATCH v2 7/7] target/arm: Add CPU properties for most v8.3 PAC
+ features
+Message-ID: <ZBtm15EMqUZHRx3a@strawberry.localdomain>
 References: <20230222193544.3392713-1-aaron@os.amperecomputing.com>
- <20230222193544.3392713-7-aaron@os.amperecomputing.com>
- <989f380e-9d70-a377-9f56-6d42935459c2@linaro.org>
+ <20230222193544.3392713-8-aaron@os.amperecomputing.com>
+ <c79aa318-0fa9-e93e-56dc-c084de47f645@linaro.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <989f380e-9d70-a377-9f56-6d42935459c2@linaro.org>
-X-ClientProxiedBy: CH2PR16CA0026.namprd16.prod.outlook.com
- (2603:10b6:610:50::36) To CH0PR01MB7124.prod.exchangelabs.com
+In-Reply-To: <c79aa318-0fa9-e93e-56dc-c084de47f645@linaro.org>
+X-ClientProxiedBy: CH2PR11CA0004.namprd11.prod.outlook.com
+ (2603:10b6:610:54::14) To CH0PR01MB7124.prod.exchangelabs.com
  (2603:10b6:610:f3::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR01MB7124:EE_|MN2PR01MB5469:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8ecfb6c4-2a3f-47e7-4d5d-08db2b14af3a
+X-MS-TrafficTypeDiagnostic: CH0PR01MB7124:EE_|SA3PR01MB7919:EE_
+X-MS-Office365-Filtering-Correlation-Id: 356ab9ec-2cac-4e01-3a4b-08db2b1531d4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7YCC0HA4JpVxuQl5DfybF/P/X53x4um1WO8CJmXPcnhT+xdcewm1kNui77zpzWkMEh2nDEZ/SLy1BhYS59LbGBTGFUNiBLRcgvorwL5WvDZsdDJi/7W7/FLWUS7yko63dJqnwPy6OWV0qdX+79cq5336I+UNEuJaSQYT4xCwNiqAn3/q0fbfeKsLWrNp8lqkTi+1F21Q56rIHoibrtwxWYs/86vXx5Dp5ED/yVRJuO3w7RjX27y67Y9y9lVWxPIERT2iZyFEoLidKs9yZ4q4FQEtDNc3d4emgjf80YKA+KVvq64I0vaxu6RAcgIda2/vtaw1B0j4DIDsQyJBAyI0Rah0kMJ42QaaQQInHGAZRbyBcIwTyUJohw+VEexK792MKR7KPUviVB2wpN/oTtktcZq9Y7qJoWhMI3xkbd5dekGPTAxn0NGzYUE0B7MJa3kWflRwPE/tKyOe0RgOn9MXCEQI6/sL8TAqwq6/ZR7snD+TdmawyNlYNMXo1+izuhaA9EWV7IXWCiiaCh7yYL8LdNegam+S5+vlqojelqlwUGba3QCOPpCMc+PRH+kHjCH2n/wRY3lJiEg24OfPPjO13hDDDnBNpvT1s1uxa0lQgP+hPiwNTyIHGbNbcRd2XDo3OSCbYmzyYUnkmkrV+o/+uQ==
+X-Microsoft-Antispam-Message-Info: 4SeM8+1mUkCP/BFigV6lDE3v5ceDYRMVwBIzM3avCjhGXhZWGaN+DApNsHLdXkyi0fGBSmTC7uetKFz7ee0nAtr4Uo/adWy+fFlVU0lzs/y4oK+dsmR7/0Q0leC5PxIP5U34vQubSlSnvVKmgPvdWBw1Pk19h2zrqx9tQV02DitnC3jGfaFXfobIyal+D0jKFpNCJoZxW3GV3kkjFdGgbmExkdq97YIZHyvbR7ltddwcuZ3WjSsP+tNYAh1yn+/+xmW490tfc2tsLfvccYam9jqEPg3bzniDRnEx8Sf1gerSDo5PnRpZcl5zzH9kemre3uDjQ1Qiuf1GAJ7/XTYESEmkJmln2wVDmUGez9jzYBv5gL+K8ITt4Gkh7RrhMX1YSCG+qF/+/18OzIhi64Sy0oA8L3D8mOWC39g1hJXqACJUHt3lKhcV8JpAfScKQ63TVyxxfCF54hxaKgZEEOzxp4rjQn0MyzUPp2voQfjIAl81NcYIoS1bXJJrt5SDjBbOCdoQyLUMXw9HP8T1dt2NnL8MjOxe3lMg/05E6qt4UlfKuIN0/R8HL5mdTVNpBFAhlPzvNA1QB7p3ns5G0RHeCFDFdFkeXeinpwaxqZ+WW0B4ekffmT3g6/A4MqJH6QhEBVnKJr/Gd6oHgOwXP1kMBQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH0PR01MB7124.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(136003)(346002)(396003)(376002)(39850400004)(451199018)(8936002)(41300700001)(5660300002)(4744005)(86362001)(38100700002)(2906002)(9686003)(186003)(478600001)(6512007)(6666004)(26005)(6506007)(53546011)(66946007)(316002)(66476007)(6916009)(66556008)(6486002)(8676002)(54906003)(4326008);
+ SFS:(13230025)(4636009)(396003)(136003)(376002)(39850400004)(366004)(346002)(451199018)(9686003)(66556008)(316002)(86362001)(26005)(2906002)(6506007)(41300700001)(186003)(53546011)(8936002)(6512007)(66946007)(6916009)(4326008)(8676002)(66476007)(38100700002)(6666004)(6486002)(54906003)(5660300002)(478600001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AXWua17sSqltFwSMdKNxta3MARSZ3o+u4pLOUg7XNTYGDBi2TI1VFnvsEhn0?=
- =?us-ascii?Q?pKlSl4F5VLDQz3gZrq9sAVCS2k4AKP+zlblzt92TxWOosa3dVFGi9L20Z7zB?=
- =?us-ascii?Q?ak/OE6/NUdLCkCz6O8jok9GWvWMsGYaVnNNHRbBxADjWYupzloi8a8wpDMj7?=
- =?us-ascii?Q?0EMnDuby3Ijd2eJz+fo6axm2eJDUsJexb+NjCN6xYaQSCtxhqHVYToX31nql?=
- =?us-ascii?Q?8lLKKeOZHF96HI7T60CzTVXlyVlFwsQOcRo1sf4xbeh1rXzJgT0DeAiK8Dpy?=
- =?us-ascii?Q?rvN549ULV7XEudpTnDSS47rVSEalPFuXHp3yzIxefIvqv8kiBcuP4zSAfTNz?=
- =?us-ascii?Q?/QXTzAFYrhxiSzsiDp3n99VlXRdmqEUmO7pAesgafXn2khVcQK8gjlu93YYF?=
- =?us-ascii?Q?ueLPnwxFvYH4NlnXaLpOVS+5FJ6wq2WCDEqS+QCa2yY0Cn2mHwsedYgF/aOL?=
- =?us-ascii?Q?DcixGRwYaTw4GrgtRgHBOIb7NqZbcz28RJqku4w+96Bk/uJ6L0o68CqhV/0p?=
- =?us-ascii?Q?GMyDzSje1KNJa0cP7F2h10xwuKfli+7yF85EaLq08GLJvnj1uIwXY2nBEX5r?=
- =?us-ascii?Q?wT+RA+yxKG04qCQZaovDiLyd8JG+XUBBep/NpmadT3jbRy1OXqQUKLoJlp66?=
- =?us-ascii?Q?i3XFLYhcrX/MFr8hhbPPMmCKrAyo2+8vNzJA9GvSZpnm/EqAgZp5Oa1iZX9k?=
- =?us-ascii?Q?qk0YxjVuHXbnO+89SOxJHhNRu2Qr9+ZqtWFYpAyQg1KCWoMhIsAV1m5IWSNz?=
- =?us-ascii?Q?vGlDuhDz6HqjWZhEO9QRlUv0wJIthPCxuHSJEk11xBuuW5+8nPqZXHguIJCQ?=
- =?us-ascii?Q?6g8iJrvWy80fgLuRIs9CZI8TMSllUmOLrxYRf6PqD1duMPCbWluTrNSCTIG3?=
- =?us-ascii?Q?tQZsz3uUublD6ifMcENuLxzmVJzwPtDVJTjZDnRO1c8UldnbxnQBIthDusqD?=
- =?us-ascii?Q?SowLRFsjLkBuBCZDf47Sx2dmE1MXed/yFwM9sinp+jkaiUeSOt8Ql2cxPmey?=
- =?us-ascii?Q?W3XhGejBoRK02DgTOcPcaPYrSy/IT8K42bXtUKJwHRwI3zFhtrlQgDEf6v3Z?=
- =?us-ascii?Q?W8NXlgmnbpsrofk1h1K35dJU5s/Q4aKxAUenbtD2K6zp3dUYBYG3IuM8spiw?=
- =?us-ascii?Q?wkyiqzZdHhajAAefLjfrXP19lRJhDZGfb1TFyQbPUJvMPyfJsfp7AEu/AENI?=
- =?us-ascii?Q?LTZmo5raKK6f1TiZrr+2i0u+Tv9r05LbafGhbk7ZSVMXYjYK/0Y0zYl3Q9ED?=
- =?us-ascii?Q?MG3AQqcRwze6RENye92Omnl9lyJQUNO5pvpfDlZ/XhJKRyQSrvhf/YK+CToR?=
- =?us-ascii?Q?64gj7Wj72jpHxBsxO0zLKt2nkmjULSRqKiyruJzXEY7qxHdvnJ4nMcaCvMo3?=
- =?us-ascii?Q?8KlZX180nh8+ygr6Z1fRvTbmxDE0dCl11SRdzPwy4iYN42JcOjjVX4fAOVS5?=
- =?us-ascii?Q?9xfR58vl/Bp9LzDIxJ6kB5pAYpBqWY19Ab2KINJ0e4Y7Q0+Oc6YYyjOv7ApE?=
- =?us-ascii?Q?n5cVfJIVy7hyvskmQRQuJsq0zmYnQGObJRhR5lRC2wv2f4LOXZ8jWK9HvOxZ?=
- =?us-ascii?Q?SMPzLjrAe9gzmPCVTRhQAhExXc0SuUibl10AAXiAmIP0JotrntUbUG36Y17D?=
- =?us-ascii?Q?u615/wJU7SLr4iUO2P8TjeQ=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N2Zf5uMuf616PgyTqIptGo3VZfthm6h1Zx4Ym2UoCjJPI7Ma//hImvI3uCce?=
+ =?us-ascii?Q?+O3Ti7bSApOorf40LaOzvp7nup04aZkGBlXAf6luPrK1UML0y5AI27XLsvX/?=
+ =?us-ascii?Q?F5g9zf3c/iSDLkq2X6b5yw3y/tvf4FtxqT8TuewZcg87B69aNBc9JXmocrXC?=
+ =?us-ascii?Q?kfOimHUtpPxkt4xMcGTQ7NRRuNnn+cqBGKpJuHgG5C4AlnHBW6FBjgoeV5Yp?=
+ =?us-ascii?Q?XxggeSRlRRRO300oj5OXlZAXev2D4litkxpjApYpssJG+Q3/Dxj8MHs5Onzr?=
+ =?us-ascii?Q?xEczsV0RnbHlwW4rktBVNStOluBsAUrQHKuMGHpVD1tCpHZTPdyYQ0i/FY/I?=
+ =?us-ascii?Q?dEJ74n28/S6miymHt2ymzRbYCFEyVADWadNLKm3/BljHbEHgle+FKxoKqmg9?=
+ =?us-ascii?Q?MlU7RsoHVPOurNeSXRUx7eDTZ3z8A+04YPwubbjlvCWBuZczSZ6mdqGp8li8?=
+ =?us-ascii?Q?xkL4SrCFWDg4cuA+pKBbnpPnY7j0u0C3gGqETwoSFGzdTbxcIPHF389uh6Gh?=
+ =?us-ascii?Q?OxEyOR1Lg9wBdekJii9jfYQv2xX382PgmwWbARu+o/Si+syoSopID4DzlpTe?=
+ =?us-ascii?Q?QT+4H8ZpxBUIvA8HDxISrnX/yoRjIjyn55gMiVFemgpGReN9jUTLG5yialjj?=
+ =?us-ascii?Q?mQ35nI2upTpJMOBw08nsV0h7kAkto1nLs2r1WQcxCNpHz50Xsb/VkFLqDpYd?=
+ =?us-ascii?Q?oMehZKMvNcbBFhTOO3Ewl835xlO+bp8W1H++7eHCjvhH/mKG8dos4RKVFlif?=
+ =?us-ascii?Q?abh1SJZ0TWPm6tSqlLuJbA57WDdxD8Vcm9EZ0niBfdt1dj7fL6n05Nzrlu46?=
+ =?us-ascii?Q?01o0OY0ELhhgNCibwjZwPYfruj2FxxKx+Hh3OWas2WHW8Kg2VRqSR0BKvTae?=
+ =?us-ascii?Q?4Q/PzQVbGjMInunPPVCBw+SX6uPWZqKlZptl/F2FyT6F4xJkCJ1bd1K2q47V?=
+ =?us-ascii?Q?MJtHD5jmULhyZE9hzuKiF6tlT56RESu2MOAVeSsSXqz8cThJ2tDQ2apATvI9?=
+ =?us-ascii?Q?VQaElYdf76B9qjwcOWK0bEmNj8QsehmL02MrH5wju3n1TVPEWJUz01CX9Mhr?=
+ =?us-ascii?Q?5L1aqdKhsE+QoNOKSaIxuuSWbqFyQfwS0f1+0yMVtLLqeSH7gAnpFvjJ5Mym?=
+ =?us-ascii?Q?JukhZogrQGM9Q65vpKxMkgvy3Aqjlmk5XaIQ3pXOFtkHtNDYWk8Hok3LcwRj?=
+ =?us-ascii?Q?gMnLH0v66DQmaTCwwzEgUvpBlFQn+jK45coRSdxR/FzG14sLH720e+Q0Maff?=
+ =?us-ascii?Q?AUEFq14bpISbbDYCKWuEjP2ORoylXhnsKiKG8azcYTjPO6wSlk06KszhBgv2?=
+ =?us-ascii?Q?mR3dIN5OpS82R6d88DCgmrDEpO5S11fl4+KsFO4yD8fEcDK4F0bF9ekVPVKw?=
+ =?us-ascii?Q?+2rOrxIJhOUTPE+V0AQCHSw8+CdwAU0CbTb7LGh62sRWoHVsKikDgoPtRpLe?=
+ =?us-ascii?Q?G1cD3qB3M+u2Prg465CAhd1bDMuxp1EPTbltZT21HjVkEE14UTwqXa0l6MhV?=
+ =?us-ascii?Q?9Z6tvELs5dFTxah6VhFrY0+Q4OQgMFdpsApQZCJKKdkDIzfx7cyJi5JOyQoE?=
+ =?us-ascii?Q?0lWEqKGXcWIreenIo76FpzUjo3VxaT1bQ0YOZREAdPiqa5n2iA1vLLoEd5vH?=
+ =?us-ascii?Q?Ond5U1QWgzViLbcBI0LCzPU=3D?=
 X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ecfb6c4-2a3f-47e7-4d5d-08db2b14af3a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 356ab9ec-2cac-4e01-3a4b-08db2b1531d4
 X-MS-Exchange-CrossTenant-AuthSource: CH0PR01MB7124.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 20:33:24.4187 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 20:37:03.4772 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A6tcueOnrgvMIamlvFXEXh0qsamukC1S/IuVFW9FkdW3He5hXT3MGWQkd3TJ9jNCuLo0RBR+D3IZwj/KbvdAKj1oX73IW7sk7PyVXQXnCi54t2OkjRMF2cYozWVpFzid
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR01MB5469
-Received-SPF: pass client-ip=2a01:111:f400:7e83::70e;
+X-MS-Exchange-CrossTenant-UserPrincipalName: MTq+GLN9P1qjSzDJe7eS/iRAhd3mgoIXE2hFAwPuVJ7FTecfkbe06utKyh0Xy8ZD2HU6NNNJ+Evq+SG/CbQxBM7W8ZV+63rPtGaKl+sNZh0XXQR7gtCYMEllE3/z4YAJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR01MB7919
+Received-SPF: pass client-ip=2a01:111:f400:7e88::702;
  envelope-from=aaron@os.amperecomputing.com;
- helo=NAM02-DM3-obe.outbound.protection.outlook.com
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -137,24 +138,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Feb 22 11:37, Richard Henderson wrote:
+On Feb 22 12:14, Richard Henderson wrote:
 > On 2/22/23 09:35, Aaron Lindsay wrote:
-> > @@ -406,6 +421,16 @@ static uint64_t pauth_auth(CPUARMState *env, uint64_t ptr, uint64_t modifier,
-> >           uint64_t xor_mask = MAKE_64BIT_MASK(bot_bit, top_bit - bot_bit + 1) &
-> >               ~MAKE_64BIT_MASK(55, 1);
-> >           result = ((ptr ^ pac) & xor_mask) | (ptr & ~xor_mask);
-> > +        if (cpu_isar_feature(aa64_fpac_combine, env_archcpu(env)) ||
-> > +                (cpu_isar_feature(aa64_fpac, env_archcpu(env)) &&
-> > +                 !is_combined)) {
+> > +static Property arm_cpu_pauth2_property =
+> > +    DEFINE_PROP_BOOL("pauth2", ARMCPU, prop_pauth2, false);
+> > +static Property arm_cpu_pauth_fpac_property =
+> > +    DEFINE_PROP_BOOL("pauth-fpac", ARMCPU, prop_pauth_fpac, false);
+> > +static Property arm_cpu_pauth_fpac_combine_property =
+> > +    DEFINE_PROP_BOOL("pauth-fpac-combine", ARMCPU, prop_pauth_fpac_combine, false);
 > 
-> Indentation is off.
+> For -cpu max, I would expect these to default on.
+> Or perhaps not expose these or epac as properties at all.
 
-I pulled `env_archcpu(env)` out of this if-statement in my latest
-patchset in addition to the indentation, but am not confident I have
-done what you intended. The QEMU Coding Style guide doesn't seem to
-address longer statements like this in its section on indentation, so I
-attempted to follow other examples in the code, but I'll take further
-direction here.
+I've removed these properties, and epac's as well. It now defaults to
+the equivalent of prop_pauth_fpac_combine==true in my previous patch.
+
+> I see that qarma3 does about half the work of qarma5, so it would be
+> interesting to measure the relative speed of the 3 implementations on a boot
+> of kernel + selftests.
+> 
+> You may want to look a the code generated and play with flatten and noinline
+> attributes around pauth_computepac and subroutines.  E.g.
+> 
+> static uint64_t __attribute__((flatten, noinline))
+> pauth_computepac_qarma5(uint64_t data, uint64_t modifier, ARMPACKey key)
+> {
+>     return pauth_computepac_architected(data, modifier, key, false);
+> }
+> 
+> static uint64_t __attribute__((flatten, noinline))
+> pauth_computepac_qarma3(uint64_t data, uint64_t modifier, ARMPACKey key)
+> {
+>     return pauth_computepac_architected(data, modifier, key, true);
+> }
+> 
+> static uint64_t __attribute__((flatten, noinline))
+> pauth_computepac_impdef(uint64_t data, uint64_t modifier, ARMPACKey key)
+> {
+>     return qemu_xxhash64_4(data, modifier, key.lo, key.hi);
+> }
+> 
+> static uint64_t pauth_computepac(CPUARMState *env, uint64_t data,
+>                                  uint64_t modifier, ARMPACKey key)
+> {
+>     if (cpu_isar_feature(aa64_pauth_arch_qarma5, env_archcpu(env))) {
+>         return pauth_computepac_qarma5(data, modifier, key);
+>     } else if (cpu_isar_feature(aa64_pauth_arch_qarma3, env_archcpu(env))) {
+>         return pauth_computepac_qarma3(data, modifier, key);
+>     } else {
+>         return pauth_computepac_impdef(data, modifier, key);
+>     }
+> }
+
+I have not played around with this further. Do you feel this is
+important to look into prior to merging this patchset (since QARMA3
+isn't the default)?
 
 -Aaron
 
