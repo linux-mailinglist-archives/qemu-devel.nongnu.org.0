@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A056C4AC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 13:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0BE6C4ACE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 13:37:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pexhE-000660-9b; Wed, 22 Mar 2023 08:36:04 -0400
+	id 1pexi4-0006Qw-Q1; Wed, 22 Mar 2023 08:36:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pexh8-00065p-Fk
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:35:58 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pexh4-0001uR-Ue
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:35:57 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id q102so3865608pjq.3
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 05:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679488553;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CMrwvN0BAXB2xXw/HTXeGGGmFZ/RomnJdR4qs7/y/6A=;
- b=kOt/IKZAvWJw0ZGylWTEeJW3D/uMviC1HXa9+XRfy6+XGEmmUM2JtCvoYFskmsHQfO
- GOMKSUGHYNXvVuowvOltXtNC7+qh3hE+l8z5J45hJz9N2BaYKjGC2IhIzEecH+/IOg/b
- Kgl5XZcFLh9DKiVSrWB1G1XHSLcAUQykdyFLpzTkvdQRqHGxxMQiDFG8JiaBmr5zKLAO
- NLEbMvsj0UzXAgkt5VNPkA/21O6UmvJZPi+DmbJIzSWS4wimEnz2Cjx8XcQLRfxCDDUV
- GdUSsKOX1XUGlGLuPE8t3R7SvR/YD3DxO7pExMisSoPhNskGvh6PN37kTZMdqoEYyK8E
- TlxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679488553;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CMrwvN0BAXB2xXw/HTXeGGGmFZ/RomnJdR4qs7/y/6A=;
- b=C+GLhtzkRhgtc7stPd1A619SDUR9TwnK6PtTCiRirvUJAli9pdFwKa2GFFwz0uQoMf
- eiAF1h4yjy/dmpQbp1ewlTQWuWRTFFAc1gGaKPz5AWKY+wgBOoM7ksB1GKUgYzcfoaFw
- RwUGHwjOrHO59/GkhAyfknRzlgLGfM7ZsFVU+Dcv37pdKol4wJHDkZeCEarJIYUBXalX
- AZEVhqED9W5oLvtH3qcCrn8zZfYvtJDaF0+XVJ4dnzVHVv1yOhsKfmPT44ibZnAWMWrt
- EtDAqQ/dXWs5gwHVjzaa5OZwxCGiPWZ58Fw+J+DmEFw+bpkrWplW30YPoeeSZly8FGrc
- 9LrQ==
-X-Gm-Message-State: AO0yUKWkdyJFBnKJZgnaIisgEofTrvgwHP9H/jdZh3NjfDYRSe0FcLXM
- AuOR9tvYXmtZK0dZaxr6KTtEzQ==
-X-Google-Smtp-Source: AK7set+GKVrOCmL9ACslsfy6ZuyDjamOIJygo8HeP0zQxsoM7OqCII0rTBoLFCZhk1//qGzo2+2EVg==
-X-Received: by 2002:a05:6a20:6d12:b0:d9:d1e6:829d with SMTP id
- fv18-20020a056a206d1200b000d9d1e6829dmr4423219pzb.49.1679488553294; 
- Wed, 22 Mar 2023 05:35:53 -0700 (PDT)
-Received: from [192.168.7.32] (24-113-166-229.wavecable.com. [24.113.166.229])
- by smtp.gmail.com with ESMTPSA id
- a17-20020aa780d1000000b0062814f38d33sm3088405pfn.170.2023.03.22.05.35.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 05:35:52 -0700 (PDT)
-Message-ID: <00c6ce77-6b50-2043-2fee-603a678e3f49@linaro.org>
-Date: Wed, 22 Mar 2023 05:35:50 -0700
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pexi1-0006Nn-2G
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:36:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pexhv-0002Eh-W2
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:36:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679488607;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6ys8zBikavZJIhIu+OsX3tufFiRQ8v778QGJTmjOx7s=;
+ b=F0eGM7gv1PYEQblgJEdgTqMd5ltI8mq8AprD3CUlaDNXpIRFW7bt43BPMtDuXMiilwJL3g
+ w255lfI4tRJ7S2bl4pKYwn3nExuw8KaIqwjGuYwuH83umWANYgzBgDCDdDqqPr/Czbd1Kr
+ VrWnUpEw09RavFxDCSr2zfM5lEwW3C8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-psXWDINkNQaGoHPoVChUMQ-1; Wed, 22 Mar 2023 08:36:43 -0400
+X-MC-Unique: psXWDINkNQaGoHPoVChUMQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 18FB6185A78F;
+ Wed, 22 Mar 2023 12:36:43 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE1F140B934;
+ Wed, 22 Mar 2023 12:36:40 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Brad Smith <brad@comstyle.com>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 0/2] tests/vm: fix ENOSPC in the openbsd VM image
+Date: Wed, 22 Mar 2023 12:36:37 +0000
+Message-Id: <20230322123639.836104-1-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC PATCH 40/43] target/loongarch: Implement vreplve vpack vpick
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-41-gaosong@loongson.cn>
- <f47ae8f2-9563-750a-d190-d6ad90600be6@linaro.org>
- <9191ffdb-9bd7-97f4-232b-fa8f5f4d240c@loongson.cn>
- <5fa5ed5d-b263-ddeb-7f97-e25a56bd27cb@linaro.org>
- <ed23677d-da3d-a04d-9460-1504da02028c@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <ed23677d-da3d-a04d-9460-1504da02028c@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,64 +81,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/22/23 01:32, gaosong wrote:
-> 
-> 在 2023/3/21 下午11:55, Richard Henderson 写道:
->> On 3/21/23 04:31, gaosong wrote:
->>> but for this case.
->>> e.g
->>> vreplve_b  vd vj, rk
->>> index  = gpr[rk] % (128/8);
->>> Vd->B(i) = Vj->B(index);
->>> tcg_gen_gvec_dup_mem(MO_8, vreg_full_offset(a->vd), offsetof(CPULoongArchState, 
->>> fpr[a->vj].vreg.B(index))), 16, 16 );
->>>
->>> How can we get the index with cpu_env? or  need env->gpr[rk]?
->>> The index type is not TCGv.
->>
->> For this case you would load the value Vj->B(index) into a TCGv_i32,
->>
->>     tcg_gen_andi_i64(t0, gpr_src(rk), 15);
->>
->>     // Handle endian adjustment on t0, e.g. xor 15 for big-endian?
->>
->>     tcg_gen_trunc_i64_ptr(t1, t0);
->>     tcg_gen_add_ptr(t1, t1, cpu_env);
->>     tcg_gen_ld8u_i32(t2, t1, vreg_full_offset(vj));
->>
->>     // At this point t2 contains Vj->B(index)
->>
->>     tcg_gen_gvec_dup_i32(MO_8, vreg_full_offset(vd), 16, 16, t2);
->>
->>
-> It's weird. this is no problem  for vreplve_b,   but for vreplve_h/w/d is not correct.
-> 
-> e.g vreplve h
-> index = gpr[rk] % 8
-> Vd->H(i) = Vj->H(index);
-> 
-> like this:
-> {
->      tcg_gen_andi_i64(t0, gpr_src(ctx, a->rk, EXT_NONE), 7);
->      if (HOST_BIG_ENDIAN) {
->          tcg_gen_xori_i64(t0, t0, 7);
->      }
-> 
->      tcg_gen_trunc_i64_ptr(t1, t0);
->      tcg_gen_add_ptr(t1, t1, cpu_env);
->      tcg_gen_ld16u_i32(t2, t1, vreg_full_offset(a->vj));
->      tcg_gen_gvec_dup_i32(MO_16, vreg_full_offset(a->vd), 16, 16, t2);
-> }
-> 
-> vreplve.h    vr25,  vr31, r30
->    r30    : 000000007aab5617
->    v31    : {efd0efc1efd0efc1, efd0efc1efd0efc1}
-> result:  {efd0efd0efd0efd0, efd0efd0efd0efd0},
-> and we get result is :  {c1efc1efc1efc1ef, c1efc1efc1efc1ef}.
-> my host is little-endian.
+The openbsd VM builds only have 3.5 GB of space available in /home, out
+of the 20 GB disk image. This is insufficient when running iotests in
+parallel with all other tests.
 
-You forgot to shift the index left by one bit, to turn H index into byte offset.
+Note, after applying this series:
 
+  rm ~/.cache/qemu-vm/images/openbsd.img
 
-r~
+is needed for it to take effect if you've previously used the openbsd
+image.
+
+Daniel P. Berrangé (2):
+  tests/vm: skip X11 in openbsd installation
+  tests/vm: custom openbsd partitioning to increase /home space
+
+ tests/vm/openbsd | 30 +++++++++++++++++++++++++++---
+ 1 file changed, 27 insertions(+), 3 deletions(-)
+
+-- 
+2.39.2
+
 
