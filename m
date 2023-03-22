@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B976C6C4473
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 08:54:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B2D6C447C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 08:57:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1petHW-00069J-N4; Wed, 22 Mar 2023 03:53:14 -0400
+	id 1petLF-0007QV-Be; Wed, 22 Mar 2023 03:57:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1petHQ-00064Q-DE
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 03:53:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1petHM-00046b-VE
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 03:53:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679471583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=refMIU0aNpk16tQP5zOJKfkGpEPNh8ChHrd716V6/Oc=;
- b=Q/4aFQz0216jjT6HAbFHQSECwiA+HOYSzBeUaO5UvAc0MhxQZmTFHB0UNy1uXYzPI25buI
- dNKlwYaD5tfEv95jEL84e+NwRnYc7KkDx4YfGAmQDDhZSeV2O57qJfOqPNXMDYWKreFnTu
- VJ9WUYBAAtR62tTMJypz6KT4aOCTYgs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-450-TDGBVgp9PqiYEb0RpJcVzw-1; Wed, 22 Mar 2023 03:53:02 -0400
-X-MC-Unique: TDGBVgp9PqiYEb0RpJcVzw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0A1D3C10C65
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 07:53:01 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DBDC40C6E67;
- Wed, 22 Mar 2023 07:52:59 +0000 (UTC)
-From: marcandre.lureau@redhat.com
+ (Exim 4.90_1) (envelope-from <tanhongze@loongson.cn>)
+ id 1petLC-0007Q7-Nv
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 03:57:02 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <tanhongze@loongson.cn>) id 1petLA-0005su-A7
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 03:57:02 -0400
+Received: from loongson.cn (unknown [10.90.51.71])
+ by gateway (Coremail) with SMTP id _____8AxJ_DCtBpkNeEPAA--.23726S3;
+ Wed, 22 Mar 2023 15:56:51 +0800 (CST)
+Received: from tanhongze$loongson.cn ( [10.90.51.71] ) by
+ ajax-webmail-localhost.localdomain (Coremail) ; Wed, 22 Mar 2023 15:56:50
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.90.51.71]
+Date: Wed, 22 Mar 2023 15:56:50 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?6LCt5byY5rO9?= <tanhongze@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] ui/spice: fix compilation on win32
-Date: Wed, 22 Mar 2023 11:52:56 +0400
-Message-Id: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
+Subject: [PATCH] target/loongarch: Enables plugins to get instruction codes
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220411(feba7c69)
+ Copyright (c) 2002-2023 www.mailtech.cn .loongson.cn
+X-CM-CTRLDATA: +weJ3WZvb3Rlcl9odG09MTMxMzoxMDAy
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_613121_1910253335.1679471810502"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-ID: <29262b57.2c2b7.187085217c7.Coremail.tanhongze@loongson.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: AQAAf8AxkOTCtBpk4H4JAA--.1380W
+X-CM-SenderInfo: xwdqx0pqj2vqxorr0wxvrqhubq/1tbiAQAQA2QYTPYJuAAGsj
+X-Coremail-Antispam: 1Uk129KBjvdXoWrKrW5tFykZry8Kw1DCr4Uurg_yoWDKrX_WF
+ yfX3Z7ur4UuFyIyw4j9r98Xry8C3W8GFn0vFyq9aykJa45Xw45GFWqq3WkCF4jkrs5Xrn0
+ k39rtryrAr1rujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ P7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
+ xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4xvF2IEb7IF0Fy264kE64k0F2
+ 4lFcxC0VAYjxAxZF0Ex2IqxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+ JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+ AFwI0_Jr0_JrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+ jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+ A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI
+ 43ZEXa7IU8b18PUUUUU==
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=tanhongze@loongson.cn; helo=loongson.cn
+X-Spam_score_int: 14
+X-Spam_score: 1.4
+X-Spam_bar: +
+X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,33 +80,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+------=_Part_613121_1910253335.1679471810502
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-qemu_close_to_socket() renaming left-over.
+RnJvbSAyYjE5NmE2ZTUyMGJjNDJiYjhkYmJjNTY5MTg0ZmIzY2RjM2FlOGY1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiB0YW5ob25nemUgPHRhbmhvbmd6ZUBsb29uZ3Nvbi5jbj4KRGF0
+ZTogVHVlLCAyMSBNYXIgMjAyMyAyMDo0Mzo0NiArMDgwMApTdWJqZWN0OiBbUEFUQ0hdIHRhcmdl
+dC9sb29uZ2FyY2g6IEVuYWJsZXMgcGx1Z2lucyB0byBnZXQgaW5zdHJ1Y3Rpb24gY29kZXMKClNp
+Z25lZC1vZmYtYnk6IHRhbmhvbmd6ZSA8dGFuaG9uZ3plQGxvb25nc29uLmNuPgotLS0KIHRhcmdl
+dC9sb29uZ2FyY2gvdHJhbnNsYXRlLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS90YXJnZXQvbG9vbmdhcmNoL3RyYW5z
+bGF0ZS5jIGIvdGFyZ2V0L2xvb25nYXJjaC90cmFuc2xhdGUuYwppbmRleCBmNDQzYjU4MjJmLi4y
+MWQ4NjA3N2Y0IDEwMDY0NAotLS0gYS90YXJnZXQvbG9vbmdhcmNoL3RyYW5zbGF0ZS5jCisrKyBi
+L3RhcmdldC9sb29uZ2FyY2gvdHJhbnNsYXRlLmMKQEAgLTE3Nyw3ICsxNzcsNyBAQCBzdGF0aWMg
+dm9pZCBsb29uZ2FyY2hfdHJfdHJhbnNsYXRlX2luc24oRGlzYXNDb250ZXh0QmFzZSAqZGNiYXNl
+LCBDUFVTdGF0ZSAqY3MpCiAgICAgQ1BVTG9vbmdBcmNoU3RhdGUgKmVudiA9IGNzLT5lbnZfcHRy
+OwogICAgIERpc2FzQ29udGV4dCAqY3R4ID0gY29udGFpbmVyX29mKGRjYmFzZSwgRGlzYXNDb250
+ZXh0LCBiYXNlKTsKIAotICAgIGN0eC0+b3Bjb2RlID0gY3B1X2xkbF9jb2RlKGVudiwgY3R4LT5i
+YXNlLnBjX25leHQpOworICAgIGN0eC0+b3Bjb2RlID0gdHJhbnNsYXRvcl9sZGwoZW52LCAmY3R4
+LT5iYXNlLCBjdHgtPmJhc2UucGNfbmV4dCk7CiAKICAgICBpZiAoIWRlY29kZShjdHgsIGN0eC0+
+b3Bjb2RlKSkgewogICAgICAgICBxZW11X2xvZ19tYXNrKExPR19VTklNUCwgIkVycm9yOiB1bmtu
+b3duIG9wY29kZS4gIgotLQoyLjM0LjE=
+------=_Part_613121_1910253335.1679471810502
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Fixes:
-https://gitlab.com/qemu-project/qemu/-/issues/1553
+RnJvbSAyYjE5NmE2ZTUyMGJjNDJiYjhkYmJjNTY5MTg0ZmIzY2RjM2FlOGY1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMTxicj4KRnJvbTogdGFuaG9uZ3plICZsdDt0YW5ob25nemVAbG9vbmdzb24u
+Y24mZ3Q7PGJyPgpEYXRlOiBUdWUsIDIxIE1hciAyMDIzIDIwOjQzOjQ2ICswODAwPGJyPgpTdWJq
+ZWN0OiBbUEFUQ0hdIHRhcmdldC9sb29uZ2FyY2g6IEVuYWJsZXMgcGx1Z2lucyB0byBnZXQgaW5z
+dHJ1Y3Rpb24gY29kZXM8YnI+Cjxicj4KU2lnbmVkLW9mZi1ieTogdGFuaG9uZ3plICZsdDt0YW5o
+b25nemVAbG9vbmdzb24uY24mZ3Q7PGJyPgotLS08YnI+CiZuYnNwO3RhcmdldC9sb29uZ2FyY2gv
+dHJhbnNsYXRlLmMgfCAyICstPGJyPgombmJzcDsxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KyksIDEgZGVsZXRpb24oLSk8YnI+Cjxicj4KZGlmZiAtLWdpdCBhL3RhcmdldC9sb29uZ2FyY2gv
+dHJhbnNsYXRlLmMgYi90YXJnZXQvbG9vbmdhcmNoL3RyYW5zbGF0ZS5jPGJyPgppbmRleCBmNDQz
+YjU4MjJmLi4yMWQ4NjA3N2Y0IDEwMDY0NDxicj4KLS0tIGEvdGFyZ2V0L2xvb25nYXJjaC90cmFu
+c2xhdGUuYzxicj4KKysrIGIvdGFyZ2V0L2xvb25nYXJjaC90cmFuc2xhdGUuYzxicj4KQEAgLTE3
+Nyw3ICsxNzcsNyBAQCBzdGF0aWMgdm9pZCBsb29uZ2FyY2hfdHJfdHJhbnNsYXRlX2luc24oRGlz
+YXNDb250ZXh0QmFzZSAqZGNiYXNlLCBDUFVTdGF0ZSAqY3MpPGJyPgombmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsgQ1BVTG9vbmdBcmNoU3RhdGUgKmVudiA9IGNzLSZndDtlbnZfcHRyOzxicj4KJm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IERpc2FzQ29udGV4dCAqY3R4ID0gY29udGFpbmVyX29mKGRj
+YmFzZSwgRGlzYXNDb250ZXh0LCBiYXNlKTs8YnI+CiZuYnNwOzxicj4KLSZuYnNwOyZuYnNwOyZu
+YnNwOyBjdHgtJmd0O29wY29kZSA9IGNwdV9sZGxfY29kZShlbnYsIGN0eC0mZ3Q7YmFzZS5wY19u
+ZXh0KTs8YnI+CismbmJzcDsmbmJzcDsmbmJzcDsgY3R4LSZndDtvcGNvZGUgPSB0cmFuc2xhdG9y
+X2xkbChlbnYsICZhbXA7Y3R4LSZndDtiYXNlLCBjdHgtJmd0O2Jhc2UucGNfbmV4dCk7PGJyPgom
+bmJzcDs8YnI+CiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBpZiAoIWRlY29kZShjdHgsIGN0eC0m
+Z3Q7b3Bjb2RlKSkgezxicj4KJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7IHFlbXVfbG9nX21hc2soTE9HX1VOSU1QLCAiRXJyb3I6IHVua25vd24gb3Bjb2Rl
+LiAiPGJyPgotLSA8YnI+CjIuMzQuMTxzcGFuIHN0eWxlPSJmb250LXNpemU6MTRweDsiPjwvc3Bh
+bj48YnI+PGJyPjxpIHN0eWxlPSJmb250LXZhcmlhbnQtbnVtZXJpYzogbm9ybWFsOyBmb250LXZh
+cmlhbnQtZWFzdC1hc2lhbjogbm9ybWFsOyB3aWRvd3M6IDE7IGZvbnQtZmFtaWx5OiDlrovkvZMs
+IFRhaG9tYTsgZm9udC1zaXplOiAxNHB4OyBsaW5lLWhlaWdodDogMTYuOHB4OyI+PGZvbnQgY29s
+b3I9IiNjMGMwYzAiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6IDEwcHQ7IGZvbnQtZmFtaWx5OiDl
+rovkvZM7Ij7mnKzpgq7ku7blj4rlhbbpmYTku7blkKvmnInpvpnoiq/kuK3np5HnmoTllYbkuJrn
+p5jlr4bkv6Hmga/vvIzku4XpmZDkuo7lj5HpgIHnu5nkuIrpnaLlnLDlnYDkuK3liJflh7rnmoTk
+uKrkurrmiJbnvqTnu4TjgILnpoHmraLku7vkvZXlhbbku5bkurrku6Xku7vkvZXlvaLlvI/kvb/n
+lKjvvIjljIXmi6zkvYbkuI3pmZDkuo7lhajpg6jmiJbpg6g8L3NwYW4+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZTogMTBwdDsgZm9udC1mYW1pbHk6IOWui+S9kzsiPuWIhuWcsOazhOmcsuOAgeWkjeWI
+tuaIluaVo+WPke+8ieacrOmCruS7tuWPiuWFtumZhOS7tuS4reeahOS/oeaBr+OAguWmguaenOaC
+qOmUmeaUtuacrOmCruS7tu+8jOivt+aCqOeri+WNs+eUteivneaIlumCruS7tumAmuefpeWPkeS7
+tuS6uuW5tuWIoOmZpOacrOmCruS7tuOAgjwvc3Bhbj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
+ImZvbnQtc2l6ZTogMTBwdDsgZm9udC1mYW1pbHk6IEFyaWFsLCBzYW5zLXNlcmlmOyI+Jm5ic3A7
+PGJyPlRoaXMgZW1haWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250YWluIGNvbmZpZGVudGlhbCBp
+bmZvcm1hdGlvbiBmcm9tIExvb25nc29uIFRlY2hub2xvZ3kgLCB3aGljaCBpcyBpbnRlbmRlZCBv
+bmx5IGZvciB0aGUgcGVyc29uIG9yIGVudGl0eSB3aG9zZSBhZGRyZXNzIGlzIGxpc3RlZCBhYm92
+ZS4gQW55IHVzZSBvZiB0aGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGhlcmVpbiBpbiBhbnkgd2F5
+IChpbmNsdWRpbmcsIGJ1dCBub3QgbGltaXRlZCB0bywgdG90YWwgb3IgcGFydGlhbCBkaXNjbG9z
+dXJlLCByZXByb2R1Y3Rpb24gb3IgZGlzc2VtaW5hdGlvbikgYnkgcGVyc29ucyBvdGhlciB0aGFu
+IHRoZSBpbnRlbmRlZCByZWNpcGllbnQocykgaXMgcHJvaGliaXRlZC4gSWYgeW91IHJlY2VpdmUg
+dGhpcyBlbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBob25lIG9y
+IGVtYWlsIGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgaXQuJm5ic3A7PC9zcGFuPjwvZm9udD48L2k+
 
-Fixes: commit e40283d9a ("ui/spice: fix SOCKET handling regression")
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- ui/spice-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 67cfd3ca9c..52a59386d7 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -149,7 +149,7 @@ static void watch_remove(SpiceWatch *watch)
-     qemu_set_fd_handler(watch->fd, NULL, NULL, NULL);
- #ifdef WIN32
-     /* SOCKET is owned by spice */
--    qemu_close_to_socket(watch->fd);
-+    qemu_close_socket_osfhandle(watch->fd);
- #endif
-     g_free(watch);
- }
--- 
-2.39.2
+------=_Part_613121_1910253335.1679471810502--
 
 
