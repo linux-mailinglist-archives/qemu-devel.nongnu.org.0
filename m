@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236FC6C4ACF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 13:37:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8E406C4AE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 13:40:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pexim-00085W-7z; Wed, 22 Mar 2023 08:37:40 -0400
+	id 1pexkp-0001Se-Qh; Wed, 22 Mar 2023 08:39:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pexii-0007jb-En; Wed, 22 Mar 2023 08:37:36 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pexif-0002sN-CA; Wed, 22 Mar 2023 08:37:36 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.243])
- by APP-01 (Coremail) with SMTP id qwCowAAnL8979hpki0UYFQ--.14235S2;
- Wed, 22 Mar 2023 20:37:17 +0800 (CST)
-Message-ID: <585bf39e-91e9-bd85-1fee-80ff0b4c0a8f@iscas.ac.cn>
-Date: Wed, 22 Mar 2023 20:37:15 +0800
+ (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
+ id 1pexkg-0001SV-QB
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:39:38 -0400
+Received: from mga05.intel.com ([192.55.52.43])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
+ id 1pexke-00046D-5L
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:39:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679488776; x=1711024776;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=vKdNDHwPxWpa2I/TYJOrrPIoAaa6BfZajHWzFCTxCMs=;
+ b=NdeF8K82AMmznFXhSMv+0XJGHeUSIaET31AvDSpFLYW+rsbItXHh93sm
+ BqHXZKanpzKKsgCdhvx4DnTZKZps99Z3pCO0dodN6HBEshSpMUQqX4b+Q
+ 3Cuy1UWIATLX1fNZBYcNi2+w/TcXGt/rDtA5mr7Tyyx0gWpzhKbr5p6R2
+ lwnOEOH4Xll5YPVOFCqPkpt99Hi/xo+0fCxO5O6r9CR1LZiijEwIrh/f0
+ XfYSzjHf6JkeC5ZOg2i0IvKpf1Nayl3Fxl1pImaVKEzy2v9Mqm4x3hYz9
+ 0l2JQ0a6sIx0aWSpCPLxfkoF6oaX5hzc/O6mdVFsnPVXBn78oEvW/WPQM A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="425487567"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="425487567"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 05:39:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="792542956"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="792542956"
+Received: from yangzhon.bj.intel.com (HELO yangzhon) ([10.238.157.60])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 05:39:32 -0700
+Date: Wed, 22 Mar 2023 08:39:27 -0400
+From: Yang Zhong <yang.zhong@linux.intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: About the instance_finalize callback in VFIO PCI
+Message-ID: <ZBr2/3sWfMD6qRQO@yangzhon>
+References: <ZBgn90bjw9iRaTrw@yangzhon>
+ <1d364b78-3dbb-87cb-daff-e92f40444ab7@kaod.org>
+ <CABgObfb8yFNX=HFiGiM8bUXoDccz+RRkfQE2168ioh3FdMygEQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Cc: liweiwei@iscas.ac.cn, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3] target/riscv: reduce overhead of MSTATUS_SUM change
-To: Fei Wu <fei2.wu@intel.com>
-References: <20230322121240.232303-1-fei2.wu@intel.com>
-Content-Language: en-US
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230322121240.232303-1-fei2.wu@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: qwCowAAnL8979hpki0UYFQ--.14235S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCr1UGry8XF4UuF4xZr4fXwb_yoW5uw47pr
- 4kG3yak3yDCrZ2ya4ftF15Ww15ArWqgr43Cw4kWr45AF4rJrW5CF1DKw17WFsrXF47Wryj
- 93WDZr9xAw4xXrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
- 6r4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
- IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [180.165.240.243]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABgObfb8yFNX=HFiGiM8bUXoDccz+RRkfQE2168ioh3FdMygEQ@mail.gmail.com>
+Received-SPF: none client-ip=192.55.52.43;
+ envelope-from=yang.zhong@linux.intel.com; helo=mga05.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,107 +80,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 2023/3/22 20:12, Fei Wu wrote:
-> Kernel needs to access user mode memory e.g. during syscalls, the window
-> is usually opened up for a very limited time through MSTATUS.SUM, the
-> overhead is too much if tlb_flush() gets called for every SUM change.
+On Tue, Mar 21, 2023 at 09:44:18PM +0100, Paolo Bonzini wrote:
+> Il mar 21 mar 2023, 18:30 Cédric Le Goater <clg@kaod.org> ha scritto:
+> 
+> > I would have thought that user_creatable_cleanup would have taken care
+> > of it. But it's not. This needs some digging.
+> >
+> 
+> user_creatable_cleanup is only for -object, not for -device.
 >
-> This patch creates a separate MMU index for S+SUM, so that it's not
-> necessary to flush tlb anymore when SUM changes. This is similar to how
-> ARM handles Privileged Access Never (PAN).
->
-> Result of 'pipe 10' from unixbench boosts from 223656 to 1705006. Many
-> other syscalls benefit a lot from this too.
->
-> Signed-off-by: Fei Wu <fei2.wu@intel.com>
-> ---
->   target/riscv/cpu-param.h  |  2 +-
->   target/riscv/cpu.h        |  2 +-
->   target/riscv/cpu_bits.h   |  1 +
->   target/riscv/cpu_helper.c | 11 +++++++++++
->   target/riscv/csr.c        |  2 +-
->   5 files changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
-> index ebaf26d26d..9e21b943f9 100644
-> --- a/target/riscv/cpu-param.h
-> +++ b/target/riscv/cpu-param.h
-> @@ -27,6 +27,6 @@
->    *  - S mode HLV/HLVX/HSV 0b101
->    *  - M mode HLV/HLVX/HSV 0b111
->    */
-> -#define NB_MMU_MODES 8
-> +#define NB_MMU_MODES 16
->   
->   #endif
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 638e47c75a..ac8bee11a7 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -624,7 +624,7 @@ target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
->   void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
->   
->   #define TB_FLAGS_PRIV_MMU_MASK                3
-> -#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
-> +#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 3)
->   #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
->   #define TB_FLAGS_MSTATUS_VS MSTATUS_VS
->   
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index fca7ef0cef..dd9e62b6e4 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -606,6 +606,7 @@ typedef enum {
->   #define PRV_S 1
->   #define PRV_H 2 /* Reserved */
->   #define PRV_M 3
-> +#define MMUIdx_S_SUM 5
->   
->   /* Virtulisation Register Fields */
->   #define VIRT_ONOFF          1
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index f88c503cf4..e52e9765d0 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -36,6 +36,17 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
->   #ifdef CONFIG_USER_ONLY
->       return 0;
->   #else
-> +    if (ifetch) {
-> +        return env->priv;
-> +    }
-> +
-> +    int mode = env->priv;
-> +    if (mode == PRV_M && get_field(env->mstatus, MSTATUS_MPRV)) {
-> +        mode = get_field(env->mstatus, MSTATUS_MPP);
-> +    }
-> +    if (mode == PRV_S && get_field(env->mstatus, MSTATUS_SUM)) {
-> +        return MMUIdx_S_SUM;
-> +    }
->       return env->priv;
 
-If we return mode here, whether tlb needn't flush for changes to 
-MSTATUS_MPRV and MSTATUS_MPP?
+  Paolo, thanks for helping to clarify this issue.
 
-Regards,
+  Maybe i am clear now, the vfio_instance_finalize() in the
+  hw/vfio/pci.c is only for unhotplug vfio pci device from monitor to
+  cleanup resource. For static "-device vfio-pci ....." command, the
+  cleanup resource is responsibility of kernel exit system, not the qemu
+  vfio. Once we close Qemu process, the kernel will call do_exit() to
+  release these resource, so the vfio module in kernel will handle
+  these cleanup work. thanks!
 
-Weiwei Li
+  Yang
 
->   #endif
->   }
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index ab566639e5..eacc40e912 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1246,7 +1246,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
->   
->       /* flush tlb on mstatus fields that affect VM */
->       if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-> -            MSTATUS_MPRV | MSTATUS_SUM)) {
-> +            MSTATUS_MPRV)) {
->           tlb_flush(env_cpu(env));
->       }
->       mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
 
+> Paolo
+> 
+> 
+> > C.
+> >
+> >
+> > > By the way, i also debugged other instance_finalize callback functions,
+> > > if my understanding is right, all instance_finalize callback should be
+> > > called from object_unref(object) from qemu_cleanup(void) in
+> > > ./softmmu/runstate.c. But there is no VFIO related object_unref() call in
+> > > this cleanup function, So the instance_finalize callback in vfio pci
+> > > should be useless? thanks!
+> > >
+> > > Regards,
+> > > Yang
+> > >
+> > >
+> >
+> >
 
