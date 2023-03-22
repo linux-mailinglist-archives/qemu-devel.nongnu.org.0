@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FFD6C4661
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 10:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF416C467D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 10:32:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peumL-0001ry-V8; Wed, 22 Mar 2023 05:29:10 -0400
+	id 1peupW-0005HL-DK; Wed, 22 Mar 2023 05:32:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1peumF-0001Wy-QV
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 05:29:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1peupV-0005HC-Ao
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 05:32:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1peumD-00040I-Vp
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 05:29:03 -0400
+ id 1peupT-000529-Pa
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 05:32:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679477340;
+ s=mimecast20190719; t=1679477543;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Yn3uOnpdAznvAymBsJBP4OJeoG7ZouW0pN0VA5i6Yeo=;
- b=Mp/YriAcDkdhLWchC6mSlPwMLsVa/AAlUdOUxzYLkwa6gFtc21ipwXLgFtxOVfYJnt4c5J
- IaDR8y8QzWvGLgN4svXUmXI6itsaiW8Y5VM0WYXv6kTHlZfqdbqbs4eKdCdUtiNtj7jm0O
- KYvZ4/ewDgGBSwK5QHa2k4TwkufxsMY=
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xStyiFJaec8cV6XhXS5GVGUkz3U0CiUfvPFLNqalVE8=;
+ b=CTrLeT/me4M5/MVLp2ITmsIYuCvckRSkjRB+TuL3amQvLXvfMOscl+ruJ8NXxB05rQUdg6
+ Nv8u1U7GOC4jon3gpjgvxRLD4UGI9NieITyDwWdjGKxJslHwQABd1AXBTUxF4U4sxYn0/S
+ bi7ZZmRaswpayWeta5wrlwmjxYKn6+I=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-250-0u_u0xkMOY-JXhYrRRieVA-1; Wed, 22 Mar 2023 05:28:57 -0400
-X-MC-Unique: 0u_u0xkMOY-JXhYrRRieVA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-605-GgvmIM0HM4-jJSVrnJNxxw-1; Wed, 22 Mar 2023 05:32:21 -0400
+X-MC-Unique: GgvmIM0HM4-jJSVrnJNxxw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10A33801206;
- Wed, 22 Mar 2023 09:28:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33A1C101A531;
+ Wed, 22 Mar 2023 09:32:21 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A7601121314;
- Wed, 22 Mar 2023 09:28:55 +0000 (UTC)
-Date: Wed, 22 Mar 2023 09:28:52 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 32C6AC15BA0;
+ Wed, 22 Mar 2023 09:32:20 +0000 (UTC)
+Date: Wed, 22 Mar 2023 09:32:17 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- qemu-devel <qemu-devel@nongnu.org>, David Hildenbrand <david@redhat.com>,
- "Borntraeger, Christian" <borntraeger@de.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, fiuczy@linux.ibm.com,
- Halil Pasic <pasic@linux.ibm.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 1/1] util/async-teardown: wire up
- query-command-line-options
-Message-ID: <ZBrKVGVHRtqyaKvL@redhat.com>
-References: <20230320131648.61728-1-imbrenda@linux.ibm.com>
- <20230320131648.61728-2-imbrenda@linux.ibm.com>
- <87v8ivmocr.fsf@pond.sub.org>
- <6a9ef526-1b30-e9a6-37ee-59ca3dadea9d@redhat.com>
- <CABgObfaN3sLipc2UuoZc2yHP0YK3e59sK5wn8gpkJ8xgNHc7qg@mail.gmail.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>
+Subject: Re: [RFC PATCH] tests/qemu-iotests: serialise all the qemu-iotests
+Message-ID: <ZBrLIXvb3KrXQFzC@redhat.com>
+References: <20230321235102.3832417-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CABgObfaN3sLipc2UuoZc2yHP0YK3e59sK5wn8gpkJ8xgNHc7qg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230321235102.3832417-1-alex.bennee@linaro.org>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,20 +84,38 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 21, 2023 at 09:47:57PM +0100, Paolo Bonzini wrote:
-> Il lun 20 mar 2023, 16:42 Thomas Huth <thuth@redhat.com> ha scritto:
+On Tue, Mar 21, 2023 at 11:51:02PM +0000, Alex Bennée wrote:
+> Something on OpenBSD fails with multiple tests running at once and
+> fiddling with J=1 on invocation just made everything else very slow.
 > 
-> > Would it make sense to add it e.g. to "-action" instead, i.e. something
-> > like
-> > "-action teardown=async" ?
-> >
+> Based-on: 20230318114644.1340899-1-alex.bennee@linaro.org
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  tests/qemu-iotests/meson.build | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> -action is just a wrapper for the action-set QMP command. I don't think it
-> fits very well; its arguments are only guest actions while asynchronous
-> tear down happens for example when you issue a quit command on the monitor.
+> diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
+> index a162f683ef..d572205a60 100644
+> --- a/tests/qemu-iotests/meson.build
+> +++ b/tests/qemu-iotests/meson.build
+> @@ -64,6 +64,7 @@ foreach format, speed: qemu_iotests_formats
+>             depends: qemu_iotests_binaries,
+>             env: qemu_iotests_env,
+>             protocol: 'tap',
+> +           is_parallel : false,
+>             timeout: 180,
+>             suite: suites)
+>    endforeach
 
-Right, we discussed -action when this feature was first proposed and
-that was the reason it was discounted.
+This will be a massive regression for all platforms though.
+
+The iotests run a few 100 tests. Previously the iotests harness was
+serialized against all other QEMU tests, but the individual iotests
+were all parallelized.
+
+With this proposed change all 100 individual iotests are serialized,
+both with each other, and with all other QEMU tests.
 
 With regards,
 Daniel
