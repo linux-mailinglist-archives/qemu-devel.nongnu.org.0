@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A686C4F08
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 16:09:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC066C4F0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 16:10:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf04d-0003AF-9Z; Wed, 22 Mar 2023 11:08:23 -0400
+	id 1pf04l-0003fY-Sr; Wed, 22 Mar 2023 11:08:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pf04L-00032k-EZ
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:08:10 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1pf04K-00031y-E6
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:08:07 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pf04H-0007Lx-Eu
+ id 1pf04H-0007Fk-Dw
  for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:08:04 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- mp3-20020a17090b190300b0023fcc8ce113so8927189pjb.4
+Received: by mail-pl1-x634.google.com with SMTP id w4so11476669plg.9
  for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 08:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679497678;
+ d=linaro.org; s=google; t=1679497679;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Kk3UquZ0rVIuilYEk4nV7wLaq1oBqNaW1wOekl52DrA=;
- b=WpRuZGnr8cUOVM+SKteXxwAss+Nz+mo8Fcq7LyWDVLJWdQM3lSqiHkd5aVTjKEPtX3
- /VSwq6rASBTozh9/sNWDcj0dhzFiHclk84qqXSx6qKdZd4gl3Xygnk3umpZacsVbMHgx
- 8qMtYo5qCukmLB3jmn1QPvnX6yOctAT7eGqq7nQwomgXqOesUTHqV/3QT1no1GfVu6K2
- xoNnK0omoNEUwkxFPn7hpuGC+tGrgVfEtNk2ILZWu++Yc8fT1fdVJXecV5GHJZqKjA7k
- TuvkPmLDbBTshPinRKCaAoBQxSpiU7t9tZPP02Ba1CttiSK3Hxdv/PJuyf6O3DQuQmdl
- Ptkw==
+ bh=fXNPlCQTG4Q+TjXBR7MVbKgvdvefxmvjapXjC24wVMI=;
+ b=T3dyVMMOzUItdSj38r3iKSVE/xo8/sV3BNryvESme5fdvW2qJKMTmncOlVJ3Sx1Hde
+ qgUA3kXvYkMW7PP+ug+V6MrmTvvGrj4S3OhOsx+CTbhWUmlY+TkMcwMN6h01m223XpUX
+ sA+SxVHHz9X2fX3DVeylD2ucV1PRcXWr0UyxzMVILaDczLAeI9zywN1khxk/frJqY3pr
+ oq5NZLPCfOfRM09vFXAukLW86QGcx9Wi5SYOke2tGT6D4Z9ZeEUN3Y+jhynt6VRO4ZbA
+ lGWRO3JFAnvELJyLMCbSolSZPXn46vFGEsIcAWf7fmWqrl6LtwBql4bQTa1aguISinu6
+ FQ6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679497678;
+ d=1e100.net; s=20210112; t=1679497679;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Kk3UquZ0rVIuilYEk4nV7wLaq1oBqNaW1wOekl52DrA=;
- b=FOJBVnSRCZfKggGHQG85bPUTJskex/0A4bAJEMbUmDvi7IeCzonOfGqe+KGoGvIVrA
- iYgzBpmFKqSRIyycbQ9HINDxKInx6fELYcdEjOs6V0P8fM4YKJcQtuJhoFugxXlGSOhm
- 6qzQHxAww8qHbpj9mktbKKEhFa2O2UzCOkXjMFYAB/uWNlD2WF2wZS0ajB0qgrn2TXIC
- eodcihvpWtasaqcwzB5tUeQnscVTiuinb3HVNrVymLDoovxcmN7x/SC/lHMmL58c6CZN
- +W5AKeUuhgj/XAm21bzVOodW3AuKLv4tkskcM9n3AoYJ31PQXqjNCo19RDd+A5j6yF17
- si1A==
-X-Gm-Message-State: AO0yUKX/0/oFJPjrds1uDDDKaqVG1/JbeI2lxjJQftPz5S1lVLjkjIvf
- uBBJOgAIOkGbYlQRUwGeqpmUoRiEPApBA3llCl8=
-X-Google-Smtp-Source: AK7set/2v87b6X23lZTLGShmIjh8VmelloPALZUUS2ZtBRJbyhVVpteefmSAQKdhbd/KXKKQ7kcTdg==
-X-Received: by 2002:a17:902:d411:b0:19c:f8c5:d504 with SMTP id
- b17-20020a170902d41100b0019cf8c5d504mr2296628ple.59.1679497678546; 
- Wed, 22 Mar 2023 08:07:58 -0700 (PDT)
+ bh=fXNPlCQTG4Q+TjXBR7MVbKgvdvefxmvjapXjC24wVMI=;
+ b=tbo5msfYoLuxxF2TK0S+d8jjweHo3ib0gYXItSGeWyFcvwGc2/UA579SUHrc2M7aix
+ tYv2i9ob5Z20o5z7PCzNe0NFJYVnj2IBURM2QjyIBm41SqPk1yBaBvA0m54jmMMm30BB
+ swuUPt6Syoe0uoM3V/wrkvhNXlCvGjtqLHCkGLggURH7Quif0yA6C6pY8/4CF/xE3hwQ
+ rtNeSoMWPdY0ypdu6BV7FNsdcWHfBPmAGpaKIrKUq/MNMURNF49BGnN6j4yHpe7J5EJr
+ va4Qd6xiKtNuAAewQB/0rrZ/F3FeS1G3rnQCHUx3Cf8WvMx6iwRkCx0n7scsbWi5fFDv
+ Wvhw==
+X-Gm-Message-State: AO0yUKWrQ7ta5GEczGZ/bL9XaFOe0YmFCblptsOL4QuIgQ1lo9HdcF91
+ j8qL5kOpBk2TGKrKLjZpB/SL9lKB89Ik5i9h0XU=
+X-Google-Smtp-Source: AK7set/HQCW7Uu84UIMwxKL55fvfWjpbjKubfdFMZbSx35CrClVv3yq2dp1LX7zHObwM9YGWPM/7Pg==
+X-Received: by 2002:a17:902:e8c3:b0:19f:3e9b:7527 with SMTP id
+ v3-20020a170902e8c300b0019f3e9b7527mr2434439plg.61.1679497679477; 
+ Wed, 22 Mar 2023 08:07:59 -0700 (PDT)
 Received: from stoup.. (24-113-166-229.wavecable.com. [24.113.166.229])
  by smtp.gmail.com with ESMTPSA id
- 17-20020a170902ee5100b0019339f3368asm10757555plo.3.2023.03.22.08.07.57
+ 17-20020a170902ee5100b0019339f3368asm10757555plo.3.2023.03.22.08.07.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 08:07:58 -0700 (PDT)
+ Wed, 22 Mar 2023 08:07:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: cota@braap.org, peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH for-8.0 10/11] accel/tcg: Pass last not end to
- tb_invalidate_phys_range
-Date: Wed, 22 Mar 2023 08:07:43 -0700
-Message-Id: <20230322150744.175010-11-richard.henderson@linaro.org>
+Cc: cota@braap.org,
+	peter.maydell@linaro.org
+Subject: [PATCH for-8.0 11/11] linux-user/arm: Take more care allocating
+ commpage
+Date: Wed, 22 Mar 2023 08:07:44 -0700
+Message-Id: <20230322150744.175010-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230322150744.175010-1-richard.henderson@linaro.org>
 References: <20230322150744.175010-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,145 +92,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Pass the address of the last byte to be changed, rather than
-the first address past the last byte.  This avoids overflow
-when the last page of the address space is involved.
+User setting of -R reserved_va can lead to an assertion
+failure in page_set_flags.  Sanity check the value of
+reserved_va and print an error message instead.  Do not
+allocate a commpage at all for m-profile cpus.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h   |  2 +-
- accel/tcg/tb-maint.c      | 31 ++++++++++++++++---------------
- accel/tcg/translate-all.c |  2 +-
- accel/tcg/user-exec.c     |  2 +-
- softmmu/physmem.c         |  2 +-
- 5 files changed, 20 insertions(+), 19 deletions(-)
+ linux-user/elfload.c | 37 +++++++++++++++++++++++++++----------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index ad9eb6067b..ecded1f112 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -678,7 +678,7 @@ void tb_invalidate_phys_addr(target_ulong addr);
- void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs);
- #endif
- void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
--void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end);
-+void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t last);
- void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index b068676340..0529430b1d 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -422,12 +422,32 @@ enum {
  
- /* GETPC is the true target of the return instruction that we'll execute.  */
-diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index 74823ba464..cb1f806f00 100644
---- a/accel/tcg/tb-maint.c
-+++ b/accel/tcg/tb-maint.c
-@@ -991,11 +991,10 @@ TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
-  * Called with mmap_lock held for user-mode emulation.
-  * NOTE: this function must not be called while a TB is running.
-  */
--void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
-+void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t last)
+ static bool init_guest_commpage(void)
  {
-     TranslationBlock *tb;
-     PageForEachNext n;
--    tb_page_addr_t last = end - 1;
+-    abi_ptr commpage = HI_COMMPAGE & -qemu_host_page_size;
+-    void *want = g2h_untagged(commpage);
+-    void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
+-                      MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
++    ARMCPU *cpu = ARM_CPU(thread_cpu);
++    abi_ptr want = HI_COMMPAGE & TARGET_PAGE_MASK;
++    abi_ptr addr;
  
-     assert_memory_lock();
- 
-@@ -1011,11 +1010,11 @@ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
-  */
- void tb_invalidate_phys_page(tb_page_addr_t addr)
- {
--    tb_page_addr_t start, end;
-+    tb_page_addr_t start, last;
- 
-     start = addr & TARGET_PAGE_MASK;
--    end = start + TARGET_PAGE_SIZE;
--    tb_invalidate_phys_range(start, end);
-+    last = addr | ~TARGET_PAGE_MASK;
-+    tb_invalidate_phys_range(start, last);
- }
- 
- /*
-@@ -1169,28 +1168,30 @@ void tb_invalidate_phys_page(tb_page_addr_t addr)
- 
- /*
-  * Invalidate all TBs which intersect with the target physical address range
-- * [start;end[. NOTE: start and end may refer to *different* physical pages.
-+ * [start;last]. NOTE: start and end may refer to *different* physical pages.
-  * 'is_cpu_write_access' should be true if called from a real cpu write
-  * access: the virtual CPU will exit the current TB if code is modified inside
-  * this TB.
-  */
--void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
-+void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t last)
- {
-     struct page_collection *pages;
--    tb_page_addr_t next;
-+    tb_page_addr_t index, index_last;
- 
--    pages = page_collection_lock(start, end - 1);
--    for (next = (start & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
--         start < end;
--         start = next, next += TARGET_PAGE_SIZE) {
--        PageDesc *pd = page_find(start >> TARGET_PAGE_BITS);
--        tb_page_addr_t bound = MIN(next, end);
-+    pages = page_collection_lock(start, last);
+-    if (addr == MAP_FAILED) {
++    /*
++     * M-profile allocates maximum of 2GB address space, so can never
++     * allocate the commpage.  Skip it.
++     */
++    if (arm_feature(&cpu->env, ARM_FEATURE_M)) {
++        return true;
++    }
 +
-+    index_last = last >> TARGET_PAGE_BITS;
-+    for (index = start >> TARGET_PAGE_BITS; index <= index_last; index++) {
-+        PageDesc *pd = page_find(index);
-+        tb_page_addr_t bound;
++    /*
++     * If reserved_va does not cover the commpage, we get an assert
++     * in page_set_flags.  Produce an intelligent error instead.
++     */
++    if (reserved_va != 0 && want + TARGET_PAGE_SIZE - 1 > reserved_va) {
++        error_report("Allocating guest commpage: -R 0x%" PRIx64 " too small",
++                     (uint64_t)reserved_va + 1);
++        exit(EXIT_FAILURE);
++    }
++
++    addr = target_mmap(want, TARGET_PAGE_SIZE, PROT_READ | PROT_WRITE,
++                       MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
++
++    if (addr == -1) {
+         perror("Allocating guest commpage");
+         exit(EXIT_FAILURE);
+     }
+@@ -436,15 +456,12 @@ static bool init_guest_commpage(void)
+     }
  
-         if (pd == NULL) {
-             continue;
-         }
-         assert_page_locked(pd);
--        tb_invalidate_phys_page_range__locked(pages, pd, start, bound - 1, 0);
-+        bound = (index << TARGET_PAGE_BITS) | ~TARGET_PAGE_MASK;
-+        bound = MIN(bound, last);
-+        tb_invalidate_phys_page_range__locked(pages, pd, start, bound, 0);
+     /* Set kernel helper versions; rest of page is 0.  */
+-    __put_user(5, (uint32_t *)g2h_untagged(0xffff0ffcu));
++    put_user_u32(5, 0xffff0ffcu);
+ 
+-    if (mprotect(addr, qemu_host_page_size, PROT_READ)) {
++    if (target_mprotect(addr, qemu_host_page_size, PROT_READ | PROT_EXEC)) {
+         perror("Protecting guest commpage");
+         exit(EXIT_FAILURE);
      }
-     page_collection_unlock(pages);
- }
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 74deb18bd0..5b13281119 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -572,7 +572,7 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
-         cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
-         addr = get_page_addr_code(env, pc);
-         if (addr != -1) {
--            tb_invalidate_phys_range(addr, addr + 1);
-+            tb_invalidate_phys_range(addr, addr);
-         }
-     }
- }
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 20b6fc2f6e..a7e0c3e2f4 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -516,7 +516,7 @@ void page_set_flags(target_ulong start, target_ulong last, int flags)
-                                         ~(reset ? 0 : PAGE_STICKY));
-     }
-     if (inval_tb) {
--        tb_invalidate_phys_range(start, last + 1);
-+        tb_invalidate_phys_range(start, last);
-     }
+-
+-    page_set_flags(commpage, commpage | ~qemu_host_page_mask,
+-                   PAGE_READ | PAGE_EXEC | PAGE_VALID);
+     return true;
  }
  
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index e35061bba4..0e0182d9f2 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2527,7 +2527,7 @@ static void invalidate_and_set_dirty(MemoryRegion *mr, hwaddr addr,
-     }
-     if (dirty_log_mask & (1 << DIRTY_MEMORY_CODE)) {
-         assert(tcg_enabled());
--        tb_invalidate_phys_range(addr, addr + length);
-+        tb_invalidate_phys_range(addr, addr + length - 1);
-         dirty_log_mask &= ~(1 << DIRTY_MEMORY_CODE);
-     }
-     cpu_physical_memory_set_dirty_range(addr, length, dirty_log_mask);
 -- 
 2.34.1
 
