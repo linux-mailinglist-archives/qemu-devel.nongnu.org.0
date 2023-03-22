@@ -2,86 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C706C4F6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 16:30:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB91B6C4F71
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 16:30:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf0O2-0002vq-Re; Wed, 22 Mar 2023 11:28:26 -0400
+	id 1pf0P5-0003Lj-9u; Wed, 22 Mar 2023 11:29:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pf0O1-0002vf-01
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:28:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pf0Oy-0003EQ-Gg
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:29:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pf0Ny-0003es-Cq
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:28:24 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pf0Ow-0003zn-Vx
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 11:29:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679498901;
+ s=mimecast20190719; t=1679498962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ff4a6K6wgC2XdVM/KxOAbUlwV5TGxDxmCGpnoUKmzb4=;
- b=b9vz6t7/fs6tN/Q37SEB1kPoYDBvRT6CXljLMxgoX03GFh5qa2lqshgyJ+wqUs2TjG+g8d
- hAQqWoxcV50bvRjbCRpX+VY3YB4eEor3gaGFQkVv8LqGQXjY+7Y9CRjq/A65onNFNQWLvL
- JlRlN1Xt8dzAdrvOge5p4eGmbnsxV0M=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jJavURMZISrH7yUwJw/8LVU5lNa69B0cvDZCmj2DXeI=;
+ b=cDcYdMkJArekI4gQ66c5lE0L5tQ74Y0112SbZhLmsmfnrWNxk4k5KPSv4yO9Oj0gYDCIr6
+ ruuxIPsRZ+f++FpE63uue0C8olzddDi+XxotxpZBihAxW1qNwmXcqDWvzn9YG3bFM7OlKH
+ RCMdwYQgbXm+Ff58tufvAVfR3mph2o0=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-502-96NvENDJP_SHRpfU869C8g-1; Wed, 22 Mar 2023 11:28:19 -0400
-X-MC-Unique: 96NvENDJP_SHRpfU869C8g-1
-Received: by mail-pg1-f197.google.com with SMTP id
- k1-20020a632401000000b0050beb8972bfso4712030pgk.7
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 08:28:19 -0700 (PDT)
+ us-mta-425-vo8iSSbmNpOtTzLuAiqhmQ-1; Wed, 22 Mar 2023 11:29:21 -0400
+X-MC-Unique: vo8iSSbmNpOtTzLuAiqhmQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ p19-20020ac87413000000b003d2753047cbso11080987qtq.19
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 08:29:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679498899;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ff4a6K6wgC2XdVM/KxOAbUlwV5TGxDxmCGpnoUKmzb4=;
- b=Xp1CgeqrkC5879fVWVBVAJ7w/urhI0aIsrps4ETdQi0TtBGRVzyCqD7DOhGJaaHlLl
- umAZNyhb5dlk58ewfu7qxbSDizEAX47dxnaKRrjtQwf4a3ITg0wOX9bkC/9ux97u2aKp
- cznEuWcNIl8GCHqyl5VKLRs1BB3bZOOSrAfH+7rgz9TDabguP3kCTiD/YSoIDV8Cwj8Y
- DlM3OjqsxEIODOUAb7ynpN3B5xKpctFrj15O6ZfdONGG3h7a6uu8FWRTbdINb/vy0Djb
- sjtATw0EKXj9S2dOHEAiS5yQT9CKZIzIjKBP+XdiR7gS869Dd2IuIL29Q6SEs4pIWC8f
- 3yQQ==
-X-Gm-Message-State: AO0yUKVWNpsaxi358+yRSsLmy+iEyRxX1D3kwV3jnY5147oSlR2HuU2a
- fIznpTklUrFBUcq4KLrTDfZV4u27dacs+eoN007ZqWEnR+m6+P2BT0N8JyhGxYSRRuIEpWAM4E0
- +I/jyhGSM1xXGoddM+gw9zlRYJXBBW5A=
-X-Received: by 2002:a05:6a00:1791:b0:624:3ff:db10 with SMTP id
- s17-20020a056a00179100b0062403ffdb10mr2051877pfg.5.1679498898915; 
- Wed, 22 Mar 2023 08:28:18 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/bHp/PPDvl4flVpp6/sNifIvtCpHqqA1LJGW0koi88+6TNtuQKXHuTE2U2FwSbXDTfRwfsluNqKltoBAnE6GU=
-X-Received: by 2002:a05:6a00:1791:b0:624:3ff:db10 with SMTP id
- s17-20020a056a00179100b0062403ffdb10mr2051864pfg.5.1679498898629; Wed, 22 Mar
- 2023 08:28:18 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679498960;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jJavURMZISrH7yUwJw/8LVU5lNa69B0cvDZCmj2DXeI=;
+ b=u90l3/j3DLG0dznHc+exkE9fEW3A5CSy7icc+MGt3ALs+qI1A0ScX2YPZfby4929qo
+ tmsXF4veAbxV0rx9kiRGvuJRfnoIPC6fbgOGuLEkd/1y1T5Kn1doW7ScxP4mLEWU2eE4
+ JDuL0Z7aGlEIL8HZX7dcal5Kax14Z1hrQ0oStPABsknowp+Jb/lv2iIrkHD1xp1JTHeS
+ YTLNNkcWBmoDOOoNFjEL2ruyUDbNyicYECZfTnRMOUj1yIb2DYixQdCNf53SCdP9sFy1
+ 1xyR2DFXaj93sMQr1JNtNxmrtv3Htm6HyYa99KOx2zPh9r5p3OvpWz/hCgZOJIzRCfGm
+ bzsQ==
+X-Gm-Message-State: AO0yUKUX+hjXi/ueEw/7eloYmpnimbvArFlS5DEXbNU+tt8S4l8abL6L
+ V5AWtMzspLXJ8eom9RtS+9R6lJi2wli2orkGconkykpAHwO2igI2yENED9lfNzEz9o+Rnyjp7iF
+ 9UMgiEXM9FHHRrbo=
+X-Received: by 2002:ad4:5948:0:b0:5ba:168d:d3fc with SMTP id
+ eo8-20020ad45948000000b005ba168dd3fcmr5221007qvb.4.1679498960431; 
+ Wed, 22 Mar 2023 08:29:20 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/k6Xsl+xr0RzzZyRGLikiJz9YyF7cK3M2OUgRa7ugFknIr1BMGgtSrnHqJhbH3IZgxYqCEqA==
+X-Received: by 2002:ad4:5948:0:b0:5ba:168d:d3fc with SMTP id
+ eo8-20020ad45948000000b005ba168dd3fcmr5220975qvb.4.1679498960121; 
+ Wed, 22 Mar 2023 08:29:20 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-177-44.web.vodafone.de.
+ [109.43.177.44]) by smtp.gmail.com with ESMTPSA id
+ s10-20020a05620a16aa00b0074341cb30d0sm11358398qkj.62.2023.03.22.08.29.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Mar 2023 08:29:19 -0700 (PDT)
+Message-ID: <be5942ad-d213-9229-c7e5-4b310f603443@redhat.com>
+Date: Wed, 22 Mar 2023 16:29:16 +0100
 MIME-Version: 1.0
-References: <20230322142132.22909-1-aesteve@redhat.com>
- <20230322142132.22909-3-aesteve@redhat.com>
- <d2562114-ba21-a1ad-ab84-17693e2d3f24@redhat.com>
-In-Reply-To: <d2562114-ba21-a1ad-ab84-17693e2d3f24@redhat.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Wed, 22 Mar 2023 16:28:07 +0100
-Message-ID: <CADSE00+jkAUk3XGzVx89q22DbtAmxU5BcTgn8V9OKr_oFPx6Yg@mail.gmail.com>
-Subject: Re: [PATCH 02/12] MAINTAINERS: Add virtio-video section
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, fmartine@redhat.com, 
- Gerd Hoffmann <kraxel@redhat.com>, eballetb@redhat.com, alex.bennee@linaro.org,
- Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- sgarzare@redhat.com, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- peter.griffin@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000040feff05f77ecf8d"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=aesteve@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/2] tests/vm: skip X11 in openbsd installation
+Content-Language: en-US
+To: Brad Smith <brad@comstyle.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230322123639.836104-1-berrange@redhat.com>
+ <20230322123639.836104-2-berrange@redhat.com>
+ <d8fe0d24-03ee-4c4a-6886-36319eaa2948@linaro.org>
+ <c3c944e3-f7e6-1ec2-5a18-e694d4c9c842@redhat.com>
+ <1d0081e1-1a01-037b-1317-947acf43a78d@comstyle.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <1d0081e1-1a01-037b-1317-947acf43a78d@comstyle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,98 +108,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000040feff05f77ecf8d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 22/03/2023 16.20, Brad Smith wrote:
+> On 2023-03-22 9:40 a.m., Thomas Huth wrote:
+>> On 22/03/2023 14.38, Philippe Mathieu-Daudé wrote:
+>>> On 22/3/23 13:36, Daniel P. Berrangé wrote:
+>>>> As a VM used only for automated testing there is no need to
+>>>> install the X11 stack.
+>>>>
+>>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>>> ---
+>>>>   tests/vm/openbsd | 3 +--
+>>>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+>>>> index eaeb201e91..6af7afac0d 100755
+>>>> --- a/tests/vm/openbsd
+>>>> +++ b/tests/vm/openbsd
+>>>> @@ -106,8 +106,7 @@ class OpenBSDVM(basevm.BaseVM):
+>>>>           self.console_wait("Password for root account")
+>>>>           self.console_send("%s\n" % self._config["root_pass"])
+>>>>           self.console_wait_send("Start sshd(8)", "yes\n")
+>>>> -        self.console_wait_send("X Window System", "\n")
+>>>> -        self.console_wait_send("xenodm", "\n")
+>>>> +        self.console_wait_send("X Window System", "no\n")
+>>>
+>>> Wasn't this useful to link a X11-ready binary, even if only testing
+>>> with -display=none?
+>>
+>> tests/vm/openbsd later installs sdl2 and gtk+3, so I assume that will pull 
+>> in the required libraries if necessary, without all the other 
+>> non-necessary stuff.
+> 
+> No, it will not. If you want sdl2 / gtk+3 you have to have X enabled.
 
-On Wed, Mar 22, 2023 at 3:46=E2=80=AFPM Thomas Huth <thuth@redhat.com> wrot=
-e:
+I meant for compiling, not for running QEMU... and we're only running in 
+non-graphical mode here later, so I hope that should be fine.
 
-> On 22/03/2023 15.21, Albert Esteve wrote:
-> > From: Peter Griffin <peter.griffin@linaro.org>
-> >
-> > Add myself as maintainer of the virtio-video files added
-> > in this series.
-> >
-> > Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
-> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> > ---
-> >   MAINTAINERS | 8 ++++++++
-> >   1 file changed, 8 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 9b56ccdd92..c6cc04c4f7 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -2176,6 +2176,14 @@ F: hw/virtio/vhost-user-gpio*
-> >   F: include/hw/virtio/vhost-user-gpio.h
-> >   F: tests/qtest/libqos/virtio-gpio.*
-> >
-> > +virtio-video
-> > +M: Albert Esteve <aesteve@redhat.com>
-> > +S: Supported
-> > +F: hw/display/vhost-user-video.c
-> > +F: hw/display/vhost-user-video-pci.c
-> > +F: include/hw/virtio/vhost-user-video.h
-> > +F: tools/vhost-user-video/*
->
-> Please add tests/qtest/libqos/virtio-video.* here, too.
->
->   Thomas
->
->
->
-Right. Will do for the next version, thanks!
-
---00000000000040feff05f77ecf8d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr" class=3D"gmail_sign=
-ature"><div dir=3D"ltr"><br></div></div></div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 22, 2023 at 3:46=
-=E2=80=AFPM Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redha=
-t.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On 22/03/2023 15.21, Albert Esteve wrote:<br>
-&gt; From: Peter Griffin &lt;<a href=3D"mailto:peter.griffin@linaro.org" ta=
-rget=3D"_blank">peter.griffin@linaro.org</a>&gt;<br>
-&gt; <br>
-&gt; Add myself as maintainer of the virtio-video files added<br>
-&gt; in this series.<br>
-&gt; <br>
-&gt; Signed-off-by: Peter Griffin &lt;<a href=3D"mailto:peter.griffin@linar=
-o.org" target=3D"_blank">peter.griffin@linaro.org</a>&gt;<br>
-&gt; Signed-off-by: Albert Esteve &lt;<a href=3D"mailto:aesteve@redhat.com"=
- target=3D"_blank">aesteve@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0MAINTAINERS | 8 ++++++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 8 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/MAINTAINERS b/MAINTAINERS<br>
-&gt; index 9b56ccdd92..c6cc04c4f7 100644<br>
-&gt; --- a/MAINTAINERS<br>
-&gt; +++ b/MAINTAINERS<br>
-&gt; @@ -2176,6 +2176,14 @@ F: hw/virtio/vhost-user-gpio*<br>
-&gt;=C2=A0 =C2=A0F: include/hw/virtio/vhost-user-gpio.h<br>
-&gt;=C2=A0 =C2=A0F: tests/qtest/libqos/virtio-gpio.*<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +virtio-video<br>
-&gt; +M: Albert Esteve &lt;<a href=3D"mailto:aesteve@redhat.com" target=3D"=
-_blank">aesteve@redhat.com</a>&gt;<br>
-&gt; +S: Supported<br>
-&gt; +F: hw/display/vhost-user-video.c<br>
-&gt; +F: hw/display/vhost-user-video-pci.c<br>
-&gt; +F: include/hw/virtio/vhost-user-video.h<br>
-&gt; +F: tools/vhost-user-video/*<br>
-<br>
-Please add tests/qtest/libqos/virtio-video.* here, too.<br>
-<br>
-=C2=A0 Thomas<br>
-<br>
-<br></blockquote><div><br></div><div>Right. Will do for the=C2=A0next versi=
-on, thanks!</div></div></div>
-
---00000000000040feff05f77ecf8d--
+  Thomas
 
 
