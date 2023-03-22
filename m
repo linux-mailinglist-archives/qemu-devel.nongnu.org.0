@@ -2,66 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0CB6C479F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 11:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B8F6C47B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 11:33:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pevjJ-0006KM-C6; Wed, 22 Mar 2023 06:30:05 -0400
+	id 1pevmA-0007Cw-QZ; Wed, 22 Mar 2023 06:33:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pevjH-0006Hq-57
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:30:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pevm7-0007CA-N4
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:32:59 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pevjF-0007NX-FQ
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:30:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679480999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=XLIP2BnQKiI1dURIcTCFjUDwWXVD/PbeQFmVaMFRL8o=;
- b=PNntLFMyzWbEYJY7+0TBVB6+3/zGob4OhKBAq1CBI3QX5pfqpLuRG5mJchHNRRCCCzXAyR
- LkmZJ5N57+Va627W6w+OAkyE8HLEbO9frFBYJAs7HgVVlCqOh623NG1fkxSeZg+E/RDjlq
- t9yK0tUNKM7AzTs+9628gzDRVz232Ig=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-cZvf0tHTNCSIVvr-BhNNJQ-1; Wed, 22 Mar 2023 06:29:56 -0400
-X-MC-Unique: cZvf0tHTNCSIVvr-BhNNJQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 083573C1022C;
- Wed, 22 Mar 2023 10:29:56 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.193.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85A4340C6E67;
- Wed, 22 Mar 2023 10:29:54 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: si-wei.liu@oracle.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, Lei Yang <leiyang@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, alvaro.karsz@solid-run.com,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH] vdpa: declare SVQ support for VIRTIO_NET_F_HOST_USO
-Date: Wed, 22 Mar 2023 11:29:52 +0100
-Message-Id: <20230322102952.819291-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pevm5-000882-Vb
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:32:59 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PhPsR0jBSz6J6yt;
+ Wed, 22 Mar 2023 18:31:39 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 22 Mar 2023 10:32:54 +0000
+To: Michael Tsirkin <mst@redhat.com>, <qemu-devel@nongnu.org>
+CC: <linuxarm@huawei.com>, Fan Ni <fan.ni@samsung.com>, Dave Jiang
+ <dave.jiang@intel.com>, <linux-cxl@vger.kernel.org>
+Subject: [RESEND PATCH 2/2] hw/cxl: Fix incorrect reset of commit and
+ associated clearing of committed.
+Date: Wed, 22 Mar 2023 10:33:00 +0000
+Message-ID: <20230322103300.4278-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
+References: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,38 +62,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At the moment qemu block the migration as long as the vdpa device offers
-features not supported by SVQ.  VIRTIO_NET_F_HOST_USO is not even
-offered to the guest, since qemu emulated devices does not support it,
-and we know for sure it will require no changes on SVQ code when
-supported.  For that reason, lift the block on this feature.
+The hardware clearing the commit bit is not spec compliant.
+Clearing of committed bit when commit is cleared is not specifically
+stated in the CXL spec, but is the expected (and simplest) permitted
+behaviour so use that for QEMU emulation.
 
-In a future this blocker could be smarter, and ignore features that are
-never offered to the guest either because is disabled in the cmdline
-(like mq=off) or it is not even supported.
-
-Tested-by: Alvaro Karsz <alvaro.karsz@solid-run.com>
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- net/vhost-vdpa.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/cxl/cxl-component-utils.c |  6 +++++-
+ hw/mem/cxl_type3.c           | 21 ++++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 99904a0da7..ff67babd23 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -103,6 +103,7 @@ static const uint64_t vdpa_svq_device_features =
-     BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
-     /* VHOST_F_LOG_ALL is exposed by SVQ */
-     BIT_ULL(VHOST_F_LOG_ALL) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_USO) |
-     BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-     BIT_ULL(VIRTIO_NET_F_STANDBY);
+diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+index a3e6cf75cf..378f1082ce 100644
+--- a/hw/cxl/cxl-component-utils.c
++++ b/hw/cxl/cxl-component-utils.c
+@@ -38,19 +38,23 @@ static void dumb_hdm_handler(CXLComponentState *cxl_cstate, hwaddr offset,
+     ComponentRegisters *cregs = &cxl_cstate->crb;
+     uint32_t *cache_mem = cregs->cache_mem_registers;
+     bool should_commit = false;
++    bool should_uncommit = false;
+ 
+     switch (offset) {
+     case A_CXL_HDM_DECODER0_CTRL:
+         should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
++        should_uncommit = !should_commit;
+         break;
+     default:
+         break;
+     }
+ 
+     if (should_commit) {
+-        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
+         value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
+         value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
++    } else if (should_uncommit) {
++        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
++        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 0);
+     }
+     stl_le_p((uint8_t *)cache_mem + offset, value);
+ }
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index 846089ccda..9598d584ac 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -320,13 +320,28 @@ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+ 
+     ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
+     /* TODO: Sanity checks that the decoder is possible */
+-    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
+     ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
+     ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
+ 
+     stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
+ }
+ 
++static void hdm_decoder_uncommit(CXLType3Dev *ct3d, int which)
++{
++    ComponentRegisters *cregs = &ct3d->cxl_cstate.crb;
++    uint32_t *cache_mem = cregs->cache_mem_registers;
++    uint32_t ctrl;
++
++    assert(which == 0);
++
++    ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
++
++    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
++    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 0);
++
++    stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
++}
++
+ static int ct3d_qmp_uncor_err_to_cxl(CxlUncorErrorType qmp_err)
+ {
+     switch (qmp_err) {
+@@ -395,6 +410,7 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+     CXLType3Dev *ct3d = container_of(cxl_cstate, CXLType3Dev, cxl_cstate);
+     uint32_t *cache_mem = cregs->cache_mem_registers;
+     bool should_commit = false;
++    bool should_uncommit = false;
+     int which_hdm = -1;
+ 
+     assert(size == 4);
+@@ -403,6 +419,7 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+     switch (offset) {
+     case A_CXL_HDM_DECODER0_CTRL:
+         should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
++        should_uncommit = !should_commit;
+         which_hdm = 0;
+         break;
+     case A_CXL_RAS_UNC_ERR_STATUS:
+@@ -489,6 +506,8 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+     stl_le_p((uint8_t *)cache_mem + offset, value);
+     if (should_commit) {
+         hdm_decoder_commit(ct3d, which_hdm);
++    } else if (should_uncommit) {
++        hdm_decoder_uncommit(ct3d, which_hdm);
+     }
+ }
  
 -- 
-2.31.1
+2.37.2
 
 
