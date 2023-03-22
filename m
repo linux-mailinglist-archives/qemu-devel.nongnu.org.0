@@ -2,97 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C626C49E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 13:07:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7046C4A07
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 13:12:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pexED-00039w-5u; Wed, 22 Mar 2023 08:06:05 -0400
+	id 1pexJS-0004d9-IW; Wed, 22 Mar 2023 08:11:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pexDy-00039L-5B
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:05:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
+ id 1pexJK-0004ae-9D; Wed, 22 Mar 2023 08:11:22 -0400
+Received: from mga04.intel.com ([192.55.52.120])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pexDv-000514-LR
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 08:05:49 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32MB3Jsq037111; Wed, 22 Mar 2023 12:05:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=x2HDaO53VErBfSD1wr0fZLxJAgkPp6W5orBOCrCaZpA=;
- b=Am7VPnQxLoXRH/8TMW0rt1ICGDvzdflBNYu+JFVVCt95NyNHwThMcvXKilTsY8vNDm9Y
- /z6YkgzSjU1+OjAucSc66vta+S8ZnUR5kXQGp7CPOiT6GvmFw8V+CBrA0tVKlqSZDR7p
- r+Qd5338jrl5SquK+5HjppJw39TOCe2mOGae0fo023rFIHXgeUi9auejLiBnwWSixSoe
- p+iZRKiKILVjoAC3ug6T9Cq+R2tAs6b3JK+sIlG32P9cf6/bVfSB73gDsJZPSb669xcN
- 8DIySXM1R9cNdBP4/ZWQzYjqVArAxkbEbX9Ich0tc+MFEJCEFV0vaD7quIQVPHIhcKnS Ig== 
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pfx52507y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Mar 2023 12:05:26 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MBk9uV023444;
- Wed, 22 Mar 2023 12:05:26 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
- by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7e221-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Mar 2023 12:05:26 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
- [10.241.53.105])
- by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32MC5Olo19136848
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Mar 2023 12:05:24 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4E9E25805F;
- Wed, 22 Mar 2023 12:05:24 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E970858061;
- Wed, 22 Mar 2023 12:05:23 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 22 Mar 2023 12:05:23 +0000 (GMT)
-Message-ID: <d442b288-1f15-479d-c57a-b4a4b22753b7@linux.ibm.com>
-Date: Wed, 22 Mar 2023 08:05:23 -0400
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
+ id 1pexJH-0000l7-7k; Wed, 22 Mar 2023 08:11:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679487079; x=1711023079;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=fDqA+VclOgg1pNCzgeDZaKhJQmwXiB4dsnZiqF9d0tE=;
+ b=mP5/BoLvgcmRBthI7JbBkvXYTY8rcgsEL7JR/+U3MeBNM/Ntp6O0AWnE
+ ebBgWrrUEu/QpaU63Z5QJECdxhLJPveIOM8LcbIy1W1VXYfYODE4CNP+V
+ K65e3BOFTWC6fSsGjsGPC1sbjfyYzw0c55c8XcIIb4Ligkcy39M8ktX/O
+ vJhyyiHUmSmTsOLYjrjEsNN35zm/EjDFa58s5Punkat+8yt1frcQj9Xnh
+ 41ZJzMrug/ZiTStuImguHpA4pJUmAUdPMKlPUQV+0NXSaZiU2vrvvvgSo
+ Yc7llcCaObktFCM8KI+FZd0tLkB8MbAqidl/Von7MQ72b1O7JxoQAxF0h Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="337917096"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="337917096"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 05:11:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="681872368"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="681872368"
+Received: from wufei-optiplex-7090.sh.intel.com ([10.238.200.247])
+ by orsmga002.jf.intel.com with ESMTP; 22 Mar 2023 05:11:09 -0700
+From: Fei Wu <fei2.wu@intel.com>
+To: 
+Cc: Fei Wu <fei2.wu@intel.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs),
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH v3] target/riscv: reduce overhead of MSTATUS_SUM change
+Date: Wed, 22 Mar 2023 20:12:40 +0800
+Message-Id: <20230322121240.232303-1-fei2.wu@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/3] Add support for TPM devices over I2C bus
-Content-Language: en-US
-To: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
-References: <20230321053001.3886666-1-ninad@linux.ibm.com>
- <20230321053001.3886666-3-ninad@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20230321053001.3886666-3-ninad@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 6Aa_PybDkEwAIqgD6GzuZg70K8U0w4M3
-X-Proofpoint-ORIG-GUID: 6Aa_PybDkEwAIqgD6GzuZg70K8U0w4M3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_08,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=727
- adultscore=0 malwarescore=0 clxscore=1015 bulkscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303220087
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=fei2.wu@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,41 +77,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Kernel needs to access user mode memory e.g. during syscalls, the window
+is usually opened up for a very limited time through MSTATUS.SUM, the
+overhead is too much if tlb_flush() gets called for every SUM change.
 
+This patch creates a separate MMU index for S+SUM, so that it's not
+necessary to flush tlb anymore when SUM changes. This is similar to how
+ARM handles Privileged Access Never (PAN).
 
-On 3/21/23 01:30, Ninad Palsule wrote:
-> Qemu already supports devices attached to ISA and sysbus. This drop adds
-> support for the I2C bus attached TPM devices.
+Result of 'pipe 10' from unixbench boosts from 223656 to 1705006. Many
+other syscalls benefit a lot from this too.
 
-> @@ -447,6 +452,15 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwaddr addr,
->       return val;
->   }
->   
-> +/*
-> + * A wrapper read function so that it can be directly called without
-> + * mmio.
-> + */
-> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size)
-> +{
-> +    return tpm_tis_mmio_read(s, addr, size);
-> +}
-> +
->   /*
->    * Write a value to a register of the TIS interface
->    * See specs pages 33-63 for description of the registers
-> @@ -600,6 +614,15 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
->       case TPM_TIS_REG_INT_VECTOR:
->           /* hard wired -- ignore */
->           break;
-> +    case TPM_TIS_REG_DATA_CSUM_ENABLE:
-> +        /*
-> +         * Checksum implemented by common code so no need to set
-> +         * any flags.
-> +         */
+Signed-off-by: Fei Wu <fei2.wu@intel.com>
+---
+ target/riscv/cpu-param.h  |  2 +-
+ target/riscv/cpu.h        |  2 +-
+ target/riscv/cpu_bits.h   |  1 +
+ target/riscv/cpu_helper.c | 11 +++++++++++
+ target/riscv/csr.c        |  2 +-
+ 5 files changed, 15 insertions(+), 3 deletions(-)
 
-Can you intercept handling this register on the I2C layer and add a byte for its value so that it can be set correctly? We do want to be able to write bit 0 to it to enable it and allow reading of bit 0 to see what the state is. I don't want this byte of state on the TIS layer since this creates state incompatibilities.
+diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
+index ebaf26d26d..9e21b943f9 100644
+--- a/target/riscv/cpu-param.h
++++ b/target/riscv/cpu-param.h
+@@ -27,6 +27,6 @@
+  *  - S mode HLV/HLVX/HSV 0b101
+  *  - M mode HLV/HLVX/HSV 0b111
+  */
+-#define NB_MMU_MODES 8
++#define NB_MMU_MODES 16
+ 
+ #endif
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 638e47c75a..ac8bee11a7 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -624,7 +624,7 @@ target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
+ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
+ 
+ #define TB_FLAGS_PRIV_MMU_MASK                3
+-#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
++#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 3)
+ #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
+ #define TB_FLAGS_MSTATUS_VS MSTATUS_VS
+ 
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index fca7ef0cef..dd9e62b6e4 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -606,6 +606,7 @@ typedef enum {
+ #define PRV_S 1
+ #define PRV_H 2 /* Reserved */
+ #define PRV_M 3
++#define MMUIdx_S_SUM 5
+ 
+ /* Virtulisation Register Fields */
+ #define VIRT_ONOFF          1
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f88c503cf4..e52e9765d0 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -36,6 +36,17 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+ #ifdef CONFIG_USER_ONLY
+     return 0;
+ #else
++    if (ifetch) {
++        return env->priv;
++    }
++
++    int mode = env->priv;
++    if (mode == PRV_M && get_field(env->mstatus, MSTATUS_MPRV)) {
++        mode = get_field(env->mstatus, MSTATUS_MPP);
++    }
++    if (mode == PRV_S && get_field(env->mstatus, MSTATUS_SUM)) {
++        return MMUIdx_S_SUM;
++    }
+     return env->priv;
+ #endif
+ }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index ab566639e5..eacc40e912 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1246,7 +1246,7 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+ 
+     /* flush tlb on mstatus fields that affect VM */
+     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+-            MSTATUS_MPRV | MSTATUS_SUM)) {
++            MSTATUS_MPRV)) {
+         tlb_flush(env_cpu(env));
+     }
+     mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
+-- 
+2.25.1
 
-And for getting the checksum value it should be also handled on the I2C layer and ask tpm_tis_common.c to run crc_ccitt(0, s->buffer, s->rw_offset) via a function call.
-
-    Stefan
 
