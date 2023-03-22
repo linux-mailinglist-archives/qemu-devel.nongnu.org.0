@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979146C5AA1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 00:39:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECF76C5A6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 00:32:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf79b-0007U9-Ih; Wed, 22 Mar 2023 18:41:59 -0400
+	id 1pf7RQ-0000LD-1Q; Wed, 22 Mar 2023 19:00:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pf79Z-0007TY-Jo
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:41:57 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pf7RL-0000L0-UG
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 19:00:20 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pf79X-0008WK-V7
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:41:57 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id ek18so79225525edb.6
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 15:41:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pf7RK-0004n0-6r
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 19:00:19 -0400
+Received: by mail-ed1-x529.google.com with SMTP id ew6so16366759edb.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 16:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679524914;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6iq4S5iXYub51RsVGFlQQjKHoOGisrif8dJnBWKYRfE=;
- b=DJl8R3+ANz+riolTL6qtnTC/ulaLf7sLovhkozXXfGoTDK7MJtnWFxS69RYSBiLePs
- 43WX/vBjC1aFwd/E3otoLzL/tUI+uMGrDm71nwERJIk4Oj3lhalQzI5NuxUt5P4A+7Gy
- M/33pD/mli/0oVJAiU2lagFz0V0IRosW1BofzspXnaM//9zbx0zHCNNfnbMl+yU/3HDQ
- QFRR/dmxbIzsGMVMmNMxd8E+BbStnWmLaMANykKRsoTJVe3diA0fqf8+kAbnPGkDwByE
- 3Ldi8m6RF9axuh0/f20jZ8sQcce8jy5cRR/pOlVNBgGFGfaMxGTA1WSqgevf4o0hBAaa
- WmIw==
+ d=linaro.org; s=google; t=1679526016;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0Gym5IZqBTtSJcck5TgrA/01/3mp3DYjZNIpkcy9Fq8=;
+ b=QIlmmoYtrlWRHdklwpU3NoxlTnzJzxTya/P4nMI0UOMfwPvLkmCIUUW8E+dTKMngTI
+ HLFumxSruoQXARX6r1B2UAyzqjPfsRA+47VUGSN0TvBiExCZpAn0KD28WHyUiKekb/LZ
+ OlhhBzFsEgvvBQ44pXTFgMCgyGGbFlZaka32tfn7LnWQvFEY0usVWUpRXrMa72Fa4Ma/
+ td3H1NWr0dr+uaMrtk0i5tbSOY3PVGIuL+jji9nFXg/Hoo91jvDWPJIGyLKxIsUOIuYx
+ Yd0ndyvdK1scrsTOhv+WIX3B1MGJBwtvYqxdSfvO5DbEpMJOcKq4daTrl1I11cGkxAIs
+ TrDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679524914;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6iq4S5iXYub51RsVGFlQQjKHoOGisrif8dJnBWKYRfE=;
- b=BA+Tz0c/bCXXxIocsPkviICDtRei1Fn6hUC0HxIcUMiuJ4Dxr3aiJI8U8GQXpARZ29
- lsNBO3TZGJ+fVpyu8Zm/bMGXtUyOB/B7NXORMcOv7oFiU+5td/VNdFN0FiEjt4vCSbY1
- S2/gVS/se3vducr96XlAjy7lhir8eG3XwQsH+naxt/Y87CrEPeIchRzsS2tpkUAmQXFa
- Dqg9ip9taJIcyB4yZXBF+TPpa3V7NPEeb3ya5vl9svVTyUTYbeuoAWaD8FWNglOrj1sY
- mnVRhVvq3EUefsF8FCwetUPbi8z6y/O3LIoB3m15WC94vMo0gnBwCXyy19y/WrBfBt6a
- qNjw==
-X-Gm-Message-State: AO0yUKXYE7b9SvCUgX9EHEBpIzvZpxYDaEOrN19hvGWj6qqzcGptmQN7
- 5e/9j8zEJgagLC7hGfOFdkPaW/u79A1UQE0s6dvksg==
-X-Google-Smtp-Source: AKy350bVJGEO74kIHQPR4D8KweJQLI0I2K6MdJSv/KSBBpcXrhTU7AMITy/ojY6KAzfQqtcbk7agkw==
-X-Received: by 2002:a5d:4bd0:0:b0:2c7:cbea:1140 with SMTP id
- l16-20020a5d4bd0000000b002c7cbea1140mr732471wrt.71.1679521236518; 
- Wed, 22 Mar 2023 14:40:36 -0700 (PDT)
-Received: from [192.168.69.115] ([176.176.141.240])
+ d=1e100.net; s=20210112; t=1679526016;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=0Gym5IZqBTtSJcck5TgrA/01/3mp3DYjZNIpkcy9Fq8=;
+ b=D++TcSBxtUvuP7zGRz6xa/91JBg/p2UcvAJOPSmtsI5T1RI1lpNgEpGZ6UrbtIhpSU
+ AC5t5XdwwQ2K9oxHkg3j/iMzfXJEzktLyNAIU6TrTqRu7Y9+dme9af9CDmg5fkPO877W
+ KHCJfdnzqdUY821/y/OXLIEGVW/L9Wucbf/dRk3x7yRyk89qJbvxcqBY0ZE1D6EWp3EE
+ vMO3jL6R+0oLXEFieOZDbzzthXDn9wcvVXM6dxyfLeCJiZWZabOB9Ak9K0uAc6otTHqA
+ KxKbwHKoZ1lXOf8iwAMAwHVvbq4EqwtK8MHKZuYQROG0JfWnQXsLBbQX0Pb3FCRQ/PML
+ dzBQ==
+X-Gm-Message-State: AO0yUKU0rWlT3mOesN3T6g2xuPC3Rz8rXJPLMxC4L1c2fR+JyvK/RSfx
+ IfeMCy9TqxLEZbEvnu7xJHg/YxmZoB+7ywiB9vQ=
+X-Google-Smtp-Source: AKy350YlGoFj8ju7kOBaCxV3RpCRYopwvTGXo3MturY8WheQr13I4TF2RAKYST++HOe+CPm1qeUhtQ==
+X-Received: by 2002:a05:6000:180e:b0:2ce:a3c7:d2a4 with SMTP id
+ m14-20020a056000180e00b002cea3c7d2a4mr791621wrh.25.1679522087147; 
+ Wed, 22 Mar 2023 14:54:47 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- t14-20020a05600001ce00b002da76acfee1sm2341196wrx.28.2023.03.22.14.40.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 14:40:36 -0700 (PDT)
-Message-ID: <434091cb-08d7-15f5-e4ff-5fa867abd3e8@linaro.org>
-Date: Wed, 22 Mar 2023 22:40:34 +0100
+ v6-20020a5d6106000000b002c55521903bsm14650992wrt.51.2023.03.22.14.54.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Mar 2023 14:54:46 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 798251FFB7;
+ Wed, 22 Mar 2023 21:54:46 +0000 (GMT)
+References: <20230322163303.4115917-1-alex.bennee@linaro.org>
+ <CAFEAcA8ipWKpv09pyQWNQBiUhd2JYM=sn4qv2YBen-pN3beU0Q@mail.gmail.com>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, "Daniel P. Berrange" <berrange@redhat.com>
+Subject: Re: [PULL v2 for 8.0 00/35] various fixes (testing, plugins, gitdm)
+Date: Wed, 22 Mar 2023 21:54:30 +0000
+In-reply-to: <CAFEAcA8ipWKpv09pyQWNQBiUhd2JYM=sn4qv2YBen-pN3beU0Q@mail.gmail.com>
+Message-ID: <87355w5u55.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH RESEND v2] hw/i2c: Enable an id for the pca954x devices
-Content-Language: en-US
-To: cminyard@mvista.com, Patrick Venture <venture@google.com>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Hao Wu <wuhaotsh@google.com>
-References: <20230322172136.48010-1-venture@google.com>
- <ZBtwxzc7xpazByqK@minyard.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <ZBtwxzc7xpazByqK@minyard.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,23 +95,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/3/23 22:19, Corey Minyard wrote:
-> On Wed, Mar 22, 2023 at 10:21:36AM -0700, Patrick Venture wrote:
->> This allows the devices to be more readily found and specified.
->> Without setting the name field, they can only be found by device type
->> name, which doesn't let you specify the second of the same device type
->> behind a bus.
->>
->> Tested: Verified that by default the device was findable with the name
->> 'pca954x[77]', for an instance attached at that address.
-> 
-> This looks good to me.
-> 
-> Acked-by: Corey Minyard <cminyard@mvista.com>
-> 
-> if you are taking this in through another tree.  Or do you want me to
-> take this?
 
-Since I have to send a MIPS PR, I'll take this one;
-to alleviate you and the CI minutes.
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Wed, 22 Mar 2023 at 16:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit c283ff89d11ff123efc9af49128ef58511f73=
+012:
+>>
+>>   Update version for v8.0.0-rc1 release (2023-03-21 17:15:43 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/stsquad/qemu.git tags/pull-for-8.0-220323-1
+>>
+>> for you to fetch changes up to e35b9a2e81ccce86db6f1417b1d73bb97d7cbc17:
+>>
+>>   qtests: avoid printing comments before g_test_init() (2023-03-22
+>>   15:08:26 +0000)
+>>
+>> Note you will need to remove the old openbsd disk image to trigger a
+>> rebuild that avoids the issues with -ENOSPC. My pipeline can be seen
+>> here:
+>>
+>>   https://gitlab.com/stsquad/qemu/-/pipelines/814624909
+>>
+>> ----------------------------------------------------------------
+>> Misc fixes for 8.0 (testing, plugins, gitdm)
+>>
+>>   - update Alpine image used for testing images
+>>   - include libslirp in custom runner build env
+>>   - update gitlab-runner recipe for CentOS
+>>   - update docker calls for better caching behaviour
+>>   - document some plugin callbacks
+>>   - don't use tags to define drives for lkft baseline tests
+>>   - fix missing clear of plugin_mem_cbs
+>>   - fix iotests to report individual results
+>>   - update the gitdm metadata for contributors
+>>   - avoid printing comments before g_test_init()
+>>   - probe for multiprocess support before running avocado test
+>>   - refactor igb.py into netdev-ethtool.py avocado test
+>>   - rebuild openbsd to have more space space for iotests
+>
+> I saw this on ppc64. I suspect it of being a pre-existing
+> intermittent -- I'm retrying it.
+
+On what platform is that?
+
+>
+> =E2=96=B6 737/761 qcow2 copy-before-write
+>            FAIL
+> 737/761 qemu:block / io-qcow2-copy-before-write
+>            ERROR           6.80s   exit status 1
+> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80  =E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95
+> stderr:
+> --- /home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write.out
+> +++ /home/pm215/qemu/build/all/scratch/qcow2-file-copy-before-write/copy-=
+before-write.out.bad
+> @@ -1,5 +1,21 @@
+> -....
+> +..F.
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +FAIL: test_timeout_break_guest (__main__.TestCbwError.test_timeout_break=
+_guest)
+> +----------------------------------------------------------------------
+> +Traceback (most recent call last):
+> +  File "/home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write",
+> line 200, in test_timeout_break_guest
+> +    self.assertEqual(log, """\
+> +AssertionError: 'wrot[90 chars])\nwrote 524288/524288 bytes at offset
+> 524288\[151 chars]c)\n' !=3D 'wrot[90 chars])\nwrite failed: Connection
+> timed out\nread 10[85 chars]c)\n'
+> +  wrote 524288/524288 bytes at offset 0
+> +  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> ++ write failed: Connection timed out
+> +- wrote 524288/524288 bytes at offset 524288
+> +- 512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> +  read 1048576/1048576 bytes at offset 0
+> +  1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> +
+> +
+>  ----------------------------------------------------------------------
+>  Ran 4 tests
+>
+> -OK
+> +FAILED (failures=3D1)
+>
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
