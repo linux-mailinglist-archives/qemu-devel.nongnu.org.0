@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202B96C5A5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 00:30:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5FC6C5A0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 00:09:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf7Mt-0008S0-Mb; Wed, 22 Mar 2023 18:55:43 -0400
+	id 1pf7GB-00080K-IE; Wed, 22 Mar 2023 18:48:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pf7Mp-0008Rr-Qw
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:55:39 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e])
+ id 1pf7G9-000805-PI
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:48:45 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pf7Mo-00032P-5d
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:55:39 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- w21-20020a9d6755000000b00698853a52c7so11235540otm.11
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 15:55:37 -0700 (PDT)
+ id 1pf7G8-0001ek-B8
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 18:48:45 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-5447d217bc6so364322877b3.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 15:48:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1679525736;
+ d=ventanamicro.com; s=google; t=1679525323;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U7gzbVQ+ppMikngAzfGlNY7kDwQC9s27/btZylqBq0w=;
- b=HysYjz3wuKQT4ZzoYWO8m2n82/fzZOMKlMmFjZRDOxrowvPAXBzaT7C8AteF1amyeo
- +eR8eGuIoDfzv1K5GdgJg1lYoTkE6/FBi69AYoPe08b2qyu3PwOaURfJUjrigDYEFNB7
- 7CPuwVmmcmCmvGP5fd4/VaiAPpfSO2wz5R5CEXWaxHKaQi+kcJqHvr3KxqH4BhK4U0ME
- 8uYP0nVKavhD3rY4FcsOHFtJClPIHMeQSnSOvG5OoOIQ2Bh3642WWAPuIuT7OhKk03j2
- 8NvcjDwZj1DaZA2lt3XnG6AGxjZmIUsf3dAtcCpVFd9Nlwu9Rz1QOb7gwEMPAP1WJYL6
- yq1g==
+ bh=ADneTQ/OBJ/eO647FGCO0OgM+dmE7RZtYQ6phFnnTGw=;
+ b=TU9V7wq+McQSJjYtW1XtNUNA+Yd89qMHdVPb38hPIF4BhPtUUHE25KH4mmDVUM1hNr
+ RH9+76yWEDW1itugI+okEgCBpNgTEnrSB06mfg6NDxGfQbpUFTaSCyJ29/2zjtQ1kBL7
+ breftocQIqNeIc3slp8Dh/cpkb0k6IZpuANCOwPEw3Lpx55If8aQEWGed3yui17/nCdv
+ JgB4x9yTIt9TokNUU7KWVYCR+G1WJ0YBEtUhQHJb8IhxKdD3nMP6e+ngrZv+ts0zCsNI
+ HnVVzzVyoQ5CHnOPcskVR5ylXXz7cxhF5cmZvRbkxeTWf7EHh6QJm53LbYRr6c0udhsZ
+ ci/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679525736;
+ d=1e100.net; s=20210112; t=1679525323;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U7gzbVQ+ppMikngAzfGlNY7kDwQC9s27/btZylqBq0w=;
- b=7e5z0ZwMCriMD+9kaXUhjwELQRnrKHD5i3u6AfNiFKQHEpc511r85fNeikuSgb4dQm
- vz77LWc4kg9CjfT5NrPMJnEJzm4GoRkgOGy3Jiuve9wwdNS187VA19YDPS2lmW2tq1wY
- xsagOLu0UWH7VGD3nx4ebRTZ+zui2E5BFTMIQ8Y/iz/w+4+pR9r+Pn/+rFXLfipfn5+S
- vXju08CYIEeRgddWrBciYEMCeUSRtjH0H2OvLVzNfI7KYmS+pHCF5TIJxgUnyxu8Zija
- 4ApQIi+cjCwe7/6az5l1OCz4upyAA1JA+vyHFabsiDU9IuvL2o4T+VLrvwD3CESdnYoU
- vmVw==
-X-Gm-Message-State: AO0yUKXnox6OCPKTg7yGc81iyLsN7Fv2MB4oire8ImQouDiujW384xit
- vWhkqryDgcHzqzMfTelKuc1jy2jVBZ/jOqXgUBw=
-X-Google-Smtp-Source: AK7set8Rci+4Zziva8pkgbEbFocl3I5HxGYQTchwWOj+2+piowF6woJL6ZNT3oUcSltv3OcQ01cWtA==
-X-Received: by 2002:a05:6870:6129:b0:17a:b715:ab9a with SMTP id
- s41-20020a056870612900b0017ab715ab9amr792528oae.50.1679523625642; 
- Wed, 22 Mar 2023 15:20:25 -0700 (PDT)
+ bh=ADneTQ/OBJ/eO647FGCO0OgM+dmE7RZtYQ6phFnnTGw=;
+ b=vn+3aCCgL7GdDXYxdozeVywyXN+sX89YG/OUWGi56N6amOGkwdx0/mTZ1n7EySPyNY
+ m0zmZnjzs5qfVqLdndkn1bad4uM2G02zxxquUPLvlxA3FBQ6BTu+1snHSriS/fdiIvyW
+ GxNbONvv+Jr3JrjG50G9LgEodVLxUQlGye5iJ9ullDbLvWBwVmFYSCLzvwInyuSTMDUo
+ TJo38Iohviwkknq/keUdI6zsqZIfHnEKhO3ubby1RVP7UlzzKqdQd2hiwxYXCP2d18sj
+ fgPTtcYQuISzKtFe+1awt4v2Fil5X/CmR3RPjmHrbggyHmXcSmIZdnxOsGect4R6Vk19
+ jrew==
+X-Gm-Message-State: AO0yUKWNfzoYsfIkrd5kowjlDQwUdULKyc/CZDzNQr8iRwN36qPLhUar
+ pefOZz14NF8TrEUoHcQpX1jB8iWeicwN+FKNM4Q=
+X-Google-Smtp-Source: AKy350Y0j2q7ScyaSD1356WDgabKsDQF08uxLQj9vcDwEqP08a7E8mfQ6zxLzrHbMWnBhv/sePdJEA==
+X-Received: by 2002:a05:6870:7025:b0:17a:cb34:758a with SMTP id
+ u37-20020a056870702500b0017acb34758amr916964oae.34.1679523628772; 
+ Wed, 22 Mar 2023 15:20:28 -0700 (PDT)
 Received: from grind.. ([177.95.89.231]) by smtp.gmail.com with ESMTPSA id
- ax35-20020a05687c022300b0017243edbe5bsm5586817oac.58.2023.03.22.15.20.22
+ ax35-20020a05687c022300b0017243edbe5bsm5586817oac.58.2023.03.22.15.20.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 15:20:25 -0700 (PDT)
+ Wed, 22 Mar 2023 15:20:28 -0700 (PDT)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH for-8.1 v4 01/25] target/riscv/cpu.c: add
- riscv_cpu_validate_v()
-Date: Wed, 22 Mar 2023 19:19:40 -0300
-Message-Id: <20230322222004.357013-2-dbarboza@ventanamicro.com>
+Subject: [PATCH for-8.1 v4 02/25] target/riscv/cpu.c: remove set_vext_version()
+Date: Wed, 22 Mar 2023 19:19:41 -0300
+Message-Id: <20230322222004.357013-3-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230322222004.357013-1-dbarboza@ventanamicro.com>
 References: <20230322222004.357013-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-yw1-x1131.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,138 +92,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The RVV verification will error out if fails and it's being done at the
-end of riscv_cpu_validate_set_extensions(). Let's put it in its own
-function and do it earlier.
-
-We'll move it out of riscv_cpu_validate_set_extensions() in the near future,
-but for now this is enough to clean the code a bit.
+This setter is doing nothing else but setting env->vext_ver. Assign the
+value directly.
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 ---
- target/riscv/cpu.c | 86 ++++++++++++++++++++++++++--------------------
- 1 file changed, 49 insertions(+), 37 deletions(-)
+ target/riscv/cpu.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1e97473af2..18591aa53a 100644
+index 18591aa53a..2752efe1eb 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -802,6 +802,46 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
-     }
+@@ -245,11 +245,6 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
+     env->priv_ver = priv_ver;
  }
  
-+static void riscv_cpu_validate_v(CPURISCVState *env, RISCVCPUConfig *cfg,
-+                                 Error **errp)
-+{
-+    int vext_version = VEXT_VERSION_1_00_0;
-+
-+    if (!is_power_of_2(cfg->vlen)) {
-+        error_setg(errp, "Vector extension VLEN must be power of 2");
-+        return;
-+    }
-+    if (cfg->vlen > RV_VLEN_MAX || cfg->vlen < 128) {
-+        error_setg(errp,
-+                   "Vector extension implementation only supports VLEN "
-+                   "in the range [128, %d]", RV_VLEN_MAX);
-+        return;
-+    }
-+    if (!is_power_of_2(cfg->elen)) {
-+        error_setg(errp, "Vector extension ELEN must be power of 2");
-+        return;
-+    }
-+    if (cfg->elen > 64 || cfg->elen < 8) {
-+        error_setg(errp,
-+                   "Vector extension implementation only supports ELEN "
-+                   "in the range [8, 64]");
-+        return;
-+    }
-+    if (cfg->vext_spec) {
-+        if (!g_strcmp0(cfg->vext_spec, "v1.0")) {
-+            vext_version = VEXT_VERSION_1_00_0;
-+        } else {
-+            error_setg(errp, "Unsupported vector spec version '%s'",
-+                       cfg->vext_spec);
-+            return;
-+        }
-+    } else {
-+        qemu_log("vector version is not specified, "
-+                 "use the default value v1.0\n");
-+    }
-+    set_vext_version(env, vext_version);
-+}
-+
- /*
-  * Check consistency between chosen extensions while setting
-  * cpu->cfg accordingly, doing a set_misa() in the end.
-@@ -809,6 +849,7 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
- static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+-static void set_vext_version(CPURISCVState *env, int vext_ver)
+-{
+-    env->vext_ver = vext_ver;
+-}
+-
+ #ifndef CONFIG_USER_ONLY
+ static uint8_t satp_mode_from_str(const char *satp_mode_str)
  {
-     CPURISCVState *env = &cpu->env;
-+    Error *local_err = NULL;
-     uint32_t ext = 0;
+@@ -839,7 +834,7 @@ static void riscv_cpu_validate_v(CPURISCVState *env, RISCVCPUConfig *cfg,
+         qemu_log("vector version is not specified, "
+                  "use the default value v1.0\n");
+     }
+-    set_vext_version(env, vext_version);
++    env->vext_ver = vext_version;
+ }
  
-     /* Do some ISA extension error checking */
-@@ -939,6 +980,14 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         }
-     }
- 
-+    if (cpu->cfg.ext_v) {
-+        riscv_cpu_validate_v(env, &cpu->cfg, &local_err);
-+        if (local_err != NULL) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+    }
-+
-     if (cpu->cfg.ext_zk) {
-         cpu->cfg.ext_zkn = true;
-         cpu->cfg.ext_zkr = true;
-@@ -993,44 +1042,7 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         ext |= RVH;
-     }
-     if (cpu->cfg.ext_v) {
--        int vext_version = VEXT_VERSION_1_00_0;
-         ext |= RVV;
--        if (!is_power_of_2(cpu->cfg.vlen)) {
--            error_setg(errp,
--                       "Vector extension VLEN must be power of 2");
--            return;
--        }
--        if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
--            error_setg(errp,
--                       "Vector extension implementation only supports VLEN "
--                       "in the range [128, %d]", RV_VLEN_MAX);
--            return;
--        }
--        if (!is_power_of_2(cpu->cfg.elen)) {
--            error_setg(errp,
--                       "Vector extension ELEN must be power of 2");
--            return;
--        }
--        if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
--            error_setg(errp,
--                       "Vector extension implementation only supports ELEN "
--                       "in the range [8, 64]");
--            return;
--        }
--        if (cpu->cfg.vext_spec) {
--            if (!g_strcmp0(cpu->cfg.vext_spec, "v1.0")) {
--                vext_version = VEXT_VERSION_1_00_0;
--            } else {
--                error_setg(errp,
--                           "Unsupported vector spec version '%s'",
--                           cpu->cfg.vext_spec);
--                return;
--            }
--        } else {
--            qemu_log("vector version is not specified, "
--                     "use the default value v1.0\n");
--        }
--        set_vext_version(env, vext_version);
-     }
-     if (cpu->cfg.ext_j) {
-         ext |= RVJ;
+ /*
 -- 
 2.39.2
 
