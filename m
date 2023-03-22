@@ -2,96 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB64F6C3EDC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 00:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3AE6C3F09
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 01:20:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pelol-0007kD-Vr; Tue, 21 Mar 2023 19:55:04 -0400
+	id 1pemCS-0004Mh-Id; Tue, 21 Mar 2023 20:19:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1peloj-0007k0-Mx
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 19:55:01 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pemC6-0004La-Nq
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 20:19:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pelog-0002N9-1Y
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 19:55:01 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32LLEGhO026620; Tue, 21 Mar 2023 23:54:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=/FpqzkfNKBLqujS0+qy9SE9BC7PdshPac1FyroziKi8=;
- b=bcaoiy0dG9gw+PTpZ/+ocH+G8amnw8Kt4dNFP1mHP6Jc3NKe0qt94CR9hBhRziftzBST
- 7bv4xfdP8n4b0LLa2AvNNhXR0M4H+dwO67RTmya3mgzmqI4fslGO3zzkslQpOrkdYz0l
- nuXeoz52cFcDEAqgi/Q0pCdqYiIQ8SQSFLqrAllOblQzvpcIe5L28IBKOyy5cGiKQfAD
- Hb0VMDupXxAsl5QMNjT9D8IX2ltyZa2NJnZVs+YUYkLw6zzZPmaqrJPMMMkVtZwyvDK7
- 6L0Sr/1tlrE6l5Du29c+7kgHelqC4t+kxylJ0ztwYOw/qxgwv3sFSUG6BQIp554eVPtG tw== 
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pfmaejw9u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Mar 2023 23:54:40 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32LMtkf5030093;
- Tue, 21 Mar 2023 23:54:39 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
- by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3pd4x75dkb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Mar 2023 23:54:39 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
- [10.39.53.229])
- by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32LNscN441615804
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 21 Mar 2023 23:54:38 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 537A65805C;
- Tue, 21 Mar 2023 23:54:38 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD1B55805F;
- Tue, 21 Mar 2023 23:54:37 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 21 Mar 2023 23:54:37 +0000 (GMT)
-Message-ID: <1ec4d7f7-7f51-1b40-ee8f-775233e0127f@linux.ibm.com>
-Date: Tue, 21 Mar 2023 19:54:37 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pemC3-000370-OQ
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 20:19:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679444345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=umgaOTz5kFDrAgDkiBZa66/9uedsftrqcmjNEJUkVJs=;
+ b=Lr4jfkNdTTN2Nww4mauYDWAWcKJ6EZnaNQKhNUoXrzjZlIsjZfCJhMz9Ui3Kju+1+/I6MR
+ sz4JGBJRQMT24mYQ+JwsP/hQMfnxOhEkFnpfmlb+vd6xm5/yMExDTodV61M0xf2W5cg/lo
+ 27Z9GBoAzihtNLa2OGZEO5d+9ml+m6Q=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-WDEdCZuEOCi2EV-7QX8H3Q-1; Tue, 21 Mar 2023 20:19:03 -0400
+X-MC-Unique: WDEdCZuEOCi2EV-7QX8H3Q-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ p19-20020ac87413000000b003d2753047cbso9862260qtq.19
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 17:19:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679444342; x=1682036342;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=umgaOTz5kFDrAgDkiBZa66/9uedsftrqcmjNEJUkVJs=;
+ b=At1rksINf2MZU20O0frNCLIL5HzmyqVzW2JisFzuuOSOvnNY8IN+8DarFd6Tk2fNkJ
+ 6Vcnk/vGx/13Mn+OXMwBfO+Pp1CEvlVcDUrtzij3xG7AzmZGPNYLtidzfOfx+/dRtemC
+ WhnHgv/g8eE8kepcW0QsL4PfgpV5f9rZCB06EbggEzu36to+JFKK1vhH8+akl3qTim1y
+ h0PvDyrzw8o/5c3UG8Cw3Qtwx1VaalrkioUHhutOyd7pVhgs9Q73X+ZI7cvio6AqWGo5
+ qH6MyU5eMMpz95Ax6OLe4wFDwU2DJdzWjY8rOqDP7qOXk9xVsN1vTHkYtpBzwOE2E+wY
+ wEUw==
+X-Gm-Message-State: AO0yUKXCS1q3YwyXesj+pu2NANxGalc29rN3sGt3asG6jxRN30c6Jv1u
+ kM5gyXMMfqPsS5ozx0xU5S/hXUJT267PzVXllzwzKmOGouArMJcZN8nijAitgzZeRQ0UeI+Z4WA
+ 093NiPhwukAnll/E=
+X-Received: by 2002:a05:622a:1a17:b0:3e2:be32:cb74 with SMTP id
+ f23-20020a05622a1a1700b003e2be32cb74mr8146268qtb.3.1679444342515; 
+ Tue, 21 Mar 2023 17:19:02 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/AWBgxnsLsXzGmPivPLOoRN7vxrCxQqfYZqPheTtMstf/31DQErqIvi3JoMWEhXRjbVDch3A==
+X-Received: by 2002:a05:622a:1a17:b0:3e2:be32:cb74 with SMTP id
+ f23-20020a05622a1a1700b003e2be32cb74mr8146236qtb.3.1679444342152; 
+ Tue, 21 Mar 2023 17:19:02 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ t10-20020a37aa0a000000b0074683c45f6csm5494022qke.1.2023.03.21.17.19.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Mar 2023 17:19:01 -0700 (PDT)
+Date: Tue, 21 Mar 2023 20:19:00 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, quintela@redhat.com
+Subject: Re: s390 migration crash
+Message-ID: <ZBpJdAbqmyqMNh4D@x1n>
+References: <ZBoShWArKDPpX/D7@work-vm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/3] Add support for TPM devices over I2C bus
-Content-Language: en-US
-To: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
-References: <20230321053001.3886666-1-ninad@linux.ibm.com>
- <20230321053001.3886666-3-ninad@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20230321053001.3886666-3-ninad@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: YzwkUNGjIs0gUa6ZkhExozOMCCOtGAGY
-X-Proofpoint-GUID: YzwkUNGjIs0gUa6ZkhExozOMCCOtGAGY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-21_11,2023-03-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999
- impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- suspectscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303210186
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: multipart/mixed; boundary="t/1JkYLdmerY8bGz"
+Content-Disposition: inline
+In-Reply-To: <ZBoShWArKDPpX/D7@work-vm>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,135 +96,374 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+--t/1JkYLdmerY8bGz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 3/21/23 01:30, Ninad Palsule wrote:
-> Qemu already supports devices attached to ISA and sysbus. This drop adds
-> support for the I2C bus attached TPM devices.
+On Tue, Mar 21, 2023 at 08:24:37PM +0000, Dr. David Alan Gilbert wrote:
+> Hi Peter's,
+>   Peter M pointed me to a seg in a migration test in CI; I can reproduce
+> it:
+>   * On an s390 host
+
+How easy to reproduce?
+
+>   * only as part of a make check - running migration-test by itself
+> doesn't trigger for me.
+>   * It looks like it's postcopy preempt
 > 
-> This commit includes changes for the common code.
-> - Added support for the new checksum registers which are required for
->    the I2C support. The checksum calculation is handled in the qemu
->    common code.
-> - Added wrapper function for read and write data so that I2C code can
->    call it without MMIO interface.
+> (gdb) bt full
+> #0  iov_size (iov=iov@entry=0x2aa00e60670, iov_cnt=<optimized out>) at ../util/iov.c:88
+>         len = 13517923312037845750
+>         i = 17305
+> #1  0x000002aa004d068c in qemu_fflush (f=0x2aa00e58630) at ../migration/qemu-file.c:307
+>         local_error = 0x0
+> #2  0x000002aa004d0e04 in qemu_fflush (f=<optimized out>) at ../migration/qemu-file.c:297
+> #3  0x000002aa00613962 in postcopy_preempt_shutdown_file (s=s@entry=0x2aa00d1b4e0) at ../migration/ram.c:4657
+> #4  0x000002aa004e12b4 in migration_completion (s=0x2aa00d1b4e0) at ../migration/migration.c:3469
+>         ret = <optimized out>
+>         current_active_state = 5
+>         must_precopy = 0
+>         can_postcopy = 0
+>         in_postcopy = true
+>         pending_size = 0
+>         __func__ = "migration_iteration_run"
+>         iter_state = <optimized out>
+>         s = 0x2aa00d1b4e0
+>         thread = <optimized out>
+>         setup_start = <optimized out>
+>         thr_error = <optimized out>
+>         urgent = <optimized out>
+> #5  migration_iteration_run (s=0x2aa00d1b4e0) at ../migration/migration.c:3882
+>         must_precopy = 0
+>         can_postcopy = 0
+>         in_postcopy = true
+>         pending_size = 0
+>         __func__ = "migration_iteration_run"
+>         iter_state = <optimized out>
+>         s = 0x2aa00d1b4e0
+>         thread = <optimized out>
+>         setup_start = <optimized out>
+>         thr_error = <optimized out>
+>         urgent = <optimized out>
+> #6  migration_thread (opaque=opaque@entry=0x2aa00d1b4e0) at ../migration/migration.c:4124
+>         iter_state = <optimized out>
+>         s = 0x2aa00d1b4e0
+> --Type <RET> for more, q to quit, c to continue without paging--
+>         thread = <optimized out>
+>         setup_start = <optimized out>
+>         thr_error = <optimized out>
+>         urgent = <optimized out>
+> #7  0x000002aa00819b8c in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:541
+>         __cancel_buf = 
+>             {__cancel_jmp_buf = {{__cancel_jmp_buf = {{__gregs = {4396782422080, 4393751543808, 4397299389454, 4396844235904, 2929182727824, 2929182933488, 4396843986792, 4397299389455, 33679382915066768, 33678512846981306}, __fpregs = {4396774031360, 8392704, 2929182933488, 0, 4396782422272, 2929172491858, 4396774031360, 1}}}, __mask_was_saved = 0}}, __pad = {0x3ffb4a77a60, 0x0, 0x0, 0x0}}
+>         __cancel_routine = 0x2aa00819bf0 <qemu_thread_atexit_notify>
+>         __not_first_call = <optimized out>
+>         start_routine = 0x2aa004e08f0 <migration_thread>
+>         arg = 0x2aa00d1b4e0
+>         r = <optimized out>
+> #8  0x000003ffb7b1e2e6 in start_thread () at /lib64/libc.so.6
+> #9  0x000003ffb7aafdbe in thread_start () at /lib64/libc.so.6
 > 
-> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> ---
->   hw/tpm/tpm_tis.h        |  2 ++
->   hw/tpm/tpm_tis_common.c | 33 +++++++++++++++++++++++++++++++++
->   include/hw/acpi/tpm.h   |  2 ++
->   3 files changed, 37 insertions(+)
+> It looks like it's in the preempt test:
 > 
-> diff --git a/hw/tpm/tpm_tis.h b/hw/tpm/tpm_tis.h
-> index f6b5872ba6..16b7baddd8 100644
-> --- a/hw/tpm/tpm_tis.h
-> +++ b/hw/tpm/tpm_tis.h
-> @@ -86,5 +86,7 @@ int tpm_tis_pre_save(TPMState *s);
->   void tpm_tis_reset(TPMState *s);
->   enum TPMVersion tpm_tis_get_tpm_version(TPMState *s);
->   void tpm_tis_request_completed(TPMState *s, int ret);
-> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size);
-> +void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, uint32_t size);
->   
->   #endif /* TPM_TPM_TIS_H */
-> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-> index 503be2a541..3c82f63179 100644
-> --- a/hw/tpm/tpm_tis_common.c
-> +++ b/hw/tpm/tpm_tis_common.c
-> @@ -26,6 +26,8 @@
->   #include "hw/irq.h"
->   #include "hw/isa/isa.h"
->   #include "qapi/error.h"
-> +#include "qemu/bswap.h"
-> +#include "qemu/crc-ccitt.h"
->   #include "qemu/module.h"
->   
->   #include "hw/acpi/tpm.h"
-> @@ -422,6 +424,9 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwaddr addr,
->               shift = 0; /* no more adjustments */
->           }
->           break;
-> +    case TPM_TIS_REG_DATA_CSUM_GET:
-> +        val = bswap16(crc_ccitt(0, s->buffer, s->rw_offset));
+> (gdb) where
+> #0  0x000003ffb17a0126 in __pthread_kill_implementation () from /lib64/libc.so.6
+> #1  0x000003ffb1750890 in raise () from /lib64/libc.so.6
+> #2  0x000003ffb172a340 in abort () from /lib64/libc.so.6
+> #3  0x000002aa0041c130 in qtest_check_status (s=<optimized out>) at ../tests/qtest/libqtest.c:194
+> #4  0x000003ffb1a3b5de in g_hook_list_invoke () from /lib64/libglib-2.0.so.0
+> #5  <signal handler called>
+> #6  0x000003ffb17a0126 in __pthread_kill_implementation () from /lib64/libc.so.6
+> #7  0x000003ffb1750890 in raise () from /lib64/libc.so.6
+> #8  0x000003ffb172a340 in abort () from /lib64/libc.so.6
+> #9  0x000002aa00420318 in qmp_fd_receive (fd=<optimized out>) at ../tests/qtest/libqmp.c:80
+> #10 0x000002aa0041d5ee in qtest_qmp_receive_dict (s=0x2aa01eb2700) at ../tests/qtest/libqtest.c:713
+> #11 qtest_qmp_receive (s=0x2aa01eb2700) at ../tests/qtest/libqtest.c:701
+> #12 qtest_vqmp (s=s@entry=0x2aa01eb2700, fmt=fmt@entry=0x2aa00487100 "{ 'execute': 'query-migrate' }", ap=ap@entry=0x3ffc247cc68)
+>     at ../tests/qtest/libqtest.c:765
+> #13 0x000002aa00413f1e in wait_command (who=who@entry=0x2aa01eb2700, command=command@entry=0x2aa00487100 "{ 'execute': 'query-migrate' }")
+>     at ../tests/qtest/migration-helpers.c:73
+> #14 0x000002aa00414078 in migrate_query (who=who@entry=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:139
+> #15 migrate_query_status (who=who@entry=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:161
+> #16 0x000002aa00414480 in check_migration_status (ungoals=0x0, goal=0x2aa00495c7e "completed", who=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:177
+> #17 wait_for_migration_status (who=0x2aa01eb2700, goal=<optimized out>, ungoals=0x0) at ../tests/qtest/migration-helpers.c:202
+> #18 0x000002aa0041300e in migrate_postcopy_complete (from=from@entry=0x2aa01eb2700, to=to@entry=0x2aa01eb3000, args=args@entry=0x3ffc247cf48)
+>     at ../tests/qtest/migration-test.c:1137
+> #19 0x000002aa004131a4 in test_postcopy_common (args=0x3ffc247cf48) at ../tests/qtest/migration-test.c:1162
+> #20 test_postcopy_preempt () at ../tests/qtest/migration-test.c:1178
+> 
+> Looking at the iov and file it's garbage; so it makes me think this is
+> something like a flush on a closed file.
 
-Should this not rather be cpu_to_be16() so that it would also work on a big endian host (assuming you tested this on a little e endian host)?
+I didn't figure out how that could be closed, but I think there's indeed a
+possible race that the qemufile can be accessed by both the return path
+thread and the migration thread concurrently, while qemufile is not thread
+safe on that.
 
-> +        break;
->       case TPM_TIS_REG_INTERFACE_ID:
->           val = s->loc[locty].iface_id;
->           break;
-> @@ -447,6 +452,15 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwaddr addr,
->       return val;
->   }
->   
-> +/*
-> + * A wrapper read function so that it can be directly called without
-> + * mmio.
-> + */
-> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size)
-> +{
-> +    return tpm_tis_mmio_read(s, addr, size);
-> +}
-> +
->   /*
->    * Write a value to a register of the TIS interface
->    * See specs pages 33-63 for description of the registers
-> @@ -600,6 +614,15 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
->       case TPM_TIS_REG_INT_VECTOR:
->           /* hard wired -- ignore */
->           break;
-> +    case TPM_TIS_REG_DATA_CSUM_ENABLE:
-> +        /*
-> +         * Checksum implemented by common code so no need to set
-> +         * any flags.
-> +         */
-> +        break;
-> +    case TPM_TIS_REG_DATA_CSUM_GET:
-> +        /* This is readonly register so ignore */
-> +        break;
->       case TPM_TIS_REG_INT_STATUS:
->           if (s->active_locty != locty) {
->               break;
-> @@ -703,6 +726,7 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
->           break;
->       case TPM_TIS_REG_DATA_FIFO:
->       case TPM_TIS_REG_DATA_XFIFO ... TPM_TIS_REG_DATA_XFIFO_END:
-> +
+What postcopy_preempt_shutdown_file() does was: the src uses this EOS to
+kick the dest QEMU preempt thread out of the migration and shut it off.
+After some thought I think this is unnecessary complexity, since postcopy
+should end at the point where dest received all the data, then it sends a
+SHUT to src.  So potentially it's not good to have dest relying on anything
+from src to shutdown anything (the preempt thread here) because it's the
+dest qemu that makes the final decision to finish.  Ideally the preempt
+thread on dest should be able to shutdown itself.
 
-you can remove this one
+The trick here is preempt thread will block at read() (aka, recvmsg()) at
+the channel at that time and the only way to kick it out from that is a
+shutdown() on dest.  I attached a patch did it.  I'm not 100% sure whether
+it'll already resolve our problem but worth trying.  This also made me
+notice we forgot to enable SHUTDOWN feature on tls server when I was
+running the patch 1 with qtest, so two patches needed.
 
->           /* data fifo */
->           if (s->active_locty != locty) {
->               break;
-> @@ -767,6 +791,15 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
->       }
->   }
->   
-> +/*
-> + * A wrapper write function so that it can be directly called without
-> + * mmio.
-> + */
-> +void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, uint32_t size)
-> +{
-> +    tpm_tis_mmio_write(s, addr, val, size);
-> +}'
-> +
->   const MemoryRegionOps tpm_tis_memory_ops = {
->       .read = tpm_tis_mmio_read,
->       .write = tpm_tis_mmio_write,
-> diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
-> index 559ba6906c..db12c002f4 100644
-> --- a/include/hw/acpi/tpm.h
-> +++ b/include/hw/acpi/tpm.h
-> @@ -40,6 +40,8 @@
->   #define TPM_TIS_REG_STS                   0x18
->   #define TPM_TIS_REG_DATA_FIFO             0x24
->   #define TPM_TIS_REG_INTERFACE_ID          0x30
-> +#define TPM_TIS_REG_DATA_CSUM_ENABLE      0x40
-> +#define TPM_TIS_REG_DATA_CSUM_GET         0x44
->   #define TPM_TIS_REG_DATA_XFIFO            0x80
->   #define TPM_TIS_REG_DATA_XFIFO_END        0xbc
->   #define TPM_TIS_REG_DID_VID               0xf00
+-- 
+Peter Xu
 
-Looks good.
+--t/1JkYLdmerY8bGz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-io-tls-Inherit-QIO_CHANNEL_FEATURE_SHUTDOWN-on-serve.patch"
+
+From 0e317fa78e9671c119f6be78a0e0a36201517dc2 Mon Sep 17 00:00:00 2001
+From: Peter Xu <peterx@redhat.com>
+Date: Tue, 21 Mar 2023 19:58:42 -0400
+Subject: [PATCH 1/2] io: tls: Inherit QIO_CHANNEL_FEATURE_SHUTDOWN on server
+ side
+
+TLS iochannel will inherit io_shutdown() from the master ioc, however we
+missed to do that on the server side.
+
+This will e.g. allow qemu_file_shutdown() to work on dest QEMU too for
+migration.
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ io/channel-tls.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/io/channel-tls.c b/io/channel-tls.c
+index 5a7a3d48d6..9805dd0a3f 100644
+--- a/io/channel-tls.c
++++ b/io/channel-tls.c
+@@ -74,6 +74,9 @@ qio_channel_tls_new_server(QIOChannel *master,
+     ioc = QIO_CHANNEL_TLS(object_new(TYPE_QIO_CHANNEL_TLS));
+ 
+     ioc->master = master;
++    if (qio_channel_has_feature(master, QIO_CHANNEL_FEATURE_SHUTDOWN)) {
++        qio_channel_set_feature(QIO_CHANNEL(ioc), QIO_CHANNEL_FEATURE_SHUTDOWN);
++    }
+     object_ref(OBJECT(master));
+ 
+     ioc->session = qcrypto_tls_session_new(
+-- 
+2.39.1
+
+
+--t/1JkYLdmerY8bGz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment;
+	filename="0002-migration-Fix-potential-race-on-postcopy_qemufile_sr.patch"
+
+From 73b267c17e689d0dafbde1d93c0125b81a43184e Mon Sep 17 00:00:00 2001
+From: Peter Xu <peterx@redhat.com>
+Date: Tue, 21 Mar 2023 19:11:22 -0400
+Subject: [PATCH 2/2] migration: Fix potential race on postcopy_qemufile_src
+
+postcopy_qemufile_src object should be owned by one thread, either the main
+thread (e.g. when at the beginning, or at the end of migration), or by the
+return path thread (when during a preempt enabled postcopy migration).  If
+that's not the case the access to the object might be racy.
+
+postcopy_preempt_shutdown_file() can be potentially racy, because it's
+called at the end phase of migration on the main thread, however during
+which the return path thread hasn't yet been recycled; the recycle happens
+in await_return_path_close_on_source() which is after this point.
+
+It means, logically it's posslbe the main thread and the return path thread
+are both operating on the same qemufile.  While I don't think qemufile is
+thread safe at all.
+
+postcopy_preempt_shutdown_file() used to be needed because that's where we
+send EOS to dest so that dest can safely shutdown the preempt thread.
+
+To avoid the possible race, remove this only place that a race can happen.
+Instead we figure out another way to safely close the preempt thread on
+dest.
+
+The core idea during postcopy on deciding "when to stop" is that dest will
+send a postcopy SHUT message to src, telling src that all data is there.
+Hence to shut the dest preempt thread maybe better to do it directly on
+dest node.
+
+This patch proposed such a way that we change postcopy_prio_thread_created
+into PreemptThreadStatus, so that we kick the preempt thread on dest qemu
+by a sequence of:
+
+  mis->preempt_thread_status = PREEMPT_THREAD_QUIT;
+  qemu_file_shutdown(mis->postcopy_qemufile_dst);
+
+While here shutdown() is probably so far the easiest way to kick preempt
+thread from a blocked qemu_get_be64().  Then it reads preempt_thread_status
+to make sure it's not a network failure but a willingness to quit the
+thread.
+
+We could have avoided that extra status but just rely on migration status.
+The problem is postcopy_ram_incoming_cleanup() is just called early enough
+so we're still during POSTCOPY_ACTIVE no matter what.. So just make it
+simple to have the status introduced.
+
+Fixes: 36f62f11e4 ("migration: Postcopy preemption preparation on channel creation")
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ migration/migration.c    |  7 -------
+ migration/migration.h    | 13 ++++++++++++-
+ migration/postcopy-ram.c | 20 +++++++++++++++-----
+ migration/ram.c          |  6 ------
+ migration/ram.h          |  1 -
+ 5 files changed, 27 insertions(+), 20 deletions(-)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index ae2025d9d8..bbc36100de 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3459,16 +3459,9 @@ static void migration_completion(MigrationState *s)
+         }
+     } else if (s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE) {
+         trace_migration_completion_postcopy_end();
+-
+         qemu_mutex_lock_iothread();
+         qemu_savevm_state_complete_postcopy(s->to_dst_file);
+         qemu_mutex_unlock_iothread();
+-
+-        /* Shutdown the postcopy fast path thread */
+-        if (migrate_postcopy_preempt()) {
+-            postcopy_preempt_shutdown_file(s);
+-        }
+-
+         trace_migration_completion_postcopy_end_after_complete();
+     } else {
+         goto fail;
+diff --git a/migration/migration.h b/migration/migration.h
+index 2da2f8a164..7228163cc8 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -65,6 +65,12 @@ typedef struct {
+     bool all_zero;
+ } PostcopyTmpPage;
+ 
++typedef enum {
++    PREEMPT_THREAD_NONE = 0,
++    PREEMPT_THREAD_CREATED,
++    PREEMPT_THREAD_QUIT,
++} PreemptThreadStatus;
++
+ /* State for the incoming migration */
+ struct MigrationIncomingState {
+     QEMUFile *from_src_file;
+@@ -124,7 +130,12 @@ struct MigrationIncomingState {
+     QemuSemaphore postcopy_qemufile_dst_done;
+     /* Postcopy priority thread is used to receive postcopy requested pages */
+     QemuThread postcopy_prio_thread;
+-    bool postcopy_prio_thread_created;
++    /*
++     * Always set by the main vm load thread only, but can be read by the
++     * postcopy preempt thread.  "volatile" makes sure all reads will be
++     * uptodate across cores.
++     */
++    volatile PreemptThreadStatus preempt_thread_status;
+     /*
+      * Used to sync between the ram load main thread and the fast ram load
+      * thread.  It protects postcopy_qemufile_dst, which is the postcopy
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 41c0713650..263bab75ec 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -568,9 +568,14 @@ int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
+ {
+     trace_postcopy_ram_incoming_cleanup_entry();
+ 
+-    if (mis->postcopy_prio_thread_created) {
++    if (mis->preempt_thread_status == PREEMPT_THREAD_CREATED) {
++        /* Notify the fast load thread to quit */
++        mis->preempt_thread_status = PREEMPT_THREAD_QUIT;
++        if (mis->postcopy_qemufile_dst) {
++            qemu_file_shutdown(mis->postcopy_qemufile_dst);
++        }
+         qemu_thread_join(&mis->postcopy_prio_thread);
+-        mis->postcopy_prio_thread_created = false;
++        mis->preempt_thread_status = PREEMPT_THREAD_NONE;
+     }
+ 
+     if (mis->have_fault_thread) {
+@@ -1203,7 +1208,7 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
+          */
+         postcopy_thread_create(mis, &mis->postcopy_prio_thread, "fault-fast",
+                                postcopy_preempt_thread, QEMU_THREAD_JOINABLE);
+-        mis->postcopy_prio_thread_created = true;
++        mis->preempt_thread_status = PREEMPT_THREAD_CREATED;
+     }
+ 
+     trace_postcopy_ram_enable_notify();
+@@ -1652,6 +1657,11 @@ static void postcopy_pause_ram_fast_load(MigrationIncomingState *mis)
+     trace_postcopy_pause_fast_load_continued();
+ }
+ 
++static bool preempt_thread_should_run(MigrationIncomingState *mis)
++{
++    return mis->preempt_thread_status != PREEMPT_THREAD_QUIT;
++}
++
+ void *postcopy_preempt_thread(void *opaque)
+ {
+     MigrationIncomingState *mis = opaque;
+@@ -1671,11 +1681,11 @@ void *postcopy_preempt_thread(void *opaque)
+ 
+     /* Sending RAM_SAVE_FLAG_EOS to terminate this thread */
+     qemu_mutex_lock(&mis->postcopy_prio_thread_mutex);
+-    while (1) {
++    while (preempt_thread_should_run(mis)) {
+         ret = ram_load_postcopy(mis->postcopy_qemufile_dst,
+                                 RAM_CHANNEL_POSTCOPY);
+         /* If error happened, go into recovery routine */
+-        if (ret) {
++        if (ret && preempt_thread_should_run(mis)) {
+             postcopy_pause_ram_fast_load(mis);
+         } else {
+             /* We're done */
+diff --git a/migration/ram.c b/migration/ram.c
+index 96e8a19a58..8c316ffed2 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -4651,12 +4651,6 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
+     return 0;
+ }
+ 
+-void postcopy_preempt_shutdown_file(MigrationState *s)
+-{
+-    qemu_put_be64(s->postcopy_qemufile_src, RAM_SAVE_FLAG_EOS);
+-    qemu_fflush(s->postcopy_qemufile_src);
+-}
+-
+ static SaveVMHandlers savevm_ram_handlers = {
+     .save_setup = ram_save_setup,
+     .save_live_iterate = ram_save_iterate,
+diff --git a/migration/ram.h b/migration/ram.h
+index 81cbb0947c..93b071a1a7 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -96,7 +96,6 @@ int64_t ramblock_recv_bitmap_send(QEMUFile *file,
+                                   const char *block_name);
+ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *rb);
+ bool ramblock_page_is_discarded(RAMBlock *rb, ram_addr_t start);
+-void postcopy_preempt_shutdown_file(MigrationState *s);
+ void *postcopy_preempt_thread(void *opaque);
+ 
+ /* ram cache */
+-- 
+2.39.1
+
+
+--t/1JkYLdmerY8bGz--
+
 
