@@ -2,80 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260B66C4E03
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC366C4CB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:01:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pezdU-0004dv-HX; Wed, 22 Mar 2023 10:40:20 -0400
+	id 1pez0k-0003kS-1U; Wed, 22 Mar 2023 10:00:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
- id 1pewVt-0001Ua-Bg
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:20:17 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pez0f-0003jZ-VI
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:00:13 -0400
+Received: from mail-db8eur05on20704.outbound.protection.outlook.com
+ ([2a01:111:f400:7e1a::704]
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
- id 1pewVr-0002yx-9m
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 07:20:17 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6B5E6B81C25;
- Wed, 22 Mar 2023 11:20:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B15FC433D2;
- Wed, 22 Mar 2023 11:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679484005;
- bh=bh9WMot+PxfiYtF580dBl0Pw71rD7gR84+9GKsHMvq8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tgZr20L7g2MjqdIEtuHPR4MPveRDiYnDKxr+MqbztJHvnHJSoi13pTqMj6R5Pdrme
- K2Np71e4bLyiocp7EzyEgeF5WXENJK8jRu6cQMnzsJaJNPQCDOLZ2cP/GhMfFyWeOZ
- ktbPebv86ifJeb0TYSAuMaScrRBNTxWjvbJwqpxMis0ptMhdXOcJ65FnkmWAhmTMTX
- 97juHBb0Fs9YXKWZBZKfBKfX0VvO2U9FXitfqCfr5qvw/iIF9ULuejxtpPul+eZss7
- cJhAa2HZQjVMOCxbXu2z+H279nb5Ri/J29y73qC1zyxsjqtSOZkxSUW64LkyanoFXS
- OyAydZBtSLZQg==
-Date: Wed, 22 Mar 2023 12:19:51 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: kvm@vger.kernel.org, linux-api@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
- ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
- bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
- corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
- hughd@google.com, jlayton@kernel.org, jmattson@google.com,
- joro@8bytes.org, jun.nakajima@intel.com,
- kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
- luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
- michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
- pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
- seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
- tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
- vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
- wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Subject: Re: [RFC PATCH v2 1/2] mm: restrictedmem: Allow userspace to specify
- mount for memfd_restricted
-Message-ID: <20230322111951.vfrm2xf4o5kmtte6@wittgenstein>
-References: <cover.1679428901.git.ackerleytng@google.com>
- <6e800e069c7fc400841b75ea49d1227bd101c1cf.1679428901.git.ackerleytng@google.com>
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pez0e-0002Do-C9
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:00:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iKJNLlEPUK+oIF+ZcAQcEr0uruNIcXuuYE1h06W3eJK9tDHGGIax8n4XqxSrMQcU8+cQQLR4JjLpINvJE9OI+rrK3Whtt3Ujv40rTvFqUY7Ptnziy7FCut44z9S25VOdflJWo68cTlsZIAzEpebGSAOz2qQa5iYv0Emp89iUD4EqyjIheIYUZeAwxIF+vk+lzU69pI0oTh4N0vFGlmzbVMi1gpk0RUmVSzLwmmkiplnbtqQUQLKdSBuJS0PwyOfd2KltFpvtXU9ZvtmwgT255LkLMwpvD3/O/6Bki2YgbIyrA5KIi9pBIHgyaxxHtgrcX+N4TvYMWvsvreAegEr1cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x7rXmYXABBswyd27QivX/Mb+ZbjzqGDygjR+CkDuce8=;
+ b=E6ZY6yD7ewaltffzZ5GL0pN4bx3rskb4mrAbakAwP2+j5mYZAaGDNd5qc6LdbgRF6ITDnh/Xn3yt1XjnkjH4lxThVfD7r9zgpwVUJIBDQkpRr8DpyUeYNpSX1JcmDR7ifu359gYr7gJVo2Tp70SQ6a89TpbubqvZKHMds8+jaT1245lFm21UiMlKE4CLk3YNviEqb3werPqnd8jxuLQOR4rGYA7yRZxJnVRsBIhfTwW4VIy0jhxD/b4qfwg1waB2Pz63CmT2nCfytr8b3cSrcunbQCLqOZryBZve1FuILtiuSgia4GKyH1h7Y49SHi8hIVCa2pjhVcBKQT/g+bjJvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
+ s=selector2-estab-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x7rXmYXABBswyd27QivX/Mb+ZbjzqGDygjR+CkDuce8=;
+ b=AQWep78WI2aEhrc9RhfrGuYTv+Ur8OiNlvYguAsLFBJmaN34kWLpbum+TrU+jPC5DIADdyHGofdHBG7jtzjSDOU9jQ/0rlIaSq5jwPxb7hn35/XKZ1mAHMvmLhpN6ogf/667isvdWI0Ad33tXDsDdmjec15Sf6eJcz9nsozcx94=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
+ by PRAP189MB1850.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:27b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
+ 2023 14:00:04 +0000
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::13ad:a312:15c6:91dc]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::13ad:a312:15c6:91dc%9]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
+ 14:00:04 +0000
+From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+To: 
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Subject: [PATCH v9 0/8] igb: merge changes from
+ <20221229190817.25500-1-sriram.yagnaraman@est.tech>
+Date: Wed, 22 Mar 2023 14:04:32 +0100
+Message-Id: <20230322130440.26808-1-sriram.yagnaraman@est.tech>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0108.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:8::19) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:1e7::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6e800e069c7fc400841b75ea49d1227bd101c1cf.1679428901.git.ackerleytng@google.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=brauner@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|PRAP189MB1850:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e146b13-def1-4f5a-2913-08db2addbb7f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zcrpn4enjbpFwYz+HtRTLlA0dCzyflYyG2ZIHKMv/CQlPHrq69Hfd2QMyU0CUrEMcRV5rLcDRdHXmbRPw19KFkAEjB7r8nKVDdC9ZyhA/65OMNay2jE7/F/7bCoiQeXS21Qf3VwSAgohG3tYkAC2yeUx8nLNKT8FUdfoyBF/zmRMMN8w01qMt67bMYCFvsCTwm8FqtcXio3Vq/4AKI+ozbFXl0ujW9XDT5atn7YP9mQtiunTykqtBgVH3QEjLTjwgWJzdHvlP5JbDtfXjB2u9cJldcF+QvvGha9aHa8T1KCgwkMsKULWOXSxzbEGNmD8/Qq9M64f3v3EwV9dR2y2Yw0TZ8wrDhCJKPxu7ztHJ0rOxhccggIuD7RLzGT1Z5tlPlBljILg0063FCgTT2kx1Se/dmB85mhFixJz1NSrT6XfojZXrgBD6SJqShX/iiUULCpi5ps9IT/Lq7Vd8iMm7ltxIjz6ICwGLa4q9ssxujPyqMqJWMVPCUx8MsFuecJEv+5YwzKk+MkxRcwoeHkHkBF9DBiijXVOc9ohFZIYgveLIuCVOCzRNA+XOveIRNNcS4stzT1zIxa/fcUFoOOAf/dcsZWQl+Ktcqq+Nef1I3b0Xgit7zPGrFIk+nI5Rh4Ad255UO7Rwi6EF1o2o2U6OICAxCb80u0tyv62QpB0XpXaJvoDHvHu53WKuOE8pUkdfl5NFOi2zEfiZEyKpxmffntmzShEa00t1bSmBt8LGks=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230025)(396003)(136003)(39840400004)(376002)(346002)(109986016)(451199018)(86362001)(36756003)(83380400001)(186003)(66476007)(8676002)(316002)(4326008)(66946007)(70586007)(478600001)(2616005)(54906003)(1076003)(6506007)(26005)(6512007)(6486002)(6666004)(66556008)(38100700002)(5660300002)(44832011)(41300700001)(8936002)(2906002)(266003)(37730700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1RAkZX55YnJVNkjYIQvnUzibGlatkQ1WDWpXANJEeC/0JWMyhijRaI7IQgin?=
+ =?us-ascii?Q?6zyTBDDHdlAo9mG+hHXY6216u68W/MBXZR6UsJt59ZZy0sXYLpowncu0VvL7?=
+ =?us-ascii?Q?+Ik56tusKLDRZ4PO8fp/VYqk4t4fdwJPB/L3V2D+5TltIvcywHqCgmPxTgkH?=
+ =?us-ascii?Q?QFS9FxSQ3M1C5XV02VjvErcAQy9GqTO7zQ/53XtmJZhYNoBf6WzfbBcijwy5?=
+ =?us-ascii?Q?EILX7g+WpEyFtjgENlPLLvU+DT1mJTVJSNuBLkWwGrBi30q8xrmzyQKGWKQo?=
+ =?us-ascii?Q?o9D+Ld/Za7KUTvnMh1dMf+NQrxBqzq30YeKs3K6jC6IDjClFFe/5Rex7MicB?=
+ =?us-ascii?Q?PLyCCccFx6nKn9opfS7iniQjKSmxgMGrvSuSt0VbV79Ap3XIQhMJLUqT/aYP?=
+ =?us-ascii?Q?jK1S6uieizVUSZktEn/xVl3Llu0hh9l2qRXKvoCiksIyWYKZiEXXsHlLZnL8?=
+ =?us-ascii?Q?Z9MGbplQ2q7Zuag6pEScsHjZsxIAIPITs9eaMVuO/kHCfAN9WlRC0eNEEq0f?=
+ =?us-ascii?Q?xRCD+RQDxMlELqfTntg0H4RXQGdf2Dfm0xlQQCDzFFQ9naAbPohU01wQqYRD?=
+ =?us-ascii?Q?6Hda8qfH5tBbKTE6EV+Y1C3SUlbtZRJaNBgN+PPoS/s+tgn9uUczupHHBypa?=
+ =?us-ascii?Q?zNxHKXCzQ8yTb33uoDn5DjreNhOuRM9ZOwoO8+D+nTGTb1syHdO5IR3ibbxB?=
+ =?us-ascii?Q?jsLYgYVEPw20WPuQt825u9NhWbxwO6tyyKPLy2sF1XoP3kxfq/dXhSZYTM5b?=
+ =?us-ascii?Q?0tqlkWpdCQOe2M/TaE0PLIMFrEyFkVW/7COe1AUDsr7yR/Y8TBU99BIuwoph?=
+ =?us-ascii?Q?Q4YZcePIw2Om5F4eVmicxNFiATLdsxwU4/epkwU8AEWk8cSAKNLtSCW8sULI?=
+ =?us-ascii?Q?UxKN18OaFJBCNBt5bxRWl9cTX5XQR2FyI1DDfuxSeaodNjmQAsth+UGr31Od?=
+ =?us-ascii?Q?xXj9C+a/OTS4kjlUJvJs0X4oKn3xBAOR/PjBWVsjPpkAtMbK3C/tyIyaLkxl?=
+ =?us-ascii?Q?xGYc3nwZ5lCJbMThSoDf46pTXdSfq6TaZsdKdHp2sBNx+5+bTtDx8SdCVsCn?=
+ =?us-ascii?Q?NRPADnjKGXqjGnn5Avs5ylrEAor3026c1VIvNiaczqJgjKdSCfIsQpt/lQwk?=
+ =?us-ascii?Q?vM3m6Y6CYbctznbhofJCRUZGitnnsmzlhnFaNAVQZoThuL/ItLR8essJlq0P?=
+ =?us-ascii?Q?TKLWhN6weTeZxdUzLFcBYwjK2cu8IEMy58riTPlncLXu94i3owE/JsmWWFk7?=
+ =?us-ascii?Q?BMnPuhaP7caFcmCsAnZeBnoHa5oXZjqUhFa1CuB18t8DVas1vfA5LJVFQzKC?=
+ =?us-ascii?Q?3kQvjVTPwGXR4KUDN5iL3o440tC9Z/8YGxLkO1UMQ20H4WmFgGE7E0fDilYe?=
+ =?us-ascii?Q?+JybJyHvB7sshorprYnNMolF5wSkDoKluOdWxF8XItFcjw5ghFSWLOgfv167?=
+ =?us-ascii?Q?oPr781P1IidyjH3BoTwh0MAcAY0h+AHreIMkIbfeEn8ZzpuWAugG0X38kJVP?=
+ =?us-ascii?Q?XwzcDHcxsM1TT5JKj3We8e3P0cArJ4fvZnHrL8e9OIgi3ozf1IdJ76n0pZLM?=
+ =?us-ascii?Q?Il+amUQvk8Rder2G0gSwP3OIH8LaXGmYd1+G3tgluf7rCBc6TgO+5aWySwq1?=
+ =?us-ascii?Q?PQ=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e146b13-def1-4f5a-2913-08db2addbb7f
+X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 14:00:02.5806 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7DkiTiTKeHJWiqGPoFaor7zMUaeQ0dZ6nNvK5t5ScWr+7koFTVLElZrr7b+kQ8aC4rHqxuUs3O1kGxdgv36XFjVZgFTGE0Fu4OhlWDU8piE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAP189MB1850
+Received-SPF: pass client-ip=2a01:111:f400:7e1a::704;
+ envelope-from=sriram.yagnaraman@est.tech;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 22 Mar 2023 10:40:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,171 +140,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 21, 2023 at 08:15:32PM +0000, Ackerley Tng wrote:
-> By default, the backing shmem file for a restrictedmem fd is created
-> on shmem's kernel space mount.
-> 
-> With this patch, an optional tmpfs mount can be specified via an fd,
-> which will be used as the mountpoint for backing the shmem file
-> associated with a restrictedmem fd.
-> 
-> This change is modeled after how sys_open() can create an unnamed
-> temporary file in a given directory with O_TMPFILE.
-> 
-> This will help restrictedmem fds inherit the properties of the
-> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
-> binding hints, etc.
-> 
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
->  include/linux/syscalls.h           |  2 +-
->  include/uapi/linux/restrictedmem.h |  8 ++++
->  mm/restrictedmem.c                 | 63 +++++++++++++++++++++++++++---
->  3 files changed, 66 insertions(+), 7 deletions(-)
->  create mode 100644 include/uapi/linux/restrictedmem.h
-> 
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index f9e9e0c820c5..a23c4c385cd3 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
->  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
->  					    unsigned long home_node,
->  					    unsigned long flags);
-> -asmlinkage long sys_memfd_restricted(unsigned int flags);
-> +asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
->  
->  /*
->   * Architecture-specific system calls
-> diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
-> new file mode 100644
-> index 000000000000..9f108dd1ac4c
-> --- /dev/null
-> +++ b/include/uapi/linux/restrictedmem.h
-> @@ -0,0 +1,8 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
-> +#define _UAPI_LINUX_RESTRICTEDMEM_H
-> +
-> +/* flags for memfd_restricted */
-> +#define RMFD_TMPFILE		0x0001U
-> +
-> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
-> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-> index c5d869d8c2d8..4d83b949d84e 100644
-> --- a/mm/restrictedmem.c
-> +++ b/mm/restrictedmem.c
-> @@ -1,11 +1,12 @@
->  // SPDX-License-Identifier: GPL-2.0
-> -#include "linux/sbitmap.h"
-> +#include <linux/namei.h>
->  #include <linux/pagemap.h>
->  #include <linux/pseudo_fs.h>
->  #include <linux/shmem_fs.h>
->  #include <linux/syscalls.h>
->  #include <uapi/linux/falloc.h>
->  #include <uapi/linux/magic.h>
-> +#include <uapi/linux/restrictedmem.h>
->  #include <linux/restrictedmem.h>
->  
->  struct restrictedmem {
-> @@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
->  	return file;
->  }
->  
-> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
-> +static int restrictedmem_create(struct vfsmount *mount)
->  {
->  	struct file *file, *restricted_file;
->  	int fd, err;
->  
-> -	if (flags)
-> -		return -EINVAL;
-> -
->  	fd = get_unused_fd_flags(0);
->  	if (fd < 0)
->  		return fd;
->  
-> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> +	if (mount)
-> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
-> +	else
-> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
-> +
->  	if (IS_ERR(file)) {
->  		err = PTR_ERR(file);
->  		goto err_fd;
-> @@ -223,6 +225,55 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
->  	return err;
->  }
->  
-> +static bool is_shmem_mount(struct vfsmount *mnt)
-> +{
-> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
-> +}
-> +
-> +static int restrictedmem_create_from_file(int mount_fd)
-> +{
-> +	int ret;
-> +	struct fd f;
-> +	struct vfsmount *mnt;
-> +
-> +	f = fdget_raw(mount_fd);
-> +	if (!f.file)
-> +		return -EBADF;
-> +
-> +	mnt = f.file->f_path.mnt;
-> +	if (!is_shmem_mount(mnt)) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
+Based-on: <20230322042044.25136-1-akihiko.odaki@daynix.com>
+([PATCH for 8.0 v2] igb: Save more Tx states)
 
-This looks like you can just pass in some tmpfs fd and you just use it
-to identify the mnt and then you create a restricted memfd area in that
-instance. So if I did:
+Now that Akhiko's patchset for introducing igb device is merged, I have
+rebased my changes on master. The changes proposed here adds support
+for 
+ - Correct PF/VF reset handling
+ - Introduce ICR_RXDW register definition
+ - Impement support for VFTE/VFRE/VMOLR_RSSE/VMVIR/VMOLR registers
+ - Check oversized packet for VMDq
+ - VF statistics
 
-mount -t tmpfs tmpfs /mnt
-mknod /mnt/bla c 0 0
-fd = open("/mnt/bla")
-memfd_restricted(fd)
+Changes since v8:
+- Set RSTI bit on PF reset
 
-then it would create a memfd restricted entry in the tmpfs instance
-using the arbitrary dummy device node to infer the tmpfs instance.
+Changes since v7:
+- Adapt to "igb: Save more Tx states" patch from Akhiko
+- Fix bug in VMVIR patch for inserting vlan, do not overwrite context
 
-Looking at the older thread briefly and the cover letter. Afaict, the
-new mount api shouldn't figure into the design of this. fsopen() returns
-fds referencing a VFS-internal fs_context object. They can't be used to
-create or lookup files or identify mounts. The mount doesn't exist at
-that time. Not even a superblock might exist at the time before
-fsconfig(FSCONFIG_CMD_CREATE).
+Changes since v6:
+- Rebased on latest, which includes igb device introduction.
 
-When fsmount() is called after superblock setup then it's similar to any
-other fd from open() or open_tree() or whatever (glossing over some
-details that are irrelevant here). Difference is that open_tree() and
-fsmount() would refer to the root of a mount.
+Changes since v5:
+- Added back an unecessarily removed empty line
 
-At first I wondered why this doesn't just use standard *at() semantics
-but I guess the restricted memfd is unlinked and doesn't show up in the
-tmpfs instance.
+Changes since v4:
+- Removed the change implementing VTCTL.IGMAC, it needs more thought
+  and implementation of DTXSWC.LLE and VLVF.LVLAN first
 
-So if you go down that route then I would suggest to enforce that the
-provided fd refer to the root of a tmpfs mount. IOW, it can't just be an
-arbitrary file descriptor in a tmpfs instance. That seems cleaner to me:
+Changes since v3:
+- Fix comments
+- Rebased on latest patchset from Akihiko
+- Remove Rx loop improvements that Akihiko has pulled into his patchset
 
-sb = f_path->mnt->mnt_sb;
-sb->s_magic == TMPFS_MAGIC && f_path->mnt->mnt_root == sb->s_root
+Changes since v2:
+- Fixed more comments from Akhiko
+- Reordered the patches to make changes easier to understand
 
-and has much tigher semantics than just allowing any kind of fd.
+Changes since v1:
+- Fix review comments from Akihiko
 
-Another wrinkly I find odd but that's for you to judge is that this
-bypasses the permission model of the tmpfs instance. IOW, as long as you
-have a handle to the root of a tmpfs mount you can just create
-restricted memfds in there. So if I provided a completely sandboxed
-service - running in a user namespace or whatever - with an fd to the
-host's tmpfs instance they can just create restricted memfds in there no
-questions asked.
 
-Maybe that's fine but it's certainly something to spell out and think
-about the implications.
+Sriram Yagnaraman (8):
+  MAINTAINERS: Add Sriram Yagnaraman as a igb reviewer
+  igb: handle PF/VF reset properly
+  igb: add ICR_RXDW
+  igb: implement VFRE and VFTE registers
+  igb: check oversized packets for VMDq
+  igb: respect E1000_VMOLR_RSSE
+  igb: implement VF Tx and Rx stats
+  igb: respect VMVIR and VMOLR for VLAN
+
+ MAINTAINERS          |   1 +
+ hw/net/e1000x_regs.h |   4 +
+ hw/net/igb_core.c    | 212 ++++++++++++++++++++++++++++++++++---------
+ hw/net/igb_core.h    |   1 +
+ hw/net/igb_regs.h    |   6 ++
+ hw/net/trace-events  |   2 +
+ 6 files changed, 185 insertions(+), 41 deletions(-)
+
+-- 
+2.34.1
+
 
