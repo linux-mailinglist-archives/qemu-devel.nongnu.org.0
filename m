@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E316C4C37
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF8E6C4C79
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:54:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peynt-0006p7-Km; Wed, 22 Mar 2023 09:47:01 -0400
+	id 1peytg-0008PS-Vc; Wed, 22 Mar 2023 09:53:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peynr-0006oZ-5R
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:47:00 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyno-0003Ro-V6
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:46:58 -0400
-Received: by mail-wr1-x432.google.com with SMTP id t15so17138384wrz.7
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:46:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679492815;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yvsFM/jeK9UMzwJ5u+X8u4Fns/qKEJvyjCNvM+oh2No=;
- b=cFe+MFf8Wb+Z0CLHLaHVgeE+TUW2rQbn91r67Wnz/4AAjdnuHevf4aFdIJ73KRVoqV
- UQwDAsco9S+vPn4IGNAjhGfAMcy9wlBHrZZHRPvnz62XV+2NvNcTmxoDMhZHTQE0Jz0+
- MGsORHjVaLy9oR0ug4OASYjCcKVUrBlbpotneNTF/5TeDklp86riXPbA2gNmn5gxIpCX
- mY1eGXQwWNl8Ru2F3KCDgFzLf5k5cMrojBfTWf+IZMeHhD7mjUaiDFhnSYCSZApeAAsQ
- OZKhJxgWxoJzUMsuLOGP33Q5j0hrBS0s9GExvhtXU+LUYpOBiqXpWoZeivHZWwUddosW
- 7rEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679492815;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yvsFM/jeK9UMzwJ5u+X8u4Fns/qKEJvyjCNvM+oh2No=;
- b=6G7vJf9W3kW6mHIqVAhRHxnwOKvafkUBaGOVCmcEQboQ3cZQvmZSV/IpUoXEf53hEl
- D+TZxtLRs2lYAJCdQxsZCcL+6rHpJgIe5XeOWyWX9EgSHBMwL4FHDNf+BfzLurEvCN4I
- c/bC/XGH4rL7j7NQpUNYK2keyhmLp364GCTDwPQzZOYRbcDRIoWxUWVmo0xHnzGqHOt3
- Yd4jqF5vStavnGkjfewxz1+Kt9OR1QXx1VUTE3RD6kOdhd9q1XsgHg+IoDVOZYe9V/8e
- Kl5SQomrO8Z0TxYIlhr5bkgjNn/gnVNj8ZlscOlwy4AW0Bl63FoUPPOcmw4V9Iva8pIV
- xfNw==
-X-Gm-Message-State: AO0yUKULu2rugEgTgksazBq0q7fvIxqWV09aHJUN/GOr4gsQXrW4bqn4
- 5QPJFuvPaiV/L3wMGFNyKzvdqw==
-X-Google-Smtp-Source: AK7set/yl5CzZQPxAh64G5RcHdRxBHstn/iYdnhkCEjDGjr8A3d2qWXz86kch3j5plJP0ARvNU9gdA==
-X-Received: by 2002:adf:efd1:0:b0:2c3:dd81:49ad with SMTP id
- i17-20020adfefd1000000b002c3dd8149admr5460852wrp.33.1679492815178; 
- Wed, 22 Mar 2023 06:46:55 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k10-20020a5d6e8a000000b002d1daafea30sm13842997wrz.34.2023.03.22.06.46.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 06:46:54 -0700 (PDT)
-Message-ID: <b8f71e80-ee91-0976-7723-65abf6d05aef@linaro.org>
-Date: Wed, 22 Mar 2023 14:46:53 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH 1/2] tests/vm: skip X11 in openbsd installation
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, qemu-devel@nongnu.org
-Cc: Brad Smith <brad@comstyle.com>, Beraldo Leal <bleal@redhat.com>,
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peytd-0008PC-RS
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:52:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1peytc-00069P-2c
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:52:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679493174;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Eb9e1UQksGkKv/J2X/7iZSAB93UVOZUX+WoRuPQ0Bcw=;
+ b=XRc/jNZSnX1KT6I1h1A3Gr3yeKY8Lxow7P3KePop4HTWu+VNNrHirozzt2ETn6JqJDd8De
+ OqA0HxQdBkaI2/ZpxN+vj2FteqoCmHPHJkTLpdZFy0fgqyFa3jZsUAhfrNT1bXI19JAad5
+ osiznLvxg+Pm66WfEclVtV9tQizRC5I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-173-GjEyfHlyMjC4PLIYiLzZbQ-1; Wed, 22 Mar 2023 09:52:52 -0400
+X-MC-Unique: GjEyfHlyMjC4PLIYiLzZbQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 21818101A552;
+ Wed, 22 Mar 2023 13:52:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5808A40C83AC;
+ Wed, 22 Mar 2023 13:52:50 +0000 (UTC)
+Date: Wed, 22 Mar 2023 13:52:47 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Brad Smith <brad@comstyle.com>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH 1/2] tests/vm: skip X11 in openbsd installation
+Message-ID: <ZBsILyBjHfO8oB/O@redhat.com>
 References: <20230322123639.836104-1-berrange@redhat.com>
  <20230322123639.836104-2-berrange@redhat.com>
  <d8fe0d24-03ee-4c4a-6886-36319eaa2948@linaro.org>
- <c3c944e3-f7e6-1ec2-5a18-e694d4c9c842@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <c3c944e3-f7e6-1ec2-5a18-e694d4c9c842@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+In-Reply-To: <d8fe0d24-03ee-4c4a-6886-36319eaa2948@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,41 +84,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/3/23 14:40, Thomas Huth wrote:
-> On 22/03/2023 14.38, Philippe Mathieu-Daudé wrote:
->> On 22/3/23 13:36, Daniel P. Berrangé wrote:
->>> As a VM used only for automated testing there is no need to
->>> install the X11 stack.
->>>
->>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>> ---
->>>   tests/vm/openbsd | 3 +--
->>>   1 file changed, 1 insertion(+), 2 deletions(-)
->>>
->>> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
->>> index eaeb201e91..6af7afac0d 100755
->>> --- a/tests/vm/openbsd
->>> +++ b/tests/vm/openbsd
->>> @@ -106,8 +106,7 @@ class OpenBSDVM(basevm.BaseVM):
->>>           self.console_wait("Password for root account")
->>>           self.console_send("%s\n" % self._config["root_pass"])
->>>           self.console_wait_send("Start sshd(8)",           "yes\n")
->>> -        self.console_wait_send("X Window System",         "\n")
->>> -        self.console_wait_send("xenodm",                  "\n")
->>> +        self.console_wait_send("X Window System",         "no\n")
->>
->> Wasn't this useful to link a X11-ready binary, even if only testing
->> with -display=none?
+On Wed, Mar 22, 2023 at 02:38:13PM +0100, Philippe Mathieu-Daudé wrote:
+> On 22/3/23 13:36, Daniel P. Berrangé wrote:
+> > As a VM used only for automated testing there is no need to
+> > install the X11 stack.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >   tests/vm/openbsd | 3 +--
+> >   1 file changed, 1 insertion(+), 2 deletions(-)
+> > 
+> > diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+> > index eaeb201e91..6af7afac0d 100755
+> > --- a/tests/vm/openbsd
+> > +++ b/tests/vm/openbsd
+> > @@ -106,8 +106,7 @@ class OpenBSDVM(basevm.BaseVM):
+> >           self.console_wait("Password for root account")
+> >           self.console_send("%s\n" % self._config["root_pass"])
+> >           self.console_wait_send("Start sshd(8)",           "yes\n")
+> > -        self.console_wait_send("X Window System",         "\n")
+> > -        self.console_wait_send("xenodm",                  "\n")
+> > +        self.console_wait_send("X Window System",         "no\n")
 > 
-> tests/vm/openbsd later installs sdl2 and gtk+3, so I assume that will 
-> pull in the required libraries if necessary, without all the other 
-> non-necessary stuff.
+> Wasn't this useful to link a X11-ready binary, even if only testing
+> with -display=none?
 
-Good then, thanks for checking!
+I've just confirmed /usr/X11R6/include/X11/  still exists in the image
+even after this change, as does /usr/X11R6/lib/
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
