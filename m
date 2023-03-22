@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5769F6C53CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 19:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0936C53DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 19:38:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf3JM-0004sH-P8; Wed, 22 Mar 2023 14:35:48 -0400
+	id 1pf3Lq-0005Yf-W5; Wed, 22 Mar 2023 14:38:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1pf3JL-0004s9-JQ
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:35:47 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1pf3JJ-0008GS-Lh
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:35:47 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id r5so23872308qtp.4
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 11:35:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679510144;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:reply-to:message-id:subject:cc:to:from:date
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=J9Er3n+QdpKVAxQdeH22/E4h1ZLQxo9WO7/ZaTuI0P8=;
- b=bdB4BXkDNuAnGPjxI+PYnewh2QXp0qmOkr11JDDV9kSShDxL2xEofm7rbpqQVt4OUs
- ZMMRXnpMh4lglpixku986NkjXSrYVaj0QaU1ConHnVHeaD/jPVl4vKhpGTR7lFKcDl+4
- mfPpbtbGQWhNizolLd2dZ7tbO5L4PlMfjVj1bA77IsMzsT+DoWXMeB/rtn/wvlJgE8Vx
- 7GT34lZptq1zKTweyqYT8oUIr8ww3P1YZC4M8HV6RJ1pRxN0lpXp+Tjs5lVJb1L/sVFM
- oAQTYVAD8AwOpfvUk6qofey6Ujraj/7PJWhnN62VI3LQ+ZH5rIlsaTAxkPNdCrL27m9a
- fazw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679510144;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:reply-to:message-id:subject:cc:to:from:date
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=J9Er3n+QdpKVAxQdeH22/E4h1ZLQxo9WO7/ZaTuI0P8=;
- b=EhKdzC2szdWbZQ6IlafP2c05owan1adn2cEA6Up7zI/3wJm458TxFALb5cul6LbKXw
- vwENduTdXUp/Z/8NNGps/cFxvqwU1YGK+u1ej85JIhHj5MrJmFUgXqKHYtAz4VJHZ7I5
- uDZ4RTFWtKeyqQNhIreuSFsSgSmVljNNNG9Va6Fmszk/x9KgDekyrfRhIKOKdwKEuSWk
- JwGz8WOmgCiCrGU3hce7JcgiRfXdnU9VNCOOpokHbtOnwTUZd10GqzeHBXnyR96gEdmY
- rJeFGCNiADzxI9QD4bfWcKbEfY7ZoxeHIlZo4q8xJ9ggk8WWPR0E6gP3SBxxL7nuRetJ
- o79g==
-X-Gm-Message-State: AO0yUKVL/hA+4m2awCzCAEi6B4efvzCbXp7FZ3/4XWxRYDa8rlE16tqd
- LM3Jk4fuNGHabyMKFn9qJw==
-X-Google-Smtp-Source: AK7set+DAe7qzgbswKxzlIBi6QUkf+FAKfseL2PwDHkOEUGmFI0jeQv5riIDLBflVYGjgbBLoaArdw==
-X-Received: by 2002:a05:622a:650:b0:3d7:b045:d39 with SMTP id
- a16-20020a05622a065000b003d7b0450d39mr7000351qtb.62.1679510143734; 
- Wed, 22 Mar 2023 11:35:43 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.185.84])
- by smtp.gmail.com with ESMTPSA id
- p16-20020a05620a057000b00746476405bbsm11736498qkp.122.2023.03.22.11.35.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 11:35:43 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:3214:777f:4ba9:15f6])
- by serve.minyard.net (Postfix) with ESMTPSA id DF7AE1800BB;
- Wed, 22 Mar 2023 18:35:41 +0000 (UTC)
-Date: Wed, 22 Mar 2023 13:35:40 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Patrick Venture <venture@google.com>
-Cc: cminyard@mvista.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Hao Wu <wuhaotsh@google.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH RESEND] hw/i2c: Enable an id for the pca954x devices
-Message-ID: <ZBtKfPmZ486quntz@minyard.net>
-References: <20230321182744.2814034-1-venture@google.com>
- <ZBpcwnsttm5NSbTc@minyard.net>
- <CAO=notxaTaU5NoNdcEJ_nCvb6FnY8DGSzJcZxdk=5aBzDj1Hgw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pf3Lo-0005YR-NT
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:38:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pf3Ll-0008RX-Gp
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:38:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679510286;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9UlywAaK70NcRp6esvqeX8soBIbmM4aEVOtY+Reqbq4=;
+ b=B9GApnhJ8EIxXvE3EYzHRxTvzn4ZMa2vzLy5la929nlEfEirGAUNsXM0XuPAzPbj10FQz4
+ EmBqrvASnxDhOxiUCoZmjRVWx6h4ZPTNSYQOzrCriGVI2dKY0YY2QXq+U4XvA+Z/W3SO/4
+ xtLFbgYKYreF/RNAGj2rCkOifivaKmU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-RwDMmtaRNJ-qwU64AaSOBA-1; Wed, 22 Mar 2023 14:37:59 -0400
+X-MC-Unique: RwDMmtaRNJ-qwU64AaSOBA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B5F6185A78F;
+ Wed, 22 Mar 2023 18:37:58 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D6DA72166B29;
+ Wed, 22 Mar 2023 18:37:56 +0000 (UTC)
+Date: Wed, 22 Mar 2023 18:37:54 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Jintao Yin <nicememory@gmail.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v2 2/2] cirrus-ci: Remove MSYS2 jobs duplicated with
+ gitlab-ci
+Message-ID: <ZBtLAvQ/5kFofyEJ@redhat.com>
+References: <20230322135721.61138-1-philmd@linaro.org>
+ <20230322135721.61138-3-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO=notxaTaU5NoNdcEJ_nCvb6FnY8DGSzJcZxdk=5aBzDj1Hgw@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=tcminyard@gmail.com; helo=mail-qt1-x82b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20230322135721.61138-3-philmd@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,120 +85,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 22, 2023 at 10:03:27AM -0700, Patrick Venture wrote:
-> On Tue, Mar 21, 2023 at 6:41 PM Corey Minyard <cminyard@mvista.com> wrote:
-> 
-> > On Tue, Mar 21, 2023 at 11:27:44AM -0700, Patrick Venture wrote:
-> > > This allows the devices to be more readily found and specified.
-> > > Without setting the id field, they can only be found by device type
-> > > name, which doesn't let you specify the second of the same device type
-> > > behind a bus.
-> >
-> > So basically, this helps you find a specific device if you have more
-> > than one of them.  Yeah, probably a good idea in this case.
-> >
-> > >
-> > > Tested: Verified that by default the device was findable with the id
-> > > 'pca954x[77]', for an instance attached at that address.
-> > >
-> > > Signed-off-by: Patrick Venture <venture@google.com>
-> > > Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> > > Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> > > ---
-> > >  hw/i2c/i2c_mux_pca954x.c | 22 ++++++++++++++++++++++
-> > >  1 file changed, 22 insertions(+)
-> > >
-> > > diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
-> > > index a9517b612a..4f8c2d6ae1 100644
-> > > --- a/hw/i2c/i2c_mux_pca954x.c
-> > > +++ b/hw/i2c/i2c_mux_pca954x.c
-> > > @@ -20,6 +20,7 @@
-> > >  #include "hw/i2c/i2c_mux_pca954x.h"
-> > >  #include "hw/i2c/smbus_slave.h"
-> > >  #include "hw/qdev-core.h"
-> > > +#include "hw/qdev-properties.h"
-> > >  #include "hw/sysbus.h"
-> > >  #include "qemu/log.h"
-> > >  #include "qemu/module.h"
-> > > @@ -43,6 +44,8 @@ typedef struct Pca954xState {
-> > >
-> > >      bool enabled[PCA9548_CHANNEL_COUNT];
-> > >      I2CBus *bus[PCA9548_CHANNEL_COUNT];
-> > > +
-> > > +    char *id;
-> > >  } Pca954xState;
-> > >
-> > >  /*
-> > > @@ -181,6 +184,17 @@ static void pca9548_class_init(ObjectClass *klass,
-> > void *data)
-> > >      s->nchans = PCA9548_CHANNEL_COUNT;
-> > >  }
-> > >
-> > > +static void pca954x_realize(DeviceState *dev, Error **errp)
-> > > +{
-> > > +    Pca954xState *s = PCA954X(dev);
-> > > +    DeviceState *d = DEVICE(s);
-> > > +    if (s->id) {
-> > > +        d->id = g_strdup(s->id);
-> > > +    } else {
-> > > +        d->id = g_strdup_printf("pca954x[%x]", s->parent.i2c.address);
-> > > +    }
-> > > +}
-> > > +
-> > >  static void pca954x_init(Object *obj)
-> > >  {
-> > >      Pca954xState *s = PCA954X(obj);
-> > > @@ -197,6 +211,11 @@ static void pca954x_init(Object *obj)
-> > >      }
-> > >  }
-> > >
-> > > +static Property pca954x_props[] = {
-> > > +    DEFINE_PROP_STRING("id", Pca954xState, id),
-> > > +    DEFINE_PROP_END_OF_LIST()
-> > > +};
-> >
-> > There is already an "id=" thing in qemu for doing links between front
-> > ends and back ends.  That's probably not the best name to use.  Several
-> > devices, like network devices, use "name" for identification in the
-> > monitor.
-> >
-> 
-> So I should change it to name? I'm ok with that. I think bus would be
-> slightly confusing.  "id" was short and easy.  Will send a v2.
+On Wed, Mar 22, 2023 at 02:57:21PM +0100, Philippe Mathieu-Daudé wrote:
+> - Various developers are reluctant to git Cirrus-CI the permissions
 
-Yes, "name" would be more consistent with other usage.
+                                      s/git/give/
 
--corey
+>   requested to access their GitHub account.
+> 
+> - When we use the cirrus-run script to trigger Cirrus-CI job from
+>   GitLab-CI, the GitLab-CI job is restricted to a 1h timeout
+>   (often not enough).
+> 
+> - Although Cirrus-CI VMs are more powerful than GitLab-CI ones,
+>   its free plan is limited in 2 concurrent jobs.
 
+Right and these two points combine to create us problems. Pushes to
+gitlab get automatically mirrored to github, and thus in turn trigger
+CI jobs directly on Cirrus.
+
+These jobs can prevent the next PULL on the staging branch from getting
+enough execution time, and make it more likely they'll hit the 1h timeout.
+This ultimately reduces the reliability of the Cirrus CI jobs for FreeBSD
+and macOS that we do care about from GitLab CI.
+
+> - The GitLab-CI MSYS2 jobs are a 1:1 mapping with the Cirrus-CI ones
+>   (modulo the environment caching).
 > 
+> Reduce the maintenance burden by removing the Cirrus-CI config file,
+> keeping the GitLab-CI jobs.
 > 
-> >
-> > -corey
-> >
-> > > +
-> > >  static void pca954x_class_init(ObjectClass *klass, void *data)
-> > >  {
-> > >      I2CSlaveClass *sc = I2C_SLAVE_CLASS(klass);
-> > > @@ -209,9 +228,12 @@ static void pca954x_class_init(ObjectClass *klass,
-> > void *data)
-> > >      rc->phases.enter = pca954x_enter_reset;
-> > >
-> > >      dc->desc = "Pca954x i2c-mux";
-> > > +    dc->realize = pca954x_realize;
-> > >
-> > >      k->write_data = pca954x_write_data;
-> > >      k->receive_byte = pca954x_read_byte;
-> > > +
-> > > +    device_class_set_props(dc, pca954x_props);
-> > >  }
-> > >
-> > >  static const TypeInfo pca954x_info[] = {
-> > > --
-> > > 2.35.1.894.gb6a874cedc-goog
-> > >
-> >
+> Update Yonggang Luo's maintenance file list to the new file, which
+> use the same environment shell.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>  MAINTAINERS |   3 +-
+>  .cirrus.yml | 111 ----------------------------------------------------
+>  2 files changed, 1 insertion(+), 113 deletions(-)
+>  delete mode 100644 .cirrus.yml
+
+> diff --git a/.cirrus.yml b/.cirrus.yml
+> deleted file mode 100644
+> index 5fb00da73d..0000000000
+> --- a/.cirrus.yml
+> +++ /dev/null
+
+> -    MSYS2_PACKAGES: "
+> -      diffutils git grep make pkg-config sed
+> -      mingw-w64-x86_64-python
+> -      mingw-w64-x86_64-python-sphinx
+
+This isn't listed in the .gitlab-ci.d/windows.yml file
+
+> -      mingw-w64-x86_64-toolchain
+
+This also isn't listed
+
+> -      mingw-w64-x86_64-SDL2
+> -      mingw-w64-x86_64-SDL2_image
+> -      mingw-w64-x86_64-gtk3
+> -      mingw-w64-x86_64-glib2
+> -      mingw-w64-x86_64-ninja
+> -      mingw-w64-x86_64-jemalloc
+
+This also isn't listed
+
+> -      mingw-w64-x86_64-lzo2
+> -      mingw-w64-x86_64-zstd
+> -      mingw-w64-x86_64-libjpeg-turbo
+> -      mingw-w64-x86_64-pixman
+> -      mingw-w64-x86_64-libgcrypt
+> -      mingw-w64-x86_64-libpng
+> -      mingw-w64-x86_64-libssh
+> -      mingw-w64-x86_64-snappy
+> -      mingw-w64-x86_64-libusb
+> -      mingw-w64-x86_64-usbredir
+> -      mingw-w64-x86_64-libtasn1
+> -      mingw-w64-x86_64-nettle
+> -      mingw-w64-x86_64-cyrus-sasl
+> -      mingw-w64-x86_64-curl
+> -      mingw-w64-x86_64-gnutls
+> -      mingw-w64-x86_64-libnfs
+
+The  .gitlab-ci.d/windows.yml file meanwhile adds 'dtc' 'gcc'
+and 'pkgconf' which are not present here.
+
+This inconsistency is another point in favour of removing this
+redundant cirrus config.
+
+> -    "
+> -    CHERE_INVOKING: 1
+> -  msys2_cache:
+> -    folder: C:\tools\archive
+> -    reupload_on_changes: false
+> -    # These env variables are used to generate fingerprint to trigger the cache procedure
+> -    # If wanna to force re-populate msys2, increase MSYS2_FINGERPRINT
+> -    fingerprint_script:
+> -      - |
+> -        echo $env:CIRRUS_TASK_NAME
+> -        echo $env:MSYS2_URL
+> -        echo $env:MSYS2_FINGERPRINT
+> -        echo $env:MSYS2_PACKAGES
+> -    populate_script:
+> -      - |
+> -        md -Force C:\tools\archive\pkg
+> -        $start_time = Get-Date
+> -        bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND $env:MSYS2_URL C:\tools\archive\base.exe
+> -        Write-Output "Download time taken: $((Get-Date).Subtract($start_time))"
+> -        cd C:\tools
+> -        C:\tools\archive\base.exe -y
+> -        del -Force C:\tools\archive\base.exe
+> -        Write-Output "Base install time taken: $((Get-Date).Subtract($start_time))"
+> -        $start_time = Get-Date
+> -
+> -        ((Get-Content -path C:\tools\msys64\etc\\post-install\\07-pacman-key.post -Raw) -replace '--refresh-keys', '--version') | Set-Content -Path C:\tools\msys64\etc\\post-install\\07-pacman-key.post
+> -        C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/^CheckSpace/#CheckSpace/g' /etc/pacman.conf"
+> -        C:\tools\msys64\usr\bin\bash.exe -lc "export"
+> -        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -Sy
+> -        echo Y | C:\tools\msys64\usr\bin\pacman.exe --noconfirm -Suu --overwrite=*
+> -        taskkill /F /FI "MODULES eq msys-2.0.dll"
+> -        tasklist
+> -        C:\tools\msys64\usr\bin\bash.exe -lc "mv -f /etc/pacman.conf.pacnew /etc/pacman.conf || true"
+> -        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Syuu --overwrite=*"
+> -        Write-Output "Core install time taken: $((Get-Date).Subtract($start_time))"
+> -        $start_time = Get-Date
+> -
+> -        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed $env:MSYS2_PACKAGES"
+> -        Write-Output "Package install time taken: $((Get-Date).Subtract($start_time))"
+> -        $start_time = Get-Date
+> -
+> -        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\etc\mtab
+> -        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\fd
+> -        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stderr
+> -        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stdin
+> -        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stdout
+> -        del -Force -Recurse -ErrorAction SilentlyContinue C:\tools\msys64\var\cache\pacman\pkg
+> -        tar cf C:\tools\archive\msys64.tar -C C:\tools\ msys64
+> -
+> -        Write-Output "Package archive time taken: $((Get-Date).Subtract($start_time))"
+> -        del -Force -Recurse -ErrorAction SilentlyContinue c:\tools\msys64 
+> -  install_script:
+> -    - |
+> -      $start_time = Get-Date
+> -      cd C:\tools
+> -      ls C:\tools\archive\msys64.tar
+> -      tar xf C:\tools\archive\msys64.tar
+> -      Write-Output "Extract msys2 time taken: $((Get-Date).Subtract($start_time))"
+> -  script:
+> -    - mkdir build
+> -    - cd build
+> -    - C:\tools\msys64\usr\bin\bash.exe -lc "../configure --python=python3
+> -        --target-list-exclude=i386-softmmu,ppc64-softmmu,aarch64-softmmu,mips64-softmmu,mipsel-softmmu,sh4-softmmu"
+
+This excludes a few targets, but the .gitlab-ci.d/windows.yml file
+merely allow-lists  x86_64-softmmu only, and also adds
+--without-default-devices
+
+IOW the remaining config has less coverage than this one. Of course
+if no one ever looks at these results, the better coverage is not
+doing anything for us.
+
+> -    - C:\tools\msys64\usr\bin\bash.exe -lc "make -j8"
+
+The .gitlab-ci.d/windows.yml file does not pass '-j8' so presumably
+runs slower.
+
+THe gitlab docs indicate the Windows VMs have 2 vCPUs so we ought to
+have been using -j2 in the .gitlab-ci.d/windows.yml file IIUC
+
+> -    - exit $LastExitCode
+> -  test_script:
+
+> -    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
+
+The .gitlab-ci.d/windows.yml file passes '--no-suite qtest' so appears
+to have less test coverage
+
+
+Broadly I agree with this proposal, but it feels like we might want a
+few tweak to the windows.yml file to address some of the inconsistencies
+
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
