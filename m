@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6376F6C4CA3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A8E6C4C9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:58:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peyy6-0000zZ-Cg; Wed, 22 Mar 2023 09:57:34 -0400
+	id 1peyyB-00010P-Nr; Wed, 22 Mar 2023 09:57:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyy4-0000z7-TA
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:32 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyyA-000104-Bs
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:38 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyy3-00018b-8W
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:32 -0400
-Received: by mail-wr1-x434.google.com with SMTP id l12so17173439wrm.10
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:57:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyy8-0001AG-AP
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:57:38 -0400
+Received: by mail-wm1-x334.google.com with SMTP id p16so11596859wmq.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679493449;
+ d=linaro.org; s=google; t=1679493455;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uI/PqPnh+syqktubN6Cm0y9rYGZLvTWBD1kNl80Dgig=;
- b=vxi78SETQOIfBY5C9bYL0F6CtD0NG38r2kCWBIk+qRMt6975wQWmipc9BTSm5sAjAJ
- oUX62Q9pgGgaWsQn7C/By1Uyx+jLOfG7aMPJFXF1LeHOSeUBXRBsLS0GKPTaKXPJJ2Uo
- oS31NupZs3N33qGNEljbMk3dlWZ+EaoBzU8V94YYcLJBaAOsZS3Fn0cRQIt/2LQ2FYzC
- QCP5niel7h5nDseZ7tMWtAH6mh9Kh013G8CIdn5e/X2LweZr5zHHImwdRUdEHxJaSp2m
- XFnYaSr/3UeNQ01Dhg22whtCh0i6b9UqA2ytk3UmfY+DL3zD0NzEwX5utLRfCmirw0Qs
- lpIA==
+ bh=RefK/fZ4A/1aRNykjhv1QicsTPvUD23obAEq0f+RH2M=;
+ b=lDbzIpvIs2/ob8sRd8N6Sa31gd+8SAMM533la7Vg7oCEhMYKggbmayEg9zBA+fwFbT
+ qfIHiH8hE0p09EXHnqkMmctP8qSMi5Z21NAFW8iiO6UH7cSNxb3FtVJOzT508h0ZStGJ
+ 404+F3Gf8lDtKXEj8I8qDMl28pumCSZ3VWGE2MZI5djmWykhMibsCHyDA/bA9OFoi4dH
+ mE8exCvMPoTUIG2+k2a+Uxa9WAGRRuCdzbHvp6IFiBSiiAlLdN7GXSl23vsvzXciPF82
+ A49e6Hgq9tSvicy2aYAnq6de/VlwiDExdal99SvfKX6o6z7L8O3kNPotYukPZj8ZNYZV
+ +Smg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679493449;
+ d=1e100.net; s=20210112; t=1679493455;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uI/PqPnh+syqktubN6Cm0y9rYGZLvTWBD1kNl80Dgig=;
- b=qYC13beLh5zc/y2ROykw0eGoWiRnAhovrWeY4tRCir5cfiPfKOSfNztHYye7uxbu8S
- Zsjt4Dd1vJ3U5i6cKt6z3Zr0F/BVgCajjSBvEzMoCFe52GwFGFLifSC8Omqm7RiLajrh
- zyBt4Bb44Wd6bqy19zNFk+3gqFQveIDjcf2i0NU4RkdQkVk4weTxkCqT2S08MdM2HfrU
- WkX5EPyoWLGSC3HKM6cQrse5JQK9foEqMGHzlzlcJ6s3VZ2PMsYzmp9iH6oifK/4+6w2
- ixfHXFRdDBr/qKcC2h8vZEZhFBE6aCHhGQwz4Suk9tlUxY1vz2kPVsrxbPn5QJt0Eh0F
- UDUw==
-X-Gm-Message-State: AO0yUKVUs9AJxGnio39S+952nYlTZKr0bmL+N16PsZh1X+7MHRT1Qr8Y
- mbzD3FfoFrJPL2Dp1IShFgjqRmgPSjkF374iHv6Csw==
-X-Google-Smtp-Source: AK7set/fLYf/z1/XIfyD2wUCwccenUWGdQV1ndFnXPZKHtKg6uLLzWKJuOSgwxxNDFR/L7bJZ0k3tg==
-X-Received: by 2002:adf:ebcf:0:b0:2cf:f35b:9aa2 with SMTP id
- v15-20020adfebcf000000b002cff35b9aa2mr5499493wrn.19.1679493449667; 
- Wed, 22 Mar 2023 06:57:29 -0700 (PDT)
+ bh=RefK/fZ4A/1aRNykjhv1QicsTPvUD23obAEq0f+RH2M=;
+ b=gAOtSCj80Dvedgynu/FwtLBsU8om6S7kC7qJreVaqgMNyQM1EMNHlAj0w1YpJa19hk
+ bVZvJldDR7fQWF1QbmFhrdj3VZYSUJgLhU13nSrm7zq7TfeToKioxP1ir90a42S1fwIX
+ v2bH7rSHh0FeNRu3ieJ96HygmVKGkucZDd2uCp5pcy0vF95YWsKXrxYo217uaXsBDa5H
+ CUecGpsO4fUzKXRpw6/oZK4jLhVocnNqBb2VWj2BHNivRRl/KzeP9jZrR4ADq5tAzKTT
+ HDpLpbYTlPdc3hq/eeHCetEfqoA8n4rt9gzC5HJQ8jeKutB8RMlG77qZcqzq087OTRCc
+ pixQ==
+X-Gm-Message-State: AO0yUKUL73D7pD0HCbk9fiWNtd2PAkpiJ/DlsiSxRSqrIHGY9wLfHAMP
+ t6xbJrUDYDa+IOktbcMSisBHBx0fUTXiu3bstjodog==
+X-Google-Smtp-Source: AK7set87pSWtYTHekSo+aWX1c89Lkr5NxTfCWHPPaQY/85VO2PSscP1KdORg3HVC8zsQ/TqT/Ray4w==
+X-Received: by 2002:a05:600c:b46:b0:3df:deb5:6ff5 with SMTP id
+ k6-20020a05600c0b4600b003dfdeb56ff5mr5066826wmr.24.1679493454692; 
+ Wed, 22 Mar 2023 06:57:34 -0700 (PDT)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- k5-20020adfe8c5000000b002d748d46565sm7188703wrn.74.2023.03.22.06.57.28
+ t20-20020a1c7714000000b003ee10fb56ebsm7585361wmi.9.2023.03.22.06.57.33
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 22 Mar 2023 06:57:29 -0700 (PDT)
+ Wed, 22 Mar 2023 06:57:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -63,17 +63,17 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Yonggang Luo <luoyonggang@gmail.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 1/2] gitlab-ci: Cover SPICE in the MSYS2 job
-Date: Wed, 22 Mar 2023 14:57:20 +0100
-Message-Id: <20230322135721.61138-2-philmd@linaro.org>
+Subject: [PATCH v2 2/2] cirrus-ci: Remove MSYS2 jobs duplicated with gitlab-ci
+Date: Wed, 22 Mar 2023 14:57:21 +0100
+Message-Id: <20230322135721.61138-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230322135721.61138-1-philmd@linaro.org>
 References: <20230322135721.61138-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,52 +96,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Include the mingw-w64-x86_64-spice package so SPICE is covered:
+- Various developers are reluctant to git Cirrus-CI the permissions
+  requested to access their GitHub account.
 
-  C compiler for the host machine: cc -m64 -mcx16 (gcc 12.2.0 "cc (Rev10, Built by MSYS2 project) 12.2.0")
-  ...
-  Run-time dependency spice-protocol found: YES 0.14.4
-  Run-time dependency spice-server found: YES 0.15.1
+- When we use the cirrus-run script to trigger Cirrus-CI job from
+  GitLab-CI, the GitLab-CI job is restricted to a 1h timeout
+  (often not enough).
 
-In particular this would have helped catching the build issue
-reported as https://gitlab.com/qemu-project/qemu/-/issues/1553:
+- Although Cirrus-CI VMs are more powerful than GitLab-CI ones,
+  its free plan is limited in 2 concurrent jobs.
 
-  [1851/5253] Compiling C object libcommon.fa.p/ui_spice-core.c.obj
-  FAILED: libcommon.fa.p/ui_spice-core.c.obj
-  ../ui/spice-core.c: In function 'watch_remove':
-  ../ui/spice-core.c:152:5: error: implicit declaration of function 'qemu_close_to_socket' [-Werror=implicit-function-declaration]
-  152 |     qemu_close_to_socket(watch->fd);
-      |     ^~~~~~~~~~~~~~~~~~~~
-  ../ui/spice-core.c:152:5: error: nested extern declaration of 'qemu_close_to_socket' [-Werror=nested-externs]
+- The GitLab-CI MSYS2 jobs are a 1:1 mapping with the Cirrus-CI ones
+  (modulo the environment caching).
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reduce the maintenance burden by removing the Cirrus-CI config file,
+keeping the GitLab-CI jobs.
+
+Update Yonggang Luo's maintenance file list to the new file, which
+use the same environment shell.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
-See https://gitlab.com/philmd/qemu/-/jobs/3980693656#L2378
----
- .gitlab-ci.d/windows.yml | 2 ++
- 1 file changed, 2 insertions(+)
+ MAINTAINERS |   3 +-
+ .cirrus.yml | 111 ----------------------------------------------------
+ 2 files changed, 1 insertion(+), 113 deletions(-)
+ delete mode 100644 .cirrus.yml
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index 87235e43b4..472bacd2e2 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -59,6 +59,7 @@ msys2-64bit:
-       mingw-w64-x86_64-SDL2
-       mingw-w64-x86_64-SDL2_image
-       mingw-w64-x86_64-snappy
-+      mingw-w64-x86_64-spice
-       mingw-w64-x86_64-usbredir
-       mingw-w64-x86_64-zstd "
-   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
-@@ -108,6 +109,7 @@ msys2-32bit:
-       mingw-w64-i686-SDL2
-       mingw-w64-i686-SDL2_image
-       mingw-w64-i686-snappy
-+      mingw-w64-i686-spice
-       mingw-w64-i686-usbredir
-       mingw-w64-i686-zstd "
-   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b56ccdd92..34b50b267c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3818,8 +3818,7 @@ W: https://cirrus-ci.com/github/qemu/qemu
+ Windows Hosted Continuous Integration
+ M: Yonggang Luo <luoyonggang@gmail.com>
+ S: Maintained
+-F: .cirrus.yml
+-W: https://cirrus-ci.com/github/qemu/qemu
++F: .gitlab-ci.d/windows.yml
+ 
+ Guest Test Compilation Support
+ M: Alex Bennée <alex.bennee@linaro.org>
+diff --git a/.cirrus.yml b/.cirrus.yml
+deleted file mode 100644
+index 5fb00da73d..0000000000
+--- a/.cirrus.yml
++++ /dev/null
+@@ -1,111 +0,0 @@
+-env:
+-  CIRRUS_CLONE_DEPTH: 1
+-
+-windows_msys2_task:
+-  timeout_in: 90m
+-  windows_container:
+-    image: cirrusci/windowsservercore:2019
+-    os_version: 2019
+-    cpu: 8
+-    memory: 8G
+-  env:
+-    CIRRUS_SHELL: powershell
+-    MSYS: winsymlinks:native
+-    MSYSTEM: MINGW64
+-    MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2022-06-03/msys2-base-x86_64-20220603.sfx.exe
+-    MSYS2_FINGERPRINT: 0
+-    MSYS2_PACKAGES: "
+-      diffutils git grep make pkg-config sed
+-      mingw-w64-x86_64-python
+-      mingw-w64-x86_64-python-sphinx
+-      mingw-w64-x86_64-toolchain
+-      mingw-w64-x86_64-SDL2
+-      mingw-w64-x86_64-SDL2_image
+-      mingw-w64-x86_64-gtk3
+-      mingw-w64-x86_64-glib2
+-      mingw-w64-x86_64-ninja
+-      mingw-w64-x86_64-jemalloc
+-      mingw-w64-x86_64-lzo2
+-      mingw-w64-x86_64-zstd
+-      mingw-w64-x86_64-libjpeg-turbo
+-      mingw-w64-x86_64-pixman
+-      mingw-w64-x86_64-libgcrypt
+-      mingw-w64-x86_64-libpng
+-      mingw-w64-x86_64-libssh
+-      mingw-w64-x86_64-snappy
+-      mingw-w64-x86_64-libusb
+-      mingw-w64-x86_64-usbredir
+-      mingw-w64-x86_64-libtasn1
+-      mingw-w64-x86_64-nettle
+-      mingw-w64-x86_64-cyrus-sasl
+-      mingw-w64-x86_64-curl
+-      mingw-w64-x86_64-gnutls
+-      mingw-w64-x86_64-libnfs
+-    "
+-    CHERE_INVOKING: 1
+-  msys2_cache:
+-    folder: C:\tools\archive
+-    reupload_on_changes: false
+-    # These env variables are used to generate fingerprint to trigger the cache procedure
+-    # If wanna to force re-populate msys2, increase MSYS2_FINGERPRINT
+-    fingerprint_script:
+-      - |
+-        echo $env:CIRRUS_TASK_NAME
+-        echo $env:MSYS2_URL
+-        echo $env:MSYS2_FINGERPRINT
+-        echo $env:MSYS2_PACKAGES
+-    populate_script:
+-      - |
+-        md -Force C:\tools\archive\pkg
+-        $start_time = Get-Date
+-        bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND $env:MSYS2_URL C:\tools\archive\base.exe
+-        Write-Output "Download time taken: $((Get-Date).Subtract($start_time))"
+-        cd C:\tools
+-        C:\tools\archive\base.exe -y
+-        del -Force C:\tools\archive\base.exe
+-        Write-Output "Base install time taken: $((Get-Date).Subtract($start_time))"
+-        $start_time = Get-Date
+-
+-        ((Get-Content -path C:\tools\msys64\etc\\post-install\\07-pacman-key.post -Raw) -replace '--refresh-keys', '--version') | Set-Content -Path C:\tools\msys64\etc\\post-install\\07-pacman-key.post
+-        C:\tools\msys64\usr\bin\bash.exe -lc "sed -i 's/^CheckSpace/#CheckSpace/g' /etc/pacman.conf"
+-        C:\tools\msys64\usr\bin\bash.exe -lc "export"
+-        C:\tools\msys64\usr\bin\pacman.exe --noconfirm -Sy
+-        echo Y | C:\tools\msys64\usr\bin\pacman.exe --noconfirm -Suu --overwrite=*
+-        taskkill /F /FI "MODULES eq msys-2.0.dll"
+-        tasklist
+-        C:\tools\msys64\usr\bin\bash.exe -lc "mv -f /etc/pacman.conf.pacnew /etc/pacman.conf || true"
+-        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Syuu --overwrite=*"
+-        Write-Output "Core install time taken: $((Get-Date).Subtract($start_time))"
+-        $start_time = Get-Date
+-
+-        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed $env:MSYS2_PACKAGES"
+-        Write-Output "Package install time taken: $((Get-Date).Subtract($start_time))"
+-        $start_time = Get-Date
+-
+-        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\etc\mtab
+-        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\fd
+-        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stderr
+-        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stdin
+-        del -Force -ErrorAction SilentlyContinue C:\tools\msys64\dev\stdout
+-        del -Force -Recurse -ErrorAction SilentlyContinue C:\tools\msys64\var\cache\pacman\pkg
+-        tar cf C:\tools\archive\msys64.tar -C C:\tools\ msys64
+-
+-        Write-Output "Package archive time taken: $((Get-Date).Subtract($start_time))"
+-        del -Force -Recurse -ErrorAction SilentlyContinue c:\tools\msys64 
+-  install_script:
+-    - |
+-      $start_time = Get-Date
+-      cd C:\tools
+-      ls C:\tools\archive\msys64.tar
+-      tar xf C:\tools\archive\msys64.tar
+-      Write-Output "Extract msys2 time taken: $((Get-Date).Subtract($start_time))"
+-  script:
+-    - mkdir build
+-    - cd build
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "../configure --python=python3
+-        --target-list-exclude=i386-softmmu,ppc64-softmmu,aarch64-softmmu,mips64-softmmu,mipsel-softmmu,sh4-softmmu"
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "make -j8"
+-    - exit $LastExitCode
+-  test_script:
+-    - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
+-    - exit $LastExitCode
 -- 
 2.38.1
 
