@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C939C6C453C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 09:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2596C454A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 09:48:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peu5S-0005SH-Rz; Wed, 22 Mar 2023 04:44:50 -0400
+	id 1peu8J-0006JM-RA; Wed, 22 Mar 2023 04:47:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peu5Q-0005Rm-Ed
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 04:44:48 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peu8H-0006HS-3U
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 04:47:45 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peu5O-0005F8-Qa
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 04:44:48 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- i5-20020a05600c354500b003edd24054e0so5738139wmq.4
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 01:44:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peu8F-0005rE-7k
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 04:47:44 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id o7so16157802wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 01:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679474685;
+ d=linaro.org; s=google; t=1679474861;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=mqvRnvscLt/sKRRcXKUy/gxglY+JKSt/8V4/iKW4WNg=;
- b=DCoNJ4TfFDPt5nipniEOljuT+fnRSKQTDaJYLdy5Nl5BMTwZQM7JdLrmoAJIunuFep
- MObgQ6KnsCIvtdQsWHVAAwHBJKWbQUAun+CQ9p42MYEe4p/6wZAO4SZV6jMITeuUQifn
- uIwIkWOB9UvIj2KFV90uAotr0R+QBnVwEeTIjZnr4YP8U8F88Dh9KBhrI8Wq6rEflShU
- 09CEiE82s6OJOt3/ryC0yAonSW29dT7SHNdh/E6n9RRYXAPAhe+fsnJlUKhsc4puwTAr
- ECSB8MezBpxFB1F9HqJO4G13iZPe0dGLD0CXpwNW5LIqVB4xm5/cBT8tazsL1LakKBi4
- hVog==
+ bh=991knHG4feXqMyFgNTiA8aLw0dZR77JQC6BIemg4KW0=;
+ b=mMubAquzs4PT28TOwTgXNwtyMI1RK+Y8J5vsyCIhvw6Qcl3JUaGrFHIJ9NoEow0FhK
+ 1md5e/CtNxqDfxa0wUCHrylOkBgRnWt2+7HRDi8M0UPpJTzcamTmhwfsJ1nsJRfcc9Nn
+ ZfAxm5sr+RGeYivwWEozz68nNZKjjLxqi9rVlLSCEUvQIRpP48w3adRP5JRKsVgSknxF
+ mDN5AfU/fA7hThzgdgEx9T4DRy6GF7y0VD7ubvY/+0bjgSAqXl4syihnM4P8kZ8CF85O
+ ildCnXdiJ3DQ6zkFZVkgPkVylCvm9hyLoBD7umYKgyS/nZFseXRum2OeE8OwQ8R6qvxa
+ 9FHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679474685;
+ d=1e100.net; s=20210112; t=1679474861;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mqvRnvscLt/sKRRcXKUy/gxglY+JKSt/8V4/iKW4WNg=;
- b=jVlytb/D6RLtJ28hBP3/GwvvusgmClfDXQtUkSMqFfG0BpPaipw2BM3P8M1BG3lL8Q
- fUQXMmTa3d/kcOXphVRd6embuGqqtVxkTFVQ3ssY2VJUqWI0OTfL9ri+nHewNdcnpMdq
- Fy3uvLd3T0NI10OkIcVyUdCIt9svpe6lO4+hOKxbfwBC6jmbUK1ReEMyLlSdM0srzwA9
- OgC6b1V8aDvHzH98AUQspVgeMizbmXhvv2mJnAG6j+Ty95M7GHWd9sAhFG4xC1spSc2H
- TxncdiRyUGqoEKj0ZIoKgmQtLpGGt4WIXuMNQOC8ypo6Jt7VJC/kQfvw55vtWCvmB5cU
- C3JQ==
-X-Gm-Message-State: AO0yUKWNVV3Npr6N4ILvoDPzGBn36f1wfcUgexlmdCZxZ72MKhAmOOFH
- IzrXr9MYFidg2D9YslntCH8wyC2OY88dx7I/XomL8g==
-X-Google-Smtp-Source: AK7set+7jD0+iPsPEByE6SsIkuV5ug2BSm7KZ7lbmBaksNAdQvq8liOogL8OP+4AECUoFS5tJrrIXQ==
-X-Received: by 2002:a05:600c:2251:b0:3ea:f75d:4626 with SMTP id
- a17-20020a05600c225100b003eaf75d4626mr4421346wmm.38.1679474684728; 
- Wed, 22 Mar 2023 01:44:44 -0700 (PDT)
+ bh=991knHG4feXqMyFgNTiA8aLw0dZR77JQC6BIemg4KW0=;
+ b=skBTD7bfswxPFv5xRVHgR1/aeUz0sMNw0EYIL6Z2tyAyPLS9EA5RSsNpXgRZYvoV5d
+ ZOovG72qcNWtTJ48aD0b4pfFyiCExGb7oF9/QmFhiwGlkh59h5i28Hjqa/Eg7/DDEgQ3
+ X2nlvAfAt3vOZffT9L8KXfb7DkoXCKHp7Oc4k2Y/iqhg/AHW1VHxtLvsjbk4TwmfZOFH
+ teyMWyS8frsouthdyF+UeEr3tXDn9Q/dqknaRKYBDOXUYZk6aRgmu/EdS/SUaSlN6I7o
+ TRTZCmj3eu38TDpo1Mw39kUuX5qI/6dRwxPea0T+PsrM8tZYqChYG+l1iHR6WixGFbb+
+ Hnww==
+X-Gm-Message-State: AO0yUKV56LNkMBKYEJToP7afdNbRa4I+YTuFhWI+7aREmlGze8a0sT61
+ LOQWQCj1WTeCcKQ/S+r/DHznUQ==
+X-Google-Smtp-Source: AK7set96QkYhwYgqrSrphPNm8zVLwftrSgm9pioi+av2byXzW6s46zKx9mUOFzukLOqU2dHjONXQ4Q==
+X-Received: by 2002:adf:fa0b:0:b0:2d9:16f9:aee3 with SMTP id
+ m11-20020adffa0b000000b002d916f9aee3mr3626382wrr.14.1679474861751; 
+ Wed, 22 Mar 2023 01:47:41 -0700 (PDT)
 Received: from [192.168.18.115] ([91.219.21.246])
  by smtp.gmail.com with ESMTPSA id
- p2-20020a05600c204200b003e91b9a92c9sm15992657wmg.24.2023.03.22.01.44.43
+ g9-20020a5d4889000000b002c559843748sm13337235wrq.10.2023.03.22.01.47.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 01:44:44 -0700 (PDT)
-Message-ID: <22607500-7b03-40da-362a-1ad09041a119@linaro.org>
-Date: Wed, 22 Mar 2023 09:44:43 +0100
+ Wed, 22 Mar 2023 01:47:41 -0700 (PDT)
+Message-ID: <24d45c41-2f62-76a2-4294-fcfa346c9683@linaro.org>
+Date: Wed, 22 Mar 2023 09:47:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH] ui/spice: fix compilation on win32
+Subject: Re: [PATCH for-8.0 v2 1/3] async: Suppress GCC13 false positive in
+ aio_bh_poll()
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: berrange@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
-References: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20230321161609.716474-1-clg@kaod.org>
+ <20230321161609.716474-2-clg@kaod.org>
+ <14e4785e-6d3c-0891-1d59-3be4cbd700cd@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230322075256.2043812-1-marcandre.lureau@redhat.com>
+In-Reply-To: <14e4785e-6d3c-0891-1d59-3be4cbd700cd@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,20 +97,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/3/23 08:52, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 22/3/23 08:11, Thomas Huth wrote:
+> On 21/03/2023 17.16, Cédric Le Goater wrote:
+>> From: Cédric Le Goater <clg@redhat.com>
+>>
+>> GCC13 reports an error :
+>>
+>> ../util/async.c: In function ‘aio_bh_poll’:
+>> include/qemu/queue.h:303:22: error: storing the address of local 
+>> variable ‘slice’ in ‘*ctx.bh_slice_list.sqh_last’ 
+>> [-Werror=dangling-pointer=]
+>>    303 |     (head)->sqh_last = 
+>> &(elm)->field.sqe_next;                          \
+>>        |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+>> ../util/async.c:169:5: note: in expansion of macro ‘QSIMPLEQ_INSERT_TAIL’
+>>    169 |     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
+>>        |     ^~~~~~~~~~~~~~~~~~~~
+>> ../util/async.c:161:17: note: ‘slice’ declared here
+>>    161 |     BHListSlice slice;
+>>        |                 ^~~~~
+>> ../util/async.c:161:17: note: ‘ctx’ declared here
+>>
+>> But the local variable 'slice' is removed from the global context list
+>> in following loop of the same routine. Add a pragma to silent GCC.
+>>
+>> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: Daniel P. Berrangé <berrange@redhat.com>
+>> Signed-off-by: Cédric Le Goater <clg@redhat.com>
+>> ---
+>>   util/async.c | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/util/async.c b/util/async.c
+>> index 21016a1ac7..de9b431236 100644
+>> --- a/util/async.c
+>> +++ b/util/async.c
+>> @@ -164,7 +164,20 @@ int aio_bh_poll(AioContext *ctx)
+>>       /* Synchronizes with QSLIST_INSERT_HEAD_ATOMIC in 
+>> aio_bh_enqueue().  */
+>>       QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
+>> +
+>> +    /*
+>> +     * GCC13 [-Werror=dangling-pointer=] complains that the local 
+>> variable
+>> +     * 'slice' is being stored in the global 'ctx->bh_slice_list' but 
+>> the
+>> +     * list is emptied before this function returns.
+>> +     */
+>> +#if !defined(__clang__)
+>> +#pragma GCC diagnostic push
+>> +#pragma GCC diagnostic ignored "-Wdangling-pointer="
 > 
-> qemu_close_to_socket() renaming left-over.
+> That warning parameter looks like a new one in GCC 13 ?
+> ... so you have to check whether it's available before disabling
+> it, otherwise this will fail with older versions of GCC. I just
+> gave it a try with my GCC 8.5 and got this:
 > 
-> Fixes:
-> https://gitlab.com/qemu-project/qemu/-/issues/1553
-> 
-> Fixes: commit e40283d9a ("ui/spice: fix SOCKET handling regression")
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   ui/spice-core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> ../../devel/qemu/util/async.c: In function ‘aio_bh_poll’:
+> ../../devel/qemu/util/async.c:175:32: error: unknown option after 
+> ‘#pragma GCC diagnostic’ kind [-Werror=pragmas]
+>   #pragma GCC diagnostic ignored "-Wdangling-pointer="
+>                                  ^~~~~~~~~~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Just curious, does this work? (I don't have a GCC 8.5 handy)
+
+   #pragma GCC diagnostic push
+   #pragma GCC diagnostic ignored "-Wpragmas"
+   #pragma GCC diagnostic ignored "-Wdangling-pointer="
 
 
