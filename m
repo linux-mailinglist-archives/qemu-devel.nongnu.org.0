@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45ECB6C4D78
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AE46C4D7E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:23:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pezLW-0007nd-Et; Wed, 22 Mar 2023 10:21:46 -0400
+	id 1pezLc-0007pA-1v; Wed, 22 Mar 2023 10:21:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pezLS-0007ms-LN
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:21:42 -0400
+ id 1pezLW-0007ns-LL
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:21:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pezLQ-0007Es-LV
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:21:42 -0400
+ id 1pezLU-0007Ft-2S
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:21:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679494899;
+ s=mimecast20190719; t=1679494903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=j9m5mtsocy5k9Eygv0Ij+nlOv6Z3P/7xYsQte6DrIys=;
- b=PT+mrOVfPxDXbxUYPyynbaW2/jTEvW9Y8owiJgRFtBhBQSVgmIxm5+/tOzxSLx9tVpccr1
- ilM3GYRtaz9WEbqS9IDlFxuYQ0XMVhARGbF1pJljMxNUCvEIYPhj7to6uPTzKjV/rPDC1c
- aNFXF5xtxMA/QrU5qhNyc0ASmLtTMBo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vx20FkO4qrTT1t0kX/w4FLGP9efJRwvPTxvvgxnVEMY=;
+ b=cNiaztnapSIqtpSg1lX/viYwdHSz/nh6e9USApL7IFRL22nsuMINaBHxXHyhPBVfLoehhd
+ YFvy67cNTjogDOmsJ5lf5MrrTdwRuTP0k1p+wFnyUwchikbNJXt0HJq4Woi9gdYmgB9gG9
+ s1Z+NOS34HlO1wFTqKaiTGEfuPOn/Xo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-TjoYrhGSPlOLwkoTMrxJgg-1; Wed, 22 Mar 2023 10:21:38 -0400
-X-MC-Unique: TjoYrhGSPlOLwkoTMrxJgg-1
+ us-mta-128-cQH5Kai0OKGOM5f678BHcw-1; Wed, 22 Mar 2023 10:21:39 -0400
+X-MC-Unique: cQH5Kai0OKGOM5f678BHcw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A71F038173D0;
- Wed, 22 Mar 2023 14:21:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 967E985A5A3;
+ Wed, 22 Mar 2023 14:21:39 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.45.226.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2FAA40C6E67;
- Wed, 22 Mar 2023 14:21:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EDE1240C6E67;
+ Wed, 22 Mar 2023 14:21:36 +0000 (UTC)
 From: Albert Esteve <aesteve@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, fmartine@redhat.com,
@@ -50,10 +51,11 @@ Cc: Thomas Huth <thuth@redhat.com>, fmartine@redhat.com,
  sgarzare@redhat.com,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  peter.griffin@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 00/12] [RFC PATCHv2] Add vhost-user Video decode
-Date: Wed, 22 Mar 2023 15:21:20 +0100
-Message-Id: <20230322142132.22909-1-aesteve@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH 01/12] docs: Add a vhost-virtio-video rst file
+Date: Wed, 22 Mar 2023 15:21:21 +0100
+Message-Id: <20230322142132.22909-2-aesteve@redhat.com>
+In-Reply-To: <20230322142132.22909-1-aesteve@redhat.com>
+References: <20230322142132.22909-1-aesteve@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
@@ -81,132 +83,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v1: https://patchew.org/QEMU/20211209145601.331477-1-peter.griffin@linaro.org/
-v1 -> v2:
-    - Address the feedback found in the original patch
-    - Rebase patch so that it applies to latest master
-    - Add PoC implementation for dmabuf sharing (using udmabuf for creation)
-    - Test the patch on a real HW codec
+From: Peter Griffin <peter.griffin@linaro.org>
 
-This series adds support for virtio-video decoder devices in Qemu
-and also provides a vhost-user-video vmm implementation.
+Add rst file with a brief description of the
+daemon and a cheat sheet of commands.
 
-The vhost-user-video vmm currently parses virtio-video v3 protocol
-(as that still was what the Linux frontend driver prototype implemented
-at the timei, we kept working over this).
-It then converts that to a v4l2 mem2mem stateful decoder device.
-Currently, this has been tested using v4l2 vicodec test driver in Linux [1],
-and also with a real HW codec, i.e., QCom Venus driver, which implements
-a v4l2 stateful decoder/encoder. In order to support vicodec driver, the
-virtio backend supports the FWHT format.
-
-The primary goal so far has been to allow testing with Qemu. Using
-vicodec on the host allows a purely virtual dev env, and for
-CI integration in the future by kernelci, etc.
-
-This series adds the virtio_video.h header for testing purposes,
-but the driver code has not been upstreamed yet, as the specs
-are still under discussion.
-Therefore, the commit does not need to be reviewed at this stage.
-
-This version includes a proof of concept implementation of dma-buf
-sharing mechanism. Since the infrastructure is not yet available in Qemu,
-we employed udmabuf device to create new dma-buf structures when the
-driver asks for a shared object memory stream, and then we copy the
-contents of the shared memory buffer into the newly created buffer.
-Also, note that this PoC was necessary for making the patch work with
-QC Venus driver as it does not support USERPTR memory in its latest
-release. In any case, a thorough review of these two commits is not
-necessary in its current stage, as the implementation is subjected
-to big changes.
-
-We tested this VMM using v4l2-ctl from v4l2 utils in the guest
-to do a video decode to a file. This can then be validated using ffplay
-v4l2-compliance tool in the guest has also been run which stresses the
-interface and issues lots of syscall level tests.
-
-See the vhost-user-video.rst for example commands on how to configure
-guest kernel and do a video decode using Qemu, vicodec using this VMM.
-
-Next steps:
-Recently there was a big update for virtio-video specs being discussed
-in the virtio-dev mailing list [2], with a proposal for moving the specs
-closer to the v4l2 framework.
-Following these news, the next step for this series is to update the
-implementation to the new specs approach and join efforts in verifying
-the driver implementation [3], and the specs themselves.
-
-Linux virtio-video frontend driver code:
-https://github.com/aesteve-rh/linux
-(adds FWHT support on top of https://github.com/Gnurou/linux)
-
-Qemu vmm code:
-https://github.com/aesteve-rh/qemu/tree/virtio_video_v3
-
-Applies cleanly to:
-git://git.qemu.org/qemu.git master(c283ff89d11ff123efc9af49128ef58511f73012)
-
-[1] https://lwn.net/Articles/760650/
-[2] https://www.mail-archive.com/virtio-dev@lists.oasis-open.org/msg09126.html
-[3] https://github.com/Gnurou/linux/blob/virtio-v4l2/drivers/media/virtio-v4l2/virtio_v4l2_driver.c
-
-Albert Esteve (5):
-  vhost-user.json: add video type
-  tests/qtest: add virtio-video test
-  vhost-user-video: add dev_type to CLI
-  vhost-user-video-udmabuf: add udmabuf helpers
-  Add support for v4l2_memory_dmabuf
-
-Peter Griffin (7):
-  docs: Add a vhost-virtio-video rst file
-  MAINTAINERS: Add virtio-video section
-  vhost-user-video: boiler plate code for vhost-user-video device
-  vhost-user-video: add meson subdir build logic
-  standard-headers: Add virtio_video.h
-  hw/display: add vhost-user-video-pci
-  tools/vhost-user-video: Add initial vhost-user-video vmm
-
- MAINTAINERS                                   |    8 +
- docs/interop/vhost-user.json                  |    2 +
- docs/system/devices/vhost-user-video.rst      |  124 ++
- hw/display/Kconfig                            |    5 +
- hw/display/meson.build                        |    3 +
- hw/display/vhost-user-video-pci.c             |   82 +
- hw/display/vhost-user-video.c                 |  419 ++++
- include/hw/virtio/vhost-user-video.h          |   43 +
- include/standard-headers/linux/virtio_video.h |  513 +++++
- tests/qtest/libqos/meson.build                |    1 +
- tests/qtest/libqos/virtio-video.c             |  179 ++
- tests/qtest/libqos/virtio-video.h             |   39 +
- tests/qtest/vhost-user-test.c                 |   32 +
- tools/meson.build                             |    7 +
- tools/vhost-user-video/50-qemu-video.json.in  |    5 +
- tools/vhost-user-video/meson.build            |   10 +
- tools/vhost-user-video/v4l2_backend.c         | 1838 +++++++++++++++++
- tools/vhost-user-video/v4l2_backend.h         |  111 +
- tools/vhost-user-video/vhost-user-video.c     | 1787 ++++++++++++++++
- tools/vhost-user-video/virtio_video_helpers.c |  466 +++++
- tools/vhost-user-video/virtio_video_helpers.h |  198 ++
- tools/vhost-user-video/virtio_video_udmabuf.c |  180 ++
- tools/vhost-user-video/vuvideo.h              |   51 +
- 23 files changed, 6103 insertions(+)
+Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+Signed-off-by: Albert Esteve <aesteve@redhat.com>
+---
+ docs/system/devices/vhost-user-video.rst | 124 +++++++++++++++++++++++
+ 1 file changed, 124 insertions(+)
  create mode 100644 docs/system/devices/vhost-user-video.rst
- create mode 100644 hw/display/vhost-user-video-pci.c
- create mode 100644 hw/display/vhost-user-video.c
- create mode 100644 include/hw/virtio/vhost-user-video.h
- create mode 100644 include/standard-headers/linux/virtio_video.h
- create mode 100644 tests/qtest/libqos/virtio-video.c
- create mode 100644 tests/qtest/libqos/virtio-video.h
- create mode 100644 tools/vhost-user-video/50-qemu-video.json.in
- create mode 100644 tools/vhost-user-video/meson.build
- create mode 100644 tools/vhost-user-video/v4l2_backend.c
- create mode 100644 tools/vhost-user-video/v4l2_backend.h
- create mode 100644 tools/vhost-user-video/vhost-user-video.c
- create mode 100644 tools/vhost-user-video/virtio_video_helpers.c
- create mode 100644 tools/vhost-user-video/virtio_video_helpers.h
- create mode 100644 tools/vhost-user-video/virtio_video_udmabuf.c
- create mode 100644 tools/vhost-user-video/vuvideo.h
 
+diff --git a/docs/system/devices/vhost-user-video.rst b/docs/system/devices/vhost-user-video.rst
+new file mode 100644
+index 0000000000..ff0a8fe5c7
+--- /dev/null
++++ b/docs/system/devices/vhost-user-video.rst
+@@ -0,0 +1,124 @@
++=====================
++QEMU vhost-user-video
++=====================
++
++Overview
++--------
++
++This vmm translates from virtio-video v3 protocol and writes
++to a v4l2 mem2mem stateful decoder/encoder device [1]. v3 was
++chosen as that is what the virtio-video Linux frontend driver
++currently implements.
++
++The primary goal so far is to enable development of virtio-video
++frontend driver using purely open source software. Using vicodec
++v4l2 stateful decoder on the host for testing then allows a pure
++virtual environment for development and testing.
++
++Currently the vmm only supports v4l2 stateful devices, and the
++intention is it will be used with Arm SoCs that implement stateful
++decode/encode devices such as Qcom Venus, RPi, MediaTek etc.
++
++A Qemu + vicodec setup for virtio-video should also allow for
++CI systems like kernelci, lkft to test the virtio-video interface
++easily.
++
++Currently support for VAAPI or decoding via libavcodec or similar
++libraries is not implemented, but this could be added in the future.
++
++Some example commands are provided below on how to run the daemon
++and achieve a video decode using vicodec and a link to some test
++content.
++
++[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-decoder.html
++
++[2] https://lwn.net/Articles/760650/
++
++Examples
++--------
++
++Guest Linux kernel modules:
++
++::
++
++    CONFIG_MEDIA_SUPPORT=y
++    CONFIG_MEDIA_TEST_SUPPORT=y
++    CONFIG_V4L_TEST_DRIVERS=y
++    CONFIG_VIRTIO_VIDEO=y
++    CONFIG_GDB_SCRIPTS=y
++    CONFIG_DRM_VIRTIO_GPU=y
++
++Host kernel modules:
++
++::
++
++    CONFIG_MEDIA_SUPPORT=y
++    CONFIG_MEDIA_TEST_SUPPORT=y
++    CONFIG_V4L_TEST_DRIVERS=y
++    CONFIG_VIDEO_VICODEC=y
++
++Note: Vicodec has been recently included in the Fedora kernel releases,
++but it is not yet set on the default Debian kernel.
++
++The daemon should be started first (video3 typically is the stateful video):
++
++::
++
++    host# vhost-user-video --socket-path=/tmp/video.sock --v4l2-device=/dev/video3
++
++The QEMU invocation needs to create a chardev socket the device can
++use to communicate as well as share the guests memory over a memfd.
++
++::
++
++    host# qemu-system								\
++        -device vhost-user-video-pci,chardev=video,id=video                     \
++        -chardev socket,path=/tmp//video.sock,id=video                          \
++        -m 4096 		        					\
++        -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on	\
++        -numa node,memdev=mem							\
++        ...
++
++After booting, the device should be available at /dev/video0:
++
++::
++
++    guest# v4l2-ctl -d/dev/video0 --info
++    Driver Info:
++            Driver name      : virtio-video
++            Card type        : 
++            Bus info         : virtio:stateful-decoder
++            Driver version   : 6.1.0
++            Capabilities     : 0x84204000
++                    Video Memory-to-Memory Multiplanar
++                    Streaming
++                    Extended Pix Format
++                    Device Capabilities
++            Device Caps      : 0x04204000
++                    Video Memory-to-Memory Multiplanar
++                    Streaming
++                    Extended Pix Format
++
++Example v4l2-ctl decode command:
++
++::
++
++    guest# wget https://people.linaro.org/~peter.griffin/jelly_640_480-420P.fwht
++    guest# v4l2-ctl -d0 -x width=640,height=480 -v width=640,height=480,pixelformat=YU12 \
++        --stream-mmap --stream-out-mmap --stream-from jelly_640_480-420P.fwht            \
++        --stream-to out-jelly-640-480.YU12
++
++Play the raw decoded video with ffplay or mplayer
++
++::
++
++    guest# ffplay -loglevel warning -v info -f rawvideo -pixel_format yuv420p \
++        -video_size "640x480" ./out-jelly-640-480.YU12
++    guest# mplayer -demuxer rawvideo -rawvideo \
++        format=i420:w=640:h=480:fps=25 out-jelly-640-480.YU12
++
++Enable v4l2 debug in virtio-video driver
++
++::
++
++    # echo 0x1f > /sys/class/video4linux/videoX/dev_debug
 -- 
 2.39.2
 
