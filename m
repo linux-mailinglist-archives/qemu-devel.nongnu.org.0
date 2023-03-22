@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9106C4798
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 11:28:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3093F6C4799
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 11:28:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pevgt-0003rH-BK; Wed, 22 Mar 2023 06:27:35 -0400
+	id 1pevhM-00047j-TJ; Wed, 22 Mar 2023 06:28:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pevgq-0003r5-Hg
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:27:32 -0400
+ id 1pevhJ-0003zs-0u
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:28:01 -0400
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pevgn-0006zY-TS
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:27:32 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PhPm25kCMz6J7rP;
- Wed, 22 Mar 2023 18:26:58 +0800 (CST)
+ id 1pevhH-00073x-3b
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 06:28:00 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PhPmd3Pk8z6J7Yk;
+ Wed, 22 Mar 2023 18:27:29 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 22 Mar 2023 10:27:25 +0000
+ 15.1.2507.21; Wed, 22 Mar 2023 10:27:56 +0000
 To: Michael Tsirkin <mst@redhat.com>, <qemu-devel@nongnu.org>
 CC: <linuxarm@huawei.com>, Fan Ni <fan.ni@samsung.com>, Dave Jiang
  <dave.jiang@intel.com>, <linux-cxl@vger.kernel.org>
-Subject: [RESEND PATCH 0/2] hw/cxl: Fix decoder commit and uncommit handling
-Date: Wed, 22 Mar 2023 10:27:29 +0000
-Message-ID: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
+Subject: [RESEND PATCH 1/2] hw/cxl: Fix endian handling for decoder commit.
+Date: Wed, 22 Mar 2023 10:27:30 +0000
+Message-ID: <20230322102731.4219-2-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
+References: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -64,31 +66,64 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Resending because all but patch 1 seem to have failed to make it out of
-our network.
+Not a real problem yet as all supported architectures are
+little endian, but continue to tidy these up when touching
+code for other reasons.
 
-Issue reported in discussion of:
-https://lore.kernel.org/all/20230228224014.1402545-1-fan.ni@samsung.com/
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ hw/cxl/cxl-component-utils.c | 10 ++++------
+ hw/mem/cxl_type3.c           |  9 ++++++---
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-The committed bit for HDM decoders is expected reset when commit transitions
-from 1->0.  Whilst looking at that it was noticed that hardware was resetting
-the commit bit which is not an option allowed by the CXL spec.
-
-In common with many other areas the code did not take into account
-big endian architectures, so fix that whilst we are here.
-
-Note testing this exposed a kernel bug around repeated attempts to clear
-a decoder out of order. That's been reported but not yet fixed.
-
-Jonathan Cameron (2):
-  hw/cxl: Fix endian handling for decoder commit.
-  hw/cxl: Fix incorrect reset of commit and associated clearing of
-    committed.
-
- hw/cxl/cxl-component-utils.c | 14 ++++++++------
- hw/mem/cxl_type3.c           | 28 +++++++++++++++++++++++++---
- 2 files changed, 33 insertions(+), 9 deletions(-)
-
+diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+index b665d4f565..a3e6cf75cf 100644
+--- a/hw/cxl/cxl-component-utils.c
++++ b/hw/cxl/cxl-component-utils.c
+@@ -47,14 +47,12 @@ static void dumb_hdm_handler(CXLComponentState *cxl_cstate, hwaddr offset,
+         break;
+     }
+ 
+-    memory_region_transaction_begin();
+-    stl_le_p((uint8_t *)cache_mem + offset, value);
+     if (should_commit) {
+-        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
+-        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERR, 0);
+-        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
++        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
++        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
++        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
+     }
+-    memory_region_transaction_commit();
++    stl_le_p((uint8_t *)cache_mem + offset, value);
+ }
+ 
+ static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index abe60b362c..846089ccda 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -314,14 +314,17 @@ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+ {
+     ComponentRegisters *cregs = &ct3d->cxl_cstate.crb;
+     uint32_t *cache_mem = cregs->cache_mem_registers;
++    uint32_t ctrl;
+ 
+     assert(which == 0);
+ 
++    ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
+     /* TODO: Sanity checks that the decoder is possible */
+-    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
+-    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERR, 0);
++    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
++    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
++    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
+ 
+-    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
++    stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
+ }
+ 
+ static int ct3d_qmp_uncor_err_to_cxl(CxlUncorErrorType qmp_err)
 -- 
 2.37.2
 
