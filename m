@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032EB6C4D92
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:26:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E7E6C4D99
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 15:27:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pezPe-0000ll-IW; Wed, 22 Mar 2023 10:26:02 -0400
+	id 1pezQL-0001T6-EK; Wed, 22 Mar 2023 10:26:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pezPX-0000lK-TB
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:25:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pezQJ-0001Sm-LB
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:26:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pezPV-0000wk-Q1
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:25:55 -0400
+ id 1pezQI-0001G2-7M
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 10:26:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679495152;
+ s=mimecast20190719; t=1679495201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DyzXCoG3+1CRpJ2a4w5YN5srqbMX2pKYaMARxjpzawY=;
- b=NqFNYIHfMMZ2Q/3Wq8vHsHhHcaYAT+If+l4wBvZPTmCtX79egirJwh9muxR4CTwBqfeSMn
- CTLtH5kTmbiIJUbmcdjx+/0Et5SLdZwuReRL+00nBctQ35F3FpPyxk262/OZm0LVMprIFV
- /Lq6l9qqLyPwd02iLNctOwLPRhLnBp4=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nWVt0lpncl0adTZ2mKffz9+mKNBp6eli4014bvPi1JU=;
+ b=SP6an24iY2+JTg0jLQHhoe9+SsmQvnEtriEJVnAA217KaXvutGMxEWwndonnAQYIPSIlcu
+ dviYjB9HeRKHfSW6R+NB+vFqPJ0hFd7xc/r5k6FpDOROYghZ88cRTXFjdX28r2JqbtMJMd
+ 4lltum9c88oE7mSfu7oPnQsrMg3SQTs=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479-gzltf9nXNa6_hcF1UQrI5w-1; Wed, 22 Mar 2023 10:25:48 -0400
-X-MC-Unique: gzltf9nXNa6_hcF1UQrI5w-1
-Received: by mail-qt1-f200.google.com with SMTP id
- i2-20020ac84882000000b003d6fee1d438so10988761qtq.1
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 07:25:48 -0700 (PDT)
+ us-mta-210-bBjHiihAOoSpLSc1Gfs8zg-1; Wed, 22 Mar 2023 10:26:40 -0400
+X-MC-Unique: bBjHiihAOoSpLSc1Gfs8zg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ pc36-20020a05620a842400b00742c715894bso8713134qkn.21
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 07:26:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679495148;
+ d=1e100.net; s=20210112; t=1679495200;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DyzXCoG3+1CRpJ2a4w5YN5srqbMX2pKYaMARxjpzawY=;
- b=MCat24XO3h+gQa0iPxYvLUtiyKwfOVSCxHwtani2SC2yxlLgdotlOygpL+rXJTbhAY
- osxcJQ6yzd2VPIamXiPxA3rXwwTwgzRRgS6211uuwFn0acghnGM6BNtK9CVuiDrHchl0
- +WwpyL4YY1lLWb1wLEv/exBhRKM7Htmo4jLixyXnlKlGjU4MHTaTqc0ikSiMVYcBx0DF
- +T50iIM1+CFv63CiWrEFdoFOfH9Y1o48uHr0Tfap4VemnYqhVWUhQoEs+E0NLM47HplF
- ynQ8PPfWQ3BRGiNJ9sChsdOytfNNPUdwSuOvKq6RhLM4u4zCXT0COUzazj370S+YxMAf
- Ap/w==
-X-Gm-Message-State: AO0yUKU1g72g0AjrChoP7iJXAyua3Y2XgvjD+vJ6FuD/SCxlX+bjoZ9H
- 05bBEJpmMAqvZNYZ2raEp6AJ0v9xKgfEZaRFhjMoT6I6eakpV1P0Qpvh+XpePxPZiOc2SHhaE6A
- WXHGIEshhfvrlyV4=
-X-Received: by 2002:ac8:5f90:0:b0:3e3:7e16:5a8c with SMTP id
- j16-20020ac85f90000000b003e37e165a8cmr6023413qta.16.1679495148159; 
- Wed, 22 Mar 2023 07:25:48 -0700 (PDT)
-X-Google-Smtp-Source: AK7set80fXhprYksNMaPgNBFgeOHEbiGnpRrgU+3G1ft5s6r6mbUd9tvFd47sdpSZUkbp/LGGpMENg==
-X-Received: by 2002:ac8:5f90:0:b0:3e3:7e16:5a8c with SMTP id
- j16-20020ac85f90000000b003e37e165a8cmr6023379qta.16.1679495147919; 
- Wed, 22 Mar 2023 07:25:47 -0700 (PDT)
+ bh=nWVt0lpncl0adTZ2mKffz9+mKNBp6eli4014bvPi1JU=;
+ b=Z33eYgFnaaB1iEXXoa0IMLQ9C9wAkMmR7Ek50KwPFz84eq1jmhL+f0CEoqmCgiiOoz
+ cExZs3XkO5l2I/IG1RLFxq17OISQ/foP4scsAXh9maMFw35xRDdsiknXZjqI5G5Mq1/K
+ qAgKwJkNTZ3JQcQtAGBks1p/9nDJ04wFMeisfy9mEfKQGsQlnxo1LHbFH0YSzSbJulKS
+ G87i5baTdldE2pBnkHKUesrwdC8c1Hll/jBJd9PPv2SJwipO156LGYywKd9P/zKqLH9U
+ HFOpfgUbEAWj2qDyiuuPliTUX+hhydGwQDUj/Ta30NinCJsp3ba+o0HmVYz9mCAaBnmf
+ BmMA==
+X-Gm-Message-State: AO0yUKUCa+zy6PyztIsvqcsTtzo43O5EB+r2EyLIkEYuwbMlz9xebyps
+ DRcbKU6E3+y3kJUu73uFlrC/5ZqzKMTZDO6XYsW9qJLOr/UmfJS20hZkOY65VoVYVCajHt/XVPP
+ RqcIv6ehzRXsoj8k=
+X-Received: by 2002:a05:622a:1983:b0:3e0:3d65:19d2 with SMTP id
+ u3-20020a05622a198300b003e03d6519d2mr6783787qtc.20.1679495199942; 
+ Wed, 22 Mar 2023 07:26:39 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9XELrgxHS7DrBVKaX6WFO/QF/1nIHjs9DULrNmL2hTIJf78ponXxUSq2XKnOcXHAS6d9tX7g==
+X-Received: by 2002:a05:622a:1983:b0:3e0:3d65:19d2 with SMTP id
+ u3-20020a05622a198300b003e03d6519d2mr6783737qtc.20.1679495199562; 
+ Wed, 22 Mar 2023 07:26:39 -0700 (PDT)
 Received: from sgarzare-redhat (host-82-57-51-170.retail.telecomitalia.it.
  [82.57.51.170]) by smtp.gmail.com with ESMTPSA id
- u12-20020ac8750c000000b003e38f8d564fsm205997qtq.66.2023.03.22.07.25.44
+ x22-20020ac84a16000000b003e1d8c193c1sm5339414qtq.48.2023.03.22.07.26.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 07:25:47 -0700 (PDT)
-Date: Wed, 22 Mar 2023 15:25:42 +0100
+ Wed, 22 Mar 2023 07:26:38 -0700 (PDT)
+Date: Wed, 22 Mar 2023 15:26:34 +0100
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com,
@@ -77,16 +77,17 @@ Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com,
  Cindy Lu <lulu@redhat.com>, Parav Pandit <parav@mellanox.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>,
  Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
-Subject: Re: [RFC PATCH for 8.1 3/6] vdpa: add vhost_vdpa_set_dev_features_fd
-Message-ID: <20230322142542.3wnllk4cux4yfgxv@sgarzare-redhat>
+Subject: Re: [RFC PATCH for 8.1 4/6] vdpa: return errno in
+ vhost_vdpa_get_vring_group error
+Message-ID: <20230322142634.imcnk7k6q5btze7v@sgarzare-redhat>
 References: <20230317145542.347368-1-eperezma@redhat.com>
- <20230317145542.347368-4-eperezma@redhat.com>
+ <20230317145542.347368-5-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230317145542.347368-4-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+In-Reply-To: <20230317145542.347368-5-eperezma@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -110,17 +111,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 17, 2023 at 03:55:39PM +0100, Eugenio Pérez wrote:
->This allows to set the features of a vhost-vdpa device from external
->subsystems like vhost-net.  It is used in subsequent patches to
->negotiate features and probe for CVQ ASID isolation.
+On Fri, Mar 17, 2023 at 03:55:40PM +0100, Eugenio Pérez wrote:
+>We need to tell in the caller, as some errors are expected in a normal
+>workflow.  In particular, parent drivers in recent kernels with
+>VHOST_BACKEND_F_IOTLB_ASID may not support vring groups.  In that case,
+>-ENOTSUP is returned.
+
+So, should we also avoid the error_report if we expect a failure?
+
+Thanks,
+Stefano
+
+>
+>This is the case of vp_vdpa in Linux 6.2.
+>
+>Next patches in this series will use that information to know if it must
+>abort or not.
 >
 >Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 >---
-> include/hw/virtio/vhost-vdpa.h |  1 +
-> hw/virtio/vhost-vdpa.c         | 20 +++++++++++++-------
-> 2 files changed, 14 insertions(+), 7 deletions(-)
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> net/vhost-vdpa.c | 9 +++++++++
+> 1 file changed, 9 insertions(+)
+>
+>diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>index 99904a0da7..4397c0d4b3 100644
+>--- a/net/vhost-vdpa.c
+>+++ b/net/vhost-vdpa.c
+>@@ -361,6 +361,14 @@ static NetClientInfo net_vhost_vdpa_info = {
+>         .check_peer_type = vhost_vdpa_check_peer_type,
+> };
+>
+>+/**
+>+ * Get vring virtqueue group
+>+ *
+>+ * @device_fd  vdpa device fd
+>+ * @vq_index   Virtqueue index
+>+ *
+>+ * Return -errno in case of error, or vq group if success.
+>+ */
+> static int64_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
+> {
+>     struct vhost_vring_state state = {
+>@@ -369,6 +377,7 @@ static int64_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
+>     int r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, &state);
+>
+>     if (unlikely(r < 0)) {
+>+        r = -errno;
+>         error_report("Cannot get VQ %u group: %s", vq_index,
+>                      g_strerror(errno));
+>         return r;
+>-- 
+>2.31.1
+>
 
 
