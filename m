@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926376C507C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 17:22:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108C46C5096
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 17:26:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf1Dp-0001iy-G2; Wed, 22 Mar 2023 12:21:57 -0400
+	id 1pf1I8-0004CO-JW; Wed, 22 Mar 2023 12:26:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pf1Dn-0001iZ-9K
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 12:21:55 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pf1Dl-0007Dp-F4
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 12:21:55 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- p13-20020a05600c358d00b003ed346d4522so11877520wmq.2
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 09:21:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679502111;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sX1GrapPE7KPgHgrKcW8nFNUR4W3JyWmEQMdyCxeUMY=;
- b=I5kjSP6mOFaivuZaoET1/BCKmFBBnsXjXUXl0yw/lwy3FJmcIcKvyQF0bntH2f+yPC
- 05EkiJVVfU7aIE0kNFTYTR/ZNSfNO0TY9uUh42ygvUjGRoNzwvV7S04ba3uXqx4PNpGT
- nJExaWViusSagMAH8/jqg9kduKq5wWH1Kee4go6Wzirf1naECnRtVpe5er8c0VpSMJ5z
- 2VWsoR8hLscXtjmnkVCbiqMK5Ec6uqK5Actt7b9g8EwchDcdqhGmH6LvtWZ8qOuFZkQz
- d7ObsqyKb/9e7kuTOG3RjoWWQc1Pc8hpFW+AoakZ6XZ+G8BT0IqTquCPo3IXFRuv84l0
- pKKQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pf1I7-0004B4-3P
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 12:26:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pf1I5-0002Cc-DX
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 12:26:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679502380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=S2V4t3KnhlOuG727Hj6mPv8xcqibmPnjogZ63o9SKwg=;
+ b=YpJUHy/bMjGA+eRuoJgZoZLnCGD8MhwDWn/hhsUUsGnTKWl5i/e+tzHm/jH9QGgxJ03voL
+ ytkKANhO+XPX4vHmCZfMqOuH8W3vBL2niHA4Vhvd/2iawRMVKmLXoYv6J3vfyJNFRgRgw4
+ KlQyMIYUD2fIsDXWL4+TW6VfWXyza2w=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-484-r2AjDhSFPy-AC5UjyAxghA-1; Wed, 22 Mar 2023 12:26:17 -0400
+X-MC-Unique: r2AjDhSFPy-AC5UjyAxghA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ s30-20020a508d1e000000b005005cf48a93so16657580eds.8
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 09:26:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679502111;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=sX1GrapPE7KPgHgrKcW8nFNUR4W3JyWmEQMdyCxeUMY=;
- b=DiLsK9Inv+zGAeofzoosfnnD5LsEezV9TOOrMykFFWQCdL9IuuKN+PKRA7XODzyinp
- IgX+6NQDObRvIiImrRe+V8nm4TnPN7mmlPmPetkeVnSERTnWvW5doz2vu/kbb/Lp1NzO
- 9cLGGd3kGz7tMaSQcwW/1gOdU4c8puHw/2Z2ehSV3aBXErqNYN8AgJCCdzcQGYH7GAIi
- RE3yT2UnLGgAjjgcCwblom8wsKHiUyfwMop24maQ5jc/SZnJWMjYodlhlCL24E1PtLBN
- 8nv2DoN7tlL2tWnn6xct4M4Pk8wfQDslIhj7X+MekQF1MXeWUwl2f2W+xtUiej1KffJl
- bhuw==
-X-Gm-Message-State: AO0yUKXUnaUhCOXrPK7TAcm5IEYhdS210dtZRVi7HTa5NKqOuILZpTx1
- lDzgHj3y/0hYJEUamQu61if7Rg==
-X-Google-Smtp-Source: AK7set8QRVhznpe5LdgHUkKLLPeacZVGUwK8nZmBGma2/A97kWqFaM/M9AEQaSHELk5i8GEP0hV/hQ==
-X-Received: by 2002:a1c:771a:0:b0:3ed:e715:1784 with SMTP id
- t26-20020a1c771a000000b003ede7151784mr118088wmi.15.1679502111146; 
- Wed, 22 Mar 2023 09:21:51 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20210112; t=1679502376;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=S2V4t3KnhlOuG727Hj6mPv8xcqibmPnjogZ63o9SKwg=;
+ b=3U/NYmrNtmha9+orjY8nc0YzACOl75vhHgey4PrDgnNOic0hxyd4adqlm1UlXD4XXk
+ gHXSrMDd7HJIs4NM1TSml+OHZRcnnf9D6S6/jLeF1Fuyz2AmcT8xMrXXXtishK/qAhmz
+ OoT5/+b17gJQtwuBFETBpexF3zZNPg7VpjVDjBMQkE6RDKWSHWMurXex2QX5nBXWA5sb
+ mNYV8apm5/ApMg2bGuoiRUO4x8OzXRzQjrO3N3axU6ho7lhBJRdnlihzfRTBbIgg5Ovt
+ FpFgVpC5oAYaYNuZyJmPq5PwtEpWwNbSGPJrAedEEPW8Pyr8C0p8Lq3hWI6RGWMi4p4H
+ QCfg==
+X-Gm-Message-State: AO0yUKWXPAJD7MFVTPMciGkfR6XzBHvnmLmhiPixCmqml+ObUb3WU0jc
+ LkXSRXveaJH5R0JTnhlZ56l0fqhhjYU8g2yEjxW3H/8+58PFN61x0P/+hMZBDlu6AwmMT8ezNuj
+ V8Oa4DLB2N3z3T4H189ikpAHuwwg6HOF7Dc3lRY5uxdr664hzLqIHpts5SNAq/FlGsHhyzii5aQ
+ CP7Q==
+X-Received: by 2002:a17:906:7016:b0:930:45ea:4a28 with SMTP id
+ n22-20020a170906701600b0093045ea4a28mr8572082ejj.35.1679502376321; 
+ Wed, 22 Mar 2023 09:26:16 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9kJEFaLT5T8/NlSH72o/wUIwq+QrQ5JstfBCz7p4a+YeqPfYNIp45qXBE4RTHKu2ST8fqAqw==
+X-Received: by 2002:a17:906:7016:b0:930:45ea:4a28 with SMTP id
+ n22-20020a170906701600b0093045ea4a28mr8572062ejj.35.1679502376014; 
+ Wed, 22 Mar 2023 09:26:16 -0700 (PDT)
+Received: from [192.168.1.72] ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- n17-20020a5d4c51000000b002c54c9bd71fsm14076489wrt.93.2023.03.22.09.21.50
+ g22-20020a170906199600b008b1797b77b2sm7333073ejd.221.2023.03.22.09.26.15
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 09:21:50 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1038D1FFB7;
- Wed, 22 Mar 2023 16:21:50 +0000 (GMT)
-References: <20230322142902.69511-1-philmd@linaro.org>
- <20230322142902.69511-3-philmd@linaro.org>
-User-agent: mu4e 1.9.22; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Fabiano Rosas <farosas@suse.de>,
- Claudio Fontana <cfontana@suse.de>, qemu-arm@nongnu.org
-Subject: Re: [PATCH-for-8.0 2/2] target/arm/gdbstub: Only advertise
- M-profile features if TCG available
-Date: Wed, 22 Mar 2023 16:21:45 +0000
-In-reply-to: <20230322142902.69511-3-philmd@linaro.org>
-Message-ID: <877cv869k1.fsf@linaro.org>
+ Wed, 22 Mar 2023 09:26:15 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [qemu-web PATCH] make {{relative_root}} available in the blog/ page
+Date: Wed, 22 Mar 2023 17:26:14 +0100
+Message-Id: <20230322162614.1023576-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,29 +96,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This fixes links to blog posts on gitlab.io, where the website is under
+/qemu-web rather than directly in the root.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ blog/index.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Cortex-M profile is only emulable from TCG accelerator. Restrict
-> the GDBstub features to its availability in order to avoid a link
-> error when TCG is not enabled:
->
->   Undefined symbols for architecture arm64:
->     "_arm_v7m_get_sp_ptr", referenced from:
->         _m_sysreg_get in target_arm_gdbstub.c.o
->     "_arm_v7m_mrs_control", referenced from:
->         _arm_gdb_get_m_systemreg in target_arm_gdbstub.c.o
->   ld: symbol(s) not found for architecture arm64
->   clang: error: linker command failed with exit code 1 (use -v to see inv=
-ocation)
->
-> Fixes: 7d8b28b8b5 ("target/arm: Implement gdbstub m-profile systemreg and=
- secext")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+diff --git a/blog/index.html b/blog/index.html
+index c7ceb0a..ab82aac 100644
+--- a/blog/index.html
++++ b/blog/index.html
+@@ -2,7 +2,7 @@
+ title: Blog
+ layout: blog
+ ---
+-
++{% include relative_root.html %}
+ <!-- Main -->
+ 	{% for post in site.posts offset: 0 limit: 4 %}
+ 	<div class="row">
+-- 
+2.39.2
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
