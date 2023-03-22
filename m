@@ -2,88 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE706C5368
+	by mail.lfdr.de (Postfix) with ESMTPS id E5CD66C5369
 	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 19:15:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf2yA-0006tT-TD; Wed, 22 Mar 2023 14:13:54 -0400
+	id 1pf2yf-0006ux-9N; Wed, 22 Mar 2023 14:14:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pf2y8-0006t5-7C
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:13:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pf2yb-0006uf-Qt
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:14:21 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pf2y6-0008Vd-2Y
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:13:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679508829;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oPChBHUWJ+urTWumeUYPtHOzTHMTDedS+2urz4m3Pw0=;
- b=VHppwENi6OSdc7IaOMYTKgyuEtlsTO42+2jG00q1mGjrEVBbabCOdT6UtevJVY1V9+D9Hx
- QY3MyjvzWKCd1fD4Qhp/0P0916aLBL29fC/gTdRqey+4Ej3eNKJGsvpK4Z65oqxkvZpIK7
- hL8d0mKQlCKGfUTjhWidq5iQoFpbwa4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-440-9ongd82qOUeSM-WFAwYJOg-1; Wed, 22 Mar 2023 14:13:47 -0400
-X-MC-Unique: 9ongd82qOUeSM-WFAwYJOg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o37-20020a05600c512500b003edd119ec9eso5718032wms.0
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 11:13:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679508826;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oPChBHUWJ+urTWumeUYPtHOzTHMTDedS+2urz4m3Pw0=;
- b=qFAL3GUOVHlS54X1qGphWoNZXRVPKMorv1GWoJrTMij9fGDq6vPRiIfc4abpMuaJdH
- 3jwA7W0bunRulRXBupeibHnaKc3+3dirusMuk5YpbN4tOwrG8MZycFfkEqFl6sQj2PMi
- P+yaAKwQ5j27RsuDk+MU4EXIuwDA7tSFiysHf0pWNafhXliUCPVtrhEOfBtArcSljXTO
- CcIr90TJdE36IXdzWwbKAhARGd5ZAQ1/MQXwwKnqpJzq3somMEASJ9fv2SUm/ZXNZe/H
- 02KqqGAMGpsd6sYHhxFsJk1+l5HgFzYc1kTFm/x7I2xLU8LVAGQFo/eZKximfXq+RR4+
- W27g==
-X-Gm-Message-State: AAQBX9cqhX9fOU/SsLK2ZSMNvaYWGVoMhASblea/88GsQpqkFMnxk3QD
- JQoEFtXsOT/7sP7mJUYlXeR+nZ4riovWHwG9v/Pf/zUe5xOenMaFRkj1seU/9ZHQLfVwVzGciEc
- lNFcjhOkCvsUos3A=
-X-Received: by 2002:adf:f391:0:b0:2cf:ee25:18ce with SMTP id
- m17-20020adff391000000b002cfee2518cemr584810wro.27.1679508826734; 
- Wed, 22 Mar 2023 11:13:46 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aSZCpnsX2BYMti4f7zvZFRyubj/z2w6q4mMKUoo6m6xZNrBw4TdG8EQBcIWViAg+xEjXklQw==
-X-Received: by 2002:adf:f391:0:b0:2cf:ee25:18ce with SMTP id
- m17-20020adff391000000b002cfee2518cemr584797wro.27.1679508826456; 
- Wed, 22 Mar 2023 11:13:46 -0700 (PDT)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- v7-20020a5d4b07000000b002c56af32e8csm14274772wrq.35.2023.03.22.11.13.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 11:13:45 -0700 (PDT)
-Date: Wed, 22 Mar 2023 18:13:43 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, quintela@redhat.com
-Subject: Re: s390 migration crash
-Message-ID: <ZBtFV7NEGJ6DHz0a@work-vm>
-References: <ZBoShWArKDPpX/D7@work-vm> <ZBpJdAbqmyqMNh4D@x1n>
- <ZBsLEjpb/0pdrDZG@work-vm> <ZBsYnMT2j6uMDQUd@x1n>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pf2ya-0000Cr-4q
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 14:14:21 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32MICgxJ002564; Wed, 22 Mar 2023 18:14:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : to : cc : from : subject : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=z0yLq+hy32FOQLpJseIrH4Mt7pTROB+5zSD1/2aV730=;
+ b=WB6q59Y/xCMP0gtZ8crcpncrpu2vny/HqcKh18UFS+i3vhuzLIRnlMp00HE/VZPnF7+D
+ 8KPY3Do7N3yV4qNLPOvuXWapEsRNTgWRchyXWKWDdTn2SczFqBkkSuqT01hkyCWY9MBT
+ 2u5vtQsLVpt7tpbeBFeKS9ENZcywGc2gZKBHjBSm4Gb5QnxTB7YIE+9ARua3rRKXtqeH
+ YdP00wDBWrsA32BkJH8ahxfPnUXe0QKPX3kUyfHN9PsjJVesyxUBKOXbK9YMhqlIm+RZ
+ Gq5p+rV0Kzqg6dxp+hGh5QvmVZHpbI3VcB3abYoFjXSwzVEhrXqGx8dbOCq95I8aPcH0 cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg6rdr0xr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 18:14:14 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32MIDeGb004869;
+ Wed, 22 Mar 2023 18:14:14 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg6rdr0xc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 18:14:14 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MHKjX5014964;
+ Wed, 22 Mar 2023 18:14:13 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
+ by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7r09x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 18:14:13 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
+ [10.241.53.105])
+ by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32MIEBDc22414038
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Mar 2023 18:14:11 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 758F858055;
+ Wed, 22 Mar 2023 18:14:11 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1736C58043;
+ Wed, 22 Mar 2023 18:14:11 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Mar 2023 18:14:11 +0000 (GMT)
+Message-ID: <dd43ec84-51e4-11f7-e067-2fb57a567f09@linux.ibm.com>
+Date: Wed, 22 Mar 2023 14:14:10 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZBsYnMT2j6uMDQUd@x1n>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Content-Language: en-US
+To: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, ninadpalsule@us.ibm.com
+From: Stefan Berger <stefanb@linux.ibm.com>
+Subject: Test for TPM TIS on I2C bus
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rujVzmfc7PDUP12mJQp3hGpapCyWc0ao
+X-Proofpoint-ORIG-GUID: WQZVFCvrfxLSWRIFcdB1h1a4fAkyirO8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_15,2023-03-22_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ impostorscore=0 mlxlogscore=969 clxscore=1015 mlxscore=0 phishscore=0
+ bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303220127
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,155 +115,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Wed, Mar 22, 2023 at 02:05:06PM +0000, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > On Tue, Mar 21, 2023 at 08:24:37PM +0000, Dr. David Alan Gilbert wrote:
-> > > > Hi Peter's,
-> > > >   Peter M pointed me to a seg in a migration test in CI; I can reproduce
-> > > > it:
-> > > >   * On an s390 host
-> > > 
-> > > How easy to reproduce?
-> > 
-> > Pretty much every time when run as:
-> > make check -j 4
-> > 
-> > > >   * only as part of a make check - running migration-test by itself
-> > > > doesn't trigger for me.
-> > > >   * It looks like it's postcopy preempt
-> > > > 
-> > > > (gdb) bt full
-> > > > #0  iov_size (iov=iov@entry=0x2aa00e60670, iov_cnt=<optimized out>) at ../util/iov.c:88
-> > > >         len = 13517923312037845750
-> > > >         i = 17305
-> > > > #1  0x000002aa004d068c in qemu_fflush (f=0x2aa00e58630) at ../migration/qemu-file.c:307
-> > > >         local_error = 0x0
-> > > > #2  0x000002aa004d0e04 in qemu_fflush (f=<optimized out>) at ../migration/qemu-file.c:297
-> > > > #3  0x000002aa00613962 in postcopy_preempt_shutdown_file (s=s@entry=0x2aa00d1b4e0) at ../migration/ram.c:4657
-> > > > #4  0x000002aa004e12b4 in migration_completion (s=0x2aa00d1b4e0) at ../migration/migration.c:3469
-> > > >         ret = <optimized out>
-> > > >         current_active_state = 5
-> > > >         must_precopy = 0
-> > > >         can_postcopy = 0
-> > > >         in_postcopy = true
-> > > >         pending_size = 0
-> > > >         __func__ = "migration_iteration_run"
-> > > >         iter_state = <optimized out>
-> > > >         s = 0x2aa00d1b4e0
-> > > >         thread = <optimized out>
-> > > >         setup_start = <optimized out>
-> > > >         thr_error = <optimized out>
-> > > >         urgent = <optimized out>
-> > > > #5  migration_iteration_run (s=0x2aa00d1b4e0) at ../migration/migration.c:3882
-> > > >         must_precopy = 0
-> > > >         can_postcopy = 0
-> > > >         in_postcopy = true
-> > > >         pending_size = 0
-> > > >         __func__ = "migration_iteration_run"
-> > > >         iter_state = <optimized out>
-> > > >         s = 0x2aa00d1b4e0
-> > > >         thread = <optimized out>
-> > > >         setup_start = <optimized out>
-> > > >         thr_error = <optimized out>
-> > > >         urgent = <optimized out>
-> > > > #6  migration_thread (opaque=opaque@entry=0x2aa00d1b4e0) at ../migration/migration.c:4124
-> > > >         iter_state = <optimized out>
-> > > >         s = 0x2aa00d1b4e0
-> > > > --Type <RET> for more, q to quit, c to continue without paging--
-> > > >         thread = <optimized out>
-> > > >         setup_start = <optimized out>
-> > > >         thr_error = <optimized out>
-> > > >         urgent = <optimized out>
-> > > > #7  0x000002aa00819b8c in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:541
-> > > >         __cancel_buf = 
-> > > >             {__cancel_jmp_buf = {{__cancel_jmp_buf = {{__gregs = {4396782422080, 4393751543808, 4397299389454, 4396844235904, 2929182727824, 2929182933488, 4396843986792, 4397299389455, 33679382915066768, 33678512846981306}, __fpregs = {4396774031360, 8392704, 2929182933488, 0, 4396782422272, 2929172491858, 4396774031360, 1}}}, __mask_was_saved = 0}}, __pad = {0x3ffb4a77a60, 0x0, 0x0, 0x0}}
-> > > >         __cancel_routine = 0x2aa00819bf0 <qemu_thread_atexit_notify>
-> > > >         __not_first_call = <optimized out>
-> > > >         start_routine = 0x2aa004e08f0 <migration_thread>
-> > > >         arg = 0x2aa00d1b4e0
-> > > >         r = <optimized out>
-> > > > #8  0x000003ffb7b1e2e6 in start_thread () at /lib64/libc.so.6
-> > > > #9  0x000003ffb7aafdbe in thread_start () at /lib64/libc.so.6
-> > > > 
-> > > > It looks like it's in the preempt test:
-> > > > 
-> > > > (gdb) where
-> > > > #0  0x000003ffb17a0126 in __pthread_kill_implementation () from /lib64/libc.so.6
-> > > > #1  0x000003ffb1750890 in raise () from /lib64/libc.so.6
-> > > > #2  0x000003ffb172a340 in abort () from /lib64/libc.so.6
-> > > > #3  0x000002aa0041c130 in qtest_check_status (s=<optimized out>) at ../tests/qtest/libqtest.c:194
-> > > > #4  0x000003ffb1a3b5de in g_hook_list_invoke () from /lib64/libglib-2.0.so.0
-> > > > #5  <signal handler called>
-> > > > #6  0x000003ffb17a0126 in __pthread_kill_implementation () from /lib64/libc.so.6
-> > > > #7  0x000003ffb1750890 in raise () from /lib64/libc.so.6
-> > > > #8  0x000003ffb172a340 in abort () from /lib64/libc.so.6
-> > > > #9  0x000002aa00420318 in qmp_fd_receive (fd=<optimized out>) at ../tests/qtest/libqmp.c:80
-> > > > #10 0x000002aa0041d5ee in qtest_qmp_receive_dict (s=0x2aa01eb2700) at ../tests/qtest/libqtest.c:713
-> > > > #11 qtest_qmp_receive (s=0x2aa01eb2700) at ../tests/qtest/libqtest.c:701
-> > > > #12 qtest_vqmp (s=s@entry=0x2aa01eb2700, fmt=fmt@entry=0x2aa00487100 "{ 'execute': 'query-migrate' }", ap=ap@entry=0x3ffc247cc68)
-> > > >     at ../tests/qtest/libqtest.c:765
-> > > > #13 0x000002aa00413f1e in wait_command (who=who@entry=0x2aa01eb2700, command=command@entry=0x2aa00487100 "{ 'execute': 'query-migrate' }")
-> > > >     at ../tests/qtest/migration-helpers.c:73
-> > > > #14 0x000002aa00414078 in migrate_query (who=who@entry=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:139
-> > > > #15 migrate_query_status (who=who@entry=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:161
-> > > > #16 0x000002aa00414480 in check_migration_status (ungoals=0x0, goal=0x2aa00495c7e "completed", who=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:177
-> > > > #17 wait_for_migration_status (who=0x2aa01eb2700, goal=<optimized out>, ungoals=0x0) at ../tests/qtest/migration-helpers.c:202
-> > > > #18 0x000002aa0041300e in migrate_postcopy_complete (from=from@entry=0x2aa01eb2700, to=to@entry=0x2aa01eb3000, args=args@entry=0x3ffc247cf48)
-> > > >     at ../tests/qtest/migration-test.c:1137
-> > > > #19 0x000002aa004131a4 in test_postcopy_common (args=0x3ffc247cf48) at ../tests/qtest/migration-test.c:1162
-> > > > #20 test_postcopy_preempt () at ../tests/qtest/migration-test.c:1178
-> > > > 
-> > > > Looking at the iov and file it's garbage; so it makes me think this is
-> > > > something like a flush on a closed file.
-> > > 
-> > > I didn't figure out how that could be closed, but I think there's indeed a
-> > > possible race that the qemufile can be accessed by both the return path
-> > > thread and the migration thread concurrently, while qemufile is not thread
-> > > safe on that.
-> > > 
-> > > What postcopy_preempt_shutdown_file() does was: the src uses this EOS to
-> > > kick the dest QEMU preempt thread out of the migration and shut it off.
-> > > After some thought I think this is unnecessary complexity, since postcopy
-> > > should end at the point where dest received all the data, then it sends a
-> > > SHUT to src.  So potentially it's not good to have dest relying on anything
-> > > from src to shutdown anything (the preempt thread here) because it's the
-> > > dest qemu that makes the final decision to finish.  Ideally the preempt
-> > > thread on dest should be able to shutdown itself.
-> > > 
-> > > The trick here is preempt thread will block at read() (aka, recvmsg()) at
-> > > the channel at that time and the only way to kick it out from that is a
-> > > shutdown() on dest.  I attached a patch did it.  I'm not 100% sure whether
-> > > it'll already resolve our problem but worth trying.  This also made me
-> > > notice we forgot to enable SHUTDOWN feature on tls server when I was
-> > > running the patch 1 with qtest, so two patches needed.
-> > 
-> > Well, it seems to fix it:
-> > 
-> > Tested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > 
-> > Will this break interaction with an old qemu that's still waiting for
-> > the EOS?
-> 
-> Right.. when someone migrates from a 8.0+ QEMU (assuming this can land in
-> this release) to 7.2 QEMU with postcopy+preempt enabled.
+Hello!
 
-So why not carry on sending the EOS?
+   Ninad wrote an emulator for TPM TIS on I2C bus and I was wondering how one could implement a test case for it so that we can for example read and write registers. All existing TPM test cases are using qtest API and we spawn a thread to emulate a TPM and use the qtest API to read/write the ISA TIS's MMIO registers. The test cases that I see for i2c are all using the qos type of API. I have tried to use both in a test case but I am not sure whether they go together at all (from the errors I have seen they don't go together). So what options would we have? I thought that one could maybe write an i2c driver to transfer bytes to the device but the i2c in hw/i2c/aspeed_i2c.c looks complex to reverse engineer to try to get a byte to a connected device. Do you have any other suggestions?
 
-> I still see preempt full support only in 8.0; we did major rework in 8.0 to
-> shift to the return path.  So maybe it's worth the risk?  I can also add a
-> flag for this but it may add maintainance burden in general OTOH.
-
-If you're saying the pre 8.0 never worked then I guess that's fine;
-it's tricky from say a libvirt or higher level tool to know what it can
-use.
-
-Dave
-
-> -- 
-> Peter Xu
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+   Regards,
+       Stefan
 
