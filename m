@@ -2,108 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA13D6C5275
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 18:29:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBFD6C52A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 18:39:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf2G3-00071i-TI; Wed, 22 Mar 2023 13:28:19 -0400
+	id 1pf2Ot-0001be-1Q; Wed, 22 Mar 2023 13:37:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1pf2G2-00071U-9z; Wed, 22 Mar 2023 13:28:18 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pf2Oo-0001av-Np
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 13:37:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1pf2Fz-0000n2-IO; Wed, 22 Mar 2023 13:28:17 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32MGN401019272; Wed, 22 Mar 2023 17:28:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=qWnQtV/6kizcWTP/1igOtXM6RLmrrVdVptrICSjKjOQ=;
- b=I+RIaO54BlkImNCvxQdtVjjxNMim5ApHtwDl3WdE+xvQ4MWWjBTJTmNLbqlLWqGTAVsW
- 6GjA69cs1ofLtWlPldV566qv3qSLAMcPf4iW9x4oZbNRYU1QsMqAzJ5VlYpG/ouqhr0g
- Hmc2KiauuCiMuEgqN+xsoJXEsOXS++ZvIS+ljTSIQVXv5FLayhcxDOcaDBEodza99YI4
- yP72PCvfXP0pSmGzuRcKD31ew1Gh61b4zYThF9N5DHEvwQ8zQ4owiWN8mvCi/nfnokdm
- GsZYgbbP2r5RbqYKT5+6grBb+485bBh6fooLLoqxWXPiojpcAYyXDUXvAzZWK3iQYV0y Rg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg558hn7p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Mar 2023 17:28:11 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32MGNFVE019508;
- Wed, 22 Mar 2023 17:28:11 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pg558hn6r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Mar 2023 17:28:10 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MGQ00X015074;
- Wed, 22 Mar 2023 17:28:08 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3pd4jfe7gf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Mar 2023 17:28:08 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32MHS5LE8847898
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Mar 2023 17:28:05 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0AF5720040;
- Wed, 22 Mar 2023 17:28:05 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C526920043;
- Wed, 22 Mar 2023 17:28:04 +0000 (GMT)
-Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown
- [9.152.224.212])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 22 Mar 2023 17:28:04 +0000 (GMT)
-Date: Wed, 22 Mar 2023 18:24:33 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: Carlos =?UTF-8?B?TMOzcGV6?= <clopez@suse.de>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
- <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- "open list:virtio-ccw" <qemu-s390x@nongnu.org>, Halil Pasic
- <pasic@linux.ibm.com>
-Subject: Re: [PATCH v2] virtio: refresh vring region cache after updating a
- virtqueue size
-Message-ID: <20230322182433.695270d0.pasic@linux.ibm.com>
-In-Reply-To: <87y1npglk0.fsf@redhat.com>
-References: <20230317002749.27379-1-clopez@suse.de> <87y1npglk0.fsf@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pf2Om-0003bf-IB
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 13:37:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679506638;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nI5uf5AdPqs9Y7G8SRp+LbLM46YNAFZ/Cb0k/RcW5nw=;
+ b=SMo3OYPmlbNlONe8zRQJwAUGjz4vzQm2AjN6+VZ7ElEkyhzO5drMMEaEPS0kY2x/xc0C8t
+ EW6MMx4JxK1+iP+54+3fSYYFP6sAYDio1lQh7dysapMIbgGgFchMvDYvIFt0KDBvPt3/Fk
+ 97DB/RDD5qbHovtYx0y87Udwz+YLHhI=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-427-QLRcpZoAMbWmXJry1-0Z_g-1; Wed, 22 Mar 2023 13:37:16 -0400
+X-MC-Unique: QLRcpZoAMbWmXJry1-0Z_g-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ w5-20020a253005000000b00aedd4305ff2so20315008ybw.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 10:37:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679506636;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nI5uf5AdPqs9Y7G8SRp+LbLM46YNAFZ/Cb0k/RcW5nw=;
+ b=Wt+zuYE8BH5a0D9qFM6xfcuestgJRngNtv5mCIAu4F500N8ULhT/bjBhxxgTUVoBS9
+ dx2iLo37dtBmmra8ppkPrTFU7e72Z64wNUa6nAlZA9lWjUL2w6nejKGttyS/mHE7EATB
+ /lC/QW4pKX6o0ogB5SCSqYJcAbzFNJ478oCQO0jaDACv79W3b2MYVsM2JFbBVnxvNiTv
+ /vrUtvVckYgiJpcmgEQUYvnqLXFm0ZL4pKHPZTfRu2W9N0Uw4QQA4bTZF8MK4gLQSRsQ
+ UDNia71ZToH4vtXgD4FackWXQ8nKguPCO7NjN9+nl2/eyhEoytgDaEgdwo+vk49P8qqs
+ H7rw==
+X-Gm-Message-State: AAQBX9ePy4QGOOX8xK9HY+OyKkAdDDuUIxfetUykawLQDHcadu+rajWS
+ zdNICVEqGRUz2cQdXOlOfuREAYtkCgPyfPtii0uXJDymiwgdTiKCgbMBwIcH4L2pMh/h8bLtUaQ
+ V+0Fa1dRumJq6zdi5aWE51iSqA+SEsA0=
+X-Received: by 2002:a05:6902:150c:b0:a48:6236:1be4 with SMTP id
+ q12-20020a056902150c00b00a4862361be4mr429848ybu.2.1679506636074; 
+ Wed, 22 Mar 2023 10:37:16 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z1N0Lz6VIQy3wXuizgJrDoxoup4lCCQU8xLzmt/41t1dfYoeQs2S6Na69P9+aBCyemq8t0b77kUZhrsWjOOSg=
+X-Received: by 2002:a05:6902:150c:b0:a48:6236:1be4 with SMTP id
+ q12-20020a056902150c00b00a4862361be4mr429829ybu.2.1679506635793; Wed, 22 Mar
+ 2023 10:37:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: CHaQicEbEgbpXbuNFwwcEpMMdghK-Y2O
-X-Proofpoint-GUID: xKWu4E-Hv9iVcMXBBC7WjkqROPp-0Ymq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_14,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 spamscore=0
- mlxscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 phishscore=0
- bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303220117
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230317145542.347368-1-eperezma@redhat.com>
+ <20230317145542.347368-3-eperezma@redhat.com>
+ <20230322142445.cocojplrzn5gtlfw@sgarzare-redhat>
+In-Reply-To: <20230322142445.cocojplrzn5gtlfw@sgarzare-redhat>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 22 Mar 2023 18:36:39 +0100
+Message-ID: <CAJaqyWdLcCDYfmgGHkSVaBWX5WAX=WEpA5QAec2CnGQr=J4c8Q@mail.gmail.com>
+Subject: Re: [RFC PATCH for 8.1 2/6] vdpa: add vhost_vdpa_reset_status_fd
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com, 
+ Laurent Vivier <lvivier@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Jason Wang <jasowang@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ si-wei.liu@oracle.com, longpeng2@huawei.com, Cindy Lu <lulu@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,68 +103,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Mar 2023 10:52:31 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
-[..]
+On Wed, Mar 22, 2023 at 3:24=E2=80=AFPM Stefano Garzarella <sgarzare@redhat=
+.com> wrote:
+>
+> On Fri, Mar 17, 2023 at 03:55:38PM +0100, Eugenio P=C3=A9rez wrote:
+> >This allows to reset a vhost-vdpa device from external subsystems like
+> >vhost-net.  It is used in subsequent patches to negotiate features and
+> >probe for CVQ ASID isolation.
 > >
-> > diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> > index e33e5207ab..f44de1a8c1 100644
-> > --- a/hw/s390x/virtio-ccw.c
-> > +++ b/hw/s390x/virtio-ccw.c
-> > @@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
-> >                  return -EINVAL;
-> >              }
-> >              virtio_queue_set_num(vdev, index, num);
-> > +            virtio_init_region_cache(vdev, index);  
-> 
-> Hmm... this is not wrong, but looking at it again, I see that the guest
-> has no way to change num after our last call to
-> virtio_init_region_cache() (while setting up the queue addresses.) IOW,
-> this introduces an extra round trip that is not really needed.
-> 
+> >Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >---
+> > include/hw/virtio/vhost-vdpa.h |  1 +
+> > hw/virtio/vhost-vdpa.c         | 58 +++++++++++++++++++++++-----------
+> > 2 files changed, 41 insertions(+), 18 deletions(-)
+> >
+> >diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vd=
+pa.h
+> >index c278a2a8de..28de7da91e 100644
+> >--- a/include/hw/virtio/vhost-vdpa.h
+> >+++ b/include/hw/virtio/vhost-vdpa.h
+> >@@ -54,6 +54,7 @@ typedef struct vhost_vdpa {
+> >     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> > } VhostVDPA;
+> >
+> >+void vhost_vdpa_reset_status_fd(int fd);
+> > int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iov=
+a_range);
+> >
+> > int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova=
+,
+> >diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> >index bbabea18f3..7a2053b8d9 100644
+> >--- a/hw/virtio/vhost-vdpa.c
+> >+++ b/hw/virtio/vhost-vdpa.c
+> >@@ -335,38 +335,45 @@ static const MemoryListener vhost_vdpa_memory_list=
+ener =3D {
+> >     .region_del =3D vhost_vdpa_listener_region_del,
+> > };
+> >
+> >-static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int req=
+uest,
+> >-                             void *arg)
+> >+static int vhost_vdpa_dev_fd(const struct vhost_dev *dev)
+>
+> What is the purpose of this refactoring?
+> I guess, since vhost_net does not have `struct vhost_dev *` we want to
+> use fd directly?
+>
 
-I don't quite understand. AFAIU the virtio_init_region_cache() would see
-the (new) queue addresses but not the new size (num). Yes virtio-ccw
-already knows the new num but it is yet to call
-to put it into vdev->vq[n].vring.num from where
-virtio_init_region_cache() picks it up.
+Right.
 
-If we were to first virtio_queue_set_num() and only then the address
-I would understand. But with the code as is, I don't. Am I missing
-something?
+> It might be better to split this patch into two.
+>
 
-[..]
-> OTOH, all other transports need this call, as setting the addresses and
-> setting num are two distinct operations. So I think we have two options:
-> 
-> - apply your patch, and accept that we have the extra round trip for ccw
->   (which should not really be an issue, we're processing a channel
->   command anyway)
-> 
-> - leave it out for ccw and add a comment why it isn't needed
-> 
-> (I think I'd prefer to just go ahead with your patch.)
-> 
+Do you mean to create vhost_vdpa_dev_fd first and then users?
 
-Provided we really don't need it: Why do unnecessary work? I would prefer
-the "add a comment solution" because doing unnecessary work is
-confusing. If we decide to do the unnecessary (and AFAIU completely
-useless) work, I believe we should also add a comment why this is done.
+> > {
+> >     struct vhost_vdpa *v =3D dev->opaque;
+> >-    int fd =3D v->device_fd;
+> >-    int ret;
+> >
+> >     assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDPA)=
+;
+> >+    return v->device_fd;
+> >+}
+> >+
+> >+static int vhost_vdpa_call_fd(int fd, unsigned long int request, void *=
+arg)
+> >+{
+> >+    int ret =3D ioctl(fd, request, arg);
+> >
+> >-    ret =3D ioctl(fd, request, arg);
+> >     return ret < 0 ? -errno : ret;
+> > }
+> >
+> >-static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+> >+static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int req=
+uest,
+> >+                           void *arg)
+> >+{
+> >+    return vhost_vdpa_call_fd(vhost_vdpa_dev_fd(dev), request, arg);
+> >+}
+> >+
+> >+static int vhost_vdpa_add_status_fd(int fd, uint8_t status)
+> > {
+> >     uint8_t s;
+> >     int ret;
+> >
+> >-    trace_vhost_vdpa_add_status(dev, status);
+> >-    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
+> >+    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+> >     if (ret < 0) {
+> >         return ret;
+> >     }
+> >
+> >     s |=3D status;
+> >
+> >-    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
+> >+    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &s);
+> >     if (ret < 0) {
+> >         return ret;
+> >     }
+> >
+> >-    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
+> >+    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+> >     if (ret < 0) {
+> >         return ret;
+> >     }
+> >@@ -378,6 +385,12 @@ static int vhost_vdpa_add_status(struct vhost_dev *=
+dev, uint8_t status)
+> >     return 0;
+> > }
+> >
+> >+static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+> >+{
+> >+    trace_vhost_vdpa_add_status(dev, status);
+> >+    return vhost_vdpa_add_status_fd(vhost_vdpa_dev_fd(dev), status);
+> >+}
+> >+
+> > int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iov=
+a_range)
+> > {
+> >     int ret =3D ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
+> >@@ -709,16 +722,20 @@ static int vhost_vdpa_get_device_id(struct vhost_d=
+ev *dev,
+> >     return ret;
+> > }
+> >
+> >+static int vhost_vdpa_reset_device_fd(int fd)
+> >+{
+> >+    uint8_t status =3D 0;
+> >+
+> >+    return vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &status);
+> >+}
+> >+
+> > static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+> > {
+> >     struct vhost_vdpa *v =3D dev->opaque;
+> >-    int ret;
+> >-    uint8_t status =3D 0;
+> >
+> >-    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+> >-    trace_vhost_vdpa_reset_device(dev);
+> >     v->suspended =3D false;
+>
+> I think it is pre-existing, but if VHOST_VDPA_SET_STATUS fails,
+> should we set anyway `v->suspended =3D false`?
+>
 
-OTOH, my current understanding is that we do need it. Or we need to change
-the order of virtio_queue_set_rings() and virtio_queue_set_num() which
-may or may not be possible.
+It's a good question. I think the most correct is to keep as the
+previous value, but I'm not sure if reset is actually allowed to fail.
 
-> Question (mostly for the other ccw folks): Do you think it is a problem
-> that ccw sets up queue addresses and size via one command, while pci and
-> mmio set addresses and size independently? I guess not; if anything, not
-> setting them in one go may lead to issues like the one this patch is
-> fixing.
-> 
-> 
+Thanks!
 
-I tend to agree: I don't think it is a problem.
-
-Regards,
-Halil
 
