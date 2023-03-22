@@ -2,86 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46046C4C07
+	by mail.lfdr.de (Postfix) with ESMTPS id 9136C6C4C06
 	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 14:41:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1peyhI-0003kP-Jy; Wed, 22 Mar 2023 09:40:12 -0400
+	id 1peyhL-0003lg-5T; Wed, 22 Mar 2023 09:40:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyhA-0003jh-2V
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:40:09 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1peyh7-0007cx-Ax
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:40:03 -0400
-Received: by mail-wr1-x434.google.com with SMTP id d17so8682119wrb.11
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679492398;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Xw3DgkTIiKvWogeJs16YdjjccKhLvmlrdVCVLFEZKRA=;
- b=p/PjFwdfNcpJYuQoXjTMn5sLvWwWqTMb90HNoJgTjlZFYHzDwpAe2+G7wclkqAnV3b
- 5QGMHKtmU1tSaxtXw5fZlyzCKaADyL0+NjdDqmhQICcs3aUcmHthZkwTVTXJnG+Swj/w
- 8OKKm9Am5U74Z5yNQhG5QL4cGPqHl3f2/fZaI8BdPo9/kBTjRAsqV2jpbdV/rOg8SIyY
- 0T2z0ktyM5pSok8fjkZzee/7yYLufkFsOToomyWs0l71SXmxH5WU7YnDGfzbgaVDVM58
- keu2GXy8kxNBJqBOhIY/dHbSuCMoDBc6dMHW5boAIkGo0l/y4rqqj+CsvmGkUGLnRarq
- dRGg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peyhI-0003lB-MD
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:40:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1peyhF-0007qY-Bi
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 09:40:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679492407;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TT6ib18/ulHT8sw2xEItFmFdpUNdTmc7raq7ZGa12JY=;
+ b=NpEyihMDUx2DUDOAhAjRF2e5c7nrumN1sR7UdcqL9xi8VA18fOHW4PcVNM48bbSacziuLN
+ fQOhi010eR9T5OnHFEeiaOHjPVJfxMX0FGWvFXMbp0mLEp7kjHqDGNqtPlkfCUsJMvLcWO
+ tHZfpRTDMOV2LYRSbAiG8MBv8jz3cac=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-256-ZpczIEFgO_m10WiCEuya9Q-1; Wed, 22 Mar 2023 09:40:06 -0400
+X-MC-Unique: ZpczIEFgO_m10WiCEuya9Q-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ px9-20020a056214050900b005d510cdfc41so2035877qvb.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 06:40:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679492398;
+ d=1e100.net; s=20210112; t=1679492405;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Xw3DgkTIiKvWogeJs16YdjjccKhLvmlrdVCVLFEZKRA=;
- b=gv7/SmL59WUHv7a13tQZK6i/ZRcp9CYhFKd4lWtQYfCn7689s2OkNRku+Hs9SVEKuC
- qpHBfu/NjSd0g/cu6j2hqs5QLrW1aGmKIMKvsmPUgsHuw8GIQyDYbXa6QrHX+EJ74cCY
- bNPQQFIe/HX/1Txn5EgbtmECzsEgrnt6PeJvPoMTuRT4/E8TTi+5yrsR4i3x3sNyGa+b
- xi2HB/MeRWtriWqI2pm8wW2khekRLU8SJdXfQI1gY6R99nvxD8bu9wzEV8hnhkhs/kfi
- cVdgbTVy+SsjJ/Ll9FPbTFvh3PP6J517VXKrVpIev4Ij6wUHwrU6Kd1l13VQTT6FcjdV
- Eo4Q==
-X-Gm-Message-State: AO0yUKUb3eNFEowSgRS87xVtLHqvclY90k4AGG70hkq9LizhTmIZpzzg
- SFQDx4PGPoVyey/k/zBQZ1kJ0g==
-X-Google-Smtp-Source: AK7set/D1B/0VhpR1SkB/ZpCh0821DKbVsqZlp9c2xgfNYSvY1NiLPsejlax1we6+yL+EjvdprDGCg==
-X-Received: by 2002:a05:6000:1376:b0:2d2:5971:68b0 with SMTP id
- q22-20020a056000137600b002d2597168b0mr5436113wrz.22.1679492398230; 
- Wed, 22 Mar 2023 06:39:58 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- s11-20020adff80b000000b002d6f285c0a2sm7693860wrp.42.2023.03.22.06.39.56
+ bh=TT6ib18/ulHT8sw2xEItFmFdpUNdTmc7raq7ZGa12JY=;
+ b=jl8CKpvqbLPD2inM5KmRRahH2cG4/Nms4Xpz/RtiyV9paqWuk7AIm60CKCqP0wz1y0
+ irTber28sOxL64+Au8ZQOSkH1coULfMJYL6Un8IN8hFEdrsyaNgsFKgsEA6RAjLzL2Z9
+ r/Zg0q5V9Lit8rDrSFnD671LblR890U22DVB8XwzM98zQx/a3Gy6pMy5STl621R9FKbB
+ 0TeKFiTLD7rJgYp/ERlVjMtOYwLZP+6SJuOZsFeuOJhH0XjEge5HRHgKyGwm64nwju21
+ nx33HbVBgaSU+FAJYzqSsc4bigWQJz301oJig5Z99nO+UNf6X615uQMkVM38MszB6nNi
+ 68DQ==
+X-Gm-Message-State: AO0yUKVxiF9tYWc2FwkYwDM2Xp9LOwjleREGdJxYmDbs0yuy8uZuXUa+
+ qxHG9eZZ0awNwNwlBqO9sr342aNoL+u5JsAx65jyWJa4t7T/swI83f3HWgG8+k726A9v6o+6bh+
+ 57M+gLovRC2PgGgg=
+X-Received: by 2002:a05:622a:10d:b0:3e1:90e4:c1d with SMTP id
+ u13-20020a05622a010d00b003e190e40c1dmr5297162qtw.58.1679492405688; 
+ Wed, 22 Mar 2023 06:40:05 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9+ZCo+w7FG4RkdK0wPUBB/DXv/uTO6peM4DESzzDbmEEHRKkirWJ+AY6xABCiutTkEft/lCA==
+X-Received: by 2002:a05:622a:10d:b0:3e1:90e4:c1d with SMTP id
+ u13-20020a05622a010d00b003e190e40c1dmr5297129qtw.58.1679492405411; 
+ Wed, 22 Mar 2023 06:40:05 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-177-44.web.vodafone.de.
+ [109.43.177.44]) by smtp.gmail.com with ESMTPSA id
+ c68-20020a379a47000000b00746aa080eefsm1735527qke.6.2023.03.22.06.40.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 06:39:57 -0700 (PDT)
-Message-ID: <7cd8ed61-ef48-aa62-b8a6-24c445cfa9e2@linaro.org>
-Date: Wed, 22 Mar 2023 14:39:56 +0100
+ Wed, 22 Mar 2023 06:40:05 -0700 (PDT)
+Message-ID: <c3c944e3-f7e6-1ec2-5a18-e694d4c9c842@redhat.com>
+Date: Wed, 22 Mar 2023 14:40:02 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH 2/2] tests/vm: custom openbsd partitioning to increase
- /home space
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/2] tests/vm: skip X11 in openbsd installation
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
-Cc: Brad Smith <brad@comstyle.com>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
+Cc: Brad Smith <brad@comstyle.com>, Beraldo Leal <bleal@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20230322123639.836104-1-berrange@redhat.com>
- <20230322123639.836104-3-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230322123639.836104-3-berrange@redhat.com>
+ <20230322123639.836104-2-berrange@redhat.com>
+ <d8fe0d24-03ee-4c4a-6886-36319eaa2948@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <d8fe0d24-03ee-4c4a-6886-36319eaa2948@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,40 +106,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/3/23 13:36, Daniel P. Berrangé wrote:
-> The openbsd image is 20GB in size, but the automatic partitioning
-> done by the installer leaves /home with a mere ~3.5 GB of space,
-> wasting free space across many other partitions that are not
-> used by our build process:
+On 22/03/2023 14.38, Philippe Mathieu-Daudé wrote:
+> On 22/3/23 13:36, Daniel P. Berrangé wrote:
+>> As a VM used only for automated testing there is no need to
+>> install the X11 stack.
+>>
+>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>> ---
+>>   tests/vm/openbsd | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+>> index eaeb201e91..6af7afac0d 100755
+>> --- a/tests/vm/openbsd
+>> +++ b/tests/vm/openbsd
+>> @@ -106,8 +106,7 @@ class OpenBSDVM(basevm.BaseVM):
+>>           self.console_wait("Password for root account")
+>>           self.console_send("%s\n" % self._config["root_pass"])
+>>           self.console_wait_send("Start sshd(8)",           "yes\n")
+>> -        self.console_wait_send("X Window System",         "\n")
+>> -        self.console_wait_send("xenodm",                  "\n")
+>> +        self.console_wait_send("X Window System",         "no\n")
 > 
-> openbsd$ df
-> Filesystem  512-blocks      Used     Avail Capacity  Mounted on
-> /dev/sd0a      1229692    213592    954616    18%    /
-> /dev/sd0k      7672220        40   7288572     0%    /home
-> /dev/sd0d      1736604        24   1649752     0%    /tmp
-> /dev/sd0f      4847676   2505124   2100172    54%    /usr
-> /dev/sd0g      1326684    555656    704696    44%    /usr/X11R6
-> /dev/sd0h      4845436   1445932   3157236    31%    /usr/local
-> /dev/sd0j     10898972         4  10354020     0%    /usr/obj
-> /dev/sd0i      3343644         4   3176460     0%    /usr/src
-> /dev/sd0e      2601212     19840   2451312     1%    /var
-> 
-> This change tells the installer todo custom partitioning with
-> 4 GB on /, 256 MB swap, and the remaining ~15GB for /home
-> 
-> openbsd$ df
-> Filesystem  512-blocks      Used     Avail Capacity  Mounted on
-> /dev/sd0a      7932412   4740204   2795588    63%    /
-> /dev/sd0d     32164636        40  30556368     0%    /home
-> 
-> This will avoid ENOSPC failures when tests that need to create
-> big files (disk images) run in parallel.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   tests/vm/openbsd | 27 ++++++++++++++++++++++++++-
->   1 file changed, 26 insertions(+), 1 deletion(-)
+> Wasn't this useful to link a X11-ready binary, even if only testing
+> with -display=none?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+tests/vm/openbsd later installs sdl2 and gtk+3, so I assume that will pull 
+in the required libraries if necessary, without all the other non-necessary 
+stuff.
+
+  Thomas
 
 
