@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402FF6C4147
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 04:49:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072C06C4149
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Mar 2023 04:50:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pepSL-000279-Sx; Tue, 21 Mar 2023 23:48:09 -0400
+	id 1pepTu-0002nF-GD; Tue, 21 Mar 2023 23:49:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pepSJ-00026T-Lw
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 23:48:07 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pepTs-0002mw-DV
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 23:49:44 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pepSH-00022T-RI
- for qemu-devel@nongnu.org; Tue, 21 Mar 2023 23:48:07 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id le6so18115103plb.12
- for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 20:48:05 -0700 (PDT)
+ id 1pepTq-0002GT-Ky
+ for qemu-devel@nongnu.org; Tue, 21 Mar 2023 23:49:43 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ l9-20020a17090a3f0900b0023d32684e7fso172203pjc.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Mar 2023 20:49:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679456884;
+ d=linaro.org; s=google; t=1679456981;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4zTbeXri+jYZxk2Kw4JSPJOAZ7TCuxF0ZXj/Y4kBmVM=;
- b=uFL6uQ+GiDnRoJkzaSdboAKaw6L4jCqVH9XFVgpctL+aBVDVkXTTYkYUhGO6Dqql0i
- ybB4RGieNcWca2N8+f/L1oO+RW/QTBptiuyp3jNgt02G81TIYl4C7jez2itPKKDSVsCo
- Dm2bI6MHy+k3K506IF7s8krnZsvY9BlppP4SXoa86pzCry0JMCGYoG0FHRr6CvLOM1LI
- XKphUbEVVxZeqTz6kTkRC5UJEMELFOZCklI38WvMAmljTEAWdde7Ilz4CccYmi2yxRV9
- cQn/pwi7IsWRC2sRtrw5PqXnRDcbn2TVUohvxqlKqDhxv0FoPymBPmzVnPAhxEV0WXWb
- Ye9g==
+ bh=5d69GtTMVS+cZe/uwfPN/3VbnW3PM5V5GZDNlTJQjUM=;
+ b=scwU+YW+MCEk/I0CnYu/pU7e5Ozix6fC6pwOgMvdypmV7xVEH6um/40qM+k1SxpGU2
+ 1Q1dJ0jfQiiTXmN45LW48rSGqBkvRbySc+tURqnVdaf5B6OAZWFijuenyEG+gBGacS/p
+ Qp/t+xcqHRdFiSN4DUFf8iuNteU6m+8YBcAJ0v8UgcXaBepWM7l6J8sJIRvhp4KK/zpW
+ VNEs57h8Q/0M1CcTKKoPbYD9AGAs+40oUKhua1QIkCmBjEvR+ZlOOO92LmTZsz18qwi2
+ WSdFHI6Co6sSEOVBBudqJl6+yMrUKlmCIB28NTfVltI/lKhSwS6Wc8wrlgXSMUyCAAPX
+ AFDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679456884;
+ d=1e100.net; s=20210112; t=1679456981;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4zTbeXri+jYZxk2Kw4JSPJOAZ7TCuxF0ZXj/Y4kBmVM=;
- b=FBdo8Z5QY7THg23PkF9VG1cSNGlIBewW2iVsmDPvaSz+4op3uiIpm5vvKoFe3q6GMF
- WdlJQZldlb9l+ctPkSmosr8C0H0DCwx52MoKFDUbBZmhPjNxDVxzrKJv2oSdUNcwG3bb
- hidXyYqWUkWazkNgoqJIk6ce/pAcw2VXdkC1putInioMgGspcGsx1PAB1ZbbM4d4u1r+
- qSkEVXhUTuwQ6sTC61OXW0b9bNb02jEgG0IjLExMCt+3TzkMLYpocNuItrKwYbJyPws5
- PnA2MHKPYX/dSiw1d0TqBE2+quV/l0um+3sEM1a3peHpggEFctuM4R4tfe50rPLtcYJO
- nKCQ==
-X-Gm-Message-State: AO0yUKUtuxCeDSMaGPLtD8GHiz+FpH7kktPCEaozx+smKqV/jjP0eRgL
- 4RTxyPX5IcBLQu3IFHDqXo3ykA==
-X-Google-Smtp-Source: AK7set8lYKmPTdR3yfky00mLVNNz2rJKy1qHDmggYUlWTy+zLKFPgQFlQZajXe8irkxHUrRIiNczEQ==
-X-Received: by 2002:a17:90b:4a48:b0:233:e1e6:33d4 with SMTP id
- lb8-20020a17090b4a4800b00233e1e633d4mr1945645pjb.47.1679456884244; 
- Tue, 21 Mar 2023 20:48:04 -0700 (PDT)
+ bh=5d69GtTMVS+cZe/uwfPN/3VbnW3PM5V5GZDNlTJQjUM=;
+ b=QJ8XSHujmw9FZxJxH2RBk2HhULubftQvb+7OtEcuZTR5MnGXZk+f9RevnY+qMkb5nW
+ DZR9p36ls2xBQix6RonlIY4CSG6mYXzlidl5AuSTsAk8tMrPDX20aUXY01n/i8nrdwta
+ zh61EABf9WtZ/kWP/hlg53883QDVNYGiYOEiVrU8aO1NhIjXW6ojTaFcTxjpHch/bydu
+ 9L3DJO1TKN7BTZqHJPWd5O8Cl6+6vdPNyQbz7Qo2Hw0uhyhFUDC0oMaUJix+kZvevc+a
+ wYy3Al5qCYO22cmocuhFj7cd1OBWE999d0PimV/GOlNP127FqMVubnTlzEc+xUiZTPnK
+ pgFw==
+X-Gm-Message-State: AO0yUKWw4KEc7HJGvXJWV7RrVm0wiv9hNvNSSSAHpcaqCudhOtDo2LoM
+ 2pGtzHqBxMKeeO7rKkyg8kV03RDojgyS9gTqVNo=
+X-Google-Smtp-Source: AK7set8V+c5St5uw6B0muqaPAhy5zuymUjic8Q/ZemWq/X21K6j5pD3WEckHrwZSwBjLmEcOybBTlg==
+X-Received: by 2002:a17:90a:359:b0:23c:fb54:95d5 with SMTP id
+ 25-20020a17090a035900b0023cfb5495d5mr1781405pjf.41.1679456981137; 
+ Tue, 21 Mar 2023 20:49:41 -0700 (PDT)
 Received: from [192.168.165.227] (24-113-166-229.wavecable.com.
  [24.113.166.229]) by smtp.gmail.com with ESMTPSA id
- r10-20020a63d90a000000b004fbe302b3f6sm8883428pgg.74.2023.03.21.20.48.02
+ u10-20020a170902a60a00b00192fe452e17sm9497935plq.162.2023.03.21.20.49.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Mar 2023 20:48:03 -0700 (PDT)
-Message-ID: <ae1e3a4a-89db-4f56-2fae-5491f36cd48e@linaro.org>
-Date: Tue, 21 Mar 2023 20:48:00 -0700
+ Tue, 21 Mar 2023 20:49:40 -0700 (PDT)
+Message-ID: <5ee84a26-ddc7-2ecb-66f1-20adc34bd214@linaro.org>
+Date: Tue, 21 Mar 2023 20:49:38 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH for-8.0 2/3] target/s390x: Fix float_comp_to_cc() prototype
+Subject: Re: [PATCH for-8.0 3/3] target/ppc: Fix helper_pminsn() prototype
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
 Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
+ Daniel Henrique Barboza <danielhb413@gmail.com>
 References: <20230321083322.663561-1-clg@kaod.org>
- <20230321083322.663561-3-clg@kaod.org>
+ <20230321083322.663561-4-clg@kaod.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230321083322.663561-3-clg@kaod.org>
+In-Reply-To: <20230321083322.663561-4-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,26 +99,23 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 3/21/23 01:33, Cédric Le Goater wrote:
 > From: Cédric Le Goater<clg@redhat.com>
 > 
-> GCC13 reports an error :
+> GCC13 reports an error:
 > 
-> ../target/s390x/tcg/fpu_helper.c:123:5: error: conflicting types for ‘float_comp_to_cc’ due to enum/integer mismatch; have ‘int(CPUS390XState *, FloatRelation)’ {aka ‘int(struct CPUArchState *, FloatRelation)’} [-Werror=enum-int-mismatch]
+> ../target/ppc/excp_helper.c:2625:6: error: conflicting types for ‘helper_pminsn’ due to enum/integer mismatch; have ‘void(CPUPPCState *, powerpc_pm_insn_t)’ {aka ‘void(struct CPUArchState *, powerpc_pm_insn_t)’} [-Werror=enum-int-mismatch]
+>   2625 | void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
+>        |      ^~~~~~~~~~~~~
+> In file included from /home/legoater/work/qemu/qemu.git/include/qemu/osdep.h:49,
+>                   from ../target/ppc/excp_helper.c:19:
+> /home/legoater/work/qemu/qemu.git/include/exec/helper-head.h:23:27: note: previous declaration of ‘helper_pminsn’ with type ‘void(CPUArchState *, uint32_t)’ {aka ‘void(CPUArchState *, unsigned int)’}
+>     23 | #define HELPER(name) glue(helper_, name)
+>        |                           ^~~~~~~
 > 
->    123 | int float_comp_to_cc(CPUS390XState *env, FloatRelation float_compare)
->        |     ^~~~~~~~~~~~~~~~
-> In file included from ../target/s390x/tcg/fpu_helper.c:23:
-> ../target/s390x/s390x-internal.h:302:5: note: previous declaration of ‘float_comp_to_cc’ with type ‘int(CPUS390XState *, int)’ {aka ‘int(struct CPUArchState *, int)’}
->    302 | int float_comp_to_cc(CPUS390XState *env, int float_compare);
->        |     ^~~~~~~~~~~~~~~~
-> 
-> Cc: Thomas Huth<thuth@redhat.com>
-> Cc: Richard Henderson<richard.henderson@linaro.org>
-> Cc: David Hildenbrand<david@redhat.com>
-> Cc: Ilya Leoshkevich<iii@linux.ibm.com>
-> Fixes: 71bfd65c5f ("softfloat: Name compare relation enum")
+> Cc: Daniel Henrique Barboza<danielhb413@gmail.com>
+> Fixes: 7778a575c7 ("ppc: Add P7/P8 Power Management instructions")
 > Signed-off-by: Cédric Le Goater<clg@redhat.com>
 > ---
->   target/s390x/s390x-internal.h | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   target/ppc/excp_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
