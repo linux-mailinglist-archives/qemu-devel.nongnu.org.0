@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57FF6C6FDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 19:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A5D6C7031
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 19:29:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfPE5-000052-Ce; Thu, 23 Mar 2023 13:59:49 -0400
+	id 1pfPfi-0005DL-AK; Thu, 23 Mar 2023 14:28:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pfPE2-0008Vo-D9
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 13:59:46 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ (Exim 4.90_1) (envelope-from
+ <3P5ocZAYKCg4q5o8s5u22uzs.q204s08-rs9sz121u18.25u@flex--crauer.bounces.google.com>)
+ id 1pfPff-0005D3-TS
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 14:28:19 -0400
+Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pfPE0-0004qA-Bb
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 13:59:46 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id b20so57401258edd.1
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 10:59:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <3P5ocZAYKCg4q5o8s5u22uzs.q204s08-rs9sz121u18.25u@flex--crauer.bounces.google.com>)
+ id 1pfPfe-0005mv-3r
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 14:28:19 -0400
+Received: by mail-pg1-x54a.google.com with SMTP id
+ 20-20020a630514000000b0050bed8b0b61so6198260pgf.11
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 11:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679594381;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=edPREUHUsUeV6RMoNQ/B/Q+71/SbtA+YJ418Q+PnN/Y=;
- b=nIMBsGly4w3mORR2xE0oYdNEW739HGq7rEjsaO40UuLrFB7vC+iJiuLJqAdPBfsZva
- Gb3exHYjpIF3RuSLGkG1PbT9P0NLaBPYKbLVbKBcU+LMJAJMEaZzm2xd6rA9BVfU2ESP
- jbLcOtceYpyc7BkqfJWCavRSr9dJCIz9N5jjqHpCh/SNkz2c3qtEkdMNiKO9n1tJjUy5
- t/7at83Y2Wc0b5Zdq9rwsPe80WoQwh8LKRW1Y+DIefLzkbifvP3tqir2W13+Be8Oe4NJ
- jYnCYA7l0NN3/uXZ+8KrLenrso3ioDxH/8hM7xrck8GfIwD/5njpX4EwTRlKMciDE/nK
- X98Q==
+ d=google.com; s=20210112; t=1679596095; x=1682188095;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=+yqME3RHbF+cljN6RjNGgsjOm4zuk60ET0EC9+gNnpE=;
+ b=HnEuQkkJ2XSeAtxCqH7GVDIZJckzcjYGUXCJEtoljh22ZVRQWJYhsWeAz1MOf8dCmT
+ ggwVawCWPwCM1IC/XEtjlkG29LuV1FPHIaqI40sxNj4jVnj57NjeVUpYeSN3qaylBSBP
+ fZr/5+qSwR5XqlsQVA67A8YFYTMk/drShkQm6RByRch5L8Eeo4M+xFeeyiiGs6kVGerH
+ xtbfjzw7o3oxd1Ipx8jXr4eZWy67MVqC6t6BOXyBG5yKI4p2yC6A4/WqRTJxCiJtCg/A
+ wP2tffKLtDm8Z/z1yOHSn4yAEJy9fAQ2cIaXo5DN/p5mmolmHcC5SUgWKtBKOcgoErqI
+ BvPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679594381;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=edPREUHUsUeV6RMoNQ/B/Q+71/SbtA+YJ418Q+PnN/Y=;
- b=mKHOkm3uKVgjl1+2axd6/vnOhkZsbYhSvGH0lvvBSxz40UyvLV1OX+ejgSF8Ev+zKR
- vFT7nuCIXTSt78wIo3LlNbex6HcilcxDCNzg6RFBS39lTHavfcNT2QPPqzzzaMfwRiRx
- q8g+LU7gx3G5tYb8hkkRBCwxhTRJTziL92heWDs3u0hKAs2y6mCppTThaNutOyh838QP
- oOMLn61ExFVLDvCUaqfSlZQfElRWbmQ0oQSMtqrGFkWHJBx+omzISmi6mtL0tGE/YzQv
- BfMTWSuc+pVO4Dph9TgSCIL/6NV/VcoN75IhpPCPdCqjCkdrs0adkk44VIbRLovOOq2w
- WqgA==
-X-Gm-Message-State: AAQBX9fclt1IKo4MjR+BlhBJVcH8lSW7HDidV1FXacNwZkiBKArDo3Bv
- 3EhSdxjtK+AwYoYrudIaNi84q5htkPCHBp1pM2vbEg==
-X-Google-Smtp-Source: AKy350Z7sz7dD5K4DPBc9CI1DIG2o/rKnERdTh6VSh/cxZLOIVXqzVYEnims3ZrJw0le2M/V7DYDixMsfRMO/6V464A=
-X-Received: by 2002:a50:bb0d:0:b0:4fa:e897:7467 with SMTP id
- y13-20020a50bb0d000000b004fae8977467mr147133ede.6.1679594381678; Thu, 23 Mar
- 2023 10:59:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230323161053.412356-1-danielhb413@gmail.com>
- <20230323161053.412356-2-danielhb413@gmail.com>
- <CAFEAcA89KN5SEi5hFoKKpzVSo=xV3gCn7b2bMBhb5qoQ=U9_mg@mail.gmail.com>
- <fda401e9-608d-a74b-9ff5-aa977d900cd5@gmail.com>
-In-Reply-To: <fda401e9-608d-a74b-9ff5-aa977d900cd5@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Mar 2023 17:59:30 +0000
-Message-ID: <CAFEAcA_MXhG7-J9qAv-9cmHKC-qx5nKfZPHi7jXyqdoYumH5-A@mail.gmail.com>
-Subject: Re: [PATCH 1/1] hw/arm: do not free machine->fdt in arm_load_dtb()
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org
+ d=1e100.net; s=20210112; t=1679596095; x=1682188095;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+yqME3RHbF+cljN6RjNGgsjOm4zuk60ET0EC9+gNnpE=;
+ b=I3JcCoMTnJH4zw0No1PXeYworTOKY+DrQjBsuAw29cBXkPUicWsdFkQ7U0mKZRrVXL
+ pi+sulZ6oealXf6lviTg3uI7jYeV9Gp+1M8RlzgBTTxLqdLtigI4nL083oYcHqlmudp2
+ /ymXOjQBzEg22nxQxEBKNF3PwBoTdig30Yjw3SUCJGfCMd14nwz06EcIQA6mw0j3IxUZ
+ kJ8GcP1wXTG4yUzgDA+DqW8BA3SimEPaOPgLxXMy8UhleAqP1JUklSRi/f8N4A2xNBH0
+ qhimMPR/NKlcARIgLiXXDoiQVNRhyi4xjiQRXeYrhE1d4u+F2FSdG/XlM3S0vkyOm1E1
+ Ti4w==
+X-Gm-Message-State: AO0yUKXK+e5k/1D3aYA7FNU+RNd1HaAXhrBc6yA1FaFgCqiYFil/bPSL
+ zzEVwzzdNt5E1CP4Uk5sw0PyuzD8ywM=
+X-Google-Smtp-Source: AK7set9G/hu4DsUbNACo0CXi9hgj10yzZeY5E42fiPnnDP+17+e+5LIT9V81qUqH1zI6vERY+p94kBAEIrE=
+X-Received: from crauer-cloudtop.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:100f])
+ (user=crauer job=sendgmr) by 2002:a17:902:bb86:b0:19f:1c64:f605 with SMTP id
+ m6-20020a170902bb8600b0019f1c64f605mr2589037pls.1.1679596095104; Thu, 23 Mar
+ 2023 11:28:15 -0700 (PDT)
+Date: Thu, 23 Mar 2023 18:28:11 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
+Message-ID: <20230323182811.2641044-1-crauer@google.com>
+Subject: [PATCH] hw/ssi: Fix Linux driver init issue with xilinx_spi
+From: Chris Rauer <crauer@google.com>
+To: alistair@alistair23.me, peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org, Chris Rauer <crauer@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
+ envelope-from=3P5ocZAYKCg4q5o8s5u22uzs.q204s08-rs9sz121u18.25u@flex--crauer.bounces.google.com;
+ helo=mail-pg1-x54a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,37 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 23 Mar 2023 at 17:54, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
->
->
->
-> On 3/23/23 14:38, Peter Maydell wrote:
-> > On Thu, 23 Mar 2023 at 16:11, Daniel Henrique Barboza
-> > <danielhb413@gmail.com> wrote:
-> >> -    g_free(fdt);
-> >> +    /* Set ms->fdt for 'dumpdtb' QMP/HMP command */
-> >> +    ms->fdt = fdt;
-> >
-> > With this we're now setting ms->fdt twice for the virt board: we set
-> > it in create_fdt() in hw/arm/virt.c, and then we set it again here.
-> > Which is the right place to set it?
-> >
-> > Is the QMP 'dumpdtb' command intended to dump the DTB only for
-> > board types where the DTB is created at runtime by QEMU? Or
-> > is it supposed to also work for DTBs that were originally
-> > provided by the user using the '-dtb' command line? The docs
-> > don't say. If we want the former, then we should be setting
-> > ms->fdt in the board code; if the latter, then here is right.
->
-> My original intent with this command was to dump the current state of the FDT,
-> regardless of whether the FDT was loaded via -dtb or at runtime.
+The problem is that the Linux driver expects the master transaction inhibit
+bit(R_SPICR_MTI) to be set during driver initialization so that it can
+detect the fifo size but QEMU defaults it to zero out of reset.  The
+datasheet indicates this bit is active on reset.
 
-Mmm. I think that makes sense; we do make a few tweaks to the DTB
-even if it was user-provided and you might want to check those
-for debug purposes. So we should keep this assignment, and remove
-the now-unneeded setting of ms->fdt in create_fdt().
+See page 25, SPI Control Register section:
+https://www.xilinx.com/content/dam/xilinx/support/documents/ip_documentation/axi_quad_spi/v3_2/pg153-axi-quad-spi.pdf
 
-thanks
--- PMM
+Signed-off-by: Chris Rauer <crauer@google.com>
+---
+ hw/ssi/xilinx_spi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/ssi/xilinx_spi.c b/hw/ssi/xilinx_spi.c
+index 552927622f..d4de2e7aab 100644
+--- a/hw/ssi/xilinx_spi.c
++++ b/hw/ssi/xilinx_spi.c
+@@ -156,6 +156,7 @@ static void xlx_spi_do_reset(XilinxSPI *s)
+     txfifo_reset(s);
+ 
+     s->regs[R_SPISSR] = ~0;
++    s->regs[R_SPICR] = R_SPICR_MTI;
+     xlx_spi_update_irq(s);
+     xlx_spi_update_cs(s);
+ }
+-- 
+2.40.0.348.gf938b09366-goog
+
 
