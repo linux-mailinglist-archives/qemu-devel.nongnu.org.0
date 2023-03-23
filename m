@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931B86C611F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 08:50:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0D56C6129
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 08:54:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfFhm-0003Ep-7B; Thu, 23 Mar 2023 03:49:50 -0400
+	id 1pfFkv-0004Bz-B5; Thu, 23 Mar 2023 03:53:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pfFhk-0003Ed-Jz
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 03:49:48 -0400
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pfFki-0004B2-Ci; Thu, 23 Mar 2023 03:52:53 -0400
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pfFhi-00020z-Km
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 03:49:48 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.233])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E4A70207D8;
- Thu, 23 Mar 2023 07:49:42 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 23 Mar
- 2023 08:49:42 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0010c49fb42-2ef4-40a8-b0c2-bdc6e23d10e1,
- 176673217AFB8255045F9FD15030271BA63368C6) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ae61d505-b656-a362-8a80-35f266296e2a@kaod.org>
-Date: Thu, 23 Mar 2023 08:49:41 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pfFkg-0002r3-DP; Thu, 23 Mar 2023 03:52:52 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MlfGs-1qNyU331Vq-00indb; Thu, 23 Mar 2023 08:52:29 +0100
+Message-ID: <51d17772-3d63-ab6c-3dc3-44cb9dd6a9d1@vivier.eu>
+Date: Thu, 23 Mar 2023 08:52:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/3] docs: Add support for TPM devices over I2C bus
-Content-Language: en-US
-To: Ninad Palsule <ninad@linux.ibm.com>, <qemu-devel@nongnu.org>
-CC: <joel@jms.id.au>, <andrew@aj.id.au>, <stefanb@linux.ibm.com>
-References: <20230323030119.2113570-1-ninad@linux.ibm.com>
- <20230323030119.2113570-2-ninad@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230323030119.2113570-2-ninad@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: df541291-abbf-42ca-86d2-cbea894a361c
-X-Ovh-Tracer-Id: 330451624381418403
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdegfedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepnhhinhgrugeslhhinhhugidrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpjhhovghlsehjmhhsrdhiugdrrghupdgrnhgurhgvfiesrghjrdhiugdrrghupdhsthgvfhgrnhgssehlihhnuhigrdhisghmrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
+ Thunderbird/102.8.0
+Subject: Re: [PATCH qemu v3] linux-user: Emulate /proc/cpuinfo output for riscv
+To: Afonso Bordado <afonsobordado@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+References: <324c2fd4-7044-0dd9-7ad9-b716fbefa5d9@gmail.com>
+Content-Language: fr
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <324c2fd4-7044-0dd9-7ad9-b716fbefa5d9@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:4/NeyB8q4BoVSYK031OE68WU+tm4DBpWwyqL6syZwCV5rgBZRVc
+ aX5ByyaCfLXot/7VEfB43/+hycx81+LQB/TyeIlYvUzdaBn3vULB40Rs5kCEow58LXkuXC9
+ NlfJNJ4nBcYXWzVTGOQYf7pL4ORtFrEAdDiVuQwlqK42fFZKEPw5kjdqlASs/NJWpVXc9fh
+ WcSAUScqeiQCtM8SZzFVw==
+UI-OutboundReport: notjunk:1;M01:P0:dGfwoI0xEic=;oif2c2PluStKueSycsAagxLnvlI
+ 3e7vi7kONGyIu31uMvJVKDRyC9IXuGaXNkIsSMwOVjJzgJ7yMrVj0j2QdVPx/x1sHNvuxxcp1
+ Rrgt4RSb6YG6Kqlhhy+eD/KMEdvNfKdDlsCis5AYRXv+uCQ3yp0KSPLVbFWz0oxGZOmKmEcV4
+ cFY27lIT7E7p76a5JCe21ggVwaqtBxmeAgvG81IZjWsnXArmfTas5e0LwvN1DpmDq95gq16fO
+ GjuwnTWBzGIe2DvfsbxoS4fzpfpVtGbeD2djCO1Df54aGEWkyv9ecRaV9JdAgdO7+TSKx26/j
+ A7tXqGgCq8SzaEvAalA4u2aOdTbbPTbfCIgEvvCWplvQtMVufDURqMrDR0MFpydgwfQF3+tsY
+ SOJTsjOOX02bZxQj7uJGJFwdQZsIWVeDuVscYudiWAtpZl2x7V6609Ahk3WDGVjK2xEDdj1IZ
+ QkXJF2su1ptF5mM6Luwsv8g1i1fiznk18KwLTtROVsqTaIL8o13vmw731L5lIz2BoGzpglVmL
+ GEbIWmbR84JxPW33DThxxY/hwGqTm25hfgIxQNooXSUS6JEAfOhEzxPQ/Al1rh64PozsHg8wC
+ ekOhsRT9d/90iFG5NwAeZ+qZaB7L09zGnwzAYtbpxCUIU/xnIiNJx5gRPulvGhb77or79w3vi
+ qj8gZa8qPWHEE5CdlNTWQJmpIwx4RRrg5ipy429S2g==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,73 +75,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/23/23 04:01, Ninad Palsule wrote:
-> This is a documentation change for I2C TPM device support.
+Le 21/03/2023 à 19:25, Afonso Bordado a écrit :
+> RISC-V does not expose all extensions via hwcaps, thus some userspace
+> applications may want to query these via /proc/cpuinfo.
 > 
-> Qemu already supports devices attached to ISA and sysbus.
-> This drop adds support for the I2C bus attached TPM devices.
+> Currently when querying this file the host's file is shown instead
+> which is slightly confusing. Emulate a basic /proc/cpuinfo file
+> with mmu info and an ISA string.
 > 
-> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> 
+> Signed-off-by: Afonso Bordado <afonsobordado@gmail.com>
+> Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 > ---
-> V2:
 > 
-> Incorporated Stephen's review comments
-> - Added example in the document.
-> ---
->   docs/specs/tpm.rst | 20 +++++++++++++++++++-
->   1 file changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-> index 535912a92b..bf7249b09c 100644
-> --- a/docs/specs/tpm.rst
-> +++ b/docs/specs/tpm.rst
-> @@ -21,11 +21,15 @@ QEMU files related to TPM TIS interface:
->    - ``hw/tpm/tpm_tis_common.c``
->    - ``hw/tpm/tpm_tis_isa.c``
->    - ``hw/tpm/tpm_tis_sysbus.c``
-> + - ``hw/tpm/tpm_tis_i2c.c``
->    - ``hw/tpm/tpm_tis.h``
->   
->   Both an ISA device and a sysbus device are available. The former is
->   used with pc/q35 machine while the latter can be instantiated in the
-> -Arm virt machine.
-> +Arm virt machine. An I2C device support is also added which can be
-> +instantiated in the arm based emulation machine. An I2C device is also
-> +supported for the Arm virt machine. This device only supports the
-> +TPM 2 protocol.
->   
->   CRB interface
->   -------------
-> @@ -348,6 +352,20 @@ In case an Arm virt machine is emulated, use the following command line:
->       -drive if=pflash,format=raw,file=flash0.img,readonly=on \
->       -drive if=pflash,format=raw,file=flash1.img
->   
-> +In case a Rainier bmc machine is emulated, use the following command line:
-> +
-> +.. code-block:: console
-> +
-> +  qemu-system-arm -M rainier-bmc -nographic \
-> +    -kernel ${IMAGEPATH}/fitImage-linux.bin \
-> +    -dtb ${IMAGEPATH}/aspeed-bmc-ibm-rainier.dtb \
-> +    -initrd ${IMAGEPATH}/obmc-phosphor-initramfs.rootfs.cpio.xz \
-> +    -drive file=${IMAGEPATH}/obmc-phosphor-image.rootfs.wic.qcow2,if=sd,index=2\
-> +    -net nic -net user,hostfwd=:127.0.0.1:2222-:22,hostfwd=:127.0.0.1:2443-:443\
-> +    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
-> +    -tpmdev emulator,id=tpm0,chardev=chrtpm \
-> +    -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
+> Thanks everyone for reviewing! Should I resend this once the 8.0
+> freeze is over? Or does someone queue it for inclusion in the next
+> version?
 
-
-The rainier images are not the easiest to find. Could we use an AST2600 EVB
-machine instead and instantiate the device from user space ? see commit
-3302184f7f or 7a7308eae0.
+I queue this for 8.1 in the linux-use branch.
 
 Thanks,
-
-C.
-
->   In case SeaBIOS is used as firmware, it should show the TPM menu item
->   after entering the menu with 'ESC'.
->   
+Laurent
+> 
+> 
+> Changes from V2:
+> - Update ChangeLog Location
+> 
+> Changes from V1:
+> - Call `g_free` on ISA string.
+> - Use `riscv_cpu_cfg` API.
+> - Query `cpu_env->xl` to check for RV32.
+> 
+> 
+>   linux-user/syscall.c              | 34 +++++++++++++++++++++++++++++--
+>   tests/tcg/riscv64/Makefile.target |  1 +
+>   tests/tcg/riscv64/cpuinfo.c       | 30 +++++++++++++++++++++++++++
+>   3 files changed, 63 insertions(+), 2 deletions(-)
+>   create mode 100644 tests/tcg/riscv64/cpuinfo.c
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 24cea6fb6a..0388f8b0b0 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8230,7 +8230,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
+>   }
+> 
+>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
+> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
+> +    defined(TARGET_RISCV)
+>   static int is_proc(const char *filename, const char *entry)
+>   {
+>       return strcmp(filename, entry) == 0;
+> @@ -8308,6 +8309,35 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   }
+>   #endif
+> 
+> +#if defined(TARGET_RISCV)
+> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+> +{
+> +    int i;
+> +    int num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+> +    RISCVCPU *cpu = env_archcpu(cpu_env);
+> +    const RISCVCPUConfig *cfg = riscv_cpu_cfg((CPURISCVState *) cpu_env);
+> +    char *isa_string = riscv_isa_string(cpu);
+> +    const char *mmu;
+> +
+> +    if (cfg->mmu) {
+> +        mmu = (cpu_env->xl == MXL_RV32) ? "sv32"  : "sv48";
+> +    } else {
+> +        mmu = "none";
+> +    }
+> +
+> +    for (i = 0; i < num_cpus; i++) {
+> +        dprintf(fd, "processor\t: %d\n", i);
+> +        dprintf(fd, "hart\t\t: %d\n", i);
+> +        dprintf(fd, "isa\t\t: %s\n", isa_string);
+> +        dprintf(fd, "mmu\t\t: %s\n", mmu);
+> +        dprintf(fd, "uarch\t\t: qemu\n\n");
+> +    }
+> +
+> +    g_free(isa_string);
+> +    return 0;
+> +}
+> +#endif
+> +
+>   #if defined(TARGET_M68K)
+>   static int open_hardware(CPUArchState *cpu_env, int fd)
+>   {
+> @@ -8332,7 +8362,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
+>           { "/proc/net/route", open_net_route, is_proc },
+>   #endif
+> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
+> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
+>           { "/proc/cpuinfo", open_cpuinfo, is_proc },
+>   #endif
+>   #if defined(TARGET_M68K)
+> diff --git a/tests/tcg/riscv64/Makefile.target
+> b/tests/tcg/riscv64/Makefile.target
+> index cc3ed65ffd..df93a2ce1f 100644
+> --- a/tests/tcg/riscv64/Makefile.target
+> +++ b/tests/tcg/riscv64/Makefile.target
+> @@ -4,6 +4,7 @@
+>   VPATH += $(SRC_PATH)/tests/tcg/riscv64
+>   TESTS += test-div
+>   TESTS += noexec
+> +TESTS += cpuinfo
+> 
+>   # Disable compressed instructions for test-noc
+>   TESTS += test-noc
+> diff --git a/tests/tcg/riscv64/cpuinfo.c b/tests/tcg/riscv64/cpuinfo.c
+> new file mode 100644
+> index 0000000000..296abd0a8c
+> --- /dev/null
+> +++ b/tests/tcg/riscv64/cpuinfo.c
+> @@ -0,0 +1,30 @@
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <assert.h>
+> +
+> +#define BUFFER_SIZE 1024
+> +
+> +int main(void)
+> +{
+> +    char buffer[BUFFER_SIZE];
+> +    FILE *fp = fopen("/proc/cpuinfo", "r");
+> +    assert(fp != NULL);
+> +
+> +    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
+> +        if (strstr(buffer, "processor") != NULL) {
+> +            assert(strstr(buffer, "processor\t: ") == buffer);
+> +        } else if (strstr(buffer, "hart") != NULL) {
+> +            assert(strstr(buffer, "hart\t\t: ") == buffer);
+> +        } else if (strstr(buffer, "isa") != NULL) {
+> +            assert(strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n") == 0);
+> +        } else if (strstr(buffer, "mmu") != NULL) {
+> +            assert(strcmp(buffer, "mmu\t\t: sv48\n") == 0);
+> +        } else if (strstr(buffer, "uarch") != NULL) {
+> +            assert(strcmp(buffer, "uarch\t\t: qemu\n") == 0);
+> +        }
+> +    }
+> +
+> +    fclose(fp);
+> +    return 0;
+> +}
 
 
