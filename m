@@ -2,101 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52A16C61A7
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6956C61A8
 	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:29:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfGJ8-0002u8-MK; Thu, 23 Mar 2023 04:28:26 -0400
+	id 1pfGJW-0002wQ-Py; Thu, 23 Mar 2023 04:28:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pfGJ5-0002tr-EY
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:28:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1pfGJR-0002vb-Cb; Thu, 23 Mar 2023 04:28:47 -0400
+Received: from muminek.juszkiewicz.com.pl ([213.251.184.221])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pfGJ3-0004bC-9A
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:28:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679560100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=95p8e+pOQPDwt+WSE/6ZcPFmyqblWSnjARGq4RhLuTw=;
- b=TX14eMGyLdP53TsMx7d5SU38ygHKS7rRdOYDSX++34KdxkmLi7OHXdLtIDAX0gyUf72MMx
- 28xJVqCrJdx1slRcznD1AdGo3lMAee8ILwDQqTWPBZUPwLXobbaNyNl4lHfoBV8md0c/nG
- oUuquLQZTI3dU0VSFzRRHm64uTIo+i0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-385-z0Or3YTONtaBQyZ2J9NhMw-1; Thu, 23 Mar 2023 04:28:16 -0400
-X-MC-Unique: z0Or3YTONtaBQyZ2J9NhMw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- c11-20020a509f8b000000b00501e2facf47so10406500edf.16
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 01:28:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679560096;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=95p8e+pOQPDwt+WSE/6ZcPFmyqblWSnjARGq4RhLuTw=;
- b=PfPfTmJ7WxKmBzsFLVBpSQW6veX9sr/Fwdvu59lmZ0VnVaSCNyWRPHsK25vdOZXbHj
- DL0yqLtU/dlOgbHMn5KCpx5EMcB5JrrYi7e3nWF8D84mI7gU3Plwu0eRJo4hKqRKgybh
- MXJSlpROketM3paf1gvyyBNnuA+SpQ75f+0dTGP52wIQ6R0XT5I/C7xPuZO2B6fPmXn2
- bem8ctT5wZEEbykYEgPwAw5Z0Zk5bkIgyh4Un55vRM531HlNiXPmS5XmBXFleWCwReyX
- HF/+hAr9u3z1ZfL5tMxwEsr+lcyqHyJUS9F4GC9uz45IsOpcrc1Af87+9MsBLgClDKFY
- B3Yg==
-X-Gm-Message-State: AO0yUKXaluhybIU+toQGYYRUCaYhrY1H08p8DxWoHGZWUzixC+XzMB4p
- NK+KtuzD6kbFn5b0mEeFdr9lppbg7Bcvd4WKN7zv/6dynIAaqSKxXI0kJpM6oJWXGbM66Ax9gJJ
- Tif2JxMEhZnSlNDg=
-X-Received: by 2002:aa7:cfce:0:b0:500:2e94:26aa with SMTP id
- r14-20020aa7cfce000000b005002e9426aamr9597389edy.20.1679560095876; 
- Thu, 23 Mar 2023 01:28:15 -0700 (PDT)
-X-Google-Smtp-Source: AK7set++gPJgiZ9eu0uZ1mY4QiFBV+7g2EoMBlJyIXvihjkIUpWts+VHU1PsxjXpG7BvAuUA5iIWvA==
-X-Received: by 2002:aa7:cfce:0:b0:500:2e94:26aa with SMTP id
- r14-20020aa7cfce000000b005002e9426aamr9597375edy.20.1679560095604; 
- Thu, 23 Mar 2023 01:28:15 -0700 (PDT)
-Received: from sgarzare-redhat (host-82-53-134-98.retail.telecomitalia.it.
- [82.53.134.98]) by smtp.gmail.com with ESMTPSA id
- e23-20020a50d4d7000000b004bf28bfc9absm8662802edj.11.2023.03.23.01.28.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 01:28:14 -0700 (PDT)
-Date: Thu, 23 Mar 2023 09:28:10 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com,
- Laurent Vivier <lvivier@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, Jason Wang <jasowang@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
- si-wei.liu@oracle.com, longpeng2@huawei.com,
- Cindy Lu <lulu@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
-Subject: Re: [RFC PATCH for 8.1 2/6] vdpa: add vhost_vdpa_reset_status_fd
-Message-ID: <20230323082810.sn5iaesmz2rqtdew@sgarzare-redhat>
-References: <20230317145542.347368-1-eperezma@redhat.com>
- <20230317145542.347368-3-eperezma@redhat.com>
- <20230322142445.cocojplrzn5gtlfw@sgarzare-redhat>
- <CAJaqyWdLcCDYfmgGHkSVaBWX5WAX=WEpA5QAec2CnGQr=J4c8Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1pfGJP-0004db-BG; Thu, 23 Mar 2023 04:28:45 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id 16A7B2606B0;
+ Thu, 23 Mar 2023 09:28:40 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
+Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
+ by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id aKXTmzFDw0vd; Thu, 23 Mar 2023 09:28:37 +0100 (CET)
+Received: from puchatek.lan (83.11.21.111.ipv4.supernova.orange.pl
+ [83.11.21.111])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 02E8426021A;
+ Thu, 23 Mar 2023 09:28:36 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: Radoslaw Biernacki <rad@semihalf.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Leif Lindholm <quic_llindhol@quicinc.com>
+Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Shashi Mallela <shashi.mallela@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Subject: [PATCH v2] tests/avocado: Add set of boot tests on SBSA-ref
+Date: Thu, 23 Mar 2023 09:28:14 +0100
+Message-Id: <20230323082813.971535-1-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJaqyWdLcCDYfmgGHkSVaBWX5WAX=WEpA5QAec2CnGQr=J4c8Q@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=213.251.184.221;
+ envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,158 +66,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 22, 2023 at 06:36:39PM +0100, Eugenio Perez Martin wrote:
->On Wed, Mar 22, 2023 at 3:24 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->>
->> On Fri, Mar 17, 2023 at 03:55:38PM +0100, Eugenio Pérez wrote:
->> >This allows to reset a vhost-vdpa device from external subsystems like
->> >vhost-net.  It is used in subsequent patches to negotiate features and
->> >probe for CVQ ASID isolation.
->> >
->> >Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->> >---
->> > include/hw/virtio/vhost-vdpa.h |  1 +
->> > hw/virtio/vhost-vdpa.c         | 58 +++++++++++++++++++++++-----------
->> > 2 files changed, 41 insertions(+), 18 deletions(-)
->> >
->> >diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
->> >index c278a2a8de..28de7da91e 100644
->> >--- a/include/hw/virtio/vhost-vdpa.h
->> >+++ b/include/hw/virtio/vhost-vdpa.h
->> >@@ -54,6 +54,7 @@ typedef struct vhost_vdpa {
->> >     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
->> > } VhostVDPA;
->> >
->> >+void vhost_vdpa_reset_status_fd(int fd);
->> > int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range);
->> >
->> > int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
->> >diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->> >index bbabea18f3..7a2053b8d9 100644
->> >--- a/hw/virtio/vhost-vdpa.c
->> >+++ b/hw/virtio/vhost-vdpa.c
->> >@@ -335,38 +335,45 @@ static const MemoryListener vhost_vdpa_memory_listener = {
->> >     .region_del = vhost_vdpa_listener_region_del,
->> > };
->> >
->> >-static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
->> >-                             void *arg)
->> >+static int vhost_vdpa_dev_fd(const struct vhost_dev *dev)
->>
->> What is the purpose of this refactoring?
->> I guess, since vhost_net does not have `struct vhost_dev *` we want to
->> use fd directly?
->>
->
->Right.
->
->> It might be better to split this patch into two.
->>
->
->Do you mean to create vhost_vdpa_dev_fd first and then users?
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Sorry, I meant adding the vhost_vdpa_add_status_fd(), but on second
-thought I think it's okay since we use it in
-vhost_vdpa_reset_status_fd().
+This change adds set of boot tests on SBSA-ref machine:
 
->
->> > {
->> >     struct vhost_vdpa *v = dev->opaque;
->> >-    int fd = v->device_fd;
->> >-    int ret;
->> >
->> >     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
->> >+    return v->device_fd;
->> >+}
->> >+
->> >+static int vhost_vdpa_call_fd(int fd, unsigned long int request, void *arg)
->> >+{
->> >+    int ret = ioctl(fd, request, arg);
->> >
->> >-    ret = ioctl(fd, request, arg);
->> >     return ret < 0 ? -errno : ret;
->> > }
->> >
->> >-static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->> >+static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
->> >+                           void *arg)
->> >+{
->> >+    return vhost_vdpa_call_fd(vhost_vdpa_dev_fd(dev), request, arg);
->> >+}
->> >+
->> >+static int vhost_vdpa_add_status_fd(int fd, uint8_t status)
->> > {
->> >     uint8_t s;
->> >     int ret;
->> >
->> >-    trace_vhost_vdpa_add_status(dev, status);
->> >-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
->> >+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
->> >     if (ret < 0) {
->> >         return ret;
->> >     }
->> >
->> >     s |= status;
->> >
->> >-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
->> >+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &s);
->> >     if (ret < 0) {
->> >         return ret;
->> >     }
->> >
->> >-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
->> >+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
->> >     if (ret < 0) {
->> >         return ret;
->> >     }
->> >@@ -378,6 +385,12 @@ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->> >     return 0;
->> > }
->> >
->> >+static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->> >+{
->> >+    trace_vhost_vdpa_add_status(dev, status);
->> >+    return vhost_vdpa_add_status_fd(vhost_vdpa_dev_fd(dev), status);
->> >+}
->> >+
->> > int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range)
->> > {
->> >     int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
->> >@@ -709,16 +722,20 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
->> >     return ret;
->> > }
->> >
->> >+static int vhost_vdpa_reset_device_fd(int fd)
->> >+{
->> >+    uint8_t status = 0;
->> >+
->> >+    return vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &status);
->> >+}
->> >+
->> > static int vhost_vdpa_reset_device(struct vhost_dev *dev)
->> > {
->> >     struct vhost_vdpa *v = dev->opaque;
->> >-    int ret;
->> >-    uint8_t status = 0;
->> >
->> >-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
->> >-    trace_vhost_vdpa_reset_device(dev);
->> >     v->suspended = false;
->>
->> I think it is pre-existing, but if VHOST_VDPA_SET_STATUS fails,
->> should we set anyway `v->suspended = false`?
->>
->
->It's a good question. I think the most correct is to keep as the
->previous value, but I'm not sure if reset is actually allowed to fail.
+1. boot firmware up to the EDK2 banner
+2. boot Alpine Linux
 
-Looking quickly at the parent drivers we have, perhaps the only one that
-can fail is VDUSE if it fails to communicate with the daemon.
+Prebuilt flash volumes are included, built using upstream documentation.
 
-However, I don't think we can do much to recover the situation if we
-can't reset the device.
+To unify tests for AArch64/virt and AArch64/sbsa-ref we boot
+the same Alpine Linux image on both.
 
-Thanks,
-Stefano
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+---
+ MAINTAINERS                              |   1 +
+ tests/avocado/machine_aarch64_sbsaref.py | 138 +++++++++++++++++++++++
+ 2 files changed, 139 insertions(+)
+ create mode 100644 tests/avocado/machine_aarch64_sbsaref.py
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b56ccdd92..4797c30ac8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -928,6 +928,7 @@ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/sbsa-ref.c
+ F: docs/system/arm/sbsa.rst
++F: tests/avocado/machine_aarch64_sbsaref.py
+ 
+ Sharp SL-5500 (Collie) PDA
+ M: Peter Maydell <peter.maydell@linaro.org>
+diff --git a/tests/avocado/machine_aarch64_sbsaref.py b/tests/avocado/machine_aarch64_sbsaref.py
+new file mode 100644
+index 0000000000..52e6991e03
+--- /dev/null
++++ b/tests/avocado/machine_aarch64_sbsaref.py
+@@ -0,0 +1,138 @@
++# Functional test that boots a Linux kernel and checks the console
++#
++# SPDX-FileCopyrightText: 2023 Linaro Ltd.
++# SPDX-FileContributor: Philippe Mathieu-Daudé <philmd@linaro.org>
++# SPDX-FileContributor: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++import os
++
++from avocado.utils import archive
++
++from avocado_qemu import QemuSystemTest
++from avocado_qemu import wait_for_console_pattern
++from avocado_qemu import interrupt_interactive_console_until_pattern
++
++
++class Aarch64SbsarefMachine(QemuSystemTest):
++    """
++    :avocado: tags=arch:aarch64
++    :avocado: tags=machine:sbsa-ref
++    """
++
++    def fetch_firmware(self):
++        """
++        Flash volumes generated using:
++
++        - Fedora GNU Toolchain version 12.2.1 20220819 (Red Hat Cross 12.2.1-2)
++
++        - Trusted Firmware-A
++          https://github.com/ARM-software/arm-trusted-firmware/tree/5fdb2e54
++
++        - Tianocore EDK II
++          https://github.com/tianocore/edk2/tree/494127613b
++          https://github.com/tianocore/edk2-non-osi/tree/41876073
++          https://github.com/tianocore/edk2-platforms/tree/8efa4f42
++        """
++
++        # Secure BootRom (TF-A code)
++        fs0_xz_url = ('https://fileserver.linaro.org/s/ATnSmq6k8SoXgbH/'
++                      'download/SBSA_FLASH0.fd.xz')
++        fs0_xz_hash = 'a210a09692bcbe0a3743ffd0df44e80e0c7ad8ab'
++        tar_xz_path = self.fetch_asset(fs0_xz_url, asset_hash=fs0_xz_hash)
++        archive.extract(tar_xz_path, self.workdir)
++        fs0_path = os.path.join(self.workdir, 'SBSA_FLASH0.fd')
++
++        # Non-secure rom (UEFI and EFI variables)
++        fs1_xz_url = ('https://fileserver.linaro.org/s/t8foNnMPz74DZZy/'
++                      'download/SBSA_FLASH1.fd.xz')
++        fs1_xz_hash = '13a9a262953787c7fc5a9155dfaa26e703631e02'
++        tar_xz_path = self.fetch_asset(fs1_xz_url, asset_hash=fs1_xz_hash)
++        archive.extract(tar_xz_path, self.workdir)
++        fs1_path = os.path.join(self.workdir, 'SBSA_FLASH1.fd')
++
++        for path in [fs0_path, fs1_path]:
++            with open(path, 'ab+') as fd:
++                fd.truncate(256 << 20)  # Expand volumes to 256MiB
++
++        self.vm.set_console()
++        self.vm.add_args('-drive', f'if=pflash,file={fs0_path},format=raw',
++                         '-drive', f'if=pflash,file={fs1_path},format=raw',
++                         "-smp", "1",
++                         "-machine", "sbsa-ref")
++
++    def test_sbsaref_edk2_firmware(self):
++        """
++        :avocado: tags=cpu:cortex-a57
++        """
++
++        self.fetch_firmware()
++        self.vm.launch()
++
++        # TF-A boot sequence:
++        #
++        # https://github.com/ARM-software/arm-trusted-firmware/blob/v2.8.0/\
++        #     docs/design/trusted-board-boot.rst#trusted-board-boot-sequence
++        # https://trustedfirmware-a.readthedocs.io/en/v2.8/\
++        #     design/firmware-design.html#cold-boot
++
++        # AP Trusted ROM
++        wait_for_console_pattern(self, 'Booting Trusted Firmware')
++        wait_for_console_pattern(self, 'BL1: v2.8(release):v2.8')
++        wait_for_console_pattern(self, 'BL1: Booting BL2')
++
++        # Trusted Boot Firmware
++        wait_for_console_pattern(self, 'BL2: v2.8(release)')
++        wait_for_console_pattern(self, 'Booting BL31')
++
++        # EL3 Runtime Software
++        wait_for_console_pattern(self, 'BL31: v2.8(release)')
++
++        # Non-trusted Firmware
++        wait_for_console_pattern(self, 'UEFI firmware (version 1.0')
++        interrupt_interactive_console_until_pattern(self,
++                                                    'QEMU SBSA-REF Machine')
++
++    # This tests the whole boot chain from EFI to Userspace
++    # We only boot a whole OS for the current top level CPU and GIC
++    # Other test profiles should use more minimal boots
++    def boot_alpine_linux(self, cpu):
++        self.fetch_firmware()
++
++        iso_url = ('https://dl-cdn.alpinelinux.org/'
++                   'alpine/v3.17/releases/aarch64/'
++                   'alpine-standard-3.17.2-aarch64.iso')
++
++        # Alpine use sha256 so I recalculated this myself
++        iso_sha1 = '76284fcd7b41fe899b0c2375ceb8470803eea839'
++        iso_path = self.fetch_asset(iso_url, asset_hash=iso_sha1)
++
++        self.vm.set_console()
++        self.vm.add_args("-cpu", cpu,
++                         "-drive", f"file={iso_path},format=raw",
++                         '-device', 'virtio-rng-pci,rng=rng0',
++                         '-object', 'rng-random,id=rng0,filename=/dev/urandom')
++
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Welcome to Alpine Linux 3.17')
++
++    def test_sbsaref_alpine_linux_cortex_a57(self):
++        """
++        :avocado: tags=cpu:cortex-a57
++        """
++        self.boot_alpine_linux('cortex-a57')
++
++    def test_sbsaref_alpine_linux_neoverse_n1(self):
++        """
++        :avocado: tags=cpu:max
++        """
++        self.boot_alpine_linux('neoverse-n1')
++
++# This test requires TF-A update to handle FEAT_FGT
++#
++#   def test_sbsaref_alpine_linux_max(self):
++#       """
++#       :avocado: tags=cpu:max
++#       """
++#       self.boot_alpine_linux('max,pauth-impdef=on')
+-- 
+2.39.2
 
 
