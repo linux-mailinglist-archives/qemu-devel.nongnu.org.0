@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9EA6C5FB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 07:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C496C600C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 07:55:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfES6-0003HB-9a; Thu, 23 Mar 2023 02:29:34 -0400
+	id 1pfEqG-0007ef-Pg; Thu, 23 Mar 2023 02:54:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfES0-0003H2-Gq
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 02:29:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfEqF-0007eQ-0a
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 02:54:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfERy-0002Zl-Pd
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 02:29:28 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfEqD-0001fq-3p
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 02:54:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679552965;
+ s=mimecast20190719; t=1679554467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=nalvQhxneiWuKBrjk/HxLE7beGhgZWkRh4d74ME+iLI=;
- b=jMAPIPpeLp0UezHo1lk7OlG/0gCopT7NFvHAbFwWwmEqdzNYcZwEePYNnjgXIMiYS2yKhm
- U3mmINpDoxRdNnUb247LcqmYGAyGob6+I1oLLL25KcFBRT6jnRgvFecksbHJIxedzfDktC
- CCN7o6UUyGDzSLvJfoS1ex0T+7b8dzg=
+ bh=bP3KW+xmbzrzdVudQgUIV4jV3jhzsHXrIORarDR9MvI=;
+ b=e5CUh8AASPj05SvvKDbmtiYo2M9EcB6SZjjK1vDrH+RfdbmYjNymz2tix2Yg786gV13qut
+ 2adQg6gVrmcBAPj7EqgncYMu92/Uh8U51JGVwOHP8nm20Sh2hqKtZVO69dqGzY8h77+6DO
+ 2eRVlM67cdrXGpGjT2WHoi4yaqmOMK0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-270-C7MlkwUmNtm54Op5Efy5qw-1; Thu, 23 Mar 2023 02:29:21 -0400
-X-MC-Unique: C7MlkwUmNtm54Op5Efy5qw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-489-NVkEtp7HNTm0qCgfuZIIMA-1; Thu, 23 Mar 2023 02:54:24 -0400
+X-MC-Unique: NVkEtp7HNTm0qCgfuZIIMA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2E373802B82;
- Thu, 23 Mar 2023 06:29:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBAC61C05155;
+ Thu, 23 Mar 2023 06:54:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F088202701E;
- Thu, 23 Mar 2023 06:29:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B63E9463DF8;
+ Thu, 23 Mar 2023 06:54:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7D0E021E6926; Thu, 23 Mar 2023 07:29:19 +0100 (CET)
+ id 2360E21E6926; Thu, 23 Mar 2023 07:54:22 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-devel@nongnu.org
-Subject: QMP command dumpdtb crash bug
-Date: Thu, 23 Mar 2023 07:29:19 +0100
-Message-ID: <87jzz82d6o.fsf@pond.sub.org>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ David Alan Gilbert <dgilbert@redhat.com>
+Subject: QMP command set-vcpu-dirty-limit hangs
+Date: Thu, 23 Mar 2023 07:54:22 +0100
+Message-ID: <87fs9w2c0x.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,49 +77,14 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Watch this:
 
-    $ gdb --args ../qemu/bld/qemu-system-aarch64 -S -M virt -display none -qmp stdio
-    [...]
-    (gdb) r
-    [...]
-    {"QMP": {"version": {"qemu": {"micro": 50, "minor": 2, "major": 7}, "package": "v7.2.0-2331-gda89f78a7d"}, "capabilities": ["oob"]}}
-    [New Thread 0x7fffed62c6c0 (LWP 1021967)]
-    {"execute": "qmp_capabilities", "arguments": {"enable": ["oob"]}}
+    $ qemu-system-x86_64 -S -display none -qmp stdio -accel kvm,dirty-ring-size=1024
+    {"QMP": {"version": {"qemu": {"micro": 90, "minor": 2, "major": 7}, "package": "v8.0.0-rc0-15-g918ee397b6-dirty"}, "capabilities": ["oob"]}}
+    {"execute": "qmp_capabilities"}
     {"return": {}}
-    {"execute": "dumpdtb", "arguments": {"filename": "fdt.dtb"}}
+    {"execute": "set-vcpu-dirty-limit","arguments": {"dirty-rate": 200}
 
-    Thread 1 "qemu-system-aar" received signal SIGSEGV, Segmentation fault.
-    qmp_dumpdtb (filename=0x5555581c5170 "fdt.dtb", errp=errp@entry=0x7fffffffdae8)
-        at ../softmmu/device_tree.c:661
-    661	    size = fdt_totalsize(current_machine->fdt);
+Hangs.
 
-current_machine->fdt is non-null here.  The crash is within
-fdt_totalsize().
-
-I suspect ...
-
-    void qmp_dumpdtb(const char *filename, Error **errp)
-    {
-        g_autoptr(GError) err = NULL;
-        uint32_t size;
-
-        if (!current_machine->fdt) {
-            error_setg(errp, "This machine doesn't have a FDT");
-            return;
-        }
-
-... we're missing an "FDT isn't ready" guard here.
-
-        size = fdt_totalsize(current_machine->fdt);
-
-        g_assert(size > 0);
-
-        if (!g_file_set_contents(filename, current_machine->fdt, size, &err)) {
-            error_setg(errp, "Error saving FDT to file %s: %s",
-                       filename, err->message);
-        }
-    }
-
-Also, I think the error message "does not have a FDT" should say "an
-FDT".
+If I'm using it incorrectly (I have no idea), it should fail, not hang.
 
 
