@@ -2,101 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023866C6C62
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 16:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143D46C6CB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 16:55:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfMyv-00030a-Lo; Thu, 23 Mar 2023 11:36:02 -0400
+	id 1pfNG8-0006AO-9y; Thu, 23 Mar 2023 11:53:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pfMyl-0002zD-M1
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 11:35:51 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pfMyj-0002bj-QZ
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 11:35:51 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32NEsTLS024947; Thu, 23 Mar 2023 15:35:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=UMg5JQLsdm8f/9yQveSaYGAiAFzTiXpzo6PxI3z3Voc=;
- b=luNoMAlSCLG/G3ekisPhc3+WITYZuUkiLJn2vmWynKxiq+uDNCNw1HRuGfJrxRn/QMUH
- QfCl1qJAhyKuEN9fpr09uOi0sa6pUqcvr8hzFgb/gwNbxqgYlLUf9C/zzxNO2ZYfg35j
- YMtn5FNXwwJh43diJ5R+hpZAwLKJGbOeOr5JraJ4b9hSNAX/+MuCT3kKFyhGA7C1Hxx5
- adnsYclhLehce5iwrLi8oDCBMAxOt8KZF0JS8iPGCg01ntdCBRm1F1SQLrkbT86tf6GV
- RST43hCqgXtjJOtYWR5/XTIWmPHSyimkr6uUIDL4zqd0QpYW6kt3mWqmnDod9m37YFr1 ng== 
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgmu7g7as-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Mar 2023 15:35:32 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32NEFQ9J014726;
- Thu, 23 Mar 2023 15:35:32 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
- by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7p524-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Mar 2023 15:35:32 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com
- [10.241.53.100])
- by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32NFZUEf47710736
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Mar 2023 15:35:30 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C028F58059;
- Thu, 23 Mar 2023 15:35:30 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8602E58057;
- Thu, 23 Mar 2023 15:35:30 +0000 (GMT)
-Received: from [9.163.39.211] (unknown [9.163.39.211])
- by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 23 Mar 2023 15:35:30 +0000 (GMT)
-Message-ID: <fc7303e8-e847-9717-c83a-d9b0f812bddf@linux.vnet.ibm.com>
-Date: Thu, 23 Mar 2023 10:35:29 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pfNG6-000693-Qc
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 11:53:46 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pfNG4-0007Vq-6Y
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 11:53:46 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ qe8-20020a17090b4f8800b0023f07253a2cso2506837pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 08:53:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679586810;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DjJ03HJNwbjOJhLEqwT4w8MnmSGcVvdvFzpZtZD+8lw=;
+ b=OkOKYhGhOMmQLFRNV7wDNKatLmU6AQAMubXDtVGwKjESIeRID4KOPTxvMFPUUfLlcE
+ 6Ye60VLX4r8bGm1M2QkD4zqWuuZON7YRnott2VjnTYPbAZviRgaP4Tc0yUi0qvSm6fx0
+ 2fi5qm8NasCgnA1YMFBql0QOCafEJxomC35h8qgeX4eMBfh4DOkaaMV6r9tJ8297u6Eg
+ PFSSB/3yx8FCQD6wOJe3hTdTPOr+FPxRZ77KFo17aOlsNQWRmpH+uINW1rZGkHkaptEB
+ gJKuc7gx5SwEf3JL1zQWRCw4QbEioovos07+geauZdiBNzKoxdctgXHhRxb1RqauqDNe
+ shfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679586810;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DjJ03HJNwbjOJhLEqwT4w8MnmSGcVvdvFzpZtZD+8lw=;
+ b=euU1uO5eQA+2ypO0bOpIo0EW/ZNqXD+qDWFIf98ljHv4P0l9GxrTvKsj8O2/9U5GVt
+ avmb+mQc3T/SJaFw10jxUyFH1CcP9OcM0KWNtL/1T2yeXbznB8XUV54I+dyimHSVwDIG
+ DsU5BXZgFn3q3iGgrOveK5c0RFvH0+sC+GpOgR9gsQIOmUL7qkLol9/8TuZMuU1reH2t
+ WOb/7EyB9/YaeOn6e0gQ+rz9h/bvXIIaHlOYZUeQOrlN8a6sFgv/VtfFkooL1y+5fdSF
+ hK4jVwnuom/i0xDJSsErHkyruUPdaXKuBtnBOccKO6ySqKfl2kzcdwesmRG9z3+VP/EJ
+ 1sKw==
+X-Gm-Message-State: AO0yUKVSLibJRQtH1zsy/KaH65xO5mQWC4fsu5Ruvoz2x61Y/Pv//J0U
+ Cf1HqjnXFe/igiBgFHliXGfhxw==
+X-Google-Smtp-Source: AK7set/DNQnw+3+FL/dHXSDk/IKZ+AMu4pUoCzJTnYaBR7wG/ykcgwGw8EJRRp+3HyrOz2pSTgEb6w==
+X-Received: by 2002:a05:6a20:8b26:b0:d9:e45d:95d6 with SMTP id
+ l38-20020a056a208b2600b000d9e45d95d6mr31331pzh.35.1679586810158; 
+ Thu, 23 Mar 2023 08:53:30 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1544:6601:226e:47e1:b8cd:a957?
+ ([2602:ae:1544:6601:226e:47e1:b8cd:a957])
+ by smtp.gmail.com with ESMTPSA id
+ x25-20020aa793b9000000b00627e87f51a5sm9592058pff.161.2023.03.23.08.53.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Mar 2023 08:53:29 -0700 (PDT)
+Message-ID: <06d24ab8-bfca-6ade-4510-0bc961c97789@linaro.org>
+Date: Thu, 23 Mar 2023 08:53:27 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 2/3] TPM TIS: Add support for TPM devices over I2C bus
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4 1/2] target/riscv: separate priv from mmu_idx
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: joel@jms.id.au, andrew@aj.id.au, stefanb@linux.ibm.com
-References: <20230323030119.2113570-1-ninad@linux.ibm.com>
- <20230323030119.2113570-3-ninad@linux.ibm.com>
- <18fd2a6a-a7e6-f9d4-e993-05dc2142f4d4@kaod.org>
-From: Ninad Palsule <ninad@linux.vnet.ibm.com>
-In-Reply-To: <18fd2a6a-a7e6-f9d4-e993-05dc2142f4d4@kaod.org>
+To: Fei Wu <fei2.wu@intel.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Christoph Muellner <christoph.muellner@vrull.eu>
+References: <20230323024412.324085-1-fei2.wu@intel.com>
+ <20230323024412.324085-2-fei2.wu@intel.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230323024412.324085-2-fei2.wu@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: QOVGflaazH9fKbkc5VOKFi--kuWIGqFK
-X-Proofpoint-GUID: QOVGflaazH9fKbkc5VOKFi--kuWIGqFK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_21,2023-03-23_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0
- mlxlogscore=999 phishscore=0 priorityscore=1501 spamscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
- definitions=main-2303230113
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,116 +101,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 3/22/23 19:44, Fei Wu wrote:
+> Currently it's assumed the 2 low bits of mmu_idx map to privilege mode,
+> this assumption won't last as we are about to add more mmu_idx.
+> 
+> Signed-off-by: Fei Wu <fei2.wu@intel.com>
+> ---
+>   target/riscv/cpu.h                             | 1 -
+>   target/riscv/cpu_helper.c                      | 2 +-
+>   target/riscv/insn_trans/trans_privileged.c.inc | 2 +-
+>   target/riscv/insn_trans/trans_xthead.c.inc     | 7 +------
+>   target/riscv/translate.c                       | 3 +++
+>   5 files changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 638e47c75a..66f7e3d1ba 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -623,7 +623,6 @@ G_NORETURN void riscv_raise_exception(CPURISCVState *env,
+>   target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
+>   void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
+>   
+> -#define TB_FLAGS_PRIV_MMU_MASK                3
+>   #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
+>   #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
+>   #define TB_FLAGS_MSTATUS_VS MSTATUS_VS
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index f88c503cf4..76e1b0100e 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -762,7 +762,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+>        * (riscv_cpu_do_interrupt) is correct */
+>       MemTxResult res;
+>       MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+> -    int mode = mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
+> +    int mode = env->priv;
 
-On 3/23/23 2:44 AM, Cédric Le Goater wrote:
-> On 3/23/23 04:01, Ninad Palsule wrote:
->> Qemu already supports devices attached to ISA and sysbus. This drop adds
->> support for the I2C bus attached TPM devices.
->>
->> This commit includes changes for the common code.
->> - Added support for the new checksum registers which are required for
->>    the I2C support. The checksum calculation is handled in the qemu
->>    common code.
->> - Added wrapper function for read and write data so that I2C code can
->>    call it without MMIO interface.
->>
->> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
->> ---
->> V2:
->>
->> Incorporated Stephen's comments.
->>
->> - Removed checksum enable and checksum get registers.
->> - Added checksum calculation function which can be called from
->>    i2c layer.
->> ---
->>   hw/tpm/tpm_tis.h        |  3 +++
->>   hw/tpm/tpm_tis_common.c | 32 ++++++++++++++++++++++++++++++++
->>   2 files changed, 35 insertions(+)
->>
->> diff --git a/hw/tpm/tpm_tis.h b/hw/tpm/tpm_tis.h
->> index f6b5872ba6..6f29a508dd 100644
->> --- a/hw/tpm/tpm_tis.h
->> +++ b/hw/tpm/tpm_tis.h
->> @@ -86,5 +86,8 @@ int tpm_tis_pre_save(TPMState *s);
->>   void tpm_tis_reset(TPMState *s);
->>   enum TPMVersion tpm_tis_get_tpm_version(TPMState *s);
->>   void tpm_tis_request_completed(TPMState *s, int ret);
->> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size);
->> +void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, 
->> uint32_t size);
->> +uint16_t tpm_tis_get_checksum(TPMState *s);
->>     #endif /* TPM_TPM_TIS_H */
->> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
->> index 503be2a541..b1acde74cb 100644
->> --- a/hw/tpm/tpm_tis_common.c
->> +++ b/hw/tpm/tpm_tis_common.c
->> @@ -26,6 +26,8 @@
->>   #include "hw/irq.h"
->>   #include "hw/isa/isa.h"
->>   #include "qapi/error.h"
->> +#include "qemu/bswap.h"
->> +#include "qemu/crc-ccitt.h"
->>   #include "qemu/module.h"
->>     #include "hw/acpi/tpm.h"
->> @@ -447,6 +449,27 @@ static uint64_t tpm_tis_mmio_read(void *opaque, 
->> hwaddr addr,
->>       return val;
->>   }
->>   +/*
->> + * A wrapper read function so that it can be directly called without
->> + * mmio.
->> + */
->> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size)
->> +{
->> +    return tpm_tis_mmio_read(s, addr, size);
->> +}
->> +
->> +/*
->> + * Calculate current data buffer checksum
->> + */
->> +uint16_t tpm_tis_get_checksum(TPMState *s)
->> +{
->> +    uint16_t val = 0xffff;
->> +
->> +    val = cpu_to_be16(crc_ccitt(0, s->buffer, s->rw_offset));
->
-> this routine could simply return cpu_to_be16(....
->
-Done.
+This is incorrect.  You must map back from mmu_idx to priv.
+Recall the semantics of MPRV.
 
-Thank you for the review.
+> diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/insn_trans/trans_xthead.c.inc
+> index df504c3f2c..adfb53cb4c 100644
+> --- a/target/riscv/insn_trans/trans_xthead.c.inc
+> +++ b/target/riscv/insn_trans/trans_xthead.c.inc
+> @@ -265,12 +265,7 @@ static bool trans_th_tst(DisasContext *ctx, arg_th_tst *a)
+>   
+>   static inline int priv_level(DisasContext *ctx)
+>   {
+> -#ifdef CONFIG_USER_ONLY
+> -    return PRV_U;
+> -#else
+> -     /* Priv level is part of mem_idx. */
+> -    return ctx->mem_idx & TB_FLAGS_PRIV_MMU_MASK;
+> -#endif
+> +    return ctx->priv;
+>   }
 
-Ninad
+I guess we aren't expecting optimization to remove dead system code?
+That would be the only reason to keep the ifdef.
 
-> Thanks,
->
-> C.
->
->
->> +
->> +    return val;
->> +}
->> +
->>   /*
->>    * Write a value to a register of the TIS interface
->>    * See specs pages 33-63 for description of the registers
->> @@ -767,6 +790,15 @@ static void tpm_tis_mmio_write(void *opaque, 
->> hwaddr addr,
->>       }
->>   }
->>   +/*
->> + * A wrapper write function so that it can be directly called without
->> + * mmio.
->> + */
->> +void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, 
->> uint32_t size)
->> +{
->> +    tpm_tis_mmio_write(s, addr, val, size);
->> +}
->> +
->>   const MemoryRegionOps tpm_tis_memory_ops = {
->>       .read = tpm_tis_mmio_read,
->>       .write = tpm_tis_mmio_write,
->
+This function should be hoisted to translate.c, or simply replaced by the field access.
+
+> @@ -1162,8 +1163,10 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       } else {
+>           ctx->virt_enabled = false;
+>       }
+> +    ctx->priv = env->priv;
+
+Incorrect, as Zhiwei pointed out.
+I gave you the changes required to TB_FLAGS...
+
+
+r~
 
