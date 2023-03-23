@@ -2,80 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD16E6C71C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 21:45:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F8D6C73CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 00:01:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfRnT-0004Mk-Sl; Thu, 23 Mar 2023 16:44:32 -0400
+	id 1pfTuG-0003oi-8C; Thu, 23 Mar 2023 18:59:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pfRnQ-0004MO-LO; Thu, 23 Mar 2023 16:44:28 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pfRnM-0006tL-HX; Thu, 23 Mar 2023 16:44:26 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-17786581fe1so23887482fac.10; 
- Thu, 23 Mar 2023 13:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679604262;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=znoAB/+DZD4lDjofu/rLoyYbQId/Knw6hOu3UZCCyXU=;
- b=WnmpbDaTpXjRq6UkDecPUfRJ7lA+5ZqQnHelK+7RLm32pSB8vJa+mTpuv0gRv3x7So
- BCgc7r6C0KUo/gEh72TGoFlTZV716S4O54Y60Wb4so5Nsu0nkt8UcJ5NJ9Am8enwa8Ff
- d3egojeklGq5z+Foiha6/hWjYN+iZ1HVjEyv7LivlsUnA0JJwsPWN+GPUuyxuyc05SKF
- CKDhboUjTdrC3E0H3C7AzqU9ewRyFudxa4VuXxzH0fFWMcNHmlyefAnjxMGtlyTGAbA8
- wauoR7Wm8dh/3bMVm32cs2GMfOYC5gnVTkv+QXnaLOyL92r9iMJX2YbnvbmRwNOq8w1H
- W9/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679604262;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=znoAB/+DZD4lDjofu/rLoyYbQId/Knw6hOu3UZCCyXU=;
- b=LSYZFJbvlrgHZexfa+G97jJUuMKauMwZr5bTK1TxHkf/JA2FiLo6Pn9nJeyvN0nazp
- JnEtodgw3Vo8wVi+DsqwTSfFIvWflT/ewbrMfjcDbbnTwpZIIKC+I0KoqzLhluAgcppP
- dO8Q/0RsYL9VHptNYxUMoMRiel3fpK9ISPqtTGZnUo2sP886jJ+w26bsGEBaXxBHPp6I
- Uz5TWzZP8QE5FOnhfveMr0NmlFcc8sVSnzhCCMurFmaGQEqGOTv2GwPnlXvIHF5Hm3Fg
- osHEzO9UjYpw5GEOIUL5wfW2Kmkn5QhFEw/A7vawOyU0vvJ3zCr64JZwBc3N9kyxitZf
- kHIg==
-X-Gm-Message-State: AAQBX9e81zaN7hl/W2eDPECvOYPXzvRpDhvocd9B0ZCSzE8O7moYY/4G
- 9/AzDiN7Cf1pHjQfhpk7l2CjOwgtMB8=
-X-Google-Smtp-Source: AKy350ZgNLmq831lJUppKinTzQgonoU0jaZzHU5hlO5XnrzH18SminZAzbljBzSFN4ZjGSbzsSXSoA==
-X-Received: by 2002:a05:6870:e88a:b0:17a:c7ff:ccf7 with SMTP id
- q10-20020a056870e88a00b0017ac7ffccf7mr519639oan.28.1679604262732; 
- Thu, 23 Mar 2023 13:44:22 -0700 (PDT)
-Received: from grind.. ([177.95.89.231]) by smtp.gmail.com with ESMTPSA id
- vd21-20020a0568708f9500b0017ae1aede32sm6442081oab.46.2023.03.23.13.44.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 13:44:22 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org
-Subject: [PATCH v2 1/1] hw/arm: do not free machine->fdt in arm_load_dtb()
-Date: Thu, 23 Mar 2023 17:44:14 -0300
-Message-Id: <20230323204414.423412-2-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230323204414.423412-1-danielhb413@gmail.com>
-References: <20230323204414.423412-1-danielhb413@gmail.com>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
+ id 1pfTuC-0003oV-Ii
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 18:59:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
+ id 1pfTu6-0003VR-1r
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 18:59:36 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32NLXvUN005064; Thu, 23 Mar 2023 22:35:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=vTCYjOzoTcbOZXWo+ItgZMdG/TsVklorGIoWqebzU2o=;
+ b=RnsmK09L+nweEqKPmMMNWb2+aDV2BTkwVFPeg12tYGJvO0F4MuBgk4yO3Q5opjefsA+f
+ WLzvWXTXpJSD/jpt5A/lyonb6DpPNNktwEXsAT9m++fKgtlvBSNCnFaXnbvQ5MteBa0l
+ D0u1X4+v1wI1N8vlm25tLMdcZh/H1FqWVRa0m1Op4031cutyePHWB06k7Z5UJaC28V94
+ Ar7EWCo68Vt/xJM3K2dburhrEcF15/s+XRttyV2prS8r0DBgC+CP7IZKViVZqGJ47KKN
+ cWxOvU14rqQr1llbBLqM4XeHKFo/kBCy6IWyPs1gvVEgzndZZV/wzFce+IwxMCn5SN/A yg== 
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgxt0s7hf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Mar 2023 22:35:48 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32NLbZmG001113;
+ Thu, 23 Mar 2023 22:35:47 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
+ by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3pgxupr7fg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Mar 2023 22:35:47 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
+ [10.241.53.103])
+ by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32NMZk1P11141750
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Mar 2023 22:35:46 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 673F858064;
+ Thu, 23 Mar 2023 22:35:46 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2FDE358065;
+ Thu, 23 Mar 2023 22:35:46 +0000 (GMT)
+Received: from [9.163.39.211] (unknown [9.163.39.211])
+ by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Mar 2023 22:35:46 +0000 (GMT)
+Message-ID: <c634c97d-393f-def7-1610-51fc3db2c00e@linux.vnet.ibm.com>
+Date: Thu, 23 Mar 2023 17:35:45 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 0/3] Add support for TPM devices over I2C bus
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: joel@jms.id.au, andrew@aj.id.au, stefanb@linux.ibm.com
+References: <20230323030119.2113570-1-ninad@linux.ibm.com>
+ <e82fa6a5-1e78-d546-a2f8-08dbb3e030c4@kaod.org>
+From: Ninad Palsule <ninad@linux.vnet.ibm.com>
+In-Reply-To: <e82fa6a5-1e78-d546-a2f8-08dbb3e030c4@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 4IUS7yggNs0HnB_VV-vuC-ZEHe_TPn8l
+X-Proofpoint-ORIG-GUID: 4IUS7yggNs0HnB_VV-vuC-ZEHe_TPn8l
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-23_13,2023-03-23_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ suspectscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 mlxlogscore=976
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303230163
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,64 +112,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At this moment, arm_load_dtb() can free machine->fdt when
-binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
-retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
-the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
-machine->fdt. And, in that case, the existing g_free(fdt) at the end of
-arm_load_dtb() will make machine->fdt point to an invalid memory region.
 
-After the command 'dumpdtb' were introduced a couple of releases ago,
-running it with any ARM machine that uses arm_load_dtb() will crash
-QEMU.
+On 3/23/23 2:23 AM, Cédric Le Goater wrote:
+> Hello Ninad,
+>
+> On 3/23/23 04:01, Ninad Palsule wrote:
+>> This drop adds support for the TPM devices attached to the I2C bus. It
+>> only supports the TPM2 protocol. You need to run it with the external
+>> TPM emulator like swtpm. I have tested it with swtpm.
+>>
+>> I have refered to the work done by zhdaniel@meta.com but at the core
+>> level out implementation is different.
+>> https://github.com/theopolis/qemu/commit/2e2e57cde9e419c36af8071bb85392ad1ed70966 
+>>
+>>
+>> Based-on: $MESSAGE_ID
+>> ---
+>> V2:
+>>   Incorporated Stephan's comments.
+>
+> Please add a version to the patchsets you send :
+>
+>   git format-patch -v 2 --cover-letter ....
+>
+> it is better practice and easier to track in our mailboxes. The automated
+> tools patchew, patchwork, also track them.
+>
+Yes, I noted down. Sorry I missed that last time.
 
-Let's enable all arm_load_dtb() callers to use dumpdtb properly. Instead
-of freeing 'fdt', assign it back to ms->fdt.
 
-Note that all current callers (sbsa-ref.c, virt.c, xlnx-versal-virt.c)
-are assigning ms->fdt before arm_load_dtb() is called, regardless of
-whether the user is inputting an external FDT via '-dtb'. To avoid
-leaking the board FDT if '-dtb' is used (since we're assigning ms->fdt
-in the end), free ms->fdt before load_device_tree().
+>>
+>> Ninad Palsule (3):
+>>    docs: Add support for TPM devices over I2C bus
+>
+> Generally we add the docs after support. No big deal.
+Ok, I will remember this next time.
+>
+>
+>>    TPM TIS: Add support for TPM devices over I2C bus
+>>    New I2C: Add support for TPM devices over I2C bus
+>
+> Have you looked at adding tests ? qtest or avocado ?
+>
+> We discussed offline about it with Stefan and the I2C qos framework in
+> qtest is a bit of a challenge for the TPM purpose. See the thread here :
+>
+> https://lore.kernel.org/qemu-devel/dd43ec84-51e4-11f7-e067-2fb57a567f09@linux.ibm.com/T/#u
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
-Fixes: bf353ad55590f ("qmp/hmp, device_tree.c: introduce dumpdtb")
-Reported-by: Markus Armbruster <armbru@redhat.com>i
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/arm/boot.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Stefan has already created some tests. Thanks Stefan.
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 50e5141116..de18c0a969 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -549,6 +549,13 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-             goto fail;
-         }
- 
-+        /*
-+         * If we're here we won't be using the ms->fdt from the board.
-+         * We'll assign a new ms->fdt at the end, so free it now to
-+         * avoid leaking the board FDT.
-+         */
-+        g_free(ms->fdt);
-+
-         fdt = load_device_tree(filename, &size);
-         if (!fdt) {
-             fprintf(stderr, "Couldn't open dtb file %s\n", filename);
-@@ -689,7 +696,8 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
-                                        rom_ptr_for_as(as, addr, size));
- 
--    g_free(fdt);
-+    /* Set ms->fdt for 'dumpdtb' QMP/HMP command */
-+    ms->fdt = fdt;
- 
-     return size;
- 
--- 
-2.39.2
 
+Thanks for the review!
+
+Ninad
+
+>
+> Thanks,
+>
+> C.
+>
+>
+>>
+>>   docs/specs/tpm.rst      |  20 +-
+>>   hw/arm/Kconfig          |   1 +
+>>   hw/tpm/Kconfig          |   7 +
+>>   hw/tpm/meson.build      |   1 +
+>>   hw/tpm/tpm_tis.h        |   3 +
+>>   hw/tpm/tpm_tis_common.c |  32 +++
+>>   hw/tpm/tpm_tis_i2c.c    | 440 ++++++++++++++++++++++++++++++++++++++++
+>>   include/sysemu/tpm.h    |   3 +
+>>   8 files changed, 506 insertions(+), 1 deletion(-)
+>>   create mode 100644 hw/tpm/tpm_tis_i2c.c
+>>
+>
 
