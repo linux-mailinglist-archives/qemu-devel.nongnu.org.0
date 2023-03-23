@@ -2,170 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0236C5BE0
+	by mail.lfdr.de (Postfix) with ESMTPS id 6295E6C5BDF
 	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 02:28:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf9jZ-0005Qf-VL; Wed, 22 Mar 2023 21:27:17 -0400
+	id 1pf9kP-0005ZZ-1t; Wed, 22 Mar 2023 21:28:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1pf9jW-0005Pt-Hv; Wed, 22 Mar 2023 21:27:14 -0400
-Received: from mga12.intel.com ([192.55.52.136])
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1pf9kM-0005ZA-J1
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 21:28:06 -0400
+Received: from mail-bn7nam10on2061c.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::61c]
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1pf9jU-0006qR-2D; Wed, 22 Mar 2023 21:27:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679534832; x=1711070832;
- h=message-id:date:subject:from:to:cc:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=WXe7+sr/GlBcWF8BkdaOVzv0MP/sbdARlTNXvn4tyEM=;
- b=VubPemivIWoSphqU/fJgxC8TCWkc9bxik7zRGxXkutOOhJir8UIdcERd
- D9jJJrvnOSNzn59LCV9qf2o0GXXjrl82C5gUvBmJ9SKXAeuIA8ewHoxNl
- z5hCs4ggzJXLRW5dInHkCuJV0YZZ9bhikQh9hkLXMLLfMWPJX/EUF5laS
- qgwegX5jjGP7ACG0uT93ouNRckRcPkwaTTw0FCd9cOdf283gGZmy2hJLb
- 5NE7Nwc3/3TfrGuLPYiC4DpwH+aQCvNiPaQlxcBiqa+xxxTKDM/PmY0ew
- UIfmlCydf1eVA/xilS0vRciVb/D6WNG39FgvDLUuh3Gbja9yqAYxxsNfP g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319022236"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="319022236"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 18:26:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="675513625"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="675513625"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga007.jf.intel.com with ESMTP; 22 Mar 2023 18:26:40 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 22 Mar 2023 18:26:40 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 22 Mar 2023 18:26:39 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Wed, 22 Mar 2023 18:26:39 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Wed, 22 Mar 2023 18:26:39 -0700
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1pf9kI-0006zI-GO
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 21:28:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TrIJl2f07N+78UyXlB1PLiwOwzIEY+5D6fHYMTnX+O9bxetLvcLH9OvUU00lZl3z9qvgvAan+O4pumIuiQB/eYufsDfSgadDboFYI0E5Afe6KiV7D5mqIwUMH+ZY0YD4I6aA1JFQuvyI4GA6t1Zz9dWjmwllZP6eZVNftWAPyUVwdeLN8TCgDjGpJuXXOqE1hgyivCD7a6x8HZ5j1VgscDPt+PHuZWYRH41CXAc09XtVqnKsbCh3Pho4GC8Z0lcsx3sPUi4wGQSfQHlzH3XJWUINnFpPBXVX5VZv4eZ/Tgkxm93dzyYhTL1WWj6CJKiC9noMcyRWZ2EJ5ZJktdW6pA==
+ b=Dx8Z0uObm40mi3yuk8K1nHaWFE2bo2nQI5GSk0uc7gLBY4D3afw91ZeTr73O2YUoTlib3SbvfirkMfuwrjn3zCAXunElunospOORb46L3KShcdDU1hoUdTfoA7SoH8PVYZsNak4XvmFyAvKN+HGSBQeizWRZ7C4NHUrHOnEOCppMwEJg9yxq/s6l8d6bD0znNPajX/LAj6vzlczZlJPwW8ybfXgDD9tGX9M605RACOCd7vYfbErkd8nByyH+HrNFXVZ2z4HXgLJPYNdpHzowkH+85+e55xFeOL1Gb7r6qqCgUO/VsDUd+voJ2CS+Z33H/wjHGLRGUFJS2AFuEgYiiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UA+T2ajkcNoyGsNzsE6G6Rcku84vj13lWAErw/k9q+8=;
- b=aKht/xZ2XDYLPcB9BfSfJk487pWL11Gm3KBab/fNIuTN7gPA0cABRMS6g5FFvB94lYOQLl2NSLkbSjYvxDR1/3dJ7HspTo3OC93IGg+e0vy63o2ch5HQNu/xuWo+RQwFF08FfhCs2Nx2AMeTQ4lsgHV2pXSeRn3eKbTaMYqsDVoLgYobRQE7bogFaXB3zCmbWB8hdg4seYhu7B1fyk49aZpBh36yB8UkSbRY1fXubgJWAkrpnNkvFQhaUbu008neRIlO4SeZlsjfiVKdOtucjFIV3nfJ2J2enwZc6IiIGTR+e5wOvBGvFn23CuFMz70MXQcebolTavNN0HVSvQpuoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4500.namprd11.prod.outlook.com (2603:10b6:a03:1c3::24)
- by DM4PR11MB5375.namprd11.prod.outlook.com (2603:10b6:5:396::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Thu, 23 Mar
- 2023 01:26:37 +0000
-Received: from BY5PR11MB4500.namprd11.prod.outlook.com
- ([fe80::68a4:ef95:6726:3fc5]) by BY5PR11MB4500.namprd11.prod.outlook.com
- ([fe80::68a4:ef95:6726:3fc5%4]) with mapi id 15.20.6178.037; Thu, 23 Mar 2023
- 01:26:37 +0000
-Message-ID: <b509a953-a5ac-7580-b97a-5ef29f31c5eb@intel.com>
-Date: Thu, 23 Mar 2023 09:26:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3] target/riscv: reduce overhead of MSTATUS_SUM change
-Content-Language: en-US
-From: "Wu, Fei" <fei2.wu@intel.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-CC: Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis
- <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>, Weiwei Li
- <liweiwei@iscas.ac.cn>, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, "open list:RISC-V TCG CPUs"
- <qemu-riscv@nongnu.org>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20230322121240.232303-1-fei2.wu@intel.com>
- <cde0b3bf-7d38-2fc4-c8a9-7241d5bf7339@linaro.org>
- <4c0c210b-7a9a-34a8-b0c2-e32f9328bf07@intel.com>
-In-Reply-To: <4c0c210b-7a9a-34a8-b0c2-e32f9328bf07@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR06CA0217.apcprd06.prod.outlook.com
- (2603:1096:4:68::25) To BY5PR11MB4500.namprd11.prod.outlook.com
- (2603:10b6:a03:1c3::24)
+ bh=Jx0LCcrl0zhtbGtyYthgXkwmDL7Ey5uollXMP76ypVQ=;
+ b=ISOIssF6qWEsvwMPt/nal2OHvseWPNezvQtyMejinG5aaRCluWoImar2FvQIqAI+bXPMpMkuY0WrMNB4R1WOPON7/VNBcek6m9WZtkqTzMyi6aJFa6yBnY59ZiP4EgBWHg4HlwY8ZN90S8w6BAJgooAOJnmfzA+Hn43+45kb+gr1NlivK+1nac0x62efuTA9788tPeUtAUdOWX3mIvSifpY0t3FZfJCqxAxfRodxzZviByTiPVa6npOqMW0gWXzvzi3xCd6AeLBlFbHzIedkl4/ocI70oMGPslUEdMxrOvWeJazHBK8KlCXfuqFsclfnEQCDm3Y4AEguQwMaMT79eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jx0LCcrl0zhtbGtyYthgXkwmDL7Ey5uollXMP76ypVQ=;
+ b=pa8dn0jsDfbm9tpQREmymVcwoTNcI8YYC4qm+zy6vCpsBTijJ2acWva7hbfqpzyj6UTahvanAgSa2CHY3wwK37dileayrx4aA6acoMg77L5JfHC28kOy7W8faj9w6px/kdwVRHV7sUM6YmQQAQrXQplja+0/LGlE/X/iWN7FUlM=
+Received: from MN2PR15CA0059.namprd15.prod.outlook.com (2603:10b6:208:237::28)
+ by SA0PR12MB4463.namprd12.prod.outlook.com (2603:10b6:806:92::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Thu, 23 Mar
+ 2023 01:27:56 +0000
+Received: from BL02EPF0000EE3C.namprd05.prod.outlook.com
+ (2603:10b6:208:237:cafe::f1) by MN2PR15CA0059.outlook.office365.com
+ (2603:10b6:208:237::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37 via Frontend
+ Transport; Thu, 23 Mar 2023 01:27:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0000EE3C.mail.protection.outlook.com (10.167.241.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6178.30 via Frontend Transport; Thu, 23 Mar 2023 01:27:54 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 22 Mar
+ 2023 20:27:54 -0500
+Date: Wed, 22 Mar 2023 20:27:37 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+CC: Sean Christopherson <seanjc@google.com>, Isaku Yamahata
+ <isaku.yamahata@gmail.com>, <kvm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li
+ <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, Joerg Roedel
+ <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Arnd Bergmann
+ <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>, Miaohe Lin
+ <linmiaohe@huawei.com>, <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J . Bruce
+ Fields" <bfields@fieldses.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>, Steven Price
+ <steven.price@arm.com>, "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, <luto@kernel.org>,
+ <jun.nakajima@intel.com>, <dave.hansen@intel.com>, <ak@linux.intel.com>,
+ <david@redhat.com>, <aarcange@redhat.com>, <ddutile@redhat.com>,
+ <dhildenb@redhat.com>, Quentin Perret <qperret@google.com>,
+ <tabba@google.com>, <mhocko@suse.com>, <wei.w.wang@intel.com>
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230323012737.7vn4ynsbfz7c2ch4@amd.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com>
+ <20230119223704.GD2976263@ls.amr.corp.intel.com>
+ <Y880FiYF7YCtsw/i@google.com>
+ <20230213130102.two7q3kkcf254uof@amd.com>
+ <20230221121135.GA1595130@chaop.bj.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230221121135.GA1595130@chaop.bj.intel.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4500:EE_|DM4PR11MB5375:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2cd3edcc-57fe-403a-5119-08db2b3da512
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-TrafficTypeDiagnostic: BL02EPF0000EE3C:EE_|SA0PR12MB4463:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62866689-2cda-4b67-8414-08db2b3dd3c3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rTQ7RJZFTVUW0og8q8vwpm70ZIoeUe8k9oAFsjbMoOjJBhKwj/YYTEIj5Ze0FMHdR5N6PhZdHmE/MqSGQj4k0xVQrFvhM4iEHLloHwT0X0llvr9ptHFw3incETNKUJQokkQFAzj0S8i99+5aiOn7YEFAHLk3U63yPRBA6H/WIUQdAo3XIKStHzbfVsPTUUMjH6hjrT5heQOZCGXoaEPWUWyDBajs5wsoiboQBR9in7FFWdTzvPzqCfwCaY1LGA3dKHpkCFOBBrHkDbZLnY9jsce2kEMg3KRT+a7E3IJ+s0bjTM90iLkNuWbZ98byGACfLvQVANz3esT7pDwQ18N11+tyGN7R91DO/UIGkYfx34KxO8K0Efb/3Dd5DNZwvVQ29xWQDxFIt19KVovVpX4QUGGf9H/RtplNn27mc6LxbB0XjfnBVvxOcW3njP9eGMHDHXX12HqHTtpqcWpyFYu5X+OsI87uCr8w1rRK5tt1+a699Kcmei1TU+k5wp8gfF9K4/MwPmJro44rEpIFyBxIawzkxWfZm7ZGDp7zyivUKh8WhK/YIcw0pts8nMTSpgt/OP+J7rLhh6Kgtyc17y2oj0lOU/pxXtOwWYxAOtjswZE2Ok0/GzFKeRjikrVS5amUxLeQDnS4nSmLYsFXlP3/CwuwbXhQLCYGQAFuAMTZlDIFbV4n++LCLiJJQDY9VD9LvOAovXrhk1HjbM6I08eDk3LEKuE54Wx1zI23eYR8TVs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4500.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(39860400002)(376002)(366004)(136003)(396003)(451199018)(31696002)(31686004)(316002)(66946007)(6916009)(478600001)(82960400001)(2906002)(86362001)(83380400001)(4326008)(8676002)(66476007)(66556008)(2616005)(186003)(38100700002)(36756003)(6486002)(41300700001)(54906003)(5660300002)(26005)(6506007)(8936002)(53546011)(6512007)(6666004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cllvS3BvTURPbGFVMHA3ZllaVVBBWTBlbnJBSVFjR0NSbG1VSDBtQlR6emJQ?=
- =?utf-8?B?SEx6Vi9nZFE4VjFNOUhmaTlQS0RoWXpBZVhDU1RlNmVrQTloNlNzS0FORDJL?=
- =?utf-8?B?NHNONUlJdU9mT0s5MVJ0NDU0eWN2RUpiL2FQNThwVjlML0xMREZVc0F5bysr?=
- =?utf-8?B?SVB2WGtMYzNSd3VzMFNrZnNKeWdIeXU5NnBjOHdlRFI0YzNVVEpUVWV3RkJZ?=
- =?utf-8?B?SXlXYlkxTEFvZ0hKYmZXVFBvWlc4c3cwcFQ1cEZyNmpiRHVjQ0xuT1VqTnhh?=
- =?utf-8?B?ZDlYc1FMV1d3V1BBbFh4Vk9MamsyZ3Y2UFBrM0ozZG02U0lUcm9rekV5aDZX?=
- =?utf-8?B?N2RGblpDVWh4bXY0OHZIT2cyZ2hEaW85QWJxT3JpbzlUN1JDNVVzQ3hqTDBC?=
- =?utf-8?B?Sy9mZGxKdkQwRVBFT1hTaWxlektZT1F0ZVNSMUJGY09mT3VySTNidHZTZFIy?=
- =?utf-8?B?OHNkZTBnV2NtUEhycmRmeVhkSFdSVG5IL213cnhmai9WWjkvNnRjQVpRWjFz?=
- =?utf-8?B?YWJwMmRZMWMwbFgxQklHcmF5REtkQlRRY1loWjNPY1lHK01kU3k3MHU2RHJR?=
- =?utf-8?B?d0RGK1d3TkZscnQ4QlpRZGFFTHc3bm15d2hQa1VmMXA5cU1tTGNCZEJ4SXN4?=
- =?utf-8?B?dm5zbGxaWnliVE1yN1M2ejRBb3pBc1cvVW5JU3FkcDc2T0w3SzNwTG1GYTZq?=
- =?utf-8?B?UFluMjc4TG5Ib085T0lsa0tLYnM2Y2Y3OFBlUzNrb2ViQW5oL1pMWDNrSXYy?=
- =?utf-8?B?SnpwQjgvM0p3blA1VDRPS0I2eElPNm9RcGJjSVphTk9BZzViZS85ZmVocU1D?=
- =?utf-8?B?TnVNTTNHYWpHVU1leTdkZFUxTGJYQW92RmxTYmVlaktWQ0ROanN6VUFXRDY3?=
- =?utf-8?B?WWEwVzk4N09kS0h1dDRvM01ENzgyTHNnTGZmbm5raEFEYnJZKzRjUDhaR1lr?=
- =?utf-8?B?bU5VdUhMRDhHU0VOWDBpcEhYdmc2MkF3VlJSc1NLQTJwMlZ1YW90VFNZUGIy?=
- =?utf-8?B?TUhGTDl5WUtEN1lrVVIzcTFETFlkNWN2ejdDT1AreVNMcDRPQ0FrbmFXSG53?=
- =?utf-8?B?b05KR1RxbTFGMDNBcFRnSVhIdnptZGJZUXZiNzdmRUs5OHA1ZnBRUnJrV29n?=
- =?utf-8?B?RFdwYTZBSzFkL3ZucnRZdkdsT21yeXJOek5PVXRLVVU5SU92UERjRkVWWkY4?=
- =?utf-8?B?R0VjZGVnbnMzQmpmbE4vMy9qTEZOQVgwaDB0K0I1Nlo3YXhnWEdIcHBsRVYy?=
- =?utf-8?B?aEhCeklZWjkyNHY3dEtFVnlkcmJNK25CUzg5OGZpanYyeXkwc1o4ckpLK0p0?=
- =?utf-8?B?RW1od3RkdTNHaGxiUzdiaWtCdU8rSllEM1JtVTZUSVJVUU9BLzQzTEVyL3lq?=
- =?utf-8?B?UzBoSVpob0p4UEE0MSttZDJtdnU2Vml6Slp6NnBXVk1LSTMxR2NQUXhDb0tK?=
- =?utf-8?B?Qmc0OVJqZHl5SFhKTzdwb3lzL2ZRU1F2MVBTKzh0Vmluemsvbm4rQ3Nlb1NT?=
- =?utf-8?B?QXdaVmVBYzhxYktTQUNraTZRUlV2U1EvZzRtMVlqSGUyRkNNYWZyZHl1WUlT?=
- =?utf-8?B?VHltMHdEUlhnK1ZhVXRMdzduRkFUeDZxRnJzUXprT1ptaTUzSDZUQ0FTdXNZ?=
- =?utf-8?B?QzVoUXJrRmpnRnNqWlF2V3Ryb0hYajJsUEh2OHV2UzUzaE9KMVJud1dFMWpq?=
- =?utf-8?B?R3g4dGdOS3BIdkkwRUJ1QWN0T2tqYzhHaEJFSFpCRWllWFg4MHlwVGJaVWdF?=
- =?utf-8?B?V1lyTm9VMnRpZ3R2a0c2UmpYdkNMd1kxUThta0dYTlFRTWR5cUY1dUppd2Yx?=
- =?utf-8?B?SFNiMTFhSHNIRk5rZW1QRUFJZVRPWnNScjJqUGRYWnkydGN3eERXTm5XU0Y4?=
- =?utf-8?B?RFlnV3VSUWdyZi9jNU9JYTdLRmFTKzdPbGVFd3VHa1lqYURoQzM4QTVJMmg1?=
- =?utf-8?B?UG1kQ3lOak5pYXdRSHFXMHE3NHhtNVdYaDVQeTdwSkZIS1UvaGZrS0tEVHNt?=
- =?utf-8?B?cjZoL1RPSTJsMi96em9vMDRrZnN2OStlalBJdXNMMjVFejFnZi9zK3lvcTJV?=
- =?utf-8?B?ZnZ4RmxqdFF1Y04yKzdHemdyUVZ4OFhaSW13dURic2tyb0FFUUU4c1hXa2hm?=
- =?utf-8?Q?DXmIT8n4iC4Odyc2W1wy89IYQ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cd3edcc-57fe-403a-5119-08db2b3da512
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4500.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 01:26:36.9247 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DYbgUluvu1S6jP7RdZxqC9dnT88QJqgL7lAgu5AXyC1Jcj/KljR60z/zqQqMXCs1B5b09Iq3E9Ec/VqAou0bZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5375
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=fei2.wu@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Microsoft-Antispam-Message-Info: LMAXdBDFqtDpIFu82ZPHqUkd4fl7aS4dBZQjtL/hw6oW3BaJcSWalbXjEJJre0jRwXcOI4cEd45XlDjpTRAmX8qhXYZPMNxe1HUUn5LIUd/9cBFCz0Anc2TR+O6K26xEpy6AT94syR4zQpvxoFzLtmMwCy97e/zAyKPX8YTr9e4H25rwOzwIjAxZqCLSXMVEDbBz/RacrPMbvcem2DvkzBuo8ETuOEOxBfY6y6eh3Lz5EiFEBoBJ6wycIxHp9b9D9xrrshnOYs+4AhzvylzKLo/zwLrC6dlONWVizJFEGGLE6vlm1X68vEgi6xxwEc/f3GUx3MoBQgfh3JsQO5Ft1EUJwb/YfZE8axCmfItrOh6gddG+qinxFRDnTHfh9TWdHa1ue5C2l7/RbEKsaEV7M3qyWEwqmcKk7hgvq9znDIUvASCcqaxUqpi2SGkqDVYYaSlzCFS9C988vxI8bXnFTDnL+i3zjncqom92OuZRI0yKv4zhC1620iEGMLDpDVGW+oPMjJdyFoYYlEoax8ikci6WaFwcgkY3anGH2IbP5BWQMLpnKTNzSXvaH1l0H4yZtsvko6h7CYqPlOyg7vVc0eRWUAGfjMXP9g4RD1PAtQzuV4myf4A2SFd9zPoAiHiuExt+HM739KerY92e5IZFRd5uOQfzz4oYyFvdq8I56vDyRjsn6DrvEYY3XuZ7FSOnS3MwjCMj313DmL8+3cNMTi9/Y3dRSk3YO2Ff+9dlVuM=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(396003)(376002)(136003)(346002)(451199018)(46966006)(36840700001)(40470700004)(1076003)(26005)(82310400005)(336012)(6666004)(36756003)(426003)(47076005)(40460700003)(16526019)(186003)(40480700001)(316002)(81166007)(2906002)(356005)(54906003)(41300700001)(36860700001)(8936002)(8676002)(4326008)(6916009)(70586007)(70206006)(2616005)(44832011)(82740400003)(7416002)(7406005)(5660300002)(83380400001)(966005)(86362001)(478600001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 01:27:54.7925 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62866689-2cda-4b67-8414-08db2b3dd3c3
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000EE3C.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4463
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::61c;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -182,135 +148,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/23/2023 8:38 AM, Wu, Fei wrote:
-> On 3/22/2023 9:19 PM, Richard Henderson wrote:
->> On 3/22/23 05:12, Fei Wu wrote:
->>> Kernel needs to access user mode memory e.g. during syscalls, the window
->>> is usually opened up for a very limited time through MSTATUS.SUM, the
->>> overhead is too much if tlb_flush() gets called for every SUM change.
->>>
->>> This patch creates a separate MMU index for S+SUM, so that it's not
->>> necessary to flush tlb anymore when SUM changes. This is similar to how
->>> ARM handles Privileged Access Never (PAN).
->>>
->>> Result of 'pipe 10' from unixbench boosts from 223656 to 1705006. Many
->>> other syscalls benefit a lot from this too.
->>>
->>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
->>> ---
->>>   target/riscv/cpu-param.h  |  2 +-
->>>   target/riscv/cpu.h        |  2 +-
->>>   target/riscv/cpu_bits.h   |  1 +
->>>   target/riscv/cpu_helper.c | 11 +++++++++++
->>>   target/riscv/csr.c        |  2 +-
->>>   5 files changed, 15 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
->>> index ebaf26d26d..9e21b943f9 100644
->>> --- a/target/riscv/cpu-param.h
->>> +++ b/target/riscv/cpu-param.h
->>> @@ -27,6 +27,6 @@
->>>    *  - S mode HLV/HLVX/HSV 0b101
->>>    *  - M mode HLV/HLVX/HSV 0b111
->>>    */
->>> -#define NB_MMU_MODES 8
->>> +#define NB_MMU_MODES 16
->>
->> This line no longer exists on master.
->> The comment above should be updated, and perhaps moved.
->>
->>>   #define TB_FLAGS_PRIV_MMU_MASK                3
->>> -#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
->>> +#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 3)
->>
->> You can't do this, as you're now overlapping
->>
-> As you mentioned below HYP_ACCESS_MASK is set directly by hyp
-> instruction translation, there is no overlapping if it's not part of
-> TB_FLAGS.
+On Tue, Feb 21, 2023 at 08:11:35PM +0800, Chao Peng wrote:
+> > Hi Sean,
+> > 
+> > We've rebased the SEV+SNP support onto your updated UPM base support
+> > tree and things seem to be working okay, but we needed some fixups on
+> > top of the base support get things working, along with 1 workaround
+> > for an issue that hasn't been root-caused yet:
+> > 
+> >   https://github.com/mdroth/linux/commits/upmv10b-host-snp-v8-wip
+> > 
+> >   *stash (upm_base_support): mm: restrictedmem: Kirill's pinning implementation
+> >   *workaround (use_base_support): mm: restrictedmem: loosen exclusivity check
 > 
->> FIELD(TB_FLAGS, LMUL, 3, 3)
->>
->> You'd need to shift all other fields up to do this.
->> There is room, to be sure.
->>
->> Or you could reuse MMU mode number 2.  For that you'd need to separate
->> DisasContext.mem_idx from priv.  Which should probably be done anyway,
->> because tests such as
->>
-> Yes, it looks good to reuse number 2. I tried this v3 patch again with a
-> different MMUIdx_S_SUM number, only 5 is okay below 8, for the other
-> number there is no kernel message from guest after opensbi output. I
-> need to find it out.
-> 
-In get_physical_address():
-    int mode = mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
+> What I'm seeing is Slot#3 gets added first and then deleted. When it's
+> gets added, Slot#0 already has the same range bound to restrictedmem so
+> trigger the exclusive check. This check is exactly the current code for.
 
-We do need separate priv from idx.
+With the following change in QEMU, we no longer trigger this check:
 
-Thanks,
-Fei.
+  diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+  index 20da121374..849b5de469 100644
+  --- a/hw/pci-host/q35.c
+  +++ b/hw/pci-host/q35.c
+  @@ -588,9 +588,9 @@ static void mch_realize(PCIDevice *d, Error **errp)
+       memory_region_init_alias(&mch->open_high_smram, OBJECT(mch), "smram-open-high",
+                                mch->ram_memory, MCH_HOST_BRIDGE_SMRAM_C_BASE,
+                                MCH_HOST_BRIDGE_SMRAM_C_SIZE);
+  +    memory_region_set_enabled(&mch->open_high_smram, false);
+       memory_region_add_subregion_overlap(mch->system_memory, 0xfeda0000,
+                                           &mch->open_high_smram, 1);
+  -    memory_region_set_enabled(&mch->open_high_smram, false);
 
->> insn_trans/trans_privileged.c.inc:    if
->> (semihosting_enabled(ctx->mem_idx < PRV_S) &&
->>
->> are already borderline wrong.
->> Yes, it's better not to compare idx to priv.
-> 
->> I suggest
->>
->> - #define TB_FLAGS_PRIV_MMU_MASK                3
->> - #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
->>
->> HYP_ACCESS_MASK never needed to be part of TB_FLAGS; it is only set
->> directly by the hyp access instruction translation.  Drop the PRIV mask
->> and represent that directly:
->>
->> - FIELD(TB_FLAGS, MEM_IDX, 0, 3)
->> + FIELD(TB_FLAGS, PRIV, 0, 2)
->> + FIELD(TB_FLAGS, SUM, 2, 1)
->>
->> Let SUM occupy the released bit.
->>
->> In internals.h,
->>
->> /*
->>  * The current MMU Modes are:
->>  *  - U                 0b000
->>  *  - S                 0b001
->>  *  - S+SUM             0b010
->>  *  - M                 0b011
->>  *  - HLV/HLVX/HSV adds 0b100
->>  */
->> #define MMUIdx_U            0
->> #define MMUIdx_S            1
->> #define MMUIdx_S_SUM        2
->> #define MMUIdx_M            3
->> #define MMU_HYP_ACCESS_BIT  (1 << 2)
->>
->>
->> In riscv_tr_init_disas_context:
->>
->>     ctx->priv = FIELD_EX32(tb_flags, TB_FLAGS, PRIV);
->>     ctx->mmu_idx = ctx->priv;
->>     if (ctx->mmu_idx == PRV_S && FIELD_EX32(tb_flags, TB_FLAGS, SUM)) {
->>         ctx->mmu_idx = MMUIdx_S_SUM;
->>     }
->>
-> There is MSTATUS_MPRV and MSTATUS_MPP kind of thing, priv+sum is not
-> able to represent all of the status, probably we can just add an extra
-> 'priv' at the back of TB_FLAGS?
-> 
-> Thanks,
-> Fei.
-> 
->> and similarly in riscv_cpu_mmu_index.
->>
->> Fix all uses of ctx->mmu_idx that are not specifically for memory
->> operations.
->>
->>
->> r~
-> 
+I'm not sure if QEMU is actually doing something wrong here though or if
+this check is putting tighter restrictions on userspace than what was
+expected before. Will look into it more.
 
+> 
+> >   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
+> >   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
+> 
+> As many kernel APIs treat 'end' as exclusive, I would rather keep using
+> exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
+> and notifier callbacks) but fix it internally in the restrictedmem. E.g.
+> all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
+> See below for the change.
+
+Yes I did feel like I was fighting the kernel a bit on that; your
+suggestion seems like it would be a better fit.
+
+> 
+> >   *fixup (upm_base_support): KVM: fix restrictedmem GFN range calculations
+> 
+> Subtracting slot->restrictedmem.index for start/end in
+> restrictedmem_get_gfn_range() is the correct fix.
+> 
+> >   *fixup (upm_base_support): KVM: selftests: CoCo compilation fixes
+> > 
+> > We plan to post an updated RFC for v8 soon, but also wanted to share
+> > the staging tree in case you end up looking at the UPM integration aspects
+> > before then.
+> > 
+> > -Mike
+> 
+> This is the restrictedmem fix to solve 'end' being stored and checked in xarray:
+
+Looks good.
+
+Thanks!
+
+-Mike
+
+> 
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -46,12 +46,12 @@ static long restrictedmem_punch_hole(struct restrictedmem *rm, int mode,
+>          */
+>         down_read(&rm->lock);
+>  
+> -       xa_for_each_range(&rm->bindings, index, notifier, start, end)
+> +       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+>                 notifier->ops->invalidate_start(notifier, start, end);
+>  
+>         ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+>  
+> -       xa_for_each_range(&rm->bindings, index, notifier, start, end)
+> +       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+>                 notifier->ops->invalidate_end(notifier, start, end);
+>  
+>         up_read(&rm->lock);
+> @@ -224,7 +224,7 @@ static int restricted_error_remove_page(struct address_space *mapping,
+>                 }
+>                 spin_unlock(&inode->i_lock);
+>  
+> -               xa_for_each_range(&rm->bindings, index, notifier, start, end)
+> +               xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+>                         notifier->ops->error(notifier, start, end);
+>                 break;
+>         }
+> @@ -301,11 +301,12 @@ int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+>                 if (exclusive != rm->exclusive)
+>                         goto out_unlock;
+>  
+> -               if (exclusive && xa_find(&rm->bindings, &start, end, XA_PRESENT))
+> +               if (exclusive &&
+> +                   xa_find(&rm->bindings, &start, end - 1, XA_PRESENT))
+>                         goto out_unlock;
+>         }
+>  
+> -       xa_store_range(&rm->bindings, start, end, notifier, GFP_KERNEL);
+> +       xa_store_range(&rm->bindings, start, end - 1, notifier, GFP_KERNEL);
+>         rm->exclusive = exclusive;
+>         ret = 0;
+>  out_unlock:
+> @@ -320,7 +321,7 @@ void restrictedmem_unbind(struct file *file, pgoff_t start, pgoff_t end,
+>         struct restrictedmem *rm = file->f_mapping->private_data;
+>  
+>         down_write(&rm->lock);
+> -       xa_store_range(&rm->bindings, start, end, NULL, GFP_KERNEL);
+> +       xa_store_range(&rm->bindings, start, end - 1, NULL, GFP_KERNEL);
+>         synchronize_rcu();
+>         up_write(&rm->lock);
+>  }
 
