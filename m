@@ -2,65 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3706C616A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C52A16C61A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:29:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfG5L-0000LL-Tf; Thu, 23 Mar 2023 04:14:11 -0400
+	id 1pfGJ8-0002u8-MK; Thu, 23 Mar 2023 04:28:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pfG5I-0000Gu-E0; Thu, 23 Mar 2023 04:14:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.187])
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pfGJ5-0002tr-EY
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:28:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pfG5F-0001HC-S0; Thu, 23 Mar 2023 04:14:08 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MiaHf-1q9wK931uR-00fkWz; Thu, 23 Mar 2023 09:13:42 +0100
-Message-ID: <d3e2b0e3-d398-6b1c-f94a-299a8cad55f2@vivier.eu>
-Date: Thu, 23 Mar 2023 09:13:39 +0100
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pfGJ3-0004bC-9A
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:28:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679560100;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=95p8e+pOQPDwt+WSE/6ZcPFmyqblWSnjARGq4RhLuTw=;
+ b=TX14eMGyLdP53TsMx7d5SU38ygHKS7rRdOYDSX++34KdxkmLi7OHXdLtIDAX0gyUf72MMx
+ 28xJVqCrJdx1slRcznD1AdGo3lMAee8ILwDQqTWPBZUPwLXobbaNyNl4lHfoBV8md0c/nG
+ oUuquLQZTI3dU0VSFzRRHm64uTIo+i0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-385-z0Or3YTONtaBQyZ2J9NhMw-1; Thu, 23 Mar 2023 04:28:16 -0400
+X-MC-Unique: z0Or3YTONtaBQyZ2J9NhMw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ c11-20020a509f8b000000b00501e2facf47so10406500edf.16
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 01:28:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679560096;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=95p8e+pOQPDwt+WSE/6ZcPFmyqblWSnjARGq4RhLuTw=;
+ b=PfPfTmJ7WxKmBzsFLVBpSQW6veX9sr/Fwdvu59lmZ0VnVaSCNyWRPHsK25vdOZXbHj
+ DL0yqLtU/dlOgbHMn5KCpx5EMcB5JrrYi7e3nWF8D84mI7gU3Plwu0eRJo4hKqRKgybh
+ MXJSlpROketM3paf1gvyyBNnuA+SpQ75f+0dTGP52wIQ6R0XT5I/C7xPuZO2B6fPmXn2
+ bem8ctT5wZEEbykYEgPwAw5Z0Zk5bkIgyh4Un55vRM531HlNiXPmS5XmBXFleWCwReyX
+ HF/+hAr9u3z1ZfL5tMxwEsr+lcyqHyJUS9F4GC9uz45IsOpcrc1Af87+9MsBLgClDKFY
+ B3Yg==
+X-Gm-Message-State: AO0yUKXaluhybIU+toQGYYRUCaYhrY1H08p8DxWoHGZWUzixC+XzMB4p
+ NK+KtuzD6kbFn5b0mEeFdr9lppbg7Bcvd4WKN7zv/6dynIAaqSKxXI0kJpM6oJWXGbM66Ax9gJJ
+ Tif2JxMEhZnSlNDg=
+X-Received: by 2002:aa7:cfce:0:b0:500:2e94:26aa with SMTP id
+ r14-20020aa7cfce000000b005002e9426aamr9597389edy.20.1679560095876; 
+ Thu, 23 Mar 2023 01:28:15 -0700 (PDT)
+X-Google-Smtp-Source: AK7set++gPJgiZ9eu0uZ1mY4QiFBV+7g2EoMBlJyIXvihjkIUpWts+VHU1PsxjXpG7BvAuUA5iIWvA==
+X-Received: by 2002:aa7:cfce:0:b0:500:2e94:26aa with SMTP id
+ r14-20020aa7cfce000000b005002e9426aamr9597375edy.20.1679560095604; 
+ Thu, 23 Mar 2023 01:28:15 -0700 (PDT)
+Received: from sgarzare-redhat (host-82-53-134-98.retail.telecomitalia.it.
+ [82.53.134.98]) by smtp.gmail.com with ESMTPSA id
+ e23-20020a50d4d7000000b004bf28bfc9absm8662802edj.11.2023.03.23.01.28.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Mar 2023 01:28:14 -0700 (PDT)
+Date: Thu, 23 Mar 2023 09:28:10 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com,
+ Laurent Vivier <lvivier@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Jason Wang <jasowang@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ si-wei.liu@oracle.com, longpeng2@huawei.com,
+ Cindy Lu <lulu@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
+Subject: Re: [RFC PATCH for 8.1 2/6] vdpa: add vhost_vdpa_reset_status_fd
+Message-ID: <20230323082810.sn5iaesmz2rqtdew@sgarzare-redhat>
+References: <20230317145542.347368-1-eperezma@redhat.com>
+ <20230317145542.347368-3-eperezma@redhat.com>
+ <20230322142445.cocojplrzn5gtlfw@sgarzare-redhat>
+ <CAJaqyWdLcCDYfmgGHkSVaBWX5WAX=WEpA5QAec2CnGQr=J4c8Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH qemu v3] linux-user: Emulate /proc/cpuinfo output for riscv
-Content-Language: fr
-From: Laurent Vivier <laurent@vivier.eu>
-To: Afonso Bordado <afonsobordado@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
-References: <324c2fd4-7044-0dd9-7ad9-b716fbefa5d9@gmail.com>
- <51d17772-3d63-ab6c-3dc3-44cb9dd6a9d1@vivier.eu>
-In-Reply-To: <51d17772-3d63-ab6c-3dc3-44cb9dd6a9d1@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Ud5juV0/+0pOIQu0fxDgqTudW1Wa8iPdgpk/cj1BvR9//DcP0KA
- EWDjm31hZD/wsNQaODI4Dst8D1z8vDaEKfR6lHwRYv+fWExiAZT+K9RGCcfyF1jLy1zHkJV
- sCfdlvjHAtzU7V3UiSJvTaYyoUdJ/c7e2DmFNhddg7o+kHrSeJdDGcHkVgWtLLdSYN/D+Wg
- 9wRNdajWE+GFfYwN4bEtQ==
-UI-OutboundReport: notjunk:1;M01:P0:ASpH1J6COG8=;Cgcwx2+Yo4+sDcM7pr8z1Q7YS0c
- 9Cl5FuAYvkITfMKd6i0ARkxy7vhOHleboZNJAu1k3l76B5E4WTyNK/OrRQQDP8e3VvIAF4wpB
- /w4KfRi5S4NQSa3x5rhu4hbwErYnsj+69xeFeptV2ZPl1EA5uuHNqm9bz+ejrGORRZO2x+p9r
- /i0Moo38tCOXB7AxT3K4eE49ft/NUk6hKwv5aMrhyG3nwGquqdDkR+v1V92dEmH7R1CwCKuw4
- 6PVs2IEaj0f/AdkHiNASqUM78cJD0DUoOZuE1UnbSEIC1np3itFzCfXnUTI0x4bdQDpq2xhKY
- 9EYJS9NrmFBokxHlJ4RMjL2dJoGVwPkoOQnsR8t/yoPvK7A8NWRtdqntrvZ3RWNWDETUdy+hE
- dgkn06HaJiYck2LboBlE6XAInv9mz1LLrn4rO6PQjEIRh+zCO5PU7LpVQNc3iJw8/IUEW8D3q
- ZI1BkxaRvYT++/HpUsOb8/hqrGiKB2MUjr/eDJPKsKB+H28HqWTBe31lOIl1OJPkM9r0veOZe
- D3eS64jsPXnQ9HEU94XJCv5XnbLIe9wJxKiAxEpI4ApRce/xm4Jo1smtMxRDniG8GTnJMTkn6
- /Kbi3K03/BYZYpk2KBJL/r70w1gSsnPYeCw+G6WxGLf2SLkCSEdreeBksd0ceFS+NarWfgy5T
- oAOEisNwYv8e0RGyarF7235DcY1mGR+sTTzGDj8WFw==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <CAJaqyWdLcCDYfmgGHkSVaBWX5WAX=WEpA5QAec2CnGQr=J4c8Q@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,163 +112,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 23/03/2023 à 08:52, Laurent Vivier a écrit :
-> Le 21/03/2023 à 19:25, Afonso Bordado a écrit :
->> RISC-V does not expose all extensions via hwcaps, thus some userspace
->> applications may want to query these via /proc/cpuinfo.
+On Wed, Mar 22, 2023 at 06:36:39PM +0100, Eugenio Perez Martin wrote:
+>On Wed, Mar 22, 2023 at 3:24 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
 >>
->> Currently when querying this file the host's file is shown instead
->> which is slightly confusing. Emulate a basic /proc/cpuinfo file
->> with mmu info and an ISA string.
+>> On Fri, Mar 17, 2023 at 03:55:38PM +0100, Eugenio Pérez wrote:
+>> >This allows to reset a vhost-vdpa device from external subsystems like
+>> >vhost-net.  It is used in subsequent patches to negotiate features and
+>> >probe for CVQ ASID isolation.
+>> >
+>> >Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>> >---
+>> > include/hw/virtio/vhost-vdpa.h |  1 +
+>> > hw/virtio/vhost-vdpa.c         | 58 +++++++++++++++++++++++-----------
+>> > 2 files changed, 41 insertions(+), 18 deletions(-)
+>> >
+>> >diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+>> >index c278a2a8de..28de7da91e 100644
+>> >--- a/include/hw/virtio/vhost-vdpa.h
+>> >+++ b/include/hw/virtio/vhost-vdpa.h
+>> >@@ -54,6 +54,7 @@ typedef struct vhost_vdpa {
+>> >     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+>> > } VhostVDPA;
+>> >
+>> >+void vhost_vdpa_reset_status_fd(int fd);
+>> > int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range);
+>> >
+>> > int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+>> >diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>> >index bbabea18f3..7a2053b8d9 100644
+>> >--- a/hw/virtio/vhost-vdpa.c
+>> >+++ b/hw/virtio/vhost-vdpa.c
+>> >@@ -335,38 +335,45 @@ static const MemoryListener vhost_vdpa_memory_listener = {
+>> >     .region_del = vhost_vdpa_listener_region_del,
+>> > };
+>> >
+>> >-static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
+>> >-                             void *arg)
+>> >+static int vhost_vdpa_dev_fd(const struct vhost_dev *dev)
 >>
->> Signed-off-by: Afonso Bordado <afonsobordado@gmail.com>
->> Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
->> Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
->> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->> ---
+>> What is the purpose of this refactoring?
+>> I guess, since vhost_net does not have `struct vhost_dev *` we want to
+>> use fd directly?
 >>
->> Thanks everyone for reviewing! Should I resend this once the 8.0
->> freeze is over? Or does someone queue it for inclusion in the next
->> version?
-> 
-> I queue this for 8.1 in the linux-use branch.
+>
+>Right.
+>
+>> It might be better to split this patch into two.
+>>
+>
+>Do you mean to create vhost_vdpa_dev_fd first and then users?
 
-I've applied v2 as v3 seems to be corrupted. I've removed the changelog from the commit message.
+Sorry, I meant adding the vhost_vdpa_add_status_fd(), but on second
+thought I think it's okay since we use it in
+vhost_vdpa_reset_status_fd().
+
+>
+>> > {
+>> >     struct vhost_vdpa *v = dev->opaque;
+>> >-    int fd = v->device_fd;
+>> >-    int ret;
+>> >
+>> >     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+>> >+    return v->device_fd;
+>> >+}
+>> >+
+>> >+static int vhost_vdpa_call_fd(int fd, unsigned long int request, void *arg)
+>> >+{
+>> >+    int ret = ioctl(fd, request, arg);
+>> >
+>> >-    ret = ioctl(fd, request, arg);
+>> >     return ret < 0 ? -errno : ret;
+>> > }
+>> >
+>> >-static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+>> >+static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
+>> >+                           void *arg)
+>> >+{
+>> >+    return vhost_vdpa_call_fd(vhost_vdpa_dev_fd(dev), request, arg);
+>> >+}
+>> >+
+>> >+static int vhost_vdpa_add_status_fd(int fd, uint8_t status)
+>> > {
+>> >     uint8_t s;
+>> >     int ret;
+>> >
+>> >-    trace_vhost_vdpa_add_status(dev, status);
+>> >-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
+>> >+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+>> >     if (ret < 0) {
+>> >         return ret;
+>> >     }
+>> >
+>> >     s |= status;
+>> >
+>> >-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
+>> >+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &s);
+>> >     if (ret < 0) {
+>> >         return ret;
+>> >     }
+>> >
+>> >-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
+>> >+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+>> >     if (ret < 0) {
+>> >         return ret;
+>> >     }
+>> >@@ -378,6 +385,12 @@ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+>> >     return 0;
+>> > }
+>> >
+>> >+static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+>> >+{
+>> >+    trace_vhost_vdpa_add_status(dev, status);
+>> >+    return vhost_vdpa_add_status_fd(vhost_vdpa_dev_fd(dev), status);
+>> >+}
+>> >+
+>> > int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range)
+>> > {
+>> >     int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
+>> >@@ -709,16 +722,20 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
+>> >     return ret;
+>> > }
+>> >
+>> >+static int vhost_vdpa_reset_device_fd(int fd)
+>> >+{
+>> >+    uint8_t status = 0;
+>> >+
+>> >+    return vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &status);
+>> >+}
+>> >+
+>> > static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+>> > {
+>> >     struct vhost_vdpa *v = dev->opaque;
+>> >-    int ret;
+>> >-    uint8_t status = 0;
+>> >
+>> >-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+>> >-    trace_vhost_vdpa_reset_device(dev);
+>> >     v->suspended = false;
+>>
+>> I think it is pre-existing, but if VHOST_VDPA_SET_STATUS fails,
+>> should we set anyway `v->suspended = false`?
+>>
+>
+>It's a good question. I think the most correct is to keep as the
+>previous value, but I'm not sure if reset is actually allowed to fail.
+
+Looking quickly at the parent drivers we have, perhaps the only one that
+can fail is VDUSE if it fails to communicate with the daemon.
+
+However, I don't think we can do much to recover the situation if we
+can't reset the device.
 
 Thanks,
-Laurent
-
-> Thanks,
-> Laurent
->>
->>
->> Changes from V2:
->> - Update ChangeLog Location
->>
->> Changes from V1:
->> - Call `g_free` on ISA string.
->> - Use `riscv_cpu_cfg` API.
->> - Query `cpu_env->xl` to check for RV32.
->>
->>
->>   linux-user/syscall.c              | 34 +++++++++++++++++++++++++++++--
->>   tests/tcg/riscv64/Makefile.target |  1 +
->>   tests/tcg/riscv64/cpuinfo.c       | 30 +++++++++++++++++++++++++++
->>   3 files changed, 63 insertions(+), 2 deletions(-)
->>   create mode 100644 tests/tcg/riscv64/cpuinfo.c
->>
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index 24cea6fb6a..0388f8b0b0 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -8230,7 +8230,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
->>   }
->>
->>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
->> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
->> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
->> +    defined(TARGET_RISCV)
->>   static int is_proc(const char *filename, const char *entry)
->>   {
->>       return strcmp(filename, entry) == 0;
->> @@ -8308,6 +8309,35 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->>   }
->>   #endif
->>
->> +#if defined(TARGET_RISCV)
->> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->> +{
->> +    int i;
->> +    int num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
->> +    RISCVCPU *cpu = env_archcpu(cpu_env);
->> +    const RISCVCPUConfig *cfg = riscv_cpu_cfg((CPURISCVState *) cpu_env);
->> +    char *isa_string = riscv_isa_string(cpu);
->> +    const char *mmu;
->> +
->> +    if (cfg->mmu) {
->> +        mmu = (cpu_env->xl == MXL_RV32) ? "sv32"  : "sv48";
->> +    } else {
->> +        mmu = "none";
->> +    }
->> +
->> +    for (i = 0; i < num_cpus; i++) {
->> +        dprintf(fd, "processor\t: %d\n", i);
->> +        dprintf(fd, "hart\t\t: %d\n", i);
->> +        dprintf(fd, "isa\t\t: %s\n", isa_string);
->> +        dprintf(fd, "mmu\t\t: %s\n", mmu);
->> +        dprintf(fd, "uarch\t\t: qemu\n\n");
->> +    }
->> +
->> +    g_free(isa_string);
->> +    return 0;
->> +}
->> +#endif
->> +
->>   #if defined(TARGET_M68K)
->>   static int open_hardware(CPUArchState *cpu_env, int fd)
->>   {
->> @@ -8332,7 +8362,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, 
->> int
->>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
->>           { "/proc/net/route", open_net_route, is_proc },
->>   #endif
->> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
->> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
->>           { "/proc/cpuinfo", open_cpuinfo, is_proc },
->>   #endif
->>   #if defined(TARGET_M68K)
->> diff --git a/tests/tcg/riscv64/Makefile.target
->> b/tests/tcg/riscv64/Makefile.target
->> index cc3ed65ffd..df93a2ce1f 100644
->> --- a/tests/tcg/riscv64/Makefile.target
->> +++ b/tests/tcg/riscv64/Makefile.target
->> @@ -4,6 +4,7 @@
->>   VPATH += $(SRC_PATH)/tests/tcg/riscv64
->>   TESTS += test-div
->>   TESTS += noexec
->> +TESTS += cpuinfo
->>
->>   # Disable compressed instructions for test-noc
->>   TESTS += test-noc
->> diff --git a/tests/tcg/riscv64/cpuinfo.c b/tests/tcg/riscv64/cpuinfo.c
->> new file mode 100644
->> index 0000000000..296abd0a8c
->> --- /dev/null
->> +++ b/tests/tcg/riscv64/cpuinfo.c
->> @@ -0,0 +1,30 @@
->> +#include <stdio.h>
->> +#include <stdlib.h>
->> +#include <string.h>
->> +#include <assert.h>
->> +
->> +#define BUFFER_SIZE 1024
->> +
->> +int main(void)
->> +{
->> +    char buffer[BUFFER_SIZE];
->> +    FILE *fp = fopen("/proc/cpuinfo", "r");
->> +    assert(fp != NULL);
->> +
->> +    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
->> +        if (strstr(buffer, "processor") != NULL) {
->> +            assert(strstr(buffer, "processor\t: ") == buffer);
->> +        } else if (strstr(buffer, "hart") != NULL) {
->> +            assert(strstr(buffer, "hart\t\t: ") == buffer);
->> +        } else if (strstr(buffer, "isa") != NULL) {
->> +            assert(strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n") == 0);
->> +        } else if (strstr(buffer, "mmu") != NULL) {
->> +            assert(strcmp(buffer, "mmu\t\t: sv48\n") == 0);
->> +        } else if (strstr(buffer, "uarch") != NULL) {
->> +            assert(strcmp(buffer, "uarch\t\t: qemu\n") == 0);
->> +        }
->> +    }
->> +
->> +    fclose(fp);
->> +    return 0;
->> +}
-> 
-> 
+Stefano
 
 
