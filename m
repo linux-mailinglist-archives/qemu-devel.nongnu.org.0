@@ -2,103 +2,171 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F896C5B83
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 01:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0236C5BE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 02:28:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pf93f-0002lO-GM; Wed, 22 Mar 2023 20:43:59 -0400
+	id 1pf9jZ-0005Qf-VL; Wed, 22 Mar 2023 21:27:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pf93c-0002k7-18
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 20:43:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
+ id 1pf9jW-0005Pt-Hv; Wed, 22 Mar 2023 21:27:14 -0400
+Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pf93Z-0008Ko-QU
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 20:43:55 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32MNHKgi024338; Thu, 23 Mar 2023 00:43:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=uQXh+Svd79AAQi15EJP0LxRbJxnoMauqE3Wd5irx0lQ=;
- b=UvdV0ZxTKMdpQuFk7CCDphlXGrn/xX98mxBwY0izvXYnzKtT9FnLwEPEyW/PAukpirIz
- Aein5/7gLOBdShL03MNlqBYHWO0ES/BEMC9OsK54Km1Jb3opMyt6DQ8DoWw8rwc5Upov
- kmeY+balGD0hmgPQ/tZh34D078gOLTsBEjjT0MqdncKcVa3x7ZckXbeHVv6T1wikOBfR
- aXu3VN/LZxLxUBuIq+ocX+wYcQmwagyO1VwwrcEGBEaV/PPFI6d1pvRdb3JmVRsWaUPH
- Wm2DoSJHFVtR9Sim9/GtkYCMcaqh6spNLl0lIfrvQhI1kh+PEhSS8+XU1CCf47s1uHSa ZQ== 
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgb76hd3u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Mar 2023 00:43:38 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32MNoh87005381;
- Thu, 23 Mar 2023 00:43:37 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
- by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7hsvs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Mar 2023 00:43:37 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
- [10.39.53.228])
- by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32N0hZjM32440882
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Mar 2023 00:43:35 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 303BD58055;
- Thu, 23 Mar 2023 00:43:35 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AE9205804B;
- Thu, 23 Mar 2023 00:43:34 +0000 (GMT)
-Received: from [9.211.152.166] (unknown [9.211.152.166])
- by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 23 Mar 2023 00:43:34 +0000 (GMT)
-Message-ID: <bf76aa4c-1759-53cb-c9fa-5f102a10e459@linux.vnet.ibm.com>
-Date: Wed, 22 Mar 2023 19:43:34 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 3/3] Add support for TPM devices over I2C bus
+ (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
+ id 1pf9jU-0006qR-2D; Wed, 22 Mar 2023 21:27:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679534832; x=1711070832;
+ h=message-id:date:subject:from:to:cc:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=WXe7+sr/GlBcWF8BkdaOVzv0MP/sbdARlTNXvn4tyEM=;
+ b=VubPemivIWoSphqU/fJgxC8TCWkc9bxik7zRGxXkutOOhJir8UIdcERd
+ D9jJJrvnOSNzn59LCV9qf2o0GXXjrl82C5gUvBmJ9SKXAeuIA8ewHoxNl
+ z5hCs4ggzJXLRW5dInHkCuJV0YZZ9bhikQh9hkLXMLLfMWPJX/EUF5laS
+ qgwegX5jjGP7ACG0uT93ouNRckRcPkwaTTw0FCd9cOdf283gGZmy2hJLb
+ 5NE7Nwc3/3TfrGuLPYiC4DpwH+aQCvNiPaQlxcBiqa+xxxTKDM/PmY0ew
+ UIfmlCydf1eVA/xilS0vRciVb/D6WNG39FgvDLUuh3Gbja9yqAYxxsNfP g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319022236"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="319022236"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 18:26:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="675513625"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="675513625"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga007.jf.intel.com with ESMTP; 22 Mar 2023 18:26:40 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 22 Mar 2023 18:26:40 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 22 Mar 2023 18:26:39 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Wed, 22 Mar 2023 18:26:39 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Wed, 22 Mar 2023 18:26:39 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TrIJl2f07N+78UyXlB1PLiwOwzIEY+5D6fHYMTnX+O9bxetLvcLH9OvUU00lZl3z9qvgvAan+O4pumIuiQB/eYufsDfSgadDboFYI0E5Afe6KiV7D5mqIwUMH+ZY0YD4I6aA1JFQuvyI4GA6t1Zz9dWjmwllZP6eZVNftWAPyUVwdeLN8TCgDjGpJuXXOqE1hgyivCD7a6x8HZ5j1VgscDPt+PHuZWYRH41CXAc09XtVqnKsbCh3Pho4GC8Z0lcsx3sPUi4wGQSfQHlzH3XJWUINnFpPBXVX5VZv4eZ/Tgkxm93dzyYhTL1WWj6CJKiC9noMcyRWZ2EJ5ZJktdW6pA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UA+T2ajkcNoyGsNzsE6G6Rcku84vj13lWAErw/k9q+8=;
+ b=aKht/xZ2XDYLPcB9BfSfJk487pWL11Gm3KBab/fNIuTN7gPA0cABRMS6g5FFvB94lYOQLl2NSLkbSjYvxDR1/3dJ7HspTo3OC93IGg+e0vy63o2ch5HQNu/xuWo+RQwFF08FfhCs2Nx2AMeTQ4lsgHV2pXSeRn3eKbTaMYqsDVoLgYobRQE7bogFaXB3zCmbWB8hdg4seYhu7B1fyk49aZpBh36yB8UkSbRY1fXubgJWAkrpnNkvFQhaUbu008neRIlO4SeZlsjfiVKdOtucjFIV3nfJ2J2enwZc6IiIGTR+e5wOvBGvFn23CuFMz70MXQcebolTavNN0HVSvQpuoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4500.namprd11.prod.outlook.com (2603:10b6:a03:1c3::24)
+ by DM4PR11MB5375.namprd11.prod.outlook.com (2603:10b6:5:396::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Thu, 23 Mar
+ 2023 01:26:37 +0000
+Received: from BY5PR11MB4500.namprd11.prod.outlook.com
+ ([fe80::68a4:ef95:6726:3fc5]) by BY5PR11MB4500.namprd11.prod.outlook.com
+ ([fe80::68a4:ef95:6726:3fc5%4]) with mapi id 15.20.6178.037; Thu, 23 Mar 2023
+ 01:26:37 +0000
+Message-ID: <b509a953-a5ac-7580-b97a-5ef29f31c5eb@intel.com>
+Date: Thu, 23 Mar 2023 09:26:27 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3] target/riscv: reduce overhead of MSTATUS_SUM change
 Content-Language: en-US
-To: Stefan Berger <stefanb@linux.ibm.com>, Ninad Palsule
- <ninad@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
-References: <20230321053001.3886666-1-ninad@linux.ibm.com>
- <20230321053001.3886666-4-ninad@linux.ibm.com>
- <2d32bfa7-0804-c046-bb8c-ca30d400ed4a@linux.ibm.com>
- <9d656af9-913b-c586-79cf-eae842f45281@linux.vnet.ibm.com>
- <a9f83d77-73dc-cc91-4d60-32f473af321b@linux.ibm.com>
- <57be0b95-adb5-14f0-2674-e832d3f069f2@linux.ibm.com>
-From: Ninad Palsule <ninad@linux.vnet.ibm.com>
-In-Reply-To: <57be0b95-adb5-14f0-2674-e832d3f069f2@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: JXmypEnXJ4ys8saq8wb8ByWWrtvolAxc
-X-Proofpoint-ORIG-GUID: JXmypEnXJ4ys8saq8wb8ByWWrtvolAxc
+From: "Wu, Fei" <fei2.wu@intel.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+CC: Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis
+ <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>, Weiwei Li
+ <liweiwei@iscas.ac.cn>, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, "open list:RISC-V TCG CPUs"
+ <qemu-riscv@nongnu.org>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+References: <20230322121240.232303-1-fei2.wu@intel.com>
+ <cde0b3bf-7d38-2fc4-c8a9-7241d5bf7339@linaro.org>
+ <4c0c210b-7a9a-34a8-b0c2-e32f9328bf07@intel.com>
+In-Reply-To: <4c0c210b-7a9a-34a8-b0c2-e32f9328bf07@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+X-ClientProxiedBy: SG2PR06CA0217.apcprd06.prod.outlook.com
+ (2603:1096:4:68::25) To BY5PR11MB4500.namprd11.prod.outlook.com
+ (2603:10b6:a03:1c3::24)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_21,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 adultscore=0
- malwarescore=0 clxscore=1015 suspectscore=0 mlxscore=0 spamscore=0
- mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303150002 definitions=main-2303230003
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4500:EE_|DM4PR11MB5375:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2cd3edcc-57fe-403a-5119-08db2b3da512
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rTQ7RJZFTVUW0og8q8vwpm70ZIoeUe8k9oAFsjbMoOjJBhKwj/YYTEIj5Ze0FMHdR5N6PhZdHmE/MqSGQj4k0xVQrFvhM4iEHLloHwT0X0llvr9ptHFw3incETNKUJQokkQFAzj0S8i99+5aiOn7YEFAHLk3U63yPRBA6H/WIUQdAo3XIKStHzbfVsPTUUMjH6hjrT5heQOZCGXoaEPWUWyDBajs5wsoiboQBR9in7FFWdTzvPzqCfwCaY1LGA3dKHpkCFOBBrHkDbZLnY9jsce2kEMg3KRT+a7E3IJ+s0bjTM90iLkNuWbZ98byGACfLvQVANz3esT7pDwQ18N11+tyGN7R91DO/UIGkYfx34KxO8K0Efb/3Dd5DNZwvVQ29xWQDxFIt19KVovVpX4QUGGf9H/RtplNn27mc6LxbB0XjfnBVvxOcW3njP9eGMHDHXX12HqHTtpqcWpyFYu5X+OsI87uCr8w1rRK5tt1+a699Kcmei1TU+k5wp8gfF9K4/MwPmJro44rEpIFyBxIawzkxWfZm7ZGDp7zyivUKh8WhK/YIcw0pts8nMTSpgt/OP+J7rLhh6Kgtyc17y2oj0lOU/pxXtOwWYxAOtjswZE2Ok0/GzFKeRjikrVS5amUxLeQDnS4nSmLYsFXlP3/CwuwbXhQLCYGQAFuAMTZlDIFbV4n++LCLiJJQDY9VD9LvOAovXrhk1HjbM6I08eDk3LEKuE54Wx1zI23eYR8TVs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4500.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(346002)(39860400002)(376002)(366004)(136003)(396003)(451199018)(31696002)(31686004)(316002)(66946007)(6916009)(478600001)(82960400001)(2906002)(86362001)(83380400001)(4326008)(8676002)(66476007)(66556008)(2616005)(186003)(38100700002)(36756003)(6486002)(41300700001)(54906003)(5660300002)(26005)(6506007)(8936002)(53546011)(6512007)(6666004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cllvS3BvTURPbGFVMHA3ZllaVVBBWTBlbnJBSVFjR0NSbG1VSDBtQlR6emJQ?=
+ =?utf-8?B?SEx6Vi9nZFE4VjFNOUhmaTlQS0RoWXpBZVhDU1RlNmVrQTloNlNzS0FORDJL?=
+ =?utf-8?B?NHNONUlJdU9mT0s5MVJ0NDU0eWN2RUpiL2FQNThwVjlML0xMREZVc0F5bysr?=
+ =?utf-8?B?SVB2WGtMYzNSd3VzMFNrZnNKeWdIeXU5NnBjOHdlRFI0YzNVVEpUVWV3RkJZ?=
+ =?utf-8?B?SXlXYlkxTEFvZ0hKYmZXVFBvWlc4c3cwcFQ1cEZyNmpiRHVjQ0xuT1VqTnhh?=
+ =?utf-8?B?ZDlYc1FMV1d3V1BBbFh4Vk9MamsyZ3Y2UFBrM0ozZG02U0lUcm9rekV5aDZX?=
+ =?utf-8?B?N2RGblpDVWh4bXY0OHZIT2cyZ2hEaW85QWJxT3JpbzlUN1JDNVVzQ3hqTDBC?=
+ =?utf-8?B?Sy9mZGxKdkQwRVBFT1hTaWxlektZT1F0ZVNSMUJGY09mT3VySTNidHZTZFIy?=
+ =?utf-8?B?OHNkZTBnV2NtUEhycmRmeVhkSFdSVG5IL213cnhmai9WWjkvNnRjQVpRWjFz?=
+ =?utf-8?B?YWJwMmRZMWMwbFgxQklHcmF5REtkQlRRY1loWjNPY1lHK01kU3k3MHU2RHJR?=
+ =?utf-8?B?d0RGK1d3TkZscnQ4QlpRZGFFTHc3bm15d2hQa1VmMXA5cU1tTGNCZEJ4SXN4?=
+ =?utf-8?B?dm5zbGxaWnliVE1yN1M2ejRBb3pBc1cvVW5JU3FkcDc2T0w3SzNwTG1GYTZq?=
+ =?utf-8?B?UFluMjc4TG5Ib085T0lsa0tLYnM2Y2Y3OFBlUzNrb2ViQW5oL1pMWDNrSXYy?=
+ =?utf-8?B?SnpwQjgvM0p3blA1VDRPS0I2eElPNm9RcGJjSVphTk9BZzViZS85ZmVocU1D?=
+ =?utf-8?B?TnVNTTNHYWpHVU1leTdkZFUxTGJYQW92RmxTYmVlaktWQ0ROanN6VUFXRDY3?=
+ =?utf-8?B?WWEwVzk4N09kS0h1dDRvM01ENzgyTHNnTGZmbm5raEFEYnJZKzRjUDhaR1lr?=
+ =?utf-8?B?bU5VdUhMRDhHU0VOWDBpcEhYdmc2MkF3VlJSc1NLQTJwMlZ1YW90VFNZUGIy?=
+ =?utf-8?B?TUhGTDl5WUtEN1lrVVIzcTFETFlkNWN2ejdDT1AreVNMcDRPQ0FrbmFXSG53?=
+ =?utf-8?B?b05KR1RxbTFGMDNBcFRnSVhIdnptZGJZUXZiNzdmRUs5OHA1ZnBRUnJrV29n?=
+ =?utf-8?B?RFdwYTZBSzFkL3ZucnRZdkdsT21yeXJOek5PVXRLVVU5SU92UERjRkVWWkY4?=
+ =?utf-8?B?R0VjZGVnbnMzQmpmbE4vMy9qTEZOQVgwaDB0K0I1Nlo3YXhnWEdIcHBsRVYy?=
+ =?utf-8?B?aEhCeklZWjkyNHY3dEtFVnlkcmJNK25CUzg5OGZpanYyeXkwc1o4ckpLK0p0?=
+ =?utf-8?B?RW1od3RkdTNHaGxiUzdiaWtCdU8rSllEM1JtVTZUSVJVUU9BLzQzTEVyL3lq?=
+ =?utf-8?B?UzBoSVpob0p4UEE0MSttZDJtdnU2Vml6Slp6NnBXVk1LSTMxR2NQUXhDb0tK?=
+ =?utf-8?B?Qmc0OVJqZHl5SFhKTzdwb3lzL2ZRU1F2MVBTKzh0Vmluemsvbm4rQ3Nlb1NT?=
+ =?utf-8?B?QXdaVmVBYzhxYktTQUNraTZRUlV2U1EvZzRtMVlqSGUyRkNNYWZyZHl1WUlT?=
+ =?utf-8?B?VHltMHdEUlhnK1ZhVXRMdzduRkFUeDZxRnJzUXprT1ptaTUzSDZUQ0FTdXNZ?=
+ =?utf-8?B?QzVoUXJrRmpnRnNqWlF2V3Ryb0hYajJsUEh2OHV2UzUzaE9KMVJud1dFMWpq?=
+ =?utf-8?B?R3g4dGdOS3BIdkkwRUJ1QWN0T2tqYzhHaEJFSFpCRWllWFg4MHlwVGJaVWdF?=
+ =?utf-8?B?V1lyTm9VMnRpZ3R2a0c2UmpYdkNMd1kxUThta0dYTlFRTWR5cUY1dUppd2Yx?=
+ =?utf-8?B?SFNiMTFhSHNIRk5rZW1QRUFJZVRPWnNScjJqUGRYWnkydGN3eERXTm5XU0Y4?=
+ =?utf-8?B?RFlnV3VSUWdyZi9jNU9JYTdLRmFTKzdPbGVFd3VHa1lqYURoQzM4QTVJMmg1?=
+ =?utf-8?B?UG1kQ3lOak5pYXdRSHFXMHE3NHhtNVdYaDVQeTdwSkZIS1UvaGZrS0tEVHNt?=
+ =?utf-8?B?cjZoL1RPSTJsMi96em9vMDRrZnN2OStlalBJdXNMMjVFejFnZi9zK3lvcTJV?=
+ =?utf-8?B?ZnZ4RmxqdFF1Y04yKzdHemdyUVZ4OFhaSW13dURic2tyb0FFUUU4c1hXa2hm?=
+ =?utf-8?Q?DXmIT8n4iC4Odyc2W1wy89IYQ?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cd3edcc-57fe-403a-5119-08db2b3da512
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4500.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 01:26:36.9247 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DYbgUluvu1S6jP7RdZxqC9dnT88QJqgL7lAgu5AXyC1Jcj/KljR60z/zqQqMXCs1B5b09Iq3E9Ec/VqAou0bZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5375
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=fei2.wu@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,71 +182,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 3/22/23 8:04 AM, Stefan Berger wrote:
->
->
-> On 3/22/23 07:50, Stefan Berger wrote:
->>
->>
->> On 3/22/23 07:28, Ninad Palsule wrote:
+On 3/23/2023 8:38 AM, Wu, Fei wrote:
+> On 3/22/2023 9:19 PM, Richard Henderson wrote:
+>> On 3/22/23 05:12, Fei Wu wrote:
+>>> Kernel needs to access user mode memory e.g. during syscalls, the window
+>>> is usually opened up for a very limited time through MSTATUS.SUM, the
+>>> overhead is too much if tlb_flush() gets called for every SUM change.
 >>>
->>> On 3/21/23 8:30 PM, Stefan Berger wrote:
->>>>
->
->>>>
->>>> I think there should be tpm_tis_set_data_buffer function that you 
->>>> can call rather than transferring the data byte-by-byte.
->>>>
->>>> Thanks for the series!
->>>>
->>>>   Stefan
+>>> This patch creates a separate MMU index for S+SUM, so that it's not
+>>> necessary to flush tlb anymore when SUM changes. This is similar to how
+>>> ARM handles Privileged Access Never (PAN).
 >>>
->>> I thought about it but the FIFO case performs multiple operations 
->>> hence I did not want to change it. Currently there is no function to 
->>> set data buffer in the common code.
+>>> Result of 'pipe 10' from unixbench boosts from 223656 to 1705006. Many
+>>> other syscalls benefit a lot from this too.
+>>>
+>>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
+>>> ---
+>>>   target/riscv/cpu-param.h  |  2 +-
+>>>   target/riscv/cpu.h        |  2 +-
+>>>   target/riscv/cpu_bits.h   |  1 +
+>>>   target/riscv/cpu_helper.c | 11 +++++++++++
+>>>   target/riscv/csr.c        |  2 +-
+>>>   5 files changed, 15 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
+>>> index ebaf26d26d..9e21b943f9 100644
+>>> --- a/target/riscv/cpu-param.h
+>>> +++ b/target/riscv/cpu-param.h
+>>> @@ -27,6 +27,6 @@
+>>>    *  - S mode HLV/HLVX/HSV 0b101
+>>>    *  - M mode HLV/HLVX/HSV 0b111
+>>>    */
+>>> -#define NB_MMU_MODES 8
+>>> +#define NB_MMU_MODES 16
 >>
->> It may not be correct to transfer it in one go, either. I just 
->> printed the I2C specs and I am going to look at them now.
->> When one writes TPM command data to the TIS the STS register has its 
->> TPM_TIS_STS_VALID bit set and TPM_TIS_STS_EXPECT bit reset once the 
->> command is complete. This would imply that you should not have a 
->> holding area for the command bytes but pass them on to the TIS 
->> immediately to get the effect of the STS register...
->
-> Regarding the registers defined for the I2C: You can pass the data 
-> onto the TIS but you should mask out input flags that are not defined 
-> for I2C and if the return value has flags not defined for I2C you 
-> should also mask those out as well. This applies to the TPM_INT_ENABLE 
-> & TPM_STS registers on read and write and to the TPM_INT_CAPABILITY on 
-> read. Also you should implement support for 
-> TPM_I2C_INTERACE_CAPABILITY on the I2C layer and return sensible 
-> values for the defined bits. The TPM_I2C_DEVICE_ADDRESS register 
-> should be handled probably assuming fixed address support only.
->
-Good catch.
+>> This line no longer exists on master.
+>> The comment above should be updated, and perhaps moved.
+>>
+>>>   #define TB_FLAGS_PRIV_MMU_MASK                3
+>>> -#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
+>>> +#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 3)
+>>
+>> You can't do this, as you're now overlapping
+>>
+> As you mentioned below HYP_ACCESS_MASK is set directly by hyp
+> instruction translation, there is no overlapping if it's not part of
+> TB_FLAGS.
+> 
+>> FIELD(TB_FLAGS, LMUL, 3, 3)
+>>
+>> You'd need to shift all other fields up to do this.
+>> There is room, to be sure.
+>>
+>> Or you could reuse MMU mode number 2.  For that you'd need to separate
+>> DisasContext.mem_idx from priv.  Which should probably be done anyway,
+>> because tests such as
+>>
+> Yes, it looks good to reuse number 2. I tried this v3 patch again with a
+> different MMUIdx_S_SUM number, only 5 is okay below 8, for the other
+> number there is no kernel message from guest after opensbi output. I
+> need to find it out.
+> 
+In get_physical_address():
+    int mode = mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
 
-- Added capability conversion for TPM_I2C_INTERFACE_CAPABILITY.
+We do need separate priv from idx.
 
-- Added clearing of bits in TPM_STS register.
+Thanks,
+Fei.
 
-- Adde check to reject TPM_I2C_DEVICE_ADDRESS register.
-
-- No changes are required for TPM_INT_ENABLE and TPM_INT_CAPABILITY as 
-they have same bits between TPM TIS and TPM I2C.
-
-
-> Ideally there would be a test case similar to this one here 
-> https://github.com/qemu/qemu/blob/master/tests/qtest/tpm-tis-util.c . 
-> However, I am not sure how easy it is to talk to I2C without a driver 
-> for it.
-Ok, Thanks.
->
->   Stefan
-
-
-Thanks for the review!
-
-Ninad Palsule
+>> insn_trans/trans_privileged.c.inc:    if
+>> (semihosting_enabled(ctx->mem_idx < PRV_S) &&
+>>
+>> are already borderline wrong.
+>> Yes, it's better not to compare idx to priv.
+> 
+>> I suggest
+>>
+>> - #define TB_FLAGS_PRIV_MMU_MASK                3
+>> - #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
+>>
+>> HYP_ACCESS_MASK never needed to be part of TB_FLAGS; it is only set
+>> directly by the hyp access instruction translation.  Drop the PRIV mask
+>> and represent that directly:
+>>
+>> - FIELD(TB_FLAGS, MEM_IDX, 0, 3)
+>> + FIELD(TB_FLAGS, PRIV, 0, 2)
+>> + FIELD(TB_FLAGS, SUM, 2, 1)
+>>
+>> Let SUM occupy the released bit.
+>>
+>> In internals.h,
+>>
+>> /*
+>>  * The current MMU Modes are:
+>>  *  - U                 0b000
+>>  *  - S                 0b001
+>>  *  - S+SUM             0b010
+>>  *  - M                 0b011
+>>  *  - HLV/HLVX/HSV adds 0b100
+>>  */
+>> #define MMUIdx_U            0
+>> #define MMUIdx_S            1
+>> #define MMUIdx_S_SUM        2
+>> #define MMUIdx_M            3
+>> #define MMU_HYP_ACCESS_BIT  (1 << 2)
+>>
+>>
+>> In riscv_tr_init_disas_context:
+>>
+>>     ctx->priv = FIELD_EX32(tb_flags, TB_FLAGS, PRIV);
+>>     ctx->mmu_idx = ctx->priv;
+>>     if (ctx->mmu_idx == PRV_S && FIELD_EX32(tb_flags, TB_FLAGS, SUM)) {
+>>         ctx->mmu_idx = MMUIdx_S_SUM;
+>>     }
+>>
+> There is MSTATUS_MPRV and MSTATUS_MPP kind of thing, priv+sum is not
+> able to represent all of the status, probably we can just add an extra
+> 'priv' at the back of TB_FLAGS?
+> 
+> Thanks,
+> Fei.
+> 
+>> and similarly in riscv_cpu_mmu_index.
+>>
+>> Fix all uses of ctx->mmu_idx that are not specifically for memory
+>> operations.
+>>
+>>
+>> r~
+> 
 
 
