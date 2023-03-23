@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69386C6041
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 08:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20736C6076
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 08:15:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfEuz-0000W5-Kp; Thu, 23 Mar 2023 02:59:25 -0400
+	id 1pfF9d-0004qL-HJ; Thu, 23 Mar 2023 03:14:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfEuv-0000VB-BF; Thu, 23 Mar 2023 02:59:21 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfF9b-0004p0-4Z
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 03:14:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfEuq-0002zX-Ag; Thu, 23 Mar 2023 02:59:19 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VeTMzUO_1679554746; 
-Received: from 30.221.98.101(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VeTMzUO_1679554746) by smtp.aliyun-inc.com;
- Thu, 23 Mar 2023 14:59:07 +0800
-Message-ID: <91754207-f91f-25dd-605c-1d10b33d229a@linux.alibaba.com>
-Date: Thu, 23 Mar 2023 14:59:04 +0800
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfF9Z-00083J-Fh
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 03:14:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679555668;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=43ejkovPDeSvkZYThQw50buKihsZBioA5QB7A7P269I=;
+ b=Zx/w0c7VcYMxjfPWX8YTWocCfFvzLzcQfzM0F/XBPWFWsR2sYD4Tv+hrnXL7VnSMDvRotJ
+ zj/KfF3rm9ebM0/MmTzx92B5V3Xp8BXgyagjiZtJ2j/kFVZ0GqcL1915OBKZ4LLy1C6WSQ
+ mvAXDTfs+JkW1xdAgCR2P3Q1ttCILz0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-141-jCOaue0oNpCXqdBksbTq-g-1; Thu, 23 Mar 2023 03:14:26 -0400
+X-MC-Unique: jCOaue0oNpCXqdBksbTq-g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E68D855300;
+ Thu, 23 Mar 2023 07:14:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 40BCA40C6E67;
+ Thu, 23 Mar 2023 07:14:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3585621E6926; Thu, 23 Mar 2023 08:14:24 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org,  Kevin Wolf <kwolf@redhat.com>,  Raphael Norwitz
+ <raphael.norwitz@nutanix.com>,  qemu-block@nongnu.org,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  damien.lemoal@opensource.wdc.com,
+ kvm@vger.kernel.org,  hare@suse.de,  Paolo Bonzini <pbonzini@redhat.com>,
+ dmitry.fomichev@wdc.com,  Hanna Reitz <hreitz@redhat.com>,  Cornelia Huck
+ <cohuck@redhat.com>,  Eric Blake <eblake@redhat.com>,  "Michael S.
+ Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v8 3/4] block: add accounting for zone append operation
+References: <20230323052828.6545-1-faithilikerun@gmail.com>
+ <20230323052828.6545-4-faithilikerun@gmail.com>
+Date: Thu, 23 Mar 2023 08:14:24 +0100
+In-Reply-To: <20230323052828.6545-4-faithilikerun@gmail.com> (Sam Li's message
+ of "Thu, 23 Mar 2023 13:28:27 +0800")
+Message-ID: <87y1no0wj3.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v4 1/2] target/riscv: separate priv from mmu_idx
-To: "Wu, Fei" <fei2.wu@intel.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Christoph Muellner <christoph.muellner@vrull.eu>
-References: <20230323024412.324085-1-fei2.wu@intel.com>
- <20230323024412.324085-2-fei2.wu@intel.com>
- <9423db2e-257f-016d-b404-17d8e5adc0ac@linux.alibaba.com>
- <7db6d615-5ddc-5e1b-1d3c-a85c22e6af74@intel.com>
-Content-Language: en-US
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <7db6d615-5ddc-5e1b-1d3c-a85c22e6af74@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.130;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-130.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,139 +85,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Sam Li <faithilikerun@gmail.com> writes:
 
-On 2023/3/23 14:00, Wu, Fei wrote:
-> On 3/23/2023 1:37 PM, LIU Zhiwei wrote:
->> On 2023/3/23 10:44, Fei Wu wrote:
->>> Currently it's assumed the 2 low bits of mmu_idx map to privilege mode,
->>> this assumption won't last as we are about to add more mmu_idx.
->> For patch set has more than 1 patch, usually add a cover letter.
-> This is cover letter:
->     https://www.mail-archive.com/qemu-devel@nongnu.org/msg950849.html
+> Taking account of the new zone append write operation for zoned devices,
+> BLOCK_ACCT_ZONE_APPEND enum is introduced as other I/O request type (read,
+> write, flush).
 >
-> I added scripts/get_maintainer.pl to .git/config,
-Interesting.
-> it couldn't find out
-> the maintainers for the cover letter, so I added the mail lists to "To"
-> manually.
-Maybe you should also cc to maintainers manually. I don't know the 
-automatically way.
->
->>> Signed-off-by: Fei Wu <fei2.wu@intel.com>
->>> ---
->>>    target/riscv/cpu.h                             | 1 -
->>>    target/riscv/cpu_helper.c                      | 2 +-
->>>    target/riscv/insn_trans/trans_privileged.c.inc | 2 +-
->>>    target/riscv/insn_trans/trans_xthead.c.inc     | 7 +------
->>>    target/riscv/translate.c                       | 3 +++
->>>    5 files changed, 6 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>> index 638e47c75a..66f7e3d1ba 100644
->>> --- a/target/riscv/cpu.h
->>> +++ b/target/riscv/cpu.h
->>> @@ -623,7 +623,6 @@ G_NORETURN void
->>> riscv_raise_exception(CPURISCVState *env,
->>>    target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
->>>    void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
->>>    -#define TB_FLAGS_PRIV_MMU_MASK                3
->>>    #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
->>>    #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
->>>    #define TB_FLAGS_MSTATUS_VS MSTATUS_VS
->>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>> index f88c503cf4..76e1b0100e 100644
->>> --- a/target/riscv/cpu_helper.c
->>> +++ b/target/riscv/cpu_helper.c
->>> @@ -762,7 +762,7 @@ static int get_physical_address(CPURISCVState
->>> *env, hwaddr *physical,
->>>         * (riscv_cpu_do_interrupt) is correct */
->>>        MemTxResult res;
->>>        MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
->>> -    int mode = mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
->>> +    int mode = env->priv;
->>>        bool use_background = false;
->>>        hwaddr ppn;
->>>        RISCVCPU *cpu = env_archcpu(env);
->>> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc
->>> b/target/riscv/insn_trans/trans_privileged.c.inc
->>> index 59501b2780..9305b18299 100644
->>> --- a/target/riscv/insn_trans/trans_privileged.c.inc
->>> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
->>> @@ -52,7 +52,7 @@ static bool trans_ebreak(DisasContext *ctx,
->>> arg_ebreak *a)
->>>         * that no exception will be raised when fetching them.
->>>         */
->>>    -    if (semihosting_enabled(ctx->mem_idx < PRV_S) &&
->>> +    if (semihosting_enabled(ctx->priv < PRV_S) &&
->>>            (pre_addr & TARGET_PAGE_MASK) == (post_addr &
->>> TARGET_PAGE_MASK)) {
->>>            pre    = opcode_at(&ctx->base, pre_addr);
->>>            ebreak = opcode_at(&ctx->base, ebreak_addr);
->>> diff --git a/target/riscv/insn_trans/trans_xthead.c.inc
->>> b/target/riscv/insn_trans/trans_xthead.c.inc
->>> index df504c3f2c..adfb53cb4c 100644
->>> --- a/target/riscv/insn_trans/trans_xthead.c.inc
->>> +++ b/target/riscv/insn_trans/trans_xthead.c.inc
->>> @@ -265,12 +265,7 @@ static bool trans_th_tst(DisasContext *ctx,
->>> arg_th_tst *a)
->>>      static inline int priv_level(DisasContext *ctx)
->>>    {
->>> -#ifdef CONFIG_USER_ONLY
->>> -    return PRV_U;
->>> -#else
->>> -     /* Priv level is part of mem_idx. */
->>> -    return ctx->mem_idx & TB_FLAGS_PRIV_MMU_MASK;
->>> -#endif
->>> +    return ctx->priv;
->>>    }
->>>      /* Test if priv level is M, S, or U (cannot fail). */
->>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->>> index 0ee8ee147d..e8880f9423 100644
->>> --- a/target/riscv/translate.c
->>> +++ b/target/riscv/translate.c
->>> @@ -69,6 +69,7 @@ typedef struct DisasContext {
->>>        uint32_t mstatus_hs_fs;
->>>        uint32_t mstatus_hs_vs;
->>>        uint32_t mem_idx;
->>> +    uint32_t priv;
->>>        /* Remember the rounding mode encoded in the previous fp
->>> instruction,
->>>           which we have already installed into env->fp_status.  Or -1 for
->>>           no previous fp instruction.  Note that we exit the TB when
->>> writing
->>> @@ -1162,8 +1163,10 @@ static void
->>> riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->>>        } else {
->>>            ctx->virt_enabled = false;
->>>        }
->>> +    ctx->priv = env->priv;
->> This is not right. You should put env->priv into tb flags before you use
->> it in translation.
->>
-> I see some other env usages in this function,
-Don't do it that way. It just be merged by accident. It will make review 
-harder and probably be wrong.
-> when will env->priv and
-> tb_flags.priv mismatch (assume we have recorded priv in tb_flags)?
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
 
-We always record the env->priv in tb flags if we don't merge your second 
-patch in this patch set.
-After your second patch, we will not record the env->priv  into tb flags 
-when SUM is 1. Thus we may execute a S-mode code when we actually in 
-M-mode, which is forbidden by RISC-V.
+[...]
 
-Zhiwei
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index c05ad0c07e..501b554fc5 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -849,6 +849,9 @@
+>  # @min_wr_latency_ns: Minimum latency of write operations in the
+>  #                     defined interval, in nanoseconds.
+>  #
+> +# @min_zone_append_latency_ns: Minimum latency of zone append operations
+> +#                              in the defined interval, in nanoseconds.
 
->
-> Thanks,
-> Fei.
->
->> Zhiwei
->>
->>>    #else
->>>        ctx->virt_enabled = false;
->>> +    ctx->priv = PRV_U;
->>>    #endif
->>>        ctx->misa_ext = env->misa_ext;
->>>        ctx->frm = -1;  /* unknown rounding mode */
+Lacks (since 8.1).  Your other additions, too.
+
+[...]
+
 
