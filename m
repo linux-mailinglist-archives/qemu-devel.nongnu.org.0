@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B1B6C6570
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 11:43:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C496C65F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 11:59:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfIPJ-0001LS-DD; Thu, 23 Mar 2023 06:42:57 -0400
+	id 1pfIdj-00048A-SS; Thu, 23 Mar 2023 06:57:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+ab089a62be6df7c8828c+7151+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pfIPE-0001LI-NL
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 06:42:53 -0400
+ id 1pfIdg-00047m-HD
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 06:57:48 -0400
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+ab089a62be6df7c8828c+7151+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pfIPC-00033a-CU
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 06:42:52 -0400
+ id 1pfIde-0007YC-AG
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 06:57:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
  In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
  Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=xelcXx5ivH1DAf4sAFB7DXoxSJhNHez9TzLupM9JDsc=; b=Tnui8mNcH7xFSv2Lw8xfbxVLON
- x5QANaFdSjkPx9An22u3FEwHN0LbvGiFeILhTqAvyiR9nhiXfBfGg2xbHpQqO9xgEDBD5Wqov0lZQ
- /xPoxaVxFf23WqqMWvEmhKpDQgZTZlCQFiQpaxNZiqZy8ISIrNa1R4DjijvYH8IlZX9hTKht/TBft
- V35Nb389qkbb7pGZS2iVpOA0EmF5g1bFWhI+2YNvZ+/k6lo++yAMAajBKUKrWgvhBTVAl7dxsb5ZQ
- WiP6UM+5dYEI/Ho0JaoIt4T4x+X1gRmqQPlInKpRHswbseoiWEAuYTwCt6CKCOPKSume9vTOEcMxo
- EaDbOMxQ==;
+ bh=kYYb2rmAhq4fvh3NM8RNs4pT+tPW7f66umoeKizpTwk=; b=nZKph3mqFaIDWQ3p2hcsDvnV9v
+ 3fGhPedIMZuAL50kamIQ3ot6xotP9ZEKPx8GeS1Ehc2Ac7NEvwEmjggqwO3oYCHRCgKgnnVC60OuQ
+ 2z6IsVGvgH79VwBeRPouWM3jlxEA5TWEIaN+3NLKfcQ6FzGf87wrQVDO/wVVQBycZJNd7oIwamPfu
+ HKcxWZipHJGprkKBYn6FhbZP4wcnFs3AP9MCNkzmPG0F1hoCfe1VBYgG0/Dv/s4raNUrMMy38PJLG
+ ytJEECjjn+QgGEB3Xtz8aRyPptURSn3DVkEeCNHwrbCKqtsgtPg2GAEocVsDwFpGdq4UXgsF1mQkb
+ vCwMDByQ==;
 Received: from [2001:8b0:10b:5:b3d4:e39d:531b:642a]
  (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pfIOt-003sbZ-Uq; Thu, 23 Mar 2023 10:42:32 +0000
-Message-ID: <418a6d774d3dc78f7410de08976fcf2f9fe42ec9.camel@infradead.org>
-Subject: Re: [PATCH v2 09/27] hw/xen: Add evtchn operations to allow
- redirection to internal emulation
+ id 1pfIdU-003tKc-H2; Thu, 23 Mar 2023 10:57:36 +0000
+Message-ID: <5dfb65342d4502c1ce2f890c97cff20bf25b3860.camel@infradead.org>
+Subject: [PATCH] hw/xenpv: Initialize Xen backend operations
 From: David Woodhouse <dwmw2@infradead.org>
 To: Anthony PERARD <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
@@ -45,14 +44,14 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
  xen-devel@lists.xenproject.org, Juan Quintela <quintela@redhat.com>, "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>, Peter Maydell
  <peter.maydell@linaro.org>
-Date: Thu, 23 Mar 2023 10:42:30 +0000
+Date: Thu, 23 Mar 2023 10:57:34 +0000
 In-Reply-To: <209fe980-7f9d-4d79-90fb-12e38f12b2bc@perard>
 References: <20230307171750.2293175-1-dwmw2@infradead.org>
  <20230307171750.2293175-10-dwmw2@infradead.org>
  <209fe980-7f9d-4d79-90fb-12e38f12b2bc@perard>
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-Kshv6WTWRerk+BVPSzAB"
+ boundary="=-0i6g+Xl61EJuEaXpvOfn"
 User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -83,34 +82,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-Kshv6WTWRerk+BVPSzAB
+--=-0i6g+Xl61EJuEaXpvOfn
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2023-03-23 at 10:29 +0000, Anthony PERARD wrote:
-> On Tue, Mar 07, 2023 at 05:17:32PM +0000, David Woodhouse wrote:
-> > From: David Woodhouse <dwmw@amazon.co.uk>
-> >=20
-> > The existing implementation calling into the real libxenevtchn moves to
-> > a new file hw/xen/xen-operations.c, and is called via a function table
-> > which in a subsequent commit will also be able to invoke the emulated
-> > event channel support.
-> >=20
-> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> > Reviewed-by: Paul Durrant <paul@xen.org>
->=20
-> Hi David, Paul,
->=20
-> This patch prevents existing use case from booting, that is even with the
-> state change notification fix.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Just checking... definitely the *event channel* patch in commit=C2=A0b6cacf=
-e
-and not the xenstore patch which comes later?
+As the Xen backend operations were abstracted out into a function table to
+allow for internally emulated Xen support, we missed the xen_init_pv()
+code path which also needs to install the operations for the true Xen
+libraries. Add the missing call to setup_xen_backend_ops().
 
-The state change notification fix doesn't even apply yet, does it?
+Fixes: b6cacfea0b38 ("hw/xen: Add evtchn operations to allow redirection to=
+ internal emulation")
+Reported-by: Anthony PERARD <anthony.perard@citrix.com>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ hw/xenpv/xen_machine_pv.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
---=-Kshv6WTWRerk+BVPSzAB
+diff --git a/hw/xenpv/xen_machine_pv.c b/hw/xenpv/xen_machine_pv.c
+index 2e759d0619..17cda5ec13 100644
+--- a/hw/xenpv/xen_machine_pv.c
++++ b/hw/xenpv/xen_machine_pv.c
+@@ -35,6 +35,8 @@ static void xen_init_pv(MachineState *machine)
+     DriveInfo *dinfo;
+     int i;
+=20
++    setup_xen_backend_ops();
++
+     /* Initialize backend core & drivers */
+     xen_be_init();
+=20
+--=20
+2.34.1
+
+
+
+--=-0i6g+Xl61EJuEaXpvOfn
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -202,25 +211,25 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzIzMTA0MjMwWjAvBgkqhkiG9w0BCQQxIgQgUGWq4y8B
-tk6QwQIRrvCyN1vTNCLX24dgZcc2Q69qMCAwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzIzMTA1NzM0WjAvBgkqhkiG9w0BCQQxIgQgKsGz/S36
+u6fv3EIIt3Mw93ZQoQYur9fLbnsL2Ip7Oucwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCCpaGn3KybHoCuxJoiMA9M9VUDybcQ0bdt
-wBjglLqCH/GMw+J0WmZ4MCb79nzFgZy6FN4EoH2qNgxOXV+8dF5UIZuG/yiWWtQ9uJen5p3pEV6R
-NDxdrbSryhnBnuoIoeykGUoRdC+RR7omD0ifafb2hNm7CV6XGxAo4pB9dkXJEyYoUuIyOcUZ6F0W
-wiI55VNNzZ57cyqRFcNMcwgDLSAkPTG3ZvQMh5M9Nis3mTrDajFnonfkjAqezWB96VXQNjpMDOjk
-sdqvZCPRwF3cU2rOYkqKuHK1dAGGCIxhCn6q9RI/E7wrQFIggYSJ3Znz+S427HxRH4OVwOaV7PDQ
-uftOzSfG39aRNJmyR8zp1q5AXse0DYQdUdWQnW4kfpu70vb0cMh7Lnuv0ESzfmdv30qP9D11aXxs
-4M751XSr6RF8iwt9cWJrrxAkH8cHinWCG3Ka+HYfhP8mamHtz5I9B3hJlvL/I/rSxBlcpQQu9c7I
-2WUzDE7LlupNkSLAaDj1DECM1ox3HY5K6mNdBM4cMP7JyHBrJFembHPx0JELyFhtKa8SD18kCF5W
-2Yi4t8TgxXXCcTrKALGzVE2ap9uPssXVXVt0oT/VIXuUG59CYpLu+dEW8kqEP+KLvIB3OMw6hVbB
-59ab1vbIzNdlNShqTy1bjG/PEPWm/EZOY1cIKmT+fAAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBBP0RTMf2rWzek1VxQndtFicx+WV+WWSNL
+Iw96wYojby8POGKPmQa74qjiNyW0ruXCN/IOsmJgIORY21Tx3bkYuAKM3VoQvgXRSUVGrNcCVWV3
+uk8GbFv4Fqt1Vpt9CtcOS9cCB3EqEmtIPNFj2KMWerfKfO3LJ79A55jtpDfzQvt6uDMQcd2qH17d
++HQ9g30a6bYbLdHCZLBFNfWRQVCLkLl2gMyjCKTaYtCzixLgyfWDKMMdyrQhSblTFgENp2IaNb+M
+TeFCDt8m0Jghxtu8Xx6CsRcsDbtTRW2/2V6HxEmAmugV7x+qhVWYIv8AxesmoGTRN2g89HmIZQGV
+8GXwu3akWekBnOnhoQ/ToGKCu9WXwPSQTKSgCA2vSsW48NHyDUJk5PeJ6z9bdgXDJotP/LkRJfpO
+SX/bnvYyA06j2xoMW9JUOD3Lnt0UX8uCv0QwiKn45sI3GXdEA3TD9RG5jBr3vGh53d8DWoIl/e2s
+a9aBr2G7S6uWhNrf0huzl0H9rcOLidrRSYUZQ5wWeTbOOvIrGDlVMaMMl72lUqSeW0DCyIeZ9GfZ
+kmyzxUowbdVW+TdyQq66LPgZDtStPM1dVtI9QUS22RadPhAtk0myjaSbFJ4WemNBAmjDmwGSQtIu
+4GVVA1Hsbz8wbC0lSCVQr1OToi5Yd32KvoQ2fpCsowAAAAAAAA==
 
 
---=-Kshv6WTWRerk+BVPSzAB--
+--=-0i6g+Xl61EJuEaXpvOfn--
 
