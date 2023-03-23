@@ -2,97 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD76D6C628F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 10:02:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2166C62C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 10:07:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfGod-00052o-Nc; Thu, 23 Mar 2023 05:00:59 -0400
+	id 1pfGuc-0008Ss-GD; Thu, 23 Mar 2023 05:07:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pfGob-00052e-Uf
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 05:00:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pfGoZ-00068l-6N
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 05:00:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679562053;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OJ2IwegNNAOBYB+5if/LjLO724awVPBVwJNcE1y1qSc=;
- b=YA6WGDiKdQTqf0kU94bcI0vFbfnQi6TFzQyYeHQEAc77hzzyfzql+lxwjgjiDFCXCmWwer
- tdieAXXlNPED8a1RAZWA9QvKIRgpNZq0pxM76yCjK1YMj6NX3bu+TZ4vduyTAXwr+LwsXd
- Q/gGH08dfAiwawgFbO2qG9rRW+9rNHY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-652-CFAT76EOMO6ulWFJYC-ovw-1; Thu, 23 Mar 2023 05:00:51 -0400
-X-MC-Unique: CFAT76EOMO6ulWFJYC-ovw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e15-20020adfa44f000000b002d7ea9d6ef0so1199347wra.8
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 02:00:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679562050;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pfGuV-0008SO-Ad
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 05:07:03 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pfGuS-0001UE-BX
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 05:07:03 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id v1so13524847wrv.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 02:06:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679562418;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OJ2IwegNNAOBYB+5if/LjLO724awVPBVwJNcE1y1qSc=;
- b=t432ABnWnZqf9C0LDjN2ZRd/hY7Za6aV/a79NSE6l8OjIC+du3ZGJTkAR8BQsprt3T
- ds2JZ7nIDjDeHtD2jtPSHsixGqFFjUbIQhqBLMbUrhFa8MaOQ445/Jrd+50zNbrFYme1
- 8v9OEh2L0dLmLITkULpik2gGusOzvRjez24NoMaXdeetTltp5SqP3yaE4hSvPSx5XZNk
- LY/m4/jma0A2GLoPrhrdpwpIWuPs/ZOsPflCm+H1C31eWpq8+9EKt6uGa37mo87N34rp
- 46VDMZIDGln5GLAppTQcPhEf7uD+SrZDriEkx/ZInVDnBe1Oa7Q2++QG8Bno5dmu5cjq
- votg==
-X-Gm-Message-State: AAQBX9dCCXtg/Et8nNoH0rmV9oCfRtg+o6Wpih4DPyFNcjb75SBT2NQ+
- 68KuWWoQbtw69Q3zGOgeb1uMORinCBcog/nGtOfCA5wA3DulVC/Xf9ziudvK7U/dXUHwEh5DZ5h
- jvV0rv1dSrVXcnyk=
-X-Received: by 2002:a5d:4e8f:0:b0:2d2:e9d3:2b72 with SMTP id
- e15-20020a5d4e8f000000b002d2e9d32b72mr1976904wru.35.1679562050681; 
- Thu, 23 Mar 2023 02:00:50 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YxZRDNOEDZYC3rtLEEQn9BVzbFabuQUs0OcroBktwkSlAD4yP/mOjCLMdkW7dBtHl6Lt1t7Q==
-X-Received: by 2002:a5d:4e8f:0:b0:2d2:e9d3:2b72 with SMTP id
- e15-20020a5d4e8f000000b002d2e9d32b72mr1976878wru.35.1679562050354; 
- Thu, 23 Mar 2023 02:00:50 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
- ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+ bh=Bu+/16xStNalwkdUAKp0C/9YHh5yrf5FTvxreoMucSo=;
+ b=yb7K8PH5+s5Bvtms/TCJT4Uk2AU7746Z3BtFYNRJqTTQpsKoaHX8uMXDL/6HyE0cin
+ qIak/WPg+bgt5yBmg4Lnlc1qUVpgDH0LNALdX+XKlOpJkyO3QdEOfiOcnKmMkg7RM71r
+ V4V17EOBfiDxvlGcPYepp6aWyAo5qstzUGI3fk++FtP/OXaIbuhUmvaPHdnBrFqLKWZP
+ jmRxg+PcC7fUuWjibF9aE9xwWTPRI0ASRCLr3cV4CiUhl/LGTBu89SPJnTdObvLt3heL
+ 4bwB5owR6ote7q/c7yqnJm6X3L9SivPGLGtFwluRh3K4wJfKyJji4LNUEcZMR91uBd3U
+ KrFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679562418;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Bu+/16xStNalwkdUAKp0C/9YHh5yrf5FTvxreoMucSo=;
+ b=tU7aRsr1c0kYPZKr5WVMeNY91juRNVA+LuX3Bymb/b83Sob83hmcWiuIo/i9lJBjG6
+ KUchGJ8iDwFY0SgfaLoPbAyaJfBsWAwEXUFOkJma7K+unSVumt5GMd2OTm9aRRLL2M6G
+ URs6fm8ha7OMRV6LqN7c5/mG+sx66EZ5+rAT1t6m/UdUC6LBdn6iBLXDyaYWfkLEIynq
+ INF45wpoczHDpOB2LHtbesPcpiVKNfkLUxQuS32uYCkxKVtSsi2d4nihpWES4hxDJ8sv
+ +uSxwGkqqhz+1dEz4QzYg921vPdrMegdTKElp2BxRhLZaMIseWyqqwilhLc6sDH2X4wl
+ MEog==
+X-Gm-Message-State: AAQBX9deuewuV2wXIuCsTq+Mk5V4pGQN/OdQzF1gWGDZfK7ps2+USsdi
+ gMUR0IMXzkm6zeX1eadu3US8Bg==
+X-Google-Smtp-Source: AKy350aYoK8xaUGfFJfTn9yU4S+nQAVUslnqBUcuqcifsrAODmwma0YR2Ga8Ke5NDYjhSmBaXaePTw==
+X-Received: by 2002:a5d:63c4:0:b0:2cf:e422:e28c with SMTP id
+ c4-20020a5d63c4000000b002cfe422e28cmr1925632wrw.42.1679562417757; 
+ Thu, 23 Mar 2023 02:06:57 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- d9-20020adfe889000000b002d97529b3bbsm5336405wrm.96.2023.03.23.02.00.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Mar 2023 02:00:49 -0700 (PDT)
-Message-ID: <4784948c-1a92-1991-d6a2-b4d1ee23136c@redhat.com>
-Date: Thu, 23 Mar 2023 10:00:48 +0100
+ i7-20020adffc07000000b002c5706f7c6dsm15678475wrr.94.2023.03.23.02.06.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Mar 2023 02:06:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0E5B61FFB7;
+ Thu, 23 Mar 2023 09:06:57 +0000 (GMT)
+References: <CAFEAcA83u_ENxDj3GJKa-xv6eLJGJPr_9FRDKAqm3qACyhrTgg@mail.gmail.com>
+ <20230223152836.dpn4z5fy6jg44wqi@hetzy.fluff.org>
+ <Y/eHLCKcdYk0V4Tt@redhat.com> <Y/fkf3Cya1NOopQA@invalid>
+ <Y/zhZ4brfdQ7nwLI@redhat.com>
+ <CAJSP0QX2tkaVZh0FX4Ke8EWn7tO9qm76YnRCHe6-UxWJg6LzTQ@mail.gmail.com>
+ <ZBnd4/UTH6CD5vx7@redhat.com> <ZBvpWMguR89kfZDG@invalid>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Eldon Stegall <eldon-qemu@eldondev.com>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Stefan
+ Hajnoczi
+ <stefanha@gmail.com>, Ben Dooks <qemu@ben.fluff.org>, Peter Maydell
+ <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: out of CI pipeline minutes again
+Date: Thu, 23 Mar 2023 09:05:42 +0000
+In-reply-to: <ZBvpWMguR89kfZDG@invalid>
+Message-ID: <87y1nn4z0v.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PULL 034/126] softmmu: Extract watchpoint API from physmem.c
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- Bharat Bhushan <bbhushan2@marvell.com>
-References: <20230227140213.35084-1-philmd@linaro.org>
- <20230227140213.35084-25-philmd@linaro.org>
- <c8c3c74f-53e6-6b3f-756f-b9c2eaa389a0@linaro.org>
-Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <c8c3c74f-53e6-6b3f-756f-b9c2eaa389a0@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,44 +102,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23.03.23 09:54, Philippe Mathieu-Daudé wrote:
-> On 27/2/23 15:00, Philippe Mathieu-Daudé wrote:
->> The watchpoint API is specific to TCG system emulation.
-> 
-> I'm seeing CPUWatchpoint being used by KVM:
-> 
-> $ git grep CPUWatchpoint|fgrep kvm
-> target/arm/kvm64.c:1558:        CPUWatchpoint *wp =
-> find_hw_watchpoint(cs, debug_exit->far);
-> target/i386/kvm/kvm.c:5216:static CPUWatchpoint hw_watchpoint;
-> target/ppc/kvm.c:443:static CPUWatchpoint hw_watchpoint;
-> target/s390x/kvm/kvm.c:139:static CPUWatchpoint hw_watchpoint;
-> 
-> Scrolling a bit in git-history:
-> 
-> commit e4482ab7e3849fb5e01ccacfc13f424cc6acb8d5
-> Author: Alex Bennée <alex.bennee@linaro.org>
-> Date:   Thu Dec 17 13:37:15 2015 +0000
-> 
->       target-arm: kvm - add support for HW assisted debug
-> 
->       This adds basic support for HW assisted debug. The ioctl interface
->       to KVM allows us to pass an implementation defined number of break
->       and watch point registers. When KVM_GUESTDBG_USE_HW is specified
->       these debug registers will be installed in place on the world switch
->       into the guest.
-> 
-> So it seems I missed something big.
-> 
 
-Looks like :)
+Eldon Stegall <eldon-qemu@eldondev.com> writes:
 
-Yes, s390x also uses CPUWatchpoint to translate between a watch-point 
-hit in kvm to a watchpoint hit in QEMU on KVM debug exits.
+> On Tue, Mar 21, 2023 at 04:40:03PM +0000, Daniel P. Berrang=C3=A9 wrote:
+>> 3 weeks later... Any progress on getting Red Hat to assign someone to
+>> setup Azure for our CI ?
+>
+> I have the physical machine that we have offered to host for CI set up
+> with a recent version of fcos.
+>
+> It isn't yet running a gitlab worker because I don't believe I have
+> access to create a gitlab worker token for the QEMU project.
 
--- 
-Thanks,
+Can you not see it under:
 
-David / dhildenb
+  https://gitlab.com/qemu-project/qemu/-/settings/ci_cd
 
+If not I can share it with you via some other out-of-band means.
+
+> If creating
+> such a token is too much hassle, I could simple run the gitlab worker
+> against my fork in my gitlab account, and give full access to my repo to
+> the QEMU maintainers, so they could push to trigger jobs.
+>
+> If you want someone to get the gitlab kubernetes operator set up in AKS,
+> I ended up getting a CKA cert a few years ago while working on an
+> operator. I could probably devote some time to get that going.
+>
+> If any of this sounds appealing, let me know.
+>
+> Thanks,
+> Eldon
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
