@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C7C6C5D73
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 04:49:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712F26C5D74
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 04:49:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfBvK-00075o-HF; Wed, 22 Mar 2023 23:47:34 -0400
+	id 1pfBwT-0007o2-A1; Wed, 22 Mar 2023 23:48:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pfBvI-00075e-12
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 23:47:32 -0400
+ id 1pfBwR-0007gw-1Z
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 23:48:43 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pfBvF-00056w-9o
- for qemu-devel@nongnu.org; Wed, 22 Mar 2023 23:47:31 -0400
+ id 1pfBwP-0005I3-HX
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 23:48:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679543246;
+ s=mimecast20190719; t=1679543320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cvkAc66M10aA3+qLXCVkNzJWFEL14qc8KUO0ZhGxB3w=;
- b=WTwd+3wAyrMdOBv5jZYc+DNobTRZoOSd25KnTWPW0AdRQOW9UBes5hDpwdn9if7HKEHiQr
- O43LQ8bbJ/nqajpjrPO+sGVBzkMf8IHEBezz6O+y3zPjO0wXVODJ2L0+fwSaBin0CyExGd
- 9QC1/1qpJ9uTqne5Ky7FAEFLnatB3GI=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WTzX2TLUjasuPXMjWBWkgG8Jfs/i7i4WphnFP0KmORY=;
+ b=GXt5Itkj1VLEuOeVqVXogXNq/eRNjCe+GHSS40G21wp/AXfFc+B6lwDe5r8rSAf7HGjkf/
+ 1kpf09GhxaOdm5VwscS6AecG6CDKBu8V5rtyx4iY0pDhxZ8q7YJN7B+3VQ+BaIayOEeioX
+ HR/XTS+FOXiTmBmjZEqAVAQx6LkarnU=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-601-lmdxmotnPE2mq9pAbuqNuQ-1; Wed, 22 Mar 2023 23:47:25 -0400
-X-MC-Unique: lmdxmotnPE2mq9pAbuqNuQ-1
-Received: by mail-ot1-f70.google.com with SMTP id
- p28-20020a0568301d5c00b0069f851af0aaso3251698oth.22
- for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 20:47:25 -0700 (PDT)
+ us-mta-663-CoE0MD5UNFSCv6TSdIWJSg-1; Wed, 22 Mar 2023 23:48:39 -0400
+X-MC-Unique: CoE0MD5UNFSCv6TSdIWJSg-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-17ab1d11480so10847672fac.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 20:48:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679543244;
+ d=1e100.net; s=20210112; t=1679543318;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cvkAc66M10aA3+qLXCVkNzJWFEL14qc8KUO0ZhGxB3w=;
- b=uDXWn7aLM8tj5PTFphqCGNdiQymfabBhBHau7FROogZWILPxUsb7dS+M0EKkQMy1L6
- +vlOkBkAd4dAf/xOc83rwa/i3knvZIPrv7JnNMtWRt4mAd4EuEkc87VD6aMWTBtjTfME
- X+tKXkI3rFPyTGv3NxfH981zYbmvjsVzIb/YW3lRfEXiNUZen0qBtGsgZWlwSVyaik1p
- RlXmThL1083HZ3xkhNNztV+DQ3zD+fYqmVnuf7q9/VJz57H9MTZVKFyfuwAnfg+YkuMk
- VldStNOI9sexo+FQSqihiQfc35wJgIwV9bIdGdBQEqCoLduQVOG+w1eNmJR6qjvmrHKD
- OKBQ==
-X-Gm-Message-State: AO0yUKUKOm2pbg/Cqaj/3EP9mjsxVCWcauzeB3uKs28I1ypwMkw01xwN
- ty6PYtWQoX0hAuoCbdpBncaJmF7ZUfUlwWkK7nY2YRvbf6pAqnOYq1/5ANJmAmyWxZwsfAr04IA
- tGrqn1oUBdUg7reRd+xpkcu9OmCE+Dbk=
-X-Received: by 2002:a05:6808:650:b0:36e:f6f5:604c with SMTP id
- z16-20020a056808065000b0036ef6f5604cmr1542569oih.9.1679543244414; 
- Wed, 22 Mar 2023 20:47:24 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8ASpEsUslU/g1GLwwxdDckya7lDuCw27vtVHYqXeRQIOnQMX9K+BNZf+/1hupfvGUlK+Qq+Ft8QnZZX7B8w3k=
-X-Received: by 2002:a05:6808:650:b0:36e:f6f5:604c with SMTP id
- z16-20020a056808065000b0036ef6f5604cmr1542562oih.9.1679543244079; Wed, 22 Mar
- 2023 20:47:24 -0700 (PDT)
+ bh=WTzX2TLUjasuPXMjWBWkgG8Jfs/i7i4WphnFP0KmORY=;
+ b=ZuHVNXBbUb2ceAt4+irtckBp+idULUjd2ZqfjRwWjZqpjaL8Fu7u/Ix855dCOL6Lct
+ AOZWmD7ImbKEyWqdPIMO1zyhrPl6ZnFD26FYtiSZLiw9HeRbErjYsXMq5hcYBl27hcVy
+ LS0S/zDAisHg37yR2E1+51STVo2rle2Xi6ko5Vn79hYRlfLwf8Zid4Ep3A3Jae11CEGv
+ AOZct+SvCtTfSZ7xu98m20gr3uet5j/+CQAtVVHLeofLIAErZroS+VK6cISVXfaA/i7b
+ lksSoU/fAmkxiA5V3MKmOtktBP6Lc8eb6dAgu2YgUODS5nUhlDlOrB/gI3sqGMBGEv02
+ 3sfg==
+X-Gm-Message-State: AO0yUKVdSfAQ9nuII1j8QxTdpo7BG5LJO3zdlB5JfsG7Wdm/2LMbyJpG
+ j1RlsKs3/pP3Fji4BP9fhRlXt2TTTpLQozJrfWu5/6n5vuzBG6SLqx3a/xLwVsquvvJ2yh/rh7c
+ JbFeNZjIZINEG2aw8jy4FZlIRj0XXHzQ=
+X-Received: by 2002:a05:6830:1441:b0:690:daac:e823 with SMTP id
+ w1-20020a056830144100b00690daace823mr1885216otp.2.1679543318759; 
+ Wed, 22 Mar 2023 20:48:38 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8cqdi7231a+woLhNGtKr02ENzXS7zjWOtWHAg1GId0EzdxYgsM1ndQ0zTi+EEdGZ2qZdAZB1+go/rKK142HjU=
+X-Received: by 2002:a05:6830:1441:b0:690:daac:e823 with SMTP id
+ w1-20020a056830144100b00690daace823mr1885214otp.2.1679543318573; Wed, 22 Mar
+ 2023 20:48:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230321142327.749980-1-lulu@redhat.com>
- <20230321142327.749980-5-lulu@redhat.com>
-In-Reply-To: <20230321142327.749980-5-lulu@redhat.com>
+ <20230321142327.749980-2-lulu@redhat.com>
+In-Reply-To: <20230321142327.749980-2-lulu@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 23 Mar 2023 11:47:13 +0800
-Message-ID: <CACGkMEts_2Ve+RXE495nGcu_yOsAVER0=8sYqdmQmkj113xLvw@mail.gmail.com>
-Subject: Re: [PATCH v15 4/4] vhost-vdpa: Add support for vIOMMU.
+Date: Thu, 23 Mar 2023 11:48:27 +0800
+Message-ID: <CACGkMEsaCjmkvb6j_pWa7UM9_RPShEVzT27VOx-7H_MfSE45fQ@mail.gmail.com>
+Subject: Re: [PATCH v15 1/4] vhost: expose function vhost_dev_has_iommu()
 To: Cindy Lu <lulu@redhat.com>
 Cc: mst@redhat.com, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
@@ -94,348 +94,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Mar 21, 2023 at 10:24=E2=80=AFPM Cindy Lu <lulu@redhat.com> wrote:
+On Tue, Mar 21, 2023 at 10:23=E2=80=AFPM Cindy Lu <lulu@redhat.com> wrote:
 >
-> 1. The vIOMMU support will make vDPA can work in IOMMU mode. This
-> will fix security issues while using the no-IOMMU mode.
-> To support this feature we need to add new functions for IOMMU MR adds an=
-d
-> deletes.
->
-> Also since the SVQ does not support vIOMMU yet, add the check for IOMMU
-> in vhost_vdpa_dev_start, if the SVQ and IOMMU enable at the same time
-> the function will return fail.
->
-> 2. Skip the iova_max check vhost_vdpa_listener_skipped_section(). While
-> MR is IOMMU, move this check to vhost_vdpa_iommu_map_notify()
->
-> Verified in vp_vdpa and vdpa_sim_net driver
+> To support vIOMMU in vdpa, need to exposed the function
+> vhost_dev_has_iommu, vdpa will use this function to check
+> if vIOMMU enable.
 >
 > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> ---
->  hw/virtio/trace-events         |   2 +-
->  hw/virtio/vhost-vdpa.c         | 159 ++++++++++++++++++++++++++++++---
->  include/hw/virtio/vhost-vdpa.h |  11 +++
->  3 files changed, 161 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 8f8d05cf9b..de4da2c65c 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -33,7 +33,7 @@ vhost_user_create_notifier(int idx, void *n) "idx:%d n:=
-%p"
->  vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asid,=
- uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) =
-"vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size:=
- 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
->  vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t asi=
-d, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"=
-PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
->  vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint=
-8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> -vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t t=
-ype)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> +vhost_vdpa_iotlb_batch_end_once(void *v, int fd, uint32_t msg_type, uint=
-8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
->  vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend=
-, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" =
-vaddr: %p read-only: %d"
->  vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend=
-) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
->  vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PR=
-Ix8
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 0c8c37e786..39720d12a6 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -26,6 +26,7 @@
->  #include "cpu.h"
->  #include "trace.h"
->  #include "qapi/error.h"
-> +#include "hw/virtio/virtio-access.h"
->
->  /*
->   * Return one past the end of the end of section. Be careful with uint64=
-_t
-> @@ -60,13 +61,21 @@ static bool vhost_vdpa_listener_skipped_section(Memor=
-yRegionSection *section,
->                       iova_min, section->offset_within_address_space);
->          return true;
->      }
-> +    /*
-> +     * While using vIOMMU, sometimes the section will be larger than iov=
-a_max,
-> +     * but the memory that actually maps is smaller, so move the check t=
-o
-> +     * function vhost_vdpa_iommu_map_notify(). That function will use th=
-e actual
-> +     * size that maps to the kernel
-> +     */
->
-> -    llend =3D vhost_vdpa_section_end(section);
-> -    if (int128_gt(llend, int128_make64(iova_max))) {
-> -        error_report("RAM section out of device range (max=3D0x%" PRIx64
-> -                     ", end addr=3D0x%" PRIx64 ")",
-> -                     iova_max, int128_get64(llend));
-> -        return true;
-> +    if (!memory_region_is_iommu(section->mr)) {
-> +        llend =3D vhost_vdpa_section_end(section);
-> +        if (int128_gt(llend, int128_make64(iova_max))) {
-> +            error_report("RAM section out of device range (max=3D0x%" PR=
-Ix64
-> +                         ", end addr=3D0x%" PRIx64 ")",
-> +                         iova_max, int128_get64(llend));
-> +            return true;
-> +        }
->      }
->
->      return false;
-> @@ -158,9 +167,8 @@ static void vhost_vdpa_iotlb_batch_begin_once(struct =
-vhost_vdpa *v)
->      v->iotlb_batch_begin_sent =3D true;
->  }
->
-> -static void vhost_vdpa_listener_commit(MemoryListener *listener)
-> +static void vhost_vdpa_iotlb_batch_end_once(struct vhost_vdpa *v)
->  {
-> -    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
-istener);
->      struct vhost_dev *dev =3D v->dev;
->      struct vhost_msg_v2 msg =3D {};
->      int fd =3D v->device_fd;
-> @@ -176,7 +184,7 @@ static void vhost_vdpa_listener_commit(MemoryListener=
- *listener)
->      msg.type =3D v->msg_type;
->      msg.iotlb.type =3D VHOST_IOTLB_BATCH_END;
->
-> -    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
-> +    trace_vhost_vdpa_iotlb_batch_end_once(v, fd, msg.type, msg.iotlb.typ=
-e);
 
-I suggest to keep the commit trace. The commit and batch are different
-things. If you want to trace the batch begin/end you should do it in
-vhost_vdpa_iotlb_batch_begin_once() etc.
-
->      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
->          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
->                       fd, errno, strerror(errno));
-> @@ -185,6 +193,124 @@ static void vhost_vdpa_listener_commit(MemoryListen=
-er *listener)
->      v->iotlb_batch_begin_sent =3D false;
->  }
->
-> +static void vhost_vdpa_listener_commit(MemoryListener *listener)
-> +{
-> +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
-istener);
-> +    vhost_vdpa_iotlb_batch_end_once(v);
-> +}
-> +
-> +static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry =
-*iotlb)
-> +{
-> +    struct vdpa_iommu *iommu =3D container_of(n, struct vdpa_iommu, n);
-> +
-> +    hwaddr iova =3D iotlb->iova + iommu->iommu_offset;
-> +    struct vhost_vdpa *v =3D iommu->dev;
-> +    void *vaddr;
-> +    int ret;
-> +    Int128 llend;
-> +
-> +    if (iotlb->target_as !=3D &address_space_memory) {
-> +        error_report("Wrong target AS \"%s\", only system memory is allo=
-wed",
-> +                     iotlb->target_as->name ? iotlb->target_as->name : "=
-none");
-> +        return;
-> +    }
-> +    RCU_READ_LOCK_GUARD();
-> +    /* check if RAM section out of device range */
-> +    llend =3D int128_add(int128_makes64(iotlb->addr_mask), int128_makes6=
-4(iova));
-> +    if (int128_gt(llend, int128_make64(v->iova_range.last))) {
-> +        error_report("RAM section out of device range (max=3D0x%" PRIx64
-> +                     ", end addr=3D0x%" PRIx64 ")",
-> +                     v->iova_range.last, int128_get64(llend));
-> +        return;
-> +    }
-> +
-> +    if ((iotlb->perm & IOMMU_RW) !=3D IOMMU_NONE) {
-> +        bool read_only;
-> +
-> +        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, NULL)=
-) {
-> +            return;
-> +        }
-> +        vhost_vdpa_iotlb_batch_begin_once(v);
-
-I think at most 2 ioctls for this, is this still worth to batch them?
-
-Other looks good.
+It looks like you missed my acks for patches 1 - 3.
 
 Thanks
 
-> +        ret =3D vhost_vdpa_dma_map(v, VHOST_VDPA_GUEST_PA_ASID, iova,
-> +                                 iotlb->addr_mask + 1, vaddr, read_only)=
-;
-> +        if (ret) {
-> +            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
-> +                         "0x%" HWADDR_PRIx ", %p) =3D %d (%m)",
-> +                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
-> +        }
-> +    } else {
-> +        vhost_vdpa_iotlb_batch_begin_once(v);
-> +        ret =3D vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova,
-> +                                   iotlb->addr_mask + 1);
-> +        if (ret) {
-> +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
-> +                         "0x%" HWADDR_PRIx ") =3D %d (%m)",
-> +                         v, iova, iotlb->addr_mask + 1, ret);
-> +        }
-> +    }
-> +    vhost_vdpa_iotlb_batch_end_once(v);
-> +}
-> +
-> +static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
-> +                                        MemoryRegionSection *section)
-> +{
-> +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
-istener);
-> +
-> +    struct vdpa_iommu *iommu;
-> +    Int128 end;
-> +    int iommu_idx;
-> +    IOMMUMemoryRegion *iommu_mr;
-> +    int ret;
-> +
-> +    iommu_mr =3D IOMMU_MEMORY_REGION(section->mr);
-> +
-> +    iommu =3D g_malloc0(sizeof(*iommu));
-> +    end =3D int128_add(int128_make64(section->offset_within_region),
-> +                     section->size);
-> +    end =3D int128_sub(end, int128_one());
-> +    iommu_idx =3D memory_region_iommu_attrs_to_index(iommu_mr,
-> +                                                   MEMTXATTRS_UNSPECIFIE=
-D);
-> +    iommu->iommu_mr =3D iommu_mr;
-> +    iommu_notifier_init(&iommu->n, vhost_vdpa_iommu_map_notify,
-> +                        IOMMU_NOTIFIER_IOTLB_EVENTS,
-> +                        section->offset_within_region,
-> +                        int128_get64(end),
-> +                        iommu_idx);
-> +    iommu->iommu_offset =3D section->offset_within_address_space -
-> +                          section->offset_within_region;
-> +    iommu->dev =3D v;
-> +
-> +    ret =3D memory_region_register_iommu_notifier(section->mr, &iommu->n=
-, NULL);
-> +    if (ret) {
-> +        g_free(iommu);
-> +        return;
-> +    }
-> +
-> +    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
-> +    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
-> +
-> +    return;
-> +}
-> +
-> +static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
-> +                                        MemoryRegionSection *section)
-> +{
-> +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
-istener);
-> +
-> +    struct vdpa_iommu *iommu;
-> +
-> +    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
-> +    {
-> +        if (MEMORY_REGION(iommu->iommu_mr) =3D=3D section->mr &&
-> +            iommu->n.start =3D=3D section->offset_within_region) {
-> +            memory_region_unregister_iommu_notifier(section->mr, &iommu-=
->n);
-> +            QLIST_REMOVE(iommu, iommu_next);
-> +            g_free(iommu);
-> +            break;
-> +        }
-> +    }
-> +}
-> +
->  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
->                                             MemoryRegionSection *section)
+> ---
+>  hw/virtio/vhost.c         | 2 +-
+>  include/hw/virtio/vhost.h | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index a266396576..fd746b085b 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -107,7 +107,7 @@ static void vhost_dev_sync_region(struct vhost_dev *d=
+ev,
+>      }
+>  }
+>
+> -static bool vhost_dev_has_iommu(struct vhost_dev *dev)
+> +bool vhost_dev_has_iommu(struct vhost_dev *dev)
 >  {
-> @@ -199,6 +325,10 @@ static void vhost_vdpa_listener_region_add(MemoryLis=
-tener *listener,
->                                              v->iova_range.last)) {
->          return;
->      }
-> +    if (memory_region_is_iommu(section->mr)) {
-> +        vhost_vdpa_iommu_region_add(listener, section);
-> +        return;
-> +    }
+>      VirtIODevice *vdev =3D dev->vdev;
 >
->      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MA=
-SK) !=3D
->                   (section->offset_within_region & ~TARGET_PAGE_MASK))) {
-> @@ -278,6 +408,9 @@ static void vhost_vdpa_listener_region_del(MemoryList=
-ener *listener,
->                                              v->iova_range.last)) {
->          return;
->      }
-> +    if (memory_region_is_iommu(section->mr)) {
-> +        vhost_vdpa_iommu_region_del(listener, section);
-> +    }
->
->      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MA=
-SK) !=3D
->                   (section->offset_within_region & ~TARGET_PAGE_MASK))) {
-> @@ -1182,7 +1315,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev *=
-dev, bool started)
->      }
->
->      if (started) {
-> -        memory_listener_register(&v->listener, &address_space_memory);
-> +        if (vhost_dev_has_iommu(dev) && (v->shadow_vqs_enabled)) {
-> +            error_report("SVQ can not work while IOMMU enable, please di=
-sable"
-> +                         "IOMMU and try again");
-> +            return -1;
-> +        }
-> +        memory_listener_register(&v->listener, dev->vdev->dma_as);
-> +
->          return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->      }
->
-> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
-a.h
-> index c278a2a8de..e64bfc7f98 100644
-> --- a/include/hw/virtio/vhost-vdpa.h
-> +++ b/include/hw/virtio/vhost-vdpa.h
-> @@ -52,6 +52,8 @@ typedef struct vhost_vdpa {
->      struct vhost_dev *dev;
->      Error *migration_blocker;
->      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> +    QLIST_HEAD(, vdpa_iommu) iommu_list;
-> +    IOMMUNotifier n;
->  } VhostVDPA;
->
->  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova=
-_range);
-> @@ -61,4 +63,13 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t =
-asid, hwaddr iova,
->  int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
-a,
->                           hwaddr size);
->
-> +typedef struct vdpa_iommu {
-> +    struct vhost_vdpa *dev;
-> +    IOMMUMemoryRegion *iommu_mr;
-> +    hwaddr iommu_offset;
-> +    IOMMUNotifier n;
-> +    QLIST_ENTRY(vdpa_iommu) iommu_next;
-> +} VDPAIOMMUState;
-> +
-> +
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index a52f273347..f7f10c8fb7 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -336,4 +336,5 @@ int vhost_dev_set_inflight(struct vhost_dev *dev,
+>                             struct vhost_inflight *inflight);
+>  int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+>                             struct vhost_inflight *inflight);
+> +bool vhost_dev_has_iommu(struct vhost_dev *dev);
 >  #endif
 > --
 > 2.34.3
