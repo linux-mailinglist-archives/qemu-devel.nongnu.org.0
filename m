@@ -2,51 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488126C6A8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 15:17:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5316C6ADD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 15:25:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfLjl-0004Yg-Vw; Thu, 23 Mar 2023 10:16:18 -0400
+	id 1pfLrZ-0005kT-SK; Thu, 23 Mar 2023 10:24:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pfLjk-0004YY-EW
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 10:16:16 -0400
-Received: from rev.ng ([5.9.113.41])
+ (Exim 4.90_1) (envelope-from <siddhi.katage@oracle.com>)
+ id 1pfLrX-0005kK-MT
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 10:24:19 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pfLji-0004mG-N3
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 10:16:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
- Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=an/42OUBJCS8PL53MdzTu2nui9vUJ1cwkxn12o5BLxQ=; b=mmVPAhwzc1p1lkvsVsJGffmBN2
- 7czVfMKAD94gTFrHL6HMI+v5amYMrg3AXZuEwMGJydYwomM8gOqpqnfPG1kQC+umn24NJ/BhKYyW4
- I71gOIRbVV7QA6k4tAbpiuYPjyxVPrNNznRklrqcYeodj8rGXrFcygqpHNx+g3KQNyMw=;
-Message-ID: <2df198a0-a81d-f388-9c37-0520cee316cc@rev.ng>
-Date: Thu, 23 Mar 2023 15:15:47 +0100
+ (Exim 4.90_1) (envelope-from <siddhi.katage@oracle.com>)
+ id 1pfLrV-0007oS-OF
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 10:24:19 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32ND02Vg017288; Thu, 23 Mar 2023 14:24:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2022-7-12;
+ bh=ECVIizhs1gDJHAeV5WBzrP1LFsefvbQazhNs9LFo7Ds=;
+ b=mhZBgFCRmNkeEhPbjaLFyc9nH+jammdBaydZTF+UMTyA75I8BKMETkVz5lSno2GEEOU3
+ orxNNQ6cGRvQS05mNymzaeJ0o7KP3fpDRP/9xrX0KxdzPAY3YZkwg2gS7IjqiCkFkIA7
+ yN1cKtyIAVyi5ckaWE3IPHfcO+6/Q7TJA90DeuIfln7vPy6wGmJzUfTdxZ5PAte+EXKV
+ dijNLFquraNIFsXCHXoQpO9Z8ChIphOP+CgWkJ6DnFpmsByeZKwpEi8aBFOVGqObASfM
+ 2xO1gU/Hosc12pwJalk4TRckYZZnvayykJ1XatavR53Lrjb6CVkKLSk+uvvn2m1/6blt rQ== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pd5uukwfh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Mar 2023 14:24:05 +0000
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 32NDw8qW016288; Thu, 23 Mar 2023 14:24:04 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3pgr4a1df4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Mar 2023 14:24:03 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32NEE3k0023267;
+ Thu, 23 Mar 2023 14:24:03 GMT
+Received: from siddhi-vm1.osdevelopmeniad.oraclevcn.com
+ (siddhi-vm1.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.254.70])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 3pgr4a1dej-1; Thu, 23 Mar 2023 14:24:03 +0000
+From: Siddhi Katage <siddhi.katage@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: joe.jin@oracle.com, dongli.zhang@oracle.com,
+ christian.ehrhardt@canonical.com, berrange@redhat.com,
+ pbonzini@redhat.com, philmd@linaro.org
+Subject: [PATCH for-8.0 v2 1/1] modules: load modules from
+ /var/run/qemu/<version> directory firstly
+Date: Thu, 23 Mar 2023 14:24:03 +0000
+Message-Id: <1679581443-6713-1-git-send-email-siddhi.katage@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH] Hexagon (translate.c): avoid redundant PC updates on COF
-To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>,
- qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org
-References: <fc059153c3f0526d97b7f13450c02b276b0908e1.1679519341.git.quic_mathbern@quicinc.com>
-Content-Language: en-US
-Organization: rev.ng
-In-Reply-To: <fc059153c3f0526d97b7f13450c02b276b0908e1.1679519341.git.quic_mathbern@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_21,2023-03-23_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ adultscore=0 mlxlogscore=999
+ bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
+ definitions=main-2303230109
+X-Proofpoint-GUID: xE6D_79w4hmpVb5U4HTKNKoKCln1Eku9
+X-Proofpoint-ORIG-GUID: xE6D_79w4hmpVb5U4HTKNKoKCln1Eku9
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=siddhi.katage@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,78 +97,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  anjo@rev.ng
-X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Siddhi Katage <siddhi.katage@oracle.com>
 
-On 3/22/23 22:17, Matheus Tavares Bernardino wrote:
-> When there is a conditional change of flow or an endloop instruction, we
-> preload HEX_REG_PC with ctx->next_PC at gen_start_packet(). Nonetheless,
-> we still generate TCG code to do this update again at gen_goto_tb() when
-> the condition for the COF is not met, thus producing redundant
-> instructions. This can be seen with the following packet:
->
->   0x004002e4:  0x5c20d000 {       if (!P0) jump:t PC+0 }
->
-> Which generates this TCG code:
->
->     ---- 004002e4
-> -> mov_i32 pc,$0x4002e8
->     and_i32 loc9,p0,$0x1
->     mov_i32 branch_taken,loc9
->     add_i32 pkt_cnt,pkt_cnt,$0x2
->     add_i32 insn_cnt,insn_cnt,$0x2
->     brcond_i32 branch_taken,$0x0,ne,$L1
->     goto_tb $0x0
->     mov_i32 pc,$0x4002e4
->     exit_tb $0x7fb0c36e5200
->     set_label $L1
->     goto_tb $0x1
-> -> mov_i32 pc,$0x4002e8
->     exit_tb $0x7fb0c36e5201
->     set_label $L0
->     exit_tb $0x7fb0c36e5203
->
-> Note that even after optimizations, the redundant PC update is still
-> present:
->
->     ---- 004002e4
-> -> mov_i32 pc,$0x4002e8                     sync: 0  dead: 0 1  pref=0xffff
->     mov_i32 branch_taken,$0x1                sync: 0  dead: 0 1  pref=0xffff
->     add_i32 pkt_cnt,pkt_cnt,$0x2             sync: 0  dead: 0 1  pref=0xffff
->     add_i32 insn_cnt,insn_cnt,$0x2           sync: 0  dead: 0 1 2  pref=0xffff
->     goto_tb $0x1
-> -> mov_i32 pc,$0x4002e8                     sync: 0  dead: 0 1  pref=0xffff
->     exit_tb $0x7fb0c36e5201
->     set_label $L0
->     exit_tb $0x7fb0c36e5203
->
-> With this patch, the second redundant update is properly discarded.
->
-> Note that we need the additional "move_to_pc" flag instead of just
-> avoiding the update whenever `dest == ctx->next_PC`, as that could
-> potentially skip updates from a COF with met condition, whose
-> ctx->branch_dest just happens to be equal to ctx->next_PC.
->
-> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-> ---
->   target/hexagon/translate.c | 21 +++++++++++++--------
->   1 file changed, 13 insertions(+), 8 deletions(-)
->
-> diff --git target/hexagon/translate.c target/hexagon/translate.c
-> index 665476ab48..58d638f734 100644
-> --- target/hexagon/translate.c
-> +++ target/hexagon/translate.c
+An old running QEMU will try to load modules with new build-id first, this
+will fail as expected, then QEMU will fallback to load the old modules that
+matches its build-id from /var/run/qemu/<version> directory.
+Make /var/run/qemu/<version> directory as first search path to load modules.
 
-Looks good, I appreciate the thorough motivation for this patch!
+Fixes: bd83c861c0 ("modules: load modules from versioned /var/run dir")
+Signed-off-by: Siddhi Katage <siddhi.katage@oracle.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+v2: Added reviewed-by tag
+ 
+ util/module.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Reviewed-by: Anton Johansson <anjo@rev.ng>
-
+diff --git a/util/module.c b/util/module.c
+index 32e2631..b723d65 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -233,17 +233,17 @@ int module_load(const char *prefix, const char *name, Error **errp)
+     g_hash_table_add(loaded_modules, module_name);
+ 
+     search_dir = getenv("QEMU_MODULE_DIR");
+-    if (search_dir != NULL) {
+-        dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
+-    }
+-    dirs[n_dirs++] = get_relocated_path(CONFIG_QEMU_MODDIR);
+-
+ #ifdef CONFIG_MODULE_UPGRADES
+     version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
+                              G_CSET_A_2_Z G_CSET_a_2_z G_CSET_DIGITS "+-.~",
+                              '_');
+     dirs[n_dirs++] = g_strdup_printf("/var/run/qemu/%s", version_dir);
+ #endif
++    if (search_dir != NULL) {
++        dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
++    }
++    dirs[n_dirs++] = get_relocated_path(CONFIG_QEMU_MODDIR);
++
+     assert(n_dirs <= ARRAY_SIZE(dirs));
+ 
+     /* end of resources managed by the out: label */
 -- 
-Anton Johansson,
-rev.ng Labs Srl.
+1.8.3.1
 
 
