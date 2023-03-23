@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C842F6C6217
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:41:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3DE6C621C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:41:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfGUs-0008DX-CA; Thu, 23 Mar 2023 04:40:34 -0400
+	id 1pfGVU-0000Nf-Gy; Thu, 23 Mar 2023 04:41:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pfGUe-000881-GL
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:40:27 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1pfGVS-0000NT-Bs
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:41:10 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pfGUW-0000qS-0B
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:40:16 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1pfGVQ-000143-5P
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:41:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679560810;
+ s=mimecast20190719; t=1679560866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oaWrHo/lRobYJRx52qS9cFLDS4eZM7ToLjQ72Kv/eOA=;
- b=TwSkqoPfo23RKatzy2Ew8OrLUc1e7Umd9lPqma+CS4D6l5rYMDC/gbJoBR7j4gfj6cAg6t
- Ae1bKyzhswlQQpe6ZIZ95oRMmblStRB37pbBstAL2NFCnGvup6ItqglLFRDgF/gXSgZeuW
- DZ8Oao0N6pDeARukB6o5IAKUWGj85/c=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mGTfJ419JzUq0rtr2i/UzmY2F95xhHz7+IbbPHYzgr4=;
+ b=K7q7yUEqi1NWv41kSpAOIfd+VpiHbHMUIlTkvZHmED+3lnOF0oVHJmKo9DB9VbwP7is3Di
+ FPWnSjjZ25e/GtETwJq+c0W3m7Ma2SS5+sDDC6qXa2ubzQc3N0yXXlKnv4nfMrjVkY9zUj
+ tfbR71j5WtxgrVDzS7Y9F+ufUX5+FSk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-356-HYqzAcgTNE24BKb68A3Z1A-1; Thu, 23 Mar 2023 04:40:09 -0400
-X-MC-Unique: HYqzAcgTNE24BKb68A3Z1A-1
-Received: by mail-ed1-f72.google.com with SMTP id
- dn8-20020a05640222e800b004bd35dd76a9so31435848edb.13
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 01:40:09 -0700 (PDT)
+ us-mta-126-lq1ew1AYMJWLzKyQGl4MEw-1; Thu, 23 Mar 2023 04:41:04 -0400
+X-MC-Unique: lq1ew1AYMJWLzKyQGl4MEw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p10-20020a05600c358a00b003edf7d484d4so600073wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 01:41:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679560807;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oaWrHo/lRobYJRx52qS9cFLDS4eZM7ToLjQ72Kv/eOA=;
- b=IncKZ55+LRqIqvcseT0Vu6VFUhNmRpMakUsSkn+wgXbUjVsLgH14Mkfb9EixLCcZBF
- YsRIFBFxi6cry0kwT1M4x07cBmxrrcPVSAxWuIko67X8C0879tdMX4KiajQShtK/qwWq
- LgTxa4OywcMINWocdPIrfPrCOSSma0bNEKCdjXfFzpFXnxiiIge3gXY1HXJSMWup6wIW
- m5HN5w6Jm/h2glZcO4uvqXiHVV9zA4/QCFhR+pMn2KVZC2NCdcpCf6DbSGjdy4+A5ubT
- r2F5BwEoVrJANIJGc1BnR0K3e9wSnqrgjIEBBy1msi5MXokmAyNZwWsFlkAz1JJqs0Xi
- 0Low==
-X-Gm-Message-State: AO0yUKXdh/BSEV3eHKKijtKtHNb1g8j6fJcsy/FHjk99LbnnvOYkvxQV
- dtza0c6athSnm/ZJmlQuAOyawFflnVpDla6xpeeIHgUcwFndS9ZgK0p25+n7ACmdv37zU7kKzj6
- XTWWOcxsfzBYMsgA5+kcagKRzOIadGt7eb6Bom5sT1KdcpmlJ1aKAIMB0bnkO8xpZmxaCIKpTYR
- mgYA==
-X-Received: by 2002:aa7:c399:0:b0:4fd:14d5:bb4b with SMTP id
- k25-20020aa7c399000000b004fd14d5bb4bmr9575686edq.23.1679560807471; 
- Thu, 23 Mar 2023 01:40:07 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/Wn76hwzfjonT4UkjPMuIyUIkjoSuhJzzHdni5Vvr54bzXE1h5ytPk9fOsoMAmEeLcFQePCg==
-X-Received: by 2002:aa7:c399:0:b0:4fd:14d5:bb4b with SMTP id
- k25-20020aa7c399000000b004fd14d5bb4bmr9575667edq.23.1679560807064; 
- Thu, 23 Mar 2023 01:40:07 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id
- o2-20020a509b02000000b004faa1636758sm8806156edi.68.2023.03.23.01.40.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 01:40:06 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: jsnow@redhat.com,
-	berrange@redhat.com,
-	peter.maydell@linaro.org
-Subject: [qemu-web PATCH v2] add post about plans for Python venvs
-Date: Thu, 23 Mar 2023 09:40:05 +0100
-Message-Id: <20230323084005.1032305-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.2
+ d=1e100.net; s=20210112; t=1679560863;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mGTfJ419JzUq0rtr2i/UzmY2F95xhHz7+IbbPHYzgr4=;
+ b=ziAgTK77D13fE7HA9ALYMLbHJshypwYxCH6n5BfOlfFPF0spKvdmY/uut64BCRQqK0
+ 9yG6ZWpy386LvJTRArvMUdcTUXTUZ0cC3fsKQoxENN9gF4RPbhK6VF0shwqRE80lr8Vc
+ nlQQ8dQ6jjS2j4s7YtRhfZsyuOJAmrmXZGLhqAybpJt8Mby5BUWTjpiP/SpHWsxf7J2v
+ Prhlq2RAXbB/Bdi2J8s/8dYWUGshfUWMDfbrz54Ifb+6gq5pYJI8nzgC8NRirUZueEYY
+ jjYQI7h5crMoyVfMiCvs+kwfhK/LWJq4Ffg1a9df6PVPJx5pBhIxC5kbGFpf50pFcbN9
+ li4Q==
+X-Gm-Message-State: AAQBX9c1X85QuMXdsMnrO/Y3S89nlYSDPRkAap5bDXajNcDGRmEvuh6r
+ ZYRK+lVyQEshW+SRrWXV54xChe1YP1i63BppgX6cbEhnSLUgjH5CDhazruvssrq8SootiugyTtk
+ jc88zyRr6QPYuZPz61gQ30iqYxQug8kFE+6VWDObGL3Rm
+X-Received: by 2002:a5d:60d1:0:b0:2ca:ec13:e7a0 with SMTP id
+ x17-20020a5d60d1000000b002caec13e7a0mr550313wrt.8.1679560862954; 
+ Thu, 23 Mar 2023 01:41:02 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZhFKZXgsaLjRRIritElISLeULO1uIF+NBh8BsAe4/CMzVzifZ269wjoc9TEGyela2KiDGfXzboSkb+51UxTgE=
+X-Received: by 2002:a5d:60d1:0:b0:2ca:ec13:e7a0 with SMTP id
+ x17-20020a5d60d1000000b002caec13e7a0mr550308wrt.8.1679560862620; Thu, 23 Mar
+ 2023 01:41:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+References: <20230321142327.749980-1-lulu@redhat.com>
+ <20230321142327.749980-5-lulu@redhat.com>
+ <CACGkMEts_2Ve+RXE495nGcu_yOsAVER0=8sYqdmQmkj113xLvw@mail.gmail.com>
+In-Reply-To: <CACGkMEts_2Ve+RXE495nGcu_yOsAVER0=8sYqdmQmkj113xLvw@mail.gmail.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Thu, 23 Mar 2023 16:40:19 +0800
+Message-ID: <CACLfguV460T6X-EBF6=mbxBsy+e+E+c+K3=medu48=yG+1be-A@mail.gmail.com>
+Subject: Re: [PATCH v15 4/4] vhost-vdpa: Add support for vIOMMU.
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,265 +93,376 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This post details the design that John Snow and I are planning for QEMU 8.1.
-The purpose is to detect possible inconsistencies in the build environment,
-that could happen on enterprise distros once Python 3.6 support is dropped.
+On Thu, Mar 23, 2023 at 11:47=E2=80=AFAM Jason Wang <jasowang@redhat.com> w=
+rote:
+>
+> On Tue, Mar 21, 2023 at 10:24=E2=80=AFPM Cindy Lu <lulu@redhat.com> wrote=
+:
+> >
+> > 1. The vIOMMU support will make vDPA can work in IOMMU mode. This
+> > will fix security issues while using the no-IOMMU mode.
+> > To support this feature we need to add new functions for IOMMU MR adds =
+and
+> > deletes.
+> >
+> > Also since the SVQ does not support vIOMMU yet, add the check for IOMMU
+> > in vhost_vdpa_dev_start, if the SVQ and IOMMU enable at the same time
+> > the function will return fail.
+> >
+> > 2. Skip the iova_max check vhost_vdpa_listener_skipped_section(). While
+> > MR is IOMMU, move this check to vhost_vdpa_iommu_map_notify()
+> >
+> > Verified in vp_vdpa and vdpa_sim_net driver
+> >
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > ---
+> >  hw/virtio/trace-events         |   2 +-
+> >  hw/virtio/vhost-vdpa.c         | 159 ++++++++++++++++++++++++++++++---
+> >  include/hw/virtio/vhost-vdpa.h |  11 +++
+> >  3 files changed, 161 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > index 8f8d05cf9b..de4da2c65c 100644
+> > --- a/hw/virtio/trace-events
+> > +++ b/hw/virtio/trace-events
+> > @@ -33,7 +33,7 @@ vhost_user_create_notifier(int idx, void *n) "idx:%d =
+n:%p"
+> >  vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asi=
+d, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type=
+) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" siz=
+e: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+> >  vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t a=
+sid, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: =
+%"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
+> >  vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, ui=
+nt8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> > -vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t=
+ type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> > +vhost_vdpa_iotlb_batch_end_once(void *v, int fd, uint32_t msg_type, ui=
+nt8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> >  vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t lle=
+nd, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64=
+" vaddr: %p read-only: %d"
+> >  vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t lle=
+nd) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
+> >  vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"=
+PRIx8
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 0c8c37e786..39720d12a6 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -26,6 +26,7 @@
+> >  #include "cpu.h"
+> >  #include "trace.h"
+> >  #include "qapi/error.h"
+> > +#include "hw/virtio/virtio-access.h"
+> >
+> >  /*
+> >   * Return one past the end of the end of section. Be careful with uint=
+64_t
+> > @@ -60,13 +61,21 @@ static bool vhost_vdpa_listener_skipped_section(Mem=
+oryRegionSection *section,
+> >                       iova_min, section->offset_within_address_space);
+> >          return true;
+> >      }
+> > +    /*
+> > +     * While using vIOMMU, sometimes the section will be larger than i=
+ova_max,
+> > +     * but the memory that actually maps is smaller, so move the check=
+ to
+> > +     * function vhost_vdpa_iommu_map_notify(). That function will use =
+the actual
+> > +     * size that maps to the kernel
+> > +     */
+> >
+> > -    llend =3D vhost_vdpa_section_end(section);
+> > -    if (int128_gt(llend, int128_make64(iova_max))) {
+> > -        error_report("RAM section out of device range (max=3D0x%" PRIx=
+64
+> > -                     ", end addr=3D0x%" PRIx64 ")",
+> > -                     iova_max, int128_get64(llend));
+> > -        return true;
+> > +    if (!memory_region_is_iommu(section->mr)) {
+> > +        llend =3D vhost_vdpa_section_end(section);
+> > +        if (int128_gt(llend, int128_make64(iova_max))) {
+> > +            error_report("RAM section out of device range (max=3D0x%" =
+PRIx64
+> > +                         ", end addr=3D0x%" PRIx64 ")",
+> > +                         iova_max, int128_get64(llend));
+> > +            return true;
+> > +        }
+> >      }
+> >
+> >      return false;
+> > @@ -158,9 +167,8 @@ static void vhost_vdpa_iotlb_batch_begin_once(struc=
+t vhost_vdpa *v)
+> >      v->iotlb_batch_begin_sent =3D true;
+> >  }
+> >
+> > -static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> > +static void vhost_vdpa_iotlb_batch_end_once(struct vhost_vdpa *v)
+> >  {
+> > -    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa,=
+ listener);
+> >      struct vhost_dev *dev =3D v->dev;
+> >      struct vhost_msg_v2 msg =3D {};
+> >      int fd =3D v->device_fd;
+> > @@ -176,7 +184,7 @@ static void vhost_vdpa_listener_commit(MemoryListen=
+er *listener)
+> >      msg.type =3D v->msg_type;
+> >      msg.iotlb.type =3D VHOST_IOTLB_BATCH_END;
+> >
+> > -    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
+> > +    trace_vhost_vdpa_iotlb_batch_end_once(v, fd, msg.type, msg.iotlb.t=
+ype);
+>
+> I suggest to keep the commit trace. The commit and batch are different
+> things. If you want to trace the batch begin/end you should do it in
+> vhost_vdpa_iotlb_batch_begin_once() etc.
+>
+sure will fix this
+> >      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
+> >          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
+> >                       fd, errno, strerror(errno));
+> > @@ -185,6 +193,124 @@ static void vhost_vdpa_listener_commit(MemoryList=
+ener *listener)
+> >      v->iotlb_batch_begin_sent =3D false;
+> >  }
+> >
+> > +static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> > +{
+> > +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa,=
+ listener);
+> > +    vhost_vdpa_iotlb_batch_end_once(v);
+> > +}
+> > +
+> > +static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntr=
+y *iotlb)
+> > +{
+> > +    struct vdpa_iommu *iommu =3D container_of(n, struct vdpa_iommu, n)=
+;
+> > +
+> > +    hwaddr iova =3D iotlb->iova + iommu->iommu_offset;
+> > +    struct vhost_vdpa *v =3D iommu->dev;
+> > +    void *vaddr;
+> > +    int ret;
+> > +    Int128 llend;
+> > +
+> > +    if (iotlb->target_as !=3D &address_space_memory) {
+> > +        error_report("Wrong target AS \"%s\", only system memory is al=
+lowed",
+> > +                     iotlb->target_as->name ? iotlb->target_as->name :=
+ "none");
+> > +        return;
+> > +    }
+> > +    RCU_READ_LOCK_GUARD();
+> > +    /* check if RAM section out of device range */
+> > +    llend =3D int128_add(int128_makes64(iotlb->addr_mask), int128_make=
+s64(iova));
+> > +    if (int128_gt(llend, int128_make64(v->iova_range.last))) {
+> > +        error_report("RAM section out of device range (max=3D0x%" PRIx=
+64
+> > +                     ", end addr=3D0x%" PRIx64 ")",
+> > +                     v->iova_range.last, int128_get64(llend));
+> > +        return;
+> > +    }
+> > +
+> > +    if ((iotlb->perm & IOMMU_RW) !=3D IOMMU_NONE) {
+> > +        bool read_only;
+> > +
+> > +        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, NUL=
+L)) {
+> > +            return;
+> > +        }
+> > +        vhost_vdpa_iotlb_batch_begin_once(v);
+>
+> I think at most 2 ioctls for this, is this still worth to batch them?
+>
+> Other looks good.
+>
+> Thanks
+>
+ the kernel vdpa doesn't support  no-batch mode, if we remove the batch her=
+e
+the system will fail to map
+qemu-system-x86_64: failed to write, fd=3D12, errno=3D14 (Bad address)
+qemu-system-x86_64: vhost_vdpa_dma_unmap(0x7f811a950190, 0x0,
+0x80000000) =3D -5 (Bad address)
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
-v1->v2: add CSS for asciicast
-	note that sphinx is already checked for now-enough Python
-	some more copy-editing
+I'm not sure maybe this is a bug in the kernel?
+Thanks
+Cindy
 
- _posts/2023-03-22-python.md | 223 ++++++++++++++++++++++++++++++++++++
- assets/css/style.css        |   4 +
- 2 files changed, 227 insertions(+)
- create mode 100644 _posts/2023-03-22-python.md
-
-diff --git a/_posts/2023-03-22-python.md b/_posts/2023-03-22-python.md
-new file mode 100644
-index 0000000..d463847
---- /dev/null
-+++ b/_posts/2023-03-22-python.md
-@@ -0,0 +1,222 @@
-+---
-+layout: post
-+title:  "Preparing a consistent Python environment"
-+date:   2023-03-22 13:30:00 +0000
-+categories: [build, python, developers]
-+---
-+Building QEMU is a complex task, split across several programs.
-+configure finds the host and cross compilers that are needed to build
-+emulators and firmware; Meson prepares the build environment for the
-+emulators; finally, Make and ninja actually perform the build, and
-+in some cases they run tests as well.
-+
-+In addition to compiling C code, many build steps run tools and
-+scripts which are mostly written in the Python language.  These include
-+processing the emulator configuration, code generators for tracepoints
-+and QAPI, extensions for the Sphinx documentation tool, and the Avocado
-+testing framework.  The Meson build system itself is written in Python, too.
-+
-+Some of these tools are run through the `python3` executable, while others
-+are invoked directly as `sphinx-build` or `meson`, and this can create
-+inconsistencies.  For example, QEMU's `configure` script checks for a
-+minimum version of Python and rejects too-old interpreters.  However,
-+what would happen if code run by Sphinx used a different version?
-+
-+This situation has been largely hypothetical until recently; QEMU's
-+Python code is already tested with a wide range of versions of the
-+interpreter, and it would not be a huge issue if Sphinx used a different
-+version of Python as long as both of them were supported.  This will
-+change in version 8.1 of QEMU, which will bump the minimum supported
-+version of Python from 3.6 to 3.8.  While all the distros that QEMU
-+supports have a recent-enough interpreter, the default on RHEL8 and
-+SLES15 is still version 3.6, and that is what all binaries in `/usr/bin`
-+use unconditionally.
-+
-+As of QEMU 8.0, even if `configure` is told to use `/usr/bin/python3.8`
-+for the build, QEMU's custom Sphinx extensions would still run under
-+Python 3.6.  configure does separately check that Sphinx is executing
-+with a new enough Python version, but it would be nice if there were
-+a more generic way to prepare a consistent Python environment.
-+
-+This post will explain how QEMU 8.1 will ensure that a single interpreter
-+is used for the whole of the build process.  Getting there will require
-+some familiarity with Python packaging, so let's start with virtual
-+environments.
-+
-+## Virtual environments
-+
-+It is surprisingly hard to find what Python interpreter a given script
-+will use.  You can try to parse the first line of the script, which will
-+be something like `#! /usr/bin/python3`, but there is no guarantee of
-+success.  For example, on some version of Homebrew `/usr/bin/meson`
-+will be a wrapper script like:
-+
-+```bash
-+#!/bin/bash
-+PYTHONPATH="/usr/local/Cellar/meson/0.55.0/lib/python3.8/site-packages" \
-+  exec "/usr/local/Cellar/meson/0.55.0/libexec/bin/meson" "$@"
-+```
-+
-+The file with the Python shebang line will be hidden somewhere in
-+`/usr/local/Cellar`.  Therefore, performing some kind of check on the
-+files in `/usr/bin` is ruled out.  QEMU needs to set up a consistent
-+environment on its own.
-+
-+If a user who is building QEMU wanted to do so, the simplest way would
-+be to use Python virtual environments.  A virtual environment takes an
-+existing Python installation but gives it a local set of Python packages.
-+It also has its own `bin` directory; place it at the beginning of your
-+`PATH` and you will be able to control the Python interpreter for scripts
-+that begin with `#! /usr/bin/env python3`.
-+
-+Furthermore, when packages are installed into the virtual environment
-+with `pip`, they always refer to the Python interpreter that was used to
-+create the environment.  Virtual environments mostly solve the consistency
-+problem at the cost of an extra `pip install` step to put QEMU's build
-+dependencies into the environment.
-+
-+Unfortunately, this extra step has a substantial downside.  Even though
-+the virtual environment can optionally refer to the base installation's
-+installed packages, `pip` will always install packages from scratch
-+into the virtual environment. For all Linux distributions except RHEL8
-+and SLES15 this is unnecessary, and users would be happy to build QEMU
-+using the versions of Meson and Sphinx included in the distribution.
-+
-+Even worse, `pip install` will access the Python package index (PyPI)
-+over the Internet, which is often impossible on build machines that
-+are sealed from the outside world.  Automated installation of PyPI
-+dependencies may actually be a welcome feature, but it must also remain
-+a strictly optional feature.
-+
-+In other words, the ideal solution would use a non-isolated virtual
-+environment, to be able to use system packages provided by Linux
-+distributions; but it would also ensure that scripts (`sphinx-build`,
-+`meson`, `avocado`) are placed into `bin` just like `pip install` does.
-+
-+## Distribution packages
-+
-+When it comes to packages, Python surely makes an effort to be confusing.
-+The fundamental unit for _importing_ code into a Python program is called
-+a package; for example `os` and `sys` are two examples of a package.
-+However, a program or library that is distributed on PyPI consists
-+of _many_ such "import packages": that's because while `pip` is usually
-+said to be a "package installer" for Python, more precisely it installs
-+"distribution packages".
-+
-+To add to the confusion, the term "distribution package" is often
-+shortened to _either_ "package" or "distribution".  And finally,
-+the metadata of the distribution package remains available even after
-+installation, so "distributions" include things that are already
-+installed (and are not being distributed anywhere).
-+
-+All this matters because distribution metadata will be the key to
-+building the perfect virtual environment.  If you look at the content
-+of `bin/meson` in a virtual environment, after installing the package
-+with `pip`, this is what you find:
-+
-+```python
-+#!/home/pbonzini/my-venv/bin/python3
-+# -*- coding: utf-8 -*-
-+import re
-+import sys
-+from mesonbuild.mesonmain import main
-+if __name__ == '__main__':
-+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
-+    sys.exit(main())
-+```
-+
-+This looks a lot like automatically generated code, and in fact it is;
-+the only parts that vary are the `from mesonbuild.mesonmain import main`
-+import, and the invocation of the `main()` function on the last line.
-+`pip` creates this invocation script based on the `setup.cfg` file
-+in Meson's source code, more specifically based on the following stanza:
-+
-+```
-+[options.entry_points]
-+console_scripts =
-+  meson = mesonbuild.mesonmain:main
-+```
-+
-+Similar declarations exist in Sphinx, Avocado and so on, and accessing their
-+content is easy via `importlib.metadata` (available in Python 3.8+):
-+
-+```
-+$ python3
-+>>> from importlib.metadata import distribution
-+>>> distribution('meson').entry_points
-+[EntryPoint(name='meson', value='mesonbuild.mesonmain:main', group='console_scripts')]
-+```
-+
-+`importlib` looks up the metadata in the running Python interpreter's
-+search path; if Meson is installed under another interpreter's `site-packages`
-+directory, it will not be found:
-+
-+```
-+$ python3.8
-+>>> from importlib.metadata import distribution
-+>>> distribution('meson').entry_points
-+Traceback (most recent call last):
-+...
-+importlib.metadata.PackageNotFoundError: meson
-+```
-+
-+So finally we have a plan!  `configure` can build a non-isolated virtual
-+environment, use `importlib` to check that the required packages exist
-+in the base installation, and create scripts in `bin` that point to the
-+right Python interpreter.  Then, it can optionally use `pip install` to
-+install the missing packages.
-+
-+While this process includes a certain amount of
-+specialized logic, Python provides a customizable [`venv`
-+module](https://docs.python.org/3/library/venv.html) to create virtual
-+environments.  The custom steps can be performed by subclassing
-+`venv.EnvBuilder`.
-+
-+This will provide the same experience as QEMU 8.0, except that there will
-+be no need for the `--meson` and `--sphinx-build` options to the
-+`configure` script.  The path to the Python interpreter is enough to
-+set up all Python programs used during the build.
-+
-+There is only one thing left to fix...
-+
-+## Nesting virtual environments
-+
-+Remember how we started with a user that creates her own virtual
-+environment before building QEMU?  Well, this would not work
-+anymore, because virtual environments cannot be nested.  As soon
-+as `configure` creates its own virtual environment, the packages
-+installed by the user are not available anymore.
-+
-+Fortunately, the "appearance" of a nested virtual environment is easy
-+to emulate.  Detecting whether `python3` runs in a virtual environment
-+is as easy as checking `sys.prefix != sys.base_prefix`; if it is,
-+we need to retrieve the parent virtual environments `site-packages`
-+directory:
-+
-+```
-+>>> import sysconfig
-+>>> sysconfig.get_path('purelib')
-+'/home/pbonzini/my-venv/lib/python3.11/site-packages'
-+```
-+
-+and write it to a `.pth` file in the `lib` directory of the new virtual
-+environment.  The following demo shows how a distribution package in the
-+parent virtual environment will be available in the child as well:
-+
-+<script async id="asciicast-31xjLsR4KjsU9HuhOUpU08tvb" src="https://asciinema.org/a/31xjLsR4KjsU9HuhOUpU08tvb.js"></script>
-+
-+A small detail is that `configure`'s new virtual environment should
-+mirror the isolation setting of the parent.  An isolated venv can be
-+detected because `sys.base_prefix in site.PREFIXES` is false.
-+
-+## Conclusion
-+
-+Right now, QEMU only makes a minimal attempt at ensuring consistency
-+of the Python environment; Meson is always run using the interpreter
-+that was passed to the configure script with `--python` or `$PYTHON`,
-+but that's it.  Once the above technique will be implemented in QEMU 8.1,
-+there will be no difference in the build experience, but configuration
-+will be easier and a wider set of invalid build environments will
-+be detected.  We will merge these checks before dropping support for
-+Python 3.6, so that users on older enterprise distributions will have
-+a smooth transition.
-diff --git a/assets/css/style.css b/assets/css/style.css
-index 2705787..983fb67 100644
---- a/assets/css/style.css
-+++ b/assets/css/style.css
-@@ -184,6 +184,10 @@
- 		color: #999999;
- 	}
- 
-+	.asciicast {
-+		width: 45em;
-+	}
-+
- 	/* Sections/Articles */
- 
- 		section,
--- 
-2.39.2
+> > +        ret =3D vhost_vdpa_dma_map(v, VHOST_VDPA_GUEST_PA_ASID, iova,
+> > +                                 iotlb->addr_mask + 1, vaddr, read_onl=
+y);
+> > +        if (ret) {
+> > +            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
+> > +                         "0x%" HWADDR_PRIx ", %p) =3D %d (%m)",
+> > +                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
+> > +        }
+> > +    } else {
+> > +        vhost_vdpa_iotlb_batch_begin_once(v);
+> > +        ret =3D vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova=
+,
+> > +                                   iotlb->addr_mask + 1);
+> > +        if (ret) {
+> > +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ",=
+ "
+> > +                         "0x%" HWADDR_PRIx ") =3D %d (%m)",
+> > +                         v, iova, iotlb->addr_mask + 1, ret);
+> > +        }
+> > +    }
+> > +    vhost_vdpa_iotlb_batch_end_once(v);
+> > +}
+> > +
+> > +static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
+> > +                                        MemoryRegionSection *section)
+> > +{
+> > +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa,=
+ listener);
+> > +
+> > +    struct vdpa_iommu *iommu;
+> > +    Int128 end;
+> > +    int iommu_idx;
+> > +    IOMMUMemoryRegion *iommu_mr;
+> > +    int ret;
+> > +
+> > +    iommu_mr =3D IOMMU_MEMORY_REGION(section->mr);
+> > +
+> > +    iommu =3D g_malloc0(sizeof(*iommu));
+> > +    end =3D int128_add(int128_make64(section->offset_within_region),
+> > +                     section->size);
+> > +    end =3D int128_sub(end, int128_one());
+> > +    iommu_idx =3D memory_region_iommu_attrs_to_index(iommu_mr,
+> > +                                                   MEMTXATTRS_UNSPECIF=
+IED);
+> > +    iommu->iommu_mr =3D iommu_mr;
+> > +    iommu_notifier_init(&iommu->n, vhost_vdpa_iommu_map_notify,
+> > +                        IOMMU_NOTIFIER_IOTLB_EVENTS,
+> > +                        section->offset_within_region,
+> > +                        int128_get64(end),
+> > +                        iommu_idx);
+> > +    iommu->iommu_offset =3D section->offset_within_address_space -
+> > +                          section->offset_within_region;
+> > +    iommu->dev =3D v;
+> > +
+> > +    ret =3D memory_region_register_iommu_notifier(section->mr, &iommu-=
+>n, NULL);
+> > +    if (ret) {
+> > +        g_free(iommu);
+> > +        return;
+> > +    }
+> > +
+> > +    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
+> > +    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
+> > +
+> > +    return;
+> > +}
+> > +
+> > +static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
+> > +                                        MemoryRegionSection *section)
+> > +{
+> > +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa,=
+ listener);
+> > +
+> > +    struct vdpa_iommu *iommu;
+> > +
+> > +    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
+> > +    {
+> > +        if (MEMORY_REGION(iommu->iommu_mr) =3D=3D section->mr &&
+> > +            iommu->n.start =3D=3D section->offset_within_region) {
+> > +            memory_region_unregister_iommu_notifier(section->mr, &iomm=
+u->n);
+> > +            QLIST_REMOVE(iommu, iommu_next);
+> > +            g_free(iommu);
+> > +            break;
+> > +        }
+> > +    }
+> > +}
+> > +
+> >  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+> >                                             MemoryRegionSection *sectio=
+n)
+> >  {
+> > @@ -199,6 +325,10 @@ static void vhost_vdpa_listener_region_add(MemoryL=
+istener *listener,
+> >                                              v->iova_range.last)) {
+> >          return;
+> >      }
+> > +    if (memory_region_is_iommu(section->mr)) {
+> > +        vhost_vdpa_iommu_region_add(listener, section);
+> > +        return;
+> > +    }
+> >
+> >      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_=
+MASK) !=3D
+> >                   (section->offset_within_region & ~TARGET_PAGE_MASK)))=
+ {
+> > @@ -278,6 +408,9 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
+stener *listener,
+> >                                              v->iova_range.last)) {
+> >          return;
+> >      }
+> > +    if (memory_region_is_iommu(section->mr)) {
+> > +        vhost_vdpa_iommu_region_del(listener, section);
+> > +    }
+> >
+> >      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_=
+MASK) !=3D
+> >                   (section->offset_within_region & ~TARGET_PAGE_MASK)))=
+ {
+> > @@ -1182,7 +1315,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev=
+ *dev, bool started)
+> >      }
+> >
+> >      if (started) {
+> > -        memory_listener_register(&v->listener, &address_space_memory);
+> > +        if (vhost_dev_has_iommu(dev) && (v->shadow_vqs_enabled)) {
+> > +            error_report("SVQ can not work while IOMMU enable, please =
+disable"
+> > +                         "IOMMU and try again");
+> > +            return -1;
+> > +        }
+> > +        memory_listener_register(&v->listener, dev->vdev->dma_as);
+> > +
+> >          return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> >      }
+> >
+> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
+dpa.h
+> > index c278a2a8de..e64bfc7f98 100644
+> > --- a/include/hw/virtio/vhost-vdpa.h
+> > +++ b/include/hw/virtio/vhost-vdpa.h
+> > @@ -52,6 +52,8 @@ typedef struct vhost_vdpa {
+> >      struct vhost_dev *dev;
+> >      Error *migration_blocker;
+> >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> > +    QLIST_HEAD(, vdpa_iommu) iommu_list;
+> > +    IOMMUNotifier n;
+> >  } VhostVDPA;
+> >
+> >  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *io=
+va_range);
+> > @@ -61,4 +63,13 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_=
+t asid, hwaddr iova,
+> >  int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr i=
+ova,
+> >                           hwaddr size);
+> >
+> > +typedef struct vdpa_iommu {
+> > +    struct vhost_vdpa *dev;
+> > +    IOMMUMemoryRegion *iommu_mr;
+> > +    hwaddr iommu_offset;
+> > +    IOMMUNotifier n;
+> > +    QLIST_ENTRY(vdpa_iommu) iommu_next;
+> > +} VDPAIOMMUState;
+> > +
+> > +
+> >  #endif
+> > --
+> > 2.34.3
+> >
+>
 
 
