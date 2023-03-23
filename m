@@ -2,97 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07AC76C680E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 13:19:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A076C68E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 13:53:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfJuX-0006C9-UL; Thu, 23 Mar 2023 08:19:18 -0400
+	id 1pfKQF-0005Ij-II; Thu, 23 Mar 2023 08:52:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pfJuU-0006Bo-QD
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 08:19:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pfJuR-0003jv-Br
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 08:19:14 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32NBauVl022768; Thu, 23 Mar 2023 12:18:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=b0+A1Jni2WlxVZffJ0NPYRGIY8ls7nuAL0OjGC6e6C4=;
- b=BzGG31h2y2l0cqs9Y0eA2IhO2ZD4u1RBociCxFZuE64JBmYT+qKHqghCATgVp99LQcR4
- wA9ykF92gWbeGFcDASaspxOwj55Hb4khcwLi/IOAkG+HNE6nTH5nB7owdm3NPHNMuIrU
- FCd8KS51SfVQXdrCQDMorvNrlFI5NBFk/UKfP4R9kE4SFSs0LzaGCmlgGgdPDXV5KvVq
- WWocBVfO4+fqDo8tT0cvhQaFNsr+CRGtM3reR/yXyKOJ+x2X2MBYNI3J9yaA3hXhW7ir
- bxoZzqZATZXPxlqyiu8JwFjE9QRlgGEeG9cuDpy9JOazUmGLYyzI2cT4lgUE7WcCOrXK +g== 
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pge77ky0v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Mar 2023 12:18:54 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32N9uXfc025936;
- Thu, 23 Mar 2023 12:18:53 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([9.208.129.114])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7w4ws-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Mar 2023 12:18:53 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
- [10.39.53.230])
- by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32NCIpIC37683782
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Mar 2023 12:18:51 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9FACA5805C;
- Thu, 23 Mar 2023 12:18:51 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CF55D58054;
- Thu, 23 Mar 2023 12:18:50 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 23 Mar 2023 12:18:50 +0000 (GMT)
-Message-ID: <dffed1c0-faab-7a3e-a64e-ec97a699f4cc@linux.ibm.com>
-Date: Thu, 23 Mar 2023 08:18:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 3/3] New I2C: Add support for TPM devices over I2C bus
-Content-Language: en-US
-To: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
-References: <20230323030119.2113570-1-ninad@linux.ibm.com>
- <20230323030119.2113570-4-ninad@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20230323030119.2113570-4-ninad@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 77CO5cMfSAZAGyLWyNbYHU_FN_EuglJk
-X-Proofpoint-ORIG-GUID: 77CO5cMfSAZAGyLWyNbYHU_FN_EuglJk
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pfKQ9-0005HM-Bp
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 08:51:57 -0400
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pfKQ7-0005OE-9X
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 08:51:57 -0400
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-17e140619fdso14054030fac.11
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 05:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1679575914;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kJI8DswckpudvMDvkDJM53MsKQQsmSH2ZjBuYr1I5UQ=;
+ b=hEkhZ9jRiVd58XuQBSTca/RZCfFS602IUtU3KZb199HArPMQ25EZXdUZBz7UB4n3h6
+ IMZ0nOLGa45jVNHrmxgdXOj0ojh6Fw6bFfYKQLW7QVs8+h8CjiiPCQFgYHbHhNzhjcV5
+ R9mM/cnq2xfkE0mE3QhRIcVS+fbytjMYAdKnQo0BXGx4vqD68C7hf14ZunHlzjr5b4Rc
+ dxquf/2Ivuc8bnlBbrflsK2I8sJP3QoREwnQREE6TONoUeHQAdYXGnw6LD81BHDRh6MW
+ 7MPACEq93UVzp7JPKQcq3pa7XWVaE7nfexhz2RsiUkAHlaMJ3GEjZkKFhsu1tVedRQd7
+ cq1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679575914;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kJI8DswckpudvMDvkDJM53MsKQQsmSH2ZjBuYr1I5UQ=;
+ b=Xcsuh+woGJI2xHm31u64ADzae0tjFHNEEjUySJi2XIxybkhb1a3UcHwpvhQQnHSy21
+ pI6IPJY2qfMABvn32BoWNiTPgoMBWVN5PVn2rz6N3D222F2N8+gBgl7JnKTxMDzv6VU3
+ /wsUL+4pOAsvma35A5uVImaYUj661INSxBoRo8hB9LkOjwknyYtJqOWN4NCtF1kbjfQz
+ XLwyN15Cip/1xRFZpPgVw5Z2KdTl6tJ9N/rqBKqux/kk4v+rC14jzSE5pxuH4ceu8rUa
+ +IPfG4r5LAibHSx0wYcQ3sxiDmTDBviy84cj0M1LOS8xx/Fnc0+hhh0AIyRDClrnWNsd
+ qe4Q==
+X-Gm-Message-State: AO0yUKXYlrCSMjFkCWmhXoIjhIz1WMAD8xFmaqy4DEqN+Q3ABSTu6hUs
+ w8JGy0C/CAO6b9wdOAbWlsB2qA==
+X-Google-Smtp-Source: AKy350YH4AjPFT8jCZ/7ULb9Td07pnG3zpfiJ9Jazj+jT5yydulFSDSOs4XXRYWioqgKsihxi9ff+g==
+X-Received: by 2002:a05:6870:330f:b0:177:abd2:f867 with SMTP id
+ x15-20020a056870330f00b00177abd2f867mr2189539oae.9.1679575913775; 
+ Thu, 23 Mar 2023 05:51:53 -0700 (PDT)
+Received: from ?IPV6:2804:14c:f435:9162::1009? ([2804:14c:f435:9162::1009])
+ by smtp.gmail.com with ESMTPSA id
+ u6-20020a056870b0c600b00172289de1besm5804042oag.18.2023.03.23.05.51.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Mar 2023 05:51:53 -0700 (PDT)
+Message-ID: <b3d8e7e8-a5c0-3f1b-1bf7-1474544ab297@ventanamicro.com>
+Date: Thu, 23 Mar 2023 09:51:48 -0300
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-22_21,2023-03-22_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxscore=0
- clxscore=1015 adultscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 suspectscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303230091
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 00/45] Add RISC-V vector cryptographic instruction set
+ support
+Content-Language: en-US
+To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>, qemu-devel@nongnu.org
+Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, pbonzini@redhat.com,
+ philipp.tomsich@vrull.eu, kvm@vger.kernel.org
+References: <20230310160346.1193597-1-lawrence.hunter@codethink.co.uk>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230310160346.1193597-1-lawrence.hunter@codethink.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,649 +98,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
-
-On 3/22/23 23:01, Ninad Palsule wrote:
-> Qemu already supports devices attached to ISA and sysbus. This drop adds
-> support for the I2C bus attached TPM devices. I2C model only supports
-> TPM2 protocol.
+On 3/10/23 13:03, Lawrence Hunter wrote:
+> NB: this is an update over the patch series submitted today (2023/03/10) at 09:11. It fixes some accidental mangling of commits 02, 04 and 08/45.
 > 
-> This commit includes changes for the common code.
-> - Added I2C emulation model. Logic was added in the model to temporarily
->    cache the data as I2C interface works per byte basis.
-> - New tpm type "tpm-tis-i2c" added for I2C support. User specify this
->    string on command line.
+> This patchset provides an implementation for Zvkb, Zvkned, Zvknh, Zvksh, Zvkg, and Zvksed of the draft RISC-V vector cryptography extensions as per the 20230303 version of the specification(1) (1fcbb30). Please note that the Zvkt data-independent execution latency extension has not been implemented, and we would recommend not using these patches in an environment where timing attacks are an issue.
 > 
-> Testing:
->    TPM I2C device modulte is tested using SWTPM (software based TPM
->    package). The qemu used the rainier machine and it was connected to
->    swtpm over the socket interface.
+> Work performed by Dickon, Lawrence, Nazar, Kiran, and William from Codethink sponsored by SiFive, as well as Max Chou and Frank Chang from SiFive.
 > 
->    The command to start swtpm is as follows:
->    $ swtpm socket --tpmstate dir=/tmp/mytpm1    \
->                   --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock  \
->                   --tpm2 --log level=100
+> For convenience we have created a git repo with our patches on top of a recent master. https://github.com/CodethinkLabs/qemu-ct
 > 
->    The command to start qemu is as follows:
->    $ qemu-system-arm -M rainier-bmc -nographic \
->              -kernel ${IMAGEPATH}/fitImage-linux.bin \
->              -dtb ${IMAGEPATH}/aspeed-bmc-ibm-rainier.dtb \
->              -initrd ${IMAGEPATH}/obmc-phosphor-initramfs.rootfs.cpio.xz \
->              -drive file=${IMAGEPATH}/obmc-phosphor-image.rootfs.wic.qcow2,if=sd,index=2 \
->              -net nic -net user,hostfwd=:127.0.0.1:2222-:22,hostfwd=:127.0.0.1:2443-:443 \
->              -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
->              -tpmdev emulator,id=tpm0,chardev=chrtpm \
->              -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
+> 1. https://github.com/riscv/riscv-crypto/releases
+
+For the next versions I suggest CCing qemu-riscv@nongnu.org as well. It's an
+easier way to keep track of RISC-V contributions since qemu-devel has a lot of
+traffic.
+
+Thanks,
+
+
+Daniel
+
 > 
->    Note: Currently you need to specify the I2C bus and device address on
->          command line. In future we can add a device at board level.
+> Dickon Hood (2):
+>    qemu/bitops.h: Limit rotate amounts
+>    target/riscv: Add vrol.[vv,vx] and vror.[vv,vx,vi] decoding,
+>      translation and execution support
 > 
-> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> ---
-> V2:
-> Incorporated Stephen's review comments.
-> - Handled checksum related register in I2C layer
-> - Defined I2C interface capabilities and return those instead of
->    capabilities from TPM TIS. Add required capabilities from TIS.
-> - Do not cache FIFO data in the I2C layer.
-> - Make sure that Device address change register is not passed to I2C
->    layer as capability indicate that it is not supported.
-> - Added boundary checks.
-> - Make sure that bits 26-31 are zeroed for the TPM_STS register on read
-> - Updated Kconfig files for new define.
-> ---
->   hw/arm/Kconfig       |   1 +
->   hw/tpm/Kconfig       |   7 +
->   hw/tpm/meson.build   |   1 +
->   hw/tpm/tpm_tis_i2c.c | 440 +++++++++++++++++++++++++++++++++++++++++++
->   include/sysemu/tpm.h |   3 +
->   5 files changed, 452 insertions(+)
->   create mode 100644 hw/tpm/tpm_tis_i2c.c
+> Kiran Ostrolenk (7):
+>    target/riscv: Refactor some of the generic vector functionality
+>    target/riscv: Refactor some of the generic vector functionality
+>    target/riscv: Refactor some of the generic vector functionality
+>    target/riscv: Add vsha2ms.vv decoding, translation and execution
+>      support
+>    target/riscv: Add zvksh cpu property
+>    target/riscv: Add vsm3c.vi decoding, translation and execution support
+>    target/riscv: Expose zvksh cpu property
 > 
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index b5aed4aff5..05d6ef1a31 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -6,6 +6,7 @@ config ARM_VIRT
->       imply VFIO_PLATFORM
->       imply VFIO_XGMAC
->       imply TPM_TIS_SYSBUS
-> +    imply TPM_TIS_I2C
->       imply NVDIMM
->       select ARM_GIC
->       select ACPI
-> diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
-> index 29e82f3c92..a46663288c 100644
-> --- a/hw/tpm/Kconfig
-> +++ b/hw/tpm/Kconfig
-> @@ -1,3 +1,10 @@
-> +config TPM_TIS_I2C
-> +    bool
-> +    depends on TPM
-> +    select TPM_BACKEND
-> +    select I2C
-> +    select TPM_TIS
-> +
->   config TPM_TIS_ISA
->       bool
->       depends on TPM && ISA_BUS
-> diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
-> index 7abc2d794a..76fe3cb098 100644
-> --- a/hw/tpm/meson.build
-> +++ b/hw/tpm/meson.build
-> @@ -1,6 +1,7 @@
->   softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_tis_common.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
-> +softmmu_ss.add(when: 'CONFIG_TPM_TIS_I2C', if_true: files('tpm_tis_i2c.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_ppi.c'))
->   softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_ppi.c'))
-> diff --git a/hw/tpm/tpm_tis_i2c.c b/hw/tpm/tpm_tis_i2c.c
-> new file mode 100644
-> index 0000000000..5cec5f7806
-> --- /dev/null
-> +++ b/hw/tpm/tpm_tis_i2c.c
-> @@ -0,0 +1,440 @@
-> +/*
-> + * tpm_tis_i2c.c - QEMU's TPM TIS I2C Device
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + * Implementation of the TIS interface according to specs found at
-> + * http://www.trustedcomputinggroup.org. This implementation currently
-> + * supports version 1.3, 21 March 2013
-> + * In the developers menu choose the PC Client section then find the TIS
-> + * specification.
-> + *
-> + * TPM TIS for TPM 2 implementation following TCG PC Client Platform
-> + * TPM Profile (PTP) Specification, Familiy 2.0, Revision 00.43
-> + *
-> + * TPM I2C implementation follows TCG TPM I2c Interface specification,
-> + * Family 2.0, Level 00, Revision 1.00
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/i2c/i2c.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/acpi/tpm.h"
-> +#include "migration/vmstate.h"
-> +#include "tpm_prop.h"
-> +#include "tpm_tis.h"
-> +#include "qom/object.h"
-> +#include "block/aio.h"
-> +#include "qemu/main-loop.h"
-> +
-> +/* TPM TIS I2C registers */
-> +#define TPM_TIS_I2C_REG_LOC_SEL          0x00
-> +#define TPM_TIS_I2C_REG_ACCESS           0x04
-> +#define TPM_TIS_I2C_REG_INT_ENABLE       0x08
-> +#define TPM_TIS_I2C_REG_INT_CAPABILITY   0x14
-> +#define TPM_TIS_I2C_REG_STS              0x18
-> +#define TPM_TIS_I2C_REG_DATA_FIFO        0x24
-> +#define TPM_TIS_I2C_REG_INTF_CAPABILITY  0x30
-> +#define TPM_TIS_I2C_REG_I2C_DEV_ADDRESS  0x38
-> +#define TPM_TIS_I2C_REG_DATA_CSUM_ENABLE 0x40
-> +#define TPM_TIS_I2C_REG_DATA_CSUM_GET    0x44
-> +#define TPM_TIS_I2C_REG_DID_VID          0x48
-> +#define TPM_TIS_I2C_REG_RID              0x4c
-> +#define TPM_TIS_I2C_REG_UNKNOWN          0xff
-
-> +
-> +/* I2C specific interface capabilities */
-> +#define TPM_I2C_CAP_INTERFACE_TYPE     (0x2 << 0)       /* FIFO interface */
-> +#define TPM_I2C_CAP_INTERFACE_VER      (0x0 << 4)       /* TCG I2C intf 1.0 */
-> +#define TPM_I2C_CAP_TPM2_FAMILY        (0x1 << 7)       /* TPM 2.0 family. */
-> +#define TPM_I2C_CAP_DEV_ADDR_CHANGE    (0x0 << 27)      /* No dev addr chng */
-> +#define TPM_I2C_CAP_BURST_COUNT_STATIC (0x1 << 29)      /* Burst count static */
-> +#define TPM_I2C_CAP_LOCALITY_CAP       (0x1 << 25)      /* 0-5 locality */
-> +#define TPM_I2C_CAP_BUS_SPEED          (3   << 21)      /* std and fast mode */
-
-
-> +
-> +/* TPM_STS mask for read bits 31:26 must be zero */
-> +#define TPM_I2C_STS_READ_MASK          0x03ffffff
-
-For the test case I am writing I would need all these #defines to be in a public header file.
-Please move them into include/hw/acpi/tpm.h.
-
-> +
-> +/* Operations */
-> +#define OP_SEND   1
-> +#define OP_RECV   2
-> +
-> +typedef struct TPMStateI2C {
-> +    /*< private >*/
-> +    I2CSlave parent_obj;
-> +
-> +    int      offset;     /* offset in to data[] */
-> +    int      size;       /* Size of the current reg data */
-
-> +    uint8_t  operation;  /* OP_SEND & OP_RECV */
-> +    uint8_t  data[4096]; /* Data */> +
-> +    bool     csum_enable;
-> +    uint32_t tis_intf_cap;  /* save TIS interface Capabilities */
-> +
-> +    /*< public >*/
-> +    TPMState state; /* not a QOM object */
-> +
-> +} TPMStateI2C;
-> +
-> +DECLARE_INSTANCE_CHECKER(TPMStateI2C, TPM_TIS_I2C,
-> +                         TYPE_TPM_TIS_I2C)
-> +
-> +/* Register map */
-> +typedef struct reg_map {
-> +    uint16_t  i2c_reg;    /* I2C register */
-> +    uint16_t  tis_reg;    /* TIS register */
-> +    uint32_t  data_size;  /* data size expected */
-> +} i2c_reg_map;
-> +
-> +/*
-> + * The register values in the common code is different than the latest
-> + * register numbers as per the spec hence add the conversion map
-> + */
-> +static const i2c_reg_map tpm_tis_reg_map[] = {
-> +    { TPM_TIS_I2C_REG_LOC_SEL,          TPM_TIS_REG_ACCESS,               1, },
-
-I don't think you can map this register. Instead, you have to handle writes to it in this code here and
-write the locality into a local register (call it uint8_t locty) and then talk to the read and write functions
-by calcualating the address like this
-
-addr = (locty << TPM_TIS_LOCALITY_SHIFT) + tis_reg_offset
-
-> +    { TPM_TIS_I2C_REG_ACCESS,           TPM_TIS_REG_ACCESS,               1, },
-> +    { TPM_TIS_I2C_REG_INT_ENABLE,       TPM_TIS_REG_INT_ENABLE,           4, },
-> +    { TPM_TIS_I2C_REG_INT_CAPABILITY,   TPM_TIS_REG_INT_VECTOR,           4, },
-> +    { TPM_TIS_I2C_REG_STS,              TPM_TIS_REG_STS,                  4, },
-> +    { TPM_TIS_I2C_REG_DATA_FIFO,        TPM_TIS_REG_DATA_FIFO,            0, },
-> +    { TPM_TIS_I2C_REG_INTF_CAPABILITY,  TPM_TIS_REG_INTF_CAPABILITY,      4, },
-> +    { TPM_TIS_I2C_REG_I2C_DEV_ADDRESS,  TPM_TIS_I2C_REG_I2C_DEV_ADDRESS,  2, },
-> +    { TPM_TIS_I2C_REG_DATA_CSUM_ENABLE, TPM_TIS_I2C_REG_DATA_CSUM_ENABLE, 1, },
-> +    { TPM_TIS_I2C_REG_DATA_CSUM_GET,    TPM_TIS_I2C_REG_DATA_CSUM_GET,    2, },
-
-This only works well if the mapped-to registers are distinct between I2C and MMIO.
-I think you should handle all I2C registers that need to be handled in this layer
-in a case statement without translation and in the default case do the translation.
-You can then remove those 1:1 mappings from this table.
-
-> +    { TPM_TIS_I2C_REG_DID_VID,          TPM_TIS_REG_DID_VID,              4, },
-> +    { TPM_TIS_I2C_REG_RID,              TPM_TIS_REG_RID,                  1, },
-> +};
-> +
-> +/* Generate interface capability based on what is returned by TIS and what is
-> + * expected by I2C. Save the capability in the data array overwriting the TIS
-> + * capability.
-> + */
-> +static uint32_t tpm_i2c_interface_capability(TPMStateI2C *i2cst, uint32_t tis_cap)
-> +{
-> +    uint32_t i2c_cap = 0;
-> +
-> +    i2cst->tis_intf_cap = tis_cap;
-> +
-> +    /* Now generate i2c capability */
-> +    i2c_cap = (TPM_I2C_CAP_INTERFACE_TYPE |
-> +               TPM_I2C_CAP_INTERFACE_VER  |
-> +               TPM_I2C_CAP_TPM2_FAMILY    |
-> +               TPM_I2C_CAP_LOCALITY_CAP   |
-> +               TPM_I2C_CAP_BUS_SPEED      |
-> +               TPM_I2C_CAP_DEV_ADDR_CHANGE);
-> +
-> +    /* Now check the TIS and set some capabilities */
-> +
-> +    /* Static burst count set */
-> +    if (i2cst->tis_intf_cap & 0x100) {
-
-Use hw/acpi/tpm.h  TPM_TIS_CAP_BURST_COUNT_DYNAMIC
-
-> +        i2c_cap |= TPM_I2C_CAP_BURST_COUNT_STATIC;
-> +    }
-> +
-> +    return i2c_cap;
-> +}
-> +
-> +static inline uint16_t tpm_tis_i2c_to_tis_reg(uint64_t i2c_reg, int *size)
-> +{
-> +    uint16_t tis_reg = i2c_reg;
-> +    const i2c_reg_map *reg_map;
-> +    int i;
-> +
-> +    for (i = 0; i < ARRAY_SIZE(tpm_tis_reg_map); i++) {
-> +        reg_map = &tpm_tis_reg_map[i];
-> +        if (reg_map->i2c_reg == (i2c_reg & 0xff)) {
-> +            tis_reg = reg_map->tis_reg;
-> +            *size = reg_map->data_size;
-> +            break;
-> +        }
-> +    }
-> +
-> +    return tis_reg;
-> +}
-> +
-> +/* Initialize the cached data */
-> +static inline void tpm_tis_i2c_init_cache(TPMStateI2C *i2cst)
-
-Rename to tpm_tis_i2c_reset
-
-> +{
-> +    /* Clear operation and offset */
-> +    i2cst->operation = 0;
-> +    i2cst->offset = 0;
-> +    i2cst->size = 0;
-> +
-> +    return;
-> +}
-> +
-> +/* Send data to TPM */
-> +static inline void tpm_tis_i2c_tpm_send(TPMStateI2C *i2cst)
-> +{
-> +    uint16_t tis_reg;
-> +    uint32_t data;
-> +    int      i;
-> +
-> +    if ((i2cst->operation == OP_SEND) && (i2cst->offset > 1)) {
-> +
-> +        /*
-> +         * Checksum is not handled by common code hence we will consume the
-> +         * register here.
-> +         */
-> +        if (i2cst->data[0] == TPM_TIS_I2C_REG_DATA_CSUM_ENABLE) {
-
-switch (i2cst->data[0]) {
-case  TPM_TIS_I2C_REG_DATA_CSUM_ENABLE:
-...
-handle all i2c registers here
-
-> +            i2cst->csum_enable = true;
-> +        } else if (i2cst->data[0] != TPM_TIS_I2C_REG_DATA_FIFO) {
-
-This is the default case of the switch.
-
-> +            tis_reg = tpm_tis_i2c_to_tis_reg(i2cst->data[0], &i2cst->size);
-
-If it couldn't be mapped return right away.
-
-> +> +            /* Index 0 is always a register */
-> +            for (i = 1; i < i2cst->offset; i++) {
-> +                data = i2cst->data[i];
-> +                tpm_tis_write_data(&i2cst->state, tis_reg, data, 1);
-
-tis_reg becomes  i2cst->locty << TPM_TIS_LOCALITY_SHIFT + tis_reg
-
-This is not correct. If someone wants to write a 32bit value into the interrupt
-enable register, you would have to write a 32 bit value. Writing 4 bytes into
-the register at the same address is not the same. You would have to increase the
-address but a 32bit write really should happen. However, for the MMIO TIS it is
-possible to just write 8bits to a 32bit register and I am not sure how this should
-be handled here. Are 4 bytes for a 32bit register always expected? What happens
-if the user provides more bytes? Would it be the best to accumulate the bytes
-given by the user in a uint32_t and shift them 'through' so that if 5 bytes were
-given one would have been shifted out? (I assume that one writes individual bytes
-to this bus and then at some points says 'write this now to this register!')
-
-
-> +            }
-> +        }
-> +
-> +        tpm_tis_i2c_init_cache(i2cst);
-> +    }
-> +
-> +    return;
-> +}
-> +
-> +/* Callback from TPM to indicate that response is copied */
-> +static void tpm_tis_i2c_request_completed(TPMIf *ti, int ret)
-> +{
-> +    TPMStateI2C *i2cst = TPM_TIS_I2C(ti);
-> +    TPMState *s = &i2cst->state;
-> +
-> +    /* Inform the common code. */
-> +    tpm_tis_request_completed(s, ret);
-> +}
-> +
-> +static enum TPMVersion tpm_tis_i2c_get_tpm_version(TPMIf *ti)
-> +{
-> +    TPMStateI2C *i2cst = TPM_TIS_I2C(ti);
-> +    TPMState *s = &i2cst->state;
-> +
-> +    return tpm_tis_get_tpm_version(s);
-> +}
-> +
-> +static int tpm_tis_i2c_event(I2CSlave *i2c, enum i2c_event event)
-> +{
-> +    TPMStateI2C *i2cst = TPM_TIS_I2C(i2c);
-> +    int ret = 0;
-> +
-> +    switch (event) {
-> +    case I2C_START_RECV:
-> +        break;
-> +    case I2C_START_SEND:
-> +        tpm_tis_i2c_init_cache(i2cst);
-> +        break;
-> +    case I2C_FINISH:
-> +        if (i2cst->operation == OP_SEND) {
-> +            tpm_tis_i2c_tpm_send(i2cst);
-> +        } else {
-> +            tpm_tis_i2c_init_cache(i2cst);
-> +        }
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +/*
-> + * If data is for FIFO then it is received from tpm_tis_common buffer
-> + * otherwise it will be handled using single call to common code and
-> + * cached in the local buffer.
-> + */
-> +static uint8_t tpm_tis_i2c_recv(I2CSlave *i2c)
-> +{
-> +    int ret = 0;
-> +    int i, j;
-> +    uint32_t addr;
-> +    uint32_t data_read;
-> +    uint16_t i2c_reg;
-> +    TPMStateI2C *i2cst = TPM_TIS_I2C(i2c);
-> +    TPMState *s = &i2cst->state;
-> +
-> +    if (i2cst->operation == OP_RECV) {
-> +
-> +        /* Do not cache FIFO data. */
-> +        if (i2cst->data[0] == TPM_TIS_I2C_REG_DATA_FIFO) {
-> +            addr = tpm_tis_i2c_to_tis_reg(TPM_TIS_I2C_REG_DATA_FIFO,
-> +                                          &i2cst->size);
-> +            data_read = tpm_tis_read_data(s, addr, 1);
-
-addr would have to consider locty
-
-> +            ret = (data_read & 0xff);
-> +        } else if (i2cst->offset < 4096) {
-> +            ret = i2cst->data[i2cst->offset++];
-> +        }
-> +
-> +    } else if ((i2cst->operation == OP_SEND) && (i2cst->offset < 2)) {
-> +        /* First receive call after send */
-> +
-> +        i2c_reg = i2cst->data[0];
-> +
-> +        i2cst->operation = OP_RECV;
-> +        i2cst->offset = 1; /* keep the register value intact for debug */
-> +
-> +        addr = tpm_tis_i2c_to_tis_reg(i2c_reg, &i2cst->size);
-If it cannot be mapped return 0xff.
-
-> +
-> +        /* FIFO data is directly read from TPM TIS */
-> +        if (i2c_reg == TPM_TIS_I2C_REG_DATA_FIFO) {
-
-switch (i2c_reg) {
-case TPM_TIS_I2C_REG_DATA_FIFO:
-
-handle all I2C registers here that have to be handled on this layer
-
-
-> +            data_read = tpm_tis_read_data(s, addr, 1);
-> +            ret = (data_read & 0xff);
-> +        } else {
-
-This is the default case.
-
-> +            /*
-> +             * Save the data in the data field. Save it in the little
-> +             * endian format.
-> +             */
-> +            for (i = 1; i <= i2cst->size;) {
-> +                /*
-> +                 * Checksum registers are not supported by common code hence
-> +                 * call a common code to get the checksum.
-> +                 */
-> +                if (i2c_reg == TPM_TIS_I2C_REG_DATA_CSUM_GET) {
-> +                    data_read = tpm_tis_get_checksum(s);
-
-Another parameter to this function will have to be the locality (locty).
-
-> +                } else {
-> +                    data_read = tpm_tis_read_data(s, addr, 4);
-> +
-> +                    if (i2c_reg == TPM_TIS_I2C_REG_INTF_CAPABILITY) {
-> +                        /* Prepare the capabilities as per I2C interface */
-> +                        data_read = tpm_i2c_interface_capability(i2cst,
-> +                                                                 data_read);
-> +                    } else if (i2c_reg == TPM_TIS_I2C_REG_STS) {
-> +                        /*
-> +                         * As per specs, STS bit 31:26 are reserved and must
-> +                         * be set to 0
-> +                         */
-> +                        data_read &= TPM_I2C_STS_READ_MASK;
-> +                    }
-> +                }
-> +                for (j = 0; j < 4; j++) {
-> +                    i2cst->data[i++] = (data_read & 0xff);
-> +                    data_read >>= 8;
-> +                }
-> +            }
-> +
-> +            /* Return first byte with this call */
-> +            ret = i2cst->data[i2cst->offset++];
-> +        }
-> +    } else {
-> +        i2cst->operation = OP_RECV;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +/*
-> + * Send function only remembers data in the buffer and then calls
-> + * TPM TIS common code during FINISH event.
-> + */
-> +static int tpm_tis_i2c_send(I2CSlave *i2c, uint8_t data)
-> +{
-> +    TPMStateI2C *i2cst = TPM_TIS_I2C(i2c);
-> +    uint16_t tis_reg;
-> +
-> +    /* Reject non-supported registers. */
-> +    if (i2cst->offset == 0) {
-> +        /* We do not support device address change */
-> +        if (data == TPM_TIS_I2C_REG_I2C_DEV_ADDRESS) {
-> +            return 1;
-> +        }
-> +    }
-> +
-> +    if (i2cst->offset < 4096) {
-> +        i2cst->operation = OP_SEND;
-> +
-> +        /* Remember data locally for non-FIFO registers */
-> +        if ((i2cst->offset == 0) ||
-> +            (i2cst->data[0] != TPM_TIS_I2C_REG_DATA_FIFO)) {
-> +            i2cst->data[i2cst->offset++] = data;
-> +        } else {
-> +            tis_reg = tpm_tis_i2c_to_tis_reg(i2cst->data[0], &i2cst->size);
-> +            tpm_tis_write_data(&i2cst->state, tis_reg, data, 1);
-> +        }
-> +
-> +        return 0;
-> +
-> +    } else {
-> +        /* Return non-zero to indicate NAK */
-> +        return 1;
-> +    }
-> +}
-> +
-> +static Property tpm_tis_i2c_properties[] = {
-> +    DEFINE_PROP_UINT32("irq", TPMStateI2C, state.irq_num, TPM_TIS_IRQ),
-> +    DEFINE_PROP_TPMBE("tpmdev", TPMStateI2C, state.be_driver),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void tpm_tis_i2c_realizefn(DeviceState *dev, Error **errp)
-> +{
-> +    TPMStateI2C *i2cst = TPM_TIS_I2C(dev);
-> +    TPMState *s = &i2cst->state;
-> +
-> +    if (!tpm_find()) {
-> +        error_setg(errp, "at most one TPM device is permitted");
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * Get the backend pointer. It is not initialized propery during
-> +     * device_class_set_props
-> +     */
-> +    s->be_driver = qemu_find_tpm_be("tpm0");
-> +
-> +    if (!s->be_driver) {
-> +        error_setg(errp, "'tpmdev' property is required");
-> +        return;
-> +    }
-> +    if (s->irq_num > 15) {
-> +        error_setg(errp, "IRQ %d is outside valid range of 0 to 15",
-> +                   s->irq_num);
-> +        return;
-> +    }
-> +}
-> +
-> +static void tpm_tis_i2c_reset(DeviceState *dev)
-> +{
-> +    TPMStateI2C *i2cst = TPM_TIS_I2C(dev);
-> +    TPMState *s = &i2cst->state;
-> +
-> +    tpm_tis_i2c_init_cache(i2cst);
-> +
-> +    i2cst->csum_enable = false;
-> +
-> +    return tpm_tis_reset(s);
-> +}
-> +
-> +static void tpm_tis_i2c_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
-> +    TPMIfClass *tc = TPM_IF_CLASS(klass);
-> +
-> +    dc->realize = tpm_tis_i2c_realizefn;
-> +    dc->reset = tpm_tis_i2c_reset;
-> +    device_class_set_props(dc, tpm_tis_i2c_properties);
-> +
-> +    k->event = tpm_tis_i2c_event;
-> +    k->recv = tpm_tis_i2c_recv;
-> +    k->send = tpm_tis_i2c_send;
-> +
-> +    tc->model = TPM_MODEL_TPM_TIS;
-> +    tc->request_completed = tpm_tis_i2c_request_completed;
-> +    tc->get_version = tpm_tis_i2c_get_tpm_version;
-> +}
-> +
-> +static const TypeInfo tpm_tis_i2c_info = {
-> +    .name          = TYPE_TPM_TIS_I2C,
-> +    .parent        = TYPE_I2C_SLAVE,
-> +    .instance_size = sizeof(TPMStateI2C),
-> +    .class_init    = tpm_tis_i2c_class_init,
-> +        .interfaces = (InterfaceInfo[]) {
-> +        { TYPE_TPM_IF },
-> +        { }
-> +    }
-> +};
-> +
-> +static void tpm_tis_i2c_register_types(void)
-> +{
-> +    type_register_static(&tpm_tis_i2c_info);
-> +}
-> +
-> +type_init(tpm_tis_i2c_register_types)
-> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-> index fb40e30ff6..66e3b45f30 100644
-> --- a/include/sysemu/tpm.h
-> +++ b/include/sysemu/tpm.h
-> @@ -48,6 +48,7 @@ struct TPMIfClass {
->   #define TYPE_TPM_TIS_SYSBUS         "tpm-tis-device"
->   #define TYPE_TPM_CRB                "tpm-crb"
->   #define TYPE_TPM_SPAPR              "tpm-spapr"
-> +#define TYPE_TPM_TIS_I2C            "tpm-tis-i2c"
->   
->   #define TPM_IS_TIS_ISA(chr)                         \
->       object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
-> @@ -57,6 +58,8 @@ struct TPMIfClass {
->       object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
->   #define TPM_IS_SPAPR(chr)                           \
->       object_dynamic_cast(OBJECT(chr), TYPE_TPM_SPAPR)
-> +#define TPM_IS_TIS_I2C(chr)                      \
-> +    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_I2C)
->   
->   /* returns NULL unless there is exactly one TPM device */
->   static inline TPMIf *tpm_find(void)
-
-
-We will also need an ACPI table for this device on all platforms where it can be instantiated
-and I think that's not just ARM.
-
-I am currently writing a test case reading data from the aspeed i2c bus. I hope this will help
-developing this emulation here but with me not knowing the I2C bus behavior it has its own challenges..
-
-
-    Stefan
+> Lawrence Hunter (17):
+>    target/riscv: Add vclmul.vv decoding, translation and execution
+>      support
+>    target/riscv: Add vclmul.vx decoding, translation and execution
+>      support
+>    target/riscv: Add vclmulh.vv decoding, translation and execution
+>      support
+>    target/riscv: Add vclmulh.vx decoding, translation and execution
+>      support
+>    target/riscv: Add vaesef.vv decoding, translation and execution
+>      support
+>    target/riscv: Add vaesef.vs decoding, translation and execution
+>      support
+>    target/riscv: Add vaesdf.vv decoding, translation and execution
+>      support
+>    target/riscv: Add vaesdf.vs decoding, translation and execution
+>      support
+>    target/riscv: Add vaesdm.vv decoding, translation and execution
+>      support
+>    target/riscv: Add vaesdm.vs decoding, translation and execution
+>      support
+>    target/riscv: Add vaesz.vs decoding, translation and execution support
+>    target/riscv: Add vsha2c[hl].vv decoding, translation and execution
+>      support
+>    target/riscv: Add vsm3me.vv decoding, translation and execution
+>      support
+>    target/riscv: Add zvkg cpu property
+>    target/riscv: Add vgmul.vv decoding, translation and execution support
+>    target/riscv: Add vghsh.vv decoding, translation and execution support
+>    target/riscv: Expose zvkg cpu property
+> 
+> Max Chou (5):
+>    crypto: Create sm4_subword
+>    crypto: Add SM4 constant parameter CK
+>    target/riscv: Add zvksed cfg property
+>    target/riscv: Add Zvksed support
+>    target/riscv: Expose Zvksed property
+> 
+> Nazar Kazakov (11):
+>    target/riscv: Add zvkb cpu property
+>    target/riscv: Refactor some of the generic vector functionality
+>    target/riscv: Add vrev8.v decoding, translation and execution support
+>    target/riscv: Add vandn.[vv,vx] decoding, translation and execution
+>      support
+>    target/riscv: Expose zvkb cpu property
+>    target/riscv: Add zvkned cpu property
+>    target/riscv: Add vaeskf1.vi decoding, translation and execution
+>      support
+>    target/riscv: Add vaeskf2.vi decoding, translation and execution
+>      support
+>    target/riscv: Expose zvkned cpu property
+>    target/riscv: Add zvknh cpu properties
+>    target/riscv: Expose zvknh cpu properties
+> 
+> William Salmon (3):
+>    target/riscv: Add vbrev8.v decoding, translation and execution support
+>    target/riscv: Add vaesem.vv decoding, translation and execution
+>      support
+>    target/riscv: Add vaesem.vs decoding, translation and execution
+>      support
+> 
+>   accel/tcg/tcg-runtime-gvec.c                 |   11 +
+>   accel/tcg/tcg-runtime.h                      |    1 +
+>   crypto/sm4.c                                 |   10 +
+>   include/crypto/sm4.h                         |    9 +
+>   include/qemu/bitops.h                        |   24 +-
+>   target/arm/tcg/crypto_helper.c               |   10 +-
+>   target/riscv/cpu.c                           |   36 +
+>   target/riscv/cpu.h                           |    7 +
+>   target/riscv/helper.h                        |   71 ++
+>   target/riscv/insn32.decode                   |   49 +
+>   target/riscv/insn_trans/trans_rvv.c.inc      |   93 +-
+>   target/riscv/insn_trans/trans_rvzvkb.c.inc   |  220 ++++
+>   target/riscv/insn_trans/trans_rvzvkg.c.inc   |   40 +
+>   target/riscv/insn_trans/trans_rvzvkned.c.inc |  170 +++
+>   target/riscv/insn_trans/trans_rvzvknh.c.inc  |   84 ++
+>   target/riscv/insn_trans/trans_rvzvksed.c.inc |   57 +
+>   target/riscv/insn_trans/trans_rvzvksh.c.inc  |   43 +
+>   target/riscv/meson.build                     |    4 +-
+>   target/riscv/op_helper.c                     |    5 +
+>   target/riscv/translate.c                     |    6 +
+>   target/riscv/vcrypto_helper.c                | 1001 ++++++++++++++++++
+>   target/riscv/vector_helper.c                 |  240 +----
+>   target/riscv/vector_internals.c              |   81 ++
+>   target/riscv/vector_internals.h              |  222 ++++
+>   24 files changed, 2192 insertions(+), 302 deletions(-)
+>   create mode 100644 target/riscv/insn_trans/trans_rvzvkb.c.inc
+>   create mode 100644 target/riscv/insn_trans/trans_rvzvkg.c.inc
+>   create mode 100644 target/riscv/insn_trans/trans_rvzvkned.c.inc
+>   create mode 100644 target/riscv/insn_trans/trans_rvzvknh.c.inc
+>   create mode 100644 target/riscv/insn_trans/trans_rvzvksed.c.inc
+>   create mode 100644 target/riscv/insn_trans/trans_rvzvksh.c.inc
+>   create mode 100644 target/riscv/vcrypto_helper.c
+>   create mode 100644 target/riscv/vector_internals.c
+>   create mode 100644 target/riscv/vector_internals.h
+> 
 
