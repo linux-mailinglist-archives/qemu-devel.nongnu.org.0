@@ -2,54 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C9A6C5D2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 04:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C7C6C5D73
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 04:49:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfBXv-0002jY-Gt; Wed, 22 Mar 2023 23:23:24 -0400
+	id 1pfBvK-00075o-HF; Wed, 22 Mar 2023 23:47:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfBXo-0002jJ-Ij; Wed, 22 Mar 2023 23:23:16 -0400
-Received: from out30-118.freemail.mail.aliyun.com ([115.124.30.118])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pfBvI-00075e-12
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 23:47:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfBXl-0002qJ-Ae; Wed, 22 Mar 2023 23:23:16 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
- TI=SMTPD_---0VeSbx8-_1679541781; 
-Received: from 30.221.98.101(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VeSbx8-_1679541781) by smtp.aliyun-inc.com;
- Thu, 23 Mar 2023 11:23:02 +0800
-Message-ID: <4bdf036a-4d50-2534-559a-415008eeb924@linux.alibaba.com>
-Date: Thu, 23 Mar 2023 11:22:59 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pfBvF-00056w-9o
+ for qemu-devel@nongnu.org; Wed, 22 Mar 2023 23:47:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679543246;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cvkAc66M10aA3+qLXCVkNzJWFEL14qc8KUO0ZhGxB3w=;
+ b=WTwd+3wAyrMdOBv5jZYc+DNobTRZoOSd25KnTWPW0AdRQOW9UBes5hDpwdn9if7HKEHiQr
+ O43LQ8bbJ/nqajpjrPO+sGVBzkMf8IHEBezz6O+y3zPjO0wXVODJ2L0+fwSaBin0CyExGd
+ 9QC1/1qpJ9uTqne5Ky7FAEFLnatB3GI=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-601-lmdxmotnPE2mq9pAbuqNuQ-1; Wed, 22 Mar 2023 23:47:25 -0400
+X-MC-Unique: lmdxmotnPE2mq9pAbuqNuQ-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ p28-20020a0568301d5c00b0069f851af0aaso3251698oth.22
+ for <qemu-devel@nongnu.org>; Wed, 22 Mar 2023 20:47:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679543244;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cvkAc66M10aA3+qLXCVkNzJWFEL14qc8KUO0ZhGxB3w=;
+ b=uDXWn7aLM8tj5PTFphqCGNdiQymfabBhBHau7FROogZWILPxUsb7dS+M0EKkQMy1L6
+ +vlOkBkAd4dAf/xOc83rwa/i3knvZIPrv7JnNMtWRt4mAd4EuEkc87VD6aMWTBtjTfME
+ X+tKXkI3rFPyTGv3NxfH981zYbmvjsVzIb/YW3lRfEXiNUZen0qBtGsgZWlwSVyaik1p
+ RlXmThL1083HZ3xkhNNztV+DQ3zD+fYqmVnuf7q9/VJz57H9MTZVKFyfuwAnfg+YkuMk
+ VldStNOI9sexo+FQSqihiQfc35wJgIwV9bIdGdBQEqCoLduQVOG+w1eNmJR6qjvmrHKD
+ OKBQ==
+X-Gm-Message-State: AO0yUKUKOm2pbg/Cqaj/3EP9mjsxVCWcauzeB3uKs28I1ypwMkw01xwN
+ ty6PYtWQoX0hAuoCbdpBncaJmF7ZUfUlwWkK7nY2YRvbf6pAqnOYq1/5ANJmAmyWxZwsfAr04IA
+ tGrqn1oUBdUg7reRd+xpkcu9OmCE+Dbk=
+X-Received: by 2002:a05:6808:650:b0:36e:f6f5:604c with SMTP id
+ z16-20020a056808065000b0036ef6f5604cmr1542569oih.9.1679543244414; 
+ Wed, 22 Mar 2023 20:47:24 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8ASpEsUslU/g1GLwwxdDckya7lDuCw27vtVHYqXeRQIOnQMX9K+BNZf+/1hupfvGUlK+Qq+Ft8QnZZX7B8w3k=
+X-Received: by 2002:a05:6808:650:b0:36e:f6f5:604c with SMTP id
+ z16-20020a056808065000b0036ef6f5604cmr1542562oih.9.1679543244079; Wed, 22 Mar
+ 2023 20:47:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH for-8.1 v4 12/25] target/riscv/cpu.c: redesign
- register_cpu_props()
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, palmer@rivosinc.com
-References: <20230322222004.357013-1-dbarboza@ventanamicro.com>
- <20230322222004.357013-13-dbarboza@ventanamicro.com>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <20230322222004.357013-13-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.118;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-118.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20230321142327.749980-1-lulu@redhat.com>
+ <20230321142327.749980-5-lulu@redhat.com>
+In-Reply-To: <20230321142327.749980-5-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 23 Mar 2023 11:47:13 +0800
+Message-ID: <CACGkMEts_2Ve+RXE495nGcu_yOsAVER0=8sYqdmQmkj113xLvw@mail.gmail.com>
+Subject: Re: [PATCH v15 4/4] vhost-vdpa: Add support for vIOMMU.
+To: Cindy Lu <lulu@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,160 +94,351 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Daniel,
-
-I want to share my opinions about the cpu->cfg and misa.
-
-
-Two suggestions:
-
-1) The cpu->cfg should be set only once in cpu initialization 
-phrase(cpu_init_fn or cpu_realize_fn), and never changes any more in 
-other times(for example write_misa).
-
-2) Set the misa only when cpu->cfg is ready.
-
-
-In my mind, we should setting the misa and cfg in this way.
-
-1) setting cfg  and misa_mxl in xxx_cpu_init.  Don't call set_misa here.
-
-2) register and setting cfg for general cpus by the infrastructure.
-
-3) check the cfg in cpu_realize_fn stage in a special function. Don't 
-change cpu->cfg, just pass it as a parameter.
-
-4)  expand the cpu->cfg, such as for RVG.
-
-5)  setting the misa and misa_max
-
-6) when write_misa, construct a cfg for the new misa value. If the cfg 
-is legal after checking it against with the cpu->cfg, write it directly 
-into misa. Don't change the cpu->cfg here.
-
-
-Best Regards,
-Zhiwei
-
-On 2023/3/23 6:19, Daniel Henrique Barboza wrote:
-> Now that the function is a no-op if 'env.misa_ext != 0', and no one that
-> are setting misa_ext != 0 is calling it because set_misa() is setting
-> the cpu cfg accordingly, remove the now deprecated code and rename the
-> function to register_generic_cpu_props().
+On Tue, Mar 21, 2023 at 10:24=E2=80=AFPM Cindy Lu <lulu@redhat.com> wrote:
 >
-> This function is now doing exactly what the name says: it is creating
-> user-facing properties to allow changes in the CPU cfg via the QEMU
-> command line, setting default values if no user input is provided.
+> 1. The vIOMMU support will make vDPA can work in IOMMU mode. This
+> will fix security issues while using the no-IOMMU mode.
+> To support this feature we need to add new functions for IOMMU MR adds an=
+d
+> deletes.
 >
-> Note that there's the possibility of a CPU to set a certain misa value
-> and, at the same, also want user-facing flags and defaults from this
-> function. This is not the case since commit 26b2bc58599c ("target/riscv:
-> Don't expose the CPU properties on names CPUs"), but given that this is
-> also a possibility, clarify in the function that using this function
-> will overwrite existing values in cpu->cfg.
+> Also since the SVQ does not support vIOMMU yet, add the check for IOMMU
+> in vhost_vdpa_dev_start, if the SVQ and IOMMU enable at the same time
+> the function will return fail.
 >
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> 2. Skip the iova_max check vhost_vdpa_listener_skipped_section(). While
+> MR is IOMMU, move this check to vhost_vdpa_iommu_map_notify()
+>
+> Verified in vp_vdpa and vdpa_sim_net driver
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
 > ---
->   target/riscv/cpu.c | 48 ++++++++++------------------------------------
->   1 file changed, 10 insertions(+), 38 deletions(-)
+>  hw/virtio/trace-events         |   2 +-
+>  hw/virtio/vhost-vdpa.c         | 159 ++++++++++++++++++++++++++++++---
+>  include/hw/virtio/vhost-vdpa.h |  11 +++
+>  3 files changed, 161 insertions(+), 11 deletions(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index df5c0bda70..0e56a1c01f 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -221,7 +221,7 @@ static const char * const riscv_intr_names[] = {
->       "reserved"
->   };
->   
-> -static void register_cpu_props(Object *obj);
-> +static void register_generic_cpu_props(Object *obj);
->   
->   const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
->   {
-> @@ -386,7 +386,7 @@ static void rv64_base_cpu_init(Object *obj)
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
->       /* We set this in the realise function */
->       set_misa(env, MXL_RV64, 0);
-> -    register_cpu_props(obj);
-> +    register_generic_cpu_props(obj);
->       /* Set latest version of privileged specification */
->       env->priv_ver = PRIV_VERSION_LATEST;
->   #ifndef CONFIG_USER_ONLY
-> @@ -472,7 +472,7 @@ static void rv128_base_cpu_init(Object *obj)
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
->       /* We set this in the realise function */
->       set_misa(env, MXL_RV128, 0);
-> -    register_cpu_props(obj);
-> +    register_generic_cpu_props(obj);
->       /* Set latest version of privileged specification */
->       env->priv_ver = PRIV_VERSION_LATEST;
->   #ifndef CONFIG_USER_ONLY
-> @@ -485,7 +485,7 @@ static void rv32_base_cpu_init(Object *obj)
->       CPURISCVState *env = &RISCV_CPU(obj)->env;
->       /* We set this in the realise function */
->       set_misa(env, MXL_RV32, 0);
-> -    register_cpu_props(obj);
-> +    register_generic_cpu_props(obj);
->       /* Set latest version of privileged specification */
->       env->priv_ver = PRIV_VERSION_LATEST;
->   #ifndef CONFIG_USER_ONLY
-> @@ -572,7 +572,7 @@ static void riscv_host_cpu_init(Object *obj)
->   #elif defined(TARGET_RISCV64)
->       set_misa(env, MXL_RV64, 0);
->   #endif
-> -    register_cpu_props(obj);
-> +    register_generic_cpu_props(obj);
->   }
->   #endif
->   
-> @@ -1554,44 +1554,16 @@ static Property riscv_cpu_extensions[] = {
->   };
->   
->   /*
-> - * Register CPU props based on env.misa_ext. If a non-zero
-> - * value was set, register only the required cpu->cfg.ext_*
-> - * properties and leave. env.misa_ext = 0 means that we want
-> - * all the default properties to be registered.
-> + * Register generic CPU props with user-facing flags declared
-> + * in riscv_cpu_extensions[].
-> + *
-> + * Note that this will overwrite existing values in cpu->cfg.
->    */
-> -static void register_cpu_props(Object *obj)
-> +static void register_generic_cpu_props(Object *obj)
->   {
-> -    RISCVCPU *cpu = RISCV_CPU(obj);
-> -    uint32_t misa_ext = cpu->env.misa_ext;
->       Property *prop;
->       DeviceState *dev = DEVICE(obj);
->   
-> -    /*
-> -     * If misa_ext is not zero, set cfg properties now to
-> -     * allow them to be read during riscv_cpu_realize()
-> -     * later on.
-> -     */
-> -    if (cpu->env.misa_ext != 0) {
-> -        cpu->cfg.ext_i = misa_ext & RVI;
-> -        cpu->cfg.ext_e = misa_ext & RVE;
-> -        cpu->cfg.ext_m = misa_ext & RVM;
-> -        cpu->cfg.ext_a = misa_ext & RVA;
-> -        cpu->cfg.ext_f = misa_ext & RVF;
-> -        cpu->cfg.ext_d = misa_ext & RVD;
-> -        cpu->cfg.ext_v = misa_ext & RVV;
-> -        cpu->cfg.ext_c = misa_ext & RVC;
-> -        cpu->cfg.ext_s = misa_ext & RVS;
-> -        cpu->cfg.ext_u = misa_ext & RVU;
-> -        cpu->cfg.ext_h = misa_ext & RVH;
-> -        cpu->cfg.ext_j = misa_ext & RVJ;
-> -
-> -        /*
-> -         * We don't want to set the default riscv_cpu_extensions
-> -         * in this case.
-> -         */
-> -        return;
-> -    }
-> -
->       for (prop = riscv_cpu_extensions; prop && prop->name; prop++) {
->           qdev_property_add_static(dev, prop);
->       }
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index 8f8d05cf9b..de4da2c65c 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -33,7 +33,7 @@ vhost_user_create_notifier(int idx, void *n) "idx:%d n:=
+%p"
+>  vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asid,=
+ uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) =
+"vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size:=
+ 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+>  vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t asi=
+d, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"=
+PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
+>  vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint=
+8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> -vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t t=
+ype)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> +vhost_vdpa_iotlb_batch_end_once(void *v, int fd, uint32_t msg_type, uint=
+8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+>  vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend=
+, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" =
+vaddr: %p read-only: %d"
+>  vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend=
+) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
+>  vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PR=
+Ix8
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 0c8c37e786..39720d12a6 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -26,6 +26,7 @@
+>  #include "cpu.h"
+>  #include "trace.h"
+>  #include "qapi/error.h"
+> +#include "hw/virtio/virtio-access.h"
+>
+>  /*
+>   * Return one past the end of the end of section. Be careful with uint64=
+_t
+> @@ -60,13 +61,21 @@ static bool vhost_vdpa_listener_skipped_section(Memor=
+yRegionSection *section,
+>                       iova_min, section->offset_within_address_space);
+>          return true;
+>      }
+> +    /*
+> +     * While using vIOMMU, sometimes the section will be larger than iov=
+a_max,
+> +     * but the memory that actually maps is smaller, so move the check t=
+o
+> +     * function vhost_vdpa_iommu_map_notify(). That function will use th=
+e actual
+> +     * size that maps to the kernel
+> +     */
+>
+> -    llend =3D vhost_vdpa_section_end(section);
+> -    if (int128_gt(llend, int128_make64(iova_max))) {
+> -        error_report("RAM section out of device range (max=3D0x%" PRIx64
+> -                     ", end addr=3D0x%" PRIx64 ")",
+> -                     iova_max, int128_get64(llend));
+> -        return true;
+> +    if (!memory_region_is_iommu(section->mr)) {
+> +        llend =3D vhost_vdpa_section_end(section);
+> +        if (int128_gt(llend, int128_make64(iova_max))) {
+> +            error_report("RAM section out of device range (max=3D0x%" PR=
+Ix64
+> +                         ", end addr=3D0x%" PRIx64 ")",
+> +                         iova_max, int128_get64(llend));
+> +            return true;
+> +        }
+>      }
+>
+>      return false;
+> @@ -158,9 +167,8 @@ static void vhost_vdpa_iotlb_batch_begin_once(struct =
+vhost_vdpa *v)
+>      v->iotlb_batch_begin_sent =3D true;
+>  }
+>
+> -static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> +static void vhost_vdpa_iotlb_batch_end_once(struct vhost_vdpa *v)
+>  {
+> -    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
+istener);
+>      struct vhost_dev *dev =3D v->dev;
+>      struct vhost_msg_v2 msg =3D {};
+>      int fd =3D v->device_fd;
+> @@ -176,7 +184,7 @@ static void vhost_vdpa_listener_commit(MemoryListener=
+ *listener)
+>      msg.type =3D v->msg_type;
+>      msg.iotlb.type =3D VHOST_IOTLB_BATCH_END;
+>
+> -    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
+> +    trace_vhost_vdpa_iotlb_batch_end_once(v, fd, msg.type, msg.iotlb.typ=
+e);
+
+I suggest to keep the commit trace. The commit and batch are different
+things. If you want to trace the batch begin/end you should do it in
+vhost_vdpa_iotlb_batch_begin_once() etc.
+
+>      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
+>          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
+>                       fd, errno, strerror(errno));
+> @@ -185,6 +193,124 @@ static void vhost_vdpa_listener_commit(MemoryListen=
+er *listener)
+>      v->iotlb_batch_begin_sent =3D false;
+>  }
+>
+> +static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> +{
+> +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
+istener);
+> +    vhost_vdpa_iotlb_batch_end_once(v);
+> +}
+> +
+> +static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry =
+*iotlb)
+> +{
+> +    struct vdpa_iommu *iommu =3D container_of(n, struct vdpa_iommu, n);
+> +
+> +    hwaddr iova =3D iotlb->iova + iommu->iommu_offset;
+> +    struct vhost_vdpa *v =3D iommu->dev;
+> +    void *vaddr;
+> +    int ret;
+> +    Int128 llend;
+> +
+> +    if (iotlb->target_as !=3D &address_space_memory) {
+> +        error_report("Wrong target AS \"%s\", only system memory is allo=
+wed",
+> +                     iotlb->target_as->name ? iotlb->target_as->name : "=
+none");
+> +        return;
+> +    }
+> +    RCU_READ_LOCK_GUARD();
+> +    /* check if RAM section out of device range */
+> +    llend =3D int128_add(int128_makes64(iotlb->addr_mask), int128_makes6=
+4(iova));
+> +    if (int128_gt(llend, int128_make64(v->iova_range.last))) {
+> +        error_report("RAM section out of device range (max=3D0x%" PRIx64
+> +                     ", end addr=3D0x%" PRIx64 ")",
+> +                     v->iova_range.last, int128_get64(llend));
+> +        return;
+> +    }
+> +
+> +    if ((iotlb->perm & IOMMU_RW) !=3D IOMMU_NONE) {
+> +        bool read_only;
+> +
+> +        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, NULL)=
+) {
+> +            return;
+> +        }
+> +        vhost_vdpa_iotlb_batch_begin_once(v);
+
+I think at most 2 ioctls for this, is this still worth to batch them?
+
+Other looks good.
+
+Thanks
+
+> +        ret =3D vhost_vdpa_dma_map(v, VHOST_VDPA_GUEST_PA_ASID, iova,
+> +                                 iotlb->addr_mask + 1, vaddr, read_only)=
+;
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ", %p) =3D %d (%m)",
+> +                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
+> +        }
+> +    } else {
+> +        vhost_vdpa_iotlb_batch_begin_once(v);
+> +        ret =3D vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, iova,
+> +                                   iotlb->addr_mask + 1);
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ") =3D %d (%m)",
+> +                         v, iova, iotlb->addr_mask + 1, ret);
+> +        }
+> +    }
+> +    vhost_vdpa_iotlb_batch_end_once(v);
+> +}
+> +
+> +static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
+> +                                        MemoryRegionSection *section)
+> +{
+> +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
+istener);
+> +
+> +    struct vdpa_iommu *iommu;
+> +    Int128 end;
+> +    int iommu_idx;
+> +    IOMMUMemoryRegion *iommu_mr;
+> +    int ret;
+> +
+> +    iommu_mr =3D IOMMU_MEMORY_REGION(section->mr);
+> +
+> +    iommu =3D g_malloc0(sizeof(*iommu));
+> +    end =3D int128_add(int128_make64(section->offset_within_region),
+> +                     section->size);
+> +    end =3D int128_sub(end, int128_one());
+> +    iommu_idx =3D memory_region_iommu_attrs_to_index(iommu_mr,
+> +                                                   MEMTXATTRS_UNSPECIFIE=
+D);
+> +    iommu->iommu_mr =3D iommu_mr;
+> +    iommu_notifier_init(&iommu->n, vhost_vdpa_iommu_map_notify,
+> +                        IOMMU_NOTIFIER_IOTLB_EVENTS,
+> +                        section->offset_within_region,
+> +                        int128_get64(end),
+> +                        iommu_idx);
+> +    iommu->iommu_offset =3D section->offset_within_address_space -
+> +                          section->offset_within_region;
+> +    iommu->dev =3D v;
+> +
+> +    ret =3D memory_region_register_iommu_notifier(section->mr, &iommu->n=
+, NULL);
+> +    if (ret) {
+> +        g_free(iommu);
+> +        return;
+> +    }
+> +
+> +    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
+> +    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
+> +
+> +    return;
+> +}
+> +
+> +static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
+> +                                        MemoryRegionSection *section)
+> +{
+> +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
+istener);
+> +
+> +    struct vdpa_iommu *iommu;
+> +
+> +    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
+> +    {
+> +        if (MEMORY_REGION(iommu->iommu_mr) =3D=3D section->mr &&
+> +            iommu->n.start =3D=3D section->offset_within_region) {
+> +            memory_region_unregister_iommu_notifier(section->mr, &iommu-=
+>n);
+> +            QLIST_REMOVE(iommu, iommu_next);
+> +            g_free(iommu);
+> +            break;
+> +        }
+> +    }
+> +}
+> +
+>  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>                                             MemoryRegionSection *section)
+>  {
+> @@ -199,6 +325,10 @@ static void vhost_vdpa_listener_region_add(MemoryLis=
+tener *listener,
+>                                              v->iova_range.last)) {
+>          return;
+>      }
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        vhost_vdpa_iommu_region_add(listener, section);
+> +        return;
+> +    }
+>
+>      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MA=
+SK) !=3D
+>                   (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+> @@ -278,6 +408,9 @@ static void vhost_vdpa_listener_region_del(MemoryList=
+ener *listener,
+>                                              v->iova_range.last)) {
+>          return;
+>      }
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        vhost_vdpa_iommu_region_del(listener, section);
+> +    }
+>
+>      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MA=
+SK) !=3D
+>                   (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+> @@ -1182,7 +1315,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev *=
+dev, bool started)
+>      }
+>
+>      if (started) {
+> -        memory_listener_register(&v->listener, &address_space_memory);
+> +        if (vhost_dev_has_iommu(dev) && (v->shadow_vqs_enabled)) {
+> +            error_report("SVQ can not work while IOMMU enable, please di=
+sable"
+> +                         "IOMMU and try again");
+> +            return -1;
+> +        }
+> +        memory_listener_register(&v->listener, dev->vdev->dma_as);
+> +
+>          return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+>      }
+>
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
+a.h
+> index c278a2a8de..e64bfc7f98 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -52,6 +52,8 @@ typedef struct vhost_vdpa {
+>      struct vhost_dev *dev;
+>      Error *migration_blocker;
+>      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> +    QLIST_HEAD(, vdpa_iommu) iommu_list;
+> +    IOMMUNotifier n;
+>  } VhostVDPA;
+>
+>  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova=
+_range);
+> @@ -61,4 +63,13 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t =
+asid, hwaddr iova,
+>  int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
+a,
+>                           hwaddr size);
+>
+> +typedef struct vdpa_iommu {
+> +    struct vhost_vdpa *dev;
+> +    IOMMUMemoryRegion *iommu_mr;
+> +    hwaddr iommu_offset;
+> +    IOMMUNotifier n;
+> +    QLIST_ENTRY(vdpa_iommu) iommu_next;
+> +} VDPAIOMMUState;
+> +
+> +
+>  #endif
+> --
+> 2.34.3
+>
+
 
