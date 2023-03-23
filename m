@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF18C6C6B83
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 15:50:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CE86C6BC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 16:00:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfMFg-0004rK-9a; Thu, 23 Mar 2023 10:49:16 -0400
+	id 1pfMPH-0008N8-3z; Thu, 23 Mar 2023 10:59:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pfMFd-0004qV-Rr
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 10:49:13 -0400
+ id 1pfMPE-0008MY-F6
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 10:59:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pfMFc-0006YL-8Y
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 10:49:13 -0400
+ id 1pfMPD-0000CB-3H
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 10:59:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679582951;
+ s=mimecast20190719; t=1679583540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=ne02jBTUVytCtkiCSHbnDLNyMcjhCwvdvgeUfCutJCo=;
- b=AcWliKauhxJYrchKSFK0w0xiCmkiom8i/61MY2zD+NYIpj+K+MdglQ1Gu0YOaFUyOI4Emz
- a0iOHrKpodG03vMJHK40m4/QxmBg64j58oZHIdDHP1EDD7cTqsvTxmIB5ESCMg+VNgqA8E
- WE5Fep7W2fwCn/f6V52mUM7dbT9CgNE=
+ bh=cpef4kT6gqf7n/rR0/ynntTmCBLqt8QRSEC7iM5/ics=;
+ b=GRwaYg9etvlJ0spQXXYk1aoD/SIemndWltC7Yd6vvGiuj0vAYyB6JSS9y3t4UqAXDX6yuw
+ WAhLJ7+rufdhMGsVnlO3tUrPsDU2L7aCbRUHrQSrFkmlSc6gG+6OX9MFrCP6fG5ijLEyA3
+ ew8dKkMRiM2T9XZSsSnWYkVWjJQ85GA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-1-9I8OhDETN1qRz1-lCSdlPg-1; Thu, 23 Mar 2023 10:49:07 -0400
-X-MC-Unique: 9I8OhDETN1qRz1-lCSdlPg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-145-PtR3N0vIO9aLP3n41TCmPg-1; Thu, 23 Mar 2023 10:58:56 -0400
+X-MC-Unique: PtR3N0vIO9aLP3n41TCmPg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62703802314;
- Thu, 23 Mar 2023 14:49:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F37B2101A550;
+ Thu, 23 Mar 2023 14:58:55 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8210C15BAD;
- Thu, 23 Mar 2023 14:49:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C7AC1410F1C;
+ Thu, 23 Mar 2023 14:58:55 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: <qemu-block@nongnu.org>, Fam Zheng <fam@euphon.net>,
- <qemu-stable@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Qing Wang <qinwang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH for-8.0 v2] aio-posix: fix race between epoll upgrade and
- aio_set_fd_handler()
-Date: Thu, 23 Mar 2023 10:48:59 -0400
-Message-Id: <20230323144859.1338495-1-stefanha@redhat.com>
+Cc: <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] block/export: only acquire AioContext once for
+ vhost_user_server_stop()
+Date: Thu, 23 Mar 2023 10:58:53 -0400
+Message-Id: <20230323145853.1345527-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -77,77 +76,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If another thread calls aio_set_fd_handler() while the IOThread event
-loop is upgrading from ppoll(2) to epoll(7) then we might miss new
-AioHandlers. The epollfd will not monitor the new AioHandler's fd,
-resulting in hangs.
+vhost_user_server_stop() uses AIO_WAIT_WHILE(). AIO_WAIT_WHILE()
+requires that AioContext is only acquired once.
 
-Take the AioHandler list lock while upgrading to epoll. This prevents
-AioHandlers from changing while epoll is being set up. If we cannot lock
-because we're in a nested event loop, then don't upgrade to epoll (it
-will happen next time we're not in a nested call).
+Since blk_exp_request_shutdown() already acquires the AioContext it
+shouldn't be acquired again in vhost_user_server_stop().
 
-The downside to taking the lock is that the aio_set_fd_handler() thread
-has to wait until the epoll upgrade is finished, which involves many
-epoll_ctl(2) system calls. However, this scenario is rare and I couldn't
-think of another solution that is still simple.
-
-Reported-by: Qing Wang <qinwang@redhat.com>
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2090998
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
-v2:
-- Use qemu_lockcnt_inc_and_unlock() instead of qemu_lockcnt_unlock() [Paolo]
----
- util/fdmon-epoll.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+ util/vhost-user-server.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/util/fdmon-epoll.c b/util/fdmon-epoll.c
-index e11a8a022e..1683aa1105 100644
---- a/util/fdmon-epoll.c
-+++ b/util/fdmon-epoll.c
-@@ -127,6 +127,8 @@ static bool fdmon_epoll_try_enable(AioContext *ctx)
- 
- bool fdmon_epoll_try_upgrade(AioContext *ctx, unsigned npfd)
- {
-+    bool ok;
-+
-     if (ctx->epollfd < 0) {
-         return false;
-     }
-@@ -136,14 +138,23 @@ bool fdmon_epoll_try_upgrade(AioContext *ctx, unsigned npfd)
-         return false;
-     }
- 
--    if (npfd >= EPOLL_ENABLE_THRESHOLD) {
--        if (fdmon_epoll_try_enable(ctx)) {
--            return true;
--        } else {
--            fdmon_epoll_disable(ctx);
--        }
-+    if (npfd < EPOLL_ENABLE_THRESHOLD) {
-+        return false;
-     }
--    return false;
-+
-+    /* The list must not change while we add fds to epoll */
-+    if (!qemu_lockcnt_dec_if_lock(&ctx->list_lock)) {
-+        return false;
-+    }
-+
-+    ok = fdmon_epoll_try_enable(ctx);
-+
-+    qemu_lockcnt_inc_and_unlock(&ctx->list_lock);
-+
-+    if (!ok) {
-+        fdmon_epoll_disable(ctx);
-+    }
-+    return ok;
+diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
+index 40f36ea214..5b6216069c 100644
+--- a/util/vhost-user-server.c
++++ b/util/vhost-user-server.c
+@@ -346,10 +346,9 @@ static void vu_accept(QIONetListener *listener, QIOChannelSocket *sioc,
+     aio_context_release(server->ctx);
  }
  
- void fdmon_epoll_setup(AioContext *ctx)
++/* server->ctx acquired by caller */
+ void vhost_user_server_stop(VuServer *server)
+ {
+-    aio_context_acquire(server->ctx);
+-
+     qemu_bh_delete(server->restart_listener_bh);
+     server->restart_listener_bh = NULL;
+ 
+@@ -366,8 +365,6 @@ void vhost_user_server_stop(VuServer *server)
+         AIO_WAIT_WHILE(server->ctx, server->co_trip);
+     }
+ 
+-    aio_context_release(server->ctx);
+-
+     if (server->listener) {
+         qio_net_listener_disconnect(server->listener);
+         object_unref(OBJECT(server->listener));
 -- 
 2.39.2
 
