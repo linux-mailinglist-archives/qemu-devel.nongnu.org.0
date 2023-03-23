@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71636C6D0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 17:11:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1426C6D0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 17:11:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfNWr-0005go-TU; Thu, 23 Mar 2023 12:11:07 -0400
+	id 1pfNWu-0005ib-Mg; Thu, 23 Mar 2023 12:11:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pfNWp-0005fP-LV; Thu, 23 Mar 2023 12:11:03 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
+ id 1pfNWq-0005fs-9y; Thu, 23 Mar 2023 12:11:04 -0400
+Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pfNWo-0005eX-2S; Thu, 23 Mar 2023 12:11:03 -0400
-Received: by mail-oi1-x232.google.com with SMTP id v17so6777942oic.5;
- Thu, 23 Mar 2023 09:11:00 -0700 (PDT)
+ id 1pfNWo-0005fZ-TB; Thu, 23 Mar 2023 12:11:04 -0400
+Received: by mail-oo1-xc2b.google.com with SMTP id
+ o26-20020a4ad49a000000b0053964a84b0fso2985903oos.7; 
+ Thu, 23 Mar 2023 09:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679587859;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ThJVkvAmJ1u7DqjAudIv1Cf4fo6zpPb+9sotSpn8cd8=;
- b=JU71fnCylfvk6ECE9WAx7WKO0KHHEZ1+GYACU9Peg86g4JV9AEIqnOMw/pBcGpp2Q7
- oJlBbWV2G8PgGtYyC7RlOhYo+3BUWQfwBWWvLmaNOAUX/Il1HJTY4Cchvn0nESQFzoWV
- es1BALJ1TcyImxoNj2LUUWFTLeTBaquJaWYRYxly6Mt4Pkug3ybP+ilqc1xk1khlh94I
- 2iMV6lIeJXGh919Da9f7zGVaPk8+cH9eoLNDd+8+TDPRjaE+0Z0h5i1w2NSA5fLuA4Qh
- daofw2ZOZdvxcVpVN12QHQH+eo3oiFr32B++Vdbr0rYTEi6R+xIOVYLyY5ZnP2pc5QOS
- 7jgw==
+ d=gmail.com; s=20210112; t=1679587861;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lEoL38ueQvzw+JlzgnfkvuDS5A/n5kW5dw5q3wh5w8U=;
+ b=VYmRA6IUocahRHDYdYe+DtaSHWHPl4/aTDyqhzcgD6ybeRa77VoUAdRFPSfCZB743o
+ zszlPKrMRMsHP2H31OO8POPitU2JUIBIR3tAZgJu9spvaP2fhpufwfetyiuh2jYqiawI
+ 8+lGKVY/ZiNoJatx/IhHdLgV+L4Ao8mNCCwv2HAEpW1FTk/gcfYBH0/I7NeZNSh3r3Su
+ Z9XUSKgCQGms8R15fGhUvcjog6kSuVZfU0a0nvkOQeTuzl2lai3XKuqnpRvOoAo11yi1
+ D9RyWmKIFkb0bKd+ZEcsspK3AkWKW5w9u+W3W6i3j26ctuwu+mLTYWQ87JgtDjK5gBfD
+ SVmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679587859;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ThJVkvAmJ1u7DqjAudIv1Cf4fo6zpPb+9sotSpn8cd8=;
- b=NpIqNBLXYyZ6oNFLs/OR1mAmWRJ7i3v7OSIoqeLG0eIoQuTDY7V0BJgr+Kv9bAT9Gl
- 9Qb+73jjSv7HsNVFzXZTTWu7em9dMNIdWLKL3UgWZweDafDhQHzU3RevCpk7FtFXgprG
- HRSzMryqyApeSFQogjkTmfBeKj8dqIN+yAm5wjhHFe8ec6KK1PecyP06qwuZZWD6O4og
- 98xL7TK3krkl8YmNKHDUO2AT0lcy3+OtrriMX6OF5fHI2w4xfe9Oa/BCVqEGeiLnc2C2
- 1DXmj6uOpJhICMMIo8Bhplrz4KteH+8hIalC7xXPB3KHraXK3Wyuldt/U5wWV4wj1pov
- T3CA==
-X-Gm-Message-State: AO0yUKXZ9MV+DZUycs79gSbvTB8pNbrQ6z707DNZlFjzlQTZyi2QNO6j
- YypwdPcE+82OJk/WEM9ccqrXZWJJAO4=
-X-Google-Smtp-Source: AK7set89aFs4c2G3tzjq9BQB1tvZBHrBT5akIVjeARyj6Rwb4Yhy+M9xhjt4HkCWZG3xP/9xhTawwA==
-X-Received: by 2002:a05:6808:280d:b0:37f:b11c:7525 with SMTP id
- et13-20020a056808280d00b0037fb11c7525mr2696128oib.29.1679587858951; 
- Thu, 23 Mar 2023 09:10:58 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679587861;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lEoL38ueQvzw+JlzgnfkvuDS5A/n5kW5dw5q3wh5w8U=;
+ b=d1Z+zd3ztWMAylLtZoTLZAuOWouAgZweWxpZFbRnJphtVOvMV8XPxVO9UKe0s2PoGA
+ wIiTecyw1I8lr9h0LX3v7ywFm2E6C3dLBlXJITK5XRmF2ypGP0prX7AaxMr1kQUlsO4c
+ IHoK1SBt1MsOd5aSmXIILztcUJExzSX1BjmCRwruXWNRg7sErdV9lmwpdH72QcJklA6H
+ +2/nEp0LHsk3opspM4UpZDCUQ/AOm90Nek1ykDH3LlyXNhAo37yjSPRJy7gikHreTiTF
+ 5X2zANa0okbU68fnRZMZoHfnCUUUB8GU76lJSE/WAjfxX+mnNiyB8z48IqAxlHeEv0IR
+ sjlQ==
+X-Gm-Message-State: AO0yUKVLdTujW3XaRbaGF1lHX9EQsiNOog4peRhtsLMFlDdWo/7wDyxy
+ 4wMk+97rBKgQqKjGgl9D4zZVMJk8TFk=
+X-Google-Smtp-Source: AK7set/FeJTexlej/kEb7w1QPqw8+F4qGP+V5czy8fXK/7zqmAQ5brxWkBhmqioKIUjSKiwv2eybAA==
+X-Received: by 2002:a4a:2cd6:0:b0:536:bcd5:9498 with SMTP id
+ o205-20020a4a2cd6000000b00536bcd59498mr128911ooo.3.1679587861055; 
+ Thu, 23 Mar 2023 09:11:01 -0700 (PDT)
 Received: from grind.. ([177.95.89.231]) by smtp.gmail.com with ESMTPSA id
- q32-20020a4a9623000000b0051a6cb524b6sm7575504ooi.2.2023.03.23.09.10.57
+ q32-20020a4a9623000000b0051a6cb524b6sm7575504ooi.2.2023.03.23.09.10.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 09:10:58 -0700 (PDT)
+ Thu, 23 Mar 2023 09:11:00 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org
-Subject: [PATCH 0/1] fix dumpdtb crash with ARM machines
-Date: Thu, 23 Mar 2023 13:10:52 -0300
-Message-Id: <20230323161053.412356-1-danielhb413@gmail.com>
+Subject: [PATCH 1/1] hw/arm: do not free machine->fdt in arm_load_dtb()
+Date: Thu, 23 Mar 2023 13:10:53 -0300
+Message-Id: <20230323161053.412356-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230323161053.412356-1-danielhb413@gmail.com>
+References: <20230323161053.412356-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,44 +91,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+At this moment, arm_load_dtb() can free machine->fdt when
+binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
+retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
+the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
+machine->fdt. And, in that case, the existing g_free(fdt) at the end of
+arm_load_dtb() will make machine->fdt point to an invalid memory region.
 
-This is a re-post of "[PATCH v8 03/16] hw/arm: do not free machine->fdt
-in arm_load_dtb()":
+After the command 'dumpdtb' were introduced a couple of releases ago,
+running it with any ARM machine that uses arm_load_dtb() will crash
+QEMU.
 
-https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg04201.html
-
-Turns out that I drop the ball and left this patch behind. Aside from
-some patches of that series that were optional, the way ARM code is
-working ATM is causing 'dumpdtb' to crash QEMU, as reported by Markus in
-https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg05858.html .
-
-Applying this patch fixes the reported crash:
-
-$ ./qemu-system-aarch64 -S -M virt -display none -qmp stdio
-{"QMP": {"version": {"qemu": {"micro": 91, "minor": 2, "major": 7}, "package": "v8.0.0-rc1-37-g298c4469cf"}, "capabilities": ["oob"]}}
-{"execute": "qmp_capabilities", "arguments": {"enable": ["oob"]}}
-{"return": {}}
-{"execute": "dumpdtb", "arguments": {"filename": "fdt.dtb"}}
-{"return": {}}
-^Cqemu-system-aarch64: terminating on signal 2
-{"timestamp": {"seconds": 1679587153, "microseconds": 714319}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-signal"}}
-$ 
-$ dtc -I dtb -O dts fdt.dtb | grep timer
-	timer {
-		compatible = "arm,armv7-timer";
-$
+One alternative would be to mark machine->fdt = NULL when exiting
+arm_load_dtb() when freeing the fdt. Another is to not free the fdt and,
+instead, update machine->fdt with the new fdt generated. This will
+enable dumpdtb for all ARM machines that uses arm_load_dtb(), regardless
+of having 'dtb_filename' or not.
 
 Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-arm@nongnu.org
-
-Daniel Henrique Barboza (1):
-  hw/arm: do not free machine->fdt in arm_load_dtb()
-
+Fixes: bf353ad55590f ("qmp/hmp, device_tree.c: introduce dumpdtb")
+Reported-by: Markus Armbruster <armbru@redhat.com>i
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
  hw/arm/boot.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 50e5141116..9418cc3373 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -689,7 +689,8 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+     qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
+                                        rom_ptr_for_as(as, addr, size));
+ 
+-    g_free(fdt);
++    /* Set ms->fdt for 'dumpdtb' QMP/HMP command */
++    ms->fdt = fdt;
+ 
+     return size;
+ 
 -- 
 2.39.2
 
