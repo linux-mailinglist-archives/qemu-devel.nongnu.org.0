@@ -2,87 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6636D6C6FB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 18:52:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7771E6C6FBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 18:54:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfP60-0005hG-Rf; Thu, 23 Mar 2023 13:51:28 -0400
+	id 1pfP8d-0006kG-7v; Thu, 23 Mar 2023 13:54:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pfP5y-0005fP-9m
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 13:51:26 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pfP5w-00026W-Kn
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 13:51:25 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- om3-20020a17090b3a8300b0023efab0e3bfso2702988pjb.3
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 10:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679593883;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=36EgZl4Z+OkPA4/GC7SYMcBbd0ZjnFa3XKbyWtTgFao=;
- b=W1+UsVoe5cPUxnJ8wPqDP1J17iO1hIhBCDodo0ZH7LlzM3bOkl7nMj6PQgP3yYPg83
- qwIuO0+/k+OJym15ggl1v5VVsDkycejt9h51c/PakhbWtv4oJYT23eTLlyQtocAXv8f8
- OW2FujYpTaaNoPWMEpM2Ea4ia9Ki7ygdq1xU9NIQU2Tkmrb5mgSSPA+7ftenvWKnanaz
- 3Gib4mF7q0c2btHSIAmLgcIWWl+97fxd6ZDUzRHwt4A5YXaDYZ8G6L+BRMVvEOWysO62
- Pdk5e8PTshCTQCYwJOFFdUDXBX8OjLmFn3qMkcvBd5NqE2Z8uJdCfGcW0xeKd7EGvHAG
- o2FA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pfP8X-0006hq-Ls
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 13:54:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pfP8V-0002fT-Nv
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 13:54:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679594040;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=AcVaKmUYfRPIzhOHIdyvhx4rya5cRTOl5IuLPMK0XRs=;
+ b=YQ8MzKVQp9NfhL0Gdngztmx7Yh79Zz9SKgYoh63o3GQnABleRy8E8Zl1/7MLSCebuZz/Mg
+ 3VsdWgMpyh3miMXK30A3IU/cpeKg07m+n81usceSxK3n8ZqtWTCjWyVUr81Ya9AoDF3ECF
+ q5XdFyORgXhszSin83IhLWWRZBildF0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-376-FauBXEaAMX6M13Q3nte0jg-1; Thu, 23 Mar 2023 13:53:58 -0400
+X-MC-Unique: FauBXEaAMX6M13Q3nte0jg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o37-20020a05600c512500b003edd119ec9eso7242771wms.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 10:53:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679593883;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1679594037;
+ h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=36EgZl4Z+OkPA4/GC7SYMcBbd0ZjnFa3XKbyWtTgFao=;
- b=RcdF/IZSpDtvv2kYmbeIV9pCRI5hWcGevIxEA8ktRLCNBPXS0gZcz86GtADO6riLQr
- njnjUWfT2bpertNoBiICfPh7vKg68i8476Su1Gb1MJuRGifkm82kHy5igM+/wv0VArKp
- to/jn2v+A0PVOtC+YRrghT0eGOXDa53WlRtUz31eQBTNAOL93UjNoYY8VpQO17VhfT2D
- GgpB6ohTE1KkdO0s+U/YM/mFeXUcn82UAE0EkpFRfr9s6Kz06oWKZ/d3gY10hdzBUdcL
- hu3ZaNgD3QyoxbOPRKoOSQ8KrPh6FOwXngklgpLBhIi2+kkJbcMufWMF82IcNvFLd96i
- BnEA==
-X-Gm-Message-State: AO0yUKVd/AKRegmYdjROFkCKYpYhU7RqP4Od9VNz6L3iUomHtQvjxgxJ
- 3gtlE/tL9spZ0iJcSRSYX74wJg==
-X-Google-Smtp-Source: AK7set/4+ykcL2kdHEQedRXhY3AArhXHeQ/Z4D7nS89dy9DEZ7vePRr3Fixv7mmSfaAdMDXhWvUbkw==
-X-Received: by 2002:a05:6a20:4d83:b0:d9:8b07:eb08 with SMTP id
- gj3-20020a056a204d8300b000d98b07eb08mr349048pzb.21.1679593883203; 
- Thu, 23 Mar 2023 10:51:23 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1544:6601:226e:47e1:b8cd:a957?
- ([2602:ae:1544:6601:226e:47e1:b8cd:a957])
- by smtp.gmail.com with ESMTPSA id
- w129-20020a636287000000b00476d1385265sm11959743pgb.25.2023.03.23.10.51.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Mar 2023 10:51:22 -0700 (PDT)
-Message-ID: <0608d81e-4ac4-b090-b267-3bd0d058b898@linaro.org>
-Date: Thu, 23 Mar 2023 10:51:21 -0700
+ bh=AcVaKmUYfRPIzhOHIdyvhx4rya5cRTOl5IuLPMK0XRs=;
+ b=mMTSKBWizw2BFeQZeuTYMmRHh5T4viOUMkak1/BA4xg/XUeONXJQVLw9s91sIG1408
+ Iz+hB5z5pY9sluw4d0IbWFa4rILttsyTTHqCrmsKVByIOqux6YDIXX7KJ81YecO+xz5+
+ bWutdiY8W9NHwJ5HWXlfhUKpUYYbO2U+2UlvW4fbejmteV2fF6fg1rBsgkTSCikZ6nCx
+ AQ7UgAbh0ANQqmwMqJcQ37bsFYJgIbAWjMg2jXrXMpumpt2zcIG0ocGqTFIwzJbqwppI
+ mdeFI9IX7UWFf9jq60nxGRrpSDmhZN+7oU86FfGJTToEOZ7A6uYz3wCZkQw+oFDsx2Mm
+ vjyw==
+X-Gm-Message-State: AO0yUKUUc2//RAvG6AgghGJdkSfC7fEbcN2i3BxbCL3mxem/OJqroLoV
+ BSjaC9RtzvmBuxWuG8t9br9H1NwLAfKIJY05hBI0MsrGOKxrz8NcrKLhugDrGhD1oSJc03nHdcv
+ cPrdGkMGrqPioPuQ=
+X-Received: by 2002:a7b:cc98:0:b0:3eb:3945:d405 with SMTP id
+ p24-20020a7bcc98000000b003eb3945d405mr334715wma.38.1679594037000; 
+ Thu, 23 Mar 2023 10:53:57 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+/muTI6EHBcwKMzSGfpd6mGkNFf0hVFu3RXbKRQPHnNEQmVeuKo8kX4qewJldKEM1tQpW4DA==
+X-Received: by 2002:a7b:cc98:0:b0:3eb:3945:d405 with SMTP id
+ p24-20020a7bcc98000000b003eb3945d405mr334702wma.38.1679594036736; 
+ Thu, 23 Mar 2023 10:53:56 -0700 (PDT)
+Received: from redhat.com ([77.211.5.130]) by smtp.gmail.com with ESMTPSA id
+ k11-20020a05600c0b4b00b003edef091b17sm2510776wmr.37.2023.03.23.10.53.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Mar 2023 10:53:29 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?= <alex.bennee@linaro.org>
+Subject: QEMU fortnightly developers call for agenda for 2023-04-04
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 23 Mar 2023 18:53:14 +0100
+Message-ID: <87cz4zmk1h.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 8/8] target/arm: Add CPU property for QARMA3, enable
- FPACCombined by default
-Content-Language: en-US
-To: Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Vincent Dehors <vincent.dehors@smile.fr>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230322202541.1404058-1-aaron@os.amperecomputing.com>
- <20230322202541.1404058-9-aaron@os.amperecomputing.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230322202541.1404058-9-aaron@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,18 +90,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/22/23 13:25, Aaron Lindsay wrote:
-> Signed-off-by: Aaron Lindsay<aaron@os.amperecomputing.com>
-> ---
->   target/arm/cpu.h   |  1 +
->   target/arm/cpu64.c | 48 +++++++++++++++++++++++++++++++---------------
->   2 files changed, 34 insertions(+), 15 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-r~
+Hi
+
+Please, send any topic that you are interested in covering.
+
+Topics on the backburner:
+- qemu single binary
+  On this week call, phillipe said that he wanted to discuss pci irqs
+  and default devices?
+- The future of icount
+  My understanding is that Alex wanted to wait until the openning of 8.1
+  to continue discussions/show code.
+
+Anything else?
+
+At the end of Monday I will send an email with the agenda or the
+cancellation of the call, so hurry up.
+
+After discussions on the QEMU Summit, we are going to have always open a
+QEMU call where you can add topics.
+
+ Call details:
+
+By popular demand, a google calendar public entry with it
+
+  https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NWR0NWppODdqNXFyYzAwbzYza3RxN2dob3VfMjAyMjEwMThUMTMwMDAwWiBlZ2VkN2NraTA1bG11MXRuZ3ZrbDN0aGlkc0Bn&tmsrc=eged7cki05lmu1tngvkl3thids%40group.calendar.google.com&scp=ALL
+
+(Let me know if you have any problems with the calendar entry.  I just
+gave up about getting right at the same time CEST, CET, EDT and DST).
+
+If you need phone number details,  contact me privately
+
+Thanks, Juan.
+
 
