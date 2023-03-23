@@ -2,95 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC61B6C61F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C842F6C6217
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:41:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfGST-000761-8U; Thu, 23 Mar 2023 04:38:05 -0400
+	id 1pfGUs-0008DX-CA; Thu, 23 Mar 2023 04:40:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfGSQ-0006y0-TS
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:38:02 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pfGUe-000881-GL
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:40:27 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfGS9-0000LT-J6
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:37:47 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pfGUW-0000qS-0B
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:40:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679560664;
+ s=mimecast20190719; t=1679560810;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aIB7Yg4RqvR8Qhb4Ehfk7SSjQD34sAfhyZ8WzhjrNII=;
- b=DdKG5cB0HZga5pz684n+E5OA8hTz7bMOs4gImqaMEraMIArKlubekFhyXZ4pOPAaQdYUg5
- mEd/PKalhxXPvnTTmRVJwPpXzCyqhwHSq7x3OWnv+lfvYPVwIO6bo6EOlnxAgFvkfdPRfT
- /EyQAQ63mtTRFeUoQ5hYP7maRbUs4pQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oaWrHo/lRobYJRx52qS9cFLDS4eZM7ToLjQ72Kv/eOA=;
+ b=TwSkqoPfo23RKatzy2Ew8OrLUc1e7Umd9lPqma+CS4D6l5rYMDC/gbJoBR7j4gfj6cAg6t
+ Ae1bKyzhswlQQpe6ZIZ95oRMmblStRB37pbBstAL2NFCnGvup6ItqglLFRDgF/gXSgZeuW
+ DZ8Oao0N6pDeARukB6o5IAKUWGj85/c=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-656-vckJCRn4MAKExDBkUTRuag-1; Thu, 23 Mar 2023 04:37:43 -0400
-X-MC-Unique: vckJCRn4MAKExDBkUTRuag-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o7-20020a05600c4fc700b003edf85f6bb1so665396wmq.3
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 01:37:42 -0700 (PDT)
+ us-mta-356-HYqzAcgTNE24BKb68A3Z1A-1; Thu, 23 Mar 2023 04:40:09 -0400
+X-MC-Unique: HYqzAcgTNE24BKb68A3Z1A-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ dn8-20020a05640222e800b004bd35dd76a9so31435848edb.13
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 01:40:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679560662;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aIB7Yg4RqvR8Qhb4Ehfk7SSjQD34sAfhyZ8WzhjrNII=;
- b=hz+SVV1t8bvLnX1nuVs9+jONzFw+36ZIUpXb6et3nsokIvg+KPwJY1TnW+dsMCujgP
- ZRjri4vLAK7BPD10VI2VOXOCu+8tKRe7xmK+j8/dDL1qV4LP9Hv5mByZtL1g3IqoWFVf
- fPfsMQHR6SPcNPRhYRaJRMX6ZA0ImWVO6Mm4s1CFBBqZL9g8OtKB101gyyd39NMZDYey
- 6SIBFDVqD+BDhnbQeS8jLc/Gyw7YNPB/bQ4nRE197rjYcc/LF0l2sZgSvtVpBlPjczQ0
- akDsrTjiCMykS7ni/HHmMFOYRxfXg/sWVzvMxYYPNJjaN2qrywDTYYufnMFO/IBOietv
- aKOQ==
-X-Gm-Message-State: AO0yUKWunLwQ2McQeP/iq2YCUI2ftb7VRTm5BuIBlqi7ipSFuAIa4dWL
- P4deKHn+MT3YbX7fgHIgWtdxPe+CIS16PdcrcC5SCHg997HtraFGJOVIbWUYeYI1sENRJpikD2f
- A1qLAqhUhzkD7P2k=
-X-Received: by 2002:a7b:cb49:0:b0:3ee:6cdf:c357 with SMTP id
- v9-20020a7bcb49000000b003ee6cdfc357mr1536380wmj.20.1679560662033; 
- Thu, 23 Mar 2023 01:37:42 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/Plk92uM6bAcR0oAft6EOtBn2WsASDshofcxceYd++8AvLkDH2uCnzDpB/XThNLnFX5Z+S8g==
-X-Received: by 2002:a7b:cb49:0:b0:3ee:6cdf:c357 with SMTP id
- v9-20020a7bcb49000000b003ee6cdfc357mr1536368wmj.20.1679560661753; 
- Thu, 23 Mar 2023 01:37:41 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-146.web.vodafone.de.
- [109.43.179.146]) by smtp.gmail.com with ESMTPSA id
- q6-20020a7bce86000000b003db0bb81b6asm1227299wmj.1.2023.03.23.01.37.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Mar 2023 01:37:41 -0700 (PDT)
-Message-ID: <64c9356e-1197-8893-db1d-860e6a202a87@redhat.com>
-Date: Thu, 23 Mar 2023 09:37:40 +0100
+ d=1e100.net; s=20210112; t=1679560807;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oaWrHo/lRobYJRx52qS9cFLDS4eZM7ToLjQ72Kv/eOA=;
+ b=IncKZ55+LRqIqvcseT0Vu6VFUhNmRpMakUsSkn+wgXbUjVsLgH14Mkfb9EixLCcZBF
+ YsRIFBFxi6cry0kwT1M4x07cBmxrrcPVSAxWuIko67X8C0879tdMX4KiajQShtK/qwWq
+ LgTxa4OywcMINWocdPIrfPrCOSSma0bNEKCdjXfFzpFXnxiiIge3gXY1HXJSMWup6wIW
+ m5HN5w6Jm/h2glZcO4uvqXiHVV9zA4/QCFhR+pMn2KVZC2NCdcpCf6DbSGjdy4+A5ubT
+ r2F5BwEoVrJANIJGc1BnR0K3e9wSnqrgjIEBBy1msi5MXokmAyNZwWsFlkAz1JJqs0Xi
+ 0Low==
+X-Gm-Message-State: AO0yUKXdh/BSEV3eHKKijtKtHNb1g8j6fJcsy/FHjk99LbnnvOYkvxQV
+ dtza0c6athSnm/ZJmlQuAOyawFflnVpDla6xpeeIHgUcwFndS9ZgK0p25+n7ACmdv37zU7kKzj6
+ XTWWOcxsfzBYMsgA5+kcagKRzOIadGt7eb6Bom5sT1KdcpmlJ1aKAIMB0bnkO8xpZmxaCIKpTYR
+ mgYA==
+X-Received: by 2002:aa7:c399:0:b0:4fd:14d5:bb4b with SMTP id
+ k25-20020aa7c399000000b004fd14d5bb4bmr9575686edq.23.1679560807471; 
+ Thu, 23 Mar 2023 01:40:07 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/Wn76hwzfjonT4UkjPMuIyUIkjoSuhJzzHdni5Vvr54bzXE1h5ytPk9fOsoMAmEeLcFQePCg==
+X-Received: by 2002:aa7:c399:0:b0:4fd:14d5:bb4b with SMTP id
+ k25-20020aa7c399000000b004fd14d5bb4bmr9575667edq.23.1679560807064; 
+ Thu, 23 Mar 2023 01:40:07 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id
+ o2-20020a509b02000000b004faa1636758sm8806156edi.68.2023.03.23.01.40.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Mar 2023 01:40:06 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: jsnow@redhat.com,
+	berrange@redhat.com,
+	peter.maydell@linaro.org
+Subject: [qemu-web PATCH v2] add post about plans for Python venvs
+Date: Thu, 23 Mar 2023 09:40:05 +0100
+Message-Id: <20230323084005.1032305-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jintao Yin <nicememory@gmail.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20230322135721.61138-1-philmd@linaro.org>
- <20230322135721.61138-3-philmd@linaro.org> <ZBtLAvQ/5kFofyEJ@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 2/2] cirrus-ci: Remove MSYS2 jobs duplicated with
- gitlab-ci
-In-Reply-To: <ZBtLAvQ/5kFofyEJ@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,119 +99,265 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/03/2023 19.37, Daniel P. Berrangé wrote:
-> On Wed, Mar 22, 2023 at 02:57:21PM +0100, Philippe Mathieu-Daudé wrote:
-...
->> diff --git a/.cirrus.yml b/.cirrus.yml
->> deleted file mode 100644
->> index 5fb00da73d..0000000000
->> --- a/.cirrus.yml
->> +++ /dev/null
-> 
->> -    MSYS2_PACKAGES: "
->> -      diffutils git grep make pkg-config sed
->> -      mingw-w64-x86_64-python
->> -      mingw-w64-x86_64-python-sphinx
-> 
-> This isn't listed in the .gitlab-ci.d/windows.yml file
+This post details the design that John Snow and I are planning for QEMU 8.1.
+The purpose is to detect possible inconsistencies in the build environment,
+that could happen on enterprise distros once Python 3.6 support is dropped.
 
-I think that's fine. The gitlab CI Windows jobs are very slow and ran into 
-timeout issues in the past already, so we certainly don't want to waste our 
-time there with building the documentation.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+v1->v2: add CSS for asciicast
+	note that sphinx is already checked for now-enough Python
+	some more copy-editing
 
->> -      mingw-w64-x86_64-toolchain
-> 
-> This also isn't listed
+ _posts/2023-03-22-python.md | 223 ++++++++++++++++++++++++++++++++++++
+ assets/css/style.css        |   4 +
+ 2 files changed, 227 insertions(+)
+ create mode 100644 _posts/2023-03-22-python.md
 
-Seems to be a "group" package:
-
-  https://packages.msys2.org/groups/mingw-w64-x86_64-toolchain
-
-It includes other languages like Fortran and Ada ... I think we don't want 
-that in the gitlab-CI job.
-
->> -      mingw-w64-x86_64-SDL2
->> -      mingw-w64-x86_64-SDL2_image
->> -      mingw-w64-x86_64-gtk3
->> -      mingw-w64-x86_64-glib2
->> -      mingw-w64-x86_64-ninja
->> -      mingw-w64-x86_64-jemalloc
-> 
-> This also isn't listed
-
-I think jemalloc is very niche these days for building QEMU, especially on 
-Windows, so I'd rather not use it there.
-
->> -      mingw-w64-x86_64-lzo2
->> -      mingw-w64-x86_64-zstd
->> -      mingw-w64-x86_64-libjpeg-turbo
->> -      mingw-w64-x86_64-pixman
->> -      mingw-w64-x86_64-libgcrypt
->> -      mingw-w64-x86_64-libpng
->> -      mingw-w64-x86_64-libssh
->> -      mingw-w64-x86_64-snappy
->> -      mingw-w64-x86_64-libusb
->> -      mingw-w64-x86_64-usbredir
->> -      mingw-w64-x86_64-libtasn1
->> -      mingw-w64-x86_64-nettle
->> -      mingw-w64-x86_64-cyrus-sasl
->> -      mingw-w64-x86_64-curl
->> -      mingw-w64-x86_64-gnutls
->> -      mingw-w64-x86_64-libnfs
-> 
-> The  .gitlab-ci.d/windows.yml file meanwhile adds 'dtc' 'gcc'
-> and 'pkgconf' which are not present here.
-
-dtc for avoiding to recompile the submodule, gcc and pkgconf as replacement 
-for the toolchain group package.
-
-> This inconsistency is another point in favour of removing this
-> redundant cirrus config.
-
-Well, different configs also help to test different things... but in this 
-case, I think it's not enough to justify keeping the cirrus-ci.yml file.
-
->> -  script:
->> -    - mkdir build
->> -    - cd build
->> -    - C:\tools\msys64\usr\bin\bash.exe -lc "../configure --python=python3
->> -        --target-list-exclude=i386-softmmu,ppc64-softmmu,aarch64-softmmu,mips64-softmmu,mipsel-softmmu,sh4-softmmu"
-> 
-> This excludes a few targets, but the .gitlab-ci.d/windows.yml file
-> merely allow-lists  x86_64-softmmu only, and also adds
-> --without-default-devices
-
-The gitlab job struggles with timeout issues when you add more stuff to it ...
-
-> IOW the remaining config has less coverage than this one. Of course
-> if no one ever looks at these results, the better coverage is not
-> doing anything for us.
-
-Yes, that's the main point! cirrus-ci.yml even does not provide e-mail 
-notification when things go wrong, so most issues that could be discovered 
-here just go completely unnoticed.
-
->> -    - C:\tools\msys64\usr\bin\bash.exe -lc "make -j8"
-> 
-> The .gitlab-ci.d/windows.yml file does not pass '-j8' so presumably
-> runs slower.
-
-Much, much slower!
-
-> THe gitlab docs indicate the Windows VMs have 2 vCPUs so we ought to
-> have been using -j2 in the .gitlab-ci.d/windows.yml file IIUC
-
-The -j2 has been removed in commit 5f2992fe1ec5594e5c since we had some 
-weird failures with it, likely due to memory constraints in those 
-containers. After removing -j2, the jobs were reliable
-again.
-
-> Broadly I agree with this proposal, but it feels like we might want a
-> few tweak to the windows.yml file to address some of the inconsistencies
-
-You can have a try, but from my experience, it will be very hard to increase 
-the test coverage of those jobs without hitting timeout issues again.
-
-  Thomas
+diff --git a/_posts/2023-03-22-python.md b/_posts/2023-03-22-python.md
+new file mode 100644
+index 0000000..d463847
+--- /dev/null
++++ b/_posts/2023-03-22-python.md
+@@ -0,0 +1,222 @@
++---
++layout: post
++title:  "Preparing a consistent Python environment"
++date:   2023-03-22 13:30:00 +0000
++categories: [build, python, developers]
++---
++Building QEMU is a complex task, split across several programs.
++configure finds the host and cross compilers that are needed to build
++emulators and firmware; Meson prepares the build environment for the
++emulators; finally, Make and ninja actually perform the build, and
++in some cases they run tests as well.
++
++In addition to compiling C code, many build steps run tools and
++scripts which are mostly written in the Python language.  These include
++processing the emulator configuration, code generators for tracepoints
++and QAPI, extensions for the Sphinx documentation tool, and the Avocado
++testing framework.  The Meson build system itself is written in Python, too.
++
++Some of these tools are run through the `python3` executable, while others
++are invoked directly as `sphinx-build` or `meson`, and this can create
++inconsistencies.  For example, QEMU's `configure` script checks for a
++minimum version of Python and rejects too-old interpreters.  However,
++what would happen if code run by Sphinx used a different version?
++
++This situation has been largely hypothetical until recently; QEMU's
++Python code is already tested with a wide range of versions of the
++interpreter, and it would not be a huge issue if Sphinx used a different
++version of Python as long as both of them were supported.  This will
++change in version 8.1 of QEMU, which will bump the minimum supported
++version of Python from 3.6 to 3.8.  While all the distros that QEMU
++supports have a recent-enough interpreter, the default on RHEL8 and
++SLES15 is still version 3.6, and that is what all binaries in `/usr/bin`
++use unconditionally.
++
++As of QEMU 8.0, even if `configure` is told to use `/usr/bin/python3.8`
++for the build, QEMU's custom Sphinx extensions would still run under
++Python 3.6.  configure does separately check that Sphinx is executing
++with a new enough Python version, but it would be nice if there were
++a more generic way to prepare a consistent Python environment.
++
++This post will explain how QEMU 8.1 will ensure that a single interpreter
++is used for the whole of the build process.  Getting there will require
++some familiarity with Python packaging, so let's start with virtual
++environments.
++
++## Virtual environments
++
++It is surprisingly hard to find what Python interpreter a given script
++will use.  You can try to parse the first line of the script, which will
++be something like `#! /usr/bin/python3`, but there is no guarantee of
++success.  For example, on some version of Homebrew `/usr/bin/meson`
++will be a wrapper script like:
++
++```bash
++#!/bin/bash
++PYTHONPATH="/usr/local/Cellar/meson/0.55.0/lib/python3.8/site-packages" \
++  exec "/usr/local/Cellar/meson/0.55.0/libexec/bin/meson" "$@"
++```
++
++The file with the Python shebang line will be hidden somewhere in
++`/usr/local/Cellar`.  Therefore, performing some kind of check on the
++files in `/usr/bin` is ruled out.  QEMU needs to set up a consistent
++environment on its own.
++
++If a user who is building QEMU wanted to do so, the simplest way would
++be to use Python virtual environments.  A virtual environment takes an
++existing Python installation but gives it a local set of Python packages.
++It also has its own `bin` directory; place it at the beginning of your
++`PATH` and you will be able to control the Python interpreter for scripts
++that begin with `#! /usr/bin/env python3`.
++
++Furthermore, when packages are installed into the virtual environment
++with `pip`, they always refer to the Python interpreter that was used to
++create the environment.  Virtual environments mostly solve the consistency
++problem at the cost of an extra `pip install` step to put QEMU's build
++dependencies into the environment.
++
++Unfortunately, this extra step has a substantial downside.  Even though
++the virtual environment can optionally refer to the base installation's
++installed packages, `pip` will always install packages from scratch
++into the virtual environment. For all Linux distributions except RHEL8
++and SLES15 this is unnecessary, and users would be happy to build QEMU
++using the versions of Meson and Sphinx included in the distribution.
++
++Even worse, `pip install` will access the Python package index (PyPI)
++over the Internet, which is often impossible on build machines that
++are sealed from the outside world.  Automated installation of PyPI
++dependencies may actually be a welcome feature, but it must also remain
++a strictly optional feature.
++
++In other words, the ideal solution would use a non-isolated virtual
++environment, to be able to use system packages provided by Linux
++distributions; but it would also ensure that scripts (`sphinx-build`,
++`meson`, `avocado`) are placed into `bin` just like `pip install` does.
++
++## Distribution packages
++
++When it comes to packages, Python surely makes an effort to be confusing.
++The fundamental unit for _importing_ code into a Python program is called
++a package; for example `os` and `sys` are two examples of a package.
++However, a program or library that is distributed on PyPI consists
++of _many_ such "import packages": that's because while `pip` is usually
++said to be a "package installer" for Python, more precisely it installs
++"distribution packages".
++
++To add to the confusion, the term "distribution package" is often
++shortened to _either_ "package" or "distribution".  And finally,
++the metadata of the distribution package remains available even after
++installation, so "distributions" include things that are already
++installed (and are not being distributed anywhere).
++
++All this matters because distribution metadata will be the key to
++building the perfect virtual environment.  If you look at the content
++of `bin/meson` in a virtual environment, after installing the package
++with `pip`, this is what you find:
++
++```python
++#!/home/pbonzini/my-venv/bin/python3
++# -*- coding: utf-8 -*-
++import re
++import sys
++from mesonbuild.mesonmain import main
++if __name__ == '__main__':
++    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
++    sys.exit(main())
++```
++
++This looks a lot like automatically generated code, and in fact it is;
++the only parts that vary are the `from mesonbuild.mesonmain import main`
++import, and the invocation of the `main()` function on the last line.
++`pip` creates this invocation script based on the `setup.cfg` file
++in Meson's source code, more specifically based on the following stanza:
++
++```
++[options.entry_points]
++console_scripts =
++  meson = mesonbuild.mesonmain:main
++```
++
++Similar declarations exist in Sphinx, Avocado and so on, and accessing their
++content is easy via `importlib.metadata` (available in Python 3.8+):
++
++```
++$ python3
++>>> from importlib.metadata import distribution
++>>> distribution('meson').entry_points
++[EntryPoint(name='meson', value='mesonbuild.mesonmain:main', group='console_scripts')]
++```
++
++`importlib` looks up the metadata in the running Python interpreter's
++search path; if Meson is installed under another interpreter's `site-packages`
++directory, it will not be found:
++
++```
++$ python3.8
++>>> from importlib.metadata import distribution
++>>> distribution('meson').entry_points
++Traceback (most recent call last):
++...
++importlib.metadata.PackageNotFoundError: meson
++```
++
++So finally we have a plan!  `configure` can build a non-isolated virtual
++environment, use `importlib` to check that the required packages exist
++in the base installation, and create scripts in `bin` that point to the
++right Python interpreter.  Then, it can optionally use `pip install` to
++install the missing packages.
++
++While this process includes a certain amount of
++specialized logic, Python provides a customizable [`venv`
++module](https://docs.python.org/3/library/venv.html) to create virtual
++environments.  The custom steps can be performed by subclassing
++`venv.EnvBuilder`.
++
++This will provide the same experience as QEMU 8.0, except that there will
++be no need for the `--meson` and `--sphinx-build` options to the
++`configure` script.  The path to the Python interpreter is enough to
++set up all Python programs used during the build.
++
++There is only one thing left to fix...
++
++## Nesting virtual environments
++
++Remember how we started with a user that creates her own virtual
++environment before building QEMU?  Well, this would not work
++anymore, because virtual environments cannot be nested.  As soon
++as `configure` creates its own virtual environment, the packages
++installed by the user are not available anymore.
++
++Fortunately, the "appearance" of a nested virtual environment is easy
++to emulate.  Detecting whether `python3` runs in a virtual environment
++is as easy as checking `sys.prefix != sys.base_prefix`; if it is,
++we need to retrieve the parent virtual environments `site-packages`
++directory:
++
++```
++>>> import sysconfig
++>>> sysconfig.get_path('purelib')
++'/home/pbonzini/my-venv/lib/python3.11/site-packages'
++```
++
++and write it to a `.pth` file in the `lib` directory of the new virtual
++environment.  The following demo shows how a distribution package in the
++parent virtual environment will be available in the child as well:
++
++<script async id="asciicast-31xjLsR4KjsU9HuhOUpU08tvb" src="https://asciinema.org/a/31xjLsR4KjsU9HuhOUpU08tvb.js"></script>
++
++A small detail is that `configure`'s new virtual environment should
++mirror the isolation setting of the parent.  An isolated venv can be
++detected because `sys.base_prefix in site.PREFIXES` is false.
++
++## Conclusion
++
++Right now, QEMU only makes a minimal attempt at ensuring consistency
++of the Python environment; Meson is always run using the interpreter
++that was passed to the configure script with `--python` or `$PYTHON`,
++but that's it.  Once the above technique will be implemented in QEMU 8.1,
++there will be no difference in the build experience, but configuration
++will be easier and a wider set of invalid build environments will
++be detected.  We will merge these checks before dropping support for
++Python 3.6, so that users on older enterprise distributions will have
++a smooth transition.
+diff --git a/assets/css/style.css b/assets/css/style.css
+index 2705787..983fb67 100644
+--- a/assets/css/style.css
++++ b/assets/css/style.css
+@@ -184,6 +184,10 @@
+ 		color: #999999;
+ 	}
+ 
++	.asciicast {
++		width: 45em;
++	}
++
+ 	/* Sections/Articles */
+ 
+ 		section,
+-- 
+2.39.2
 
 
