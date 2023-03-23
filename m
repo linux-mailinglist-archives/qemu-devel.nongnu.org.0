@@ -2,89 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203776C6C05
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 16:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023866C6C62
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 16:37:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfMdH-0005IJ-91; Thu, 23 Mar 2023 11:13:39 -0400
+	id 1pfMyv-00030a-Lo; Thu, 23 Mar 2023 11:36:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pfMdE-0005I3-Sj
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 11:13:36 -0400
-Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pfMdC-0004r6-S5
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 11:13:36 -0400
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-17683b570b8so22956073fac.13
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 08:13:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1679584413;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gJ8bw3EyFwneqT58w0E1LrBibonFaHQPNW5baLOjgD8=;
- b=ghM+5hNyBJNf7pKuO6IJVnGd82sZiaob266Tt+MKvDwqH6TuLgfuk7hiLX6je7Lk5O
- lbGnbFMpKd8ZDkq19ycOZV/olBVS57+jrt62Mw0UEw5Dl9QCKfHrSfm453zpPJJoW0Am
- h2OkT/mv+rDEbdvgxzo6AXlYUjkUFaMGln7UOC3dXLvMLQeaiJtWwz9AfIjYV16zAeru
- 2n9uRFPMlEOwkKC61LYVReM2zhyeaZOJUmkSsGcc/VJ8iObOzPgReqyxKxl3KuMcRT1V
- XZPJCF/LwwoKD6FTl79c1M7B2B6IQBsZM23IZ2+N4lhfjKfALnDYflEOpFnpLt95c8Rb
- IU1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679584413;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gJ8bw3EyFwneqT58w0E1LrBibonFaHQPNW5baLOjgD8=;
- b=GcuGFp0fqtP1byK7yEaFTOS5llelRGQnGaIKRB8Lq/9raJeQt8IxHmyn8U0YNTQI61
- pLpWM+YhE34dF0veTA4GRATsqCauWNC5flX7xNKAANOM9uMOfVgbsasCAj4kcW/W4y+c
- rzS7GCaR5IyQnz+wWMxgcJvos5/Vkr0+AcdYfy07DSIoIjywREIyKzyNcD16Rzm0jtHF
- 9TwfngC2hAGB2SfKSEPGloeE9tW/sMi4xQgl+My5N6UiGsRDzErC3tqeQ3t6ESh3UWB7
- AiW0++NVgJ+0zvkhgfVvn+aG32cI6EImFMWz9Kl2GOo7zrWmzHG8Voy6j2SByyVr6mxA
- YcPw==
-X-Gm-Message-State: AAQBX9fCtfmEaAAnX+TMDo8ZPRQ3BsJE8eN25yDl/5gGvJVqRKWDOVJC
- Bzm4BM+NkLMCZJVHQ99JrCxSCg==
-X-Google-Smtp-Source: AKy350aEjgrs7L2/+04QpHxBOMGAFmV0K0X1kHCDOOjqXfPEQuAhi4Va04uyMUQzlLT9vmYdmgpLbA==
-X-Received: by 2002:a05:6870:390d:b0:177:845f:3877 with SMTP id
- b13-20020a056870390d00b00177845f3877mr2560260oap.11.1679584412839; 
- Thu, 23 Mar 2023 08:13:32 -0700 (PDT)
-Received: from [192.168.68.107] ([177.95.89.231])
- by smtp.gmail.com with ESMTPSA id
- s7-20020a05687050c700b0016e8726f0d4sm6346186oaf.3.2023.03.23.08.13.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Mar 2023 08:13:32 -0700 (PDT)
-Message-ID: <15d643ae-fad0-fb19-c9f2-bb586cbd3317@ventanamicro.com>
-Date: Thu, 23 Mar 2023 12:13:28 -0300
+ (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
+ id 1pfMyl-0002zD-M1
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 11:35:51 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
+ id 1pfMyj-0002bj-QZ
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 11:35:51 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32NEsTLS024947; Thu, 23 Mar 2023 15:35:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UMg5JQLsdm8f/9yQveSaYGAiAFzTiXpzo6PxI3z3Voc=;
+ b=luNoMAlSCLG/G3ekisPhc3+WITYZuUkiLJn2vmWynKxiq+uDNCNw1HRuGfJrxRn/QMUH
+ QfCl1qJAhyKuEN9fpr09uOi0sa6pUqcvr8hzFgb/gwNbxqgYlLUf9C/zzxNO2ZYfg35j
+ YMtn5FNXwwJh43diJ5R+hpZAwLKJGbOeOr5JraJ4b9hSNAX/+MuCT3kKFyhGA7C1Hxx5
+ adnsYclhLehce5iwrLi8oDCBMAxOt8KZF0JS8iPGCg01ntdCBRm1F1SQLrkbT86tf6GV
+ RST43hCqgXtjJOtYWR5/XTIWmPHSyimkr6uUIDL4zqd0QpYW6kt3mWqmnDod9m37YFr1 ng== 
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgmu7g7as-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Mar 2023 15:35:32 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32NEFQ9J014726;
+ Thu, 23 Mar 2023 15:35:32 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
+ by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3pd4x7p524-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Mar 2023 15:35:32 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com
+ [10.241.53.100])
+ by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32NFZUEf47710736
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Mar 2023 15:35:30 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C028F58059;
+ Thu, 23 Mar 2023 15:35:30 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8602E58057;
+ Thu, 23 Mar 2023 15:35:30 +0000 (GMT)
+Received: from [9.163.39.211] (unknown [9.163.39.211])
+ by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Mar 2023 15:35:30 +0000 (GMT)
+Message-ID: <fc7303e8-e847-9717-c83a-d9b0f812bddf@linux.vnet.ibm.com>
+Date: Thu, 23 Mar 2023 10:35:29 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: QMP command dumpdtb crash bug
-To: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <87jzz82d6o.fsf@pond.sub.org>
- <0f671d7f-5862-cf59-2ef2-be347c044a0b@ventanamicro.com>
- <87355vy4sq.fsf@pond.sub.org>
- <CAFEAcA8Yy2-z-J7yjjUxv4ZTg06fEsUt3HVkwNJWYiMBsqkWcA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 2/3] TPM TIS: Add support for TPM devices over I2C bus
 Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAFEAcA8Yy2-z-J7yjjUxv4ZTg06fEsUt3HVkwNJWYiMBsqkWcA@mail.gmail.com>
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: joel@jms.id.au, andrew@aj.id.au, stefanb@linux.ibm.com
+References: <20230323030119.2113570-1-ninad@linux.ibm.com>
+ <20230323030119.2113570-3-ninad@linux.ibm.com>
+ <18fd2a6a-a7e6-f9d4-e993-05dc2142f4d4@kaod.org>
+From: Ninad Palsule <ninad@linux.vnet.ibm.com>
+In-Reply-To: <18fd2a6a-a7e6-f9d4-e993-05dc2142f4d4@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2d;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: QOVGflaazH9fKbkc5VOKFi--kuWIGqFK
+X-Proofpoint-GUID: QOVGflaazH9fKbkc5VOKFi--kuWIGqFK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_21,2023-03-23_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0
+ mlxlogscore=999 phishscore=0 priorityscore=1501 spamscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
+ definitions=main-2303230113
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,57 +113,115 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-
-On 3/23/23 10:38, Peter Maydell wrote:
-> On Thu, 23 Mar 2023 at 13:29, Markus Armbruster <armbru@redhat.com> wrote:
+On 3/23/23 2:44 AM, Cédric Le Goater wrote:
+> On 3/23/23 04:01, Ninad Palsule wrote:
+>> Qemu already supports devices attached to ISA and sysbus. This drop adds
+>> support for the I2C bus attached TPM devices.
 >>
->> Peter, Daniel offers two ways to fix this bug (see below).  Got a
->> preference?
-> 
-> Not freeing seems the correct thing. As Daniel says, this
-> should have been a prerequisite for implementing the
-> command in the first place (you need to change the lifecycle
-> of the fdt blob from "delete when done with in the arm boot code"
-> to "delete on machine finalize"). It looks like somehow we added
-> the command but missed out on getting all of the prerequisite
-> patches in. (File under "need to be cautious about applying partial
-> patchsets", I guess.)
+>> This commit includes changes for the common code.
+>> - Added support for the new checksum registers which are required for
+>>    the I2C support. The checksum calculation is handled in the qemu
+>>    common code.
+>> - Added wrapper function for read and write data so that I2C code can
+>>    call it without MMIO interface.
+>>
+>> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+>> ---
+>> V2:
+>>
+>> Incorporated Stephen's comments.
+>>
+>> - Removed checksum enable and checksum get registers.
+>> - Added checksum calculation function which can be called from
+>>    i2c layer.
+>> ---
+>>   hw/tpm/tpm_tis.h        |  3 +++
+>>   hw/tpm/tpm_tis_common.c | 32 ++++++++++++++++++++++++++++++++
+>>   2 files changed, 35 insertions(+)
+>>
+>> diff --git a/hw/tpm/tpm_tis.h b/hw/tpm/tpm_tis.h
+>> index f6b5872ba6..6f29a508dd 100644
+>> --- a/hw/tpm/tpm_tis.h
+>> +++ b/hw/tpm/tpm_tis.h
+>> @@ -86,5 +86,8 @@ int tpm_tis_pre_save(TPMState *s);
+>>   void tpm_tis_reset(TPMState *s);
+>>   enum TPMVersion tpm_tis_get_tpm_version(TPMState *s);
+>>   void tpm_tis_request_completed(TPMState *s, int ret);
+>> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size);
+>> +void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, 
+>> uint32_t size);
+>> +uint16_t tpm_tis_get_checksum(TPMState *s);
+>>     #endif /* TPM_TPM_TIS_H */
+>> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
+>> index 503be2a541..b1acde74cb 100644
+>> --- a/hw/tpm/tpm_tis_common.c
+>> +++ b/hw/tpm/tpm_tis_common.c
+>> @@ -26,6 +26,8 @@
+>>   #include "hw/irq.h"
+>>   #include "hw/isa/isa.h"
+>>   #include "qapi/error.h"
+>> +#include "qemu/bswap.h"
+>> +#include "qemu/crc-ccitt.h"
+>>   #include "qemu/module.h"
+>>     #include "hw/acpi/tpm.h"
+>> @@ -447,6 +449,27 @@ static uint64_t tpm_tis_mmio_read(void *opaque, 
+>> hwaddr addr,
+>>       return val;
+>>   }
+>>   +/*
+>> + * A wrapper read function so that it can be directly called without
+>> + * mmio.
+>> + */
+>> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size)
+>> +{
+>> +    return tpm_tis_mmio_read(s, addr, size);
+>> +}
+>> +
+>> +/*
+>> + * Calculate current data buffer checksum
+>> + */
+>> +uint16_t tpm_tis_get_checksum(TPMState *s)
+>> +{
+>> +    uint16_t val = 0xffff;
+>> +
+>> +    val = cpu_to_be16(crc_ccitt(0, s->buffer, s->rw_offset));
+>
+> this routine could simply return cpu_to_be16(....
+>
+Done.
 
-Yeah, I'm at fault here. I should've been more insistent about acking
-the ARM patch. All other patches that we left behind was optional, meaning
-that the machine wouldn't implement the command but nothing bad would happen,
-but the ARM patch was kind of mandatory because arm_load_dtb() is
-freeing ms->fdt without assigning it to NULL.
+Thank you for the review.
 
-> 
-> Did anything else from that initial patchset get omitted?
+Ninad
 
-Searching the ML I see that I sent a message saying that I pushed patches 1,
-6 and 8-15 via ppc-next. This means that these patches got left behind:
-
-  2  hw/core: free ms->fdt in machine_finalize()
-  3  hw/arm: do not free machine->fdt in arm_load_dtb()
-  4  hw/mips: set machine->fdt in boston_mach_init()
-  5  hw/microblaze: set machine->fdt in microblaze_load_dtb()
-  7  hw/ppc: set machine->fdt in ppce500_load_device_tree()
-15  hw/xtensa: set machine->fdt in xtfpga_init()
-
-
-Patch 2 was suggested by Phil and changes the common code to free ms->fdt
-during machine_finalize(). Can be re-sent I guess.
-
-All other patches, aside from patch 3 from ARM, are optional because the
-machine isn't freeing ms->fdt or anything like that.
-
-
-I'll rebase and re-sent patch 3 as a bug fix. I'll re-sent the hw/core patch
-as well for 8.1.
-
-
-Daniel
-
-
-> 
-> thanks
-> -- PMM
+> Thanks,
+>
+> C.
+>
+>
+>> +
+>> +    return val;
+>> +}
+>> +
+>>   /*
+>>    * Write a value to a register of the TIS interface
+>>    * See specs pages 33-63 for description of the registers
+>> @@ -767,6 +790,15 @@ static void tpm_tis_mmio_write(void *opaque, 
+>> hwaddr addr,
+>>       }
+>>   }
+>>   +/*
+>> + * A wrapper write function so that it can be directly called without
+>> + * mmio.
+>> + */
+>> +void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, 
+>> uint32_t size)
+>> +{
+>> +    tpm_tis_mmio_write(s, addr, val, size);
+>> +}
+>> +
+>>   const MemoryRegionOps tpm_tis_memory_ops = {
+>>       .read = tpm_tis_mmio_read,
+>>       .write = tpm_tis_mmio_write,
+>
 
