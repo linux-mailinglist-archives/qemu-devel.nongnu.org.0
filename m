@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14AA46C61B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:31:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF506C61BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 09:33:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfGLq-0004SN-Ri; Thu, 23 Mar 2023 04:31:14 -0400
+	id 1pfGN3-000597-40; Thu, 23 Mar 2023 04:32:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pfGLn-0004Rx-0q
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:31:13 -0400
+ id 1pfGN0-00058v-Ao
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:32:26 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pfGLl-0005UI-1M
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:31:10 -0400
+ id 1pfGMy-0005w7-SB
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 04:32:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679560268;
+ s=mimecast20190719; t=1679560344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iYru8Yg2XHN+NfZDd+5pmpZMYN1IPCqzRA0wOsO3gqg=;
- b=AyOvQRhcjDn39EjUWz6h8FJkDBynUq/AdMJfthI70E7PTqtWRxcgYTe0ChGTSv/Y2gfaJR
- AYpwf7JXTC/fD1T3hSRoiVnVYlGtper05vYIYOAuBA4lFgiLyBnVjw4CND1+S77apBdQM/
- FWnzlmsRQk6hvanzMFFkGT/kQgMSJfE=
+ bh=RTbTRcD5JWX3OOU1h57CcRdvKYQ4G6hj6pG8nefRmYU=;
+ b=MZkS8RPjqcdBLm5W8m7LCOIPFWS1ADqXuynfrs2EHpqk6l6vCk9lyP3Z6d+oljrGJkdA0c
+ B69P7oqUcyCb0sqeV7RB0ZlYu/ngdpwBqoNAB5hkIwvilAN8ebufzPf4EjQuUlztalCedW
+ 8sjS2ITJpS6FbAJPtc55wvjsrxMqhJ8=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-IZ-GfU3IPMqfLWv5yBGWag-1; Thu, 23 Mar 2023 04:31:06 -0400
-X-MC-Unique: IZ-GfU3IPMqfLWv5yBGWag-1
+ us-mta-643-PPaSn_0cPqSJ7U1-9EOcew-1; Thu, 23 Mar 2023 04:32:22 -0400
+X-MC-Unique: PPaSn_0cPqSJ7U1-9EOcew-1
 Received: by mail-ed1-f71.google.com with SMTP id
- y24-20020aa7ccd8000000b004be3955a42eso31592178edt.22
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 01:31:06 -0700 (PDT)
+ i22-20020a05640242d600b004f5962985f4so31548120edc.12
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 01:32:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679560266;
+ d=1e100.net; s=20210112; t=1679560342;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iYru8Yg2XHN+NfZDd+5pmpZMYN1IPCqzRA0wOsO3gqg=;
- b=KN0CI6t/b+4Qh9hPuWAY1KJjCvA2oXOV+KDREJRkycdlz0J2jMxGel8jWkmHj76Idv
- wfM/Xa479uzGEw14aKWhIDcYGGUY70AplAa99cp1RY1fPY5WthfXX+bDlJuLArtnpdUJ
- 0irXp4QkF50ZpisVS75sflRJqWY5eNoqtSkDJ3O6CuSdMHkqbX4BCZDaVSIkT7c8t5Fy
- Ynn9JjDtXkolRMxYgoewXXYYG/24A17cnTd0mSBap0BHRDL07hKsjCa1jmCUF3Nr7ZPY
- EGMoPhYe04fkL7bkxZjw75HBPhulH80TYU+nbqcXh8I/94g8Q6W2jekQLuI4Dt6jmFGZ
- RAVQ==
-X-Gm-Message-State: AO0yUKUGa0gfiTFlDHjc0m30sDfWKn4LXheXQ5l3mP0fnJQVKJzl9tNH
- Af38BNub1UA20L2Go+pCWzLAaHtxmNsXAB86C3+dL0ILhpX9p3wByGW7bFDmWS13RLN2nnXH1QD
- AYy81lx4DVeWGK74=
-X-Received: by 2002:a17:906:86d2:b0:933:444a:bbee with SMTP id
- j18-20020a17090686d200b00933444abbeemr10558127ejy.50.1679560265935; 
- Thu, 23 Mar 2023 01:31:05 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8XLQy4HE5g2Fc6VIy4iRs7aNulMs7jYhU7D+YaP7QkiNX51vpszXJcJv1VtNYPMh3nxC2i6w==
-X-Received: by 2002:a17:906:86d2:b0:933:444a:bbee with SMTP id
- j18-20020a17090686d200b00933444abbeemr10558093ejy.50.1679560265628; 
- Thu, 23 Mar 2023 01:31:05 -0700 (PDT)
+ bh=RTbTRcD5JWX3OOU1h57CcRdvKYQ4G6hj6pG8nefRmYU=;
+ b=1xiCImgeWV+a9qsrzJPOJcUQ3Gl6/upGwXter+yfYvNdo500fKnPb/rbHX92EVpkwO
+ p0ege8YIS0xW/DLlA+UklEEoqkgBzpy+7I7jHOy5miRYcN/LUtWB/S5SXXhAjfcU0Mt9
+ hu6lHgrCCcBtEnpj+Gy2u4GbetBImGFtSvk6VjIWaGsqNnu/y12kjjtk+N+3Nok2RtM+
+ /S0dz0pVz7A/0cFjNi0Rool5drOIbBSfeuS/RmkMUvPtksb+rbRSVYCxcUqggWJj1bz8
+ WMjTKeOdsB4MXTK16G7CTsXVXOksYszojYrVan0VqQh7hHv1X1oZmWtWPAMR45RghTom
+ 4kUQ==
+X-Gm-Message-State: AO0yUKVkRnHpQqqcTn1O2mwpB9wOnNG7lXRHHeHqJnTbl47E4R9fNt0x
+ Nei6fhhLEEBhj7I4RenYJMhhvk+hwCJNmYNJlESB2xy5ZpJHs3+L8X+aHCDGHxXicz4RWQ/7jXq
+ kMn1Ed7hUdrgBbB8=
+X-Received: by 2002:aa7:d890:0:b0:4fa:57bf:1416 with SMTP id
+ u16-20020aa7d890000000b004fa57bf1416mr9866487edq.35.1679560341908; 
+ Thu, 23 Mar 2023 01:32:21 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9BtTNB9x9UpTX4qsH4nPEmvPenIG4k17aX/cgfwv5XXbErf0f9unbbJ0ByDwxL+NzIQJpiSg==
+X-Received: by 2002:aa7:d890:0:b0:4fa:57bf:1416 with SMTP id
+ u16-20020aa7d890000000b004fa57bf1416mr9866468edq.35.1679560341669; 
+ Thu, 23 Mar 2023 01:32:21 -0700 (PDT)
 Received: from sgarzare-redhat (host-82-53-134-98.retail.telecomitalia.it.
  [82.53.134.98]) by smtp.gmail.com with ESMTPSA id
- ha8-20020a170906a88800b0093a6c591743sm2927751ejb.69.2023.03.23.01.31.04
+ i3-20020a508703000000b004fbd365fb33sm8887508edb.38.2023.03.23.01.32.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 01:31:05 -0700 (PDT)
-Date: Thu, 23 Mar 2023 09:30:59 +0100
+ Thu, 23 Mar 2023 01:32:21 -0700 (PDT)
+Date: Thu, 23 Mar 2023 09:32:18 +0100
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Eugenio Perez Martin <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com,
@@ -77,18 +77,18 @@ Cc: qemu-devel@nongnu.org, alvaro.karsz@solid-run.com,
  Cindy Lu <lulu@redhat.com>, Parav Pandit <parav@mellanox.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>,
  Shannon Nelson <snelson@pensando.io>, Lei Yang <leiyang@redhat.com>
-Subject: Re: [RFC PATCH for 8.1 4/6] vdpa: return errno in
- vhost_vdpa_get_vring_group error
-Message-ID: <20230323083059.cgjxjwvpoeq7ucqa@sgarzare-redhat>
+Subject: Re: [RFC PATCH for 8.1 5/6] vdpa: move CVQ isolation check to
+ net_init_vhost_vdpa
+Message-ID: <20230323083218.4xqix24clzigc564@sgarzare-redhat>
 References: <20230317145542.347368-1-eperezma@redhat.com>
- <20230317145542.347368-5-eperezma@redhat.com>
- <20230322142634.imcnk7k6q5btze7v@sgarzare-redhat>
- <CAJaqyWeE4_RgPp8bi0fN444BNzvAvxpCAYX2_OTKseD7iGp47g@mail.gmail.com>
+ <20230317145542.347368-6-eperezma@redhat.com>
+ <20230322142712.egnc6rlmeclwmchg@sgarzare-redhat>
+ <CAJaqyWdaXCO5VDSQ_wda9rCFH0VHcTMEuq4RP2b-LLGFty7m7g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJaqyWeE4_RgPp8bi0fN444BNzvAvxpCAYX2_OTKseD7iGp47g@mail.gmail.com>
+In-Reply-To: <CAJaqyWdaXCO5VDSQ_wda9rCFH0VHcTMEuq4RP2b-LLGFty7m7g@mail.gmail.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -113,28 +113,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 22, 2023 at 06:38:21PM +0100, Eugenio Perez Martin wrote:
->On Wed, Mar 22, 2023 at 3:26 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+On Wed, Mar 22, 2023 at 07:04:03PM +0100, Eugenio Perez Martin wrote:
+>On Wed, Mar 22, 2023 at 3:27 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
 >>
->> On Fri, Mar 17, 2023 at 03:55:40PM +0100, Eugenio Pérez wrote:
->> >We need to tell in the caller, as some errors are expected in a normal
->> >workflow.  In particular, parent drivers in recent kernels with
->> >VHOST_BACKEND_F_IOTLB_ASID may not support vring groups.  In that case,
->> >-ENOTSUP is returned.
+>> On Fri, Mar 17, 2023 at 03:55:41PM +0100, Eugenio Pérez wrote:
+>> >Evaluating it at start time instead of initialization time may make the
+>> >guest capable of dynamically adding or removing migration blockers.
+>> >
+>> >Also, moving to initialization reduces the number of ioctls in the
+>> >migration, reducing failure possibilities.
+>> >
+>> >Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>> >---
+>> > net/vhost-vdpa.c | 200 +++++++++++++++++++++++++++++++++++++----------
+>> > 1 file changed, 157 insertions(+), 43 deletions(-)
+>> >
+>> >diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>> >index 4397c0d4b3..818a24fb0e 100644
+>> >--- a/net/vhost-vdpa.c
+>> >+++ b/net/vhost-vdpa.c
+>> >@@ -43,6 +43,13 @@ typedef struct VhostVDPAState {
+>> >
+>> >     /* The device always have SVQ enabled */
+>> >     bool always_svq;
+>> >+
+>> >+    /* The device can isolate CVQ in its own ASID if MQ is negotiated */
+>> >+    bool cvq_isolated_mq;
+>> >+
+>> >+    /* The device can isolate CVQ in its own ASID if MQ is not negotiated */
+>> >+    bool cvq_isolated;
+>> >+
 >>
->> So, should we also avoid the error_report if we expect a failure?
+>> I am not familiar with how CVQ works, so my question might be trivial
+>> ;-) but why do we need to have 2 variables depending on F_MQ?
 >>
 >
->It's actually replaced by error_setg in next patches, but I think it
->is worth commenting on the patch message for sure.
+>You're right, it is not specified anywhere in the series.
+>
+>Vring ASID / group management is based on vq indexes. CVQ is always
+>the last queue, but its position depends on MQ. If it is not acked,
+>cvq will always be queue #2. if it is acked, it will be
+>net_config->max_virtqueue_pairs*2.
+>
+>Previously this was done at device start, so we always know if mq has
+>been acked or not. But now we are moving to initialization, so we need
+>to probe both configurations.
+>
+>Is that clearer now? I'll add to the patch description for sure.
 
-Okay, I see now :-)
+Yes, thanks for the explanation!
 
-Thanks,
 Stefano
-
->
->Thanks!
->
 
 
