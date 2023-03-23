@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080F36C5EB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 06:22:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2DB6C5ED0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 06:30:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfDNW-0005Us-J6; Thu, 23 Mar 2023 01:20:47 -0400
+	id 1pfDWF-0001Ll-Ek; Thu, 23 Mar 2023 01:29:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pfDNR-0005Sk-3M; Thu, 23 Mar 2023 01:20:41 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1pfDWD-0001LC-8g; Thu, 23 Mar 2023 01:29:45 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pfDNP-0000WC-55; Thu, 23 Mar 2023 01:20:40 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id q102so6003515pjq.3;
- Wed, 22 Mar 2023 22:20:38 -0700 (PDT)
+ id 1pfDWB-0004Jt-FD; Thu, 23 Mar 2023 01:29:45 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ o6-20020a17090a9f8600b0023f32869993so885689pjp.1; 
+ Wed, 22 Mar 2023 22:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679548837;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=apJVnbtB3zZY9fI/7ex9YhRC/36pavrkOcqtYY3aMVw=;
- b=KNiTOEssihfpFnvzEUfzjQ3LWwoE3QYX1OJEPouov3QtY6j0sFPiQgLQKcLiVn+cGZ
- 9EN4WcHM6P00XK3tsREyg1cciUucPrDpmLA5b2IH+SYMokyOhiDdk/oJEPBwl4ATyGjY
- 7nX9iPDgVzMpaMGLTWJo3ETCx/BqP/5WBacs4EdMcqQaZSgrTX52FCuBLq0WYT+JDzK8
- m6UhfFZneJ/Q7r5E7YMFVNdqqOWOdxgYCvayZEAjvgpLutm6sZo4bx+bHAyWYvze+5E7
- 7o/FBmUoTotJ8NhGda6Psa0RNUiCmWZN0cKDCx0Hjm+85/2RAcNUlLPHQqnr9T1ZOJfJ
- soGg==
+ d=gmail.com; s=20210112; t=1679549381;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dClqQIcuf7R3eW9pGWVcMwJ53uA3LgBf03DG2n4TMgk=;
+ b=OvvMifh3GPgoXCwK0t9PVEra8hGxbOrnymGpGWknTvFfQAoWfVg9xHEOLoQT1+bkoe
+ c7gsSV+KAnwsDhu0nfn8CbXaqhUds9P8atmHcgoEqVcRDVB8Wsqbu/3FcFIqRVf/LRo5
+ eN4N7MJ0iHz2Q3Pj9F2RlfN5cksbRQZzeFlWUaLvGe0kyab4bkDScwXZe3/ppK+Pf58I
+ 2MCsvj51Ltc/ygX7b/Fya7yGiE40FJ6I8GqABck9Ib5JRPmX/zixQ1YmbYrrXjtv8zrM
+ 0enjnD3SZwTpodkBtlYtNRXqS0YC1Se1ZV/FxNlCphCgzigPCMHeDfs4LNvyPU40Zdgb
+ a8Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679548837;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=apJVnbtB3zZY9fI/7ex9YhRC/36pavrkOcqtYY3aMVw=;
- b=YsirF6jgYbC40ONU5Ntj3RrqrY+3cD60unVEeL3Ft5JLWgrOsei5+KwY5bPC1d1oe0
- kqD3PCxYUwv5O7FKDwaVAqyB5HrNsqBXb/+w8LWGnKYMtydZQfFZ8oCxFMfk8sBLvAvn
- jOgZbPBU112Kgn2ke/XkAvjcJIJQxzjb+pQ1WTUV4vBhAbVfnDEQgn4NPmt6xD/TJH5W
- 49wcqYA8O/PRnT/i3AAq+YlJjZAvUhZWjij4yAIMwZSRSBpbfJD7kIAhivmvQSrNDbU4
- Jv9HxH2xzF/lBb3s0HA600DUidCCLdewyXWrtxFBC532zRvRb0vSbXawe3B7VoUlgz8W
- JBmA==
-X-Gm-Message-State: AO0yUKUFCGaySzVa/dgT/0G9oPe2f+JjN6c7BHA7Zg1MlEImrx1O+u7E
- OlLQUFx+C8hVHy03UCAe8Mib2sUhoJw9srAfxTw=
-X-Google-Smtp-Source: AK7set/EojZA7+A9w8cspcTNZuj17Bloxq0c3DaAVszgrHyszFZvZEfdvO3LzC3qZI+2DjWpUvMoxQ==
-X-Received: by 2002:a17:902:f906:b0:1a1:7da3:ef58 with SMTP id
- kw6-20020a170902f90600b001a17da3ef58mr4709641plb.28.1679548837112; 
- Wed, 22 Mar 2023 22:20:37 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679549381;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dClqQIcuf7R3eW9pGWVcMwJ53uA3LgBf03DG2n4TMgk=;
+ b=3Z7a60ts+maR880h4JYwt0nBi8Yr/+MUC/adCyLkXSVyaoKmWaNTG/kaIdQ2W/YGMH
+ v11/DiGu6XwL/flMD8cHQYABPhrSqbsQRgVfPhwA2uHqHt0G1/Zdb5qn+hIAbGLMFbz1
+ R5nwJFNmQTsYfwpW4tvbprKaBLLuRhfLcyLAmDJTUwkKixU5XfFtfU004fsLm7YRwYrg
+ FW0YLOS9ItzXysB9cMy2gZ9hXtH1CPqAk7kGMeHHaFUq0ky0YDjFW5hYzceEvUVDJByn
+ axV7RFmlJXGg3mIcj1YXYv4QZ7xx0nOFOhZ+rZ0tS5/SNLX1e1tX7BloComwWR4p031H
+ riCw==
+X-Gm-Message-State: AO0yUKXsRZ5bDJB1Nmc3yfBo+zFpWYZaJBw9deOqjFfccbZ/B4SKkW+L
+ QWqK7CKbpwXYRse/6DMPZRGd2f8LhDLa+yk1fy0=
+X-Google-Smtp-Source: AK7set81UMgrkGZdNmPQRp61GqSqtcnk49PPSWO5x/DKL5eMUuPAW4fonH4vWXGtuhtChdG64cJAjg==
+X-Received: by 2002:a17:902:ce91:b0:19f:2dff:2199 with SMTP id
+ f17-20020a170902ce9100b0019f2dff2199mr6334539plg.68.1679549380970; 
+ Wed, 22 Mar 2023 22:29:40 -0700 (PDT)
 Received: from fedlinux.. ([106.84.129.82]) by smtp.gmail.com with ESMTPSA id
- c10-20020a170902b68a00b0019edf07eb06sm11428073pls.122.2023.03.22.22.20.33
+ r18-20020a63ce52000000b00502f4c62fd3sm3302965pgi.33.2023.03.22.22.29.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 22:20:36 -0700 (PDT)
+ Wed, 22 Mar 2023 22:29:40 -0700 (PDT)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- hare@suse.de, Fam Zheng <fam@euphon.net>, dmitry.fomichev@wdc.com,
- damien.lemoal@opensource.wdc.com, Julia Suvorova <jusual@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, damien.lemoal@opensource.wdc.com,
+ kvm@vger.kernel.org, hare@suse.de, Paolo Bonzini <pbonzini@redhat.com>,
+ dmitry.fomichev@wdc.com, Hanna Reitz <hreitz@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v7 4/4] block: add some trace events for zone append
-Date: Thu, 23 Mar 2023 13:19:07 +0800
-Message-Id: <20230323051907.5948-5-faithilikerun@gmail.com>
+Subject: [PATCH v8 0/4] Add zoned storage emulation to virtio-blk driver
+Date: Thu, 23 Mar 2023 13:28:24 +0800
+Message-Id: <20230323052828.6545-1-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230323051907.5948-1-faithilikerun@gmail.com>
-References: <20230323051907.5948-1-faithilikerun@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,47 +93,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- block/file-posix.c | 3 +++
- block/trace-events | 2 ++
- 2 files changed, 5 insertions(+)
+This patch adds zoned storage emulation to the virtio-blk driver.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 60ad3970f3..9866d073f5 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2497,6 +2497,8 @@ out:
-             if (!BDRV_ZT_IS_CONV(*wp)) {
-                 if (type & QEMU_AIO_ZONE_APPEND) {
-                     *s->offset = *wp;
-+                    trace_zbd_zone_append_complete(bs, *s->offset
-+                        >> BDRV_SECTOR_BITS);
-                 }
-                 /* Advance the wp if needed */
-                 if (offset + bytes > *wp) {
-@@ -3544,6 +3546,7 @@ static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
-         len += iov_len;
-     }
- 
-+    trace_zbd_zone_append(bs, *offset >> BDRV_SECTOR_BITS);
-     return raw_co_prw(bs, *offset, len, qiov, QEMU_AIO_ZONE_APPEND);
- }
- #endif
-diff --git a/block/trace-events b/block/trace-events
-index 3f4e1d088a..32665158d6 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -211,6 +211,8 @@ file_hdev_is_sg(int type, int version) "SG device found: type=%d, version=%d"
- file_flush_fdatasync_failed(int err) "errno %d"
- zbd_zone_report(void *bs, unsigned int nr_zones, int64_t sector) "bs %p report %d zones starting at sector offset 0x%" PRIx64 ""
- zbd_zone_mgmt(void *bs, const char *op_name, int64_t sector, int64_t len) "bs %p %s starts at sector offset 0x%" PRIx64 " over a range of 0x%" PRIx64 " sectors"
-+zbd_zone_append(void *bs, int64_t sector) "bs %p append at sector offset 0x%" PRIx64 ""
-+zbd_zone_append_complete(void *bs, int64_t sector) "bs %p returns append sector 0x%" PRIx64 ""
- 
- # ssh.c
- sftp_error(const char *op, const char *ssh_err, int ssh_err_code, int sftp_err_code) "%s failed: %s (libssh error code: %d, sftp error code: %d)"
+The patch implements the virtio-blk ZBD support standardization that is
+recently accepted by virtio-spec. The link to related commit is at
+
+https://github.com/oasis-tcs/virtio-spec/commit/b4e8efa0fa6c8d844328090ad15db65af8d7d981
+
+The Linux zoned device code that implemented by Dmitry Fomichev has been
+released at the latest Linux version v6.3-rc1.
+
+Aside: adding zoned=on alike options to virtio-blk device will be
+considered in following-up plan.
+
+v7:
+- address Stefan's review comments
+  * rm aio_context_acquire/release in handle_req
+  * rename function return type
+  * rename BLOCK_ACCT_APPEND to BLOCK_ACCT_ZONE_APPEND for clarity
+
+v6:
+- update headers to v6.3-rc1
+
+v5:
+- address Stefan's review comments
+  * restore the way writing zone append result to buffer
+  * fix error checking case and other errands
+
+v4:
+- change the way writing zone append request result to buffer
+- change zone state, zone type value of virtio_blk_zone_descriptor
+- add trace events for new zone APIs
+
+v3:
+- use qemuio_from_buffer to write status bit [Stefan]
+- avoid using req->elem directly [Stefan]
+- fix error checkings and memory leak [Stefan]
+
+v2:
+- change units of emulated zone op coresponding to block layer APIs
+- modify error checking cases [Stefan, Damien]
+
+v1:
+- add zoned storage emulation
+
+Sam Li (4):
+  include: update virtio_blk headers to v6.3-rc1
+  virtio-blk: add zoned storage emulation for zoned devices
+  block: add accounting for zone append operation
+  virtio-blk: add some trace events for zoned emulation
+
+ block/qapi-sysemu.c                          |  11 +
+ block/qapi.c                                 |  18 +
+ hw/block/trace-events                        |   7 +
+ hw/block/virtio-blk-common.c                 |   2 +
+ hw/block/virtio-blk.c                        | 405 +++++++++++++++++++
+ include/block/accounting.h                   |   1 +
+ include/standard-headers/drm/drm_fourcc.h    |  12 +
+ include/standard-headers/linux/ethtool.h     |  48 ++-
+ include/standard-headers/linux/fuse.h        |  45 ++-
+ include/standard-headers/linux/pci_regs.h    |   1 +
+ include/standard-headers/linux/vhost_types.h |   2 +
+ include/standard-headers/linux/virtio_blk.h  | 105 +++++
+ linux-headers/asm-arm64/kvm.h                |   1 +
+ linux-headers/asm-x86/kvm.h                  |  34 +-
+ linux-headers/linux/kvm.h                    |   9 +
+ linux-headers/linux/vfio.h                   |  15 +-
+ linux-headers/linux/vhost.h                  |   8 +
+ qapi/block-core.json                         |  62 ++-
+ qapi/block.json                              |   4 +
+ 19 files changed, 769 insertions(+), 21 deletions(-)
+
 -- 
 2.39.2
 
