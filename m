@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3889B6C69C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 14:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF326C6A4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 15:00:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfLET-0003u5-At; Thu, 23 Mar 2023 09:43:57 -0400
+	id 1pfLSX-0000Bb-9i; Thu, 23 Mar 2023 09:58:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pfLER-0003tw-Hh
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 09:43:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pfLSV-0000B7-4h
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 09:58:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pfLEO-000434-UH
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 09:43:55 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pfLST-00088j-IH
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 09:58:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679579029;
+ s=mimecast20190719; t=1679579904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tGXSC9TQqgSSU3hvsKiHkN8MfJIghIcozpaVZUkXPrk=;
- b=Rf2WLA3rBt8nN7P+5APKjWYsnUoSu9im4au+0NqYdQCQkO+JY01UcNhHJ+vTdYWS/N6cm4
- Sqs+j7vErArlL1Q8IURJEb+Iv0K87A+GNcRxl8Fm/aFRZN4D/GhdP09xjgZlYCcphZYJcY
- 1gRKGiagMnKWs6e31pot0B16TILzuQo=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-620-Pf4kOtJGMM62lbu0v1ozZA-1; Thu, 23 Mar 2023 09:43:48 -0400
-X-MC-Unique: Pf4kOtJGMM62lbu0v1ozZA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- s12-20020a37a90c000000b007468eaf866aso5639619qke.17
- for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 06:43:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679579028; x=1682171028;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tGXSC9TQqgSSU3hvsKiHkN8MfJIghIcozpaVZUkXPrk=;
- b=aGgZfsXQd9wABgxWpw9FCjiOV6Kplj4L4lyM9J87471KcWit+Vj9B3V88/5ybpM4e3
- LwjQLvAviiHul060Rsj+FEDZN+S/V7Tx/rNrt320fjxIf6zaDREErGtK3zSoSQffdaTA
- DX2ZKp9wkM03qAczshCyNlNz97no4r1bkhosM6GI4jyem6RQ0aa6Ae/R9vFrpkB9vEeT
- W6xJTbZYkn/af8bHM7eENMMPDac2hwUeZkYaT5j9HED5J3gIDX0HwvQn4u8vYrd4Nm/E
- lbtS61eohfHxxWFxuIyXEuzix3/2Eq3CzuHWZJI+himnlw3g2Uzl+m/SmSyngIy6YocP
- ojEw==
-X-Gm-Message-State: AO0yUKUtBGQFTUxUNnF5KH+oPgKhvkLRGTo6kp0AoT1bBDe3FlCEQaCn
- hoMLOFxbM2FDMsjZiBH9vvsLnpfkeud6ZVUe8rRaMST9usu3OCs+8onklb+TDlsyn5ueg3vRUvv
- X7npOJTqdopB4pzQ=
-X-Received: by 2002:a05:6214:518a:b0:56c:222d:427a with SMTP id
- kl10-20020a056214518a00b0056c222d427amr15299714qvb.1.1679579028089; 
- Thu, 23 Mar 2023 06:43:48 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/+8YNNey9fBsPa8nFQJkP3VKZdB/z1Dnc0pnUMms1kvDYJ4Kpc8bw4yFh6nXp3EocWttu11A==
-X-Received: by 2002:a05:6214:518a:b0:56c:222d:427a with SMTP id
- kl10-20020a056214518a00b0056c222d427amr15299684qvb.1.1679579027853; 
- Thu, 23 Mar 2023 06:43:47 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- j68-20020a37b947000000b0074577e835f2sm13232164qkf.48.2023.03.23.06.43.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 06:43:47 -0700 (PDT)
-Date: Thu, 23 Mar 2023 09:43:46 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jiajing Zhou <zhoujiajing.vergil@bytedance.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- 'Philippe =?utf-8?Q?Mathieu-Daud=C3=A9'?= <philmd@linaro.org>,
- "'Dr . David Alan Gilbert'" <dgilbert@redhat.com>
-Subject: Re: [PATCH 1/1] accel/kvm/kvm-all: fix vm crash when set dirty ring
- and memorybacking
-Message-ID: <ZBxXkpcaOrGuApMd@x1n>
-References: <20230323131914.35583-1-zhoujiajing.vergil@bytedance.com>
+ bh=D1W3DHp3xspmY5hdu5czMWy056gRsu9LM5k0US6jbuA=;
+ b=i40YjbkEuxmpxqZCXylCgiwo6/tp6CPUC+8aTE8/UTf6f3JhlctSWldJQrJW2Ybz6gEyJF
+ qEgbfWl0HB1+rixhXz+SKWKP0Vtr/IkhuJDzBK+V9QJwY18Gfs71sZw65CmclXnnqzSVpo
+ QZnJJeHjSgVvvwCEMxR2OvI/mBsdwHs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-45-wFG-vdJQPfCfz51UHQXQUQ-1; Thu, 23 Mar 2023 09:58:22 -0400
+X-MC-Unique: wFG-vdJQPfCfz51UHQXQUQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA5D8830FB0;
+ Thu, 23 Mar 2023 13:58:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CD4718EC7;
+ Thu, 23 Mar 2023 13:58:20 +0000 (UTC)
+Date: Thu, 23 Mar 2023 09:58:19 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Fam Zheng <fam@euphon.net>, qemu-stable <qemu-stable@nongnu.org>,
+ Qing Wang <qinwang@redhat.com>
+Subject: Re: [PATCH for-8.0] aio-posix: fix race between epoll upgrade and
+ aio_set_fd_handler()
+Message-ID: <20230323135819.GA1331422@fedora>
+References: <20230322145521.1294954-1-stefanha@redhat.com>
+ <CABgObfbxqDNjH_RWu8L4dU+f9VchZi-c-=nNpt5vCGfK7Asndg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Trv9uuz69zfZMbP2"
 Content-Disposition: inline
-In-Reply-To: <20230323131914.35583-1-zhoujiajing.vergil@bytedance.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <CABgObfbxqDNjH_RWu8L4dU+f9VchZi-c-=nNpt5vCGfK7Asndg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,71 +83,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 23, 2023 at 09:19:15PM +0800, Jiajing Zhou wrote:
-> From: "zhoujiajing.vergil" <zhoujiajing.vergil@bytedance.com>
-> 
-> It is possible enter this function when the cpu not finished creating but
-> is already in the cpu list. The value of dirty_gfns is null, causing vm
-> crash here.
-> 
-> When both dirty-ring and memorybacking are set, creating a vm will assert
-> on kvm_dirty_ring_reap_one. Part of the xml as follows:
-> 
-> 
-> <domain type='kvm' id='9'>
->   ...
->   <memoryBacking>
->     <hugepages>
->       <page size='2048' unit='KiB' memAccess='shared'/>
->     </hugepages>
->   </memoryBacking>
->   ...
->   <features>
->     <acpi/>
->     <kvm>
->       <dirty-ring state='on' size='4096'/>
->     </kvm>
->   </features>
->   ...
-> <domain/>
-> 
-> The kvm-reaper thread was created before vcpu thread, and the value of
-> cpu->kvm_dirty_gfns is assigned at cpu thread. In the x86_cpu_realizefn
-> function, the cpu is inserted into the cpu list first, and then the cpu
-> thread is created for initialization. The entry functions are
-> cpu_exec_realizefn and qemu_init_vcpu. In the existing logic, the
-> kvm-reaper thread traverses the cpu list every second and finally call
-> kvm_dirty_ring_reap_one for each cpu in the list. If cpu has been inserted
-> into cpu list but has not been initialized so that the value of dirty_gfns
-> is null, kvm-reaper thread call kvm_dirty_ring_reap_one will cause vm crash.
-> 
-> The call stack is as follows:
->   kvm_dirty_ring_reaper_thread
->     -> kvm_dirty_ring_reap
->        ->kvm_dirty_ring_reap_locked
->          ->kvm_dirty_ring_reap_one
-> 
-> 
-> Signed-off-by: zhoujiajing.vergil <zhoujiajing.vergil@bytedance.com>
 
-Acked-by: Peter Xu <peterx@redhat.com>
+--Trv9uuz69zfZMbP2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-And there's a prior fix last year:
+On Thu, Mar 23, 2023 at 06:02:36AM +0100, Paolo Bonzini wrote:
+> Il mer 22 mar 2023, 15:55 Stefan Hajnoczi <stefanha@redhat.com> ha scritt=
+o:
+>=20
+> > +    /* The list must not change while we add fds to epoll */
+> > +    if (!qemu_lockcnt_dec_if_lock(&ctx->list_lock)) {
+> > +        return false;
+> > +    }
+> > +
+> > +    ok =3D fdmon_epoll_try_enable(ctx);
+> > +
+> > +    qemu_lockcnt_unlock(&ctx->list_lock);
+> >
+>=20
+> Shouldn't this be inc_and_unlock to balance the change made by dec_if_loc=
+k?
 
-https://lore.kernel.org/r/20220927154653.77296-1-peterx@redhat.com
+Yes, the caller expects list_lock to still be incremented. Thanks for
+catching this!
 
-The most recent post that I'm aware of is by Yong:
+Stefan
 
-https://lore.kernel.org/r/1d14deb6684bcb7de1c9633c5bd21113988cc698.1676563222.git.huangy81@chinatelecom.cn
+--Trv9uuz69zfZMbP2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-A bunch of people hit this already.
+-----BEGIN PGP SIGNATURE-----
 
-Paolo, ping yet again - would you consider merging any of the versions?
-For this one I'd think it'll be good to have even for 8.0.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQcWvsACgkQnKSrs4Gr
+c8h4HwgAmWR/S40fAci3MOSb8ERlBpNK8/JAZhajCadRSJ/+5DgzIyBM+af3Mx8h
+TE/lvNaZKVq8wXy4rZEkK0TK3gGXb25mcV6kgL52wBsJpmyIGWhxT9ldZOp+BwKf
+M276/761+omf697ZWoZJWtkJ0FgkDhpbS2QDF3VbKPiv+V0gea5DDFG7lJCtx4Od
+hh3/6JTt8JRzpsqF/VOvy62zjt7whVPLxwkH6nkJJauGOnY/rjtJDpQM8GWyslCe
+3+ciu/UsqOIDbUdFruqHE5Yn4iZGfySXtFn71gTj3VecC4WOwUSu/kkh2UAOeFq6
+xk/SDLOcXva4tYFoxv6QJ8a4tVx9lg==
+=m9uz
+-----END PGP SIGNATURE-----
 
-Thanks!
-
--- 
-Peter Xu
+--Trv9uuz69zfZMbP2--
 
 
