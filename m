@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F616C7196
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 21:16:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8596C71C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 21:45:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfRLP-0006H9-0A; Thu, 23 Mar 2023 16:15:31 -0400
+	id 1pfRnP-0004LN-5R; Thu, 23 Mar 2023 16:44:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pfRLM-0006FI-KM; Thu, 23 Mar 2023 16:15:28 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+ id 1pfRnN-0004K8-74; Thu, 23 Mar 2023 16:44:25 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pfRLI-0005y3-Ua; Thu, 23 Mar 2023 16:15:28 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-17aaa51a911so23850860fac.5; 
- Thu, 23 Mar 2023 13:15:16 -0700 (PDT)
+ id 1pfRnK-0006sR-7k; Thu, 23 Mar 2023 16:44:24 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-17786581fe1so23887343fac.10; 
+ Thu, 23 Mar 2023 13:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679602515;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7WIPfErpMkM99kkXFcvAr7eJXNQ8VK97y/ablDHSY/I=;
- b=ZVLNoJ2zoC1RnD/Iy4Z+o9uMoCprsO0MWDhBz4vnMGHbrUc8dKjz4eypOvwWz1SODv
- Z2fqYJ6ga3QAesAb5mQRZN9d+leVOiwVdRKXYjD1IIHWHEb5lvJ7tnOstbyITyeKoxiC
- mOSN+OK7+isIjXeFnDLU7qFcGL7NPXy9z08bF88k4F6hM8q/e50KhluVVvXT93Ud5vSJ
- EObO31SENUmFjD3wRtr5YGLSsOG7pfFwgHhJ1QiQioV9LNUQXxt7g5larq66TWAYIARG
- KbfQzbKmeFPPQd286tN/0ewjzUDtoh9N7dR8xxRxFYla3+kXbVIZx8Y+UR4PYLgQlI6f
- Yy/A==
+ d=gmail.com; s=20210112; t=1679604260;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FPKiv4Av7DAX9okuawoFHj/Q4H5V/HnL1U0OAze6R6A=;
+ b=GFkexIHLBI2Wo7k8NTIHWT65yb7WV5wiTX5waO/ckcRp0aLTAs17fTCgm0ETxekFSN
+ 7rP7NoA9deJBFlQDrBztAP+HvmGcDehGwXpIApUCaObX9mnLPOQ/58qQtK0W/i+DZMJ1
+ muaFtH/YpTVk2CRsLpoiCZXQFxuOziVu5il5YbcFy0dbKZpO0B3mRj9KGxZYs/on7fup
+ qpr3O7gqzyaarRMZKjd7xLbhI0pNq12i9NQCvUzyvNAtsAG9s9hb+Qy03TkZUQZz44WJ
+ SlZZeocTWvW3QoRskjuPuGKkiwyqMpnqOzHT0iEY4lgqSlyO2jFaovNnOhm8gUTZO9UA
+ +DEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679602515;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7WIPfErpMkM99kkXFcvAr7eJXNQ8VK97y/ablDHSY/I=;
- b=osilPBD+KTBTCGWeNlMdFVPDm6BvyVpfLfV0/il4UqDkeX3xVRfJG+XmD1knPRPM/K
- tudZtvIISzFQGV69ZlgEI9USYYuSfW4NlH1Fw/ITWgfyUafemsH8XXKHzZxPTP/pJ0az
- /OJNEwdcSyhDa6FJS5FNtr9oPCmh4KSd32mO/DgMRxZPeaJ4lXlcdF14rZFlx10pR/NW
- VDtUkmtdl7JNxDHXrn8elYnanaCNvwyPOOewE3jNO2ye4dG6x1oD2IRhf/4muEuzSSDb
- scjctwHcLjYXqwahxGDAIObvJj5W/F04qVYsAt8AH6m1utSHw2GX42y0gWg1fMlwFC/K
- cvrA==
-X-Gm-Message-State: AAQBX9fWgLj5WOIJSnbUSIG8wI18Ick/zvRxQBCzYc04mwbxl0pMvP0a
- DY7lXhJGrcvIQYNIvR70GBE=
-X-Google-Smtp-Source: AKy350bAgd+1fCqmKqIHUg/un2N2esRR062ODWAa/utx1bCTly2MiLWo9wVEP/X/v5AmNkj0cvnqHg==
-X-Received: by 2002:a05:6871:5cc:b0:17a:a825:6be9 with SMTP id
- v12-20020a05687105cc00b0017aa8256be9mr305271oan.43.1679602515499; 
- Thu, 23 Mar 2023 13:15:15 -0700 (PDT)
-Received: from [192.168.68.107] ([177.95.89.231])
- by smtp.gmail.com with ESMTPSA id
- vk10-20020a0568710e4a00b00172426ebe58sm6511835oab.27.2023.03.23.13.15.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Mar 2023 13:15:15 -0700 (PDT)
-Message-ID: <2b7edf21-9825-ca5e-0329-1ef3e411439d@gmail.com>
-Date: Thu, 23 Mar 2023 17:15:12 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/1] hw/arm: do not free machine->fdt in arm_load_dtb()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org
-References: <20230323161053.412356-1-danielhb413@gmail.com>
- <20230323161053.412356-2-danielhb413@gmail.com>
- <CAFEAcA89KN5SEi5hFoKKpzVSo=xV3gCn7b2bMBhb5qoQ=U9_mg@mail.gmail.com>
- <fda401e9-608d-a74b-9ff5-aa977d900cd5@gmail.com>
- <CAFEAcA_MXhG7-J9qAv-9cmHKC-qx5nKfZPHi7jXyqdoYumH5-A@mail.gmail.com>
+ d=1e100.net; s=20210112; t=1679604260;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FPKiv4Av7DAX9okuawoFHj/Q4H5V/HnL1U0OAze6R6A=;
+ b=jVFkcmbGdpuaex2N6zoN3hLKAU1EDUnB7W+QudbEC2ceEu7Bj6rrzzWbeZLXWlh+1n
+ tPqUwnSF90VzBIXDKzjTheXfse8xke2rJ6elB76f2jOXgHHTf/u1YT38XZMSqhA2Wo+n
+ atw0M7F9p4vMY/xhWecrgXFJ06DWnv8CMqyg2KHCSGXOetRSeWnYv+ZgYGar2shsKEP8
+ IOYtSouvIjIHr1IUkowN3RNK0txBqiIyIXOcGva/CI0nhNG1+0hAp4JRmjUJK0ZczlFw
+ Nlrn30zNN42Qi09d3RU3Gs+KX+e2xJm/OT9kojJcACdY25b26muVv61PRYDxf3ocwcF7
+ omSQ==
+X-Gm-Message-State: AAQBX9eMZxAwec/sN87YJilDZbb/QB3JFPXRNd+H0fyagHSD4d9uTG2E
+ E9m8CJUM2Kj4Q6APXNib+1hrpdoRJE0=
+X-Google-Smtp-Source: AKy350bGaMaZ7mN1VCe6+FkyhzhPXHMEhZe/8gId1HgDVMDVK/wn5tVwWor4k/AVe972+BeXSde/Bg==
+X-Received: by 2002:a05:6870:972c:b0:177:a8a8:660 with SMTP id
+ n44-20020a056870972c00b00177a8a80660mr446308oaq.9.1679604260328; 
+ Thu, 23 Mar 2023 13:44:20 -0700 (PDT)
+Received: from grind.. ([177.95.89.231]) by smtp.gmail.com with ESMTPSA id
+ vd21-20020a0568708f9500b0017ae1aede32sm6442081oab.46.2023.03.23.13.44.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Mar 2023 13:44:19 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <CAFEAcA_MXhG7-J9qAv-9cmHKC-qx5nKfZPHi7jXyqdoYumH5-A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+To: qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org
+Subject: [PATCH v2 0/1] fix dumpdtb crash with ARM machines
+Date: Thu, 23 Mar 2023 17:44:13 -0300
+Message-Id: <20230323204414.423412-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,77 +88,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
+
+In this version I fixed a mem leak that was happening if the user inputs
+a fdt via '-dtb'. In that case we would assign the updated FDT on top of
+the existing board FDT that was already assigned to ms->fdt.
+
+Tested as follows:
+
+$ ./qemu-system-aarch64 -S -M virt -display none -qmp stdio
+{"QMP": {"version": {"qemu": {"micro": 91, "minor": 2, "major": 7}, "package": "v8.0.0-rc1-37-ge573ef31e7-dirty"}, "capabilities": ["oob"]}}
+{"execute": "qmp_capabilities", "arguments": {"enable": ["oob"]}}
+{"return": {}}
+
+{"execute": "dumpdtb", "arguments": {"filename": "fdt.dtb"}}
+{"return": {}}
+
+^Cqemu-system-aarch64: terminating on signal 2
+{"timestamp": {"seconds": 1679603324, "microseconds": 62159}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-signal"}}
+$ 
 
 
-On 3/23/23 14:59, Peter Maydell wrote:
-> On Thu, 23 Mar 2023 at 17:54, Daniel Henrique Barboza
-> <danielhb413@gmail.com> wrote:
->>
->>
->>
->> On 3/23/23 14:38, Peter Maydell wrote:
->>> On Thu, 23 Mar 2023 at 16:11, Daniel Henrique Barboza
->>> <danielhb413@gmail.com> wrote:
->>>> -    g_free(fdt);
->>>> +    /* Set ms->fdt for 'dumpdtb' QMP/HMP command */
->>>> +    ms->fdt = fdt;
->>>
->>> With this we're now setting ms->fdt twice for the virt board: we set
->>> it in create_fdt() in hw/arm/virt.c, and then we set it again here.
->>> Which is the right place to set it?
->>>
->>> Is the QMP 'dumpdtb' command intended to dump the DTB only for
->>> board types where the DTB is created at runtime by QEMU? Or
->>> is it supposed to also work for DTBs that were originally
->>> provided by the user using the '-dtb' command line? The docs
->>> don't say. If we want the former, then we should be setting
->>> ms->fdt in the board code; if the latter, then here is right.
->>
->> My original intent with this command was to dump the current state of the FDT,
->> regardless of whether the FDT was loaded via -dtb or at runtime.
-> 
-> Mmm. I think that makes sense; we do make a few tweaks to the DTB
-> even if it was user-provided and you might want to check those
-> for debug purposes. So we should keep this assignment, and remove
-> the now-unneeded setting of ms->fdt in create_fdt().
+$ ./qemu-system-aarch64 -S -M virt -display none -qmp stdio -dtb fdt.dtb 
+{"QMP": {"version": {"qemu": {"micro": 91, "minor": 2, "major": 7}, "package": "v8.0.0-rc1-37-ge573ef31e7-dirty"}, "capabilities": ["oob"]}}
+{"execute": "qmp_capabilities", "arguments": {"enable": ["oob"]}}
+{"return": {}}
+
+{"execute": "dumpdtb", "arguments": {"filename": "fdt.dtb"}}
+{"return": {}}
+^Cqemu-system-aarch64: terminating on signal 2
+{"timestamp": {"seconds": 1679603344, "microseconds": 145748}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-signal"}}
+$ 
 
 
-I don't think we can remove it. arm_load_dtb() does the following:
-
-     if (binfo->dtb_filename) {
-        (...)
-     } else {
-         fdt = binfo->get_dtb(binfo, &size);
-         if (!fdt) {
-             fprintf(stderr, "Board was unable to create a dtb blob\n");
-             goto fail;
-         }
-     }
-
-So if we don't have a '-dtb' option, fdt = binfo->get_dtb(). For the 'virt' machine,
-machvirt_dtb(), will return ms->fdt. So we would SIGSEG right at the start.
-
-And now that I think more about it, this patch is leaking the board FDT if we're
-using the FDT from dtb_filename, isn't it? We're assigning a new ms->fdt on top
-of the existing ms->fdt from the board. I'll send a new version.
-
-Also, given that we're not using the board FDT at all if '-dtb' is present, I
-think it would be good to move create_fdt() from machvirt_init() to machvirt_dtb().
-Some code juggling would be required (some functions from init() are using ms->fdt)
-but it think it would make the code clearer - create the fdt board only if we're
-really going to use it. I'll see if I can pull this off and send a 8.1 patch
-with it.
+First we use 'dumpdtb' to dump the board FDT in fdt.dtb, then we use it as
+an argument to '-dtb' and do the test again. This covers both code paths.
 
 
-Thanks,
+Changes from v1:
+- g_free(ms->fdt) before load_device_tree()
+- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg05930.html
 
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-arm@nongnu.org
 
-Daniel
+Daniel Henrique Barboza (1):
+  hw/arm: do not free machine->fdt in arm_load_dtb()
 
+ hw/arm/boot.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
+-- 
+2.39.2
 
-
-> 
-> thanks
-> -- PMM
 
