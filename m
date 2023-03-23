@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2347D6C65F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 11:59:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF966C668C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 12:28:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfIe2-00049W-1S; Thu, 23 Mar 2023 06:58:10 -0400
+	id 1pfJ68-0002kv-LM; Thu, 23 Mar 2023 07:27:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pfIdz-000494-ES; Thu, 23 Mar 2023 06:58:07 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pfIdx-0007ZC-HP; Thu, 23 Mar 2023 06:58:07 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 54F8D32008C3;
- Thu, 23 Mar 2023 06:57:58 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 23 Mar 2023 06:57:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1679569077; x=
- 1679655477; bh=x6qUFGHqxHmFZ8dFOq/PnhQfxWL5SL4X/KMRlfML1aE=; b=0
- UENfoTNUlpbLlflhSZC64SwgvEeOAq6DF1W9SZWrY1m0P9vh2SyLaTzMrpxgIBjF
- gyIGhu52qy4p/AZP6CM+Jo+UEkzIGLvcKszh7Qw9txlWwKituR0KmM/ZLPvpGEZa
- 4pStHJVYtkk2S3uknXeMVV0xfkVzstboxPzinmA1U/kF5uZ3EM1T433HUWumomEV
- RKZ8yqRGEXRy+Q7VnykdGBtTOrBULVyZhNGOByUAXAsmsFHLRhWWYo+d/QbIjnQI
- haDv4s1EvCGxXVuOg6sR77oqUFz8nF+YYAwvMjHDh127WzmWIhxAhnZoqMGX0HLx
- CoR2sDR3AkzL1/OGTNQ/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1679569077; x=1679655477; bh=x6qUFGHqxHmFZ
- 8dFOq/PnhQfxWL5SL4X/KMRlfML1aE=; b=RtdYvKr1e3XNeuVgDXKyBRXVCqXk+
- +Xxn0YtqU3QeidmLS2hZT2+PzdsqhbiICPFUmeJrnUJ4kjeC0MKxOebGxeWKRemR
- iJtLkEWy5BmBqcgPHxFM7XPcpF4QgwaEFIoISak7nsWHoPzZIEBxTBuqavt/w2Kz
- FmnB5iIoQlit3BBf6z0GZ3D8S5fgfIW7tag5uhnGyQV6Y3dBY68fTdzK1PoiBoHl
- mvbYiuZHdfHJZRVQtJ7iEXFjbVW0sOJmNt5fLFiPrsBOaCKbbL1inoNJyNGe3XVg
- Gpdm5hdvugTMGDLOu5ikM0judh6E9LuWJHxXcSAEE0iBGPYmLvcjH49QQ==
-X-ME-Sender: <xms:tTAcZPufhEQZYsVzJfFedwO0IutMu2Vfif1GX5mihNCbWdWYHTgA0g>
- <xme:tTAcZAe8jcE_TNh0hdEctEqSdp62Wa73Kwyj0kziLDwyuqPzCGAUonzzvVnrN9m8U
- 8A3bWi4yHVb3xh61GI>
-X-ME-Received: <xmr:tTAcZCyxGyA7uR-X_NZmrP3NQw_8bMvSvGHjfKB9J5WCqS6pt4q66oE_EqGBPmNL-z8QMpGh6QrbjImbArDvxCKhVW4tNzw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeggedgvddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:tTAcZONja06dA77UODACQK9GD2Y5bTPzkgT-5Du8_UMPRPErO3AJsw>
- <xmx:tTAcZP89_wpclzbzn2U3mUu5XU1yv9yx3Azh0fvq8huQVSu24KguWw>
- <xmx:tTAcZOUbW8oX3eIQGvTYfIUbZiTVXlXnRwnLk47dP4TQjWzw3ooMfw>
- <xmx:tTAcZLYY494I5c7AYO2AX7_EIX9XGH1U0flROhJnYMc1oXtr0rn4xQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Mar 2023 06:57:56 -0400 (EDT)
-Date: Thu, 23 Mar 2023 11:57:54 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Mateusz Kozlowski <kozlowski.mateuszpl@gmail.com>
-Cc: qemu-devel@nongnu.org, mateusz.kozlowski@solidigm.com,
- Keith Busch <kbusch@kernel.org>, "open list:nvme" <qemu-block@nongnu.org>
-Subject: Re: [PATCH] hw/nvme: Change alignment in dma functions for nvme_blk_*
-Message-ID: <ZBwwsj9Z9Ej9ccHf@cormorant.local>
-References: <20230320124042.1404-1-kozlowski.mateuszpl@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pfJ64-0002kI-So
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 07:27:09 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pfJ60-00014f-S4
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 07:27:07 -0400
+Received: by mail-ed1-x533.google.com with SMTP id y4so85026144edo.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 04:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679570823;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=na3vfhMV/9RU+XBpFi5fJnfv6Pf/vez3GlZkp/8INEo=;
+ b=aeB/6P/PXvKWOQhVY1V26ki652mRbZYqUVA3yCW4zbXZBgz7LYk4w3hW5Fw+zAe8ne
+ r0BspDXaSvIOBEFRVyISor5SlCoqeWxVdFHkuScLaj9L9C4dPIDsFtAgpC8cEG7iZRio
+ la3jO54pz56ZueQYC07+SrloCp13JfYHNJdHAbAM7znY3feFSOPYIb7sgbhUSK7vfzCW
+ IEe4lkNHYYAqSBIk8Rea1qPlHzge+XRj5r8cHQI2YxzA8smq38cscXNHgODHBDM/Imqa
+ cvxiS6pR+jkNy0kDH9geE81hJBlnASqoxJDCkR+rG1UvMurTOr87KzikLDF5fJ2ZbVR2
+ p1Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679570823;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=na3vfhMV/9RU+XBpFi5fJnfv6Pf/vez3GlZkp/8INEo=;
+ b=KrDVgb9uSrXigBXvPtKzpSDDSwS17ir/PDSxSCoYXfCdx8/N4VjFNbBgFYPb8qXoU+
+ 8DHNT4FvUthixBOCoiLa+6BF2FYBk9knmkpZEKZhWW5SgrTr5jJEzHcvj368jopDaIwM
+ FF90CIdlq45Vm+mpHSbb97v++AEyoXGTRYCweaZMfs/lepnrs+UYOkKYMhq+JvW4VXgF
+ m1kkbxQiHW1TFWCngxPMcD6D4v2x2CSIKGfyfofEewkaKnvDIVjleaxi3RnK8w7xia2M
+ TQ5J7ZEnV354JFA8RvljqypLEfnqKT8xkvNvgvSh79i9I7yqI6LNb/DR0YKx7UKH3Vvy
+ gGWg==
+X-Gm-Message-State: AO0yUKVS7IOJOa7W21zIx8qpaBsNTgsq3bG5pa0uQVDSoUK2veGcHIQR
+ F+GLH7esTLMrKLtHZsWoKyO8N64QgMSrABH1Xb199A==
+X-Google-Smtp-Source: AK7set8/M85DJHDrKg172YHLGA/JPAN312SX7n2fm7n2GdDFo4h0NBliZ+YpaN3EQq0u46yAGfL4bSlbi+kM+MqvQRs=
+X-Received: by 2002:a17:907:788e:b0:932:4577:6705 with SMTP id
+ ku14-20020a170907788e00b0093245776705mr5151875ejc.6.1679570823093; Thu, 23
+ Mar 2023 04:27:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mdG9s6m9OhZbf4vy"
-Content-Disposition: inline
-In-Reply-To: <20230320124042.1404-1-kozlowski.mateuszpl@gmail.com>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230322232704.206683-1-venture@google.com>
+In-Reply-To: <20230322232704.206683-1-venture@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Mar 2023 11:26:52 +0000
+Message-ID: <CAFEAcA_ftH3N5NJWfBMCxXW6T+OfA=MmpKMi=_DvrNk9u2WTxg@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: support both pl011 and 16550 uart
+To: Patrick Venture <venture@google.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Shu-Chun Weng <scw@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,41 +83,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 22 Mar 2023 at 23:27, Patrick Venture <venture@google.com> wrote:
+>
+> From: Shu-Chun Weng <scw@google.com>
+>
+> Select uart for virt machine from pl011 and ns16550a with
+> -M virt,uart={pl011|ns16550a}.
 
---mdG9s6m9OhZbf4vy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Firm "no". The PL011 is a perfectly good UART widely
+supported by guest OSes, and there is no reason
+why we should want to also provide a 16550.
 
-On Mar 20 13:40, Mateusz Kozlowski wrote:
-> Since the nvme_blk_read/write are used by both the data and metadata
-> portions of the IO, it can't have the 512B alignment requirement.
-> Without this change any metadata transfer, which length isn't a multiple
-> of 512B and which is bigger than 512B, will result in only a partial
-> transfer.
->=20
-> Signed-off-by: Mateusz Kozlowski <kozlowski.mateuszpl@gmail.com>
-
-Thanks Mateusz,
-
-LGTM.
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---mdG9s6m9OhZbf4vy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmQcMLEACgkQTeGvMW1P
-DenvlggAi+bG8WiBeeIH589jAoAHgAnOWB5a720cRHCUlTAH+saXYMnuyBNzYhML
-czR4nX7PCwnc84DM0Zpi5H3q+XN9YcCnj+1S1C3TApmcSc02QZWvp8BkiCoYjEqU
-DOPyEzVQh8bn4TBU7DZb4SJE6Zxp6PmqkWAaB5EWbFVQjNly1hjDQwgfIXxzPWPQ
-bbGanbDIcQTN2xZ0iw6VwCzO+d0A49wcBjCTh7MrtbLH5RcWyE7O+rjaOE6IS0mJ
-cx58/zbsNhwLSwaNNZHrBhV1vahO9CEKfp5iwkZXpgO13+mZN/UXJLIpfnwKzo/Z
-lHkWXaS8vFLIoMaaSkecEP37/C0zcg==
-=cvja
------END PGP SIGNATURE-----
-
---mdG9s6m9OhZbf4vy--
+thanks
+-- PMM
 
