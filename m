@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62E66C64B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 11:20:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1068A6C6516
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Mar 2023 11:31:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfI2M-0002gn-CB; Thu, 23 Mar 2023 06:19:14 -0400
+	id 1pfICt-0004fp-L6; Thu, 23 Mar 2023 06:30:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pfI2G-0002gQ-Em
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 06:19:09 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1)
+ (envelope-from <prvs=439de8c1e=anthony.perard@citrix.com>)
+ id 1pfICr-0004fW-06
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 06:30:05 -0400
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pfI2D-0003rQ-Go
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 06:19:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YYftXqcDBK/UTYD5UpwnfWzrAN8OUVEoUQ+WA+Q6dyw=; b=H5rDiEH21cqjEqZ+EDejQOQPaW
- 2ztyA6rudlaiNu/5a/Se9yXcbXFAqsamo/mCw1EUxJCFA1mcDhMrp5fHBMyZ+jWLeQgjNW0egfR+d
- yTSbZ3IMs+r1mT9dvCEXkaDN9WpPTxYC0VzFKydPJMarNP39BYt7jODxm8UASn6sftk1RTDy/XbBR
- b4C9F4G5NHtrKaHlfT5eLBVYWjFRkrx5bwZxFn7Jd/wPOqkavBtK3hkMVBRlwAI0b8WKeIGrAp+2U
- RT2jbp4I7NgMhWV1Jk7dsFEpaIk1KMYszGMdCu2vd/23+0X0j3wcjfyGZtnK27XwbVEi55U1neK3K
- 1AVKcGdq1PVNRXVpXwzj5ONuHWsu65DKFWDZuNjhQE7MCNADqWCjvqUed5mbzyqcMQPx57tuKGJWB
- /dth3xj92CEW6tvmzvuddOdb8F08iQh7wFYrbO1jZpkbm4wuVrddCLRoDq5zJ0+a7iwOhlFbJSd89
- 0Op6MCHRGMFVJLXfpCnyH2sFMIykdfei/9b9WkY3s186ZBhTBoOLsQOPxRLBNeJYLYY1KT3INj7eW
- KgWTYfDVJ7U+P34cmo4rwoGDkDaYyhWftElNZiHhHwIzdG2CywBGRAMMjW7dlHha100whu4FiYsbn
- b3P55T+OgZ95LSF+w7Yoy7KBNePCUSZj5YEo9ZPo4=;
-Received: from host86-163-239-161.range86-163.btcentralplus.com
- ([86.163.239.161] helo=[10.8.0.6])
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pfI1N-0004eR-4l; Thu, 23 Mar 2023 10:18:17 +0000
-Message-ID: <7971a4c0-70b0-5dcd-4b0b-3fa41766ac41@ilande.co.uk>
-Date: Thu, 23 Mar 2023 10:18:51 +0000
+ (Exim 4.90_1)
+ (envelope-from <prvs=439de8c1e=anthony.perard@citrix.com>)
+ id 1pfICo-000771-Ps
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 06:30:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1679567402;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=E8F6wRr5iSbNAZFQckGgVmxQX0o0SKgl7mU+nuPfjHs=;
+ b=dplU5sBDakMFrbujEaBvP9iyHdxAbphr5tzP7iiGkZCbnwTApUVZYMYa
+ TRKrMvd0NyD+MC7C0HfVRSL/CQrjhNviPNjhXGJFwy08ZC+qxzS04vvdy
+ 8xeA3/4h0K0V+89LiAALZl4TE+nBprXZOQPyLPMLmCRf8mUENG/8sIINM M=;
+Authentication-Results: esa4.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 5.1
+X-MesageID: 104414549
+X-Ironport-Server: esa4.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.123
+X-Policy: $RELAYED
+IronPort-Data: A9a23:sk1DWK71k/ASEX4nGGMYawxRtFfAchMFZxGqfqrLsTDasY5as4F+v
+ mYaWDqOOa2OMGHwLd0jOtvj9R5XusKEnNZnQQZkqXhkHi5G8cbLO4+Ufxz6V8+wwm8vb2o8t
+ plDNYOQRCwQZiWBzvt4GuG59RGQ7YnRGvynTraCYnsrLeNdYH9JoQp5nOIkiZJfj9G8Agec0
+ fv/uMSaM1K+s9JOGjt8B5mr9VU+7JwehBtC5gZlPasR5weH/5UoJMl3yZ+ZfiOQrrZ8RoZWd
+ 86bpJml82XQ+QsaC9/Nut4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5iXBYoUm9Fii3hojxE4
+ I4lWapc6+seFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpdFLjoH4EweZOUlFuhL7W5m0
+ cc3KxMXTiG4uueQ6pGJeuhivsocM5y+VG8fkikIITDxCP8nRdbIQrnQ5M8e1zA17ixMNa+AP
+ YxDM2MpNUmeJUQVYT/7C7pn9AusrnD5bz1frkPTvact6nLf5AdwzKLsIJzefdniqcB9xx7E+
+ juaojioav0cHOeFwiGh/UrwusPkmzGhA5lIOLK2p/E/1TV/wURMUUZLBDNXu8KRhlG7RIh3K
+ koa4CMioKE+skuxQbHVRxSlpFaUsxhaXMBfe8Uj5QSQj6bZ/QudLm4DSDFHdZohrsBebSQg0
+ VmbntXoLSZivL2cVTSW8bL8hTG1MC9TKCkHbDUYTA0ey975qYo3g1TESdMLOKezjcDvXzi2y
+ iqNtiEWgK8ahsoGka68+DjvmCmwr5LESgo04AT/XW+/6A59Iom/aOSA91nY9/9FaomQVFmet
+ Xwsks2SqusJCPmlhCGLBekAArytz/KEKyHHx05iGYE78Dag8GLleppfiBlnOUZvLssAcBfzb
+ UPTsB8X75hWVFOmYq5zaY+rF+wwwKTgHMijXffRBvJWb4R8bkmC9TBiaEqU92TslkE2luc4I
+ 5jzWc+0AGwTE6hP0Du8TOBb2rgurh3S3kuKG8q9lU7+l+PDOjjME+xt3Eaygv4RyJiroybP0
+ +dkCs6s4TZtYOzwWifo7ttGRbwVFkTXFawauuQOKLHSeVQ7SDh6YxPC6eh/ItI4xsy5gs+Np
+ yjgAREAlTITkFWdcW23hmZfhKQDtHqVhVYyJmQSMFmhwBDPiq7/vf5EJ/PbkVTKndGPLMKYr
+ NFfIa1s+twVFlz6F801NPERVrBKehWxnh6pNCG4ejU5dJMIb1WXpY65J1O2rnNeUXHfWS4CT
+ 1qIiGvmrWcrHVw+XK46ltr2p79OgZTtsL0rBBaZSjWiUE7t7JJrO0TMsxPDGOlVcU+r7mLDj
+ 26+WE5IzdQhVqdoqbElc4jf9Nz3ewa/d2IHd1TmAUGebnSHozrykdQbD45lv1n1DQvJxUlrX
+ s0Np9mUDRHNtAwiX1ZUe1qz8Z8D2g==
+IronPort-HdrOrdr: A9a23:6BnEEK0jqoc7g57AKSUPDgqjBLIkLtp133Aq2lEZdPRUGvb3qy
+ mLpoV+6faUskd1ZJhOo7290cW7LU80sKQFhrX5Xo3SPjUO2lHJEGgK1+KLqFfd8m/Fh41gPM
+ 9bAs5D4bbLbGSS4/yU3DWF
+X-IronPort-AV: E=Sophos;i="5.98,283,1673931600"; d="scan'208";a="104414549"
+Date: Thu, 23 Mar 2023 10:29:52 +0000
+To: David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>
+CC: <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
+ <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, <vikram.garhwal@amd.com>,
+ <xen-devel@lists.xenproject.org>, Juan Quintela <quintela@redhat.com>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 09/27] hw/xen: Add evtchn operations to allow
+ redirection to internal emulation
+Message-ID: <209fe980-7f9d-4d79-90fb-12e38f12b2bc@perard>
+References: <20230307171750.2293175-1-dwmw2@infradead.org>
+ <20230307171750.2293175-10-dwmw2@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Chuck Zmudzinski <brchuckz@aol.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- xen-devel@lists.xenproject.org
-References: <cover.1678888385.git.brchuckz.ref@aol.com>
- <cover.1678888385.git.brchuckz@aol.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <cover.1678888385.git.brchuckz@aol.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.163.239.161
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v4 0/2] pci: slot_reserved_mask improvements
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230307171750.2293175-10-dwmw2@infradead.org>
+Received-SPF: pass client-ip=216.71.155.144;
+ envelope-from=prvs=439de8c1e=anthony.perard@citrix.com;
+ helo=esa4.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,70 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 15/03/2023 14:26, Chuck Zmudzinski wrote:
+On Tue, Mar 07, 2023 at 05:17:32PM +0000, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> The existing implementation calling into the real libxenevtchn moves to
+> a new file hw/xen/xen-operations.c, and is called via a function table
+> which in a subsequent commit will also be able to invoke the emulated
+> event channel support.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Reviewed-by: Paul Durrant <paul@xen.org>
 
-> This patch series consists of two patches. The first provides accessor
-> functions in pci.h to avoid direct access of slot_reserved_mask
-> according to the comment at the top of include/hw/pci/pci_bus.h. No
-> functional change is intended with this patch.
-> 
-> The second patch replaces slot_reserved_mask with two new masks,
-> slot_reserved_auto_mask and slot_reserved_manual_mask so the current
-> behavior of reserving slot 2 for the Intel IGD for the xenfv machine
-> will be ignored if an administrator manually configures a device to use
-> the reserved slot.
-> 
-> The current behavior of always reserving slots in the sun4u machine is
-> preserved by this patch series; the patch series only changes how
-> slot_reserved_mask works in the xenfv machine. Although the patch
-> series can affect xenfv machines configured for igd-passthru if an
-> administrator assigns some of the pci slot addresses manually, it
-> does not affect the libxl default configuration for igd-passthru because
-> libxl uses automatic slot assignment by default.
-> 
-> Testing:
->     - Tested xenfv/igd with both manual and auto slot allocation - behaves as expected
->     - Verified that qemu-system-sparc64 still compiles with the patches to sun4u.c
->     - xen4u machine not tested -- Mark, can you do this?
-> 
-> Link: https://lore.kernel.org/qemu-devel/20230106064838-mutt-send-email-mst@kernel.org/
-> 
-> Chuck Zmudzinski (2):
->    pci: avoid accessing slot_reserved_mask directly outside of pci.c
->    pci: introduce slot_reserved_auto_mask and slot_reserved_manual_mask
-> 
-> Changelog
-> 
-> v4: I forgot to check the patches in v3 for style corrections (sorry about
->      that), and the second patch had three lines that were too long. Other
->      than correcting the style problems, no changes since v3.
-> 
-> v3: Re-work second patch in response to comments/discussion of v2
-> 
-> v2: Add first patch and cover letter to make this a 2-patch series
->      Make changes to the second patch (see second patch for changelog)
-> 
->   hw/pci/pci.c             | 33 ++++++++++++++++++++++++++++-----
->   hw/sparc64/sun4u.c       |  7 +++----
->   hw/xen/xen_pt.c          |  8 ++++----
->   include/hw/pci/pci.h     |  3 +++
->   include/hw/pci/pci_bus.h |  3 ++-
->   5 files changed, 40 insertions(+), 14 deletions(-)
+Hi David, Paul,
 
-The v4 series looks good to me: I've also confirmed that sun4u still works as before, 
-so from my perspective:
+This patch prevents existing use case from booting, that is even with the
+state change notification fix. It seems that trying to create a PV guest
+with libvirt fails, with "xen be core: can't connect to xenstored" in
+QEMU's log but it doesn't says if that's the reason qemu failed to
+start. But it's probably not related to libvirt.
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> [sun4u]
+Our bisector pointed out this patch, see details and logs:
+    https://lore.kernel.org/xen-devel/E1pdvdx-0006lh-Oe@osstest.test-lab.xenproject.org/
+    https://lore.kernel.org/xen-devel/E1pcg3G-0000NS-9x@osstest.test-lab.xenproject.org/
+    https://lore.kernel.org/xen-devel/E1pf9hf-0005EB-1r@osstest.test-lab.xenproject.org/
 
-Michael, is this a candidate for 8.0 given that the existing patches for Xen making 
-use of slot_reserved_mask have already been merged?
+I did run a test with patch "Fix DM state change notification in
+dm_restrict mode", but I think only the *dmrestict* tests have been
+fixed.
+    http://logs.test-lab.xenproject.org/osstest/logs/179868/
 
+Some failures of running PV guests without libvirt, from that flight:
+    http://logs.test-lab.xenproject.org/osstest/logs/179868/test-amd64-amd64-xl-qcow2/info.html
+    http://logs.test-lab.xenproject.org/osstest/logs/179868/test-amd64-i386-xl-vhd/info.html
 
-ATB,
+Any idea of what's wrong?
 
-Mark.
+Thanks,
+
+-- 
+Anthony PERARD
 
