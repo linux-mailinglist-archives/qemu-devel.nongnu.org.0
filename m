@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501646C8187
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:40:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534406C8199
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:42:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfjQc-0000MX-1r; Fri, 24 Mar 2023 11:34:06 -0400
+	id 1pfjSq-0004Lb-Ln; Fri, 24 Mar 2023 11:36:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pfjQY-0000Kw-7T
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:34:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfjSn-00042A-C2
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:36:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pfjQV-0008LD-Vc
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:34:01 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfjSl-0001gD-I4
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:36:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679672033;
+ s=mimecast20190719; t=1679672178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=mAbBS99Tk9MDN9Xt1Z8xKBYlOLKgeBrUM86VYJIwmRw=;
- b=RbFsZZgOnMlwLk6GrzgSsXs1xXYJRbvF7/iqDojKT0+qlvvtlYSbdnYRXRADIxLGRDCEt8
- exa8oSTuB3uwb3mW/K5xu5rTKklPpMSl4dTHbl9tBL5DvBzNeiImJmT+c6cBKeCJkfZnwF
- e9B3gH0tumfKdHbBqKyt0bQncRvEMek=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ufpglkyFrIWPC2Wvy7lw0mcyi8rsW4U9LoxKgR6wvRw=;
+ b=Xjc2BXpxv+U3+FtZj3uIAQGMWCEa47XsCR/8syn0+qk1e6xf2KRcKWlOtVcsyspqHpX6DF
+ Gx2i+No35L71rlQ+AXHdtv62GSHxFApcx8x6n3fzMO/UuPLtlEbwNxgqgJl7+ghtLUOERv
+ d3i1dwBhP/GVPN3fMiPfxbsQiUHW9jY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-Oe1Kg4kHOFCe83_YFWW3zw-1; Fri, 24 Mar 2023 11:33:51 -0400
-X-MC-Unique: Oe1Kg4kHOFCe83_YFWW3zw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-128-lGoYOW_tMOOa6T8BIR756g-1; Fri, 24 Mar 2023 11:36:14 -0400
+X-MC-Unique: lGoYOW_tMOOa6T8BIR756g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A041685C069
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 15:33:51 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6EA8D2166B29
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 15:33:51 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] systemd: Also clear LISTEN_FDNAMES during systemd socket
- activation
-Date: Fri, 24 Mar 2023 10:33:49 -0500
-Message-Id: <20230324153349.1123774-1-eblake@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0E5D38221DD;
+ Fri, 24 Mar 2023 15:36:13 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BDCB140EBF4;
+ Fri, 24 Mar 2023 15:36:13 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/8] Misc patches for QEMU 8.0-rc2
+Date: Fri, 24 Mar 2023 16:36:02 +0100
+Message-Id: <20230324153610.224673-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -73,51 +73,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some time after systemd documented LISTEN_PID and LISTEN_FDS for
-socket activation, they later added LISTEN_FDNAMES; now documented at:
-https://www.freedesktop.org/software/systemd/man/sd_listen_fds.html
+The following changes since commit 60ca584b8af0de525656f959991a440f8c191f12:
 
-In particular, look at the implementation of sd_listen_fds_with_names():
-https://github.com/systemd/systemd/blob/main/src/libsystemd/sd-daemon/sd-daemon.c
+  Merge tag 'pull-for-8.0-220323-1' of https://gitlab.com/stsquad/qemu into staging (2023-03-22 17:58:12 +0000)
 
-If we ever pass LISTEN_PID=xxx and LISTEN_FDS=n to a child process,
-but leave LISTEN_FDNAMES=... unchanged as inherited from our parent
-process, then our child process using sd_listen_fds_with_names() might
-see a mismatch in the number of names (unexpected -EINVAL failure), or
-even if the number of names matches the values of those names may be
-unexpected (with even less predictable results).
+are available in the Git repository at:
 
-Usually, this is not an issue - the point of LISTEN_PID is to tell
-systemd socket activation to ignore all other LISTEN_* if they were
-not directed to this particular pid.  But if we end up consuming a
-socket directed to this qemu process, and later decide to spawn a
-child process that also needs systemd socket activation, we must
-ensure we are not leaking any stale systemd variables through to that
-child.  The easiest way to do this is to wipe ALL LISTEN_* variables
-at the time we consume a socket, even if we do not yet care about a
-LISTEN_FDNAMES passed in from the parent process.
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-03-24
 
-See also https://lists.freedesktop.org/archives/systemd-devel/2023-March/048920.html
+for you to fetch changes up to 8635a3a153da3a6712c4ee249c2bf3513cbfdbf7:
 
-Thanks: Laszlo Ersek <lersek@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- util/systemd.c | 1 +
- 1 file changed, 1 insertion(+)
+  Revert "docs/about/deprecated: Deprecate 32-bit arm hosts for system emulation" (2023-03-24 12:10:49 +0100)
 
-diff --git a/util/systemd.c b/util/systemd.c
-index 5bcac9b4016..ced518f771b 100644
---- a/util/systemd.c
-+++ b/util/systemd.c
-@@ -51,6 +51,7 @@ unsigned int check_socket_activation(void)
-     /* So these are not passed to any child processes we might start. */
-     unsetenv("LISTEN_FDS");
-     unsetenv("LISTEN_PID");
-+    unsetenv("LISTEN_FDNAMES");
+----------------------------------------------------------------
+* Remove TABs in hw/ide and hw/block
+* Two fixes for GCC 13
+* MSYS2 CI job improvements
 
-     /* So the file descriptors don't leak into child processes. */
-     for (i = 0; i < nr_fds; ++i) {
--- 
-2.39.2
+----------------------------------------------------------------
+Cédric Le Goater (2):
+      target/s390x: Fix float_comp_to_cc() prototype
+      target/ppc: Fix helper_pminsn() prototype
+
+Marc-André Lureau (1):
+      ui/spice: fix compilation on win32
+
+Philippe Mathieu-Daudé (2):
+      gitlab-ci: Cover SPICE in the MSYS2 job
+      cirrus-ci: Remove MSYS2 jobs duplicated with gitlab-ci
+
+Thomas Huth (1):
+      Revert "docs/about/deprecated: Deprecate 32-bit arm hosts for system emulation"
+
+Yeqi Fu (2):
+      hw/ide: replace TABs with space
+      hw/block: replace TABs with space
+
+ MAINTAINERS                   |   3 +-
+ docs/about/deprecated.rst     |   9 --
+ include/hw/block/flash.h      |  20 +--
+ include/hw/ide/internal.h     | 248 ++++++++++++++---------------
+ target/s390x/s390x-internal.h |   3 +-
+ hw/block/fdc.c                |   4 +-
+ hw/block/nand.c               | 222 +++++++++++++-------------
+ hw/block/onenand.c            | 128 +++++++--------
+ hw/block/tc58128.c            | 136 ++++++++--------
+ hw/ide/cmd646.c               |  28 ++--
+ hw/ide/core.c                 |  84 +++++-----
+ hw/ide/microdrive.c           | 360 +++++++++++++++++++++---------------------
+ target/ppc/excp_helper.c      |   2 +-
+ ui/spice-core.c               |   2 +-
+ .cirrus.yml                   | 111 -------------
+ .gitlab-ci.d/windows.yml      |   2 +
+ 16 files changed, 622 insertions(+), 740 deletions(-)
+ delete mode 100644 .cirrus.yml
 
 
