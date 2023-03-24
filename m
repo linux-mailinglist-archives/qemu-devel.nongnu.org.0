@@ -2,65 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EE56C81CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:51:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5752D6C81EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:56:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfiiK-0001Jp-4Q; Fri, 24 Mar 2023 10:48:20 -0400
+	id 1pfilN-0002ut-0I; Fri, 24 Mar 2023 10:51:29 -0400
 Received: from [2001:470:142:3::10] (helo=eggs.gnu.org)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfiiF-0001Fo-Jg; Fri, 24 Mar 2023 10:48:15 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfii3-0003xo-KD; Fri, 24 Mar 2023 10:48:13 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.150])
- by APP-05 (Coremail) with SMTP id zQCowAA3PFQPuB1kcMojCQ--.53327S2;
- Fri, 24 Mar 2023 22:47:43 +0800 (CST)
-Message-ID: <51c18935-c0b7-1099-dd6c-1befe61ce7d0@iscas.ac.cn>
-Date: Fri, 24 Mar 2023 22:47:43 +0800
+ (Exim 4.90_1)
+ (envelope-from <prvs=440da7b32=anthony.perard@citrix.com>)
+ id 1pfilK-0002uI-Hk
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:51:26 -0400
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=440da7b32=anthony.perard@citrix.com>)
+ id 1pfilG-0004Wm-Av
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:51:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1679669482;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=YuCyO2YU2quaoAmFDdKczCUFwNTV4tF8lC1oimdVCdI=;
+ b=Y6T95XLu5y4QS0Zqma3OJmSmEEzvlH69aWZC5uH71wgIkmRjk0e2viD8
+ dgHFlSAL6vQ/ctyCR7w0WfcyZQH9Ek3eKEOP39twV7dmkwzXGCn18WD/c
+ lR4bsW5m0aH2fIB7qnKZvFDxcTR6X6Wu3hRaY7514rt8W/Wty+CZUkjxn o=;
+Authentication-Results: esa5.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 4.0
+X-MesageID: 101002808
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.123
+X-Policy: $RELAYED
+IronPort-Data: A9a23:g+9mbK+iGzwXxqPmSg6iDrUD4HmTJUtcMsCJ2f8bNWPcYEJGY0x3m
+ DBLXWnQOf6IZzOhf9EkOoqw/E5Xvp/Tm4RqHFY/pCs8E34SpcT7XtnIdU2Y0wF+jCHgZBk+s
+ 5hBMImowOQcFCK0SsKFa+C5xZVE/fjUAOG6UKicYXoZqTZMEE8JkQhkl/MynrlmiN24BxLlk
+ d7pqojUNUTNNwRcawr40Ire7kI/1BjOkGlA5AdmPqoX5AW2e0Q9V/rzG4ngdxMUfaEMdgKKb
+ 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+v9T2M4nQVVWk120c+VZk
+ 72hg3ASpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn9IBDJyCAWlvVbD09NqbDkkQ1
+ s0kGiIwVSnensaHy7mqE6pCoYc8eZyD0IM34hmMzBncBPciB5vCX7/L9ZlT2zJYasJmRKiEI
+ ZBDMHw2MUqGOkcUUrsUIMtWcOOAj3/jczpeuRSNqLA++WT7xw1tyrn9dtHSf7RmQO0Mxh/A/
+ jiWpzSR7hcyOdex5R6s31mWo+rggjn2ZYIvRZOh36s/6LGU7jNKU0BHPbehmtG1lUuhAfpeL
+ UIO8yYjpKR081akJvHlVgC8iG6JuFgbQdU4O/Q37RzIxqfK7gKxAG8CQThcLts8u6ceXTYt0
+ E2ImdLBHzFjsLSJD3ma89+8rzS7Pm4Qa2oLfzMFSxAt5MPqq4U+yBnIS75LGai2k8ezEHf52
+ TeQpQA5nbwYicNN3KK+lXjcmC6lrJXNSg8z5y3UU3ij4wc/Y5SqD6S26FvB5PMGI4+DTkaIu
+ FANnsTY5+cLZbmdmSrITOgTEbWB4/eeLCaakVNpB4Mm9Tmm5zikZ484yChjJUF1P8INUSXkb
+ E/apUVa45o7FHelbKt9bpitI94nwajpCZLuUfW8RsJDfpVrMgqO7S1jYUq422HrmVIr16YlN
+ v+zeN6hF38ABYx7zTC9QKEW1rpD+8wl7TqNH9ahlU3hiOfAIifPEt/pLWdicMhnz5K4khfoy
+ O8CLu+7wB5OCa7QRWrIpNt7wU8xEZQrOXzng5UJKb/dfFc8QzlJ5+z5mu14JdE890hBvqKRp
+ yzmBBcFoLbqrSefQThmfEyPf18GsXxXiXsgdRIhMl+zs5TISdb+tfxPH3fbkFROyQCC8RKXZ
+ 6NfEyl4Kq4TIgkrAhxEBXUHkKRsdQ6wmSWFNDe/bT40cvZIHlKWq4K1IFa3rXdQUkJbUPfSR
+ JX+vj43vLJZH1gyZCooQKvHI6yNUYg1x7spAhqgzih7c0Tw6ol6QxHMYgsMC5hUc33rn2LKv
+ zt69D9E/YEhVadpqoiW7U1Fxq/1e9ZD8r1yRDGBt+ntZXeBrgJOA+ZoCY61QNwUb0uskI3KW
+ Amf56qU3CEv9LqSj7dBLg==
+IronPort-HdrOrdr: A9a23:/9ePgavTxnEN/DZClOTO0iZm7skDZ9V00zEX/kB9WHVpm62j+v
+ xG+c5xvyMc5wxhO03I5urwWpVoLUmzyXcX2+Us1NWZPDUO0VHARL2KhrGM/9SPIUzDH+dmpM
+ JdT5Q=
+X-IronPort-AV: E=Sophos;i="5.98,288,1673931600"; d="scan'208";a="101002808"
+Date: Fri, 24 Mar 2023 14:51:06 +0000
+To: David Woodhouse <dwmw2@infradead.org>
+CC: Paul Durrant <paul@xen.org>, <qemu-devel@nongnu.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Joao Martins <joao.m.martins@oracle.com>, Ankur Arora
+ <ankur.a.arora@oracle.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ <vikram.garhwal@amd.com>, <xen-devel@lists.xenproject.org>, Juan Quintela
+ <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter
+ Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw/xenpv: Initialize Xen backend operations
+Message-ID: <ac5c322b-7774-45ce-9583-01771e43f54d@perard>
+References: <20230307171750.2293175-1-dwmw2@infradead.org>
+ <20230307171750.2293175-10-dwmw2@infradead.org>
+ <209fe980-7f9d-4d79-90fb-12e38f12b2bc@perard>
+ <5dfb65342d4502c1ce2f890c97cff20bf25b3860.camel@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH for-8.1 v4 15/25] target/riscv/cpu.c: split RVG code from
- validate_set_extensions()
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-References: <20230322222004.357013-1-dbarboza@ventanamicro.com>
- <20230322222004.357013-16-dbarboza@ventanamicro.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230322222004.357013-16-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAA3PFQPuB1kcMojCQ--.53327S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJF4UZw15tw1DJFWDJw1UJrb_yoW5Kr1fpr
- WUC39IyryDJF47X393Xr98WFs5Wr4kWFWIgwn3W3W3GFs8tr9rJF1qkryj9FWxJFZ5Xa1a
- vFyUKryDurs7Aa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
- IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUHnQUUUU
- UU=
-X-Originating-IP: [180.165.240.150]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <5dfb65342d4502c1ce2f890c97cff20bf25b3860.camel@infradead.org>
+Received-SPF: pass client-ip=216.71.155.168;
+ envelope-from=prvs=440da7b32=anthony.perard@citrix.com;
+ helo=esa5.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -75,125 +100,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Mar 23, 2023 at 10:57:34AM +0000, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> As the Xen backend operations were abstracted out into a function table to
+> allow for internally emulated Xen support, we missed the xen_init_pv()
+> code path which also needs to install the operations for the true Xen
+> libraries. Add the missing call to setup_xen_backend_ops().
+> 
+> Fixes: b6cacfea0b38 ("hw/xen: Add evtchn operations to allow redirection to internal emulation")
+> Reported-by: Anthony PERARD <anthony.perard@citrix.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 
-On 2023/3/23 06:19, Daniel Henrique Barboza wrote:
-> We can set all RVG related extensions during realize time, before
-> validate_set_extensions() itself. Put it in a separated function so the
-> validate function already uses the updated state.
->
-> Note that we're setting both cfg->ext_N and env->misa_ext bits, instead
-> of just setting cfg->ext_N. The intention here is to start syncing all
-> misa_ext operations with its cpu->cfg flags, in preparation to allow for
-> the validate function to operate using a misa_ext. This doesn't make any
-> difference for the current code state, but will be a requirement for
-> write_misa() later on.
->
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->   target/riscv/cpu.c | 60 ++++++++++++++++++++++++++++++++++------------
->   1 file changed, 45 insertions(+), 15 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index f41888baa0..a7bad518be 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -281,6 +281,36 @@ static uint32_t riscv_get_misa_ext_with_cpucfg(RISCVCPUConfig *cfg)
->       return ext;
->   }
->   
-> +static void riscv_cpu_enable_g(RISCVCPU *cpu, Error **errp)
-> +{
-> +    CPURISCVState *env = &cpu->env;
-> +    RISCVCPUConfig *cfg = &cpu->cfg;
-> +
-> +    if (!(cfg->ext_i && cfg->ext_m && cfg->ext_a &&
-> +          cfg->ext_f && cfg->ext_d &&
-> +          cfg->ext_icsr && cfg->ext_ifencei)) {
-> +
-> +        warn_report("Setting G will also set IMAFD_Zicsr_Zifencei");
-> +        cfg->ext_i = true;
-> +        env->misa_ext |= RVI;
-> +
-> +        cfg->ext_m = true;
-> +        env->misa_ext |= RVM;
-> +
-> +        cfg->ext_a = true;
-> +        env->misa_ext |= RVA;
-> +
-> +        cfg->ext_f = true;
-> +        env->misa_ext |= RVF;
-> +
-> +        cfg->ext_d = true;
-> +        env->misa_ext |= RVD;
-> +
-> +        cfg->ext_icsr = true;
-> +        cfg->ext_ifencei = true;
-> +    }
-> +}
-> +
->   static void riscv_set_cpucfg_with_misa(RISCVCPUConfig *cfg,
->                                          uint32_t misa_ext)
->   {
-> @@ -1033,21 +1063,6 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
->           return;
->       }
->   
-> -    /* Do some ISA extension error checking */
-> -    if (cpu->cfg.ext_g && !(cpu->cfg.ext_i && cpu->cfg.ext_m &&
-> -                            cpu->cfg.ext_a && cpu->cfg.ext_f &&
-> -                            cpu->cfg.ext_d &&
-> -                            cpu->cfg.ext_icsr && cpu->cfg.ext_ifencei)) {
-> -        warn_report("Setting G will also set IMAFD_Zicsr_Zifencei");
-> -        cpu->cfg.ext_i = true;
-> -        cpu->cfg.ext_m = true;
-> -        cpu->cfg.ext_a = true;
-> -        cpu->cfg.ext_f = true;
-> -        cpu->cfg.ext_d = true;
-> -        cpu->cfg.ext_icsr = true;
-> -        cpu->cfg.ext_ifencei = true;
-> -    }
-> -
->       if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
->           error_setg(errp,
->                      "I and E extensions are incompatible");
-> @@ -1290,6 +1305,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       CPUState *cs = CPU(dev);
->       RISCVCPU *cpu = RISCV_CPU(dev);
->       RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-> +    CPURISCVState *env = &cpu->env;
->       Error *local_err = NULL;
->   
->       cpu_exec_realizefn(cs, &local_err);
-> @@ -1310,6 +1326,20 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->           return;
->       }
->   
-> +    if (cpu->cfg.ext_g) {
-> +        riscv_cpu_enable_g(cpu, &local_err);
-> +        if (local_err != NULL) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
-> +
-> +        /*
-> +         * Sync env->misa_ext_mask with the new
-> +         * env->misa_ext val.
-> +         */
-> +        env->misa_ext_mask = env->misa_ext;
+Tested-by: Anthony PERARD <anthony.perard@citrix.com>
 
-This sync can also be done in  riscv_cpu_enable_g.
+Thanks,
 
-Regards,
-
-Weiwei Li
-
-> +    }
-> +
->       riscv_cpu_validate_set_extensions(cpu, &local_err);
->       if (local_err != NULL) {
->           error_propagate(errp, local_err);
-
+-- 
+Anthony PERARD
 
