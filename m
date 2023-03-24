@@ -1,108 +1,66 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1D66C85A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 20:11:53 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F4E6C8619
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 20:43:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfmoM-00053D-Ed; Fri, 24 Mar 2023 15:10:50 -0400
+	id 1pfnIA-0003Gp-7m; Fri, 24 Mar 2023 15:41:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1pfmoJ-00052y-UO
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:10:48 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pfnI7-0003G4-II
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:41:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1pfmoF-0005HF-CU
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:10:47 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32OHkbuF025425; Fri, 24 Mar 2023 19:10:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=4tktR3XEtFOBjJpoduKB9rX5fzCpY6wNyMPD6j2f73U=;
- b=s+vquIF2Op3GnQF+NxtQMrpud4+Io6vWrvK71v2Baw76RrAZYfz2KtoM1LLaDUSwp+zk
- 8QTEUCo33NIoAYCIweRgRXitSsE8JwyLcJgg3+bMQUl9fHcA5XRwhMwhbiwslQcD64Jh
- rGhM8DHxuy7M0P14FA3LjVOhVnGT/AdfpHfGl3uYF5m7inoQ6T9A+0n2ATxHuxrx+m1G
- FIIqEDQhv8rXKQj21tw6gcwdreMLrAubyEQmbGuLUUiJWx/1af+EIuMmeI9i1W1G9nMh
- lrlSlK2OG8Rx+iA0zgYgNyY36zz4ylQXPE2C+2DG5NKKnFq5V1DXRDkVp/ZrW3erGNac UA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pheexd3k2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 19:10:38 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32OJ3PEr029306;
- Fri, 24 Mar 2023 19:10:38 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pheexd3j1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 19:10:37 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32O2vRUb008912;
- Fri, 24 Mar 2023 19:10:35 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3pgy9cgy1y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 19:10:35 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32OJAV1618612836
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Mar 2023 19:10:31 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CBA722004D;
- Fri, 24 Mar 2023 19:10:31 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 091D820040;
- Fri, 24 Mar 2023 19:10:31 +0000 (GMT)
-Received: from p-imbrenda (unknown [9.171.58.23])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with SMTP;
- Fri, 24 Mar 2023 19:10:30 +0000 (GMT)
-Date: Fri, 24 Mar 2023 20:10:29 +0100
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@redhat.com,
- borntraeger@de.ibm.com, frankja@linux.ibm.com, fiuczy@linux.ibm.com,
- pasic@linux.ibm.com, nsg@linux.ibm.com, berrange@redhat.com,
- alex.bennee@linaro.org, armbru@redhat.com
-Subject: Re: [PATCH v3 1/1] util/async-teardown: wire up
- query-command-line-options
-Message-ID: <20230324201029.2864d04e@p-imbrenda>
-In-Reply-To: <b66a0c91-6041-7125-6291-0aa87510dda2@redhat.com>
-References: <20230324174559.44933-1-imbrenda@linux.ibm.com>
- <20230324174559.44933-2-imbrenda@linux.ibm.com>
- <b66a0c91-6041-7125-6291-0aa87510dda2@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pfnI5-0004qi-CM
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:41:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679686887;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=opN6m6vFBuiP0KgaErpIlW4Y2H3T7uYtUclFhIb1Ji0=;
+ b=Wqb44RJO0tF8NuR5hd3+uEXfREP/CsL6W+KdwtKKskgm4DpGYAtczFfsQeKSDitp+iWzwH
+ NiXDq+UHq2mKcNRxmbE9Ywb4gNx77NF37SclQp7EbRKzINWy88zDdmnA1q4vT9G1WGFjvf
+ RDFf1wNc4EsVnAfC8Mo2mCpXUctztz8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-663-E5BdqfqtPG64BdjA2wrsrQ-1; Fri, 24 Mar 2023 15:41:23 -0400
+X-MC-Unique: E5BdqfqtPG64BdjA2wrsrQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22E3E3815F73;
+ Fri, 24 Mar 2023 19:41:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7370F18EC7;
+ Fri, 24 Mar 2023 19:41:22 +0000 (UTC)
+Date: Fri, 24 Mar 2023 14:41:20 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Florian Westphal <fw@strlen.de>
+Cc: qemu-block@nongnu.org, vsementsov@yandex-team.ru, 
+ qemu-devel@nongnu.org, libguestfs@redhat.com
+Subject: Re: [PATCH 1/1] nbd/server: push pending frames after sending reply
+Message-ID: <ervljl6tt35qenv3z5lrjbklxuwezjvqpbwghtdntddpwa3glb@czoajnfpuxaa>
+References: <20230324104720.2498-1-fw@strlen.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: r1GdU_iCz5KafgL-uEITh1Xay3_nxq43
-X-Proofpoint-ORIG-GUID: NUQukflIxCJHCaOc298uikkVIDLIY7Qu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- clxscore=1015 spamscore=0 priorityscore=1501 lowpriorityscore=0
- mlxlogscore=999 adultscore=0 phishscore=0 mlxscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303240150
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230324104720.2498-1-fw@strlen.de>
+User-Agent: NeoMutt/20230322
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,101 +77,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 24 Mar 2023 18:56:06 +0100
-Thomas Huth <thuth@redhat.com> wrote:
-
-> On 24/03/2023 18.45, Claudio Imbrenda wrote:
-> > The recently introduced -async-teardown commandline option was not
-> > wired up properly and did not show up in the output of the QMP command
-> > query-command-line-options. This means that libvirt will have no way to
-> > discover whether the feature is supported.
-> > 
-> > This patch fixes the issue by correctly wiring up the commandline
-> > option so that it appears in the output of query-command-line-options.
-> > 
-> > Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
-> > Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
-> > Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> > ---
-> >   os-posix.c            | 14 ++++++++++++++
-> >   qemu-options.hx       | 35 ++++++++++++++++++++++++-----------
-> >   util/async-teardown.c | 21 +++++++++++++++++++++
-> >   3 files changed, 59 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/os-posix.c b/os-posix.c
-> > index 5adc69f560..48acd7acf5 100644
-> > --- a/os-posix.c
-> > +++ b/os-posix.c
-> > @@ -36,6 +36,8 @@
-> >   #include "qemu/log.h"
-> >   #include "sysemu/runstate.h"
-> >   #include "qemu/cutils.h"
-> > +#include "qemu/config-file.h"
-> > +#include "qemu/option.h"
-> >   
-> >   #ifdef CONFIG_LINUX
-> >   #include <sys/prctl.h>
-> > @@ -132,6 +134,8 @@ static bool os_parse_runas_uid_gid(const char *optarg)
-> >    */
-> >   int os_parse_cmd_args(int index, const char *optarg)
-> >   {
-> > +    QemuOpts *opts;
-> > +
-> >       switch (index) {
-> >       case QEMU_OPTION_runas:
-> >           user_pwd = getpwnam(optarg);
-> > @@ -155,6 +159,16 @@ int os_parse_cmd_args(int index, const char *optarg)
-> >       case QEMU_OPTION_asyncteardown:
-> >           init_async_teardown();
-> >           break;
-> > +    case QEMU_OPTION_teardown:
-> > +        opts = qemu_opts_parse_noisily(qemu_find_opts("teardown"),
-> > +                                       optarg, false);
-> > +        if (!opts) {
-> > +            return -1;
-> > +        }
-> > +        if (qemu_opt_get_bool(opts, "async", false)) {
-> > +            init_async_teardown();
-> > +        }
-> > +        break;
-> >   #endif
-> >       default:
-> >           return -1;
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index d42f60fb91..8582980b12 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -4766,20 +4766,33 @@ DEF("qtest-log", HAS_ARG, QEMU_OPTION_qtest_log, "", QEMU_ARCH_ALL)
-> >   DEF("async-teardown", 0, QEMU_OPTION_asyncteardown,
-> >       "-async-teardown enable asynchronous teardown\n",
-> >       QEMU_ARCH_ALL)
-> > -#endif
-> >   SRST
-> >   ``-async-teardown``
-> > -    Enable asynchronous teardown. A new process called "cleanup/<QEMU_PID>"
-> > -    will be created at startup sharing the address space with the main qemu
-> > -    process, using clone. It will wait for the main qemu process to
-> > -    terminate completely, and then exit.
-> > -    This allows qemu to terminate very quickly even if the guest was
-> > -    huge, leaving the teardown of the address space to the cleanup
-> > -    process. Since the cleanup process shares the same cgroups as the
-> > -    main qemu process, accounting is performed correctly. This only
-> > -    works if the cleanup process is not forcefully killed with SIGKILL
-> > -    before the main qemu process has terminated completely.
-> > +    Equivalent to -teardown async=on  
+On Fri, Mar 24, 2023 at 11:47:20AM +0100, Florian Westphal wrote:
+> qemu-nbd doesn't set TCP_NODELAY on the tcp socket.
 > 
-> We should avoid of providing multiple ways of doing the same thing to the 
-> users if there is no real benefit. So I'd vote for either removing the 
-> "-async-teardown" option here directly (since it just has been introduced in 
-> 7.2 and there are no known users out there yet), or at least deprecate it 
-> (put an entry in docs/about/deprecated.rst), so we can remove it again in 
-
-both are fine for me (although I have a slight preference for removing
-it altogether)
-
-> two releases.
+> Kernel waits for more data and avoids transmission of small packets.
+> Without TLS this is barely noticeable, but with TLS this really shows.
 > 
->   Thomas
+> Booting a VM via qemu-nbd on localhost (with tls) takes more than
+> 2 minutes on my system.  tcpdump shows frequent wait periods, where no
+> packets get sent for a 40ms period.
+
+Thank you for this analysis.
+
 > 
+> Add explicit (un)corking when processing (and responding to) requests.
+> "TCP_CORK, &zero" after earlier "CORK, &one" will flush pending data.
+> 
+> VM Boot time:
+> main:    no tls:  23s, with tls: 2m45s
+> patched: no tls:  14s, with tls: 15s
+> 
+> VM Boot time, qemu-nbd via network (same lan):
+> main:    no tls:  18s, with tls: 1m50s
+> patched: no tls:  17s, with tls: 18s
+
+And the timings bear proof that it matters.
+
+> 
+> Future optimization: if we could detect if there is another pending
+> request we could defer the uncork operation because more data would be
+> appended.
+
+nbdkit and libnbd do this with the MSG_MORE flag (plaintext) and TLS
+corking (tls); when building up a message to the other side, a flag is
+set any time we know we are likely to send more data very shortly.
+
+nbdkit wraps it under a flag SEND_MORE, which applies to both plaintext:
+https://gitlab.com/nbdkit/nbdkit/-/blob/master/server/connections.c#L415
+and to TLS connections:
+https://gitlab.com/nbdkit/nbdkit/-/blob/master/server/crypto.c#L396
+
+while libnbd uses MSG_MORE a bit more directly for the same purpose
+for plaintext, but isn't (yet) doing TLS corking:
+https://gitlab.com/nbdkit/libnbd/-/blob/master/generator/states-issue-command.c#L53
+https://gitlab.com/nbdkit/libnbd/-/blob/master/lib/internal.h#L57
+
+I would love to see a future patch to qio_channel code to support
+MSG_MORE in the same way as nbdkit is using its SEND_MORE flag, as the
+caller often has more info on whether it is sending a short prefix or
+is done with a conceptual message and ready to uncork, and where the
+use of a flag can be more efficient than separate passes through
+cork/uncork calls.  But even your initial work at properly corking is
+a good step in the right direction.
+
+And surprisingly, qemu IS using corking on the client side:
+https://gitlab.com/qemu-project/qemu/-/blob/master/block/nbd.c#L525
+just not on the server side, before your patch.
+
+> 
+> Signed-off-by: Florian Westphal <fw@strlen.de>
+> ---
+>  nbd/server.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/nbd/server.c b/nbd/server.c
+> index a4750e41880a..848836d41405 100644
+> --- a/nbd/server.c
+> +++ b/nbd/server.c
+> @@ -2667,6 +2667,8 @@ static coroutine_fn void nbd_trip(void *opaque)
+>          goto disconnect;
+>      }
+>  
+> +    qio_channel_set_cork(client->ioc, true);
+> +
+>      if (ret < 0) {
+>          /* It wasn't -EIO, so, according to nbd_co_receive_request()
+>           * semantics, we should return the error to the client. */
+> @@ -2692,6 +2694,7 @@ static coroutine_fn void nbd_trip(void *opaque)
+>          goto disconnect;
+>      }
+>  
+> +    qio_channel_set_cork(client->ioc, false);
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+>  done:
+>      nbd_request_put(req);
+>      nbd_client_put(client);
+> -- 
+> 2.39.2
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
