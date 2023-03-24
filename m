@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73E16C8185
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501646C8187
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:40:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfjI9-0005NL-KS; Fri, 24 Mar 2023 11:25:21 -0400
+	id 1pfjQc-0000MX-1r; Fri, 24 Mar 2023 11:34:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pfjI7-0005LV-Oe
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:25:19 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pfjI3-0003Sr-L7
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:25:19 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pfjQY-0000Kw-7T
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:34:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pfjQV-0008LD-Vc
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:34:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679672033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mAbBS99Tk9MDN9Xt1Z8xKBYlOLKgeBrUM86VYJIwmRw=;
+ b=RbFsZZgOnMlwLk6GrzgSsXs1xXYJRbvF7/iqDojKT0+qlvvtlYSbdnYRXRADIxLGRDCEt8
+ exa8oSTuB3uwb3mW/K5xu5rTKklPpMSl4dTHbl9tBL5DvBzNeiImJmT+c6cBKeCJkfZnwF
+ e9B3gH0tumfKdHbBqKyt0bQncRvEMek=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-655-Oe1Kg4kHOFCe83_YFWW3zw-1; Fri, 24 Mar 2023 11:33:51 -0400
+X-MC-Unique: Oe1Kg4kHOFCe83_YFWW3zw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E7F6A337DE;
- Fri, 24 Mar 2023 15:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679671509; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nith8pIamhTmDtsuv1rZoelcUzlAFZlv94ChGxaKqrg=;
- b=Jg1TJ/yjcBRsIXXpmfJNZe6eZF+uAAckSvwn4N/RcHvJ1dGbdI37kOVniWIlR2f0oPmUoo
- xm/pcNMMNrGHp2RcG8OsB8z20BlTdrjAxCFzkst6queIpzXHoRH7z51ELzBNgoKBvlJvpg
- k4VfLSZPInpRMu5iFdiryskV06ptjZU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679671509;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nith8pIamhTmDtsuv1rZoelcUzlAFZlv94ChGxaKqrg=;
- b=8pQnTt+612/2jMjBTI+c73JpzQJR2TJ1WrRqwHhUpfqr3q7EkvohE1IcM95/0jMa9SKlgi
- VP4ffd4aUGHZmTAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 71BFE138ED;
- Fri, 24 Mar 2023 15:25:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id rrSPDtXAHWRnawAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 24 Mar 2023 15:25:09 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Thomas Huth
- <thuth@redhat.com>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
- <berrange@redhat.com>, Gerd
- Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>
-Subject: Re: [PULL v2 18/18] ui/dbus: restrict opengl to gbm-enabled config
-In-Reply-To: <20230313200134.503083-19-marcandre.lureau@redhat.com>
-References: <20230313200134.503083-1-marcandre.lureau@redhat.com>
- <20230313200134.503083-19-marcandre.lureau@redhat.com>
-Date: Fri, 24 Mar 2023 12:25:06 -0300
-Message-ID: <87bkkijhnx.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A041685C069
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 15:33:51 +0000 (UTC)
+Received: from green.redhat.com (unknown [10.2.16.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6EA8D2166B29
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 15:33:51 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] systemd: Also clear LISTEN_FDNAMES during systemd socket
+ activation
+Date: Fri, 24 Mar 2023 10:33:49 -0500
+Message-Id: <20230324153349.1123774-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,127 +73,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-marcandre.lureau@redhat.com writes:
+Some time after systemd documented LISTEN_PID and LISTEN_FDS for
+socket activation, they later added LISTEN_FDNAMES; now documented at:
+https://www.freedesktop.org/software/systemd/man/sd_listen_fds.html
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> We can enable EGL later for non-GBM hosts.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->  ui/dbus-listener.c | 10 +++++-----
->  ui/dbus.c          | 12 +++++++++++-
->  2 files changed, 16 insertions(+), 6 deletions(-)
->
-> diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
-> index 85692f1b27..911acdc529 100644
-> --- a/ui/dbus-listener.c
-> +++ b/ui/dbus-listener.c
-> @@ -50,7 +50,7 @@ struct _DBusDisplayListener {
->=20=20
->  G_DEFINE_TYPE(DBusDisplayListener, dbus_display_listener, G_TYPE_OBJECT)
->=20=20
-> -#ifdef CONFIG_OPENGL
-> +#ifdef CONFIG_GBM
->  static void dbus_update_gl_cb(GObject *source_object,
->                             GAsyncResult *res,
->                             gpointer user_data)
-> @@ -239,7 +239,7 @@ static void dbus_refresh(DisplayChangeListener *dcl)
->      graphic_hw_update(dcl->con);
->  }
->=20=20
-> -#ifdef CONFIG_OPENGL
-> +#ifdef CONFIG_GBM
->  static void dbus_gl_gfx_update(DisplayChangeListener *dcl,
->                                 int x, int y, int w, int h)
->  {
-> @@ -302,7 +302,7 @@ static void dbus_gfx_update(DisplayChangeListener *dc=
-l,
->          DBUS_DEFAULT_TIMEOUT, NULL, NULL, NULL);
->  }
->=20=20
-> -#ifdef CONFIG_OPENGL
-> +#ifdef CONFIG_GBM
->  static void dbus_gl_gfx_switch(DisplayChangeListener *dcl,
->                                 struct DisplaySurface *new_surface)
->  {
-> @@ -369,7 +369,7 @@ static void dbus_cursor_define(DisplayChangeListener =
-*dcl,
->          NULL);
->  }
->=20=20
-> -#ifdef CONFIG_OPENGL
-> +#ifdef CONFIG_GBM
->  const DisplayChangeListenerOps dbus_gl_dcl_ops =3D {
->      .dpy_name                =3D "dbus-gl",
->      .dpy_gfx_update          =3D dbus_gl_gfx_update,
-> @@ -417,7 +417,7 @@ dbus_display_listener_constructed(GObject *object)
->      DBusDisplayListener *ddl =3D DBUS_DISPLAY_LISTENER(object);
->=20=20
->      ddl->dcl.ops =3D &dbus_dcl_ops;
-> -#ifdef CONFIG_OPENGL
-> +#ifdef CONFIG_GBM
->      if (display_opengl) {
->          ddl->dcl.ops =3D &dbus_gl_dcl_ops;
->      }
-> diff --git a/ui/dbus.c b/ui/dbus.c
-> index 904f5a0a6d..0513de9918 100644
-> --- a/ui/dbus.c
-> +++ b/ui/dbus.c
-> @@ -47,8 +47,10 @@ static DBusDisplay *dbus_display;
->  static QEMUGLContext dbus_create_context(DisplayGLCtx *dgc,
->                                           QEMUGLParams *params)
->  {
-> +#ifdef CONFIG_GBM
->      eglMakeCurrent(qemu_egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE,
->                     qemu_egl_rn_ctx);
-> +#endif
->      return qemu_egl_create_context(dgc, params);
->  }
->=20=20
-> @@ -56,7 +58,11 @@ static bool
->  dbus_is_compatible_dcl(DisplayGLCtx *dgc,
->                         DisplayChangeListener *dcl)
->  {
-> -    return dcl->ops =3D=3D &dbus_gl_dcl_ops || dcl->ops =3D=3D &dbus_con=
-sole_dcl_ops;
-> +    return
-> +#ifdef CONFIG_GBM
-> +        dcl->ops =3D=3D &dbus_gl_dcl_ops ||
-> +#endif
-> +        dcl->ops =3D=3D &dbus_console_dcl_ops;
->  }
->=20=20
->  static void
-> @@ -459,7 +465,11 @@ early_dbus_init(DisplayOptions *opts)
->      DisplayGLMode mode =3D opts->has_gl ? opts->gl : DISPLAYGL_MODE_OFF;
->=20=20
->      if (mode !=3D DISPLAYGL_MODE_OFF) {
-> +#ifdef CONFIG_OPENGL
->          egl_init(opts->u.dbus.rendernode, mode, &error_fatal);
-> +#else
-> +        error_report("dbus: GL rendering is not supported");
-> +#endif
->      }
->=20=20
->      type_register(&dbus_vc_type_info);
+In particular, look at the implementation of sd_listen_fds_with_names():
+https://github.com/systemd/systemd/blob/main/src/libsystemd/sd-daemon/sd-daemon.c
 
-With this patch I get:
+If we ever pass LISTEN_PID=xxx and LISTEN_FDS=n to a child process,
+but leave LISTEN_FDNAMES=... unchanged as inherited from our parent
+process, then our child process using sd_listen_fds_with_names() might
+see a mismatch in the number of names (unexpected -EINVAL failure), or
+even if the number of names matches the values of those names may be
+unexpected (with even less predictable results).
 
-FAILED: libcommon.fa.p/ui_dbus-listener.c.o
-cc -m64 -mcx16 -Ilibcommon.fa.p -Iui -I../ui -I/usr/include/pixman-1 \
-               -I/usr/include/libpng16 -I/usr/include/spice-server \
-               -I/usr/include/cacard -I/usr/include/nss3 -I/usr/include/nsp=
-r4 -I/usrc
-../ui/dbus-listener.c: In function =E2=80=98dbus_call_update_gl=E2=80=99:
-../ui/dbus-listener.c:74:5: error: implicit declaration of function =E2=80=
-=98glFlush=E2=80=99; did you mean =E2=80=98fflush=E2=80=99? [-Werror=3Dimpl=
-icit-function-declaration]
-     glFlush();
-     ^~~~~~~
-     fflush
+Usually, this is not an issue - the point of LISTEN_PID is to tell
+systemd socket activation to ignore all other LISTEN_* if they were
+not directed to this particular pid.  But if we end up consuming a
+socket directed to this qemu process, and later decide to spawn a
+child process that also needs systemd socket activation, we must
+ensure we are not leaking any stale systemd variables through to that
+child.  The easiest way to do this is to wipe ALL LISTEN_* variables
+at the time we consume a socket, even if we do not yet care about a
+LISTEN_FDNAMES passed in from the parent process.
 
-I don't have libepoxy, only virgl installed. Did we miss something in
-meson perhaps?
+See also https://lists.freedesktop.org/archives/systemd-devel/2023-March/048920.html
+
+Thanks: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ util/systemd.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/util/systemd.c b/util/systemd.c
+index 5bcac9b4016..ced518f771b 100644
+--- a/util/systemd.c
++++ b/util/systemd.c
+@@ -51,6 +51,7 @@ unsigned int check_socket_activation(void)
+     /* So these are not passed to any child processes we might start. */
+     unsetenv("LISTEN_FDS");
+     unsetenv("LISTEN_PID");
++    unsetenv("LISTEN_FDNAMES");
+
+     /* So the file descriptors don't leak into child processes. */
+     for (i = 0; i < nr_fds; ++i) {
+-- 
+2.39.2
+
 
