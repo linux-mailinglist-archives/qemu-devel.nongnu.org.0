@@ -1,67 +1,82 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB4C6C7EF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 14:40:46 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2260A6C802E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 15:45:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfaB3-0005BJ-88; Fri, 24 Mar 2023 01:41:25 -0400
+	id 1pfeyF-0002Z8-Gt; Fri, 24 Mar 2023 06:48:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1pfaB0-0005B4-So; Fri, 24 Mar 2023 01:41:23 -0400
-Received: from mga14.intel.com ([192.55.52.115])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pfeyD-0002Yi-Ai
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 06:48:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>)
- id 1pfaAb-0005er-Qe; Fri, 24 Mar 2023 01:41:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679636457; x=1711172457;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=hUIKA3sHW4VU/Syi6ah4tlI9gmNWNrb9HNCEk85zO2w=;
- b=NQrS/6N0YnFocKZhF+iHF8HLsgYII7+4lNn9UEsxEhMoiArnSyf+pIUu
- 3jmBlzmHkij5He23iEJUiWEckJHA9xTnR4NCtQii+YYb2b4p6caWR6vT7
- YHRh0DBo4ZvyC/BzwmAm0vekkRZnMraz+SuPWFsBdNvLcbStmHHzIjIVY
- UeH43jeY6ppAOq6GYSFqh6Np71KVjwjZi3W4ooR9HSEiFayW+PNWwhtpq
- fJtpM3/ZbtoT/EgtUFl/qoiu9zZUjpO+5H8WnFQCHZ1oGTvQCBXUbG+V2
- dZbBUf5ioP5p903ZYoC2KFVxAOVGj1JUuSHGKIgchNeLngmwPxOu3D9ky g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="339730558"
-X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; d="scan'208";a="339730558"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 22:40:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="712954758"
-X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; d="scan'208";a="712954758"
-Received: from wufei-optiplex-7090.sh.intel.com ([10.238.200.247])
- by orsmga008.jf.intel.com with ESMTP; 23 Mar 2023 22:40:06 -0700
-From: Fei Wu <fei2.wu@intel.com>
-To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, zhiwei_liu@linux.alibaba.com,
- richard.henderson@linaro.org, liweiwei@iscas.ac.cn
-Cc: Fei Wu <fei2.wu@intel.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Christoph Muellner <christoph.muellner@vrull.eu>
-Subject: [PATCH v5 1/2] target/riscv: separate priv from mmu_idx
-Date: Fri, 24 Mar 2023 13:41:53 +0800
-Message-Id: <20230324054154.414846-2-fei2.wu@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230324054154.414846-1-fei2.wu@intel.com>
-References: <20230324054154.414846-1-fei2.wu@intel.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pfeuA-0007ME-59
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 06:48:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679654655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sV8sW6G8LxDbKLoVfX3nws8KsNXD6aWCfmb6I11k1no=;
+ b=Uq1sBaDVGk67wtQJO4e5WPK+OSgkvJiHuF5tOVfha9Vl8fq9yrlP3OIFpEOj67YHHDDIgo
+ VVJYoQgptUr+JG1qSOtRhuluccR2T7+D7eS1TalTQ7slQdymsOiZmK1db/S9a3Pyh2dPl7
+ Qr0XeJbF7IqedCwTi/b2bDW55GDkSwo=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-170-IEtFdYsYNTWl2PDy1Mfjfg-1; Fri, 24 Mar 2023 03:43:05 -0400
+X-MC-Unique: IEtFdYsYNTWl2PDy1Mfjfg-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-1778b36a88dso544151fac.17
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 00:43:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679643785;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sV8sW6G8LxDbKLoVfX3nws8KsNXD6aWCfmb6I11k1no=;
+ b=epHKBV9Ojz2ppMY+VvobDkzQdm2SCpia+9LBi55iwFKjFF0fC0pLESaB9rcLj4LnU8
+ tX87VF7KI0dd7e8lMhnck1dJXwPJik5CKh1W18LrAtZf1iiA8nSt3MHD5FBGyTDXX6hI
+ 84RsajF2LDwyM6BtBT3MgFcDTn4uzQK9NVdFo57P3j0Iv+Sslc3/LKhGm0C1+xWuMtC4
+ XCNy9U6TUvxArncKY4WXGL06mk8sN36KpAaMoUSu8d2WQgd/EIV+nGKYski4fiN42ox9
+ Md6fgO0ca46rrX9wqfzShq+DJXKoI/szRlr2BBezi72KETKAXXp4QtfxKj3FG/YjLFxu
+ kJ9w==
+X-Gm-Message-State: AO0yUKU03BKcABsndynCT4fDp23GJm5Q6c24FUfiY+kwMib/IRUfVIb8
+ BMiPuhdaTzRYdXi+1k2lzXmFF/xf1fMlg0NNoGWxuxt0PJwuGh4MKxu+KOVwSGmTPeCdFvhUAkz
+ 2txSvm2NfnxjEPa9eHHFaztqFVJJItok=
+X-Received: by 2002:a05:6808:171c:b0:387:5a8c:4125 with SMTP id
+ bc28-20020a056808171c00b003875a8c4125mr652823oib.3.1679643784455; 
+ Fri, 24 Mar 2023 00:43:04 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+yfUGPa4N8xzOvP/lDRSsBGiAkVGsp+WTKLRsoV039hVPIxgQfJPKn8XSvICVA7pgngSsEV4MbsgdNhTfY7Yo=
+X-Received: by 2002:a05:6808:171c:b0:387:5a8c:4125 with SMTP id
+ bc28-20020a056808171c00b003875a8c4125mr652809oib.3.1679643783264; Fri, 24 Mar
+ 2023 00:43:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=fei2.wu@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20230316122911.11086-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20230316122911.11086-1-akihiko.odaki@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 24 Mar 2023 15:42:52 +0800
+Message-ID: <CACGkMEsYDxrp7rC06GJ4pXHzhZnG98KWbh9oYMpd9FDW9TUH4A@mail.gmail.com>
+Subject: Re: [PATCH for 8.0] igb: Fix DMA requester specification for Tx packet
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,116 +93,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently it's assumed the 2 low bits of mmu_idx map to privilege mode,
-this assumption won't last as we are about to add more mmu_idx. Here an
-individual priv field is added into TB_FLAGS.
+On Thu, Mar 16, 2023 at 8:29=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix=
+.com> wrote:
+>
+> igb used to specify the PF as DMA requester when reading Tx packets.
+> This made Tx requests from VFs to be performed on the address space of
+> the PF, defeating the purpose of SR-IOV. Add some logic to change the
+> requester depending on the queue, which can be assigned to a VF.
+>
+> Fixes: 3a977deebe ("Intrdocue igb device emulation")
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>  hw/net/e1000e_core.c |  6 +++---
+>  hw/net/igb_core.c    | 13 ++++++++-----
+>  hw/net/net_tx_pkt.c  |  3 ++-
+>  hw/net/net_tx_pkt.h  |  3 ++-
+>  hw/net/vmxnet3.c     |  4 ++--
+>  5 files changed, 17 insertions(+), 12 deletions(-)
+>
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index 4d9679ca0b..c0c09b6965 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -765,7 +765,7 @@ e1000e_process_tx_desc(E1000ECore *core,
+>          }
+>
+>          tx->skip_cp =3D false;
+> -        net_tx_pkt_reset(tx->tx_pkt);
+> +        net_tx_pkt_reset(tx->tx_pkt, core->owner);
+>
+>          tx->sum_needed =3D 0;
+>          tx->cptse =3D 0;
+> @@ -3447,7 +3447,7 @@ e1000e_core_pci_uninit(E1000ECore *core)
+>      qemu_del_vm_change_state_handler(core->vmstate);
+>
+>      for (i =3D 0; i < E1000E_NUM_QUEUES; i++) {
+> -        net_tx_pkt_reset(core->tx[i].tx_pkt);
+> +        net_tx_pkt_reset(core->tx[i].tx_pkt, core->owner);
+>          net_tx_pkt_uninit(core->tx[i].tx_pkt);
+>      }
+>
+> @@ -3572,7 +3572,7 @@ static void e1000e_reset(E1000ECore *core, bool sw)
+>      e1000x_reset_mac_addr(core->owner_nic, core->mac, core->permanent_ma=
+c);
+>
+>      for (i =3D 0; i < ARRAY_SIZE(core->tx); i++) {
+> -        net_tx_pkt_reset(core->tx[i].tx_pkt);
+> +        net_tx_pkt_reset(core->tx[i].tx_pkt, core->owner);
+>          memset(&core->tx[i].props, 0, sizeof(core->tx[i].props));
+>          core->tx[i].skip_cp =3D false;
+>      }
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index a7c7bfdc75..41d1abae03 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -521,6 +521,7 @@ igb_on_tx_done_update_stats(IGBCore *core, struct Net=
+TxPkt *tx_pkt)
+>
+>  static void
+>  igb_process_tx_desc(IGBCore *core,
+> +                    PCIDevice *dev,
+>                      struct igb_tx *tx,
+>                      union e1000_adv_tx_desc *tx_desc,
+>                      int queue_index)
+> @@ -585,7 +586,7 @@ igb_process_tx_desc(IGBCore *core,
+>
+>          tx->first =3D true;
+>          tx->skip_cp =3D false;
+> -        net_tx_pkt_reset(tx->tx_pkt);
+> +        net_tx_pkt_reset(tx->tx_pkt, dev);
+>      }
+>  }
+>
+> @@ -800,6 +801,8 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+>          d =3D core->owner;
+>      }
+>
+> +    net_tx_pkt_reset(txr->tx->tx_pkt, d);
+> +
+>      while (!igb_ring_empty(core, txi)) {
+>          base =3D igb_ring_head_descr(core, txi);
+>
+> @@ -808,7 +811,7 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+>          trace_e1000e_tx_descr((void *)(intptr_t)desc.read.buffer_addr,
+>                                desc.read.cmd_type_len, desc.wb.status);
+>
+> -        igb_process_tx_desc(core, txr->tx, &desc, txi->idx);
+> +        igb_process_tx_desc(core, d, txr->tx, &desc, txi->idx);
+>          igb_ring_advance(core, txi, 1);
+>          eic |=3D igb_txdesc_writeback(core, base, &desc, txi);
+>      }
+> @@ -3825,7 +3828,7 @@ igb_core_pci_realize(IGBCore        *core,
+>      core->vmstate =3D qemu_add_vm_change_state_handler(igb_vm_state_chan=
+ge, core);
+>
+>      for (i =3D 0; i < IGB_NUM_QUEUES; i++) {
+> -        net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner, E1000E_MAX_TX_=
+FRAGS);
+> +        net_tx_pkt_init(&core->tx[i].tx_pkt, NULL, E1000E_MAX_TX_FRAGS);
+>      }
+>
+>      net_rx_pkt_init(&core->rx_pkt);
+> @@ -3850,7 +3853,7 @@ igb_core_pci_uninit(IGBCore *core)
+>      qemu_del_vm_change_state_handler(core->vmstate);
+>
+>      for (i =3D 0; i < IGB_NUM_QUEUES; i++) {
+> -        net_tx_pkt_reset(core->tx[i].tx_pkt);
+> +        net_tx_pkt_reset(core->tx[i].tx_pkt, NULL);
+>          net_tx_pkt_uninit(core->tx[i].tx_pkt);
+>      }
+>
+> @@ -4023,7 +4026,7 @@ static void igb_reset(IGBCore *core, bool sw)
+>
+>      for (i =3D 0; i < ARRAY_SIZE(core->tx); i++) {
+>          tx =3D &core->tx[i];
+> -        net_tx_pkt_reset(tx->tx_pkt);
+> +        net_tx_pkt_reset(tx->tx_pkt, NULL);
+>          tx->vlan =3D 0;
+>          tx->mss =3D 0;
+>          tx->tse =3D false;
+> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+> index 986a3adfe9..cb606cc84b 100644
+> --- a/hw/net/net_tx_pkt.c
+> +++ b/hw/net/net_tx_pkt.c
+> @@ -443,7 +443,7 @@ void net_tx_pkt_dump(struct NetTxPkt *pkt)
+>  #endif
+>  }
+>
+> -void net_tx_pkt_reset(struct NetTxPkt *pkt)
+> +void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *pci_dev)
+>  {
+>      int i;
+>
+> @@ -467,6 +467,7 @@ void net_tx_pkt_reset(struct NetTxPkt *pkt)
+>                            pkt->raw[i].iov_len, DMA_DIRECTION_TO_DEVICE, =
+0);
+>          }
+>      }
+> +    pkt->pci_dev =3D pci_dev;
+>      pkt->raw_frags =3D 0;
+>
+>      pkt->hdr_len =3D 0;
+> diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+> index f57b4e034b..e5ce6f20bc 100644
+> --- a/hw/net/net_tx_pkt.h
+> +++ b/hw/net/net_tx_pkt.h
+> @@ -148,9 +148,10 @@ void net_tx_pkt_dump(struct NetTxPkt *pkt);
+>   * reset tx packet private context (needed to be called between packets)
+>   *
+>   * @pkt:            packet
+> + * @dev:            PCI device processing the next packet
 
-Signed-off-by: Fei Wu <fei2.wu@intel.com>
----
- target/riscv/cpu.h                             | 2 +-
- target/riscv/cpu_helper.c                      | 4 +++-
- target/riscv/insn_trans/trans_privileged.c.inc | 2 +-
- target/riscv/insn_trans/trans_xthead.c.inc     | 7 +------
- target/riscv/translate.c                       | 3 +++
- 5 files changed, 9 insertions(+), 9 deletions(-)
+I've queued this patch, but please post a patch for post 8.0 to
+replace the PCIDevice * with void *. We don't want to tightly couple
+PCI devices with net_tx_pkt. But the user can store a context (e.g
+PCIDevice) instead.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 638e47c75a..ac3eb9abca 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -623,7 +623,6 @@ G_NORETURN void riscv_raise_exception(CPURISCVState *env,
- target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
- void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
- 
--#define TB_FLAGS_PRIV_MMU_MASK                3
- #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
- #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
- #define TB_FLAGS_MSTATUS_VS MSTATUS_VS
-@@ -650,6 +649,7 @@ FIELD(TB_FLAGS, VTA, 24, 1)
- FIELD(TB_FLAGS, VMA, 25, 1)
- /* Native debug itrigger */
- FIELD(TB_FLAGS, ITRIGGER, 26, 1)
-+FIELD(TB_FLAGS, PRIV, 27, 2)
- 
- #ifdef TARGET_RISCV32
- #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f88c503cf4..4e275b904a 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -82,6 +82,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-     flags |= TB_FLAGS_MSTATUS_FS;
-     flags |= TB_FLAGS_MSTATUS_VS;
- #else
-+    flags = FIELD_DP32(flags, TB_FLAGS, PRIV, env->priv);
-+
-     flags |= cpu_mmu_index(env, 0);
-     if (riscv_cpu_fp_enabled(env)) {
-         flags |= env->mstatus & MSTATUS_FS;
-@@ -762,7 +764,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-      * (riscv_cpu_do_interrupt) is correct */
-     MemTxResult res;
-     MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
--    int mode = mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
-+    int mode = env->priv;
-     bool use_background = false;
-     hwaddr ppn;
-     RISCVCPU *cpu = env_archcpu(env);
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-index 59501b2780..9305b18299 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -52,7 +52,7 @@ static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
-      * that no exception will be raised when fetching them.
-      */
- 
--    if (semihosting_enabled(ctx->mem_idx < PRV_S) &&
-+    if (semihosting_enabled(ctx->priv < PRV_S) &&
-         (pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
-         pre    = opcode_at(&ctx->base, pre_addr);
-         ebreak = opcode_at(&ctx->base, ebreak_addr);
-diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/insn_trans/trans_xthead.c.inc
-index df504c3f2c..adfb53cb4c 100644
---- a/target/riscv/insn_trans/trans_xthead.c.inc
-+++ b/target/riscv/insn_trans/trans_xthead.c.inc
-@@ -265,12 +265,7 @@ static bool trans_th_tst(DisasContext *ctx, arg_th_tst *a)
- 
- static inline int priv_level(DisasContext *ctx)
- {
--#ifdef CONFIG_USER_ONLY
--    return PRV_U;
--#else
--     /* Priv level is part of mem_idx. */
--    return ctx->mem_idx & TB_FLAGS_PRIV_MMU_MASK;
--#endif
-+    return ctx->priv;
- }
- 
- /* Test if priv level is M, S, or U (cannot fail). */
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 0ee8ee147d..b215d18250 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -69,6 +69,7 @@ typedef struct DisasContext {
-     uint32_t mstatus_hs_fs;
-     uint32_t mstatus_hs_vs;
-     uint32_t mem_idx;
-+    uint32_t priv;
-     /* Remember the rounding mode encoded in the previous fp instruction,
-        which we have already installed into env->fp_status.  Or -1 for
-        no previous fp instruction.  Note that we exit the TB when writing
-@@ -1162,8 +1163,10 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     } else {
-         ctx->virt_enabled = false;
-     }
-+    ctx->priv = FIELD_EX32(tb_flags, TB_FLAGS, PRIV);
- #else
-     ctx->virt_enabled = false;
-+    ctx->priv = PRV_U;
- #endif
-     ctx->misa_ext = env->misa_ext;
-     ctx->frm = -1;  /* unknown rounding mode */
--- 
-2.25.1
+Thanks
+
+>   *
+>   */
+> -void net_tx_pkt_reset(struct NetTxPkt *pkt);
+> +void net_tx_pkt_reset(struct NetTxPkt *pkt, PCIDevice *dev);
+>
+>  /**
+>   * Send packet to qemu. handles sw offloads if vhdr is not supported.
+> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+> index 1068b80868..f7b874c139 100644
+> --- a/hw/net/vmxnet3.c
+> +++ b/hw/net/vmxnet3.c
+> @@ -678,7 +678,7 @@ static void vmxnet3_process_tx_queue(VMXNET3State *s,=
+ int qidx)
+>              vmxnet3_complete_packet(s, qidx, txd_idx);
+>              s->tx_sop =3D true;
+>              s->skip_current_tx_pkt =3D false;
+> -            net_tx_pkt_reset(s->tx_pkt);
+> +            net_tx_pkt_reset(s->tx_pkt, PCI_DEVICE(s));
+>          }
+>      }
+>  }
+> @@ -1159,7 +1159,7 @@ static void vmxnet3_deactivate_device(VMXNET3State =
+*s)
+>  {
+>      if (s->device_active) {
+>          VMW_CBPRN("Deactivating vmxnet3...");
+> -        net_tx_pkt_reset(s->tx_pkt);
+> +        net_tx_pkt_reset(s->tx_pkt, PCI_DEVICE(s));
+>          net_tx_pkt_uninit(s->tx_pkt);
+>          net_rx_pkt_uninit(s->rx_pkt);
+>          s->device_active =3D false;
+> --
+> 2.39.2
+>
 
 
