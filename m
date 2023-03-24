@@ -2,81 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D53A6C8163
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:37:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C116C8167
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:37:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfhzX-0003Pz-Al; Fri, 24 Mar 2023 10:02:03 -0400
+	id 1pfhsn-0002s3-T2; Fri, 24 Mar 2023 09:55:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=440da7b32=anthony.perard@citrix.com>)
- id 1pfhzR-0003PG-3L
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:01:58 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pfhse-0002po-Ps; Fri, 24 Mar 2023 09:54:56 -0400
+Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=440da7b32=anthony.perard@citrix.com>)
- id 1pfhzB-0001du-5y
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:01:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1679666500;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=etYuVIm3qtpgUcsm+VlPHh9b2LeP3vrVXGfwfPpeWZY=;
- b=E0Erp1jPYlQuqRdQU1lKbV4x9l+gh5vNnd9nb6j1MHkM14D5n5+vKG+9
- 6bMWpR9/ueZigrnSXJerQe6HbAP355UyZorN2j5JTUrZ3NdbLpkbZVl2W
- jlbx5WxjNzo/Y+5TPBuTHuF7jR/k1pF4UYxEudHfauIwWyawiqUDZu+sC U=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 4.0
-X-MesageID: 104607686
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.123
-X-Policy: $RELAYED
-IronPort-Data: A9a23:KvO6Iq/KZcqXTvyVVRxgDrUD+36TJUtcMsCJ2f8bNWPcYEJGY0x3y
- mYdWDuEP/7fYTajfdl/btng/R5Sv8WEm9ZnT1dt/yw8E34SpcT7XtnIdU2Y0wF+jCHgZBk+s
- 5hBMImowOQcFCK0SsKFa+C5xZVE/fjUAOG6UKicYXoZqTZMEE8JkQhkl/MynrlmiN24BxLlk
- d7pqojUNUTNNwRcawr40Ire7kI/1BjOkGlA5AdmPqoX5AW2e0Q9V/rzG4ngdxMUfaEMdgKKb
- 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+v9T2M4nQVVWk120c+VZk
- 72hg3ASpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn9IBDJyCAWlvVbD09NqbDkll1
- OYyJDUqRSm4pOazwri7EfZOr9oKeZyD0IM34hmMzBncBPciB5vCX7/L9ZlT2zJYasJmRKiEI
- ZBDMHw2MUqGOkcUUrsUIMtWcOOAj3/jczpeuRSNqLA++WT7xw1tyrn9dtHSf7RmQO0MxhrG/
- j2YrzqR7hcyH/OAy2W97EiXvPafuXP8cZopE6G/6as/6LGU7jNKU0BHPbehmtGhh1KzQZRaI
- l0Y9y4qhawz8kWxSZ/6RRLQiGeJuwNZV9dOHukS7gaLxazJpQGDCQAsRyZMctU8uOcqRDYh0
- RmCmNaBONB0mOTLEzTHrO7S9G7sf3FPdgfueBPoUyMuwsPJrIQUpSv0bdJmEqS11cLXMC/Zl
- mXiQDcFu1kDsSIa//zlogGZ2W/09sGhoh0dvVuOAD/8hu9tTMv8PtHztwCGhRpVBNzBJmRtq
- kTojCR3AAomKZiW3BKAT+wWdF1Cz6bUaWaM6bKD8nRIythMx5JAVdoKiN2GDB01WvvogBewC
- KMphStf5YVIIFyhZrJtboS6BqwClPa/RIm0CK2MN4QQPvCdkTNrGwkwDXN8Iki3yBR8+U3BE
- c7znTmQ4YYyVv08kWveqxY12r433CEurV7uqWTA503/i9K2PSfFIYrpxXPSNojVGovY+lSKm
- zueXuPWoyhivBrWOXGNq9FIfQ5RfRDWx/ne8qRqSwJKGSI+cElJNhMb6ehJl1BN90iNqtr1w
- w==
-IronPort-HdrOrdr: A9a23:mwZNC6AuX+b5wyXlHelr55DYdb4zR+YMi2TC1yhKOHpom62j9/
- xG+c5x6faaslcssR0b6LW90cq7MArhHPxOkPEs1N6ZNWGI1ldARLsSlrcKqAeQfxEWmNQtsp
- tIQuxSMvC1K35Q5PyX3OC/Kbwd6ejCyoyTwc356FhMYz1QQ5xBySA8MCqne3cGJzVuNN43FJ
- +R/MpVqyDIQxkqR86mHGQCW+TZh/CjruOFXSI7
-X-IronPort-AV: E=Sophos;i="5.98,288,1673931600"; d="scan'208";a="104607686"
-Date: Fri, 24 Mar 2023 13:47:12 +0000
-To: <peter.maydell@linaro.org>
-CC: <qemu-devel@nongnu.org>
-Subject: Re: [PULL 0/1] xen queue
-Message-ID: <758626c4-f46f-471e-81c0-58e82f6623b1@perard>
-References: <20230323100200.12986-1-anthony.perard@citrix.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pfhsK-0000GB-1r; Fri, 24 Mar 2023 09:54:54 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
+ TI=SMTPD_---0VeXzXt7_1679665659; 
+Received: from 30.213.165.143(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VeXzXt7_1679665659) by smtp.aliyun-inc.com;
+ Fri, 24 Mar 2023 21:47:40 +0800
+Message-ID: <242e5db0-5e0e-4db3-a139-746da26e0f63@linux.alibaba.com>
+Date: Fri, 24 Mar 2023 21:47:37 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230323100200.12986-1-anthony.perard@citrix.com>
-Received-SPF: pass client-ip=216.71.155.144;
- envelope-from=prvs=440da7b32=anthony.perard@citrix.com;
- helo=esa4.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 2/4] target/riscv: Add a general status enum for extensions
+Content-Language: en-US
+To: liweiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, Alistair.Francis@wdc.com,
+ palmer@dabbelt.com, bin.meng@windriver.com, dbarboza@ventanamicro.com,
+ qemu-riscv@nongnu.org
+References: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
+ <20230324055954.908-3-zhiwei_liu@linux.alibaba.com>
+ <e8f5e279-38f1-85a3-f8ea-9ee791edeb38@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <e8f5e279-38f1-85a3-f8ea-9ee791edeb38@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.113;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-113.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,37 +63,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 23, 2023 at 10:01:59AM +0000, Anthony PERARD wrote:
-> The following changes since commit 60ca584b8af0de525656f959991a440f8c191f12:
-> 
->   Merge tag 'pull-for-8.0-220323-1' of https://gitlab.com/stsquad/qemu into staging (2023-03-22 17:58:12 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20230323
-> 
-> for you to fetch changes up to f75e4f2234e7339c16c1dba048bf131a2a948f84:
-> 
->   accel/xen: Fix DM state change notification in dm_restrict mode (2023-03-23 09:56:54 +0000)
-> 
-> ----------------------------------------------------------------
-> Xen queue
-> 
-> - fix guest creation when -xen-domid-restrict is used
 
-Hi Peter,
+On 2023/3/24 20:53, liweiwei wrote:
+>
+> On 2023/3/24 13:59, LIU Zhiwei wrote:
+>> The pointer masking is the only extension that directly use status.
+>> The vector or float extension uses the status in an indirect way.
+>>
+>> Replace the pointer masking extension special status fields with
+>> the general status.
+>>
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+>> ---
+>>   target/riscv/cpu.c      |  2 +-
+>>   target/riscv/cpu.h      |  9 +++++++++
+>>   target/riscv/cpu_bits.h |  6 ------
+>>   target/riscv/csr.c      | 14 +++++++-------
+>>   4 files changed, 17 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 1e97473af2..1135106b3e 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -764,7 +764,7 @@ static void riscv_cpu_reset_hold(Object *obj)
+>>           i++;
+>>       }
+>>       /* mmte is supposed to have pm.current hardwired to 1 */
+>> -    env->mmte |= (PM_EXT_INITIAL | MMTE_M_PM_CURRENT);
+>> +    env->mmte |= (EXT_STATUS_INITIAL | MMTE_M_PM_CURRENT);
+>>   #endif
+>>       env->xl = riscv_cpu_mxl(env);
+>>       riscv_cpu_update_mask(env);
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 12fe8d8546..5049e21518 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -99,6 +99,15 @@ enum {
+>>       TRANSLATE_G_STAGE_FAIL
+>>   };
+>>   +/* Extension Context Status */
+>> +enum {
+>> +    EXT_STATUS_DISABLED = 0,
+>> +    EXT_STATUS_INITIAL,
+>> +    EXT_STATUS_CLEAN,
+>> +    EXT_STATUS_DIRTY,
+>> +    EXT_STATUS_MASK,
+>
+> I think the right value for EXT_STATUS_MASK  should be 3 here.
+Yes, it is.
+>
+> And it can replace the following  PM_XS_MASK.
 
-I'd like to cancel this pull request. I've got another patch to add to
-it. Is that fine? If I don't have any reply, I'll create a new PR later
-today and consider this one cancel.
+Once I wanted to replace PM_XS_MASK with EXT_STATUS_MASK here.
+But PM_XS_MASK has a ULL type which is needed for a 64-bit register.
 
-Cheers,
 
--- 
-Anthony PERARD
+So I want to drop the definition of EXT_STATUS_MASK from here. And define a
+EXT_STATUS_MASK macro in cpu_bits.h. It will  replace the PM_XS_MASK.
+
+Zhiwei
+
+>
+> Regards,
+>
+> Weiwei Li
+>
+>> +};
+>> +
+>>   #define MMU_USER_IDX 3
+>>     #define MAX_RISCV_PMPS (16)
+>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>> index fca7ef0cef..5280bd41c2 100644
+>> --- a/target/riscv/cpu_bits.h
+>> +++ b/target/riscv/cpu_bits.h
+>> @@ -736,12 +736,6 @@ typedef enum RISCVException {
+>>   #define PM_INSN         0x00000004ULL
+>>   #define PM_XS_MASK      0x00000003ULL
+>>   -/* PointerMasking XS bits values */
+>> -#define PM_EXT_DISABLE  0x00000000ULL
+>> -#define PM_EXT_INITIAL  0x00000001ULL
+>> -#define PM_EXT_CLEAN    0x00000002ULL
+>> -#define PM_EXT_DIRTY    0x00000003ULL
+>> -
+>>   /* Execution enviornment configuration bits */
+>>   #define MENVCFG_FIOM                       BIT(0)
+>>   #define MENVCFG_CBIE                       (3UL << 4)
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index d522efc0b6..abea7b749e 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -3513,7 +3513,7 @@ static RISCVException write_mmte(CPURISCVState 
+>> *env, int csrno,
+>>         /* hardwiring pm.instruction bit to 0, since it's not 
+>> supported yet */
+>>       wpri_val &= ~(MMTE_M_PM_INSN | MMTE_S_PM_INSN | MMTE_U_PM_INSN);
+>> -    env->mmte = wpri_val | PM_EXT_DIRTY;
+>> +    env->mmte = wpri_val | EXT_STATUS_DIRTY;
+>>       riscv_cpu_update_mask(env);
+>>         /* Set XS and SD bits, since PM CSRs are dirty */
+>> @@ -3593,7 +3593,7 @@ static RISCVException 
+>> write_mpmmask(CPURISCVState *env, int csrno,
+>>       if ((env->priv == PRV_M) && (env->mmte & M_PM_ENABLE)) {
+>>           env->cur_pmmask = val;
+>>       }
+>> -    env->mmte |= PM_EXT_DIRTY;
+>> +    env->mmte |= EXT_STATUS_DIRTY;
+>>         /* Set XS and SD bits, since PM CSRs are dirty */
+>>       mstatus = env->mstatus | MSTATUS_XS;
+>> @@ -3621,7 +3621,7 @@ static RISCVException 
+>> write_spmmask(CPURISCVState *env, int csrno,
+>>       if ((env->priv == PRV_S) && (env->mmte & S_PM_ENABLE)) {
+>>           env->cur_pmmask = val;
+>>       }
+>> -    env->mmte |= PM_EXT_DIRTY;
+>> +    env->mmte |= EXT_STATUS_DIRTY;
+>>         /* Set XS and SD bits, since PM CSRs are dirty */
+>>       mstatus = env->mstatus | MSTATUS_XS;
+>> @@ -3649,7 +3649,7 @@ static RISCVException 
+>> write_upmmask(CPURISCVState *env, int csrno,
+>>       if ((env->priv == PRV_U) && (env->mmte & U_PM_ENABLE)) {
+>>           env->cur_pmmask = val;
+>>       }
+>> -    env->mmte |= PM_EXT_DIRTY;
+>> +    env->mmte |= EXT_STATUS_DIRTY;
+>>         /* Set XS and SD bits, since PM CSRs are dirty */
+>>       mstatus = env->mstatus | MSTATUS_XS;
+>> @@ -3673,7 +3673,7 @@ static RISCVException 
+>> write_mpmbase(CPURISCVState *env, int csrno,
+>>       if ((env->priv == PRV_M) && (env->mmte & M_PM_ENABLE)) {
+>>           env->cur_pmbase = val;
+>>       }
+>> -    env->mmte |= PM_EXT_DIRTY;
+>> +    env->mmte |= EXT_STATUS_DIRTY;
+>>         /* Set XS and SD bits, since PM CSRs are dirty */
+>>       mstatus = env->mstatus | MSTATUS_XS;
+>> @@ -3701,7 +3701,7 @@ static RISCVException 
+>> write_spmbase(CPURISCVState *env, int csrno,
+>>       if ((env->priv == PRV_S) && (env->mmte & S_PM_ENABLE)) {
+>>           env->cur_pmbase = val;
+>>       }
+>> -    env->mmte |= PM_EXT_DIRTY;
+>> +    env->mmte |= EXT_STATUS_DIRTY;
+>>         /* Set XS and SD bits, since PM CSRs are dirty */
+>>       mstatus = env->mstatus | MSTATUS_XS;
+>> @@ -3729,7 +3729,7 @@ static RISCVException 
+>> write_upmbase(CPURISCVState *env, int csrno,
+>>       if ((env->priv == PRV_U) && (env->mmte & U_PM_ENABLE)) {
+>>           env->cur_pmbase = val;
+>>       }
+>> -    env->mmte |= PM_EXT_DIRTY;
+>> +    env->mmte |= EXT_STATUS_DIRTY;
+>>         /* Set XS and SD bits, since PM CSRs are dirty */
+>>       mstatus = env->mstatus | MSTATUS_XS;
 
