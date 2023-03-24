@@ -2,94 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D506C8205
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA0E6C81FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:58:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfbwv-0001dB-GU; Fri, 24 Mar 2023 03:34:57 -0400
+	id 1pfcNv-00043k-B1; Fri, 24 Mar 2023 04:02:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfbwt-0001cz-9t
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 03:34:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pfcNU-00041K-1B
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 04:02:29 -0400
+Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfbwi-0007r9-Fs
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 03:34:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679643261;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4QUs8km15tdSmBMJbq9oy+sA9Y6iMG5KI0R+7zzs2LU=;
- b=X1Y2QcLpU4JYK95c1Y1CYagzeIawVx6UD+0CaFx2bx/ZzqjCoKDMUMlu9i7p3JA+GIP+oT
- oIvzfaYr0YOhx8vEf+54/oay/Gzu8FXgIe64Cs9WYWVz/mxP2GuXaIlJc2K2Ec/ZQEvOPI
- zzWbhTw8VHeaQLQph3x+31R4M70GIAE=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-413-vZrQoQrQMzO0KcT1KbwB4Q-1; Fri, 24 Mar 2023 03:34:17 -0400
-X-MC-Unique: vZrQoQrQMzO0KcT1KbwB4Q-1
-Received: by mail-qt1-f200.google.com with SMTP id
- c14-20020ac87d8e000000b003e38726ec8bso556051qtd.23
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 00:34:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679643257;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4QUs8km15tdSmBMJbq9oy+sA9Y6iMG5KI0R+7zzs2LU=;
- b=kEjayIOHJCDfgRwuQheO4M8GxAMlQ+QyRim2Xn4rg6RNCgTizxr0+Lr5FougzmCipG
- G0Wf9Mi4QYg+T76rPuY13A6u5yU9rNkATnNGX0i5yTzvo5MZTcXC+vyyh+d7QCAshEM2
- ZDHnoqWlR4QQsDji4qxXQwJgpeBH4UUPHVuVVNwhVmT9ALVPR1AlScy9F8+LqsWQ29UZ
- 5I41m+RyBDuKduwCsED9PZND8kl8tXSg7NsQPdcID+xBGClN14KnFQgP2XsBxoWIdfyF
- WghCKTF6y31ofS5On5n/WDMW66MkBaDmyiHKGH4r4TcJhachXPglWCxMuNtAPWJJnYBz
- 9obA==
-X-Gm-Message-State: AAQBX9cl+v9t9boEZBgzAJPS2B8McPVPc+QtI34WC4eggs5FeeCww1yC
- YsUkhRGA86WGXYmK4PZWQykeITkYIJPkPxI8bKM+EcWdAF+shhtuM0K0zGH9Whuz2AsgNydgkpb
- XB48dp7P+d2Mi69A=
-X-Received: by 2002:a05:6214:c8d:b0:5be:a3e7:f24d with SMTP id
- r13-20020a0562140c8d00b005bea3e7f24dmr2223920qvr.29.1679643257375; 
- Fri, 24 Mar 2023 00:34:17 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b/GU6gPMdUmL1jsgDz0IDNbp/z4PZgXOybzhJ6DDzrMFuzsix4n5h0BdjqK/9qurV3UWG9bw==
-X-Received: by 2002:a05:6214:c8d:b0:5be:a3e7:f24d with SMTP id
- r13-20020a0562140c8d00b005bea3e7f24dmr2223900qvr.29.1679643257139; 
- Fri, 24 Mar 2023 00:34:17 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-101.web.vodafone.de.
- [109.43.179.101]) by smtp.gmail.com with ESMTPSA id
- lf10-20020a0562142cca00b005dd8b9345e9sm496245qvb.129.2023.03.24.00.34.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Mar 2023 00:34:16 -0700 (PDT)
-Message-ID: <8df76c27-89b5-baee-9738-9b7585ae01e0@redhat.com>
-Date: Fri, 24 Mar 2023 08:34:13 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pfcNE-0005pl-Ij
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 04:02:22 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.84])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id EF19F21D69;
+ Fri, 24 Mar 2023 08:01:10 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 24 Mar
+ 2023 09:01:10 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G00130a59fd7-fa5e-4371-80c2-c816f0636f61,
+ B643924C3F00DACC24514BA3944A1F2687FE8C81) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <be542d13-ed97-39f6-7386-b83941563216@kaod.org>
+Date: Fri, 24 Mar 2023 09:01:09 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/3] docs: Add support for TPM devices over I2C bus
 Content-Language: en-US
-To: quintela@redhat.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-References: <20230317170553.592707-1-berrange@redhat.com>
- <871qlfmi9q.fsf@secure.mitica>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] qtests: avoid printing comments before g_test_init()
-In-Reply-To: <871qlfmi9q.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Ninad Palsule <ninad@linux.vnet.ibm.com>, Ninad Palsule
+ <ninad@linux.ibm.com>, <qemu-devel@nongnu.org>
+CC: <joel@jms.id.au>, <andrew@aj.id.au>, <stefanb@linux.ibm.com>
+References: <20230323030119.2113570-1-ninad@linux.ibm.com>
+ <20230323030119.2113570-2-ninad@linux.ibm.com>
+ <ae61d505-b656-a362-8a80-35f266296e2a@kaod.org>
+ <efde764d-d675-07e7-ba60-f4406d083ceb@linux.vnet.ibm.com>
+ <026d8d44-c698-189e-155d-ac9c23c4361b@linux.vnet.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <026d8d44-c698-189e-155d-ac9c23c4361b@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 6a5f21e4-8244-445c-b720-9f7c0cb2ed96
+X-Ovh-Tracer-Id: 6396800324939582246
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeghedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfefgkeetkeegleehueejgefhteekteelieduueffkeetgfekheeuffehveevkeejnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehnihhnrggusehlihhnuhigrdhvnhgvthdrihgsmhdrtghomhdpnhhinhgrugeslhhinhhugidrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpjhhovghlsehjmhhsrdhiugdrrghupdgrnhgurhgvfiesrghjrdhiugdrrghupdhsthgvfhgrnhgssehlihhnuhigrdhisghmrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
+ helo=8.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,56 +77,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/03/2023 19.31, Juan Quintela wrote:
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
->> The TAP protocol version line must be the first thing printed on
->> stdout. The migration test failed that requirement in certain
->> scenarios:
->>
->>    # Skipping test: Userfault not available (builtdtime)
->>    TAP version 13
->>    # random seed: R02Sc120c807f11053eb90bfea845ba1e368
->>    1..32
->>    # Start of x86_64 tests
->>    # Start of migration tests
->>    ....
->>
->> The TAP version is printed by g_test_init(), so we need to make
->> sure that any methods which print are run after that.
->>
->> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->> ---
+On 3/24/23 06:11, Ninad Palsule wrote:
+> Hello Cedric,
 > 
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Joel helped me to configure the device and we are able to configure tpm device on ast2600-evb.
 > 
->> -    const bool has_kvm = qtest_has_accel("kvm");
->> -    const bool has_uffd = ufd_version_check();
->> -    const char *arch = qtest_get_arch();
->> +    bool has_kvm;
->> +    bool has_uffd;
->> +    const char *arch;
+> I will include this example in the documentation.
 > 
-> Why don't you move also the declarations of the variables?
-> I think that one of the biggest troubles of C is variables that are not
-> initialized.
+> # uname -a
+> Linux ast2600-evb 6.1.15 #1 SMP Thu Mar 23 20:48:29 CDT 2023 armv7l GNU/Linux
+> # cat /etc/os-release
+> NAME=Buildroot
+> VERSION=2023.02-dirty
+> ID=buildroot
+> VERSION_ID=2023.02
+> PRETTY_NAME="Buildroot 2023.02"
 > 
-> All compilers that we support are C99 or later, so we can do that (and
-> we already do in lot of places.)
+> # echo tpm_tis_i2c 0x2e > /sys/bus/i2c/devices/i2c-12/new_device
+> [   59.681684] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
+> [   59.703190] tpm tpm0: A TPM error (256) occurred attempting the self test
+> [   59.705215] tpm tpm0: starting up the TPM manually
+> [   59.892917] i2c i2c-12: new_device: Instantiated device tpm_tis_i2c at 0x2e
+> # cd /sys/class/tpm/tpm0
+> # ls
+> dev                pcr-sha256         power              uevent
+> device             pcr-sha384         subsystem
+> pcr-sha1           pcr-sha512         tpm_version_major
 
-I think the coding style has been created before we switched to -std=gnu99 
-for compiling QEMU, so a lot of GCCs were still using C89 by default?
 
-> And yeap, I know that CodingStyle says otherwise, but I think that what
-> is wrong is CodingStyle.
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03836.html
+Nice. Did you need any special support in the kernel ?
 
-Please use proper prefixes in the subject when sending patches 
-("docs/devel:" here), otherwise your patches might not get the right 
-attention (at least on my side, it was filtered away as a patch that was 
-relevant to me) - and also put some recent contributors on CC:
+I could update this image for avocado tests :
 
-  Thanks,
-   Thomas
+   https://github.com/legoater/qemu-aspeed-boot/tree/master/images/ast2600-evb/buildroot-2023.02
 
+Thanks,
+
+C.
 
