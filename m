@@ -2,50 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002B06C77B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 07:16:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8166C7943
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 08:56:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfaW0-0007Hp-R6; Fri, 24 Mar 2023 02:03:04 -0400
+	id 1pfX2O-00016i-UO; Thu, 23 Mar 2023 22:20:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfaVy-0007HH-CY; Fri, 24 Mar 2023 02:03:02 -0400
-Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1pfX2I-00016K-IO
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 22:20:10 -0400
+Received: from mga04.intel.com ([192.55.52.120])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfaVh-00052e-Fk; Fri, 24 Mar 2023 02:03:02 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R911e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VeWah0U_1679637730; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VeWah0U_1679637730) by smtp.aliyun-inc.com;
- Fri, 24 Mar 2023 14:02:11 +0800
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, Alistair.Francis@wdc.com, palmer@dabbelt.com,
- bin.meng@windriver.com, liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com,
- qemu-riscv@nongnu.org, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [PATCH 4/4] target/riscv: Add a tb flags field for vstart
-Date: Fri, 24 Mar 2023 13:59:54 +0800
-Message-Id: <20230324055954.908-5-zhiwei_liu@linux.alibaba.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
-References: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1pfX1j-0001Ll-53
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 22:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679624375; x=1711160375;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=M4FQzDrjs+QeI9XLnd+NfZpr2fRqKi1DscOllLq4wCk=;
+ b=N1XudOA8/cRvmpqoLsd/WvKp0U6rF5noOiDTvNKGHPPddNuNTQxOUZms
+ Md9ff09nYSsyhkNdeFYePRnZWgMLU3fKErdE5b7V2Jp5aGPfbyzbzLYFi
+ dodDrj7xpKHrCFeFc59KhQzKhFVWgKxrXOOOc/NadkA450p3P13ruGK6X
+ Ncl6BEID2W8Yrv6KLLy7q9GR5cnLCLyPRXoF1rxj/wMvwpI+ooIZtkPA0
+ 4MRF1xC/ob5WmPV5SbZvRxpSOw8dfmxFvsgWsprJXatpHpL9FTH6MPDIY
+ 03rS5u9/+xgrzTJ88G2SLlyQzg52frZBtEJLwcLOD1L98KsgBEjiiiC7i A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="338400949"
+X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; d="scan'208";a="338400949"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 19:18:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="659886402"
+X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; d="scan'208";a="659886402"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+ by orsmga006.jf.intel.com with ESMTP; 23 Mar 2023 19:18:04 -0700
+Date: Fri, 24 Mar 2023 10:10:29 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, seanjc@google.com,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com,
+ wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de,
+ naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org,
+ hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
+ bfields@fieldses.org, akpm@linux-foundation.org, shuah@kernel.org,
+ rppt@kernel.org, steven.price@arm.com, mail@maciej.szmigiero.name,
+ vbabka@suse.cz, vannapurve@google.com, yu.c.zhang@linux.intel.com,
+ kirill.shutemov@linux.intel.com, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, qperret@google.com, tabba@google.com,
+ michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+Message-ID: <20230324021029.GA2774613@chaop.bj.intel.com>
+References: <20230128140030.GB700688@chaop.bj.intel.com>
+ <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
+ <20230308074026.GA2183207@chaop.bj.intel.com>
+ <20230323004131.GA214881@ls.amr.corp.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.124;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-124.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230323004131.GA214881@ls.amr.corp.intel.com>
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,161 +91,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Once we mistook the vstart directly from the env->vstart. As env->vstart is not
-a constant, we should record it in the tb flags if we want to use
-it in translation.
+On Wed, Mar 22, 2023 at 05:41:31PM -0700, Isaku Yamahata wrote:
+> On Wed, Mar 08, 2023 at 03:40:26PM +0800,
+> Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> 
+> > On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
+> > > Chao Peng <chao.p.peng@linux.intel.com> writes:
+> > > 
+> > > > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
+> > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > ...
+> > > > > Strongly prefer to use similar logic to existing code that detects wraps:
+> > > 
+> > > > > 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
+> > > 
+> > > > > This is also where I'd like to add the "gfn is aligned to offset"
+> > > > > check, though
+> > > > > my brain is too fried to figure that out right now.
+> > > 
+> > > > Used count_trailing_zeros() for this TODO, unsure we have other better
+> > > > approach.
+> > > 
+> > > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > > > index afc8c26fa652..fd34c5f7cd2f 100644
+> > > > --- a/virt/kvm/kvm_main.c
+> > > > +++ b/virt/kvm/kvm_main.c
+> > > > @@ -56,6 +56,7 @@
+> > > >   #include <asm/processor.h>
+> > > >   #include <asm/ioctl.h>
+> > > >   #include <linux/uaccess.h>
+> > > > +#include <linux/count_zeros.h>
+> > > 
+> > > >   #include "coalesced_mmio.h"
+> > > >   #include "async_pf.h"
+> > > > @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct
+> > > > kvm_memslots *slots, int id,
+> > > >   	return false;
+> > > >   }
+> > > 
+> > > > +/*
+> > > > + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
+> > > > + */
+> > > > +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
+> > > > +{
+> > > > +	if (!offset)
+> > > > +		return true;
+> > > > +	if (!gpa)
+> > > > +		return false;
+> > > > +
+> > > > +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
+> 
+> This check doesn't work expected. For example, offset = 2GB, gpa=4GB
+> this check fails.
 
-Reported-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
----
- target/riscv/cpu.h                      | 21 +++++++++++----------
- target/riscv/cpu_helper.c               |  1 +
- target/riscv/insn_trans/trans_rvv.c.inc | 14 +++++++-------
- target/riscv/translate.c                |  4 ++--
- 4 files changed, 21 insertions(+), 19 deletions(-)
+This case is expected to fail as Sean initially suggested[*]:
+  I would rather reject memslot if the gfn has lesser alignment than
+  the offset. I'm totally ok with this approach _if_ there's a use case.
+  Until such a use case presents itself, I would rather be conservative
+  from a uAPI perspective.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 41f7aef666..623288e6f9 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -645,21 +645,22 @@ FIELD(TB_FLAGS, LMUL, 7, 3)
- FIELD(TB_FLAGS, SEW, 10, 3)
- FIELD(TB_FLAGS, VL_EQ_VLMAX, 13, 1)
- FIELD(TB_FLAGS, VILL, 14, 1)
-+FIELD(TB_FLAGS, VSTART_EQ_ZERO, 15, 1)
- /* Is a Hypervisor instruction load/store allowed? */
--FIELD(TB_FLAGS, HLSX, 15, 1)
--FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
--FIELD(TB_FLAGS, MSTATUS_HS_VS, 18, 2)
-+FIELD(TB_FLAGS, HLSX, 16, 1)
-+FIELD(TB_FLAGS, MSTATUS_HS_FS, 17, 2)
-+FIELD(TB_FLAGS, MSTATUS_HS_VS, 19, 2)
- /* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
--FIELD(TB_FLAGS, XL, 20, 2)
-+FIELD(TB_FLAGS, XL, 21, 2)
- /* If PointerMasking should be applied */
--FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
--FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
--FIELD(TB_FLAGS, VTA, 24, 1)
--FIELD(TB_FLAGS, VMA, 25, 1)
-+FIELD(TB_FLAGS, PM_MASK_ENABLED, 23, 1)
-+FIELD(TB_FLAGS, PM_BASE_ENABLED, 24, 1)
-+FIELD(TB_FLAGS, VTA, 25, 1)
-+FIELD(TB_FLAGS, VMA, 26, 1)
- /* Native debug itrigger */
--FIELD(TB_FLAGS, ITRIGGER, 26, 1)
-+FIELD(TB_FLAGS, ITRIGGER, 27, 1)
- /* Virtual mode enabled */
--FIELD(TB_FLAGS, VIRT_ENABLED, 27, 1)
-+FIELD(TB_FLAGS, VIRT_ENABLED, 28, 1)
- 
- #ifdef TARGET_RISCV32
- #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 87c6effcc2..f80d069884 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -74,6 +74,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-                     FIELD_EX64(env->vtype, VTYPE, VTA));
-         flags = FIELD_DP32(flags, TB_FLAGS, VMA,
-                     FIELD_EX64(env->vtype, VTYPE, VMA));
-+        flags = FIELD_DP32(flags, TB_FLAGS, VSTART_EQ_ZERO, env->vstart == 0);
-     } else {
-         flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
-     }
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 6297c3b50d..32b3b9a8e5 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -547,7 +547,7 @@ static bool vext_check_sds(DisasContext *s, int vd, int vs1, int vs2, int vm)
-  */
- static bool vext_check_reduction(DisasContext *s, int vs2)
- {
--    return require_align(vs2, s->lmul) && (s->vstart == 0);
-+    return require_align(vs2, s->lmul) && s->vstart_eq_zero;
- }
- 
- /*
-@@ -3083,7 +3083,7 @@ static bool trans_vcpop_m(DisasContext *s, arg_rmr *a)
- {
-     if (require_rvv(s) &&
-         vext_check_isa_ill(s) &&
--        s->vstart == 0) {
-+        s->vstart_eq_zero) {
-         TCGv_ptr src2, mask;
-         TCGv dst;
-         TCGv_i32 desc;
-@@ -3112,7 +3112,7 @@ static bool trans_vfirst_m(DisasContext *s, arg_rmr *a)
- {
-     if (require_rvv(s) &&
-         vext_check_isa_ill(s) &&
--        s->vstart == 0) {
-+        s->vstart_eq_zero) {
-         TCGv_ptr src2, mask;
-         TCGv dst;
-         TCGv_i32 desc;
-@@ -3146,7 +3146,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-         vext_check_isa_ill(s) &&                                   \
-         require_vm(a->vm, a->rd) &&                                \
-         (a->rd != a->rs2) &&                                       \
--        (s->vstart == 0)) {                                        \
-+        s->vstart_eq_zero) {                                       \
-         uint32_t data = 0;                                         \
-         gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;             \
-         TCGLabel *over = gen_new_label();                          \
-@@ -3187,7 +3187,7 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
-         !is_overlapped(a->rd, 1 << MAX(s->lmul, 0), a->rs2, 1) &&
-         require_vm(a->vm, a->rd) &&
-         require_align(a->rd, s->lmul) &&
--        (s->vstart == 0)) {
-+        s->vstart_eq_zero) {
-         uint32_t data = 0;
-         TCGLabel *over = gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-@@ -3636,7 +3636,7 @@ static bool vcompress_vm_check(DisasContext *s, arg_r *a)
-            require_align(a->rs2, s->lmul) &&
-            (a->rd != a->rs2) &&
-            !is_overlapped(a->rd, 1 << MAX(s->lmul, 0), a->rs1, 1) &&
--           (s->vstart == 0);
-+           s->vstart_eq_zero;
- }
- 
- static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
-@@ -3675,7 +3675,7 @@ static bool trans_##NAME(DisasContext *s, arg_##NAME * a)               \
-         QEMU_IS_ALIGNED(a->rd, LEN) &&                                  \
-         QEMU_IS_ALIGNED(a->rs2, LEN)) {                                 \
-         uint32_t maxsz = (s->cfg_ptr->vlen >> 3) * LEN;                 \
--        if (s->vstart == 0) {                                           \
-+        if (s->vstart_eq_zero) {                                        \
-             /* EEW = 8 */                                               \
-             tcg_gen_gvec_mov(MO_8, vreg_ofs(s, a->rd),                  \
-                              vreg_ofs(s, a->rs2), maxsz, maxsz);        \
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 85ca3ba202..e8bac1b470 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -99,7 +99,7 @@ typedef struct DisasContext {
-     uint8_t vta;
-     uint8_t vma;
-     bool cfg_vta_all_1s;
--    target_ulong vstart;
-+    bool vstart_eq_zero;
-     bool vl_eq_vlmax;
-     CPUState *cs;
-     TCGv zero;
-@@ -1169,7 +1169,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
-     ctx->vma = FIELD_EX32(tb_flags, TB_FLAGS, VMA) && cpu->cfg.rvv_ma_all_1s;
-     ctx->cfg_vta_all_1s = cpu->cfg.rvv_ta_all_1s;
--    ctx->vstart = env->vstart;
-+    ctx->vstart_eq_zero = FIELD_EX32(tb_flags, TB_FLAGS, VSTART_EQ_ZERO);
-     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
-     ctx->misa_mxl_max = env->misa_mxl_max;
-     ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
--- 
-2.17.1
+I understand that we put tighter restriction on this but if you see such
+restriction is really a big issue for real usage, instead of a
+theoretical problem, then we can loosen the check here. But at that time
+below code is kind of x86 specific and may need improve.
 
+BTW, in latest code, I replaced count_trailing_zeros() with fls64():
+  return !!(fls64(offset) >= fls64(gpa));
+
+[*] https://lore.kernel.org/all/Y8HldeHBrw+OOZVm@google.com/
+
+Chao
+> I come up with the following.
+> 
+> >From ec87e25082f0497431b732702fae82c6a05071bf Mon Sep 17 00:00:00 2001
+> Message-Id: <ec87e25082f0497431b732702fae82c6a05071bf.1679531995.git.isaku.yamahata@intel.com>
+> From: Isaku Yamahata <isaku.yamahata@intel.com>
+> Date: Wed, 22 Mar 2023 15:32:56 -0700
+> Subject: [PATCH] KVM: Relax alignment check for restricted mem
+> 
+> kvm_check_rmem_offset_alignment() only checks based on offset alignment
+> and GPA alignment.  However, the actual alignment for offset depends
+> on architecture.  For x86 case, it can be 1G, 2M or 4K.  So even if
+> GPA is aligned for 1G+, only 1G-alignment is required for offset.
+> 
+> Without this patch, gpa=4G, offset=2G results in failure of memory slot
+> creation.
+> 
+> Fixes: edc8814b2c77 ("KVM: Require gfn be aligned with restricted offset")
+> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+> ---
+>  arch/x86/include/asm/kvm_host.h | 15 +++++++++++++++
+>  virt/kvm/kvm_main.c             |  9 ++++++++-
+>  2 files changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 88e11dd3afde..03af44650f24 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -16,6 +16,7 @@
+>  #include <linux/irq_work.h>
+>  #include <linux/irq.h>
+>  #include <linux/workqueue.h>
+> +#include <linux/count_zeros.h>
+>  
+>  #include <linux/kvm.h>
+>  #include <linux/kvm_para.h>
+> @@ -143,6 +144,20 @@
+>  #define KVM_HPAGE_MASK(x)	(~(KVM_HPAGE_SIZE(x) - 1))
+>  #define KVM_PAGES_PER_HPAGE(x)	(KVM_HPAGE_SIZE(x) / PAGE_SIZE)
+>  
+> +#define kvm_arch_required_alignment	kvm_arch_required_alignment
+> +static inline int kvm_arch_required_alignment(u64 gpa)
+> +{
+> +	int zeros = count_trailing_zeros(gpa);
+> +
+> +	WARN_ON_ONCE(!PAGE_ALIGNED(gpa));
+> +	if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_1G))
+> +		return KVM_HPAGE_SHIFT(PG_LEVEL_1G);
+> +	else if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_2M))
+> +		return KVM_HPAGE_SHIFT(PG_LEVEL_2M);
+> +
+> +	return PAGE_SHIFT;
+> +}
+> +
+>  #define KVM_MEMSLOT_PAGES_TO_MMU_PAGES_RATIO 50
+>  #define KVM_MIN_ALLOC_MMU_PAGES 64UL
+>  #define KVM_MMU_HASH_SHIFT 12
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index c9c4eef457b0..f4ff96171d24 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -2113,6 +2113,13 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
+>  	return false;
+>  }
+>  
+> +#ifndef kvm_arch_required_alignment
+> +__weak int kvm_arch_required_alignment(u64 gpa)
+> +{
+> +	return PAGE_SHIFT
+> +}
+> +#endif
+> +
+>  /*
+>   * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
+>   */
+> @@ -2123,7 +2130,7 @@ static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
+>  	if (!gpa)
+>  		return false;
+>  
+> -	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
+> +	return !!(count_trailing_zeros(offset) >= kvm_arch_required_alignment(gpa));
+>  }
+>  
+>  /*
+> -- 
+> 2.25.1
+> 
+> 
+> 
+> -- 
+> Isaku Yamahata <isaku.yamahata@gmail.com>
 
