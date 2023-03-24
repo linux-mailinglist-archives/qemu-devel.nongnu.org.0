@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61596C80EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:14:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81046C80B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:08:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfiqM-00077N-GQ; Fri, 24 Mar 2023 10:56:38 -0400
+	id 1pfirZ-0007el-MZ; Fri, 24 Mar 2023 10:57:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=440da7b32=anthony.perard@citrix.com>)
- id 1pfiqJ-00074T-1S
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:56:35 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153])
+ id 1pfirS-0007eF-3Z
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:57:46 -0400
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=440da7b32=anthony.perard@citrix.com>)
- id 1pfiqE-0008LX-Tb
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:56:32 -0400
+ id 1pfirP-0002VK-9z
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:57:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1679669790;
+ d=citrix.com; s=securemail; t=1679669863;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HFJfjY+7Yv5H02XdjFQjPRId4jK6+CedrGe5J2SnQbA=;
- b=iizwg2Wxfkmdty7WbSxww+xgRL/TXNoMR56nRwdHz/tOnwCXwCUxc8kd
- 5VXaisIUn/tfOOSwE35YyBO8czoLTVmE1ySzEKzQGUFqWbVcmY3oq9Bp6
- rk6DhOGVuCgzTaM058wIB8bozNPwYD0NOD6MCFCpZFPpZNjJvkHOjZZcz M=;
-Authentication-Results: esa2.hc3370-68.iphmx.com;
+ bh=T7DQE8lnj29rg0E/ilRjru8gX+NTfSCQeJM0ED3jO00=;
+ b=W0aHH+Ng0YAYT67HwksplO7sIrhriUX5Lir9a31yVI8xWUp5lhGIC2Zy
+ TLQbFifxM1kA7NE7DNC9IdoAFRYid4sj402JxY8xhZjrHurcZqk6sAg2U
+ +g0OP0T9iJBbGeqq5DekFe5hHKxZT6EXaFR/4VEMzIEFuv6OYknSp+6OP 0=;
+Authentication-Results: esa4.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
 X-SBRS: 4.0
-X-MesageID: 102115404
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-MesageID: 104622256
+X-Ironport-Server: esa4.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.156.123
 X-Policy: $RELAYED
-IronPort-Data: A9a23:+OuY3qkVJxTHPNcABYYSqvfo5gz6JkRdPkR7XQ2eYbSJt1+Wr1Gzt
- xJOWW6FaKmIYmv9KIx1bY+z8BwEsMTdzNY3GQRuqnw8HyMWpZLJC+rCIxarNUt+DCFhoGFPt
- JxCN4aafKjYaleG+39B55C49SEUOZmgH+a6U6icfHgqH2eIcQ954Tp7gek1n4V0ttawBgKJq
- LvartbWfVSowFaYCEpNg064gE4p7aSaVA8w5ARkPqgQ5gOGzRH5MbpETU2PByqgKmVrNrbSq
- 9brlNmR4m7f9hExPdKp+p6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTbZLwXXx/mTSR9+2d/
- f0W3XCGpaXFCYWX8AgVe0Ew/yiTpsSq8pefSZS0mZT7I0Er7xIAahihZa07FdRwxwp5PY1B3
- eAJFBIJVTqvu8u7/KmYTu53guQFLsa+aevzulk4pd3YJfMvQJSFSKTW/95Imjw3g6iiH96HO
- ZBfM2A2Kk2dPVsWYAx/5JEWxY9EglH2dSFYr1SE47I6+WHJwCR60aT3McqTcduPLSlQth/A/
- DufojihXnn2MvTc9xqrqWyzn9bXvjj3YplMM5Hp8vhD1Qj7Kms7V0RNCArTTeOCokKhXs13I
- kkd6C0o66M1slGoJvHkUhil5XKJoBMYc9xXFeI89UeK0KW8yx6UGmUeCDtIedArsMseQT0s3
- 0WO2dTzClRSXKa9ECzHsO3O9HXrZHZTdDVZDcMZcecby8XynKM3tTjjcv9uLLWWitruHRHWw
- T/f+UDSmI4vYd43O7STpA6Y0mzy+8KSFmbZ9S2MADv7s1oRiJqNItXxtAOFtasowJOxFAHpg
- ZQSpySJAAni57mpnTfFfugCFarBCx2tYGyF2g4H83XMGl2QF5+fkWN4umsWyL9BaJpsRNMQS
- Ba7VfltzJFSJmC2SqR8fpi8Dc8npYC5S4u0C6GKM4IXPMYtHONiwM2JTRD44owQuBJ0zfFX1
- WmzKK5A8kr2+Yw4lWHrFo/xIJcgxzwkxHO7eK0XOy+PiOLEDFbMEOdtDbd7RrxhhE9yiFmPo
- ok32grj40k3bdASlQGMqdRJcgtacyNrbX00wuQOHtO+zsNdMDlJI5fsLXkJIuSJQ4w9ej/0w
- 0yA
-IronPort-HdrOrdr: A9a23:P1VrC6jmCPymcYfvrj1PyClvlnBQXssji2hC6mlwRA09TyX4ra
- 2TdZEgvnXJYVkqKRIdcK+7Scu9qB/nm6KdgrN8AV7BZmnbUQKTRelfBODZrAEIdReeygdV79
- YET5RD
-X-IronPort-AV: E=Sophos;i="5.98,288,1673931600"; d="scan'208";a="102115404"
+IronPort-Data: A9a23:wFzsuqz/2idpLplFWl56t+dMxirEfRIJ4+MujC+fZmUNrF6WrkVSn
+ 2BLCmCDbPqLMTSgLt12bN+zphgD756Ex9M2GQFs+yAxQypGp/SeCIXCJC8cHc8wwu7rFxs7s
+ ppEOrEsCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
+ Mj75sbSIzdJ4RYtWo4vw//F+UMHUMja4mtC5QRlP6wT5jcyqlFOZH4hDfDpR5fHatE88t6SH
+ 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ai87XAME0e0ZP4whlqvgqo
+ Dl7WT5cfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQq2pYjqhljJBheAGEWxgp4KU5I1
+ vsAJhwXUjmsheK26e+6F8l3h8t2eaEHPKtH0p1h5TTQDPJgSpHfWaTao9Rf2V/chOgXQ6yYP
+ ZBAL2MyMlKZOUYn1lQ/UfrSmM+hgGX/dDtJ7kqYv6Mt70DYzRBr0airO93QEjCPbZwNwhjC/
+ DiboQwVBDk7b82vzDmi/0iCm8D+lj6gQJJDTLyRo6sCbFq7mTVIVUx+uUGAieC0j1P7V99BJ
+ kg8/C0ooq4vskuxQbHVRxCkrWTCuxcNV9dUF8U+6QeE0K2S5ByWbkAIUTteQNUjvd0xQ3oh0
+ RmUnLvU6SdH6ePPDyjHr/HN8G30YHJORYMfWcMaZSQDwN77rq0psjvgTNZjOfO00/3uGD6ll
+ lhmsxMCa6UvYd8jjvvkrA6Z3mj3/vAlXSZuuFyJAzvNAhdRIdf8Otf2sQWzAeNodt7xc7WXg
+ JQTdyFyBsgqBIrFqiGCSf5l8FqBt6fca220bbKC8vAcG9WRF52LJ9o4DMlWfhsBDyr9UWaBj
+ LXvkQ1Q/oRPG3ChcLV6ZYm8Y+xzk/exSIW7C6iNMIQSCnSUSONg1H8GWKJt9zq1zBhEfV8XY
+ P93jvpA/V5FUP86nVJats8W0KMxxzBW+F4/savTlkz9uZLHPS79dFvwGAfWBgzPxP/e8Vq9H
+ hc2H5fi9iizp8WlOnONrtVDcwtaRZX5bLivw/Fqmie4ClIOMAkc5zX5n9vNp6QNc3xpq9r1
+IronPort-HdrOrdr: A9a23:4b5Gnq1ZdPCU8Pf68cJuLgqjBKMkLtp133Aq2lEZdPU1SKGlfq
+ WV954mPHDP+VUssQ4b6LK90cW7L080lqQY3WByB9eftWDd0QOVxepZgrcKrQeAJ8T2zJ856Z
+ td
+X-IronPort-AV: E=Sophos;i="5.98,288,1673931600"; d="scan'208";a="104622256"
 To: <qemu-devel@nongnu.org>
 CC: Peter Maydell <peter.maydell@linaro.org>, David Woodhouse
  <dwmw@amazon.co.uk>, Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 1/2] accel/xen: Fix DM state change notification in dm_restrict
- mode
-Date: Fri, 24 Mar 2023 14:56:12 +0000
-Message-ID: <20230324145613.41502-2-anthony.perard@citrix.com>
+Subject: [PULL 2/2] hw/xenpv: Initialize Xen backend operations
+Date: Fri, 24 Mar 2023 14:56:13 +0000
+Message-ID: <20230324145613.41502-3-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230324145613.41502-1-anthony.perard@citrix.com>
 References: <20230324145613.41502-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.145.153;
+Received-SPF: pass client-ip=216.71.155.144;
  envelope-from=prvs=440da7b32=anthony.perard@citrix.com;
- helo=esa2.hc3370-68.iphmx.com
+ helo=esa4.hc3370-68.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -98,86 +96,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-When dm_restrict is set, QEMU isn't permitted to update the XenStore node
-to indicate its running status. Previously, the xs_write() call would fail
-but the failure was ignored.
+As the Xen backend operations were abstracted out into a function table to
+allow for internally emulated Xen support, we missed the xen_init_pv()
+code path which also needs to install the operations for the true Xen
+libraries. Add the missing call to setup_xen_backend_ops().
 
-However, in refactoring to allow for emulated XenStore operations, a new
-call to xs_open() was added. That one didn't fail gracefully, causing a
-fatal error when running in dm_restrict mode.
-
-Partially revert the offending patch, removing the additional call to
-xs_open() because the global 'xenstore' variable is still available; it
-just needs to be used with qemu_xen_xs_write() now instead of directly
-with the xs_write() libxenstore function.
-
-Also make the whole thing conditional on !xen_domid_restrict. There's no
-point even registering the state change handler to attempt to update the
-XenStore node when we know it's destined to fail.
-
-Fixes: ba2a92db1ff6 ("hw/xen: Add xenstore operations to allow redirection to internal emulation")
-Reported-by: Jason Andryuk <jandryuk@gmail.com>
-Co-developed-by: Jason Andryuk <jandryuk@gmail.com>
+Fixes: b6cacfea0b38 ("hw/xen: Add evtchn operations to allow redirection to internal emulation")
+Reported-by: Anthony PERARD <anthony.perard@citrix.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
-Tested-by: Jason Andryuk <jandryuk@gmail.com>
-Message-Id: <1f141995bb61af32c2867ef5559e253f39b0949c.camel@infradead.org>
+Tested-by: Anthony PERARD <anthony.perard@citrix.com>
+Message-Id: <5dfb65342d4502c1ce2f890c97cff20bf25b3860.camel@infradead.org>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- accel/xen/xen-all.c | 27 ++++++++++-----------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
+ hw/xenpv/xen_machine_pv.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index 00221e23c5..5ff0cb8bd9 100644
---- a/accel/xen/xen-all.c
-+++ b/accel/xen/xen-all.c
-@@ -32,28 +32,13 @@ xendevicemodel_handle *xen_dmod;
+diff --git a/hw/xenpv/xen_machine_pv.c b/hw/xenpv/xen_machine_pv.c
+index 2e759d0619..17cda5ec13 100644
+--- a/hw/xenpv/xen_machine_pv.c
++++ b/hw/xenpv/xen_machine_pv.c
+@@ -35,6 +35,8 @@ static void xen_init_pv(MachineState *machine)
+     DriveInfo *dinfo;
+     int i;
  
- static void xenstore_record_dm_state(const char *state)
- {
--    struct xs_handle *xs;
-     char path[50];
- 
--    /* We now have everything we need to set the xenstore entry. */
--    xs = xs_open(0);
--    if (xs == NULL) {
--        fprintf(stderr, "Could not contact XenStore\n");
--        exit(1);
--    }
--
-     snprintf(path, sizeof (path), "device-model/%u/state", xen_domid);
--    /*
--     * This call may fail when running restricted so don't make it fatal in
--     * that case. Toolstacks should instead use QMP to listen for state changes.
--     */
--    if (!xs_write(xs, XBT_NULL, path, state, strlen(state)) &&
--            !xen_domid_restrict) {
-+    if (!qemu_xen_xs_write(xenstore, XBT_NULL, path, state, strlen(state))) {
-         error_report("error recording dm state");
-         exit(1);
-     }
--
--    xs_close(xs);
- }
- 
- 
-@@ -111,7 +96,15 @@ static int xen_init(MachineState *ms)
-         xc_interface_close(xen_xc);
-         return -1;
-     }
--    qemu_add_vm_change_state_handler(xen_change_state_handler, NULL);
++    setup_xen_backend_ops();
 +
-+    /*
-+     * The XenStore write would fail when running restricted so don't attempt
-+     * it in that case. Toolstacks should instead use QMP to listen for state
-+     * changes.
-+     */
-+    if (!xen_domid_restrict) {
-+        qemu_add_vm_change_state_handler(xen_change_state_handler, NULL);
-+    }
-     /*
-      * opt out of system RAM being allocated by generic code
-      */
+     /* Initialize backend core & drivers */
+     xen_be_init();
+ 
 -- 
 Anthony PERARD
 
