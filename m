@@ -2,99 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648B46C77B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 07:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002B06C77B6
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 07:16:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfY2G-0004TK-2p; Thu, 23 Mar 2023 23:24:12 -0400
+	id 1pfaW0-0007Hp-R6; Fri, 24 Mar 2023 02:03:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pfY2A-0004Qu-Iq
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 23:24:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pfaVy-0007HH-CY; Fri, 24 Mar 2023 02:03:02 -0400
+Received: from out30-124.freemail.mail.aliyun.com ([115.124.30.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pfY1s-0006Q0-Tf
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 23:24:02 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32O0jTx9025277; Fri, 24 Mar 2023 03:23:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=kXzHsvmIOTvYralLgd8/givRcZMliGvVa0QIw6429sM=;
- b=hFB0O/fvsB8CelUjBBICzHo8+3kFhBOKcnLwDWk4wa2fmBT80KZm/a1A1yFQh/kytxvP
- HdvlfCU1VkNmYlBeIfuEBdN9KSnGbHWzTPB/9jYPSV+S1NqpxC+Kp4Tzuf5+KAdenyul
- sW0oNdlf8/RRWVxD+CeHOsIUvCDss7WbyykLvqI0gSXnQSRePc3UNsX9fvF9gcfr6M84
- ouFjnRN+x3JZtgelYExzq8BLmIZssM6nzzUiGIuPyAN65ZqUHXyvTn6mH4ov7/hOUsUT
- 3ond7GmGLE3X+1VhdFq1D5f+5ncvBOT2hR/JvXsVa6eOrm1iSvJEifves5Ef162d+9ko UQ== 
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgxs1x7wf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 03:23:06 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32O17T6i025485;
- Fri, 24 Mar 2023 03:23:05 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3pgybnhh07-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 03:23:05 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com
- [10.39.53.233])
- by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32O3N4xo33554814
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Mar 2023 03:23:04 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2468958079;
- Fri, 24 Mar 2023 03:23:04 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B19055807D;
- Fri, 24 Mar 2023 03:23:03 +0000 (GMT)
-Received: from [9.163.88.196] (unknown [9.163.88.196])
- by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 24 Mar 2023 03:23:03 +0000 (GMT)
-Message-ID: <efde764d-d675-07e7-ba60-f4406d083ceb@linux.vnet.ibm.com>
-Date: Thu, 23 Mar 2023 22:23:03 -0500
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pfaVh-00052e-Fk; Fri, 24 Mar 2023 02:03:02 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R911e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VeWah0U_1679637730; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VeWah0U_1679637730) by smtp.aliyun-inc.com;
+ Fri, 24 Mar 2023 14:02:11 +0800
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, Alistair.Francis@wdc.com, palmer@dabbelt.com,
+ bin.meng@windriver.com, liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com,
+ qemu-riscv@nongnu.org, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Subject: [PATCH 4/4] target/riscv: Add a tb flags field for vstart
+Date: Fri, 24 Mar 2023 13:59:54 +0800
+Message-Id: <20230324055954.908-5-zhiwei_liu@linux.alibaba.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
+References: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 1/3] docs: Add support for TPM devices over I2C bus
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: joel@jms.id.au, andrew@aj.id.au, stefanb@linux.ibm.com
-References: <20230323030119.2113570-1-ninad@linux.ibm.com>
- <20230323030119.2113570-2-ninad@linux.ibm.com>
- <ae61d505-b656-a362-8a80-35f266296e2a@kaod.org>
-From: Ninad Palsule <ninad@linux.vnet.ibm.com>
-In-Reply-To: <ae61d505-b656-a362-8a80-35f266296e2a@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: fV91NQ0AfHoMcts3uOC_m620Tu52OkL8
-X-Proofpoint-GUID: fV91NQ0AfHoMcts3uOC_m620Tu52OkL8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-23_15,2023-03-23_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 clxscore=1015 malwarescore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 adultscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303240025
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.124;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-124.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,106 +61,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Cedric,
+Once we mistook the vstart directly from the env->vstart. As env->vstart is not
+a constant, we should record it in the tb flags if we want to use
+it in translation.
 
-I tried to use ast2600-evb machine but it is not getting any message on 
-I2C bus.
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+---
+ target/riscv/cpu.h                      | 21 +++++++++++----------
+ target/riscv/cpu_helper.c               |  1 +
+ target/riscv/insn_trans/trans_rvv.c.inc | 14 +++++++-------
+ target/riscv/translate.c                |  4 ++--
+ 4 files changed, 21 insertions(+), 19 deletions(-)
 
-Any suggestions?
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 41f7aef666..623288e6f9 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -645,21 +645,22 @@ FIELD(TB_FLAGS, LMUL, 7, 3)
+ FIELD(TB_FLAGS, SEW, 10, 3)
+ FIELD(TB_FLAGS, VL_EQ_VLMAX, 13, 1)
+ FIELD(TB_FLAGS, VILL, 14, 1)
++FIELD(TB_FLAGS, VSTART_EQ_ZERO, 15, 1)
+ /* Is a Hypervisor instruction load/store allowed? */
+-FIELD(TB_FLAGS, HLSX, 15, 1)
+-FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
+-FIELD(TB_FLAGS, MSTATUS_HS_VS, 18, 2)
++FIELD(TB_FLAGS, HLSX, 16, 1)
++FIELD(TB_FLAGS, MSTATUS_HS_FS, 17, 2)
++FIELD(TB_FLAGS, MSTATUS_HS_VS, 19, 2)
+ /* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
+-FIELD(TB_FLAGS, XL, 20, 2)
++FIELD(TB_FLAGS, XL, 21, 2)
+ /* If PointerMasking should be applied */
+-FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+-FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+-FIELD(TB_FLAGS, VTA, 24, 1)
+-FIELD(TB_FLAGS, VMA, 25, 1)
++FIELD(TB_FLAGS, PM_MASK_ENABLED, 23, 1)
++FIELD(TB_FLAGS, PM_BASE_ENABLED, 24, 1)
++FIELD(TB_FLAGS, VTA, 25, 1)
++FIELD(TB_FLAGS, VMA, 26, 1)
+ /* Native debug itrigger */
+-FIELD(TB_FLAGS, ITRIGGER, 26, 1)
++FIELD(TB_FLAGS, ITRIGGER, 27, 1)
+ /* Virtual mode enabled */
+-FIELD(TB_FLAGS, VIRT_ENABLED, 27, 1)
++FIELD(TB_FLAGS, VIRT_ENABLED, 28, 1)
+ 
+ #ifdef TARGET_RISCV32
+ #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 87c6effcc2..f80d069884 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -74,6 +74,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+                     FIELD_EX64(env->vtype, VTYPE, VTA));
+         flags = FIELD_DP32(flags, TB_FLAGS, VMA,
+                     FIELD_EX64(env->vtype, VTYPE, VMA));
++        flags = FIELD_DP32(flags, TB_FLAGS, VSTART_EQ_ZERO, env->vstart == 0);
+     } else {
+         flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+     }
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index 6297c3b50d..32b3b9a8e5 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -547,7 +547,7 @@ static bool vext_check_sds(DisasContext *s, int vd, int vs1, int vs2, int vm)
+  */
+ static bool vext_check_reduction(DisasContext *s, int vs2)
+ {
+-    return require_align(vs2, s->lmul) && (s->vstart == 0);
++    return require_align(vs2, s->lmul) && s->vstart_eq_zero;
+ }
+ 
+ /*
+@@ -3083,7 +3083,7 @@ static bool trans_vcpop_m(DisasContext *s, arg_rmr *a)
+ {
+     if (require_rvv(s) &&
+         vext_check_isa_ill(s) &&
+-        s->vstart == 0) {
++        s->vstart_eq_zero) {
+         TCGv_ptr src2, mask;
+         TCGv dst;
+         TCGv_i32 desc;
+@@ -3112,7 +3112,7 @@ static bool trans_vfirst_m(DisasContext *s, arg_rmr *a)
+ {
+     if (require_rvv(s) &&
+         vext_check_isa_ill(s) &&
+-        s->vstart == 0) {
++        s->vstart_eq_zero) {
+         TCGv_ptr src2, mask;
+         TCGv dst;
+         TCGv_i32 desc;
+@@ -3146,7 +3146,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+         vext_check_isa_ill(s) &&                                   \
+         require_vm(a->vm, a->rd) &&                                \
+         (a->rd != a->rs2) &&                                       \
+-        (s->vstart == 0)) {                                        \
++        s->vstart_eq_zero) {                                       \
+         uint32_t data = 0;                                         \
+         gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;             \
+         TCGLabel *over = gen_new_label();                          \
+@@ -3187,7 +3187,7 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
+         !is_overlapped(a->rd, 1 << MAX(s->lmul, 0), a->rs2, 1) &&
+         require_vm(a->vm, a->rd) &&
+         require_align(a->rd, s->lmul) &&
+-        (s->vstart == 0)) {
++        s->vstart_eq_zero) {
+         uint32_t data = 0;
+         TCGLabel *over = gen_new_label();
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+@@ -3636,7 +3636,7 @@ static bool vcompress_vm_check(DisasContext *s, arg_r *a)
+            require_align(a->rs2, s->lmul) &&
+            (a->rd != a->rs2) &&
+            !is_overlapped(a->rd, 1 << MAX(s->lmul, 0), a->rs1, 1) &&
+-           (s->vstart == 0);
++           s->vstart_eq_zero;
+ }
+ 
+ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
+@@ -3675,7 +3675,7 @@ static bool trans_##NAME(DisasContext *s, arg_##NAME * a)               \
+         QEMU_IS_ALIGNED(a->rd, LEN) &&                                  \
+         QEMU_IS_ALIGNED(a->rs2, LEN)) {                                 \
+         uint32_t maxsz = (s->cfg_ptr->vlen >> 3) * LEN;                 \
+-        if (s->vstart == 0) {                                           \
++        if (s->vstart_eq_zero) {                                        \
+             /* EEW = 8 */                                               \
+             tcg_gen_gvec_mov(MO_8, vreg_ofs(s, a->rd),                  \
+                              vreg_ofs(s, a->rs2), maxsz, maxsz);        \
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 85ca3ba202..e8bac1b470 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -99,7 +99,7 @@ typedef struct DisasContext {
+     uint8_t vta;
+     uint8_t vma;
+     bool cfg_vta_all_1s;
+-    target_ulong vstart;
++    bool vstart_eq_zero;
+     bool vl_eq_vlmax;
+     CPUState *cs;
+     TCGv zero;
+@@ -1169,7 +1169,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
+     ctx->vma = FIELD_EX32(tb_flags, TB_FLAGS, VMA) && cpu->cfg.rvv_ma_all_1s;
+     ctx->cfg_vta_all_1s = cpu->cfg.rvv_ta_all_1s;
+-    ctx->vstart = env->vstart;
++    ctx->vstart_eq_zero = FIELD_EX32(tb_flags, TB_FLAGS, VSTART_EQ_ZERO);
+     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+     ctx->misa_mxl_max = env->misa_mxl_max;
+     ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
+-- 
+2.17.1
 
-# Start the software TPM emulator.
-     $ swtpm socket --tpmstate dir=/tmp/mytpm1   --ctrl 
-type=unixio,path=/tmp/mytpm1/swtpm-sock   --tpm2   --log level=100
-
-# Start a qemu and point at swtpm. I am using i2c bus 12 and address 0x2e
-     $ ~/qemu/build/qemu-system-arm -M ast2600-evb -nographic -kernel 
-$IMAGEDIR/zImage -dtb $IMAGEDIR/aspeed-ast2600-evb.dtb -initrd 
-$IMAGEDIR/rootfs.cpio -chardev 
-socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock -tpmdev 
-emulator,id=tpm0,chardev=chrtpm -device 
-tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
-
-# Inside the ast2600-evb machine. Insantiated the device
-     # echo 12 0x2e > /sys/bus/i2c/devices/i2c-12/new_device
-     [  158.265321] i2c i2c-12: new_device: Instantiated device 12 at 0x2e
-
-# Tried to instantiate TPM device but nothing happening on I2C bus.
-     # echo 12-002e > /sys/bus/i2c/drivers/tpm_tis_i2c/bind
-     sh: write error: No such device
-
-Thanks & Regards,
-
-Ninad Palsule
-
-On 3/23/23 2:49 AM, Cédric Le Goater wrote:
-> On 3/23/23 04:01, Ninad Palsule wrote:
->> This is a documentation change for I2C TPM device support.
->>
->> Qemu already supports devices attached to ISA and sysbus.
->> This drop adds support for the I2C bus attached TPM devices.
->>
->> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
->>
->> ---
->> V2:
->>
->> Incorporated Stephen's review comments
->> - Added example in the document.
->> ---
->>   docs/specs/tpm.rst | 20 +++++++++++++++++++-
->>   1 file changed, 19 insertions(+), 1 deletion(-)
->>
->> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
->> index 535912a92b..bf7249b09c 100644
->> --- a/docs/specs/tpm.rst
->> +++ b/docs/specs/tpm.rst
->> @@ -21,11 +21,15 @@ QEMU files related to TPM TIS interface:
->>    - ``hw/tpm/tpm_tis_common.c``
->>    - ``hw/tpm/tpm_tis_isa.c``
->>    - ``hw/tpm/tpm_tis_sysbus.c``
->> + - ``hw/tpm/tpm_tis_i2c.c``
->>    - ``hw/tpm/tpm_tis.h``
->>     Both an ISA device and a sysbus device are available. The former is
->>   used with pc/q35 machine while the latter can be instantiated in the
->> -Arm virt machine.
->> +Arm virt machine. An I2C device support is also added which can be
->> +instantiated in the arm based emulation machine. An I2C device is also
->> +supported for the Arm virt machine. This device only supports the
->> +TPM 2 protocol.
->>     CRB interface
->>   -------------
->> @@ -348,6 +352,20 @@ In case an Arm virt machine is emulated, use the 
->> following command line:
->>       -drive if=pflash,format=raw,file=flash0.img,readonly=on \
->>       -drive if=pflash,format=raw,file=flash1.img
->>   +In case a Rainier bmc machine is emulated, use the following 
->> command line:
->> +
->> +.. code-block:: console
->> +
->> +  qemu-system-arm -M rainier-bmc -nographic \
->> +    -kernel ${IMAGEPATH}/fitImage-linux.bin \
->> +    -dtb ${IMAGEPATH}/aspeed-bmc-ibm-rainier.dtb \
->> +    -initrd ${IMAGEPATH}/obmc-phosphor-initramfs.rootfs.cpio.xz \
->> +    -drive 
->> file=${IMAGEPATH}/obmc-phosphor-image.rootfs.wic.qcow2,if=sd,index=2\
->> +    -net nic -net 
->> user,hostfwd=:127.0.0.1:2222-:22,hostfwd=:127.0.0.1:2443-:443\
->> +    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
->> +    -tpmdev emulator,id=tpm0,chardev=chrtpm \
->> +    -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
->
->
-> The rainier images are not the easiest to find. Could we use an 
-> AST2600 EVB
-> machine instead and instantiate the device from user space ? see commit
-> 3302184f7f or 7a7308eae0.
->
-> Thanks,
->
-> C.
->
->>   In case SeaBIOS is used as firmware, it should show the TPM menu item
->>   after entering the menu with 'ESC'.
->
 
