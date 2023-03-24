@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D81046C80B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881006C8186
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:40:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfirZ-0007el-MZ; Fri, 24 Mar 2023 10:57:53 -0400
+	id 1pfiqe-0007IW-OC; Fri, 24 Mar 2023 10:56:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=440da7b32=anthony.perard@citrix.com>)
- id 1pfirS-0007eF-3Z
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:57:46 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=440da7b32=anthony.perard@citrix.com>)
- id 1pfirP-0002VK-9z
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:57:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1679669863;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=T7DQE8lnj29rg0E/ilRjru8gX+NTfSCQeJM0ED3jO00=;
- b=W0aHH+Ng0YAYT67HwksplO7sIrhriUX5Lir9a31yVI8xWUp5lhGIC2Zy
- TLQbFifxM1kA7NE7DNC9IdoAFRYid4sj402JxY8xhZjrHurcZqk6sAg2U
- +g0OP0T9iJBbGeqq5DekFe5hHKxZT6EXaFR/4VEMzIEFuv6OYknSp+6OP 0=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 4.0
-X-MesageID: 104622256
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.123
-X-Policy: $RELAYED
-IronPort-Data: A9a23:wFzsuqz/2idpLplFWl56t+dMxirEfRIJ4+MujC+fZmUNrF6WrkVSn
- 2BLCmCDbPqLMTSgLt12bN+zphgD756Ex9M2GQFs+yAxQypGp/SeCIXCJC8cHc8wwu7rFxs7s
- ppEOrEsCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
- Mj75sbSIzdJ4RYtWo4vw//F+UMHUMja4mtC5QRlP6wT5jcyqlFOZH4hDfDpR5fHatE88t6SH
- 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ai87XAME0e0ZP4whlqvgqo
- Dl7WT5cfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQq2pYjqhljJBheAGEWxgp4KU5I1
- vsAJhwXUjmsheK26e+6F8l3h8t2eaEHPKtH0p1h5TTQDPJgSpHfWaTao9Rf2V/chOgXQ6yYP
- ZBAL2MyMlKZOUYn1lQ/UfrSmM+hgGX/dDtJ7kqYv6Mt70DYzRBr0airO93QEjCPbZwNwhjC/
- DiboQwVBDk7b82vzDmi/0iCm8D+lj6gQJJDTLyRo6sCbFq7mTVIVUx+uUGAieC0j1P7V99BJ
- kg8/C0ooq4vskuxQbHVRxCkrWTCuxcNV9dUF8U+6QeE0K2S5ByWbkAIUTteQNUjvd0xQ3oh0
- RmUnLvU6SdH6ePPDyjHr/HN8G30YHJORYMfWcMaZSQDwN77rq0psjvgTNZjOfO00/3uGD6ll
- lhmsxMCa6UvYd8jjvvkrA6Z3mj3/vAlXSZuuFyJAzvNAhdRIdf8Otf2sQWzAeNodt7xc7WXg
- JQTdyFyBsgqBIrFqiGCSf5l8FqBt6fca220bbKC8vAcG9WRF52LJ9o4DMlWfhsBDyr9UWaBj
- LXvkQ1Q/oRPG3ChcLV6ZYm8Y+xzk/exSIW7C6iNMIQSCnSUSONg1H8GWKJt9zq1zBhEfV8XY
- P93jvpA/V5FUP86nVJats8W0KMxxzBW+F4/savTlkz9uZLHPS79dFvwGAfWBgzPxP/e8Vq9H
- hc2H5fi9iizp8WlOnONrtVDcwtaRZX5bLivw/Fqmie4ClIOMAkc5zX5n9vNp6QNc3xpq9r1
-IronPort-HdrOrdr: A9a23:4b5Gnq1ZdPCU8Pf68cJuLgqjBKMkLtp133Aq2lEZdPU1SKGlfq
- WV954mPHDP+VUssQ4b6LK90cW7L080lqQY3WByB9eftWDd0QOVxepZgrcKrQeAJ8T2zJ856Z
- td
-X-IronPort-AV: E=Sophos;i="5.98,288,1673931600"; d="scan'208";a="104622256"
-To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, David Woodhouse
- <dwmw@amazon.co.uk>, Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 2/2] hw/xenpv: Initialize Xen backend operations
-Date: Fri, 24 Mar 2023 14:56:13 +0000
-Message-ID: <20230324145613.41502-3-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230324145613.41502-1-anthony.perard@citrix.com>
-References: <20230324145613.41502-1-anthony.perard@citrix.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pfiqb-0007Hf-EX; Fri, 24 Mar 2023 10:56:53 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pfiqQ-0008VN-5r; Fri, 24 Mar 2023 10:56:52 -0400
+Received: from [192.168.0.120] (unknown [180.165.240.150])
+ by APP-05 (Coremail) with SMTP id zQCowAAXHzsPuh1kwaUkCQ--.53638S2;
+ Fri, 24 Mar 2023 22:56:16 +0800 (CST)
+Message-ID: <420592cf-cd82-0b24-9176-9887392d0a3a@iscas.ac.cn>
+Date: Fri, 24 Mar 2023 22:56:15 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.155.144;
- envelope-from=prvs=440da7b32=anthony.perard@citrix.com;
- helo=esa4.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Cc: liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ bmeng@tinylab.org, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+Subject: Re: [PATCH for-8.1 v4 18/25] target/riscv: error out on priv failure
+ for RVH
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+References: <20230322222004.357013-1-dbarboza@ventanamicro.com>
+ <20230322222004.357013-19-dbarboza@ventanamicro.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230322222004.357013-19-dbarboza@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: zQCowAAXHzsPuh1kwaUkCQ--.53638S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WrW7uFWUWw1xXFyDKryUWrg_yoW8CF18pF
+ ZrG3s0kr95JF9rA34fJF1UJF15urs5WFWxWa93KwnrGr43ArWUGrykKr43uF1xJFn5uw1a
+ q3WjgFnxuayDXa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUkrcfUUU
+ UU=
+X-Originating-IP: [180.165.240.150]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,43 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
 
-As the Xen backend operations were abstracted out into a function table to
-allow for internally emulated Xen support, we missed the xen_init_pv()
-code path which also needs to install the operations for the true Xen
-libraries. Add the missing call to setup_xen_backend_ops().
+On 2023/3/23 06:19, Daniel Henrique Barboza wrote:
+> riscv_cpu_disable_priv_spec_isa_exts(), at the end of
+> riscv_cpu_validate_set_extensions(), will disable cpu->cfg.ext_h and
+> cpu->cfg.ext_v if priv_ver check fails.
+>
+> This check can be done in riscv_cpu_validate_misa_ext(). The difference
+> here is that we're not silently disable it: we'll error out. Silently
+> disabling a MISA extension after all the validation is completed can can
+> cause inconsistencies that we don't have to deal with. Verify ealier and
+> fail faster.
+>
+> Note that we're ignoring RVV priv_ver validation since its minimal priv
+> is also the minimal value we support. RVH will error out if enabled
+> under priv_ver under 1_12_0.
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>   target/riscv/cpu.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 399f63b42f..d2eb2b3ba1 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1055,6 +1055,20 @@ static void riscv_cpu_validate_misa_ext(RISCVCPU *cpu, Error **errp)
+>           return;
+>       }
+>   
+> +    /*
+> +     * Check for priv spec version. RVH is 1_12_0, RVV is 1_10_0.
+> +     * We don't support anything under 1_10_0 so skip checking
+> +     * priv for RVV.
+> +     *
+> +     * We're hardcoding it here to avoid looping into the
+> +     * 50+ entries of isa_edata_arr[] just to check the RVH
+> +     * entry.
+> +     */
+> +    if (cpu->cfg.ext_h && env->priv_ver < PRIV_VERSION_1_12_0) {
+> +        error_setg(errp, "H extension requires priv spec 1.12.0");
+> +        return;
+> +    }
+The other multi-letter extensions are directly disabled for lower priv 
+version with warning message.
 
-Fixes: b6cacfea0b38 ("hw/xen: Add evtchn operations to allow redirection to internal emulation")
-Reported-by: Anthony PERARD <anthony.perard@citrix.com>
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Tested-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <5dfb65342d4502c1ce2f890c97cff20bf25b3860.camel@infradead.org>
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
- hw/xenpv/xen_machine_pv.c | 2 ++
- 1 file changed, 2 insertions(+)
+Whether we should do the similar action here?
 
-diff --git a/hw/xenpv/xen_machine_pv.c b/hw/xenpv/xen_machine_pv.c
-index 2e759d0619..17cda5ec13 100644
---- a/hw/xenpv/xen_machine_pv.c
-+++ b/hw/xenpv/xen_machine_pv.c
-@@ -35,6 +35,8 @@ static void xen_init_pv(MachineState *machine)
-     DriveInfo *dinfo;
-     int i;
- 
-+    setup_xen_backend_ops();
-+
-     /* Initialize backend core & drivers */
-     xen_be_init();
- 
--- 
-Anthony PERARD
+Regards,
+
+Weiwei Li
+
+> +
+>       if (cpu->cfg.ext_v) {
+>           riscv_cpu_validate_v(env, &cpu->cfg, &local_err);
+>           if (local_err != NULL) {
 
 
