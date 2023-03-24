@@ -1,119 +1,131 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8937E6C8548
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 19:44:09 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2036C858D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 20:04:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfmMe-0001L5-Au; Fri, 24 Mar 2023 14:42:12 -0400
+	id 1pfmhq-00035V-E6; Fri, 24 Mar 2023 15:04:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pfmMb-0001Ko-Nx; Fri, 24 Mar 2023 14:42:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pfmho-00035L-KL
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:04:04 -0400
+Received: from mail-vi1eur04on2121.outbound.protection.outlook.com
+ ([40.107.8.121] helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pfmMX-0007My-QS; Fri, 24 Mar 2023 14:42:09 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32OGMvT3012907; Fri, 24 Mar 2023 18:41:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=ln77u7fJlg4KW6FDh4gjs5kLMzXMHPhi4giVqX2GUCo=;
- b=ETenMEAqF+ChtpU4ORFiJvczkDJTTsy+8V0tMnidixmOnFDWR4QjKr/nErImnmh5cHpd
- OhuVo1t2xasDvJXQiaqYW7TyBWpmhhpKXqArCIQWZP5fg6rA9dck6tCEMUvn+Hb1PCiL
- E0AhxIhV0LQe0inDRdvdim4hmEvap9gMdPa/ryz8klN4bClgldxZ86pHubAnyXgwrIts
- WQIfmsLa3LxRuBsnToxIzfAun2aZfQCpdrjDCNNenRFs9GG1G9xxKIMR2J79oadRYIcR
- CPnTuPIXc3lkYeZDJC72NKWZLl4SbAQen1GV3FnErrWPWodAkJUaFpk1O+yrfHwmxBQ7 cw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3phfb6avk7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 18:41:39 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32OHpZYe019838;
- Fri, 24 Mar 2023 18:41:39 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3phfb6avjp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 18:41:39 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32ODXPA9010760;
- Fri, 24 Mar 2023 18:41:36 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3pgxua957n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 18:41:35 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32OIfW4g11731514
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Mar 2023 18:41:32 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F41620040;
- Fri, 24 Mar 2023 18:41:32 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7970020043;
- Fri, 24 Mar 2023 18:41:31 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 24 Mar 2023 18:41:31 +0000 (GMT)
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-block@nongnu.org,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, John Snow <jsnow@redhat.com>,
- David Hildenbrand <david@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pfmhm-0003Xr-Vn
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:04:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nlO4E3U+583tQcCQ676B9yhLwVxWrYBc2S0u/lErceavUEuM75Ofw1wLRjQbzeMlvz8VVyArJoID14Pr3OFee/aUkbtjHQNeQko43iXuVLo494yI0VmixU2O8OAgg53IJ2UgZlvT+I9StEjWSH3r1PuM7L3IClztedDsx5Uq1Fu3aeGL9c9Kn5GAl0H07DH+waWSHRBQxXbArVL5MBA0tlKZm3EaJw5iT9mveNGHX/CVAqjzzvjbRB13NqwNEZZn4ASPLqjGDJjzw3ui+YNktqW89KPlCtsHcHxmPD9fmD32e88g48Vi7F3sf3qrMGqKkJl97SEJ/G8MgLetHr4hsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=itgiaMnPBLOR3CeHaN1XXjuBBARZTaaBCB7OunrOsfo=;
+ b=F8RtRluaqowitwABGYOk35qtubM7/e8yopvWa8hBSItOBOx1JS2mYuUUsq4smvLU9FPq+ZKRAEd+tJ+HeHetOeQCJwgiwQKrTFfgY+RLMV+rNP9tIsz4DqiP6ICEITpnRcv5ydgHYRDSVEqRVRcSUbZ8m7m+fw1OlJUz0axXlviG8yfyQ25wrlEes0sLTWzzmeXQOQuNAWHiQ/dIKbX7JmsLF/OU3BL/3Wrr7jUt6qg2Jbcm4GlDIrHmxpzhNLxyMuaihll/Xm94vsanbYRuwZ8elYBpLNSXg2Z/10X8L0psicyselET3GV3d1BzObJAY0PxviV7gaDUlbiGm5VAmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
+ s=selector2-estab-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=itgiaMnPBLOR3CeHaN1XXjuBBARZTaaBCB7OunrOsfo=;
+ b=S55E33/Q9/VhQeM1zqgb2Lz+JKr9fynnkeReHc8SqDxoOZZyU7Uio5q6yPuzMxUZDwyyZo97aZZrrPJWH3TvCVCpi5weUbIGou44sLL6BfpSsQXU0FAo2fTxyoJtLpQxXRCSbvX8j3O3sXq5jCa/8muAC0+jpA2nfJujOPKY6y0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
+ by DB3P189MB2380.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:439::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Fri, 24 Mar
+ 2023 18:58:57 +0000
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::13ad:a312:15c6:91dc]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::13ad:a312:15c6:91dc%9]) with mapi id 15.20.6178.039; Fri, 24 Mar 2023
+ 18:58:57 +0000
+From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+To: 
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Blake <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>
-Subject: s390x TCG migration failure
-Date: Fri, 24 Mar 2023 19:41:29 +0100
-Message-Id: <20230324184129.3119575-1-nsg@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230207005650.1810-4-quintela@redhat.com>
-References: <20230207005650.1810-4-quintela@redhat.com>
-MIME-Version: 1.0
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Subject: [PATCH v10 1/8] MAINTAINERS: Add Sriram Yagnaraman as a igb reviewer
+Date: Fri, 24 Mar 2023 16:34:54 +0100
+Message-Id: <20230324153501.20695-2-sriram.yagnaraman@est.tech>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230324153501.20695-1-sriram.yagnaraman@est.tech>
+References: <20230324153501.20695-1-sriram.yagnaraman@est.tech>
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: tOvlCRQy376fbX63k5PvDjmGBcF9vImb
-X-Proofpoint-GUID: 562eGUJoLtgTS0JqNk5_1bN-7iiqHZ5Z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- adultscore=0 spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- impostorscore=0 clxscore=1011 mlxlogscore=999 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303240145
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0118.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:8::31) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:1e7::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|DB3P189MB2380:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6912553a-014f-4e93-25a1-08db2c99d0ad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BAb+iY/j+1X81CcZeQ192LQrOs+LeF0JI2Uv+Y//+rE52PEAsKwpdI3PD03Cu60cH90NqU3na+ag9lA4+fi9tRErg9hOKkzr8Aoaw9HfE/I51hQQrsy1QUuqvPcMBs74akUaoCkOoO9GdO+ZgjYE50PKUVAkdw3EQtuXU9jqK5DydfRrdZlJM9wA3msKxAuaDWtVikReXIEFhMkKbPgIDy3Rg30JS9uC0lyB/4cPJv//bJvGbASOTy/6mqh5AnfO+mQURfdCe3iknWz53zXFCl7BkK1mOZCuZTRz8t/Qu8vJeblwiVUdnQm+ac3nH/04c47Lu+dZtq37OYGhxNGSK9/XHOUL8JJ1DqDsK/i/VrCjnlUFB+IFPOAIMqRxLdfSPOYt+UucOhbpBccTlSpwAvr4E8glXJ1CttK3NKKwymDGDHBwg9nRjL//7va/MJFGukbGir00m5pJXYlIroAfxa2/945UhMHHG9N5Vt5GJknjW87pnEdQ65pBEAQJs/pnoMlkbBGsI2mNDewN/9yM7I8pDK7gZ0QditysaP73UMFn/mTBB5yoaKpqa9e1Fzf0i6jkmrYaXLTtyPAlNmnuHiumjSgBmWr/SlIY+EhDdQ1i7hVjeSNMs68ic4fa6uu5jpfE2Hp8e0ldq6LCECTsQw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(136003)(396003)(346002)(39840400004)(451199021)(109986019)(66946007)(54906003)(316002)(66556008)(38100700002)(8676002)(70586007)(44832011)(66476007)(86362001)(4326008)(41300700001)(36756003)(5660300002)(8936002)(4744005)(186003)(2616005)(2906002)(6486002)(6666004)(26005)(6512007)(478600001)(1076003)(6506007)(266003)(37730700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cXrak5uwhaRpwjtbGlgmOPJkd4RJNi07WPcF1P4VVHdNGcN6RGbTdFOBH6fH?=
+ =?us-ascii?Q?VQTrVFpTouHfd7YIoGfSQees6+LXq6K1kYynkPEQfzaZki9Gb4aLJLDuT++s?=
+ =?us-ascii?Q?l43uZg/NqwgKIVYNAU1HJXl4/5iGI8HAYnkM3qG7DL1+NA2JAFt52m9HKU+/?=
+ =?us-ascii?Q?rTQsB1a5ryLq0gOMDEVKw+BHdO1dw2SyvrQ5gDFgf9tbxZb3mjBxtJNOAj5L?=
+ =?us-ascii?Q?QE1ZinRX9W2u8Lzb+Lz6Ms/CIMSVK3cu5hbydd/H0BHzXkOKPE941A7xG8+r?=
+ =?us-ascii?Q?hIs6s3oe0dkcO2Kq3WPE+ypBQDXr6NCwCHxBye8MR3TEQcoUnx9Wj23uv2B4?=
+ =?us-ascii?Q?J0LKV4qLDDzS8c2Ht3TQ27GiUAtMUq39CpnJBCDuV1SJugMBO2f9UGKhyPzw?=
+ =?us-ascii?Q?fx0aj26a+n4Wtky3/yZm6nbxnnN6LfcPdtePjI2vHkNFvcqPHORZg89ps/hg?=
+ =?us-ascii?Q?xx5dNxPf0b92bypTh8GR/1+FmRzVoNXg5kXiXNS1K6sKTuB/MCE+dv09eRen?=
+ =?us-ascii?Q?oDEke2he77kUYbYXX7axv4wM4J0rDO68cR1koq0IFYxIIL3BoCCYY+zGXpaw?=
+ =?us-ascii?Q?/F0PV2h2DA7zKc2sDy9MCddlRVUL39cvPglS4IcTq0tY331+SuXAd1YQLRFI?=
+ =?us-ascii?Q?idprNzL2bvDiLBd1iv4Fbpe/d6AAJVmE6oLvEezosShebIzt1VcAAhGJnI8I?=
+ =?us-ascii?Q?gPSVT8FKoIr9Qko4E1MaoRb60YRSQEnnaFjMpSwkrfRWmiKC+AuhLAl+1Lwa?=
+ =?us-ascii?Q?oKPPr12xRtOw1ZN5CbJ0IpQpTOpWRsjzxxBRpXkv/jkqDA1Rtmc/SDNLzgpD?=
+ =?us-ascii?Q?guxUSp5MF88mBiwdtEIUgfKsd2x22Hn2bbpzko1bFIb6qhY/5FUeIIAJrhj3?=
+ =?us-ascii?Q?9VTJCZ3wK2nZzvzfLUXGnMicW7x7JNMW0iRr2z/E1bgnmWJEpe+afBv+LhdP?=
+ =?us-ascii?Q?f8iO4dHnh+O+Hj7dLZB2tyEwVPrO4UXzyvAeMtHDw1p/+Xl65FSm2jD4C7Pl?=
+ =?us-ascii?Q?jHu5Q9HNnKXoo16Rie4noNy7TVZQ24fh3TsqYwpDgEQLjYHnd9Qw7tubpmBs?=
+ =?us-ascii?Q?1q+Hf7edPRXqhqnKOlKbhiPy00mM8u7bHSE0fp3GtpXlE3qSWBYLwG7TVTZz?=
+ =?us-ascii?Q?lTyUs7LnEfFRfnghzXDUWIUxwCMYVhnPdRilrNBbNXLAr693xWztV1Mm71Ku?=
+ =?us-ascii?Q?/j4jSeMQhvM57Z7I3xmuN2m0qYXNS0S9TNfVQQ/brs5UbL9l2/F0ApY9vhWg?=
+ =?us-ascii?Q?YBRn/5RYXoynny4RG6Pe+vo3pMhvxnNm+5KZcZgqFUCzYvJ7tAhraS9EK/eM?=
+ =?us-ascii?Q?HU1S93Mw5LtbpBVOBZduve3Ksu/Cd4TNySSKepU01SLTBQ2+AUOxkciDep+F?=
+ =?us-ascii?Q?11GkEJI87bnvD1S1zOJmppvW4+WugdEmwcF2qOEaTvq+D8eFVANzLZBmn/gz?=
+ =?us-ascii?Q?jVURwwbyG36UuQdKxLQmxPeqcHKtccgTM0YXmVJYR9PQ7MrrGuUlBIidjsqU?=
+ =?us-ascii?Q?EzV36BYOgRvfrGiIcYprm2572u5INFQaNZiVkhE7t+hkBxTrGmKIKs8BkFEw?=
+ =?us-ascii?Q?+x31oPptvRCrrM49WtTgh7To8Z96HxaHC+sLUFLyMkZ26Lwz6tpLBuicBvsV?=
+ =?us-ascii?Q?YA=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6912553a-014f-4e93-25a1-08db2c99d0ad
+X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 18:58:54.6933 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EP795gg65/nxB3tLudQSx44u4lo3S4iXQKUb+Kcp7QqQRyUyBD0UDxQzAcCqV08wQDA9fyiaQJojRSd/ZxWzwmZzmpOIowlax0eae5ZCBrw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3P189MB2380
+Received-SPF: pass client-ip=40.107.8.121;
+ envelope-from=sriram.yagnaraman@est.tech;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -129,32 +141,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+I would like to review and be informed on changes to igb device
 
-We're seeing failures running s390x migration kvm-unit-tests tests with TCG.
-Some initial findings:
-What seems to be happening is that after migration a control block header accessed by the test code is all zeros which causes an unexpected exception.
-I did a bisection which points to c8df4a7aef ("migration: Split save_live_pending() into state_pending_*") as the culprit.
-The migration issue persists after applying the fix e264705012 ("migration: I messed state_pending_exact/estimate") on top of c8df4a7aef.
+Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Applying
-
-diff --git a/migration/ram.c b/migration/ram.c
-index 56ff9cd29d..2dc546cf28 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3437,7 +3437,7 @@ static void ram_state_pending_exact(void *opaque, uint64_t max_size,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b56ccdd92..a9ed6143f5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2252,6 +2252,7 @@ F: tests/qtest/libqos/e1000e.*
  
-     uint64_t remaining_size = rs->migration_dirty_pages * TARGET_PAGE_SIZE;
- 
--    if (!migration_in_postcopy()) {
-+    if (!migration_in_postcopy() && remaining_size < max_size) {
-         qemu_mutex_lock_iothread();
-         WITH_RCU_READ_LOCK_GUARD() {
-             migration_bitmap_sync_precopy(rs);
+ igb
+ M: Akihiko Odaki <akihiko.odaki@daynix.com>
++R: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+ S: Maintained
+ F: docs/system/devices/igb.rst
+ F: hw/net/igb*
+-- 
+2.34.1
 
-on top fixes or hides the issue. (The comparison was removed by c8df4a7aef.)
-I arrived at this by experimentation, I haven't looked into why this makes a difference.
-
-Any thoughts on the matter appreciated.
 
