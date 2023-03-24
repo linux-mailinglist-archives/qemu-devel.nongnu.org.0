@@ -1,79 +1,67 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1FC6C8139
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:31:06 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF376C821C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:05:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfgl2-00058R-MD; Fri, 24 Mar 2023 08:43:00 -0400
+	id 1pfgqL-0005kQ-Q7; Fri, 24 Mar 2023 08:48:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pfgkz-000583-6w
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 08:42:57 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pfgkr-0001Oz-BW
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 08:42:56 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id eg48so7362950edb.13
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 05:42:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679661757;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=6GuvQrCWSgmeG+gqq0qS0nx6PN00qy3jOGHAU1862N8=;
- b=g1y/8rFbi0Y05awxbCFC6mjyqeuHiYd6ZPxoxCLVSmP1tMI/UCdhm22CmJLIHRh6Ce
- 7Aam/p1Ni8j8PilIGin+4+du+l31iFFAlQ0j2gK9F6YX3ueQH7WwBn8gaYkxOLjtAzF/
- 1Zp5b2iMTo2oEb4N7Umh7/pZ2d4EZCiyx5JmJv3/B5jtdtLw1kXXdDkTLCxLN24nUNT8
- uwzm3NPiYwAi1kLnm9nIsqwwDsRMrxF4HtWgTfaAbICry242ReTSo5DtcIndE9rJubI+
- uNu1D+HtyFkulIInfgvxt83ctPNu9/V/kAvpajUk1PKa6EORbcpZCfDA/TJljp+56O/a
- uFHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679661757;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6GuvQrCWSgmeG+gqq0qS0nx6PN00qy3jOGHAU1862N8=;
- b=Q186dcr6RRsR3XHgxisycswN5h9f8uxxU2SsCp/gLOstJwKzEmGq83ZRuTh3qQGNDW
- U5KKs0RH/I1XX4H9ALc2LC5v0XxKM2TDfGz1zYpl2aEFzIOh3q1gy/bvknILH2PwZCG3
- vxXrvQm8TsYikjPJlTDKleM0H1xmFMfmHM/vfk9OZNN3BF95modooT83pFjDMD4n8TXS
- XEKvmm4ZSaMBa50DDVdPKfmChRWfcapXISY/ZWnVHNMOpOKTIAY1Yx1xVLIqNBWONloB
- vaougQJlHu+KaHCf/+2uxfUDo0i9kHPCei0wQGPKIBGwyMdSfACCeVssR80pFUgfzB5K
- Z96g==
-X-Gm-Message-State: AAQBX9fw6mVnVfNAMV9ObY5+wV8gXq3Zx8jHQ/KtlUgfALMYjfVZDt1T
- XcBJ2/wVeSIHiB0oKOXLqaiv4Z3KadsIDWh3Uf/DOg==
-X-Google-Smtp-Source: AKy350ZYLqobBAj4PGc2M9ESOOan9/Y0CMs8IyvLblKAPWue0gpP6ltk/owz8haVPUjF/1bN4D51huL7G8GkEk2qZkE=
-X-Received: by 2002:a17:906:4ac5:b0:92f:cbfe:1635 with SMTP id
- u5-20020a1709064ac500b0092fcbfe1635mr1366240ejt.6.1679661757699; Fri, 24 Mar
- 2023 05:42:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pfgqJ-0005je-IU; Fri, 24 Mar 2023 08:48:27 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pfgpF-0002bK-M1; Fri, 24 Mar 2023 08:48:26 -0400
+Received: from [192.168.0.120] (unknown [180.165.240.150])
+ by APP-05 (Coremail) with SMTP id zQCowAC3vs7Amx1kkcEYCQ--.51944S2;
+ Fri, 24 Mar 2023 20:46:56 +0800 (CST)
+Message-ID: <709ca9ad-ec64-c068-05a7-35636b9e0d73@iscas.ac.cn>
+Date: Fri, 24 Mar 2023 20:46:55 +0800
 MIME-Version: 1.0
-References: <87v8irv7zq.fsf@pond.sub.org>
- <CAFEAcA88B70uwK=6SZ4TCujiUik0oOakBPG=USNRLYtzB=kiDg@mail.gmail.com>
- <877cv6pd76.fsf@pond.sub.org>
-In-Reply-To: <877cv6pd76.fsf@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Mar 2023 12:42:26 +0000
-Message-ID: <CAFEAcA9A5Gbfz3-os+NV1ACYrH90sGXeNOMzE-1qcZp+Xvqh-g@mail.gmail.com>
-Subject: Re: qapi: [RFC] Doc comment convention for @arg: sections
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Michael Roth <michael.roth@amd.com>, 
- Konstantin Kostiuk <kkostiuk@redhat.com>, Victor Toso <victortoso@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Cc: liweiwei@iscas.ac.cn, richard.henderson@linaro.org,
+ Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, qemu-riscv@nongnu.org
+Subject: Re: [PATCH 1/4] target/riscv: Extract virt enabled state from tb flags
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
+References: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
+ <20230324055954.908-2-zhiwei_liu@linux.alibaba.com>
+Content-Language: en-US
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230324055954.908-2-zhiwei_liu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: zQCowAC3vs7Amx1kkcEYCQ--.51944S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CrWDKF1kuF1kCFyfur1DGFg_yoW5JF4rpr
+ s7C3ySkr98J39xCa1fWF4Yqr1UXr4DCr45Cwn7ur4jqw4rXrW5Gr97Kay5CFWDXFykZr1Y
+ kF4kAr15AF40vrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+ Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU1a9aP
+ UUUUU==
+X-Originating-IP: [180.165.240.150]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,88 +78,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 24 Mar 2023 at 12:05, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Thu, 23 Mar 2023 at 14:48, Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> The QAPI schema doc comment language provides special syntax for command
-> >> and event arguments, struct and union members, alternate branches,
-> >> enumeration values, and features: "sections" starting with @arg:.
-> >>
-> >> By convention, we format them like this:
-> >>
-> >>     # @arg: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-> >>     #       do eiusmod tempor incididunt ut labore et dolore magna
-> >>     #       aliqua.
-> >>
-> >> Okay for names as short as "name", but we have much longer ones.  Their
-> >> description gets squeezed against the right margin, like this:
-> >>
-> >>     # @dirty-sync-missed-zero-copy: Number of times dirty RAM synchronization could
-> >>     #                               not avoid copying dirty pages. This is between
-> >>     #                               0 and @dirty-sync-count * @multifd-channels.
-> >>     #                               (since 7.1)
-> >>
-> >> The description is effectively 50 characters wide.  Easy enough to read,
-> >> but awkward to write.
-> >
-> > The documentation also permits a second form:
-> >
-> >  # @argone:
-> >  # This is a two line description
-> >  # in the first style.
->
-> Yes.  We use this in exactly one place: the guest agent's GuestOSInfo.
->
-> > We tend to use that for type names, not field names, but IIRC
-> > it's the same handling for both.
->
-> Kind of.
->
-> Definition documentation consist of "sections".
->
-> The first section (called "body" in the code) starts with a line of the
-> from
->
->     # @NAME:
->
-> Nothing may follow the colon.
->
-> Ordinary text may follow.  Indentation is not stripped.
 
-I guess this has changed since I added the rst stuff. Back
-at the time (assuming my email comments at that time are
-correct) this was all basically in the same code path, so
-the "allow field descriptions that start on the following line"
-falls out of having to handle "allow section definitions with
-text that starts on the following line".
+On 2023/3/24 13:59, LIU Zhiwei wrote:
+> Virt enabled state is not a constant. So we should put it into tb flags.
+> Thus we can use it like a constant condition at translation phase.
+>
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> ---
 
-> Our current doc comment syntax has two layers:
->
-> 1. The upper layer uses home-grown markup (= heading, @def: for special
->    definition lists, @ref to reference QAPI names, tag: special
->    sections).
->
-> 2. The lower layer is reStructuredText.
->
-> Parsing mirrors this:
->
-> 1. parser.py parses the upper layer into an internal representation.
->
-> 2. Sphinx extension qapidoc.py maps this internal representation to
->    Sphinx's.  It feeds its text parts to the rST parser, and splices its
->    output into the Sphinx IR.
->
-> I'm wary of blurring the boundary between the two.  If we use rST syntax
-> for argument sections, parser.py effectively parses a limited subset of
-> rST.  Second-guessing the real rST parser doesn't feel wise to me.
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
-I didn't mean to say "use rst syntax entirely throughout"
-so much as "use the same rules for multi-line syntax that rst does,
-not a subtly different set of rules". We could keep our @markup stuff.
+Weiwei L
+>   target/riscv/cpu.h        |  2 ++
+>   target/riscv/cpu_helper.c |  2 ++
+>   target/riscv/translate.c  | 10 +---------
+>   3 files changed, 5 insertions(+), 9 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 638e47c75a..12fe8d8546 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -650,6 +650,8 @@ FIELD(TB_FLAGS, VTA, 24, 1)
+>   FIELD(TB_FLAGS, VMA, 25, 1)
+>   /* Native debug itrigger */
+>   FIELD(TB_FLAGS, ITRIGGER, 26, 1)
+> +/* Virtual mode enabled */
+> +FIELD(TB_FLAGS, VIRT_ENABLED, 27, 1)
+>   
+>   #ifdef TARGET_RISCV32
+>   #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index f88c503cf4..9d50e7bbb6 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -104,6 +104,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>   
+>           flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_VS,
+>                              get_field(env->mstatus_hs, MSTATUS_VS));
+> +        flags = FIELD_DP32(flags, TB_FLAGS, VIRT_ENABLED,
+> +                           get_field(env->virt, VIRT_ONOFF));
+>       }
+>       if (cpu->cfg.debug && !icount_enabled()) {
+>           flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_enabled);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 0ee8ee147d..880f6318aa 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -1156,15 +1156,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
+>       ctx->mstatus_vs = tb_flags & TB_FLAGS_MSTATUS_VS;
+>       ctx->priv_ver = env->priv_ver;
+> -#if !defined(CONFIG_USER_ONLY)
+> -    if (riscv_has_ext(env, RVH)) {
+> -        ctx->virt_enabled = riscv_cpu_virt_enabled(env);
+> -    } else {
+> -        ctx->virt_enabled = false;
+> -    }
+> -#else
+> -    ctx->virt_enabled = false;
+> -#endif
+> +    ctx->virt_enabled = FIELD_EX32(tb_flags, TB_FLAGS, VIRT_ENABLED);
+>       ctx->misa_ext = env->misa_ext;
+>       ctx->frm = -1;  /* unknown rounding mode */
+>       ctx->cfg_ptr = &(cpu->cfg);
 
-thanks
--- PMM
 
