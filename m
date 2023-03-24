@@ -2,68 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BF46C817A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D946C6C8127
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:25:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfhRn-0000kl-E8; Fri, 24 Mar 2023 09:27:12 -0400
+	id 1pfhsT-0002pP-Ma; Fri, 24 Mar 2023 09:54:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfhRk-0000kX-LY; Fri, 24 Mar 2023 09:27:08 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfhQV-0000uZ-Ci; Fri, 24 Mar 2023 09:27:06 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.150])
- by APP-05 (Coremail) with SMTP id zQCowADHzzN1nh1kYdUZCQ--.52587S2;
- Fri, 24 Mar 2023 20:58:30 +0800 (CST)
-Message-ID: <17da348d-f1dd-38dc-8fcc-7782632225bb@iscas.ac.cn>
-Date: Fri, 24 Mar 2023 20:58:28 +0800
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1pfhsO-0002pD-Nr
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 09:54:40 -0400
+Received: from mail-mw2nam12on2084.outbound.protection.outlook.com
+ ([40.107.244.84] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1pfhrC-0007Ce-Se
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 09:54:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kLzby+zCiRhlOvmhN3uo4fZCv+wtBmFt1+COkBSvm9da8NxJlaLS/TSm5sjMsbAFIf9oYIVJ2acJQw6de8OAqIS6CYbU/GPGQccrEoj/RxCMEyhkO7Q2TdwUiQVPRILS2dn935khz6u67Fj5UgP9ft7nRj7Z48Gbw3vw8Jg7Zu+TgeT7VabtumENAJTTjwXWK0D7yTsHVJfR7d4eMTBLGT6msJlWfsQ5ghQVDKE4iMAwQH8IcMXRk7uwKa+xuerzQfDQwd/ppXEtpOfTlHBlN+Kd5lI5c0UxSwZ+r4A+21a24O3TU5NYB71MkiyzMJoCoFkRDHEyXWDjuSJ4zbVihQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CpGtiECSbIcYp+oJm2u5FkgYOEPEo1O5E5Gt+qKrRfA=;
+ b=PV/N9hsEgk47vf/0oGH5FEVpm6Z40qSfYHui2gc1ystDCbs1/9tm7Eu4O9KV/7EGcknrH9I9GJHCUewicE/9urHBD0VqiGaWkhhzkWeAn1eAG4AzonZNcaBcSWXt353Pfb/7Erd70TVP3+adEkXuY90fnLRUCqEYWXTw9GaYoUA3OxxXo1RzXNq3yXeK+/F8FnwTtZ4Ss3DInrZmZrmrJnF3sRLQcoDwjXl0nBofL+g8g7MPA8BGepPBE/l7orE1QvhlLwzRQ+pWSdYN4a4adzp5howrWBokJFXZUAIlm6Scb13kPt0Qx50/FxXzOHCDssx2hyfsmMs5RJiozzrG5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CpGtiECSbIcYp+oJm2u5FkgYOEPEo1O5E5Gt+qKrRfA=;
+ b=lBhItX7f2VD1inP+Xe6aW0vcheY7hacwKNZFCUPAj135crlWsYeUhabFR/z4HEnj+y9SSGA9gv3bOJww/9yTzPyftkphHkk8gG6ceRGgmO4o96BquvrXqiUy9VwJmFm2/kYEXf9lJ/dyTDXqQ7So8U+HQo7I0Bb0UGRJTbWzi7Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
+ SN7PR12MB6861.namprd12.prod.outlook.com (2603:10b6:806:266::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Fri, 24 Mar
+ 2023 13:23:01 +0000
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::4f9:60f8:cb12:d022]) by DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::4f9:60f8:cb12:d022%3]) with mapi id 15.20.6178.038; Fri, 24 Mar 2023
+ 13:23:01 +0000
+Date: Fri, 24 Mar 2023 21:22:32 +0800
+From: Huang Rui <ray.huang@amd.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony PERARD <anthony.perard@citrix.com>,
+ Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
+ Jan Beulich <jbeulich@suse.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Robert Beckett <bob.beckett@collabora.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Hildebrand, Stewart" <Stewart.Hildebrand@amd.com>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>,
+ "Huang, Honglei1" <Honglei1.Huang@amd.com>,
+ "Zhang, Julia" <Julia.Zhang@amd.com>, "Chen, Jiqian" <Jiqian.Chen@amd.com>
+Subject: Re: [RFC QEMU PATCH 08/18] virtio-gpu: Initialize Venus
+Message-ID: <ZB2kGABHUKc+Bk5H@amd.com>
+References: <20230312092244.451465-1-ray.huang@amd.com>
+ <20230312092244.451465-9-ray.huang@amd.com>
+ <68195782-0309-2f81-7f1f-84a7fe7bb05c@collabora.com>
+ <ZA9HWRYxPUk1OeGe@amd.com>
+ <53c25304-bc30-b5af-846e-b247aab67be9@collabora.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53c25304-bc30-b5af-846e-b247aab67be9@collabora.com>
+X-ClientProxiedBy: SGXP274CA0023.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::35)
+ To DM5PR12MB2504.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Cc: liweiwei@iscas.ac.cn, richard.henderson@linaro.org,
- Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, qemu-riscv@nongnu.org
-Subject: Re: [PATCH 3/4] target/riscv: Encode the FS and VS on a normal way
- for tb flags
-Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
-References: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
- <20230324055954.908-4-zhiwei_liu@linux.alibaba.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230324055954.908-4-zhiwei_liu@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowADHzzN1nh1kYdUZCQ--.52587S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Ar4kCFy7ZFy5Cw47Jw13Arb_yoWxWr1Upa
- 18Ga17ur95GFZ3Ka1SyF4YqF45Ar18urW5Zw1kKw1rtFWrAr4YkFWDtFySqF4DXry8urW0
- vFs5Zw15AF4jyrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
- IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUp6wZUUU
- UU=
-X-Originating-IP: [180.165.240.150]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2504:EE_|SN7PR12MB6861:EE_
+X-MS-Office365-Filtering-Correlation-Id: b47ad2ef-6a0a-4bb4-7720-08db2c6ae3fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7tkAu49BVZkB6yiACTi4Rhre5d0SKG5hnxtSDfk6tqWA7oRtFESpsfjHflif1EQqvBhWdtXIUJyzeR6UrmxoR4fAQ/IfrOcVRg3tExbcDwZF6okMlfvHpVWnvytLSh88VK86mfZuxJVyugsSQ33KV8vz0lI5lW+YZ6RzmomeKC+qdTD0EeykjiG368ADxdr3v+EJLSz/Ju1tCwXgVBjKS3KNo5kMeGskErAxa5Bmb7Jhyo4ztsXTY2xpoOiq+yCVtW41y3lOq1bj8Vb/u4QB0y7roJK5CXwTOx5mspst7ykYqmtm5wz5Cfqw95/7mKxlyAvnr6ldCO4xgv56RTEQJaL3Td2+J9jgHsX9XKcnrFfHMTx0kF3oLLepH0XW9x+CuTuUxSBEhB0u754Fd7qgOy/3Tb47SSDEgsr8aekJdIg/fF0cVdiBjdshHXjjuckdvEgtqLX3aObh9+wBFZlFwbxI+3vaHUF/r66tpYzEe2fGJ+Odbg7rZPSjuwvOYqqsj5A7459NX9o2RuM7beVWxltnejjGlwkJuUaL2ANdT6zMhCy/4dCRhKXk0dqdvfAX0ai9MpwKvUxtlPEQeJnKk4CYgf0nh69FENxZlxqkbthYlU2bSMLAYjtbFkblZvl4qhHMZYGnBt8Pz/AbbxP39g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2504.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(39860400002)(396003)(366004)(376002)(346002)(451199018)(83380400001)(26005)(186003)(2616005)(966005)(478600001)(6486002)(6666004)(66476007)(8676002)(4326008)(316002)(6916009)(66556008)(54906003)(53546011)(66946007)(6506007)(6512007)(41300700001)(8936002)(2906002)(5660300002)(7416002)(38100700002)(86362001)(36756003)(67856001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GY3gdN+0XBdQjdzCM8eSDtddj04Upkkrz33ggmT+ub+lBNNI8P3MwTCjIrZF?=
+ =?us-ascii?Q?mTvkK03pfeth64Y7LiDAJPZVOFPbT+jwFA9Z3dyyj9ZoasKPS+a5VZPhE2Ab?=
+ =?us-ascii?Q?4tJCd99MwQu/XyPp8zVNevgBT2SE6hTawAUmXp92W7hCJ8NHwMIj3cdbfWcM?=
+ =?us-ascii?Q?BsvoNWACRa0ygSE8+Oi99z+QE1gdxT1h+Y0VBwZBLlpuD6135xf7Uvv5XFh8?=
+ =?us-ascii?Q?StZRhzJ8FAPO2Q6se9D17sbGUaEV7AO+mzRHvOxcLhg2ZKgzk4FCYum3hgkw?=
+ =?us-ascii?Q?SHYvYpNIEDt5jSJpEz6DM1p0gCyl44Eqfi6Bq/w6aklXSFHrcDVAOjUTDO1T?=
+ =?us-ascii?Q?Zp4w4nGZKHKbGYpxZRgk5dyhrDPMKmh/Ujxqa9RUp9m0+yHPpYXwF1884Z8j?=
+ =?us-ascii?Q?yGAnYyR9stXuW5qfsyGj3ARl8+EQrNhdM1eMTlRxNpokdMDKlib8acRCfgzC?=
+ =?us-ascii?Q?Ua+f1YB0tgycYOaNfmk55h97gUJ6tbb92hhlPaL3ZFF2/c99tAHfrP1RemMW?=
+ =?us-ascii?Q?Oyea2MIg9TMY6WtYngi9gEa99FQIrfrCT0hcwtTA1pgKifOudZDeBh5LgyrZ?=
+ =?us-ascii?Q?jnNyfINIi/kFZA8bQzVHb7I6TXAdFWuZ2UJha0Id080nL8oR0zaCl1XJk0Cr?=
+ =?us-ascii?Q?nJ50xpj2+tcgfr/e8jLAdJ9wan4OZoU1B01eJdvgYuDBjv438b3UtMeHgGPt?=
+ =?us-ascii?Q?7l5TMnOtCloMSBUy14WiSeIDGvLg0Sl8XcV4noYZ195w57eOjPSytN+agS/t?=
+ =?us-ascii?Q?WBOulRDHIC4nD0wbYWksJCBS685HiBLejweDDnkTINo/yXdzqwML3ZG+4Mp4?=
+ =?us-ascii?Q?5gfHxayUT19MfqmADjSXauvKAbkZDJb9CofboedwnFPcFjPKILpU0ofFlIRx?=
+ =?us-ascii?Q?mfhhEcXhHt9cVy2SgtS1VVhoe0leOhkNZ4s3lR9qf+Vp4DVWhPgw6a6cfOYe?=
+ =?us-ascii?Q?WimhWq32KQ9z+9UEv/w4I0adm9pMUfQsLzL5sySkNyjN2wgTOOecjvLhfKyf?=
+ =?us-ascii?Q?Rz1chT8b/Q5hQbf1TuL8sr76IdSEN+07ffr18ogKMLouxxcgj67LAIPT4DkG?=
+ =?us-ascii?Q?lQwWx3qWBCk/kRAYZImneTLp7Ytk+MP78vYWQa1+7J3XjPh1AesTVjv0Mvd1?=
+ =?us-ascii?Q?Ku3KXJ18PtZ8AsCER6yErM9Ssy2PcdrD1jctcMEkQwBpeG6psPv8Te6KTxmX?=
+ =?us-ascii?Q?o3Y/TeLragpL6IMBElUjYmZ08ACKuFwJmOsHclh1Pmnpmo4NL3Kor8HKZl73?=
+ =?us-ascii?Q?ZU6vr5nKN+tA+bzjtOEQqFvvOOPJJi74PGN9MPMnw/OLUPgBPNv/ZpdI21Dm?=
+ =?us-ascii?Q?xV/CEKjBqAN7Pgg6K0umsq7JJ3XUAZyxRTfr/2qjAEp6KBnrgtjNNwmXQ+tS?=
+ =?us-ascii?Q?4ugAXUzrNAUmvFTdJbQG1bsJAeJTaEE+LiHk6XF2jiJTo6hgQAVZ/XmPYA7X?=
+ =?us-ascii?Q?3VnGUaHVMM/xvMTOVIWnKCsyVNNPGby5PQySzT6qaXvMkJWY2cOLYNrLIKO1?=
+ =?us-ascii?Q?evC4NNI55islna3QF8fRsx61iudG3oRDM58Dn65Cd7MWJM4Y30/v/bzp3GFm?=
+ =?us-ascii?Q?zc8PIDUeObqryHEyAvpThMF59CAljwPC9TYinsec?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b47ad2ef-6a0a-4bb4-7720-08db2c6ae3fb
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 13:23:01.0339 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6WdZJQZYbWQwkWLMqM+gODfHqbYKkq4HXhMvxbUUwcCktno5KUZ6vLQXlSS//OdN5WXVbEpLdlK8wo5G6iHEUw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6861
+Received-SPF: softfail client-ip=40.107.244.84; envelope-from=Ray.Huang@amd.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,181 +147,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Mar 16, 2023 at 07:14:47AM +0800, Dmitry Osipenko wrote:
+> On 3/13/23 18:55, Huang Rui wrote:
+> > On Mon, Mar 13, 2023 at 01:51:03AM +0800, Dmitry Osipenko wrote:
+> >> On 3/12/23 12:22, Huang Rui wrote:
+> >>> From: Antonio Caggiano <antonio.caggiano@collabora.com>
+> >>>
+> >>> Request Venus when initializing VirGL.
+> >>>
+> >>> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+> >>> ---
+> >>>  hw/display/virtio-gpu-virgl.c | 4 ++++
+> >>>  1 file changed, 4 insertions(+)
+> >>>
+> >>> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+> >>> index fe03dc916f..f5ce206b93 100644
+> >>> --- a/hw/display/virtio-gpu-virgl.c
+> >>> +++ b/hw/display/virtio-gpu-virgl.c
+> >>> @@ -803,7 +803,11 @@ int virtio_gpu_virgl_init(VirtIOGPU *g)
+> >>>  {
+> >>>      int ret;
+> >>>  
+> >>> +#ifdef VIRGL_RENDERER_VENUS
+> >>> +    ret = virgl_renderer_init(g, VIRGL_RENDERER_VENUS, &virtio_gpu_3d_cbs);
+> >>> +#else
+> >>>      ret = virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
+> >>> +#endif
+> >>
+> >> Note that Venus now requires VIRGL_RENDERER_RENDER_SERVER flag to be
+> >> set. Please test the patches with the latest virglrenderer and etc.
+> >>
+> >> The #ifdef also doesn't allow adding new flags, it should look like:
+> >>
+> >> #ifdef VIRGL_RENDERER_VENUS
+> >>     flags |= VIRGL_RENDERER_RENDER_SERVER;
+> >> #endif
+> >>
+> >>     ret = virgl_renderer_init(g, flags, &virtio_gpu_3d_cbs);
+> > 
+> > In fact, we have rebased to the latest virglrenderer:
+> > 
+> > We check both VIRGL_RENDERER_RENDER_SERVER or VIRGL_RENDERER_VENUS in
+> > virglrenderer, alternative of them works.
+> > 
+> > https://gitlab.freedesktop.org/rui/virglrenderer/-/commit/c1322a8a84379b1ef7939f56c6761b0114716f45
+> 
+> All the extra changes you made to virglrenderer that Qemu depends on
+> need to go upstream. Please open all the relevant merge requests. Thanks!
+> 
 
-On 2023/3/24 13:59, LIU Zhiwei wrote:
-> Reuse the MSTATUS_FS and MSTATUS_VS for the tb flags positions is not a normal
-> way.
->
-> It will make us change the tb flags layout difficult. And even worse, if we
-> want to keep tb flags for a same extension togather without a hole.
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> ---
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Dmitry, sorry to late response, I have created relevant merge requests
+below:
 
-Weiwei Li
->   target/riscv/cpu.h                      | 15 +++++++--------
->   target/riscv/cpu_helper.c               | 11 ++++++-----
->   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++----
->   target/riscv/translate.c                | 20 ++++++++++----------
->   4 files changed, 27 insertions(+), 27 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 5049e21518..41f7aef666 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -634,18 +634,17 @@ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
->   
->   #define TB_FLAGS_PRIV_MMU_MASK                3
->   #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
-> -#define TB_FLAGS_MSTATUS_FS MSTATUS_FS
-> -#define TB_FLAGS_MSTATUS_VS MSTATUS_VS
->   
->   #include "exec/cpu-all.h"
->   
->   FIELD(TB_FLAGS, MEM_IDX, 0, 3)
-> -FIELD(TB_FLAGS, LMUL, 3, 3)
-> -FIELD(TB_FLAGS, SEW, 6, 3)
-> -/* Skip MSTATUS_VS (0x600) bits */
-> -FIELD(TB_FLAGS, VL_EQ_VLMAX, 11, 1)
-> -FIELD(TB_FLAGS, VILL, 12, 1)
-> -/* Skip MSTATUS_FS (0x6000) bits */
-> +FIELD(TB_FLAGS, FS, 3, 2)
-> +/* Vector flags */
-> +FIELD(TB_FLAGS, VS, 5, 2)
-> +FIELD(TB_FLAGS, LMUL, 7, 3)
-> +FIELD(TB_FLAGS, SEW, 10, 3)
-> +FIELD(TB_FLAGS, VL_EQ_VLMAX, 13, 1)
-> +FIELD(TB_FLAGS, VILL, 14, 1)
->   /* Is a Hypervisor instruction load/store allowed? */
->   FIELD(TB_FLAGS, HLSX, 15, 1)
->   FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 9d50e7bbb6..87c6effcc2 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -79,16 +79,17 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->       }
->   
->   #ifdef CONFIG_USER_ONLY
-> -    flags |= TB_FLAGS_MSTATUS_FS;
-> -    flags |= TB_FLAGS_MSTATUS_VS;
-> +    flags =  FIELD_DP32(flags, TB_FLAGS, FS, EXT_STATUS_DIRTY);
-> +    flags =  FIELD_DP32(flags, TB_FLAGS, VS, EXT_STATUS_DIRTY);
->   #else
->       flags |= cpu_mmu_index(env, 0);
->       if (riscv_cpu_fp_enabled(env)) {
-> -        flags |= env->mstatus & MSTATUS_FS;
-> +        flags =  FIELD_DP32(flags, TB_FLAGS, FS,
-> +                            get_field(env->mstatus,  MSTATUS_FS));
->       }
-> -
->       if (riscv_cpu_vector_enabled(env)) {
-> -        flags |= env->mstatus & MSTATUS_VS;
-> +        flags =  FIELD_DP32(flags, TB_FLAGS, VS,
-> +                            get_field(env->mstatus, MSTATUS_VS));
->       }
->   
->       if (riscv_has_ext(env, RVH)) {
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index f2e3d38515..6297c3b50d 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -29,12 +29,12 @@ static inline bool is_overlapped(const int8_t astart, int8_t asize,
->   
->   static bool require_rvv(DisasContext *s)
->   {
-> -    return s->mstatus_vs != 0;
-> +    return s->mstatus_vs != EXT_STATUS_DISABLED;
->   }
->   
->   static bool require_rvf(DisasContext *s)
->   {
-> -    if (s->mstatus_fs == 0) {
-> +    if (s->mstatus_fs == EXT_STATUS_DISABLED) {
->           return false;
->       }
->   
-> @@ -52,7 +52,7 @@ static bool require_rvf(DisasContext *s)
->   
->   static bool require_scale_rvf(DisasContext *s)
->   {
-> -    if (s->mstatus_fs == 0) {
-> +    if (s->mstatus_fs == EXT_STATUS_DISABLED) {
->           return false;
->       }
->   
-> @@ -70,7 +70,7 @@ static bool require_scale_rvf(DisasContext *s)
->   
->   static bool require_scale_rvfmin(DisasContext *s)
->   {
-> -    if (s->mstatus_fs == 0) {
-> +    if (s->mstatus_fs == EXT_STATUS_DISABLED) {
->           return false;
->       }
->   
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 880f6318aa..85ca3ba202 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -611,9 +611,9 @@ static void mark_fs_dirty(DisasContext *ctx)
->           return;
->       }
->   
-> -    if (ctx->mstatus_fs != MSTATUS_FS) {
-> +    if (ctx->mstatus_fs != EXT_STATUS_DIRTY) {
->           /* Remember the state change for the rest of the TB. */
-> -        ctx->mstatus_fs = MSTATUS_FS;
-> +        ctx->mstatus_fs = EXT_STATUS_DIRTY;
->   
->           tmp = tcg_temp_new();
->           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-> @@ -621,9 +621,9 @@ static void mark_fs_dirty(DisasContext *ctx)
->           tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
->       }
->   
-> -    if (ctx->virt_enabled && ctx->mstatus_hs_fs != MSTATUS_FS) {
-> +    if (ctx->virt_enabled && ctx->mstatus_hs_fs != EXT_STATUS_DIRTY) {
->           /* Remember the stage change for the rest of the TB. */
-> -        ctx->mstatus_hs_fs = MSTATUS_FS;
-> +        ctx->mstatus_hs_fs = EXT_STATUS_DIRTY;
->   
->           tmp = tcg_temp_new();
->           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-> @@ -645,9 +645,9 @@ static void mark_vs_dirty(DisasContext *ctx)
->   {
->       TCGv tmp;
->   
-> -    if (ctx->mstatus_vs != MSTATUS_VS) {
-> +    if (ctx->mstatus_vs != EXT_STATUS_DIRTY) {
->           /* Remember the state change for the rest of the TB.  */
-> -        ctx->mstatus_vs = MSTATUS_VS;
-> +        ctx->mstatus_vs = EXT_STATUS_DIRTY;
->   
->           tmp = tcg_temp_new();
->           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-> @@ -655,9 +655,9 @@ static void mark_vs_dirty(DisasContext *ctx)
->           tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
->       }
->   
-> -    if (ctx->virt_enabled && ctx->mstatus_hs_vs != MSTATUS_VS) {
-> +    if (ctx->virt_enabled && ctx->mstatus_hs_vs != EXT_STATUS_DIRTY) {
->           /* Remember the stage change for the rest of the TB. */
-> -        ctx->mstatus_hs_vs = MSTATUS_VS;
-> +        ctx->mstatus_hs_vs = EXT_STATUS_DIRTY;
->   
->           tmp = tcg_temp_new();
->           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-> @@ -1153,8 +1153,8 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->   
->       ctx->pc_succ_insn = ctx->base.pc_first;
->       ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
-> -    ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
-> -    ctx->mstatus_vs = tb_flags & TB_FLAGS_MSTATUS_VS;
-> +    ctx->mstatus_fs = FIELD_EX32(tb_flags, TB_FLAGS, FS);
-> +    ctx->mstatus_vs = FIELD_EX32(tb_flags, TB_FLAGS, VS);
->       ctx->priv_ver = env->priv_ver;
->       ctx->virt_enabled = FIELD_EX32(tb_flags, TB_FLAGS, VIRT_ENABLED);
->       ctx->misa_ext = env->misa_ext;
+Virglrenderer:
+https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1068
 
+Mesa:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/22108
+
+I'd appreciate any comments. :-)
+
+Thanks,
+Ray
 
