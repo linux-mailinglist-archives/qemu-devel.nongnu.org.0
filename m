@@ -1,82 +1,82 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C3D6C81AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:44:35 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 997816C820B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:00:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfeGC-0005b5-Ki; Fri, 24 Mar 2023 06:03:00 -0400
+	id 1pfeZL-0007TN-UU; Fri, 24 Mar 2023 06:22:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pfeGA-0005ax-D8
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 06:02:58 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131])
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pfeZF-0007SY-GU; Fri, 24 Mar 2023 06:22:41 -0400
+Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pfeG3-0004x6-SE
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 06:02:58 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-5447d217bc6so23904827b3.7
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 03:02:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pfeZ4-0007za-NY; Fri, 24 Mar 2023 06:22:41 -0400
+Received: by mail-vs1-xe2c.google.com with SMTP id dc30so632283vsb.3;
+ Fri, 24 Mar 2023 03:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679652169;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n1R+aEVDBOJIlT2PKegpb/El2YxGuu/QJmhVuq/d/KI=;
- b=A232QgSpaVpGvT6bzpssEj+Zzvj/Ppv0zhux13tfaqasWzCccUULldCnBBAizFGgEo
- y8W0YUdTnZFYFD4ycwlsVsI/acPNgiQBD/09V9h/g1YOxJ+hn+v5H3yX+uVR6mE3Mwrk
- OSTY7QhKqCuvcTB32tgiy2wTgYoTsUdvQEXlF8nbMaXX4cSkDxdLFz/Ucx8WHoKs/n+F
- wJhEQ/FEjJJnfxXhZ0uMtsMzS+GKXTYIhttZENb9DglmvxHSktpyTJQ33HEE43fC2clg
- Nx49V6pcehn51GQhPlpIIjXAY/uJ5lTfJ9t9r+I8g6fRPtQk62sCHUsTPW44Rl5oO0qS
- ZgRA==
+ d=gmail.com; s=20210112; t=1679653344;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=N6Vxj015pqt1W0XnDOUHqu9GT8QgN1kOUZXj43n+nL4=;
+ b=IYRVfq1QtOBmfVp/Ykn8Uvw9D04Y/lIK7Q9yL2NmxaPtExN2ArK7IkMxDa3IrZwbGQ
+ NPZuPMQjpDx0e7e2evSyO/F5ikWHJTH0SMkDQXkZda8ciay66DZdECZ45r2wgBK1UEKw
+ 8A+CQL/Rc5usZ+zVSZgBBnKaKkeA7QzhkP5j9xrFjizIu7Mn6H1azuAISp+is//BEDEd
+ m8w2QJrjoXmNkHEcYS/lf0e8Q9D1Vmu9uwTNcFrGI6FYSIImNC6a+YBz660jc6cnpuGB
+ 3kjkIK6T9ZG2VaT7KU4l2XQHtxLV+gdjMD+V9jAHp78BXKquP8gA5PuEPLify494CffM
+ BoRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679652169;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=n1R+aEVDBOJIlT2PKegpb/El2YxGuu/QJmhVuq/d/KI=;
- b=GrlTYHnK065lJJceLxF85M6Y99xwJyvO6BLiKhyQ6gIk+Lco7gOURydyKYtRpQArWw
- qetV1DKnjgRb7P+e98fHXdjpznBp7NskwRE07fjk0+f/JLDXhxto9nZIpVCnMbEzGQyy
- Hnc9xfrI/zE9eJ/8hRJbaVdtYhWium/+Os2zIN/jd/PpFxEpEnaiS8OWakqgITBp6wa1
- gm/PUkEfgnzJeGFEUAal2L+Fc5TZJWVl8XumF9PaCn+O250mu0W5Klc2z1GDdUjstG3C
- fNIhk6YzRg6F0GlsQiSg4ZHf1pN8oHzOI+7uN0t/yCKNZfLC1Itf2Mr5H3XwS/G3mB93
- E5KQ==
-X-Gm-Message-State: AAQBX9dIZBESp7Qpxc5WM7mQcs7Xmur6PZNvEOlNkj5DIHYoXzpTlNuW
- VveoKIaB5bfaTYgWt8I/lZ2Yg6Us9jsFgrMt7uF9Hw==
-X-Google-Smtp-Source: AKy350Y0eTw+pJPsfHyZVpZ/BFf2Gr+pckqbA497JXHXVanWK5neK4/o07ZoqP/BAWgD0QLTDm2TWQ==
-X-Received: by 2002:a17:902:ec91:b0:1a1:dd3a:7509 with SMTP id
- x17-20020a170902ec9100b001a1dd3a7509mr2368911plg.48.1679651704969; 
- Fri, 24 Mar 2023 02:55:04 -0700 (PDT)
-Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- h5-20020a170902748500b001963bc7bdb8sm13785614pll.274.2023.03.24.02.55.03
+ d=1e100.net; s=20210112; t=1679653344;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=N6Vxj015pqt1W0XnDOUHqu9GT8QgN1kOUZXj43n+nL4=;
+ b=0tbHO/CKpwMFDUwb6NACUJMRFWuhGBMNqqHcS6ZveGbIFlOeh5GgVnn7bTpIDLfenI
+ Ddb5mCVKAsMRSZfY31W6RTWXAyALWUET+LyXtH0KJAFqehVMCfXu79fc2PQgTXQQSohz
+ 0qVR0yNeHlhKhtXT9SB+bURHSwe3evHZ8jOts9bq6WQJXWysIGahHjpohv2MN8nzkuG5
+ H+eXa0zXzlLF1PosdwHKsGjTR8RM9ZOL58x4aScYBCTffwdlvZEQ5ZTa8jlfWgZozSf7
+ 4HVMRUrQRnFu1D0X/R5qBIsDWOhJVrsUjCsX1ZguWbCxRyX6TxhLmNwbheFK5A8Z+WlA
+ 5boQ==
+X-Gm-Message-State: AAQBX9eoBl/ByoNzYpJVMGxYNtPoQamntraR60Mxe6PgMhpOKYTD6eVJ
+ FPpEQMtVwL725BoW1tIwhd/seBnDDA5izw==
+X-Google-Smtp-Source: AKy350YVnV5iibdqwKaOIdDBk44LbQ0nGJPEal8htAtmGVh3WGiP7GDTSfJcPSuPsuOnQfkztwY10A==
+X-Received: by 2002:aa7:9f8f:0:b0:628:9b4:a6a2 with SMTP id
+ z15-20020aa79f8f000000b0062809b4a6a2mr2370516pfr.15.1679652845009; 
+ Fri, 24 Mar 2023 03:14:05 -0700 (PDT)
+Received: from fedlinux.. ([106.84.130.185]) by smtp.gmail.com with ESMTPSA id
+ h24-20020a63df58000000b0050f85ef50d1sm8282421pgj.26.2023.03.24.03.14.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Mar 2023 02:55:04 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Jason Wang <jasowang@redhat.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH for 8.0 3/4] hw/net/net_tx_pkt: Ignore ECN bit
-Date: Fri, 24 Mar 2023 18:54:33 +0900
-Message-Id: <20230324095434.44973-4-akihiko.odaki@daynix.com>
+ Fri, 24 Mar 2023 03:14:04 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>, hare@suse.de,
+ Cornelia Huck <cohuck@redhat.com>, dmitry.fomichev@wdc.com,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ damien.lemoal@opensource.wdc.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, kvm@vger.kernel.org,
+ Eric Blake <eblake@redhat.com>, Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v9 0/5] Add zoned storage emulation to virtio-blk driver
+Date: Fri, 24 Mar 2023 18:13:52 +0800
+Message-Id: <20230324101357.2717-1-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230324095434.44973-1-akihiko.odaki@daynix.com>
-References: <20230324095434.44973-1-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1131;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
+ envelope-from=faithilikerun@gmail.com; helo=mail-vs1-xe2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,44 +92,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No segmentation should be performed if gso type is
-VIRTIO_NET_HDR_GSO_NONE even if ECN bit is set.
+This patch adds zoned storage emulation to the virtio-blk driver.
 
-Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1544
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- hw/net/net_tx_pkt.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+The patch implements the virtio-blk ZBD support standardization that is
+recently accepted by virtio-spec. The link to related commit is at
 
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index cb606cc84b..efe80b1a80 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -796,11 +796,13 @@ bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
- {
-     assert(pkt);
- 
-+    uint8_t gso_type = pkt->virt_hdr.gso_type & ~VIRTIO_NET_HDR_GSO_ECN;
-+
-     /*
-      * Since underlying infrastructure does not support IP datagrams longer
-      * than 64K we should drop such packets and don't even try to send
-      */
--    if (VIRTIO_NET_HDR_GSO_NONE != pkt->virt_hdr.gso_type) {
-+    if (VIRTIO_NET_HDR_GSO_NONE != gso_type) {
-         if (pkt->payload_len >
-             ETH_MAX_IP_DGRAM_LEN -
-             pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len) {
-@@ -808,7 +810,7 @@ bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
-         }
-     }
- 
--    if (offload || pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
-+    if (offload || gso_type == VIRTIO_NET_HDR_GSO_NONE) {
-         if (!offload && pkt->virt_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
-             net_tx_pkt_do_sw_csum(pkt, &pkt->vec[NET_TX_PKT_L2HDR_FRAG],
-                                   pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - 1,
+https://github.com/oasis-tcs/virtio-spec/commit/b4e8efa0fa6c8d844328090ad15db65af8d7d981
+
+The Linux zoned device code that implemented by Dmitry Fomichev has been
+released at the latest Linux version v6.3-rc1.
+
+Aside: adding zoned=on alike options to virtio-blk device will be
+considered in following-up plan.
+
+v9:
+- address review comments
+  * add docs for zoned emulation use case [Matias]
+  * add the zoned feature bit to qmp monitor [Matias]
+  * add the version number for newly added configs of accounting [Markus]
+
+v8:
+- address Stefan's review comments
+  * rm aio_context_acquire/release in handle_req
+  * rename function return type
+  * rename BLOCK_ACCT_APPEND to BLOCK_ACCT_ZONE_APPEND for clarity
+
+v7:
+- update headers to v6.3-rc1
+
+v6:
+- address Stefan's review comments
+  * add accounting for zone append operation
+  * fix in_iov usage in handle_request, error handling and typos
+
+v5:
+- address Stefan's review comments
+  * restore the way writing zone append result to buffer
+  * fix error checking case and other errands
+
+v4:
+- change the way writing zone append request result to buffer
+- change zone state, zone type value of virtio_blk_zone_descriptor
+- add trace events for new zone APIs
+
+v3:
+- use qemuio_from_buffer to write status bit [Stefan]
+- avoid using req->elem directly [Stefan]
+- fix error checkings and memory leak [Stefan]
+
+v2:
+- change units of emulated zone op coresponding to block layer APIs
+- modify error checking cases [Stefan, Damien]
+
+v1:
+- add zoned storage emulation
+
+Sam Li (5):
+  include: update virtio_blk headers to v6.3-rc1
+  virtio-blk: add zoned storage emulation for zoned devices
+  block: add accounting for zone append operation
+  virtio-blk: add some trace events for zoned emulation
+  docs/zoned-storage:add zoned emulation use case
+
+ block/qapi-sysemu.c                          |  11 +
+ block/qapi.c                                 |  18 +
+ docs/devel/zoned-storage.rst                 |  17 +
+ hw/block/trace-events                        |   7 +
+ hw/block/virtio-blk-common.c                 |   2 +
+ hw/block/virtio-blk.c                        | 405 +++++++++++++++++++
+ hw/virtio/virtio-qmp.c                       |   2 +
+ include/block/accounting.h                   |   1 +
+ include/standard-headers/drm/drm_fourcc.h    |  12 +
+ include/standard-headers/linux/ethtool.h     |  48 ++-
+ include/standard-headers/linux/fuse.h        |  45 ++-
+ include/standard-headers/linux/pci_regs.h    |   1 +
+ include/standard-headers/linux/vhost_types.h |   2 +
+ include/standard-headers/linux/virtio_blk.h  | 105 +++++
+ linux-headers/asm-arm64/kvm.h                |   1 +
+ linux-headers/asm-x86/kvm.h                  |  34 +-
+ linux-headers/linux/kvm.h                    |   9 +
+ linux-headers/linux/vfio.h                   |  15 +-
+ linux-headers/linux/vhost.h                  |   8 +
+ qapi/block-core.json                         |  68 +++-
+ qapi/block.json                              |   4 +
+ 21 files changed, 794 insertions(+), 21 deletions(-)
+
 -- 
 2.39.2
 
