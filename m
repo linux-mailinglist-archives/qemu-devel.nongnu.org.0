@@ -1,86 +1,82 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999BB6C7FCF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 15:24:24 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id A72816C8075
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 15:55:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfdO9-0002bE-5g; Fri, 24 Mar 2023 05:07:09 -0400
+	id 1pfe9k-0005I6-9F; Fri, 24 Mar 2023 05:56:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pfdO7-0002ay-38; Fri, 24 Mar 2023 05:07:07 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pfe9h-0005Hj-LN
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 05:56:17 -0400
+Received: from mail-pj1-f53.google.com ([209.85.216.53])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pfdNw-0000Ca-PK; Fri, 24 Mar 2023 05:07:06 -0400
-Received: by mail-pl1-x634.google.com with SMTP id kq3so1226311plb.13;
- Fri, 24 Mar 2023 02:06:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pfe9H-0003RN-QW
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 05:56:17 -0400
+Received: by mail-pj1-f53.google.com with SMTP id a16so1059302pjs.4
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 02:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679648783;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679651711;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=n+CbpVSwBJxpxcUkdWiFrKKRvpiWwCBIOF3ETh/P8ow=;
- b=I4/ueIsbMc/1JXz1gU4xwKu+EidXSlFTI6jgE9c7E8bCMr3oWKYAZqJDZwCj0hEvIb
- Zn0el8uYZa2tBeCi5yEWkMnnuFS5DidLVQuLvI/Vwqdk2b4Y5JDDk7vWxylJRFeJNQT3
- izcpNOl4V4LGSi6Pg8N9YNXcKv8wlxSsrhBJ5h+61z0Fp2DWU7JrZYIDSRM47qKCD8Mp
- 8k2jVmvOcf/x8oFBU5t4w/UtFpXTZQ+JPFco88ggx9ug0H9mbtk2ojQ5hFvofm+p9ey5
- nmAyTW6PCY9t2BPXvYNL+t9rnEpTAcBJZ20LcBBc3wlXkrhq46fbIZOKighF3p4dPeaZ
- Vs3w==
+ bh=nPrC4YQ9uSCz+WV5O3PwaouONcUDnlpw4YEX3MYIyy8=;
+ b=Tnq6U9ZLZUtGwWK6O7g9blXcFscXaSV/deNUfbj/yCu/eb145rQ1qiNwg8qLuRVWEB
+ zMPsyLPP5GagHScO2Qj8AO7rRhy6822dx/PxTeN3ee/x1bYjpA0UqgTB1Osbxdmv3xdY
+ 6rSCgDA5fyltEPNp0xZ1ZPT1I/yut1b+Wez6zvP61XRcpZDIZi8DyNFCC/WtPl4b4V3h
+ rDKZZxbV7Oly8v9p3MJbjLp/jJWvPaq76Boyrr/ipH3AxpL9HX/wHu+uevG5P6MhcqCB
+ IOtEGVod1r/1BbMvm6N1rq1qIvMaIeIEohn60WfIOjVre0h+16LYUPenKycQvfs8EBKK
+ YjVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679648783;
+ d=1e100.net; s=20210112; t=1679651711;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=n+CbpVSwBJxpxcUkdWiFrKKRvpiWwCBIOF3ETh/P8ow=;
- b=NfpVN/O6AuzZWoyAIEAS6fxxwvpcZCeQkDbF0zG4zr/WGm2/URjm5NaPAwGzmTPsvv
- g4FlLFKBnxhJa1jsyLoJEmXS8xljRa63199TfduVbpSj+hqOKVDouApxnBeAUvVL24Me
- fM2FNW20Nsyc5U58ko0derTxRpoSBP0d04FJwt9dOFlywuWC4OglnZOAviJlqx0wLZCa
- /exlk83fzSpR0rqz5oIke+43GILTKvR7GDf7LagbiQtNAmCst8A/Jimabmzo8w/kPyWU
- gMPKe+RdsbnUU72xE1Nu86gpx7EPcd7QUwNiY9BXvvBBR1IX+D/D91yMEl4qlnuWBYqH
- fJeg==
-X-Gm-Message-State: AAQBX9d/HIwtLwO8LiOCs5xldQhuTrXyuHJz3tRej31SU2tr5urHjOOG
- QA4ACZkxaT8l7esARjnAc/uwAvNzDf3ZEXBF
-X-Google-Smtp-Source: AKy350bdlX5tXGQxl3vkPNLLVtAsAkiu2dOoed7a0zRXNpgMWydj3ug9XM0GM1g3qgDpQTsDR3kIJQ==
-X-Received: by 2002:a17:903:7cf:b0:1a1:c792:8e73 with SMTP id
- ko15-20020a17090307cf00b001a1c7928e73mr1605936plb.60.1679648782284; 
- Fri, 24 Mar 2023 02:06:22 -0700 (PDT)
-Received: from fedlinux.. ([106.84.130.185]) by smtp.gmail.com with ESMTPSA id
- u4-20020a170902b28400b001a06b33923bsm13722350plr.164.2023.03.24.02.06.16
+ bh=nPrC4YQ9uSCz+WV5O3PwaouONcUDnlpw4YEX3MYIyy8=;
+ b=jrVLomvz0YxYfJllHeaTahPgjEJHSD1jk4OqBgKOSPOzxOrC9czcoUT7eiV+bPjYRR
+ KONqWuVsJzkmtmQ+BkIuK9niirBNBTi576RNen7MpciE5D0Kpq08gtEx+GGsJIE/9r8D
+ rlXralxyCb7MzPSbh+xoYDeSMckEznS34nEhyfdrwvkUWYpth6f2yJnq6+drkkpbR+ma
+ TnNLF/S/cGavmGk6feU2y96j4JZlit3UZaWGVZp4k7q6i+hy7TnBPjkOp8RmHSqqg7EF
+ XE+jrjw00e5apCMfLewl1bForM68Sf4Cs/nUiDK3GZhcJYkds+iCCCeJt4IvBmjFVX5R
+ q2Nw==
+X-Gm-Message-State: AAQBX9dz5shMpBF0w33Pb5yW5lFbcMOlLoteCvHIoHJnHGzhe2V1NjUe
+ 2WCTRCghWVRI4W/jMrnKpMP6GI66BjFKpCriraLgVg==
+X-Google-Smtp-Source: AKy350YuuiC6/3W4vhLDAqwgDlDbfsfl17Hv2KFEKXieZetxy/rGqz+MekEij/uqugtTJRwRcT7P6w==
+X-Received: by 2002:a17:902:e545:b0:1a1:bede:5e4a with SMTP id
+ n5-20020a170902e54500b001a1bede5e4amr2749243plf.49.1679651707057; 
+ Fri, 24 Mar 2023 02:55:07 -0700 (PDT)
+Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ h5-20020a170902748500b001963bc7bdb8sm13785614pll.274.2023.03.24.02.55.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Mar 2023 02:06:21 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, hare@suse.de,
- damien.lemoal@opensource.wdc.com, dmitry.fomichev@wdc.com,
- qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v18 1/8] include: add zoned device structs
-Date: Fri, 24 Mar 2023 17:05:58 +0800
-Message-Id: <20230324090605.28361-2-faithilikerun@gmail.com>
+ Fri, 24 Mar 2023 02:55:06 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Jason Wang <jasowang@redhat.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH for 8.0 4/4] hw/net/net_tx_pkt: Align l3_hdr
+Date: Fri, 24 Mar 2023 18:54:34 +0900
+Message-Id: <20230324095434.44973-5-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230324090605.28361-1-faithilikerun@gmail.com>
-References: <20230324090605.28361-1-faithilikerun@gmail.com>
+In-Reply-To: <20230324095434.44973-1-akihiko.odaki@daynix.com>
+References: <20230324095434.44973-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=209.85.216.53;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-f53.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,69 +92,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+Align the l3_hdr member of NetTxPkt by defining it as a union of
+ip_header, ip6_header, and an array of octets.
 
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index b5122ef8ab..1576fcf2ed 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -75,6 +75,49 @@ typedef struct BlockDriver BlockDriver;
- typedef struct BdrvChild BdrvChild;
- typedef struct BdrvChildClass BdrvChildClass;
+Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1544
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ hw/net/net_tx_pkt.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
+
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index efe80b1a80..8dc8568ba2 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -43,7 +43,11 @@ struct NetTxPkt {
+     struct iovec *vec;
  
-+typedef enum BlockZoneOp {
-+    BLK_ZO_OPEN,
-+    BLK_ZO_CLOSE,
-+    BLK_ZO_FINISH,
-+    BLK_ZO_RESET,
-+} BlockZoneOp;
-+
-+typedef enum BlockZoneModel {
-+    BLK_Z_NONE = 0x0, /* Regular block device */
-+    BLK_Z_HM = 0x1, /* Host-managed zoned block device */
-+    BLK_Z_HA = 0x2, /* Host-aware zoned block device */
-+} BlockZoneModel;
-+
-+typedef enum BlockZoneState {
-+    BLK_ZS_NOT_WP = 0x0,
-+    BLK_ZS_EMPTY = 0x1,
-+    BLK_ZS_IOPEN = 0x2,
-+    BLK_ZS_EOPEN = 0x3,
-+    BLK_ZS_CLOSED = 0x4,
-+    BLK_ZS_RDONLY = 0xD,
-+    BLK_ZS_FULL = 0xE,
-+    BLK_ZS_OFFLINE = 0xF,
-+} BlockZoneState;
-+
-+typedef enum BlockZoneType {
-+    BLK_ZT_CONV = 0x1, /* Conventional random writes supported */
-+    BLK_ZT_SWR = 0x2, /* Sequential writes required */
-+    BLK_ZT_SWP = 0x3, /* Sequential writes preferred */
-+} BlockZoneType;
-+
-+/*
-+ * Zone descriptor data structure.
-+ * Provides information on a zone with all position and size values in bytes.
-+ */
-+typedef struct BlockZoneDescriptor {
-+    uint64_t start;
-+    uint64_t length;
-+    uint64_t cap;
-+    uint64_t wp;
-+    BlockZoneType type;
-+    BlockZoneState state;
-+} BlockZoneDescriptor;
-+
- typedef struct BlockDriverInfo {
-     /* in bytes, 0 if irrelevant */
-     int cluster_size;
+     uint8_t l2_hdr[ETH_MAX_L2_HDR_LEN];
+-    uint8_t l3_hdr[ETH_MAX_IP_DGRAM_LEN];
++    union {
++        struct ip_header ip;
++        struct ip6_header ip6;
++        uint8_t octets[ETH_MAX_IP_DGRAM_LEN];
++    } l3_hdr;
+ 
+     uint32_t payload_len;
+ 
+@@ -89,16 +93,14 @@ void net_tx_pkt_update_ip_hdr_checksum(struct NetTxPkt *pkt)
+ {
+     uint16_t csum;
+     assert(pkt);
+-    struct ip_header *ip_hdr;
+-    ip_hdr = pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base;
+ 
+-    ip_hdr->ip_len = cpu_to_be16(pkt->payload_len +
++    pkt->l3_hdr.ip.ip_len = cpu_to_be16(pkt->payload_len +
+         pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len);
+ 
+-    ip_hdr->ip_sum = 0;
+-    csum = net_raw_checksum((uint8_t *)ip_hdr,
++    pkt->l3_hdr.ip.ip_sum = 0;
++    csum = net_raw_checksum(pkt->l3_hdr.octets,
+         pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len);
+-    ip_hdr->ip_sum = cpu_to_be16(csum);
++    pkt->l3_hdr.ip.ip_sum = cpu_to_be16(csum);
+ }
+ 
+ void net_tx_pkt_update_ip_checksums(struct NetTxPkt *pkt)
+@@ -832,15 +834,14 @@ void net_tx_pkt_fix_ip6_payload_len(struct NetTxPkt *pkt)
+ {
+     struct iovec *l2 = &pkt->vec[NET_TX_PKT_L2HDR_FRAG];
+     if (eth_get_l3_proto(l2, 1, l2->iov_len) == ETH_P_IPV6) {
+-        struct ip6_header *ip6 = (struct ip6_header *) pkt->l3_hdr;
+         /*
+          * TODO: if qemu would support >64K packets - add jumbo option check
+          * something like that:
+          * 'if (ip6->ip6_plen == 0 && !has_jumbo_option(ip6)) {'
+          */
+-        if (ip6->ip6_plen == 0) {
++        if (pkt->l3_hdr.ip6.ip6_plen == 0) {
+             if (pkt->payload_len <= ETH_MAX_IP_DGRAM_LEN) {
+-                ip6->ip6_plen = htons(pkt->payload_len);
++                pkt->l3_hdr.ip6.ip6_plen = htons(pkt->payload_len);
+             }
+             /*
+              * TODO: if qemu would support >64K packets
 -- 
 2.39.2
 
