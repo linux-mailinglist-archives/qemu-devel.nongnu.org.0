@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5916C820C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9F56C81D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:53:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfi0L-0003W6-8s; Fri, 24 Mar 2023 10:02:53 -0400
+	id 1pfiAf-0004LW-0Y; Fri, 24 Mar 2023 10:13:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pfi0H-0003Vu-J7
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:02:49 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pfi04-0001n0-VN
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:02:49 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PjkP96639z6J7DP;
- Fri, 24 Mar 2023 22:00:13 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 24 Mar
- 2023 14:01:35 +0000
-Date: Fri, 24 Mar 2023 14:01:34 +0000
-To: Fan Ni <fan.ni@samsung.com>
-CC: Michael Tsirkin <mst@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>, "Dave
- Jiang" <dave.jiang@intel.com>, "linux-cxl@vger.kernel.org"
- <linux-cxl@vger.kernel.org>, Adam Manzanares <a.manzanares@samsung.com>,
- "dave@stgolabs.net" <dave@stgolabs.net>
-Subject: Re: [RESEND PATCH 2/2] hw/cxl: Fix incorrect reset of commit and
- associated clearing of committed.
-Message-ID: <20230324140134.00006952@Huawei.com>
-In-Reply-To: <20230322162120.GA1641485@bgt-140510-bm03>
-References: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
- <CGME20230322103301uscas1p1fec17ee01b4fac9aaa8669f9c5d87e6a@uscas1p1.samsung.com>
- <20230322103300.4278-1-Jonathan.Cameron@huawei.com>
- <20230322162120.GA1641485@bgt-140510-bm03>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pfiAb-0004LI-AN
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:13:29 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pfi8o-00045W-6N
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:13:28 -0400
+Received: by mail-wr1-x432.google.com with SMTP id j24so1965582wrd.0
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 07:11:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679667085;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hxg9+0GSg3lcz+vaEm2BVpTX3h68RjmNqjZBXqCOm2s=;
+ b=LAihzbjUnQp4mrIPDzcAMShGaO9/pypg7nCpYBGI7TzQW8QoGVXQGI9GL/BJmB5nOV
+ J9P6ujXOuFev2vr4naSuk7PAaMHn2IFLO4lxYBa7XmnygDnI/7Hq4t4KqdJIV6jlklHN
+ G6hMqJEWGuTK5LpMtaEsa5Twue6o8Hn8m6xigssPXTM9EiKvT5bOZuHRVbEBuS1s93Km
+ A2bo9AUrw3w7RRnxZcFokowtWdYJARdmKKPLbNooBG9g5pKjtoswwSPr4WXm0pZpqk6e
+ 2eox+fzEojVYMEc7h3VVXHcw9UDojQPGv7LRBKZkzk3HKKnxQjYZ7CCT2phbyNv3eUoB
+ 6V2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679667085;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Hxg9+0GSg3lcz+vaEm2BVpTX3h68RjmNqjZBXqCOm2s=;
+ b=JBmNst7j4DVARn1aXf4xCueXOhNAEU2wybShkazQn/bFW0wxvAEdXVWPuEmOLMC6py
+ 8shdyllBUYjZsSb6+aFfFtsNU6xTUEBX6l+mzRznuF0buSAr/bp7zICJyIOZ4CBIgwvb
+ s0fDHtbsfAqZrk4pGcU8XINrPiM5snhkgSR5cb80/R+dEcYaNc0h34GJEkNCa5DwL3Xo
+ HnVCr9iZbd1i3NgZsj3M/P/MVinxeper+ZMOk3ZgOEA/kPvk1q345CH0hyc01oug59rv
+ NZbgn/YDojQguNygl4XZ+RCToFNkPaN+LRfltuv4yyVJv3kCsY3vkjfPS+6soF8wRlX8
+ A98A==
+X-Gm-Message-State: AAQBX9eW0zSGP1dBKvU9zhj8ydjhw2d7H6/cHDhcFHUAucaA2sKX/tCJ
+ ISM0YpQ9PgxoU/YDkjmw0csHqIpI9ATr8ei2cMQ=
+X-Google-Smtp-Source: AKy350YiR5JvtYbZDwHGnYfELdfb/bZy2kwbaBAnS1oNmXwNu11hHVdpEeJKLl9zVMVc6GH0vi7PYw==
+X-Received: by 2002:adf:efc7:0:b0:2c5:a38f:ca31 with SMTP id
+ i7-20020adfefc7000000b002c5a38fca31mr2168924wrp.7.1679667085126; 
+ Fri, 24 Mar 2023 07:11:25 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ e11-20020a5d65cb000000b002c55de1c72bsm18469057wrw.62.2023.03.24.07.11.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Mar 2023 07:11:24 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 468621FFB7;
+ Fri, 24 Mar 2023 14:11:24 +0000 (GMT)
+References: <20230214160738.88614-1-quintela@redhat.com>
+ <ZByhueDO9J9MLuSJ@redhat.com>
+User-agent: mu4e 1.9.22; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] Change the default for Mixed declarations.
+Date: Fri, 24 Mar 2023 14:04:45 +0000
+In-reply-to: <ZByhueDO9J9MLuSJ@redhat.com>
+Message-ID: <87cz4y44tv.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,148 +92,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Mar 2023 16:21:26 +0000
-Fan Ni <fan.ni@samsung.com> wrote:
 
-> On Wed, Mar 22, 2023 at 10:33:00AM +0000, Jonathan Cameron wrote:
-> > The hardware clearing the commit bit is not spec compliant.
-> > Clearing of committed bit when commit is cleared is not specifically
-> > stated in the CXL spec, but is the expected (and simplest) permitted
-> > behaviour so use that for QEMU emulation.
-> > 
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---  
-> 
-> Reviewed-by: Fan Ni <fan.ni@samsung.com>
-> Tested-by: Fan Ni <fan.ni@samsung.com>
-> 
-> 
-> The patch passed the tests as shown in previous mailing list discussion:
-> https://lore.kernel.org/linux-cxl/640276695c8e8_5b27929473@dwillia2-xfh.jf.intel.com.notmuch/T/#m0afcfc21d68c84c07f2e9e3194f587c2ffa82d6d
-> The following two topologies are tested:
-> 1. one HB with one root port and a direct attached memdev.
-> 2. one HB with 2 root ports and a memdev is directly attached to a CXL switch
-> which is attached to one root port.
-> 
-> One minor thing below.
-> 
-> >  hw/cxl/cxl-component-utils.c |  6 +++++-
-> >  hw/mem/cxl_type3.c           | 21 ++++++++++++++++++++-
-> >  2 files changed, 25 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-> > index a3e6cf75cf..378f1082ce 100644
-> > --- a/hw/cxl/cxl-component-utils.c
-> > +++ b/hw/cxl/cxl-component-utils.c
-> > @@ -38,19 +38,23 @@ static void dumb_hdm_handler(CXLComponentState *cxl_cstate, hwaddr offset,
-> >      ComponentRegisters *cregs = &cxl_cstate->crb;
-> >      uint32_t *cache_mem = cregs->cache_mem_registers;
-> >      bool should_commit = false;
-> > +    bool should_uncommit = false;
-> >  
-> >      switch (offset) {
-> >      case A_CXL_HDM_DECODER0_CTRL:
-> >          should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
-> > +        should_uncommit = !should_commit;  
-> This will cause committed always reset if COMMIT is 0, not only
-> 1->0. No issue for now, just point out to make sure it is what we
-> want.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-True.  However I think it's harmless.
+> On Tue, Feb 14, 2023 at 05:07:38PM +0100, Juan Quintela wrote:
+>> Hi
+>>=20
+>> I want to enter a discussion about changing the default of the style
+>> guide.
+>>=20
+>> There are several reasons for that:
+>> - they exist since C99 (i.e. all supported compilers support them)
+>> - they eliminate the posibility of an unitialized variable.
+>
+> Actually they don't do that reliably. In fact, when combined
+> with usage of 'goto', they introduce uninitialized variables,
+> despite the declaration having an initialization present, and
+> thus actively mislead reviewers into thinking their code is
+> safe.
+>
+<snip>
+>
+>> - (at least for me), declaring the index inside the for make clear
+>>   that index is not used outside the for.
+>
+> I'll admit that declaring loop indexes in the for() is a nice
+> bit, but I'm not a fan in general of mixing the declarations
+> in the middle of code for projects that use the 'goto cleanup'
+> pattern.
 
-We will want to be a little careful if uncommitting gains other
-functionality in future though.
+I think we could just finesse the rules to allow declaring within the
+for() as allowable as start of block. I think more freedom to declare on
+first use is only warranted when the compiler will stop you foot gunning
+yourself (as it does in Rust).
 
-Note that the same potential corner existing on the commit side of things.
-Trying to commit a decoder that is already committed will call the code
-for commit (also currently harmless)
+>> - Current documentation already declares that they are allowed in some
+>>   cases.
+>> - Lots of places already use them.
+>>=20
+>> We can change the text to whatever you want, just wondering if it is
+>> valib to change the standard.
+>>=20
+>> Doing a trivial grep through my local qemu messages (around 100k) it
+>> shows that some people are complaining that they are not allowed, and
+>> other saying that they are used all over the place.
+>
+> IMHO the status quo is bad because it is actively dangerous when
+> combined with goto and we aren't using any compiler warnings to
+> help us.
+>
+> Either we allow it, but use -Wjump-misses-init to prevent mixing
+> delayed declarations with gotos, and just avoid this when it triggers
+> a false positive.
 
-I'm not particularly keen to introduce additional complexity to separate
-out these cases until / if we ever need it.
+Has anyone looked to see how much this triggers on the code base as is?
 
-Jonathan
+> Or we forbid it, rewrite current cases that use it, and then add
+> -Wdeclaration-after-statement to enforce it.
+>
+>
+> IMHO if we are concerned about uninitialized variables then I think
+> a better approach is to add -ftrivial-auto-var-init=3Dzero, which will
+> make the compiler initialize all variables to 0 if they lack an
+> explicit initializer.
 
-> >          break;
-> >      default:
-> >          break;
-> >      }
-> >  
-> >      if (should_commit) {
-> > -        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
-> >          value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
-> >          value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
-> > +    } else if (should_uncommit) {
-> > +        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
-> > +        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 0);
-> >      }
-> >      stl_le_p((uint8_t *)cache_mem + offset, value);
-> >  }
-> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> > index 846089ccda..9598d584ac 100644
-> > --- a/hw/mem/cxl_type3.c
-> > +++ b/hw/mem/cxl_type3.c
-> > @@ -320,13 +320,28 @@ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
-> >  
-> >      ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
-> >      /* TODO: Sanity checks that the decoder is possible */
-> > -    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
-> >      ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
-> >      ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
-> >  
-> >      stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
-> >  }
-> >  
-> > +static void hdm_decoder_uncommit(CXLType3Dev *ct3d, int which)
-> > +{
-> > +    ComponentRegisters *cregs = &ct3d->cxl_cstate.crb;
-> > +    uint32_t *cache_mem = cregs->cache_mem_registers;
-> > +    uint32_t ctrl;
-> > +
-> > +    assert(which == 0);
-> > +
-> > +    ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
-> > +
-> > +    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
-> > +    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 0);
-> > +
-> > +    stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
-> > +}
-> > +
-> >  static int ct3d_qmp_uncor_err_to_cxl(CxlUncorErrorType qmp_err)
-> >  {
-> >      switch (qmp_err) {
-> > @@ -395,6 +410,7 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
-> >      CXLType3Dev *ct3d = container_of(cxl_cstate, CXLType3Dev, cxl_cstate);
-> >      uint32_t *cache_mem = cregs->cache_mem_registers;
-> >      bool should_commit = false;
-> > +    bool should_uncommit = false;
-> >      int which_hdm = -1;
-> >  
-> >      assert(size == 4);
-> > @@ -403,6 +419,7 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
-> >      switch (offset) {
-> >      case A_CXL_HDM_DECODER0_CTRL:
-> >          should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
-> > +        should_uncommit = !should_commit;
-> >          which_hdm = 0;
-> >          break;
-> >      case A_CXL_RAS_UNC_ERR_STATUS:
-> > @@ -489,6 +506,8 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
-> >      stl_le_p((uint8_t *)cache_mem + offset, value);
-> >      if (should_commit) {
-> >          hdm_decoder_commit(ct3d, which_hdm);
-> > +    } else if (should_uncommit) {
-> > +        hdm_decoder_uncommit(ct3d, which_hdm);
-> >      }
-> >  }
-> >  
-> > -- 
-> > 2.37.2
-> >  
+Would that make us less likely to find the occasional bug that does fire
+when missing inititizers could be random?
 
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
