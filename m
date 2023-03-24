@@ -1,69 +1,69 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D42C6C817E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:40:13 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id C51296C81FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:57:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfhPC-0000K6-CN; Fri, 24 Mar 2023 09:24:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10])
+	id 1pfiiN-0001UW-20; Fri, 24 Mar 2023 10:48:23 -0400
+Received: from [2001:470:142:3::10] (helo=eggs.gnu.org)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfhP7-0000J4-64; Fri, 24 Mar 2023 09:24:25 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfhOn-0000bj-KH; Fri, 24 Mar 2023 09:24:24 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.150])
- by APP-05 (Coremail) with SMTP id zQCowAAH+BRPpB1kFQ8cCQ--.4788S2;
- Fri, 24 Mar 2023 21:23:28 +0800 (CST)
-Message-ID: <d88528a0-f83d-18fb-d06b-369154f46a5e@iscas.ac.cn>
-Date: Fri, 24 Mar 2023 21:23:26 +0800
+ (Exim 4.90_1) (envelope-from
+ <BATV+2935738478090552ef3f+7152+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pfiiJ-0001RK-Ly
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:48:19 -0400
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+2935738478090552ef3f+7152+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pfiiC-0003qm-Vm
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:48:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=USVK8HgAYFP5BGkuRmGSQRBJi5cDaAgnImnLpBjF/O8=; b=WfT4wF7T3QcesIuJ6MExLOm3Nn
+ EwhUTn8kT7i5xtGPCb0Gd1dGByc+tIgJu8ZvK2YVQMzdPd/bdsGLbr2civ/f/3Lo/jXg6qO1hhks1
+ l05bvhI1CBwEYQrPBRb/Wxi4evTwws8fLjBdTRY5vGZJNViiTM+qlOGl/eR/E97Shxi9HBogTALSr
+ pRDMZS7kXJngSjnkbnIRfTWjCdAzXc4mb72Z0Ax+J7zBl1BEQkqLdUN9cOUReD4x7xuUEDYiwpuZy
+ 4M6RHd4ZF6U9h4B6LdT3syeENMDF5lb7ghTTdeurLvXVe57TwgqUgBOEZJlVBZkCWpxdQk3yx1eQb
+ TGmCPJvw==;
+Received: from [2001:8b0:10b:5:3a94:98c5:5567:7e7]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pfhRJ-004wGs-3J; Fri, 24 Mar 2023 13:26:41 +0000
+Message-ID: <3e6fb10defaac2ac0e6445e61631b6b612672ddd.camel@infradead.org>
+Subject: Re: Adding default config options to the tuxrun baseline kernels
+ and enabling sshd
+From: David Woodhouse <dwmw2@infradead.org>
+To: Remi Duraffort <remi.duraffort@linaro.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>
+Cc: Anders Roxell <anders.roxell@linaro.org>, qemu-devel
+ <qemu-devel@nongnu.org>,  Vikram Garhwal <vikram.garhwal@amd.com>, Stefano
+ Stabellini <stefano.stabellini@amd.com>
+Date: Fri, 24 Mar 2023 13:26:40 +0000
+In-Reply-To: <CANJfhHe-E-+F_P_=+ww46Szp_To=C4QWxKG5hdeCriwQr821jg@mail.gmail.com>
+References: <87h6ua4dkw.fsf@linaro.org>
+ <CANJfhHe-E-+F_P_=+ww46Szp_To=C4QWxKG5hdeCriwQr821jg@mail.gmail.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-ivU6gaiWnzgn1aFnzwYu"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v12 00/10] support subsets of code size reduction extension
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, richard.henderson@linaro.org,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAH+BRPpB1kFQ8cCQ--.4788S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuryfAr1DAw1UGw4fZFWUArb_yoW5uw1kpw
- 4rCrWSkrZ8tF97Jw4Sq3WUGw15AF4Fgr45Awn7Jwn5CayavrW7Jrs7K3W3Kw1UJF1rWr1q
- 93WUCw13uw45AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
- xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
- n2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
- CwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [180.165.240.150]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+2935738478090552ef3f+7152+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,100 +79,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping!
 
-Several updates have been applied to the support of Zc* extensions after 
-v9 was dropped from the riscv-to-apply.next list.
+--=-ivU6gaiWnzgn1aFnzwYu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Any new comments for them?
+On Fri, 2023-03-24 at 13:53 +0100, Remi Duraffort wrote:
+> Le=C2=A0ven. 24 mars 2023 =C3=A0=C2=A012:02, Alex Benn=C3=A9e <alex.benne=
+e@linaro.org> a =C3=A9crit=C2=A0:
+> > =C2=A0 version: 1
+> > =C2=A0 name: Xen Guest Kernels
+> > =C2=A0 description: Build Xen Test Kernels
+> > =C2=A0 jobs:
+> > =C2=A0 - builds:
+> > =C2=A0 =C2=A0 =C2=A0 - {target_arch: x86_64, toolchain: gcc-12, kconfig=
+: [defconfig, "CONFIG_XEN=3Dy", "CONFIG_XEN_PVHVM=3Dy", "CONFIG_XEN_BLKDEV_=
+FRONTEND=3Dy", "CONFIG_XEN_PVHVM_GUEST=3Dy"]}
+> > =C2=A0 =C2=A0 =C2=A0 - {target_arch: i386, toolchain: gcc-12, kconfig: =
+[defconfig, "CONFIG_XEN=3Dy", "CONFIG_XEN_PVHVM=3Dy", "CONFIG_XEN_BLKDEV_FR=
+ONTEND=3Dy", "CONFIG_XEN_PVHVM_GUEST=3Dy"]}
+> > =C2=A0 =C2=A0 test: {device: qemu-x86_64, tests: [ltp-smoke]}
+>=20
+>=20
+> The kernels and rootfs are built by this gitlab
+> project:=C2=A0https://gitlab.com/LinaroLtd/tuxsuite.com/tuxtest/tuxtest-b=
+u
+> ildroot using buildroot.
+> So for sure we can add sshd support quickly. Regarding the support
+> for xen, this can be added for arm64 if you want (only arm64 or
+> something else)?
 
-Regards,
+Thanks. This request was for x86_64 and i386 kernels, rather than
+arm64.
 
-Weiwei Li
+I think arm64 Xen support is coming to qemu but it requires real Xen =E2=80=
+=94
+while what we're wanting to test here is *emulating* Xen on Linux/KVM,
+which isn't something that we support on arm64. So I suspect there's
+not a lot of benefit in adding it to the arm64 builds? Vikram, Stefano,
+what do you think?
 
-On 2023/3/7 16:13, Weiwei Li wrote:
-> This patchset implements RISC-V Zc* extension v1.0.3-1 version instructions.
->
-> Specification:
-> https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
->
-> The port is available here:
-> https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v12
->
-> To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extensions support. We can also specify "x-zce=true,f=true" to enable Zca/Zcb/Zcmp/Zcmt and Zcf.
->
-> This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
->
-> v12
-> * add patch 10 to support zce property
-> * rebase on upstream master: reuse riscv_get_cfg() in patch 7 and remove tcg_temp_free in patch 6
->
-> v11
-> * update format and field name based on the latest spec in patch 5, 6, 7 (without other functional changes)
-> * rebase on riscv-to-apply.next
->
-> v10:
-> * rebase on Daniel's series(riscv-to-apply.next) and adjust riscv-tests to test on sifive related CPUs
->
-> v9:
-> * rebase on riscv-to-apply.next
->
-> v8:
-> * improve disas support in Patch 9
->
-> v7:
-> * Fix description for Zca
->
-> v6：
-> * fix base address for jump table in Patch 7
-> * rebase on riscv-to-apply.next
->
-> v5:
-> * fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
->
-> v4:
-> * improve Zcmp suggested by Richard
-> * fix stateen related check for Zcmt
->
-> v3:
-> * update the solution for Zcf to the way of Zcd
-> * update Zcb to reuse gen_load/store
-> * use trans function instead of helper for push/pop
->
-> v2:
-> * add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
-> * separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
->
-> Weiwei Li (10):
->    target/riscv: add cfg properties for Zc* extension
->    target/riscv: add support for Zca extension
->    target/riscv: add support for Zcf extension
->    target/riscv: add support for Zcd extension
->    target/riscv: add support for Zcb extension
->    target/riscv: add support for Zcmp extension
->    target/riscv: add support for Zcmt extension
->    target/riscv: expose properties for Zc* extension
->    disas/riscv.c: add disasm support for Zc*
->    target/riscv: Add support for Zce
->
->   disas/riscv.c                             | 228 +++++++++++++++-
->   target/riscv/cpu.c                        |  69 +++++
->   target/riscv/cpu.h                        |  11 +
->   target/riscv/cpu_bits.h                   |   7 +
->   target/riscv/csr.c                        |  36 ++-
->   target/riscv/helper.h                     |   3 +
->   target/riscv/insn16.decode                |  62 ++++-
->   target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
->   target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
->   target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
->   target/riscv/insn_trans/trans_rvzce.c.inc | 311 ++++++++++++++++++++++
->   target/riscv/machine.c                    |  19 ++
->   target/riscv/meson.build                  |   3 +-
->   target/riscv/translate.c                  |  15 +-
->   target/riscv/zce_helper.c                 |  55 ++++
->   15 files changed, 843 insertions(+), 16 deletions(-)
->   create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
->   create mode 100644 target/riscv/zce_helper.c
->
+Adding CONFIG_XEN_NETDEV_FRONTEND=3Dy in addition to the above options
+would be appreciated too please; we haven't yet made that actually work
+in the Xen emulation but we plan to fairly soon.
 
+
+
+
+--=-ivU6gaiWnzgn1aFnzwYu
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzI0MTMyNjQwWjAvBgkqhkiG9w0BCQQxIgQgQ3QZ1Cat
+/GMyqNXacvNsx2RHeS0tydWUconao1i0QpMwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBanx5PBUre/3zMsucdJdOBPj/vCVNfv3VT
+bS+V2hA9zAFkwE7WmXJ9q1JpMtPgVly46QCXZilbdEBEUTMnKj4PNFuwSuyxq2D3UqQpsHTAd4M+
+sUB7mWUDcOZZW+8rNaMkMoTJVYtio+XTF7O3O6fuAR4AGkODUa/VxZvvb+N8uk1M5OT90aBXduqy
+vs3kQ9NnpBQkRm6fz01Z7FkUlkgzXAPy7GXykqu6qH3RbVVpA7e4T4sTq/ym51RorrTdqBUn03RI
+wTlCNmeh/74VxXsdsCl2e2iZgv1DlU3a9TJQKGmZq4ILEaS71imf8q9whlbtfMZUSAIOLOTr7H3n
+TP09iFA/RjD/ydSLZ+M9xfTmAwIJRRuXKr7DjTuRTfWGvtzlcWeLp6GGRik/fWn+awDDkjfS9JHb
+D73jug3OPOyjWR8I/iNjLa+X6Gkpur132AyXVFaVD7fZRSGMyXJnIF8OTE+w/HhyvFiB5ltkaGMU
+ph4uyL950S89bR+jRTS8JstDaxz6rbJPCvE3b7PDjheFLPFqJvcM2ZKyoYIRHTufeOx+9GH07+pN
+q8XhMfglb9OyFil+8bhz9cj9hXa+PGrLT+B4iSBV+Q/rOTOJ3MUizpGzrNHDWbIo9Xq2tQOT0xLE
+uH7CBl7EsXZPvMqZ5t5ynMZyAiIxoX1zR9ZkBZJciAAAAAAAAA==
+
+
+--=-ivU6gaiWnzgn1aFnzwYu--
 
