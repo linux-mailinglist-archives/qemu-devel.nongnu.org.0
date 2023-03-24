@@ -1,56 +1,62 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C116C8167
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:37:47 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5916C820C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:01:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfhsn-0002s3-T2; Fri, 24 Mar 2023 09:55:05 -0400
+	id 1pfi0L-0003W6-8s; Fri, 24 Mar 2023 10:02:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfhse-0002po-Ps; Fri, 24 Mar 2023 09:54:56 -0400
-Received: from out30-113.freemail.mail.aliyun.com ([115.124.30.113])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pfi0H-0003Vu-J7
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:02:49 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfhsK-0000GB-1r; Fri, 24 Mar 2023 09:54:54 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0VeXzXt7_1679665659; 
-Received: from 30.213.165.143(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VeXzXt7_1679665659) by smtp.aliyun-inc.com;
- Fri, 24 Mar 2023 21:47:40 +0800
-Message-ID: <242e5db0-5e0e-4db3-a139-746da26e0f63@linux.alibaba.com>
-Date: Fri, 24 Mar 2023 21:47:37 +0800
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pfi04-0001n0-VN
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:02:49 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PjkP96639z6J7DP;
+ Fri, 24 Mar 2023 22:00:13 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 24 Mar
+ 2023 14:01:35 +0000
+Date: Fri, 24 Mar 2023 14:01:34 +0000
+To: Fan Ni <fan.ni@samsung.com>
+CC: Michael Tsirkin <mst@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>, "Dave
+ Jiang" <dave.jiang@intel.com>, "linux-cxl@vger.kernel.org"
+ <linux-cxl@vger.kernel.org>, Adam Manzanares <a.manzanares@samsung.com>,
+ "dave@stgolabs.net" <dave@stgolabs.net>
+Subject: Re: [RESEND PATCH 2/2] hw/cxl: Fix incorrect reset of commit and
+ associated clearing of committed.
+Message-ID: <20230324140134.00006952@Huawei.com>
+In-Reply-To: <20230322162120.GA1641485@bgt-140510-bm03>
+References: <20230322102731.4219-1-Jonathan.Cameron@huawei.com>
+ <CGME20230322103301uscas1p1fec17ee01b4fac9aaa8669f9c5d87e6a@uscas1p1.samsung.com>
+ <20230322103300.4278-1-Jonathan.Cameron@huawei.com>
+ <20230322162120.GA1641485@bgt-140510-bm03>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 2/4] target/riscv: Add a general status enum for extensions
-Content-Language: en-US
-To: liweiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, Alistair.Francis@wdc.com,
- palmer@dabbelt.com, bin.meng@windriver.com, dbarboza@ventanamicro.com,
- qemu-riscv@nongnu.org
-References: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
- <20230324055954.908-3-zhiwei_liu@linux.alibaba.com>
- <e8f5e279-38f1-85a3-f8ea-9ee791edeb38@iscas.ac.cn>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <e8f5e279-38f1-85a3-f8ea-9ee791edeb38@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.113;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-113.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,159 +69,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 22 Mar 2023 16:21:26 +0000
+Fan Ni <fan.ni@samsung.com> wrote:
 
-On 2023/3/24 20:53, liweiwei wrote:
->
-> On 2023/3/24 13:59, LIU Zhiwei wrote:
->> The pointer masking is the only extension that directly use status.
->> The vector or float extension uses the status in an indirect way.
->>
->> Replace the pointer masking extension special status fields with
->> the general status.
->>
->> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
->> ---
->>   target/riscv/cpu.c      |  2 +-
->>   target/riscv/cpu.h      |  9 +++++++++
->>   target/riscv/cpu_bits.h |  6 ------
->>   target/riscv/csr.c      | 14 +++++++-------
->>   4 files changed, 17 insertions(+), 14 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 1e97473af2..1135106b3e 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -764,7 +764,7 @@ static void riscv_cpu_reset_hold(Object *obj)
->>           i++;
->>       }
->>       /* mmte is supposed to have pm.current hardwired to 1 */
->> -    env->mmte |= (PM_EXT_INITIAL | MMTE_M_PM_CURRENT);
->> +    env->mmte |= (EXT_STATUS_INITIAL | MMTE_M_PM_CURRENT);
->>   #endif
->>       env->xl = riscv_cpu_mxl(env);
->>       riscv_cpu_update_mask(env);
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index 12fe8d8546..5049e21518 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -99,6 +99,15 @@ enum {
->>       TRANSLATE_G_STAGE_FAIL
->>   };
->>   +/* Extension Context Status */
->> +enum {
->> +    EXT_STATUS_DISABLED = 0,
->> +    EXT_STATUS_INITIAL,
->> +    EXT_STATUS_CLEAN,
->> +    EXT_STATUS_DIRTY,
->> +    EXT_STATUS_MASK,
->
-> I think the right value for EXT_STATUS_MASK  should be 3 here.
-Yes, it is.
->
-> And it can replace the following  PM_XS_MASK.
+> On Wed, Mar 22, 2023 at 10:33:00AM +0000, Jonathan Cameron wrote:
+> > The hardware clearing the commit bit is not spec compliant.
+> > Clearing of committed bit when commit is cleared is not specifically
+> > stated in the CXL spec, but is the expected (and simplest) permitted
+> > behaviour so use that for QEMU emulation.
+> > 
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---  
+> 
+> Reviewed-by: Fan Ni <fan.ni@samsung.com>
+> Tested-by: Fan Ni <fan.ni@samsung.com>
+> 
+> 
+> The patch passed the tests as shown in previous mailing list discussion:
+> https://lore.kernel.org/linux-cxl/640276695c8e8_5b27929473@dwillia2-xfh.jf.intel.com.notmuch/T/#m0afcfc21d68c84c07f2e9e3194f587c2ffa82d6d
+> The following two topologies are tested:
+> 1. one HB with one root port and a direct attached memdev.
+> 2. one HB with 2 root ports and a memdev is directly attached to a CXL switch
+> which is attached to one root port.
+> 
+> One minor thing below.
+> 
+> >  hw/cxl/cxl-component-utils.c |  6 +++++-
+> >  hw/mem/cxl_type3.c           | 21 ++++++++++++++++++++-
+> >  2 files changed, 25 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+> > index a3e6cf75cf..378f1082ce 100644
+> > --- a/hw/cxl/cxl-component-utils.c
+> > +++ b/hw/cxl/cxl-component-utils.c
+> > @@ -38,19 +38,23 @@ static void dumb_hdm_handler(CXLComponentState *cxl_cstate, hwaddr offset,
+> >      ComponentRegisters *cregs = &cxl_cstate->crb;
+> >      uint32_t *cache_mem = cregs->cache_mem_registers;
+> >      bool should_commit = false;
+> > +    bool should_uncommit = false;
+> >  
+> >      switch (offset) {
+> >      case A_CXL_HDM_DECODER0_CTRL:
+> >          should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
+> > +        should_uncommit = !should_commit;  
+> This will cause committed always reset if COMMIT is 0, not only
+> 1->0. No issue for now, just point out to make sure it is what we
+> want.
 
-Once I wanted to replace PM_XS_MASK with EXT_STATUS_MASK here.
-But PM_XS_MASK has a ULL type which is needed for a 64-bit register.
+True.  However I think it's harmless.
 
+We will want to be a little careful if uncommitting gains other
+functionality in future though.
 
-So I want to drop the definition of EXT_STATUS_MASK from here. And define a
-EXT_STATUS_MASK macro in cpu_bits.h. It will  replace the PM_XS_MASK.
+Note that the same potential corner existing on the commit side of things.
+Trying to commit a decoder that is already committed will call the code
+for commit (also currently harmless)
 
-Zhiwei
+I'm not particularly keen to introduce additional complexity to separate
+out these cases until / if we ever need it.
 
->
-> Regards,
->
-> Weiwei Li
->
->> +};
->> +
->>   #define MMU_USER_IDX 3
->>     #define MAX_RISCV_PMPS (16)
->> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
->> index fca7ef0cef..5280bd41c2 100644
->> --- a/target/riscv/cpu_bits.h
->> +++ b/target/riscv/cpu_bits.h
->> @@ -736,12 +736,6 @@ typedef enum RISCVException {
->>   #define PM_INSN         0x00000004ULL
->>   #define PM_XS_MASK      0x00000003ULL
->>   -/* PointerMasking XS bits values */
->> -#define PM_EXT_DISABLE  0x00000000ULL
->> -#define PM_EXT_INITIAL  0x00000001ULL
->> -#define PM_EXT_CLEAN    0x00000002ULL
->> -#define PM_EXT_DIRTY    0x00000003ULL
->> -
->>   /* Execution enviornment configuration bits */
->>   #define MENVCFG_FIOM                       BIT(0)
->>   #define MENVCFG_CBIE                       (3UL << 4)
->> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> index d522efc0b6..abea7b749e 100644
->> --- a/target/riscv/csr.c
->> +++ b/target/riscv/csr.c
->> @@ -3513,7 +3513,7 @@ static RISCVException write_mmte(CPURISCVState 
->> *env, int csrno,
->>         /* hardwiring pm.instruction bit to 0, since it's not 
->> supported yet */
->>       wpri_val &= ~(MMTE_M_PM_INSN | MMTE_S_PM_INSN | MMTE_U_PM_INSN);
->> -    env->mmte = wpri_val | PM_EXT_DIRTY;
->> +    env->mmte = wpri_val | EXT_STATUS_DIRTY;
->>       riscv_cpu_update_mask(env);
->>         /* Set XS and SD bits, since PM CSRs are dirty */
->> @@ -3593,7 +3593,7 @@ static RISCVException 
->> write_mpmmask(CPURISCVState *env, int csrno,
->>       if ((env->priv == PRV_M) && (env->mmte & M_PM_ENABLE)) {
->>           env->cur_pmmask = val;
->>       }
->> -    env->mmte |= PM_EXT_DIRTY;
->> +    env->mmte |= EXT_STATUS_DIRTY;
->>         /* Set XS and SD bits, since PM CSRs are dirty */
->>       mstatus = env->mstatus | MSTATUS_XS;
->> @@ -3621,7 +3621,7 @@ static RISCVException 
->> write_spmmask(CPURISCVState *env, int csrno,
->>       if ((env->priv == PRV_S) && (env->mmte & S_PM_ENABLE)) {
->>           env->cur_pmmask = val;
->>       }
->> -    env->mmte |= PM_EXT_DIRTY;
->> +    env->mmte |= EXT_STATUS_DIRTY;
->>         /* Set XS and SD bits, since PM CSRs are dirty */
->>       mstatus = env->mstatus | MSTATUS_XS;
->> @@ -3649,7 +3649,7 @@ static RISCVException 
->> write_upmmask(CPURISCVState *env, int csrno,
->>       if ((env->priv == PRV_U) && (env->mmte & U_PM_ENABLE)) {
->>           env->cur_pmmask = val;
->>       }
->> -    env->mmte |= PM_EXT_DIRTY;
->> +    env->mmte |= EXT_STATUS_DIRTY;
->>         /* Set XS and SD bits, since PM CSRs are dirty */
->>       mstatus = env->mstatus | MSTATUS_XS;
->> @@ -3673,7 +3673,7 @@ static RISCVException 
->> write_mpmbase(CPURISCVState *env, int csrno,
->>       if ((env->priv == PRV_M) && (env->mmte & M_PM_ENABLE)) {
->>           env->cur_pmbase = val;
->>       }
->> -    env->mmte |= PM_EXT_DIRTY;
->> +    env->mmte |= EXT_STATUS_DIRTY;
->>         /* Set XS and SD bits, since PM CSRs are dirty */
->>       mstatus = env->mstatus | MSTATUS_XS;
->> @@ -3701,7 +3701,7 @@ static RISCVException 
->> write_spmbase(CPURISCVState *env, int csrno,
->>       if ((env->priv == PRV_S) && (env->mmte & S_PM_ENABLE)) {
->>           env->cur_pmbase = val;
->>       }
->> -    env->mmte |= PM_EXT_DIRTY;
->> +    env->mmte |= EXT_STATUS_DIRTY;
->>         /* Set XS and SD bits, since PM CSRs are dirty */
->>       mstatus = env->mstatus | MSTATUS_XS;
->> @@ -3729,7 +3729,7 @@ static RISCVException 
->> write_upmbase(CPURISCVState *env, int csrno,
->>       if ((env->priv == PRV_U) && (env->mmte & U_PM_ENABLE)) {
->>           env->cur_pmbase = val;
->>       }
->> -    env->mmte |= PM_EXT_DIRTY;
->> +    env->mmte |= EXT_STATUS_DIRTY;
->>         /* Set XS and SD bits, since PM CSRs are dirty */
->>       mstatus = env->mstatus | MSTATUS_XS;
+Jonathan
+
+> >          break;
+> >      default:
+> >          break;
+> >      }
+> >  
+> >      if (should_commit) {
+> > -        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
+> >          value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
+> >          value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
+> > +    } else if (should_uncommit) {
+> > +        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, ERR, 0);
+> > +        value = FIELD_DP32(value, CXL_HDM_DECODER0_CTRL, COMMITTED, 0);
+> >      }
+> >      stl_le_p((uint8_t *)cache_mem + offset, value);
+> >  }
+> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> > index 846089ccda..9598d584ac 100644
+> > --- a/hw/mem/cxl_type3.c
+> > +++ b/hw/mem/cxl_type3.c
+> > @@ -320,13 +320,28 @@ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+> >  
+> >      ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
+> >      /* TODO: Sanity checks that the decoder is possible */
+> > -    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
+> >      ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
+> >      ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
+> >  
+> >      stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
+> >  }
+> >  
+> > +static void hdm_decoder_uncommit(CXLType3Dev *ct3d, int which)
+> > +{
+> > +    ComponentRegisters *cregs = &ct3d->cxl_cstate.crb;
+> > +    uint32_t *cache_mem = cregs->cache_mem_registers;
+> > +    uint32_t ctrl;
+> > +
+> > +    assert(which == 0);
+> > +
+> > +    ctrl = ldl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL);
+> > +
+> > +    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, ERR, 0);
+> > +    ctrl = FIELD_DP32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED, 0);
+> > +
+> > +    stl_le_p(cache_mem + R_CXL_HDM_DECODER0_CTRL, ctrl);
+> > +}
+> > +
+> >  static int ct3d_qmp_uncor_err_to_cxl(CxlUncorErrorType qmp_err)
+> >  {
+> >      switch (qmp_err) {
+> > @@ -395,6 +410,7 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+> >      CXLType3Dev *ct3d = container_of(cxl_cstate, CXLType3Dev, cxl_cstate);
+> >      uint32_t *cache_mem = cregs->cache_mem_registers;
+> >      bool should_commit = false;
+> > +    bool should_uncommit = false;
+> >      int which_hdm = -1;
+> >  
+> >      assert(size == 4);
+> > @@ -403,6 +419,7 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+> >      switch (offset) {
+> >      case A_CXL_HDM_DECODER0_CTRL:
+> >          should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
+> > +        should_uncommit = !should_commit;
+> >          which_hdm = 0;
+> >          break;
+> >      case A_CXL_RAS_UNC_ERR_STATUS:
+> > @@ -489,6 +506,8 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+> >      stl_le_p((uint8_t *)cache_mem + offset, value);
+> >      if (should_commit) {
+> >          hdm_decoder_commit(ct3d, which_hdm);
+> > +    } else if (should_uncommit) {
+> > +        hdm_decoder_uncommit(ct3d, which_hdm);
+> >      }
+> >  }
+> >  
+> > -- 
+> > 2.37.2
+> >  
+
 
