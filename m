@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10AC6C8633
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 20:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0A96C867F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 21:05:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfnPd-0006yp-OW; Fri, 24 Mar 2023 15:49:21 -0400
+	id 1pfndW-0006R0-8c; Fri, 24 Mar 2023 16:03:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pfnPb-0006ui-BR
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:49:19 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pfndS-0006Ot-MO
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 16:03:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pfnPY-0006hz-Rj
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:49:18 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pfndQ-00010A-R2
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 16:03:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679688214;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7LgN31sKOjMfrZHM058NriMuoobm3RCow3VLp8Wz7uc=;
+ b=NNf3ZW/Ydpm7dcydeLca3Ojc3zMxgTq5s6rSjoVjkbHcB4B1/33I0gOblsrEev1cIs7HOE
+ bjN9ZcbdbSAVAZoXv9g9gImev+SuLI5OxMiGAhAoBcvXJ3pXzAsR7YyYGnR6zM+9yDfKJZ
+ kYybrHRvzqE6pJj6Tq3uMpJO2oCOjsA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-458-W-mHyOWhNbqYxeMi5_8Rfg-1; Fri, 24 Mar 2023 16:03:31 -0400
+X-MC-Unique: W-mHyOWhNbqYxeMi5_8Rfg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 84E9BB82422;
- Fri, 24 Mar 2023 19:49:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56834C433D2;
- Fri, 24 Mar 2023 19:49:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679687345;
- bh=cZHI95NBMO6NF+Emv35KZyyHSTxgf/4L9fm7V7z/+kA=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=eamg7WrN4Navjb8od46+FrzVL10ItXTBdtpe3Qwxtps1JtCuBkSNgNqCRMEKgyFyo
- Df6L/DNgNHKoxYz9YsiyOUT3TDzg1j1+tVtLbzbnanz1UsPS9r+b7tEEI4lWpjlr6v
- 5eJgAJQ9Iy9ASPm355tK0arj6WKmaWrUVl2/XUlDoaH+3CLMJuHvnEJfqeGm7SuUTj
- g/L4Hvz0BMRLTUH/Egamz6zOAW2L51dvfSUOTtUZPvQfDw8eXK+Y3XcekRWtrTidlD
- 1imMMhKGaByXiNb/3WmKAaRNvxFLhFlkIpHxm6ZWi8RIse+Q6AV5qoq0gzqiSpNf6m
- EMZBCF9E9xftg==
-Date: Fri, 24 Mar 2023 12:48:59 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: David Woodhouse <dwmw2@infradead.org>
-cc: Remi Duraffort <remi.duraffort@linaro.org>, 
- =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>, 
- Anders Roxell <anders.roxell@linaro.org>, 
- qemu-devel <qemu-devel@nongnu.org>, 
- Vikram Garhwal <vikram.garhwal@amd.com>, 
- Stefano Stabellini <stefano.stabellini@amd.com>
-Subject: Re: Adding default config options to the tuxrun baseline kernels
- and enabling sshd
-In-Reply-To: <3e6fb10defaac2ac0e6445e61631b6b612672ddd.camel@infradead.org>
-Message-ID: <alpine.DEB.2.22.394.2303241240350.4066@ubuntu-linux-20-04-desktop>
-References: <87h6ua4dkw.fsf@linaro.org>
- <CANJfhHe-E-+F_P_=+ww46Szp_To=C4QWxKG5hdeCriwQr821jg@mail.gmail.com>
- <3e6fb10defaac2ac0e6445e61631b6b612672ddd.camel@infradead.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7648885C064;
+ Fri, 24 Mar 2023 20:03:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 419A8492C3E;
+ Fri, 24 Mar 2023 20:03:25 +0000 (UTC)
+Date: Fri, 24 Mar 2023 15:03:23 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Florian Westphal <fw@strlen.de>
+Cc: libguestfs@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ vsementsov@yandex-team.ru
+Subject: Re: [Libguestfs] [PATCH 1/1] nbd/server: push pending frames after
+ sending reply
+Message-ID: <spo7scw4pvcloaoezcfdmssgg34unwqewoavs32tvaxuht3vns@4kjvbzlmuer5>
+References: <20230324104720.2498-1-fw@strlen.de>
+ <ervljl6tt35qenv3z5lrjbklxuwezjvqpbwghtdntddpwa3glb@czoajnfpuxaa>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-1873736637-1679686972=:4066"
-Content-ID: <alpine.DEB.2.22.394.2303241248100.4066@ubuntu-linux-20-04-desktop>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=sstabellini@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ervljl6tt35qenv3z5lrjbklxuwezjvqpbwghtdntddpwa3glb@czoajnfpuxaa>
+User-Agent: NeoMutt/20230322
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,48 +79,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, Mar 24, 2023 at 02:41:20PM -0500, Eric Blake wrote:
+> On Fri, Mar 24, 2023 at 11:47:20AM +0100, Florian Westphal wrote:
+> > qemu-nbd doesn't set TCP_NODELAY on the tcp socket.
 
---8323329-1873736637-1679686972=:4066
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.DEB.2.22.394.2303241248101.4066@ubuntu-linux-20-04-desktop>
+Replying to myself, WHY aren't we setting TCP_NODELAY on the socket?
 
-On Fri, 24 Mar 2023, David Woodhouse wrote:
-> On Fri, 2023-03-24 at 13:53 +0100, Remi Duraffort wrote:
-> > Le ven. 24 mars 2023 à 12:02, Alex Bennée <alex.bennee@linaro.org> a écrit :
-> > >   version: 1
-> > >   name: Xen Guest Kernels
-> > >   description: Build Xen Test Kernels
-> > >   jobs:
-> > >   - builds:
-> > >       - {target_arch: x86_64, toolchain: gcc-12, kconfig: [defconfig, "CONFIG_XEN=y", "CONFIG_XEN_PVHVM=y", "CONFIG_XEN_BLKDEV_FRONTEND=y", "CONFIG_XEN_PVHVM_GUEST=y"]}
-> > >       - {target_arch: i386, toolchain: gcc-12, kconfig: [defconfig, "CONFIG_XEN=y", "CONFIG_XEN_PVHVM=y", "CONFIG_XEN_BLKDEV_FRONTEND=y", "CONFIG_XEN_PVHVM_GUEST=y"]}
-> > >     test: {device: qemu-x86_64, tests: [ltp-smoke]}
-> > 
-> > 
-> > The kernels and rootfs are built by this gitlab
-> > project: https://gitlab.com/LinaroLtd/tuxsuite.com/tuxtest/tuxtest-bu
-> > ildroot using buildroot.
-> > So for sure we can add sshd support quickly. Regarding the support
-> > for xen, this can be added for arm64 if you want (only arm64 or
-> > something else)?
 > 
-> Thanks. This request was for x86_64 and i386 kernels, rather than
-> arm64.
-> 
-> I think arm64 Xen support is coming to qemu but it requires real Xen —
-> while what we're wanting to test here is *emulating* Xen on Linux/KVM,
-> which isn't something that we support on arm64. So I suspect there's
-> not a lot of benefit in adding it to the arm64 builds? Vikram, Stefano,
-> what do you think?
+> And surprisingly, qemu IS using corking on the client side:
+> https://gitlab.com/qemu-project/qemu/-/blob/master/block/nbd.c#L525
+> just not on the server side, before your patch.
 
-Yes, not useful for what we are trying to do.
+Corking matters more when TCP_NODELAY is enabled.  The entire reason
+Nagle's algorithm exists (and is default on unless you enable
+TCP_NODELAY) is that the benefits of merging smaller piecemeal packets
+into larger traffic is a lot easier to do in a common location for
+code that isn't super-sensitive to latency and message boundaries.
+But once you get to the point where corking or MSG_MORE makes a
+difference, then it is obvious you know your message boundaries, and
+will benefit from TCP_NODELAY, at the expense of potentially more
+network traffic overhead.  One more code search, and I find that we
+use TCP_NODELAY in all of:
 
-From my point of view, it would be useful to run a test inside QEMU
-(emulating a full aarch64 platform) running Xen, Linux and QEMU (QEMU
-running on Linux, all inside QEMU) to test the new xenpvh machine in the
-inner QEMU. Not asking, just FYI.
---8323329-1873736637-1679686972=:4066--
+qemu client: https://gitlab.com/qemu-project/qemu/-/blob/master/nbd/client-connection.c#L143
+nbdkit: https://gitlab.com/nbdkit/nbdkit/-/blob/master/server/sockets.c#L430
+libnbd: https://gitlab.com/nbdkit/libnbd/-/blob/master/generator/states-connect.c#L41
+
+so I think we _should_ be calling qio_channel_set_delay(false) for
+qemu-nbd as well.  That doesn't negate your patch, but rather argues
+that we can go for even better performance with TCP_NODELAY also
+turned on.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
