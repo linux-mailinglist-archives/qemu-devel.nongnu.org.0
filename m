@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF896C890B
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 00:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363426C890A
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 00:11:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfqXd-0002MH-1K; Fri, 24 Mar 2023 19:09:49 -0400
+	id 1pfqXh-0002Nl-AA; Fri, 24 Mar 2023 19:09:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3sy0eZAgKCq4kiVOchgVUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--wuhaotsh.bounces.google.com>)
- id 1pfqXZ-0002LR-Oz
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 19:09:45 -0400
-Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a])
+ <3tS0eZAgKCrAmkXQejiXWeeWbU.SecgUck-TUlUbdedWdk.ehW@flex--wuhaotsh.bounces.google.com>)
+ id 1pfqXb-0002M7-E9
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 19:09:47 -0400
+Received: from mail-pl1-x649.google.com ([2607:f8b0:4864:20::649])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3sy0eZAgKCq4kiVOchgVUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--wuhaotsh.bounces.google.com>)
- id 1pfqXY-00082u-3T
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 19:09:45 -0400
-Received: by mail-pf1-x44a.google.com with SMTP id
- e14-20020a056a00162e00b0062804a7a79bso1656948pfc.23
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 16:09:40 -0700 (PDT)
+ <3tS0eZAgKCrAmkXQejiXWeeWbU.SecgUck-TUlUbdedWdk.ehW@flex--wuhaotsh.bounces.google.com>)
+ id 1pfqXZ-00083A-ED
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 19:09:47 -0400
+Received: by mail-pl1-x649.google.com with SMTP id
+ n13-20020a170902d2cd00b001a22d27406bso185627plc.13
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 16:09:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1679699380;
+ d=google.com; s=20210112; t=1679699382;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=bWCWaB7OU5al4gbSkBBDX/6O+Cte3jJAaB+5x9qhbBA=;
- b=YpWPHB2y5IP20uq066o5twARiRsgJPjyRLKttWII1BaeibtfZXM81F7Kf4ie8X4Gw7
- wTCDikMbmQSI5JnS4ES/OtSAAchthNu6XNIQMyie2R8LnBpM3Srdyn7U1xZL89DTNpT1
- UVR/jravhqbJC8VlaLfs49uMXSsmmfOXqsCyFKup2EHLyQ/+o6fFVEbFjyZ03Zw6/5sS
- RUjMnQEsoMLs9zu/8/zYG27xQX1/4nvjaJC8a0Ej1O6dWk8ImfeGIu63BwkrG9+hyc9G
- YMjNU+2l2U2ZU1bNmILe+bqbSDIkVtLR3jVKwgfcu07JLKez/xDJyyI8LNyNWEbYfb5d
- 8qGg==
+ bh=Wy+QXivZWG6sei776iRdoGPRBV1td8fSYtwRoJlCwUU=;
+ b=k4Qw9cACa6HXj3Gk2wOg8MpoV820+ksu44bZNB2ArjpxFnzkiMLH5ganPC/w40lng1
+ P4fangQzJj92eWZN0xu1STmHIT4YsLPwQANQ8hEuggy1PwwwMEYIKJo6s1F7qSrsp5VU
+ jecX+ykQrPJAKLiRezuEK08Le9O/iXclVxSAkPYii7V5oyQKoI1rt5nN4dFMXKSp0bPd
+ SLhOoaW5FVd2Jh0aTsYsqU60MSGsbcTe33VsQRUdl9SM0T4tO7AgXk48MGPW64W208hi
+ 48By3ItD/Q8sekYFcxiKzOHagLUV9j/8Lm0T+Rs/5wEUIJApA6SFpPOvtgsOTDjU14O+
+ U0BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679699380;
+ d=1e100.net; s=20210112; t=1679699382;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bWCWaB7OU5al4gbSkBBDX/6O+Cte3jJAaB+5x9qhbBA=;
- b=AqFUBHEFXVxJ/7TDZbd0ksjLqmBDwvniIcXz5pmwNPeAjIVEc2cYkolYEvDVoVs4Py
- 2bq23AVn96talJW5hb22c1y7EI9ziUwjGvgxvu50iZ9+8zeNMjOVOe+gtwC4AKbAoSVr
- LvpT++rvoAYmNGWRUsCmDL32bW71aaQsjRY+LC9J7TkvRJ+BZyVANvjWi7avknQYk6Ch
- hV0M3mTg48teMavoj3TJP0G2P8vVNRXNWXeSBDR2/cQicpnnzXwsXQtf6+sGM+EB7aKp
- /CSAmiTPFwqhyezHaa96oi96vCgcjzNpSJtp2cKCjwGoy7RQ+C0wdaOaO8AdS48xrqGB
- KLjA==
-X-Gm-Message-State: AAQBX9ep3qZ1hmM4W9QA6T6XbbGMpI4V5NI61Flv0auHtSwmTOR5n3Sw
- p74zmtDmmxNInLWWVvnYLNTk208ntgpDJg==
-X-Google-Smtp-Source: AK7set/NcL5WzOPr89dmY5ErxuZKEjnVnS0g1eIJ96v6qLB/6gWoF+0E8qW2SkTEDzQRiNfwOPc9gEncMOz6VA==
+ bh=Wy+QXivZWG6sei776iRdoGPRBV1td8fSYtwRoJlCwUU=;
+ b=pqiJGWOwT18PSgc8pVsnYE4CPxvbJUzzdXIWVKuS0E6mHKG6Gk+TqbbvhXJtbRTVQ/
+ xN+85G9qikb51HnRaeDHxKh/hYr7XfXC3hwNQRU4YyjNojiz2GY+5kp2AVnwvdpRBqiK
+ lDaIHM8kFw3fR+skudLR5J/2LHSDtg3F8aDMtCaEDmuU76gsPE6IZK4odaOHja5upgMW
+ ta9pk1GYeFxCQtiFpXOQW/gkTBnI5n1UuQ2NSm4FFx1jKVFbrLLU4JOVtk0piyMixavK
+ gmZpnr8DpGHHH4I7aY5eDmo4QUfGWvTcOd3n/ct1zOIl9bGi0INaxhTkZk2/j07PnxMu
+ sz2g==
+X-Gm-Message-State: AAQBX9dY/wEm5Q0agxqWmvxoyJimeFkpp1z/dZv7RBPk/ydEUN4HP3wM
+ NHyIJY6O5sOfjCio0gwL/bNwL4HdRkx8aA==
+X-Google-Smtp-Source: AKy350aOVHC2XY4GZYy8Eh+DoN1w2N4ncy3JS7hWuHc5e48Bk+VCj7mKHjn+hu8iZxl3dwwkANnw1u9enpp5IA==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a05:6a00:1a0b:b0:625:4ff8:3505 with SMTP
- id g11-20020a056a001a0b00b006254ff83505mr2536953pfv.1.1679699379982; Fri, 24
- Mar 2023 16:09:39 -0700 (PDT)
-Date: Fri, 24 Mar 2023 16:08:58 -0700
+ (user=wuhaotsh job=sendgmr) by 2002:a17:90a:c482:b0:240:1208:a38 with SMTP id
+ j2-20020a17090ac48200b0024012080a38mr1355285pjt.9.1679699381772; Fri, 24 Mar
+ 2023 16:09:41 -0700 (PDT)
+Date: Fri, 24 Mar 2023 16:08:59 -0700
 In-Reply-To: <20230324230904.3710289-1-wuhaotsh@google.com>
 Mime-Version: 1.0
 References: <20230324230904.3710289-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230324230904.3710289-2-wuhaotsh@google.com>
-Subject: [PATCH v2 1/7] docs: enable sphinx blockdiag extension
+Message-ID: <20230324230904.3710289-3-wuhaotsh@google.com>
+Subject: [PATCH v2 2/7] docs/specs: IPMI device emulation: main processor
 From: Hao Wu <wuhaotsh@google.com>
 To: minyard@acm.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
  venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
  hskinnemoen@google.com, titusr@google.com, peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
- envelope-from=3sy0eZAgKCq4kiVOchgVUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--wuhaotsh.bounces.google.com;
- helo=mail-pf1-x44a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::649;
+ envelope-from=3tS0eZAgKCrAmkXQejiXWeeWbU.SecgUck-TUlUbdedWdk.ehW@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pl1-x649.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -92,32 +92,136 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Havard Skinnemoen <hskinnemoen@google.com>
 
-This allows use to add block diagrams in documentations,
-such as the block diagram in docs/specs/impi.rst.
+This document is an attempt to briefly document the existing IPMI
+emulation support on the main processor. It provides the necessary
+background for the BMC-side IPMI emulation proposed by the next patch.
 
 Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
-Signed-off-by: Hao Wu <hskinnemoen@google.com>
+Signed-off-by: Hao Wu <wuhaotsh@google.com>
 ---
- docs/conf.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ docs/specs/index.rst |   1 +
+ docs/specs/ipmi.rst  | 100 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 101 insertions(+)
+ create mode 100644 docs/specs/ipmi.rst
 
-diff --git a/docs/conf.py b/docs/conf.py
-index 00767b0e24..6974647408 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -71,7 +71,11 @@
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile', 'qapidoc']
-+extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile', 'qapidoc',
-+        'sphinxcontrib.blockdiag']
+diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+index a58d9311cb..0b0ff4cbc4 100644
+--- a/docs/specs/index.rst
++++ b/docs/specs/index.rst
+@@ -12,6 +12,7 @@ guest hardware that is specific to QEMU.
+    ppc-spapr-xive
+    ppc-spapr-numa
+    acpi_hw_reduced_hotplug
++   ipmi
+    tpm
+    acpi_hest_ghes
+    acpi_cpu_hotplug
+diff --git a/docs/specs/ipmi.rst b/docs/specs/ipmi.rst
+new file mode 100644
+index 0000000000..e0badc7f15
+--- /dev/null
++++ b/docs/specs/ipmi.rst
+@@ -0,0 +1,100 @@
++=====================
++IPMI device emulation
++=====================
 +
-+# Fontpath for blockdiag (truetype font)
-+blockdiag_fontpath = '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf'
- 
- if sphinx.version_info[:3] > (4, 0, 0):
-     tags.add('sphinx4')
++QEMU supports emulating many types of machines. This includes machines that may
++serve as the main processor in an IPMI system, e.g. x86 or POWER server
++processors, as well as machines emulating ARM-based Baseband Management
++Controllers (BMCs), e.g. AST2xxx or NPCM7xxx systems-on-chip.
++
++Main processor emulation
++========================
++
++A server platform may include one of the following system interfaces for
++communicating with a BMC:
++
++* A Keyboard Controller Style (KCS) Interface, accessible via ISA
++  (``isa-ipmi-kcs``) or PCI (``pci-ipmi-kcs``).
++* A Block Transfer (BT) Interface, accessible via ISA (``isa-ipmi-bt``) or PCI
++  (``pci-ipmi-bt``).
++* An SMBus System Interface (SSIF; ``smbus-ipmi``).
++
++These interfaces can all be emulated by QEMU. To emulate the behavior of the
++BMC, the messaging interface emulators use one of the following backends:
++
++* A BMC simulator running within the QEMU process (``ipmi-bmc-sim``).
++* An external BMC simulator or emulator, connected over a chardev
++  (``ipmi-bmc-extern``). `ipmi_sim
++  <https://sourceforge.net/p/openipmi/code/ci//master/tree/lanserv/README.ipmi_sim>`_
++  from OpenIPMI is an example external BMC emulator.
++
++The following diagram shows how these entities relate to each other.
++
++.. blockdiag::
++
++    blockdiag main_processor_ipmi {
++        orientation = portrait
++        default_group_color = "none";
++        class msgif [color = lightblue];
++        class bmc [color = salmon];
++
++        ipmi_sim [color="aquamarine", label="External BMC"]
++        ipmi-bmc-extern <-> ipmi_sim [label="chardev"];
++
++        group {
++            orientation = portrait
++
++            ipmi-interface <-> ipmi-bmc;
++
++            group {
++                orientation = portrait
++
++                ipmi-interface [class = "msgif"];
++                isa-ipmi-kcs [class="msgif", stacked];
++
++                ipmi-interface <- isa-ipmi-kcs [hstyle = generalization];
++            }
++
++
++            group {
++                orientation = portrait
++
++                ipmi-bmc [class = "bmc"];
++                ipmi-bmc-sim [class="bmc"];
++                ipmi-bmc-extern [class="bmc"];
++
++                ipmi-bmc <- ipmi-bmc-sim [hstyle = generalization];
++                ipmi-bmc <- ipmi-bmc-extern [hstyle = generalization];
++            }
++
++        }
++    }
++
++IPMI System Interfaces
++----------------------
++
++The system software running on the main processor may use a *system interface*
++to communicate with the BMC. These are hardware devices attached to an ISA, PCI
++or i2c bus, and in QEMU, they all need to implement ``ipmi-interface-host``.
++This allows a BMC implementation to interact with the system interface in a
++standard way.
++
++IPMI BMC
++--------
++
++The system interface devices delegate emulation of BMC behavior to a BMC
++device, that is a subclass of ``ipmi-bmc-host``. This type of device is called
++a BMC because that's what it looks like to the main processor guest software.
++
++The BMC behavior may be simulated within the qemu process (``ipmi-bmc-sim``) or
++further delegated to an external emulator, or a real BMC. The
++``ipmi-bmc-extern`` device has a required ``chardev`` property which specifies
++the communications channel to the external BMC.
++
++Wire protocol
++=============
++
++The wire protocol used between ``ipmi-bmc-extern`` and the external BMC
++emulator is defined by `README.vm
++<https://sourceforge.net/p/openipmi/code/ci/master/tree/lanserv/README.vm>`_
++from the OpenIPMI project.
 -- 
 2.40.0.348.gf938b09366-goog
 
