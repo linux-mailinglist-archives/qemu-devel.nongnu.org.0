@@ -1,49 +1,70 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67E46C821D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:05:59 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 425C96C8175
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:39:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfb6x-0006YH-Oc; Fri, 24 Mar 2023 02:41:15 -0400
+	id 1pfbfC-0000e5-Vz; Fri, 24 Mar 2023 03:16:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfb6t-0006XU-FS; Fri, 24 Mar 2023 02:41:11 -0400
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfbf9-0000dx-P8
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 03:16:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pfb6g-0007q5-El; Fri, 24 Mar 2023 02:41:10 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R621e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0VeWiAsy_1679640036; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VeWiAsy_1679640036) by smtp.aliyun-inc.com;
- Fri, 24 Mar 2023 14:40:37 +0800
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com, qemu-riscv@nongnu.org,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [PATCH] target/riscv: Fix itrigger when icount is used
-Date: Fri, 24 Mar 2023 14:40:11 +0800
-Message-Id: <20230324064011.976-1-zhiwei_liu@linux.alibaba.com>
-X-Mailer: git-send-email 2.23.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfbe8-0003Km-Le
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 03:16:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679642106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=h2TaGmSGoxtndvn1gD+ILU9O+Tk/K7k27XGcfUcl06I=;
+ b=SodGt3I2/31VmkLZ2uPyRy9B/btpxmXaCDnL/fYkbOnEmehNQ2v2EBsPjdo1GkJIlZqdVa
+ aTMME1o1Gei84ivAEJOx+eIPfwtSl5DfIeBOqs2KKfEL2hxSoR6JZ9UpEtMsU3HoLw0xPF
+ Q7CZiChf5vg7fKA29RSyjvqSaS7wNck=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-473-aloQcw7rMairEeZTEPZ5BQ-1; Fri, 24 Mar 2023 03:07:59 -0400
+X-MC-Unique: aloQcw7rMairEeZTEPZ5BQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA05385A588;
+ Fri, 24 Mar 2023 07:07:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9ABFA140EBF4;
+ Fri, 24 Mar 2023 07:07:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A259421E6926; Fri, 24 Mar 2023 08:07:51 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Cc: qemu-devel@nongnu.org,  Peter Xu <peterx@redhat.com>,  David Alan
+ Gilbert <dgilbert@redhat.com>
+Subject: Re: Example output for query-vcpu-dirty-limit
+References: <87mt43zr6j.fsf@pond.sub.org>
+ <3ccd31fb-f3e2-5b9e-11a1-43e422389592@chinatelecom.cn>
+Date: Fri, 24 Mar 2023 08:07:51 +0100
+In-Reply-To: <3ccd31fb-f3e2-5b9e-11a1-43e422389592@chinatelecom.cn> (Hyman
+ Huang's message of "Fri, 24 Mar 2023 09:36:12 +0800")
+Message-ID: <87edper5iw.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.98;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-98.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,43 +80,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When I boot a ubuntu image, QEMU output a "Bad icount read" message and exit.
-The reason is that when execute helper_mret or helper_sret, it will
-cause a call to icount_get_raw_locked (), which needs set can_do_io flag
-on cpustate.
-
-Thus we setting this flag when execute these two instructions.
-
-Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
----
- target/riscv/insn_trans/trans_privileged.c.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-index 59501b2780..e3bee971c6 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -77,6 +77,9 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
- #ifndef CONFIG_USER_ONLY
-     if (has_ext(ctx, RVS)) {
-         decode_save_opc(ctx);
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-         gen_helper_sret(cpu_pc, cpu_env);
-         exit_tb(ctx); /* no chaining */
-         ctx->base.is_jmp = DISAS_NORETURN;
-@@ -93,6 +96,9 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
- {
- #ifndef CONFIG_USER_ONLY
-     decode_save_opc(ctx);
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-     gen_helper_mret(cpu_pc, cpu_env);
-     exit_tb(ctx); /* no chaining */
-     ctx->base.is_jmp = DISAS_NORETURN;
--- 
-2.17.1
+This will do nicely, thanks!
 
 
