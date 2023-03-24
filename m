@@ -1,51 +1,51 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB83E6C8574
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 20:00:35 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CBE6C857B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 20:02:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfmd5-0005rP-1e; Fri, 24 Mar 2023 14:59:11 -0400
+	id 1pfmfh-0001Ti-8c; Fri, 24 Mar 2023 15:01:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pfmd2-0005rC-Ku
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 14:59:08 -0400
-Received: from mail-am6eur05on20729.outbound.protection.outlook.com
- ([2a01:111:f400:7e1b::729]
- helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ id 1pfmfc-0001TA-GG
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:01:48 -0400
+Received: from mail-he1eur01on0726.outbound.protection.outlook.com
+ ([2a01:111:f400:fe1e::726]
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pfmd0-0002ID-Rb
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 14:59:08 -0400
+ id 1pfmfa-00034J-Mj
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 15:01:48 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZXDYzvuIcn0aQD1x8DL3JO0FlUpQlDoKAFEdKbTENg1J2HUxSLMmOMtgWx2wyrLZeTfkzdUM9J12hW7nxALyj+ZlYfs8H5Nv2NSnJdfheLl8Uqai1TDML/+EuKAoUtXiUkxDeGFfgxD6yLQwtAuLzCuDDU4VWz6RA0mtC71ooAGaiw/5B5xRmE7xAiLXnMMZY0i65LmGcXqOoTDO62JNshVITbMvnCX8gpf9zOlLxDNdbC7MMZfRSdpq2InnxeNeIHw9fHu4gZQMs2ZFrrFQmWB1APx4/CHbjO/Gblvs9CyrX7aHod8qyfwfsKpH4NV8bxyNP2Az03WmFsdlm9rm4Q==
+ b=ZrSmGgo8Z3NZfK4yZv6IYLAcB8Db++7TZ9rPoVTp7yQIIUOpOb6A4Ynib84PDySQd5y9ug7Ikz/TSjF9PhaB3/u1GEheo/PDcxMELCPXG3vfoZSWjMYV/x6DR7kF7ydiLjcmEQVD2NjzWoMlXMsXn2qYsiPp2t03CDxWasKBqiJDqKJ6M0h6cHOxzl3Eg5YtJmg+d4S3lWTiH1jH4OgOR7SL2Wv3esjGYNtKYRpkc+3RoveyFLMUndLTlu/J+8rsaMzRvh5+fgmBN39GhQ5C/c7K8BOuzpkyYQc+nVtoc7VpsLLO3uxMCv/sfy2DrFzw1OzTfE8tGt/r2/gbxObx9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EdlgwlnFnzfYfvZAmdYzfm962tf25lAKxTLsWu10D6E=;
- b=Sl4mJgLWy+GJMJDv8WOsS/vsnBHc5g7O+78WSQilezZzBXUy3lTRJWNr1RDzPvYzU9qxZfdvyscUr5cdkIjknIlimwvXIzmToAY/JEsbJDaqVbb9/XlQTUI5V/7CS/ddEp2nWqKu97a2iwKjH+/6BY3Wigi2MAr4te9Vkel1lPlqwImpqgw8lzPt+EU2CNRY8zMJVB+6UlLfqbhPh9MFY9PiX6/G6F9tVuT/qvT0OSUOlGQ8F/A3/spqTJ/9ZltmhMsmZRpEPb8e19GkdwIq9y0BJ8uL5dcMPdHaQJpoGSZlRbHHPHom8i4cHl1rTY6In082/oLIGvInGtG+AR9X+w==
+ bh=d5j8s7q6DgkB0IBldXGQq8X2/Bdscwa+1Yo5hQ5yQYI=;
+ b=BgkK7UVTz9eA3WkAIM1fzVjP9Xnv4hiY4dMP05vrat4aNdcIdPDwUszPBGXQVb+/Z9aG44K4ATLPK1EndEkPhEtqw4tDtM5WH6V3elTVgUqnxyx4O9GpT0vyiBjo6h1tRz5Qfblz0uTk/AyO+H7AxRFgbzq/HbXKfwSAMZ7tfUImXOm+6e/lCoTnUVvtb5Wq852VXihOT5H4BdcDx4HcVEEyZXOz0NIhbsBSUqAVDBF8MqOGCWvFIV23dHFn/s2j4Ux2jQC2pKPBFbE6U19joN5UOOCLh8xL8xUmXKy+j+SMyrgGpq66m8xA1yb5VTl04uM8Eb1vWh2zvf5+HG7bYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
  s=selector2-estab-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EdlgwlnFnzfYfvZAmdYzfm962tf25lAKxTLsWu10D6E=;
- b=OQ1Qib7/+BtuAGn7vQT6A/J007n7cGWbAasDr1h00SyvBpM2VTRQMbWS8KJ/r3dfx9skd5mllUzhQp0qrivD96/HHsYQqrJE/EMp2ToKMfCWDEeJKacf04apkZJBjBidIz8gfmHiFrXr5EODAhK2+B+F8x5PHFa0ge6zn0Xw/NE=
+ bh=d5j8s7q6DgkB0IBldXGQq8X2/Bdscwa+1Yo5hQ5yQYI=;
+ b=SZI1GEISCGGu3CdKZsO7YH2vimUuQnRYmYDizZ9Tmnd+/EesHpAZ81yCscpYmADHHAocoLuO/GZwGOqftXOoL6nZjfQn5+HM4d9bNMJL8R7qDoo54RttruyDlgoF+o3dvp6T9iRXR/d1fvPwqAz2Gbihqllms7UzQlcyWQXdQKk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
  by DB3P189MB2380.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:439::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Fri, 24 Mar
- 2023 18:58:56 +0000
+ 2023 19:01:10 +0000
 Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
  ([fe80::13ad:a312:15c6:91dc]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
  ([fe80::13ad:a312:15c6:91dc%9]) with mapi id 15.20.6178.039; Fri, 24 Mar 2023
- 18:58:56 +0000
+ 19:01:10 +0000
 From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 To: 
 Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
@@ -55,71 +55,71 @@ Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Subject: [PATCH v10 2/8] igb: handle PF/VF reset properly
-Date: Fri, 24 Mar 2023 16:34:55 +0100
-Message-Id: <20230324153501.20695-3-sriram.yagnaraman@est.tech>
+Subject: [PATCH v10 3/8] igb: add ICR_RXDW
+Date: Fri, 24 Mar 2023 16:34:56 +0100
+Message-Id: <20230324153501.20695-4-sriram.yagnaraman@est.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230324153501.20695-1-sriram.yagnaraman@est.tech>
 References: <20230324153501.20695-1-sriram.yagnaraman@est.tech>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: GV3P280CA0119.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:8::20) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: GV3P280CA0062.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:a::18) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:1e7::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|DB3P189MB2380:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55807f87-b93b-4ffd-25a1-08db2c99d0ad
+X-MS-Office365-Filtering-Correlation-Id: 6021f18c-767d-455c-2365-08db2c9a21b4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gYOrIiW9hE588lL23hNg91pI2eAFc9pF7bqM3oZucDfvGLl8BlO553L1xXCuecMPMuURJlTw07/ZLt/Tvy5GcjpZDc8TJC15qElG8vr+RMdVdlTiN9PfAXPmeOCXLGPcYxEW96M7PAwpKmD6ui5AH2xXpho4eyyxkUr/U7sQSzNZQHTiEBP6Ssb8T5Tq/Y/IW6u2AEsOBO8LoJPSvOttxuZcyU0EZ5E/9jkHruSYWi8A95Z8eJHoGr/KJbleoM+w8sGMGzRNx/Kyfm791dwriqR6zCxuNp5vFYnk2F5y7nAmbXqezDGoZB3H9uUuK6+yAPKhQUg68xP+Xr67iBP85f+Q7HLkjoCNbrDeg0eFhDhhplLv1SHeQ7J9nqN6hyyGaU7lt+LiDfN6RAPpe9k0SC+iI0GkEzjcX7QDz/8nw9zSoZs0dmK7P05VdLCufP2tCXh5P+ttzb3DioKOWgu3gWZfnss9RXVjkiOCpY2y8qNqjWF3rtJEQG4HSP6bsULpsN1q0WeRA3JbK9BQXQvBCR2paZWJldvk4T4t2qhW9HGzGosiRZ/ZBO6zQni4VZLaan9j2Wh/w/DCQFv7W8zpD5ZdhUCdvgZzCMvuOC3OiDMtgvNnd6A2Ruem1IxQ/v0pzouOWg0ZfEuRQyQ9gW1UwQ==
+X-Microsoft-Antispam-Message-Info: rfrGs8N3i1Gm5aTSkvWxJN3Sw0hj5N2Nlm4D+HaQif5MYphRw05J65dPua5e48rLkILCoRoAN4yjpVh+rcLV9wgOr/f6hJSPcL8VFeYxDPmYG47HJBzdFwJb5ga8eYdl1dMDx660AgQ66PbI9YPY3FoOLVS/tp2z0CkY6wLSQRd2rVlSbwh2Q5uOY4L8uBhsRGi+k4HxrKfCXh1D6ubyT/7C8Z5W5pIuuUpQ7VKhpzntcYPTe93LYC8EulCf/i2d/9KKHeuoLZLXihiVRZ7ox0dLjHP5iaGDtC7WWRxOOp7qnYgyqKJZ6vzgRCeHhcpFqGqeyRweximGg4kkIVstovqZyZ5dGLHbZ24JjkReTLdYSjMNlCjDfL7v6GVDWP+DMScZSXN+DxDQ0aWr/+yKNM/Qyp6u87bm9h6bFfFMAw8fUORnxAVlPvQ6USvoPoGTuXFFNB9Kahrs+sYgE1RidW2RdVGNzZHJsc9M/TOc9ilitbCiY1VVLC4OQ/s9TKLwRMlTqRi/MoaKTOqXDYIVGgtp6DWhcMbs3XtZWhS8roj1+/2LlZ+0md1bjnbXUYmA5Lg3B5zOdmZBRVhLfCEwBFQB5uugM5nPToD/Bit3x8R8KHF3Ao1ksHxQIrwOJsMIqGa5S1swJGBcWq56Orjr9g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230028)(376002)(136003)(396003)(346002)(39840400004)(451199021)(109986019)(66946007)(54906003)(316002)(66556008)(38100700002)(8676002)(70586007)(44832011)(66476007)(86362001)(4326008)(41300700001)(36756003)(5660300002)(8936002)(186003)(2616005)(2906002)(6486002)(26005)(6512007)(478600001)(1076003)(6506007)(83380400001)(266003)(37730700002);
+ SFS:(13230028)(376002)(136003)(396003)(346002)(39840400004)(451199021)(109986019)(66946007)(54906003)(316002)(66556008)(38100700002)(8676002)(70586007)(44832011)(66476007)(86362001)(4326008)(41300700001)(36756003)(5660300002)(8936002)(186003)(2616005)(2906002)(6486002)(6666004)(26005)(6512007)(478600001)(1076003)(6506007)(83380400001)(266003)(37730700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Fy+DBXT5cRrio1PihKY2YJ23uW6GX7VC4xo4+mtEdqeMm8UqYZV5n42lTpdz?=
- =?us-ascii?Q?yte9YJcpFvd3z66Gq1lCIzPOuPHv0W+A3S0nqvzj6g/uPEC9BfiNAi3EUV4y?=
- =?us-ascii?Q?drDsrhSFPYK7pESRN0jkIaPwYL5MkkvGMMK4yndkDEMxnhhFolaUDNS668Zm?=
- =?us-ascii?Q?1p9fxc3noQRfc9tDaXceES8rxeFokYgR/CpYtPgLEg+IwA8A4DE8wRg6CXU5?=
- =?us-ascii?Q?/Nagt7UXuGzJekJGPEEdkbf5NxUKK7Y9av0wJkTzOUoXDfFLvDQv/k4INMyx?=
- =?us-ascii?Q?5h1NC8y41dAmXsV/sprxQukKusMmbZunjKeLgWsm1wB/K5vCGwQ8O8synbvC?=
- =?us-ascii?Q?57NCBmr8Gu5z9/8Nar1g9pcOqNpftO3VIxq2IQ0Bel9tGlI5o6wbRw34GNBh?=
- =?us-ascii?Q?qvRgeovMZ0du+pVCMDKiN2FPRVcbyCYwp//Gt8jbVghLIyXL/8xPtBEwYdF8?=
- =?us-ascii?Q?/G/q8qYIbx+aKz/oqpBGscmRjRBZypnljWVvLkLD9xcWqYmkVk7sXzF7NdII?=
- =?us-ascii?Q?4CW5Nk+RwA7oJc7zWQuJXo/3RyL0feI2iAhkCg11wZr+YswCO8hw1bt4wQZp?=
- =?us-ascii?Q?TD0CwZzE0O7PDsBvPdgQaTywrPgZWyJ7u6s0zw95xQK4Rw02xv6gZXdvFDRk?=
- =?us-ascii?Q?nuuWdQ1thOC/dj6P/CoZhnLN5TAh14LfDnsJjNCm8mMpJAY7wagjQDO/jgZL?=
- =?us-ascii?Q?1TSOy9fdLlTxMxEeWeB2+tjVAhXqQsU4UXgY8zzXQQYBvVwNtSfG4oQ4/VrX?=
- =?us-ascii?Q?fmPTali5eDhjZSm2ZJNsGeU7kCuuxCkiLGBs2m1qgQuNiMr8mBY7nNORan9S?=
- =?us-ascii?Q?E0q7kgDKTDRWPYz8eviP4r4nGg4RGqceHIAiK4wPn8Lx2roeCU2IAiEG3mjE?=
- =?us-ascii?Q?sY4dYqDDSFQAI6uzu9GA+yQOPvOqbb40YgJxz213SHwaidHIxYh5AIAk4p2u?=
- =?us-ascii?Q?JtM8Qm75f6TM7o+VhlqS/tGqrWigTjb9ylfj/9e17cp5aunzwygK1pImiQLz?=
- =?us-ascii?Q?h69jwmXWSajUPrTyoW+3qpuvF5vaLzn5lNvB++5zdRV54KbUEgpp2Laj0wod?=
- =?us-ascii?Q?Y8Cqhr9P1DvBsQS2gZpiX4jEBqPfG9dVQQJ+263i+Cry1JBXQlgyzbJwWKYj?=
- =?us-ascii?Q?gD3Qgwv2pzcakaSvO4QjsE6RoAZ6ypLu2u2Z3QWf4r2qEsFDUQYU4+O0F/77?=
- =?us-ascii?Q?pVoK/utffarbwLXPv2MPyfoMhFWC/G5J+zPeUD70PwNrgTxfAgVidvn3WL49?=
- =?us-ascii?Q?SXdeaIcYhi4mSF0tbOh7hIcf4Rtx+pApHVhUGNxO/Plxxtgjtv8L2qlTavrB?=
- =?us-ascii?Q?tt2iI0D6f2U35q94t3G1kqF2IXZ351jKiSEsyQjtr8pyZyH1c53W/TAcEpI1?=
- =?us-ascii?Q?pft1lp6VVP1P4beVsJ88kzRzL+lfw9JqOTmRUUh5ARCSWhGEb7S0kOA169QM?=
- =?us-ascii?Q?7Aq5+PtLMEEXyyoc/PuWpcpq57SDfkDk9i2MfQmNkQMCkOXH8gGOw8mu/IQj?=
- =?us-ascii?Q?AK50CMEy4/4GTXud67Zq97RBpAbdck5hgHh+7nNuUVTi8vXTkpHTwwRTdt7T?=
- =?us-ascii?Q?W184e4TdpxBmo5dK9lB/6ipn3gy+nhnQbvowEhsYVxe5vF+CmIoiNvRMK3EK?=
- =?us-ascii?Q?dA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?A+OoxQi19RFofYULTXhAbK6o8dsy/TZVcnZmybXYC5zvbrleEGMjHD7aXdTd?=
+ =?us-ascii?Q?LRqepa9N2SzjGVwdAvSTR6sBgJJ8PVlSEfbcTt+tM4brA8DmvFgvUhSQCgXb?=
+ =?us-ascii?Q?ATcv/R7+rIwcJIs7fYDpJC6s+uIO9CE6Q5HRze2hQhBe3GzlJmoiYC5N8bLS?=
+ =?us-ascii?Q?VSTuAXurInhnABs1gw0ej9lty1rvZLnQor4de9ArnW7HOyt4sES71D/PG+GE?=
+ =?us-ascii?Q?bNgK2dBi5w5WFv/vL9MD3Fo5J0ql4+bwwVsj0dK5hK/Q+9B3kztxQOThBAEQ?=
+ =?us-ascii?Q?trIoq5RRSk7WRzCNQFyF9YdgTH5Z7mEkzXr9aHbgIddi8/OWvVhOl5VegoD6?=
+ =?us-ascii?Q?c+/QIsL5vG4nnm7CEJeEvJS4AsGB/liCS0LxPD2NXOIngifqX+lX6pbcl3hc?=
+ =?us-ascii?Q?0QPChRavYK1PtD+Vhd4grXveKO46PjkBWaMb94AxPOQ2DmXjEO6rQV6McZ3/?=
+ =?us-ascii?Q?4cBK3Bi6TlQ60WPvcRz0rYUyPRlP16prtcziUJwJ0kfs+bvZw2X3rrEwgAN3?=
+ =?us-ascii?Q?5z6nR5H+R9sY9FZv99h/WS6EL2CSq8HYTCANfmCzGnixturKgHpezHUJla3H?=
+ =?us-ascii?Q?a6gcFHxCvRg3qtaj0Ujj8zgc1JNwctKyui6NWlVEMa1GJtYWvxfcjOP024/A?=
+ =?us-ascii?Q?M0tRtuyBeEsarWEZj63N0liMCPoSCPSGZPFBVKBLs0W0j9+UiFlWDICyPbj8?=
+ =?us-ascii?Q?dVbgx5LCML/94MRt0LffUutHEq6r3KZGGlGiswdjhHVjRxZwbprYoeQeUCcQ?=
+ =?us-ascii?Q?SHCVli7i/G+ZX+WR7weQcLlUuPmMdxYl/m6+9vdabn795JIuAc/jvjxJKLYr?=
+ =?us-ascii?Q?uyu93I+K5dA8oq6ub2jpWzCFpFK5PToSakLFa6NSvha+oLqD9aj2UofYB4FB?=
+ =?us-ascii?Q?+N9G23kPmkJX0hbFfY/PZXFF7nG3RZcG4hRJLUfVqbLbNZXZkGN9XTXgwL8N?=
+ =?us-ascii?Q?c8Qgne5kjn5dUzdW6sYrBkc34V+WS/iJFyWtJVuC7XiVZmcVuRX5Ts0Od7FK?=
+ =?us-ascii?Q?1eg+Od+cH2w6ht7N1d/rdYrRjgHVefr4GMPoSrhoXftyBaJYdUg5NJIUDcUB?=
+ =?us-ascii?Q?1gG8krQj151hWLosnImXc+CB8zkH29F/JAN1msL9LKi3eKVC7wg3HUgD3gHs?=
+ =?us-ascii?Q?zvT43cf896yabNRKefRglCxWasmOITjEZmF8k1/+dCF5Kn5FTsuufFdua8YI?=
+ =?us-ascii?Q?Fvi75e1Rtxh9QsPyBxdLVAVxcDRXHSvkDL81GmVjA7MMAT93y5//xYy+OU7H?=
+ =?us-ascii?Q?l3it/S+B4O8ndGBfzuoGvwkjjJaciCBTr6Bw43OSIR4HdoYMEFQohz4ZGN87?=
+ =?us-ascii?Q?6T3jHGCSJ/YoFNciEeavAO63z9oscDAbZDtTKXZsdPevBBKFxkUJGRPTtIAp?=
+ =?us-ascii?Q?v1we/e9dFnK1lUX3akJqiCkwYiIm/vqRxPUbA7YVcGl4Q5CiXTBkNTDs/9qz?=
+ =?us-ascii?Q?FPa+jszpP4WSjWkvpANQF5N60IHnvI32gnJCwbXS9U3DDN7eKGqVYo04IIlW?=
+ =?us-ascii?Q?euP55zmXONDZFMJTDZbK6FkXZcXxNf2L3IPJ+UcnXOgjHOzmnbjlTTvvTDaD?=
+ =?us-ascii?Q?bMWNHuQQmyIET/x2adoRqaJ4rQGacQFZSqRM9t7oH7xpzLW6sKNwIH65WXQe?=
+ =?us-ascii?Q?gw=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55807f87-b93b-4ffd-25a1-08db2c99d0ad
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6021f18c-767d-455c-2365-08db2c9a21b4
 X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 18:58:54.6777 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 19:01:10.6358 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a6tlcDKIDoeQLhBfpPcuuk7vdiie96Yh0lS7z03TpGeBaTlafdhaNXjT8conPGkLNF32XjDSdHI/kv+cRgDLlJRDLKJ3hcKvcS7s+9+9ln8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ri6YEWUtSDvctXlBMCl/cdKeNvsKBY7IxhdMwBn4E5QsxFR3E5WEHYJBc80DVMoWP8ehEnYrSr02mtBuI7n6E0ObU1Sf24W7Lcm6pYRllhI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3P189MB2380
-Received-SPF: pass client-ip=2a01:111:f400:7e1b::729;
+Received-SPF: pass client-ip=2a01:111:f400:fe1e::726;
  envelope-from=sriram.yagnaraman@est.tech;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -2
 X-Spam_score: -0.3
 X-Spam_bar: /
@@ -141,117 +141,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use PFRSTD to reset RSTI bit for VFs, and raise VFLRE interrupt when VF
-is reset.
+IGB uses RXDW ICR bit to indicate that rx descriptor has been written
+back. This is the same as RXT0 bit in older HW.
 
 Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- hw/net/igb_core.c   | 38 ++++++++++++++++++++++++++------------
- hw/net/igb_regs.h   |  3 +++
- hw/net/trace-events |  2 ++
- 3 files changed, 31 insertions(+), 12 deletions(-)
+ hw/net/e1000x_regs.h | 4 ++++
+ hw/net/igb_core.c    | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/hw/net/e1000x_regs.h b/hw/net/e1000x_regs.h
+index c0832fa23d..6d3c4c6d3a 100644
+--- a/hw/net/e1000x_regs.h
++++ b/hw/net/e1000x_regs.h
+@@ -335,6 +335,7 @@
+ #define E1000_ICR_RXDMT0        0x00000010 /* rx desc min. threshold (0) */
+ #define E1000_ICR_RXO           0x00000040 /* rx overrun */
+ #define E1000_ICR_RXT0          0x00000080 /* rx timer intr (ring 0) */
++#define E1000_ICR_RXDW          0x00000080 /* rx desc written back */
+ #define E1000_ICR_MDAC          0x00000200 /* MDIO access complete */
+ #define E1000_ICR_RXCFG         0x00000400 /* RX /c/ ordered set */
+ #define E1000_ICR_GPI_EN0       0x00000800 /* GP Int 0 */
+@@ -378,6 +379,7 @@
+ #define E1000_ICS_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
+ #define E1000_ICS_RXO       E1000_ICR_RXO       /* rx overrun */
+ #define E1000_ICS_RXT0      E1000_ICR_RXT0      /* rx timer intr */
++#define E1000_ICS_RXDW      E1000_ICR_RXDW      /* rx desc written back */
+ #define E1000_ICS_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
+ #define E1000_ICS_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
+ #define E1000_ICS_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
+@@ -407,6 +409,7 @@
+ #define E1000_IMS_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
+ #define E1000_IMS_RXO       E1000_ICR_RXO       /* rx overrun */
+ #define E1000_IMS_RXT0      E1000_ICR_RXT0      /* rx timer intr */
++#define E1000_IMS_RXDW      E1000_ICR_RXDW      /* rx desc written back */
+ #define E1000_IMS_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
+ #define E1000_IMS_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
+ #define E1000_IMS_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
+@@ -441,6 +444,7 @@
+ #define E1000_IMC_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
+ #define E1000_IMC_RXO       E1000_ICR_RXO       /* rx overrun */
+ #define E1000_IMC_RXT0      E1000_ICR_RXT0      /* rx timer intr */
++#define E1000_IMC_RXDW      E1000_ICR_RXDW      /* rx desc written back */
+ #define E1000_IMC_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
+ #define E1000_IMC_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
+ #define E1000_IMC_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 78d30738e6..6ba9696637 100644
+index 6ba9696637..9ab90e8576 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -1898,14 +1898,6 @@ static void igb_set_eims(IGBCore *core, int index, uint32_t val)
-     igb_update_interrupt_state(core);
- }
+@@ -1583,7 +1583,7 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
+             continue;
+         }
  
--static void igb_vf_reset(IGBCore *core, uint16_t vfn)
--{
--    /* TODO: Reset of the queue enable and the interrupt registers of the VF. */
--
--    core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
--    core->mac[V2PMAILBOX0 + vfn] = E1000_V2PMAILBOX_RSTD;
--}
--
- static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)
- {
-     uint32_t ent = core->mac[VTIVAR_MISC + vfn];
-@@ -1983,6 +1975,17 @@ static void igb_set_vfmailbox(IGBCore *core, int index, uint32_t val)
-     }
- }
+-        n |= E1000_ICR_RXT0;
++        n |= E1000_ICR_RXDW;
  
-+static void igb_vf_reset(IGBCore *core, uint16_t vfn)
-+{
-+    /* disable Rx and Tx for the VF*/
-+    core->mac[VFTE] &= ~BIT(vfn);
-+    core->mac[VFRE] &= ~BIT(vfn);
-+    /* indicate VF reset to PF */
-+    core->mac[VFLRE] |= BIT(vfn);
-+    /* VFLRE and mailbox use the same interrupt cause */
-+    mailbox_interrupt_to_pf(core);
-+}
-+
- static void igb_w1c(IGBCore *core, int index, uint32_t val)
- {
-     core->mac[index] &= ~val;
-@@ -2237,14 +2240,20 @@ igb_set_status(IGBCore *core, int index, uint32_t val)
- static void
- igb_set_ctrlext(IGBCore *core, int index, uint32_t val)
- {
--    trace_e1000e_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
--                                     !!(val & E1000_CTRL_EXT_SPD_BYPS));
--
--    /* TODO: PFRSTD */
-+    trace_igb_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
-+                                  !!(val & E1000_CTRL_EXT_SPD_BYPS),
-+                                  !!(val & E1000_CTRL_EXT_PFRSTD));
- 
-     /* Zero self-clearing bits */
-     val &= ~(E1000_CTRL_EXT_ASDCHK | E1000_CTRL_EXT_EE_RST);
-     core->mac[CTRL_EXT] = val;
-+
-+    if (core->mac[CTRL_EXT] & E1000_CTRL_EXT_PFRSTD) {
-+        for (int vfn = 0; vfn < IGB_MAX_VF_FUNCTIONS; vfn++) {
-+            core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
-+            core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_RSTD;
-+        }
-+    }
- }
- 
- static void
-@@ -4027,6 +4036,11 @@ static void igb_reset(IGBCore *core, bool sw)
- 
-     e1000x_reset_mac_addr(core->owner_nic, core->mac, core->permanent_mac);
- 
-+    for (int vfn = 0; vfn < IGB_MAX_VF_FUNCTIONS; vfn++) {
-+        /* Set RSTI, so VF can identify a PF reset is in progress */
-+        core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_RSTI;
-+    }
-+
-     for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
-         tx = &core->tx[i];
-         net_tx_pkt_reset(tx->tx_pkt, NULL);
-diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
-index 00934d4f20..a658f9b53f 100644
---- a/hw/net/igb_regs.h
-+++ b/hw/net/igb_regs.h
-@@ -240,6 +240,9 @@ union e1000_adv_rx_desc {
- 
- /* from igb/e1000_defines.h */
- 
-+/* Physical Func Reset Done Indication */
-+#define E1000_CTRL_EXT_PFRSTD   0x00004000
-+
- #define E1000_IVAR_VALID     0x80
- #define E1000_GPIE_NSICR     0x00000001
- #define E1000_GPIE_MSIX_MODE 0x00000010
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index 65753411fc..d35554fce8 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -280,6 +280,8 @@ igb_core_mdic_read_unhandled(uint32_t addr) "MDIC READ: PHY[%u] UNHANDLED"
- igb_core_mdic_write(uint32_t addr, uint32_t data) "MDIC WRITE: PHY[%u] = 0x%x"
- igb_core_mdic_write_unhandled(uint32_t addr) "MDIC WRITE: PHY[%u] UNHANDLED"
- 
-+igb_link_set_ext_params(bool asd_check, bool speed_select_bypass, bool pfrstd) "Set extended link params: ASD check: %d, Speed select bypass: %d, PF reset done: %d"
-+
- igb_rx_desc_buff_size(uint32_t b) "buffer size: %u"
- igb_rx_desc_buff_write(uint64_t addr, uint16_t offset, const void* source, uint32_t len) "addr: 0x%"PRIx64", offset: %u, from: %p, length: %u"
- 
+         igb_rx_fix_l4_csum(core, core->rx_pkt);
+         igb_write_packet_to_guest(core, core->rx_pkt, &rxr, &rss_info);
 -- 
 2.34.1
 
