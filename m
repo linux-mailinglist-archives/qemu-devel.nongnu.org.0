@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB1F6C81E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306A36C81CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:51:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfjT1-0005PD-HG; Fri, 24 Mar 2023 11:36:35 -0400
+	id 1pfjSw-0004q5-LA; Fri, 24 Mar 2023 11:36:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfjSy-0005Ga-Or
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:36:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfjSt-0004gJ-2S
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:36:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfjSx-0001ky-5U
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:36:32 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfjSr-0001kt-HD
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:36:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1679672185;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JSapDZguOsxehwqI3Mr8KAptdRnY/urpIRZ2gdVUedY=;
- b=N/e0SyOHf/fvqQtJHU6/jyVxjtrZG2EJVjLkx2JfYrdF31BHqkbv38ZfdWp2tp6NJm2nDy
- ckMhIWMFncS62Fs2j8RdphVtvxmLJM0rcUd28ExAK4DbkZr9FkohhggRwY3AZJFOou5V3t
- 1lcZA5Rg1mdUIteEisG96Bui53VGU2U=
+ bh=lvYE9tYokjxMhsrX1hrNjj4rVpX3Z+8QjuRWjZcW08w=;
+ b=TSXdG3uc8MPninPdNx13cl+PjrsjH08YJ/DVNAO+feSqdM4AYPDROqvapt9uzUta8L9k3S
+ rKhJ4sNJ3kdKFXNFOCWPrK9KJNDxyMO3iv/uTk010P0TuL5s5RaTVKll84ZUqnd+Gjl8kJ
+ NIZLZaxklSUI+Upp2d/LVFE2q1+maP8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-OxGH8fOMNxaY0bPJr_bohA-1; Fri, 24 Mar 2023 11:36:21 -0400
-X-MC-Unique: OxGH8fOMNxaY0bPJr_bohA-1
+ us-mta-160-cnUi6SgkPLyA9Ye6VEF5Ng-1; Fri, 24 Mar 2023 11:36:23 -0400
+X-MC-Unique: cnUi6SgkPLyA9Ye6VEF5Ng-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D866855420;
- Fri, 24 Mar 2023 15:36:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13B3A101A553;
+ Fri, 24 Mar 2023 15:36:23 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B9E2140EBF4;
- Fri, 24 Mar 2023 15:36:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BC49140EBF4;
+ Fri, 24 Mar 2023 15:36:21 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 3/8] target/s390x: Fix float_comp_to_cc() prototype
-Date: Fri, 24 Mar 2023 16:36:05 +0100
-Message-Id: <20230324153610.224673-4-thuth@redhat.com>
+Subject: [PULL 4/8] target/ppc: Fix helper_pminsn() prototype
+Date: Fri, 24 Mar 2023 16:36:06 +0100
+Message-Id: <20230324153610.224673-5-thuth@redhat.com>
 In-Reply-To: <20230324153610.224673-1-thuth@redhat.com>
 References: <20230324153610.224673-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,49 +81,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Cédric Le Goater <clg@redhat.com>
 
-GCC13 reports an error :
+GCC13 reports an error:
 
-../target/s390x/tcg/fpu_helper.c:123:5: error: conflicting types for ‘float_comp_to_cc’ due to enum/integer mismatch; have ‘int(CPUS390XState *, FloatRelation)’ {aka ‘int(struct CPUArchState *, FloatRelation)’} [-Werror=enum-int-mismatch]
+../target/ppc/excp_helper.c:2625:6: error: conflicting types for ‘helper_pminsn’ due to enum/integer mismatch; have ‘void(CPUPPCState *, powerpc_pm_insn_t)’ {aka ‘void(struct CPUArchState *, powerpc_pm_insn_t)’} [-Werror=enum-int-mismatch]
+ 2625 | void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
+      |      ^~~~~~~~~~~~~
+In file included from /home/legoater/work/qemu/qemu.git/include/qemu/osdep.h:49,
+                 from ../target/ppc/excp_helper.c:19:
+/home/legoater/work/qemu/qemu.git/include/exec/helper-head.h:23:27: note: previous declaration of ‘helper_pminsn’ with type ‘void(CPUArchState *, uint32_t)’ {aka ‘void(CPUArchState *, unsigned int)’}
+   23 | #define HELPER(name) glue(helper_, name)
+      |                           ^~~~~~~
 
-  123 | int float_comp_to_cc(CPUS390XState *env, FloatRelation float_compare)
-      |     ^~~~~~~~~~~~~~~~
-In file included from ../target/s390x/tcg/fpu_helper.c:23:
-../target/s390x/s390x-internal.h:302:5: note: previous declaration of ‘float_comp_to_cc’ with type ‘int(CPUS390XState *, int)’ {aka ‘int(struct CPUArchState *, int)’}
-  302 | int float_comp_to_cc(CPUS390XState *env, int float_compare);
-      |     ^~~~~~~~~~~~~~~~
-
-Fixes: 71bfd65c5f ("softfloat: Name compare relation enum")
+Fixes: 7778a575c7 ("ppc: Add P7/P8 Power Management instructions")
 Signed-off-by: Cédric Le Goater <clg@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230321161609.716474-3-clg@kaod.org>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20230321161609.716474-4-clg@kaod.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/s390x-internal.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/ppc/excp_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.h
-index 5d4361d35b..825252d728 100644
---- a/target/s390x/s390x-internal.h
-+++ b/target/s390x/s390x-internal.h
-@@ -11,6 +11,7 @@
- #define S390X_INTERNAL_H
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 287659c74d..199328f4b6 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -2622,7 +2622,7 @@ void helper_scv(CPUPPCState *env, uint32_t lev)
+     }
+ }
  
- #include "cpu.h"
-+#include "fpu/softfloat.h"
+-void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
++void helper_pminsn(CPUPPCState *env, uint32_t insn)
+ {
+     CPUState *cs;
  
- #ifndef CONFIG_USER_ONLY
- typedef struct LowCore {
-@@ -299,7 +300,7 @@ uint32_t set_cc_nz_f128(float128 v);
- uint8_t s390_softfloat_exc_to_ieee(unsigned int exc);
- int s390_swap_bfp_rounding_mode(CPUS390XState *env, int m3);
- void s390_restore_bfp_rounding_mode(CPUS390XState *env, int old_mode);
--int float_comp_to_cc(CPUS390XState *env, int float_compare);
-+int float_comp_to_cc(CPUS390XState *env, FloatRelation float_compare);
- 
- #define DCMASK_ZERO             0x0c00
- #define DCMASK_NORMAL           0x0300
 -- 
 2.31.1
 
