@@ -1,77 +1,64 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788A86C821A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:05:37 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AC06C811D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:23:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfglL-00058w-1a; Fri, 24 Mar 2023 08:43:19 -0400
+	id 1pfgic-0004z9-9q; Fri, 24 Mar 2023 08:40:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfglJ-00058o-8d
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 08:43:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfgl8-0001Ym-Ec
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 08:43:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679661781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=elY2A6/FTPWEW52fWSfS6y8wHd0G8tNE8SA45vZzAzk=;
- b=fXiMehoaZDv8W7DxMccFrB3lzuP0BCkY3dKSnZe602wq/9IpNxOOpdr7MQYo86yOXPLTJ2
- YKwTVWDB1MYoRkqltDkp+mhrGQsD5BhX7OLKGn6RBA/Pe7jrts4OWpuEpIAmFgFp6JSaVF
- fsWE2eWo3QSVkP2yVIU3j/abVjPj86s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-Lz6wtHDyMC-gpzYhZnFYLA-1; Fri, 24 Mar 2023 08:11:53 -0400
-X-MC-Unique: Lz6wtHDyMC-gpzYhZnFYLA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C78C88F4CC;
- Fri, 24 Mar 2023 12:11:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E54032166B29;
- Fri, 24 Mar 2023 12:11:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0970521E6926; Fri, 24 Mar 2023 13:11:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Juan Quintela
- <quintela@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Eric Blake <eblake@redhat.com>,  Peter Maydell
- <peter.maydell@linaro.org>,  Richard Henderson
- <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 06/10] migration: Introduce dirty-limit capability
-References: <cover.1676563222.git.huangy81@chinatelecom.cn>
- <cover.1676563222.git.huangy81@chinatelecom.cn>
- <a9952eaa2bf3c8066b0e8dee066b57395ffa37b1.1676563222.git.huangy81@chinatelecom.cn>
-Date: Fri, 24 Mar 2023 13:11:36 +0100
-In-Reply-To: <a9952eaa2bf3c8066b0e8dee066b57395ffa37b1.1676563222.git.huangy81@chinatelecom.cn>
- (huangy's message of "Fri, 17 Feb 2023 00:18:35 +0800")
-Message-ID: <871qlepcw7.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pfgia-0004yd-3d; Fri, 24 Mar 2023 08:40:28 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pfgiU-0000li-85; Fri, 24 Mar 2023 08:40:27 -0400
+Received: from localhost.localdomain (unknown [180.165.240.150])
+ by APP-05 (Coremail) with SMTP id zQCowACXnVX4mR1kGwsYCQ--.52917S2;
+ Fri, 24 Mar 2023 20:39:21 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH 0/8] target/riscv: Simplification for RVH related check and
+ code style fix
+Date: Fri, 24 Mar 2023 20:38:01 +0800
+Message-Id: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowACXnVX4mR1kGwsYCQ--.52917S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr1UWFyUGF1furWDCF45Wrg_yoW8Jw18pr
+ 48C3yfA39YyFZ3Gr1ftF1UJw15Xrs5Wr45Aas7Zr1xAa15CrW5Jrn7Kw17CFyDJFy8Wr1q
+ kFyUCr13Cr4UJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+ 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbU
+ UUUUU==
+X-Originating-IP: [180.165.240.150]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,65 +74,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-huangy81@chinatelecom.cn writes:
+This patchset tries to simplify the RVH related check and fix some code style problems, such as problems for indentation, multi-line comments and lines with over 80 characters.
 
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> Introduce migration dirty-limit capability, which can
-> be turned on before live migration and limit dirty
-> page rate durty live migration.
->
-> Introduce migrate_dirty_limit function to help check
-> if dirty-limit capability enabled during live migration.
->
-> Meanwhile, refactor vcpu_dirty_rate_stat_collect
-> so that period can be configured instead of hardcoded.
->
-> dirty-limit capability is kind of like auto-converge
-> but using dirty limit instead of traditional cpu-throttle
-> to throttle guest down. To enable this feature, turn on
-> the dirty-limit capability before live migration using
-> migrate-set-capabilities, and set the parameters
-> "x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
-> to speed up convergence.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
-> Acked-by: Peter Xu <peterx@redhat.com>
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-cleanup-upstream
 
-[...]
+Weiwei Li (8):
+  target/riscv: Remove redundant call to riscv_cpu_virt_enabled
+  target/riscv: Remove redundant check on RVH
+  target/riscv: Remove check on RVH for riscv_cpu_virt_enabled
+  target/riscv: Remove check on RVH for riscv_cpu_set_virt_enabled
+  target/riscv: Remove redundant parentheses
+  target/riscv: Fix format for indentation
+  target/riscv: Fix format for comments
+  target/riscv: Fix lines with over 80 characters
 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index d33cc2d582..b7a92be055 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -477,6 +477,8 @@
->  #                    will be handled faster.  This is a performance feat=
-ure and
->  #                    should not affect the correctness of postcopy migra=
-tion.
->  #                    (since 7.1)
-> +# @dirty-limit: Use dirty-limit to throttle down guest if enabled.
-> +#               (since 8.0)
+ target/riscv/arch_dump.c                |   7 +-
+ target/riscv/cpu.c                      |   6 +-
+ target/riscv/cpu.h                      |  26 ++-
+ target/riscv/cpu_bits.h                 |   2 +-
+ target/riscv/cpu_helper.c               |  86 ++++---
+ target/riscv/csr.c                      |   6 +-
+ target/riscv/insn_trans/trans_rvv.c.inc |  54 ++---
+ target/riscv/op_helper.c                |   7 +-
+ target/riscv/pmp.c                      |  48 ++--
+ target/riscv/pmp.h                      |   9 +-
+ target/riscv/pmu.c                      |   3 +-
+ target/riscv/sbi_ecall_interface.h      |   8 +-
+ target/riscv/translate.c                |   8 +-
+ target/riscv/vector_helper.c            | 292 ++++++++++++++----------
+ 14 files changed, 316 insertions(+), 246 deletions(-)
 
-Feels too terse.  What exactly is used and how?  It's not the capability
-itself (although the text sure sounds like it).  I guess it's the thing
-you set with command set-vcpu-dirty-limit.
-
-Is that used only when the capability is set?
-
->  #
->  # Features:
->  # @unstable: Members @x-colo and @x-ignore-shared are experimental.
-> @@ -492,7 +494,7 @@
->             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
->             { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
->             'validate-uuid', 'background-snapshot',
-> -           'zero-copy-send', 'postcopy-preempt'] }
-> +           'zero-copy-send', 'postcopy-preempt', 'dirty-limit'] }
->=20=20
->  ##
->  # @MigrationCapabilityStatus:
-
-[...]
+-- 
+2.25.1
 
 
