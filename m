@@ -1,104 +1,94 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F70F6C8394
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 18:47:39 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3796E6C83FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 18:57:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pflUq-0006xx-Mg; Fri, 24 Mar 2023 13:46:36 -0400
+	id 1pfleK-0002d2-2Z; Fri, 24 Mar 2023 13:56:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1pflUp-0006xY-5p
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:46:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfleH-0002cR-Qg
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:56:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1pflUm-0001or-Q4
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:46:34 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32OG4Jk7038345; Fri, 24 Mar 2023 17:46:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=35EUl/AYS3vuPVij8cSeQWM+SoLu8r0cuEgoMUGOCQ4=;
- b=BtClEKcC6v243g/ZFDK2azwS3XAU/jOji+AB5z872KA4Qa7VVZpyWTf9/Ygkspd5J2ZQ
- tmYoj395ubdoulUYDIatuYV9OAjEljvx3/CPZ9G1bvYQpO6iykeK4nzXUPTwN79EBNef
- 2i2FLfnfsVKfxzeHPbEclMWXXczB3NpLiATw7r827+yUKMk+26xw05y5oGkgCVoQZmEi
- 1N4rm2z/GG6bQUwv2cnAhzH34PJYm1DYMVDqSznqr0kbxcg2D2mgBIXuNM+WSXOUBJfa
- mss5J1NSQws9djcMMhlujn0NJnWmaMUaXfVi/lHiNsg+LGYO4Bh1D4s3iWGm6hGqR/CD 7g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3phd4c5j07-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 17:46:18 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32OF9vsQ039789;
- Fri, 24 Mar 2023 17:46:18 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3phd4c5hy8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 17:46:18 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32OFvuIQ006252;
- Fri, 24 Mar 2023 17:46:15 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3pgxv78wx2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 17:46:15 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32OHkAO449611076
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Mar 2023 17:46:11 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D485420040;
- Fri, 24 Mar 2023 17:46:10 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2B1B220043;
- Fri, 24 Mar 2023 17:46:10 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.179.5.149])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 24 Mar 2023 17:46:10 +0000 (GMT)
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: pbonzini@redhat.com
-Cc: qemu-devel@nongnu.org, david@redhat.com, thuth@redhat.com,
- borntraeger@de.ibm.com, frankja@linux.ibm.com, fiuczy@linux.ibm.com,
- pasic@linux.ibm.com, nsg@linux.ibm.com, berrange@redhat.com,
- alex.bennee@linaro.org, armbru@redhat.com
-Subject: [PATCH v3 1/1] util/async-teardown: wire up query-command-line-options
-Date: Fri, 24 Mar 2023 18:45:59 +0100
-Message-Id: <20230324174559.44933-2-imbrenda@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230324174559.44933-1-imbrenda@linux.ibm.com>
-References: <20230324174559.44933-1-imbrenda@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfleD-0003qJ-F9
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:56:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679680575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xykc5x3FHcWEsD9PtK1+RFDJ21m1W/R6Wr4E7TS7zEo=;
+ b=X0RwhkyrBIfoUlmCH1guyXPqRx0bLcn8POfIXCq7xmh7LP9tevljz13una5BhthwLEHxES
+ 2HpM66pwsUiCCsoBRoF7eUVdbMcmucGsvAvjEwywX+AiLWsfv3QVrK2nbAmeJ1GN8fdm9G
+ gI3LYZVibxqrCqKQXhRsAB6+px13TaY=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-518-OnkEs1UbPU6jwGviRxtodg-1; Fri, 24 Mar 2023 13:56:12 -0400
+X-MC-Unique: OnkEs1UbPU6jwGviRxtodg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ pc36-20020a05620a842400b00742c715894bso1141660qkn.21
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 10:56:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679680572;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xykc5x3FHcWEsD9PtK1+RFDJ21m1W/R6Wr4E7TS7zEo=;
+ b=JXfkOiOLgr4NnoDZxPmSp9GQxx/LS3G6YdwTGJswEkSmJippDO+rOyTdKfZy4RqgXU
+ QslEdwBYW3NaWVOCkY2tUS9fB4pf9JOdQXxruWzPZ1mnaCOsbXM9BqojXv3EgDGE/OYn
+ OImE0tVVfKns/G83APjkb8zDbH+eWxB00i7ixcR5VlkC8GAX/4ozV3EWLAw2EjSdur/H
+ M97wcP5V91g0AcyGvoJhuaz4hVa0nfz5N5vLv1cBp8ONF0YQJ+onbi8+cCxlgbTxroVm
+ 8djKRU93kiD40+J2nMLLHQz2zECN29fVOwtCvXgfjNW4BUveGjq/LlNxtBP/6yE6RrRy
+ enhA==
+X-Gm-Message-State: AAQBX9cBNJ9g/Ts+TK6PSpbNdOPRgNeKRS0XUjoXJm68BtFvSuAZtCk9
+ hKeG7+3KdwgZUAB7K7GM9pRJfdX3p97iKSMJkUxj53eBLalOH73K4Yb7t0pn6252B8XFuj8t4xp
+ qgvGYMfgg2vlCKzw=
+X-Received: by 2002:a05:6214:20e7:b0:56e:a96b:a3a1 with SMTP id
+ 7-20020a05621420e700b0056ea96ba3a1mr5821506qvk.7.1679680572245; 
+ Fri, 24 Mar 2023 10:56:12 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZLdg3bHcJ35PDWedWhjy+3yAzF2nGYuGFIBnHwHH0JGUvsTd8Mcd/j7gTmJYfsLE5koGSH+A==
+X-Received: by 2002:a05:6214:20e7:b0:56e:a96b:a3a1 with SMTP id
+ 7-20020a05621420e700b0056ea96ba3a1mr5821479qvk.7.1679680571993; 
+ Fri, 24 Mar 2023 10:56:11 -0700 (PDT)
+Received: from [192.168.8.106] (tmo-097-234.customers.d1-online.com.
+ [80.187.97.234]) by smtp.gmail.com with ESMTPSA id
+ c18-20020a0cd612000000b005dd8b9345f0sm850279qvj.136.2023.03.24.10.56.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Mar 2023 10:56:11 -0700 (PDT)
+Message-ID: <b66a0c91-6041-7125-6291-0aa87510dda2@redhat.com>
+Date: Fri, 24 Mar 2023 18:56:06 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: fPgjVDe2OUP50NTw_ByB-qDitbi5QMWL
-X-Proofpoint-ORIG-GUID: uN5Pa1DvnMFHlBp9OoauSEqP6tpMGwo2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0
- phishscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303240138
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 1/1] util/async-teardown: wire up
+ query-command-line-options
+Content-Language: en-US
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>, pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, david@redhat.com, borntraeger@de.ibm.com,
+ frankja@linux.ibm.com, fiuczy@linux.ibm.com, pasic@linux.ibm.com,
+ nsg@linux.ibm.com, berrange@redhat.com, alex.bennee@linaro.org,
+ armbru@redhat.com
+References: <20230324174559.44933-1-imbrenda@linux.ibm.com>
+ <20230324174559.44933-2-imbrenda@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230324174559.44933-2-imbrenda@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,148 +104,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The recently introduced -async-teardown commandline option was not
-wired up properly and did not show up in the output of the QMP command
-query-command-line-options. This means that libvirt will have no way to
-discover whether the feature is supported.
+On 24/03/2023 18.45, Claudio Imbrenda wrote:
+> The recently introduced -async-teardown commandline option was not
+> wired up properly and did not show up in the output of the QMP command
+> query-command-line-options. This means that libvirt will have no way to
+> discover whether the feature is supported.
+> 
+> This patch fixes the issue by correctly wiring up the commandline
+> option so that it appears in the output of query-command-line-options.
+> 
+> Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
+> Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
+> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> ---
+>   os-posix.c            | 14 ++++++++++++++
+>   qemu-options.hx       | 35 ++++++++++++++++++++++++-----------
+>   util/async-teardown.c | 21 +++++++++++++++++++++
+>   3 files changed, 59 insertions(+), 11 deletions(-)
+> 
+> diff --git a/os-posix.c b/os-posix.c
+> index 5adc69f560..48acd7acf5 100644
+> --- a/os-posix.c
+> +++ b/os-posix.c
+> @@ -36,6 +36,8 @@
+>   #include "qemu/log.h"
+>   #include "sysemu/runstate.h"
+>   #include "qemu/cutils.h"
+> +#include "qemu/config-file.h"
+> +#include "qemu/option.h"
+>   
+>   #ifdef CONFIG_LINUX
+>   #include <sys/prctl.h>
+> @@ -132,6 +134,8 @@ static bool os_parse_runas_uid_gid(const char *optarg)
+>    */
+>   int os_parse_cmd_args(int index, const char *optarg)
+>   {
+> +    QemuOpts *opts;
+> +
+>       switch (index) {
+>       case QEMU_OPTION_runas:
+>           user_pwd = getpwnam(optarg);
+> @@ -155,6 +159,16 @@ int os_parse_cmd_args(int index, const char *optarg)
+>       case QEMU_OPTION_asyncteardown:
+>           init_async_teardown();
+>           break;
+> +    case QEMU_OPTION_teardown:
+> +        opts = qemu_opts_parse_noisily(qemu_find_opts("teardown"),
+> +                                       optarg, false);
+> +        if (!opts) {
+> +            return -1;
+> +        }
+> +        if (qemu_opt_get_bool(opts, "async", false)) {
+> +            init_async_teardown();
+> +        }
+> +        break;
+>   #endif
+>       default:
+>           return -1;
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index d42f60fb91..8582980b12 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4766,20 +4766,33 @@ DEF("qtest-log", HAS_ARG, QEMU_OPTION_qtest_log, "", QEMU_ARCH_ALL)
+>   DEF("async-teardown", 0, QEMU_OPTION_asyncteardown,
+>       "-async-teardown enable asynchronous teardown\n",
+>       QEMU_ARCH_ALL)
+> -#endif
+>   SRST
+>   ``-async-teardown``
+> -    Enable asynchronous teardown. A new process called "cleanup/<QEMU_PID>"
+> -    will be created at startup sharing the address space with the main qemu
+> -    process, using clone. It will wait for the main qemu process to
+> -    terminate completely, and then exit.
+> -    This allows qemu to terminate very quickly even if the guest was
+> -    huge, leaving the teardown of the address space to the cleanup
+> -    process. Since the cleanup process shares the same cgroups as the
+> -    main qemu process, accounting is performed correctly. This only
+> -    works if the cleanup process is not forcefully killed with SIGKILL
+> -    before the main qemu process has terminated completely.
+> +    Equivalent to -teardown async=on
 
-This patch fixes the issue by correctly wiring up the commandline
-option so that it appears in the output of query-command-line-options.
+We should avoid of providing multiple ways of doing the same thing to the 
+users if there is no real benefit. So I'd vote for either removing the 
+"-async-teardown" option here directly (since it just has been introduced in 
+7.2 and there are no known users out there yet), or at least deprecate it 
+(put an entry in docs/about/deprecated.rst), so we can remove it again in 
+two releases.
 
-Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
-Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
-Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
----
- os-posix.c            | 14 ++++++++++++++
- qemu-options.hx       | 35 ++++++++++++++++++++++++-----------
- util/async-teardown.c | 21 +++++++++++++++++++++
- 3 files changed, 59 insertions(+), 11 deletions(-)
-
-diff --git a/os-posix.c b/os-posix.c
-index 5adc69f560..48acd7acf5 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -36,6 +36,8 @@
- #include "qemu/log.h"
- #include "sysemu/runstate.h"
- #include "qemu/cutils.h"
-+#include "qemu/config-file.h"
-+#include "qemu/option.h"
- 
- #ifdef CONFIG_LINUX
- #include <sys/prctl.h>
-@@ -132,6 +134,8 @@ static bool os_parse_runas_uid_gid(const char *optarg)
-  */
- int os_parse_cmd_args(int index, const char *optarg)
- {
-+    QemuOpts *opts;
-+
-     switch (index) {
-     case QEMU_OPTION_runas:
-         user_pwd = getpwnam(optarg);
-@@ -155,6 +159,16 @@ int os_parse_cmd_args(int index, const char *optarg)
-     case QEMU_OPTION_asyncteardown:
-         init_async_teardown();
-         break;
-+    case QEMU_OPTION_teardown:
-+        opts = qemu_opts_parse_noisily(qemu_find_opts("teardown"),
-+                                       optarg, false);
-+        if (!opts) {
-+            return -1;
-+        }
-+        if (qemu_opt_get_bool(opts, "async", false)) {
-+            init_async_teardown();
-+        }
-+        break;
- #endif
-     default:
-         return -1;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index d42f60fb91..8582980b12 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4766,20 +4766,33 @@ DEF("qtest-log", HAS_ARG, QEMU_OPTION_qtest_log, "", QEMU_ARCH_ALL)
- DEF("async-teardown", 0, QEMU_OPTION_asyncteardown,
-     "-async-teardown enable asynchronous teardown\n",
-     QEMU_ARCH_ALL)
--#endif
- SRST
- ``-async-teardown``
--    Enable asynchronous teardown. A new process called "cleanup/<QEMU_PID>"
--    will be created at startup sharing the address space with the main qemu
--    process, using clone. It will wait for the main qemu process to
--    terminate completely, and then exit.
--    This allows qemu to terminate very quickly even if the guest was
--    huge, leaving the teardown of the address space to the cleanup
--    process. Since the cleanup process shares the same cgroups as the
--    main qemu process, accounting is performed correctly. This only
--    works if the cleanup process is not forcefully killed with SIGKILL
--    before the main qemu process has terminated completely.
-+    Equivalent to -teardown async=on
-+ERST
-+
-+DEF("teardown", HAS_ARG, QEMU_OPTION_teardown,
-+    "-teardown async[=on|off]\n"
-+    "                process teardown options\n"
-+    "                async=on enables asynchronous teardown\n"
-+   ,
-+    QEMU_ARCH_ALL)
-+SRST
-+``-teardown``
-+    Set process teardown options.
-+
-+    ``async=on`` enables asynchronous teardown.  A new process called
-+    "cleanup/<QEMU_PID>" will be created at startup sharing the address
-+    space with the main qemu process, using clone.  It will wait for the
-+    main qemu process to terminate completely, and then exit.  This allows
-+    qemu to terminate very quickly even if the guest was huge, leaving the
-+    teardown of the address space to the cleanup process.  Since the cleanup
-+    process shares the same cgroups as the main qemu process, accounting is
-+    performed correctly.  This only works if the cleanup process is not
-+    forcefully killed with SIGKILL before the main qemu process has
-+    terminated completely.
- ERST
-+#endif
- 
- DEF("msg", HAS_ARG, QEMU_OPTION_msg,
-     "-msg [timestamp[=on|off]][,guest-name=[on|off]]\n"
-diff --git a/util/async-teardown.c b/util/async-teardown.c
-index 62cdeb0f20..4a5dbce958 100644
---- a/util/async-teardown.c
-+++ b/util/async-teardown.c
-@@ -12,6 +12,9 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/config-file.h"
-+#include "qemu/option.h"
-+#include "qemu/module.h"
- #include <dirent.h>
- #include <sys/prctl.h>
- #include <sched.h>
-@@ -144,3 +147,21 @@ void init_async_teardown(void)
-     clone(async_teardown_fn, new_stack_for_clone(), CLONE_VM, NULL);
-     sigprocmask(SIG_SETMASK, &old_signals, NULL);
- }
-+
-+static QemuOptsList qemu_teardown_opts = {
-+    .name = "teardown",
-+    .head = QTAILQ_HEAD_INITIALIZER(qemu_teardown_opts.head),
-+    .desc = {
-+        {
-+            .name = "async",
-+            .type = QEMU_OPT_BOOL,
-+        },
-+        { /* end of list */ }
-+    },
-+};
-+
-+static void register_teardown(void)
-+{
-+    qemu_add_opts(&qemu_teardown_opts);
-+}
-+opts_init(register_teardown);
--- 
-2.39.2
+  Thomas
 
 
