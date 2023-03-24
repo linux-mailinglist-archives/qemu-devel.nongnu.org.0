@@ -2,95 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB596C7656
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 04:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1456C779F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 07:10:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfY3N-0004cm-Rf; Thu, 23 Mar 2023 23:25:21 -0400
-Received: from [2001:470:142:3::10] (helo=eggs.gnu.org)
+	id 1pfYEr-0005n9-4i; Thu, 23 Mar 2023 23:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1pfY3H-0004cS-2A
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 23:25:15 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1pfYEn-0005mY-13
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 23:37:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1pfY2c-0006Ti-99
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 23:25:10 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32O1aOVI005374; Fri, 24 Mar 2023 03:03:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-transfer-encoding
- : mime-version; s=pp1; bh=5EVbO9VEbpB8MHSQLgwaiXYtX2nlEsrn7TzhZUNl1jI=;
- b=F9Mtz3caoomR3jy+36btC5hO6PMXlZO4XxobtebiBEd67rmnVI1Nyq9NPBliHkYJZbwF
- VjlvdaIdw5IKH8tul0cDdYnHGdss+om6IRZFWLX5VS5LL/j7Ngm86WLIHaXtYQvITGy+
- 8ZafF7WUtIeGSa11WSlfhc3zDXu5jY6ikUmvgeWfvRbKCRCHH+In9fRrp4kChInZmh2i
- rteonlYa9zuUwUv85pxMYTFirr1IGW8pIdbBuEAioWtoyrnKsQI5xm61kw/7TBpNp9jf
- fDDecwKGbNKmYYaAyud2tblY1f99zQbnBjdjGgqBpuMNbFKMp7g6LIij1qulHSXwW/cl yQ== 
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgxt0wrf8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 03:03:23 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32O1Gbn5001120;
- Fri, 24 Mar 2023 03:03:04 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
- by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3pgxups93w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 03:03:04 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
- [10.241.53.103])
- by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32O332w323200276
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Mar 2023 03:03:02 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3A158581B3;
- Fri, 24 Mar 2023 03:03:01 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ECD9B58191;
- Fri, 24 Mar 2023 03:02:53 +0000 (GMT)
-Received: from gfwa601.aus.stglabs.ibm.com (unknown [9.3.62.226])
- by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTPS;
- Fri, 24 Mar 2023 03:02:53 +0000 (GMT)
-Received: by gfwa601.aus.stglabs.ibm.com (Postfix, from userid 155676)
- id AB5AF2E5675; Thu, 23 Mar 2023 22:02:53 -0500 (CDT)
-From: Ninad Palsule <ninad@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: Ninad Palsule <ninad@linux.ibm.com>, joel@jms.id.au, andrew@aj.id.au,
- stefanb@linux.ibm.com, clg@kaod.org
-Subject: [PATCH v3 3/3] New I2C: Add support for TPM devices over I2C bus
-Date: Thu, 23 Mar 2023 22:02:51 -0500
-Message-Id: <20230324030251.2589040-4-ninad@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230324030251.2589040-1-ninad@linux.ibm.com>
-References: <20230324030251.2589040-1-ninad@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: iMt2p1ZQBDzl5kNuTmtkj73PlMasC7qP
-X-Proofpoint-ORIG-GUID: iMt2p1ZQBDzl5kNuTmtkj73PlMasC7qP
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1pfYEV-0000zm-RG
+ for qemu-devel@nongnu.org; Thu, 23 Mar 2023 23:37:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679628996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MPo71KykTGoYTFkMLigcHu5f89gQIkQ5bZM25tTWFiE=;
+ b=YmMX50Kvmk3J5UqD8QKChJumGQ35R/rJRZqJpJxzon3uDqPLmPhuJ0sPBPJ3KlcPiNnmwt
+ Y+I6uhkfqdYuUzni9R02UpXMZSY0tptOMkJ4/LynfytDB0rxklADw+8YR0539Ic6dAtZfL
+ TdEJTukE1oa8Zt4y4w2wveDFgGp0dj4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-lLsYMU_hPDSwKPiofG--lg-1; Thu, 23 Mar 2023 23:00:32 -0400
+X-MC-Unique: lLsYMU_hPDSwKPiofG--lg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003ed40f09355so351838wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Mar 2023 20:00:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679626831;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MPo71KykTGoYTFkMLigcHu5f89gQIkQ5bZM25tTWFiE=;
+ b=jGH19LJ+jed2Q3G/+r9fPiYgrf1+UURptuSeAX+DTaxJYdQUm6NoRI9i1rrCscyhP1
+ w/0LiChNhV7IqCxrycu6XBSZ70rna50aHy4FBUkJjcM2T3WFVTJIihqhHW8YIPXs5vXB
+ s7FrJdCNSG3auPnyeTK9wAufYrBmt0gLAxgasFN4rgsQz8ouRQ9FXiPbHB+MAyjliU6u
+ ZfJX9rynTjj2GdeJnUEjwF6MKN/3S7n0y1JeOFgSDmodFlk0y5ADp8ErAtjaRAojG5TU
+ 3cYSMCgGYyV412Gzwx9FHxKw/HkflmO4NkL7XksqGw5Q9nN96uUy+TXMYobQcgFDu2Py
+ tkIQ==
+X-Gm-Message-State: AO0yUKVrI2eGQzTzTg1IegCJhOa6zbJWajMbfKU8lQsmyAVr3Dkmn9CX
+ BIk2NS3uUL1JQdGz++qbEqu7oLpUOvAvoyIs88SPeYeGH6E27KkvZzG0A6EbrD562Hh2S1AjvSQ
+ CaVvmdZsdAzpnlJ+AB2V5pDG1QbUJIFI=
+X-Received: by 2002:a05:600c:474c:b0:3ed:dc54:5c18 with SMTP id
+ w12-20020a05600c474c00b003eddc545c18mr2178007wmo.3.1679626831226; 
+ Thu, 23 Mar 2023 20:00:31 -0700 (PDT)
+X-Google-Smtp-Source: AK7set84+2aCxmml5nWojqKiVDYn/wrfSXIOFoH8bnr7/IA26CNN/4yL8eJri+q6trWjmC4exMLzw2YbkgtYivezBkI=
+X-Received: by 2002:a05:600c:474c:b0:3ed:dc54:5c18 with SMTP id
+ w12-20020a05600c474c00b003eddc545c18mr2177922wmo.3.1679626826080; Thu, 23 Mar
+ 2023 20:00:26 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-23_15,2023-03-23_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- suspectscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303240025
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=ninad@us.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230321142327.749980-1-lulu@redhat.com>
+ <20230321142327.749980-5-lulu@redhat.com>
+ <CACGkMEts_2Ve+RXE495nGcu_yOsAVER0=8sYqdmQmkj113xLvw@mail.gmail.com>
+ <CACLfguV460T6X-EBF6=mbxBsy+e+E+c+K3=medu48=yG+1be-A@mail.gmail.com>
+ <CACGkMEs_cBVCxB33k2TNawA4aPJJO2vBR2UGZRcL9xEZ+ZEAzg@mail.gmail.com>
+In-Reply-To: <CACGkMEs_cBVCxB33k2TNawA4aPJJO2vBR2UGZRcL9xEZ+ZEAzg@mail.gmail.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Fri, 24 Mar 2023 10:59:48 +0800
+Message-ID: <CACLfguX+X8uCJ_LcdK25hvoFE6mtFe7X=qDebqZ_JYiTpNURXA@mail.gmail.com>
+Subject: Re: [PATCH v15 4/4] vhost-vdpa: Add support for vIOMMU.
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,660 +95,411 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Qemu already supports devices attached to ISA and sysbus. This drop adds
-support for the I2C bus attached TPM devices. I2C model only supports
-TPM2 protocol.
-
-This commit includes changes for the common code.
-- Added I2C emulation model. Logic was added in the model to temporarily
-  cache the data as I2C interface works per byte basis.
-- New tpm type "tpm-tis-i2c" added for I2C support. User specify this
-  string on command line.
-
-Testing:
-  TPM I2C device modulte is tested using SWTPM (software based TPM
-  package). The qemu used the rainier machine and it was connected to
-  swtpm over the socket interface.
-
-  The command to start swtpm is as follows:
-  $ swtpm socket --tpmstate dir=/tmp/mytpm1    \
-                 --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock  \
-                 --tpm2 --log level=100
-
-  The command to start qemu is as follows:
-  $ qemu-system-arm -M rainier-bmc -nographic \
-            -kernel ${IMAGEPATH}/fitImage-linux.bin \
-            -dtb ${IMAGEPATH}/aspeed-bmc-ibm-rainier.dtb \
-            -initrd ${IMAGEPATH}/obmc-phosphor-initramfs.rootfs.cpio.xz \
-            -drive file=${IMAGEPATH}/obmc-phosphor-image.rootfs.wic.qcow2,if=sd,index=2 \
-            -net nic -net user,hostfwd=:127.0.0.1:2222-:22,hostfwd=:127.0.0.1:2443-:443 \
-            -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
-            -tpmdev emulator,id=tpm0,chardev=chrtpm \
-            -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
-
-  Note: Currently you need to specify the I2C bus and device address on
-        command line. In future we can add a device at board level.
-
-Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
----
-V2:
-Incorporated Stephen's review comments.
-- Handled checksum related register in I2C layer
-- Defined I2C interface capabilities and return those instead of
-  capabilities from TPM TIS. Add required capabilities from TIS.
-- Do not cache FIFO data in the I2C layer.
-- Make sure that Device address change register is not passed to I2C
-  layer as capability indicate that it is not supported.
-- Added boundary checks.
-- Make sure that bits 26-31 are zeroed for the TPM_STS register on read
-- Updated Kconfig files for new define.
-
----
-V3:
-- Moved processing of register TPM_I2C_LOC_SEL in the I2C. So I2C layer
-  remembers the locality and pass it to TIS on each read/write.
-- The write data is no more cached in the I2C layer so the buffer size
-  is reduced to 16 bytes.
-- Checksum registers are now managed by the I2C layer. Added new
-  function in TIS layer to return the checksum and used that to process
-  the request.
-- Now 2-4 byte register value will be passed to TIS layer in a single
-  write call instead of 1 byte at a time. Added functions to convert
-  between little endian stream of bytes to single 32 bit unsigned
-  integer. Similarly 32  bit integer to stream of bytes.
-- Added restriction on device change register.
-- Replace few if-else statement with switch statement for clarity.
-- Log warning when unknown register is received.
-- Moved all register definations to acpi/tmp.h
----
- hw/arm/Kconfig       |   1 +
- hw/tpm/Kconfig       |   7 +
- hw/tpm/meson.build   |   1 +
- hw/tpm/tpm_tis_i2c.c | 513 +++++++++++++++++++++++++++++++++++++++++++
- include/sysemu/tpm.h |   3 +
- 5 files changed, 525 insertions(+)
- create mode 100644 hw/tpm/tpm_tis_i2c.c
-
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index b5aed4aff5..05d6ef1a31 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -6,6 +6,7 @@ config ARM_VIRT
-     imply VFIO_PLATFORM
-     imply VFIO_XGMAC
-     imply TPM_TIS_SYSBUS
-+    imply TPM_TIS_I2C
-     imply NVDIMM
-     select ARM_GIC
-     select ACPI
-diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
-index 29e82f3c92..a46663288c 100644
---- a/hw/tpm/Kconfig
-+++ b/hw/tpm/Kconfig
-@@ -1,3 +1,10 @@
-+config TPM_TIS_I2C
-+    bool
-+    depends on TPM
-+    select TPM_BACKEND
-+    select I2C
-+    select TPM_TIS
-+
- config TPM_TIS_ISA
-     bool
-     depends on TPM && ISA_BUS
-diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
-index 7abc2d794a..76fe3cb098 100644
---- a/hw/tpm/meson.build
-+++ b/hw/tpm/meson.build
-@@ -1,6 +1,7 @@
- softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_tis_common.c'))
- softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
- softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
-+softmmu_ss.add(when: 'CONFIG_TPM_TIS_I2C', if_true: files('tpm_tis_i2c.c'))
- softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
- softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_ppi.c'))
- softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_ppi.c'))
-diff --git a/hw/tpm/tpm_tis_i2c.c b/hw/tpm/tpm_tis_i2c.c
-new file mode 100644
-index 0000000000..4f67c28111
---- /dev/null
-+++ b/hw/tpm/tpm_tis_i2c.c
-@@ -0,0 +1,513 @@
-+/*
-+ * tpm_tis_i2c.c - QEMU's TPM TIS I2C Device
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ * Implementation of the TIS interface according to specs found at
-+ * http://www.trustedcomputinggroup.org. This implementation currently
-+ * supports version 1.3, 21 March 2013
-+ * In the developers menu choose the PC Client section then find the TIS
-+ * specification.
-+ *
-+ * TPM TIS for TPM 2 implementation following TCG PC Client Platform
-+ * TPM Profile (PTP) Specification, Familiy 2.0, Revision 00.43
-+ *
-+ * TPM I2C implementation follows TCG TPM I2c Interface specification,
-+ * Family 2.0, Level 00, Revision 1.00
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/i2c/i2c.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/acpi/tpm.h"
-+#include "migration/vmstate.h"
-+#include "tpm_prop.h"
-+#include "tpm_tis.h"
-+#include "qom/object.h"
-+#include "block/aio.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/log.h"
-+
-+/* TPM_STS mask for read bits 31:26 must be zero */
-+#define TPM_I2C_STS_READ_MASK          0x03ffffff
-+
-+/* Operations */
-+#define OP_SEND   1
-+#define OP_RECV   2
-+
-+typedef struct TPMStateI2C {
-+    /*< private >*/
-+    I2CSlave parent_obj;
-+
-+    int      offset;     /* offset in to data[] */
-+    int      size;       /* Size of the current reg data */
-+    uint8_t  operation;  /* OP_SEND & OP_RECV */
-+    uint8_t  data[16];   /* Data */
-+
-+    uint8_t  locality;      /* Current locality */
-+
-+    bool     checksum_enable;
-+    uint32_t tis_intf_cap;  /* save TIS interface Capabilities */
-+
-+    /*< public >*/
-+    TPMState state; /* not a QOM object */
-+
-+} TPMStateI2C;
-+
-+DECLARE_INSTANCE_CHECKER(TPMStateI2C, TPM_TIS_I2C,
-+                         TYPE_TPM_TIS_I2C)
-+
-+/* Register map */
-+typedef struct regMap {
-+    uint16_t  i2c_reg;    /* I2C register */
-+    uint16_t  tis_reg;    /* TIS register */
-+    uint32_t  data_size;  /* data size expected */
-+} i2cRegMap;
-+
-+/*
-+ * The register values in the common code is different than the latest
-+ * register numbers as per the spec hence add the conversion map
-+ */
-+static const i2cRegMap tpm_tis_reg_map[] = {
-+    /* These registers are sent to TIS layer */
-+    { TPM_TIS_I2C_REG_ACCESS,           TPM_TIS_REG_ACCESS,               1, },
-+    { TPM_TIS_I2C_REG_INT_ENABLE,       TPM_TIS_REG_INT_ENABLE,           4, },
-+    { TPM_TIS_I2C_REG_INT_CAPABILITY,   TPM_TIS_REG_INT_VECTOR,           4, },
-+    { TPM_TIS_I2C_REG_STS,              TPM_TIS_REG_STS,                  4, },
-+    { TPM_TIS_I2C_REG_DATA_FIFO,        TPM_TIS_REG_DATA_FIFO,            0, },
-+    { TPM_TIS_I2C_REG_INTF_CAPABILITY,  TPM_TIS_REG_INTF_CAPABILITY,      4, },
-+    { TPM_TIS_I2C_REG_DID_VID,          TPM_TIS_REG_DID_VID,              4, },
-+    { TPM_TIS_I2C_REG_RID,              TPM_TIS_REG_RID,                  1, },
-+
-+    /* These registers are handled in I2C layer */
-+    { TPM_TIS_I2C_REG_LOC_SEL,          TPM_TIS_I2C_REG_LOC_SEL,          1, },
-+    { TPM_TIS_I2C_REG_I2C_DEV_ADDRESS,  TPM_TIS_I2C_REG_I2C_DEV_ADDRESS,  2, },
-+    { TPM_TIS_I2C_REG_DATA_CSUM_ENABLE, TPM_TIS_I2C_REG_DATA_CSUM_ENABLE, 1, },
-+    { TPM_TIS_I2C_REG_DATA_CSUM_GET,    TPM_TIS_I2C_REG_DATA_CSUM_GET,    2, },
-+};
-+
-+/*
-+ * Generate interface capability based on what is returned by TIS and what is
-+ * expected by I2C. Save the capability in the data array overwriting the TIS
-+ * capability.
-+ */
-+static uint32_t tpm_i2c_interface_capability(TPMStateI2C *i2cst,
-+                                             uint32_t tis_cap)
-+{
-+    uint32_t i2c_cap = 0;
-+
-+    i2cst->tis_intf_cap = tis_cap;
-+
-+    /* Now generate i2c capability */
-+    i2c_cap = (TPM_I2C_CAP_INTERFACE_TYPE |
-+               TPM_I2C_CAP_INTERFACE_VER  |
-+               TPM_I2C_CAP_TPM2_FAMILY    |
-+               TPM_I2C_CAP_LOCALITY_CAP   |
-+               TPM_I2C_CAP_BUS_SPEED      |
-+               TPM_I2C_CAP_DEV_ADDR_CHANGE);
-+
-+    /* Now check the TIS and set some capabilities */
-+
-+    /* Static burst count set */
-+    if (i2cst->tis_intf_cap & TPM_TIS_CAP_BURST_COUNT_STATIC) {
-+        i2c_cap |= TPM_I2C_CAP_BURST_COUNT_STATIC;
-+    }
-+
-+    return i2c_cap;
-+}
-+
-+static inline uint16_t tpm_tis_i2c_to_tis_reg(TPMStateI2C *i2cst, int *size)
-+{
-+    uint16_t tis_reg = 0xffff;
-+    const i2cRegMap *reg_map;
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(tpm_tis_reg_map); i++) {
-+        reg_map = &tpm_tis_reg_map[i];
-+        if (reg_map->i2c_reg == (i2cst->data[0] & 0xff)) {
-+            tis_reg = reg_map->tis_reg;
-+            *size = reg_map->data_size;
-+            break;
-+        }
-+    }
-+
-+    if (tis_reg == 0xffff) {
-+        qemu_log_mask(LOG_UNIMP, "%s: Could not convert i2c register: 0x%X\n",
-+                      __func__, i2cst->data[0]);
-+    }
-+
-+    /* Include the locality in the address. */
-+    if (i2cst->locality != TPM_TIS_NO_LOCALITY) {
-+        tis_reg += (i2cst->locality << TPM_TIS_LOCALITY_SHIFT);
-+    }
-+
-+    return tis_reg;
-+}
-+
-+/* Clear some fields from the structure. */
-+static inline void tpm_tis_i2c_clear_data(TPMStateI2C *i2cst)
-+{
-+    /* Clear operation and offset */
-+    i2cst->operation = 0;
-+    i2cst->offset = 0;
-+    i2cst->size = 0;
-+
-+    return;
-+}
-+
-+/* Find endianness */
-+static inline bool tpm_i2c_is_little_endian(void)
-+{
-+    uint32_t val = 1;
-+    char     *ch = (char *)&val;
-+
-+    return (uint32_t)*ch;
-+}
-+
-+/*
-+ * Convert uint32 to stream of bytes in little endian format.
-+ */
-+static inline void tpm_i2c_uint_to_le_bytes(TPMStateI2C *i2cst, uint32_t data)
-+{
-+    int      i;
-+
-+    /* Index 0 is register so do not thouch it. */
-+    if (tpm_i2c_is_little_endian()) {
-+        for (i = 1; i <= 4; i++) {
-+            i2cst->data[i] = (data & 0xff);
-+            data >>= 8;
-+        }
-+    } else {
-+        for (i = 4; i > 0; i--) {
-+            i2cst->data[i] = (data & 0xff);
-+            data >>= 8;
-+        }
-+    }
-+}
-+
-+/*
-+ * Convert little endian byte stream into local formated
-+ * unsigned integer
-+ */
-+static inline uint32_t tpm_i2c_le_bytes_to_uint(TPMStateI2C *i2cst)
-+{
-+    uint32_t data = 0;
-+    int      i;
-+
-+    assert(i2cst->offset <= 5);  /* Including 0th register value */
-+
-+    if (tpm_i2c_is_little_endian()) {
-+        for (i = 1; i < i2cst->offset; i++) {
-+            data |= (((uint32_t)i2cst->data[i]) << (8 * (i - 1)));
-+        }
-+    } else {
-+        for (i = 1; i < i2cst->offset; i++) {
-+            data <<= 8;
-+            data |= i2cst->data[i];
-+        }
-+    }
-+
-+    return data;
-+}
-+
-+/* Send data to TPM */
-+static inline void tpm_tis_i2c_tpm_send(TPMStateI2C *i2cst)
-+{
-+    uint16_t tis_reg;
-+    uint32_t data;
-+
-+    if ((i2cst->operation == OP_SEND) && (i2cst->offset > 1)) {
-+
-+        switch (i2cst->data[0]) {
-+        case TPM_TIS_I2C_REG_DATA_CSUM_ENABLE:
-+            /*
-+             * Checksum is not handled by TIS code hence we will consume the
-+             * register here.
-+             */
-+            i2cst->checksum_enable = true;
-+            break;
-+        case TPM_TIS_I2C_REG_DATA_FIFO:
-+            /* Handled in the main i2c_send function */
-+            break;
-+        case TPM_TIS_I2C_REG_LOC_SEL:
-+            /*
-+             * This register is not handled by TIS so save the locality
-+             * locally
-+             */
-+            i2cst->locality = i2cst->data[1];
-+            break;
-+        default:
-+            /* We handle non-FIFO here */
-+            tis_reg = tpm_tis_i2c_to_tis_reg(i2cst, &i2cst->size);
-+
-+            /* Index 0 is always a register. Convert string to uint32_t. */
-+            data = tpm_i2c_le_bytes_to_uint(i2cst);
-+
-+            tpm_tis_write_data(&i2cst->state, tis_reg, data, 4);
-+            break;
-+        }
-+
-+        tpm_tis_i2c_clear_data(i2cst);
-+    }
-+
-+    return;
-+}
-+
-+/* Callback from TPM to indicate that response is copied */
-+static void tpm_tis_i2c_request_completed(TPMIf *ti, int ret)
-+{
-+    TPMStateI2C *i2cst = TPM_TIS_I2C(ti);
-+    TPMState *s = &i2cst->state;
-+
-+    /* Inform the common code. */
-+    tpm_tis_request_completed(s, ret);
-+}
-+
-+static enum TPMVersion tpm_tis_i2c_get_tpm_version(TPMIf *ti)
-+{
-+    TPMStateI2C *i2cst = TPM_TIS_I2C(ti);
-+    TPMState *s = &i2cst->state;
-+
-+    return tpm_tis_get_tpm_version(s);
-+}
-+
-+static int tpm_tis_i2c_event(I2CSlave *i2c, enum i2c_event event)
-+{
-+    TPMStateI2C *i2cst = TPM_TIS_I2C(i2c);
-+    int ret = 0;
-+
-+    switch (event) {
-+    case I2C_START_RECV:
-+        break;
-+    case I2C_START_SEND:
-+        tpm_tis_i2c_clear_data(i2cst);
-+        break;
-+    case I2C_FINISH:
-+        if (i2cst->operation == OP_SEND) {
-+            tpm_tis_i2c_tpm_send(i2cst);
-+        } else {
-+            tpm_tis_i2c_clear_data(i2cst);
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    return ret;
-+}
-+
-+/*
-+ * If data is for FIFO then it is received from tpm_tis_common buffer
-+ * otherwise it will be handled using single call to common code and
-+ * cached in the local buffer.
-+ */
-+static uint8_t tpm_tis_i2c_recv(I2CSlave *i2c)
-+{
-+    int          ret = 0;
-+    uint32_t     addr;
-+    uint32_t     data_read;
-+    TPMStateI2C *i2cst = TPM_TIS_I2C(i2c);
-+    TPMState    *s = &i2cst->state;
-+    uint16_t     i2c_reg = i2cst->data[0];
-+
-+    /* Convert I2C register to TIS register */
-+    addr = tpm_tis_i2c_to_tis_reg(i2cst, &i2cst->size);
-+    if (addr == 0xffff) {
-+        return 0;
-+    }
-+
-+    if (i2cst->operation == OP_RECV) {
-+
-+        /* Do not cache FIFO data. */
-+        if (i2cst->data[0] == TPM_TIS_I2C_REG_DATA_FIFO) {
-+            data_read = tpm_tis_read_data(s, addr, 1);
-+            ret = (data_read & 0xff);
-+        } else if (sizeof(i2cst->data)) {
-+            ret = i2cst->data[i2cst->offset++];
-+        }
-+
-+    } else if ((i2cst->operation == OP_SEND) && (i2cst->offset < 2)) {
-+        /* First receive call after send */
-+
-+        i2cst->operation = OP_RECV;
-+
-+        switch (i2c_reg) {
-+        case TPM_TIS_I2C_REG_LOC_SEL:
-+            /* Location selection register is managed by i2c */
-+            i2cst->data[1] = i2cst->locality;
-+            break;
-+        case TPM_TIS_I2C_REG_DATA_FIFO:
-+            /* FIFO data is directly read from TPM TIS */
-+            data_read = tpm_tis_read_data(s, addr, 1);
-+            i2cst->data[1] = (data_read & 0xff);
-+            break;
-+        case TPM_TIS_I2C_REG_DATA_CSUM_ENABLE:
-+            i2cst->data[1] = i2cst->checksum_enable;
-+            break;
-+        case TPM_TIS_I2C_REG_DATA_CSUM_GET:
-+            /*
-+             * Checksum registers are not supported by common code hence
-+             * call a common code to get the checksum.
-+             */
-+            data_read = tpm_tis_get_checksum(s, i2cst->locality);
-+            /*
-+             * Save the data in little endian byte stream in the data
-+             * field.
-+             */
-+            tpm_i2c_uint_to_le_bytes(i2cst, data_read);
-+            break;
-+        default:
-+            data_read = tpm_tis_read_data(s, addr, 4);
-+
-+            if (i2c_reg == TPM_TIS_I2C_REG_INTF_CAPABILITY) {
-+                /* Prepare the capabilities as per I2C interface */
-+                data_read = tpm_i2c_interface_capability(i2cst,
-+                                                         data_read);
-+            } else if (i2c_reg == TPM_TIS_I2C_REG_STS) {
-+                /*
-+                 * As per specs, STS bit 31:26 are reserved and must
-+                 * be set to 0
-+                 */
-+                data_read &= TPM_I2C_STS_READ_MASK;
-+            }
-+            /*
-+             * Save the data in little endian byte stream in the data
-+             * field.
-+             */
-+            tpm_i2c_uint_to_le_bytes(i2cst, data_read);
-+            break;
-+        }
-+
-+
-+        /* Return first byte with this call */
-+        i2cst->offset = 1; /* keep the register value intact for debug */
-+        ret = i2cst->data[i2cst->offset++];
-+    } else {
-+        i2cst->operation = OP_RECV;
-+    }
-+
-+    return ret;
-+}
-+
-+/*
-+ * Send function only remembers data in the buffer and then calls
-+ * TPM TIS common code during FINISH event.
-+ */
-+static int tpm_tis_i2c_send(I2CSlave *i2c, uint8_t data)
-+{
-+    TPMStateI2C *i2cst = TPM_TIS_I2C(i2c);
-+    uint16_t tis_reg;
-+
-+    /* Reject non-supported registers. */
-+    if (i2cst->offset == 0) {
-+        /* We do not support device address change */
-+        if (data == TPM_TIS_I2C_REG_I2C_DEV_ADDRESS) {
-+            qemu_log_mask(LOG_UNIMP, "%s: Device address change "
-+                          "is not supported.\n", __func__);
-+            return 1;
-+        }
-+    }
-+
-+    if (sizeof(i2cst->data)) {
-+        i2cst->operation = OP_SEND;
-+
-+        /* Remember data locally for non-FIFO registers */
-+        if ((i2cst->offset == 0) ||
-+            (i2cst->data[0] != TPM_TIS_I2C_REG_DATA_FIFO)) {
-+            i2cst->data[i2cst->offset++] = data;
-+        } else {
-+            tis_reg = tpm_tis_i2c_to_tis_reg(i2cst, &i2cst->size);
-+            tpm_tis_write_data(&i2cst->state, tis_reg, data, 1);
-+        }
-+
-+        return 0;
-+
-+    } else {
-+        /* Return non-zero to indicate NAK */
-+        return 1;
-+    }
-+}
-+
-+static Property tpm_tis_i2c_properties[] = {
-+    DEFINE_PROP_UINT32("irq", TPMStateI2C, state.irq_num, TPM_TIS_IRQ),
-+    DEFINE_PROP_TPMBE("tpmdev", TPMStateI2C, state.be_driver),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void tpm_tis_i2c_realizefn(DeviceState *dev, Error **errp)
-+{
-+    TPMStateI2C *i2cst = TPM_TIS_I2C(dev);
-+    TPMState *s = &i2cst->state;
-+
-+    if (!tpm_find()) {
-+        error_setg(errp, "at most one TPM device is permitted");
-+        return;
-+    }
-+
-+    /*
-+     * Get the backend pointer. It is not initialized propery during
-+     * device_class_set_props
-+     */
-+    s->be_driver = qemu_find_tpm_be("tpm0");
-+
-+    if (!s->be_driver) {
-+        error_setg(errp, "'tpmdev' property is required");
-+        return;
-+    }
-+    if (s->irq_num > 15) {
-+        error_setg(errp, "IRQ %d is outside valid range of 0 to 15",
-+                   s->irq_num);
-+        return;
-+    }
-+}
-+
-+static void tpm_tis_i2c_reset(DeviceState *dev)
-+{
-+    TPMStateI2C *i2cst = TPM_TIS_I2C(dev);
-+    TPMState *s = &i2cst->state;
-+
-+    tpm_tis_i2c_clear_data(i2cst);
-+
-+    i2cst->checksum_enable = false;
-+    i2cst->locality = TPM_TIS_NO_LOCALITY;
-+
-+    return tpm_tis_reset(s);
-+}
-+
-+static void tpm_tis_i2c_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
-+    TPMIfClass *tc = TPM_IF_CLASS(klass);
-+
-+    dc->realize = tpm_tis_i2c_realizefn;
-+    dc->reset = tpm_tis_i2c_reset;
-+    device_class_set_props(dc, tpm_tis_i2c_properties);
-+
-+    k->event = tpm_tis_i2c_event;
-+    k->recv = tpm_tis_i2c_recv;
-+    k->send = tpm_tis_i2c_send;
-+
-+    tc->model = TPM_MODEL_TPM_TIS;
-+    tc->request_completed = tpm_tis_i2c_request_completed;
-+    tc->get_version = tpm_tis_i2c_get_tpm_version;
-+}
-+
-+static const TypeInfo tpm_tis_i2c_info = {
-+    .name          = TYPE_TPM_TIS_I2C,
-+    .parent        = TYPE_I2C_SLAVE,
-+    .instance_size = sizeof(TPMStateI2C),
-+    .class_init    = tpm_tis_i2c_class_init,
-+        .interfaces = (InterfaceInfo[]) {
-+        { TYPE_TPM_IF },
-+        { }
-+    }
-+};
-+
-+static void tpm_tis_i2c_register_types(void)
-+{
-+    type_register_static(&tpm_tis_i2c_info);
-+}
-+
-+type_init(tpm_tis_i2c_register_types)
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index fb40e30ff6..66e3b45f30 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -48,6 +48,7 @@ struct TPMIfClass {
- #define TYPE_TPM_TIS_SYSBUS         "tpm-tis-device"
- #define TYPE_TPM_CRB                "tpm-crb"
- #define TYPE_TPM_SPAPR              "tpm-spapr"
-+#define TYPE_TPM_TIS_I2C            "tpm-tis-i2c"
- 
- #define TPM_IS_TIS_ISA(chr)                         \
-     object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
-@@ -57,6 +58,8 @@ struct TPMIfClass {
-     object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
- #define TPM_IS_SPAPR(chr)                           \
-     object_dynamic_cast(OBJECT(chr), TYPE_TPM_SPAPR)
-+#define TPM_IS_TIS_I2C(chr)                      \
-+    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_I2C)
- 
- /* returns NULL unless there is exactly one TPM device */
- static inline TPMIf *tpm_find(void)
--- 
-2.37.2
+On Fri, Mar 24, 2023 at 10:49=E2=80=AFAM Jason Wang <jasowang@redhat.com> w=
+rote:
+>
+> On Thu, Mar 23, 2023 at 4:41=E2=80=AFPM Cindy Lu <lulu@redhat.com> wrote:
+> >
+> > On Thu, Mar 23, 2023 at 11:47=E2=80=AFAM Jason Wang <jasowang@redhat.co=
+m> wrote:
+> > >
+> > > On Tue, Mar 21, 2023 at 10:24=E2=80=AFPM Cindy Lu <lulu@redhat.com> w=
+rote:
+> > > >
+> > > > 1. The vIOMMU support will make vDPA can work in IOMMU mode. This
+> > > > will fix security issues while using the no-IOMMU mode.
+> > > > To support this feature we need to add new functions for IOMMU MR a=
+dds and
+> > > > deletes.
+> > > >
+> > > > Also since the SVQ does not support vIOMMU yet, add the check for I=
+OMMU
+> > > > in vhost_vdpa_dev_start, if the SVQ and IOMMU enable at the same ti=
+me
+> > > > the function will return fail.
+> > > >
+> > > > 2. Skip the iova_max check vhost_vdpa_listener_skipped_section(). W=
+hile
+> > > > MR is IOMMU, move this check to vhost_vdpa_iommu_map_notify()
+> > > >
+> > > > Verified in vp_vdpa and vdpa_sim_net driver
+> > > >
+> > > > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > > > ---
+> > > >  hw/virtio/trace-events         |   2 +-
+> > > >  hw/virtio/vhost-vdpa.c         | 159 +++++++++++++++++++++++++++++=
++---
+> > > >  include/hw/virtio/vhost-vdpa.h |  11 +++
+> > > >  3 files changed, 161 insertions(+), 11 deletions(-)
+> > > >
+> > > > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > > > index 8f8d05cf9b..de4da2c65c 100644
+> > > > --- a/hw/virtio/trace-events
+> > > > +++ b/hw/virtio/trace-events
+> > > > @@ -33,7 +33,7 @@ vhost_user_create_notifier(int idx, void *n) "idx=
+:%d n:%p"
+> > > >  vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t=
+ asid, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t =
+type) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64"=
+ size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+> > > >  vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32=
+_t asid, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_ty=
+pe: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"P=
+RIu8
+> > > >  vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type=
+, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> > > > -vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uin=
+t8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> > > > +vhost_vdpa_iotlb_batch_end_once(void *v, int fd, uint32_t msg_type=
+, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> > > >  vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t=
+ llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PR=
+Ix64" vaddr: %p read-only: %d"
+> > > >  vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t=
+ llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
+> > > >  vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: =
+0x%"PRIx8
+> > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > > > index 0c8c37e786..39720d12a6 100644
+> > > > --- a/hw/virtio/vhost-vdpa.c
+> > > > +++ b/hw/virtio/vhost-vdpa.c
+> > > > @@ -26,6 +26,7 @@
+> > > >  #include "cpu.h"
+> > > >  #include "trace.h"
+> > > >  #include "qapi/error.h"
+> > > > +#include "hw/virtio/virtio-access.h"
+> > > >
+> > > >  /*
+> > > >   * Return one past the end of the end of section. Be careful with =
+uint64_t
+> > > > @@ -60,13 +61,21 @@ static bool vhost_vdpa_listener_skipped_section=
+(MemoryRegionSection *section,
+> > > >                       iova_min, section->offset_within_address_spac=
+e);
+> > > >          return true;
+> > > >      }
+> > > > +    /*
+> > > > +     * While using vIOMMU, sometimes the section will be larger th=
+an iova_max,
+> > > > +     * but the memory that actually maps is smaller, so move the c=
+heck to
+> > > > +     * function vhost_vdpa_iommu_map_notify(). That function will =
+use the actual
+> > > > +     * size that maps to the kernel
+> > > > +     */
+> > > >
+> > > > -    llend =3D vhost_vdpa_section_end(section);
+> > > > -    if (int128_gt(llend, int128_make64(iova_max))) {
+> > > > -        error_report("RAM section out of device range (max=3D0x%" =
+PRIx64
+> > > > -                     ", end addr=3D0x%" PRIx64 ")",
+> > > > -                     iova_max, int128_get64(llend));
+> > > > -        return true;
+> > > > +    if (!memory_region_is_iommu(section->mr)) {
+> > > > +        llend =3D vhost_vdpa_section_end(section);
+> > > > +        if (int128_gt(llend, int128_make64(iova_max))) {
+> > > > +            error_report("RAM section out of device range (max=3D0=
+x%" PRIx64
+> > > > +                         ", end addr=3D0x%" PRIx64 ")",
+> > > > +                         iova_max, int128_get64(llend));
+> > > > +            return true;
+> > > > +        }
+> > > >      }
+> > > >
+> > > >      return false;
+> > > > @@ -158,9 +167,8 @@ static void vhost_vdpa_iotlb_batch_begin_once(s=
+truct vhost_vdpa *v)
+> > > >      v->iotlb_batch_begin_sent =3D true;
+> > > >  }
+> > > >
+> > > > -static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> > > > +static void vhost_vdpa_iotlb_batch_end_once(struct vhost_vdpa *v)
+> > > >  {
+> > > > -    struct vhost_vdpa *v =3D container_of(listener, struct vhost_v=
+dpa, listener);
+> > > >      struct vhost_dev *dev =3D v->dev;
+> > > >      struct vhost_msg_v2 msg =3D {};
+> > > >      int fd =3D v->device_fd;
+> > > > @@ -176,7 +184,7 @@ static void vhost_vdpa_listener_commit(MemoryLi=
+stener *listener)
+> > > >      msg.type =3D v->msg_type;
+> > > >      msg.iotlb.type =3D VHOST_IOTLB_BATCH_END;
+> > > >
+> > > > -    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.ty=
+pe);
+> > > > +    trace_vhost_vdpa_iotlb_batch_end_once(v, fd, msg.type, msg.iot=
+lb.type);
+> > >
+> > > I suggest to keep the commit trace. The commit and batch are differen=
+t
+> > > things. If you want to trace the batch begin/end you should do it in
+> > > vhost_vdpa_iotlb_batch_begin_once() etc.
+> > >
+> > sure will fix this
+> > > >      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
+> > > >          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
+> > > >                       fd, errno, strerror(errno));
+> > > > @@ -185,6 +193,124 @@ static void vhost_vdpa_listener_commit(Memory=
+Listener *listener)
+> > > >      v->iotlb_batch_begin_sent =3D false;
+> > > >  }
+> > > >
+> > > > +static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> > > > +{
+> > > > +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_v=
+dpa, listener);
+> > > > +    vhost_vdpa_iotlb_batch_end_once(v);
+> > > > +}
+> > > > +
+> > > > +static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLB=
+Entry *iotlb)
+> > > > +{
+> > > > +    struct vdpa_iommu *iommu =3D container_of(n, struct vdpa_iommu=
+, n);
+> > > > +
+> > > > +    hwaddr iova =3D iotlb->iova + iommu->iommu_offset;
+> > > > +    struct vhost_vdpa *v =3D iommu->dev;
+> > > > +    void *vaddr;
+> > > > +    int ret;
+> > > > +    Int128 llend;
+> > > > +
+> > > > +    if (iotlb->target_as !=3D &address_space_memory) {
+> > > > +        error_report("Wrong target AS \"%s\", only system memory i=
+s allowed",
+> > > > +                     iotlb->target_as->name ? iotlb->target_as->na=
+me : "none");
+> > > > +        return;
+> > > > +    }
+> > > > +    RCU_READ_LOCK_GUARD();
+> > > > +    /* check if RAM section out of device range */
+> > > > +    llend =3D int128_add(int128_makes64(iotlb->addr_mask), int128_=
+makes64(iova));
+> > > > +    if (int128_gt(llend, int128_make64(v->iova_range.last))) {
+> > > > +        error_report("RAM section out of device range (max=3D0x%" =
+PRIx64
+> > > > +                     ", end addr=3D0x%" PRIx64 ")",
+> > > > +                     v->iova_range.last, int128_get64(llend));
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    if ((iotlb->perm & IOMMU_RW) !=3D IOMMU_NONE) {
+> > > > +        bool read_only;
+> > > > +
+> > > > +        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only,=
+ NULL)) {
+> > > > +            return;
+> > > > +        }
+> > > > +        vhost_vdpa_iotlb_batch_begin_once(v);
+> > >
+> > > I think at most 2 ioctls for this, is this still worth to batch them?
+> > >
+> > > Other looks good.
+> > >
+> > > Thanks
+> > >
+> >  the kernel vdpa doesn't support  no-batch mode, if we remove the batch=
+ here
+> > the system will fail to map
+> > qemu-system-x86_64: failed to write, fd=3D12, errno=3D14 (Bad address)
+> > qemu-system-x86_64: vhost_vdpa_dma_unmap(0x7f811a950190, 0x0,
+> > 0x80000000) =3D -5 (Bad address)
+> >
+> > I'm not sure maybe this is a bug in the kernel?
+>
+> I'm not sure I understand this, but do you mean you meet this if you
+> remove the batch_begin_once() and vhost_vdpa_iotlb_batch_end_once()?
+>
+> Thanks
+>
+yes=EF=BC=8C the system will fail to map if we remove these functions, Does
+this work as expect?
+Maybe we need to fix this in the kernel?
+Thanks
+Cindy
+> > Thanks
+> > Cindy
+> >
+> > > > +        ret =3D vhost_vdpa_dma_map(v, VHOST_VDPA_GUEST_PA_ASID, io=
+va,
+> > > > +                                 iotlb->addr_mask + 1, vaddr, read=
+_only);
+> > > > +        if (ret) {
+> > > > +            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx =
+", "
+> > > > +                         "0x%" HWADDR_PRIx ", %p) =3D %d (%m)",
+> > > > +                         v, iova, iotlb->addr_mask + 1, vaddr, ret=
+);
+> > > > +        }
+> > > > +    } else {
+> > > > +        vhost_vdpa_iotlb_batch_begin_once(v);
+> > > > +        ret =3D vhost_vdpa_dma_unmap(v, VHOST_VDPA_GUEST_PA_ASID, =
+iova,
+> > > > +                                   iotlb->addr_mask + 1);
+> > > > +        if (ret) {
+> > > > +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRI=
+x ", "
+> > > > +                         "0x%" HWADDR_PRIx ") =3D %d (%m)",
+> > > > +                         v, iova, iotlb->addr_mask + 1, ret);
+> > > > +        }
+> > > > +    }
+> > > > +    vhost_vdpa_iotlb_batch_end_once(v);
+> > > > +}
+> > > > +
+> > > > +static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
+> > > > +                                        MemoryRegionSection *secti=
+on)
+> > > > +{
+> > > > +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_v=
+dpa, listener);
+> > > > +
+> > > > +    struct vdpa_iommu *iommu;
+> > > > +    Int128 end;
+> > > > +    int iommu_idx;
+> > > > +    IOMMUMemoryRegion *iommu_mr;
+> > > > +    int ret;
+> > > > +
+> > > > +    iommu_mr =3D IOMMU_MEMORY_REGION(section->mr);
+> > > > +
+> > > > +    iommu =3D g_malloc0(sizeof(*iommu));
+> > > > +    end =3D int128_add(int128_make64(section->offset_within_region=
+),
+> > > > +                     section->size);
+> > > > +    end =3D int128_sub(end, int128_one());
+> > > > +    iommu_idx =3D memory_region_iommu_attrs_to_index(iommu_mr,
+> > > > +                                                   MEMTXATTRS_UNSP=
+ECIFIED);
+> > > > +    iommu->iommu_mr =3D iommu_mr;
+> > > > +    iommu_notifier_init(&iommu->n, vhost_vdpa_iommu_map_notify,
+> > > > +                        IOMMU_NOTIFIER_IOTLB_EVENTS,
+> > > > +                        section->offset_within_region,
+> > > > +                        int128_get64(end),
+> > > > +                        iommu_idx);
+> > > > +    iommu->iommu_offset =3D section->offset_within_address_space -
+> > > > +                          section->offset_within_region;
+> > > > +    iommu->dev =3D v;
+> > > > +
+> > > > +    ret =3D memory_region_register_iommu_notifier(section->mr, &io=
+mmu->n, NULL);
+> > > > +    if (ret) {
+> > > > +        g_free(iommu);
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
+> > > > +    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
+> > > > +
+> > > > +    return;
+> > > > +}
+> > > > +
+> > > > +static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
+> > > > +                                        MemoryRegionSection *secti=
+on)
+> > > > +{
+> > > > +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_v=
+dpa, listener);
+> > > > +
+> > > > +    struct vdpa_iommu *iommu;
+> > > > +
+> > > > +    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
+> > > > +    {
+> > > > +        if (MEMORY_REGION(iommu->iommu_mr) =3D=3D section->mr &&
+> > > > +            iommu->n.start =3D=3D section->offset_within_region) {
+> > > > +            memory_region_unregister_iommu_notifier(section->mr, &=
+iommu->n);
+> > > > +            QLIST_REMOVE(iommu, iommu_next);
+> > > > +            g_free(iommu);
+> > > > +            break;
+> > > > +        }
+> > > > +    }
+> > > > +}
+> > > > +
+> > > >  static void vhost_vdpa_listener_region_add(MemoryListener *listene=
+r,
+> > > >                                             MemoryRegionSection *se=
+ction)
+> > > >  {
+> > > > @@ -199,6 +325,10 @@ static void vhost_vdpa_listener_region_add(Mem=
+oryListener *listener,
+> > > >                                              v->iova_range.last)) {
+> > > >          return;
+> > > >      }
+> > > > +    if (memory_region_is_iommu(section->mr)) {
+> > > > +        vhost_vdpa_iommu_region_add(listener, section);
+> > > > +        return;
+> > > > +    }
+> > > >
+> > > >      if (unlikely((section->offset_within_address_space & ~TARGET_P=
+AGE_MASK) !=3D
+> > > >                   (section->offset_within_region & ~TARGET_PAGE_MAS=
+K))) {
+> > > > @@ -278,6 +408,9 @@ static void vhost_vdpa_listener_region_del(Memo=
+ryListener *listener,
+> > > >                                              v->iova_range.last)) {
+> > > >          return;
+> > > >      }
+> > > > +    if (memory_region_is_iommu(section->mr)) {
+> > > > +        vhost_vdpa_iommu_region_del(listener, section);
+> > > > +    }
+> > > >
+> > > >      if (unlikely((section->offset_within_address_space & ~TARGET_P=
+AGE_MASK) !=3D
+> > > >                   (section->offset_within_region & ~TARGET_PAGE_MAS=
+K))) {
+> > > > @@ -1182,7 +1315,13 @@ static int vhost_vdpa_dev_start(struct vhost=
+_dev *dev, bool started)
+> > > >      }
+> > > >
+> > > >      if (started) {
+> > > > -        memory_listener_register(&v->listener, &address_space_memo=
+ry);
+> > > > +        if (vhost_dev_has_iommu(dev) && (v->shadow_vqs_enabled)) {
+> > > > +            error_report("SVQ can not work while IOMMU enable, ple=
+ase disable"
+> > > > +                         "IOMMU and try again");
+> > > > +            return -1;
+> > > > +        }
+> > > > +        memory_listener_register(&v->listener, dev->vdev->dma_as);
+> > > > +
+> > > >          return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_O=
+K);
+> > > >      }
+> > > >
+> > > > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vho=
+st-vdpa.h
+> > > > index c278a2a8de..e64bfc7f98 100644
+> > > > --- a/include/hw/virtio/vhost-vdpa.h
+> > > > +++ b/include/hw/virtio/vhost-vdpa.h
+> > > > @@ -52,6 +52,8 @@ typedef struct vhost_vdpa {
+> > > >      struct vhost_dev *dev;
+> > > >      Error *migration_blocker;
+> > > >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> > > > +    QLIST_HEAD(, vdpa_iommu) iommu_list;
+> > > > +    IOMMUNotifier n;
+> > > >  } VhostVDPA;
+> > > >
+> > > >  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range=
+ *iova_range);
+> > > > @@ -61,4 +63,13 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, uin=
+t32_t asid, hwaddr iova,
+> > > >  int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwad=
+dr iova,
+> > > >                           hwaddr size);
+> > > >
+> > > > +typedef struct vdpa_iommu {
+> > > > +    struct vhost_vdpa *dev;
+> > > > +    IOMMUMemoryRegion *iommu_mr;
+> > > > +    hwaddr iommu_offset;
+> > > > +    IOMMUNotifier n;
+> > > > +    QLIST_ENTRY(vdpa_iommu) iommu_next;
+> > > > +} VDPAIOMMUState;
+> > > > +
+> > > > +
+> > > >  #endif
+> > > > --
+> > > > 2.34.3
+> > > >
+> > >
+> >
+>
 
 
