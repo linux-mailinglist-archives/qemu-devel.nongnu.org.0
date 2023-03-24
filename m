@@ -2,81 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26C16C8092
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 15:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 000DF6C80A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:02:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfdQq-0002ug-JT; Fri, 24 Mar 2023 05:09:56 -0400
+	id 1pfczd-0000xQ-LI; Fri, 24 Mar 2023 04:41:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pfdQn-0002u2-19; Fri, 24 Mar 2023 05:09:53 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pfdQb-0001LN-83; Fri, 24 Mar 2023 05:09:51 -0400
-Received: by mail-lf1-x132.google.com with SMTP id bi9so1279696lfb.12;
- Fri, 24 Mar 2023 02:09:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679648967;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bExAs9CIOLpAF0dWKqp9tY5dY/sIMxBCBYy+25wFdBs=;
- b=R87NYbW/TzmDnNb0GJYjxXGdz3QEhmZwamo283aNZb66VxA7P5bl1s5gzcnGY9GJiI
- Nu0lJgdOk/IHxdXRjvDcywMN1Tkqb9TI/on/ynC5gWm4M7AjFd1UFnx8WSlBupJAviUO
- acraWT1BguLtnvYQyYSNhJA0eJyE9IOOOVBwC/mWXTmoSZ28j7+IkFbiuii3eOnIkqJD
- INr/ti4OviBh6uxgHDJ4sKqYbE/RUk8cH1LylhjlGukMTMME8KoDdSP2M46ifi6QZgl5
- rbzSCxiZz+Z84fSbN/W0pdRp4KCAkYb6wt3x4fF4UsIV72JdsED0zY+ymRTR2vGOcY4R
- t1RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679648967;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bExAs9CIOLpAF0dWKqp9tY5dY/sIMxBCBYy+25wFdBs=;
- b=74fP1RnND0V7enfW4owEw+7pQ2F1/kUDP2gckBDpbik84MZ3xmjDKNE5enywIH6Kwl
- 3MYnjrVKKNXgwQK5d+QMjfwfJq34UE0jBSBxUG6vCJSUiCeIZJ7+ECg01uyARH4SWIE/
- A5we6jcQtdPtZEukxTEr+aUeLYlIzYAk++TBN4/T2KpCuZyRySlCnF+CJG07JOLPAAWu
- +MiA4a0Lj04Kh5aWxtuzKbCQ33UCoI8ZA4ab1J9fcZBzENXJeVkBbh9b4xMHHYJEOkp/
- S1vVR2pnxpEbZtw/3o6m9WROxgMj6xbuErPyqfpoxlqKaFnayA7SKr9aeLlXYdCNVleR
- m0ow==
-X-Gm-Message-State: AAQBX9cGKTEh8PuuKjlqtY2Bi72CaRaFzGcop4xj948dpXs/GdBl+0TU
- uwkd8tNVYbnrqkPyHz055a1olD4NkCeGcKG0CdaCRxg8XV8V2imv
-X-Google-Smtp-Source: AKy350ZEMkFDlvW7/SD2LRaGNICZoYW/2BWSvtlpid7rOSdNYYjC7Mk2AcYqKw5rxAZa7vNZ4U5Se3Cqx7GiincGHII=
-X-Received: by 2002:a17:906:868b:b0:934:b24e:26ba with SMTP id
- g11-20020a170906868b00b00934b24e26bamr893012ejx.7.1679644957702; Fri, 24 Mar
- 2023 01:02:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230323050834.5199-1-faithilikerun@gmail.com>
- <20230323050834.5199-7-faithilikerun@gmail.com>
- <20230323193106.GD1459474@fedora>
-In-Reply-To: <20230323193106.GD1459474@fedora>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Fri, 24 Mar 2023 16:02:11 +0800
-Message-ID: <CAAAx-8J+fKzdPocf0L+WZ7VxE_q5m6UEK-g7RRX2YYtDhaw8wA@mail.gmail.com>
-Subject: Re: [PATCH v17 6/8] qemu-iotests: test new zone operations
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, damien.lemoal@opensource.wdc.com, 
- Fam Zheng <fam@euphon.net>, hare@suse.de, dmitry.fomichev@wdc.com, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=faithilikerun@gmail.com; helo=mail-lf1-x132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <minwoo.im@samsung.com>)
+ id 1pfczY-0000xA-NV
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 04:41:44 -0400
+Received: from mailout1.samsung.com ([203.254.224.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <minwoo.im@samsung.com>)
+ id 1pfczJ-0000Nv-SH
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 04:41:43 -0400
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20230324083509epoutp0186d40e89e023efe08d43d24c0e416d7e~PTfcMrLNx2951029510epoutp01W
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 08:35:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20230324083509epoutp0186d40e89e023efe08d43d24c0e416d7e~PTfcMrLNx2951029510epoutp01W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1679646909;
+ bh=+aRIg26OlnH+KFCxWh8KFBYzogllA7U/nt4SKZ6wxIo=;
+ h=Subject:Reply-To:From:To:CC:Date:References:From;
+ b=Mi5UjfjrPNEzrTiN3Al/bMFWHikgDm5c6q/hKrnicYZSYOEPftVYdhUxH/a0/m0z8
+ uqVCDHlUHj2KulJThbJBKfgiWocXWc8DhPh+jbBPq47qp/7Kz+NG0jwYEbglaijolb
+ Wj33Ym5zas9iMeJ1q28O9TJjAYuH5NxqqtSbU/VA=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas2p1.samsung.com (KnoxPortal) with ESMTP id
+ 20230324083509epcas2p162360ede3cbfc4dbc939e38f925704cc~PTfbvvcaQ0582305823epcas2p15;
+ Fri, 24 Mar 2023 08:35:09 +0000 (GMT)
+Received: from epsmges2p2.samsung.com (unknown [182.195.36.102]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4PjbB42qY5z4x9Q6; Fri, 24 Mar
+ 2023 08:35:08 +0000 (GMT)
+X-AuditID: b6c32a46-4e1ff70000007a4b-ac-641d60bcb914
+Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
+ epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ C1.BB.31307.CB06D146; Fri, 24 Mar 2023 17:35:08 +0900 (KST)
+Mime-Version: 1.0
+Subject: [PATCH 1/2] hw/nvme: consider COPY command in nvme_aio_err
+From: Minwoo Im <minwoo.im@samsung.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+CC: Klaus Birkelund Jensen <k.jensen@samsung.com>, Minwoo Im
+ <minwoo.im@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20230324083507epcms2p3fcf6bed459a8080dc7f179a3506b44ec@epcms2p3>
+Date: Fri, 24 Mar 2023 17:35:07 +0900
+X-CMS-MailID: 20230324083507epcms2p3fcf6bed459a8080dc7f179a3506b44ec
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKKsWRmVeSWpSXmKPExsWy7bCmue6eBNkUg6v7BC1ONu5htXh2+gCz
+ xax37WwWx3t3sDiweDy5tpnJo2/LKsYApqhsm4zUxJTUIoXUvOT8lMy8dFsl7+B453hTMwND
+ XUNLC3MlhbzE3FRbJRefAF23zBygTUoKZYk5pUChgMTiYiV9O5ui/NKSVIWM/OISW6XUgpSc
+ AvMCveLE3OLSvHS9vNQSK0MDAyNToMKE7IzbvxpYCq6yV9z+N52xgXEyWxcjJ4eEgInExgcv
+ WEFsIYEdjBIz7+t2MXJw8AoISvzdIQwSFhZwluh49oQZJCwkIC/x45UBRFhT4t3uM2CdbALq
+ Eg1TX7GA2CICaRIt+96BxZkFwiQ2nznDDrGJV2JG+1MWCFtaYvvyrYwQtobEj2W9zBC2qMTN
+ 1W/ZYez3x+ZD1YhItN47C1UjKPHg526ouJTE/vlzoexqiYbjz5gg7AqJX+8fQNWbS/y+vxvs
+ Hl4BX4nn104wgbzCIqAq8fJMNkSJi8SlA3sYIU6Wl9j+dg7Yt8xAL67fpQ9iSggoSxy5xQJR
+ wSfRcfgv3FM75j2BWqos8fHQIailkhLLL72GBrGHxKemXhZIEAdKtO3tZ5vAqDALEcqzkOyd
+ hbB3ASPzKkax1ILi3PTUYqMCI3i8JufnbmIEpzcttx2MU95+0DvEyMTBeIhRgoNZSYT3XYhs
+ ihBvSmJlVWpRfnxRaU5q8SFGU6CHJzJLiSbnAxNsXkm8oYmlgYmZmaG5kamBuZI4r7TtyWQh
+ gfTEktTs1NSC1CKYPiYOTqkGppxrsWsTpI+zvrw805Dp4E7tc1+YNqU7NDCl7tzUc8f9UVue
+ UOrMnXtdM/gbnv55ajhzn7zYH6FrxfdbE5cXzHBhDvX7N39PtstfobAQWYaPfVa+TKlm1hc0
+ vRxMuF43pt7luRo+iTfj9sZ9u7crztmr3+ftfNqTj63kmn7dnu2/9kjlBV2T/PX9ur3mFRcd
+ kRd3Tmw989ZY6yaLem/6uRXqa3641DBzvwvfWfXu3r9UVQalne9yi6+5qP2aZStUHC7WO6Wg
+ 8IrGa/XnT//Wtles/Cj4NGLtPhv7B1NWJy7KMX90sN95ZfWLGeerVyZNiHR6V5ZhbMXe0Gyo
+ c597llSB5Kvbyw+XcDXnHBE6qsRSnJFoqMVcVJwIAPVSebL4AwAA
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230324083507epcms2p3fcf6bed459a8080dc7f179a3506b44ec
+References: <CGME20230324083507epcms2p3fcf6bed459a8080dc7f179a3506b44ec@epcms2p3>
+Received-SPF: pass client-ip=203.254.224.24;
+ envelope-from=minwoo.im@samsung.com; helo=mailout1.samsung.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,212 +105,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: minwoo.im@samsung.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2023=E5=B9=B43=E6=9C=8824=E6=
-=97=A5=E5=91=A8=E4=BA=94 03:31=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Thu, Mar 23, 2023 at 01:08:32PM +0800, Sam Li wrote:
-> > The new block layer APIs of zoned block devices can be tested by:
-> > $ tests/qemu-iotests/check zoned
-> > Run each zone operation on a newly created null_blk device
-> > and see whether it outputs the same zone information.
-> >
-> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  tests/qemu-iotests/tests/zoned     | 86 ++++++++++++++++++++++++++++++
-> >  tests/qemu-iotests/tests/zoned.out | 53 ++++++++++++++++++
-> >  2 files changed, 139 insertions(+)
-> >  create mode 100755 tests/qemu-iotests/tests/zoned
-> >  create mode 100644 tests/qemu-iotests/tests/zoned.out
-> >
-> > diff --git a/tests/qemu-iotests/tests/zoned b/tests/qemu-iotests/tests/=
-zoned
-> > new file mode 100755
-> > index 0000000000..53097e44d9
-> > --- /dev/null
-> > +++ b/tests/qemu-iotests/tests/zoned
-> > @@ -0,0 +1,86 @@
-> > +#!/usr/bin/env bash
-> > +#
-> > +# Test zone management operations.
-> > +#
-> > +
-> > +seq=3D"$(basename $0)"
-> > +echo "QA output created by $seq"
-> > +status=3D1 # failure is the default!
-> > +
-> > +_cleanup()
-> > +{
-> > +  _cleanup_test_img
-> > +  sudo rmmod null_blk
-> > +}
-> > +trap "_cleanup; exit \$status" 0 1 2 3 15
-> > +
-> > +# get standard environment, filters and checks
-> > +. ../common.rc
-> > +. ../common.filter
-> > +. ../common.qemu
-> > +
-> > +# This test only runs on Linux hosts with raw image files.
-> > +_supported_fmt raw
-> > +_supported_proto file
-> > +_supported_os Linux
-> > +
-> > +IMG=3D"--image-opts -n driver=3Dhost_device,filename=3D/dev/nullb0"
-> > +QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
-> > +
-> > +echo "Testing a null_blk device:"
-> > +echo "case 1: if the operations work"
-> > +sudo modprobe null_blk nr_devices=3D1 zoned=3D1
->
-> I took a look at how existing qemu-iotests use sudo. The run it in
-> non-interactive mode and skip the test if sudo is unavailable.
->
-> Please do something like this to check for sudo support:
->
->   sudo -n true || _notrun 'Password-less sudo required'
->
-> Then always use "sudo -n ...".
+If we don't have NVME_CMD_COPY consideration in the switch statement in
+nvme_aio_err(), it will go to have NVME_INTERNAL_DEV_ERROR and
+`req->status` will be ovewritten to it.  During the aio context, it
+might set the NVMe status field like NVME_CMD_SIZE_LIMIT, but it's
+overwritten in the nvme_aio_err().
 
-Ok. Then, passwordless sudo demands setup on Linux otherwise the
-script will not run just as existing qemu-iotests does.
+Add consideration for the NVME_CMD_COPY not to overwrite the status at
+the end of the function.
 
->
->
-> > +sudo chmod 0666 /dev/nullb0
-> > +
-> > +echo "(1) report the first zone:"
-> > +$QEMU_IO $IMG -c "zrp 0 1"
-> > +echo
-> > +echo "report the first 10 zones"
-> > +$QEMU_IO $IMG -c "zrp 0 10"
-> > +echo
-> > +echo "report the last zone:"
-> > +$QEMU_IO $IMG -c "zrp 0x3e70000000 2" # 0x3e70000000 / 512 =3D 0x1f380=
-000
-> > +echo
-> > +echo
-> > +echo "(2) opening the first zone"
-> > +$QEMU_IO $IMG -c "zo 0 268435456"  # 268435456 / 512 =3D 524288
-> > +echo "report after:"
-> > +$QEMU_IO $IMG -c "zrp 0 1"
-> > +echo
-> > +echo "opening the second zone"
-> > +$QEMU_IO $IMG -c "zo 268435456 268435456" #
-> > +echo "report after:"
-> > +$QEMU_IO $IMG -c "zrp 268435456 1"
-> > +echo
-> > +echo "opening the last zone"
-> > +$QEMU_IO $IMG -c "zo 0x3e70000000 268435456"
-> > +echo "report after:"
-> > +$QEMU_IO $IMG -c "zrp 0x3e70000000 2"
-> > +echo
-> > +echo
-> > +echo "(3) closing the first zone"
-> > +$QEMU_IO $IMG -c "zc 0 268435456"
-> > +echo "report after:"
-> > +$QEMU_IO $IMG -c "zrp 0 1"
-> > +echo
-> > +echo "closing the last zone"
-> > +$QEMU_IO $IMG -c "zc 0x3e70000000 268435456"
-> > +echo "report after:"
-> > +$QEMU_IO $IMG -c "zrp 0x3e70000000 2"
-> > +echo
-> > +echo
-> > +echo "(4) finishing the second zone"
-> > +$QEMU_IO $IMG -c "zf 268435456 268435456"
-> > +echo "After finishing a zone:"
-> > +$QEMU_IO $IMG -c "zrp 268435456 1"
-> > +echo
-> > +echo
-> > +echo "(5) resetting the second zone"
-> > +$QEMU_IO $IMG -c "zrs 268435456 268435456"
-> > +echo "After resetting a zone:"
-> > +$QEMU_IO $IMG -c "zrp 268435456 1"
-> > +
-> > +# success, all done
-> > +echo "*** done"
-> > +rm -f $seq.full
-> > +status=3D0
-> > diff --git a/tests/qemu-iotests/tests/zoned.out b/tests/qemu-iotests/te=
-sts/zoned.out
-> > new file mode 100644
-> > index 0000000000..b2d061da49
-> > --- /dev/null
-> > +++ b/tests/qemu-iotests/tests/zoned.out
-> > @@ -0,0 +1,53 @@
-> > +QA output created by zoned
-> > +Testing a null_blk device:
-> > +case 1: if the operations work
-> > +(1) report the first zone:
-> > +start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
-> > +
-> > +report the first 10 zones
-> > +start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
-> > +start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type=
-: 2]
-> > +start: 0x100000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:1, [ty=
-pe: 2]
-> > +start: 0x180000, len 0x80000, cap 0x80000, wptr 0x180000, zcond:1, [ty=
-pe: 2]
-> > +start: 0x200000, len 0x80000, cap 0x80000, wptr 0x200000, zcond:1, [ty=
-pe: 2]
-> > +start: 0x280000, len 0x80000, cap 0x80000, wptr 0x280000, zcond:1, [ty=
-pe: 2]
-> > +start: 0x300000, len 0x80000, cap 0x80000, wptr 0x300000, zcond:1, [ty=
-pe: 2]
-> > +start: 0x380000, len 0x80000, cap 0x80000, wptr 0x380000, zcond:1, [ty=
-pe: 2]
-> > +start: 0x400000, len 0x80000, cap 0x80000, wptr 0x400000, zcond:1, [ty=
-pe: 2]
-> > +start: 0x480000, len 0x80000, cap 0x80000, wptr 0x480000, zcond:1, [ty=
-pe: 2]
-> > +
-> > +report the last zone:
-> > +start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:1,=
- [type: 2]
-> > +
-> > +
-> > +(2) opening the first zone
-> > +report after:
-> > +start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:3, [type: 2]
-> > +
-> > +opening the second zone
-> > +report after:
-> > +start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:3, [type=
-: 2]
-> > +
-> > +opening the last zone
-> > +report after:
-> > +start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:3,=
- [type: 2]
-> > +
-> > +
-> > +(3) closing the first zone
-> > +report after:
-> > +start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
-> > +
-> > +closing the last zone
-> > +report after:
-> > +start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:1,=
- [type: 2]
-> > +
-> > +
-> > +(4) finishing the second zone
-> > +After finishing a zone:
-> > +start: 0x80000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:14, [ty=
-pe: 2]
-> > +
-> > +
-> > +(5) resetting the second zone
-> > +After resetting a zone:
-> > +start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type=
-: 2]
-> > +*** done
-> > --
-> > 2.39.2
-> >
+Signed-off-by: Minwoo Im <minwoo.im@samsung.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 49c1210fce..fef5079a71 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -1748,6 +1748,7 @@ static void nvme_aio_err(NvmeRequest *req, int ret)
+     case NVME_CMD_WRITE:
+     case NVME_CMD_WRITE_ZEROES:
+     case NVME_CMD_ZONE_APPEND:
++    case NVME_CMD_COPY:
+         status = NVME_WRITE_FAULT;
+         break;
+     default:
+-- 
+2.34.1
+
 
