@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8E96C81AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:44:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73E16C8185
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:40:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfjFA-0002j3-Pi; Fri, 24 Mar 2023 11:22:16 -0400
+	id 1pfjI9-0005NL-KS; Fri, 24 Mar 2023 11:25:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfjF3-0002cN-47; Fri, 24 Mar 2023 11:22:10 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfjEz-0001yy-1B; Fri, 24 Mar 2023 11:22:08 -0400
-Received: from [192.168.0.120] (unknown [180.165.240.150])
- by APP-05 (Coremail) with SMTP id zQCowAD3_89bvh1krqcmCQ--.3170S2;
- Fri, 24 Mar 2023 23:14:36 +0800 (CST)
-Content-Type: multipart/alternative;
- boundary="------------yw1kPZ9rWLLNA1fJpYv6STag"
-Message-ID: <a6443f6e-1448-b023-4792-ad4b1bd7862e@iscas.ac.cn>
-Date: Fri, 24 Mar 2023 23:14:35 +0800
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pfjI7-0005LV-Oe
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:25:19 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pfjI3-0003Sr-L7
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 11:25:19 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E7F6A337DE;
+ Fri, 24 Mar 2023 15:25:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1679671509; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nith8pIamhTmDtsuv1rZoelcUzlAFZlv94ChGxaKqrg=;
+ b=Jg1TJ/yjcBRsIXXpmfJNZe6eZF+uAAckSvwn4N/RcHvJ1dGbdI37kOVniWIlR2f0oPmUoo
+ xm/pcNMMNrGHp2RcG8OsB8z20BlTdrjAxCFzkst6queIpzXHoRH7z51ELzBNgoKBvlJvpg
+ k4VfLSZPInpRMu5iFdiryskV06ptjZU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1679671509;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nith8pIamhTmDtsuv1rZoelcUzlAFZlv94ChGxaKqrg=;
+ b=8pQnTt+612/2jMjBTI+c73JpzQJR2TJ1WrRqwHhUpfqr3q7EkvohE1IcM95/0jMa9SKlgi
+ VP4ffd4aUGHZmTAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 71BFE138ED;
+ Fri, 24 Mar 2023 15:25:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id rrSPDtXAHWRnawAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 24 Mar 2023 15:25:09 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, Gerd
+ Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>
+Subject: Re: [PULL v2 18/18] ui/dbus: restrict opengl to gbm-enabled config
+In-Reply-To: <20230313200134.503083-19-marcandre.lureau@redhat.com>
+References: <20230313200134.503083-1-marcandre.lureau@redhat.com>
+ <20230313200134.503083-19-marcandre.lureau@redhat.com>
+Date: Fri, 24 Mar 2023 12:25:06 -0300
+Message-ID: <87bkkijhnx.fsf@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Cc: liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- bmeng@tinylab.org, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-Subject: Re: [PATCH for-8.1 v4 24/25] target/riscv: update cpu->cfg misa bits
- in commit_cpu_cfg()
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-References: <20230322222004.357013-1-dbarboza@ventanamicro.com>
- <20230322222004.357013-25-dbarboza@ventanamicro.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230322222004.357013-25-dbarboza@ventanamicro.com>
-X-CM-TRANSID: zQCowAD3_89bvh1krqcmCQ--.3170S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGF4UWF43Xr1DKFWkZw18Xwb_yoW5uw47pr
- 45G3yay34DJFZFv34xJF1DXF18uw4vgFWxKws7Wr13GFs5ArWFgFs8tw43ury7uF4rZr1a
- va1UCF12kF48Ca7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E
- 87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjI
- I2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487
- MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
- I_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
- wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
- WxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAI
- cVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUJnYwUUUUU=
-X-Originating-IP: [180.165.240.150]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,236 +90,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------yw1kPZ9rWLLNA1fJpYv6STag
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+marcandre.lureau@redhat.com writes:
 
-
-On 2023/3/23 06:20, Daniel Henrique Barboza wrote:
-> write_misa() is able to use the same validation workflow
-> riscv_cpu_realize() uses. But it's still not capable of updating
-> cpu->cfg misa props yet.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> We have no way of blocking future (and current) code from checking
-> env->misa_ext (via riscv_has_ext()) or reading cpu->cfg directly, so our
-> best alternative is to keep everything in sync.
+> We can enable EGL later for non-GBM hosts.
 >
-> riscv_cpu_commit_cpu_cfg() now receives an extra 'misa_ext' parameter.
-> If this val is different from the existing env->misa_ext, update
-> env->misa and cpu->cfg with the new value. riscv_cpu_realize() will
-> ignore this code since env->misa_ext isn't touched during validation,
-> but write_misa() will use it to keep cpu->cfg in sync with the new
-> env->misa_ext value.
->
-> Signed-off-by: Daniel Henrique Barboza<dbarboza@ventanamicro.com>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->   target/riscv/cpu.c | 16 ++++++++++++++--
->   target/riscv/cpu.h |  2 +-
->   target/riscv/csr.c |  3 +--
->   3 files changed, 16 insertions(+), 5 deletions(-)
+>  ui/dbus-listener.c | 10 +++++-----
+>  ui/dbus.c          | 12 +++++++++++-
+>  2 files changed, 16 insertions(+), 6 deletions(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 41b17ba0c3..88806d1050 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1204,8 +1204,20 @@ void riscv_cpu_validate_extensions(RISCVCPU *cpu, uint32_t misa_ext,
->       }
->   }
->   
-> -void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu)
-> +void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu, uint32_t misa_ext)
->   {
-> +    CPURISCVState *env = &cpu->env;
-> +
-> +    /*
-> +     * write_misa() needs to update cpu->cfg with the new
-> +     * MISA bits. This is a no-op for the riscv_cpu_realize()
-> +     * path.
-> +     */
-> +    if (env->misa_ext != misa_ext) {
-> +        env->misa_ext = misa_ext;
-> +        riscv_set_cpucfg_with_misa(&cpu->cfg, misa_ext);
-> +    }
-> +
->       if (cpu->cfg.ext_zk) {
->           cpu->cfg.ext_zkn = true;
->           cpu->cfg.ext_zkr = true;
+> diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
+> index 85692f1b27..911acdc529 100644
+> --- a/ui/dbus-listener.c
+> +++ b/ui/dbus-listener.c
+> @@ -50,7 +50,7 @@ struct _DBusDisplayListener {
+>=20=20
+>  G_DEFINE_TYPE(DBusDisplayListener, dbus_display_listener, G_TYPE_OBJECT)
+>=20=20
+> -#ifdef CONFIG_OPENGL
+> +#ifdef CONFIG_GBM
+>  static void dbus_update_gl_cb(GObject *source_object,
+>                             GAsyncResult *res,
+>                             gpointer user_data)
+> @@ -239,7 +239,7 @@ static void dbus_refresh(DisplayChangeListener *dcl)
+>      graphic_hw_update(dcl->con);
+>  }
+>=20=20
+> -#ifdef CONFIG_OPENGL
+> +#ifdef CONFIG_GBM
+>  static void dbus_gl_gfx_update(DisplayChangeListener *dcl,
+>                                 int x, int y, int w, int h)
+>  {
+> @@ -302,7 +302,7 @@ static void dbus_gfx_update(DisplayChangeListener *dc=
+l,
+>          DBUS_DEFAULT_TIMEOUT, NULL, NULL, NULL);
+>  }
+>=20=20
+> -#ifdef CONFIG_OPENGL
+> +#ifdef CONFIG_GBM
+>  static void dbus_gl_gfx_switch(DisplayChangeListener *dcl,
+>                                 struct DisplaySurface *new_surface)
+>  {
+> @@ -369,7 +369,7 @@ static void dbus_cursor_define(DisplayChangeListener =
+*dcl,
+>          NULL);
+>  }
+>=20=20
+> -#ifdef CONFIG_OPENGL
+> +#ifdef CONFIG_GBM
+>  const DisplayChangeListenerOps dbus_gl_dcl_ops =3D {
+>      .dpy_name                =3D "dbus-gl",
+>      .dpy_gfx_update          =3D dbus_gl_gfx_update,
+> @@ -417,7 +417,7 @@ dbus_display_listener_constructed(GObject *object)
+>      DBusDisplayListener *ddl =3D DBUS_DISPLAY_LISTENER(object);
+>=20=20
+>      ddl->dcl.ops =3D &dbus_dcl_ops;
+> -#ifdef CONFIG_OPENGL
+> +#ifdef CONFIG_GBM
+>      if (display_opengl) {
+>          ddl->dcl.ops =3D &dbus_gl_dcl_ops;
+>      }
+> diff --git a/ui/dbus.c b/ui/dbus.c
+> index 904f5a0a6d..0513de9918 100644
+> --- a/ui/dbus.c
+> +++ b/ui/dbus.c
+> @@ -47,8 +47,10 @@ static DBusDisplay *dbus_display;
+>  static QEMUGLContext dbus_create_context(DisplayGLCtx *dgc,
+>                                           QEMUGLParams *params)
+>  {
+> +#ifdef CONFIG_GBM
+>      eglMakeCurrent(qemu_egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE,
+>                     qemu_egl_rn_ctx);
+> +#endif
+>      return qemu_egl_create_context(dgc, params);
+>  }
+>=20=20
+> @@ -56,7 +58,11 @@ static bool
+>  dbus_is_compatible_dcl(DisplayGLCtx *dgc,
+>                         DisplayChangeListener *dcl)
+>  {
+> -    return dcl->ops =3D=3D &dbus_gl_dcl_ops || dcl->ops =3D=3D &dbus_con=
+sole_dcl_ops;
+> +    return
+> +#ifdef CONFIG_GBM
+> +        dcl->ops =3D=3D &dbus_gl_dcl_ops ||
+> +#endif
+> +        dcl->ops =3D=3D &dbus_console_dcl_ops;
+>  }
+>=20=20
+>  static void
+> @@ -459,7 +465,11 @@ early_dbus_init(DisplayOptions *opts)
+>      DisplayGLMode mode =3D opts->has_gl ? opts->gl : DISPLAYGL_MODE_OFF;
+>=20=20
+>      if (mode !=3D DISPLAYGL_MODE_OFF) {
+> +#ifdef CONFIG_OPENGL
+>          egl_init(opts->u.dbus.rendernode, mode, &error_fatal);
+> +#else
+> +        error_report("dbus: GL rendering is not supported");
+> +#endif
+>      }
+>=20=20
+>      type_register(&dbus_vc_type_info);
 
-These zk* related assignment and riscv_cpu_disable_priv_spec_isa_exts() 
-can be moved to other places.
+With this patch I get:
 
-They needn't be done for write_misa.
+FAILED: libcommon.fa.p/ui_dbus-listener.c.o
+cc -m64 -mcx16 -Ilibcommon.fa.p -Iui -I../ui -I/usr/include/pixman-1 \
+               -I/usr/include/libpng16 -I/usr/include/spice-server \
+               -I/usr/include/cacard -I/usr/include/nss3 -I/usr/include/nsp=
+r4 -I/usrc
+../ui/dbus-listener.c: In function =E2=80=98dbus_call_update_gl=E2=80=99:
+../ui/dbus-listener.c:74:5: error: implicit declaration of function =E2=80=
+=98glFlush=E2=80=99; did you mean =E2=80=98fflush=E2=80=99? [-Werror=3Dimpl=
+icit-function-declaration]
+     glFlush();
+     ^~~~~~~
+     fflush
 
-Regards,
-
-Weiwei Li
-
-> @@ -1374,7 +1386,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->           return;
->       }
->   
-> -    riscv_cpu_commit_cpu_cfg(cpu);
-> +    riscv_cpu_commit_cpu_cfg(cpu, env->misa_ext);
->   
->   #ifndef CONFIG_USER_ONLY
->       if (cpu->cfg.ext_sstc) {
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index ca2ba6a647..befc3b8fff 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -597,7 +597,7 @@ void riscv_cpu_validate_misa_ext(CPURISCVState *env, uint32_t misa_ext,
->                                    Error **errp);
->   void riscv_cpu_validate_extensions(RISCVCPU *cpu, uint32_t misa_ext,
->                                      Error **errp);
-> -void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu);
-> +void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu, uint32_t misa_ext);
->   
->   #define cpu_list riscv_cpu_list
->   #define cpu_mmu_index riscv_cpu_mmu_index
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 8d5e8f9ad1..839862f1a8 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1396,7 +1396,7 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
->           return RISCV_EXCP_NONE;
->       }
->   
-> -    riscv_cpu_commit_cpu_cfg(cpu);
-> +    riscv_cpu_commit_cpu_cfg(cpu, val);
->   
->       if (!(val & RVF)) {
->           env->mstatus &= ~MSTATUS_FS;
-> @@ -1404,7 +1404,6 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
->   
->       /* flush translation cache */
->       tb_flush(env_cpu(env));
-> -    env->misa_ext = val;
->       env->xl = riscv_cpu_mxl(env);
->       return RISCV_EXCP_NONE;
->   }
---------------yw1kPZ9rWLLNA1fJpYv6STag
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2023/3/23 06:20, Daniel Henrique
-      Barboza wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230322222004.357013-25-dbarboza@ventanamicro.com">
-      <pre class="moz-quote-pre" wrap="">write_misa() is able to use the same validation workflow
-riscv_cpu_realize() uses. But it's still not capable of updating
-cpu-&gt;cfg misa props yet.
-
-We have no way of blocking future (and current) code from checking
-env-&gt;misa_ext (via riscv_has_ext()) or reading cpu-&gt;cfg directly, so our
-best alternative is to keep everything in sync.
-
-riscv_cpu_commit_cpu_cfg() now receives an extra 'misa_ext' parameter.
-If this val is different from the existing env-&gt;misa_ext, update
-env-&gt;misa and cpu-&gt;cfg with the new value. riscv_cpu_realize() will
-ignore this code since env-&gt;misa_ext isn't touched during validation,
-but write_misa() will use it to keep cpu-&gt;cfg in sync with the new
-env-&gt;misa_ext value.
-
-Signed-off-by: Daniel Henrique Barboza <a class="moz-txt-link-rfc2396E" href="mailto:dbarboza@ventanamicro.com">&lt;dbarboza@ventanamicro.com&gt;</a>
----
- target/riscv/cpu.c | 16 ++++++++++++++--
- target/riscv/cpu.h |  2 +-
- target/riscv/csr.c |  3 +--
- 3 files changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 41b17ba0c3..88806d1050 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -1204,8 +1204,20 @@ void riscv_cpu_validate_extensions(RISCVCPU *cpu, uint32_t misa_ext,
-     }
- }
- 
--void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu)
-+void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu, uint32_t misa_ext)
- {
-+    CPURISCVState *env = &amp;cpu-&gt;env;
-+
-+    /*
-+     * write_misa() needs to update cpu-&gt;cfg with the new
-+     * MISA bits. This is a no-op for the riscv_cpu_realize()
-+     * path.
-+     */
-+    if (env-&gt;misa_ext != misa_ext) {
-+        env-&gt;misa_ext = misa_ext;
-+        riscv_set_cpucfg_with_misa(&amp;cpu-&gt;cfg, misa_ext);
-+    }
-+
-     if (cpu-&gt;cfg.ext_zk) {
-         cpu-&gt;cfg.ext_zkn = true;
-         cpu-&gt;cfg.ext_zkr = true;</pre>
-    </blockquote>
-    <p>These zk* related assignment and <span class="pl-c1">riscv_cpu_disable_priv_spec_isa_exts</span>() 
-      can be moved to other places.</p>
-    <p>They needn't be done for write_misa.</p>
-    <p>Regards,</p>
-    <p>Weiwei Li<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:20230322222004.357013-25-dbarboza@ventanamicro.com">
-      <pre class="moz-quote-pre" wrap="">
-@@ -1374,7 +1386,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    riscv_cpu_commit_cpu_cfg(cpu);
-+    riscv_cpu_commit_cpu_cfg(cpu, env-&gt;misa_ext);
- 
- #ifndef CONFIG_USER_ONLY
-     if (cpu-&gt;cfg.ext_sstc) {
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index ca2ba6a647..befc3b8fff 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -597,7 +597,7 @@ void riscv_cpu_validate_misa_ext(CPURISCVState *env, uint32_t misa_ext,
-                                  Error **errp);
- void riscv_cpu_validate_extensions(RISCVCPU *cpu, uint32_t misa_ext,
-                                    Error **errp);
--void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu);
-+void riscv_cpu_commit_cpu_cfg(RISCVCPU *cpu, uint32_t misa_ext);
- 
- #define cpu_list riscv_cpu_list
- #define cpu_mmu_index riscv_cpu_mmu_index
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 8d5e8f9ad1..839862f1a8 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1396,7 +1396,7 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
-         return RISCV_EXCP_NONE;
-     }
- 
--    riscv_cpu_commit_cpu_cfg(cpu);
-+    riscv_cpu_commit_cpu_cfg(cpu, val);
- 
-     if (!(val &amp; RVF)) {
-         env-&gt;mstatus &amp;= ~MSTATUS_FS;
-@@ -1404,7 +1404,6 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
- 
-     /* flush translation cache */
-     tb_flush(env_cpu(env));
--    env-&gt;misa_ext = val;
-     env-&gt;xl = riscv_cpu_mxl(env);
-     return RISCV_EXCP_NONE;
- }
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------yw1kPZ9rWLLNA1fJpYv6STag--
-
+I don't have libepoxy, only virgl installed. Did we miss something in
+meson perhaps?
 
