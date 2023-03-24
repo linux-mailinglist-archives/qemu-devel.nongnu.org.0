@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17156C82DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 18:06:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0626C82DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 18:07:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfkrW-0003DT-B6; Fri, 24 Mar 2023 13:05:58 -0400
+	id 1pfksb-0004mZ-NS; Fri, 24 Mar 2023 13:07:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pfkrT-0003BZ-HU
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:05:55 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pfksS-0004lq-P6
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:06:56 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pfkrQ-00008y-LN
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:05:55 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- mp3-20020a17090b190300b0023fcc8ce113so5656820pjb.4
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 10:05:52 -0700 (PDT)
+ id 1pfksP-0000KM-R3
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:06:55 -0400
+Received: by mail-pl1-x636.google.com with SMTP id o2so2407473plg.4
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 10:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679677551;
+ d=linaro.org; s=google; t=1679677612;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6sjv1eZIEUuuzmYVhMQ9eZmCaZab0ljFuqWwWjn7pmc=;
- b=L++EQmSsgnUhbNV+Q8Q0WTo5DWPNUNRavQAO6ekRQ+Ngrygan0E6KDZ8ka8Tx7z0vz
- AbqfI+HspXfHIGlG7egE9bMb+Kyumg+ihdzD+zcxojXYjOOtv8KoTzTx4nYdVWcJ2QO2
- 5iKhExZ68nFxiBgUKMuLja5+oKfYLdRo9LESVNBY3H4VD2kU/f7K+qnuTJ/GPHf6C6bT
- b2Vjk+/P7dETwzTvu++m/BBStdJfyWwN84sDjvq15WwschaY43zoNNixw8+8VpEVM1ou
- RTAWdqTDnE7711n+Zz1on7jyNqxmGfGESop7R85nu5EpGvS2+WGoGvC3Kvlni2zeYFil
- rfUg==
+ bh=bYsIFBeT4I7u+yupjgy/Y3QMbRFC1ZjEvHw4NJs2x3Q=;
+ b=PbpKvD+qq8naJPFR+Ng4KrxT9fWnUdMav5W75KHKmQKo11NFtbuhbrzWF2BayETZwN
+ nAB/2BXxmZCdilylW9T6yGjYaVl/DSuEMVNTM962tGZ/xJDIc7y47cJ0fl86AGPRnMaT
+ BKwT5SSPku2poJetQf5UtIaMmhq5FafZqs6Dhzg+la2Zef7AjJsvwkHogqkf54+IBi0y
+ Ch+bO3P5/YOxpuMT8zvc6PCMGYiSMLlgUMMUQh/YOgyGDgF3gXWg+vrDnSAKPMGqQYi2
+ FXbvkKLamJmNQncwOxd3G5M6uvHcPyEHGiRWoQFcA2iRu3TEYGneMwv2JwAr+ehiwcm7
+ e/mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679677551;
+ d=1e100.net; s=20210112; t=1679677612;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6sjv1eZIEUuuzmYVhMQ9eZmCaZab0ljFuqWwWjn7pmc=;
- b=Xe+JXy61P4JBAON5Q6yv/Cgk1TYfhkC2PqIlKtn7nfCgNlo8OuIQEKkh+R+JZ+nFk1
- H9GhSKjAfql2atVRbisZPvXqxwWURRuRVKT3hlu3E+tH2VIdxof1jIy+8pOB+d5ropme
- EFH6+Ww6/fbmu1zTDWXlXKzpek9Bp9J9nOWVsUYjf81Wai4VklTCm24bygYWdxoqxnau
- rB1vLy+Gi0BHgGROt5XXgaZlVBdNO2UMchfzaEhng9yfwkXpitTdakQwmmY0zEB9YOJe
- t3ozbypDL2KIbnGgCXDTQgTifk19W3+IS+TbOYXjbLU/7OJsGcusQlENieTaKjuQJE6B
- DhuQ==
-X-Gm-Message-State: AAQBX9cggPrXIQKqRysg6hENyldWsDvSw3wlJPxkRS3qIT7O7zV9InXM
- ngzwlmDEEdr2eq5EPhRC+uGPnQ==
-X-Google-Smtp-Source: AK7set9EYaZqma7zLJ52W1zi4eUWOuibyD/ykRi75w1yoIveEiMyILwELYySou6qaAr3Iz/QqNN5Rg==
-X-Received: by 2002:a17:90a:1903:b0:23f:5c65:8c72 with SMTP id
- 3-20020a17090a190300b0023f5c658c72mr3190955pjg.49.1679677551223; 
- Fri, 24 Mar 2023 10:05:51 -0700 (PDT)
+ bh=bYsIFBeT4I7u+yupjgy/Y3QMbRFC1ZjEvHw4NJs2x3Q=;
+ b=6H8+wixTrNTer1Q0KyOkQrk7twGh/T6tUDAmhWo4P5r9toS/z278mp9lnbn0pLxtdg
+ 8XiOnN4wwOM9D+cd3tdqO34Tm0hdJcmlGCX5hTXg+JMe4+gaaELGUH63PJOkQkeul4XI
+ YuDCkEJT2kdvvMtpfCwTb6ThhRXBJZHrKvstBLJxFwRzTYAS3anxtmXiNd7gyysWHS8m
+ VIixGOGhcyv8qZDM2havdO8np1mtCN/Xt9NfxMhqRuOjqvlzCUIMDhpU6oizZUeGLlgY
+ ACD72T5MsieJ95w8L8C2amH8jtJII5DfIwAr4JoLQgsCMdZWSqK4UHnXzZZaZxLaqSIP
+ +YMQ==
+X-Gm-Message-State: AAQBX9c06sqOMuOs/ftwH/u3ceFkAnpNgrfemVO0Msfm/o45oeA7PqU7
+ MZuunHcTnO7oeAyIq9/QLaYPKA==
+X-Google-Smtp-Source: AKy350aRcgXEesb1tDRerQgsNYSHkpYo5qWF0Sh8REhx2/K+jXewpEakujBt0UbTL0CVSC4dDzhklA==
+X-Received: by 2002:a05:6a20:7f5d:b0:de:b790:d249 with SMTP id
+ e29-20020a056a207f5d00b000deb790d249mr905899pzk.31.1679677612445; 
+ Fri, 24 Mar 2023 10:06:52 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1544:6601:cb42:9f2a:fcd4:54fc?
  ([2602:ae:1544:6601:cb42:9f2a:fcd4:54fc])
  by smtp.gmail.com with ESMTPSA id
- g6-20020a170902740600b0019cb534a824sm14398616pll.172.2023.03.24.10.05.50
+ i10-20020aa78d8a000000b006281bc04392sm6499286pfr.191.2023.03.24.10.06.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Mar 2023 10:05:50 -0700 (PDT)
-Message-ID: <a613e9e0-77f9-8f3e-154b-d3df319c1ccd@linaro.org>
-Date: Fri, 24 Mar 2023 10:05:49 -0700
+ Fri, 24 Mar 2023 10:06:52 -0700 (PDT)
+Message-ID: <dfa7ac65-f947-d69e-8196-f5a66af8c7f4@linaro.org>
+Date: Fri, 24 Mar 2023 10:06:50 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/4] target/riscv: Extract virt enabled state from tb
- flags
+Subject: Re: [PATCH v2 2/4] target/riscv: Add a general status enum for
+ extensions
 Content-Language: en-US
 To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
 Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
  liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com, qemu-riscv@nongnu.org
 References: <20230324143031.1093-1-zhiwei_liu@linux.alibaba.com>
- <20230324143031.1093-2-zhiwei_liu@linux.alibaba.com>
+ <20230324143031.1093-3-zhiwei_liu@linux.alibaba.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230324143031.1093-2-zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230324143031.1093-3-zhiwei_liu@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,17 +98,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/24/23 07:30, LIU Zhiwei wrote:
-> Virt enabled state is not a constant. So we should put it into tb flags.
-> Thus we can use it like a constant condition at translation phase.
+> The pointer masking is the only extension that directly use status.
+> The vector or float extension uses the status in an indirect way.
 > 
-> Reported-by: Richard Henderson<richard.henderson@linaro.org>
+> Replace the pointer masking extension special status fields with
+> the general status.
+> 
 > Signed-off-by: LIU Zhiwei<zhiwei_liu@linux.alibaba.com>
-> Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
 > ---
->   target/riscv/cpu.h        |  2 ++
->   target/riscv/cpu_helper.c |  2 ++
->   target/riscv/translate.c  | 10 +---------
->   3 files changed, 5 insertions(+), 9 deletions(-)
+> v1->v2:
+> Move EXT_STATUS_MASK from enum to macro
+> ---
+>   target/riscv/cpu.c      |  2 +-
+>   target/riscv/cpu.h      |  8 ++++++++
+>   target/riscv/cpu_bits.h | 12 ++++--------
+>   target/riscv/csr.c      | 14 +++++++-------
+>   4 files changed, 20 insertions(+), 16 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
