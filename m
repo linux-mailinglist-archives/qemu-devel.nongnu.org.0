@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554FA6C8095
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 809746C807D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 15:56:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfh73-00077J-2a; Fri, 24 Mar 2023 09:05:45 -0400
+	id 1pfhXP-00017o-FR; Fri, 24 Mar 2023 09:32:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfh6u-00074M-5S; Fri, 24 Mar 2023 09:05:36 -0400
+ id 1pfhXN-000177-Ss; Fri, 24 Mar 2023 09:32:57 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfh4C-0005us-1S; Fri, 24 Mar 2023 09:05:33 -0400
+ id 1pfhW3-0001ri-88; Fri, 24 Mar 2023 09:32:57 -0400
 Received: from [192.168.0.120] (unknown [180.165.240.150])
- by APP-05 (Coremail) with SMTP id zQCowAD35xRhnx1krCgaCQ--.4822S2;
- Fri, 24 Mar 2023 21:02:26 +0800 (CST)
-Message-ID: <558ada70-c832-4c07-88fc-6db97da81e3e@iscas.ac.cn>
-Date: Fri, 24 Mar 2023 21:02:25 +0800
+ by APP-05 (Coremail) with SMTP id zQCowACnlxQiph1k874cCQ--.4557S2;
+ Fri, 24 Mar 2023 21:31:14 +0800 (CST)
+Message-ID: <3efb804f-4a3a-758e-fb4a-543e10271045@iscas.ac.cn>
+Date: Fri, 24 Mar 2023 21:31:14 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Cc: liweiwei@iscas.ac.cn, richard.henderson@linaro.org,
- Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, qemu-riscv@nongnu.org
-Subject: Re: [PATCH 4/4] target/riscv: Add a tb flags field for vstart
+Cc: liweiwei@iscas.ac.cn, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ alistair.francis@wdc.com, Alistair Francis <alistair23@gmail.com>
+Subject: Re: [PATCH v11 4/5] target/riscv: smstateen check for fcsr
 Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
-References: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
- <20230324055954.908-5-zhiwei_liu@linux.alibaba.com>
+To: Mayuresh Chitale <mchitale@ventanamicro.com>
+References: <20221016124726.102129-1-mchitale@ventanamicro.com>
+ <20221016124726.102129-5-mchitale@ventanamicro.com>
+ <CAKmqyKO+HQ7dtGQwaJFG481vkyMfX-tXrux2rmrGkfAz54dBbQ@mail.gmail.com>
 From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230324055954.908-5-zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <CAKmqyKO+HQ7dtGQwaJFG481vkyMfX-tXrux2rmrGkfAz54dBbQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowAD35xRhnx1krCgaCQ--.4822S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxKr1kCFy3Wr4DWFW5KFWkXrb_yoWxJrW3pa
- 1xKFWSvFWrJFWfua1ftF4avF1UZr40kF4rKw1kAwnYqr45Xrs8CFZ8tF13KF4Ygr93WrW0
- kF1jy345Cr4FkrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: zQCowACnlxQiph1k874cCQ--.4557S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZryDtrWrAF1DKw4DuF1UAwb_yoWrXr4fpw
+ 4kGFZxC395tryxZanxGF98XF15tw4kK3yI9wnrta1vqF4DtrWrKF1ktwsrKryDXFy7Wr12
+ yay09Fnrur47AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
- IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUp6wZUUU
- UU=
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbWCJP
+ UUUUU==
 X-Originating-IP: [180.165.240.150]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -79,160 +79,120 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 2023/3/24 13:59, LIU Zhiwei wrote:
-> Once we mistook the vstart directly from the env->vstart. As env->vstart is not
-> a constant, we should record it in the tb flags if we want to use
-> it in translation.
+On 2022/11/21 07:35, Alistair Francis wrote:
+> On Sun, Oct 16, 2022 at 11:09 PM Mayuresh Chitale
+> <mchitale@ventanamicro.com> wrote:
+>> If smstateen is implemented and sstateen0.fcsr is clear then the floating point
+>> operations must return illegal instruction exception or virtual instruction
+>> trap, if relevant.
+>>
+>> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+>> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> ---
+>>   target/riscv/csr.c                        | 23 ++++++++++++
+>>   target/riscv/insn_trans/trans_rvf.c.inc   | 43 +++++++++++++++++++++--
+>>   target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
+>>   3 files changed, 75 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index 71236f2b5d..8b25f885ec 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -84,6 +84,10 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+>>           !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>> +
+>> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+>> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
+>> +    }
+>>   #endif
+>>       return RISCV_EXCP_NONE;
+>>   }
+>> @@ -2023,6 +2027,9 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
+>>                                         target_ulong new_val)
+>>   {
+>>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>> +    if (!riscv_has_ext(env, RVF)) {
+>> +        wr_mask |= SMSTATEEN0_FCSR;
+>> +    }
+>>
+>>       return write_mstateen(env, csrno, wr_mask, new_val);
+>>   }
+>> @@ -2059,6 +2066,10 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
+>>   {
+>>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>>
+>> +    if (!riscv_has_ext(env, RVF)) {
+>> +        wr_mask |= SMSTATEEN0_FCSR;
+>> +    }
+>> +
+>>       return write_mstateenh(env, csrno, wr_mask, new_val);
+>>   }
+>>
+>> @@ -2096,6 +2107,10 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
+>>   {
+>>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>>
+>> +    if (!riscv_has_ext(env, RVF)) {
+>> +        wr_mask |= SMSTATEEN0_FCSR;
+>> +    }
+>> +
+>>       return write_hstateen(env, csrno, wr_mask, new_val);
+>>   }
+>>
+>> @@ -2135,6 +2150,10 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
+>>   {
+>>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>>
+>> +    if (!riscv_has_ext(env, RVF)) {
+>> +        wr_mask |= SMSTATEEN0_FCSR;
+>> +    }
+>> +
+>>       return write_hstateenh(env, csrno, wr_mask, new_val);
+>>   }
+>>
+>> @@ -2182,6 +2201,10 @@ static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
+>>   {
+>>       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+>>
+>> +    if (!riscv_has_ext(env, RVF)) {
+>> +        wr_mask |= SMSTATEEN0_FCSR;
+>> +    }
+>> +
+>>       return write_sstateen(env, csrno, wr_mask, new_val);
+>>   }
+>>
+>> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+>> index a1d3eb52ad..93657680c6 100644
+>> --- a/target/riscv/insn_trans/trans_rvf.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+>> @@ -24,9 +24,46 @@
+>>               return false; \
+>>   } while (0)
+>>
+>> -#define REQUIRE_ZFINX_OR_F(ctx) do {\
+>> -    if (!ctx->cfg_ptr->ext_zfinx) { \
+>> -        REQUIRE_EXT(ctx, RVF); \
+>> +#ifndef CONFIG_USER_ONLY
+>> +static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
+>> +{
+>> +    CPUState *cpu = ctx->cs;
+>> +    CPURISCVState *env = cpu->env_ptr;
+>> +    uint64_t stateen = env->mstateen[index];
+> Sorry I missed this the first time around. You can't access env here
 >
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> ---
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Richard pointed it out here:
+> https://patchwork.kernel.org/project/qemu-devel/patch/20221117070316.58447-8-liweiwei@iscas.ac.cn/#25095773
+>
+> I'm going to drop this patch and patch v5
+>
+> Alistair
+
+Hi, Any new updates for the last two patches after they were dropped?
+
+Regards,
 
 Weiwei Li
->   target/riscv/cpu.h                      | 21 +++++++++++----------
->   target/riscv/cpu_helper.c               |  1 +
->   target/riscv/insn_trans/trans_rvv.c.inc | 14 +++++++-------
->   target/riscv/translate.c                |  4 ++--
->   4 files changed, 21 insertions(+), 19 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 41f7aef666..623288e6f9 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -645,21 +645,22 @@ FIELD(TB_FLAGS, LMUL, 7, 3)
->   FIELD(TB_FLAGS, SEW, 10, 3)
->   FIELD(TB_FLAGS, VL_EQ_VLMAX, 13, 1)
->   FIELD(TB_FLAGS, VILL, 14, 1)
-> +FIELD(TB_FLAGS, VSTART_EQ_ZERO, 15, 1)
->   /* Is a Hypervisor instruction load/store allowed? */
-> -FIELD(TB_FLAGS, HLSX, 15, 1)
-> -FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
-> -FIELD(TB_FLAGS, MSTATUS_HS_VS, 18, 2)
-> +FIELD(TB_FLAGS, HLSX, 16, 1)
-> +FIELD(TB_FLAGS, MSTATUS_HS_FS, 17, 2)
-> +FIELD(TB_FLAGS, MSTATUS_HS_VS, 19, 2)
->   /* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
-> -FIELD(TB_FLAGS, XL, 20, 2)
-> +FIELD(TB_FLAGS, XL, 21, 2)
->   /* If PointerMasking should be applied */
-> -FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
-> -FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
-> -FIELD(TB_FLAGS, VTA, 24, 1)
-> -FIELD(TB_FLAGS, VMA, 25, 1)
-> +FIELD(TB_FLAGS, PM_MASK_ENABLED, 23, 1)
-> +FIELD(TB_FLAGS, PM_BASE_ENABLED, 24, 1)
-> +FIELD(TB_FLAGS, VTA, 25, 1)
-> +FIELD(TB_FLAGS, VMA, 26, 1)
->   /* Native debug itrigger */
-> -FIELD(TB_FLAGS, ITRIGGER, 26, 1)
-> +FIELD(TB_FLAGS, ITRIGGER, 27, 1)
->   /* Virtual mode enabled */
-> -FIELD(TB_FLAGS, VIRT_ENABLED, 27, 1)
-> +FIELD(TB_FLAGS, VIRT_ENABLED, 28, 1)
->   
->   #ifdef TARGET_RISCV32
->   #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 87c6effcc2..f80d069884 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -74,6 +74,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->                       FIELD_EX64(env->vtype, VTYPE, VTA));
->           flags = FIELD_DP32(flags, TB_FLAGS, VMA,
->                       FIELD_EX64(env->vtype, VTYPE, VMA));
-> +        flags = FIELD_DP32(flags, TB_FLAGS, VSTART_EQ_ZERO, env->vstart == 0);
->       } else {
->           flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
->       }
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 6297c3b50d..32b3b9a8e5 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -547,7 +547,7 @@ static bool vext_check_sds(DisasContext *s, int vd, int vs1, int vs2, int vm)
->    */
->   static bool vext_check_reduction(DisasContext *s, int vs2)
->   {
-> -    return require_align(vs2, s->lmul) && (s->vstart == 0);
-> +    return require_align(vs2, s->lmul) && s->vstart_eq_zero;
->   }
->   
->   /*
-> @@ -3083,7 +3083,7 @@ static bool trans_vcpop_m(DisasContext *s, arg_rmr *a)
->   {
->       if (require_rvv(s) &&
->           vext_check_isa_ill(s) &&
-> -        s->vstart == 0) {
-> +        s->vstart_eq_zero) {
->           TCGv_ptr src2, mask;
->           TCGv dst;
->           TCGv_i32 desc;
-> @@ -3112,7 +3112,7 @@ static bool trans_vfirst_m(DisasContext *s, arg_rmr *a)
->   {
->       if (require_rvv(s) &&
->           vext_check_isa_ill(s) &&
-> -        s->vstart == 0) {
-> +        s->vstart_eq_zero) {
->           TCGv_ptr src2, mask;
->           TCGv dst;
->           TCGv_i32 desc;
-> @@ -3146,7 +3146,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
->           vext_check_isa_ill(s) &&                                   \
->           require_vm(a->vm, a->rd) &&                                \
->           (a->rd != a->rs2) &&                                       \
-> -        (s->vstart == 0)) {                                        \
-> +        s->vstart_eq_zero) {                                       \
->           uint32_t data = 0;                                         \
->           gen_helper_gvec_3_ptr *fn = gen_helper_##NAME;             \
->           TCGLabel *over = gen_new_label();                          \
-> @@ -3187,7 +3187,7 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
->           !is_overlapped(a->rd, 1 << MAX(s->lmul, 0), a->rs2, 1) &&
->           require_vm(a->vm, a->rd) &&
->           require_align(a->rd, s->lmul) &&
-> -        (s->vstart == 0)) {
-> +        s->vstart_eq_zero) {
->           uint32_t data = 0;
->           TCGLabel *over = gen_new_label();
->           tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-> @@ -3636,7 +3636,7 @@ static bool vcompress_vm_check(DisasContext *s, arg_r *a)
->              require_align(a->rs2, s->lmul) &&
->              (a->rd != a->rs2) &&
->              !is_overlapped(a->rd, 1 << MAX(s->lmul, 0), a->rs1, 1) &&
-> -           (s->vstart == 0);
-> +           s->vstart_eq_zero;
->   }
->   
->   static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
-> @@ -3675,7 +3675,7 @@ static bool trans_##NAME(DisasContext *s, arg_##NAME * a)               \
->           QEMU_IS_ALIGNED(a->rd, LEN) &&                                  \
->           QEMU_IS_ALIGNED(a->rs2, LEN)) {                                 \
->           uint32_t maxsz = (s->cfg_ptr->vlen >> 3) * LEN;                 \
-> -        if (s->vstart == 0) {                                           \
-> +        if (s->vstart_eq_zero) {                                        \
->               /* EEW = 8 */                                               \
->               tcg_gen_gvec_mov(MO_8, vreg_ofs(s, a->rd),                  \
->                                vreg_ofs(s, a->rs2), maxsz, maxsz);        \
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 85ca3ba202..e8bac1b470 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -99,7 +99,7 @@ typedef struct DisasContext {
->       uint8_t vta;
->       uint8_t vma;
->       bool cfg_vta_all_1s;
-> -    target_ulong vstart;
-> +    bool vstart_eq_zero;
->       bool vl_eq_vlmax;
->       CPUState *cs;
->       TCGv zero;
-> @@ -1169,7 +1169,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->       ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
->       ctx->vma = FIELD_EX32(tb_flags, TB_FLAGS, VMA) && cpu->cfg.rvv_ma_all_1s;
->       ctx->cfg_vta_all_1s = cpu->cfg.rvv_ta_all_1s;
-> -    ctx->vstart = env->vstart;
-> +    ctx->vstart_eq_zero = FIELD_EX32(tb_flags, TB_FLAGS, VSTART_EQ_ZERO);
->       ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
->       ctx->misa_mxl_max = env->misa_mxl_max;
->       ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
 
 
