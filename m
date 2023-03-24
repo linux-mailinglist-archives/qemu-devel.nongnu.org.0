@@ -1,87 +1,130 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102C66C82BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 18:01:55 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BED16C8577
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 20:01:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfkmn-0000X1-2K; Fri, 24 Mar 2023 13:01:05 -0400
+	id 1pfmd7-0005sB-9Z; Fri, 24 Mar 2023 14:59:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pfkml-0000Wt-Oa
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:01:03 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pfkmj-0007de-Is
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 13:01:02 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- lr16-20020a17090b4b9000b0023f187954acso2213146pjb.2
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 10:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679677259;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3BrjrwwT88FeHEx8xF+ALqxpNCbBHkDcivNW4pyG/SA=;
- b=DQLmkUKovXDQPn/fHskaRUy6wY6LzUafA0FJdfvzhc8Z6NOvcf7hNK50nPz6tr3i0f
- zPpxFlfdqWpOx2oTZmTStlBzGGJIkiYqu2HU6WtJJ+Z3bjwziHkUhFDK2bRhEu2rECW6
- tAOMXgqgIgEBouPWEQLj3Rr48QuovvZWY7lOLRT8iAEiHqMjS/C9zCJGJHTWg1JeC3tJ
- 916gRsrXRvFwq5dLx1Qu4EqawrmJ6JD6jgLb+y5l8vtkkcJYL2aX5tFr9dxzAkhSb2sk
- Om93WwT/Tl0ZLp+SwIBEMdixBhDbgGJ9W1NZSp/fLLpOESbPqJaO8dh0aHWs6yrOdqqU
- Hhgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679677259;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3BrjrwwT88FeHEx8xF+ALqxpNCbBHkDcivNW4pyG/SA=;
- b=npYYzHlcsb0U+8rTVcuI7pqpZVgepje/cEjkt3qHl8+eHOSgZyqxYJQm5iIiBCGEqd
- +wq76qHjP+npDN+XLvgBdaw5gdY6P7WGg3I/DHmSaPh7UBrB+h+hPtQYxUB0vkWxxHHv
- 97+euzUbsDsWA0bfo7KCzkhrZXP+EgTk7fPjVV8Plb9Gr8ssXWYB7OBrq93WogA/9JBJ
- kZFJiIB72dnO7Yg5hjQeRbhUoHaWNrUNuxLm9K7zOEZfaFBn9yTTe1h2Mz26XeqZeBLg
- UP9mraTba5PToUZq4X8Del4N5mZl//m3MhtqbkPgVa8y7QQipV3gPtjoFGnWC8C4AEJL
- PQUQ==
-X-Gm-Message-State: AAQBX9cD4HfB6GXmIOTKWyqVxEkRKTkyGwLHQVJ+MHsHsGbGyDjLJ+IG
- twXY1iTNuv94Wi1wmPeUKvSndQ==
-X-Google-Smtp-Source: AKy350a3U0GJznJBAytP96SMDDv2AQngaC+txaXhLjBAVdilpRoMaZq8+Nity5cxFc6Pxt7MXQIZ8Q==
-X-Received: by 2002:a17:90a:d583:b0:237:3f83:61f3 with SMTP id
- v3-20020a17090ad58300b002373f8361f3mr3653293pju.16.1679677259375; 
- Fri, 24 Mar 2023 10:00:59 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1544:6601:cb42:9f2a:fcd4:54fc?
- ([2602:ae:1544:6601:cb42:9f2a:fcd4:54fc])
- by smtp.gmail.com with ESMTPSA id
- ix18-20020a170902f81200b0019f1027f88bsm14454942plb.307.2023.03.24.10.00.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Mar 2023 10:00:58 -0700 (PDT)
-Message-ID: <84fac4a7-84f0-e89c-83b1-0a169372201a@linaro.org>
-Date: Fri, 24 Mar 2023 10:00:56 -0700
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pfmd4-0005rU-Ih
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 14:59:10 -0400
+Received: from mail-am6eur05on20729.outbound.protection.outlook.com
+ ([2a01:111:f400:7e1b::729]
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pfmd2-0002ID-VJ
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 14:59:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GQHVFu+i8s3wodXTERsUItxebzB/+vi9IAltWX8L2XSVnQqtr9klxTHdNY0Qkseq4ZAKmYPvcjjRPZtv8dgjxXrfYuIQgwIj57xunpFg9PSuUY+Rg8OeKDWNUrxBjhZCgiZxb6VReX8n++/gGr/YJ/9mYnH/si+Do6gP8tmZx40ot9z+Gkdg8MkAMPSSNVtD2fp6c/1HoHEtZ/4h9bWxQJGUrZMvLGAo6CS5IafX9sKZPUkbkklQrCcBW/YO5He0DqglYfrnbg+xo/NJlvgV1Y5d7yspQnDaYty7uqRsEfkA3nN7g5mrG7IjDPsrhRKsx0pcvHSiAWZsWTLlLrCxQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4u9RJTihDrbQNb6WXqGNnl5H1elHBDMZYN6QA4HIDd4=;
+ b=Y2kmhi9Q1oTBHLoAzABXXRyOfx2WOJepVANx6ohQIZ3OSWz5PEoe/EDdfOBZEzNkq8khbvjt8JYscPAlmxcTGYenq1zO/qxrjT3xj7Tccv/QfoxfVD1y5HMmxrCF1Yi8rVkArEPQr+18EZ/hvIz+jXFPIl6f2TvD7YTa+c86gtw2rwIU4o2W4W6HhWY2zgD9LOB3IMljb2CIodf2fNI2E0AZwy8n2INWTrCe73pbAh9inm5PsUrS7edKsPlg6yohVntri3DVXziWU52wWPfbttT0NE2nvHoTkUCB9oMcHcRyWlhuXDDzI061InzfWHSw8pEVK8i1NBoL4//3o2S0lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
+ s=selector2-estab-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4u9RJTihDrbQNb6WXqGNnl5H1elHBDMZYN6QA4HIDd4=;
+ b=OnAptGkGATZmNoSlk4aUcOWFStuY7FOpqB/TFBtjrweBqMj3qwVuHTYtUCzzUd6wbwCFo7BmEnKuXQB3jiwbUfTtFzmnl76IFPQJLEIIx61bxHNEoOmjh+R0dc2pOz0ZJmdhKw9KltInDR8t1wcuKAivKtFQQt06cIW9LBAVAgA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
+ by DB3P189MB2380.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:439::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Fri, 24 Mar
+ 2023 18:58:56 +0000
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::13ad:a312:15c6:91dc]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::13ad:a312:15c6:91dc%9]) with mapi id 15.20.6178.039; Fri, 24 Mar 2023
+ 18:58:54 +0000
+From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+To: 
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Subject: [PATCH v10 0/8] igb: merge changes from
+ <20221229190817.25500-1-sriram.yagnaraman@est.tech>
+Date: Fri, 24 Mar 2023 16:34:53 +0100
+Message-Id: <20230324153501.20695-1-sriram.yagnaraman@est.tech>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0101.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:8::16) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:1e7::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/4] target/riscv: Extract virt enabled state from tb flags
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
-Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com, qemu-riscv@nongnu.org
-References: <20230324055954.908-1-zhiwei_liu@linux.alibaba.com>
- <20230324055954.908-2-zhiwei_liu@linux.alibaba.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230324055954.908-2-zhiwei_liu@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|DB3P189MB2380:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f7ed0a7-9fce-4d3e-87d2-08db2c99d0af
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tFkw1DYVxCJHDcCKRlkRtTOekLuiXadXF+NZZqAWXl3IBPX7eQQu6ecgAV/tZd4LXX69AoHyQVnx40LcNkMoZc7N/AxoXz9IfjVyOmzWxOPoYucvW2xOZsYoSpHVmMQ0BHIdPa1h+O88YG5wzodkdNdsxt8ijj6QVc33uWId+/s9YsGxgYmtN2Rns+4VQimE25jf6SkK5X5ipq3y1WJfoDLrvh9SIqmGO53fxqoem7ORg8Y2FUQcFeEhNr11/j/fdt6+PLqprY0WAVwG3m8Q6EPr5BM3xifCF9mXNltUa3rYwwQfcteAC8EBrAALT7bayXZ9sQjgxgnsoPwHmYK1bcP4HScRVKvfv3Bwtv9ccQfGIuIrDxs6AOf4vymR3vbsoytLg2GqyUTh6bpD42E227GilG97q2ruQNb1vtdAydqGDFFtWX8UGR6+vl57WhSu9HKreTEixEP/gQhZ9BubwgYRWLNCM8ULNfZ59De8Vk3yHutbnIoEuMVm0Nqy5y99v3zzcfy8YsTiaIZgZfejolB84yoGR7X0O71IFaRKT0961K2KnlrGrW/dcCgQTm8Cc3SyK2QArN7995PrdtaWJSsEhaQp61ipqkpPvl8RL/OVMHMLSNgBLGUbZzpfERjY/DG0kalXlcz2Uqodpc5rKw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(136003)(396003)(346002)(39840400004)(451199021)(109986019)(66946007)(54906003)(316002)(66556008)(38100700002)(8676002)(70586007)(44832011)(66476007)(86362001)(4326008)(41300700001)(36756003)(5660300002)(8936002)(186003)(2616005)(2906002)(6486002)(26005)(6512007)(478600001)(1076003)(6506007)(83380400001)(266003)(37730700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?if/9AKBoR4Zl2r+QlkWh3+nZ5ZKC0mELHGkKa3lNrrzT0JgEtwjtJ92gs1US?=
+ =?us-ascii?Q?S2MbiJufDwdngvjwbB5a8EK5ydCzmR8K3k1rVJSvzlRnt2AK+jKi4qf2NdRV?=
+ =?us-ascii?Q?hT+2F6WOMwTWLpNMZLVeVa8ZXCMl7VjqM+M6Ld9oQTWVd5IhyFcnYbBvUq0x?=
+ =?us-ascii?Q?0OHgetbPXaI+1GHeScu1ycYjLyzLUH9WQ4HbR9oSTklgegbM05VgZW+g8eDF?=
+ =?us-ascii?Q?k4G1HIk8sjPvnXPzSUWvG/7oIGNJ8ftM/1GqiMC5gx/+IpR+LD93BoboB0f1?=
+ =?us-ascii?Q?olnnEGetVrN8yNGGgzYR/I/jRW1vjHnJPgMBYLwc24Kgoh2jAKbDTx76RYt9?=
+ =?us-ascii?Q?9CTBxi4LGc5bSK5ptrpGjAkhYObd+rY7O4meS7cudPvGOwtjR6FhzVhwE4Xb?=
+ =?us-ascii?Q?AR9kK5XktdA07X6qBMv3R0msN+Z7ZSOG6mdF8bzxV84oVC1ltL5+ilJdXmvH?=
+ =?us-ascii?Q?S70Xudvm5m0TtSkA3ZePmWBuPNh/PJrpw0g13LpZiX/N0nbpJ0lps4ZE4UhM?=
+ =?us-ascii?Q?TQeCSHn5Kkximx6c1HO6vOX8+wfQF86qLzqWTwHOoIg6xldGK9PI2kkiOO22?=
+ =?us-ascii?Q?YkO+6WdJiFOm9eGGk3PH4pUy6joBrBfEX8Cckb15F4v6/OyGbcm4erVHDVQy?=
+ =?us-ascii?Q?vpyXuj0L0tV/jMpqjJl2abaVdoYan5rlipoH7LjOomfhu5pl20jYhYrypHJF?=
+ =?us-ascii?Q?EXusze6rkqAB1UitXsSguOzPz+fEPvV5i35+lvY5L3eCzi0LIu3Jglfr/GSJ?=
+ =?us-ascii?Q?yrwAmHVBbRd5zgnD9vDz96xtPIbsIdkTIyEofIwTBS8x6Bg1kJICULlSYhsn?=
+ =?us-ascii?Q?ojARSAE2AIpp1sXOAqPgXp6QlhSBMpSddaKwxn4nKed33Zzz/eJQlwVUI3Bz?=
+ =?us-ascii?Q?kMRl22KBVturFXCGbZuSowFdr2mwstjfG+yEpjszS7CUKQkgB3EpRbjT4xa1?=
+ =?us-ascii?Q?vctCzvV3K8v4e/KTx8Sp0q9Xhz/m2J7AhEHAn3lzq2drEs+cwTCptj7W5bOj?=
+ =?us-ascii?Q?3IHQhYK8asLQUaLlDuciPV9a4WLh5hcDjEKJWoYq55ztjdN5UjMJL3Vn7HgD?=
+ =?us-ascii?Q?EkkUDwItSk0pPie2MM7IhrN2T8+xJze14ERe7nkqw5zWZOGC4QXNLveOsGHb?=
+ =?us-ascii?Q?VZofXf5wvw707db0usrnT9YEnJvpMvayOYpDiiTK0bRPaHJYQDin4A+OssMw?=
+ =?us-ascii?Q?jRfJjR2jswOqBNm1v1jdvXB4ENoQQLCHFTnwXVcGxxxKIhHn+frksHPKFS+m?=
+ =?us-ascii?Q?8NrCSvJt+nVb0h782XxsWalO2pmaWnd5dY4NpbeuhtUTsEopOxQfQ1kta++H?=
+ =?us-ascii?Q?zx7h4uuS5GW/Kb7k1U1H5IK9JJ+oOKaBSdoMC9cs0njtfzkMtFR8W8KtYTrY?=
+ =?us-ascii?Q?V1m3quXwnLCE0qzabO/HgJ2loEEOBQZyLEg9/mnBhqVtJbbdj6vjP5RCcYEy?=
+ =?us-ascii?Q?1/xmdUw++t57DYnpiPX+EdfFmF0k1TlruPGkmJXtgIt/4rRWUZsERGL+BzDC?=
+ =?us-ascii?Q?kktxooJVXBwKunUkV0du+6e1Tr+xKpONtKb1K3w6bHlMx8FTaGMg4O3X6NH+?=
+ =?us-ascii?Q?oG36SHR1b0kRoG38iedLSSEmHuh9zzzyFsiu7P0z8w4gafODVSpG1H3FBcWx?=
+ =?us-ascii?Q?ow=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f7ed0a7-9fce-4d3e-87d2-08db2c99d0af
+X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 18:58:54.6777 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q1RfbiQfP+MSvuoE14bGm2n/OskNta7yinesnh5809RSTPV3eE5Nbd4AcllPWX+3hVS8LNeiXl0v89rvWIRZSH7Ei0pn9yk/e1b1+pAlvjA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3P189MB2380
+Received-SPF: pass client-ip=2a01:111:f400:7e1b::729;
+ envelope-from=sriram.yagnaraman@est.tech;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,19 +140,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/23/23 22:59, LIU Zhiwei wrote:
-> Virt enabled state is not a constant. So we should put it into tb flags.
-> Thus we can use it like a constant condition at translation phase.
-> 
-> Reported-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: LIU Zhiwei<zhiwei_liu@linux.alibaba.com>
-> ---
->   target/riscv/cpu.h        |  2 ++
->   target/riscv/cpu_helper.c |  2 ++
->   target/riscv/translate.c  | 10 +---------
->   3 files changed, 5 insertions(+), 9 deletions(-)
+Based-on: <20230324095434.44973-1-akihiko.odaki@daynix.com>
+([PATCH for 8.0 0/4] igb fixes for 8.0)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Now that Akhiko's patchset for introducing igb device is merged, I have
+rebased my changes on master. The changes proposed here adds support
+for 
+ - Correct PF/VF reset handling
+ - Introduce ICR_RXDW register definition
+ - Impement support for VFTE/VFRE/VMOLR_RSSE/VMVIR/VMOLR registers
+ - Check oversized packet for VMDq
+ - VF statistics
 
-r~
+Changes since v9:
+- Yet another rebase
+
+Changes since v8:
+- Set RSTI bit on PF reset
+
+Changes since v7:
+- Adapt to "igb: Save more Tx states" patch from Akhiko
+- Fix bug in VMVIR patch for inserting vlan, do not overwrite context
+
+Changes since v6:
+- Rebased on latest, which includes igb device introduction.
+
+Changes since v5:
+- Added back an unecessarily removed empty line
+
+Changes since v4:
+- Removed the change implementing VTCTL.IGMAC, it needs more thought
+  and implementation of DTXSWC.LLE and VLVF.LVLAN first
+
+Changes since v3:
+- Fix comments
+- Rebased on latest patchset from Akihiko
+- Remove Rx loop improvements that Akihiko has pulled into his patchset
+
+Changes since v2:
+- Fixed more comments from Akhiko
+- Reordered the patches to make changes easier to understand
+
+Changes since v1:
+- Fix review comments from Akihiko
+
+
+Sriram Yagnaraman (8):
+  MAINTAINERS: Add Sriram Yagnaraman as a igb reviewer
+  igb: handle PF/VF reset properly
+  igb: add ICR_RXDW
+  igb: implement VFRE and VFTE registers
+  igb: check oversized packets for VMDq
+  igb: respect E1000_VMOLR_RSSE
+  igb: implement VF Tx and Rx stats
+  igb: respect VMVIR and VMOLR for VLAN
+
+ MAINTAINERS          |   1 +
+ hw/net/e1000x_regs.h |   4 +
+ hw/net/igb_core.c    | 212 ++++++++++++++++++++++++++++++++++---------
+ hw/net/igb_core.h    |   1 +
+ hw/net/igb_regs.h    |   6 ++
+ hw/net/trace-events  |   2 +
+ 6 files changed, 185 insertions(+), 41 deletions(-)
+
+-- 
+2.34.1
+
 
