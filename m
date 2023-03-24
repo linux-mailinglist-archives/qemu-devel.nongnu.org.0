@@ -1,66 +1,66 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3186C81A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:44:32 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB79C6C81D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:53:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfhd1-0001gt-0K; Fri, 24 Mar 2023 09:38:47 -0400
+	id 1pfhif-0002BJ-PD; Fri, 24 Mar 2023 09:44:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pfhcy-0001gc-IU; Fri, 24 Mar 2023 09:38:44 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ id 1pfhid-0002B6-VH; Fri, 24 Mar 2023 09:44:35 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pfhcp-000343-37; Fri, 24 Mar 2023 09:38:44 -0400
+ id 1pfhiX-0004PY-Vv; Fri, 24 Mar 2023 09:44:35 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7717333702;
- Fri, 24 Mar 2023 13:31:02 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 240B21FE4A;
+ Fri, 24 Mar 2023 13:39:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679664662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1679665160; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YU5W0OmE4ipRcPlxac3dSK/wf1YoWH7wGDnkXlOiEOU=;
- b=2M5cpm5PTv00RwtSKmrUoUI7lD2/UMUQskycDEaPIddpgvsDp17mHJmlVBv6KIaghvgZQ+
- 7kg7cf40Aw5Dj0D8GGvxcP7VE4VWd4O89+Lf6K/54prVxHbACh5/p3+s4xrtphSvNEwMkq
- DGyH+nc56p6tFM57IWAhsqBDfLr5/DE=
+ bh=EKNHligrjPRdlgVc04rgv1n6X+WDwQRTw7AKZrer5xc=;
+ b=XeY5bdhEWl9ykg78NSgQ184RXOW67DTTBPKC06+BSJY31FutqnGEVHzRR6cT/JI5Bhb+Hc
+ j7rTgvGG+muienBZGsFQ/tpXmjSpl3d0n2j3Ujb8LjIeulBK4dU5jAPIsjO6VynRBHYP1u
+ CsX6mZcm7efMnmvVZ2LNOWq/BPHQQrc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679664662;
+ s=susede2_ed25519; t=1679665160;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YU5W0OmE4ipRcPlxac3dSK/wf1YoWH7wGDnkXlOiEOU=;
- b=JfBaPlDq+uulgHLhwGvF49KIH3Lu8biRZY7BbN09bP3TSI82BDfsFbx3j07VLfSqkx8KDm
- yh/hnx7PLFjlG5CA==
+ bh=EKNHligrjPRdlgVc04rgv1n6X+WDwQRTw7AKZrer5xc=;
+ b=1CONdDjhAEaXze7dX1K4BPF1oCoKNa/CPnefgnFX/hrKdYWrjLScGHGGWObbbmZY6UEDcs
+ kksjp50DqyXDoqCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 03937133E5;
- Fri, 24 Mar 2023 13:31:01 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A28A8133E5;
+ Fri, 24 Mar 2023 13:39:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id DrpkLxWmHWS6KwAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 24 Mar 2023 13:31:01 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id Jtd8GgeoHWQ3MAAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 24 Mar 2023 13:39:19 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 3/6] target/ppc: Fix instruction loading endianness in
- alignment interrupt
-In-Reply-To: <20230323022237.1807512-3-npiggin@gmail.com>
+Subject: Re: [PATCH 4/6] target/ppc: Alignment faults do not set DSISR in
+ ISA v3.0 onward
+In-Reply-To: <20230323022237.1807512-4-npiggin@gmail.com>
 References: <20230323022237.1807512-1-npiggin@gmail.com>
- <20230323022237.1807512-3-npiggin@gmail.com>
-Date: Fri, 24 Mar 2023 10:30:59 -0300
-Message-ID: <87zg82ff8s.fsf@suse.de>
+ <20230323022237.1807512-4-npiggin@gmail.com>
+Date: Fri, 24 Mar 2023 10:39:17 -0300
+Message-ID: <87wn36feuy.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -83,71 +83,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Nick,
+Nicholas Piggin <npiggin@gmail.com> writes:
 
-> powerpc ifetch endianness depends on MSR[LE] so it has to byteswap
-> after cpu_ldl_code(). This corrects DSISR bits in alignment
-> interrupts when running in little endian mode.
+> This optional behavior was removed from the ISA in v3.0, see
+> Summary of Changes preface:
 >
-
-Just a thought, we have these tests that perhaps could have caught
-this:  https://github.com/legoater/pnv-test
-
-Despite the name they do have (some) support to pseries as well. Not
-sure how the P8 support is these days though.
-
+>   Data Storage Interrupt Status Register for Alignment Interrupt:
+>   Simplifies the Alignment interrupt by remov- ing the Data Storage
+>   Interrupt Status Register (DSISR) from the set of registers modified
+>   by the Alignment interrupt.
+>
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 > ---
->  target/ppc/excp_helper.c | 27 ++++++++++++++++++++++++++-
->  1 file changed, 26 insertions(+), 1 deletion(-)
+>  target/ppc/excp_helper.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
 >
 > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 287659c74d..5f0e363363 100644
+> index 5f0e363363..c8b8eca3b1 100644
 > --- a/target/ppc/excp_helper.c
 > +++ b/target/ppc/excp_helper.c
-> @@ -133,6 +133,31 @@ static void dump_hcall(CPUPPCState *env)
->                    env->nip);
->  }
->  
-> +/* Return true iff byteswap is needed in a scalar memop */
-> +static inline bool need_byteswap(CPUArchState *env)
-> +{
-> +#if TARGET_BIG_ENDIAN
+> @@ -1456,13 +1456,22 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+>          break;
+>      }
+>      case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
+> -        /* Get rS/rD and rA from faulting opcode */
+> -        /*
+> -         * Note: the opcode fields will not be set properly for a
+> -         * direct store load/store, but nobody cares as nobody
+> -         * actually uses direct store segments.
+> -         */
+> -        env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
+> +        switch (env->excp_model) {
 
-TARGET_BIG_ENDIAN is always set for softmmu mode. See
-configs/targets/ppc64-softmmu.mak
+Slightly better would be to check on (env->insn_flags2 & PPC2_ISA300).
+We were trying to phase out the usage of "exception models" wherever
+possible in favor of specific feature/isa level flags.
 
-> +     return !!(env->msr & ((target_ulong)1 << MSR_LE));
-> +#else
-> +     return !(env->msr & ((target_ulong)1 << MSR_LE));
-> +#endif
-> +}
-> +
-> +static uint32_t ppc_ldl_code(CPUArchState *env, abi_ptr addr)
-> +{
-> +    uint32_t insn = cpu_ldl_code(env, addr);
-> +#if TARGET_BIG_ENDIAN
-> +    if (env->msr & ((target_ulong)1 << MSR_LE)) {
-> +        insn = bswap32(insn);
-> +    }
-> +#else
-> +    if (!(env->msr & ((target_ulong)1 << MSR_LE))) {
-> +        insn = bswap32(insn);
-> +    }
-> +#endif
-> +    return insn;
-> +}
-> +
->  static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
->  {
->      const char *es;
-> @@ -3097,7 +3122,7 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
->  
->      /* Restore state and reload the insn we executed, for filling in DSISR.  */
->      cpu_restore_state(cs, retaddr);
-> -    insn = cpu_ldl_code(env, env->nip);
-> +    insn = ppc_ldl_code(env, env->nip);
->  
->      switch (env->mmu_model) {
->      case POWERPC_MMU_SOFT_4xx:
+> +        case POWERPC_EXCP_970:
+> +        case POWERPC_EXCP_POWER7:
+> +        case POWERPC_EXCP_POWER8:
+> +            /* Get rS/rD and rA from faulting opcode */
+> +            /*
+> +             * Note: the opcode fields will not be set properly for a
+> +             * direct store load/store, but nobody cares as nobody
+> +             * actually uses direct store segments.
+> +             */
+> +            env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
+> +            break;
+> +        default:
+> +            /* Optional DSISR update was removed from ISA v3.0 */
+> +            break;
+> +        }
+>          break;
+>      case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
+>          switch (env->error_code & ~0xF) {
 
