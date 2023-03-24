@@ -1,78 +1,81 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132996C81F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:57:06 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1E66C8138
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:29:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfeFv-0005Yw-7W; Fri, 24 Mar 2023 06:02:43 -0400
+	id 1pfe9R-0005HR-Io; Fri, 24 Mar 2023 05:56:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pfeFt-0005Yk-2X
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 06:02:41 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b])
+ id 1pfe9N-0005H2-Ly
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 05:55:57 -0400
+Received: from mail-pj1-f50.google.com ([209.85.216.50])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pfeFb-0004vS-Lf
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 06:02:40 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-544b959a971so24190547b3.3
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 03:02:23 -0700 (PDT)
+ id 1pfe8v-0003RJ-8h
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 05:55:55 -0400
+Received: by mail-pj1-f50.google.com with SMTP id q102so1064416pjq.3
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 02:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679652122;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WqHMJseoGUL0AoeVeqV46ujzSh/6ctH7NnnsGiwh/r0=;
- b=GkwJQmKbbQ4DRf7DCEH1sCE7TkXDzPoMOGA8T3URjEurQ1Z7eSQXIlfJP/f8CtDlay
- AhbkGmWKeELh9Bx/APOpYvp3xnpepB/8p+Hw6ivL6HlNvHhwqhwqKQeEbMeZQ0ZP17HE
- PNmJF4SmW2BQzsZ944O3PeGvOH+MiLwTlcLN/ovmqvo1x0zdAJBrcqzrFpivW/QjO9L7
- Q4feVUDA+7dEidRDah9INUFVoBG31eUS/jQUwgb2T4frZr9gPcy4HNl1q4Ktucg0P6+z
- q++lRlntUqjtgTLg/URF2KsMufcFHyXJbrA4XrjH+P4GuheiXgg5qRXrPPY938CGgzJW
- b09w==
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1679651706;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=olWpSyjuRKBpQwlTJORZDyycQD/rB1S8WMk6WD7U5zY=;
+ b=Vxf2BUreUP4SkUvuYCgX62QEZLr3KYFGbM/5O1WXrQsw+5s/rB/9fNtI3n6OESAjys
+ FATaFdlnFAeybg3R3NlO7oAf0qtRnHbE+JHMFq8jHchJpnkuFAMQBzA6U4GQ5oQFqNnf
+ rfk3Dr5zi5VfxZPmxNwFIxEqdf7S9VcaCVGrjNTEpHmHLc/l18sN7d9ns8Bo/k1IGRJ2
+ Xu7/tC13RZ4JT/GMpwyloOGDflz31fy3co0heeiv7cjR5CFcwkKIHDQW2Jd4wajqB+DF
+ dITHxMPdugtQb4Q8s7Pka0+J+5WniLfjGLWwDk9FnE9abzYJFiwp8xwMHUuK87QhA2jb
+ t71Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679652122;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WqHMJseoGUL0AoeVeqV46ujzSh/6ctH7NnnsGiwh/r0=;
- b=rCCpuZnAKp6yqtusKIPWv9BRzOQ/3ZpsqLOQH9nwytp/UVXu/TC4iC7M6SBxK91ZoJ
- MW0gC8ZSor+ymn/ISpFeZ6f6inrX+UbHfiD9IF9hK58hXq0phbYLqUY85tQJnKVyMX9J
- MpKIA81nJUFYMZC7X4t6onj3WRUM22t4EdfbZBw5+iR1cqKYe8ltPr3iHJ1AQD3oLp8d
- qKazBuex8XEGo6TIbv7DWWxLA/Mc3uFp+GLosmQ8ybfrJqmOA+VaV5PLz4DuPbrN6W2L
- roABYpBcGJJmVTnJsySdzeKDrAD0Ed5AwEh5QI2Z1wr72hkMqiaGter9lVUh0eeWSpAB
- gAXQ==
-X-Gm-Message-State: AAQBX9c4f2je6dXwXVNBeZqV7ngkfMUjzLAx31RXrAmxNKmacpOezYVD
- XnafVAGBHqO9vZwYNkkUQgpAvezbsL556+WqmO0fLw==
-X-Google-Smtp-Source: AKy350Y2UCGj59Eei/COY3AX0PCCqUGPXYYeGjtmBGmVu7scaU+IgO3345E63VkPQt8/ttA3dk4n4Q==
-X-Received: by 2002:a17:90a:3:b0:23d:3931:7b49 with SMTP id
- 3-20020a17090a000300b0023d39317b49mr1827653pja.35.1679651699619; 
- Fri, 24 Mar 2023 02:54:59 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679651706;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=olWpSyjuRKBpQwlTJORZDyycQD/rB1S8WMk6WD7U5zY=;
+ b=W709FqzrHK+Vbf0addZ5oCwSmi/ONkcD1coQz5du0MRsY51urQeXDVqkNrbkRaxVyi
+ MM3Xko7H/kr6W9Iw0QTE2zctqAp3UxZZexObUyhIpXR3LBvXZYZstDk/Jrlxp3RI4tPf
+ k9hvSPI4xAX2AB/BE/IT3B90WQxFjHazTIPqvukUZ+jJNHaPLzzZeYrbGAPvTBxpTI6b
+ piLJHPH6kOdikRnGv2PjtP+E02V2Qy7GbCtXtt/dHVAD7ReUEGF3+M2cCo1EsWz8y+X6
+ q0UfNxTWGqaFd9UyPQ6tWK7pw6gX1VBJfgHirYmJDigFvgYrlWQhUGup8a58ix2iF600
+ RtkQ==
+X-Gm-Message-State: AAQBX9eMk4N/ywpaXkm+t4zs2tgEa+UA84/wTqdTbA+LfFqaS5JLgvkS
+ ZnJpG3bda725JUZ2ZLNRZvks8+tmKWp4A+RHKF8Z8g==
+X-Google-Smtp-Source: AKy350Y/HiEfcm/eYjFjQSAdq8xPEIW2rxYr6K5//s+zcRse/Sq+hw99KoCglVUNT/WtODzQw1cPZA==
+X-Received: by 2002:a17:902:c405:b0:199:2a89:f912 with SMTP id
+ k5-20020a170902c40500b001992a89f912mr2792650plk.20.1679651701405; 
+ Fri, 24 Mar 2023 02:55:01 -0700 (PDT)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- h5-20020a170902748500b001963bc7bdb8sm13785614pll.274.2023.03.24.02.54.57
+ h5-20020a170902748500b001963bc7bdb8sm13785614pll.274.2023.03.24.02.54.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Mar 2023 02:54:59 -0700 (PDT)
+ Fri, 24 Mar 2023 02:55:01 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Jason Wang <jasowang@redhat.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH for 8.0 0/4] igb fixes for 8.0
-Date: Fri, 24 Mar 2023 18:54:30 +0900
-Message-Id: <20230324095434.44973-1-akihiko.odaki@daynix.com>
+Subject: [PATCH for 8.0 1/4] igb: Save more Tx states
+Date: Fri, 24 Mar 2023 18:54:31 +0900
+Message-Id: <20230324095434.44973-2-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230324095434.44973-1-akihiko.odaki@daynix.com>
+References: <20230324095434.44973-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::112b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-yw1-x112b.google.com
+Received-SPF: none client-ip=209.85.216.50;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-f50.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,23 +92,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series have several fixes igb for 8.0 release.
+The current implementation of igb uses only part of a advanced Tx
+context descriptor and first data descriptor because it misses some
+features and sniffs the trait of the packet instead of respecting the
+packet type specified in the descriptor. However, we will certainly
+need the entire Tx context descriptor when we update igb to respect
+these ignored fields. Save the entire context descriptor and first
+data descriptor except the buffer address to prepare for such a change.
 
-Akihiko Odaki (4):
-  igb: Save more Tx states
-  igb: Fix DMA requester specification for Tx packet
-  hw/net/net_tx_pkt: Ignore ECN bit
-  hw/net/net_tx_pkt: Align l3_hdr
+This also introduces the distinction of contexts with different
+indexes, which was not present in e1000e but in igb.
 
- hw/net/e1000e_core.c |  6 ++---
- hw/net/igb.c         | 26 ++++++++++++++++------
- hw/net/igb_core.c    | 52 +++++++++++++++++++++++---------------------
- hw/net/igb_core.h    |  8 +++----
- hw/net/net_tx_pkt.c  | 30 ++++++++++++++-----------
- hw/net/net_tx_pkt.h  |  3 ++-
- hw/net/vmxnet3.c     |  4 ++--
- 7 files changed, 73 insertions(+), 56 deletions(-)
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+---
+ hw/net/igb.c      | 26 +++++++++++++++++++-------
+ hw/net/igb_core.c | 39 +++++++++++++++++++--------------------
+ hw/net/igb_core.h |  8 +++-----
+ 3 files changed, 41 insertions(+), 32 deletions(-)
 
+diff --git a/hw/net/igb.c b/hw/net/igb.c
+index c6d753df87..51a7e9133e 100644
+--- a/hw/net/igb.c
++++ b/hw/net/igb.c
+@@ -502,16 +502,28 @@ static int igb_post_load(void *opaque, int version_id)
+     return igb_core_post_load(&s->core);
+ }
+ 
+-static const VMStateDescription igb_vmstate_tx = {
+-    .name = "igb-tx",
++static const VMStateDescription igb_vmstate_tx_ctx = {
++    .name = "igb-tx-ctx",
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+-        VMSTATE_UINT16(vlan, struct igb_tx),
+-        VMSTATE_UINT16(mss, struct igb_tx),
+-        VMSTATE_BOOL(tse, struct igb_tx),
+-        VMSTATE_BOOL(ixsm, struct igb_tx),
+-        VMSTATE_BOOL(txsm, struct igb_tx),
++        VMSTATE_UINT32(vlan_macip_lens, struct e1000_adv_tx_context_desc),
++        VMSTATE_UINT32(seqnum_seed, struct e1000_adv_tx_context_desc),
++        VMSTATE_UINT32(type_tucmd_mlhl, struct e1000_adv_tx_context_desc),
++        VMSTATE_UINT32(mss_l4len_idx, struct e1000_adv_tx_context_desc),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription igb_vmstate_tx = {
++    .name = "igb-tx",
++    .version_id = 2,
++    .minimum_version_id = 2,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT_ARRAY(ctx, struct igb_tx, 2, 0, igb_vmstate_tx_ctx,
++                             struct e1000_adv_tx_context_desc),
++        VMSTATE_UINT32(first_cmd_type_len, struct igb_tx),
++        VMSTATE_UINT32(first_olinfo_status, struct igb_tx),
+         VMSTATE_BOOL(first, struct igb_tx),
+         VMSTATE_BOOL(skip_cp, struct igb_tx),
+         VMSTATE_END_OF_LIST()
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index a7c7bfdc75..7708333c2a 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -389,8 +389,10 @@ igb_rss_parse_packet(IGBCore *core, struct NetRxPkt *pkt, bool tx,
+ static bool
+ igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
+ {
+-    if (tx->tse) {
+-        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->mss)) {
++    if (tx->first_cmd_type_len & E1000_ADVTXD_DCMD_TSE) {
++        uint32_t idx = (tx->first_olinfo_status >> 4) & 1;
++        uint32_t mss = tx->ctx[idx].mss_l4len_idx >> 16;
++        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, mss)) {
+             return false;
+         }
+ 
+@@ -399,13 +401,13 @@ igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
+         return true;
+     }
+ 
+-    if (tx->txsm) {
++    if (tx->first_olinfo_status & E1000_ADVTXD_POTS_TXSM) {
+         if (!net_tx_pkt_build_vheader(tx->tx_pkt, false, true, 0)) {
+             return false;
+         }
+     }
+ 
+-    if (tx->ixsm) {
++    if (tx->first_olinfo_status & E1000_ADVTXD_POTS_IXSM) {
+         net_tx_pkt_update_ip_hdr_checksum(tx->tx_pkt);
+     }
+ 
+@@ -527,7 +529,7 @@ igb_process_tx_desc(IGBCore *core,
+ {
+     struct e1000_adv_tx_context_desc *tx_ctx_desc;
+     uint32_t cmd_type_len;
+-    uint32_t olinfo_status;
++    uint32_t idx;
+     uint64_t buffer_addr;
+     uint16_t length;
+ 
+@@ -538,20 +540,19 @@ igb_process_tx_desc(IGBCore *core,
+             E1000_ADVTXD_DTYP_DATA) {
+             /* advanced transmit data descriptor */
+             if (tx->first) {
+-                olinfo_status = le32_to_cpu(tx_desc->read.olinfo_status);
+-
+-                tx->tse = !!(cmd_type_len & E1000_ADVTXD_DCMD_TSE);
+-                tx->ixsm = !!(olinfo_status & E1000_ADVTXD_POTS_IXSM);
+-                tx->txsm = !!(olinfo_status & E1000_ADVTXD_POTS_TXSM);
+-
++                tx->first_cmd_type_len = cmd_type_len;
++                tx->first_olinfo_status = le32_to_cpu(tx_desc->read.olinfo_status);
+                 tx->first = false;
+             }
+         } else if ((cmd_type_len & E1000_ADVTXD_DTYP_CTXT) ==
+                    E1000_ADVTXD_DTYP_CTXT) {
+             /* advanced transmit context descriptor */
+             tx_ctx_desc = (struct e1000_adv_tx_context_desc *)tx_desc;
+-            tx->vlan = le32_to_cpu(tx_ctx_desc->vlan_macip_lens) >> 16;
+-            tx->mss = le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 16;
++            idx = (le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 4) & 1;
++            tx->ctx[idx].vlan_macip_lens = le32_to_cpu(tx_ctx_desc->vlan_macip_lens);
++            tx->ctx[idx].seqnum_seed = le32_to_cpu(tx_ctx_desc->seqnum_seed);
++            tx->ctx[idx].type_tucmd_mlhl = le32_to_cpu(tx_ctx_desc->type_tucmd_mlhl);
++            tx->ctx[idx].mss_l4len_idx = le32_to_cpu(tx_ctx_desc->mss_l4len_idx);
+             return;
+         } else {
+             /* unknown descriptor type */
+@@ -575,8 +576,10 @@ igb_process_tx_desc(IGBCore *core,
+     if (cmd_type_len & E1000_TXD_CMD_EOP) {
+         if (!tx->skip_cp && net_tx_pkt_parse(tx->tx_pkt)) {
+             if (cmd_type_len & E1000_TXD_CMD_VLE) {
+-                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, tx->vlan,
+-                    core->mac[VET] & 0xffff);
++                idx = (tx->first_olinfo_status >> 4) & 1;
++                uint16_t vlan = tx->ctx[idx].vlan_macip_lens >> 16;
++                uint16_t vet = core->mac[VET] & 0xffff;
++                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, vlan, vet);
+             }
+             if (igb_tx_pkt_send(core, tx, queue_index)) {
+                 igb_on_tx_done_update_stats(core, tx->tx_pkt);
+@@ -4024,11 +4027,7 @@ static void igb_reset(IGBCore *core, bool sw)
+     for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
+         tx = &core->tx[i];
+         net_tx_pkt_reset(tx->tx_pkt);
+-        tx->vlan = 0;
+-        tx->mss = 0;
+-        tx->tse = false;
+-        tx->ixsm = false;
+-        tx->txsm = false;
++        memset(tx->ctx, 0, sizeof(tx->ctx));
+         tx->first = true;
+         tx->skip_cp = false;
+     }
+diff --git a/hw/net/igb_core.h b/hw/net/igb_core.h
+index 814c1e264b..8914e0b801 100644
+--- a/hw/net/igb_core.h
++++ b/hw/net/igb_core.h
+@@ -72,11 +72,9 @@ struct IGBCore {
+     QEMUTimer *autoneg_timer;
+ 
+     struct igb_tx {
+-        uint16_t vlan;  /* VLAN Tag */
+-        uint16_t mss;   /* Maximum Segment Size */
+-        bool tse;       /* TCP/UDP Segmentation Enable */
+-        bool ixsm;      /* Insert IP Checksum */
+-        bool txsm;      /* Insert TCP/UDP Checksum */
++        struct e1000_adv_tx_context_desc ctx[2];
++        uint32_t first_cmd_type_len;
++        uint32_t first_olinfo_status;
+ 
+         bool first;
+         bool skip_cp;
 -- 
 2.39.2
 
