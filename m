@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76966C8203
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55D36C81BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:48:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfgjv-00054G-08; Fri, 24 Mar 2023 08:41:51 -0400
+	id 1pfgj7-00050y-2O; Fri, 24 Mar 2023 08:41:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfgjt-00053z-9G; Fri, 24 Mar 2023 08:41:49 -0400
+ id 1pfgj4-00050G-Cj; Fri, 24 Mar 2023 08:40:58 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfgiH-0000lC-11; Fri, 24 Mar 2023 08:41:49 -0400
+ id 1pfgiv-0000lR-Kj; Fri, 24 Mar 2023 08:40:57 -0400
 Received: from localhost.localdomain (unknown [180.165.240.150])
- by APP-05 (Coremail) with SMTP id zQCowACXnVX4mR1kGwsYCQ--.52917S4;
- Fri, 24 Mar 2023 20:39:22 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACXnVX4mR1kGwsYCQ--.52917S5;
+ Fri, 24 Mar 2023 20:39:23 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,21 +26,22 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 2/8] target/riscv: Remove redundant check on RVH
-Date: Fri, 24 Mar 2023 20:38:03 +0800
-Message-Id: <20230324123809.107714-3-liweiwei@iscas.ac.cn>
+Subject: [PATCH 3/8] target/riscv: Remove check on RVH for
+ riscv_cpu_virt_enabled
+Date: Fri, 24 Mar 2023 20:38:04 +0800
+Message-Id: <20230324123809.107714-4-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
 References: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACXnVX4mR1kGwsYCQ--.52917S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrtryrZFykAw13tr47WF4rKrg_yoWfWFb_Ca
- 4kWFs29ry7W3W0kFZ8Ar1Fgr10g34rGr4Sva1a9ry7KFya934fXw18Krn3Aw13u3yfGrna
- yrs3Zr9xCrs3ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: zQCowACXnVX4mR1kGwsYCQ--.52917S5
+X-Coremail-Antispam: 1UD129KBjvdXoWrtFWDuw4kZF47Gr1xCw47twb_yoW3ZFg_GF
+ W0gF4q934fu3WvyF98tr90yry7u34kJF1xKa17Kr47GryjgFWxAay8tFn3C3y5uw1fJr93
+ Aw17u34xCr45ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
  9fnUUIcSsGvfJTRUUUb6AFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
- 0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
+ 0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
  wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
  ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
  xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
@@ -50,7 +51,7 @@ X-Coremail-Antispam: 1UD129KBjvdXoWrtryrZFykAw13tr47WF4rKrg_yoWfWFb_Ca
  Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x
  0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8
  JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIx
- AIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjYiiDUUUUU=
+ AIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbJ73DUUUUU=
  =
 X-Originating-IP: [180.165.240.150]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
@@ -76,27 +77,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Check on riscv_cpu_virt_enabled contains the check on RVH.
+Since env->virt.VIRT_ONOFF is initialized as false, and will not be set
+to true when RVH is disabled, so we can just return this bit(false) when
+RVH is not disabled.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/op_helper.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/riscv/cpu_helper.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 84ee018f7d..1eecae9547 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -278,8 +278,7 @@ target_ulong helper_sret(CPURISCVState *env)
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-     }
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index e140d6a8d0..62fd2c90f1 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -560,10 +560,6 @@ void riscv_cpu_set_geilen(CPURISCVState *env, target_ulong geilen)
  
--    if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
--        get_field(env->hstatus, HSTATUS_VTSR)) {
-+    if (riscv_cpu_virt_enabled(env) && get_field(env->hstatus, HSTATUS_VTSR)) {
-         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-     }
+ bool riscv_cpu_virt_enabled(CPURISCVState *env)
+ {
+-    if (!riscv_has_ext(env, RVH)) {
+-        return false;
+-    }
+-
+     return get_field(env->virt, VIRT_ONOFF);
+ }
  
 -- 
 2.25.1
