@@ -2,82 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336536C8137
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6195D6C80AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:04:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfd1h-00016V-Dk; Fri, 24 Mar 2023 04:43:57 -0400
+	id 1pfi4J-0003px-Pb; Fri, 24 Mar 2023 10:06:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pfd1e-00015o-Qa
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 04:43:54 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pfd1Z-0000e4-8k
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 04:43:51 -0400
-Received: by mail-wr1-x432.google.com with SMTP id y14so950534wrq.4
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 01:43:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679647420;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NHT/j5RkynfM77d4Q0JeiVOAkydggAZz65kkcpzXfl8=;
- b=SD6qSSZ3HXUGK3bBij9PSmSnRC4vLNMdDHZYmkR29QoPAYEqYibig3ItmCx0uT6p6h
- w37+vtSGfKRJcQ2CMLJIS0/nGogJGoLB7lmXa8sN6LGc4wLsbpC1aEncB47nuHoc8GOh
- O8j7jYFcRqppda7q/sLbdcs7RZDfpTNkeDZxDSCZlY7hcxtOnDZZCqOh310TT3UcpYWp
- GRH50HX6Oxze1FT6QJffY90UgznrMTUkLhT8xu0bNU0Z5U+3LdfvHgZF4mqHJYfBfkDi
- +OkiFLk/gNkfKOo/uX1snGjy3QYTFiL4BeJAbHw0TOec94sh+qgqs5J7OpIGnTANlYk0
- HIQw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfi4G-0003nn-QX
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:06:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pfi43-0002TV-QX
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:06:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679666795;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=poZIPZA/Ab2+Vno8wlOeDKbjfyRt5vbbZZ+rp1inVZo=;
+ b=RRHLXnr0LJSKi7LyOFMmWmtVSKdQpq3BP4fQqPXlDznrNZRwiCPKdMBR6qYBsbdy6YRVpQ
+ KK+B6jn2OHy/XcDVxtaf4GoHPmw4aEtaFu+BD1p1xBXmIfJnBYMAKb3Gtih7p2BbdJ7uGV
+ dBdTchQsabHTDBxWVXepcYPpwBBIxp0=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-601-B97g0sNEOwmMO7ObUiE8fw-1; Fri, 24 Mar 2023 04:58:41 -0400
+X-MC-Unique: B97g0sNEOwmMO7ObUiE8fw-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ y10-20020a05622a164a00b003e38e0a3cc3so663085qtj.14
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 01:58:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679647420;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1679648321;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NHT/j5RkynfM77d4Q0JeiVOAkydggAZz65kkcpzXfl8=;
- b=8NdGCHSSI7Kh456ntuK9G/G/6zZMDtcdJhLHIG6Zm193A6Rlkbe9Dq5ag8vKcvgnsI
- 5/C5B+akamFnTbDm4xg2io+VDRtas8oi6ROMg1xKULuYjTgD5wRLK+ac2I1Tk09Q9vgn
- 9cr/YM9iBeqmpdjSpQKwnhd1N7BWKjLO9aU6fCoE5zledft2I6MZP4UgLxTAJB1b5VLI
- dvGlNkGtVUoWBCXaH4hvOyq5eSHVgW92BwlQcOqLAAPIfTeHFyads5687A3zNpBmbCpI
- JxgDTMJJCKgxSJAGVrV+GYOOjMB7c7x6R7NvP/hDl+LBvsbgCKKm7t9zwokHLSMg9ASm
- XpFg==
-X-Gm-Message-State: AAQBX9cOH/AaVX8ek3YxXyznlffomtRlPaSeFZp+we1FniVcjyuywMvr
- lP43PM8PhSDOBsk2dXG4uQy10w==
-X-Google-Smtp-Source: AKy350YyupmmfXR9dqCB607i9aDpsYvbTXbJNuHS3fCZO6ckXqnwsX++y4P1hDrh/phng4KyzkvomA==
-X-Received: by 2002:adf:ec0b:0:b0:2c7:7b3:36c6 with SMTP id
- x11-20020adfec0b000000b002c707b336c6mr1296982wrn.52.1679647419921; 
- Fri, 24 Mar 2023 01:43:39 -0700 (PDT)
-Received: from [192.168.69.115] ([176.176.152.149])
- by smtp.gmail.com with ESMTPSA id
- x4-20020a1c7c04000000b003ee0d191539sm4228510wmc.10.2023.03.24.01.43.39
+ bh=poZIPZA/Ab2+Vno8wlOeDKbjfyRt5vbbZZ+rp1inVZo=;
+ b=Xc25Q9AblIu1QWBvrMVbJLquZ/misLCsnByceeBek8RF0bHMDxtUQmkPZyfIRI1kZe
+ dok67dzo9HgQWRio1OyfjaJwI/mf8Yw/53ddIzAu50PKy52oN5FVqBK8YCPid9bS/0y2
+ oaFzm3SmZ0bY/A0KkWPGQRai7XYkMPpAWed2gT4uTy4ueQCs+vQ8RyxRNGGgECMIz0Kp
+ u27zHYZLgapKYCrT2KxjVzmOmpKIVuRfrQkSI7peiovejbNb9EnlXyI3PsbkIbboePbe
+ /AcOyJNBqK6kTxaV5f/19THM97RWdTP2UOMFt42tYEz44TLl84WAOBb5PmpmCvoXual/
+ ReOQ==
+X-Gm-Message-State: AAQBX9e/zYCr2aohVes7EttNlgMRhaLShiZxnS/Z9XpFnHmySfi8m9Vo
+ dH4LueGjMfexW3Jhe5vAdcxc5QS6E5ZCq/RWfYPeDkgU2YWzs+Cz6LowobmDbdUv4r1x7Lua5vI
+ aDoSuCivLCicU/rQ=
+X-Received: by 2002:a05:6214:29ce:b0:57e:56f5:5410 with SMTP id
+ gh14-20020a05621429ce00b0057e56f55410mr2780999qvb.39.1679648321063; 
+ Fri, 24 Mar 2023 01:58:41 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bugUzYHUNfcjkJqX/yPpQ1BxS9BCGeA/dQ6vuI/5DBDVerkUU1aetfr3DXw5jEDcqgcgtQjw==
+X-Received: by 2002:a05:6214:29ce:b0:57e:56f5:5410 with SMTP id
+ gh14-20020a05621429ce00b0057e56f55410mr2780977qvb.39.1679648320724; 
+ Fri, 24 Mar 2023 01:58:40 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-101.web.vodafone.de.
+ [109.43.179.101]) by smtp.gmail.com with ESMTPSA id
+ he2-20020a05622a600200b003b835e7e283sm12502861qtb.44.2023.03.24.01.58.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Mar 2023 01:43:39 -0700 (PDT)
-Message-ID: <30389414-2646-63ab-52eb-5ce08b3ab3b4@linaro.org>
-Date: Fri, 24 Mar 2023 09:43:37 +0100
+ Fri, 24 Mar 2023 01:58:40 -0700 (PDT)
+Message-ID: <2c9856c5-8fdc-8dcd-bee4-22d4160fc6f2@redhat.com>
+Date: Fri, 24 Mar 2023 09:58:38 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH] Change the default for Mixed declarations.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20230214160738.88614-1-quintela@redhat.com>
- <ZByhueDO9J9MLuSJ@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <ZByhueDO9J9MLuSJ@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: jsnow@redhat.com, berrange@redhat.com, peter.maydell@linaro.org
+References: <20230323084005.1032305-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [qemu-web PATCH v2] add post about plans for Python venvs
+In-Reply-To: <20230323084005.1032305-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,60 +99,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/3/23 20:00, Daniel P. Berrangé wrote:
-> On Tue, Feb 14, 2023 at 05:07:38PM +0100, Juan Quintela wrote:
->> Hi
->>
->> I want to enter a discussion about changing the default of the style
->> guide.
->>
->> There are several reasons for that:
->> - they exist since C99 (i.e. all supported compilers support them)
->> - they eliminate the posibility of an unitialized variable.
+On 23/03/2023 09.40, Paolo Bonzini wrote:
+> This post details the design that John Snow and I are planning for QEMU 8.1.
+> The purpose is to detect possible inconsistencies in the build environment,
+> that could happen on enterprise distros once Python 3.6 support is dropped.
 > 
-> Actually they don't do that reliably. In fact, when combined
-> with usage of 'goto', they introduce uninitialized variables,
-> despite the declaration having an initialization present, and
-> thus actively mislead reviewers into thinking their code is
-> safe.
-
-
-> IMHO the status quo is bad because it is actively dangerous when
-> combined with goto and we aren't using any compiler warnings to
-> help us.
-
-Thanks, TIL this, interesting.
-
-> Either we allow it, but use -Wjump-misses-init to prevent mixing
-> delayed declarations with gotos, and just avoid this when it triggers
-> a false positive.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+> v1->v2: add CSS for asciicast
+> 	note that sphinx is already checked for now-enough Python
+> 	some more copy-editing
 > 
-> Or we forbid it, rewrite current cases that use it, and then add
-> -Wdeclaration-after-statement to enforce it.
+>   _posts/2023-03-22-python.md | 223 ++++++++++++++++++++++++++++++++++++
+>   assets/css/style.css        |   4 +
+>   2 files changed, 227 insertions(+)
+>   create mode 100644 _posts/2023-03-22-python.md
+> 
+> diff --git a/_posts/2023-03-22-python.md b/_posts/2023-03-22-python.md
+> new file mode 100644
+> index 0000000..d463847
+> --- /dev/null
+> +++ b/_posts/2023-03-22-python.md
+> @@ -0,0 +1,222 @@
+> +---
+> +layout: post
+> +title:  "Preparing a consistent Python environment"
+> +date:   2023-03-22 13:30:00 +0000
+> +categories: [build, python, developers]
+> +---
+> +Building QEMU is a complex task, split across several programs.
+> +configure finds the host and cross compilers that are needed to build
 
-I guess various macros (Q/LIST/FOO_FOREACH_BAR i.e.) already abuse that.
+s/configure/The `configure` script/ ?
 
-> IMHO if we are concerned about uninitialized variables then I think
-> a better approach is to add -ftrivial-auto-var-init=zero, which will
-> make the compiler initialize all variables to 0 if they lack an
-> explicit initializer.
-But we need to be aware of:
+> +emulators and firmware; Meson prepares the build environment for the
+> +emulators; finally, Make and ninja actually perform the build, and
 
-      With the option '-ftrivial-auto-var-init', all the automatic
-      variables that do not have explicit initializers will be
-      initialized by the compiler.  These additional compiler
-      initializations might incur run-time overhead, sometimes
-      dramatically.
+I'd either capitalize both, Make and Ninja, or use quotes: "make" and "ninja".
 
-Also:
+The remaining parts look fine to me.
 
-     ‘pattern’ Initialize automatic variables with values which will
-     likely transform logic bugs into crashes down the line, are easily
-     recognized in a crash dump and without being values that programmers
-     can rely on for useful program semantics. The current value is
-     byte-repeatable pattern with byte "0xFE". The values used for
-     pattern initialization might be changed in the future.
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-If we use -ftrivial-auto-var-init, could the
--ftrivial-auto-var-init=pattern form could be more beneficial to us?
 
