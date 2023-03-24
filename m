@@ -1,97 +1,78 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1351F6C81CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:51:13 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id A87076C81A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:43:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfitL-0001Se-BP; Fri, 24 Mar 2023 10:59:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10])
+	id 1pficl-00075S-OC; Fri, 24 Mar 2023 10:42:36 -0400
+Received: from [2001:470:142:3::10] (helo=eggs.gnu.org)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pfisz-0001QW-4c
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:59:22 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pfici-00074Y-22
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:42:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pfisu-00031g-5i
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:59:20 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32ODfisE015056; Fri, 24 Mar 2023 14:26:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=tmTD9VidYIg8BHxzt45L5wSYuQCYy27LlZW3uqiqPXY=;
- b=PdpSs7YFU8Qi60btdcYZIYd9Ho8Bdh26wTaLTq9CeyqxNiWdkriuC2q1GGu+KxobN8vH
- FkkndEMhpf0a/Rey5/9wfgx0o/BBmECggh+6am448b9JUMg9FRx4hzpevVzi4sA2hJhb
- RV0UdSZ+TXfeEy+2yCEFJCisqsyDIPHvViNW5xQAiRpSvb2DsaeHNAYq25J0Grf4rDj6
- q+1IwM5E5LA7LvbUucMjTotXTMC4Y+1LZDlB4gbRiyIhLFwfhHELbhWPGGQ8QoIQXnXg
- aZuVeu01/P4Kq2XbHKqsdwFH0kg79ls7WZFxPIuwhSInvjsJNWn1epd31aBOOwZbUi8I yw== 
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3phcyhh6va-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 14:26:21 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32OC2lCS011532;
- Fri, 24 Mar 2023 14:26:20 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3pgxkrv5h9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Mar 2023 14:26:20 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
- [10.241.53.102])
- by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32OEQJ7x10289860
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Mar 2023 14:26:19 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A1F1D58056;
- Fri, 24 Mar 2023 14:26:19 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4EFB55803F;
- Fri, 24 Mar 2023 14:26:19 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 24 Mar 2023 14:26:19 +0000 (GMT)
-Message-ID: <028b7888-b5a4-37be-77a8-fe04a2701ea4@linux.ibm.com>
-Date: Fri, 24 Mar 2023 10:26:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pficf-0001nn-Uo
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 10:42:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679668949;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kIsEADNHy/tHejPpYRCJm0gN+A4OBq8ebw+apHpT83o=;
+ b=hN9dkJp3Qzsqh/JwzVJtiC6d3yM4dV1+5BbYRBJIk+ajSPOkP1epjjVpyLzn7Iva8MuBxc
+ 3wD8+wsiwLPtZoSyhEDl17nG1CBX4cIovPTQTd+9C33MfL7Xuc9IzqFUpImreoXE6U8Vjk
+ sI0zA40JW3/ZlqtHQsnGnsJTvtqzZCc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-349-zYjErsdNN1yYRHZrd0Su8g-1; Fri, 24 Mar 2023 10:42:27 -0400
+X-MC-Unique: zYjErsdNN1yYRHZrd0Su8g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B1C6100DEAC
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 14:42:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2ACC02166B29
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 14:42:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5B06121E692C; Fri, 24 Mar 2023 15:32:28 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,  Juan Quintela
+ <quintela@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Eric Blake <eblake@redhat.com>,  Peter Maydell
+ <peter.maydell@linaro.org>,  Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 06/10] migration: Introduce dirty-limit capability
+References: <cover.1676563222.git.huangy81@chinatelecom.cn>
+ <cover.1676563222.git.huangy81@chinatelecom.cn>
+ <a9952eaa2bf3c8066b0e8dee066b57395ffa37b1.1676563222.git.huangy81@chinatelecom.cn>
+ <871qlepcw7.fsf@pond.sub.org>
+ <f70dbc9b-e722-ad77-e22d-12c339f5ff4d@chinatelecom.cn>
+Date: Fri, 24 Mar 2023 15:32:28 +0100
+In-Reply-To: <f70dbc9b-e722-ad77-e22d-12c339f5ff4d@chinatelecom.cn> (Hyman
+ Huang's message of "Fri, 24 Mar 2023 20:47:50 +0800")
+Message-ID: <87ttyamd8j.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 2/3] TPM TIS: Add support for TPM devices over I2C bus
-Content-Language: en-US
-To: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
-References: <20230324030251.2589040-1-ninad@linux.ibm.com>
- <20230324030251.2589040-3-ninad@linux.ibm.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20230324030251.2589040-3-ninad@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: un1ZXSFIJZ1iXXxCuWBInOnfQL6rJODw
-X-Proofpoint-ORIG-GUID: un1ZXSFIJZ1iXXxCuWBInOnfQL6rJODw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_08,2023-03-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 malwarescore=0 lowpriorityscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303240114
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,164 +89,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hyman Huang <huangy81@chinatelecom.cn> writes:
 
+> =E5=9C=A8 2023/3/24 20:11, Markus Armbruster =E5=86=99=E9=81=93:
+>> huangy81@chinatelecom.cn writes:
+>>=20
+>>> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+>>>
+>>> Introduce migration dirty-limit capability, which can
+>>> be turned on before live migration and limit dirty
+>>> page rate durty live migration.
+>>>
+>>> Introduce migrate_dirty_limit function to help check
+>>> if dirty-limit capability enabled during live migration.
+>>>
+>>> Meanwhile, refactor vcpu_dirty_rate_stat_collect
+>>> so that period can be configured instead of hardcoded.
+>>>
+>>> dirty-limit capability is kind of like auto-converge
+>>> but using dirty limit instead of traditional cpu-throttle
+>>> to throttle guest down. To enable this feature, turn on
+>>> the dirty-limit capability before live migration using
+>>> migrate-set-capabilities, and set the parameters
+>>> "x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
+>>> to speed up convergence.
+>>>
+>>> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.c=
+n>
+>>> Acked-by: Peter Xu <peterx@redhat.com>
+>> [...]
+>>=20
+>>> diff --git a/qapi/migration.json b/qapi/migration.json
+>>> index d33cc2d582..b7a92be055 100644
+>>> --- a/qapi/migration.json
+>>> +++ b/qapi/migration.json
+>>> @@ -477,6 +477,8 @@
+>>>   #                    will be handled faster.  This is a performance f=
+eature and
+>>>   #                    should not affect the correctness of postcopy mi=
+gration.
+>>>   #                    (since 7.1)
+>>> +# @dirty-limit: Use dirty-limit to throttle down guest if enabled.
+>>> +#               (since 8.0)
+>>
+>> Feels too terse.  What exactly is used and how?  It's not the capability
+>> itself (although the text sure sounds like it).  I guess it's the thing
+>> you set with command set-vcpu-dirty-limit.
+>>
+>> Is that used only when the capability is set?
+>
+> Yes, live migration set "dirty-limit" value when that capability is set,
+> the comment changes to "Apply the algorithm of dirty page rate limit to t=
+hrottle down guest if capability is set, rather than auto-converge".
+>
+> Please continue to polish the doc if needed. Thanks.
 
-On 3/23/23 23:02, Ninad Palsule wrote:
-> Qemu already supports devices attached to ISA and sysbus. This drop adds
-> support for the I2C bus attached TPM devices.
-> 
-> This commit includes changes for the common code.
-> - Added support for the new checksum registers which are required for
->    the I2C support. The checksum calculation is handled in the qemu
->    common code.
-> - Added wrapper function for read and write data so that I2C code can
->    call it without MMIO interface.
-> 
-> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> ---
-> V2:
-> 
-> Incorporated Stephen's comments.
-> 
-> - Removed checksum enable and checksum get registers.
-> - Added checksum calculation function which can be called from
->    i2c layer.
-> 
-> ---
-> V3:
-> Incorporated review comments from Cedric and Stefan.
-> 
-> - Pass locality to the checksum calculation function and cleanup
-> - Moved I2C related definations in the acpi/tpm.h
-> ---
->   hw/tpm/tpm_tis.h        |  3 +++
->   hw/tpm/tpm_tis_common.c | 32 ++++++++++++++++++++++++++++++++
->   include/hw/acpi/tpm.h   | 28 ++++++++++++++++++++++++++++
->   3 files changed, 63 insertions(+)
-> 
-> diff --git a/hw/tpm/tpm_tis.h b/hw/tpm/tpm_tis.h
-> index f6b5872ba6..784898ce34 100644
-> --- a/hw/tpm/tpm_tis.h
-> +++ b/hw/tpm/tpm_tis.h
-> @@ -86,5 +86,8 @@ int tpm_tis_pre_save(TPMState *s);
->   void tpm_tis_reset(TPMState *s);
->   enum TPMVersion tpm_tis_get_tpm_version(TPMState *s);
->   void tpm_tis_request_completed(TPMState *s, int ret);
-> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size);
-> +void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, uint32_t size);
-> +uint16_t tpm_tis_get_checksum(TPMState *s, uint8_t locty);
->   
->   #endif /* TPM_TPM_TIS_H */
-> diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
-> index 503be2a541..84f3e2259f 100644
-> --- a/hw/tpm/tpm_tis_common.c
-> +++ b/hw/tpm/tpm_tis_common.c
-> @@ -26,6 +26,8 @@
->   #include "hw/irq.h"
->   #include "hw/isa/isa.h"
->   #include "qapi/error.h"
-> +#include "qemu/bswap.h"
-> +#include "qemu/crc-ccitt.h"
->   #include "qemu/module.h"
->   
->   #include "hw/acpi/tpm.h"
-> @@ -447,6 +449,27 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwaddr addr,
->       return val;
->   }
->   
-> +/*
-> + * A wrapper read function so that it can be directly called without
-> + * mmio.
-> + */
-> +uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size)
-> +{
-> +    return tpm_tis_mmio_read(s, addr, size);
-> +}
-> +
-> +/*
-> + * Calculate current data buffer checksum
-> + */
-> +uint16_t tpm_tis_get_checksum(TPMState *s, uint8_t locty)
-> +{
-> +    if (TPM_TIS_IS_VALID_LOCTY(locty) && (s->active_locty == locty)) {
-> +        return cpu_to_be16(crc_ccitt(0, s->buffer, s->rw_offset));
+Let's see whether I understand.
 
-Actually, this whole function should only be the following so you can have the result in 'native' byte order:
+Throttling happens only during migration.
 
-return crc_ccitt(0, s->buffer, s->rw_offset);
+There are two throttling algorithms: "auto-converge" (default) and
+"dirty page rate limit".
 
-Per I2C spec table 11 (section 6.6) the locality plays no role here. My bad.
+The latter can be tuned with set-vcpu-dirty-limit.
 
+Correct?
 
+What happens when migration capability dirty-limit is enabled, but the
+user hasn't set a limit with set-vcpu-dirty-limit, or canceled it with
+cancel-vcpu-dirty-limit?
 
-> +    } else {
-> +        return 0;
-> +    }
-> +}
-> +
->   /*
->    * Write a value to a register of the TIS interface
->    * See specs pages 33-63 for description of the registers
-> @@ -767,6 +790,15 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
->       }
->   }
->   
-> +/*
-> + * A wrapper write function so that it can be directly called without
-> + * mmio.
-> + */
-> +void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, uint32_t size)
-> +{
-> +    tpm_tis_mmio_write(s, addr, val, size);
-> +}
-> +
->   const MemoryRegionOps tpm_tis_memory_ops = {
->       .read = tpm_tis_mmio_read,
->       .write = tpm_tis_mmio_write,
-> diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
-> index 559ba6906c..82430605c7 100644
-> --- a/include/hw/acpi/tpm.h
-> +++ b/include/hw/acpi/tpm.h
-> @@ -93,6 +93,7 @@
->   #define TPM_TIS_CAP_DATA_TRANSFER_64B    (3 << 9)
->   #define TPM_TIS_CAP_DATA_TRANSFER_LEGACY (0 << 9)
->   #define TPM_TIS_CAP_BURST_COUNT_DYNAMIC  (0 << 8)
-> +#define TPM_TIS_CAP_BURST_COUNT_STATIC   (1 << 8)
->   #define TPM_TIS_CAP_INTERRUPT_LOW_LEVEL  (1 << 4) /* support is mandatory */
->   #define TPM_TIS_CAPABILITIES_SUPPORTED1_3 \
->       (TPM_TIS_CAP_INTERRUPT_LOW_LEVEL | \
-> @@ -209,6 +210,33 @@ REG32(CRB_DATA_BUFFER, 0x80)
->   #define TPM_PPI_FUNC_ALLOWED_USR_NOT_REQ (4 << 0)
->   #define TPM_PPI_FUNC_MASK                (7 << 0)
->   
-> +/* TPM TIS I2C registers */
-> +#define TPM_TIS_I2C_REG_LOC_SEL          0x00
-> +#define TPM_TIS_I2C_REG_ACCESS           0x04
-> +#define TPM_TIS_I2C_REG_INT_ENABLE       0x08
-> +#define TPM_TIS_I2C_REG_INT_CAPABILITY   0x14
-> +#define TPM_TIS_I2C_REG_STS              0x18
-> +#define TPM_TIS_I2C_REG_DATA_FIFO        0x24
-> +#define TPM_TIS_I2C_REG_INTF_CAPABILITY  0x30
-> +#define TPM_TIS_I2C_REG_I2C_DEV_ADDRESS  0x38
-> +#define TPM_TIS_I2C_REG_DATA_CSUM_ENABLE 0x40
-> +#define TPM_TIS_I2C_REG_DATA_CSUM_GET    0x44
-> +#define TPM_TIS_I2C_REG_DID_VID          0x48
-> +#define TPM_TIS_I2C_REG_RID              0x4c
-> +#define TPM_TIS_I2C_REG_UNKNOWN          0xff
-> +
-> +/* I2C specific interface capabilities */
-> +#define TPM_I2C_CAP_INTERFACE_TYPE     (0x2 << 0)       /* FIFO interface */
-> +#define TPM_I2C_CAP_INTERFACE_VER      (0x0 << 4)       /* TCG I2C intf 1.0 */
-> +#define TPM_I2C_CAP_TPM2_FAMILY        (0x1 << 7)       /* TPM 2.0 family. */
-> +#define TPM_I2C_CAP_DEV_ADDR_CHANGE    (0x0 << 27)      /* No dev addr chng */
-> +#define TPM_I2C_CAP_BURST_COUNT_STATIC (0x1 << 29)      /* Burst count static */
-> +#define TPM_I2C_CAP_LOCALITY_CAP       (0x1 << 25)      /* 0-5 locality */
-> +#define TPM_I2C_CAP_BUS_SPEED          (3   << 21)      /* std and fast mode */
-> +
-> +/* TPM_STS mask for read bits 31:26 must be zero */
-> +#define TPM_I2C_STS_READ_MASK          0x03ffffff
-> +
->   void tpm_build_ppi_acpi(TPMIf *tpm, Aml *dev);
->   
->   #endif /* CONFIG_TPM */
+>>>   #
+>>>   # Features:
+>>>   # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+>>> @@ -492,7 +494,7 @@
+>>>              'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activat=
+e',
+>>>              { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+>>>              'validate-uuid', 'background-snapshot',
+>>> -           'zero-copy-send', 'postcopy-preempt'] }
+>>> +           'zero-copy-send', 'postcopy-preempt', 'dirty-limit'] }
+>>>     ##
+>>>   # @MigrationCapabilityStatus:
+>> [...]
+>>=20
+
 
