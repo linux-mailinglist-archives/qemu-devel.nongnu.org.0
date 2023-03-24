@@ -1,24 +1,24 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AC06C811D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:23:46 +0100 (CET)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id B76966C8203
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 17:00:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfgic-0004z9-9q; Fri, 24 Mar 2023 08:40:30 -0400
+	id 1pfgjv-00054G-08; Fri, 24 Mar 2023 08:41:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfgia-0004yd-3d; Fri, 24 Mar 2023 08:40:28 -0400
+ id 1pfgjt-00053z-9G; Fri, 24 Mar 2023 08:41:49 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfgiU-0000li-85; Fri, 24 Mar 2023 08:40:27 -0400
+ id 1pfgiH-0000lC-11; Fri, 24 Mar 2023 08:41:49 -0400
 Received: from localhost.localdomain (unknown [180.165.240.150])
- by APP-05 (Coremail) with SMTP id zQCowACXnVX4mR1kGwsYCQ--.52917S2;
- Fri, 24 Mar 2023 20:39:21 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACXnVX4mR1kGwsYCQ--.52917S4;
+ Fri, 24 Mar 2023 20:39:22 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,30 +26,32 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 0/8] target/riscv: Simplification for RVH related check and
- code style fix
-Date: Fri, 24 Mar 2023 20:38:01 +0800
-Message-Id: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
+Subject: [PATCH 2/8] target/riscv: Remove redundant check on RVH
+Date: Fri, 24 Mar 2023 20:38:03 +0800
+Message-Id: <20230324123809.107714-3-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
+References: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACXnVX4mR1kGwsYCQ--.52917S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr1UWFyUGF1furWDCF45Wrg_yoW8Jw18pr
- 48C3yfA39YyFZ3Gr1ftF1UJw15Xrs5Wr45Aas7Zr1xAa15CrW5Jrn7Kw17CFyDJFy8Wr1q
- kFyUCr13Cr4UJFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
- 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbU
- UUUUU==
+X-CM-TRANSID: zQCowACXnVX4mR1kGwsYCQ--.52917S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrtryrZFykAw13tr47WF4rKrg_yoWfWFb_Ca
+ 4kWFs29ry7W3W0kFZ8Ar1Fgr10g34rGr4Sva1a9ry7KFya934fXw18Krn3Aw13u3yfGrna
+ yrs3Zr9xCrs3ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb6AFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
+ 0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+ ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+ vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+ r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
+ v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_
+ Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x
+ 0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8
+ JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIx
+ AIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjYiiDUUUUU=
+ =
 X-Originating-IP: [180.165.240.150]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -74,37 +76,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patchset tries to simplify the RVH related check and fix some code style problems, such as problems for indentation, multi-line comments and lines with over 80 characters.
+Check on riscv_cpu_virt_enabled contains the check on RVH.
 
-The port is available here:
-https://github.com/plctlab/plct-qemu/tree/plct-cleanup-upstream
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+---
+ target/riscv/op_helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Weiwei Li (8):
-  target/riscv: Remove redundant call to riscv_cpu_virt_enabled
-  target/riscv: Remove redundant check on RVH
-  target/riscv: Remove check on RVH for riscv_cpu_virt_enabled
-  target/riscv: Remove check on RVH for riscv_cpu_set_virt_enabled
-  target/riscv: Remove redundant parentheses
-  target/riscv: Fix format for indentation
-  target/riscv: Fix format for comments
-  target/riscv: Fix lines with over 80 characters
-
- target/riscv/arch_dump.c                |   7 +-
- target/riscv/cpu.c                      |   6 +-
- target/riscv/cpu.h                      |  26 ++-
- target/riscv/cpu_bits.h                 |   2 +-
- target/riscv/cpu_helper.c               |  86 ++++---
- target/riscv/csr.c                      |   6 +-
- target/riscv/insn_trans/trans_rvv.c.inc |  54 ++---
- target/riscv/op_helper.c                |   7 +-
- target/riscv/pmp.c                      |  48 ++--
- target/riscv/pmp.h                      |   9 +-
- target/riscv/pmu.c                      |   3 +-
- target/riscv/sbi_ecall_interface.h      |   8 +-
- target/riscv/translate.c                |   8 +-
- target/riscv/vector_helper.c            | 292 ++++++++++++++----------
- 14 files changed, 316 insertions(+), 246 deletions(-)
-
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 84ee018f7d..1eecae9547 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -278,8 +278,7 @@ target_ulong helper_sret(CPURISCVState *env)
+         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+     }
+ 
+-    if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
+-        get_field(env->hstatus, HSTATUS_VTSR)) {
++    if (riscv_cpu_virt_enabled(env) && get_field(env->hstatus, HSTATUS_VTSR)) {
+         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+     }
+ 
 -- 
 2.25.1
 
