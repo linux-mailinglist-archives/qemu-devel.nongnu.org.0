@@ -2,91 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376806C793F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 08:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722A76C7962
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 09:07:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfXDq-0001hc-2t; Thu, 23 Mar 2023 22:32:06 -0400
+	id 1pfbz8-0001if-Nu; Fri, 24 Mar 2023 03:37:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pfXDk-0001hI-VW
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 22:32:01 -0400
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pfXDZ-0003YF-Jc
- for qemu-devel@nongnu.org; Thu, 23 Mar 2023 22:32:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679625109; x=1711161109;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=oy8mubAbGW7aEEiEACVBMeJ0i6tLotYmTR7hadVY4RY=;
- b=NgPMJ8TDl9b4DpLfwqidIeQC9mRKYv6ws6wfqXPFbkQW9vwJZQFUUo4t
- G9dXNpiGtN5Um7sg4fHVnuGJJNEVDMWbdg/erH4kIxYh84sk6UmMITJLt
- v9NAfPRehhML57Hs2wW1rIVVeKfUU5vFWMh+U0iohpWfDFcHYHrIli1Um
- ez1EyQ2lBDK1qcWlikm6XswFkO1zvwoY51BJN2XLHAgWp2ZvLPv+qmia9
- D5lV7LKrzimPlZiJ3NKJ3oadjJfQx2K2CkcLnZuutbh0MIGTJ0jCA8LgZ
- n9gZNQqeezkkAUUzL7059ZR6eO6/IfoqbVm4ASIeIimS3qZxpZRYiqo3e w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="402261118"
-X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; d="scan'208";a="402261118"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 19:29:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="1012079715"
-X-IronPort-AV: E=Sophos;i="5.98,286,1673942400"; d="scan'208";a="1012079715"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.30.216])
- ([10.255.30.216])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 19:29:28 -0700
-Message-ID: <6cf365a3-dddc-8b74-4d74-04666fbeb53d@intel.com>
-Date: Fri, 24 Mar 2023 10:29:25 +0800
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1pfbz5-0001iU-UN
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 03:37:11 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1pfbye-0000W3-Oe
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 03:37:10 -0400
+HMM_SOURCE_IP: 172.18.0.48:47644.1965134791
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 6F73328009C;
+ Fri, 24 Mar 2023 15:27:12 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([36.111.64.85])
+ by app0024 with ESMTP id a611e2ba73e841abb3c2f7b3433778c3 for
+ dgilbert@redhat.com; Fri, 24 Mar 2023 15:27:22 CST
+X-Transaction-ID: a611e2ba73e841abb3c2f7b3433778c3
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 36.111.64.85
+X-MEDUSA-Status: 0
+Message-ID: <13a62aaf-f340-0dc7-7b68-7ecc4bb643a3@chinatelecom.cn>
+Date: Fri, 24 Mar 2023 15:27:12 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.0
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Content-Language: en-US
-To: Chao Peng <chao.p.peng@linux.intel.com>,
- Isaku Yamahata <isaku.yamahata@gmail.com>
-Cc: Ackerley Tng <ackerleytng@google.com>, seanjc@google.com,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com,
- wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de,
- naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org,
- hpa@zytor.com, hughd@google.com, jlayton@kernel.org, bfields@fieldses.org,
- akpm@linux-foundation.org, shuah@kernel.org, rppt@kernel.org,
- steven.price@arm.com, mail@maciej.szmigiero.name, vbabka@suse.cz,
- vannapurve@google.com, yu.c.zhang@linux.intel.com,
- kirill.shutemov@linux.intel.com, luto@kernel.org, jun.nakajima@intel.com,
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- qperret@google.com, tabba@google.com, michael.roth@amd.com, mhocko@suse.com,
- wei.w.wang@intel.com
-References: <20230128140030.GB700688@chaop.bj.intel.com>
- <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
- <20230308074026.GA2183207@chaop.bj.intel.com>
- <20230323004131.GA214881@ls.amr.corp.intel.com>
- <20230324021029.GA2774613@chaop.bj.intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20230324021029.GA2774613@chaop.bj.intel.com>
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 00/10] migration: introduce dirtylimit capability
+From: Hyman Huang <huangy81@chinatelecom.cn>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org, "huangy81@chinatelecom.cn" <huangy81@chinatelecom.cn>
+References: <cover.1676563222.git.huangy81@chinatelecom.cn>
+ <7db2c1ab-2d77-9dec-0a14-5c052ba0844d@chinatelecom.cn>
+In-Reply-To: <7db2c1ab-2d77-9dec-0a14-5c052ba0844d@chinatelecom.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=xiaoyao.li@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,168 +68,324 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/24/2023 10:10 AM, Chao Peng wrote:
-> On Wed, Mar 22, 2023 at 05:41:31PM -0700, Isaku Yamahata wrote:
->> On Wed, Mar 08, 2023 at 03:40:26PM +0800,
->> Chao Peng <chao.p.peng@linux.intel.com> wrote:
->>
->>> On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
->>>> Chao Peng <chao.p.peng@linux.intel.com> writes:
->>>>
->>>>> On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
->>>>>> On Fri, Dec 02, 2022, Chao Peng wrote:
->>>>> ...
->>>>>> Strongly prefer to use similar logic to existing code that detects wraps:
->>>>
->>>>>> 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
->>>>
->>>>>> This is also where I'd like to add the "gfn is aligned to offset"
->>>>>> check, though
->>>>>> my brain is too fried to figure that out right now.
->>>>
->>>>> Used count_trailing_zeros() for this TODO, unsure we have other better
->>>>> approach.
->>>>
->>>>> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
->>>>> index afc8c26fa652..fd34c5f7cd2f 100644
->>>>> --- a/virt/kvm/kvm_main.c
->>>>> +++ b/virt/kvm/kvm_main.c
->>>>> @@ -56,6 +56,7 @@
->>>>>    #include <asm/processor.h>
->>>>>    #include <asm/ioctl.h>
->>>>>    #include <linux/uaccess.h>
->>>>> +#include <linux/count_zeros.h>
->>>>
->>>>>    #include "coalesced_mmio.h"
->>>>>    #include "async_pf.h"
->>>>> @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct
->>>>> kvm_memslots *slots, int id,
->>>>>    	return false;
->>>>>    }
->>>>
->>>>> +/*
->>>>> + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
->>>>> + */
->>>>> +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
->>>>> +{
->>>>> +	if (!offset)
->>>>> +		return true;
->>>>> +	if (!gpa)
->>>>> +		return false;
->>>>> +
->>>>> +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
->>
->> This check doesn't work expected. For example, offset = 2GB, gpa=4GB
->> this check fails.
-> 
-> This case is expected to fail as Sean initially suggested[*]:
->    I would rather reject memslot if the gfn has lesser alignment than
->    the offset. I'm totally ok with this approach _if_ there's a use case.
->    Until such a use case presents itself, I would rather be conservative
->    from a uAPI perspective.
-> 
-> I understand that we put tighter restriction on this but if you see such
-> restriction is really a big issue for real usage, instead of a
-> theoretical problem, then we can loosen the check here. But at that time
-> below code is kind of x86 specific and may need improve.
-> 
-> BTW, in latest code, I replaced count_trailing_zeros() with fls64():
->    return !!(fls64(offset) >= fls64(gpa));
+Ping again, to make sure this series not be forgotten. :)
 
-wouldn't it be !!(ffs64(offset) <= ffs64(gpa)) ?
+Please review the last three commit if you are free.
 
-> [*] https://lore.kernel.org/all/Y8HldeHBrw+OOZVm@google.com/
+Thanks,
+
+Yong
+
+
+在 2023/3/1 23:53, Hyman Huang 写道:
+> Ping ?
 > 
-> Chao
->> I come up with the following.
+> 在 2023/2/17 0:18, huangy81@chinatelecom.cn 写道:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 >>
->> >From ec87e25082f0497431b732702fae82c6a05071bf Mon Sep 17 00:00:00 2001
->> Message-Id: <ec87e25082f0497431b732702fae82c6a05071bf.1679531995.git.isaku.yamahata@intel.com>
->> From: Isaku Yamahata <isaku.yamahata@intel.com>
->> Date: Wed, 22 Mar 2023 15:32:56 -0700
->> Subject: [PATCH] KVM: Relax alignment check for restricted mem
+>> v4:
+>> 1. Polish the docs and update the release version suggested by Markus
+>> 2. Rename the migrate exported info "dirty-limit-throttle-time-per-round"
+>>     to "dirty-limit-throttle-time-per-full".
 >>
->> kvm_check_rmem_offset_alignment() only checks based on offset alignment
->> and GPA alignment.  However, the actual alignment for offset depends
->> on architecture.  For x86 case, it can be 1G, 2M or 4K.  So even if
->> GPA is aligned for 1G+, only 1G-alignment is required for offset.
+>> The following 5 commits hasn't been acked or reviewed yet:
 >>
->> Without this patch, gpa=4G, offset=2G results in failure of memory slot
->> creation.
+>> kvm: dirty-ring: Fix race with vcpu creation
+>> qapi/migration: Introduce x-vcpu-dirty-limit-period parameter
+>> migration: Implement dirty-limit convergence algo
+>> migration: Extend query-migrate to provide dirty page limit info
+>> tests: Add migration dirty-limit capability test
 >>
->> Fixes: edc8814b2c77 ("KVM: Require gfn be aligned with restricted offset")
->> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
->> ---
->>   arch/x86/include/asm/kvm_host.h | 15 +++++++++++++++
->>   virt/kvm/kvm_main.c             |  9 ++++++++-
->>   2 files changed, 23 insertions(+), 1 deletion(-)
+>> Ping David and Juan.
 >>
->> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
->> index 88e11dd3afde..03af44650f24 100644
->> --- a/arch/x86/include/asm/kvm_host.h
->> +++ b/arch/x86/include/asm/kvm_host.h
->> @@ -16,6 +16,7 @@
->>   #include <linux/irq_work.h>
->>   #include <linux/irq.h>
->>   #include <linux/workqueue.h>
->> +#include <linux/count_zeros.h>
->>   
->>   #include <linux/kvm.h>
->>   #include <linux/kvm_para.h>
->> @@ -143,6 +144,20 @@
->>   #define KVM_HPAGE_MASK(x)	(~(KVM_HPAGE_SIZE(x) - 1))
->>   #define KVM_PAGES_PER_HPAGE(x)	(KVM_HPAGE_SIZE(x) / PAGE_SIZE)
->>   
->> +#define kvm_arch_required_alignment	kvm_arch_required_alignment
->> +static inline int kvm_arch_required_alignment(u64 gpa)
->> +{
->> +	int zeros = count_trailing_zeros(gpa);
->> +
->> +	WARN_ON_ONCE(!PAGE_ALIGNED(gpa));
->> +	if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_1G))
->> +		return KVM_HPAGE_SHIFT(PG_LEVEL_1G);
->> +	else if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_2M))
->> +		return KVM_HPAGE_SHIFT(PG_LEVEL_2M);
->> +
->> +	return PAGE_SHIFT;
->> +}
->> +
->>   #define KVM_MEMSLOT_PAGES_TO_MMU_PAGES_RATIO 50
->>   #define KVM_MIN_ALLOC_MMU_PAGES 64UL
->>   #define KVM_MMU_HASH_SHIFT 12
->> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
->> index c9c4eef457b0..f4ff96171d24 100644
->> --- a/virt/kvm/kvm_main.c
->> +++ b/virt/kvm/kvm_main.c
->> @@ -2113,6 +2113,13 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
->>   	return false;
->>   }
->>   
->> +#ifndef kvm_arch_required_alignment
->> +__weak int kvm_arch_required_alignment(u64 gpa)
->> +{
->> +	return PAGE_SHIFT
->> +}
->> +#endif
->> +
->>   /*
->>    * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
->>    */
->> @@ -2123,7 +2130,7 @@ static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
->>   	if (!gpa)
->>   		return false;
->>   
->> -	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
->> +	return !!(count_trailing_zeros(offset) >= kvm_arch_required_alignment(gpa));
->>   }
->>   
->>   /*
->> -- 
->> 2.25.1
+>> Please review if you have time. Thanks.
 >>
+>> Yong
 >>
+>> v3(resend):
+>> - fix the syntax error of the topic.
 >>
->> -- 
->> Isaku Yamahata <isaku.yamahata@gmail.com>
+>> v3:
+>> This version make some modifications inspired by Peter and Markus
+>> as following:
+>> 1. Do the code clean up in [PATCH v2 02/11] suggested by Markus
+>> 2. Replace the [PATCH v2 03/11] with a much simpler patch posted by
+>>     Peter to fix the following bug:
+>>     https://bugzilla.redhat.com/show_bug.cgi?id=2124756
+>> 3. Fix the error path of migrate_params_check in [PATCH v2 04/11]
+>>     pointed out by Markus. Enrich the commit message to explain why
+>>     x-vcpu-dirty-limit-period an unstable parameter.
+>> 4. Refactor the dirty-limit convergence algo in [PATCH v2 07/11]
+>>     suggested by Peter:
+>>     a. apply blk_mig_bulk_active check before enable dirty-limit
+>>     b. drop the unhelpful check function before enable dirty-limit
+>>     c. change the migration_cancel logic, just cancel dirty-limit
+>>        only if dirty-limit capability turned on.
+>>     d. abstract a code clean commit [PATCH v3 07/10] to adjust
+>>        the check order before enable auto-converge
+>> 5. Change the name of observing indexes during dirty-limit live
+>>     migration to make them more easy-understanding. Use the
+>>     maximum throttle time of vpus as "dirty-limit-throttle-time-per-full"
+>> 6. Fix some grammatical and spelling errors pointed out by Markus
+>>     and enrich the document about the dirty-limit live migration
+>>     observing indexes "dirty-limit-ring-full-time"
+>>     and "dirty-limit-throttle-time-per-full"
+>> 7. Change the default value of x-vcpu-dirty-limit-period to 1000ms,
+>>     which is optimal value pointed out in cover letter in that
+>>     testing environment.
+>> 8. Drop the 2 guestperf test commits [PATCH v2 10/11],
+>>     [PATCH v2 11/11] and post them with a standalone series in the
+>>     future.
+>>
+>> Thanks Peter and Markus sincerely for the passionate, efficient
+>> and careful comments and suggestions.
+>>
+>> Please review.
+>>
+>> Yong
+>>
+>> v2:
+>> This version make a little bit modifications comparing with
+>> version 1 as following:
+>> 1. fix the overflow issue reported by Peter Maydell
+>> 2. add parameter check for hmp "set_vcpu_dirty_limit" command
+>> 3. fix the racing issue between dirty ring reaper thread and
+>>     Qemu main thread.
+>> 4. add migrate parameter check for x-vcpu-dirty-limit-period
+>>     and vcpu-dirty-limit.
+>> 5. add the logic to forbid hmp/qmp commands set_vcpu_dirty_limit,
+>>     cancel_vcpu_dirty_limit during dirty-limit live migration when
+>>     implement dirty-limit convergence algo.
+>> 6. add capability check to ensure auto-converge and dirty-limit
+>>     are mutually exclusive.
+>> 7. pre-check if kvm dirty ring size is configured before setting
+>>     dirty-limit migrate parameter
+>>
+>> A more comprehensive test was done comparing with version 1.
+>>
+>> The following are test environment:
+>> -------------------------------------------------------------
+>> a. Host hardware info:
+>>
+>> CPU:
+>> Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
+>>
+>> CPU(s):                          64
+>> On-line CPU(s) list:             0-63
+>> Thread(s) per core:              2
+>> Core(s) per socket:              16
+>> Socket(s):                       2
+>> NUMA node(s):                    2
+>>
+>> NUMA node0 CPU(s):               0-15,32-47
+>> NUMA node1 CPU(s):               16-31,48-63
+>>
+>> Memory:
+>> Hynix  503Gi
+>>
+>> Interface:
+>> Intel Corporation Ethernet Connection X722 for 1GbE (rev 09)
+>> Speed: 1000Mb/s
+>>
+>> b. Host software info:
+>>
+>> OS: ctyunos release 2
+>> Kernel: 4.19.90-2102.2.0.0066.ctl2.x86_64
+>> Libvirt baseline version:  libvirt-6.9.0
+>> Qemu baseline version: qemu-5.0
+>>
+>> c. vm scale
+>> CPU: 4
+>> Memory: 4G
+>> -------------------------------------------------------------
+>>
+>> All the supplementary test data shown as follows are basing on
+>> above test environment.
+>>
+>> In version 1, we post a test data from unixbench as follows:
+>>
+>> $ taskset -c 8-15 ./Run -i 2 -c 8 {unixbench test item}
+>>
+>> host cpu: Intel(R) Xeon(R) Platinum 8378A
+>> host interface speed: 1000Mb/s
+>>    |---------------------+--------+------------+---------------|
+>>    | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+>>    |---------------------+--------+------------+---------------|
+>>    | dhry2reg            | 32800  | 32786      | 25292         |
+>>    | whetstone-double    | 10326  | 10315      | 9847          |
+>>    | pipe                | 15442  | 15271      | 14506         |
+>>    | context1            | 7260   | 6235       | 4514          |
+>>    | spawn               | 3663   | 3317       | 3249          |
+>>    | syscall             | 4669   | 4667       | 3841          |
+>>    |---------------------+--------+------------+---------------|
+>>
+>> In version 2, we post a supplementary test data that do not use
+>> taskset and make the scenario more general, see as follows:
+>>
+>> $ ./Run
+>>
+>> per-vcpu data:
+>>    |---------------------+--------+------------+---------------|
+>>    | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+>>    |---------------------+--------+------------+---------------|
+>>    | dhry2reg            | 2991   | 2902       | 1722          |
+>>    | whetstone-double    | 1018   | 1006       | 627           |
+>>    | Execl Throughput    | 955    | 320        | 660           |
+>>    | File Copy - 1       | 2362   | 805        | 1325          |
+>>    | File Copy - 2       | 1500   | 1406       | 643           |
+>>    | File Copy - 3       | 4778   | 2160       | 1047          |
+>>    | Pipe Throughput     | 1181   | 1170       | 842           |
+>>    | Context Switching   | 192    | 224        | 198           |
+>>    | Process Creation    | 490    | 145        | 95            |
+>>    | Shell Scripts - 1   | 1284   | 565        | 610           |
+>>    | Shell Scripts - 2   | 2368   | 900        | 1040          |
+>>    | System Call Overhead| 983    | 948        | 698           |
+>>    | Index Score         | 1263   | 815        | 600           |
+>>    |---------------------+--------+------------+---------------|
+>> Note:
+>>    File Copy - 1: File Copy 1024 bufsize 2000 maxblocks
+>>    File Copy - 2: File Copy 256 bufsize 500 maxblocks
+>>    File Copy - 3: File Copy 4096 bufsize 8000 maxblocks
+>>    Shell Scripts - 1: Shell Scripts (1 concurrent)
+>>    Shell Scripts - 2: Shell Scripts (8 concurrent)
+>>
+>> Basing on above data, we can draw a conclusion that dirty-limit
+>> can hugely improve the system benchmark almost in every respect,
+>> the "System Benchmarks Index Score" show it improve 35% performance
+>> comparing with auto-converge during live migration.
+>>
+>> 4-vcpu parallel data(we run a test vm with 4c4g-scale):
+>>    |---------------------+--------+------------+---------------|
+>>    | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+>>    |---------------------+--------+------------+---------------|
+>>    | dhry2reg            | 7975   | 7146       | 5071          |
+>>    | whetstone-double    | 3982   | 3561       | 2124          |
+>>    | Execl Throughput    | 1882   | 1205       | 768           |
+>>    | File Copy - 1       | 1061   | 865        | 498           |
+>>    | File Copy - 2       | 676    | 491        | 519           |
+>>    | File Copy - 3       | 2260   | 923        | 1329          |
+>>    | Pipe Throughput     | 3026   | 3009       | 1616          |
+>>    | Context Switching   | 1219   | 1093       | 695           |
+>>    | Process Creation    | 947    | 307        | 446           |
+>>    | Shell Scripts - 1   | 2469   | 977        | 989           |
+>>    | Shell Scripts - 2   | 2667   | 1275       | 984           |
+>>    | System Call Overhead| 1592   | 1459       | 692           |
+>>    | Index Score         | 1976   | 1294       | 997           |
+>>    |---------------------+--------+------------+---------------|
+>>
+>> For the parallel data, the "System Benchmarks Index Score" show it
+>> also improve 29% performance.
+>>
+>> In version 1, migration total time is shown as follows:
+>>
+>> host cpu: Intel(R) Xeon(R) Platinum 8378A
+>> host interface speed: 1000Mb/s
+>>    |-----------------------+----------------+-------------------|
+>>    | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
+>>    |-----------------------+----------------+-------------------|
+>>    | 60                    | 2014           | 2131              |
+>>    | 70                    | 5381           | 12590             |
+>>    | 90                    | 6037           | 33545             |
+>>    | 110                   | 7660           | [*]               |
+>>    |-----------------------+----------------+-------------------|
+>>    [*]: This case means migration is not convergent.
+>>
+>> In version 2, we post more comprehensive migration total time test data
+>> as follows:
+>>
+>> we update N MB on 4 cpus and sleep S us every time 1 MB data was updated.
+>> test twice in each condition, data is shown as follow:
+>>
+>>    |-----------+--------+--------+----------------+-------------------|
+>>    | ring size | N (MB) | S (us) | Dirtylimit(ms) | Auto-converge(ms) |
+>>    |-----------+--------+--------+----------------+-------------------|
+>>    | 1024      | 1024   | 1000   | 44951          | 191780            |
+>>    | 1024      | 1024   | 1000   | 44546          | 185341            |
+>>    | 1024      | 1024   | 500    | 46505          | 203545            |
+>>    | 1024      | 1024   | 500    | 45469          | 909945            |
+>>    | 1024      | 1024   | 0      | 61858          | [*]               |
+>>    | 1024      | 1024   | 0      | 57922          | [*]               |
+>>    | 1024      | 2048   | 0      | 91982          | [*]               |
+>>    | 1024      | 2048   | 0      | 90388          | [*]               |
+>>    | 2048      | 128    | 10000  | 14511          | 25971             |
+>>    | 2048      | 128    | 10000  | 13472          | 26294             |
+>>    | 2048      | 1024   | 10000  | 44244          | 26294             |
+>>    | 2048      | 1024   | 10000  | 45099          | 157701            |
+>>    | 2048      | 1024   | 500    | 51105          | [*]               |
+>>    | 2048      | 1024   | 500    | 49648          | [*]               |
+>>    | 2048      | 1024   | 0      | 229031         | [*]               |
+>>    | 2048      | 1024   | 0      | 154282         | [*]               |
+>>    |-----------+--------+--------+----------------+-------------------|
+>>    [*]: This case means migration is not convergent.
+>>
+>> Not that the larger ring size is, the less sensitively dirty-limit 
+>> responds,
+>> so we should choose a optimal ring size base on the test data with 
+>> different
+>> scale vm.
+>>
+>> We also test the effect of "x-vcpu-dirty-limit-period" parameter on
+>> migration total time. test twice in each condition, data is shown
+>> as follows:
+>>
+>>    |-----------+--------+--------+-------------+----------------------|
+>>    | ring size | N (MB) | S (us) | Period (ms) | migration total time |
+>>    |-----------+--------+--------+-------------+----------------------|
+>>    | 2048      | 1024   | 10000  | 100         | [*]                  |
+>>    | 2048      | 1024   | 10000  | 100         | [*]                  |
+>>    | 2048      | 1024   | 10000  | 300         | 156795               |
+>>    | 2048      | 1024   | 10000  | 300         | 118179               |
+>>    | 2048      | 1024   | 10000  | 500         | 44244                |
+>>    | 2048      | 1024   | 10000  | 500         | 45099                |
+>>    | 2048      | 1024   | 10000  | 700         | 41871                |
+>>    | 2048      | 1024   | 10000  | 700         | 42582                |
+>>    | 2048      | 1024   | 10000  | 1000        | 41430                |
+>>    | 2048      | 1024   | 10000  | 1000        | 40383                |
+>>    | 2048      | 1024   | 10000  | 1500        | 42030                |
+>>    | 2048      | 1024   | 10000  | 1500        | 42598                |
+>>    | 2048      | 1024   | 10000  | 2000        | 41694                |
+>>    | 2048      | 1024   | 10000  | 2000        | 42403                |
+>>    | 2048      | 1024   | 10000  | 3000        | 43538                |
+>>    | 2048      | 1024   | 10000  | 3000        | 43010                |
+>>    |-----------+--------+--------+-------------+----------------------|
+>>
+>> It shows that x-vcpu-dirty-limit-period should be configured with 1000 ms
+>> in above condition.
+>>
+>> Please review, any comments and suggestions are very appreciated, thanks
+>>
+>> Yong
+>>
+>> Hyman Huang (9):
+>>    dirtylimit: Fix overflow when computing MB
+>>    softmmu/dirtylimit: Add parameter check for hmp "set_vcpu_dirty_limit"
+>>    qapi/migration: Introduce x-vcpu-dirty-limit-period parameter
+>>    qapi/migration: Introduce vcpu-dirty-limit parameters
+>>    migration: Introduce dirty-limit capability
+>>    migration: Refactor auto-converge capability logic
+>>    migration: Implement dirty-limit convergence algo
+>>    migration: Extend query-migrate to provide dirty page limit info
+>>    tests: Add migration dirty-limit capability test
+>>
+>> Peter Xu (1):
+>>    kvm: dirty-ring: Fix race with vcpu creation
+>>
+>>   accel/kvm/kvm-all.c            |   9 ++
+>>   include/sysemu/dirtylimit.h    |   2 +
+>>   migration/migration-hmp-cmds.c |  26 ++++++
+>>   migration/migration.c          |  88 ++++++++++++++++++
+>>   migration/migration.h          |   1 +
+>>   migration/ram.c                |  63 ++++++++++---
+>>   migration/trace-events         |   1 +
+>>   qapi/migration.json            |  64 ++++++++++++--
+>>   softmmu/dirtylimit.c           |  91 ++++++++++++++++---
+>>   tests/qtest/migration-test.c   | 157 +++++++++++++++++++++++++++++++++
+>>   10 files changed, 470 insertions(+), 32 deletions(-)
+>>
+> 
 
+-- 
+Best regard
+
+Hyman Huang(黄勇)
 
