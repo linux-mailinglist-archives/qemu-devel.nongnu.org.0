@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A306C8476
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 19:05:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3816A6C8477
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 19:05:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pflm4-0007DY-1B; Fri, 24 Mar 2023 14:04:24 -0400
+	id 1pflmc-0007Tj-16; Fri, 24 Mar 2023 14:04:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pflm1-0007D4-Hw
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 14:04:21 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+ id 1pflma-0007Sr-Ms
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 14:04:56 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pfllz-0005UR-BH
- for qemu-devel@nongnu.org; Fri, 24 Mar 2023 14:04:21 -0400
-Received: by mail-pg1-x536.google.com with SMTP id bn14so1550736pgb.11
- for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 11:04:18 -0700 (PDT)
+ id 1pflmZ-0005bE-7R
+ for qemu-devel@nongnu.org; Fri, 24 Mar 2023 14:04:56 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ lr16-20020a17090b4b9000b0023f187954acso2397369pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 24 Mar 2023 11:04:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679681057;
+ d=linaro.org; s=google; t=1679681094;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=OdwVdiv1tzpY+IhpGDFGRx7ppJPFCmksz+lZpMbCAqc=;
- b=LsqpW40QA3gNgnho5a28YEHtWeE8iR8RZsiQLvfuUJj5MBz3olV2WzLr9p0O7bBf2/
- CdhG1vgJrYVLTVuHbCVC8yTd6P3kBifSi52lAfCmycTATfCXpuL2EWbE06XXJN3qYUlG
- sZpCej+kCDPZRyjiI0HcARviM5kiSkgT0V+UI0J9OkHHTHMo+0VrS3dTyU76PbtKE8Pn
- qppwbgleL7tWqYZffENEie7/oYmBtZZ1LmLfc6GgVZeW2G2+xLOuOpSzHgDJr31h+q0F
- uYxo91GdivBoTiA3igfY/tgU7ZWD2DhJQ9p7+KCIy+byXH3FqI1y3ZnkqmRNhArYgjYa
- hgMg==
+ bh=p7GXiyTViFjz8xPYOWO1w91Dm4jD29nFflvcsFF0A+U=;
+ b=Ftt5j91O1J96wO7kskozV7XVS8wE8LtdeRRkLXQF8hCBG+ue3uehcuRy1n3dqZu8gI
+ 7WjN03MIAyRK5sn2aWuFtBKoZGT+ohAygK1AIHtKQQhuPUF2mb4CtQ1vsdO6bQ1sOUsE
+ FvprvQuJ4A9OApUEYltvNGlILOKqB1MFypgr0/z7Y5Tb15N7Jok98ED6OBWofoIkmqO5
+ TdmY+GQp+mZXJ9dN8mbYxy+qxdzrqgDyVsM3Jw4dwKL9gvU0TDDJ6b3VOq9ZH8fXcwks
+ eEgIMDO4rFyucT4guJXnWR5/1x+tPRZa/CezsVrI4nLGCWAWxzlWA3pmathoMC7Wkmv8
+ hznQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679681057;
+ d=1e100.net; s=20210112; t=1679681094;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OdwVdiv1tzpY+IhpGDFGRx7ppJPFCmksz+lZpMbCAqc=;
- b=c9eoHfDGxd4QNnmMT4TFaVknhzqPY3ZJtaP+feBKuwAbDivG2fwpYQfozj7Vsn/UrI
- SIb4N1luS8se6XVRltiyv1NwSB89AYTGp9vZiaeQnrd1aldU7Gsvsf3tHhu0A1J+E8tZ
- Fe2XlaqDZafv7h1mD1b3N+q1iut3Nab7RdrkKdqMuCputIQdB/z4qNbhxembQ8WXsxzN
- RMpW2bKruKSxIHha89kxp8dXuZegTrGJZEIgi0/LZlImyf1tQkb/mHsiyh5cnzkxVAIz
- VzuQGlktGVH8HPrsHEpmcSjUgFU7Yzt+33wXOG9mwizCeHiSKt0ZCkrPP4tdoExRGkmJ
- 0PVw==
-X-Gm-Message-State: AAQBX9fOcnuhPFWAXUaLuhPfl8e8eBFdRdjg7gi6eVF4i3uDrp6XPzuM
- 2BtdhIPY20jSEZw6elQWJO41rw==
-X-Google-Smtp-Source: AKy350Y7ijTVC6Sx0YivgKICFOUA3xMnXzxrTrhfxirtPFHDWW5TVvjhog3DlFwsnp/wQqwgJR054A==
-X-Received: by 2002:a62:487:0:b0:622:c601:c0e6 with SMTP id
- 129-20020a620487000000b00622c601c0e6mr3370318pfe.16.1679681057591; 
- Fri, 24 Mar 2023 11:04:17 -0700 (PDT)
+ bh=p7GXiyTViFjz8xPYOWO1w91Dm4jD29nFflvcsFF0A+U=;
+ b=dtd3cIsuh2035SlJzuC8jHI/eFuEssODvSVeotiQib78X2hvtWBtnV0OldtbUscY6D
+ 1KX2YhIb+Nle6+Kn/J6bwnpmUTSG7eI0Y27tOVBk6YUBSOvLxppNFUZxJ7ozN6QRZmGp
+ YpZPDIKzlv6KI0bzAmwtYxSWVZaT3OIKE21mwx1nOxzS12uHNvOGJxzoTX6i41ap6Fu7
+ AEinXFXx6SyEmBIO/iCsAS/kD0AX2qVmwSpSFsu0XSMkFNs7sfgfDugEAN7v/K8UaoQp
+ LzqsLbGa0AD7vP7P4iqX7nj3OO21b9rQ+nSSBgYnYhxH8WnQLeq3Hos+Y9l4kEcbBU0t
+ UJ5w==
+X-Gm-Message-State: AO0yUKVjtlMIabifxtM9J2f05u+dofnfpx2NEe0iioDmvVhAWNe7DNWR
+ pF5kQNZLdgBTlOtHK3RmWehjbA==
+X-Google-Smtp-Source: AK7set+H7ijgwpomMtJQ8o6E/vWU2anOC97wGy9HhA3C4mI96YuwKC8qI9QpAh/GjvDbCEM1f1qbQA==
+X-Received: by 2002:a05:6a20:6594:b0:d6:d41e:87ee with SMTP id
+ p20-20020a056a20659400b000d6d41e87eemr2964721pzh.12.1679681093754; 
+ Fri, 24 Mar 2023 11:04:53 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1544:6601:cb42:9f2a:fcd4:54fc?
  ([2602:ae:1544:6601:cb42:9f2a:fcd4:54fc])
  by smtp.gmail.com with ESMTPSA id
- u13-20020aa7838d000000b0059085684b54sm14593704pfm.140.2023.03.24.11.04.16
+ e21-20020aa78255000000b0062bada5db75sm888428pfn.172.2023.03.24.11.04.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Mar 2023 11:04:17 -0700 (PDT)
-Message-ID: <9f99ff8e-43e4-71d9-42b1-0d91b396da97@linaro.org>
-Date: Fri, 24 Mar 2023 11:04:15 -0700
+ Fri, 24 Mar 2023 11:04:53 -0700 (PDT)
+Message-ID: <dafce54c-d78e-8ea3-39bb-fc09fc8493c1@linaro.org>
+Date: Fri, 24 Mar 2023 11:04:51 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 1/8] target/riscv: Remove redundant call to
- riscv_cpu_virt_enabled
+Subject: Re: [PATCH 2/8] target/riscv: Remove redundant check on RVH
 Content-Language: en-US
 To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
@@ -70,13 +70,13 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
 References: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
- <20230324123809.107714-2-liweiwei@iscas.ac.cn>
+ <20230324123809.107714-3-liweiwei@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230324123809.107714-2-liweiwei@iscas.ac.cn>
+In-Reply-To: <20230324123809.107714-3-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,13 +100,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/24/23 05:38, Weiwei Li wrote:
-> The assignment is done under the condition riscv_cpu_virt_enabled()=true.
+> Check on riscv_cpu_virt_enabled contains the check on RVH.
 > 
 > Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
 > Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
 > ---
->   target/riscv/cpu_helper.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>   target/riscv/op_helper.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
