@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA4C6C81A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:44:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4EF6C81A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Mar 2023 16:43:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pfh85-0007CT-CS; Fri, 24 Mar 2023 09:06:49 -0400
+	id 1pfgni-0005QQ-Of; Fri, 24 Mar 2023 08:45:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfh7x-0007BC-DV; Fri, 24 Mar 2023 09:06:42 -0400
+ id 1pfgnG-0005OG-GL; Fri, 24 Mar 2023 08:45:19 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pfh3Q-0005HS-Si; Fri, 24 Mar 2023 09:06:40 -0400
+ id 1pfgiN-0000lK-AH; Fri, 24 Mar 2023 08:45:17 -0400
 Received: from localhost.localdomain (unknown [180.165.240.150])
- by APP-05 (Coremail) with SMTP id zQCowACXnVX4mR1kGwsYCQ--.52917S8;
- Fri, 24 Mar 2023 20:39:25 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACXnVX4mR1kGwsYCQ--.52917S10;
+ Fri, 24 Mar 2023 20:39:26 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,22 +26,22 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 6/8] target/riscv: Fix format for indentation
-Date: Fri, 24 Mar 2023 20:38:07 +0800
-Message-Id: <20230324123809.107714-7-liweiwei@iscas.ac.cn>
+Subject: [PATCH 8/8] target/riscv: Fix lines with over 80 characters
+Date: Fri, 24 Mar 2023 20:38:09 +0800
+Message-Id: <20230324123809.107714-9-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
 References: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACXnVX4mR1kGwsYCQ--.52917S8
-X-Coremail-Antispam: 1UD129KBjvAXoWftFW7tw1rAF4kXr13Gr1rJFb_yoW5WFy7to
- WxJr4Fyr1rGw4fCF909wn7tF12qF4qyrs5Jan8Kr4Yg3WfWrWfKFWxtws5Aa17JrWFgrWU
- X3Zay3WrAFn7A3y3n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUUO17AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
- j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r126s0DM28Irc
- Ia0xkI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l
- 84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r
+X-CM-TRANSID: zQCowACXnVX4mR1kGwsYCQ--.52917S10
+X-Coremail-Antispam: 1UD129KBjvJXoWfJFW5Xry8Cr4xtr4fJFWUJwb_yoWDZrW3pr
+ 48JFsxXws5KFWSva9rArs8XF13G3Z5Ka45Ar1qgrsYyayfWF95CFyDGa47uF4DC3y7ur4Y
+ kan3ArWUuw47XFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUP214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+ kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+ z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
  4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
  3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
  x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
@@ -76,780 +76,270 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix identation problems, and try to use the same indentation strategy
-in the same file.
+Fix lines with over 80 characters for both code and comments in
+vector_helper.c, pmp.c and pmu.c.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/arch_dump.c                |   4 +-
- target/riscv/cpu.c                      |   4 +-
- target/riscv/cpu_helper.c               |  15 +--
- target/riscv/insn_trans/trans_rvv.c.inc |  46 ++++----
- target/riscv/op_helper.c                |   4 +-
- target/riscv/pmp.c                      |  19 ++--
- target/riscv/pmp.h                      |   9 +-
- target/riscv/vector_helper.c            | 134 +++++++++++++-----------
- 8 files changed, 122 insertions(+), 113 deletions(-)
+ target/riscv/pmp.c           |  6 ++-
+ target/riscv/pmu.c           |  3 +-
+ target/riscv/vector_helper.c | 76 ++++++++++++++++++++++++------------
+ 3 files changed, 56 insertions(+), 29 deletions(-)
 
-diff --git a/target/riscv/arch_dump.c b/target/riscv/arch_dump.c
-index 736a232956..573587810e 100644
---- a/target/riscv/arch_dump.c
-+++ b/target/riscv/arch_dump.c
-@@ -180,8 +180,8 @@ int cpu_get_dump_info(ArchDumpInfo *info,
-     info->d_class = ELFCLASS32;
- #endif
- 
--    info->d_endian = (env->mstatus & MSTATUS_UBE) != 0
--                     ? ELFDATA2MSB : ELFDATA2LSB;
-+    info->d_endian = (env->mstatus & MSTATUS_UBE) != 0 ?
-+                     ELFDATA2MSB : ELFDATA2LSB;
- 
-     return 0;
- }
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 16e465a0ab..75dab70ba7 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -344,8 +344,8 @@ static void riscv_any_cpu_init(Object *obj)
- 
- #ifndef CONFIG_USER_ONLY
-     set_satp_mode_max_supported(RISCV_CPU(obj),
--            riscv_cpu_mxl(&RISCV_CPU(obj)->env) == MXL_RV32 ?
--                                    VM_1_10_SV32 : VM_1_10_SV57);
-+        riscv_cpu_mxl(&RISCV_CPU(obj)->env) == MXL_RV32 ?
-+        VM_1_10_SV32 : VM_1_10_SV57);
- #endif
- 
-     set_priv_version(env, PRIV_VERSION_1_12_0);
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index de2d4a8c1d..08689ee3f6 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -68,12 +68,12 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-         flags = FIELD_DP32(flags, TB_FLAGS, VILL, env->vill);
-         flags = FIELD_DP32(flags, TB_FLAGS, SEW, sew);
-         flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
--                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
-+                           FIELD_EX64(env->vtype, VTYPE, VLMUL));
-         flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
-         flags = FIELD_DP32(flags, TB_FLAGS, VTA,
--                    FIELD_EX64(env->vtype, VTYPE, VTA));
-+                           FIELD_EX64(env->vtype, VTYPE, VTA));
-         flags = FIELD_DP32(flags, TB_FLAGS, VMA,
--                    FIELD_EX64(env->vtype, VTYPE, VMA));
-+                           FIELD_EX64(env->vtype, VTYPE, VMA));
-     } else {
-         flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
-     }
-@@ -1056,7 +1056,7 @@ restart:
-             /* add write permission on stores or if the page is already dirty,
-                so that we TLB miss on later writes to update the dirty bit */
-             if ((pte & PTE_W) &&
--                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-+                (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-                 *prot |= PAGE_WRITE;
-             }
-             return TRANSLATE_SUCCESS;
-@@ -1285,9 +1285,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                                        false);
- 
-             qemu_log_mask(CPU_LOG_MMU,
--                    "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
--                    HWADDR_FMT_plx " prot %d\n",
--                    __func__, im_address, ret, pa, prot2);
-+                          "%s 2nd-stage address=%" VADDR_PRIx
-+                          " ret %d physical "
-+                          HWADDR_FMT_plx " prot %d\n",
-+                          __func__, im_address, ret, pa, prot2);
- 
-             prot &= prot2;
- 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index f2e3d38515..2aed66934a 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -238,8 +238,8 @@ static bool vext_check_store(DisasContext *s, int vd, int nf, uint8_t eew)
- {
-     int8_t emul = eew - s->sew + s->lmul;
-     return (emul >= -3 && emul <= 3) &&
--            require_align(vd, emul) &&
--            require_nf(vd, nf, emul);
-+           require_align(vd, emul) &&
-+           require_nf(vd, nf, emul);
- }
- 
- /*
-@@ -315,7 +315,7 @@ static bool vext_check_ld_index(DisasContext *s, int vd, int vs2,
-     int8_t seg_vd;
-     int8_t emul = eew - s->sew + s->lmul;
-     bool ret = vext_check_st_index(s, vd, vs2, nf, eew) &&
--        require_vm(vm, vd);
-+               require_vm(vm, vd);
- 
-     /* Each segment register group has to follow overlap rules. */
-     for (int i = 0; i < nf; ++i) {
-@@ -345,8 +345,8 @@ static bool vext_check_ld_index(DisasContext *s, int vd, int vs2,
- static bool vext_check_ss(DisasContext *s, int vd, int vs, int vm)
- {
-     return require_vm(vm, vd) &&
--        require_align(vd, s->lmul) &&
--        require_align(vs, s->lmul);
-+           require_align(vd, s->lmul) &&
-+           require_align(vs, s->lmul);
- }
- 
- /*
-@@ -365,7 +365,7 @@ static bool vext_check_ss(DisasContext *s, int vd, int vs, int vm)
- static bool vext_check_sss(DisasContext *s, int vd, int vs1, int vs2, int vm)
- {
-     return vext_check_ss(s, vd, vs2, vm) &&
--        require_align(vs1, s->lmul);
-+           require_align(vs1, s->lmul);
- }
- 
- static bool vext_check_ms(DisasContext *s, int vd, int vs)
-@@ -396,7 +396,7 @@ static bool vext_check_ms(DisasContext *s, int vd, int vs)
- static bool vext_check_mss(DisasContext *s, int vd, int vs1, int vs2)
- {
-     bool ret = vext_check_ms(s, vd, vs2) &&
--        require_align(vs1, s->lmul);
-+               require_align(vs1, s->lmul);
-     if (vd != vs1) {
-         ret &= require_noover(vd, 0, vs1, s->lmul);
-     }
-@@ -460,14 +460,14 @@ static bool vext_narrow_check_common(DisasContext *s, int vd, int vs2,
- static bool vext_check_ds(DisasContext *s, int vd, int vs, int vm)
- {
-     return vext_wide_check_common(s, vd, vm) &&
--        require_align(vs, s->lmul) &&
--        require_noover(vd, s->lmul + 1, vs, s->lmul);
-+           require_align(vs, s->lmul) &&
-+           require_noover(vd, s->lmul + 1, vs, s->lmul);
- }
- 
- static bool vext_check_dd(DisasContext *s, int vd, int vs, int vm)
- {
-     return vext_wide_check_common(s, vd, vm) &&
--        require_align(vs, s->lmul + 1);
-+           require_align(vs, s->lmul + 1);
- }
- 
- /*
-@@ -485,8 +485,8 @@ static bool vext_check_dd(DisasContext *s, int vd, int vs, int vm)
- static bool vext_check_dss(DisasContext *s, int vd, int vs1, int vs2, int vm)
- {
-     return vext_check_ds(s, vd, vs2, vm) &&
--        require_align(vs1, s->lmul) &&
--        require_noover(vd, s->lmul + 1, vs1, s->lmul);
-+           require_align(vs1, s->lmul) &&
-+           require_noover(vd, s->lmul + 1, vs1, s->lmul);
- }
- 
- /*
-@@ -507,7 +507,7 @@ static bool vext_check_dss(DisasContext *s, int vd, int vs1, int vs2, int vm)
- static bool vext_check_dds(DisasContext *s, int vd, int vs1, int vs2, int vm)
- {
-     return vext_check_ds(s, vd, vs1, vm) &&
--        require_align(vs2, s->lmul + 1);
-+           require_align(vs2, s->lmul + 1);
- }
- 
- static bool vext_check_sd(DisasContext *s, int vd, int vs, int vm)
-@@ -535,7 +535,7 @@ static bool vext_check_sd(DisasContext *s, int vd, int vs, int vm)
- static bool vext_check_sds(DisasContext *s, int vd, int vs1, int vs2, int vm)
- {
-     return vext_check_sd(s, vd, vs2, vm) &&
--        require_align(vs1, s->lmul);
-+           require_align(vs1, s->lmul);
- }
- 
- /*
-@@ -1216,7 +1216,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
- }
- 
- /* OPIVV with GVEC IR */
--#define GEN_OPIVV_GVEC_TRANS(NAME, SUF) \
-+#define GEN_OPIVV_GVEC_TRANS(NAME, SUF)                            \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
- {                                                                  \
-     static gen_helper_gvec_4_ptr * const fns[4] = {                \
-@@ -1300,7 +1300,7 @@ do_opivx_gvec(DisasContext *s, arg_rmrr *a, GVecGen2sFn *gvec_fn,
- }
- 
- /* OPIVX with GVEC IR */
--#define GEN_OPIVX_GVEC_TRANS(NAME, SUF) \
-+#define GEN_OPIVX_GVEC_TRANS(NAME, SUF)                            \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
- {                                                                  \
-     static gen_helper_opivx * const fns[4] = {                     \
-@@ -1453,7 +1453,7 @@ do_opivi_gvec(DisasContext *s, arg_rmrr *a, GVecGen2iFn *gvec_fn,
- }
- 
- /* OPIVI with GVEC IR */
--#define GEN_OPIVI_GVEC_TRANS(NAME, IMM_MODE, OPIVX, SUF) \
-+#define GEN_OPIVI_GVEC_TRANS(NAME, IMM_MODE, OPIVX, SUF)           \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
- {                                                                  \
-     static gen_helper_opivx * const fns[4] = {                     \
-@@ -1512,7 +1512,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
-     return false;
- }
- 
--#define GEN_OPIVV_WIDEN_TRANS(NAME, CHECK) \
-+#define GEN_OPIVV_WIDEN_TRANS(NAME, CHECK)                   \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)       \
- {                                                            \
-     static gen_helper_gvec_4_ptr * const fns[3] = {          \
-@@ -1545,7 +1545,7 @@ static bool do_opivx_widen(DisasContext *s, arg_rmrr *a,
-     return false;
- }
- 
--#define GEN_OPIVX_WIDEN_TRANS(NAME) \
-+#define GEN_OPIVX_WIDEN_TRANS(NAME)                          \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)       \
- {                                                            \
-     static gen_helper_opivx * const fns[3] = {               \
-@@ -1594,7 +1594,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
-     return false;
- }
- 
--#define GEN_OPIWV_WIDEN_TRANS(NAME) \
-+#define GEN_OPIWV_WIDEN_TRANS(NAME)                          \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)       \
- {                                                            \
-     static gen_helper_gvec_4_ptr * const fns[3] = {          \
-@@ -1627,7 +1627,7 @@ static bool do_opiwx_widen(DisasContext *s, arg_rmrr *a,
-     return false;
- }
- 
--#define GEN_OPIWX_WIDEN_TRANS(NAME) \
-+#define GEN_OPIWX_WIDEN_TRANS(NAME)                          \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)       \
- {                                                            \
-     static gen_helper_opivx * const fns[3] = {               \
-@@ -1801,7 +1801,7 @@ do_opivx_gvec_shift(DisasContext *s, arg_rmrr *a, GVecGen2sFn32 *gvec_fn,
-     return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
- }
- 
--#define GEN_OPIVX_GVEC_SHIFT_TRANS(NAME, SUF) \
-+#define GEN_OPIVX_GVEC_SHIFT_TRANS(NAME, SUF)                             \
- static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                    \
- {                                                                         \
-     static gen_helper_opivx * const fns[4] = {                            \
-@@ -3668,7 +3668,7 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
-  * Whole Vector Register Move Instructions ignore vtype and vl setting.
-  * Thus, we don't need to check vill bit. (Section 16.6)
-  */
--#define GEN_VMV_WHOLE_TRANS(NAME, LEN)                             \
-+#define GEN_VMV_WHOLE_TRANS(NAME, LEN)                                  \
- static bool trans_##NAME(DisasContext *s, arg_##NAME * a)               \
- {                                                                       \
-     if (require_rvv(s) &&                                               \
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 1eecae9547..478365131d 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -367,8 +367,8 @@ void helper_wfi(CPURISCVState *env)
-     if (((prv_s || (!rvs && prv_u)) && get_field(env->mstatus, MSTATUS_TW)) ||
-         (rvs && prv_u && !riscv_cpu_virt_enabled(env))) {
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
--    } else if (riscv_cpu_virt_enabled(env) && (prv_u ||
--        (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
-+    } else if (riscv_cpu_virt_enabled(env) &&
-+               (prv_u || (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
-         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-     } else {
-         cs->halted = 1;
 diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index a08cd95658..3943b0f2e3 100644
+index 665a8528d5..428ebe7272 100644
 --- a/target/riscv/pmp.c
 +++ b/target/riscv/pmp.c
-@@ -27,7 +27,7 @@
- #include "exec/exec-all.h"
+@@ -129,7 +129,8 @@ static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
+     }
+ }
  
- static void pmp_write_cfg(CPURISCVState *env, uint32_t addr_index,
--    uint8_t val);
-+                          uint8_t val);
- static uint8_t pmp_read_cfg(CPURISCVState *env, uint32_t addr_index);
- static void pmp_update_rule(CPURISCVState *env, uint32_t pmp_index);
+-static void pmp_decode_napot(target_ulong a, target_ulong *sa, target_ulong *ea)
++static void pmp_decode_napot(target_ulong a, target_ulong *sa,
++                             target_ulong *ea)
+ {
+     /*
+        aaaa...aaa0   8-byte NAPOT range
+@@ -217,7 +218,8 @@ static void pmp_update_rule(CPURISCVState *env, uint32_t pmp_index)
+     pmp_update_rule_nums(env);
+ }
  
-@@ -220,8 +220,8 @@ static int pmp_is_in_range(CPURISCVState *env, int pmp_index, target_ulong addr)
+-static int pmp_is_in_range(CPURISCVState *env, int pmp_index, target_ulong addr)
++static int pmp_is_in_range(CPURISCVState *env, int pmp_index,
++                           target_ulong addr)
  {
      int result = 0;
  
--    if ((addr >= env->pmp_state.addr[pmp_index].sa)
--        && (addr <= env->pmp_state.addr[pmp_index].ea)) {
-+    if ((addr >= env->pmp_state.addr[pmp_index].sa) &&
-+        (addr <= env->pmp_state.addr[pmp_index].ea)) {
-         result = 1;
+diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
+index 22e2283c76..347f7f30d1 100644
+--- a/target/riscv/pmu.c
++++ b/target/riscv/pmu.c
+@@ -419,7 +419,8 @@ int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value, uint32_t ctr_idx)
      } else {
-         result = 0;
-@@ -234,8 +234,9 @@ static int pmp_is_in_range(CPURISCVState *env, int pmp_index, target_ulong addr)
-  * Check if the address has required RWX privs when no PMP entry is matched.
-  */
- static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
--    target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
--    target_ulong mode)
-+                                       target_ulong size, pmp_priv_t privs,
-+                                       pmp_priv_t *allowed_privs,
-+                                       target_ulong mode)
- {
-     bool ret;
+         return -1;
+     }
+-    overflow_at = (uint64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + overflow_ns;
++    overflow_at = (uint64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++                  overflow_ns;
  
-@@ -297,8 +298,8 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
-  * Return negtive value if no match
-  */
- int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
--    target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
--    target_ulong mode)
-+                       target_ulong size, pmp_priv_t privs,
-+                       pmp_priv_t *allowed_privs, target_ulong mode)
- {
-     int i = 0;
-     int ret = -1;
-@@ -466,7 +467,7 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-  * Handle a write to a pmpcfg CSR
-  */
- void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
--    target_ulong val)
-+                      target_ulong val)
- {
-     int i;
-     uint8_t cfg_val;
-@@ -508,7 +509,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
-  * Handle a write to a pmpaddr CSR
-  */
- void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
--    target_ulong val)
-+                       target_ulong val)
- {
-     trace_pmpaddr_csr_write(env->mhartid, addr_index, val);
- 
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index da32c61c85..b296ea1fc6 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -63,18 +63,19 @@ typedef struct {
- } pmp_table_t;
- 
- void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
--    target_ulong val);
-+                      target_ulong val);
- target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index);
- 
- void mseccfg_csr_write(CPURISCVState *env, target_ulong val);
- target_ulong mseccfg_csr_read(CPURISCVState *env);
- 
- void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
--    target_ulong val);
-+                       target_ulong val);
- target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
- int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
--    target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
--    target_ulong mode);
-+                       target_ulong size, pmp_priv_t privs,
-+                       pmp_priv_t *allowed_privs,
-+                       target_ulong mode);
- target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
-                               target_ulong tlb_sa, target_ulong tlb_ea);
- void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
+     if (overflow_at > INT64_MAX) {
+         overflow_left += overflow_at - INT64_MAX;
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 2423affe37..df6201d043 100644
+index 81b99a0e3c..b5ab8edcb3 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -1116,7 +1116,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,        \
-                                                                          \
-         *((ETYPE *)vd + H(i)) = DO_OP(s2, (ETYPE)(target_long)s1, carry);\
-     }                                                                    \
--    env->vstart = 0;                                          \
-+    env->vstart = 0;                                                     \
-     /* set tail elements to 1s */                                        \
-     vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);             \
+@@ -385,8 +385,8 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
  }
-@@ -1308,7 +1308,8 @@ GEN_VEXT_SHIFT_VV(vsra_vv_d, uint64_t, int64_t, H8, H8, DO_SRL, 0x3f)
- /* generate the helpers for shift instructions with one vector and one scalar */
+ 
+ /*
+- * masked unit-stride load and store operation will be a special case of stride,
+- * stride = NF * sizeof (MTYPE)
++ * masked unit-stride load and store operation will be a special case of
++ * stride, stride = NF * sizeof (MTYPE)
+  */
+ 
+ #define GEN_VEXT_LD_US(NAME, ETYPE, LOAD_FN)                            \
+@@ -681,7 +681,8 @@ vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+         /* load/store rest of elements of current segment pointed by vstart */
+         for (pos = off; pos < max_elems; pos++, env->vstart++) {
+             target_ulong addr = base + ((pos + k * max_elems) << log2_esz);
+-            ldst_elem(env, adjust_addr(env, addr), pos + k * max_elems, vd, ra);
++            ldst_elem(env, adjust_addr(env, addr), pos + k * max_elems, vd,
++                      ra);
+         }
+         k++;
+     }
+@@ -1309,7 +1310,9 @@ GEN_VEXT_SHIFT_VV(vsra_vv_h, uint16_t, int16_t, H2, H2, DO_SRL, 0xf)
+ GEN_VEXT_SHIFT_VV(vsra_vv_w, uint32_t, int32_t, H4, H4, DO_SRL, 0x1f)
+ GEN_VEXT_SHIFT_VV(vsra_vv_d, uint64_t, int64_t, H8, H8, DO_SRL, 0x3f)
+ 
+-/* generate the helpers for shift instructions with one vector and one scalar */
++/*
++ * generate the helpers for shift instructions with one vector and one scalar
++ */
  #define GEN_VEXT_SHIFT_VX(NAME, TD, TS2, HD, HS2, OP, MASK) \
  void HELPER(NAME)(void *vd, void *v0, target_ulong s1,      \
--        void *vs2, CPURISCVState *env, uint32_t desc)       \
-+                  void *vs2, CPURISCVState *env,            \
-+                  uint32_t desc)                            \
- {                                                           \
-     uint32_t vm = vext_vm(desc);                            \
-     uint32_t vl = env->vl;                                  \
-@@ -1735,9 +1736,9 @@ GEN_VEXT_VX(vmulhsu_vx_d, 8)
- /* Vector Integer Divide Instructions */
- #define DO_DIVU(N, M) (unlikely(M == 0) ? (__typeof(N))(-1) : N / M)
- #define DO_REMU(N, M) (unlikely(M == 0) ? N : N % M)
--#define DO_DIV(N, M)  (unlikely(M == 0) ? (__typeof(N))(-1) :\
-+#define DO_DIV(N, M)  (unlikely(M == 0) ? (__typeof(N))(-1) : \
-         unlikely((N == -N) && (M == (__typeof(N))(-1))) ? N : N / M)
--#define DO_REM(N, M)  (unlikely(M == 0) ? N :\
-+#define DO_REM(N, M)  (unlikely(M == 0) ? N : \
-         unlikely((N == -N) && (M == (__typeof(N))(-1))) ? 0 : N % M)
- 
- RVVCALL(OPIVV2, vdivu_vv_b, OP_UUU_B, H1, H1, H1, DO_DIVU)
-@@ -1846,7 +1847,7 @@ GEN_VEXT_VX(vwmulsu_vx_h, 4)
- GEN_VEXT_VX(vwmulsu_vx_w, 8)
- 
- /* Vector Single-Width Integer Multiply-Add Instructions */
--#define OPIVV3(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)   \
-+#define OPIVV3(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)       \
- static void do_##NAME(void *vd, void *vs1, void *vs2, int i)       \
- {                                                                  \
-     TX1 s1 = *((T1 *)vs1 + HS1(i));                                \
-@@ -2277,7 +2278,8 @@ vext_vx_rm_2(void *vd, void *v0, target_long s1, void *vs2,
- /* generate helpers for fixed point instructions with OPIVX format */
- #define GEN_VEXT_VX_RM(NAME, ESZ)                         \
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1,    \
--        void *vs2, CPURISCVState *env, uint32_t desc)     \
-+                  void *vs2, CPURISCVState *env,          \
-+                  uint32_t desc)                          \
- {                                                         \
-     vext_vx_rm_2(vd, v0, s1, vs2, env, desc,              \
-                  do_##NAME, ESZ);                         \
-@@ -3052,7 +3054,7 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1,        \
-     uint32_t vm = vext_vm(desc);                          \
-     uint32_t vl = env->vl;                                \
-     uint32_t total_elems =                                \
--        vext_get_total_elems(env, desc, ESZ);              \
-+        vext_get_total_elems(env, desc, ESZ);             \
-     uint32_t vta = vext_vta(desc);                        \
-     uint32_t vma = vext_vma(desc);                        \
-     uint32_t i;                                           \
-@@ -3118,13 +3120,13 @@ GEN_VEXT_VF(vfrsub_vf_d, 8)
- static uint32_t vfwadd16(uint16_t a, uint16_t b, float_status *s)
- {
-     return float32_add(float16_to_float32(a, true, s),
--            float16_to_float32(b, true, s), s);
-+                       float16_to_float32(b, true, s), s);
+                   void *vs2, CPURISCVState *env,            \
+@@ -2168,7 +2171,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,     \
+                  do_##NAME, ESZ);                               \
  }
  
- static uint64_t vfwadd32(uint32_t a, uint32_t b, float_status *s)
+-static inline uint8_t saddu8(CPURISCVState *env, int vxrm, uint8_t a, uint8_t b)
++static inline uint8_t saddu8(CPURISCVState *env, int vxrm, uint8_t a,
++                             uint8_t b)
  {
-     return float64_add(float32_to_float64(a, s),
--            float32_to_float64(b, s), s);
-+                       float32_to_float64(b, s), s);
- 
+     uint8_t res = a + b;
+     if (res < a) {
+@@ -2312,7 +2316,8 @@ static inline int8_t sadd8(CPURISCVState *env, int vxrm, int8_t a, int8_t b)
+     return res;
  }
  
-@@ -3140,13 +3142,13 @@ GEN_VEXT_VF(vfwadd_vf_w, 8)
- static uint32_t vfwsub16(uint16_t a, uint16_t b, float_status *s)
+-static inline int16_t sadd16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
++static inline int16_t sadd16(CPURISCVState *env, int vxrm, int16_t a,
++                             int16_t b)
  {
-     return float32_sub(float16_to_float32(a, true, s),
--            float16_to_float32(b, true, s), s);
-+                       float16_to_float32(b, true, s), s);
+     int16_t res = a + b;
+     if ((res ^ a) & (res ^ b) & INT16_MIN) {
+@@ -2322,7 +2327,8 @@ static inline int16_t sadd16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
+     return res;
  }
  
- static uint64_t vfwsub32(uint32_t a, uint32_t b, float_status *s)
+-static inline int32_t sadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
++static inline int32_t sadd32(CPURISCVState *env, int vxrm, int32_t a,
++                             int32_t b)
  {
-     return float64_sub(float32_to_float64(a, s),
--            float32_to_float64(b, s), s);
-+                       float32_to_float64(b, s), s);
- 
+     int32_t res = a + b;
+     if ((res ^ a) & (res ^ b) & INT32_MIN) {
+@@ -2332,7 +2338,8 @@ static inline int32_t sadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
+     return res;
  }
  
-@@ -3250,13 +3252,13 @@ GEN_VEXT_VF(vfrdiv_vf_d, 8)
- static uint32_t vfwmul16(uint16_t a, uint16_t b, float_status *s)
+-static inline int64_t sadd64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
++static inline int64_t sadd64(CPURISCVState *env, int vxrm, int64_t a,
++                             int64_t b)
  {
-     return float32_mul(float16_to_float32(a, true, s),
--            float16_to_float32(b, true, s), s);
-+                       float16_to_float32(b, true, s), s);
+     int64_t res = a + b;
+     if ((res ^ a) & (res ^ b) & INT64_MIN) {
+@@ -2360,7 +2367,8 @@ GEN_VEXT_VX_RM(vsadd_vx_h, 2)
+ GEN_VEXT_VX_RM(vsadd_vx_w, 4)
+ GEN_VEXT_VX_RM(vsadd_vx_d, 8)
+ 
+-static inline uint8_t ssubu8(CPURISCVState *env, int vxrm, uint8_t a, uint8_t b)
++static inline uint8_t ssubu8(CPURISCVState *env, int vxrm, uint8_t a,
++                             uint8_t b)
+ {
+     uint8_t res = a - b;
+     if (res > a) {
+@@ -2431,7 +2439,8 @@ static inline int8_t ssub8(CPURISCVState *env, int vxrm, int8_t a, int8_t b)
+     return res;
  }
  
- static uint64_t vfwmul32(uint32_t a, uint32_t b, float_status *s)
+-static inline int16_t ssub16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
++static inline int16_t ssub16(CPURISCVState *env, int vxrm, int16_t a,
++                             int16_t b)
  {
-     return float64_mul(float32_to_float64(a, s),
--            float32_to_float64(b, s), s);
-+                       float32_to_float64(b, s), s);
- 
- }
- RVVCALL(OPFVV2, vfwmul_vv_h, WOP_UUU_H, H4, H2, H2, vfwmul16)
-@@ -3271,7 +3273,7 @@ GEN_VEXT_VF(vfwmul_vf_w, 8)
- /* Vector Single-Width Floating-Point Fused Multiply-Add Instructions */
- #define OPFVV3(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)       \
- static void do_##NAME(void *vd, void *vs1, void *vs2, int i,       \
--        CPURISCVState *env)                                        \
-+                      CPURISCVState *env)                          \
- {                                                                  \
-     TX1 s1 = *((T1 *)vs1 + HS1(i));                                \
-     TX2 s2 = *((T2 *)vs2 + HS2(i));                                \
-@@ -3303,7 +3305,7 @@ GEN_VEXT_VV_ENV(vfmacc_vv_d, 8)
- 
- #define OPFVF3(NAME, TD, T1, T2, TX1, TX2, HD, HS2, OP)           \
- static void do_##NAME(void *vd, uint64_t s1, void *vs2, int i,    \
--        CPURISCVState *env)                                       \
-+                      CPURISCVState *env)                         \
- {                                                                 \
-     TX2 s2 = *((T2 *)vs2 + HS2(i));                               \
-     TD d = *((TD *)vd + HD(i));                                   \
-@@ -3319,20 +3321,20 @@ GEN_VEXT_VF(vfmacc_vf_d, 8)
- 
- static uint16_t fnmacc16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
- {
--    return float16_muladd(a, b, d,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float16_muladd(a, b, d, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
+     int16_t res = a - b;
+     if ((res ^ a) & (a ^ b) & INT16_MIN) {
+@@ -2441,7 +2450,8 @@ static inline int16_t ssub16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
+     return res;
  }
  
- static uint32_t fnmacc32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
+-static inline int32_t ssub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
++static inline int32_t ssub32(CPURISCVState *env, int vxrm, int32_t a,
++                             int32_t b)
  {
--    return float32_muladd(a, b, d,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float32_muladd(a, b, d, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
+     int32_t res = a - b;
+     if ((res ^ a) & (a ^ b) & INT32_MIN) {
+@@ -2451,7 +2461,8 @@ static inline int32_t ssub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
+     return res;
  }
  
- static uint64_t fnmacc64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
+-static inline int64_t ssub64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
++static inline int64_t ssub64(CPURISCVState *env, int vxrm, int64_t a,
++                             int64_t b)
  {
--    return float64_muladd(a, b, d,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float64_muladd(a, b, d, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
+     int64_t res = a - b;
+     if ((res ^ a) & (a ^ b) & INT64_MIN) {
+@@ -2507,7 +2518,8 @@ static inline uint8_t get_round(int vxrm, uint64_t v, uint8_t shift)
+     return 0; /* round-down (truncate) */
  }
  
- RVVCALL(OPFVV3, vfnmacc_vv_h, OP_UUU_H, H2, H2, H2, fnmacc16)
-@@ -3434,20 +3436,20 @@ GEN_VEXT_VF(vfmadd_vf_d, 8)
- 
- static uint16_t fnmadd16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
+-static inline int32_t aadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
++static inline int32_t aadd32(CPURISCVState *env, int vxrm, int32_t a,
++                             int32_t b)
  {
--    return float16_muladd(d, b, a,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float16_muladd(d, b, a, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
+     int64_t res = (int64_t)a + b;
+     uint8_t round = get_round(vxrm, res, 1);
+@@ -2515,7 +2527,8 @@ static inline int32_t aadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
+     return (res >> 1) + round;
  }
  
- static uint32_t fnmadd32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
+-static inline int64_t aadd64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
++static inline int64_t aadd64(CPURISCVState *env, int vxrm, int64_t a,
++                             int64_t b)
  {
--    return float32_muladd(d, b, a,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float32_muladd(d, b, a, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
+     int64_t res = a + b;
+     uint8_t round = get_round(vxrm, res, 1);
+@@ -2580,7 +2593,8 @@ GEN_VEXT_VX_RM(vaaddu_vx_h, 2)
+ GEN_VEXT_VX_RM(vaaddu_vx_w, 4)
+ GEN_VEXT_VX_RM(vaaddu_vx_d, 8)
+ 
+-static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
++static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a,
++                             int32_t b)
+ {
+     int64_t res = (int64_t)a - b;
+     uint8_t round = get_round(vxrm, res, 1);
+@@ -2588,7 +2602,8 @@ static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
+     return (res >> 1) + round;
  }
  
- static uint64_t fnmadd64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
+-static inline int64_t asub64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
++static inline int64_t asub64(CPURISCVState *env, int vxrm, int64_t a,
++                             int64_t b)
  {
--    return float64_muladd(d, b, a,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float64_muladd(d, b, a, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
- }
+     int64_t res = (int64_t)a - b;
+     uint8_t round = get_round(vxrm, res, 1);
+@@ -4501,7 +4516,9 @@ RVVCALL(OPFVV1, vfwcvt_x_f_v_w, WOP_UU_W, H8, H4, float32_to_int64)
+ GEN_VEXT_V_ENV(vfwcvt_x_f_v_h, 4)
+ GEN_VEXT_V_ENV(vfwcvt_x_f_v_w, 8)
  
- RVVCALL(OPFVV3, vfnmadd_vv_h, OP_UUU_H, H2, H2, H2, fnmadd16)
-@@ -3523,13 +3525,13 @@ GEN_VEXT_VF(vfnmsub_vf_d, 8)
- static uint32_t fwmacc16(uint16_t a, uint16_t b, uint32_t d, float_status *s)
+-/* vfwcvt.f.xu.v vd, vs2, vm # Convert unsigned integer to double-width float */
++/*
++ * vfwcvt.f.xu.v vd, vs2, vm # Convert unsigned integer to double-width float.
++ */
+ RVVCALL(OPFVV1, vfwcvt_f_xu_v_b, WOP_UU_B, H2, H1, uint8_to_float16)
+ RVVCALL(OPFVV1, vfwcvt_f_xu_v_h, WOP_UU_H, H4, H2, uint16_to_float32)
+ RVVCALL(OPFVV1, vfwcvt_f_xu_v_w, WOP_UU_W, H8, H4, uint32_to_float64)
+@@ -4518,8 +4535,7 @@ GEN_VEXT_V_ENV(vfwcvt_f_x_v_h, 4)
+ GEN_VEXT_V_ENV(vfwcvt_f_x_v_w, 8)
+ 
+ /*
+- * vfwcvt.f.f.v vd, vs2, vm
+- * Convert single-width float to double-width float.
++ * vfwcvt.f.f.v vd, vs2, vm # Convert single-width float to double-width float.
+  */
+ static uint32_t vfwcvtffv16(uint16_t a, float_status *s)
  {
-     return float32_muladd(float16_to_float32(a, true, s),
--                        float16_to_float32(b, true, s), d, 0, s);
-+                          float16_to_float32(b, true, s), d, 0, s);
- }
+@@ -4552,7 +4568,9 @@ GEN_VEXT_V_ENV(vfncvt_x_f_w_b, 1)
+ GEN_VEXT_V_ENV(vfncvt_x_f_w_h, 2)
+ GEN_VEXT_V_ENV(vfncvt_x_f_w_w, 4)
  
- static uint64_t fwmacc32(uint32_t a, uint32_t b, uint64_t d, float_status *s)
- {
-     return float64_muladd(float32_to_float64(a, s),
--                        float32_to_float64(b, s), d, 0, s);
-+                          float32_to_float64(b, s), d, 0, s);
- }
+-/* vfncvt.f.xu.v vd, vs2, vm # Convert double-width unsigned integer to float */
++/*
++ * vfncvt.f.xu.v vd, vs2, vm # Convert double-width unsigned integer to float.
++ */
+ RVVCALL(OPFVV1, vfncvt_f_xu_w_h, NOP_UU_H, H2, H4, uint32_to_float16)
+ RVVCALL(OPFVV1, vfncvt_f_xu_w_w, NOP_UU_W, H4, H8, uint64_to_float32)
+ GEN_VEXT_V_ENV(vfncvt_f_xu_w_h, 2)
+@@ -4702,14 +4720,20 @@ GEN_VEXT_FRED(vfredosum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
+ GEN_VEXT_FRED(vfredosum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
  
- RVVCALL(OPFVV3, vfwmacc_vv_h, WOP_UUU_H, H4, H2, H2, fwmacc16)
-@@ -3544,15 +3546,16 @@ GEN_VEXT_VF(vfwmacc_vf_w, 8)
- static uint32_t fwnmacc16(uint16_t a, uint16_t b, uint32_t d, float_status *s)
- {
-     return float32_muladd(float16_to_float32(a, true, s),
--                        float16_to_float32(b, true, s), d,
--                        float_muladd_negate_c | float_muladd_negate_product, s);
-+                          float16_to_float32(b, true, s), d,
-+                          float_muladd_negate_c | float_muladd_negate_product,
-+                          s);
- }
+ /* Maximum value */
+-GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maximum_number)
+-GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4, float32_maximum_number)
+-GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8, float64_maximum_number)
++GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2,
++              float16_maximum_number)
++GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4,
++              float32_maximum_number)
++GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8,
++              float64_maximum_number)
  
- static uint64_t fwnmacc32(uint32_t a, uint32_t b, uint64_t d, float_status *s)
- {
--    return float64_muladd(float32_to_float64(a, s),
--                        float32_to_float64(b, s), d,
--                        float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float64_muladd(float32_to_float64(a, s), float32_to_float64(b, s),
-+                          d, float_muladd_negate_c |
-+                             float_muladd_negate_product, s);
- }
+ /* Minimum value */
+-GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2, float16_minimum_number)
+-GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4, float32_minimum_number)
+-GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, float64_minimum_number)
++GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2,
++              float16_minimum_number)
++GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4,
++              float32_minimum_number)
++GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8,
++              float64_minimum_number)
  
- RVVCALL(OPFVV3, vfwnmacc_vv_h, WOP_UUU_H, H4, H2, H2, fwnmacc16)
-@@ -3567,15 +3570,15 @@ GEN_VEXT_VF(vfwnmacc_vf_w, 8)
- static uint32_t fwmsac16(uint16_t a, uint16_t b, uint32_t d, float_status *s)
- {
-     return float32_muladd(float16_to_float32(a, true, s),
--                        float16_to_float32(b, true, s), d,
--                        float_muladd_negate_c, s);
-+                          float16_to_float32(b, true, s), d,
-+                          float_muladd_negate_c, s);
- }
- 
- static uint64_t fwmsac32(uint32_t a, uint32_t b, uint64_t d, float_status *s)
- {
-     return float64_muladd(float32_to_float64(a, s),
--                        float32_to_float64(b, s), d,
--                        float_muladd_negate_c, s);
-+                          float32_to_float64(b, s), d,
-+                          float_muladd_negate_c, s);
- }
- 
- RVVCALL(OPFVV3, vfwmsac_vv_h, WOP_UUU_H, H4, H2, H2, fwmsac16)
-@@ -3590,15 +3593,15 @@ GEN_VEXT_VF(vfwmsac_vf_w, 8)
- static uint32_t fwnmsac16(uint16_t a, uint16_t b, uint32_t d, float_status *s)
- {
-     return float32_muladd(float16_to_float32(a, true, s),
--                        float16_to_float32(b, true, s), d,
--                        float_muladd_negate_product, s);
-+                          float16_to_float32(b, true, s), d,
-+                          float_muladd_negate_product, s);
- }
- 
- static uint64_t fwnmsac32(uint32_t a, uint32_t b, uint64_t d, float_status *s)
- {
-     return float64_muladd(float32_to_float64(a, s),
--                        float32_to_float64(b, s), d,
--                        float_muladd_negate_product, s);
-+                          float32_to_float64(b, s), d,
-+                          float_muladd_negate_product, s);
- }
- 
- RVVCALL(OPFVV3, vfwnmsac_vv_h, WOP_UUU_H, H4, H2, H2, fwnmsac16)
-@@ -3616,9 +3619,9 @@ GEN_VEXT_VF(vfwnmsac_vf_w, 8)
- #define OP_UU_W uint32_t, uint32_t, uint32_t
- #define OP_UU_D uint64_t, uint64_t, uint64_t
- 
--#define OPFVV1(NAME, TD, T2, TX2, HD, HS2, OP)        \
-+#define OPFVV1(NAME, TD, T2, TX2, HD, HS2, OP)         \
- static void do_##NAME(void *vd, void *vs2, int i,      \
--        CPURISCVState *env)                            \
-+                      CPURISCVState *env)              \
- {                                                      \
-     TX2 s2 = *((T2 *)vs2 + HS2(i));                    \
-     *((TD *)vd + HD(i)) = OP(s2, &env->fp_status);     \
-@@ -3626,7 +3629,7 @@ static void do_##NAME(void *vd, void *vs2, int i,      \
- 
- #define GEN_VEXT_V_ENV(NAME, ESZ)                      \
- void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
--        CPURISCVState *env, uint32_t desc)             \
-+                  CPURISCVState *env, uint32_t desc)   \
- {                                                      \
-     uint32_t vm = vext_vm(desc);                       \
-     uint32_t vl = env->vl;                             \
-@@ -3703,9 +3706,9 @@ static uint64_t frsqrt7(uint64_t f, int exp_size, int frac_size)
-     }
- 
-     int idx = ((exp & 1) << (precision - 1)) |
--                (frac >> (frac_size - precision + 1));
-+              (frac >> (frac_size - precision + 1));
-     uint64_t out_frac = (uint64_t)(lookup_table[idx]) <<
--                            (frac_size - precision);
-+                        (frac_size - precision);
-     uint64_t out_exp = (3 * MAKE_64BIT_MASK(0, exp_size - 1) + ~exp) / 2;
- 
-     uint64_t val = 0;
-@@ -3727,9 +3730,9 @@ static float16 frsqrt7_h(float16 f, float_status *s)
-      * frsqrt7(-subnormal) = canonical NaN
-      */
-     if (float16_is_signaling_nan(f, s) ||
--            (float16_is_infinity(f) && sign) ||
--            (float16_is_normal(f) && sign) ||
--            (float16_is_zero_or_denormal(f) && !float16_is_zero(f) && sign)) {
-+        (float16_is_infinity(f) && sign) ||
-+        (float16_is_normal(f) && sign) ||
-+        (float16_is_zero_or_denormal(f) && !float16_is_zero(f) && sign)) {
-         s->float_exception_flags |= float_flag_invalid;
-         return float16_default_nan(s);
-     }
-@@ -3767,9 +3770,9 @@ static float32 frsqrt7_s(float32 f, float_status *s)
-      * frsqrt7(-subnormal) = canonical NaN
-      */
-     if (float32_is_signaling_nan(f, s) ||
--            (float32_is_infinity(f) && sign) ||
--            (float32_is_normal(f) && sign) ||
--            (float32_is_zero_or_denormal(f) && !float32_is_zero(f) && sign)) {
-+        (float32_is_infinity(f) && sign) ||
-+        (float32_is_normal(f) && sign) ||
-+        (float32_is_zero_or_denormal(f) && !float32_is_zero(f) && sign)) {
-         s->float_exception_flags |= float_flag_invalid;
-         return float32_default_nan(s);
-     }
-@@ -3807,9 +3810,9 @@ static float64 frsqrt7_d(float64 f, float_status *s)
-      * frsqrt7(-subnormal) = canonical NaN
-      */
-     if (float64_is_signaling_nan(f, s) ||
--            (float64_is_infinity(f) && sign) ||
--            (float64_is_normal(f) && sign) ||
--            (float64_is_zero_or_denormal(f) && !float64_is_zero(f) && sign)) {
-+        (float64_is_infinity(f) && sign) ||
-+        (float64_is_normal(f) && sign) ||
-+        (float64_is_zero_or_denormal(f) && !float64_is_zero(f) && sign)) {
-         s->float_exception_flags |= float_flag_invalid;
-         return float64_default_nan(s);
-     }
-@@ -3897,18 +3900,18 @@ static uint64_t frec7(uint64_t f, int exp_size, int frac_size,
-                 ((s->float_rounding_mode == float_round_up) && sign)) {
-                 /* Return greatest/negative finite value. */
-                 return (sign << (exp_size + frac_size)) |
--                    (MAKE_64BIT_MASK(frac_size, exp_size) - 1);
-+                       (MAKE_64BIT_MASK(frac_size, exp_size) - 1);
-             } else {
-                 /* Return +-inf. */
-                 return (sign << (exp_size + frac_size)) |
--                    MAKE_64BIT_MASK(frac_size, exp_size);
-+                       MAKE_64BIT_MASK(frac_size, exp_size);
-             }
-         }
-     }
- 
-     int idx = frac >> (frac_size - precision);
-     uint64_t out_frac = (uint64_t)(lookup_table[idx]) <<
--                            (frac_size - precision);
-+                        (frac_size - precision);
-     uint64_t out_exp = 2 * MAKE_64BIT_MASK(0, exp_size - 1) + ~exp;
- 
-     if (out_exp == 0 || out_exp == UINT64_MAX) {
-@@ -4422,8 +4425,8 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2, \
-                                                               \
-     for (i = env->vstart; i < vl; i++) {                      \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
--        *((ETYPE *)vd + H(i))                                 \
--          = (!vm && !vext_elem_mask(v0, i) ? s2 : s1);        \
-+        *((ETYPE *)vd + H(i)) =                               \
-+            (!vm && !vext_elem_mask(v0, i) ? s2 : s1);        \
-     }                                                         \
-     env->vstart = 0;                                          \
-     /* set tail elements to 1s */                             \
-@@ -4564,7 +4567,8 @@ GEN_VEXT_V_ENV(vfncvt_f_f_w_w, 4)
- /* Vector Single-Width Integer Reduction Instructions */
- #define GEN_VEXT_RED(NAME, TD, TS2, HD, HS2, OP)          \
- void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
--        void *vs2, CPURISCVState *env, uint32_t desc)     \
-+                  void *vs2, CPURISCVState *env,          \
-+                  uint32_t desc)                          \
- {                                                         \
-     uint32_t vm = vext_vm(desc);                          \
-     uint32_t vl = env->vl;                                \
-@@ -5013,7 +5017,8 @@ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_d, uint64_t, H8)
- 
- #define GEN_VEXT_VSLIE1UP(BITWIDTH, H)                                      \
- static void vslide1up_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
--                     void *vs2, CPURISCVState *env, uint32_t desc)          \
-+                                 void *vs2, CPURISCVState *env,             \
-+                                 uint32_t desc)                             \
- {                                                                           \
-     typedef uint##BITWIDTH##_t ETYPE;                                       \
-     uint32_t vm = vext_vm(desc);                                            \
-@@ -5061,7 +5066,8 @@ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_d, 64)
- 
- #define GEN_VEXT_VSLIDE1DOWN(BITWIDTH, H)                                     \
- static void vslide1down_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
--                       void *vs2, CPURISCVState *env, uint32_t desc)          \
-+                                   void *vs2, CPURISCVState *env,             \
-+                                   uint32_t desc)                             \
- {                                                                             \
-     typedef uint##BITWIDTH##_t ETYPE;                                         \
-     uint32_t vm = vext_vm(desc);                                              \
+ /* Vector Widening Floating-Point Add Instructions */
+ static uint32_t fwadd16(uint32_t a, uint16_t b, float_status *s)
 -- 
 2.25.1
 
