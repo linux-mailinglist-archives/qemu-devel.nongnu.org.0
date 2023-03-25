@@ -1,74 +1,74 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80EE6C8E50
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 13:57:20 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C7A6C8DAC
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 12:55:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pg3Qr-0006K9-8r; Sat, 25 Mar 2023 08:55:41 -0400
+	id 1pg2UD-0000Jr-3m; Sat, 25 Mar 2023 07:55:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pg3Ql-0006K1-NH
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 08:55:35 -0400
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b])
+ id 1pg2U9-0000IL-Uh
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:55:01 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pg3Qk-0004P2-AD
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 08:55:35 -0400
-Received: by mail-vs1-xe2b.google.com with SMTP id f23so3672666vsv.13
- for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 05:55:33 -0700 (PDT)
+ id 1pg2U5-0008Fh-5V
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:54:59 -0400
+Received: by mail-pl1-x636.google.com with SMTP id le6so4108383plb.12
+ for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 04:54:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679748929;
+ d=linaro.org; s=google; t=1679745295;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WwnkfiTTd5TTKSiO/WBujmarOe5J9cJn8z3oPthnwl0=;
- b=Iq+IW3gL5mg2gXyPuz9Pb4QTHGclnsd8GqcdJ7VmkbR2iOmSpLpQajcyXWoNDfvNDz
- /PSTnWyzdWMnjl48uv8NlIPshqrsw+a9M+lha3Be1UjD5P3P192WGl9JytRBi6PM10v2
- j1L3K7MM4t2LjjuBsHz4uhCCIVHNGw5wubsm+t45MHgTmmmDh2+8gY66yIgWEVzy8U3J
- Mrb+uWmVP3Mb37CLDHp/HJMzzlaJU8rHjI2peCSPHAEkr/bGlJ5GeWv3ocEl2v4aSos/
- DO+v8MtlSHO2Y43L8+Mz8+OHHc/f9vP3esG7PWhFBH6Xl0CHpvIGGKWHcMVn7kTgarR8
- DM5w==
+ bh=yZzGkDNKJyeVgH+y0I2Kdzln5emHM1louuJn4iuK370=;
+ b=yzZ3MNI87qMvqu725hpwhf8eqGWpOxiRe5wjfWgT0pT0OCf2fbx2hV/30/7r4aVDii
+ xrPuEXrMis/pMcnlIodvHgMrtZk1NScM5sU5nLF5LpKwkJuEFnikNaxdYAGCp5coh7TR
+ x86NWnYVaM20+599OD6BCXLAyaj3F/AZig8Qp/cEJ2Bkifm6OznounvngGW0zU2i/AeB
+ dwhyeEMvOeGejK92UDhtxU3Hx5KxxYOThnzKthkA+cJtVsH2dyXT1k7kqldsTG2FE70M
+ HBT9ES/PR1zsvlvZXzEVS9UKIo4LvCXqPvUHRFxeV11C2CxrPH35v2LbVVF4pU/4erLo
+ ZzTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679748929;
+ d=1e100.net; s=20210112; t=1679745295;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WwnkfiTTd5TTKSiO/WBujmarOe5J9cJn8z3oPthnwl0=;
- b=XefI0QSBkkYMrWkUnocFo0hIQuwf6iyQSYp71CjjMKQFHqimnRCtX/LRlg7DfHUX3M
- cY9JbavpUlOu19flmx3b04Zrwa/JzSdbwJ96D8t7N9RLJYJqAiPYeZNBObsTyd8GwYKD
- sdxSw1qBuzS021mLMaEQHuX/9Q5MUo3M6cqPI4OxuOnS8P3xEHacqM1IWe5kQsT2J/Yu
- uZMln50aWgp6FPFMX57+k3hIDLKUbUcupdEXWdSevSxJrMi4Pm03VPazHe12bvjZkOCb
- weieRO+Nw0qfMmmoC5+VwHyIkYlk2tC6W9hMu/JiEQfp9WIXUAjaoILeMKzWTVGN5Fr0
- OKHA==
-X-Gm-Message-State: AAQBX9dIhucUS151LzP7F7qK+KBnGUJERatzY0LcmR9F4WmmuMucbCjz
- guhKwrjM/jQNAjoDOChyqve5R/Qfx8OiiJw14UI=
-X-Google-Smtp-Source: AKy350b7Y0GWSfDMf93LgRAABRVPWozNxPnS+tDz3nC603tp7+q+TP0714hu6Isil6FWSzyJ32qrIQ==
-X-Received: by 2002:a17:90a:10d7:b0:234:f77:d6d2 with SMTP id
- b23-20020a17090a10d700b002340f77d6d2mr5737663pje.45.1679741689325; 
- Sat, 25 Mar 2023 03:54:49 -0700 (PDT)
+ bh=yZzGkDNKJyeVgH+y0I2Kdzln5emHM1louuJn4iuK370=;
+ b=2cHtlHXxzYQjH1MMR7C98hY4tHyi7OSWgAQz0OrCscwP1HYi3cw/KXXeGzaihSIf1C
+ fLXyXIM3Gi/i9qVFpDMcWfJqNkkL6wI9GaSEQ1//+4/dcHK+JD0Mkina65V/YewRbWVq
+ DCoSySCgWvJTKrE3pxnpDuQgTjEg4PCkHhmPnWhAnj5D916/AdbY6/czI0f115bOZ0mB
+ Sv8ibuz5e6WhcfygXLizrSVPtyoBoDmw80FA7diJPtEPyXQK5dd7YzKjIeamneXme1So
+ f5yFNQij3Sem6xSEWHcB7r+jj71v4/kZjcoT1SiDx5VFF4RTzJzm1ZJysmQYZRx7rt+j
+ lkPg==
+X-Gm-Message-State: AAQBX9fQTnimV54xZU7nO15Uf97U3/sWOonpll/jnO7zVHL99dgseJt/
+ abH6fXIyvcJ5SIFPLQ+G2R/9CkJuODuoQL+Htss=
+X-Google-Smtp-Source: AKy350bsP7N35nJaG94eCYNQ7+K0szm96jbzCnBmDuHwiJprQvwPZpdF24CGaPT65CdwMU6W7Yr66w==
+X-Received: by 2002:a17:90a:181:b0:23f:7c82:2468 with SMTP id
+ 1-20020a17090a018100b0023f7c822468mr6193690pjc.31.1679741690150; 
+ Sat, 25 Mar 2023 03:54:50 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1544:6601:790a:6e23:4a91:70a])
  by smtp.gmail.com with ESMTPSA id
- p14-20020a17090a2d8e00b0023af4eb597csm1234684pjd.52.2023.03.25.03.54.48
+ p14-20020a17090a2d8e00b0023af4eb597csm1234684pjd.52.2023.03.25.03.54.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Mar 2023 03:54:48 -0700 (PDT)
+ Sat, 25 Mar 2023 03:54:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, palmer@dabbelt.com,
  zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com
-Subject: [PATCH v6 21/25] target/riscv: Suppress pte update with is_debug
-Date: Sat, 25 Mar 2023 03:54:25 -0700
-Message-Id: <20230325105429.1142530-22-richard.henderson@linaro.org>
+Subject: [PATCH v6 22/25] target/riscv: Don't modify SUM with is_debug
+Date: Sat, 25 Mar 2023 03:54:26 -0700
+Message-Id: <20230325105429.1142530-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230325105429.1142530-1-richard.henderson@linaro.org>
 References: <20230325105429.1142530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,7 +91,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The debugger should not modify PTE_A or PTE_D.
+If we want to give the debugger a greater view of memory than
+the cpu, we should simply disable the access check entirely,
+not simply for this one corner case.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
@@ -99,18 +101,18 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index ce12dcec1d..b26840e46c 100644
+index b26840e46c..850817edfd 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -1015,7 +1015,7 @@ restart:
-                 (access_type == MMU_DATA_STORE ? PTE_D : 0);
- 
-     /* Page table updates need to be atomic with MTTCG enabled */
--    if (updated_pte != pte) {
-+    if (updated_pte != pte && !is_debug) {
-         if (!hade) {
-             return TRANSLATE_FAIL;
+@@ -837,7 +837,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
          }
+         widened = 2;
+     }
+-    sum = mmuidx_sum(mmu_idx) || is_debug;
++    sum = mmuidx_sum(mmu_idx);
+     switch (vm) {
+     case VM_1_10_SV32:
+       levels = 2; ptidxbits = 10; ptesize = 4; break;
 -- 
 2.34.1
 
