@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB3D6C8F3D
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 16:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C8E6C8F49
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 17:03:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pg6Cn-0005Uv-QH; Sat, 25 Mar 2023 11:53:22 -0400
+	id 1pg6Jy-0007Tt-1E; Sat, 25 Mar 2023 12:00:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fufuyqqqqqq@gmail.com>)
- id 1pg2ii-00037N-3z; Sat, 25 Mar 2023 08:10:04 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pg6Jn-0007QW-NS
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 12:00:36 -0400
+Received: from mail-ua1-f50.google.com ([209.85.222.50])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fufuyqqqqqq@gmail.com>)
- id 1pg2if-00009h-L2; Sat, 25 Mar 2023 08:10:03 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id s12so362268qtx.11;
- Sat, 25 Mar 2023 05:10:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pg6Jl-0004Xd-Gu
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 12:00:35 -0400
+Received: by mail-ua1-f50.google.com with SMTP id s23so3443318uae.5
+ for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 09:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679746200;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nIk4Ftu5LpbIyNP7uODmVFJADX/1dskgtVg2XJ97txU=;
- b=mIY3wMT9bI2lUErkO0gSvEdjGOJtVatlEPMXF8B0XYMb9mLqJrar/pzSfdrdf2QN6g
- d7W8XlqDJ/OunLJHxuVNvfJDWbQs0cydDcS79LOfleUZad/gODUU3Az+qBnOuujvsIRN
- 6yKClxBJVkJ6a34eLcAV5nHxi8aYoFM2zcABmAPQLxm2Y6/AakBblJLJhpWBuyC0Jjse
- tGcrD9hJY1YZcPg2kZl2fHGyf0Pbnk+RLzsQgsW7BuijP616/1o9vch2mjxB/wU1/VXb
- Yb64WicQsERynbaDCyCUkF6uh7z7yA2OAoY63toJMU2ZakD9BsGSs2hxQL7qW7GRPFpa
- QxTA==
+ d=linaro.org; s=google; t=1679760022;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Db2qT2jh78jwLCtmu1Fy3YVg9jzge5vvujRcJ1Hc/vE=;
+ b=kXMiZnagFXwsVtCKTtMjnKCE0IL7E3o3Vo48wGQ9S1lzON3GNI/VLoGDuv2qsiQCUj
+ /vEVwCK2yLDZj8QR0GKQOkj6T/ZvdWxw6RP4ZgVrIWCSnmnaxTo3ugfo6muztuYZoZcZ
+ zJbEkcyxvS8s59TBnDHSRC2uiiDNa6rHp5JdSgGoSGSks00ERVEUQpLLdRuISTwBn29n
+ hXz7rH7xuaU3+sUx6W6eCJtPt/oySxG/bXwIYeL/BlEg/9sSV2w3B//peSU3T/wKqXSz
+ oitxbF12CmHQ5J5ww7Fb1AZEyr/BB1X7zUZtP27dNXGjYm+zg1Aaseltp80+mbeUObYc
+ m/WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679746200;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nIk4Ftu5LpbIyNP7uODmVFJADX/1dskgtVg2XJ97txU=;
- b=O0B66uRfSvghxBAIJeKTyLsvxXmu3KOf3ioNvKOMgJZUxQgKFF20ZvUkCjV+NRg50s
- nPXewj8HBHK+ln9qsRR6Q5t1JwOvrnGrQmR6MenB54NGJvqgF2KwvqXsaZNzVorAglkY
- 4iJmpRxx6kG7T7OLFg0oU7OQ632qzQTCQOPNWnU3jbNkpYas3BB1VBr+rj+TwpXwo5Y1
- Xmx2PM07EyDrpCQitMyMuy7oq1KV02gQz1BB5+rw3Z5GdH7j+xcserRl1oNMEvfuoNgT
- Ns5EYnX6C69s1v30xmGJsVAqGGNrInt0RY7bsK6ffNiY1bCcyYkPdU5hSQLPXRCzGbTC
- Kwfw==
-X-Gm-Message-State: AAQBX9dR/vuz/CcIa3MKj7Cx18ZONhRl6qHnTBqMphLTXv0NTeO6Lw5E
- o8uVrPHMKd3x5sABtVS3YiIUKNyzzllYw7miHkM=
-X-Google-Smtp-Source: AKy350YrNFm96uuGF3CJ/UugnJbYpvENsxheIjamQ1I9Z4BPOv2PmvTiGTlv/qhxKLbe1g1ZRKAKXQ==
-X-Received: by 2002:a17:902:e5cf:b0:19a:c65d:f90 with SMTP id
- u15-20020a170902e5cf00b0019ac65d0f90mr6005881plf.44.1679734353281; 
- Sat, 25 Mar 2023 01:52:33 -0700 (PDT)
-Received: from localhost.localdomain ([2409:8900:c84:a112:bd7b:48e3:7174:ae1e])
+ d=1e100.net; s=20210112; t=1679760022;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Db2qT2jh78jwLCtmu1Fy3YVg9jzge5vvujRcJ1Hc/vE=;
+ b=1dYq+GxDCxkaEruQDF/SqSl0gcvHkqw7RjNbysTFfsbeO5g8oEnE9e48xhplJzZ4EW
+ imBTkQiSQN5a8Ap9eBlCpgIK/4nNij/3jD21pfpaJrDOT0pflKAyoYggSejvILDvYBs1
+ 7mcEnsmD/6NpmkwMBmSBp5uEoHWs2T8QTlPpe0A6RxwjfUC/q96YndS1C6Mo/IpaPxUA
+ R2Q/8V0vtK3WcBVP9CDlCUWZNuU14r1eyl7mm6pFg60oxdFh2WkY+scOUZDHgslvRmfK
+ JsjxV0lvTOD6n0yPG70gWQLxzAUO0c2y90eYBJzTkovkBVbQVl6dyJAFTuc2fRDd8ywu
+ vsiw==
+X-Gm-Message-State: AO0yUKWT1HFjfMNkK1UOu1fwItCRUs9kxusiYLHgNElquz173OkmRgbN
+ 6mvIrGL61DRa53Pez1pRL19sJoBCGqtgqVBG+FM=
+X-Google-Smtp-Source: AKy350Zz8F9sKetDdj28HBfzTuBn3+jn0SHhAI3J5tKruinn8i2C91PxlDamEQFpyVK7Z9jr0idxFA==
+X-Received: by 2002:a17:90b:1b0a:b0:23d:2532:ae34 with SMTP id
+ nu10-20020a17090b1b0a00b0023d2532ae34mr5097974pjb.2.1679741688474; 
+ Sat, 25 Mar 2023 03:54:48 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1544:6601:790a:6e23:4a91:70a])
  by smtp.gmail.com with ESMTPSA id
- je9-20020a170903264900b001a065d3ea3bsm15391991plb.295.2023.03.25.01.52.31
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 25 Mar 2023 01:52:32 -0700 (PDT)
-From: Yeqi Fu <fufuyqqqqqq@gmail.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Yeqi Fu <fufuyqqqqqq@gmail.com>
-Subject: [PATCH v3] block: replace TABs with space
-Date: Sat, 25 Mar 2023 16:52:24 +0800
-Message-Id: <20230325085224.23842-1-fufuyqqqqqq@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+ p14-20020a17090a2d8e00b0023af4eb597csm1234684pjd.52.2023.03.25.03.54.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 25 Mar 2023 03:54:48 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, palmer@dabbelt.com,
+ zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com
+Subject: [PATCH v6 20/25] target/riscv: Move leaf pte processing out of level
+ loop
+Date: Sat, 25 Mar 2023 03:54:24 -0700
+Message-Id: <20230325105429.1142530-21-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230325105429.1142530-1-richard.henderson@linaro.org>
+References: <20230325105429.1142530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=fufuyqqqqqq@gmail.com; helo=mail-qt1-x82e.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=209.85.222.50;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ua1-f50.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 25 Mar 2023 11:53:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,418 +92,290 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Bring the block files in line with the QEMU coding style, with spaces
-for indentation. This patch partially resolves the issue 371.
+Move the code that never loops outside of the loop.
+Unchain the if-return-else statements.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/371
-Signed-off-by: Yeqi Fu <fufuyqqqqqq@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- block/bochs.c       |  18 +++----
- block/file-posix.c  | 126 ++++++++++++++++++++++----------------------
- block/file-win32.c  |  66 +++++++++++------------
- block/parallels.c   |  34 ++++++------
- block/qcow.c        |  44 ++++++++--------
- include/block/nbd.h |   2 +-
- 6 files changed, 145 insertions(+), 145 deletions(-)
+ target/riscv/cpu_helper.c | 234 +++++++++++++++++++++-----------------
+ 1 file changed, 127 insertions(+), 107 deletions(-)
 
-diff --git a/block/bochs.c b/block/bochs.c
-index 2f5ae52c90..18f48d2f89 100644
---- a/block/bochs.c
-+++ b/block/bochs.c
-@@ -293,15 +293,15 @@ static void bochs_close(BlockDriverState *bs)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 00f70a3dd5..ce12dcec1d 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -879,6 +879,8 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+     }
+ 
+     int ptshift = (levels - 1) * ptidxbits;
++    target_ulong pte;
++    hwaddr pte_addr;
+     int i;
+ 
+ #if !TCG_OVERSIZED_GUEST
+@@ -895,7 +897,6 @@ restart:
+         }
+ 
+         /* check that physical address of PTE is legal */
+-        hwaddr pte_addr;
+ 
+         if (two_stage && first_stage) {
+             int vbase_prot;
+@@ -927,7 +928,6 @@ restart:
+             return TRANSLATE_PMP_FAIL;
+         }
+ 
+-        target_ulong pte;
+         if (riscv_cpu_mxl(env) == MXL_RV32) {
+             pte = address_space_ldl(cs->as, pte_addr, attrs, &res);
+         } else {
+@@ -952,120 +952,140 @@ restart:
+         if (!(pte & PTE_V)) {
+             /* Invalid PTE */
+             return TRANSLATE_FAIL;
+-        } else if (!pbmte && (pte & PTE_PBMT)) {
++        }
++        if (pte & (PTE_R | PTE_W | PTE_X)) {
++            goto leaf;
++        }
++
++        /* Inner PTE, continue walking */
++        if (pte & (PTE_D | PTE_A | PTE_U | PTE_ATTR)) {
+             return TRANSLATE_FAIL;
+-        } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+-            /* Inner PTE, continue walking */
+-            if (pte & (PTE_D | PTE_A | PTE_U | PTE_ATTR)) {
+-                return TRANSLATE_FAIL;
+-            }
+-            base = ppn << PGSHIFT;
+-        } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
+-            /* Reserved leaf PTE flags: PTE_W */
+-            return TRANSLATE_FAIL;
+-        } else if ((pte & (PTE_R | PTE_W | PTE_X)) == (PTE_W | PTE_X)) {
+-            /* Reserved leaf PTE flags: PTE_W + PTE_X */
+-            return TRANSLATE_FAIL;
+-        } else if ((pte & PTE_U) && ((mode != PRV_U) &&
+-                   (!sum || access_type == MMU_INST_FETCH))) {
+-            /* User PTE flags when not U mode and mstatus.SUM is not set,
+-               or the access type is an instruction fetch */
+-            return TRANSLATE_FAIL;
+-        } else if (!(pte & PTE_U) && (mode != PRV_S)) {
+-            /* Supervisor PTE flags when not S mode */
+-            return TRANSLATE_FAIL;
+-        } else if (ppn & ((1ULL << ptshift) - 1)) {
+-            /* Misaligned PPN */
+-            return TRANSLATE_FAIL;
+-        } else if (access_type == MMU_DATA_LOAD && !((pte & PTE_R) ||
+-                   ((pte & PTE_X) && mxr))) {
+-            /* Read access check failed */
+-            return TRANSLATE_FAIL;
+-        } else if (access_type == MMU_DATA_STORE && !(pte & PTE_W)) {
+-            /* Write access check failed */
+-            return TRANSLATE_FAIL;
+-        } else if (access_type == MMU_INST_FETCH && !(pte & PTE_X)) {
+-            /* Fetch access check failed */
+-            return TRANSLATE_FAIL;
+-        } else {
+-            /* if necessary, set accessed and dirty bits. */
+-            target_ulong updated_pte = pte | PTE_A |
++        }
++        base = ppn << PGSHIFT;
++    }
++
++    /* No leaf pte at any translation level. */
++    return TRANSLATE_FAIL;
++
++ leaf:
++    if (ppn & ((1ULL << ptshift) - 1)) {
++        /* Misaligned PPN */
++        return TRANSLATE_FAIL;
++    }
++    if (!pbmte && (pte & PTE_PBMT)) {
++        /* Reserved without Svpbmt. */
++        return TRANSLATE_FAIL;
++    }
++    if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
++        /* Reserved leaf PTE flags: PTE_W */
++        return TRANSLATE_FAIL;
++    }
++    if ((pte & (PTE_R | PTE_W | PTE_X)) == (PTE_W | PTE_X)) {
++        /* Reserved leaf PTE flags: PTE_W + PTE_X */
++        return TRANSLATE_FAIL;
++    }
++    if ((pte & PTE_U) &&
++        ((mode != PRV_U) && (!sum || access_type == MMU_INST_FETCH))) {
++        /*
++         * User PTE flags when not U mode and mstatus.SUM is not set,
++         * or the access type is an instruction fetch.
++         */
++        return TRANSLATE_FAIL;
++    }
++    if (!(pte & PTE_U) && (mode != PRV_S)) {
++        /* Supervisor PTE flags when not S mode */
++        return TRANSLATE_FAIL;
++    }
++    if (access_type == MMU_DATA_LOAD &&
++        !((pte & PTE_R) || ((pte & PTE_X) && mxr))) {
++        /* Read access check failed */
++        return TRANSLATE_FAIL;
++    }
++    if (access_type == MMU_DATA_STORE && !(pte & PTE_W)) {
++        /* Write access check failed */
++        return TRANSLATE_FAIL;
++    }
++    if (access_type == MMU_INST_FETCH && !(pte & PTE_X)) {
++        /* Fetch access check failed */
++        return TRANSLATE_FAIL;
++    }
++
++    /* If necessary, set accessed and dirty bits. */
++    target_ulong updated_pte = pte | PTE_A |
+                 (access_type == MMU_DATA_STORE ? PTE_D : 0);
+ 
+-            /* Page table updates need to be atomic with MTTCG enabled */
+-            if (updated_pte != pte) {
+-                if (!hade) {
+-                    return TRANSLATE_FAIL;
+-                }
++    /* Page table updates need to be atomic with MTTCG enabled */
++    if (updated_pte != pte) {
++        if (!hade) {
++            return TRANSLATE_FAIL;
++        }
+ 
+-                /*
+-                 * - if accessed or dirty bits need updating, and the PTE is
+-                 *   in RAM, then we do so atomically with a compare and swap.
+-                 * - if the PTE is in IO space or ROM, then it can't be updated
+-                 *   and we return TRANSLATE_FAIL.
+-                 * - if the PTE changed by the time we went to update it, then
+-                 *   it is no longer valid and we must re-walk the page table.
+-                 */
+-                MemoryRegion *mr;
+-                hwaddr l = sizeof(target_ulong), addr1;
+-                mr = address_space_translate(cs->as, pte_addr,
+-                    &addr1, &l, false, MEMTXATTRS_UNSPECIFIED);
+-                if (memory_region_is_ram(mr)) {
+-                    target_ulong *pte_pa =
+-                        qemu_map_ram_ptr(mr->ram_block, addr1);
++        /*
++         * - if accessed or dirty bits need updating, and the PTE is
++         *   in RAM, then we do so atomically with a compare and swap.
++         * - if the PTE is in IO space or ROM, then it can't be updated
++         *   and we return TRANSLATE_FAIL.
++         * - if the PTE changed by the time we went to update it, then
++         *   it is no longer valid and we must re-walk the page table.
++         */
++        MemoryRegion *mr;
++        hwaddr l = sizeof(target_ulong), addr1;
++        mr = address_space_translate(cs->as, pte_addr, &addr1, &l, false,
++                                     MEMTXATTRS_UNSPECIFIED);
++        if (memory_region_is_ram(mr)) {
++            target_ulong *pte_pa = qemu_map_ram_ptr(mr->ram_block, addr1);
+ #if TCG_OVERSIZED_GUEST
+-                    /* MTTCG is not enabled on oversized TCG guests so
+-                     * page table updates do not need to be atomic */
+-                    *pte_pa = pte = updated_pte;
++            /*
++             * MTTCG is not enabled on oversized TCG guests so
++             * page table updates do not need to be atomic.
++             */
++            *pte_pa = pte = updated_pte;
+ #else
+-                    target_ulong old_pte =
+-                        qatomic_cmpxchg(pte_pa, pte, updated_pte);
+-                    if (old_pte != pte) {
+-                        goto restart;
+-                    } else {
+-                        pte = updated_pte;
+-                    }
++            target_ulong old_pte = qatomic_cmpxchg(pte_pa, pte, updated_pte);
++            if (old_pte != pte) {
++                goto restart;
++            }
++            pte = updated_pte;
+ #endif
+-                } else {
+-                    /* misconfigured PTE in ROM (AD bits are not preset) or
+-                     * PTE is in IO space and can't be updated atomically */
+-                    return TRANSLATE_FAIL;
+-                }
+-            }
+-
+-            /* for superpage mappings, make a fake leaf PTE for the TLB's
+-               benefit. */
+-            target_ulong vpn = addr >> PGSHIFT;
+-
+-            if (cpu->cfg.ext_svnapot && (pte & PTE_N)) {
+-                napot_bits = ctzl(ppn) + 1;
+-                if ((i != (levels - 1)) || (napot_bits != 4)) {
+-                    return TRANSLATE_FAIL;
+-                }
+-            }
+-
+-            napot_mask = (1 << napot_bits) - 1;
+-            *physical = (((ppn & ~napot_mask) | (vpn & napot_mask) |
+-                          (vpn & (((target_ulong)1 << ptshift) - 1))
+-                         ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
+-
+-            /* set permissions on the TLB entry */
+-            if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+-                *prot |= PAGE_READ;
+-            }
+-            if ((pte & PTE_X)) {
+-                *prot |= PAGE_EXEC;
+-            }
+-            /* add write permission on stores or if the page is already dirty,
+-               so that we TLB miss on later writes to update the dirty bit */
+-            if ((pte & PTE_W) &&
+-                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+-                *prot |= PAGE_WRITE;
+-            }
+-            return TRANSLATE_SUCCESS;
++        } else {
++            /*
++             * Misconfigured PTE in ROM (AD bits are not preset) or
++             * PTE is in IO space and can't be updated atomically.
++             */
++            return TRANSLATE_FAIL;
+         }
+     }
+-    return TRANSLATE_FAIL;
++
++    /* For superpage mappings, make a fake leaf PTE for the TLB's benefit. */
++    target_ulong vpn = addr >> PGSHIFT;
++
++    if (cpu->cfg.ext_svnapot && (pte & PTE_N)) {
++        napot_bits = ctzl(ppn) + 1;
++        if ((i != (levels - 1)) || (napot_bits != 4)) {
++            return TRANSLATE_FAIL;
++        }
++    }
++
++    napot_mask = (1 << napot_bits) - 1;
++    *physical = (((ppn & ~napot_mask) | (vpn & napot_mask) |
++                  (vpn & (((target_ulong)1 << ptshift) - 1))
++                 ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
++
++    /* set permissions on the TLB entry */
++    if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
++        *prot |= PAGE_READ;
++    }
++    if (pte & PTE_X) {
++        *prot |= PAGE_EXEC;
++    }
++    /*
++     * Add write permission on stores or if the page is already dirty,
++     * so that we TLB miss on later writes to update the dirty bit.
++     */
++    if ((pte & PTE_W) && (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
++        *prot |= PAGE_WRITE;
++    }
++    return TRANSLATE_SUCCESS;
  }
  
- static BlockDriver bdrv_bochs = {
--    .format_name	= "bochs",
--    .instance_size	= sizeof(BDRVBochsState),
--    .bdrv_probe		= bochs_probe,
--    .bdrv_open		= bochs_open,
--    .bdrv_child_perm     = bdrv_default_perms,
--    .bdrv_refresh_limits = bochs_refresh_limits,
--    .bdrv_co_preadv = bochs_co_preadv,
--    .bdrv_close		= bochs_close,
--    .is_format          = true,
-+    .format_name            = "bochs",
-+    .instance_size          = sizeof(BDRVBochsState),
-+    .bdrv_probe             = bochs_probe,
-+    .bdrv_open              = bochs_open,
-+    .bdrv_child_perm        = bdrv_default_perms,
-+    .bdrv_refresh_limits    = bochs_refresh_limits,
-+    .bdrv_co_preadv         = bochs_co_preadv,
-+    .bdrv_close             = bochs_close,
-+    .is_format              = true,
- };
- 
- static void bdrv_bochs_init(void)
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 5760cf22d1..bdebe0c9a6 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -124,7 +124,7 @@
- #define FTYPE_FILE   0
- #define FTYPE_CD     1
- 
--#define MAX_BLOCKSIZE	4096
-+#define MAX_BLOCKSIZE 4096
- 
- /* Posix file locking bytes. Libvirt takes byte 0, we start from higher bytes,
-  * leaving a few more bytes for its future use. */
-@@ -3819,42 +3819,42 @@ static void coroutine_fn cdrom_co_lock_medium(BlockDriverState *bs, bool locked)
- }
- 
- static BlockDriver bdrv_host_cdrom = {
--    .format_name        = "host_cdrom",
--    .protocol_name      = "host_cdrom",
--    .instance_size      = sizeof(BDRVRawState),
--    .bdrv_needs_filename = true,
--    .bdrv_probe_device	= cdrom_probe_device,
--    .bdrv_parse_filename = cdrom_parse_filename,
--    .bdrv_file_open     = cdrom_open,
--    .bdrv_close         = raw_close,
--    .bdrv_reopen_prepare = raw_reopen_prepare,
--    .bdrv_reopen_commit  = raw_reopen_commit,
--    .bdrv_reopen_abort   = raw_reopen_abort,
--    .bdrv_co_create_opts = bdrv_co_create_opts_simple,
--    .create_opts         = &bdrv_create_opts_simple,
--    .mutable_opts        = mutable_opts,
--    .bdrv_co_invalidate_cache = raw_co_invalidate_cache,
--
--    .bdrv_co_preadv         = raw_co_preadv,
--    .bdrv_co_pwritev        = raw_co_pwritev,
--    .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
--    .bdrv_refresh_limits = raw_refresh_limits,
--    .bdrv_co_io_plug        = raw_co_io_plug,
--    .bdrv_co_io_unplug      = raw_co_io_unplug,
--    .bdrv_attach_aio_context = raw_aio_attach_aio_context,
--
--    .bdrv_co_truncate                   = raw_co_truncate,
--    .bdrv_co_getlength                  = raw_co_getlength,
--    .has_variable_length                = true,
--    .bdrv_co_get_allocated_file_size    = raw_co_get_allocated_file_size,
-+    .format_name                     = "host_cdrom",
-+    .protocol_name                   = "host_cdrom",
-+    .instance_size                   = sizeof(BDRVRawState),
-+    .bdrv_needs_filename             = true,
-+    .bdrv_probe_device               = cdrom_probe_device,
-+    .bdrv_parse_filename             = cdrom_parse_filename,
-+    .bdrv_file_open                  = cdrom_open,
-+    .bdrv_close                      = raw_close,
-+    .bdrv_reopen_prepare             = raw_reopen_prepare,
-+    .bdrv_reopen_commit              = raw_reopen_commit,
-+    .bdrv_reopen_abort               = raw_reopen_abort,
-+    .bdrv_co_create_opts             = bdrv_co_create_opts_simple,
-+    .create_opts                     = &bdrv_create_opts_simple,
-+    .mutable_opts                    = mutable_opts,
-+    .bdrv_co_invalidate_cache        = raw_co_invalidate_cache,
-+
-+    .bdrv_co_preadv                  = raw_co_preadv,
-+    .bdrv_co_pwritev                 = raw_co_pwritev,
-+    .bdrv_co_flush_to_disk           = raw_co_flush_to_disk,
-+    .bdrv_refresh_limits             = raw_refresh_limits,
-+    .bdrv_co_io_plug                 = raw_co_io_plug,
-+    .bdrv_co_io_unplug               = raw_co_io_unplug,
-+    .bdrv_attach_aio_context         = raw_aio_attach_aio_context,
-+
-+    .bdrv_co_truncate                = raw_co_truncate,
-+    .bdrv_co_getlength               = raw_co_getlength,
-+    .has_variable_length             = true,
-+    .bdrv_co_get_allocated_file_size = raw_co_get_allocated_file_size,
- 
-     /* removable device support */
--    .bdrv_co_is_inserted    = cdrom_co_is_inserted,
--    .bdrv_co_eject          = cdrom_co_eject,
--    .bdrv_co_lock_medium    = cdrom_co_lock_medium,
-+    .bdrv_co_is_inserted             = cdrom_co_is_inserted,
-+    .bdrv_co_eject                   = cdrom_co_eject,
-+    .bdrv_co_lock_medium             = cdrom_co_lock_medium,
- 
-     /* generic scsi device */
--    .bdrv_co_ioctl      = hdev_co_ioctl,
-+    .bdrv_co_ioctl                   = hdev_co_ioctl,
- };
- #endif /* __linux__ */
- 
-@@ -3949,38 +3949,38 @@ static void coroutine_fn cdrom_co_lock_medium(BlockDriverState *bs, bool locked)
- }
- 
- static BlockDriver bdrv_host_cdrom = {
--    .format_name        = "host_cdrom",
--    .protocol_name      = "host_cdrom",
--    .instance_size      = sizeof(BDRVRawState),
--    .bdrv_needs_filename = true,
--    .bdrv_probe_device	= cdrom_probe_device,
--    .bdrv_parse_filename = cdrom_parse_filename,
--    .bdrv_file_open     = cdrom_open,
--    .bdrv_close         = raw_close,
--    .bdrv_reopen_prepare = raw_reopen_prepare,
--    .bdrv_reopen_commit  = raw_reopen_commit,
--    .bdrv_reopen_abort   = raw_reopen_abort,
--    .bdrv_co_create_opts = bdrv_co_create_opts_simple,
--    .create_opts         = &bdrv_create_opts_simple,
--    .mutable_opts       = mutable_opts,
--
--    .bdrv_co_preadv         = raw_co_preadv,
--    .bdrv_co_pwritev        = raw_co_pwritev,
--    .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
--    .bdrv_refresh_limits = raw_refresh_limits,
--    .bdrv_co_io_plug        = raw_co_io_plug,
--    .bdrv_co_io_unplug      = raw_co_io_unplug,
--    .bdrv_attach_aio_context = raw_aio_attach_aio_context,
--
--    .bdrv_co_truncate                   = raw_co_truncate,
--    .bdrv_co_getlength                  = raw_co_getlength,
--    .has_variable_length                = true,
--    .bdrv_co_get_allocated_file_size    = raw_co_get_allocated_file_size,
-+    .format_name                     = "host_cdrom",
-+    .protocol_name                   = "host_cdrom",
-+    .instance_size                   = sizeof(BDRVRawState),
-+    .bdrv_needs_filename             = true,
-+    .bdrv_probe_device               = cdrom_probe_device,
-+    .bdrv_parse_filename             = cdrom_parse_filename,
-+    .bdrv_file_open                  = cdrom_open,
-+    .bdrv_close                      = raw_close,
-+    .bdrv_reopen_prepare             = raw_reopen_prepare,
-+    .bdrv_reopen_commit              = raw_reopen_commit,
-+    .bdrv_reopen_abort               = raw_reopen_abort,
-+    .bdrv_co_create_opts             = bdrv_co_create_opts_simple,
-+    .create_opts                     = &bdrv_create_opts_simple,
-+    .mutable_opts                    = mutable_opts,
-+
-+    .bdrv_co_preadv                  = raw_co_preadv,
-+    .bdrv_co_pwritev                 = raw_co_pwritev,
-+    .bdrv_co_flush_to_disk           = raw_co_flush_to_disk,
-+    .bdrv_refresh_limits             = raw_refresh_limits,
-+    .bdrv_co_io_plug                 = raw_co_io_plug,
-+    .bdrv_co_io_unplug               = raw_co_io_unplug,
-+    .bdrv_attach_aio_context         = raw_aio_attach_aio_context,
-+
-+    .bdrv_co_truncate                = raw_co_truncate,
-+    .bdrv_co_getlength               = raw_co_getlength,
-+    .has_variable_length             = true,
-+    .bdrv_co_get_allocated_file_size = raw_co_get_allocated_file_size,
- 
-     /* removable device support */
--    .bdrv_co_is_inserted     = cdrom_co_is_inserted,
--    .bdrv_co_eject           = cdrom_co_eject,
--    .bdrv_co_lock_medium     = cdrom_co_lock_medium,
-+    .bdrv_co_is_inserted             = cdrom_co_is_inserted,
-+    .bdrv_co_eject                   = cdrom_co_eject,
-+    .bdrv_co_lock_medium             = cdrom_co_lock_medium,
- };
- #endif /* __FreeBSD__ */
- 
-diff --git a/block/file-win32.c b/block/file-win32.c
-index c7d0b85306..cb32ac77c0 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -743,31 +743,31 @@ static QemuOptsList raw_create_opts = {
- };
- 
- BlockDriver bdrv_file = {
--    .format_name	= "file",
--    .protocol_name	= "file",
--    .instance_size	= sizeof(BDRVRawState),
-+    .format_name         = "file",
-+    .protocol_name       = "file",
-+    .instance_size       = sizeof(BDRVRawState),
-     .bdrv_needs_filename = true,
-     .bdrv_parse_filename = raw_parse_filename,
--    .bdrv_file_open     = raw_open,
-+    .bdrv_file_open      = raw_open,
-     .bdrv_refresh_limits = raw_probe_alignment,
--    .bdrv_close         = raw_close,
-+    .bdrv_close          = raw_close,
-     .bdrv_co_create_opts = raw_co_create_opts,
--    .bdrv_has_zero_init = bdrv_has_zero_init_1,
-+    .bdrv_has_zero_init  = bdrv_has_zero_init_1,
- 
-     .bdrv_reopen_prepare = raw_reopen_prepare,
-     .bdrv_reopen_commit  = raw_reopen_commit,
-     .bdrv_reopen_abort   = raw_reopen_abort,
- 
--    .bdrv_aio_preadv    = raw_aio_preadv,
--    .bdrv_aio_pwritev   = raw_aio_pwritev,
--    .bdrv_aio_flush     = raw_aio_flush,
-+    .bdrv_aio_preadv     = raw_aio_preadv,
-+    .bdrv_aio_pwritev    = raw_aio_pwritev,
-+    .bdrv_aio_flush      = raw_aio_flush,
- 
--    .bdrv_co_truncate   = raw_co_truncate,
--    .bdrv_co_getlength  = raw_co_getlength,
-+    .bdrv_co_truncate    = raw_co_truncate,
-+    .bdrv_co_getlength   = raw_co_getlength,
-     .bdrv_co_get_allocated_file_size
--                        = raw_co_get_allocated_file_size,
-+                         = raw_co_get_allocated_file_size,
- 
--    .create_opts        = &raw_create_opts,
-+    .create_opts         = &raw_create_opts,
- };
- 
- /***********************************************/
-@@ -915,26 +915,26 @@ done:
- }
- 
- static BlockDriver bdrv_host_device = {
--    .format_name	= "host_device",
--    .protocol_name	= "host_device",
--    .instance_size	= sizeof(BDRVRawState),
--    .bdrv_needs_filename = true,
--    .bdrv_parse_filename = hdev_parse_filename,
--    .bdrv_probe_device	= hdev_probe_device,
--    .bdrv_file_open	= hdev_open,
--    .bdrv_close		= raw_close,
--    .bdrv_refresh_limits = hdev_refresh_limits,
--
--    .bdrv_aio_preadv    = raw_aio_preadv,
--    .bdrv_aio_pwritev   = raw_aio_pwritev,
--    .bdrv_aio_flush     = raw_aio_flush,
--
--    .bdrv_detach_aio_context = raw_detach_aio_context,
--    .bdrv_attach_aio_context = raw_attach_aio_context,
--
--    .bdrv_co_getlength                = raw_co_getlength,
--    .has_variable_length              = true,
--    .bdrv_co_get_allocated_file_size  = raw_co_get_allocated_file_size,
-+    .format_name                     = "host_device",
-+    .protocol_name                   = "host_device",
-+    .instance_size                   = sizeof(BDRVRawState),
-+    .bdrv_needs_filename             = true,
-+    .bdrv_parse_filename             = hdev_parse_filename,
-+    .bdrv_probe_device               = hdev_probe_device,
-+    .bdrv_file_open                  = hdev_open,
-+    .bdrv_close                      = raw_close,
-+    .bdrv_refresh_limits             = hdev_refresh_limits,
-+
-+    .bdrv_aio_preadv                 = raw_aio_preadv,
-+    .bdrv_aio_pwritev                = raw_aio_pwritev,
-+    .bdrv_aio_flush                  = raw_aio_flush,
-+
-+    .bdrv_detach_aio_context         = raw_detach_aio_context,
-+    .bdrv_attach_aio_context         = raw_attach_aio_context,
-+
-+    .bdrv_co_getlength               = raw_co_getlength,
-+    .has_variable_length             = true,
-+    .bdrv_co_get_allocated_file_size = raw_co_get_allocated_file_size,
- };
- 
- static void bdrv_file_init(void)
-diff --git a/block/parallels.c b/block/parallels.c
-index 013684801a..62bbaf6887 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -917,23 +917,23 @@ static void parallels_close(BlockDriverState *bs)
- }
- 
- static BlockDriver bdrv_parallels = {
--    .format_name	= "parallels",
--    .instance_size	= sizeof(BDRVParallelsState),
--    .bdrv_probe		= parallels_probe,
--    .bdrv_open		= parallels_open,
--    .bdrv_close		= parallels_close,
--    .bdrv_child_perm          = bdrv_default_perms,
--    .bdrv_co_block_status     = parallels_co_block_status,
--    .bdrv_has_zero_init       = bdrv_has_zero_init_1,
--    .bdrv_co_flush_to_os      = parallels_co_flush_to_os,
--    .bdrv_co_readv  = parallels_co_readv,
--    .bdrv_co_writev = parallels_co_writev,
--    .is_format      = true,
--    .supports_backing = true,
--    .bdrv_co_create      = parallels_co_create,
--    .bdrv_co_create_opts = parallels_co_create_opts,
--    .bdrv_co_check  = parallels_co_check,
--    .create_opts    = &parallels_create_opts,
-+    .format_name          = "parallels",
-+    .instance_size        = sizeof(BDRVParallelsState),
-+    .bdrv_probe           = parallels_probe,
-+    .bdrv_open            = parallels_open,
-+    .bdrv_close           = parallels_close,
-+    .bdrv_child_perm      = bdrv_default_perms,
-+    .bdrv_co_block_status = parallels_co_block_status,
-+    .bdrv_has_zero_init   = bdrv_has_zero_init_1,
-+    .bdrv_co_flush_to_os  = parallels_co_flush_to_os,
-+    .bdrv_co_readv        = parallels_co_readv,
-+    .bdrv_co_writev       = parallels_co_writev,
-+    .is_format            = true,
-+    .supports_backing     = true,
-+    .bdrv_co_create       = parallels_co_create,
-+    .bdrv_co_create_opts  = parallels_co_create_opts,
-+    .bdrv_co_check        = parallels_co_check,
-+    .create_opts          = &parallels_create_opts,
- };
- 
- static void bdrv_parallels_init(void)
-diff --git a/block/qcow.c b/block/qcow.c
-index 490e4f819e..62b916db6d 100644
---- a/block/qcow.c
-+++ b/block/qcow.c
-@@ -1177,30 +1177,30 @@ static const char *const qcow_strong_runtime_opts[] = {
- };
- 
- static BlockDriver bdrv_qcow = {
--    .format_name	= "qcow",
--    .instance_size	= sizeof(BDRVQcowState),
--    .bdrv_probe		= qcow_probe,
--    .bdrv_open		= qcow_open,
--    .bdrv_close		= qcow_close,
--    .bdrv_child_perm        = bdrv_default_perms,
--    .bdrv_reopen_prepare    = qcow_reopen_prepare,
--    .bdrv_co_create         = qcow_co_create,
--    .bdrv_co_create_opts    = qcow_co_create_opts,
--    .bdrv_has_zero_init     = bdrv_has_zero_init_1,
--    .is_format              = true,
--    .supports_backing       = true,
--    .bdrv_refresh_limits    = qcow_refresh_limits,
--
--    .bdrv_co_preadv         = qcow_co_preadv,
--    .bdrv_co_pwritev        = qcow_co_pwritev,
--    .bdrv_co_block_status   = qcow_co_block_status,
--
--    .bdrv_make_empty        = qcow_make_empty,
-+    .format_name                = "qcow",
-+    .instance_size              = sizeof(BDRVQcowState),
-+    .bdrv_probe                 = qcow_probe,
-+    .bdrv_open                  = qcow_open,
-+    .bdrv_close                 = qcow_close,
-+    .bdrv_child_perm            = bdrv_default_perms,
-+    .bdrv_reopen_prepare        = qcow_reopen_prepare,
-+    .bdrv_co_create             = qcow_co_create,
-+    .bdrv_co_create_opts        = qcow_co_create_opts,
-+    .bdrv_has_zero_init         = bdrv_has_zero_init_1,
-+    .is_format                  = true,
-+    .supports_backing           = true,
-+    .bdrv_refresh_limits        = qcow_refresh_limits,
-+
-+    .bdrv_co_preadv             = qcow_co_preadv,
-+    .bdrv_co_pwritev            = qcow_co_pwritev,
-+    .bdrv_co_block_status       = qcow_co_block_status,
-+
-+    .bdrv_make_empty            = qcow_make_empty,
-     .bdrv_co_pwritev_compressed = qcow_co_pwritev_compressed,
--    .bdrv_co_get_info       = qcow_co_get_info,
-+    .bdrv_co_get_info           = qcow_co_get_info,
- 
--    .create_opts            = &qcow_create_opts,
--    .strong_runtime_opts    = qcow_strong_runtime_opts,
-+    .create_opts                = &qcow_create_opts,
-+    .strong_runtime_opts        = qcow_strong_runtime_opts,
- };
- 
- static void bdrv_qcow_init(void)
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index a4c98169c3..4f5803fd9b 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -224,7 +224,7 @@ enum {
-     NBD_CMD_BLOCK_STATUS = 7,
- };
- 
--#define NBD_DEFAULT_PORT	10809
-+#define NBD_DEFAULT_PORT    10809
- 
- /* Maximum size of a single READ/WRITE data buffer */
- #define NBD_MAX_BUFFER_SIZE (32 * 1024 * 1024)
+ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
 -- 
-2.32.0 (Apple Git-132)
+2.34.1
 
 
