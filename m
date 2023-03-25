@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134C26C8DAD
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 12:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA7D6C8DA4
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 12:52:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pg2Ui-0000cd-Gc; Sat, 25 Mar 2023 07:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10])
+	id 1pg2Rh-0004My-4x; Sat, 25 Mar 2023 07:52:29 -0400
+Received: from [2001:470:142:3::10] (helo=eggs.gnu.org)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pg2Ue-0000bk-Ja
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:55:32 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29])
+ id 1pg2Rf-0004D6-G0
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:52:27 -0400
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pg2Ud-0000QR-26
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:55:32 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-17683b570b8so4425991fac.13
- for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 04:55:30 -0700 (PDT)
+ id 1pg2RZ-0007jY-RS
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:52:24 -0400
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-177ca271cb8so4466131fac.2
+ for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 04:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679745329;
+ d=linaro.org; s=google; t=1679745140;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7Qi45RbjVmBVTz34gjl4oQKcVrFIWG+fLl/XiM+HKu4=;
- b=vyK9DAERIeuxreY1S2GGrcegv3LF+tE/N7S76fJ2s+P3x3jf0q0m7CkUzaSaPdnMp1
- JU4Z1tpwGsAPYbi051Aq4r3GB7zEW1S77XI1SNT7lvsJTu2vSsu/PyjhXqovuUR8rMTK
- 99qovgAJUQf3SKJkKbgn2P8rQI4x1u0Q+QEulJqGtF0/6VBdkQYzQgvvFbyBfgGC5JsD
- GZllD/k9RHESA41S9JGyw/HO/FMSZJ3qu4jRIdKPAb5bC5W7tvof2lTAwiwRq7b0Xpcf
- ZdA2ae9Lb9WYGpryGmjt1Pp4Z925j3txJk+L7+kD4r9VZLyrHHdoCgYs1FuVSWRU+qmj
- PUFg==
+ bh=/7CakJiw3FQaq9CQRWEMSVcA4vdqDdKzHfEhTBS4YSs=;
+ b=gopGEyhaaZwI3LHRzdeS2jLZ/U5biUqM1u8DRng/Bs2DsWQEObLloIPoh4r7djr4iu
+ /EzwWaQw9rQkUu+evpJI52+FhcTXul0qmBjcSFtg6EbbQD4Kzl88Ldd+WFzjRN3N8rfn
+ IJQeBJ/gu40eWBfy7+NHkIoIlbmx1RzbEFCO3lZa3WplcqtsYmVhh4Xf4yv0OyyHyDKl
+ 7QIojW35hPnMoZlJk5pqIr8Kji7fU73JgLCsjKnUtndzcdFRpOyr1V6RE91PMtndsmOg
+ MYFwocp6znuTGviKG3PRrCfd5NKNqXnI6HN4TWq4Sl1+ZBYLxKj39LybY7PF/a+s1aVb
+ MiYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679745330;
+ d=1e100.net; s=20210112; t=1679745140;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7Qi45RbjVmBVTz34gjl4oQKcVrFIWG+fLl/XiM+HKu4=;
- b=oSxTtB+T+keWV0sZEcNmDgwa/Kc7ZZofuXpoe1DilA83E1XY5z84qhSvMXhyq6ArWn
- l8Z59m2Y1X+tPU+G4FNQlLWKZ0zQNHVrvA/5QfuskWN1L3M/AMoH9+rRDlLHNkrEmdQK
- dGXz88TPdMhP97WZbA239jSAsPX9Upl43G8QiAh//SXQPDPIa3iXRPUxEGyPbsx9+msC
- G/LMIU0ZDgpFyWO9kwT5f3YPXiyJ6XEkNhSdZGU8JhtQS0zQmwAkk9x/qvZGYWZFTxyf
- S0ZQ/0mHplClCw7M1wh+kqCGNjv2IAWG96qiU3k7wlFArU1R8PxvSHsuk8m0T/4oRu27
- HXXA==
-X-Gm-Message-State: AAQBX9dADPA8IqFyRpU/wKkDW+8SfWBgfS2D+yTgvlYUPDr3MubsuZS4
- n69v9a3XIcPLNzNjiQUqAExaHZ6sZu8gFuZ42DQ=
-X-Google-Smtp-Source: AKy350ZFbLOFm2BeqkYOUROUzhIQdwbe9nbfcUqMiTMjMAs+Dhwoa9x0I/EXllZxov9GIFMSn6R5pQ==
-X-Received: by 2002:a17:90b:3502:b0:237:8417:d9e3 with SMTP id
- ls2-20020a17090b350200b002378417d9e3mr6330234pjb.15.1679741681283; 
- Sat, 25 Mar 2023 03:54:41 -0700 (PDT)
+ bh=/7CakJiw3FQaq9CQRWEMSVcA4vdqDdKzHfEhTBS4YSs=;
+ b=vjQKXxfYhNrw2MZVQ2nvrZKwXONTKwVviiiTzomfu+yfBdbiyhi73yHVVKaOjTVlBu
+ xzrVmqStmUr06nSqmGRl88jl3eQ3OsEC2Dzg8DdSXjRNkE8YflIlc0RT19PmrGkrcntf
+ 18w1cXLctfZjrhdG0k2SewlrkNMnCeUagw75GqEfpAHPLKQB2RUweJQYotBE6OYSSv71
+ 8KxMy0Rd0egGTz5y1CZS0lMvhiKzbIf3IpxBl/KXEP920zh4SlsO7wqNTAGY4GmXN+rq
+ fo7S+k6IGbGIm1P7geVLZteBTSKxpHqwQJrSgeZJM8eYIPgZm+uIgsqtpIr0EJ+uvxbj
+ zs1w==
+X-Gm-Message-State: AAQBX9d5ya/EAPp7ah1lUZiyJEpqgFFOD64rfbulbplORvYGRU5Q6Ltm
+ wwZswc689h+sLllLmOnRGwUlUTViaSehABDcd/U=
+X-Google-Smtp-Source: AKy350bUMtBO4/F2yR0lv6X0fjoYzf+2BCfWMM5kkQzdwXjGxGeZce/jh8Byn0yU0maVjSkawsK3yA==
+X-Received: by 2002:a17:90b:38cc:b0:23d:4e0e:cf34 with SMTP id
+ nn12-20020a17090b38cc00b0023d4e0ecf34mr6017114pjb.34.1679741682165; 
+ Sat, 25 Mar 2023 03:54:42 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1544:6601:790a:6e23:4a91:70a])
  by smtp.gmail.com with ESMTPSA id
- p14-20020a17090a2d8e00b0023af4eb597csm1234684pjd.52.2023.03.25.03.54.40
+ p14-20020a17090a2d8e00b0023af4eb597csm1234684pjd.52.2023.03.25.03.54.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Mar 2023 03:54:40 -0700 (PDT)
+ Sat, 25 Mar 2023 03:54:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, palmer@dabbelt.com,
  zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com
-Subject: [PATCH v6 12/25] target/riscv: Introduce mmuidx_sum
-Date: Sat, 25 Mar 2023 03:54:16 -0700
-Message-Id: <20230325105429.1142530-13-richard.henderson@linaro.org>
+Subject: [PATCH v6 13/25] target/riscv: Introduce mmuidx_priv
+Date: Sat, 25 Mar 2023 03:54:17 -0700
+Message-Id: <20230325105429.1142530-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230325105429.1142530-1-richard.henderson@linaro.org>
 References: <20230325105429.1142530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x29.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,44 +92,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In get_physical_address, we should use the setting passed
-via mmu_idx rather than checking env->mstatus directly.
+Use the priv level encoded into the mmu_idx, rather than
+starting from env->priv.  We have already checked MPRV+MPP
+in riscv_cpu_mmu_index -- no need to repeat that.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/internals.h  | 5 +++++
- target/riscv/cpu_helper.c | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ target/riscv/internals.h  | 9 +++++++++
+ target/riscv/cpu_helper.c | 6 +-----
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-index 7b63c0f1b6..0b61f337dd 100644
+index 0b61f337dd..4aa1cb409f 100644
 --- a/target/riscv/internals.h
 +++ b/target/riscv/internals.h
-@@ -37,6 +37,11 @@
+@@ -37,6 +37,15 @@
  #define MMUIdx_M            3
  #define MMU_2STAGE_BIT      (1 << 2)
  
-+static inline bool mmuidx_sum(int mmu_idx)
++static inline int mmuidx_priv(int mmu_idx)
 +{
-+    return (mmu_idx & 3) == MMUIdx_S_SUM;
++    int ret = mmu_idx & 3;
++    if (ret == MMUIdx_S_SUM) {
++        ret = PRV_S;
++    }
++    return ret;
 +}
 +
- /* share data between vector helpers and decode code */
- FIELD(VDATA, VM, 0, 1)
- FIELD(VDATA, LMUL, 1, 3)
+ static inline bool mmuidx_sum(int mmu_idx)
+ {
+     return (mmu_idx & 3) == MMUIdx_S_SUM;
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 888f7ae0ef..7e6cd8e0fd 100644
+index 7e6cd8e0fd..cb260b88ea 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -852,7 +852,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         widened = 2;
+@@ -771,7 +771,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+      * (riscv_cpu_do_interrupt) is correct */
+     MemTxResult res;
+     MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+-    int mode = env->priv;
++    int mode = mmuidx_priv(mmu_idx);
+     bool use_background = false;
+     hwaddr ppn;
+     RISCVCPU *cpu = env_archcpu(env);
+@@ -793,10 +793,6 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+        instructions, HLV, HLVX, and HSV. */
+     if (riscv_cpu_two_stage_lookup(mmu_idx)) {
+         mode = get_field(env->hstatus, HSTATUS_SPVP);
+-    } else if (mode == PRV_M && access_type != MMU_INST_FETCH) {
+-        if (get_field(env->mstatus, MSTATUS_MPRV)) {
+-            mode = get_field(env->mstatus, MSTATUS_MPP);
+-        }
      }
-     /* status.SUM will be ignored if execute on background */
--    sum = get_field(env->mstatus, MSTATUS_SUM) || use_background || is_debug;
-+    sum = mmuidx_sum(mmu_idx) || use_background || is_debug;
-     switch (vm) {
-     case VM_1_10_SV32:
-       levels = 2; ptidxbits = 10; ptesize = 4; break;
+ 
+     if (first_stage == false) {
 -- 
 2.34.1
 
