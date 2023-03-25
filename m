@@ -1,77 +1,50 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CD16C8EDE
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 15:38:01 +0100 (CET)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F616C8EEB
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 15:55:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pg50n-0006x9-Qu; Sat, 25 Mar 2023 10:36:53 -0400
+	id 1pg5He-0004DB-E0; Sat, 25 Mar 2023 10:54:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pg50l-0006wM-IX; Sat, 25 Mar 2023 10:36:51 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pg50g-00070r-U1; Sat, 25 Mar 2023 10:36:51 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id cn12so18761123edb.4;
- Sat, 25 Mar 2023 07:36:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679755003;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n7Cv4zkNYLwlN2HRN2oc7iJJ5/jpmpDogpwXth5l/Ic=;
- b=DDfcWuHxgoxD0b26c0bt7mjNVJO0n3x6lt6qhbaiaQLId2ja0tDlkvOZWimnrmgdUO
- 8tqxk8RJ5aV5TUs45trAck/DAM3vudup5iEUSwAREhVbhOElQevny7NQ7bXD/e6PLJA5
- 12Ye7zkK+Sm9i06TQXSP1PKulKNVRaSBoTdX9EQP9gaUKpmwNzXCBX+3bafSe7gE+KnG
- T8+T2PlE6Zky23gH9pLh4x+6pLi99gz1V5Ysg+ZtIKd7dFDRhuWt3lxXO8Zxi08FHIyx
- 6dvKKbzHbR88oPDW2JnSykdPhWlSxOjchoSKg4p0ZVRmH/qKmiSYxd5ERSFQb+/+2d6m
- u3SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679755003;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=n7Cv4zkNYLwlN2HRN2oc7iJJ5/jpmpDogpwXth5l/Ic=;
- b=Ddiql496xW4GBnhGNOa7VWgpYnqir/oKk6x2Dfe5lBoQzEzQ5dey7qysp1btvixtfW
- Jpmnm0g09PbNBKOFvaMnOPaJ6LqWf5dqbUBeoG73bNaS0bTbyPO5MLnCWqT7bE1YgdPZ
- jnf0N5ofG8tK+TLg1od1/3bXRDbXfRU/ClgD5cOVApwlrIj1G6ZmXI4h6KK2AuaNztIe
- lnj7vAR07S4o7ATt9LFXWfd20uLEOz77Q6DOl3D3JZpb/nYMHk+IwaGEbMWjaUCr8FGh
- 1sYwAONOXEKavJqCwsCBXhgsLuhFs5j0uvMwVw+EYnS7dTTzt98ikGmZfMEgH9X5hfVI
- jVuQ==
-X-Gm-Message-State: AO0yUKW9aSZJVnoCPLE2yMwzqL+p3s7UMEoexB2tYCQfjkKFTczBoluv
- +gUaxGlu1BwO5J0LzEbv7I50eIZ5GzR/lecXV70=
-X-Google-Smtp-Source: AK7set+CUNBKQlqE1bFF25B502XBc4pV5aw/IAj+e39RbYGI/Bz1uyh9QdmVvkhYT/UDfNbP9ToJ1Z4vwH5boIvIZYU=
-X-Received: by 2002:a17:906:ca41:b0:939:a51a:dc30 with SMTP id
- jx1-20020a170906ca4100b00939a51adc30mr6932117ejb.2.1679755003259; Sat, 25 Mar
- 2023 07:36:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pg5Hb-0004C5-Hr; Sat, 25 Mar 2023 10:54:15 -0400
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pg5HX-00038S-V4; Sat, 25 Mar 2023 10:54:14 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R791e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
+ TI=SMTPD_---0VeatLpN_1679756033; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VeatLpN_1679756033) by smtp.aliyun-inc.com;
+ Sat, 25 Mar 2023 22:53:55 +0800
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com, qemu-riscv@nongnu.org,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Subject: [PATCH 1/1] target/riscv: Convert env->virt to a bool
+ env->virt_enabled
+Date: Sat, 25 Mar 2023 22:53:48 +0800
+Message-Id: <20230325145348.1208-1-zhiwei_liu@linux.alibaba.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20230321102510.16754-1-qianfanguijin@163.com>
-In-Reply-To: <20230321102510.16754-1-qianfanguijin@163.com>
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Date: Sat, 25 Mar 2023 15:36:33 +0100
-Message-ID: <CABtshVTop2nuF7E0exASFYgV012PC0d31sVMQ-ZehCt4REO7HQ@mail.gmail.com>
-Subject: Re: [PATCH v1 00/11] *** add allwinner-r40 support ***
-To: qianfanguijin@163.com
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Niek Linnenbank <nieklinnenbank@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.100;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-100.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,225 +60,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+Currently we only use the env->virt to encode the virtual mode enabled
+status. Let's make it a bool type.
 
-It's great that you are adding support for a new SoC/Board!
+Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+---
+ target/riscv/cpu.h        | 2 +-
+ target/riscv/cpu_bits.h   | 3 ---
+ target/riscv/cpu_helper.c | 6 +++---
+ target/riscv/machine.c    | 6 +++---
+ target/riscv/translate.c  | 4 ++--
+ 5 files changed, 9 insertions(+), 12 deletions(-)
 
-On Tue, Mar 21, 2023 at 11:25=E2=80=AFAM <qianfanguijin@163.com> wrote:
->
-> From: qianfan Zhao <qianfanguijin@163.com>
->
-> *** history ***
->
-> # v1: 2023-03-21
->
-> The first version which add allwinner-r40 support, supported features:
->
-> + ccu
-> + dram controller
-> + uart
-> + i2c and pmic(axp221)
-> + sdcard
-> + emac/gmac
->
-> Also provide a test case under avocado, running quickly test:
->
-> $ AVOCADO_ALLOW_LARGE_STORAGE=3Dyes tests/venv/bin/avocado \
->     --verbose --show=3Dapp,console run -t machine:bpim2u \
->     ../tests/avocado/boot_linux_console.py
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 638e47c75a..3c8041c5a4 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -183,7 +183,7 @@ struct CPUArchState {
+ #ifndef CONFIG_USER_ONLY
+     target_ulong priv;
+     /* This contains QEMU specific information about the virt state. */
+-    target_ulong virt;
++    bool virt_enabled;
+     target_ulong geilen;
+     uint64_t resetvec;
+ 
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index fca7ef0cef..45ddb00aa5 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -607,9 +607,6 @@ typedef enum {
+ #define PRV_H 2 /* Reserved */
+ #define PRV_M 3
+ 
+-/* Virtulisation Register Fields */
+-#define VIRT_ONOFF          1
+-
+ /* RV32 satp CSR field masks */
+ #define SATP32_MODE         0x80000000
+ #define SATP32_ASID         0x7fc00000
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f88c503cf4..56f4ff9ccc 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -564,7 +564,7 @@ bool riscv_cpu_virt_enabled(CPURISCVState *env)
+         return false;
+     }
+ 
+-    return get_field(env->virt, VIRT_ONOFF);
++    return env->virt_enabled;
+ }
+ 
+ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
+@@ -574,11 +574,11 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
+     }
+ 
+     /* Flush the TLB on all virt mode changes. */
+-    if (get_field(env->virt, VIRT_ONOFF) != enable) {
++    if (env->virt_enabled != enable) {
+         tlb_flush(env_cpu(env));
+     }
+ 
+-    env->virt = set_field(env->virt, VIRT_ONOFF, enable);
++    env->virt_enabled = enable;
+ 
+     if (enable) {
+         /*
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index 9c455931d8..0fb3ddda06 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -331,8 +331,8 @@ static const VMStateDescription vmstate_pmu_ctr_state = {
+ 
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+-    .version_id = 7,
+-    .minimum_version_id = 7,
++    .version_id = 8,
++    .minimum_version_id = 8,
+     .post_load = riscv_cpu_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+@@ -352,7 +352,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+         VMSTATE_UINT32(env.misa_mxl_max, RISCVCPU),
+         VMSTATE_UINT32(env.misa_ext_mask, RISCVCPU),
+         VMSTATE_UINTTL(env.priv, RISCVCPU),
+-        VMSTATE_UINTTL(env.virt, RISCVCPU),
++        VMSTATE_BOOL(env.virt_enabled, RISCVCPU),
+         VMSTATE_UINT64(env.resetvec, RISCVCPU),
+         VMSTATE_UINTTL(env.mhartid, RISCVCPU),
+         VMSTATE_UINT64(env.mstatus, RISCVCPU),
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 0ee8ee147d..c3adf30b54 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1255,8 +1255,8 @@ static void riscv_tr_disas_log(const DisasContextBase *dcbase,
+ 
+     fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
+ #ifndef CONFIG_USER_ONLY
+-    fprintf(logfile, "Priv: "TARGET_FMT_ld"; Virt: "TARGET_FMT_ld"\n",
+-            env->priv, env->virt);
++    fprintf(logfile, "Priv: "TARGET_FMT_ld"; Virt: %d\n",
++            env->priv, env->virt_enabled);
+ #endif
+     target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
+ }
+-- 
+2.17.1
 
-I tried running this on the latest QEMU source and compilation fails with
-
-[1758/2912] Compiling C object libqemu-arm-softmmu.fa.p/hw_arm_bananapi_m2u=
-.c.o
-FAILED: libqemu-arm-softmmu.fa.p/hw_arm_bananapi_m2u.c.o
-cc -m64 -mcx16 -Ilibqemu-arm-softmmu.fa.p -I. -I../.. -Itarget/arm
--I../../target/arm -Iqapi -Itrace -Iui -Iui/shader
--I/usr/include/pixman-1 -I/usr/include/capstone
--I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
--fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g
--isystem /home/strahinja/work/qemu/linux-headers -isystem
-linux-headers -iquote . -iquote /home/strahinja/work/qemu -iquote
-/home/strahinja/work/qemu/include -iquote
-/home/strahinja/work/qemu/tcg/i386 -pthread -U_FORTIFY_SOURCE
--D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64
--D_LARGEFILE_SOURCE -fno-strict-aliasing -fno-common -fwrapv -Wundef
--Wwrite-strings -Wmissing-prototypes -Wstrict-prototypes
--Wredundant-decls -Wold-style-declaration -Wold-style-definition
--Wtype-limits -Wformat-security -Wformat-y2k -Winit-self
--Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels
--Wexpansion-to-defined -Wimplicit-fallthrough=3D2
--Wmissing-format-attribute -Wno-missing-include-dirs
--Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE
--isystem../../linux-headers -isystemlinux-headers -DNEED_CPU_H
-'-DCONFIG_TARGET=3D"arm-softmmu-config-target.h"'
-'-DCONFIG_DEVICES=3D"arm-softmmu-config-devices.h"' -MD -MQ
-libqemu-arm-softmmu.fa.p/hw_arm_bananapi_m2u.c.o -MF
-libqemu-arm-softmmu.fa.p/hw_arm_bananapi_m2u.c.o.d -o
-libqemu-arm-softmmu.fa.p/hw_arm_bananapi_m2u.c.o -c
-../../hw/arm/bananapi_m2u.c
-../../hw/arm/bananapi_m2u.c: In function =E2=80=98mmc_attach_drive=E2=80=99=
-:
-../../hw/arm/bananapi_m2u.c:41:9: error: implicit declaration of
-function =E2=80=98error_report=E2=80=99; did you mean =E2=80=98error_report=
-_err=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-   41 |         error_report("No SD bus found in SOC object");
-      |         ^~~~~~~~~~~~
-      |         error_report_err
-../../hw/arm/bananapi_m2u.c:41:9: error: nested extern declaration of
-=E2=80=98error_report=E2=80=99 [-Werror=3Dnested-externs]
-cc1: all warnings being treated as errors
-
-After adding
-
-#include "qemu/error-report.h"
-
-to hw/arm/bananapi_m2u.c, it passed and I was able to run avocado
-tests for this board, as well as for cubieboard and orangepi-pc.
-
-* Bananapi
-
- AVOCADO_ALLOW_LARGE_STORAGE=3Dyes avocado     --verbose
---show=3Dapp,console run -t machine:bpim2u
-tests/avocado/boot_linux_console.py
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_bpim2u
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_bpim2u_initrd
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_bpim2u_initrd
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_bpim2u_gmac
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_bpim2u_gmac
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_bpim2u_openwr=
-t_22_03_3
-JOB ID     : ed47ffc59b1f9ceb8b68a87405040d3af2fb9156
-JOB LOG    : /home/strahinja/avocado/job-results/job-2023-03-25T15.24-ed47f=
-fc/job.log
-...
- RESULTS    : PASS 4 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT
-0 | CANCEL 0
-JOB TIME   : 70.79 s
-
-* Cubieboard
-
- AVOCADO_ALLOW_LARGE_STORAGE=3Dyes avocado     --verbose
---show=3Dapp,console run -t machine:cubieboard
-tests/avocado/boot_linux_console.py
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_in=
-itrd
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_in=
-itrd
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_sa=
-ta
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_sa=
-ta
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_cubieboard_op=
-enwrt_22_03_2
-JOB ID     : 1510a9b5f36b74dc1378d50dbb40553e6fb76316
-JOB LOG    : /home/strahinja/avocado/job-results/job-2023-03-25T15.27-1510a=
-9b/job.log
-...
- RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT
-0 | CANCEL 0
-JOB TIME   : 42.69 s
-
-* OrangePi PC
-
-AVOCADO_ALLOW_LARGE_STORAGE=3Dyes avocado     --verbose
---show=3Dapp,console run -t machine:orangepi-pc
-tests/avocado/boot_linux_console.py
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_init=
-rd
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_init=
-rd
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bion=
-ic_20_08
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboo=
-t_netbsd9
-Fetching asset from
-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboo=
-t_netbsd9
-JOB ID     : 6655d0df3c2eecf2181d7fa2d7cd8aee9e4b504c
-JOB LOG    : /home/strahinja/avocado/job-results/job-2023-03-25T15.31-6655d=
-0d/job.log
-...
-RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
-| CANCEL 0
-JOB TIME   : 248.93 s
-
-So I can add
-
-Tested-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-
-I will go through the individual commits during the weekend.
-
-Best regards,
-Strahinja
-
-
->
-> qianfan Zhao (11):
->   hw: arm: Add bananapi M2-Ultra and allwinner-r40 support
->   hw/arm/allwinner-r40: add Clock Control Unit
->   hw: allwinner-r40: Complete uart devices
->   hw: arm: allwinner-r40: Add 5 TWI controllers
->   hw/misc: AXP221 PMU Emulation
->   hw/arm/allwinner-r40: add SDRAM controller device
->   hw: sd: allwinner-sdhost: Add sun50i-a64 SoC support
->   hw: arm: allwinner-r40: Fix the mmc controller's type
->   hw: arm: allwinner-r40: Add emac and gmac support
->   tests: avocado: boot_linux_console: Add test case for bpim2u
->   docs: system: arm: Introduce bananapi_m2u
->
->  configs/devices/arm-softmmu/default.mak |   1 +
->  docs/system/arm/bananapi_m2u.rst        | 138 ++++++
->  hw/arm/Kconfig                          |  10 +
->  hw/arm/allwinner-r40.c                  | 558 ++++++++++++++++++++++++
->  hw/arm/bananapi_m2u.c                   | 131 ++++++
->  hw/arm/meson.build                      |   1 +
->  hw/misc/Kconfig                         |   4 +
->  hw/misc/allwinner-r40-ccu.c             | 207 +++++++++
->  hw/misc/allwinner-r40-dramc.c           | 499 +++++++++++++++++++++
->  hw/misc/axp221.c                        | 196 +++++++++
->  hw/misc/meson.build                     |   3 +
->  hw/misc/trace-events                    |  19 +
->  hw/sd/allwinner-sdhost.c                |  70 ++-
->  include/hw/arm/allwinner-r40.h          | 148 +++++++
->  include/hw/misc/allwinner-r40-ccu.h     |  65 +++
->  include/hw/misc/allwinner-r40-dramc.h   | 108 +++++
->  include/hw/sd/allwinner-sdhost.h        |   9 +
->  tests/avocado/boot_linux_console.py     | 173 ++++++++
->  18 files changed, 2337 insertions(+), 3 deletions(-)
->  create mode 100644 docs/system/arm/bananapi_m2u.rst
->  create mode 100644 hw/arm/allwinner-r40.c
->  create mode 100644 hw/arm/bananapi_m2u.c
->  create mode 100644 hw/misc/allwinner-r40-ccu.c
->  create mode 100644 hw/misc/allwinner-r40-dramc.c
->  create mode 100644 hw/misc/axp221.c
->  create mode 100644 include/hw/arm/allwinner-r40.h
->  create mode 100644 include/hw/misc/allwinner-r40-ccu.h
->  create mode 100644 include/hw/misc/allwinner-r40-dramc.h
->
-> --
-> 2.25.1
->
 
