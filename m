@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (unknown [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BFA6C8F70
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 17:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28BB6C8F71
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 17:30:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pg6lP-0006Kp-Bt; Sat, 25 Mar 2023 12:29:07 -0400
+	id 1pg6ld-0006MX-7m; Sat, 25 Mar 2023 12:29:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pg6lM-0006KP-UF
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 12:29:04 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+ id 1pg6la-0006MM-Jr
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 12:29:18 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pg6lL-0005Cf-7s
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 12:29:04 -0400
-Received: by mail-ed1-x530.google.com with SMTP id cn12so19578599edb.4
- for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 09:29:02 -0700 (PDT)
+ id 1pg6lY-0005Fu-UW
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 12:29:18 -0400
+Received: by mail-ed1-x531.google.com with SMTP id x3so19468564edb.10
+ for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 09:29:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679761741;
+ d=linaro.org; s=google; t=1679761755;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SFZrfo31sHR+K9G8GmvyTykMXPX+1I7gfTJoc4BlDG8=;
- b=shYFr/FREvGOx2uYd56IWzZ66ZjZK5URuklz4lumyA1S6BzwQn+TwFGRyWJn16BI4R
- A9VANnoj8wmtBGRL2x/FdFbx7funCYgKQWmv9kKrVneEW3d6ju+R35ARoDCtfuVnP2Pe
- +2l0Z76mQKvWL/wjbJYEElwXW4l8nbPXvRSzrLevniFM/PkagVkuIjbEvHtapA4+JURR
- Nsrgb4B9i3b/Mxf69kJe2cWVR2/VycYFOlTJ/fOQViQi+LgHoNHNelaihq1vRDDmKhmL
- 3ENLRGWfeUlZsFcYnNTpvcXYvaSn6wOJlT6aO814KMisY8rWSqWht6WtL1lke0sXxDte
- uFlQ==
+ bh=U4ifqdOclajdyXSr4AOmk8DMNyM7gC/GkAFa5BfoknE=;
+ b=veZxXtbBQRCqdSWNTJN+NQnyml3+ts7R2E0h/XPCM9bZafcRyPm3pkkLCR7odtyvFg
+ c0UbHi6Kll0U7r+qq3EKY4smy+G1KxsXMA0nJHnFXcvDL/LOHFASoMmGXOilrzm3d3oH
+ r3JxIWFmy4MRxGmMs/C85uRt9amT2a/VT28hf4A7KiCTi3JnMZHTbcjUyAJIqiHPVC3T
+ gppUEw3L+WZPL8ZskkcqlJODB119JsMFLONCFQJnJGo2zS3eHPFmj/T91L3qjQTYEg4F
+ KniJrRWi3woJJSt2JdCYGi5vydZylcRxzQXjyiAN9t0KfN3kmlz558vZivR+IaxkLCsH
+ ssYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679761741;
+ d=1e100.net; s=20210112; t=1679761755;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=SFZrfo31sHR+K9G8GmvyTykMXPX+1I7gfTJoc4BlDG8=;
- b=E//Ot20RnQQ5qjbD1xsoVggURT8Lhsv8ll9UEZ//f8oLlI96ARYy5S+W+gQdfJaRgq
- tXlWIUIPEKlfrk12b+66qbjz8zj9gFKbAfCXRMmjdjRMbQsKxUyTJBbBaxD86ZqnqaFx
- 1nWUJ+MdkVFGAvFTqjuLOQ4w0bNCcu0apHKabQd1mu4XzHnHLuOohvuxN/ypE8NaBZMv
- gQH1dtiTBPU2z4ESW9gL6MJgeequcvdmNVYh+hMGBUsTlugDk9MbJ6tJDdXn/akvWavr
- UYEUuzb2bDJiLgqRFHQDgYRVq+jaDaV7b7MO3/dL/HwsUCnnJchhzNiGmJa8S+bf+Ma+
- TjeQ==
-X-Gm-Message-State: AAQBX9dUOWGE85pj6hIah5N5Gwsl/cLUZ4SpluudWYP8C+eDLEtaFIWW
- 42ECcACiXVyc5TCtspru8OKlsGuNRWAyrkxq9XMCGtR3ELUd3umJ
-X-Google-Smtp-Source: AKy350Y5fe8ACSF2TW0CNUN5om6Z6MOVsDuQ1zr1Hm8JFPxyluPemiS4XK7uY3RjaZ4Q2jtb11Bpj8u9DcP/eAa04H8=
+ bh=U4ifqdOclajdyXSr4AOmk8DMNyM7gC/GkAFa5BfoknE=;
+ b=gecZ/OAEZHeeSu2/gWP3sVDyYXYEbhpG7SuG/JlV9cw1jf27C/w70KbybwRLHk6irO
+ kAoASFjbSyTTraroUSinoyYPqYuwnOzExswWR08W5iyPfCnkOYbzfX6tb/aHqQXGKZ4v
+ puE+uMoqYZ3NSQ+lwsvA7E64RgpLz7vtNVCSid+0b0Xtsb0uFIUvvlggW3qcnWPpRAYy
+ jdsf2q8Tmht8UBZEC7y6zKoi8bgrzwurovoq2VIno//ST/z5F+fKMCBqKp5Mfy/T+d1o
+ F4vue2dHf6shVa6OpWEkv8GPQUa+IUvcyz8aUyTfQV8PBaIqfdf6X2adgSqWMOKphUx3
+ 9IyA==
+X-Gm-Message-State: AAQBX9cEWGbIV0CgJ1W/317LmtbOyMM0RIRUY3sQBOGkj2p3ERqYAcjx
+ 0nWVM0zCkcVUEZX+90GWe5bNMEQu7qA9KthNTR+W+w==
+X-Google-Smtp-Source: AKy350YfnVoNixMSQADXydYlKp3N08iwf+XLJRNTrVAekFveh2iuHJqiuRb3yz0zfZbABi7Y6dcEF0kEDLwj3MF+ChY=
 X-Received: by 2002:a50:d517:0:b0:4fb:7e7a:ebf1 with SMTP id
- u23-20020a50d517000000b004fb7e7aebf1mr3123684edi.6.1679761741481; Sat, 25 Mar
- 2023 09:29:01 -0700 (PDT)
+ u23-20020a50d517000000b004fb7e7aebf1mr3123911edi.6.1679761755470; Sat, 25 Mar
+ 2023 09:29:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230324145613.41502-1-anthony.perard@citrix.com>
-In-Reply-To: <20230324145613.41502-1-anthony.perard@citrix.com>
+References: <20230324153610.224673-1-thuth@redhat.com>
+In-Reply-To: <20230324153610.224673-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 25 Mar 2023 16:28:50 +0000
-Message-ID: <CAFEAcA_PUtJpMicxTMUn8d7C+4t7h2fnLpFb5SptMeuVGtK-Kg@mail.gmail.com>
-Subject: Re: [PULL 0/2] xen queue
-To: Anthony PERARD <anthony.perard@citrix.com>
+Date: Sat, 25 Mar 2023 16:29:04 +0000
+Message-ID: <CAFEAcA8U4qyoLZBA1ebM3R+tLf2fXKfiMxgfrYO9R1ZA0Nu2CA@mail.gmail.com>
+Subject: Re: [PULL 0/8] Misc patches for QEMU 8.0-rc2
+To: Thomas Huth <thuth@redhat.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,7 +83,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 24 Mar 2023 at 14:56, Anthony PERARD <anthony.perard@citrix.com> wrote:
+On Fri, 24 Mar 2023 at 15:36, Thomas Huth <thuth@redhat.com> wrote:
 >
 > The following changes since commit 60ca584b8af0de525656f959991a440f8c191f12:
 >
@@ -91,19 +91,17 @@ On Fri, 24 Mar 2023 at 14:56, Anthony PERARD <anthony.perard@citrix.com> wrote:
 >
 > are available in the Git repository at:
 >
->   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20230324
+>   https://gitlab.com/thuth/qemu.git tags/pull-request-2023-03-24
 >
-> for you to fetch changes up to 670d8c6ebf7a2c425575bbd6fbaeb27d21edd6c6:
+> for you to fetch changes up to 8635a3a153da3a6712c4ee249c2bf3513cbfdbf7:
 >
->   hw/xenpv: Initialize Xen backend operations (2023-03-24 14:52:14 +0000)
->
-> ----------------------------------------------------------------
-> Xen queue
->
-> - fix guest creation when -xen-domid-restrict is used.
-> - fix Xen PV guest creation.
+>   Revert "docs/about/deprecated: Deprecate 32-bit arm hosts for system emulation" (2023-03-24 12:10:49 +0100)
 >
 > ----------------------------------------------------------------
+> * Remove TABs in hw/ide and hw/block
+> * Two fixes for GCC 13
+> * MSYS2 CI job improvements
+>
 
 
 Applied, thanks.
