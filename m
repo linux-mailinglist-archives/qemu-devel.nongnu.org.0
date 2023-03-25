@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA686C8D9E
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 12:52:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B7D6C8DA8
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 12:53:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pg2R0-0003PB-02; Sat, 25 Mar 2023 07:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10])
+	id 1pg2S1-00050J-U1; Sat, 25 Mar 2023 07:52:49 -0400
+Received: from [2001:470:142:3::10] (helo=eggs.gnu.org)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pg2Qs-0003L1-NS
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:51:40 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a])
+ id 1pg2S0-0004uW-68
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:52:48 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pg2Qq-0007dF-RY
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:51:38 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-545ce8e77fcso5135367b3.1
- for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 04:51:36 -0700 (PDT)
+ id 1pg2Ry-0007np-7Z
+ for qemu-devel@nongnu.org; Sat, 25 Mar 2023 07:52:47 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id t19so3937121qta.12
+ for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 04:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679745091;
+ d=linaro.org; s=google; t=1679745165;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=onbesb8ouykkYe8UFD25WNQYOxkMjhDNVi3Wh3XpRP0=;
- b=RQiolptpmaK4Dg06ZVGoVBZY8tabDJ3D6QwBw4Go74PQpEa3vqi27pciLUGZwfbTsm
- 7PrUEbqm8Ncp1mUDQ6EM5utUAebqO8XZu/6ozAzod0ohjvqhvDgrMHP+U+hrXajuCOlN
- fwTyQdeeGDwqTWHxGSDL2xxt+y8eBvF/ZaH1dHjuoTZOVqfhyIKxISMYIMle6IhytT13
- BcCCp3x6IVwShv94hDi++whkwWWQv+QGqi1H1gb4UCWJo94Ci6vcQg6iR4VAKYpohk98
- zC+OjdqqON/qtRJtRYC9pRJwifgNE1CHQMLddQmB4CL1qodAPyZyZt0HtCPtW266WBDr
- HtBA==
+ bh=4cy1xP5OQWUfnynTXfbvIKGvVE6egHD8uv4kncq6BSo=;
+ b=Jt3L1RgS0vWFeAIfr06VQeQCJw+/RijrDmO4ZwHpniQTUNjZccZRVT4/UzBajg4AqH
+ Qf/3uDA2oSgNoOMfsOuzT0Sqm67GQF23CqGnnLzA6niK0N7rD85kuEA2Jili4yTfm8kd
+ WObDP5sr5btFNQXuBW2fR0QxQZLvVfGZ2dQ0BSAmCRd9zO5QnBh0xVIHZKCYlKELTGit
+ 273XFHG8ueGuJxJM97gg8+YTi+hOypsVn8u04+wZJ+HJT8lNsB6xmnjstLP8H1WOzomB
+ gE213VKtU2iZy85EW5WvNMKSklQQHmO+gq+FJHEpoXlbhxJbb/48uiEUB2uEUSg7InR+
+ U1Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679745091;
+ d=1e100.net; s=20210112; t=1679745165;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=onbesb8ouykkYe8UFD25WNQYOxkMjhDNVi3Wh3XpRP0=;
- b=wBtkqT0jGGjRf/ScszS/IQ/TNq8WhhrM6EPKaJQ7MlNhZa/RvLev/wAn/ZNIdblfEC
- qNh+d6yiEKn/G55m49hq8cLG5PWxJNkLNDfXPUQ+d8bAwt6l7tvHYqzXidcFqsEZao0v
- /muaiy7sYQiE9d3J168F/2GUaqvew/5whXwoke0voRjBG08RbpwGWAEdXfMWKTCBoxTr
- FZINu6f22TG4K5F01LwZ/GQHDayXKzRrbl3GA3O5AjDHO2y5W972p7wj5NfXxMHvKKJL
- 2Gm6N5CxB3b1fcpMW7dZd5mv/0B62Qwf5zhfSg5ctqf1WpMEGYS6xEwpM32u1sur08Gd
- dXRQ==
-X-Gm-Message-State: AAQBX9cfJB+bn+5FRbISUE66UkVAlojNqSUlHlW4OAWD+2rIswY+bs0a
- ZTl5hpGQgfsuk3T96diJX3qY1zKdHB8aEIbl8O8=
-X-Google-Smtp-Source: AKy350YtDbkm9in6FCTcq6re+oZ8x9NGvS0V+tOwfXD+gZ3qqP0eLmVcEB3Vur3E1qVF5UThaoaHqg==
-X-Received: by 2002:a17:90a:4c:b0:23b:3b26:c612 with SMTP id
- 12-20020a17090a004c00b0023b3b26c612mr5457198pjb.20.1679741677863; 
- Sat, 25 Mar 2023 03:54:37 -0700 (PDT)
+ bh=4cy1xP5OQWUfnynTXfbvIKGvVE6egHD8uv4kncq6BSo=;
+ b=m6AgiWeW8q/0ly7OeSSKfubJSiyO3+AXJm2J75PvCXNLVg7XpUfPSF7fO6e3RLCexf
+ 8E1i+uZVp7P+ow1w5h7SkRTbwigLZA09Eef1yo1iO2Af1OAbEWPtKVclzGjFfWZS6ATv
+ x53iCgKAeNbksFS0CE/WkLfsItT03806vuPc8gc8MrYlkyRVT4LfH/5+LNDikaWPLfVf
+ SHx7AxBm1PYi2PTCM0ABmVRkqxNvhrEhTd2JXCyfbenQvr04O/am+eWV6Ih7kWP3HpOv
+ Bz1fdomP96W/UWDwVhR7WcSY8TKwSkByyJkxREe7bnCZQr4vjpsu65C47kBqW2dAfrYS
+ d2EQ==
+X-Gm-Message-State: AO0yUKX3hUF6mUl3f3e6iNum62DAWMmk0Y6z6fEAAlZWnqnXCmTKSGUu
+ aLYAiXEisQRH/tFmfwcntjN8qT4U5SbP1VkQgII=
+X-Google-Smtp-Source: AKy350Y6Ddeh8S703GLVtfoqfnHWkMTPZPGIe6t6xnVAiBA/hiKgKznrbiU5WZAJXfgQA9LzEIKg/Q==
+X-Received: by 2002:a17:90a:4fe5:b0:23d:48a9:3408 with SMTP id
+ q92-20020a17090a4fe500b0023d48a93408mr5797910pjh.41.1679741678718; 
+ Sat, 25 Mar 2023 03:54:38 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1544:6601:790a:6e23:4a91:70a])
  by smtp.gmail.com with ESMTPSA id
- p14-20020a17090a2d8e00b0023af4eb597csm1234684pjd.52.2023.03.25.03.54.37
+ p14-20020a17090a2d8e00b0023af4eb597csm1234684pjd.52.2023.03.25.03.54.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Mar 2023 03:54:37 -0700 (PDT)
+ Sat, 25 Mar 2023 03:54:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, palmer@dabbelt.com,
  zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com
-Subject: [PATCH v6 08/25] accel/tcg: Add cpu_ld*_code_mmu
-Date: Sat, 25 Mar 2023 03:54:12 -0700
-Message-Id: <20230325105429.1142530-9-richard.henderson@linaro.org>
+Subject: [PATCH v6 09/25] target/riscv: Use cpu_ld*_code_mmu for HLVX
+Date: Sat, 25 Mar 2023 03:54:13 -0700
+Message-Id: <20230325105429.1142530-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230325105429.1142530-1-richard.henderson@linaro.org>
 References: <20230325105429.1142530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=richard.henderson@linaro.org; helo=mail-yw1-x112a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,162 +91,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At least RISC-V has the need to be able to perform a read
-using execute permissions, outside of translation.
-Add helpers to facilitate this.
+Use the new functions to properly check execute permission
+for the read rather than read permission.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst.h |  9 +++++++
- accel/tcg/cputlb.c      | 48 ++++++++++++++++++++++++++++++++++
- accel/tcg/user-exec.c   | 58 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 115 insertions(+)
+ target/riscv/op_helper.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index 09b55cc0ee..c141f0394f 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -445,6 +445,15 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
- # define cpu_stq_mmu          cpu_stq_le_mmu
- #endif
- 
-+uint8_t cpu_ldb_code_mmu(CPUArchState *env, abi_ptr addr,
-+                         MemOpIdx oi, uintptr_t ra);
-+uint16_t cpu_ldw_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra);
-+uint32_t cpu_ldl_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra);
-+uint64_t cpu_ldq_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra);
-+
- uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr);
- uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr addr);
- uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr addr);
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index e984a98dc4..e62c8f3c3f 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -2768,3 +2768,51 @@ uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr addr)
-     MemOpIdx oi = make_memop_idx(MO_TEUQ, cpu_mmu_index(env, true));
-     return full_ldq_code(env, addr, oi, 0);
- }
-+
-+uint8_t cpu_ldb_code_mmu(CPUArchState *env, abi_ptr addr,
-+                         MemOpIdx oi, uintptr_t retaddr)
-+{
-+    return full_ldub_code(env, addr, oi, retaddr);
-+}
-+
-+uint16_t cpu_ldw_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t retaddr)
-+{
-+    MemOp mop = get_memop(oi);
-+    int idx = get_mmuidx(oi);
-+    uint16_t ret;
-+
-+    ret = full_lduw_code(env, addr, make_memop_idx(MO_TEUW, idx), retaddr);
-+    if ((mop & MO_BSWAP) != MO_TE) {
-+        ret = bswap16(ret);
-+    }
-+    return ret;
-+}
-+
-+uint32_t cpu_ldl_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t retaddr)
-+{
-+    MemOp mop = get_memop(oi);
-+    int idx = get_mmuidx(oi);
-+    uint32_t ret;
-+
-+    ret = full_ldl_code(env, addr, make_memop_idx(MO_TEUL, idx), retaddr);
-+    if ((mop & MO_BSWAP) != MO_TE) {
-+        ret = bswap32(ret);
-+    }
-+    return ret;
-+}
-+
-+uint64_t cpu_ldq_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t retaddr)
-+{
-+    MemOp mop = get_memop(oi);
-+    int idx = get_mmuidx(oi);
-+    uint64_t ret;
-+
-+    ret = full_ldq_code(env, addr, make_memop_idx(MO_TEUQ, idx), retaddr);
-+    if ((mop & MO_BSWAP) != MO_TE) {
-+        ret = bswap64(ret);
-+    }
-+    return ret;
-+}
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 7b37fd229e..44e0ea55ba 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -1222,6 +1222,64 @@ uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr ptr)
-     return ret;
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 962a061228..b2169a99ff 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -427,18 +427,27 @@ void helper_hyp_gvma_tlb_flush(CPURISCVState *env)
+     helper_hyp_tlb_flush(env);
  }
  
-+uint8_t cpu_ldb_code_mmu(CPUArchState *env, abi_ptr addr,
-+                         MemOpIdx oi, uintptr_t ra)
-+{
-+    void *haddr;
-+    uint8_t ret;
-+
-+    haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_INST_FETCH);
-+    ret = ldub_p(haddr);
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+uint16_t cpu_ldw_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra)
-+{
-+    void *haddr;
-+    uint16_t ret;
-+
-+    haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_INST_FETCH);
-+    ret = lduw_p(haddr);
-+    clear_helper_retaddr();
-+    if (get_memop(oi) & MO_BSWAP) {
-+        ret = bswap16(ret);
-+    }
-+    return ret;
-+}
-+
-+uint32_t cpu_ldl_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra)
-+{
-+    void *haddr;
-+    uint32_t ret;
-+
-+    haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_INST_FETCH);
-+    ret = ldl_p(haddr);
-+    clear_helper_retaddr();
-+    if (get_memop(oi) & MO_BSWAP) {
-+        ret = bswap32(ret);
-+    }
-+    return ret;
-+}
-+
-+uint64_t cpu_ldq_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra)
-+{
-+    void *haddr;
-+    uint64_t ret;
-+
-+    validate_memop(oi, MO_BEUQ);
-+    haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
-+    ret = ldq_p(haddr);
-+    clear_helper_retaddr();
-+    if (get_memop(oi) & MO_BSWAP) {
-+        ret = bswap64(ret);
-+    }
-+    return ret;
-+}
-+
- #include "ldst_common.c.inc"
++/*
++ * TODO: These implementations are not quite correct.  They perform the
++ * access using execute permission just fine, but the final PMP check
++ * is supposed to have read permission as well.  Without replicating
++ * a fair fraction of cputlb.c, fixing this requires adding new mmu_idx
++ * which would imply that exact check in tlb_fill.
++ */
+ target_ulong helper_hyp_hlvx_hu(CPURISCVState *env, target_ulong address)
+ {
+     int mmu_idx = cpu_mmu_index(env, true) | MMU_HYP_ACCESS_BIT;
++    MemOpIdx oi = make_memop_idx(MO_TEUW, mmu_idx);
  
- /*
+-    return cpu_lduw_mmuidx_ra(env, address, mmu_idx, GETPC());
++    return cpu_ldw_code_mmu(env, address, oi, GETPC());
+ }
+ 
+ target_ulong helper_hyp_hlvx_wu(CPURISCVState *env, target_ulong address)
+ {
+     int mmu_idx = cpu_mmu_index(env, true) | MMU_HYP_ACCESS_BIT;
++    MemOpIdx oi = make_memop_idx(MO_TEUL, mmu_idx);
+ 
+-    return cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
++    return cpu_ldl_code_mmu(env, address, oi, GETPC());
+ }
+ 
+ #endif /* !CONFIG_USER_ONLY */
 -- 
 2.34.1
 
