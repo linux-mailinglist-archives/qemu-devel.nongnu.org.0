@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74EA6C90F4
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 22:26:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9A76C91C0
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Mar 2023 00:53:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgBOQ-0005jE-Nt; Sat, 25 Mar 2023 17:25:42 -0400
+	id 1pgDfl-0005O5-Fw; Sat, 25 Mar 2023 19:51:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pgBON-0005iU-Uo; Sat, 25 Mar 2023 17:25:40 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1pgDfi-0005Lp-OS; Sat, 25 Mar 2023 19:51:42 -0400
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1pgBOL-0008Lt-61; Sat, 25 Mar 2023 17:25:39 -0400
-Received: by mail-ed1-x529.google.com with SMTP id cn12so21281622edb.4;
- Sat, 25 Mar 2023 14:25:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1pgDfe-0000HS-C9; Sat, 25 Mar 2023 19:51:42 -0400
+Received: by mail-qt1-x830.google.com with SMTP id ga7so5317256qtb.2;
+ Sat, 25 Mar 2023 16:51:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679779535;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=gmail.com; s=20210112; t=1679788296;
+ h=in-reply-to:content-disposition:mime-version:references:reply-to
+ :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Czl03zsxMG7vksUdBLSuneiprjNWyiqb2amGnmUhh6Q=;
- b=AnUl0w7pTvyE0LuqAL99Mw+m3wVmQmyu5zc9s+g2A6JomqmOJwEQ68+9dMl/suvfUr
- EY6/aMqlnqs+npbFvsw9pVDFdJSmhW7Cd/aLmYjyL2v2/A7C//PJ8Na4K2H84tmOqXsh
- EKhTS6OtSsVJFXxsR8jVne4d7yNKakl/PIID93jYEfiC7UEV4lLWv/7ZahLGY+2POU5o
- /lV96qWisGH7ph9mH6ZTwuQMT7XdMa61WuYCHtnHHA5Ap+VnsRLmpQezx3nM5KKGynnq
- 8/06WgsGI6jyUC09jQSLj3mK7MPS7hReCLMkS6mdbxEIuM75EKMBDTwnbxWxkiOHaW2A
- 27og==
+ bh=HCMGABiuXMiu+fgBhaMjAO4o7828rcLaijV/n3aLxq0=;
+ b=pVmu/4EwQ+I9ycCYXfU1hm2gjORy2gMcCIhH2zPgszDonzL+k3skDDrH0ihxpxBhbm
+ 15+RtZcx1Z3ve7WWH4xuMJ13x9JswcfliElgE/rgo4ozzX4fcHhPgQRVklCHHSWOT9t0
+ tBlhbbACW8NJRoFpLIOFNnCIEbbg74J9AmyhYuxYgPXYiZQ2ymEScR5wuGcdU+z4d7NK
+ SX8dPvIDxSAj10T50JU5GvLGAGLD+qErCBQCd9XtkhToMXaz4H/pYYlFWe64grZtAKHd
+ EyF/MlZxKsDgUO+3S8JTIzYo4Dni8Wqqk2ZOZgHuMTpmFGhEB3Oe9MYub5b90T2IWPOY
+ vCDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679779535;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Czl03zsxMG7vksUdBLSuneiprjNWyiqb2amGnmUhh6Q=;
- b=sWCNBPv19O7teptQvUEZhFOiuD4FVBRQrd1stiJJJaunbBrj9mSoCvGnro7cocfTP6
- FEqGGH7TG77yr3UAy2ZzD7W/yCNfAvDAdQ4GqJSsyvJbHKxIlqmUT86O1J87BdfdR2vO
- PlxIkeMDrGSUyEXW34EOsHJQ5Ud4wK8gZNB16+IC7Vcqtn3uYWUDMcF5HZTMjkCmiiuO
- XFTEkbpVZMubtpqa5iJGdkVOSa6u0tAr03LVxxLoOVP0YxN4t9Og0DOKr/teGyUW88QS
- Z7a40Os9UGuQ4WKAWFdj0nx6QnGo96Nkp84HNz5+xHPMETwtvnE8wRiH4b37tchjWOMp
- Korg==
-X-Gm-Message-State: AO0yUKWKWgA4voISF8cX4RT/jiD+PG8CiSq+WEdeO/yyMxDwE2wZ0YSO
- wtt05ri2cIC07EIcmNuyAt63a4oC/iqSsEX25S06WUIP6pI=
-X-Google-Smtp-Source: AK7set9iU/MTxRsU4YnKbwRYXMIrhuVl4+3uOEB2YhZwa+c2OJ53kNhlev/GF2SuuPy+edY1JdBOiFdsIAz8VHwxL98=
-X-Received: by 2002:a17:906:ca41:b0:939:a51a:dc30 with SMTP id
- jx1-20020a170906ca4100b00939a51adc30mr7300803ejb.2.1679779535131; Sat, 25 Mar
- 2023 14:25:35 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679788296;
+ h=in-reply-to:content-disposition:mime-version:references:reply-to
+ :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=HCMGABiuXMiu+fgBhaMjAO4o7828rcLaijV/n3aLxq0=;
+ b=eo1go6ESbk1IGjG1JtcI12NHtn/4Jp0Jouh32raQvqYM255gIZJ3KZfP4+SmdYL8vp
+ t+45daUtUMQRyBvyGNhN+/v9Q+D8uaFp5drdZb3Sk0OZJ31Cu/kYkiUftNF1gpfiggyw
+ BtKQcAR2bEqciCIQrNtR1k6zzvRbnwNaa37RXg2cu417dLIu24KFupbz+XVIbzfYj1OM
+ LwXOI5PX0DCNR6ja61v1Cjgcz7lpKM0PH8bZt+x+AeoTgQMBdT6pLqCZcg/Iq8ObX8Ub
+ VwFOi11Mbd6KK+V7aGxU0SRLFD5hsi9GPbcBT0rYuom37Yr4u99W4CY01LsNtc5uL+FX
+ FQpg==
+X-Gm-Message-State: AO0yUKVNW09++S+mRK9X6uOYMfrWdgKaoj13gFwWwD7qqglOnTPZWrEr
+ kKpZfnjfe0mEH9MJXJ7QyqhtnhKvCA==
+X-Google-Smtp-Source: AK7set8vjHwD3fPHboecO/NYFVzbFSaSCmQouYfXHEvA+AK8gXCAPzwaAVyg5FrEPPyei11L1nEl/Q==
+X-Received: by 2002:ac8:5c8c:0:b0:3bf:e005:3a85 with SMTP id
+ r12-20020ac85c8c000000b003bfe0053a85mr12863975qta.5.1679788295309; 
+ Sat, 25 Mar 2023 16:51:35 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id
+ c5-20020ac85185000000b003e398d00fabsm2071545qtn.85.2023.03.25.16.51.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 25 Mar 2023 16:51:34 -0700 (PDT)
+Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:2e5a:fe58:7b33:b7a])
+ by serve.minyard.net (Postfix) with ESMTPSA id 302C3180052;
+ Sat, 25 Mar 2023 23:51:33 +0000 (UTC)
+Date: Sat, 25 Mar 2023 18:51:32 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Hao Wu <wuhaotsh@google.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com,
+ Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com,
+ titusr@google.com, peter.maydell@linaro.org
+Subject: Re: [PATCH v2 4/7] hw/ipmi: Refactor IPMI interface
+Message-ID: <ZB+JBFBQBOv7Vcwq@minyard.net>
+References: <20230324230904.3710289-1-wuhaotsh@google.com>
+ <20230324230904.3710289-5-wuhaotsh@google.com>
 MIME-Version: 1.0
-References: <20230321102510.16754-1-qianfanguijin@163.com>
- <20230321102510.16754-6-qianfanguijin@163.com>
-In-Reply-To: <20230321102510.16754-6-qianfanguijin@163.com>
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-Date: Sat, 25 Mar 2023 22:25:26 +0100
-Message-ID: <CABtshVT3JvYShbwLD66Vk_jF7v2zV9fh1o46ejLdR4ma+k16og@mail.gmail.com>
-Subject: Re: [PATCH v1 05/11] hw/misc: AXP221 PMU Emulation
-To: qianfanguijin@163.com
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Niek Linnenbank <nieklinnenbank@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230324230904.3710289-5-wuhaotsh@google.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=tcminyard@gmail.com; helo=mail-qt1-x830.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,335 +92,1528 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Fri, Mar 24, 2023 at 04:09:01PM -0700, Hao Wu wrote:
+> This patch refactors the IPMI interface so that it can be used by both
+> the BMC side and core-side simulation.
 
-On Tue, Mar 21, 2023 at 11:25=E2=80=AFAM <qianfanguijin@163.com> wrote:
->
-> From: qianfan Zhao <qianfanguijin@163.com>
->
-> This patch adds minimal support for AXP-221 PMU and connect it to
-> bananapi M2U board.
->
-> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+This patch is hard to review because it does so many different things
+and they are all mixed up.  It looks ok, but it's hard to tell.  I know
+it's a pain (I've done it many times) but can you split this up into
+separate patches that each make one change?  The list you have below
+tells me that 5 patches might be appropriate.
 
-As I wrote in the RFC patch, I would suggest renaming the axp209.c
-file to axp2xx_pmu.c and extending it with support for AXP-221.
-The difference in emulated AXP-209 and AXP-221 is only in registers,
-so they can share the functions.
+If I really had to a full review this myself I would break it into
+multiple patches just to review it.  But that should really be your job.
 
-Best regards,
-Strahinja
+Thanks,
 
+-corey
 
+> 
+> Detail changes:
+> (1) Split IPMIInterface into IPMIInterfaceHost (for host side
+>     simulation) and IPMIInterfaceClient (for BMC side simulation).
+> (2) rename handle_rsp -> handle_msg so the name fits both BMC side and
+>     Core side.
+> (3) Add a new class IPMICore. This class represents a simulator/external
+>     connection for both BMC and Core side emulation.
+> (4) Change the original IPMIBmc to IPMIBmcHost, representing host side
+>     simulation.
+> (5) Add a new type IPMIBmcClient representing BMC side simulation.
+> (6) Appy the changes to  the entire IPMI library.
+> 
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
 > ---
->  hw/arm/Kconfig        |   1 +
->  hw/arm/bananapi_m2u.c |   5 ++
->  hw/misc/Kconfig       |   4 +
->  hw/misc/axp221.c      | 196 ++++++++++++++++++++++++++++++++++++++++++
->  hw/misc/meson.build   |   1 +
->  hw/misc/trace-events  |   5 ++
->  6 files changed, 212 insertions(+)
->  create mode 100644 hw/misc/axp221.c
->
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 9e14c3427e..cf8fb083f8 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -347,6 +347,7 @@ config ALLWINNER_H3
->  config ALLWINNER_R40
->      bool
->      select ALLWINNER_A10_PIT
-> +    select AXP221_PMU
->      select SERIAL
->      select ARM_TIMER
->      select ARM_GIC
-> diff --git a/hw/arm/bananapi_m2u.c b/hw/arm/bananapi_m2u.c
-> index 1b6241719d..bdee12efd3 100644
-> --- a/hw/arm/bananapi_m2u.c
-> +++ b/hw/arm/bananapi_m2u.c
-> @@ -22,6 +22,7 @@
->  #include "exec/address-spaces.h"
->  #include "qapi/error.h"
->  #include "hw/boards.h"
-> +#include "hw/i2c/i2c.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/arm/allwinner-r40.h"
->
-> @@ -91,6 +92,10 @@ static void bpim2u_init(MachineState *machine)
->                       &bootroom_loaded);
->      mmc_attach_drive(r40, &r40->mmc3, 3, false, NULL);
->
-> +    /* Connect AXP221 */
-> +    i2c =3D I2C_BUS(qdev_get_child_bus(DEVICE(&r40->i2c0), "i2c"));
-> +    i2c_slave_create_simple(i2c, "axp221_pmu", 0x34);
+>  hw/acpi/ipmi.c             |   4 +-
+>  hw/ipmi/ipmi.c             |  60 +++++++++++++----
+>  hw/ipmi/ipmi_bmc_extern.c  |  67 ++++++++++--------
+>  hw/ipmi/ipmi_bmc_sim.c     |  78 ++++++++++++---------
+>  hw/ipmi/ipmi_bt.c          |  33 +++++----
+>  hw/ipmi/ipmi_kcs.c         |  31 +++++----
+>  hw/ipmi/isa_ipmi_bt.c      |  18 ++---
+>  hw/ipmi/isa_ipmi_kcs.c     |  13 ++--
+>  hw/ipmi/pci_ipmi_bt.c      |   8 +--
+>  hw/ipmi/pci_ipmi_kcs.c     |   8 +--
+>  hw/ipmi/smbus_ipmi.c       |  26 +++----
+>  hw/ppc/pnv.c               |   4 +-
+>  hw/ppc/pnv_bmc.c           |  22 +++---
+>  hw/smbios/smbios_type_38.c |  11 +--
+>  include/hw/ipmi/ipmi.h     | 135 ++++++++++++++++++++++++++-----------
+>  include/hw/ipmi/ipmi_bt.h  |   2 +-
+>  include/hw/ipmi/ipmi_kcs.h |   2 +-
+>  include/hw/ppc/pnv.h       |  12 ++--
+>  18 files changed, 332 insertions(+), 202 deletions(-)
+> 
+> diff --git a/hw/acpi/ipmi.c b/hw/acpi/ipmi.c
+> index a20e57d465..e6d2cd790b 100644
+> --- a/hw/acpi/ipmi.c
+> +++ b/hw/acpi/ipmi.c
+> @@ -66,8 +66,8 @@ void build_ipmi_dev_aml(AcpiDevAmlIf *adev, Aml *scope)
+>  {
+>      Aml *dev;
+>      IPMIFwInfo info = {};
+> -    IPMIInterface *ii = IPMI_INTERFACE(adev);
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +    IPMIInterfaceHost *ii = IPMI_INTERFACE_HOST(adev);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_GET_CLASS(ii);
+>      uint16_t version;
+>  
+>      iic->get_fwinfo(ii, &info);
+> diff --git a/hw/ipmi/ipmi.c b/hw/ipmi/ipmi.c
+> index bbb07b151e..1be923ffb8 100644
+> --- a/hw/ipmi/ipmi.c
+> +++ b/hw/ipmi/ipmi.c
+> @@ -38,7 +38,7 @@ uint32_t ipmi_next_uuid(void)
+>      return ipmi_current_uuid++;
+>  }
+>  
+> -static int ipmi_do_hw_op(IPMIInterface *s, enum ipmi_op op, int checkonly)
+> +static int ipmi_do_hw_op(IPMIInterfaceHost *s, enum ipmi_op op, int checkonly)
+>  {
+>      switch (op) {
+>      case IPMI_RESET_CHASSIS:
+> @@ -78,9 +78,9 @@ static int ipmi_do_hw_op(IPMIInterface *s, enum ipmi_op op, int checkonly)
+>      }
+>  }
+>  
+> -static void ipmi_interface_class_init(ObjectClass *class, void *data)
+> +static void ipmi_interface_host_class_init(ObjectClass *class, void *data)
+>  {
+> -    IPMIInterfaceClass *ik = IPMI_INTERFACE_CLASS(class);
+> +    IPMIInterfaceHostClass *ik = IPMI_INTERFACE_HOST_CLASS(class);
+>  
+>      ik->do_hw_op = ipmi_do_hw_op;
+>  }
+> @@ -89,27 +89,48 @@ static const TypeInfo ipmi_interface_type_info = {
+>      .name = TYPE_IPMI_INTERFACE,
+>      .parent = TYPE_INTERFACE,
+>      .class_size = sizeof(IPMIInterfaceClass),
+> -    .class_init = ipmi_interface_class_init,
+> +};
 > +
->      /* SDRAM */
->      memory_region_add_subregion(get_system_memory(), r40->memmap[AW_R40_=
-DEV_SDRAM],
->                                  machine->ram);
-> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-> index 2ef5781ef8..f66ac390b1 100644
-> --- a/hw/misc/Kconfig
-> +++ b/hw/misc/Kconfig
-> @@ -180,4 +180,8 @@ config AXP209_PMU
->      bool
->      depends on I2C
->
-> +config AXP221_PMU
-> +    bool
-> +    depends on I2C
+> +static const TypeInfo ipmi_interface_host_type_info = {
+> +    .name = TYPE_IPMI_INTERFACE_HOST,
+> +    .parent = TYPE_IPMI_INTERFACE,
+> +    .class_size = sizeof(IPMIInterfaceHostClass),
+> +    .class_init = ipmi_interface_host_class_init,
+> +};
 > +
->  source macio/Kconfig
-> diff --git a/hw/misc/axp221.c b/hw/misc/axp221.c
-> new file mode 100644
-> index 0000000000..47784bb085
-> --- /dev/null
-> +++ b/hw/misc/axp221.c
-> @@ -0,0 +1,196 @@
-> +/*
-> + * AXP-221/221s PMU Emulation
-> + *
-> + * Copyright (C) 2023 qianfan Zhao <qianfanguijin@163.com>
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining=
- a
-> + * copy of this software and associated documentation files (the "Softwa=
-re"),
-> + * to deal in the Software without restriction, including without limita=
-tion
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicen=
-se,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be includ=
-ed in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL THE
-> + * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHE=
-R
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG
-> + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-> + * DEALINGS IN THE SOFTWARE.
-> + *
-> + * SPDX-License-Identifier: MIT
-> + */
+> +static const TypeInfo ipmi_interface_client_type_info = {
+> +    .name = TYPE_IPMI_INTERFACE_CLIENT,
+> +    .parent = TYPE_IPMI_INTERFACE,
+> +    .class_size = sizeof(IPMIInterfaceClientClass),
+> +};
 > +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "qemu/bitops.h"
-> +#include "trace.h"
-> +#include "hw/i2c/i2c.h"
-> +#include "migration/vmstate.h"
+> +static const TypeInfo ipmi_core_type_info = {
+> +    .name = TYPE_IPMI_CORE,
+> +    .parent = TYPE_DEVICE,
+> +    .instance_size = sizeof(IPMICore),
+> +    .class_size = sizeof(IPMICoreClass),
+> +    .abstract = true,
+>  };
+>  
+>  static void isa_ipmi_bmc_check(const Object *obj, const char *name,
+>                                 Object *val, Error **errp)
+>  {
+> -    IPMIBmc *bmc = IPMI_BMC(val);
+> +    IPMICore *ic = IPMI_CORE(val);
+>  
+> -    if (bmc->intf)
+> +    if (ic->intf) {
+>          error_setg(errp, "BMC object is already in use");
+> +    }
+>  }
+>  
+>  void ipmi_bmc_find_and_link(Object *obj, Object **bmc)
+>  {
+> -    object_property_add_link(obj, "bmc", TYPE_IPMI_BMC, bmc,
+> +    object_property_add_link(obj, "bmc", TYPE_IPMI_BMC_HOST, bmc,
+>                               isa_ipmi_bmc_check,
+>                               OBJ_PROP_LINK_STRONG);
+>  }
+>  
+>  static Property ipmi_bmc_properties[] = {
+> -    DEFINE_PROP_UINT8("slave_addr",  IPMIBmc, slave_addr, 0x20),
+> +    DEFINE_PROP_UINT8("slave_addr",  IPMIBmcHost, slave_addr, 0x20),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> @@ -120,19 +141,30 @@ static void bmc_class_init(ObjectClass *oc, void *data)
+>      device_class_set_props(dc, ipmi_bmc_properties);
+>  }
+>  
+> -static const TypeInfo ipmi_bmc_type_info = {
+> -    .name = TYPE_IPMI_BMC,
+> -    .parent = TYPE_DEVICE,
+> -    .instance_size = sizeof(IPMIBmc),
+> +static const TypeInfo ipmi_bmc_host_type_info = {
+> +    .name = TYPE_IPMI_BMC_HOST,
+> +    .parent = TYPE_IPMI_CORE,
+> +    .instance_size = sizeof(IPMIBmcHost),
+>      .abstract = true,
+> -    .class_size = sizeof(IPMIBmcClass),
+> +    .class_size = sizeof(IPMIBmcHostClass),
+>      .class_init = bmc_class_init,
+>  };
+>  
+> +static const TypeInfo ipmi_bmc_client_type_info = {
+> +    .name = TYPE_IPMI_BMC_CLIENT,
+> +    .parent = TYPE_IPMI_CORE,
+> +    .instance_size = sizeof(IPMIBmcClient),
+> +    .abstract = true,
+> +};
 > +
-> +#define TYPE_AXP221_PMU "axp221_pmu"
+>  static void ipmi_register_types(void)
+>  {
+>      type_register_static(&ipmi_interface_type_info);
+> -    type_register_static(&ipmi_bmc_type_info);
+> +    type_register_static(&ipmi_interface_host_type_info);
+> +    type_register_static(&ipmi_interface_client_type_info);
+> +    type_register_static(&ipmi_core_type_info);
+> +    type_register_static(&ipmi_bmc_host_type_info);
+> +    type_register_static(&ipmi_bmc_client_type_info);
+>  }
+>  
+>  type_init(ipmi_register_types)
+> diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
+> index acf2bab35f..67f6a5d829 100644
+> --- a/hw/ipmi/ipmi_bmc_extern.c
+> +++ b/hw/ipmi/ipmi_bmc_extern.c
+> @@ -65,7 +65,7 @@
+>  #define TYPE_IPMI_BMC_EXTERN "ipmi-bmc-extern"
+>  OBJECT_DECLARE_SIMPLE_TYPE(IPMIBmcExtern, IPMI_BMC_EXTERN)
+>  struct IPMIBmcExtern {
+> -    IPMIBmc parent;
+> +    IPMIBmcHost parent;
+>  
+>      CharBackend chr;
+>  
+> @@ -147,8 +147,9 @@ static void continue_send(IPMIBmcExtern *ibe)
+>  
+>  static void extern_timeout(void *opaque)
+>  {
+> +    IPMICore *ic = opaque;
+>      IPMIBmcExtern *ibe = opaque;
+> -    IPMIInterface *s = ibe->parent.intf;
+> +    IPMIInterface *s = ic->intf;
+>  
+>      if (ibe->connected) {
+>          if (ibe->waiting_rsp && (ibe->outlen == 0)) {
+> @@ -158,7 +159,7 @@ static void extern_timeout(void *opaque)
+>              ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+>              ibe->inbuf[2] = ibe->outbuf[2];
+>              ibe->inbuf[3] = IPMI_CC_TIMEOUT;
+> -            k->handle_rsp(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> +            k->handle_msg(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
+>          } else {
+>              continue_send(ibe);
+>          }
+> @@ -181,13 +182,13 @@ static void addchar(IPMIBmcExtern *ibe, unsigned char ch)
+>      }
+>  }
+>  
+> -static void ipmi_bmc_extern_handle_command(IPMIBmc *b,
+> +static void ipmi_bmc_extern_handle_command(IPMICore *ic,
+>                                         uint8_t *cmd, unsigned int cmd_len,
+>                                         unsigned int max_cmd_len,
+>                                         uint8_t msg_id)
+>  {
+> -    IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(b);
+> -    IPMIInterface *s = ibe->parent.intf;
+> +    IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(ic);
+> +    IPMIInterface *s = ic->intf;
+>      uint8_t err = 0, csum;
+>      unsigned int i;
+>  
+> @@ -213,7 +214,7 @@ static void ipmi_bmc_extern_handle_command(IPMIBmc *b,
+>          rsp[1] = cmd[1];
+>          rsp[2] = err;
+>          ibe->waiting_rsp = false;
+> -        k->handle_rsp(s, msg_id, rsp, 3);
+> +        k->handle_msg(s, msg_id, rsp, 3);
+>          goto out;
+>      }
+>  
+> @@ -236,8 +237,11 @@ static void ipmi_bmc_extern_handle_command(IPMIBmc *b,
+>  
+>  static void handle_hw_op(IPMIBmcExtern *ibe, unsigned char hw_op)
+>  {
+> -    IPMIInterface *s = ibe->parent.intf;
+> +    IPMICore *ic = IPMI_CORE(ibe);
+> +    IPMIInterface *s = ic->intf;
+> +    IPMIInterfaceHost *hs = IPMI_INTERFACE_HOST(s);
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    IPMIInterfaceHostClass *hk = IPMI_INTERFACE_HOST_GET_CLASS(s);
+>  
+>      switch (hw_op) {
+>      case VM_CMD_VERSION:
+> @@ -257,34 +261,36 @@ static void handle_hw_op(IPMIBmcExtern *ibe, unsigned char hw_op)
+>          break;
+>  
+>      case VM_CMD_POWEROFF:
+> -        k->do_hw_op(s, IPMI_POWEROFF_CHASSIS, 0);
+> +        hk->do_hw_op(hs, IPMI_POWEROFF_CHASSIS, 0);
+>          break;
+>  
+>      case VM_CMD_RESET:
+> -        k->do_hw_op(s, IPMI_RESET_CHASSIS, 0);
+> +        hk->do_hw_op(hs, IPMI_RESET_CHASSIS, 0);
+>          break;
+>  
+>      case VM_CMD_ENABLE_IRQ:
+> -        k->set_irq_enable(s, 1);
+> +        hk->set_irq_enable(hs, 1);
+>          break;
+>  
+>      case VM_CMD_DISABLE_IRQ:
+> -        k->set_irq_enable(s, 0);
+> +        hk->set_irq_enable(hs, 0);
+>          break;
+>  
+>      case VM_CMD_SEND_NMI:
+> -        k->do_hw_op(s, IPMI_SEND_NMI, 0);
+> +        hk->do_hw_op(hs, IPMI_SEND_NMI, 0);
+>          break;
+>  
+>      case VM_CMD_GRACEFUL_SHUTDOWN:
+> -        k->do_hw_op(s, IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP, 0);
+> +        hk->do_hw_op(hs, IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP, 0);
+>          break;
+>      }
+>  }
+>  
+>  static void handle_msg(IPMIBmcExtern *ibe)
+>  {
+> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(ibe->parent.intf);
+> +    IPMICore *ic = IPMI_CORE(ibe);
+> +    IPMIInterface *s = ic->intf;
+> +    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>  
+>      if (ibe->in_escape) {
+>          ipmi_debug("msg escape not ended\n");
+> @@ -306,7 +312,7 @@ static void handle_msg(IPMIBmcExtern *ibe)
+>  
+>      timer_del(ibe->extern_timer);
+>      ibe->waiting_rsp = false;
+> -    k->handle_rsp(ibe->parent.intf, ibe->inbuf[0], ibe->inbuf + 1, ibe->inpos - 1);
+> +    k->handle_msg(s, ibe->inbuf[0], ibe->inbuf + 1, ibe->inpos - 1);
+>  }
+>  
+>  static int can_receive(void *opaque)
+> @@ -382,9 +388,12 @@ static void receive(void *opaque, const uint8_t *buf, int size)
+>  
+>  static void chr_event(void *opaque, QEMUChrEvent event)
+>  {
+> +    IPMICore *ic = opaque;
+>      IPMIBmcExtern *ibe = opaque;
+> -    IPMIInterface *s = ibe->parent.intf;
+> +    IPMIInterface *s = ic->intf;
+> +    IPMIInterfaceHost *hs = IPMI_INTERFACE_HOST(s);
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    IPMIInterfaceHostClass *hk = IPMI_INTERFACE_HOST_GET_CLASS(s);
+>      unsigned char v;
+>  
+>      switch (event) {
+> @@ -398,17 +407,17 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+>          ibe->outlen++;
+>          addchar(ibe, VM_CMD_CAPABILITIES);
+>          v = VM_CAPABILITIES_IRQ | VM_CAPABILITIES_ATTN;
+> -        if (k->do_hw_op(ibe->parent.intf, IPMI_POWEROFF_CHASSIS, 1) == 0) {
+> +        if (hk->do_hw_op(hs, IPMI_POWEROFF_CHASSIS, 1) == 0) {
+>              v |= VM_CAPABILITIES_POWER;
+>          }
+> -        if (k->do_hw_op(ibe->parent.intf, IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP, 1)
+> +        if (hk->do_hw_op(hs, IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP, 1)
+>              == 0) {
+>              v |= VM_CAPABILITIES_GRACEFUL_SHUTDOWN;
+>          }
+> -        if (k->do_hw_op(ibe->parent.intf, IPMI_RESET_CHASSIS, 1) == 0) {
+> +        if (hk->do_hw_op(hs, IPMI_RESET_CHASSIS, 1) == 0) {
+>              v |= VM_CAPABILITIES_RESET;
+>          }
+> -        if (k->do_hw_op(ibe->parent.intf, IPMI_SEND_NMI, 1) == 0) {
+> +        if (hk->do_hw_op(hs, IPMI_SEND_NMI, 1) == 0) {
+>              v |= VM_CAPABILITIES_NMI;
+>          }
+>          addchar(ibe, v);
+> @@ -433,7 +442,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+>              ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+>              ibe->inbuf[2] = ibe->outbuf[2];
+>              ibe->inbuf[3] = IPMI_CC_BMC_INIT_IN_PROGRESS;
+> -            k->handle_rsp(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> +            k->handle_msg(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
+>          }
+>          break;
+>  
+> @@ -445,7 +454,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
+>      }
+>  }
+>  
+> -static void ipmi_bmc_extern_handle_reset(IPMIBmc *b)
+> +static void ipmi_bmc_extern_handle_reset(IPMIBmcHost *b)
+>  {
+>      IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(b);
+>  
+> @@ -475,14 +484,15 @@ static int ipmi_bmc_extern_post_migrate(void *opaque, int version_id)
+>       * error on the interface if a response was being waited for.
+>       */
+>      if (ibe->waiting_rsp) {
+> -        IPMIInterface *ii = ibe->parent.intf;
+> +        IPMICore *ic = opaque;
+> +        IPMIInterface *ii = ic->intf;
+>          IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+>  
+>          ibe->waiting_rsp = false;
+>          ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+>          ibe->inbuf[2] = ibe->outbuf[2];
+>          ibe->inbuf[3] = IPMI_CC_BMC_INIT_IN_PROGRESS;
+> -        iic->handle_rsp(ii, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> +        iic->handle_msg(ii, ibe->outbuf[0], ibe->inbuf + 1, 3);
+>      }
+>      return 0;
+>  }
+> @@ -522,9 +532,10 @@ static Property ipmi_bmc_extern_properties[] = {
+>  static void ipmi_bmc_extern_class_init(ObjectClass *oc, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+> -    IPMIBmcClass *bk = IPMI_BMC_CLASS(oc);
+> +    IPMICoreClass *ck = IPMI_CORE_CLASS(oc);
+> +    IPMIBmcHostClass *bk = IPMI_BMC_HOST_CLASS(oc);
+>  
+> -    bk->handle_command = ipmi_bmc_extern_handle_command;
+> +    ck->handle_command = ipmi_bmc_extern_handle_command;
+>      bk->handle_reset = ipmi_bmc_extern_handle_reset;
+>      dc->hotpluggable = false;
+>      dc->realize = ipmi_bmc_extern_realize;
+> @@ -533,7 +544,7 @@ static void ipmi_bmc_extern_class_init(ObjectClass *oc, void *data)
+>  
+>  static const TypeInfo ipmi_bmc_extern_type = {
+>      .name          = TYPE_IPMI_BMC_EXTERN,
+> -    .parent        = TYPE_IPMI_BMC,
+> +    .parent        = TYPE_IPMI_BMC_HOST,
+>      .instance_size = sizeof(IPMIBmcExtern),
+>      .instance_init = ipmi_bmc_extern_init,
+>      .instance_finalize = ipmi_bmc_extern_finalize,
+> diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
+> index 905e091094..6296e5cfed 100644
+> --- a/hw/ipmi/ipmi_bmc_sim.c
+> +++ b/hw/ipmi/ipmi_bmc_sim.c
+> @@ -178,7 +178,7 @@ typedef struct IPMIRcvBufEntry {
+>  } IPMIRcvBufEntry;
+>  
+>  struct IPMIBmcSim {
+> -    IPMIBmc parent;
+> +    IPMIBmcHost parent;
+>  
+>      QEMUTimer *timer;
+>  
+> @@ -384,7 +384,7 @@ static int sdr_find_entry(IPMISdr *sdr, uint16_t recid,
+>      return 1;
+>  }
+>  
+> -int ipmi_bmc_sdr_find(IPMIBmc *b, uint16_t recid,
+> +int ipmi_bmc_sdr_find(IPMIBmcHost *b, uint16_t recid,
+>                        const struct ipmi_sdr_compact **sdr, uint16_t *nextrec)
+>  
+>  {
+> @@ -448,10 +448,11 @@ static int attn_irq_enabled(IPMIBmcSim *ibs)
+>              IPMI_BMC_MSG_FLAG_EVT_BUF_FULL_SET(ibs));
+>  }
+>  
+> -void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log)
+> +void ipmi_bmc_gen_event(IPMIBmcHost *b, uint8_t *evt, bool log)
+>  {
+>      IPMIBmcSim *ibs = IPMI_BMC_SIMULATOR(b);
+> -    IPMIInterface *s = ibs->parent.intf;
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterface *s = ic->intf;
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>  
+>      if (!IPMI_BMC_EVENT_MSG_BUF_ENABLED(ibs)) {
+> @@ -475,7 +476,8 @@ void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log)
+>  static void gen_event(IPMIBmcSim *ibs, unsigned int sens_num, uint8_t deassert,
+>                        uint8_t evd1, uint8_t evd2, uint8_t evd3)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterface *s = ic->intf;
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>      uint8_t evt[16];
+>      IPMISensor *sens = ibs->sensors + sens_num;
+> @@ -638,13 +640,14 @@ static void next_timeout(IPMIBmcSim *ibs)
+>      timer_mod_ns(ibs->timer, next);
+>  }
+>  
+> -static void ipmi_sim_handle_command(IPMIBmc *b,
+> +static void ipmi_sim_handle_command(IPMICore *b,
+>                                      uint8_t *cmd, unsigned int cmd_len,
+>                                      unsigned int max_cmd_len,
+>                                      uint8_t msg_id)
+>  {
+>      IPMIBmcSim *ibs = IPMI_BMC_SIMULATOR(b);
+> -    IPMIInterface *s = ibs->parent.intf;
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterface *s = ic->intf;
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>      const IPMICmdHandler *hdl;
+>      RspBuffer rsp = RSP_BUFFER_INITIALIZER;
+> @@ -690,15 +693,18 @@ static void ipmi_sim_handle_command(IPMIBmc *b,
+>      hdl->cmd_handler(ibs, cmd, cmd_len, &rsp);
+>  
+>   out:
+> -    k->handle_rsp(s, msg_id, rsp.buffer, rsp.len);
+> +    k->handle_msg(s, msg_id, rsp.buffer, rsp.len);
+>  
+>      next_timeout(ibs);
+>  }
+>  
+>  static void ipmi_sim_handle_timeout(IPMIBmcSim *ibs)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterface *s = ic->intf;
+> +    IPMIInterfaceHost *hs = IPMI_INTERFACE_HOST(s);
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    IPMIInterfaceHostClass *hk = IPMI_INTERFACE_HOST_CLASS(k);
+>  
+>      if (!ibs->watchdog_running) {
+>          goto out;
+> @@ -708,7 +714,7 @@ static void ipmi_sim_handle_timeout(IPMIBmcSim *ibs)
+>          switch (IPMI_BMC_WATCHDOG_GET_PRE_ACTION(ibs)) {
+>          case IPMI_BMC_WATCHDOG_PRE_NMI:
+>              ibs->msg_flags |= IPMI_BMC_MSG_FLAG_WATCHDOG_TIMEOUT_MASK;
+> -            k->do_hw_op(s, IPMI_SEND_NMI, 0);
+> +            hk->do_hw_op(hs, IPMI_SEND_NMI, 0);
+>              sensor_set_discrete_bit(ibs, IPMI_WATCHDOG_SENSOR, 8, 1,
+>                                      0xc8, (2 << 4) | 0xf, 0xff);
+>              break;
+> @@ -743,19 +749,19 @@ static void ipmi_sim_handle_timeout(IPMIBmcSim *ibs)
+>      case IPMI_BMC_WATCHDOG_ACTION_RESET:
+>          sensor_set_discrete_bit(ibs, IPMI_WATCHDOG_SENSOR, 1, 1,
+>                                  0xc1, ibs->watchdog_use & 0xf, 0xff);
+> -        k->do_hw_op(s, IPMI_RESET_CHASSIS, 0);
+> +        hk->do_hw_op(hs, IPMI_RESET_CHASSIS, 0);
+>          break;
+>  
+>      case IPMI_BMC_WATCHDOG_ACTION_POWER_DOWN:
+>          sensor_set_discrete_bit(ibs, IPMI_WATCHDOG_SENSOR, 2, 1,
+>                                  0xc2, ibs->watchdog_use & 0xf, 0xff);
+> -        k->do_hw_op(s, IPMI_POWEROFF_CHASSIS, 0);
+> +        hk->do_hw_op(hs, IPMI_POWEROFF_CHASSIS, 0);
+>          break;
+>  
+>      case IPMI_BMC_WATCHDOG_ACTION_POWER_CYCLE:
+>          sensor_set_discrete_bit(ibs, IPMI_WATCHDOG_SENSOR, 2, 1,
+>                                  0xc3, ibs->watchdog_use & 0xf, 0xff);
+> -        k->do_hw_op(s, IPMI_POWERCYCLE_CHASSIS, 0);
+> +        hk->do_hw_op(hs, IPMI_POWERCYCLE_CHASSIS, 0);
+>          break;
+>      }
+>  
+> @@ -788,8 +794,9 @@ static void chassis_control(IPMIBmcSim *ibs,
+>                              uint8_t *cmd, unsigned int cmd_len,
+>                              RspBuffer *rsp)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterfaceHost *s = IPMI_INTERFACE_HOST(ic->intf);
+> +    IPMIInterfaceHostClass *k = IPMI_INTERFACE_HOST_GET_CLASS(s);
+>  
+>      switch (cmd[2] & 0xf) {
+>      case 0: /* power down */
+> @@ -845,8 +852,9 @@ static void get_device_id(IPMIBmcSim *ibs,
+>  
+>  static void set_global_enables(IPMIBmcSim *ibs, uint8_t val)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterfaceHost *s = IPMI_INTERFACE_HOST(ic->intf);
+> +    IPMIInterfaceHostClass *k = IPMI_INTERFACE_HOST_GET_CLASS(s);
+>      bool irqs_on;
+>  
+>      ibs->bmc_global_enables = val;
+> @@ -861,8 +869,9 @@ static void cold_reset(IPMIBmcSim *ibs,
+>                         uint8_t *cmd, unsigned int cmd_len,
+>                         RspBuffer *rsp)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterfaceHost *s = IPMI_INTERFACE_HOST(ic->intf);
+> +    IPMIInterfaceHostClass *k = IPMI_INTERFACE_HOST_GET_CLASS(s);
+>  
+>      /* Disable all interrupts */
+>      set_global_enables(ibs, 1 << IPMI_BMC_EVENT_LOG_BIT);
+> @@ -876,8 +885,9 @@ static void warm_reset(IPMIBmcSim *ibs,
+>                         uint8_t *cmd, unsigned int cmd_len,
+>                         RspBuffer *rsp)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterfaceHost *s = IPMI_INTERFACE_HOST(ic->intf);
+> +    IPMIInterfaceHostClass *k = IPMI_INTERFACE_HOST_GET_CLASS(s);
+>  
+>      if (k->reset) {
+>          k->reset(s, false);
+> @@ -939,7 +949,8 @@ static void clr_msg_flags(IPMIBmcSim *ibs,
+>                            uint8_t *cmd, unsigned int cmd_len,
+>                            RspBuffer *rsp)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterface *s = ic->intf;
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>  
+>      ibs->msg_flags &= ~cmd[2];
+> @@ -957,7 +968,8 @@ static void read_evt_msg_buf(IPMIBmcSim *ibs,
+>                               uint8_t *cmd, unsigned int cmd_len,
+>                               RspBuffer *rsp)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterface *s = ic->intf;
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>      unsigned int i;
+>  
+> @@ -989,7 +1001,8 @@ static void get_msg(IPMIBmcSim *ibs,
+>      g_free(msg);
+>  
+>      if (QTAILQ_EMPTY(&ibs->rcvbufs)) {
+> -        IPMIInterface *s = ibs->parent.intf;
+> +        IPMICore *ic = IPMI_CORE(ibs);
+> +        IPMIInterface *s = ic->intf;
+>          IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>  
+>          ibs->msg_flags &= ~IPMI_BMC_MSG_FLAG_RCV_MSG_QUEUE;
+> @@ -1014,7 +1027,8 @@ static void send_msg(IPMIBmcSim *ibs,
+>                       uint8_t *cmd, unsigned int cmd_len,
+>                       RspBuffer *rsp)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterface *s = ic->intf;
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>      IPMIRcvBufEntry *msg;
+>      uint8_t *buf;
+> @@ -1130,8 +1144,9 @@ static void set_watchdog_timer(IPMIBmcSim *ibs,
+>                                 uint8_t *cmd, unsigned int cmd_len,
+>                                 RspBuffer *rsp)
+>  {
+> -    IPMIInterface *s = ibs->parent.intf;
+> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    IPMICore *ic = IPMI_CORE(ibs);
+> +    IPMIInterfaceHost *s = IPMI_INTERFACE_HOST(ic->intf);
+> +    IPMIInterfaceHostClass *k = IPMI_INTERFACE_HOST_GET_CLASS(s);
+>      unsigned int val;
+>  
+>      val = cmd[2] & 0x7; /* Validate use */
+> @@ -2159,9 +2174,8 @@ out:
+>  
+>  static void ipmi_sim_realize(DeviceState *dev, Error **errp)
+>  {
+> -    IPMIBmc *b = IPMI_BMC(dev);
+>      unsigned int i;
+> -    IPMIBmcSim *ibs = IPMI_BMC_SIMULATOR(b);
+> +    IPMIBmcSim *ibs = IPMI_BMC_SIMULATOR(dev);
+>  
+>      QTAILQ_INIT(&ibs->rcvbufs);
+>  
+> @@ -2209,17 +2223,17 @@ static Property ipmi_sim_properties[] = {
+>  static void ipmi_sim_class_init(ObjectClass *oc, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+> -    IPMIBmcClass *bk = IPMI_BMC_CLASS(oc);
+> +    IPMICoreClass *ck = IPMI_CORE_CLASS(oc);
+>  
+>      dc->hotpluggable = false;
+>      dc->realize = ipmi_sim_realize;
+>      device_class_set_props(dc, ipmi_sim_properties);
+> -    bk->handle_command = ipmi_sim_handle_command;
+> +    ck->handle_command = ipmi_sim_handle_command;
+>  }
+>  
+>  static const TypeInfo ipmi_sim_type = {
+>      .name          = TYPE_IPMI_BMC_SIMULATOR,
+> -    .parent        = TYPE_IPMI_BMC,
+> +    .parent        = TYPE_IPMI_BMC_HOST,
+>      .instance_size = sizeof(IPMIBmcSim),
+>      .class_init    = ipmi_sim_class_init,
+>  };
+> diff --git a/hw/ipmi/ipmi_bt.c b/hw/ipmi/ipmi_bt.c
+> index 22f94fb98d..1363098753 100644
+> --- a/hw/ipmi/ipmi_bt.c
+> +++ b/hw/ipmi/ipmi_bt.c
+> @@ -92,8 +92,9 @@ static void ipmi_bt_lower_irq(IPMIBT *ib)
+>      }
+>  }
+>  
+> -static void ipmi_bt_handle_event(IPMIInterface *ii)
+> +static void ipmi_bt_handle_event(IPMIInterfaceHost *iih)
+>  {
+> +    IPMIInterface *ii = IPMI_INTERFACE(iih);
+>      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+>      IPMIBT *ib = iic->get_backend_data(ii);
+>  
+> @@ -141,8 +142,8 @@ static void ipmi_bt_handle_event(IPMIInterface *ii)
+>      ib->waiting_seq = ib->inmsg[2];
+>      ib->inmsg[2] = ib->inmsg[1];
+>      {
+> -        IPMIBmcClass *bk = IPMI_BMC_GET_CLASS(ib->bmc);
+> -        bk->handle_command(ib->bmc, ib->inmsg + 2, ib->inlen - 2,
+> +        IPMICoreClass *ck = IPMI_CORE_GET_CLASS(ib->bmc);
+> +        ck->handle_command(IPMI_CORE(ib->bmc), ib->inmsg + 2, ib->inlen - 2,
+>                             sizeof(ib->inmsg), ib->waiting_rsp);
+>      }
+>   out:
+> @@ -215,9 +216,9 @@ static uint64_t ipmi_bt_ioport_read(void *opaque, hwaddr addr, unsigned size)
+>      return ret;
+>  }
+>  
+> -static void ipmi_bt_signal(IPMIBT *ib, IPMIInterface *ii)
+> +static void ipmi_bt_signal(IPMIBT *ib, IPMIInterfaceHost *ii)
+>  {
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_GET_CLASS(ii);
+>  
+>      ib->do_wake = 1;
+>      while (ib->do_wake) {
+> @@ -254,7 +255,7 @@ static void ipmi_bt_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+>          }
+>          if (IPMI_BT_GET_H2B_ATN(val)) {
+>              IPMI_BT_SET_BBUSY(ib->control_reg, 1);
+> -            ipmi_bt_signal(ib, ii);
+> +            ipmi_bt_signal(ib, IPMI_INTERFACE_HOST(ii));
+>          }
+>          break;
+>  
+> @@ -329,10 +330,10 @@ static void ipmi_bt_set_atn(IPMIInterface *ii, int val, int irq)
+>      }
+>  }
+>  
+> -static void ipmi_bt_handle_reset(IPMIInterface *ii, bool is_cold)
+> +static void ipmi_bt_handle_reset(IPMIInterfaceHost *ii, bool is_cold)
+>  {
+>      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> -    IPMIBT *ib = iic->get_backend_data(ii);
+> +    IPMIBT *ib = iic->get_backend_data(IPMI_INTERFACE(ii));
+>  
+>      if (is_cold) {
+>          /* Disable the BT interrupt on reset */
+> @@ -344,16 +345,18 @@ static void ipmi_bt_handle_reset(IPMIInterface *ii, bool is_cold)
+>      }
+>  }
+>  
+> -static void ipmi_bt_set_irq_enable(IPMIInterface *ii, int val)
+> +static void ipmi_bt_set_irq_enable(IPMIInterfaceHost *ii, int val)
+>  {
+>      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> -    IPMIBT *ib = iic->get_backend_data(ii);
+> +    IPMIBT *ib = iic->get_backend_data(IPMI_INTERFACE(ii));
+>  
+>      ib->irqs_enabled = val;
+>  }
+>  
+> -static void ipmi_bt_init(IPMIInterface *ii, unsigned int min_size, Error **errp)
+> +static void ipmi_bt_init(IPMIInterfaceHost *iih, unsigned int min_size,
+> +                         Error **errp)
+>  {
+> +    IPMIInterface *ii = IPMI_INTERFACE(iih);
+>      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+>      IPMIBT *ib = iic->get_backend_data(ii);
+>  
+> @@ -426,11 +429,13 @@ void ipmi_bt_get_fwinfo(struct IPMIBT *ib, IPMIFwInfo *info)
+>      info->irq_type = IPMI_LEVEL_IRQ;
+>  }
+>  
+> -void ipmi_bt_class_init(IPMIInterfaceClass *iic)
+> +void ipmi_bt_class_init(IPMIInterfaceClass *ic)
+>  {
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_CLASS(ic);
 > +
-> +#define AXP221(obj) \
-> +    OBJECT_CHECK(AXP221I2CState, (obj), TYPE_AXP221_PMU)
+>      iic->init = ipmi_bt_init;
+> -    iic->set_atn = ipmi_bt_set_atn;
+> -    iic->handle_rsp = ipmi_bt_handle_rsp;
+> +    ic->set_atn = ipmi_bt_set_atn;
+> +    ic->handle_msg = ipmi_bt_handle_rsp;
+>      iic->handle_if_event = ipmi_bt_handle_event;
+>      iic->set_irq_enable = ipmi_bt_set_irq_enable;
+>      iic->reset = ipmi_bt_handle_reset;
+> diff --git a/hw/ipmi/ipmi_kcs.c b/hw/ipmi/ipmi_kcs.c
+> index a77612946a..771f2bc0b2 100644
+> --- a/hw/ipmi/ipmi_kcs.c
+> +++ b/hw/ipmi/ipmi_kcs.c
+> @@ -94,18 +94,20 @@ static void ipmi_kcs_lower_irq(IPMIKCS *ik)
+>  
+>  static void ipmi_kcs_signal(IPMIKCS *ik, IPMIInterface *ii)
+>  {
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +    IPMIInterfaceHost *iih = IPMI_INTERFACE_HOST(ii);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_GET_CLASS(ii);
+>  
+>      ik->do_wake = 1;
+>      while (ik->do_wake) {
+>          ik->do_wake = 0;
+> -        iic->handle_if_event(ii);
+> +        iic->handle_if_event(iih);
+>      }
+>  }
+>  
+> -static void ipmi_kcs_handle_event(IPMIInterface *ii)
+> +static void ipmi_kcs_handle_event(IPMIInterfaceHost *iih)
+>  {
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +    IPMIInterface *ii = IPMI_INTERFACE(iih);
+> +    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(iih);
+>      IPMIKCS *ik = iic->get_backend_data(ii);
+>  
+>      if (ik->cmd_reg == IPMI_KCS_ABORT_STATUS_CMD) {
+> @@ -162,12 +164,12 @@ static void ipmi_kcs_handle_event(IPMIInterface *ii)
+>              ik->inlen++;
+>          }
+>          if (ik->write_end) {
+> -            IPMIBmcClass *bk = IPMI_BMC_GET_CLASS(ik->bmc);
+> +            IPMICoreClass *ck = IPMI_CORE_GET_CLASS(ik->bmc);
+>              ik->outlen = 0;
+>              ik->write_end = 0;
+>              ik->outpos = 0;
+> -            bk->handle_command(ik->bmc, ik->inmsg, ik->inlen, sizeof(ik->inmsg),
+> -                               ik->waiting_rsp);
+> +            ck->handle_command(IPMI_CORE(ik->bmc), ik->inmsg, ik->inlen,
+> +                               sizeof(ik->inmsg), ik->waiting_rsp);
+>              goto out_noibf;
+>          } else if (ik->cmd_reg == IPMI_KCS_WRITE_END_CMD) {
+>              ik->cmd_reg = -1;
+> @@ -321,18 +323,19 @@ static void ipmi_kcs_set_atn(IPMIInterface *ii, int val, int irq)
+>      }
+>  }
+>  
+> -static void ipmi_kcs_set_irq_enable(IPMIInterface *ii, int val)
+> +static void ipmi_kcs_set_irq_enable(IPMIInterfaceHost *ii, int val)
+>  {
+>      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> -    IPMIKCS *ik = iic->get_backend_data(ii);
+> +    IPMIKCS *ik = iic->get_backend_data(IPMI_INTERFACE(ii));
+>  
+>      ik->irqs_enabled = val;
+>  }
+>  
+>  /* min_size must be a power of 2. */
+> -static void ipmi_kcs_init(IPMIInterface *ii, unsigned int min_size,
+> +static void ipmi_kcs_init(IPMIInterfaceHost *iih, unsigned int min_size,
+>                            Error **errp)
+>  {
+> +    IPMIInterface *ii = IPMI_INTERFACE(iih);
+>      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+>      IPMIKCS *ik = iic->get_backend_data(ii);
+>  
+> @@ -413,11 +416,13 @@ void ipmi_kcs_get_fwinfo(IPMIKCS *ik, IPMIFwInfo *info)
+>      info->irq_type = IPMI_LEVEL_IRQ;
+>  }
+>  
+> -void ipmi_kcs_class_init(IPMIInterfaceClass *iic)
+> +void ipmi_kcs_class_init(IPMIInterfaceClass *ic)
+>  {
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_CLASS(ic);
 > +
-> +#define NR_REGS                         0xff
-> +
-> +/* A simple I2C slave which returns values of ID or CNT register. */
-> +typedef struct AXP221I2CState {
-> +    /*< private >*/
-> +    I2CSlave i2c;
-> +    /*< public >*/
-> +    uint8_t regs[NR_REGS];  /* peripheral registers */
-> +    uint8_t ptr;            /* current register index */
-> +    uint8_t count;          /* counter used for tx/rx */
-> +} AXP221I2CState;
-> +
-> +#define AXP221_PWR_STATUS_ACIN_PRESENT          BIT(7)
-> +#define AXP221_PWR_STATUS_ACIN_AVAIL            BIT(6)
-> +#define AXP221_PWR_STATUS_VBUS_PRESENT          BIT(5)
-> +#define AXP221_PWR_STATUS_VBUS_USED             BIT(4)
-> +#define AXP221_PWR_STATUS_BAT_CHARGING          BIT(2)
-> +#define AXP221_PWR_STATUS_ACIN_VBUS_POWERED     BIT(1)
-> +
-> +/* Reset all counters and load ID register */
-> +static void axp221_reset_enter(Object *obj, ResetType type)
-> +{
-> +    AXP221I2CState *s =3D AXP221(obj);
-> +
-> +    memset(s->regs, 0, NR_REGS);
-> +    s->ptr =3D 0;
-> +    s->count =3D 0;
-> +
-> +    /* input power status register */
-> +    s->regs[0x00] =3D AXP221_PWR_STATUS_ACIN_PRESENT
-> +                    | AXP221_PWR_STATUS_ACIN_AVAIL
-> +                    | AXP221_PWR_STATUS_ACIN_VBUS_POWERED;
-> +
-> +    s->regs[0x01] =3D 0x00; /* no battery is connected */
-> +
-> +    /* CHIPID register, no documented on datasheet, but it is checked in
-> +     * u-boot spl. I had read it from AXP221s and got 0x06 value.
-> +     * So leave 06h here.
+>      iic->init = ipmi_kcs_init;
+> -    iic->set_atn = ipmi_kcs_set_atn;
+> -    iic->handle_rsp = ipmi_kcs_handle_rsp;
+> +    ic->set_atn = ipmi_kcs_set_atn;
+> +    ic->handle_msg = ipmi_kcs_handle_rsp;
+>      iic->handle_if_event = ipmi_kcs_handle_event;
+>      iic->set_irq_enable = ipmi_kcs_set_irq_enable;
+>  }
+> diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
+> index a83e7243d6..a298f5f981 100644
+> --- a/hw/ipmi/isa_ipmi_bt.c
+> +++ b/hw/ipmi/isa_ipmi_bt.c
+> @@ -44,7 +44,8 @@ struct ISAIPMIBTDevice {
+>      uint32_t uuid;
+>  };
+>  
+> -static void isa_ipmi_bt_get_fwinfo(struct IPMIInterface *ii, IPMIFwInfo *info)
+> +static void isa_ipmi_bt_get_fwinfo(struct IPMIInterfaceHost *ii,
+> +                                   IPMIFwInfo *info)
+>  {
+>      ISAIPMIBTDevice *iib = ISA_IPMI_BT(ii);
+>  
+> @@ -73,8 +74,8 @@ static void isa_ipmi_bt_realize(DeviceState *dev, Error **errp)
+>      Error *err = NULL;
+>      ISADevice *isadev = ISA_DEVICE(dev);
+>      ISAIPMIBTDevice *iib = ISA_IPMI_BT(dev);
+> -    IPMIInterface *ii = IPMI_INTERFACE(dev);
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +    IPMIInterfaceHost *ii = IPMI_INTERFACE_HOST(dev);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_GET_CLASS(ii);
+>  
+>      if (!iib->bt.bmc) {
+>          error_setg(errp, "IPMI device requires a bmc attribute to be set");
+> @@ -83,7 +84,7 @@ static void isa_ipmi_bt_realize(DeviceState *dev, Error **errp)
+>  
+>      iib->uuid = ipmi_next_uuid();
+>  
+> -    iib->bt.bmc->intf = ii;
+> +    IPMI_CORE(iib->bt.bmc)->intf = IPMI_INTERFACE(ii);
+>      iib->bt.opaque = iib;
+>  
+>      iic->init(ii, 0, &err);
+> @@ -144,14 +145,15 @@ static Property ipmi_isa_properties[] = {
+>  static void isa_ipmi_bt_class_init(ObjectClass *oc, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_CLASS(oc);
+> +    IPMIInterfaceClass *ic = IPMI_INTERFACE_CLASS(oc);
+>      AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(oc);
+>  
+>      dc->realize = isa_ipmi_bt_realize;
+>      device_class_set_props(dc, ipmi_isa_properties);
+>  
+> -    iic->get_backend_data = isa_ipmi_bt_get_backend_data;
+> -    ipmi_bt_class_init(iic);
+> +    ic->get_backend_data = isa_ipmi_bt_get_backend_data;
+> +    ipmi_bt_class_init(ic);
+>      iic->get_fwinfo = isa_ipmi_bt_get_fwinfo;
+>      adevc->build_dev_aml = build_ipmi_dev_aml;
+>  }
+> @@ -163,7 +165,7 @@ static const TypeInfo isa_ipmi_bt_info = {
+>      .instance_init = isa_ipmi_bt_init,
+>      .class_init    = isa_ipmi_bt_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+> -        { TYPE_IPMI_INTERFACE },
+> +        { TYPE_IPMI_INTERFACE_HOST },
+>          { TYPE_ACPI_DEV_AML_IF },
+>          { }
+>      }
+> diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
+> index b2ed70b9da..a1372ae448 100644
+> --- a/hw/ipmi/isa_ipmi_kcs.c
+> +++ b/hw/ipmi/isa_ipmi_kcs.c
+> @@ -44,7 +44,7 @@ struct ISAIPMIKCSDevice {
+>      uint32_t uuid;
+>  };
+>  
+> -static void isa_ipmi_kcs_get_fwinfo(IPMIInterface *ii, IPMIFwInfo *info)
+> +static void isa_ipmi_kcs_get_fwinfo(IPMIInterfaceHost *ii, IPMIFwInfo *info)
+>  {
+>      ISAIPMIKCSDevice *iik = ISA_IPMI_KCS(ii);
+>  
+> @@ -72,8 +72,8 @@ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
+>      Error *err = NULL;
+>      ISADevice *isadev = ISA_DEVICE(dev);
+>      ISAIPMIKCSDevice *iik = ISA_IPMI_KCS(dev);
+> -    IPMIInterface *ii = IPMI_INTERFACE(dev);
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +    IPMIInterfaceHost *ii = IPMI_INTERFACE_HOST(dev);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_GET_CLASS(ii);
+>  
+>      if (!iik->kcs.bmc) {
+>          error_setg(errp, "IPMI device requires a bmc attribute to be set");
+> @@ -82,7 +82,7 @@ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
+>  
+>      iik->uuid = ipmi_next_uuid();
+>  
+> -    iik->kcs.bmc->intf = ii;
+> +    IPMI_CORE(iik->kcs.bmc)->intf = IPMI_INTERFACE(ii);
+>      iik->kcs.opaque = iik;
+>  
+>      iic->init(ii, 0, &err);
+> @@ -152,6 +152,7 @@ static void isa_ipmi_kcs_class_init(ObjectClass *oc, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+>      IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
+> +    IPMIInterfaceHostClass *iihc = IPMI_INTERFACE_HOST_CLASS(oc);
+>      AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(oc);
+>  
+>      dc->realize = ipmi_isa_realize;
+> @@ -159,7 +160,7 @@ static void isa_ipmi_kcs_class_init(ObjectClass *oc, void *data)
+>  
+>      iic->get_backend_data = isa_ipmi_kcs_get_backend_data;
+>      ipmi_kcs_class_init(iic);
+> -    iic->get_fwinfo = isa_ipmi_kcs_get_fwinfo;
+> +    iihc->get_fwinfo = isa_ipmi_kcs_get_fwinfo;
+>      adevc->build_dev_aml = build_ipmi_dev_aml;
+>  }
+>  
+> @@ -170,7 +171,7 @@ static const TypeInfo isa_ipmi_kcs_info = {
+>      .instance_init = isa_ipmi_kcs_init,
+>      .class_init    = isa_ipmi_kcs_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+> -        { TYPE_IPMI_INTERFACE },
+> +        { TYPE_IPMI_INTERFACE_HOST },
+>          { TYPE_ACPI_DEV_AML_IF },
+>          { }
+>      }
+> diff --git a/hw/ipmi/pci_ipmi_bt.c b/hw/ipmi/pci_ipmi_bt.c
+> index 633931b825..883bbda8f1 100644
+> --- a/hw/ipmi/pci_ipmi_bt.c
+> +++ b/hw/ipmi/pci_ipmi_bt.c
+> @@ -56,8 +56,8 @@ static void pci_ipmi_bt_realize(PCIDevice *pd, Error **errp)
+>  {
+>      Error *err = NULL;
+>      PCIIPMIBTDevice *pik = PCI_IPMI_BT(pd);
+> -    IPMIInterface *ii = IPMI_INTERFACE(pd);
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +    IPMIInterfaceHost *ii = IPMI_INTERFACE_HOST(pd);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_GET_CLASS(ii);
+>  
+>      if (!pik->bt.bmc) {
+>          error_setg(errp, "IPMI device requires a bmc attribute to be set");
+> @@ -66,7 +66,7 @@ static void pci_ipmi_bt_realize(PCIDevice *pd, Error **errp)
+>  
+>      pik->uuid = ipmi_next_uuid();
+>  
+> -    pik->bt.bmc->intf = ii;
+> +    IPMI_CORE(pik->bt.bmc)->intf = IPMI_INTERFACE(ii);
+>      pik->bt.opaque = pik;
+>  
+>      pci_config_set_prog_interface(pd->config, 0x02); /* BT */
+> @@ -134,7 +134,7 @@ static const TypeInfo pci_ipmi_bt_info = {
+>      .instance_init = pci_ipmi_bt_instance_init,
+>      .class_init    = pci_ipmi_bt_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+> -        { TYPE_IPMI_INTERFACE },
+> +        { TYPE_IPMI_INTERFACE_HOST },
+>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+>          { }
+>      }
+> diff --git a/hw/ipmi/pci_ipmi_kcs.c b/hw/ipmi/pci_ipmi_kcs.c
+> index 1a581413c2..40f8da95af 100644
+> --- a/hw/ipmi/pci_ipmi_kcs.c
+> +++ b/hw/ipmi/pci_ipmi_kcs.c
+> @@ -56,8 +56,8 @@ static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **errp)
+>  {
+>      Error *err = NULL;
+>      PCIIPMIKCSDevice *pik = PCI_IPMI_KCS(pd);
+> -    IPMIInterface *ii = IPMI_INTERFACE(pd);
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +    IPMIInterfaceHost *ii = IPMI_INTERFACE_HOST(pd);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_GET_CLASS(ii);
+>  
+>      if (!pik->kcs.bmc) {
+>          error_setg(errp, "IPMI device requires a bmc attribute to be set");
+> @@ -66,7 +66,7 @@ static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **errp)
+>  
+>      pik->uuid = ipmi_next_uuid();
+>  
+> -    pik->kcs.bmc->intf = ii;
+> +    IPMI_CORE(pik->kcs.bmc)->intf = IPMI_INTERFACE(ii);
+>      pik->kcs.opaque = pik;
+>  
+>      pci_config_set_prog_interface(pd->config, 0x01); /* KCS */
+> @@ -134,7 +134,7 @@ static const TypeInfo pci_ipmi_kcs_info = {
+>      .instance_init = pci_ipmi_kcs_instance_init,
+>      .class_init    = pci_ipmi_kcs_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+> -        { TYPE_IPMI_INTERFACE },
+> +        { TYPE_IPMI_INTERFACE_HOST },
+>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+>          { }
+>      }
+> diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
+> index d0991ab7f9..f61b260f58 100644
+> --- a/hw/ipmi/smbus_ipmi.c
+> +++ b/hw/ipmi/smbus_ipmi.c
+> @@ -49,7 +49,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(SMBusIPMIDevice, SMBUS_IPMI)
+>  struct SMBusIPMIDevice {
+>      SMBusDevice parent;
+>  
+> -    IPMIBmc *bmc;
+> +    IPMIBmcHost *bmc;
+>  
+>      uint8_t outmsg[MAX_SSIF_IPMI_MSG_SIZE];
+>      uint32_t outlen;
+> @@ -71,7 +71,7 @@ struct SMBusIPMIDevice {
+>      uint32_t uuid;
+>  };
+>  
+> -static void smbus_ipmi_handle_event(IPMIInterface *ii)
+> +static void smbus_ipmi_handle_event(IPMIInterfaceHost *ii)
+>  {
+>      /* No interrupts, so nothing to do here. */
+>  }
+> @@ -100,7 +100,7 @@ static void smbus_ipmi_set_atn(IPMIInterface *ii, int val, int irq)
+>      /* This is where PEC would go. */
+>  }
+>  
+> -static void smbus_ipmi_set_irq_enable(IPMIInterface *ii, int val)
+> +static void smbus_ipmi_set_irq_enable(IPMIInterfaceHost *ii, int val)
+>  {
+>  }
+>  
+> @@ -108,7 +108,7 @@ static void smbus_ipmi_send_msg(SMBusIPMIDevice *sid)
+>  {
+>      uint8_t *msg = sid->inmsg;
+>      uint32_t len = sid->inlen;
+> -    IPMIBmcClass *bk = IPMI_BMC_GET_CLASS(sid->bmc);
+> +    IPMICoreClass *ck = IPMI_CORE_GET_CLASS(sid->bmc);
+>  
+>      sid->outlen = 0;
+>      sid->outpos = 0;
+> @@ -136,8 +136,8 @@ static void smbus_ipmi_send_msg(SMBusIPMIDevice *sid)
+>          return;
+>      }
+>  
+> -    bk->handle_command(sid->bmc, sid->inmsg, sid->inlen, sizeof(sid->inmsg),
+> -                       sid->waiting_rsp);
+> +    ck->handle_command(IPMI_CORE(sid->bmc), sid->inmsg, sid->inlen,
+> +                       sizeof(sid->inmsg), sid->waiting_rsp);
+>  }
+>  
+>  static uint8_t ipmi_receive_byte(SMBusDevice *dev)
+> @@ -326,7 +326,7 @@ static void smbus_ipmi_realize(DeviceState *dev, Error **errp)
+>  
+>      sid->uuid = ipmi_next_uuid();
+>  
+> -    sid->bmc->intf = ii;
+> +    IPMI_CORE(sid->bmc)->intf = ii;
+>  }
+>  
+>  static void smbus_ipmi_init(Object *obj)
+> @@ -336,7 +336,8 @@ static void smbus_ipmi_init(Object *obj)
+>      ipmi_bmc_find_and_link(obj, (Object **) &sid->bmc);
+>  }
+>  
+> -static void smbus_ipmi_get_fwinfo(struct IPMIInterface *ii, IPMIFwInfo *info)
+> +static void smbus_ipmi_get_fwinfo(struct IPMIInterfaceHost *ii,
+> +                                  IPMIFwInfo *info)
+>  {
+>      SMBusIPMIDevice *sid = SMBUS_IPMI(ii);
+>  
+> @@ -354,7 +355,8 @@ static void smbus_ipmi_get_fwinfo(struct IPMIInterface *ii, IPMIFwInfo *info)
+>  static void smbus_ipmi_class_init(ObjectClass *oc, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+> -    IPMIInterfaceClass *iic = IPMI_INTERFACE_CLASS(oc);
+> +    IPMIInterfaceHostClass *iic = IPMI_INTERFACE_HOST_CLASS(oc);
+> +    IPMIInterfaceClass *ic = IPMI_INTERFACE_CLASS(oc);
+>      SMBusDeviceClass *sc = SMBUS_DEVICE_CLASS(oc);
+>      AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(oc);
+>  
+> @@ -362,8 +364,8 @@ static void smbus_ipmi_class_init(ObjectClass *oc, void *data)
+>      sc->write_data = ipmi_write_data;
+>      dc->vmsd = &vmstate_smbus_ipmi;
+>      dc->realize = smbus_ipmi_realize;
+> -    iic->set_atn = smbus_ipmi_set_atn;
+> -    iic->handle_rsp = smbus_ipmi_handle_rsp;
+> +    ic->set_atn = smbus_ipmi_set_atn;
+> +    ic->handle_msg = smbus_ipmi_handle_rsp;
+>      iic->handle_if_event = smbus_ipmi_handle_event;
+>      iic->set_irq_enable = smbus_ipmi_set_irq_enable;
+>      iic->get_fwinfo = smbus_ipmi_get_fwinfo;
+> @@ -377,7 +379,7 @@ static const TypeInfo smbus_ipmi_info = {
+>      .instance_init = smbus_ipmi_init,
+>      .class_init    = smbus_ipmi_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+> -        { TYPE_IPMI_INTERFACE },
+> +        { TYPE_IPMI_INTERFACE_HOST },
+>          { TYPE_ACPI_DEV_AML_IF },
+>          { }
+>      }
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 11cb48af2f..a39cbdaa38 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -595,7 +595,7 @@ static void pnv_powerdown_notify(Notifier *n, void *opaque)
+>  static void pnv_reset(MachineState *machine, ShutdownCause reason)
+>  {
+>      PnvMachineState *pnv = PNV_MACHINE(machine);
+> -    IPMIBmc *bmc;
+> +    IPMIBmcHost *bmc;
+>      void *fdt;
+>  
+>      qemu_devices_reset(reason);
+> @@ -746,7 +746,7 @@ static bool pnv_match_cpu(const char *default_type, const char *cpu_type)
+>      return ppc_default->pvr_match(ppc_default, ppc->pvr, false);
+>  }
+>  
+> -static void pnv_ipmi_bt_init(ISABus *bus, IPMIBmc *bmc, uint32_t irq)
+> +static void pnv_ipmi_bt_init(ISABus *bus, IPMIBmcHost *bmc, uint32_t irq)
+>  {
+>      ISADevice *dev = isa_new("isa-ipmi-bt");
+>  
+> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+> index 99f1e8d7f9..6e8a6f545b 100644
+> --- a/hw/ppc/pnv_bmc.c
+> +++ b/hw/ppc/pnv_bmc.c
+> @@ -50,12 +50,12 @@ typedef struct OemSel {
+>  #define SOFT_OFF        0x00
+>  #define SOFT_REBOOT     0x01
+>  
+> -static bool pnv_bmc_is_simulator(IPMIBmc *bmc)
+> +static bool pnv_bmc_is_simulator(IPMIBmcHost *bmc)
+>  {
+>      return object_dynamic_cast(OBJECT(bmc), TYPE_IPMI_BMC_SIMULATOR);
+>  }
+>  
+> -static void pnv_gen_oem_sel(IPMIBmc *bmc, uint8_t reboot)
+> +static void pnv_gen_oem_sel(IPMIBmcHost *bmc, uint8_t reboot)
+>  {
+>      /* IPMI SEL Event are 16 bytes long */
+>      OemSel sel = {
+> @@ -71,12 +71,12 @@ static void pnv_gen_oem_sel(IPMIBmc *bmc, uint8_t reboot)
+>      ipmi_bmc_gen_event(bmc, (uint8_t *) &sel, 0 /* do not log the event */);
+>  }
+>  
+> -void pnv_bmc_powerdown(IPMIBmc *bmc)
+> +void pnv_bmc_powerdown(IPMIBmcHost *bmc)
+>  {
+>      pnv_gen_oem_sel(bmc, SOFT_OFF);
+>  }
+>  
+> -void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt)
+> +void pnv_dt_bmc_sensors(IPMIBmcHost *bmc, void *fdt)
+>  {
+>      int offset;
+>      int i;
+> @@ -249,7 +249,7 @@ static const IPMINetfn hiomap_netfn = {
+>  };
+>  
+>  
+> -void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
+> +void pnv_bmc_set_pnor(IPMIBmcHost *bmc, PnvPnor *pnor)
+>  {
+>      if (!pnv_bmc_is_simulator(bmc)) {
+>          return;
+> @@ -267,15 +267,15 @@ void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
+>   * Instantiate the machine BMC. PowerNV uses the QEMU internal
+>   * simulator but it could also be external.
+>   */
+> -IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
+> +IPMIBmcHost *pnv_bmc_create(PnvPnor *pnor)
+>  {
+>      Object *obj;
+>  
+>      obj = object_new(TYPE_IPMI_BMC_SIMULATOR);
+>      qdev_realize(DEVICE(obj), NULL, &error_fatal);
+> -    pnv_bmc_set_pnor(IPMI_BMC(obj), pnor);
+> +    pnv_bmc_set_pnor(IPMI_BMC_HOST(obj), pnor);
+>  
+> -    return IPMI_BMC(obj);
+> +    return IPMI_BMC_HOST(obj);
+>  }
+>  
+>  typedef struct ForeachArgs {
+> @@ -296,9 +296,9 @@ static int bmc_find(Object *child, void *opaque)
+>      return 0;
+>  }
+>  
+> -IPMIBmc *pnv_bmc_find(Error **errp)
+> +IPMIBmcHost *pnv_bmc_find(Error **errp)
+>  {
+> -    ForeachArgs args = { TYPE_IPMI_BMC, NULL };
+> +    ForeachArgs args = { TYPE_IPMI_BMC_HOST, NULL };
+>      int ret;
+>  
+>      ret = object_child_foreach_recursive(object_get_root(), bmc_find, &args);
+> @@ -308,5 +308,5 @@ IPMIBmc *pnv_bmc_find(Error **errp)
+>          return NULL;
+>      }
+>  
+> -    return args.obj ? IPMI_BMC(args.obj) : NULL;
+> +    return args.obj ? IPMI_BMC_HOST(args.obj) : NULL;
+>  }
+> diff --git a/hw/smbios/smbios_type_38.c b/hw/smbios/smbios_type_38.c
+> index 168b886647..81a1cf09ea 100644
+> --- a/hw/smbios/smbios_type_38.c
+> +++ b/hw/smbios/smbios_type_38.c
+> @@ -83,16 +83,17 @@ static void smbios_add_ipmi_devices(BusState *bus)
+>  
+>      QTAILQ_FOREACH(kid, &bus->children,  sibling) {
+>          DeviceState *dev = kid->child;
+> -        Object *obj = object_dynamic_cast(OBJECT(dev), TYPE_IPMI_INTERFACE);
+> +        Object *obj = object_dynamic_cast(OBJECT(dev),
+> +                                          TYPE_IPMI_INTERFACE_HOST);
+>          BusState *childbus;
+>  
+>          if (obj) {
+> -            IPMIInterface *ii;
+> -            IPMIInterfaceClass *iic;
+> +            IPMIInterfaceHost *ii;
+> +            IPMIInterfaceHostClass *iic;
+>              IPMIFwInfo info;
+>  
+> -            ii = IPMI_INTERFACE(obj);
+> -            iic = IPMI_INTERFACE_GET_CLASS(obj);
+> +            ii = IPMI_INTERFACE_HOST(obj);
+> +            iic = IPMI_INTERFACE_HOST_GET_CLASS(obj);
+>              memset(&info, 0, sizeof(info));
+>              if (!iic->get_fwinfo) {
+>                  continue;
+> diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
+> index 77a7213ed9..5ead2467f5 100644
+> --- a/include/hw/ipmi/ipmi.h
+> +++ b/include/hw/ipmi/ipmi.h
+> @@ -109,99 +109,156 @@ uint32_t ipmi_next_uuid(void);
+>   * and the BMC.
+>   */
+>  #define TYPE_IPMI_INTERFACE "ipmi-interface"
+> -#define IPMI_INTERFACE(obj) \
+> -     INTERFACE_CHECK(IPMIInterface, (obj), TYPE_IPMI_INTERFACE)
+> -typedef struct IPMIInterfaceClass IPMIInterfaceClass;
+> -DECLARE_CLASS_CHECKERS(IPMIInterfaceClass, IPMI_INTERFACE,
+> -                       TYPE_IPMI_INTERFACE)
+> +OBJECT_DECLARE_TYPE(IPMIInterface, IPMIInterfaceClass, IPMI_INTERFACE)
+>  
+> +typedef struct IPMIInterfaceClass IPMIInterfaceClass;
+>  typedef struct IPMIInterface IPMIInterface;
+>  
+>  struct IPMIInterfaceClass {
+>      InterfaceClass parent;
+>  
+> +    /*
+> +     * The interfaces use this to perform certain ops
 > +     */
-> +    s->regs[0x03] =3D 0x06;
+> +    void (*set_atn)(struct IPMIInterface *s, int val, int irq);
 > +
-> +    s->regs[0x10] =3D 0xbf;
-> +    s->regs[0x13] =3D 0x01;
-> +    s->regs[0x30] =3D 0x60;
-> +    s->regs[0x31] =3D 0x03;
-> +    s->regs[0x32] =3D 0x43;
-> +    s->regs[0x33] =3D 0xc6;
-> +    s->regs[0x34] =3D 0x45;
-> +    s->regs[0x35] =3D 0x0e;
-> +    s->regs[0x36] =3D 0x5d;
-> +    s->regs[0x37] =3D 0x08;
-> +    s->regs[0x38] =3D 0xa5;
-> +    s->regs[0x39] =3D 0x1f;
-> +    s->regs[0x3c] =3D 0xfc;
-> +    s->regs[0x3d] =3D 0x16;
-> +    s->regs[0x80] =3D 0x80;
-> +    s->regs[0x82] =3D 0xe0;
-> +    s->regs[0x84] =3D 0x32;
-> +    s->regs[0x8f] =3D 0x01;
+> +    /*
+> +     * Set by the owner to hold the backend data for the interface.
+> +     */
+> +    void *(*get_backend_data)(struct IPMIInterface *s);
 > +
-> +    s->regs[0x90] =3D 0x07;
-> +    s->regs[0x91] =3D 0x1f;
-> +    s->regs[0x92] =3D 0x07;
-> +    s->regs[0x93] =3D 0x1f;
-> +
-> +    s->regs[0x40] =3D 0xd8;
-> +    s->regs[0x41] =3D 0xff;
-> +    s->regs[0x42] =3D 0x03;
-> +    s->regs[0x43] =3D 0x03;
-> +
-> +    s->regs[0xb8] =3D 0xc0;
-> +    s->regs[0xb9] =3D 0x64;
-> +    s->regs[0xe6] =3D 0xa0;
-> +}
-> +
-> +/* Handle events from master. */
-> +static int axp221_event(I2CSlave *i2c, enum i2c_event event)
-> +{
-> +    AXP221I2CState *s =3D AXP221(i2c);
-> +
-> +    s->count =3D 0;
-> +
-> +    return 0;
-> +}
-> +
-> +/* Called when master requests read */
-> +static uint8_t axp221_rx(I2CSlave *i2c)
-> +{
-> +    AXP221I2CState *s =3D AXP221(i2c);
-> +    uint8_t ret =3D 0xff;
-> +
-> +    if (s->ptr < NR_REGS) {
-> +        ret =3D s->regs[s->ptr];
-> +        trace_axp221_rx(s->ptr, ret);
-> +        s->ptr++;
-> +    }
-> +
-> +    return ret;
-> +}
+> +    /*
+> +     * Handle a message between the host and the BMC.
+> +     */
+> +    void (*handle_msg)(struct IPMIInterface *s, uint8_t msg_id,
+> +                       unsigned char *msg, unsigned int msg_len);
+> +};
 > +
 > +/*
-> + * Called when master sends write.
-> + * Update ptr with byte 0, then perform write with second byte.
+> + * An IPMI Interface representing host side communication to a
+> + * remote BMC, either simulated or an IPMI BMC client.
 > + */
-> +static int axp221_tx(I2CSlave *i2c, uint8_t data)
-> +{
-> +    AXP221I2CState *s =3D AXP221(i2c);
+> +#define TYPE_IPMI_INTERFACE_HOST "ipmi-interface-host"
+> +OBJECT_DECLARE_TYPE(IPMIInterfaceHost, IPMIInterfaceHostClass, \
+> +                    IPMI_INTERFACE_HOST)
 > +
-> +    if (s->count =3D=3D 0) {
-> +        /* Store register address */
-> +        s->ptr =3D data;
-> +        s->count++;
-> +        trace_axp221_select(data);
-> +    } else {
-> +        trace_axp221_tx(s->ptr, data);
-> +        s->regs[s->ptr++] =3D data;
-> +    }
+> +typedef struct IPMIInterfaceHostClass IPMIInterfaceHostClass;
+> +typedef struct IPMIInterfaceHost IPMIInterfaceHost;
 > +
-> +    return 0;
-> +}
+> +struct IPMIInterfaceHostClass {
+> +    IPMIInterfaceClass parent;
 > +
-> +static const VMStateDescription vmstate_axp221 =3D {
-> +    .name =3D TYPE_AXP221_PMU,
-> +    .version_id =3D 1,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_UINT8_ARRAY(regs, AXP221I2CState, NR_REGS),
-> +        VMSTATE_UINT8(count, AXP221I2CState),
-> +        VMSTATE_UINT8(ptr, AXP221I2CState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
+>      /*
+>       * min_size is the requested I/O size and must be a power of 2.
+>       * This is so PCI (or other busses) can request a bigger range.
+>       * Use 0 for the default.
+>       */
+> -    void (*init)(struct IPMIInterface *s, unsigned int min_size, Error **errp);
+> +    void (*init)(struct IPMIInterfaceHost *s, unsigned int min_size,
+> +                 Error **errp);
+>  
+>      /*
+>       * Perform various operations on the hardware.  If checkonly is
+>       * true, it will return if the operation can be performed, but it
+>       * will not do the operation.
+>       */
+> -    int (*do_hw_op)(struct IPMIInterface *s, enum ipmi_op op, int checkonly);
+> +    int (*do_hw_op)(struct IPMIInterfaceHost *s, enum ipmi_op op,
+> +                    int checkonly);
+>  
+>      /*
+>       * Enable/disable irqs on the interface when the BMC requests this.
+>       */
+> -    void (*set_irq_enable)(struct IPMIInterface *s, int val);
+> +    void (*set_irq_enable)(struct IPMIInterfaceHost *s, int val);
+>  
+>      /*
+>       * Handle an event that occurred on the interface, generally the.
+>       * target writing to a register.
+>       */
+> -    void (*handle_if_event)(struct IPMIInterface *s);
+> -
+> -    /*
+> -     * The interfaces use this to perform certain ops
+> -     */
+> -    void (*set_atn)(struct IPMIInterface *s, int val, int irq);
+> +    void (*handle_if_event)(struct IPMIInterfaceHost *s);
+>  
+>      /*
+>       * Got an IPMI warm/cold reset.
+>       */
+> -    void (*reset)(struct IPMIInterface *s, bool is_cold);
+> +    void (*reset)(struct IPMIInterfaceHost *s, bool is_cold);
+>  
+>      /*
+> -     * Handle a response from the bmc.
+> +     * Return the firmware info for a device.
+>       */
+> -    void (*handle_rsp)(struct IPMIInterface *s, uint8_t msg_id,
+> -                       unsigned char *rsp, unsigned int rsp_len);
+> +    void (*get_fwinfo)(struct IPMIInterfaceHost *s, IPMIFwInfo *info);
+> +};
+>  
+> -    /*
+> -     * Set by the owner to hold the backend data for the interface.
+> -     */
+> -    void *(*get_backend_data)(struct IPMIInterface *s);
+> +/*
+> + * An IPMI Interface representing BMC side communication to a
+> + * remote host running `ipmi-bmc-extern`.
+> + */
+> +#define TYPE_IPMI_INTERFACE_CLIENT "ipmi-interface-client"
+> +OBJECT_DECLARE_TYPE(IPMIInterfaceClient, IPMIInterfaceClientClass,
+> +                    IPMI_INTERFACE_CLIENT)
+>  
+> -    /*
+> -     * Return the firmware info for a device.
+> -     */
+> -    void (*get_fwinfo)(struct IPMIInterface *s, IPMIFwInfo *info);
+> +typedef struct IPMIInterfaceClientClass IPMIInterfaceClientClass;
+> +typedef struct IPMIInterfaceClient IPMIInterfaceClient;
+> +
+> +struct IPMIInterfaceClientClass {
+> +    IPMIInterfaceClass parent;
+>  };
+>  
+>  /*
+> - * Define a BMC simulator (or perhaps a connection to a real BMC)
+> + * Define an IPMI core (Either BMC or Host simulator.)
+>   */
+> -#define TYPE_IPMI_BMC "ipmi-bmc"
+> -OBJECT_DECLARE_TYPE(IPMIBmc, IPMIBmcClass,
+> -                    IPMI_BMC)
+> +#define TYPE_IPMI_CORE "ipmi-core"
+> +OBJECT_DECLARE_TYPE(IPMICore, IPMICoreClass, IPMI_CORE)
+>  
+> -struct IPMIBmc {
+> +struct IPMICore {
+>      DeviceState parent;
+>  
+> -    uint8_t slave_addr;
+> -
+>      IPMIInterface *intf;
+>  };
+>  
+> -struct IPMIBmcClass {
+> +struct IPMICoreClass {
+>      DeviceClass parent;
+>  
+> -    /* Called when the system resets to report to the bmc. */
+> -    void (*handle_reset)(struct IPMIBmc *s);
+> +    /*
+> +     * Handle a hardware command.
+> +     */
+> +    void (*handle_hw_op)(struct IPMICore *s, uint8_t hw_op, uint8_t operand);
+>  
+>      /*
+>       * Handle a command to the bmc.
+>       */
+> -    void (*handle_command)(struct IPMIBmc *s,
+> +    void (*handle_command)(struct IPMICore *s,
+>                             uint8_t *cmd, unsigned int cmd_len,
+>                             unsigned int max_cmd_len,
+>                             uint8_t msg_id);
+>  };
+>  
+> +/*
+> + * Define a BMC simulator (or perhaps a connection to a real BMC)
+> + */
+> +#define TYPE_IPMI_BMC_HOST "ipmi-bmc-host"
+> +OBJECT_DECLARE_TYPE(IPMIBmcHost, IPMIBmcHostClass, IPMI_BMC_HOST)
+> +
+> +struct IPMIBmcHost {
+> +    IPMICore parent;
+> +
+> +    uint8_t slave_addr;
 > +};
 > +
-> +static void axp221_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> +    I2CSlaveClass *isc =3D I2C_SLAVE_CLASS(oc);
-> +    ResettableClass *rc =3D RESETTABLE_CLASS(oc);
+> +struct IPMIBmcHostClass {
+> +    IPMICoreClass parent;
 > +
-> +    rc->phases.enter =3D axp221_reset_enter;
-> +    dc->vmsd =3D &vmstate_axp221;
-> +    isc->event =3D axp221_event;
-> +    isc->recv =3D axp221_rx;
-> +    isc->send =3D axp221_tx;
-> +}
+> +    /* Called when the system resets to report to the bmc. */
+> +    void (*handle_reset)(struct IPMIBmcHost *s);
 > +
-> +static const TypeInfo axp221_info =3D {
-> +    .name =3D TYPE_AXP221_PMU,
-> +    .parent =3D TYPE_I2C_SLAVE,
-> +    .instance_size =3D sizeof(AXP221I2CState),
-> +    .class_init =3D axp221_class_init
 > +};
 > +
-> +static void axp221_register_devices(void)
-> +{
-> +    type_register_static(&axp221_info);
-> +}
+> +/*
+> + * Define a BMC side client that responds to an `ipmi-bmc-extern`.
+> + */
+> +#define TYPE_IPMI_BMC_CLIENT "ipmi-bmc-client"
+> +OBJECT_DECLARE_SIMPLE_TYPE(IPMIBmcClient, IPMI_BMC_CLIENT)
+> +struct IPMIBmcClient {
+> +    IPMICore parent;
+> +};
 > +
-> +type_init(axp221_register_devices);
-> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> index 96e35f1cdb..d407a2df50 100644
-> --- a/hw/misc/meson.build
-> +++ b/hw/misc/meson.build
-> @@ -46,6 +46,7 @@ softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: fi=
-les('allwinner-h3-sysctrl
->  softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-si=
-d.c'))
->  softmmu_ss.add(when: 'CONFIG_ALLWINNER_R40', if_true: files('allwinner-r=
-40-ccu.c'))
->  softmmu_ss.add(when: 'CONFIG_AXP209_PMU', if_true: files('axp209.c'))
-> +softmmu_ss.add(when: 'CONFIG_AXP221_PMU', if_true: files('axp221.c'))
->  softmmu_ss.add(when: 'CONFIG_REALVIEW', if_true: files('arm_sysctl.c'))
->  softmmu_ss.add(when: 'CONFIG_NSERIES', if_true: files('cbus.c'))
->  softmmu_ss.add(when: 'CONFIG_ECCMEMCTL', if_true: files('eccmemctl.c'))
-> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> index c47876a902..63b072d2d8 100644
-> --- a/hw/misc/trace-events
-> +++ b/hw/misc/trace-events
-> @@ -28,6 +28,11 @@ axp209_rx(uint8_t reg, uint8_t data) "Read reg 0x%" PR=
-Ix8 " : 0x%" PRIx8
->  axp209_select(uint8_t reg) "Accessing reg 0x%" PRIx8
->  axp209_tx(uint8_t reg, uint8_t data) "Write reg 0x%" PRIx8 " : 0x%" PRIx=
-8
->
-> +# axp221.c
-> +axp221_rx(uint8_t reg, uint8_t data) "Read reg 0x%" PRIx8 " : 0x%" PRIx8
-> +axp221_select(uint8_t reg) "Accessing reg 0x%" PRIx8
-> +axp221_tx(uint8_t reg, uint8_t data) "Write reg 0x%" PRIx8 " : 0x%" PRIx=
-8
-> +
->  # eccmemctl.c
->  ecc_mem_writel_mer(uint32_t val) "Write memory enable 0x%08x"
->  ecc_mem_writel_mdr(uint32_t val) "Write memory delay 0x%08x"
-> --
-> 2.25.1
->
+>  /*
+>   * Add a link property to obj that points to a BMC.
+>   */
+> @@ -259,9 +316,9 @@ struct ipmi_sdr_compact {
+>  
+>  typedef uint8_t ipmi_sdr_compact_buffer[sizeof(struct ipmi_sdr_compact)];
+>  
+> -int ipmi_bmc_sdr_find(IPMIBmc *b, uint16_t recid,
+> +int ipmi_bmc_sdr_find(IPMIBmcHost *b, uint16_t recid,
+>                        const struct ipmi_sdr_compact **sdr, uint16_t *nextrec);
+> -void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log);
+> +void ipmi_bmc_gen_event(IPMIBmcHost *b, uint8_t *evt, bool log);
+>  
+>  #define TYPE_IPMI_BMC_SIMULATOR "ipmi-bmc-sim"
+>  OBJECT_DECLARE_SIMPLE_TYPE(IPMIBmcSim, IPMI_BMC_SIMULATOR)
+> diff --git a/include/hw/ipmi/ipmi_bt.h b/include/hw/ipmi/ipmi_bt.h
+> index 8a4316ea7c..237dbb4599 100644
+> --- a/include/hw/ipmi/ipmi_bt.h
+> +++ b/include/hw/ipmi/ipmi_bt.h
+> @@ -28,7 +28,7 @@
+>  #include "hw/ipmi/ipmi.h"
+>  
+>  typedef struct IPMIBT {
+> -    IPMIBmc *bmc;
+> +    IPMIBmcHost *bmc;
+>  
+>      bool do_wake;
+>  
+> diff --git a/include/hw/ipmi/ipmi_kcs.h b/include/hw/ipmi/ipmi_kcs.h
+> index 6e6ef4c539..1f491b7243 100644
+> --- a/include/hw/ipmi/ipmi_kcs.h
+> +++ b/include/hw/ipmi/ipmi_kcs.h
+> @@ -28,7 +28,7 @@
+>  #include "hw/ipmi/ipmi.h"
+>  
+>  typedef struct IPMIKCS {
+> -    IPMIBmc *bmc;
+> +    IPMIBmcHost *bmc;
+>  
+>      bool do_wake;
+>  
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index 409f3bf763..b712a7e8d5 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -91,7 +91,7 @@ struct PnvMachineState {
+>      ISABus       *isa_bus;
+>      uint32_t     cpld_irqstate;
+>  
+> -    IPMIBmc      *bmc;
+> +    IPMIBmcHost  *bmc;
+>      Notifier     powerdown_notifier;
+>  
+>      PnvPnor      *pnor;
+> @@ -108,11 +108,11 @@ PnvChip *pnv_chip_add_phb(PnvChip *chip, PnvPHB *phb);
+>  /*
+>   * BMC helpers
+>   */
+> -void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt);
+> -void pnv_bmc_powerdown(IPMIBmc *bmc);
+> -IPMIBmc *pnv_bmc_create(PnvPnor *pnor);
+> -IPMIBmc *pnv_bmc_find(Error **errp);
+> -void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor);
+> +void pnv_dt_bmc_sensors(IPMIBmcHost *bmc, void *fdt);
+> +void pnv_bmc_powerdown(IPMIBmcHost *bmc);
+> +IPMIBmcHost *pnv_bmc_create(PnvPnor *pnor);
+> +IPMIBmcHost *pnv_bmc_find(Error **errp);
+> +void pnv_bmc_set_pnor(IPMIBmcHost *bmc, PnvPnor *pnor);
+>  
+>  /*
+>   * POWER8 MMIO base addresses
+> -- 
+> 2.40.0.348.gf938b09366-goog
+> 
 
