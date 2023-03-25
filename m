@@ -2,81 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C8E6C8F49
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 17:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DA56C8EF2
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Mar 2023 16:06:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pg6Jy-0007Tt-1E; Sat, 25 Mar 2023 12:00:46 -0400
+	id 1pg5SW-0001jy-Tr; Sat, 25 Mar 2023 11:05:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pg6Jn-0007QW-NS
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 12:00:36 -0400
-Received: from mail-ua1-f50.google.com ([209.85.222.50])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pg6Jl-0004Xd-Gu
- for qemu-devel@nongnu.org; Sat, 25 Mar 2023 12:00:35 -0400
-Received: by mail-ua1-f50.google.com with SMTP id s23so3443318uae.5
- for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 09:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679760022;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Db2qT2jh78jwLCtmu1Fy3YVg9jzge5vvujRcJ1Hc/vE=;
- b=kXMiZnagFXwsVtCKTtMjnKCE0IL7E3o3Vo48wGQ9S1lzON3GNI/VLoGDuv2qsiQCUj
- /vEVwCK2yLDZj8QR0GKQOkj6T/ZvdWxw6RP4ZgVrIWCSnmnaxTo3ugfo6muztuYZoZcZ
- zJbEkcyxvS8s59TBnDHSRC2uiiDNa6rHp5JdSgGoSGSks00ERVEUQpLLdRuISTwBn29n
- hXz7rH7xuaU3+sUx6W6eCJtPt/oySxG/bXwIYeL/BlEg/9sSV2w3B//peSU3T/wKqXSz
- oitxbF12CmHQ5J5ww7Fb1AZEyr/BB1X7zUZtP27dNXGjYm+zg1Aaseltp80+mbeUObYc
- m/WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679760022;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Db2qT2jh78jwLCtmu1Fy3YVg9jzge5vvujRcJ1Hc/vE=;
- b=1dYq+GxDCxkaEruQDF/SqSl0gcvHkqw7RjNbysTFfsbeO5g8oEnE9e48xhplJzZ4EW
- imBTkQiSQN5a8Ap9eBlCpgIK/4nNij/3jD21pfpaJrDOT0pflKAyoYggSejvILDvYBs1
- 7mcEnsmD/6NpmkwMBmSBp5uEoHWs2T8QTlPpe0A6RxwjfUC/q96YndS1C6Mo/IpaPxUA
- R2Q/8V0vtK3WcBVP9CDlCUWZNuU14r1eyl7mm6pFg60oxdFh2WkY+scOUZDHgslvRmfK
- JsjxV0lvTOD6n0yPG70gWQLxzAUO0c2y90eYBJzTkovkBVbQVl6dyJAFTuc2fRDd8ywu
- vsiw==
-X-Gm-Message-State: AO0yUKWT1HFjfMNkK1UOu1fwItCRUs9kxusiYLHgNElquz173OkmRgbN
- 6mvIrGL61DRa53Pez1pRL19sJoBCGqtgqVBG+FM=
-X-Google-Smtp-Source: AKy350Zz8F9sKetDdj28HBfzTuBn3+jn0SHhAI3J5tKruinn8i2C91PxlDamEQFpyVK7Z9jr0idxFA==
-X-Received: by 2002:a17:90b:1b0a:b0:23d:2532:ae34 with SMTP id
- nu10-20020a17090b1b0a00b0023d2532ae34mr5097974pjb.2.1679741688474; 
- Sat, 25 Mar 2023 03:54:48 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1544:6601:790a:6e23:4a91:70a])
- by smtp.gmail.com with ESMTPSA id
- p14-20020a17090a2d8e00b0023af4eb597csm1234684pjd.52.2023.03.25.03.54.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Mar 2023 03:54:48 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, palmer@dabbelt.com,
- zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com
-Subject: [PATCH v6 20/25] target/riscv: Move leaf pte processing out of level
- loop
-Date: Sat, 25 Mar 2023 03:54:24 -0700
-Message-Id: <20230325105429.1142530-21-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230325105429.1142530-1-richard.henderson@linaro.org>
-References: <20230325105429.1142530-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pg5ST-0001g1-Je; Sat, 25 Mar 2023 11:05:29 -0400
+Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pg5SQ-0006eS-3r; Sat, 25 Mar 2023 11:05:28 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R531e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VeauBmY_1679756710; 
+Received: from 30.13.180.55(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VeauBmY_1679756710) by smtp.aliyun-inc.com;
+ Sat, 25 Mar 2023 23:05:11 +0800
+Message-ID: <05fa4702-0a9e-f5fe-c80c-e0bf030e7457@linux.alibaba.com>
+Date: Sat, 25 Mar 2023 23:05:07 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 0/8] target/riscv: Simplification for RVH related check
+ and code style fix
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230324123809.107714-1-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.222.50;
- envelope-from=richard.henderson@linaro.org; helo=mail-ua1-f50.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.97;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-97.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,290 +65,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Move the code that never loops outside of the loop.
-Unchain the if-return-else statements.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu_helper.c | 234 +++++++++++++++++++++-----------------
- 1 file changed, 127 insertions(+), 107 deletions(-)
+On 2023/3/24 20:38, Weiwei Li wrote:
+> This patchset tries to simplify the RVH related check and fix some code style problems, such as problems for indentation, multi-line comments and lines with over 80 characters.
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 00f70a3dd5..ce12dcec1d 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -879,6 +879,8 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-     }
- 
-     int ptshift = (levels - 1) * ptidxbits;
-+    target_ulong pte;
-+    hwaddr pte_addr;
-     int i;
- 
- #if !TCG_OVERSIZED_GUEST
-@@ -895,7 +897,6 @@ restart:
-         }
- 
-         /* check that physical address of PTE is legal */
--        hwaddr pte_addr;
- 
-         if (two_stage && first_stage) {
-             int vbase_prot;
-@@ -927,7 +928,6 @@ restart:
-             return TRANSLATE_PMP_FAIL;
-         }
- 
--        target_ulong pte;
-         if (riscv_cpu_mxl(env) == MXL_RV32) {
-             pte = address_space_ldl(cs->as, pte_addr, attrs, &res);
-         } else {
-@@ -952,120 +952,140 @@ restart:
-         if (!(pte & PTE_V)) {
-             /* Invalid PTE */
-             return TRANSLATE_FAIL;
--        } else if (!pbmte && (pte & PTE_PBMT)) {
-+        }
-+        if (pte & (PTE_R | PTE_W | PTE_X)) {
-+            goto leaf;
-+        }
-+
-+        /* Inner PTE, continue walking */
-+        if (pte & (PTE_D | PTE_A | PTE_U | PTE_ATTR)) {
-             return TRANSLATE_FAIL;
--        } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
--            /* Inner PTE, continue walking */
--            if (pte & (PTE_D | PTE_A | PTE_U | PTE_ATTR)) {
--                return TRANSLATE_FAIL;
--            }
--            base = ppn << PGSHIFT;
--        } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
--            /* Reserved leaf PTE flags: PTE_W */
--            return TRANSLATE_FAIL;
--        } else if ((pte & (PTE_R | PTE_W | PTE_X)) == (PTE_W | PTE_X)) {
--            /* Reserved leaf PTE flags: PTE_W + PTE_X */
--            return TRANSLATE_FAIL;
--        } else if ((pte & PTE_U) && ((mode != PRV_U) &&
--                   (!sum || access_type == MMU_INST_FETCH))) {
--            /* User PTE flags when not U mode and mstatus.SUM is not set,
--               or the access type is an instruction fetch */
--            return TRANSLATE_FAIL;
--        } else if (!(pte & PTE_U) && (mode != PRV_S)) {
--            /* Supervisor PTE flags when not S mode */
--            return TRANSLATE_FAIL;
--        } else if (ppn & ((1ULL << ptshift) - 1)) {
--            /* Misaligned PPN */
--            return TRANSLATE_FAIL;
--        } else if (access_type == MMU_DATA_LOAD && !((pte & PTE_R) ||
--                   ((pte & PTE_X) && mxr))) {
--            /* Read access check failed */
--            return TRANSLATE_FAIL;
--        } else if (access_type == MMU_DATA_STORE && !(pte & PTE_W)) {
--            /* Write access check failed */
--            return TRANSLATE_FAIL;
--        } else if (access_type == MMU_INST_FETCH && !(pte & PTE_X)) {
--            /* Fetch access check failed */
--            return TRANSLATE_FAIL;
--        } else {
--            /* if necessary, set accessed and dirty bits. */
--            target_ulong updated_pte = pte | PTE_A |
-+        }
-+        base = ppn << PGSHIFT;
-+    }
-+
-+    /* No leaf pte at any translation level. */
-+    return TRANSLATE_FAIL;
-+
-+ leaf:
-+    if (ppn & ((1ULL << ptshift) - 1)) {
-+        /* Misaligned PPN */
-+        return TRANSLATE_FAIL;
-+    }
-+    if (!pbmte && (pte & PTE_PBMT)) {
-+        /* Reserved without Svpbmt. */
-+        return TRANSLATE_FAIL;
-+    }
-+    if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
-+        /* Reserved leaf PTE flags: PTE_W */
-+        return TRANSLATE_FAIL;
-+    }
-+    if ((pte & (PTE_R | PTE_W | PTE_X)) == (PTE_W | PTE_X)) {
-+        /* Reserved leaf PTE flags: PTE_W + PTE_X */
-+        return TRANSLATE_FAIL;
-+    }
-+    if ((pte & PTE_U) &&
-+        ((mode != PRV_U) && (!sum || access_type == MMU_INST_FETCH))) {
-+        /*
-+         * User PTE flags when not U mode and mstatus.SUM is not set,
-+         * or the access type is an instruction fetch.
-+         */
-+        return TRANSLATE_FAIL;
-+    }
-+    if (!(pte & PTE_U) && (mode != PRV_S)) {
-+        /* Supervisor PTE flags when not S mode */
-+        return TRANSLATE_FAIL;
-+    }
-+    if (access_type == MMU_DATA_LOAD &&
-+        !((pte & PTE_R) || ((pte & PTE_X) && mxr))) {
-+        /* Read access check failed */
-+        return TRANSLATE_FAIL;
-+    }
-+    if (access_type == MMU_DATA_STORE && !(pte & PTE_W)) {
-+        /* Write access check failed */
-+        return TRANSLATE_FAIL;
-+    }
-+    if (access_type == MMU_INST_FETCH && !(pte & PTE_X)) {
-+        /* Fetch access check failed */
-+        return TRANSLATE_FAIL;
-+    }
-+
-+    /* If necessary, set accessed and dirty bits. */
-+    target_ulong updated_pte = pte | PTE_A |
-                 (access_type == MMU_DATA_STORE ? PTE_D : 0);
- 
--            /* Page table updates need to be atomic with MTTCG enabled */
--            if (updated_pte != pte) {
--                if (!hade) {
--                    return TRANSLATE_FAIL;
--                }
-+    /* Page table updates need to be atomic with MTTCG enabled */
-+    if (updated_pte != pte) {
-+        if (!hade) {
-+            return TRANSLATE_FAIL;
-+        }
- 
--                /*
--                 * - if accessed or dirty bits need updating, and the PTE is
--                 *   in RAM, then we do so atomically with a compare and swap.
--                 * - if the PTE is in IO space or ROM, then it can't be updated
--                 *   and we return TRANSLATE_FAIL.
--                 * - if the PTE changed by the time we went to update it, then
--                 *   it is no longer valid and we must re-walk the page table.
--                 */
--                MemoryRegion *mr;
--                hwaddr l = sizeof(target_ulong), addr1;
--                mr = address_space_translate(cs->as, pte_addr,
--                    &addr1, &l, false, MEMTXATTRS_UNSPECIFIED);
--                if (memory_region_is_ram(mr)) {
--                    target_ulong *pte_pa =
--                        qemu_map_ram_ptr(mr->ram_block, addr1);
-+        /*
-+         * - if accessed or dirty bits need updating, and the PTE is
-+         *   in RAM, then we do so atomically with a compare and swap.
-+         * - if the PTE is in IO space or ROM, then it can't be updated
-+         *   and we return TRANSLATE_FAIL.
-+         * - if the PTE changed by the time we went to update it, then
-+         *   it is no longer valid and we must re-walk the page table.
-+         */
-+        MemoryRegion *mr;
-+        hwaddr l = sizeof(target_ulong), addr1;
-+        mr = address_space_translate(cs->as, pte_addr, &addr1, &l, false,
-+                                     MEMTXATTRS_UNSPECIFIED);
-+        if (memory_region_is_ram(mr)) {
-+            target_ulong *pte_pa = qemu_map_ram_ptr(mr->ram_block, addr1);
- #if TCG_OVERSIZED_GUEST
--                    /* MTTCG is not enabled on oversized TCG guests so
--                     * page table updates do not need to be atomic */
--                    *pte_pa = pte = updated_pte;
-+            /*
-+             * MTTCG is not enabled on oversized TCG guests so
-+             * page table updates do not need to be atomic.
-+             */
-+            *pte_pa = pte = updated_pte;
- #else
--                    target_ulong old_pte =
--                        qatomic_cmpxchg(pte_pa, pte, updated_pte);
--                    if (old_pte != pte) {
--                        goto restart;
--                    } else {
--                        pte = updated_pte;
--                    }
-+            target_ulong old_pte = qatomic_cmpxchg(pte_pa, pte, updated_pte);
-+            if (old_pte != pte) {
-+                goto restart;
-+            }
-+            pte = updated_pte;
- #endif
--                } else {
--                    /* misconfigured PTE in ROM (AD bits are not preset) or
--                     * PTE is in IO space and can't be updated atomically */
--                    return TRANSLATE_FAIL;
--                }
--            }
--
--            /* for superpage mappings, make a fake leaf PTE for the TLB's
--               benefit. */
--            target_ulong vpn = addr >> PGSHIFT;
--
--            if (cpu->cfg.ext_svnapot && (pte & PTE_N)) {
--                napot_bits = ctzl(ppn) + 1;
--                if ((i != (levels - 1)) || (napot_bits != 4)) {
--                    return TRANSLATE_FAIL;
--                }
--            }
--
--            napot_mask = (1 << napot_bits) - 1;
--            *physical = (((ppn & ~napot_mask) | (vpn & napot_mask) |
--                          (vpn & (((target_ulong)1 << ptshift) - 1))
--                         ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
--
--            /* set permissions on the TLB entry */
--            if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
--                *prot |= PAGE_READ;
--            }
--            if ((pte & PTE_X)) {
--                *prot |= PAGE_EXEC;
--            }
--            /* add write permission on stores or if the page is already dirty,
--               so that we TLB miss on later writes to update the dirty bit */
--            if ((pte & PTE_W) &&
--                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
--                *prot |= PAGE_WRITE;
--            }
--            return TRANSLATE_SUCCESS;
-+        } else {
-+            /*
-+             * Misconfigured PTE in ROM (AD bits are not preset) or
-+             * PTE is in IO space and can't be updated atomically.
-+             */
-+            return TRANSLATE_FAIL;
-         }
-     }
--    return TRANSLATE_FAIL;
-+
-+    /* For superpage mappings, make a fake leaf PTE for the TLB's benefit. */
-+    target_ulong vpn = addr >> PGSHIFT;
-+
-+    if (cpu->cfg.ext_svnapot && (pte & PTE_N)) {
-+        napot_bits = ctzl(ppn) + 1;
-+        if ((i != (levels - 1)) || (napot_bits != 4)) {
-+            return TRANSLATE_FAIL;
-+        }
-+    }
-+
-+    napot_mask = (1 << napot_bits) - 1;
-+    *physical = (((ppn & ~napot_mask) | (vpn & napot_mask) |
-+                  (vpn & (((target_ulong)1 << ptshift) - 1))
-+                 ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
-+
-+    /* set permissions on the TLB entry */
-+    if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
-+        *prot |= PAGE_READ;
-+    }
-+    if (pte & PTE_X) {
-+        *prot |= PAGE_EXEC;
-+    }
-+    /*
-+     * Add write permission on stores or if the page is already dirty,
-+     * so that we TLB miss on later writes to update the dirty bit.
-+     */
-+    if ((pte & PTE_W) && (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-+        *prot |= PAGE_WRITE;
-+    }
-+    return TRANSLATE_SUCCESS;
- }
- 
- static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
--- 
-2.34.1
+This patch set looks good to me, except a small comment on patch 
+6(target/riscv: Fix format for indentation).
 
+I have sent a patch to convert the env->virt to a bool type.
+
+https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg06191.html
+
+With this patch and your patch 3(target/riscv: Remove check on RVH for 
+riscv_cpu_virt_enabled), I think we can remove the riscv_cpu_virt_enabled
+which has been called so many times.
+
+you can pick it up into this patch set if you desire.
+
+No matter what you choose, after small fix for patch 6,  for this whole 
+patch set
+
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+
+Zhiwei
+
+>
+> The port is available here:
+> https://github.com/plctlab/plct-qemu/tree/plct-cleanup-upstream
+>
+> Weiwei Li (8):
+>    target/riscv: Remove redundant call to riscv_cpu_virt_enabled
+>    target/riscv: Remove redundant check on RVH
+>    target/riscv: Remove check on RVH for riscv_cpu_virt_enabled
+>    target/riscv: Remove check on RVH for riscv_cpu_set_virt_enabled
+>    target/riscv: Remove redundant parentheses
+>    target/riscv: Fix format for indentation
+>    target/riscv: Fix format for comments
+>    target/riscv: Fix lines with over 80 characters
+>
+>   target/riscv/arch_dump.c                |   7 +-
+>   target/riscv/cpu.c                      |   6 +-
+>   target/riscv/cpu.h                      |  26 ++-
+>   target/riscv/cpu_bits.h                 |   2 +-
+>   target/riscv/cpu_helper.c               |  86 ++++---
+>   target/riscv/csr.c                      |   6 +-
+>   target/riscv/insn_trans/trans_rvv.c.inc |  54 ++---
+>   target/riscv/op_helper.c                |   7 +-
+>   target/riscv/pmp.c                      |  48 ++--
+>   target/riscv/pmp.h                      |   9 +-
+>   target/riscv/pmu.c                      |   3 +-
+>   target/riscv/sbi_ecall_interface.h      |   8 +-
+>   target/riscv/translate.c                |   8 +-
+>   target/riscv/vector_helper.c            | 292 ++++++++++++++----------
+>   14 files changed, 316 insertions(+), 246 deletions(-)
+>
 
