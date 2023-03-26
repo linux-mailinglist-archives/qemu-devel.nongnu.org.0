@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9E56C96F3
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Mar 2023 18:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109156C972C
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Mar 2023 19:27:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgTYg-0003Ia-OR; Sun, 26 Mar 2023 12:49:30 -0400
+	id 1pgU7r-0000lE-RU; Sun, 26 Mar 2023 13:25:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pgTYf-0003IS-4V
- for qemu-devel@nongnu.org; Sun, 26 Mar 2023 12:49:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pgU7p-0000kr-Tx
+ for qemu-devel@nongnu.org; Sun, 26 Mar 2023 13:25:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pgTYc-0005MK-U1
- for qemu-devel@nongnu.org; Sun, 26 Mar 2023 12:49:28 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pgU7n-0003jD-TU
+ for qemu-devel@nongnu.org; Sun, 26 Mar 2023 13:25:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679849365;
+ s=mimecast20190719; t=1679851546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vbKXcmm5r4824ryo074qPzqnawegFkMefVsqGO5Vp1c=;
- b=Fmtoit/+U8ljzDwMiM58nRnCaoXQaGk38BTFO8vScEbMhDlky4wprAcZ+CTha7yQ5Sht9+
- WhouiyY7/BaDSi8tO4nf9umIcsViWg7ig8cL00+OG0BzZN/XL+W8ynOL1rw8N8tSqAKj06
- jHn3owxju+Dla3lvdawr2fDujsSBJ4g=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4zdSNgok1UVs8IalsDpU8fP4JHx2NiXybE+eDqho1xE=;
+ b=MXQr9HChNvRxVvbPkG2WqyjnC9SypHTi0FEd85I7kqr+WVVB57Xpfm6TRv7uoqPMM/3FoK
+ fzHRceYcxhYpDMpWZWpmz6oNKm2+InTZ6CK1nPfl5iPfCWTQbo+EL0A7lmWJSufILHDatj
+ Tya7FgBQ2WWMVtUSITifjnoxtS1KaL0=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-107-xg349MAwP5qwC3CXtlYtmg-1; Sun, 26 Mar 2023 12:49:13 -0400
-X-MC-Unique: xg349MAwP5qwC3CXtlYtmg-1
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-5425c04765dso65633767b3.0
- for <qemu-devel@nongnu.org>; Sun, 26 Mar 2023 09:49:13 -0700 (PDT)
+ us-mta-586-GJpf4XcZNfO5c88vK7O1zw-1; Sun, 26 Mar 2023 13:25:44 -0400
+X-MC-Unique: GJpf4XcZNfO5c88vK7O1zw-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ 3f1490d57ef6-ae8fa653140so52821276.1
+ for <qemu-devel@nongnu.org>; Sun, 26 Mar 2023 10:25:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679849353; x=1682441353;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vbKXcmm5r4824ryo074qPzqnawegFkMefVsqGO5Vp1c=;
- b=1bwqoChoajuqa/9MpGGhEMgmgfgFeuOpgui8AOv69Ge7KlxlWnQkXzYTgliOUzivq+
- Me6N/aBWm12DpNR7WoRLb0dVPA9fzsfFd6Fd2sJ9OkBNSgukB/072ikokVVV/RcJ3rM/
- WQPDwECNQlR3aAMTwfQkom6KusGWdHgongB12WO96ME+e/o6dpu0D1EGaJrzvXezPcvs
- o0NCbfNQvoC84IgleVbPwVee8v7Fduuj9JVVNpTDTsYcSab8RXeVcYe7LKmGzWpLWggQ
- 9WTdB/5fwN3AOD6XaPCK59+HXJ9MjOsSxlF7j6a20C7AesBMqEhVjVNRljrvGYOm7Dqi
- j4Fg==
-X-Gm-Message-State: AAQBX9cs8mPJXQ2ipl3KyIciJQZ4CZhmZp3E7t8cBXQ9PuRL+oIk0Ao9
- rDSeuTiS2YvFu2GASN26ZA8G2iDyoTR1p024lpBlFK3E3cgf5SvU7I3Oa5b4W5/WszaU46gJuOj
- oT1JvwumYWtdg2II=
-X-Received: by 2002:a05:690c:2a09:b0:545:4a47:98d2 with SMTP id
- ei9-20020a05690c2a0900b005454a4798d2mr8884664ywb.2.1679849352689; 
- Sun, 26 Mar 2023 09:49:12 -0700 (PDT)
-X-Google-Smtp-Source: AKy350adSKqe7byrWf0HbIRwmHMhwahFlYSsXEBix3KGyrPMV+oYxiIqQOMOh+cc+Uml+BTenJ8chA==
-X-Received: by 2002:a05:690c:2a09:b0:545:4a47:98d2 with SMTP id
- ei9-20020a05690c2a0900b005454a4798d2mr8884643ywb.2.1679849352306; 
- Sun, 26 Mar 2023 09:49:12 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- 135-20020a81078d000000b00545a0818470sm1539797ywh.0.2023.03.26.09.49.11
+ d=1e100.net; s=20210112; t=1679851543;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4zdSNgok1UVs8IalsDpU8fP4JHx2NiXybE+eDqho1xE=;
+ b=suyHi75mbJ9Z1wlyapOA1+2kAtXnK92hHe1uFkW81IObXScu26t5+ltNlvuI4kZImU
+ CzmSUmDYEvoVoduR0ayMFHofAmBX836vDQgtu5kttU2uudaRb8KITV0LwEva9TQti8vC
+ pWB3sJHvqldFjBcJrwR6FFoCTdqc2CHSKH9wLcucQIbiGMuEdVMV7ceDdAHiL/nykbN5
+ VOOUDfjjvnwMNhB55+ucdd+p4eyGJgEpEH7S+lLxiTRfALAAxozPesqgFXaZJLFc0iYP
+ zaZvzh1V4LF3cqY6W3u+0Qvx2Pze+qIHBro8wAfDYOmMS1e9327zo/xDu8U4++NXKhZs
+ UOyQ==
+X-Gm-Message-State: AAQBX9dCbLX/6Wtt76oqs6krI5VQN7+c35/hGg8W3XFJOQIkfzDWLX00
+ 4qhqK7D1tNJCZmHo0y23N+mwtCm46KbabKb0XrSJJQMdRiypTUjMaiMO5+t/Zc2Sx+0jj8O2JnB
+ fFo0/1Mr8Tq90AHfzqoiNY7Nkepvh4M/Q5Txw+hzxPfMQEEfb+mf4phjT3GqJ5dzlcofIZaMj
+X-Received: by 2002:a81:148a:0:b0:545:618f:d4a with SMTP id
+ 132-20020a81148a000000b00545618f0d4amr7349803ywu.5.1679851542707; 
+ Sun, 26 Mar 2023 10:25:42 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YgA4RXJJEdtD2kHkUhLul2DMyMT8yNvigDP4xmlz5W6KmcjsAC2cy4+cn1sRA5AG0UEAZ9Fw==
+X-Received: by 2002:a81:148a:0:b0:545:618f:d4a with SMTP id
+ 132-20020a81148a000000b00545618f0d4amr7349777ywu.5.1679851542300; 
+ Sun, 26 Mar 2023 10:25:42 -0700 (PDT)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca. [70.52.229.124])
+ by smtp.gmail.com with ESMTPSA id
+ d8-20020a818d08000000b00545a0818501sm1529454ywg.145.2023.03.26.10.25.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Mar 2023 09:49:11 -0700 (PDT)
-Date: Sun, 26 Mar 2023 12:49:10 -0400
+ Sun, 26 Mar 2023 10:25:41 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, quintela@redhat.com
-Subject: Re: s390 migration crash
-Message-ID: <ZCB3hlQEvqy7ma9e@x1n>
-References: <ZBoShWArKDPpX/D7@work-vm> <ZBpJdAbqmyqMNh4D@x1n>
- <ZBsLEjpb/0pdrDZG@work-vm> <ZBsYnMT2j6uMDQUd@x1n>
- <ZBtFV7NEGJ6DHz0a@work-vm> <ZBtUBywZHTfNduFP@x1n>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH for-8.0 0/3] migration: Preempt mode fixes for 8.0
+Date: Sun, 26 Mar 2023 13:25:37 -0400
+Message-Id: <20230326172540.2571110-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZBtUBywZHTfNduFP@x1n>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,194 +99,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 22, 2023 at 03:16:23PM -0400, Peter Xu wrote:
-> On Wed, Mar 22, 2023 at 06:13:43PM +0000, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > On Wed, Mar 22, 2023 at 02:05:06PM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Peter Xu (peterx@redhat.com) wrote:
-> > > > > On Tue, Mar 21, 2023 at 08:24:37PM +0000, Dr. David Alan Gilbert wrote:
-> > > > > > Hi Peter's,
-> > > > > >   Peter M pointed me to a seg in a migration test in CI; I can reproduce
-> > > > > > it:
-> > > > > >   * On an s390 host
-> > > > > 
-> > > > > How easy to reproduce?
-> > > > 
-> > > > Pretty much every time when run as:
-> > > > make check -j 4
-> > > > 
-> > > > > >   * only as part of a make check - running migration-test by itself
-> > > > > > doesn't trigger for me.
-> > > > > >   * It looks like it's postcopy preempt
-> > > > > > 
-> > > > > > (gdb) bt full
-> > > > > > #0  iov_size (iov=iov@entry=0x2aa00e60670, iov_cnt=<optimized out>) at ../util/iov.c:88
-> > > > > >         len = 13517923312037845750
-> > > > > >         i = 17305
-> > > > > > #1  0x000002aa004d068c in qemu_fflush (f=0x2aa00e58630) at ../migration/qemu-file.c:307
-> > > > > >         local_error = 0x0
-> > > > > > #2  0x000002aa004d0e04 in qemu_fflush (f=<optimized out>) at ../migration/qemu-file.c:297
-> > > > > > #3  0x000002aa00613962 in postcopy_preempt_shutdown_file (s=s@entry=0x2aa00d1b4e0) at ../migration/ram.c:4657
-> > > > > > #4  0x000002aa004e12b4 in migration_completion (s=0x2aa00d1b4e0) at ../migration/migration.c:3469
-> > > > > >         ret = <optimized out>
-> > > > > >         current_active_state = 5
-> > > > > >         must_precopy = 0
-> > > > > >         can_postcopy = 0
-> > > > > >         in_postcopy = true
-> > > > > >         pending_size = 0
-> > > > > >         __func__ = "migration_iteration_run"
-> > > > > >         iter_state = <optimized out>
-> > > > > >         s = 0x2aa00d1b4e0
-> > > > > >         thread = <optimized out>
-> > > > > >         setup_start = <optimized out>
-> > > > > >         thr_error = <optimized out>
-> > > > > >         urgent = <optimized out>
-> > > > > > #5  migration_iteration_run (s=0x2aa00d1b4e0) at ../migration/migration.c:3882
-> > > > > >         must_precopy = 0
-> > > > > >         can_postcopy = 0
-> > > > > >         in_postcopy = true
-> > > > > >         pending_size = 0
-> > > > > >         __func__ = "migration_iteration_run"
-> > > > > >         iter_state = <optimized out>
-> > > > > >         s = 0x2aa00d1b4e0
-> > > > > >         thread = <optimized out>
-> > > > > >         setup_start = <optimized out>
-> > > > > >         thr_error = <optimized out>
-> > > > > >         urgent = <optimized out>
-> > > > > > #6  migration_thread (opaque=opaque@entry=0x2aa00d1b4e0) at ../migration/migration.c:4124
-> > > > > >         iter_state = <optimized out>
-> > > > > >         s = 0x2aa00d1b4e0
-> > > > > > --Type <RET> for more, q to quit, c to continue without paging--
-> > > > > >         thread = <optimized out>
-> > > > > >         setup_start = <optimized out>
-> > > > > >         thr_error = <optimized out>
-> > > > > >         urgent = <optimized out>
-> > > > > > #7  0x000002aa00819b8c in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:541
-> > > > > >         __cancel_buf = 
-> > > > > >             {__cancel_jmp_buf = {{__cancel_jmp_buf = {{__gregs = {4396782422080, 4393751543808, 4397299389454, 4396844235904, 2929182727824, 2929182933488, 4396843986792, 4397299389455, 33679382915066768, 33678512846981306}, __fpregs = {4396774031360, 8392704, 2929182933488, 0, 4396782422272, 2929172491858, 4396774031360, 1}}}, __mask_was_saved = 0}}, __pad = {0x3ffb4a77a60, 0x0, 0x0, 0x0}}
-> > > > > >         __cancel_routine = 0x2aa00819bf0 <qemu_thread_atexit_notify>
-> > > > > >         __not_first_call = <optimized out>
-> > > > > >         start_routine = 0x2aa004e08f0 <migration_thread>
-> > > > > >         arg = 0x2aa00d1b4e0
-> > > > > >         r = <optimized out>
-> > > > > > #8  0x000003ffb7b1e2e6 in start_thread () at /lib64/libc.so.6
-> > > > > > #9  0x000003ffb7aafdbe in thread_start () at /lib64/libc.so.6
-> > > > > > 
-> > > > > > It looks like it's in the preempt test:
-> > > > > > 
-> > > > > > (gdb) where
-> > > > > > #0  0x000003ffb17a0126 in __pthread_kill_implementation () from /lib64/libc.so.6
-> > > > > > #1  0x000003ffb1750890 in raise () from /lib64/libc.so.6
-> > > > > > #2  0x000003ffb172a340 in abort () from /lib64/libc.so.6
-> > > > > > #3  0x000002aa0041c130 in qtest_check_status (s=<optimized out>) at ../tests/qtest/libqtest.c:194
-> > > > > > #4  0x000003ffb1a3b5de in g_hook_list_invoke () from /lib64/libglib-2.0.so.0
-> > > > > > #5  <signal handler called>
-> > > > > > #6  0x000003ffb17a0126 in __pthread_kill_implementation () from /lib64/libc.so.6
-> > > > > > #7  0x000003ffb1750890 in raise () from /lib64/libc.so.6
-> > > > > > #8  0x000003ffb172a340 in abort () from /lib64/libc.so.6
-> > > > > > #9  0x000002aa00420318 in qmp_fd_receive (fd=<optimized out>) at ../tests/qtest/libqmp.c:80
-> > > > > > #10 0x000002aa0041d5ee in qtest_qmp_receive_dict (s=0x2aa01eb2700) at ../tests/qtest/libqtest.c:713
-> > > > > > #11 qtest_qmp_receive (s=0x2aa01eb2700) at ../tests/qtest/libqtest.c:701
-> > > > > > #12 qtest_vqmp (s=s@entry=0x2aa01eb2700, fmt=fmt@entry=0x2aa00487100 "{ 'execute': 'query-migrate' }", ap=ap@entry=0x3ffc247cc68)
-> > > > > >     at ../tests/qtest/libqtest.c:765
-> > > > > > #13 0x000002aa00413f1e in wait_command (who=who@entry=0x2aa01eb2700, command=command@entry=0x2aa00487100 "{ 'execute': 'query-migrate' }")
-> > > > > >     at ../tests/qtest/migration-helpers.c:73
-> > > > > > #14 0x000002aa00414078 in migrate_query (who=who@entry=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:139
-> > > > > > #15 migrate_query_status (who=who@entry=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:161
-> > > > > > #16 0x000002aa00414480 in check_migration_status (ungoals=0x0, goal=0x2aa00495c7e "completed", who=0x2aa01eb2700) at ../tests/qtest/migration-helpers.c:177
-> > > > > > #17 wait_for_migration_status (who=0x2aa01eb2700, goal=<optimized out>, ungoals=0x0) at ../tests/qtest/migration-helpers.c:202
-> > > > > > #18 0x000002aa0041300e in migrate_postcopy_complete (from=from@entry=0x2aa01eb2700, to=to@entry=0x2aa01eb3000, args=args@entry=0x3ffc247cf48)
-> > > > > >     at ../tests/qtest/migration-test.c:1137
-> > > > > > #19 0x000002aa004131a4 in test_postcopy_common (args=0x3ffc247cf48) at ../tests/qtest/migration-test.c:1162
-> > > > > > #20 test_postcopy_preempt () at ../tests/qtest/migration-test.c:1178
-> > > > > > 
-> > > > > > Looking at the iov and file it's garbage; so it makes me think this is
-> > > > > > something like a flush on a closed file.
-> > > > > 
-> > > > > I didn't figure out how that could be closed, but I think there's indeed a
-> > > > > possible race that the qemufile can be accessed by both the return path
-> > > > > thread and the migration thread concurrently, while qemufile is not thread
-> > > > > safe on that.
-> > > > > 
-> > > > > What postcopy_preempt_shutdown_file() does was: the src uses this EOS to
-> > > > > kick the dest QEMU preempt thread out of the migration and shut it off.
-> > > > > After some thought I think this is unnecessary complexity, since postcopy
-> > > > > should end at the point where dest received all the data, then it sends a
-> > > > > SHUT to src.  So potentially it's not good to have dest relying on anything
-> > > > > from src to shutdown anything (the preempt thread here) because it's the
-> > > > > dest qemu that makes the final decision to finish.  Ideally the preempt
-> > > > > thread on dest should be able to shutdown itself.
-> > > > > 
-> > > > > The trick here is preempt thread will block at read() (aka, recvmsg()) at
-> > > > > the channel at that time and the only way to kick it out from that is a
-> > > > > shutdown() on dest.  I attached a patch did it.  I'm not 100% sure whether
-> > > > > it'll already resolve our problem but worth trying.  This also made me
-> > > > > notice we forgot to enable SHUTDOWN feature on tls server when I was
-> > > > > running the patch 1 with qtest, so two patches needed.
-> > > > 
-> > > > Well, it seems to fix it:
-> > > > 
-> > > > Tested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > > 
-> > > > Will this break interaction with an old qemu that's still waiting for
-> > > > the EOS?
-> > > 
-> > > Right.. when someone migrates from a 8.0+ QEMU (assuming this can land in
-> > > this release) to 7.2 QEMU with postcopy+preempt enabled.
-> > 
-> > So why not carry on sending the EOS?
-> 
-> Because it's still racy to send it so potentially such a migration is buggy
-> and can crash?  Or maybe you meant we could serialize the sends (e.g. with
-> some locks) so we keep the send but avoid the crash (hopefully!).  Then the
-> lock will only be used on old qemu binaries.
-> 
-> > 
-> > > I still see preempt full support only in 8.0; we did major rework in 8.0 to
-> > > shift to the return path.  So maybe it's worth the risk?  I can also add a
-> > > flag for this but it may add maintainance burden in general OTOH.
-> > 
-> > If you're saying the pre 8.0 never worked then I guess that's fine;
-> 
-> I think pre-8.0 works too.  The rework shouldn't have changed that fact or
-> the stream protocol.
-> 
-> > it's tricky from say a libvirt or higher level tool to know what it can
-> > use.
-> 
-> Libvirt hasn't yet support preempt mode, but yeah it'll be a problem too in
-> the futhre.
-> 
-> So maybe I introduce a flag, send this EOS conditionally, but ignoring the
-> possibility of crash?
+I'm proposing this patchset for current 8.0 rc material.  If we decide to
+merge this we should merge this sooner the better..  If we leave this for
+next release then 8.0 release will break with preempt migrations to 7.2-
+binaries, then also we need to copy stable when merged.  Currently no
+stable backport needed if this can land 8.0 (I still attached Fixes for
+each of them just to mark out the issue commits, though).
 
-Here's a follow up on this one.
+This patchset target to fix two issues for preempt mode (both of them
+should be introduced during 8.0 dev cycle):
 
-I think we need to have this resolved sooner or later, if we want this for
-8.0 then we'll need it fast, because at least the current solution will
-break compatibility.
+(1) The rare s390 crash reported by Peter Maydell and later on reproduced
+    by Dave (thanks!), see <ZBoShWArKDPpX/D7@work-vm> on qemu-devel.
 
-We can also postpone the fix later so no rush for 8.0, but unfortunately
-when I was testing this patch (with a new internal flag for pre-7.2 as
-addition) I found that qemu already broke with preempt 8.0 -> 7.2-bin
-because of the recent rework on channel reorders... that changed when the
-src/dst will establish the preempt channel to avoid race conditions,
-however it also means a migration from 8.0 -> 7.2 will hang because 7.2
-will try to wait for preempt channel while 8.0 will not establish that, not
-until switching to postcopy. :(
+(2) Preempt mode migration breakage from 8.0 -> pre-7.2 binaries
 
-So, here's my take on a whole solution of the issues: we try to not only
-fixup this rare hang with the additional flag, also use that additional
-flag to fix the breakage of above.  Luckily we're still in 8.0 window so we
-still have chance to fix that.  Let's see whether we can still make it.
+The 2nd issue was what I found when testing (1), so I think (2) is even
+more severe because it constantly breaks migration from new->old binaries,
+depending on how much we care about that.
 
-In all cases, I'll prepare patches today very soon and marking it for 8.0
-material.  I'll test 8.0 <-> 7.2 migrations too with preempt enabled, then
-we'll move discussion there.
+Patch 1 was a pre-requisite of patch 2 on enabling shutdown() to work on
+TLS sockets even on the server side.  Should be something we just
+overlooked when having the tls code merged but just never bother because we
+never used the server side shutdowns.
+
+Patch 2 targets to fix issue (1).  Dave, I didn't yet attach your T-b due
+to the flag change.  I think it'll work the same as old, though.
+
+Patch 3 fixes issue (2) which I checked myself along with patch 2.
+
+Logically patch 1 is not bugfix but still a dependency and I see it low
+risk to merge even during rc release cycles.  But please reviewers justify
+in case for whatever reason this set is not suitable for 8.0 anymore.
+
+Tests I've done with the whole set applied:
+
+- qtests
+- different binary tests for preempt, majorly:
+  - 8.0 -> 8.0
+  - 7.2 -> 8.0 (mach=pc-q35-7.2)
+  - 8.0 -> 7.2 (mach=pc-q35-7.2)
 
 Thanks,
 
+Peter Xu (3):
+  io: tls: Inherit QIO_CHANNEL_FEATURE_SHUTDOWN on server side
+  migration: Fix potential race on postcopy_qemufile_src
+  migration: Recover behavior of preempt channel creation for pre-7.2
+
+ hw/core/machine.c        |  1 +
+ io/channel-tls.c         |  3 +++
+ migration/migration.c    | 19 +++++++++++++++++--
+ migration/migration.h    | 41 +++++++++++++++++++++++++++++++++++++++-
+ migration/postcopy-ram.c | 30 ++++++++++++++++++++++-------
+ 5 files changed, 84 insertions(+), 10 deletions(-)
+
 -- 
-Peter Xu
+2.39.1
 
 
