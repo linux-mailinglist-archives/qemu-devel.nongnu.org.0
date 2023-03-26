@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D376C97F0
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Mar 2023 23:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2496C97F8
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Mar 2023 23:11:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgXZ5-0004rt-JK; Sun, 26 Mar 2023 17:06:11 -0400
+	id 1pgXdc-0006YM-DD; Sun, 26 Mar 2023 17:10:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pgXZ2-0004rM-3n
- for qemu-devel@nongnu.org; Sun, 26 Mar 2023 17:06:08 -0400
+ id 1pgXda-0006YB-M1
+ for qemu-devel@nongnu.org; Sun, 26 Mar 2023 17:10:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pgXYy-0005B6-1I
- for qemu-devel@nongnu.org; Sun, 26 Mar 2023 17:06:05 -0400
+ id 1pgXdZ-0007yE-1Q
+ for qemu-devel@nongnu.org; Sun, 26 Mar 2023 17:10:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679864762;
+ s=mimecast20190719; t=1679865048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=fmlXWej1Xdx6NJARM/R6yDS5/MAZgSEn7N2RNVKL6wE=;
- b=BB6abfamMXm27940VIwUSX10Dk3IJ+QQFNkR+Cbye3F4YPIyoZrfZtvUMkIYvso8DXIVTc
- k43QQYbF4EAdslRxi9vxq3rsGu8WgeSbYCoD1hO6uLdQfjNhMOn9JGs9AzZEiGSKKVQF2f
- fsQbqJtdAxXtUg9KPcuX6R71T9MRT28=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZINaB3Lc0rdSyg+kSRlpaRbqyFeO5Dd2XyhAUG7KN1M=;
+ b=RnhFE+fDs/VlIYJK9pb+/lm1b2KlmPxAuDeXVy+Qux3AqQXU1mTfBzVQPskTR0Fk4vAy6G
+ pTJ3MhT8FBiX6XLERsLnlKFEFkT0MUQB1ZkzSlcVh5Y8CjWz+of0XXt33GEdnHiybyzl/C
+ EUDZdBI9KxDSE5raWGdqUeNiI9zcAHc=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-411-9vTSXuLRPFeldp_8nVk_4Q-1; Sun, 26 Mar 2023 17:04:52 -0400
-X-MC-Unique: 9vTSXuLRPFeldp_8nVk_4Q-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-177bf70751bso4244193fac.16
- for <qemu-devel@nongnu.org>; Sun, 26 Mar 2023 14:04:52 -0700 (PDT)
+ us-mta-322-jHnX2ctyNtmzPSRDOlXTnQ-1; Sun, 26 Mar 2023 17:10:45 -0400
+X-MC-Unique: jHnX2ctyNtmzPSRDOlXTnQ-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ y16-20020a9d7150000000b006a113233807so2784154otj.9
+ for <qemu-devel@nongnu.org>; Sun, 26 Mar 2023 14:10:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679864691;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fmlXWej1Xdx6NJARM/R6yDS5/MAZgSEn7N2RNVKL6wE=;
- b=00IpPKMsA+/4q+St73Cye1kIbDmn1pTwOBk3yf7GH0wdr7YNZSYYguIYtnBzXzSHui
- X81KaOEqg3Ci5NcGeXhUWvkU6klmqxflJczwF5iU8OZV86sqcWmpLn1wCCsOsfvchm9Z
- A8oqB8MSxQekCBa4l8CF/yIap85INRvF1WGUL4lIpm4PuuwMg8YE7splYH72h0Fr3HMi
- wVdj4HT9N56uazRpSotgQ2MYP+jsyHly4vYDB0IcVR1We8V/jHgRArxpKQdc87TR98Fm
- DYsn40jg2Ixb+N0Rd+cqxBlRq/84IDYDhZkP9Tr2gfYljHth9xlmWvskTmyksnHNIB9R
- xF8g==
-X-Gm-Message-State: AO0yUKU1OM1g8GnECNXA0wJ/uZLO2X6X3wU770QYKDuBIX83jTN7Qvxw
- 0nbTz4ICIm7ie8gZmh06lpaup+2V/pLE4LpUKSVh0uoMtZhiP6FW+FslhY0KB7YPOLlsvbXJu7I
- QA4icMiF26yiqDTUYOPJTnlHXAq5PgxJdrclfKfJ5EcAaluSNhQQMlhU9Dd9Wla94Q68vaVid7k
- 0=
-X-Received: by 2002:a05:6808:1443:b0:386:9c8a:ed74 with SMTP id
- x3-20020a056808144300b003869c8aed74mr4201363oiv.38.1679864691639; 
- Sun, 26 Mar 2023 14:04:51 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/FleZao6+6fvMal7S2Fb+ouL3sPkbrjpIaYiMXruMWWao1P7YOAAl5+PkeFODr2W9YGHZmng==
-X-Received: by 2002:a05:6808:1443:b0:386:9c8a:ed74 with SMTP id
- x3-20020a056808144300b003869c8aed74mr4201355oiv.38.1679864691361; 
- Sun, 26 Mar 2023 14:04:51 -0700 (PDT)
-Received: from casantos.remote.csb ([177.158.139.132])
- by smtp.gmail.com with ESMTPSA id
- q130-20020acaf288000000b00383ef567cfdsm10398710oih.21.2023.03.26.14.04.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Mar 2023 14:04:51 -0700 (PDT)
-From: casantos@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Carlos Santos <casantos@redhat.com>
-Subject: [PATCH] tracing: install trace events file only if necessary
-Date: Sun, 26 Mar 2023 18:04:46 -0300
-Message-Id: <20230326210446.66170-1-casantos@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ d=1e100.net; s=20210112; t=1679865045;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZINaB3Lc0rdSyg+kSRlpaRbqyFeO5Dd2XyhAUG7KN1M=;
+ b=TcBba5rwx0U7VCcgw8TD7wPPfs1PPm2rNiFFlZdLgCLs3xOaMioRgYsrAxcZblWy6O
+ PMKvL8Km7HxjKFRcaGMObPX6ZcuDC2WoUv3oKBobeohyzJ/T/IdZlbVm7itkuSBKvIpU
+ 0RMXWrAxZec/6R+aJB43dSnN9lPq2I/w8tLBeZ8OAUiCIW5JWSQZiWZXtkwh2E0cdG17
+ daRxL7aUqIrx27tDfEqmr9CX9e0CZtU8iWERGt+vm5nvrm4sFlFUWyXvCQPCW8fKDmbA
+ e6eqoPbIxzg24aVnMPoU1pc+mtUqDOg4NpiZpC3YlERzmm/WbUqBiK28e9jFqdeinZsv
+ mU9g==
+X-Gm-Message-State: AO0yUKU/Kl5CvakgF2xkbZ9pi28/dDKhaPWXnx8RprajvZfkTnp4gK1i
+ IbBVTay5aixfBYpfUGOQxkI5jg7lZrA3CyTzjEVxZQ4mfSK0Mpp69sPSxU6yCAddhGD5xPuF6YI
+ aQYrxde455gXgXViGZt7hLZOyUxppsyNgsSfahcneJw==
+X-Received: by 2002:a05:6808:1981:b0:384:253:642d with SMTP id
+ bj1-20020a056808198100b003840253642dmr2654109oib.3.1679865045023; 
+ Sun, 26 Mar 2023 14:10:45 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9LRIfmPPswRb8N9OrMPMPvnbVyw1fiCldceb4cFKXbGCGUx8jc7BWFgmIQC9bvw4jnGpxSDwH/TkV83kSpJMw=
+X-Received: by 2002:a05:6808:1981:b0:384:253:642d with SMTP id
+ bj1-20020a056808198100b003840253642dmr2654107oib.3.1679865044778; Sun, 26 Mar
+ 2023 14:10:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230102161903.3857354-1-casantos@redhat.com>
+In-Reply-To: <20230102161903.3857354-1-casantos@redhat.com>
+From: Carlos Santos <casantos@redhat.com>
+Date: Sun, 26 Mar 2023 18:10:34 -0300
+Message-ID: <CAC1VKkMGu7Nxy6nCf94np1gJVaV1xWzO+=MsjLUVarmUjpB1tQ@mail.gmail.com>
+Subject: Re: [PATCH] meson: allow disablind the installation of keymaps
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=casantos@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -96,29 +93,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Carlos Santos <casantos@redhat.com>
+On Mon, Jan 2, 2023 at 1:19=E2=80=AFPM <casantos@redhat.com> wrote:
+>
+> From: Carlos Santos <casantos@redhat.com>
+>
+> There are situatuions in which the keyboard maps are not necessary (e.g.
+> when building only tools or linux-user emulator). Add an option to avoid
+> installing them, as already possible to do with firmware blobs.
+>
+> Signed-off-by: Carlos Santos <casantos@redhat.com>
+> ---
+>  configure                     | 2 ++
+>  meson_options.txt             | 2 ++
+>  pc-bios/keymaps/meson.build   | 6 ++++--
+>  scripts/meson-buildoptions.sh | 4 ++++
+>  4 files changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 789a4f6cc9..c6ed6a23d0 100755
+> --- a/configure
+> +++ b/configure
+> @@ -889,6 +889,8 @@ for opt do
+>    ;;
+>    --disable-blobs) meson_option_parse --disable-install-blobs ""
+>    ;;
+> +  --disable-keymaps) meson_option_parse --disable-install-keymaps ""
+> +  ;;
+>    --enable-vfio-user-server) vfio_user_server=3D"enabled"
+>    ;;
+>    --disable-vfio-user-server) vfio_user_server=3D"disabled"
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 559a571b6b..be27137e98 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -48,6 +48,8 @@ option('module_upgrades', type : 'boolean', value : fal=
+se,
+>         description: 'try to load modules from alternate paths for upgrad=
+es')
+>  option('install_blobs', type : 'boolean', value : true,
+>         description: 'install provided firmware blobs')
+> +option('install_keymaps', type : 'boolean', value : true,
+> +       description: 'install provided keyboard maps')
+>  option('sparse', type : 'feature', value : 'auto',
+>         description: 'sparse checker')
+>  option('guest_agent', type : 'feature', value : 'auto',
+> diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+> index 06c75e646b..7d80c23005 100644
+> --- a/pc-bios/keymaps/meson.build
+> +++ b/pc-bios/keymaps/meson.build
+> @@ -47,7 +47,7 @@ if native_qemu_keymap.found()
+>                         build_by_default: true,
+>                         output: km,
+>                         command: [native_qemu_keymap, '-f', '@OUTPUT@', a=
+rgs.split()],
+> -                       install: true,
+> +                       install: get_option('install_keymaps'),
+>                         install_dir: qemu_datadir / 'keymaps')
+>    endforeach
+>
+> @@ -56,4 +56,6 @@ else
+>    install_data(keymaps.keys(), install_dir: qemu_datadir / 'keymaps')
+>  endif
+>
+> -install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
+> +if get_option('install_keymaps')
+> +  install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
+> +endif
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.s=
+h
+> index aa6e30ea91..f17d9c196e 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+> @@ -11,6 +11,8 @@ meson_options_help() {
+>    printf "%s\n" '  --datadir=3DVALUE          Data file directory [share=
+]'
+>    printf "%s\n" '  --disable-coroutine-pool coroutine freelist (better p=
+erformance)'
+>    printf "%s\n" '  --disable-install-blobs  install provided firmware bl=
+obs'
+> +  printf "%s\n" '  --disable-install-keymaps'
+> +  printf "%s\n" '                           install provided keyboard ma=
+ps'
+>    printf "%s\n" '  --docdir=3DVALUE           Base directory for documen=
+tation installation'
+>    printf "%s\n" '                           (can be empty) [share/doc]'
+>    printf "%s\n" '  --enable-block-drv-whitelist-in-tools'
+> @@ -291,6 +293,8 @@ _meson_option_parse() {
+>      --includedir=3D*) quote_sh "-Dincludedir=3D$2" ;;
+>      --enable-install-blobs) printf "%s" -Dinstall_blobs=3Dtrue ;;
+>      --disable-install-blobs) printf "%s" -Dinstall_blobs=3Dfalse ;;
+> +    --enable-install-keymaps) printf "%s" -Dinstall_keymaps=3Dtrue ;;
+> +    --disable-install-keymaps) printf "%s" -Dinstall_keymaps=3Dfalse ;;
+>      --interp-prefix=3D*) quote_sh "-Dinterp_prefix=3D$2" ;;
+>      --enable-jack) printf "%s" -Djack=3Denabled ;;
+>      --disable-jack) printf "%s" -Djack=3Ddisabled ;;
+> --
+> 2.31.1
+>
 
-It is required only if linux-user, bsd-user or system emulator is built.
-
-Signed-off-by: Carlos Santos <casantos@redhat.com>
----
- trace/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/trace/meson.build b/trace/meson.build
-index 8e80be895c..3fb41c97a4 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -64,7 +64,7 @@ trace_events_all = custom_target('trace-events-all',
-                                  input: trace_events_files,
-                                  command: [ 'cat', '@INPUT@' ],
-                                  capture: true,
--                                 install: true,
-+                                 install: have_linux_user or have_bsd_user or have_system,
-                                  install_dir: qemu_datadir)
- 
- if 'ust' in get_option('trace_backends')
--- 
-2.31.1
+This patch can be ignored. I submitted a better solution, which make
+the installation depend on have_linux_user or have_bsd_user or
+have_system.
+--=20
+Carlos Santos
+Senior Software Maintenance Engineer
+Red Hat
+casantos@redhat.com    T: +55-11-3534-6186
 
 
