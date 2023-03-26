@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D836C928F
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Mar 2023 07:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317336C928E
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Mar 2023 07:23:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgIqU-0007Vn-Hd; Sun, 26 Mar 2023 01:23:10 -0400
+	id 1pgIqe-0007kS-5E; Sun, 26 Mar 2023 01:23:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pgIqS-0007Tv-OE
- for qemu-devel@nongnu.org; Sun, 26 Mar 2023 01:23:08 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ id 1pgIqb-0007jI-O4
+ for qemu-devel@nongnu.org; Sun, 26 Mar 2023 01:23:17 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pgIqQ-0008D9-RI
- for qemu-devel@nongnu.org; Sun, 26 Mar 2023 01:23:08 -0400
-Received: by mail-pl1-x630.google.com with SMTP id o11so5618652ple.1
- for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 22:23:06 -0700 (PDT)
+ id 1pgIqa-00089Z-8b
+ for qemu-devel@nongnu.org; Sun, 26 Mar 2023 01:23:17 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id l7so4965315pjg.5
+ for <qemu-devel@nongnu.org>; Sat, 25 Mar 2023 22:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679808184;
+ d=gmail.com; s=20210112; t=1679808195;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JuyIydhgpL8UArypX6xMRbypFd9wnnNS+58Gghs84yU=;
- b=d46tvM0v3RZt1eyh4OJHFx2V8jiRbhn/CgAUy1ED7Xlytt6fe7F5y4lk7VV1x45PMW
- RcmVNtYF3iibnt8I2+XnCHZwSirhLfHXp9i2t9dMxW9etJRx9gFS9/GU+9TJn4qYXZQ3
- wgdHt/UOcfgo2i5op2XO+0b6HTatD50xpBAAz3WyTLLHv001ZI+9+nGz5xZLS4HzO9DC
- POQ076a+uWrJ6WLgQPbnpvkUr1TubnJwfJjJfeQvH3jINbNgejp6R5LCgOZ7NvYI47z0
- N6NUkukYnVnrYl4CHoXXIWK0UJqCTSqSxkpXb0jyIbe+mSroCEAarygdNkUgfrMc7foG
- mppQ==
+ bh=hc8u8RCEWRkcWK3lR3VFupEwaZp5j6qGGE9YvB3aeP0=;
+ b=UaptGFFot3fXH0eWVu051t1Jd9fpbOlHoAN6rJyyJwhoRia9GGfMiW68E/olTBY3cx
+ J6Rbx0KUFSHaDK+2JCZjbc96RArIYQDogIFMBRHl9vQXhXY5/HKGfgyvb3989Mw16HKR
+ 4LKbxNv3EXzk5rWtMMGdwGnJ49V7FVnXAAiwzGOrYDX07YUYXPphEuxmID7tHYkq4j1j
+ xTFY6CmNAZ4obTP7vgMWZyO8RNVCueap4sSHTTxyTFiC/r9T/d5gzoK40VPORuNCiXZI
+ B0mTRf2dTe6iJKFq7fJL0yJnqUy7/zxIXLZdZNgrZCzXHczbGoJ4ABJmgB1tD3WrPsF5
+ oeUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679808184;
+ d=1e100.net; s=20210112; t=1679808195;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JuyIydhgpL8UArypX6xMRbypFd9wnnNS+58Gghs84yU=;
- b=y+reulNpncHUSuD4SnFz6IxsOGCrqJ6tNpBKfOtZmnWAe9oZP/lz6NqvPKsWpT3AGg
- QPQyluizpSeGapoFiwOjb3hgsDnta4CtqB/hqliLJunltX+EqMdo4OgruLPUYjK17h0h
- /yzyeLmJ5m2Kx/IQc400D9KN8u0jiyWk6Zp/KwhiTKguHoV1RfIjXNi1dECY3QmK8WK/
- 9hO4TQyplsx4V+2h/BGk4QojS+xOb0zuI6niJsA6J0ZaWawgqt8+RTv/x9ORQR75pkUM
- CjfT/wydevh8LMzCtimJ+5L/Bvx/DzGMb6DdT1an/bmRJ68T7Thuo7ZXn5Up0JFX7iW+
- C9Ag==
-X-Gm-Message-State: AAQBX9d76pF1mUafe5ZGTIC1A/IopxfreUqhfpJPnMTO3dBvfLEtjDeS
- 0T5wNMzOLv2p51BZv8g+xclPbNokFPOmwg==
-X-Google-Smtp-Source: AKy350bM1nDRGnHiQ1Vr6to0T6cg11Nv1fVhmIO91Vgq6g9DSwmtz24FiOPTHGydFwxi6LTU94vRRw==
-X-Received: by 2002:a17:902:c3c3:b0:19e:baa6:5860 with SMTP id
- j3-20020a170902c3c300b0019ebaa65860mr7234484plj.2.1679808184584; 
- Sat, 25 Mar 2023 22:23:04 -0700 (PDT)
+ bh=hc8u8RCEWRkcWK3lR3VFupEwaZp5j6qGGE9YvB3aeP0=;
+ b=qMpP3vnZWTbyzWzkT1RysCzwLfq6znEggcOBDtzOuN7EaEkFhXzZH7OOyaz8KiZGeM
+ X/9vkg/G3UKwLLCtvW4OlNO9vS/T81lPC7JMW3gNVQrn0VQwrfdDLay165VQTvhaMzHB
+ UxLZpYnyctz99gXiTu8qlvo6PO2B16FJD56uNJMHCtXvu+G3oZNgVN6j0X0xVNu+V73S
+ 2ThT5Mfyxs4dsRD4Jk2feRDJ2dSiPD99NZ+T83V0VRAzx0utYLd2zdaxWgIeQHNGIm0s
+ CokEO0064wL0R/bkCmDotDF9lIr/nsx/lKbymT05YHsYRRA9iO1nMU/P+ce9CoAYFUhZ
+ T+oA==
+X-Gm-Message-State: AAQBX9dEVg8AO3o+jncva0LjUrINCa7SxriR1+p4cDBaKh3riNcJ1qkc
+ QjMGtEcxF/bO8hx8WDKLbX75nKBzZ3g6MA==
+X-Google-Smtp-Source: AKy350YVZp+WsqJXhKSxpmlPqcDh90KDVZxBId3xesrix9uc2PrNylP3y4p3Z/h15ZHDbcU38xyISA==
+X-Received: by 2002:a17:902:ea11:b0:1a1:f06b:f171 with SMTP id
+ s17-20020a170902ea1100b001a1f06bf171mr8221273plg.17.1679808195167; 
+ Sat, 25 Mar 2023 22:23:15 -0700 (PDT)
 Received: from localhost.localdomain ([113.173.97.170])
  by smtp.googlemail.com with ESMTPSA id
- bc9-20020a170902930900b001a20b31a23fsm5020258plb.293.2023.03.25.22.23.01
+ bc9-20020a170902930900b001a20b31a23fsm5020258plb.293.2023.03.25.22.23.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Mar 2023 22:23:04 -0700 (PDT)
+ Sat, 25 Mar 2023 22:23:14 -0700 (PDT)
 From: Bui Quang Minh <minhquangbui99@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -65,16 +65,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  David Woodhouse <dwmw2@infradead.org>, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Bui Quang Minh <minhquangbui99@gmail.com>
-Subject: [PATCH v2 3/5] apic, i386/tcg: add x2apic transitions
-Date: Sun, 26 Mar 2023 12:20:37 +0700
-Message-Id: <20230326052039.33717-4-minhquangbui99@gmail.com>
+Subject: [PATCH v2 4/5] intel_iommu: allow Extended Interrupt Mode when using
+ userspace APIC
+Date: Sun, 26 Mar 2023 12:20:38 +0700
+Message-Id: <20230326052039.33717-5-minhquangbui99@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230326052039.33717-1-minhquangbui99@gmail.com>
 References: <20230326052039.33717-1-minhquangbui99@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=minhquangbui99@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -98,190 +99,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This commit adds support for x2APIC transitions when writing to
-MSR_IA32_APICBASE register and finally adds CPUID_EXT_X2APIC to
-TCG_EXT_FEATURES.
+As userspace APIC now supports x2APIC, intel interrupt remapping
+hardware can be set to EIM mode when userspace local APIC is used.
 
 Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
 ---
- hw/intc/apic.c                       | 50 ++++++++++++++++++++++++++++
- hw/intc/apic_common.c                |  7 ++--
- target/i386/cpu-sysemu.c             | 10 ++++++
- target/i386/cpu.c                    |  5 +--
- target/i386/cpu.h                    |  6 ++++
- target/i386/tcg/sysemu/misc_helper.c |  4 +++
- 6 files changed, 75 insertions(+), 7 deletions(-)
+ hw/i386/intel_iommu.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-index 159527af30..735412274d 100644
---- a/hw/intc/apic.c
-+++ b/hw/intc/apic.c
-@@ -308,8 +308,41 @@ bool is_x2apic_mode(DeviceState *dev)
-     return s->apicbase & MSR_IA32_APICBASE_EXTD;
- }
- 
-+static void apic_set_base_check(APICCommonState *s, uint64_t val)
-+{
-+    /* Enable x2apic when x2apic is not supported by CPU */
-+    if (!cpu_has_x2apic_feature(&s->cpu->env) &&
-+        val & MSR_IA32_APICBASE_EXTD)
-+        raise_exception_ra(&s->cpu->env, EXCP0D_GPF, GETPC());
-+
-+    /*
-+     * Transition into invalid state
-+     * (s->apicbase & MSR_IA32_APICBASE_ENABLE == 0) &&
-+     * (s->apicbase & MSR_IA32_APICBASE_EXTD) == 1
-+     */
-+    if (!(val & MSR_IA32_APICBASE_ENABLE) &&
-+        (val & MSR_IA32_APICBASE_EXTD))
-+        raise_exception_ra(&s->cpu->env, EXCP0D_GPF, GETPC());
-+
-+    /* Invalid transition from disabled mode to x2APIC */
-+    if (!(s->apicbase & MSR_IA32_APICBASE_ENABLE) &&
-+        !(s->apicbase & MSR_IA32_APICBASE_EXTD) &&
-+        (val & MSR_IA32_APICBASE_ENABLE) &&
-+        (val & MSR_IA32_APICBASE_EXTD))
-+        raise_exception_ra(&s->cpu->env, EXCP0D_GPF, GETPC());
-+
-+    /* Invalid transition from x2APIC to xAPIC */
-+    if ((s->apicbase & MSR_IA32_APICBASE_ENABLE) &&
-+        (s->apicbase & MSR_IA32_APICBASE_EXTD) &&
-+        (val & MSR_IA32_APICBASE_ENABLE) &&
-+        !(val & MSR_IA32_APICBASE_EXTD))
-+        raise_exception_ra(&s->cpu->env, EXCP0D_GPF, GETPC());
-+}
-+
- static void apic_set_base(APICCommonState *s, uint64_t val)
- {
-+    apic_set_base_check(s, val);
-+
-     s->apicbase = (val & 0xfffff000) |
-         (s->apicbase & (MSR_IA32_APICBASE_BSP | MSR_IA32_APICBASE_ENABLE));
-     /* if disabled, cannot be enabled again */
-@@ -318,6 +351,23 @@ static void apic_set_base(APICCommonState *s, uint64_t val)
-         cpu_clear_apic_feature(&s->cpu->env);
-         s->spurious_vec &= ~APIC_SV_ENABLE;
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index faade7def8..a34a4c8196 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -4045,17 +4045,6 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+                       && x86_iommu_ir_supported(x86_iommu) ?
+                                               ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
      }
-+
-+    /* Transition from disabled mode to xAPIC */
-+    if (!(s->apicbase & MSR_IA32_APICBASE_ENABLE) &&
-+        (val & MSR_IA32_APICBASE_ENABLE)) {
-+        s->apicbase |= MSR_IA32_APICBASE_ENABLE;
-+        cpu_set_apic_feature(&s->cpu->env);
-+    }
-+
-+    /* Transition from xAPIC to x2APIC */
-+    if (cpu_has_x2apic_feature(&s->cpu->env) &&
-+        !(s->apicbase & MSR_IA32_APICBASE_EXTD) &&
-+        (val & MSR_IA32_APICBASE_EXTD)) {
-+        s->apicbase |= MSR_IA32_APICBASE_EXTD;
-+
-+        s->log_dest = ((s->initial_apic_id & 0xffff0) << 16) |
-+                      (1 << (s->initial_apic_id & 0xf));
-+    }
- }
- 
- static void apic_set_tpr(APICCommonState *s, uint8_t val)
-diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
-index 39c207bd21..3d249838fc 100644
---- a/hw/intc/apic_common.c
-+++ b/hw/intc/apic_common.c
-@@ -43,11 +43,8 @@ void cpu_set_apic_base(DeviceState *dev, uint64_t val)
-     if (dev) {
-         APICCommonState *s = APIC_COMMON(dev);
-         APICCommonClass *info = APIC_COMMON_GET_CLASS(s);
--        /* switching to x2APIC, reset possibly modified xAPIC ID */
--        if (!(s->apicbase & MSR_IA32_APICBASE_EXTD) &&
--            (val & MSR_IA32_APICBASE_EXTD)) {
--            s->id = s->initial_apic_id;
+-    if (s->intr_eim == ON_OFF_AUTO_ON && !s->buggy_eim) {
+-        if (!kvm_irqchip_is_split()) {
+-            error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
+-            return false;
 -        }
-+        /* Reset possibly modified xAPIC ID */
-+        s->id = s->initial_apic_id;
-         info->set_base(s, val);
-     }
- }
-diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
-index 28115edf44..de57892c25 100644
---- a/target/i386/cpu-sysemu.c
-+++ b/target/i386/cpu-sysemu.c
-@@ -235,6 +235,16 @@ void cpu_clear_apic_feature(CPUX86State *env)
-     env->features[FEAT_1_EDX] &= ~CPUID_APIC;
- }
+-        if (!kvm_enable_x2apic()) {
+-            error_setg(errp, "eim=on requires support on the KVM side"
+-                             "(X2APIC_API, first shipped in v4.7)");
+-            return false;
+-        }
+-    }
  
-+void cpu_set_apic_feature(CPUX86State *env)
-+{
-+    env->features[FEAT_1_EDX] |= CPUID_APIC;
-+}
-+
-+bool cpu_has_x2apic_feature(CPUX86State *env)
-+{
-+    return env->features[FEAT_1_ECX] & CPUID_EXT_X2APIC;
-+}
-+
- bool cpu_is_bsp(X86CPU *cpu)
- {
-     return cpu_get_apic_base(cpu->apic_state) & MSR_IA32_APICBASE_BSP;
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6576287e5b..6847b2ae02 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -627,12 +627,13 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
-           CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
-           CPUID_EXT_RDRAND | CPUID_EXT_AVX | CPUID_EXT_F16C | \
--          CPUID_EXT_FMA)
-+          CPUID_EXT_FMA | CPUID_EXT_X2APIC)
-           /* missing:
-           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
-           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID,
-           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
--          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER */
-+          CPUID_EXT_TSC_DEADLINE_TIMER
-+          */
- 
- #ifdef TARGET_X86_64
- #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 02165a5ad2..53cd8f01dd 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -379,6 +379,10 @@ typedef enum X86Seg {
- #define MSR_IA32_APICBASE_ENABLE        (1<<11)
- #define MSR_IA32_APICBASE_EXTD          (1 << 10)
- #define MSR_IA32_APICBASE_BASE          (0xfffffU<<12)
-+#define MSR_IA32_APICBASE_RESERVED \
-+        (~(uint64_t)(MSR_IA32_APICBASE_BSP | MSR_IA32_APICBASE_ENABLE \
-+                     | MSR_IA32_APICBASE_EXTD | MSR_IA32_APICBASE_BASE))
-+
- #define MSR_IA32_FEATURE_CONTROL        0x0000003a
- #define MSR_TSC_ADJUST                  0x0000003b
- #define MSR_IA32_SPEC_CTRL              0x48
-@@ -2158,8 +2162,10 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                    uint32_t *eax, uint32_t *ebx,
-                    uint32_t *ecx, uint32_t *edx);
- void cpu_clear_apic_feature(CPUX86State *env);
-+void cpu_set_apic_feature(CPUX86State *env);
- void host_cpuid(uint32_t function, uint32_t count,
-                 uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
-+bool cpu_has_x2apic_feature(CPUX86State *env);
- 
- /* helper.c */
- void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index 1fce2076a3..91a58d4d97 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -159,6 +159,10 @@ void helper_wrmsr(CPUX86State *env)
-         env->sysenter_eip = val;
-         break;
-     case MSR_IA32_APICBASE:
-+        if (val & MSR_IA32_APICBASE_RESERVED) {
-+            goto error;
-+        }
-+
-         cpu_set_apic_base(env_archcpu(env)->apic_state, val);
-         break;
-     case MSR_EFER:
+     /* Currently only address widths supported are 39 and 48 bits */
+     if ((s->aw_bits != VTD_HOST_AW_39BIT) &&
 -- 
 2.25.1
 
