@@ -2,92 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456B26CAD14
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4F16CAD13
 	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 20:35:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgrfR-0000z1-FQ; Mon, 27 Mar 2023 14:34:05 -0400
+	id 1pgrfY-000120-PI; Mon, 27 Mar 2023 14:34:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1pgrfP-0000yl-KS
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 14:34:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1pgrfX-00011U-Eo
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 14:34:11 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1pgrfN-00085O-Lx
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 14:34:03 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1pgrfV-0008Hf-LV
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 14:34:11 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32RHh4pU007487; Mon, 27 Mar 2023 18:33:54 GMT
+ 32RIRn1R003753; Mon, 27 Mar 2023 18:33:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=cq5rO2sv/yvYT0pGM25R5b+UhIo/4lpHE72UpiYNkUs=;
- b=BaLSgmt5wYekZ2EGjfBo6k4IwLHYf1C42HNsElbH/vcdjXx7XvN0lAw3MvipXHwzExe3
- /ZLEdPuP6LB24I0txo2hWl1dAppD902qVyYG4eRPTusH4VbA+F79V5zagf/YSFdYayex
- kBrGs+lqRskomaUlO8irbU0QPjhiDiInOganAEk87fSxXbQuje2xvEAwAK6/m2By7jUa
- 9HiJdvi7VGZzqwquvEDOzrjlfvm1513qHw7FyTbBXFvoPFyRI/cl1JXvJL+mxwaqt0vO
- MNchxOk5zP/HqY72HB6OClGTtOjio+X2SjWco+PYSxUko+Ve9epuN1tHkZHSyFLusNBi yg== 
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkdr0meem-1
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=q46HNZll4VtIAYOpP9+JyMtOF5MkpvqSE2eWGmjlxBg=;
+ b=kIz70bMRU0rQMdYqJ782wcqm1Z5HmbBmwdhC5+Btoas7pZlGfn9A8UVBER2RHjyAhQoV
+ bE72HXxvznkBxdr9B9/vzrjgJCCk7WKnLh7mK5n3Dwo54HRqdXWzsDCpgh5yQUHf+09w
+ 1JHOrhPrAxgTOVK+YlIbwOAaty/mnsSKxsqN7KYdIb8mOTv8VOK5wGPSXoaM30MMR2Sk
+ lBj4s3rUtYv6990pUsjA/Lc3TzksMfh2Lf/8jJCQZwaFYqD8JZzPWoLO4Nom7bQ4lTuY
+ WCHwASMUlPEGEg6hpAm3znIzhNA8qHrNyP4lWYCfmg7ELFX1DLbeDeA0Sq9/QFer6Un8 cg== 
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkgepr331-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 18:33:55 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RGuqBl032036;
+ Mon, 27 Mar 2023 18:33:54 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
+ by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3phrk74kc2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Mon, 27 Mar 2023 18:33:54 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RHSSbx003063;
- Mon, 27 Mar 2023 18:33:53 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3phrk74knj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Mar 2023 18:33:53 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
- [10.241.53.104])
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
+ [10.39.53.230])
  by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32RIXq8F1376972
+ 32RIXqx51508078
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Mar 2023 18:33:52 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 48FC058067;
+ Mon, 27 Mar 2023 18:33:53 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 982D95805A;
  Mon, 27 Mar 2023 18:33:52 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 44ADA58056;
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 82B4058064;
  Mon, 27 Mar 2023 18:33:52 +0000 (GMT)
 Received: from gfwa601.aus.stglabs.ibm.com (unknown [9.3.62.226])
- by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTPS;
+ by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
  Mon, 27 Mar 2023 18:33:52 +0000 (GMT)
 Received: by gfwa601.aus.stglabs.ibm.com (Postfix, from userid 155676)
- id E21C12E5674; Mon, 27 Mar 2023 13:33:51 -0500 (CDT)
+ id ED2A72E5673; Mon, 27 Mar 2023 13:33:51 -0500 (CDT)
 From: Ninad Palsule <ninad@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: Ninad Palsule <ninad@linux.ibm.com>, joel@jms.id.au, andrew@aj.id.au,
  stefanb@linux.ibm.com, clg@kaod.org
-Subject: [PATCH v10 0/3] Add support for TPM devices over I2C bus
-Date: Mon, 27 Mar 2023 13:33:47 -0500
-Message-Id: <20230327183350.4060507-1-ninad@linux.ibm.com>
+Subject: [PATCH v10 1/3] docs: Add support for TPM devices over I2C bus
+Date: Mon, 27 Mar 2023 13:33:48 -0500
+Message-Id: <20230327183350.4060507-2-ninad@linux.ibm.com>
 X-Mailer: git-send-email 2.37.2
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DvAv77Gr37GPtHjA-gPOKhJjyVekg9UJ
-X-Proofpoint-ORIG-GUID: DvAv77Gr37GPtHjA-gPOKhJjyVekg9UJ
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20230327183350.4060507-1-ninad@linux.ibm.com>
+References: <20230327183350.4060507-1-ninad@linux.ibm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ovoaUXpB68nlFd_UoA-0uOJI2oXPMxlh
+X-Proofpoint-ORIG-GUID: ovoaUXpB68nlFd_UoA-0uOJI2oXPMxlh
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 impostorscore=0 suspectscore=0 adultscore=0
- malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 mlxlogscore=847
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303270148
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=ninad@us.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ impostorscore=0 adultscore=0
+ bulkscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=999 clxscore=1015
+ phishscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2303270152
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=ninad@us.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,36 +105,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Update to the copyright text.
+This is a documentation change for I2C TPM device support.
 
-This drop adds support for the TPM devices attached to the I2C bus. It
-only supports the TPM2 protocol. You need to run it with the external
-TPM emulator like swtpm. I have tested it with swtpm.
+Qemu already supports devices attached to ISA and sysbus.
+This drop adds support for the I2C bus attached TPM devices.
 
-I have refered to the work done by zhdaniel@meta.com but at the core
-level out implementation is different.
-https://github.com/theopolis/qemu/commit/2e2e57cde9e419c36af8071bb85392ad1ed70966
+Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 
-Based-on: $MESSAGE_ID
+---
+V2:
 
-Ninad Palsule (3):
-  docs: Add support for TPM devices over I2C bus
-  tpm: Extend common APIs to support TPM TIS I2C
-  tpm: Add support for TPM device over I2C bus
+Incorporated Stephen's review comments
+- Added example in the document.
 
- docs/specs/tpm.rst      |  21 ++
- hw/arm/Kconfig          |   1 +
- hw/tpm/Kconfig          |   7 +
- hw/tpm/meson.build      |   1 +
- hw/tpm/tpm_tis.h        |   3 +
- hw/tpm/tpm_tis_common.c |  36 ++-
- hw/tpm/tpm_tis_i2c.c    | 527 ++++++++++++++++++++++++++++++++++++++++
- hw/tpm/trace-events     |   6 +
- include/hw/acpi/tpm.h   |  37 +++
- include/sysemu/tpm.h    |   3 +
- 10 files changed, 634 insertions(+), 8 deletions(-)
- create mode 100644 hw/tpm/tpm_tis_i2c.c
+---
+V4:
+Incorporate Cedric & Stefan's comments
 
+- Added example for ast2600-evb
+- Corrected statement about arm virtual machine.
+
+---
+V6:
+Incorporated review comments from Stefan.
+
+---
+V8:
+
+Incorporate review comments from Joel and Stefan
+
+- Removed the rainier example
+- Added step required to configure on ast2600-evb
+---
+ docs/specs/tpm.rst | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+index 535912a92b..efe124a148 100644
+--- a/docs/specs/tpm.rst
++++ b/docs/specs/tpm.rst
+@@ -21,12 +21,16 @@ QEMU files related to TPM TIS interface:
+  - ``hw/tpm/tpm_tis_common.c``
+  - ``hw/tpm/tpm_tis_isa.c``
+  - ``hw/tpm/tpm_tis_sysbus.c``
++ - ``hw/tpm/tpm_tis_i2c.c``
+  - ``hw/tpm/tpm_tis.h``
+ 
+ Both an ISA device and a sysbus device are available. The former is
+ used with pc/q35 machine while the latter can be instantiated in the
+ Arm virt machine.
+ 
++An I2C device support is also provided which can be instantiated in the Arm
++based emulation machines. This device only supports the TPM 2 protocol.
++
+ CRB interface
+ -------------
+ 
+@@ -348,6 +352,23 @@ In case an Arm virt machine is emulated, use the following command line:
+     -drive if=pflash,format=raw,file=flash0.img,readonly=on \
+     -drive if=pflash,format=raw,file=flash1.img
+ 
++In case a ast2600-evb bmc machine is emulated and you want to use a TPM device
++attached to I2C bus, use the following command line:
++
++.. code-block:: console
++
++  qemu-system-arm -M ast2600-evb -nographic \
++    -kernel arch/arm/boot/zImage \
++    -dtb arch/arm/boot/dts/aspeed-ast2600-evb.dtb \
++    -initrd rootfs.cpio \
++    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
++    -tpmdev emulator,id=tpm0,chardev=chrtpm \
++    -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
++
++  For testing, use this command to load the driver to the correct address
++
++  echo tpm_tis_i2c 0x2e > /sys/bus/i2c/devices/i2c-12/new_device
++
+ In case SeaBIOS is used as firmware, it should show the TPM menu item
+ after entering the menu with 'ESC'.
+ 
 -- 
 2.37.2
 
