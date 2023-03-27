@@ -2,102 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24C36CA60C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E486CA62B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:41:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgn0y-0005Vk-J3; Mon, 27 Mar 2023 09:36:00 -0400
+	id 1pgn5d-0007qn-Bv; Mon, 27 Mar 2023 09:40:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1pgn0g-0005UF-Ow
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:35:43 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgn5S-0007qW-W6
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:40:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1pgn0c-00070t-7K
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:35:41 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgn5Q-0007q2-UD
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:40:38 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32RD4Df6029881; Mon, 27 Mar 2023 13:35:33 GMT
+ 32RDZHoK015807; Mon, 27 Mar 2023 13:40:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=fw89jmihmPbqmAoSKqBitbMEPE7MNX1Jlbq8Yx9Firs=;
- b=i/7EQ7AQV77W3zxi8JvPx+8K7p4Y+77c6LdKdy1oeFOQyQ2aUpg7BppRHzAKkb7/c4xp
- 7rfNJmAKz66TY6DwFniYWOpHFVja3rUHCjZw8ftJJTu8AG6LGhwVIeHrl4uv7m/AdSYe
- 679fLUtusGFqb5b4TPbJiL+7DDuuTyU+3VrqDmPYfuwx3fgRXOzXSSlKGFysugsEXmKr
- FJP33FSnupQSfoGgE69duz6m3kTF1vlvTHBUGxHc7yfdHrAPYtxGsZc5k+aIBuZh1T5/
- CfbYtaD/QGx2tD1QbuGci+JDOYqILVxfgmGxhC0T5zZXS7j+j8nEhxW9ZsjK6B2wUkhT SQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pjarua2aw-1
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=0LqmTqrhwklrmW5BPdZJ0lYhQbSVcz6tHpFwdwYfZs4=;
+ b=KkTE/+zVARZM2s60NUoxj0iY/gbl3nozYlIRSrd9pYjWpYMPQ5+eOGDd21IrrCcdQ0GF
+ davgtLjs2kZcFWTG1d2ddJ/fTounHwRE9F2dVtesDDYqAsRacIcMGD1kesXrQ/9UYlce
+ QXGrV1UAzJ9TDTj73+DRuN76MqjtMw3S1wAGuK56oA6DW0SOFGgMwLXrqQ/PoAhWUBya
+ 5SlAAa67vmqz66yhH6Hoqx8VwpcgoS3WANJ0x41bPd/rV/8GO+npFqFYMtMuSsW5RwUZ
+ j91N6VyHAFQA5E9faW5bQ4wUMOyCdyfWcchcFrqeBGSl62rpvMj+IKdikeiSbSh3bKOb pQ== 
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pjatrhtsm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Mar 2023 13:35:33 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32RD7Fff019000;
- Mon, 27 Mar 2023 13:35:33 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pjarua29j-1
+ Mon, 27 Mar 2023 13:40:27 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RDQfBj005815;
+ Mon, 27 Mar 2023 13:40:26 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
+ by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3phrk6uesb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Mar 2023 13:35:33 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RAa3YH009344;
- Mon, 27 Mar 2023 13:35:30 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3phrk6jts1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Mar 2023 13:35:30 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32RDZRP413697694
+ Mon, 27 Mar 2023 13:40:26 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
+ [10.39.53.228])
+ by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32RDePM26685398
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Mar 2023 13:35:27 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E0DC12004D;
- Mon, 27 Mar 2023 13:35:26 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 99A862004B;
- Mon, 27 Mar 2023 13:35:26 +0000 (GMT)
-Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.56])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 27 Mar 2023 13:35:26 +0000 (GMT)
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
-To: pbonzini@redhat.com
-Cc: qemu-devel@nongnu.org, david@redhat.com, thuth@redhat.com,
- borntraeger@de.ibm.com, frankja@linux.ibm.com, fiuczy@linux.ibm.com,
- pasic@linux.ibm.com, nsg@linux.ibm.com, berrange@redhat.com,
- alex.bennee@linaro.org, armbru@redhat.com
-Subject: [PATCH v5 1/1] util/async-teardown: wire up query-command-line-options
-Date: Mon, 27 Mar 2023 15:35:25 +0200
-Message-Id: <20230327133525.50318-2-imbrenda@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230327133525.50318-1-imbrenda@linux.ibm.com>
-References: <20230327133525.50318-1-imbrenda@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ Mon, 27 Mar 2023 13:40:25 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 92FA35806B;
+ Mon, 27 Mar 2023 13:40:25 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 167B25805B;
+ Mon, 27 Mar 2023 13:40:25 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Mar 2023 13:40:24 +0000 (GMT)
+Message-ID: <eb04f93a-6e1d-4770-7265-5717ef4415e6@linux.ibm.com>
+Date: Mon, 27 Mar 2023 09:40:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7 3/3] tpm: Add support for TPM device over I2C bus
+Content-Language: en-US
+To: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
+References: <20230326224426.3918167-1-ninad@linux.ibm.com>
+ <20230326224426.3918167-4-ninad@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20230326224426.3918167-4-ninad@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 8z9_ouKq3lhxeNGVk6qZ0ONTmR-otipJ
-X-Proofpoint-GUID: P-Rw7mAobjTdTi3duNuHqcbYI3V7Bzgu
+X-Proofpoint-ORIG-GUID: -RQ1lnj_A8r-NF5Zwm153Sw5c2GAwzvJ
+X-Proofpoint-GUID: -RQ1lnj_A8r-NF5Zwm153Sw5c2GAwzvJ
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-24_11,2023-03-27_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 clxscore=1015
- mlxlogscore=999 impostorscore=0 priorityscore=1501 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303270107
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+ clxscore=1015 impostorscore=0
+ mlxlogscore=999 priorityscore=1501 adultscore=0 spamscore=0 mlxscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2303270107
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,165 +110,239 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add new -teardown option with an async=on|off parameter. It is visible
-in the output of query-command-line-options QMP command, so it can be
-discovered and used by libvirt.
 
-The option -async-teardown is now redundant. We'd normally deprecate it
-and remove it after a grace period, but it was introduced only in the
-previous version and it had no users, since it was not visible in the
-query-command-line-options QMP command. Drop it.
 
-Reported-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
-Fixes: c891c24b1a ("os-posix: asynchronous teardown for shutdown on Linux")
-Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
----
- docs/about/removed-features.rst |  5 +++++
- os-posix.c                      | 15 +++++++++++++--
- qemu-options.hx                 | 33 +++++++++++++++++++--------------
- util/async-teardown.c           | 21 +++++++++++++++++++++
- 4 files changed, 58 insertions(+), 16 deletions(-)
+On 3/26/23 18:44, Ninad Palsule wrote:
+> Qemu already supports devices attached to ISA and sysbus. This drop adds
+> support for the I2C bus attached TPM devices. I2C model only supports
+> TPM2 protocol.
+> 
 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 5b258b446b..6d89f69be9 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -416,6 +416,11 @@ Input parameters that take a size value should only use a size suffix
- the value is hexadecimal.  That is, '0x20M' should be written either as
- '32M' or as '0x2000000'.
- 
-+``-async-teardown`` (removed in 8.0)
-+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-+
-+Use ``-teardown async=on`` instead.
-+
- ``-chardev`` backend aliases ``tty`` and ``parport`` (removed in 8.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/os-posix.c b/os-posix.c
-index 5adc69f560..c1ca7b1cb3 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -36,6 +36,8 @@
- #include "qemu/log.h"
- #include "sysemu/runstate.h"
- #include "qemu/cutils.h"
-+#include "qemu/config-file.h"
-+#include "qemu/option.h"
- 
- #ifdef CONFIG_LINUX
- #include <sys/prctl.h>
-@@ -132,6 +134,8 @@ static bool os_parse_runas_uid_gid(const char *optarg)
-  */
- int os_parse_cmd_args(int index, const char *optarg)
- {
-+    QemuOpts *opts;
-+
-     switch (index) {
-     case QEMU_OPTION_runas:
-         user_pwd = getpwnam(optarg);
-@@ -152,8 +156,15 @@ int os_parse_cmd_args(int index, const char *optarg)
-         daemonize = 1;
-         break;
- #if defined(CONFIG_LINUX)
--    case QEMU_OPTION_asyncteardown:
--        init_async_teardown();
-+    case QEMU_OPTION_teardown:
-+        opts = qemu_opts_parse_noisily(qemu_find_opts("teardown"),
-+                                       optarg, false);
-+        if (!opts) {
-+            exit(1);
-+        }
-+        if (qemu_opt_get_bool(opts, "async", false)) {
-+            init_async_teardown();
-+        }
-         break;
- #endif
-     default:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index d42f60fb91..6a69b84f3c 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4763,23 +4763,28 @@ DEF("qtest", HAS_ARG, QEMU_OPTION_qtest, "", QEMU_ARCH_ALL)
- DEF("qtest-log", HAS_ARG, QEMU_OPTION_qtest_log, "", QEMU_ARCH_ALL)
- 
- #ifdef __linux__
--DEF("async-teardown", 0, QEMU_OPTION_asyncteardown,
--    "-async-teardown enable asynchronous teardown\n",
-+DEF("teardown", HAS_ARG, QEMU_OPTION_teardown,
-+    "-teardown async[=on|off]\n"
-+    "                process teardown options\n"
-+    "                async=on enables asynchronous teardown\n"
-+   ,
-     QEMU_ARCH_ALL)
--#endif
- SRST
--``-async-teardown``
--    Enable asynchronous teardown. A new process called "cleanup/<QEMU_PID>"
--    will be created at startup sharing the address space with the main qemu
--    process, using clone. It will wait for the main qemu process to
--    terminate completely, and then exit.
--    This allows qemu to terminate very quickly even if the guest was
--    huge, leaving the teardown of the address space to the cleanup
--    process. Since the cleanup process shares the same cgroups as the
--    main qemu process, accounting is performed correctly. This only
--    works if the cleanup process is not forcefully killed with SIGKILL
--    before the main qemu process has terminated completely.
-+``-teardown``
-+    Set process teardown options.
-+
-+    ``async=on`` enables asynchronous teardown. A new process called
-+    "cleanup/<QEMU_PID>" will be created at startup sharing the address
-+    space with the main QEMU process, using clone. It will wait for the
-+    main QEMU process to terminate completely, and then exit. This allows
-+    QEMU to terminate very quickly even if the guest was huge, leaving the
-+    teardown of the address space to the cleanup process. Since the cleanup
-+    process shares the same cgroups as the main QEMU process, accounting is
-+    performed correctly. This only works if the cleanup process is not
-+    forcefully killed with SIGKILL before the main QEMU process has
-+    terminated completely.
- ERST
-+#endif
- 
- DEF("msg", HAS_ARG, QEMU_OPTION_msg,
-     "-msg [timestamp[=on|off]][,guest-name=[on|off]]\n"
-diff --git a/util/async-teardown.c b/util/async-teardown.c
-index 62cdeb0f20..4a5dbce958 100644
---- a/util/async-teardown.c
-+++ b/util/async-teardown.c
-@@ -12,6 +12,9 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/config-file.h"
-+#include "qemu/option.h"
-+#include "qemu/module.h"
- #include <dirent.h>
- #include <sys/prctl.h>
- #include <sched.h>
-@@ -144,3 +147,21 @@ void init_async_teardown(void)
-     clone(async_teardown_fn, new_stack_for_clone(), CLONE_VM, NULL);
-     sigprocmask(SIG_SETMASK, &old_signals, NULL);
- }
-+
-+static QemuOptsList qemu_teardown_opts = {
-+    .name = "teardown",
-+    .head = QTAILQ_HEAD_INITIALIZER(qemu_teardown_opts.head),
-+    .desc = {
-+        {
-+            .name = "async",
-+            .type = QEMU_OPT_BOOL,
-+        },
-+        { /* end of list */ }
-+    },
-+};
-+
-+static void register_teardown(void)
-+{
-+    qemu_add_opts(&qemu_teardown_opts);
-+}
-+opts_init(register_teardown);
--- 
-2.39.2
+> --- /dev/null
+> +++ b/hw/tpm/tpm_tis_i2c.c
+> @@ -0,0 +1,540 @@
+> +/*
+> + * tpm_tis_i2c.c - QEMU's TPM TIS I2C Device
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + * Implementation of the TIS interface according to specs found at
+> + * http://www.trustedcomputinggroup.org. This implementation currently
+> + * supports version 1.3, 21 March 2013
+> + * In the developers menu choose the PC Client section then find the TIS
+> + * specification.
+> + *
+> + * TPM TIS for TPM 2 implementation following TCG PC Client Platform
+> + * TPM Profile (PTP) Specification, Familiy 2.0, Revision 00.43
+> + *
+> + * TPM I2C implementation follows TCG TPM I2c Interface specification,
+> + * Family 2.0, Level 00, Revision 1.00
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/i2c/i2c.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/acpi/tpm.h"
+> +#include "migration/vmstate.h"
+> +#include "tpm_prop.h"
+> +#include "qemu/log.h"
+> +#include "trace.h"
+> +#include "tpm_tis.h"
+> +
+> +/* TPM_STS mask for read bits 31:26 must be zero */
+> +#define TPM_I2C_STS_READ_MASK          0x03ffffff
+> +
+> +/* TPM_I2C_INT_ENABLE mask */
+> +#define TPM_I2C_INT_ENABLE_MASK   (TPM_TIS_INT_ENABLED          | \
+> +                                   TPM_TIS_INT_DATA_AVAILABLE   | \
+> +                                   TPM_TIS_INT_STS_VALID        | \
+> +                                   TPM_TIS_INT_LOCALITY_CHANGED | \
+> +                                   TPM_TIS_INT_COMMAND_READY)
 
+Since we cannot test interrupts with Linux since the driver doesn't support it,
+can you set this mask to 0 and move it into the public header file. Please also
+apply the mask to vthe alue returned from reading to the TPM_INT_CAPABILITY register.
+
+
+> +
+> +/* Operations */
+> +#define OP_SEND   1
+> +#define OP_RECV   2
+> +
+> +typedef struct TPMStateI2C {
+> +    /*< private >*/
+> +    I2CSlave    parent_obj;
+> +
+> +    uint8_t     offset;       /* offset into data[] */
+> +    uint8_t     operation;    /* OP_SEND & OP_RECV */
+> +    uint8_t     data[5];      /* Data */
+> +
+> +    /* i2c registers */
+> +    uint8_t     loc_sel;      /* Current locality */
+> +    uint8_t     csum_enable;  /* Is checksum enabled */
+> +
+> +    /* Derived from the above */
+> +    const char *reg_name;     /* Register name */
+> +    uint32_t    tis_addr;     /* Converted tis address including locty */
+> +
+> +    /*< public >*/
+> +    TPMState    state; /* not a QOM object */
+> +
+> +} TPMStateI2C;
+> +
+> +DECLARE_INSTANCE_CHECKER(TPMStateI2C, TPM_TIS_I2C,
+> +                         TYPE_TPM_TIS_I2C)
+> +
+> +/* Prototype */
+> +static inline void tpm_tis_i2c_to_tis_reg(TPMStateI2C *i2cst, uint8_t i2c_reg);
+> +
+> +/* Register map */
+> +typedef struct regMap {
+> +    uint8_t   i2c_reg;    /* I2C register */
+> +    uint16_t  tis_reg;    /* TIS register */
+> +    const char *reg_name; /* Register name */
+> +} I2CRegMap;
+> +
+> +/*
+> + * The register values in the common code is different than the latest
+> + * register numbers as per the spec hence add the conversion map
+> + */
+> +static const I2CRegMap tpm_tis_reg_map[] = {
+> +    /*
+> +     * These registers are sent to TIS layer. The register with UNKNOWN
+> +     * mapping are not sent to TIS layer and handled in I2c layer.
+> +     * NOTE: Adding frequently used registers at the start
+> +     */
+> +    { TPM_I2C_REG_DATA_FIFO,        TPM_TIS_REG_DATA_FIFO,       "FIFO",      },
+> +    { TPM_I2C_REG_STS,              TPM_TIS_REG_STS,             "STS",       },
+> +    { TPM_I2C_REG_DATA_CSUM_GET,    TPM_I2C_REG_UNKNOWN,         "CSUM_GET",  },
+> +    { TPM_I2C_REG_LOC_SEL,          TPM_I2C_REG_UNKNOWN,         "LOC_SEL",   },
+> +    { TPM_I2C_REG_ACCESS,           TPM_TIS_REG_ACCESS,          "ACCESS",    },
+> +    { TPM_I2C_REG_INT_ENABLE,       TPM_TIS_REG_INT_ENABLE,     "INTR_ENABLE",},
+> +    { TPM_I2C_REG_INT_CAPABILITY,   TPM_TIS_REG_INT_ENABLE,      "INTR_CAP",  },
+
+
+This mapping here is wrong. It should map to TPM_TIS_REG_INT_CAPABILITY.
+
+> +    { TPM_I2C_REG_INTF_CAPABILITY,  TPM_TIS_REG_INTF_CAPABILITY, "INTF_CAP",  },
+> +    { TPM_I2C_REG_DID_VID,          TPM_TIS_REG_DID_VID,         "DID_VID",   },
+> +    { TPM_I2C_REG_RID,              TPM_TIS_REG_RID,             "RID",       },
+> +    { TPM_I2C_REG_I2C_DEV_ADDRESS,  TPM_I2C_REG_UNKNOWN,        "DEV_ADDRESS",},
+> +    { TPM_I2C_REG_DATA_CSUM_ENABLE, TPM_I2C_REG_UNKNOWN,        "CSUM_ENABLE",},
+> +};
+> +
+
+
+> +/*
+> + * Send function only remembers data in the buffer and then calls
+> + * TPM TIS common code during FINISH event.
+> + */
+> +static int tpm_tis_i2c_send(I2CSlave *i2c, uint8_t data)
+> +{
+> +    TPMStateI2C *i2cst = TPM_TIS_I2C(i2c);
+> +
+> +    /* Reject non-supported registers. */
+> +    if (i2cst->offset == 0) {
+> +        /* Convert I2C register to TIS register */
+> +        tpm_tis_i2c_to_tis_reg(i2cst, data);
+> +        if (i2cst->tis_addr == 0xffffffff) {
+> +            return 0xffffffff;
+> +        }
+> +
+> +        trace_tpm_tis_i2c_send_reg(i2cst->reg_name, data);
+> +
+> +        /* We do not support device address change */
+> +        if (data == TPM_I2C_REG_I2C_DEV_ADDRESS) {
+> +            qemu_log_mask(LOG_UNIMP, "%s: Device address change "
+> +                          "is not supported.\n", __func__);
+> +            return 0xffffffff;
+> +        }
+> +    } else {
+> +        trace_tpm_tis_i2c_send(data);
+> +    }
+> +
+> +    if (i2cst->offset < sizeof(i2cst->data)) {
+> +        i2cst->operation = OP_SEND;
+> +
+> +        /* Remember data locally for non-FIFO registers */
+> +        if ((i2cst->offset == 0) ||
+> +            (i2cst->data[0] != TPM_I2C_REG_DATA_FIFO)) {
+> +            i2cst->data[i2cst->offset++] = data;
+> +        } else {
+> +            tpm_tis_write_data(&i2cst->state, i2cst->tis_addr, data, 1);
+> +        }
+> +
+> +        return 0;
+> +
+> +    }
+> +
+> +    /* Return non-zero to indicate NAK */
+> +    return 1;
+> +}
+> +
+> +static Property tpm_tis_i2c_properties[] = {
+> +    DEFINE_PROP_UINT32("irq", TPMStateI2C, state.irq_num, TPM_TIS_IRQ),
+
+You should remove this here. Maybe one day we will add it back when we can test it.
+
+> +    DEFINE_PROP_TPMBE("tpmdev", TPMStateI2C, state.be_driver),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void tpm_tis_i2c_realizefn(DeviceState *dev, Error **errp)
+> +{
+> +    TPMStateI2C *i2cst = TPM_TIS_I2C(dev);
+> +    TPMState *s = &i2cst->state;
+> +
+> +    if (!tpm_find()) {
+> +        error_setg(errp, "at most one TPM device is permitted");
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * Get the backend pointer. It is not initialized propery during
+> +     * device_class_set_props
+> +     */
+> +    s->be_driver = qemu_find_tpm_be("tpm0");
+> +
+> +    if (!s->be_driver) {
+> +        error_setg(errp, "'tpmdev' property is required");
+> +        return;
+> +    }
+> +    if (s->irq_num > 15) {
+> +        error_setg(errp, "IRQ %d is outside valid range of 0 to 15",
+> +                   s->irq_num);
+> +        return;
+> +    }
+
+This block can go.
+
+> +}
+> +
+> +static void tpm_tis_i2c_reset(DeviceState *dev)
+> +{
+> +    TPMStateI2C *i2cst = TPM_TIS_I2C(dev);
+> +    TPMState *s = &i2cst->state;
+> +
+> +    tpm_tis_i2c_clear_data(i2cst);
+> +
+> +    i2cst->csum_enable = 0;
+> +    i2cst->loc_sel = 0x00;
+> +
+> +    return tpm_tis_reset(s);
+> +}
+> +
+> +static void tpm_tis_i2c_initfn(Object *obj)
+> +{
+> +    TPMStateI2C *i2cst = TPM_TIS_I2C(obj);
+> +    TPMState *s = &i2cst->state;
+> +
+> +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
+> +}
+  
+This function also has to go.
+
+Thanks,
+    Stefan
 
