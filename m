@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98036CABCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:22:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CBF6CABE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:32:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgqXj-0002rb-TD; Mon, 27 Mar 2023 13:22:03 -0400
+	id 1pgqge-0004f3-I7; Mon, 27 Mar 2023 13:31:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pgqXh-0002rE-Iu
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:22:01 -0400
+ id 1pgqgc-0004eg-HV
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:31:14 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pgqXf-0001wP-Bt
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:22:00 -0400
+ id 1pgqga-0002DR-N2
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:31:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679937718;
+ s=mimecast20190719; t=1679938268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=AYvkhTSkuOljNyDAJTHjUcD90OjB4ORw+krVEGstItw=;
- b=Z1eKFYOSptQ9tccunN2RVO/5YjvvzVJMSeBwZ/zf9cCKvrMOmfVipF4s14O4W2sOCR33iS
- +ihLc5LJ9DOyLjayWjghW+CxSbpmOhm2kl5Emz+pTyEG/YeIrCJogMFvuFmYl9RAp4JPWL
- GKUNfdvi5NbuaTzXqRElbne14P4Ip+s=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kLJs/LntwkI3fZ7wZCv1pPKK30p3YvBZrS7+9RPXSG4=;
+ b=iraJY2PfoysDuX5y5vGU04adFFEFbY3DDzMaTOpeTG5WfhIe9+QTz9Wu4fCHhk4KyWdbns
+ uvpVntOfx4UH3axXQfIocOiCyOISGte6mrkt73Qbcjxj2ggiPY6WLx697EaUBuRn48QP3w
+ nNoMd/xJoWK5t/ZkRRFqDyHrPgHVlHQ=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-27-dMVJB_TRPu2qGKNTS-UW-Q-1; Mon, 27 Mar 2023 13:21:55 -0400
-X-MC-Unique: dMVJB_TRPu2qGKNTS-UW-Q-1
-Received: by mail-ot1-f70.google.com with SMTP id
- a15-20020a0568300b8f00b0069965814cf7so3907641otv.15
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:21:55 -0700 (PDT)
+ us-mta-413-NWaxOQVSMImWq3ofDz2sAg-1; Mon, 27 Mar 2023 13:31:07 -0400
+X-MC-Unique: NWaxOQVSMImWq3ofDz2sAg-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ z20-20020a4ad594000000b00531ac1a175dso2169363oos.20
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:31:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679937715;
+ d=1e100.net; s=20210112; t=1679938266;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=AYvkhTSkuOljNyDAJTHjUcD90OjB4ORw+krVEGstItw=;
- b=tApiXea6POczVoCTUKEizw3ZsZX/uVPqGEE2TjRzXy28XVyD8o+4dUsjSE6Q1ysc0e
- 6392rRi41kv8bDdXk3YEVG2CQGp5b2fIwFkBKHNSqLXQSowt987gpLDYwAmrkRPtXDaX
- x+GbqssAvXiU+KnbroEqIy6BuzgM/O99ltgQ61TvKT6EcfCPD8PnMTRgkG6shJM/Dsc8
- K2J8p4SDjjp987eWEAklTRFJ+bmaAiY5JaDfIUdon3rMN2EtZ3tWNJL9d4iWht0wz5Ju
- eQEtkXxMJ0BlVAs1LROuaB+laGulEnW7pTczd89VHyIMEMOH5cWPihktvg22/CXeJWUR
- xs4A==
-X-Gm-Message-State: AO0yUKUnwtKf7pfQPBrM/xa9Wwggd6Ko+IJKRX664Rmo3zAowjwgu3TO
- UiADByUojAgNwClEisFKEIyJednq7TxdgsMOcrBFtnq4Mn1tVKapunF4MJGFYL3Yu40D/qjLghp
- CXfpUUw86Qgof1JjuyFdYGs2zd3VqvmGMdoLU16pyM4wJhLsKBGwNBzcGr5y9XSty2f3v1dHxZu
- M=
-X-Received: by 2002:a9d:5e0a:0:b0:698:77ed:2bd3 with SMTP id
- d10-20020a9d5e0a000000b0069877ed2bd3mr5058617oti.28.1679937714844; 
- Mon, 27 Mar 2023 10:21:54 -0700 (PDT)
-X-Google-Smtp-Source: AK7set84gUdKvqnKkzCm0mlgDPCk9/Ua2VJVobXrmBEtdAsQwjnfOnzC5RW6QBnRa/magra6z1Eulg==
-X-Received: by 2002:a9d:5e0a:0:b0:698:77ed:2bd3 with SMTP id
- d10-20020a9d5e0a000000b0069877ed2bd3mr5058607oti.28.1679937714525; 
- Mon, 27 Mar 2023 10:21:54 -0700 (PDT)
+ bh=kLJs/LntwkI3fZ7wZCv1pPKK30p3YvBZrS7+9RPXSG4=;
+ b=0M2kAcImXzkZQHYUaETnRqvy3IyPqEnkQRD8HDa401dYYpRnTSU7m83J87m2zHra+j
+ MBftlvwRi7b+nZk2pwBq62fRUkKbFk5mLmoQhza9bOOBIrw7b0H3yYu8ncw9ZwhSwQCH
+ GDtasr6Zebi+j118b1Eue7bNzoC91J27my+kQtyNFotFP7rFWW6vP1w9FaHqGLUHat1Y
+ uE78bogPSgg1Tlit/FgMxUR8lJmoQ0PTJrQs/lYASVh8Y7QDAo20J/CM7sBxlVv47ufm
+ yBzrdzNYSdSuLrTyA8ALyMwCZ4YjnXCeIF3dN/uXEfbi80PAf749KBq9xKqh4BoHbLZa
+ rmXw==
+X-Gm-Message-State: AO0yUKVFI7GDIiWIaSWTFZc3jk80JW2VQlz5NjrmxdFwdVrdpsRldLv3
+ nPXdM+/nep+Rb7+UoLrwqBeTeNbjA2sagOM8cE9lxsaZI3HM5t0EAqPSiwzyB2WoDwFs5kBH1FR
+ o+huIDNM9ZfnFvp6bJVIQmmv4/STZpfHXcTuYattPMrPdeHY44AJEYm5UQf8aRiNyY09+7N4u41
+ I=
+X-Received: by 2002:a4a:2ccf:0:b0:52b:bab5:eba2 with SMTP id
+ o198-20020a4a2ccf000000b0052bbab5eba2mr5530629ooo.0.1679938264529; 
+ Mon, 27 Mar 2023 10:31:04 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8YeEiZFpb7Xi8M7+r2YNG6tQQdpT0NPDITMb11AJS7NXPYS7Doy8s5vxf+/4caNg0RvdQFGg==
+X-Received: by 2002:a4a:2ccf:0:b0:52b:bab5:eba2 with SMTP id
+ o198-20020a4a2ccf000000b0052bbab5eba2mr5530607ooo.0.1679938263950; 
+ Mon, 27 Mar 2023 10:31:03 -0700 (PDT)
 Received: from casantos.remote.csb ([177.158.139.132])
  by smtp.gmail.com with ESMTPSA id
- e26-20020a05683013da00b0069df7242a08sm4339687otq.26.2023.03.27.10.21.52
+ c192-20020a4a4fc9000000b0053b88b03e24sm5790768oob.18.2023.03.27.10.31.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 10:21:54 -0700 (PDT)
+ Mon, 27 Mar 2023 10:31:03 -0700 (PDT)
 From: casantos@redhat.com
 To: qemu-devel@nongnu.org,
 	qemu-trivial@nongnu.org
 Cc: Carlos Santos <casantos@redhat.com>
-Subject: [PATCH V3] meson: install keyboard maps only if necessary
-Date: Mon, 27 Mar 2023 14:21:47 -0300
-Message-Id: <20230327172147.196607-1-casantos@redhat.com>
+Subject: [PATCH V2] tracing: install trace events file only if necessary
+Date: Mon, 27 Mar 2023 14:30:58 -0300
+Message-Id: <20230327173058.199027-1-casantos@redhat.com>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -99,40 +99,29 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Carlos Santos <casantos@redhat.com>
 
-They are required only for system emulation (i.e. have_system is true).
+It is not useful when configuring with --enable-trace-backends=nop.
 
 Signed-off-by: Carlos Santos <casantos@redhat.com>
 ---
 Changes v1->v2:
-  Remove stray --{enable,disable}-install-keymaps addition to scripts/meson-buildoptions.sh
-
-Changes v2->v3:
-  Reset submodules (synchronize to origin/master)
+  Install based on chosen trace backend, not on chosen emulators.
 ---
- pc-bios/keymaps/meson.build | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ trace/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
-index 158a3b410c..bff3083313 100644
---- a/pc-bios/keymaps/meson.build
-+++ b/pc-bios/keymaps/meson.build
-@@ -47,7 +47,7 @@ if native_qemu_keymap.found()
-                        build_by_default: true,
-                        output: km,
-                        command: [native_qemu_keymap, '-f', '@OUTPUT@', args.split()],
--                       install: true,
-+                       install: have_system,
-                        install_dir: qemu_datadir / 'keymaps')
-   endforeach
+diff --git a/trace/meson.build b/trace/meson.build
+index 8e80be895c..3d96b4eea0 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -64,7 +64,7 @@ trace_events_all = custom_target('trace-events-all',
+                                  input: trace_events_files,
+                                  command: [ 'cat', '@INPUT@' ],
+                                  capture: true,
+-                                 install: true,
++                                 install: get_option('trace_backends') != 'nop'
+                                  install_dir: qemu_datadir)
  
-@@ -56,4 +56,6 @@ else
-   install_data(keymaps.keys(), install_dir: qemu_datadir / 'keymaps')
- endif
- 
--install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
-+if have_system
-+  install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
-+endif
+ if 'ust' in get_option('trace_backends')
 -- 
 2.31.1
 
