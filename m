@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB196CAC1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:45:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3027D6CAC2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:48:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgqtb-0001SM-Uc; Mon, 27 Mar 2023 13:44:39 -0400
+	id 1pgqwO-0002Mo-5j; Mon, 27 Mar 2023 13:47:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pgqta-0001Rw-5n
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:44:38 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1pgqwL-0002M2-7Q
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:47:29 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pgqtY-0005Mq-K8
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:44:37 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id x15so8382633pjk.2
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:44:29 -0700 (PDT)
+ id 1pgqwJ-0006cv-Ku
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:47:29 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ p3-20020a17090a74c300b0023f69bc7a68so9719393pjl.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:47:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679939068;
+ d=linaro.org; s=google; t=1679939246;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=z2mBPuEHhAG1YTV3aSLP6Kgi5hVg/XWoZS4eYK+6sRw=;
- b=hezpDPXfJQupMI0rEAtS7H79qsCsLJbJFbnaWHOM7YZRUav4L15KkhyNBw/HT3cau/
- 43qDoRf+/RRnEAvRUjBYyI50cJCAL4SHbuoXaSzIIXBdBpgQNIWVcfcZmAdHZ2AC4kr2
- tKCxF8417biHv7wYaYw+KO00I1//4urHsUrsdWBxHl9deXVAH6MdW0PTEsItCmM3+83H
- MhhUFR4HigURjN1G2ph/UZ2noxZYm7u+pq7u4pws8EGM7e03cLT0JiYVfKOFg5cReduU
- Y1I038tO6qJuQoZfFLVY2uULRY3MPhOKlMVtfqmli6zBQezvTDvFQn0PBk0v/yAiQCaQ
- qs4w==
+ bh=Z6vLD5zSNsteUANfSX16dODqX7LPGEXn66Zr5GNXe8k=;
+ b=Z0cGVbjHSCEsbxRI7eFwvNC1lJZ40Hz4mp/0iSOsp6sIWInVP/C6mGWDWfBi2yWsbL
+ bArBrAbUzeMm+UFoVgF9RInHf0E2g9XoOU7OHYVcaF+UmQm/chTBRGEWFd5Fj7Omxz5v
+ Xpk72qMlFhYY5D5jugpQ0/dLD458tdyRRQQW/5eZFwVC/7bupavxPxGlZ3UpvCp5406/
+ e9iL46cRxZMcP6OXJy26vw/TWpaFQQ8O1DPw8In7BRwZ/QeZGkxEA0K/t2a54O140QLv
+ 5mNpO6AXVr1JQEyx8mZQszEHb+xkibaIrxXmQIihlvv9W7GLIib113dk9rN32Bq401In
+ ijag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679939068;
+ d=1e100.net; s=20210112; t=1679939246;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z2mBPuEHhAG1YTV3aSLP6Kgi5hVg/XWoZS4eYK+6sRw=;
- b=EcFR6ILytAi+65PniF4t/ukrMA2XR9t5X5zhB8Kz5D7QC2vVszO8Iw+9AakVEIZCKG
- lCRmByZHFn9uM6iwCiml8OTCrQpISzEjVQVqDZdwmy9CxYm2jeDrszqAkkYd0IFd3K1Q
- KHJ7b9FskYj8cANgTXsLXGffwmHP7Zi3AscLbq+aBFRP4eg/KEgDzMNPUmjNqiv10Ev2
- /0iLk9sbflCPtglOeJQWmE1K235bIGLc+DP8eLDS03R8G0LSvrcGAhSsL1mBAAzOPoLY
- ImVOYV8lIvSHbF5Yco545HU49IIvHiMQ4XuMZDuyHbu/FIVq6MfLXx7aIL79TfUCxy2J
- QNBA==
-X-Gm-Message-State: AAQBX9egJ4sIsNCMV+7bLOUQ5GkU3KOSOIMBo+1XuYejTN6wUTKWBXUN
- 5ahRRvrprBEarMR++gwErMJCTA==
-X-Google-Smtp-Source: AKy350ZfgY0XW2+13mzzE9WIMK1UMhoPYzcRfFQINH/axG+NjSKZWt+AyBLIJ69Uw4wGCmasjLMhYw==
-X-Received: by 2002:a17:902:f08c:b0:1a1:a8eb:d33e with SMTP id
- p12-20020a170902f08c00b001a1a8ebd33emr9963030pla.8.1679939068206; 
- Mon, 27 Mar 2023 10:44:28 -0700 (PDT)
+ bh=Z6vLD5zSNsteUANfSX16dODqX7LPGEXn66Zr5GNXe8k=;
+ b=DavELAF62Xbly8ui5xSgvQG7nSaP/1DzF5F6sdKGRQeiVkOsRBVtlkyH9CkcIrwvhA
+ TQBJAkLXlQBIE6aeTXUZu2ibNCSlTZ1H0wYH/PGjD+GM3+GXbwsoHCFuFxB7si/CrE5v
+ z+fFLAZQyrBB27OnR4k8laKuyHSQ0p1J0tqAY/wspo8u91RYvRiFsk9Giewc/rjuFtcz
+ bcCgSOEMpkWSDdG5/4lVFQ8VKXwhDvLptLkRb1Ce4YB8f/5J9TZqBruQIWS6HtmwfCfJ
+ ELhpyImRrmrkyad/A11MRQHVMArC6KXRq+h/xwddohh4tAisHKXXnHbO5kCKjootljiY
+ qevg==
+X-Gm-Message-State: AAQBX9cOVbUefBGDJpjodFPtHqlQuuTf4QLekvmmK+re8w2mkqYg0YcK
+ HcOgnugeWGTBSjnHfZv+mdnfPETxGU/idD6UCdI=
+X-Google-Smtp-Source: AKy350YNiInhbG9Yy6t5W3FMjAum5PoarVkEnGKpexfy89M3csKe6o/eyaZS9E3mDJWV3mDcjj5yRw==
+X-Received: by 2002:a17:902:ecc2:b0:1a1:f95a:2505 with SMTP id
+ a2-20020a170902ecc200b001a1f95a2505mr17683253plh.29.1679939246158; 
+ Mon, 27 Mar 2023 10:47:26 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1544:6601:6705:aa17:3641:e634?
  ([2602:ae:1544:6601:6705:aa17:3641:e634])
  by smtp.gmail.com with ESMTPSA id
- jk5-20020a170903330500b001a01bb92273sm19414794plb.279.2023.03.27.10.44.27
+ x17-20020a170902b41100b001992e74d058sm7375238plr.7.2023.03.27.10.47.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 10:44:27 -0700 (PDT)
-Message-ID: <63c805b9-f006-cdfb-4d07-5dbae84b7039@linaro.org>
-Date: Mon, 27 Mar 2023 10:44:25 -0700
+ Mon, 27 Mar 2023 10:47:25 -0700 (PDT)
+Message-ID: <d5cf59e0-ee23-7b17-6ade-03760e17d655@linaro.org>
+Date: Mon, 27 Mar 2023 10:47:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] hw/loongarch/virt: Fix virt_to_phys_addr function
+Subject: Re: [PATCH-for-8.0] linux-user/sparc: Don't use 16-bit UIDs on SPARC
+ V9
 Content-Language: en-US
-To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, f4bug@amsat.org,
- philmd@linaro.org
-References: <20230327112313.3042829-1-zhaotianrui@loongson.cn>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier
+ <laurent@vivier.eu>, Gregor Riepl <onitake@gmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Zach van Rijn <me@zv.io>
+References: <20230327131910.78564-1-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230327112313.3042829-1-zhaotianrui@loongson.cn>
+In-Reply-To: <20230327131910.78564-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,32 +100,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 04:23, Tianrui Zhao wrote:
-> The virt addr should mask TARGET_PHYS_ADDR_SPACE_BITS to
-> get the phys addr, and this is used by loading kernel elf.
+On 3/27/23 06:19, Philippe Mathieu-Daudé wrote:
+> The 64-bit SPARC V9 syscall ABI uses 32-bit UIDs. Only enable
+> the 16-bit UID wrappers for 32-bit SPARC (V7 and V8).
 > 
-> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
-> ---
->   hw/loongarch/virt.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Possibly missed in commit 992f48a036 ("Support for 32 bit
+> ABI on 64 bit targets (only enabled Sparc64)").
 > 
-> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-> index b702c3f51e..f4bf14c1c8 100644
-> --- a/hw/loongarch/virt.c
-> +++ b/hw/loongarch/virt.c
-> @@ -399,7 +399,7 @@ static struct _loaderparams {
->   
->   static uint64_t cpu_loongarch_virt_to_phys(void *opaque, uint64_t addr)
->   {
-> -    return addr & 0x1fffffffll;
-> +    return addr & MAKE_64BIT_MASK(0, TARGET_PHYS_ADDR_SPACE_BITS);
->   }
->   
->   static int64_t load_kernel_info(void)
+> Reported-by: Gregor Riepl <onitake@gmail.com>
+> Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Tested-by: Zach van Rijn <me@zv.io>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1394
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Looks correct.  Any idea where this 29-bit value originated?
-
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
+> ---
+>   linux-user/syscall_defs.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 614a1cbc8e..cc37054cb5 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -61,7 +61,7 @@
+>   
+>   #if (defined(TARGET_I386) && defined(TARGET_ABI32)) \
+>       || (defined(TARGET_ARM) && defined(TARGET_ABI32)) \
+> -    || defined(TARGET_SPARC) \
+> +    || (defined(TARGET_SPARC) && defined(TARGET_ABI32)) \
+>       || defined(TARGET_M68K) || defined(TARGET_SH4) || defined(TARGET_CRIS)
+>       /* 16 bit uid wrappers emulation */
+>   #define USE_UID16
+
 
