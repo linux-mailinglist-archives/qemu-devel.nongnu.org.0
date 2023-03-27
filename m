@@ -2,99 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451CD6CA24D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 13:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BF86CA2A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 13:42:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgkxj-00081T-4H; Mon, 27 Mar 2023 07:24:31 -0400
+	id 1pglDH-0003Sy-Mc; Mon, 27 Mar 2023 07:40:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pgkxg-000813-Ed
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:24:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pglDB-0003SF-Af
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:40:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pgkxd-0007nR-MG
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:24:27 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32RBC3FT008472; Mon, 27 Mar 2023 11:24:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=/H0G7nYdmtAm/Jv0VcVOqnWCRCPR0o6NJO/o+O99T8g=;
- b=dEzSJs2tJt9oNz/jyF+DYpAvIMPzIOFVByfNwx54jk6VCILWKsWULBSjhb4VUQUBJAez
- RfWLtTxM0CpZ1V4frozIF8Gm7QcgzGIM2+uucux9qDgOEBIA/fn0q9IXpUt8xNB/bNvS
- KeF2LfbGql2/G3AbTJkrbq7aAuzRfaiVCYlpGP8enqXjXE5/tAujYTdMwlCTHsKjIK7W
- 3QpM8oEtFPO5JsQ5g9uStvhA+nvfL8V2hNiq8t/mwDyfFAuM/SLFx0WI4oeerFy04iq4
- waL8SuBg/UZU3BmiwRVQoD1ycDCGuMuCAlRLuVbxYSJLmPRiFyL/4S3p7QOLFpIakKdY BA== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pka2ag87c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Mar 2023 11:24:17 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32R9vL2s029018;
- Mon, 27 Mar 2023 11:24:16 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3phrk7djyk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Mar 2023 11:24:16 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
- [10.241.53.103])
- by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32RBOEvg38732478
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Mar 2023 11:24:14 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 513D15805A;
- Mon, 27 Mar 2023 11:24:14 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC01558056;
- Mon, 27 Mar 2023 11:24:13 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 27 Mar 2023 11:24:13 +0000 (GMT)
-Message-ID: <633a1c3a-6dd8-4f20-6194-a866fd9c3b7c@linux.ibm.com>
-Date: Mon, 27 Mar 2023 07:24:13 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pglD8-0004md-Jq
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:40:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679917224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=04jb2mEuGMYCu2cDIuynYzdYP2L58gnXOJT1cPTez8c=;
+ b=VqufBrObZKIUlOa2u0efvVPLMFMb94cSVEjY8z1cSgi3udMM6Kle/xdc33LoNVegqL5nmG
+ 6QObxs4F35Bkog8FOMILw5ah2bnBxFeH5REcAdOHQil5bT827ELQ80eJxqEYoEqWoVmNGr
+ lBErbNYJaU06VriuIUh+KS5EPKlfNoI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-328-_3-H9O1uM5ec8Xk3hk3ILg-1; Mon, 27 Mar 2023 07:40:23 -0400
+X-MC-Unique: _3-H9O1uM5ec8Xk3hk3ILg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02AC73C025CE;
+ Mon, 27 Mar 2023 11:40:23 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.194.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B275406AA66;
+ Mon, 27 Mar 2023 11:40:22 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com, hreitz@redhat.com, eesposit@redhat.com,
+ ldoktor@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH for-8.0] block/export: Fix graph locking in blk_get_geometry()
+ call
+Date: Mon, 27 Mar 2023 13:39:59 +0200
+Message-Id: <20230327113959.60071-1-kwolf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v7 0/3] Add support for TPM devices over I2C bus
-Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>
-Cc: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org,
- andrew@aj.id.au, clg@kaod.org
-References: <20230326224426.3918167-1-ninad@linux.ibm.com>
- <CACPK8XeZA8nqhgjH_SUDrk3A49dUqnKVONtj+QtcnjOsLUjvGQ@mail.gmail.com>
- <2ef78250-dfe6-688f-eb27-9af97ce593e7@linux.ibm.com>
- <CACPK8Xfp06JdTt32T9e=KDaBq5DURyv05OG4Ks9Bk3914_zO9g@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <CACPK8Xfp06JdTt32T9e=KDaBq5DURyv05OG4Ks9Bk3914_zO9g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: SznBBgFuJiK-UTHZnjWk8ycNJzfaTtWB
-X-Proofpoint-GUID: SznBBgFuJiK-UTHZnjWk8ycNJzfaTtWB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 mlxscore=0 adultscore=0 priorityscore=1501
- spamscore=0 impostorscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303270088
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,43 +75,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+blk_get_geometry() eventually calls bdrv_nb_sectors(), which is a
+co_wrapper_mixed_bdrv_rdlock. This means that when it is called from
+coroutine context, it already assume to have the graph locked.
 
+However, virtio_blk_sect_range_ok() in block/export/virtio-blk-handler.c
+(used by vhost-user-blk and VDUSE exports) runs in a coroutine, but
+doesn't take the graph lock - blk_*() functions are generally expected
+to do that internally. This causes an assertion failure when accessing
+an export for the first time if it runs in an iothread.
 
-On 3/27/23 07:18, Joel Stanley wrote:
-> On Mon, 27 Mar 2023 at 11:11, Stefan Berger <stefanb@linux.ibm.com> wrote:
->>
->>
->>
->> On 3/26/23 21:05, Joel Stanley wrote:
->>> Hi Ninad,
->>>
->>> On Sun, 26 Mar 2023 at 22:44, Ninad Palsule <ninad@linux.ibm.com> wrote:
->>>>
->>>> Hello,
->>>>
->>>> I have incorporated review comments from Stefan. Please review.
->>>>
->>>> This drop adds support for the TPM devices attached to the I2C bus. It
->>>> only supports the TPM2 protocol. You need to run it with the external
->>>> TPM emulator like swtpm. I have tested it with swtpm.
->>>
->>> Nice work. I tested these stop cedric's aspeed-8.0 qemu tree, using
->>> the rainier machine and the openbmc dev-6.1 kernel.
->>>
->>> We get this message when booting from a kernel:
->>>
->>> [    0.582699] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
->>> [    0.586361] tpm tpm0: A TPM error (256) occurred attempting the self test
->>> [    0.586623] tpm tpm0: starting up the TPM manually
->>>
->>> Do we understand why the error appears?
->>
->> The firmware did not initialize the TPM 2.
-> 
-> Which firmware are we talking about here?
+This is an example of the crash:
 
-This happens if either no firmware is used or the firmware doesn't know how to talk to the TPM 2.
-Linux detects that the TPM 2 wasn't initialized (TPM2_Startup was not sent).
-   
-    Stefan
+$ ./storage-daemon/qemu-storage-daemon --object iothread,id=th0 --blockdev file,filename=/home/kwolf/images/hd.img,node-name=disk --export vhost-user-blk,addr.type=unix,addr.path=/tmp/vhost.sock,node-name=disk,id=exp0,iothread=th0
+qemu-storage-daemon: ../block/graph-lock.c:268: void assert_bdrv_graph_readable(void): Assertion `qemu_in_main_thread() || reader_count()' failed.
+
+(gdb) bt
+
+Fix this by creating a new blk_co_get_geometry() that takes the lock,
+and changing blk_get_geometry() to be a co_wrapper_mixed around it.
+
+To make the resulting code cleaner, virtio-blk-handler.c can directly
+call the coroutine version now (though that wouldn't be necessary for
+fixing the bug, taking the lock in blk_co_get_geometry() is what fixes
+it).
+
+Fixes: 8ab8140a04cf771d63e9754d6ba6c1e676bfe507
+Reported-by: Lukáš Doktor <ldoktor@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ include/block/block-io.h          | 4 +++-
+ include/sysemu/block-backend-io.h | 5 ++++-
+ block.c                           | 5 +++--
+ block/block-backend.c             | 7 +++++--
+ block/export/virtio-blk-handler.c | 7 ++++---
+ 5 files changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 5da99d4d60..dbc034b728 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -89,7 +89,9 @@ int64_t co_wrapper bdrv_get_allocated_file_size(BlockDriverState *bs);
+ 
+ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOpts *opts,
+                                BlockDriverState *in_bs, Error **errp);
+-void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
++
++void coroutine_fn GRAPH_RDLOCK
++bdrv_co_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
+ 
+ int coroutine_fn GRAPH_RDLOCK
+ bdrv_co_delete_file(BlockDriverState *bs, Error **errp);
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index 40ab178719..c672b77247 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -70,7 +70,10 @@ void co_wrapper blk_eject(BlockBackend *blk, bool eject_flag);
+ int64_t coroutine_fn blk_co_getlength(BlockBackend *blk);
+ int64_t co_wrapper_mixed blk_getlength(BlockBackend *blk);
+ 
+-void blk_get_geometry(BlockBackend *blk, uint64_t *nb_sectors_ptr);
++void coroutine_fn blk_co_get_geometry(BlockBackend *blk,
++                                      uint64_t *nb_sectors_ptr);
++void co_wrapper_mixed blk_get_geometry(BlockBackend *blk,
++                                       uint64_t *nb_sectors_ptr);
+ 
+ int64_t coroutine_fn blk_co_nb_sectors(BlockBackend *blk);
+ int64_t co_wrapper_mixed blk_nb_sectors(BlockBackend *blk);
+diff --git a/block.c b/block.c
+index 0dd604d0f6..e0c6c648b1 100644
+--- a/block.c
++++ b/block.c
+@@ -5879,9 +5879,10 @@ int64_t coroutine_fn bdrv_co_getlength(BlockDriverState *bs)
+ }
+ 
+ /* return 0 as number of sectors if no device present or error */
+-void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr)
++void coroutine_fn bdrv_co_get_geometry(BlockDriverState *bs,
++                                       uint64_t *nb_sectors_ptr)
+ {
+-    int64_t nb_sectors = bdrv_nb_sectors(bs);
++    int64_t nb_sectors = bdrv_co_nb_sectors(bs);
+     IO_CODE();
+ 
+     *nb_sectors_ptr = nb_sectors < 0 ? 0 : nb_sectors;
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 278b04ce69..2ee39229e4 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1615,13 +1615,16 @@ int64_t coroutine_fn blk_co_getlength(BlockBackend *blk)
+     return bdrv_co_getlength(blk_bs(blk));
+ }
+ 
+-void blk_get_geometry(BlockBackend *blk, uint64_t *nb_sectors_ptr)
++void coroutine_fn blk_co_get_geometry(BlockBackend *blk,
++                                      uint64_t *nb_sectors_ptr)
+ {
+     IO_CODE();
++    GRAPH_RDLOCK_GUARD();
++
+     if (!blk_bs(blk)) {
+         *nb_sectors_ptr = 0;
+     } else {
+-        bdrv_get_geometry(blk_bs(blk), nb_sectors_ptr);
++        bdrv_co_get_geometry(blk_bs(blk), nb_sectors_ptr);
+     }
+ }
+ 
+diff --git a/block/export/virtio-blk-handler.c b/block/export/virtio-blk-handler.c
+index 313666e8ab..bc1cec6757 100644
+--- a/block/export/virtio-blk-handler.c
++++ b/block/export/virtio-blk-handler.c
+@@ -22,8 +22,9 @@ struct virtio_blk_inhdr {
+     unsigned char status;
+ };
+ 
+-static bool virtio_blk_sect_range_ok(BlockBackend *blk, uint32_t block_size,
+-                                     uint64_t sector, size_t size)
++static bool coroutine_fn
++virtio_blk_sect_range_ok(BlockBackend *blk, uint32_t block_size,
++                         uint64_t sector, size_t size)
+ {
+     uint64_t nb_sectors;
+     uint64_t total_sectors;
+@@ -41,7 +42,7 @@ static bool virtio_blk_sect_range_ok(BlockBackend *blk, uint32_t block_size,
+     if ((sector << VIRTIO_BLK_SECTOR_BITS) % block_size) {
+         return false;
+     }
+-    blk_get_geometry(blk, &total_sectors);
++    blk_co_get_geometry(blk, &total_sectors);
+     if (sector > total_sectors || nb_sectors > total_sectors - sector) {
+         return false;
+     }
+-- 
+2.39.2
+
 
