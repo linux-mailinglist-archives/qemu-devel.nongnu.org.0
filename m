@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6794A6CA804
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 16:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78ABC6CA812
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 16:46:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgo5k-0005Zo-Jn; Mon, 27 Mar 2023 10:45:00 -0400
+	id 1pgo6w-0006cO-B8; Mon, 27 Mar 2023 10:46:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pgo5g-0005ZT-Fb
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 10:44:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pgo5e-00084A-UL
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 10:44:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679928294;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=taTe2ZO0nsXlSRaAczTuEBaLhDeQPeK+/HUoyJd7LkA=;
- b=Rkj/96K+x82T9bZ2hHrgVFn42sDShAzZBm49EfNhprg0hAUxh/WJZeL9XlXrxOE+STBgjS
- 18SMnbAskmHOkOsITZs2NUIBxPaxcBxfvZt+mmyxNDUboK4+McYJzJuEgjmO4ZOq47LXpU
- Ua9oqvjwmfUYlXetyMi6xOSvgHJ0hEI=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-49-GgrEvEn0OWqnWbL2Tyi6Cw-1; Mon, 27 Mar 2023 10:44:44 -0400
-X-MC-Unique: GgrEvEn0OWqnWbL2Tyi6Cw-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-17abb9d4b67so5283840fac.5
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 07:44:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pgo6u-0006bc-4z; Mon, 27 Mar 2023 10:46:12 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pgo6s-0000uI-9j; Mon, 27 Mar 2023 10:46:11 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ f6-20020a17090ac28600b0023b9bf9eb63so9082926pjt.5; 
+ Mon, 27 Mar 2023 07:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679928367;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WyO156dQOa4nrRRrp9o61JeRohlnTbUgCnQnaqzKKFI=;
+ b=MWxe8tDNfZkZmP+j8FlP+iAP6YkXjhiJOU8ZThJz7vpDT/1ROeHFd0Rg5by5dzjwr/
+ lG5UanLOkyRDkT/V+boBeTts6mrFEjoVkLsW39sYC9DK5o+FWRoubkyYUCCOIHAVFbBq
+ BoBCLeNAfE6iyqVsm1s74lOOQ3sFRzbimAc6Eb/icnJ5nmSh7n0hp2FgulsSc36P14Qe
+ RcqHBcr9XU2FXrPUFHqu9mUVjRJTM9VGrdl0c3DlTSUlRpHnWJ3ARqEhsApNkWR5xqgb
+ Gnx6K6epkJRBdPN4dbsEvkMODX8p1abQErl3wVUk9Kw023jKpslOy+hpq2sOlYcN8NbH
+ smuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679928283;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=taTe2ZO0nsXlSRaAczTuEBaLhDeQPeK+/HUoyJd7LkA=;
- b=LE2cchBOCEO4L2FvfAPKl8c4sKFU06u7S1oXeuSNm7HIswEjJGjfqEtJPz+pC8zd5p
- N42SoBpLnXuA1cbYY6VTNUjLFAa+KMIBV0dK2TdBhx8pbOvx1MlvZl4AAiAkoAkjQSgi
- /wNi+DCzK07iH9ci5aiU0qsDYweit/JYbxEuyCa2b9avLJLR9o3dM0FpRHpTnCf6Tps6
- Ql54jAKA5B4f5BBR1e/i/CwSTy0ZGoHKmeureXiFUFMS77GPTEtLz/toa6MKonz/M/7K
- 0DnVzefyagLU7Uyd+0sup5tpozzBRrbwy7uEYCaHgff3yI5Mq4eLbhrqKGzjABwEhqxj
- StsQ==
-X-Gm-Message-State: AO0yUKVeICoVGUZK3gqEPrlyqh++JGuI7XHbGMtLNnAAoHrbei6dbqZa
- YiQhfI+P3N6F9sR9eGFP+JyTflNCA2PAL5IlSooGdQeLVojTtL+klYPuVkVKtw+WvLw4hZVnDjQ
- qkKMxedWUhkQVNUeXCRb1isoBoWOHNr4dcu683Ao=
-X-Received: by 2002:a4a:c995:0:b0:53a:9f38:3170 with SMTP id
- u21-20020a4ac995000000b0053a9f383170mr4370368ooq.1.1679928283527; 
- Mon, 27 Mar 2023 07:44:43 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/D6aR0lb3G0QQgiULjxNNpyMexXfwmC2d6/vEQ04xIS/w8VPdhvksfh88dxUyLOjx5nhbTCaitggGY7kDRIvU=
-X-Received: by 2002:a4a:c995:0:b0:53a:9f38:3170 with SMTP id
- u21-20020a4ac995000000b0053a9f383170mr4370359ooq.1.1679928283259; Mon, 27 Mar
- 2023 07:44:43 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679928367;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WyO156dQOa4nrRRrp9o61JeRohlnTbUgCnQnaqzKKFI=;
+ b=zc5idAmiYcCcXn3gY4g8EIpQbYFHI4OfTQUrumLNNHZutalDEecjbGA6AZRleDjelJ
+ iQ5xkFfBn4E1V928MuzE44AC0sCPIsSxa0DZNgd7CktqphYr9/D+sL+HT7HCrkLPSSpE
+ lWwJNBR+TCYZcDiGe8YfMfM1rSVc7/b29Ka4c71YKtpohR8+0kHFWPraJbL1bjF19tcJ
+ 7nD7HxRKawK/pvBiy2c4bS7+lRjZrr3dCDkcjceRJmX3tnSMMGrGNLpop+VnBBF5S64q
+ l8IGQZ4yNzKdhevm3XXN1sDD6To2eOXY7PvdAyks9iNaPAOqqNCy+ZskpUPy56kfq9IS
+ Wydw==
+X-Gm-Message-State: AAQBX9defpvh6QKEEYBCQ6n1a4Lx9bLl9dq/8GuYtb7LbV+Y2PqGNPTg
+ lvpkyk9sXAlW2k7ynnm12eiR14LzVsl1Ys/d
+X-Google-Smtp-Source: AKy350Yr+ALjPHrl3lCIju8vOpbTMlRt8F29e0yc28+rRemcldzgFDYCgDKAffOoNqH4LY8l/xrTbg==
+X-Received: by 2002:a17:902:f906:b0:1a1:a7b6:e31e with SMTP id
+ kw6-20020a170902f90600b001a1a7b6e31emr10608452plb.7.1679928366845; 
+ Mon, 27 Mar 2023 07:46:06 -0700 (PDT)
+Received: from fedlinux.. ([106.84.130.102]) by smtp.gmail.com with ESMTPSA id
+ s21-20020a170902b19500b00183c6784704sm17368276plr.291.2023.03.27.07.45.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Mar 2023 07:46:06 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, dmitry.fomichev@wdc.com,
+ kvm@vger.kernel.org, damien.lemoal@opensource.wdc.com, hare@suse.de,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v9 0/5] Add zoned storage emulation to virtio-blk driver
+Date: Mon, 27 Mar 2023 22:45:48 +0800
+Message-Id: <20230327144553.4315-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.39.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230326210446.66170-1-casantos@redhat.com>
- <ZCFgnySXy4TdPyQD@redhat.com>
- <CAC1VKkNMHbwCZLmPwLWR0XmWnbzt4tcUtagg18_n96fTRUnyZw@mail.gmail.com>
- <ZCGrTwzE+UldLkbL@redhat.com>
-In-Reply-To: <ZCGrTwzE+UldLkbL@redhat.com>
-From: Carlos Santos <casantos@redhat.com>
-Date: Mon, 27 Mar 2023 11:44:32 -0300
-Message-ID: <CAC1VKkN7tC0N6Gk7Xko2xUQBmKz2QuBvfCvz_NFsgZ_Q7Jj+cQ@mail.gmail.com>
-Subject: Re: [PATCH] tracing: install trace events file only if necessary
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=casantos@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,64 +94,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 27, 2023 at 11:42=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@=
-redhat.com> wrote:
->
-> On Mon, Mar 27, 2023 at 11:28:05AM -0300, Carlos Santos wrote:
-> > On Mon, Mar 27, 2023 at 6:23=E2=80=AFAM Daniel P. Berrang=C3=A9 <berran=
-ge@redhat.com> wrote:
-> > >
-> > > On Sun, Mar 26, 2023 at 06:04:46PM -0300, casantos@redhat.com wrote:
-> > > > From: Carlos Santos <casantos@redhat.com>
-> > > >
-> > > > It is required only if linux-user, bsd-user or system emulator is b=
-uilt.
-> > > >
-> > > > Signed-off-by: Carlos Santos <casantos@redhat.com>
-> > > > ---
-> > > >  trace/meson.build | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/trace/meson.build b/trace/meson.build
-> > > > index 8e80be895c..3fb41c97a4 100644
-> > > > --- a/trace/meson.build
-> > > > +++ b/trace/meson.build
-> > > > @@ -64,7 +64,7 @@ trace_events_all =3D custom_target('trace-events-=
-all',
-> > > >                                   input: trace_events_files,
-> > > >                                   command: [ 'cat', '@INPUT@' ],
-> > > >                                   capture: true,
-> > > > -                                 install: true,
-> > > > +                                 install: have_linux_user or have_=
-bsd_user or have_system,
-> > >
-> > > Trace events are used by our command line tools too qemu-img, qemu-io=
-,
-> > > qemu-nbd, qemu-pr-helper, qemu-storage-daemon.
-> > >
-> > > What build scenario are you seeing that does NOT want the trace event=
-s
-> > > to be present ?   If there is any, then I might even call that situat=
-ion
-> > > a bug, as we want trace events to be available as a debugging mechani=
-sm
-> > > for everything we build.
-> >
-> > I'm aiming for an embedded system or a VM image that only needs
-> > qemu-ga, in which qemu is built with --enable-trace-backends=3Dnop.
->
-> How about
->
->   install:   get_option('trace_backends') !=3D 'nop'
->
-> ?
+This patch adds zoned storage emulation to the virtio-blk driver. It
+implements the virtio-blk ZBD support standardization that is
+recently accepted by virtio-spec. The link to related commit is at
 
-That would be perfect :-)
+https://github.com/oasis-tcs/virtio-spec/commit/b4e8efa0fa6c8d844328090ad15db65af8d7d981
 
---=20
-Carlos Santos
-Senior Software Maintenance Engineer
-Red Hat
-casantos@redhat.com    T: +55-11-3534-6186
+The Linux zoned device code that implemented by Dmitry Fomichev has been
+released at the latest Linux version v6.3-rc1.
+
+Aside: adding zoned=on alike options to virtio-blk device will be
+considered in following-up plan.
+
+Note: Sorry to send it again because of the previous incoherent patches caused
+by network error.
+
+v9:
+- address review comments
+  * add docs for zoned emulation use case [Matias]
+  * add the zoned feature bit to qmp monitor [Matias]
+  * add the version number for newly added configs of accounting [Markus]
+
+v8:
+- address Stefan's review comments
+  * rm aio_context_acquire/release in handle_req
+  * rename function return type
+  * rename BLOCK_ACCT_APPEND to BLOCK_ACCT_ZONE_APPEND for clarity
+
+v7:
+- update headers to v6.3-rc1
+
+v6:
+- address Stefan's review comments
+  * add accounting for zone append operation
+  * fix in_iov usage in handle_request, error handling and typos
+
+v5:
+- address Stefan's review comments
+  * restore the way writing zone append result to buffer
+  * fix error checking case and other errands
+
+v4:
+- change the way writing zone append request result to buffer
+- change zone state, zone type value of virtio_blk_zone_descriptor
+- add trace events for new zone APIs
+
+v3:
+- use qemuio_from_buffer to write status bit [Stefan]
+- avoid using req->elem directly [Stefan]
+- fix error checkings and memory leak [Stefan]
+
+v2:
+- change units of emulated zone op coresponding to block layer APIs
+- modify error checking cases [Stefan, Damien]
+
+v1:
+- add zoned storage emulation
+
+Sam Li (5):
+  include: update virtio_blk headers to v6.3-rc1
+  virtio-blk: add zoned storage emulation for zoned devices
+  block: add accounting for zone append operation
+  virtio-blk: add some trace events for zoned emulation
+  docs/zoned-storage:add zoned emulation use case
+
+ block/qapi-sysemu.c                          |  11 +
+ block/qapi.c                                 |  18 +
+ docs/devel/zoned-storage.rst                 |  17 +
+ hw/block/trace-events                        |   7 +
+ hw/block/virtio-blk-common.c                 |   2 +
+ hw/block/virtio-blk.c                        | 405 +++++++++++++++++++
+ hw/virtio/virtio-qmp.c                       |   2 +
+ include/block/accounting.h                   |   1 +
+ include/standard-headers/drm/drm_fourcc.h    |  12 +
+ include/standard-headers/linux/ethtool.h     |  48 ++-
+ include/standard-headers/linux/fuse.h        |  45 ++-
+ include/standard-headers/linux/pci_regs.h    |   1 +
+ include/standard-headers/linux/vhost_types.h |   2 +
+ include/standard-headers/linux/virtio_blk.h  | 105 +++++
+ linux-headers/asm-arm64/kvm.h                |   1 +
+ linux-headers/asm-x86/kvm.h                  |  34 +-
+ linux-headers/linux/kvm.h                    |   9 +
+ linux-headers/linux/vfio.h                   |  15 +-
+ linux-headers/linux/vhost.h                  |   8 +
+ qapi/block-core.json                         |  68 +++-
+ qapi/block.json                              |   4 +
+ 21 files changed, 794 insertions(+), 21 deletions(-)
+
+-- 
+2.39.2
 
 
