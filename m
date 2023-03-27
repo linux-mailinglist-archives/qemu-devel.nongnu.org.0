@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1542D6CA561
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:17:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADEB6CA56B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:19:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgmha-0003MS-Ju; Mon, 27 Mar 2023 09:15:58 -0400
+	id 1pgmkJ-0005zY-BQ; Mon, 27 Mar 2023 09:18:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pgmhX-0003H6-VW
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:15:55 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pgmhV-0002EG-TD
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:15:55 -0400
-Received: by mail-wr1-x434.google.com with SMTP id l12so8736503wrm.10
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 06:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679922952;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
- b=MIILrSg8ZQLQ07GY+TgJRUI8mbTVDgVxfrkQiytHeqInKIoDaVxMm7Hw7azJrMx35T
- efId33cCjQFfRjEKGU45g07BwPNF8trvj/BrZY6/5qO673fAe1sF6I/e/fusjBCeamIx
- EdtTKXd8WH3NjG/oYB3DNTF6e6XtEEglLHfkVkfW5tljtUT17vGwTtFfXaaJ3nB4lQZy
- 1GNQ1G7ukHvk1UxhuiKycOvD0XXmrJYMTTtwcum0/JJa4KO6F3ty4gaD8z+RcoolBxbk
- /gd8Gx7G7sZCxBGjG7HshDL+g6FU03Q9WadnDKdtj8TVwc3jtMhBMOZ7Vmf7iPdf87Ow
- Xj7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679922952;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
- b=JuNFhp00yJkKQoO/s1FDjvIyZdhSIxCoZuH45iC4U5W3GZKNQ4zVyaInUnoW3Z2hud
- Olm94Kt4Z55DvU8TC86Z7hEPcEjwEuiUA5EavAG0QwzCzEXm1mIQFBJGfCIQnzFuflee
- CxdLsStyOcpByXetRGnBG+FYEO0gid58zqRME3GZ/oHROj+IzjulJ70AZLXfw5JOFwQ2
- jWUmSkc+gziXNhX6ABrWpJ3RBOZm37ABfMaQPKdNNWao25FgwL1vLNfuHyGprxfB03Bj
- UuHWF1vqnNyubmiYj1HxWIpnTEjXnfoDSEvOY568gX9bc9/+MMyrX2rWBuF0V2beYlzF
- E8Qg==
-X-Gm-Message-State: AAQBX9f/ZGqtzu6erqNWrsrsladJfcTmbVMV45qfl515b3qMUcWK6kzc
- V6E8A2gHeYitBKoSxWqNE29W0Q==
-X-Google-Smtp-Source: AKy350ZJcxi5rMh/zgyyUt3cwi8K5JOFGX/9Gg7ZzTog0G0EFlmUVqFRRugOX65YGdZsRa+WbvaxRw==
-X-Received: by 2002:a5d:4b42:0:b0:2c7:454:cee8 with SMTP id
- w2-20020a5d4b42000000b002c70454cee8mr9928980wrs.1.1679922952052; 
- Mon, 27 Mar 2023 06:15:52 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- s13-20020a5d510d000000b002c794495f6fsm22054021wrt.117.2023.03.27.06.15.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 06:15:51 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 089A11FFB7;
- Mon, 27 Mar 2023 14:15:51 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [Socratic RFC PATCH] include: attempt to document
- device_class_set_props
-Date: Mon, 27 Mar 2023 14:15:43 +0100
-Message-Id: <20230327131543.2857052-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pgmkD-0005z5-69
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:18:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pgmkB-0005Lh-Aw
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:18:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679923118;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+vmB/Nixa/TLYuBmbhbDZvNHLLMoiQzXaLoGDz8G4MU=;
+ b=i1XzjJzvAOKrjOScOou/VPmqk+DuZVdYhgcWXdMwlotVhyaUZPpaQHJzL71HN2Z7KP+1lB
+ WVkvIdcY1LFvbarsHLAQkYev88TvVE7QR2vUUymTX+QlpcLTmhUEIb094cdCPhYwtxNs5i
+ tBG+fcNLgQq/UW9hPVJSMEQdKROTlV8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-2xdyXa0xNJeqgzbdALS6rw-1; Mon, 27 Mar 2023 09:18:35 -0400
+X-MC-Unique: 2xdyXa0xNJeqgzbdALS6rw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26C6F85530D;
+ Mon, 27 Mar 2023 13:18:35 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59162492B0A;
+ Mon, 27 Mar 2023 13:18:34 +0000 (UTC)
+Date: Mon, 27 Mar 2023 15:18:33 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: hreitz@redhat.com, eesposit@redhat.com, ldoktor@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH for-8.0] block/export: Fix graph locking in
+ blk_get_geometry() call
+Message-ID: <ZCGXqY5B1GGqvabS@redhat.com>
+References: <20230327113959.60071-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+In-Reply-To: <20230327113959.60071-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,53 +79,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I'm still not sure how I achieve by use case of the parent class
-defining the following properties:
+Am 27.03.2023 um 13:39 hat Kevin Wolf geschrieben:
+> blk_get_geometry() eventually calls bdrv_nb_sectors(), which is a
+> co_wrapper_mixed_bdrv_rdlock. This means that when it is called from
+> coroutine context, it already assume to have the graph locked.
+> 
+> However, virtio_blk_sect_range_ok() in block/export/virtio-blk-handler.c
+> (used by vhost-user-blk and VDUSE exports) runs in a coroutine, but
+> doesn't take the graph lock - blk_*() functions are generally expected
+> to do that internally. This causes an assertion failure when accessing
+> an export for the first time if it runs in an iothread.
+> 
+> This is an example of the crash:
+> 
+> $ ./storage-daemon/qemu-storage-daemon --object iothread,id=th0 --blockdev file,filename=/home/kwolf/images/hd.img,node-name=disk --export vhost-user-blk,addr.type=unix,addr.path=/tmp/vhost.sock,node-name=disk,id=exp0,iothread=th0
+> qemu-storage-daemon: ../block/graph-lock.c:268: void assert_bdrv_graph_readable(void): Assertion `qemu_in_main_thread() || reader_count()' failed.
+> 
+> (gdb) bt
 
-  static Property vud_properties[] = {
-      DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
-      DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
-      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
-      DEFINE_PROP_END_OF_LIST(),
-  };
+Oops, git helpfully removed the "comments"...
 
-But for the specialisation of the class I want the id to default to
-the actual device id, e.g.:
+  (gdb) bt
+  #0  0x00007ffff6eafe5c in __pthread_kill_implementation () from /lib64/libc.so.6
+  #1  0x00007ffff6e5fa76 in raise () from /lib64/libc.so.6
+  #2  0x00007ffff6e497fc in abort () from /lib64/libc.so.6
+  #3  0x00007ffff6e4971b in __assert_fail_base.cold () from /lib64/libc.so.6
+  #4  0x00007ffff6e58656 in __assert_fail () from /lib64/libc.so.6
+  #5  0x00005555556337a3 in assert_bdrv_graph_readable () at ../block/graph-lock.c:268
+  #6  0x00005555555fd5a2 in bdrv_co_nb_sectors (bs=0x5555564c5ef0) at ../block.c:5847
+  #7  0x00005555555ee949 in bdrv_nb_sectors (bs=0x5555564c5ef0) at block/block-gen.c:256
+  #8  0x00005555555fd6b9 in bdrv_get_geometry (bs=0x5555564c5ef0, nb_sectors_ptr=0x7fffef7fedd0) at ../block.c:5884
+  #9  0x000055555562ad6d in blk_get_geometry (blk=0x5555564cb200, nb_sectors_ptr=0x7fffef7fedd0) at ../block/block-backend.c:1624
+  #10 0x00005555555ddb74 in virtio_blk_sect_range_ok (blk=0x5555564cb200, block_size=512, sector=0, size=512) at ../block/export/virtio-blk-handler.c:44
+  #11 0x00005555555dd80d in virtio_blk_process_req (handler=0x5555564cbb98, in_iov=0x7fffe8003830, out_iov=0x7fffe8003860, in_num=1, out_num=0) at ../block/export/virtio-blk-handler.c:189
+  #12 0x00005555555dd546 in vu_blk_virtio_process_req (opaque=0x7fffe8003800) at ../block/export/vhost-user-blk-server.c:66
+  #13 0x00005555557bf4a1 in coroutine_trampoline (i0=-402635264, i1=32767) at ../util/coroutine-ucontext.c:177
+  #14 0x00007ffff6e75c20 in ?? () from /lib64/libc.so.6
+  #15 0x00007fffefffa870 in ?? ()
+  #16 0x0000000000000000 in ?? ()
 
-  static Property vu_rng_properties[] = {
-      DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG),
-      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
-      DEFINE_PROP_END_OF_LIST(),
-  };
+I'm adding this back while applying (but with indentation this time so
+that git doesn't interpret it as comments).
 
-And so far the API for doing that isn't super clear.
+Kevin
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/hw/qdev-core.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index bd50ad5ee1..d4bbc30c92 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
- char *qdev_get_fw_dev_path(DeviceState *dev);
- char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
- 
-+/**
-+ * device_class_set_props(): add a set of properties to an device
-+ * @dc: the parent DeviceClass all devices inherit
-+ * @props: an array of properties, terminate by DEFINE_PROP_END_OF_LIST()
-+ *
-+ * This will add a set of properties to the object. It will fault if
-+ * you attempt to add an existing property defined by a parent class.
-+ * To modify an inherited property you need to use????
-+ */
- void device_class_set_props(DeviceClass *dc, Property *props);
- 
- /**
--- 
-2.39.2
+> Fix this by creating a new blk_co_get_geometry() that takes the lock,
+> and changing blk_get_geometry() to be a co_wrapper_mixed around it.
+> 
+> To make the resulting code cleaner, virtio-blk-handler.c can directly
+> call the coroutine version now (though that wouldn't be necessary for
+> fixing the bug, taking the lock in blk_co_get_geometry() is what fixes
+> it).
+> 
+> Fixes: 8ab8140a04cf771d63e9754d6ba6c1e676bfe507
+> Reported-by: Lukáš Doktor <ldoktor@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
 
