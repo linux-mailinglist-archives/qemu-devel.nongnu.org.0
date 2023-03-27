@@ -2,64 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDF56CA2C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 13:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C926CA2E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 13:57:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pglKJ-0005OE-4p; Mon, 27 Mar 2023 07:47:51 -0400
+	id 1pglSL-0006vK-Ar; Mon, 27 Mar 2023 07:56:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pglK5-0005Nr-9f
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:47:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1pglSF-0006u8-Ah; Mon, 27 Mar 2023 07:56:04 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pglK3-00080T-OT
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:47:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679917655;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mtfYm8Clf0uak32Q0IM/qGSnTVo3ogAJEABWQ6GHRT0=;
- b=eRw2BBNeOaRCe5ZbFVVpsky+ys2fvL8oThcvm2X0z1sEiTBwRv1+avX2LqzLSAbSFG4W4Z
- HlQKU4f+QydtbZMK7PiW77kQ9K1VeE+Fcbg1/Il/O5yKzhp9YMGqsJF2MVAdcqBBgLW1Gh
- FgS1eb5rmTYp4ia2vBtqHsZ4i2hnHhk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-171-Yo1HiRTrM5W5c4QmjyqXSg-1; Mon, 27 Mar 2023 07:47:33 -0400
-X-MC-Unique: Yo1HiRTrM5W5c4QmjyqXSg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 295DE85A588;
- Mon, 27 Mar 2023 11:47:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7262A140E950;
- Mon, 27 Mar 2023 11:47:32 +0000 (UTC)
-Date: Mon, 27 Mar 2023 13:47:31 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Coiby Xu <Coiby.Xu@gmail.com>
-Subject: Re: [PATCH] block/export: only acquire AioContext once for
- vhost_user_server_stop()
-Message-ID: <ZCGCU2oaxrd7mXJQ@redhat.com>
-References: <20230323145853.1345527-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1pglS9-0001ea-Nf; Mon, 27 Mar 2023 07:56:00 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 3F7E4320077A;
+ Mon, 27 Mar 2023 07:55:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 27 Mar 2023 07:55:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1679918152; x=1680004552; bh=Enlbqk+iZu
+ 4UIwjG8EbGt7vugYorEWZ9LU5bJH3YtBc=; b=md0OclHYscYnj6XKqaL8yBRF/E
+ H6vaNIHP9ETbe6OnyRHyiKkGpQ9gYyneNM+FpUpq59fKN+y+4p4EiLSAwoAI0t2v
+ buyuo7qFoi+fNOoOG++FI8ZUeBShzrqluCoPT++vLXF/2cZ+72DllKYdtM2/2vhh
+ ueYLMemKtPCJmZL+d3kPSB7TmrrwEnL8yKzzhCkm0tmi+vSC3KkT+NCYOLI57U6+
+ 20wVczflKPpyI7dwHb2gLn9Tg0oJHZR/sQYMkoV0o12Epi+QRLVF8N8FXzF0TPwQ
+ FsV5OtpE/WPebzVVhqeGqKA/fZGYRozQ6xRboZpr9uulQOJx7sStUmSXI22A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1679918152; x=1680004552; bh=Enlbqk+iZu4UI
+ wjG8EbGt7vugYorEWZ9LU5bJH3YtBc=; b=RVy3LQEKuwVWQGWbG/t95q3jEc7sD
+ ief9aQuShZaK7mLaR6Q2JF7dW6bYY/Iv85i2ek5I+JLw9GP/3X3YmdpCMTth8qMF
+ xZiUzTlds0sm0boB5l/eDLdXQKrw6XoTfStuVvWZ+bGm8955Z41bTpPH3IImo9FE
+ 4aeAVZ/7MNHmkAhNl5yDs/kU87Raedx6lX8KKYuDyEPI6PN3YENaFFrVmebtQsb+
+ 407SkfYEYM2+0OoDHXlmE2Pvwp6RmjuF870jNL3WwmyLMTtF0JZMFNZHvqPhZv1x
+ j7Xzw0fLcXCsCkW5saD/gLRbKIkxR6kEpfR0TdPB84oXh+CY5kYPzkxmQ==
+X-ME-Sender: <xms:SIQhZFXnNpUFncZ13KdGXvkqcbQ4g7cva1BIppOpspTzYFLux9QRsQ>
+ <xme:SIQhZFn5iByY5D-teJy-pY9bA31wzNJO0Ns7m7QCbMBDxZsRaNGPTYfSNq3YtiHEX
+ BtzidcSHDQavt3c8Q>
+X-ME-Received: <xmr:SIQhZBZ5xDmHtfkzYndSRgch3K2GJlP1oOE71fmiG6daqOG2VTrq9P0hAbQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehvddggeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+ ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
+ rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeffkeevjeekueegveehffdvuddutefgve
+ dtieduleeuuefguedtgfdvffehleehffenucffohhmrghinhepghhithhlrggsrdgtohhm
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnug
+ hrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:SIQhZIW-nBZwwaep1dqddAN30Mlw5_O0II_qOLgUBbZFiMt-IzGiPQ>
+ <xmx:SIQhZPlgyKgCBH2nZZKEcM_K1x0N529p7d23kW6DbuqjbB3-GkU5zA>
+ <xmx:SIQhZFec47juLBET6y-6uex1rDU9mR8Rxkzpy51-m6CVkwlgwO6CNA>
+ <xmx:SIQhZHs1GYSTc5N4kQeULmw9JykbZcMy0RATEJvEnR1w4fi5be1EWQ>
+Feedback-ID: idfb84289:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Mar 2023 07:55:50 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+	laurent@vivier.eu
+Subject: [PATCH 0/2] linux-user: Clarify error on failure to map guest address
+ space
+Date: Mon, 27 Mar 2023 22:25:22 +1030
+Message-Id: <20230327115524.1981482-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230323145853.1345527-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=andrew@aj.id.au;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,17 +97,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 23.03.2023 um 15:58 hat Stefan Hajnoczi geschrieben:
-> vhost_user_server_stop() uses AIO_WAIT_WHILE(). AIO_WAIT_WHILE()
-> requires that AioContext is only acquired once.
-> 
-> Since blk_exp_request_shutdown() already acquires the AioContext it
-> shouldn't be acquired again in vhost_user_server_stop().
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Hello,
 
-Thanks, applied to the block branch.
+This series is a couple of trivial improvements to the error message from linux-user's ELF loader
+when it fails to mmap() the guest's address space. Both issues caused me brief confusion when trying
+to sort myself out after hitting https://gitlab.com/qemu-project/qemu/-/issues/447
 
-Kevin
+I've build tested the two as a sanity check.
+
+Cheers,
+
+Andrew
+
+Andrew Jeffery (2):
+  linux-user: elfload: s/min_mmap_addr/mmap_min_addr/
+  linux-user: elfload: Specify -R is an option for qemu-user binaries
+
+ linux-user/elfload.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+-- 
+2.39.2
 
 
