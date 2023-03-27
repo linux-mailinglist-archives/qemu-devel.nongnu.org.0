@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86B66C9C5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 09:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149456C9CB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 09:49:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pghQf-0006D2-Pi; Mon, 27 Mar 2023 03:38:09 -0400
+	id 1pghaF-0000PH-2p; Mon, 27 Mar 2023 03:48:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pghQd-0006BY-7E
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 03:38:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pghQb-0007ju-Fu
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 03:38:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679902684;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9nNyoMLpTrW1PEJYjk8zeP1bqlCd7sZKshdrIcIX2KA=;
- b=fYhn0fGffpDaiaXr0FVbtE2iSAc4LTminHqdeHR9+pL4CPcN7bzbntWCAvhRfUoif5LB/o
- y8LiHO57k1DsyZrULCa+RcEdNQZXa+pA+W8aiXjwPbs1cxoXYsHUGoNhxfQCPdyjl6I22H
- uncMaWtk8qt35TnbA/YEXEzmwN1BJ5E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-177-VlBJ_LmEMKeFtwHmp09sSA-1; Mon, 27 Mar 2023 03:38:00 -0400
-X-MC-Unique: VlBJ_LmEMKeFtwHmp09sSA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E06511C05EB8;
- Mon, 27 Mar 2023 07:37:59 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F58F492C3E;
- Mon, 27 Mar 2023 07:37:59 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Cc: Carlos =?utf-8?Q?L=C3=B3pez?= <clopez@suse.de>, qemu-devel@nongnu.org,
- "Michael S.
- Tsirkin" <mst@redhat.com>, Eric Farman <farman@linux.ibm.com>, Richard
- Henderson <richard.henderson@linaro.org>, David Hildenbrand
- <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- "open list:virtio-ccw" <qemu-s390x@nongnu.org>, Halil Pasic
- <pasic@linux.ibm.com>
-Subject: Re: [PATCH v2] virtio: refresh vring region cache after updating a
- virtqueue size
-In-Reply-To: <20230324130036.2c4db781.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20230317002749.27379-1-clopez@suse.de>
- <87y1npglk0.fsf@redhat.com> <20230322182433.695270d0.pasic@linux.ibm.com>
- <20230324130036.2c4db781.pasic@linux.ibm.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Mon, 27 Mar 2023 09:37:58 +0200
-Message-ID: <87a5zyskyx.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1pghaC-0000P7-5T
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 03:48:00 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1pgha8-0005iI-Oe
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 03:47:59 -0400
+Received: by mail-ed1-x532.google.com with SMTP id w9so32089709edc.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 00:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jms.id.au; s=google; t=1679903275;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ob9onovgsUgQCsAg308VXnCEaQPl89Y5/xImBpp+bk0=;
+ b=UtIMsctr+AUqWs6UM7Zwx6z7cvHVnTFJVs06F04ZlFIcgDqDC+nL2QA3XhVPzSN3nh
+ /QCx5mxDUHSLmStAdMv0lBoj1dngeFAZ4HJ4Yw9xf1CGRQIv6LWSnYZhN9h+9EKVq3c7
+ FiPSRkkvBUcrz1u+AOfaE0IFPBQLe+QR3nmGM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679903275;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ob9onovgsUgQCsAg308VXnCEaQPl89Y5/xImBpp+bk0=;
+ b=tiGbnQbLo5a9zN98KRDSjm3YdaLwg86u/7yYnu8cgqvkUNzZRKpH3i+3Bfw618E7yJ
+ DGWVOu/bgaIsXoDFv7UJgkaQcC3tKpXzs7u7C3ymVZsxw+Lh3JSPK1KeNOyuEMHfhMmN
+ a1At2tOXMTlPqiWfdEp0yGtvdJopQc35PsmDuwYIrBfu8GXWv1JiFiV17uSm1qxtW09M
+ /usCUB+r2c2FhQuQVd+aYbG6Wa8e7yoy2iP12+3UqWI+/KO5FNW9sJtI7YXXRykRXa0P
+ KbHawwmGEbL4GsQaGvuGfx5c1jOPUcR1IWYo5GIn4qflTB0l2K8WTFXtzWpZBzcGKjZK
+ JdjQ==
+X-Gm-Message-State: AAQBX9fW/UgLVNcAx0ubsWYWHPaB8Vma5fTIemAtRiUwRbvHzuXOeUlX
+ p18hEq3mevDhzPNPNSRzvp3LsZwx0YS9V7yDgkM=
+X-Google-Smtp-Source: AKy350b/agr/5vlcWtXubYq8lpLQLuTFoIvCNnYS1kSlolvSDIziN9AQmNViIKK0EJW23pCvRXMUCoeQUi8j3kXLJRM=
+X-Received: by 2002:a50:9fae:0:b0:501:c965:33bd with SMTP id
+ c43-20020a509fae000000b00501c96533bdmr4995124edf.6.1679903274778; Mon, 27 Mar
+ 2023 00:47:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230326224426.3918167-1-ninad@linux.ibm.com>
+ <20230326224426.3918167-2-ninad@linux.ibm.com>
+In-Reply-To: <20230326224426.3918167-2-ninad@linux.ibm.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 27 Mar 2023 07:47:42 +0000
+Message-ID: <CACPK8XfLBT-6eu4cv=CbS2d368N-wcVuvSy+w4Kt-JavPqrhyA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/3] docs: Add support for TPM devices over I2C bus
+To: Ninad Palsule <ninad@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, andrew@aj.id.au, stefanb@linux.ibm.com, 
+ clg@kaod.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=joel.stan@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,39 +83,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 24 2023, Halil Pasic <pasic@linux.ibm.com> wrote:
-
-> On Wed, 22 Mar 2023 18:24:33 +0100
-> Halil Pasic <pasic@linux.ibm.com> wrote:
+On Sun, 26 Mar 2023 at 22:44, Ninad Palsule <ninad@linux.ibm.com> wrote:
 >
->> > > --- a/hw/s390x/virtio-ccw.c
->> > > +++ b/hw/s390x/virtio-ccw.c
->> > > @@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
->> > >                  return -EINVAL;
->> > >              }
->> > >              virtio_queue_set_num(vdev, index, num);
->> > > +            virtio_init_region_cache(vdev, index);    
->> > 
->> > Hmm... this is not wrong, but looking at it again, I see that the guest
->> > has no way to change num after our last call to
->> > virtio_init_region_cache() (while setting up the queue addresses.) IOW,
->> > this introduces an extra round trip that is not really needed.
->> >   
->> 
->> I don't quite understand. AFAIU the virtio_init_region_cache() would see
->> the (new) queue addresses but not the new size (num). Yes virtio-ccw
->> already knows the new num but it is yet to call
->> to put it into vdev->vq[n].vring.num from where
->> virtio_init_region_cache() picks it up.
->> 
->> If we were to first virtio_queue_set_num() and only then the address
->> I would understand. But with the code as is, I don't. Am I missing
->> something?
+> This is a documentation change for I2C TPM device support.
 >
-> Connie: have you had a chance to have yet another look at this? I
-> would like to understand the reason for seeing this differently.
+> Qemu already supports devices attached to ISA and sysbus.
+> This drop adds support for the I2C bus attached TPM devices.
+>
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+>
+> ---
+> V2:
+>
+> Incorporated Stephen's review comments
+> - Added example in the document.
+>
+> ---
+> V4:
+> Incorporate Cedric & Stefan's comments
+>
+> - Added example for ast2600-evb
+> - Corrected statement about arm virtual machine.
+>
+> ---
+> V6:
+> Incorporated review comments from Stefan.
+> ---
+>  docs/specs/tpm.rst | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>
+> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+> index 535912a92b..590e670a9a 100644
+> --- a/docs/specs/tpm.rst
+> +++ b/docs/specs/tpm.rst
+> @@ -21,12 +21,16 @@ QEMU files related to TPM TIS interface:
+>   - ``hw/tpm/tpm_tis_common.c``
+>   - ``hw/tpm/tpm_tis_isa.c``
+>   - ``hw/tpm/tpm_tis_sysbus.c``
+> + - ``hw/tpm/tpm_tis_i2c.c``
+>   - ``hw/tpm/tpm_tis.h``
+>
+>  Both an ISA device and a sysbus device are available. The former is
+>  used with pc/q35 machine while the latter can be instantiated in the
+>  Arm virt machine.
+>
+> +An I2C device support is also provided which can be instantiated in the Arm
+> +based emulation machines. This device only supports the TPM 2 protocol.
+> +
+>  CRB interface
+>  -------------
+>
+> @@ -348,6 +352,34 @@ In case an Arm virt machine is emulated, use the following command line:
+>      -drive if=pflash,format=raw,file=flash0.img,readonly=on \
+>      -drive if=pflash,format=raw,file=flash1.img
+>
+> +In case a ast2600-evb bmc machine is emulated and want to use TPM device
+> +attached to I2C bus, use the following command line:
+> +
+> +.. code-block:: console
+> +
+> +  qemu-system-arm -M ast2600-evb -nographic \
+> +    -kernel arch/arm/boot/zImage \
+> +    -dtb arch/arm/boot/dts/aspeed-ast2600-evb.dtb \
+> +    -initrd rootfs.cpio \
+> +    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+> +    -tpmdev emulator,id=tpm0,chardev=chrtpm \
+> +    -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
 
-I'm just back from being sick, please give me some time to work through
-my backlog.
+For testing, use this command to load the driver to the correct address:
 
+echo tpm_tis_i2c 0x2e > /sys/bus/i2c/devices/i2c-12/new_device
+
+(I don't know how specific we want to make the instructions, but
+adding a line like above would help others from having to re-discover
+the command).
+
+> +
+> +In case a Rainier bmc machine is emulated and want to use TPM device
+> +attached to I2C bus, use the following command line:
+> +
+> +.. code-block:: console
+> +
+> +  qemu-system-arm -M rainier-bmc -nographic \
+> +    -kernel ${IMAGEPATH}/fitImage-linux.bin \
+> +    -dtb ${IMAGEPATH}/aspeed-bmc-ibm-rainier.dtb \
+> +    -initrd ${IMAGEPATH}/obmc-phosphor-initramfs.rootfs.cpio.xz \
+> +    -drive file=${IMAGEPATH}/obmc-phosphor-image.rootfs.wic.qcow2,if=sd,index=2\
+> +    -net nic -net user,hostfwd=:127.0.0.1:2222-:22,hostfwd=:127.0.0.1:2443-:443\
+> +    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+> +    -tpmdev emulator,id=tpm0,chardev=chrtpm \
+> +    -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
+> +
+
+I'd drop this example, the above one is enough.
+
+>  In case SeaBIOS is used as firmware, it should show the TPM menu item
+>  after entering the menu with 'ESC'.
+>
+> --
+> 2.37.2
+>
 
