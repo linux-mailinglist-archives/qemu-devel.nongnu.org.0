@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292F56C9D1D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0819B6C9D41
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:11:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pghq0-0005Au-8N; Mon, 27 Mar 2023 04:04:20 -0400
+	id 1pghuy-0007Ks-7U; Mon, 27 Mar 2023 04:09:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pghpx-0005Ag-AT
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 04:04:17 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pghpu-0001Xe-Rr
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 04:04:17 -0400
-Received: by mail-ed1-x535.google.com with SMTP id cn12so32254433edb.4
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 01:04:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jms.id.au; s=google; t=1679904253;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=g3QK1o8UP1R3SE/VdMbvDjMwbZASFx9O4UbuL3O8EZo=;
- b=BdBjoGzCeYQYixfm82xE5stUSfVtoL8EkmRTL8jtPUn8XcrQMDZpmZctJHpbqcHpZL
- V+7QWJoaJhAgObnLzON5MfMPc4XRiSHH7cpRoNPn4GdJLG70DbEp2Pe3QqqAiuXyL/Jy
- QvKjngr2y/TJtmDeZFOikD4ejV1l/COvoKy/M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679904253;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=g3QK1o8UP1R3SE/VdMbvDjMwbZASFx9O4UbuL3O8EZo=;
- b=z591XfcyBx9hYxIDf4jok2e7U2h5Ntsw4G1HZf59uGKiBqmo1Rgb/QKYkGLh7fSjDJ
- tQJ9Y9wRhQ9dNamRdemWrUFKY2fBjG0GkMLZng7F8c7uNfKcZz1RqzShM7CXCLCX1IB2
- YXmXPPK8nBOClhJUJ27LmOUfApv8F86YDDqFnF2snQYRdSl5mb+zFB3cryNnHGNvTfi0
- gOu6O9mWxVQk0gZ4f7+WUwjzky9RGmPooNY9KeFFsqDabvQ+4OzzYDQuMhhQ5wNsljLl
- BCmepeA/62zTP/+pi8nUbi1Brmz84C45Oi1CfI53nir1doOL/D/ZNady6MDOz9d3ZPCi
- hlDA==
-X-Gm-Message-State: AAQBX9cYaE+p9kYbJ6f1y3jt+oBBUpsychEX2U2BunOXrcbLBZuPals0
- BS7RdnIgGCUdMWyo8z/l46P3ZVW2AB4+6WMx9/U=
-X-Google-Smtp-Source: AKy350ZWHowdWLJILOGQ1OwCASMvx8U9H+TygXukQNr3GFRWbL6+DXsByIXdeceaebw/SiFHAxC2Cg3UPUyufLEBCIs=
-X-Received: by 2002:a50:cd47:0:b0:4fc:532e:215d with SMTP id
- d7-20020a50cd47000000b004fc532e215dmr5394247edj.6.1679904253004; Mon, 27 Mar
- 2023 01:04:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pghuu-0007Ha-1V; Mon, 27 Mar 2023 04:09:24 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pghuq-00054Y-9n; Mon, 27 Mar 2023 04:09:23 -0400
+Received: from localhost.localdomain (unknown [180.175.29.170])
+ by APP-05 (Coremail) with SMTP id zQCowACnrWUkTyFksV29Cg--.4754S2;
+ Mon, 27 Mar 2023 16:09:09 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 00/10] target/riscv: Simplification for RVH related check
+ and code style fix
+Date: Mon, 27 Mar 2023 16:08:48 +0800
+Message-Id: <20230327080858.39703-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230326224426.3918167-1-ninad@linux.ibm.com>
- <CACPK8XeZA8nqhgjH_SUDrk3A49dUqnKVONtj+QtcnjOsLUjvGQ@mail.gmail.com>
- <a9ba4cf8-cd4d-2038-6328-66f61ad3ed70@linux.vnet.ibm.com>
-In-Reply-To: <a9ba4cf8-cd4d-2038-6328-66f61ad3ed70@linux.vnet.ibm.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 27 Mar 2023 08:04:00 +0000
-Message-ID: <CACPK8XfrM0cCdW7a2+Leiw8dD2RAc8Xakx4ptdE5wdtjp=P27Q@mail.gmail.com>
-Subject: Re: [PATCH v7 0/3] Add support for TPM devices over I2C bus
-To: Ninad Palsule <ninad@linux.vnet.ibm.com>
-Cc: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org, andrew@aj.id.au,
- stefanb@linux.ibm.com, clg@kaod.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=joel.stan@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowACnrWUkTyFksV29Cg--.4754S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr1UWFyUGrW7Kr17WryxGrg_yoW8ZryDpr
+ 48G3ySy395ArZxGr1ftF4UJr15Jrs8Wr45J3s7Cr18Aa15CrW5Jrn7Kw1IkFyDGFy8Wr1q
+ 9F1UCF13Cr4UZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+ 8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+ 8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+ ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+ 0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
+ XdbUUUUUU==
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,120 +74,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Mar 2023 at 03:52, Ninad Palsule <ninad@linux.vnet.ibm.com> wrote:
->
-> Hi Joel,
->
-> On 3/26/23 8:05 PM, Joel Stanley wrote:
-> > Hi Ninad,
-> >
-> > On Sun, 26 Mar 2023 at 22:44, Ninad Palsule <ninad@linux.ibm.com> wrote:
-> >> Hello,
-> >>
-> >> I have incorporated review comments from Stefan. Please review.
-> >>
-> >> This drop adds support for the TPM devices attached to the I2C bus. It
-> >> only supports the TPM2 protocol. You need to run it with the external
-> >> TPM emulator like swtpm. I have tested it with swtpm.
-> > Nice work. I tested these stop cedric's aspeed-8.0 qemu tree, using
-> > the rainier machine and the openbmc dev-6.1 kernel.
-> >
-> > We get this message when booting from a kernel:
-> >
-> > [    0.582699] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
-> > [    0.586361] tpm tpm0: A TPM error (256) occurred attempting the self test
-> > [    0.586623] tpm tpm0: starting up the TPM manually
-> >
-> > Do we understand why the error appears?
->
->
-> Yes, As per kernel code this is an expected error for some emulators.
->
-> On swtpm emulator, It returns TPM2_RC_INITIALIZE if emulator is not
-> initialized. I searched it in swtpm and it indicated that selftest
-> requested before it is initialized. I meant to ask Stefan but busy with
-> the review comments.
+This patchset tries to simplify the RVH related check and fix some code style problems, such as problems for indentation, multi-line comments and lines with over 80 characters.
 
-The swtpm man page mentions some flags we can set. Perhaps they would help?
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-virtfix-upstream
 
-       --flags [not-need-init]
-[,startup-clear|startup-state|startup-deactivated|startup-none]
+v2:
+* add comment to specify riscv_cpu_set_virt_enabled() can only be called when RVH is enabled in patch 4 (suggested by Richard Henderson)
+* merge patch from LIU Zhiwei(Message-ID: <20230325145348.1208-1-zhiwei_liu@linux.alibaba.com>) to patch 5
+* use env->virt_enabled directly instead of riscv_cpu_virt_enabled() in patch 6 (suggested by LIU Zhiwei)
+* remain the orginal identation for macro name in patch 8 (suggested by LIU Zhiwei)
 
+LIU Zhiwei (1):
+  target/riscv: Convert env->virt to a bool env->virt_enabled
 
->
-> This function comment in the driver mentioned below indicate that this
-> case possible with emulators.
->
-> /**
->   * tpm2_startup - turn on the TPM
->   * @chip: TPM chip to use
->   *
->   * Normally the firmware should start the TPM. This function is
-> provided as a
->   * workaround if this does not happen. A legal case for this could be for
->   * example when a TPM emulator is used.
->   *
->   * Return: same as tpm_transmit_cmd()
->   */
->
-> static int tpm2_startup(struct tpm_chip *chip)
->
+Weiwei Li (9):
+  target/riscv: Remove redundant call to riscv_cpu_virt_enabled
+  target/riscv: Remove redundant check on RVH
+  target/riscv: Remove check on RVH for riscv_cpu_virt_enabled
+  target/riscv: Remove check on RVH for riscv_cpu_set_virt_enabled
+  target/riscv: Remove riscv_cpu_virt_enabled()
+  target/riscv: Remove redundant parentheses
+  target/riscv: Fix format for indentation
+  target/riscv: Fix format for comments
+  target/riscv: Fix lines with over 80 characters
 
-> > However on a clean boot into the TPM, the u-boot tpm commands fail:
-> >
-> > ast# tpm info
-> > tpm@2e v2.0: VendorID 0x1014, DeviceID 0x0001, RevisionID 0x01 [closed]
-> > ast# tpINTERRUPT>
-> > ast# tpm init
-> > ast# tpm info
-> > tpm@2e v2.0: VendorID 0x1014, DeviceID 0x0001, RevisionID 0x01 [open]
-> > ast# tpm pcr_read 0 0x81000000
-> > Error: 256
-> > ast# md.l 0x81000000 16
-> > 81000000: 00000000 00000000 00000000 00000000    ................
-> > 81000010: 00000000 00000000 00000000 00000000    ................
-> > 81000020: 00000000 00000000 00000000 00000000    ................
-> > 81000030: 00000000 00000000 00000000 00000000    ................
-> > 81000040: 00000000 00000000 00000000 00000000    ................
-> > 81000050: 00000000 00000000                      ........
-> >
-> > This doesn't need to block merging into qemu, as the model works fine
-> > for pcr measurement and accessing under Linux. However it would be
-> > good to work though these issues in case there's a modelling
-> > discrepancy.
->
->
-> Yes, Please provide me details on how to reproduce it. I will take a look.
+ target/riscv/arch_dump.c                |   7 +-
+ target/riscv/cpu.c                      |   8 +-
+ target/riscv/cpu.h                      |  29 +--
+ target/riscv/cpu_bits.h                 |   5 +-
+ target/riscv/cpu_helper.c               | 142 ++++++------
+ target/riscv/csr.c                      |  52 ++---
+ target/riscv/debug.c                    |  10 +-
+ target/riscv/insn_trans/trans_rvv.c.inc |  36 +--
+ target/riscv/machine.c                  |   6 +-
+ target/riscv/op_helper.c                |  21 +-
+ target/riscv/pmp.c                      |  48 ++--
+ target/riscv/pmp.h                      |   9 +-
+ target/riscv/pmu.c                      |   7 +-
+ target/riscv/sbi_ecall_interface.h      |   8 +-
+ target/riscv/translate.c                |  14 +-
+ target/riscv/vector_helper.c            | 292 ++++++++++++++----------
+ 16 files changed, 378 insertions(+), 316 deletions(-)
 
-This is the buildroot tree I've been using for testing:
+-- 
+2.25.1
 
-https://github.com/shenki/buildroot/commits/ast2600-tpm
-
-git clone https://github.com/shenki/buildroot -b ast2600-tpm
-cd buildroot
-make O=ast2600evb aspeed_ast2600evb_defconfig
-
-I launch it with this qemu commandline:
-
-swtpm socket --tpmstate dir=$XDG_RUNTIME_DIR --ctrl
-type=unixio,path=$XDG_RUNTIME_DIR/swtpm-socket --tpm2
-
-qemu-system-arm -M ast2600-evb -nographic -drive
-file=ast2600evb/images/flash.img,if=mtd,format=raw -chardev
-socket,id=chrtpm,path=$XDG_RUNTIME_DIR/swtpm-socket -tpmdev
-emulator,id=tpm0,chardev=chrtpm -device
-tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
-
-If you want to reproduce the u-boot behaviour, press any key to
-interrupt the boot.
-
-Booting this way, you can also test the u-boot behaviour. Once you're
-in userspace:
-
-# echo tpm_tis_i2c 0x2e > /sys/bus/i2c/devices/i2c-12/new_device
-[   13.637081] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
-[   13.665239] i2c i2c-12: new_device: Instantiated device tpm_tis_i2c at 0x2e
-
-# cat /sys/class/tpm/tpm0/pcr-sha256/0
-FE9A732EAA7842D77DEECFC1DC610EBEA9414BFC39BEEBC8D2F071CF030FA592
 
