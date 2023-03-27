@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A383E6CA243
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 13:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6513F6CA24C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 13:24:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgksF-0005q1-TO; Mon, 27 Mar 2023 07:18:52 -0400
+	id 1pgkwm-0007LU-Bl; Mon, 27 Mar 2023 07:23:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pgksC-0005lY-O3
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:18:48 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pgks9-0001Me-9a
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:18:48 -0400
-Received: by mail-ed1-x532.google.com with SMTP id ew6so34472870edb.7
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 04:18:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jms.id.au; s=google; t=1679915923;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=e4YXAOZuS8d9rqsLGjlJgQx/f6o+VnBDJaH9bGirWCs=;
- b=SV1h7GFGmf4MT9pozgT3ZUP/ppDk06pv4wb1T6B1zfcPMiRCgHSId0DWOqrEuncPf0
- IFB4mIAf502UvcNSekto73JuoFb4jnT9M4KFrBpB07a5IQojmoXjH3lg756RydXXUR98
- pT90bGz/er2hwW2gSLocD90T9jFfbpps/Zb48=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679915923;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=e4YXAOZuS8d9rqsLGjlJgQx/f6o+VnBDJaH9bGirWCs=;
- b=jQTXu22chfUlkeBeYb+e7naTWwjF26SGjurrPNwZ706MGy+LbKYjBsWrxezxFP/vOa
- KwZPOKEgVZMuCePmjh2vHIbS18/4jM/Uml42fajHGuekZUREJoEGAwTLQvfPILD8JuCD
- GG6ny4nrsYOqT46SdqHfdR2IkdU7lN6My/4t7RwosYMcu3MjQigwK639QN6cGx/wHLqW
- 2voAI0Tj0CVF+BjkiBwEkYdRAeEaiACXdkyx4eGSayZR9eLP3jd1jpwEwb2OTo2KRmCJ
- 494AkfZiHfkCyRBdPjhXDS58eA9JlWk9LJVn5FU6q1ID3vCRJSBjrUrkUlGn3I8ECL2P
- 8Trg==
-X-Gm-Message-State: AAQBX9fCOyU95ofqM9HPmyZOfPoB9HsYjtW5J4vWjRn6VClQRmE8HGgV
- xG5uK0YKxgkW3a8kp6bbLF4tlyAt8WbNErpqZwY=
-X-Google-Smtp-Source: AKy350aUSB+wIZEi1xfc0KgLOd3hO/PsEmWADeCIHLA9LuwK+lTL6oJOxwzV7AuWLhCsfmYlPe83edczo4sPHWsvBEg=
-X-Received: by 2002:a50:8e41:0:b0:4fb:e0e8:5140 with SMTP id
- 1-20020a508e41000000b004fbe0e85140mr5510566edx.6.1679915922955; Mon, 27 Mar
- 2023 04:18:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1pgkwf-0007Kg-P5
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:23:25 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1pgkwd-0007BD-GQ
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:23:25 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxJAyifCFkNmESAA--.27818S3;
+ Mon, 27 Mar 2023 19:23:14 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Axnr6ifCFkgTAOAA--.38947S2; 
+ Mon, 27 Mar 2023 19:23:14 +0800 (CST)
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ f4bug@amsat.org, philmd@linaro.org
+Subject: [PATCH] hw/loongarch/virt: Fix virt_to_phys_addr function
+Date: Mon, 27 Mar 2023 19:23:13 +0800
+Message-Id: <20230327112313.3042829-1-zhaotianrui@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20230326224426.3918167-1-ninad@linux.ibm.com>
- <CACPK8XeZA8nqhgjH_SUDrk3A49dUqnKVONtj+QtcnjOsLUjvGQ@mail.gmail.com>
- <2ef78250-dfe6-688f-eb27-9af97ce593e7@linux.ibm.com>
-In-Reply-To: <2ef78250-dfe6-688f-eb27-9af97ce593e7@linux.ibm.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 27 Mar 2023 11:18:31 +0000
-Message-ID: <CACPK8Xfp06JdTt32T9e=KDaBq5DURyv05OG4Ks9Bk3914_zO9g@mail.gmail.com>
-Subject: Re: [PATCH v7 0/3] Add support for TPM devices over I2C bus
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org, andrew@aj.id.au,
- clg@kaod.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=joel.stan@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Axnr6ifCFkgTAOAA--.38947S2
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvdXoWrKr43Cr1DurWxCrWxAF1fJFb_yoWxtrc_uF
+ W7Aw17Kws5Xrya9w4aq34rtr17K3Z5WFn5AF15GFs3ta45Gr43XF47Xwn3urnIqrW7uFZx
+ J3y8Kr1rCr1agjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
+ V7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
+ 0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
+ 44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
+ AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
+ Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+ 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
+ I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+ k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+ xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,143 +73,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Mar 2023 at 11:11, Stefan Berger <stefanb@linux.ibm.com> wrote:
->
->
->
-> On 3/26/23 21:05, Joel Stanley wrote:
-> > Hi Ninad,
-> >
-> > On Sun, 26 Mar 2023 at 22:44, Ninad Palsule <ninad@linux.ibm.com> wrote:
-> >>
-> >> Hello,
-> >>
-> >> I have incorporated review comments from Stefan. Please review.
-> >>
-> >> This drop adds support for the TPM devices attached to the I2C bus. It
-> >> only supports the TPM2 protocol. You need to run it with the external
-> >> TPM emulator like swtpm. I have tested it with swtpm.
-> >
-> > Nice work. I tested these stop cedric's aspeed-8.0 qemu tree, using
-> > the rainier machine and the openbmc dev-6.1 kernel.
-> >
-> > We get this message when booting from a kernel:
-> >
-> > [    0.582699] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
-> > [    0.586361] tpm tpm0: A TPM error (256) occurred attempting the self test
-> > [    0.586623] tpm tpm0: starting up the TPM manually
-> >
-> > Do we understand why the error appears?
->
-> The firmware did not initialize the TPM 2.
+The virt addr should mask TARGET_PHYS_ADDR_SPACE_BITS to
+get the phys addr, and this is used by loading kernel elf.
 
-Which firmware are we talking about here?
+Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+---
+ hw/loongarch/virt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In the case of these systems, we (u-boot+linux) are what would
-traditionally be referred to as firmware.
+diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+index b702c3f51e..f4bf14c1c8 100644
+--- a/hw/loongarch/virt.c
++++ b/hw/loongarch/virt.c
+@@ -399,7 +399,7 @@ static struct _loaderparams {
+ 
+ static uint64_t cpu_loongarch_virt_to_phys(void *opaque, uint64_t addr)
+ {
+-    return addr & 0x1fffffffll;
++    return addr & MAKE_64BIT_MASK(0, TARGET_PHYS_ADDR_SPACE_BITS);
+ }
+ 
+ static int64_t load_kernel_info(void)
+-- 
+2.31.1
 
-> > # grep -r . /sys/class/tpm/tpm0/pcr-sha256/ | sort -n -k 7 -t /
-> > /sys/class/tpm/tpm0/pcr-sha256/0:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/1:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/2:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/3:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/4:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/5:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/6:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/7:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/8:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/9:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/10:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/11:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/12:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/13:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/14:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/15:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/16:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/17:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/18:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/19:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/20:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/21:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/22:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/23:0000000000000000000000000000000000000000000000000000000000000000
-> >
-> > If I boot through the openbmc u-boot for the p10bmc machine, which
-> > measures things into the PCRs:
-> >
-> > [    0.556713] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
->
-> In this case the firmware started up the TPM 2. Also the PCRs have been touched by the firmware in this case.
->
-> >
-> > / # grep -r . /sys/class/tpm/tpm0/pcr-sha256/ | sort -n -k 7 -t /
-> > /sys/class/tpm/tpm0/pcr-sha256/0:AFA13691EFC7BC6E189E92347F20676FB4523302CB957DA9A65C3430C45E8BCC
-> > /sys/class/tpm/tpm0/pcr-sha256/1:37F0F710A5502FAE6DB7433B36001FEE1CBF15BA2A7D6923207FF56888584714
-> > /sys/class/tpm/tpm0/pcr-sha256/2:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-> > /sys/class/tpm/tpm0/pcr-sha256/3:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-> > /sys/class/tpm/tpm0/pcr-sha256/4:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-> > /sys/class/tpm/tpm0/pcr-sha256/5:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-> > /sys/class/tpm/tpm0/pcr-sha256/6:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-> > /sys/class/tpm/tpm0/pcr-sha256/7:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-> > /sys/class/tpm/tpm0/pcr-sha256/8:AE67485BD01E8D6FE0208C46C473940173F66E9C6F43C75ABB404375787E9705
-> > /sys/class/tpm/tpm0/pcr-sha256/9:DB99D92EADBB446894CB0C062AEB673F60DDAFBC62BC2A9CA561A13B31E5357C
-> > /sys/class/tpm/tpm0/pcr-sha256/10:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/11:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/12:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/13:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/14:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/15:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/16:0000000000000000000000000000000000000000000000000000000000000000
-> > /sys/class/tpm/tpm0/pcr-sha256/17:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/18:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/19:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/20:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/21:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/22:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> > /sys/class/tpm/tpm0/pcr-sha256/23:0000000000000000000000000000000000000000000000000000000000000000
-
-> > However on a clean boot into the TPM, the u-boot tpm commands fail:
-> >
-> > ast# tpm info
-> > tpm@2e v2.0: VendorID 0x1014, DeviceID 0x0001, RevisionID 0x01 [closed]
-> > ast# tpINTERRUPT>
->
-> Is this normal output? Is it an indication of some sort of IRQ?
-
-Ignore that line, that was me using ctrl+c to cancel the input. I
-should have trimmed it from the email before sending.
-
->
-> > ast# tpm init
-> > ast# tpm info
-> > tpm@2e v2.0: VendorID 0x1014, DeviceID 0x0001, RevisionID 0x01 [open]
-> > ast# tpm pcr_read 0 0x81000000
-> > Error: 256
-> > ast# md.l 0x81000000 16
-> > 81000000: 00000000 00000000 00000000 00000000    ................
-> > 81000010: 00000000 00000000 00000000 00000000    ................
-> > 81000020: 00000000 00000000 00000000 00000000    ................
-> > 81000030: 00000000 00000000 00000000 00000000    ................
-> > 81000040: 00000000 00000000 00000000 00000000    ................
-> > 81000050: 00000000 00000000                      ........
-> >
-> > This doesn't need to block merging into qemu, as the model works fine
-> > for pcr measurement and accessing under Linux. However it would be
-> > good to work though these issues in case there's a modelling
-> > discrepancy.
->
->
-> It reads the didvid and rid registers just fine and per the touched PCRs it knows how to talk to the TPM 2 to extend the PCRs.
-
-It hasn't done so in this case; the boot step that extends the PCRs
-hasn't been executed.
-
-> So this is strange. What is the 0x81000000 parameter in this command? Is it some memory location?
-
-Yes, it's an arbitrary DRAM location that we've asked u-boot to place
-the contents of the PCR.
-
-Cheers,
-
-Joel
 
