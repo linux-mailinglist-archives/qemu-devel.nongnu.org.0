@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FCE56CA0C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 12:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405B16CA0BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 12:02:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgjey-0007z6-Cr; Mon, 27 Mar 2023 06:01:04 -0400
+	id 1pgjez-00080M-VB; Mon, 27 Mar 2023 06:01:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pgjee-0007rs-F2; Mon, 27 Mar 2023 06:00:52 -0400
+ id 1pgjee-0007rt-FT; Mon, 27 Mar 2023 06:00:51 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pgjeZ-0000h8-P7; Mon, 27 Mar 2023 06:00:43 -0400
+ id 1pgjeZ-0000hV-Ux; Mon, 27 Mar 2023 06:00:43 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAD3_s4+aSFki8bGCg--.239S4;
- Mon, 27 Mar 2023 18:00:32 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAD3_s4+aSFki8bGCg--.239S5;
+ Mon, 27 Mar 2023 18:00:33 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,22 +26,23 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 2/5] target/riscv: Use sign-extended data address when xl = 32
-Date: Mon, 27 Mar 2023 18:00:24 +0800
-Message-Id: <20230327100027.61160-3-liweiwei@iscas.ac.cn>
+Subject: [PATCH 3/5] target/riscv: Fix pointer mask transformation for vector
+ address
+Date: Mon, 27 Mar 2023 18:00:25 +0800
+Message-Id: <20230327100027.61160-4-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
 References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAD3_s4+aSFki8bGCg--.239S4
-X-Coremail-Antispam: 1UD129KBjvdXoWruF18Cw15uryDAFy5WrWDCFg_yoWkCwb_AF
- 1fK3Z5XrWUuF17uF95Cr1rJry8A397urs2qas3tFZ5WFy5GF1Igw109FykCr15CF4fCrnr
- G3Z7Ar9xCr1rujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: zQCowAD3_s4+aSFki8bGCg--.239S5
+X-Coremail-Antispam: 1UD129KBjvdXoW7Wry8uw18tw4rtryUXFyfCrg_yoW3CFb_GF
+ 48WF43W34Uua1Y9FWFkw1qyry29FykWr43tws7Jrs7Ka4Uuay7Cw1UK3WrAF1YvrZxGrnI
+ kanrJrWfGF15CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
  9fnUUIcSsGvfJTRUUUb6AFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
- 0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
+ 0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
  x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I2
  62IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcV
  AFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG
@@ -50,7 +51,7 @@ X-Coremail-Antispam: 1UD129KBjvdXoWruF18Cw15uryDAFy5WrWDCFg_yoWkCwb_AF
  JVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7V
  AKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j
  6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42
- IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUjYiiDUUUUU=
+ IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbJ73DUUUUU=
  =
 X-Originating-IP: [180.175.29.170]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
@@ -76,39 +77,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, the pc use signed-extend(in gen_set_pc*) when xl = 32. And
-data address should use the same memory address space with it when
-xl = 32. So we should change their address calculation to use sign-extended
-address when xl = 32.
+actual_address = (requested_address & ~mpmmask) | mpmbase.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/vector_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index bf0e2d318e..c48cb19389 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -570,7 +570,7 @@ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
-     tcg_gen_addi_tl(addr, src1, imm);
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 2423affe37..a58d82af8c 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -172,7 +172,7 @@ static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t desc,
  
-     if (get_xl(ctx) == MXL_RV32) {
--        tcg_gen_ext32u_tl(addr, addr);
-+        tcg_gen_ext32s_tl(addr, addr);
-     }
+ static inline target_ulong adjust_addr(CPURISCVState *env, target_ulong addr)
+ {
+-    return (addr & env->cur_pmmask) | env->cur_pmbase;
++    return (addr & ~env->cur_pmmask) | env->cur_pmbase;
+ }
  
-     if (ctx->pm_mask_enabled) {
-@@ -592,7 +592,7 @@ static TCGv get_address_indexed(DisasContext *ctx, int rs1, TCGv offs)
-     tcg_gen_add_tl(addr, src1, offs);
- 
-     if (get_xl(ctx) == MXL_RV32) {
--        tcg_gen_ext32u_tl(addr, addr);
-+        tcg_gen_ext32s_tl(addr, addr);
-     }
- 
-     if (ctx->pm_mask_enabled) {
+ /*
 -- 
 2.25.1
 
