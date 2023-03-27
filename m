@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2B16CA0BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 12:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5936CA140
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 12:24:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgjez-0007zp-2j; Mon, 27 Mar 2023 06:01:05 -0400
+	id 1pgk05-0007Jw-5a; Mon, 27 Mar 2023 06:22:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pgjee-0007s6-GU; Mon, 27 Mar 2023 06:00:52 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pgjeZ-0000hW-V2; Mon, 27 Mar 2023 06:00:43 -0400
-Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAD3_s4+aSFki8bGCg--.239S7;
- Mon, 27 Mar 2023 18:00:34 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 5/5] target/riscv: Add pointer mask support for instruction
- fetch
-Date: Mon, 27 Mar 2023 18:00:27 +0800
-Message-Id: <20230327100027.61160-6-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
-References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pgk00-0007Gl-8e
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 06:22:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pgjzy-0001Lf-Ex
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 06:22:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679912564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v3ujiScHssCgqIN3sLbae0BipmLlhi0i2dXDIsIDoRI=;
+ b=Smaq5OlXj+5ZALfLaJq4cpLopDJzq0OPeVgWcIKcLtPKEuzV+XgCSBJ83lfne4I/5rE85c
+ UlH9FHosG7iMToS4C1P45WCaywZOyCdnfvpRW46aZGsoMtBDpdWS1CMyZStA/r+qM+HcKH
+ 3m+MqBVSMeKD2C/EBLLjBLGPRA/7VfU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-94-REN0ZTqGN6yX6OCkZXANFw-1; Mon, 27 Mar 2023 06:22:40 -0400
+X-MC-Unique: REN0ZTqGN6yX6OCkZXANFw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F0E2858F0E;
+ Mon, 27 Mar 2023 10:22:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1580A492C3E;
+ Mon, 27 Mar 2023 10:22:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E1BA621E6926; Mon, 27 Mar 2023 12:22:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org,  Thomas
+ Huth <thuth@redhat.com>,  Kashyap Chamarthy <kchamart@redhat.com>,  Paolo
+ Bonzini <pbonzini@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Bernhard
+ Beschow <shentey@gmail.com>
+Subject: Re: [RFC PATCH] MAINTAINERS: add a section for policy documents
+References: <20230324173836.1821275-1-alex.bennee@linaro.org>
+ <ZCFe68dxx/Wa5xya@redhat.com>
+Date: Mon, 27 Mar 2023 12:22:38 +0200
+In-Reply-To: <ZCFe68dxx/Wa5xya@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Mon, 27 Mar 2023 10:16:27 +0100")
+Message-ID: <87wn32cx3l.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAD3_s4+aSFki8bGCg--.239S7
-X-Coremail-Antispam: 1UD129KBjvJXoWxAF48tr4UtF13KF18Ar1kXwb_yoWrCFWfpr
- Z5C3yfCw4DtFZrJayfJr1qyF15Jan8KF4UKwn7KasakayFq3yFvr1qkw17ZFn5WF48Zw1j
- 9a1DAr15ZF47ZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUP214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
- 1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
- 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
- IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
- M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
- kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JV
- WxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZ
- X7UUUUU==
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,138 +87,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Transform the fetch address before page walk when pointer mask is
-enabled for instruction fetch.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/cpu.h        |  1 +
- target/riscv/cpu_helper.c | 25 +++++++++++++++++++++++--
- target/riscv/csr.c        |  2 --
- 3 files changed, 24 insertions(+), 4 deletions(-)
+> On Fri, Mar 24, 2023 at 05:38:36PM +0000, Alex Benn=C3=A9e wrote:
+>> We don't update these often but if your the sort of person who enjoys
+>
+> s/your/you are/
+>
+>> debating and tuning project policies you could now add yourself as a
+>> reviewer here so you don't miss the next debate over tabs vs spaces
+>> ;-)
+>>=20
+>> Who's with me?
+>
+> Sure, you can add me.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 638e47c75a..57bd9c3279 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -368,6 +368,7 @@ struct CPUArchState {
- #endif
-     target_ulong cur_pmmask;
-     target_ulong cur_pmbase;
-+    bool cur_pminsn;
- 
-     /* Fields from here on are preserved across CPU reset. */
-     QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f88c503cf4..77132a3e0c 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -124,6 +124,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
- void riscv_cpu_update_mask(CPURISCVState *env)
- {
-     target_ulong mask = -1, base = 0;
-+    bool insn = false;
-     /*
-      * TODO: Current RVJ spec does not specify
-      * how the extension interacts with XLEN.
-@@ -135,18 +136,21 @@ void riscv_cpu_update_mask(CPURISCVState *env)
-             if (env->mmte & M_PM_ENABLE) {
-                 mask = env->mpmmask;
-                 base = env->mpmbase;
-+                insn = env->mmte & MMTE_M_PM_INSN;
-             }
-             break;
-         case PRV_S:
-             if (env->mmte & S_PM_ENABLE) {
-                 mask = env->spmmask;
-                 base = env->spmbase;
-+                insn = env->mmte & MMTE_S_PM_INSN;
-             }
-             break;
-         case PRV_U:
-             if (env->mmte & U_PM_ENABLE) {
-                 mask = env->upmmask;
-                 base = env->upmbase;
-+                insn = env->mmte & MMTE_U_PM_INSN;
-             }
-             break;
-         default:
-@@ -161,6 +165,7 @@ void riscv_cpu_update_mask(CPURISCVState *env)
-         env->cur_pmmask = mask;
-         env->cur_pmbase = base;
-     }
-+    env->cur_pminsn = insn;
- }
- 
- #ifndef CONFIG_USER_ONLY
-@@ -1225,6 +1230,17 @@ static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access_type)
-     riscv_pmu_incr_ctr(cpu, pmu_event_type);
- }
- 
-+static target_ulong adjust_pc_address(CPURISCVState *env, target_ulong pc)
-+{
-+    target_ulong adjust_pc = pc;
-+
-+    if (env->cur_pminsn) {
-+        adjust_pc = (adjust_pc & ~env->cur_pmmask) | env->cur_pmbase;
-+    }
-+
-+    return adjust_pc;
-+}
-+
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr)
-@@ -1232,6 +1248,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-     vaddr im_address;
-+    vaddr orig_address = address;
-     hwaddr pa = 0;
-     int prot, prot2, prot_pmp;
-     bool pmp_violation = false;
-@@ -1248,6 +1265,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
-                   __func__, address, access_type, mmu_idx);
- 
-+    if (access_type == MMU_INST_FETCH) {
-+        address = adjust_pc_address(env, address);
-+    }
-+
-     /* MPRV does not affect the virtual-machine load/store
-        instructions, HLV, HLVX, and HSV. */
-     if (riscv_cpu_two_stage_lookup(mmu_idx)) {
-@@ -1351,13 +1372,13 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     }
- 
-     if (ret == TRANSLATE_SUCCESS) {
--        tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
-+        tlb_set_page(cs, orig_address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
-                      prot, mmu_idx, tlb_size);
-         return true;
-     } else if (probe) {
-         return false;
-     } else {
--        raise_mmu_exception(env, address, access_type, pmp_violation,
-+        raise_mmu_exception(env, orig_address, access_type, pmp_violation,
-                             first_stage_error,
-                             riscv_cpu_virt_enabled(env) ||
-                                 riscv_cpu_two_stage_lookup(mmu_idx),
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d522efc0b6..4544c9d934 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3511,8 +3511,6 @@ static RISCVException write_mmte(CPURISCVState *env, int csrno,
-     /* for machine mode pm.current is hardwired to 1 */
-     wpri_val |= MMTE_M_PM_CURRENT;
- 
--    /* hardwiring pm.instruction bit to 0, since it's not supported yet */
--    wpri_val &= ~(MMTE_M_PM_INSN | MMTE_S_PM_INSN | MMTE_U_PM_INSN);
-     env->mmte = wpri_val | PM_EXT_DIRTY;
-     riscv_cpu_update_mask(env);
- 
--- 
-2.25.1
+Me too.
 
 
