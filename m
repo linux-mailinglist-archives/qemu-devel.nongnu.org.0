@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5775A6CAC65
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBC76CAC8B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 20:00:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgr2j-0004TT-Jb; Mon, 27 Mar 2023 13:54:05 -0400
+	id 1pgr8U-0005mB-IE; Mon, 27 Mar 2023 14:00:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pgr2g-0004TD-8n
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:54:02 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pgr2e-0000OD-J9
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:54:02 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id x15so8409325pjk.2
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679939635;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jB+Fi+uESsobjFWv6EH/BpI/wg0l+X1FO8+LJpv6DW8=;
- b=CxTFdfx3tE+vAIz+ej5CZO0ycBe9XDV+j3H7ZgDt64UZgdgxzKm3YlVm2vCeWFccge
- qbQIZ++XTcqQP5ertKCdri6H8tXlpWd8nWH3rceHIeH3mJiXbNCteEZWyp3BcJSBW6/9
- PJ/K09L0CZAVfq1L32ZT5j+eJ8l1SSdmEZNAo9dyHpmcKIfCUOjQzJV5jmtcaSGk1Cl6
- rXTImkSp5PC0w9iCnf8mqWp/DP9dOd3mHHuWElfNV46TzAbEhKA3m9onwR/jn/C6TBPg
- Zb+Z64PatTBCBkXLeFkbBtyYnN9vCdfeiQUyxJEMcnmpYPNFcwxmyzM1hvoHvsubDCb6
- WUcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679939635;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jB+Fi+uESsobjFWv6EH/BpI/wg0l+X1FO8+LJpv6DW8=;
- b=vbqbBcNwcJaReMzwS/SyujKHkq85GHG/yOjDZ4qdhbJM3qb6oQ4+MNZ+VRSgvTnsI/
- JEoF94OjUb/cJ7aT6vF4NSWfzqWOi5y1l1oQ+Pu5iEb655/wjqO64f4omf7tSEg3v5S+
- NvEGJ9IkA+keqmM4hKtJzWMUW2a248Fj5kGZxqkkm1XaUTqfFxXM5V6IdNBbWymxmH0f
- mqyo6mt0bod5xCFxSC5SKReCaKOaPRIz38Xwu6euhO4Mp00QXk3bkRFGTD7JsfjkXN/q
- V4TkFBep1RCJ7FktgDs37EtGQVcmPAFfOYY6aA0t8dKR3KG0iDdEehkQMaWHnIzc7Rjj
- agmg==
-X-Gm-Message-State: AO0yUKX6axoIlFPi//mTkgPoAfhw00YxNXUDVPZ8c7ADJf+Cb5evJjNI
- FzXLUkanSM5zRzsa7jozh0nq8Q==
-X-Google-Smtp-Source: AK7set/IKYLoiNRwxYK2s1x/DqhuEMzXlj0fjcewRoVWPUDZMWgDBLgrIwDKOyXQ4eEa9BxC32F3+g==
-X-Received: by 2002:a05:6a20:671f:b0:d8:f312:b3b with SMTP id
- q31-20020a056a20671f00b000d8f3120b3bmr11011164pzh.3.1679939635264; 
- Mon, 27 Mar 2023 10:53:55 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1544:6601:6705:aa17:3641:e634?
- ([2602:ae:1544:6601:6705:aa17:3641:e634])
- by smtp.gmail.com with ESMTPSA id
- n3-20020a62e503000000b0062d1b2fd5e4sm4236614pff.12.2023.03.27.10.53.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 10:53:54 -0700 (PDT)
-Message-ID: <e9800fd5-d822-66c6-e336-02b2dabdb0ed@linaro.org>
-Date: Mon, 27 Mar 2023 10:53:53 -0700
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pgr8K-0005lg-GB
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:59:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pgr8I-0004QU-Mb
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:59:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679939989;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5HmoUrKEFt91TpwPAQjIsnPZBqP32dbH6wUv9hew7OA=;
+ b=EuO2yFfayFYRsqAKd5E/z4A6Gb9ZtVR4Ht2KLnzhRzFOzz19RP2xpAq7+/lrUfxWSFVlM4
+ yyJlATBhjQM3NinDv/xN78jzwUFQLd9BgpyETIztw3pL2QQ0aKxR96+UMWx1AAaDEYcUdD
+ 3nn+jR+xt7iY5kv+vdagkeAOVVz9J8Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-531-scdY94nEMBmJvWG2J8aOiQ-1; Mon, 27 Mar 2023 13:59:45 -0400
+X-MC-Unique: scdY94nEMBmJvWG2J8aOiQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D33D85A5B1;
+ Mon, 27 Mar 2023 17:59:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BC4F202701E;
+ Mon, 27 Mar 2023 17:59:44 +0000 (UTC)
+Date: Mon, 27 Mar 2023 18:59:41 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: casantos@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Subject: Re: [PATCH V2] tracing: install trace events file only if necessary
+Message-ID: <ZCHZjfytWZ6pPzpk@redhat.com>
+References: <20230327173058.199027-1-casantos@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH-for-8.0] linux-user/mips: Use P5600 as default CPU to run
- NaN2008 ELF binaries
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: YunQiang Su <yunqiang.su@cipunited.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Jue Wang
- <jue.wang@oss.cipunited.com>, Laurent Vivier <laurent@vivier.eu>
-References: <20230327162444.388-1-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230327162444.388-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+In-Reply-To: <20230327173058.199027-1-casantos@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,35 +78,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 09:24, Philippe Mathieu-Daudé wrote:
-> Per the release 6.06 revision history:
+On Mon, Mar 27, 2023 at 02:30:58PM -0300, casantos@redhat.com wrote:
+> From: Carlos Santos <casantos@redhat.com>
 > 
->   5.03 August 21, 2013
+> It is not useful when configuring with --enable-trace-backends=nop.
 > 
->   • ABS2008 and NAN2008 fields of Table 5.7 “FCSR RegisterField
->     Descriptions” were optional in release 3 and could be R/W,
->     but as of release 5 are required, read-only, and preset by
->     hardware.
-> 
-> The P5600 core implements the release 5, and has the ABS2008
-> and NAN2008 bits set in CP1_fcr31. Therefore it is able to run
-> ELF binaries compiled with EF_MIPS_NAN2008, such the CIP United
-> Debian NaN2008 distribution:
-> http://repo.oss.cipunited.com/mipsel-nan2008/README.txt
-> 
-> In order to run such compiled binaries, select by default the
-> P5600 core when the ELF 'MIPS_NAN2008' flag is set.
-> 
-> Reported-by: Jiaxun Yang<jiaxun.yang@flygoat.com>
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Signed-off-by: Carlos Santos <casantos@redhat.com>
 > ---
->   linux-user/mips/target_elf.h | 3 +++
->   1 file changed, 3 insertions(+)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-r~
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
