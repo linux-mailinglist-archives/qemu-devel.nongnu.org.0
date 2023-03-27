@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1881A6C9C2F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 09:35:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86B66C9C5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 09:39:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pghMh-0004aB-Pz; Mon, 27 Mar 2023 03:34:03 -0400
+	id 1pghQf-0006D2-Pi; Mon, 27 Mar 2023 03:38:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1pghMe-0004Zk-V5
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 03:34:00 -0400
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pghQd-0006BY-7E
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 03:38:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1pghMc-0005xJ-TJ
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 03:34:00 -0400
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pghQb-0007ju-Fu
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 03:38:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679902684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9nNyoMLpTrW1PEJYjk8zeP1bqlCd7sZKshdrIcIX2KA=;
+ b=fYhn0fGffpDaiaXr0FVbtE2iSAc4LTminHqdeHR9+pL4CPcN7bzbntWCAvhRfUoif5LB/o
+ y8LiHO57k1DsyZrULCa+RcEdNQZXa+pA+W8aiXjwPbs1cxoXYsHUGoNhxfQCPdyjl6I22H
+ uncMaWtk8qt35TnbA/YEXEzmwN1BJ5E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-177-VlBJ_LmEMKeFtwHmp09sSA-1; Mon, 27 Mar 2023 03:38:00 -0400
+X-MC-Unique: VlBJ_LmEMKeFtwHmp09sSA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 5F06C3F2D3
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 07:33:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1679902433;
- bh=Gri4w/lbHPuJxHAYl7Xanm5+EexhtGCGvZPxVG9idcQ=;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
- To:Cc:Content-Type;
- b=iHBC+93Pt9rI+d7Ds8p+YrCKqrUYdBDzh+6daD/+XjOyNgtGdM3+9akuS3ZEAKpCF
- ZHmZSyuj6Ie9lgir3RnxZ1KCSY+RV4bN7+abLWvH+Tv0EzMSuSF5AcDb2dTs+xzcLP
- 4nUhEKbgdZdp0Iu9QtBO2Z/uIGUn0/9IkEkzkuLIX4ydd3RRRxQYQHFrWPIUKDpl2w
- 48mw0QkPjLeLjuUx/b/Md3Odt5BAYXO11fp7HNY3FWDf05X3P4oG4hxSNNs1zqcxf1
- FnrcUrasi6DDYLKwimJPrb6/mCLM40GbibLPa1QB+pUtt9gIdcemlwKTQl31jZwWc0
- 8R/sFpyyIjcZg==
-Received: by mail-pf1-f199.google.com with SMTP id
- m12-20020a62f20c000000b0062612a76a08so3893907pfh.2
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 00:33:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679902432; x=1682494432;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Gri4w/lbHPuJxHAYl7Xanm5+EexhtGCGvZPxVG9idcQ=;
- b=3S5ewpOj/1Bpj+7k9naNlCtaZSri/rbV7HzW8ONk7xuivZxhju8ZUpGTduqjUsh6/6
- Hgg7oEv3N5eolDvG78vd+I7N6HoSJJrfkM0w90I7TlpkpOcJKN1GuFp+r6KpGiwzNNp/
- vrUyAaw2EL9D0VoPQ5wW4Rrn3zG/T9H3Rv7dQKSQoVU26+g87nIOzPN/gun0T5l8SGQ7
- pm4D6QmH+VHdMxbrlUWkgUCI95uo4tUoPqhQHOLShJ4vUeNyPoNiFkPSxrkWCmnVhMtJ
- 9ZXc/XHrTJtgdUjrTtDuiEn5bTceWXRf8lET5daBCWTkpwqsDGUagrkZ88FCWA5r2A0y
- 9MZg==
-X-Gm-Message-State: AAQBX9f0FnuY2qjd/mkeLZCp0sllPGL1huch+ff0b3bPsZ1e/1LO+TJe
- cTzTvH4/xwlS0ZkiJi30OMZEFre5PaPAG4pXAc6eEKklud3gBVQWQnfjwgv4psv88mqC0fA6c7Z
- L3Ic6E0YNUNozYkrGonL18o4J5v2YI5fK0lEd7YmtvNIXaHpE
-X-Received: by 2002:a05:6a00:ace:b0:625:5949:6dc0 with SMTP id
- c14-20020a056a000ace00b0062559496dc0mr5462217pfl.4.1679902431794; 
- Mon, 27 Mar 2023 00:33:51 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YfK2XbG+vJxHARAmYDy/enVYjSwoV43/t15HLbnd286IlRiMCqQcCiwhZw0amMRszH/hFYqx8NMSlImlSwbYc=
-X-Received: by 2002:a05:6a00:ace:b0:625:5949:6dc0 with SMTP id
- c14-20020a056a000ace00b0062559496dc0mr5462207pfl.4.1679902431460; Mon, 27 Mar
- 2023 00:33:51 -0700 (PDT)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E06511C05EB8;
+ Mon, 27 Mar 2023 07:37:59 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F58F492C3E;
+ Mon, 27 Mar 2023 07:37:59 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Cc: Carlos =?utf-8?Q?L=C3=B3pez?= <clopez@suse.de>, qemu-devel@nongnu.org,
+ "Michael S.
+ Tsirkin" <mst@redhat.com>, Eric Farman <farman@linux.ibm.com>, Richard
+ Henderson <richard.henderson@linaro.org>, David Hildenbrand
+ <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:virtio-ccw" <qemu-s390x@nongnu.org>, Halil Pasic
+ <pasic@linux.ibm.com>
+Subject: Re: [PATCH v2] virtio: refresh vring region cache after updating a
+ virtqueue size
+In-Reply-To: <20230324130036.2c4db781.pasic@linux.ibm.com>
+Organization: Red Hat GmbH
+References: <20230317002749.27379-1-clopez@suse.de>
+ <87y1npglk0.fsf@redhat.com> <20230322182433.695270d0.pasic@linux.ibm.com>
+ <20230324130036.2c4db781.pasic@linux.ibm.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Mon, 27 Mar 2023 09:37:58 +0200
+Message-ID: <87a5zyskyx.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20221026115745.528314-1-yang.zhong@intel.com>
- <253335ef-5e63-0182-f92b-a576b2459cff@intel.com>
-In-Reply-To: <253335ef-5e63-0182-f92b-a576b2459cff@intel.com>
-From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Date: Mon, 27 Mar 2023 09:33:25 +0200
-Message-ID: <CAATJJ0JLFA3b=KYP-OKXzritJGY1GuuRh+E4D6XZ3RLa6zKn_g@mail.gmail.com>
-Subject: Re: [RESEND PATCH v2] target/i386: Switch back XFRM value
-To: "Yang, Weijiang" <weijiang.yang@intel.com>
-Cc: "Zhong, Yang" <yang.zhong@intel.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, 
- "yang.zhong@linux.intel.com" <yang.zhong@linux.intel.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.125.188.123;
- envelope-from=christian.ehrhardt@canonical.com;
- helo=smtp-relay-internal-1.canonical.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,57 +86,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 2:36=E2=80=AFAM Yang, Weijiang <weijiang.yang@intel=
-.com> wrote:
->
->
-> On 10/26/2022 7:57 PM, Zhong, Yang wrote:
-> > The previous patch wrongly replaced FEAT_XSAVE_XCR0_{LO|HI} with
-> > FEAT_XSAVE_XSS_{LO|HI} in CPUID(EAX=3D12,ECX=3D1):{ECX,EDX}, which made
-> > SGX enclave only supported SSE and x87 feature(xfrm=3D0x3).
-> >
-> > Fixes: 301e90675c3f ("target/i386: Enable support for XSAVES based feat=
-ures")
-> >
-> > Signed-off-by: Yang Zhong <yang.zhong@linux.intel.com>
-> > ---
-> >   target/i386/cpu.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index ad623d91e4..19aaed877b 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -5584,8 +5584,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t ind=
-ex, uint32_t count,
-> >           } else {
-> >               *eax &=3D env->features[FEAT_SGX_12_1_EAX];
-> >               *ebx &=3D 0; /* ebx reserve */
-> > -            *ecx &=3D env->features[FEAT_XSAVE_XSS_LO];
-> > -            *edx &=3D env->features[FEAT_XSAVE_XSS_HI];
-> > +            *ecx &=3D env->features[FEAT_XSAVE_XCR0_LO];
-> > +            *edx &=3D env->features[FEAT_XSAVE_XCR0_HI];
->
-> Oops, that's my fault to replace with wrong definitions, thanks for the f=
-ix!
->
-> Reviewed-by:  Yang Weijiang <weijiang.yang@intel.com>
+On Fri, Mar 24 2023, Halil Pasic <pasic@linux.ibm.com> wrote:
 
-Hi,
-I do not have any background on this but stumbled over this and wondered,
-is there any particular reason why this wasn't applied yet?
-
-It seemed to fix a former mistake, was acked and then ... silence
-
-> >
-> >               /* FP and SSE are always allowed regardless of XSAVE/XCR0=
-. */
-> >               *ecx |=3D XSTATE_FP_MASK | XSTATE_SSE_MASK;
+> On Wed, 22 Mar 2023 18:24:33 +0100
+> Halil Pasic <pasic@linux.ibm.com> wrote:
 >
+>> > > --- a/hw/s390x/virtio-ccw.c
+>> > > +++ b/hw/s390x/virtio-ccw.c
+>> > > @@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
+>> > >                  return -EINVAL;
+>> > >              }
+>> > >              virtio_queue_set_num(vdev, index, num);
+>> > > +            virtio_init_region_cache(vdev, index);    
+>> > 
+>> > Hmm... this is not wrong, but looking at it again, I see that the guest
+>> > has no way to change num after our last call to
+>> > virtio_init_region_cache() (while setting up the queue addresses.) IOW,
+>> > this introduces an extra round trip that is not really needed.
+>> >   
+>> 
+>> I don't quite understand. AFAIU the virtio_init_region_cache() would see
+>> the (new) queue addresses but not the new size (num). Yes virtio-ccw
+>> already knows the new num but it is yet to call
+>> to put it into vdev->vq[n].vring.num from where
+>> virtio_init_region_cache() picks it up.
+>> 
+>> If we were to first virtio_queue_set_num() and only then the address
+>> I would understand. But with the code as is, I don't. Am I missing
+>> something?
+>
+> Connie: have you had a chance to have yet another look at this? I
+> would like to understand the reason for seeing this differently.
 
+I'm just back from being sick, please give me some time to work through
+my backlog.
 
---=20
-Christian Ehrhardt
-Senior Staff Engineer, Ubuntu Server
-Canonical Ltd
 
