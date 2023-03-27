@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3706CB174
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 00:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5B56CB180
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 00:16:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgv2f-00052r-4K; Mon, 27 Mar 2023 18:10:17 -0400
+	id 1pgv88-0006Gg-J6; Mon, 27 Mar 2023 18:15:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pgv2c-00052d-Rb
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:10:15 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pgv80-0006G6-81
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:15:48 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pgv2a-0006QT-V0
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:10:14 -0400
-Received: by mail-wr1-x431.google.com with SMTP id r29so10236331wra.13
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 15:10:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pgv7y-0000y9-M1
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:15:48 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ r40-20020a05683044a800b006a14270bc7eso2048500otv.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 15:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679955011;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EOWdtPcsuGjoHAP0MSlVGDbQoksW0b8wnzOonkz/Q5o=;
- b=GEwymR4TKSLa5wOTruTYug2j/PvW9TwpVoFCgA/tOJScfhI+hcp9u4+Tc5wJ+JKUJ7
- IEJX8fEth97GzFJOP22pAL7kuy5pxIrwhj67PXIlazsXZTRJ4lpZR4YiNORyuENE0A90
- i2qrbBMJrPrSZ2nsfL/tEwU/AjoXEztnrkq5tNgzUfe/jknlZkFOajM00Cka+dOrhSIT
- DgIjJxky5KIW1PhIGSMSfe5jktCNWNZp30qjs6HoWiMv4K94MvlAcCPqDInZkERTxOxC
- Nx9OMka3l0xafeNYNvuPV8rLt6Ee3L8Ak/qrPMMiG2/jazM9jyeEHpgXdODJ1X0YsJh6
- JYKw==
+ d=ventanamicro.com; s=google; t=1679955344;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Rtw9gHV6mdR8gX9XHlLFMKjsydb6YJnOaKLb1TGPd2s=;
+ b=CmTSh3T6gwjwkB8A+7Wz1M95vl1Tc8sCyNjdfKAjTEAHJmIxd8UGKb6IihfiK2hhe9
+ m5ujrLDO8gRzU/5lQ00tuxQa3tjKDo4Rmk+mXtAjXSoZAuZISGT3/RlCfzqPfjV8iB7v
+ Rrue+jZKPZ4eDJekPogR4ihabnIUHfppvFaIj8nv7EqCGsTAu8soycFJsWRTFa2FojTZ
+ olbyyawt6q04MSXqs2SWnbbIvv+Jui5zde+dxABWlD9djF9ffSykk+FtazBYoZ7MINeb
+ DAiZCiV7udWOBRl8k5kN1K7i9R89BLIHjKr85DE/RhPUVneUlEH7Gq2EEOCdrE/6rAvA
+ xGyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679955011;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=EOWdtPcsuGjoHAP0MSlVGDbQoksW0b8wnzOonkz/Q5o=;
- b=NxsSBQ95rdvYIB7zWLC4MBKSRINyVdPz7Tq1VUucI01wGq7bKasXPVDE9GgTkaNkoN
- AmvMgNwrjESQGTw5VJ2N8QU99t08c45wLRBv+HlBiWap3sKNUeUR9P1FC/skfEbdkjGj
- DM1EMDztrjTckVdTNy+eZnqZnNv/cDDX2Vkag33Pg5P+o+M5xKvprpuzXifpEuHxgsIS
- PoniarQue0zFmqxrXLwZj5T1t9hWEFhJScx7B6NaOLJU07D4SFEi79wuKqYqAJbmXLK1
- IIh1rnwPfhP4de9uhCEeF0M8Up72Gii5jW+dthTD8JYGj7Ka5hAz8KCR4L4z5nhrHwiw
- CVnw==
-X-Gm-Message-State: AAQBX9eNofy0C4fB9z8rTwBCgqsZ39WM574NIov2EKHDTa7BQTaTZi+w
- QRh8YnhUfv2zX7mhCA9o+OBO6A==
-X-Google-Smtp-Source: AKy350YZIw1/XCrp4v31lazAjeElQ85EbAswhfMGWy/wKo1iCEOSobj24jXxKsxIG3HRWbcUbIvd+g==
-X-Received: by 2002:a5d:6283:0:b0:2cf:e18e:9331 with SMTP id
- k3-20020a5d6283000000b002cfe18e9331mr10893875wru.65.1679955011062; 
- Mon, 27 Mar 2023 15:10:11 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20210112; t=1679955344;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Rtw9gHV6mdR8gX9XHlLFMKjsydb6YJnOaKLb1TGPd2s=;
+ b=2t4ti3CpKAjgRgNoai/sgZyA00SuURgxiFUahyr+OWi+04Iqgms6Py6rlg9MQ6h5oG
+ d1eGifH2YKeQ1rm/LuKJ0Xpak+0DpihMvdxxiRS/NTnLzWcsd5+13q84thKyACZnKlYW
+ Yk0evG+bew87Q5s9AeR9S7Lnp7fsHCfI23iQ5reUrVpJi0X/jSPErN/DKZ2KR8rxvaCn
+ xATRGQClaTa3FgTzz1ww0uRoDl44KPgaDU7v7B0+lzXMV1z6ZLkmwIV5l6gMztJ6GItI
+ PMPmDxNTwm2PXeg55qrB/reOxC3sh4IghLoCrQWt/bSxk0BFLOzqBIb9hEIvUA63wP9x
+ ftQg==
+X-Gm-Message-State: AO0yUKVgsxyHdMi29ZO4wtqy70yDJaMm+aoe8kmerYf4LZYWdtyylqKw
+ Rdqv/CRhhkBQMYT9rOG6n1iKLg==
+X-Google-Smtp-Source: AK7set8RcGKhIkHPHZ1I37b2u644WM23Bbs6dcp5sv6NhZNXveoNCV7+McLNkQ/vsOiDv5xBUGKElw==
+X-Received: by 2002:a9d:7c8c:0:b0:694:298d:408a with SMTP id
+ q12-20020a9d7c8c000000b00694298d408amr7170287otn.8.1679955344702; 
+ Mon, 27 Mar 2023 15:15:44 -0700 (PDT)
+Received: from [192.168.68.107] ([177.95.89.231])
  by smtp.gmail.com with ESMTPSA id
- a3-20020adffb83000000b002c561805a4csm25946955wrr.45.2023.03.27.15.10.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 15:10:10 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 650B41FFB7;
- Mon, 27 Mar 2023 23:10:10 +0100 (BST)
-References: <20230327131543.2857052-1-alex.bennee@linaro.org>
- <ad9e3b3a-2fad-35d1-4491-8700c8fceae8@ilande.co.uk>
- <87mt3yrx1w.fsf@linaro.org>
- <28e374e3-5aa4-b5e3-0d8f-f885ca1142ca@ilande.co.uk>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Eduardo
- Habkost <eduardo@habkost.net>
-Subject: Re: [Socratic RFC PATCH] include: attempt to document
- device_class_set_props
-Date: Mon, 27 Mar 2023 23:09:36 +0100
-In-reply-to: <28e374e3-5aa4-b5e3-0d8f-f885ca1142ca@ilande.co.uk>
-Message-ID: <87edp9sv5p.fsf@linaro.org>
+ d18-20020a9d5e12000000b006994465665asm12233642oti.80.2023.03.27.15.15.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Mar 2023 15:15:44 -0700 (PDT)
+Message-ID: <e9189845-f713-2ec1-271c-948d73f20e4e@ventanamicro.com>
+Date: Mon, 27 Mar 2023 19:15:39 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 03/19] target/riscv: introduce
+ riscv_cpu_add_misa_properties()
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+References: <20230327124247.106595-1-dbarboza@ventanamicro.com>
+ <20230327124247.106595-4-dbarboza@ventanamicro.com>
+ <a5a3e653-c58b-8da4-106f-2913235a44ea@linaro.org>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <a5a3e653-c58b-8da4-106f-2913235a44ea@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,120 +99,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
 
-> On 27/03/2023 17:12, Alex Benn=C3=A9e wrote:
->
->> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
->>=20
->>> On 27/03/2023 14:15, Alex Benn=C3=A9e wrote:
->>>
->>>> I'm still not sure how I achieve by use case of the parent class
->>>> defining the following properties:
->>>>     static Property vud_properties[] =3D {
->>>>         DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
->>>>         DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
->>>>         DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
->>>>         DEFINE_PROP_END_OF_LIST(),
->>>>     };
->>>> But for the specialisation of the class I want the id to default to
->>>> the actual device id, e.g.:
->>>>     static Property vu_rng_properties[] =3D {
->>>>         DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG),
->>>>         DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
->>>>         DEFINE_PROP_END_OF_LIST(),
->>>>     };
->>>> And so far the API for doing that isn't super clear.
->>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>> ---
->>>>    include/hw/qdev-core.h | 9 +++++++++
->>>>    1 file changed, 9 insertions(+)
->>>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
->>>> index bd50ad5ee1..d4bbc30c92 100644
->>>> --- a/include/hw/qdev-core.h
->>>> +++ b/include/hw/qdev-core.h
->>>> @@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
->>>>    char *qdev_get_fw_dev_path(DeviceState *dev);
->>>>    char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceSt=
-ate *dev);
->>>>    +/**
->>>> + * device_class_set_props(): add a set of properties to an device
->>>> + * @dc: the parent DeviceClass all devices inherit
->>>> + * @props: an array of properties, terminate by DEFINE_PROP_END_OF_LI=
-ST()
->>>> + *
->>>> + * This will add a set of properties to the object. It will fault if
->>>> + * you attempt to add an existing property defined by a parent class.
->>>> + * To modify an inherited property you need to use????
->>>> + */
->>>>    void device_class_set_props(DeviceClass *dc, Property *props);
->>>>      /**
->>>
->>> Hmmm that's an interesting one. Looking at the source in
->>> hw/core/qdev-properties.c you could possibly get away with something
->>> like this in vu_rng_class_init():
->>>
->>>      ObjectProperty *op =3D object_class_property_find(klass, "id");
->>>      object_property_set_default_uint(op, VIRTIO_ID_RNG);
->>>
->>> Of course this is all completely untested :)
->> Sadly we assert on the existing prop->defval:
->>    static void object_property_set_default(ObjectProperty *prop,
->> QObject *defval)
->>    {
->>        assert(!prop->defval);
->>        assert(!prop->init);
->>        prop->defval =3D defval;
->>        prop->init =3D object_property_init_defval;
->>    }
->> Maybe the assert is too aggressive or we need a different helper,
->> maybe
->> a:
->>    void object_property_update_default_uint(ObjectProperty *prop,
->> uint64_t value)
->> ?
->
-> It seems in that case once the default has been set, it is impossible
-> to change. The only other immediate option I can think of is to define
-> a specific DEFINE_VHOST_PROPERTIES macro in a similar way to
-> DEFINE_AUDIO_PROPERTIES which you can use to set the common properties
-> for all VHostUserDevice devices, including providing the default ID.
+On 3/27/23 15:52, Richard Henderson wrote:
+> On 3/27/23 05:42, Daniel Henrique Barboza wrote:
+>> +static void cpu_set_misa_ext_cfg(Object *obj, Visitor *v, const char *name,
+>> +                                 void *opaque, Error **errp)
+>> +{
+>> +    RISCVCPUMisaExtConfig *misa_ext_cfg = opaque;
+> 
+> const
+> 
+>> +static void cpu_get_misa_ext_cfg(Object *obj, Visitor *v, const char *name,
+>> +                                 void *opaque, Error **errp)
+>> +{
+>> +    RISCVCPUMisaExtConfig *misa_ext_cfg = opaque;
+> 
+> const
+> 
+>> +static RISCVCPUMisaExtConfig misa_ext_cfgs[] = {};
+> 
+> const
 
-I tried this: allow the default to change
+It seems that I can't use 'const' because the object_property_add() API uses a 'void *opaque'
+pointer and it won't take a "const RISCVCPUMisaExtConfig *":
 
-modified   qom/object.c
-@@ -1557,11 +1557,16 @@ static void object_property_init_defval(Object *obj=
-, ObjectProperty *prop)
-=20
- static void object_property_set_default(ObjectProperty *prop, QObject *def=
-val)
- {
--    assert(!prop->defval);
--    assert(!prop->init);
-+    if (prop->init =3D=3D object_property_init_defval) {
-+        fprintf(stderr, "%s: updating existing defval\n", __func__);
-+        prop->defval =3D defval;
-+    } else {
-+        assert(!prop->defval);
-+        assert(!prop->init);
-=20
--    prop->defval =3D defval;
--    prop->init =3D object_property_init_defval;
-+        prop->defval =3D defval;
-+        prop->init =3D object_property_init_defval;
-+    }
- }
-=20
+../target/riscv/cpu.c:1454:35: error: passing argument 7 of ‘object_property_add’ discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+  1454 |                             NULL, misa_cfg);
+       |                                   ^~~~~~~~
+In file included from /home/danielhb/work/qemu/include/hw/qdev-core.h:8,
+                  from /home/danielhb/work/qemu/include/hw/core/cpu.h:23,
+                  from ../target/riscv/cpu.h:23,
+                  from ../target/riscv/cpu.c:24:
+/home/danielhb/work/qemu/include/qom/object.h:1067:43: note: expected ‘void *’ but argument is of type ‘const RISCVCPUMisaExtConfig *’
+  1067 |                                     void *opaque);
 
 
->
->
-> ATB,
->
-> Mark.
 
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Daniel
+> 
+> 
+> 
+> r~
 
