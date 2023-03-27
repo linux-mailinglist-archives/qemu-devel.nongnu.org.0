@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E365D6C9F15
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FD26C9F24
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:15:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgitw-0001lu-Ac; Mon, 27 Mar 2023 05:12:28 -0400
+	id 1pgiwg-00037i-9I; Mon, 27 Mar 2023 05:15:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pgitt-0001lV-Nr
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:12:25 -0400
+ id 1pgiwd-00037I-Jj
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:15:15 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pgitr-0000Wd-Jg
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:12:25 -0400
+ id 1pgiwb-000100-Lw
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:15:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679908342;
+ s=mimecast20190719; t=1679908512;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jMZYXilRAm4VOmRXLYrIdDdrA0U82m8GiI7/8Pd80rA=;
- b=J6HXJncQpkGgfIMRv3SnYuDjpJcSZcopWqI5VzeO6zJVhwOIQ0nW6GP4XVjvjWKQDranll
- uk0DvBNTv0nPLwU36W4kW/mWStBqrAL5//L87eAdhfFkiuTo9VXSYkzldKKuHTRpfR6ITs
- kUgDS3Eko3YhznsHdnwKFKZe7KHonEM=
+ bh=jXRsBTxAMpae02Fl8JHlmQYQEXrTXhCun5JjyBJjFiQ=;
+ b=HLrVQFny6F3gejGo/dcOlIF2mm7/3CSvk/NXorQNLKHWv8lv5mxthaXoPQP2TzSXjSIgKz
+ 7ylbV2LfJ6iz3nvhJwVJv7F3h7upVVZVc/105IM+baVOpvIQyp6BkDqZdm9Xf2PP4uC+JF
+ g98rQZ6zu7FrWGK+FQN2MnAPNh029f8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-O3yF9p4gP1C2jaQr6t6Aew-1; Mon, 27 Mar 2023 05:12:17 -0400
-X-MC-Unique: O3yF9p4gP1C2jaQr6t6Aew-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-168-f_IE3EzGPoOHLJxzOV2OMA-1; Mon, 27 Mar 2023 05:15:10 -0400
+X-MC-Unique: f_IE3EzGPoOHLJxzOV2OMA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 68CD2801206;
- Mon, 27 Mar 2023 09:12:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 486DB85530C
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 09:15:10 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EDA243FBD;
- Mon, 27 Mar 2023 09:12:16 +0000 (UTC)
-Date: Mon, 27 Mar 2023 10:12:14 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B0A8F492B01;
+ Mon, 27 Mar 2023 09:15:09 +0000 (UTC)
+Date: Mon, 27 Mar 2023 10:15:06 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: quintela@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH] Change the default for Mixed declarations.
-Message-ID: <ZCFd7nAlJqXKZUqH@redhat.com>
-References: <20230214160738.88614-1-quintela@redhat.com>
- <ZByhueDO9J9MLuSJ@redhat.com> <87pm8ykq09.fsf@secure.mitica>
- <87zg822fnm.fsf@linaro.org>
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] systemd: Also clear LISTEN_FDNAMES during systemd socket
+ activation
+Message-ID: <ZCFempFOjEgqyBXJ@redhat.com>
+References: <20230324153349.1123774-1-eblake@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87zg822fnm.fsf@linaro.org>
+In-Reply-To: <20230324153349.1123774-1-eblake@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -84,67 +83,40 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 24, 2023 at 05:56:46PM +0000, Alex Bennée wrote:
+On Fri, Mar 24, 2023 at 10:33:49AM -0500, Eric Blake wrote:
+> Some time after systemd documented LISTEN_PID and LISTEN_FDS for
+> socket activation, they later added LISTEN_FDNAMES; now documented at:
+> https://www.freedesktop.org/software/systemd/man/sd_listen_fds.html
 > 
-> Juan Quintela <quintela@redhat.com> writes:
+> In particular, look at the implementation of sd_listen_fds_with_names():
+> https://github.com/systemd/systemd/blob/main/src/libsystemd/sd-daemon/sd-daemon.c
 > 
-> > Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >> On Tue, Feb 14, 2023 at 05:07:38PM +0100, Juan Quintela wrote:
-> >>> Hi
-> >>> 
-> >>> I want to enter a discussion about changing the default of the style
-> >>> guide.
-> >>> 
-> >>> There are several reasons for that:
-> >>> - they exist since C99 (i.e. all supported compilers support them)
-> >>> - they eliminate the posibility of an unitialized variable.
-> >>
-> >> Actually they don't do that reliably. In fact, when combined
-> >> with usage of 'goto', they introduce uninitialized variables,
-> >> despite the declaration having an initialization present, and
-> >> thus actively mislead reviewers into thinking their code is
-> >> safe.
-> >
-> > Wait a minute.
-> > If you use goto, you are already in special rules.
-> >
-> > And don't get confused, I fully agree when using goto for two reasons:
-> > - performance
-> >   if you show that the code is x% faster when using goto, it is
-> >   justified.  It is even better if you send a bug report to gcc/clang,
-> >   but I will not opose that use.
+> If we ever pass LISTEN_PID=xxx and LISTEN_FDS=n to a child process,
+> but leave LISTEN_FDNAMES=... unchanged as inherited from our parent
+> process, then our child process using sd_listen_fds_with_names() might
+> see a mismatch in the number of names (unexpected -EINVAL failure), or
+> even if the number of names matches the values of those names may be
+> unexpected (with even less predictable results).
 > 
-> I await a clear example in the context of QEMU - there is almost always
-> a better way to structure things.
+> Usually, this is not an issue - the point of LISTEN_PID is to tell
+> systemd socket activation to ignore all other LISTEN_* if they were
+> not directed to this particular pid.  But if we end up consuming a
+> socket directed to this qemu process, and later decide to spawn a
+> child process that also needs systemd socket activation, we must
+> ensure we are not leaking any stale systemd variables through to that
+> child.  The easiest way to do this is to wipe ALL LISTEN_* variables
+> at the time we consume a socket, even if we do not yet care about a
+> LISTEN_FDNAMES passed in from the parent process.
 > 
-> > - code clearity
-> >   Some code (basically error paths) are clearer with goto that without
-> >   them.
+> See also https://lists.freedesktop.org/archives/systemd-devel/2023-March/048920.html
 > 
-> Now we have g_auto* and lock guards we should encourage their use. goto
-> error_path is a relic of a simpler time ;-)
-> 
-> <snip>
-> >> IMHO if we are concerned about uninitialized variables then I think
-> >> a better approach is to add -ftrivial-auto-var-init=zero, which will
-> >> make the compiler initialize all variables to 0 if they lack an
-> >> explicit initializer. 
-> >
-> > I think this is a bad idea.
-> > If we want to "catch" unitialized variables, using something like:
-> >
-> > -ftrivial-auto-var-init=pattern sounds much saner.
-> >
-> > Obviously gcc is missing
-> >
-> > -ftrivial-auto-var-init=42
-> 
-> I think we could at least eat the runtime cost of
-> -ftrvial-auto-var-init=0xDEADBEEF for our --enable-debug builds.
+> Thanks: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  util/systemd.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-If there is ever a case where an uninitialized var gets used as a
-loop counter, that's 3,735,928,559 iterations. A small value pattern
-would avoid such CPU burn.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 
 With regards,
