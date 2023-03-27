@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686D86CA91D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 17:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84DBA6CA935
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 17:38:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgorB-0001kZ-2Z; Mon, 27 Mar 2023 11:34:01 -0400
+	id 1pgovB-00036E-CF; Mon, 27 Mar 2023 11:38:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pgor9-0001kQ-F7
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 11:33:59 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pgor7-0000Gu-J8
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 11:33:59 -0400
-Received: by mail-pf1-x432.google.com with SMTP id y2so5940849pfw.9
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 08:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679931235;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BunCQZSRaviaWAE/dJiQkVyM0eHaku9I3L8mtadQp+U=;
- b=W5nuyOx7MQyRnL5UNhg1t5uMoc6XttDAtGTAvM3rRlFvYQvFNpDOmWhyKIFNsC21Dx
- si0cSX+PRSlJOKmc90Lvc6Oqh2K1Dh1GxgomBsIfDgE7+NyFeqimWlag7SK5hVcOMJfd
- 26G9fKrI+baNGAC3X+GOxP1hmERcNKUvTuTLZEqpBUfsXSL697Y7QxjjK0dF6K2rTwBT
- SSWFu/ttecOuCq2nshl4wVKGfYrdDJN99mEsgBuFT9kyKpPWPkpkqScF2k0NbKNCczem
- U/M1cWQBNSZJdfDCOLCpp9i20LfIUzLhrOxbIzYZb/sy+QEghnt3UCPk39EhyE9i0+2d
- bZ5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679931235;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BunCQZSRaviaWAE/dJiQkVyM0eHaku9I3L8mtadQp+U=;
- b=RXyq16K/v1314pgAeZnBSK7Vfgk4YpexNsnrmip2PgaOWTS4xL0fhT07iVyqyS6EnE
- nEEV50H0CCR/X63zHDzQvYWlv1mPdhVyc0KwGU6oxiUOx5VYDYJEIsVLjflIUPXQbUZq
- fs73R56H4sJhj18PeQZQs8CqZKhL6FfwMyLPhVVKBMAw2c9Y9ar5D8sfAm/fmviWnuZl
- v+uXjyP5XcoUJd8SuEBoYvFRXA3S9iqBK0pkxamksHe2HxFJLRFQjtT2JKlA9qXq3dxZ
- /hCgNxOUyK4Uo3aiEQcbBGRWS9GiOs1AOpT4ALtYURQPdpxXytiA1f/cnitpklAqv9fN
- eH1Q==
-X-Gm-Message-State: AAQBX9fTfkkP/Fi+i8NoFiI99Z5RqjbBamEd+BYTGyeGy71LUwn8NRKw
- hi+ze3CrK4ZxjE6XIzWRRsk=
-X-Google-Smtp-Source: AKy350Yn1cvauW7LfkfXhlDHvvtDLYXvscMI9dIZzcgQWl+loO6Hhg5pBRhLvuhqz+3HLTaMZHSGhg==
-X-Received: by 2002:a62:1948:0:b0:627:f740:51f9 with SMTP id
- 69-20020a621948000000b00627f74051f9mr11749137pfz.3.1679931235236; 
- Mon, 27 Mar 2023 08:33:55 -0700 (PDT)
-Received: from [192.168.0.115] ([113.173.97.170])
- by smtp.gmail.com with ESMTPSA id
- d9-20020aa78e49000000b005cd81a74821sm15467117pfr.152.2023.03.27.08.33.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 08:33:54 -0700 (PDT)
-Message-ID: <05d55576-f703-18a1-7f9f-4c15b8c54490@gmail.com>
-Date: Mon, 27 Mar 2023 22:33:48 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+ (Exim 4.90_1) (envelope-from
+ <BATV+ef3f5c3582df506c1a4c+7155+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pgov3-000341-IC
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 11:38:02 -0400
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+ef3f5c3582df506c1a4c+7155+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pgov0-0001La-Js
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 11:38:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=wo94/P51UVE6p/K3qNC7dRuiBJa4DyXXABagXiqqJo8=; b=PFskJ7jcz5JH6yuZO9u1yOFImw
+ 4JUDY+RfQs1XiZY2zmRu6TB4XNifU4EZsR+Hhp2wnzLrn2hE4I54KJPjE5DEoF+uWzfmi3vaqcid4
+ dFWSV+CiVdfWm7LQYTeuevRo2ip1EW3kpw/FPzI/4tmXmNT3yRbrV9o0ESdvRwssIKKSdC3IStepf
+ CoRB3BN0V2Vb2NEYVwH7PKCaLZR2q1NekkeNd+Wv9ITuTKhjaJpC0kPPjD0GwooNzECqvFrGHkXX4
+ RszrGHDKunHuIRqbZ5/CPk/53KXer9+s1vU/zrZdIftNLEspqFCyQUiCFw3YcVyueNE84gdzkl8YW
+ hjsMpDYA==;
+Received: from [2001:8b0:10b:5:bd73:4bc:634b:34b]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pgouu-007WU1-N0; Mon, 27 Mar 2023 15:37:52 +0000
+Message-ID: <0944a6f4c7c1569c182a27d40bdeb0a164a41bbb.camel@infradead.org>
 Subject: Re: [PATCH v2 2/5] apic: add support for x2APIC mode
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
+From: David Woodhouse <dwmw2@infradead.org>
+To: Bui Quang Minh <minhquangbui99@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, 
+ "Michael S . Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Igor Mammedov <imammedo@redhat.com>, Alex
+ =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Date: Mon, 27 Mar 2023 16:37:49 +0100
+In-Reply-To: <05d55576-f703-18a1-7f9f-4c15b8c54490@gmail.com>
 References: <20230326052039.33717-1-minhquangbui99@gmail.com>
  <20230326052039.33717-3-minhquangbui99@gmail.com>
  <a8ea36d901a1b713ab8bc0f5bcd1b7d26ad6f9cb.camel@infradead.org>
-Content-Language: en-US
-From: Bui Quang Minh <minhquangbui99@gmail.com>
-In-Reply-To: <a8ea36d901a1b713ab8bc0f5bcd1b7d26ad6f9cb.camel@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=minhquangbui99@gmail.com; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ <05d55576-f703-18a1-7f9f-4c15b8c54490@gmail.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-UPfEFGVMNK2YjYI7/dTJ"
+User-Agent: Evolution 3.44.4-0ubuntu1 
+MIME-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+ef3f5c3582df506c1a4c+7155+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,149 +81,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 18:04, David Woodhouse wrote:
-> On Sun, 2023-03-26 at 12:20 +0700, Bui Quang Minh wrote:
->> This commit extends the APIC ID to 32-bit long and remove the 255 max APIC
->> ID limit in userspace APIC. The array that manages local APICs is now
->> dynamically allocated based on the max APIC ID of created x86 machine.
->> Also, new x2APIC IPI destination determination scheme, self IPI and x2APIC
->> mode register access are supported.
->>
->> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
->> ---
->>   hw/i386/x86.c                   |   8 +-
->>   hw/intc/apic.c                  | 229 +++++++++++++++++++++++---------
->>   hw/intc/apic_common.c           |   8 +-
->>   include/hw/i386/apic.h          |   3 +-
->>   include/hw/i386/apic_internal.h |   2 +-
->>   5 files changed, 184 insertions(+), 66 deletions(-)
->>
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index a88a126123..fa9b15190d 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -132,11 +132,11 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
->>        * Can we support APIC ID 255 or higher?
->>        *
->>        * Under Xen: yes.
->> -     * With userspace emulated lapic: no
->> +     * With userspace emulated lapic: yes.
-> 
-> Are you making this unconditional? It shall not be possible to emulate
-> a CPU *without* X2APIC?
 
-You are right, this should report error when APIC ID is higher than 255 
-and x2APIC is not supported by the CPU.
+--=-UPfEFGVMNK2YjYI7/dTJ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
->>        * With KVM's in-kernel lapic: only if X2APIC API is enabled.
->>        */
->>       if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
->> -        (!kvm_irqchip_in_kernel() || !kvm_enable_x2apic())) {
->> +        kvm_irqchip_in_kernel() && !kvm_enable_x2apic()) {
->>           error_report("current -smp configuration requires kernel "
->>                        "irqchip and X2APIC API support.");
->>           exit(EXIT_FAILURE);
-> ...
->> @@ -276,16 +288,17 @@ static void apic_bus_deliver(const uint32_t *deliver_bitmask,
->>                    apic_set_irq(apic_iter, vector_num, trigger_mode) );
->>   }
->>   
->> -void apic_deliver_irq(uint8_t dest, uint8_t dest_mode, uint8_t delivery_mode,
->> +void apic_deliver_irq(uint32_t dest, uint8_t dest_mode, uint8_t delivery_mode,
->>                         uint8_t vector_num, uint8_t trigger_mode)
-> 
-> We can make this 'static' while we're here. It isn't actually called
-> from anywhere else, is it?
+On Mon, 2023-03-27 at 22:33 +0700, Bui Quang Minh wrote:
+>=20
+> > > +=C2=A0=C2=A0=C2=A0 memset(deliver_bitmask, 0x00, max_apic_words * si=
+zeof(uint32_t));
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0 /* x2APIC broadcast id for both physical and logi=
+cal (cluster) mode */
+> > > +=C2=A0=C2=A0=C2=A0 if (dest =3D=3D 0xffffffff) {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 apic_get_broadcast_bitmas=
+k(deliver_bitmask, true);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+> > > +=C2=A0=C2=A0=C2=A0 }
+> > > +
+> > > =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 if (dest_mode =3D=3D 0) {
+> >=20
+> > Might be nice to have a constant for DEST_MODE_PHYS vs.
+> > DEST_MODE_LOGICAL to make this clearer?
+>=20
+> I'll fix it in the next version.
+>=20
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 apic_find_dest(deliver_bi=
+tmask, dest);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Broadcast to xAPIC mod=
+e apics */
+> > > =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dest =3D=
+=3D 0xff) {
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 m=
+emset(deliver_bitmask, 0xff, MAX_APIC_WORDS * sizeof(uint32_t));
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i=
+nt idx =3D apic_find_dest(dest);
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 m=
+emset(deliver_bitmask, 0x00, MAX_APIC_WORDS * sizeof(uint32_t));
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i=
+f (idx >=3D 0)
+> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 apic_set_bit(deliver_bitmask, idx);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 a=
+pic_get_broadcast_bitmask(deliver_bitmask, false);
+> >=20
+> >=20
+> > Hrm... aren't you still interpreting destination 0x000000FF as
+> > broadcast even for X2APIC mode? Or am I misreading this?
+>=20
+> In case the destination is 0xFF, the IPI will be delivered to CPU has
+> APIC ID 0xFF if it is in x2APIC mode, and it will be delivered to all
+> CPUs that are in xAPIC mode. In case the destination is 0xFFFFFFFF, the=
+=20
+> IPI is delivered to all CPUs that are in x2APIC mode. I've created=20
+> apic_get_broadcast_bitmask function and changed the apic_find_dest to
+> implement that logic.
 
-I'll fix it in the next version.
+Maybe I'm misreading the patch, but to me it looks that
+if (dest =3D=3D 0xff) apic_get_broadcast_bitmask() bit applies even in
+x2apic mode? So delivering to the APIC with physical ID 255 will be
+misinterpreted as a broadcast?=20
 
->>   
->>   static void apic_get_delivery_bitmask(uint32_t *deliver_bitmask,
->> -                                      uint8_t dest, uint8_t dest_mode)
->> +                                      uint32_t dest, uint8_t dest_mode)
->>   {
->>       APICCommonState *apic_iter;
->>       int i;
->>   
->> +    memset(deliver_bitmask, 0x00, max_apic_words * sizeof(uint32_t));
->> +
->> +    /* x2APIC broadcast id for both physical and logical (cluster) mode */
->> +    if (dest == 0xffffffff) {
->> +        apic_get_broadcast_bitmask(deliver_bitmask, true);
->> +        return;
->> +    }
->> +
->>       if (dest_mode == 0) {
-> 
-> Might be nice to have a constant for DEST_MODE_PHYS vs.
-> DEST_MODE_LOGICAL to make this clearer?
+--=-UPfEFGVMNK2YjYI7/dTJ
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-I'll fix it in the next version.
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMzI3MTUzNzQ5WjAvBgkqhkiG9w0BCQQxIgQgpUVxtWwJ
+zAQ+U9pLxWZFB4bO4O0Y05cl0vXc+ATqfQQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAniSH/wT1hP/ucB/GO1KhXa1CgiBXIdozG
+gtygqw6L1UvQarshr4LwI8brT1l6pWqyxUBeAmx1vJCpr0hTVfCDeKwK0jCKc+uuyHcuBMXkUo89
+2XRXVfFTEY8ZbrbSf6EeBL4DHHlyrnBn1kXWTLw+4tgbKtAjNdDlvGRIjb9uaoCUAzFsAbAVCevc
+arv1fWZDiI9xDex2CURi9rwDTaexc2t7dXVDbIlcbC1GD+3UVd/Ytz59pssnfLfLjJ1yerR/dRwz
+zUYDiPPZo3+qYmCWjKo3AN7KjfrrWKNKtWnNzeLADyWKpoyy4A2orI+P0gvZhv8IwWPSP1i0vjFM
+oCFCkhu+7xsCbAx5Q8bsrRgnbOi8IwO3YIpc7dRk+T65CttERmxencxf10tJdkWbJSoHVsCislC7
++7mcZsZ2tS3CeEt6rthKkqiGyvRt8XljmLTDzjq7Oc4v0nZNLsJFnW1ffI3F7jKi/OiWoZupo5mq
+Jn5ORTx2UiWmOyUpBscXLz/2rLJK+e3rg149SnsOHH0GtJDc+9N5sAmbr20fsg5/FnQdel++Ym5M
+mqjwPVrzmUCokqgnDDJaMpnIzMFZyOCTnqw5SOCea8Jwi4qe7rpFF/QJrxqaPUsrcfHtkpT73zbS
+B+Z2QY7D4OJl1We/H7QwQQCkBBZD7KhCdXv78JPiOwAAAAAAAA==
 
->> +        apic_find_dest(deliver_bitmask, dest);
->> +        /* Broadcast to xAPIC mode apics */
->>           if (dest == 0xff) {
->> -            memset(deliver_bitmask, 0xff, MAX_APIC_WORDS * sizeof(uint32_t));
->> -        } else {
->> -            int idx = apic_find_dest(dest);
->> -            memset(deliver_bitmask, 0x00, MAX_APIC_WORDS * sizeof(uint32_t));
->> -            if (idx >= 0)
->> -                apic_set_bit(deliver_bitmask, idx);
->> +            apic_get_broadcast_bitmask(deliver_bitmask, false);
-> 
-> 
-> Hrm... aren't you still interpreting destination 0x000000FF as
-> broadcast even for X2APIC mode? Or am I misreading this?
 
-In case the destination is 0xFF, the IPI will be delivered to CPU has 
-APIC ID 0xFF if it is in x2APIC mode, and it will be delivered to all 
-CPUs that are in xAPIC mode. In case the destination is 0xFFFFFFFF, the 
-IPI is delivered to all CPUs that are in x2APIC mode. I've created 
-apic_get_broadcast_bitmask function and changed the apic_find_dest to 
-implement that logic.
-
->> @@ -366,7 +370,7 @@ static const VMStateDescription vmstate_apic_common = {
->>           VMSTATE_UINT8(arb_id, APICCommonState),
->>           VMSTATE_UINT8(tpr, APICCommonState),
->>           VMSTATE_UINT32(spurious_vec, APICCommonState),
->> -        VMSTATE_UINT8(log_dest, APICCommonState),
->> +        VMSTATE_UINT32(log_dest, APICCommonState),
->>           VMSTATE_UINT8(dest_mode, APICCommonState),
->>           VMSTATE_UINT32_ARRAY(isr, APICCommonState, 8),
->>           VMSTATE_UINT32_ARRAY(tmr, APICCommonState, 8),
-> 
-> 
-> Hm, doesn't this need to be added in a separate subsection, much as
-> ide_drive/pio_state in the example in docs/devel/migration.rst? Or did
-> I *not* need to do that in commit ecb0e98b4 (unrelated to x2apic, but
-> similar addition of state)?
-> 
-> Can you confirm that you've tested the behaviour when migrating back
-> from this to an older QEMU, both for a guest *with* X2APIC enabled
-> (which should fail gracefully), and a guest without X2APIC (which
-> should work).
-
-Oh, thank you for pointing out, I actually don't understand the use of 
-vmstate before, I'll look at the document more and fix it.
-
->> diff --git a/include/hw/i386/apic.h b/include/hw/i386/apic.h
->> index 2cebeb4faf..d938bfa8e0 100644
->> --- a/include/hw/i386/apic.h
->> +++ b/include/hw/i386/apic.h
->> @@ -3,7 +3,8 @@
->>   
->>   
->>   /* apic.c */
->> -void apic_deliver_irq(uint8_t dest, uint8_t dest_mode, uint8_t delivery_mode,
->> +void apic_set_max_apic_id(uint32_t max_apic_id);
->> +void apic_deliver_irq(uint32_t dest, uint8_t dest_mode, uint8_t delivery_mode,
->>                         uint8_t vector_num, uint8_t trigger_mode);
-> 
-> Making it static means this can be removed, of course.
-
-I'll fix it in next version.
-
-Thanks,
-Quang Minh.
+--=-UPfEFGVMNK2YjYI7/dTJ--
 
