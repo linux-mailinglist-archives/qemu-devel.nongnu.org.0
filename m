@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EBA6C993E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 03:07:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BDF6C995C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 03:36:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgbIg-0001EU-MX; Sun, 26 Mar 2023 21:05:30 -0400
+	id 1pgblT-00052x-Kx; Sun, 26 Mar 2023 21:35:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pgbId-0001E3-BQ
- for qemu-devel@nongnu.org; Sun, 26 Mar 2023 21:05:27 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pgbIa-0007bE-FR
- for qemu-devel@nongnu.org; Sun, 26 Mar 2023 21:05:27 -0400
-Received: by mail-ed1-x535.google.com with SMTP id r11so29418199edd.5
- for <qemu-devel@nongnu.org>; Sun, 26 Mar 2023 18:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jms.id.au; s=google; t=1679879122;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=DWx2XU9SCc8+ibWN1J7nQwo1yckURy/JAlNzfeSjrrQ=;
- b=HhX7KVw9CqblFlS5wJvuzQJ+KLFTYy1rIYYa/2Mojv3vu9Ty3fwIEyYpD6lnU5ZD2z
- WWBBKzD60BJbIWpfxolIjuAw93DJjKjsNIlVwbAWpFH5fSgJ3sdNpHPzxf5qkPDpEmHF
- KKuZvhMNqYH4vnAisv23vCszwYDu/z2+wljaY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679879122;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DWx2XU9SCc8+ibWN1J7nQwo1yckURy/JAlNzfeSjrrQ=;
- b=6kBi0rBZzMynA0RCkEn0QTGT0GhW41zn3L8wD6EW3qkUMjMckJsuwSMUL7PGOzocXC
- r9T70mi1QpHykWMxv4PscrDBJ4X+PmMrQXAtlPtOqIqbNxkpT9tmxLwCgy4r7C0nDqlH
- WZGm8Pws+DF9ZP+57aVH6cQziKZSFSbFy/Kt2Lt8PDQt+7n9PjM0YYm+t5eE0Wl0wUAg
- eroK6xvn7oVwwkK54iv/KNT936Balek6Ru+ki2NSgZkghpH/6LoMzClRhpv2AggN9kmL
- 5j+t3HzCWrfvMeDTjBP4f997W8PSgcZxkQqMJ8uTHsbjQGfyK3JgwMyoy8myvTZBQjQO
- vy8g==
-X-Gm-Message-State: AAQBX9eKnd9fDup0RiNHiGgV8AZzEXwFC3jM2u0GFjdnJIBOj9PcicwZ
- 3/Pdo4TcihYstWTmffqi8Ht36WZ1s6qlB9h3Has=
-X-Google-Smtp-Source: AKy350YqRy77kx96mHe5T84sjexLN/UcNoz91flMyqY3Higgj+1Hd0a/uh6jvIYYf5gCWcLD0dxsMpMPKnSKjxTN6qU=
-X-Received: by 2002:a17:906:a86:b0:933:f6e8:26d9 with SMTP id
- y6-20020a1709060a8600b00933f6e826d9mr4928615ejf.15.1679879121640; Sun, 26 Mar
- 2023 18:05:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pgblQ-000511-6f; Sun, 26 Mar 2023 21:35:12 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pgblL-0007Fp-NU; Sun, 26 Mar 2023 21:35:11 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-05 (Coremail) with SMTP id zQCowACnrWW_8iBkRZScCg--.1650S2;
+ Mon, 27 Mar 2023 09:34:56 +0800 (CST)
+Message-ID: <e6b11b5d-aee7-0aba-c836-dd5e6c713d6d@iscas.ac.cn>
+Date: Mon, 27 Mar 2023 09:34:55 +0800
 MIME-Version: 1.0
-References: <20230326224426.3918167-1-ninad@linux.ibm.com>
-In-Reply-To: <20230326224426.3918167-1-ninad@linux.ibm.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 27 Mar 2023 01:05:09 +0000
-Message-ID: <CACPK8XeZA8nqhgjH_SUDrk3A49dUqnKVONtj+QtcnjOsLUjvGQ@mail.gmail.com>
-Subject: Re: [PATCH v7 0/3] Add support for TPM devices over I2C bus
-To: Ninad Palsule <ninad@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, andrew@aj.id.au, stefanb@linux.ibm.com, 
- clg@kaod.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=joel.stan@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v6 04/25] target/riscv: Remove mstatus_hs_{fs, vs} from
+ tb_flags
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, palmer@dabbelt.com,
+ zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com, liweiwei@iscas.ac.cn
+References: <20230325105429.1142530-1-richard.henderson@linaro.org>
+ <20230325105429.1142530-5-richard.henderson@linaro.org>
+Content-Language: en-US
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230325105429.1142530-5-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowACnrWW_8iBkRZScCg--.1650S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jr18JF18JFWUWryxJF4rAFb_yoW3JryUpa
+ yxKa12gFWvqa93Ka1ftF4YgF4rJr18CFW5Zwn5Cr4rtrWUAr98CFWkKF1fZFZ8uryxZr40
+ vF1kZ3s8AF45CrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
+ 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUU
+ UU=
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,138 +78,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Ninad,
 
-On Sun, 26 Mar 2023 at 22:44, Ninad Palsule <ninad@linux.ibm.com> wrote:
+On 2023/3/25 18:54, Richard Henderson wrote:
+> Merge with mstatus_{fs,vs}.  We might perform a redundant
+> assignment to one or the other field, but it's a trivial
+> and saves 4 bits from TB_FLAGS.
 >
-> Hello,
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/riscv/cpu.h        | 16 +++++++---------
+>   target/riscv/cpu_helper.c | 34 ++++++++++++++++------------------
+>   target/riscv/translate.c  | 32 ++++++++++----------------------
+>   3 files changed, 33 insertions(+), 49 deletions(-)
 >
-> I have incorporated review comments from Stefan. Please review.
->
-> This drop adds support for the TPM devices attached to the I2C bus. It
-> only supports the TPM2 protocol. You need to run it with the external
-> TPM emulator like swtpm. I have tested it with swtpm.
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index f787145a21..d9e0eaaf9b 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -646,19 +646,17 @@ FIELD(TB_FLAGS, VL_EQ_VLMAX, 13, 1)
+>   FIELD(TB_FLAGS, VILL, 14, 1)
+>   /* Is a Hypervisor instruction load/store allowed? */
+>   FIELD(TB_FLAGS, HLSX, 15, 1)
+> -FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
+> -FIELD(TB_FLAGS, MSTATUS_HS_VS, 18, 2)
+>   /* The combination of MXL/SXL/UXL that applies to the current cpu mode. */
+> -FIELD(TB_FLAGS, XL, 20, 2)
+> +FIELD(TB_FLAGS, XL, 16, 2)
+>   /* If PointerMasking should be applied */
+> -FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+> -FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+> -FIELD(TB_FLAGS, VTA, 24, 1)
+> -FIELD(TB_FLAGS, VMA, 25, 1)
+> +FIELD(TB_FLAGS, PM_MASK_ENABLED, 18, 1)
+> +FIELD(TB_FLAGS, PM_BASE_ENABLED, 19, 1)
+> +FIELD(TB_FLAGS, VTA, 20, 1)
+> +FIELD(TB_FLAGS, VMA, 21, 1)
+>   /* Native debug itrigger */
+> -FIELD(TB_FLAGS, ITRIGGER, 26, 1)
+> +FIELD(TB_FLAGS, ITRIGGER, 22, 1)
+>   /* Virtual mode enabled */
+> -FIELD(TB_FLAGS, VIRT_ENABLED, 27, 1)
+> +FIELD(TB_FLAGS, VIRT_ENABLED, 23, 1)
+>   
+>   #ifdef TARGET_RISCV32
+>   #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 1e7ee9aa30..4fdd6fe021 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -45,7 +45,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>   {
+>       CPUState *cs = env_cpu(env);
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+> -
+> +    RISCVExtStatus fs, vs;
+>       uint32_t flags = 0;
+>   
+>       *pc = env->xl == MXL_RV32 ? env->pc & UINT32_MAX : env->pc;
+> @@ -79,18 +79,12 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>       }
+>   
+>   #ifdef CONFIG_USER_ONLY
+> -    flags = FIELD_DP32(flags, TB_FLAGS, FS, EXT_STATUS_DIRTY);
+> -    flags = FIELD_DP32(flags, TB_FLAGS, VS, EXT_STATUS_DIRTY);
+> +    fs = EXT_STATUS_DIRTY;
+> +    vs = EXT_STATUS_DIRTY;
+>   #else
+>       flags |= cpu_mmu_index(env, 0);
+> -    if (riscv_cpu_fp_enabled(env)) {
+> -        flags =  FIELD_DP32(flags, TB_FLAGS, FS,
+> -                            get_field(env->mstatus,  MSTATUS_FS));
+> -    }
+> -    if (riscv_cpu_vector_enabled(env)) {
+> -        flags =  FIELD_DP32(flags, TB_FLAGS, VS,
+> -                            get_field(env->mstatus, MSTATUS_VS));
+> -    }
+> +    fs = get_field(env->mstatus, MSTATUS_FS);
+> +    vs = get_field(env->mstatus, MSTATUS_VS);
+>   
+>       if (riscv_has_ext(env, RVH)) {
+>           if (env->priv == PRV_M ||
+> @@ -100,19 +94,23 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>               flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
+>           }
+>   
+> -        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
+> -                           get_field(env->mstatus_hs, MSTATUS_FS));
+> -
+> -        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_VS,
+> -                           get_field(env->mstatus_hs, MSTATUS_VS));
+> -        flags = FIELD_DP32(flags, TB_FLAGS, VIRT_ENABLED,
+> -                           get_field(env->virt, VIRT_ONOFF));
+> +        if (riscv_cpu_virt_enabled(env)) {
+> +            flags = FIELD_DP32(flags, TB_FLAGS, VIRT_ENABLED, 1);
+> +            /*
+> +             * Merge DISABLED and !DIRTY states using MIN.
+> +             * We will set both fields when dirtying.
+> +             */
+> +            fs = MIN(fs, get_field(env->mstatus_hs, MSTATUS_FS));
+> +            vs = MIN(vs, get_field(env->mstatus_hs, MSTATUS_VS));
+> +        }
+>       }
+>       if (cpu->cfg.debug && !icount_enabled()) {
+>           flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_enabled);
+>       }
+>   #endif
+>   
+> +    flags = FIELD_DP32(flags, TB_FLAGS, FS, fs);
+> +    flags = FIELD_DP32(flags, TB_FLAGS, VS, vs);
+>       flags = FIELD_DP32(flags, TB_FLAGS, XL, env->xl);
+>       if (env->cur_pmmask < (env->xl == MXL_RV32 ? UINT32_MAX : UINT64_MAX)) {
+>           flags = FIELD_DP32(flags, TB_FLAGS, PM_MASK_ENABLED, 1);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index b897bf6006..74d0b9889d 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -66,8 +66,6 @@ typedef struct DisasContext {
+>       uint32_t opcode;
+>       RISCVExtStatus mstatus_fs;
+>       RISCVExtStatus mstatus_vs;
+> -    RISCVExtStatus mstatus_hs_fs;
+> -    RISCVExtStatus mstatus_hs_vs;
+>       uint32_t mem_idx;
+>       /* Remember the rounding mode encoded in the previous fp instruction,
+>          which we have already installed into env->fp_status.  Or -1 for
+> @@ -618,16 +616,12 @@ static void mark_fs_dirty(DisasContext *ctx)
+>           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+>           tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
+>           tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+> -    }
+>   
+> -    if (ctx->virt_enabled && ctx->mstatus_hs_fs != EXT_STATUS_DIRTY) {
+> -        /* Remember the stage change for the rest of the TB. */
+> -        ctx->mstatus_hs_fs = EXT_STATUS_DIRTY;
+> -
+> -        tmp = tcg_temp_new();
+> -        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> -        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
+> -        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +        if (ctx->virt_enabled) {
+> +            tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +            tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
+> +            tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +        }
 
-Nice work. I tested these stop cedric's aspeed-8.0 qemu tree, using
-the rainier machine and the openbmc dev-6.1 kernel.
+We seems only need to know whether fs/vs is dirty,  so maybe we can just 
+use a bool for them to save more bits from TB_FLAGS.
 
-We get this message when booting from a kernel:
+Regards,
 
-[    0.582699] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
-[    0.586361] tpm tpm0: A TPM error (256) occurred attempting the self test
-[    0.586623] tpm tpm0: starting up the TPM manually
+Weiwei Li
 
-Do we understand why the error appears?
+>       }
+>   }
+>   #else
+> @@ -651,16 +645,12 @@ static void mark_vs_dirty(DisasContext *ctx)
+>           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+>           tcg_gen_ori_tl(tmp, tmp, MSTATUS_VS);
+>           tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+> -    }
+>   
+> -    if (ctx->virt_enabled && ctx->mstatus_hs_vs != EXT_STATUS_DIRTY) {
+> -        /* Remember the stage change for the rest of the TB. */
+> -        ctx->mstatus_hs_vs = EXT_STATUS_DIRTY;
+> -
+> -        tmp = tcg_temp_new();
+> -        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> -        tcg_gen_ori_tl(tmp, tmp, MSTATUS_VS);
+> -        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +        if (ctx->virt_enabled) {
+> +            tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +            tcg_gen_ori_tl(tmp, tmp, MSTATUS_VS);
+> +            tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +        }
+>       }
+>   }
+>   #else
+> @@ -1158,8 +1148,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->misa_ext = env->misa_ext;
+>       ctx->frm = -1;  /* unknown rounding mode */
+>       ctx->cfg_ptr = &(cpu->cfg);
+> -    ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
+> -    ctx->mstatus_hs_vs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_VS);
+>       ctx->hlsx = FIELD_EX32(tb_flags, TB_FLAGS, HLSX);
+>       ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
+>       ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
 
-# grep -r . /sys/class/tpm/tpm0/pcr-sha256/ | sort -n -k 7 -t /
-/sys/class/tpm/tpm0/pcr-sha256/0:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/1:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/2:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/3:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/4:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/5:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/6:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/7:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/8:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/9:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/10:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/11:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/12:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/13:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/14:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/15:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/16:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/17:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/18:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/19:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/20:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/21:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/22:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/23:0000000000000000000000000000000000000000000000000000000000000000
-
-If I boot through the openbmc u-boot for the p10bmc machine, which
-measures things into the PCRs:
-
-[    0.556713] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
-
-/ # grep -r . /sys/class/tpm/tpm0/pcr-sha256/ | sort -n -k 7 -t /
-/sys/class/tpm/tpm0/pcr-sha256/0:AFA13691EFC7BC6E189E92347F20676FB4523302CB957DA9A65C3430C45E8BCC
-/sys/class/tpm/tpm0/pcr-sha256/1:37F0F710A5502FAE6DB7433B36001FEE1CBF15BA2A7D6923207FF56888584714
-/sys/class/tpm/tpm0/pcr-sha256/2:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-/sys/class/tpm/tpm0/pcr-sha256/3:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-/sys/class/tpm/tpm0/pcr-sha256/4:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-/sys/class/tpm/tpm0/pcr-sha256/5:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-/sys/class/tpm/tpm0/pcr-sha256/6:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-/sys/class/tpm/tpm0/pcr-sha256/7:E21B703EE69C77476BCCB43EC0336A9A1B2914B378944F7B00A10214CA8FEA93
-/sys/class/tpm/tpm0/pcr-sha256/8:AE67485BD01E8D6FE0208C46C473940173F66E9C6F43C75ABB404375787E9705
-/sys/class/tpm/tpm0/pcr-sha256/9:DB99D92EADBB446894CB0C062AEB673F60DDAFBC62BC2A9CA561A13B31E5357C
-/sys/class/tpm/tpm0/pcr-sha256/10:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/11:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/12:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/13:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/14:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/15:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/16:0000000000000000000000000000000000000000000000000000000000000000
-/sys/class/tpm/tpm0/pcr-sha256/17:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/18:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/19:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/20:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/21:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/22:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-/sys/class/tpm/tpm0/pcr-sha256/23:0000000000000000000000000000000000000000000000000000000000000000
-
-However on a clean boot into the TPM, the u-boot tpm commands fail:
-
-ast# tpm info
-tpm@2e v2.0: VendorID 0x1014, DeviceID 0x0001, RevisionID 0x01 [closed]
-ast# tpINTERRUPT>
-ast# tpm init
-ast# tpm info
-tpm@2e v2.0: VendorID 0x1014, DeviceID 0x0001, RevisionID 0x01 [open]
-ast# tpm pcr_read 0 0x81000000
-Error: 256
-ast# md.l 0x81000000 16
-81000000: 00000000 00000000 00000000 00000000    ................
-81000010: 00000000 00000000 00000000 00000000    ................
-81000020: 00000000 00000000 00000000 00000000    ................
-81000030: 00000000 00000000 00000000 00000000    ................
-81000040: 00000000 00000000 00000000 00000000    ................
-81000050: 00000000 00000000                      ........
-
-This doesn't need to block merging into qemu, as the model works fine
-for pcr measurement and accessing under Linux. However it would be
-good to work though these issues in case there's a modelling
-discrepancy.
-
-
-
->
-> I have refered to the work done by zhdaniel@meta.com but at the core
-> level out implementation is different.
-> https://github.com/theopolis/qemu/commit/2e2e57cde9e419c36af8071bb85392ad1ed70966
->
-> Based-on: $MESSAGE_ID
->
->
-> Ninad Palsule (3):
->   docs: Add support for TPM devices over I2C bus
->   tpm: Extend common APIs to support TPM TIS I2C
->   tpm: Add support for TPM device over I2C bus
->
->  docs/specs/tpm.rst      |  32 +++
->  hw/arm/Kconfig          |   1 +
->  hw/tpm/Kconfig          |   7 +
->  hw/tpm/meson.build      |   1 +
->  hw/tpm/tpm_tis.h        |   3 +
->  hw/tpm/tpm_tis_common.c |  36 ++-
->  hw/tpm/tpm_tis_i2c.c    | 540 ++++++++++++++++++++++++++++++++++++++++
->  hw/tpm/trace-events     |   6 +
->  include/hw/acpi/tpm.h   |  31 +++
->  include/sysemu/tpm.h    |   3 +
->  10 files changed, 652 insertions(+), 8 deletions(-)
->  create mode 100644 hw/tpm/tpm_tis_i2c.c
->
-> --
-> 2.37.2
->
 
