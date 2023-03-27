@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7E06CA55B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1542D6CA561
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:17:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgmgp-0002mx-GP; Mon, 27 Mar 2023 09:15:11 -0400
+	id 1pgmha-0003MS-Ju; Mon, 27 Mar 2023 09:15:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pgmgm-0002kD-VK
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:15:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pgmgj-0001pO-2s
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:15:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679922903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Zv4Vcg2eIl2ktnMY8c5mrUNzhhYHtvOW2ohZj7cVldE=;
- b=SJfcpD3bLEjJw8ISrYvVcgDhjwvt+KZRLh3qTIxwa5nog+blSBI2DTslUB75CIcm2Hvcx6
- uxo9MDZa9R4OLjSh2isDv1OlMOek4Rjhb8dOO6YIXk7gBk9KJqGMb/+Myg993mlDikv+w9
- vegRuml5Ut6etN1z9P3ih6ST5iZsur0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-PmgY0Cs5OO2BamJ5zRiT-w-1; Mon, 27 Mar 2023 09:15:00 -0400
-X-MC-Unique: PmgY0Cs5OO2BamJ5zRiT-w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE1B9858F09;
- Mon, 27 Mar 2023 13:14:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99FE6C15BA0;
- Mon, 27 Mar 2023 13:14:58 +0000 (UTC)
-Date: Mon, 27 Mar 2023 15:14:57 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Fam Zheng <fam@euphon.net>, qemu-stable@nongnu.org,
- Qing Wang <qinwang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH for-8.0 v2] aio-posix: fix race between epoll upgrade and
- aio_set_fd_handler()
-Message-ID: <ZCGW0TaUKriIVi4V@redhat.com>
-References: <20230323144859.1338495-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pgmhX-0003H6-VW
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:15:55 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pgmhV-0002EG-TD
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:15:55 -0400
+Received: by mail-wr1-x434.google.com with SMTP id l12so8736503wrm.10
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 06:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679922952;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
+ b=MIILrSg8ZQLQ07GY+TgJRUI8mbTVDgVxfrkQiytHeqInKIoDaVxMm7Hw7azJrMx35T
+ efId33cCjQFfRjEKGU45g07BwPNF8trvj/BrZY6/5qO673fAe1sF6I/e/fusjBCeamIx
+ EdtTKXd8WH3NjG/oYB3DNTF6e6XtEEglLHfkVkfW5tljtUT17vGwTtFfXaaJ3nB4lQZy
+ 1GNQ1G7ukHvk1UxhuiKycOvD0XXmrJYMTTtwcum0/JJa4KO6F3ty4gaD8z+RcoolBxbk
+ /gd8Gx7G7sZCxBGjG7HshDL+g6FU03Q9WadnDKdtj8TVwc3jtMhBMOZ7Vmf7iPdf87Ow
+ Xj7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679922952;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nVPcgNqV4+yTyF7JyxZthOMz/9y/APO3HAlemN7QWn4=;
+ b=JuNFhp00yJkKQoO/s1FDjvIyZdhSIxCoZuH45iC4U5W3GZKNQ4zVyaInUnoW3Z2hud
+ Olm94Kt4Z55DvU8TC86Z7hEPcEjwEuiUA5EavAG0QwzCzEXm1mIQFBJGfCIQnzFuflee
+ CxdLsStyOcpByXetRGnBG+FYEO0gid58zqRME3GZ/oHROj+IzjulJ70AZLXfw5JOFwQ2
+ jWUmSkc+gziXNhX6ABrWpJ3RBOZm37ABfMaQPKdNNWao25FgwL1vLNfuHyGprxfB03Bj
+ UuHWF1vqnNyubmiYj1HxWIpnTEjXnfoDSEvOY568gX9bc9/+MMyrX2rWBuF0V2beYlzF
+ E8Qg==
+X-Gm-Message-State: AAQBX9f/ZGqtzu6erqNWrsrsladJfcTmbVMV45qfl515b3qMUcWK6kzc
+ V6E8A2gHeYitBKoSxWqNE29W0Q==
+X-Google-Smtp-Source: AKy350ZJcxi5rMh/zgyyUt3cwi8K5JOFGX/9Gg7ZzTog0G0EFlmUVqFRRugOX65YGdZsRa+WbvaxRw==
+X-Received: by 2002:a5d:4b42:0:b0:2c7:454:cee8 with SMTP id
+ w2-20020a5d4b42000000b002c70454cee8mr9928980wrs.1.1679922952052; 
+ Mon, 27 Mar 2023 06:15:52 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ s13-20020a5d510d000000b002c794495f6fsm22054021wrt.117.2023.03.27.06.15.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Mar 2023 06:15:51 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 089A11FFB7;
+ Mon, 27 Mar 2023 14:15:51 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [Socratic RFC PATCH] include: attempt to document
+ device_class_set_props
+Date: Mon, 27 Mar 2023 14:15:43 +0100
+Message-Id: <20230327131543.2857052-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230323144859.1338495-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,33 +95,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 23.03.2023 um 15:48 hat Stefan Hajnoczi geschrieben:
-> If another thread calls aio_set_fd_handler() while the IOThread event
-> loop is upgrading from ppoll(2) to epoll(7) then we might miss new
-> AioHandlers. The epollfd will not monitor the new AioHandler's fd,
-> resulting in hangs.
-> 
-> Take the AioHandler list lock while upgrading to epoll. This prevents
-> AioHandlers from changing while epoll is being set up. If we cannot lock
-> because we're in a nested event loop, then don't upgrade to epoll (it
-> will happen next time we're not in a nested call).
-> 
-> The downside to taking the lock is that the aio_set_fd_handler() thread
-> has to wait until the epoll upgrade is finished, which involves many
-> epoll_ctl(2) system calls. However, this scenario is rare and I couldn't
-> think of another solution that is still simple.
-> 
-> Reported-by: Qing Wang <qinwang@redhat.com>
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2090998
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Fam Zheng <fam@euphon.net>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-> v2:
-> - Use qemu_lockcnt_inc_and_unlock() instead of qemu_lockcnt_unlock() [Paolo]
+I'm still not sure how I achieve by use case of the parent class
+defining the following properties:
 
-Thanks, applied to the block branch.
+  static Property vud_properties[] = {
+      DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
+      DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
+      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
+      DEFINE_PROP_END_OF_LIST(),
+  };
 
-Kevin
+But for the specialisation of the class I want the id to default to
+the actual device id, e.g.:
+
+  static Property vu_rng_properties[] = {
+      DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG),
+      DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
+      DEFINE_PROP_END_OF_LIST(),
+  };
+
+And so far the API for doing that isn't super clear.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/hw/qdev-core.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index bd50ad5ee1..d4bbc30c92 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
+ char *qdev_get_fw_dev_path(DeviceState *dev);
+ char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
+ 
++/**
++ * device_class_set_props(): add a set of properties to an device
++ * @dc: the parent DeviceClass all devices inherit
++ * @props: an array of properties, terminate by DEFINE_PROP_END_OF_LIST()
++ *
++ * This will add a set of properties to the object. It will fault if
++ * you attempt to add an existing property defined by a parent class.
++ * To modify an inherited property you need to use????
++ */
+ void device_class_set_props(DeviceClass *dc, Property *props);
+ 
+ /**
+-- 
+2.39.2
 
 
