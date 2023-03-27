@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9246C9D45
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D396C9D47
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:12:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pghux-0007KZ-UK; Mon, 27 Mar 2023 04:09:27 -0400
+	id 1pghuy-0007Lk-VU; Mon, 27 Mar 2023 04:09:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pghut-0007Gr-8v; Mon, 27 Mar 2023 04:09:23 -0400
+ id 1pghuu-0007I2-DM; Mon, 27 Mar 2023 04:09:24 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pghuq-00054X-55; Mon, 27 Mar 2023 04:09:23 -0400
+ id 1pghuq-00054j-AH; Mon, 27 Mar 2023 04:09:24 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowACnrWUkTyFksV29Cg--.4754S5;
+ by APP-05 (Coremail) with SMTP id zQCowACnrWUkTyFksV29Cg--.4754S6;
  Mon, 27 Mar 2023 16:09:11 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
@@ -27,33 +27,33 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 03/10] target/riscv: Remove check on RVH for
- riscv_cpu_virt_enabled
-Date: Mon, 27 Mar 2023 16:08:51 +0800
-Message-Id: <20230327080858.39703-4-liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 04/10] target/riscv: Remove check on RVH for
+ riscv_cpu_set_virt_enabled
+Date: Mon, 27 Mar 2023 16:08:52 +0800
+Message-Id: <20230327080858.39703-5-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230327080858.39703-1-liweiwei@iscas.ac.cn>
 References: <20230327080858.39703-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACnrWUkTyFksV29Cg--.4754S5
-X-Coremail-Antispam: 1UD129KBjvdXoWrtFWDuw4kZF47Gr1xCw47twb_yoWfuFc_uF
- 40gF1DZw1ru3W0yFy5Jr90yry7u34kJFy0gw47Kw17Gryj9Fy7Ja4ktws3Cw1Uuwn5Arnx
- Cw1xCw4xCr45XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbDxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWwA2048vs2IY02
- 0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM2
- 8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWl
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
- 8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
- jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
- kIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
- xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
- kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
- 6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
- CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUojjgUUUU
- U
+X-CM-TRANSID: zQCowACnrWUkTyFksV29Cg--.4754S6
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jry3XF4UGryrWFyxAF1UJrb_yoWDtFg_ua
+ 10gFs2qw1Uua10vFn8AFZ0vryxu34rGry0gw4xKa43GryjgFyfCa1kKrs3uw15Zr1fGrnx
+ tFnrA3srCr43XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbqxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
+ IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
+ F7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
+ 1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_
+ GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
+ x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
+ JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
+ ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+ 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+ IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+ 14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+ 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZ
+ X7UUUUU==
 X-Originating-IP: [180.175.29.170]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -78,33 +78,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since env->virt.VIRT_ONOFF is initialized as false, and will not be set
-to true when RVH is disabled, so we can just return this bit(false) when
-RVH is not disabled.
+In current implementation, riscv_cpu_set_virt_enabled is only called when
+RVH is enabled.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 ---
- target/riscv/cpu_helper.c | 4 ----
- 1 file changed, 4 deletions(-)
+ target/riscv/cpu_helper.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index e140d6a8d0..62fd2c90f1 100644
+index 62fd2c90f1..b286118a6b 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -560,10 +560,6 @@ void riscv_cpu_set_geilen(CPURISCVState *env, target_ulong geilen)
- 
- bool riscv_cpu_virt_enabled(CPURISCVState *env)
- {
--    if (!riscv_has_ext(env, RVH)) {
--        return false;
--    }
--
+@@ -563,12 +563,9 @@ bool riscv_cpu_virt_enabled(CPURISCVState *env)
      return get_field(env->virt, VIRT_ONOFF);
  }
  
++/* This function can only be called to set virt when RVH is enabled */
+ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
+ {
+-    if (!riscv_has_ext(env, RVH)) {
+-        return;
+-    }
+-
+     /* Flush the TLB on all virt mode changes. */
+     if (get_field(env->virt, VIRT_ONOFF) != enable) {
+         tlb_flush(env_cpu(env));
 -- 
 2.25.1
 
