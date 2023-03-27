@@ -2,86 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D105C6CA5EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B866CA60B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:36:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgmuG-0003qq-C3; Mon, 27 Mar 2023 09:29:04 -0400
+	id 1pgn0y-0005XV-IC; Mon, 27 Mar 2023 09:36:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pgmu9-0003k8-Aq
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:28:57 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pgmu7-0001w4-7R
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:28:56 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id bk5so6321918oib.6
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 06:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1679923733;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Zv7HvMZLSBerHD/Kvw7azBLt4ZK4kS6YZHGzUFBziLI=;
- b=oIQ07pNE2GubpV5kf3O1x/l+xjhkyFbqEjMBl+2EtwmsHOIFhnrp3ft57P0zwnOhnG
- pFciOesTJNLh0IL1O/787CHAVG1eA2Bdu3cF57Zdow+hqCOeQKSoFyRgRhr0sxEqHCxM
- KmkbE1hGqvJe1ZXMd9LC32JHGLM6FfINw/n0UVL4LqVrn7+DQPtzNUwvIl0cckoC4Di1
- FHh/Z0895TgyzTvFjOVpoIL2/b777km3fSpuf40caZDmeJ384XvjzkCV5HdMNrVCmhTT
- 6EHj+m633itBtQARXDKVNVgNu21+M1uJRXV/mP0dtt2a4pCtxohqF9V6Y7Wu6FbsRrAj
- GeZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679923733;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Zv7HvMZLSBerHD/Kvw7azBLt4ZK4kS6YZHGzUFBziLI=;
- b=XRaGgu9bZLre3kMaApoxAmKFtHzZPm3SFIc9uJFkOZEknyEqFi8KY3RCbMvde2n9we
- XOMjArFaOL033Ltq+T5P5rZZshk3aWl1CQbbWWWU9wJ+omGEM6V4+AkIUqrElccHEXdO
- x3cMUkbDuLKAeCCMc0uEZ6UEdRKahDn6U5IfZcmP3TAQpu7jlK97NVBxa3S1IWwhqP08
- Ky+GleJEEJuG/44QcQWzEyiYEgb5+CpUwrMn7e4vgAxBufxao7mSSrAlcTYNkslrkANm
- H52ilEujpa2aY1PAzGGL37gKuCBrAbs6HcJXjocMvCEx929rBRtHFyPkRqobIWMhfoXo
- ZkDw==
-X-Gm-Message-State: AO0yUKVENuooCcW8BLKngxJomevG+aIw/6sFyrrTRITeGQnd/UV8yJSn
- pVJTJVs5pOYYpsJu4GwD7wHKKQ==
-X-Google-Smtp-Source: AK7set8h8H+3MULYSysiOawxV94XF2OAKAayhDflLizo1zj9KlKT9kCMT+UI3ph8wLsVI5zUDo0Rrg==
-X-Received: by 2002:a54:4f03:0:b0:386:ef98:e5d5 with SMTP id
- e3-20020a544f03000000b00386ef98e5d5mr5360656oiy.24.1679923733501; 
- Mon, 27 Mar 2023 06:28:53 -0700 (PDT)
-Received: from [192.168.68.107] ([177.95.89.231])
- by smtp.gmail.com with ESMTPSA id
- o8-20020a0568080f8800b00383b371f2a7sm11000045oiw.42.2023.03.27.06.28.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 06:28:53 -0700 (PDT)
-Message-ID: <3a6a58c9-3eef-2162-94a6-bc76c066970a@ventanamicro.com>
-Date: Mon, 27 Mar 2023 10:28:49 -0300
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pgn0g-0005UG-PH
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:35:43 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pgn0c-00070s-84
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:35:41 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32RD44a6011363; Mon, 27 Mar 2023 13:35:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=aQnq5+Ue+jypJ/itJsU0gGeEqp4CAfWMzPijTzf3Jnc=;
+ b=TQZOn/5A/VfLX2eZs89jMVRH4w2p0l/q3clWIp2vF6PNfXPIWzoIZoaU0oZUgIHliuBJ
+ Y8rWsp1iCq/XYicao5iaoev6f9DvV3jh436bFU9UFMMnMH0xlhFRPrDKu7TDPYmQ3T4c
+ ILp+PtFyf0cOmImt17yZalwQXzrZS+5ByeWZLImNNuPgvTR21YrpleuxsIBxqDFDjDbr
+ DahaowYBnCMK1EWZ1O2dC+xWJSU4hWLiCmP10uenLcueOufbmqRQNu6t6HStpOtuIplS
+ 2GkDlJpUF1UDRoYw169pN0OvI6sT5utSSmkIUV1cuoFYif6yOPWeCvynACtU30OSU0/M vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pjasrh8eb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 13:35:33 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32RDKdv5001963;
+ Mon, 27 Mar 2023 13:35:32 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pjasrh8db-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 13:35:32 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RAGk7Q030303;
+ Mon, 27 Mar 2023 13:35:30 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3phr7fjud3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 13:35:30 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32RDZQ7826477158
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Mar 2023 13:35:26 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A6672004D;
+ Mon, 27 Mar 2023 13:35:26 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4599220043;
+ Mon, 27 Mar 2023 13:35:26 +0000 (GMT)
+Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.56])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Mar 2023 13:35:26 +0000 (GMT)
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, david@redhat.com, thuth@redhat.com,
+ borntraeger@de.ibm.com, frankja@linux.ibm.com, fiuczy@linux.ibm.com,
+ pasic@linux.ibm.com, nsg@linux.ibm.com, berrange@redhat.com,
+ alex.bennee@linaro.org, armbru@redhat.com
+Subject: [PATCH v5 0/1] util/async-teardown: appear in
+ query-command-line-options
+Date: Mon, 27 Mar 2023 15:35:24 +0200
+Message-Id: <20230327133525.50318-1-imbrenda@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 5/5] target/riscv: Add pointer mask support for
- instruction fetch
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
- <20230327100027.61160-6-liweiwei@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230327100027.61160-6-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: _0OCfutQ2m5ZO9QmNMZqg4nbtPZoZS1L
+X-Proofpoint-GUID: AQ4lH6v9wiEV4S895dkaFQrIhfRSwlHA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 phishscore=0 impostorscore=0
+ adultscore=0 mlxscore=0 priorityscore=1501 spamscore=0 clxscore=1015
+ mlxlogscore=976 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270107
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,141 +112,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Add new -teardown option with an async=on|off parameter. It is visible
+in the output of query-command-line-options QMP command, so it can be
+discovered and used by libvirt.
+
+The option -async-teardown is now redundant. We'd normally deprecate it
+and remove it after a grace period, but it was introduced only in the
+previous version and it had no users, since it was not visible in the
+query-command-line-options QMP command. Drop it.
 
 
-On 3/27/23 07:00, Weiwei Li wrote:
-> Transform the fetch address before page walk when pointer mask is
-> enabled for instruction fetch.
-> 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
+v4->v5
+* reword commit message [Markus]
+* document the removal of the -async-teardown commandline option in
+  docs/about/removed-features.rst [Markus]
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+v3->v4
+* completely remove the useless -async-teardown option, since it was
+  not wired up properly and it had no users [thomas]
+* QEMU should be always uppercase in text and documentation [thomas]
+* if the new -teardown option fails to parse, exit immediately instead
+  of returning an error [thomas]
 
->   target/riscv/cpu.h        |  1 +
->   target/riscv/cpu_helper.c | 25 +++++++++++++++++++++++--
->   target/riscv/csr.c        |  2 --
->   3 files changed, 24 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 638e47c75a..57bd9c3279 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -368,6 +368,7 @@ struct CPUArchState {
->   #endif
->       target_ulong cur_pmmask;
->       target_ulong cur_pmbase;
-> +    bool cur_pminsn;
->   
->       /* Fields from here on are preserved across CPU reset. */
->       QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index f88c503cf4..77132a3e0c 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -124,6 +124,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->   void riscv_cpu_update_mask(CPURISCVState *env)
->   {
->       target_ulong mask = -1, base = 0;
-> +    bool insn = false;
->       /*
->        * TODO: Current RVJ spec does not specify
->        * how the extension interacts with XLEN.
-> @@ -135,18 +136,21 @@ void riscv_cpu_update_mask(CPURISCVState *env)
->               if (env->mmte & M_PM_ENABLE) {
->                   mask = env->mpmmask;
->                   base = env->mpmbase;
-> +                insn = env->mmte & MMTE_M_PM_INSN;
->               }
->               break;
->           case PRV_S:
->               if (env->mmte & S_PM_ENABLE) {
->                   mask = env->spmmask;
->                   base = env->spmbase;
-> +                insn = env->mmte & MMTE_S_PM_INSN;
->               }
->               break;
->           case PRV_U:
->               if (env->mmte & U_PM_ENABLE) {
->                   mask = env->upmmask;
->                   base = env->upmbase;
-> +                insn = env->mmte & MMTE_U_PM_INSN;
->               }
->               break;
->           default:
-> @@ -161,6 +165,7 @@ void riscv_cpu_update_mask(CPURISCVState *env)
->           env->cur_pmmask = mask;
->           env->cur_pmbase = base;
->       }
-> +    env->cur_pminsn = insn;
->   }
->   
->   #ifndef CONFIG_USER_ONLY
-> @@ -1225,6 +1230,17 @@ static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access_type)
->       riscv_pmu_incr_ctr(cpu, pmu_event_type);
->   }
->   
-> +static target_ulong adjust_pc_address(CPURISCVState *env, target_ulong pc)
-> +{
-> +    target_ulong adjust_pc = pc;
-> +
-> +    if (env->cur_pminsn) {
-> +        adjust_pc = (adjust_pc & ~env->cur_pmmask) | env->cur_pmbase;
-> +    }
-> +
-> +    return adjust_pc;
-> +}
-> +
->   bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->                           MMUAccessType access_type, int mmu_idx,
->                           bool probe, uintptr_t retaddr)
-> @@ -1232,6 +1248,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->       RISCVCPU *cpu = RISCV_CPU(cs);
->       CPURISCVState *env = &cpu->env;
->       vaddr im_address;
-> +    vaddr orig_address = address;
->       hwaddr pa = 0;
->       int prot, prot2, prot_pmp;
->       bool pmp_violation = false;
-> @@ -1248,6 +1265,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->       qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
->                     __func__, address, access_type, mmu_idx);
->   
-> +    if (access_type == MMU_INST_FETCH) {
-> +        address = adjust_pc_address(env, address);
-> +    }
-> +
->       /* MPRV does not affect the virtual-machine load/store
->          instructions, HLV, HLVX, and HSV. */
->       if (riscv_cpu_two_stage_lookup(mmu_idx)) {
-> @@ -1351,13 +1372,13 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->       }
->   
->       if (ret == TRANSLATE_SUCCESS) {
-> -        tlb_set_page(cs, address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
-> +        tlb_set_page(cs, orig_address & ~(tlb_size - 1), pa & ~(tlb_size - 1),
->                        prot, mmu_idx, tlb_size);
->           return true;
->       } else if (probe) {
->           return false;
->       } else {
-> -        raise_mmu_exception(env, address, access_type, pmp_violation,
-> +        raise_mmu_exception(env, orig_address, access_type, pmp_violation,
->                               first_stage_error,
->                               riscv_cpu_virt_enabled(env) ||
->                                   riscv_cpu_two_stage_lookup(mmu_idx),
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d522efc0b6..4544c9d934 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -3511,8 +3511,6 @@ static RISCVException write_mmte(CPURISCVState *env, int csrno,
->       /* for machine mode pm.current is hardwired to 1 */
->       wpri_val |= MMTE_M_PM_CURRENT;
->   
-> -    /* hardwiring pm.instruction bit to 0, since it's not supported yet */
-> -    wpri_val &= ~(MMTE_M_PM_INSN | MMTE_S_PM_INSN | MMTE_U_PM_INSN);
->       env->mmte = wpri_val | PM_EXT_DIRTY;
->       riscv_cpu_update_mask(env);
->   
+v2->v3
+* add a new teardown option with an async parameter [Markus]
+* reworded documentation of existing -async-teardown option so that it
+  points to the new teardown option
+
+v1->v2
+* remove the unneeded .implied_opt_name initializer [Thomas]
+
+Claudio Imbrenda (1):
+  util/async-teardown: wire up query-command-line-options
+
+ docs/about/removed-features.rst |  5 +++++
+ os-posix.c                      | 15 +++++++++++++--
+ qemu-options.hx                 | 33 +++++++++++++++++++--------------
+ util/async-teardown.c           | 21 +++++++++++++++++++++
+ 4 files changed, 58 insertions(+), 16 deletions(-)
+
+-- 
+2.39.2
+
 
