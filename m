@@ -2,105 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73716CAB96
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A7E6CAB9F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:12:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgqMJ-0004hM-V2; Mon, 27 Mar 2023 13:10:15 -0400
+	id 1pgqOB-00082x-22; Mon, 27 Mar 2023 13:12:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pgqM8-0004H5-NE; Mon, 27 Mar 2023 13:10:04 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pgqM6-0006AY-4L; Mon, 27 Mar 2023 13:10:04 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id C82513200981;
- Mon, 27 Mar 2023 13:09:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 27 Mar 2023 13:09:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1679936996; x=
- 1680023396; bh=mQvIYD/e/q3Puo/9of3k/I1ku0w9UbsK+M4+27YdQUY=; b=U
- ERs4T/1f8kgi++zL/6M9bGA//d/6GK133Q2XHzaS9iHFzYD7GzfUdEQgfbX4n/FQ
- du4jDYBR41SLrPzO+QBFFoNWVcXOu4px88fbv6C9aZE5Q5zleSWk26WYJrWUh+RB
- hD0aaa7+OsmUiMg90R9e6DsnjL6gkuIDxaPNIMsXLlPbLhXmHf93DOHwjRDMh0r/
- 9cjDYnxJIyO0BxE5RHgPU7XF4bUluYWyJC2EQsXsQJXomyMauboDRADy00bB0eek
- 2ZrttkKcclFKAx0j1zxYbMIDUYid2PkQLhQ5d9T+WKlppJJerIDLpDlHMNP0btXU
- B7TlaEU5mb6TlQ7No8W2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1679936996; x=
- 1680023396; bh=mQvIYD/e/q3Puo/9of3k/I1ku0w9UbsK+M4+27YdQUY=; b=C
- XVv3Wh2x32whHjr5reWdz3/4eNGi9Ug3uaNNOiaLp8NDJx1cG1eS33X8U1JvSykB
- m5F6l0jDwgycPgoQ+0AmPDUsoDIUgx8u+Qlek0j9ORnN9hqWiWpXlyS/CPWb88+k
- 7kaQeH1Rs8YAhmM+nkYo2T0y5uiX3l4LmNU8TjqidhrF62QfDFtck+lqduIDaFN+
- SHuX/rfJDZWj6uda7NDRbRc1TjUkTh4MlM0YvZLCnda5ad4vAm9eRItZN0EgBVmf
- rsOJdULKU/VXTazcY8jncrvpa5p+IexPitYC48r7c9nC3oltiDthyHE/OVDoMMDX
- SsgRtpn26s+eJh7pI8idQ==
-X-ME-Sender: <xms:5M0hZG6q_edAvWORG3mUxLyeDmbDqxjpvTAG_dRPzNNwnwXwFrzQ6g>
- <xme:5M0hZP6AfnccMIXJS6weJgum5GB3b0-5GOUyhj5KZLTUlkpwgZY6fHUqG4JNJnBqm
- s1HisDmGjldsoKwBTA>
-X-ME-Received: <xmr:5M0hZFd4Sa62EQYvHf8hkgqSoan6XUu-okECSbI8g2pqsPnsqqHtzLuHZciz7LTktawdUWLxDNbHZtaA760wi3vb81Bf-DpSnYuYLT4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehvddgudduudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedu
- jedugeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:5M0hZDLTfd4DzGU7w-PN-ajekWkZ94PwcqR-4l1PWu-c-9zmYPhIAA>
- <xmx:5M0hZKKcrRG-pbrGmvezi3r0Rmnqqr47akCvAgjevDM_ejSXjTTXYw>
- <xmx:5M0hZEzZ4-NuB5IzNt6FldFW0ov9UwJMq8CeQRDYAgqesK9fGlf2rw>
- <xmx:5M0hZHCbHCLGLEphLAjInq_oJGplPRc77YmvkxCE6A30NkHEzr7BkQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Mar 2023 13:09:54 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Klaus Jensen <k.jensen@samsung.com>, Jim Harris <james.r.harris@intel.com>
-Subject: [PULL 2/2] hw/nvme: fix missing DNR on compare failure
-Date: Mon, 27 Mar 2023 19:09:44 +0200
-Message-Id: <20230327170944.57033-3-its@irrelevant.dk>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230327170944.57033-1-its@irrelevant.dk>
-References: <20230327170944.57033-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1pgqO8-00082h-OV
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:12:08 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1pgqO5-0006vv-Sx
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:12:08 -0400
+Received: by mail-wr1-x431.google.com with SMTP id r11so9538327wrr.12
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1679937124;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=cqkzZJEl7/qe/O8J466bPKcuBIvlXvoUrtgOOgCX6r8=;
+ b=aJd5aBoG37HYFehm51vNLgLJWJE5rW7PVR2eCMlnQyEfquAI4aPVaZ9f71X3LEUmtO
+ mOA2ladTPbj/FkeH35U7qpVEGleGDdrazUGStwy017mCatbkOkmRKJZp5RgNIRxHmS8V
+ wZnAJXwbbRuwG5IMmFgSSAdYc3dotTMX5++JA+vIpik8oTHlgmv5mi7QclKKI1TMOabx
+ oTYBEJJtGKP0aCBaVhoW6sCteWAlxg4iAwJw2cnfkcfXAhRUj5h7wMAvGF2/tsL4baW1
+ 5ke7SjzPewH+KeIhKYTB/g8nmBL03935F5zoSBxpQO440waoWh52SUA7AvmPUxPSzhRz
+ LOCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679937124;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cqkzZJEl7/qe/O8J466bPKcuBIvlXvoUrtgOOgCX6r8=;
+ b=UTlgNVuJ7e4aRS3gMw8gFPNOQeUDBBf75HO6wZY4Tv+BHGxIaSSQ8oPSC2ud+vN1rR
+ cQPmQAItC3e2gRADqD9vTv4R7mNaHgiYtPhiPiBsXj6mjwIRbJ7BMJcYIob8dmTKyX4j
+ ogCmX5ObkFL/xE67d3WICctOK9x7z+H8pmVCh5celqgVFGnBbtf+pNPLhRTpDwx0rcUM
+ +3GCRDYBd6S8EtTH6WQvnV5VClxY1O/FkvFeC5n7dfsc5ONJirAvE8wBWtRssvrmsvfw
+ ErAUytow219Mu3QapDN8t5510iNcxW2e9TvqXNTwK7N7EjrieiQfRMvvaY2sB+BEGSTT
+ UnDg==
+X-Gm-Message-State: AAQBX9cqk7BTNUM/AI50zIoJJ4BNR961XVbC8JV7i1bxWr5STnOJgsH6
+ rUBrfqjYZGb+CjgcQiIgURFn49O5heaHDLak7lRiIw==
+X-Google-Smtp-Source: AKy350aSHv/gjyYc+1BhS0lbjH/QgMcHJnWrKms+wgTtJKYAkTGgmLJ9/nXDhob0fYow081DdPZ2fnT3QVH+fpHfAjM=
+X-Received: by 2002:adf:fc84:0:b0:2cf:f053:a32e with SMTP id
+ g4-20020adffc84000000b002cff053a32emr2481854wrr.6.1679937124160; Mon, 27 Mar
+ 2023 10:12:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1569; i=k.jensen@samsung.com;
- h=from:subject; bh=os38Xj7WvGjGVhRwSYDfcy2fhOw5hCYLx7/Yt8fjVCE=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGQhzdfszkCtHrXR+/QqeCQCUCMCKax3wsRGO
- 0LktljCMWcGb4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJkIc3XAAoJEE3hrzFt
- Tw3pdqIH/3GRRekT52TYOdKdCNJaTi//ytIi1hhsqvR0H080A1XXfiIRjjhS93KopYrlu8AUPp5
- L511YfsPUyeM4fM94GkvsegpClgPcqIVTGIlG2aYL2wDLMamlxEewZRZs/1Jm3Ws8WjrtDkKiJ0
- UlayeQNNhud9Q6l4b8V8TOdm6VOSBDjQWbLUEKkjqymE2jIXaKsTSu6kv+PHKWMWkoZlMFqgr/m
- 4DjR3bnA8FcgI6qW/5CkYj50Q1k/u/vLnmrPVoLhTs0tn0yUz4ftc2KUoP+oAj2mTBOZvMb8dZB
- PhYEez/LLUYEFeCdfs6/U43BKulv8nHTdk+kKa7LsjvJe57N8//wJab4
-X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
- fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230324230904.3710289-1-wuhaotsh@google.com>
+ <20230324230904.3710289-5-wuhaotsh@google.com>
+ <29f7e479-2e2c-a9d6-d5f1-440cdfce0cb7@kaod.org>
+In-Reply-To: <29f7e479-2e2c-a9d6-d5f1-440cdfce0cb7@kaod.org>
+From: Hao Wu <wuhaotsh@google.com>
+Date: Mon, 27 Mar 2023 10:11:50 -0700
+Message-ID: <CAGcCb13gHDdO=hqo_UztH1=BOZVMbXNYKNKcdVEZmqT8gBuBmg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] hw/ipmi: Refactor IPMI interface
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: minyard@acm.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
+ hskinnemoen@google.com, titusr@google.com, peter.maydell@linaro.org, 
+ Joel Stanley <joel@jms.id.au>, Frederic Barrat <frederic.barrat@fr.ibm.com>
+Content-Type: multipart/alternative; boundary="00000000000088759905f7e4d70d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=wuhaotsh@google.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,51 +89,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Klaus Jensen <k.jensen@samsung.com>
+--00000000000088759905f7e4d70d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Even if the host is somehow using compare to do compare-and-write, the
-host should be notified immediately about the compare failure and not
-have to wait for the driver to potentially retry the command.
+Hi, Cedric
 
-Fixes: 0a384f923f51 ("hw/block/nvme: add compare command")
-Reported-by: Jim Harris <james.r.harris@intel.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The naming scheme is suggested by Corey in a previous review:
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 291009545f03..8b7be1420912 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -2378,7 +2378,7 @@ static void nvme_compare_mdata_cb(void *opaque, int ret)
- 
-         for (bufp = buf; mbufp < end; bufp += ns->lbaf.ms, mbufp += ns->lbaf.ms) {
-             if (memcmp(bufp + pil, mbufp + pil, ns->lbaf.ms - pil)) {
--                req->status = NVME_CMP_FAILURE;
-+                req->status = NVME_CMP_FAILURE | NVME_DNR;
-                 goto out;
-             }
-         }
-@@ -2387,7 +2387,7 @@ static void nvme_compare_mdata_cb(void *opaque, int ret)
-     }
- 
-     if (memcmp(buf, ctx->mdata.bounce, ctx->mdata.iov.size)) {
--        req->status = NVME_CMP_FAILURE;
-+        req->status = NVME_CMP_FAILURE | NVME_DNR;
-         goto out;
-     }
- 
-@@ -2436,7 +2436,7 @@ static void nvme_compare_data_cb(void *opaque, int ret)
-     }
- 
-     if (memcmp(buf, ctx->data.bounce, ctx->data.iov.size)) {
--        req->status = NVME_CMP_FAILURE;
-+        req->status = NVME_CMP_FAILURE | NVME_DNR;
-         goto out;
-     }
- 
--- 
-2.39.2
+https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02691.html
 
+I originally kept "IpmIBmc" for the host side code talking to BMC but it
+might also cause confusion as well. I'm not sure which name is the best
+here. Maybe Corey can shed some light on this one? Thank you!
+
+Best Regards,
+
+On Mon, Mar 27, 2023 at 5:34=E2=80=AFAM C=C3=A9dric Le Goater <clg@kaod.org=
+> wrote:
+
+> Hello Hao,
+>
+> On 3/25/23 00:09, Hao Wu wrote:
+> > This patch refactors the IPMI interface so that it can be used by both
+> > the BMC side and core-side simulation.
+> >
+> > Detail changes:
+> > (1) Split IPMIInterface into IPMIInterfaceHost (for host side
+> >      simulation) and IPMIInterfaceClient (for BMC side simulation).
+> > (2) rename handle_rsp -> handle_msg so the name fits both BMC side and
+> >      Core side.
+> > (3) Add a new class IPMICore. This class represents a simulator/externa=
+l
+> >      connection for both BMC and Core side emulation.
+> > (4) Change the original IPMIBmc to IPMIBmcHost, representing host side
+> >      simulation.
+> > (5) Add a new type IPMIBmcClient representing BMC side simulation.
+> > (6) Appy the changes to  the entire IPMI library.
+>
+> 'IPMIBmcHost' is a BMC object model (internal or external) and
+> 'IPMIBmcClient' is a host object model ?
+>
+> [ ... ]
+>
+> > @@ -267,15 +267,15 @@ void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor=
+)
+> >    * Instantiate the machine BMC. PowerNV uses the QEMU internal
+> >    * simulator but it could also be external.
+> >    */
+> > -IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
+> > +IPMIBmcHost *pnv_bmc_create(PnvPnor *pnor)
+> >   {
+> >       Object *obj;
+> >
+> >       obj =3D object_new(TYPE_IPMI_BMC_SIMULATOR);
+> >       qdev_realize(DEVICE(obj), NULL, &error_fatal);
+> > -    pnv_bmc_set_pnor(IPMI_BMC(obj), pnor);
+> > +    pnv_bmc_set_pnor(IPMI_BMC_HOST(obj), pnor);
+> >
+> > -    return IPMI_BMC(obj);
+> > +    return IPMI_BMC_HOST(obj);
+>
+> QEMU PowerNV machines model the host side of OpenPOWER systems which
+> have an Aspeed SoC based BMC for management. The routine above creates
+> an Aspeed *BMC* object model for the PowerNV *host* machine. I find
+> 'IPMIBmcHost' confusing. It shouldn't have a 'Host' suffix I think.
+>
+> 'IPMIBmcClient' sounds ok, or 'IPMIBmcPeer' maybe.
+>
+> Thanks,
+>
+> C.
+>
+>
+
+--00000000000088759905f7e4d70d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi, Cedric<div><br></div><div>The naming scheme is suggest=
+ed by Corey in a previous review:</div><div><br></div><div><a href=3D"https=
+://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02691.html">https://lis=
+ts.gnu.org/archive/html/qemu-devel/2021-09/msg02691.html</a><br></div><div>=
+<br></div><div>I originally kept &quot;IpmIBmc&quot; for the host side code=
+ talking to BMC but it might also cause confusion as well. I&#39;m not sure=
+ which name is the best here. Maybe Corey can shed some light on this one? =
+Thank you!</div><div><br></div><div>Best Regards,</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 27, 2023=
+ at 5:34=E2=80=AFAM C=C3=A9dric Le Goater &lt;<a href=3D"mailto:clg@kaod.or=
+g">clg@kaod.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">Hello Hao,<br>
+<br>
+On 3/25/23 00:09, Hao Wu wrote:<br>
+&gt; This patch refactors the IPMI interface so that it can be used by both=
+<br>
+&gt; the BMC side and core-side simulation.<br>
+&gt; <br>
+&gt; Detail changes:<br>
+&gt; (1) Split IPMIInterface into IPMIInterfaceHost (for host side<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 simulation) and IPMIInterfaceClient (for BMC side =
+simulation).<br>
+&gt; (2) rename handle_rsp -&gt; handle_msg so the name fits both BMC side =
+and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Core side.<br>
+&gt; (3) Add a new class IPMICore. This class represents a simulator/extern=
+al<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 connection for both BMC and Core side emulation.<b=
+r>
+&gt; (4) Change the original IPMIBmc to IPMIBmcHost, representing host side=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 simulation.<br>
+&gt; (5) Add a new type IPMIBmcClient representing BMC side simulation.<br>
+&gt; (6) Appy the changes to=C2=A0 the entire IPMI library.<br>
+<br>
+&#39;IPMIBmcHost&#39; is a BMC object model (internal or external) and<br>
+&#39;IPMIBmcClient&#39; is a host object model ?<br>
+<br>
+[ ... ]<br>
+<br>
+&gt; @@ -267,15 +267,15 @@ void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pno=
+r)<br>
+&gt;=C2=A0 =C2=A0 * Instantiate the machine BMC. PowerNV uses the QEMU inte=
+rnal<br>
+&gt;=C2=A0 =C2=A0 * simulator but it could also be external.<br>
+&gt;=C2=A0 =C2=A0 */<br>
+&gt; -IPMIBmc *pnv_bmc_create(PnvPnor *pnor)<br>
+&gt; +IPMIBmcHost *pnv_bmc_create(PnvPnor *pnor)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0Object *obj;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0obj =3D object_new(TYPE_IPMI_BMC_SIMULATOR);=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_realize(DEVICE(obj), NULL, &amp;error_f=
+atal);<br>
+&gt; -=C2=A0 =C2=A0 pnv_bmc_set_pnor(IPMI_BMC(obj), pnor);<br>
+&gt; +=C2=A0 =C2=A0 pnv_bmc_set_pnor(IPMI_BMC_HOST(obj), pnor);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 return IPMI_BMC(obj);<br>
+&gt; +=C2=A0 =C2=A0 return IPMI_BMC_HOST(obj);<br>
+<br>
+QEMU PowerNV machines model the host side of OpenPOWER systems which<br>
+have an Aspeed SoC based BMC for management. The routine above creates<br>
+an Aspeed *BMC* object model for the PowerNV *host* machine. I find<br>
+&#39;IPMIBmcHost&#39; confusing. It shouldn&#39;t have a &#39;Host&#39; suf=
+fix I think.<br>
+<br>
+&#39;IPMIBmcClient&#39; sounds ok, or &#39;IPMIBmcPeer&#39; maybe.<br>
+<br>
+Thanks,<br>
+<br>
+C.<br>
+<br>
+</blockquote></div>
+
+--00000000000088759905f7e4d70d--
 
