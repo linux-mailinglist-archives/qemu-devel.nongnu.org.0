@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D396C9D47
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A56D6C9D40
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:11:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pghuy-0007Lk-VU; Mon, 27 Mar 2023 04:09:29 -0400
+	id 1pghuw-0007JM-Od; Mon, 27 Mar 2023 04:09:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pghuu-0007I2-DM; Mon, 27 Mar 2023 04:09:24 -0400
+ id 1pghut-0007H9-FX; Mon, 27 Mar 2023 04:09:23 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pghuq-00054j-AH; Mon, 27 Mar 2023 04:09:24 -0400
+ id 1pghuq-00054g-6q; Mon, 27 Mar 2023 04:09:23 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowACnrWUkTyFksV29Cg--.4754S6;
- Mon, 27 Mar 2023 16:09:11 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACnrWUkTyFksV29Cg--.4754S7;
+ Mon, 27 Mar 2023 16:09:12 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 04/10] target/riscv: Remove check on RVH for
- riscv_cpu_set_virt_enabled
-Date: Mon, 27 Mar 2023 16:08:52 +0800
-Message-Id: <20230327080858.39703-5-liweiwei@iscas.ac.cn>
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 05/10] target/riscv: Convert env->virt to a bool
+ env->virt_enabled
+Date: Mon, 27 Mar 2023 16:08:53 +0800
+Message-Id: <20230327080858.39703-6-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230327080858.39703-1-liweiwei@iscas.ac.cn>
 References: <20230327080858.39703-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACnrWUkTyFksV29Cg--.4754S6
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jry3XF4UGryrWFyxAF1UJrb_yoWDtFg_ua
- 10gFs2qw1Uua10vFn8AFZ0vryxu34rGry0gw4xKa43GryjgFyfCa1kKrs3uw15Zr1fGrnx
- tFnrA3srCr43XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbqxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
- IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
- F7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
- 1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_
- GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
- x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
- JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
- ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
- 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
- IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
- 14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
- 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZ
- X7UUUUU==
+X-CM-TRANSID: zQCowACnrWUkTyFksV29Cg--.4754S7
+X-Coremail-Antispam: 1UD129KBjvJXoWxAF4xZw45GF1xKr4kGFWUCFg_yoWrXr15pr
+ 4kG3yIkrWkJrZxCayxtFyDXr15Jws0gr4Yk397uw4xGa13JrW3WrnrKw4IyFs5XF18ur1j
+ 9F4UAryayr48Zr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUPI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+ kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+ z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+ 4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j
+ 6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x
+ IIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_
+ Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8c
+ xan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+ rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+ CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x02
+ 67AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+ 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQ
+ SdkUUUUU=
 X-Originating-IP: [180.175.29.170]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -78,35 +77,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In current implementation, riscv_cpu_set_virt_enabled is only called when
-RVH is enabled.
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Currently we only use the env->virt to encode the virtual mode enabled
+status. Let's make it a bool type.
+
+Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <20230325145348.1208-1-zhiwei_liu@linux.alibaba.com>
 ---
- target/riscv/cpu_helper.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ target/riscv/cpu.h        | 2 +-
+ target/riscv/cpu_bits.h   | 3 ---
+ target/riscv/cpu_helper.c | 6 +++---
+ target/riscv/machine.c    | 6 +++---
+ target/riscv/translate.c  | 4 ++--
+ 5 files changed, 9 insertions(+), 12 deletions(-)
 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5adefe4ab5..22dc5ddb95 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -183,7 +183,7 @@ struct CPUArchState {
+ #ifndef CONFIG_USER_ONLY
+     target_ulong priv;
+     /* This contains QEMU specific information about the virt state. */
+-    target_ulong virt;
++    bool virt_enabled;
+     target_ulong geilen;
+     uint64_t resetvec;
+ 
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index fca7ef0cef..45ddb00aa5 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -607,9 +607,6 @@ typedef enum {
+ #define PRV_H 2 /* Reserved */
+ #define PRV_M 3
+ 
+-/* Virtulisation Register Fields */
+-#define VIRT_ONOFF          1
+-
+ /* RV32 satp CSR field masks */
+ #define SATP32_MODE         0x80000000
+ #define SATP32_ASID         0x7fc00000
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 62fd2c90f1..b286118a6b 100644
+index b286118a6b..c7bc3fc553 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -563,12 +563,9 @@ bool riscv_cpu_virt_enabled(CPURISCVState *env)
-     return get_field(env->virt, VIRT_ONOFF);
+@@ -560,18 +560,18 @@ void riscv_cpu_set_geilen(CPURISCVState *env, target_ulong geilen)
+ 
+ bool riscv_cpu_virt_enabled(CPURISCVState *env)
+ {
+-    return get_field(env->virt, VIRT_ONOFF);
++    return env->virt_enabled;
  }
  
-+/* This function can only be called to set virt when RVH is enabled */
+ /* This function can only be called to set virt when RVH is enabled */
  void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
  {
--    if (!riscv_has_ext(env, RVH)) {
--        return;
--    }
--
      /* Flush the TLB on all virt mode changes. */
-     if (get_field(env->virt, VIRT_ONOFF) != enable) {
+-    if (get_field(env->virt, VIRT_ONOFF) != enable) {
++    if (env->virt_enabled != enable) {
          tlb_flush(env_cpu(env));
+     }
+ 
+-    env->virt = set_field(env->virt, VIRT_ONOFF, enable);
++    env->virt_enabled = enable;
+ 
+     if (enable) {
+         /*
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index 9c455931d8..0fb3ddda06 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -331,8 +331,8 @@ static const VMStateDescription vmstate_pmu_ctr_state = {
+ 
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+-    .version_id = 7,
+-    .minimum_version_id = 7,
++    .version_id = 8,
++    .minimum_version_id = 8,
+     .post_load = riscv_cpu_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+@@ -352,7 +352,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+         VMSTATE_UINT32(env.misa_mxl_max, RISCVCPU),
+         VMSTATE_UINT32(env.misa_ext_mask, RISCVCPU),
+         VMSTATE_UINTTL(env.priv, RISCVCPU),
+-        VMSTATE_UINTTL(env.virt, RISCVCPU),
++        VMSTATE_BOOL(env.virt_enabled, RISCVCPU),
+         VMSTATE_UINT64(env.resetvec, RISCVCPU),
+         VMSTATE_UINTTL(env.mhartid, RISCVCPU),
+         VMSTATE_UINT64(env.mstatus, RISCVCPU),
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 0ee8ee147d..c3adf30b54 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1255,8 +1255,8 @@ static void riscv_tr_disas_log(const DisasContextBase *dcbase,
+ 
+     fprintf(logfile, "IN: %s\n", lookup_symbol(dcbase->pc_first));
+ #ifndef CONFIG_USER_ONLY
+-    fprintf(logfile, "Priv: "TARGET_FMT_ld"; Virt: "TARGET_FMT_ld"\n",
+-            env->priv, env->virt);
++    fprintf(logfile, "Priv: "TARGET_FMT_ld"; Virt: %d\n",
++            env->priv, env->virt_enabled);
+ #endif
+     target_disas(logfile, cpu, dcbase->pc_first, dcbase->tb->size);
+ }
 -- 
 2.25.1
 
