@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881EE6C9A87
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 06:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BAC6C9B75
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 08:43:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgeRu-0005KZ-D7; Mon, 27 Mar 2023 00:27:15 -0400
+	id 1pggY1-0002ub-WB; Mon, 27 Mar 2023 02:41:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pgeRe-0005CG-CL; Mon, 27 Mar 2023 00:26:58 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pgeRU-0004qC-AN; Mon, 27 Mar 2023 00:26:58 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id j13so6501427pjd.1;
- Sun, 26 Mar 2023 21:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679891206;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vLmUsZzYLBNAU1s+AtF5Os+cqTh0I7/Qbqt68UQ/oVs=;
- b=njUj5UoP0s33r1/dUQO+BhRjBI/dTNUARc0aifT0dHtWxrMXM4+A6BRiEq42xNYEZQ
- 1EC/1NGAN4v+PuKDufgJ5DSJ7XHKoP+04fsq9w17/gAmGzSRVshrgeD7NvMjkLLUiXL/
- 5ErHcSrMnq/xLTGq4o2wVgGdBQOuz9nL5UQQGwXMVo+sfOpcUF+yiHk7N8Lq1cuUhHY3
- mksm3rueCp9ZxWtvTAdFMLDCL14raOV6rpZ+VsXBZ4FyXbaiy+Gh+ZwQ8WxZYnIDmJAF
- 2MDpKRjPYq2WoI22W/HL4lzKr/AxQLO+tMeHoiu4IOuxmdMJuh35HdPNpPxnFTMXzHeb
- 8CnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679891206;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=vLmUsZzYLBNAU1s+AtF5Os+cqTh0I7/Qbqt68UQ/oVs=;
- b=fFJ+yxL4ZtdD+VdFKrDZqVw8DRBpXVQxX9J16fKW4m5mp51snJ3Z9JcYEw321TQEnq
- 8apkEZb8eZAtJvJNcRpjJvmfaFKsulUvZA/a3qNB3cHGwIHkbRfhGfgDxQsrRp+h9wKX
- bUEalDAzYMEb2whfoX7HnTIgwSSGn6VBohdDyaCu+tRISwB+4Ka4AFXQYSm5az4JGzpR
- Msg/90qqPcb2EfRf1ZPbIGQ6citfEoqFiMusIfN/zUjIHGrIcdf2MP5Yd6VFwEnbXyV/
- TpxT5xmvUHganhUVcJg30FX+ju1eL6aAAZg93u0y+ZL4dhkGiKLyzJj9V4LEFN7kjcne
- cPig==
-X-Gm-Message-State: AO0yUKV+IHyjtSmKEITFm7yTbOBRNVqrx4VXlEOg3QgQOh50RiZCESQ1
- aksqalgEDAyRSwF8uA4Y7rE=
-X-Google-Smtp-Source: AK7set9DDrqks6FBRnEfMLrZbLTF2TMUOdW1Q5KuPGxP+GWsJjmUIwATY5vWdPULKbdBzOApI2IEKA==
-X-Received: by 2002:a05:6a20:be0f:b0:bd:23a2:8840 with SMTP id
- ge15-20020a056a20be0f00b000bd23a28840mr10108246pzb.35.1679891206448; 
- Sun, 26 Mar 2023 21:26:46 -0700 (PDT)
-Received: from localhost ([203.221.180.225]) by smtp.gmail.com with ESMTPSA id
- 22-20020aa79256000000b00582f222f088sm17814740pfp.47.2023.03.26.21.26.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Mar 2023 21:26:45 -0700 (PDT)
-Mime-Version: 1.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pggXx-0002uM-FI
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 02:41:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pggXv-000741-IT
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 02:41:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679899294;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mPaC8UfPyNW41XjogvOhIc96UIeSKKEi8vMmTFE6XB4=;
+ b=BQ4CpmN3BZjKO0Z/OSqUQtMrzl5+qEwz9PyLFmO8plaGs1diTvGaNZiY8utqCpFYXtfMRp
+ toKaLO9pIJzj4Bve3Sl149ZXtjxDNBdPJg9h0grr5j0l7fdro0m0cVE5KdBJt4rDPy8F+L
+ F5WxIXYx1kX7MaDD02Bt4Q930mxoA/I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-377-6UTtD4OaO9Cgfr0CJxK47A-1; Mon, 27 Mar 2023 02:41:30 -0400
+X-MC-Unique: 6UTtD4OaO9Cgfr0CJxK47A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F87F1C06901;
+ Mon, 27 Mar 2023 06:41:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04D60492B0A;
+ Mon, 27 Mar 2023 06:41:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 509E721E6926; Mon, 27 Mar 2023 08:41:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,  Juan Quintela
+ <quintela@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Eric Blake <eblake@redhat.com>,  Peter Maydell
+ <peter.maydell@linaro.org>,  Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 06/10] migration: Introduce dirty-limit capability
+References: <cover.1676563222.git.huangy81@chinatelecom.cn>
+ <cover.1676563222.git.huangy81@chinatelecom.cn>
+ <a9952eaa2bf3c8066b0e8dee066b57395ffa37b1.1676563222.git.huangy81@chinatelecom.cn>
+ <871qlepcw7.fsf@pond.sub.org>
+ <f70dbc9b-e722-ad77-e22d-12c339f5ff4d@chinatelecom.cn>
+ <87ttyamd8j.fsf@pond.sub.org>
+ <333f094e-c009-4e61-22b4-3433d1291af4@chinatelecom.cn>
+Date: Mon, 27 Mar 2023 08:41:28 +0200
+In-Reply-To: <333f094e-c009-4e61-22b4-3433d1291af4@chinatelecom.cn> (Hyman
+ Huang's message of "Sun, 26 Mar 2023 15:29:28 +0800")
+Message-ID: <87lejihf1j.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Mar 2023 14:26:42 +1000
-Message-Id: <CRGVQCBRZIJ7.19KMYO8U695KW@bobo>
-Cc: <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 4/6] target/ppc: Alignment faults do not set DSISR in
- ISA v3.0 onward
-From: "Nicholas Piggin" <npiggin@gmail.com>
-To: "Fabiano Rosas" <farosas@suse.de>, <qemu-ppc@nongnu.org>
-X-Mailer: aerc 0.13.0
-References: <20230323022237.1807512-1-npiggin@gmail.com>
- <20230323022237.1807512-4-npiggin@gmail.com> <87wn36feuy.fsf@suse.de>
-In-Reply-To: <87wn36feuy.fsf@suse.de>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1035.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,48 +91,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri Mar 24, 2023 at 11:39 PM AEST, Fabiano Rosas wrote:
-> Nicholas Piggin <npiggin@gmail.com> writes:
->
-> > This optional behavior was removed from the ISA in v3.0, see
-> > Summary of Changes preface:
-> >
-> >   Data Storage Interrupt Status Register for Alignment Interrupt:
-> >   Simplifies the Alignment interrupt by remov- ing the Data Storage
-> >   Interrupt Status Register (DSISR) from the set of registers modified
-> >   by the Alignment interrupt.
-> >
-> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> > ---
-> >  target/ppc/excp_helper.c | 23 ++++++++++++++++-------
-> >  1 file changed, 16 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> > index 5f0e363363..c8b8eca3b1 100644
-> > --- a/target/ppc/excp_helper.c
-> > +++ b/target/ppc/excp_helper.c
-> > @@ -1456,13 +1456,22 @@ static void powerpc_excp_books(PowerPCCPU *cpu,=
- int excp)
-> >          break;
-> >      }
-> >      case POWERPC_EXCP_ALIGN:     /* Alignment exception               =
-       */
-> > -        /* Get rS/rD and rA from faulting opcode */
-> > -        /*
-> > -         * Note: the opcode fields will not be set properly for a
-> > -         * direct store load/store, but nobody cares as nobody
-> > -         * actually uses direct store segments.
-> > -         */
-> > -        env->spr[SPR_DSISR] |=3D (env->error_code & 0x03FF0000) >> 16;
-> > +        switch (env->excp_model) {
->
-> Slightly better would be to check on (env->insn_flags2 & PPC2_ISA300).
-> We were trying to phase out the usage of "exception models" wherever
-> possible in favor of specific feature/isa level flags.
+Hyman Huang <huangy81@chinatelecom.cn> writes:
 
-Oh good point, thanks for catching that. Will fix and resend the series
-(I've done the same thing in a few other places too).
+> =E5=9C=A8 2023/3/24 22:32, Markus Armbruster =E5=86=99=E9=81=93:
+>> Hyman Huang <huangy81@chinatelecom.cn> writes:
+>>=20
+>>> =E5=9C=A8 2023/3/24 20:11, Markus Armbruster =E5=86=99=E9=81=93:
+>>>> huangy81@chinatelecom.cn writes:
+>>>>
+>>>>> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+>>>>>
+>>>>> Introduce migration dirty-limit capability, which can
+>>>>> be turned on before live migration and limit dirty
+>>>>> page rate durty live migration.
+>>>>>
+>>>>> Introduce migrate_dirty_limit function to help check
+>>>>> if dirty-limit capability enabled during live migration.
+>>>>>
+>>>>> Meanwhile, refactor vcpu_dirty_rate_stat_collect
+>>>>> so that period can be configured instead of hardcoded.
+>>>>>
+>>>>> dirty-limit capability is kind of like auto-converge
+>>>>> but using dirty limit instead of traditional cpu-throttle
+>>>>> to throttle guest down. To enable this feature, turn on
+>>>>> the dirty-limit capability before live migration using
+>>>>> migrate-set-capabilities, and set the parameters
+>>>>> "x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
+>>>>> to speed up convergence.
+>>>>>
+>>>>> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom=
+.cn>
+>>>>> Acked-by: Peter Xu <peterx@redhat.com>
+>>>> [...]
+>>>>
+>>>>> diff --git a/qapi/migration.json b/qapi/migration.json
+>>>>> index d33cc2d582..b7a92be055 100644
+>>>>> --- a/qapi/migration.json
+>>>>> +++ b/qapi/migration.json
+>>>>> @@ -477,6 +477,8 @@
+>>>>>    #                    will be handled faster.  This is a performanc=
+e feature and
+>>>>>    #                    should not affect the correctness of postcopy=
+ migration.
+>>>>>    #                    (since 7.1)
+>>>>> +# @dirty-limit: Use dirty-limit to throttle down guest if enabled.
+>>>>> +#               (since 8.0)
+>>>>
+>>>> Feels too terse.  What exactly is used and how?  It's not the capabili=
+ty
+>>>> itself (although the text sure sounds like it).  I guess it's the thing
+>>>> you set with command set-vcpu-dirty-limit.
+>>>>
+>>>> Is that used only when the capability is set?
+>>>
+>>> Yes, live migration set "dirty-limit" value when that capability is set,
+>>> the comment changes to "Apply the algorithm of dirty page rate limit to=
+ throttle down guest if capability is set, rather than auto-converge".
+>>>
+>>> Please continue to polish the doc if needed. Thanks.
+>>
+>> Let's see whether I understand.
+>>
+>> Throttling happens only during migration.
+>>
+>> There are two throttling algorithms: "auto-converge" (default) and
+>> "dirty page rate limit".
+>>
+>> The latter can be tuned with set-vcpu-dirty-limit.
+>> Correct?
+>
+> Yes
+>
+>> What happens when migration capability dirty-limit is enabled, but the
+>> user hasn't set a limit with set-vcpu-dirty-limit, or canceled it with
+>> cancel-vcpu-dirty-limit?
+>
+> dirty-limit capability use the default value if user hasn't set.
 
-Thanks,
-Nick
+What is the default value?  I can't find it in the doc comments.
+
+> In the path of cancel-vcpu-dirty-limit, canceling should be check and not=
+ be allowed if migration is in process.
+
+Can you change the dirty limit with set-vcpu-dirty-limit while migration
+is in progress?  Let's see...
+
+Has the dirty limit any effect while migration is not in progress?
+
+> see the following code in commit:
+> [PATCH v4 08/10] migration: Implement dirty-limit convergence algo
+>
+> --- a/softmmu/dirtylimit.c
+> +++ b/softmmu/dirtylimit.c
+> @@ -438,6 +438,8 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
+>                                   int64_t cpu_index,
+>                                   Error **errp)
+>  {
+> +    MigrationState *ms =3D migrate_get_current();
+> +
+>      if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
+>          return;
+>      }
+> @@ -451,6 +453,15 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
+>          return;
+>      }
+>
+> +    if (migration_is_running(ms->state) &&
+> +        (!qemu_thread_is_self(&ms->thread)) &&
+> +        migrate_dirty_limit() &&
+> +        dirtylimit_in_service()) {
+> +        error_setg(errp, "can't cancel dirty page limit while"
+> +                   " migration is running");
+> +        return;
+> +    }
+
+We can get here even when migration_is_running() is true.  Seems to
+contradict your claim "no cancel while migration is in progress".  Am I
+confused?
+
+Please drop the superfluous parenthesis around !qemu_thread_is_self().
+
+> +
+>      dirtylimit_state_lock();
+>
+>      if (has_cpu_index) {
+> @@ -486,6 +497,8 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
+>                                uint64_t dirty_rate,
+>                                Error **errp)
+>  {
+> +    MigrationState *ms =3D migrate_get_current();
+> +
+>      if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
+>          error_setg(errp, "dirty page limit feature requires KVM with"
+>                     " accelerator property 'dirty-ring-size' set'");
+> @@ -502,6 +515,15 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
+>          return;
+>      }
+>
+> +    if (migration_is_running(ms->state) &&
+> +        (!qemu_thread_is_self(&ms->thread)) &&
+> +        migrate_dirty_limit() &&
+> +        dirtylimit_in_service()) {
+> +        error_setg(errp, "can't cancel dirty page limit while"
+> +                   " migration is running");
+
+Same condition, i.e. we dirty limit change is possible exactly when
+cancel is.  Correct?
+
+> +        return;
+> +    }
+> +
+>      dirtylimit_state_lock();
+>
+>      if (!dirtylimit_in_service()) {
+
+Maybe it's just me still not understanding things, but the entire
+interface feels overly complicated.
+
+Here's my current mental model of what you're trying to provide.
+
+There are two throttling algorithms: "auto-converge" (default) and
+"dirty page rate limit".  The user can select one.
+
+The latter works with a user-configurable dirty limit.
+
+Changing these configuration bits is only possible in certain states.
+Which ones is not clear to me, yet.
+
+Is this accurate and complete?
+
+Are commands set-vcpu-dirty-limit, cancel-vcpu-dirty-limit,
+query-vcpu-dirty-limit useful without this series?
+
+If not, then committing them as stable interfaces was clearly premature.
+
 
