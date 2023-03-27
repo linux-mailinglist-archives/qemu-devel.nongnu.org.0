@@ -2,66 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0AC6CB08E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 23:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CBB6CB0C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 23:36:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pguFW-0005YB-Op; Mon, 27 Mar 2023 17:19:30 -0400
+	id 1pguUs-0006fI-Rr; Mon, 27 Mar 2023 17:35:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pguFV-0005SB-8l
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 17:19:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pguUp-0006f1-UU; Mon, 27 Mar 2023 17:35:19 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pguFT-0006Qf-EW
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 17:19:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679951966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=EUNEg0AHOdn9sZbXKspq0J3uKT4fneMMtplIqYVEtzk=;
- b=Q9wV+KIn2Uqb/QfRZtpjIJTxxTx6Sq4X8hUs08Eu264YJ7Mk1aEB5BXCjvUfV791B1KjCr
- IkwJe26m7i1UVmDHDifq7UBGJ39bNo0LzRaGOEkRLoSBg8Vu8XBNuZM8fjkOdG8g/9XQvI
- qkKZcq3kbLIDab2+ag4Ag3MoakPWW9k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-Zt3mJXj_PSG-bT0T1m9O8A-1; Mon, 27 Mar 2023 17:19:24 -0400
-X-MC-Unique: Zt3mJXj_PSG-bT0T1m9O8A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 314E5887409;
- Mon, 27 Mar 2023 21:19:24 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BDFA140E949;
- Mon, 27 Mar 2023 21:19:23 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Coiby Xu <Coiby.Xu@gmail.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH for-8.0] block/export: fix assume_graph_lock() assertion
- failure
-Date: Mon, 27 Mar 2023 17:19:21 -0400
-Message-Id: <20230327211921.1612727-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pguUn-0000FP-Py; Mon, 27 Mar 2023 17:35:19 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32RKNZNx019894; Mon, 27 Mar 2023 21:35:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=ygjuCDfMBzN83WsDvMuV1p401zsu7g50W4bhL1f9eL0=;
+ b=LU5OfcS0cSunADCYbj4XFzGSKw1Tdq/cYGTKIkcz3KZGN0kOTMrZiVmpJwKeMHSNC6L8
+ XA/r1SFuFPN8PPNoqWSlmby2DvM93eAHWoUm5XfxTjWso3CIK8SSjnoTFiFz2/6rQLZp
+ Pq7OoSmuD9TQpBnAUXXHlhRk7qKdo0q3cRbH9YypNbsFHsV59BKQnw1adfGvDDPEI6xj
+ bVjfkvVhj6KMA9QNBdkLMvE34qregcknQeJzWDVmgrZEXzuUlNjXsNpjTMc9W8+9JId0
+ 3EngsgTawPbupoqFWvvylNSA1FfOrK+rI8w0s+9HKwlSOr9SxWSaXnSD/9E+dJPibWPw xA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkj511csb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 21:35:04 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32RLAM1b013438;
+ Mon, 27 Mar 2023 21:35:03 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkj511crr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 21:35:03 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32REH6DR013249;
+ Mon, 27 Mar 2023 21:35:01 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3phrk6jrwf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 21:35:01 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32RLYvNd24183448
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Mar 2023 21:34:57 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 567912004B;
+ Mon, 27 Mar 2023 21:34:57 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E8CC920043;
+ Mon, 27 Mar 2023 21:34:56 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.133.130])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Mar 2023 21:34:56 +0000 (GMT)
+Message-ID: <1facc09195ef25a5f7ecf9c3bcc016fa1b313628.camel@linux.ibm.com>
+Subject: Re: [PATCH v18 01/17] s390x/cpu topology: add s390 specifics to CPU
+ topology
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Mon, 27 Mar 2023 23:34:56 +0200
+In-Reply-To: <20230315143502.135750-2-pmorel@linux.ibm.com>
+References: <20230315143502.135750-1-pmorel@linux.ibm.com>
+ <20230315143502.135750-2-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 8H8F8nAlaMlOw-FNy_v9as0T1ngtokcf
+X-Proofpoint-ORIG-GUID: D8FYimo5zlbcmxJa7s749RV-NkLNitwe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ suspectscore=0 clxscore=1011 priorityscore=1501 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270175
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,49 +118,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When I/O request parameters are validated for virtio-blk exports like
-vhost-user-blk and vduse-blk, we call blk_get_geometry() from a
-coroutine. This hits an assume_graph_lock() assertion failure.
+On Wed, 2023-03-15 at 15:34 +0100, Pierre Morel wrote:
+> S390 adds two new SMP levels, drawers and books to the CPU
+> topology.
+> The S390 CPU have specific topology features like dedication
+> and entitlement to give to the guest indications on the host
+> vCPUs scheduling and help the guest take the best decisions
+> on the scheduling of threads on the vCPUs.
+>=20
+> Let us provide the SMP properties with books and drawers levels
+> and S390 CPU with dedication and entitlement,
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  qapi/machine-common.json        | 22 +++++++++++++++
+>  qapi/machine-target.json        | 12 +++++++++
+>  qapi/machine.json               | 17 +++++++++---
+>  include/hw/boards.h             | 10 ++++++-
+>  include/hw/s390x/cpu-topology.h | 15 +++++++++++
+>  target/s390x/cpu.h              |  6 +++++
+>  hw/core/machine-smp.c           | 48 ++++++++++++++++++++++++++++-----
+>  hw/core/machine.c               |  4 +++
+>  hw/s390x/s390-virtio-ccw.c      |  2 ++
+>  softmmu/vl.c                    |  6 +++++
+>  target/s390x/cpu.c              |  7 +++++
+>  qapi/meson.build                |  1 +
+>  qemu-options.hx                 |  7 +++--
+>  13 files changed, 144 insertions(+), 13 deletions(-)
+>  create mode 100644 qapi/machine-common.json
+>  create mode 100644 include/hw/s390x/cpu-topology.h
+>=20
+[...]
+>=20
+> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+> index c3dab007da..b8233df5a9 100644
+> --- a/hw/core/machine-smp.c
+> +++ b/hw/core/machine-smp.c
+> @@ -31,6 +31,14 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+>      MachineClass *mc =3D MACHINE_GET_CLASS(ms);
+>      GString *s =3D g_string_new(NULL);
+> =20
+> +    if (mc->smp_props.drawers_supported) {
+> +        g_string_append_printf(s, " * drawers (%u)", ms->smp.drawers);
+> +    }
+> +
+> +    if (mc->smp_props.books_supported) {
+> +        g_string_append_printf(s, " * books (%u)", ms->smp.books);
+> +    }
+> +
+>      g_string_append_printf(s, "sockets (%u)", ms->smp.sockets);
 
-Use blk_co_nb_sectors() instead and mark virtio_blk_sect_range_ok() with
-coroutine_fn.
+The output of this doesn't look great.
+How about:
 
-This assertion failure is triggered by any I/O to a vhost-user-blk
-export.
+static char *cpu_hierarchy_to_string(MachineState *ms)
+{
+    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
+    GString *s =3D g_string_new(NULL);
+    const char *multiply =3D " * ", *prefix =3D "";
 
-Fixes: 8ab8140a04cf ("block: Mark bdrv_co_refresh_total_sectors() and callers GRAPH_RDLOCK")
-Cc: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/export/virtio-blk-handler.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+    if (mc->smp_props.drawers_supported) {
+        g_string_append_printf(s, "drawers (%u)", ms->smp.drawers);
+        prefix =3D multiply;
+    }
 
-diff --git a/block/export/virtio-blk-handler.c b/block/export/virtio-blk-handler.c
-index 313666e8ab..2f729a9ce2 100644
---- a/block/export/virtio-blk-handler.c
-+++ b/block/export/virtio-blk-handler.c
-@@ -22,8 +22,9 @@ struct virtio_blk_inhdr {
-     unsigned char status;
- };
- 
--static bool virtio_blk_sect_range_ok(BlockBackend *blk, uint32_t block_size,
--                                     uint64_t sector, size_t size)
-+static bool coroutine_fn
-+virtio_blk_sect_range_ok(BlockBackend *blk, uint32_t block_size,
-+                         uint64_t sector, size_t size)
- {
-     uint64_t nb_sectors;
-     uint64_t total_sectors;
-@@ -41,7 +42,7 @@ static bool virtio_blk_sect_range_ok(BlockBackend *blk, uint32_t block_size,
-     if ((sector << VIRTIO_BLK_SECTOR_BITS) % block_size) {
-         return false;
-     }
--    blk_get_geometry(blk, &total_sectors);
-+    total_sectors = blk_co_nb_sectors(blk);
-     if (sector > total_sectors || nb_sectors > total_sectors - sector) {
-         return false;
-     }
--- 
-2.39.2
+    if (mc->smp_props.books_supported) {
+        g_string_append_printf(s, "%sbooks (%u)", prefix, ms->smp.books);
+        prefix =3D multiply;
+    }
 
+    g_string_append_printf(s, "%ssockets (%u)", prefix, ms->smp.sockets);
+
+    if (mc->smp_props.dies_supported) {
+        g_string_append_printf(s, " * dies (%u)", ms->smp.dies);
+    }
+
+    if (mc->smp_props.clusters_supported) {
+        g_string_append_printf(s, " * clusters (%u)", ms->smp.clusters);
+    }
+
+    g_string_append_printf(s, " * cores (%u)", ms->smp.cores);
+    g_string_append_printf(s, " * threads (%u)", ms->smp.threads);
+
+    return g_string_free(s, false);
+}
+
+
+[...]
 
