@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966506CAA91
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 18:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A1F6CAA92
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 18:29:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgphv-0004lO-DQ; Mon, 27 Mar 2023 12:28:31 -0400
+	id 1pgpil-0005FH-H1; Mon, 27 Mar 2023 12:29:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pgpht-0004lB-1p
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 12:28:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pgphr-0004nc-4L
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 12:28:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679934503;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8wXAx1beCu5BiTV+cVnIyCdYTlRLOxiy9FH6TUA2buA=;
- b=DmUFb1pS2qdfnaPx/8+UIGzyrf1cKs7Y8adUWo3BD260W+nOJO4BOmbqeHeVHG8OvYxj3C
- VdtCW4hCp0H+PrVfjppf2/1lW4SsTaoNxWl3FiGQbrC0FAhlgyT36qMpGUnbrmm/zr53i0
- rTS9qLQJD+BCpSph9Rza1becffz6404=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-180-ro-0ZZcNPym7fQvRDNg7dA-1; Mon, 27 Mar 2023 12:28:22 -0400
-X-MC-Unique: ro-0ZZcNPym7fQvRDNg7dA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- 72-20020a37044b000000b0074694114c09so4234154qke.4
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 09:28:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pgpie-0005B7-Ss
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 12:29:17 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pgpid-0005Qu-AW
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 12:29:16 -0400
+Received: by mail-pf1-x434.google.com with SMTP id i15so6074116pfo.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 09:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679934553;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9GLdMU2g21swwchEMxf7dbC0F9bfgrKZoxTJS3Z10qg=;
+ b=IXjItaeJ1CyO+2jkpAfqVzwBgpzmUWB46DXW2VHHWy4sAuMy4ynM5L8XHoWc8bcSFA
+ X87+m6RUa3m+x+NRlWyJRTIO/vQSbQhKrKTaEn1jTn6M+nukHiA/sXMDbgpJgYayv0tr
+ CGlgvvlY9vBTQvAvGRFQwRo6mUzHWWk8RFrJ23sKhW1ZuNwtoQe2UHcgTlHB+ZUmtWTG
+ lDxCsxGNcsZLR32PRCkHcBiaIJ2GWc0fiQEIyIEryCQZjc9t+9qXmjh/UjEvBV2I9lz4
+ wghyJYsJMr2lbxOo5kn2EV/ijJO4UGcwIIsbO4bCRcsKdmHS2/KTA2bcQg7P1DzRe44U
+ Zcjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679934501; x=1682526501;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8wXAx1beCu5BiTV+cVnIyCdYTlRLOxiy9FH6TUA2buA=;
- b=J3ECMcdsVHiefUxqOJZyLmNB4PPbV/rKodbsZx3D0JmYzMaCKWrwQfrZV29KlKsroe
- hxZ3cQBdc6IEGu0ieDmbpIf5IyHpppk0gzmxV2BKybsbk8QLMJdfWydSwQ1OkS7SCiA2
- PQbfFrrlXuRPLHkIdrGbDg26wQGJeg+6sQbRGXAt6e3sywFL1ct7z+YOiAZr4/JfvzX6
- QDH5CAc8TMjjJOAOdR6ykwg7gHmdx8fGGHnMOPzvjdisFpmKguaNDrlR0eKC7f6RWo8l
- 3hCid7ZpwrREKSfya8t7akKGqan1JotOz/WSWC3FBd6TcTcB4w3/eqSHlKGT+QR8edL+
- QObw==
-X-Gm-Message-State: AAQBX9eY4ZROLPjn9vBdBw2zaTW0t8J8vP7TmUnPTs2U5VJwirUnraVB
- Nr06viXGHqbaDXArsChjAJ2p0fdBGRH8j84ufaZhJB/Q4eN4M4IoktglsUgsfuHnx0fv3iBP9U3
- H0e/FzV2xmWYZuoA=
-X-Received: by 2002:a05:6214:300f:b0:5da:b965:1efd with SMTP id
- ke15-20020a056214300f00b005dab9651efdmr19757382qvb.2.1679934501501; 
- Mon, 27 Mar 2023 09:28:21 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZAmWBiiIivSgm9Wz63JsMd2Tk8In0/hQeUr/WjVr5lYwtcoNP4uNhH1NL5b+mZnjmcleGpLQ==
-X-Received: by 2002:a05:6214:300f:b0:5da:b965:1efd with SMTP id
- ke15-20020a056214300f00b005dab9651efdmr19757357qvb.2.1679934501249; 
- Mon, 27 Mar 2023 09:28:21 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- kr9-20020a0562142b8900b005dd8b934577sm3083621qvb.15.2023.03.27.09.28.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 09:28:20 -0700 (PDT)
-Date: Mon, 27 Mar 2023 12:28:19 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v1 1/1] migration: Disable postcopy + multifd migration
-Message-ID: <ZCHEI52qczGkkRxt@x1n>
-References: <20230327161518.2385074-1-leobras@redhat.com>
+ d=1e100.net; s=20210112; t=1679934553;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9GLdMU2g21swwchEMxf7dbC0F9bfgrKZoxTJS3Z10qg=;
+ b=2HnWp7KPgBTGMrKSMXo9+gp8tuFXNhNQLraH4GBs0iNSQdWV41XTNsqdcAQJHWAJmY
+ yI8xVdEwH4J5wcWAFMj6GMSVJHnTfj1vm9GN3fGbvDzljq6AR0bE69Gl8O8bGRpX00Z+
+ mFMRkBeQdJ4LGamLsnUKnjjwQdv158oZokpL6TN9ZsRMBsn7i1XKEMfCwa0hFWst+Ozf
+ qpzlUC539K8l5/hMIZmngakFiPclELHKNZjqxBJAb36aHwD15h4qLE0VJOoZ48JA7gvu
+ zD7ZEOYQjh9hJJ49QPtvSRkbQAn1kEfWGAnduSdtqcsEwaJBufxniZMyCKST8kHZqUah
+ OqiQ==
+X-Gm-Message-State: AAQBX9fraaDmIOrZTVfhcp9hHgJ8F48p+bzlVeYajoTHL+JbQEcYgVgf
+ CVFTG7JaHhBtCEoicjuK/3om2A==
+X-Google-Smtp-Source: AKy350a2+ZjQueokxqxAylGAjmOq5YDUYqfbmXoxF/qaUk5XBWh+LEqbBFEjVqUEpNSzd8uB95g6qw==
+X-Received: by 2002:a62:1a49:0:b0:625:ffed:b3d1 with SMTP id
+ a70-20020a621a49000000b00625ffedb3d1mr11218895pfa.7.1679934553463; 
+ Mon, 27 Mar 2023 09:29:13 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1544:6601:6705:aa17:3641:e634?
+ ([2602:ae:1544:6601:6705:aa17:3641:e634])
+ by smtp.gmail.com with ESMTPSA id
+ x16-20020aa784d0000000b006280676b8b4sm13962932pfn.220.2023.03.27.09.29.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Mar 2023 09:29:13 -0700 (PDT)
+Message-ID: <6b21f385-96fd-78f4-bdba-ed552bf2464a@linaro.org>
+Date: Mon, 27 Mar 2023 09:29:11 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230327161518.2385074-1-leobras@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v6 13/25] target/riscv: Introduce mmuidx_priv
+Content-Language: en-US
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, palmer@dabbelt.com,
+ fei2.wu@intel.com
+References: <20230325105429.1142530-1-richard.henderson@linaro.org>
+ <20230325105429.1142530-14-richard.henderson@linaro.org>
+ <a4e87eab-aace-a17b-fef5-5c5b1118a561@linux.alibaba.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <a4e87eab-aace-a17b-fef5-5c5b1118a561@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,24 +97,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 27, 2023 at 01:15:18PM -0300, Leonardo Bras wrote:
-> Since the introduction of multifd, it's possible to perform a multifd
-> migration and finish it using postcopy.
+On 3/26/23 19:07, LIU Zhiwei wrote:
+>> +static inline int mmuidx_priv(int mmu_idx)
+>> +{
+>> +    int ret = mmu_idx & 3;
+>> +    if (ret == MMUIdx_S_SUM) {
+>> +        ret = PRV_S;
+>> +    }
+>> +    return ret;
+>> +}
+>> +
 > 
-> A bug introduced by yank (fixed on cfc3bcf373) was previously preventing
-> a successful use of this migration scenario, and now it should be
-> working on most cases.
-> 
-> But since there is not enough testing/support nor any reported users for
-> this scenario, we should disable this combination before it may cause any
-> problems for users.
-> 
-> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> Can we remove the PRIV from the tb flags after we have this function?
 
-Acked-by: Peter Xu <peterx@redhat.com>
+No, because this is the priv of the memory operation as modified by e.g. MPRV, not the 
+true cpu priv.
 
--- 
-Peter Xu
 
+r~
 
