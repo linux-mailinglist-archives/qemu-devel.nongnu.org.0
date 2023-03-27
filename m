@@ -2,75 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29CB6CB1CD
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AF96CB1CC
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 00:28:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgvJG-0008Rq-5n; Mon, 27 Mar 2023 18:27:26 -0400
+	id 1pgvJm-0008Up-3u; Mon, 27 Mar 2023 18:27:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1pgvJE-0008Ri-CW
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:27:24 -0400
-Received: from mailgw.felk.cvut.cz ([147.32.82.15])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1pgvJA-0007tN-AQ
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:27:24 -0400
-Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
- by mailgw.felk.cvut.cz (Proxmox) with ESMTP id 5E4D630DF69E;
- Tue, 28 Mar 2023 00:26:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- cmp.felk.cvut.cz; h=cc:cc:content-transfer-encoding:content-type
- :content-type:date:from:from:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=felkmail; bh=22HEy
- pFl3C8hX9ye2RMiWEIMnvbT+XsH6kWDFSfGX5s=; b=kKn0LveAmKLFJJnVAkQqF
- d2Vs8GvSQ1IBtIDa6mqwm8Z8ULf9k3H1HThcUby2pMSiYv7k8TD5N4CeX6eUBPTU
- rGZIUcQYQ8ar3dd7LRj+EGk3IKoO34Jwlis2eW1Y8oPbl2rhcJvZYEIx+dcR9go+
- 4vfYyZ01k4FVRsRgLB6l0KVcEKpYCYjES0CGzcN4B/4/znEo0AtP9s9U0eVS5oiw
- Akg4yEdRPARCUQ4ekXwSo74AHVj88qVf+HMHETCUDDLX044ta4FxG5WMnLLc6z+T
- xRDZ75etrWgs6ePOhLHy56APNr6t0CnDHemFv+hMt6g4bbw/GRJ04d+zlTqdzFyd
- Q==
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id 920CF30B296A;
- Tue, 28 Mar 2023 00:26:37 +0200 (CEST)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 32RMQbGh013283; Tue, 28 Mar 2023 00:26:37 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 32RMQaEL013281;
- Tue, 28 Mar 2023 00:26:36 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: Re: [PATCH v2] hw/net/can: Add mcp25625 model
-Date: Tue, 28 Mar 2023 00:26:09 +0200
-User-Agent: KMail/1.9.10
-Cc: qemu-devel@nongnu.org, jasowang@redhat.com, fnu.vikram@xilinx.com,
- nazar.kazakov@codethink.co.uk, lawrence.hunter@codethink.co.uk,
- frank.chang@sifive.com, paul.walmsley@sifive.com,
- Ben Dooks <ben.dooks@sifive.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20230316124113.148463-1-ben.dooks@codethink.co.uk>
- <202303171511.00937.pisa@cmp.felk.cvut.cz>
- <e37a42ad-dcb9-05f1-7541-8fe861bfcc79@codethink.co.uk>
-In-Reply-To: <e37a42ad-dcb9-05f1-7541-8fe861bfcc79@codethink.co.uk>
-X-KMail-QuotePrefix: > 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pgvJj-0008UY-Vs
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:27:56 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pgvJh-0008GB-Tn
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:27:55 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id ix20so9893121plb.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 15:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679956072;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SwQbhx4Cnry/9POA4uDfBXRMadWgD/fQMyqaH/kdnVg=;
+ b=hW6+SiU8VXzYwKWNCFKBLS0yNNFUVYYPMTft7sdaYpI2AmdwvPxWssfdxMgHXB1QfQ
+ 9W1vWl40i5WaVWtPirI4YPslJfmtXmmBRHM6D1JR9qoD2vhh599Qv73qjH1/PWJdpeam
+ qSBM5F9Dd4icKLRFljHafKKxczfDc7fA8jPzeYc+ly2q7mpRpMprOI3uLFynnAk6VGNV
+ VrZ9dII40gW9R0M7KGMlUaSsVOALvmklwj7AkwWZslxnTyHSIGVU+3D6Pluixng0n3EG
+ R+bokrGVu5Bv739/pI8xBlERzwayleKo2onUfD3QMzeG9LR7i6SmjdsNN80FA38B5hRZ
+ RHMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679956072;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SwQbhx4Cnry/9POA4uDfBXRMadWgD/fQMyqaH/kdnVg=;
+ b=WDCh4pY12MU5ymWuK4CwCxHZv1JPblUnsDCLvYDFLLGarZIDnLGrL3uQ37HcoOrb1q
+ NpgIW9+BKV0DXnnFSll0frPbaH9ilj/xZb8TR7OojscPFOdYwov6o02x4VH75MZhyGQW
+ 14TJvFzjEQyFLD1yGwX3IdK6g+rWhR5bJgBVix8p43JXk2GGk79QxF0Pz5YDe70fA5vE
+ azll6Kf++72Aw3sLUitOFNvzGjVfcI6BjfVYifpBy7YQitAFto3RZWbWRcusnYvRDBWX
+ HX7XWIipysz1bXY+akPTMSgfr0lsQ8Tbl8y+3G5OsFNJGP2SU/dUy35SS6+550CugVty
+ Nv5A==
+X-Gm-Message-State: AAQBX9eGLM+YdqDi4t+bIwO9nJzYdzA38IHurRStmafFowV2fgfvP3KT
+ igHcwFg0cxKXLuG0VukIbFHqtw==
+X-Google-Smtp-Source: AKy350ZLaSA63jIOXMUPMXiUjQyZUM1kV+YP8jpoLlVK32OMxhl6wi2TlVEUpGt/VjqLEzHJ4UBDGA==
+X-Received: by 2002:a17:902:d40a:b0:1a0:57dd:b340 with SMTP id
+ b10-20020a170902d40a00b001a057ddb340mr9484542ple.64.1679956072355; 
+ Mon, 27 Mar 2023 15:27:52 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1544:6601:6705:aa17:3641:e634?
+ ([2602:ae:1544:6601:6705:aa17:3641:e634])
+ by smtp.gmail.com with ESMTPSA id
+ p6-20020a1709028a8600b00194c2f78581sm19653729plo.199.2023.03.27.15.27.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Mar 2023 15:27:51 -0700 (PDT)
+Message-ID: <b88ea0be-11de-1ccb-ed87-6f4d6685c738@linaro.org>
+Date: Mon, 27 Mar 2023 15:27:49 -0700
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-Message-Id: <202303280026.09873.pisa@cmp.felk.cvut.cz>
-Received-SPF: none client-ip=147.32.82.15; envelope-from=pisa@cmp.felk.cvut.cz;
- helo=mailgw.felk.cvut.cz
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 03/19] target/riscv: introduce
+ riscv_cpu_add_misa_properties()
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+References: <20230327124247.106595-1-dbarboza@ventanamicro.com>
+ <20230327124247.106595-4-dbarboza@ventanamicro.com>
+ <a5a3e653-c58b-8da4-106f-2913235a44ea@linaro.org>
+ <e9189845-f713-2ec1-271c-948d73f20e4e@ventanamicro.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <e9189845-f713-2ec1-271c-948d73f20e4e@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,227 +99,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Ben,
+On 3/27/23 15:15, Daniel Henrique Barboza wrote:
+> 
+> 
+> On 3/27/23 15:52, Richard Henderson wrote:
+>> On 3/27/23 05:42, Daniel Henrique Barboza wrote:
+>>> +static void cpu_set_misa_ext_cfg(Object *obj, Visitor *v, const char *name,
+>>> +                                 void *opaque, Error **errp)
+>>> +{
+>>> +    RISCVCPUMisaExtConfig *misa_ext_cfg = opaque;
+>>
+>> const
+>>
+>>> +static void cpu_get_misa_ext_cfg(Object *obj, Visitor *v, const char *name,
+>>> +                                 void *opaque, Error **errp)
+>>> +{
+>>> +    RISCVCPUMisaExtConfig *misa_ext_cfg = opaque;
+>>
+>> const
+>>
+>>> +static RISCVCPUMisaExtConfig misa_ext_cfgs[] = {};
+>>
+>> const
+> 
+> It seems that I can't use 'const' because the object_property_add() API uses a 'void *opaque'
+> pointer and it won't take a "const RISCVCPUMisaExtConfig *":
+> 
+> ../target/riscv/cpu.c:1454:35: error: passing argument 7 of ‘object_property_add’ discards 
+> ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
+>   1454 |                             NULL, misa_cfg);
+>        |                                   ^~~~~~~~
 
-On Thursday 16 of March 2023 13:41:13 Ben Dooks wrote:
-> From: Ben Dooks <ben.dooks@sifive.com>
->
-> Add support for Microchip MCP25625 SPI based CAN controller which is
-> very similar to the MCP2515 (and covered by the same Linux driver).
->
-> This can be added to any machine with SPI support in the machine
-> model file.
->
-> Example for using this when configured into a machine:
->
-> 	-object can-bus,id=canbus0 \
-> 	-object can-host-socketcan,id=canhost0,if=vcan0,canbus=canbus0 \
-> 	-global driver=mcp25625,property=canbus,value=canbus0
->
-> There is tracing support with --trace "*mcp25*"
->
-> Signed-off-by: Ben Dooks <ben.dooks@sifive.com>
-> Co-developed-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-> Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-> Co-developed-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-> Signed-off-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-
-Tested-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-
-I have used your test branch
-
-https://gitlab.com/CodethinkLabs/qemu/-/commits/mcp25625_test
-
-I confirm that it contains unmodified mcp25625 model patch
-applied directly to QEMU master and then additional patches
-for actual integration with qemu/hw/riscv/sifive_u.c
-
-I have used stripped down initramfs system build from
-debootstraped Debian Bookworm - GLIBC, busybox, ip route,
-can-utils and Linux kernel have been used. Kernel version
-
-  Linux (none) 6.1.0-7-riscv64 #1 SMP Debian 6.1.20-1 (2023-03-19)
-  riscv64 GNU/Linux  
-
-QEMU invocation command
-
-  qemu-system-riscv64 -m 1G -M sifive_u -smp 2 \
-      -initrd ramdisk.cpio \
-      -kernel vmlinux-6.1.0-7-riscv64 \
-      -nographic \
-      -object can-bus,id=canbus0 \
-      -object can-host-socketcan,id=canhost0,if=can0,canbus=canbus0 \
-      -global driver=mcp25625,property=canbus,value=canbus0
-
-The virtual SocketCAN interface has been used on the host
-side and mutual CAN dump/CAN gen has been used and worked
-in the both directons.
-
-I support inclusion of your patch in QEMU mainline
-to allow keep it in sync with the rest of the projects.
-
-But I would be happy if some integration is included as well.
-Do you plan to submit your integration to qemu/hw/riscv/sifive_u.c
-as well? If so, is there some plan to make mapping to SPI
-configurable? May be some other developer could help with
-suggestion what are the plans in SPI peripherals mapping
-in QEMU.
-
-The mapping of IRQ over SIFIVE_U_MISC_IRQ in your followup
-testing patches seems to me quite ad-hock solution.
-It should go through some GPIO pin on a real board
-probably.
-
-I would like to see at least one more system and
-architecture to provide option to map and test
-the mcp25625 model. Raspberry Pi or some other
-ARM would be nice.
-
-Anyway, I would suggest to think about integration
-of CAN/CAN FD controller to SiFive SoC directly
-on the CPU bus because access over SPI causes
-latencies as I have already pointed to Martin Prudek's
-thesis prepared for Honeywell when we tried to enhance
-their choice of Raspberry Pi Matlab Simulink target
-used with SPI based Microchip CAN controller
-
-  https://dspace.cvut.cz/bitstream/handle/10467/68605/F3-DP-2017-Prudek-Martin-Dp_2017_prudek_martin.pdf
-
-See Figure 6.27. Cumulative latency histogram of CAN messages
-on page 43...
-
-We have lot more data and tools now from our CAN latency
-tester project based on our CTU CAN FD IP core.
-There is some documentation in Matej Vasilevski's
-thesis
-
-  https://dspace.cvut.cz/bitstream/handle/10467/101450/F3-DP-2022-Vasilevski-Matej-vasilmat.pdf
-
-and the followup project with continuous latency
-testing on actual Linux kernel mainline and preemp-rt
-will be submitted by this June.
-
-Best wishes,
-
-                Pavel Pisa
-    phone:      +420 603531357
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://control.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
-    RISC-V education: https://comparch.edu.cvut.cz/
-    Open Technologies Research Education and Exchange Services
-    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
+You can cast away the const.  There's no need for this array to be outside of .rodata (or 
+.data.rel.ro).
 
 
-
-On Tuesday 21 of March 2023 11:49:15 Ben Dooks wrote:
-> On 17/03/2023 14:11, Pavel Pisa wrote:
-> > Hello Ben,
-> >
-> > thanks for update.
-> >
-> > On Thursday 16 of March 2023 13:41:13 Ben Dooks wrote:
-> >> From: Ben Dooks <ben.dooks@sifive.com>
-> >>
-> >> Add support for Microchip MCP25625 SPI based CAN controller which is
-> >> very similar to the MCP2515 (and covered by the same Linux driver).
-> >>
-> >> This can be added to any machine with SPI support in the machine
-> >> model file.
-> >>
-> >> Example for using this when configured into a machine:
-> >>
-> >> 	-object can-bus,id=canbus0 \
-> >> 	-object can-host-socketcan,id=canhost0,if=vcan0,canbus=canbus0 \
-> >> 	-global driver=mcp25625,property=canbus,value=canbus0
-> >>
-> >> There is tracing support with --trace "*mcp25*"
-> >
-> > Code looks good, I have patched actual QEMU sources and build
-> > it successfully with your change.
-> >
-> > I have not seen any warning.
-> >
-> > I would like to test the mcp25625 CAN functionality.
-> >
-> > I would prefer against some target which is already available
-> > in QEMU and Linux kernel mainlines, so if somebody can suggest
-> > some ARM which can connect SPI/SSI device it would be great.
-> >
-> > I have setup /srv/nfs/debian-riscv64 chroot and used
-> > it to prepare minimal 3 MB ramdisk.cpio with busybox
-> > and full GLIBC and ip package.
-> >
-> > I can run it with Debian provided RISC-V kernel
-> > under QEMU compiled with your mcp25625 chip emulation
-> >
-> > qemu-system-riscv64 -m 1G -M sifive_u -smp 2 \
-> >        -initrd ramdisk.cpio \
-> >        -kernel vmlinux-6.1.0-6-riscv64 \
-> >        -nographic \
-> >        -object can-bus,id=canbus0 \
-> >        -object can-host-socketcan,id=canhost0,if=can0,canbus=canbus0 \
-> >        -global driver=mcp25625,property=canbus,value=canbus0
-> >
-> > I can see
-> >
-> > /sys/bus/platform/devices/10040000.spi
-> > /sys/bus/platform/devices/10050000.spi
-> >
-> > I can run
-> >
-> >    modprobe spi-sifive.ko
-> >
-> > [   41.524160] sifive_spi 10040000.spi: mapped; irq=21, cs=1
-> > [   41.529305] sifive_spi 10050000.spi: mapped; irq=22, cs=1
-> >
-> >    modprobe mcp251x.ko
-> >
-> > I can imagine to build device tree overlay and setup it from within
-> > kernel if the device is already mapped
-> >
-> >    cd /sys/kernel/config/device-tree/overlays
-> >    [ -d  sifive_u-mcp25625 ] && rmdir sifive_u-mcp25625
-> >    mkdir sifive_u-mcp25625
-> >    cd sifive_u-mcp25625
-> >    cat sifive_u-mcp25625.dtbo >dtbo
-> >    echo 1 >status
-> >
-> > which is what we do with CTU CAN FD ip on Zynq system
-> > to run PL/FPGA update.
-> >
-> > But from QEMU info qtree, I see that device is not mapped in QEMU...
-> > Which is logic...
-> >
-> > So please, can you send instruction how to proceed forward.
-> >
-> > Do you have DTB prepared for testing or something similar?
-> >
-> > In a longer term perspective, it would be ideal to provide
-> > some update for documentation, how to use mcp25625 emulation
-> >
-> >    https://www.qemu.org/docs/master/system/devices/can.html
-> >
-> > By the way, if the Raspberry Pi emulation does not provide
-> > right SPI emulation as you have noticed, what about BeagleBoneBlack?
->
-> At the moment it seems that the as a whole qemu doesn't have a good
-> way of adding a generic spi device to a bus.
->
-> > Does it support SPI? It could be good target to test that mcp25625
-> > chip emulation is portable..
->
-> I've pushed our test branch out to:
-> https://gitlab.com/CodethinkLabs/qemu/-/commits/mcp25625_test
->
-> That adds an spi channel to the sifive_u machine and puts the
-> right dtb entry in there.
-
-
+r~
 
