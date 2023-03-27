@@ -2,85 +2,169 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6D36C9D1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1CB6C9D1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:04:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pghn7-0003Wj-6p; Mon, 27 Mar 2023 04:01:21 -0400
+	id 1pghpw-0005AQ-4q; Mon, 27 Mar 2023 04:04:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pghmV-0003Ux-8K
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 04:00:47 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pghmL-0008Ap-EV
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 04:00:38 -0400
-Received: by mail-ed1-x529.google.com with SMTP id h8so32145987ede.8
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 01:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull.eu; s=google; t=1679904031;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=W0fOQ/Gd7kFLsb5b8a51DgH71GVwq5Cw1fXmGJ3OBCI=;
- b=D0uHIGk34udTDt4PZs6uw0Xn/nfIREz9Uy5FSyiyZSKriYdx8nRyl7R2pisXvrs6P0
- 7Q5MfDbP88ISqrLh8KRM0lrOFmfHpHxLHOXKs3CWoYBdcBLwoswuNHjZX3AvmWyyZmhS
- nD03hsZWDIyHq8kOOdFnWnRT6i4PhIZTktX2Rx0GMF9jF7SUH8eyNrfAcJP/lU3Y+cMP
- snK+M4S6+74hdRJJm+tCT/lrE6OqdyoVGOAgxCpsg6HhczJ80+b3+keBUcN7beyLTQ2P
- VfwjseoOFYgN7RU9VlIfCDm31nDAU1vNoOYIjaSj0mDSQrgdim3dr1k7LntfNmYI+Vx6
- B4LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679904031;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=W0fOQ/Gd7kFLsb5b8a51DgH71GVwq5Cw1fXmGJ3OBCI=;
- b=1riG9m79nWL8CytaBdquq+2n+M7XwOOjcD1/SQXbSBr75RdV5KYtCxSknIP6FmoUGL
- ZgeikCrkuJ8yQ0AKi/yzQ6K9sPeRFBjZuY27TtWsEFXc2kNtNKrjxBgsJXmkJW+BVX7e
- toFeB9LMQ3HQepU3PFT7o85BCqLuF7mP+9wGuhtRGdk+L3DME4aA05grdcZygLVeq359
- rU12RB6lncmlhYmUs/MhLKyIJXYAWu2URrg4mcHXa5Np2z/YCgwTCW90bSWX3okp+S5q
- PN2S4/jo6tvkAuzNVwjCvVhesaaVfpCohbNnaChB4JjJu6324cUMhqp1vS5Fj4k1TEt0
- x2Jw==
-X-Gm-Message-State: AAQBX9d0CzJZbP5+wzznN21LU9cpXiU1Wt/t+UBe/6i2jI2Y/qTTcQ6T
- 9NTfA4iaD1Xv8gOKxkOYvbTt8Q==
-X-Google-Smtp-Source: AKy350aBlyQ9c0E0EycDL97zWRinycKYDA+XJgqnZ7ZcbFiFIfZ00vRF3zDibsWp+FaaorFu8jF6OA==
-X-Received: by 2002:a17:906:a1d5:b0:92c:88f9:385c with SMTP id
- bx21-20020a170906a1d500b0092c88f9385cmr11137918ejb.75.1679904030731; 
- Mon, 27 Mar 2023 01:00:30 -0700 (PDT)
-Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
- [62.178.148.172]) by smtp.gmail.com with ESMTPSA id
- kb1-20020a1709070f8100b00933c4a25735sm11127145ejc.100.2023.03.27.01.00.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 01:00:29 -0700 (PDT)
-From: Christoph Muellner <christoph.muellner@vrull.eu>
-To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jeff Law <jeffreyalaw@gmail.com>, Tsukasa OI <research_trasio@irq.a4lg.com>
-Cc: =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>,
- Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [PATCH] riscv: Add support for the Zfa extension
-Date: Mon, 27 Mar 2023 10:00:26 +0200
-Message-Id: <20230327080026.3266574-1-christoph.muellner@vrull.eu>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1pghps-0005A8-Vw
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 04:04:13 -0400
+Received: from mga04.intel.com ([192.55.52.120])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1pghpq-0001VQ-NQ
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 04:04:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679904250; x=1711440250;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=5ti00PTzGi/RRWpEO3gW4C9hsJHC5bYzyckqIasmvWs=;
+ b=eUZCc0d8N7YaYcOCqVNYwsC3nTtLqPahVk+uLYqGSLu1/S9P5zGG+8ul
+ DXaSW2bpijGo4vluAPJG1Yk48rKEYEGmgEvUeC4hLZAp21e1hXkjjWnaX
+ dymcOEEDBPKjlbiayORL8VQxhrGbkYbFFFAtjonAUWR9urHcU9cxLbKWv
+ oRIOUWnlqJ6G3q/rFQ8hG+zzx8ieoP6/YX14oTsOg0ZDJSTb/9gLIyLTk
+ B6pRpQccp2SIvmopssUXZ3ZcXmDaD90DHALPz12VQGd+FNu8evI2qCkrM
+ f0p1Piru2Bw0dbgLYQr/xe3JualbQq5oSYB2v8GkmRO7WDTKFWPfIEYwq A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="338925926"
+X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; d="scan'208";a="338925926"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2023 01:04:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10661"; a="752601840"
+X-IronPort-AV: E=Sophos;i="5.98,294,1673942400"; d="scan'208";a="752601840"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga004.fm.intel.com with ESMTP; 27 Mar 2023 01:04:05 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 27 Mar 2023 01:04:05 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 27 Mar 2023 01:04:05 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Mon, 27 Mar 2023 01:04:05 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Mon, 27 Mar 2023 01:04:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XvPBrRtDZmf8oV/XnSWQo9kCDt0ioptuzThzkVmP2iLBl5xCjK7rG7hrqNsf3iLASXe3HiW+h88M0EavvrL6U+xiWI/I483v8WMojeZN9vmCQmKL7knw4yUSvlzN1TJFOtUl/5xXYiy+uaE5eIUJce65iHcX66Rg/pnxjCjibmjzMxl4uevmWw7kwv1N+jVvGi6wWqPAH4nS9YUT8KWB0sQtrFFc73ZBtD93DHqbv5Vu+IUCxvDv5YzQpCPaj11zzIN3FfKe3/iZKFB8XbXpv08J8itC176DJcwa+BrCrkxJJMwD7GnXNGyZ8IejndEsUsVroPavxmg2zn/zVS6F5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MZ6Hgl7/aCd13ipJJJezrEhO19GLzu8TBgVgLndRuQI=;
+ b=LPj0BJ2mVrQOZW6p07vUTxQ1W5xCz1QClVgieI4El7Pwuf8bKa+Sm73CCXlLoQSBZQvu5tTOVNjXhHZA37sm+fipR0hAFaXAruRf1U8Q9+48lgUTZkMVOk3T8JiWGReVkFLSLacTxyA4G0WWw0GFSOcY1xADMYwhJ6dHnI9cqH5CMWAvrgCCCLWIPlLc/tIHzXBMFQnY4d2JXFmj5E1lb8KQVFZGMUJMHAyYeRvTzBVkteL0iml1zA5ROdLvdZd+Fw+urGZ+HETDUWgNUejk+aVzAyZWU43+xj9PrHcW4K1hTmyz2pP4B1hqVVATYAoEa/MUAV7PqoovhJR2PMTsTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB4965.namprd11.prod.outlook.com (2603:10b6:510:34::7)
+ by PH0PR11MB5014.namprd11.prod.outlook.com (2603:10b6:510:31::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.30; Mon, 27 Mar
+ 2023 08:04:03 +0000
+Received: from PH0PR11MB4965.namprd11.prod.outlook.com
+ ([fe80::47e1:d7b9:aab:dada]) by PH0PR11MB4965.namprd11.prod.outlook.com
+ ([fe80::47e1:d7b9:aab:dada%5]) with mapi id 15.20.6178.041; Mon, 27 Mar 2023
+ 08:04:03 +0000
+Message-ID: <3df48e2b-f417-21dc-d386-95399c3e694e@intel.com>
+Date: Mon, 27 Mar 2023 16:03:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RESEND PATCH v2] target/i386: Switch back XFRM value
+Content-Language: en-US
+To: Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
+CC: "Zhong, Yang" <yang.zhong@intel.com>, "yang.zhong@linux.intel.com"
+ <yang.zhong@linux.intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20221026115745.528314-1-yang.zhong@intel.com>
+ <253335ef-5e63-0182-f92b-a576b2459cff@intel.com>
+ <CAATJJ0JLFA3b=KYP-OKXzritJGY1GuuRh+E4D6XZ3RLa6zKn_g@mail.gmail.com>
+From: "Yang, Weijiang" <weijiang.yang@intel.com>
+In-Reply-To: <CAATJJ0JLFA3b=KYP-OKXzritJGY1GuuRh+E4D6XZ3RLa6zKn_g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=christoph.muellner@vrull.eu; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-ClientProxiedBy: SG2P153CA0049.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::18)
+ To PH0PR11MB4965.namprd11.prod.outlook.com
+ (2603:10b6:510:34::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB4965:EE_|PH0PR11MB5014:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a39513e-5c69-469a-b145-08db2e99d469
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ts3FTQGhiu8ikielLqJimgjMDI2o628owo2vlBXB+4yYdQGE4zzAV6/i+dThOuz2WA4RyCR8cj4uWZUQfk5VrDTxjmCet+QVqVRr1hRmk/uMj1DMaMDnhGzRXKqNFGVNXC3/MISh/jFeukZcF/+niecCYYX4YpE8zUFiRLXAJylTIdl3DMpnRG7w8lytrW+i4VN/3RTjy14pccyVBeHNfhtVYfS/3HduYUY0lzUhTuW3znOeMI7zcD4Ayw8CD8Fseel+UXFNVHtovWmvddQzZNnBB2UCK2R8d7ttyfmwBEVEO3SMibJHEHXVIEv6E4u60A+NRsNctXIFiBUAgp8c96kdlr5swAdKWw3uKisWPTBx6pEG3AXtZVvog3EY3ak+SZj1hygouHc57etXsWspt72ri6x6KHVGGCO6q4JZD2i7/cesIMuAr/Vht3bd+yrEQ5/x5Blgd5fMimD0/zggIkBwgc5dTl2K6QOEVAb+f3wGMNMip/1J9RE90qEYUIeFYvoQCWuK5MTKZdsTtCmWGI0HnSD8OeiErjz7fogXiphuR4k4BKeRVRBx/9CIWlaCpRpDghFhC/d5sXzkY19OtDIMDNTTMrv2U80bQ8tYnjXNrW/IqFYzgmFKFFxuTfYFGWaU4JRcPB9p5JZdn2sW4w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR11MB4965.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(396003)(39860400002)(136003)(366004)(346002)(451199021)(110136005)(316002)(54906003)(478600001)(5660300002)(8936002)(82960400001)(36756003)(31696002)(86362001)(38100700002)(2906002)(4326008)(66556008)(66476007)(8676002)(66946007)(41300700001)(6666004)(186003)(6512007)(6506007)(26005)(53546011)(2616005)(83380400001)(31686004)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MEVuVXQ2NlJjdTI5cmFlMll6Z0ovWVh1VlZoVEN3VW1sUU9vRVFTMW1ZZnAr?=
+ =?utf-8?B?M0RVa1I5Nk4rS2k1R0Q1VDcrakMydUhXSWNGZHNZL0lVTmdTdkRxQWw5Uy9Q?=
+ =?utf-8?B?SG1zZnNGMXdtQXZYNy9mWXY5WEM5eDFwcUpYQnlJS1hCbEdBVG5ya1A5N1h6?=
+ =?utf-8?B?Y1pkOWpxaXp4LzBSTFRWbm5DdWlwN0l1WjlLKzJ6ZGJaaTcwVU9DdktRcVZW?=
+ =?utf-8?B?QmNaVS91SktqMVpsdjhkbHZMZS9GNXpUYlNJaG1wZ3hVQnhpcVltbm0rUnNX?=
+ =?utf-8?B?ZzNwMHJ0a3ZZYUtJaDZkMHJ4cXJOU25YQ0ErNzZLV2JKb2RoQzdSTXVlalNj?=
+ =?utf-8?B?UC9tcTJWSU1sTTIwKzc1Mzkrcll1OWgzZmFVUXhJaG5henYzKytQTzhuZEhz?=
+ =?utf-8?B?NEcwSUtacU5xRmdnZUEzSWpLNC83dG1XVCtmNTlyV1lPZjlCYTNWVWFKb3RW?=
+ =?utf-8?B?ZGx3emRaTHIzS252d21vdlc4WDlSMnBVWXNrMXpzSGIyenRxUWM4WXdEODlH?=
+ =?utf-8?B?TFdETXJtLzhyeDlncU5TY1NlamRBQ2RBb0k2b3ZHTkFreEpWYUFpWHRCVVU2?=
+ =?utf-8?B?anBGY1o3ZU1kOGp5bWNkZ0JCMUZXTVI0dTNqTnI2SzVGSThDeEFiamU3blpk?=
+ =?utf-8?B?cWJ2c3haNjQzT2xud052ZDZxcDdxSUN4QzBCd2c5UUJFU2xab0o3bnhmWDdk?=
+ =?utf-8?B?cU05c3dIRStoa0VWcUVIaStKWmlHcUpoeUpwajVMRTMwb2h1d0d5SVNTOFpV?=
+ =?utf-8?B?TU5TRHgxTDFDQ0libTZRTUJrZjdRdzBjTkZNZUplZVRid2NIRTFJKzFFYVli?=
+ =?utf-8?B?cmpWbzFCNGwwNVl2RjFFQmw5aGtkMStxT21VL2VnNjhObm1GR05ncndkQXF3?=
+ =?utf-8?B?UGF0Vk9vTHhqYmlFcVM1NVZzc1JrV0xZNmRBY1B1Ukl0WlpCTEVUYjQySlBI?=
+ =?utf-8?B?WExZOFAxREo3bGszaGpvbDdJTG1RSDNEclg0VnNQNWIvcTJybjhURzQvVjJx?=
+ =?utf-8?B?N1lqbVZyK2VGcTIwS3NzcEhrTHBZK0RjRDk5UDR2czdmbzh6NHY2WEszaEpJ?=
+ =?utf-8?B?WHNGOHhZMFlCeEp2NEpuY3QzSTVORHVFQTA4eEgzMWFFOWpiL3h5Wm1lSjBy?=
+ =?utf-8?B?R3RVMEZUVEZhYWNTdEc5SlVOY1ZpZ0dBcDBXQ0xjb1NBV2JFenpIeUM4aVFX?=
+ =?utf-8?B?NEM4d1Y4RElHeUpXYU55b3dJT3psZWd2VVVNWjRCQ09aWVc4S3lxeFpwQ3l1?=
+ =?utf-8?B?ak5SeFh1QmJCNy9PNHN5U2RZck9jeHU5aGMrSCtNTm4rS0ZOWU4zb2M2ZU1R?=
+ =?utf-8?B?TTJ5UGt3WWNsK1JmMGdpUDFvcGxrRHJMWk9OV09WZ3RIYVowQjhyVmc4K2Vp?=
+ =?utf-8?B?RlNyOWlGcm0wUFVhTEt2WHQ3VmMyVDFBV1QwQnlYcm05Wm1aNjRZaHk2alkr?=
+ =?utf-8?B?eFA3SlppRFJ0c3FVbEtyMDV1bTdTUFhYSGdQTml2WjNkUlFNZDRnTjVVbytZ?=
+ =?utf-8?B?WWxhMjFMOGIySmpqTURIZlJWT0RLdVZEeWlsSS9acVYySTlKNzFLMnZOU3dy?=
+ =?utf-8?B?WWhSbk9ZTDJwWmptUWdHWGFEZlltdTdONUZTM0tVU2gwcW9uY3RGaEVSUXBK?=
+ =?utf-8?B?THJ3NXYrN296YlB3TGtOcWVYZi85UmJ0M0ZIdS9WUXdkUHIrdlppKzc3cXNY?=
+ =?utf-8?B?RWRBS0Ric0lZS09ZcldUL2syZkhRU3JWVDF3QWY1V0NWeHcvVFZkTWtyN2RH?=
+ =?utf-8?B?UnU5MzNaaDRnMlRwSkZlN0VOWGNpbnlaSFpZYWlPNnVCK1lFdDU2ZTZyQm1w?=
+ =?utf-8?B?U3RwbGR1M05HdmRSdVZjRS93SFA3cHVOZGlxeEVTNTl2blBCRUl2dHF5Vlgr?=
+ =?utf-8?B?Mk03ajhETUNCRGpEbk5ieThyR2pBWmFtaG94dWIvTy9BQ2MybWpCTlFweEVB?=
+ =?utf-8?B?cmF5eXBrZDlaL3BwdlR6SFpQVm9tUDN2VnYyVm51YjVuYjgxeHNYdnExc3Nv?=
+ =?utf-8?B?dFkzYlFFSXhKbWwwb1FZaEN5SDFiT0xZS2NkVjhIWmVEd0kyNEJYTUtMZXdE?=
+ =?utf-8?B?WmkxQ0hRUjJQMDZTS3kwTnZZMUxzaHZzRVk1SWRhNGp3MkR0K0N1REM4QnJv?=
+ =?utf-8?B?WVdDOU8yc0VMSGJWSjBYVmpFanRpSHFJMVFlQ3JzRHdNeXd4S3NiRVJNZkxR?=
+ =?utf-8?B?ZWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a39513e-5c69-469a-b145-08db2e99d469
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4965.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 08:04:03.4453 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5odegDgxxRDEOESbOr1unmF4IWTfdP0Tv11B0yzaOxGFHwpFDpvJbA9iQFmkpInp3KIMTd2yMhfokdrWqL45sw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5014
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.120;
+ envelope-from=weijiang.yang@intel.com; helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,1125 +181,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Christoph Müllner <christoph.muellner@vrull.eu>
 
-This patch introduces the RISC-V Zfa extension, which introduces
-additional floating-point extensions:
-* fli (load-immediate) with pre-defined immediates
-* fminm/fmaxm (like fmin/fmax but with different NaN behaviour)
-* fround/froundmx (round to integer)
-* fcvtmod.w.d (Modular Convert-to-Integer)
-* fmv* to access high bits of float register bigger than XLEN
-* Quiet comparison instructions (fleq/fltq)
+On 3/27/2023 3:33 PM, Christian Ehrhardt wrote:
+> On Thu, Oct 27, 2022 at 2:36 AM Yang, Weijiang <weijiang.yang@intel.com> wrote:
+>>
+>> On 10/26/2022 7:57 PM, Zhong, Yang wrote:
+>>> The previous patch wrongly replaced FEAT_XSAVE_XCR0_{LO|HI} with
+>>> FEAT_XSAVE_XSS_{LO|HI} in CPUID(EAX=12,ECX=1):{ECX,EDX}, which made
+>>> SGX enclave only supported SSE and x87 feature(xfrm=0x3).
+>>>
+>>> Fixes: 301e90675c3f ("target/i386: Enable support for XSAVES based features")
+>>>
+>>> Signed-off-by: Yang Zhong <yang.zhong@linux.intel.com>
+>>> ---
+>>>    target/i386/cpu.c | 4 ++--
+>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>>> index ad623d91e4..19aaed877b 100644
+>>> --- a/target/i386/cpu.c
+>>> +++ b/target/i386/cpu.c
+>>> @@ -5584,8 +5584,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>            } else {
+>>>                *eax &= env->features[FEAT_SGX_12_1_EAX];
+>>>                *ebx &= 0; /* ebx reserve */
+>>> -            *ecx &= env->features[FEAT_XSAVE_XSS_LO];
+>>> -            *edx &= env->features[FEAT_XSAVE_XSS_HI];
+>>> +            *ecx &= env->features[FEAT_XSAVE_XCR0_LO];
+>>> +            *edx &= env->features[FEAT_XSAVE_XCR0_HI];
+>> Oops, that's my fault to replace with wrong definitions, thanks for the fix!
+>>
+>> Reviewed-by:  Yang Weijiang <weijiang.yang@intel.com>
+> Hi,
+> I do not have any background on this but stumbled over this and wondered,
+> is there any particular reason why this wasn't applied yet?
+>
+> It seemed to fix a former mistake, was acked and then ... silence
 
-Zfa defines its instructions in combination with the following extensions:
-* single-precision floating-point (F)
-* double-precision floating-point (D)
-* quad-precision floating-point (Q)
-* half-precision floating-point (Zfh)
+Chris, thanks for the catch!
 
-Since QEMU does not support the RISC-V quad-precision floating-point
-ISA extension (Q), this patch does not include the instructions that
-depend on this extension. All other instructions are included in this
-patch.
+I double checked this patch isn't in the latest 8.0.0-rc1 tree.
 
-The Zfa specification is not frozen at the moment (which is why this
-patch is RFC) and can be found here:
-  https://github.com/riscv/riscv-isa-manual/blob/master/src/zfa.tex
 
-Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
----
- target/riscv/cpu.c                        |   8 +
- target/riscv/cpu.h                        |   1 +
- target/riscv/fpu_helper.c                 | 324 +++++++++++++++++
- target/riscv/helper.h                     |  22 ++
- target/riscv/insn32.decode                |  67 ++++
- target/riscv/insn_trans/trans_rvzfa.c.inc | 410 ++++++++++++++++++++++
- target/riscv/translate.c                  |   1 +
- 7 files changed, 833 insertions(+)
- create mode 100644 target/riscv/insn_trans/trans_rvzfa.c.inc
+Hi, Paolo,
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1e97473af2..bac9ced4a2 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -83,6 +83,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-     ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
-     ISA_EXT_DATA_ENTRY(zawrs, true, PRIV_VERSION_1_12_0, ext_zawrs),
-+    ISA_EXT_DATA_ENTRY(zfa, true, PRIV_VERSION_1_12_0, ext_zfa),
-     ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_11_0, ext_zfh),
-     ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
-     ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-@@ -404,6 +405,7 @@ static void rv64_thead_c906_cpu_init(Object *obj)
-     cpu->cfg.ext_u = true;
-     cpu->cfg.ext_s = true;
-     cpu->cfg.ext_icsr = true;
-+    cpu->cfg.ext_zfa = true;
-     cpu->cfg.ext_zfh = true;
-     cpu->cfg.mmu = true;
-     cpu->cfg.ext_xtheadba = true;
-@@ -865,6 +867,11 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         return;
-     }
- 
-+    if (cpu->cfg.ext_zfa && !cpu->cfg.ext_f) {
-+        error_setg(errp, "Zfa extension requires F extension");
-+        return;
-+    }
-+
-     if (cpu->cfg.ext_zfh) {
-         cpu->cfg.ext_zfhmin = true;
-     }
-@@ -1381,6 +1388,7 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
-     DEFINE_PROP_BOOL("Zawrs", RISCVCPU, cfg.ext_zawrs, true),
-+    DEFINE_PROP_BOOL("Zfa", RISCVCPU, cfg.ext_zfa, false),
-     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 638e47c75a..deae410fc2 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -462,6 +462,7 @@ struct RISCVCPUConfig {
-     bool ext_svpbmt;
-     bool ext_zdinx;
-     bool ext_zawrs;
-+    bool ext_zfa;
-     bool ext_zfh;
-     bool ext_zfhmin;
-     bool ext_zfinx;
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index 449d236df6..55c75bf063 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -252,6 +252,18 @@ uint64_t helper_fmin_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-                     float32_minimum_number(frs1, frs2, &env->fp_status));
- }
- 
-+uint64_t helper_fminm_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float32 frs1 = check_nanbox_s(env, rs1);
-+    float32 frs2 = check_nanbox_s(env, rs2);
-+
-+    if (float32_is_any_nan(frs1) || float32_is_any_nan(frs2)) {
-+        return float32_default_nan(&env->fp_status);
-+    }
-+
-+    return nanbox_s(env, float32_minimum_number(frs1, frs2, &env->fp_status));
-+}
-+
- uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-     float32 frs1 = check_nanbox_s(env, rs1);
-@@ -261,6 +273,18 @@ uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-                     float32_maximum_number(frs1, frs2, &env->fp_status));
- }
- 
-+uint64_t helper_fmaxm_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float32 frs1 = check_nanbox_s(env, rs1);
-+    float32 frs2 = check_nanbox_s(env, rs2);
-+
-+    if (float32_is_any_nan(frs1) || float32_is_any_nan(frs2)) {
-+        return float32_default_nan(&env->fp_status);
-+    }
-+
-+    return nanbox_s(env, float32_maximum_number(frs1, frs2, &env->fp_status));
-+}
-+
- uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t rs1)
- {
-     float32 frs1 = check_nanbox_s(env, rs1);
-@@ -274,6 +298,13 @@ target_ulong helper_fle_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-     return float32_le(frs1, frs2, &env->fp_status);
- }
- 
-+target_ulong helper_fleq_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float32 frs1 = check_nanbox_s(env, rs1);
-+    float32 frs2 = check_nanbox_s(env, rs2);
-+    return float32_le_quiet(frs1, frs2, &env->fp_status);
-+}
-+
- target_ulong helper_flt_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-     float32 frs1 = check_nanbox_s(env, rs1);
-@@ -281,6 +312,13 @@ target_ulong helper_flt_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-     return float32_lt(frs1, frs2, &env->fp_status);
- }
- 
-+target_ulong helper_fltq_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float32 frs1 = check_nanbox_s(env, rs1);
-+    float32 frs2 = check_nanbox_s(env, rs2);
-+    return float32_lt_quiet(frs1, frs2, &env->fp_status);
-+}
-+
- target_ulong helper_feq_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-     float32 frs1 = check_nanbox_s(env, rs1);
-@@ -338,6 +376,76 @@ target_ulong helper_fclass_s(CPURISCVState *env, uint64_t rs1)
-     return fclass_s(frs1);
- }
- 
-+uint64_t helper_fround_s(CPURISCVState *env, uint64_t frs1)
-+{
-+    if (float32_is_zero(frs1) ||
-+        float32_is_infinity(frs1)) {
-+        return frs1;
-+    }
-+
-+    if (float32_is_any_nan(frs1)) {
-+        riscv_cpu_set_fflags(env, FPEXC_NV);
-+        return frs1;
-+    }
-+
-+    int32_t tmp = float32_to_int32(frs1, &env->fp_status);
-+    return nanbox_s(env, int32_to_float32(tmp, &env->fp_status));
-+}
-+
-+uint64_t helper_froundnx_s(CPURISCVState *env, uint64_t frs1)
-+{
-+    uint64_t ret = helper_fround_s(env, frs1);
-+
-+    if (ret != frs1 && !float32_is_any_nan(frs1)) {
-+        riscv_cpu_set_fflags(env, FPEXC_NX);
-+    }
-+
-+    return ret;
-+}
-+
-+uint64_t helper_fli_s(CPURISCVState *env, uint32_t rs1)
-+{
-+    const uint32_t fli_s_table[] = {
-+        0xbf800000,  /* -1.0 */
-+        0x00800000,  /* minimum positive normal */
-+        0x37800000,  /* 1.0 * 2^-16 */
-+        0x38000000,  /* 1.0 * 2^-15 */
-+        0x3b800000,  /* 1.0 * 2^-8  */
-+        0x3c000000,  /* 1.0 * 2^-7  */
-+        0x3d800000,  /* 1.0 * 2^-4  */
-+        0x3e000000,  /* 1.0 * 2^-3  */
-+        0x3e800000,  /* 0.25 */
-+        0x3ea00000,  /* 0.3125 */
-+        0x3ec00000,  /* 0.375 */
-+        0x3ee00000,  /* 0.4375 */
-+        0x3f000000,  /* 0.5 */
-+        0x3f200000,  /* 0.625 */
-+        0x3f400000,  /* 0.75 */
-+        0x3f600000,  /* 0.875 */
-+        0x3f800000,  /* 1.0 */
-+        0x3fa00000,  /* 1.25 */
-+        0x3fc00000,  /* 1.5 */
-+        0x3fe00000,  /* 1.75 */
-+        0x40000000,  /* 2.0 */
-+        0x40200000,  /* 2.5 */
-+        0x40400000,  /* 3 */
-+        0x40800000,  /* 4 */
-+        0x41000000,  /* 8 */
-+        0x41800000,  /* 16 */
-+        0x43000000,  /* 2^7 */
-+        0x43800000,  /* 2^8 */
-+        0x47000000,  /* 2^15 */
-+        0x47800000,  /* 2^16 */
-+        0x7f800000,  /* +inf */
-+        float32_default_nan(&env->fp_status),
-+    };
-+
-+    if (rs1 >= 32)
-+        g_assert_not_reached();
-+
-+    return fli_s_table[rs1];
-+}
-+
- uint64_t helper_fadd_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
- {
-     return float64_add(frs1, frs2, &env->fp_status);
-@@ -365,6 +473,15 @@ uint64_t helper_fmin_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-             float64_minimum_number(frs1, frs2, &env->fp_status);
- }
- 
-+uint64_t helper_fminm_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+{
-+    if (float64_is_any_nan(frs1) || float64_is_any_nan(frs2)) {
-+        return float64_default_nan(&env->fp_status);
-+    }
-+
-+    return float64_minimum_number(frs1, frs2, &env->fp_status);
-+}
-+
- uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
- {
-     return env->priv_ver < PRIV_VERSION_1_11_0 ?
-@@ -372,6 +489,15 @@ uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-             float64_maximum_number(frs1, frs2, &env->fp_status);
- }
- 
-+uint64_t helper_fmaxm_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+{
-+    if (float64_is_any_nan(frs1) || float64_is_any_nan(frs2)) {
-+        return float64_default_nan(&env->fp_status);
-+    }
-+
-+    return float64_maximum_number(frs1, frs2, &env->fp_status);
-+}
-+
- uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)
- {
-     return nanbox_s(env, float64_to_float32(rs1, &env->fp_status));
-@@ -393,11 +519,21 @@ target_ulong helper_fle_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-     return float64_le(frs1, frs2, &env->fp_status);
- }
- 
-+target_ulong helper_fleq_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+{
-+    return float64_le_quiet(frs1, frs2, &env->fp_status);
-+}
-+
- target_ulong helper_flt_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
- {
-     return float64_lt(frs1, frs2, &env->fp_status);
- }
- 
-+target_ulong helper_fltq_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
-+{
-+    return float64_lt_quiet(frs1, frs2, &env->fp_status);
-+}
-+
- target_ulong helper_feq_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
- {
-     return float64_eq_quiet(frs1, frs2, &env->fp_status);
-@@ -408,6 +544,16 @@ target_ulong helper_fcvt_w_d(CPURISCVState *env, uint64_t frs1)
-     return float64_to_int32(frs1, &env->fp_status);
- }
- 
-+target_ulong helper_fcvtmod_w_d(CPURISCVState *env, uint64_t frs1)
-+{
-+    if (float64_is_any_nan(frs1) ||
-+        float64_is_infinity(frs1)) {
-+        return 0;
-+    }
-+
-+    return float64_to_int32(frs1, &env->fp_status);
-+}
-+
- target_ulong helper_fcvt_wu_d(CPURISCVState *env, uint64_t frs1)
- {
-     return (int32_t)float64_to_uint32(frs1, &env->fp_status);
-@@ -448,6 +594,76 @@ target_ulong helper_fclass_d(uint64_t frs1)
-     return fclass_d(frs1);
- }
- 
-+uint64_t helper_fround_d(CPURISCVState *env, uint64_t frs1)
-+{
-+    if (float64_is_zero(frs1) ||
-+        float64_is_infinity(frs1)) {
-+        return frs1;
-+    }
-+
-+    if (float64_is_any_nan(frs1)) {
-+        riscv_cpu_set_fflags(env, FPEXC_NV);
-+        return frs1;
-+    }
-+
-+    int64_t tmp = float64_to_int64(frs1, &env->fp_status);
-+    return nanbox_s(env, int64_to_float64(tmp, &env->fp_status));
-+}
-+
-+uint64_t helper_froundnx_d(CPURISCVState *env, uint64_t frs1)
-+{
-+    uint64_t ret = helper_fround_s(env, frs1);
-+
-+    if (ret != frs1 && !float64_is_any_nan(frs1)) {
-+        riscv_cpu_set_fflags(env, FPEXC_NX);
-+    }
-+
-+    return ret;
-+}
-+
-+uint64_t helper_fli_d(CPURISCVState *env, uint32_t rs1)
-+{
-+    const uint64_t fli_d_table[] = {
-+        0xbff0000000000000,  /* -1.0 */
-+        0x0010000000000000,  /* minimum positive normal */
-+        0x3Ef0000000000000,  /* 1.0 * 2^-16 */
-+        0x3f00000000000000,  /* 1.0 * 2^-15 */
-+        0x3f70000000000000,  /* 1.0 * 2^-8  */
-+        0x3f80000000000000,  /* 1.0 * 2^-7  */
-+        0x3fb0000000000000,  /* 1.0 * 2^-4  */
-+        0x3fc0000000000000,  /* 1.0 * 2^-3  */
-+        0x3fd0000000000000,  /* 0.25 */
-+        0x3fd4000000000000,  /* 0.3125 */
-+        0x3fd8000000000000,  /* 0.375 */
-+        0x3fdc000000000000,  /* 0.4375 */
-+        0x3fe0000000000000,  /* 0.5 */
-+        0x3fe4000000000000,  /* 0.625 */
-+        0x3fe8000000000000,  /* 0.75 */
-+        0x3fec000000000000,  /* 0.875 */
-+        0x3ff0000000000000,  /* 1.0 */
-+        0x3ff4000000000000,  /* 1.25 */
-+        0x3ff8000000000000,  /* 1.5 */
-+        0x3ffc000000000000,  /* 1.75 */
-+        0x4000000000000000,  /* 2.0 */
-+        0x4004000000000000,  /* 2.5 */
-+        0x4008000000000000,  /* 3 */
-+        0x4010000000000000,  /* 4 */
-+        0x4020000000000000,  /* 8 */
-+        0x4030000000000000,  /* 16 */
-+        0x4060000000000000,  /* 2^7 */
-+        0x4070000000000000,  /* 2^8 */
-+        0x40e0000000000000,  /* 2^15 */
-+        0x40f0000000000000,  /* 2^16 */
-+        0x7ff0000000000000,  /* +inf */
-+        float64_default_nan(&env->fp_status),
-+    };
-+
-+    if (rs1 >= 32)
-+        g_assert_not_reached();
-+
-+    return fli_d_table[rs1];
-+}
-+
- uint64_t helper_fadd_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-     float16 frs1 = check_nanbox_h(env, rs1);
-@@ -485,6 +701,18 @@ uint64_t helper_fmin_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-                     float16_minimum_number(frs1, frs2, &env->fp_status));
- }
- 
-+uint64_t helper_fminm_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float16 frs1 = check_nanbox_s(env, rs1);
-+    float16 frs2 = check_nanbox_s(env, rs2);
-+
-+    if (float16_is_any_nan(frs1) || float16_is_any_nan(frs2)) {
-+        return float16_default_nan(&env->fp_status);
-+    }
-+
-+    return nanbox_s(env, float16_minimum_number(frs1, frs2, &env->fp_status));
-+}
-+
- uint64_t helper_fmax_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-     float16 frs1 = check_nanbox_h(env, rs1);
-@@ -494,6 +722,18 @@ uint64_t helper_fmax_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-                     float16_maximum_number(frs1, frs2, &env->fp_status));
- }
- 
-+uint64_t helper_fmaxm_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float16 frs1 = check_nanbox_s(env, rs1);
-+    float16 frs2 = check_nanbox_s(env, rs2);
-+
-+    if (float16_is_any_nan(frs1) || float16_is_any_nan(frs2)) {
-+        return float16_default_nan(&env->fp_status);
-+    }
-+
-+    return nanbox_s(env, float16_maximum_number(frs1, frs2, &env->fp_status));
-+}
-+
- uint64_t helper_fsqrt_h(CPURISCVState *env, uint64_t rs1)
- {
-     float16 frs1 = check_nanbox_h(env, rs1);
-@@ -507,6 +747,13 @@ target_ulong helper_fle_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-     return float16_le(frs1, frs2, &env->fp_status);
- }
- 
-+target_ulong helper_fleq_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float16 frs1 = check_nanbox_h(env, rs1);
-+    float16 frs2 = check_nanbox_h(env, rs2);
-+    return float16_le_quiet(frs1, frs2, &env->fp_status);
-+}
-+
- target_ulong helper_flt_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-     float16 frs1 = check_nanbox_h(env, rs1);
-@@ -514,6 +761,13 @@ target_ulong helper_flt_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-     return float16_lt(frs1, frs2, &env->fp_status);
- }
- 
-+target_ulong helper_fltq_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-+{
-+    float16 frs1 = check_nanbox_h(env, rs1);
-+    float16 frs2 = check_nanbox_h(env, rs2);
-+    return float16_lt_quiet(frs1, frs2, &env->fp_status);
-+}
-+
- target_ulong helper_feq_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
- {
-     float16 frs1 = check_nanbox_h(env, rs1);
-@@ -527,6 +781,76 @@ target_ulong helper_fclass_h(CPURISCVState *env, uint64_t rs1)
-     return fclass_h(frs1);
- }
- 
-+uint64_t helper_fround_h(CPURISCVState *env, uint64_t frs1)
-+{
-+    if (float16_is_zero(frs1) ||
-+        float16_is_infinity(frs1)) {
-+        return frs1;
-+    }
-+
-+    if (float16_is_any_nan(frs1)) {
-+        riscv_cpu_set_fflags(env, FPEXC_NV);
-+        return frs1;
-+    }
-+
-+    int32_t tmp = float16_to_int32(frs1, &env->fp_status);
-+    return nanbox_s(env, int32_to_float16(tmp, &env->fp_status));
-+}
-+
-+uint64_t helper_froundnx_h(CPURISCVState *env, uint64_t frs1)
-+{
-+    uint64_t ret = helper_fround_s(env, frs1);
-+
-+    if (ret != frs1 && !float16_is_any_nan(frs1)) {
-+        riscv_cpu_set_fflags(env, FPEXC_NX);
-+    }
-+
-+    return ret;
-+}
-+
-+uint64_t helper_fli_h(CPURISCVState *env, uint32_t rs1)
-+{
-+    const uint16_t fli_h_table[] = {
-+        0xbc00,  /* -1.0 */
-+        0x0400,  /* minimum positive normal */
-+        0x0100,  /* 1.0 * 2^-16 */
-+        0x0200,  /* 1.0 * 2^-15 */
-+        0x1c00,  /* 1.0 * 2^-8  */
-+        0x2000,  /* 1.0 * 2^-7  */
-+        0x2c00,  /* 1.0 * 2^-4  */
-+        0x3000,  /* 1.0 * 2^-3  */
-+        0x3400,  /* 0.25 */
-+        0x3500,  /* 0.3125 */
-+        0x3600,  /* 0.375 */
-+        0x3700,  /* 0.4375 */
-+        0x3800,  /* 0.5 */
-+        0x3900,  /* 0.625 */
-+        0x3a00,  /* 0.75 */
-+        0x3b00,  /* 0.875 */
-+        0x3c00,  /* 1.0 */
-+        0x3d00,  /* 1.25 */
-+        0x3e00,  /* 1.5 */
-+        0x3f00,  /* 1.75 */
-+        0x4000,  /* 2.0 */
-+        0x4100,  /* 2.5 */
-+        0x4200,  /* 3 */
-+        0x4400,  /* 4 */
-+        0x4800,  /* 8 */
-+        0x4c00,  /* 16 */
-+        0x5800,  /* 2^7 */
-+        0x5c00,  /* 2^8 */
-+        0x7800,  /* 2^15 */
-+        0x7c00,  /* 2^16 */
-+        0x7c00,  /* +inf */
-+        float16_default_nan(&env->fp_status),
-+    };
-+
-+    if (rs1 >= 32)
-+        g_assert_not_reached();
-+
-+    return fli_h_table[rs1];
-+}
-+
- target_ulong helper_fcvt_w_h(CPURISCVState *env, uint64_t rs1)
- {
-     float16 frs1 = check_nanbox_h(env, rs1);
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 37b54e0991..0106c197ec 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -25,10 +25,14 @@ DEF_HELPER_FLAGS_3(fsub_s, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmul_s, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fdiv_s, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmin_s, TCG_CALL_NO_RWG, i64, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fminm_s, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmax_s, TCG_CALL_NO_RWG, i64, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fmaxm_s, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_2(fsqrt_s, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_3(fle_s, TCG_CALL_NO_RWG, tl, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fleq_s, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_3(flt_s, TCG_CALL_NO_RWG, tl, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fltq_s, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_3(feq_s, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_2(fcvt_w_s, TCG_CALL_NO_RWG, tl, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_wu_s, TCG_CALL_NO_RWG, tl, env, i64)
-@@ -39,6 +43,9 @@ DEF_HELPER_FLAGS_2(fcvt_s_wu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_s_l, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_s_lu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fclass_s, TCG_CALL_NO_RWG_SE, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fround_s, TCG_CALL_NO_RWG_SE, i64, env, i64)
-+DEF_HELPER_FLAGS_2(froundnx_s, TCG_CALL_NO_RWG_SE, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fli_s, TCG_CALL_NO_RWG_SE, i64, env, i32)
- 
- /* Floating Point - Double Precision */
- DEF_HELPER_FLAGS_3(fadd_d, TCG_CALL_NO_RWG, i64, env, i64, i64)
-@@ -46,14 +53,19 @@ DEF_HELPER_FLAGS_3(fsub_d, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmul_d, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fdiv_d, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmin_d, TCG_CALL_NO_RWG, i64, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fminm_d, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmax_d, TCG_CALL_NO_RWG, i64, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fmaxm_d, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_2(fcvt_s_d, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_d_s, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_2(fsqrt_d, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_3(fle_d, TCG_CALL_NO_RWG, tl, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fleq_d, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_3(flt_d, TCG_CALL_NO_RWG, tl, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fltq_d, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_3(feq_d, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_2(fcvt_w_d, TCG_CALL_NO_RWG, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fcvtmod_w_d, TCG_CALL_NO_RWG, tl, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_wu_d, TCG_CALL_NO_RWG, tl, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_l_d, TCG_CALL_NO_RWG, tl, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_lu_d, TCG_CALL_NO_RWG, tl, env, i64)
-@@ -62,6 +74,9 @@ DEF_HELPER_FLAGS_2(fcvt_d_wu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_d_l, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_d_lu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_1(fclass_d, TCG_CALL_NO_RWG_SE, tl, i64)
-+DEF_HELPER_FLAGS_2(fround_d, TCG_CALL_NO_RWG_SE, i64, env, i64)
-+DEF_HELPER_FLAGS_2(froundnx_d, TCG_CALL_NO_RWG_SE, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fli_d, TCG_CALL_NO_RWG_SE, i64, env, i32)
- 
- /* Bitmanip */
- DEF_HELPER_FLAGS_2(clmul, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-@@ -78,10 +93,14 @@ DEF_HELPER_FLAGS_3(fsub_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmul_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fdiv_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmin_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fminm_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_3(fmax_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fmaxm_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
- DEF_HELPER_FLAGS_2(fsqrt_h, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_3(fle_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fleq_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_3(flt_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
-+DEF_HELPER_FLAGS_3(fltq_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_3(feq_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_2(fcvt_s_h, TCG_CALL_NO_RWG, i64, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_h_s, TCG_CALL_NO_RWG, i64, env, i64)
-@@ -96,6 +115,9 @@ DEF_HELPER_FLAGS_2(fcvt_h_wu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fclass_h, TCG_CALL_NO_RWG_SE, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fround_h, TCG_CALL_NO_RWG_SE, i64, env, i64)
-+DEF_HELPER_FLAGS_2(froundnx_h, TCG_CALL_NO_RWG_SE, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fli_h, TCG_CALL_NO_RWG_SE, i64, env, i32)
- 
- /* Cache-block operations */
- DEF_HELPER_2(cbo_clean_flush, void, env, tl)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 73d5d1b045..0c216db3c2 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -821,6 +821,73 @@ binvi      01101. ........... 001 ..... 0010011 @sh
- bset       0010100 .......... 001 ..... 0110011 @r
- bseti      00101. ........... 001 ..... 0010011 @sh
- 
-+# *** Zfa Standard Extension ***
-+# fli.s ft1,0 = f01000d3
-+fli_s       1111000 00001 ..... 000 ..... 1010011 @r2
-+# fli.d ft1,0 = f21000d3
-+fli_d       1111001 00001 ..... 000 ..... 1010011 @r2
-+# fli.h ft1,0 = f41000d3
-+fli_h       1111010 00001 ..... 000 ..... 1010011 @r2
-+
-+# Inspiration fmin_s, fmin_d, fmax_s, fmax_d
-+# fminm.s ft1, ft2, ft3 = 283120d3
-+fminm_s     0010100 ..... ..... 010 ..... 1010011 @r
-+# fmaxm.s ft1, ft2, ft3 = 283130d3
-+fmaxm_s     0010100 ..... ..... 011 ..... 1010011 @r
-+# fminm.d ft1, ft2, ft3 = 2a3120d3
-+fminm_d     0010101 ..... ..... 010 ..... 1010011 @r
-+# fmaxm.d ft1, ft2, ft3 = 2a3130d3
-+fmaxm_d     0010101 ..... ..... 011 ..... 1010011 @r
-+# fminm.h ft1, ft2, ft3 = 2c3120d3
-+fminm_h     0010110 ..... ..... 010 ..... 1010011 @r
-+# fmaxm.h ft1, ft2, ft3 = 2c3130d3
-+fmaxm_h     0010110 ..... ..... 011 ..... 1010011 @r
-+
-+# fround.s fa0,fa1 = 4045f553
-+# fround.s fa0,fa1,rtz = 40459553
-+fround_s    0100000 00100 ..... ... ..... 1010011 @r2_rm
-+# froundnx.s fa0,fa1 = 4055f553
-+# froundnx.s fa0,fa1,rtz = 40559553
-+froundnx_s  0100000 00101 ..... ... ..... 1010011 @r2_rm
-+# fround.d fa0,fa1 = 4245f553
-+# fround.d fa0,fa1,rtz = 42459553
-+fround_d    0100001 00100 ..... ... ..... 1010011 @r2_rm
-+# froundnx.d fa0,fa1 = 4255f553
-+# froundnx.d fa0,fa1,rtz = 42559553
-+froundnx_d  0100001 00101 ..... ... ..... 1010011 @r2_rm
-+# fround.h fa0,fa1 = 4245f553
-+# fround.h fa0,fa1,rtz = 42459553
-+#[       ]+[0-9a-f]+:[   ]+4445f553[     ]+fround\.h[            ]+fa0,fa1
-+#[       ]+[0-9a-f]+:[   ]+44459553[     ]+fround\.h[            ]+fa0,fa1,rtz
-+fround_h    0100010 00100 ..... ... ..... 1010011 @r2_rm
-+# froundnx.h fa0,fa1 = 4255f553
-+# froundnx.h fa0,fa1,rtz = 42559553
-+#[       ]+[0-9a-f]+:[   ]+4455f553[     ]+froundnx\.h[          ]+fa0,fa1
-+#[       ]+[0-9a-f]+:[   ]+44559553[     ]+froundnx\.h[          ]+fa0,fa1,rtz
-+froundnx_h  0100010 00101 ..... ... ..... 1010011 @r2_rm
-+
-+# fcvtmod.w.d a0,ft1,rtz = c2809553
-+fcvtmod_w_d 1100001 01000 ..... 001 ..... 1010011 @r2
-+
-+# Inspiration: th.fmv, fmv.x.w, fmvp.d.x
-+# fmvh.x.d a0,ft1 = e2108553
-+fmvh_x_d    1110001 00001 ..... 000 ..... 1010011 @r2
-+# fmvp.d.x ft1,a0,a1 = b2b500d3
-+fmvp_d_x    1011001 ..... ..... 000 ..... 1010011 @r
-+
-+#[       ]+[0-9a-f]+:[   ]+a020c553[     ]+fleq\.s[              ]+a0,ft1,ft2
-+fleq_s      1010000 ..... ..... 100 ..... 1010011 @r
-+#[       ]+[0-9a-f]+:[   ]+a020d553[     ]+fltq\.s[              ]+a0,ft1,ft2
-+fltq_s      1010000 ..... ..... 101 ..... 1010011 @r
-+#[       ]+[0-9a-f]+:[   ]+a220c553[     ]+fleq\.d[              ]+a0,ft1,ft2
-+fleq_d      1010001 ..... ..... 100 ..... 1010011 @r
-+#[       ]+[0-9a-f]+:[   ]+a220d553[     ]+fltq\.d[              ]+a0,ft1,ft2
-+fltq_d      1010001 ..... ..... 101 ..... 1010011 @r
-+#[       ]+[0-9a-f]+:[   ]+a420c553[     ]+fleq\.h[              ]+a0,ft1,ft2
-+fleq_h      1010010 ..... ..... 100 ..... 1010011 @r
-+#[       ]+[0-9a-f]+:[   ]+a420d553[     ]+fltq\.h[              ]+a0,ft1,ft2
-+fltq_h      1010010 ..... ..... 101 ..... 1010011 @r
-+
- # *** RV32 Zfh Extension ***
- flh        ............   ..... 001 ..... 0000111 @i
- fsh        .......  ..... ..... 001 ..... 0100111 @s
-diff --git a/target/riscv/insn_trans/trans_rvzfa.c.inc b/target/riscv/insn_trans/trans_rvzfa.c.inc
-new file mode 100644
-index 0000000000..c07977b20e
---- /dev/null
-+++ b/target/riscv/insn_trans/trans_rvzfa.c.inc
-@@ -0,0 +1,410 @@
-+/*
-+ * RISC-V translation routines for the Zfa Standard Extension.
-+ *
-+ * Copyright (c) 2023 Christoph Müllner, christoph.muellner@vrull.eu
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#define REQUIRE_ZFA(ctx) do {     \
-+    if (!ctx->cfg_ptr->ext_zfa) { \
-+        return false;             \
-+    }                             \
-+} while (0)
-+
-+#define REQUIRE_ZFH(ctx) do {     \
-+    if (!ctx->cfg_ptr->ext_zfh) { \
-+        return false;             \
-+    }                             \
-+} while (0)
-+
-+
-+static bool trans_fli_s(DisasContext *ctx, arg_fli_s *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVF);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    gen_helper_fli_s(dest, cpu_env, tcg_constant_i32(a->rs1));
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fli_d(DisasContext *ctx, arg_fli_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    gen_helper_fli_d(dest, cpu_env, tcg_constant_i32(a->rs1));
-+    gen_set_fpr_d(ctx, a->rd, dest);
-+
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fli_h(DisasContext *ctx, arg_fli_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    gen_helper_fli_h(dest, cpu_env, tcg_constant_i32(a->rs1));
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fminm_s(DisasContext *ctx, arg_fminm_s *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVF);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fminm_s(dest, cpu_env, src1, src2);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fmaxm_s(DisasContext *ctx, arg_fmaxm_s *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVF);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fmaxm_s(dest, cpu_env, src1, src2);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fminm_d(DisasContext *ctx, arg_fminm_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_d(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_d(ctx, a->rs2);
-+
-+    gen_helper_fminm_d(dest, cpu_env, src1, src2);
-+    gen_set_fpr_d(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fmaxm_d(DisasContext *ctx, arg_fmaxm_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_d(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_d(ctx, a->rs2);
-+
-+    gen_helper_fmaxm_d(dest, cpu_env, src1, src2);
-+    gen_set_fpr_d(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fminm_h(DisasContext *ctx, arg_fminm_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fminm_h(dest, cpu_env, src1, src2);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fmaxm_h(DisasContext *ctx, arg_fmaxm_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fmaxm_h(dest, cpu_env, src1, src2);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fround_s(DisasContext *ctx, arg_fround_s *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVF);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fround_s(dest, cpu_env, src1);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_froundnx_s(DisasContext *ctx, arg_froundnx_s *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVF);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_froundnx_s(dest, cpu_env, src1);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fround_d(DisasContext *ctx, arg_fround_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_d(ctx, a->rs1);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fround_d(dest, cpu_env, src1);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_froundnx_d(DisasContext *ctx, arg_froundnx_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_d(ctx, a->rs1);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_froundnx_d(dest, cpu_env, src1);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fround_h(DisasContext *ctx, arg_fround_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fround_h(dest, cpu_env, src1);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_froundnx_h(DisasContext *ctx, arg_froundnx_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv_i64 dest = dest_fpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_froundnx_h(dest, cpu_env, src1);
-+    gen_set_fpr_hs(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+bool trans_fcvtmod_w_d(DisasContext *ctx, arg_fcvtmod_w_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_d(ctx, a->rs1);
-+
-+    /* Rounding mode is RTZ. */
-+    gen_set_rm(ctx, RISCV_FRM_RTZ);
-+    gen_helper_fcvtmod_w_d(dest, cpu_env, src1);
-+
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+bool trans_fmvh_x_d(DisasContext *ctx, arg_fmvh_x_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+    REQUIRE_32BIT(ctx);
-+
-+    TCGv dst = dest_gpr(ctx, a->rd);
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+
-+    tcg_gen_extract_i64(t1, cpu_fpr[a->rs1], 32, 32);
-+    tcg_gen_trunc_i64_tl(dst, t1);
-+    gen_set_gpr(ctx, a->rd, dst);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+bool trans_fmvp_d_x(DisasContext *ctx, arg_fmvp_d_x *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+    REQUIRE_32BIT(ctx);
-+
-+    TCGv src1 = get_gpr(ctx, a->rs1, EXT_ZERO);
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+
-+    tcg_gen_extu_tl_i64(t1, src1);
-+    tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], t1, 32, 32);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+bool trans_fleq_s(DisasContext *ctx, arg_fleq_s *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVF);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fleq_s(dest, cpu_env, src1, src2);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+bool trans_fltq_s(DisasContext *ctx, arg_fltq_s *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVF);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fltq_s(dest, cpu_env, src1, src2);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+bool trans_fleq_d(DisasContext *ctx, arg_fleq_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fltq_s(dest, cpu_env, src1, src2);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+bool trans_fltq_d(DisasContext *ctx, arg_fltq_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fltq_s(dest, cpu_env, src1, src2);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+bool trans_fleq_h(DisasContext *ctx, arg_fleq_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fleq_h(dest, cpu_env, src1, src2);
-+    gen_set_gpr(ctx, a->rd, dest);
-+
-+    return true;
-+}
-+
-+bool trans_fltq_h(DisasContext *ctx, arg_fltq_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFA(ctx);
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv_i64 src1 = get_fpr_hs(ctx, a->rs1);
-+    TCGv_i64 src2 = get_fpr_hs(ctx, a->rs2);
-+
-+    gen_helper_fltq_h(dest, cpu_env, src1, src2);
-+    gen_set_gpr(ctx, a->rd, dest);
-+
-+    return true;
-+}
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 0ee8ee147d..0e61e31d9f 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1081,6 +1081,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
- #include "insn_trans/trans_rvzicond.c.inc"
- #include "insn_trans/trans_rvzawrs.c.inc"
- #include "insn_trans/trans_rvzicbo.c.inc"
-+#include "insn_trans/trans_rvzfa.c.inc"
- #include "insn_trans/trans_rvzfh.c.inc"
- #include "insn_trans/trans_rvk.c.inc"
- #include "insn_trans/trans_privileged.c.inc"
--- 
-2.39.2
+Could you help merge this fixup patch? Thanks!
 
+>
+>>>                /* FP and SSE are always allowed regardless of XSAVE/XCR0. */
+>>>                *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
+>
 
