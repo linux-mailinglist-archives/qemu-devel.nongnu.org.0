@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E066C9F4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7586C9F4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:25:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgj60-0006JP-Vj; Mon, 27 Mar 2023 05:24:57 -0400
+	id 1pgj6U-000780-PJ; Mon, 27 Mar 2023 05:25:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pgj5n-0006El-Ng
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:24:45 -0400
+ id 1pgj6R-000732-BL
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:25:23 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pgj5l-0000XA-V2
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:24:43 -0400
+ id 1pgj6P-0000nq-8c
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:25:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679909080;
+ s=mimecast20190719; t=1679909120;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=pyUzI+ljH8PB4pamZap1D+7wLRtjNX25YFZZRPY2a3I=;
- b=bXSvNWdiTIVjOqbRUkIEuH/4PPbJNu/uI8L9VpfIrf3cqAVRMVYkyo2zsiAABs8tgPcftI
- vUya/p6IfM2MQiusxKPv3y90UkOxfm3cpMKl66knJ/TVLF5+TPB38IWauRuSJY0PXWw2P6
- zEIS3F2w51D1gDRrOSK/qyHlIXlmJE4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IOCwidOc7PV8bVbaKzt+rUZ5i7+dDPWGPHdWqYBRui0=;
+ b=G7E6l22mrVU9RCv8it/XqBYqtyEwUAAg8SHr1dNDA8gzAVLhryAfGkZd0GcLcixoW4AW2F
+ eI8KQMxRGWMHl8IzcdKloWOV/sqQzPrRdEZKaLGHq3EOdqfgMkVB5NXHyVYi7eh37xNuZR
+ yRizAB+buE7WIBfHvLvIzfubUKJC6dA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-439-mxB8j8-UPCmTgoj9lkpxkA-1; Mon, 27 Mar 2023 05:24:27 -0400
-X-MC-Unique: mxB8j8-UPCmTgoj9lkpxkA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-605-jF_FG6zSMbK9NEj9GjmzMQ-1; Mon, 27 Mar 2023 05:25:16 -0400
+X-MC-Unique: jF_FG6zSMbK9NEj9GjmzMQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C279E38173CB
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 09:24:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 780D585A588
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 09:25:16 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F3F01121330;
- Mon, 27 Mar 2023 09:24:26 +0000 (UTC)
-Date: Mon, 27 Mar 2023 10:24:23 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5E0B4020C82;
+ Mon, 27 Mar 2023 09:25:15 +0000 (UTC)
+Date: Mon, 27 Mar 2023 10:25:13 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: casantos@redhat.com
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] meson: install keyboard maps only if necessary
-Message-ID: <ZCFgx6XQtPE/UeGW@redhat.com>
-References: <20230326210427.66079-1-casantos@redhat.com>
+Subject: Re: [PATCH V2] meson: install keyboard maps only if necessary
+Message-ID: <ZCFg+cjoVPZEUdkT@redhat.com>
+References: <20230326211700.68254-1-casantos@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230326210427.66079-1-casantos@redhat.com>
+In-Reply-To: <20230326211700.68254-1-casantos@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,7 +79,7 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Mar 26, 2023 at 06:04:27PM -0300, casantos@redhat.com wrote:
+On Sun, Mar 26, 2023 at 06:17:00PM -0300, casantos@redhat.com wrote:
 > From: Carlos Santos <casantos@redhat.com>
 > 
 > They are required only for system emulation (i.e. have_system is true).
@@ -87,14 +87,12 @@ On Sun, Mar 26, 2023 at 06:04:27PM -0300, casantos@redhat.com wrote:
 > Signed-off-by: Carlos Santos <casantos@redhat.com>
 > ---
 >  pc-bios/keymaps/meson.build   | 6 ++++--
->  scripts/meson-buildoptions.sh | 2 ++
 >  tests/fp/berkeley-testfloat-3 | 2 +-
 >  ui/keycodemapdb               | 2 +-
 
-You've got some git submodule updates included by accident
-here.
+This still has the accidental git submodule updates included
 
->  4 files changed, 8 insertions(+), 4 deletions(-)
+>  3 files changed, 6 insertions(+), 4 deletions(-)
 > 
 > diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
 > index 158a3b410c..bff3083313 100644
@@ -117,19 +115,6 @@ here.
 > +if have_system
 > +  install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
 > +endif
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> index 009fab1515..6eec7bc57f 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -301,6 +301,8 @@ _meson_option_parse() {
->      --includedir=*) quote_sh "-Dincludedir=$2" ;;
->      --enable-install-blobs) printf "%s" -Dinstall_blobs=true ;;
->      --disable-install-blobs) printf "%s" -Dinstall_blobs=false ;;
-> +    --enable-install-keymaps) printf "%s" -Dinstall_keymaps=true ;;
-> +    --disable-install-keymaps) printf "%s" -Dinstall_keymaps=false ;;
->      --interp-prefix=*) quote_sh "-Dinterp_prefix=$2" ;;
->      --enable-jack) printf "%s" -Djack=enabled ;;
->      --disable-jack) printf "%s" -Djack=disabled ;;
 > diff --git a/tests/fp/berkeley-testfloat-3 b/tests/fp/berkeley-testfloat-3
 > index 40619cbb3b..5a59dcec19 160000
 > --- a/tests/fp/berkeley-testfloat-3
