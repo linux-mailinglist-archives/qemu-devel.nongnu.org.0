@@ -2,73 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17C86CAF28
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 21:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DCB6CAF4B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 21:57:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgsqF-0007dG-6M; Mon, 27 Mar 2023 15:49:19 -0400
+	id 1pgsxs-0000Q4-8E; Mon, 27 Mar 2023 15:57:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pgsqA-0007cz-LZ
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 15:49:14 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgsxm-0000P4-U3
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 15:57:06 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pgsq8-00084t-Mc
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 15:49:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=WBXT66cwrbPc6SoECR7s4j9HEp9YQQP7ClgZztfVnyE=; b=BDN3X2nD10f/fE52D3aGTRQmSP
- Ikmm5ludleLUUWc9E/ew3/ZYdiOx1TViKaVP2DtUts2OpfoCfzrMNr9VrWiXHBt+zF04zA9szQBE4
- tSnhwkcI+j61pS1zdxb+VW+3P0ckOdz/+cbrX4GTTUPHQDYQ64ujkz61pEa1G2AJ6gOapv+g8elhV
- VkuF3wiva/8/rbQDwqFURRnVv433LQJzW/A/VVdhdikXMx7t7Lt9gW25zIj+xJ30vftl5tuwS2sal
- 4D7c5u3ZtRZHIuyFjlmp6xtsh85kbSMgU1x6eOOK7yYHEc8c5k3nTQwpGY/RHM8FIyY92EWLrr2xm
- b2kcI+wuuG5BJVd8M4uJH/oqdltpXUMOKhxchI55pLRRHD4GcmZbTWNJjmewjNF+QcpdVJBKx45qP
- W15IW8yYZQhu6fOS0eslz8ElqS3MdsdNeaJUAVYTcE+6LBIwpJjZ146O014qa95qJF+Mkkqa0OxbM
- TAUjsjogc/+WFD5Z5dlP7B/yAdISlR1ByQS0j7xiM6qSO5BuIkWkPBiWYHp/AHw6azK4QZcD7m0LQ
- +oVgER7/w9D0e/FZ/U09Z7g5KyP7cYeZkRhPDYe8lFRDBfILWpn/IqB1HeebK33YYoJrUPfdQhLTT
- WlmRKfjJHzNb9kUnjFBJzREEMZe1aJeQ+c1CWlCQ0=;
-Received: from [2a00:23c4:8bac:200:3870:f067:8488:5afb]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pgspK-0009PT-Iz; Mon, 27 Mar 2023 20:48:26 +0100
-Message-ID: <28e374e3-5aa4-b5e3-0d8f-f885ca1142ca@ilande.co.uk>
-Date: Mon, 27 Mar 2023 20:49:01 +0100
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgsxl-0001Uw-Cj
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 15:57:06 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32RJle3D007105; Mon, 27 Mar 2023 19:56:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=+X2OOlJ8mtsOzd4Px3YPepM7VOlh5uRw+iFBzgkZfcA=;
+ b=kaVWOv2B8V4NnBdOnl7od/0vy8X1iIkLbj/xSOeC1g367T4kklDer8lqDuZ3snfGFfgU
+ Etdpn0bo5F/yGFepDvrcpPMm7xQW/nd8JJWuUurLxWv3IVIiJGyJHRkWcVkZcKoaTfqx
+ xL7vE45LTkrnKQjlLKfoFbft/cbLoDYckZGCGNPS3lxZ4OqLIVE6c12uFw+bp6QypV/j
+ N1wffH+vNqUAA9FG8R042ZkNA4foFkmtyiBTuspp//gDCbx2qvVybqAyCbI1gBb7Rn1k
+ 71SDk7ihrEZkBtNpuirr3h5hqsNfYdDxfLfa7QMaYORzX1yR+3XB9BbbfsTel7FQmIGA 8Q== 
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkhm504vy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 19:56:56 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RJ0wC9029133;
+ Mon, 27 Mar 2023 19:56:55 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
+ by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3phrk70336-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 19:56:55 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
+ [10.241.53.102])
+ by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32RJurV815663742
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Mar 2023 19:56:54 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C32B158060;
+ Mon, 27 Mar 2023 19:56:53 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E7A25805A;
+ Mon, 27 Mar 2023 19:56:53 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Mar 2023 19:56:53 +0000 (GMT)
+Message-ID: <788e7c67-0477-34f7-fd25-99d6f1a34341@linux.ibm.com>
+Date: Mon, 27 Mar 2023 15:56:52 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v10 1/3] docs: Add support for TPM devices over I2C bus
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-References: <20230327131543.2857052-1-alex.bennee@linaro.org>
- <ad9e3b3a-2fad-35d1-4491-8700c8fceae8@ilande.co.uk>
- <87mt3yrx1w.fsf@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <87mt3yrx1w.fsf@linaro.org>
+To: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
+References: <20230327183350.4060507-1-ninad@linux.ibm.com>
+ <20230327183350.4060507-2-ninad@linux.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20230327183350.4060507-2-ninad@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8bac:200:3870:f067:8488:5afb
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [Socratic RFC PATCH] include: attempt to document
- device_class_set_props
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: WH2wp_AfEYSUuV7SWp1SZxxe9uHwi6hD
+X-Proofpoint-ORIG-GUID: WH2wp_AfEYSUuV7SWp1SZxxe9uHwi6hD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 malwarescore=0
+ priorityscore=1501 impostorscore=0 mlxscore=0 spamscore=0 mlxlogscore=932
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270160
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,86 +109,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/03/2023 17:12, Alex Bennée wrote:
-
-> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
-> 
->> On 27/03/2023 14:15, Alex Bennée wrote:
->>
->>> I'm still not sure how I achieve by use case of the parent class
->>> defining the following properties:
->>>     static Property vud_properties[] = {
->>>         DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
->>>         DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
->>>         DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
->>>         DEFINE_PROP_END_OF_LIST(),
->>>     };
->>> But for the specialisation of the class I want the id to default to
->>> the actual device id, e.g.:
->>>     static Property vu_rng_properties[] = {
->>>         DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG),
->>>         DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
->>>         DEFINE_PROP_END_OF_LIST(),
->>>     };
->>> And so far the API for doing that isn't super clear.
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> ---
->>>    include/hw/qdev-core.h | 9 +++++++++
->>>    1 file changed, 9 insertions(+)
->>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
->>> index bd50ad5ee1..d4bbc30c92 100644
->>> --- a/include/hw/qdev-core.h
->>> +++ b/include/hw/qdev-core.h
->>> @@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
->>>    char *qdev_get_fw_dev_path(DeviceState *dev);
->>>    char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
->>>    +/**
->>> + * device_class_set_props(): add a set of properties to an device
->>> + * @dc: the parent DeviceClass all devices inherit
->>> + * @props: an array of properties, terminate by DEFINE_PROP_END_OF_LIST()
->>> + *
->>> + * This will add a set of properties to the object. It will fault if
->>> + * you attempt to add an existing property defined by a parent class.
->>> + * To modify an inherited property you need to use????
->>> + */
->>>    void device_class_set_props(DeviceClass *dc, Property *props);
->>>      /**
->>
->> Hmmm that's an interesting one. Looking at the source in
->> hw/core/qdev-properties.c you could possibly get away with something
->> like this in vu_rng_class_init():
->>
->>      ObjectProperty *op = object_class_property_find(klass, "id");
->>      object_property_set_default_uint(op, VIRTIO_ID_RNG);
->>
->> Of course this is all completely untested :)
-> 
-> Sadly we assert on the existing prop->defval:
-> 
->    static void object_property_set_default(ObjectProperty *prop, QObject *defval)
->    {
->        assert(!prop->defval);
->        assert(!prop->init);
-> 
->        prop->defval = defval;
->        prop->init = object_property_init_defval;
->    }
-> 
-> Maybe the assert is too aggressive or we need a different helper, maybe
-> a:
-> 
->    void object_property_update_default_uint(ObjectProperty *prop, uint64_t value)
-> 
-> ?
-
-It seems in that case once the default has been set, it is impossible to change. The 
-only other immediate option I can think of is to define a specific 
-DEFINE_VHOST_PROPERTIES macro in a similar way to DEFINE_AUDIO_PROPERTIES which you 
-can use to set the common properties for all VHostUserDevice devices, including 
-providing the default ID.
 
 
-ATB,
+On 3/27/23 14:33, Ninad Palsule wrote:
+> This is a documentation change for I2C TPM device support.
+> 
+> Qemu already supports devices attached to ISA and sysbus.
+> This drop adds support for the I2C bus attached TPM devices.
+> 
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 
-Mark.
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
