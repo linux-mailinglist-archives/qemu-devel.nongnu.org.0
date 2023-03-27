@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507C96CA822
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 16:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1146CA81F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 16:47:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgo7V-00073U-Dh; Mon, 27 Mar 2023 10:46:49 -0400
+	id 1pgo7k-0007JT-I2; Mon, 27 Mar 2023 10:47:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pgo7Q-000719-Ev; Mon, 27 Mar 2023 10:46:44 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pgo7Y-00075w-SK; Mon, 27 Mar 2023 10:46:54 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pgo7O-0001XY-F9; Mon, 27 Mar 2023 10:46:44 -0400
-Received: by mail-pl1-x632.google.com with SMTP id z19so8677456plo.2;
- Mon, 27 Mar 2023 07:46:41 -0700 (PDT)
+ id 1pgo7X-0001cJ-Cy; Mon, 27 Mar 2023 10:46:52 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id a16so7871147pjs.4;
+ Mon, 27 Mar 2023 07:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679928400;
+ d=gmail.com; s=20210112; t=1679928409;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ndBDr/zFeh0RMjD6v3yNcN9LNQI/fMto1wPl1SoEh2M=;
- b=ftWtwPQ/F03/DugRl7ads5Pcy+WpML06QcGqZF+2Pi20ykO9nto42giipKWNDGDdw0
- 3FdZASMinVUVp6q5Lt6mNYmO/1t1AN9Puevd8bWuWmKo6nQFAeGwd+W2sqT0D9UoLEW7
- 3qnR9MrGVShvw7a00MRlBU7Ri9J/ZPJv7jnXWazHRV7bWGGlw0X1X4dYiEasZ6vJJQjM
- I2lrkCQHQaZuTrmg4MyO/152tyV0KLzbk3CTCyn3p+tebbxrarUPAnsV+Bb+d8FFU1Lh
- NGA5ZR38OyXAtN//MZS4akAYNwbg9nfFGIarCcNnihQWydyVjeVozIn5WY1qx4Es/XCa
- pl3A==
+ bh=EhVv6WlDwJL96Zy7vKftB7CwaSpSxc9eBC1kxbXoR8g=;
+ b=jkMkTrmMDfu7jcduhsdp0OdpMDt3QaUHq6SNx6capV/KEJVdEWW7XfEzF33Ywt1pBl
+ +W6mn7o9xMvYrk7fLUkQVuO8CdXWQGm0qoInrCzclweQ33w/Du0ENry7MFi6vOntnRnu
+ g8mHpc0ELD0ExuFJOftOuK2MQjxJS8xDkKhvfO3ZN8oqF1Np2YrN7fNk9e6dVYKF6qlc
+ 0Qnb0aAYq2sI7/x+GB1MCbX/3rbFKXl93gpetxoELhg2MXe6cKzhLLwL1OJw0fXkaU36
+ lJRSSgO+lQphOT3l2tMf7jOrEdM8qoS5j7PaHQi6x5HD6c7NESyriBeCWKD2UcuMXqyl
+ qSBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679928400;
+ d=1e100.net; s=20210112; t=1679928409;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ndBDr/zFeh0RMjD6v3yNcN9LNQI/fMto1wPl1SoEh2M=;
- b=NQwxReWtAOevYW8sdInT2m9wMHr5DMcQZPIof9VTh4raQ0XC279z9VfEKHFMiL2His
- K0AsCi8skrNjo8dXCV1Apic8gFS11BW7OXQYx8keRRAZynpRUacV0p/BgI3PO/Bsw7b9
- 9yhfdXhPIAiG/bL044DXJCkFlc2MnktPQoDVna74NU+TYy80wS1Bow8y+UhEEf9//ycv
- hIbR9kqiVKVP82qqLoxNmiVYw58phlThgtibZ2onq7LGmN/1QsaAqquaoe5x+JfyGWxR
- RoxHYiEItLFuZM+dJk5338lqU/wB2V+r1WMwU8FYLxcNRzkh5BlvVQSwu8+fhHlucvvn
- KAQg==
-X-Gm-Message-State: AAQBX9fVCwteouKVmeuuv2NJeKjY80MYkAEwg9vVoirKjXOIDjEmBd5U
- ZajEdvMIj6DyrR0zhKBjtLEdO2UP62cooUKL
-X-Google-Smtp-Source: AKy350YOV3w9rgVv4iy1kC2hT1dOCEnZsoSIHvJFu7tc0DKcR3YRFogW9KY+eoFdtU5ASqc7ZTuvpQ==
-X-Received: by 2002:a17:902:e14c:b0:1a1:f0ad:8647 with SMTP id
- d12-20020a170902e14c00b001a1f0ad8647mr9492883pla.21.1679928400093; 
- Mon, 27 Mar 2023 07:46:40 -0700 (PDT)
+ bh=EhVv6WlDwJL96Zy7vKftB7CwaSpSxc9eBC1kxbXoR8g=;
+ b=gZxRuSmsB9zXXhOra1SJu8DKSRQig1GDwKVqZ5DGA6yMFXkhkJ/tgL9HPuyjuP8Ae1
+ B/NVN52cpoaaLYwMfIfBGMzVauDuq29Gh4nbF9zzMXOMhwg81wocpiB53qlG5JiWZsIv
+ /v7RKPG92RWfWg4zKZPsM76h3nRzkqDZyyjEKHTiW0SQL5e/4anVDpPpgCU9H1gVzvdR
+ WXf453xZnDS3DNipIPV8sPEBdC102+0kVpi6RZYzN5srBBwun5BO/sVwtEvLoevn8wnM
+ uO89+yZRgQWq04lJUC+kek5FYnOn3Pl8JP9Km7wf4gmxsrMsfYbsPUSKjnIxAi9WZXVt
+ +iXg==
+X-Gm-Message-State: AAQBX9fkkM4xqDb1Tgy5WMNundOtjaZ7UVOnap94Jyt9Ne2YaKRRUINU
+ RPmPSiDP9RtgrPgTy4CD1k7IEitUXlNf7ie5
+X-Google-Smtp-Source: AKy350aV3IBryUWOhK8ye7hkpcR3bqYjgYOmYRSs7lgKumH3OA+cjpGUaC5zPEf6K59so4r+eOvSQw==
+X-Received: by 2002:a17:902:e749:b0:19d:244:a3a8 with SMTP id
+ p9-20020a170902e74900b0019d0244a3a8mr14196693plf.10.1679928409088; 
+ Mon, 27 Mar 2023 07:46:49 -0700 (PDT)
 Received: from fedlinux.. ([106.84.130.102]) by smtp.gmail.com with ESMTPSA id
- s21-20020a170902b19500b00183c6784704sm17368276plr.291.2023.03.27.07.46.33
+ s21-20020a170902b19500b00183c6784704sm17368276plr.291.2023.03.27.07.46.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 07:46:39 -0700 (PDT)
+ Mon, 27 Mar 2023 07:46:48 -0700 (PDT)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
@@ -63,16 +63,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
  kvm@vger.kernel.org, damien.lemoal@opensource.wdc.com, hare@suse.de,
  Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v9 4/5] virtio-blk: add some trace events for zoned emulation
-Date: Mon, 27 Mar 2023 22:45:52 +0800
-Message-Id: <20230327144553.4315-5-faithilikerun@gmail.com>
+Subject: [PATCH v9 5/5] docs/zoned-storage:add zoned emulation use case
+Date: Mon, 27 Mar 2023 22:45:53 +0800
+Message-Id: <20230327144553.4315-6-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230327144553.4315-1-faithilikerun@gmail.com>
 References: <20230327144553.4315-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,100 +95,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/block/trace-events |  7 +++++++
- hw/block/virtio-blk.c | 12 ++++++++++++
- 2 files changed, 19 insertions(+)
+Add the documentation about the example of using virtio-blk driver
+to pass the zoned block devices through to the guest.
 
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 2c45a62bd5..34be8b9135 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -44,9 +44,16 @@ pflash_write_unknown(const char *name, uint8_t cmd) "%s: unknown command 0x%02x"
- # virtio-blk.c
- virtio_blk_req_complete(void *vdev, void *req, int status) "vdev %p req %p status %d"
- virtio_blk_rw_complete(void *vdev, void *req, int ret) "vdev %p req %p ret %d"
-+virtio_blk_zone_report_complete(void *vdev, void *req, unsigned int nr_zones, int ret) "vdev %p req %p nr_zones %u ret %d"
-+virtio_blk_zone_mgmt_complete(void *vdev, void *req, int ret) "vdev %p req %p ret %d"
-+virtio_blk_zone_append_complete(void *vdev, void *req, int64_t sector, int ret) "vdev %p req %p, append sector 0x%" PRIx64 " ret %d"
- virtio_blk_handle_write(void *vdev, void *req, uint64_t sector, size_t nsectors) "vdev %p req %p sector %"PRIu64" nsectors %zu"
- virtio_blk_handle_read(void *vdev, void *req, uint64_t sector, size_t nsectors) "vdev %p req %p sector %"PRIu64" nsectors %zu"
- virtio_blk_submit_multireq(void *vdev, void *mrb, int start, int num_reqs, uint64_t offset, size_t size, bool is_write) "vdev %p mrb %p start %d num_reqs %d offset %"PRIu64" size %zu is_write %d"
-+virtio_blk_handle_zone_report(void *vdev, void *req, int64_t sector, unsigned int nr_zones) "vdev %p req %p sector 0x%" PRIx64 " nr_zones %u"
-+virtio_blk_handle_zone_mgmt(void *vdev, void *req, uint8_t op, int64_t sector, int64_t len) "vdev %p req %p op 0x%x sector 0x%" PRIx64 " len 0x%" PRIx64 ""
-+virtio_blk_handle_zone_reset_all(void *vdev, void *req, int64_t sector, int64_t len) "vdev %p req %p sector 0x%" PRIx64 " cap 0x%" PRIx64 ""
-+virtio_blk_handle_zone_append(void *vdev, void *req, int64_t sector) "vdev %p req %p, append sector 0x%" PRIx64 ""
- 
- # hd-geometry.c
- hd_geometry_lchs_guess(void *blk, int cyls, int heads, int secs) "blk %p LCHS %d %d %d"
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 0d85c2c9b0..2afd5cf96c 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -676,6 +676,7 @@ static void virtio_blk_zone_report_complete(void *opaque, int ret)
-     int64_t nz = data->zone_report_data.nr_zones;
-     int8_t err_status = VIRTIO_BLK_S_OK;
- 
-+    trace_virtio_blk_zone_report_complete(vdev, req, nz, ret);
-     if (ret) {
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-         goto out;
-@@ -792,6 +793,8 @@ static void virtio_blk_handle_zone_report(VirtIOBlockReq *req,
-     nr_zones = (req->in_len - sizeof(struct virtio_blk_inhdr) -
-                 sizeof(struct virtio_blk_zone_report)) /
-                sizeof(struct virtio_blk_zone_descriptor);
-+    trace_virtio_blk_handle_zone_report(vdev, req,
-+                                        offset >> BDRV_SECTOR_BITS, nr_zones);
- 
-     zone_size = sizeof(BlockZoneDescriptor) * nr_zones;
-     data = g_malloc(sizeof(ZoneCmdData));
-@@ -814,7 +817,9 @@ static void virtio_blk_zone_mgmt_complete(void *opaque, int ret)
- {
-     VirtIOBlockReq *req = opaque;
-     VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-     int8_t err_status = VIRTIO_BLK_S_OK;
-+    trace_virtio_blk_zone_mgmt_complete(vdev, req,ret);
- 
-     if (ret) {
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-@@ -841,6 +846,8 @@ static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp op)
-         /* Entire drive capacity */
-         offset = 0;
-         len = capacity;
-+        trace_virtio_blk_handle_zone_reset_all(vdev, req, 0,
-+                                               bs->total_sectors);
-     } else {
-         if (bs->bl.zone_size > capacity - offset) {
-             /* The zoned device allows the last smaller zone. */
-@@ -848,6 +855,9 @@ static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp op)
-         } else {
-             len = bs->bl.zone_size;
-         }
-+        trace_virtio_blk_handle_zone_mgmt(vdev, req, op,
-+                                          offset >> BDRV_SECTOR_BITS,
-+                                          len >> BDRV_SECTOR_BITS);
-     }
- 
-     if (!check_zoned_request(s, offset, len, false, &err_status)) {
-@@ -888,6 +898,7 @@ static void virtio_blk_zone_append_complete(void *opaque, int ret)
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-         goto out;
-     }
-+    trace_virtio_blk_zone_append_complete(vdev, req, append_sector, ret);
- 
- out:
-     aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-@@ -909,6 +920,7 @@ static int virtio_blk_handle_zone_append(VirtIOBlockReq *req,
-     int64_t offset = virtio_ldq_p(vdev, &req->out.sector) << BDRV_SECTOR_BITS;
-     int64_t len = iov_size(out_iov, out_num);
- 
-+    trace_virtio_blk_handle_zone_append(vdev, req, offset >> BDRV_SECTOR_BITS);
-     if (!check_zoned_request(s, offset, len, true, &err_status)) {
-         goto out;
-     }
+Signed-off-by: Sam Li <faithilikerun@gmail.com>
+---
+ docs/devel/zoned-storage.rst | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/docs/devel/zoned-storage.rst b/docs/devel/zoned-storage.rst
+index 6a36133e51..05ecf3729c 100644
+--- a/docs/devel/zoned-storage.rst
++++ b/docs/devel/zoned-storage.rst
+@@ -41,3 +41,20 @@ APIs for zoned storage emulation or testing.
+ For example, to test zone_report on a null_blk device using qemu-io is:
+ $ path/to/qemu-io --image-opts -n driver=host_device,filename=/dev/nullb0
+ -c "zrp offset nr_zones"
++
++To expose the host's zoned block device through virtio-blk, the command line
++can be (includes the -device parameter):
++    -blockdev node-name=drive0,driver=host_device,filename=/dev/nullb0,
++    cache.direct=on \
++    -device virtio-blk-pci,drive=drive0
++Or only use the -drive parameter:
++    -driver driver=host_device,file=/dev/nullb0,if=virtio,cache.direct=on
++
++Additionally, QEMU has several ways of supporting zoned storage, including:
++(1) Using virtio-scsi: --device scsi-block allows for the passing through of
++SCSI ZBC devices, enabling the attachment of ZBC or ZAC HDDs to QEMU.
++(2) PCI device pass-through: While NVMe ZNS emulation is available for testing
++purposes, it cannot yet pass through a zoned device from the host. To pass on
++the NVMe ZNS device to the guest, use VFIO PCI pass the entire NVMe PCI adapter
++through to the guest. Likewise, an HDD HBA can be passed on to QEMU all HDDs
++attached to the HBA.
 -- 
 2.39.2
 
