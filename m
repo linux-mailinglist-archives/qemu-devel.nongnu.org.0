@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FD26C9F24
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD4F6C9F31
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:17:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgiwg-00037i-9I; Mon, 27 Mar 2023 05:15:18 -0400
+	id 1pgiyJ-00040E-Dp; Mon, 27 Mar 2023 05:16:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pgiwd-00037I-Jj
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:15:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pgiy4-0003yy-C6
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:16:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pgiwb-000100-Lw
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:15:15 -0400
+ id 1pgiy2-0001IT-H1
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:16:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679908512;
+ s=mimecast20190719; t=1679908601;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jXRsBTxAMpae02Fl8JHlmQYQEXrTXhCun5JjyBJjFiQ=;
- b=HLrVQFny6F3gejGo/dcOlIF2mm7/3CSvk/NXorQNLKHWv8lv5mxthaXoPQP2TzSXjSIgKz
- 7ylbV2LfJ6iz3nvhJwVJv7F3h7upVVZVc/105IM+baVOpvIQyp6BkDqZdm9Xf2PP4uC+JF
- g98rQZ6zu7FrWGK+FQN2MnAPNh029f8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=I8IXZ6HFPLCdRcTT+0aA+ihm7QTJgTZWsZbo4T801fg=;
+ b=TYmtIoQu0SYOHWIz6lpB3k75Gxqiea2EvNVE5YTkLYgCB4TdPVNaCCrk+GZIcVJ/+zlj0J
+ DvQmWVXT5siWt/F0FGAqODclukxxmWdVuexTSAKeRBW+uDPOuBq61qSvG64bfXDzm5LgFC
+ F/BYSzMGlGnHR1IxZm2vStCNEPgM0Xc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-168-f_IE3EzGPoOHLJxzOV2OMA-1; Mon, 27 Mar 2023 05:15:10 -0400
-X-MC-Unique: f_IE3EzGPoOHLJxzOV2OMA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-517-EAUGFSCTOrqywSyNB6Y4Yw-1; Mon, 27 Mar 2023 05:16:37 -0400
+X-MC-Unique: EAUGFSCTOrqywSyNB6Y4Yw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 486DB85530C
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 09:15:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53A391C0432D;
+ Mon, 27 Mar 2023 09:16:37 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B0A8F492B01;
- Mon, 27 Mar 2023 09:15:09 +0000 (UTC)
-Date: Mon, 27 Mar 2023 10:15:06 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 913CCC15BB8;
+ Mon, 27 Mar 2023 09:16:35 +0000 (UTC)
+Date: Mon, 27 Mar 2023 10:16:27 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] systemd: Also clear LISTEN_FDNAMES during systemd socket
- activation
-Message-ID: <ZCFempFOjEgqyBXJ@redhat.com>
-References: <20230324153349.1123774-1-eblake@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Bernhard Beschow <shentey@gmail.com>
+Subject: Re: [RFC PATCH] MAINTAINERS: add a section for policy documents
+Message-ID: <ZCFe68dxx/Wa5xya@redhat.com>
+References: <20230324173836.1821275-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230324153349.1123774-1-eblake@redhat.com>
+In-Reply-To: <20230324173836.1821275-1-alex.bennee@linaro.org>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,41 +88,57 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 24, 2023 at 10:33:49AM -0500, Eric Blake wrote:
-> Some time after systemd documented LISTEN_PID and LISTEN_FDS for
-> socket activation, they later added LISTEN_FDNAMES; now documented at:
-> https://www.freedesktop.org/software/systemd/man/sd_listen_fds.html
+On Fri, Mar 24, 2023 at 05:38:36PM +0000, Alex Bennée wrote:
+> We don't update these often but if your the sort of person who enjoys
+
+s/your/you are/
+
+> debating and tuning project policies you could now add yourself as a
+> reviewer here so you don't miss the next debate over tabs vs spaces
+> ;-)
 > 
-> In particular, look at the implementation of sd_listen_fds_with_names():
-> https://github.com/systemd/systemd/blob/main/src/libsystemd/sd-daemon/sd-daemon.c
+> Who's with me?
+
+Sure, you can add me.
+
 > 
-> If we ever pass LISTEN_PID=xxx and LISTEN_FDS=n to a child process,
-> but leave LISTEN_FDNAMES=... unchanged as inherited from our parent
-> process, then our child process using sd_listen_fds_with_names() might
-> see a mismatch in the number of names (unexpected -EINVAL failure), or
-> even if the number of names matches the values of those names may be
-> unexpected (with even less predictable results).
-> 
-> Usually, this is not an issue - the point of LISTEN_PID is to tell
-> systemd socket activation to ignore all other LISTEN_* if they were
-> not directed to this particular pid.  But if we end up consuming a
-> socket directed to this qemu process, and later decide to spawn a
-> child process that also needs systemd socket activation, we must
-> ensure we are not leaking any stale systemd variables through to that
-> child.  The easiest way to do this is to wipe ALL LISTEN_* variables
-> at the time we consume a socket, even if we do not yet care about a
-> LISTEN_FDNAMES passed in from the parent process.
-> 
-> See also https://lists.freedesktop.org/archives/systemd-devel/2023-March/048920.html
-> 
-> Thanks: Laszlo Ersek <lersek@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Kashyap Chamarthy <kchamart@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Cc: Bernhard Beschow <shentey@gmail.com>
 > ---
->  util/systemd.c | 1 +
->  1 file changed, 1 insertion(+)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
+>  MAINTAINERS | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9b56ccdd92..992deb2667 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -64,6 +64,16 @@ L: qemu-devel@nongnu.org
+>  F: *
+>  F: */
+>  
+> +Project policy and developer guides
+> +R: Alex Bennée <alex.bennee@linaro.org>
+> +W: https://www.qemu.org/docs/master/devel/index.html
+> +S: Odd Fixes
+> +F: docs/devel/style.rst
+> +F: docs/devel/code-of-conduct.rst
+> +F: docs/devel/conflict-resolution.rst
+> +F: docs/devel/submitting-a-patch.rst
+> +F: docs/devel/submitting-a-pull-request.rst
+> +
+>  Responsible Disclosure, Reporting Security Issues
+>  -------------------------------------------------
+>  W: https://wiki.qemu.org/SecurityProcess
+> -- 
+> 2.39.2
+> 
 
 With regards,
 Daniel
