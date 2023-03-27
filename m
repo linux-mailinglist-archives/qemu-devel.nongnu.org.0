@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762946CA56F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E596CA573
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 15:20:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgmkw-0006Tq-1c; Mon, 27 Mar 2023 09:19:26 -0400
+	id 1pgmlN-00073I-45; Mon, 27 Mar 2023 09:19:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pgmkn-0006M2-Iu
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:19:19 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pgmlK-00072X-3t
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:19:50 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pgmkl-00068a-Rc
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:19:17 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id r11so8753404wrr.12
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 06:19:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pgmlI-0006qm-ES
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 09:19:49 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id y184so6297019oiy.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 06:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679923153;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jckH08pqbcbbsLcUW/+VqUgPktbh3N/7nJ1YFZfolzs=;
- b=KG4P8opf65Nk8Oo8SUyC0S0j0IC0jBUfTHCH5hrjEfyPfH8gbTiiKCb4rMVYkQpM9e
- thOZASh69ckVIfCyLLPl/Pbp8qfM2oJuh42hOa+e8YhJeHeCplqpli9lcIe28QsPtLTz
- Lm+lxveYVXx77YXje1C8fMeDCdQ9R1SGivl8K9ffz8NGT+8G7XO3cVgmCr4AOo1oF841
- qWaViPgsN8BiMgr3n0xepig7JhrspA0LFVnn08qQbzQp2Y0wwTZ8AWPq5i+B9tMgruSf
- +V9n1kUi4SxDRYNJKnI9CfV/LNXjCQUX0WriRsgBnkzWq7/TOp7vUXhF0SMKSFB2oQuf
- 5VFQ==
+ d=ventanamicro.com; s=google; t=1679923187;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=J2XeDcpUibTrydqD4wrMhPpMjN+DQQyi/5/gaM0qhe0=;
+ b=YPetc1IIR8ICuEqJ2NGk0ey2imx7R2B+JPumCvrmNc4dpG2gRKaKBd4EIE3T0FB/qd
+ ti03iGWlk8WU+boL98Ai9kOv07kXMURWWjDvOZbMZdk7ffiX5A097gMyNV72JqEx0LuH
+ DzkIQFLybQ7W1ZTqdeHXuchXQvsZ1YB1s7N6Nwvao73GMxoQZAFRxluyrNVotGP3TCUI
+ XKDLs7r+/esywJ8HYOz0oD6bDpfMWDUMChl2hBgJjD2Up6mtm82d21zFVDcpj7+TY2fs
+ d4PQw/Eo2C2QoUu0EVXrDnlJ2BSLoYWRs8QrJwfb/3b2ZCCez160waF4K/ypQTRpnfza
+ ZAAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679923153;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jckH08pqbcbbsLcUW/+VqUgPktbh3N/7nJ1YFZfolzs=;
- b=gQBOyOYbnIdU1hexcv4sgRZaV8UQdiOFP27L/0zUEfY5edu0Gv8sfmn/k8Kkt+GQwF
- WXoJhMpiSLRaE7wrfmA9eV25M+yPvrq6isYUlJV71VbFTwmVWU5ZMc7yriBJZqCCOGbf
- o5dDB0Q0Je63WWGKgdgnIU++styYr3/Eik6r399+fruSnHbq0md0rAnw3wbVi7uxASLG
- udivBLnGr2Ezf5N2GUfmjjiCnjkp36r17ZaxsHEZ/v0Ysyq9u+RbcRwcg/TUZMmgyORW
- sW5GIxViHj81tkQXyX4WHy/kJKQynNw4T52GOQwRplrUfk/KKf64PrnPcI/98QTftYVb
- rztA==
-X-Gm-Message-State: AAQBX9d4gb4MH5nySvADD87R7nwoij5b/5ByXvrs1oeknf1dj9lvJqD4
- XTN1SzCGcIqdePPS2cgrOhTxWMrdYW2PHQlohxk=
-X-Google-Smtp-Source: AKy350YZiTRuoBhacxVw788DpbyVQmpMN1fCMzmZRogCKyzBfU4ezTEbyKfpJmmGawd0fB/UMbYcTw==
-X-Received: by 2002:adf:f807:0:b0:2cf:efa5:5322 with SMTP id
- s7-20020adff807000000b002cfefa55322mr12338076wrp.14.1679923153123; 
- Mon, 27 Mar 2023 06:19:13 -0700 (PDT)
-Received: from localhost.localdomain
- (4be54-h02-176-184-9-157.dsl.sta.abo.bbox.fr. [176.184.9.157])
+ d=1e100.net; s=20210112; t=1679923187;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J2XeDcpUibTrydqD4wrMhPpMjN+DQQyi/5/gaM0qhe0=;
+ b=AzD2CtufAqmX+jH9BzvPrKVwTkaUhs9XyZSXInIn3O55XQFMTOAUTmDek6sKoD7Gob
+ WZzKN6WyxttnyHjuGyrd55wEmOowEl6VsvHqCj56xSNP/NdVSYi2NAx1gbEAl0UMYBji
+ uyPu2hlBbaivFPrEUmvS9kmUdwl6LkkYoXwfbb86JxM3QMPvAXmxVNwmUtZqNzlnXm2V
+ 3/4G1c0S1wvdRBQSVgauq++EiOXZPFh47vgEUAx0b8NOv0A7+z7kvRZABVrNw9fZFHe6
+ yfOifazAVhEQeUywl+INNg8GogaaV4+xABA7cKNFwsnrbZCHCmlnNUBu6x9hbGHkBPLj
+ LxyA==
+X-Gm-Message-State: AAQBX9d3i4i6HbhfDklfQ9EtMnwRTlteuehoQEwpzMH1HFYtMHqE7Fjk
+ AknOrSZ4cnHaQ0GauhCYq/wC/g==
+X-Google-Smtp-Source: AKy350ZBiltU6M12U7mYWgz4vF5bd6T8M56AU9SKB1YABhbOFhW3Xg2gygAQ+5civX2DQQBoXjo+2w==
+X-Received: by 2002:aca:1e0b:0:b0:388:f4de:1ed7 with SMTP id
+ m11-20020aca1e0b000000b00388f4de1ed7mr2499480oic.1.1679923186971; 
+ Mon, 27 Mar 2023 06:19:46 -0700 (PDT)
+Received: from [192.168.68.107] ([177.95.89.231])
  by smtp.gmail.com with ESMTPSA id
- x8-20020a5d6508000000b002cea299a575sm25161681wru.101.2023.03.27.06.19.11
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Mar 2023 06:19:12 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Gregor Riepl <onitake@gmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Zach van Rijn <me@zv.io>
-Subject: [PATCH-for-8.0] linux-user/sparc: Don't use 16-bit UIDs on SPARC V9
-Date: Mon, 27 Mar 2023 15:19:10 +0200
-Message-Id: <20230327131910.78564-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ p204-20020acaf1d5000000b003845f4991c7sm11224227oih.11.2023.03.27.06.19.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Mar 2023 06:19:46 -0700 (PDT)
+Message-ID: <b39dc2f5-82b5-5cdc-d2c5-a0fe943ef96d@ventanamicro.com>
+Date: Mon, 27 Mar 2023 10:19:42 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/5] target/riscv: Fix effective address for pointer mask
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
+ <20230327100027.61160-2-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230327100027.61160-2-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,35 +96,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The 64-bit SPARC V9 syscall ABI uses 32-bit UIDs. Only enable
-the 16-bit UID wrappers for 32-bit SPARC (V7 and V8).
 
-Possibly missed in commit 992f48a036 ("Support for 32 bit
-ABI on 64 bit targets (only enabled Sparc64)").
 
-Reported-by: Gregor Riepl <onitake@gmail.com>
-Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Tested-by: Zach van Rijn <me@zv.io>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1394
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- linux-user/syscall_defs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 3/27/23 07:00, Weiwei Li wrote:
+> Since pointer mask works on effective address, and the xl works on the
+> generation of effective address, so xl related calculation should be done
 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 614a1cbc8e..cc37054cb5 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -61,7 +61,7 @@
- 
- #if (defined(TARGET_I386) && defined(TARGET_ABI32)) \
-     || (defined(TARGET_ARM) && defined(TARGET_ABI32)) \
--    || defined(TARGET_SPARC) \
-+    || (defined(TARGET_SPARC) && defined(TARGET_ABI32)) \
-     || defined(TARGET_M68K) || defined(TARGET_SH4) || defined(TARGET_CRIS)
-     /* 16 bit uid wrappers emulation */
- #define USE_UID16
--- 
-2.38.1
+nit: I believe you can remove the 'so'
 
+> before pointer mask.
+> 
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+>   target/riscv/translate.c | 16 ++++++++++++----
+>   1 file changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 0ee8ee147d..bf0e2d318e 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -568,11 +568,15 @@ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
+>       TCGv src1 = get_gpr(ctx, rs1, EXT_NONE);
+>   
+>       tcg_gen_addi_tl(addr, src1, imm);
+> +
+> +    if (get_xl(ctx) == MXL_RV32) {
+> +        tcg_gen_ext32u_tl(addr, addr);
+> +    }
+> +
+>       if (ctx->pm_mask_enabled) {
+>           tcg_gen_andc_tl(addr, addr, pm_mask);
+> -    } else if (get_xl(ctx) == MXL_RV32) {
+> -        tcg_gen_ext32u_tl(addr, addr);
+>       }
+> +
+>       if (ctx->pm_base_enabled) {
+>           tcg_gen_or_tl(addr, addr, pm_base);
+>       }
+> @@ -586,11 +590,15 @@ static TCGv get_address_indexed(DisasContext *ctx, int rs1, TCGv offs)
+>       TCGv src1 = get_gpr(ctx, rs1, EXT_NONE);
+>   
+>       tcg_gen_add_tl(addr, src1, offs);
+> +
+> +    if (get_xl(ctx) == MXL_RV32) {
+> +        tcg_gen_ext32u_tl(addr, addr);
+> +    }
+> +
+>       if (ctx->pm_mask_enabled) {
+>           tcg_gen_andc_tl(addr, addr, pm_mask);
+> -    } else if (get_xl(ctx) == MXL_RV32) {
+> -        tcg_gen_ext32u_tl(addr, addr);
+>       }
+> +
+>       if (ctx->pm_base_enabled) {
+>           tcg_gen_or_tl(addr, addr, pm_base);
+>       }
 
