@@ -2,99 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C1C6CAD17
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 20:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94C16CAD77
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 20:44:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgrgo-00023T-Oi; Mon, 27 Mar 2023 14:35:30 -0400
+	id 1pgroF-0006kt-EX; Mon, 27 Mar 2023 14:43:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pgrgT-0001rD-Lf
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 14:35:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1pgrgQ-000116-Si
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 14:35:08 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32RIHqo6022544; Mon, 27 Mar 2023 18:34:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=k0YOM6mLA1+UodMCOSyTP9dbQ4iYAn4VDUj1/qJChB0=;
- b=dX3miz8xzMhTjkij38Yx+/mikg0KlaUF3NLz9LgfNfJWmoKuaLSjVDROeIWhagHtuaCE
- bwJI3cyg7UlJaTn9m/n6i8FcC8kLQB3tjmCTx4uzEJOSoNcHxG7juxG2f2hUrInrJoMh
- PuSohp3djV41twutNrwyIOsr0lWZwfNditTMoIEl+FQd4HqPXRvAV1OnaZTZZYRFthvh
- cugURT2XufgeIj3atgwnZEas+byrQy7qDJ9YGTCCS7eu7CVsbIanSB1jLPc3XwiVnB8o
- i44yz/8/w4FGuhG0joPrnjgYXLVOjfNdK2yz26ONMMthu2f191suWTaVbIXWZViYJSBe RQ== 
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkga38a6m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Mar 2023 18:34:58 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RH5Tjh005806;
- Mon, 27 Mar 2023 18:34:56 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
- by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3phrk6vky4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Mar 2023 18:34:56 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
- [10.39.53.230])
- by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32RIYtfI2621986
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Mar 2023 18:34:55 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 67E6A58064;
- Mon, 27 Mar 2023 18:34:55 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAE835805C;
- Mon, 27 Mar 2023 18:34:54 +0000 (GMT)
-Received: from [9.211.158.228] (unknown [9.211.158.228])
- by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 27 Mar 2023 18:34:54 +0000 (GMT)
-Message-ID: <2dd320f1-d3f3-5ea1-ee72-c90716c64ee6@linux.vnet.ibm.com>
-Date: Mon, 27 Mar 2023 13:34:54 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pgroD-0006kb-9Z
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 14:43:09 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pgroB-00085b-Ey
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 14:43:09 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id ix20so9335257plb.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 11:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679942584;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=smElFyTXO9NrU2Fyau0lLYj3kwui4it19HAiV9AbNs8=;
+ b=brEOjb0faughg8lfQMXzJYbWvu6NWvJFokhlnoRo/iJ5CDNRwEyNls4k3ieuzNforR
+ NOyZB0ebBDq0XKES7NMhK6mKASpNZ8pKYf4IJ04ku52JTI5fQ/HBEER8Q+2yyObWARCr
+ d8x4W9YThG75vOJslYRvCQEgEk1M9WXDPuwo9ZeVxlvWIsALWdg3IHaKMuV6jFM+n8a5
+ OcuywG7j9cL0N9bstydM9uhDq9qCfE5GPfY2J2aYWBEWzFeOwlkFEQVkYSAzHzVq5297
+ o3h/3x2qRxkhmc/9JMqnuMOOSbuO/VpuMjDB917LbEHdAa2MCv77PXr6m6ZsD/RLzk+/
+ 3/7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679942584;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=smElFyTXO9NrU2Fyau0lLYj3kwui4it19HAiV9AbNs8=;
+ b=nqMrXC7F0Iz2FZZjZes6NgC3e6n3Nm8HLQOzh6Crx9JyscxRfNmi+4ivd2PAsuBVnv
+ HQN455Jj8+HrkFu84tjJYmhxRQzJgsrR+uvrzoVu7Db3JO9Q9XTyHRRd7mUDIeyyUK/u
+ 5lhmzGyiu2gNbHA5T1hLMoO26dbpU7BfvVXAF9gwW51BUKwXDIaQBQxxo8NybRsftBzB
+ 4npLM6UXp28yesAFTkg7hiysTnM/gxQHGQRYYpvlk53cjQtjsfX982FDT/kiMqMRUxIR
+ dXIHy+H0VS6u/yqu77+z08kMRNe4e8o8HPoE82Vp8TgjgCt1r69QKGhBBDNvlD6X01oI
+ jbCg==
+X-Gm-Message-State: AAQBX9fMXXd1Yh5Zl6RLeaSeTEM/6V6r43UHoM65kCo9FiRYfr61i6as
+ ULRBMGuZ5kkHety6wxJzWzAH4Q==
+X-Google-Smtp-Source: AKy350aJB8lQ4hEDQPGVwImBrgJGvXPgYlzdsaBp0miVAzh0m7ZRZDT6ja6VDAnGVWM3eUgJdDI0LQ==
+X-Received: by 2002:a17:902:d48a:b0:19f:3617:e9e9 with SMTP id
+ c10-20020a170902d48a00b0019f3617e9e9mr17837697plg.43.1679942584465; 
+ Mon, 27 Mar 2023 11:43:04 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1544:6601:6705:aa17:3641:e634?
+ ([2602:ae:1544:6601:6705:aa17:3641:e634])
+ by smtp.gmail.com with ESMTPSA id
+ m33-20020a635821000000b0050927cb606asm17994505pgb.13.2023.03.27.11.43.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Mar 2023 11:43:04 -0700 (PDT)
+Message-ID: <8a27b03e-9100-6b64-fde9-6b92a9f643b9@linaro.org>
+Date: Mon, 27 Mar 2023 11:43:02 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v9 3/3] tpm: Add support for TPM device over I2C bus
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 03/19] target/riscv: introduce
+ riscv_cpu_add_misa_properties()
 Content-Language: en-US
-To: Stefan Berger <stefanb@linux.ibm.com>, Ninad Palsule
- <ninad@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: joel@jms.id.au, andrew@aj.id.au, clg@kaod.org
-References: <20230327181241.4046253-1-ninad@linux.ibm.com>
- <20230327181241.4046253-4-ninad@linux.ibm.com>
- <f648077b-8ca5-d93a-64ee-c9d4a63cbe17@linux.ibm.com>
-From: Ninad Palsule <ninad@linux.vnet.ibm.com>
-In-Reply-To: <f648077b-8ca5-d93a-64ee-c9d4a63cbe17@linux.ibm.com>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+References: <20230327124247.106595-1-dbarboza@ventanamicro.com>
+ <20230327124247.106595-4-dbarboza@ventanamicro.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230327124247.106595-4-dbarboza@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: cSZx7okHDeEsHaP3pLLu3LJEusgRuzib
-X-Proofpoint-ORIG-GUID: cSZx7okHDeEsHaP3pLLu3LJEusgRuzib
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- phishscore=0 priorityscore=1501 mlxlogscore=999 adultscore=0 mlxscore=0
- clxscore=1015 bulkscore=0 lowpriorityscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303270152
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,35 +97,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Stefan,
+On 3/27/23 05:42, Daniel Henrique Barboza wrote:
+> +        g_autofree char *name = g_strdup_printf("%s", misa_cfg->name);
+> +        g_autofree char *desc = g_strdup_printf("%s", misa_cfg->description);
 
-On 3/27/23 1:26 PM, Stefan Berger wrote:
->
->
-> On 3/27/23 14:12, Ninad Palsule wrote:
->
->> diff --git a/hw/tpm/tpm_tis_i2c.c b/hw/tpm/tpm_tis_i2c.c
->> new file mode 100644
->> index 0000000000..551b89dac8
->> --- /dev/null
->> +++ b/hw/tpm/tpm_tis_i2c.c
->> @@ -0,0 +1,527 @@
->> +/*
->> + * Aspeed i2c bus interface for reading from and writing to i2c 
->> device registers
->
-> This was my suggestion for the format but this is not the correct line.
->
-> With this line reverted to  tpm_tis_i2c.c - QEMU's TPM TIS I2C Device
+What is the point of this?  It would seem that you could simply pass the original string 
+literals to object_property_*.
 
-Sorry about that. Fixed.
 
-Thanks for the review.
-
-Ninad
-
->
->
-> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-> Tested-by: Stefan Berger <stefanb@linux.ibm.com>
+r~
 
