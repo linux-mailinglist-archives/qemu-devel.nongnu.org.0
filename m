@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5886C9FB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:34:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC6D6C9FD5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:35:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgjFG-0001cS-El; Mon, 27 Mar 2023 05:34:30 -0400
+	id 1pgjFv-0002S7-Ov; Mon, 27 Mar 2023 05:35:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pgjFE-0001XV-62
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:34:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pgjFn-0002La-HN
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:35:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pgjFC-0006k2-F2
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:34:27 -0400
+ id 1pgjFl-0006wF-Pa
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:35:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679909665;
+ s=mimecast20190719; t=1679909700;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uq+EJ/0mIc/s9AYIoGcR96EsLdbB9zn01ldwDrWK/ho=;
- b=hGZyYJRO6Ws6owu+QKcTcHQ9owDbKEz/rw5SAz8VrhhjPTj/ZjFZQF6TkwyqN3+2UHg7Yj
- VuhH9kHG906pahs8Klw8voiHk/hAKXgfdlRiWatKf4hbYzTnsI51nNqNpjr3tMVCg1+Pxi
- 0HrXBw2/+XVLxSS/iPh6EimE1Gibo38=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JSASRgioEJ4xNwg056ED3CWrqKc7rZhZl6bj8fYkvO0=;
+ b=IUnB6OYNOovgMob9/RIhkDFvFUFwOAXKr3BFPMe6n2RiTuOz2BEKGqyF5BsRmZUeo5ow2/
+ gR54aVX3eAEWuo9vBFOBwHcRVI2ARXuUTJUKqBG++h4IWalSMpkKj1g6J9eq/5hBNPh38p
+ fVLCPALzEybPb2n327pSe7u4DJQeZIY=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-663-u0r8X7c1NV2B1s9fbDtF_Q-1; Mon, 27 Mar 2023 05:34:20 -0400
-X-MC-Unique: u0r8X7c1NV2B1s9fbDtF_Q-1
-Received: by mail-qk1-f197.google.com with SMTP id
- 72-20020a37064b000000b007467c5d3abeso3676260qkg.19
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 02:34:20 -0700 (PDT)
+ us-mta-164-hCmzuW-7M5uDSQCnZ4Qa9Q-1; Mon, 27 Mar 2023 05:34:58 -0400
+X-MC-Unique: hCmzuW-7M5uDSQCnZ4Qa9Q-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ h6-20020ac85846000000b003e3c23d562aso5661059qth.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 02:34:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679909659;
+ d=1e100.net; s=20210112; t=1679909698;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uq+EJ/0mIc/s9AYIoGcR96EsLdbB9zn01ldwDrWK/ho=;
- b=h2H15wJMJa9LEjOIuhaKuRRZNH2M75dNAr4Wn6zntTbPZP89oUhVhaOlzmngsdYqiw
- Ah+PSh2j4ZH8MWpt24y7UbQDwHanMDHu2XxwVwCAEDrR7HxswQI1hj6w4P+rgilRcRUu
- s74Ml9fCATPO/cxHQMplIiAm+4MqfUU9i+hqjcFFGE5+CzojpzsZGxGsJo4stR5bHLa2
- zalL7sIZEqKvegmSPvG1hP05ofqBY+9P4AlbucO3lOLckQKKaKjTOaY0Ow2aD8IxMm0J
- +Donq0CItQtqeSIugbMb5O2d3o53pptXCVoUWCt7zwMnuW01p3+r4hn0fTin93M1DkO6
- nsog==
-X-Gm-Message-State: AO0yUKUWwxoElu2g6W3On9Ehp5pia8586K8dxu0oi5Ixt5HiyaL5kfgY
- C47iQrpoyy3ZUWJIOd9g8io+vG6MOnkXMuO4+eR8aNUPNlyriU1UYAZnOZ5bolucor2AE9sBYoN
- 85dgx2O3N5pE6i7w=
-X-Received: by 2002:ac8:7c55:0:b0:3e3:7d6d:fb with SMTP id
- o21-20020ac87c55000000b003e37d6d00fbmr19781422qtv.9.1679909659433; 
- Mon, 27 Mar 2023 02:34:19 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+8R7LDBfac2U8zIdIguQqMw0W9cJSRfeZJA1lShDnHiXPeAjjdOzAL2BvbHocdMXbgVHbFfQ==
-X-Received: by 2002:ac8:7c55:0:b0:3e3:7d6d:fb with SMTP id
- o21-20020ac87c55000000b003e37d6d00fbmr19781395qtv.9.1679909659166; 
- Mon, 27 Mar 2023 02:34:19 -0700 (PDT)
+ bh=JSASRgioEJ4xNwg056ED3CWrqKc7rZhZl6bj8fYkvO0=;
+ b=N98Hu9/WgQSQOvHVnWrym8niKq6seIFDtfBxu90oKCDL0ib0eE3bwcowF05mY2xfpG
+ QzJAQO/bNJuG/cqGU8GzlnHIDSYRgrZ1af9NDwX04BdS+p/HXv7j1AWWD1YUav08tZbF
+ Ird0iQGusJq7Myp0Qs8kl4ATtR6OF2Mii6sZ9Uwaj1hRnSukObBP0PaU7C3xVuBCc+ZL
+ szBz6HLBlR1VN1VAx/SBVA9HGwwBSvjxmjg2Nf3oqCcpz78WRGUeen2b3+7bHU50tcI8
+ Nyzi6iAQgn6yCMRipm16SAOBpUNVMtm5wGbLtFxLa5PyVQJ3s2VvZVAG4WCLwJF7ztyy
+ PyfQ==
+X-Gm-Message-State: AAQBX9dbqpwVYXQZ2KLG1EVqMRwQ3dVDt2zOo1Z0WFOhStKIfTnhrUOG
+ V3zTIEWgV/IpTEmW5aNT2lJ7ebipA1jfHFgIDvDkegHuf4AUQuA6LfLCPrtwpzPdpWdxsP2Fko7
+ 2CxyPticA0mob4Ao=
+X-Received: by 2002:a05:6214:f67:b0:5ac:e837:4401 with SMTP id
+ iy7-20020a0562140f6700b005ace8374401mr21581221qvb.18.1679909698533; 
+ Mon, 27 Mar 2023 02:34:58 -0700 (PDT)
+X-Google-Smtp-Source: AKy350almk13a/es292mMhSTeKNDSIe4uxHQ93kOPZE2YIvZlIIjnSkL7lXbOKiXvN0RTtsqmugUEQ==
+X-Received: by 2002:a05:6214:f67:b0:5ac:e837:4401 with SMTP id
+ iy7-20020a0562140f6700b005ace8374401mr21581191qvb.18.1679909698229; 
+ Mon, 27 Mar 2023 02:34:58 -0700 (PDT)
 Received: from sgarzare-redhat (host-82-53-134-98.retail.telecomitalia.it.
  [82.53.134.98]) by smtp.gmail.com with ESMTPSA id
- q6-20020a374306000000b007424376ca4bsm11038169qka.18.2023.03.27.02.34.15
+ mu10-20020a056214328a00b005dd8b9345aasm2779174qvb.66.2023.03.27.02.34.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 02:34:18 -0700 (PDT)
-Date: Mon, 27 Mar 2023 11:34:12 +0200
+ Mon, 27 Mar 2023 02:34:57 -0700 (PDT)
+Date: Mon, 27 Mar 2023 11:34:52 +0200
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
@@ -76,16 +76,17 @@ Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>,
  Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
  Cindy Lu <lulu@redhat.com>, longpeng2@huawei.com,
  Harpreet Singh Anand <hanand@xilinx.com>
-Subject: Re: [PATCH for 8.1 v2 2/6] vdpa: add vhost_vdpa_reset_status_fd
-Message-ID: <byupzvbxliqm2h7sy7p3lykf3i277uz3lbny72vpdfwh4i5n3f@onjenbiqgfbj>
+Subject: Re: [PATCH for 8.1 v2 4/6] vdpa: return errno in
+ vhost_vdpa_get_vring_group error
+Message-ID: <g2i3ob2iqsronxyjlwud7ude5dd2zu2jxmeawuqki3nw7h447y@yrfjknzwoohh>
 References: <20230323195404.1247326-1-eperezma@redhat.com>
- <20230323195404.1247326-3-eperezma@redhat.com>
+ <20230323195404.1247326-5-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230323195404.1247326-3-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+In-Reply-To: <20230323195404.1247326-5-eperezma@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -109,159 +110,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 23, 2023 at 08:54:00PM +0100, Eugenio Pérez wrote:
->This allows to reset a vhost-vdpa device from external subsystems like
->vhost-net, since it does not have any struct vhost_dev by the time we
->need to use it.
+On Thu, Mar 23, 2023 at 08:54:02PM +0100, Eugenio Pérez wrote:
+>We need to tell in the caller, as some errors are expected in a normal
+>workflow.  In particular, parent drivers in recent kernels with
+>VHOST_BACKEND_F_IOTLB_ASID may not support vring groups.  In that case,
+>-ENOTSUP is returned.
 >
->It is used in subsequent patches to negotiate features
->and probe for CVQ ASID isolation.
+>This is the case of vp_vdpa in Linux 6.2.
+>
+>Next patches in this series will use that information to know if it must
+>abort or not.  Also, next patches return properly an errp instead of
+>printing with error_report.
 >
 >Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 >---
-> include/hw/virtio/vhost-vdpa.h |  1 +
-> hw/virtio/vhost-vdpa.c         | 58 +++++++++++++++++++++++-----------
-> 2 files changed, 41 insertions(+), 18 deletions(-)
+> net/vhost-vdpa.c | 9 +++++++++
+> 1 file changed, 9 insertions(+)
 
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 >
->diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
->index c278a2a8de..28de7da91e 100644
->--- a/include/hw/virtio/vhost-vdpa.h
->+++ b/include/hw/virtio/vhost-vdpa.h
->@@ -54,6 +54,7 @@ typedef struct vhost_vdpa {
->     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> } VhostVDPA;
->
->+void vhost_vdpa_reset_status_fd(int fd);
-> int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range);
->
-> int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
->diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->index bbabea18f3..7a2053b8d9 100644
->--- a/hw/virtio/vhost-vdpa.c
->+++ b/hw/virtio/vhost-vdpa.c
->@@ -335,38 +335,45 @@ static const MemoryListener vhost_vdpa_memory_listener = {
->     .region_del = vhost_vdpa_listener_region_del,
+>diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>index 99904a0da7..4397c0d4b3 100644
+>--- a/net/vhost-vdpa.c
+>+++ b/net/vhost-vdpa.c
+>@@ -361,6 +361,14 @@ static NetClientInfo net_vhost_vdpa_info = {
+>         .check_peer_type = vhost_vdpa_check_peer_type,
 > };
 >
->-static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
->-                             void *arg)
->+static int vhost_vdpa_dev_fd(const struct vhost_dev *dev)
+>+/**
+>+ * Get vring virtqueue group
+>+ *
+>+ * @device_fd  vdpa device fd
+>+ * @vq_index   Virtqueue index
+>+ *
+>+ * Return -errno in case of error, or vq group if success.
+>+ */
+> static int64_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
 > {
->     struct vhost_vdpa *v = dev->opaque;
->-    int fd = v->device_fd;
->-    int ret;
+>     struct vhost_vring_state state = {
+>@@ -369,6 +377,7 @@ static int64_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
+>     int r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, &state);
 >
->     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
->+    return v->device_fd;
->+}
->+
->+static int vhost_vdpa_call_fd(int fd, unsigned long int request, void *arg)
->+{
->+    int ret = ioctl(fd, request, arg);
->
->-    ret = ioctl(fd, request, arg);
->     return ret < 0 ? -errno : ret;
-> }
->
->-static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->+static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
->+                           void *arg)
->+{
->+    return vhost_vdpa_call_fd(vhost_vdpa_dev_fd(dev), request, arg);
->+}
->+
->+static int vhost_vdpa_add_status_fd(int fd, uint8_t status)
-> {
->     uint8_t s;
->     int ret;
->
->-    trace_vhost_vdpa_add_status(dev, status);
->-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
->+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
->     if (ret < 0) {
->         return ret;
->     }
->
->     s |= status;
->
->-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
->+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &s);
->     if (ret < 0) {
->         return ret;
->     }
->
->-    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
->+    ret = vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
->     if (ret < 0) {
->         return ret;
->     }
->@@ -378,6 +385,12 @@ static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->     return 0;
-> }
->
->+static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
->+{
->+    trace_vhost_vdpa_add_status(dev, status);
->+    return vhost_vdpa_add_status_fd(vhost_vdpa_dev_fd(dev), status);
->+}
->+
-> int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova_range)
-> {
->     int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
->@@ -709,16 +722,20 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
->     return ret;
-> }
->
->+static int vhost_vdpa_reset_device_fd(int fd)
->+{
->+    uint8_t status = 0;
->+
->+    return vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &status);
->+}
->+
-> static int vhost_vdpa_reset_device(struct vhost_dev *dev)
-> {
->     struct vhost_vdpa *v = dev->opaque;
->-    int ret;
->-    uint8_t status = 0;
->
->-    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
->-    trace_vhost_vdpa_reset_device(dev);
->     v->suspended = false;
->-    return ret;
->+    trace_vhost_vdpa_reset_device(dev);
->+    return vhost_vdpa_reset_device_fd(vhost_vdpa_dev_fd(dev));
-> }
->
-> static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
->@@ -1170,6 +1187,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->     return 0;
-> }
->
->+void vhost_vdpa_reset_status_fd(int fd)
->+{
->+    vhost_vdpa_reset_device_fd(fd);
->+    vhost_vdpa_add_status_fd(fd, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->+                                 VIRTIO_CONFIG_S_DRIVER);
->+}
->+
-> static void vhost_vdpa_reset_status(struct vhost_dev *dev)
-> {
->     struct vhost_vdpa *v = dev->opaque;
->@@ -1178,9 +1202,7 @@ static void vhost_vdpa_reset_status(struct vhost_dev *dev)
->         return;
->     }
->
->-    vhost_vdpa_reset_device(dev);
->-    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->-                               VIRTIO_CONFIG_S_DRIVER);
->+    vhost_vdpa_reset_status_fd(vhost_vdpa_dev_fd(dev));
->     memory_listener_unregister(&v->listener);
-> }
->
+>     if (unlikely(r < 0)) {
+>+        r = -errno;
+>         error_report("Cannot get VQ %u group: %s", vq_index,
+>                      g_strerror(errno));
+>         return r;
 >-- 
 >2.31.1
 >
