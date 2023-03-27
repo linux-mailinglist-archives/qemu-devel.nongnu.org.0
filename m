@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD4F6C9F31
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780E76C9F45
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 11:24:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgiyJ-00040E-Dp; Mon, 27 Mar 2023 05:16:59 -0400
+	id 1pgj50-0005s1-Mb; Mon, 27 Mar 2023 05:23:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pgiy4-0003yy-C6
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:16:48 -0400
+ id 1pgj4z-0005rr-2u
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:23:53 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pgiy2-0001IT-H1
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:16:43 -0400
+ id 1pgj4x-0000Sj-Au
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 05:23:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679908601;
+ s=mimecast20190719; t=1679909030;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I8IXZ6HFPLCdRcTT+0aA+ihm7QTJgTZWsZbo4T801fg=;
- b=TYmtIoQu0SYOHWIz6lpB3k75Gxqiea2EvNVE5YTkLYgCB4TdPVNaCCrk+GZIcVJ/+zlj0J
- DvQmWVXT5siWt/F0FGAqODclukxxmWdVuexTSAKeRBW+uDPOuBq61qSvG64bfXDzm5LgFC
- F/BYSzMGlGnHR1IxZm2vStCNEPgM0Xc=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ZX/BzHyiPd6dGtb71rWcMwOqt4ricQR+IoZgkKkp7vQ=;
+ b=D7Eom/dL8FXRVi0pr5JM6PhLfnvMbJ+OLm5QUEpEbcgXE3IxgsiTtfXALCG7Dd55iV5I6q
+ 4Y7wkPqvK1h15PSdqgC5O4fdVbev+2GCNakpkwFaDydo+P3mHMajT2KJQN842aciOyA70O
+ IWMvqfv8FA6nictNYS8gBTV4+bcfhs0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-EAUGFSCTOrqywSyNB6Y4Yw-1; Mon, 27 Mar 2023 05:16:37 -0400
-X-MC-Unique: EAUGFSCTOrqywSyNB6Y4Yw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-659-uVeqaNV5P9CUv9G_gk85Kg-1; Mon, 27 Mar 2023 05:23:47 -0400
+X-MC-Unique: uVeqaNV5P9CUv9G_gk85Kg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53A391C0432D;
- Mon, 27 Mar 2023 09:16:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FE423815EE3
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 09:23:47 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 913CCC15BB8;
- Mon, 27 Mar 2023 09:16:35 +0000 (UTC)
-Date: Mon, 27 Mar 2023 10:16:27 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8264C202701E;
+ Mon, 27 Mar 2023 09:23:46 +0000 (UTC)
+Date: Mon, 27 Mar 2023 10:23:43 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [RFC PATCH] MAINTAINERS: add a section for policy documents
-Message-ID: <ZCFe68dxx/Wa5xya@redhat.com>
-References: <20230324173836.1821275-1-alex.bennee@linaro.org>
+To: casantos@redhat.com
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] tracing: install trace events file only if necessary
+Message-ID: <ZCFgnySXy4TdPyQD@redhat.com>
+References: <20230326210446.66170-1-casantos@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230324173836.1821275-1-alex.bennee@linaro.org>
+In-Reply-To: <20230326210446.66170-1-casantos@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -88,57 +79,34 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 24, 2023 at 05:38:36PM +0000, Alex Bennée wrote:
-> We don't update these often but if your the sort of person who enjoys
-
-s/your/you are/
-
-> debating and tuning project policies you could now add yourself as a
-> reviewer here so you don't miss the next debate over tabs vs spaces
-> ;-)
+On Sun, Mar 26, 2023 at 06:04:46PM -0300, casantos@redhat.com wrote:
+> From: Carlos Santos <casantos@redhat.com>
 > 
-> Who's with me?
-
-Sure, you can add me.
-
+> It is required only if linux-user, bsd-user or system emulator is built.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: Kashyap Chamarthy <kchamart@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Cc: Bernhard Beschow <shentey@gmail.com>
+> Signed-off-by: Carlos Santos <casantos@redhat.com>
 > ---
->  MAINTAINERS | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  trace/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9b56ccdd92..992deb2667 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -64,6 +64,16 @@ L: qemu-devel@nongnu.org
->  F: *
->  F: */
->  
-> +Project policy and developer guides
-> +R: Alex Bennée <alex.bennee@linaro.org>
-> +W: https://www.qemu.org/docs/master/devel/index.html
-> +S: Odd Fixes
-> +F: docs/devel/style.rst
-> +F: docs/devel/code-of-conduct.rst
-> +F: docs/devel/conflict-resolution.rst
-> +F: docs/devel/submitting-a-patch.rst
-> +F: docs/devel/submitting-a-pull-request.rst
-> +
->  Responsible Disclosure, Reporting Security Issues
->  -------------------------------------------------
->  W: https://wiki.qemu.org/SecurityProcess
-> -- 
-> 2.39.2
-> 
+> diff --git a/trace/meson.build b/trace/meson.build
+> index 8e80be895c..3fb41c97a4 100644
+> --- a/trace/meson.build
+> +++ b/trace/meson.build
+> @@ -64,7 +64,7 @@ trace_events_all = custom_target('trace-events-all',
+>                                   input: trace_events_files,
+>                                   command: [ 'cat', '@INPUT@' ],
+>                                   capture: true,
+> -                                 install: true,
+> +                                 install: have_linux_user or have_bsd_user or have_system,
+
+Trace events are used by our command line tools too qemu-img, qemu-io,
+qemu-nbd, qemu-pr-helper, qemu-storage-daemon.
+
+What build scenario are you seeing that does NOT want the trace events
+to be present ?   If there is any, then I might even call that situation
+a bug, as we want trace events to be available as a debugging mechanism
+for everything we build.
 
 With regards,
 Daniel
