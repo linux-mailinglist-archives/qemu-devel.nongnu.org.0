@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 320DB6CABE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EE66CABE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:34:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgqhZ-0005Dq-N2; Mon, 27 Mar 2023 13:32:13 -0400
+	id 1pgqj3-0006Ka-Tg; Mon, 27 Mar 2023 13:33:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pgqhW-000582-Oq
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:32:10 -0400
+ id 1pgqj1-0006Gr-Ie
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:33:43 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pgqhU-0004aQ-P8
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:32:10 -0400
+ id 1pgqiu-0001PZ-GF
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:33:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679938319;
+ s=mimecast20190719; t=1679938412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=odScmr8GzNu0Jrge1LpGp0cPl5+DakJGsXFak4UrU9g=;
- b=an/WVRZA496LzDvW4gQYG08UGqUJD3y9ZeuYvnd//w6oLFBYhdfR/TVylRrwi5qWQxB0ew
- P3TLMzfEgYbz098ZNh/aegwHh7+wyWb3uaLp4IGTTA32LhQQyyrovBMvc44hEzmAVifOYi
- F4Qx0BPxZzIMXsBfvRyjs5DWPXtayyQ=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nrl5xMWoX0dZal/4E6A4b+z8ewpOd6GBXR/oHaHVEVg=;
+ b=jGgwxs73rqpR7kRfDQonPIyqAIdugbrl6am6/MlDMKGxBdpzXHtFvkIFByyeqPYb9PnlqM
+ LVVoc+H4lCblryrCQzy+3TuD/pgVkfzNnR9wAwhJvtZtdAFl7pR0qcER8il0niG003sUz2
+ FKo6QvktG8X0jWpKTJYTpwo7DIgX2FI=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-472-9ZXgzWdKP7CJSq9zj1bK2g-1; Mon, 27 Mar 2023 13:31:58 -0400
-X-MC-Unique: 9ZXgzWdKP7CJSq9zj1bK2g-1
-Received: by mail-ot1-f70.google.com with SMTP id
- t21-20020a05683022f500b0069f9643a23bso3846259otc.14
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:31:58 -0700 (PDT)
+ us-mta-648-ytbp7B4cM_-3Sm3CNGKsGA-1; Mon, 27 Mar 2023 13:33:28 -0400
+X-MC-Unique: ytbp7B4cM_-3Sm3CNGKsGA-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ n30-20020a9d711e000000b006a11baeb49bso3166856otj.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:33:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679938317;
+ d=1e100.net; s=20210112; t=1679938408;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=odScmr8GzNu0Jrge1LpGp0cPl5+DakJGsXFak4UrU9g=;
- b=VGVun3o9kfBxf1qdZCC9Z9VCdjGYcb84Gfv8ZWAoOK4ijIIeMkl4XrTz9TaZd1FRpZ
- Lh/MQTJ1fo6W8Dc8fbY4/eJmsNPckJp8yvQHlfIiz6E6+BA39LdHzo04TV+SNSEWOz7+
- 4/PrVnvT5DFgM8Ds8hltLofLbs+WnNJUhgpT62sru5+FvF8RppAtI+ynbqXRoPa7Zie7
- yz0xJ33saYYr/w0qw87LhvJ8Fco+JcDr2iAqIfx3zPO5v1mQWwYiiw/PboIvrVjcBoY+
- NXbSLAfqToBZLfhzj+k+gw1r+gbyviCcEYmcHnjTD2BJdT5qbUWDATDX0NzEzRO5Essx
- asww==
-X-Gm-Message-State: AAQBX9eDexaw0Nkh+jdJhrvG874BrWmHDSQN4Aj0pXSEAc0P66XQ/GYY
- vljMoJAQbJdEi3weiIRqnECdUFObLLiFnoJFQn4pDX2oKqd2bim3PZMA8LrlhjMBZqQQkCjo0Nd
- s72i5ne34MV2fIlinSxQn0IKyo1rW+oQ=
-X-Received: by 2002:aca:210c:0:b0:389:4e54:79f0 with SMTP id
- 12-20020aca210c000000b003894e5479f0mr236434oiz.3.1679938317200; 
- Mon, 27 Mar 2023 10:31:57 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZRoCfZQmRt4M/eiHyk+sXroHngoizjZjYbysUMMkkXDapl40QoR7GXb2o9da6EEHuqbAw4e6xv5SkjQsyUbwM=
-X-Received: by 2002:aca:210c:0:b0:389:4e54:79f0 with SMTP id
- 12-20020aca210c000000b003894e5479f0mr236427oiz.3.1679938316976; Mon, 27 Mar
- 2023 10:31:56 -0700 (PDT)
+ bh=nrl5xMWoX0dZal/4E6A4b+z8ewpOd6GBXR/oHaHVEVg=;
+ b=Y5YFOxEJLA2EXqe5VDDtfZzOlAqu3j5P6Erir3wYvoErdugoCCRUpkUYl3BbzG1l99
+ +bvEEU7UjQhtebj01zmDH07u+cLeNXTweMSIAfb5fORXpOVePXka7hEKH7SsZ25YDTD9
+ eCT3sopxm80+TeBiUXpLQtVLihtL/nDagqnmHxwhmLEMRE52VjgF2p2CTuNRpiqb/o6s
+ lASnZi8LDXH6Q3AEd9Fl3GHgm3pq4AQ9HkdskaixnYAG0y1YMecPOMjmNlJVG9hb8JSJ
+ lncK2hPySa3n0lhfRsa5aqEfjrLAl/hDMyCNTy5VkgUIXGRFOM8Y3K58/VXaRXsK57fs
+ QXnA==
+X-Gm-Message-State: AO0yUKWIh2n/6EgZarPueAJYf1OUfchnRBFZERLfMM3pjEC0FhWBiSdN
+ hq8XHaYpJg2L0Qt6rOr+I/J41rrqyiFyC02O0nj7QQAhKUeUd4bFisHAWJ/yGNfboqFGnPF4WHk
+ 9OQ0hfA98Yv3CBl7R9TLFhzmmhHOuW/k=
+X-Received: by 2002:a05:6871:d96:b0:17e:1aaf:eb88 with SMTP id
+ vi22-20020a0568710d9600b0017e1aafeb88mr3963667oab.3.1679938407741; 
+ Mon, 27 Mar 2023 10:33:27 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZgS9t7WBYhSnZLz6eCbbDv5xm7Yfk6NYlUzuNkgyUwUQdizW5mPOomtyYXTuDmG9eFpqV274n8wEIgRcgzZQ8=
+X-Received: by 2002:a05:6871:d96:b0:17e:1aaf:eb88 with SMTP id
+ vi22-20020a0568710d9600b0017e1aafeb88mr3963664oab.3.1679938407499; Mon, 27
+ Mar 2023 10:33:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230326210446.66170-1-casantos@redhat.com>
- <ZCFgnySXy4TdPyQD@redhat.com>
- <CAC1VKkNMHbwCZLmPwLWR0XmWnbzt4tcUtagg18_n96fTRUnyZw@mail.gmail.com>
- <ZCGrTwzE+UldLkbL@redhat.com>
- <CAC1VKkN7tC0N6Gk7Xko2xUQBmKz2QuBvfCvz_NFsgZ_Q7Jj+cQ@mail.gmail.com>
-In-Reply-To: <CAC1VKkN7tC0N6Gk7Xko2xUQBmKz2QuBvfCvz_NFsgZ_Q7Jj+cQ@mail.gmail.com>
+References: <20230326211700.68254-1-casantos@redhat.com>
+ <ZCFg+cjoVPZEUdkT@redhat.com>
+In-Reply-To: <ZCFg+cjoVPZEUdkT@redhat.com>
 From: Carlos Santos <casantos@redhat.com>
-Date: Mon, 27 Mar 2023 14:31:46 -0300
-Message-ID: <CAC1VKkOnqgcseUDahui1ZdjRz=33nfQL2ePzzWA8LVs6iQe+Ag@mail.gmail.com>
-Subject: Re: [PATCH] tracing: install trace events file only if necessary
+Date: Mon, 27 Mar 2023 14:33:16 -0300
+Message-ID: <CAC1VKkMr9rh6Q4kpXxLoh8_KsskvVgvEx9pS47++G7sb=K+O4A@mail.gmail.com>
+Subject: Re: [PATCH V2] meson: install keyboard maps only if necessary
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
@@ -97,69 +94,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 27, 2023 at 11:44=E2=80=AFAM Carlos Santos <casantos@redhat.com=
-> wrote:
+On Mon, Mar 27, 2023 at 6:25=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@r=
+edhat.com> wrote:
 >
-> On Mon, Mar 27, 2023 at 11:42=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrang=
-e@redhat.com> wrote:
+> On Sun, Mar 26, 2023 at 06:17:00PM -0300, casantos@redhat.com wrote:
+> > From: Carlos Santos <casantos@redhat.com>
 > >
-> > On Mon, Mar 27, 2023 at 11:28:05AM -0300, Carlos Santos wrote:
-> > > On Mon, Mar 27, 2023 at 6:23=E2=80=AFAM Daniel P. Berrang=C3=A9 <berr=
-ange@redhat.com> wrote:
-> > > >
-> > > > On Sun, Mar 26, 2023 at 06:04:46PM -0300, casantos@redhat.com wrote=
-:
-> > > > > From: Carlos Santos <casantos@redhat.com>
-> > > > >
-> > > > > It is required only if linux-user, bsd-user or system emulator is=
- built.
-> > > > >
-> > > > > Signed-off-by: Carlos Santos <casantos@redhat.com>
-> > > > > ---
-> > > > >  trace/meson.build | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/trace/meson.build b/trace/meson.build
-> > > > > index 8e80be895c..3fb41c97a4 100644
-> > > > > --- a/trace/meson.build
-> > > > > +++ b/trace/meson.build
-> > > > > @@ -64,7 +64,7 @@ trace_events_all =3D custom_target('trace-event=
-s-all',
-> > > > >                                   input: trace_events_files,
-> > > > >                                   command: [ 'cat', '@INPUT@' ],
-> > > > >                                   capture: true,
-> > > > > -                                 install: true,
-> > > > > +                                 install: have_linux_user or hav=
-e_bsd_user or have_system,
-> > > >
-> > > > Trace events are used by our command line tools too qemu-img, qemu-=
-io,
-> > > > qemu-nbd, qemu-pr-helper, qemu-storage-daemon.
-> > > >
-> > > > What build scenario are you seeing that does NOT want the trace eve=
-nts
-> > > > to be present ?   If there is any, then I might even call that situ=
-ation
-> > > > a bug, as we want trace events to be available as a debugging mecha=
-nism
-> > > > for everything we build.
-> > >
-> > > I'm aiming for an embedded system or a VM image that only needs
-> > > qemu-ga, in which qemu is built with --enable-trace-backends=3Dnop.
+> > They are required only for system emulation (i.e. have_system is true).
 > >
-> > How about
-> >
-> >   install:   get_option('trace_backends') !=3D 'nop'
-> >
-> > ?
+> > Signed-off-by: Carlos Santos <casantos@redhat.com>
+> > ---
+> >  pc-bios/keymaps/meson.build   | 6 ++++--
+> >  tests/fp/berkeley-testfloat-3 | 2 +-
+> >  ui/keycodemapdb               | 2 +-
 >
-> That would be perfect :-)
+> This still has the accidental git submodule updates included
 >
-> --
-> Carlos Santos
-> Senior Software Maintenance Engineer
-> Red Hat
-> casantos@redhat.com    T: +55-11-3534-6186
+> >  3 files changed, 6 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+> > index 158a3b410c..bff3083313 100644
+> > --- a/pc-bios/keymaps/meson.build
+> > +++ b/pc-bios/keymaps/meson.build
+> > @@ -47,7 +47,7 @@ if native_qemu_keymap.found()
+> >                         build_by_default: true,
+> >                         output: km,
+> >                         command: [native_qemu_keymap, '-f', '@OUTPUT@',=
+ args.split()],
+> > -                       install: true,
+> > +                       install: have_system,
+> >                         install_dir: qemu_datadir / 'keymaps')
+> >    endforeach
+> >
+> > @@ -56,4 +56,6 @@ else
+> >    install_data(keymaps.keys(), install_dir: qemu_datadir / 'keymaps')
+> >  endif
+> >
+> > -install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
+> > +if have_system
+> > +  install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
+> > +endif
+> > diff --git a/tests/fp/berkeley-testfloat-3 b/tests/fp/berkeley-testfloa=
+t-3
+> > index 40619cbb3b..5a59dcec19 160000
+> > --- a/tests/fp/berkeley-testfloat-3
+> > +++ b/tests/fp/berkeley-testfloat-3
+> > @@ -1 +1 @@
+> > -Subproject commit 40619cbb3bf32872df8c53cc457039229428a263
+> > +Subproject commit 5a59dcec19327396a011a17fd924aed4fec416b3
+> > diff --git a/ui/keycodemapdb b/ui/keycodemapdb
+> > index f5772a62ec..d21009b1c9 160000
+> > --- a/ui/keycodemapdb
+> > +++ b/ui/keycodemapdb
+> > @@ -1 +1 @@
+> > -Subproject commit f5772a62ec52591ff6870b7e8ef32482371f22c6
+> > +Subproject commit d21009b1c9f94b740ea66be8e48a1d8ad8124023
+> > --
+> > 2.31.1
 
 I submitted an updated patch. Thanks.
 
