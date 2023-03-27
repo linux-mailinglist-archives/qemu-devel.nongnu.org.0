@@ -2,92 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F36CAFE8
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2DA6CAFE9
 	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 22:25:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgtNb-0006oi-3m; Mon, 27 Mar 2023 16:23:47 -0400
+	id 1pgtOc-0007J8-03; Mon, 27 Mar 2023 16:24:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1pgtNY-0006ns-13; Mon, 27 Mar 2023 16:23:44 -0400
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1pgtNV-0004MJ-Mm; Mon, 27 Mar 2023 16:23:43 -0400
-Received: by mail-oo1-xc2e.google.com with SMTP id
- w13-20020a4aca0d000000b0053b8aa32089so1548395ooq.5; 
- Mon, 27 Mar 2023 13:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679948619;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:reply-to:message-id:subject:cc:to:from:date
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=ceBNBWo3Kh8hBs07kySAHpg67nlVz3ykdzXKAnkLwvM=;
- b=CNtrQejTzXNB1VFbtLO4Xlkh0L19tJvuxeVH5PRtwOTlsOXqeGUWTsXXqE4AHxBIsp
- VS1xRhhZuLWN8Dp+8E/lb97K3V2R7OFlWMTWyEGZSHl6TTWpH4zKzUGtrJ2/JdalrZ+m
- 1+kkGlHAAqk2WpPpLxAodpH15o/Aq8+4kYdKtk/LD6JH/3y7qZ8syGCbRR/X2BYudeDP
- 2JZx7JhDtaVRLR+yJDboM0ADzW9Pniq5mwQlW8Izg73XHBOjZ3iPDss7srlYtYxgoiba
- W691VrsDEjgIgWDu/KgwJ4BwTjEXNRwdqzfbKkWwWpKVA8fIyd9WWkbjhUZNq1/arUws
- 4tuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679948619;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:reply-to:message-id:subject:cc:to:from:date
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ceBNBWo3Kh8hBs07kySAHpg67nlVz3ykdzXKAnkLwvM=;
- b=lJN7fj/hWgz+IoKocHognGMoX6Wzklf554XvnTIIULVjnh/u4qN1wf3nkUEa+2v2fh
- Dm6WncdokFjXdBPbB1HtmAol5LPPXTHG/pfpFxK3KZUQIg6IWdmcfekyyxfyVh4LAWkC
- l6eW80WJJVl8j6YcWuiwaoLUZM0lz/NUuaCwmuckW9vsDg44bbg/rhx3usQYLmN4ZJ9f
- bPtFUUntbroDryixUC2V8H128I8k9Y7wWpb6698XeFUF9CpT5+vV0s0OG9Q91PdjXFCk
- atOhWUO+wKd/KkB/prYVLfnVvXwnxM2luAaCwSDrFKf/ODY5rgCSrn8Ai8yNxMybU8yd
- Bwgw==
-X-Gm-Message-State: AO0yUKWZaMD1YjfdHKRHaqemjWUnVuK93I57xcIrdcR6iHtgoizx/nog
- HcloDsPeTbQEKE5y9XGw1w==
-X-Google-Smtp-Source: AK7set/RZJqR50f1g3XevKWfWqC8jLHIeQ1cyv2SnBpz/MqWBLvU4T590RoMMp8jcT4rb4IXLWIuzg==
-X-Received: by 2002:a4a:558b:0:b0:525:42c7:9a5f with SMTP id
- e133-20020a4a558b000000b0052542c79a5fmr8225033oob.6.1679948619433; 
- Mon, 27 Mar 2023 13:23:39 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id
- p45-20020a4a95f0000000b0051fdb2cba97sm11797804ooi.7.2023.03.27.13.23.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 13:23:38 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:7fea:b4f3:8d6d:64ca])
- by serve.minyard.net (Postfix) with ESMTPSA id E5CD7180044;
- Mon, 27 Mar 2023 20:23:37 +0000 (UTC)
-Date: Mon, 27 Mar 2023 15:23:36 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Hao Wu <wuhaotsh@google.com>
-Cc: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, venture@google.com, Avi.Fishman@nuvoton.com,
- kfting@nuvoton.com, hskinnemoen@google.com, titusr@google.com,
- peter.maydell@linaro.org, Joel Stanley <joel@jms.id.au>,
- Frederic Barrat <frederic.barrat@fr.ibm.com>
-Subject: Re: [PATCH v2 4/7] hw/ipmi: Refactor IPMI interface
-Message-ID: <ZCH7SHWzZrB92sva@minyard.net>
-References: <20230324230904.3710289-1-wuhaotsh@google.com>
- <20230324230904.3710289-5-wuhaotsh@google.com>
- <29f7e479-2e2c-a9d6-d5f1-440cdfce0cb7@kaod.org>
- <CAGcCb13gHDdO=hqo_UztH1=BOZVMbXNYKNKcdVEZmqT8gBuBmg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgtOZ-00078s-6e
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 16:24:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgtOX-0005qO-BS
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 16:24:46 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32RJlaBw007024; Mon, 27 Mar 2023 20:24:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=8hYmdNSRFpLPM/pDTlwO+yViFjmRRVZ0IAy75lPnPRE=;
+ b=OaLRqVS0nfGm66uRo7+ATM+vhT0LZt6vEybSw91uqTe9ctMa0jIevxasMTHboQzA2Aw4
+ FvWLLurWKDHbzRQRZ1nOfdPvbtFwq4SP9PMY4dOFxFnXfSzoHf8BcEi9DgTTxSz2laCT
+ 9v0xWN8uXSVhpj6R+JTnR4u9EIoPzBlfLrxXuG4UAH/5ZhKGfkvT0Q5qsZS5/UXOQqtE
+ U8iOzoXpdR0/U93xIDgTeHLv8AuLxwF0nlBOK8T/37P8yEUZevi83rAPwJqmvCaLiwH1
+ MpOANum/bVAX7G/YDjjrXS32O25OXe+jU2TJF1fCPHFZuvlCHAdigJ94ADdsAEf7YpyH vQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkhm50rvm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 20:24:31 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32RJxUPL022166;
+ Mon, 27 Mar 2023 20:24:31 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkhm50rve-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 20:24:31 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RHSTVq002608;
+ Mon, 27 Mar 2023 20:24:30 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
+ by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3phrk7514d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 20:24:30 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
+ [10.39.53.228])
+ by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32RKOSB423921114
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Mar 2023 20:24:29 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CD18758065;
+ Mon, 27 Mar 2023 20:24:28 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 19A975804B;
+ Mon, 27 Mar 2023 20:24:28 +0000 (GMT)
+Received: from sbct-2.pok.ibm.com (unknown [9.47.158.152])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Mar 2023 20:24:27 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, clg@kaod.org, ninad@linux.ibm.com,
+ joel@jms.id.au, andrew@aj.id.au, Stefan Berger <stefanb@linux.ibm.com>
+Subject: [PATCH 0/3] qtests: tpm: Add test cases for TPM TIS I2C device
+ emulation
+Date: Mon, 27 Mar 2023 16:24:13 -0400
+Message-Id: <20230327202416.3617162-1-stefanb@linux.ibm.com>
+X-Mailer: git-send-email 2.39.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NJ9gab9gPvhcR1cg3Do-CFDZkMPACUyr
+X-Proofpoint-ORIG-GUID: -jPN23QfytzefUWNdEizbL4KhuC8TubP
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGcCb13gHDdO=hqo_UztH1=BOZVMbXNYKNKcdVEZmqT8gBuBmg@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
- envelope-from=tcminyard@gmail.com; helo=mail-oo1-xc2e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 malwarescore=0
+ priorityscore=1501 impostorscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270163
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,81 +108,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 27, 2023 at 10:11:50AM -0700, Hao Wu wrote:
-> Hi, Cedric
-> 
-> The naming scheme is suggested by Corey in a previous review:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02691.html
-> 
-> I originally kept "IpmIBmc" for the host side code talking to BMC but it
-> might also cause confusion as well. I'm not sure which name is the best
-> here. Maybe Corey can shed some light on this one? Thank you!
+This series adds test cases exercising much of the TPM TIS I2C device model
+assuming that the device is connected to the Aspeed I2C controller. Tests
+are passing on little and big endian hosts.
 
-I agree with Cédric here, Bmc and BmcClient sound more clear than what I
-proposed earlier.
+This series of patches builds on the following series of patches
+providing the TPM TIS I2C device emulation (v10):
+https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg06449.html
 
--corey
+Note the additional comment here with a fix:
+https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg06464.html
 
-> 
-> Best Regards,
-> 
-> On Mon, Mar 27, 2023 at 5:34 AM Cédric Le Goater <clg@kaod.org> wrote:
-> 
-> > Hello Hao,
-> >
-> > On 3/25/23 00:09, Hao Wu wrote:
-> > > This patch refactors the IPMI interface so that it can be used by both
-> > > the BMC side and core-side simulation.
-> > >
-> > > Detail changes:
-> > > (1) Split IPMIInterface into IPMIInterfaceHost (for host side
-> > >      simulation) and IPMIInterfaceClient (for BMC side simulation).
-> > > (2) rename handle_rsp -> handle_msg so the name fits both BMC side and
-> > >      Core side.
-> > > (3) Add a new class IPMICore. This class represents a simulator/external
-> > >      connection for both BMC and Core side emulation.
-> > > (4) Change the original IPMIBmc to IPMIBmcHost, representing host side
-> > >      simulation.
-> > > (5) Add a new type IPMIBmcClient representing BMC side simulation.
-> > > (6) Appy the changes to  the entire IPMI library.
-> >
-> > 'IPMIBmcHost' is a BMC object model (internal or external) and
-> > 'IPMIBmcClient' is a host object model ?
-> >
-> > [ ... ]
-> >
-> > > @@ -267,15 +267,15 @@ void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
-> > >    * Instantiate the machine BMC. PowerNV uses the QEMU internal
-> > >    * simulator but it could also be external.
-> > >    */
-> > > -IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
-> > > +IPMIBmcHost *pnv_bmc_create(PnvPnor *pnor)
-> > >   {
-> > >       Object *obj;
-> > >
-> > >       obj = object_new(TYPE_IPMI_BMC_SIMULATOR);
-> > >       qdev_realize(DEVICE(obj), NULL, &error_fatal);
-> > > -    pnv_bmc_set_pnor(IPMI_BMC(obj), pnor);
-> > > +    pnv_bmc_set_pnor(IPMI_BMC_HOST(obj), pnor);
-> > >
-> > > -    return IPMI_BMC(obj);
-> > > +    return IPMI_BMC_HOST(obj);
-> >
-> > QEMU PowerNV machines model the host side of OpenPOWER systems which
-> > have an Aspeed SoC based BMC for management. The routine above creates
-> > an Aspeed *BMC* object model for the PowerNV *host* machine. I find
-> > 'IPMIBmcHost' confusing. It shouldn't have a 'Host' suffix I think.
-> >
-> > 'IPMIBmcClient' sounds ok, or 'IPMIBmcPeer' maybe.
-> >
-> > Thanks,
-> >
-> > C.
-> >
-> >
+Regards,
+    Stefan
+
+v2:
+  - Split off Aspeed I2C controller library functions
+  - Tweaking on test cases
+
+Stefan Berger (3):
+  qtest: Add functions for accessing devices on Aspeed I2C controller
+  qtest: Move tpm_util_tis_transmit() into tpm-tis-utils.c and rename it
+  qtest: Add a test case for TPM TIS I2C connected to Aspeed I2C
+    controller
+
+ include/hw/i2c/aspeed_i2c.h             |   7 +
+ tests/qtest/meson.build                 |   3 +
+ tests/qtest/qtest_aspeed.c              | 109 ++++
+ tests/qtest/qtest_aspeed.h              |  34 ++
+ tests/qtest/tpm-crb-swtpm-test.c        |   3 -
+ tests/qtest/tpm-crb-test.c              |   3 -
+ tests/qtest/tpm-tis-device-swtpm-test.c |   5 +-
+ tests/qtest/tpm-tis-i2c-test.c          | 637 ++++++++++++++++++++++++
+ tests/qtest/tpm-tis-swtpm-test.c        |   5 +-
+ tests/qtest/tpm-tis-util.c              |  47 +-
+ tests/qtest/tpm-tis-util.h              |   4 +
+ tests/qtest/tpm-util.c                  |  45 --
+ tests/qtest/tpm-util.h                  |   3 -
+ 13 files changed, 846 insertions(+), 59 deletions(-)
+ create mode 100644 tests/qtest/qtest_aspeed.c
+ create mode 100644 tests/qtest/qtest_aspeed.h
+ create mode 100644 tests/qtest/tpm-tis-i2c-test.c
+
+-- 
+2.39.2
+
 
