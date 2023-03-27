@@ -2,61 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6513F6CA24C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 13:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451CD6CA24D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 13:24:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgkwm-0007LU-Bl; Mon, 27 Mar 2023 07:23:32 -0400
+	id 1pgkxj-00081T-4H; Mon, 27 Mar 2023 07:24:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1pgkwf-0007Kg-P5
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:23:25 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1pgkwd-0007BD-GQ
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:23:25 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxJAyifCFkNmESAA--.27818S3;
- Mon, 27 Mar 2023 19:23:14 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Axnr6ifCFkgTAOAA--.38947S2; 
- Mon, 27 Mar 2023 19:23:14 +0800 (CST)
-From: Tianrui Zhao <zhaotianrui@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- f4bug@amsat.org, philmd@linaro.org
-Subject: [PATCH] hw/loongarch/virt: Fix virt_to_phys_addr function
-Date: Mon, 27 Mar 2023 19:23:13 +0800
-Message-Id: <20230327112313.3042829-1-zhaotianrui@loongson.cn>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgkxg-000813-Ed
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:24:28 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgkxd-0007nR-MG
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 07:24:27 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32RBC3FT008472; Mon, 27 Mar 2023 11:24:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=/H0G7nYdmtAm/Jv0VcVOqnWCRCPR0o6NJO/o+O99T8g=;
+ b=dEzSJs2tJt9oNz/jyF+DYpAvIMPzIOFVByfNwx54jk6VCILWKsWULBSjhb4VUQUBJAez
+ RfWLtTxM0CpZ1V4frozIF8Gm7QcgzGIM2+uucux9qDgOEBIA/fn0q9IXpUt8xNB/bNvS
+ KeF2LfbGql2/G3AbTJkrbq7aAuzRfaiVCYlpGP8enqXjXE5/tAujYTdMwlCTHsKjIK7W
+ 3QpM8oEtFPO5JsQ5g9uStvhA+nvfL8V2hNiq8t/mwDyfFAuM/SLFx0WI4oeerFy04iq4
+ waL8SuBg/UZU3BmiwRVQoD1ycDCGuMuCAlRLuVbxYSJLmPRiFyL/4S3p7QOLFpIakKdY BA== 
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pka2ag87c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 11:24:17 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32R9vL2s029018;
+ Mon, 27 Mar 2023 11:24:16 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
+ by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3phrk7djyk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 11:24:16 +0000
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com
+ [10.241.53.103])
+ by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32RBOEvg38732478
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Mar 2023 11:24:14 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 513D15805A;
+ Mon, 27 Mar 2023 11:24:14 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC01558056;
+ Mon, 27 Mar 2023 11:24:13 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Mar 2023 11:24:13 +0000 (GMT)
+Message-ID: <633a1c3a-6dd8-4f20-6194-a866fd9c3b7c@linux.ibm.com>
+Date: Mon, 27 Mar 2023 07:24:13 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Axnr6ifCFkgTAOAA--.38947S2
-X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvdXoWrKr43Cr1DurWxCrWxAF1fJFb_yoWxtrc_uF
- W7Aw17Kws5Xrya9w4aq34rtr17K3Z5WFn5AF15GFs3ta45Gr43XF47Xwn3urnIqrW7uFZx
- J3y8Kr1rCr1agjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
- V7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
- vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
- xVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
- 0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
- 44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
- AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
- Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
- k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
- xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7 0/3] Add support for TPM devices over I2C bus
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>
+Cc: Ninad Palsule <ninad@linux.ibm.com>, qemu-devel@nongnu.org,
+ andrew@aj.id.au, clg@kaod.org
+References: <20230326224426.3918167-1-ninad@linux.ibm.com>
+ <CACPK8XeZA8nqhgjH_SUDrk3A49dUqnKVONtj+QtcnjOsLUjvGQ@mail.gmail.com>
+ <2ef78250-dfe6-688f-eb27-9af97ce593e7@linux.ibm.com>
+ <CACPK8Xfp06JdTt32T9e=KDaBq5DURyv05OG4Ks9Bk3914_zO9g@mail.gmail.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <CACPK8Xfp06JdTt32T9e=KDaBq5DURyv05OG4Ks9Bk3914_zO9g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: SznBBgFuJiK-UTHZnjWk8ycNJzfaTtWB
+X-Proofpoint-GUID: SznBBgFuJiK-UTHZnjWk8ycNJzfaTtWB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ mlxlogscore=999 clxscore=1015 mlxscore=0 adultscore=0 priorityscore=1501
+ spamscore=0 impostorscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2303270088
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,28 +111,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The virt addr should mask TARGET_PHYS_ADDR_SPACE_BITS to
-get the phys addr, and this is used by loading kernel elf.
 
-Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
----
- hw/loongarch/virt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index b702c3f51e..f4bf14c1c8 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -399,7 +399,7 @@ static struct _loaderparams {
- 
- static uint64_t cpu_loongarch_virt_to_phys(void *opaque, uint64_t addr)
- {
--    return addr & 0x1fffffffll;
-+    return addr & MAKE_64BIT_MASK(0, TARGET_PHYS_ADDR_SPACE_BITS);
- }
- 
- static int64_t load_kernel_info(void)
--- 
-2.31.1
+On 3/27/23 07:18, Joel Stanley wrote:
+> On Mon, 27 Mar 2023 at 11:11, Stefan Berger <stefanb@linux.ibm.com> wrote:
+>>
+>>
+>>
+>> On 3/26/23 21:05, Joel Stanley wrote:
+>>> Hi Ninad,
+>>>
+>>> On Sun, 26 Mar 2023 at 22:44, Ninad Palsule <ninad@linux.ibm.com> wrote:
+>>>>
+>>>> Hello,
+>>>>
+>>>> I have incorporated review comments from Stefan. Please review.
+>>>>
+>>>> This drop adds support for the TPM devices attached to the I2C bus. It
+>>>> only supports the TPM2 protocol. You need to run it with the external
+>>>> TPM emulator like swtpm. I have tested it with swtpm.
+>>>
+>>> Nice work. I tested these stop cedric's aspeed-8.0 qemu tree, using
+>>> the rainier machine and the openbmc dev-6.1 kernel.
+>>>
+>>> We get this message when booting from a kernel:
+>>>
+>>> [    0.582699] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
+>>> [    0.586361] tpm tpm0: A TPM error (256) occurred attempting the self test
+>>> [    0.586623] tpm tpm0: starting up the TPM manually
+>>>
+>>> Do we understand why the error appears?
+>>
+>> The firmware did not initialize the TPM 2.
+> 
+> Which firmware are we talking about here?
 
+This happens if either no firmware is used or the firmware doesn't know how to talk to the TPM 2.
+Linux detects that the TPM 2 wasn't initialized (TPM2_Startup was not sent).
+   
+    Stefan
 
