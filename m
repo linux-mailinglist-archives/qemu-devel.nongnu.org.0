@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC2B6CABA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9564C6CABBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:19:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgqPF-0000RC-4w; Mon, 27 Mar 2023 13:13:17 -0400
+	id 1pgqUO-0001xt-6S; Mon, 27 Mar 2023 13:18:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1pgqP6-0000QZ-Tx
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:13:08 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pgqU3-0001xG-67
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:18:18 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1pgqP5-00079w-6s
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:13:08 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- i5-20020a05600c354500b003edd24054e0so7846210wmq.4
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:13:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pgqU1-0008QE-Hd
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 13:18:14 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id q102so8293261pjq.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 10:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1679937185;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=a6UhbdcSfRciNpaU00Qv3gaD9lQ1xfIXxaXQ7/wsO9U=;
- b=pa5lqMDISqsrV31n27P/gSW+D9yGBp0V4VFHi2csDW/vwFfeH3xU2PcSavQCicdZhW
- pf9Ef/KrtYLfbUg0QvxD80/uu600BC/HzWgyg4OMZSzJqZwitgdUpJe5JgXz5LB18KOM
- bhLKTv6TFWrWvlFtwRJ3MNdj86x2aI3atT+fGCNgOfHnC/vYS0cfmtHbOhmzhZ2iKiuS
- QHH1VILyH8wWlfsqW2zzqrvZmlxCUeG5BXNZhW0RawR/pcHsDwewDXmglB7Bmiohw0bE
- lwwpqQRraGvnoIEO7B8r6qFwiC2+jIqrrIztmooV+AEWmqEqmJMP/QsX+ZS/4JS7hA5g
- i81w==
+ d=linaro.org; s=google; t=1679937488;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dwx3UmJ/5Z+3rNirob01JQiB4B+Cln0ebYrYuadPQYk=;
+ b=QG4SlZHhdS+NieP6D2zp3x8gITVlFjwMR/CqxDyq1Zql2qFatAa/xrPiU/qNhKPCJc
+ Qkq+B8u3ir6PGD766lKdQ/KtGUCapKO/tS8EqYyBaEvfp6TFht12tyAsWAVbl/P2+WlV
+ z6y2j2LZRuMVWJ1/Baq1xACHB84AeO2vahrV4E93FtAI50PJ0zDArZMIBK5Nm2W8Fu/U
+ 5ErQitAzvSjHqcGiZj0cN2afKndmlbOo73NAIZfzKdRLVRz7QN90gpBpYzreY9aIxp5J
+ wnWVJPeNolV+WXI1D404IVzGFkq62NQgAaYNytH2N+QarHWneTeTbT38fkXLQO0dMMZx
+ jH8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679937185;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=a6UhbdcSfRciNpaU00Qv3gaD9lQ1xfIXxaXQ7/wsO9U=;
- b=MPkcIxWbnXf9q/uEuVGxSZOC7H38oNST01YKR2hkxTW9qJ/vtcxxSG+MutzFQtIO+n
- HqnPnTr6t314A8J/cMWoQkhmypfOlXMPhVhOrtlR0b0JE/0vxbnIjKqNWZ98CtzH2RGw
- iR13bMQgfm52uObWXMd3oUijgpuCIyysYCT5Uzka0+Rj8wEr4WculcWrzLobty0JsJ2P
- 25XQcK+ejlqHuaa7R/av14+VLOvMir6mNsyudAm13BVb49iabzZLYt5irYX0iOT6krIB
- SoglQGOm19Cs6GxEAHwNBAP46IJljZfG3hm9swJZ8NgcQ6Ik29kt6zVIlKB/n1QUdJPC
- PhLA==
-X-Gm-Message-State: AO0yUKXhL3FAxZ1mKs/EdY00m5MuL0tKGguVXPV8oR2iLp6PxivaMI1j
- L4aM63aqPq61cuxND/a+Nsg9g7H66TLA4GGddqR5CA==
-X-Google-Smtp-Source: AK7set8FY9O9v6k7KsmVojApzEsiSpWBr+zPVarVxQT577vT/fbqsMJd+9hToKYdMkhG4OrWLbioMzjkTNkzqZSAZ9M=
-X-Received: by 2002:a1c:4c01:0:b0:3ed:a25d:8ae0 with SMTP id
- z1-20020a1c4c01000000b003eda25d8ae0mr2686578wmf.5.1679937185491; Mon, 27 Mar
- 2023 10:13:05 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679937488;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dwx3UmJ/5Z+3rNirob01JQiB4B+Cln0ebYrYuadPQYk=;
+ b=QuRPebeDdF/qq4mohwaIzIK7xzH8T5PNMttCLgyJdsWyw8cACNDfvU6HhvbxL79U8t
+ zuRXtlepiQteLd2SIV57qWZ3fwomLHZMFqjF5vkJ1tNMsk61GrTrkiF6JWa3rUgRrjop
+ SIJxnnCKFM8LO00bNlPN34X9DE9tYGvhUjGApAgQjLihDjerFq33d1GnlsC9qpTOUuZN
+ IcbbfPIswJKkUpLJidL5yuSrzn8FAFfY9nAhTRplBG/GqAWdk3B45Eh3f3ZWCUOXOB32
+ KwmqVxpa929BvDIGavzjYPjGc3KpXdmhMi7XGdUAaUmnojBQLfklr3L07Q/rFGOygkIS
+ pa1Q==
+X-Gm-Message-State: AO0yUKULwEHaJnJnW6EuyDPpKeKsH/V18Bqtj+iwCcWDBW1xkpGQTpPD
+ MmmotPY6ZxtUdVo8oYVoKKre7g==
+X-Google-Smtp-Source: AK7set8WNbBoQ+TD2+FIl4LkcDDQsadrjlel1WSq08nunLHFTm20RpQf7Cb4MaK2DnwifnBcAHC9zg==
+X-Received: by 2002:a05:6a20:4d90:b0:d6:c9e2:17a1 with SMTP id
+ gj16-20020a056a204d9000b000d6c9e217a1mr10229988pzb.62.1679937488056; 
+ Mon, 27 Mar 2023 10:18:08 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1544:6601:6705:aa17:3641:e634?
+ ([2602:ae:1544:6601:6705:aa17:3641:e634])
+ by smtp.gmail.com with ESMTPSA id
+ z17-20020aa785d1000000b005a8c92f7c27sm19257021pfn.212.2023.03.27.10.18.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Mar 2023 10:18:07 -0700 (PDT)
+Message-ID: <b02cc37d-8a51-fed3-5a93-4d9f3873b5ae@linaro.org>
+Date: Mon, 27 Mar 2023 10:18:05 -0700
 MIME-Version: 1.0
-References: <20230324230904.3710289-1-wuhaotsh@google.com>
- <20230324230904.3710289-3-wuhaotsh@google.com>
- <ZB+KK/RuLEOB6+c5@minyard.net>
-In-Reply-To: <ZB+KK/RuLEOB6+c5@minyard.net>
-From: Hao Wu <wuhaotsh@google.com>
-Date: Mon, 27 Mar 2023 10:12:52 -0700
-Message-ID: <CAGcCb13qXsaRcs6t29OdT4y6=JLpwugxVKntzFpuUTUQ2NYqWw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] docs/specs: IPMI device emulation: main processor
-To: minyard@acm.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com, 
- Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com, 
- titusr@google.com, peter.maydell@linaro.org
-Content-Type: multipart/alternative; boundary="00000000000030098c05f7e4db70"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=wuhaotsh@google.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] riscv: Add support for the Zfa extension
+Content-Language: en-US
+To: Christoph Muellner <christoph.muellner@vrull.eu>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Philipp Tomsich
+ <philipp.tomsich@vrull.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Jeff Law <jeffreyalaw@gmail.com>, Tsukasa OI <research_trasio@irq.a4lg.com>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+References: <20230327080026.3266574-1-christoph.muellner@vrull.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230327080026.3266574-1-christoph.muellner@vrull.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,80 +100,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000030098c05f7e4db70
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 3/27/23 01:00, Christoph Muellner wrote:
+> +uint64_t helper_fminm_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
+> +{
+> +    float32 frs1 = check_nanbox_s(env, rs1);
+> +    float32 frs2 = check_nanbox_s(env, rs2);
+> +
+> +    if (float32_is_any_nan(frs1) || float32_is_any_nan(frs2)) {
+> +        return float32_default_nan(&env->fp_status);
+> +    }
+> +
+> +    return nanbox_s(env, float32_minimum_number(frs1, frs2, &env->fp_status));
+> +}
 
-Thank you. I'll include the change in the next patch set when I refactor
-patch v4 (which might take a while.)
+Better to set and clear fp_status->default_nan_mode around the operation.
 
-On Sat, Mar 25, 2023 at 4:56=E2=80=AFPM Corey Minyard <minyard@acm.org> wro=
-te:
+> +uint64_t helper_fround_s(CPURISCVState *env, uint64_t frs1)
+> +{
+> +    if (float32_is_zero(frs1) ||
+> +        float32_is_infinity(frs1)) {
+> +        return frs1;
+> +    }
+> +
+> +    if (float32_is_any_nan(frs1)) {
+> +        riscv_cpu_set_fflags(env, FPEXC_NV);
+> +        return frs1;
+> +    }
+> +
+> +    int32_t tmp = float32_to_int32(frs1, &env->fp_status);
+> +    return nanbox_s(env, int32_to_float32(tmp, &env->fp_status));
+> +}
 
-> On Fri, Mar 24, 2023 at 04:08:59PM -0700, Hao Wu wrote:
-> > From: Havard Skinnemoen <hskinnemoen@google.com>
-> >
-> > This document is an attempt to briefly document the existing IPMI
-> > emulation support on the main processor. It provides the necessary
-> > background for the BMC-side IPMI emulation proposed by the next patch.
-> >
-> > Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
-> > Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> > ---
-> > +* An external BMC simulator or emulator, connected over a chardev
-> > +  (``ipmi-bmc-extern``). `ipmi_sim
-> > +  <
-> https://sourceforge.net/p/openipmi/code/ci//master/tree/lanserv/README.ip=
-mi_sim
-> >`_
->
-> Nit, you have a double slash above.
->
-> Other than that, this does a good job of explaining things.  I'm good
-> with these docs.
->
-> -corey
->
+Very much incorrect, since int32_t does not have the range for the intermediate result. 
+In any case, the function you want is float32_round_to_int, which eliminates the 
+zero/inf/nan special cases.  It will raise inexact, so perfect for froundnx, but you'll 
+need to save/restore float_flag_inexact around the function.
 
---00000000000030098c05f7e4db70
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +uint64_t helper_fli_s(CPURISCVState *env, uint32_t rs1)
+> +{
+> +    const uint32_t fli_s_table[] = {
 
-<div dir=3D"ltr">Thank you. I&#39;ll include the change in the next patch s=
-et when I refactor patch v4 (which might take a while.)</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Mar 25, 2023=
- at 4:56=E2=80=AFPM Corey Minyard &lt;<a href=3D"mailto:minyard@acm.org">mi=
-nyard@acm.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On Fri, Mar 24, 2023 at 04:08:59PM -0700, Hao Wu wrote:<br>
-&gt; From: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@google.com" =
-target=3D"_blank">hskinnemoen@google.com</a>&gt;<br>
-&gt; <br>
-&gt; This document is an attempt to briefly document the existing IPMI<br>
-&gt; emulation support on the main processor. It provides the necessary<br>
-&gt; background for the BMC-side IPMI emulation proposed by the next patch.=
-<br>
-&gt; <br>
-&gt; Signed-off-by: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@goo=
-gle.com" target=3D"_blank">hskinnemoen@google.com</a>&gt;<br>
-&gt; Signed-off-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" targe=
-t=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt; +* An external BMC simulator or emulator, connected over a chardev<br>
-&gt; +=C2=A0 (``ipmi-bmc-extern``). `ipmi_sim<br>
-&gt; +=C2=A0 &lt;<a href=3D"https://sourceforge.net/p/openipmi/code/ci//mas=
-ter/tree/lanserv/README.ipmi_sim" rel=3D"noreferrer" target=3D"_blank">http=
-s://sourceforge.net/p/openipmi/code/ci//master/tree/lanserv/README.ipmi_sim=
-</a>&gt;`_<br>
-<br>
-Nit, you have a double slash above.<br>
-<br>
-Other than that, this does a good job of explaining things.=C2=A0 I&#39;m g=
-ood<br>
-with these docs.<br>
-<br>
--corey<br>
-</blockquote></div>
+static const.  You don't need to use float32_default_nan, use the correct architected 
+constant.  This entire operation should be done at translation time.
 
---00000000000030098c05f7e4db70--
+> +target_ulong helper_fcvtmod_w_d(CPURISCVState *env, uint64_t frs1)
+> +{
+> +    if (float64_is_any_nan(frs1) ||
+> +        float64_is_infinity(frs1)) {
+> +        return 0;
+> +    }
+> +
+> +    return float64_to_int32(frs1, &env->fp_status);
+> +}
+
+Incorrect, as float64_to_int32 will saturate the result, whereas you need the modular result.
+
+There is code to do the conversion mod 2**64 in target/alpha/ (do_cvttq).  We should move 
+this to generic code if it is to be used by more than one target.
+
+> +bool trans_fmvp_d_x(DisasContext *ctx, arg_fmvp_d_x *a)
+> +{
+> +    REQUIRE_FPU;
+> +    REQUIRE_ZFA(ctx);
+> +    REQUIRE_EXT(ctx, RVD);
+> +    REQUIRE_32BIT(ctx);
+> +
+> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_ZERO);
+> +    TCGv_i64 t1 = tcg_temp_new_i64();
+> +
+> +    tcg_gen_extu_tl_i64(t1, src1);
+> +    tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], t1, 32, 32);
+> +    mark_fs_dirty(ctx);
+> +    return true;
+> +}
+
+This does not match the linked document, which says that this insn has two inputs and sets 
+the complete fpr.
+
+
+r~
 
