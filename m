@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0819B6C9D41
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F0F6C9D36
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 10:10:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pghuy-0007Ks-7U; Mon, 27 Mar 2023 04:09:28 -0400
+	id 1pghux-0007K4-HU; Mon, 27 Mar 2023 04:09:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pghuu-0007Ha-1V; Mon, 27 Mar 2023 04:09:24 -0400
+ id 1pghut-0007Gq-71; Mon, 27 Mar 2023 04:09:23 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pghuq-00054Y-9n; Mon, 27 Mar 2023 04:09:23 -0400
+ id 1pghuq-00054f-5Y; Mon, 27 Mar 2023 04:09:22 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowACnrWUkTyFksV29Cg--.4754S2;
- Mon, 27 Mar 2023 16:09:09 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACnrWUkTyFksV29Cg--.4754S3;
+ Mon, 27 Mar 2023 16:09:10 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v2 00/10] target/riscv: Simplification for RVH related check
- and code style fix
-Date: Mon, 27 Mar 2023 16:08:48 +0800
-Message-Id: <20230327080858.39703-1-liweiwei@iscas.ac.cn>
+ Weiwei Li <liweiwei@iscas.ac.cn>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v2 01/10] target/riscv: Remove redundant call to
+ riscv_cpu_virt_enabled
+Date: Mon, 27 Mar 2023 16:08:49 +0800
+Message-Id: <20230327080858.39703-2-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230327080858.39703-1-liweiwei@iscas.ac.cn>
+References: <20230327080858.39703-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACnrWUkTyFksV29Cg--.4754S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr1UWFyUGrW7Kr17WryxGrg_yoW8ZryDpr
- 48G3ySy395ArZxGr1ftF4UJr15Jrs8Wr45J3s7Cr18Aa15CrW5Jrn7Kw1IkFyDGFy8Wr1q
- 9F1UCF13Cr4UZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
- 8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
- 8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
- ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
- 0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
- Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
- XdbUUUUUU==
+X-CM-TRANSID: zQCowACnrWUkTyFksV29Cg--.4754S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7XrW5uF13Jr1kuF1rKF1Dtrb_yoWDWrbE9F
+ W8KF1vqw1fu3W09Fs8Ar98KryUX34Fg3sa9w47C347GFy2gas3Cw1ktrs3Aw4xAws8Jrnx
+ Crs3Z3y7Crn8ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbD8FF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGwA2048vs2IY02
+ 0Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+ ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+ IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+ Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+ xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
+ 6r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2
+ Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
+ Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMI
+ IF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUqAp5UUUUU
+ =
 X-Originating-IP: [180.175.29.170]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -74,49 +78,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patchset tries to simplify the RVH related check and fix some code style problems, such as problems for indentation, multi-line comments and lines with over 80 characters.
+The assignment is done under the condition riscv_cpu_virt_enabled()=true.
 
-The port is available here:
-https://github.com/plctlab/plct-qemu/tree/plct-virtfix-upstream
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+---
+ target/riscv/cpu_helper.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-v2:
-* add comment to specify riscv_cpu_set_virt_enabled() can only be called when RVH is enabled in patch 4 (suggested by Richard Henderson)
-* merge patch from LIU Zhiwei(Message-ID: <20230325145348.1208-1-zhiwei_liu@linux.alibaba.com>) to patch 5
-* use env->virt_enabled directly instead of riscv_cpu_virt_enabled() in patch 6 (suggested by LIU Zhiwei)
-* remain the orginal identation for macro name in patch 8 (suggested by LIU Zhiwei)
-
-LIU Zhiwei (1):
-  target/riscv: Convert env->virt to a bool env->virt_enabled
-
-Weiwei Li (9):
-  target/riscv: Remove redundant call to riscv_cpu_virt_enabled
-  target/riscv: Remove redundant check on RVH
-  target/riscv: Remove check on RVH for riscv_cpu_virt_enabled
-  target/riscv: Remove check on RVH for riscv_cpu_set_virt_enabled
-  target/riscv: Remove riscv_cpu_virt_enabled()
-  target/riscv: Remove redundant parentheses
-  target/riscv: Fix format for indentation
-  target/riscv: Fix format for comments
-  target/riscv: Fix lines with over 80 characters
-
- target/riscv/arch_dump.c                |   7 +-
- target/riscv/cpu.c                      |   8 +-
- target/riscv/cpu.h                      |  29 +--
- target/riscv/cpu_bits.h                 |   5 +-
- target/riscv/cpu_helper.c               | 142 ++++++------
- target/riscv/csr.c                      |  52 ++---
- target/riscv/debug.c                    |  10 +-
- target/riscv/insn_trans/trans_rvv.c.inc |  36 +--
- target/riscv/machine.c                  |   6 +-
- target/riscv/op_helper.c                |  21 +-
- target/riscv/pmp.c                      |  48 ++--
- target/riscv/pmp.h                      |   9 +-
- target/riscv/pmu.c                      |   7 +-
- target/riscv/sbi_ecall_interface.h      |   8 +-
- target/riscv/translate.c                |  14 +-
- target/riscv/vector_helper.c            | 292 ++++++++++++++----------
- 16 files changed, 378 insertions(+), 316 deletions(-)
-
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 824f0cbd92..e140d6a8d0 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1706,9 +1706,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 riscv_cpu_swap_hypervisor_regs(env);
+                 env->hstatus = set_field(env->hstatus, HSTATUS_SPVP,
+                                          env->priv);
+-                env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+-                                         riscv_cpu_virt_enabled(env));
+-
++                env->hstatus = set_field(env->hstatus, HSTATUS_SPV, true);
+ 
+                 htval = env->guest_phys_fault_addr;
+ 
 -- 
 2.25.1
 
