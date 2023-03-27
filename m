@@ -2,92 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B62C6CA41C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 14:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489276CA428
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 14:32:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pglyT-0003G9-N4; Mon, 27 Mar 2023 08:29:21 -0400
+	id 1pgm1M-0004QC-C4; Mon, 27 Mar 2023 08:32:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pglyS-0003Fl-5g
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 08:29:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgm1I-0004Pp-7L
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 08:32:16 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pglyQ-0002A1-DX
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 08:29:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679920156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WuK/hP5W9/5l5UdCVf4BY7ADo22fXMQ9ZGn5/xAm4DQ=;
- b=JXPQ13kQ0SClUb+Kq7d/Bq57Eb4nYthmXZhiykIwdRlw2jYg3UFHhKerb7muAY2bVj8Mlr
- VdzueBifInifcXyCjYMgBAgOtkvAYmssKDaAfR/ty7pw3uGAdutQQ7SDo6Jlwo4dfUYwEU
- JM5FqX+A12/5OtiZWnYpnacaQrxFoXc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-512-d91rv77WO26LbYY_50avKw-1; Mon, 27 Mar 2023 08:29:15 -0400
-X-MC-Unique: d91rv77WO26LbYY_50avKw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bi27-20020a05600c3d9b00b003ef6ee937b8so1421931wmb.2
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 05:29:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679920154;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WuK/hP5W9/5l5UdCVf4BY7ADo22fXMQ9ZGn5/xAm4DQ=;
- b=IX5u7GcgbJg3yOq20PsNq3pPA7KvgOPdE9LkJPfdqVyGCafUUfvTR8ow/KfAVENmSY
- osPw8ecRTq9o3Fj5SnN/cnW2gFd29cENyv4ZoDkKq7sNnIBNoCF/9wshx70Lq02oPeOa
- IQb6BnoA3uStdV88eYy29J2o3Vum24olX//YmhI52pGO6fy/MYieai5QMFx2XaTh0cB7
- ihogu4TYMRqV60vkkaRbAmCPLfVyw8r2Iqd4yUw0Sgthm7AP1Ad+zAGMFlE4hjWQB/Lo
- bbkfFd0EmMiwNVxFhseBuQn8syWQqzIeoAEDIeyXUtSl8t8ZI0rZ3mS4bMpWsDLDLFIm
- Lj2g==
-X-Gm-Message-State: AO0yUKUi4lrUS9neYIwOgleov1lLAaZQjjYu3eXgbzB9HC1cbB+vG55v
- SyjRatav0vlVUsPBZpAaQDIb5ANbnAKDmGRBH/YP3Rofd1mdYKYJ16Rl8pxeL0zBJbOHyg1OB8D
- HA26WEreE2a1H5KA=
-X-Received: by 2002:a7b:c7d6:0:b0:3e1:f8af:8772 with SMTP id
- z22-20020a7bc7d6000000b003e1f8af8772mr9233509wmk.9.1679920154374; 
- Mon, 27 Mar 2023 05:29:14 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9lvAoPygMu75KlgLhD2yFRA+bdAVoUSmiVH/E4HhLELn5kY1No0J66OOq39euzZ2dNwAFHKA==
-X-Received: by 2002:a7b:c7d6:0:b0:3e1:f8af:8772 with SMTP id
- z22-20020a7bc7d6000000b003e1f8af8772mr9233490wmk.9.1679920154047; 
- Mon, 27 Mar 2023 05:29:14 -0700 (PDT)
-Received: from redhat.com ([2.52.153.142]) by smtp.gmail.com with ESMTPSA id
- z4-20020a05600c0a0400b003ef4cd057f5sm8836755wmp.4.2023.03.27.05.29.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 05:29:13 -0700 (PDT)
-Date: Mon, 27 Mar 2023 08:29:09 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Carlos =?iso-8859-1?Q?L=F3pez?= <clopez@suse.de>,
- qemu-devel@nongnu.org, Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- "open list:virtio-ccw" <qemu-s390x@nongnu.org>
-Subject: Re: [PATCH v2] virtio: refresh vring region cache after updating a
- virtqueue size
-Message-ID: <20230327082859-mutt-send-email-mst@kernel.org>
-References: <20230317002749.27379-1-clopez@suse.de> <87y1npglk0.fsf@redhat.com>
- <20230322182433.695270d0.pasic@linux.ibm.com>
- <877cv2sbbo.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pgm1G-00036A-AW
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 08:32:15 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32RC4AUY012286; Mon, 27 Mar 2023 12:31:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=pV7Xo+6+FKa7kwkxD6guhDxvuAPNYDCdqyQ+Hy2fExY=;
+ b=EJrgcVgHYmKYbaHq1FzC+MmXzmCH1TaCuZfgpeE23mr3XXtel/bEdKa2zh2lKFn/BFk5
+ Xf9pwbO+ik9tpqu3RS/voKd83VXtVjNsWVAHVacGIS68lX9DsOuX1pw8olgztPYrtMFL
+ NNtFugdGClmVJVXcKFsqmfZtY/RjAt51t0S0aMsTO97oSiEBjvXVLDYvlV0CEsbM9rn1
+ 1TIkeup0eEaRNFJY1vj6DRnz0FKW5QL0zr0QbeLPZTUYFS9lGUFIVbPPlA4qSnfQ+x0g
+ qaKXiPpaDb7wgj5JxdVil00vYPO+8vhHEFqEJXyLYVs2wJ1vkkdBehfvuoouE+7RLBu1 NQ== 
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pjb1afxc1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 12:31:58 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32R9qDnZ005784;
+ Mon, 27 Mar 2023 12:31:57 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([9.208.129.114])
+ by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3phrk6u5xn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 12:31:57 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
+ [10.39.53.228])
+ by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32RCVu9R34800248
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Mar 2023 12:31:56 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 21FEB5805B;
+ Mon, 27 Mar 2023 12:31:56 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 986E458055;
+ Mon, 27 Mar 2023 12:31:55 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 27 Mar 2023 12:31:55 +0000 (GMT)
+Message-ID: <2acc460f-95de-fa22-a9b1-f02e198147b0@linux.ibm.com>
+Date: Mon, 27 Mar 2023 08:31:55 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <877cv2sbbo.fsf@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7 0/3] Add support for TPM devices over I2C bus
+Content-Language: en-US
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: Joel Stanley <joel@jms.id.au>, Ninad Palsule <ninad@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, andrew@aj.id.au, clg@kaod.org
+References: <20230326224426.3918167-1-ninad@linux.ibm.com>
+ <CACPK8XeZA8nqhgjH_SUDrk3A49dUqnKVONtj+QtcnjOsLUjvGQ@mail.gmail.com>
+ <2ef78250-dfe6-688f-eb27-9af97ce593e7@linux.ibm.com>
+In-Reply-To: <2ef78250-dfe6-688f-eb27-9af97ce593e7@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 52zRet6kYfLNJkP84Y3IopSnX209cniV
+X-Proofpoint-GUID: 52zRet6kYfLNJkP84Y3IopSnX209cniV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0
+ mlxscore=0 adultscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303270098
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,70 +109,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 27, 2023 at 01:06:19PM +0200, Cornelia Huck wrote:
-> On Wed, Mar 22 2023, Halil Pasic <pasic@linux.ibm.com> wrote:
-> 
-> > On Wed, 22 Mar 2023 10:52:31 +0100
-> > Cornelia Huck <cohuck@redhat.com> wrote:
-> > [..]
-> >> >
-> >> > diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> >> > index e33e5207ab..f44de1a8c1 100644
-> >> > --- a/hw/s390x/virtio-ccw.c
-> >> > +++ b/hw/s390x/virtio-ccw.c
-> >> > @@ -237,6 +237,7 @@ static int virtio_ccw_set_vqs(SubchDev *sch, VqInfoBlock *info,
-> >> >                  return -EINVAL;
-> >> >              }
-> >> >              virtio_queue_set_num(vdev, index, num);
-> >> > +            virtio_init_region_cache(vdev, index);  
-> >> 
-> >> Hmm... this is not wrong, but looking at it again, I see that the guest
-> >> has no way to change num after our last call to
-> >> virtio_init_region_cache() (while setting up the queue addresses.) IOW,
-> >> this introduces an extra round trip that is not really needed.
-> >> 
-> >
-> > I don't quite understand. AFAIU the virtio_init_region_cache() would see
-> > the (new) queue addresses but not the new size (num). Yes virtio-ccw
-> > already knows the new num but it is yet to call
-> > to put it into vdev->vq[n].vring.num from where
-> > virtio_init_region_cache() picks it up.
-> >
-> > If we were to first virtio_queue_set_num() and only then the address
-> > I would understand. But with the code as is, I don't. Am I missing
-> > something?
-> 
-> Hrm, virtio_queue_set_rings() doesn't pass num, I thought it did... I
-> wonder whether ordering virtio_queue_set_num() before it would be better
-> anyway (if the guest gave us an invalid num, we don't need to setup any
-> addresses and init any caches).
-> 
-> Smth like
-> 
-> if (info) {
->    if (desc) {
->       if (virtio_queue_get_max_num(...) < num) {
->           return -EINVAL;
->       }
->       virtio_queue_set_num(...);
->    }
->    virtio_queue_set_rings(...);
-> } else { /* legacy */
->    if (desc && virtio_queue_get_max_num(...) > num) {
->        return -EINVAL;
->    }
->    virtio_queue_set_addr(...);
-> }
-> virtio_queue_set_vector(vdev, index, desc ? index : VIRTIO_NO_VECTOR);
-> 
-> might be easier to follow than the current code.
-> 
-> Or we could just go with this patch, which has the advantage of already
-> existing :)
 
-Yea ... an ack would be appreciated.
 
--- 
-MST
+On 3/27/23 07:11, Stefan Berger wrote:
+> 
+> 
 
+>> We get this message when booting from a kernel:
+>>
+>> [    0.582699] tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)
+>> [    0.586361] tpm tpm0: A TPM error (256) occurred attempting the self test
+>> [    0.586623] tpm tpm0: starting up the TPM manually
+>>
+>> Do we understand why the error appears?
+> 
+> The firmware did not initialize the TPM 2.
+> 
+
+>> However on a clean boot into the TPM, the u-boot tpm commands fail:
+>>
+>> ast# tpm info
+>> tpm@2e v2.0: VendorID 0x1014, DeviceID 0x0001, RevisionID 0x01 [closed]
+>> ast# tpINTERRUPT>
+> 
+> Is this normal output? Is it an indication of some sort of IRQ?
+> 
+>> ast# tpm init
+>> ast# tpm info
+>> tpm@2e v2.0: VendorID 0x1014, DeviceID 0x0001, RevisionID 0x01 [open]
+>> ast# tpm pcr_read 0 0x81000000
+>> Error: 256
+
+If this is an error from the TPM 2 , then the 256 error code is the same as reported by Linux above:
+
+$ tssreturncode 0x100
+TPM_RC_INITIALIZE - TPM not initialized by TPM2_Startup or already initialized
+
+
+I will try to reproduce this today. u-boot should have a sent TPM2_Startup as part of 'tpm init' command above or even before on its own.
+
+     Stefan
 
