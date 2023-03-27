@@ -2,87 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365EE6CAA55
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 18:17:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F046CAA52
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 18:17:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgpXG-00079n-MO; Mon, 27 Mar 2023 12:17:30 -0400
+	id 1pgpWT-0006XW-Ka; Mon, 27 Mar 2023 12:16:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1pgpX4-0006jG-QK
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 12:17:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1pgpWQ-0006XH-Bb
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 12:16:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1pgpX2-0007bO-If
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 12:17:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679933808;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=LKFrWIvprR3mlbTP85VjNbnKbE1B8eKojoGStrnuWY8=;
- b=LJVlYtZJLWQgUlYCgARlqsIYrvlkXZHLTU4mB08tPC3jh3X/5fQYfuf2Aw5CQpZ6xVFEOy
- mWmP0c8kQ+01MHrrrs/hT4FH4TAETCk9WUH6xVCyv15JFnnapHhTFITxU6tmH1npVachlX
- UTKYfN3OaOhhgJd26vlyOd9r87a3Mhk=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-611-yL0kKylaMYqxqsLGPdV1uw-1; Mon, 27 Mar 2023 12:15:39 -0400
-X-MC-Unique: yL0kKylaMYqxqsLGPdV1uw-1
-Received: by mail-qt1-f199.google.com with SMTP id
- c11-20020ac85a8b000000b003bfdd43ac76so6287824qtc.5
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 09:15:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679933739;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LKFrWIvprR3mlbTP85VjNbnKbE1B8eKojoGStrnuWY8=;
- b=rtIXvuPW3T+159HAYxTz6lqWgBdSFqmYL1nZgjoVfZIfMXatKoEmm8R7EfqBze/JCN
- 9TwdZrLJlhWyKOP+/NOfjgcVCTH5TXhJSggnDxzLNvQPBwd+z2I5qcMcXABpuGw80ttR
- 36mN1+46XcAXX3bMqzp8Iq3qqL3yvIfFTMmnJqp5CNg+L0g1EXL3boXJUBksbVJg+BY4
- aIpiVtdYcmSmcaI2HRdjueiwQtmKu6VyVOrzqL+t9UBByMpwhcyvSQR24HXVjUpkutKq
- RxvCMlcyGRzPctsEgel2WA0gmIYfFNHpxzNwBOtMNyl7M3p38yQN4XbksO9smkY6HVQq
- eMTA==
-X-Gm-Message-State: AAQBX9f7rDzK4NFz+zaNkXMS9E+jKHa5BkBKtLXLpdi/WwPwvZNa2UWg
- q/IaCOUwDan7vK9qdDqSQvLSjdmhVmmsJ4HWyxiV43ZobL+b4IWQmDyApXSIY8tGyi43+dKvP5r
- gEtaS41nI/VT4uRk=
-X-Received: by 2002:a05:6214:1cc2:b0:5c8:403a:22f8 with SMTP id
- g2-20020a0562141cc200b005c8403a22f8mr16504039qvd.5.1679933738857; 
- Mon, 27 Mar 2023 09:15:38 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aCNa5IBtWDYO9O9QYvNsZhVymefGGWt3EnQd4727nu+wy/nFXxjzyctnD3T6qkTYW32NpHXA==
-X-Received: by 2002:a05:6214:1cc2:b0:5c8:403a:22f8 with SMTP id
- g2-20020a0562141cc200b005c8403a22f8mr16503998qvd.5.1679933738438; 
- Mon, 27 Mar 2023 09:15:38 -0700 (PDT)
-Received: from LeoBras.redhat.com ([2804:1b3:a801:eb52:32f:85d:2548:c8cf])
- by smtp.gmail.com with ESMTPSA id
- b16-20020a056214115000b005dd8b93458asm3040570qvt.34.2023.03.27.09.15.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 09:15:37 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [RFC PATCH v1 1/1] migration: Disable postcopy + multifd migration
-Date: Mon, 27 Mar 2023 13:15:18 -0300
-Message-Id: <20230327161518.2385074-1-leobras@redhat.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1pgpWO-0007Yq-Bq
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 12:16:38 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32RFE2wm020297; Mon, 27 Mar 2023 16:16:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=ZV4ag9TOkslcXPhYw12c9Trsw67I4adPhgXBj0UwhNg=;
+ b=CoTKRF237D3giTKeO2aHgbPzIAY+Nqr+1lkD+VeVEYfs8ixULyV7Y1XcLVbVMol0t3XY
+ N5sB2HJ2S9idjyl83o6gd7WPHugJrh4HE7HcrntzR4QGZbUwwu4dF2jChG6R8uF/8+tm
+ xG6GKrMfeb2mrCkstqGWN5i97FdekOnDlUw60fpsaCqMAjwb49XgDy9A2P95JLr/ovtN
+ Cedk9Pv9rjJ8sxVRVbK0wMKoRJhpARsX5xHOiOw6oujp5lYoLP1qUZyZ/K7EieAtbxFI
+ mv/WA2ixVTTd5PISJwDXA5yQPXVN8EXx6gySdH3RGf1Qr3y92a1Afazfz4u2B7Z/9rQU jQ== 
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkdkqskgu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 16:16:26 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32RDbc5L002590;
+ Mon, 27 Mar 2023 16:16:26 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
+ by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3phrk742ux-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Mar 2023 16:16:26 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
+ [10.241.53.104])
+ by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32RGGOca51446242
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Mar 2023 16:16:24 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7154C5805D;
+ Mon, 27 Mar 2023 16:16:24 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 62DE358052;
+ Mon, 27 Mar 2023 16:16:24 +0000 (GMT)
+Received: from gfwa601.aus.stglabs.ibm.com (unknown [9.3.62.226])
+ by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTPS;
+ Mon, 27 Mar 2023 16:16:24 +0000 (GMT)
+Received: by gfwa601.aus.stglabs.ibm.com (Postfix, from userid 155676)
+ id 9A5DE2E5674; Mon, 27 Mar 2023 11:16:23 -0500 (CDT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: Ninad Palsule <ninad@linux.ibm.com>, joel@jms.id.au, andrew@aj.id.au,
+ stefanb@linux.ibm.com, clg@kaod.org
+Subject: [PATCH v8 0/3] Add support for TPM devices over I2C bus
+Date: Mon, 27 Mar 2023 11:16:19 -0500
+Message-Id: <20230327161622.3979396-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: j0aVg4meYAqMl3TnAOZ4nCt7zrmtFZqb
+X-Proofpoint-ORIG-GUID: j0aVg4meYAqMl3TnAOZ4nCt7zrmtFZqb
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-27_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ priorityscore=1501 suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0
+ mlxlogscore=929 mlxscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2303270129
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=ninad@us.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,40 +103,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since the introduction of multifd, it's possible to perform a multifd
-migration and finish it using postcopy.
 
-A bug introduced by yank (fixed on cfc3bcf373) was previously preventing
-a successful use of this migration scenario, and now it should be
-working on most cases.
+Hello,
 
-But since there is not enough testing/support nor any reported users for
-this scenario, we should disable this combination before it may cause any
-problems for users.
+I have incorporated review comments from Joel & Stefan. Please review.
 
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- migration/migration.c | 5 +++++
- 1 file changed, 5 insertions(+)
+This drop adds support for the TPM devices attached to the I2C bus. It
+only supports the TPM2 protocol. You need to run it with the external
+TPM emulator like swtpm. I have tested it with swtpm.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index ae2025d9d8..c601964b0e 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1356,6 +1356,11 @@ static bool migrate_caps_check(bool *cap_list,
-             error_setg(errp, "Postcopy is not compatible with ignore-shared");
-             return false;
-         }
-+
-+        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
-+            error_setg(errp, "Postcopy is not yet compatible with multifd");
-+            return false;
-+        }
-     }
- 
-     if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
+I have refered to the work done by zhdaniel@meta.com but at the core
+level out implementation is different.
+https://github.com/theopolis/qemu/commit/2e2e57cde9e419c36af8071bb85392ad1ed70966
+
+Based-on: $MESSAGE_ID
+
+Ninad Palsule (3):
+  docs: Add support for TPM devices over I2C bus
+  tpm: Extend common APIs to support TPM TIS I2C
+  tpm: Add support for TPM device over I2C bus
+
+ docs/specs/tpm.rst      |  21 ++
+ hw/arm/Kconfig          |   1 +
+ hw/tpm/Kconfig          |   7 +
+ hw/tpm/meson.build      |   1 +
+ hw/tpm/tpm_tis.h        |   3 +
+ hw/tpm/tpm_tis_common.c |  36 ++-
+ hw/tpm/tpm_tis_i2c.c    | 525 ++++++++++++++++++++++++++++++++++++++++
+ hw/tpm/trace-events     |   6 +
+ include/hw/acpi/tpm.h   |  37 +++
+ include/sysemu/tpm.h    |   3 +
+ 10 files changed, 632 insertions(+), 8 deletions(-)
+ create mode 100644 hw/tpm/tpm_tis_i2c.c
+
 -- 
-2.40.0
+2.37.2
 
 
