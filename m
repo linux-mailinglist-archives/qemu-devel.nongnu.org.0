@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FEE66CAB94
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:10:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73716CAB96
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Mar 2023 19:10:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgqMD-0004Vm-Aj; Mon, 27 Mar 2023 13:10:09 -0400
+	id 1pgqMJ-0004hM-V2; Mon, 27 Mar 2023 13:10:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pgqM8-0004HO-Oo; Mon, 27 Mar 2023 13:10:04 -0400
+ id 1pgqM8-0004H5-NE; Mon, 27 Mar 2023 13:10:04 -0400
 Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pgqM6-0006AD-2h; Mon, 27 Mar 2023 13:10:03 -0400
+ id 1pgqM6-0006AY-4L; Mon, 27 Mar 2023 13:10:04 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id D288F3200962;
- Mon, 27 Mar 2023 13:09:52 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id C82513200981;
+ Mon, 27 Mar 2023 13:09:56 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 27 Mar 2023 13:09:54 -0400
+ by compute5.internal (MEProxy); Mon, 27 Mar 2023 13:09:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1679936992; x=
- 1680023392; bh=n9EMuCZUvddA5ijQhLo6fWaML1e5fxQxsMeb/Uz/2a0=; b=D
- pJwDnunpgIYIutiw+jCElbI6XrLJlukdbuFJ+HbwLjvSChBsEOQAnzyAcrRicSpS
- aqANOkT5fbTrWAaZis/HT/A+efEH87VA1Ovh+zDHSk1wocHDoctAWEffi0YwPyi9
- syvmrhqvThWS1ZYQZVjU/3jMTr2sc52I1XF3tvAnIyb91LIL3elIpak1ffojgb+n
- PVeY12pPFDSSZ/kR/yMzJpoKyYaLVqe1B4ShevKj9aw5bOgAU0WjyMMkavzwzNQj
- 04MYrtPKJhqAJEe0EANg+i+HnPSYdr38AqWTrCR93mCJtSv+gLYClc6nVFaEP85o
- kVwefz3Y9V/9wWJlPm3TQ==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1679936996; x=
+ 1680023396; bh=mQvIYD/e/q3Puo/9of3k/I1ku0w9UbsK+M4+27YdQUY=; b=U
+ ERs4T/1f8kgi++zL/6M9bGA//d/6GK133Q2XHzaS9iHFzYD7GzfUdEQgfbX4n/FQ
+ du4jDYBR41SLrPzO+QBFFoNWVcXOu4px88fbv6C9aZE5Q5zleSWk26WYJrWUh+RB
+ hD0aaa7+OsmUiMg90R9e6DsnjL6gkuIDxaPNIMsXLlPbLhXmHf93DOHwjRDMh0r/
+ 9cjDYnxJIyO0BxE5RHgPU7XF4bUluYWyJC2EQsXsQJXomyMauboDRADy00bB0eek
+ 2ZrttkKcclFKAx0j1zxYbMIDUYid2PkQLhQ5d9T+WKlppJJerIDLpDlHMNP0btXU
+ B7TlaEU5mb6TlQ7No8W2Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1679936992; x=
- 1680023392; bh=n9EMuCZUvddA5ijQhLo6fWaML1e5fxQxsMeb/Uz/2a0=; b=K
- Vj+0w+y4RMzC+a/m6m2FQHOJGXTIIYeFex4fxlemgx/rc9W9Jk/DtGHW21DRmE6L
- ub0Mg5lqtzIJ/q1KfPABSoqcbJeSVsclP70bAZAXkMwRaymKTvqGp2XtAdhelwGr
- ZCNuNoXPOLD8Doaw/EMf0zVkKbT+SkVS3se5/PF8hRDFajGU3163H/nVDJL+/0sg
- U2+nOcRrhIW94EJzbHHqVzo/vbOtVZfuucB89HbrqBA+NqZve4sPdoPkJBpk4dFb
- 3FMGGR46WQU8UE4mA8gmbL0u7Q6IZkQqpOgVS72itV0tFz1nkNOu+SpqA2hHqldx
- vI1fuJkLhzg8tOp9bL8Ng==
-X-ME-Sender: <xms:4M0hZJn-7zMJnlPJnT5YyPIhIG9usmSZPafdLWydL5UyIUSHsJZ3Pg>
- <xme:4M0hZE357maP7PVYghRikIhGtnzl5Gx5HAWOVeX0kFfBHLu-Pat-r8PLIOJ4DZAnq
- kXSrhpEbGIS131BW4M>
-X-ME-Received: <xmr:4M0hZPqrFxhlehHyKFtmLT7Ci1FMId14QbhcyHbSOMa3i_CuVZd_7OrshpXE9pPKYIyopGg0xTfTiCaxvLRTOCyUz3IGZ2cH-WNF0Y8>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1679936996; x=
+ 1680023396; bh=mQvIYD/e/q3Puo/9of3k/I1ku0w9UbsK+M4+27YdQUY=; b=C
+ XVv3Wh2x32whHjr5reWdz3/4eNGi9Ug3uaNNOiaLp8NDJx1cG1eS33X8U1JvSykB
+ m5F6l0jDwgycPgoQ+0AmPDUsoDIUgx8u+Qlek0j9ORnN9hqWiWpXlyS/CPWb88+k
+ 7kaQeH1Rs8YAhmM+nkYo2T0y5uiX3l4LmNU8TjqidhrF62QfDFtck+lqduIDaFN+
+ SHuX/rfJDZWj6uda7NDRbRc1TjUkTh4MlM0YvZLCnda5ad4vAm9eRItZN0EgBVmf
+ rsOJdULKU/VXTazcY8jncrvpa5p+IexPitYC48r7c9nC3oltiDthyHE/OVDoMMDX
+ SsgRtpn26s+eJh7pI8idQ==
+X-ME-Sender: <xms:5M0hZG6q_edAvWORG3mUxLyeDmbDqxjpvTAG_dRPzNNwnwXwFrzQ6g>
+ <xme:5M0hZP6AfnccMIXJS6weJgum5GB3b0-5GOUyhj5KZLTUlkpwgZY6fHUqG4JNJnBqm
+ s1HisDmGjldsoKwBTA>
+X-ME-Received: <xmr:5M0hZFd4Sa62EQYvHf8hkgqSoan6XUu-okECSbI8g2pqsPnsqqHtzLuHZciz7LTktawdUWLxDNbHZtaA760wi3vb81Bf-DpSnYuYLT4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehvddgudduudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgr
  uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
  htthgvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedu
- jedugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ jedugeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:4M0hZJlB8iFeo8t8ZyW4XxXBznLZ1jgMdgb_PAYCfJsoOcU0aj1ORA>
- <xmx:4M0hZH0oZX56auyKd4FXsG9yFvl0HmxXsG2d4HoMIWHoTkqp27wVlg>
- <xmx:4M0hZIsnle0wgcqGPnJv2kmr97Kk3iyrBq88H3MlM5u1Cg3lY4-8Ng>
- <xmx:4M0hZAvUCqvtLCEQ1bRJTyf_P0MNpyj4gL696qaGMCu8k_324-O0iw>
+X-ME-Proxy: <xmx:5M0hZDLTfd4DzGU7w-PN-ajekWkZ94PwcqR-4l1PWu-c-9zmYPhIAA>
+ <xmx:5M0hZKKcrRG-pbrGmvezi3r0Rmnqqr47akCvAgjevDM_ejSXjTTXYw>
+ <xmx:5M0hZEzZ4-NuB5IzNt6FldFW0ov9UwJMq8CeQRDYAgqesK9fGlf2rw>
+ <xmx:5M0hZHCbHCLGLEphLAjInq_oJGplPRc77YmvkxCE6A30NkHEzr7BkQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Mar 2023 13:09:50 -0400 (EDT)
+ 27 Mar 2023 13:09:54 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -72,24 +72,23 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
  Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
  Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Mateusz Kozlowski <kozlowski.mateuszpl@gmail.com>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 1/2] hw/nvme: Change alignment in dma functions for nvme_blk_*
-Date: Mon, 27 Mar 2023 19:09:43 +0200
-Message-Id: <20230327170944.57033-2-its@irrelevant.dk>
+ Klaus Jensen <k.jensen@samsung.com>, Jim Harris <james.r.harris@intel.com>
+Subject: [PULL 2/2] hw/nvme: fix missing DNR on compare failure
+Date: Mon, 27 Mar 2023 19:09:44 +0200
+Message-Id: <20230327170944.57033-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230327170944.57033-1-its@irrelevant.dk>
 References: <20230327170944.57033-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3565; i=k.jensen@samsung.com;
- h=from:subject; bh=FNHm5ygTWl7roULyfesngA85WKNqKJYJ9K/4SqgqgLg=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGQhzdcDsRDwrNCIOJaw40ylHUnl7CzBzGA32
- xdBrkncO0eYkokBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJkIc3XAAoJEE3hrzFt
- Tw3pLnIH/iyPZhQ+jnAeUDIfrEaGOlICnUJQmVSQJr+rdxoolTAu9a8GT9B8hHCX+YLG29XVqwy
- Sy5ZYZfc63UujGPdAsyM44MQNyaWX3fAHdlrljRtg7hNcKZ3EO8oaNrM4DMpcPpIDBd8uoKe5gR
- lbhiBFUTzNgIRzgQFby1YSQnFTCMaeXYF3NbijV+yzw8u2TvyvOG5sS+f5ez+NbMqEcm2IPQ30K
- GEPNLTdCgOA7o9QamUrCzN5j9PtgX5YGFvaKUBratmjHQSBcW8rOHXNFD1r6Io1PBwLweBvmJeg
- ERuwoKzmEwqiv4j9N7MCvIOSQv6oaxNkriZpFYEVYpEQxrHu8PH3t6EY
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1569; i=k.jensen@samsung.com;
+ h=from:subject; bh=os38Xj7WvGjGVhRwSYDfcy2fhOw5hCYLx7/Yt8fjVCE=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGQhzdfszkCtHrXR+/QqeCQCUCMCKax3wsRGO
+ 0LktljCMWcGb4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJkIc3XAAoJEE3hrzFt
+ Tw3pdqIH/3GRRekT52TYOdKdCNJaTi//ytIi1hhsqvR0H080A1XXfiIRjjhS93KopYrlu8AUPp5
+ L511YfsPUyeM4fM94GkvsegpClgPcqIVTGIlG2aYL2wDLMamlxEewZRZs/1Jm3Ws8WjrtDkKiJ0
+ UlayeQNNhud9Q6l4b8V8TOdm6VOSBDjQWbLUEKkjqymE2jIXaKsTSu6kv+PHKWMWkoZlMFqgr/m
+ 4DjR3bnA8FcgI6qW/5CkYj50Q1k/u/vLnmrPVoLhTs0tn0yUz4ftc2KUoP+oAj2mTBOZvMb8dZB
+ PhYEez/LLUYEFeCdfs6/U43BKulv8nHTdk+kKa7LsjvJe57N8//wJab4
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -117,89 +116,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mateusz Kozlowski <kozlowski.mateuszpl@gmail.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Since the nvme_blk_read/write are used by both the data and metadata
-portions of the IO, it can't have the 512B alignment requirement.
-Without this change any metadata transfer, which length isn't a multiple
-of 512B and which is bigger than 512B, will result in only a partial
-transfer.
+Even if the host is somehow using compare to do compare-and-write, the
+host should be notified immediately about the compare failure and not
+have to wait for the driver to potentially retry the command.
 
-Signed-off-by: Mateusz Kozlowski <kozlowski.mateuszpl@gmail.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Fixes: 0a384f923f51 ("hw/block/nvme: add compare command")
+Reported-by: Jim Harris <james.r.harris@intel.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ hw/nvme/ctrl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 49c1210fce2b..291009545f03 100644
+index 291009545f03..8b7be1420912 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -1434,26 +1434,26 @@ uint16_t nvme_bounce_mdata(NvmeCtrl *n, void *ptr, uint32_t len,
- }
+@@ -2378,7 +2378,7 @@ static void nvme_compare_mdata_cb(void *opaque, int ret)
  
- static inline void nvme_blk_read(BlockBackend *blk, int64_t offset,
--                                 BlockCompletionFunc *cb, NvmeRequest *req)
-+                                 uint32_t align, BlockCompletionFunc *cb,
-+                                 NvmeRequest *req)
- {
-     assert(req->sg.flags & NVME_SG_ALLOC);
- 
-     if (req->sg.flags & NVME_SG_DMA) {
--        req->aiocb = dma_blk_read(blk, &req->sg.qsg, offset, BDRV_SECTOR_SIZE,
--                                  cb, req);
-+        req->aiocb = dma_blk_read(blk, &req->sg.qsg, offset, align, cb, req);
-     } else {
-         req->aiocb = blk_aio_preadv(blk, offset, &req->sg.iov, 0, cb, req);
-     }
- }
- 
- static inline void nvme_blk_write(BlockBackend *blk, int64_t offset,
--                                  BlockCompletionFunc *cb, NvmeRequest *req)
-+                                  uint32_t align, BlockCompletionFunc *cb,
-+                                  NvmeRequest *req)
- {
-     assert(req->sg.flags & NVME_SG_ALLOC);
- 
-     if (req->sg.flags & NVME_SG_DMA) {
--        req->aiocb = dma_blk_write(blk, &req->sg.qsg, offset, BDRV_SECTOR_SIZE,
--                                   cb, req);
-+        req->aiocb = dma_blk_write(blk, &req->sg.qsg, offset, align, cb, req);
-     } else {
-         req->aiocb = blk_aio_pwritev(blk, offset, &req->sg.iov, 0, cb, req);
-     }
-@@ -2207,10 +2207,10 @@ static void nvme_rw_cb(void *opaque, int ret)
+         for (bufp = buf; mbufp < end; bufp += ns->lbaf.ms, mbufp += ns->lbaf.ms) {
+             if (memcmp(bufp + pil, mbufp + pil, ns->lbaf.ms - pil)) {
+-                req->status = NVME_CMP_FAILURE;
++                req->status = NVME_CMP_FAILURE | NVME_DNR;
+                 goto out;
              }
- 
-             if (req->cmd.opcode == NVME_CMD_READ) {
--                return nvme_blk_read(blk, offset, nvme_rw_complete_cb, req);
-+                return nvme_blk_read(blk, offset, 1, nvme_rw_complete_cb, req);
-             }
- 
--            return nvme_blk_write(blk, offset, nvme_rw_complete_cb, req);
-+            return nvme_blk_write(blk, offset, 1, nvme_rw_complete_cb, req);
          }
+@@ -2387,7 +2387,7 @@ static void nvme_compare_mdata_cb(void *opaque, int ret)
      }
  
-@@ -3437,7 +3437,7 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
+     if (memcmp(buf, ctx->mdata.bounce, ctx->mdata.iov.size)) {
+-        req->status = NVME_CMP_FAILURE;
++        req->status = NVME_CMP_FAILURE | NVME_DNR;
+         goto out;
+     }
  
-     block_acct_start(blk_get_stats(blk), &req->acct, data_size,
-                      BLOCK_ACCT_READ);
--    nvme_blk_read(blk, data_offset, nvme_rw_cb, req);
-+    nvme_blk_read(blk, data_offset, BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-     return NVME_NO_COMPLETE;
+@@ -2436,7 +2436,7 @@ static void nvme_compare_data_cb(void *opaque, int ret)
+     }
  
- invalid:
-@@ -3607,7 +3607,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+     if (memcmp(buf, ctx->data.bounce, ctx->data.iov.size)) {
+-        req->status = NVME_CMP_FAILURE;
++        req->status = NVME_CMP_FAILURE | NVME_DNR;
+         goto out;
+     }
  
-         block_acct_start(blk_get_stats(blk), &req->acct, data_size,
-                          BLOCK_ACCT_WRITE);
--        nvme_blk_write(blk, data_offset, nvme_rw_cb, req);
-+        nvme_blk_write(blk, data_offset, BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-     } else {
-         req->aiocb = blk_aio_pwrite_zeroes(blk, data_offset, data_size,
-                                            BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
 -- 
 2.39.2
 
