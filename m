@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBB16CB60A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 983646CB610
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:29:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph1rP-00057N-0E; Tue, 28 Mar 2023 01:27:07 -0400
+	id 1ph1t6-0006C7-EY; Tue, 28 Mar 2023 01:28:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ph1rL-000577-4y
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:27:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ph1rJ-0005aO-NO
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:27:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679981221;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wT8jf0XVGXJSROT0uk+4GpCQcCM6xp7pY6aT96gCKV8=;
- b=gaNnsf9+USBd6iln9LGtnneqqq/xjNkpMh6cVexoj+QDrsXUAigW69utzsX6sa7bIXlfsN
- 0AP65IJM+EhpaPWk4lXR2Z6ugVcPxVsZ7B3J/Cg3KO9AlK9rGd9TkfICmUrS7xP56/o92m
- EO7G6YOyhFkqiI4BTOlqTXO7tpmsuUU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-498-AVlur8ARP9eu0yDBkygP4g-1; Tue, 28 Mar 2023 01:26:57 -0400
-X-MC-Unique: AVlur8ARP9eu0yDBkygP4g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8C42811E7C;
- Tue, 28 Mar 2023 05:26:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B48D1121330;
- Tue, 28 Mar 2023 05:26:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8FE8321E6926; Tue, 28 Mar 2023 07:26:55 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>,  qemu-devel
- <qemu-devel@nongnu.org>,  David Hildenbrand <david@redhat.com>,  Thomas
- Huth <thuth@redhat.com>,  "Borntraeger, Christian"
- <borntraeger@de.ibm.com>,  Janosch Frank <frankja@linux.ibm.com>,
- fiuczy@linux.ibm.com,  Halil Pasic <pasic@linux.ibm.com>,
- nsg@linux.ibm.com,  "P. Berrange, Daniel" <berrange@redhat.com>,  Alex
- =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v5 1/1] util/async-teardown: wire up
- query-command-line-options
-References: <20230327133525.50318-1-imbrenda@linux.ibm.com>
- <20230327133525.50318-2-imbrenda@linux.ibm.com>
- <CABgObfYK_cVCS5x-JYY78KTdrhTnPU+fiK5QRnRTrd+EWMn3bw@mail.gmail.com>
-Date: Tue, 28 Mar 2023 07:26:55 +0200
-In-Reply-To: <CABgObfYK_cVCS5x-JYY78KTdrhTnPU+fiK5QRnRTrd+EWMn3bw@mail.gmail.com>
- (Paolo Bonzini's message of "Mon, 27 Mar 2023 23:16:19 +0200")
-Message-ID: <87cz4t5tuo.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1ph1t2-0006Bv-Ug
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:28:48 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ph1sz-0006ep-T6
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:28:48 -0400
+HMM_SOURCE_IP: 172.18.0.218:36244.150881356
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 824E52800DC;
+ Tue, 28 Mar 2023 13:28:26 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([36.111.64.85])
+ by app0025 with ESMTP id 42f2eced97394d96b883a6e6088b4be3 for
+ armbru@redhat.com; Tue, 28 Mar 2023 13:28:32 CST
+X-Transaction-ID: 42f2eced97394d96b883a6e6088b4be3
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 36.111.64.85
+X-MEDUSA-Status: 0
+Message-ID: <142442b3-f8c8-e2fe-365a-48b2287f74e1@chinatelecom.cn>
+Date: Tue, 28 Mar 2023 13:28:25 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 06/10] migration: Introduce dirty-limit capability
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <cover.1676563222.git.huangy81@chinatelecom.cn>
+ <cover.1676563222.git.huangy81@chinatelecom.cn>
+ <a9952eaa2bf3c8066b0e8dee066b57395ffa37b1.1676563222.git.huangy81@chinatelecom.cn>
+ <871qlepcw7.fsf@pond.sub.org>
+ <f70dbc9b-e722-ad77-e22d-12c339f5ff4d@chinatelecom.cn>
+ <87ttyamd8j.fsf@pond.sub.org>
+ <333f094e-c009-4e61-22b4-3433d1291af4@chinatelecom.cn>
+ <87lejihf1j.fsf@pond.sub.org>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <87lejihf1j.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,29 +78,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> I am honestly not a fan of adding a more complex option,.just because
-> query-command-line-options only returns the square holes whereas here we
-> got a round one.
->
-> Can we imagine another functionality that would be added to -teardown? If
-> not, it's not a good design. If it works, I would add a completely dummy
-> (no suboptions) group "async-teardown" and not modify the parsing at all.
 
-Does v2 implement your suggestion?
-Message-Id: <20230320131648.61728-1-imbrenda@linux.ibm.com>
+在 2023/3/27 14:41, Markus Armbruster 写道:
+> Hyman Huang <huangy81@chinatelecom.cn> writes:
+> 
+>> 在 2023/3/24 22:32, Markus Armbruster 写道:
+>>> Hyman Huang <huangy81@chinatelecom.cn> writes:
+>>>
+>>>> 在 2023/3/24 20:11, Markus Armbruster 写道:
+>>>>> huangy81@chinatelecom.cn writes:
+>>>>>
+>>>>>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>>>>>
+>>>>>> Introduce migration dirty-limit capability, which can
+>>>>>> be turned on before live migration and limit dirty
+>>>>>> page rate durty live migration.
+>>>>>>
+>>>>>> Introduce migrate_dirty_limit function to help check
+>>>>>> if dirty-limit capability enabled during live migration.
+>>>>>>
+>>>>>> Meanwhile, refactor vcpu_dirty_rate_stat_collect
+>>>>>> so that period can be configured instead of hardcoded.
+>>>>>>
+>>>>>> dirty-limit capability is kind of like auto-converge
+>>>>>> but using dirty limit instead of traditional cpu-throttle
+>>>>>> to throttle guest down. To enable this feature, turn on
+>>>>>> the dirty-limit capability before live migration using
+>>>>>> migrate-set-capabilities, and set the parameters
+>>>>>> "x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
+>>>>>> to speed up convergence.
+>>>>>>
+>>>>>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>>>>> Acked-by: Peter Xu <peterx@redhat.com>
+>>>>> [...]
+>>>>>
+>>>>>> diff --git a/qapi/migration.json b/qapi/migration.json
+>>>>>> index d33cc2d582..b7a92be055 100644
+>>>>>> --- a/qapi/migration.json
+>>>>>> +++ b/qapi/migration.json
+>>>>>> @@ -477,6 +477,8 @@
+>>>>>>     #                    will be handled faster.  This is a performance feature and
+>>>>>>     #                    should not affect the correctness of postcopy migration.
+>>>>>>     #                    (since 7.1)
+>>>>>> +# @dirty-limit: Use dirty-limit to throttle down guest if enabled.
+>>>>>> +#               (since 8.0)
+>>>>>
+>>>>> Feels too terse.  What exactly is used and how?  It's not the capability
+>>>>> itself (although the text sure sounds like it).  I guess it's the thing
+>>>>> you set with command set-vcpu-dirty-limit.
+>>>>>
+>>>>> Is that used only when the capability is set?
+>>>>
+>>>> Yes, live migration set "dirty-limit" value when that capability is set,
+>>>> the comment changes to "Apply the algorithm of dirty page rate limit to throttle down guest if capability is set, rather than auto-converge".
+>>>>
+>>>> Please continue to polish the doc if needed. Thanks.
+>>>
+>>> Let's see whether I understand.
+>>>
+>>> Throttling happens only during migration.
+>>>
+>>> There are two throttling algorithms: "auto-converge" (default) and
+>>> "dirty page rate limit".
+>>>
+>>> The latter can be tuned with set-vcpu-dirty-limit.
+>>> Correct?
+>>
+>> Yes
+>>
+>>> What happens when migration capability dirty-limit is enabled, but the
+>>> user hasn't set a limit with set-vcpu-dirty-limit, or canceled it with
+>>> cancel-vcpu-dirty-limit?
+>>
+>> dirty-limit capability use the default value if user hasn't set.
+> 
+> What is the default value?  I can't find it in the doc comments.
+The default value is 1MB/s， i'll add it to the doc comments.
+> 
+>> In the path of cancel-vcpu-dirty-limit, canceling should be check and not be allowed if migration is in process.
+> 
+> Can you change the dirty limit with set-vcpu-dirty-limit while migration
+> is in progress?  Let's see...
+No, this is not allowed.
 
-I dislike it, because it makes query-command-line-options claim
--async-teardown has an option argument with unknown keys, which is
-plainly wrong, and must be treated as a special case.  Worse, a new kind
-of special case.
+> 
+> Has the dirty limit any effect while migration is not in progress?
+Like the auto-converge capability, dirty-limit capability has no effect 
+if migration is not in progress.
+> 
+>> see the following code in commit:
+>> [PATCH v4 08/10] migration: Implement dirty-limit convergence algo
+>>
+>> --- a/softmmu/dirtylimit.c
+>> +++ b/softmmu/dirtylimit.c
+>> @@ -438,6 +438,8 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
+>>                                    int64_t cpu_index,
+>>                                    Error **errp)
+>>   {
+>> +    MigrationState *ms = migrate_get_current();
+>> +
+>>       if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
+>>           return;
+>>       }
+>> @@ -451,6 +453,15 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
+>>           return;
+>>       }
+>>
+>> +    if (migration_is_running(ms->state) &&
+>> +        (!qemu_thread_is_self(&ms->thread)) &&
+>> +        migrate_dirty_limit() &&
+>> +        dirtylimit_in_service()) {
+>> +        error_setg(errp, "can't cancel dirty page limit while"
+>> +                   " migration is running");
+>> +        return;
+>> +    }
+> 
+> We can get here even when migration_is_running() is true.  Seems to
+> contradict your claim "no cancel while migration is in progress".  Am I
+> confused?
+> 
+> Please drop the superfluous parenthesis around !qemu_thread_is_self().
+> 
+>> +
+>>       dirtylimit_state_lock();
+>>
+>>       if (has_cpu_index) {
+>> @@ -486,6 +497,8 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
+>>                                 uint64_t dirty_rate,
+>>                                 Error **errp)
+>>   {
+>> +    MigrationState *ms = migrate_get_current();
+>> +
+>>       if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
+>>           error_setg(errp, "dirty page limit feature requires KVM with"
+>>                      " accelerator property 'dirty-ring-size' set'");
+>> @@ -502,6 +515,15 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
+>>           return;
+>>       }
+>>
+>> +    if (migration_is_running(ms->state) &&
+>> +        (!qemu_thread_is_self(&ms->thread)) &&
+>> +        migrate_dirty_limit() &&
+>> +        dirtylimit_in_service()) {
+>> +        error_setg(errp, "can't cancel dirty page limit while"
+>> +                   " migration is running");
+> 
+> Same condition, i.e. we dirty limit change is possible exactly when
+> cancel is.  Correct?
+> 
+>> +        return;
+>> +    }
+>> +
+>>       dirtylimit_state_lock();
+>>
+>>       if (!dirtylimit_in_service()) {
+> 
+> Maybe it's just me still not understanding things, but the entire
+> interface feels overly complicated.
+> 
+> Here's my current mental model of what you're trying to provide.
+> 
+> There are two throttling algorithms: "auto-converge" (default) and
+> "dirty page rate limit".  The user can select one.
+> 
+> The latter works with a user-configurable dirty limit.
+> 
+Yes
+> Changing these configuration bits is only possible in certain states.
+> Which ones is not clear to me, yet.
+Ok, i'll add doc comments to explain under what condition the 
+configuration can be changed.
+> 
+> Is this accurate and complete?
+> 
+> Are commands set-vcpu-dirty-limit, cancel-vcpu-dirty-limit,
+> query-vcpu-dirty-limit useful without this series?
+Yes, the two are independent of each other.
+> 
+> If not, then committing them as stable interfaces was clearly premature.
+> 
 
-Can we have a QMP command, so libvirt can use query-qmp-schema?
+-- 
+Best regard
 
-In case QMP becomes functional too late for the command to actually
-work: make it always fail for now.  It can still serve as a witness for
--async-teardown.  If we rework QEMU startup so that QMP can do
-everything the CLI can do, we'll make the QMP command work.
-
+Hyman Huang(黄勇)
 
