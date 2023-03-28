@@ -2,108 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2B66CC144
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42566CC15B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:48:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph9ap-0005bk-7y; Tue, 28 Mar 2023 09:42:31 -0400
+	id 1ph9fl-000758-AF; Tue, 28 Mar 2023 09:47:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ph9am-0005bb-Fm
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:42:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ph9fj-00074v-Px
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:47:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ph9ak-0007ij-3m
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:42:27 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32SChX01016364; Tue, 28 Mar 2023 13:42:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=TojTMUD+GkPosespZ0CR6QRFgt8ZvGQEF01Pyh1dg1E=;
- b=WKwITE0tEneAe0G/AoRjF+NKyJ5E3e0OeT4JXAc2lQVbk4W1o5HtQyT9aa78dTBXUPA7
- MpJc5MVk0YV7CDEs5MuEG57V+T5wY7/Itd0GVUrdsskqMvOk+dsCRxiKC6oR/5LOL3dm
- ZAiOXFCZX/VrAnv3pDJn0KsSvz2z4x3cKh1SS/1NpfRfiwLdRrA34VUNV42HdZAgmaUr
- 6yTB0rvJx1jEo6zhGjPvU/GmKguC2onEBk60UMQQ+Y8nVq50Uz1fGuZDhkFIBs9nE52a
- gYdsktp6Qc9d+1dUCc8rF7yyYcJy8or0GvWDV1i8E9LYvs0aWbKLhSd6GB7x0HvUvYdm Mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm0g9htr0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 13:42:19 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SCigAT021232;
- Tue, 28 Mar 2023 13:42:17 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm0g9htk3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 13:42:16 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32SDEgO3032017;
- Tue, 28 Mar 2023 13:42:05 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
- by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3phrk78wwy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 13:42:05 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
- [10.39.53.230])
- by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32SDg4dx29033062
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Mar 2023 13:42:04 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8EEAC5805A;
- Tue, 28 Mar 2023 13:42:04 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C2CDD58054;
- Tue, 28 Mar 2023 13:42:03 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 28 Mar 2023 13:42:03 +0000 (GMT)
-Message-ID: <1959f97f-73ea-1b1f-b05a-4d2a41692e6c@linux.ibm.com>
-Date: Tue, 28 Mar 2023 09:42:03 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ph9fh-0008Ng-HQ
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:47:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680011252;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=QDp3l0qVDPHWE1QEPgvDWL2n8Z8tG9COGcuVOMTqAt0=;
+ b=OR1tlRQtpcGlVWa18nC8Cd+05DRzKOsLgHf7bwNiGyy8a+cwdiGQQvathG+LiwiIEvAH3h
+ kf3LDlO/TEiN7+UrGlEfEHnFeyBsqzaG2WwNyFQuI3jfYMyL7GYIf9LFRrdis00Ynl86BJ
+ mjAT89kl9KgBQW8Trmy0M6YvH76wC7w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-588-RNRJnXKdNOCHDoa_hueKqw-1; Tue, 28 Mar 2023 09:47:28 -0400
+X-MC-Unique: RNRJnXKdNOCHDoa_hueKqw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07700185A791;
+ Tue, 28 Mar 2023 13:47:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB6BA2166B26;
+ Tue, 28 Mar 2023 13:47:26 +0000 (UTC)
+Date: Tue, 28 Mar 2023 14:47:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Henrik Carlqvist <hc94@poolhem.se>
+Cc: Henrik Carlqvist <hc981@poolhem.se>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, atar4qemu@gmail.com, marcandre.lureau@redhat.com
+Subject: Re: [PATCH v5] Emulate dip switch language layout settings on SUN
+ keyboard
+Message-ID: <ZCLv7FbCwzHoLs3y@redhat.com>
+References: <20230114125029.7395a547.hc981@poolhem.se>
+ <20230114153853.76b68899.hc94@poolhem.se>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] tests/avocado/aspeed: Add TPM TIS I2C test
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>, ninad@linux.ibm.com
-Cc: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-References: <20230328120844.190914-1-joel@jms.id.au>
- <1c6543c5-e924-b0f3-4f4e-5654a8aa9d29@kaod.org>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <1c6543c5-e924-b0f3-4f4e-5654a8aa9d29@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: thUfbmo_-Rv51bqb7duJ92qfOe2UrHdb
-X-Proofpoint-ORIG-GUID: csYXrt0s18oyHjY1SWG-TqjvZ_dQ9xAg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-28_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- impostorscore=0 phishscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- mlxlogscore=841 bulkscore=0 suspectscore=0 mlxscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303280107
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230114153853.76b68899.hc94@poolhem.se>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,32 +78,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Sat, Jan 14, 2023 at 03:38:53PM +0100, Henrik Carlqvist wrote:
+> https://patchew.org/QEMU/20230114125029.7395a547.hc981@poolhem.se/ 
+> complains that "patch is empty", so here is my fifth attempt...
+> 
+> regards Henrik
+> 
+> SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
+> layout of the keyboard. Solaris makes an ioctl to query the value of the
+> dipswitches and uses that value to select keyboard layout. Also the SUN
+> bios like the one in the file ss5.bin uses this value to support at least
+> some keyboard layouts. However, the OpenBIOS provided with qemu is
+> hardcoded to always use an US keyboard layout.
+> 
+> Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
+> this patch uses the command line switch "-k" (keyboard layout) to select
+> dip switch value. A table is used to lookup values from arguments like:
+> 
+> -k fr
+> -k es
+> 
+> But the patch also accepts numeric dip switch values directly to the -k
+> switch:
+> 
+> -k 0x2b
+> -k 43
+
+I'm not convinced this is a sensible thing to do
+
+The '-k' argument / keyboard_layout  global in QEMU is used to control
+the keyboard layout used by the various UI frontends in QEMU, when they
+are converting input events received from the user into QMEU's internal
+keycodes.
+
+Overload this to also change the virtual hardware settings, which is
+guest ABI sensitive feels like a bad idea, given that we usually aim to
+separate backend and frontend configuration tunables.
+
+IOW, it looks like there are two distinct configuration axes that need
+to be controllable independently.
+
+Since it is a hardware property then the obvious place to put this would
+be as a property in the hardware device - ie the escc device. This could
+then be set with -global escc.sunkbd_layout=XXX  IIUC.
 
 
-On 3/28/23 09:21, Cédric Le Goater wrote:
-> On 3/28/23 14:08, Joel Stanley wrote:
->> Add a new buildroot image based test that attaches a TPM emulator to the
->> I2C bus and checks for a known PCR0 value for the image that was booted.
->>
->> Note that this does not tear down swtpm process when qemu execution fails.
->> The swtpm process will exit when qemu exits if a connection has been
->> made, but if the test errors before connection then the swtpm process
->> will still be around.
->>
->> Signed-off-by: Joel Stanley <joel@jms.id.au>
 > 
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> Both values above are the same and select swedish keyboard as explained in
+> table 3-15 at
+> https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+> 
+> Unless you want to do a full Solaris installation but happen to have
+> access to a bios file, the easiest way to test that the patch works is to:
+> 
+> qemu-system-sparc -k sv -bios /path/to/ss5.bin
+> 
+> If you already happen to have a Solaris installation in a qemu disk image
+> file you can easily try different keyboard layouts after this patch is
+> applied.
+> 
+> Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
+> ---
+>  hw/char/escc.c | 74 +++++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 73 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/char/escc.c b/hw/char/escc.c
+> index 17a908c59b..53022ccf39 100644
+> --- a/hw/char/escc.c
+> +++ b/hw/char/escc.c
+> @@ -31,6 +31,8 @@
+>  #include "qemu/module.h"
+>  #include "hw/char/escc.h"
+>  #include "ui/console.h"
+> +#include "sysemu/sysemu.h"
+> +#include "qemu/cutils.h"
+>  #include "trace.h"
+>  
+>  /*
+> @@ -190,6 +192,7 @@
+>  #define R_MISC1I 14
+>  #define R_EXTINT 15
+>  
+> +static unsigned char sun_keyboard_layout_dip_switch(void);
+>  static void handle_kbd_command(ESCCChannelState *s, int val);
+>  static int serial_can_receive(void *opaque);
+>  static void serial_receive_byte(ESCCChannelState *s, int ch);
+> @@ -846,6 +849,75 @@ static QemuInputHandler sunkbd_handler = {
+>      .event = sunkbd_handle_event,
+>  };
+>  
+> +static unsigned char sun_keyboard_layout_dip_switch(void)
+> +{
+> +    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
+> +    static unsigned char ret = 0xff;
+> +
+> +    if ((ret == 0xff) && keyboard_layout) {
+> +        int i;
+> +        struct layout_values {
+> +            const char *lang;
+> +            unsigned char dip;
+> +        } languages[] =
+> +    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards */
+> +            {
+> +                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
+> +                                 /* 0x22 is some other US (US_UNIX5.kt)*/
+> +                {"fr",    0x23}, /* France (France5.kt) */
+> +                {"da",    0x24}, /* Denmark (Denmark5.kt) */
+> +                {"de",    0x25}, /* Germany (Germany5.kt) */
+> +                {"it",    0x26}, /* Italy (Italy5.kt) */
+> +                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
+> +                {"no",    0x28}, /* Norway (Norway.kt) */
+> +                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
+> +                {"es",    0x2a}, /* Spain (Spain5.kt) */
+> +                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
+> +                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt) */
+> +                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt) */
+> +                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
+> +                {"ko",    0x2f}, /* Korea (Korea5.kt) */
+> +                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
+> +                {"ja",    0x31}, /* Japan (Japan5.kt) */
+> +                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
+> +                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
+> +                {"pl",    0x34}, /* Poland (Poland5.kt) */
+> +                {"cz",    0x35}, /* Czech (Czech5.kt) */
+> +                {"ru",    0x36}, /* Russia (Russia5.kt) */
+> +                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
+> +                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
+> +                {"gr",    0x39}, /* Greece (Greece5.kt) */
+> +                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
+> +                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
+> +                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
+> +                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
+> +            };
+> +
+> +        for (i = 0;
+> +             i < sizeof(languages) / sizeof(struct layout_values);
+> +             i++) {
+> +            if (!strcmp(keyboard_layout, languages[i].lang)) {
+> +                ret = languages[i].dip;
+> +                return ret;
+> +            }
+> +        }
+> +        /* Found no known language code */
+> +
+> +        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
+> +            unsigned int tmp;
+> +            /* As a fallback we also accept numeric dip switch value */
+> +            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
+> +                ret = (unsigned char)tmp;
+> +            }
+> +        }
+> +    }
+> +    if (ret == 0xff) {
+> +        /* Final fallback if keyboard_layout was not set or recognized */
+> +        ret = 0x21; /* en-us layout */
+> +    }
+> +    return ret;
+> +}
+> +
+>  static void handle_kbd_command(ESCCChannelState *s, int val)
+>  {
+>      trace_escc_kbd_command(val);
+> @@ -867,7 +939,7 @@ static void handle_kbd_command(ESCCChannelState *s, int val)
+>      case 0xf:
+>          clear_queue(s);
+>          put_queue(s, 0xfe);
+> -        put_queue(s, 0x21); /*  en-us layout */
+> +        put_queue(s, sun_keyboard_layout_dip_switch());
+>          break;
+>      default:
+>          break;
+> -- 
+> 2.35.1
 > 
 > 
-> Stefan,
-> 
-> Could you please take this patch through the TPM queue with the other
-> TPM TIS I2C patches ?
 
-Yes.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-    Stefan
 
