@@ -2,105 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2CA6CC915
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7945E6CC91E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:21:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phCzh-0006HI-RB; Tue, 28 Mar 2023 13:20:25 -0400
+	id 1phD0C-0006zs-5g; Tue, 28 Mar 2023 13:20:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1phCzc-0006Gb-53
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:20:20 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ id 1phD09-0006ys-Vu
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:20:54 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1phCza-0006QV-8R
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:20:19 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32SGi8I1000564; Tue, 28 Mar 2023 17:20:05 GMT
+ id 1phD07-0006ot-LY
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:20:53 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32SHFasH024642; Tue, 28 Mar 2023 17:20:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=JY0SrvkRjgTbjTqai6JOf8tVDaRBBqHzBcxDxpBpPfA=;
- b=D025me0ZiGlJWFRWpRVpW9zta9odjzFZxIJE6MVMFM/ZOoaI+yMhDPq24ki5X9YL2w1P
- TnRnnrojFH7YTBIVC7A7de3YFej4BNvoJn/B25lw5byY95J3T1SpPuoM+4e/ogtCy29H
- 5OdjYq4r5mBdLGVKLy4SdG+zGdpN4q79PnyfRsFeJQVt38uB3yL7gWsWmYWDt5pM/J83
- pP4kDJwYsy/otroFda62afCB/HoKVRiTg8WhPz8EDfBYENRyItuY7Byk1Uud0fudVJDp
- ECiOy2d2p5QZtJ+Qvmg/akkiwXsXJfOk43HQMWy+VMN21wDhVJf32Uq9SRQQDyqw/QLI Qg== 
+ content-transfer-encoding; s=pp1;
+ bh=FdL+JQtgpIbcTvLquS+eEep/JoNRqQPNpWeSyuefBW4=;
+ b=MVFL+vmRzOjFhuqquFWREatuXYJTo+l1iHKa99amd0cdKHGzSwLhjBGq2raj2MFV0idn
+ wx/AAgE3toQISdFF7MS7i2nMSecHDEY3039TC2eTxrb400srD1qeTLX/rAViKAX4SneU
+ rV0ld9gilvbIU6APiTA0dKhUsAgCeYEx5yQPy68M+ALE4tc/WD9Ch/Ed8wxQv6Ws1Dho
+ dUIeKttUavhvKlPgUM4xNK02cOMCvd6xvjxZb2BurXizQHeAeG5pcQbOtw6tXNEr9VYN
+ 4f8Mjcheq6ic/RScFwiqawqDd6jUK/HuAazx3E/1ffBjvrlkip3c9P6UQWqLpgje6Jft Qw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm4110xj2-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm4fwg2rx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 17:20:05 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SGjJgg004200;
- Tue, 28 Mar 2023 17:20:05 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm4110xhs-1
+ Tue, 28 Mar 2023 17:20:31 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SHJaj9006834;
+ Tue, 28 Mar 2023 17:20:31 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm4fwg2aw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 17:20:05 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32SGPP3n028981;
+ Tue, 28 Mar 2023 17:20:29 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32SGIXTt003277;
  Tue, 28 Mar 2023 17:20:04 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3phrk7pawq-1
+Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
+ by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3phrk79wg4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 28 Mar 2023 17:20:04 +0000
 Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com
  [10.39.53.231])
- by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32SHK10c27853368
+ by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32SHK2fr6226556
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Mar 2023 17:20:01 GMT
+ Tue, 28 Mar 2023 17:20:02 GMT
 Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 837C75805F;
+ by IMSVA (Postfix) with ESMTP id 76DB658054;
+ Tue, 28 Mar 2023 17:20:02 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A97B358061;
  Tue, 28 Mar 2023 17:20:01 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B41165805E;
- Tue, 28 Mar 2023 17:20:00 +0000 (GMT)
 Received: from sbct-2.pok.ibm.com (unknown [9.47.158.152])
  by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 28 Mar 2023 17:20:00 +0000 (GMT)
+ Tue, 28 Mar 2023 17:20:01 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, thuth@redhat.com, clg@kaod.org,
  ninad@linux.ibm.com, joel@jms.id.au, andrew@aj.id.au,
  Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH v4 1/3] qtest: Add functions for accessing devices on Aspeed
- I2C controller
-Date: Tue, 28 Mar 2023 13:19:56 -0400
-Message-Id: <20230328171958.3677734-2-stefanb@linux.ibm.com>
+Subject: [PATCH v4 2/3] qtest: Move tpm_util_tis_transmit() into
+ tpm-tis-utils.c and rename it
+Date: Tue, 28 Mar 2023 13:19:57 -0400
+Message-Id: <20230328171958.3677734-3-stefanb@linux.ibm.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230328171958.3677734-1-stefanb@linux.ibm.com>
 References: <20230328171958.3677734-1-stefanb@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: legOF4SWqamhdtmXp1Y2WwNmowjGh_2Y
-X-Proofpoint-GUID: 3dw5BsY2a8fS6TNCEv92yXdEQJV4FJm4
+X-Proofpoint-GUID: jjETROwnyTcUKjbMwvKxr3E5DmWFDDn5
+X-Proofpoint-ORIG-GUID: 65-OWv8_DyoGxgp_HWJAga3NW-pF82wx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-24_11,2023-03-28_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- malwarescore=0 suspectscore=0 priorityscore=1501 phishscore=0 bulkscore=0
- mlxlogscore=658 mlxscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303280133
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ impostorscore=0 adultscore=0
+ phishscore=0 spamscore=0 mlxscore=0 priorityscore=1501 suspectscore=0
+ mlxlogscore=999 malwarescore=0 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303280133
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,208 +114,258 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add read and write functions for accessing registers of I2C devices
-connected to the Aspeed I2C controller.
+To be able to remove tpm_tis_base_addr from test cases that do not really
+need it move the tpm_util_tis_transmit() function into tpm-tis-utils.c and
+rename it to tpm_tis_transmit().
+
+Fix a locality parameter in a test case on the way.
 
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Ninad Palsule <ninad@linux.ibm.com>
 ---
- include/hw/i2c/aspeed_i2c.h |   7 +++
- tests/qtest/qtest_aspeed.c  | 117 ++++++++++++++++++++++++++++++++++++
- tests/qtest/qtest_aspeed.h  |  41 +++++++++++++
- 3 files changed, 165 insertions(+)
- create mode 100644 tests/qtest/qtest_aspeed.c
- create mode 100644 tests/qtest/qtest_aspeed.h
+ tests/qtest/tpm-crb-swtpm-test.c        |  3 --
+ tests/qtest/tpm-crb-test.c              |  3 --
+ tests/qtest/tpm-tis-device-swtpm-test.c |  5 +--
+ tests/qtest/tpm-tis-swtpm-test.c        |  5 +--
+ tests/qtest/tpm-tis-util.c              | 47 ++++++++++++++++++++++++-
+ tests/qtest/tpm-tis-util.h              |  4 +++
+ tests/qtest/tpm-util.c                  | 45 -----------------------
+ tests/qtest/tpm-util.h                  |  3 --
+ 8 files changed, 56 insertions(+), 59 deletions(-)
 
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index adc904d6c1..51c944efea 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -38,6 +38,13 @@ OBJECT_DECLARE_TYPE(AspeedI2CState, AspeedI2CClass, ASPEED_I2C)
- #define ASPEED_I2C_OLD_NUM_REG 11
- #define ASPEED_I2C_NEW_NUM_REG 22
+diff --git a/tests/qtest/tpm-crb-swtpm-test.c b/tests/qtest/tpm-crb-swtpm-test.c
+index 40254f762f..ffeb1c396b 100644
+--- a/tests/qtest/tpm-crb-swtpm-test.c
++++ b/tests/qtest/tpm-crb-swtpm-test.c
+@@ -19,9 +19,6 @@
+ #include "tpm-tests.h"
+ #include "hw/acpi/tpm.h"
  
-+#define A_I2CD_M_STOP_CMD       BIT(5)
-+#define A_I2CD_M_RX_CMD         BIT(3)
-+#define A_I2CD_M_TX_CMD         BIT(1)
-+#define A_I2CD_M_START_CMD      BIT(0)
+-/* Not used but needed for linking */
+-uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
+-
+ typedef struct TestState {
+     char *src_tpm_path;
+     char *dst_tpm_path;
+diff --git a/tests/qtest/tpm-crb-test.c b/tests/qtest/tpm-crb-test.c
+index 7b94453390..396ae3f91c 100644
+--- a/tests/qtest/tpm-crb-test.c
++++ b/tests/qtest/tpm-crb-test.c
+@@ -19,9 +19,6 @@
+ #include "qemu/module.h"
+ #include "tpm-emu.h"
+ 
+-/* Not used but needed for linking */
+-uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
+-
+ #define TPM_CMD "\x80\x01\x00\x00\x00\x0c\x00\x00\x01\x44\x00\x00"
+ 
+ static void tpm_crb_test(const void *data)
+diff --git a/tests/qtest/tpm-tis-device-swtpm-test.c b/tests/qtest/tpm-tis-device-swtpm-test.c
+index 8c067fddd4..517a077005 100644
+--- a/tests/qtest/tpm-tis-device-swtpm-test.c
++++ b/tests/qtest/tpm-tis-device-swtpm-test.c
+@@ -18,6 +18,7 @@
+ #include "libqtest.h"
+ #include "qemu/module.h"
+ #include "tpm-tests.h"
++#include "tpm-tis-util.h"
+ #include "hw/acpi/tpm.h"
+ 
+ uint64_t tpm_tis_base_addr = 0xc000000;
+@@ -33,7 +34,7 @@ static void tpm_tis_swtpm_test(const void *data)
+ {
+     const TestState *ts = data;
+ 
+-    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer,
++    tpm_test_swtpm_test(ts->src_tpm_path, tpm_tis_transfer,
+                         "tpm-tis-device", MACHINE_OPTIONS);
+ }
+ 
+@@ -42,7 +43,7 @@ static void tpm_tis_swtpm_migration_test(const void *data)
+     const TestState *ts = data;
+ 
+     tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
+-                                  tpm_util_tis_transfer, "tpm-tis-device",
++                                  tpm_tis_transfer, "tpm-tis-device",
+                                   MACHINE_OPTIONS);
+ }
+ 
+diff --git a/tests/qtest/tpm-tis-swtpm-test.c b/tests/qtest/tpm-tis-swtpm-test.c
+index 11539c0a52..105e42e21d 100644
+--- a/tests/qtest/tpm-tis-swtpm-test.c
++++ b/tests/qtest/tpm-tis-swtpm-test.c
+@@ -17,6 +17,7 @@
+ #include "libqtest.h"
+ #include "qemu/module.h"
+ #include "tpm-tests.h"
++#include "tpm-tis-util.h"
+ #include "hw/acpi/tpm.h"
+ 
+ uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
+@@ -31,7 +32,7 @@ static void tpm_tis_swtpm_test(const void *data)
+ {
+     const TestState *ts = data;
+ 
+-    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer,
++    tpm_test_swtpm_test(ts->src_tpm_path, tpm_tis_transfer,
+                         "tpm-tis", NULL);
+ }
+ 
+@@ -40,7 +41,7 @@ static void tpm_tis_swtpm_migration_test(const void *data)
+     const TestState *ts = data;
+ 
+     tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
+-                                  tpm_util_tis_transfer, "tpm-tis", NULL);
++                                  tpm_tis_transfer, "tpm-tis", NULL);
+ }
+ 
+ int main(int argc, char **argv)
+diff --git a/tests/qtest/tpm-tis-util.c b/tests/qtest/tpm-tis-util.c
+index 939893bf01..728cd3e065 100644
+--- a/tests/qtest/tpm-tis-util.c
++++ b/tests/qtest/tpm-tis-util.c
+@@ -52,7 +52,7 @@ void tpm_tis_test_check_localities(const void *data)
+     uint32_t rid;
+ 
+     for (locty = 0; locty < TPM_TIS_NUM_LOCALITIES; locty++) {
+-        access = readb(TIS_REG(0, TPM_TIS_REG_ACCESS));
++        access = readb(TIS_REG(locty, TPM_TIS_REG_ACCESS));
+         g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
+                                     TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
+ 
+@@ -449,3 +449,48 @@ void tpm_tis_test_check_transmit(const void *data)
+     writeb(TIS_REG(0, TPM_TIS_REG_ACCESS), TPM_TIS_ACCESS_ACTIVE_LOCALITY);
+     access = readb(TIS_REG(0, TPM_TIS_REG_ACCESS));
+ }
 +
-+#define A_I2CD_MASTER_EN        BIT(0)
-+
- /* Tx State Machine */
- #define   I2CD_TX_STATE_MASK                  0xf
- #define     I2CD_IDLE                         0x0
-diff --git a/tests/qtest/qtest_aspeed.c b/tests/qtest/qtest_aspeed.c
-new file mode 100644
-index 0000000000..afee9a1864
---- /dev/null
-+++ b/tests/qtest/qtest_aspeed.c
-@@ -0,0 +1,117 @@
-+/*
-+ * Aspeed i2c bus interface for reading from and writing to i2c device registers
-+ *
-+ * Copyright (c) 2023 IBM Corporation
-+ *
-+ * Authors:
-+ *   Stefan Berger <stefanb@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "qtest_aspeed.h"
-+#include "hw/i2c/aspeed_i2c.h"
-+
-+static void aspeed_i2c_startup(QTestState *s, uint32_t baseaddr,
-+                               uint8_t slave_addr, uint8_t reg)
++void tpm_tis_transfer(QTestState *s,
++                      const unsigned char *req, size_t req_size,
++                      unsigned char *rsp, size_t rsp_size)
 +{
-+    uint32_t v;
-+    static int once;
-+
-+    if (!once) {
-+        /* one time: enable master */
-+       qtest_writel(s, baseaddr + A_I2CC_FUN_CTRL, 0);
-+       v = qtest_readl(s, baseaddr + A_I2CC_FUN_CTRL) | A_I2CD_MASTER_EN;
-+       qtest_writel(s, baseaddr + A_I2CC_FUN_CTRL, v);
-+       once = 1;
-+    }
-+
-+    /* select device */
-+    qtest_writel(s, baseaddr + A_I2CD_BYTE_BUF, slave_addr << 1);
-+    qtest_writel(s, baseaddr + A_I2CD_CMD,
-+                 A_I2CD_M_START_CMD | A_I2CD_M_RX_CMD);
-+
-+    /* select the register to write to */
-+    qtest_writel(s, baseaddr + A_I2CD_BYTE_BUF, reg);
-+    qtest_writel(s, baseaddr + A_I2CD_CMD, A_I2CD_M_TX_CMD);
-+}
-+
-+static uint32_t aspeed_i2c_read_n(QTestState *s,
-+                                  uint32_t baseaddr, uint8_t slave_addr,
-+                                  uint8_t reg, size_t nbytes)
-+{
-+    uint32_t res = 0;
-+    uint32_t v;
++    uint32_t sts;
++    uint16_t bcount;
 +    size_t i;
 +
-+    aspeed_i2c_startup(s, baseaddr, slave_addr, reg);
++    /* request use of locality 0 */
++    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_ACCESS), TPM_TIS_ACCESS_REQUEST_USE);
++    qtest_writel(s, TIS_REG(0, TPM_TIS_REG_STS), TPM_TIS_STS_COMMAND_READY);
 +
-+    for (i = 0; i < nbytes; i++) {
-+        qtest_writel(s, baseaddr + A_I2CD_CMD, A_I2CD_M_RX_CMD);
-+        v = qtest_readl(s, baseaddr + A_I2CD_BYTE_BUF) >> 8;
-+        res |= (v & 0xff) << (i * 8);
++    sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
++    bcount = (sts >> 8) & 0xffff;
++    g_assert_cmpint(bcount, >=, req_size);
++
++    /* transmit command */
++    for (i = 0; i < req_size; i++) {
++        qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_DATA_FIFO), req[i]);
 +    }
 +
-+    qtest_writel(s, baseaddr + A_I2CD_CMD, A_I2CD_M_STOP_CMD);
++    /* start processing */
++    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_STS), TPM_TIS_STS_TPM_GO);
 +
-+    return res;
-+}
++    uint64_t end_time = g_get_monotonic_time() + 50 * G_TIME_SPAN_SECOND;
++    do {
++        sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
++        if ((sts & TPM_TIS_STS_DATA_AVAILABLE) != 0) {
++            break;
++        }
++    } while (g_get_monotonic_time() < end_time);
 +
-+uint32_t aspeed_i2c_readl(QTestState *s,
-+                          uint32_t baseaddr, uint8_t slave_addr, uint8_t reg)
-+{
-+    return aspeed_i2c_read_n(s, baseaddr, slave_addr, reg, sizeof(uint32_t));
-+}
++    sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
++    bcount = (sts >> 8) & 0xffff;
 +
-+uint16_t aspeed_i2c_readw(QTestState *s,
-+                          uint32_t baseaddr, uint8_t slave_addr, uint8_t reg)
-+{
-+    return aspeed_i2c_read_n(s, baseaddr, slave_addr, reg, sizeof(uint16_t));
-+}
-+
-+uint8_t aspeed_i2c_readb(QTestState *s,
-+                         uint32_t baseaddr, uint8_t slave_addr, uint8_t reg)
-+{
-+    return aspeed_i2c_read_n(s, baseaddr, slave_addr, reg, sizeof(uint8_t));
-+}
-+
-+static void aspeed_i2c_write_n(QTestState *s, 
-+                               uint32_t baseaddr, uint8_t slave_addr,
-+                               uint8_t reg, uint32_t v, size_t nbytes)
-+{
-+    size_t i;
-+
-+    aspeed_i2c_startup(s, baseaddr, slave_addr, reg);
-+
-+    for (i = 0; i < nbytes; i++) {
-+        qtest_writel(s, baseaddr + A_I2CD_BYTE_BUF, v & 0xff);
-+        v >>= 8;
-+        qtest_writel(s, baseaddr + A_I2CD_CMD, A_I2CD_M_TX_CMD);
++    memset(rsp, 0, rsp_size);
++    for (i = 0; i < bcount; i++) {
++        rsp[i] = qtest_readb(s, TIS_REG(0, TPM_TIS_REG_DATA_FIFO));
 +    }
 +
-+    qtest_writel(s, baseaddr + A_I2CD_CMD, A_I2CD_M_STOP_CMD);
++    /* relinquish use of locality 0 */
++    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_ACCESS),
++                 TPM_TIS_ACCESS_ACTIVE_LOCALITY);
 +}
+diff --git a/tests/qtest/tpm-tis-util.h b/tests/qtest/tpm-tis-util.h
+index d10efe86ae..03910a7ba7 100644
+--- a/tests/qtest/tpm-tis-util.h
++++ b/tests/qtest/tpm-tis-util.h
+@@ -20,4 +20,8 @@ void tpm_tis_test_check_access_reg_seize(const void *data);
+ void tpm_tis_test_check_access_reg_release(const void *data);
+ void tpm_tis_test_check_transmit(const void *data);
+ 
++void tpm_tis_transfer(QTestState *s,
++                      const unsigned char *req, size_t req_size,
++                      unsigned char *rsp, size_t rsp_size);
 +
-+void aspeed_i2c_writel(QTestState *s,
-+                       uint32_t baseaddr, uint8_t slave_addr,
-+                       uint8_t reg, uint32_t v)
-+{
-+    aspeed_i2c_write_n(s, baseaddr, slave_addr, reg, v, sizeof(v));
-+}
-+
-+void aspeed_i2c_writew(QTestState *s,
-+                       uint32_t baseaddr, uint8_t slave_addr,
-+                       uint8_t reg, uint16_t v)
-+{
-+    aspeed_i2c_write_n(s, baseaddr, slave_addr, reg, v, sizeof(v));
-+}
-+
-+void aspeed_i2c_writeb(QTestState *s,
-+                       uint32_t baseaddr, uint8_t slave_addr,
-+                       uint8_t reg, uint8_t v)
-+{
-+    aspeed_i2c_write_n(s, baseaddr, slave_addr, reg, v, sizeof(v));
-+}
-diff --git a/tests/qtest/qtest_aspeed.h b/tests/qtest/qtest_aspeed.h
-new file mode 100644
-index 0000000000..235dfaa186
---- /dev/null
-+++ b/tests/qtest/qtest_aspeed.h
-@@ -0,0 +1,41 @@
-+/*
-+ * Aspeed i2c bus interface to reading and writing to i2c device registers
-+ *
-+ * Copyright (c) 2023 IBM Corporation
-+ *
-+ * Authors:
-+ *   Stefan Berger <stefanb@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef QTEST_ASPEED_H
-+#define QTEST_ASPEED_H
-+
-+#include <stdint.h>
-+
-+#include "libqtest.h"
-+
-+#define AST2600_ASPEED_I2C_BASE_ADDR 0x1e78a000
-+
-+/* Implements only AST2600 I2C controller */
-+
-+static inline uint32_t ast2600_i2c_calc_bus_addr(uint8_t bus_num)
-+{
-+    return AST2600_ASPEED_I2C_BASE_ADDR + 0x80 + bus_num * 0x80;
-+}
-+
-+uint8_t aspeed_i2c_readb(QTestState *s,
-+                         uint32_t baseaddr, uint8_t slave_addr, uint8_t reg);
-+uint16_t aspeed_i2c_readw(QTestState *s,
-+                          uint32_t baseaddr, uint8_t slave_addr, uint8_t reg);
-+uint32_t aspeed_i2c_readl(QTestState *s,
-+                          uint32_t baseaddr, uint8_t slave_addr, uint8_t reg);
-+void aspeed_i2c_writeb(QTestState *s, uint32_t baseaddr, uint8_t slave_addr,
-+                       uint8_t reg, uint8_t v);
-+void aspeed_i2c_writew(QTestState *s, uint32_t baseaddr, uint8_t slave_addr,
-+                       uint8_t reg, uint16_t v);
-+void aspeed_i2c_writel(QTestState *s, uint32_t baseaddr, uint8_t slave_addr,
-+                       uint8_t reg, uint32_t v);
-+
-+#endif
+ #endif /* TESTS_TPM_TIS_UTIL_H */
+diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
+index a7efe2d0d2..1c0319e6e7 100644
+--- a/tests/qtest/tpm-util.c
++++ b/tests/qtest/tpm-util.c
+@@ -51,51 +51,6 @@ void tpm_util_crb_transfer(QTestState *s,
+     qtest_memread(s, raddr, rsp, rsp_size);
+ }
+ 
+-void tpm_util_tis_transfer(QTestState *s,
+-                           const unsigned char *req, size_t req_size,
+-                           unsigned char *rsp, size_t rsp_size)
+-{
+-    uint32_t sts;
+-    uint16_t bcount;
+-    size_t i;
+-
+-    /* request use of locality 0 */
+-    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_ACCESS), TPM_TIS_ACCESS_REQUEST_USE);
+-    qtest_writel(s, TIS_REG(0, TPM_TIS_REG_STS), TPM_TIS_STS_COMMAND_READY);
+-
+-    sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
+-    bcount = (sts >> 8) & 0xffff;
+-    g_assert_cmpint(bcount, >=, req_size);
+-
+-    /* transmit command */
+-    for (i = 0; i < req_size; i++) {
+-        qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_DATA_FIFO), req[i]);
+-    }
+-
+-    /* start processing */
+-    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_STS), TPM_TIS_STS_TPM_GO);
+-
+-    uint64_t end_time = g_get_monotonic_time() + 50 * G_TIME_SPAN_SECOND;
+-    do {
+-        sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
+-        if ((sts & TPM_TIS_STS_DATA_AVAILABLE) != 0) {
+-            break;
+-        }
+-    } while (g_get_monotonic_time() < end_time);
+-
+-    sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
+-    bcount = (sts >> 8) & 0xffff;
+-
+-    memset(rsp, 0, rsp_size);
+-    for (i = 0; i < bcount; i++) {
+-        rsp[i] = qtest_readb(s, TIS_REG(0, TPM_TIS_REG_DATA_FIFO));
+-    }
+-
+-    /* relinquish use of locality 0 */
+-    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_ACCESS),
+-                 TPM_TIS_ACCESS_ACTIVE_LOCALITY);
+-}
+-
+ void tpm_util_startup(QTestState *s, tx_func *tx)
+ {
+     unsigned char buffer[1024];
+diff --git a/tests/qtest/tpm-util.h b/tests/qtest/tpm-util.h
+index 80720afac0..0cb28dd6e5 100644
+--- a/tests/qtest/tpm-util.h
++++ b/tests/qtest/tpm-util.h
+@@ -27,9 +27,6 @@ typedef void (tx_func)(QTestState *s,
+ void tpm_util_crb_transfer(QTestState *s,
+                            const unsigned char *req, size_t req_size,
+                            unsigned char *rsp, size_t rsp_size);
+-void tpm_util_tis_transfer(QTestState *s,
+-                           const unsigned char *req, size_t req_size,
+-                           unsigned char *rsp, size_t rsp_size);
+ 
+ void tpm_util_startup(QTestState *s, tx_func *tx);
+ void tpm_util_pcrextend(QTestState *s, tx_func *tx);
 -- 
 2.39.2
 
