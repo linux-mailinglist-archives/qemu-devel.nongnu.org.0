@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA686CB4B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15BF86CB4A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:12:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgzg2-0007JM-71; Mon, 27 Mar 2023 23:07:14 -0400
+	id 1pgzhi-0005VC-3m; Mon, 27 Mar 2023 23:08:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pgzft-0007HU-0W
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:05 -0400
+ id 1pgzhg-0005Jr-1W
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:08:56 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pgzfq-0000gw-3C
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:04 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1pgzhd-0003KN-Ft
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:08:55 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxJITKWSJkhdoSAA--.28997S3;
+ by gateway (Coremail) with SMTP id _____8CxjdrKWSJkh9oSAA--.17386S3;
  Tue, 28 Mar 2023 11:06:50 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dxyr24WSJkZukOAA--.10252S33; 
- Tue, 28 Mar 2023 11:06:49 +0800 (CST)
+ AQAAf8Dxyr24WSJkZukOAA--.10252S34; 
+ Tue, 28 Mar 2023 11:06:50 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH v2 31/44] target/loongarch: Implement vpcnt
-Date: Tue, 28 Mar 2023 11:06:18 +0800
-Message-Id: <20230328030631.3117129-32-gaosong@loongson.cn>
+Subject: [RFC PATCH v2 32/44] target/loongarch: Implement vbitclr vbitset
+ vbitrev
+Date: Tue, 28 Mar 2023 11:06:19 +0800
+Message-Id: <20230328030631.3117129-33-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230328030631.3117129-1-gaosong@loongson.cn>
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S33
+X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S34
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxZFWfAF4ktFy7urW5CFykZrb_yoWrWr1fpr
- 42yry7Kr4kXFZ7Aan2vw45XF17Xrs2kw4I9a1ft34F9FW7XF1DZr10qrWqgFWUX3Z8ZFy2
- g3W2y34YyFykXw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3Jr4rGr45AF47GFyDCFyrXrb_yoWfur1fpa
+ y7trWUWr48XrZrZrn2vr4aya1j9rsrK3WUua1rtw1j9rW7WF1DJrZ0q392ga12gFn0qFy0
+ g347C34qyas5JaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  be8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -75,107 +76,216 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VPCNT.{B/H/W/D}.
+- VBITCLR[I].{B/H/W/D};
+- VBITSET[I].{B/H/W/D};
+- VBITREV[I].{B/H/W/D}.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  5 ++++
- target/loongarch/helper.h                   |  5 ++++
- target/loongarch/insn_trans/trans_lsx.c.inc |  5 ++++
- target/loongarch/insns.decode               |  5 ++++
- target/loongarch/lsx_helper.c               | 30 +++++++++++++++++++++
- 5 files changed, 50 insertions(+)
+ target/loongarch/disas.c                    | 25 +++++++++
+ target/loongarch/helper.h                   | 25 +++++++++
+ target/loongarch/insn_trans/trans_lsx.c.inc | 25 +++++++++
+ target/loongarch/insns.decode               | 25 +++++++++
+ target/loongarch/lsx_helper.c               | 57 +++++++++++++++++++++
+ 5 files changed, 157 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 0c82a1d9d1..0ca51de9d8 100644
+index 0ca51de9d8..48c7ea47a4 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1267,3 +1267,8 @@ INSN_LSX(vclz_b,           vv)
- INSN_LSX(vclz_h,           vv)
- INSN_LSX(vclz_w,           vv)
- INSN_LSX(vclz_d,           vv)
+@@ -1272,3 +1272,28 @@ INSN_LSX(vpcnt_b,          vv)
+ INSN_LSX(vpcnt_h,          vv)
+ INSN_LSX(vpcnt_w,          vv)
+ INSN_LSX(vpcnt_d,          vv)
 +
-+INSN_LSX(vpcnt_b,          vv)
-+INSN_LSX(vpcnt_h,          vv)
-+INSN_LSX(vpcnt_w,          vv)
-+INSN_LSX(vpcnt_d,          vv)
++INSN_LSX(vbitclr_b,        vvv)
++INSN_LSX(vbitclr_h,        vvv)
++INSN_LSX(vbitclr_w,        vvv)
++INSN_LSX(vbitclr_d,        vvv)
++INSN_LSX(vbitclri_b,       vv_i)
++INSN_LSX(vbitclri_h,       vv_i)
++INSN_LSX(vbitclri_w,       vv_i)
++INSN_LSX(vbitclri_d,       vv_i)
++INSN_LSX(vbitset_b,        vvv)
++INSN_LSX(vbitset_h,        vvv)
++INSN_LSX(vbitset_w,        vvv)
++INSN_LSX(vbitset_d,        vvv)
++INSN_LSX(vbitseti_b,       vv_i)
++INSN_LSX(vbitseti_h,       vv_i)
++INSN_LSX(vbitseti_w,       vv_i)
++INSN_LSX(vbitseti_d,       vv_i)
++INSN_LSX(vbitrev_b,        vvv)
++INSN_LSX(vbitrev_h,        vvv)
++INSN_LSX(vbitrev_w,        vvv)
++INSN_LSX(vbitrev_d,        vvv)
++INSN_LSX(vbitrevi_b,       vv_i)
++INSN_LSX(vbitrevi_h,       vv_i)
++INSN_LSX(vbitrevi_w,       vv_i)
++INSN_LSX(vbitrevi_d,       vv_i)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index a7facc6bc1..38e310512b 100644
+index 38e310512b..4622f788ee 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -495,3 +495,8 @@ DEF_HELPER_3(vclz_b, void, env, i32, i32)
- DEF_HELPER_3(vclz_h, void, env, i32, i32)
- DEF_HELPER_3(vclz_w, void, env, i32, i32)
- DEF_HELPER_3(vclz_d, void, env, i32, i32)
+@@ -500,3 +500,28 @@ DEF_HELPER_3(vpcnt_b, void, env, i32, i32)
+ DEF_HELPER_3(vpcnt_h, void, env, i32, i32)
+ DEF_HELPER_3(vpcnt_w, void, env, i32, i32)
+ DEF_HELPER_3(vpcnt_d, void, env, i32, i32)
 +
-+DEF_HELPER_3(vpcnt_b, void, env, i32, i32)
-+DEF_HELPER_3(vpcnt_h, void, env, i32, i32)
-+DEF_HELPER_3(vpcnt_w, void, env, i32, i32)
-+DEF_HELPER_3(vpcnt_d, void, env, i32, i32)
++DEF_HELPER_4(vbitclr_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitclr_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitclr_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitclr_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitclri_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitclri_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitclri_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitclri_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitset_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitset_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitset_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitset_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitseti_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitseti_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitseti_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitseti_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitrev_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitrev_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitrev_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitrev_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitrevi_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitrevi_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitrevi_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vbitrevi_d, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 5d81c02103..59923eb1fa 100644
+index 59923eb1fa..6d3a804767 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -2794,3 +2794,8 @@ TRANS(vclz_b, gen_vv, gen_helper_vclz_b)
- TRANS(vclz_h, gen_vv, gen_helper_vclz_h)
- TRANS(vclz_w, gen_vv, gen_helper_vclz_w)
- TRANS(vclz_d, gen_vv, gen_helper_vclz_d)
+@@ -2799,3 +2799,28 @@ TRANS(vpcnt_b, gen_vv, gen_helper_vpcnt_b)
+ TRANS(vpcnt_h, gen_vv, gen_helper_vpcnt_h)
+ TRANS(vpcnt_w, gen_vv, gen_helper_vpcnt_w)
+ TRANS(vpcnt_d, gen_vv, gen_helper_vpcnt_d)
 +
-+TRANS(vpcnt_b, gen_vv, gen_helper_vpcnt_b)
-+TRANS(vpcnt_h, gen_vv, gen_helper_vpcnt_h)
-+TRANS(vpcnt_w, gen_vv, gen_helper_vpcnt_w)
-+TRANS(vpcnt_d, gen_vv, gen_helper_vpcnt_d)
++TRANS(vbitclr_b, gen_vvv, gen_helper_vbitclr_b)
++TRANS(vbitclr_h, gen_vvv, gen_helper_vbitclr_h)
++TRANS(vbitclr_w, gen_vvv, gen_helper_vbitclr_w)
++TRANS(vbitclr_d, gen_vvv, gen_helper_vbitclr_d)
++TRANS(vbitclri_b, gen_vv_i, gen_helper_vbitclri_b)
++TRANS(vbitclri_h, gen_vv_i, gen_helper_vbitclri_h)
++TRANS(vbitclri_w, gen_vv_i, gen_helper_vbitclri_w)
++TRANS(vbitclri_d, gen_vv_i, gen_helper_vbitclri_d)
++TRANS(vbitset_b, gen_vvv, gen_helper_vbitset_b)
++TRANS(vbitset_h, gen_vvv, gen_helper_vbitset_h)
++TRANS(vbitset_w, gen_vvv, gen_helper_vbitset_w)
++TRANS(vbitset_d, gen_vvv, gen_helper_vbitset_d)
++TRANS(vbitseti_b, gen_vv_i, gen_helper_vbitseti_b)
++TRANS(vbitseti_h, gen_vv_i, gen_helper_vbitseti_h)
++TRANS(vbitseti_w, gen_vv_i, gen_helper_vbitseti_w)
++TRANS(vbitseti_d, gen_vv_i, gen_helper_vbitseti_d)
++TRANS(vbitrev_b, gen_vvv, gen_helper_vbitrev_b)
++TRANS(vbitrev_h, gen_vvv, gen_helper_vbitrev_h)
++TRANS(vbitrev_w, gen_vvv, gen_helper_vbitrev_w)
++TRANS(vbitrev_d, gen_vvv, gen_helper_vbitrev_d)
++TRANS(vbitrevi_b, gen_vv_i, gen_helper_vbitrevi_b)
++TRANS(vbitrevi_h, gen_vv_i, gen_helper_vbitrevi_h)
++TRANS(vbitrevi_w, gen_vv_i, gen_helper_vbitrevi_w)
++TRANS(vbitrevi_d, gen_vv_i, gen_helper_vbitrevi_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 7591ec1bab..f865e83da5 100644
+index f865e83da5..801c97714e 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -968,3 +968,8 @@ vclz_b           0111 00101001 11000 00100 ..... .....    @vv
- vclz_h           0111 00101001 11000 00101 ..... .....    @vv
- vclz_w           0111 00101001 11000 00110 ..... .....    @vv
- vclz_d           0111 00101001 11000 00111 ..... .....    @vv
+@@ -973,3 +973,28 @@ vpcnt_b          0111 00101001 11000 01000 ..... .....    @vv
+ vpcnt_h          0111 00101001 11000 01001 ..... .....    @vv
+ vpcnt_w          0111 00101001 11000 01010 ..... .....    @vv
+ vpcnt_d          0111 00101001 11000 01011 ..... .....    @vv
 +
-+vpcnt_b          0111 00101001 11000 01000 ..... .....    @vv
-+vpcnt_h          0111 00101001 11000 01001 ..... .....    @vv
-+vpcnt_w          0111 00101001 11000 01010 ..... .....    @vv
-+vpcnt_d          0111 00101001 11000 01011 ..... .....    @vv
++vbitclr_b        0111 00010000 11000 ..... ..... .....    @vvv
++vbitclr_h        0111 00010000 11001 ..... ..... .....    @vvv
++vbitclr_w        0111 00010000 11010 ..... ..... .....    @vvv
++vbitclr_d        0111 00010000 11011 ..... ..... .....    @vvv
++vbitclri_b       0111 00110001 00000 01 ... ..... .....   @vv_ui3
++vbitclri_h       0111 00110001 00000 1 .... ..... .....   @vv_ui4
++vbitclri_w       0111 00110001 00001 ..... ..... .....    @vv_ui5
++vbitclri_d       0111 00110001 0001 ...... ..... .....    @vv_ui6
++vbitset_b        0111 00010000 11100 ..... ..... .....    @vvv
++vbitset_h        0111 00010000 11101 ..... ..... .....    @vvv
++vbitset_w        0111 00010000 11110 ..... ..... .....    @vvv
++vbitset_d        0111 00010000 11111 ..... ..... .....    @vvv
++vbitseti_b       0111 00110001 01000 01 ... ..... .....   @vv_ui3
++vbitseti_h       0111 00110001 01000 1 .... ..... .....   @vv_ui4
++vbitseti_w       0111 00110001 01001 ..... ..... .....    @vv_ui5
++vbitseti_d       0111 00110001 0101 ...... ..... .....    @vv_ui6
++vbitrev_b        0111 00010001 00000 ..... ..... .....    @vvv
++vbitrev_h        0111 00010001 00001 ..... ..... .....    @vvv
++vbitrev_w        0111 00010001 00010 ..... ..... .....    @vvv
++vbitrev_d        0111 00010001 00011 ..... ..... .....    @vvv
++vbitrevi_b       0111 00110001 10000 01 ... ..... .....   @vv_ui3
++vbitrevi_h       0111 00110001 10000 1 .... ..... .....   @vv_ui4
++vbitrevi_w       0111 00110001 10001 ..... ..... .....    @vv_ui5
++vbitrevi_d       0111 00110001 1001 ...... ..... .....    @vv_ui6
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index 8ec479dc2d..94dded7e49 100644
+index 94dded7e49..e23c75bd56 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -2201,3 +2201,33 @@ DO_2OP(vclz_b, 8, B, uint8_t, DO_CLZ_B)
- DO_2OP(vclz_h, 16, H, uint16_t, DO_CLZ_H)
- DO_2OP(vclz_w, 32, W, uint32_t, DO_CLZ_W)
- DO_2OP(vclz_d, 64, D, uint64_t, DO_CLZ_D)
+@@ -2231,3 +2231,60 @@ VPCNT(vpcnt_b, 8, B, uint8_t)
+ VPCNT(vpcnt_h, 16, H, uint16_t)
+ VPCNT(vpcnt_w, 32, W, uint32_t)
+ VPCNT(vpcnt_d, 64, D, uint64_t)
 +
-+static uint64_t do_vpcnt(uint64_t u1)
-+{
-+    u1 = (u1 & 0x5555555555555555ULL) + ((u1 >>  1) & 0x5555555555555555ULL);
-+    u1 = (u1 & 0x3333333333333333ULL) + ((u1 >>  2) & 0x3333333333333333ULL);
-+    u1 = (u1 & 0x0F0F0F0F0F0F0F0FULL) + ((u1 >>  4) & 0x0F0F0F0F0F0F0F0FULL);
-+    u1 = (u1 & 0x00FF00FF00FF00FFULL) + ((u1 >>  8) & 0x00FF00FF00FF00FFULL);
-+    u1 = (u1 & 0x0000FFFF0000FFFFULL) + ((u1 >> 16) & 0x0000FFFF0000FFFFULL);
-+    u1 = (u1 & 0x00000000FFFFFFFFULL) + ((u1 >> 32));
++#define DO_BITCLR(a, bit) (a & ~(1ul << bit))
++#define DO_BITSET(a, bit) (a | 1ul << bit)
++#define DO_BITREV(a, bit) (a ^ (1ul << bit))
 +
-+    return u1;
++#define DO_BIT(NAME, BIT, T, E, DO_OP)                   \
++void HELPER(NAME)(CPULoongArchState *env,                \
++                  uint32_t vd, uint32_t vj, uint32_t vk) \
++{                                                        \
++    int i;                                               \
++    VReg *Vd = &(env->fpr[vd].vreg);                     \
++    VReg *Vj = &(env->fpr[vj].vreg);                     \
++    VReg *Vk = &(env->fpr[vk].vreg);                     \
++                                                         \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                  \
++        Vd->E(i) = DO_OP((T)Vj->E(i), (T)Vk->E(i)%BIT);  \
++    }                                                    \
 +}
 +
-+#define VPCNT(NAME, BIT, E, T)                                      \
-+void HELPER(NAME)(CPULoongArchState *env, uint32_t vd, uint32_t vj) \
-+{                                                                   \
-+    int i;                                                          \
-+    VReg *Vd = &(env->fpr[vd].vreg);                                \
-+    VReg *Vj = &(env->fpr[vj].vreg);                                \
-+                                                                    \
-+    for (i = 0; i < LSX_LEN/BIT; i++)                               \
-+    {                                                               \
-+        Vd->E(i) = do_vpcnt((T)Vj->E(i));                           \
-+    }                                                               \
++DO_BIT(vbitclr_b, 8, uint8_t, B, DO_BITCLR)
++DO_BIT(vbitclr_h, 16, uint16_t, H, DO_BITCLR)
++DO_BIT(vbitclr_w, 32, uint32_t, W, DO_BITCLR)
++DO_BIT(vbitclr_d, 64, uint64_t, D, DO_BITCLR)
++DO_BIT(vbitset_b, 8, uint8_t, B, DO_BITSET)
++DO_BIT(vbitset_h, 16, uint16_t, H, DO_BITSET)
++DO_BIT(vbitset_w, 32, uint32_t, W, DO_BITSET)
++DO_BIT(vbitset_d, 64, uint64_t, D, DO_BITSET)
++DO_BIT(vbitrev_b, 8, uint8_t, B, DO_BITREV)
++DO_BIT(vbitrev_h, 16, uint16_t, H, DO_BITREV)
++DO_BIT(vbitrev_w, 32, uint32_t, W, DO_BITREV)
++DO_BIT(vbitrev_d, 64, uint64_t, D, DO_BITREV)
++
++#define DO_BITI(NAME, BIT, T, E, DO_OP)                   \
++void HELPER(NAME)(CPULoongArchState *env,                 \
++                  uint32_t vd, uint32_t vj, uint32_t imm) \
++{                                                         \
++    int i;                                                \
++    VReg *Vd = &(env->fpr[vd].vreg);                      \
++    VReg *Vj = &(env->fpr[vj].vreg);                      \
++                                                          \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                   \
++        Vd->E(i) = DO_OP((T)Vj->E(i), imm);               \
++    }                                                     \
 +}
 +
-+VPCNT(vpcnt_b, 8, B, uint8_t)
-+VPCNT(vpcnt_h, 16, H, uint16_t)
-+VPCNT(vpcnt_w, 32, W, uint32_t)
-+VPCNT(vpcnt_d, 64, D, uint64_t)
++DO_BITI(vbitclri_b, 8, uint8_t, B, DO_BITCLR)
++DO_BITI(vbitclri_h, 16, uint16_t, H, DO_BITCLR)
++DO_BITI(vbitclri_w, 32, uint32_t, W, DO_BITCLR)
++DO_BITI(vbitclri_d, 64, uint64_t, D, DO_BITCLR)
++DO_BITI(vbitseti_b, 8, uint8_t, B, DO_BITSET)
++DO_BITI(vbitseti_h, 16, uint16_t, H, DO_BITSET)
++DO_BITI(vbitseti_w, 32, uint32_t, W, DO_BITSET)
++DO_BITI(vbitseti_d, 64, uint64_t, D, DO_BITSET)
++DO_BITI(vbitrevi_b, 8, uint8_t, B, DO_BITREV)
++DO_BITI(vbitrevi_h, 16, uint16_t, H, DO_BITREV)
++DO_BITI(vbitrevi_w, 32, uint32_t, W, DO_BITREV)
++DO_BITI(vbitrevi_d, 64, uint64_t, D, DO_BITREV)
 -- 
 2.31.1
 
