@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1326CCA00
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 20:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E78866CCA03
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 20:29:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phE2U-00032f-2r; Tue, 28 Mar 2023 14:27:22 -0400
+	id 1phE4J-0004Q6-Uo; Tue, 28 Mar 2023 14:29:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1phE2Q-0002v8-9z
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 14:27:18 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ id 1phE4E-0004Pj-LT
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 14:29:10 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1phE2O-0002kG-Pz
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 14:27:18 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id t10so53311329edd.12
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 11:27:16 -0700 (PDT)
+ id 1phE4C-0003WA-CC
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 14:29:10 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id r11so53480734edd.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 11:29:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680028035;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TYguWfh+37fhYDpY7uw0msis6sE1Qef/hZCA1oZumgk=;
- b=CrjiLkyMUPJ//A69ZIwZ8OjrhrdTQvSq5FS1VgsvYGbD3VWeicOUp+891h7zIjCU4r
- uzmSn2HR4EJVAzi2LOkFnsOtvXr1SCAC27XS5puOBQDDobEOdh83OAFZo0489b7UgUCF
- qu2Ny5J/kglC8Z9z0oSqMz4E1Of1swjlSNdi7JgdpupIvdWlMWoGS2h8lOtX6Me4WkNk
- It1NHQrilWBFiwK2GbzEG0iOKybqNoxA145zyHrdHlONKGnlHjMPA7wd5tEZNS5DmElU
- tbe81B5I+5UU6DFNb83hgBB6HOg9wBtkSxOfmeosYcCYP1GeelRu7HMxE71BUk9fxpNA
- +8qA==
+ d=linaro.org; s=google; t=1680028145;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bRVxvBqhLiphXJyM1SvRgLyq/wgYHNYe+O5I0ktqa78=;
+ b=YubcoUG4QGwGmxDIoeMQ37eeCS30gcxsYCnQyUvnbH/7njFBU60fmJFG3OEGi5H/M2
+ MOaq9eVhhlAFzA1C9bLVErWqJ8z8pKp9jjL8a/WeojDA/OhRq74YGEtQjqsTkyA+OpbO
+ QQaB9YMOjSTvT7w90NZj7JF+6/YROFMhDqB/X/rPX8yNfNwpVUj8kLNtmg/VFpQvOHna
+ huLxC7TWtJrd5N4TR8nzRlNeKffEjxHl/K6by5GqBxw4pQLnimHhZOw1zCpNnbCu8RF9
+ ICOqWIP0fIGjW8nSFOUMCXxJxOYaI2EnDz2Kv97j1kAltD8r0ORTiLSx0tjo1RLhPFRQ
+ 58IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680028035;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TYguWfh+37fhYDpY7uw0msis6sE1Qef/hZCA1oZumgk=;
- b=LGQqforbO73Q+b9n94vI2JXw/1P7mwqXnvce2fCPWtPWTWztT6mpj717v7Xx0fU0YV
- gqFApoBSfkK1r3XWFef8rhPQNwNRUkHZb57S/rkG5tpC/HIUsgOC6Zf0nwvbMOgRl3PO
- rf++XDm7o0l5qNl//c67KA8XUGQ82L18GPc91mKEGpkmggH/gZVMGIWo3oRbkhveK9Tf
- tOK3jFVqEoNNZv3esyEJXHFhARr6blIGmXQb9Mfx9rpcX5WvjiwW9dhKNMviBSJ68jCI
- +zP+RKJuiO5GqCRARGwKHW5wWNT/Kx0GXWVb1MAQiGWePbEh6OhexYa5w3yKY+QCeEn+
- Uqbw==
-X-Gm-Message-State: AAQBX9dI9Rbz3BdRliQVm4tPjm+y0R6uriUC4/katwAW3+dabl/kiiB0
- 9p5xjvsO6iy84gRa0PK//iTuafPAc+xsCmu7FnjMyw==
-X-Google-Smtp-Source: AKy350ZJHHY+yy0T2QcKpnr5cFHKUzTCaeYhimQbJWri5ysmeBLw7SJqDrG7D/L64TtZJ00EwIbU0swTucOLcJ/YBUU=
-X-Received: by 2002:a17:906:4ac5:b0:92f:cbfe:1635 with SMTP id
- u5-20020a1709064ac500b0092fcbfe1635mr8670975ejt.6.1680028035009; Tue, 28 Mar
- 2023 11:27:15 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680028145;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bRVxvBqhLiphXJyM1SvRgLyq/wgYHNYe+O5I0ktqa78=;
+ b=HClowRnF1ryQueH2heTcpd8rpV/6BLadahCCrNVDbX5cU7k6v3/Arn2VX6uRfPG718
+ 5cJAnawiR4Xv4CKcjnWZoGj6jzGB58GCT2lcn1mgZgYBs0v0T+x5LiGtW7Zass4+UmTO
+ TP6elvtkakJJQJ4MATeIiiUpJcJ8kGASYYwZ2Bl7loCNsJ+PelnKBL+Ce6wmVGPlR4Zh
+ D3ZgOEl4yfqE/0BVp+WlkrdObHuC6X0REnGqx4JlHfeAdX5OP/DapWt/eJX98F2BNYOk
+ 8YtmxVaezFxFQnWJZO3qR971ttkkFXb1Rxy64YbbGfAGVZ//9ZUdKIXEzJqJ3DR1dcOl
+ y/Yg==
+X-Gm-Message-State: AAQBX9fg6gnELUl82TGA1a3EnaFYfRXtQZgIjo45uAln6Z10zHoDKcPZ
+ CUOd8vvyiiU3lvhmiY11Is+Tw6xu4dUxKTYvZrq03Q8/aTZ2mKBsTHk=
+X-Google-Smtp-Source: AKy350b2PF5OkhOsk7uRa26gepuVdm6RI3GWan2I/pJccjTvtW56DrVYTPPM2nB03TYzq3peAiyGnzqzzw3LaIQZqz8=
+X-Received: by 2002:a17:906:cf89:b0:932:4577:6705 with SMTP id
+ um9-20020a170906cf8900b0093245776705mr8799513ejb.6.1680028145542; Tue, 28 Mar
+ 2023 11:29:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230328162814.2190220-1-peter.maydell@linaro.org>
- <e9e8fb66-3fe8-2519-95df-6ba6c52d53df@linaro.org>
-In-Reply-To: <e9e8fb66-3fe8-2519-95df-6ba6c52d53df@linaro.org>
+References: <CAFEAcA-Xdw6uL+w-Qh+pLFVXEcvQhQZi-o3Xup4iwJuSGNYgmg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-Xdw6uL+w-Qh+pLFVXEcvQhQZi-o3Xup4iwJuSGNYgmg@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Mar 2023 19:27:04 +0100
-Message-ID: <CAFEAcA_TGN7qk8YQz8MPbdg=jcT-HQVFWBfnEO53AAPyXBmqTQ@mail.gmail.com>
-Subject: Re: [PATCH for-8.0] target/arm: Fix generated code for cpreg reads
- when HSTR is active
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Date: Tue, 28 Mar 2023 19:28:55 +0100
+Message-ID: <CAFEAcA-=XVWDOtvpPZ_QtN+6wocdoJBZqrQ=u+ni+FhPLzs==A@mail.gmail.com>
+Subject: Re: io-qcow2-copy-before-write intermittent failure (ppc64 host)
+To: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,29 +84,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 28 Mar 2023 at 18:27, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 28 Mar 2023 at 13:44, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
 >
-> On 3/28/23 09:28, Peter Maydell wrote:
-> > +            /*
-> > +             * gen_exception_insn() will set is_jmp to DISAS_NORETURN,
-> > +             * but since we're conditionally branching over it, we want
-> > +             * to retain the existing value.
-> > +             */
-> > +            old_is_jmp = s->base.is_jmp;
-> >               gen_exception_insn(s, 0, EXCP_UDEF, syndrome);
-> > +            s->base.is_jmp = old_is_jmp;
+> ppc64 host:
 >
-> A third solution is to simply set is_jmp = DISAS_NEXT here.
+> 737/761 qemu:block / io-qcow2-copy-before-write
+>            ERROR           6.77s   exit status 1
+> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80  =E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95
+> stderr:
+> --- /home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write.out
+> +++ /home/pm215/qemu/build/all/scratch/qcow2-file-copy-before-write/copy-=
+before-write.out.bad
+> @@ -1,5 +1,21 @@
+> -....
+> +...F
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +FAIL: test_timeout_break_snapshot
+> (__main__.TestCbwError.test_timeout_break_snapshot)
+> +----------------------------------------------------------------------
+> +Traceback (most recent call last):
+> +  File "/home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write",
+> line 210, in test_timeout_break_snapshot
+> +    self.assertEqual(log, """\
+> +AssertionError: 'wrot[195 chars]read 1048576/1048576 bytes at offset
+> 0\n1 MiB,[46 chars]c)\n' !=3D 'wrot[195 chars]read failed: Permission
+> denied\n'
+> +  wrote 524288/524288 bytes at offset 0
+> +  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> +  wrote 524288/524288 bytes at offset 524288
+> +  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> ++ read failed: Permission denied
+> +- read 1048576/1048576 bytes at offset 0
+> +- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> +
+> +
+>  ----------------------------------------------------------------------
+>  Ran 4 tests
+>
+> -OK
+> +FAILED (failures=3D1)
+>
+> (test program exited with status code 1)
+>
+> This is an intermittent; we've seen it before on this host:
+> https://lore.kernel.org/qemu-devel/CAFEAcA8ipWKpv09pyQWNQBiUhd2JYM=3Dsn4q=
+v2YBen-pN3beU0Q@mail.gmail.com/
 
-I wasn't confident enough that the previous is_jmp had
-to be DISAS_NEXT to do that -- there are a lot of
-different values and it's not clear to me which are ones you
-might find lying around in is_jmp at the start of an insn.
+And again:
 
-I like the set_disas_label() idea, but maybe for 8.1 at this
-point...
+737/761 qemu:block / io-qcow2-copy-before-write
+           ERROR
+       5.61s   exit status 1
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80  =E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95
+stderr:
+--- /home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write.out
++++ /home/pm215/qemu/build/all/scratch/qcow2-file-copy-before-write/copy-be=
+fore-write.out.b
+ad
+@@ -1,5 +1,21 @@
+-....
++...F
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++FAIL: test_timeout_break_snapshot
+(__main__.TestCbwError.test_timeout_break_snapshot)
++----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "/home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write",
+line 210, in test_ti
+meout_break_snapshot
++    self.assertEqual(log, """\
++AssertionError: 'wrot[195 chars]read 1048576/1048576 bytes at offset
+0\n1 MiB,[46 chars]c)
+\n' !=3D 'wrot[195 chars]read failed: Permission denied\n'
++  wrote 524288/524288 bytes at offset 0
++  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++  wrote 524288/524288 bytes at offset 524288
++  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+++ read failed: Permission denied
++- read 1048576/1048576 bytes at offset 0
++- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++
+ ----------------------------------------------------------------------
+ Ran 4 tests
 
-thanks
+-OK
++FAILED (failures=3D1)
+
+
 -- PMM
 
