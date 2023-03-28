@@ -2,56 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27C46CBEF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2539A6CBEFD
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:27:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8LX-0005XY-MU; Tue, 28 Mar 2023 08:22:39 -0400
+	id 1ph8PY-00079m-K2; Tue, 28 Mar 2023 08:26:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1ph8LV-0005Wv-5W
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:22:37 -0400
-Received: from bonnix.bonnix.it ([2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8])
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1ph8PU-000782-OO
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:44 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1ph8LS-0003Tu-To
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:22:36 -0400
-Received: from [10.0.0.70] (dynamic-adsl-84-221-84-105.clienti.tiscali.it
- [84.221.84.105]) (authenticated bits=0)
- by bonnix.bonnix.it (8.14.4/8.14.4) with ESMTP id 32SCMUcM000600
- (version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
- Tue, 28 Mar 2023 14:22:30 +0200
-DKIM-Filter: OpenDKIM Filter v2.11.0 bonnix.bonnix.it 32SCMUcM000600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bonslack.org;
- s=20220805; t=1680006151;
- bh=fuiqcQYCf3r6RvSXYuQCmq6hsBP3YJR/++k5DOdiNEc=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=mQ/ycnyRshm86pLZx+FDJ2dmuBR0y9iVE09U2HW2nAqpllzSVX/jpQWnXk6zvkZJZ
- 6ut6EVIdd+KdbSapsNq7x7UOZemCsKd3LuU3d14ZamqTEZv8CEGt6bl+g6goao6xGn
- NVqETfZhqmKljKw0DbF9cxb5k6EvSVqSzxPv8gAE=
-Message-ID: <d49d441a-01a6-d38d-2bc8-98b9658a288e@bonslack.org>
-Date: Tue, 28 Mar 2023 14:22:29 +0200
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1ph8PS-0004gS-7v
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:44 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32SCAeYl005783; Tue, 28 Mar 2023 12:26:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=QW8CB1npbENLUHCfW3LOzFZHDRtIN8+HoNg201aHiJc=;
+ b=Z/nbVzICubLHWyxBmBHwpfO4hp6un3Udk38T35TwregzdL6De+6OUR8AdEaZwB6IyWZK
+ SPJlQHR11Nk+cXoYlYx/4HP3Dh9CIxRu0EgOscisZTTO+1aklQK/n7QgRptZTSTBYbtv
+ R6hFDGS31MjX1YeBn4YJBHel1nphiHuZVhq+i8Syi7WEHPPnfsq9PJxA4zATcOjzFBdj
+ 3/kBRWBMI/cmwLRxaU/oAEta6VUItIw8ipiGFBtIalMe0+Cf/UNC3FPl7UVnzU/ln2rJ
+ GbEu8Rg2yksyLdi4DV6m8TzBOAPGy+fGDKYtfUMxNvk9dWirB7aTvoKRQju27MNhdBTn 7A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pky9f197r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 12:26:27 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SCBXFN007996;
+ Tue, 28 Mar 2023 12:26:26 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pky9f194m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 12:26:26 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32S9HAUc030780;
+ Tue, 28 Mar 2023 12:26:18 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
+ by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3phrk7gkfm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 12:26:18 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
+ [10.39.53.228])
+ by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32SCQHP415270648
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Mar 2023 12:26:17 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8783458059;
+ Tue, 28 Mar 2023 12:26:17 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EA2675804B;
+ Tue, 28 Mar 2023 12:26:16 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 28 Mar 2023 12:26:16 +0000 (GMT)
+Message-ID: <ac889ea5-b335-ba77-46b6-6b91966e4da6@linux.ibm.com>
+Date: Tue, 28 Mar 2023 08:26:16 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: stat64 wrong on sparc64 user
-Content-Language: it, en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-References: <db07e036-cc5f-c9ad-b63c-10fdd5404830@bonslack.org>
- <bdebe626-e552-affb-b756-02c70898bdd6@redhat.com>
-From: Luca Bonissi <qemu@bonslack.org>
-In-Reply-To: <bdebe626-e552-affb-b756-02c70898bdd6@redhat.com>
+Subject: Re: [PATCH 1/3] qtest: Add functions for accessing devices on Aspeed
+ I2C controller
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, ninad@linux.ibm.com, joel@jms.id.au,
+ andrew@aj.id.au
+References: <20230327202416.3617162-1-stefanb@linux.ibm.com>
+ <20230327202416.3617162-2-stefanb@linux.ibm.com>
+ <0368d6a6-5f66-9758-6977-818128d928b5@kaod.org>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <0368d6a6-5f66-9758-6977-818128d928b5@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8;
- envelope-from=qemu@bonslack.org; helo=bonnix.bonnix.it
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 0wrdbLYkbWjEkdcN0-2s1g8_XOYVUfND
+X-Proofpoint-GUID: AU2GXeM0OnLh2PlICGZMtkI2OTR7vBby
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-28_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=999
+ adultscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ spamscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2303280097
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,82 +118,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/03/23 13:55, Thomas Huth wrote:
-> On 28/03/2023 13.48, Luca Bonissi wrote:
->> --- qemu-20230327/linux-user/syscall_defs.h    2023-03-27 
->> 15:41:42.000000000 +0200
->> +++ qemu-20230327/linux-user/syscall_defs.h.new    2023-03-27 
->> 21:43:25.615115126 +0200
->> @@ -1450,7 +1450,7 @@ struct target_stat {
->>       unsigned int    st_dev;
->>       abi_ulong    st_ino;
->>       unsigned int    st_mode;
->> -    unsigned int    st_nlink;
->> +    short int    st_nlink;
->>       unsigned int    st_uid;
+
+
+On 3/28/23 02:39, Cédric Le Goater wrote:
+> On 3/27/23 22:24, Stefan Berger wrote:
+>> Add read and write functions for accessing registers of I2C devices
+>> connected to the Aspeed I2C controller.
+>>
+>> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 > 
-> That looks wrong at a first glance. IIRC Sparc is a very strictly 
-> aligned architecture, so if the previous field "st_mode" was aligned to 
-> a 4-byte boundary, the "st_uid" field now would not be aligned 
-> anymore... are you sure about this change? Maybe it needs a padding 
-> field now?
-
-The padding is automatic (either on Sparc or x86-64): short will be 
-aligned to 2-byte boundary, int will be aligned to 4-byte boundary, long 
-will be aligned to 8-byte boundary.
-
-E.g.:
-st_dev=0x05060708;
-st_ino=0x1112131415161718;
-st_mode=0x1a1b1c1d;
-st_nlink=0x2728;
-st_uid=0x2a2b2c2d;
-st_gid=0x3a3b3c3d;
-st_rdev=0x35363738;
-st_size=0x4142434445464748;
-st_blksize=0x5152535455565758;
-
-will result (sparc64 - big endian):
-00: 05 06 07 08 00 00 00 00
-08: 11 12 13 14 15 16 17 18
-10: 1A 1B 1C 1D 27 28 00 00
-18: 2A 2B 2C 2D 3A 3B 3C 3D
-20: 35 36 37 38 00 00 00 00
-28: 41 42 43 44 45 46 47 48
-30: 00 00 00 00 00 00 00 00
-38: 00 00 00 00 00 00 00 00
-40: 00 00 00 00 00 00 00 00
-48: 51 52 53 54 55 56 57 58
-50: 00 00 00 00 00 00 00 00
-58: 00 00 00 00 00 00 00 00
-60: 00 00 00 00 00 00 00 00
-
-Or on x86-64 (little endian):
-00: 08 07 06 05 00 00 00 00
-08: 18 17 16 15 14 13 12 11
-10: 1D 1C 1B 1A 28 27 00 00
-18: 2D 2C 2B 2A 3D 3C 3B 3A
-20: 38 37 36 35 00 00 00 00
-28: 48 47 46 45 44 43 42 41
-30: 00 00 00 00 00 00 00 00
-38: 00 00 00 00 00 00 00 00
-40: 00 00 00 00 00 00 00 00
-48: 58 57 56 55 54 53 52 51
-50: 00 00 00 00 00 00 00 00
-58: 00 00 00 00 00 00 00 00
-60: 00 00 00 00 00 00 00 00
-
-Please note the automatic padding between "st_dev" and "st_ino" (offset 
-0x04, 4 bytes), "st_nlink" and "st_uid" (offset 0x16, 2 bytes), 
-"st_rdev" and "st_size" (offset 0x24, 4 bytes).
-
-Placing st_nlink as int would result in incorrect big/little endian 
-conversion, so it should be set as short. If you like clearer source 
-code, you can optionally add padding, but it is not mandatory.
-
-Thanks!
-   Luca
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> 
+> [... ]
+> 
+>> +#ifndef QTEST_ASPEED_H
+>> +#define QTEST_ASPEED_H
+>> +
+>> +#include <stdint.h>
+>> +
+>> +#define AST2600_ASPEED_I2C_BASE_ADDR 0x1e78a000
+>> +
+>> +static inline uint32_t ast2600_aspeed_i2c_calc_dev_addr(uint8_t bus_num)
+> 
+> I think you could simplify the name ast2600_aspeed_i2c_calc_dev_addr()
+> to aspeed_i2c_calc_bus_addr() and add a comment saying it implements only
+> the AST2600 I2C controller. I don't think we will need the others.
 
 
+What are 'the others'?
 
+> 
+>> +{
+>> +    return AST2600_ASPEED_I2C_BASE_ADDR + 0x80 + bus_num * 0x80;
+>> +}
+> 
+> The formula is :
+> 
+>     return soc_base + (soc_i2c_offset + bus_num) * soc_i2c_reg_size;
+
+That's what I thought:
+
+return soc_base + soc_i2c_offset + (bus_num * soc_i2c_reg_size);
+
+I will keep it as it is, though.
+
+     Stefan
+
+> 
+> May be turn it that way in case you respin. This is minor.
+> 
+> Thanks,
+> 
+> C.
+> 
 
