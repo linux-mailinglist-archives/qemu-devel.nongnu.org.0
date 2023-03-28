@@ -2,106 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2539A6CBEFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F716CBF02
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:27:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8PY-00079m-K2; Tue, 28 Mar 2023 08:26:48 -0400
+	id 1ph8PR-00076z-7h; Tue, 28 Mar 2023 08:26:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ph8PU-000782-OO
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:44 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ph8PS-0004gS-7v
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:44 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32SCAeYl005783; Tue, 28 Mar 2023 12:26:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=QW8CB1npbENLUHCfW3LOzFZHDRtIN8+HoNg201aHiJc=;
- b=Z/nbVzICubLHWyxBmBHwpfO4hp6un3Udk38T35TwregzdL6De+6OUR8AdEaZwB6IyWZK
- SPJlQHR11Nk+cXoYlYx/4HP3Dh9CIxRu0EgOscisZTTO+1aklQK/n7QgRptZTSTBYbtv
- R6hFDGS31MjX1YeBn4YJBHel1nphiHuZVhq+i8Syi7WEHPPnfsq9PJxA4zATcOjzFBdj
- 3/kBRWBMI/cmwLRxaU/oAEta6VUItIw8ipiGFBtIalMe0+Cf/UNC3FPl7UVnzU/ln2rJ
- GbEu8Rg2yksyLdi4DV6m8TzBOAPGy+fGDKYtfUMxNvk9dWirB7aTvoKRQju27MNhdBTn 7A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pky9f197r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 12:26:27 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SCBXFN007996;
- Tue, 28 Mar 2023 12:26:26 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pky9f194m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 12:26:26 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32S9HAUc030780;
- Tue, 28 Mar 2023 12:26:18 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
- by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3phrk7gkfm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 12:26:18 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
- [10.39.53.228])
- by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32SCQHP415270648
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Mar 2023 12:26:17 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8783458059;
- Tue, 28 Mar 2023 12:26:17 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EA2675804B;
- Tue, 28 Mar 2023 12:26:16 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 28 Mar 2023 12:26:16 +0000 (GMT)
-Message-ID: <ac889ea5-b335-ba77-46b6-6b91966e4da6@linux.ibm.com>
-Date: Tue, 28 Mar 2023 08:26:16 -0400
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ph8PP-00076h-Rm
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:39 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ph8PO-0004fz-5c
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:39 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id i9so12016457wrp.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 05:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680006396;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=F86HaJQHbhUuB+ZUfkZhXk5RgMSe+dIuZ0sxGFN/L/o=;
+ b=E8RaqvxyydS9TBaIoa6D0DJH+0KyDNXz9ZC96iPfpYpFFvgW6cy4gEzDoCqtgpG97R
+ ilKsamAQxoL8SZ1t90zFRJW+ctjitS4MxZGl3DTXbQCDbBdkmo3iYEZnesLvGqIOPLFy
+ p4ih+D7LEggAdVGscE2IEZX9LWcaC02Y0oJdiSOteG6uUW98+8HSdXvq9o3TOnLfRRBd
+ 6LEqwyuKuerctjA1Id0tT8OtTb9wHhl685QJa7TKp6z7St+yIoDKnlhs2XYTyjFEg0F0
+ 6/8G0fmMMdpLfebinlYK2wt7Q8enxFfzAWi1Qw+0ORaCgeFvbGXY7x5nWtD6CoKfva/o
+ jzaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680006396;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=F86HaJQHbhUuB+ZUfkZhXk5RgMSe+dIuZ0sxGFN/L/o=;
+ b=FYL11wbg4NDydKkfiO5MCItmCjN3ObyR/pLVWvsfB9kitSSviCSdh+agiRBhaDMdbl
+ kuKidowLz4xoR6H3iLtmkdJi9brfNc1w8LVwLfu7Y4191FKzkNjwJW/INSR2N6zU0k/v
+ k6JxRJqoddOr7WlWVlu6Bo9iSg4jb+MEuOWyCZroaIOiqpFItwzodMkILen96r4g7hRI
+ ylvnZzJBnB7LG/HSK5mh8vHl2JRLmqrIuubb3fMF1g7nZb5nGJ3hNSiLpuqSG7xjg4s5
+ EFkOxB0sYoPhXwHFsWk9HWqP90t/5UZgHpvWyofTMxtKQ2W/MpOmpPb7cO6rEDKcp7nL
+ LU0g==
+X-Gm-Message-State: AAQBX9cA7FtfCpqkXt4EbGJkjD69+mE7DdccPhI8YDoIDyCZOQ7Nhgnt
+ udIIa5kkhPt+2AvBukCgKRa08vCyvAU8gSR+lWI=
+X-Google-Smtp-Source: AKy350ZtPSvscQapYyXuUnyjQeCfPE9QCTmx38Vl6pqpcgTh6F+Hhq8DHSt9SVHweepD1LFvjvAiQQ==
+X-Received: by 2002:a5d:474e:0:b0:2ce:9f35:59b9 with SMTP id
+ o14-20020a5d474e000000b002ce9f3559b9mr11998190wrs.17.1680006396384; 
+ Tue, 28 Mar 2023 05:26:36 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ m21-20020a7bcb95000000b003eeb1d6a470sm14993414wmi.13.2023.03.28.05.26.35
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Mar 2023 05:26:36 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] target-arm queue
+Date: Tue, 28 Mar 2023 13:26:33 +0100
+Message-Id: <20230328122634.2154949-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/3] qtest: Add functions for accessing devices on Aspeed
- I2C controller
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, ninad@linux.ibm.com, joel@jms.id.au,
- andrew@aj.id.au
-References: <20230327202416.3617162-1-stefanb@linux.ibm.com>
- <20230327202416.3617162-2-stefanb@linux.ibm.com>
- <0368d6a6-5f66-9758-6977-818128d928b5@kaod.org>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <0368d6a6-5f66-9758-6977-818128d928b5@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0wrdbLYkbWjEkdcN0-2s1g8_XOYVUfND
-X-Proofpoint-GUID: AU2GXeM0OnLh2PlICGZMtkI2OTR7vBby
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-28_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- adultscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303280097
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,57 +87,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The following changes since commit e3debd5e7d0ce031356024878a0a18b9d109354a:
 
+  Merge tag 'pull-request-2023-03-24' of https://gitlab.com/thuth/qemu into staging (2023-03-24 16:08:46 +0000)
 
-On 3/28/23 02:39, Cédric Le Goater wrote:
-> On 3/27/23 22:24, Stefan Berger wrote:
->> Add read and write functions for accessing registers of I2C devices
->> connected to the Aspeed I2C controller.
->>
->> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> 
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> 
-> [... ]
-> 
->> +#ifndef QTEST_ASPEED_H
->> +#define QTEST_ASPEED_H
->> +
->> +#include <stdint.h>
->> +
->> +#define AST2600_ASPEED_I2C_BASE_ADDR 0x1e78a000
->> +
->> +static inline uint32_t ast2600_aspeed_i2c_calc_dev_addr(uint8_t bus_num)
-> 
-> I think you could simplify the name ast2600_aspeed_i2c_calc_dev_addr()
-> to aspeed_i2c_calc_bus_addr() and add a comment saying it implements only
-> the AST2600 I2C controller. I don't think we will need the others.
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230328
 
-What are 'the others'?
+for you to fetch changes up to 46e3b237c52e0c48bfd81bce020b51fbe300b23a:
 
-> 
->> +{
->> +    return AST2600_ASPEED_I2C_BASE_ADDR + 0x80 + bus_num * 0x80;
->> +}
-> 
-> The formula is :
-> 
->     return soc_base + (soc_i2c_offset + bus_num) * soc_i2c_reg_size;
+  target/arm/gdbstub: Only advertise M-profile features if TCG available (2023-03-28 10:53:40 +0100)
 
-That's what I thought:
+----------------------------------------------------------------
+target-arm queue:
+ * fix part of the "TCG-disabled builds are broken" issue
 
-return soc_base + soc_i2c_offset + (bus_num * soc_i2c_reg_size);
+----------------------------------------------------------------
+Philippe Mathieu-Daudé (1):
+      target/arm/gdbstub: Only advertise M-profile features if TCG available
 
-I will keep it as it is, though.
-
-     Stefan
-
-> 
-> May be turn it that way in case you respin. This is minor.
-> 
-> Thanks,
-> 
-> C.
-> 
+ target/arm/gdbstub.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
