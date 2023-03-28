@@ -2,30 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A266CB649
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6936CB64E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:49:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph2Bc-00015F-Vk; Tue, 28 Mar 2023 01:48:01 -0400
+	id 1ph2CW-0003Y2-Vo; Tue, 28 Mar 2023 01:48:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1ph2B2-0000sJ-Mt; Tue, 28 Mar 2023 01:47:24 -0400
-Received: from m12.mail.163.com ([220.181.12.196])
+ id 1ph2CJ-000359-ON; Tue, 28 Mar 2023 01:48:46 -0400
+Received: from m12.mail.163.com ([220.181.12.214])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <qianfanguijin@163.com>)
- id 1ph2Az-0005J4-I1; Tue, 28 Mar 2023 01:47:24 -0400
+ id 1ph2CH-0006Hs-7o; Tue, 28 Mar 2023 01:48:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=MWWui
- oOXnTpytSCK8RnY986MV8JnG7Dt5l/n9qkzGUQ=; b=TPNJcefgSGDChEcSypZyP
- 5iQcbC4NXNIFZIf6ONteNcRWX6+c12m5RNyEccJNdK0LnEOM4dWT3D7uHWbgzEe6
- 8J0VZjdrP78cYQMHPQSx2O/cOmPw3feTdIY4sM7gXdJEOAhSdI8s3xW4PYvQ7JKY
- UATGDn5cHtnlk+hw2tKLRM=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=8fSOj
+ 9FHLD20tnFbzWLo8vjwarYRhtlzUZh39dyHPG8=; b=NpeQThxwTLIHrynDxMGer
+ ZDZ1ublyDp1GXrAp5HLnmdaEAd+an03koHU5xLsn0ZZJWDnPbh50BSPYWspB5A8L
+ dU5A8SZEL3SDKAyMQoirHkSve2Scuqr+GaWPTHCN89rLVYZEPWXTOpAWdmHLFe0J
+ lQvjebE7jKpo7eoFX9E4NA=
 Received: from DESKTOP-B1R4FVG.localdomain (unknown [112.224.194.92])
- by zwqz-smtp-mta-g4-4 (Coremail) with SMTP id
- _____wBHtBBOfyJkWfxRAg--.23168S12; 
- Tue, 28 Mar 2023 13:47:08 +0800 (CST)
+ by zwqz-smtp-mta-g5-0 (Coremail) with SMTP id _____wAXeyWxfyJkjwpOAg--.23105S2;
+ Tue, 28 Mar 2023 13:48:34 +0800 (CST)
 From: qianfanguijin@163.com
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -35,31 +34,28 @@ Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Niek Linnenbank <nieklinnenbank@gmail.com>,
  qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH v2 10/12] hw: arm: allwinner-sramc: Add SRAM Controller
- support for R40
-Date: Tue, 28 Mar 2023 13:46:50 +0800
-Message-Id: <20230328054654.18620-11-qianfanguijin@163.com>
+Subject: [PATCH v2 11/11] docs: system: arm: Introduce bananapi_m2u
+Date: Tue, 28 Mar 2023 13:48:30 +0800
+Message-Id: <20230328054832.18790-1-qianfanguijin@163.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230328054654.18620-1-qianfanguijin@163.com>
-References: <20230328054654.18620-1-qianfanguijin@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBHtBBOfyJkWfxRAg--.23168S12
-X-Coremail-Antispam: 1Uf129KBjvAXoWfJFWDtr18GFyrAry3Wr17Jrb_yoW8JF1kZo
- WSgF45XrWIg3s7ZrnYkw1ayr17WwnxKr4xAw4YkF4aka45Awsrt348t393Ja1fWr4FyFn7
- JaySgryfCrWkG3s5n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4RzBTzUUUUU
+X-CM-TRANSID: _____wAXeyWxfyJkjwpOAg--.23105S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxuw4fCF4ruF4fCr1xZw47urg_yoW7Aw4fpF
+ yvka15KrWkJF1Fya97Kw1fWFy5Xas5ArWUJF1kJ34rtF98Kr1vvwn3Kwn8Wasrtw4Ivw10
+ qrW7GF12gwn8J3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zKYLdrUUUUU=
 X-Originating-IP: [112.224.194.92]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXRxA7VWBpDWF6QABsE
-Received-SPF: pass client-ip=220.181.12.196;
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiQhNA7VaEEzNtBQAAsm
+Received-SPF: pass client-ip=220.181.12.214;
  envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,408 +73,158 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: qianfan Zhao <qianfanguijin@163.com>
 
-Only a few important registers are added, especially the SRAM_VER
-register.
+Add documents for Banana Pi M2U
 
 Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 ---
- hw/arm/Kconfig                    |   1 +
- hw/arm/allwinner-r40.c            |   7 +-
- hw/misc/Kconfig                   |   3 +
- hw/misc/allwinner-sramc.c         | 184 ++++++++++++++++++++++++++++++
- hw/misc/meson.build               |   1 +
- hw/misc/trace-events              |   4 +
- include/hw/arm/allwinner-r40.h    |   3 +
- include/hw/misc/allwinner-sramc.h |  69 +++++++++++
- 8 files changed, 271 insertions(+), 1 deletion(-)
- create mode 100644 hw/misc/allwinner-sramc.c
- create mode 100644 include/hw/misc/allwinner-sramc.h
+ docs/system/arm/bananapi_m2u.rst | 138 +++++++++++++++++++++++++++++++
+ 1 file changed, 138 insertions(+)
+ create mode 100644 docs/system/arm/bananapi_m2u.rst
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 85ded354ed..f3a4eb3f78 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -346,6 +346,7 @@ config ALLWINNER_H3
- 
- config ALLWINNER_R40
-     bool
-+    select ALLWINNER_SRAMC
-     select ALLWINNER_A10_PIT
-     select AXP2XX_PMU
-     select SERIAL
-diff --git a/hw/arm/allwinner-r40.c b/hw/arm/allwinner-r40.c
-index c018ad231a..7d29eb224f 100644
---- a/hw/arm/allwinner-r40.c
-+++ b/hw/arm/allwinner-r40.c
-@@ -39,6 +39,7 @@ const hwaddr allwinner_r40_memmap[] = {
-     [AW_R40_DEV_SRAM_A2]    = 0x00004000,
-     [AW_R40_DEV_SRAM_A3]    = 0x00008000,
-     [AW_R40_DEV_SRAM_A4]    = 0x0000b400,
-+    [AW_R40_DEV_SRAMC]      = 0x01c00000,
-     [AW_R40_DEV_EMAC]       = 0x01c0b000,
-     [AW_R40_DEV_MMC0]       = 0x01c0f000,
-     [AW_R40_DEV_MMC1]       = 0x01c10000,
-@@ -76,7 +77,6 @@ struct AwR40Unimplemented {
- static struct AwR40Unimplemented r40_unimplemented[] = {
-     { "d-engine",   0x01000000, 4 * MiB },
-     { "d-inter",    0x01400000, 128 * KiB },
--    { "sram-c",     0x01c00000, 4 * KiB },
-     { "dma",        0x01c02000, 4 * KiB },
-     { "nfdc",       0x01c03000, 4 * KiB },
-     { "ts",         0x01c04000, 4 * KiB },
-@@ -288,6 +288,8 @@ static void allwinner_r40_init(Object *obj)
-                              "ram-addr");
-     object_property_add_alias(obj, "ram-size", OBJECT(&s->dramc),
-                               "ram-size");
-+
-+    object_initialize_child(obj, "sramc", &s->sramc, TYPE_AW_SRAMC_SUN8I_R40);
- }
- 
- static void allwinner_r40_realize(DeviceState *dev, Error **errp)
-@@ -382,6 +384,9 @@ static void allwinner_r40_realize(DeviceState *dev, Error **errp)
-                        AW_R40_GIC_SPI_TIMER1));
- 
-     /* SRAM */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->sramc), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sramc), 0, s->memmap[AW_R40_DEV_SRAMC]);
-+
-     memory_region_init_ram(&s->sram_a1, OBJECT(dev), "sram A1",
-                             16 * KiB, &error_abort);
-     memory_region_init_ram(&s->sram_a2, OBJECT(dev), "sram A2",
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index efeb430a6c..e4c2149175 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -170,6 +170,9 @@ config VIRT_CTRL
- config LASI
-     bool
- 
-+config ALLWINNER_SRAMC
-+    bool
-+
- config ALLWINNER_A10_CCM
-     bool
- 
-diff --git a/hw/misc/allwinner-sramc.c b/hw/misc/allwinner-sramc.c
+diff --git a/docs/system/arm/bananapi_m2u.rst b/docs/system/arm/bananapi_m2u.rst
 new file mode 100644
-index 0000000000..a8b731f8f2
+index 0000000000..ae7194a9df
 --- /dev/null
-+++ b/hw/misc/allwinner-sramc.c
-@@ -0,0 +1,184 @@
-+/*
-+ * Allwinner R40 SRAM controller emulation
-+ *
-+ * Copyright (C) 2023 qianfan Zhao <qianfanguijin@163.com>
-+ *
-+ * This program is free software: you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation, either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
++++ b/docs/system/arm/bananapi_m2u.rst
+@@ -0,0 +1,138 @@
++Banana Pi BPI-M2U (``bpim2u``)
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "hw/sysbus.h"
-+#include "migration/vmstate.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "qapi/error.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+#include "hw/misc/allwinner-sramc.h"
-+#include "trace.h"
++Banana Pi BPI-M2 Ultra is a quad-core mini single board computer built with
++Allwinner A40i/R40/V40 SoC. It features 2GB of RAM and 8GB eMMC. It also
++has onboard WiFi and BT. On the ports side, the BPI-M2 Ultra has 2 USB A
++2.0 ports, 1 USB OTG port, 1 HDMI port, 1 audio jack, a DC power port,
++and last but not least, a SATA port.
 +
-+/*
-+ * register offsets
-+ * https://linux-sunxi.org/SRAM_Controller_Register_Guide
-+ */
-+enum {
-+    REG_SRAM_CTL1_CFG               = 0x04, /* SRAM Control register 1 */
-+    REG_SRAM_VER                    = 0x24, /* SRAM Version register */
-+    REG_SRAM_R40_SOFT_ENTRY_REG0    = 0xbc,
-+};
++Supported devices
++"""""""""""""""""
 +
-+/* REG_SRAMC_VERSION bit defines */
-+#define SRAM_VER_READ_ENABLE            (1 << 15)
-+#define SRAM_VER_VERSION_SHIFT          16
-+#define SRAM_VERSION_SUN8I_R40          0x1701
++The Banana Pi M2U machine supports the following devices:
 +
-+static uint64_t allwinner_sramc_read(void *opaque, hwaddr offset,
-+                                     unsigned size)
-+{
-+    AwSRAMCState *s = AW_SRAMC(opaque);
-+    AwSRAMCClass *sc = AW_SRAMC_GET_CLASS(s);
-+    uint64_t val = 0;
++ * SMP (Quad Core Cortex-A7)
++ * Generic Interrupt Controller configuration
++ * SRAM mappings
++ * SDRAM controller
++ * Timer device (re-used from Allwinner A10)
++ * UART
++ * SD/MMC storage controller
++ * EMAC ethernet
++ * GMAC ethernet
++ * Clock Control Unit
++ * TWI (I2C)
 +
-+    switch (offset) {
-+    case REG_SRAM_CTL1_CFG:
-+        val = s->sram_ctl1;
-+        break;
-+    case REG_SRAM_VER:
-+        /* bit15: lock bit, set this bit before reading this register */
-+        if (s->sram_ver & SRAM_VER_READ_ENABLE) {
-+            val = SRAM_VER_READ_ENABLE |
-+                    (sc->sram_version_code << SRAM_VER_VERSION_SHIFT);
-+        }
-+        break;
-+    case REG_SRAM_R40_SOFT_ENTRY_REG0:
-+        val = s->sram_soft_entry_reg0;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset 0x%04x\n",
-+                      __func__, (uint32_t)offset);
-+        return 0;
-+    }
++Limitations
++"""""""""""
 +
-+    trace_allwinner_sramc_read(offset, val);
++Currently, Banana Pi M2U does *not* support the following features:
 +
-+    return val;
-+}
++- Graphical output via HDMI, GPU and/or the Display Engine
++- Audio output
++- Hardware Watchdog
++- Real Time Clock
++- USB 2.0 interfaces
 +
-+static void allwinner_sramc_write(void *opaque, hwaddr offset,
-+                                  uint64_t val, unsigned size)
-+{
-+    AwSRAMCState *s = AW_SRAMC(opaque);
++Also see the 'unimplemented' array in the Allwinner R40 SoC module
++for a complete list of unimplemented I/O devices: ``./hw/arm/allwinner-r40.c``
 +
-+    trace_allwinner_sramc_write(offset, val);
++Boot options
++""""""""""""
 +
-+    switch (offset) {
-+    case REG_SRAM_CTL1_CFG:
-+        s->sram_ctl1 = val;
-+        break;
-+    case REG_SRAM_VER:
-+        /* Only the READ_ENABLE bit is writeable */
-+        s->sram_ver = val & SRAM_VER_READ_ENABLE;
-+        break;
-+    case REG_SRAM_R40_SOFT_ENTRY_REG0:
-+        s->sram_soft_entry_reg0 = val;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset 0x%04x\n",
-+                      __func__, (uint32_t)offset);
-+        break;
-+    }
-+}
++The Banana Pi M2U machine can start using the standard -kernel functionality
++for loading a Linux kernel or ELF executable. Additionally, the Banana Pi M2U
++machine can also emulate the BootROM which is present on an actual Allwinner R40
++based SoC, which loads the bootloader from a SD card, specified via the -sd
++argument to qemu-system-arm.
 +
-+static const MemoryRegionOps allwinner_sramc_ops = {
-+    .read = allwinner_sramc_read,
-+    .write = allwinner_sramc_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+    .impl.min_access_size = 4,
-+};
++Running mainline Linux
++""""""""""""""""""""""
 +
-+static const VMStateDescription allwinner_sramc_vmstate = {
-+    .name = "allwinner-sramc",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(sram_ver, AwSRAMCState),
-+        VMSTATE_UINT32(sram_soft_entry_reg0, AwSRAMCState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
++To build a Linux mainline kernel that can be booted by the Banana Pi M2U machine,
++simply configure the kernel using the sunxi_defconfig configuration:
 +
-+static void allwinner_sramc_reset(DeviceState *dev)
-+{
-+    AwSRAMCState *s = AW_SRAMC(dev);
-+    AwSRAMCClass *sc = AW_SRAMC_GET_CLASS(s);
++.. code-block:: bash
 +
-+    switch (sc->sram_version_code) {
-+    case SRAM_VERSION_SUN8I_R40:
-+        s->sram_ctl1 = 0x1300;
-+        break;
-+    }
-+}
++  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make mrproper
++  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make sunxi_defconfig
 +
-+static void allwinner_sramc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
++To boot the newly build linux kernel in QEMU with the Banana Pi M2U machine, use:
 +
-+    dc->reset = allwinner_sramc_reset;
-+    dc->vmsd = &allwinner_sramc_vmstate;
-+}
++.. code-block:: bash
 +
-+static void allwinner_sramc_init(Object *obj)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    AwSRAMCState *s = AW_SRAMC(obj);
++  $ qemu-system-arm -M bpim2u -nographic \
++      -kernel /path/to/linux/arch/arm/boot/zImage \
++      -append 'console=ttyS0,115200' \
++      -dtb /path/to/linux/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dtb
 +
-+    /* Memory mapping */
-+    memory_region_init_io(&s->iomem, OBJECT(s), &allwinner_sramc_ops, s,
-+                           TYPE_AW_SRAMC, 1 * KiB);
-+    sysbus_init_mmio(sbd, &s->iomem);
-+}
++Banana Pi M2U images
++""""""""""""""""""""
 +
-+static const TypeInfo allwinner_sramc_info = {
-+    .name          = TYPE_AW_SRAMC,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_init = allwinner_sramc_init,
-+    .instance_size = sizeof(AwSRAMCState),
-+    .class_init    = allwinner_sramc_class_init,
-+};
++Note that the mainline kernel does not have a root filesystem. You can choose
++to build you own image with buildroot using the bananapi_m2_ultra_defconfig.
++Also see https://buildroot.org for more information.
 +
-+static void allwinner_r40_sramc_class_init(ObjectClass *klass, void *data)
-+{
-+    AwSRAMCClass *sc = AW_SRAMC_CLASS(klass);
++Another possibility is to run an OpenWrt image for Banana Pi M2U which
++can be downloaded from:
 +
-+    sc->sram_version_code = SRAM_VERSION_SUN8I_R40;
-+}
++   https://downloads.openwrt.org/releases/22.03.3/targets/sunxi/cortexa7/
 +
-+static const TypeInfo allwinner_r40_sramc_info = {
-+    .name          = TYPE_AW_SRAMC_SUN8I_R40,
-+    .parent        = TYPE_AW_SRAMC,
-+    .class_init    = allwinner_r40_sramc_class_init,
-+};
++When using an image as an SD card, it must be resized to a power of two. This can be
++done with the ``qemu-img`` command. It is recommended to only increase the image size
++instead of shrinking it to a power of two, to avoid loss of data. For example,
++to prepare a downloaded Armbian image, first extract it and then increase
++its size to one gigabyte as follows:
 +
-+static void allwinner_sramc_register(void)
-+{
-+    type_register_static(&allwinner_sramc_info);
-+    type_register_static(&allwinner_r40_sramc_info);
-+}
++.. code-block:: bash
 +
-+type_init(allwinner_sramc_register)
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index b04d43e05a..78ca857c9d 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -37,6 +37,7 @@ subdir('macio')
- 
- softmmu_ss.add(when: 'CONFIG_IVSHMEM_DEVICE', if_true: files('ivshmem.c'))
- 
-+softmmu_ss.add(when: 'CONFIG_ALLWINNER_SRAMC', if_true: files('allwinner-sramc.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10_CCM', if_true: files('allwinner-a10-ccm.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_A10_DRAMC', if_true: files('allwinner-a10-dramc.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-h3-ccu.c'))
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 8b68f07765..4d1a0e17af 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -33,6 +33,10 @@ allwinner_r40_dramphy_write(uint64_t offset, uint64_t data, unsigned size) "writ
- allwinner_sid_read(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %" PRIu32
- allwinner_sid_write(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %" PRIu32
- 
-+# allwinner-sramc.c
-+allwinner_sramc_read(uint64_t offset, uint64_t data) "offset 0x%" PRIx64 " data 0x%" PRIx64
-+allwinner_sramc_write(uint64_t offset, uint64_t data) "offset 0x%" PRIx64 " data 0x%" PRIx64
++  $ qemu-img resize \
++    openwrt-22.03.3-sunxi-cortexa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img \
++    1G
 +
- # avr_power.c
- avr_power_read(uint8_t value) "power_reduc read value:%u"
- avr_power_write(uint8_t value) "power_reduc write value:%u"
-diff --git a/include/hw/arm/allwinner-r40.h b/include/hw/arm/allwinner-r40.h
-index 5f2d08489e..72710d3edc 100644
---- a/include/hw/arm/allwinner-r40.h
-+++ b/include/hw/arm/allwinner-r40.h
-@@ -27,6 +27,7 @@
- #include "hw/sd/allwinner-sdhost.h"
- #include "hw/misc/allwinner-r40-ccu.h"
- #include "hw/misc/allwinner-r40-dramc.h"
-+#include "hw/misc/allwinner-sramc.h"
- #include "hw/i2c/allwinner-i2c.h"
- #include "hw/net/allwinner_emac.h"
- #include "hw/net/allwinner-sun8i-emac.h"
-@@ -38,6 +39,7 @@ enum {
-     AW_R40_DEV_SRAM_A2,
-     AW_R40_DEV_SRAM_A3,
-     AW_R40_DEV_SRAM_A4,
-+    AW_R40_DEV_SRAMC,
-     AW_R40_DEV_EMAC,
-     AW_R40_DEV_MMC0,
-     AW_R40_DEV_MMC1,
-@@ -102,6 +104,7 @@ struct AwR40State {
- 
-     ARMCPU cpus[AW_R40_NUM_CPUS];
-     const hwaddr *memmap;
-+    AwSRAMCState sramc;
-     AwA10PITState timer;
-     AwSdHostState mmc[AW_R40_NUM_MMCS];
-     AwR40ClockCtlState ccu;
-diff --git a/include/hw/misc/allwinner-sramc.h b/include/hw/misc/allwinner-sramc.h
-new file mode 100644
-index 0000000000..66b01b8d04
---- /dev/null
-+++ b/include/hw/misc/allwinner-sramc.h
-@@ -0,0 +1,69 @@
-+/*
-+ * Allwinner SRAM controller emulation
-+ *
-+ * Copyright (C) 2023 qianfan Zhao <qianfanguijin@163.com>
-+ *
-+ * This program is free software: you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation, either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
++Instead of providing a custom Linux kernel via the -kernel command you may also
++choose to let the Banana Pi M2U machine load the bootloader from SD card, just like
++a real board would do using the BootROM. Simply pass the selected image via the -sd
++argument and remove the -kernel, -append, -dbt and -initrd arguments:
 +
-+#ifndef HW_MISC_ALLWINNER_SRAMC_H
-+#define HW_MISC_ALLWINNER_SRAMC_H
++.. code-block:: bash
 +
-+#include "qom/object.h"
-+#include "hw/sysbus.h"
-+#include "qemu/uuid.h"
++  $ qemu-system-arm -M bpim2u -nic user -nographic \
++    -sd openwrt-22.03.3-sunxi-cortexa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img
 +
-+/**
-+ * Object model
-+ * @{
-+ */
-+#define TYPE_AW_SRAMC               "allwinner-sramc"
-+#define TYPE_AW_SRAMC_SUN8I_R40     TYPE_AW_SRAMC "-sun8i-r40"
-+OBJECT_DECLARE_TYPE(AwSRAMCState, AwSRAMCClass, AW_SRAMC)
++Running U-Boot
++""""""""""""""
 +
-+/** @} */
++U-Boot mainline can be build and configured using the Bananapi_M2_Ultra_defconfig
++using similar commands as describe above for Linux. Note that it is recommended
++for development/testing to select the following configuration setting in U-Boot:
 +
-+/**
-+ * Allwinner SRAMC object instance state
-+ */
-+struct AwSRAMCState {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+    /*< public >*/
++  Device Tree Control > Provider for DTB for DT Control > Embedded DTB
 +
-+    /** Maps I/O registers in physical memory */
-+    MemoryRegion iomem;
++The BootROM of allwinner R40 loading u-boot from the 8KiB offset of sdcard.
++Let's create an bootable disk image:
 +
-+    /* registers */
-+    uint32_t sram_ctl1;
-+    uint32_t sram_ver;
-+    uint32_t sram_soft_entry_reg0;
-+};
++.. code-block:: bash
 +
-+/**
-+ * Allwinner SRAM Controller class-level struct.
-+ *
-+ * This struct is filled by each sunxi device specific code
-+ * such that the generic code can use this struct to support
-+ * all devices.
-+ */
-+struct AwSRAMCClass {
-+    /*< private >*/
-+    SysBusDeviceClass parent_class;
-+    /*< public >*/
++  $ dd if=/dev/zero of=sd.img bs=32M count=1
++  $ dd if=u-boot-sunxi-with-spl.bin of=sd.img bs=1k seek=8 conv=notrunc
 +
-+    uint32_t sram_version_code;
-+};
++And then boot it.
 +
-+#endif /* HW_MISC_ALLWINNER_SRAMC_H */
++.. code-block:: bash
++  $ qemu-system-arm -M bpim2u -nographic -sd sd.img
++
++Banana Pi M2U integration tests
++""""""""""""""""""""""""""""""
++
++The Banana Pi M2U machine has several integration tests included.
++To run the whole set of tests, build QEMU from source and simply
++provide the following command:
++
++.. code-block:: bash
++
++  $ cd qemu-build-dir
++  $ AVOCADO_ALLOW_LARGE_STORAGE=yes tests/venv/bin/avocado \
++    --verbose --show=app,console run -t machine:bpim2u \
++    ../tests/avocado/boot_linux_console.py
 -- 
 2.25.1
 
