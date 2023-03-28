@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A2C6CC656
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 17:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556D76CC724
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 17:53:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phBG5-0005VU-Lt; Tue, 28 Mar 2023 11:29:13 -0400
+	id 1phBbT-0002Y0-Gq; Tue, 28 Mar 2023 11:51:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phBG2-0005V0-CD
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:29:10 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phBG0-0003f3-Ik
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:29:09 -0400
-Received: by mail-wr1-x431.google.com with SMTP id v1so12666878wrv.1
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 08:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680017346;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uyyD/mMZ5WLjmBQsAFQe0xCp+k5xk7Xq+CNZfB8EOHQ=;
- b=SXEP1vZrpNuaH5uGmU1YCL3q4pG+hoZB3/xZEKTNXtuU9fFWE2iqESH3IgVZL+cb88
- wgRqWkN/2N55m0rKkQHjgwU8+zP4QK1T7QvvDrBoA8SzwoFISpuBU/yGdOVbvJW9djGC
- xvfhwpt8dKJ1GqJTtbVTlWzoDb82M3c7Rh/uhcOfkh3/BGWBd9+cupuY/MBwdnI0v86/
- RcrboJkJlTT7Qy2d9LR/iaEZNMMo9jGjqVuATrRke2ltMV9UO6hxtYhe2YPfsz6S2C59
- Ii6QNMqjfqhyhnhNKU/mjeNnFlbdOGKY0BsZKasMPS/Wc7iCGkri9x4SnE7V4xIisCHl
- cZdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680017346;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=uyyD/mMZ5WLjmBQsAFQe0xCp+k5xk7Xq+CNZfB8EOHQ=;
- b=e1u+0CZpLqbBeKax/zIDNWInF7BDKm9rZgh/YqWZtXcMJQa18Pe9YXG18zG07w50je
- /pBj4oKsbfiS/hoT8KMV68cQEWrpg1QOTcEEt6+FbuFG1JEMyXSt9NI4WVJ7SAP19bRZ
- V/ocpqdgzo0MQm+pLdYY45gjUwgf2InXQONtnvySdUCa1wRyvpiKiGIjlqZm5VqzHSGD
- mNzTxV0l5Meu5DMWCR9BG5k6rucAdynn5NqP/lg5WyI41rBpKY9xXZYixHe6qTs4Iyd8
- 5A32FlmVSrTirsViDtj2yqdHM/Rm/8kmM1r1y6JFu0w6zuVjbxjzYk0hu6vWpLveVNzI
- sFZQ==
-X-Gm-Message-State: AAQBX9fm79Fuuqm1dmtFgv+NGuAUmmHnL1ydDd0SY0RVFuG4+CQ1BjD1
- 0e6hW9SbrcDSjZPxclNkKFY/b0FtPExY5qHgkPU=
-X-Google-Smtp-Source: AKy350aVTh7bNdrfCbqpJHtuydDlh2RLmtnOmU4oeJJP5x12AN7f0EU9GaOOXBuDFA/Fpx8TvWacbQ==
-X-Received: by 2002:adf:e90b:0:b0:2d4:751d:675b with SMTP id
- f11-20020adfe90b000000b002d4751d675bmr12236771wrm.35.1680017345908; 
- Tue, 28 Mar 2023 08:29:05 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- y16-20020a5d4ad0000000b002d51d10a3fasm24596765wrs.55.2023.03.28.08.29.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 08:29:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2C6521FFB7;
- Tue, 28 Mar 2023 16:29:05 +0100 (BST)
-References: <4e79a438-778b-877d-d3dc-ad05cbab88cc@msgid.tls.msk.ru>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: qemu-stable <qemu-stable@nongnu.org>, Michael Roth
- <michael.roth@amd.com>, qemu-devel@nongnu.org
-Subject: Re: qemu 7.2 stable release, 2nd try
-Date: Tue, 28 Mar 2023 16:28:27 +0100
-In-reply-to: <4e79a438-778b-877d-d3dc-ad05cbab88cc@msgid.tls.msk.ru>
-Message-ID: <87o7ocrj26.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1phBb9-0002V9-CW
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:51:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1phBb7-0001A7-SS
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:50:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680018656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=KIIgTfUmYMsN3oXMtChNBA5eClLg3Q7WA81b0n5l5Pw=;
+ b=VGF45QNMP0rbZNHHzMfr3stBCUN8na2EKT/JOc+vyGuAH+auCp+kR4O6Q15F66OzFsCZB5
+ a5sBR24XXSxICtxFC5R+wSFay227VVgl8yJZraFtBeOmz0hVmolqmv/7HMG0wtfHgepzVc
+ 1UCzHp62bh0Qj3sFSm3yT3e8JieiIRQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-635-ptMjq_0MNDmTmHeDsMdvjw-1; Tue, 28 Mar 2023 11:50:52 -0400
+X-MC-Unique: ptMjq_0MNDmTmHeDsMdvjw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 213A53C0C887;
+ Tue, 28 Mar 2023 15:50:52 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96D65FD6E;
+ Tue, 28 Mar 2023 15:50:51 +0000 (UTC)
+Date: Tue, 28 Mar 2023 11:50:50 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: David Woodhouse <dwmw@amazon.co.uk>, Paul Durrant <pdurrant@amazon.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Subject: aio_set_event_notifier(is_external=true) in Xen code?
+Message-ID: <20230328155050.GA1632689@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="f6gUQ4S3t7TEC8fk"
+Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,40 +76,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Michael Tokarev <mjt@tls.msk.ru> writes:
+--f6gUQ4S3t7TEC8fk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Hi!
->
-> After posting an RFC (due to me doing a stable release for the first time=
-) and
-> getting exactly 0 replies/comments, I'm a bit worried, - does this mean t=
-here's
-> no interest in getting 7.2-stable out of the doors at all? :)
+Hi,
+I'm removing the aio_disable_external() API from QEMU and noticed that
+Xen code calls aio_set_fd_handler(is_external=true) in hw/xen/xen-bus.c
+and hw/i386/kvm/xen_xenstore.c.
 
-I'm interested - although Debian already has the "latest" stuff we need.
-What do you need though, re-reviews or just simple Acked-by's for the
-included patches?
+It wasn't clear to me whether is_external=true is necessary here.
+is_external=true is mainly used to temporarily pause I/O submission in
+the QEMU block layer. Maybe is_external=true was chosen out of caution
+but actually has no effect in this code.
 
->
-> With 8.0 approaching rapidly, and with no other comments or new patches f=
-or
-> -stable, let's make this official within a week from now, on Mar-29.
->
-> It *feels* like quite some more changes should be picked too, but let's do
-> *something* after all :)
->
-> I still need some minor help with the final step, - pushing to main qemu =
-git
-> repo and running the whole testsuite before the actual release.  Asking f=
-or
-> push/commit access for that.
->
-> Thanks,
->
-> /mjt
+Does the Xen code rely on is_external=true?
 
+Thanks,
+Stefan
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+--f6gUQ4S3t7TEC8fk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQjDNoACgkQnKSrs4Gr
+c8gNXQf/fC953Xa1eKe14eIys5OzTGEsPivI5xy7/TYPOKSPtMr4XBse/JW2wme+
+eh+lzPx8kZnzSkAT+uvvNPeCAQZ7f1a5z/P2WRRPaRqSAY5NSFKpJuq0c/1xtgo8
+vgDZLaXY7+KTFupgX1Auo32Zw/nBBv3PxvMSM2B+wIdpBASDGN8qz+hv0nugGJQB
+RmixWUuotWdnwz7Jz95TPZkgIw0D4EtSkT6hVJqgca4nWocU+7gFcp1xqdPSkBA9
+gZYhvIMmVV2cmgtGN/B6s9HEiz0J87Z27XLwWJP6t9Y81TOciHmItbMtiOYUs0gN
+pNu8/Pb51ruCv+XpeN4Z0XBfuCj/Dg==
+=HkeW
+-----END PGP SIGNATURE-----
+
+--f6gUQ4S3t7TEC8fk--
+
 
