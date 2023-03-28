@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75906CBB8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 11:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEFF6CBB91
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 11:55:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph622-0006Bo-Hx; Tue, 28 Mar 2023 05:54:22 -0400
+	id 1ph62z-0007Zf-W6; Tue, 28 Mar 2023 05:55:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ph61z-00065U-O4
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 05:54:19 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1ph62x-0007ZG-TX
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 05:55:19 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ph61x-0003q6-VB
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 05:54:19 -0400
-Received: by mail-ed1-x531.google.com with SMTP id h8so47112345ede.8
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 02:54:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1ph62w-0004DE-7I
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 05:55:19 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ n10-20020a05600c4f8a00b003ee93d2c914so8659595wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 02:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679997256;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=livius-net.20210112.gappssmtp.com; s=20210112; t=1679997316;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5W6XbogdsrnH50TgZwRnKlQeZUo5dHnNr3koSPp9Phg=;
- b=NxE4WE7ogBHSd30j5G6G4w44rA/V8xOl+XqjkRxqQbsmaDThF02jAT2/OwNl0zqUl7
- 03DEMVGgBzitGnEk+bztLAP2J/jCnuZ+wAOL5Ikd1AGccn0tSajFXlOxwtBVdrwgmrsC
- 1B7mrJrD5R7aA8vEewEBk45NS6Kd2qsEJ0+RYzy+/ACm/KjNshMgI4Yyu7p0f6Y8tKS6
- utjpVUIiqW16vRQQsaYaHrRNy1Brs4pO6CCCQBziDA7gTQsETVZbBT+7r5UC4PRYecKN
- Os3HsMKJ4rj7D1EMoK/EM/upBrSkg7EJWizeKMryk4yA9JmW7GslwgZNsvrH4IYuuHAZ
- MNNw==
+ bh=iwFgrSbXkMkX6HpkB4zoThlw5Yfzmy+7oy4ZzlGDulk=;
+ b=JbKg93/kp0buJnzINIiZE70OCYeo/PBDUL5me6Rm/w8azPk6PwawMmy5mHb1AuWIsy
+ aNsKH7u5KuoGiAaKu5ks9xBTTNvTFJkn95HwFsQlgxBz4hmCIHz6Glq/Of3BtRxA49iZ
+ 9AP80ycU1A6zT3nv19HYmJYnJ25De8v12ITfJXdUFoYCRZar6MDRJv6A+Y7JdzGhDRmk
+ OG+UQG+m4cvwxvj/dSFjvew8mdhnmGyAoGAepdbVTnafqNHwlCud74AsB8yjS5viGL67
+ 0NTnLUqJCWnxQtqUoE4JHdoqgKWDoYmDU11MpsUXTXwJMmSvtVnnsn0IOvWqpyTrpk2x
+ 24cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679997256;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1679997316;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5W6XbogdsrnH50TgZwRnKlQeZUo5dHnNr3koSPp9Phg=;
- b=Z35aYQfKVJMCf36Y2F1OD6RlWYsspVl6/JPhHL01I2UqEFgAEIHeni0a9mpbyKC7ZJ
- ns2wRoUUky6MnT9LdrbhGCL69ln33wQPl0jCOVnq3hf8Cb13T2Bx/PX1JmfwhkZSI55t
- MdWkatbPyD/1YbQBOWrsCxk5+H61TgmkoVwRAIHxzG3CatBbX4H38lZHshw33Z0aeL9W
- 4lgyPeuRoUbRpPGbqhWka/NwiQeRsp5JcfuMtbsJbKjZAWxHjem+BrJ1zrkgmRcoJ0Ds
- 7rcQKrhGOBoO+GHWQScV7abglgrP1K7+dl0GvX9r/+0PR3QNkPoj7Bjc7PqMt8rZaw6l
- KuMQ==
-X-Gm-Message-State: AAQBX9edYvwicusrlXQuo7dzhyrZbZcsuFT/hQbQmcjbsWqPage/3rv1
- HBiXpjUZS5KegViu6SKgYumL1jJhNeuUkpYrPBHxhg==
-X-Google-Smtp-Source: AKy350Z9/bU8h2Jxkqq0rsxND6WERqNeno3rROnTfjHCEBDRQ8PEKkrbwUGqoTunRpTvPWzIURzZ1xfjxpjLCvtjtoU=
-X-Received: by 2002:a17:906:6a03:b0:930:90ce:a1a6 with SMTP id
- qw3-20020a1709066a0300b0093090cea1a6mr7510267ejc.6.1679997256367; Tue, 28 Mar
- 2023 02:54:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230322142902.69511-1-philmd@linaro.org>
-In-Reply-To: <20230322142902.69511-1-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Mar 2023 10:54:06 +0100
-Message-ID: <CAFEAcA9-+bfGxN3+3sCpA3XB8T8f=RKPC7LUwdK8-pPj-h8xig@mail.gmail.com>
-Subject: Re: [PATCH-for-8.0 0/2] target/arm/gdbstub: Fix builds when TCG is
- disabled
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
- Fabiano Rosas <farosas@suse.de>, Claudio Fontana <cfontana@suse.de>,
- qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+ bh=iwFgrSbXkMkX6HpkB4zoThlw5Yfzmy+7oy4ZzlGDulk=;
+ b=UdyKZnfpkVG94C1tb+H39x1fYn6U5CCCCs8Et0qMxIzii4GItmK3EEqSygCtdnhkXE
+ atcIg8wqJxl250H5eZ2IKMZqqbxf6XLh4gsWvvzsqT1XSfDIcyE62T9hKtSC6Swe+D9/
+ xaRz/y3nNN/DBMxWHf5pSIOfFczN/UkwZQocz+uaWCvSgY19FsCbDhy2KjMdnVFsXzij
+ cw5PTDxaU5hlf5M3dXjGpmR0ZtMNBv53uh8fpyqzGSsVS4wpJUFWz0j5nHdt9hGjZCaD
+ fy+jDoy6BQIzm4xVQmRWdTxl4WDfhZDOuEtKRlxDyK4aSup3ouaz966+/5FNQSR2d2nH
+ htuQ==
+X-Gm-Message-State: AO0yUKW/n8rNkwfc7lms8dwDncbKhRsLXL24WSI6w5+n5XPYnEscaGV5
+ 3+/49KkX9QG7WIVRunIsjnR1LQ==
+X-Google-Smtp-Source: AK7set/h9L+GWgrPpq1SG4TPVfTV5uK3RgyY9Kgr98MW8Srjf5jVh7ivAmzcoNlx/66dAjPAeKYx4A==
+X-Received: by 2002:a1c:f60f:0:b0:3ed:90b2:60c6 with SMTP id
+ w15-20020a1cf60f000000b003ed90b260c6mr11891332wmc.19.1679997316265; 
+ Tue, 28 Mar 2023 02:55:16 -0700 (PDT)
+Received: from smtpclient.apple ([188.25.247.154])
+ by smtp.gmail.com with ESMTPSA id
+ o39-20020a05600c512700b003edddae1068sm12145792wms.9.2023.03.28.02.55.15
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 28 Mar 2023 02:55:15 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.2\))
+Subject: Re: Peter Maydell
+From: Liviu Ionescu <ilg@livius.net>
+In-Reply-To: <BF3FFEF0-8818-40DE-A27E-AA8844ACAEF8@gmail.com>
+Date: Tue, 28 Mar 2023 12:55:14 +0300
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-Id: <46CB357D-23C0-47FC-B355-5FBF59A764A5@livius.net>
+References: <BF3FFEF0-8818-40DE-A27E-AA8844ACAEF8@gmail.com>
+To: cavin narsinghani <cavinnarsinghani@gmail.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.2)
+Received-SPF: none client-ip=2a00:1450:4864:20::32f;
+ envelope-from=ilg@livius.net; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,27 +91,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Mar 2023 at 14:29, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> Fix when building QEMU configured with --disable-tcg:
->
->   Undefined symbols for architecture arm64:
->     "_arm_v7m_get_sp_ptr", referenced from:
->         _m_sysreg_get in target_arm_gdbstub.c.o
->     "_arm_v7m_mrs_control", referenced from:
->         _arm_gdb_get_m_systemreg in target_arm_gdbstub.c.o
->     "_pauth_ptr_mask", referenced from:
->         _aarch64_gdb_get_pauth_reg in target_arm_gdbstub64.c.o
->   ld: symbol(s) not found for architecture arm64
->   clang: error: linker command failed with exit code 1 (use -v to see inv=
-ocation)
->
-> Philippe Mathieu-Daud=C3=A9 (2):
->   target/arm/gdbstub: Restrict aarch64_gdb_get_pauth_reg() to CONFIG_TCG
->   target/arm/gdbstub: Only advertise M-profile features if TCG available
 
-I've applied patch 2 to target-arm.next; thanks.
 
--- PMM
+> On 28 Mar 2023, at 12:38, cavin narsinghani =
+<cavinnarsinghani@gmail.com> wrote:
+>=20
+> =EF=BB=BF
+> Yes, I agree.
+
+That statement was from Nov 2020.
+
+I would say that things got significantly better in the last few years. =
+;-)
+
+Liviu
+
 
