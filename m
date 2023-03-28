@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941426CCBF7
+	by mail.lfdr.de (Postfix) with ESMTPS id 971E26CCBF8
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 23:12:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phGbM-0003S9-JQ; Tue, 28 Mar 2023 17:11:32 -0400
+	id 1phGbK-0003Rg-6n; Tue, 28 Mar 2023 17:11:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1phGbH-0003R5-LX
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1phGbI-0003R8-2g
  for qemu-devel@nongnu.org; Tue, 28 Mar 2023 17:11:28 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1phGbF-0004sg-NT
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1phGbF-0004sl-Ns
  for qemu-devel@nongnu.org; Tue, 28 Mar 2023 17:11:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680037884;
+ s=mimecast20190719; t=1680037885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BwaJRLW+gd4LyNpezKNDSLIf+CC9ZFcawv875W/9YD0=;
- b=TAON9j4frouB6aH1mLSxByipFmDnBi5W6j3XkvVqqzKzm/No3Pn3vdjTrkx06Hpej4lkNn
- ILJqx23eMlDRWbr25zCGTXIpOv2Wctq+94hXPhC+uWe3DCseFWH4Q406nNrDa90tSpNJhy
- D1VemCJMKMAM6q9o1MoHGQ40bbbjmpk=
+ bh=bvbjVftZREXEcr3Z3LmWGSA++itr8KSo6XaHIAINdts=;
+ b=gr5bFpSVYBrxitqIep4LiOfbOziLQ4HeGqVZZX/wMVty/nI63a3EubxrL+TCnsLKsh+0ej
+ ryzAxtxLCSohMRzLhH+CWEeHYbP50UU/OYEHjv1Kv5ls0Y2VjLFBRZrtkYx06wimp8Go+X
+ ptf4BvlWWihNMyEaGbMEMHyvMClap+c=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-551-YgzVL0YCOsSjiH_jf-pk5w-1; Tue, 28 Mar 2023 17:11:21 -0400
-X-MC-Unique: YgzVL0YCOsSjiH_jf-pk5w-1
+ us-mta-553-gThBAK1zPD2biSH9c-QGOw-1; Tue, 28 Mar 2023 17:11:21 -0400
+X-MC-Unique: gThBAK1zPD2biSH9c-QGOw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D00743810B09;
- Tue, 28 Mar 2023 21:11:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 414651C068D9;
+ Tue, 28 Mar 2023 21:11:21 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7878BC15BA0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD597C15BA0;
  Tue, 28 Mar 2023 21:11:20 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
@@ -49,9 +49,10 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Cleber Rosa <crosa@redhat.com>
-Subject: [RFC PATCH 2/3] tests: add python3-venv dependency
-Date: Tue, 28 Mar 2023 17:11:18 -0400
-Message-Id: <20230328211119.2748442-3-jsnow@redhat.com>
+Subject: [RFC PATCH 3/3] configure: install meson to a python virtual
+ environment
+Date: Tue, 28 Mar 2023 17:11:19 -0400
+Message-Id: <20230328211119.2748442-4-jsnow@redhat.com>
 In-Reply-To: <20230328211119.2748442-1-jsnow@redhat.com>
 References: <20230328211119.2748442-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -81,97 +82,249 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Several debian-based tests need the python3-venv dependency as a
-consequence of Debian debundling the "ensurepip" module normally
-included with Python.
+This patch changes how we detect and install meson.
 
-As this series stands right now, in most cases, Debian requires EITHER:
+This patch creates a lightweight Python virtual environment using the
+user's configured $python that inherits system packages. If Meson is
+installed there and meets our minimum version requirements, we will use
+that Meson.
 
-(A) setuptools and pip, or
-(B) ensurepip
+In the event that Meson is installed but *not for the chosen Python
+interpreter*, not found, or of insufficient version, we will attempt to
+install Meson from source into the newly created Python virtual
+environment.
 
-It's quite likely most developer workstations running Debian or a
-Debian-based distro already have all of these packages. venv creation
-will actually be quite a bit faster by installing pip and setuptools,
-but for the purposes of this patch I am only adding the strict minimum
-necessary.
+At present, the source is obtained in the same manner as it has been;
+preferring git submodules first and relying on vendored source as a
+backup.
 
-(For that reason, I chose ensurepip to make sure that as we continue
-tweaking and developing the mkvenv script, we can count on Debian having
-a fully functional Python installation; but for the sake of this series
-it is an arbitrary choice here.)
+This patch does *not* connect to PyPI and will work offline for all
+supported build platforms. Future improvements to this patch may add
+optional PyPI support as a replacement for git submodules.
 
-In one case, even though we already have pip and setuptools, we still
-need ensurepip because the version of these tools that shipped with
-Debian are known to be broken and do not function correctly inside of a
-venv. Using ensurepip bypasses the bug. (This is only for Debian 10,
-which we technically no longer support. Even so, I wanted to prove it's
-possible to support our oldest platforms.)
+As a result of this patch, the Python interpreter we use for both our
+own build scripts *and* Meson extensions are always known to be the
+exact same Python. As a further benefit, there will also be a symlink
+available in the build directory that points to the correct, configured
+python and can be used by e.g. manual tests to invoke the correct,
+configured Python unambiguously.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/docker/dockerfiles/debian-all-test-cross.docker | 3 ++-
- tests/docker/dockerfiles/debian-hexagon-cross.docker  | 3 ++-
- tests/docker/dockerfiles/debian-riscv64-cross.docker  | 3 ++-
- tests/docker/dockerfiles/debian-tricore-cross.docker  | 3 ++-
- 4 files changed, 8 insertions(+), 4 deletions(-)
+ configure                           | 155 +++++++++++++++++++---------
+ .gitlab-ci.d/buildtest-template.yml |   2 +-
+ 2 files changed, 108 insertions(+), 49 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
-index 981e9bdc7b0..f9f401544a0 100644
---- a/tests/docker/dockerfiles/debian-all-test-cross.docker
-+++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
-@@ -57,7 +57,8 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-         gcc-sh4-linux-gnu \
-         libc6-dev-sh4-cross \
-         gcc-sparc64-linux-gnu \
--        libc6-dev-sparc64-cross
-+        libc6-dev-sparc64-cross \
-+        python3-venv
+diff --git a/configure b/configure
+index 05bed4f4a11..1ec054775f6 100755
+--- a/configure
++++ b/configure
+@@ -607,7 +607,6 @@ check_py_version() {
+ python=
+ first_python=
+ if test -z "${PYTHON}"; then
+-    explicit_python=no
+     # A bare 'python' is traditionally python 2.x, but some distros
+     # have it as python 3.x, so check in both places.
+     for binary in python3 python python3.11 python3.10 python3.9 python3.8 python3.7 python3.6; do
+@@ -626,7 +625,6 @@ else
+     # Same as above, but only check the environment variable.
+     has "${PYTHON}" || error_exit "The PYTHON environment variable does not point to an executable"
+     python=$(command -v "$PYTHON")
+-    explicit_python=yes
+     if check_py_version "$python"; then
+         # This one is good.
+         first_python=
+@@ -718,7 +716,7 @@ for opt do
+   ;;
+   --install=*)
+   ;;
+-  --python=*) python="$optarg" ; explicit_python=yes
++  --python=*) python="$optarg"
+   ;;
+   --skip-meson) skip_meson=yes
+   ;;
+@@ -1078,61 +1076,122 @@ if ! check_py_version "$python"; then
+       "Use --python=/path/to/python to specify a supported Python."
+ fi
  
- ENV QEMU_CONFIGURE_OPTS --disable-system --disable-docs --disable-tools
- ENV DEF_TARGET_LIST aarch64-linux-user,alpha-linux-user,arm-linux-user,hppa-linux-user,i386-linux-user,m68k-linux-user,mips-linux-user,mips64-linux-user,mips64el-linux-user,mipsel-linux-user,ppc-linux-user,ppc64-linux-user,ppc64le-linux-user,riscv64-linux-user,s390x-linux-user,sh4-linux-user,sparc64-linux-user
-diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker b/tests/docker/dockerfiles/debian-hexagon-cross.docker
-index 5308ccb8fe9..344eec900b0 100644
---- a/tests/docker/dockerfiles/debian-hexagon-cross.docker
-+++ b/tests/docker/dockerfiles/debian-hexagon-cross.docker
-@@ -20,7 +20,8 @@ RUN apt-get update && \
-         bison \
-         flex \
-         git \
--        ninja-build && \
-+        ninja-build \
-+        python3-venv && \
- # Install QEMU build deps for use in CI
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt build-dep -yy --arch-only qemu
-diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-index 803afb95734..081404e0141 100644
---- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-@@ -28,7 +28,8 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
-     libglib2.0-dev \
-     ninja-build \
-     pkg-config \
--    python3
-+    python3 \
-+    python3-venv
+-# Resolve PATH + suppress writing compiled files
+-python="$(command -v "$python") -B"
+-
+-has_meson() {
+-  local python_dir=$(dirname "$python")
+-  # PEP405: pyvenv.cfg is either adjacent to the Python executable
+-  # or one directory above
+-  if test -f $python_dir/pyvenv.cfg || test -f $python_dir/../pyvenv.cfg; then
+-    # Ensure that Meson and Python come from the same virtual environment
+-    test -x "$python_dir/meson" &&
+-      test "$(command -v meson)" -ef "$python_dir/meson"
+-  else
+-    has meson
+-  fi
++# Resolve PATH
++python="$(command -v "$python")"
++# This variable is intended to be used only for error messages:
++target_python=$python
++
++# Create a Python virtual environment using our configured python.
++# The stdout of this script will be the location of a symlink that
++# points to the configured Python.
++# Entry point scripts for pip, meson, and sphinx are generated if those
++# packages are present.
++
++# Defaults assumed for now:
++# - venv is cleared if it exists already;
++# - venv is allowed to use system packages;
++# - all setup is performed **offline**;
++# - No packages are installed by default;
++# - pip is not installed into the venv when possible,
++#   but ensurepip is called as a fallback when necessary.
++
++echo "python determined to be '$python'"
++echo "python version: $($python --version)"
++
++echo " === pip list (host) === "
++$python -m pip list --disable-pip-version-check
++echo " ======================= "
++echo ""
++
++python="$($python -B "${source_path}/python/scripts/mkvenv.py" create --gen pip,meson,sphinx pyvenv)"
++if test "$?" -ne 0 ; then
++    error_exit "python venv creation failed"
++fi
++
++# Suppress writing compiled files
++python="$python -B"
++echo "Configured python as '$python'"
++
++echo " === pip list (venv) === "
++$python -m pip list --disable-pip-version-check
++echo " ======================= "
++echo ""
++
++pip_install() {
++    $python -m pip install -v \
++            --disable-pip-version-check \
++            --no-index \
++            "$@"
+ }
  
- # Add ports and riscv64 architecture
- RUN echo "deb http://ftp.ports.debian.org/debian-ports/ sid main" >> /etc/apt/sources.list
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index cfd2faf9a80..269bfa8d423 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -33,7 +33,8 @@ RUN apt update && \
-        pkgconf \
-        python3-pip \
-        python3-setuptools \
--       python3-wheel
-+       python3-wheel \
-+       python3-venv
+-if test -z "$meson"; then
+-    if test "$explicit_python" = no && has_meson && version_ge "$(meson --version)" 0.61.5; then
+-        meson=meson
+-    elif test "$git_submodules_action" != 'ignore' ; then
+-        meson=git
+-    elif test -e "${source_path}/meson/meson.py" ; then
+-        meson=internal
++# OK, let's have some fun!
++
++# This install command is intended to either fail or be a NOP;
++# because we're offline, it's just a convenient version check.
++if ! pip_install 'meson>=0.61.5'; then
++    # Either we don't have Meson, or our Meson is too old.
++    # (Future revisions of this patchset can be less chatty.)
++    if test -e pyvenv/bin/meson; then
++        echo "Meson in pyvenv is too old: $(pyvenv/bin/meson --version)"
++    elif has meson ; then
++        echo "Meson was found installed on your system," \
++             "but not for the configured Python interpreter ($target_python)."
++        echo "(Hint: check '$(which meson)' to see which interpreter its shebang uses.)"
+     else
+-        if test "$explicit_python" = yes; then
+-            error_exit "--python requires using QEMU's embedded Meson distribution, but it was not found."
+-        else
+-            error_exit "Meson not found.  Use --meson=/path/to/meson"
++        echo "Meson was not found."
++    fi
++
++    # OK, but can we fix it, though? :~)
++    if test "$git_submodules_action" != 'ignore' ; then
++        git_submodules="${git_submodules} meson"
++        echo "Attempting to install meson from git submodule ..."
++        # Stolen from later in the configure file.
++        # Is it a problem if we front-load this now and run it again later?
++        if ! (GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
++            exit 1
+         fi
++    elif test -e "${source_path}/meson/setup.cfg" ; then
++        echo "Attempting to install meson from vendored source ..."
++    else
++        # In the future, we could use PyPI as a source if the user allows it.
++        # For now, you're outta luck!
++        error_exit "A suitable version of Meson was not found."
+     fi
+-else
+-    # Meson uses its own Python interpreter to invoke other Python scripts,
+-    # but the user wants to use the one they specified with --python.
++
++    # If we're here, we have the meson source and we can attempt to
++    # install it into our venv.
++
++    # We want to install meson with --no-use-pep517 if possible,
++    # because it avoids needing a 'wheel' dependency. Old versions
++    # of pip do this by default, so test for the behavior.
+     #
+-    # We do not want to override the distro Python interpreter (and sometimes
+-    # cannot: for example in Homebrew /usr/bin/meson is a bash script), so
+-    # just require --meson=git|internal together with --python.
+-    if test "$explicit_python" = yes; then
+-        case "$meson" in
+-            git | internal) ;;
+-            *) error_exit "--python requires using QEMU's embedded Meson distribution." ;;
+-        esac
++    # --no-build-isolation was added to pip 10.0.
++    # --no-use-pep517 was added ... sometime after 18.1?
++    pip_flags='--no-build-isolation'
++    if $python -m pip install --help | grep 'no-use-pep517' > /dev/null 2>&1 ; then
++        pip_flags="${pip_flags} --no-use-pep517"
++    fi
++    if ! pip_install $pip_flags "${source_path}/meson" ; then
++        exit 1
+     fi
+ fi
  
- RUN curl -#SL https://github.com/bkoppelmann/package_940/releases/download/tricore-toolchain-9.40/tricore-toolchain-9.4.0.tar.gz \
-     | tar -xzC /usr/local/
+-if test "$meson" = git; then
+-    git_submodules="${git_submodules} meson"
+-fi
++# At this point, we expect Meson to be installed and available.
++# We expect mkvenv or pip to have created pyvenv/bin/meson for us.
++# We ignore PATH completely here: we want to use the venv's Meson
++# *exclusively*.
++meson="$(cd pyvenv/bin; pwd)/meson"
+ 
+-case "$meson" in
+-    git | internal)
+-        meson="$python ${source_path}/meson/meson.py"
+-        ;;
+-    *) meson=$(command -v "$meson") ;;
+-esac
++# Smoke tests: these shouldn't fail, but I have little faith in esoteric
++# platforms I've never used to not do something Deep Strange when I am
++# not looking.
++if ! test -e "$meson" ; then
++    error_exit "??? pyvenv/bin/meson not found, somehow ???"
++fi
++echo "Meson $($meson --version) found: $meson"
++if ! version_ge "$($meson --version)" 0.61.5; then
++    error_exit "??? Meson version is too old ???"
++fi
+ 
+ # Probe for ninja
+ 
+diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+index a6cfe9be970..6cfe644d8fe 100644
+--- a/.gitlab-ci.d/buildtest-template.yml
++++ b/.gitlab-ci.d/buildtest-template.yml
+@@ -17,7 +17,7 @@
+       { cat config.log meson-logs/meson-log.txt && exit 1; }
+     - if test -n "$LD_JOBS";
+       then
+-        ../meson/meson.py configure . -Dbackend_max_links="$LD_JOBS" ;
++        pyvenv/bin/meson configure . -Dbackend_max_links="$LD_JOBS" ;
+       fi || exit 1;
+     - make -j"$JOBS"
+     - if test -n "$MAKE_CHECK_ARGS";
 -- 
 2.39.2
 
