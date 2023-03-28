@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269096CCB83
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FCB6CCB8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:40:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phG0b-0008Q7-NF; Tue, 28 Mar 2023 16:33:33 -0400
+	id 1phG6J-0001kq-4Y; Tue, 28 Mar 2023 16:39:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phG0V-0008Pe-8j
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:33:27 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1phG6G-0001kc-VW
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:39:25 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phG0T-0006WM-Ef
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:33:27 -0400
-Received: by mail-pl1-x631.google.com with SMTP id c18so12850489ple.11
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:33:24 -0700 (PDT)
+ id 1phG6F-0007Q6-F6
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:39:24 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ r7-20020a17090b050700b002404be7920aso12356924pjz.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680035603;
+ d=linaro.org; s=google; t=1680035962;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Ny1DQjojRaqluWvopVyIxSfKDbivnln7LMqO7U4LpXo=;
- b=L4+IPAjzZ9VyaE20Ur6ezhWhrVPhNRApJV7ORMkw9Tr62j5u0RMnQz+3S/B7C/q+gs
- qFl7qWGI3n39iKTMZQixi/nmZByRug3BzRuPTcZSZ8Cg1F27lGGU8rA+1y3g1BCGfmKC
- +CzasGZVEuTpGIBMG7xm2Dj+5Hma9SFWdHEfTEcvVaSQNM0WT8XXOYwQxiAv6ePbbuBT
- hS95mcCPQ54TFWY0HfPo9r8p8o3WOLFmE/QSQFiQoilAelUgF7uCJvqEhTZ5sTL7SwRw
- ZAIUSksPKSp1kJHl95PUPRhIFpP845Zy1SyxcXDjhbH/rAHvn4K4HQRxuBRkRPjdXt7Z
- 7CxQ==
+ bh=m3Yh7oFTjdqSdxd+LfEv4vxGzHZ57HP4Sbs9zC4vpRI=;
+ b=bYVR0VQ7/0cLmZS530vXblYhNjxmbs55zhwsalhZqLXkyrYqkwea5Yd7qYq5WiOs+I
+ wrxKnEdJ/Fm6ny8y/erPVGZ2qXXqfC7Gzwgt3YcFwmhcSotZSAeaI6gd/7111VXlVDV+
+ DLMkAi1thXS8tefOAV+duSBqJyp06TLnYrXBLj2LDlhT+yGHEoo2IyaZ9uue+WSRIyd0
+ YvxU3GFhqzR9ifxeTcrkqbcD8VnrSVKaifiJrdV/73Dd1xToJC0q7cbSTnlpMCtYDkxV
+ GHCyvmI1Mj4H+cc0tUUxiQuOJNra2wYBW7jOnPRyjx1wIxUwpIMTnuLqulcqh5TobDC5
+ a0fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680035603;
+ d=1e100.net; s=20210112; t=1680035962;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ny1DQjojRaqluWvopVyIxSfKDbivnln7LMqO7U4LpXo=;
- b=25XX7A3axYTPsXPTxjTM+1i7+NpYH3uEnXEnrl1sMDzY0JtDu9HXz3OyvTmKs60WBK
- wBSlSXiOU+xxGu2/rz90EJj2YVy+3cH8l0OhlIJ62wByGQpmkDlIdnciU4yDS/MJATMy
- CKr1Hu2xoL1ODf633b+H2wQnsJ621tsYmzMqJSsl+NI6E0m0prE2Mgsm2GSKOozBeu7v
- ljQSq5QZwLmAUErJnMTKMDE0upEBIuh/8zrV25jxclkHG9XQWFRqFXqeiuJNWrIG+6Qv
- SOo0cTzoES8dQlgDsysvFpnf1gq1Mfeu7+UkEBTJRi4oGJX9QOmRE1WeSHPDePZFChaV
- lnDg==
-X-Gm-Message-State: AAQBX9ebimIEAUt9n6LsErpLHXV8gNY1Hhey895u9mftFY1mdwVyQ4l8
- btiVNGQCiZ0aZ53UW9ywmYZyxA==
-X-Google-Smtp-Source: AKy350YVgMuEjMDMJVNH9Y58pMqlGqHdSpi43jlckLdggGwXY1AAqZZhHHF4flFVSQEppQjfgJLCoA==
-X-Received: by 2002:a17:902:e891:b0:1a2:296:9355 with SMTP id
- w17-20020a170902e89100b001a202969355mr19518672plg.16.1680035603580; 
- Tue, 28 Mar 2023 13:33:23 -0700 (PDT)
+ bh=m3Yh7oFTjdqSdxd+LfEv4vxGzHZ57HP4Sbs9zC4vpRI=;
+ b=lqhTEGirnc91nvfzya4CmO3UW/dG+yhZJFOxxmT+VsTvOw0LngtUkTpi2Z5LS8WnV5
+ oWd7hmYeLfKqhPNUDvar9hhMxoHyJCDJFiqHlfuWni8Xzhcg18W5oy2Z2R++53uwcB0u
+ a2Knqdvnsy7kZhqkHGu4cnJ4GcFFB/N4mk7h2xdOq0H99vWc9O9DEUu9EGH60nnktEiO
+ wpFTvMprRgBlgq9pzDJLV6XbgwOLbwcHn/FPCugKAReL5xpMya0tP/Lko9yAaskDQZgS
+ rwjaxln6mGTZluq9pLMmnxpSrZ9dIr72ZFBauCPH933myM2mdK6yrnsjKw1K9ueOxX9O
+ 66gA==
+X-Gm-Message-State: AO0yUKUmPYpb6MM116AIcRXSfAA/l8MoOTjCCTNOuJH2KI+XxiM3+yay
+ TXpoyW2Ne+W0/GF1cp3fuQFvww==
+X-Google-Smtp-Source: AK7set82VTBLwmYcHS+ZmXTWFTQ2TdjdPRLt6b/BcED4FOpwoZ2F5dyffz9xNHUGIzMX+BR2p9rqNA==
+X-Received: by 2002:a05:6a20:b2f:b0:da:3903:f5e7 with SMTP id
+ x47-20020a056a200b2f00b000da3903f5e7mr13849350pzf.0.1680035961679; 
+ Tue, 28 Mar 2023 13:39:21 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:396:9f0d:afc2:978e?
  ([2602:ae:1541:f901:396:9f0d:afc2:978e])
  by smtp.gmail.com with ESMTPSA id
- 207-20020a6301d8000000b0050bd4bb900csm20544274pgb.71.2023.03.28.13.33.22
+ b11-20020aa7870b000000b005ac419804d5sm12855086pfo.98.2023.03.28.13.39.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 13:33:23 -0700 (PDT)
-Message-ID: <6562f208-433f-f16b-405c-ab675046c417@linaro.org>
-Date: Tue, 28 Mar 2023 13:33:21 -0700
+ Tue, 28 Mar 2023 13:39:21 -0700 (PDT)
+Message-ID: <a7a229ac-0dd8-ec0d-9215-a1e71f3aef1b@linaro.org>
+Date: Tue, 28 Mar 2023 13:39:19 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v2 13/44] target/loongarch: Implement vadda
+Subject: Re: [RFC PATCH v2 14/44] target/loongarch: Implement vmax/vmin
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-14-gaosong@loongson.cn>
+ <20230328030631.3117129-15-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-14-gaosong@loongson.cn>
+In-Reply-To: <20230328030631.3117129-15-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,19 +96,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/27/23 20:06, Song Gao wrote:
-> This patch includes:
-> - VADDA.{B/H/W/D}.
-> 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> ---
->   target/loongarch/disas.c                    |  5 ++
->   target/loongarch/helper.h                   |  5 ++
->   target/loongarch/insn_trans/trans_lsx.c.inc | 53 +++++++++++++++++++++
->   target/loongarch/insns.decode               |  5 ++
->   target/loongarch/lsx_helper.c               | 19 ++++++++
->   5 files changed, 87 insertions(+)
+> +static void do_vminmax(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm,
+> +                       void(*gen_vminmax_vec)(unsigned,
+> +                                              TCGv_vec, TCGv_vec, TCGv_vec))
+> +{
+> +    TCGv_vec t1;
+> +
+> +    t1 = tcg_temp_new_vec_matching(t);
+> +    tcg_gen_dupi_vec(vece, t1, imm);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+t1 = tcg_constant_vec_matching(t, vece, imm);
+
+> +static void gen_vmini_s(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
+> +{
+> +    do_vminmax(vece, t, a, imm, tcg_gen_smin_vec);
+> +}
+> +
+> +static void gen_vmini_u(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
+> +{
+> +    do_vminmax(vece, t, a, imm, tcg_gen_umin_vec);
+> +}
+> +
+> +static void gen_vmaxi_s(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
+> +{
+> +    do_vminmax(vece, t, a, imm, tcg_gen_smax_vec);
+> +}
+> +
+> +static void gen_vmaxi_u(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
+> +{
+> +    do_vminmax(vece, t, a, imm, tcg_gen_umax_vec);
+> +}
+
+Perhaps easier to expand
+
+     tcg_gen_umax_vec(vece, t, a, tcg_constant_vec_matching(t, vece, imm));
+
+in each instance?
 
 
 r~
