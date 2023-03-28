@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347B96CBD13
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABB56CBD14
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 13:09:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph7B5-0003jd-HQ; Tue, 28 Mar 2023 07:07:47 -0400
+	id 1ph7BF-0003kV-7c; Tue, 28 Mar 2023 07:07:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ph7B3-0003jU-D6
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:07:46 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1ph7BD-0003kF-8W
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:07:55 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ph7B1-0002Dp-8j
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:07:44 -0400
-Received: by mail-wr1-x430.google.com with SMTP id l27so11758632wrb.2
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 04:07:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1ph7BB-0002FT-8K
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:07:54 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id s12so7856042qtx.11
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 04:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680001661;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ d=ventanamicro.com; s=google; t=1680001671;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=leUGDKI0lYjGG2Rdls/57nZXWiggFtl0OTd21SKQn7w=;
- b=e6EKtprrksbqGOOwvMEoeBQy/BoFMGQKw0BMRZyZ8sArOQ9eO07jpkUgF8qN3Xd1ME
- R31sqIIC/yaCKBKPnmi0fdZUiBIVl8xAfCRLfMSKFHxXZkJc6shVBDqESPKZmIHleeVZ
- Dcpr8R4UKCGtLwwBjsu1+pcfw6uhqMq89r+T5QAXhsxQxvUybcKU7Kq6Pb7qpIrSjLBC
- t4gSq183PhNL4wE8LQn+/r61ldZReusqGmmrnTXTgAhAbdxmtT7vAmAI1Lkek8PXTJC4
- v6i6FkzEuwjVig397C7noCmropvs4MgWmT8VXQXGb/mdccMDC3HcUWUcBlqbkwx0L5sn
- 5JIg==
+ bh=i2OWo9GIHX+02Cbm4JmUor6P4E16Az7/7HFBGm2zQAk=;
+ b=Nyv0klUMC4GRMlhwF81uhwtqnSqd24I3Km93moGglkqRg+7CmTl0k8CwxbOiodlFti
+ h0rSfGNK4yR4sPvSmjGXWgqbZUhnG4e+HxJspGkPWy2GnUHybwQaV56hFDcIQimRgEv5
+ tbcnf3KaDA+uKRTMucOqfijxEqu5eroSoyf+upzrPGEP4GRVE1lwy4tofQA8/Fuxs9T8
+ lRTWd+PUp68T+l1P1wYS7U12OlLNt9FeyYDNcdMBWj28iPWzPbDZifUyfhvvn1NAGV85
+ DL+1G7YKcw2jzTR0j06X3x+eVL6lTsp4sgJdYHt2U/PU2oTLQDe7bbrKleBaWja47GG1
+ rHNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680001661;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=leUGDKI0lYjGG2Rdls/57nZXWiggFtl0OTd21SKQn7w=;
- b=JSxFfFyretznBnV3Hoe5J3fPRvPg0HN2XKJIabonhRorVgSe9jM0ZVQ7ZnZIM1X1hn
- yl//RGHBRqFVbXusiCGRdy8Hk1iVDJEfgPWo6Iod2QRNFJnNHEDJz3ONJREdOew7Gmm8
- EdeQP30PVmEYIHgtAdhns3IbtFXVdqZQCWccQ3wYKNC/H8jZqxaaOG7g22MC5STVy/Vk
- fXAXdcRQfjzdaVBV1SbaLZV00CSNdLLxuUmx7MLCN0CBKioSFhsAgciQKxcEeouztqB1
- M/FY9VRVZPikbpjAm3Hz+Jpbe+EcbB5hmc9bjjRkex+uU6flrtZQ4n28oA5LE5KQmxnB
- QtUw==
-X-Gm-Message-State: AAQBX9diUcDQnNTSaKd0GdyRR7tkwcAUPrj0Twh4+TWW4s07IbQrY4TA
- FXozhAbJE93bLCYeEJBDHJzHDQ==
-X-Google-Smtp-Source: AKy350ZnbeWqHEv7CL0KukkRWtWPuRNfvUMdblp573PEjWVueu0cDRw2IX67NHpQ17Kedp8QAUNVJw==
-X-Received: by 2002:adf:fac5:0:b0:2cf:f2f9:df7a with SMTP id
- a5-20020adffac5000000b002cff2f9df7amr11410298wrs.38.1680001661094; 
- Tue, 28 Mar 2023 04:07:41 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- w2-20020a5d6802000000b002cfe687fc7asm27288054wru.67.2023.03.28.04.07.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 04:07:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 23DDE1FFB7;
- Tue, 28 Mar 2023 12:07:40 +0100 (BST)
-References: <20230327131543.2857052-1-alex.bennee@linaro.org>
- <ad9e3b3a-2fad-35d1-4491-8700c8fceae8@ilande.co.uk>
- <87mt3yrx1w.fsf@linaro.org>
- <28e374e3-5aa4-b5e3-0d8f-f885ca1142ca@ilande.co.uk>
- <87edp9sv5p.fsf@linaro.org>
- <CAFEAcA8_Hhb5RfQ5C_-pT8TcdscTbHVGUkCsuUL89NZgj413KA@mail.gmail.com>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [Socratic RFC PATCH] include: attempt to document
- device_class_set_props
-Date: Tue, 28 Mar 2023 12:05:28 +0100
-In-reply-to: <CAFEAcA8_Hhb5RfQ5C_-pT8TcdscTbHVGUkCsuUL89NZgj413KA@mail.gmail.com>
-Message-ID: <875yalrv5v.fsf@linaro.org>
+ d=1e100.net; s=20210112; t=1680001671;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=i2OWo9GIHX+02Cbm4JmUor6P4E16Az7/7HFBGm2zQAk=;
+ b=gGFZYyufPj4AGoW3X+29EMeVnyHGlMUaNzIyQAx3x3MjzkmkmMPBOmRzqgzeakop0q
+ lUYzEue4X/ZkTA85uOyA+PBLYTsOShk6mzMbYIsbEqATpvU0lBo4neNEkdwXgB6iCsmk
+ HLrr7DSGY4f7k1XRLaXH2Qpbxuuq1UIOPQ4XyyCx1OaDZOQeNSPm5OBeVspbDE+7ec+D
+ 1oaj4AYBKhSdTAeZeM6xVJWrlOUwb9sWKa10AnasehzJx61H2afnVl82Do4Giuh9jxh8
+ tXUj7FgmtUuYGwXTU05iVGf9oDPSeS8uF1bgfUCa+JA0MCeZ8nC0qDGJUZK0wVQygZpB
+ fHVg==
+X-Gm-Message-State: AAQBX9cagsRmfSEwtAyLYyiT2rvv61rZsdkd1jRTUGuysqMVcf4MfOiV
+ Weuidadykqp77K/PJOQeGwk0K9RyrDvAVjSCGuOojw==
+X-Google-Smtp-Source: AK7set8k22tHNRJmLP4XMWpf8dXfu5Retly723b3vTkIZ9NSSLF7l16qBm1qVJGRi+MjQDPYUrEZL+tuIZrwOJ70m0U=
+X-Received: by 2002:ac8:5744:0:b0:3e0:c4ac:1620 with SMTP id
+ 4-20020ac85744000000b003e0c4ac1620mr5771868qtx.13.1680001671614; Tue, 28 Mar
+ 2023 04:07:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20221016124726.102129-1-mchitale@ventanamicro.com>
+ <20221016124726.102129-5-mchitale@ventanamicro.com>
+ <CAKmqyKO+HQ7dtGQwaJFG481vkyMfX-tXrux2rmrGkfAz54dBbQ@mail.gmail.com>
+ <3efb804f-4a3a-758e-fb4a-543e10271045@iscas.ac.cn>
+In-Reply-To: <3efb804f-4a3a-758e-fb4a-543e10271045@iscas.ac.cn>
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+Date: Tue, 28 Mar 2023 16:37:15 +0530
+Message-ID: <CAN37VV5b_wdty4ob1D4tjGe6r96CuzdYYurvi=AyqG0EhsSgzg@mail.gmail.com>
+Subject: Re: [PATCH v11 4/5] target/riscv: smstateen check for fcsr
+To: liweiwei <liweiwei@iscas.ac.cn>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ Alistair Francis <alistair23@gmail.com>,
+ Daniel Barboza <dbarboza@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,133 +90,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Mon, 27 Mar 2023 at 23:10, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->>
->> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
->>
->> > On 27/03/2023 17:12, Alex Benn=C3=A9e wrote:
->> >
->> >> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
->> >>
->> >>> On 27/03/2023 14:15, Alex Benn=C3=A9e wrote:
->> >>>
->> >>>> I'm still not sure how I achieve by use case of the parent class
->> >>>> defining the following properties:
->> >>>>     static Property vud_properties[] =3D {
->> >>>>         DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
->> >>>>         DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
->> >>>>         DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
->> >>>>         DEFINE_PROP_END_OF_LIST(),
->> >>>>     };
->> >>>> But for the specialisation of the class I want the id to default to
->> >>>> the actual device id, e.g.:
->> >>>>     static Property vu_rng_properties[] =3D {
->> >>>>         DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG=
-),
->> >>>>         DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
->> >>>>         DEFINE_PROP_END_OF_LIST(),
->> >>>>     };
->> >>>> And so far the API for doing that isn't super clear.
->> >>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> >>>> ---
->> >>>>    include/hw/qdev-core.h | 9 +++++++++
->> >>>>    1 file changed, 9 insertions(+)
->> >>>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
->> >>>> index bd50ad5ee1..d4bbc30c92 100644
->> >>>> --- a/include/hw/qdev-core.h
->> >>>> +++ b/include/hw/qdev-core.h
->> >>>> @@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
->> >>>>    char *qdev_get_fw_dev_path(DeviceState *dev);
->> >>>>    char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, Devic=
-eState *dev);
->> >>>>    +/**
->> >>>> + * device_class_set_props(): add a set of properties to an device
->> >>>> + * @dc: the parent DeviceClass all devices inherit
->> >>>> + * @props: an array of properties, terminate by DEFINE_PROP_END_OF=
-_LIST()
->> >>>> + *
->> >>>> + * This will add a set of properties to the object. It will fault =
-if
->> >>>> + * you attempt to add an existing property defined by a parent cla=
-ss.
->> >>>> + * To modify an inherited property you need to use????
->> >>>> + */
->> >>>>    void device_class_set_props(DeviceClass *dc, Property *props);
->> >>>>      /**
->> >>>
->> >>> Hmmm that's an interesting one. Looking at the source in
->> >>> hw/core/qdev-properties.c you could possibly get away with something
->> >>> like this in vu_rng_class_init():
->> >>>
->> >>>      ObjectProperty *op =3D object_class_property_find(klass, "id");
->> >>>      object_property_set_default_uint(op, VIRTIO_ID_RNG);
->> >>>
->> >>> Of course this is all completely untested :)
->> >> Sadly we assert on the existing prop->defval:
->> >>    static void object_property_set_default(ObjectProperty *prop,
->> >> QObject *defval)
->> >>    {
->> >>        assert(!prop->defval);
->> >>        assert(!prop->init);
->> >>        prop->defval =3D defval;
->> >>        prop->init =3D object_property_init_defval;
->> >>    }
->> >> Maybe the assert is too aggressive or we need a different helper,
->> >> maybe
->> >> a:
->> >>    void object_property_update_default_uint(ObjectProperty *prop,
->> >> uint64_t value)
->> >> ?
->> >
->> > It seems in that case once the default has been set, it is impossible
->> > to change. The only other immediate option I can think of is to define
->> > a specific DEFINE_VHOST_PROPERTIES macro in a similar way to
->> > DEFINE_AUDIO_PROPERTIES which you can use to set the common properties
->> > for all VHostUserDevice devices, including providing the default ID.
->>
->> I tried this: allow the default to change
->>
->> modified   qom/object.c
->> @@ -1557,11 +1557,16 @@ static void object_property_init_defval(Object *=
-obj, ObjectProperty *prop)
->>
->>  static void object_property_set_default(ObjectProperty *prop, QObject *=
-defval)
->>  {
->> -    assert(!prop->defval);
->> -    assert(!prop->init);
->> +    if (prop->init =3D=3D object_property_init_defval) {
->> +        fprintf(stderr, "%s: updating existing defval\n", __func__);
->> +        prop->defval =3D defval;
->> +    } else {
->> +        assert(!prop->defval);
->> +        assert(!prop->init);
->>
->> -    prop->defval =3D defval;
->> -    prop->init =3D object_property_init_defval;
->> +        prop->defval =3D defval;
->> +        prop->init =3D object_property_init_defval;
->> +    }
->>  }
+On Fri, Mar 24, 2023 at 7:01=E2=80=AFPM liweiwei <liweiwei@iscas.ac.cn> wro=
+te:
 >
-> I think this leaves the door open to bugs where you create
-> the property, somebody looks at it, and then you update
-> the default value afterwards...
-
-Really the pattern I have is:
-
-  vhost-user-device has the property and is configurable
-  vhost-user-rng-device specialises vhost-user-device and fixes the value
-
-I'm not sure how best to represent that. This should all be happening at
-class_init time.
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+>
+> On 2022/11/21 07:35, Alistair Francis wrote:
+> > On Sun, Oct 16, 2022 at 11:09 PM Mayuresh Chitale
+> > <mchitale@ventanamicro.com> wrote:
+> >> If smstateen is implemented and sstateen0.fcsr is clear then the float=
+ing point
+> >> operations must return illegal instruction exception or virtual instru=
+ction
+> >> trap, if relevant.
+> >>
+> >> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> >> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> >> ---
+> >>   target/riscv/csr.c                        | 23 ++++++++++++
+> >>   target/riscv/insn_trans/trans_rvf.c.inc   | 43 +++++++++++++++++++++=
+--
+> >>   target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
+> >>   3 files changed, 75 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> >> index 71236f2b5d..8b25f885ec 100644
+> >> --- a/target/riscv/csr.c
+> >> +++ b/target/riscv/csr.c
+> >> @@ -84,6 +84,10 @@ static RISCVException fs(CPURISCVState *env, int cs=
+rno)
+> >>           !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
+> >>           return RISCV_EXCP_ILLEGAL_INST;
+> >>       }
+> >> +
+> >> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+> >> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
+> >> +    }
+> >>   #endif
+> >>       return RISCV_EXCP_NONE;
+> >>   }
+> >> @@ -2023,6 +2027,9 @@ static RISCVException write_mstateen0(CPURISCVSt=
+ate *env, int csrno,
+> >>                                         target_ulong new_val)
+> >>   {
+> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >> +    if (!riscv_has_ext(env, RVF)) {
+> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
+> >> +    }
+> >>
+> >>       return write_mstateen(env, csrno, wr_mask, new_val);
+> >>   }
+> >> @@ -2059,6 +2066,10 @@ static RISCVException write_mstateen0h(CPURISCV=
+State *env, int csrno,
+> >>   {
+> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >>
+> >> +    if (!riscv_has_ext(env, RVF)) {
+> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
+> >> +    }
+> >> +
+> >>       return write_mstateenh(env, csrno, wr_mask, new_val);
+> >>   }
+> >>
+> >> @@ -2096,6 +2107,10 @@ static RISCVException write_hstateen0(CPURISCVS=
+tate *env, int csrno,
+> >>   {
+> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >>
+> >> +    if (!riscv_has_ext(env, RVF)) {
+> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
+> >> +    }
+> >> +
+> >>       return write_hstateen(env, csrno, wr_mask, new_val);
+> >>   }
+> >>
+> >> @@ -2135,6 +2150,10 @@ static RISCVException write_hstateen0h(CPURISCV=
+State *env, int csrno,
+> >>   {
+> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >>
+> >> +    if (!riscv_has_ext(env, RVF)) {
+> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
+> >> +    }
+> >> +
+> >>       return write_hstateenh(env, csrno, wr_mask, new_val);
+> >>   }
+> >>
+> >> @@ -2182,6 +2201,10 @@ static RISCVException write_sstateen0(CPURISCVS=
+tate *env, int csrno,
+> >>   {
+> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >>
+> >> +    if (!riscv_has_ext(env, RVF)) {
+> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
+> >> +    }
+> >> +
+> >>       return write_sstateen(env, csrno, wr_mask, new_val);
+> >>   }
+> >>
+> >> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/in=
+sn_trans/trans_rvf.c.inc
+> >> index a1d3eb52ad..93657680c6 100644
+> >> --- a/target/riscv/insn_trans/trans_rvf.c.inc
+> >> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+> >> @@ -24,9 +24,46 @@
+> >>               return false; \
+> >>   } while (0)
+> >>
+> >> -#define REQUIRE_ZFINX_OR_F(ctx) do {\
+> >> -    if (!ctx->cfg_ptr->ext_zfinx) { \
+> >> -        REQUIRE_EXT(ctx, RVF); \
+> >> +#ifndef CONFIG_USER_ONLY
+> >> +static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
+> >> +{
+> >> +    CPUState *cpu =3D ctx->cs;
+> >> +    CPURISCVState *env =3D cpu->env_ptr;
+> >> +    uint64_t stateen =3D env->mstateen[index];
+> > Sorry I missed this the first time around. You can't access env here
+> >
+> > Richard pointed it out here:
+> > https://patchwork.kernel.org/project/qemu-devel/patch/20221117070316.58=
+447-8-liweiwei@iscas.ac.cn/#25095773
+> >
+> > I'm going to drop this patch and patch v5
+> >
+> > Alistair
+>
+> Hi, Any new updates for the last two patches after they were dropped?
+>
+> Regards,
+>
+> Weiwei Li
+>
+Looks like I missed the original comments from Richard and Alistair. I
+am not yet clear how to implement it but I am looking into it.
 
