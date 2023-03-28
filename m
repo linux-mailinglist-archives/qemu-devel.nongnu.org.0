@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279A56CB448
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 04:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693E96CB4B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:14:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgzOa-0003xc-Dz; Mon, 27 Mar 2023 22:49:12 -0400
+	id 1pgzfZ-0007BI-LL; Mon, 27 Mar 2023 23:06:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pgzOX-0003wu-1B; Mon, 27 Mar 2023 22:49:09 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pgzfW-0007Ab-O1
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:06:42 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pgzOU-00026h-70; Mon, 27 Mar 2023 22:49:08 -0400
-Received: from [192.168.0.120] (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowACnrc2YVSJkLg3zFw--.2607S2;
- Tue, 28 Mar 2023 10:48:57 +0800 (CST)
-Message-ID: <c1b60f5e-5bb8-5462-ae93-7813da4269bb@iscas.ac.cn>
-Date: Tue, 28 Mar 2023 10:48:56 +0800
+ (envelope-from <gaosong@loongson.cn>) id 1pgzfU-0000LB-77
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:06:42 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxJIS4WSJkOdoSAA--.28994S3;
+ Tue, 28 Mar 2023 11:06:32 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dxyr24WSJkZukOAA--.10252S2; 
+ Tue, 28 Mar 2023 11:06:32 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org
+Subject: [RFC PATCH v2 00/44] Add LoongArch LSX instructions
+Date: Tue, 28 Mar 2023 11:05:47 +0800
+Message-Id: <20230328030631.3117129-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/5] target/riscv: Fix effective address for pointer mask
-Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
- <20230327100027.61160-2-liweiwei@iscas.ac.cn>
- <c0abfb39-56a7-a184-f134-bcb075908f57@linux.alibaba.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <c0abfb39-56a7-a184-f134-bcb075908f57@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACnrc2YVSJkLg3zFw--.2607S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFWDuF1UZw43Xw15Gry5XFb_yoW5XrW7pF
- 1kGrWkury5Xr97JFy7tr4DXFyrGr1UJa1DXw1vva4YyrWUXr10qr4DXrZIgr4jyr48Xr4U
- Ar45GryUuF17XrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_
- JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
+X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxJFWfZrW3Xw1kur4kZrWkJFb_yoWrJr15pr
+ W7Zr1DtFW8XrZ7XF1kXa9xZr9Iqr18G3y2v3Z3t348uw43Ar97ZF1kt39FgFyUXayUCry2
+ qFy0kwn8XF45X37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x
+ 0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,89 +72,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
-On 2023/3/28 10:20, LIU Zhiwei wrote:
->
-> On 2023/3/27 18:00, Weiwei Li wrote:
->> Since pointer mask works on effective address, and the xl works on the
->> generation of effective address, so xl related calculation should be 
->> done
->> before pointer mask.
->
-> Incorrect. It has been done.
->
-> When updating the pm_mask,  we have already considered the env->xl.
->
-> You can see it in riscv_cpu_update_mask
->
->     if (env->xl == MXL_RV32) {
->         env->cur_pmmask = mask & UINT32_MAX;
->         env->cur_pmbase = base & UINT32_MAX;
->     } else {
->         env->cur_pmmask = mask;
->         env->cur_pmbase = base;
->     }
->
-Yeah, I missed this part. Then we should ensure cur_pmmask/base is 
-updated when xl changes.
+This series adds LoongArch LSX instructions, Since the LoongArch
+Vol2 is not open, So we use 'RFC' title.
 
-If so, I'll drop this patch.
+About Test:
+V2 we use RISU test the LoongArch LSX instructions.
+No problems have been found so far.
 
-Regards,
+QEMU:
+    https://github.com/loongson/qemu/tree/tcg-old-abi-support-lsx
+RISU:
+    https://github.com/loongson/risu/tree/loongarch-suport-lsx
 
-Weiwei Li
+V2:
+  - Use gvec;
+  - Fix instructions bugs;
+  - Add set_fpr()/get_fpr() replace to cpu_fpr.
 
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> ---
->>   target/riscv/translate.c | 16 ++++++++++++----
->>   1 file changed, 12 insertions(+), 4 deletions(-)
->>
->> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->> index 0ee8ee147d..bf0e2d318e 100644
->> --- a/target/riscv/translate.c
->> +++ b/target/riscv/translate.c
->> @@ -568,11 +568,15 @@ static TCGv get_address(DisasContext *ctx, int 
->> rs1, int imm)
->>       TCGv src1 = get_gpr(ctx, rs1, EXT_NONE);
->>         tcg_gen_addi_tl(addr, src1, imm);
->> +
->> +    if (get_xl(ctx) == MXL_RV32) {
->> +        tcg_gen_ext32u_tl(addr, addr);
->> +    }
->> +
->>       if (ctx->pm_mask_enabled) {
->>           tcg_gen_andc_tl(addr, addr, pm_mask);
->> -    } else if (get_xl(ctx) == MXL_RV32) {
->> -        tcg_gen_ext32u_tl(addr, addr);
->>       }
->
-> The else is processing when only xl works, and the pm_mask doesn't work.
->
-> Zhiwei
->
->> +
->>       if (ctx->pm_base_enabled) {
->>           tcg_gen_or_tl(addr, addr, pm_base);
->>       }
->> @@ -586,11 +590,15 @@ static TCGv get_address_indexed(DisasContext 
->> *ctx, int rs1, TCGv offs)
->>       TCGv src1 = get_gpr(ctx, rs1, EXT_NONE);
->>         tcg_gen_add_tl(addr, src1, offs);
->> +
->> +    if (get_xl(ctx) == MXL_RV32) {
->> +        tcg_gen_ext32u_tl(addr, addr);
->> +    }
->> +
->>       if (ctx->pm_mask_enabled) {
->>           tcg_gen_andc_tl(addr, addr, pm_mask);
->> -    } else if (get_xl(ctx) == MXL_RV32) {
->> -        tcg_gen_ext32u_tl(addr, addr);
->>       }
->> +
->>       if (ctx->pm_base_enabled) {
->>           tcg_gen_or_tl(addr, addr, pm_base);
->>       }
+Thanks.
+Song Gao
+
+Song Gao (44):
+  target/loongarch: Add LSX data type VReg
+  target/loongarch: CPUCFG support LSX
+  target/loongarch: meson.build support build LSX
+  target/loongarch: Add CHECK_SXE maccro for check LSX enable
+  target/loongarch: Implement vadd/vsub
+  target/loongarch: Implement vaddi/vsubi
+  target/loongarch: Implement vneg
+  target/loongarch: Implement vsadd/vssub
+  target/loongarch: Implement vhaddw/vhsubw
+  target/loongarch: Implement vaddw/vsubw
+  target/loongarch: Implement vavg/vavgr
+  target/loongarch: Implement vabsd
+  target/loongarch: Implement vadda
+  target/loongarch: Implement vmax/vmin
+  target/loongarch: Implement vmul/vmuh/vmulw{ev/od}
+  target/loongarch: Implement vmadd/vmsub/vmaddw{ev/od}
+  target/loongarch: Implement vdiv/vmod
+  target/loongarch: Implement vsat
+  target/loongarch: Implement vexth
+  target/loongarch: Implement vsigncov
+  target/loongarch: Implement vmskltz/vmskgez/vmsknz
+  target/loongarch: Implement LSX logic instructions
+  target/loongarch: Implement vsll vsrl vsra vrotr
+  target/loongarch: Implement vsllwil vextl
+  target/loongarch: Implement vsrlr vsrar
+  target/loongarch: Implement vsrln vsran
+  target/loongarch: Implement vsrlrn vsrarn
+  target/loongarch: Implement vssrln vssran
+  target/loongarch: Implement vssrlrn vssrarn
+  target/loongarch: Implement vclo vclz
+  target/loongarch: Implement vpcnt
+  target/loongarch: Implement vbitclr vbitset vbitrev
+  target/loongarch: Implement vfrstp
+  target/loongarch: Implement LSX fpu arith instructions
+  target/loongarch: Implement LSX fpu fcvt instructions
+  target/loongarch: Implement vseq vsle vslt
+  target/loongarch: Implement vfcmp
+  target/loongarch: Implement vbitsel vset
+  target/loongarch: Implement vinsgr2vr vpickve2gr vreplgr2vr
+  target/loongarch: Implement vreplve vpack vpick
+  target/loongarch: Implement vilvl vilvh vextrins vshuf
+  target/loongarch: Implement vld vst
+  target/loongarch: Implement vldi
+  target/loongarch: Use {set/get}_gpr replace to cpu_fpr
+
+ fpu/softfloat.c                               |   55 +
+ include/fpu/softfloat.h                       |   27 +
+ linux-user/loongarch64/signal.c               |    4 +-
+ target/loongarch/cpu.c                        |    5 +-
+ target/loongarch/cpu.h                        |   37 +-
+ target/loongarch/disas.c                      |  911 ++++
+ target/loongarch/fpu_helper.c                 |    2 +-
+ target/loongarch/gdbstub.c                    |    4 +-
+ target/loongarch/helper.h                     |  593 +++
+ .../loongarch/insn_trans/trans_farith.c.inc   |   72 +-
+ target/loongarch/insn_trans/trans_fcmp.c.inc  |   12 +-
+ .../loongarch/insn_trans/trans_fmemory.c.inc  |   37 +-
+ target/loongarch/insn_trans/trans_fmov.c.inc  |   31 +-
+ target/loongarch/insn_trans/trans_lsx.c.inc   | 3724 +++++++++++++++++
+ target/loongarch/insns.decode                 |  811 ++++
+ target/loongarch/internals.h                  |    1 +
+ target/loongarch/lsx_helper.c                 | 3553 ++++++++++++++++
+ target/loongarch/machine.c                    |   34 +-
+ target/loongarch/meson.build                  |    1 +
+ target/loongarch/translate.c                  |   38 +-
+ 20 files changed, 9901 insertions(+), 51 deletions(-)
+ create mode 100644 target/loongarch/insn_trans/trans_lsx.c.inc
+ create mode 100644 target/loongarch/lsx_helper.c
+
+-- 
+2.31.1
 
 
