@@ -2,98 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0546CB7E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 09:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D022D6CB7FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 09:26:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph3cz-0003vv-Cy; Tue, 28 Mar 2023 03:20:21 -0400
+	id 1ph3i3-0006XQ-I9; Tue, 28 Mar 2023 03:25:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ph3cu-0003vb-Uw
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 03:20:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ph3i0-0006X8-An; Tue, 28 Mar 2023 03:25:32 -0400
+Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ph3cs-0004u3-RZ
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 03:20:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679988013;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NSpCRyfdwdMKGA75ZoaRNiWJsGVh33ES/DNX8ajjdCA=;
- b=QE/EFj9ZDgRLfcEcrGGAiwQLfemVXnSOAInnqUqH9CrVf36uyBPBLY9r+fPORQE0SaWgjx
- lO/tYOEfQIL+TfPJ9Spz8ZDgK3q9XjVpSkg3XJIDJAafxbiivRo/ZHYHX5rEFUBwfsmXph
- moHZX6dtiIw+VgDAFfFPq66RFT787u8=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-456-I6vzBQNVORKrShHadngBmw-1; Tue, 28 Mar 2023 03:20:11 -0400
-X-MC-Unique: I6vzBQNVORKrShHadngBmw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- 206-20020a370cd7000000b007467b5765d2so5259211qkm.0
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 00:20:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679988011;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NSpCRyfdwdMKGA75ZoaRNiWJsGVh33ES/DNX8ajjdCA=;
- b=pCldH+fOJbbiRnoC7DZR8e36N7Ij4OTLtsEtYg4hm8m07p2vcanPbuXqbx3pk+ddQL
- 2P/bEy6tEtFzShEu87Q/m2Req+lNEOlKQOPCZDL6OC/wNgJ235Du0bcrKBUm5SOirrYI
- 2Qq//X4R/QyLcO0JdH07ei6lXuPMnsx6YBca/+X7Aaromep+i2jQz+S1FP48nn5CDb/p
- cKVs2L78ShGCqPjmLlD9HCygP/cwNX7wJXOis8ffEr8bEsV1D8p/6u940Ln+dBUekH7p
- B0yqrAoCw4QKrd0E3oQtgoPERQNy4PbqF7UfY252/BNy4kgZZ8whWTD7U4DldK5CfS5p
- 56mA==
-X-Gm-Message-State: AO0yUKWpijuPd+tPtVlX6AY6ghnrLuNzQ3BPljdLgcasV7QJzDFM8MCc
- phvTnK0b3ZQnPZC3DABiZDlYX/tr0z2QKr/270Tgx+AX5BSFWv75MTunteU3Jm24cST4CL6/z6M
- f5i4u0FBNX5u1AWo=
-X-Received: by 2002:a05:622a:215:b0:3e3:5f85:631b with SMTP id
- b21-20020a05622a021500b003e35f85631bmr23623907qtx.66.1679988011140; 
- Tue, 28 Mar 2023 00:20:11 -0700 (PDT)
-X-Google-Smtp-Source: AK7set888J3Yke8lTIwi1BfhFg5XXX9s/DFi527AkJSYYzRip4Tv98xHapLQrssVcvaz6965nuN5eA==
-X-Received: by 2002:a05:622a:215:b0:3e3:5f85:631b with SMTP id
- b21-20020a05622a021500b003e35f85631bmr23623891qtx.66.1679988010857; 
- Tue, 28 Mar 2023 00:20:10 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-113.web.vodafone.de.
- [109.43.179.113]) by smtp.gmail.com with ESMTPSA id
- q21-20020ac87355000000b003e387a2fbdfsm7345518qtp.0.2023.03.28.00.20.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 00:20:10 -0700 (PDT)
-Message-ID: <98a65e35-9c56-df86-66ed-f949c1fb9c96@redhat.com>
-Date: Tue, 28 Mar 2023 09:20:06 +0200
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ph3hx-00078p-NU; Tue, 28 Mar 2023 03:25:31 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R631e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0Ves1J0s_1679988319; 
+Received: from 30.221.98.176(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0Ves1J0s_1679988319) by smtp.aliyun-inc.com;
+ Tue, 28 Mar 2023 15:25:19 +0800
+Content-Type: multipart/alternative;
+ boundary="------------XXaN4xzUas9nW3l6NH5zc0A7"
+Message-ID: <241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com>
+Date: Tue, 28 Mar 2023 15:25:16 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/5] target/riscv: Fix effective address for pointer mask
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>,
- qemu-devel <qemu-devel@nongnu.org>, David Hildenbrand <david@redhat.com>,
- "Borntraeger, Christian" <borntraeger@de.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, fiuczy@linux.ibm.com,
- Halil Pasic <pasic@linux.ibm.com>, nsg@linux.ibm.com,
- "P. Berrange, Daniel" <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20230327133525.50318-1-imbrenda@linux.ibm.com>
- <20230327133525.50318-2-imbrenda@linux.ibm.com>
- <CABgObfYK_cVCS5x-JYY78KTdrhTnPU+fiK5QRnRTrd+EWMn3bw@mail.gmail.com>
- <87cz4t5tuo.fsf@pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v5 1/1] util/async-teardown: wire up
- query-command-line-options
-In-Reply-To: <87cz4t5tuo.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: liweiwei <liweiwei@iscas.ac.cn>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
+ <20230327100027.61160-2-liweiwei@iscas.ac.cn>
+ <c0abfb39-56a7-a184-f134-bcb075908f57@linux.alibaba.com>
+ <c1b60f5e-5bb8-5462-ae93-7813da4269bb@iscas.ac.cn>
+ <389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org>
+ <04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn>
+Received-SPF: pass client-ip=115.124.30.110;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-110.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,53 +70,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/03/2023 07.26, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
->> I am honestly not a fan of adding a more complex option,.just because
->> query-command-line-options only returns the square holes whereas here we
->> got a round one.
+This is a multi-part message in MIME format.
+--------------XXaN4xzUas9nW3l6NH5zc0A7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+On 2023/3/28 11:33, liweiwei wrote:
+>
+>
+> On 2023/3/28 11:18, Richard Henderson wrote:
+>> On 3/27/23 19:48, liweiwei wrote:
+>>>
+>>> On 2023/3/28 10:20, LIU Zhiwei wrote:
+>>>>
+>>>> On 2023/3/27 18:00, Weiwei Li wrote:
+>>>>> Since pointer mask works on effective address, and the xl works on 
+>>>>> the
+>>>>> generation of effective address, so xl related calculation should 
+>>>>> be done
+>>>>> before pointer mask.
+>>>>
+>>>> Incorrect. It has been done.
+>>>>
+>>>> When updating the pm_mask,  we have already considered the env->xl.
+>>>>
+>>>> You can see it in riscv_cpu_update_mask
+>>>>
+>>>>     if (env->xl == MXL_RV32) {
+>>>>         env->cur_pmmask = mask & UINT32_MAX;
+>>>>         env->cur_pmbase = base & UINT32_MAX;
+>>>>     } else {
+>>>>         env->cur_pmmask = mask;
+>>>>         env->cur_pmbase = base;
+>>>>     }
+>>>>
+>>> Yeah, I missed this part. Then we should ensure cur_pmmask/base is 
+>>> updated when xl changes.
 >>
->> Can we imagine another functionality that would be added to -teardown? If
->> not, it's not a good design. If it works, I would add a completely dummy
->> (no suboptions) group "async-teardown" and not modify the parsing at all.
-> 
-> Does v2 implement your suggestion?
-> Message-Id: <20230320131648.61728-1-imbrenda@linux.ibm.com>
-> 
-> I dislike it, because it makes query-command-line-options claim
-> -async-teardown has an option argument with unknown keys, which is
-> plainly wrong, and must be treated as a special case.  Worse, a new kind
-> of special case.
+>> Is that even possible?  XL can change on priv level changes (SXL, UXL).
+>
+> Yeah. Not possible, since only UXL is changable currently, and SXL/UXL 
+> can only be changed in higher priv level.
+>
+> So the recompute for xl in write_mstatus() seems redundant.
+>
+I think you are almost right. But as we allow write XL field when in 
+debug mode, we seemly also need call this function for it.
 
-I agree with Markus, it sounds like a bad idea to create a new special case 
-for this.
+Zhiwei
 
-Paolo, what do you think of my "-run-with" suggestion here:
+> Maybe there is a way to change current xl in future if misa.mxl is 
+> changable.
+>
+> Regards,
+>
+> Weiwei Li
+>
+>>
+>>
+>> r~
+--------------XXaN4xzUas9nW3l6NH5zc0A7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
- 
-https://lore.kernel.org/qemu-devel/3237c289-b8c2-6ea2-8bfb-7eeed637efc7@redhat.com/
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2023/3/28 11:33, liweiwei wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><br>
+      </p>
+      <div class="moz-cite-prefix">On 2023/3/28 11:18, Richard Henderson
+        wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org">On
+        3/27/23 19:48, liweiwei wrote: <br>
+        <blockquote type="cite"> <br>
+          On 2023/3/28 10:20, LIU Zhiwei wrote: <br>
+          <blockquote type="cite"> <br>
+            On 2023/3/27 18:00, Weiwei Li wrote: <br>
+            <blockquote type="cite">Since pointer mask works on
+              effective address, and the xl works on the <br>
+              generation of effective address, so xl related calculation
+              should be done <br>
+              before pointer mask. <br>
+            </blockquote>
+            <br>
+            Incorrect. It has been done. <br>
+            <br>
+            When updating the pm_mask,  we have already considered the
+            env-&gt;xl. <br>
+            <br>
+            You can see it in riscv_cpu_update_mask <br>
+            <br>
+                if (env-&gt;xl == MXL_RV32) { <br>
+                    env-&gt;cur_pmmask = mask &amp; UINT32_MAX; <br>
+                    env-&gt;cur_pmbase = base &amp; UINT32_MAX; <br>
+                } else { <br>
+                    env-&gt;cur_pmmask = mask; <br>
+                    env-&gt;cur_pmbase = base; <br>
+                } <br>
+            <br>
+          </blockquote>
+          Yeah, I missed this part. Then we should ensure
+          cur_pmmask/base is updated when xl changes. <br>
+        </blockquote>
+        <br>
+        Is that even possible?  XL can change on priv level changes
+        (SXL, UXL). <br>
+      </blockquote>
+      <p>Yeah. Not possible, since only UXL is changable currently, and
+        SXL/UXL can only be changed in higher priv level.</p>
+      <p>So the recompute for xl in <span style="color: #000000;">write_mstatus()
+          seems redundant.</span></p>
+    </blockquote>
+    <p>I think you are almost right. But as we allow write XL field when
+      in debug mode, we seemly also need call this function for it.</p>
+    <p>Zhiwei<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn">
+      <p><span style="color: #000000;">Maybe there is a way to change
+          current xl in future if misa.mxl is changable.</span></p>
+      <p><span style="color: #000000;">Regards,</span></p>
+      <p><span style="color: #000000;">Weiwei Li<br>
+        </span></p>
+      <blockquote type="cite"
+        cite="mid:389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org"> <br>
+        <br>
+        r~ <br>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
 
-I still think that this is a good idea, even if it is a "grab-bag" as Markus 
-said, it would give us a place where we could wire future similar options, 
-too, without running into this problem here again and again.
-
-> Can we have a QMP command, so libvirt can use query-qmp-schema?
-
-Question is whether this could be toggled during runtime...? Or did you mean 
-a command that just queries the setting of the option, e.g. 
-"query-async-teardown" which then reports whether it is enabled or not?
-
-> In case QMP becomes functional too late for the command to actually
-> work: make it always fail for now.  It can still serve as a witness for
-> -async-teardown.  If we rework QEMU startup so that QMP can do
-> everything the CLI can do, we'll make the QMP command work.
-
-Adding non-working functions sounds ugly... Anyway, we're slowly running out 
-of time for QEMU 8.0 ... if we can't find an easy solution, I think we 
-should rather postpone this to the next cycle instead of rushing unfinished 
-stuff now.
-
-  Thomas
-
+--------------XXaN4xzUas9nW3l6NH5zc0A7--
 
