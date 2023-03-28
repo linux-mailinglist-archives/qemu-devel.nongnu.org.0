@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACA26CB4C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:19:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EEE56CB4C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:20:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgzrL-0002fi-4u; Mon, 27 Mar 2023 23:18:55 -0400
+	id 1pgzt2-0003X9-1W; Mon, 27 Mar 2023 23:20:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pgzrF-0002f9-EQ
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:18:49 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pgzrD-00030r-PZ
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:18:49 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- lr16-20020a17090b4b9000b0023f187954acso11118520pjb.2
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 20:18:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679973526;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Qhboic9KKcXoflAz8bpK/vyf9pXK4ufUzdNiP72G41o=;
- b=uQMBo48B5G/f8aps+a/aAClVQuoGlzjxxfDj3z6sLyT31ztpcAH90ZG2ehl+c5PKrX
- qMIG83g79BVSThWYscu1Q8yEoXcEHrWPQXTelERK2kxtFSXdDCwkMHPVz5BciOtdUXEk
- WR1g/LgBj0s3kH/1WnhPJGhruUavPHppoRjhz2iClv5o7xeo7o2811UQL4qyQWjJ00pN
- wOc1+SIgQPq3l/iWYWulwFXtGn2yQvSx6vtkiJr+o1vpS8yMWlRCiibV2oYG9RX1yFLj
- LKoh/s+w4FcZxOWM1qGsj/miTxmj1KtfWNRB3YR9l2SjdO0sPyk0o0DeW0vWjee9kNtn
- bPgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679973526;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Qhboic9KKcXoflAz8bpK/vyf9pXK4ufUzdNiP72G41o=;
- b=TPvkzU+OgyMAR4zsnVj78o0m73VJ8kaWqIgotcsiIpUMbGeFCewpPKhkTPZbj2s2Qr
- kwg8deGvFYwppsf1X5HiIGmdZ2N/JU5JeS50tNFOH4va4eYjQtUG5SzwhIBp41EolSBS
- uzxAr9VRswAmLMnHv0yXloUacMaprrVp44Ol8yJDWiqwY4+HMHQle8tFWLsYun4WY+3A
- BDnrYQdVzYOgQw8YNNeF+Kfs3dmGuzuQXfbjk4vkFV5Fptju8LRAiMrV/xsi1i1Cqb5Q
- ixejpLD4SO93K/TgB4W8Vco3ILnU0yUN7d/XIKMpkn9Fh0U8IzBnhforyw3o3frAyOwr
- C10g==
-X-Gm-Message-State: AAQBX9eZHZUi4AWY9nxARfABfCoFYqjx6U9YH+BceJ4H1u4a5jjiIG6V
- vQ1M3aJFeGp/zARhs+V18DKJsw==
-X-Google-Smtp-Source: AKy350aisNr1U6MI5MQV1uDrTmnRVAZ+Ry7hca15wsNpsAeDDY/6i3K5LX9VWMifSGmpitomGPkoAA==
-X-Received: by 2002:a17:90b:1b12:b0:23f:46a5:248e with SMTP id
- nu18-20020a17090b1b1200b0023f46a5248emr14656571pjb.44.1679973526049; 
- Mon, 27 Mar 2023 20:18:46 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1544:6601:6705:aa17:3641:e634?
- ([2602:ae:1544:6601:6705:aa17:3641:e634])
- by smtp.gmail.com with ESMTPSA id
- ay2-20020a17090b030200b002309279baf8sm5085503pjb.43.2023.03.27.20.18.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 20:18:45 -0700 (PDT)
-Message-ID: <389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org>
-Date: Mon, 27 Mar 2023 20:18:43 -0700
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pgzsz-0003X1-Ns
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:20:37 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pgzsx-000649-LD
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:20:37 -0400
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8DxXNoAXSJkyNwSAA--.17462S3;
+ Tue, 28 Mar 2023 11:20:32 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxtrz_XCJkUOwOAA--.8332S3; 
+ Tue, 28 Mar 2023 11:20:31 +0800 (CST)
+Subject: Re: [PATCH] hw/loongarch/virt: Fix virt_to_phys_addr function
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
+Cc: maobibo@loongson.cn, f4bug@amsat.org, philmd@linaro.org
+References: <20230327112313.3042829-1-zhaotianrui@loongson.cn>
+ <63c805b9-f006-cdfb-4d07-5dbae84b7039@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <dd1c55f5-d2c2-fd30-2541-b4be8e90d4f4@loongson.cn>
+Date: Tue, 28 Mar 2023 11:20:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/5] target/riscv: Fix effective address for pointer mask
-Content-Language: en-US
-To: liweiwei <liweiwei@iscas.ac.cn>, LIU Zhiwei
- <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
- <20230327100027.61160-2-liweiwei@iscas.ac.cn>
- <c0abfb39-56a7-a184-f134-bcb075908f57@linux.alibaba.com>
- <c1b60f5e-5bb8-5462-ae93-7813da4269bb@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <c1b60f5e-5bb8-5462-ae93-7813da4269bb@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <63c805b9-f006-cdfb-4d07-5dbae84b7039@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Cxtrz_XCJkUOwOAA--.8332S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvdXoWrZrWDuw4kXrWrtFWkCw1xXwb_yoWkWwc_Za
+ yUAw1Ikws5XayIkan3J34rJF17J3WkAF98A3Z8Xwsaga4UJr43JFsagw4fuwnaqr4UGFsx
+ G3yrCr98Cr9IgjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ 37kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26w1j6s0DMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8
+ Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42
+ IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUzZ2-UUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,33 +80,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 19:48, liweiwei wrote:
-> 
-> On 2023/3/28 10:20, LIU Zhiwei wrote:
->>
->> On 2023/3/27 18:00, Weiwei Li wrote:
->>> Since pointer mask works on effective address, and the xl works on the
->>> generation of effective address, so xl related calculation should be done
->>> before pointer mask.
->>
->> Incorrect. It has been done.
->>
->> When updating the pm_mask,  we have already considered the env->xl.
->>
->> You can see it in riscv_cpu_update_mask
->>
->>     if (env->xl == MXL_RV32) {
->>         env->cur_pmmask = mask & UINT32_MAX;
->>         env->cur_pmbase = base & UINT32_MAX;
->>     } else {
->>         env->cur_pmmask = mask;
->>         env->cur_pmbase = base;
->>     }
->>
-> Yeah, I missed this part. Then we should ensure cur_pmmask/base is updated when xl changes.
 
-Is that even possible?  XL can change on priv level changes (SXL, UXL).
+在 2023/3/28 上午1:44, Richard Henderson 写道:
+> On 3/27/23 04:23, Tianrui Zhao wrote:
+>> The virt addr should mask TARGET_PHYS_ADDR_SPACE_BITS to
+>> get the phys addr, and this is used by loading kernel elf.
+>>
+>> Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+>> ---
+>>   hw/loongarch/virt.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+>> index b702c3f51e..f4bf14c1c8 100644
+>> --- a/hw/loongarch/virt.c
+>> +++ b/hw/loongarch/virt.c
+>> @@ -399,7 +399,7 @@ static struct _loaderparams {
+>>     static uint64_t cpu_loongarch_virt_to_phys(void *opaque, uint64_t 
+>> addr)
+>>   {
+>> -    return addr & 0x1fffffffll;
+>> +    return addr & MAKE_64BIT_MASK(0, TARGET_PHYS_ADDR_SPACE_BITS);
+>>   }
+>>     static int64_t load_kernel_info(void)
+>
+> Looks correct.  Any idea where this 29-bit value originated?
+We just considered using  256M low-memory to load the kernel and did not 
+consider using the high-memory.
 
+Thanks.
+Song Gao
+>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> r~
 
-r~
 
