@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C1B6CCB2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CAF36CCB5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:17:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phFXN-0000DH-VO; Tue, 28 Mar 2023 16:03:22 -0400
+	id 1phFjv-0002lp-5T; Tue, 28 Mar 2023 16:16:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phFXK-0000Cn-4k
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:03:18 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phFXI-0001X9-Ky
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:03:17 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id j13so11964659pjd.1
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:03:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680033795;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SkQ30XiiKqgTnCo8q3d61HM0F5o2MX09hDkuQyjB0xA=;
- b=ZzZmse+lflK+QqfxtN+xB6OF36dznZgBGU/q4W/M1u2dQvQ+cD1OTgjeQ4CAPbZsH0
- u6jJUA/gW3NoMpjv+PlmuAqWNJtn0FEEW/3rSRaVqZw12SKoMn4gqECTi69Ez6eMac65
- zGShvrfmFSsTOXw/WWNuiKr5HB5YiOSeqm5QXBmykLnMmpOfoHogvFvQZWVxkG9NZM8w
- 9+VqHujotTNRQxp8r9ITRM5zA5YnilhcO0sDZSorpRcmYKcphhg6tSF00ft7cVo2Ed1Q
- JVy7f/rv/YiXP5tOoAOCbGu4lWK9cDoids/BulKZNhLcLQy3UiuAanu2aygs4OzM6zx9
- 2VWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680033795;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SkQ30XiiKqgTnCo8q3d61HM0F5o2MX09hDkuQyjB0xA=;
- b=s6OU+iD1FPMfCrgE8h7vcDYp/sv1OENYbdhmP2rDohP3iLQ6OVd2eFZeIrIIf5nAPB
- VYsf+cPsS0s6ehzvMf2b3EYmAwu7jvM/69+TcfdefMyI76wXXTj7Bc8IqAZgiaeF9hT5
- 64aiG9xNe7h7ZKOOhziGPxRDMcwEaW8IpMBBVlN3WgaX8yuh0F/Jv4Ef3sOrt0A3Fepd
- q9avRzHK0Nii1KUdq8lhPim8cvZOFIHB//UKSkd5Qz9MprSImxR2ZWOVsWwSmVbf4cQj
- jaNWh2DvVGIK0kStTuP2JRVDNxzwm3xHylUZMxXJcVVUc3cMrwSjZuBtNsrpC62nwmcp
- CBBQ==
-X-Gm-Message-State: AO0yUKXZdHAVg0RrphtELGSj0Db3TDE3pBMlBAXRPeC8dUq5Cr2hpdHq
- +vFHkM6dtg8xd9QW6ICLBNolSAUqRZimmScPTyE=
-X-Google-Smtp-Source: AK7set/PsJ5RwtR2ta9qDlbMKCLpaeUQa+dS5v40FnXf836r0iYR1RjgTX4PeS7tmmlkZ+7fnoDu0Q==
-X-Received: by 2002:a05:6a20:3baf:b0:da:a06f:7e91 with SMTP id
- b47-20020a056a203baf00b000daa06f7e91mr14488722pzh.44.1680033794947; 
- Tue, 28 Mar 2023 13:03:14 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:396:9f0d:afc2:978e?
- ([2602:ae:1541:f901:396:9f0d:afc2:978e])
- by smtp.gmail.com with ESMTPSA id
- j24-20020a62e918000000b0062d942f0ad3sm2769570pfh.51.2023.03.28.13.03.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 13:03:14 -0700 (PDT)
-Message-ID: <c29203fe-b709-bb88-ff3d-29479911f9c6@linaro.org>
-Date: Tue, 28 Mar 2023 13:03:12 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v2 08/44] target/loongarch: Implement vsadd/vssub
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-9-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-9-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+ (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1phFjt-0002le-FH
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:16:17 -0400
+Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1phFjr-0003vL-8v
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:16:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
+ In-Reply-To:Message-Id:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Xf0pllxcOBZ6h0tB8x7BiTHhF42eNkXzdJaicnTV18A=; b=dTWGALlaWLE3w3gKdUdZ0lW94h
+ mDR6H2svtBNaW/ihS0cmztgtMuln65As1l67Ff7KwlP0cD4F1y7TNPhhZiF3XesddhHpbelXlq2f7
+ BVDnYwvbCE5SH0VYH/Kfavj1qB5zadY37VIMhz7J4gLvtIsNDOhsUeU6iirw/sl5HBttGSmvaqKzB
+ gzr6KQx1Ma4x1FZ5r5q6jFSksR5QeARgMdl/ukjXIPfsVbCtAATxcPxOzPYRPH0v/K9v9bBdsbD6d
+ waqqx9Iwc7Vx22FTOw+bbKB4S5G/BqKKi4GjvbMj38yMpolzkcfmRJuFOG6w/6f0wI8tqZOBfU4ci
+ GbiV7bHA==;
+Received: from [213.115.245.47] (helo=balrog.lkp.se)
+ by ns12.inleed.net with esmtpa (Exim 4.96-58-g4e9ed49f8)
+ (envelope-from <hc981@poolhem.se>) id 1phFjq-008yzL-03;
+ Tue, 28 Mar 2023 22:16:14 +0200
+Date: Tue, 28 Mar 2023 22:16:08 +0200
+From: Henrik Carlqvist <hc981@poolhem.se>
+To: Daniel P. =?ISO-8859-1?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, hc1245@poolhem.se, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5] Emulate dip switch language layout settings on SUN
+ keyboard
+Message-Id: <20230328221608.328ab80f.hc981@poolhem.se>
+In-Reply-To: <ZCMq/imcAq0ApLQp@redhat.com>
+References: <167305907804.10652.2746409341903316717-1@git.sr.ht>
+ <d2850ef0-d825-bb03-09d4-0d1427cf6577@ilande.co.uk>
+ <20230123200937.32eb19eb.hc981@poolhem.se>
+ <20230304220754.0c6ae562.hc981@poolhem.se>
+ <ZCLzUyiDeKLfQqWT@redhat.com>
+ <20230328191958.3e3eb5e4.hc981@poolhem.se>
+ <ZCMq/imcAq0ApLQp@redhat.com>
+X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+X-Authenticated-Id: henrik@poolhem.se
+Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
+ envelope-from=hc981@poolhem.se; helo=mailout12.inleed.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,19 +76,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 20:05, Song Gao wrote:
-> This patch includes:
-> - VSADD.{B/H/W/D}[U];
-> - VSSUB.{B/H/W/D}[U].
-> 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> ---
->   target/loongarch/disas.c                    | 17 +++++++++++++++++
->   target/loongarch/insn_trans/trans_lsx.c.inc | 17 +++++++++++++++++
->   target/loongarch/insns.decode               | 17 +++++++++++++++++
->   3 files changed, 51 insertions(+)
+On Tue, 28 Mar 2023 18:59:26 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> I'm generally not in favour of creating many different ways to set
+> the same thing, especially not multiple string based names, but if
+> a single vocabulary for strings is insufficient, then having support
+> for numbers feels reasonable.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+If only a single way to set them would be allowed, I think that the
+hexadecimal number would make most sense as we are emulating dip-switches.
+However, it would be nice to also allow more easy to remember strings where
+applicable.
 
-r~
+> If you care about documentation then I think there ought to be docs
+> added in QEMU for it, as out of the 33 currrent keymap names supported
+> by QEMU, only 28 seem to be supported by this device.
+
+Maybe it could be documented by printing some text if given
+
+-global escc.sunkbd_layout=3Dhelp
+
+or
+
+-global escc.sunkbd_layout=3Dlist
+
+Best regards Henrik
 
