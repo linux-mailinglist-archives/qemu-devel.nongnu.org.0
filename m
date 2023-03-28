@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BA26CC94E
+	by mail.lfdr.de (Postfix) with ESMTPS id B13336CC94F
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:33:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phDAb-0004eJ-Jr; Tue, 28 Mar 2023 13:31:41 -0400
+	id 1phDAf-0004h8-Sa; Tue, 28 Mar 2023 13:31:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phDAa-0004dR-14
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:31:40 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phDAe-0004gO-73
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:31:44 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phDAY-0003Qi-9Y
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:31:39 -0400
-Received: by mail-wr1-x430.google.com with SMTP id r11so13025238wrr.12
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 10:31:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phDAb-0003SI-DP
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:31:43 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ m6-20020a05600c3b0600b003ee6e324b19so8044493wms.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 10:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680024693;
+ d=linaro.org; s=google; t=1680024699;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dtiprwlUv8RpyZHXqJVAug6oqdjSRp6/2zuWFlQJTRs=;
- b=jRrDLlb5Rr0/bjgs0sXnPhocTF2kfFeBSzLF6bstz/3ygI64v/eWDrZCogYGgynYQP
- A3hrl61AOTFeEGUhH99GhdE3G0beq7SNPicGoCu/67HMpRZ7OOxl/8FYyDGxYfostrQF
- O9jrP876HInNbbghyBLQwnS2deq8MHy5UCkIqOGupZNO/yjTu2Ytzvs1ahaP6Zg8hVqW
- iuw9CwKVPjBDtUPPo0bcuhM26bnS9Re/sMKECuZ6iP7XHy3eu1ZQllM5QS6B13i8Aa2s
- VUk9MjN7Pf8XFoXdNmBGvfruTlKaVjDP1NjyanfzO+a7iGGWHKkI/AjIDvpQQ8SDgTht
- gO8Q==
+ bh=6MbnN+0f617dsehwYtlh7IWt8dwxE1cjBMBOmowF/jo=;
+ b=Vi8NBOJNIaL4iwmKYW/PpwzdiWYsFRvUddBLaqryeDI70WY0Oy2d73T0GBar8fT1NB
+ 66DvxYsstnj/vPT+JA6j4E6VyKP0irgJ2/Iy5ci1ndgoiAomaEnQExlQNt644ZApOjSM
+ 5gf0M9tQLUsBOniL4N9ajmop5HVjbUwLVpkn+q2VAZmgnJb7AVenFfmumtwiQITOsfEx
+ t6iYLRcYqbJIfGaFb3NtjMhcApH/+SO/c5MkJFyb8hau3tmKfNx+qt97wNW+SjNkaMCG
+ bsEWeGqllJ7zZKuyYylIGdXnif/MpVMTc7V+uiwStXJ2mx1S9wZRsAJS7VsHHxBCQmJT
+ w8VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680024693;
+ d=1e100.net; s=20210112; t=1680024699;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dtiprwlUv8RpyZHXqJVAug6oqdjSRp6/2zuWFlQJTRs=;
- b=Y58A8/sJRgRWjjg4vnFuRZ16Ajq9tKbXAKstbrXX7tMlCo8iF62BjQFlOlKs8sFvjR
- jbQtKFGh68nWtFzsgMRMnmJ0w0rsedmhNpnwY4SAEDeqSU2w+9rRQYOpxjT40uU1u8zb
- TrkWA3TntSMz0FC2o3Oijpcc1jq9uo7o5rvNqRxpgTY+4qi2fAdWTjrdsGJdGwz3PFnF
- OdG2AReqQ6MpXgTntY4rmXPUY/CQfaYph2RDKVtcwUFBpWIqtWLuzAaef1gYWAVSjGmH
- N65LKLsDjXSDKEtkxaB8KOC4wiUbxcwXiNdd2MQAgwGysIpKe+5r/D4NgOdh8L7BbFyE
- tbvA==
-X-Gm-Message-State: AAQBX9eKNkm8fSTWWerK9MybCaJ0g6kaKv1KSMehYuMNdXLm4vdQDqQh
- bVxNQK83DxNuZ/EJxk3baRmVLeUFF9djGiVeTaE=
-X-Google-Smtp-Source: AKy350YcLKf496WO/PMS7jSwOOzxrOynCtjMnJtsPQhvloi8lsidFYl2ZcxsFhfyhqCqdSMllBmsSg==
-X-Received: by 2002:a5d:428a:0:b0:2d1:6104:76ab with SMTP id
- k10-20020a5d428a000000b002d1610476abmr12558802wrq.2.1680024693303; 
- Tue, 28 Mar 2023 10:31:33 -0700 (PDT)
+ bh=6MbnN+0f617dsehwYtlh7IWt8dwxE1cjBMBOmowF/jo=;
+ b=II8RN5W0d8CLHgjdr535bGVIbnIY6d+0QJvpgMkxqmTMnItefQRteveomcC/CeFIhr
+ jna94JO3E3lwAvCLlz07/kw/jYWbiUVRlCuAcsk6lhPqyIAB/exCHtzMZEd462RYL5b2
+ XeZYf649kcfezToeVrvzjIbDVxyvv9nZBvTfvbasRSApzCYCoLx6evc9Ib9Zk1zhN2tz
+ sqkyWeSqwkETSSodAP5o5X1+sTADD5A4JGZ0G8GfKMO10T33pEHZSdxS6PwxnCAW4AyH
+ 93Lc90VvNbcWqgTNKga/dT44/YvKLoJDpJmUconyoIuB9hBHFr2lsbR3sHn9IAjUNZi9
+ jtNQ==
+X-Gm-Message-State: AO0yUKW11x4y1YYHxXr9Mei/3PQBdPX0Y3VI0Ym5ONTd3vRfs1UfESMm
+ +XlaLjvmhG7AmV9ZHXcv4BabjG72lD1KHK0kv9Y=
+X-Google-Smtp-Source: AK7set8Mmo+1n3OHQ5g4OfvYMwrs4HJlZZH0POTRPmIjvHUca6eFRX/JiDgvHoeOv6WIKTuIxEEAQA==
+X-Received: by 2002:a05:600c:21d8:b0:3ed:2b49:eefc with SMTP id
+ x24-20020a05600c21d800b003ed2b49eefcmr13475865wmj.3.1680024699656; 
+ Tue, 28 Mar 2023 10:31:39 -0700 (PDT)
 Received: from localhost.localdomain ([176.187.210.212])
  by smtp.gmail.com with ESMTPSA id
- c8-20020adfe708000000b002cde626cd96sm27997076wrm.65.2023.03.28.10.31.31
+ n10-20020a05600c3b8a00b003ede3f5c81fsm13483453wms.41.2023.03.28.10.31.37
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 28 Mar 2023 10:31:32 -0700 (PDT)
+ Tue, 28 Mar 2023 10:31:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Halil Pasic <pasic@linux.ibm.com>,
@@ -70,18 +71,18 @@ Cc: Halil Pasic <pasic@linux.ibm.com>,
  qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH-for-8.0 v2 2/3] softmmu/watchpoint: Add missing
- 'qemu/error-report.h' include
-Date: Tue, 28 Mar 2023 19:31:16 +0200
-Message-Id: <20230328173117.15226-3-philmd@linaro.org>
+Subject: [PATCH-for-8.0 v2 3/3] softmmu: Restore use of CPU watchpoint for all
+ accelerators
+Date: Tue, 28 Mar 2023 19:31:17 +0200
+Message-Id: <20230328173117.15226-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230328173117.15226-1-philmd@linaro.org>
 References: <20230328173117.15226-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,40 +105,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-cpu_watchpoint_insert() calls error_report() which is declared
-in "qemu/error-report.h". When moving this code in commit 2609ec2868
-("softmmu: Extract watchpoint API from physmem.c") we neglected to
-include this header. This works so far because it is indirectly
-included by TCG headers -> "qemu/plugin.h" -> "qemu/error-report.h".
+CPU watchpoints can be use by non-TCG accelerators.
 
-Currently cpu_watchpoint_insert() is only built with the TCG
-accelerator. When building it with other ones (or without TCG)
-we get:
+KVM uses them:
 
-  softmmu/watchpoint.c:38:9: error: implicit declaration of function 'error_report' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-        error_report("tried to set invalid watchpoint at %"
-        ^
+  $ git grep CPUWatchpoint|fgrep kvm
+  target/arm/kvm64.c:1558:        CPUWatchpoint *wp = find_hw_watchpoint(cs, debug_exit->far);
+  target/i386/kvm/kvm.c:5216:static CPUWatchpoint hw_watchpoint;
+  target/ppc/kvm.c:443:static CPUWatchpoint hw_watchpoint;
+  target/s390x/kvm/kvm.c:139:static CPUWatchpoint hw_watchpoint;
 
-Include "qemu/error-report.h" in order to fix this for non-TCG
-builds.
+See for example commit e4482ab7e3 ("target-arm: kvm - add support
+for HW assisted debug"):
 
+     This adds basic support for HW assisted debug. The ioctl interface
+     to KVM allows us to pass an implementation defined number of break
+     and watch point registers. [...]
+
+This partially reverts commit 2609ec2868e6c286e755a73b4504714a0296a.
+
+Fixes: 2609ec2868 ("softmmu: Extract watchpoint API from physmem.c")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- softmmu/watchpoint.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/core/cpu.h | 2 +-
+ softmmu/watchpoint.c  | 4 ++++
+ softmmu/meson.build   | 2 +-
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index ce312745d5..397fd3ac68 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -949,7 +949,7 @@ static inline bool cpu_breakpoint_test(CPUState *cpu, vaddr pc, int mask)
+     return false;
+ }
+ 
+-#if !defined(CONFIG_TCG) || defined(CONFIG_USER_ONLY)
++#if defined(CONFIG_USER_ONLY)
+ static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+                                         int flags, CPUWatchpoint **watchpoint)
+ {
 diff --git a/softmmu/watchpoint.c b/softmmu/watchpoint.c
-index ad58736787..9d6ae68499 100644
+index 9d6ae68499..5350163385 100644
 --- a/softmmu/watchpoint.c
 +++ b/softmmu/watchpoint.c
-@@ -19,6 +19,7 @@
+@@ -104,6 +104,8 @@ void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+     }
+ }
  
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
-+#include "qemu/error-report.h"
- #include "exec/exec-all.h"
- #include "exec/translate-all.h"
- #include "sysemu/tcg.h"
++#ifdef CONFIG_TCG
++
+ /*
+  * Return true if this watchpoint address matches the specified
+  * access (ie the address range covered by the watchpoint overlaps
+@@ -220,3 +222,5 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+         }
+     }
+ }
++
++#endif /* CONFIG_TCG */
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index 0180577517..1a7c7ac089 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -5,11 +5,11 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
+   'physmem.c',
+   'qtest.c',
+   'dirtylimit.c',
++  'watchpoint.c',
+ )])
+ 
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: [files(
+   'icount.c',
+-  'watchpoint.c',
+ )])
+ 
+ softmmu_ss.add(files(
 -- 
 2.38.1
 
