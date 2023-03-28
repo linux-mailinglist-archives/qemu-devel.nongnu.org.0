@@ -2,79 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABB56CBD14
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 13:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99806CBD87
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 13:26:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph7BF-0003kV-7c; Tue, 28 Mar 2023 07:07:57 -0400
+	id 1ph7S2-00010z-8C; Tue, 28 Mar 2023 07:25:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1ph7BD-0003kF-8W
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:07:55 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1ph7BB-0002FT-8K
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:07:54 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id s12so7856042qtx.11
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 04:07:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680001671;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i2OWo9GIHX+02Cbm4JmUor6P4E16Az7/7HFBGm2zQAk=;
- b=Nyv0klUMC4GRMlhwF81uhwtqnSqd24I3Km93moGglkqRg+7CmTl0k8CwxbOiodlFti
- h0rSfGNK4yR4sPvSmjGXWgqbZUhnG4e+HxJspGkPWy2GnUHybwQaV56hFDcIQimRgEv5
- tbcnf3KaDA+uKRTMucOqfijxEqu5eroSoyf+upzrPGEP4GRVE1lwy4tofQA8/Fuxs9T8
- lRTWd+PUp68T+l1P1wYS7U12OlLNt9FeyYDNcdMBWj28iPWzPbDZifUyfhvvn1NAGV85
- DL+1G7YKcw2jzTR0j06X3x+eVL6lTsp4sgJdYHt2U/PU2oTLQDe7bbrKleBaWja47GG1
- rHNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680001671;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=i2OWo9GIHX+02Cbm4JmUor6P4E16Az7/7HFBGm2zQAk=;
- b=gGFZYyufPj4AGoW3X+29EMeVnyHGlMUaNzIyQAx3x3MjzkmkmMPBOmRzqgzeakop0q
- lUYzEue4X/ZkTA85uOyA+PBLYTsOShk6mzMbYIsbEqATpvU0lBo4neNEkdwXgB6iCsmk
- HLrr7DSGY4f7k1XRLaXH2Qpbxuuq1UIOPQ4XyyCx1OaDZOQeNSPm5OBeVspbDE+7ec+D
- 1oaj4AYBKhSdTAeZeM6xVJWrlOUwb9sWKa10AnasehzJx61H2afnVl82Do4Giuh9jxh8
- tXUj7FgmtUuYGwXTU05iVGf9oDPSeS8uF1bgfUCa+JA0MCeZ8nC0qDGJUZK0wVQygZpB
- fHVg==
-X-Gm-Message-State: AAQBX9cagsRmfSEwtAyLYyiT2rvv61rZsdkd1jRTUGuysqMVcf4MfOiV
- Weuidadykqp77K/PJOQeGwk0K9RyrDvAVjSCGuOojw==
-X-Google-Smtp-Source: AK7set8k22tHNRJmLP4XMWpf8dXfu5Retly723b3vTkIZ9NSSLF7l16qBm1qVJGRi+MjQDPYUrEZL+tuIZrwOJ70m0U=
-X-Received: by 2002:ac8:5744:0:b0:3e0:c4ac:1620 with SMTP id
- 4-20020ac85744000000b003e0c4ac1620mr5771868qtx.13.1680001671614; Tue, 28 Mar
- 2023 04:07:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
+ id 1ph7S0-00010g-06
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:25:16 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
+ id 1ph7Rx-000175-W3
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:25:15 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32SAsX50031870; Tue, 28 Mar 2023 11:25:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=pp1;
+ bh=P1sO/Xzbpf/RnuXS0P9zgf/XIn+0g/1sIY6VR3+E5Lo=;
+ b=hD2OXA4yvIbG5ymPilTkhWqla8jKdzS9mNfTZklalMxkCQnq7bht9otJQ2KX/mcrA/TT
+ tak81t92EAt4yTm5jl1TmPE7dPHxfAdpFJvnNe/zFcxbhUai5EeHIxxNmV/l0ry9b6zA
+ Id5LZ1kJWrH4T3NAG08IVgz4BesUvnwYuP/1kZakM3X5RRGofgZM8hEUztM3RlHLPwky
+ f6KL08D10cyqcZmRnl6uHBoJLlg8hlGmDMCsojXfMadEgX3gXEZLtisEajytVfaW5HeR
+ ZZ9r8A+EJqoL/u9x3fAO5Z1LG3hVSiUoi4TGMIVJbk8UUqx7ojwuqfm8EGIYBB15qlJo 1w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkxw90nyg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 11:25:11 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SAtF2s001398;
+ Tue, 28 Mar 2023 11:25:11 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pkxw90nxq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 11:25:11 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32S4pcDM028948;
+ Tue, 28 Mar 2023 11:25:09 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3phr7fkwmn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 11:25:09 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32SBP7CD55443874
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Mar 2023 11:25:07 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 07F0F20043;
+ Tue, 28 Mar 2023 11:25:07 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8121D20040;
+ Tue, 28 Mar 2023 11:25:03 +0000 (GMT)
+Received: from li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com (unknown
+ [9.43.75.27]) by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue, 28 Mar 2023 11:25:03 +0000 (GMT)
+Date: Tue, 28 Mar 2023 16:54:59 +0530
+From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/2] tests/avocado/boot_linux.py: re-enable test-case for
+ ppc64
+Message-ID: <ZCLOi5RKIMGfjWRj@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+References: <20230327115030.3418323-1-kconsul@linux.vnet.ibm.com>
+ <20230327115030.3418323-3-kconsul@linux.vnet.ibm.com>
+ <87r0tarx7u.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20221016124726.102129-1-mchitale@ventanamicro.com>
- <20221016124726.102129-5-mchitale@ventanamicro.com>
- <CAKmqyKO+HQ7dtGQwaJFG481vkyMfX-tXrux2rmrGkfAz54dBbQ@mail.gmail.com>
- <3efb804f-4a3a-758e-fb4a-543e10271045@iscas.ac.cn>
-In-Reply-To: <3efb804f-4a3a-758e-fb4a-543e10271045@iscas.ac.cn>
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-Date: Tue, 28 Mar 2023 16:37:15 +0530
-Message-ID: <CAN37VV5b_wdty4ob1D4tjGe6r96CuzdYYurvi=AyqG0EhsSgzg@mail.gmail.com>
-Subject: Re: [PATCH v11 4/5] target/riscv: smstateen check for fcsr
-To: liweiwei <liweiwei@iscas.ac.cn>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Alistair Francis <alistair23@gmail.com>,
- Daniel Barboza <dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=mchitale@ventanamicro.com; helo=mail-qt1-x82a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87r0tarx7u.fsf@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: z_mGt8pfK7x_hKYSGX1mWID8N-Ql86fl
+X-Proofpoint-GUID: 4qIMgeXuQCEww7IiOOZ782oCLUgWzPUi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-28_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ spamscore=0 malwarescore=0 phishscore=0 mlxscore=0 suspectscore=0
+ bulkscore=0 mlxlogscore=999 lowpriorityscore=0 clxscore=1015
+ impostorscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2303280091
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=kconsul@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,137 +120,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 24, 2023 at 7:01=E2=80=AFPM liweiwei <liweiwei@iscas.ac.cn> wro=
-te:
->
->
-> On 2022/11/21 07:35, Alistair Francis wrote:
-> > On Sun, Oct 16, 2022 at 11:09 PM Mayuresh Chitale
-> > <mchitale@ventanamicro.com> wrote:
-> >> If smstateen is implemented and sstateen0.fcsr is clear then the float=
-ing point
-> >> operations must return illegal instruction exception or virtual instru=
-ction
-> >> trap, if relevant.
-> >>
-> >> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> >> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> >> ---
-> >>   target/riscv/csr.c                        | 23 ++++++++++++
-> >>   target/riscv/insn_trans/trans_rvf.c.inc   | 43 +++++++++++++++++++++=
---
-> >>   target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
-> >>   3 files changed, 75 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> >> index 71236f2b5d..8b25f885ec 100644
-> >> --- a/target/riscv/csr.c
-> >> +++ b/target/riscv/csr.c
-> >> @@ -84,6 +84,10 @@ static RISCVException fs(CPURISCVState *env, int cs=
-rno)
-> >>           !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
-> >>           return RISCV_EXCP_ILLEGAL_INST;
-> >>       }
-> >> +
-> >> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> >> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
-> >> +    }
-> >>   #endif
-> >>       return RISCV_EXCP_NONE;
-> >>   }
-> >> @@ -2023,6 +2027,9 @@ static RISCVException write_mstateen0(CPURISCVSt=
-ate *env, int csrno,
-> >>                                         target_ulong new_val)
-> >>   {
-> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >> +    if (!riscv_has_ext(env, RVF)) {
-> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
-> >> +    }
-> >>
-> >>       return write_mstateen(env, csrno, wr_mask, new_val);
-> >>   }
-> >> @@ -2059,6 +2066,10 @@ static RISCVException write_mstateen0h(CPURISCV=
-State *env, int csrno,
-> >>   {
-> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >>
-> >> +    if (!riscv_has_ext(env, RVF)) {
-> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
-> >> +    }
-> >> +
-> >>       return write_mstateenh(env, csrno, wr_mask, new_val);
-> >>   }
-> >>
-> >> @@ -2096,6 +2107,10 @@ static RISCVException write_hstateen0(CPURISCVS=
-tate *env, int csrno,
-> >>   {
-> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >>
-> >> +    if (!riscv_has_ext(env, RVF)) {
-> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
-> >> +    }
-> >> +
-> >>       return write_hstateen(env, csrno, wr_mask, new_val);
-> >>   }
-> >>
-> >> @@ -2135,6 +2150,10 @@ static RISCVException write_hstateen0h(CPURISCV=
-State *env, int csrno,
-> >>   {
-> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >>
-> >> +    if (!riscv_has_ext(env, RVF)) {
-> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
-> >> +    }
-> >> +
-> >>       return write_hstateenh(env, csrno, wr_mask, new_val);
-> >>   }
-> >>
-> >> @@ -2182,6 +2201,10 @@ static RISCVException write_sstateen0(CPURISCVS=
-tate *env, int csrno,
-> >>   {
-> >>       uint64_t wr_mask =3D SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >>
-> >> +    if (!riscv_has_ext(env, RVF)) {
-> >> +        wr_mask |=3D SMSTATEEN0_FCSR;
-> >> +    }
-> >> +
-> >>       return write_sstateen(env, csrno, wr_mask, new_val);
-> >>   }
-> >>
-> >> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/in=
-sn_trans/trans_rvf.c.inc
-> >> index a1d3eb52ad..93657680c6 100644
-> >> --- a/target/riscv/insn_trans/trans_rvf.c.inc
-> >> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
-> >> @@ -24,9 +24,46 @@
-> >>               return false; \
-> >>   } while (0)
-> >>
-> >> -#define REQUIRE_ZFINX_OR_F(ctx) do {\
-> >> -    if (!ctx->cfg_ptr->ext_zfinx) { \
-> >> -        REQUIRE_EXT(ctx, RVF); \
-> >> +#ifndef CONFIG_USER_ONLY
-> >> +static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
-> >> +{
-> >> +    CPUState *cpu =3D ctx->cs;
-> >> +    CPURISCVState *env =3D cpu->env_ptr;
-> >> +    uint64_t stateen =3D env->mstateen[index];
-> > Sorry I missed this the first time around. You can't access env here
+On 2023-03-27 17:07:30, Alex Bennée wrote:
+> 
+> Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
+> 
+> > Fixes c0c8687ef0("tests/avocado: disable BootLinuxPPC64 test in CI").
 > >
-> > Richard pointed it out here:
-> > https://patchwork.kernel.org/project/qemu-devel/patch/20221117070316.58=
-447-8-liweiwei@iscas.ac.cn/#25095773
+> > Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the test-case
+> > for PPC64. On investigation, this turns out to be an issue with the
+> > time taken for downloading the Fedora 31 qcow2 image being included
+> > within the test-case timeout.
+> > Re-enable this test-case by setting the timeout to 360 seconds just
+> > before launching the downloaded VM image.
 > >
-> > I'm going to drop this patch and patch v5
+> > Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+> > Reported-by: Alex Bennée <alex.bennee@linaro.org>
+> > Tested-by: Hariharan T S hariharan.ts@linux.vnet.ibm.com
+> 
+> It doesn't really address the principle problem that the
+> boot_linux.py:BootLinuxPPC64.test_pseries_tcg is super heavyweight for
+> only 2% extra coverage of the executed lines.
+By re-enabling this test-case we will ensure that PPC64 part of qemu
+works okay in terms of basic linux boot. Without this we will have
+a regression in the sense that there won't be any way to test out
+basic linux boot for PPC64.
+> 
+> What we really need is a script so we can compare the output between the
+> two jsons:
+> 
+>   gcovr --json --exclude-unreachable-branches --print-summary -o coverage.json --root ../../ . *.p
+> 
+> because I suspect we could make up that missing few % noodling the
+> baseline test a bit more.
+Can you tell me how you check code coverage with and without this
+test-case ? I am kind of new to qemu so it would be nice to know how you
+do this. And I am trying to increase the code coverage by improving
+the baseline test by including more devices in the qemu-system-ppc64
+command line so I would appreciate any tips on how to do that also.
+> 
+> > ---
+> >  tests/avocado/boot_linux.py | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
 > >
-> > Alistair
->
-> Hi, Any new updates for the last two patches after they were dropped?
->
-> Regards,
->
-> Weiwei Li
->
-Looks like I missed the original comments from Richard and Alistair. I
-am not yet clear how to implement it but I am looking into it.
+> > diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+> > index be30dcbd58..c3869a987c 100644
+> > --- a/tests/avocado/boot_linux.py
+> > +++ b/tests/avocado/boot_linux.py
+> > @@ -91,9 +91,9 @@ class BootLinuxPPC64(LinuxTest):
+> >      :avocado: tags=arch:ppc64
+> >      """
+> >  
+> > +    # timeout for downloading new VM image.
+> >      timeout = 360
+> >  
+> > -    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+> >      def test_pseries_tcg(self):
+> >          """
+> >          :avocado: tags=machine:pseries
+> > @@ -101,6 +101,10 @@ def test_pseries_tcg(self):
+> >          """
+> >          self.require_accelerator("tcg")
+> >          self.vm.add_args("-accel", "tcg")
+> > +
+> > +        # timeout for actual Linux PPC boot test
+> > +        self.timeout = 360
+> > +
+> >          self.launch_and_wait(set_up_ssh_connection=False)
+> 
+> 
+> -- 
+> Alex Bennée
+> Virtualisation Tech Lead @ Linaro
+> 
 
