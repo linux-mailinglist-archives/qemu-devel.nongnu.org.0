@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7646CCB7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 269096CCB83
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:33:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phFzY-0007jq-MK; Tue, 28 Mar 2023 16:32:28 -0400
+	id 1phG0b-0008Q7-NF; Tue, 28 Mar 2023 16:33:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phFzQ-0007j4-3B
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:32:20 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1phG0V-0008Pe-8j
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:33:27 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phFzO-0006NJ-DV
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:32:19 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- h12-20020a17090aea8c00b0023d1311fab3so13923189pjz.1
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:32:17 -0700 (PDT)
+ id 1phG0T-0006WM-Ef
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:33:27 -0400
+Received: by mail-pl1-x631.google.com with SMTP id c18so12850489ple.11
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680035537;
+ d=linaro.org; s=google; t=1680035603;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=85WHE6VpgzKLDMcGcaiiKGsWgnOyDez+QweqoLIZBZw=;
- b=piJnW2bl8nHjmbZ8Srp5QE+kphvUYhpMp8cAqcerrAMBqm/aVCELcmdsf5FLGS4NnG
- H3q1F12iKHJUEkhxRmYkNiW9tt9PVDCp3+g0SK8WGMNEFW4sKeAz8Olh+GGy36iPV8zr
- l9capIO8GsQeJGlTipwSuVbr9iM919wAhEqlmydWThQFjOa8Iwf5pqYFiaHsRuoHmE8w
- /jhPgX7oXKSUiYo8tE6JFDeT2EMcX4V6ppHzKEifnrUMSjKqq8hjDrlFd1+L3EBzfHB1
- Ef4cZeN1zo00e1bKcU7lvyFcWWRW4WBNqyrO5LbDX/bWNTACDib/qj9T4MOs0vn1TfKZ
- LCOA==
+ bh=Ny1DQjojRaqluWvopVyIxSfKDbivnln7LMqO7U4LpXo=;
+ b=L4+IPAjzZ9VyaE20Ur6ezhWhrVPhNRApJV7ORMkw9Tr62j5u0RMnQz+3S/B7C/q+gs
+ qFl7qWGI3n39iKTMZQixi/nmZByRug3BzRuPTcZSZ8Cg1F27lGGU8rA+1y3g1BCGfmKC
+ +CzasGZVEuTpGIBMG7xm2Dj+5Hma9SFWdHEfTEcvVaSQNM0WT8XXOYwQxiAv6ePbbuBT
+ hS95mcCPQ54TFWY0HfPo9r8p8o3WOLFmE/QSQFiQoilAelUgF7uCJvqEhTZ5sTL7SwRw
+ ZAIUSksPKSp1kJHl95PUPRhIFpP845Zy1SyxcXDjhbH/rAHvn4K4HQRxuBRkRPjdXt7Z
+ 7CxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680035537;
+ d=1e100.net; s=20210112; t=1680035603;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=85WHE6VpgzKLDMcGcaiiKGsWgnOyDez+QweqoLIZBZw=;
- b=gt4OWVFHLVt5wzmnM/lrJDyK6TYId9TkOgrS58Lg9aEBSTTwXTpCJ67Djj6OCpqIRg
- ov7wZL2GfISYaI3uNclGcFKToLMaIfHgHTeV4sa4Xavsen46iC2kF+yhXq0D8Af1HRPD
- SOjv4rvNFJ1X8EOEB1fhcwIHSlyO/rG1iZ4ves+ocfUwXOOzgp/6yrjuXrLSQaYfF51w
- Pv0ugSCovyiz/xJU377y5EWzFIZaBTaTf9oX/jXDa0rb1kp9uXzxozs7BjNHuhkDO05k
- n0l5RzuAicgDbMQ+9DI4OLB+zqv866DIKhyev3vDhyCE4bkM0hGSmU9dXyyrWBPhSxWM
- 8vsA==
-X-Gm-Message-State: AO0yUKWKGz6FWQo+267/q2fFd01RsJGj2XQadg1op/y0USyJXm6jtzns
- Jgb1TdGD3yPKfrOuLFTXUYGF7w==
-X-Google-Smtp-Source: AK7set8LbOIGVTlC/H/0ZTgH6ySUnjd5URspLvTr7iLDbGaJdAlUvbsbsXLkS/NkzfYLFJrXrkBhNg==
-X-Received: by 2002:a05:6a20:7b29:b0:dc:a14e:d9bf with SMTP id
- s41-20020a056a207b2900b000dca14ed9bfmr12429297pzh.43.1680035536699; 
- Tue, 28 Mar 2023 13:32:16 -0700 (PDT)
+ bh=Ny1DQjojRaqluWvopVyIxSfKDbivnln7LMqO7U4LpXo=;
+ b=25XX7A3axYTPsXPTxjTM+1i7+NpYH3uEnXEnrl1sMDzY0JtDu9HXz3OyvTmKs60WBK
+ wBSlSXiOU+xxGu2/rz90EJj2YVy+3cH8l0OhlIJ62wByGQpmkDlIdnciU4yDS/MJATMy
+ CKr1Hu2xoL1ODf633b+H2wQnsJ621tsYmzMqJSsl+NI6E0m0prE2Mgsm2GSKOozBeu7v
+ ljQSq5QZwLmAUErJnMTKMDE0upEBIuh/8zrV25jxclkHG9XQWFRqFXqeiuJNWrIG+6Qv
+ SOo0cTzoES8dQlgDsysvFpnf1gq1Mfeu7+UkEBTJRi4oGJX9QOmRE1WeSHPDePZFChaV
+ lnDg==
+X-Gm-Message-State: AAQBX9ebimIEAUt9n6LsErpLHXV8gNY1Hhey895u9mftFY1mdwVyQ4l8
+ btiVNGQCiZ0aZ53UW9ywmYZyxA==
+X-Google-Smtp-Source: AKy350YVgMuEjMDMJVNH9Y58pMqlGqHdSpi43jlckLdggGwXY1AAqZZhHHF4flFVSQEppQjfgJLCoA==
+X-Received: by 2002:a17:902:e891:b0:1a2:296:9355 with SMTP id
+ w17-20020a170902e89100b001a202969355mr19518672plg.16.1680035603580; 
+ Tue, 28 Mar 2023 13:33:23 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:396:9f0d:afc2:978e?
  ([2602:ae:1541:f901:396:9f0d:afc2:978e])
  by smtp.gmail.com with ESMTPSA id
- bn10-20020a056a00324a00b005d72e54a7e1sm21545335pfb.215.2023.03.28.13.32.16
+ 207-20020a6301d8000000b0050bd4bb900csm20544274pgb.71.2023.03.28.13.33.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 13:32:16 -0700 (PDT)
-Message-ID: <08a10dd3-2799-9331-8603-eb14c59b511c@linaro.org>
-Date: Tue, 28 Mar 2023 13:32:14 -0700
+ Tue, 28 Mar 2023 13:33:23 -0700 (PDT)
+Message-ID: <6562f208-433f-f16b-405c-ab675046c417@linaro.org>
+Date: Tue, 28 Mar 2023 13:33:21 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v2 12/44] target/loongarch: Implement vabsd
+Subject: Re: [RFC PATCH v2 13/44] target/loongarch: Implement vadda
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-13-gaosong@loongson.cn>
+ <20230328030631.3117129-14-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-13-gaosong@loongson.cn>
+In-Reply-To: <20230328030631.3117129-14-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,20 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 20:05, Song Gao wrote:
+On 3/27/23 20:06, Song Gao wrote:
 > This patch includes:
-> - VABSD.{B/H/W/D}[U].
+> - VADDA.{B/H/W/D}.
 > 
 > Signed-off-by: Song Gao<gaosong@loongson.cn>
 > ---
->   target/loongarch/disas.c                    |  9 ++
->   target/loongarch/helper.h                   |  9 ++
->   target/loongarch/insn_trans/trans_lsx.c.inc | 95 +++++++++++++++++++++
->   target/loongarch/insns.decode               |  9 ++
->   target/loongarch/lsx_helper.c               | 36 ++++++++
->   5 files changed, 158 insertions(+)
+>   target/loongarch/disas.c                    |  5 ++
+>   target/loongarch/helper.h                   |  5 ++
+>   target/loongarch/insn_trans/trans_lsx.c.inc | 53 +++++++++++++++++++++
+>   target/loongarch/insns.decode               |  5 ++
+>   target/loongarch/lsx_helper.c               | 19 ++++++++
+>   5 files changed, 87 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
