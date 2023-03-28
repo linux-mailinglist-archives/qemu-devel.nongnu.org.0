@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4056CB5F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:21:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE12E6CB5F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:22:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph1kL-0005Vg-L7; Tue, 28 Mar 2023 01:19:49 -0400
+	id 1ph1kJ-0005VM-W8; Tue, 28 Mar 2023 01:19:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ph1k9-0005TO-UU
+ id 1ph1kA-0005TP-GZ
  for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:42 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ph1k8-0007Q2-DK
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:37 -0400
+ id 1ph1k8-0007QE-SW
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679980775;
+ s=mimecast20190719; t=1679980776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jQZwUyGtf9FUu28CMUJp52FDVhy+UMn1VA99xVev5CU=;
- b=DTUynUEeXiLoi+iX0+Sug0h52CD9KsYxxAw2qwBxVYwtm8vD6uZ3PM42YODvuNkaZt47sP
- c7NgvBwi0P5D+y237AssUZ/tTX1jk61ljpzOAPa1suKj+9PZOkd1ETEx55SIAGobaXaV5l
- iBvOggsQ8jO6Arm83xd35Wwd9wh9oIU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BkoPWs25bsh5hXVonD+BSgrCpc/1c5rf1JL1xfQ3sBw=;
+ b=GgqD39AKIFGXPNt++/e01mN7W5YTSsS9Z1tOaeL1C48MGnqX3wp1JobPAZNE9GbBRlR4N3
+ M38QMck1gOzr6Y4YvZTBADaMAzFFUoG6qqwF4UNjbE8eQk6ti1s8tIhTzwUIC1YfoZi1FA
+ VPsnRbIORPmF1h1QVT6Al74bCpNbVG8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-qg2lgtvvNBuPuh9QeeHyQw-1; Tue, 28 Mar 2023 01:19:31 -0400
-X-MC-Unique: qg2lgtvvNBuPuh9QeeHyQw-1
+ us-mta-593-22RCIeYhNEGmYhrroycOOA-1; Tue, 28 Mar 2023 01:19:34 -0400
+X-MC-Unique: 22RCIeYhNEGmYhrroycOOA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A7EA2A5954C;
- Tue, 28 Mar 2023 05:19:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B021485A5A3;
+ Tue, 28 Mar 2023 05:19:33 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-204.pek2.redhat.com
  [10.72.13.204])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 540272027040;
- Tue, 28 Mar 2023 05:19:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9E0C202701E;
+ Tue, 28 Mar 2023 05:19:31 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 03/12] hw/net/net_tx_pkt: Ignore ECN bit
-Date: Tue, 28 Mar 2023 13:19:08 +0800
-Message-Id: <20230328051917.18006-4-jasowang@redhat.com>
+Subject: [PULL 04/12] hw/net/net_tx_pkt: Align l3_hdr
+Date: Tue, 28 Mar 2023 13:19:09 +0800
+Message-Id: <20230328051917.18006-5-jasowang@redhat.com>
 In-Reply-To: <20230328051917.18006-1-jasowang@redhat.com>
 References: <20230328051917.18006-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -81,45 +81,73 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-No segmentation should be performed if gso type is
-VIRTIO_NET_HDR_GSO_NONE even if ECN bit is set.
+Align the l3_hdr member of NetTxPkt by defining it as a union of
+ip_header, ip6_header, and an array of octets.
 
 Fixes: e263cd49c7 ("Packet abstraction for VMWARE network devices")
 Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1544
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/net_tx_pkt.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/net/net_tx_pkt.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
 diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index cb606cc..efe80b1 100644
+index efe80b1..8dc8568 100644
 --- a/hw/net/net_tx_pkt.c
 +++ b/hw/net/net_tx_pkt.c
-@@ -796,11 +796,13 @@ bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
+@@ -43,7 +43,11 @@ struct NetTxPkt {
+     struct iovec *vec;
+ 
+     uint8_t l2_hdr[ETH_MAX_L2_HDR_LEN];
+-    uint8_t l3_hdr[ETH_MAX_IP_DGRAM_LEN];
++    union {
++        struct ip_header ip;
++        struct ip6_header ip6;
++        uint8_t octets[ETH_MAX_IP_DGRAM_LEN];
++    } l3_hdr;
+ 
+     uint32_t payload_len;
+ 
+@@ -89,16 +93,14 @@ void net_tx_pkt_update_ip_hdr_checksum(struct NetTxPkt *pkt)
  {
+     uint16_t csum;
      assert(pkt);
+-    struct ip_header *ip_hdr;
+-    ip_hdr = pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base;
  
-+    uint8_t gso_type = pkt->virt_hdr.gso_type & ~VIRTIO_NET_HDR_GSO_ECN;
-+
-     /*
-      * Since underlying infrastructure does not support IP datagrams longer
-      * than 64K we should drop such packets and don't even try to send
-      */
--    if (VIRTIO_NET_HDR_GSO_NONE != pkt->virt_hdr.gso_type) {
-+    if (VIRTIO_NET_HDR_GSO_NONE != gso_type) {
-         if (pkt->payload_len >
-             ETH_MAX_IP_DGRAM_LEN -
-             pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len) {
-@@ -808,7 +810,7 @@ bool net_tx_pkt_send_custom(struct NetTxPkt *pkt, bool offload,
-         }
-     }
+-    ip_hdr->ip_len = cpu_to_be16(pkt->payload_len +
++    pkt->l3_hdr.ip.ip_len = cpu_to_be16(pkt->payload_len +
+         pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len);
  
--    if (offload || pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
-+    if (offload || gso_type == VIRTIO_NET_HDR_GSO_NONE) {
-         if (!offload && pkt->virt_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
-             net_tx_pkt_do_sw_csum(pkt, &pkt->vec[NET_TX_PKT_L2HDR_FRAG],
-                                   pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - 1,
+-    ip_hdr->ip_sum = 0;
+-    csum = net_raw_checksum((uint8_t *)ip_hdr,
++    pkt->l3_hdr.ip.ip_sum = 0;
++    csum = net_raw_checksum(pkt->l3_hdr.octets,
+         pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_len);
+-    ip_hdr->ip_sum = cpu_to_be16(csum);
++    pkt->l3_hdr.ip.ip_sum = cpu_to_be16(csum);
+ }
+ 
+ void net_tx_pkt_update_ip_checksums(struct NetTxPkt *pkt)
+@@ -832,15 +834,14 @@ void net_tx_pkt_fix_ip6_payload_len(struct NetTxPkt *pkt)
+ {
+     struct iovec *l2 = &pkt->vec[NET_TX_PKT_L2HDR_FRAG];
+     if (eth_get_l3_proto(l2, 1, l2->iov_len) == ETH_P_IPV6) {
+-        struct ip6_header *ip6 = (struct ip6_header *) pkt->l3_hdr;
+         /*
+          * TODO: if qemu would support >64K packets - add jumbo option check
+          * something like that:
+          * 'if (ip6->ip6_plen == 0 && !has_jumbo_option(ip6)) {'
+          */
+-        if (ip6->ip6_plen == 0) {
++        if (pkt->l3_hdr.ip6.ip6_plen == 0) {
+             if (pkt->payload_len <= ETH_MAX_IP_DGRAM_LEN) {
+-                ip6->ip6_plen = htons(pkt->payload_len);
++                pkt->l3_hdr.ip6.ip6_plen = htons(pkt->payload_len);
+             }
+             /*
+              * TODO: if qemu would support >64K packets
 -- 
 2.7.4
 
