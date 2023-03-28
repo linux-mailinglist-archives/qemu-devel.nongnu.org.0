@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B516CBF43
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502B26CBF4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:37:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8YS-0004EZ-2F; Tue, 28 Mar 2023 08:36:00 -0400
+	id 1ph8YR-0004DM-EQ; Tue, 28 Mar 2023 08:35:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ph8YO-0004BY-6l
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ph8YO-0004BX-6k
  for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:35:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ph8YM-0006CV-QU
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ph8YM-0006CN-Ay
  for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:35:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680006954;
+ s=mimecast20190719; t=1680006953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2rTzy4TesxCg60LU6meuGfbZE05Jvzsyuo/AaMdHhJ8=;
- b=LRvl+oFzBzUzft/Dm+Hdl1hyvNnG3/YJHLaII7TkQaGDu1D+SWRmBXkMed7bSCHEtU+5df
- pRJQbCxKIzyWVdbT5iqVulLQWTvLtsEFrSgsrWNw3lib2W6Sal23+/o9Ntb7Z7BudZHCay
- 0sYi3eUwm4ZJoBYa98t8QM5fKMFPdd8=
+ bh=RA1ZnMKSxLra8z0VlFyzeY9VJiVlM6sAzM3t1q82S6M=;
+ b=h5qR3LJZKhnI738AR4LHu0tlNXuW9ijRTJ5t6xqmr465ssWKD1umQFO0OuzUqa6timAl7U
+ xMYNy8NatF2GP6ZulZEx+2fEsPmVzTwxVL5dJhepGPDWO71pLopaY+cl+ojmuvsqr5pHe/
+ RYYBNnMz8zQE1Mbj4dDoWk097PLtV1E=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-27-R3vaBVX1NH6zthQCtUzxRQ-1; Tue, 28 Mar 2023 08:35:51 -0400
-X-MC-Unique: R3vaBVX1NH6zthQCtUzxRQ-1
+ us-mta-481-7Ec6T_y4NeuTFxScQUTQrA-1; Tue, 28 Mar 2023 08:35:52 -0400
+X-MC-Unique: 7Ec6T_y4NeuTFxScQUTQrA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A862E385556A;
- Tue, 28 Mar 2023 12:35:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 972FF1C27D85;
+ Tue, 28 Mar 2023 12:35:51 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDA78C15BA0;
- Tue, 28 Mar 2023 12:35:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF12FC15BA0;
+ Tue, 28 Mar 2023 12:35:50 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/4] nbd/server: push pending frames after sending reply
-Date: Tue, 28 Mar 2023 14:35:39 +0200
-Message-Id: <20230328123542.222022-2-kwolf@redhat.com>
+Subject: [PULL 2/4] block/export: only acquire AioContext once for
+ vhost_user_server_stop()
+Date: Tue, 28 Mar 2023 14:35:40 +0200
+Message-Id: <20230328123542.222022-3-kwolf@redhat.com>
 In-Reply-To: <20230328123542.222022-1-kwolf@redhat.com>
 References: <20230328123542.222022-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,62 +78,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Florian Westphal <fw@strlen.de>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-qemu-nbd doesn't set TCP_NODELAY on the tcp socket.
+vhost_user_server_stop() uses AIO_WAIT_WHILE(). AIO_WAIT_WHILE()
+requires that AioContext is only acquired once.
 
-Kernel waits for more data and avoids transmission of small packets.
-Without TLS this is barely noticeable, but with TLS this really shows.
+Since blk_exp_request_shutdown() already acquires the AioContext it
+shouldn't be acquired again in vhost_user_server_stop().
 
-Booting a VM via qemu-nbd on localhost (with tls) takes more than
-2 minutes on my system.  tcpdump shows frequent wait periods, where no
-packets get sent for a 40ms period.
-
-Add explicit (un)corking when processing (and responding to) requests.
-"TCP_CORK, &zero" after earlier "CORK, &one" will flush pending data.
-
-VM Boot time:
-main:    no tls:  23s, with tls: 2m45s
-patched: no tls:  14s, with tls: 15s
-
-VM Boot time, qemu-nbd via network (same lan):
-main:    no tls:  18s, with tls: 1m50s
-patched: no tls:  17s, with tls: 18s
-
-Future optimization: if we could detect if there is another pending
-request we could defer the uncork operation because more data would be
-appended.
-
-Signed-off-by: Florian Westphal <fw@strlen.de>
-Message-Id: <20230324104720.2498-1-fw@strlen.de>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20230323145853.1345527-1-stefanha@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- nbd/server.c | 3 +++
- 1 file changed, 3 insertions(+)
+ util/vhost-user-server.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index a4750e4188..848836d414 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -2667,6 +2667,8 @@ static coroutine_fn void nbd_trip(void *opaque)
-         goto disconnect;
+diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
+index 40f36ea214..5b6216069c 100644
+--- a/util/vhost-user-server.c
++++ b/util/vhost-user-server.c
+@@ -346,10 +346,9 @@ static void vu_accept(QIONetListener *listener, QIOChannelSocket *sioc,
+     aio_context_release(server->ctx);
+ }
+ 
++/* server->ctx acquired by caller */
+ void vhost_user_server_stop(VuServer *server)
+ {
+-    aio_context_acquire(server->ctx);
+-
+     qemu_bh_delete(server->restart_listener_bh);
+     server->restart_listener_bh = NULL;
+ 
+@@ -366,8 +365,6 @@ void vhost_user_server_stop(VuServer *server)
+         AIO_WAIT_WHILE(server->ctx, server->co_trip);
      }
  
-+    qio_channel_set_cork(client->ioc, true);
-+
-     if (ret < 0) {
-         /* It wasn't -EIO, so, according to nbd_co_receive_request()
-          * semantics, we should return the error to the client. */
-@@ -2692,6 +2694,7 @@ static coroutine_fn void nbd_trip(void *opaque)
-         goto disconnect;
-     }
- 
-+    qio_channel_set_cork(client->ioc, false);
- done:
-     nbd_request_put(req);
-     nbd_client_put(client);
+-    aio_context_release(server->ctx);
+-
+     if (server->listener) {
+         qio_net_listener_disconnect(server->listener);
+         object_unref(OBJECT(server->listener));
 -- 
 2.39.2
 
