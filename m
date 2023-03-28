@@ -2,92 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B1E6CBEE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825706CBF01
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:27:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8GA-0004Vh-1R; Tue, 28 Mar 2023 08:17:06 -0400
+	id 1ph8PL-00076F-Ul; Tue, 28 Mar 2023 08:26:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ph8Fz-0004VX-4q
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:16:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ph8Fx-0002ad-6p
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:16:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680005811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vSkCFW4wL2EsLBPbx5zLzMjda8/A20LAS/Qu2EACO6Q=;
- b=WCn2GfZpbKnaMqsjTtJwaXuIFoZUESYBtFNb+8mvivy1jce0RNBQeM9nGxisaeycM0upfg
- 4M5OlP9YW/F6UcRMJu5mOBoT+HEfXb8TO4IMWqqXDW6GZ5uqG+kyr9E93ElY4GJNZF9xpd
- HZ+V/bVQXqmaO86onoJFF9/VA4AQTsU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-373-OICzRgceOiOPIX6zOW2pvQ-1; Tue, 28 Mar 2023 08:16:50 -0400
-X-MC-Unique: OICzRgceOiOPIX6zOW2pvQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- c11-20020a509f8b000000b00501e2facf47so17323718edf.16
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 05:16:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ph8PI-00075t-9u
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:33 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ph8PG-0004fa-9G
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:32 -0400
+Received: by mail-wr1-x430.google.com with SMTP id e18so11995943wra.9
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 05:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680006388;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UGlRxiGkMpFp1UPSI0NKpCH9yLRLo5kpXZgtPn0j2Qo=;
+ b=exOQStBccaVD7Ebbp7R5OjNvmB8SESlUdSj+H05JegIEKYe0S9M7kUODydUOqL7ggx
+ qpZypOYVzK9nZTaBGdXIxTuKziJfXDiLAcAUz7x+LY1PcWuEk+CK1m0r7Lrkuy5DcWlf
+ p93gKyK1ss3jBRiCbYIgrZlQowHQroboJbOhYtyPeqNMi5xuF+LLibGZf4afaB0jCA//
+ 3Mn96j24+YGTYeJ7h4rcaE3itlw2Ks62vy6hyvnLmwU5ThUn8kj/igftA/uxSeAa7dLw
+ SMczkXLmzsA+z4TmJ84CwNjoqG8DjRwECpwQEFrQIiHtPX5h2ce3bMFLwPruXAIhG3Rv
+ SDFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680005809;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vSkCFW4wL2EsLBPbx5zLzMjda8/A20LAS/Qu2EACO6Q=;
- b=2e3SRApsEKlr68EaSYnY0Jm2UJyxTYR0KG3If62FVDqFPAfkxa/YX/BqtQiNZIkw3x
- gbyIQMV/8qPIwaGuLGZBR8441T8/5Caqe0S5NlcxSY4O2AxL5mY0QtUrIPh+iBcA2uX0
- klDd8l8oj7ry+jSXb74SQS1cRgcC1mT9dBz2N+VShBdt68L2lbndGKiQCSt3msp+s9bi
- IJ3tvK2L1GpRQGVnZlkYOHeXrsOeS+2E1Be24Xk5daLqjwdyf4pAuV4g5iGK3VEv5YAZ
- 8XIjx/XasgbTIiShs/hhu99zakls5wuefQE00jYpimX/2kLjUK4jdQoaz13omVgnBwrT
- 8XvQ==
-X-Gm-Message-State: AAQBX9f1W3Jqy3H4GZEupWEFmmd4emaHeWtctVnHhRBKpBEvob/FOzFJ
- MMJ67USbOJuymvmaHvRBCc/MHbWMuNElnYK0ZpaGRvGEesyAPseE0O+ptI7DZHLaiI0En2o7WoV
- E2+zEWYRQVzeFGgY=
-X-Received: by 2002:a17:907:3188:b0:8b1:781d:f9a4 with SMTP id
- xe8-20020a170907318800b008b1781df9a4mr18273999ejb.21.1680005809082; 
- Tue, 28 Mar 2023 05:16:49 -0700 (PDT)
-X-Google-Smtp-Source: AKy350biOrqSWy5lS7cQ8Cwb1MVW98oCgCm5rnHCbu9kZOZFiyS58DePY8rTAxhyX/SKubhsR84isQ==
-X-Received: by 2002:a17:907:3188:b0:8b1:781d:f9a4 with SMTP id
- xe8-20020a170907318800b008b1781df9a4mr18273973ejb.21.1680005808806; 
- Tue, 28 Mar 2023 05:16:48 -0700 (PDT)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- m17-20020a17090607d100b0093a768b3dddsm9815429ejc.216.2023.03.28.05.16.47
+ d=1e100.net; s=20210112; t=1680006388;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UGlRxiGkMpFp1UPSI0NKpCH9yLRLo5kpXZgtPn0j2Qo=;
+ b=EHc8O/mIowDTlA87b7+skOXelpBg9QlzG9sv1RNRJa76e6JiD1/D50fg/K4+kbmu4M
+ XU/HN/+2maC2wz7KjOtEFgY25sokYXkR8IdAWdzOlTKjc0u8PdcSDOrMVHPeQVFxDq4S
+ GK5NuuTY2R0oD/3dLnixZVmSpdFJI9PWJjFwkdDHiPziIuE/6DYq9coOMSSR13T7HnLk
+ OAL22I5z7Cs7aBJg+1g+kdPuSxcklYEpFc6sluUXxw5a0tKUZujfYruX621q6fb3hY1R
+ jeYHyjhU+PWIv4E8ijHNDSvTPTd6kqdQtROzrxKwq1qsBTtpaIOvWfR9FYEyiNHq+bhF
+ P/ow==
+X-Gm-Message-State: AAQBX9ddNel6mh1kHsy8D1moFF2jmNN4BV1N8/YIiUhn4TNUqNQGGC/L
+ l8qOYgCJ1seKaJmwszHscRxk8g==
+X-Google-Smtp-Source: AKy350b/d/e6W93iZys30ISo7uC+t66xUCGQq1qePGlQWXtByukulH9Ddqp7S82kcXolb1lNZ/QiIg==
+X-Received: by 2002:a5d:6612:0:b0:2d0:7545:a544 with SMTP id
+ n18-20020a5d6612000000b002d07545a544mr12127539wru.7.1680006388478; 
+ Tue, 28 Mar 2023 05:26:28 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ m31-20020a05600c3b1f00b003ef5bb63f13sm12603617wms.10.2023.03.28.05.26.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 05:16:48 -0700 (PDT)
-Date: Tue, 28 Mar 2023 14:16:47 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <anisinha@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, jusual@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/acpi: limit warning on acpi table size to pc
- machines older than version 2.3
-Message-ID: <20230328141647.554ec2e7@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230320112902.90160-1-anisinha@redhat.com>
-References: <20230320112902.90160-1-anisinha@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ Tue, 28 Mar 2023 05:26:28 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C0E9D1FFB7;
+ Tue, 28 Mar 2023 13:26:27 +0100 (BST)
+References: <20230327115030.3418323-1-kconsul@linux.vnet.ibm.com>
+ <20230327115030.3418323-3-kconsul@linux.vnet.ibm.com>
+ <87r0tarx7u.fsf@linaro.org>
+ <ZCLOi5RKIMGfjWRj@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+User-agent: mu4e 1.10.0; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/2] tests/avocado/boot_linux.py: re-enable test-case
+ for ppc64
+Date: Tue, 28 Mar 2023 13:21:10 +0100
+In-reply-to: <ZCLOi5RKIMGfjWRj@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+Message-ID: <87sfdpqcy4.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,91 +101,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 20 Mar 2023 16:59:02 +0530
-Ani Sinha <anisinha@redhat.com> wrote:
 
-> i440fx machine versions 2.3 and newer and q35 machines supports dynamic ram
-> resizing. Please see commit a1666142db6233 ("acpi-build: make ROMs RAM blocks resizeable") .
-> Hence the warning when the ACPI table size exceeds a pre-defined value does
-> not apply to those machines. Add a check limiting the warning message to only
-> those machines that does not support expandable ram blocks, that is, i440fx
-> machines with version 2.2 and older.
-So q35 is not affected at all? If yes, then mention it here.
+Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
 
-> 
-> Signed-off-by: Ani Sinha <anisinha@redhat.com>
-> ---
->  hw/i386/acpi-build.c | 6 ++++--
->  hw/i386/pc.c         | 1 +
->  hw/i386/pc_piix.c    | 1 +
->  include/hw/i386/pc.h | 3 +++
->  4 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index b19fb4259e..2311bea082 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -2616,7 +2616,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->          int legacy_table_size =
->              ROUND_UP(tables_blob->len - aml_len + legacy_aml_len,
->                       ACPI_BUILD_ALIGN_SIZE);
-> -        if (tables_blob->len > legacy_table_size) {
-> +        if ((tables_blob->len > legacy_table_size) &&
-> +            !pcmc->resizable_ram_block) {
->              /* Should happen only with PCI bridges and -M pc-i440fx-2.0.  */
->              warn_report("ACPI table size %u exceeds %d bytes,"
->                          " migration may not work",
-> @@ -2627,7 +2628,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->          g_array_set_size(tables_blob, legacy_table_size);
->      } else {
->          /* Make sure we have a buffer in case we need to resize the tables. */
-> -        if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
-> +        if ((tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) &&
-> +            !pcmc->resizable_ram_block) {
->              /* As of QEMU 2.1, this fires with 160 VCPUs and 255 memory slots.  */
->              warn_report("ACPI table size %u exceeds %d bytes,"
->                          " migration may not work",
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 7bebea57e3..822d5de333 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1936,6 +1936,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->      pcmc->acpi_data_size = 0x20000 + 0x8000;
->      pcmc->pvh_enabled = true;
->      pcmc->kvmclock_create_always = true;
-> +    pcmc->resizable_ram_block = true;
->      assert(!mc->get_hotplug_handler);
->      mc->get_hotplug_handler = pc_get_hotplug_handler;
->      mc->hotplug_allowed = pc_hotplug_allowed;
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 2f16011bab..3c74dfcfb4 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -745,6 +745,7 @@ static void pc_i440fx_2_2_machine_options(MachineClass *m)
->      compat_props_add(m->compat_props, hw_compat_2_2, hw_compat_2_2_len);
->      compat_props_add(m->compat_props, pc_compat_2_2, pc_compat_2_2_len);
->      pcmc->rsdp_in_ram = false;
-> +    pcmc->resizable_ram_block = false;
->  }
->  
->  DEFINE_I440FX_MACHINE(v2_2, "pc-i440fx-2.2", pc_compat_2_2_fn,
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 8206d5405a..3427a35f73 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -127,6 +127,9 @@ struct PCMachineClass {
->  
->      /* create kvmclock device even when KVM PV features are not exposed */
->      bool kvmclock_create_always;
-> +
-> +    /* resizable memory block compat */
-> +    bool resizable_ram_block;
-perhaps more specific
-   resizeable_acpi_blob
-would be better
+> On 2023-03-27 17:07:30, Alex Benn=C3=A9e wrote:
+>>=20
+>> Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
+>>=20
+>> > Fixes c0c8687ef0("tests/avocado: disable BootLinuxPPC64 test in CI").
+>> >
+>> > Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the test-case
+>> > for PPC64. On investigation, this turns out to be an issue with the
+>> > time taken for downloading the Fedora 31 qcow2 image being included
+>> > within the test-case timeout.
+>> > Re-enable this test-case by setting the timeout to 360 seconds just
+>> > before launching the downloaded VM image.
+>> >
+>> > Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+>> > Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> > Tested-by: Hariharan T S hariharan.ts@linux.vnet.ibm.com
+>>=20
+>> It doesn't really address the principle problem that the
+>> boot_linux.py:BootLinuxPPC64.test_pseries_tcg is super heavyweight for
+>> only 2% extra coverage of the executed lines.
+> By re-enabling this test-case we will ensure that PPC64 part of qemu
+> works okay in terms of basic linux boot. Without this we will have
+> a regression in the sense that there won't be any way to test out
+> basic linux boot for PPC64.
 
->  };
->  
->  #define TYPE_PC_MACHINE "generic-pc-machine"
+Sure we do:
 
+  =E2=9E=9C  ./tests/venv/bin/avocado list ./tests/avocado/tuxrun_baselines=
+.py:TuxRunBaselineTest.test_p
+  INSTRUMENTED ./tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_=
+ppc32
+  INSTRUMENTED ./tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_=
+ppc64
+  INSTRUMENTED ./tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_=
+ppc64le
+
+boot 3 different ppc configurations.
+
+>>=20
+>> What we really need is a script so we can compare the output between the
+>> two jsons:
+>>=20
+>>   gcovr --json --exclude-unreachable-branches --print-summary -o coverag=
+e.json --root ../../ . *.p
+>>=20
+>> because I suspect we could make up that missing few % noodling the
+>> baseline test a bit more.
+> Can you tell me how you check code coverage with and without this
+> test-case ?
+
+I use two build directories, both configured with --enable-gcov. e.g.:
+
+ ../../configure' '--disable-docs' '--enable-gcov' '--target-list=3Dppc64-s=
+oftmmu'
+
+and run a different set of tests in each build dir. You can then run:
+
+  make coverage-html V=3D1
+
+for the initial report. See:
+
+  https://qemu.readthedocs.io/en/latest/devel/testing.html#gcc-gcov-support
+=20=20
+> I am kind of new to qemu so it would be nice to know how you
+> do this. And I am trying to increase the code coverage by improving
+> the baseline test by including more devices in the qemu-system-ppc64
+> command line so I would appreciate any tips on how to do that also.
+
+The only problem is eyeballing the html reports is a very fuzzy way of
+comparing coverage. However the gcovr report generates some useful
+machine readable json which could be compared with a script.
+
+>>=20
+>> > ---
+>> >  tests/avocado/boot_linux.py | 6 +++++-
+>> >  1 file changed, 5 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+>> > index be30dcbd58..c3869a987c 100644
+>> > --- a/tests/avocado/boot_linux.py
+>> > +++ b/tests/avocado/boot_linux.py
+>> > @@ -91,9 +91,9 @@ class BootLinuxPPC64(LinuxTest):
+>> >      :avocado: tags=3Darch:ppc64
+>> >      """
+>> >=20=20
+>> > +    # timeout for downloading new VM image.
+>> >      timeout =3D 360
+>> >=20=20
+>> > -    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>> >      def test_pseries_tcg(self):
+>> >          """
+>> >          :avocado: tags=3Dmachine:pseries
+>> > @@ -101,6 +101,10 @@ def test_pseries_tcg(self):
+>> >          """
+>> >          self.require_accelerator("tcg")
+>> >          self.vm.add_args("-accel", "tcg")
+>> > +
+>> > +        # timeout for actual Linux PPC boot test
+>> > +        self.timeout =3D 360
+>> > +
+>> >          self.launch_and_wait(set_up_ssh_connection=3DFalse)
+>>=20
+>>=20
+>> --=20
+>> Alex Benn=C3=A9e
+>> Virtualisation Tech Lead @ Linaro
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
