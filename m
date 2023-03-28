@@ -2,103 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7945E6CC91E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714796CC914
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:20:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phD0C-0006zs-5g; Tue, 28 Mar 2023 13:20:56 -0400
+	id 1phCzb-0006Fz-2y; Tue, 28 Mar 2023 13:20:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1phD09-0006ys-Vu
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:20:54 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1phCzZ-0006Fr-6G
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:20:17 -0400
+Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1phD07-0006ot-LY
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:20:53 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32SHFasH024642; Tue, 28 Mar 2023 17:20:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=FdL+JQtgpIbcTvLquS+eEep/JoNRqQPNpWeSyuefBW4=;
- b=MVFL+vmRzOjFhuqquFWREatuXYJTo+l1iHKa99amd0cdKHGzSwLhjBGq2raj2MFV0idn
- wx/AAgE3toQISdFF7MS7i2nMSecHDEY3039TC2eTxrb400srD1qeTLX/rAViKAX4SneU
- rV0ld9gilvbIU6APiTA0dKhUsAgCeYEx5yQPy68M+ALE4tc/WD9Ch/Ed8wxQv6Ws1Dho
- dUIeKttUavhvKlPgUM4xNK02cOMCvd6xvjxZb2BurXizQHeAeG5pcQbOtw6tXNEr9VYN
- 4f8Mjcheq6ic/RScFwiqawqDd6jUK/HuAazx3E/1ffBjvrlkip3c9P6UQWqLpgje6Jft Qw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm4fwg2rx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 17:20:31 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SHJaj9006834;
- Tue, 28 Mar 2023 17:20:31 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm4fwg2aw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 17:20:29 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32SGIXTt003277;
- Tue, 28 Mar 2023 17:20:04 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3phrk79wg4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 17:20:04 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com
- [10.39.53.231])
- by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32SHK2fr6226556
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Mar 2023 17:20:02 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 76DB658054;
- Tue, 28 Mar 2023 17:20:02 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A97B358061;
- Tue, 28 Mar 2023 17:20:01 +0000 (GMT)
-Received: from sbct-2.pok.ibm.com (unknown [9.47.158.152])
- by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 28 Mar 2023 17:20:01 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, thuth@redhat.com, clg@kaod.org,
- ninad@linux.ibm.com, joel@jms.id.au, andrew@aj.id.au,
- Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH v4 2/3] qtest: Move tpm_util_tis_transmit() into
- tpm-tis-utils.c and rename it
-Date: Tue, 28 Mar 2023 13:19:57 -0400
-Message-Id: <20230328171958.3677734-3-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230328171958.3677734-1-stefanb@linux.ibm.com>
-References: <20230328171958.3677734-1-stefanb@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: jjETROwnyTcUKjbMwvKxr3E5DmWFDDn5
-X-Proofpoint-ORIG-GUID: 65-OWv8_DyoGxgp_HWJAga3NW-pF82wx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-28_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- phishscore=0 spamscore=0 mlxscore=0 priorityscore=1501 suspectscore=0
- mlxlogscore=999 malwarescore=0 clxscore=1015 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303280133
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1phCzV-0006MV-M1
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:20:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
+ In-Reply-To:Message-Id:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=KA+gzNiQ9QaSnVaYICMesBLPV1nE3ZxUUW+C21kCmN0=; b=bgQUThqZlR/epgmjTBDP31N7Yg
+ Mbi66D5eSNbaZ86/cWWu9ygNkKySRe2q+OHgvXVtmTQDegNJm78VdhmwLo+U3TV8Zbl9BoQk+qXeY
+ f9Cp9iF/TwTip4Yb5oOBhIUjCJ6Lc1aNAJ6pwCcmI32tzu7QxsmjchC7siU5PWxQFw4ysvV2fkcSG
+ Q869FLghWtChf/fBtm1FjS2jhKKnq1hReHY2kFjtfyrIsKZLMcaySZQT0Av3Ax3/mPFUCkUq9ZzTP
+ IM+4gidfsKlSDzHCb2YE3Bf7CLBegLwIngTBo3u3zrl4EQ9MSJFsjKb/T8+acUAJ/7uruTh7Uz9Z7
+ FIvE+YIg==;
+Received: from [213.115.245.47] (helo=balrog.lkp.se)
+ by ns12.inleed.net with esmtpa (Exim 4.96-58-g4e9ed49f8)
+ (envelope-from <hc981@poolhem.se>) id 1phCzT-007PNT-0i;
+ Tue, 28 Mar 2023 19:20:11 +0200
+Date: Tue, 28 Mar 2023 19:19:58 +0200
+From: Henrik Carlqvist <hc981@poolhem.se>
+To: Daniel P. =?ISO-8859-1?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, hc1245@poolhem.se, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5] Emulate dip switch language layout settings on SUN
+ keyboard
+Message-Id: <20230328191958.3e3eb5e4.hc981@poolhem.se>
+In-Reply-To: <ZCLzUyiDeKLfQqWT@redhat.com>
+References: <167305907804.10652.2746409341903316717-1@git.sr.ht>
+ <d2850ef0-d825-bb03-09d4-0d1427cf6577@ilande.co.uk>
+ <20230123200937.32eb19eb.hc981@poolhem.se>
+ <20230304220754.0c6ae562.hc981@poolhem.se>
+ <ZCLzUyiDeKLfQqWT@redhat.com>
+X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+X-Authenticated-Id: henrik@poolhem.se
+Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
+ envelope-from=hc981@poolhem.se; helo=mailout12.inleed.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,259 +74,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To be able to remove tpm_tis_base_addr from test cases that do not really
-need it move the tpm_util_tis_transmit() function into tpm-tis-utils.c and
-rename it to tpm_tis_transmit().
+Thanks for your feedback!
 
-Fix a locality parameter in a test case on the way.
+On Tue, 28 Mar 2023 15:01:55 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Ninad Palsule <ninad@linux.ibm.com>
----
- tests/qtest/tpm-crb-swtpm-test.c        |  3 --
- tests/qtest/tpm-crb-test.c              |  3 --
- tests/qtest/tpm-tis-device-swtpm-test.c |  5 +--
- tests/qtest/tpm-tis-swtpm-test.c        |  5 +--
- tests/qtest/tpm-tis-util.c              | 47 ++++++++++++++++++++++++-
- tests/qtest/tpm-tis-util.h              |  4 +++
- tests/qtest/tpm-util.c                  | 45 -----------------------
- tests/qtest/tpm-util.h                  |  3 --
- 8 files changed, 56 insertions(+), 59 deletions(-)
+> This is another reason why use of the '-k' switch is a bad idea. Its
+> range of permissible values / vocabulary does not match the range of
+> values / vocabulary needed for this hardware device.
+>=20
+> In https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+> the keyboard layouts have distinct names
+>=20
+> "Norway4" vs "Norway5" and "US4" vs  "US5" vs "US_UNIX5"
 
-diff --git a/tests/qtest/tpm-crb-swtpm-test.c b/tests/qtest/tpm-crb-swtpm-test.c
-index 40254f762f..ffeb1c396b 100644
---- a/tests/qtest/tpm-crb-swtpm-test.c
-+++ b/tests/qtest/tpm-crb-swtpm-test.c
-@@ -19,9 +19,6 @@
- #include "tpm-tests.h"
- #include "hw/acpi/tpm.h"
- 
--/* Not used but needed for linking */
--uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
--
- typedef struct TestState {
-     char *src_tpm_path;
-     char *dst_tpm_path;
-diff --git a/tests/qtest/tpm-crb-test.c b/tests/qtest/tpm-crb-test.c
-index 7b94453390..396ae3f91c 100644
---- a/tests/qtest/tpm-crb-test.c
-+++ b/tests/qtest/tpm-crb-test.c
-@@ -19,9 +19,6 @@
- #include "qemu/module.h"
- #include "tpm-emu.h"
- 
--/* Not used but needed for linking */
--uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
--
- #define TPM_CMD "\x80\x01\x00\x00\x00\x0c\x00\x00\x01\x44\x00\x00"
- 
- static void tpm_crb_test(const void *data)
-diff --git a/tests/qtest/tpm-tis-device-swtpm-test.c b/tests/qtest/tpm-tis-device-swtpm-test.c
-index 8c067fddd4..517a077005 100644
---- a/tests/qtest/tpm-tis-device-swtpm-test.c
-+++ b/tests/qtest/tpm-tis-device-swtpm-test.c
-@@ -18,6 +18,7 @@
- #include "libqtest.h"
- #include "qemu/module.h"
- #include "tpm-tests.h"
-+#include "tpm-tis-util.h"
- #include "hw/acpi/tpm.h"
- 
- uint64_t tpm_tis_base_addr = 0xc000000;
-@@ -33,7 +34,7 @@ static void tpm_tis_swtpm_test(const void *data)
- {
-     const TestState *ts = data;
- 
--    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer,
-+    tpm_test_swtpm_test(ts->src_tpm_path, tpm_tis_transfer,
-                         "tpm-tis-device", MACHINE_OPTIONS);
- }
- 
-@@ -42,7 +43,7 @@ static void tpm_tis_swtpm_migration_test(const void *data)
-     const TestState *ts = data;
- 
-     tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
--                                  tpm_util_tis_transfer, "tpm-tis-device",
-+                                  tpm_tis_transfer, "tpm-tis-device",
-                                   MACHINE_OPTIONS);
- }
- 
-diff --git a/tests/qtest/tpm-tis-swtpm-test.c b/tests/qtest/tpm-tis-swtpm-test.c
-index 11539c0a52..105e42e21d 100644
---- a/tests/qtest/tpm-tis-swtpm-test.c
-+++ b/tests/qtest/tpm-tis-swtpm-test.c
-@@ -17,6 +17,7 @@
- #include "libqtest.h"
- #include "qemu/module.h"
- #include "tpm-tests.h"
-+#include "tpm-tis-util.h"
- #include "hw/acpi/tpm.h"
- 
- uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
-@@ -31,7 +32,7 @@ static void tpm_tis_swtpm_test(const void *data)
- {
-     const TestState *ts = data;
- 
--    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer,
-+    tpm_test_swtpm_test(ts->src_tpm_path, tpm_tis_transfer,
-                         "tpm-tis", NULL);
- }
- 
-@@ -40,7 +41,7 @@ static void tpm_tis_swtpm_migration_test(const void *data)
-     const TestState *ts = data;
- 
-     tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
--                                  tpm_util_tis_transfer, "tpm-tis", NULL);
-+                                  tpm_tis_transfer, "tpm-tis", NULL);
- }
- 
- int main(int argc, char **argv)
-diff --git a/tests/qtest/tpm-tis-util.c b/tests/qtest/tpm-tis-util.c
-index 939893bf01..728cd3e065 100644
---- a/tests/qtest/tpm-tis-util.c
-+++ b/tests/qtest/tpm-tis-util.c
-@@ -52,7 +52,7 @@ void tpm_tis_test_check_localities(const void *data)
-     uint32_t rid;
- 
-     for (locty = 0; locty < TPM_TIS_NUM_LOCALITIES; locty++) {
--        access = readb(TIS_REG(0, TPM_TIS_REG_ACCESS));
-+        access = readb(TIS_REG(locty, TPM_TIS_REG_ACCESS));
-         g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-                                     TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
- 
-@@ -449,3 +449,48 @@ void tpm_tis_test_check_transmit(const void *data)
-     writeb(TIS_REG(0, TPM_TIS_REG_ACCESS), TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-     access = readb(TIS_REG(0, TPM_TIS_REG_ACCESS));
- }
-+
-+void tpm_tis_transfer(QTestState *s,
-+                      const unsigned char *req, size_t req_size,
-+                      unsigned char *rsp, size_t rsp_size)
-+{
-+    uint32_t sts;
-+    uint16_t bcount;
-+    size_t i;
-+
-+    /* request use of locality 0 */
-+    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_ACCESS), TPM_TIS_ACCESS_REQUEST_USE);
-+    qtest_writel(s, TIS_REG(0, TPM_TIS_REG_STS), TPM_TIS_STS_COMMAND_READY);
-+
-+    sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
-+    bcount = (sts >> 8) & 0xffff;
-+    g_assert_cmpint(bcount, >=, req_size);
-+
-+    /* transmit command */
-+    for (i = 0; i < req_size; i++) {
-+        qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_DATA_FIFO), req[i]);
-+    }
-+
-+    /* start processing */
-+    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_STS), TPM_TIS_STS_TPM_GO);
-+
-+    uint64_t end_time = g_get_monotonic_time() + 50 * G_TIME_SPAN_SECOND;
-+    do {
-+        sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
-+        if ((sts & TPM_TIS_STS_DATA_AVAILABLE) != 0) {
-+            break;
-+        }
-+    } while (g_get_monotonic_time() < end_time);
-+
-+    sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
-+    bcount = (sts >> 8) & 0xffff;
-+
-+    memset(rsp, 0, rsp_size);
-+    for (i = 0; i < bcount; i++) {
-+        rsp[i] = qtest_readb(s, TIS_REG(0, TPM_TIS_REG_DATA_FIFO));
-+    }
-+
-+    /* relinquish use of locality 0 */
-+    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_ACCESS),
-+                 TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-+}
-diff --git a/tests/qtest/tpm-tis-util.h b/tests/qtest/tpm-tis-util.h
-index d10efe86ae..03910a7ba7 100644
---- a/tests/qtest/tpm-tis-util.h
-+++ b/tests/qtest/tpm-tis-util.h
-@@ -20,4 +20,8 @@ void tpm_tis_test_check_access_reg_seize(const void *data);
- void tpm_tis_test_check_access_reg_release(const void *data);
- void tpm_tis_test_check_transmit(const void *data);
- 
-+void tpm_tis_transfer(QTestState *s,
-+                      const unsigned char *req, size_t req_size,
-+                      unsigned char *rsp, size_t rsp_size);
-+
- #endif /* TESTS_TPM_TIS_UTIL_H */
-diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-index a7efe2d0d2..1c0319e6e7 100644
---- a/tests/qtest/tpm-util.c
-+++ b/tests/qtest/tpm-util.c
-@@ -51,51 +51,6 @@ void tpm_util_crb_transfer(QTestState *s,
-     qtest_memread(s, raddr, rsp, rsp_size);
- }
- 
--void tpm_util_tis_transfer(QTestState *s,
--                           const unsigned char *req, size_t req_size,
--                           unsigned char *rsp, size_t rsp_size)
--{
--    uint32_t sts;
--    uint16_t bcount;
--    size_t i;
--
--    /* request use of locality 0 */
--    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_ACCESS), TPM_TIS_ACCESS_REQUEST_USE);
--    qtest_writel(s, TIS_REG(0, TPM_TIS_REG_STS), TPM_TIS_STS_COMMAND_READY);
--
--    sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
--    bcount = (sts >> 8) & 0xffff;
--    g_assert_cmpint(bcount, >=, req_size);
--
--    /* transmit command */
--    for (i = 0; i < req_size; i++) {
--        qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_DATA_FIFO), req[i]);
--    }
--
--    /* start processing */
--    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_STS), TPM_TIS_STS_TPM_GO);
--
--    uint64_t end_time = g_get_monotonic_time() + 50 * G_TIME_SPAN_SECOND;
--    do {
--        sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
--        if ((sts & TPM_TIS_STS_DATA_AVAILABLE) != 0) {
--            break;
--        }
--    } while (g_get_monotonic_time() < end_time);
--
--    sts = qtest_readl(s, TIS_REG(0, TPM_TIS_REG_STS));
--    bcount = (sts >> 8) & 0xffff;
--
--    memset(rsp, 0, rsp_size);
--    for (i = 0; i < bcount; i++) {
--        rsp[i] = qtest_readb(s, TIS_REG(0, TPM_TIS_REG_DATA_FIFO));
--    }
--
--    /* relinquish use of locality 0 */
--    qtest_writeb(s, TIS_REG(0, TPM_TIS_REG_ACCESS),
--                 TPM_TIS_ACCESS_ACTIVE_LOCALITY);
--}
--
- void tpm_util_startup(QTestState *s, tx_func *tx)
- {
-     unsigned char buffer[1024];
-diff --git a/tests/qtest/tpm-util.h b/tests/qtest/tpm-util.h
-index 80720afac0..0cb28dd6e5 100644
---- a/tests/qtest/tpm-util.h
-+++ b/tests/qtest/tpm-util.h
-@@ -27,9 +27,6 @@ typedef void (tx_func)(QTestState *s,
- void tpm_util_crb_transfer(QTestState *s,
-                            const unsigned char *req, size_t req_size,
-                            unsigned char *rsp, size_t rsp_size);
--void tpm_util_tis_transfer(QTestState *s,
--                           const unsigned char *req, size_t req_size,
--                           unsigned char *rsp, size_t rsp_size);
- 
- void tpm_util_startup(QTestState *s, tx_func *tx);
- void tpm_util_pcrextend(QTestState *s, tx_func *tx);
--- 
-2.39.2
+Those distinct names are names of files in the OS filesystem. This is a link
+to a description of a patch which gives those keyboard layouts support for
+the euro sign:
 
+http://download.nust.na/pub3/solaris/patches/106839.readme
+
+> I'd suggest a property to the escc device should take the names
+> given by that reference page above. eg
+>=20
+>   -global escc.sunkbd_layout=3DNorway4
+
+Would you mind if such an assignment could also be given in multiple ways,
+that is:
+
+-global escc.sunkbd_layout=3D33
+-global escc.sunkbd_layout=3D0x21
+-global escc.sunkbd_layout=3DUS5
+-global escc.sunkbd_layout=3Den_us
+
+would all result in the same dip switch setting 0x21?=20
+
+The nice thing with being able to assign keyboard layouts with a string like
+"en_us" is that it does not require the user to read reference documentation
+from Oracle to see which odd named layouts to choose from.
+
+The nice thing to also being able to give numerical values like 33 or 0x21 =
+is
+that some possible dip switch settings (like 0x20) are not mentioned in the
+Oracle reference documentation, but of course they would be possible to set
+with physical dip switches even though they might not be supported by the O=
+S.
+
+> the only ambguity I see is that 0x0 and 0x1 both have the same
+> name (US4), which could be resolved by handling 0x0 as the default
+> with an empty string perhaps.
+
+With multiple ways to give the values as I suggest it would be possible to
+give 0x0 and 0x1 as values but "US4" would allways result in one of them,
+probably 0x0.=20
+
+The default value when no value is given or when some invalid value is given
+to escc.sunkbd_layout would preferably be 0x21 for backwards compability as
+that is the only value you can get from the dip switch in qemu today.
+
+Once we find a method we all agree on I am willing to rewrite my patch, but
+maybe I will not be able to do it before summer when I get my vacation.
+
+best regards Henrik
 
