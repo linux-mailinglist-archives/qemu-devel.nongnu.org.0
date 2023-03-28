@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C936CC75B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 18:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921D96CC767
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 18:03:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phBkp-0005jE-4h; Tue, 28 Mar 2023 12:00:59 -0400
+	id 1phBlP-0006EK-EB; Tue, 28 Mar 2023 12:01:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1phBkS-0005K5-53
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:00:42 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ id 1phBkh-0005bz-WB
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:00:52 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1phBkP-0003mP-D9
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:00:35 -0400
-Received: by mail-ed1-x536.google.com with SMTP id y4so51845265edo.2
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 09:00:32 -0700 (PDT)
+ id 1phBkg-0003sy-BH
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:00:51 -0400
+Received: by mail-ed1-x531.google.com with SMTP id i5so51986761eda.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 09:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680019231;
+ d=linaro.org; s=google; t=1680019249;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/osdWzJCElLXcA4fxi/B8eM7YZienX1jvnNYuDcGddI=;
- b=zjoAw0dri0grFbQD2e1xh+SeJyUAkdxm3DxDXeJq9gfiuvuVOUM951CoTJEQt6MqxV
- VQGULEq1+7ZnKbYaqaCLGPFV5RgO8PgmuyIWAIxWQa6LZts/pzEB1yq2IMoyIclMJYPR
- lOXatJhagdg44vdGzSuHEl/GQqptAIpSaOyTNpSfdieXYbWRcSPFxgdWl17ZQDC0TRih
- c7+D7N5QBejXI8zfaXXSaiuy9VqsDEIf21LeLNyX8nc2AtGCg3Xvr/hT4UVfJI2reO/c
- Bz8bohFYkY+xg6t2UB+RSCgUkGJ18CQirdfIFICAl+nZrFzGE3JAEGLDIJre82urYiV1
- t3+g==
+ bh=I6BTNt9OKaAM1y9egPEEV1M6s38Xz0EN5MSbOh/jFMk=;
+ b=I5DkcV3+wUQIzAebkcrha94soGBYANzEWnvwblJnR7aVCeX/6jcxDqhSqoApzli5A7
+ DYT916oHMfgUs51x0Vjdmm8EEMOUnJEX5q2sJedTo47AewQh2iZ5+3oGTbNZamXQmMcG
+ UlFNHNE9JjQlFonis3uM1nnj9GrwECt0sXYYLqrSTdUpLZ+q/g4fd7OcNmvjuZIIWsfw
+ 5HSdW0WkL02DAK0369g/PNqeHrVrp99dqnFQTxiegWz7j9YgA5tPLixYnWZk+RyNVPjA
+ 0AqyAcGyx4+fvSBWKg8eCSaUuVG+XeDupbebBxH3bbOofxS34sbdfRRU4XxcTrULNNJR
+ fBWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680019231;
+ d=1e100.net; s=20210112; t=1680019249;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=/osdWzJCElLXcA4fxi/B8eM7YZienX1jvnNYuDcGddI=;
- b=5FVPZbIQcHtyNZu82kHY3pcthCNLcWwH0fUhDbpVEqbj4iNFU7+K7QRTnzF2UKOA79
- ro482KYRdH4SneRTkBGdlOFNW+MsieIsqWdNUek7z/Qsu8iTQZ51L8iKfZGyPat09218
- pUN7bj4XRu26oKSKFPmjmT2LZTQSK3f1Nhp2MZi5empwpc0yORjIe0T+/SeRBBhCwu8x
- D/H21Z1eTxg1+Y/kO2BmgL4LUB2pOpd2OwzhLNRVV+b66rCS1iOmEx5DC0fZ32VBU9Gb
- b+LZvLQDbR+gnGxUvv7JioX1VG3F/iHzvdcVlqgpmZ+QMSH6O6q3UpkIt8s8Yh6cI+AX
- GA4g==
-X-Gm-Message-State: AAQBX9eZZPJMJy0QXEDg+JuVOOQ43WexgnuExsJFXBEY9ssMEmRy5z1M
- 7P7bxf4cVHtuhwRZr3hQXMcrCLcnIvghvyIyGjf4gQ==
-X-Google-Smtp-Source: AKy350ac8pKNQfLSeOuLzPAP+mWeLgTcD46EJqU9SmZphAF5kDZRH/bphwL7U6lAuBGAR/8gLtRzcpFHevf7+297p5I=
-X-Received: by 2002:a50:9e89:0:b0:500:547b:4e1b with SMTP id
- a9-20020a509e89000000b00500547b4e1bmr8101912edf.6.1680019231138; Tue, 28 Mar
- 2023 09:00:31 -0700 (PDT)
+ bh=I6BTNt9OKaAM1y9egPEEV1M6s38Xz0EN5MSbOh/jFMk=;
+ b=2od+Ttr2rB86I6lzaWePzdIRptQRJBrkfJiXcCpRrmbS92Oc8EXn5/+ZmNl9fWKSDl
+ 1NJFUGCcNihHPI/se4viTuKGuZFYJ3xlf1X1Owz+iRAOTOS9guj3qR/NsOK/Ev7AObHE
+ Ii7+HQ+53zbM4vHuKQDJBWSWAQYzDKsuyfMMaerFiRRE4+javJFcaeLHC5Owz1gP/ELf
+ B41jVvfMHpZ9/rlSohA5YR97/tUG91zeaZ4kIyCG34FldqN47N/WqdOuoWWbdC5sS4k5
+ jqS7ouavfHSEe6/e9L/rzXaem4jG2APazPPG3mybcxySdizoFDK4GWCEqbeLjzVqQtlw
+ nJ2A==
+X-Gm-Message-State: AAQBX9eQ4srdHvoTVGo3tORrXKMoiq6sHOAa06J95Lz41JV6e43P1aNR
+ AdyEi+IVPhCZV1IAwNu1n9vQPf2wkADV5NwNCEK6lpXHZqoBYx+0
+X-Google-Smtp-Source: AKy350YMj82wsReG8YyWtdDOtQUEfKsK2Zn/uq9p8Qkr1WVGtYQdCdoKyrzRFdUzpXuJEe09GTQKNYHN43aI7eBmXoA=
+X-Received: by 2002:a17:906:edc9:b0:924:efbb:8a8b with SMTP id
+ sb9-20020a170906edc900b00924efbb8a8bmr8119927ejb.6.1680019248955; Tue, 28 Mar
+ 2023 09:00:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230327170944.57033-1-its@irrelevant.dk>
-In-Reply-To: <20230327170944.57033-1-its@irrelevant.dk>
+References: <20230328051917.18006-1-jasowang@redhat.com>
+In-Reply-To: <20230328051917.18006-1-jasowang@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Mar 2023 17:00:20 +0100
-Message-ID: <CAFEAcA_6hr=NcGjaictO3DQBwnnt5pEh8qP8+yiPz0KnTiuiQA@mail.gmail.com>
-Subject: Re: [PULL 0/2] hw/nvme fixes
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>, 
- Klaus Jensen <k.jensen@samsung.com>
+Date: Tue, 28 Mar 2023 17:00:38 +0100
+Message-ID: <CAFEAcA-CP1z8zWFJvBoDWFGe24KTbOn9hs3d7Fr883pij_7nTA@mail.gmail.com>
+Subject: Re: [PULL 00/12] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,37 +83,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Mar 2023 at 18:09, Klaus Jensen <its@irrelevant.dk> wrote:
->
-> From: Klaus Jensen <k.jensen@samsung.com>
->
-> Hi Peter,
+On Tue, 28 Mar 2023 at 06:21, Jason Wang <jasowang@redhat.com> wrote:
 >
 > The following changes since commit e3debd5e7d0ce031356024878a0a18b9d109354a:
 >
 >   Merge tag 'pull-request-2023-03-24' of https://gitlab.com/thuth/qemu into staging (2023-03-24 16:08:46 +0000)
 >
-> are available in the Git repository at:
+> are available in the git repository at:
 >
->   https://gitlab.com/birkelund/qemu.git tags/nvme-next-pull-request
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
 >
-> for you to fetch changes up to ca2a091802872b265bc6007a2d36276d51d8e4b3:
+> for you to fetch changes up to fba7c3b788dfcb99a3f9253f7d99cc0d217d6d3c:
 >
->   hw/nvme: fix missing DNR on compare failure (2023-03-27 19:05:23 +0200)
+>   igb: respect VMVIR and VMOLR for VLAN (2023-03-28 13:10:55 +0800)
 >
-> ----------------------------------------------------------------
-> hw/nvme fixes
->
-> ----------------------------------------------------------------
->
-> Klaus Jensen (1):
->   hw/nvme: fix missing DNR on compare failure
->
-> Mateusz Kozlowski (1):
->   hw/nvme: Change alignment in dma functions for nvme_blk_*
->
->  hw/nvme/ctrl.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
 
 
 Applied, thanks.
