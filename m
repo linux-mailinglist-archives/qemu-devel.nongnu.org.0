@@ -2,56 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B706CB72C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 08:30:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE5D6CB72E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 08:31:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph2q7-0001kt-RX; Tue, 28 Mar 2023 02:29:51 -0400
+	id 1ph2re-0002SP-Nu; Tue, 28 Mar 2023 02:31:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1ph2q5-0001kR-MR; Tue, 28 Mar 2023 02:29:49 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph2rP-0002S5-KW
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:31:13 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1ph2q2-0005UE-K9; Tue, 28 Mar 2023 02:29:48 -0400
-Received: from [192.168.178.59] (p5b151831.dip0.t-ipconnect.de [91.21.24.49])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id CF763DA0BD4;
- Tue, 28 Mar 2023 08:29:43 +0200 (CEST)
-Content-Type: multipart/alternative;
- boundary="------------wUpAWBENR8gbOdV9jJdrWLwN"
-Message-ID: <ac4ac6ae-9147-bdb2-5adb-3322182cba4f@weilnetz.de>
-Date: Tue, 28 Mar 2023 08:29:43 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph2rM-0006ug-Os
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:31:11 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.195])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C052B2097C;
+ Tue, 28 Mar 2023 06:31:04 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 28 Mar
+ 2023 08:31:04 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S00311dd054d-cbf1-43ea-b5a6-82a77ed5756a,
+ 5D21C2AA46E1B9891D174392918792ED1A5C90BB) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <239783d1-1e02-c961-30ce-81846382f0f5@kaod.org>
+Date: Tue, 28 Mar 2023 08:31:01 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>, Peter Wu <peter@lekensteyn.nl>,
- Julio Faracco <jcfaracco@gmail.com>
-References: <20230327151349.97572-1-philmd@linaro.org>
- <cc1f75ce-0295-cc57-1a74-71e036862bb7@weilnetz.de>
- <e4a0b994-965a-2bd4-5517-b11e31b002ee@linaro.org>
- <CABgObfZ8pfrfMV0YLWo-bPyh7fCehk+NjRRnkKA15DQnqy3Mpg@mail.gmail.com>
-Subject: Re: [PATCH-for-8.0] block/dmg: Ignore C99 prototype declaration
- mismatch from <lzfse.h>
-In-Reply-To: <CABgObfZ8pfrfMV0YLWo-bPyh7fCehk+NjRRnkKA15DQnqy3Mpg@mail.gmail.com>
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v10 3/3] tpm: Add support for TPM device over I2C bus
+Content-Language: en-US
+To: Ninad Palsule <ninad@linux.ibm.com>, <qemu-devel@nongnu.org>
+CC: <joel@jms.id.au>, <andrew@aj.id.au>, <stefanb@linux.ibm.com>
+References: <20230327183350.4060507-1-ninad@linux.ibm.com>
+ <20230327183350.4060507-4-ninad@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230327183350.4060507-4-ninad@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 73c05e49-cd42-4010-934c-230f297da08b
+X-Ovh-Tracer-Id: 9919178179722644387
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehfedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehnihhnrggusehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhjohgvlhesjhhmshdrihgurdgruhdprghnughrvgifsegrjhdrihgurdgruhdpshhtvghfrghnsgeslhhinhhugidrihgsmhdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,156 +70,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------wUpAWBENR8gbOdV9jJdrWLwN
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 3/27/23 20:33, Ninad Palsule wrote:
+> Qemu already supports devices attached to ISA and sysbus. This drop adds
+> support for the I2C bus attached TPM devices. I2C model only supports
+> TPM2 protocol.
+> 
+> This commit includes changes for the common code.
+> - Added I2C emulation model. Logic was added in the model to temporarily
+>    cache the data as I2C interface works per byte basis.
+> - New tpm type "tpm-tis-i2c" added for I2C support. The user has to
+>    provide this string on command line.
+> 
+> Testing:
+>    TPM I2C device module is tested using SWTPM (software based TPM
+>    package). Qemu uses the rainier machine and is connected to swtpm over
+>    the socket interface.
+> 
+>    The command to start swtpm is as follows:
+>    $ swtpm socket --tpmstate dir=/tmp/mytpm1    \
+>                   --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock  \
+>                   --tpm2 --log level=100
+> 
+>    The command to start qemu is as follows:
+>    $ qemu-system-arm -M rainier-bmc -nographic \
+>              -kernel ${IMAGEPATH}/fitImage-linux.bin \
+>              -dtb ${IMAGEPATH}/aspeed-bmc-ibm-rainier.dtb \
+>              -initrd ${IMAGEPATH}/obmc-phosphor-initramfs.rootfs.cpio.xz \
+>              -drive file=${IMAGEPATH}/obmc-phosphor-image.rootfs.wic.qcow2,if=sd,index=2 \
+>              -net nic -net user,hostfwd=:127.0.0.1:2222-:22,hostfwd=:127.0.0.1:2443-:443 \
+>              -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+>              -tpmdev emulator,id=tpm0,chardev=chrtpm \
+>              -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
+> 
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 
-Am 27.03.23 um 23:09 schrieb Paolo Bonzini:
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-> Il lun 27 mar 2023, 20:58 Philippe Mathieu-Daudé <philmd@linaro.org> 
-> ha scritto:
->
->     > The warning can also be suppressed if the build uses `-isystem
->     > /opt/homebrew/include` instead of `-I/opt/homebrew/include` as I
->     just
->     > have tested.
->
-> Is that option added by QEMU's configure or meson.build? Or is it 
-> added by homebrew? The fact that /opt/homebrew/include it isn't 
-> considered a system seems to be a homebrew decision.
->
->     IIUC by design meson only allows including *relative* directories,
->     and manage the system ones:
->     https://mesonbuild.com/Include-directories.html
->
-> That's for includes that are part of QEMU.
->
-> Meson has as_system for dependency objects 
-> (https://mesonbuild.com/Reference-manual_returned_dep.html) but lzfse 
-> doesn't have a .pc file, its detection has to be done by hand.
->
-> Paolo
->
->     > If we can find a solution how to implement that I thing it would
->     look
->     > nicer. Technically the patch looks good.
->     >
->     > Reviewed-by: Stefan Weil <sw@weilnetz.de>
->
->     Thanks!
->
+Thanks,
 
-Typically I configure the build on macOS with `./configure 
---extra-cflags=-I/opt/homebrew/include 
---extra-ldflags=-L/opt/homebrew/lib --disable-werror`. With that 
-configuration I get the two warnings for lzfse.h.
-
-When I use `./configure '--extra-cflags=-isystem /opt/homebrew/include' 
---extra-ldflags=-L/opt/homebrew/lib --disable-werror` instead, I get no 
-compiler warnings (and `--disable-werror` could be ommitted).
-
-So at least for macOS with Homebrew in /opt/homebrew (M1 / M2 Macs) the 
-patch is not needed when the right configure options (`--extra-cflags`) 
-were used.
-
-Stefan
-
-
---------------wUpAWBENR8gbOdV9jJdrWLwN
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Am 27.03.23 um 23:09 schrieb Paolo Bonzini:<br>
-    </p>
-    <blockquote type="cite"
-cite="mid:CABgObfZ8pfrfMV0YLWo-bPyh7fCehk+NjRRnkKA15DQnqy3Mpg@mail.gmail.com">
-      <div dir="auto">
-        <div>Il lun 27 mar 2023, 20:58 Philippe Mathieu-Daudé &lt;<a
-            href="mailto:philmd@linaro.org" moz-do-not-send="true"
-            class="moz-txt-link-freetext">philmd@linaro.org</a>&gt; ha
-          scritto:
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote">
-              &gt; The warning can also be suppressed if the build uses
-              `-isystem <br>
-              &gt; /opt/homebrew/include` instead of
-              `-I/opt/homebrew/include` as I just <br>
-              &gt; have tested.<br>
-            </blockquote>
-          </div>
-        </div>
-        <div dir="auto">Is that option added by QEMU's configure or
-          meson.build? Or is it added by homebrew? The fact that
-          /opt/homebrew/include it isn't considered a system seems to be
-          a homebrew decision.</div>
-        <div dir="auto">
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote">
-              IIUC by design meson only allows including *relative*
-              directories,<br>
-              and manage the system ones:<br>
-              <a href="https://mesonbuild.com/Include-directories.html"
-                rel="noreferrer noreferrer" target="_blank"
-                moz-do-not-send="true" class="moz-txt-link-freetext">https://mesonbuild.com/Include-directories.html</a></blockquote>
-          </div>
-        </div>
-        <div dir="auto">That's for includes that are part of QEMU.</div>
-        <div dir="auto"><br>
-        </div>
-        <div dir="auto">Meson has as_system for dependency objects (<a
-            href="https://mesonbuild.com/Reference-manual_returned_dep.html"
-            moz-do-not-send="true" class="moz-txt-link-freetext">https://mesonbuild.com/Reference-manual_returned_dep.html</a>)
-          but lzfse doesn't have a .pc file, its detection has to be
-          done by hand.</div>
-        <div dir="auto"><br>
-        </div>
-        <div dir="auto">Paolo</div>
-        <div dir="auto">
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote">&gt; If we can find a
-              solution how to implement that I thing it would look <br>
-              &gt; nicer. Technically the patch looks good.<br>
-              &gt; <br>
-              &gt; Reviewed-by: Stefan Weil &lt;<a
-                href="mailto:sw@weilnetz.de" target="_blank"
-                rel="noreferrer" moz-do-not-send="true"
-                class="moz-txt-link-freetext">sw@weilnetz.de</a>&gt;<br>
-              <br>
-              Thanks!<br>
-            </blockquote>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Typically I configure the build on macOS with `./configure
-      --extra-cflags=-I/opt/homebrew/include
-      --extra-ldflags=-L/opt/homebrew/lib --disable-werror`. With that
-      configuration I get the two warnings for lzfse.h.</p>
-    <p>When I use `./configure '--extra-cflags=-isystem
-      /opt/homebrew/include' --extra-ldflags=-L/opt/homebrew/lib
-      --disable-werror` instead, I get no compiler warnings (and
-      `--disable-werror` could be ommitted).</p>
-    <p>So at least for macOS with Homebrew in /opt/homebrew (M1 / M2
-      Macs) the patch is not needed when the right configure options
-      (`--extra-cflags`) were used.</p>
-    <p>Stefan</p>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------wUpAWBENR8gbOdV9jJdrWLwN--
+C.
 
