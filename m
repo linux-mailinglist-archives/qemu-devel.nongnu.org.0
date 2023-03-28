@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C905B6CBC83
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 12:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89E76CBCE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 12:50:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph6XH-0003hI-UE; Tue, 28 Mar 2023 06:26:39 -0400
+	id 1ph6tD-0007Jg-Al; Tue, 28 Mar 2023 06:49:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ph6XE-0003gn-51; Tue, 28 Mar 2023 06:26:36 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ph6XB-0000Nz-DD; Tue, 28 Mar 2023 06:26:35 -0400
-Received: from [192.168.0.120] (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowADHzzPMwCJksq0_Cw--.13818S2;
- Tue, 28 Mar 2023 18:26:22 +0800 (CST)
-Content-Type: multipart/alternative;
- boundary="------------sKQNYS42uoaTnKs6ua4TRT6v"
-Message-ID: <c0537d04-58d3-f445-686e-1be96ec95610@iscas.ac.cn>
-Date: Tue, 28 Mar 2023 18:26:20 +0800
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ph6tA-0007JQ-Mq
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 06:49:16 -0400
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ph6t7-00049p-Ml
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 06:49:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680000553; x=1711536553;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=AseN6rlr5gwMYM5zhMJq+cjPxZAZKyFMZLKoTjj2S7w=;
+ b=MYS7lcrzZnx99kcBwuv1tcBbgS/+35YZFJ7yYALQ+g3lFQTwj246GRhq
+ 3xVfx8XS0/GYuA2koy5mVIuqoM1XrklqRF2kyOspxVY7uigOY1bfGBmOE
+ 59SMdiwIrw6AFrdcZRbpOEqyyJWQJLLKgsZVm4sZ7Twkub8BAOHo9sZQ4
+ fyBYy4Wm5U1o0dnlIw8BglkrIoSXe/nM5w17EqO+8x7MpSi0d+xCYTmIb
+ hJJ1/we8fc5CUK2oLUkViQLjcIZIG9W4AUCIhg3oBb4zY9ZbP3qz17gnN
+ 5BGB36fvWcr6uVxOWYSJqKJBuvE84/zWNlTWMViuiy0biRlKNMxlzvrZp w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="403144887"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="403144887"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2023 03:48:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="794757674"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="794757674"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+ by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2023 03:48:42 -0700
+Date: Tue, 28 Mar 2023 18:41:08 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Isaku Yamahata <isaku.yamahata@gmail.com>,
+ Ackerley Tng <ackerleytng@google.com>, seanjc@google.com,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com,
+ wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de,
+ naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org,
+ hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
+ bfields@fieldses.org, akpm@linux-foundation.org, shuah@kernel.org,
+ rppt@kernel.org, steven.price@arm.com, mail@maciej.szmigiero.name,
+ vbabka@suse.cz, vannapurve@google.com, yu.c.zhang@linux.intel.com,
+ kirill.shutemov@linux.intel.com, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, qperret@google.com, tabba@google.com,
+ michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
+Message-ID: <20230328104108.GB2909606@chaop.bj.intel.com>
+References: <20230128140030.GB700688@chaop.bj.intel.com>
+ <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
+ <20230308074026.GA2183207@chaop.bj.intel.com>
+ <20230323004131.GA214881@ls.amr.corp.intel.com>
+ <20230324021029.GA2774613@chaop.bj.intel.com>
+ <6cf365a3-dddc-8b74-4d74-04666fbeb53d@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com
-Subject: Re: [PATCH 1/5] target/riscv: Fix effective address for pointer mask
-Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
- <20230327100027.61160-2-liweiwei@iscas.ac.cn>
- <c0abfb39-56a7-a184-f134-bcb075908f57@linux.alibaba.com>
- <c1b60f5e-5bb8-5462-ae93-7813da4269bb@iscas.ac.cn>
- <389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org>
- <04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn>
- <241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com>
-X-CM-TRANSID: zQCowADHzzPMwCJksq0_Cw--.13818S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1UCrW3CF1DZFyUtF1DZFb_yoW8Gw1xpr
- WrCr4FkrW0qwnakFZrJr1DXFy3GrykA3W7X34jka4UAry5Jw1Fvw10vrZ09rWv9r4IvrW2
- va1YqrWUZF1DZ37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
- 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjI
- I2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mx8GjcxK6IxK0xIIj40E5I8C
- rwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
- 1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
- b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
- vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
- cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
- nxnUUI43ZEXa7VU1g4S7UUUUU==
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6cf365a3-dddc-8b74-4d74-04666fbeb53d@intel.com>
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga06.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,175 +94,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------sKQNYS42uoaTnKs6ua4TRT6v
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Fri, Mar 24, 2023 at 10:29:25AM +0800, Xiaoyao Li wrote:
+> On 3/24/2023 10:10 AM, Chao Peng wrote:
+> > On Wed, Mar 22, 2023 at 05:41:31PM -0700, Isaku Yamahata wrote:
+> > > On Wed, Mar 08, 2023 at 03:40:26PM +0800,
+> > > Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > > 
+> > > > On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
+> > > > > Chao Peng <chao.p.peng@linux.intel.com> writes:
+> > > > > 
+> > > > > > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
+> > > > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
+> > > > > > ...
+> > > > > > > Strongly prefer to use similar logic to existing code that detects wraps:
+> > > > > 
+> > > > > > > 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
+> > > > > 
+> > > > > > > This is also where I'd like to add the "gfn is aligned to offset"
+> > > > > > > check, though
+> > > > > > > my brain is too fried to figure that out right now.
+> > > > > 
+> > > > > > Used count_trailing_zeros() for this TODO, unsure we have other better
+> > > > > > approach.
+> > > > > 
+> > > > > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > > > > > index afc8c26fa652..fd34c5f7cd2f 100644
+> > > > > > --- a/virt/kvm/kvm_main.c
+> > > > > > +++ b/virt/kvm/kvm_main.c
+> > > > > > @@ -56,6 +56,7 @@
+> > > > > >    #include <asm/processor.h>
+> > > > > >    #include <asm/ioctl.h>
+> > > > > >    #include <linux/uaccess.h>
+> > > > > > +#include <linux/count_zeros.h>
+> > > > > 
+> > > > > >    #include "coalesced_mmio.h"
+> > > > > >    #include "async_pf.h"
+> > > > > > @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct
+> > > > > > kvm_memslots *slots, int id,
+> > > > > >    	return false;
+> > > > > >    }
+> > > > > 
+> > > > > > +/*
+> > > > > > + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
+> > > > > > + */
+> > > > > > +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
+> > > > > > +{
+> > > > > > +	if (!offset)
+> > > > > > +		return true;
+> > > > > > +	if (!gpa)
+> > > > > > +		return false;
+> > > > > > +
+> > > > > > +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
+> > > 
+> > > This check doesn't work expected. For example, offset = 2GB, gpa=4GB
+> > > this check fails.
+> > 
+> > This case is expected to fail as Sean initially suggested[*]:
+> >    I would rather reject memslot if the gfn has lesser alignment than
+> >    the offset. I'm totally ok with this approach _if_ there's a use case.
+> >    Until such a use case presents itself, I would rather be conservative
+> >    from a uAPI perspective.
+> > 
+> > I understand that we put tighter restriction on this but if you see such
+> > restriction is really a big issue for real usage, instead of a
+> > theoretical problem, then we can loosen the check here. But at that time
+> > below code is kind of x86 specific and may need improve.
+> > 
+> > BTW, in latest code, I replaced count_trailing_zeros() with fls64():
+> >    return !!(fls64(offset) >= fls64(gpa));
+> 
+> wouldn't it be !!(ffs64(offset) <= ffs64(gpa)) ?
 
+As the function document explains, here we want to return true when
+ALIGNMENT(offset) >= ALIGNMENT(gpa), so '>=' is what we need.
 
-On 2023/3/28 15:25, LIU Zhiwei wrote:
->
->
-> On 2023/3/28 11:33, liweiwei wrote:
->>
->>
->> On 2023/3/28 11:18, Richard Henderson wrote:
->>> On 3/27/23 19:48, liweiwei wrote:
->>>>
->>>> On 2023/3/28 10:20, LIU Zhiwei wrote:
->>>>>
->>>>> On 2023/3/27 18:00, Weiwei Li wrote:
->>>>>> Since pointer mask works on effective address, and the xl works 
->>>>>> on the
->>>>>> generation of effective address, so xl related calculation should 
->>>>>> be done
->>>>>> before pointer mask.
->>>>>
->>>>> Incorrect. It has been done.
->>>>>
->>>>> When updating the pm_mask,  we have already considered the env->xl.
->>>>>
->>>>> You can see it in riscv_cpu_update_mask
->>>>>
->>>>>     if (env->xl == MXL_RV32) {
->>>>>         env->cur_pmmask = mask & UINT32_MAX;
->>>>>         env->cur_pmbase = base & UINT32_MAX;
->>>>>     } else {
->>>>>         env->cur_pmmask = mask;
->>>>>         env->cur_pmbase = base;
->>>>>     }
->>>>>
->>>> Yeah, I missed this part. Then we should ensure cur_pmmask/base is 
->>>> updated when xl changes.
->>>
->>> Is that even possible?  XL can change on priv level changes (SXL, UXL).
->>
->> Yeah. Not possible, since only UXL is changable currently, and 
->> SXL/UXL can only be changed in higher priv level.
->>
->> So the recompute for xl in write_mstatus() seems redundant.
->>
-> I think you are almost right. But as we allow write XL field when in 
-> debug mode, we seemly also need call this function for it.
->
-Then,  cur_pmbase/mask also need update in this case.
+It's worthy clarifying that in Sean's original suggestion he actually
+mentioned the opposite. He said 'reject memslot if the gfn has lesser
+alignment than the offset', but I wonder this is his purpose, since
+if ALIGNMENT(offset) < ALIGNMENT(gpa), we wouldn't be possible to map
+the page as largepage. Consider we have below config:
 
-Weiwei Li
+  gpa=2M, offset=1M
 
-> Zhiwei
->
->> Maybe there is a way to change current xl in future if misa.mxl is 
->> changable.
->>
->> Regards,
->>
->> Weiwei Li
->>
->>>
->>>
->>> r~
---------------sKQNYS42uoaTnKs6ua4TRT6v
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In this case KVM tries to map gpa at 2M as 2M hugepage but the physical
+page at the offset(1M) in private_fd cannot provide the 2M page due to
+misalignment.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2023/3/28 15:25, LIU Zhiwei wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p><br>
-      </p>
-      <div class="moz-cite-prefix">On 2023/3/28 11:33, liweiwei wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn">
-        <meta http-equiv="Content-Type" content="text/html;
-          charset=UTF-8">
-        <p><br>
-        </p>
-        <div class="moz-cite-prefix">On 2023/3/28 11:18, Richard
-          Henderson wrote:<br>
-        </div>
-        <blockquote type="cite"
-          cite="mid:389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org">On
-          3/27/23 19:48, liweiwei wrote: <br>
-          <blockquote type="cite"> <br>
-            On 2023/3/28 10:20, LIU Zhiwei wrote: <br>
-            <blockquote type="cite"> <br>
-              On 2023/3/27 18:00, Weiwei Li wrote: <br>
-              <blockquote type="cite">Since pointer mask works on
-                effective address, and the xl works on the <br>
-                generation of effective address, so xl related
-                calculation should be done <br>
-                before pointer mask. <br>
-              </blockquote>
-              <br>
-              Incorrect. It has been done. <br>
-              <br>
-              When updating the pm_mask,  we have already considered the
-              env-&gt;xl. <br>
-              <br>
-              You can see it in riscv_cpu_update_mask <br>
-              <br>
-                  if (env-&gt;xl == MXL_RV32) { <br>
-                      env-&gt;cur_pmmask = mask &amp; UINT32_MAX; <br>
-                      env-&gt;cur_pmbase = base &amp; UINT32_MAX; <br>
-                  } else { <br>
-                      env-&gt;cur_pmmask = mask; <br>
-                      env-&gt;cur_pmbase = base; <br>
-                  } <br>
-              <br>
-            </blockquote>
-            Yeah, I missed this part. Then we should ensure
-            cur_pmmask/base is updated when xl changes. <br>
-          </blockquote>
-          <br>
-          Is that even possible?  XL can change on priv level changes
-          (SXL, UXL). <br>
-        </blockquote>
-        <p>Yeah. Not possible, since only UXL is changable currently,
-          and SXL/UXL can only be changed in higher priv level.</p>
-        <p>So the recompute for xl in <span style="color: #000000;">write_mstatus()
-            seems redundant.</span></p>
-      </blockquote>
-      <p>I think you are almost right. But as we allow write XL field
-        when in debug mode, we seemly also need call this function for
-        it.</p>
-    </blockquote>
-    <p>Then,  cur_pmbase/mask also need update in this case.</p>
-    <p>Weiwei Li<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com">
-      <p>Zhiwei<br>
-      </p>
-      <blockquote type="cite"
-        cite="mid:04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn">
-        <p><span style="color: #000000;">Maybe there is a way to change
-            current xl in future if misa.mxl is changable.</span></p>
-        <p><span style="color: #000000;">Regards,</span></p>
-        <p><span style="color: #000000;">Weiwei Li<br>
-          </span></p>
-        <blockquote type="cite"
-          cite="mid:389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org"> <br>
-          <br>
-          r~ <br>
-        </blockquote>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
+But as we discussed in the off-list thread, here we do find a real use
+case indicating this check is too strict. i.e. QEMU immediately fails
+when launch a guest > 2G memory. For this case QEMU splits guest memory
+space into two slots:
 
---------------sKQNYS42uoaTnKs6ua4TRT6v--
+  Slot#1(ram_below_4G): gpa=0x0, offset=0x0, size=2G
+  Slot#2(ram_above_4G): gpa=4G,  offset=2G,  size=totalsize-2G
 
+This strict alignment check fails for slot#2 because offset(2G) has less
+alignment than gpa(4G). To allow this, one solution can revert to my
+previous change in kvm_alloc_memslot_metadata() to disallow hugepage
+only when the offset/gpa are not aligned to related page size.
+
+Sean, How do you think?
+
+Chao
+> 
+> > [*] https://lore.kernel.org/all/Y8HldeHBrw+OOZVm@google.com/
+> > 
+> > Chao
+> > > I come up with the following.
+> > > 
+> > > >From ec87e25082f0497431b732702fae82c6a05071bf Mon Sep 17 00:00:00 2001
+> > > Message-Id: <ec87e25082f0497431b732702fae82c6a05071bf.1679531995.git.isaku.yamahata@intel.com>
+> > > From: Isaku Yamahata <isaku.yamahata@intel.com>
+> > > Date: Wed, 22 Mar 2023 15:32:56 -0700
+> > > Subject: [PATCH] KVM: Relax alignment check for restricted mem
+> > > 
+> > > kvm_check_rmem_offset_alignment() only checks based on offset alignment
+> > > and GPA alignment.  However, the actual alignment for offset depends
+> > > on architecture.  For x86 case, it can be 1G, 2M or 4K.  So even if
+> > > GPA is aligned for 1G+, only 1G-alignment is required for offset.
+> > > 
+> > > Without this patch, gpa=4G, offset=2G results in failure of memory slot
+> > > creation.
+> > > 
+> > > Fixes: edc8814b2c77 ("KVM: Require gfn be aligned with restricted offset")
+> > > Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+> > > ---
+> > >   arch/x86/include/asm/kvm_host.h | 15 +++++++++++++++
+> > >   virt/kvm/kvm_main.c             |  9 ++++++++-
+> > >   2 files changed, 23 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> > > index 88e11dd3afde..03af44650f24 100644
+> > > --- a/arch/x86/include/asm/kvm_host.h
+> > > +++ b/arch/x86/include/asm/kvm_host.h
+> > > @@ -16,6 +16,7 @@
+> > >   #include <linux/irq_work.h>
+> > >   #include <linux/irq.h>
+> > >   #include <linux/workqueue.h>
+> > > +#include <linux/count_zeros.h>
+> > >   #include <linux/kvm.h>
+> > >   #include <linux/kvm_para.h>
+> > > @@ -143,6 +144,20 @@
+> > >   #define KVM_HPAGE_MASK(x)	(~(KVM_HPAGE_SIZE(x) - 1))
+> > >   #define KVM_PAGES_PER_HPAGE(x)	(KVM_HPAGE_SIZE(x) / PAGE_SIZE)
+> > > +#define kvm_arch_required_alignment	kvm_arch_required_alignment
+> > > +static inline int kvm_arch_required_alignment(u64 gpa)
+> > > +{
+> > > +	int zeros = count_trailing_zeros(gpa);
+> > > +
+> > > +	WARN_ON_ONCE(!PAGE_ALIGNED(gpa));
+> > > +	if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_1G))
+> > > +		return KVM_HPAGE_SHIFT(PG_LEVEL_1G);
+> > > +	else if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_2M))
+> > > +		return KVM_HPAGE_SHIFT(PG_LEVEL_2M);
+> > > +
+> > > +	return PAGE_SHIFT;
+> > > +}
+> > > +
+> > >   #define KVM_MEMSLOT_PAGES_TO_MMU_PAGES_RATIO 50
+> > >   #define KVM_MIN_ALLOC_MMU_PAGES 64UL
+> > >   #define KVM_MMU_HASH_SHIFT 12
+> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > > index c9c4eef457b0..f4ff96171d24 100644
+> > > --- a/virt/kvm/kvm_main.c
+> > > +++ b/virt/kvm/kvm_main.c
+> > > @@ -2113,6 +2113,13 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
+> > >   	return false;
+> > >   }
+> > > +#ifndef kvm_arch_required_alignment
+> > > +__weak int kvm_arch_required_alignment(u64 gpa)
+> > > +{
+> > > +	return PAGE_SHIFT
+> > > +}
+> > > +#endif
+> > > +
+> > >   /*
+> > >    * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
+> > >    */
+> > > @@ -2123,7 +2130,7 @@ static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
+> > >   	if (!gpa)
+> > >   		return false;
+> > > -	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
+> > > +	return !!(count_trailing_zeros(offset) >= kvm_arch_required_alignment(gpa));
+> > >   }
+> > >   /*
+> > > -- 
+> > > 2.25.1
+> > > 
+> > > 
+> > > 
+> > > -- 
+> > > Isaku Yamahata <isaku.yamahata@gmail.com>
 
