@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE646CCA7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 21:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B066CCA80
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 21:17:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phEmd-000311-DN; Tue, 28 Mar 2023 15:15:03 -0400
+	id 1phEom-0004ZV-JF; Tue, 28 Mar 2023 15:17:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phEmb-00030B-55
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 15:15:01 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1phEoa-0004Yy-T3
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 15:17:04 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phEmZ-0001a3-JG
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 15:15:00 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- r7-20020a17090b050700b002404be7920aso12150964pjz.5
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 12:14:59 -0700 (PDT)
+ id 1phEoY-00027b-T8
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 15:17:04 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id q102so11831934pjq.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 12:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680030898;
+ d=linaro.org; s=google; t=1680031021;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vZliNxt4hnS0pNxzoANK6cuOR+xoqHzaDKucxWxI0CE=;
- b=ii1GNu72Htr9BN7YsKFCdz6NdoCAjUVx3QgUM4s9iVmmNBiiZexjAlq/beIWUB/icq
- e7FUwh8a2EvEFxXAZPVdMSxNmqXJB2Chpa4r4ND9Kg2fO6c0adFijFHxomhnu1Q12MGq
- hcy5osCfhs83QpMTaUecYhIrzRvP4i6HB4acV7EFAA6U9cjuMyzAxoIUgr5gWjD38xQ6
- DSKy+9ViO95gxrUF+nNK48fdL23IBdsTyCw51t/QozmbNCkNWUWkgrpH9eyHDuHeWWRp
- Mg6LyJDddOr/jeYLZWy2CWKGEPx+NGOTBhSI34L3XXEvIKV0ksSEoOA4V0fcGO3wEqPK
- X4Fg==
+ bh=BgCAdPbJWxmezMLlCB+zfbqjlUeBDrYMH2bO6W7scQM=;
+ b=khAzcds3IGiKZQoQ29wNCp1y6GIGD9v9SKWbVLgfpl8Leiv3wCS8JsRkrq/qWXQoyS
+ 1qvZSECbxNugGgxc7iBkZxyh0DxYdNM6hW+a1FRoeE2ioycbUikZjTALYOVD2P2l0TRy
+ 8GAGL2fWqrGTDpFgq73pawmBLpi9ZxcbACyiGu8PaoPOZuIXQ4ms3oVW42la0mmlvec/
+ 14Y6NVfkk8gviKo1f2+lGy6uflKbhFSevUgXOReqv2kq9VwnY7TktCfWxal92hp+eTRq
+ GOtkiAptoL6ycRnHEu7Zf72YuarICYUbo+hjuIgVUb/eSNzSN6ptdgrto85z51NhRJGc
+ 8G5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680030898;
+ d=1e100.net; s=20210112; t=1680031021;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vZliNxt4hnS0pNxzoANK6cuOR+xoqHzaDKucxWxI0CE=;
- b=X1FXpEFOYXiWPXfcoefh41QjUsTXhaYHo7rXOTLVuwBrPyxQ/8cOz6WmGxhi5eBCe6
- MvNplRzaHk2krfG0BCXQTMUOAulDJ9WfHoKOtMxzhW4Df34I0sazjPPx2xCQ0C5uniaN
- qA03m0aFMUFSHElkyzLds+mYSfq9AG8gZ2qf9bURDXvgJ6Ax7S4Dhvb2MweqEARP3eAm
- Farkz5+qtg0KZYOsH1CDXXas131hYiYU0IxY6BLdNkHVcvj6nxz1Zo65G3kh1qf1pAkn
- 3ELmsvt3iWIHeVNxfdlmDcXAKOIb5OCF6ZbnVS4Vf6ZPu5dkyvSp2NYH8lBFC7QGNZIe
- SDfQ==
-X-Gm-Message-State: AAQBX9efEXbTZC0mpomFZCO6KKzmL7MAEsa+/BTWCxyK0ZaWUnZKwn3p
- YBlpJ180SByDbuY9ErhiIeKzvA==
-X-Google-Smtp-Source: AKy350aAR2lW5pMB3eWhJdWNutkDrwXBkL/zlyjP4OuCTQbEqtFWZCj8MOPS4mFh4QH/JZNpmo87AQ==
-X-Received: by 2002:a17:903:234c:b0:1a1:b9e6:28a8 with SMTP id
- c12-20020a170903234c00b001a1b9e628a8mr20557076plh.45.1680030898030; 
- Tue, 28 Mar 2023 12:14:58 -0700 (PDT)
+ bh=BgCAdPbJWxmezMLlCB+zfbqjlUeBDrYMH2bO6W7scQM=;
+ b=DWIaSXiZB26960l2keou/OgGuTSzT5/r4J3mr2lG/xIUjyihc3XZeufm/RwbClgW1B
+ k6ZfBBJw0BhsX3pLyaNJ22JBkt3JnL+jgi0Xy4+tcsejH1DcCWosl5s6uxzRtCXGNJAW
+ rkjSEM8koX8XBpnnAzP8l6UOpDPjCqdVHeHnUgUZdxCTJjaazb1bM866Cix6gq6gNCM9
+ FC6b/uVIthFKHflAIDZPsHkj5ZbYNM72AsZP8Fzjs80MjVaXLdaxN+TQ30WNB0Yf+A1H
+ kN/P+JP0YU0PbC2C+HnZmwUCeqn+SbQ0/FzaYexDjICAM+oSopxj1PaPCFzsmrNxVHJf
+ FtJA==
+X-Gm-Message-State: AO0yUKWd18sPVi3vrHnwPE9+G7mjZZlh+iXSHEgsO9HnDW0P8HcZK9mL
+ k4gTJg3uAHh19Xu5+Q1HiwxCcw==
+X-Google-Smtp-Source: AK7set/RLjvutPtkJWZLs+ViyJsZEofATnbVLi+ahXZWt15xM/k5ngK3h/3UFWxkToH/05A8/D4vYQ==
+X-Received: by 2002:a05:6a20:7788:b0:d9:18ab:16be with SMTP id
+ c8-20020a056a20778800b000d918ab16bemr13770883pzg.29.1680031021288; 
+ Tue, 28 Mar 2023 12:17:01 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:396:9f0d:afc2:978e?
  ([2602:ae:1541:f901:396:9f0d:afc2:978e])
  by smtp.gmail.com with ESMTPSA id
- g24-20020a170902869800b001a20b30e8b0sm9779520plo.243.2023.03.28.12.14.57
+ h24-20020a63f918000000b004fb8732a2f9sm20200487pgi.88.2023.03.28.12.17.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 12:14:57 -0700 (PDT)
-Message-ID: <5975067e-81bd-c67e-4ba6-01f0f3c6613b@linaro.org>
-Date: Tue, 28 Mar 2023 12:14:55 -0700
+ Tue, 28 Mar 2023 12:17:00 -0700 (PDT)
+Message-ID: <ab190434-1bf8-a038-e589-6fa150842fe9@linaro.org>
+Date: Tue, 28 Mar 2023 12:16:59 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
@@ -74,8 +73,8 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <CAFEAcA_TGN7qk8YQz8MPbdg=jcT-HQVFWBfnEO53AAPyXBmqTQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -118,10 +117,15 @@ On 3/28/23 11:27, Peter Maydell wrote:
 > to be DISAS_NEXT to do that -- there are a lot of
 > different values and it's not clear to me which are ones you
 > might find lying around in is_jmp at the start of an insn.
+> 
+> I like the set_disas_label() idea, but maybe for 8.1 at this
+> point...
 
-At the very start of an insn, you will *only* find DISAS_NEXT.
-Anything else will have exited the TB for the previous insn.
+Anyway, if you'd like to stay with your current patch for 8.0, it's not wrong, so
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
