@@ -2,96 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97C16CC1B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 16:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570746CC1BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 16:11:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph9xm-0006Ij-0f; Tue, 28 Mar 2023 10:06:14 -0400
+	id 1phA22-0000Hr-Rm; Tue, 28 Mar 2023 10:10:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1ph9xk-0006IL-49
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 10:06:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
+ id 1phA1z-0000HF-Rg
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 10:10:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1ph9xe-0002cg-So
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 10:06:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680012364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T2ylFDZ/vKhU66sV/3fw+oAKTDgmCFtHZgzSeq23SaM=;
- b=WyP18la8o7oCUlAAPijFEqIFBNDS3tUux5wUYEphNX0WvTvZ6hhGLNBIGto9oc1d+zUvqS
- 5139o9v6EgFYGIdV9031J0+L0hCOTG6vgRvhQeJ+nWxd4k6pVv6GR/a4aK/5vtEs82wQcg
- 1Nig7yRaAqLaMW0j6Wnh+R210P/Z02g=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-639-pF4N9OmmNJeQb5UT7zjOeA-1; Tue, 28 Mar 2023 10:06:02 -0400
-X-MC-Unique: pF4N9OmmNJeQb5UT7zjOeA-1
-Received: by mail-pl1-f199.google.com with SMTP id
- s4-20020a170902ea0400b001a1f4137086so7728836plg.14
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 07:06:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680012361;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T2ylFDZ/vKhU66sV/3fw+oAKTDgmCFtHZgzSeq23SaM=;
- b=H3GsyDmxBmaNJsk1fo0/eXBWcVkTXQ5UpiOTLQCW8igkyJXJZk3O+xX9BtyL8M4j5V
- LcWmfYS51BgP8HJXp5ERWMrLKp9anrkeTE12TItlLpUtumfdaKEHrpX4jQUh1FCL7GZI
- lz2jupomIUl60qHjwPG332LGJ1olZlWu+dGLqmd6X9R+E55pgGqY+0FWRLqP3AuXT41z
- eqgCcvQhfixLXMyIQbv5hG9wEtaTRoi+n14eVApbgkUzLPamXBO3oIkIdyJGvuLdVSOP
- Y58cy/A1l6sS5685RrgibAXey26YmbBFx/E0Sipn7HPPAkZndgdffJeGewj78Oqycswe
- V8UA==
-X-Gm-Message-State: AO0yUKUOH6PNakHHKQl6lvhzW/JPX5u13vIZh5880RCMl4GQhBbT81LW
- K57HbE/ZUgtWru/baNS5JfQLAZ/+NxKRKMiRGIxhQgnk87mBbs+wUrtEjnCnCgOpxwtkUP4xSmz
- y1AyI3XVLJBsb8F0=
-X-Received: by 2002:a05:6a20:b806:b0:d9:8a1b:3315 with SMTP id
- fi6-20020a056a20b80600b000d98a1b3315mr12525583pzb.59.1680012360884; 
- Tue, 28 Mar 2023 07:06:00 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+UHR0LP91pNy/9hmmSrwR1Ujxlt3FPWO29U76ZUsbwTyG1ueGvD9jwk6shGw0uk6fA4+8JMA==
-X-Received: by 2002:a05:6a20:b806:b0:d9:8a1b:3315 with SMTP id
- fi6-20020a056a20b80600b000d98a1b3315mr12525564pzb.59.1680012360501; 
- Tue, 28 Mar 2023 07:06:00 -0700 (PDT)
-Received: from smtpclient.apple ([116.73.135.225])
- by smtp.gmail.com with ESMTPSA id
- o10-20020a63fb0a000000b004dff15fc121sm19767118pgh.36.2023.03.28.07.05.56
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 28 Mar 2023 07:05:59 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.2\))
-Subject: Re: [PATCH] hw/acpi: limit warning on acpi table size to pc machines
- older than version 2.3
-From: Anirban Sinha <anisinha@redhat.com>
-In-Reply-To: <20230328141647.554ec2e7@imammedo.users.ipa.redhat.com>
-Date: Tue, 28 Mar 2023 19:35:54 +0530
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <41FE964B-9B17-485A-A0B4-8DFB75EC904C@redhat.com>
-References: <20230320112902.90160-1-anisinha@redhat.com>
- <20230328141647.554ec2e7@imammedo.users.ipa.redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.2)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
+ id 1phA1x-0003Re-6V
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 10:10:35 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32SDmnlG020340; Tue, 28 Mar 2023 14:10:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=AonyWD6LzvFY+CxWU80Xy/kZSw+v5R5C3Zppctbe6hs=;
+ b=kIEsWqIi0fHqEev+QDL9Z4qSJ2aP5hZvOOehIuVjsG6IX8n0Pc39BIJxyfqV0w9n4zoL
+ c69H0g7vr/ohJH3c7/Q7FpubJ0j13z/2VVa46rRsRcFYTAuhDbYKjXM/G2ww6G+jXMFL
+ X3nlyjRcHfTXtVwPz/6kpmlUC5ZGI/55WeCoivNIbb/+ooIuOXZe+WPP1uyCVKhJpWf0
+ TvLfxANIDUBsGjPS0pQI/1HvhejPl7dchSvc3ST1qbFGPkmvVMqJIIQ/SxzaQROFziJF
+ x80kv5vW2nHkJe7FW4XQw09Z8HiJEwmxtW/AqA9gGKnoDM6NXLe6FIbGYe9m0PpSjUyy Cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm1ey0n6j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 14:10:09 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SDx8ha030691;
+ Tue, 28 Mar 2023 14:10:09 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm1ey0n60-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 14:10:09 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32SDUVdi024344;
+ Tue, 28 Mar 2023 14:10:08 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
+ by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3phrk7dac3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 14:10:08 +0000
+Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com
+ [10.241.53.100])
+ by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32SEA6OC45416744
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Mar 2023 14:10:06 GMT
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 181F158058;
+ Tue, 28 Mar 2023 14:10:06 +0000 (GMT)
+Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D18045805D;
+ Tue, 28 Mar 2023 14:10:05 +0000 (GMT)
+Received: from [9.163.13.29] (unknown [9.163.13.29])
+ by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 28 Mar 2023 14:10:05 +0000 (GMT)
+Message-ID: <49dc5ee5-cab6-4a6e-b776-ac2def7b556e@linux.vnet.ibm.com>
+Date: Tue, 28 Mar 2023 09:10:05 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 3/3] qtest: Add a test case for TPM TIS I2C connected to
+ Aspeed I2C controller
+Content-Language: en-US
+To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, clg@kaod.org, ninad@linux.ibm.com,
+ joel@jms.id.au, andrew@aj.id.au
+References: <20230327202416.3617162-1-stefanb@linux.ibm.com>
+ <20230327202416.3617162-4-stefanb@linux.ibm.com>
+From: Ninad Palsule <ninad@linux.vnet.ibm.com>
+In-Reply-To: <20230327202416.3617162-4-stefanb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: t3gydlVVuDDCtZwjGSIIHwqfBHwVdIRg
+X-Proofpoint-ORIG-GUID: QD48qKUoSFzz0QZlel4JVSUiFuVyVWCe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-28_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 adultscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 phishscore=0 spamscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303280111
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,119 +118,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+On 3/27/23 3:24 PM, Stefan Berger wrote:
+> Add a test case for the TPM TIS I2C device exercising most of its
+> functionality, including localities.
+>
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 
-> On 28-Mar-2023, at 5:46 PM, Igor Mammedov <imammedo@redhat.com> wrote:
->=20
-> On Mon, 20 Mar 2023 16:59:02 +0530
-> Ani Sinha <anisinha@redhat.com> wrote:
->=20
->> i440fx machine versions 2.3 and newer and q35 machines supports =
-dynamic ram
->> resizing. Please see commit a1666142db6233 ("acpi-build: make ROMs =
-RAM blocks resizeable") .
->> Hence the warning when the ACPI table size exceeds a pre-defined =
-value does
->> not apply to those machines. Add a check limiting the warning message =
-to only
->> those machines that does not support expandable ram blocks, that is, =
-i440fx
->> machines with version 2.2 and older.
-> So q35 is not affected at all? If yes, then mention it here.
+Reviewed-by: Ninad Palsule <ninad@linux.ibm.com>
+Tested-by: Ninad Palsule <ninad@linux.ibm.com>
 
-Hmm, initially I thought q35 was unaffected but seems I was mistaken. =
-Looking at 94dec5948aeb240 ("pc: rename machine types=E2=80=9D), seems =
-q35 machine types started with version 1.4 and so any version earlier =
-than 2.3 in q35 should also be affected. I will take care of this.
-
-=20
->=20
->>=20
->> Signed-off-by: Ani Sinha <anisinha@redhat.com>
->> ---
->> hw/i386/acpi-build.c | 6 ++++--
->> hw/i386/pc.c         | 1 +
->> hw/i386/pc_piix.c    | 1 +
->> include/hw/i386/pc.h | 3 +++
->> 4 files changed, 9 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
->> index b19fb4259e..2311bea082 100644
->> --- a/hw/i386/acpi-build.c
->> +++ b/hw/i386/acpi-build.c
->> @@ -2616,7 +2616,8 @@ void acpi_build(AcpiBuildTables *tables, =
-MachineState *machine)
->>         int legacy_table_size =3D
->>             ROUND_UP(tables_blob->len - aml_len + legacy_aml_len,
->>                      ACPI_BUILD_ALIGN_SIZE);
->> -        if (tables_blob->len > legacy_table_size) {
->> +        if ((tables_blob->len > legacy_table_size) &&
->> +            !pcmc->resizable_ram_block) {
->>             /* Should happen only with PCI bridges and -M =
-pc-i440fx-2.0.  */
->>             warn_report("ACPI table size %u exceeds %d bytes,"
->>                         " migration may not work",
->> @@ -2627,7 +2628,8 @@ void acpi_build(AcpiBuildTables *tables, =
-MachineState *machine)
->>         g_array_set_size(tables_blob, legacy_table_size);
->>     } else {
->>         /* Make sure we have a buffer in case we need to resize the =
-tables. */
->> -        if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
->> +        if ((tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) &&
->> +            !pcmc->resizable_ram_block) {
->>             /* As of QEMU 2.1, this fires with 160 VCPUs and 255 =
-memory slots.  */
->>             warn_report("ACPI table size %u exceeds %d bytes,"
->>                         " migration may not work",
->> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->> index 7bebea57e3..822d5de333 100644
->> --- a/hw/i386/pc.c
->> +++ b/hw/i386/pc.c
->> @@ -1936,6 +1936,7 @@ static void pc_machine_class_init(ObjectClass =
-*oc, void *data)
->>     pcmc->acpi_data_size =3D 0x20000 + 0x8000;
->>     pcmc->pvh_enabled =3D true;
->>     pcmc->kvmclock_create_always =3D true;
->> +    pcmc->resizable_ram_block =3D true;
->>     assert(!mc->get_hotplug_handler);
->>     mc->get_hotplug_handler =3D pc_get_hotplug_handler;
->>     mc->hotplug_allowed =3D pc_hotplug_allowed;
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index 2f16011bab..3c74dfcfb4 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -745,6 +745,7 @@ static void =
-pc_i440fx_2_2_machine_options(MachineClass *m)
->>     compat_props_add(m->compat_props, hw_compat_2_2, =
-hw_compat_2_2_len);
->>     compat_props_add(m->compat_props, pc_compat_2_2, =
-pc_compat_2_2_len);
->>     pcmc->rsdp_in_ram =3D false;
->> +    pcmc->resizable_ram_block =3D false;
->> }
->>=20
->> DEFINE_I440FX_MACHINE(v2_2, "pc-i440fx-2.2", pc_compat_2_2_fn,
->> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
->> index 8206d5405a..3427a35f73 100644
->> --- a/include/hw/i386/pc.h
->> +++ b/include/hw/i386/pc.h
->> @@ -127,6 +127,9 @@ struct PCMachineClass {
->>=20
->>     /* create kvmclock device even when KVM PV features are not =
-exposed */
->>     bool kvmclock_create_always;
->> +
->> +    /* resizable memory block compat */
->> +    bool resizable_ram_block;
-> perhaps more specific
->   resizeable_acpi_blob
-> would be better
-
-Sure, will rename accordingly.
-
->=20
->> };
->>=20
->> #define TYPE_PC_MACHINE "generic-pc-machine"
 
 
