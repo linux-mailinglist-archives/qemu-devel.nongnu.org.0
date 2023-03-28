@@ -2,82 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6C86CC08A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACCE6CC08B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:22:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph9FY-0004RU-Bz; Tue, 28 Mar 2023 09:20:32 -0400
+	id 1ph9H5-0005JX-WA; Tue, 28 Mar 2023 09:22:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ph9FX-0004RL-2G
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:20:31 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ph9FV-0004iC-Hw
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:20:30 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id v1so12208052wrv.1
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 06:20:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680009628;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dfSC/M0BU/ZV4g7hKlLFq19MVV6PyWXdVSz7CJwUwwo=;
- b=c0XQQCd6LdnKYn6ZniQisv5aLYDsqWV54iA8UjD+BDSjxjAw2cg+vDoqmcs2+4g7MJ
- 6AAjC49PSK1RyxR0YMeSPTKMty2fAcMe/WntGxh/K7Si03XSofBmuTr+K5gOKXIVN5Ch
- 1DHUiX6jjs5D6WDykZEuNLVd+XeXCil2M6rEsN70XhSQ+bjEO4es96EYAFnT5AhsYEK/
- vpQc3gemVswonnFfpOHB9l8EtyIfsDAfVdrv8UVlC+ct4/qd9esOrgqWvABGR7KOk1KC
- qXIPhJ0716TjS77U6X4eTcki0EgjLFyzglpRhrNpiNgkcBdeBn7WdG71jGncmB/p/Edh
- ndBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680009628;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dfSC/M0BU/ZV4g7hKlLFq19MVV6PyWXdVSz7CJwUwwo=;
- b=hlp8Gpk2xyR//EarmJQm4pMxtKVPEI0jZOqWL3nOzPATvZP/kfPrNhppzTcB2JURXI
- xtGR1BCOHDFtBz+12aCLQ2ekOaURTQ5408LzKuJld6SXdxHObognXRkx2+yIcF/fTBu7
- oruHCMJbSABO97HDeysZshQd3XQ1MJ6/J31XiwiZlNbhsQEaTvghy4JcVvgD0hPRFve+
- bn2utWx0q89Yimqy2gOH2VJoz4tkXGoBgzge9SNIsEb/GkG0QvHeXIzRyA7dnPcwLIJP
- UOrnwV8lS397FwTn+vhdXmm0szclYBehGeGMl+4VZprLhA2uCBHJiWEOl41+bzxsHgjB
- 9VCg==
-X-Gm-Message-State: AAQBX9eVGuSn4XjLmgZJlFyEc1NtWN+0Us6OYipYv8YyBPCyuDqSdR3C
- sg1+ZQF/Vs5D4FcupPVg7Z9J0w==
-X-Google-Smtp-Source: AKy350ZCEwn1DXpBWPOdtDn8h3XLliwcP09TtA6U+RcFFZ1QQ3LLobP5b3AzRi0iV9QjzEqQjkKKsw==
-X-Received: by 2002:adf:e309:0:b0:2c7:f56:285b with SMTP id
- b9-20020adfe309000000b002c70f56285bmr12083247wrj.63.1680009627641; 
- Tue, 28 Mar 2023 06:20:27 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.210.212])
- by smtp.gmail.com with ESMTPSA id
- s15-20020a5d6a8f000000b002d743eeab39sm20871374wru.58.2023.03.28.06.20.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 06:20:27 -0700 (PDT)
-Message-ID: <958c4810-e351-04e4-42f4-d1bc86d303ad@linaro.org>
-Date: Tue, 28 Mar 2023 15:20:25 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph9Gz-0005Ed-1k
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:22:01 -0400
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph9Gw-0004zn-I1
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:22:00 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B22D7293AA;
+ Tue, 28 Mar 2023 13:21:54 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 28 Mar
+ 2023 15:21:53 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001f4b3c138-d4f7-4c1d-a8d2-661e5bd4dbcc,
+ 5D21C2AA46E1B9891D174392918792ED1A5C90BB) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <1c6543c5-e924-b0f3-4f4e-5654a8aa9d29@kaod.org>
+Date: Tue, 28 Mar 2023 15:21:51 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH-for-8.0 0/2] target/arm/gdbstub: Fix builds when TCG is
- disabled
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] tests/avocado/aspeed: Add TPM TIS I2C test
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Fabiano Rosas <farosas@suse.de>, Claudio Fontana <cfontana@suse.de>,
- qemu-arm@nongnu.org
-References: <20230322142902.69511-1-philmd@linaro.org>
- <CAFEAcA9-+bfGxN3+3sCpA3XB8T8f=RKPC7LUwdK8-pPj-h8xig@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAFEAcA9-+bfGxN3+3sCpA3XB8T8f=RKPC7LUwdK8-pPj-h8xig@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Joel Stanley <joel@jms.id.au>, <stefanb@linux.ibm.com>,
+ <ninad@linux.ibm.com>
+CC: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, <qemu-devel@nongnu.org>
+References: <20230328120844.190914-1-joel@jms.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230328120844.190914-1-joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 9109d425-3a2c-4ab7-a1c5-be44c4fbd597
+X-Ovh-Tracer-Id: 16857536357849205612
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehgedgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefgfekteekgeelheeujeeghfetkeetleeiudeuffektefgkeehueffheevveekjeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghupdhsthgvfhgrnhgssehlihhnuhigrdhisghmrdgtohhmpdhnihhnrggusehlihhnuhigrdhisghmrdgtohhmpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpphhhihhlmhgusehlihhnrghrohdrohhrghdpfigrihhnvghrshhmsehrvgguhhgrthdrtghomhdpsghlvggrlhesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhe
+ dvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,43 +76,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/3/23 11:54, Peter Maydell wrote:
-> On Wed, 22 Mar 2023 at 14:29, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>
->> Fix when building QEMU configured with --disable-tcg:
->>
->>    Undefined symbols for architecture arm64:
->>      "_arm_v7m_get_sp_ptr", referenced from:
->>          _m_sysreg_get in target_arm_gdbstub.c.o
->>      "_arm_v7m_mrs_control", referenced from:
->>          _arm_gdb_get_m_systemreg in target_arm_gdbstub.c.o
->>      "_pauth_ptr_mask", referenced from:
->>          _aarch64_gdb_get_pauth_reg in target_arm_gdbstub64.c.o
->>    ld: symbol(s) not found for architecture arm64
->>    clang: error: linker command failed with exit code 1 (use -v to see invocation)
->>
->> Philippe Mathieu-Daudé (2):
->>    target/arm/gdbstub: Restrict aarch64_gdb_get_pauth_reg() to CONFIG_TCG
->>    target/arm/gdbstub: Only advertise M-profile features if TCG available
+On 3/28/23 14:08, Joel Stanley wrote:
+> Add a new buildroot image based test that attaches a TPM emulator to the
+> I2C bus and checks for a known PCR0 value for the image that was booted.
 > 
-> I've applied patch 2 to target-arm.next; thanks.
+> Note that this does not tear down swtpm process when qemu execution fails.
+> The swtpm process will exit when qemu exits if a connection has been
+> made, but if the test errors before connection then the swtpm process
+> will still be around.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-If you only take #2, then you need to squash this from #1:
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
--- >8 --
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-@@ -21,6 +21,7 @@
-  #include "cpu.h"
-  #include "exec/gdbstub.h"
-  #include "gdbstub/helpers.h"
-+#include "sysemu/tcg.h"
-  #include "internals.h"
-  #include "cpregs.h"
----
 
-I can respin if it eases your workflow.
+Stefan,
+
+Could you please take this patch through the TPM queue with the other
+TPM TIS I2C patches ?
 
 Thanks,
 
-Phil.
+C.
+
+> ---
+>   tests/avocado/machine_aspeed.py | 42 +++++++++++++++++++++++++++++++--
+>   1 file changed, 40 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+> index 35723af4ede0..a4485a5c4d4d 100644
+> --- a/tests/avocado/machine_aspeed.py
+> +++ b/tests/avocado/machine_aspeed.py
+> @@ -7,14 +7,18 @@
+>   
+>   import time
+>   import os
+> +import tempfile
+> +import subprocess
+>   
+>   from avocado_qemu import QemuSystemTest
+>   from avocado_qemu import wait_for_console_pattern
+>   from avocado_qemu import exec_command
+>   from avocado_qemu import exec_command_and_wait_for_pattern
+>   from avocado_qemu import interrupt_interactive_console_until_pattern
+> +from avocado_qemu import has_cmd
+>   from avocado.utils import archive
+>   from avocado import skipIf
+> +from avocado import skipUnless
+>   
+>   
+>   class AST1030Machine(QemuSystemTest):
+> @@ -132,7 +136,7 @@ def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
+>   
+>           self.do_test_arm_aspeed(image_path)
+>   
+> -    def do_test_arm_aspeed_buildroot_start(self, image, cpu_id):
+> +    def do_test_arm_aspeed_buildroot_start(self, image, cpu_id, pattern='Aspeed EVB'):
+>           self.require_netdev('user')
+>   
+>           self.vm.set_console()
+> @@ -146,7 +150,7 @@ def do_test_arm_aspeed_buildroot_start(self, image, cpu_id):
+>           self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
+>           self.wait_for_console_pattern('lease of 10.0.2.15')
+>           # the line before login:
+> -        self.wait_for_console_pattern('Aspeed EVB')
+> +        self.wait_for_console_pattern(pattern)
+>           time.sleep(0.1)
+>           exec_command(self, 'root')
+>           time.sleep(0.1)
+> @@ -229,6 +233,40 @@ def test_arm_ast2600_evb_buildroot(self):
+>                '0000000 ffaa ffff ffff ffff ffff ffff ffff ffff');
+>           self.do_test_arm_aspeed_buildroot_poweroff()
+>   
+> +    @skipUnless(*has_cmd('swtpm'))
+> +    def test_arm_ast2600_evb_buildroot_tpm(self):
+> +        """
+> +        :avocado: tags=arch:arm
+> +        :avocado: tags=machine:ast2600-evb
+> +        """
+> +
+> +        image_url = ('https://github.com/legoater/qemu-aspeed-boot/raw/master/'
+> +                     'images/ast2600-evb/buildroot-2023.02-tpm/flash.img')
+> +        image_hash = ('a46009ae8a5403a0826d607215e731a8c68d27c14c41e55331706b8f9c7bd997')
+> +        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
+> +                                      algorithm='sha256')
+> +
+> +        socket = os.path.join(self.vm.sock_dir, 'swtpm-socket')
+> +
+> +        subprocess.run(['swtpm', 'socket', '-d', '--tpm2',
+> +                        '--tpmstate', f'dir={self.vm.temp_dir}',
+> +                        '--ctrl', f'type=unixio,path={socket}'])
+> +
+> +        self.vm.add_args('-chardev', f'socket,id=chrtpm,path={socket}')
+> +        self.vm.add_args('-tpmdev', 'emulator,id=tpm0,chardev=chrtpm')
+> +        self.vm.add_args('-device',
+> +                         'tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e')
+> +        self.do_test_arm_aspeed_buildroot_start(image_path, '0xf00', 'Aspeed AST2600 EVB')
+> +        exec_command(self, "passw0rd")
+> +
+> +        exec_command_and_wait_for_pattern(self,
+> +            'echo tpm_tis_i2c 0x2e > /sys/bus/i2c/devices/i2c-12/new_device',
+> +            'tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)');
+> +        exec_command_and_wait_for_pattern(self,
+> +            'cat /sys/class/tpm/tpm0/pcr-sha256/0',
+> +            'B804724EA13F52A9072BA87FE8FDCC497DFC9DF9AA15B9088694639C431688E0');
+> +
+> +        self.do_test_arm_aspeed_buildroot_poweroff()
+>   
+>   class AST2x00MachineSDK(QemuSystemTest):
+>   
+
 
