@@ -2,57 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8006CB5F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682116CB5F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:22:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph1kG-0005Td-L6; Tue, 28 Mar 2023 01:19:44 -0400
+	id 1ph1kH-0005Ue-JE; Tue, 28 Mar 2023 01:19:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ph1k0-0005RE-Vr
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ph1k3-0005RN-Mv
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ph1jy-0007Gy-O2
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:28 -0400
+ id 1ph1k1-0007J1-AQ
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679980764;
+ s=mimecast20190719; t=1679980768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RIc4d0d0ecfqObMFeCAk96f0593ueOMIAU2RLRu6/4s=;
- b=OIGsF3izkSFuoW6F3aPcqswfoIcfKsjgundHaPMeYAMho3ZMl3oNXBwFEovPSqD+V7+hYk
- zaNrk2Oa++bWuQkdZQD467Z/ikMNpIPt7JlRT8GILqdipj1W3tfSPchW6WXxVcSi3zA954
- 8ICTs8cn7rmV8fwpTJw0jjrUaA0i03Y=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TXAvYXuWa79bIJVSM+nmobbqfaaUm6rN/wVaJcjPsFY=;
+ b=C324UJmKK8VmXshNmCNiFJJaUm9EnKYxcRBdosTjTz6cKBWFpSlIWJh/sfAcKRPo1cEQ7y
+ ISnPxFnvCzdrwg8F65/+qEQWxnvhiCxqu6QvNIYl0/y7e+mt1hytmi3zHehsJ/aQv1Uxt9
+ zAaXcjAXvrRknDlYyUyQm/g0DIyeIgQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-Ex7CSctcMyWY898t-h7bDg-1; Tue, 28 Mar 2023 01:19:23 -0400
-X-MC-Unique: Ex7CSctcMyWY898t-h7bDg-1
+ us-mta-227-pQ5De5nFMf-r--5YL-kvFA-1; Tue, 28 Mar 2023 01:19:26 -0400
+X-MC-Unique: pQ5De5nFMf-r--5YL-kvFA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD2FA801206
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 05:19:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 054CE811E7C;
+ Tue, 28 Mar 2023 05:19:26 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-204.pek2.redhat.com
  [10.72.13.204])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B041202701F;
- Tue, 28 Mar 2023 05:19:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98CCC202701E;
+ Tue, 28 Mar 2023 05:19:23 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>
-Subject: [PULL 00/12] Net patches
-Date: Tue, 28 Mar 2023 13:19:05 +0800
-Message-Id: <20230328051917.18006-1-jasowang@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PULL 01/12] igb: Save more Tx states
+Date: Tue, 28 Mar 2023 13:19:06 +0800
+Message-Id: <20230328051917.18006-2-jasowang@redhat.com>
+In-Reply-To: <20230328051917.18006-1-jasowang@redhat.com>
+References: <20230328051917.18006-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,49 +81,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit e3debd5e7d0ce031356024878a0a18b9d109354a:
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-  Merge tag 'pull-request-2023-03-24' of https://gitlab.com/thuth/qemu into staging (2023-03-24 16:08:46 +0000)
+The current implementation of igb uses only part of a advanced Tx
+context descriptor and first data descriptor because it misses some
+features and sniffs the trait of the packet instead of respecting the
+packet type specified in the descriptor. However, we will certainly
+need the entire Tx context descriptor when we update igb to respect
+these ignored fields. Save the entire context descriptor and first
+data descriptor except the buffer address to prepare for such a change.
 
-are available in the git repository at:
+This also introduces the distinction of contexts with different
+indexes, which was not present in e1000e but in igb.
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/net/igb.c      | 26 +++++++++++++++++++-------
+ hw/net/igb_core.c | 39 +++++++++++++++++++--------------------
+ hw/net/igb_core.h |  8 +++-----
+ 3 files changed, 41 insertions(+), 32 deletions(-)
 
-for you to fetch changes up to fba7c3b788dfcb99a3f9253f7d99cc0d217d6d3c:
-
-  igb: respect VMVIR and VMOLR for VLAN (2023-03-28 13:10:55 +0800)
-
-----------------------------------------------------------------
-
-----------------------------------------------------------------
-Akihiko Odaki (4):
-      igb: Save more Tx states
-      igb: Fix DMA requester specification for Tx packet
-      hw/net/net_tx_pkt: Ignore ECN bit
-      hw/net/net_tx_pkt: Align l3_hdr
-
-Sriram Yagnaraman (8):
-      MAINTAINERS: Add Sriram Yagnaraman as a igb reviewer
-      igb: handle PF/VF reset properly
-      igb: add ICR_RXDW
-      igb: implement VFRE and VFTE registers
-      igb: check oversized packets for VMDq
-      igb: respect E1000_VMOLR_RSSE
-      igb: implement VF Tx and Rx stats
-      igb: respect VMVIR and VMOLR for VLAN
-
- MAINTAINERS          |   1 +
- hw/net/e1000e_core.c |   6 +-
- hw/net/e1000x_regs.h |   4 +
- hw/net/igb.c         |  26 ++++--
- hw/net/igb_core.c    | 256 ++++++++++++++++++++++++++++++++++++++-------------
- hw/net/igb_core.h    |   9 +-
- hw/net/igb_regs.h    |   6 ++
- hw/net/net_tx_pkt.c  |  30 +++---
- hw/net/net_tx_pkt.h  |   3 +-
- hw/net/trace-events  |   2 +
- hw/net/vmxnet3.c     |   4 +-
- 11 files changed, 254 insertions(+), 93 deletions(-)
-
+diff --git a/hw/net/igb.c b/hw/net/igb.c
+index c6d753d..51a7e91 100644
+--- a/hw/net/igb.c
++++ b/hw/net/igb.c
+@@ -502,16 +502,28 @@ static int igb_post_load(void *opaque, int version_id)
+     return igb_core_post_load(&s->core);
+ }
+ 
+-static const VMStateDescription igb_vmstate_tx = {
+-    .name = "igb-tx",
++static const VMStateDescription igb_vmstate_tx_ctx = {
++    .name = "igb-tx-ctx",
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+-        VMSTATE_UINT16(vlan, struct igb_tx),
+-        VMSTATE_UINT16(mss, struct igb_tx),
+-        VMSTATE_BOOL(tse, struct igb_tx),
+-        VMSTATE_BOOL(ixsm, struct igb_tx),
+-        VMSTATE_BOOL(txsm, struct igb_tx),
++        VMSTATE_UINT32(vlan_macip_lens, struct e1000_adv_tx_context_desc),
++        VMSTATE_UINT32(seqnum_seed, struct e1000_adv_tx_context_desc),
++        VMSTATE_UINT32(type_tucmd_mlhl, struct e1000_adv_tx_context_desc),
++        VMSTATE_UINT32(mss_l4len_idx, struct e1000_adv_tx_context_desc),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription igb_vmstate_tx = {
++    .name = "igb-tx",
++    .version_id = 2,
++    .minimum_version_id = 2,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT_ARRAY(ctx, struct igb_tx, 2, 0, igb_vmstate_tx_ctx,
++                             struct e1000_adv_tx_context_desc),
++        VMSTATE_UINT32(first_cmd_type_len, struct igb_tx),
++        VMSTATE_UINT32(first_olinfo_status, struct igb_tx),
+         VMSTATE_BOOL(first, struct igb_tx),
+         VMSTATE_BOOL(skip_cp, struct igb_tx),
+         VMSTATE_END_OF_LIST()
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index a7c7bfd..7708333 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -389,8 +389,10 @@ igb_rss_parse_packet(IGBCore *core, struct NetRxPkt *pkt, bool tx,
+ static bool
+ igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
+ {
+-    if (tx->tse) {
+-        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->mss)) {
++    if (tx->first_cmd_type_len & E1000_ADVTXD_DCMD_TSE) {
++        uint32_t idx = (tx->first_olinfo_status >> 4) & 1;
++        uint32_t mss = tx->ctx[idx].mss_l4len_idx >> 16;
++        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, mss)) {
+             return false;
+         }
+ 
+@@ -399,13 +401,13 @@ igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
+         return true;
+     }
+ 
+-    if (tx->txsm) {
++    if (tx->first_olinfo_status & E1000_ADVTXD_POTS_TXSM) {
+         if (!net_tx_pkt_build_vheader(tx->tx_pkt, false, true, 0)) {
+             return false;
+         }
+     }
+ 
+-    if (tx->ixsm) {
++    if (tx->first_olinfo_status & E1000_ADVTXD_POTS_IXSM) {
+         net_tx_pkt_update_ip_hdr_checksum(tx->tx_pkt);
+     }
+ 
+@@ -527,7 +529,7 @@ igb_process_tx_desc(IGBCore *core,
+ {
+     struct e1000_adv_tx_context_desc *tx_ctx_desc;
+     uint32_t cmd_type_len;
+-    uint32_t olinfo_status;
++    uint32_t idx;
+     uint64_t buffer_addr;
+     uint16_t length;
+ 
+@@ -538,20 +540,19 @@ igb_process_tx_desc(IGBCore *core,
+             E1000_ADVTXD_DTYP_DATA) {
+             /* advanced transmit data descriptor */
+             if (tx->first) {
+-                olinfo_status = le32_to_cpu(tx_desc->read.olinfo_status);
+-
+-                tx->tse = !!(cmd_type_len & E1000_ADVTXD_DCMD_TSE);
+-                tx->ixsm = !!(olinfo_status & E1000_ADVTXD_POTS_IXSM);
+-                tx->txsm = !!(olinfo_status & E1000_ADVTXD_POTS_TXSM);
+-
++                tx->first_cmd_type_len = cmd_type_len;
++                tx->first_olinfo_status = le32_to_cpu(tx_desc->read.olinfo_status);
+                 tx->first = false;
+             }
+         } else if ((cmd_type_len & E1000_ADVTXD_DTYP_CTXT) ==
+                    E1000_ADVTXD_DTYP_CTXT) {
+             /* advanced transmit context descriptor */
+             tx_ctx_desc = (struct e1000_adv_tx_context_desc *)tx_desc;
+-            tx->vlan = le32_to_cpu(tx_ctx_desc->vlan_macip_lens) >> 16;
+-            tx->mss = le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 16;
++            idx = (le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 4) & 1;
++            tx->ctx[idx].vlan_macip_lens = le32_to_cpu(tx_ctx_desc->vlan_macip_lens);
++            tx->ctx[idx].seqnum_seed = le32_to_cpu(tx_ctx_desc->seqnum_seed);
++            tx->ctx[idx].type_tucmd_mlhl = le32_to_cpu(tx_ctx_desc->type_tucmd_mlhl);
++            tx->ctx[idx].mss_l4len_idx = le32_to_cpu(tx_ctx_desc->mss_l4len_idx);
+             return;
+         } else {
+             /* unknown descriptor type */
+@@ -575,8 +576,10 @@ igb_process_tx_desc(IGBCore *core,
+     if (cmd_type_len & E1000_TXD_CMD_EOP) {
+         if (!tx->skip_cp && net_tx_pkt_parse(tx->tx_pkt)) {
+             if (cmd_type_len & E1000_TXD_CMD_VLE) {
+-                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, tx->vlan,
+-                    core->mac[VET] & 0xffff);
++                idx = (tx->first_olinfo_status >> 4) & 1;
++                uint16_t vlan = tx->ctx[idx].vlan_macip_lens >> 16;
++                uint16_t vet = core->mac[VET] & 0xffff;
++                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, vlan, vet);
+             }
+             if (igb_tx_pkt_send(core, tx, queue_index)) {
+                 igb_on_tx_done_update_stats(core, tx->tx_pkt);
+@@ -4024,11 +4027,7 @@ static void igb_reset(IGBCore *core, bool sw)
+     for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
+         tx = &core->tx[i];
+         net_tx_pkt_reset(tx->tx_pkt);
+-        tx->vlan = 0;
+-        tx->mss = 0;
+-        tx->tse = false;
+-        tx->ixsm = false;
+-        tx->txsm = false;
++        memset(tx->ctx, 0, sizeof(tx->ctx));
+         tx->first = true;
+         tx->skip_cp = false;
+     }
+diff --git a/hw/net/igb_core.h b/hw/net/igb_core.h
+index 814c1e2..8914e0b 100644
+--- a/hw/net/igb_core.h
++++ b/hw/net/igb_core.h
+@@ -72,11 +72,9 @@ struct IGBCore {
+     QEMUTimer *autoneg_timer;
+ 
+     struct igb_tx {
+-        uint16_t vlan;  /* VLAN Tag */
+-        uint16_t mss;   /* Maximum Segment Size */
+-        bool tse;       /* TCP/UDP Segmentation Enable */
+-        bool ixsm;      /* Insert IP Checksum */
+-        bool txsm;      /* Insert TCP/UDP Checksum */
++        struct e1000_adv_tx_context_desc ctx[2];
++        uint32_t first_cmd_type_len;
++        uint32_t first_olinfo_status;
+ 
+         bool first;
+         bool skip_cp;
+-- 
+2.7.4
 
 
