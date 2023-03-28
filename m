@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B198C6CB1F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 00:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBAE6CB2D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 02:33:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgvg5-0007Cj-5i; Mon, 27 Mar 2023 18:51:01 -0400
+	id 1pgxG8-0002qn-GJ; Mon, 27 Mar 2023 20:32:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pgvg3-0007CB-Qu
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:50:59 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pgvg1-0000Kb-26
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 18:50:59 -0400
-Received: by mail-oi1-x236.google.com with SMTP id r84so6345212oih.11
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 15:50:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1679957456;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JVdzF50fsI+t2HDxCaDh1omTenCi8EjQSZ5MonRq7CU=;
- b=XBNkictLHINZbOqsgZPWOMpro2mX1yOBn4WAfmg8jqIlVVS5dR5t9pIc3D7XoNkQf6
- JpthsaIeva0WyDcTtrQBp6kvGqD/uHtys7aZOtd5JbWsMG+Ed1Ji8BcBB5m2PfyHLIN6
- He1umpElRGqLcRHuf65bALNo/VmHLCHZ30LgThEllhnRkGz/SrKIX6U0qPX9gFpYF91t
- zLbqC9XJXdh8rXerrV4ulPo52NeMmwiJ5uL7W5J/wHF5zxdDWKmhNcOItgAzl6pxy5ZJ
- gG1rTVo5xwJhq7n/7tK0dPXEj3LBp7raSiJ+AdnQIFzK/fNV1eDGzVPF7V6ebM/ALsY5
- khYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679957456;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JVdzF50fsI+t2HDxCaDh1omTenCi8EjQSZ5MonRq7CU=;
- b=yeVgVoRipfJS5zDp3PGY1CZQxOrKa5UJsKfsFubWk4y+4NBD4uj3ihLUNSwEJsAb6S
- UDxb6iCL4Zfz5iHsxfrOBkicXvILxJmR3xz6MZem4jcdiGSW3kKCWPcZnhyJLQLkOm7a
- EcTybx2wGKNkCnKLdVaj9Z0Pro39a7tqy09dN3C9Hq2Fq83JXvtnagdfxfc0rIGGDDc4
- cjHWFNpQca3lFxqtR05NVeEW+Q0mohzi7EHaqdsvejBHG1Sawvv6AFjMmR2KPJA15aKa
- BDCTWq6a4KD5brm7mZddVwo2V2V5YVXrFu7J28un7oq2cjBo9oi3J22W+WG79ig3L5Kq
- emSw==
-X-Gm-Message-State: AO0yUKW6RuBZkKp8mXKC598reCP8X8JUpX2ZqN0Hfm3zH1jVPm3PqP2N
- /ebHejwTIQNO2c2mj8rF5JQv9xju7DHLJW6vFZI=
-X-Google-Smtp-Source: AK7set9Qu249dBsBkWpj1/tA/TBEMrPJ0LT17sCkSX+y9iH31Yj2l7Q2uA/ieMjuciLZnkt2iWlXsg==
-X-Received: by 2002:a05:6808:4ca:b0:387:85fc:f915 with SMTP id
- a10-20020a05680804ca00b0038785fcf915mr5652306oie.47.1679957455956; 
- Mon, 27 Mar 2023 15:50:55 -0700 (PDT)
-Received: from grind.. ([177.95.89.231]) by smtp.gmail.com with ESMTPSA id
- s9-20020a4a9689000000b005255e556399sm11985361ooi.43.2023.03.27.15.50.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 15:50:55 -0700 (PDT)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
- richard.henderson@linaro.org,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v2 19/19] target/riscv/cpu.c: redesign register_cpu_props()
-Date: Mon, 27 Mar 2023 19:49:34 -0300
-Message-Id: <20230327224934.363314-20-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230327224934.363314-1-dbarboza@ventanamicro.com>
-References: <20230327224934.363314-1-dbarboza@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pgxG4-0002os-4e
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 20:32:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pgxG2-0006RP-4M
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 20:32:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679963532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bY6wOUid2am6m0Dfnbm5gHeB4W6W64FoizjXJ+D7P/0=;
+ b=GbiAZ8mKk2w0c6IrgcYAPlY/fVvMgmoT2lPO9165u/G0H2bLnK5JGE7bTyCeT9BAt0NPZK
+ X+U4nYUC1VnTBdAeteeNwCSTr/vB7wf/qZkHSOJ4OovkTWQGK0XkWBu5okyEDxeTTKNllw
+ BT4afBVNhbqy0gl7fo29GSP73Zn2CkA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-345-MkEy5dVSO9OS6DzBzO-Sxg-1; Mon, 27 Mar 2023 20:32:11 -0400
+X-MC-Unique: MkEy5dVSO9OS6DzBzO-Sxg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2FEA8028B3;
+ Tue, 28 Mar 2023 00:32:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F200492C3E;
+ Tue, 28 Mar 2023 00:32:10 +0000 (UTC)
+Date: Mon, 27 Mar 2023 19:32:08 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Florian Westphal <fw@strlen.de>
+Cc: qemu-devel@nongnu.org, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-8.0] nbd/server: Request TCP_NODELAY
+Message-ID: <bu3qv5ni7v4vgjwqcseug5cvryh7obxbrd3zpogcsj6cd5dinq@ktu7tucbizjx>
+References: <20230327192947.1324372-1-eblake@redhat.com>
+ <20230327224259.GA25361@breakpoint.cc>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x236.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230327224259.GA25361@breakpoint.cc>
+User-Agent: NeoMutt/20230322
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,181 +79,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The function is now a no-op for all cpu_init() callers that are setting
-a non-zero misa value in set_misa(), since it's no longer used to sync
-cpu->cfg props with env->misa_ext bits. Remove it in those cases.
+On Tue, Mar 28, 2023 at 12:42:59AM +0200, Florian Westphal wrote:
+> Eric Blake <eblake@redhat.com> wrote:
+> > Nagle's algorithm adds latency in order to reduce network packet
+> > overhead on small packets.  But when we are already using corking to
+> > merge smaller packets into transactional requests, the extra delay
+> > from TCP defaults just gets in the way.
+> > 
+> > For reference, qemu as an NBD client already requests TCP_NODELAY (see
+> > nbd_connect() in nbd/client-connection.c); as does libnbd as a client
+> > [1], and nbdkit as a server [2].
+> > 
+> > [1] https://gitlab.com/nbdkit/libnbd/-/blob/a48a1142/generator/states-connect.c#L39
+> > [2] https://gitlab.com/nbdkit/nbdkit/-/blob/45b72f5b/server/sockets.c#L430
+> > 
+> > CC: Florian Westphal <fw@strlen.de>
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > ---
+> >  nbd/server.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/nbd/server.c b/nbd/server.c
+> > index a4750e41880..976223860bf 100644
+> > --- a/nbd/server.c
+> > +++ b/nbd/server.c
+> > @@ -2755,6 +2755,7 @@ void nbd_client_new(QIOChannelSocket *sioc,
+> >      }
+> >      client->tlsauthz = g_strdup(tlsauthz);
+> >      client->sioc = sioc;
+> > +    qio_channel_set_delay(QIO_CHANNEL(cioc), false);
+> 
+> ../nbd/server.c: In function 'nbd_client_new':
+> ../nbd/server.c:2763:39: error: 'cioc' undeclared (first use in this function); did you mean 'sioc'?
+> 
+> Other than that this looks good to me.
 
-While we're at it, rename the function to match what it's actually
-doing: create user properties to set/remove CPU extensions. Make a note
-that it will overwrite env->misa_ext with the defaults set by each user
-property.
+Arrgh. Bitten by hitting send before saving the edits in my buffer.
+Yes, the obvious fix is needed and intended.
 
-Update the MISA bits comment in cpu.h as well.
-
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- target/riscv/cpu.c | 41 ++++++++++-------------------------------
- target/riscv/cpu.h |  5 +----
- 2 files changed, 11 insertions(+), 35 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index a0c009df4a..49512df452 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -222,7 +222,7 @@ static const char * const riscv_intr_names[] = {
-     "reserved"
- };
- 
--static void register_cpu_props(Object *obj);
-+static void riscv_cpu_add_user_properties(Object *obj);
- 
- const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
- {
-@@ -350,7 +350,6 @@ static void riscv_any_cpu_init(Object *obj)
- #endif
- 
-     set_priv_version(env, PRIV_VERSION_1_12_0);
--    register_cpu_props(obj);
- }
- 
- #if defined(TARGET_RISCV64)
-@@ -359,7 +358,7 @@ static void rv64_base_cpu_init(Object *obj)
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV64, 0);
--    register_cpu_props(obj);
-+    riscv_cpu_add_user_properties(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
- #ifndef CONFIG_USER_ONLY
-@@ -371,7 +370,6 @@ static void rv64_sifive_u_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
--    register_cpu_props(obj);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
- #ifndef CONFIG_USER_ONLY
-     set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV39);
-@@ -384,7 +382,6 @@ static void rv64_sifive_e_cpu_init(Object *obj)
-     RISCVCPU *cpu = RISCV_CPU(obj);
- 
-     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
--    register_cpu_props(obj);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     cpu->cfg.mmu = false;
- #ifndef CONFIG_USER_ONLY
-@@ -430,7 +427,7 @@ static void rv128_base_cpu_init(Object *obj)
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV128, 0);
--    register_cpu_props(obj);
-+    riscv_cpu_add_user_properties(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
- #ifndef CONFIG_USER_ONLY
-@@ -443,7 +440,7 @@ static void rv32_base_cpu_init(Object *obj)
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV32, 0);
--    register_cpu_props(obj);
-+    riscv_cpu_add_user_properties(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
- #ifndef CONFIG_USER_ONLY
-@@ -455,7 +452,6 @@ static void rv32_sifive_u_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
--    register_cpu_props(obj);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
- #ifndef CONFIG_USER_ONLY
-     set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV32);
-@@ -468,7 +464,6 @@ static void rv32_sifive_e_cpu_init(Object *obj)
-     RISCVCPU *cpu = RISCV_CPU(obj);
- 
-     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
--    register_cpu_props(obj);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     cpu->cfg.mmu = false;
- #ifndef CONFIG_USER_ONLY
-@@ -482,7 +477,6 @@ static void rv32_ibex_cpu_init(Object *obj)
-     RISCVCPU *cpu = RISCV_CPU(obj);
- 
-     set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
--    register_cpu_props(obj);
-     set_priv_version(env, PRIV_VERSION_1_11_0);
-     cpu->cfg.mmu = false;
- #ifndef CONFIG_USER_ONLY
-@@ -497,7 +491,6 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
-     RISCVCPU *cpu = RISCV_CPU(obj);
- 
-     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
--    register_cpu_props(obj);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     cpu->cfg.mmu = false;
- #ifndef CONFIG_USER_ONLY
-@@ -515,7 +508,7 @@ static void riscv_host_cpu_init(Object *obj)
- #elif defined(TARGET_RISCV64)
-     set_misa(env, MXL_RV64, 0);
- #endif
--    register_cpu_props(obj);
-+    riscv_cpu_add_user_properties(obj);
- }
- #endif
- 
-@@ -1509,30 +1502,16 @@ static Property riscv_cpu_extensions[] = {
- };
- 
- /*
-- * Register CPU props based on env.misa_ext. If a non-zero
-- * value was set, register only the required cpu->cfg.ext_*
-- * properties and leave. env.misa_ext = 0 means that we want
-- * all the default properties to be registered.
-+ * Add CPU properties with user-facing flags.
-+ *
-+ * This will overwrite existing env->misa_ext values with the
-+ * defaults set via riscv_cpu_add_misa_properties().
-  */
--static void register_cpu_props(Object *obj)
-+static void riscv_cpu_add_user_properties(Object *obj)
- {
--    RISCVCPU *cpu = RISCV_CPU(obj);
-     Property *prop;
-     DeviceState *dev = DEVICE(obj);
- 
--    /*
--     * If misa_ext is not zero, set cfg properties now to
--     * allow them to be read during riscv_cpu_realize()
--     * later on.
--     */
--    if (cpu->env.misa_ext != 0) {
--        /*
--         * We don't want to set the default riscv_cpu_extensions
--         * in this case.
--         */
--        return;
--    }
--
-     riscv_cpu_add_misa_properties(obj);
- 
-     for (prop = riscv_cpu_extensions; prop && prop->name; prop++) {
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index ce92e8393d..02f26130d5 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -65,10 +65,7 @@
- 
- #define RV(x) ((target_ulong)1 << (x - 'A'))
- 
--/*
-- * Consider updating register_cpu_props() when adding
-- * new MISA bits here.
-- */
-+/* Consider updating misa_ext_cfgs[] when adding new MISA bits here */
- #define RVI RV('I')
- #define RVE RV('E') /* E and I are mutually exclusive */
- #define RVM RV('M')
 -- 
-2.39.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
