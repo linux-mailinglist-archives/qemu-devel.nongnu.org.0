@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4076CB4A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261F06CB4BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:16:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgzfb-0007Cl-HD; Mon, 27 Mar 2023 23:06:47 -0400
+	id 1pgzgv-0001id-Fa; Mon, 27 Mar 2023 23:08:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pgzfZ-0007CC-IS
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:06:45 -0400
+ id 1pgzgs-0001Uj-EW
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:08:06 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pgzfV-0000Nn-Cc
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:06:45 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1pgzgq-0001tZ-0R
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:08:06 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxJFy8WSJkStoSAA--.28891S3;
- Tue, 28 Mar 2023 11:06:36 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxJMS9WSJkTNoSAA--.17543S3;
+ Tue, 28 Mar 2023 11:06:37 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dxyr24WSJkZukOAA--.10252S10; 
+ AQAAf8Dxyr24WSJkZukOAA--.10252S11; 
  Tue, 28 Mar 2023 11:06:35 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH v2 08/44] target/loongarch: Implement vsadd/vssub
-Date: Tue, 28 Mar 2023 11:05:55 +0800
-Message-Id: <20230328030631.3117129-9-gaosong@loongson.cn>
+Subject: [RFC PATCH v2 09/44] target/loongarch: Implement vhaddw/vhsubw
+Date: Tue, 28 Mar 2023 11:05:56 +0800
+Message-Id: <20230328030631.3117129-10-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230328030631.3117129-1-gaosong@loongson.cn>
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S10
+X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S11
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxCw4UXFWDWFy8Zr18uFy3Arb_yoWrGFWfpr
- 1UKrWUCr4kJr9rJr1S9ws8ur9xGFnrC3ya9w1ftwn8XFW5XF1DJrWktrWq9ayxZwn5uFW0
- gr1xCryjkr9Yqw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW3JrWDtFykKr1DAF15CFWfKrg_yoWfGF1rpa
+ 12kr1UKF48JFZ7JF1S9w43KanFgrsrK3W7uw4rt3WUXFW7XF1DXryvqw4F9anrWan3WFy0
+ g3ZxA342vFyrJa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -75,91 +75,215 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VSADD.{B/H/W/D}[U];
-- VSSUB.{B/H/W/D}[U].
+- VHADDW.{H.B/W.H/D.W/Q.D/HU.BU/WU.HU/DU.WU/QU.DU};
+- VHSUBW.{H.B/W.H/D.W/Q.D/HU.BU/WU.HU/DU.WU/QU.DU}.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    | 17 +++++++++++++++++
- target/loongarch/insn_trans/trans_lsx.c.inc | 17 +++++++++++++++++
- target/loongarch/insns.decode               | 17 +++++++++++++++++
- 3 files changed, 51 insertions(+)
+ target/loongarch/disas.c                    | 17 ++++
+ target/loongarch/helper.h                   | 17 ++++
+ target/loongarch/insn_trans/trans_lsx.c.inc | 17 ++++
+ target/loongarch/insns.decode               | 17 ++++
+ target/loongarch/lsx_helper.c               | 89 +++++++++++++++++++++
+ 5 files changed, 157 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 5eabb8c47a..b7f9320ba0 100644
+index b7f9320ba0..adfd693938 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -831,3 +831,20 @@ INSN_LSX(vneg_b,           vv)
- INSN_LSX(vneg_h,           vv)
- INSN_LSX(vneg_w,           vv)
- INSN_LSX(vneg_d,           vv)
+@@ -848,3 +848,20 @@ INSN_LSX(vssub_bu,         vvv)
+ INSN_LSX(vssub_hu,         vvv)
+ INSN_LSX(vssub_wu,         vvv)
+ INSN_LSX(vssub_du,         vvv)
 +
-+INSN_LSX(vsadd_b,          vvv)
-+INSN_LSX(vsadd_h,          vvv)
-+INSN_LSX(vsadd_w,          vvv)
-+INSN_LSX(vsadd_d,          vvv)
-+INSN_LSX(vsadd_bu,         vvv)
-+INSN_LSX(vsadd_hu,         vvv)
-+INSN_LSX(vsadd_wu,         vvv)
-+INSN_LSX(vsadd_du,         vvv)
-+INSN_LSX(vssub_b,          vvv)
-+INSN_LSX(vssub_h,          vvv)
-+INSN_LSX(vssub_w,          vvv)
-+INSN_LSX(vssub_d,          vvv)
-+INSN_LSX(vssub_bu,         vvv)
-+INSN_LSX(vssub_hu,         vvv)
-+INSN_LSX(vssub_wu,         vvv)
-+INSN_LSX(vssub_du,         vvv)
++INSN_LSX(vhaddw_h_b,       vvv)
++INSN_LSX(vhaddw_w_h,       vvv)
++INSN_LSX(vhaddw_d_w,       vvv)
++INSN_LSX(vhaddw_q_d,       vvv)
++INSN_LSX(vhaddw_hu_bu,     vvv)
++INSN_LSX(vhaddw_wu_hu,     vvv)
++INSN_LSX(vhaddw_du_wu,     vvv)
++INSN_LSX(vhaddw_qu_du,     vvv)
++INSN_LSX(vhsubw_h_b,       vvv)
++INSN_LSX(vhsubw_w_h,       vvv)
++INSN_LSX(vhsubw_d_w,       vvv)
++INSN_LSX(vhsubw_q_d,       vvv)
++INSN_LSX(vhsubw_hu_bu,     vvv)
++INSN_LSX(vhsubw_wu_hu,     vvv)
++INSN_LSX(vhsubw_du_wu,     vvv)
++INSN_LSX(vhsubw_qu_du,     vvv)
+diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+index 13390c07d6..040f12c92c 100644
+--- a/target/loongarch/helper.h
++++ b/target/loongarch/helper.h
+@@ -134,3 +134,20 @@ DEF_HELPER_1(idle, void, env)
+ /* LoongArch LSX  */
+ DEF_HELPER_4(vadd_q, void, env, i32, i32, i32)
+ DEF_HELPER_4(vsub_q, void, env, i32, i32, i32)
++
++DEF_HELPER_4(vhaddw_h_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vhaddw_w_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vhaddw_d_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vhaddw_q_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vhaddw_hu_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vhaddw_wu_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vhaddw_du_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vhaddw_qu_du, void, env, i32, i32, i32)
++DEF_HELPER_4(vhsubw_h_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vhsubw_w_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vhsubw_d_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vhsubw_q_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vhsubw_hu_bu, void, env, i32, i32, i32)
++DEF_HELPER_4(vhsubw_wu_hu, void, env, i32, i32, i32)
++DEF_HELPER_4(vhsubw_du_wu, void, env, i32, i32, i32)
++DEF_HELPER_4(vhsubw_qu_du, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index dc66e44a75..0bf4759a0f 100644
+index 0bf4759a0f..d8b8c2a5ea 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -111,3 +111,20 @@ TRANS(vneg_b, gvec_vv, MO_8, tcg_gen_gvec_neg)
- TRANS(vneg_h, gvec_vv, MO_16, tcg_gen_gvec_neg)
- TRANS(vneg_w, gvec_vv, MO_32, tcg_gen_gvec_neg)
- TRANS(vneg_d, gvec_vv, MO_64, tcg_gen_gvec_neg)
+@@ -128,3 +128,20 @@ TRANS(vssub_bu, gvec_vvv, MO_8, tcg_gen_gvec_ussub)
+ TRANS(vssub_hu, gvec_vvv, MO_16, tcg_gen_gvec_ussub)
+ TRANS(vssub_wu, gvec_vvv, MO_32, tcg_gen_gvec_ussub)
+ TRANS(vssub_du, gvec_vvv, MO_64, tcg_gen_gvec_ussub)
 +
-+TRANS(vsadd_b, gvec_vvv, MO_8, tcg_gen_gvec_ssadd)
-+TRANS(vsadd_h, gvec_vvv, MO_16, tcg_gen_gvec_ssadd)
-+TRANS(vsadd_w, gvec_vvv, MO_32, tcg_gen_gvec_ssadd)
-+TRANS(vsadd_d, gvec_vvv, MO_64, tcg_gen_gvec_ssadd)
-+TRANS(vsadd_bu, gvec_vvv, MO_8, tcg_gen_gvec_usadd)
-+TRANS(vsadd_hu, gvec_vvv, MO_16, tcg_gen_gvec_usadd)
-+TRANS(vsadd_wu, gvec_vvv, MO_32, tcg_gen_gvec_usadd)
-+TRANS(vsadd_du, gvec_vvv, MO_64, tcg_gen_gvec_usadd)
-+TRANS(vssub_b, gvec_vvv, MO_8, tcg_gen_gvec_sssub)
-+TRANS(vssub_h, gvec_vvv, MO_16, tcg_gen_gvec_sssub)
-+TRANS(vssub_w, gvec_vvv, MO_32, tcg_gen_gvec_sssub)
-+TRANS(vssub_d, gvec_vvv, MO_64, tcg_gen_gvec_sssub)
-+TRANS(vssub_bu, gvec_vvv, MO_8, tcg_gen_gvec_ussub)
-+TRANS(vssub_hu, gvec_vvv, MO_16, tcg_gen_gvec_ussub)
-+TRANS(vssub_wu, gvec_vvv, MO_32, tcg_gen_gvec_ussub)
-+TRANS(vssub_du, gvec_vvv, MO_64, tcg_gen_gvec_ussub)
++TRANS(vhaddw_h_b, gen_vvv, gen_helper_vhaddw_h_b)
++TRANS(vhaddw_w_h, gen_vvv, gen_helper_vhaddw_w_h)
++TRANS(vhaddw_d_w, gen_vvv, gen_helper_vhaddw_d_w)
++TRANS(vhaddw_q_d, gen_vvv, gen_helper_vhaddw_q_d)
++TRANS(vhaddw_hu_bu, gen_vvv, gen_helper_vhaddw_hu_bu)
++TRANS(vhaddw_wu_hu, gen_vvv, gen_helper_vhaddw_wu_hu)
++TRANS(vhaddw_du_wu, gen_vvv, gen_helper_vhaddw_du_wu)
++TRANS(vhaddw_qu_du, gen_vvv, gen_helper_vhaddw_qu_du)
++TRANS(vhsubw_h_b, gen_vvv, gen_helper_vhsubw_h_b)
++TRANS(vhsubw_w_h, gen_vvv, gen_helper_vhsubw_w_h)
++TRANS(vhsubw_d_w, gen_vvv, gen_helper_vhsubw_d_w)
++TRANS(vhsubw_q_d, gen_vvv, gen_helper_vhsubw_q_d)
++TRANS(vhsubw_hu_bu, gen_vvv, gen_helper_vhsubw_hu_bu)
++TRANS(vhsubw_wu_hu, gen_vvv, gen_helper_vhsubw_wu_hu)
++TRANS(vhsubw_du_wu, gen_vvv, gen_helper_vhsubw_du_wu)
++TRANS(vhsubw_qu_du, gen_vvv, gen_helper_vhsubw_qu_du)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index d90798be11..3a29f0a9ab 100644
+index 3a29f0a9ab..10a20858e5 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -525,3 +525,20 @@ vneg_b           0111 00101001 11000 01100 ..... .....    @vv
- vneg_h           0111 00101001 11000 01101 ..... .....    @vv
- vneg_w           0111 00101001 11000 01110 ..... .....    @vv
- vneg_d           0111 00101001 11000 01111 ..... .....    @vv
+@@ -542,3 +542,20 @@ vssub_bu         0111 00000100 11000 ..... ..... .....    @vvv
+ vssub_hu         0111 00000100 11001 ..... ..... .....    @vvv
+ vssub_wu         0111 00000100 11010 ..... ..... .....    @vvv
+ vssub_du         0111 00000100 11011 ..... ..... .....    @vvv
 +
-+vsadd_b          0111 00000100 01100 ..... ..... .....    @vvv
-+vsadd_h          0111 00000100 01101 ..... ..... .....    @vvv
-+vsadd_w          0111 00000100 01110 ..... ..... .....    @vvv
-+vsadd_d          0111 00000100 01111 ..... ..... .....    @vvv
-+vsadd_bu         0111 00000100 10100 ..... ..... .....    @vvv
-+vsadd_hu         0111 00000100 10101 ..... ..... .....    @vvv
-+vsadd_wu         0111 00000100 10110 ..... ..... .....    @vvv
-+vsadd_du         0111 00000100 10111 ..... ..... .....    @vvv
-+vssub_b          0111 00000100 10000 ..... ..... .....    @vvv
-+vssub_h          0111 00000100 10001 ..... ..... .....    @vvv
-+vssub_w          0111 00000100 10010 ..... ..... .....    @vvv
-+vssub_d          0111 00000100 10011 ..... ..... .....    @vvv
-+vssub_bu         0111 00000100 11000 ..... ..... .....    @vvv
-+vssub_hu         0111 00000100 11001 ..... ..... .....    @vvv
-+vssub_wu         0111 00000100 11010 ..... ..... .....    @vvv
-+vssub_du         0111 00000100 11011 ..... ..... .....    @vvv
++vhaddw_h_b       0111 00000101 01000 ..... ..... .....    @vvv
++vhaddw_w_h       0111 00000101 01001 ..... ..... .....    @vvv
++vhaddw_d_w       0111 00000101 01010 ..... ..... .....    @vvv
++vhaddw_q_d       0111 00000101 01011 ..... ..... .....    @vvv
++vhaddw_hu_bu     0111 00000101 10000 ..... ..... .....    @vvv
++vhaddw_wu_hu     0111 00000101 10001 ..... ..... .....    @vvv
++vhaddw_du_wu     0111 00000101 10010 ..... ..... .....    @vvv
++vhaddw_qu_du     0111 00000101 10011 ..... ..... .....    @vvv
++vhsubw_h_b       0111 00000101 01100 ..... ..... .....    @vvv
++vhsubw_w_h       0111 00000101 01101 ..... ..... .....    @vvv
++vhsubw_d_w       0111 00000101 01110 ..... ..... .....    @vvv
++vhsubw_q_d       0111 00000101 01111 ..... ..... .....    @vvv
++vhsubw_hu_bu     0111 00000101 10100 ..... ..... .....    @vvv
++vhsubw_wu_hu     0111 00000101 10101 ..... ..... .....    @vvv
++vhsubw_du_wu     0111 00000101 10110 ..... ..... .....    @vvv
++vhsubw_qu_du     0111 00000101 10111 ..... ..... .....    @vvv
+diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
+index edd6e99b23..0eb37dda7a 100644
+--- a/target/loongarch/lsx_helper.c
++++ b/target/loongarch/lsx_helper.c
+@@ -29,3 +29,92 @@ void helper_vsub_q(CPULoongArchState *env,
+ 
+     Vd->Q(0) = int128_sub(Vj->Q(0), Vk->Q(0));
+ }
++
++#define DO_ADD(a, b)  (a + b)
++#define DO_SUB(a, b)  (a - b)
++
++#define DO_ODD_EVEN_S(NAME, BIT, T, E1, E2, DO_OP)                 \
++void HELPER(NAME)(CPULoongArchState *env,                          \
++                  uint32_t vd, uint32_t vj, uint32_t vk)           \
++{                                                                  \
++    int i;                                                         \
++    VReg *Vd = &(env->fpr[vd].vreg);                               \
++    VReg *Vj = &(env->fpr[vj].vreg);                               \
++    VReg *Vk = &(env->fpr[vk].vreg);                               \
++                                                                   \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                            \
++        Vd->E1(i) = DO_OP((T)Vj->E2(2 * i + 1), (T)Vk->E2(2 * i)); \
++    }                                                              \
++}
++
++DO_ODD_EVEN_S(vhaddw_h_b, 16, int16_t, H, B, DO_ADD)
++DO_ODD_EVEN_S(vhaddw_w_h, 32, int32_t, W, H, DO_ADD)
++DO_ODD_EVEN_S(vhaddw_d_w, 64, int64_t, D, W, DO_ADD)
++
++void HELPER(vhaddw_q_d)(CPULoongArchState *env,
++                        uint32_t vd, uint32_t vj, uint32_t vk)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++    VReg *Vk = &(env->fpr[vk].vreg);
++
++    Vd->Q(0) = int128_add(int128_makes64(Vj->D(1)), int128_makes64(Vk->D(0)));
++}
++
++DO_ODD_EVEN_S(vhsubw_h_b, 16, int16_t, H, B, DO_SUB)
++DO_ODD_EVEN_S(vhsubw_w_h, 32, int32_t, W, H, DO_SUB)
++DO_ODD_EVEN_S(vhsubw_d_w, 64, int64_t, D, W, DO_SUB)
++
++void HELPER(vhsubw_q_d)(CPULoongArchState *env,
++                        uint32_t vd, uint32_t vj, uint32_t vk)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++    VReg *Vk = &(env->fpr[vk].vreg);
++
++    Vd->Q(0) = int128_sub(int128_makes64(Vj->D(1)), int128_makes64(Vk->D(0)));
++}
++
++#define DO_ODD_EVEN_U(NAME, BIT, TD, TS,  E1, E2, DO_OP)                     \
++void HELPER(NAME)(CPULoongArchState *env,                                    \
++                  uint32_t vd, uint32_t vj, uint32_t vk)                     \
++{                                                                            \
++    int i;                                                                   \
++    VReg *Vd = &(env->fpr[vd].vreg);                                         \
++    VReg *Vj = &(env->fpr[vj].vreg);                                         \
++    VReg *Vk = &(env->fpr[vk].vreg);                                         \
++                                                                             \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                                      \
++        Vd->E1(i) = DO_OP((TD)(TS)Vj->E2(2 * i + 1), (TD)(TS)Vk->E2(2 * i)); \
++    }                                                                        \
++}
++
++DO_ODD_EVEN_U(vhaddw_hu_bu, 16, uint16_t, uint8_t, H, B, DO_ADD)
++DO_ODD_EVEN_U(vhaddw_wu_hu, 32, uint32_t, uint16_t, W, H, DO_ADD)
++DO_ODD_EVEN_U(vhaddw_du_wu, 64, uint64_t, uint32_t, D, W, DO_ADD)
++
++void HELPER(vhaddw_qu_du)(CPULoongArchState *env,
++                          uint32_t vd, uint32_t vj, uint32_t vk)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++    VReg *Vk = &(env->fpr[vk].vreg);
++
++    Vd->Q(0) = int128_add(int128_make64((uint64_t)Vj->D(1)),
++                          int128_make64((uint64_t)Vk->D(0)));
++}
++
++DO_ODD_EVEN_U(vhsubw_hu_bu, 16, uint16_t, uint8_t, H, B, DO_SUB)
++DO_ODD_EVEN_U(vhsubw_wu_hu, 32, uint32_t, uint16_t, W, H, DO_SUB)
++DO_ODD_EVEN_U(vhsubw_du_wu, 64, uint64_t, uint32_t, D, W, DO_SUB)
++
++void HELPER(vhsubw_qu_du)(CPULoongArchState *env,
++                          uint32_t vd, uint32_t vj, uint32_t vk)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++    VReg *Vk = &(env->fpr[vk].vreg);
++
++    Vd->Q(0) = int128_sub(int128_make64((uint64_t)Vj->D(1)),
++                          int128_make64((uint64_t)Vk->D(0)));
++}
 -- 
 2.31.1
 
