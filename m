@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197B36CC7EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 18:30:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175946CC815
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 18:34:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phCBP-0005fW-KQ; Tue, 28 Mar 2023 12:28:27 -0400
+	id 1phCGf-0007GU-Q0; Tue, 28 Mar 2023 12:33:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1phCBH-0005eo-NA
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:28:21 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1phCGd-0007GE-B9
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:33:51 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1phCBF-0001Vi-MS
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:28:19 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- l15-20020a05600c4f0f00b003ef6d684102so4515436wmq.3
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 09:28:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1phCGb-0002Y3-Mc
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:33:51 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ lr16-20020a17090b4b9000b0023f187954acso13217943pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 09:33:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680020896;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Os31Dt7XJc3UKwruTpOPiFtGsffdvmtxmBfTYfWLU1Q=;
- b=VVvrVAAWNiXcPWgBZORCalYoqfKKAozFeIhUHSvyMPqjwS8qdPnyvZ92CPiV/+MC5b
- iSuCHBh+dQI8VSV4vuSI39Sw3VSYAtneX3Kcv4JZ2BeK0e8OgqRnqd2SRbxsdgny5pW0
- bB7WwoVuRynhZbe7diYaYxr2N3y2vQxzFeXMqQboVkuo91qZKduuQYslJyjDsnOL1GFB
- Ed1o84k0feLMqhOMoOAq8/5lWr70O6N3AR6T/OhSRcBe4//ZMJPz4q1e2zf2SGlwpJwS
- KlObCIpMx9ukdv2GOObKdrBpZY+nfkfsA4GmDPz/GE7mUo7sc/9Boh+SkUUn0q4xj1zx
- iCFA==
+ d=gmail.com; s=20210112; t=1680021228;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NUCoPdHc5msrLgyx+fL5Dq3xZZLlMnC9z0vZ3CQnMoU=;
+ b=PcO2u72LkF+Bm1kCnBQOW2FI6WNG1SbozhsEDBzJpSkxZB9I9EARYnCJ/xfF+Or3Sm
+ oiDEo09T2/vpAMmambh73vS1LqpARMY3BYph2lFpYSPXdYs45Bzv+bV/Z5Jqyc5qg9s+
+ bw8lPjRMCl0tXsmAvApGlb3TTKnsLVFBl8JEolcLCpWri/EJXyVz1Kc3Azg1cQ8x6FsN
+ H+h7Q/jNm7xQffjsuEADXvxbgTeJnrbJ6MGBFT3E32xbVuLPsk3Ekzotbnz5k2UJyGEB
+ xZPrKRhTbvevj217aP2nAninj/54XrNY6TJ7FGn42GzWYa28+pAb6UT7y5ihFLpduAUb
+ hZFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680020896;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Os31Dt7XJc3UKwruTpOPiFtGsffdvmtxmBfTYfWLU1Q=;
- b=rU+ObBtSpZFu6zAP7zqw2H7iiq7otrMmxLaFbhWLtSkW3+qPRYNlEestCrbcoI5r6S
- KmsH7ct2HaFjES1Xss12fwBUYWVsVT+Y1k0MidH720Qj7hIESs7tX1MisqmXw75XXGY0
- 9oXmPGBp7Ux8Uk32r0GDSlxe/t3EEkaA/R8GII/g/Jl790TS4khOv+a7cTMLKaTq1udH
- vj8T+tIp8J8SAT2EC0l1Wr5pzaYgOwgqGFeX2c084OHNBqzAdPAd/x8SCfJkXrVja0zb
- EIUyAQSxpsKY3fblFaqJ7qn/GxHGThTfHpczXdKTgN5nj49HBKiTy1jwJHLVbX1Qscyn
- PS8w==
-X-Gm-Message-State: AO0yUKUCcXcw9dhLTfqN9uulu9nmg/pfXFpggapin5WkC6F/SNMply7e
- HhRXpfAUZ+dhpvtEv6GdbrfVKQ==
-X-Google-Smtp-Source: AK7set99g9MhXfgnJ4EdjB5g9VF/Y1h3q5RqAMqbm7Cf0h5+w8+9WTxHWv38LiCUudzYy1kNVhc25w==
-X-Received: by 2002:a7b:c852:0:b0:3ed:307f:1663 with SMTP id
- c18-20020a7bc852000000b003ed307f1663mr13157023wml.15.1680020895786; 
- Tue, 28 Mar 2023 09:28:15 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ d=1e100.net; s=20210112; t=1680021228;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NUCoPdHc5msrLgyx+fL5Dq3xZZLlMnC9z0vZ3CQnMoU=;
+ b=bsW95/BVeoPZgeJ8LVYh5HJ5OharevSS8PSLhwFze4DYyHpjTANQ+dhgWg/dsi/pzv
+ LYmvMHU31aT1f1Acb6Z7ZZ574jphqxz+rSmbI0eGEofWgctaW+5AmW3gb/YRBmldL+QG
+ HwaYixh10D7unqlVECs2a5etzOaqcRWH3D5m6+6ttfdJm+OxmdJo5akVER/iuQPAIv1B
+ pJDKrK5uQqEnMjdussp+7LAwhujbhiGnlqNsBaD04pCuOth4FcQnee+wFAwXaQW9eRE3
+ AHljO9wpGAnHb6fJik+5uS1O/uX8XPti7/RWaL59i+NGhuVFvqY+muihQbacAlLBP/Zl
+ RGbw==
+X-Gm-Message-State: AAQBX9ckVyOChh4WrH/+BdOKTilgZNtp6gO/o0DTaV/bgod22Tity/JY
+ ySKkOV3voSeGx1ClvB1PiUM=
+X-Google-Smtp-Source: AKy350Y7df4XiYJ+yeU9up3eTZvBYMRJzkvrBdlOEpHc8nynaZYJKVfi4el3U4FlkWCfi3d573Ke8A==
+X-Received: by 2002:a17:90b:3b90:b0:23d:500f:e826 with SMTP id
+ pc16-20020a17090b3b9000b0023d500fe826mr17202061pjb.14.1680021227803; 
+ Tue, 28 Mar 2023 09:33:47 -0700 (PDT)
+Received: from [192.168.0.115] ([113.173.97.170])
  by smtp.gmail.com with ESMTPSA id
- z5-20020a1c4c05000000b003ef5db16176sm13623850wmf.32.2023.03.28.09.28.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 09:28:15 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH for-8.0] target/arm: Fix generated code for cpreg reads when
- HSTR is active
-Date: Tue, 28 Mar 2023 17:28:14 +0100
-Message-Id: <20230328162814.2190220-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ jj11-20020a170903048b00b0019f1222b9f6sm21398357plb.154.2023.03.28.09.33.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Mar 2023 09:33:47 -0700 (PDT)
+Message-ID: <2fa1ed57-76ff-bea0-d0df-e3fa32d422f5@gmail.com>
+Date: Tue, 28 Mar 2023 23:33:42 +0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/5] i386/tcg: implement x2APIC registers MSR access
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20230326052039.33717-1-minhquangbui99@gmail.com>
+ <20230326052039.33717-2-minhquangbui99@gmail.com>
+ <d04ebc4920c336dd6dc87ae0e1e25693b40d6e4d.camel@infradead.org>
+From: Bui Quang Minh <minhquangbui99@gmail.com>
+In-Reply-To: <d04ebc4920c336dd6dc87ae0e1e25693b40d6e4d.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,58 +102,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In commit 049edada we added some code to handle HSTR_EL2 traps, which
-we did as an inline "conditionally branch over a
-gen_exception_insn()".  Unfortunately this fails to take account of
-the fact that gen_exception_insn() will set s->base.is_jmp to
-DISAS_NORETURN.  That means that at the end of the TB we won't
-generate the necessary code to handle the "branched over the trap and
-continued normal execution" codepath.  The result is that the TCG
-main loop thinks that we stopped execution of the TB due to a
-situation that only happens when icount is enabled, and hits an
-assertion.
+On 3/27/23 23:56, David Woodhouse wrote:
+> On Sun, 2023-03-26 at 12:20 +0700, Bui Quang Minh wrote:
+>>
+>> +static void apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
+>> +                           unsigned size)
+>> +{
+>> +    int index = (addr >> 4) & 0xff;
+>> +
+>> +    if (size < 4) {
+>> +        return;
+>> +    }
+>> +
+>> +    if (addr > 0xfff || !index) {
+>> +        /* MSI and MMIO APIC are at the same memory location,
+>> +         * but actually not on the global bus: MSI is on PCI bus
+>> +         * APIC is connected directly to the CPU.
+>> +         * Mapping them on the global bus happens to work because
+>> +         * MSI registers are reserved in APIC MMIO and vice versa.
+>> */
+>> +        MSIMessage msi = { .address = addr, .data = val };
+>> +        apic_send_msi(&msi);
+>> +        return;
+>> +    }
+> 
+> I know you're just moving this bit around, but note that it means we
+> *can't* implement the 15-bit MSI trick as things stand, because those
+> extra 7 bits end up in bits 4-11 of the address, and that means the
+> 'addr > 0xfff' check isn't correct any more.
+> 
+> However, that's only relevant in X2APIC mode... and there's no MMIO
+> access to registers in X2APIC mode. So the check could perhaps become
+> something like...
+> 
+>      DeviceState *apic = cpu_get_current_apic();
+>      if (!apic || is_x2apic_mode(apic) || addr > 0xfff || !index) {
+>          /* MSI and MMIO APIC are at the same memory location,
+>           * but actually not on the global bus: MSI is on PCI bus
+>           * APIC is connected directly to the CPU.
+>           * Mapping them on the global bus happens to work because
+>           * MSI registers are reserved in xAPIC MMIO and vice versa.
+>           * In X2APIC mode, there is no MMIO and bits 4-11 of the
+>           * address *might* be used to encode the extended dest ID.
+>           */
+> 
+>          MSIMessage msi = ...
 
-Note that this only happens for cpreg reads; writes will call
-gen_lookup_tb() which generates a valid end-of-TB.
-
-Fixes: 049edada ("target/arm: Make HSTR_EL2 traps take priority over UNDEF-at-EL1")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1551
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-saving and restoring is_jmp around the call seems super
-clunky -- is there a better way ? I think mostly we avoid
-this by not doing conditional exception-generation in
-inline TCG code...
----
- target/arm/tcg/translate.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/target/arm/tcg/translate.c b/target/arm/tcg/translate.c
-index 2cb9368b1ba..bb502165c39 100644
---- a/target/arm/tcg/translate.c
-+++ b/target/arm/tcg/translate.c
-@@ -4617,12 +4617,20 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
-             /* T4 and T14 are RES0 so never cause traps */
-             TCGv_i32 t;
-             DisasLabel over = gen_disas_label(s);
-+            DisasJumpType old_is_jmp;
- 
-             t = load_cpu_offset(offsetoflow32(CPUARMState, cp15.hstr_el2));
-             tcg_gen_andi_i32(t, t, 1u << maskbit);
-             tcg_gen_brcondi_i32(TCG_COND_EQ, t, 0, over.label);
- 
-+            /*
-+             * gen_exception_insn() will set is_jmp to DISAS_NORETURN,
-+             * but since we're conditionally branching over it, we want
-+             * to retain the existing value.
-+             */
-+            old_is_jmp = s->base.is_jmp;
-             gen_exception_insn(s, 0, EXCP_UDEF, syndrome);
-+            s->base.is_jmp = old_is_jmp;
-             set_disas_label(s, over);
-         }
-     }
--- 
-2.34.1
-
+In my opinion, I think the with the emulated interrupt remap hardware we 
+don't need to do MSI trick. The behavior is the same with real hardware, 
+in order to use x2APIC an interrupt remap hardware is required, the OS 
+will configure the interrupt source (IOxAPIC, MSI-capable) to use the 
+remappable format for interrupt request.
 
