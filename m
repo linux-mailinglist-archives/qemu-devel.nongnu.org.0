@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB876CBE16
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 13:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8532C6CBE25
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 13:53:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph7oq-0000Wr-5Y; Tue, 28 Mar 2023 07:48:52 -0400
+	id 1ph7sd-0001vQ-Hu; Tue, 28 Mar 2023 07:52:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1ph7on-0000Wg-NT
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:48:49 -0400
-Received: from bonnix.bonnix.it ([2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph7sb-0001vH-Kt
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:52:45 -0400
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1ph7ol-00067s-I5
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:48:49 -0400
-Received: from [10.0.0.70] (dynamic-adsl-84-221-84-105.clienti.tiscali.it
- [84.221.84.105]) (authenticated bits=0)
- by bonnix.bonnix.it (8.14.4/8.14.4) with ESMTP id 32SBmeTG016193
- (version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
- Tue, 28 Mar 2023 13:48:40 +0200
-DKIM-Filter: OpenDKIM Filter v2.11.0 bonnix.bonnix.it 32SBmeTG016193
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bonslack.org;
- s=20220805; t=1680004121;
- bh=kksNNgU8hRVufok6O9UWZgDcGnrpadOipbzS1JUD0R4=;
- h=Date:From:Subject:To:From;
- b=Kge5zY373YjRf1U/uvZewJ8stwasnSLDrPgVmNpqWw4oyHqX2cSo2Xxui9N06f+B3
- c9CIs7IHJITAZ3FKCut9JWVQFkKwWq1qRbmzQnTliMIGu7FUunnh9o6UfnfnBPviGY
- oKqcC9BLGo4d3BTL8I2s3lQTiF3pjIe2tyJECLDo=
-Message-ID: <db07e036-cc5f-c9ad-b63c-10fdd5404830@bonslack.org>
-Date: Tue, 28 Mar 2023 13:48:40 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph7sZ-0006sD-N5
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:52:45 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.3])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 8CCB9295CB;
+ Tue, 28 Mar 2023 11:52:39 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 28 Mar
+ 2023 13:52:38 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00224670eaf-1a75-460e-8e96-532abb90faeb,
+ 5D21C2AA46E1B9891D174392918792ED1A5C90BB) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <0b6bc13e-937f-0106-5849-bed7dba6b70a@kaod.org>
+Date: Tue, 28 Mar 2023 13:52:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Luca Bonissi <qemu@bonslack.org>
-Subject: stat64 wrong on sparc64 user
-To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Content-Language: it, en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8;
- envelope-from=qemu@bonslack.org; helo=bonnix.bonnix.it
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 3/3] qtest: Add a test case for TPM TIS I2C connected to
+ Aspeed I2C controller
+Content-Language: en-US
+To: Stefan Berger <stefanb@linux.ibm.com>, <qemu-devel@nongnu.org>
+CC: <marcandre.lureau@redhat.com>, <ninad@linux.ibm.com>, <joel@jms.id.au>,
+ <andrew@aj.id.au>
+References: <20230327202416.3617162-1-stefanb@linux.ibm.com>
+ <20230327202416.3617162-4-stefanb@linux.ibm.com>
+ <50f67d0d-18f8-dead-9716-cd94b24915a6@kaod.org>
+ <f947d10a-4edd-1376-cea9-cdc5dae216f8@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <f947d10a-4edd-1376-cea9-cdc5dae216f8@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 7c4821ef-0dd2-430c-8905-cea82f11d2d8
+X-Ovh-Tracer-Id: 15350237856566709030
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehgedggeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefveejuddttdevvedvjeevudfhtdeuveeggfffuefhhfdvjeegvefftdegteekieenucffohhmrghinhepnhhonhhgnhhurdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshhtvghfrghnsgeslhhinhhugidrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpmhgrrhgtrghnughrvgdrlhhurhgvrghusehrvgguhhgrthdrtghomhdpnhhinhgrugeslhhinhhugidrihgsmhdrtghomhdpjhhovghlsehjmhhsrdhiugdrrghupdgrnhgurhgvfiesrghjrdhiugdrrghupdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,72 +77,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On qemu-sparc64 (userspace) the struct "target_stat64" is not correctly 
-padded, so the field st_rdev is not correctly aligned and will report 
-wrong major/minor (e.g. for /dev/zero it reports 0,0x10500000 instead of 
-1,5).
+On 3/28/23 13:31, Stefan Berger wrote:
+> 
+> 
+> On 3/28/23 05:17, Cédric Le Goater wrote:
+>>> +static void tpm_tis_i2c_test_basic(const void *data)
+>>> +{
+>>> +    uint8_t access;
+>>> +    uint32_t v;
+>>> +
+>>> +    /*
+>>> +     * All register accesses below must work without locality 0 being the
+>>> +     * active locality. Therefore, ensure access is released.
+>>> +     */
+>>> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_ACCESS,
+>>> +                       TPM_TIS_ACCESS_ACTIVE_LOCALITY);
+>>> +    access = tpm_tis_i2c_readb(0, TPM_I2C_REG_ACCESS);
+>>> +    g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
+>>> +                                TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
+>>> +
+>>> +    /* read interrupt capability -- none are supported */
+>>> +    v = tpm_tis_i2c_readl(0, TPM_I2C_REG_INT_CAPABILITY);
+>>> +    g_assert_cmpint(v, ==, 0);
+>>> +
+>>> +    /* try to enable all interrupts */
+>>> +    tpm_tis_i2c_writel(0, TPM_I2C_REG_INT_ENABLE, 0xffffffff);
+>>> +    v = tpm_tis_i2c_readl(0, TPM_I2C_REG_INT_ENABLE);
+>>> +    /* none could be enabled */
+>>> +    g_assert_cmpint(v, ==, 0);
+>>> +
+>>> +    /* enable csum */
+>>> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_DATA_CSUM_ENABLE, TPM_DATA_CSUM_ENABLED);
+>>> +    /* check csum enable register has bit 0 set */
+>>> +    v = tpm_tis_i2c_readb(0, TPM_I2C_REG_DATA_CSUM_ENABLE);
+>>> +    g_assert_cmpint(v, ==, TPM_DATA_CSUM_ENABLED);
+>>> +    /* reading it as 32bit register returns same result */
+>>> +    v = tpm_tis_i2c_readl(0, TPM_I2C_REG_DATA_CSUM_ENABLE);
+>>> +    g_assert_cmpint(v, ==, TPM_DATA_CSUM_ENABLED);
+>>> +
+>>> +    /* disable csum */
+>>> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_DATA_CSUM_ENABLE, 0);
+>>> +    /* check csum enable register has bit 0 clear */
+>>> +    v = tpm_tis_i2c_readb(0, TPM_I2C_REG_DATA_CSUM_ENABLE);
+>>> +    g_assert_cmpint(v, ==, 0);
+>>> +
+>>> +    /* write to unsupported register '1' */
+>>> +    tpm_tis_i2c_writel(0, 1, 0x12345678);
+>>> +    v = tpm_tis_i2c_readl(0, 1);
+>>> +    g_assert_cmpint(v, ==, 0xffffffff);
+>>> +}
+>>
+>> I am seeing some errors :
+> 
+> 
+> There's a small fix to apply to 3/3 of Ninad's patches. See my comment here:
+> 
+> 
+> https://lists.nongnu.org/archive/html/qemu-devel/2023-03/msg06464.html
 
-Here patch to solve the issue (it also fixes incorrect size on some fields):
 
---- qemu-20230327/linux-user/syscall_defs.h	2023-03-27 
-15:41:42.000000000 +0200
-+++ qemu-20230327/linux-user/syscall_defs.h.new	2023-03-27 
-21:43:25.615115126 +0200
-@@ -1450,7 +1450,7 @@ struct target_stat {
-  	unsigned int	st_dev;
-  	abi_ulong	st_ino;
-  	unsigned int	st_mode;
--	unsigned int	st_nlink;
-+	short int	st_nlink;
-  	unsigned int	st_uid;
-  	unsigned int	st_gid;
-  	unsigned int	st_rdev;
-@@ -1465,8 +1465,7 @@ struct target_stat {
+That was it.
 
-  #define TARGET_HAS_STRUCT_STAT64
-  struct target_stat64 {
--	unsigned char	__pad0[6];
--	unsigned short	st_dev;
-+	uint64_t	st_dev;
+Tested-by: Cédric Le Goater <clg@kaod.org>
 
-  	uint64_t	st_ino;
-  	uint64_t	st_nlink;
-@@ -1476,14 +1475,13 @@ struct target_stat64 {
-  	unsigned int	st_uid;
-  	unsigned int	st_gid;
+Thanks,
 
--	unsigned char	__pad2[6];
--	unsigned short	st_rdev;
-+	unsigned int	__pad0;
-+	uint64_t	st_rdev;
-
-          int64_t		st_size;
-  	int64_t		st_blksize;
-
--	unsigned char	__pad4[4];
--	unsigned int	st_blocks;
-+	int64_t		st_blocks;
-
-  	abi_ulong	target_st_atime;
-  	abi_ulong	target_st_atime_nsec;
-@@ -1522,8 +1520,7 @@ struct target_stat {
-
-  #define TARGET_HAS_STRUCT_STAT64
-  struct target_stat64 {
--	unsigned char	__pad0[6];
--	unsigned short	st_dev;
-+	uint64_t st_dev;
-
-  	uint64_t st_ino;
-
-@@ -1533,8 +1530,7 @@ struct target_stat64 {
-  	unsigned int	st_uid;
-  	unsigned int	st_gid;
-
--	unsigned char	__pad2[6];
--	unsigned short	st_rdev;
-+	uint64_t        st_rdev;
-
-  	unsigned char	__pad3[8];
+C.
 
 
