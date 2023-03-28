@@ -2,86 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89E76CBCE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 12:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7066CBCF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 13:01:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph6tD-0007Jg-Al; Tue, 28 Mar 2023 06:49:19 -0400
+	id 1ph73X-0001k4-Ju; Tue, 28 Mar 2023 06:59:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ph6tA-0007JQ-Mq
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 06:49:16 -0400
-Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ph73U-0001jq-RI
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 06:59:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ph6t7-00049p-Ml
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 06:49:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680000553; x=1711536553;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=AseN6rlr5gwMYM5zhMJq+cjPxZAZKyFMZLKoTjj2S7w=;
- b=MYS7lcrzZnx99kcBwuv1tcBbgS/+35YZFJ7yYALQ+g3lFQTwj246GRhq
- 3xVfx8XS0/GYuA2koy5mVIuqoM1XrklqRF2kyOspxVY7uigOY1bfGBmOE
- 59SMdiwIrw6AFrdcZRbpOEqyyJWQJLLKgsZVm4sZ7Twkub8BAOHo9sZQ4
- fyBYy4Wm5U1o0dnlIw8BglkrIoSXe/nM5w17EqO+8x7MpSi0d+xCYTmIb
- hJJ1/we8fc5CUK2oLUkViQLjcIZIG9W4AUCIhg3oBb4zY9ZbP3qz17gnN
- 5BGB36fvWcr6uVxOWYSJqKJBuvE84/zWNlTWMViuiy0biRlKNMxlzvrZp w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="403144887"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="403144887"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2023 03:48:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="794757674"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="794757674"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
- by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2023 03:48:42 -0700
-Date: Tue, 28 Mar 2023 18:41:08 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Isaku Yamahata <isaku.yamahata@gmail.com>,
- Ackerley Tng <ackerleytng@google.com>, seanjc@google.com,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- pbonzini@redhat.com, corbet@lwn.net, vkuznets@redhat.com,
- wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, arnd@arndb.de,
- naoya.horiguchi@nec.com, linmiaohe@huawei.com, x86@kernel.org,
- hpa@zytor.com, hughd@google.com, jlayton@kernel.org,
- bfields@fieldses.org, akpm@linux-foundation.org, shuah@kernel.org,
- rppt@kernel.org, steven.price@arm.com, mail@maciej.szmigiero.name,
- vbabka@suse.cz, vannapurve@google.com, yu.c.zhang@linux.intel.com,
- kirill.shutemov@linux.intel.com, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, qperret@google.com, tabba@google.com,
- michael.roth@amd.com, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <20230328104108.GB2909606@chaop.bj.intel.com>
-References: <20230128140030.GB700688@chaop.bj.intel.com>
- <diqz5ybc3xsr.fsf@ackerleytng-cloudtop.c.googlers.com>
- <20230308074026.GA2183207@chaop.bj.intel.com>
- <20230323004131.GA214881@ls.amr.corp.intel.com>
- <20230324021029.GA2774613@chaop.bj.intel.com>
- <6cf365a3-dddc-8b74-4d74-04666fbeb53d@intel.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ph73T-000077-AJ
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 06:59:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680001193;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E0htq9iyw1ud0O52AoqMYp/Ce6rznvrBpuWMyqdhPgA=;
+ b=Hi6HABIwStT2sl6J+ChYf25d/ApHqkr1kAzbfXoJu3u6bJw24bXDRs+wS6BjtC+YudKROl
+ dBq41KqcHPEXj3gpMO0KiEMbcD/+QFzTpP0Stmk5vpQa7QAozqtLXsl7EIYdYLesl3zq9Q
+ IrhtOoB5skq9bDSq0oBPfC3suy9wMhU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-79-BlvOnCGNPialQTURbzutZQ-1; Tue, 28 Mar 2023 06:59:52 -0400
+X-MC-Unique: BlvOnCGNPialQTURbzutZQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l18-20020a05600c1d1200b003ef7b61e2fdso192713wms.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 03:59:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680001191;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=E0htq9iyw1ud0O52AoqMYp/Ce6rznvrBpuWMyqdhPgA=;
+ b=y/DndK6zZIQgArGF7jbt5qbtgkB/kNZ3x/FFYAgfiKik0kQ6oLmm+U8dn7FWH8rGi2
+ BsTR4d6SZlHohcpIvZxFnvHWvUHMsHuS9aPpnmu0GW5DRSJ0ieknwCBkp3x0MakTY+z9
+ KitOVcSamcpJeb5aPDCAQUiuVnmy8/TF3eRc2Lbh+uBh1MDwsHeZZCB7HZcZWC3ND/Zl
+ s6H6RBpoRHmAzMOYScLcKnM86sO4BbVz5LbCCEYJIjaVgNWCmq3HtQwTP732GLzrfJAO
+ c2baD27AGQRyt6bgQvTKZfojYwqo6s37GaIXuviZkhK2uEyMA36x7pR2YHvDQ3fAxnen
+ V7xg==
+X-Gm-Message-State: AO0yUKWrVPpwbcglmetQWwq/LmpEpPqae594gqK8YnPWCyjVoAjGJjSu
+ aDKtz2z+SasKCXGc6aQuxVMt+rhS1HSNa0UEoGe6BAXSz4LJ9vMh/LxaBH8Kfe/+KvXSN6uOROI
+ Q1YgFkdUCjTW+nKs=
+X-Received: by 2002:a05:600c:3b98:b0:3ee:782b:2e31 with SMTP id
+ n24-20020a05600c3b9800b003ee782b2e31mr14830506wms.9.1680001191273; 
+ Tue, 28 Mar 2023 03:59:51 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+okHsqoDl2EkHrTt8nSXxPdMectOBghDr1fVo5cVItQSIY4MrEje2hByET/O65FAWD5fRa4w==
+X-Received: by 2002:a05:600c:3b98:b0:3ee:782b:2e31 with SMTP id
+ n24-20020a05600c3b9800b003ee782b2e31mr14830498wms.9.1680001191048; 
+ Tue, 28 Mar 2023 03:59:51 -0700 (PDT)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ z21-20020a05600c221500b003ef5f77901dsm11723763wml.45.2023.03.28.03.59.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Mar 2023 03:59:50 -0700 (PDT)
+Date: Tue, 28 Mar 2023 11:59:48 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v1 1/1] migration: Disable postcopy + multifd migration
+Message-ID: <ZCLIpO3m4WelR6g1@work-vm>
+References: <20230327161518.2385074-1-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6cf365a3-dddc-8b74-4d74-04666fbeb53d@intel.com>
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga06.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20230327161518.2385074-1-leobras@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,199 +97,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 24, 2023 at 10:29:25AM +0800, Xiaoyao Li wrote:
-> On 3/24/2023 10:10 AM, Chao Peng wrote:
-> > On Wed, Mar 22, 2023 at 05:41:31PM -0700, Isaku Yamahata wrote:
-> > > On Wed, Mar 08, 2023 at 03:40:26PM +0800,
-> > > Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > > 
-> > > > On Wed, Mar 08, 2023 at 12:13:24AM +0000, Ackerley Tng wrote:
-> > > > > Chao Peng <chao.p.peng@linux.intel.com> writes:
-> > > > > 
-> > > > > > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
-> > > > > > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > > > > ...
-> > > > > > > Strongly prefer to use similar logic to existing code that detects wraps:
-> > > > > 
-> > > > > > > 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
-> > > > > 
-> > > > > > > This is also where I'd like to add the "gfn is aligned to offset"
-> > > > > > > check, though
-> > > > > > > my brain is too fried to figure that out right now.
-> > > > > 
-> > > > > > Used count_trailing_zeros() for this TODO, unsure we have other better
-> > > > > > approach.
-> > > > > 
-> > > > > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > > > > index afc8c26fa652..fd34c5f7cd2f 100644
-> > > > > > --- a/virt/kvm/kvm_main.c
-> > > > > > +++ b/virt/kvm/kvm_main.c
-> > > > > > @@ -56,6 +56,7 @@
-> > > > > >    #include <asm/processor.h>
-> > > > > >    #include <asm/ioctl.h>
-> > > > > >    #include <linux/uaccess.h>
-> > > > > > +#include <linux/count_zeros.h>
-> > > > > 
-> > > > > >    #include "coalesced_mmio.h"
-> > > > > >    #include "async_pf.h"
-> > > > > > @@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct
-> > > > > > kvm_memslots *slots, int id,
-> > > > > >    	return false;
-> > > > > >    }
-> > > > > 
-> > > > > > +/*
-> > > > > > + * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-> > > > > > + */
-> > > > > > +static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-> > > > > > +{
-> > > > > > +	if (!offset)
-> > > > > > +		return true;
-> > > > > > +	if (!gpa)
-> > > > > > +		return false;
-> > > > > > +
-> > > > > > +	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-> > > 
-> > > This check doesn't work expected. For example, offset = 2GB, gpa=4GB
-> > > this check fails.
-> > 
-> > This case is expected to fail as Sean initially suggested[*]:
-> >    I would rather reject memslot if the gfn has lesser alignment than
-> >    the offset. I'm totally ok with this approach _if_ there's a use case.
-> >    Until such a use case presents itself, I would rather be conservative
-> >    from a uAPI perspective.
-> > 
-> > I understand that we put tighter restriction on this but if you see such
-> > restriction is really a big issue for real usage, instead of a
-> > theoretical problem, then we can loosen the check here. But at that time
-> > below code is kind of x86 specific and may need improve.
-> > 
-> > BTW, in latest code, I replaced count_trailing_zeros() with fls64():
-> >    return !!(fls64(offset) >= fls64(gpa));
+* Leonardo Bras (leobras@redhat.com) wrote:
+> Since the introduction of multifd, it's possible to perform a multifd
+> migration and finish it using postcopy.
 > 
-> wouldn't it be !!(ffs64(offset) <= ffs64(gpa)) ?
-
-As the function document explains, here we want to return true when
-ALIGNMENT(offset) >= ALIGNMENT(gpa), so '>=' is what we need.
-
-It's worthy clarifying that in Sean's original suggestion he actually
-mentioned the opposite. He said 'reject memslot if the gfn has lesser
-alignment than the offset', but I wonder this is his purpose, since
-if ALIGNMENT(offset) < ALIGNMENT(gpa), we wouldn't be possible to map
-the page as largepage. Consider we have below config:
-
-  gpa=2M, offset=1M
-
-In this case KVM tries to map gpa at 2M as 2M hugepage but the physical
-page at the offset(1M) in private_fd cannot provide the 2M page due to
-misalignment.
-
-But as we discussed in the off-list thread, here we do find a real use
-case indicating this check is too strict. i.e. QEMU immediately fails
-when launch a guest > 2G memory. For this case QEMU splits guest memory
-space into two slots:
-
-  Slot#1(ram_below_4G): gpa=0x0, offset=0x0, size=2G
-  Slot#2(ram_above_4G): gpa=4G,  offset=2G,  size=totalsize-2G
-
-This strict alignment check fails for slot#2 because offset(2G) has less
-alignment than gpa(4G). To allow this, one solution can revert to my
-previous change in kvm_alloc_memslot_metadata() to disallow hugepage
-only when the offset/gpa are not aligned to related page size.
-
-Sean, How do you think?
-
-Chao
+> A bug introduced by yank (fixed on cfc3bcf373) was previously preventing
+> a successful use of this migration scenario, and now it should be
+> working on most cases.
 > 
-> > [*] https://lore.kernel.org/all/Y8HldeHBrw+OOZVm@google.com/
-> > 
-> > Chao
-> > > I come up with the following.
-> > > 
-> > > >From ec87e25082f0497431b732702fae82c6a05071bf Mon Sep 17 00:00:00 2001
-> > > Message-Id: <ec87e25082f0497431b732702fae82c6a05071bf.1679531995.git.isaku.yamahata@intel.com>
-> > > From: Isaku Yamahata <isaku.yamahata@intel.com>
-> > > Date: Wed, 22 Mar 2023 15:32:56 -0700
-> > > Subject: [PATCH] KVM: Relax alignment check for restricted mem
-> > > 
-> > > kvm_check_rmem_offset_alignment() only checks based on offset alignment
-> > > and GPA alignment.  However, the actual alignment for offset depends
-> > > on architecture.  For x86 case, it can be 1G, 2M or 4K.  So even if
-> > > GPA is aligned for 1G+, only 1G-alignment is required for offset.
-> > > 
-> > > Without this patch, gpa=4G, offset=2G results in failure of memory slot
-> > > creation.
-> > > 
-> > > Fixes: edc8814b2c77 ("KVM: Require gfn be aligned with restricted offset")
-> > > Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-> > > ---
-> > >   arch/x86/include/asm/kvm_host.h | 15 +++++++++++++++
-> > >   virt/kvm/kvm_main.c             |  9 ++++++++-
-> > >   2 files changed, 23 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> > > index 88e11dd3afde..03af44650f24 100644
-> > > --- a/arch/x86/include/asm/kvm_host.h
-> > > +++ b/arch/x86/include/asm/kvm_host.h
-> > > @@ -16,6 +16,7 @@
-> > >   #include <linux/irq_work.h>
-> > >   #include <linux/irq.h>
-> > >   #include <linux/workqueue.h>
-> > > +#include <linux/count_zeros.h>
-> > >   #include <linux/kvm.h>
-> > >   #include <linux/kvm_para.h>
-> > > @@ -143,6 +144,20 @@
-> > >   #define KVM_HPAGE_MASK(x)	(~(KVM_HPAGE_SIZE(x) - 1))
-> > >   #define KVM_PAGES_PER_HPAGE(x)	(KVM_HPAGE_SIZE(x) / PAGE_SIZE)
-> > > +#define kvm_arch_required_alignment	kvm_arch_required_alignment
-> > > +static inline int kvm_arch_required_alignment(u64 gpa)
-> > > +{
-> > > +	int zeros = count_trailing_zeros(gpa);
-> > > +
-> > > +	WARN_ON_ONCE(!PAGE_ALIGNED(gpa));
-> > > +	if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_1G))
-> > > +		return KVM_HPAGE_SHIFT(PG_LEVEL_1G);
-> > > +	else if (zeros >= KVM_HPAGE_SHIFT(PG_LEVEL_2M))
-> > > +		return KVM_HPAGE_SHIFT(PG_LEVEL_2M);
-> > > +
-> > > +	return PAGE_SHIFT;
-> > > +}
-> > > +
-> > >   #define KVM_MEMSLOT_PAGES_TO_MMU_PAGES_RATIO 50
-> > >   #define KVM_MIN_ALLOC_MMU_PAGES 64UL
-> > >   #define KVM_MMU_HASH_SHIFT 12
-> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > index c9c4eef457b0..f4ff96171d24 100644
-> > > --- a/virt/kvm/kvm_main.c
-> > > +++ b/virt/kvm/kvm_main.c
-> > > @@ -2113,6 +2113,13 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
-> > >   	return false;
-> > >   }
-> > > +#ifndef kvm_arch_required_alignment
-> > > +__weak int kvm_arch_required_alignment(u64 gpa)
-> > > +{
-> > > +	return PAGE_SHIFT
-> > > +}
-> > > +#endif
-> > > +
-> > >   /*
-> > >    * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-> > >    */
-> > > @@ -2123,7 +2130,7 @@ static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-> > >   	if (!gpa)
-> > >   		return false;
-> > > -	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-> > > +	return !!(count_trailing_zeros(offset) >= kvm_arch_required_alignment(gpa));
-> > >   }
-> > >   /*
-> > > -- 
-> > > 2.25.1
-> > > 
-> > > 
-> > > 
-> > > -- 
-> > > Isaku Yamahata <isaku.yamahata@gmail.com>
+> But since there is not enough testing/support nor any reported users for
+> this scenario, we should disable this combination before it may cause any
+> problems for users.
+> 
+> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  migration/migration.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index ae2025d9d8..c601964b0e 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1356,6 +1356,11 @@ static bool migrate_caps_check(bool *cap_list,
+>              error_setg(errp, "Postcopy is not compatible with ignore-shared");
+>              return false;
+>          }
+> +
+> +        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
+> +            error_setg(errp, "Postcopy is not yet compatible with multifd");
+> +            return false;
+> +        }
+>      }
+>  
+>      if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
+> -- 
+> 2.40.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
