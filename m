@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272476CCB5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AEE86CCB7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:29:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phFkv-000365-C4; Tue, 28 Mar 2023 16:17:21 -0400
+	id 1phFvQ-0006Bn-Ie; Tue, 28 Mar 2023 16:28:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phFkk-0002xW-Sy
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:17:15 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1phFvP-0006Be-3A
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:28:11 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phFkj-00041C-7c
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:17:10 -0400
-Received: by mail-pl1-x633.google.com with SMTP id le6so12813963plb.12
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:17:08 -0700 (PDT)
+ id 1phFvN-0005k7-Ed
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:28:10 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ f6-20020a17090ac28600b0023b9bf9eb63so13899269pjt.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680034627;
+ d=linaro.org; s=google; t=1680035288;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=onAONDVj+PMK6ls5Kn07KW0FWRcupO7DPjPf3NoHqOo=;
- b=dXPZry+lrBQb2AZ15rj93+k8MT5Zzrv8aJMc4gLx6J+I62A0nJqfwwJV3NYqfgHfXF
- jcwPsFWn7HROJIMEnqghKdKYjqxlqVAfkPBXEvYwZlug+fK2joAOvAJeNvD8tPW/BpG4
- a/tOyNTa0x81tnU3/tsG91w+L7QDZB1FquTeIWi1kLdT4OR80WooRgKBMw/7wSCinT45
- JLp3hjTb+i6JbKsGJ122DeoaFN0L3avZUDxY1kNQDiFdqUqzqzdSehQAvWT75CZdmxVG
- NCmQs3zhV8biB75anLn7nGO60/M88Tmt6pfhNTGgELkYC1mlRtNZWXk2xgz+1LFBTr8z
- DEeQ==
+ bh=GE33piJ1njovmXQCB0ERQm+9cv/n7YO0FcJPpEUCuKI=;
+ b=HE0EdQYQxQ6co+Or9YFL6uoKSheDoc/04t0YUWy75+DqW13Xdsc0TLS1yH186r/bec
+ W7ofquyuS9AUAB2uPK0M7Mw5lTBRiwiuDmCDm81w+mCicjRPZWOd2r7Rl0VM31W1xwKe
+ pXjAu4edKS6bvBOsL/2T7YK+nQTeotTwsMyO+ln+PiIjBNDmMgPSVKwzeyfDWvVUjpXb
+ lu8eoJH45Br6s+XzRkZRpzEOGmIwQHPgqW3dfrKLdHw0Oyds0R2WVH633nGfVzGq4/hK
+ G4khA4ob2M3DIzn6ILeKfRsEs6CBIYrTdCNO2Tg8m85gd4Qf3I5PX0pGrzoYNo3XPaMp
+ Clig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680034627;
+ d=1e100.net; s=20210112; t=1680035288;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=onAONDVj+PMK6ls5Kn07KW0FWRcupO7DPjPf3NoHqOo=;
- b=DH/1Fyt5k5oun+YmQHyReer9nGENfIC/DOB2qJuiI0dr5Q+3Tia7BVf7idVfPlpJy3
- Vf3OVMzE2+qmie6LBVxAWHG11q1086fwLai/qzdW0wylgTlgLQ6P7Cps7LrUdfYcfhwq
- Xj4/RjyCv4L/SiGPtYR+eQBSAyP/NNWAcwrSS5G4pwOfIKObXgwqaeHT7h4uzxBGbabs
- 8NgZuXh4F06RHyvRXCFTqX0nes3k5xE5w+xpBgURvC2qYl1U94a7jNjNCkBpuQAsZOCg
- RNe+0DN5crySstvkGmiGEuNHZF1dGyWdR+JUoxSM71CR1B1tjK2paTCj6CkjKMMdSOlm
- uQRQ==
-X-Gm-Message-State: AO0yUKWSXFLfjoqFw9UbXzHFtkuqCXSfYCtIVRneu+lgiz+/f+tIDT72
- hdDKL9LIaXtyw4WMmuLMMlJ8+A==
-X-Google-Smtp-Source: AK7set/qxmVNXnVBdTP/pp5Idu92+P85qApcFbhxu9Yv/NfOjzckrGhOJj3BXk3rDw93pIaAfAINQA==
-X-Received: by 2002:a05:6a20:4d96:b0:dd:e6f5:a798 with SMTP id
- gj22-20020a056a204d9600b000dde6f5a798mr16108273pzb.6.1680034627498; 
- Tue, 28 Mar 2023 13:17:07 -0700 (PDT)
+ bh=GE33piJ1njovmXQCB0ERQm+9cv/n7YO0FcJPpEUCuKI=;
+ b=ufZZxrlQQv6w9h/5Mo1+YAgtH8OM6efoYrmeaKa0tf5n9/+Lv29eBGjkNaxxJzXZjT
+ sxo9Ur3NM1fCEMZUBORVSkNEVDDrNOCAJtzknOWLcCyEuLdnOscd2gjBlD+VpjgvXfyn
+ f+XjCjxW/oXMFKwPdB2xerx3NNz+QLnrUNKsMhZ2GkK7mr1JvcfyBrIVdnQoM8rgtZHs
+ jQPVIu5a2IXIDSJT1DfzCdqA7gbgkSnUdUcr+vYV45ejzy+jKjhEePI2G+3ayr60phX2
+ wFt6s1CyasHA/+OU0qaz3Ir1Ggf+gJLoIpWAFlVV41RKTWsrEGQT84i6IjzGoekFDojj
+ 9sSg==
+X-Gm-Message-State: AAQBX9cUXW6mk4HQQfDEi2JrDyJSf/dYkevPjSm5pA9vpE7lAj2w+U1t
+ DkY2Bhv++4uZahTLH9FEeLnGdeLizilHsRPIqmE=
+X-Google-Smtp-Source: AKy350aPOMoTm2vTa8bWY1jC8sWlrEMD1W2wPAEgy0o4YGtLADAO9nPr+mNV4ZV8rcPA9N/szWpvHA==
+X-Received: by 2002:a17:90b:4b8b:b0:23f:c096:7129 with SMTP id
+ lr11-20020a17090b4b8b00b0023fc0967129mr18695356pjb.26.1680035287956; 
+ Tue, 28 Mar 2023 13:28:07 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:396:9f0d:afc2:978e?
  ([2602:ae:1541:f901:396:9f0d:afc2:978e])
  by smtp.gmail.com with ESMTPSA id
- s5-20020a656445000000b004fb3e5681cesm20378636pgv.20.2023.03.28.13.17.06
+ p13-20020a17090a348d00b002311ae14a01sm6565143pjb.11.2023.03.28.13.28.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 13:17:07 -0700 (PDT)
-Message-ID: <6c587ced-fcb2-f537-94c7-9612e1499f2e@linaro.org>
-Date: Tue, 28 Mar 2023 13:17:05 -0700
+ Tue, 28 Mar 2023 13:28:07 -0700 (PDT)
+Message-ID: <c4912c34-5941-cb51-f021-c0b9dbd4aead@linaro.org>
+Date: Tue, 28 Mar 2023 13:28:05 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v2 09/44] target/loongarch: Implement vhaddw/vhsubw
+Subject: Re: [RFC PATCH v2 10/44] target/loongarch: Implement vaddw/vsubw
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-10-gaosong@loongson.cn>
+ <20230328030631.3117129-11-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-10-gaosong@loongson.cn>
+In-Reply-To: <20230328030631.3117129-11-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,43 +96,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/27/23 20:05, Song Gao wrote:
-> +#define DO_ODD_EVEN_S(NAME, BIT, T, E1, E2, DO_OP)                 \
-> +void HELPER(NAME)(CPULoongArchState *env,                          \
-> +                  uint32_t vd, uint32_t vj, uint32_t vk)           \
-> +{                                                                  \
-> +    int i;                                                         \
-> +    VReg *Vd = &(env->fpr[vd].vreg);                               \
-> +    VReg *Vj = &(env->fpr[vj].vreg);                               \
-> +    VReg *Vk = &(env->fpr[vk].vreg);                               \
-> +                                                                   \
-> +    for (i = 0; i < LSX_LEN/BIT; i++) {                            \
-> +        Vd->E1(i) = DO_OP((T)Vj->E2(2 * i + 1), (T)Vk->E2(2 * i)); \
-> +    }                                                              \
+> +static void gen_vaddwev_w_h(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
+> +{
+> +    TCGv_i32 t1, t2;
+> +
+> +    t1 = tcg_temp_new_i32();
+> +    t2 = tcg_temp_new_i32();
+> +    tcg_gen_shli_i32(t1, a, 16);
+> +    tcg_gen_sari_i32(t1, t1, 16);
+> +    tcg_gen_shli_i32(t2, b, 16);
+> +    tcg_gen_sari_i32(t2, t2, 16);
+> +    tcg_gen_add_i32(t, t1, t2);
 > +}
-...
-> +#define DO_ODD_EVEN_U(NAME, BIT, TD, TS,  E1, E2, DO_OP)                     \
-> +void HELPER(NAME)(CPULoongArchState *env,                                    \
-> +                  uint32_t vd, uint32_t vj, uint32_t vk)                     \
-> +{                                                                            \
-> +    int i;                                                                   \
-> +    VReg *Vd = &(env->fpr[vd].vreg);                                         \
-> +    VReg *Vj = &(env->fpr[vj].vreg);                                         \
-> +    VReg *Vk = &(env->fpr[vk].vreg);                                         \
-> +                                                                             \
-> +    for (i = 0; i < LSX_LEN/BIT; i++) {                                      \
-> +        Vd->E1(i) = DO_OP((TD)(TS)Vj->E2(2 * i + 1), (TD)(TS)Vk->E2(2 * i)); \
-> +    }                                                                        \
+> +
+> +static void gen_vaddwev_d_w(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)
+> +{
+> +    TCGv_i64 t1, t2;
+> +
+> +    t1 = tcg_temp_new_i64();
+> +    t2 = tcg_temp_new_i64();
+> +    tcg_gen_shli_i64(t1, a, 32);
+> +    tcg_gen_sari_i64(t1, t1, 32);
+> +    tcg_gen_shli_i64(t2, b, 32);
+> +    tcg_gen_sari_i64(t2, t2, 32);
+> +    tcg_gen_add_i64(t, t1, t2);
 > +}
 
-In the first case we have one cast, in the second case we have two.  I wonder if it would 
-be clearer to have both signed and unsigned members in the VReg union?  Then these two 
-macros could be combined.
+For integer code like this, use tcg_gen_ext16s_i32/tcg_gen_ext32s_i64.
 
-I also think we could make use of (__typeof(Vd->E1(0))) instead of separately passing the 
-output type?  It would appear to be less error-prone.
+> +static void gen_vaddwev_u(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
+> +{
+> +    TCGv_vec t1, t2;
+> +
+> +    int halfbits = 4 << vece;
+> +
+> +    t1 = tcg_temp_new_vec_matching(a);
+> +    t2 = tcg_temp_new_vec_matching(b);
+> +
+> +    /* Zero-extend the even elements from a */
+> +    tcg_gen_shli_vec(vece, t1, a, halfbits);
+> +    tcg_gen_shri_vec(vece, t1, t1, halfbits);
+> +
+> +    /* Zero-extend the even elements from b */
+> +    tcg_gen_shli_vec(vece, t2, b, halfbits);
+> +    tcg_gen_shri_vec(vece, t2, t2, halfbits);
+> +
+> +    tcg_gen_add_vec(vece, t, t1, t2);
+> +}
 
-All that said, the code as written is correct so,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+uint64_t mask = MAKE_64BIT_MASK(0, halfbits);
+tcg_gen_andi_vec(vece, t1, a, mask);
+
+> +static void gen_vaddwev_w_hu(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
+> +{
+> +    TCGv_i32 t1, t2;
+> +
+> +    t1 = tcg_temp_new_i32();
+> +    t2 = tcg_temp_new_i32();
+> +    tcg_gen_shli_i32(t1, a, 16);
+> +    tcg_gen_shri_i32(t1, t1, 16);
+> +    tcg_gen_shli_i32(t2, b, 16);
+> +    tcg_gen_shri_i32(t2, t2, 16);
+> +    tcg_gen_add_i32(t, t1, t2);
+> +}
+
+tcg_gen_ext16u_i32.
 
 
 r~
