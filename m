@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D55F6CC746
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 18:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C936CC75B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 18:02:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phBjk-0004jb-Tr; Tue, 28 Mar 2023 11:59:52 -0400
+	id 1phBkp-0005jE-4h; Tue, 28 Mar 2023 12:00:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1phBjj-0004io-B6
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:59:51 -0400
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1phBjh-0003Mx-2c
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:59:50 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.10])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CC0B8203CB;
- Tue, 28 Mar 2023 15:59:45 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 28 Mar
- 2023 17:59:45 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S0012c57eb99-9cf6-4f33-abdf-4ca8930cb357,
- 5D21C2AA46E1B9891D174392918792ED1A5C90BB) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7e79ca66-fdb9-945c-42a2-5805ce9698df@kaod.org>
-Date: Tue, 28 Mar 2023 17:59:44 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1phBkS-0005K5-53
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:00:42 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1phBkP-0003mP-D9
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:00:35 -0400
+Received: by mail-ed1-x536.google.com with SMTP id y4so51845265edo.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 09:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680019231;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/osdWzJCElLXcA4fxi/B8eM7YZienX1jvnNYuDcGddI=;
+ b=zjoAw0dri0grFbQD2e1xh+SeJyUAkdxm3DxDXeJq9gfiuvuVOUM951CoTJEQt6MqxV
+ VQGULEq1+7ZnKbYaqaCLGPFV5RgO8PgmuyIWAIxWQa6LZts/pzEB1yq2IMoyIclMJYPR
+ lOXatJhagdg44vdGzSuHEl/GQqptAIpSaOyTNpSfdieXYbWRcSPFxgdWl17ZQDC0TRih
+ c7+D7N5QBejXI8zfaXXSaiuy9VqsDEIf21LeLNyX8nc2AtGCg3Xvr/hT4UVfJI2reO/c
+ Bz8bohFYkY+xg6t2UB+RSCgUkGJ18CQirdfIFICAl+nZrFzGE3JAEGLDIJre82urYiV1
+ t3+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680019231;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/osdWzJCElLXcA4fxi/B8eM7YZienX1jvnNYuDcGddI=;
+ b=5FVPZbIQcHtyNZu82kHY3pcthCNLcWwH0fUhDbpVEqbj4iNFU7+K7QRTnzF2UKOA79
+ ro482KYRdH4SneRTkBGdlOFNW+MsieIsqWdNUek7z/Qsu8iTQZ51L8iKfZGyPat09218
+ pUN7bj4XRu26oKSKFPmjmT2LZTQSK3f1Nhp2MZi5empwpc0yORjIe0T+/SeRBBhCwu8x
+ D/H21Z1eTxg1+Y/kO2BmgL4LUB2pOpd2OwzhLNRVV+b66rCS1iOmEx5DC0fZ32VBU9Gb
+ b+LZvLQDbR+gnGxUvv7JioX1VG3F/iHzvdcVlqgpmZ+QMSH6O6q3UpkIt8s8Yh6cI+AX
+ GA4g==
+X-Gm-Message-State: AAQBX9eZZPJMJy0QXEDg+JuVOOQ43WexgnuExsJFXBEY9ssMEmRy5z1M
+ 7P7bxf4cVHtuhwRZr3hQXMcrCLcnIvghvyIyGjf4gQ==
+X-Google-Smtp-Source: AKy350ac8pKNQfLSeOuLzPAP+mWeLgTcD46EJqU9SmZphAF5kDZRH/bphwL7U6lAuBGAR/8gLtRzcpFHevf7+297p5I=
+X-Received: by 2002:a50:9e89:0:b0:500:547b:4e1b with SMTP id
+ a9-20020a509e89000000b00500547b4e1bmr8101912edf.6.1680019231138; Tue, 28 Mar
+ 2023 09:00:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 1/3] qtest: Add functions for accessing devices on
- Aspeed I2C controller
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
- <qemu-devel@nongnu.org>
-CC: <marcandre.lureau@redhat.com>, <ninad@linux.ibm.com>, <joel@jms.id.au>,
- <andrew@aj.id.au>
-References: <20230328135121.3661711-1-stefanb@linux.ibm.com>
- <20230328135121.3661711-2-stefanb@linux.ibm.com>
- <601fa241-1b5e-067c-f7b5-7cdd4feaa13f@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <601fa241-1b5e-067c-f7b5-7cdd4feaa13f@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: b7fb72d1-6c71-425a-b932-2b48ce07ba92
-X-Ovh-Tracer-Id: 1076641786759514985
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehgedgleegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhhuhhthhesrhgvughhrghtrdgtohhmpdhsthgvfhgrnhgssehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhmrghrtggrnhgurhgvrdhluhhrvggruhesrhgvughhrghtrdgtohhmpdhnihhnrggusehlihhnuhigrdhisghmrdgtohhmpdhjohgvlhesjhhmshdrihgurdgruhdprghnughrvgifsegrjhdrihgurdgruhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+References: <20230327170944.57033-1-its@irrelevant.dk>
+In-Reply-To: <20230327170944.57033-1-its@irrelevant.dk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Mar 2023 17:00:20 +0100
+Message-ID: <CAFEAcA_6hr=NcGjaictO3DQBwnnt5pEh8qP8+yiPz0KnTiuiQA@mail.gmail.com>
+Subject: Re: [PULL 0/2] hw/nvme fixes
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>, 
+ Klaus Jensen <k.jensen@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,46 +88,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> +static void aspeed_i2c_write_n(uint32_t baseaddr, uint8_t slave_addr,
->> +                               uint8_t reg, uint32_t v, size_t nbytes)
->> +{
->> +    size_t i;
->> +
->> +    aspeed_i2c_startup(baseaddr, slave_addr, reg);
->> +
->> +    for (i = 0; i < nbytes; i++) {
->> +        writel(baseaddr + A_I2CD_BYTE_BUF, v & 0xff);
->> +        v >>= 8;
->> +        writel(baseaddr + A_I2CD_CMD, A_I2CD_M_TX_CMD);
->> +    }
->> +
->> +    writel(baseaddr + A_I2CD_CMD, A_I2CD_M_STOP_CMD);
->> +}
->> +
->> +void aspeed_i2c_writel(uint32_t baseaddr, uint8_t slave_addr,
->> +                       uint8_t reg, uint32_t v)
->> +{
->> +    aspeed_i2c_write_n(baseaddr, slave_addr, reg, v, sizeof(v));
->> +}
->> +
->> +void aspeed_i2c_writew(uint32_t baseaddr, uint8_t slave_addr,
->> +                       uint8_t reg, uint16_t v)
->> +{
->> +    aspeed_i2c_write_n(baseaddr, slave_addr, reg, v, sizeof(v));
->> +}
->> +
->> +void aspeed_i2c_writeb(uint32_t baseaddr, uint8_t slave_addr,
->> +                       uint8_t reg, uint8_t v)
->> +{
->> +    aspeed_i2c_write_n(baseaddr, slave_addr, reg, v, sizeof(v));
->> +}
-> 
-> For helper functions like this, I'd recommend to not use libqtest-single.h and rather pass in a QTestState* as parameter to use qtest_writel() and qtest_readl() instead. That will make the code future-proof in case someone wants to use these function for migration-related tests later.
+On Mon, 27 Mar 2023 at 18:09, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> Hi Peter,
+>
+> The following changes since commit e3debd5e7d0ce031356024878a0a18b9d109354a:
+>
+>   Merge tag 'pull-request-2023-03-24' of https://gitlab.com/thuth/qemu into staging (2023-03-24 16:08:46 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/birkelund/qemu.git tags/nvme-next-pull-request
+>
+> for you to fetch changes up to ca2a091802872b265bc6007a2d36276d51d8e4b3:
+>
+>   hw/nvme: fix missing DNR on compare failure (2023-03-27 19:05:23 +0200)
+>
+> ----------------------------------------------------------------
+> hw/nvme fixes
+>
+> ----------------------------------------------------------------
+>
+> Klaus Jensen (1):
+>   hw/nvme: fix missing DNR on compare failure
+>
+> Mateusz Kozlowski (1):
+>   hw/nvme: Change alignment in dma functions for nvme_blk_*
+>
+>  hw/nvme/ctrl.c | 26 +++++++++++++-------------
+>  1 file changed, 13 insertions(+), 13 deletions(-)
 
-Indeed. Talking of which, I should convert tests/qtest/aspeed_smc-test.c
 
-Thanks,
+Applied, thanks.
 
-C.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
+-- PMM
 
