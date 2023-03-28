@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CF56CB492
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F16476CB482
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:09:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgzg5-0007NZ-AZ; Mon, 27 Mar 2023 23:07:17 -0400
+	id 1pgzg3-0007M8-VM; Mon, 27 Mar 2023 23:07:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pgzfx-0007IN-4u
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:09 -0400
+ id 1pgzfy-0007Ie-UU
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:11 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pgzfu-0000ls-8m
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:08 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1pgzfw-0000mU-4Z
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:10 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Ax69nNWSJkkNoSAA--.28646S3;
- Tue, 28 Mar 2023 11:06:53 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8DxUOXOWSJklNoSAA--.28743S3;
+ Tue, 28 Mar 2023 11:06:54 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dxyr24WSJkZukOAA--.10252S38; 
+ AQAAf8Dxyr24WSJkZukOAA--.10252S39; 
  Tue, 28 Mar 2023 11:06:53 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH v2 36/44] target/loongarch: Implement vseq vsle vslt
-Date: Tue, 28 Mar 2023 11:06:23 +0800
-Message-Id: <20230328030631.3117129-37-gaosong@loongson.cn>
+Subject: [RFC PATCH v2 37/44] target/loongarch: Implement vfcmp
+Date: Tue, 28 Mar 2023 11:06:24 +0800
+Message-Id: <20230328030631.3117129-38-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230328030631.3117129-1-gaosong@loongson.cn>
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S38
+X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S39
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvAXoW3tr1rKw15uw4fCFy7Aw4xWFg_yoW8GF4xAo
- W7J345JF48Gw15Cr1UCas7Xr1DtryIyFn7Xa90vw4vgFWrtr17Krn8KryrA3yfJrWaga43
- G3yjyF4YqwsYvrykn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
- J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
- UUqG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64
- kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY
- 1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aV
- CY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x2
- 6I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4
- IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AG
- Y7Cv6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
- 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF
- 0xvE2Ix0cI8IcVAFwI0_Ar0_tr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42
- IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2
- jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+X-Coremail-Antispam: 1Uk129KBjvJXoW3XryxKry5JF43ArW3Gw1UAwb_yoW3Ar4DpF
+ y7GFyUKrW8X34rX3WSv3W5u3WUAF4UKw4q9a43tw4vgrW7ZFn7A34rtasI9FZ8C3WDJryr
+ W3W7A34YgFZrJwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ be8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
+ kF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020E
+ x4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFV
+ Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
+ 1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
+ 0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAI
+ cVC0I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
+ vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280
+ aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -18
@@ -75,395 +75,258 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VSEQ[I].{B/H/W/D};
-- VSLE[I].{B/H/W/D}[U];
-- VSLT[I].{B/H/W/D/}[U].
+- VFCMP.cond.{S/D}.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  43 +++++
- target/loongarch/helper.h                   |  23 +++
- target/loongarch/insn_trans/trans_lsx.c.inc | 191 ++++++++++++++++++++
- target/loongarch/insns.decode               |  43 +++++
- target/loongarch/lsx_helper.c               |  36 ++++
- 5 files changed, 336 insertions(+)
+ target/loongarch/disas.c                    | 94 +++++++++++++++++++++
+ target/loongarch/helper.h                   |  5 ++
+ target/loongarch/insn_trans/trans_lsx.c.inc | 32 +++++++
+ target/loongarch/insns.decode               |  5 ++
+ target/loongarch/lsx_helper.c               | 51 +++++++++++
+ 5 files changed, 187 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index c04271081f..e589b23f4c 100644
+index e589b23f4c..64db01d2f9 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1404,3 +1404,46 @@ INSN_LSX(vffint_d_lu,      vv)
- INSN_LSX(vffintl_d_w,      vv)
- INSN_LSX(vffinth_d_w,      vv)
- INSN_LSX(vffint_s_l,       vvv)
+@@ -1447,3 +1447,97 @@ INSN_LSX(vslti_bu,         vv_i)
+ INSN_LSX(vslti_hu,         vv_i)
+ INSN_LSX(vslti_wu,         vv_i)
+ INSN_LSX(vslti_du,         vv_i)
 +
-+INSN_LSX(vseq_b,           vvv)
-+INSN_LSX(vseq_h,           vvv)
-+INSN_LSX(vseq_w,           vvv)
-+INSN_LSX(vseq_d,           vvv)
-+INSN_LSX(vseqi_b,          vv_i)
-+INSN_LSX(vseqi_h,          vv_i)
-+INSN_LSX(vseqi_w,          vv_i)
-+INSN_LSX(vseqi_d,          vv_i)
++#define output_vfcmp(C, PREFIX, SUFFIX)                                     \
++{                                                                           \
++    (C)->info->fprintf_func((C)->info->stream, "%08x   %s%s\t%d, f%d, f%d", \
++                            (C)->insn, PREFIX, SUFFIX, a->vd,               \
++                            a->vj, a->vk);                                  \
++}
 +
-+INSN_LSX(vsle_b,           vvv)
-+INSN_LSX(vsle_h,           vvv)
-+INSN_LSX(vsle_w,           vvv)
-+INSN_LSX(vsle_d,           vvv)
-+INSN_LSX(vslei_b,          vv_i)
-+INSN_LSX(vslei_h,          vv_i)
-+INSN_LSX(vslei_w,          vv_i)
-+INSN_LSX(vslei_d,          vv_i)
-+INSN_LSX(vsle_bu,          vvv)
-+INSN_LSX(vsle_hu,          vvv)
-+INSN_LSX(vsle_wu,          vvv)
-+INSN_LSX(vsle_du,          vvv)
-+INSN_LSX(vslei_bu,         vv_i)
-+INSN_LSX(vslei_hu,         vv_i)
-+INSN_LSX(vslei_wu,         vv_i)
-+INSN_LSX(vslei_du,         vv_i)
++static bool output_vvv_fcond(DisasContext *ctx, arg_vvv_fcond * a,
++                             const char *suffix)
++{
++    bool ret = true;
++    switch (a->fcond) {
++    case 0x0:
++        output_vfcmp(ctx, "vfcmp_caf_", suffix);
++        break;
++    case 0x1:
++        output_vfcmp(ctx, "vfcmp_saf_", suffix);
++        break;
++    case 0x2:
++        output_vfcmp(ctx, "vfcmp_clt_", suffix);
++        break;
++    case 0x3:
++        output_vfcmp(ctx, "vfcmp_slt_", suffix);
++        break;
++    case 0x4:
++        output_vfcmp(ctx, "vfcmp_ceq_", suffix);
++        break;
++    case 0x5:
++        output_vfcmp(ctx, "vfcmp_seq_", suffix);
++        break;
++    case 0x6:
++        output_vfcmp(ctx, "vfcmp_cle_", suffix);
++        break;
++    case 0x7:
++        output_vfcmp(ctx, "vfcmp_sle_", suffix);
++        break;
++    case 0x8:
++        output_vfcmp(ctx, "vfcmp_cun_", suffix);
++        break;
++    case 0x9:
++        output_vfcmp(ctx, "vfcmp_sun_", suffix);
++        break;
++    case 0xA:
++        output_vfcmp(ctx, "vfcmp_cult_", suffix);
++        break;
++    case 0xB:
++        output_vfcmp(ctx, "vfcmp_sult_", suffix);
++        break;
++    case 0xC:
++        output_vfcmp(ctx, "vfcmp_cueq_", suffix);
++        break;
++    case 0xD:
++        output_vfcmp(ctx, "vfcmp_sueq_", suffix);
++        break;
++    case 0xE:
++        output_vfcmp(ctx, "vfcmp_cule_", suffix);
++        break;
++    case 0xF:
++        output_vfcmp(ctx, "vfcmp_sule_", suffix);
++        break;
++    case 0x10:
++        output_vfcmp(ctx, "vfcmp_cne_", suffix);
++        break;
++    case 0x11:
++        output_vfcmp(ctx, "vfcmp_sne_", suffix);
++        break;
++    case 0x14:
++        output_vfcmp(ctx, "vfcmp_cor_", suffix);
++        break;
++    case 0x15:
++        output_vfcmp(ctx, "vfcmp_sor_", suffix);
++        break;
++    case 0x18:
++        output_vfcmp(ctx, "vfcmp_cune_", suffix);
++        break;
++    case 0x19:
++        output_vfcmp(ctx, "vfcmp_sune_", suffix);
++        break;
++    default:
++        ret = false;
++    }
++    return ret;
++}
 +
-+INSN_LSX(vslt_b,           vvv)
-+INSN_LSX(vslt_h,           vvv)
-+INSN_LSX(vslt_w,           vvv)
-+INSN_LSX(vslt_d,           vvv)
-+INSN_LSX(vslti_b,          vv_i)
-+INSN_LSX(vslti_h,          vv_i)
-+INSN_LSX(vslti_w,          vv_i)
-+INSN_LSX(vslti_d,          vv_i)
-+INSN_LSX(vslt_bu,          vvv)
-+INSN_LSX(vslt_hu,          vvv)
-+INSN_LSX(vslt_wu,          vvv)
-+INSN_LSX(vslt_du,          vvv)
-+INSN_LSX(vslti_bu,         vv_i)
-+INSN_LSX(vslti_hu,         vv_i)
-+INSN_LSX(vslti_wu,         vv_i)
-+INSN_LSX(vslti_du,         vv_i)
++#define LSX_FCMP_INSN(suffix)                            \
++static bool trans_vfcmp_cond_##suffix(DisasContext *ctx, \
++                                     arg_vvv_fcond * a)  \
++{                                                        \
++    return output_vvv_fcond(ctx, a, #suffix);            \
++}
++
++LSX_FCMP_INSN(s)
++LSX_FCMP_INSN(d)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index b2cc1a6ddb..25ea9b633d 100644
+index 25ea9b633d..ef0b67349d 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -627,3 +627,26 @@ DEF_HELPER_3(vffint_d_lu, void, env, i32, i32)
- DEF_HELPER_3(vffintl_d_w, void, env, i32, i32)
- DEF_HELPER_3(vffinth_d_w, void, env, i32, i32)
- DEF_HELPER_4(vffint_s_l, void, env, i32, i32, i32)
+@@ -650,3 +650,8 @@ DEF_HELPER_FLAGS_4(vslti_bu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+ DEF_HELPER_FLAGS_4(vslti_hu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+ DEF_HELPER_FLAGS_4(vslti_wu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
+ DEF_HELPER_FLAGS_4(vslti_du, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
 +
-+DEF_HELPER_FLAGS_4(vseqi_b, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vseqi_h, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vseqi_w, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vseqi_d, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+
-+DEF_HELPER_FLAGS_4(vslei_b, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslei_h, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslei_w, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslei_d, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslei_bu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslei_hu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslei_wu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslei_du, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+
-+DEF_HELPER_FLAGS_4(vslti_b, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslti_h, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslti_w, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslti_d, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslti_bu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslti_hu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslti_wu, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+DEF_HELPER_FLAGS_4(vslti_du, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
++DEF_HELPER_5(vfcmp_c_s, void, env, i32, i32, i32, i32)
++DEF_HELPER_5(vfcmp_s_s, void, env, i32, i32, i32, i32)
++DEF_HELPER_5(vfcmp_c_d, void, env, i32, i32, i32, i32)
++DEF_HELPER_5(vfcmp_s_d, void, env, i32, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index ee3817dd31..7368731424 100644
+index 7368731424..593b8b481d 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -2940,3 +2940,194 @@ TRANS(vffint_d_lu, gen_vv, gen_helper_vffint_d_lu)
- TRANS(vffintl_d_w, gen_vv, gen_helper_vffintl_d_w)
- TRANS(vffinth_d_w, gen_vv, gen_helper_vffinth_d_w)
- TRANS(vffint_s_l, gen_vvv, gen_helper_vffint_s_l)
+@@ -3131,3 +3131,35 @@ TRANS(vslti_bu, do_vslti_u, MO_8)
+ TRANS(vslti_hu, do_vslti_u, MO_16)
+ TRANS(vslti_wu, do_vslti_u, MO_32)
+ TRANS(vslti_du, do_vslti_u, MO_64)
 +
-+static bool do_cmp(DisasContext *ctx, arg_vvv *a, MemOp mop, TCGCond cond,
-+                   void (*func)(TCGCond, unsigned, uint32_t, uint32_t,
-+                                uint32_t, uint32_t, uint32_t))
++static bool trans_vfcmp_cond_s(DisasContext *ctx, arg_vvv_fcond *a)
 +{
-+    uint32_t vd_ofs, vj_ofs, vk_ofs;
++    uint32_t flags;
++    void (*fn)(TCGv_env, TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32);
++    TCGv_i32 vd = tcg_constant_i32(a->vd);
++    TCGv_i32 vj = tcg_constant_i32(a->vj);
++    TCGv_i32 vk = tcg_constant_i32(a->vk);
 +
 +    CHECK_SXE;
 +
-+    vd_ofs = vreg_full_offset(a->vd);
-+    vj_ofs = vreg_full_offset(a->vj);
-+    vk_ofs = vreg_full_offset(a->vk);
++    fn = (a->fcond & 1 ? gen_helper_vfcmp_s_s : gen_helper_vfcmp_c_s);
++    flags = get_fcmp_flags(a->fcond >> 1);
++    fn(cpu_env, vd, vj, vk,  tcg_constant_i32(flags));
 +
-+    func(cond, mop, vd_ofs, vj_ofs, vk_ofs, 16, 16);
 +    return true;
 +}
 +
-+static void do_cmpi_vec(TCGCond cond,
-+                        unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
++static bool trans_vfcmp_cond_d(DisasContext *ctx, arg_vvv_fcond *a)
 +{
-+    TCGv_vec t1;
++    uint32_t flags;
++    void (*fn)(TCGv_env, TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32);
++    TCGv_i32 vd = tcg_constant_i32(a->vd);
++    TCGv_i32 vj = tcg_constant_i32(a->vj);
++    TCGv_i32 vk = tcg_constant_i32(a->vk);
 +
-+    t1 = tcg_temp_new_vec_matching(t);
-+    tcg_gen_dupi_vec(vece, t1, imm);
-+    tcg_gen_cmp_vec(cond, vece, t, a, t1);
++    fn = (a->fcond & 1 ? gen_helper_vfcmp_s_d : gen_helper_vfcmp_c_d);
++    flags = get_fcmp_flags(a->fcond >> 1);
++    fn(cpu_env, vd, vj, vk, tcg_constant_i32(flags));
++
++    return true;
 +}
-+
-+static void gen_vseqi_s_vec(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
-+{
-+    do_cmpi_vec(TCG_COND_EQ, vece, t, a, imm);
-+}
-+
-+static void gen_vslei_s_vec(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
-+{
-+    do_cmpi_vec(TCG_COND_LE, vece, t, a, imm);
-+}
-+
-+static void gen_vslti_s_vec(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
-+{
-+    do_cmpi_vec(TCG_COND_LT, vece, t, a, imm);
-+}
-+
-+static void gen_vslei_u_vec(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
-+{
-+    do_cmpi_vec(TCG_COND_LEU, vece, t, a, imm);
-+}
-+
-+static void gen_vslti_u_vec(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
-+{
-+    do_cmpi_vec(TCG_COND_LTU, vece, t, a, imm);
-+}
-+
-+#define DO_CMPI_S(NAME)                                                \
-+static bool do_## NAME ##_s(DisasContext *ctx, arg_vv_i *a, MemOp mop) \
-+{                                                                      \
-+    uint32_t vd_ofs, vj_ofs;                                           \
-+                                                                       \
-+    CHECK_SXE;                                                         \
-+                                                                       \
-+    static const TCGOpcode vecop_list[] = {                            \
-+        INDEX_op_cmp_vec, 0                                            \
-+    };                                                                 \
-+    static const GVecGen2i op[4] = {                                   \
-+        {                                                              \
-+            .fniv = gen_## NAME ##_s_vec,                              \
-+            .fnoi = gen_helper_## NAME ##_b,                           \
-+            .opt_opc = vecop_list,                                     \
-+            .vece = MO_8                                               \
-+        },                                                             \
-+        {                                                              \
-+            .fniv = gen_## NAME ##_s_vec,                              \
-+            .fnoi = gen_helper_## NAME ##_h,                           \
-+            .opt_opc = vecop_list,                                     \
-+            .vece = MO_16                                              \
-+        },                                                             \
-+        {                                                              \
-+            .fniv = gen_## NAME ##_s_vec,                              \
-+            .fnoi = gen_helper_## NAME ##_w,                           \
-+            .opt_opc = vecop_list,                                     \
-+            .vece = MO_32                                              \
-+        },                                                             \
-+        {                                                              \
-+            .fniv = gen_## NAME ##_s_vec,                              \
-+            .fnoi = gen_helper_## NAME ##_d,                           \
-+            .opt_opc = vecop_list,                                     \
-+            .vece = MO_64                                              \
-+        }                                                              \
-+    };                                                                 \
-+                                                                       \
-+    vd_ofs = vreg_full_offset(a->vd);                                  \
-+    vj_ofs = vreg_full_offset(a->vj);                                  \
-+                                                                       \
-+    tcg_gen_gvec_2i(vd_ofs, vj_ofs, 16, 16, a->imm, &op[mop]);         \
-+                                                                       \
-+    return true;                                                       \
-+}
-+
-+DO_CMPI_S(vseqi)
-+DO_CMPI_S(vslei)
-+DO_CMPI_S(vslti)
-+
-+#define DO_CMPI_U(NAME)                                                \
-+static bool do_## NAME ##_u(DisasContext *ctx, arg_vv_i *a, MemOp mop) \
-+{                                                                      \
-+    uint32_t vd_ofs, vj_ofs;                                           \
-+                                                                       \
-+    CHECK_SXE;                                                         \
-+                                                                       \
-+    static const TCGOpcode vecop_list[] = {                            \
-+        INDEX_op_cmp_vec, 0                                            \
-+    };                                                                 \
-+    static const GVecGen2i op[4] = {                                   \
-+        {                                                              \
-+            .fniv = gen_## NAME ##_u_vec,                              \
-+            .fnoi = gen_helper_## NAME ##_bu,                          \
-+            .opt_opc = vecop_list,                                     \
-+            .vece = MO_8                                               \
-+        },                                                             \
-+        {                                                              \
-+            .fniv = gen_## NAME ##_u_vec,                              \
-+            .fnoi = gen_helper_## NAME ##_hu,                          \
-+            .opt_opc = vecop_list,                                     \
-+            .vece = MO_16                                              \
-+        },                                                             \
-+        {                                                              \
-+            .fniv = gen_## NAME ##_u_vec,                              \
-+            .fnoi = gen_helper_## NAME ##_wu,                          \
-+            .opt_opc = vecop_list,                                     \
-+            .vece = MO_32                                              \
-+        },                                                             \
-+        {                                                              \
-+            .fniv = gen_## NAME ##_u_vec,                              \
-+            .fnoi = gen_helper_## NAME ##_du,                          \
-+            .opt_opc = vecop_list,                                     \
-+            .vece = MO_64                                              \
-+        }                                                              \
-+    };                                                                 \
-+                                                                       \
-+    vd_ofs = vreg_full_offset(a->vd);                                  \
-+    vj_ofs = vreg_full_offset(a->vj);                                  \
-+                                                                       \
-+    tcg_gen_gvec_2i(vd_ofs, vj_ofs, 16, 16, a->imm, &op[mop]);         \
-+                                                                       \
-+    return true;                                                       \
-+}
-+
-+DO_CMPI_U(vslei)
-+DO_CMPI_U(vslti)
-+
-+TRANS(vseq_b, do_cmp, MO_8, TCG_COND_EQ, tcg_gen_gvec_cmp)
-+TRANS(vseq_h, do_cmp, MO_16, TCG_COND_EQ, tcg_gen_gvec_cmp)
-+TRANS(vseq_w, do_cmp, MO_32, TCG_COND_EQ, tcg_gen_gvec_cmp)
-+TRANS(vseq_d, do_cmp, MO_64, TCG_COND_EQ, tcg_gen_gvec_cmp)
-+TRANS(vseqi_b, do_vseqi_s, MO_8)
-+TRANS(vseqi_h, do_vseqi_s, MO_16)
-+TRANS(vseqi_w, do_vseqi_s, MO_32)
-+TRANS(vseqi_d, do_vseqi_s, MO_64)
-+
-+TRANS(vsle_b, do_cmp, MO_8, TCG_COND_LE, tcg_gen_gvec_cmp)
-+TRANS(vsle_h, do_cmp, MO_16, TCG_COND_LE, tcg_gen_gvec_cmp)
-+TRANS(vsle_w, do_cmp, MO_32, TCG_COND_LE, tcg_gen_gvec_cmp)
-+TRANS(vsle_d, do_cmp, MO_64, TCG_COND_LE, tcg_gen_gvec_cmp)
-+TRANS(vslei_b, do_vslei_s, MO_8)
-+TRANS(vslei_h, do_vslei_s, MO_16)
-+TRANS(vslei_w, do_vslei_s, MO_32)
-+TRANS(vslei_d, do_vslei_s, MO_64)
-+TRANS(vsle_bu, do_cmp, MO_8, TCG_COND_LEU, tcg_gen_gvec_cmp)
-+TRANS(vsle_hu, do_cmp, MO_16, TCG_COND_LEU, tcg_gen_gvec_cmp)
-+TRANS(vsle_wu, do_cmp, MO_32, TCG_COND_LEU, tcg_gen_gvec_cmp)
-+TRANS(vsle_du, do_cmp, MO_64, TCG_COND_LEU, tcg_gen_gvec_cmp)
-+TRANS(vslei_bu, do_vslei_u, MO_8)
-+TRANS(vslei_hu, do_vslei_u, MO_16)
-+TRANS(vslei_wu, do_vslei_u, MO_32)
-+TRANS(vslei_du, do_vslei_u, MO_64)
-+
-+TRANS(vslt_b, do_cmp, MO_8, TCG_COND_LT, tcg_gen_gvec_cmp)
-+TRANS(vslt_h, do_cmp, MO_16, TCG_COND_LT, tcg_gen_gvec_cmp)
-+TRANS(vslt_w, do_cmp, MO_32, TCG_COND_LT, tcg_gen_gvec_cmp)
-+TRANS(vslt_d, do_cmp, MO_64, TCG_COND_LT, tcg_gen_gvec_cmp)
-+TRANS(vslti_b, do_vslti_s, MO_8)
-+TRANS(vslti_h, do_vslti_s, MO_16)
-+TRANS(vslti_w, do_vslti_s, MO_32)
-+TRANS(vslti_d, do_vslti_s, MO_64)
-+TRANS(vslt_bu, do_cmp, MO_8, TCG_COND_LTU, tcg_gen_gvec_cmp)
-+TRANS(vslt_hu, do_cmp, MO_16, TCG_COND_LTU, tcg_gen_gvec_cmp)
-+TRANS(vslt_wu, do_cmp, MO_32, TCG_COND_LTU, tcg_gen_gvec_cmp)
-+TRANS(vslt_du, do_cmp, MO_64, TCG_COND_LTU, tcg_gen_gvec_cmp)
-+TRANS(vslti_bu, do_vslti_u, MO_8)
-+TRANS(vslti_hu, do_vslti_u, MO_16)
-+TRANS(vslti_wu, do_vslti_u, MO_32)
-+TRANS(vslti_du, do_vslti_u, MO_64)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 2ef0f73018..a090a7d22b 100644
+index a090a7d22b..d018b110cd 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -1102,3 +1102,46 @@ vffint_d_lu      0111 00101001 11100 00011 ..... .....    @vv
- vffintl_d_w      0111 00101001 11100 00100 ..... .....    @vv
- vffinth_d_w      0111 00101001 11100 00101 ..... .....    @vv
- vffint_s_l       0111 00010100 10000 ..... ..... .....    @vvv
+@@ -494,6 +494,7 @@ dbcl             0000 00000010 10101 ...............      @i15
+ &vvv          vd vj vk
+ &vv_i         vd vj imm
+ &vvvv         vd vj vk va
++&vvv_fcond    vd vj vk fcond
+ 
+ #
+ # LSX Formats
+@@ -508,6 +509,7 @@ dbcl             0000 00000010 10101 ...............      @i15
+ @vv_ui8              .... ........ .. imm:8 vj:5 vd:5    &vv_i
+ @vv_i5           .... ........ ..... imm:s5 vj:5 vd:5    &vv_i
+ @vvvv               .... ........ va:5 vk:5 vj:5 vd:5    &vvvv
++@vvv_fcond      .... ........ fcond:5  vk:5 vj:5 vd:5    &vvv_fcond
+ 
+ vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
+ vadd_h           0111 00000000 10101 ..... ..... .....    @vvv
+@@ -1145,3 +1147,6 @@ vslti_bu         0111 00101000 10000 ..... ..... .....    @vv_ui5
+ vslti_hu         0111 00101000 10001 ..... ..... .....    @vv_ui5
+ vslti_wu         0111 00101000 10010 ..... ..... .....    @vv_ui5
+ vslti_du         0111 00101000 10011 ..... ..... .....    @vv_ui5
 +
-+vseq_b           0111 00000000 00000 ..... ..... .....    @vvv
-+vseq_h           0111 00000000 00001 ..... ..... .....    @vvv
-+vseq_w           0111 00000000 00010 ..... ..... .....    @vvv
-+vseq_d           0111 00000000 00011 ..... ..... .....    @vvv
-+vseqi_b          0111 00101000 00000 ..... ..... .....    @vv_i5
-+vseqi_h          0111 00101000 00001 ..... ..... .....    @vv_i5
-+vseqi_w          0111 00101000 00010 ..... ..... .....    @vv_i5
-+vseqi_d          0111 00101000 00011 ..... ..... .....    @vv_i5
-+
-+vsle_b           0111 00000000 00100 ..... ..... .....    @vvv
-+vsle_h           0111 00000000 00101 ..... ..... .....    @vvv
-+vsle_w           0111 00000000 00110 ..... ..... .....    @vvv
-+vsle_d           0111 00000000 00111 ..... ..... .....    @vvv
-+vslei_b          0111 00101000 00100 ..... ..... .....    @vv_i5
-+vslei_h          0111 00101000 00101 ..... ..... .....    @vv_i5
-+vslei_w          0111 00101000 00110 ..... ..... .....    @vv_i5
-+vslei_d          0111 00101000 00111 ..... ..... .....    @vv_i5
-+vsle_bu          0111 00000000 01000 ..... ..... .....    @vvv
-+vsle_hu          0111 00000000 01001 ..... ..... .....    @vvv
-+vsle_wu          0111 00000000 01010 ..... ..... .....    @vvv
-+vsle_du          0111 00000000 01011 ..... ..... .....    @vvv
-+vslei_bu         0111 00101000 01000 ..... ..... .....    @vv_ui5
-+vslei_hu         0111 00101000 01001 ..... ..... .....    @vv_ui5
-+vslei_wu         0111 00101000 01010 ..... ..... .....    @vv_ui5
-+vslei_du         0111 00101000 01011 ..... ..... .....    @vv_ui5
-+
-+vslt_b           0111 00000000 01100 ..... ..... .....    @vvv
-+vslt_h           0111 00000000 01101 ..... ..... .....    @vvv
-+vslt_w           0111 00000000 01110 ..... ..... .....    @vvv
-+vslt_d           0111 00000000 01111 ..... ..... .....    @vvv
-+vslti_b          0111 00101000 01100 ..... ..... .....    @vv_i5
-+vslti_h          0111 00101000 01101 ..... ..... .....    @vv_i5
-+vslti_w          0111 00101000 01110 ..... ..... .....    @vv_i5
-+vslti_d          0111 00101000 01111 ..... ..... .....    @vv_i5
-+vslt_bu          0111 00000000 10000 ..... ..... .....    @vvv
-+vslt_hu          0111 00000000 10001 ..... ..... .....    @vvv
-+vslt_wu          0111 00000000 10010 ..... ..... .....    @vvv
-+vslt_du          0111 00000000 10011 ..... ..... .....    @vvv
-+vslti_bu         0111 00101000 10000 ..... ..... .....    @vv_ui5
-+vslti_hu         0111 00101000 10001 ..... ..... .....    @vv_ui5
-+vslti_wu         0111 00101000 10010 ..... ..... .....    @vv_ui5
-+vslti_du         0111 00101000 10011 ..... ..... .....    @vv_ui5
++vfcmp_cond_s     0000 11000101 ..... ..... ..... .....    @vvv_fcond
++vfcmp_cond_d     0000 11000110 ..... ..... ..... .....    @vvv_fcond
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index 0a03971cbe..9ed7afdf6d 100644
+index 9ed7afdf6d..51b784e885 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -2885,3 +2885,39 @@ void HELPER(vffint_s_l)(CPULoongArchState *env,
-     Vd->D(0) = temp.D(0);
-     Vd->D(1) = temp.D(1);
- }
+@@ -2921,3 +2921,54 @@ VCMPI(vslti_bu, 8, uint8_t, B, VSLT)
+ VCMPI(vslti_hu, 16, uint16_t, H, VSLT)
+ VCMPI(vslti_wu, 32, uint32_t, W, VSLT)
+ VCMPI(vslti_du, 64, uint64_t, D, VSLT)
 +
-+#define VSEQ(a, b) (a == b ? -1 : 0)
-+#define VSLE(a, b) (a <= b ? -1 : 0)
-+#define VSLT(a, b) (a < b ? -1 : 0)
++static uint64_t vfcmp_common(CPULoongArchState *env,
++                             FloatRelation cmp, uint32_t flags)
++{
++    bool ret;
 +
-+#define VCMPI(NAME, BIT, T, E, DO_OP)                           \
-+void HELPER(NAME)(void *vd, void *vj, uint64_t imm, uint32_t v) \
-+{                                                               \
-+    int i;                                                      \
-+    VReg *Vd = (VReg *)vd;                                      \
-+    VReg *Vj = (VReg *)vj;                                      \
-+    for (i = 0; i < LSX_LEN/BIT; i++) {                         \
-+        Vd->E(i) = DO_OP((T)Vj->E(i), (T)imm);                  \
-+    }                                                           \
++    switch (cmp) {
++    case float_relation_less:
++        ret = (flags & FCMP_LT);
++        break;
++    case float_relation_equal:
++        ret = (flags & FCMP_EQ);
++        break;
++    case float_relation_greater:
++        ret = (flags & FCMP_GT);
++        break;
++    case float_relation_unordered:
++        ret = (flags & FCMP_UN);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    return ret;
 +}
 +
-+VCMPI(vseqi_b, 8, int8_t, B, VSEQ)
-+VCMPI(vseqi_h, 16, int16_t, H, VSEQ)
-+VCMPI(vseqi_w, 32, int32_t, W, VSEQ)
-+VCMPI(vseqi_d, 64, int64_t, D, VSEQ)
-+VCMPI(vslei_b, 8, int8_t, B, VSLE)
-+VCMPI(vslei_h, 16, int16_t, H, VSLE)
-+VCMPI(vslei_w, 32, int32_t, W, VSLE)
-+VCMPI(vslei_d, 64, int64_t, D, VSLE)
-+VCMPI(vslei_bu, 8, uint8_t, B, VSLE)
-+VCMPI(vslei_hu, 16, uint16_t, H, VSLE)
-+VCMPI(vslei_wu, 32, uint32_t, W, VSLE)
-+VCMPI(vslei_du, 64, uint64_t, D, VSLE)
-+VCMPI(vslti_b, 8, int8_t, B, VSLT)
-+VCMPI(vslti_h, 16, int16_t, H, VSLT)
-+VCMPI(vslti_w, 32, int32_t, W, VSLT)
-+VCMPI(vslti_d, 64, int64_t, D, VSLT)
-+VCMPI(vslti_bu, 8, uint8_t, B, VSLT)
-+VCMPI(vslti_hu, 16, uint16_t, H, VSLT)
-+VCMPI(vslti_wu, 32, uint32_t, W, VSLT)
-+VCMPI(vslti_du, 64, uint64_t, D, VSLT)
++#define VFCMP(NAME, BIT, T, E, FN)                                       \
++void HELPER(NAME)(CPULoongArchState *env,                                \
++                  uint32_t vd, uint32_t vj, uint32_t vk, uint32_t flags) \
++{                                                                        \
++    int i;                                                               \
++    VReg t;                                                              \
++    VReg *Vd = &(env->fpr[vd].vreg);                                     \
++    VReg *Vj = &(env->fpr[vj].vreg);                                     \
++    VReg *Vk = &(env->fpr[vk].vreg);                                     \
++                                                                         \
++    vec_clear_cause(env);                                                \
++    for (i = 0; i < LSX_LEN/BIT ; i++) {                                 \
++        FloatRelation cmp;                                               \
++        cmp = FN(Vj->E(i), Vk->E(i), &env->fp_status);                   \
++        t.E(i) = (vfcmp_common(env, cmp, flags)) ? -1 : 0;               \
++        vec_update_fcsr0(env, GETPC());                                  \
++    }                                                                    \
++    Vd->D(0) = t.D(0);                                                   \
++    Vd->D(1) = t.D(1);                                                   \
++}
++
++VFCMP(vfcmp_c_s, 32, uint32_t, W, float32_compare_quiet)
++VFCMP(vfcmp_s_s, 32, uint32_t, W, float32_compare)
++VFCMP(vfcmp_c_d, 64, uint64_t, D, float64_compare_quiet)
++VFCMP(vfcmp_s_d, 64, uint64_t, D, float64_compare)
 -- 
 2.31.1
 
