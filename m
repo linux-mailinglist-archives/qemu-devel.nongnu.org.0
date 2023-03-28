@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983646CB610
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:29:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3556CB647
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:49:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph1t6-0006C7-EY; Tue, 28 Mar 2023 01:28:52 -0400
+	id 1ph2B4-0000sb-7Y; Tue, 28 Mar 2023 01:47:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ph1t2-0006Bv-Ug
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:28:48 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
+ (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
+ id 1ph2Az-0000q2-LQ; Tue, 28 Mar 2023 01:47:21 -0400
+Received: from m12.mail.163.com ([220.181.12.217])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ph1sz-0006ep-T6
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:28:48 -0400
-HMM_SOURCE_IP: 172.18.0.218:36244.150881356
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 824E52800DC;
- Tue, 28 Mar 2023 13:28:26 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([36.111.64.85])
- by app0025 with ESMTP id 42f2eced97394d96b883a6e6088b4be3 for
- armbru@redhat.com; Tue, 28 Mar 2023 13:28:32 CST
-X-Transaction-ID: 42f2eced97394d96b883a6e6088b4be3
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 36.111.64.85
-X-MEDUSA-Status: 0
-Message-ID: <142442b3-f8c8-e2fe-365a-48b2287f74e1@chinatelecom.cn>
-Date: Tue, 28 Mar 2023 13:28:25 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v4 06/10] migration: Introduce dirty-limit capability
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ (envelope-from <qianfanguijin@163.com>)
+ id 1ph2Au-0005DA-Pn; Tue, 28 Mar 2023 01:47:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=G4HiD
+ P2QHQSefVSMWofZpPtDYC20Pxvuc/H+qVQjo0A=; b=KKauKHUn8MHV648huFFOD
+ 3MKlV0LWQPBmoTMrd4LGPATLkRKg8aEERW/yWTRz2pShlT90funIvi27mY6scGY2
+ W0JtR81sxVbj0IHDdQpuqCOSth5YlnTUuRLY93gMgz+avU1LW+/Z0e8v/V6u0jDz
+ xyRxWErITfS8/hGY+ChPxs=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [112.224.194.92])
+ by zwqz-smtp-mta-g4-4 (Coremail) with SMTP id _____wBHtBBOfyJkWfxRAg--.23168S2;
+ Tue, 28 Mar 2023 13:46:56 +0800 (CST)
+From: qianfanguijin@163.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <cover.1676563222.git.huangy81@chinatelecom.cn>
- <cover.1676563222.git.huangy81@chinatelecom.cn>
- <a9952eaa2bf3c8066b0e8dee066b57395ffa37b1.1676563222.git.huangy81@chinatelecom.cn>
- <871qlepcw7.fsf@pond.sub.org>
- <f70dbc9b-e722-ad77-e22d-12c339f5ff4d@chinatelecom.cn>
- <87ttyamd8j.fsf@pond.sub.org>
- <333f094e-c009-4e61-22b4-3433d1291af4@chinatelecom.cn>
- <87lejihf1j.fsf@pond.sub.org>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <87lejihf1j.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v2 00/12] *** add allwinner-r40 support ***
+Date: Tue, 28 Mar 2023 13:46:40 +0800
+Message-Id: <20230328054654.18620-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: _____wBHtBBOfyJkWfxRAg--.23168S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCr4DZFWDKF48Wr4UJFW7twb_yoW5AFyUpa
+ n0k343Kr1rta43JFWaq3ZrJFyrJa4kGr4UJrn7ZryxAryaka1Yvr1UK3WfKrWfGFW2qanr
+ ZrZIqF13Wws0qaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_wZ7dUUUUU=
+X-Originating-IP: [112.224.194.92]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXRVA7VWBpDWFlAAAsx
+Received-SPF: pass client-ip=220.181.12.217;
+ envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,189 +70,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: qianfan Zhao <qianfanguijin@163.com>
 
+*** history ***
 
-在 2023/3/27 14:41, Markus Armbruster 写道:
-> Hyman Huang <huangy81@chinatelecom.cn> writes:
-> 
->> 在 2023/3/24 22:32, Markus Armbruster 写道:
->>> Hyman Huang <huangy81@chinatelecom.cn> writes:
->>>
->>>> 在 2023/3/24 20:11, Markus Armbruster 写道:
->>>>> huangy81@chinatelecom.cn writes:
->>>>>
->>>>>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>>>>>
->>>>>> Introduce migration dirty-limit capability, which can
->>>>>> be turned on before live migration and limit dirty
->>>>>> page rate durty live migration.
->>>>>>
->>>>>> Introduce migrate_dirty_limit function to help check
->>>>>> if dirty-limit capability enabled during live migration.
->>>>>>
->>>>>> Meanwhile, refactor vcpu_dirty_rate_stat_collect
->>>>>> so that period can be configured instead of hardcoded.
->>>>>>
->>>>>> dirty-limit capability is kind of like auto-converge
->>>>>> but using dirty limit instead of traditional cpu-throttle
->>>>>> to throttle guest down. To enable this feature, turn on
->>>>>> the dirty-limit capability before live migration using
->>>>>> migrate-set-capabilities, and set the parameters
->>>>>> "x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
->>>>>> to speed up convergence.
->>>>>>
->>>>>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>>>>> Acked-by: Peter Xu <peterx@redhat.com>
->>>>> [...]
->>>>>
->>>>>> diff --git a/qapi/migration.json b/qapi/migration.json
->>>>>> index d33cc2d582..b7a92be055 100644
->>>>>> --- a/qapi/migration.json
->>>>>> +++ b/qapi/migration.json
->>>>>> @@ -477,6 +477,8 @@
->>>>>>     #                    will be handled faster.  This is a performance feature and
->>>>>>     #                    should not affect the correctness of postcopy migration.
->>>>>>     #                    (since 7.1)
->>>>>> +# @dirty-limit: Use dirty-limit to throttle down guest if enabled.
->>>>>> +#               (since 8.0)
->>>>>
->>>>> Feels too terse.  What exactly is used and how?  It's not the capability
->>>>> itself (although the text sure sounds like it).  I guess it's the thing
->>>>> you set with command set-vcpu-dirty-limit.
->>>>>
->>>>> Is that used only when the capability is set?
->>>>
->>>> Yes, live migration set "dirty-limit" value when that capability is set,
->>>> the comment changes to "Apply the algorithm of dirty page rate limit to throttle down guest if capability is set, rather than auto-converge".
->>>>
->>>> Please continue to polish the doc if needed. Thanks.
->>>
->>> Let's see whether I understand.
->>>
->>> Throttling happens only during migration.
->>>
->>> There are two throttling algorithms: "auto-converge" (default) and
->>> "dirty page rate limit".
->>>
->>> The latter can be tuned with set-vcpu-dirty-limit.
->>> Correct?
->>
->> Yes
->>
->>> What happens when migration capability dirty-limit is enabled, but the
->>> user hasn't set a limit with set-vcpu-dirty-limit, or canceled it with
->>> cancel-vcpu-dirty-limit?
->>
->> dirty-limit capability use the default value if user hasn't set.
-> 
-> What is the default value?  I can't find it in the doc comments.
-The default value is 1MB/s， i'll add it to the doc comments.
-> 
->> In the path of cancel-vcpu-dirty-limit, canceling should be check and not be allowed if migration is in process.
-> 
-> Can you change the dirty limit with set-vcpu-dirty-limit while migration
-> is in progress?  Let's see...
-No, this is not allowed.
+# v1: 2023-03-21
 
-> 
-> Has the dirty limit any effect while migration is not in progress?
-Like the auto-converge capability, dirty-limit capability has no effect 
-if migration is not in progress.
-> 
->> see the following code in commit:
->> [PATCH v4 08/10] migration: Implement dirty-limit convergence algo
->>
->> --- a/softmmu/dirtylimit.c
->> +++ b/softmmu/dirtylimit.c
->> @@ -438,6 +438,8 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
->>                                    int64_t cpu_index,
->>                                    Error **errp)
->>   {
->> +    MigrationState *ms = migrate_get_current();
->> +
->>       if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
->>           return;
->>       }
->> @@ -451,6 +453,15 @@ void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
->>           return;
->>       }
->>
->> +    if (migration_is_running(ms->state) &&
->> +        (!qemu_thread_is_self(&ms->thread)) &&
->> +        migrate_dirty_limit() &&
->> +        dirtylimit_in_service()) {
->> +        error_setg(errp, "can't cancel dirty page limit while"
->> +                   " migration is running");
->> +        return;
->> +    }
-> 
-> We can get here even when migration_is_running() is true.  Seems to
-> contradict your claim "no cancel while migration is in progress".  Am I
-> confused?
-> 
-> Please drop the superfluous parenthesis around !qemu_thread_is_self().
-> 
->> +
->>       dirtylimit_state_lock();
->>
->>       if (has_cpu_index) {
->> @@ -486,6 +497,8 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
->>                                 uint64_t dirty_rate,
->>                                 Error **errp)
->>   {
->> +    MigrationState *ms = migrate_get_current();
->> +
->>       if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
->>           error_setg(errp, "dirty page limit feature requires KVM with"
->>                      " accelerator property 'dirty-ring-size' set'");
->> @@ -502,6 +515,15 @@ void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
->>           return;
->>       }
->>
->> +    if (migration_is_running(ms->state) &&
->> +        (!qemu_thread_is_self(&ms->thread)) &&
->> +        migrate_dirty_limit() &&
->> +        dirtylimit_in_service()) {
->> +        error_setg(errp, "can't cancel dirty page limit while"
->> +                   " migration is running");
-> 
-> Same condition, i.e. we dirty limit change is possible exactly when
-> cancel is.  Correct?
-> 
->> +        return;
->> +    }
->> +
->>       dirtylimit_state_lock();
->>
->>       if (!dirtylimit_in_service()) {
-> 
-> Maybe it's just me still not understanding things, but the entire
-> interface feels overly complicated.
-> 
-> Here's my current mental model of what you're trying to provide.
-> 
-> There are two throttling algorithms: "auto-converge" (default) and
-> "dirty page rate limit".  The user can select one.
-> 
-> The latter works with a user-configurable dirty limit.
-> 
-Yes
-> Changing these configuration bits is only possible in certain states.
-> Which ones is not clear to me, yet.
-Ok, i'll add doc comments to explain under what condition the 
-configuration can be changed.
-> 
-> Is this accurate and complete?
-> 
-> Are commands set-vcpu-dirty-limit, cancel-vcpu-dirty-limit,
-> query-vcpu-dirty-limit useful without this series?
-Yes, the two are independent of each other.
-> 
-> If not, then committing them as stable interfaces was clearly premature.
-> 
+The first version which add allwinner-r40 support, supported features:
+
++ ccu
++ dram controller
++ uart
++ i2c and pmic(axp221)
++ sdcard
++ emac/gmac
+
+Also provide a test case under avocado, running quickly test:
+
+$ AVOCADO_ALLOW_LARGE_STORAGE=yes tests/venv/bin/avocado \
+    --verbose --show=app,console run -t machine:bpim2u \
+    ../tests/avocado/boot_linux_console.py
+
+# v2: 2023-03-28
+
+1. Fix the waring and error reported by checkpatch.pl
+2. Remove the other i2c controllers except that i2c0
+3. Use an array to register mmc and uart devices
+4. Rename axp209 to axp22x and add axp221 support
+5. Add a basic SRAM controller
+
+qianfan Zhao (12):
+  hw: arm: Add bananapi M2-Ultra and allwinner-r40 support
+  hw/arm/allwinner-r40: add Clock Control Unit
+  hw: allwinner-r40: Complete uart devices
+  hw: arm: allwinner-r40: Add i2c0 device
+  hw/misc: Rename axp209 to axp22x and add support AXP221 PMU
+  hw/arm/allwinner-r40: add SDRAM controller device
+  hw: sd: allwinner-sdhost: Add sun50i-a64 SoC support
+  hw: arm: allwinner-r40: Fix the mmc controller's type
+  hw: arm: allwinner-r40: Add emac and gmac support
+  hw: arm: allwinner-sramc: Add SRAM Controller support for R40
+  tests: avocado: boot_linux_console: Add test case for bpim2u
+  docs: system: arm: Introduce bananapi_m2u
+
+ configs/devices/arm-softmmu/default.mak |   1 +
+ docs/system/arm/bananapi_m2u.rst        | 138 +++++++
+ hw/arm/Kconfig                          |  13 +-
+ hw/arm/allwinner-r40.c                  | 526 ++++++++++++++++++++++++
+ hw/arm/bananapi_m2u.c                   | 145 +++++++
+ hw/arm/meson.build                      |   1 +
+ hw/misc/Kconfig                         |   5 +-
+ hw/misc/allwinner-r40-ccu.c             | 209 ++++++++++
+ hw/misc/allwinner-r40-dramc.c           | 513 +++++++++++++++++++++++
+ hw/misc/allwinner-sramc.c               | 184 +++++++++
+ hw/misc/axp209.c                        | 238 -----------
+ hw/misc/axp2xx.c                        | 283 +++++++++++++
+ hw/misc/meson.build                     |   5 +-
+ hw/misc/trace-events                    |  26 +-
+ hw/sd/allwinner-sdhost.c                |  70 +++-
+ include/hw/arm/allwinner-r40.h          | 143 +++++++
+ include/hw/misc/allwinner-r40-ccu.h     |  65 +++
+ include/hw/misc/allwinner-r40-dramc.h   | 108 +++++
+ include/hw/misc/allwinner-sramc.h       |  69 ++++
+ include/hw/sd/allwinner-sdhost.h        |   9 +
+ tests/avocado/boot_linux_console.py     | 176 ++++++++
+ 21 files changed, 2679 insertions(+), 248 deletions(-)
+ create mode 100644 docs/system/arm/bananapi_m2u.rst
+ create mode 100644 hw/arm/allwinner-r40.c
+ create mode 100644 hw/arm/bananapi_m2u.c
+ create mode 100644 hw/misc/allwinner-r40-ccu.c
+ create mode 100644 hw/misc/allwinner-r40-dramc.c
+ create mode 100644 hw/misc/allwinner-sramc.c
+ delete mode 100644 hw/misc/axp209.c
+ create mode 100644 hw/misc/axp2xx.c
+ create mode 100644 include/hw/arm/allwinner-r40.h
+ create mode 100644 include/hw/misc/allwinner-r40-ccu.h
+ create mode 100644 include/hw/misc/allwinner-r40-dramc.h
+ create mode 100644 include/hw/misc/allwinner-sramc.h
 
 -- 
-Best regard
+2.25.1
 
-Hyman Huang(黄勇)
 
