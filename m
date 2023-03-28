@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAE06CC966
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D8D6CC968
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:37:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phDEz-0008ET-O5; Tue, 28 Mar 2023 13:36:13 -0400
+	id 1phDF1-0008J6-At; Tue, 28 Mar 2023 13:36:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phDEw-0008AG-UB
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:36:10 -0400
+ id 1phDEz-0008GR-ES
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:36:13 -0400
 Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phDEv-0005SX-4S
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:36:10 -0400
+ id 1phDEx-0005MC-PX
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:36:13 -0400
 Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-17ac5ee3f9cso13485791fac.12
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 10:36:08 -0700 (PDT)
+ 586e51a60fabf-17786581fe1so13494372fac.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 10:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680024968;
+ d=ventanamicro.com; s=google; t=1680024970;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PJcYGrOPMg7QXNcY0p66T+ViExnDIcZu7iLjZ7e1LxM=;
- b=lhzROKocApK5moxF1SqV9GPrkktn7J1w1Yh5WOc9Yqyal8IEdTz1f2u9Of9+EaGvzK
- KQGBkCE6CicjCCQh+ewadKNeBFSGu/qkTG82dFLE/r7Vot9nN9cpL7zmP2mdLK3uVEAr
- 3mVItwyhDwB/OrDbYKZcs4cqmJ/p70Ml5oVTTHVSrzqwWASDPNaBpUzxWdp5d019hvPP
- n5R78/4OMCIn4VNRyKKikemMiO3gHiWLpnAnP+bY5BCgL1w8cQYcRx0qX3KV0Fhh4E+V
- 7tjL4kzp4JOz4VgWlfhrXMY2A8dXkVtGeQxAfEDv3+IjV4F5pSE4TeWN70eyhHnocWwP
- bVYg==
+ bh=rUOwa3wbbfPfghjgjPGJgBy5tq7nZVthZ1BaaaPp4qs=;
+ b=cXDHq3H3OD+VAcSM29Fqamh7NkMbqcAWuujIkQkWbHYT4vb9Pc1miWJZA4gtmDwRpw
+ qHIlnuwNZAcaanbDNK0llMi2SGVuhtsEJAJJ33we8M5DqJzD3NirYBJHWC+HQd9TxC5w
+ kJhYU95nUqPtdwyDm065Jqh38NlFVClSbDsjgwPJTfv3gLpdyS2mIYN5NHhjb9g4tSWh
+ 2Ok9dcXQ7GMQpzzetkCdJQgfkflltuG64rJ/Civs1Oj3FG2JF1zQMma4vEfey9//fgLs
+ IDq1auz64FB1Ki6zbE4UIZRtxfrJEQBon2d1rUr2PCdzxmI+rzptN+eWNgfU40zH+XK4
+ vBng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680024968;
+ d=1e100.net; s=20210112; t=1680024970;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PJcYGrOPMg7QXNcY0p66T+ViExnDIcZu7iLjZ7e1LxM=;
- b=nFI9bWdhQ3KC0+VdwiatQKM/GqZk2fU9FJ09JNj+E1FUeLKvhrMYynaYaluzqx5LDj
- 0QqwwJYdjGhA8LGK4wxo2nLI0oc/XD4FM/VTKRO48gJYm6V4gXXLUOwKemQUc66DyVzK
- YKFAE2TD75dExRN2vyG7x4I5cmUpVx2xkpxjIZZfuID4yoIZ1vAtRq6mOrCL5S3V1Cax
- ncHW2OAGlkKgKG07/pQRH/OlvnWGXHmyXg62vxq4U2xIHsjRrX3tQ3tPgfrws5hn354I
- 9zD+FkWaag5JS4k9AuCnrrIW2sKl4Afi4SJlqOqRqo5sw2lqv19j3G437UjlLGIvvFGk
- pOKQ==
-X-Gm-Message-State: AAQBX9eMEwr7utKTthwWPLp7UOiNIbCHAmOb/TYD+kyxdrgmXSkkMpKc
- Rhfqf3pJZPe4oXZvWdw1n7atzvovjKIF6hivSuA=
-X-Google-Smtp-Source: AKy350ZqGPEkbVgidhLxsWISBF6t6bfhcGpmOCu7lkfDBXSrg+R6x6KoOPWP8+eVN77rz+Z4ZiEi9A==
-X-Received: by 2002:a05:6870:d62a:b0:17a:d3bb:2f64 with SMTP id
- a42-20020a056870d62a00b0017ad3bb2f64mr10976530oaq.56.1680024967809; 
- Tue, 28 Mar 2023 10:36:07 -0700 (PDT)
+ bh=rUOwa3wbbfPfghjgjPGJgBy5tq7nZVthZ1BaaaPp4qs=;
+ b=zUkeaiZtwBI3/PUYYDx4JPvXAQaRG0LU05G8Jky8yr73CilLsSJclEoPcgPIdI7Ij9
+ /uggN8s0+Xo/MEUBZ5aDneTIW5Z94fyQ1Set2WPBizZ3SO5pc3L6JNs2HFElhVfYLHUy
+ EmDeEyeFMTgZAhIsEV9psJCu9ijfVz7Nq03woc7yInZ14slHT2j+WpOEgBxvnzEfkaiE
+ ysGk7/yaYfegvdQytx6VcS34MbWMMT+HKvYPslZoWHUlLJlmaG0TbRo1HYHKzWd+3fK1
+ c99dqckAdefjclEw1qfPgMxzFR+R+dbi00yo7b06Zxar4uDnqsxwtor/zcYchGDpH9Bj
+ IuYQ==
+X-Gm-Message-State: AAQBX9e9hvVVxjqIOZqh6UBaCfh3gIhVjk01M0UZBqTdAHY+iuEgFjcB
+ 02h8Q0jqpH8vL7MajpKwro+Aqh1qXyHlPkYzOhU=
+X-Google-Smtp-Source: AK7set+uDUAHKa6j1wDxm8tRC9pSObQkJz+tEJMEl7owZWDg6dXvbPCZVvqxwHYbO7Za10Z9z+YAOQ==
+X-Received: by 2002:a05:6870:3846:b0:17a:cfe4:3782 with SMTP id
+ z6-20020a056870384600b0017acfe43782mr10571377oal.11.1680024970687; 
+ Tue, 28 Mar 2023 10:36:10 -0700 (PDT)
 Received: from grind.. ([177.95.89.231]) by smtp.gmail.com with ESMTPSA id
- m2-20020a9d6442000000b0069f0a85fa36sm11635654otl.57.2023.03.28.10.36.05
+ m2-20020a9d6442000000b0069f0a85fa36sm11635654otl.57.2023.03.28.10.36.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 10:36:07 -0700 (PDT)
+ Tue, 28 Mar 2023 10:36:10 -0700 (PDT)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v5 5/9] target/riscv/cpu.c: add priv_spec
- validate/disable_exts helpers
-Date: Tue, 28 Mar 2023 14:35:39 -0300
-Message-Id: <20230328173543.431342-6-dbarboza@ventanamicro.com>
+Subject: [PATCH v5 6/9] target/riscv/cpu.c: add riscv_cpu_validate_misa_mxl()
+Date: Tue, 28 Mar 2023 14:35:40 -0300
+Message-Id: <20230328173543.431342-7-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230328173543.431342-1-dbarboza@ventanamicro.com>
 References: <20230328173543.431342-1-dbarboza@ventanamicro.com>
@@ -77,7 +76,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,157 +92,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We're doing env->priv_spec validation and assignment at the start of
-riscv_cpu_realize(), which is fine, but then we're doing a force disable
-on extensions that aren't compatible with the priv version.
-
-This second step is being done too early. The disabled extensions might be
-re-enabled again in riscv_cpu_validate_set_extensions() by accident. A
-better place to put this code is at the end of
-riscv_cpu_validate_set_extensions() after all the validations are
-completed.
-
-Add a new helper, riscv_cpu_disable_priv_spec_isa_exts(), to disable the
-extesions after the validation is done. While we're at it, create a
-riscv_cpu_validate_priv_spec() helper to host all env->priv_spec related
-validation to unclog riscv_cpu_realize a bit.
+Let's remove more code that is open coded in riscv_cpu_realize() and put
+it into a helper. Let's also add an error message instead of just
+asserting out if env->misa_mxl_max != env->misa_mlx.
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 ---
- target/riscv/cpu.c | 91 ++++++++++++++++++++++++++++------------------
- 1 file changed, 56 insertions(+), 35 deletions(-)
+ target/riscv/cpu.c | 50 ++++++++++++++++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 17 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index e13528d932..a9042b190d 100644
+index a9042b190d..05878846f9 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -821,6 +821,52 @@ static void riscv_cpu_validate_v(CPURISCVState *env, RISCVCPUConfig *cfg,
-     env->vext_ver = vext_version;
+@@ -867,6 +867,33 @@ static void riscv_cpu_disable_priv_spec_isa_exts(RISCVCPU *cpu)
+     }
  }
  
-+static void riscv_cpu_validate_priv_spec(RISCVCPU *cpu, Error **errp)
++static void riscv_cpu_validate_misa_mxl(RISCVCPU *cpu, Error **errp)
 +{
++    RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(cpu);
++    CPUClass *cc = CPU_CLASS(mcc);
 +    CPURISCVState *env = &cpu->env;
-+    int priv_version = -1;
 +
-+    if (cpu->cfg.priv_spec) {
-+        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.12.0")) {
-+            priv_version = PRIV_VERSION_1_12_0;
-+        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
-+            priv_version = PRIV_VERSION_1_11_0;
-+        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
-+            priv_version = PRIV_VERSION_1_10_0;
-+        } else {
-+            error_setg(errp,
-+                       "Unsupported privilege spec version '%s'",
-+                       cpu->cfg.priv_spec);
-+            return;
-+        }
-+
-+        env->priv_ver = priv_version;
-+    }
-+}
-+
-+static void riscv_cpu_disable_priv_spec_isa_exts(RISCVCPU *cpu)
-+{
-+    CPURISCVState *env = &cpu->env;
-+    int i;
-+
-+    /* Force disable extensions if priv spec version does not match */
-+    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-+        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
-+            (env->priv_ver < isa_edata_arr[i].min_version)) {
-+            isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
-+#ifndef CONFIG_USER_ONLY
-+            warn_report("disabling %s extension for hart 0x" TARGET_FMT_lx
-+                        " because privilege spec version does not match",
-+                        isa_edata_arr[i].name, env->mhartid);
-+#else
-+            warn_report("disabling %s extension because "
-+                        "privilege spec version does not match",
-+                        isa_edata_arr[i].name);
++    /* Validate that MISA_MXL is set properly. */
++    switch (env->misa_mxl_max) {
++#ifdef TARGET_RISCV64
++    case MXL_RV64:
++    case MXL_RV128:
++        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
++        break;
 +#endif
-+        }
++    case MXL_RV32:
++        cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    if (env->misa_mxl_max != env->misa_mxl) {
++        error_setg(errp, "misa_mxl_max must be equal to misa_mxl");
++        return;
 +    }
 +}
 +
  /*
   * Check consistency between chosen extensions while setting
   * cpu->cfg accordingly.
-@@ -985,6 +1031,12 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         cpu->cfg.ext_zksed = true;
-         cpu->cfg.ext_zksh = true;
-     }
-+
-+    /*
-+     * Disable isa extensions based on priv spec after we
-+     * validated and set everything we need.
-+     */
-+    riscv_cpu_disable_priv_spec_isa_exts(cpu);
- }
- 
- #ifndef CONFIG_USER_ONLY
-@@ -1084,7 +1136,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+@@ -1135,7 +1162,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     RISCVCPU *cpu = RISCV_CPU(dev);
      CPURISCVState *env = &cpu->env;
      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     CPUClass *cc = CPU_CLASS(mcc);
--    int i, priv_version = -1;
+-    CPUClass *cc = CPU_CLASS(mcc);
      Error *local_err = NULL;
  
      cpu_exec_realizefn(cs, &local_err);
-@@ -1093,23 +1144,10 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+@@ -1144,6 +1170,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
          return;
      }
  
--    if (cpu->cfg.priv_spec) {
--        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.12.0")) {
--            priv_version = PRIV_VERSION_1_12_0;
--        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
--            priv_version = PRIV_VERSION_1_11_0;
--        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
--            priv_version = PRIV_VERSION_1_10_0;
--        } else {
--            error_setg(errp,
--                       "Unsupported privilege spec version '%s'",
--                       cpu->cfg.priv_spec);
--            return;
--        }
--    }
--
--    if (priv_version >= PRIV_VERSION_1_10_0) {
--        env->priv_ver = priv_version;
-+    riscv_cpu_validate_priv_spec(cpu, &local_err);
++    riscv_cpu_validate_misa_mxl(cpu, &local_err);
 +    if (local_err != NULL) {
 +        error_propagate(errp, local_err);
 +        return;
++    }
++
+     riscv_cpu_validate_priv_spec(cpu, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+@@ -1172,22 +1204,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
      }
+ #endif /* CONFIG_USER_ONLY */
  
-     riscv_cpu_validate_misa_priv(env, &local_err);
-@@ -1118,23 +1156,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    /* Force disable extensions if priv spec version does not match */
--    for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
--        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
--            (env->priv_ver < isa_edata_arr[i].min_version)) {
--            isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
--#ifndef CONFIG_USER_ONLY
--            warn_report("disabling %s extension for hart 0x" TARGET_FMT_lx
--                        " because privilege spec version does not match",
--                        isa_edata_arr[i].name, env->mhartid);
--#else
--            warn_report("disabling %s extension because "
--                        "privilege spec version does not match",
--                        isa_edata_arr[i].name);
+-    /* Validate that MISA_MXL is set properly. */
+-    switch (env->misa_mxl_max) {
+-#ifdef TARGET_RISCV64
+-    case MXL_RV64:
+-    case MXL_RV128:
+-        cc->gdb_core_xml_file = "riscv-64bit-cpu.xml";
+-        break;
 -#endif
--        }
+-    case MXL_RV32:
+-        cc->gdb_core_xml_file = "riscv-32bit-cpu.xml";
+-        break;
+-    default:
+-        g_assert_not_reached();
 -    }
+-    assert(env->misa_mxl_max == env->misa_mxl);
 -
-     if (cpu->cfg.epmp && !cpu->cfg.pmp) {
-         /*
-          * Enhanced PMP should only be available
+     riscv_cpu_validate_set_extensions(cpu, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
 -- 
 2.39.2
 
