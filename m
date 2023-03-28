@@ -2,90 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175946CC815
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 18:34:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137326CC818
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 18:35:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phCGf-0007GU-Q0; Tue, 28 Mar 2023 12:33:53 -0400
+	id 1phCHM-0007Jo-B4; Tue, 28 Mar 2023 12:34:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1phCGd-0007GE-B9
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:33:51 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1phCGb-0002Y3-Mc
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 12:33:51 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- lr16-20020a17090b4b9000b0023f187954acso13217943pjb.2
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 09:33:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680021228;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NUCoPdHc5msrLgyx+fL5Dq3xZZLlMnC9z0vZ3CQnMoU=;
- b=PcO2u72LkF+Bm1kCnBQOW2FI6WNG1SbozhsEDBzJpSkxZB9I9EARYnCJ/xfF+Or3Sm
- oiDEo09T2/vpAMmambh73vS1LqpARMY3BYph2lFpYSPXdYs45Bzv+bV/Z5Jqyc5qg9s+
- bw8lPjRMCl0tXsmAvApGlb3TTKnsLVFBl8JEolcLCpWri/EJXyVz1Kc3Azg1cQ8x6FsN
- H+h7Q/jNm7xQffjsuEADXvxbgTeJnrbJ6MGBFT3E32xbVuLPsk3Ekzotbnz5k2UJyGEB
- xZPrKRhTbvevj217aP2nAninj/54XrNY6TJ7FGn42GzWYa28+pAb6UT7y5ihFLpduAUb
- hZFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680021228;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NUCoPdHc5msrLgyx+fL5Dq3xZZLlMnC9z0vZ3CQnMoU=;
- b=bsW95/BVeoPZgeJ8LVYh5HJ5OharevSS8PSLhwFze4DYyHpjTANQ+dhgWg/dsi/pzv
- LYmvMHU31aT1f1Acb6Z7ZZ574jphqxz+rSmbI0eGEofWgctaW+5AmW3gb/YRBmldL+QG
- HwaYixh10D7unqlVECs2a5etzOaqcRWH3D5m6+6ttfdJm+OxmdJo5akVER/iuQPAIv1B
- pJDKrK5uQqEnMjdussp+7LAwhujbhiGnlqNsBaD04pCuOth4FcQnee+wFAwXaQW9eRE3
- AHljO9wpGAnHb6fJik+5uS1O/uX8XPti7/RWaL59i+NGhuVFvqY+muihQbacAlLBP/Zl
- RGbw==
-X-Gm-Message-State: AAQBX9ckVyOChh4WrH/+BdOKTilgZNtp6gO/o0DTaV/bgod22Tity/JY
- ySKkOV3voSeGx1ClvB1PiUM=
-X-Google-Smtp-Source: AKy350Y7df4XiYJ+yeU9up3eTZvBYMRJzkvrBdlOEpHc8nynaZYJKVfi4el3U4FlkWCfi3d573Ke8A==
-X-Received: by 2002:a17:90b:3b90:b0:23d:500f:e826 with SMTP id
- pc16-20020a17090b3b9000b0023d500fe826mr17202061pjb.14.1680021227803; 
- Tue, 28 Mar 2023 09:33:47 -0700 (PDT)
-Received: from [192.168.0.115] ([113.173.97.170])
- by smtp.gmail.com with ESMTPSA id
- jj11-20020a170903048b00b0019f1222b9f6sm21398357plb.154.2023.03.28.09.33.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 09:33:47 -0700 (PDT)
-Message-ID: <2fa1ed57-76ff-bea0-d0df-e3fa32d422f5@gmail.com>
-Date: Tue, 28 Mar 2023 23:33:42 +0700
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1phCHK-0007JQ-Dd; Tue, 28 Mar 2023 12:34:34 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1phCHI-0002aE-F8; Tue, 28 Mar 2023 12:34:34 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id A11AA40158;
+ Tue, 28 Mar 2023 19:34:21 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 6BDE6DD;
+ Tue, 28 Mar 2023 19:34:20 +0300 (MSK)
+Message-ID: <7c0b4f90-d790-7050-65aa-6ce7d1964224@msgid.tls.msk.ru>
+Date: Tue, 28 Mar 2023 19:34:20 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 1/5] i386/tcg: implement x2APIC registers MSR access
+Subject: Re: qemu 7.2 stable release, 2nd try
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20230326052039.33717-1-minhquangbui99@gmail.com>
- <20230326052039.33717-2-minhquangbui99@gmail.com>
- <d04ebc4920c336dd6dc87ae0e1e25693b40d6e4d.camel@infradead.org>
-From: Bui Quang Minh <minhquangbui99@gmail.com>
-In-Reply-To: <d04ebc4920c336dd6dc87ae0e1e25693b40d6e4d.camel@infradead.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-stable <qemu-stable@nongnu.org>, Michael Roth
+ <michael.roth@amd.com>, qemu-devel@nongnu.org
+References: <4e79a438-778b-877d-d3dc-ad05cbab88cc@msgid.tls.msk.ru>
+ <87o7ocrj26.fsf@linaro.org>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <87o7ocrj26.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=minhquangbui99@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,55 +61,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 23:56, David Woodhouse wrote:
-> On Sun, 2023-03-26 at 12:20 +0700, Bui Quang Minh wrote:
+28.03.2023 18:28, Alex Bennée wrote:
+> Michael Tokarev <mjt@tls.msk.ru> writes:
+> 
+>> Hi!
 >>
->> +static void apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
->> +                           unsigned size)
->> +{
->> +    int index = (addr >> 4) & 0xff;
->> +
->> +    if (size < 4) {
->> +        return;
->> +    }
->> +
->> +    if (addr > 0xfff || !index) {
->> +        /* MSI and MMIO APIC are at the same memory location,
->> +         * but actually not on the global bus: MSI is on PCI bus
->> +         * APIC is connected directly to the CPU.
->> +         * Mapping them on the global bus happens to work because
->> +         * MSI registers are reserved in APIC MMIO and vice versa.
->> */
->> +        MSIMessage msi = { .address = addr, .data = val };
->> +        apic_send_msi(&msi);
->> +        return;
->> +    }
+>> After posting an RFC (due to me doing a stable release for the first time) and
+>> getting exactly 0 replies/comments, I'm a bit worried, - does this mean there's
+>> no interest in getting 7.2-stable out of the doors at all? :)
 > 
-> I know you're just moving this bit around, but note that it means we
-> *can't* implement the 15-bit MSI trick as things stand, because those
-> extra 7 bits end up in bits 4-11 of the address, and that means the
-> 'addr > 0xfff' check isn't correct any more.
-> 
-> However, that's only relevant in X2APIC mode... and there's no MMIO
-> access to registers in X2APIC mode. So the check could perhaps become
-> something like...
-> 
->      DeviceState *apic = cpu_get_current_apic();
->      if (!apic || is_x2apic_mode(apic) || addr > 0xfff || !index) {
->          /* MSI and MMIO APIC are at the same memory location,
->           * but actually not on the global bus: MSI is on PCI bus
->           * APIC is connected directly to the CPU.
->           * Mapping them on the global bus happens to work because
->           * MSI registers are reserved in xAPIC MMIO and vice versa.
->           * In X2APIC mode, there is no MMIO and bits 4-11 of the
->           * address *might* be used to encode the extended dest ID.
->           */
-> 
->          MSIMessage msi = ...
+> I'm interested - although Debian already has the "latest" stuff we need.
+> What do you need though, re-reviews or just simple Acked-by's for the
+> included patches?
 
-In my opinion, I think the with the emulated interrupt remap hardware we 
-don't need to do MSI trick. The behavior is the same with real hardware, 
-in order to use x2APIC an interrupt remap hardware is required, the OS 
-will configure the interrupt source (IOxAPIC, MSI-capable) to use the 
-remappable format for interrupt request.
+Well, nothing really. Since this is my first attempt ever, I hoped someone pointed
+out some of mistakes which I did ;) It's definitely not that I need a personal ACK
+for every change I picked up, that'd be silly.
+
+
+I was AFK for a few days here, but before the trip I picked up another bunch,
+mentioned by Thomas in his reply. The trip was somewhat unexpected, - I wanted
+to send another "Patch round-up" email with the newly picked up stuff, but
+haven't done so due to the trip.
+
+Now looking at this I think it's better to roll the changes back to commit
+688714bf7eca805f98e9601b686e48a2269fc169 (
+https://gitlab.com/mjt0k/qemu/-/commits/stable-7.2-staging ), and release
+7.2.1 tomorrow without those changes.
+
+Thanks,
+
+/mjt
 
