@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BFD6CB5EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:20:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBB16CB60A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:27:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph1kb-0005aR-DZ; Tue, 28 Mar 2023 01:20:05 -0400
+	id 1ph1rP-00057N-0E; Tue, 28 Mar 2023 01:27:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ph1kY-0005Zz-IE
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:20:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ph1rL-000577-4y
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:27:03 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ph1kW-0007hb-Sr
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:20:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ph1rJ-0005aO-NO
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:27:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679980800;
+ s=mimecast20190719; t=1679981221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JJfOVieZ4QifKQBjq28vd1/oMJhZ57sSozAkZipQGgA=;
- b=Z+qUMh+xSU98AYXUM6qnSZkuN022qgB9/4oJa3hfDNvs1HTOQNXeCatPZpceLAxGFeFdlV
- BcqiQtcROuVAfG6wxwUhQEKhb4QTIhiu/x9QmPbDeH+MeW0yzyA8BnbFeUSMOD7VWLiqms
- zhd/UZ4tiG27JuxLZgAgl9xr5S3H8ko=
+ bh=wT8jf0XVGXJSROT0uk+4GpCQcCM6xp7pY6aT96gCKV8=;
+ b=gaNnsf9+USBd6iln9LGtnneqqq/xjNkpMh6cVexoj+QDrsXUAigW69utzsX6sa7bIXlfsN
+ 0AP65IJM+EhpaPWk4lXR2Z6ugVcPxVsZ7B3J/Cg3KO9AlK9rGd9TkfICmUrS7xP56/o92m
+ EO7G6YOyhFkqiI4BTOlqTXO7tpmsuUU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-AczczDzkP0KQ3JKodjaFXQ-1; Tue, 28 Mar 2023 01:19:56 -0400
-X-MC-Unique: AczczDzkP0KQ3JKodjaFXQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-498-AVlur8ARP9eu0yDBkygP4g-1; Tue, 28 Mar 2023 01:26:57 -0400
+X-MC-Unique: AVlur8ARP9eu0yDBkygP4g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56B98886461;
- Tue, 28 Mar 2023 05:19:56 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-204.pek2.redhat.com
- [10.72.13.204])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7ADBB2027040;
- Tue, 28 Mar 2023 05:19:54 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PULL 12/12] igb: respect VMVIR and VMOLR for VLAN
-Date: Tue, 28 Mar 2023 13:19:17 +0800
-Message-Id: <20230328051917.18006-13-jasowang@redhat.com>
-In-Reply-To: <20230328051917.18006-1-jasowang@redhat.com>
-References: <20230328051917.18006-1-jasowang@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8C42811E7C;
+ Tue, 28 Mar 2023 05:26:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B48D1121330;
+ Tue, 28 Mar 2023 05:26:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8FE8321E6926; Tue, 28 Mar 2023 07:26:55 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>,  qemu-devel
+ <qemu-devel@nongnu.org>,  David Hildenbrand <david@redhat.com>,  Thomas
+ Huth <thuth@redhat.com>,  "Borntraeger, Christian"
+ <borntraeger@de.ibm.com>,  Janosch Frank <frankja@linux.ibm.com>,
+ fiuczy@linux.ibm.com,  Halil Pasic <pasic@linux.ibm.com>,
+ nsg@linux.ibm.com,  "P. Berrange, Daniel" <berrange@redhat.com>,  Alex
+ =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v5 1/1] util/async-teardown: wire up
+ query-command-line-options
+References: <20230327133525.50318-1-imbrenda@linux.ibm.com>
+ <20230327133525.50318-2-imbrenda@linux.ibm.com>
+ <CABgObfYK_cVCS5x-JYY78KTdrhTnPU+fiK5QRnRTrd+EWMn3bw@mail.gmail.com>
+Date: Tue, 28 Mar 2023 07:26:55 +0200
+In-Reply-To: <CABgObfYK_cVCS5x-JYY78KTdrhTnPU+fiK5QRnRTrd+EWMn3bw@mail.gmail.com>
+ (Paolo Bonzini's message of "Mon, 27 Mar 2023 23:16:19 +0200")
+Message-ID: <87cz4t5tuo.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,131 +87,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Add support for stripping/inserting VLAN for VFs.
+> I am honestly not a fan of adding a more complex option,.just because
+> query-command-line-options only returns the square holes whereas here we
+> got a round one.
+>
+> Can we imagine another functionality that would be added to -teardown? If
+> not, it's not a good design. If it works, I would add a completely dummy
+> (no suboptions) group "async-teardown" and not modify the parsing at all.
 
-Had to move CSUM calculation back into the for loop, since packet data
-is pulled inside the loop based on strip VLAN decision for every VF.
+Does v2 implement your suggestion?
+Message-Id: <20230320131648.61728-1-imbrenda@linux.ibm.com>
 
-net_rx_pkt_fix_l4_csum should be extended to accept a buffer instead for
-igb. Work for a future patch.
+I dislike it, because it makes query-command-line-options claim
+-async-teardown has an option argument with unknown keys, which is
+plainly wrong, and must be treated as a special case.  Worse, a new kind
+of special case.
 
-Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/net/igb_core.c | 62 +++++++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 49 insertions(+), 13 deletions(-)
+Can we have a QMP command, so libvirt can use query-qmp-schema?
 
-diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 162ba8b..d733fed 100644
---- a/hw/net/igb_core.c
-+++ b/hw/net/igb_core.c
-@@ -386,6 +386,28 @@ igb_rss_parse_packet(IGBCore *core, struct NetRxPkt *pkt, bool tx,
-     info->queue = E1000_RSS_QUEUE(&core->mac[RETA], info->hash);
- }
- 
-+static void
-+igb_tx_insert_vlan(IGBCore *core, uint16_t qn, struct igb_tx *tx,
-+    uint16_t vlan, bool insert_vlan)
-+{
-+    if (core->mac[MRQC] & 1) {
-+        uint16_t pool = qn % IGB_NUM_VM_POOLS;
-+
-+        if (core->mac[VMVIR0 + pool] & E1000_VMVIR_VLANA_DEFAULT) {
-+            /* always insert default VLAN */
-+            insert_vlan = true;
-+            vlan = core->mac[VMVIR0 + pool] & 0xffff;
-+        } else if (core->mac[VMVIR0 + pool] & E1000_VMVIR_VLANA_NEVER) {
-+            insert_vlan = false;
-+        }
-+    }
-+
-+    if (insert_vlan && e1000x_vlan_enabled(core->mac)) {
-+        net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, vlan,
-+            core->mac[VET] & 0xffff);
-+    }
-+}
-+
- static bool
- igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
- {
-@@ -583,12 +605,11 @@ igb_process_tx_desc(IGBCore *core,
- 
-     if (cmd_type_len & E1000_TXD_CMD_EOP) {
-         if (!tx->skip_cp && net_tx_pkt_parse(tx->tx_pkt)) {
--            if (cmd_type_len & E1000_TXD_CMD_VLE) {
--                idx = (tx->first_olinfo_status >> 4) & 1;
--                uint16_t vlan = tx->ctx[idx].vlan_macip_lens >> 16;
--                uint16_t vet = core->mac[VET] & 0xffff;
--                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, vlan, vet);
--            }
-+            idx = (tx->first_olinfo_status >> 4) & 1;
-+            igb_tx_insert_vlan(core, queue_index, tx,
-+                tx->ctx[idx].vlan_macip_lens >> 16,
-+                !!(cmd_type_len & E1000_TXD_CMD_VLE));
-+
-             if (igb_tx_pkt_send(core, tx, queue_index)) {
-                 igb_on_tx_done_update_stats(core, tx->tx_pkt, queue_index);
-             }
-@@ -1547,6 +1568,20 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
-     igb_update_rx_stats(core, rxi, size, total_size);
- }
- 
-+static bool
-+igb_rx_strip_vlan(IGBCore *core, const E1000E_RingInfo *rxi)
-+{
-+    if (core->mac[MRQC] & 1) {
-+        uint16_t pool = rxi->idx % IGB_NUM_VM_POOLS;
-+        /* Sec 7.10.3.8: CTRL.VME is ignored, only VMOLR/RPLOLR is used */
-+        return (net_rx_pkt_get_packet_type(core->rx_pkt) == ETH_PKT_MCAST) ?
-+                core->mac[RPLOLR] & E1000_RPLOLR_STRVLAN :
-+                core->mac[VMOLR0 + pool] & E1000_VMOLR_STRVLAN;
-+    }
-+
-+    return e1000x_vlan_enabled(core->mac);
-+}
-+
- static inline void
- igb_rx_fix_l4_csum(IGBCore *core, struct NetRxPkt *pkt)
- {
-@@ -1627,10 +1662,7 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
- 
-     ehdr = PKT_GET_ETH_HDR(filter_buf);
-     net_rx_pkt_set_packet_type(core->rx_pkt, get_eth_packet_type(ehdr));
--
--    net_rx_pkt_attach_iovec_ex(core->rx_pkt, iov, iovcnt, iov_ofs,
--                               e1000x_vlan_enabled(core->mac),
--                               core->mac[VET] & 0xffff);
-+    net_rx_pkt_set_protocols(core->rx_pkt, filter_buf, size);
- 
-     queues = igb_receive_assign(core, ehdr, size, &rss_info, external_tx);
-     if (!queues) {
-@@ -1638,9 +1670,6 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-         return orig_size;
-     }
- 
--    total_size = net_rx_pkt_get_total_len(core->rx_pkt) +
--        e1000x_fcs_len(core->mac);
--
-     for (i = 0; i < IGB_NUM_QUEUES; i++) {
-         if (!(queues & BIT(i)) ||
-             !(core->mac[RXDCTL0 + (i * 16)] & E1000_RXDCTL_QUEUE_ENABLE)) {
-@@ -1649,6 +1678,13 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
- 
-         igb_rx_ring_init(core, &rxr, i);
- 
-+        net_rx_pkt_attach_iovec_ex(core->rx_pkt, iov, iovcnt, iov_ofs,
-+                                   igb_rx_strip_vlan(core, rxr.i),
-+                                   core->mac[VET] & 0xffff);
-+
-+        total_size = net_rx_pkt_get_total_len(core->rx_pkt) +
-+            e1000x_fcs_len(core->mac);
-+
-         if (!igb_has_rxbufs(core, rxr.i, total_size)) {
-             n |= E1000_ICS_RXO;
-             trace_e1000e_rx_not_written_to_guest(rxr.i->idx);
--- 
-2.7.4
+In case QMP becomes functional too late for the command to actually
+work: make it always fail for now.  It can still serve as a witness for
+-async-teardown.  If we rework QEMU startup so that QMP can do
+everything the CLI can do, we'll make the QMP command work.
 
 
