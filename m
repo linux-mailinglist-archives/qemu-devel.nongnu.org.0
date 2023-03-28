@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557CA6CC002
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4E96CC001
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:59:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8uM-0006D1-L9; Tue, 28 Mar 2023 08:58:38 -0400
+	id 1ph8v9-0006ad-4p; Tue, 28 Mar 2023 08:59:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1ph8uJ-0006Cm-7s
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:58:35 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ph8uz-0006Y0-3N
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:59:17 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1ph8uH-0000te-6i
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:58:34 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id E24B2470B1;
- Tue, 28 Mar 2023 14:58:22 +0200 (CEST)
-Message-ID: <ba6a8777-723d-7e6c-bec7-71819cedb66d@proxmox.com>
-Date: Tue, 28 Mar 2023 14:58:21 +0200
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ph8uw-00010t-78
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:59:16 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Pm8ps1Bzfz6J7R3
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 20:57:25 +0800 (CST)
+Received: from localhost (10.48.153.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 28 Mar
+ 2023 13:58:59 +0100
+Date: Tue, 28 Mar 2023 13:58:58 +0100
+To: Maverickk 78 <maverickk1778@gmail.com>
+CC: Jonathan Cameron via <qemu-devel@nongnu.org>
+Subject: Re: Cxl devel!
+Message-ID: <20230328135858.00006392@Huawei.com>
+In-Reply-To: <CALfBBTsN4fCW7fR+xMvoiMvaq=a2rTshCifYA6NVrUE-+GBwQg@mail.gmail.com>
+References: <CALfBBTsN4fCW7fR+xMvoiMvaq=a2rTshCifYA6NVrUE-+GBwQg@mail.gmail.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PULL 19/54] acpi: pc: isa bridge: use AcpiDevAmlIf interface to
- build ISA device descriptors
-Content-Language: en-US
-To: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
-References: <20220610075631.367501-1-mst@redhat.com>
- <20220610075631.367501-20-mst@redhat.com>
-From: Fiona Ebner <f.ebner@proxmox.com>
-In-Reply-To: <20220610075631.367501-20-mst@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.48.153.76]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,89 +61,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 10.06.22 um 09:57 schrieb Michael S. Tsirkin:
-> From: Igor Mammedov <imammedo@redhat.com>
+On Fri, 24 Mar 2023 04:32:52 +0530
+Maverickk 78 <maverickk1778@gmail.com> wrote:
+
+> Hello Jonathan
 > 
-> replaces ad-hoc build_isa_devices_aml() with generic AcpiDevAmlIf
-> way to build bridge AML including all devices that are attached to
-> its ISA bus.
+> Raghu here, I'm going over your cxl patches for past few days, it's very
+> impressive.
 > 
-> Later when PCI is converted to AcpiDevAmlIf, build_piix4_isa_bridge()
-> will also be dropped since PCI parts itself will take care of
-> building device prologue/epilogue AML for each enumerated PCI
-> device.
+> I want to get involved and contribute in your endeavor, may be bits &
+> pieces to start.
 > 
-> Expected AML change is contextual, where ISA devices are moved
-> from separately declared _SB.PCI0.ISA scope , directly under
-> Device(ISA) node.
+> If you're specific trivial task(cvl/pcie/fm) about cxl, please let me know.
 > 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> Message-Id: <20220608135340.3304695-20-imammedo@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Regards
+> Raghu
+> 
 
-Hi,
-while trying to reproduce another issue, I ended up with a Windows 10
-guest that would boot with QEMU 7.0, but get stuck after the Windows
-logo/spinning circles with QEMU 7.1 (also with 8.0.0-rc1). Machine type
-is pc-i440fx-6.2[0]. Bisecting led to this commit.
+Hi Raghu,
 
-It only happens the first time the VM is booted, killing the process and
-re-trying always worked afterwards. So it's not a big deal and might
-just be some ACPI-related Windows quirk. But I thought I should ask here
-to be sure.
+Great that you are interested in getting involved.
 
-For bisecting, I restored the disk state after each attempt. While
-getting stuck sometimes took 3-4 attempts, I tested about 10 times until
-I declared a commit good, and re-tested the commit before this one 15
-times, so I'm pretty sure this is the one where the issue started appearing.
+As to suggestions for what to do, it's depends on what interests you.
+I'll list some broad categories and hopefully we can focus in on stuff.
 
-So, anything that could potentially be wrong with the commit or is this
-most likely just some Windows quirk/bug we can't do much about?
+Following is brainstorming on the spot, so I've probably forgotten lots
+of things.   There is an out of date todo at:
+https://gitlab.com/jic23/qemu/-/wikis/TODO%20list
 
-If you need more information, please let me know!
+Smallish tasks.
+1) Increase fidelity of emulation.  In many places we take short cuts in
+   the interests of supporting 'enough' to be able to test kernel code against..
+   A classic example of this is we don't perform any of the checks we should be
+   on HDM decoders.  Tightening those restrictions up would be great. Typically that
+   involves tweaking the kernel code to try and do 'wrong' things.
+   There are some other examples of this on gitlab.com/jic23/qemu around locking of
+   registers. This is rarely as high priority as 'new features' but we will want to
+   tidy up all these loose corners eventually.
+2) Missing features.  An example of this is the security related stuff that went into
+   the kernel recently.  Whilst that is fairly easy to check using the cxl mocking
+   driver in the kernel, I'd also like to see a QEMU implementation.
+   Some of the big features don't interact as they should.  For instance we don't report
+   poison list overflow via the event log yet.  It would be great to get this all working
+   rather than requiring injection of poison and the event as currently needed (not all
+   upstream yet).
+3) Cleanup some of the existing emulation that we haven't upstreamed yet.
+   - CPMU. Main challenge with this is finding balance between insane commandlines
+     and flexibility.  Right now the code on gitlab.com/jic23/qemu (cxl-<latest data>)
+     provides a fairly random set of counters that were handy for testing corners
+     of the driver that's at v3 on the kernel mailing lists.
+   - Review and testing of the stuff that is on my tree (all been on list I think) but
+     not yet at the top. Fixing up problems with that in advance will save us time
+     when proposing them for upstream.
+   - SPDM / CMA.  Right now this relies on a connection to SPDM-emu.  I'd like to explore
+     if we can use libspdm as a library instead.  Last time I checked this looked non
+     trivial but the dmtf tools team are keen to help.
 
-Best Regards,
-Fiona
 
-[0] command line:
-> ./qemu-system-x86_64 \
->   -accel 'kvm' \
->   -name 'stuckafterrollbackonboot,debug-threads=on' \
->   -no-shutdown \
->   -chardev 'socket,id=qmp,path=/var/run/qemu-server/161.qmp,server=on,wait=off' \
->   -mon 'chardev=qmp,mode=control' \
->   -chardev 'socket,id=qmp-event,path=/var/run/qmeventd.sock,reconnect=5' \
->   -mon 'chardev=qmp-event,mode=control' \
->   -pidfile /var/run/qemu-server/161.pid \
->   -smbios 'type=1,uuid=f2b77ed0-73c1-4372-9490-b2c1b59431af' \
->   -smp '4,sockets=1,cores=4,maxcpus=4' \
->   -nodefaults \
->   -boot 'menu=on,strict=on,reboot-timeout=1000,splash=/usr/share/qemu-server/bootsplash.jpg' \
->   -vnc 'unix:/var/run/qemu-server/161.vnc,password=on' \
->   -no-hpet \
->   -cpu 'kvm64,enforce,hv_ipi,hv_relaxed,hv_reset,hv_runtime,hv_spinlocks=0x1fff,hv_stimer,hv_synic,hv_time,hv_vapic,hv_vpindex,+kvm_pv_eoi,+kvm_pv_unhalt,+lahf_lm,+sep' \
->   -m 6144 \
->   -device 'pci-bridge,id=pci.1,chassis_nr=1,bus=pci.0,addr=0x1e' \
->   -device 'pci-bridge,id=pci.2,chassis_nr=2,bus=pci.0,addr=0x1f' \
->   -device 'pci-bridge,id=pci.3,chassis_nr=3,bus=pci.0,addr=0x5' \
->   -device 'vmgenid,guid=faa21a64-5921-45fe-9ff3-1f132b9ed029' \
->   -device 'piix3-usb-uhci,id=uhci,bus=pci.0,addr=0x1.0x2' \
->   -device 'usb-tablet,id=tablet,bus=uhci.0,port=1' \
->   -device 'VGA,id=vga,bus=pci.0,addr=0x2,edid=off' \
->   -device 'virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x3,free-page-reporting=on' \
->   -iscsi 'initiator-name=iqn.1993-08.org.debian:01:7d9a912f961' \
->   -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
->   -drive 'file=/dev/pve/vm-161-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
->   -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0,bootindex=100' \
->   -netdev 'type=tap,id=net0,ifname=tap161i0,script=/var/lib/qemu-server/pve-bridge,downscript=/var/lib/qemu-server/pve-bridgedown' \
->   -device 'e1000,mac=42:BF:8B:AE:68:05,netdev=net0,bus=pci.0,addr=0x12,id=net0,bootindex=102' \
->   -rtc 'driftfix=slew,base=localtime' \
->   -machine 'type=pc-i440fx-6.2' \
->   -global 'kvm-pit.lost_tick_policy=discard'
+Bigger stuff - note that people are already looking at some of these but they
+may be interested in some help.
+1) An example type 2 device.  We'd probably have to invent something along the
+   lines of a simple copy offload engine.  The intent being to prove out that
+   the kernel code works.  Dan has some stuff on the git.kernel.org tree to support
+   type 2 device.
+2) Tests.  So far we test the bios table generation and that we can start qemu with
+   different topologies. I'd love to see a test that actually brings up a region and
+   tests some reading and writing + ideally looks at result in memory devices to check
+   everything worked.
+3) Dynamic Capacity Devices - some stuff on going related to this, but there is a lot
+   to do.  Main focus today is on MHDs.   Perhaps look at the very earl code posted
+   for switch CCIs.  We have a lot of work to do in kernel for this stuff as well.
+4) MCTP CCI.  I posted a PoC for this a long time back.  It works but we'd need to figure
+   out how to wire it up sensibly.
+
+Jonathan
 
 
