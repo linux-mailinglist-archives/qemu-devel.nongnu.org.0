@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09796CB775
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 08:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3AEF6CB786
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 08:54:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph35d-0005vD-PO; Tue, 28 Mar 2023 02:45:53 -0400
+	id 1ph3D4-000780-IR; Tue, 28 Mar 2023 02:53:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ph35a-0005r5-6c
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:45:51 -0400
+ id 1ph3D2-00077r-Gz
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:53:32 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ph35Y-00061y-6h
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:45:49 -0400
+ id 1ph3D0-0000yy-PP
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:53:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679985947;
+ s=mimecast20190719; t=1679986409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j1uzhH0147TU2a3xzMuisixfsEYucKcXusENizwOLCU=;
- b=XtVOeV1lc6LXMB5oSOY2Fo0dohjoC+qQhSI1gBJnqIMRhnyI1JpfLu10GAzIhL1s8WYsF1
- 6UiGG0zw7SOMfzLlBenS5sn7vtnVG5CynCJpBF4D5Cd6SbHVIqSRxVrv+oca9wYta9/ZCR
- plLOah2yeFMN7AsQywA/cFxoYdaZKXM=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dEjgSwYlVZ8rI8MSiTmldbWlzI+s6oOMfMB6Tj/JAWo=;
+ b=GeztzwWFcxa365HrOYE2gooJxEFpY1nepweu4Vl7yTJpoCJtgE3cGj//PnphON6AfFC0o6
+ 1aftAiQjP9AFJRrm1uCKCbsv1qwO7rXqg13lsWVyLUd38BqieIJ+Mti/sne2aCj+8/B/hO
+ bUU4GRP+JEn4C+Jzc8G0lRbLg1XvAQo=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-215-GVyO_4AtNBCaOmLX0wnp3g-1; Tue, 28 Mar 2023 02:45:45 -0400
-X-MC-Unique: GVyO_4AtNBCaOmLX0wnp3g-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-17e7104c589so6366054fac.19
- for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 23:45:45 -0700 (PDT)
+ us-mta-515-l587BoDnNyuFZoxrW-VY6A-1; Tue, 28 Mar 2023 02:53:26 -0400
+X-MC-Unique: l587BoDnNyuFZoxrW-VY6A-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ z129-20020aca3387000000b0038710ae0033so2236008oiz.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 23:53:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679985944;
+ d=1e100.net; s=20210112; t=1679986405;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=j1uzhH0147TU2a3xzMuisixfsEYucKcXusENizwOLCU=;
- b=lGlP+SVqmxLHT6M5kQDtIYp/mu4pIfbTHNXGx8QA5w2M2SZUZroi6UK0RO2x70EK7X
- Q3T8+HomtpntIiwgMMT22oRYndS2rz1kSVuxuEifmoJKlc21EWyM7nWrwpz+t51t850W
- DFXfAiM0aOM3HLGaciMCd0x4H4r9gAlh8xIZ12Vh+MSsftyMAGxsUz+kyAXQXUrpCgS6
- gH/Y+XRNM9/t6bxU+UEpTpU4KCn+1KgcUHN2eItmB7/XLgOEtWi8HH5Aohuc8q30QGOD
- SajfkL004zLF1qVusI/Uo53/pAgxRrx0tiJx8OBBh3SrC0knCJJ8lqAU/Irr4JRAICql
- lXuQ==
-X-Gm-Message-State: AO0yUKW26PwTAExZvbVHbmcmIFmSOqER9rX8uQDOGOhKwfyLPR90iBoB
- 8xXyxxeSk2fE/D/vMxkNeogPJYlBarpbXf1wKr+54NeWUMNX90bBrs15tP77mIBXMZ6iPDc24pY
- Sw0JuJlpuMWBcOG8cCrX/MUH9On0FP5Q=
-X-Received: by 2002:a54:438b:0:b0:37f:a2ad:6718 with SMTP id
- u11-20020a54438b000000b0037fa2ad6718mr8077807oiv.3.1679985944197; 
- Mon, 27 Mar 2023 23:45:44 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+s+F9+vXD4CbgtiMtTQ7jMHeUrA8qa/qFURM7q+vq83dbWa/y2JD+kZEscqkM+qxvSH6BstvMkBAa1Nm/7k18=
-X-Received: by 2002:a54:438b:0:b0:37f:a2ad:6718 with SMTP id
- u11-20020a54438b000000b0037fa2ad6718mr8077800oiv.3.1679985944005; Mon, 27 Mar
- 2023 23:45:44 -0700 (PDT)
+ bh=dEjgSwYlVZ8rI8MSiTmldbWlzI+s6oOMfMB6Tj/JAWo=;
+ b=p8I0d6/hqOZPpKHo7o7uwnpEUZhCF/kjP5T9yFzZHbZBLW8M/gZCssuw+rPj3SpWa/
+ xpeKTIMeAFwu6RMo4u0Bo8T/Vz9GUa9l9IqomYL/zUfFg+TQk/fxHo2RTxRe4OYIC5X3
+ TQmnba4jlsqDEOdnRi+ES2QaYxgJQAZPv/MEMWvUETnyL3IauMRlIZQY2+oqfOO8wv17
+ yYXxslDIaGsZLxhBdiAbds9RT1zesQWrs/QsgeZy/06HM72CJP4NuqXw7aj4BHVpikwE
+ yFA9vMAgkyFQqEMLaH+qJytAd/kAFAgJXampHjE1NVM5AJrCw4DVIV5Y/Hoi/3+Zyzdn
+ lnxQ==
+X-Gm-Message-State: AAQBX9e1uJ4LKX613PWRISuwOxwziueAMlofiS3bcTUhPFmevk9AW8kx
+ idrYToIyhgYc9ZZlcKp/QiORbrDASXdu7Fj6Bi8kg9IcTz3IEE3ntaiLN0Rge7JgKioa9UM3UoF
+ Mi0qIvaHufaDiJ7BIucKeXmJ6qZ762zs=
+X-Received: by 2002:a05:6830:39d7:b0:6a1:3fd6:5a0b with SMTP id
+ bt23-20020a05683039d700b006a13fd65a0bmr1942598otb.2.1679986405293; 
+ Mon, 27 Mar 2023 23:53:25 -0700 (PDT)
+X-Google-Smtp-Source: AKy350axJMsSnhH9I17keLLdgXHsbrMi5DuKjV9RjFgGVTeN3iT3KyF7snmklYLllBbp9j67Zj2g2qkB208a+eMHUa4=
+X-Received: by 2002:a05:6830:39d7:b0:6a1:3fd6:5a0b with SMTP id
+ bt23-20020a05683039d700b006a13fd65a0bmr1942587otb.2.1679986405084; Mon, 27
+ Mar 2023 23:53:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230323195404.1247326-1-eperezma@redhat.com>
- <20230323195404.1247326-2-eperezma@redhat.com>
-In-Reply-To: <20230323195404.1247326-2-eperezma@redhat.com>
+ <20230323195404.1247326-3-eperezma@redhat.com>
+In-Reply-To: <20230323195404.1247326-3-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 28 Mar 2023 14:45:33 +0800
-Message-ID: <CACGkMEvaR73yQ=_gc-kO_EiHrEM=nG2EUGwTqg-9m6fg8ROJcA@mail.gmail.com>
-Subject: Re: [PATCH for 8.1 v2 1/6] vdpa: Remove status in reset tracing
+Date: Tue, 28 Mar 2023 14:53:13 +0800
+Message-ID: <CACGkMEuAcfrnC1_9ttFwecVV6fcs00GUfxBBGUKpXnZVmgmHeQ@mail.gmail.com>
+Subject: Re: [PATCH for 8.1 v2 2/6] vdpa: add vhost_vdpa_reset_status_fd
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
  Gautam Dawar <gdawar@xilinx.com>, alvaro.karsz@solid-run.com, 
@@ -105,55 +105,180 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Fri, Mar 24, 2023 at 3:54=E2=80=AFAM Eugenio P=C3=A9rez <eperezma@redhat=
 .com> wrote:
 >
-> It is always 0 and it is not useful to route call through file
-> descriptor.
+
+The title needs some tweak, I think the more appropriate one is
+"introduce vhost_vdpa_call_fd()"
+
+> This allows to reset a vhost-vdpa device from external subsystems like
+> vhost-net, since it does not have any struct vhost_dev by the time we
+> need to use it.
+
+This part needs some clarification, vhost-net should be initialized
+after vhost_dev, so it can access its parent vhost_dev structure?
+
+>
+> It is used in subsequent patches to negotiate features
+> and probe for CVQ ASID isolation.
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  include/hw/virtio/vhost-vdpa.h |  1 +
+>  hw/virtio/vhost-vdpa.c         | 58 +++++++++++++++++++++++-----------
+>  2 files changed, 41 insertions(+), 18 deletions(-)
+>
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
+a.h
+> index c278a2a8de..28de7da91e 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -54,6 +54,7 @@ typedef struct vhost_vdpa {
+>      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+>  } VhostVDPA;
+>
+> +void vhost_vdpa_reset_status_fd(int fd);
+>  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova=
+_range);
+>
+>  int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index bbabea18f3..7a2053b8d9 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -335,38 +335,45 @@ static const MemoryListener vhost_vdpa_memory_liste=
+ner =3D {
+>      .region_del =3D vhost_vdpa_listener_region_del,
+>  };
+>
+> -static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int requ=
+est,
+> -                             void *arg)
+> +static int vhost_vdpa_dev_fd(const struct vhost_dev *dev)
+>  {
+>      struct vhost_vdpa *v =3D dev->opaque;
+> -    int fd =3D v->device_fd;
+> -    int ret;
+>
+>      assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDPA);
+> +    return v->device_fd;
+> +}
+> +
+> +static int vhost_vdpa_call_fd(int fd, unsigned long int request, void *a=
+rg)
+> +{
+> +    int ret =3D ioctl(fd, request, arg);
+>
+> -    ret =3D ioctl(fd, request, arg);
+>      return ret < 0 ? -errno : ret;
+>  }
+>
+> -static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+> +static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int requ=
+est,
+> +                           void *arg)
+> +{
+> +    return vhost_vdpa_call_fd(vhost_vdpa_dev_fd(dev), request, arg);
+> +}
+> +
+> +static int vhost_vdpa_add_status_fd(int fd, uint8_t status)
+>  {
+>      uint8_t s;
+>      int ret;
+>
+> -    trace_vhost_vdpa_add_status(dev, status);
+> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+We can stick a vhost_vdpa_call() function that calls
+vhost_vdpa_call_fd() then we can avoid a lot of changes?
 
 Thanks
 
-> ---
->  hw/virtio/vhost-vdpa.c | 2 +-
->  hw/virtio/trace-events | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> +    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+>      if (ret < 0) {
+>          return ret;
+>      }
 >
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index bc6bad23d5..bbabea18f3 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -716,7 +716,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev *=
-dev)
->      uint8_t status =3D 0;
+>      s |=3D status;
 >
->      ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-> -    trace_vhost_vdpa_reset_device(dev, status);
-> +    trace_vhost_vdpa_reset_device(dev);
->      v->suspended =3D false;
+> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
+> +    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &s);
+>      if (ret < 0) {
+>          return ret;
+>      }
+>
+> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
+> +    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+>      if (ret < 0) {
+>          return ret;
+>      }
+> @@ -378,6 +385,12 @@ static int vhost_vdpa_add_status(struct vhost_dev *d=
+ev, uint8_t status)
+>      return 0;
+>  }
+>
+> +static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+> +{
+> +    trace_vhost_vdpa_add_status(dev, status);
+> +    return vhost_vdpa_add_status_fd(vhost_vdpa_dev_fd(dev), status);
+> +}
+> +
+>  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova=
+_range)
+>  {
+>      int ret =3D ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
+> @@ -709,16 +722,20 @@ static int vhost_vdpa_get_device_id(struct vhost_de=
+v *dev,
 >      return ret;
 >  }
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 8f8d05cf9b..6265231683 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -44,7 +44,7 @@ vhost_vdpa_set_mem_table(void *dev, uint32_t nregions, =
-uint32_t padding) "dev: %
->  vhost_vdpa_dump_regions(void *dev, int i, uint64_t guest_phys_addr, uint=
-64_t memory_size, uint64_t userspace_addr, uint64_t flags_padding) "dev: %p=
- %d: guest_phys_addr: 0x%"PRIx64" memory_size: 0x%"PRIx64" userspace_addr: =
-0x%"PRIx64" flags_padding: 0x%"PRIx64
->  vhost_vdpa_set_features(void *dev, uint64_t features) "dev: %p features:=
- 0x%"PRIx64
->  vhost_vdpa_get_device_id(void *dev, uint32_t device_id) "dev: %p device_=
-id %"PRIu32
-> -vhost_vdpa_reset_device(void *dev, uint8_t status) "dev: %p status: 0x%"=
-PRIx8
-> +vhost_vdpa_reset_device(void *dev) "dev: %p"
->  vhost_vdpa_get_vq_index(void *dev, int idx, int vq_idx) "dev: %p idx: %d=
- vq idx: %d"
->  vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
->  vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
+>
+> +static int vhost_vdpa_reset_device_fd(int fd)
+> +{
+> +    uint8_t status =3D 0;
+> +
+> +    return vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &status);
+> +}
+> +
+>  static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+>  {
+>      struct vhost_vdpa *v =3D dev->opaque;
+> -    int ret;
+> -    uint8_t status =3D 0;
+>
+> -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+> -    trace_vhost_vdpa_reset_device(dev);
+>      v->suspended =3D false;
+> -    return ret;
+> +    trace_vhost_vdpa_reset_device(dev);
+> +    return vhost_vdpa_reset_device_fd(vhost_vdpa_dev_fd(dev));
+>  }
+>
+>  static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
+> @@ -1170,6 +1187,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev *=
+dev, bool started)
+>      return 0;
+>  }
+>
+> +void vhost_vdpa_reset_status_fd(int fd)
+> +{
+> +    vhost_vdpa_reset_device_fd(fd);
+> +    vhost_vdpa_add_status_fd(fd, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> +                                 VIRTIO_CONFIG_S_DRIVER);
+> +}
+> +
+>  static void vhost_vdpa_reset_status(struct vhost_dev *dev)
+>  {
+>      struct vhost_vdpa *v =3D dev->opaque;
+> @@ -1178,9 +1202,7 @@ static void vhost_vdpa_reset_status(struct vhost_de=
+v *dev)
+>          return;
+>      }
+>
+> -    vhost_vdpa_reset_device(dev);
+> -    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> -                               VIRTIO_CONFIG_S_DRIVER);
+> +    vhost_vdpa_reset_status_fd(vhost_vdpa_dev_fd(dev));
+>      memory_listener_unregister(&v->listener);
+>  }
+>
 > --
 > 2.31.1
 >
