@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87576CC20F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 16:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8B86CC21C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 16:34:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phAIQ-0003sL-OZ; Tue, 28 Mar 2023 10:27:34 -0400
+	id 1phANt-0006W3-Qm; Tue, 28 Mar 2023 10:33:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phAIP-0003sD-2O
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 10:27:33 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1phANp-0006Uw-49
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 10:33:09 -0400
+Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phAIN-00066k-Af
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 10:27:32 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- p13-20020a17090a284d00b0023d2e945aebso1843052pjf.0
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 07:27:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1phANn-0007p8-I0
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 10:33:08 -0400
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-17683b570b8so12852475fac.13
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 07:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680013649;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=ventanamicro.com; s=google; t=1680013985;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YMzvtR7zOi30A1asfD03npxLrp/0Ow60Jhr+qcqSW3g=;
- b=RGh9Tn3W5dpgI+5gtWqd7PERhJG0vDoR6r3o3XzFD4enoc+mdkaOotzpM+rb6kmGVs
- Tvfst06gZiTtR1uYADzZvsJ3rIYA+0yaV3hA46zo8XDGrNRbN/PwR/c+NoNJyeWUoCMf
- edReakJweHLS1UcMUMRM1RyFcOmaD3CXxa8FfOkinLa0x8fj+52SHTVpBDG66HhGkT/Q
- CHDLmiwYSV7PANNZfSN3ExfjGR24D6QA3xNUfbzX4XVxojlMKP9y4g/XbyoDNVraIh3O
- qgiUOgWJtz9xhSGrfdkso7aGabDCpUfGnRnXQgq4gqIDuD27JDLPk8ARFyFHo0H5oCU1
- /eFw==
+ bh=fHF1c/UDdbpOvV6LUDspronbAWty4XowDEY4u0/G/GI=;
+ b=UOsUTwlcMtWX+MLZGl06cXkDsxEei6/fEIoeOziaMzE32112Dv4QnBwgsdzhR1bplr
+ DIS2OsjSY1WoKPQrD8PT9NeApbrGwlYtFQKa/CAtpGzKT8HUZFiFMyEVVUuBvZw1EJOP
+ OJrm6qRJzYE5sQTWu/U0cowE9Ztbt/7QSd1s94nn4gT76FrIGvTFHTdSyC5sAF23u37g
+ xJPnVz5fXS89qf4S+Dle0x5Vlh5W89N4s+IIOwxKladAlUalwutJ+zQoZwrefnqmUk0o
+ b3Zg2e5HZuroDs1nSzpUSOmBJNV1ZXCMO9uhS8l6EsdVDOjRnEMtpYYSj+hcz50ePqoY
+ cRNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680013649;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20210112; t=1680013985;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YMzvtR7zOi30A1asfD03npxLrp/0Ow60Jhr+qcqSW3g=;
- b=6zmUQLwgVKFB3pAn3fWKr9qobGrjfxO8hUt0Hb2jqPOjMsdVU4p7DIdlMmIQ4+tLKS
- al8uVJuw3jiGExXIXGOBQGgT2F5TvPpwVKtl10SwOhvX+DL02t1/ew0lMBvB8tQ8Fy8h
- Ug7rGIypdiSZOM2MENQqAomSYbZnr5IKhMqnh5APm7fFjytTtdm9N/9vpygR7n+FjZJC
- U72RdjGUXMJdCRDOW0OidNXg36QnEstAGq8/BOffkX+HxJrbThhftIaIy1HDj+BoQDME
- p8mej9Mizi1QYQJGfvxSrUq6clvo3k85SiBi00UYuiEDGJj6n2G98yHnwsbBFoY4+sf2
- cZ7g==
-X-Gm-Message-State: AAQBX9dDmxbWdRzpx59/M2gae2T/1MlOCVJZRXa3wxJknWN+c7VxhCmD
- rgO+V5lAbM9B7nDdNoXxQpRtuQ==
-X-Google-Smtp-Source: AKy350YI7vgGDw8APMHXhtHhMtWtF/ueBHNGMLI3EnfLWU9C6ir0rlrjvz9R/pqv84+rjldykrpSYw==
-X-Received: by 2002:a17:902:ea06:b0:1a2:7d:17ea with SMTP id
- s6-20020a170902ea0600b001a2007d17eamr20076600plg.56.1680013649423; 
- Tue, 28 Mar 2023 07:27:29 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:396:9f0d:afc2:978e?
- ([2602:ae:1541:f901:396:9f0d:afc2:978e])
+ bh=fHF1c/UDdbpOvV6LUDspronbAWty4XowDEY4u0/G/GI=;
+ b=WmARJ3ieHf7UlXmocvDXsUWOO/5nWaVUJOxto4QbLOayllDO5gX36gXpTtxOxnC+AP
+ kVZZDdNphI+mUNvBV8/AYqIDDthkUXpYx79Ef5Uz8A8T/428LJq7DIlJWHurvmHZosHF
+ NQo6jcnCGQwHTrMfldxrUuUm5cArtMntXYBMpgkT3NhQrWdlIVxxWmAoQd5XK2JbLk4b
+ MXyCGyBpW9I/OvJjc/na36WsEtwWALkIwhqEiHd60sgw+a3h+hFY6jqbM6M09WwJ1pz4
+ K+Y7uJHFipX/akVctVnYwTVDQQDWwyLTWGQZ0DyFM5JAiyCoPd+zPjhxDQZzWMWwoKV6
+ /gMA==
+X-Gm-Message-State: AAQBX9ftOpMN+mwbGpo1DXPKWVlFk8vfYWqGiFW2388p3U/Ar9u6WTtp
+ dCEc2h9SY6Rm4ceniV8smztuYQ==
+X-Google-Smtp-Source: AKy350bmjqe++jVa9ik1tPChWIb1+uCMKdSN3dJ23kQHSERE97m4SQ6267EO1z0Ty9vfh/3Q/jAwXw==
+X-Received: by 2002:a05:6870:4591:b0:17a:6788:e8b8 with SMTP id
+ y17-20020a056870459100b0017a6788e8b8mr9448744oao.51.1680013985308; 
+ Tue, 28 Mar 2023 07:33:05 -0700 (PDT)
+Received: from [192.168.68.107] ([177.95.89.231])
  by smtp.gmail.com with ESMTPSA id
- j1-20020a17090276c100b00195f0fb0c18sm21184293plt.31.2023.03.28.07.27.28
+ xg8-20020a056870cf8800b00177ba198612sm10833551oab.53.2023.03.28.07.33.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 07:27:29 -0700 (PDT)
-Message-ID: <dfaa1ef2-c5c4-58ab-cd1a-0cd75bdf03f1@linaro.org>
-Date: Tue, 28 Mar 2023 07:27:26 -0700
+ Tue, 28 Mar 2023 07:33:04 -0700 (PDT)
+Message-ID: <a4b2c90a-e27e-eae5-394b-77a5f2b84ac7@ventanamicro.com>
+Date: Tue, 28 Mar 2023 11:33:01 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v6 13/25] target/riscv: Introduce mmuidx_priv
+ Thunderbird/102.9.0
+Subject: Re: [PATCH for-8.1 v4 18/25] target/riscv: error out on priv failure
+ for RVH
 Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
-References: <20230325105429.1142530-1-richard.henderson@linaro.org>
- <20230325105429.1142530-14-richard.henderson@linaro.org>
- <a4e87eab-aace-a17b-fef5-5c5b1118a561@linux.alibaba.com>
- <6b21f385-96fd-78f4-bdba-ed552bf2464a@linaro.org>
- <075a0bde-0d28-75e1-097f-f5218403b23d@linux.alibaba.com>
- <61c3d6d1-e242-f256-7d68-51a2155dc62a@linux.alibaba.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <61c3d6d1-e242-f256-7d68-51a2155dc62a@linux.alibaba.com>
+To: liweiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+References: <20230322222004.357013-1-dbarboza@ventanamicro.com>
+ <20230322222004.357013-19-dbarboza@ventanamicro.com>
+ <420592cf-cd82-0b24-9176-9887392d0a3a@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <420592cf-cd82-0b24-9176-9887392d0a3a@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,48 +98,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 18:54, LIU Zhiwei wrote:
->>>> Can we remove the PRIV from the tb flags after we have this function?
->>>
->>> No, because this is the priv of the memory operation as modified by e.g. MPRV, not the 
->>> true cpu priv.
->>
->> For this implementation, we explicitly use the tb flags for mmu index. I think it is the 
->> reason why we have to maintain the redundant privilege in tb flags.
->> It may be better to only store machine states into tb flags. Can we just pass everything 
->> that we need, for example, the priv and sum, and then implicitly
->> calculate the ctx->mem_idx in disas_init_fn?
->>
->> I remember that you give the similar suggestion in the comment process
->>
->> https://mail.gnu.org/archive/html/qemu-riscv/2023-03/msg00566.html
->>
->> Best Regards,
->> Zhiwei
->>
-> To make this comment clear, I paste a simple implementatioin here. But it is just for 
-> discussing, not a normal patch for merging.
-> 
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 623288e6f9..d4506be5be 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -632,12 +632,10 @@ G_NORETURN void riscv_raise_exception(CPURISCVState *env,
->   target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
->   void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
-> 
-> -#define TB_FLAGS_PRIV_MMU_MASK                3
-> -#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
-> -
->   #include "exec/cpu-all.h"
-> 
-> -FIELD(TB_FLAGS, MEM_IDX, 0, 3)
-> +FIELD(TB_FLAGS, PRIV, 0, 2)
-> +FIELD(TB_FLAGS, SUM, 2, 1)
-
-We would need to include MPRV, MPP, MPV, VIRT_ENABLED as well.  With SUM, that would be 6 
-bits in tb_flags instead of 3 bits for MEM_IDX.
 
 
-r~
+On 3/24/23 11:56, liweiwei wrote:
+> 
+> On 2023/3/23 06:19, Daniel Henrique Barboza wrote:
+>> riscv_cpu_disable_priv_spec_isa_exts(), at the end of
+>> riscv_cpu_validate_set_extensions(), will disable cpu->cfg.ext_h and
+>> cpu->cfg.ext_v if priv_ver check fails.
+>>
+>> This check can be done in riscv_cpu_validate_misa_ext(). The difference
+>> here is that we're not silently disable it: we'll error out. Silently
+>> disabling a MISA extension after all the validation is completed can can
+>> cause inconsistencies that we don't have to deal with. Verify ealier and
+>> fail faster.
+>>
+>> Note that we're ignoring RVV priv_ver validation since its minimal priv
+>> is also the minimal value we support. RVH will error out if enabled
+>> under priv_ver under 1_12_0.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> ---
+>>   target/riscv/cpu.c | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 399f63b42f..d2eb2b3ba1 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -1055,6 +1055,20 @@ static void riscv_cpu_validate_misa_ext(RISCVCPU *cpu, Error **errp)
+>>           return;
+>>       }
+>> +    /*
+>> +     * Check for priv spec version. RVH is 1_12_0, RVV is 1_10_0.
+>> +     * We don't support anything under 1_10_0 so skip checking
+>> +     * priv for RVV.
+>> +     *
+>> +     * We're hardcoding it here to avoid looping into the
+>> +     * 50+ entries of isa_edata_arr[] just to check the RVH
+>> +     * entry.
+>> +     */
+>> +    if (cpu->cfg.ext_h && env->priv_ver < PRIV_VERSION_1_12_0) {
+>> +        error_setg(errp, "H extension requires priv spec 1.12.0");
+>> +        return;
+>> +    }
+> The other multi-letter extensions are directly disabled for lower priv version with warning message.
+> 
+> Whether we should do the similar action here?
+
+I'd rather error out in all cases, to be honest. cpu_init() functions should be
+responsible for choosing an adequate priv spec level for the extensions it wants
+to use.
+
+
+Thanks,
+
+
+Daniel
+
+> 
+> Regards,
+> 
+> Weiwei Li
+> 
+>> +
+>>       if (cpu->cfg.ext_v) {
+>>           riscv_cpu_validate_v(env, &cpu->cfg, &local_err);
+>>           if (local_err != NULL) {
+> 
 
