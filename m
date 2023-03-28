@@ -2,65 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14AFC6CC039
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6616CC059
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:13:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph95l-0001oV-AD; Tue, 28 Mar 2023 09:10:25 -0400
+	id 1ph982-0002n8-Fu; Tue, 28 Mar 2023 09:12:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph95i-0001o9-Gl
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:10:22 -0400
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph95g-0003Hu-Id
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:10:22 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.139])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id A6B1521926;
- Tue, 28 Mar 2023 13:10:16 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 28 Mar
- 2023 15:10:15 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001c1407045-5d60-4232-86f1-b9ca6fff205e,
- 5D21C2AA46E1B9891D174392918792ED1A5C90BB) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <413c3af3-38cf-0e7e-73f5-c817cb9b1176@kaod.org>
-Date: Tue, 28 Mar 2023 15:10:12 +0200
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ph97y-0002mE-M5
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:12:42 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ph97s-0003ap-0C
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:12:37 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id v1so12176621wrv.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 06:12:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680009149;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gy49rPl6jeZvLoqUQrUIF3QO4w/Nda86notlZmm2040=;
+ b=xOW4+p9Vt6uk3E0KGb45q7YT38T7rw/QOaD69isXKztkKFC6ITJ3PzHtKfHkXaT7IK
+ dZn5Pbimng/0OqG0NPkUiNNqUJjxneaF9hVVW2BNSQfI9f6Aj5DUAPZKjHWBQyz4LSsy
+ vMbC7bx1DQ1tVfB1wBLC6RSLUKxZ4O8fpsK8NPGhMOlIXgncj+ovOUY8rkzWA11oTuNZ
+ igMAXhR+b2I95lKzoDNAQ1hfMlBEp/rsYHxHBRKYL23t7LIBPvFXu+NDBQtFbqDA241l
+ iQHvg/KD4Hk4hTS3GrW4+0cvLIEzmQPUUzEB+QIJddQAl86plvINl66zOlTG7LZhZk8h
+ xxlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680009149;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gy49rPl6jeZvLoqUQrUIF3QO4w/Nda86notlZmm2040=;
+ b=A96xwmcCWMK3EOBtWzQ4hHzgUjzTabH9ZqZVbfA/mz/0Q+Z3uO3vItKNnwUs5dyTjj
+ ElEmBPgvpr37R5pGaAXLwix4AUImo2mTyjeUZDnRzp3ixu4DDPnXLJBjxbbc65YagHFO
+ nkq6Bow9w0IIKahnuYFIXHq+SZxo+eCGNzEtQf/FhFnQa7DYw45ZMOW968XFX1h0vndq
+ FQYGnxmpfTnI1laGItLhfJ6xyiWlFGOaI2bliBTWnCLcDIZxOtftsQsFFj5HkzNRQ/Gw
+ PvfqoRenUc5tHeoeD+FgS/pLUw6Su6mdxDhlygWZWLw1BkcpFkyXT1zTEdol5yhLoANv
+ 5/DQ==
+X-Gm-Message-State: AAQBX9dcuXp92t6wf+UGiG55GIzcQ+74XhaK6/kCsghry/i2uI/LI1rL
+ mml05u6sVn7QIXP3lsqdBQTr6A==
+X-Google-Smtp-Source: AKy350a6f1X0rrhWPHHqz0+ewqcJ9UHSKttkQMlSz808E9H9ZevtYcmSyhPk4DhRc0DftY2tpw9a3A==
+X-Received: by 2002:a5d:6344:0:b0:2c5:4c9d:2dab with SMTP id
+ b4-20020a5d6344000000b002c54c9d2dabmr12031253wrw.10.1680009149648; 
+ Tue, 28 Mar 2023 06:12:29 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.210.212])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a5d5044000000b002c70851fdd8sm27772151wrt.75.2023.03.28.06.12.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Mar 2023 06:12:29 -0700 (PDT)
+Message-ID: <84824486-6c67-3e78-fd93-91741d9fccff@linaro.org>
+Date: Tue, 28 Mar 2023 15:12:27 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/3] qtest: Add functions for accessing devices on Aspeed
- I2C controller
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH-for-8.0] block/dmg: Ignore C99 prototype declaration
+ mismatch from <lzfse.h>
 Content-Language: en-US
-To: Stefan Berger <stefanb@linux.ibm.com>, <qemu-devel@nongnu.org>
-CC: <marcandre.lureau@redhat.com>, <ninad@linux.ibm.com>, <joel@jms.id.au>,
- <andrew@aj.id.au>
-References: <20230327202416.3617162-1-stefanb@linux.ibm.com>
- <20230327202416.3617162-2-stefanb@linux.ibm.com>
- <0368d6a6-5f66-9758-6977-818128d928b5@kaod.org>
- <ac889ea5-b335-ba77-46b6-6b91966e4da6@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <ac889ea5-b335-ba77-46b6-6b91966e4da6@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Wu <peter@lekensteyn.nl>,
+ Julio Faracco <jcfaracco@gmail.com>, Eli Schwartz <eschwartz93@gmail.com>
+References: <20230327151349.97572-1-philmd@linaro.org>
+ <cc1f75ce-0295-cc57-1a74-71e036862bb7@weilnetz.de>
+ <e4a0b994-965a-2bd4-5517-b11e31b002ee@linaro.org>
+ <CABgObfZ8pfrfMV0YLWo-bPyh7fCehk+NjRRnkKA15DQnqy3Mpg@mail.gmail.com>
+ <ac4ac6ae-9147-bdb2-5adb-3322182cba4f@weilnetz.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <ac4ac6ae-9147-bdb2-5adb-3322182cba4f@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: a30f0ede-5960-4a48-8ce1-1e6856add4ce
-X-Ovh-Tracer-Id: 16661066822872959782
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehgedgheelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepshhtvghfrghnsgeslhhinhhugidrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpmhgrrhgtrghnughrvgdrlhhurhgvrghusehrvgguhhgrthdrtghomhdpnhhinhgrugeslhhinhhugidrihgsmhdrtghomhdpjhhovghlsehjmhhsrdhiugdrrghupdgrnhgurhgvfiesrghjrdhiugdrrghupdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,118 +101,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/28/23 14:26, Stefan Berger wrote:
+On 28/3/23 08:29, Stefan Weil wrote:
+> Am 27.03.23 um 23:09 schrieb Paolo Bonzini:
 > 
+>> Il lun 27 mar 2023, 20:58 Philippe Mathieu-Daudé <philmd@linaro.org> 
+>> ha scritto:
+>>
+>>     > The warning can also be suppressed if the build uses `-isystem
+>>     > /opt/homebrew/include` instead of `-I/opt/homebrew/include` as I
+>>     just
+>>     > have tested.
+>>
+>> Is that option added by QEMU's configure or meson.build? Or is it 
+>> added by homebrew? The fact that /opt/homebrew/include it isn't 
+>> considered a system seems to be a homebrew decision.
+>>
+>>     IIUC by design meson only allows including *relative* directories,
+>>     and manage the system ones:
+>>     https://mesonbuild.com/Include-directories.html
+>>
+>> That's for includes that are part of QEMU.
+>>
+>> Meson has as_system for dependency objects 
+>> (https://mesonbuild.com/Reference-manual_returned_dep.html) but lzfse 
+>> doesn't have a .pc file, its detection has to be done by hand.
+>>
+>> Paolo
+>>
+>>     > If we can find a solution how to implement that I thing it would
+>>     look
+>>     > nicer. Technically the patch looks good.
+>>     >
+>>     > Reviewed-by: Stefan Weil <sw@weilnetz.de>
+>>
+>>     Thanks!
+>>
 > 
-> On 3/28/23 02:39, Cédric Le Goater wrote:
->> On 3/27/23 22:24, Stefan Berger wrote:
->>> Add read and write functions for accessing registers of I2C devices
->>> connected to the Aspeed I2C controller.
->>>
->>> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
->>
->> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->>
->> [... ]
->>
->>> +#ifndef QTEST_ASPEED_H
->>> +#define QTEST_ASPEED_H
->>> +
->>> +#include <stdint.h>
->>> +
->>> +#define AST2600_ASPEED_I2C_BASE_ADDR 0x1e78a000
->>> +
->>> +static inline uint32_t ast2600_aspeed_i2c_calc_dev_addr(uint8_t bus_num)
->>
->> I think you could simplify the name ast2600_aspeed_i2c_calc_dev_addr()
->> to aspeed_i2c_calc_bus_addr() and add a comment saying it implements only
->> the AST2600 I2C controller. I don't think we will need the others.
+> Typically I configure the build on macOS with `./configure 
+> --extra-cflags=-I/opt/homebrew/include 
+> --extra-ldflags=-L/opt/homebrew/lib --disable-werror`. With that 
+> configuration I get the two warnings for lzfse.h.
 > 
+> When I use `./configure '--extra-cflags=-isystem /opt/homebrew/include' 
+> --extra-ldflags=-L/opt/homebrew/lib --disable-werror` instead, I get no 
+> compiler warnings (and `--disable-werror` could be ommitted).
 > 
-> What are 'the others'?
+> So at least for macOS with Homebrew in /opt/homebrew (M1 / M2 Macs) the 
+> patch is not needed when the right configure options (`--extra-cflags`) 
+> were used.
 
-AST2400 and AST2500 SoC.
+What I learned:
 
->>> +{
->>> +    return AST2600_ASPEED_I2C_BASE_ADDR + 0x80 + bus_num * 0x80;
->>> +}
->>
->> The formula is :
->>
->>     return soc_base + (soc_i2c_offset + bus_num) * soc_i2c_reg_size;
-> 
-> That's what I thought:
-> 
-> return soc_base + soc_i2c_offset + (bus_num * soc_i2c_reg_size);
->
-> I will keep it as it is, though.
+- If lzfse were well packaged (as noted Paolo), we could use
+   dependency(..., include_type: 'system')
+   https://github.com/mesonbuild/meson/issues/963#issuecomment-1277851401
 
-It should work also for the AST2600
+- I agree with Eli Schwartz, a Meson maintainer:
 
-FYI, see the layouts below,
+   > More bugs caused by and only affecting people who misuse and
+   > abuse -isystem as "not system, but as a side effect please
+   > don't emit warnings for this messy dependency"...
 
-Thanks,
+   https://github.com/mesonbuild/meson/issues/8755#issuecomment-836913759
 
-C.
-
-
-AST2400
-
-     000000001e78a000-000000001e78afff (prio 0, i/o): aspeed.i2c
-       000000001e78a040-000000001e78a07f (prio 0, i/o): aspeed.i2c.bus.0
-       000000001e78a080-000000001e78a0bf (prio 0, i/o): aspeed.i2c.bus.1
-       000000001e78a0c0-000000001e78a0ff (prio 0, i/o): aspeed.i2c.bus.2
-       000000001e78a100-000000001e78a13f (prio 0, i/o): aspeed.i2c.bus.3
-       000000001e78a140-000000001e78a17f (prio 0, i/o): aspeed.i2c.bus.4
-       000000001e78a180-000000001e78a1bf (prio 0, i/o): aspeed.i2c.bus.5
-       000000001e78a1c0-000000001e78a1ff (prio 0, i/o): aspeed.i2c.bus.6
-       000000001e78a300-000000001e78a33f (prio 0, i/o): aspeed.i2c.bus.7
-       000000001e78a340-000000001e78a37f (prio 0, i/o): aspeed.i2c.bus.8
-       000000001e78a380-000000001e78a3bf (prio 0, i/o): aspeed.i2c.bus.9
-       000000001e78a3c0-000000001e78a3ff (prio 0, i/o): aspeed.i2c.bus.10
-       000000001e78a400-000000001e78a43f (prio 0, i/o): aspeed.i2c.bus.11
-       000000001e78a440-000000001e78a47f (prio 0, i/o): aspeed.i2c.bus.12
-       000000001e78a480-000000001e78a4bf (prio 0, i/o): aspeed.i2c.bus.13
-       000000001e78a800-000000001e78afff (prio 0, i/o): aspeed.i2c-pool
-
-AST2500
-
-     000000001e78a000-000000001e78afff (prio 0, i/o): aspeed.i2c
-       000000001e78a040-000000001e78a07f (prio 0, i/o): aspeed.i2c.bus.0
-       000000001e78a080-000000001e78a0bf (prio 0, i/o): aspeed.i2c.bus.1
-       000000001e78a0c0-000000001e78a0ff (prio 0, i/o): aspeed.i2c.bus.2
-       000000001e78a100-000000001e78a13f (prio 0, i/o): aspeed.i2c.bus.3
-       000000001e78a140-000000001e78a17f (prio 0, i/o): aspeed.i2c.bus.4
-       000000001e78a180-000000001e78a1bf (prio 0, i/o): aspeed.i2c.bus.5
-       000000001e78a1c0-000000001e78a1ff (prio 0, i/o): aspeed.i2c.bus.6
-       000000001e78a200-000000001e78a2ff (prio 0, i/o): aspeed.i2c-pool
-       000000001e78a300-000000001e78a33f (prio 0, i/o): aspeed.i2c.bus.7
-       000000001e78a340-000000001e78a37f (prio 0, i/o): aspeed.i2c.bus.8
-       000000001e78a380-000000001e78a3bf (prio 0, i/o): aspeed.i2c.bus.9
-       000000001e78a3c0-000000001e78a3ff (prio 0, i/o): aspeed.i2c.bus.10
-       000000001e78a400-000000001e78a43f (prio 0, i/o): aspeed.i2c.bus.11
-       000000001e78a440-000000001e78a47f (prio 0, i/o): aspeed.i2c.bus.12
-       000000001e78a480-000000001e78a4bf (prio 0, i/o): aspeed.i2c.bus.13
-
-AST2600
-
-     000000001e78a000-000000001e78afff (prio 0, i/o): aspeed.i2c
-       000000001e78a080-000000001e78a0ff (prio 0, i/o): aspeed.i2c.bus.0
-       000000001e78a100-000000001e78a17f (prio 0, i/o): aspeed.i2c.bus.1
-       000000001e78a180-000000001e78a1ff (prio 0, i/o): aspeed.i2c.bus.2
-       000000001e78a200-000000001e78a27f (prio 0, i/o): aspeed.i2c.bus.3
-       000000001e78a280-000000001e78a2ff (prio 0, i/o): aspeed.i2c.bus.4
-       000000001e78a300-000000001e78a37f (prio 0, i/o): aspeed.i2c.bus.5
-       000000001e78a380-000000001e78a3ff (prio 0, i/o): aspeed.i2c.bus.6
-       000000001e78a400-000000001e78a47f (prio 0, i/o): aspeed.i2c.bus.7
-       000000001e78a480-000000001e78a4ff (prio 0, i/o): aspeed.i2c.bus.8
-       000000001e78a500-000000001e78a57f (prio 0, i/o): aspeed.i2c.bus.9
-       000000001e78a580-000000001e78a5ff (prio 0, i/o): aspeed.i2c.bus.10
-       000000001e78a600-000000001e78a67f (prio 0, i/o): aspeed.i2c.bus.11
-       000000001e78a680-000000001e78a6ff (prio 0, i/o): aspeed.i2c.bus.12
-       000000001e78a700-000000001e78a77f (prio 0, i/o): aspeed.i2c.bus.13
-       000000001e78a780-000000001e78a7ff (prio 0, i/o): aspeed.i2c.bus.14
-       000000001e78a800-000000001e78a87f (prio 0, i/o): aspeed.i2c.bus.15
-       000000001e78ac00-000000001e78adff (prio 0, i/o): aspeed.i2c-pool
-
+I wasted few hours on this, and am now giving up in favor of this simple
+patch.
 
