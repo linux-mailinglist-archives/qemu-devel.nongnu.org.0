@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEE86CCB7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDBB6CCB7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 22:31:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phFvQ-0006Bn-Ie; Tue, 28 Mar 2023 16:28:12 -0400
+	id 1phFyG-0006xE-Jl; Tue, 28 Mar 2023 16:31:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phFvP-0006Be-3A
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:28:11 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1phFyE-0006wz-PR
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:31:06 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phFvN-0005k7-Ed
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:28:10 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- f6-20020a17090ac28600b0023b9bf9eb63so13899269pjt.5
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:28:09 -0700 (PDT)
+ id 1phFyD-0006I8-0m
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 16:31:06 -0400
+Received: by mail-pf1-x435.google.com with SMTP id z11so8871013pfh.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 13:31:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680035288;
+ d=linaro.org; s=google; t=1680035463;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=GE33piJ1njovmXQCB0ERQm+9cv/n7YO0FcJPpEUCuKI=;
- b=HE0EdQYQxQ6co+Or9YFL6uoKSheDoc/04t0YUWy75+DqW13Xdsc0TLS1yH186r/bec
- W7ofquyuS9AUAB2uPK0M7Mw5lTBRiwiuDmCDm81w+mCicjRPZWOd2r7Rl0VM31W1xwKe
- pXjAu4edKS6bvBOsL/2T7YK+nQTeotTwsMyO+ln+PiIjBNDmMgPSVKwzeyfDWvVUjpXb
- lu8eoJH45Br6s+XzRkZRpzEOGmIwQHPgqW3dfrKLdHw0Oyds0R2WVH633nGfVzGq4/hK
- G4khA4ob2M3DIzn6ILeKfRsEs6CBIYrTdCNO2Tg8m85gd4Qf3I5PX0pGrzoYNo3XPaMp
- Clig==
+ bh=VR3drSxXMToJtikVkIw4xz2tob/M2DuazRvVq4FHo4w=;
+ b=klBtbHPb39O+j300LSjVH7ab2jIghO+yQ51JyXNdO7uEE+P8HVU/KA/V09hVOWwGV3
+ 81pUn53iswJ7D8bMIDHidA6FE6kpkCYqhHEV3Rmruaiyc2eHmOLi5z0/nSiWuSsnclao
+ WFQvzFcR+FhcNvHxDf5ZHjuZxW/RpTyeWpx6j1j4vROiRnP/J9Wm3a69CX+c3qwSdNoW
+ tv6bjKudypExdB2Di9ANb35H87m/ZSQ0/V3eXtGh71OYVh5h7QCtmk2zyKShp2e0rPM1
+ TFrTRARDOHKmpQn6gS/eZPIG8T7ElPzRSL0gHTbQh5spPVJgcCeWBXeHodsQW7g/34kP
+ DhHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680035288;
+ d=1e100.net; s=20210112; t=1680035463;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GE33piJ1njovmXQCB0ERQm+9cv/n7YO0FcJPpEUCuKI=;
- b=ufZZxrlQQv6w9h/5Mo1+YAgtH8OM6efoYrmeaKa0tf5n9/+Lv29eBGjkNaxxJzXZjT
- sxo9Ur3NM1fCEMZUBORVSkNEVDDrNOCAJtzknOWLcCyEuLdnOscd2gjBlD+VpjgvXfyn
- f+XjCjxW/oXMFKwPdB2xerx3NNz+QLnrUNKsMhZ2GkK7mr1JvcfyBrIVdnQoM8rgtZHs
- jQPVIu5a2IXIDSJT1DfzCdqA7gbgkSnUdUcr+vYV45ejzy+jKjhEePI2G+3ayr60phX2
- wFt6s1CyasHA/+OU0qaz3Ir1Ggf+gJLoIpWAFlVV41RKTWsrEGQT84i6IjzGoekFDojj
- 9sSg==
-X-Gm-Message-State: AAQBX9cUXW6mk4HQQfDEi2JrDyJSf/dYkevPjSm5pA9vpE7lAj2w+U1t
- DkY2Bhv++4uZahTLH9FEeLnGdeLizilHsRPIqmE=
-X-Google-Smtp-Source: AKy350aPOMoTm2vTa8bWY1jC8sWlrEMD1W2wPAEgy0o4YGtLADAO9nPr+mNV4ZV8rcPA9N/szWpvHA==
-X-Received: by 2002:a17:90b:4b8b:b0:23f:c096:7129 with SMTP id
- lr11-20020a17090b4b8b00b0023fc0967129mr18695356pjb.26.1680035287956; 
- Tue, 28 Mar 2023 13:28:07 -0700 (PDT)
+ bh=VR3drSxXMToJtikVkIw4xz2tob/M2DuazRvVq4FHo4w=;
+ b=QUzs6U7AgeNTkQQFs2Y24k0rqeVJcZLr67Z7MU1EGIEwWVJTrBEnW+O7eHozaJhFw7
+ wU3EfGoxQ+JyVzBgmw7jtQ/7fagRFbxpmc4ERG4+J4LFhjwXQxktrJ5YGS5Yu/iz7L1J
+ QeU4PACadiBtCsJaWU0pOFs8ZYSByV6Gr4TCrSLnKSZrPyhPmh3ppbn6Z6xTKYQ7nlnx
+ jASNEi+Gi8uY+1W8Vf7rz+HCpLgaP/aDPX/HOcF3z8FNouq66/UNc/NwZ6G5iD2EKldh
+ rBdqDUwdifcrMakmd09AkcpTMEvZhX/BlBDq4EAjJ/VspgvGbL9atZLBb0qTu202PFiP
+ jkmw==
+X-Gm-Message-State: AAQBX9e3k1DWfz16x/6nM7q6Q4tuLqCRp4afscH1a/9xz/+GS9X+XU0X
+ o8ZJW8xRN3URHVBcJ8dmEQiJYw==
+X-Google-Smtp-Source: AKy350Z+bdDB2UnRSutx7CgS6ShHxWjGZbkKmtW0P2RDFmIi1f8uYSc/xUVhVMMEUFEszArWh5mPog==
+X-Received: by 2002:a62:3891:0:b0:622:3621:b2a8 with SMTP id
+ f139-20020a623891000000b006223621b2a8mr15304948pfa.17.1680035463366; 
+ Tue, 28 Mar 2023 13:31:03 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:396:9f0d:afc2:978e?
  ([2602:ae:1541:f901:396:9f0d:afc2:978e])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a17090a348d00b002311ae14a01sm6565143pjb.11.2023.03.28.13.28.07
+ c22-20020aa78c16000000b006280ae74893sm15629106pfd.48.2023.03.28.13.31.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 13:28:07 -0700 (PDT)
-Message-ID: <c4912c34-5941-cb51-f021-c0b9dbd4aead@linaro.org>
-Date: Tue, 28 Mar 2023 13:28:05 -0700
+ Tue, 28 Mar 2023 13:31:03 -0700 (PDT)
+Message-ID: <e9241835-dee7-a404-6f7f-bfe3cc46e93f@linaro.org>
+Date: Tue, 28 Mar 2023 13:31:01 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v2 10/44] target/loongarch: Implement vaddw/vsubw
+Subject: Re: [RFC PATCH v2 11/44] target/loongarch: Implement vavg/vavgr
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-11-gaosong@loongson.cn>
+ <20230328030631.3117129-12-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-11-gaosong@loongson.cn>
+In-Reply-To: <20230328030631.3117129-12-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,72 +95,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/27/23 20:05, Song Gao wrote:
-> +static void gen_vaddwev_w_h(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
-> +{
-> +    TCGv_i32 t1, t2;
-> +
-> +    t1 = tcg_temp_new_i32();
-> +    t2 = tcg_temp_new_i32();
-> +    tcg_gen_shli_i32(t1, a, 16);
-> +    tcg_gen_sari_i32(t1, t1, 16);
-> +    tcg_gen_shli_i32(t2, b, 16);
-> +    tcg_gen_sari_i32(t2, t2, 16);
-> +    tcg_gen_add_i32(t, t1, t2);
-> +}
-> +
-> +static void gen_vaddwev_d_w(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)
-> +{
-> +    TCGv_i64 t1, t2;
-> +
-> +    t1 = tcg_temp_new_i64();
-> +    t2 = tcg_temp_new_i64();
-> +    tcg_gen_shli_i64(t1, a, 32);
-> +    tcg_gen_sari_i64(t1, t1, 32);
-> +    tcg_gen_shli_i64(t2, b, 32);
-> +    tcg_gen_sari_i64(t2, t2, 32);
-> +    tcg_gen_add_i64(t, t1, t2);
-> +}
+> This patch includes:
+> - VAVG.{B/H/W/D}[U];
+> - VAVGR.{B/H/W/D}[U].
+> 
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> ---
+>   target/loongarch/disas.c                    |  17 ++
+>   target/loongarch/helper.h                   |  18 ++
+>   target/loongarch/insn_trans/trans_lsx.c.inc | 197 ++++++++++++++++++++
+>   target/loongarch/insns.decode               |  17 ++
+>   target/loongarch/lsx_helper.c               |  45 +++++
+>   5 files changed, 294 insertions(+)
 
-For integer code like this, use tcg_gen_ext16s_i32/tcg_gen_ext32s_i64.
-
-> +static void gen_vaddwev_u(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
-> +{
-> +    TCGv_vec t1, t2;
-> +
-> +    int halfbits = 4 << vece;
-> +
-> +    t1 = tcg_temp_new_vec_matching(a);
-> +    t2 = tcg_temp_new_vec_matching(b);
-> +
-> +    /* Zero-extend the even elements from a */
-> +    tcg_gen_shli_vec(vece, t1, a, halfbits);
-> +    tcg_gen_shri_vec(vece, t1, t1, halfbits);
-> +
-> +    /* Zero-extend the even elements from b */
-> +    tcg_gen_shli_vec(vece, t2, b, halfbits);
-> +    tcg_gen_shri_vec(vece, t2, t2, halfbits);
-> +
-> +    tcg_gen_add_vec(vece, t, t1, t2);
-> +}
-
-uint64_t mask = MAKE_64BIT_MASK(0, halfbits);
-tcg_gen_andi_vec(vece, t1, a, mask);
-
-> +static void gen_vaddwev_w_hu(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
-> +{
-> +    TCGv_i32 t1, t2;
-> +
-> +    t1 = tcg_temp_new_i32();
-> +    t2 = tcg_temp_new_i32();
-> +    tcg_gen_shli_i32(t1, a, 16);
-> +    tcg_gen_shri_i32(t1, t1, 16);
-> +    tcg_gen_shli_i32(t2, b, 16);
-> +    tcg_gen_shri_i32(t2, t2, 16);
-> +    tcg_gen_add_i32(t, t1, t2);
-> +}
-
-tcg_gen_ext16u_i32.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
