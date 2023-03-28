@@ -2,53 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4E96CC001
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841866CC010
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:03:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8v9-0006ad-4p; Tue, 28 Mar 2023 08:59:27 -0400
+	id 1ph8xw-0007hf-T5; Tue, 28 Mar 2023 09:02:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ph8uz-0006Y0-3N
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:59:17 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ph8xt-0007gB-Qr
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:02:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ph8uw-00010t-78
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:59:16 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Pm8ps1Bzfz6J7R3
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 20:57:25 +0800 (CST)
-Received: from localhost (10.48.153.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 28 Mar
- 2023 13:58:59 +0100
-Date: Tue, 28 Mar 2023 13:58:58 +0100
-To: Maverickk 78 <maverickk1778@gmail.com>
-CC: Jonathan Cameron via <qemu-devel@nongnu.org>
-Subject: Re: Cxl devel!
-Message-ID: <20230328135858.00006392@Huawei.com>
-In-Reply-To: <CALfBBTsN4fCW7fR+xMvoiMvaq=a2rTshCifYA6NVrUE-+GBwQg@mail.gmail.com>
-References: <CALfBBTsN4fCW7fR+xMvoiMvaq=a2rTshCifYA6NVrUE-+GBwQg@mail.gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ph8xk-0001Z3-9H
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:02:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680008527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YHKOGp/1r+x4IU5J+VMDuQ2lB6EfDNbWwv7NOaP+sWA=;
+ b=jLdPlTJ40Mzzd5s8iuY+HJCT5HYtRsF4ciAwh88jAFg8K7vk34uEVPliEyFJbq4fRHQfVf
+ f/1VUdRD+vOv9SBlxMKOqXIKBGZuJdAZky4JHS0JK69r9d9Rn2C9HZWE6bz2fEUkPXyqNA
+ 0Ca7voJr77tDDr2LKu8IIIjLamt8QFU=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-642-Sc5lGQmYMV6wY0V91Cgcyg-1; Tue, 28 Mar 2023 09:02:04 -0400
+X-MC-Unique: Sc5lGQmYMV6wY0V91Cgcyg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ 195-20020a3705cc000000b00746a3ab9426so5563769qkf.20
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 06:02:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680008524;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YHKOGp/1r+x4IU5J+VMDuQ2lB6EfDNbWwv7NOaP+sWA=;
+ b=bbxi2FiRKTKhuWdtmLkkTHll4Srfi1zQ4HO4EL7cMslr2N47NVjGosof3J0ZJ9QXkL
+ 7B3mPI0uICoD27Kz+yi8d5V8irwRUlZsTAoqWpOfauAkyKe4KIF9C8K/tkaPCF86LPlY
+ wfnOuczPaAdMCqSwAbWRhGmj5CtPsrIRrE0yBHpYjMG3TPiA/WcQm0sRiQnVkJf0LSp1
+ 0hWk18w78KtW5yWUJJ0yBOTk8P1NpjBa4Jqpk/W0PUHPr4p4qzkHizvRqOS4Vzx0FIxC
+ Kh9CnNy3dar8mqoT7FoC8Wlbf0Vgz2E40VSUEpp3Q5FBcm7mkFPz3MO1nJnb+rtnc5ec
+ R9gg==
+X-Gm-Message-State: AO0yUKVsHwG4FQY3TSyv9E17pTI+KmbkauWxTD9Equ8fbdnp36M7AYSc
+ qyiwP3QsZUG4OpTAGNDQb7uRwr0FfakZBLpv8tppTD185pBHZ9edYN2kviDU8RBVn+IrMYTheAw
+ KS5wnDApRv+2FbTo=
+X-Received: by 2002:a05:622a:15d2:b0:3d6:4351:f357 with SMTP id
+ d18-20020a05622a15d200b003d64351f357mr26927230qty.24.1680008524138; 
+ Tue, 28 Mar 2023 06:02:04 -0700 (PDT)
+X-Google-Smtp-Source: AK7set93gCSh1KLkLEd38jJoDCdEkH+X6rNZL+b2pYXEu3rJC3+5nW1O7YrWNG0J+0rqd5BhqM+IWQ==
+X-Received: by 2002:a05:622a:15d2:b0:3d6:4351:f357 with SMTP id
+ d18-20020a05622a15d200b003d64351f357mr26927172qty.24.1680008523618; 
+ Tue, 28 Mar 2023 06:02:03 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-113.web.vodafone.de.
+ [109.43.179.113]) by smtp.gmail.com with ESMTPSA id
+ t4-20020ac85304000000b003e3870008c8sm7553438qtn.23.2023.03.28.06.01.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Mar 2023 06:02:02 -0700 (PDT)
+Message-ID: <84eebff9-54b8-9354-5b48-822937af0405@redhat.com>
+Date: Tue, 28 Mar 2023 15:01:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: s390x TCG migration failure
+Content-Language: en-US
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
+Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ John Snow <jsnow@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Fam Zheng <fam@euphon.net>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Coiby Xu
+ <Coiby.Xu@gmail.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Eric Blake
+ <eblake@redhat.com>, Eric Farman <farman@linux.ibm.com>
+References: <20230207005650.1810-4-quintela@redhat.com>
+ <20230324184129.3119575-1-nsg@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230324184129.3119575-1-nsg@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.48.153.76]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,84 +115,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 24 Mar 2023 04:32:52 +0530
-Maverickk 78 <maverickk1778@gmail.com> wrote:
-
-> Hello Jonathan
+On 24/03/2023 19.41, Nina Schoetterl-Glausch wrote:
+> Hi,
 > 
-> Raghu here, I'm going over your cxl patches for past few days, it's very
-> impressive.
+> We're seeing failures running s390x migration kvm-unit-tests tests with TCG.
+> Some initial findings:
+> What seems to be happening is that after migration a control block header accessed by the test code is all zeros which causes an unexpected exception.
+> I did a bisection which points to c8df4a7aef ("migration: Split save_live_pending() into state_pending_*") as the culprit.
+> The migration issue persists after applying the fix e264705012 ("migration: I messed state_pending_exact/estimate") on top of c8df4a7aef.
+
+  Hi Nina,
+
+could you please open a ticket in the QEMU bug tracker and add the "8.0" 
+label there, so that it correctly shows up in the list of things that should 
+be fixed before the 8.0 release?
+
+> Applying
 > 
-> I want to get involved and contribute in your endeavor, may be bits &
-> pieces to start.
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 56ff9cd29d..2dc546cf28 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -3437,7 +3437,7 @@ static void ram_state_pending_exact(void *opaque, uint64_t max_size,
+>   
+>       uint64_t remaining_size = rs->migration_dirty_pages * TARGET_PAGE_SIZE;
+>   
+> -    if (!migration_in_postcopy()) {
+> +    if (!migration_in_postcopy() && remaining_size < max_size) {
+>           qemu_mutex_lock_iothread();
+>           WITH_RCU_READ_LOCK_GUARD() {
+>               migration_bitmap_sync_precopy(rs);
 > 
-> If you're specific trivial task(cvl/pcie/fm) about cxl, please let me know.
+> on top fixes or hides the issue. (The comparison was removed by c8df4a7aef.)
+> I arrived at this by experimentation, I haven't looked into why this makes a difference.
 > 
-> Regards
-> Raghu
-> 
+> Any thoughts on the matter appreciated.
 
-Hi Raghu,
+Juan, could you comment on this, please?
 
-Great that you are interested in getting involved.
+  Thomas
 
-As to suggestions for what to do, it's depends on what interests you.
-I'll list some broad categories and hopefully we can focus in on stuff.
-
-Following is brainstorming on the spot, so I've probably forgotten lots
-of things.   There is an out of date todo at:
-https://gitlab.com/jic23/qemu/-/wikis/TODO%20list
-
-Smallish tasks.
-1) Increase fidelity of emulation.  In many places we take short cuts in
-   the interests of supporting 'enough' to be able to test kernel code against..
-   A classic example of this is we don't perform any of the checks we should be
-   on HDM decoders.  Tightening those restrictions up would be great. Typically that
-   involves tweaking the kernel code to try and do 'wrong' things.
-   There are some other examples of this on gitlab.com/jic23/qemu around locking of
-   registers. This is rarely as high priority as 'new features' but we will want to
-   tidy up all these loose corners eventually.
-2) Missing features.  An example of this is the security related stuff that went into
-   the kernel recently.  Whilst that is fairly easy to check using the cxl mocking
-   driver in the kernel, I'd also like to see a QEMU implementation.
-   Some of the big features don't interact as they should.  For instance we don't report
-   poison list overflow via the event log yet.  It would be great to get this all working
-   rather than requiring injection of poison and the event as currently needed (not all
-   upstream yet).
-3) Cleanup some of the existing emulation that we haven't upstreamed yet.
-   - CPMU. Main challenge with this is finding balance between insane commandlines
-     and flexibility.  Right now the code on gitlab.com/jic23/qemu (cxl-<latest data>)
-     provides a fairly random set of counters that were handy for testing corners
-     of the driver that's at v3 on the kernel mailing lists.
-   - Review and testing of the stuff that is on my tree (all been on list I think) but
-     not yet at the top. Fixing up problems with that in advance will save us time
-     when proposing them for upstream.
-   - SPDM / CMA.  Right now this relies on a connection to SPDM-emu.  I'd like to explore
-     if we can use libspdm as a library instead.  Last time I checked this looked non
-     trivial but the dmtf tools team are keen to help.
-
-
-Bigger stuff - note that people are already looking at some of these but they
-may be interested in some help.
-1) An example type 2 device.  We'd probably have to invent something along the
-   lines of a simple copy offload engine.  The intent being to prove out that
-   the kernel code works.  Dan has some stuff on the git.kernel.org tree to support
-   type 2 device.
-2) Tests.  So far we test the bios table generation and that we can start qemu with
-   different topologies. I'd love to see a test that actually brings up a region and
-   tests some reading and writing + ideally looks at result in memory devices to check
-   everything worked.
-3) Dynamic Capacity Devices - some stuff on going related to this, but there is a lot
-   to do.  Main focus today is on MHDs.   Perhaps look at the very earl code posted
-   for switch CCIs.  We have a lot of work to do in kernel for this stuff as well.
-4) MCTP CCI.  I posted a PoC for this a long time back.  It works but we'd need to figure
-   out how to wire it up sensibly.
-
-Jonathan
 
 
