@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435DE6CB556
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 06:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8006CB5F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 07:21:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph0eo-0006ET-05; Tue, 28 Mar 2023 00:10:02 -0400
+	id 1ph1kG-0005Td-L6; Tue, 28 Mar 2023 01:19:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ph0ej-0006EE-Et; Tue, 28 Mar 2023 00:09:57 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ph0ef-0007x4-N6; Tue, 28 Mar 2023 00:09:57 -0400
-Received: from [192.168.0.120] (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowADX3UmEaCJk+bj4Fw--.50734S2;
- Tue, 28 Mar 2023 12:09:42 +0800 (CST)
-Message-ID: <165c20a1-222a-9b75-c23a-10bbc0619c65@iscas.ac.cn>
-Date: Tue, 28 Mar 2023 12:09:40 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ph1k0-0005RE-Vr
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ph1jy-0007Gy-O2
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 01:19:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679980764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RIc4d0d0ecfqObMFeCAk96f0593ueOMIAU2RLRu6/4s=;
+ b=OIGsF3izkSFuoW6F3aPcqswfoIcfKsjgundHaPMeYAMho3ZMl3oNXBwFEovPSqD+V7+hYk
+ zaNrk2Oa++bWuQkdZQD467Z/ikMNpIPt7JlRT8GILqdipj1W3tfSPchW6WXxVcSi3zA954
+ 8ICTs8cn7rmV8fwpTJw0jjrUaA0i03Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-90-Ex7CSctcMyWY898t-h7bDg-1; Tue, 28 Mar 2023 01:19:23 -0400
+X-MC-Unique: Ex7CSctcMyWY898t-h7bDg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD2FA801206
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 05:19:22 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-204.pek2.redhat.com
+ [10.72.13.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B041202701F;
+ Tue, 28 Mar 2023 05:19:20 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>
+Subject: [PULL 00/12] Net patches
+Date: Tue, 28 Mar 2023 13:19:05 +0800
+Message-Id: <20230328051917.18006-1-jasowang@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, dbarboza@ventanamicro.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH 5/5] target/riscv: Add pointer mask support for
- instruction fetch
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
- <20230327100027.61160-6-liweiwei@iscas.ac.cn>
- <8fed2551-a67d-cd53-f5a1-f089f980aa08@linaro.org>
- <ae53e46c-b7e2-c986-a797-06a2630cc393@iscas.ac.cn>
- <aa9b6745-341f-2466-70c2-d574ce2a7c6a@linaro.org>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <aa9b6745-341f-2466-70c2-d574ce2a7c6a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADX3UmEaCJk+bj4Fw--.50734S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZFy7Zw1UtF4UXr1fGr43trb_yoW8Jw4rpr
- 95AFW8KrWktFWkArsFqr1xXFy2kr1xJ3WUG348GF1FyryFqr1Svr17Was0gr1Ykr4xXw1U
- Zr4Dt3yruF13JrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
- n2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
- CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
- nIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,46 +76,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The following changes since commit e3debd5e7d0ce031356024878a0a18b9d109354a:
 
-On 2023/3/28 11:31, Richard Henderson wrote:
-> On 3/27/23 18:55, liweiwei wrote:
->>
->> On 2023/3/28 02:04, Richard Henderson wrote:
->>> On 3/27/23 03:00, Weiwei Li wrote:
->>>> @@ -1248,6 +1265,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr 
->>>> address, int size,
->>>>       qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d 
->>>> mmu_idx %d\n",
->>>>                     __func__, address, access_type, mmu_idx);
->>>>   +    if (access_type == MMU_INST_FETCH) {
->>>> +        address = adjust_pc_address(env, address);
->>>> +    }
->>>
->>> Why do you want to do this so late, as opposed to earlier in 
->>> cpu_get_tb_cpu_state?
->>
->> In this way, the pc for tb may be different from the reg pc. Then the 
->> pc register will be wrong if sync from tb.
->
-> Hmm, true.
->
-> But you certainly cannot adjust the address in tlb_fill, as you'll be 
-> producing different result for read/write and exec.  You could 
-> plausibly use a separate mmu_idx, but that's not ideal either.
->
-> The best solution might be to implement pc-relative translation 
-> (CF_PCREL).  At which point cpu_pc always has the correct results and 
-> we make relative adjustments to that.
+  Merge tag 'pull-request-2023-03-24' of https://gitlab.com/thuth/qemu into staging (2023-03-24 16:08:46 +0000)
 
-I'm not very familiar with how CF_PCREL works currently. I'll try this 
-way later.
+are available in the git repository at:
 
-Regards,
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
-Weiwei Li
+for you to fetch changes up to fba7c3b788dfcb99a3f9253f7d99cc0d217d6d3c:
 
->
->
-> r~
+  igb: respect VMVIR and VMOLR for VLAN (2023-03-28 13:10:55 +0800)
+
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+Akihiko Odaki (4):
+      igb: Save more Tx states
+      igb: Fix DMA requester specification for Tx packet
+      hw/net/net_tx_pkt: Ignore ECN bit
+      hw/net/net_tx_pkt: Align l3_hdr
+
+Sriram Yagnaraman (8):
+      MAINTAINERS: Add Sriram Yagnaraman as a igb reviewer
+      igb: handle PF/VF reset properly
+      igb: add ICR_RXDW
+      igb: implement VFRE and VFTE registers
+      igb: check oversized packets for VMDq
+      igb: respect E1000_VMOLR_RSSE
+      igb: implement VF Tx and Rx stats
+      igb: respect VMVIR and VMOLR for VLAN
+
+ MAINTAINERS          |   1 +
+ hw/net/e1000e_core.c |   6 +-
+ hw/net/e1000x_regs.h |   4 +
+ hw/net/igb.c         |  26 ++++--
+ hw/net/igb_core.c    | 256 ++++++++++++++++++++++++++++++++++++++-------------
+ hw/net/igb_core.h    |   9 +-
+ hw/net/igb_regs.h    |   6 ++
+ hw/net/net_tx_pkt.c  |  30 +++---
+ hw/net/net_tx_pkt.h  |   3 +-
+ hw/net/trace-events  |   2 +
+ hw/net/vmxnet3.c     |   4 +-
+ 11 files changed, 254 insertions(+), 93 deletions(-)
+
 
 
