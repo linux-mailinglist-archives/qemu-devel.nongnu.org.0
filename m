@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642DE6CB477
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C076CB47C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:08:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgzgB-0007Sw-On; Mon, 27 Mar 2023 23:07:23 -0400
+	id 1pgzgR-00086Z-0a; Mon, 27 Mar 2023 23:07:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pgzg3-0007Lv-5u
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:15 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pgzgO-00085j-Qr; Mon, 27 Mar 2023 23:07:36 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pgzg0-0000ta-Ep
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:14 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxJMTUWSJkpNoSAA--.17546S3;
- Tue, 28 Mar 2023 11:07:00 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dxyr24WSJkZukOAA--.10252S46; 
- Tue, 28 Mar 2023 11:06:59 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH v2 44/44] target/loongarch: Use {set/get}_gpr replace to
- cpu_fpr
-Date: Tue, 28 Mar 2023 11:06:31 +0800
-Message-Id: <20230328030631.3117129-45-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230328030631.3117129-1-gaosong@loongson.cn>
-References: <20230328030631.3117129-1-gaosong@loongson.cn>
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pgzgL-0001PO-VR; Mon, 27 Mar 2023 23:07:36 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowAA3P0vrWSJkPk70Fw--.47819S2;
+ Tue, 28 Mar 2023 11:07:24 +0800 (CST)
+Content-Type: multipart/alternative;
+ boundary="------------BFQHy7s11fzXel81ofyw15vz"
+Message-ID: <052a7215-4c24-e0b4-fcd0-c713aaa949c2@iscas.ac.cn>
+Date: Tue, 28 Mar 2023 11:07:22 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S46
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvAXoWfJF17uF4xAF4DAr1Dtr18Xwb_yoW8XrykZo
- Z7X3WUArZ7Jr43uF9akFs7XFW2vFy7Wa1fAws09a4kWa1xur18t3WrGwn8ZayUGF9Fgryf
- W3Z3tF9rJ34xAr1Dn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
- J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
- UUqG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64
- kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY
- 1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aV
- CY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x2
- 6I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4
- IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AG
- Y7Cv6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
- 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF
- 0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42
- IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2
- jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 2/5] target/riscv: Use sign-extended data address when xl
+ = 32
+Content-Language: en-US
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
+ <20230327100027.61160-3-liweiwei@iscas.ac.cn>
+ <821f3122-ea3e-f770-1b88-6b512a22cfbe@linux.alibaba.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <821f3122-ea3e-f770-1b88-6b512a22cfbe@linux.alibaba.com>
+X-CM-TRANSID: qwCowAA3P0vrWSJkPk70Fw--.47819S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ary7Jw15tFWfXF1UXw4kCrg_yoW8CFy5pF
+ 1xKw42grykJFZ7ZFWxtw4UXr15GFn5CFWjk3sa9w1rurWaqr45CFWqk3y5ta1kWFWxWFWj
+ 9rsF9Fy5Za1jgrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21lYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0E
+ x4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5V
+ A0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l7480Y4vEI4kI2Ix0rVAq
+ x4xJMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+ evJa73UjIFyTuYvjfUwYFCUUUUU
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,509 +81,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Introduce set_fpr() and get_fpr() and remove cpu_fpr.
+This is a multi-part message in MIME format.
+--------------BFQHy7s11fzXel81ofyw15vz
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
+
+On 2023/3/28 10:14, LIU Zhiwei wrote:
+>
+>
+> On 2023/3/27 18:00, Weiwei Li wrote:
+>> Currently, the pc use signed-extend(in gen_set_pc*) when xl = 32. And
+>> data address should use the same memory address space with it when
+>> xl = 32. So we should change their address calculation to use sign-extended
+>> address when xl = 32.
+>
+> Incorrect. PC sign-extend is mandated by the spec. It can be seen for 
+> gdb or the OS. But for the memory address for xl = 32, it's the qemu 
+> internal implementation.
+>
+Yeah, there is no spec description for the memory address for xlen = 32. 
+But it seems  easier to use the original (sign-extended) pc in this case.
+
+We needn't cut the pc in cpu_get_tb_cpu_state and sign-extend it in 
+riscv_cpu_synchronize_from_tb.
+
+Regards,
+
+Weiwei Li
+
+> We should not to make it too complex.
+>
+> Even for the PC, when fectch instruction, we only use the low 32-bits, 
+> as you can see  from the cpu_get_tb_cpu_state.
+>
+> *pc = cpu_get_xl(env) == MXL_RV32 ? env->pc & UINT32_MAX : env->pc;
+>
+> Zhiwei
+>
+>> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/translate.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>> index bf0e2d318e..c48cb19389 100644
+>> --- a/target/riscv/translate.c
+>> +++ b/target/riscv/translate.c
+>> @@ -570,7 +570,7 @@ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
+>>       tcg_gen_addi_tl(addr, src1, imm);
+>>   
+>>       if (get_xl(ctx) == MXL_RV32) {
+>> -        tcg_gen_ext32u_tl(addr, addr);
+>> +        tcg_gen_ext32s_tl(addr, addr);
+>>       }
+>>   
+>>       if (ctx->pm_mask_enabled) {
+>> @@ -592,7 +592,7 @@ static TCGv get_address_indexed(DisasContext *ctx, int rs1, TCGv offs)
+>>       tcg_gen_add_tl(addr, src1, offs);
+>>   
+>>       if (get_xl(ctx) == MXL_RV32) {
+>> -        tcg_gen_ext32u_tl(addr, addr);
+>> +        tcg_gen_ext32s_tl(addr, addr);
+>>       }
+>>   
+>>       if (ctx->pm_mask_enabled) {
+--------------BFQHy7s11fzXel81ofyw15vz
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2023/3/28 10:14, LIU Zhiwei wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:821f3122-ea3e-f770-1b88-6b512a22cfbe@linux.alibaba.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><br>
+      </p>
+      <div class="moz-cite-prefix">On 2023/3/27 18:00, Weiwei Li wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:20230327100027.61160-3-liweiwei@iscas.ac.cn">
+        <pre class="moz-quote-pre" wrap="">Currently, the pc use signed-extend(in gen_set_pc*) when xl = 32. And
+data address should use the same memory address space with it when
+xl = 32. So we should change their address calculation to use sign-extended
+address when xl = 32.</pre>
+      </blockquote>
+      <p>Incorrect. PC sign-extend is mandated by the spec. It can be
+        seen for gdb or the OS. But for the memory address for xl = 32,
+        it's the qemu internal implementation.</p>
+    </blockquote>
+    <p>Yeah, there is no spec description for the memory address for
+      xlen = 32. But it seems  easier to use the original
+      (sign-extended) pc in this case.</p>
+    <p>We needn't cut the pc in cpu_get_tb_cpu_state and sign-extend it
+      in <span style="color: #000000;">riscv_cpu_synchronize_from_tb.</span></p>
+    <p><span style="color: #000000;">Regards,</span></p>
+    <p><span style="color: #000000;">Weiwei Li<br>
+      </span></p>
+    <blockquote type="cite"
+      cite="mid:821f3122-ea3e-f770-1b88-6b512a22cfbe@linux.alibaba.com">
+      <p>We should not to make it too complex.</p>
+      <p>Even for the PC, when fectch instruction, we only use the low
+        32-bits, as you can see  from the cpu_get_tb_cpu_state.</p>
+      <pre>*pc = cpu_get_xl(env) == MXL_RV32 ? env-&gt;pc &amp; UINT32_MAX : env-&gt;pc;
+</pre>
+      <p>Zhiwei<br>
+      </p>
+      <blockquote type="cite"
+        cite="mid:20230327100027.61160-3-liweiwei@iscas.ac.cn">
+        <pre class="moz-quote-pre" wrap="">Signed-off-by: Weiwei Li <a class="moz-txt-link-rfc2396E" href="mailto:liweiwei@iscas.ac.cn" moz-do-not-send="true">&lt;liweiwei@iscas.ac.cn&gt;</a>
+Signed-off-by: Junqiang Wang <a class="moz-txt-link-rfc2396E" href="mailto:wangjunqiang@iscas.ac.cn" moz-do-not-send="true">&lt;wangjunqiang@iscas.ac.cn&gt;</a>
 ---
- .../loongarch/insn_trans/trans_farith.c.inc   | 72 +++++++++++++++----
- target/loongarch/insn_trans/trans_fcmp.c.inc  | 12 ++--
- .../loongarch/insn_trans/trans_fmemory.c.inc  | 37 ++++++----
- target/loongarch/insn_trans/trans_fmov.c.inc  | 31 +++++---
- target/loongarch/translate.c                  | 20 ++++--
- 5 files changed, 129 insertions(+), 43 deletions(-)
+ target/riscv/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
-index 7081fbb89b..21ea47308b 100644
---- a/target/loongarch/insn_trans/trans_farith.c.inc
-+++ b/target/loongarch/insn_trans/trans_farith.c.inc
-@@ -17,18 +17,29 @@
- static bool gen_fff(DisasContext *ctx, arg_fff *a,
-                     void (*func)(TCGv, TCGv_env, TCGv, TCGv))
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src1 = get_fpr(ctx, a->fj);
-+    TCGv src2 = get_fpr(ctx, a->fk);
-+
-     CHECK_FPE;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index bf0e2d318e..c48cb19389 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -570,7 +570,7 @@ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
+     tcg_gen_addi_tl(addr, src1, imm);
  
--    func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk]);
-+    func(dest, cpu_env, src1, src2);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
- static bool gen_ff(DisasContext *ctx, arg_ff *a,
-                    void (*func)(TCGv, TCGv_env, TCGv))
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src = get_fpr(ctx, a->fj);
-+
-     CHECK_FPE;
- 
--    func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj]);
-+    func(dest, cpu_env, src);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
-@@ -37,61 +48,98 @@ static bool gen_muladd(DisasContext *ctx, arg_ffff *a,
-                        int flag)
- {
-     TCGv_i32 tflag = tcg_constant_i32(flag);
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src1 = get_fpr(ctx, a->fj);
-+    TCGv src2 = get_fpr(ctx, a->fk);
-+    TCGv src3 = get_fpr(ctx, a->fa);
- 
-     CHECK_FPE;
- 
--    func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj],
--         cpu_fpr[a->fk], cpu_fpr[a->fa], tflag);
-+    func(dest, cpu_env, src1, src2, src3, tflag);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
- static bool trans_fcopysign_s(DisasContext *ctx, arg_fcopysign_s *a)
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src1 = get_fpr(ctx, a->fk);
-+    TCGv src2 = get_fpr(ctx, a->fj);
-+
-     CHECK_FPE;
- 
--    tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 31);
-+    tcg_gen_deposit_i64(dest, src1, src2, 0, 31);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
- static bool trans_fcopysign_d(DisasContext *ctx, arg_fcopysign_d *a)
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src1 = get_fpr(ctx, a->fk);
-+    TCGv src2 = get_fpr(ctx, a->fj);
-+
-     CHECK_FPE;
- 
--    tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 63);
-+    tcg_gen_deposit_i64(dest, src1, src2, 0, 63);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
- static bool trans_fabs_s(DisasContext *ctx, arg_fabs_s *a)
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src = get_fpr(ctx, a->fj);
-+
-     CHECK_FPE;
- 
--    tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 31));
--    gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    tcg_gen_andi_i64(dest, src, MAKE_64BIT_MASK(0, 31));
-+    gen_nanbox_s(dest, dest);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
- static bool trans_fabs_d(DisasContext *ctx, arg_fabs_d *a)
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src = get_fpr(ctx, a->fj);
-+
-     CHECK_FPE;
- 
--    tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 63));
-+    tcg_gen_andi_i64(dest, src, MAKE_64BIT_MASK(0, 63));
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
- static bool trans_fneg_s(DisasContext *ctx, arg_fneg_s *a)
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src = get_fpr(ctx, a->fj);
-+
-     CHECK_FPE;
- 
--    tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x80000000);
--    gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    tcg_gen_xori_i64(dest, src, 0x80000000);
-+    gen_nanbox_s(dest, dest);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
- static bool trans_fneg_d(DisasContext *ctx, arg_fneg_d *a)
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src = get_fpr(ctx, a->fj);
-+
-     CHECK_FPE;
- 
--    tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x8000000000000000LL);
-+    tcg_gen_xori_i64(dest, src, 0x8000000000000000LL);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
-diff --git a/target/loongarch/insn_trans/trans_fcmp.c.inc b/target/loongarch/insn_trans/trans_fcmp.c.inc
-index 3b0da2b9f4..a78868dbc4 100644
---- a/target/loongarch/insn_trans/trans_fcmp.c.inc
-+++ b/target/loongarch/insn_trans/trans_fcmp.c.inc
-@@ -25,17 +25,19 @@ static uint32_t get_fcmp_flags(int cond)
- 
- static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
- {
--    TCGv var;
-+    TCGv var, src1, src2;
-     uint32_t flags;
-     void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
- 
-     CHECK_FPE;
- 
-     var = tcg_temp_new();
-+    src1 = get_fpr(ctx, a->fj);
-+    src2 = get_fpr(ctx, a->fk);
-     fn = (a->fcond & 1 ? gen_helper_fcmp_s_s : gen_helper_fcmp_c_s);
-     flags = get_fcmp_flags(a->fcond >> 1);
- 
--    fn(var, cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk], tcg_constant_i32(flags));
-+    fn(var, cpu_env, src1, src2, tcg_constant_i32(flags));
- 
-     tcg_gen_st8_tl(var, cpu_env, offsetof(CPULoongArchState, cf[a->cd]));
-     return true;
-@@ -43,17 +45,19 @@ static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
- 
- static bool trans_fcmp_cond_d(DisasContext *ctx, arg_fcmp_cond_d *a)
- {
--    TCGv var;
-+    TCGv var, src1, src2;
-     uint32_t flags;
-     void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
- 
-     CHECK_FPE;
- 
-     var = tcg_temp_new();
-+    src1 = get_fpr(ctx, a->fj);
-+    src2 = get_fpr(ctx, a->fk);
-     fn = (a->fcond & 1 ? gen_helper_fcmp_s_d : gen_helper_fcmp_c_d);
-     flags = get_fcmp_flags(a->fcond >> 1);
- 
--    fn(var, cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk], tcg_constant_i32(flags));
-+    fn(var, cpu_env, src1, src2, tcg_constant_i32(flags));
- 
-     tcg_gen_st8_tl(var, cpu_env, offsetof(CPULoongArchState, cf[a->cd]));
-     return true;
-diff --git a/target/loongarch/insn_trans/trans_fmemory.c.inc b/target/loongarch/insn_trans/trans_fmemory.c.inc
-index 0d11843873..91c09fb6d9 100644
---- a/target/loongarch/insn_trans/trans_fmemory.c.inc
-+++ b/target/loongarch/insn_trans/trans_fmemory.c.inc
-@@ -13,6 +13,7 @@ static void maybe_nanbox_load(TCGv freg, MemOp mop)
- static bool gen_fload_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
- {
-     TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv dest = get_fpr(ctx, a->fd);
- 
-     CHECK_FPE;
- 
-@@ -22,8 +23,9 @@ static bool gen_fload_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
-         addr = temp;
+     if (get_xl(ctx) == MXL_RV32) {
+-        tcg_gen_ext32u_tl(addr, addr);
++        tcg_gen_ext32s_tl(addr, addr);
      }
  
--    tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
--    maybe_nanbox_load(cpu_fpr[a->fd], mop);
-+    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
-+    maybe_nanbox_load(dest, mop);
-+    set_fpr(a->fd, dest);
+     if (ctx-&gt;pm_mask_enabled) {
+@@ -592,7 +592,7 @@ static TCGv get_address_indexed(DisasContext *ctx, int rs1, TCGv offs)
+     tcg_gen_add_tl(addr, src1, offs);
  
-     return true;
- }
-@@ -31,6 +33,7 @@ static bool gen_fload_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
- static bool gen_fstore_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
- {
-     TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src = get_fpr(ctx, a->fd);
- 
-     CHECK_FPE;
- 
-@@ -40,7 +43,8 @@ static bool gen_fstore_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
-         addr = temp;
+     if (get_xl(ctx) == MXL_RV32) {
+-        tcg_gen_ext32u_tl(addr, addr);
++        tcg_gen_ext32s_tl(addr, addr);
      }
  
--    tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+    tcg_gen_qemu_st_tl(src, addr, ctx->mem_idx, mop);
-+
-     return true;
- }
- 
-@@ -48,14 +52,16 @@ static bool gen_floadx(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv dest = get_fpr(ctx, a->fd);
-     TCGv addr;
- 
-     CHECK_FPE;
- 
-     addr = tcg_temp_new();
-     tcg_gen_add_tl(addr, src1, src2);
--    tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
--    maybe_nanbox_load(cpu_fpr[a->fd], mop);
-+    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
-+    maybe_nanbox_load(dest, mop);
-+    set_fpr(a->fd, dest);
- 
-     return true;
- }
-@@ -64,13 +70,14 @@ static bool gen_fstorex(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv src3 = get_fpr(ctx, a->fd);
-     TCGv addr;
- 
-     CHECK_FPE;
- 
-     addr = tcg_temp_new();
-     tcg_gen_add_tl(addr, src1, src2);
--    tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+    tcg_gen_qemu_st_tl(src3, addr, ctx->mem_idx, mop);
- 
-     return true;
- }
-@@ -79,6 +86,7 @@ static bool gen_fload_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv dest = get_fpr(ctx, a->fd);
-     TCGv addr;
- 
-     CHECK_FPE;
-@@ -86,8 +94,9 @@ static bool gen_fload_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
-     addr = tcg_temp_new();
-     gen_helper_asrtgt_d(cpu_env, src1, src2);
-     tcg_gen_add_tl(addr, src1, src2);
--    tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
--    maybe_nanbox_load(cpu_fpr[a->fd], mop);
-+    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
-+    maybe_nanbox_load(dest, mop);
-+    set_fpr(a->fd, dest);
- 
-     return true;
- }
-@@ -96,6 +105,7 @@ static bool gen_fstore_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv src3 = get_fpr(ctx, a->fd);
-     TCGv addr;
- 
-     CHECK_FPE;
-@@ -103,7 +113,7 @@ static bool gen_fstore_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
-     addr = tcg_temp_new();
-     gen_helper_asrtgt_d(cpu_env, src1, src2);
-     tcg_gen_add_tl(addr, src1, src2);
--    tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+    tcg_gen_qemu_st_tl(src3, addr, ctx->mem_idx, mop);
- 
-     return true;
- }
-@@ -112,6 +122,7 @@ static bool gen_fload_le(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv dest = get_fpr(ctx, a->fd);
-     TCGv addr;
- 
-     CHECK_FPE;
-@@ -119,8 +130,9 @@ static bool gen_fload_le(DisasContext *ctx, arg_frr *a, MemOp mop)
-     addr = tcg_temp_new();
-     gen_helper_asrtle_d(cpu_env, src1, src2);
-     tcg_gen_add_tl(addr, src1, src2);
--    tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
--    maybe_nanbox_load(cpu_fpr[a->fd], mop);
-+    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
-+    maybe_nanbox_load(dest, mop);
-+    set_fpr(a->fd, dest);
- 
-     return true;
- }
-@@ -129,6 +141,7 @@ static bool gen_fstore_le(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv src3 = get_fpr(ctx, a->fd);
-     TCGv addr;
- 
-     CHECK_FPE;
-@@ -136,7 +149,7 @@ static bool gen_fstore_le(DisasContext *ctx, arg_frr *a, MemOp mop)
-     addr = tcg_temp_new();
-     gen_helper_asrtle_d(cpu_env, src1, src2);
-     tcg_gen_add_tl(addr, src1, src2);
--    tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+    tcg_gen_qemu_st_tl(src3, addr, ctx->mem_idx, mop);
- 
-     return true;
- }
-diff --git a/target/loongarch/insn_trans/trans_fmov.c.inc b/target/loongarch/insn_trans/trans_fmov.c.inc
-index 069c941665..5af0dd1b66 100644
---- a/target/loongarch/insn_trans/trans_fmov.c.inc
-+++ b/target/loongarch/insn_trans/trans_fmov.c.inc
-@@ -10,14 +10,17 @@ static const uint32_t fcsr_mask[4] = {
- static bool trans_fsel(DisasContext *ctx, arg_fsel *a)
- {
-     TCGv zero = tcg_constant_tl(0);
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src1 = get_fpr(ctx, a->fj);
-+    TCGv src2 = get_fpr(ctx, a->fk);
-     TCGv cond;
- 
-     CHECK_FPE;
- 
-     cond = tcg_temp_new();
-     tcg_gen_ld8u_tl(cond, cpu_env, offsetof(CPULoongArchState, cf[a->ca]));
--    tcg_gen_movcond_tl(TCG_COND_EQ, cpu_fpr[a->fd], cond, zero,
--                       cpu_fpr[a->fj], cpu_fpr[a->fk]);
-+    tcg_gen_movcond_tl(TCG_COND_EQ, dest, cond, zero, src1, src2);
-+    set_fpr(a->fd, dest);
- 
-     return true;
- }
-@@ -25,15 +28,16 @@ static bool trans_fsel(DisasContext *ctx, arg_fsel *a)
- static bool gen_f2f(DisasContext *ctx, arg_ff *a,
-                     void (*func)(TCGv, TCGv), bool nanbox)
- {
--    TCGv dest = cpu_fpr[a->fd];
--    TCGv src = cpu_fpr[a->fj];
-+    TCGv dest = get_fpr(ctx, a->fd);
-+    TCGv src = get_fpr(ctx, a->fj);
- 
-     CHECK_FPE;
- 
-     func(dest, src);
-     if (nanbox) {
--        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+        gen_nanbox_s(dest, dest);
-     }
-+    set_fpr(a->fd, dest);
- 
-     return true;
- }
-@@ -42,10 +46,13 @@ static bool gen_r2f(DisasContext *ctx, arg_fr *a,
-                     void (*func)(TCGv, TCGv))
- {
-     TCGv src = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv dest = get_fpr(ctx, a->fd);
- 
-     CHECK_FPE;
- 
--    func(cpu_fpr[a->fd], src);
-+    func(dest, src);
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
-@@ -53,10 +60,11 @@ static bool gen_f2r(DisasContext *ctx, arg_rf *a,
-                     void (*func)(TCGv, TCGv))
- {
-     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src = get_fpr(ctx, a->fj);
- 
-     CHECK_FPE;
- 
--    func(dest, cpu_fpr[a->fj]);
-+    func(dest, src);
-     gen_set_gpr(a->rd, dest, EXT_NONE);
- 
-     return true;
-@@ -124,11 +132,12 @@ static void gen_movfrh2gr_s(TCGv dest, TCGv src)
- static bool trans_movfr2cf(DisasContext *ctx, arg_movfr2cf *a)
- {
-     TCGv t0;
-+    TCGv src = get_fpr(ctx, a->fj);
- 
-     CHECK_FPE;
- 
-     t0 = tcg_temp_new();
--    tcg_gen_andi_tl(t0, cpu_fpr[a->fj], 0x1);
-+    tcg_gen_andi_tl(t0, src, 0x1);
-     tcg_gen_st8_tl(t0, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
- 
-     return true;
-@@ -136,10 +145,14 @@ static bool trans_movfr2cf(DisasContext *ctx, arg_movfr2cf *a)
- 
- static bool trans_movcf2fr(DisasContext *ctx, arg_movcf2fr *a)
- {
-+    TCGv dest = get_fpr(ctx, a->fd);
-+
-     CHECK_FPE;
- 
--    tcg_gen_ld8u_tl(cpu_fpr[a->fd], cpu_env,
-+    tcg_gen_ld8u_tl(dest, cpu_env,
-                     offsetof(CPULoongArchState, cf[a->cj & 0x7]));
-+    set_fpr(a->fd, dest);
-+
-     return true;
- }
- 
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 7f2ad7f542..dbf8545c9d 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -23,7 +23,6 @@
- /* Global register indices */
- TCGv cpu_gpr[32], cpu_pc;
- static TCGv cpu_lladdr, cpu_llval;
--TCGv_i64 cpu_fpr[32];
- 
- #include "exec/gen-icount.h"
- 
-@@ -174,6 +173,20 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
-     }
- }
- 
-+static TCGv get_fpr(DisasContext *ctx, int reg_num)
-+{
-+    TCGv t = tcg_temp_new();
-+    tcg_gen_ld_i64(t, cpu_env,
-+                   offsetof(CPULoongArchState, fpr[reg_num].vreg.D(0)));
-+    return  t;
-+}
-+
-+static void set_fpr(int reg_num, TCGv val)
-+{
-+    tcg_gen_st_i64(val, cpu_env,
-+                   offsetof(CPULoongArchState, fpr[reg_num].vreg.D(0)));
-+}
-+
- #include "decode-insns.c.inc"
- #include "insn_trans/trans_arith.c.inc"
- #include "insn_trans/trans_shift.c.inc"
-@@ -268,11 +281,6 @@ void loongarch_translate_init(void)
-                                         regnames[i]);
-     }
- 
--    for (i = 0; i < 32; i++) {
--        int off = offsetof(CPULoongArchState, fpr[i]);
--        cpu_fpr[i] = tcg_global_mem_new_i64(cpu_env, off, fregnames[i]);
--    }
--
-     cpu_pc = tcg_global_mem_new(cpu_env, offsetof(CPULoongArchState, pc), "pc");
-     cpu_lladdr = tcg_global_mem_new(cpu_env,
-                     offsetof(CPULoongArchState, lladdr), "lladdr");
--- 
-2.31.1
+     if (ctx-&gt;pm_mask_enabled) {
+</pre>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------BFQHy7s11fzXel81ofyw15vz--
 
 
