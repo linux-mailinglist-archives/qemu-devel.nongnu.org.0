@@ -2,81 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFD16CC965
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2473A6CC991
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:45:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phDFN-00007s-23; Tue, 28 Mar 2023 13:36:37 -0400
+	id 1phDMY-0007Mf-T4; Tue, 28 Mar 2023 13:44:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phDFA-0008Rl-F0
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:36:25 -0400
-Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1phDMW-0007Ly-Al
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:44:00 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phDF8-0005Yp-AK
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:36:23 -0400
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-17683b570b8so13474058fac.13
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 10:36:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1phDMU-0008TQ-Bj
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:43:59 -0400
+Received: by mail-pl1-x632.google.com with SMTP id ja10so12440127plb.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 10:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680024981;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IB6MPIytqxPwEACYywxPrY0MXu0k/dW8FvoTWQSwXRo=;
- b=LN6ogcDA0OGCey2tSwbevc0KhoNJzDKPSmpXSSlJ+6C0yP76yxX2La7Ky+cgqWDM7m
- Y2uqcmJE50r2M2oidJjzDW/a2s5mUa5UguEI1NtumJQb6XmhBiR8TLC+KXThlLFTNxJ2
- OxxCSRI/NG7eE11C6qIPWrKZ6IhR7fky8V4VAzPk1gyg0OceJZl20m5783lzc5HiJK4l
- zdjzY38T19i0iuTRHPKvL+AgoYCwyL5449oz9zTT9fn5EIA3wKyrE8SXQ4kYN2AxCPkv
- AC2XfMK60UApB9sa8gJpt9FuxMo8mTSgkFv63Mn/BgFJ4LvG7jnAVnnAOaIEZbUwXWcB
- uHow==
+ d=linaro.org; s=google; t=1680025436;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OXgeFj8HeZZWMYQ29opeCFN4mKNrMXlE/BhUqQhRi60=;
+ b=GTi5S1OpGaJHYzB2QwQwi8aLpAc6k1aFr85xKro7FFc8mPcrMKFRKbO5EV5zhRahNJ
+ sem7uixXtldpnBvjrM8ErFjMwpckDnrRCOJsCADZL74qzB+IAMg0MFBvmy2dU+/DDzQQ
+ qHU3ehPwf2iZdIvjmBkmeFY4Kgs2/Qh96WSAS/GR6hCjtOR+Ce58cBNMM9V991V96cor
+ XXgoh4NEUZweub2IsTXTE4S9Tu3V0Z8+szcx1Quu4ws5YPdnQK7Q99pQVin2UUBfU+IL
+ fkTUSR7c2AZHWOA/vnhrvY7nvYakyQyvAjldOYzXK3BNTNXbnTLMrkVPMr/bvsxQlm5z
+ 4P4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680024981;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IB6MPIytqxPwEACYywxPrY0MXu0k/dW8FvoTWQSwXRo=;
- b=d8GuhnAPLcj8E+fTCNiIqYHHevnUAMaD2cwpHKj0nOKHEsVZHdYogIqSSzGOaj+cSE
- PqwMLcZJggM52hgQnh38eoAe+a2BaTyykWS20sf57+l2KDkEEttdy4zmy5wrnFNAKz/B
- b+C2prwSgLtIrVENcltVzLsx9ldCcFq0PU7sEQ3c8j5bE1b77N5NEM9uzC+9G1WgLhwH
- oAkUhfiUs14gbXGRRzd+UO12gUeY26DbYxorAulyWGvPHtAzKLMMJqr4XWoEqwrPMn4y
- JSUrsob0pDjSev7Dh3Y8gMsrIKIZQqUPhfUUUxxaDRtyJJPVqW+bfVqh//NEXPagC3Nn
- xNqQ==
-X-Gm-Message-State: AO0yUKULqFDAta15R+99p/o5qn6Ufj187TNFwkF5WjGckKiqFs1XkTw7
- 7fNAz3yHo7FFoMM7ImDNDUerQOxRMHs3AGhtHTo=
-X-Google-Smtp-Source: AKy350bE8dGRR3oWBJX+l2ZOI+L2mfS7JoCduWB9Sk8ElnJvUoA9B07U7WrdOmLZtULozPFJstMraQ==
-X-Received: by 2002:a05:6870:3911:b0:17a:da6b:ad91 with SMTP id
- b17-20020a056870391100b0017ada6bad91mr10193787oap.2.1680024979772; 
- Tue, 28 Mar 2023 10:36:19 -0700 (PDT)
-Received: from grind.. ([177.95.89.231]) by smtp.gmail.com with ESMTPSA id
- m2-20020a9d6442000000b0069f0a85fa36sm11635654otl.57.2023.03.28.10.36.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 10:36:19 -0700 (PDT)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v5 9/9] target/riscv: rework write_misa()
-Date: Tue, 28 Mar 2023 14:35:43 -0300
-Message-Id: <20230328173543.431342-10-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230328173543.431342-1-dbarboza@ventanamicro.com>
-References: <20230328173543.431342-1-dbarboza@ventanamicro.com>
+ d=1e100.net; s=20210112; t=1680025436;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OXgeFj8HeZZWMYQ29opeCFN4mKNrMXlE/BhUqQhRi60=;
+ b=J5FqbSXUsyYTjidyfj1q9hQ5E8T6df6g7SZbCVeXfHlAC7xiSN9L/ngiGTyEq4Qdjn
+ e9PqxEvK+/h3qoV3k2OaS2sb6AZFzX6Dn6SdfpQccj6iHm4tAnTQciPFYz9OovKTEe8L
+ h3oHONZP4jh2SJ8R6as7akpK9tyjt7O/hHhGRcMjkbYWInDxZkJrr1IcuR1CX0+m2f3j
+ wkhP3J2Q8wOrnlSoF6NxpIzLa5bWqpBHO9zphv9525NON5TrKGiZ/qYnWA3xPgngK6/A
+ FY8XpmYluufrDAb0Fgz/l3WGTZ0JO6chbTZ8elJ0jIEZIJ20vyZ4T7olGt4exgPT7ZQG
+ P1iw==
+X-Gm-Message-State: AAQBX9dGEyiH/b8rV1hEgnevzjBNSszpfHa1xwyB0FIWl7iGX3uaJMWT
+ 5/Phm/L6VrrznXlq3xaBva917w==
+X-Google-Smtp-Source: AKy350Z+/qXMv+UayOrNFhoUXiUiu0/aNdMFOWlhfatqwgpRdfjqi+Xtp88FTOKUg3bwZICzL0CF/w==
+X-Received: by 2002:a17:902:db0d:b0:1a1:e410:a1ff with SMTP id
+ m13-20020a170902db0d00b001a1e410a1ffmr20089619plx.24.1680025436663; 
+ Tue, 28 Mar 2023 10:43:56 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:396:9f0d:afc2:978e?
+ ([2602:ae:1541:f901:396:9f0d:afc2:978e])
+ by smtp.gmail.com with ESMTPSA id
+ n6-20020a170902968600b001a194df5a58sm21429813plp.167.2023.03.28.10.43.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Mar 2023 10:43:56 -0700 (PDT)
+Message-ID: <19a70869-d4d4-3f57-4d9e-3c4b225eade8@linaro.org>
+Date: Tue, 28 Mar 2023 10:43:54 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH-for-8.0 v2 2/2] target/arm/pauth: Inline
+ pauth_param_mask() and pauth_ptr_mask()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>, Fabiano Rosas <farosas@suse.de>
+References: <20230328133054.6553-1-philmd@linaro.org>
+ <20230328133054.6553-3-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230328133054.6553-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,168 +99,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-write_misa() must use as much common logic as possible. We want to open
-code just the bits that are exclusive to the CSR write operation and TCG
-internals.
+On 3/28/23 06:30, Philippe Mathieu-Daudé wrote:
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index 673519a24a..a617466fa8 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -1389,6 +1389,14 @@ int exception_target_el(CPUARMState *env);
+>   bool arm_singlestep_active(CPUARMState *env);
+>   bool arm_generate_debug_exceptions(CPUARMState *env);
+>   
+> +static inline uint64_t pauth_param_mask(ARMVAParameters param)
 
-Our validation is done with riscv_cpu_validate_set_extensions(), but we
-need a small tweak first. When enabling RVG we're doing:
+Perhaps pauth_ptr_mask_param, or just pauth_ptr_mask (see below).
 
-        env->misa_ext |= RVI | RVM | RVA | RVF | RVD;
-        env->misa_ext_mask = env->misa_ext;
+> +static inline uint64_t pauth_ptr_mask(CPUARMState *env, uint64_t ptr, bool data)
+> +{
+> +    ARMMMUIdx mmu_idx = arm_stage1_mmu_idx(env);
+> +    ARMVAParameters param = aa64_va_parameters(env, ptr, mmu_idx, data);
+> +
+> +    return pauth_param_mask(param);
+> +}
 
-This works fine for realize() time but this can potentially overwrite
-env->misa_ext_mask if we reutilize the function for write_misa().
-Instead of doing misa_ext_mask = misa_ext, sum up the RVG extensions in
-misa_ext_mask as well. This won't change realize() time behavior
-(misa_ext_mask is still == misa_ext)  and will ensure that write_misa()
-won't change misa_ext_mask by accident.
+This is only used by gdbstub.  Just put it there.  Perhaps merge it with 
+aarch64_gdb_get_pauth_reg directly, so that we can use the simpler 'pauth_ptr_mask' name 
+above.
 
-After that, rewrite write_misa() to work as follows:
 
-- mask the write using misa_ext_mask to avoid enabling unsupported
-  extensions;
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-- suppress RVC if the next insn isn't aligned;
 
-- disable RVG if any of RVG dependencies are being disabled by the user;
-
-- assign env->misa_ext and run riscv_cpu_validate_set_extensions(). On
-  error, rollback to the previous values of misa_ext and misa_ext_mask;
-
-- on success, check if there's a chance that misa_ext_mask was
-  overwritten during the process and restore it;
-
-- handle RVF and MSTATUS_FS and continue as usual.
-
-Let's keep write_misa() as experimental for now until this logic gains
-enough mileage.
-
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- target/riscv/cpu.c |  4 ++--
- target/riscv/cpu.h |  1 +
- target/riscv/csr.c | 47 ++++++++++++++++++++--------------------------
- 3 files changed, 23 insertions(+), 29 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index cd924029d4..d722674791 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -939,7 +939,7 @@ static void riscv_cpu_validate_misa_mxl(RISCVCPU *cpu, Error **errp)
-  * Check consistency between chosen extensions while setting
-  * cpu->cfg accordingly.
-  */
--static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-+void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
- {
-     CPURISCVState *env = &cpu->env;
-     Error *local_err = NULL;
-@@ -955,7 +955,7 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         cpu->cfg.ext_ifencei = true;
- 
-         env->misa_ext |= RVI | RVM | RVA | RVF | RVD;
--        env->misa_ext_mask = env->misa_ext;
-+        env->misa_ext_mask |= RVI | RVM | RVA | RVF | RVD;
-     }
- 
-     if (riscv_has_ext(env, RVI) && riscv_has_ext(env, RVE)) {
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 03b5cc2cf4..13f6566962 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -575,6 +575,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         bool probe, uintptr_t retaddr);
- char *riscv_isa_string(RISCVCPU *cpu);
- void riscv_cpu_list(void);
-+void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp);
- 
- #define cpu_list riscv_cpu_list
- #define cpu_mmu_index riscv_cpu_mmu_index
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d522efc0b6..37fd619b17 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1343,39 +1343,18 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
- static RISCVException write_misa(CPURISCVState *env, int csrno,
-                                  target_ulong val)
- {
-+    RISCVCPU *cpu = env_archcpu(env);
-+    uint32_t orig_misa_ext = env->misa_ext;
-+    Error *local_err = NULL;
-+
-     if (!riscv_cpu_cfg(env)->misa_w) {
-         /* drop write to misa */
-         return RISCV_EXCP_NONE;
-     }
- 
--    /* 'I' or 'E' must be present */
--    if (!(val & (RVI | RVE))) {
--        /* It is not, drop write to misa */
--        return RISCV_EXCP_NONE;
--    }
--
--    /* 'E' excludes all other extensions */
--    if (val & RVE) {
--        /*
--         * when we support 'E' we can do "val = RVE;" however
--         * for now we just drop writes if 'E' is present.
--         */
--        return RISCV_EXCP_NONE;
--    }
--
--    /*
--     * misa.MXL writes are not supported by QEMU.
--     * Drop writes to those bits.
--     */
--
-     /* Mask extensions that are not supported by this hart */
-     val &= env->misa_ext_mask;
- 
--    /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
--    if ((val & RVD) && !(val & RVF)) {
--        val &= ~RVD;
--    }
--
-     /*
-      * Suppress 'C' if next instruction is not aligned
-      * TODO: this should check next_pc
-@@ -1384,18 +1363,32 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
-         val &= ~RVC;
-     }
- 
-+    /* Disable RVG if any of its dependencies are disabled */
-+    if (!(val & RVI && val & RVM && val & RVA &&
-+          val & RVF && val & RVD)) {
-+        val &= ~RVG;
-+    }
-+
-     /* If nothing changed, do nothing. */
-     if (val == env->misa_ext) {
-         return RISCV_EXCP_NONE;
-     }
- 
--    if (!(val & RVF)) {
-+    env->misa_ext = val;
-+    riscv_cpu_validate_set_extensions(cpu, &local_err);
-+    if (local_err != NULL) {
-+        /* Rollback on validation error */
-+        env->misa_ext = orig_misa_ext;
-+
-+        return RISCV_EXCP_NONE;
-+    }
-+
-+    if (!(env->misa_ext & RVF)) {
-         env->mstatus &= ~MSTATUS_FS;
-     }
- 
-     /* flush translation cache */
-     tb_flush(env_cpu(env));
--    env->misa_ext = val;
-     env->xl = riscv_cpu_mxl(env);
-     return RISCV_EXCP_NONE;
- }
--- 
-2.39.2
-
+r~
 
