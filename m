@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C656CC9C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD856CC9DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 20:00:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phDYl-0003L6-DI; Tue, 28 Mar 2023 13:56:39 -0400
+	id 1phDbh-0004T6-1U; Tue, 28 Mar 2023 13:59:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1phDYN-0003JR-O3; Tue, 28 Mar 2023 13:56:15 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1phDYL-00064V-To; Tue, 28 Mar 2023 13:56:15 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-17ec8963db8so13558142fac.8; 
- Tue, 28 Mar 2023 10:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680026172;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=t9XEIM7eHgqeHJ+Y9dPjhkmj1rViCNRDvqYiCMo+ED4=;
- b=UF0ZeKE3uQn5PBPFL/gI3KG9G1+zp8gJ4oN8JvFseBPmq+yYoJgcf5c7CLM+th1bWM
- FA6O396JMWIyPXyJnz9kOhs/dmhvYRZF+azBeaflWc0rB3eLFTblCx+T23rDL5FHHZCA
- Rwt4E1zEta3TiYn5PoXL20pi3dxs9u+pevHhHta060DFCXLUFztvAEQVKtKTOxlVvbl+
- QmmGxlhL2JkOMWl1xjiHANhISSg7suByLw5apyE6UG10cYbf7g7VrMJpdvezp+K1j2eC
- uwQP8ZaAp3C8SKkOAbPgf2AM3uMFMqG6CSAfqwwQbik/1v/4PuzU7vcAkCtxw98av2Gx
- 08Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680026172;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t9XEIM7eHgqeHJ+Y9dPjhkmj1rViCNRDvqYiCMo+ED4=;
- b=TFuSBu4qXIoCRu5+KDyeg2L5Q76FxvVgskx2Gz33A8SzrLCu2vW32iYCIQWzZV2oFh
- krMBjJV8sEzaQm/JH18WILdNjuS2XXyyA0Xq9gV74+YMNvs7B/JTg8Fn+lDSfA9ACkVx
- ZkYuLsV5nj+Z+1h9318JmcAPVXzXXRXNUjelz2dzALfPbyjRKYrdyukYQyN+6p/izGCX
- brrRWrPR5XzsouKBu1ASPbNYWVlCmq9wPBCqqtsVF9zEw9/FD641ayM+HJlGKmDDCpI4
- QLgNFZuPCFZl0ht4TEMry80Etur4Y1lxqHucC9FvLFYDaCyzERUzrm8ODvEpCtUg15Zs
- yDtw==
-X-Gm-Message-State: AAQBX9ddn+BE9dpSpLuJnctDsn298yPJXuW3M261ptjJROVEzqW+mYb/
- wugYXfhicHmYlD8bUEfz1ZI=
-X-Google-Smtp-Source: AKy350bjlZeqD8Bp3v+F8M/dMbVsxckdnBdO0A8Bb1v/QOh32TV7VQxrkma6SZNByfbmEehJAG+tmg==
-X-Received: by 2002:a05:6870:414a:b0:17e:7d94:8b55 with SMTP id
- r10-20020a056870414a00b0017e7d948b55mr11378433oad.46.1680026171927; 
- Tue, 28 Mar 2023 10:56:11 -0700 (PDT)
-Received: from [192.168.68.107] ([177.95.89.231])
- by smtp.gmail.com with ESMTPSA id
- m9-20020a9d6ac9000000b0069f153bb37asm8315284otq.62.2023.03.28.10.56.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 10:56:11 -0700 (PDT)
-Message-ID: <dfac418a-1e8c-3db5-3e29-4c5724d3e7f3@gmail.com>
-Date: Tue, 28 Mar 2023 14:56:09 -0300
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1phDbf-0004Sv-3d
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:59:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1phDbd-0007Pt-6S
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:59:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680026375;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7FNsC5gelqnlEXfJznEKLIJX+wxr4nSvrOBPztbeb64=;
+ b=dGRC9e924SgZce1RaS5i1BsgTI/PW5x3lubFQMWA4uoNxO+8XWjLOYxdKCQZnJqxQyDcBn
+ /QPpcVq6axsPQpv9NxKWNlRL/jsvvNGkAs/M4Q6UzIhGIEVR1f/KhWtkjC0xrKX4JZW2vU
+ gfFqyJ/t+OA+q+dTeV+AT4nHi0NuiQQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-281-bjBqZhO7M9mcodYylTAvpg-1; Tue, 28 Mar 2023 13:59:32 -0400
+X-MC-Unique: bjBqZhO7M9mcodYylTAvpg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D18C101A54F;
+ Tue, 28 Mar 2023 17:59:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7051414171BB;
+ Tue, 28 Mar 2023 17:59:29 +0000 (UTC)
+Date: Tue, 28 Mar 2023 18:59:26 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Henrik Carlqvist <hc981@poolhem.se>
+Cc: mark.cave-ayland@ilande.co.uk, hc1245@poolhem.se, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5] Emulate dip switch language layout settings on SUN
+ keyboard
+Message-ID: <ZCMq/imcAq0ApLQp@redhat.com>
+References: <167305907804.10652.2746409341903316717-1@git.sr.ht>
+ <d2850ef0-d825-bb03-09d4-0d1427cf6577@ilande.co.uk>
+ <20230123200937.32eb19eb.hc981@poolhem.se>
+ <20230304220754.0c6ae562.hc981@poolhem.se>
+ <ZCLzUyiDeKLfQqWT@redhat.com>
+ <20230328191958.3e3eb5e4.hc981@poolhem.se>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3] hw/arm: do not free machine->fdt in arm_load_dtb()
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
-References: <20230328165935.1512846-1-armbru@redhat.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20230328165935.1512846-1-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230328191958.3e3eb5e4.hc981@poolhem.se>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,53 +84,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Mar 28, 2023 at 07:19:58PM +0200, Henrik Carlqvist wrote:
+> Thanks for your feedback!
+> 
+> On Tue, 28 Mar 2023 15:01:55 +0100
+> Daniel P. BerrangÃ© <berrange@redhat.com> wrote:
+> 
+> > This is another reason why use of the '-k' switch is a bad idea. Its
+> > range of permissible values / vocabulary does not match the range of
+> > values / vocabulary needed for this hardware device.
+> > 
+> > In https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+> > the keyboard layouts have distinct names
+> > 
+> > "Norway4" vs "Norway5" and "US4" vs  "US5" vs "US_UNIX5"
+> 
+> Those distinct names are names of files in the OS filesystem. This is a link
+> to a description of a patch which gives those keyboard layouts support for
+> the euro sign:
+> 
+> http://download.nust.na/pub3/solaris/patches/106839.readme
+> 
+> > I'd suggest a property to the escc device should take the names
+> > given by that reference page above. eg
+> > 
+> >   -global escc.sunkbd_layout=Norway4
+> 
+> Would you mind if such an assignment could also be given in multiple ways,
+> that is:
+> 
+> -global escc.sunkbd_layout=33
+> -global escc.sunkbd_layout=0x21
+> -global escc.sunkbd_layout=US5
+> -global escc.sunkbd_layout=en_us
+> 
+> would all result in the same dip switch setting 0x21?
+
+I'm generally not in favour of creating many different ways to set
+the same thing, especially not multiple string based names, but if
+a single vocabulary for strings is insufficient, then having support
+for numbers feels reasonable.
+
+> The nice thing with being able to assign keyboard layouts with a string like
+> "en_us" is that it does not require the user to read reference documentation
+> from Oracle to see which odd named layouts to choose from.
+> 
+> The nice thing to also being able to give numerical values like 33 or 0x21 is
+> that some possible dip switch settings (like 0x20) are not mentioned in the
+> Oracle reference documentation, but of course they would be possible to set
+> with physical dip switches even though they might not be supported by the OS.
+
+If you care about documentation then I think there ought to be docs
+added in QEMU for it, as out of the 33 currrent keymap names supported
+by QEMU, only 28 seem to be supported by this device.
 
 
-On 3/28/23 13:59, Markus Armbruster wrote:
-> At this moment, arm_load_dtb() can free machine->fdt when
-> binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
-> retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
-> the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
-> machine->fdt. And, in that case, the existing g_free(fdt) at the end of
-> arm_load_dtb() will make machine->fdt point to an invalid memory region.
-> 
-> Since monitor command 'dumpdtb' was introduced a couple of releases
-> ago, running it with any ARM machine that uses arm_load_dtb() will
-> crash QEMU.
-> 
-> Let's enable all arm_load_dtb() callers to use dumpdtb properly. Instead
-> of freeing 'fdt', assign it back to ms->fdt.
-> 
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> Fixes: bf353ad55590f ("qmp/hmp, device_tree.c: introduce dumpdtb")
-> Reported-by: Markus Armbruster <armbru@redhat.com>i
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   hw/arm/boot.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> index 50e5141116..54f6a3e0b3 100644
-> --- a/hw/arm/boot.c
-> +++ b/hw/arm/boot.c
-> @@ -689,7 +689,10 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
->       qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
->                                          rom_ptr_for_as(as, addr, size));
->   
-> -    g_free(fdt);
-> +    if (fdt != ms->fdt) {
-> +        g_free(ms->fdt);
-> +        ms->fdt = fdt;
-> +    }
->   
->       return size;
->   
 
