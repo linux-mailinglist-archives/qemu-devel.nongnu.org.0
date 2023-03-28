@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6616CC059
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6C86CC08A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 15:22:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph982-0002n8-Fu; Tue, 28 Mar 2023 09:12:48 -0400
+	id 1ph9FY-0004RU-Bz; Tue, 28 Mar 2023 09:20:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ph97y-0002mE-M5
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:12:42 -0400
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ph9FX-0004RL-2G
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:20:31 -0400
 Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ph97s-0003ap-0C
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:12:37 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id v1so12176621wrv.1
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 06:12:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ph9FV-0004iC-Hw
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 09:20:30 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id v1so12208052wrv.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 06:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680009149;
+ d=linaro.org; s=google; t=1680009628;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gy49rPl6jeZvLoqUQrUIF3QO4w/Nda86notlZmm2040=;
- b=xOW4+p9Vt6uk3E0KGb45q7YT38T7rw/QOaD69isXKztkKFC6ITJ3PzHtKfHkXaT7IK
- dZn5Pbimng/0OqG0NPkUiNNqUJjxneaF9hVVW2BNSQfI9f6Aj5DUAPZKjHWBQyz4LSsy
- vMbC7bx1DQ1tVfB1wBLC6RSLUKxZ4O8fpsK8NPGhMOlIXgncj+ovOUY8rkzWA11oTuNZ
- igMAXhR+b2I95lKzoDNAQ1hfMlBEp/rsYHxHBRKYL23t7LIBPvFXu+NDBQtFbqDA241l
- iQHvg/KD4Hk4hTS3GrW4+0cvLIEzmQPUUzEB+QIJddQAl86plvINl66zOlTG7LZhZk8h
- xxlQ==
+ bh=dfSC/M0BU/ZV4g7hKlLFq19MVV6PyWXdVSz7CJwUwwo=;
+ b=c0XQQCd6LdnKYn6ZniQisv5aLYDsqWV54iA8UjD+BDSjxjAw2cg+vDoqmcs2+4g7MJ
+ 6AAjC49PSK1RyxR0YMeSPTKMty2fAcMe/WntGxh/K7Si03XSofBmuTr+K5gOKXIVN5Ch
+ 1DHUiX6jjs5D6WDykZEuNLVd+XeXCil2M6rEsN70XhSQ+bjEO4es96EYAFnT5AhsYEK/
+ vpQc3gemVswonnFfpOHB9l8EtyIfsDAfVdrv8UVlC+ct4/qd9esOrgqWvABGR7KOk1KC
+ qXIPhJ0716TjS77U6X4eTcki0EgjLFyzglpRhrNpiNgkcBdeBn7WdG71jGncmB/p/Edh
+ ndBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680009149;
+ d=1e100.net; s=20210112; t=1680009628;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gy49rPl6jeZvLoqUQrUIF3QO4w/Nda86notlZmm2040=;
- b=A96xwmcCWMK3EOBtWzQ4hHzgUjzTabH9ZqZVbfA/mz/0Q+Z3uO3vItKNnwUs5dyTjj
- ElEmBPgvpr37R5pGaAXLwix4AUImo2mTyjeUZDnRzp3ixu4DDPnXLJBjxbbc65YagHFO
- nkq6Bow9w0IIKahnuYFIXHq+SZxo+eCGNzEtQf/FhFnQa7DYw45ZMOW968XFX1h0vndq
- FQYGnxmpfTnI1laGItLhfJ6xyiWlFGOaI2bliBTWnCLcDIZxOtftsQsFFj5HkzNRQ/Gw
- PvfqoRenUc5tHeoeD+FgS/pLUw6Su6mdxDhlygWZWLw1BkcpFkyXT1zTEdol5yhLoANv
- 5/DQ==
-X-Gm-Message-State: AAQBX9dcuXp92t6wf+UGiG55GIzcQ+74XhaK6/kCsghry/i2uI/LI1rL
- mml05u6sVn7QIXP3lsqdBQTr6A==
-X-Google-Smtp-Source: AKy350a6f1X0rrhWPHHqz0+ewqcJ9UHSKttkQMlSz808E9H9ZevtYcmSyhPk4DhRc0DftY2tpw9a3A==
-X-Received: by 2002:a5d:6344:0:b0:2c5:4c9d:2dab with SMTP id
- b4-20020a5d6344000000b002c54c9d2dabmr12031253wrw.10.1680009149648; 
- Tue, 28 Mar 2023 06:12:29 -0700 (PDT)
+ bh=dfSC/M0BU/ZV4g7hKlLFq19MVV6PyWXdVSz7CJwUwwo=;
+ b=hlp8Gpk2xyR//EarmJQm4pMxtKVPEI0jZOqWL3nOzPATvZP/kfPrNhppzTcB2JURXI
+ xtGR1BCOHDFtBz+12aCLQ2ekOaURTQ5408LzKuJld6SXdxHObognXRkx2+yIcF/fTBu7
+ oruHCMJbSABO97HDeysZshQd3XQ1MJ6/J31XiwiZlNbhsQEaTvghy4JcVvgD0hPRFve+
+ bn2utWx0q89Yimqy2gOH2VJoz4tkXGoBgzge9SNIsEb/GkG0QvHeXIzRyA7dnPcwLIJP
+ UOrnwV8lS397FwTn+vhdXmm0szclYBehGeGMl+4VZprLhA2uCBHJiWEOl41+bzxsHgjB
+ 9VCg==
+X-Gm-Message-State: AAQBX9eVGuSn4XjLmgZJlFyEc1NtWN+0Us6OYipYv8YyBPCyuDqSdR3C
+ sg1+ZQF/Vs5D4FcupPVg7Z9J0w==
+X-Google-Smtp-Source: AKy350ZCEwn1DXpBWPOdtDn8h3XLliwcP09TtA6U+RcFFZ1QQ3LLobP5b3AzRi0iV9QjzEqQjkKKsw==
+X-Received: by 2002:adf:e309:0:b0:2c7:f56:285b with SMTP id
+ b9-20020adfe309000000b002c70f56285bmr12083247wrj.63.1680009627641; 
+ Tue, 28 Mar 2023 06:20:27 -0700 (PDT)
 Received: from [192.168.69.115] ([176.187.210.212])
  by smtp.gmail.com with ESMTPSA id
- h4-20020a5d5044000000b002c70851fdd8sm27772151wrt.75.2023.03.28.06.12.28
+ s15-20020a5d6a8f000000b002d743eeab39sm20871374wru.58.2023.03.28.06.20.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 06:12:29 -0700 (PDT)
-Message-ID: <84824486-6c67-3e78-fd93-91741d9fccff@linaro.org>
-Date: Tue, 28 Mar 2023 15:12:27 +0200
+ Tue, 28 Mar 2023 06:20:27 -0700 (PDT)
+Message-ID: <958c4810-e351-04e4-42f4-d1bc86d303ad@linaro.org>
+Date: Tue, 28 Mar 2023 15:20:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH-for-8.0] block/dmg: Ignore C99 prototype declaration
- mismatch from <lzfse.h>
+Subject: Re: [PATCH-for-8.0 0/2] target/arm/gdbstub: Fix builds when TCG is
+ disabled
 Content-Language: en-US
-To: Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>, Peter Wu <peter@lekensteyn.nl>,
- Julio Faracco <jcfaracco@gmail.com>, Eli Schwartz <eschwartz93@gmail.com>
-References: <20230327151349.97572-1-philmd@linaro.org>
- <cc1f75ce-0295-cc57-1a74-71e036862bb7@weilnetz.de>
- <e4a0b994-965a-2bd4-5517-b11e31b002ee@linaro.org>
- <CABgObfZ8pfrfMV0YLWo-bPyh7fCehk+NjRRnkKA15DQnqy3Mpg@mail.gmail.com>
- <ac4ac6ae-9147-bdb2-5adb-3322182cba4f@weilnetz.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Fabiano Rosas <farosas@suse.de>, Claudio Fontana <cfontana@suse.de>,
+ qemu-arm@nongnu.org
+References: <20230322142902.69511-1-philmd@linaro.org>
+ <CAFEAcA9-+bfGxN3+3sCpA3XB8T8f=RKPC7LUwdK8-pPj-h8xig@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <ac4ac6ae-9147-bdb2-5adb-3322182cba4f@weilnetz.de>
+In-Reply-To: <CAFEAcA9-+bfGxN3+3sCpA3XB8T8f=RKPC7LUwdK8-pPj-h8xig@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
@@ -85,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,69 +95,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/3/23 08:29, Stefan Weil wrote:
-> Am 27.03.23 um 23:09 schrieb Paolo Bonzini:
+On 28/3/23 11:54, Peter Maydell wrote:
+> On Wed, 22 Mar 2023 at 14:29, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>>
+>> Fix when building QEMU configured with --disable-tcg:
+>>
+>>    Undefined symbols for architecture arm64:
+>>      "_arm_v7m_get_sp_ptr", referenced from:
+>>          _m_sysreg_get in target_arm_gdbstub.c.o
+>>      "_arm_v7m_mrs_control", referenced from:
+>>          _arm_gdb_get_m_systemreg in target_arm_gdbstub.c.o
+>>      "_pauth_ptr_mask", referenced from:
+>>          _aarch64_gdb_get_pauth_reg in target_arm_gdbstub64.c.o
+>>    ld: symbol(s) not found for architecture arm64
+>>    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+>>
+>> Philippe Mathieu-Daudé (2):
+>>    target/arm/gdbstub: Restrict aarch64_gdb_get_pauth_reg() to CONFIG_TCG
+>>    target/arm/gdbstub: Only advertise M-profile features if TCG available
 > 
->> Il lun 27 mar 2023, 20:58 Philippe Mathieu-Daudé <philmd@linaro.org> 
->> ha scritto:
->>
->>     > The warning can also be suppressed if the build uses `-isystem
->>     > /opt/homebrew/include` instead of `-I/opt/homebrew/include` as I
->>     just
->>     > have tested.
->>
->> Is that option added by QEMU's configure or meson.build? Or is it 
->> added by homebrew? The fact that /opt/homebrew/include it isn't 
->> considered a system seems to be a homebrew decision.
->>
->>     IIUC by design meson only allows including *relative* directories,
->>     and manage the system ones:
->>     https://mesonbuild.com/Include-directories.html
->>
->> That's for includes that are part of QEMU.
->>
->> Meson has as_system for dependency objects 
->> (https://mesonbuild.com/Reference-manual_returned_dep.html) but lzfse 
->> doesn't have a .pc file, its detection has to be done by hand.
->>
->> Paolo
->>
->>     > If we can find a solution how to implement that I thing it would
->>     look
->>     > nicer. Technically the patch looks good.
->>     >
->>     > Reviewed-by: Stefan Weil <sw@weilnetz.de>
->>
->>     Thanks!
->>
-> 
-> Typically I configure the build on macOS with `./configure 
-> --extra-cflags=-I/opt/homebrew/include 
-> --extra-ldflags=-L/opt/homebrew/lib --disable-werror`. With that 
-> configuration I get the two warnings for lzfse.h.
-> 
-> When I use `./configure '--extra-cflags=-isystem /opt/homebrew/include' 
-> --extra-ldflags=-L/opt/homebrew/lib --disable-werror` instead, I get no 
-> compiler warnings (and `--disable-werror` could be ommitted).
-> 
-> So at least for macOS with Homebrew in /opt/homebrew (M1 / M2 Macs) the 
-> patch is not needed when the right configure options (`--extra-cflags`) 
-> were used.
+> I've applied patch 2 to target-arm.next; thanks.
 
-What I learned:
+If you only take #2, then you need to squash this from #1:
 
-- If lzfse were well packaged (as noted Paolo), we could use
-   dependency(..., include_type: 'system')
-   https://github.com/mesonbuild/meson/issues/963#issuecomment-1277851401
+-- >8 --
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+@@ -21,6 +21,7 @@
+  #include "cpu.h"
+  #include "exec/gdbstub.h"
+  #include "gdbstub/helpers.h"
++#include "sysemu/tcg.h"
+  #include "internals.h"
+  #include "cpregs.h"
+---
 
-- I agree with Eli Schwartz, a Meson maintainer:
+I can respin if it eases your workflow.
 
-   > More bugs caused by and only affecting people who misuse and
-   > abuse -isystem as "not system, but as a side effect please
-   > don't emit warnings for this messy dependency"...
+Thanks,
 
-   https://github.com/mesonbuild/meson/issues/8755#issuecomment-836913759
-
-I wasted few hours on this, and am now giving up in favor of this simple
-patch.
+Phil.
 
