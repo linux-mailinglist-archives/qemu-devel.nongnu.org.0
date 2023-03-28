@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530546CBF6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE856CBF86
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:45:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8dm-0008BF-Sr; Tue, 28 Mar 2023 08:41:30 -0400
+	id 1ph8hC-00013b-Bx; Tue, 28 Mar 2023 08:45:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ph8dk-0008B2-05
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:41:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ph8dg-00074k-Ha
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:41:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680007283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wsS8S5SJnxrnJgBCU26PFwCfhwRdDVAXiggVFYPy2zw=;
- b=IhbGFPN9ULh5DEscRhNLssQ6sg98LHtxE5oxfmSnssaq+wT6xcg0oSXVz6KVM1ggNcgmSL
- zULg33zzrvMLO7lNcxgsJG+C/OmjM5w4YmXaP7rbUFk2lAehogD7IQrGiomRt6X42G/QDg
- 74LP3zadBihTs85jK4VmBE2wnnhGWCo=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-322-bR24kDK7PuOJ_ZEQ4Cv-qg-1; Tue, 28 Mar 2023 08:41:22 -0400
-X-MC-Unique: bR24kDK7PuOJ_ZEQ4Cv-qg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- v10-20020a05622a130a00b003e4ee70e001so2110474qtk.6
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 05:41:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ph8h4-00012n-Lu
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:44:56 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ph8h2-0007Xc-Us
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:44:54 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id x3so49103027edb.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 05:44:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680007491;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jFCGxfuFF59osaFbM0B8Mf6lxoJGQeI5+TQ+fW09r58=;
+ b=spazUOvtyMe+2gnf5wr8cn3ifKk3HiGurtXaR7RhWRm8rUKvRhbUJjxpSnBC1YTebK
+ OJEdNebnATmASSuuw4BOaKc4JGK7MGQrFhgUka2XdITFSx1KoqnBzpo0rTJUJ+wApP59
+ Hu6AUBatLV7mSia4sBZ943ieeIYXz+NJqb2KielAiz6tCIKHM8mbiEl94hfBxtT24dtI
+ 1a0qV/RoQEHHjRFRmysvP4A95VsNULnh8A2LHyXKf1KrLw8JX7T7xPD17F2sJmL0cpi2
+ 9cfS1CtweRjTMVSNoZxRD84q9LLbefBZXA3BoX99QZZBhc8NJX+ADujorCozWeuz6GUg
+ LbxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680007281;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wsS8S5SJnxrnJgBCU26PFwCfhwRdDVAXiggVFYPy2zw=;
- b=NTbeluuIY9gcd5Ufpo+KDQ94JDgaXHZSbYPgx0PdW1dnTDgSK3xl6imiO4hCkEq5Lq
- uqC8O3W30oXPUHZ7bjhB4jtoXraUcKsASzzu6YItFkGK4ps0lX+lhPvVrdvhngpCQyMx
- j5HVQqbtgDebma+fRKkrYK/qT6UR+nS+NgmlRRyFnPVu+/k8+Zl7HNAJF/IMcpYgLePo
- BtnHcxkxVnV1SWR3V6BBUJvIdNCcESxMX6Oio5WLCAY8WxtEIUxYhBn3TDMY2EMeFHhD
- rSCJ7ylUiNAcJq/SvCvIvnbjF8ex5Xg05/6735oycJghh2uftbYHJnT3cb+jEuP9oWv9
- zL4w==
-X-Gm-Message-State: AAQBX9dSwCyZ1lgkOEsrzpxHhRF7/agkHF+z40oXenKNFqeWKp7f5lDy
- pZo1IwsP69pGKDWwZ0c+E2jlQcOBk4n48CPDlX7o4mf5NJiVQplEzKQz8mxAsMnnxP9tu9o8mEL
- buy7njPajIHGJ5tGjo2v7KK7YbA==
-X-Received: by 2002:a05:6214:cc6:b0:5b6:fbc5:fb4f with SMTP id
- 6-20020a0562140cc600b005b6fbc5fb4fmr31846002qvx.3.1680007281722; 
- Tue, 28 Mar 2023 05:41:21 -0700 (PDT)
-X-Google-Smtp-Source: AKy350a6kSgb7M8ABipdFXa0ZU+ghJZUUtP3VXJP9GuJk0X5lmCBimxpwl96BDhxGvh0FFLum1MNzw==
-X-Received: by 2002:a05:6214:cc6:b0:5b6:fbc5:fb4f with SMTP id
- 6-20020a0562140cc600b005b6fbc5fb4fmr31845973qvx.3.1680007281432; 
- Tue, 28 Mar 2023 05:41:21 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-113.web.vodafone.de.
- [109.43.179.113]) by smtp.gmail.com with ESMTPSA id
- mb4-20020a056214550400b005ddd27e2c0asm3144851qvb.36.2023.03.28.05.41.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 05:41:20 -0700 (PDT)
-Message-ID: <213f660d-550b-c18f-8548-3a44495fc1b4@redhat.com>
-Date: Tue, 28 Mar 2023 14:41:19 +0200
+ d=1e100.net; s=20210112; t=1680007491;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jFCGxfuFF59osaFbM0B8Mf6lxoJGQeI5+TQ+fW09r58=;
+ b=3x3+EJqI2i5+MlkhSQ/Dq2MofxCgObNbHPqwCB1bfRhPMQ9DyAsWF3cb8f9ZfIlPQV
+ YuQf5xJ4nPQ679OE+4rKy20+F4hBu8Wt8ilOH6QzqLkJIxTk027cUeswDT8gj+bSgFs1
+ fRPssG/ibWwJk/WddJRCCuxdMeA7BJuQXmCuOFdppXAv5H+RXxcgaiAWrIFSzOkBNX1u
+ h3ns47UlrnBcNY9fxGdFOA/I5ocrn9Hk+n2A3mlREQ5FJm835DCZc7R+s/CBPrFkKvGg
+ j6P7Uq2z/bgsgFc8AQ5vK3xPKg7P9h+M/UF4qhfDn44rvbpxLwz5/w0HpZpGFjELbp1f
+ eiEQ==
+X-Gm-Message-State: AAQBX9fRik6OqlYYNwlSW22KEXTrpT++48QMp+M92zgFScmgz/plICQ6
+ nptafhBQwiTWZWx+pd1DvNTzGB6tqEFyn++AjQ5kT5oR1mLTRd8pCkc=
+X-Google-Smtp-Source: AKy350Zq5vc4JNmcslJMpv6JC+8e/+4aLFwWuekQ0b9N0kEK3K5SpnEzTPzs/lIcjnzS5fxg9JbS0KhFW+OUdR7appk=
+X-Received: by 2002:a17:906:cf89:b0:932:4577:6705 with SMTP id
+ um9-20020a170906cf8900b0093245776705mr8165591ejb.6.1680007491151; Tue, 28 Mar
+ 2023 05:44:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: stat64 wrong on sparc64 user
-Content-Language: en-US
-To: Luca Bonissi <qemu@bonslack.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-References: <db07e036-cc5f-c9ad-b63c-10fdd5404830@bonslack.org>
- <bdebe626-e552-affb-b756-02c70898bdd6@redhat.com>
- <d49d441a-01a6-d38d-2bc8-98b9658a288e@bonslack.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <d49d441a-01a6-d38d-2bc8-98b9658a288e@bonslack.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Mar 2023 13:44:40 +0100
+Message-ID: <CAFEAcA-Xdw6uL+w-Qh+pLFVXEcvQhQZi-o3Xup4iwJuSGNYgmg@mail.gmail.com>
+Subject: io-qcow2-copy-before-write intermittent failure (ppc64 host)
+To: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,33 +81,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/03/2023 14.22, Luca Bonissi wrote:
-> On 28/03/23 13:55, Thomas Huth wrote:
->> On 28/03/2023 13.48, Luca Bonissi wrote:
->>> --- qemu-20230327/linux-user/syscall_defs.h    2023-03-27 
->>> 15:41:42.000000000 +0200
->>> +++ qemu-20230327/linux-user/syscall_defs.h.new    2023-03-27 
->>> 21:43:25.615115126 +0200
->>> @@ -1450,7 +1450,7 @@ struct target_stat {
->>>       unsigned int    st_dev;
->>>       abi_ulong    st_ino;
->>>       unsigned int    st_mode;
->>> -    unsigned int    st_nlink;
->>> +    short int    st_nlink;
->>>       unsigned int    st_uid;
->>
->> That looks wrong at a first glance. IIRC Sparc is a very strictly aligned 
->> architecture, so if the previous field "st_mode" was aligned to a 4-byte 
->> boundary, the "st_uid" field now would not be aligned anymore... are you 
->> sure about this change? Maybe it needs a padding field now?
-> 
-> The padding is automatic (either on Sparc or x86-64): short will be aligned 
-> to 2-byte boundary, int will be aligned to 4-byte boundary, long will be 
-> aligned to 8-byte boundary.
+ppc64 host:
 
-Ah, right, I blindly assumed that we were using __attribute__((packed)) here 
-for such structs... but that does not seem to be the case, so never mind.
+737/761 qemu:block / io-qcow2-copy-before-write
+           ERROR           6.77s   exit status 1
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80  =E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95
+stderr:
+--- /home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write.out
++++ /home/pm215/qemu/build/all/scratch/qcow2-file-copy-before-write/copy-be=
+fore-write.out.bad
+@@ -1,5 +1,21 @@
+-....
++...F
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++FAIL: test_timeout_break_snapshot
+(__main__.TestCbwError.test_timeout_break_snapshot)
++----------------------------------------------------------------------
++Traceback (most recent call last):
++  File "/home/pm215/qemu/tests/qemu-iotests/tests/copy-before-write",
+line 210, in test_timeout_break_snapshot
++    self.assertEqual(log, """\
++AssertionError: 'wrot[195 chars]read 1048576/1048576 bytes at offset
+0\n1 MiB,[46 chars]c)\n' !=3D 'wrot[195 chars]read failed: Permission
+denied\n'
++  wrote 524288/524288 bytes at offset 0
++  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++  wrote 524288/524288 bytes at offset 524288
++  512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+++ read failed: Permission denied
++- read 1048576/1048576 bytes at offset 0
++- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++
+ ----------------------------------------------------------------------
+ Ran 4 tests
 
-  Thomas
+-OK
++FAILED (failures=3D1)
 
+(test program exited with status code 1)
+
+This is an intermittent; we've seen it before on this host:
+https://lore.kernel.org/qemu-devel/CAFEAcA8ipWKpv09pyQWNQBiUhd2JYM=3Dsn4qv2=
+YBen-pN3beU0Q@mail.gmail.com/
+
+
+-- PMM
 
