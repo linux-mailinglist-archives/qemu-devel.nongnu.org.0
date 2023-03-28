@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6E96CC4E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 17:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01A2C6CC656
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 17:30:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phAwv-0007zq-Uj; Tue, 28 Mar 2023 11:09:26 -0400
+	id 1phBG5-0005VU-Lt; Tue, 28 Mar 2023 11:29:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1phAwp-0007z3-8l
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:09:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1phAwm-0008Kn-2s
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:09:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680016155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hfrJ0s3mDXBh1urPVLYx3NAW6Q/fvMMWG4Rmnopum3w=;
- b=BeTxDsT6kkhei2empW9ezWTmsXOc/+UGZu/jpRw36Ysns49imLCLCEk35oosrxbslGbV+l
- DWgrYQQSXQAkLAJfsL437CJnfbmmuGmi8v1rk+bY5iOMflftZdB9KDjAgVRfGv44/445kc
- HnjuDds7wtZpbIQJUuwC6fxzZP8vbZM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-353-Qmg8SwCIP_OUH9MZ6aKgUQ-1; Tue, 28 Mar 2023 11:09:11 -0400
-X-MC-Unique: Qmg8SwCIP_OUH9MZ6aKgUQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90FD38028B3;
- Tue, 28 Mar 2023 15:09:10 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE82BC15BB8;
- Tue, 28 Mar 2023 15:09:09 +0000 (UTC)
-Date: Tue, 28 Mar 2023 11:09:08 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, Coiby Xu <Coiby.Xu@gmail.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH for-8.0] block/export: fix assume_graph_lock() assertion
- failure
-Message-ID: <20230328150908.GA1625749@fedora>
-References: <20230327211921.1612727-1-stefanha@redhat.com>
- <ZCLdNxESMsE0r92T@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1phBG2-0005V0-CD
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:29:10 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1phBG0-0003f3-Ik
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 11:29:09 -0400
+Received: by mail-wr1-x431.google.com with SMTP id v1so12666878wrv.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 08:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680017346;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uyyD/mMZ5WLjmBQsAFQe0xCp+k5xk7Xq+CNZfB8EOHQ=;
+ b=SXEP1vZrpNuaH5uGmU1YCL3q4pG+hoZB3/xZEKTNXtuU9fFWE2iqESH3IgVZL+cb88
+ wgRqWkN/2N55m0rKkQHjgwU8+zP4QK1T7QvvDrBoA8SzwoFISpuBU/yGdOVbvJW9djGC
+ xvfhwpt8dKJ1GqJTtbVTlWzoDb82M3c7Rh/uhcOfkh3/BGWBd9+cupuY/MBwdnI0v86/
+ RcrboJkJlTT7Qy2d9LR/iaEZNMMo9jGjqVuATrRke2ltMV9UO6hxtYhe2YPfsz6S2C59
+ Ii6QNMqjfqhyhnhNKU/mjeNnFlbdOGKY0BsZKasMPS/Wc7iCGkri9x4SnE7V4xIisCHl
+ cZdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680017346;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=uyyD/mMZ5WLjmBQsAFQe0xCp+k5xk7Xq+CNZfB8EOHQ=;
+ b=e1u+0CZpLqbBeKax/zIDNWInF7BDKm9rZgh/YqWZtXcMJQa18Pe9YXG18zG07w50je
+ /pBj4oKsbfiS/hoT8KMV68cQEWrpg1QOTcEEt6+FbuFG1JEMyXSt9NI4WVJ7SAP19bRZ
+ V/ocpqdgzo0MQm+pLdYY45gjUwgf2InXQONtnvySdUCa1wRyvpiKiGIjlqZm5VqzHSGD
+ mNzTxV0l5Meu5DMWCR9BG5k6rucAdynn5NqP/lg5WyI41rBpKY9xXZYixHe6qTs4Iyd8
+ 5A32FlmVSrTirsViDtj2yqdHM/Rm/8kmM1r1y6JFu0w6zuVjbxjzYk0hu6vWpLveVNzI
+ sFZQ==
+X-Gm-Message-State: AAQBX9fm79Fuuqm1dmtFgv+NGuAUmmHnL1ydDd0SY0RVFuG4+CQ1BjD1
+ 0e6hW9SbrcDSjZPxclNkKFY/b0FtPExY5qHgkPU=
+X-Google-Smtp-Source: AKy350aVTh7bNdrfCbqpJHtuydDlh2RLmtnOmU4oeJJP5x12AN7f0EU9GaOOXBuDFA/Fpx8TvWacbQ==
+X-Received: by 2002:adf:e90b:0:b0:2d4:751d:675b with SMTP id
+ f11-20020adfe90b000000b002d4751d675bmr12236771wrm.35.1680017345908; 
+ Tue, 28 Mar 2023 08:29:05 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ y16-20020a5d4ad0000000b002d51d10a3fasm24596765wrs.55.2023.03.28.08.29.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Mar 2023 08:29:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2C6521FFB7;
+ Tue, 28 Mar 2023 16:29:05 +0100 (BST)
+References: <4e79a438-778b-877d-d3dc-ad05cbab88cc@msgid.tls.msk.ru>
+User-agent: mu4e 1.10.0; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-stable <qemu-stable@nongnu.org>, Michael Roth
+ <michael.roth@amd.com>, qemu-devel@nongnu.org
+Subject: Re: qemu 7.2 stable release, 2nd try
+Date: Tue, 28 Mar 2023 16:28:27 +0100
+In-reply-to: <4e79a438-778b-877d-d3dc-ad05cbab88cc@msgid.tls.msk.ru>
+Message-ID: <87o7ocrj26.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VAJ79EyMlZW5P1DI"
-Content-Disposition: inline
-In-Reply-To: <ZCLdNxESMsE0r92T@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,51 +96,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---VAJ79EyMlZW5P1DI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Michael Tokarev <mjt@tls.msk.ru> writes:
 
-On Tue, Mar 28, 2023 at 02:27:35PM +0200, Kevin Wolf wrote:
-> Am 27.03.2023 um 23:19 hat Stefan Hajnoczi geschrieben:
-> > When I/O request parameters are validated for virtio-blk exports like
-> > vhost-user-blk and vduse-blk, we call blk_get_geometry() from a
-> > coroutine. This hits an assume_graph_lock() assertion failure.
-> >=20
-> > Use blk_co_nb_sectors() instead and mark virtio_blk_sect_range_ok() with
-> > coroutine_fn.
-> >=20
-> > This assertion failure is triggered by any I/O to a vhost-user-blk
-> > export.
-> >=20
-> > Fixes: 8ab8140a04cf ("block: Mark bdrv_co_refresh_total_sectors() and c=
-allers GRAPH_RDLOCK")
-> > Cc: Kevin Wolf <kwolf@redhat.com>
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> This is a duplicate of this fix:
->=20
-> https://patchew.org/QEMU/20230327113959.60071-1-kwolf@redhat.com/
+> Hi!
+>
+> After posting an RFC (due to me doing a stable release for the first time=
+) and
+> getting exactly 0 replies/comments, I'm a bit worried, - does this mean t=
+here's
+> no interest in getting 7.2-stable out of the doors at all? :)
 
-Okay, thanks. Your fix looks good.
+I'm interested - although Debian already has the "latest" stuff we need.
+What do you need though, re-reviews or just simple Acked-by's for the
+included patches?
 
-Stefan
+>
+> With 8.0 approaching rapidly, and with no other comments or new patches f=
+or
+> -stable, let's make this official within a week from now, on Mar-29.
+>
+> It *feels* like quite some more changes should be picked too, but let's do
+> *something* after all :)
+>
+> I still need some minor help with the final step, - pushing to main qemu =
+git
+> repo and running the whole testsuite before the actual release.  Asking f=
+or
+> push/commit access for that.
+>
+> Thanks,
+>
+> /mjt
 
---VAJ79EyMlZW5P1DI
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQjAxQACgkQnKSrs4Gr
-c8j5ZAgArSJFgC3yYHtwCifp7w/AFBdsjBd/7ojnlBBhpMYozVJJVNgNuy7Tn9ha
-YBUdtBbilGE7Brq3KO3QkhHhVjlCLCfKT1PS0rLqV4sieXhwjy5YOoumh65AQ9aR
-+wW/1R5m9MYlFB0T+AK9tQYIRbjQdmqqLlAeUG9gIO83GzZ3M0Q8m4+eM5x3M8rt
-N0qD+DrXqIyPPKGtGWFo9uSvwQKgQVjCekEJdRqunREv/vdvU92jLCCliD1AN8SJ
-rddFh3ruPbnayjjRV4lgxmO8s8KX5Tvehrei+bC4imYTqryaaxcvC7I57Dn6CTqV
-QsYtLR7+N+E77fBKNCrmMKMjP23LPw==
-=gwEx
------END PGP SIGNATURE-----
-
---VAJ79EyMlZW5P1DI--
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
