@@ -2,88 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7066CBCF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 13:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347B96CBD13
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 13:09:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph73X-0001k4-Ju; Tue, 28 Mar 2023 06:59:59 -0400
+	id 1ph7B5-0003jd-HQ; Tue, 28 Mar 2023 07:07:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ph73U-0001jq-RI
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 06:59:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ph73T-000077-AJ
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 06:59:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680001193;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=E0htq9iyw1ud0O52AoqMYp/Ce6rznvrBpuWMyqdhPgA=;
- b=Hi6HABIwStT2sl6J+ChYf25d/ApHqkr1kAzbfXoJu3u6bJw24bXDRs+wS6BjtC+YudKROl
- dBq41KqcHPEXj3gpMO0KiEMbcD/+QFzTpP0Stmk5vpQa7QAozqtLXsl7EIYdYLesl3zq9Q
- IrhtOoB5skq9bDSq0oBPfC3suy9wMhU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-79-BlvOnCGNPialQTURbzutZQ-1; Tue, 28 Mar 2023 06:59:52 -0400
-X-MC-Unique: BlvOnCGNPialQTURbzutZQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l18-20020a05600c1d1200b003ef7b61e2fdso192713wms.4
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 03:59:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ph7B3-0003jU-D6
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:07:46 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ph7B1-0002Dp-8j
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 07:07:44 -0400
+Received: by mail-wr1-x430.google.com with SMTP id l27so11758632wrb.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 04:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680001661;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=leUGDKI0lYjGG2Rdls/57nZXWiggFtl0OTd21SKQn7w=;
+ b=e6EKtprrksbqGOOwvMEoeBQy/BoFMGQKw0BMRZyZ8sArOQ9eO07jpkUgF8qN3Xd1ME
+ R31sqIIC/yaCKBKPnmi0fdZUiBIVl8xAfCRLfMSKFHxXZkJc6shVBDqESPKZmIHleeVZ
+ Dcpr8R4UKCGtLwwBjsu1+pcfw6uhqMq89r+T5QAXhsxQxvUybcKU7Kq6Pb7qpIrSjLBC
+ t4gSq183PhNL4wE8LQn+/r61ldZReusqGmmrnTXTgAhAbdxmtT7vAmAI1Lkek8PXTJC4
+ v6i6FkzEuwjVig397C7noCmropvs4MgWmT8VXQXGb/mdccMDC3HcUWUcBlqbkwx0L5sn
+ 5JIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680001191;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E0htq9iyw1ud0O52AoqMYp/Ce6rznvrBpuWMyqdhPgA=;
- b=y/DndK6zZIQgArGF7jbt5qbtgkB/kNZ3x/FFYAgfiKik0kQ6oLmm+U8dn7FWH8rGi2
- BsTR4d6SZlHohcpIvZxFnvHWvUHMsHuS9aPpnmu0GW5DRSJ0ieknwCBkp3x0MakTY+z9
- KitOVcSamcpJeb5aPDCAQUiuVnmy8/TF3eRc2Lbh+uBh1MDwsHeZZCB7HZcZWC3ND/Zl
- s6H6RBpoRHmAzMOYScLcKnM86sO4BbVz5LbCCEYJIjaVgNWCmq3HtQwTP732GLzrfJAO
- c2baD27AGQRyt6bgQvTKZfojYwqo6s37GaIXuviZkhK2uEyMA36x7pR2YHvDQ3fAxnen
- V7xg==
-X-Gm-Message-State: AO0yUKWrVPpwbcglmetQWwq/LmpEpPqae594gqK8YnPWCyjVoAjGJjSu
- aDKtz2z+SasKCXGc6aQuxVMt+rhS1HSNa0UEoGe6BAXSz4LJ9vMh/LxaBH8Kfe/+KvXSN6uOROI
- Q1YgFkdUCjTW+nKs=
-X-Received: by 2002:a05:600c:3b98:b0:3ee:782b:2e31 with SMTP id
- n24-20020a05600c3b9800b003ee782b2e31mr14830506wms.9.1680001191273; 
- Tue, 28 Mar 2023 03:59:51 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+okHsqoDl2EkHrTt8nSXxPdMectOBghDr1fVo5cVItQSIY4MrEje2hByET/O65FAWD5fRa4w==
-X-Received: by 2002:a05:600c:3b98:b0:3ee:782b:2e31 with SMTP id
- n24-20020a05600c3b9800b003ee782b2e31mr14830498wms.9.1680001191048; 
- Tue, 28 Mar 2023 03:59:51 -0700 (PDT)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ d=1e100.net; s=20210112; t=1680001661;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=leUGDKI0lYjGG2Rdls/57nZXWiggFtl0OTd21SKQn7w=;
+ b=JSxFfFyretznBnV3Hoe5J3fPRvPg0HN2XKJIabonhRorVgSe9jM0ZVQ7ZnZIM1X1hn
+ yl//RGHBRqFVbXusiCGRdy8Hk1iVDJEfgPWo6Iod2QRNFJnNHEDJz3ONJREdOew7Gmm8
+ EdeQP30PVmEYIHgtAdhns3IbtFXVdqZQCWccQ3wYKNC/H8jZqxaaOG7g22MC5STVy/Vk
+ fXAXdcRQfjzdaVBV1SbaLZV00CSNdLLxuUmx7MLCN0CBKioSFhsAgciQKxcEeouztqB1
+ M/FY9VRVZPikbpjAm3Hz+Jpbe+EcbB5hmc9bjjRkex+uU6flrtZQ4n28oA5LE5KQmxnB
+ QtUw==
+X-Gm-Message-State: AAQBX9diUcDQnNTSaKd0GdyRR7tkwcAUPrj0Twh4+TWW4s07IbQrY4TA
+ FXozhAbJE93bLCYeEJBDHJzHDQ==
+X-Google-Smtp-Source: AKy350ZnbeWqHEv7CL0KukkRWtWPuRNfvUMdblp573PEjWVueu0cDRw2IX67NHpQ17Kedp8QAUNVJw==
+X-Received: by 2002:adf:fac5:0:b0:2cf:f2f9:df7a with SMTP id
+ a5-20020adffac5000000b002cff2f9df7amr11410298wrs.38.1680001661094; 
+ Tue, 28 Mar 2023 04:07:41 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z21-20020a05600c221500b003ef5f77901dsm11723763wml.45.2023.03.28.03.59.50
+ w2-20020a5d6802000000b002cfe687fc7asm27288054wru.67.2023.03.28.04.07.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 03:59:50 -0700 (PDT)
-Date: Tue, 28 Mar 2023 11:59:48 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v1 1/1] migration: Disable postcopy + multifd migration
-Message-ID: <ZCLIpO3m4WelR6g1@work-vm>
-References: <20230327161518.2385074-1-leobras@redhat.com>
+ Tue, 28 Mar 2023 04:07:40 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 23DDE1FFB7;
+ Tue, 28 Mar 2023 12:07:40 +0100 (BST)
+References: <20230327131543.2857052-1-alex.bennee@linaro.org>
+ <ad9e3b3a-2fad-35d1-4491-8700c8fceae8@ilande.co.uk>
+ <87mt3yrx1w.fsf@linaro.org>
+ <28e374e3-5aa4-b5e3-0d8f-f885ca1142ca@ilande.co.uk>
+ <87edp9sv5p.fsf@linaro.org>
+ <CAFEAcA8_Hhb5RfQ5C_-pT8TcdscTbHVGUkCsuUL89NZgj413KA@mail.gmail.com>
+User-agent: mu4e 1.10.0; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [Socratic RFC PATCH] include: attempt to document
+ device_class_set_props
+Date: Tue, 28 Mar 2023 12:05:28 +0100
+In-reply-to: <CAFEAcA8_Hhb5RfQ5C_-pT8TcdscTbHVGUkCsuUL89NZgj413KA@mail.gmail.com>
+Message-ID: <875yalrv5v.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230327161518.2385074-1-leobras@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,47 +102,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Leonardo Bras (leobras@redhat.com) wrote:
-> Since the introduction of multifd, it's possible to perform a multifd
-> migration and finish it using postcopy.
-> 
-> A bug introduced by yank (fixed on cfc3bcf373) was previously preventing
-> a successful use of this migration scenario, and now it should be
-> working on most cases.
-> 
-> But since there is not enough testing/support nor any reported users for
-> this scenario, we should disable this combination before it may cause any
-> problems for users.
-> 
-> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> ---
->  migration/migration.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index ae2025d9d8..c601964b0e 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1356,6 +1356,11 @@ static bool migrate_caps_check(bool *cap_list,
->              error_setg(errp, "Postcopy is not compatible with ignore-shared");
->              return false;
->          }
-> +
-> +        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
-> +            error_setg(errp, "Postcopy is not yet compatible with multifd");
-> +            return false;
-> +        }
->      }
->  
->      if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
-> -- 
-> 2.40.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> On Mon, 27 Mar 2023 at 23:10, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>>
+>> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+>>
+>> > On 27/03/2023 17:12, Alex Benn=C3=A9e wrote:
+>> >
+>> >> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+>> >>
+>> >>> On 27/03/2023 14:15, Alex Benn=C3=A9e wrote:
+>> >>>
+>> >>>> I'm still not sure how I achieve by use case of the parent class
+>> >>>> defining the following properties:
+>> >>>>     static Property vud_properties[] =3D {
+>> >>>>         DEFINE_PROP_CHR("chardev", VHostUserDevice, chardev),
+>> >>>>         DEFINE_PROP_UINT16("id", VHostUserDevice, id, 0),
+>> >>>>         DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
+>> >>>>         DEFINE_PROP_END_OF_LIST(),
+>> >>>>     };
+>> >>>> But for the specialisation of the class I want the id to default to
+>> >>>> the actual device id, e.g.:
+>> >>>>     static Property vu_rng_properties[] =3D {
+>> >>>>         DEFINE_PROP_UINT16("id", VHostUserDevice, id, VIRTIO_ID_RNG=
+),
+>> >>>>         DEFINE_PROP_UINT32("num_vqs", VHostUserDevice, num_vqs, 1),
+>> >>>>         DEFINE_PROP_END_OF_LIST(),
+>> >>>>     };
+>> >>>> And so far the API for doing that isn't super clear.
+>> >>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> >>>> ---
+>> >>>>    include/hw/qdev-core.h | 9 +++++++++
+>> >>>>    1 file changed, 9 insertions(+)
+>> >>>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+>> >>>> index bd50ad5ee1..d4bbc30c92 100644
+>> >>>> --- a/include/hw/qdev-core.h
+>> >>>> +++ b/include/hw/qdev-core.h
+>> >>>> @@ -776,6 +776,15 @@ BusState *sysbus_get_default(void);
+>> >>>>    char *qdev_get_fw_dev_path(DeviceState *dev);
+>> >>>>    char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, Devic=
+eState *dev);
+>> >>>>    +/**
+>> >>>> + * device_class_set_props(): add a set of properties to an device
+>> >>>> + * @dc: the parent DeviceClass all devices inherit
+>> >>>> + * @props: an array of properties, terminate by DEFINE_PROP_END_OF=
+_LIST()
+>> >>>> + *
+>> >>>> + * This will add a set of properties to the object. It will fault =
+if
+>> >>>> + * you attempt to add an existing property defined by a parent cla=
+ss.
+>> >>>> + * To modify an inherited property you need to use????
+>> >>>> + */
+>> >>>>    void device_class_set_props(DeviceClass *dc, Property *props);
+>> >>>>      /**
+>> >>>
+>> >>> Hmmm that's an interesting one. Looking at the source in
+>> >>> hw/core/qdev-properties.c you could possibly get away with something
+>> >>> like this in vu_rng_class_init():
+>> >>>
+>> >>>      ObjectProperty *op =3D object_class_property_find(klass, "id");
+>> >>>      object_property_set_default_uint(op, VIRTIO_ID_RNG);
+>> >>>
+>> >>> Of course this is all completely untested :)
+>> >> Sadly we assert on the existing prop->defval:
+>> >>    static void object_property_set_default(ObjectProperty *prop,
+>> >> QObject *defval)
+>> >>    {
+>> >>        assert(!prop->defval);
+>> >>        assert(!prop->init);
+>> >>        prop->defval =3D defval;
+>> >>        prop->init =3D object_property_init_defval;
+>> >>    }
+>> >> Maybe the assert is too aggressive or we need a different helper,
+>> >> maybe
+>> >> a:
+>> >>    void object_property_update_default_uint(ObjectProperty *prop,
+>> >> uint64_t value)
+>> >> ?
+>> >
+>> > It seems in that case once the default has been set, it is impossible
+>> > to change. The only other immediate option I can think of is to define
+>> > a specific DEFINE_VHOST_PROPERTIES macro in a similar way to
+>> > DEFINE_AUDIO_PROPERTIES which you can use to set the common properties
+>> > for all VHostUserDevice devices, including providing the default ID.
+>>
+>> I tried this: allow the default to change
+>>
+>> modified   qom/object.c
+>> @@ -1557,11 +1557,16 @@ static void object_property_init_defval(Object *=
+obj, ObjectProperty *prop)
+>>
+>>  static void object_property_set_default(ObjectProperty *prop, QObject *=
+defval)
+>>  {
+>> -    assert(!prop->defval);
+>> -    assert(!prop->init);
+>> +    if (prop->init =3D=3D object_property_init_defval) {
+>> +        fprintf(stderr, "%s: updating existing defval\n", __func__);
+>> +        prop->defval =3D defval;
+>> +    } else {
+>> +        assert(!prop->defval);
+>> +        assert(!prop->init);
+>>
+>> -    prop->defval =3D defval;
+>> -    prop->init =3D object_property_init_defval;
+>> +        prop->defval =3D defval;
+>> +        prop->init =3D object_property_init_defval;
+>> +    }
+>>  }
+>
+> I think this leaves the door open to bugs where you create
+> the property, somebody looks at it, and then you update
+> the default value afterwards...
 
+Really the pattern I have is:
+
+  vhost-user-device has the property and is configurable
+  vhost-user-rng-device specialises vhost-user-device and fixes the value
+
+I'm not sure how best to represent that. This should all be happening at
+class_init time.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
