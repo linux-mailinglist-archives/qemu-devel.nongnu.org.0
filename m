@@ -2,49 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AB76CB52B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435DE6CB556
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 06:11:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph0ON-0003AX-4g; Mon, 27 Mar 2023 23:53:03 -0400
+	id 1ph0eo-0006ET-05; Tue, 28 Mar 2023 00:10:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuzongyong@linux.alibaba.com>)
- id 1ph0OJ-0003AA-T7
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:52:59 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuzongyong@linux.alibaba.com>)
- id 1ph0OH-0002SJ-Pe
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:52:59 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
- MF=wuzongyong@linux.alibaba.com; NM=1; PH=DS; RN=1; SR=0;
- TI=SMTPD_---0VerY9ML_1679975565; 
-Received: from localhost(mailfrom:wuzongyong@linux.alibaba.com
- fp:SMTPD_---0VerY9ML_1679975565) by smtp.aliyun-inc.com;
- Tue, 28 Mar 2023 11:52:45 +0800
-Date: Tue, 28 Mar 2023 11:52:45 +0800
-From: Wu Zongyong <wuzongyong@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-Subject: Question: why no VMEXIT occur when I read/write emulated pci
- devices's bar by mmap inside guest userspace?
-Message-ID: <20230328035245.GA4486@L-PF27918B-1352.localdomain>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ph0ej-0006EE-Et; Tue, 28 Mar 2023 00:09:57 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ph0ef-0007x4-N6; Tue, 28 Mar 2023 00:09:57 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowADX3UmEaCJk+bj4Fw--.50734S2;
+ Tue, 28 Mar 2023 12:09:42 +0800 (CST)
+Message-ID: <165c20a1-222a-9b75-c23a-10bbc0619c65@iscas.ac.cn>
+Date: Tue, 28 Mar 2023 12:09:40 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=115.124.30.130;
- envelope-from=wuzongyong@linux.alibaba.com;
- helo=out30-130.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, dbarboza@ventanamicro.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Subject: Re: [PATCH 5/5] target/riscv: Add pointer mask support for
+ instruction fetch
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
+ <20230327100027.61160-6-liweiwei@iscas.ac.cn>
+ <8fed2551-a67d-cd53-f5a1-f089f980aa08@linaro.org>
+ <ae53e46c-b7e2-c986-a797-06a2630cc393@iscas.ac.cn>
+ <aa9b6745-341f-2466-70c2-d574ce2a7c6a@linaro.org>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <aa9b6745-341f-2466-70c2-d574ce2a7c6a@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADX3UmEaCJk+bj4Fw--.50734S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFy7Zw1UtF4UXr1fGr43trb_yoW8Jw4rpr
+ 95AFW8KrWktFWkArsFqr1xXFy2kr1xJ3WUG348GF1FyryFqr1Svr17Was0gr1Ykr4xXw1U
+ Zr4Dt3yruF13JrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+ 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+ zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+ 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+ CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,21 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wu Zongyong <wuzongyong@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
 
-I create a VM with a virtual pci device "-net nic,model=e1000", and I
-attemped to read/write the bar0 of the virtual nic inside the guest
-userspace by mmap the "/sys/bus/pci/devices/xxxx:xx:xx.x/resource0" to 
-the userspace.
-What I expected is a VMEXIT should occur when I read/write the bar but I
-didn't see any VMEXIT event.
-So I'm confused with this and any detailed analysis about mmio handle
-routine would be appreciated.
+On 2023/3/28 11:31, Richard Henderson wrote:
+> On 3/27/23 18:55, liweiwei wrote:
+>>
+>> On 2023/3/28 02:04, Richard Henderson wrote:
+>>> On 3/27/23 03:00, Weiwei Li wrote:
+>>>> @@ -1248,6 +1265,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr 
+>>>> address, int size,
+>>>>       qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d 
+>>>> mmu_idx %d\n",
+>>>>                     __func__, address, access_type, mmu_idx);
+>>>>   +    if (access_type == MMU_INST_FETCH) {
+>>>> +        address = adjust_pc_address(env, address);
+>>>> +    }
+>>>
+>>> Why do you want to do this so late, as opposed to earlier in 
+>>> cpu_get_tb_cpu_state?
+>>
+>> In this way, the pc for tb may be different from the reg pc. Then the 
+>> pc register will be wrong if sync from tb.
+>
+> Hmm, true.
+>
+> But you certainly cannot adjust the address in tlb_fill, as you'll be 
+> producing different result for read/write and exec.  You could 
+> plausibly use a separate mmu_idx, but that's not ideal either.
+>
+> The best solution might be to implement pc-relative translation 
+> (CF_PCREL).  At which point cpu_pc always has the correct results and 
+> we make relative adjustments to that.
 
-Thanks
+I'm not very familiar with how CF_PCREL works currently. I'll try this 
+way later.
+
+Regards,
+
+Weiwei Li
+
+>
+>
+> r~
 
 
