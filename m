@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEFF6CBB91
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 11:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C905B6CBC83
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 12:28:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph62z-0007Zf-W6; Tue, 28 Mar 2023 05:55:22 -0400
+	id 1ph6XH-0003hI-UE; Tue, 28 Mar 2023 06:26:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1ph62x-0007ZG-TX
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 05:55:19 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1ph62w-0004DE-7I
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 05:55:19 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- n10-20020a05600c4f8a00b003ee93d2c914so8659595wmq.2
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 02:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20210112.gappssmtp.com; s=20210112; t=1679997316;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iwFgrSbXkMkX6HpkB4zoThlw5Yfzmy+7oy4ZzlGDulk=;
- b=JbKg93/kp0buJnzINIiZE70OCYeo/PBDUL5me6Rm/w8azPk6PwawMmy5mHb1AuWIsy
- aNsKH7u5KuoGiAaKu5ks9xBTTNvTFJkn95HwFsQlgxBz4hmCIHz6Glq/Of3BtRxA49iZ
- 9AP80ycU1A6zT3nv19HYmJYnJ25De8v12ITfJXdUFoYCRZar6MDRJv6A+Y7JdzGhDRmk
- OG+UQG+m4cvwxvj/dSFjvew8mdhnmGyAoGAepdbVTnafqNHwlCud74AsB8yjS5viGL67
- 0NTnLUqJCWnxQtqUoE4JHdoqgKWDoYmDU11MpsUXTXwJMmSvtVnnsn0IOvWqpyTrpk2x
- 24cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679997316;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iwFgrSbXkMkX6HpkB4zoThlw5Yfzmy+7oy4ZzlGDulk=;
- b=UdyKZnfpkVG94C1tb+H39x1fYn6U5CCCCs8Et0qMxIzii4GItmK3EEqSygCtdnhkXE
- atcIg8wqJxl250H5eZ2IKMZqqbxf6XLh4gsWvvzsqT1XSfDIcyE62T9hKtSC6Swe+D9/
- xaRz/y3nNN/DBMxWHf5pSIOfFczN/UkwZQocz+uaWCvSgY19FsCbDhy2KjMdnVFsXzij
- cw5PTDxaU5hlf5M3dXjGpmR0ZtMNBv53uh8fpyqzGSsVS4wpJUFWz0j5nHdt9hGjZCaD
- fy+jDoy6BQIzm4xVQmRWdTxl4WDfhZDOuEtKRlxDyK4aSup3ouaz966+/5FNQSR2d2nH
- htuQ==
-X-Gm-Message-State: AO0yUKW/n8rNkwfc7lms8dwDncbKhRsLXL24WSI6w5+n5XPYnEscaGV5
- 3+/49KkX9QG7WIVRunIsjnR1LQ==
-X-Google-Smtp-Source: AK7set/h9L+GWgrPpq1SG4TPVfTV5uK3RgyY9Kgr98MW8Srjf5jVh7ivAmzcoNlx/66dAjPAeKYx4A==
-X-Received: by 2002:a1c:f60f:0:b0:3ed:90b2:60c6 with SMTP id
- w15-20020a1cf60f000000b003ed90b260c6mr11891332wmc.19.1679997316265; 
- Tue, 28 Mar 2023 02:55:16 -0700 (PDT)
-Received: from smtpclient.apple ([188.25.247.154])
- by smtp.gmail.com with ESMTPSA id
- o39-20020a05600c512700b003edddae1068sm12145792wms.9.2023.03.28.02.55.15
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 28 Mar 2023 02:55:15 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.2\))
-Subject: Re: Peter Maydell
-From: Liviu Ionescu <ilg@livius.net>
-In-Reply-To: <BF3FFEF0-8818-40DE-A27E-AA8844ACAEF8@gmail.com>
-Date: Tue, 28 Mar 2023 12:55:14 +0300
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ph6XE-0003gn-51; Tue, 28 Mar 2023 06:26:36 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ph6XB-0000Nz-DD; Tue, 28 Mar 2023 06:26:35 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-05 (Coremail) with SMTP id zQCowADHzzPMwCJksq0_Cw--.13818S2;
+ Tue, 28 Mar 2023 18:26:22 +0800 (CST)
+Content-Type: multipart/alternative;
+ boundary="------------sKQNYS42uoaTnKs6ua4TRT6v"
+Message-ID: <c0537d04-58d3-f445-686e-1be96ec95610@iscas.ac.cn>
+Date: Tue, 28 Mar 2023 18:26:20 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn,
+ lazyparser@gmail.com
+Subject: Re: [PATCH 1/5] target/riscv: Fix effective address for pointer mask
+Content-Language: en-US
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <46CB357D-23C0-47FC-B355-5FBF59A764A5@livius.net>
-References: <BF3FFEF0-8818-40DE-A27E-AA8844ACAEF8@gmail.com>
-To: cavin narsinghani <cavinnarsinghani@gmail.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.2)
-Received-SPF: none client-ip=2a00:1450:4864:20::32f;
- envelope-from=ilg@livius.net; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
+ <20230327100027.61160-2-liweiwei@iscas.ac.cn>
+ <c0abfb39-56a7-a184-f134-bcb075908f57@linux.alibaba.com>
+ <c1b60f5e-5bb8-5462-ae93-7813da4269bb@iscas.ac.cn>
+ <389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org>
+ <04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn>
+ <241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com>
+X-CM-TRANSID: zQCowADHzzPMwCJksq0_Cw--.13818S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1UCrW3CF1DZFyUtF1DZFb_yoW8Gw1xpr
+ WrCr4FkrW0qwnakFZrJr1DXFy3GrykA3W7X34jka4UAry5Jw1Fvw10vrZ09rWv9r4IvrW2
+ va1YqrWUZF1DZ37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjI
+ I2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mx8GjcxK6IxK0xIIj40E5I8C
+ rwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+ cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+ nxnUUI43ZEXa7VU1g4S7UUUUU==
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,19 +85,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This is a multi-part message in MIME format.
+--------------sKQNYS42uoaTnKs6ua4TRT6v
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-> On 28 Mar 2023, at 12:38, cavin narsinghani =
-<cavinnarsinghani@gmail.com> wrote:
->=20
-> =EF=BB=BF
-> Yes, I agree.
+On 2023/3/28 15:25, LIU Zhiwei wrote:
+>
+>
+> On 2023/3/28 11:33, liweiwei wrote:
+>>
+>>
+>> On 2023/3/28 11:18, Richard Henderson wrote:
+>>> On 3/27/23 19:48, liweiwei wrote:
+>>>>
+>>>> On 2023/3/28 10:20, LIU Zhiwei wrote:
+>>>>>
+>>>>> On 2023/3/27 18:00, Weiwei Li wrote:
+>>>>>> Since pointer mask works on effective address, and the xl works 
+>>>>>> on the
+>>>>>> generation of effective address, so xl related calculation should 
+>>>>>> be done
+>>>>>> before pointer mask.
+>>>>>
+>>>>> Incorrect. It has been done.
+>>>>>
+>>>>> When updating the pm_mask,  we have already considered the env->xl.
+>>>>>
+>>>>> You can see it in riscv_cpu_update_mask
+>>>>>
+>>>>>     if (env->xl == MXL_RV32) {
+>>>>>         env->cur_pmmask = mask & UINT32_MAX;
+>>>>>         env->cur_pmbase = base & UINT32_MAX;
+>>>>>     } else {
+>>>>>         env->cur_pmmask = mask;
+>>>>>         env->cur_pmbase = base;
+>>>>>     }
+>>>>>
+>>>> Yeah, I missed this part. Then we should ensure cur_pmmask/base is 
+>>>> updated when xl changes.
+>>>
+>>> Is that even possible?  XL can change on priv level changes (SXL, UXL).
+>>
+>> Yeah. Not possible, since only UXL is changable currently, and 
+>> SXL/UXL can only be changed in higher priv level.
+>>
+>> So the recompute for xl in write_mstatus() seems redundant.
+>>
+> I think you are almost right. But as we allow write XL field when in 
+> debug mode, we seemly also need call this function for it.
+>
+Then,  cur_pmbase/mask also need update in this case.
 
-That statement was from Nov 2020.
+Weiwei Li
 
-I would say that things got significantly better in the last few years. =
-;-)
+> Zhiwei
+>
+>> Maybe there is a way to change current xl in future if misa.mxl is 
+>> changable.
+>>
+>> Regards,
+>>
+>> Weiwei Li
+>>
+>>>
+>>>
+>>> r~
+--------------sKQNYS42uoaTnKs6ua4TRT6v
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Liviu
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2023/3/28 15:25, LIU Zhiwei wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><br>
+      </p>
+      <div class="moz-cite-prefix">On 2023/3/28 11:33, liweiwei wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn">
+        <meta http-equiv="Content-Type" content="text/html;
+          charset=UTF-8">
+        <p><br>
+        </p>
+        <div class="moz-cite-prefix">On 2023/3/28 11:18, Richard
+          Henderson wrote:<br>
+        </div>
+        <blockquote type="cite"
+          cite="mid:389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org">On
+          3/27/23 19:48, liweiwei wrote: <br>
+          <blockquote type="cite"> <br>
+            On 2023/3/28 10:20, LIU Zhiwei wrote: <br>
+            <blockquote type="cite"> <br>
+              On 2023/3/27 18:00, Weiwei Li wrote: <br>
+              <blockquote type="cite">Since pointer mask works on
+                effective address, and the xl works on the <br>
+                generation of effective address, so xl related
+                calculation should be done <br>
+                before pointer mask. <br>
+              </blockquote>
+              <br>
+              Incorrect. It has been done. <br>
+              <br>
+              When updating the pm_mask,  we have already considered the
+              env-&gt;xl. <br>
+              <br>
+              You can see it in riscv_cpu_update_mask <br>
+              <br>
+                  if (env-&gt;xl == MXL_RV32) { <br>
+                      env-&gt;cur_pmmask = mask &amp; UINT32_MAX; <br>
+                      env-&gt;cur_pmbase = base &amp; UINT32_MAX; <br>
+                  } else { <br>
+                      env-&gt;cur_pmmask = mask; <br>
+                      env-&gt;cur_pmbase = base; <br>
+                  } <br>
+              <br>
+            </blockquote>
+            Yeah, I missed this part. Then we should ensure
+            cur_pmmask/base is updated when xl changes. <br>
+          </blockquote>
+          <br>
+          Is that even possible?  XL can change on priv level changes
+          (SXL, UXL). <br>
+        </blockquote>
+        <p>Yeah. Not possible, since only UXL is changable currently,
+          and SXL/UXL can only be changed in higher priv level.</p>
+        <p>So the recompute for xl in <span style="color: #000000;">write_mstatus()
+            seems redundant.</span></p>
+      </blockquote>
+      <p>I think you are almost right. But as we allow write XL field
+        when in debug mode, we seemly also need call this function for
+        it.</p>
+    </blockquote>
+    <p>Then,  cur_pmbase/mask also need update in this case.</p>
+    <p>Weiwei Li<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com">
+      <p>Zhiwei<br>
+      </p>
+      <blockquote type="cite"
+        cite="mid:04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn">
+        <p><span style="color: #000000;">Maybe there is a way to change
+            current xl in future if misa.mxl is changable.</span></p>
+        <p><span style="color: #000000;">Regards,</span></p>
+        <p><span style="color: #000000;">Weiwei Li<br>
+          </span></p>
+        <blockquote type="cite"
+          cite="mid:389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org"> <br>
+          <br>
+          r~ <br>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------sKQNYS42uoaTnKs6ua4TRT6v--
 
 
