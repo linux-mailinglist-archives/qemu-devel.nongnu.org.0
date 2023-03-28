@@ -2,82 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CCF6CCC17
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 23:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B66566CCD2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 00:24:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phGon-0007br-1f; Tue, 28 Mar 2023 17:25:25 -0400
+	id 1phHiA-00013d-PZ; Tue, 28 Mar 2023 18:22:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phGok-0007bH-M4
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 17:25:22 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phGoi-0007LD-Pj
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 17:25:22 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- v20-20020a05600c471400b003ed8826253aso1391198wmo.0
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 14:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680038719;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=E3L0YvTAg6g+pvqy2IDkXobfjbifgoR5d+5WWMVGSjA=;
- b=bv49Li2ipHy1cMxkX6WHvslBbEPnJ3y9dwwdiLKSpPyJJTgL9ZubdYWhuv8dJISqNS
- 3etfsZHTL2Y2BJYQlPF8PHVabyDWQBH0OWesmep62cm6r9FmjSa/G6IpRlwBMc7ToXE1
- QxHTyFSB0TtxsVuxTr3RdQxeZ9wwA+CueZRUdvFn/qWW71Tb0QMArp4pMK4/u7Gc+X5t
- ajqaY3goblqz/v5SkagIf8XvOMigcBmAKQdSF+UclT3z0ivieaAJ2TT/TTD5yaZVLAeL
- n6y38l+ZiYGBSgGgp8B790ehV07C/IAVyyUeT9xSvUiiiChIBVIikKouMVC43ZizKgB5
- kwvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680038719;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=E3L0YvTAg6g+pvqy2IDkXobfjbifgoR5d+5WWMVGSjA=;
- b=JIr8d1/mKvQyot5yp/rxKYE/MtX9gX58v5uh0koJMnbEOZ/xRRI3bNekt47MAXvMgN
- 2q+/3aEKx1kvJnjwdjytdfl1wbydbiCE20LenaGTGCpYMlv24aIOBZOfqi4DmeFD6jXv
- QxckyTA5+QJMKD2z8jjjUzckl0WqbEim8QN2tVMtG+I2bQvASi7x2QK8civYtJp0B127
- MQfnLcpf+CedjkxyHUjwhaeXmWRaXnI4bLtErwgX2X1ithO8bTXMj3/w1VzlkweHUuqQ
- WHESdFcMXMtWz4YN7lHreyaoJlUJZzLGhu/sxX0kDo4msWUd3r0kSE344J8nudYS92H/
- nepA==
-X-Gm-Message-State: AO0yUKVM0s7WL9qdAt3x7gCZ+7xkHgmbtFppSQB0GSqNEwYKAyaGQVO5
- WMhfAi22e5Ac9flWF1UmGdz9CsASX8H7wFGCqDY=
-X-Google-Smtp-Source: AK7set8WIujXU1AGAEWuXez1uuf9srFnCNMjZgpwikxo9IlRHARBhBgxt9KQvvH2X/nraKe9jOnZ/Q==
-X-Received: by 2002:a05:600c:2312:b0:3ee:b3bf:5f7c with SMTP id
- 18-20020a05600c231200b003eeb3bf5f7cmr13420456wmo.23.1680038719144; 
- Tue, 28 Mar 2023 14:25:19 -0700 (PDT)
-Received: from localhost.localdomain ([176.187.210.212])
- by smtp.gmail.com with ESMTPSA id
- m1-20020a05600c4f4100b003ee1e07a14asm13756569wmq.45.2023.03.28.14.25.17
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 28 Mar 2023 14:25:18 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Fabiano Rosas <farosas@suse.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH-for-8.0 v3] target/arm: Fix non-TCG build failure by inlining
- pauth_ptr_mask()
-Date: Tue, 28 Mar 2023 23:25:16 +0200
-Message-Id: <20230328212516.29592-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1phHi7-00012t-Qf; Tue, 28 Mar 2023 18:22:35 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1phHi6-0000gT-2i; Tue, 28 Mar 2023 18:22:35 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32SMKhmZ023206; Tue, 28 Mar 2023 22:21:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=vS53COY6NyhdxcTdCrj93euCvN1GU+/ymThrXwmmjEw=;
+ b=pF6gj50aIs5fMmMY68g2wkQIg1URhoMYZT3masmg71l2XjFAPylQvYorYXQxwhya8qzY
+ +0Gp/1AZrWmZrm8P+p82VuyCsSE0s2WgiQ1+V9jFnzBORA4paXW7MWu67KOHt3tLvmlF
+ qeMtg1TbO0T2pRfk6a8uZ2/geFTvBQjKGA30EOs0Y/W8EFkSrBSP12AaynjtOLsZiYUu
+ SG7+hf80G9K/3CjTh6yNmWutPxn2gjLxizkCdV0RlG9FaSJyT2ouup+puAwRuo6/EYco
+ iVxeb8qkgWS8XHLSGTvW3JUUx8yfXK1W0W7H0l+3eh44BiU1XOwMED1VA4zBJV+rsBAV 8A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm8xvr0em-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 22:21:20 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SMLImj024028;
+ Tue, 28 Mar 2023 22:21:20 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pm8xvr0e3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 22:21:19 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32SKOTxY002270;
+ Tue, 28 Mar 2023 22:21:17 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3phrk6uqxv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Mar 2023 22:21:17 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32SMLEJe7537246
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Mar 2023 22:21:14 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2A7292005A;
+ Tue, 28 Mar 2023 22:21:14 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9AC0E20049;
+ Tue, 28 Mar 2023 22:21:13 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.208.230])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 28 Mar 2023 22:21:13 +0000 (GMT)
+Message-ID: <07464c8f08535b5c6611135ffeda66c8b26ec46c.camel@linux.ibm.com>
+Subject: Re: s390x TCG migration failure
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, Juan Quintela
+ <quintela@redhat.com>
+Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, John Snow <jsnow@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, qemu-s390x@nongnu.org, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau
+ <marcandre.lureau@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Coiby Xu <Coiby.Xu@gmail.com>, Ilya
+ Leoshkevich <iii@linux.ibm.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Yanan Wang <wangyanan55@huawei.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Eric Blake <eblake@redhat.com>, Eric Farman
+ <farman@linux.ibm.com>
+Date: Wed, 29 Mar 2023 00:21:13 +0200
+In-Reply-To: <84eebff9-54b8-9354-5b48-822937af0405@redhat.com>
+References: <20230207005650.1810-4-quintela@redhat.com>
+ <20230324184129.3119575-1-nsg@linux.ibm.com>
+ <84eebff9-54b8-9354-5b48-822937af0405@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: J_TUOfJGwV-1c3AxevcSyO_YC1nDrl_T
+X-Proofpoint-GUID: xPje86byYeLCm976xlh6rK1innXVPDAc
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-24_11,2023-03-28_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ mlxlogscore=976 phishscore=0 malwarescore=0 bulkscore=0 clxscore=1015
+ adultscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303280170
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,126 +133,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-aarch64_gdb_get_pauth_reg() -- although disabled since commit
-5787d17a42 ("target/arm: Don't advertise aarch64-pauth.xml to
-gdb") is still compiled in. It calls pauth_ptr_mask() which is
-located in target/arm/tcg/pauth_helper.c, a TCG specific helper.
+On Tue, 2023-03-28 at 15:01 +0200, Thomas Huth wrote:
+> On 24/03/2023 19.41, Nina Schoetterl-Glausch wrote:
+> > Hi,
+> >=20
+> > We're seeing failures running s390x migration kvm-unit-tests tests with=
+ TCG.
+> > Some initial findings:
+> > What seems to be happening is that after migration a control block head=
+er accessed by the test code is all zeros which causes an unexpected except=
+ion.
+> > I did a bisection which points to c8df4a7aef ("migration: Split save_li=
+ve_pending() into state_pending_*") as the culprit.
+> > The migration issue persists after applying the fix e264705012 ("migrat=
+ion: I messed state_pending_exact/estimate") on top of c8df4a7aef.
+>=20
+>   Hi Nina,
+>=20
+> could you please open a ticket in the QEMU bug tracker and add the "8.0"=
+=20
+> label there, so that it correctly shows up in the list of things that sho=
+uld=20
+> be fixed before the 8.0 release?
 
-To avoid a linking error when TCG is not enabled:
+https://gitlab.com/qemu-project/qemu/-/issues/1565
 
-  Undefined symbols for architecture arm64:
-    "_pauth_ptr_mask", referenced from:
-        _aarch64_gdb_get_pauth_reg in target_arm_gdbstub64.c.o
-  ld: symbol(s) not found for architecture arm64
-  clang: error: linker command failed with exit code 1 (use -v to see invocation)
-
-- Inline pauth_ptr_mask() in aarch64_gdb_get_pauth_reg()
-  (this is the single user),
-- Rename pauth_ptr_mask_internal() as pauth_ptr_mask() and
-  inline it in "internals.h",
-
-Fixes: e995d5cce4 ("target/arm: Implement gdbstub pauth extension")
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
-Supersedes: <20230328133054.6553-1-philmd@linaro.org>
-
-Since v2:
-- Rebased (patch #1 merged)
-- Addressed rth's comments
-- Added R-b tags
----
- target/arm/internals.h        | 16 +++++++---------
- target/arm/gdbstub64.c        |  7 +++++--
- target/arm/tcg/pauth_helper.c | 18 +-----------------
- 3 files changed, 13 insertions(+), 28 deletions(-)
-
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 673519a24a..71f4c6d8a2 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1389,15 +1389,13 @@ int exception_target_el(CPUARMState *env);
- bool arm_singlestep_active(CPUARMState *env);
- bool arm_generate_debug_exceptions(CPUARMState *env);
- 
--/**
-- * pauth_ptr_mask:
-- * @env: cpu context
-- * @ptr: selects between TTBR0 and TTBR1
-- * @data: selects between TBI and TBID
-- *
-- * Return a mask of the bits of @ptr that contain the authentication code.
-- */
--uint64_t pauth_ptr_mask(CPUARMState *env, uint64_t ptr, bool data);
-+static inline uint64_t pauth_ptr_mask(ARMVAParameters param)
-+{
-+    int bot_pac_bit = 64 - param.tsz;
-+    int top_pac_bit = 64 - 8 * param.tbi;
-+
-+    return MAKE_64BIT_MASK(bot_pac_bit, top_pac_bit - bot_pac_bit);
-+}
- 
- /* Add the cpreg definitions for debug related system registers */
- void define_debug_regs(ARMCPU *cpu);
-diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
-index ec1e07f139..c1f7e8c934 100644
---- a/target/arm/gdbstub64.c
-+++ b/target/arm/gdbstub64.c
-@@ -230,8 +230,11 @@ int aarch64_gdb_get_pauth_reg(CPUARMState *env, GByteArray *buf, int reg)
-         {
-             bool is_data = !(reg & 1);
-             bool is_high = reg & 2;
--            uint64_t mask = pauth_ptr_mask(env, -is_high, is_data);
--            return gdb_get_reg64(buf, mask);
-+            ARMMMUIdx mmu_idx = arm_stage1_mmu_idx(env);
-+            ARMVAParameters param;
-+
-+            param = aa64_va_parameters(env, -is_high, mmu_idx, is_data);
-+            return gdb_get_reg64(buf, pauth_ptr_mask(param));
-         }
-     default:
-         return 0;
-diff --git a/target/arm/tcg/pauth_helper.c b/target/arm/tcg/pauth_helper.c
-index 20f347332d..de067fa716 100644
---- a/target/arm/tcg/pauth_helper.c
-+++ b/target/arm/tcg/pauth_helper.c
-@@ -339,17 +339,9 @@ static uint64_t pauth_addpac(CPUARMState *env, uint64_t ptr, uint64_t modifier,
-     return pac | ext | ptr;
- }
- 
--static uint64_t pauth_ptr_mask_internal(ARMVAParameters param)
--{
--    int bot_pac_bit = 64 - param.tsz;
--    int top_pac_bit = 64 - 8 * param.tbi;
--
--    return MAKE_64BIT_MASK(bot_pac_bit, top_pac_bit - bot_pac_bit);
--}
--
- static uint64_t pauth_original_ptr(uint64_t ptr, ARMVAParameters param)
- {
--    uint64_t mask = pauth_ptr_mask_internal(param);
-+    uint64_t mask = pauth_ptr_mask(param);
- 
-     /* Note that bit 55 is used whether or not the regime has 2 ranges. */
-     if (extract64(ptr, 55, 1)) {
-@@ -359,14 +351,6 @@ static uint64_t pauth_original_ptr(uint64_t ptr, ARMVAParameters param)
-     }
- }
- 
--uint64_t pauth_ptr_mask(CPUARMState *env, uint64_t ptr, bool data)
--{
--    ARMMMUIdx mmu_idx = arm_stage1_mmu_idx(env);
--    ARMVAParameters param = aa64_va_parameters(env, ptr, mmu_idx, data);
--
--    return pauth_ptr_mask_internal(param);
--}
--
- static uint64_t pauth_auth(CPUARMState *env, uint64_t ptr, uint64_t modifier,
-                            ARMPACKey *key, bool data, int keynumber)
- {
--- 
-2.38.1
-
+Not sure if I cannot add a label or if I overlooked how to.
 
