@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13336CC94F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E1E6CC964
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 19:36:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phDAf-0004h8-Sa; Tue, 28 Mar 2023 13:31:45 -0400
+	id 1phDEj-00085f-R7; Tue, 28 Mar 2023 13:35:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phDAe-0004gO-73
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:31:44 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1phDEh-00085A-VI
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:35:55 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phDAb-0003SI-DP
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:31:43 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- m6-20020a05600c3b0600b003ee6e324b19so8044493wms.1
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 10:31:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1phDEg-0005I9-1i
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 13:35:55 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ cm7-20020a056830650700b006a11f365d13so5477124otb.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 10:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680024699;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6MbnN+0f617dsehwYtlh7IWt8dwxE1cjBMBOmowF/jo=;
- b=Vi8NBOJNIaL4iwmKYW/PpwzdiWYsFRvUddBLaqryeDI70WY0Oy2d73T0GBar8fT1NB
- 66DvxYsstnj/vPT+JA6j4E6VyKP0irgJ2/Iy5ci1ndgoiAomaEnQExlQNt644ZApOjSM
- 5gf0M9tQLUsBOniL4N9ajmop5HVjbUwLVpkn+q2VAZmgnJb7AVenFfmumtwiQITOsfEx
- t6iYLRcYqbJIfGaFb3NtjMhcApH/+SO/c5MkJFyb8hau3tmKfNx+qt97wNW+SjNkaMCG
- bsEWeGqllJ7zZKuyYylIGdXnif/MpVMTc7V+uiwStXJ2mx1S9wZRsAJS7VsHHxBCQmJT
- w8VA==
+ d=ventanamicro.com; s=google; t=1680024952;
+ h=content-transfer-encoding:based-on:mime-version:message-id:date
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=izKMd87bELByZfMFAUYo/bTqKJuGML3PEhempsXy+M0=;
+ b=jY74xvnDc+Ivyge9mCvXbvoXciPTQ+oQboiWpa6OxtUoIZNIjcgFPxomn1PVCtsLZV
+ u6aW0jTaMc3LolcOqT8hzWsOJSS4Sl5fPOZDbYBVL/6upjlE/kECETq//j+kFZizIESp
+ rziQJB+EOVT2Vt6GQ6zfMZtAYapDB1sXJCEyuHyVc/z//p+aCSq9/KjPV/CGDEL0Qc+a
+ gKj+9A/bZ3B9PsiLugvc4F5CqAHk9WeaNC4CZUbQn10a7vbffY3+sYeWxZ69z1xHOH3v
+ 50xKS+vyQrlaCAYhfOiwSHS5cMDs9Zy0aYeLlZcoLyYbgQEFMolumisuZWFkFcleEsaF
+ f2+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680024699;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6MbnN+0f617dsehwYtlh7IWt8dwxE1cjBMBOmowF/jo=;
- b=II8RN5W0d8CLHgjdr535bGVIbnIY6d+0QJvpgMkxqmTMnItefQRteveomcC/CeFIhr
- jna94JO3E3lwAvCLlz07/kw/jYWbiUVRlCuAcsk6lhPqyIAB/exCHtzMZEd462RYL5b2
- XeZYf649kcfezToeVrvzjIbDVxyvv9nZBvTfvbasRSApzCYCoLx6evc9Ib9Zk1zhN2tz
- sqkyWeSqwkETSSodAP5o5X1+sTADD5A4JGZ0G8GfKMO10T33pEHZSdxS6PwxnCAW4AyH
- 93Lc90VvNbcWqgTNKga/dT44/YvKLoJDpJmUconyoIuB9hBHFr2lsbR3sHn9IAjUNZi9
- jtNQ==
-X-Gm-Message-State: AO0yUKW11x4y1YYHxXr9Mei/3PQBdPX0Y3VI0Ym5ONTd3vRfs1UfESMm
- +XlaLjvmhG7AmV9ZHXcv4BabjG72lD1KHK0kv9Y=
-X-Google-Smtp-Source: AK7set8Mmo+1n3OHQ5g4OfvYMwrs4HJlZZH0POTRPmIjvHUca6eFRX/JiDgvHoeOv6WIKTuIxEEAQA==
-X-Received: by 2002:a05:600c:21d8:b0:3ed:2b49:eefc with SMTP id
- x24-20020a05600c21d800b003ed2b49eefcmr13475865wmj.3.1680024699656; 
- Tue, 28 Mar 2023 10:31:39 -0700 (PDT)
-Received: from localhost.localdomain ([176.187.210.212])
- by smtp.gmail.com with ESMTPSA id
- n10-20020a05600c3b8a00b003ede3f5c81fsm13483453wms.41.2023.03.28.10.31.37
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 28 Mar 2023 10:31:39 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ d=1e100.net; s=20210112; t=1680024952;
+ h=content-transfer-encoding:based-on:mime-version:message-id:date
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=izKMd87bELByZfMFAUYo/bTqKJuGML3PEhempsXy+M0=;
+ b=5EvIhn2UNCcfxCaQTNlNoPVb9rOgAW3zbcd8MHeq4ZyY6hBNxQs9s96ElzvdHjGzHW
+ s9Z5sn8v0/58JtQ2e9RPUhIuZJsKaUBFtkwUx7s/Lu6TL19HClc931mT8uvFUVacqRW2
+ zRnppHzT4iLmH9HlGQNZN1PG86NAwMM4wKv/Vxt/Yo7iyjYYQKHtBaKcrtgd6Xgeuu61
+ DQo8pb2VAkCuaBc++Nela5jsCzM3SBazCLswZ0GjQH2BGJnU6czVtIFhS3eaui/gIdzl
+ jFUTEG4h3VqVLdtn05eSjVghYpLAJTp4zJhLnI4MXZeYq0zdX7DyQnXwYYplZSAcCAOI
+ DHgg==
+X-Gm-Message-State: AAQBX9edlSTq4L+wPz25HSA0MTqRbnrompyQ2q5KX5jxQ8WxNUFqGv8R
+ liCpejJx9c72WcPpW+wShCaUlAl+bo8u5ayrJsE=
+X-Google-Smtp-Source: AKy350Zo0xT04RIgmcC69pmAmO0EDfgkZwTU9PMMWJgQgwnfpNKMQHHIOK4ZhgbkLt+5o6LZ7/NTuA==
+X-Received: by 2002:a9d:7d13:0:b0:69a:c5d8:1e4a with SMTP id
+ v19-20020a9d7d13000000b0069ac5d81e4amr9184041otn.16.1680024952234; 
+ Tue, 28 Mar 2023 10:35:52 -0700 (PDT)
+Received: from grind.. ([177.95.89.231]) by smtp.gmail.com with ESMTPSA id
+ m2-20020a9d6442000000b0069f0a85fa36sm11635654otl.57.2023.03.28.10.35.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Mar 2023 10:35:51 -0700 (PDT)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, David Hildenbrand <david@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Greg Kurz <groug@kaod.org>,
- kvm@vger.kernel.org, Ilya Leoshkevich <iii@linux.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>, Fabiano Rosas <farosas@suse.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH-for-8.0 v2 3/3] softmmu: Restore use of CPU watchpoint for all
- accelerators
-Date: Tue, 28 Mar 2023 19:31:17 +0200
-Message-Id: <20230328173117.15226-4-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230328173117.15226-1-philmd@linaro.org>
-References: <20230328173117.15226-1-philmd@linaro.org>
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v5 0/9] target/riscv: rework CPU extensions validation
+Date: Tue, 28 Mar 2023 14:35:34 -0300
+Message-Id: <20230328173543.431342-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Based-on: 20230327224934.363314-1-dbarboza@ventanamicro.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,83 +90,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-CPU watchpoints can be use by non-TCG accelerators.
+Hi,
 
-KVM uses them:
+This v5 is based on top of:
 
-  $ git grep CPUWatchpoint|fgrep kvm
-  target/arm/kvm64.c:1558:        CPUWatchpoint *wp = find_hw_watchpoint(cs, debug_exit->far);
-  target/i386/kvm/kvm.c:5216:static CPUWatchpoint hw_watchpoint;
-  target/ppc/kvm.c:443:static CPUWatchpoint hw_watchpoint;
-  target/s390x/kvm/kvm.c:139:static CPUWatchpoint hw_watchpoint;
+"[PATCH v2 00/19] remove MISA ext_N flags from cpu->cfg"
 
-See for example commit e4482ab7e3 ("target-arm: kvm - add support
-for HW assisted debug"):
+We went from 25 patches to 9 because we no longer need to mirror changes
+from env->misa_ext to cpu->cfg.ext_N back and forth. A lot of patches
+got cut because of it.
 
-     This adds basic support for HW assisted debug. The ioctl interface
-     to KVM allows us to pass an implementation defined number of break
-     and watch point registers. [...]
+write_misa() now uses the validate function as is, without the need to
+changing it to use an 'ext' value. Rolling back env->misa_ext on
+validation failure is trivial enough to not justify the extra effort of
+making the validate functions use an 'ext' var. 
 
-This partially reverts commit 2609ec2868e6c286e755a73b4504714a0296a.
+I also decided to dropped the patches that were splitting MISA
+validation from the regular validation. A small change was done in
+riscv_cpu_validate_set_extensions() to prevent it from writing
+env->misa_ext_mask during write_misa(). Fragmenting the validation at
+this point would just make us call 2 validate functions instead of just
+one, without any tangible benefits. 
 
-Fixes: 2609ec2868 ("softmmu: Extract watchpoint API from physmem.c")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- include/hw/core/cpu.h | 2 +-
- softmmu/watchpoint.c  | 4 ++++
- softmmu/meson.build   | 2 +-
- 3 files changed, 6 insertions(+), 2 deletions(-)
+Another notable change is that we're not handling RVE and RVG in
+separate. The only special handling done is when disabling extensions
+that disables RVG.
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index ce312745d5..397fd3ac68 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -949,7 +949,7 @@ static inline bool cpu_breakpoint_test(CPUState *cpu, vaddr pc, int mask)
-     return false;
- }
- 
--#if !defined(CONFIG_TCG) || defined(CONFIG_USER_ONLY)
-+#if defined(CONFIG_USER_ONLY)
- static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
-                                         int flags, CPUWatchpoint **watchpoint)
- {
-diff --git a/softmmu/watchpoint.c b/softmmu/watchpoint.c
-index 9d6ae68499..5350163385 100644
---- a/softmmu/watchpoint.c
-+++ b/softmmu/watchpoint.c
-@@ -104,6 +104,8 @@ void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
-     }
- }
- 
-+#ifdef CONFIG_TCG
-+
- /*
-  * Return true if this watchpoint address matches the specified
-  * access (ie the address range covered by the watchpoint overlaps
-@@ -220,3 +222,5 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-         }
-     }
- }
-+
-+#endif /* CONFIG_TCG */
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-index 0180577517..1a7c7ac089 100644
---- a/softmmu/meson.build
-+++ b/softmmu/meson.build
-@@ -5,11 +5,11 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
-   'physmem.c',
-   'qtest.c',
-   'dirtylimit.c',
-+  'watchpoint.c',
- )])
- 
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: [files(
-   'icount.c',
--  'watchpoint.c',
- )])
- 
- softmmu_ss.add(files(
+
+Patches missing acks: patch 9. 
+
+
+Changes from v4:
+- the following patches were dropped:
+  - target/riscv: move pmp and epmp validations to validate_set_extensions()
+  - target/riscv/cpu.c: avoid set_misa() in validate_set_extensions()
+  - target/riscv/cpu.c: set cpu config in set_misa()
+  - target/riscv/cpu.c: redesign register_cpu_props()
+  - target/riscv: put env->misa_ext <-> cpu->cfg code into helpers
+  - target/riscv: add RVG
+  - target/riscv/cpu.c: split RVG code from validate_set_extensions()
+  - target/riscv/cpu.c: add riscv_cpu_validate_misa_ext()
+  - target/riscv: move riscv_cpu_validate_v() to validate_misa_ext()
+  - target/riscv: error out on priv failure for RVH
+  - target/riscv: write env->misa_ext* in register_generic_cpu_props()
+  - target/riscv: make validate_misa_ext() use a misa_ext val
+  - target/riscv: split riscv_cpu_validate_set_extensions()
+  - target/riscv: use misa_ext val in riscv_cpu_validate_extensions()
+  - target/riscv: update cpu->cfg misa bits in commit_cpu_cfg()
+  - target/riscv: handle RVG updates in write_misa()
+- patch 9:
+  - use riscv_cpu_validate_set_extensions() directly
+  - do not handle RVE and RVG separately
+  - handle RVG disable if any of its dependencies are disabled
+- v4 link: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg05785.html
+
+Daniel Henrique Barboza (9):
+  target/riscv/cpu.c: add riscv_cpu_validate_v()
+  target/riscv/cpu.c: remove set_vext_version()
+  target/riscv/cpu.c: remove set_priv_version()
+  target/riscv: add PRIV_VERSION_LATEST
+  target/riscv/cpu.c: add priv_spec validate/disable_exts helpers
+  target/riscv/cpu.c: add riscv_cpu_validate_misa_mxl()
+  target/riscv/cpu.c: validate extensions before riscv_timer_init()
+  target/riscv/cpu.c: remove cfg setup from riscv_cpu_init()
+  target/riscv: rework write_misa()
+
+ target/riscv/cpu.c | 331 +++++++++++++++++++++++++++------------------
+ target/riscv/cpu.h |   3 +
+ target/riscv/csr.c |  47 +++----
+ 3 files changed, 222 insertions(+), 159 deletions(-)
+
 -- 
-2.38.1
+2.39.2
 
 
