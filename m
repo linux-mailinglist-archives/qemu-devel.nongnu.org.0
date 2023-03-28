@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910E36CB481
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3177D6CB4BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 05:16:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pgzgB-0007SM-4B; Mon, 27 Mar 2023 23:07:23 -0400
+	id 1pgzg7-0007On-8F; Mon, 27 Mar 2023 23:07:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pgzg1-0007JN-I4
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:13 -0400
+ id 1pgzg3-0007MP-M1
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:15 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pgzfy-0000rV-U3
- for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:13 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1pgzg0-0000tY-Ei
+ for qemu-devel@nongnu.org; Mon, 27 Mar 2023 23:07:15 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxUU_SWSJkndoSAA--.17333S3;
- Tue, 28 Mar 2023 11:06:58 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8DxE4TTWSJko9oSAA--.28775S3;
+ Tue, 28 Mar 2023 11:06:59 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dxyr24WSJkZukOAA--.10252S43; 
- Tue, 28 Mar 2023 11:06:56 +0800 (CST)
+ AQAAf8Dxyr24WSJkZukOAA--.10252S44; 
+ Tue, 28 Mar 2023 11:06:58 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [RFC PATCH v2 41/44] target/loongarch: Implement vilvl vilvh vextrins
- vshuf
-Date: Tue, 28 Mar 2023 11:06:28 +0800
-Message-Id: <20230328030631.3117129-42-gaosong@loongson.cn>
+Subject: [RFC PATCH v2 42/44] target/loongarch: Implement vld vst
+Date: Tue, 28 Mar 2023 11:06:29 +0800
+Message-Id: <20230328030631.3117129-43-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230328030631.3117129-1-gaosong@loongson.cn>
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S43
+X-CM-TRANSID: AQAAf8Dxyr24WSJkZukOAA--.10252S44
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWfJw1ftFyfAF48Cw1DZw45Awb_yoWDZFWUpa
- nIkFyUtr48XrWIqrnav343Jw4qqFsrKw18u3WfGryrWF42yF1DXryvqrZI9r4aga98XFyI
- g3W3C34qyF98J37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- be8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
- kF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020E
- x4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFV
- Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
- 1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
- 0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAI
- cVC0I7IYx2IY67AKxVWDJVCq3wCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
- vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280
- aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+X-Coremail-Antispam: 1Uk129KBjvAXoW3uFW8Xr1xAw4xWFyxuF15Jwb_yoW8Ar1fto
+ WxJ3WUJa18Gw1FyryDCwn8XF4xta4Fy397JF9xuw1kKayxAryxKryUKw1kAa18trW8KFyf
+ Cws2yFn8XF43ZF9xn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
+ J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
+ UUqG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64
+ kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY
+ 1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aV
+ CY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x2
+ 6I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4
+ IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AG
+ Y7Cv6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+ 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF
+ 0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42
+ IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -18
@@ -76,324 +75,559 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VILV{L/H}.{B/H/W/D};
-- VSHUF.{B/H/W/D};
-- VSHUF4I.{B/H/W/D};
-- VPERMI.W;
-- VEXTRINS.{B/H/W/D}.
+- VLD[X], VST[X];
+- VLDREPL.{B/H/W/D};
+- VSTELM.{B/H/W/D}.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  25 +++
- target/loongarch/helper.h                   |  25 +++
- target/loongarch/insn_trans/trans_lsx.c.inc |  25 +++
- target/loongarch/insns.decode               |  25 +++
- target/loongarch/lsx_helper.c               | 163 ++++++++++++++++++++
- 5 files changed, 263 insertions(+)
+ target/loongarch/disas.c                    |  34 +++
+ target/loongarch/helper.h                   |  12 +
+ target/loongarch/insn_trans/trans_lsx.c.inc |  70 +++++
+ target/loongarch/insns.decode               |  36 +++
+ target/loongarch/lsx_helper.c               | 267 ++++++++++++++++++++
+ target/loongarch/translate.c                |  10 +
+ 6 files changed, 429 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index c6cf782725..0b62bbb8be 100644
+index 0b62bbb8be..8627908fc9 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -1629,3 +1629,28 @@ INSN_LSX(vpickod_b,        vvv)
- INSN_LSX(vpickod_h,        vvv)
- INSN_LSX(vpickod_w,        vvv)
- INSN_LSX(vpickod_d,        vvv)
+@@ -21,11 +21,21 @@ static inline int plus_1(DisasContext *ctx, int x)
+     return x + 1;
+ }
+ 
++static inline int shl_1(DisasContext *ctx, int x)
++{
++    return x << 1;
++}
 +
-+INSN_LSX(vilvl_b,          vvv)
-+INSN_LSX(vilvl_h,          vvv)
-+INSN_LSX(vilvl_w,          vvv)
-+INSN_LSX(vilvl_d,          vvv)
-+INSN_LSX(vilvh_b,          vvv)
-+INSN_LSX(vilvh_h,          vvv)
-+INSN_LSX(vilvh_w,          vvv)
-+INSN_LSX(vilvh_d,          vvv)
+ static inline int shl_2(DisasContext *ctx, int x)
+ {
+     return x << 2;
+ }
+ 
++static inline int shl_3(DisasContext *ctx, int x)
++{
++    return x << 3;
++}
 +
-+INSN_LSX(vshuf_b,          vvvv)
-+INSN_LSX(vshuf_h,          vvv)
-+INSN_LSX(vshuf_w,          vvv)
-+INSN_LSX(vshuf_d,          vvv)
-+INSN_LSX(vshuf4i_b,        vv_i)
-+INSN_LSX(vshuf4i_h,        vv_i)
-+INSN_LSX(vshuf4i_w,        vv_i)
-+INSN_LSX(vshuf4i_d,        vv_i)
+ #define CSR_NAME(REG) \
+     [LOONGARCH_CSR_##REG] = (#REG)
+ 
+@@ -823,6 +833,11 @@ static void output_vr_i(DisasContext *ctx, arg_vr_i *a, const char *mnemonic)
+     output(ctx, mnemonic, "v%d, r%d, 0x%x", a->vd, a->rj, a->imm);
+ }
+ 
++static void output_vr_ii(DisasContext *ctx, arg_vr_ii *a, const char *mnemonic)
++{
++    output(ctx, mnemonic, "v%d, r%d, 0x%x, 0x%x", a->vd, a->rj, a->imm, a->imm2);
++}
 +
-+INSN_LSX(vpermi_w,         vv_i)
+ static void output_rv_i(DisasContext *ctx, arg_rv_i *a, const char *mnemonic)
+ {
+     output(ctx, mnemonic, "r%d, v%d, 0x%x", a->rd, a->vj,  a->imm);
+@@ -838,6 +853,11 @@ static void output_vvr(DisasContext *ctx, arg_vvr *a, const char *mnemonic)
+     output(ctx, mnemonic, "v%d, v%d, r%d", a->vd, a->vj, a->rk);
+ }
+ 
++static void output_vrr(DisasContext *ctx, arg_vrr *a, const char *mnemonic)
++{
++    output(ctx, mnemonic, "v%d, r%d, r%d", a->vd, a->rj, a->rk);
++}
 +
-+INSN_LSX(vextrins_d,       vv_i)
-+INSN_LSX(vextrins_w,       vv_i)
-+INSN_LSX(vextrins_h,       vv_i)
-+INSN_LSX(vextrins_b,       vv_i)
+ INSN_LSX(vadd_b,           vvv)
+ INSN_LSX(vadd_h,           vvv)
+ INSN_LSX(vadd_w,           vvv)
+@@ -1654,3 +1674,17 @@ INSN_LSX(vextrins_d,       vv_i)
+ INSN_LSX(vextrins_w,       vv_i)
+ INSN_LSX(vextrins_h,       vv_i)
+ INSN_LSX(vextrins_b,       vv_i)
++
++INSN_LSX(vld,              vr_i)
++INSN_LSX(vst,              vr_i)
++INSN_LSX(vldx,             vrr)
++INSN_LSX(vstx,             vrr)
++
++INSN_LSX(vldrepl_d,        vr_i)
++INSN_LSX(vldrepl_w,        vr_i)
++INSN_LSX(vldrepl_h,        vr_i)
++INSN_LSX(vldrepl_b,        vr_i)
++INSN_LSX(vstelm_d,         vr_ii)
++INSN_LSX(vstelm_w,         vr_ii)
++INSN_LSX(vstelm_h,         vr_ii)
++INSN_LSX(vstelm_b,         vr_ii)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index bf03a16afd..86c7eeeae1 100644
+index 86c7eeeae1..5b6674ff0e 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -686,3 +686,28 @@ DEF_HELPER_4(vpickod_b, void, env, i32, i32, i32)
- DEF_HELPER_4(vpickod_h, void, env, i32, i32, i32)
- DEF_HELPER_4(vpickod_w, void, env, i32, i32, i32)
- DEF_HELPER_4(vpickod_d, void, env, i32, i32, i32)
+@@ -711,3 +711,15 @@ DEF_HELPER_4(vextrins_b, void, env, i32, i32, i32)
+ DEF_HELPER_4(vextrins_h, void, env, i32, i32, i32)
+ DEF_HELPER_4(vextrins_w, void, env, i32, i32, i32)
+ DEF_HELPER_4(vextrins_d, void, env, i32, i32, i32)
 +
-+DEF_HELPER_4(vilvl_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vilvl_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vilvl_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vilvl_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vilvh_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vilvh_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vilvh_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vilvh_d, void, env, i32, i32, i32)
++DEF_HELPER_3(vld_b, void, env, i32, tl)
++DEF_HELPER_3(vst_b, void, env, i32, tl)
 +
-+DEF_HELPER_5(vshuf_b, void, env, i32, i32, i32, i32)
-+DEF_HELPER_4(vshuf_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vshuf_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vshuf_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vshuf4i_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vshuf4i_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vshuf4i_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vshuf4i_d, void, env, i32, i32, i32)
-+
-+DEF_HELPER_4(vpermi_w, void, env, i32, i32, i32)
-+
-+DEF_HELPER_4(vextrins_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vextrins_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vextrins_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vextrins_d, void, env, i32, i32, i32)
++DEF_HELPER_3(vldrepl_d, void, env, i32, tl)
++DEF_HELPER_3(vldrepl_w, void, env, i32, tl)
++DEF_HELPER_3(vldrepl_h, void, env, i32, tl)
++DEF_HELPER_3(vldrepl_b, void, env, i32, tl)
++DEF_HELPER_4(vstelm_d, void, env, i32, tl, i32)
++DEF_HELPER_4(vstelm_w, void, env, i32, tl, i32)
++DEF_HELPER_4(vstelm_h, void, env, i32, tl, i32)
++DEF_HELPER_4(vstelm_b, void, env, i32, tl, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 66cb67a19c..0ea7c65445 100644
+index 0ea7c65445..ab896f8a9e 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -3485,3 +3485,28 @@ TRANS(vpickod_b, gen_vvv, gen_helper_vpickod_b)
- TRANS(vpickod_h, gen_vvv, gen_helper_vpickod_h)
- TRANS(vpickod_w, gen_vvv, gen_helper_vpickod_w)
- TRANS(vpickod_d, gen_vvv, gen_helper_vpickod_d)
+@@ -3510,3 +3510,73 @@ TRANS(vextrins_b, gen_vv_i, gen_helper_vextrins_b)
+ TRANS(vextrins_h, gen_vv_i, gen_helper_vextrins_h)
+ TRANS(vextrins_w, gen_vv_i, gen_helper_vextrins_w)
+ TRANS(vextrins_d, gen_vv_i, gen_helper_vextrins_d)
 +
-+TRANS(vilvl_b, gen_vvv, gen_helper_vilvl_b)
-+TRANS(vilvl_h, gen_vvv, gen_helper_vilvl_h)
-+TRANS(vilvl_w, gen_vvv, gen_helper_vilvl_w)
-+TRANS(vilvl_d, gen_vvv, gen_helper_vilvl_d)
-+TRANS(vilvh_b, gen_vvv, gen_helper_vilvh_b)
-+TRANS(vilvh_h, gen_vvv, gen_helper_vilvh_h)
-+TRANS(vilvh_w, gen_vvv, gen_helper_vilvh_w)
-+TRANS(vilvh_d, gen_vvv, gen_helper_vilvh_d)
++static bool gen_memory(DisasContext *ctx, arg_vr_i *a,
++                       void (*func)(TCGv_ptr, TCGv_i32, TCGv))
++{
++    TCGv_i32 vd = tcg_constant_i32(a->vd);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv temp;
 +
-+TRANS(vshuf_b, gen_vvvv, gen_helper_vshuf_b)
-+TRANS(vshuf_h, gen_vvv, gen_helper_vshuf_h)
-+TRANS(vshuf_w, gen_vvv, gen_helper_vshuf_w)
-+TRANS(vshuf_d, gen_vvv, gen_helper_vshuf_d)
-+TRANS(vshuf4i_b, gen_vv_i, gen_helper_vshuf4i_b)
-+TRANS(vshuf4i_h, gen_vv_i, gen_helper_vshuf4i_h)
-+TRANS(vshuf4i_w, gen_vv_i, gen_helper_vshuf4i_w)
-+TRANS(vshuf4i_d, gen_vv_i, gen_helper_vshuf4i_d)
++    CHECK_SXE;
 +
-+TRANS(vpermi_w, gen_vv_i, gen_helper_vpermi_w)
++    if (a->imm) {
++        temp = tcg_temp_new();
++        tcg_gen_addi_tl(temp, addr, a->imm);
++        addr = temp;
++    }
 +
-+TRANS(vextrins_b, gen_vv_i, gen_helper_vextrins_b)
-+TRANS(vextrins_h, gen_vv_i, gen_helper_vextrins_h)
-+TRANS(vextrins_w, gen_vv_i, gen_helper_vextrins_w)
-+TRANS(vextrins_d, gen_vv_i, gen_helper_vextrins_d)
++    func(cpu_env, vd, addr);
++
++    return true;
++}
++
++static bool gen_memory_x(DisasContext *ctx, arg_vrr *a,
++                    void (*func)(TCGv_ptr, TCGv_i32, TCGv))
++{
++    TCGv_i32 vd = tcg_constant_i32(a->vd);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
++
++    CHECK_SXE;
++
++    TCGv addr = tcg_temp_new();
++    tcg_gen_add_tl(addr, src1, src2);
++    func(cpu_env, vd, addr);
++    return true;
++}
++
++TRANS(vld, gen_memory, gen_helper_vld_b)
++TRANS(vst, gen_memory, gen_helper_vst_b)
++TRANS(vldx, gen_memory_x, gen_helper_vld_b)
++TRANS(vstx, gen_memory_x, gen_helper_vst_b)
++
++static bool gen_memory_elm(DisasContext *ctx, arg_vr_ii *a,
++                           void (*func)(TCGv_ptr, TCGv_i32, TCGv, TCGv_i32))
++{
++    TCGv_i32 vd = tcg_constant_i32(a->vd);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv_i32 tidx = tcg_constant_i32(a->imm2);
++    TCGv temp;
++
++    CHECK_SXE;
++
++    if (a->imm) {
++        temp = tcg_temp_new();
++        tcg_gen_addi_tl(temp, addr, a->imm);
++        addr = temp;
++    }
++
++    func(cpu_env, vd, addr, tidx);
++
++    return true;
++}
++
++TRANS(vldrepl_b, gen_memory, gen_helper_vldrepl_b)
++TRANS(vldrepl_h, gen_memory, gen_helper_vldrepl_h)
++TRANS(vldrepl_w, gen_memory, gen_helper_vldrepl_w)
++TRANS(vldrepl_d, gen_memory, gen_helper_vldrepl_d)
++TRANS(vstelm_b, gen_memory_elm, gen_helper_vstelm_b)
++TRANS(vstelm_h, gen_memory_elm, gen_helper_vstelm_h)
++TRANS(vstelm_w, gen_memory_elm, gen_helper_vstelm_w)
++TRANS(vstelm_d, gen_memory_elm, gen_helper_vstelm_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index ab9e9e422f..0263bce28e 100644
+index 0263bce28e..ea6eedb7a9 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -1231,3 +1231,28 @@ vpickod_b        0111 00010010 00000 ..... ..... .....    @vvv
- vpickod_h        0111 00010010 00001 ..... ..... .....    @vvv
- vpickod_w        0111 00010010 00010 ..... ..... .....    @vvv
- vpickod_d        0111 00010010 00011 ..... ..... .....    @vvv
+@@ -486,6 +486,17 @@ ertn             0000 01100100 10000 01110 00000 00000    @empty
+ idle             0000 01100100 10001 ...............      @i15
+ dbcl             0000 00000010 10101 ...............      @i15
+ 
++#
++# LSX Fields
++#
 +
-+vilvl_b          0111 00010001 10100 ..... ..... .....    @vvv
-+vilvl_h          0111 00010001 10101 ..... ..... .....    @vvv
-+vilvl_w          0111 00010001 10110 ..... ..... .....    @vvv
-+vilvl_d          0111 00010001 10111 ..... ..... .....    @vvv
-+vilvh_b          0111 00010001 11000 ..... ..... .....    @vvv
-+vilvh_h          0111 00010001 11001 ..... ..... .....    @vvv
-+vilvh_w          0111 00010001 11010 ..... ..... .....    @vvv
-+vilvh_d          0111 00010001 11011 ..... ..... .....    @vvv
++%i9s3     10:s9       !function=shl_3
++%i10s2    10:s10      !function=shl_2
++%i11s1    10:s11      !function=shl_1
++%i8s3     10:s8       !function=shl_3
++%i8s2     10:s8       !function=shl_2
++%i8s1     10:s8       !function=shl_1
 +
-+vshuf_b          0000 11010101 ..... ..... ..... .....    @vvvv
-+vshuf_h          0111 00010111 10101 ..... ..... .....    @vvv
-+vshuf_w          0111 00010111 10110 ..... ..... .....    @vvv
-+vshuf_d          0111 00010111 10111 ..... ..... .....    @vvv
-+vshuf4i_b        0111 00111001 00 ........ ..... .....    @vv_ui8
-+vshuf4i_h        0111 00111001 01 ........ ..... .....    @vv_ui8
-+vshuf4i_w        0111 00111001 10 ........ ..... .....    @vv_ui8
-+vshuf4i_d        0111 00111001 11 ........ ..... .....    @vv_ui8
+ #
+ # LSX Argument sets
+ #
+@@ -500,6 +511,8 @@ dbcl             0000 00000010 10101 ...............      @i15
+ &rv_i         rd vj imm
+ &vr           vd rj
+ &vvr          vd vj rk
++&vrr          vd rj rk
++&vr_ii        vd rj imm imm2
+ 
+ #
+ # LSX Formats
+@@ -528,6 +541,15 @@ dbcl             0000 00000010 10101 ...............      @i15
+ @rv_ui1      .... ........ ..... .... imm:1 vj:5 rd:5    &rv_i
+ @vr               .... ........ ..... ..... rj:5 vd:5    &vr
+ @vvr               .... ........ ..... rk:5 vj:5 vd:5    &vvr
++@vr_i9            .... ........ . ......... rj:5 vd:5    &vr_i imm=%i9s3
++@vr_i10            .... ........ .......... rj:5 vd:5    &vr_i imm=%i10s2
++@vr_i11            .... ....... ........... rj:5 vd:5    &vr_i imm=%i11s1
++@vr_i12                 .... ...... imm:s12 rj:5 vd:5    &vr_i
++@vr_i8i1    .... ........ . imm2:1 ........ rj:5 vd:5    &vr_ii imm=%i8s3
++@vr_i8i2      .... ........ imm2:2 ........ rj:5 vd:5    &vr_ii imm=%i8s2
++@vr_i8i3       .... ....... imm2:3 ........ rj:5 vd:5    &vr_ii imm=%i8s1
++@vr_i8i4          .... ...... imm2:4 imm:s8 rj:5 vd:5    &vr_ii
++@vrr               .... ........ ..... rk:5 rj:5 vd:5    &vrr
+ 
+ vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
+ vadd_h           0111 00000000 10101 ..... ..... .....    @vvv
+@@ -1256,3 +1278,17 @@ vextrins_d       0111 00111000 00 ........ ..... .....    @vv_ui8
+ vextrins_w       0111 00111000 01 ........ ..... .....    @vv_ui8
+ vextrins_h       0111 00111000 10 ........ ..... .....    @vv_ui8
+ vextrins_b       0111 00111000 11 ........ ..... .....    @vv_ui8
 +
-+vpermi_w         0111 00111110 01 ........ ..... .....    @vv_ui8
++vld              0010 110000 ............ ..... .....     @vr_i12
++vst              0010 110001 ............ ..... .....     @vr_i12
++vldx             0011 10000100 00000 ..... ..... .....    @vrr
++vstx             0011 10000100 01000 ..... ..... .....    @vrr
 +
-+vextrins_d       0111 00111000 00 ........ ..... .....    @vv_ui8
-+vextrins_w       0111 00111000 01 ........ ..... .....    @vv_ui8
-+vextrins_h       0111 00111000 10 ........ ..... .....    @vv_ui8
-+vextrins_b       0111 00111000 11 ........ ..... .....    @vv_ui8
++vldrepl_d        0011 00000001 0 ......... ..... .....    @vr_i9
++vldrepl_w        0011 00000010 .......... ..... .....     @vr_i10
++vldrepl_h        0011 0000010 ........... ..... .....     @vr_i11
++vldrepl_b        0011 000010 ............ ..... .....     @vr_i12
++vstelm_d         0011 00010001 0 . ........ ..... .....   @vr_i8i1
++vstelm_w         0011 00010010 .. ........ ..... .....    @vr_i8i2
++vstelm_h         0011 0001010 ... ........ ..... .....    @vr_i8i3
++vstelm_b         0011 000110 .... ........ ..... .....    @vr_i8i4
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index b8e0aa9d3b..56faa8684d 100644
+index 56faa8684d..326646413d 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -3121,3 +3121,166 @@ VPICKOD(vpickod_b, 16, B)
- VPICKOD(vpickod_h, 32, H)
- VPICKOD(vpickod_w, 64, W)
- VPICKOD(vpickod_d, 128, D)
+@@ -11,6 +11,7 @@
+ #include "exec/helper-proto.h"
+ #include "fpu/softfloat.h"
+ #include "internals.h"
++#include "tcg/tcg-ldst.h"
+ 
+ void helper_vadd_q(CPULoongArchState *env,
+                    uint32_t vd, uint32_t vj, uint32_t vk)
+@@ -3284,3 +3285,269 @@ VEXTRINS(vextrins_b, 8, B, 0xf)
+ VEXTRINS(vextrins_h, 16, H, 0x7)
+ VEXTRINS(vextrins_w, 32, W, 0x3)
+ VEXTRINS(vextrins_d, 64, D, 0x1)
 +
-+#define VILVL(NAME, BIT, E)                              \
-+void HELPER(NAME)(CPULoongArchState *env,                \
-+                  uint32_t vd, uint32_t vj, uint32_t vk) \
-+{                                                        \
-+    int i;                                               \
-+    VReg temp;                                           \
-+    VReg *Vd = &(env->fpr[vd].vreg);                     \
-+    VReg *Vj = &(env->fpr[vj].vreg);                     \
-+    VReg *Vk = &(env->fpr[vk].vreg);                     \
-+                                                         \
-+    for (i = 0; i < LSX_LEN/BIT; i++) {                  \
-+        temp.E(2 * i + 1) = Vj->E(i);                    \
-+        temp.E(2 * i) = Vk->E(i);                        \
-+    }                                                    \
-+    Vd->D(0) = temp.D(0);                                \
-+    Vd->D(1) = temp.D(1);                                \
-+}
-+
-+VILVL(vilvl_b, 16, B)
-+VILVL(vilvl_h, 32, H)
-+VILVL(vilvl_w, 64, W)
-+VILVL(vilvl_d, 128, D)
-+
-+#define VILVH(NAME, BIT, E)                              \
-+void HELPER(NAME)(CPULoongArchState *env,                \
-+                  uint32_t vd, uint32_t vj, uint32_t vk) \
-+{                                                        \
-+    int i;                                               \
-+    VReg temp;                                           \
-+    VReg *Vd = &(env->fpr[vd].vreg);                     \
-+    VReg *Vj = &(env->fpr[vj].vreg);                     \
-+    VReg *Vk = &(env->fpr[vk].vreg);                     \
-+                                                         \
-+    for (i = 0; i < LSX_LEN/BIT; i++) {                  \
-+        temp.E(2 * i + 1) = Vj->E(i + LSX_LEN/BIT);      \
-+        temp.E(2 * i) = Vk->E(i + LSX_LEN/BIT);          \
-+    }                                                    \
-+    Vd->D(0) = temp.D(0);                                \
-+    Vd->D(1) = temp.D(1);                                \
-+}
-+
-+VILVH(vilvh_b, 16, B)
-+VILVH(vilvh_h, 32, H)
-+VILVH(vilvh_w, 64, W)
-+VILVH(vilvh_d, 128, D)
-+
-+void HELPER(vshuf_b)(CPULoongArchState *env,
-+                     uint32_t vd, uint32_t vj, uint32_t vk, uint32_t va)
++void HELPER(vld_b)(CPULoongArchState *env, uint32_t vd, target_ulong addr)
 +{
-+    int i, m, k;
-+    VReg temp;
++    int i;
 +    VReg *Vd = &(env->fpr[vd].vreg);
-+    VReg *Vj = &(env->fpr[vj].vreg);
-+    VReg *Vk = &(env->fpr[vk].vreg);
-+    VReg *Va = &(env->fpr[va].vreg);
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_UNALN, cpu_mmu_index(env, false));
 +
-+    m = LSX_LEN/8;
-+    for (i = 0; i < m ; i++) {
-+        k = (Va->B(i)& 0x3f) % (2 * m);
-+        temp.B(i) = (Va->B(i) & 0xc0) ? 0 : k < m ? Vk->B(k) : Vj->B(k - m);
++    for (i = 0; i < LSX_LEN/8; i++) {
++        Vd->B(i) = helper_ret_ldub_mmu(env, addr + i, oi, GETPC());
 +    }
-+    Vd->D(0) = temp.D(0);
-+    Vd->D(1) = temp.D(1);
++#else
++    for (i = 0; i < LSX_LEN/8; i++) {
++        Vd->B(i) = cpu_ldub_data(env, addr + i);
++    }
++#endif
 +}
 +
-+#define VSHUF(NAME, BIT, E)                                                  \
-+void HELPER(NAME)(CPULoongArchState *env,                                    \
-+                  uint32_t vd, uint32_t vj, uint32_t vk)                     \
-+{                                                                            \
-+    int i, m, k;                                                             \
-+    VReg temp;                                                               \
-+    VReg *Vd = &(env->fpr[vd].vreg);                                         \
-+    VReg *Vj = &(env->fpr[vj].vreg);                                         \
-+    VReg *Vk = &(env->fpr[vk].vreg);                                         \
-+                                                                             \
-+    m = LSX_LEN/BIT;                                                         \
-+    for (i = 0; i < m; i++) {                                                \
-+        k  = (Vd->E(i) & 0x3f) % (2 * m);                                    \
-+        temp.E(i) = (Vd->E(i) & 0xc0) ? 0 : k < m ? Vk->E(k) : Vj->E(k - m); \
-+    }                                                                        \
-+    Vd->D(0) = temp.D(0);                                                    \
-+    Vd->D(1) = temp.D(1);                                                    \
++#define LSX_PAGESPAN(x) \
++        ((((x) & ~TARGET_PAGE_MASK) + LSX_LEN/8 - 1) >= TARGET_PAGE_SIZE)
++
++static inline void ensure_writable_pages(CPULoongArchState *env,
++                                         target_ulong addr,
++                                         int mmu_idx,
++                                         uintptr_t retaddr)
++{
++#ifndef CONFIG_USER_ONLY
++    /* FIXME: Probe the actual accesses (pass and use a size) */
++    if (unlikely(LSX_PAGESPAN(addr))) {
++        /* first page */
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++        /* second page */
++        addr = (addr & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++    }
++#endif
 +}
 +
-+VSHUF(vshuf_h, 16, H)
-+VSHUF(vshuf_w, 32, W)
-+VSHUF(vshuf_d, 64, D)
++void HELPER(vst_b)(CPULoongArchState *env, uint32_t vd, target_ulong addr)
++{
++    int i;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    int mmu_idx = cpu_mmu_index(env, false);
 +
-+#define SHF_POS(i, imm) (((i) & 0xfc) + (((imm) >> (2 * ((i) & 0x03))) & 0x03))
-+
-+#define VSHUF4I(NAME, BIT, E)                             \
-+void HELPER(NAME)(CPULoongArchState *env,                 \
-+                  uint32_t vd, uint32_t vj, uint32_t imm) \
-+{                                                         \
-+    int i;                                                \
-+    VReg temp;                                            \
-+    VReg *Vd = &(env->fpr[vd].vreg);                      \
-+    VReg *Vj = &(env->fpr[vj].vreg);                      \
-+                                                          \
-+    for (i = 0; i < LSX_LEN/BIT; i++) {                   \
-+         temp.E(i) = Vj->E(SHF_POS(i, imm));              \
-+    }                                                     \
-+    Vd->D[0] = temp.D[0];                                 \
-+    Vd->D[1] = temp.D[1];                                 \
++    ensure_writable_pages(env, addr, mmu_idx, GETPC());
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_UNALN, mmu_idx);
++    for (i = 0; i < LSX_LEN/8; i++) {
++        helper_ret_stb_mmu(env, addr + i, Vd->B(i),  oi, GETPC());
++    }
++#else
++    for (i = 0; i < LSX_LEN/8; i++) {
++        cpu_stb_data(env, addr + i, Vd->B(i));
++    }
++#endif
 +}
 +
-+VSHUF4I(vshuf4i_b, 8, B)
-+VSHUF4I(vshuf4i_h, 16, H)
-+VSHUF4I(vshuf4i_w, 32, W)
-+
-+void HELPER(vshuf4i_d)(CPULoongArchState *env,
-+                       uint32_t vd, uint32_t vj, uint32_t imm)
++void HELPER(vldrepl_b)(CPULoongArchState *env, uint32_t vd, target_ulong addr)
 +{
 +    VReg *Vd = &(env->fpr[vd].vreg);
-+    VReg *Vj = &(env->fpr[vj].vreg);
-+
-+    VReg temp;
-+    temp.D(0) = ((imm & 0x03) == 0x00) ? Vd->D(0):
-+                ((imm & 0x03) == 0x01) ? Vd->D(1):
-+                ((imm & 0x03) == 0x02) ? Vj->D(0): Vj->D(1);
-+
-+    temp.D(1) = ((imm & 0x0c) == 0x00) ? Vd->D(0):
-+                ((imm & 0x0c) == 0x04) ? Vd->D(1):
-+                ((imm & 0x0c) == 0x08) ? Vj->D(0): Vj->D(1);
-+
-+    Vd->D[0] = temp.D[0];
-+    Vd->D[1] = temp.D[1];
++    uint8_t data;
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_8 | MO_UNALN,
++                                 cpu_mmu_index(env, false));
++    data = helper_ret_ldub_mmu(env, addr, oi, GETPC());
++#else
++    data = cpu_ldub_data(env, addr);
++#endif
++    int i;
++    for (i = 0; i < 16; i++) {
++        Vd->B(i) = data;
++    }
 +}
 +
-+void HELPER(vpermi_w)(CPULoongArchState *env,
-+                      uint32_t vd, uint32_t vj, uint32_t imm)
++void HELPER(vldrepl_h)(CPULoongArchState *env, uint32_t vd, target_ulong addr)
 +{
-+    VReg temp;
 +    VReg *Vd = &(env->fpr[vd].vreg);
-+    VReg *Vj = &(env->fpr[vj].vreg);
-+
-+    temp.W(0) = Vj->W(imm & 0x3);
-+    temp.W(1) = Vj->W((imm >> 2) & 0x3);
-+    temp.W(2) = Vd->W((imm >> 4) & 0x3);
-+    temp.W(3) = Vd->W((imm >> 6) & 0x3);
-+
-+    Vd->D(0) = temp.D(0);
-+    Vd->D(1) = temp.D(1);
++    uint16_t data;
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_16 | MO_UNALN,
++                                 cpu_mmu_index(env, false));
++    data = helper_le_lduw_mmu(env, addr, oi, GETPC());
++#else
++    data = cpu_lduw_data(env, addr);
++#endif
++    int i;
++    for (i = 0; i < 8; i++) {
++        Vd->H(i) = data;
++    }
 +}
 +
-+#define VEXTRINS(NAME, BIT, E, MASK)                      \
-+void HELPER(NAME)(CPULoongArchState *env,                 \
-+                  uint32_t vd, uint32_t vj, uint32_t imm) \
-+{                                                         \
-+    int ins, extr;                                        \
-+    VReg *Vd = &(env->fpr[vd].vreg);                      \
-+    VReg *Vj = &(env->fpr[vj].vreg);                      \
-+                                                          \
-+    ins = (imm >> 4) & MASK;                              \
-+    extr = imm & MASK;                                    \
-+    Vd->E(ins) = Vj->E(extr);                             \
++void HELPER(vldrepl_w)(CPULoongArchState *env, uint32_t vd, target_ulong addr)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    uint32_t data;
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_32 | MO_UNALN,
++                                 cpu_mmu_index(env, false));
++    data = helper_le_ldul_mmu(env, addr, oi, GETPC());
++#else
++    data = cpu_ldl_data(env, addr);
++#endif
++    Vd->W(0) = data;
++    Vd->W(1) = data;
++    Vd->W(2) = data;
++    Vd->W(3) = data;
 +}
 +
-+VEXTRINS(vextrins_b, 8, B, 0xf)
-+VEXTRINS(vextrins_h, 16, H, 0x7)
-+VEXTRINS(vextrins_w, 32, W, 0x3)
-+VEXTRINS(vextrins_d, 64, D, 0x1)
++void helper_vldrepl_d(CPULoongArchState *env, uint32_t vd, target_ulong addr)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    uint64_t data;
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_64 | MO_UNALN,
++                                 cpu_mmu_index(env, false));
++    data = helper_le_ldq_mmu(env, addr, oi, GETPC());
++#else
++    data = cpu_ldq_data(env, addr);
++#endif
++    Vd->D(0) = data;
++    Vd->D(1) = data;
++}
++
++#define B_PAGESPAN(x) \
++        ((((x) & ~TARGET_PAGE_MASK) + 8/8 - 1) >= TARGET_PAGE_SIZE)
++
++static inline void ensure_b_writable_pages(CPULoongArchState *env,
++                                           target_ulong addr,
++                                           int mmu_idx,
++                                           uintptr_t retaddr)
++{
++#ifndef CONFIG_USER_ONLY
++    /* FIXME: Probe the actual accesses (pass and use a size) */
++    if (unlikely(B_PAGESPAN(addr))) {
++        /* first page */
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++        /* second page */
++        addr = (addr & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++    }
++#endif
++}
++
++void HELPER(vstelm_b)(CPULoongArchState *env,
++                      uint32_t vd, target_ulong addr, uint32_t sel)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    int mmu_idx = cpu_mmu_index(env, false);
++
++    ensure_b_writable_pages(env, addr, mmu_idx, GETPC());
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_8 | MO_UNALN,
++                                 cpu_mmu_index(env, false));
++    helper_ret_stb_mmu(env, addr, Vd->B(sel), oi, GETPC());
++#else
++    cpu_stb_data(env, addr, Vd->B(sel));
++#endif
++}
++
++#define H_PAGESPAN(x) \
++        ((((x) & ~TARGET_PAGE_MASK) + 16/8 - 1) >= TARGET_PAGE_SIZE)
++
++static inline void ensure_h_writable_pages(CPULoongArchState *env,
++                                           target_ulong addr,
++                                           int mmu_idx,
++                                           uintptr_t retaddr)
++{
++#ifndef CONFIG_USER_ONLY
++    /* FIXME: Probe the actual accesses (pass and use a size) */
++    if (unlikely(H_PAGESPAN(addr))) {
++        /* first page */
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++        /* second page */
++        addr = (addr & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++    }
++#endif
++}
++
++void HELPER(vstelm_h)(CPULoongArchState *env,
++                      uint32_t vd, target_ulong addr, uint32_t sel)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    int mmu_idx = cpu_mmu_index(env, false);
++
++    ensure_h_writable_pages(env, addr, mmu_idx, GETPC());
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_16 | MO_UNALN,
++                                 cpu_mmu_index(env, false));
++    helper_le_stw_mmu(env, addr, Vd->H(sel), oi, GETPC());
++#else
++    cpu_stw_data(env, addr, Vd->H(sel));
++#endif
++}
++
++#define W_PAGESPAN(x) \
++        ((((x) & ~TARGET_PAGE_MASK) + 32/8 - 1) >= TARGET_PAGE_SIZE)
++
++static inline void ensure_w_writable_pages(CPULoongArchState *env,
++                                           target_ulong addr,
++                                           int mmu_idx,
++                                           uintptr_t retaddr)
++{
++#ifndef CONFIG_USER_ONLY
++    /* FIXME: Probe the actual accesses (pass and use a size) */
++    if (unlikely(W_PAGESPAN(addr))) {
++        /* first page */
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++        /* second pdge */
++        addr = (addr & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++    }
++#endif
++}
++
++void helper_vstelm_w(CPULoongArchState *env,
++                     uint32_t vd, target_ulong addr, uint32_t sel)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    int mmu_idx = cpu_mmu_index(env, false);
++
++    ensure_w_writable_pages(env, addr, mmu_idx, GETPC());
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_32 | MO_UNALN,
++                                 cpu_mmu_index(env, false));
++    helper_le_stl_mmu(env, addr, Vd->W(sel), oi, GETPC());
++#else
++    cpu_stl_data(env, addr, Vd->W(sel));
++#endif
++}
++
++#define D_PAGESPAN(x) \
++        ((((x) & ~TARGET_PAGE_MASK) + 32/8 - 1) >= TARGET_PAGE_SIZE)
++
++static inline void ensure_d_writable_pages(CPULoongArchState *env,
++                                           target_ulong addr,
++                                           int mmu_idx,
++                                           uintptr_t retaddr)
++{
++#ifndef CONFIG_USER_ONLY
++    /* FIXME: Probe the actual accesses (pass and use a size) */
++    if (unlikely(D_PAGESPAN(addr))) {
++        /* first page */
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++        /* second page */
++        addr = (addr & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
++        probe_write(env, addr, 0, mmu_idx, retaddr);
++    }
++#endif
++}
++
++void HELPER(vstelm_d)(CPULoongArchState *env,
++                      uint32_t vd, target_ulong addr, uint32_t sel)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    int mmu_idx = cpu_mmu_index(env, false);
++
++    ensure_d_writable_pages(env, addr, mmu_idx, GETPC());
++#if !defined(CONFIG_USER_ONLY)
++    MemOpIdx oi = make_memop_idx(MO_TE | MO_64 | MO_UNALN,
++                                 cpu_mmu_index(env, false));
++    helper_le_stq_mmu(env, addr, Vd->D(sel), oi, GETPC());
++#else
++    cpu_stq_data(env, addr, Vd->D(sel));
++#endif
++}
+diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+index f50d14cc65..7f2ad7f542 100644
+--- a/target/loongarch/translate.c
++++ b/target/loongarch/translate.c
+@@ -41,11 +41,21 @@ static inline int plus_1(DisasContext *ctx, int x)
+     return x + 1;
+ }
+ 
++static inline int shl_1(DisasContext *ctx, int x)
++{
++    return x << 1;
++}
++
+ static inline int shl_2(DisasContext *ctx, int x)
+ {
+     return x << 2;
+ }
+ 
++static inline int shl_3(DisasContext *ctx, int x)
++{
++    return x << 3;
++}
++
+ /*
+  * LoongArch the upper 32 bits are undefined ("can be any value").
+  * QEMU chooses to nanbox, because it is most likely to show guest bugs early.
 -- 
 2.31.1
 
