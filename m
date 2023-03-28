@@ -2,106 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8776CBFCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5576CBFE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:55:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8nA-00045M-F1; Tue, 28 Mar 2023 08:51:12 -0400
+	id 1ph8qF-0004zQ-DN; Tue, 28 Mar 2023 08:54:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ph8n5-00044j-L4
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:51:07 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ph8n2-0008NO-5P
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:51:07 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32SCAnZh006276; Tue, 28 Mar 2023 12:50:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=35X0sFruK19nsMgdRTotgsg+SBNZCDSP4iUFdMsuXLI=;
- b=Qino7FgZBUSMDaiBEFfhlfxVMF32fI3gC4NE70U/yXeELTof63CXf6S8SPnTZcnrsgdk
- 2R/9ZwxxpznovqwZap6vqsbfYqxqonqyaADhzWov9PsY3H5jHguUuC/fRyqvLUJDL9VE
- SxWlcXcSFvBjJNfEUS6evpZK923wICQo/sUnKpBo+RjfApPW3Xrja05r8yY8hPnp57aW
- OoNk4M9rpLKK5I0hCOBjMcKmRjAFqUkJqgcRcOa1RT+Cm8YOncdaY8oSZC6SHPP5w7eN
- TJhPeipirVL7dzWpjsEBpx8xYwT3pgSGdl6cJaRrEKqzdsNrRGt9K8eI0dx+y5BMsBzf FA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pky9f1xc9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 12:50:53 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32SCkksi021797;
- Tue, 28 Mar 2023 12:50:53 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pky9f1xbs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 12:50:53 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32SCaWCQ005815;
- Tue, 28 Mar 2023 12:50:52 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
- by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3phrk70pta-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Mar 2023 12:50:52 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com
- [10.39.53.230])
- by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32SCopV310748570
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Mar 2023 12:50:51 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E0D6F58054;
- Tue, 28 Mar 2023 12:50:50 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3B3BD58062;
- Tue, 28 Mar 2023 12:50:50 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 28 Mar 2023 12:50:50 +0000 (GMT)
-Message-ID: <7e67b073-1437-cc54-3b2b-fbf94e56a010@linux.ibm.com>
-Date: Tue, 28 Mar 2023 08:50:49 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] tests/avocado/aspeed: Add TPM TIS I2C test
-Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, ninad@linux.ibm.com
-Cc: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-References: <20230328120844.190914-1-joel@jms.id.au>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20230328120844.190914-1-joel@jms.id.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: fYjtizBv8IFHBrZ9711mecyuvkSGpkAC
-X-Proofpoint-GUID: xWfW6-fa3VWz0X7Bc6XPmCtZ7aDCr2p1
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ph8qD-0004xg-CI; Tue, 28 Mar 2023 08:54:21 -0400
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ph8qB-0000Gm-Gs; Tue, 28 Mar 2023 08:54:21 -0400
+Received: by mail-oi1-x234.google.com with SMTP id w133so8840103oib.1;
+ Tue, 28 Mar 2023 05:54:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680008057;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=C7iFdOnj7M4H+0ZRXb8PlWhYO1YY24NLb67ZtHqEMbk=;
+ b=E1Q+rszH3a4lJmaM7VHKbb77W2wTXIZ/TUAoyupUYlKgla0ZEH/9LzEskKR9lhpCHi
+ gSpQ4NNN4qfuTw4rzJbjjjaezcbdBQhhgpMaN30II+srx2O/DJnUP+5D0fDbnllig7JV
+ to4pyqqwR0Yri93SQhzak8eET66UIodv+SQjgpnSKK0BekEbgnZl69j+OgUjU9woGgDF
+ rXeAyBP69hzkr7795VE4vEJp5bhP9lkJ8TejRtyzEsd+CBC3Mj90ah63Hu2v0rkAN4o4
+ 6Aa1QdepZcafll3NXmGTHywXujMuAx4wRTI1nQ46AbzJlDHOmKhjbYCyjitStggbesVn
+ 3aUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680008057;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=C7iFdOnj7M4H+0ZRXb8PlWhYO1YY24NLb67ZtHqEMbk=;
+ b=HVxJLdGEdbqRmwvRiI4NZUJvMhZ+kvcLAMcfNWUOVMEiRdpycJov/DR+nUR+yQy42U
+ 08I73AdbIzZIdEwoV8JmagBKsD1NqwkbUQKFJeqMyQBqGO8OzFoH01qyJjyk6Oh3oo8c
+ Gdk5AcFX82oKACwjp2iNdolSWrD4nFLp+HGAtKa5gc/VtutuqcBt38m/CVhEKYfFsnXu
+ hIATCi25SNaAD0NXz9sRtlTwJUhueroURYGpSKpH2HVr/JUyM2nHWpqZLve4NxckZl3Y
+ gLE2xu1lwrqpxa1WUCbAPPBvTGSgr4yxONWNpP9Jq5UQlu4VVoFBA8rBNhdRsUhvBaUP
+ 558w==
+X-Gm-Message-State: AAQBX9d9UBOWuoPPEQ2wHA6d8Hg/LXbBS0T8nwA08/pfFelwnkfGLnea
+ aK/D+tnBqotB4vYzo8p4ihs=
+X-Google-Smtp-Source: AKy350aGBlye1C/ZWJURMBVSpiSqK/tP7pTcZBt8DxOEjRsDAkAu5CMadhXYUQrBTjAuofCGwK7mXw==
+X-Received: by 2002:a05:6808:9b3:b0:389:545c:a95f with SMTP id
+ e19-20020a05680809b300b00389545ca95fmr751043oig.42.1680008057700; 
+ Tue, 28 Mar 2023 05:54:17 -0700 (PDT)
+Received: from [192.168.68.107] ([177.95.89.231])
+ by smtp.gmail.com with ESMTPSA id
+ p204-20020acaf1d5000000b003845f4991c7sm12354406oih.11.2023.03.28.05.54.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Mar 2023 05:54:17 -0700 (PDT)
+Message-ID: <f00b7e27-4c9f-226d-d727-241430be1d4c@gmail.com>
+Date: Tue, 28 Mar 2023 09:54:13 -0300
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-28_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- adultscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303280100
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/1] hw/arm: do not free machine->fdt in arm_load_dtb()
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org
+References: <20230323204414.423412-1-danielhb413@gmail.com>
+ <20230323204414.423412-2-danielhb413@gmail.com> <87zg7x2wca.fsf@pond.sub.org>
+ <49e58c51-fca4-6b6f-db4a-27e4cfefacd4@gmail.com>
+ <87v8il19sz.fsf@pond.sub.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <87v8il19sz.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,103 +98,153 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 3/28/23 08:08, Joel Stanley wrote:
-> Add a new buildroot image based test that attaches a TPM emulator to the
-> I2C bus and checks for a known PCR0 value for the image that was booted.
+On 3/28/23 06:53, Markus Armbruster wrote:
+> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
 > 
-> Note that this does not tear down swtpm process when qemu execution fails.
-> The swtpm process will exit when qemu exits if a connection has been
-> made, but if the test errors before connection then the swtpm process
-> will still be around.
+>> On 3/28/23 04:01, Markus Armbruster wrote:
+>>> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+>>>
+>>>> At this moment, arm_load_dtb() can free machine->fdt when
+>>>> binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
+>>>> retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
+>>>> the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
+>>>> machine->fdt. And, in that case, the existing g_free(fdt) at the end of
+>>>> arm_load_dtb() will make machine->fdt point to an invalid memory region.
+>>>>
+>>>> After the command 'dumpdtb' were introduced a couple of releases ago,
+>>>> running it with any ARM machine that uses arm_load_dtb() will crash
+>>>> QEMU.
+>>>>
+>>>> Let's enable all arm_load_dtb() callers to use dumpdtb properly. Instead
+>>>> of freeing 'fdt', assign it back to ms->fdt.
+>>>>
+>>>> Note that all current callers (sbsa-ref.c, virt.c, xlnx-versal-virt.c)
+>>>> are assigning ms->fdt before arm_load_dtb() is called, regardless of
+>>>> whether the user is inputting an external FDT via '-dtb'. To avoid
+>>>> leaking the board FDT if '-dtb' is used (since we're assigning ms->fdt
+>>>> in the end), free ms->fdt before load_device_tree().
+>>>>
+>>>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>>>> Cc: qemu-arm@nongnu.org
+>>>> Fixes: bf353ad55590f ("qmp/hmp, device_tree.c: introduce dumpdtb")
+>>>> Reported-by: Markus Armbruster <armbru@redhat.com>i
+>>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>>> ---
+>>>>    hw/arm/boot.c | 10 +++++++++-
+>>>>    1 file changed, 9 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+>>>> index 50e5141116..de18c0a969 100644
+>>>> --- a/hw/arm/boot.c
+>>>> +++ b/hw/arm/boot.c
+>>>> @@ -549,6 +549,13 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>>>>                goto fail;
+>>>>            }
+>>>>    
+>>>> +        /*
+>>>> +         * If we're here we won't be using the ms->fdt from the board.
+>>>> +         * We'll assign a new ms->fdt at the end, so free it now to
+>>>> +         * avoid leaking the board FDT.
+>>>> +         */
+>>>> +        g_free(ms->fdt);
+>>>> +
+>>>
+>>> "We will" is not true: we will not if we goto fail.  Leaves ms->fdt
+>>> dangling, doesn't it?
+>>
+>> We can postpone this g_free() to execute after "if (!fdt) {}" to be sure that we're
+>> not freeing ms->fdt right before 'goto fail'.
 > 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Yes, but what about all the goto fail further down?
+> 
+>>>>            fdt = load_device_tree(filename, &size);
+>>>>            if (!fdt) {
+>>>>                fprintf(stderr, "Couldn't open dtb file %s\n", filename);
+>>>                  g_free(filename);
+>>>                  goto fail;
+>>>              }
+>>>              g_free(filename);
+>>>          } else {
+>>>              fdt = binfo->get_dtb(binfo, &size);
+>>>              if (!fdt) {
+>>>                  fprintf(stderr, "Board was unable to create a dtb blob\n");
+>>>                  goto fail;
+>>>              }
+>>>
+>>> If we succeed, we'll assign @fdt to ms->fdt (next hunk).  Won't this
+>>> leak old ms->fdt?
+>>
+>>
+>> For all callers binfo->get_dtb() is returning ms->fdt, i.e. this line:
+>>
+>>                fdt = binfo->get_dtb(binfo, &size);
+>>
+>> Is equal to this:
+>>
+>>                fdt = ms->fdt;
+>>
+>> And this is why we can't unconditionally do a g_free(ms->fdt).
+> 
+> Uff.  Not exactly obvious.
+> 
+>> I believe we can improve the ARM boot code to not create ms->fdt at init(),
+>> leaving it unassigned, and make get_dtb() return the machine FDT on a common
+>> "void *" pointer. That would spare us from having go g_free(ms->fdt) to avoid
+>> leaks and we would assign ms->fdt at the end of arm_load_dtb() normally. I made
+>> a quick attempt at that but the ARM init() code is a little tricker than I've
+>> anticipated. I might have a crack at it later.
+> 
+> Do we want a quick interim fix for 8.0?
+> 
+> Have a careful look at the untested patch below.
+> 
+>> Thanks,
+>>
+>> Daniel
+>>
+>>
+>>>
+>>>          }
+>>>
+>>>> @@ -689,7 +696,8 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>>>>        qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
+>>>>                                           rom_ptr_for_as(as, addr, size));
+>>>>    
+>>>> -    g_free(fdt);
+>>>> +    /* Set ms->fdt for 'dumpdtb' QMP/HMP command */
+>>>> +    ms->fdt = fdt;
+>>>>    
+>>>>        return size;
+>>>
+> 
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index 50e5141116..54f6a3e0b3 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -689,7 +689,10 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>       qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
+>                                          rom_ptr_for_as(as, addr, size));
+>   
+> -    g_free(fdt);
+> +    if (fdt != ms->fdt) {
+> +        g_free(ms->fdt);
+> +        ms->fdt = fdt;
+> +    }
+>   
+>       return size;
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+This looks better than what I've been proposing here because it centers everything in
+the same spot. It'll also make it easier to change/remove it when we have the chance
+to take a look at the ARM boot code.
 
-> ---
->   tests/avocado/machine_aspeed.py | 42 +++++++++++++++++++++++++++++++--
->   1 file changed, 40 insertions(+), 2 deletions(-)
+Just tested it here and it works fine. Feel free to format it into a patch and send
+it. I'll give my r-b.
+
+
+Thanks,
+
+Daniel
+
+>   
 > 
-> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-> index 35723af4ede0..a4485a5c4d4d 100644
-> --- a/tests/avocado/machine_aspeed.py
-> +++ b/tests/avocado/machine_aspeed.py
-> @@ -7,14 +7,18 @@
->   
->   import time
->   import os
-> +import tempfile
-> +import subprocess
->   
->   from avocado_qemu import QemuSystemTest
->   from avocado_qemu import wait_for_console_pattern
->   from avocado_qemu import exec_command
->   from avocado_qemu import exec_command_and_wait_for_pattern
->   from avocado_qemu import interrupt_interactive_console_until_pattern
-> +from avocado_qemu import has_cmd
->   from avocado.utils import archive
->   from avocado import skipIf
-> +from avocado import skipUnless
->   
->   
->   class AST1030Machine(QemuSystemTest):
-> @@ -132,7 +136,7 @@ def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
->   
->           self.do_test_arm_aspeed(image_path)
->   
-> -    def do_test_arm_aspeed_buildroot_start(self, image, cpu_id):
-> +    def do_test_arm_aspeed_buildroot_start(self, image, cpu_id, pattern='Aspeed EVB'):
->           self.require_netdev('user')
->   
->           self.vm.set_console()
-> @@ -146,7 +150,7 @@ def do_test_arm_aspeed_buildroot_start(self, image, cpu_id):
->           self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
->           self.wait_for_console_pattern('lease of 10.0.2.15')
->           # the line before login:
-> -        self.wait_for_console_pattern('Aspeed EVB')
-> +        self.wait_for_console_pattern(pattern)
->           time.sleep(0.1)
->           exec_command(self, 'root')
->           time.sleep(0.1)
-> @@ -229,6 +233,40 @@ def test_arm_ast2600_evb_buildroot(self):
->                '0000000 ffaa ffff ffff ffff ffff ffff ffff ffff');
->           self.do_test_arm_aspeed_buildroot_poweroff()
->   
-> +    @skipUnless(*has_cmd('swtpm'))
-> +    def test_arm_ast2600_evb_buildroot_tpm(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=machine:ast2600-evb
-> +        """
-> +
-> +        image_url = ('https://github.com/legoater/qemu-aspeed-boot/raw/master/'
-> +                     'images/ast2600-evb/buildroot-2023.02-tpm/flash.img')
-> +        image_hash = ('a46009ae8a5403a0826d607215e731a8c68d27c14c41e55331706b8f9c7bd997')
-> +        image_path = self.fetch_asset(image_url, asset_hash=image_hash,
-> +                                      algorithm='sha256')
-> +
-> +        socket = os.path.join(self.vm.sock_dir, 'swtpm-socket')
-> +
-> +        subprocess.run(['swtpm', 'socket', '-d', '--tpm2',
-> +                        '--tpmstate', f'dir={self.vm.temp_dir}',
-> +                        '--ctrl', f'type=unixio,path={socket}'])
-> +
-> +        self.vm.add_args('-chardev', f'socket,id=chrtpm,path={socket}')
-> +        self.vm.add_args('-tpmdev', 'emulator,id=tpm0,chardev=chrtpm')
-> +        self.vm.add_args('-device',
-> +                         'tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e')
-> +        self.do_test_arm_aspeed_buildroot_start(image_path, '0xf00', 'Aspeed AST2600 EVB')
-> +        exec_command(self, "passw0rd")
-> +
-> +        exec_command_and_wait_for_pattern(self,
-> +            'echo tpm_tis_i2c 0x2e > /sys/bus/i2c/devices/i2c-12/new_device',
-> +            'tpm_tis_i2c 12-002e: 2.0 TPM (device-id 0x1, rev-id 1)');
-> +        exec_command_and_wait_for_pattern(self,
-> +            'cat /sys/class/tpm/tpm0/pcr-sha256/0',
-> +            'B804724EA13F52A9072BA87FE8FDCC497DFC9DF9AA15B9088694639C431688E0');
-> +
-> +        self.do_test_arm_aspeed_buildroot_poweroff()
->   
->   class AST2x00MachineSDK(QemuSystemTest):
->   
 
