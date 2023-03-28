@@ -2,59 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D022D6CB7FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 09:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F3C6CB855
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 09:39:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph3i3-0006XQ-I9; Tue, 28 Mar 2023 03:25:35 -0400
+	id 1ph3u3-00012y-OG; Tue, 28 Mar 2023 03:37:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1ph3i0-0006X8-An; Tue, 28 Mar 2023 03:25:32 -0400
-Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ph3u2-00012p-D3
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 03:37:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1ph3hx-00078p-NU; Tue, 28 Mar 2023 03:25:31 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R631e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0Ves1J0s_1679988319; 
-Received: from 30.221.98.176(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0Ves1J0s_1679988319) by smtp.aliyun-inc.com;
- Tue, 28 Mar 2023 15:25:19 +0800
-Content-Type: multipart/alternative;
- boundary="------------XXaN4xzUas9nW3l6NH5zc0A7"
-Message-ID: <241a90ec-b183-78d2-f2ba-9317cbad01dc@linux.alibaba.com>
-Date: Tue, 28 Mar 2023 15:25:16 +0800
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ph3u0-0003SY-FJ
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 03:37:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679989074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QADTtDsNly0T6HtBRH/IXeFNrz4mkndo/ksy4aYgHy8=;
+ b=Mnm8HPmKv83pCAjqeV4IQLCGZZBNscX1T8IPjUlt40d+VJmkbw/xeowSSlp91MJZ0tOKXz
+ p4kjvbo7mshz+9RmWRiOW8AxYNcCbngL8WCCuW/ym94vdyGJWzGKyt36DM+E0XQcX9ln0p
+ z0y5xvLmSCk27LfAhEmTkVgipk5h8wA=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-41-041evR-5MFKK0IHgwPyyzQ-1; Tue, 28 Mar 2023 03:37:53 -0400
+X-MC-Unique: 041evR-5MFKK0IHgwPyyzQ-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ c187-20020a25c0c4000000b00b6fd84f760dso11245138ybf.12
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 00:37:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679989073;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QADTtDsNly0T6HtBRH/IXeFNrz4mkndo/ksy4aYgHy8=;
+ b=0CxvSqPBq7qAN6U0rqSmRvobNv++hnsvdVVJWIQo9kgoay/ELD7PSWVP9CnM+SdbhF
+ wpCwBnhi8kwSQjwTsKL1egd8CF4b6jtZr6PwW/8uvpF3QsVphUIIKoeKneQgzphwCaIA
+ uAARB+IuJ+SJyeKCiOlJ1QyPXf5FQ+cXuYsuCQmRTINlN1zrIRZ4zPXONVcR6YeD6izc
+ SPwpTy812EplU3hh3JhAzT7i/zFsaXK/JCJIktCowVc78uAdHDJvbLEP4/FkxIMBs4zh
+ X7eGuZyfGzxMcYWgftOIM0vc8C4ClLsVkrdYobJigaiHfrcHM/Qz8zbu2dwoIZWla2Lw
+ EvWw==
+X-Gm-Message-State: AAQBX9csWZDhyxqxr1218UH1zRpuinIFpJnTqTjU6mpZZQv8/TfWjWbB
+ VPPRcJXf3zwXeraBm7qLGYtHZ7G6aodW4o6h9W7kRZCkIIJuOtfPzeu0+nDsktqZ1NuhXL05TOf
+ GNav/SxHohjcob+NGOHBLGSuZb/FaxHU=
+X-Received: by 2002:a05:6902:4b2:b0:af7:38fc:f6da with SMTP id
+ r18-20020a05690204b200b00af738fcf6damr9672976ybs.2.1679989072718; 
+ Tue, 28 Mar 2023 00:37:52 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ay/+WTZ/YPv6OQFujSjNITUrbt51TrSrbdaWsCTUUq0MBJ4dGfcG9KgVIsefwKk0H9D53E5gCdoFsf+TD2ru0=
+X-Received: by 2002:a05:6902:4b2:b0:af7:38fc:f6da with SMTP id
+ r18-20020a05690204b200b00af738fcf6damr9672968ybs.2.1679989072445; Tue, 28 Mar
+ 2023 00:37:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/5] target/riscv: Fix effective address for pointer mask
-Content-Language: en-US
-To: liweiwei <liweiwei@iscas.ac.cn>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230327100027.61160-1-liweiwei@iscas.ac.cn>
- <20230327100027.61160-2-liweiwei@iscas.ac.cn>
- <c0abfb39-56a7-a184-f134-bcb075908f57@linux.alibaba.com>
- <c1b60f5e-5bb8-5462-ae93-7813da4269bb@iscas.ac.cn>
- <389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org>
- <04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn>
-Received-SPF: pass client-ip=115.124.30.110;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-110.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20230323195404.1247326-1-eperezma@redhat.com>
+ <20230323195404.1247326-3-eperezma@redhat.com>
+ <CACGkMEuAcfrnC1_9ttFwecVV6fcs00GUfxBBGUKpXnZVmgmHeQ@mail.gmail.com>
+In-Reply-To: <CACGkMEuAcfrnC1_9ttFwecVV6fcs00GUfxBBGUKpXnZVmgmHeQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 28 Mar 2023 09:37:16 +0200
+Message-ID: <CAJaqyWduKd3Vccwo-sR==DZC8ncbv39jxPwfRQ35O7JHZ5Czcg@mail.gmail.com>
+Subject: Re: [PATCH for 8.1 v2 2/6] vdpa: add vhost_vdpa_reset_status_fd
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, alvaro.karsz@solid-run.com, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>,
+ si-wei.liu@oracle.com, 
+ Eli Cohen <eli@mellanox.com>, Shannon Nelson <snelson@pensando.io>, 
+ Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, Harpreet Singh Anand <hanand@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,148 +103,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------XXaN4xzUas9nW3l6NH5zc0A7
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Tue, Mar 28, 2023 at 8:53=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
+ote:
+>
+> On Fri, Mar 24, 2023 at 3:54=E2=80=AFAM Eugenio P=C3=A9rez <eperezma@redh=
+at.com> wrote:
+> >
+>
+> The title needs some tweak, I think the more appropriate one is
+> "introduce vhost_vdpa_call_fd()"
+>
 
+We can do it otherwise, but the function exported in the
+include/hw/virtio/vhost-vdpa.h file is vhost_vdpa_reset_status_fd. I'd
+consider vhost_vdpa_call_fd an implementation detail, only in
+hw/virtio/vhost-vdpa.c file.
 
-On 2023/3/28 11:33, liweiwei wrote:
+> > This allows to reset a vhost-vdpa device from external subsystems like
+> > vhost-net, since it does not have any struct vhost_dev by the time we
+> > need to use it.
 >
+> This part needs some clarification, vhost-net should be initialized
+> after vhost_dev, so it can access its parent vhost_dev structure?
 >
-> On 2023/3/28 11:18, Richard Henderson wrote:
->> On 3/27/23 19:48, liweiwei wrote:
->>>
->>> On 2023/3/28 10:20, LIU Zhiwei wrote:
->>>>
->>>> On 2023/3/27 18:00, Weiwei Li wrote:
->>>>> Since pointer mask works on effective address, and the xl works on 
->>>>> the
->>>>> generation of effective address, so xl related calculation should 
->>>>> be done
->>>>> before pointer mask.
->>>>
->>>> Incorrect. It has been done.
->>>>
->>>> When updating the pm_mask,  we have already considered the env->xl.
->>>>
->>>> You can see it in riscv_cpu_update_mask
->>>>
->>>>     if (env->xl == MXL_RV32) {
->>>>         env->cur_pmmask = mask & UINT32_MAX;
->>>>         env->cur_pmbase = base & UINT32_MAX;
->>>>     } else {
->>>>         env->cur_pmmask = mask;
->>>>         env->cur_pmbase = base;
->>>>     }
->>>>
->>> Yeah, I missed this part. Then we should ensure cur_pmmask/base is 
->>> updated when xl changes.
->>
->> Is that even possible?  XL can change on priv level changes (SXL, UXL).
->
-> Yeah. Not possible, since only UXL is changable currently, and SXL/UXL 
-> can only be changed in higher priv level.
->
-> So the recompute for xl in write_mstatus() seems redundant.
->
-I think you are almost right. But as we allow write XL field when in 
-debug mode, we seemly also need call this function for it.
 
-Zhiwei
+Next patches probes CVQ vring groups at initialization net-vdpa
+initialization time (net_init_vhost_vdpa). It already fetches things
+like device features using raw ioctl() calls because vhost_dev is
+still not available.
 
-> Maybe there is a way to change current xl in future if misa.mxl is 
-> changable.
+> >
+> > It is used in subsequent patches to negotiate features
+> > and probe for CVQ ASID isolation.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  include/hw/virtio/vhost-vdpa.h |  1 +
+> >  hw/virtio/vhost-vdpa.c         | 58 +++++++++++++++++++++++-----------
+> >  2 files changed, 41 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
+dpa.h
+> > index c278a2a8de..28de7da91e 100644
+> > --- a/include/hw/virtio/vhost-vdpa.h
+> > +++ b/include/hw/virtio/vhost-vdpa.h
+> > @@ -54,6 +54,7 @@ typedef struct vhost_vdpa {
+> >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> >  } VhostVDPA;
+> >
+> > +void vhost_vdpa_reset_status_fd(int fd);
+> >  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *io=
+va_range);
+> >
+> >  int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
+a,
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index bbabea18f3..7a2053b8d9 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -335,38 +335,45 @@ static const MemoryListener vhost_vdpa_memory_lis=
+tener =3D {
+> >      .region_del =3D vhost_vdpa_listener_region_del,
+> >  };
+> >
+> > -static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int re=
+quest,
+> > -                             void *arg)
+> > +static int vhost_vdpa_dev_fd(const struct vhost_dev *dev)
+> >  {
+> >      struct vhost_vdpa *v =3D dev->opaque;
+> > -    int fd =3D v->device_fd;
+> > -    int ret;
+> >
+> >      assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDPA=
+);
+> > +    return v->device_fd;
+> > +}
+> > +
+> > +static int vhost_vdpa_call_fd(int fd, unsigned long int request, void =
+*arg)
+> > +{
+> > +    int ret =3D ioctl(fd, request, arg);
+> >
+> > -    ret =3D ioctl(fd, request, arg);
+> >      return ret < 0 ? -errno : ret;
+> >  }
+> >
+> > -static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status=
+)
+> > +static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int re=
+quest,
+> > +                           void *arg)
+> > +{
+> > +    return vhost_vdpa_call_fd(vhost_vdpa_dev_fd(dev), request, arg);
+> > +}
+> > +
+> > +static int vhost_vdpa_add_status_fd(int fd, uint8_t status)
+> >  {
+> >      uint8_t s;
+> >      int ret;
+> >
+> > -    trace_vhost_vdpa_add_status(dev, status);
+> > -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
 >
-> Regards,
+> We can stick a vhost_vdpa_call() function that calls
+> vhost_vdpa_call_fd() then we can avoid a lot of changes?
 >
-> Weiwei Li
->
->>
->>
->> r~
---------------XXaN4xzUas9nW3l6NH5zc0A7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2023/3/28 11:33, liweiwei wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p><br>
-      </p>
-      <div class="moz-cite-prefix">On 2023/3/28 11:18, Richard Henderson
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org">On
-        3/27/23 19:48, liweiwei wrote: <br>
-        <blockquote type="cite"> <br>
-          On 2023/3/28 10:20, LIU Zhiwei wrote: <br>
-          <blockquote type="cite"> <br>
-            On 2023/3/27 18:00, Weiwei Li wrote: <br>
-            <blockquote type="cite">Since pointer mask works on
-              effective address, and the xl works on the <br>
-              generation of effective address, so xl related calculation
-              should be done <br>
-              before pointer mask. <br>
-            </blockquote>
-            <br>
-            Incorrect. It has been done. <br>
-            <br>
-            When updating the pm_mask,  we have already considered the
-            env-&gt;xl. <br>
-            <br>
-            You can see it in riscv_cpu_update_mask <br>
-            <br>
-                if (env-&gt;xl == MXL_RV32) { <br>
-                    env-&gt;cur_pmmask = mask &amp; UINT32_MAX; <br>
-                    env-&gt;cur_pmbase = base &amp; UINT32_MAX; <br>
-                } else { <br>
-                    env-&gt;cur_pmmask = mask; <br>
-                    env-&gt;cur_pmbase = base; <br>
-                } <br>
-            <br>
-          </blockquote>
-          Yeah, I missed this part. Then we should ensure
-          cur_pmmask/base is updated when xl changes. <br>
-        </blockquote>
-        <br>
-        Is that even possible?  XL can change on priv level changes
-        (SXL, UXL). <br>
-      </blockquote>
-      <p>Yeah. Not possible, since only UXL is changable currently, and
-        SXL/UXL can only be changed in higher priv level.</p>
-      <p>So the recompute for xl in <span style="color: #000000;">write_mstatus()
-          seems redundant.</span></p>
-    </blockquote>
-    <p>I think you are almost right. But as we allow write XL field when
-      in debug mode, we seemly also need call this function for it.</p>
-    <p>Zhiwei<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:04639827-2706-69d8-56d9-5e278742168d@iscas.ac.cn">
-      <p><span style="color: #000000;">Maybe there is a way to change
-          current xl in future if misa.mxl is changable.</span></p>
-      <p><span style="color: #000000;">Regards,</span></p>
-      <p><span style="color: #000000;">Weiwei Li<br>
-        </span></p>
-      <blockquote type="cite"
-        cite="mid:389e5dd1-12fc-8b71-8e6a-74db1179fa47@linaro.org"> <br>
-        <br>
-        r~ <br>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
+I don't follow this. vhost_vdpa_call already calls vhost_vdpa_call_fd.
 
---------------XXaN4xzUas9nW3l6NH5zc0A7--
+Thanks!
+
+> Thanks
+>
+> > +    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+> >      if (ret < 0) {
+> >          return ret;
+> >      }
+> >
+> >      s |=3D status;
+> >
+> > -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
+> > +    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &s);
+> >      if (ret < 0) {
+> >          return ret;
+> >      }
+> >
+> > -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s);
+> > +    ret =3D vhost_vdpa_call_fd(fd, VHOST_VDPA_GET_STATUS, &s);
+> >      if (ret < 0) {
+> >          return ret;
+> >      }
+> > @@ -378,6 +385,12 @@ static int vhost_vdpa_add_status(struct vhost_dev =
+*dev, uint8_t status)
+> >      return 0;
+> >  }
+> >
+> > +static int vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status=
+)
+> > +{
+> > +    trace_vhost_vdpa_add_status(dev, status);
+> > +    return vhost_vdpa_add_status_fd(vhost_vdpa_dev_fd(dev), status);
+> > +}
+> > +
+> >  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *io=
+va_range)
+> >  {
+> >      int ret =3D ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
+> > @@ -709,16 +722,20 @@ static int vhost_vdpa_get_device_id(struct vhost_=
+dev *dev,
+> >      return ret;
+> >  }
+> >
+> > +static int vhost_vdpa_reset_device_fd(int fd)
+> > +{
+> > +    uint8_t status =3D 0;
+> > +
+> > +    return vhost_vdpa_call_fd(fd, VHOST_VDPA_SET_STATUS, &status);
+> > +}
+> > +
+> >  static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+> >  {
+> >      struct vhost_vdpa *v =3D dev->opaque;
+> > -    int ret;
+> > -    uint8_t status =3D 0;
+> >
+> > -    ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+> > -    trace_vhost_vdpa_reset_device(dev);
+> >      v->suspended =3D false;
+> > -    return ret;
+> > +    trace_vhost_vdpa_reset_device(dev);
+> > +    return vhost_vdpa_reset_device_fd(vhost_vdpa_dev_fd(dev));
+> >  }
+> >
+> >  static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
+> > @@ -1170,6 +1187,13 @@ static int vhost_vdpa_dev_start(struct vhost_dev=
+ *dev, bool started)
+> >      return 0;
+> >  }
+> >
+> > +void vhost_vdpa_reset_status_fd(int fd)
+> > +{
+> > +    vhost_vdpa_reset_device_fd(fd);
+> > +    vhost_vdpa_add_status_fd(fd, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> > +                                 VIRTIO_CONFIG_S_DRIVER);
+> > +}
+> > +
+> >  static void vhost_vdpa_reset_status(struct vhost_dev *dev)
+> >  {
+> >      struct vhost_vdpa *v =3D dev->opaque;
+> > @@ -1178,9 +1202,7 @@ static void vhost_vdpa_reset_status(struct vhost_=
+dev *dev)
+> >          return;
+> >      }
+> >
+> > -    vhost_vdpa_reset_device(dev);
+> > -    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> > -                               VIRTIO_CONFIG_S_DRIVER);
+> > +    vhost_vdpa_reset_status_fd(vhost_vdpa_dev_fd(dev));
+> >      memory_listener_unregister(&v->listener);
+> >  }
+> >
+> > --
+> > 2.31.1
+> >
+>
+
 
