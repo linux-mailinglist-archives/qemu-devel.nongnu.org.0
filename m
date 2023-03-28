@@ -2,63 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5B46CB773
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 08:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09796CB775
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 08:46:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph34u-0005Ih-HX; Tue, 28 Mar 2023 02:45:08 -0400
+	id 1ph35d-0005vD-PO; Tue, 28 Mar 2023 02:45:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph34W-0005IZ-Sa
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:44:45 -0400
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ph35a-0005r5-6c
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:45:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ph34R-00052c-Lx
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:44:44 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.235])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2C3B5219D5;
- Tue, 28 Mar 2023 06:44:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 28 Mar
- 2023 08:44:35 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001b56a37a6-0025-415b-b985-0025affcea17,
- 5D21C2AA46E1B9891D174392918792ED1A5C90BB) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <2ca4d818-f9a0-b532-5b90-5ad05a616e71@kaod.org>
-Date: Tue, 28 Mar 2023 08:44:34 +0200
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ph35Y-00061y-6h
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 02:45:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679985947;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j1uzhH0147TU2a3xzMuisixfsEYucKcXusENizwOLCU=;
+ b=XtVOeV1lc6LXMB5oSOY2Fo0dohjoC+qQhSI1gBJnqIMRhnyI1JpfLu10GAzIhL1s8WYsF1
+ 6UiGG0zw7SOMfzLlBenS5sn7vtnVG5CynCJpBF4D5Cd6SbHVIqSRxVrv+oca9wYta9/ZCR
+ plLOah2yeFMN7AsQywA/cFxoYdaZKXM=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-215-GVyO_4AtNBCaOmLX0wnp3g-1; Tue, 28 Mar 2023 02:45:45 -0400
+X-MC-Unique: GVyO_4AtNBCaOmLX0wnp3g-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-17e7104c589so6366054fac.19
+ for <qemu-devel@nongnu.org>; Mon, 27 Mar 2023 23:45:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679985944;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=j1uzhH0147TU2a3xzMuisixfsEYucKcXusENizwOLCU=;
+ b=lGlP+SVqmxLHT6M5kQDtIYp/mu4pIfbTHNXGx8QA5w2M2SZUZroi6UK0RO2x70EK7X
+ Q3T8+HomtpntIiwgMMT22oRYndS2rz1kSVuxuEifmoJKlc21EWyM7nWrwpz+t51t850W
+ DFXfAiM0aOM3HLGaciMCd0x4H4r9gAlh8xIZ12Vh+MSsftyMAGxsUz+kyAXQXUrpCgS6
+ gH/Y+XRNM9/t6bxU+UEpTpU4KCn+1KgcUHN2eItmB7/XLgOEtWi8HH5Aohuc8q30QGOD
+ SajfkL004zLF1qVusI/Uo53/pAgxRrx0tiJx8OBBh3SrC0knCJJ8lqAU/Irr4JRAICql
+ lXuQ==
+X-Gm-Message-State: AO0yUKW26PwTAExZvbVHbmcmIFmSOqER9rX8uQDOGOhKwfyLPR90iBoB
+ 8xXyxxeSk2fE/D/vMxkNeogPJYlBarpbXf1wKr+54NeWUMNX90bBrs15tP77mIBXMZ6iPDc24pY
+ Sw0JuJlpuMWBcOG8cCrX/MUH9On0FP5Q=
+X-Received: by 2002:a54:438b:0:b0:37f:a2ad:6718 with SMTP id
+ u11-20020a54438b000000b0037fa2ad6718mr8077807oiv.3.1679985944197; 
+ Mon, 27 Mar 2023 23:45:44 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+s+F9+vXD4CbgtiMtTQ7jMHeUrA8qa/qFURM7q+vq83dbWa/y2JD+kZEscqkM+qxvSH6BstvMkBAa1Nm/7k18=
+X-Received: by 2002:a54:438b:0:b0:37f:a2ad:6718 with SMTP id
+ u11-20020a54438b000000b0037fa2ad6718mr8077800oiv.3.1679985944005; Mon, 27 Mar
+ 2023 23:45:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 3/3] qtest: Add a test case for TPM TIS I2C connected to
- Aspeed I2C controller
-Content-Language: en-US
-To: Stefan Berger <stefanb@linux.ibm.com>, <qemu-devel@nongnu.org>
-CC: <marcandre.lureau@redhat.com>, <ninad@linux.ibm.com>, <joel@jms.id.au>,
- <andrew@aj.id.au>
-References: <20230327202416.3617162-1-stefanb@linux.ibm.com>
- <20230327202416.3617162-4-stefanb@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230327202416.3617162-4-stefanb@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 60f8c1ab-a4ed-4d9d-8eb7-ab029f8db4a6
-X-Ovh-Tracer-Id: 10147735863567551270
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehfedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehsthgvfhgrnhgssehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhmrghrtggrnhgurhgvrdhluhhrvggruhesrhgvughhrghtrdgtohhmpdhnihhnrggusehlihhnuhigrdhisghmrdgtohhmpdhjohgvlhesjhhmshdrihgurdgruhdprghnughrvgifsegrjhdrihgurdgruhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230323195404.1247326-1-eperezma@redhat.com>
+ <20230323195404.1247326-2-eperezma@redhat.com>
+In-Reply-To: <20230323195404.1247326-2-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 28 Mar 2023 14:45:33 +0800
+Message-ID: <CACGkMEvaR73yQ=_gc-kO_EiHrEM=nG2EUGwTqg-9m6fg8ROJcA@mail.gmail.com>
+Subject: Re: [PATCH for 8.1 v2 1/6] vdpa: Remove status in reset tracing
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, alvaro.karsz@solid-run.com, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>,
+ si-wei.liu@oracle.com, 
+ Eli Cohen <eli@mellanox.com>, Shannon Nelson <snelson@pensando.io>, 
+ Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, Harpreet Singh Anand <hanand@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,694 +102,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 22:24, Stefan Berger wrote:
-> Add a test case for the TPM TIS I2C device exercising most of its
-> functionality, including localities.
-> 
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+On Fri, Mar 24, 2023 at 3:54=E2=80=AFAM Eugenio P=C3=A9rez <eperezma@redhat=
+.com> wrote:
+>
+> It is always 0 and it is not useful to route call through file
+> descriptor.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+Thanks
+
 > ---
->   tests/qtest/meson.build        |   3 +
->   tests/qtest/tpm-tis-i2c-test.c | 637 +++++++++++++++++++++++++++++++++
->   2 files changed, 640 insertions(+)
->   create mode 100644 tests/qtest/tpm-tis-i2c-test.c
-> 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 29a4efb4c2..065a00d34d 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -200,6 +200,7 @@ qtests_arm = \
->     (config_all_devices.has_key('CONFIG_ASPEED_SOC') ? qtests_aspeed : []) + \
->     (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
->     (config_all_devices.has_key('CONFIG_GENERIC_LOADER') ? ['hexloader-test'] : []) + \
-> +  (config_all_devices.has_key('CONFIG_TPM_TIS_I2C') ? ['tpm-tis-i2c-test'] : []) + \
->     ['arm-cpu-features',
->      'microbit-test',
->      'test-arm-mptimer',
-> @@ -212,6 +213,7 @@ qtests_aarch64 = \
->       ['tpm-tis-device-test', 'tpm-tis-device-swtpm-test'] : []) +                                         \
->     (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
->     (config_all_devices.has_key('CONFIG_RASPI') ? ['bcm2835-dma-test'] : []) +  \
-> +  (config_all_devices.has_key('CONFIG_TPM_TIS_I2C') ? ['tpm-tis-i2c-test'] : []) + \
->     ['arm-cpu-features',
->      'numa-test',
->      'boot-serial-test',
-> @@ -303,6 +305,7 @@ qtests = {
->     'tpm-crb-test': [io, tpmemu_files],
->     'tpm-tis-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->     'tpm-tis-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-> +  'tpm-tis-i2c-test': [io, tpmemu_files, 'qtest_aspeed.c'],
->     'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->     'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->     'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
-> diff --git a/tests/qtest/tpm-tis-i2c-test.c b/tests/qtest/tpm-tis-i2c-test.c
-> new file mode 100644
-> index 0000000000..94ec423845
-> --- /dev/null
-> +++ b/tests/qtest/tpm-tis-i2c-test.c
-> @@ -0,0 +1,637 @@
-> +/*
-> + * QTest testcases for TPM TIS on I2C (derived from TPM TIS test)
-> + *
-> + * Copyright (c) 2023 IBM Corporation
-> + * Copyright (c) 2023 Red Hat, Inc.
-> + *
-> + * Authors:
-> + *   Stefan Berger <stefanb@linux.ibm.com>
-> + *   Marc-André Lureau <marcandre.lureau@redhat.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include <glib/gstdio.h>
-> +
-> +#include "libqtest-single.h"
-> +#include "hw/acpi/tpm.h"
-> +#include "hw/pci/pci_ids.h"
-> +#include "qtest_aspeed.h"
-> +#include "tpm-emu.h"
-> +
-> +#define DEBUG_TIS_TEST 0
-> +
-> +#define DPRINTF(fmt, ...) do { \
-> +    if (DEBUG_TIS_TEST) { \
-> +        printf(fmt, ## __VA_ARGS__); \
-> +    } \
-> +} while (0)
-> +
-> +#define DPRINTF_ACCESS \
-> +    DPRINTF("%s: %d: locty=%d l=%d access=0x%02x pending_request_flag=0x%x\n", \
-> +            __func__, __LINE__, locty, l, access, pending_request_flag)
-> +
-> +#define DPRINTF_STS \
-> +    DPRINTF("%s: %d: sts = 0x%08x\n", __func__, __LINE__, sts)
-> +
-> +#define I2C_SLAVE_ADDR   0x2e
-> +#define I2C_DEV_BUS_NUM  10
-> +
-> +static const uint8_t TPM_CMD[12] =
-> +    "\x80\x01\x00\x00\x00\x0c\x00\x00\x01\x44\x00\x00";
-> +
-> +uint32_t aspeed_dev_addr;
-
-aspeed_bus_addr may be. It should be a static.
-
-> +
-> +uint8_t cur_locty = 0xff;
-
-ditto.
-
-
-> +
-> +static void tpm_tis_i2c_set_locty(uint8_t locty)
-> +{
-> +    if (cur_locty != locty) {
-> +        cur_locty = locty;
-> +        aspeed_i2c_writeb(aspeed_dev_addr, I2C_SLAVE_ADDR,
-> +                          TPM_I2C_REG_LOC_SEL, locty);
-> +    }
-> +}
-> +
-> +static uint8_t tpm_tis_i2c_readb(uint8_t locty, uint8_t reg)
-> +{
-> +    tpm_tis_i2c_set_locty(locty);
-> +    return aspeed_i2c_readb(aspeed_dev_addr, I2C_SLAVE_ADDR, reg);
-> +}
-> +
-> +static uint16_t tpm_tis_i2c_readw(uint8_t locty, uint8_t reg)
-> +{
-> +    tpm_tis_i2c_set_locty(locty);
-> +    return aspeed_i2c_readw(aspeed_dev_addr, I2C_SLAVE_ADDR, reg);
-> +}
-> +
-> +static uint32_t tpm_tis_i2c_readl(uint8_t locty, uint8_t reg)
-> +{
-> +    tpm_tis_i2c_set_locty(locty);
-> +    return aspeed_i2c_readl(aspeed_dev_addr, I2C_SLAVE_ADDR, reg);
-> +}
-> +
-> +static void tpm_tis_i2c_writeb(uint8_t locty, uint8_t reg, uint8_t v)
-> +{
-> +    if (reg != TPM_I2C_REG_LOC_SEL) {
-> +        tpm_tis_i2c_set_locty(locty);
-> +    }
-> +    aspeed_i2c_writeb(aspeed_dev_addr, I2C_SLAVE_ADDR, reg, v);
-> +}
-> +
-> +static void tpm_tis_i2c_writel(uint8_t locty, uint8_t reg, uint32_t v)
-> +{
-> +    if (reg != TPM_I2C_REG_LOC_SEL) {
-> +        tpm_tis_i2c_set_locty(locty);
-> +    }
-> +    aspeed_i2c_writel(aspeed_dev_addr, I2C_SLAVE_ADDR, reg, v);
-> +}
-> +
-> +static void tpm_tis_i2c_test_basic(const void *data)
-> +{
-> +    uint8_t access;
-> +    uint32_t v;
-> +
-> +    /*
-> +     * All register accesses below must work without locality 0 being the
-> +     * active locality. Therefore, ensure access is released.
-> +     */
-> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_ACCESS,
-> +                       TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-> +    access = tpm_tis_i2c_readb(0, TPM_I2C_REG_ACCESS);
-> +    g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +    /* read interrupt capability -- none are supported */
-> +    v = tpm_tis_i2c_readl(0, TPM_I2C_REG_INT_CAPABILITY);
-> +    g_assert_cmpint(v, ==, 0);
-> +
-> +    /* try to enable all interrupts */
-> +    tpm_tis_i2c_writel(0, TPM_I2C_REG_INT_ENABLE, 0xffffffff);
-> +    v = tpm_tis_i2c_readl(0, TPM_I2C_REG_INT_ENABLE);
-> +    /* none could be enabled */
-> +    g_assert_cmpint(v, ==, 0);
-> +
-> +    /* enable csum */
-> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_DATA_CSUM_ENABLE, TPM_DATA_CSUM_ENABLED);
-> +    /* check csum enable register has bit 0 set */
-> +    v = tpm_tis_i2c_readb(0, TPM_I2C_REG_DATA_CSUM_ENABLE);
-> +    g_assert_cmpint(v, ==, TPM_DATA_CSUM_ENABLED);
-> +    /* reading it as 32bit register returns same result */
-> +    v = tpm_tis_i2c_readl(0, TPM_I2C_REG_DATA_CSUM_ENABLE);
-> +    g_assert_cmpint(v, ==, TPM_DATA_CSUM_ENABLED);
-> +
-> +    /* disable csum */
-> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_DATA_CSUM_ENABLE, 0);
-> +    /* check csum enable register has bit 0 clear */
-> +    v = tpm_tis_i2c_readb(0, TPM_I2C_REG_DATA_CSUM_ENABLE);
-> +    g_assert_cmpint(v, ==, 0);
-> +
-> +    /* write to unsupported register '1' */
-> +    tpm_tis_i2c_writel(0, 1, 0x12345678);
-> +    v = tpm_tis_i2c_readl(0, 1);
-> +    g_assert_cmpint(v, ==, 0xffffffff);
-> +}
-> +
-> +static void tpm_tis_i2c_test_check_localities(const void *data)
-> +{
-> +    uint8_t locty, l;
-> +    uint8_t access;
-> +    uint32_t capability, i2c_cap;
-> +    uint32_t didvid;
-> +    uint32_t rid;
-> +
-> +    for (locty = 0; locty < TPM_TIS_NUM_LOCALITIES; locty++) {
-> +        access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +        capability = tpm_tis_i2c_readl(locty, TPM_I2C_REG_INTF_CAPABILITY);
-> +        i2c_cap = (TPM_I2C_CAP_INTERFACE_TYPE |
-> +                   TPM_I2C_CAP_INTERFACE_VER  |
-> +                   TPM_I2C_CAP_TPM2_FAMILY    |
-> +                   TPM_I2C_CAP_LOCALITY_CAP   |
-> +                   TPM_I2C_CAP_BUS_SPEED      |
-> +                   TPM_I2C_CAP_DEV_ADDR_CHANGE);
-> +        g_assert_cmpint(capability, ==, i2c_cap);
-> +
-> +        didvid = tpm_tis_i2c_readl(locty, TPM_I2C_REG_DID_VID);
-> +        g_assert_cmpint(didvid, ==, (1 << 16) | PCI_VENDOR_ID_IBM);
-> +
-> +        rid = tpm_tis_i2c_readl(locty, TPM_I2C_REG_RID);
-> +        g_assert_cmpint(rid, !=, 0);
-> +        g_assert_cmpint(rid, !=, 0xffffffff);
-> +
-> +        /* locality selection must be at locty */
-> +        l = tpm_tis_i2c_readb(locty, TPM_I2C_REG_LOC_SEL);
-> +        g_assert_cmpint(l, ==, locty);
-> +    }
-> +}
-> +
-> +static void tpm_tis_i2c_test_check_access_reg(const void *data)
-> +{
-> +    uint8_t locty;
-> +    uint8_t access;
-> +
-> +    /* do not test locality 4 (hw only) */
-> +    for (locty = 0; locty < TPM_TIS_NUM_LOCALITIES - 1; locty++) {
-> +        access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +        /* request use of locality */
-> +        tpm_tis_i2c_writeb(locty, TPM_I2C_REG_ACCESS,
-> +                           TPM_TIS_ACCESS_REQUEST_USE);
-> +
-> +        access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +        /* release access */
-> +        tpm_tis_i2c_writeb(locty, TPM_I2C_REG_ACCESS,
-> +                           TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-> +        access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +    }
-> +}
-> +
-> +/*
-> + * Test case for seizing access by a higher number locality
-> + */
-> +static void tpm_tis_i2c_test_check_access_reg_seize(const void *data)
-> +{
-> +    int locty, l;
-> +    uint8_t access;
-> +    uint8_t pending_request_flag;
-> +
-> +    /* do not test locality 4 (hw only) */
-> +    for (locty = 0; locty < TPM_TIS_NUM_LOCALITIES - 1; locty++) {
-> +        pending_request_flag = 0;
-> +
-> +        access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +        /* request use of locality */
-> +        tpm_tis_i2c_writeb(locty,
-> +                           TPM_I2C_REG_ACCESS, TPM_TIS_ACCESS_REQUEST_USE);
-> +        access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +        /* lower localities cannot seize access */
-> +        for (l = 0; l < locty; l++) {
-> +            /* lower locality is not active */
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /* try to request use from 'l' */
-> +            tpm_tis_i2c_writeb(l,
-> +                               TPM_I2C_REG_ACCESS,
-> +                               TPM_TIS_ACCESS_REQUEST_USE);
-> +
-> +            /*
-> +             * requesting use from 'l' was not possible;
-> +             * we must see REQUEST_USE and possibly PENDING_REQUEST
-> +             */
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_REQUEST_USE |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /*
-> +             * locality 'locty' must be unchanged;
-> +             * we must see PENDING_REQUEST
-> +             */
-> +            access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                        TPM_TIS_ACCESS_PENDING_REQUEST |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /* try to seize from 'l' */
-> +            tpm_tis_i2c_writeb(l,
-> +                               TPM_I2C_REG_ACCESS, TPM_TIS_ACCESS_SEIZE);
-> +            /* seize from 'l' was not possible */
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_REQUEST_USE |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /* locality 'locty' must be unchanged */
-> +            access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                        TPM_TIS_ACCESS_PENDING_REQUEST |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /*
-> +             * on the next loop we will have a PENDING_REQUEST flag
-> +             * set for locality 'l'
-> +             */
-> +            pending_request_flag = TPM_TIS_ACCESS_PENDING_REQUEST;
-> +        }
-> +
-> +        /*
-> +         * higher localities can 'seize' access but not 'request use';
-> +         * note: this will activate first l+1, then l+2 etc.
-> +         */
-> +        for (l = locty + 1; l < TPM_TIS_NUM_LOCALITIES - 1; l++) {
-> +            /* try to 'request use' from 'l' */
-> +            tpm_tis_i2c_writeb(l, TPM_I2C_REG_ACCESS,
-> +                               TPM_TIS_ACCESS_REQUEST_USE);
-> +
-> +            /*
-> +             * requesting use from 'l' was not possible; we should see
-> +             * REQUEST_USE and may see PENDING_REQUEST
-> +             */
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_REQUEST_USE |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /*
-> +             * locality 'l-1' must be unchanged; we should always
-> +             * see PENDING_REQUEST from 'l' requesting access
-> +             */
-> +            access = tpm_tis_i2c_readb(l - 1, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                        TPM_TIS_ACCESS_PENDING_REQUEST |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /* try to seize from 'l' */
-> +            tpm_tis_i2c_writeb(l, TPM_I2C_REG_ACCESS, TPM_TIS_ACCESS_SEIZE);
-> +
-> +            /* seize from 'l' was possible */
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /* l - 1 should show that it has BEEN_SEIZED */
-> +            access = tpm_tis_i2c_readb(l - 1, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_BEEN_SEIZED |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /* clear the BEEN_SEIZED flag and make sure it's gone */
-> +            tpm_tis_i2c_writeb(l - 1, TPM_I2C_REG_ACCESS,
-> +                               TPM_TIS_ACCESS_BEEN_SEIZED);
-> +
-> +            access = tpm_tis_i2c_readb(l - 1, TPM_I2C_REG_ACCESS);
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +        }
-> +
-> +        /*
-> +         * PENDING_REQUEST will not be set if locty = 0 since all localities
-> +         * were active; in case of locty = 1, locality 0 will be active
-> +         * but no PENDING_REQUEST anywhere
-> +         */
-> +        if (locty <= 1) {
-> +            pending_request_flag = 0;
-> +        }
-> +
-> +        /* release access from l - 1; this activates locty - 1 */
-> +        l--;
-> +
-> +        access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +        DPRINTF_ACCESS;
-> +
-> +        DPRINTF("%s: %d: relinquishing control on l = %d\n",
-> +                __func__, __LINE__, l);
-> +        tpm_tis_i2c_writeb(l, TPM_I2C_REG_ACCESS,
-> +                           TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-> +
-> +        access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +        DPRINTF_ACCESS;
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    pending_request_flag |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +        for (l = locty - 1; l >= 0; l--) {
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +            /* release this locality */
-> +            tpm_tis_i2c_writeb(l, TPM_I2C_REG_ACCESS,
-> +                               TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-> +
-> +            if (l == 1) {
-> +                pending_request_flag = 0;
-> +            }
-> +        }
-> +
-> +        /* no locality may be active now */
-> +        for (l = 0; l < TPM_TIS_NUM_LOCALITIES - 1; l++) {
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +        }
-> +    }
-> +}
-> +
-> +/*
-> + * Test case for getting access when higher number locality relinquishes access
-> + */
-> +static void tpm_tis_i2c_test_check_access_reg_release(const void *data)
-> +{
-> +    int locty, l;
-> +    uint8_t access;
-> +    uint8_t pending_request_flag;
-> +
-> +    /* do not test locality 4 (hw only) */
-> +    for (locty = TPM_TIS_NUM_LOCALITIES - 2; locty >= 0; locty--) {
-> +        pending_request_flag = 0;
-> +
-> +        access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +        /* request use of locality */
-> +        tpm_tis_i2c_writeb(locty, TPM_I2C_REG_ACCESS,
-> +                           TPM_TIS_ACCESS_REQUEST_USE);
-> +        access = tpm_tis_i2c_readb(locty, TPM_I2C_REG_ACCESS);
-> +        g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                    TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                    TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +        /* request use of all other localities */
-> +        for (l = 0; l < TPM_TIS_NUM_LOCALITIES - 1; l++) {
-> +            if (l == locty) {
-> +                continue;
-> +            }
-> +            /*
-> +             * request use of locality 'l' -- we MUST see REQUEST USE and
-> +             * may see PENDING_REQUEST
-> +             */
-> +            tpm_tis_i2c_writeb(l, TPM_I2C_REG_ACCESS,
-> +                               TPM_TIS_ACCESS_REQUEST_USE);
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_REQUEST_USE |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +            pending_request_flag = TPM_TIS_ACCESS_PENDING_REQUEST;
-> +        }
-> +        /* release locality 'locty' */
-> +        tpm_tis_i2c_writeb(locty, TPM_I2C_REG_ACCESS,
-> +                           TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-> +        /*
-> +         * highest locality should now be active; release it and make sure the
-> +         * next higest locality is active afterwards
-> +         */
-> +        for (l = TPM_TIS_NUM_LOCALITIES - 2; l >= 0; l--) {
-> +            if (l == locty) {
-> +                continue;
-> +            }
-> +            /* 'l' should be active now */
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +            /* 'l' relinquishes access */
-> +            tpm_tis_i2c_writeb(l, TPM_I2C_REG_ACCESS,
-> +                               TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-> +            access = tpm_tis_i2c_readb(l, TPM_I2C_REG_ACCESS);
-> +            DPRINTF_ACCESS;
-> +            if (l == 1 || (locty <= 1 && l == 2)) {
-> +                pending_request_flag = 0;
-> +            }
-> +            g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                        pending_request_flag |
-> +                                        TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +        }
-> +    }
-> +}
-> +
-> +/*
-> + * Test case for transmitting packets
-> + */
-> +static void tpm_tis_i2c_test_check_transmit(const void *data)
-> +{
-> +    const TPMTestState *s = data;
-> +    uint8_t access;
-> +    uint32_t sts, v;
-> +    uint16_t bcount, csum;
-> +    size_t i;
-> +
-> +    /* enable csum */
-> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_DATA_CSUM_ENABLE, TPM_DATA_CSUM_ENABLED);
-> +    /* check csum enable register has bit 0 set */
-> +    v = tpm_tis_i2c_readb(0, TPM_I2C_REG_DATA_CSUM_ENABLE);
-> +    g_assert_cmpint(v, ==, TPM_DATA_CSUM_ENABLED);
-> +    /* reading it as 32bit register returns same result */
-> +    v = tpm_tis_i2c_readl(0, TPM_I2C_REG_DATA_CSUM_ENABLE);
-> +    g_assert_cmpint(v, ==, TPM_DATA_CSUM_ENABLED);
-> +
-> +    /* request use of locality 0 */
-> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_ACCESS, TPM_TIS_ACCESS_REQUEST_USE);
-> +    access = tpm_tis_i2c_readb(0, TPM_I2C_REG_ACCESS);
-> +    g_assert_cmpint(access, ==, TPM_TIS_ACCESS_TPM_REG_VALID_STS |
-> +                                TPM_TIS_ACCESS_ACTIVE_LOCALITY |
-> +                                TPM_TIS_ACCESS_TPM_ESTABLISHMENT);
-> +
-> +    sts = tpm_tis_i2c_readl(0, TPM_I2C_REG_STS);
-> +    DPRINTF_STS;
-> +
-> +    g_assert_cmpint(sts & 0xff, ==, 0);
-> +
-> +    bcount = (sts >> 8) & 0xffff;
-> +    g_assert_cmpint(bcount, >=, 128);
-> +
-> +    /* ic2 must have bits 26-31 zero */
-> +    g_assert_cmpint(sts & (0x1f << 26), ==, 0);
-> +
-> +    tpm_tis_i2c_writel(0, TPM_I2C_REG_STS, TPM_TIS_STS_COMMAND_READY);
-> +    sts = tpm_tis_i2c_readl(0, TPM_I2C_REG_STS);
-> +    DPRINTF_STS;
-> +    g_assert_cmpint(sts & 0xff, ==, TPM_TIS_STS_COMMAND_READY);
-> +
-> +    /* transmit command */
-> +    for (i = 0; i < sizeof(TPM_CMD); i++) {
-> +        tpm_tis_i2c_writeb(0, TPM_I2C_REG_DATA_FIFO, TPM_CMD[i]);
-> +        sts = tpm_tis_i2c_readl(0, TPM_I2C_REG_STS);
-> +        DPRINTF_STS;
-> +        if (i < sizeof(TPM_CMD) - 1) {
-> +            g_assert_cmpint(sts & 0xff, ==,
-> +                            TPM_TIS_STS_EXPECT | TPM_TIS_STS_VALID);
-> +        } else {
-> +            g_assert_cmpint(sts & 0xff, ==, TPM_TIS_STS_VALID);
-> +        }
-> +        g_assert_cmpint((sts >> 8) & 0xffff, ==, --bcount);
-> +    }
-> +    /* read the checksum */
-> +    csum = tpm_tis_i2c_readw(0, TPM_I2C_REG_DATA_CSUM_GET);
-> +    g_assert_cmpint(csum, ==, 0x6733);
-> +
-> +    /* start processing */
-> +    tpm_tis_i2c_writeb(0, TPM_I2C_REG_STS, TPM_TIS_STS_TPM_GO);
-> +
-> +    uint64_t end_time = g_get_monotonic_time() + 50 * G_TIME_SPAN_SECOND;
-> +    do {
-> +        sts = tpm_tis_i2c_readl(0, TPM_I2C_REG_STS);
-> +        if ((sts & TPM_TIS_STS_DATA_AVAILABLE) != 0) {
-> +            break;
-> +        }
-> +    } while (g_get_monotonic_time() < end_time);
-> +
-> +    sts = tpm_tis_i2c_readl(0, TPM_I2C_REG_STS);
-> +    DPRINTF_STS;
-> +    g_assert_cmpint(sts & 0xff, == ,
-> +                    TPM_TIS_STS_VALID | TPM_TIS_STS_DATA_AVAILABLE);
-> +    bcount = (sts >> 8) & 0xffff;
-> +
-> +    /* read response */
-> +    uint8_t tpm_msg[sizeof(struct tpm_hdr)];
-> +    g_assert_cmpint(sizeof(tpm_msg), ==, bcount);
-> +
-> +    for (i = 0; i < sizeof(tpm_msg); i++) {
-> +        tpm_msg[i] = tpm_tis_i2c_readb(0, TPM_I2C_REG_DATA_FIFO);
-> +        sts = tpm_tis_i2c_readl(0, TPM_I2C_REG_STS);
-> +        DPRINTF_STS;
-> +        if (sts & TPM_TIS_STS_DATA_AVAILABLE) {
-> +            g_assert_cmpint((sts >> 8) & 0xffff, ==, --bcount);
-> +        }
-> +    }
-> +    g_assert_cmpmem(tpm_msg, sizeof(tpm_msg), s->tpm_msg, sizeof(*s->tpm_msg));
-> +
-> +    /* relinquish use of locality 0 */
-> +    tpm_tis_i2c_writeb(0,
-> +                       TPM_I2C_REG_ACCESS, TPM_TIS_ACCESS_ACTIVE_LOCALITY);
-> +    access = tpm_tis_i2c_readb(0, TPM_I2C_REG_ACCESS);
-> +}
-> +
-> +int main(int argc, char **argv)
-> +{
-> +    int ret;
-> +    char *args;
-> +    char *tmp_path = g_dir_make_tmp("qemu-tpm-tis-i2c-test.XXXXXX", NULL);
-> +    GThread *thread;
-> +    TPMTestState test;
-> +
-> +    module_call_init(MODULE_INIT_QOM);
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    test.addr = g_new0(SocketAddress, 1);
-> +    test.addr->type = SOCKET_ADDRESS_TYPE_UNIX;
-> +    test.addr->u.q_unix.path = g_build_filename(tmp_path, "sock", NULL);
-> +    g_mutex_init(&test.data_mutex);
-> +    g_cond_init(&test.data_cond);
-> +    test.data_cond_signal = false;
-> +    test.tpm_version = TPM_VERSION_2_0;
-> +
-> +    thread = g_thread_new(NULL, tpm_emu_ctrl_thread, &test);
-> +    tpm_emu_test_wait_cond(&test);
-> +
-> +    aspeed_dev_addr = ast2600_aspeed_i2c_calc_dev_addr(I2C_DEV_BUS_NUM);
-> +
-> +    args = g_strdup_printf(
-> +        "-machine rainier-bmc -accel tcg "
-> +        "-chardev socket,id=chr,path=%s "
-> +        "-tpmdev emulator,id=tpm0,chardev=chr "
-> +        "-device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.%d,address=0x%x",
-> +        test.addr->u.q_unix.path,
-> +        I2C_DEV_BUS_NUM,
-> +        I2C_SLAVE_ADDR);
-> +    qtest_start(args);
-> +
-> +    qtest_add_data_func("/tpm-tis-i2c/test_basic", &test,
-> +                        tpm_tis_i2c_test_basic);
-> +
-> +    qtest_add_data_func("/tpm-tis-i2c/test_check_localities", &test,
-> +                        tpm_tis_i2c_test_check_localities);
-> +
-> +    qtest_add_data_func("/tpm-tis-i2c/check_access_reg", &test,
-> +                        tpm_tis_i2c_test_check_access_reg);
-> +
-> +    qtest_add_data_func("/tpm-tis-i2c/check_access_reg_seize", &test,
-> +                        tpm_tis_i2c_test_check_access_reg_seize);
-> +
-> +    qtest_add_data_func("/tpm-tis-i2c/check_access_reg_release", &test,
-> +                        tpm_tis_i2c_test_check_access_reg_release);
-> +
-> +    qtest_add_data_func("/tpm-tis-i2c/test_check_transmit", &test,
-> +                        tpm_tis_i2c_test_check_transmit);
-> +
-> +    ret = g_test_run();
-> +
-> +    qtest_end();
-> +
-> +    g_thread_join(thread);
-> +    g_unlink(test.addr->u.q_unix.path);
-> +    qapi_free_SocketAddress(test.addr);
-> +    g_rmdir(tmp_path);
-> +    g_free(tmp_path);
-> +    g_free(args);
-> +    return ret;
-> +}
+>  hw/virtio/vhost-vdpa.c | 2 +-
+>  hw/virtio/trace-events | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index bc6bad23d5..bbabea18f3 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -716,7 +716,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev *=
+dev)
+>      uint8_t status =3D 0;
+>
+>      ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+> -    trace_vhost_vdpa_reset_device(dev, status);
+> +    trace_vhost_vdpa_reset_device(dev);
+>      v->suspended =3D false;
+>      return ret;
+>  }
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index 8f8d05cf9b..6265231683 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -44,7 +44,7 @@ vhost_vdpa_set_mem_table(void *dev, uint32_t nregions, =
+uint32_t padding) "dev: %
+>  vhost_vdpa_dump_regions(void *dev, int i, uint64_t guest_phys_addr, uint=
+64_t memory_size, uint64_t userspace_addr, uint64_t flags_padding) "dev: %p=
+ %d: guest_phys_addr: 0x%"PRIx64" memory_size: 0x%"PRIx64" userspace_addr: =
+0x%"PRIx64" flags_padding: 0x%"PRIx64
+>  vhost_vdpa_set_features(void *dev, uint64_t features) "dev: %p features:=
+ 0x%"PRIx64
+>  vhost_vdpa_get_device_id(void *dev, uint32_t device_id) "dev: %p device_=
+id %"PRIu32
+> -vhost_vdpa_reset_device(void *dev, uint8_t status) "dev: %p status: 0x%"=
+PRIx8
+> +vhost_vdpa_reset_device(void *dev) "dev: %p"
+>  vhost_vdpa_get_vq_index(void *dev, int idx, int vq_idx) "dev: %p idx: %d=
+ vq idx: %d"
+>  vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
+>  vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
+> --
+> 2.31.1
+>
 
 
