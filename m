@@ -2,90 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825706CBF01
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27C46CBEF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Mar 2023 14:23:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ph8PL-00076F-Ul; Tue, 28 Mar 2023 08:26:35 -0400
+	id 1ph8LX-0005XY-MU; Tue, 28 Mar 2023 08:22:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ph8PI-00075t-9u
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:33 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ph8PG-0004fa-9G
- for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:26:32 -0400
-Received: by mail-wr1-x430.google.com with SMTP id e18so11995943wra.9
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 05:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680006388;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UGlRxiGkMpFp1UPSI0NKpCH9yLRLo5kpXZgtPn0j2Qo=;
- b=exOQStBccaVD7Ebbp7R5OjNvmB8SESlUdSj+H05JegIEKYe0S9M7kUODydUOqL7ggx
- qpZypOYVzK9nZTaBGdXIxTuKziJfXDiLAcAUz7x+LY1PcWuEk+CK1m0r7Lrkuy5DcWlf
- p93gKyK1ss3jBRiCbYIgrZlQowHQroboJbOhYtyPeqNMi5xuF+LLibGZf4afaB0jCA//
- 3Mn96j24+YGTYeJ7h4rcaE3itlw2Ks62vy6hyvnLmwU5ThUn8kj/igftA/uxSeAa7dLw
- SMczkXLmzsA+z4TmJ84CwNjoqG8DjRwECpwQEFrQIiHtPX5h2ce3bMFLwPruXAIhG3Rv
- SDFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680006388;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UGlRxiGkMpFp1UPSI0NKpCH9yLRLo5kpXZgtPn0j2Qo=;
- b=EHc8O/mIowDTlA87b7+skOXelpBg9QlzG9sv1RNRJa76e6JiD1/D50fg/K4+kbmu4M
- XU/HN/+2maC2wz7KjOtEFgY25sokYXkR8IdAWdzOlTKjc0u8PdcSDOrMVHPeQVFxDq4S
- GK5NuuTY2R0oD/3dLnixZVmSpdFJI9PWJjFwkdDHiPziIuE/6DYq9coOMSSR13T7HnLk
- OAL22I5z7Cs7aBJg+1g+kdPuSxcklYEpFc6sluUXxw5a0tKUZujfYruX621q6fb3hY1R
- jeYHyjhU+PWIv4E8ijHNDSvTPTd6kqdQtROzrxKwq1qsBTtpaIOvWfR9FYEyiNHq+bhF
- P/ow==
-X-Gm-Message-State: AAQBX9ddNel6mh1kHsy8D1moFF2jmNN4BV1N8/YIiUhn4TNUqNQGGC/L
- l8qOYgCJ1seKaJmwszHscRxk8g==
-X-Google-Smtp-Source: AKy350b/d/e6W93iZys30ISo7uC+t66xUCGQq1qePGlQWXtByukulH9Ddqp7S82kcXolb1lNZ/QiIg==
-X-Received: by 2002:a5d:6612:0:b0:2d0:7545:a544 with SMTP id
- n18-20020a5d6612000000b002d07545a544mr12127539wru.7.1680006388478; 
- Tue, 28 Mar 2023 05:26:28 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- m31-20020a05600c3b1f00b003ef5bb63f13sm12603617wms.10.2023.03.28.05.26.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 05:26:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C0E9D1FFB7;
- Tue, 28 Mar 2023 13:26:27 +0100 (BST)
-References: <20230327115030.3418323-1-kconsul@linux.vnet.ibm.com>
- <20230327115030.3418323-3-kconsul@linux.vnet.ibm.com>
- <87r0tarx7u.fsf@linaro.org>
- <ZCLOi5RKIMGfjWRj@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/2] tests/avocado/boot_linux.py: re-enable test-case
- for ppc64
-Date: Tue, 28 Mar 2023 13:21:10 +0100
-In-reply-to: <ZCLOi5RKIMGfjWRj@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-Message-ID: <87sfdpqcy4.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1ph8LV-0005Wv-5W
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:22:37 -0400
+Received: from bonnix.bonnix.it ([2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1ph8LS-0003Tu-To
+ for qemu-devel@nongnu.org; Tue, 28 Mar 2023 08:22:36 -0400
+Received: from [10.0.0.70] (dynamic-adsl-84-221-84-105.clienti.tiscali.it
+ [84.221.84.105]) (authenticated bits=0)
+ by bonnix.bonnix.it (8.14.4/8.14.4) with ESMTP id 32SCMUcM000600
+ (version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+ Tue, 28 Mar 2023 14:22:30 +0200
+DKIM-Filter: OpenDKIM Filter v2.11.0 bonnix.bonnix.it 32SCMUcM000600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bonslack.org;
+ s=20220805; t=1680006151;
+ bh=fuiqcQYCf3r6RvSXYuQCmq6hsBP3YJR/++k5DOdiNEc=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=mQ/ycnyRshm86pLZx+FDJ2dmuBR0y9iVE09U2HW2nAqpllzSVX/jpQWnXk6zvkZJZ
+ 6ut6EVIdd+KdbSapsNq7x7UOZemCsKd3LuU3d14ZamqTEZv8CEGt6bl+g6goao6xGn
+ NVqETfZhqmKljKw0DbF9cxb5k6EvSVqSzxPv8gAE=
+Message-ID: <d49d441a-01a6-d38d-2bc8-98b9658a288e@bonslack.org>
+Date: Tue, 28 Mar 2023 14:22:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: stat64 wrong on sparc64 user
+Content-Language: it, en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
+References: <db07e036-cc5f-c9ad-b63c-10fdd5404830@bonslack.org>
+ <bdebe626-e552-affb-b756-02c70898bdd6@redhat.com>
+From: Luca Bonissi <qemu@bonslack.org>
+In-Reply-To: <bdebe626-e552-affb-b756-02c70898bdd6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8;
+ envelope-from=qemu@bonslack.org; helo=bonnix.bonnix.it
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,119 +67,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 28/03/23 13:55, Thomas Huth wrote:
+> On 28/03/2023 13.48, Luca Bonissi wrote:
+>> --- qemu-20230327/linux-user/syscall_defs.h    2023-03-27 
+>> 15:41:42.000000000 +0200
+>> +++ qemu-20230327/linux-user/syscall_defs.h.new    2023-03-27 
+>> 21:43:25.615115126 +0200
+>> @@ -1450,7 +1450,7 @@ struct target_stat {
+>>       unsigned int    st_dev;
+>>       abi_ulong    st_ino;
+>>       unsigned int    st_mode;
+>> -    unsigned int    st_nlink;
+>> +    short int    st_nlink;
+>>       unsigned int    st_uid;
+> 
+> That looks wrong at a first glance. IIRC Sparc is a very strictly 
+> aligned architecture, so if the previous field "st_mode" was aligned to 
+> a 4-byte boundary, the "st_uid" field now would not be aligned 
+> anymore... are you sure about this change? Maybe it needs a padding 
+> field now?
 
-Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
+The padding is automatic (either on Sparc or x86-64): short will be 
+aligned to 2-byte boundary, int will be aligned to 4-byte boundary, long 
+will be aligned to 8-byte boundary.
 
-> On 2023-03-27 17:07:30, Alex Benn=C3=A9e wrote:
->>=20
->> Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
->>=20
->> > Fixes c0c8687ef0("tests/avocado: disable BootLinuxPPC64 test in CI").
->> >
->> > Commit c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb disabled the test-case
->> > for PPC64. On investigation, this turns out to be an issue with the
->> > time taken for downloading the Fedora 31 qcow2 image being included
->> > within the test-case timeout.
->> > Re-enable this test-case by setting the timeout to 360 seconds just
->> > before launching the downloaded VM image.
->> >
->> > Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
->> > Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> > Tested-by: Hariharan T S hariharan.ts@linux.vnet.ibm.com
->>=20
->> It doesn't really address the principle problem that the
->> boot_linux.py:BootLinuxPPC64.test_pseries_tcg is super heavyweight for
->> only 2% extra coverage of the executed lines.
-> By re-enabling this test-case we will ensure that PPC64 part of qemu
-> works okay in terms of basic linux boot. Without this we will have
-> a regression in the sense that there won't be any way to test out
-> basic linux boot for PPC64.
+E.g.:
+st_dev=0x05060708;
+st_ino=0x1112131415161718;
+st_mode=0x1a1b1c1d;
+st_nlink=0x2728;
+st_uid=0x2a2b2c2d;
+st_gid=0x3a3b3c3d;
+st_rdev=0x35363738;
+st_size=0x4142434445464748;
+st_blksize=0x5152535455565758;
 
-Sure we do:
+will result (sparc64 - big endian):
+00: 05 06 07 08 00 00 00 00
+08: 11 12 13 14 15 16 17 18
+10: 1A 1B 1C 1D 27 28 00 00
+18: 2A 2B 2C 2D 3A 3B 3C 3D
+20: 35 36 37 38 00 00 00 00
+28: 41 42 43 44 45 46 47 48
+30: 00 00 00 00 00 00 00 00
+38: 00 00 00 00 00 00 00 00
+40: 00 00 00 00 00 00 00 00
+48: 51 52 53 54 55 56 57 58
+50: 00 00 00 00 00 00 00 00
+58: 00 00 00 00 00 00 00 00
+60: 00 00 00 00 00 00 00 00
 
-  =E2=9E=9C  ./tests/venv/bin/avocado list ./tests/avocado/tuxrun_baselines=
-.py:TuxRunBaselineTest.test_p
-  INSTRUMENTED ./tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_=
-ppc32
-  INSTRUMENTED ./tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_=
-ppc64
-  INSTRUMENTED ./tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_=
-ppc64le
+Or on x86-64 (little endian):
+00: 08 07 06 05 00 00 00 00
+08: 18 17 16 15 14 13 12 11
+10: 1D 1C 1B 1A 28 27 00 00
+18: 2D 2C 2B 2A 3D 3C 3B 3A
+20: 38 37 36 35 00 00 00 00
+28: 48 47 46 45 44 43 42 41
+30: 00 00 00 00 00 00 00 00
+38: 00 00 00 00 00 00 00 00
+40: 00 00 00 00 00 00 00 00
+48: 58 57 56 55 54 53 52 51
+50: 00 00 00 00 00 00 00 00
+58: 00 00 00 00 00 00 00 00
+60: 00 00 00 00 00 00 00 00
 
-boot 3 different ppc configurations.
+Please note the automatic padding between "st_dev" and "st_ino" (offset 
+0x04, 4 bytes), "st_nlink" and "st_uid" (offset 0x16, 2 bytes), 
+"st_rdev" and "st_size" (offset 0x24, 4 bytes).
 
->>=20
->> What we really need is a script so we can compare the output between the
->> two jsons:
->>=20
->>   gcovr --json --exclude-unreachable-branches --print-summary -o coverag=
-e.json --root ../../ . *.p
->>=20
->> because I suspect we could make up that missing few % noodling the
->> baseline test a bit more.
-> Can you tell me how you check code coverage with and without this
-> test-case ?
+Placing st_nlink as int would result in incorrect big/little endian 
+conversion, so it should be set as short. If you like clearer source 
+code, you can optionally add padding, but it is not mandatory.
 
-I use two build directories, both configured with --enable-gcov. e.g.:
-
- ../../configure' '--disable-docs' '--enable-gcov' '--target-list=3Dppc64-s=
-oftmmu'
-
-and run a different set of tests in each build dir. You can then run:
-
-  make coverage-html V=3D1
-
-for the initial report. See:
-
-  https://qemu.readthedocs.io/en/latest/devel/testing.html#gcc-gcov-support
-=20=20
-> I am kind of new to qemu so it would be nice to know how you
-> do this. And I am trying to increase the code coverage by improving
-> the baseline test by including more devices in the qemu-system-ppc64
-> command line so I would appreciate any tips on how to do that also.
-
-The only problem is eyeballing the html reports is a very fuzzy way of
-comparing coverage. However the gcovr report generates some useful
-machine readable json which could be compared with a script.
-
->>=20
->> > ---
->> >  tests/avocado/boot_linux.py | 6 +++++-
->> >  1 file changed, 5 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
->> > index be30dcbd58..c3869a987c 100644
->> > --- a/tests/avocado/boot_linux.py
->> > +++ b/tests/avocado/boot_linux.py
->> > @@ -91,9 +91,9 @@ class BootLinuxPPC64(LinuxTest):
->> >      :avocado: tags=3Darch:ppc64
->> >      """
->> >=20=20
->> > +    # timeout for downloading new VM image.
->> >      timeout =3D 360
->> >=20=20
->> > -    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
->> >      def test_pseries_tcg(self):
->> >          """
->> >          :avocado: tags=3Dmachine:pseries
->> > @@ -101,6 +101,10 @@ def test_pseries_tcg(self):
->> >          """
->> >          self.require_accelerator("tcg")
->> >          self.vm.add_args("-accel", "tcg")
->> > +
->> > +        # timeout for actual Linux PPC boot test
->> > +        self.timeout =3D 360
->> > +
->> >          self.launch_and_wait(set_up_ssh_connection=3DFalse)
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
->> Virtualisation Tech Lead @ Linaro
->>=20
+Thanks!
+   Luca
 
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+
 
