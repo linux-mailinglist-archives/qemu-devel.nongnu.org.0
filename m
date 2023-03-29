@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF42B6CDB74
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 16:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA6F6CDB7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 16:05:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phWOE-0008AO-Gw; Wed, 29 Mar 2023 10:03:02 -0400
+	id 1phWQ2-00019M-LC; Wed, 29 Mar 2023 10:04:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phWOD-00089s-12
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:03:01 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1phWPy-00018j-Hb
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:04:51 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phWO7-0001bj-1T
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:03:00 -0400
-Received: by mail-wr1-x429.google.com with SMTP id h17so15828507wrt.8
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 07:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680098573;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/d8JcgdnzaCOJS/UJ0Kdvwztg/5uDgs84zLYtJeJdxg=;
- b=pkCf+on6bJ4oOMGejITlkFFdC4It3NAnyGfzPKVtDHJurnLbsXOEWoIKKNwSslynhr
- wPLIdMqQEaqBTHHzAq/ZtpBRnbdbfWrvgLys2sZQNxO+RvTeK2bPu++GN0vJwztuoBJt
- MEoYffrZPC6vlpFrPkonkoAzivr55eWEtJlLmQURPqt6Bd23xHot29vYa2dAfo0JjeH2
- r2Qwjn8jRohxo9D/u4r9p+MTw0+uGmaxaeoHPSJeZQq+1WlXFah9DpDzqnRlu/OjeAtD
- BTgRe87fyxDCj4LzPhtWcfABZX2iX+d0cU4KG7C+RPmQH0D9rxzp/VOHaMCrUuM+2gcX
- F/eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680098573;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/d8JcgdnzaCOJS/UJ0Kdvwztg/5uDgs84zLYtJeJdxg=;
- b=i5Z+Z4d5arlJGg5VSpMuvPtOw8sd0cQ4BZUzXZrj+shZkmyhn8TzfaSeHKD8sr2OFz
- CJIV+4l8Ivd1Mhn+W9WzPgEUAD634iCUNT6hhpQdiGv2rrRImnIJqPUBsyraZ4uelPwp
- Aznz5PR9QfVdXjpCF1/x/HFWGopk0v7HXpkxagZJHAU8pwmoXaHrLLJ9WNzjOmn/74zI
- PtTDzj/pewq8mpX71umA/9n+QZyV1MtAFetDji6kHnK09QdK0AD8EuM1MrTUy4zbRS5+
- WbwxnHh85r7KfPWk1OHxpnp+Nng10TUnLG2R+0GRVUwfixtFSQzjuXSfG1yGtZ8FKWHV
- 0CWw==
-X-Gm-Message-State: AAQBX9cPN2CtDUzTLswEDPlWl54xS7ROWaubsu+PBLVQdxAwErLVrZLW
- cHy3WDzcClJokjFhEiqVUHd6rQ==
-X-Google-Smtp-Source: AKy350bp5nFMkad5k8S7dTdpXyf8B2QIQjE6VxalyijV3MyqV8dG+TwK5JcU4pfrYXjEePuIDhxcTw==
-X-Received: by 2002:a5d:4943:0:b0:2cf:f061:4927 with SMTP id
- r3-20020a5d4943000000b002cff0614927mr15349164wrs.42.1680098573520; 
- Wed, 29 Mar 2023 07:02:53 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- l3-20020a1c7903000000b003ed1ff06faasm2344296wme.19.2023.03.29.07.02.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 07:02:53 -0700 (PDT)
-Message-ID: <9e0612a6-cfad-bcb3-8699-faa7e8588349@linaro.org>
-Date: Wed, 29 Mar 2023 16:02:52 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
+ (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1phWPt-0001mD-Ci
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:04:49 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 1C6AE1FDD4;
+ Wed, 29 Mar 2023 14:04:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680098684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y51txhdeE2km30hGWYWD5qB1LDAn50evJsyF8plR9EI=;
+ b=0L4+ZeC5/kPIQ4PqI4SDKOpGP+NMZUB0hqptUZWMKktBPoaYtFd1EyFj8ZAUNEtoXWMMdM
+ K79cAEsOT8ghqE8lle2ZQxqvLt9dAGPxDN6iW18CTQ3NzCK7ZP8l9cc3vE+kVs5SeYrKzd
+ DAeqRxegUyS7wCp/5xMk3T3aZ4kfQ5U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680098684;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y51txhdeE2km30hGWYWD5qB1LDAn50evJsyF8plR9EI=;
+ b=hgzDQK5Q9XPPTSthcbhfPCM3RU+m9+Lq8FRDy4+j7F9F74pAgjJjEI3Y2xD1DytoQySmpA
+ ikQ2slef7KjeP+Cg==
+Received: from hawking.suse.de (unknown [10.168.4.11])
+ by relay2.suse.de (Postfix) with ESMTP id 0C9382C165;
+ Wed, 29 Mar 2023 14:04:43 +0000 (UTC)
+Received: by hawking.suse.de (Postfix, from userid 17005)
+ id D64834A0378; Wed, 29 Mar 2023 16:04:43 +0200 (CEST)
+From: Andreas Schwab <schwab@suse.de>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>,  qemu-devel@nongnu.org
 Subject: Re: [PATCH v2] linux-user: preserve incoming order of environment
  variables in the target
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Andreas Schwab <schwab@suse.de>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <mvmy1nfslvi.fsf@suse.de> <ZCREaEiPyzYogkFj@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <ZCREaEiPyzYogkFj@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Yow: I just heard the SEVENTIES were over!! And I was just getting in touch
+ with my LEISURE SUIT!!
+Date: Wed, 29 Mar 2023 16:04:43 +0200
+In-Reply-To: <ZCREaEiPyzYogkFj@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Wed, 29 Mar 2023 15:00:08 +0100")
+Message-ID: <mvmtty3slfo.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=schwab@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,59 +83,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/3/23 16:00, Daniel P. Berrangé wrote:
+On Mär 29 2023, Daniel P. Berrangé wrote:
+
 > On Wed, Mar 29, 2023 at 03:55:13PM +0200, Andreas Schwab wrote:
 >> Do not reverse the order of environment variables in the target environ
 >> array relative to the incoming environ order.  Some testsuites depend on a
 >> specific order, even though it is not defined by any standard.
->>
+>> 
 >> Signed-off-by: Andreas Schwab <schwab@suse.de>
 >> ---
->>   linux-user/main.c | 6 ++++++
->>   1 file changed, 6 insertions(+)
-> 
+>>  linux-user/main.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>
 > bsd-user/main.c appears to have an identical code pattern that
 > will need the same fix
-> 
->>
->> diff --git a/linux-user/main.c b/linux-user/main.c
->> index 4b18461969..dbfd3ee8f1 100644
->> --- a/linux-user/main.c
->> +++ b/linux-user/main.c
->> @@ -691,7 +691,13 @@ int main(int argc, char **argv, char **envp)
->>       envlist = envlist_create();
->>   
->>       /* add current environment into the list */
->> +    /* envlist_setenv adds to the front of the list; to preserve environ
->> +       order add from back to front */
 
-Also, QEMU coding style now requires:
+Yes, but I cannot test it, so I like to let someone else produce the
+patch.
 
-   /*
-    * this comment form.
-    */
-
-;)
-
->>       for (wrk = environ; *wrk != NULL; wrk++) {
->> +        continue;
->> +    }
->> +    while (wrk != environ) {
->> +        wrk--;
->>           (void) envlist_setenv(envlist, *wrk);
->>       }
->>   
->> -- 
->> 2.40.0
->>
->>
->> -- 
->> Andreas Schwab, SUSE Labs, schwab@suse.de
->> GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
->> "And now for something completely different."
->>
-> 
-> With regards,
-> Daniel
-
+-- 
+Andreas Schwab, SUSE Labs, schwab@suse.de
+GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+"And now for something completely different."
 
