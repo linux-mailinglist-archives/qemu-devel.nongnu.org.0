@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACC56CD9B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 14:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4898A6CD9DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 15:03:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phVLV-0001wo-Hy; Wed, 29 Mar 2023 08:56:09 -0400
+	id 1phVR2-0004UX-8Y; Wed, 29 Mar 2023 09:01:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1phVLS-0001vy-Q1
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 08:56:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1phVLR-0004DC-2S
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 08:56:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680094564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YgZl2RnTo/DojDMRuoIKQmpbgBIbRyeoZntV2xvweWM=;
- b=d+QZh8RiW8uF1aL7c2GyZXp+jh1EGFHRop25Tf7aC0BVp8JdFtNZvPn1EWUlx4FJ1UJWY0
- bvR62M75tz4m/oQaV9F9nueNYl9ejPTWe8iaVWYcpCKFqzlcq4oVET5oW0THcsPYjbV/9O
- DfugTIyD1oMFYdYrRymGQvJSBfsNtzg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-196-R63myzjjPXGCUw9NA740_g-1; Wed, 29 Mar 2023 08:56:03 -0400
-X-MC-Unique: R63myzjjPXGCUw9NA740_g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- t14-20020a056402240e00b004fb36e6d670so22116900eda.5
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 05:56:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1phVQt-0004Sj-P8
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 09:01:44 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1phVQr-00060Q-VL
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 09:01:43 -0400
+Received: by mail-ed1-x532.google.com with SMTP id i5so63144953eda.0
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 06:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680094900;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=iUQwAljUL4hdH6yr+nNXbzvhLbExE141MtzbfAWtG8g=;
+ b=D7On/o9yoB8hOqpZXe0yGbkI5VBCQjZtSHuhhTp7WRsK3e3Tnqj3vdi211+b5yYqa6
+ abnKCrOaiSCvXXmIbZr43K/6bGwPmvRXYI5WqYcx/CzkwH3H4BPDkMEfHi0a7p4kGMwh
+ SASo66nFe+fXBrLOa27+g8WTiU+F5oz5eXMPEZY44/WS7ERZ6jugp5BGW7B6EMeNXI8f
+ /p0d8OPvZM5YrCLt37COrToATLMQUxRqKE+dHJvhqoYctbZJI+JldTBti4ScP+uRkDTX
+ DxoeOQv/8sMzUaEMtnl214UZZyHr1iarYtmP8XgK1btHWMLCqUhuriVNDx2rsmYMM4iq
+ kXpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680094561; x=1682686561;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YgZl2RnTo/DojDMRuoIKQmpbgBIbRyeoZntV2xvweWM=;
- b=cvQHSQtb0h4L+vAiuhGiMQFz97WBamwCYnfKR0/xZlNaf7Bbc+vkSBq5GkgCMwC89M
- ppYVzhOtyYYuZP+mXvnIDiZymoppj1T1VF7qgvoj4n+B8C5A4Ihrd9FjyzYRY+Fp0kSA
- 9wi6SAco0A9/vXyUz8iwnEcvegLe3eKp8x2hd0gAPJF1NgFS+GqpenObDSppNHneRgqO
- kUh+iv8+l9hPtHrFnHFGoFT/Vupj41+0tuzp37WtTJM45Dx/mqxBDpLrjjQ4D8SD8Pws
- Dp31kCUeGdGb0TJc8OpSRAg/28WRKZmTQikicZxn8EO/ZAOya+hlBZHgVtgUhomUid2o
- hUZg==
-X-Gm-Message-State: AAQBX9dLVFRx1DnDPdp090TQauotKBfX28mitSSjj9jV89ENXBD2eEhN
- BpTK5sXhqn3HhVmV/cBCNkLNPXuyUJGSEjmELa07gfdM1A6lQiQ2VM1391CH7fMIRai4NZvG922
- BHOFiYSSlYKiFR8o=
-X-Received: by 2002:a17:906:49d9:b0:932:217c:b85d with SMTP id
- w25-20020a17090649d900b00932217cb85dmr18091253ejv.37.1680094561693; 
- Wed, 29 Mar 2023 05:56:01 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YG60NqJr+aVaVxzqn363rRfTBiSpkoy6Gc8npn+br3rYnkZ7LxBR6i52A3UiuLyROu2xyzqw==
-X-Received: by 2002:a17:906:49d9:b0:932:217c:b85d with SMTP id
- w25-20020a17090649d900b00932217cb85dmr18091238ejv.37.1680094561416; 
- Wed, 29 Mar 2023 05:56:01 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- g22-20020a170906199600b008b1797b77b2sm16358744ejd.221.2023.03.29.05.56.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 05:56:00 -0700 (PDT)
-Message-ID: <d49d0152-ff58-a317-7eca-a243ed080ca0@redhat.com>
-Date: Wed, 29 Mar 2023 14:56:00 +0200
+ d=1e100.net; s=20210112; t=1680094900;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iUQwAljUL4hdH6yr+nNXbzvhLbExE141MtzbfAWtG8g=;
+ b=keAepkz9No4Gz3Zi5kj3enpbTroSiaqHhVMAIlsUMrkk33C6+FYQGkYPHCxuvcHlIe
+ 7sJBXHlmmMhDWf1rRAPyYS+EKvdCRUAzqajKDsQFFNQLc5it29oa4YMZij+YHrVYXKti
+ CNxjKmKCNqOoQUYJBns4hICUlBqlMhXsSaQSyup90WhG9r1z3ZweD6iDpHiDSJQJfHfJ
+ e2tQCb44zP43uSR23McYw+FfmejxfMCVDBPkols8jpWj7HtItgPPELIUwoJA/eu3efsc
+ j2+JdYfRhWbXrf9+Y8Dxa0T1/oVbgsdrryDw3drQfFeZik6y2nWmziIV9L2H+G5lOB4Q
+ PIRg==
+X-Gm-Message-State: AAQBX9cRNmITdY7A/N+OVrlzk5IJH+aaGbTYc3pH2BY+Vb5UtwS0un6V
+ F+kNfy4NAzMZ+eRisVoGGVo1uGwfd+c9Xs5skJvEIw==
+X-Google-Smtp-Source: AKy350ZOe5zjYT2UCOUpu+16b377IvJem3YXxurk34vlg8bG20mR+VBYER/SyAXf3CuNScdrNBsCNDXS04WNBb33p/Y=
+X-Received: by 2002:a17:906:988e:b0:878:4a24:1a5c with SMTP id
+ zc14-20020a170906988e00b008784a241a5cmr8588625ejb.6.1680094900536; Wed, 29
+ Mar 2023 06:01:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC PATCH 1/3] python: add mkvenv.py
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-References: <20230328211119.2748442-1-jsnow@redhat.com>
- <20230328211119.2748442-2-jsnow@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230328211119.2748442-2-jsnow@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230328225806.2278728-1-richard.henderson@linaro.org>
+In-Reply-To: <20230328225806.2278728-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 29 Mar 2023 14:01:29 +0100
+Message-ID: <CAFEAcA-Wh_PFQFNEhM-GFz=woQW92TDiWd4Z3YTEW34f5T76qA@mail.gmail.com>
+Subject: Re: [PULL 00/15] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,59 +83,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/28/23 23:11, John Snow wrote:
-> +        # venv class is cute and toggles this off before post_setup,
-> +        # but we need it to decide if we want to generate shims or not.
+On Tue, 28 Mar 2023 at 23:58, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit d37158bb2425e7ebffb167d611be01f1e9e6c86f:
+>
+>   Update version for v8.0.0-rc2 release (2023-03-28 20:43:21 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230328
+>
+> for you to fetch changes up to 87e303de70f93bf700f58412fb9b2c3ec918c4b5:
+>
+>   softmmu: Restore use of CPU watchpoint for all accelerators (2023-03-28 15:24:06 -0700)
+>
+> ----------------------------------------------------------------
+> Use a local version of GTree [#285]
+> Fix page_set_flags vs the last page of the address space [#1528]
+> Re-enable gdbstub breakpoints under KVM
+>
 
-Ha, yeah that's a bug in the venv package.  post_setup() can already run 
-with system_site_packages reverted to True.
 
-> +            for entry_point in entry_points:
-> +                # Python 3.8 doesn't have 'module' or 'attr' attributes
-> +                if not (hasattr(entry_point, 'module') and
-> +                        hasattr(entry_point, 'attr')):
-> +                    match = pattern.match(entry_point.value)
-> +                    assert match is not None
-> +                    module = match.group('module')
-> +                    attr = match.group('attr')
-> +                else:
-> +                    module = entry_point.module
-> +                    attr = entry_point.attr
-> +                yield {
-> +                    'name': entry_point.name,
-> +                    'module': module,
-> +                    'import_name': attr,
-> +                    'func': attr,
+Applied, thanks.
 
-What about using a dataclass or namedtuple instead of a dictionary?
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-> 
-> +
-> +    try:
-> +        entry_points = _get_entry_points()
-> +    except ImportError as exc:
-> +        logger.debug("%s", str(exc))
-> +        raise Ouch(
-> +            "Neither importlib.metadata nor pkg_resources found, "
-> +            "can't generate console script shims.\n"
-> +            "Use Python 3.8+, or install importlib-metadata, or setuptools."
-> +        ) from exc
-
-Why not put this extra try/except inside _get_entry_points()?
-
-> +
-> +    # Test for ensurepip:
-> +    try:
-> +        import ensurepip
-
-Use find_spec()?
-
-BTW, another way to repair Debian 10's pip is to create a symbolic link 
-to sys.base_prefix + '/share/python-wheels' in sys.prefix + 
-'/share/python-wheels'.  Since this is much faster, perhaps it can be 
-done unconditionally and checkpip mode can go away together with 
-self._context?
-
-Paolo
-
+-- PMM
 
