@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9946CF36B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 21:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B0F6CF41B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 22:11:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phbh1-0000om-Fp; Wed, 29 Mar 2023 15:42:47 -0400
+	id 1phc6W-0006F6-Fx; Wed, 29 Mar 2023 16:09:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1phbgz-0000oF-0C
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 15:42:45 -0400
-Received: from mailout02.t-online.de ([194.25.134.17])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1phbgw-0002pW-Je
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 15:42:44 -0400
-Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
- by mailout02.t-online.de (Postfix) with SMTP id 9EDC013076;
- Wed, 29 Mar 2023 21:42:38 +0200 (CEST)
-Received: from [192.168.211.200] ([79.208.29.86]) by fwd85.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1phbgq-0q2dsX0; Wed, 29 Mar 2023 21:42:37 +0200
-Message-ID: <f5ef0312-2594-3dbd-f48e-2608b4dce161@t-online.de>
-Date: Wed, 29 Mar 2023 21:42:36 +0200
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1phc6U-0006Eo-LV
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 16:09:06 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1phc6T-0007nQ-3h
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 16:09:06 -0400
+Received: by mail-oi1-x236.google.com with SMTP id b19so12542989oib.7
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 13:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1680120543;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YfNt9a+VvOzDqP6yjzhOP38izmUec3v90DzjLwl4ayI=;
+ b=M5BIr0ibSPNnrvjc1iVmQbT7CssENik71DayqW+iqwznodbPFoSgHAdXoqu19M8xyw
+ TFlKqk+BAgGqtw9csI0yjTRsAadAAjuMQcdll1MRngjjeWNj1tNQaaKgJsGEwCN66/QC
+ Ble3JWiVnI8DK9PBTBOLJ3FgXcCk03JCVqRnLR1q+aD//eNF1qVfXFJJeeGPZ0cRDYQP
+ Suw2hlcaLFoP+zjMHs2UCdMFC6elkgSNonvoEns4OHDv/up6y/SY9A0cxY4A4r1op3GI
+ 0OqpShRMncSCptMaCQdyV/ZiYi6U3tnitq9w7Zn+OMmtg9F7Yc81XxzSCZDKMHcUPdBB
+ OuiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680120543;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YfNt9a+VvOzDqP6yjzhOP38izmUec3v90DzjLwl4ayI=;
+ b=TnOTSBbn/LR+WZrX2QH7QQRpRs6bf5aqvp+l+8RxmmhU32bIA1t5t8ehUQpBqnnXDD
+ z6LPoU8ZJFGIwck3GTj51ySZrqsOvVnWIsYbeds4BDxBdncTlIgMRvIaddegJh3SeES/
+ p0G21BU7I+bCkscK2j6E6a7TzaZUa0j5unMQVYpHALOyGoGAAbtOSyljOHIWbpQlYALX
+ xDT8ioJRTpDmvZI0Dqhy3ktj8b64y1nZWu1btE3N3iByeJL30IOc9d0chqJJ654Wrcd3
+ S6+iwoGWgsCa4mcQA3Bxudlc4g6RcMquIdACVlzaXOottzMdm2OsLr+YrT41pxggeEAt
+ ZfUw==
+X-Gm-Message-State: AO0yUKWq+OdvCAu1J1vWP8Px7fwYsWyPEgPEsHLSrwE67NB1Mb1kheZ5
+ ywRGCvPvjoMKPs38TFx3SzT4JRNX0w8DIhhQMyI=
+X-Google-Smtp-Source: AK7set/75eiKRFzFQU7+R4F6NsvbD7+rKJDGPewDUXpwHD64CjL/cKs6XN3cZOZ7AcrY105FVz5SEg==
+X-Received: by 2002:a05:6808:3cd:b0:387:5e03:5b48 with SMTP id
+ o13-20020a05680803cd00b003875e035b48mr7959790oie.55.1680120543476; 
+ Wed, 29 Mar 2023 13:09:03 -0700 (PDT)
+Received: from grind.dc1.ventanamicro.com ([177.95.89.231])
+ by smtp.gmail.com with ESMTPSA id
+ i206-20020acaead7000000b003874e6dfeefsm8195182oih.37.2023.03.29.13.08.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 13:09:01 -0700 (PDT)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v6 0/9] target/riscv: rework CPU extensions validation
+Date: Wed, 29 Mar 2023 17:08:47 -0300
+Message-Id: <20230329200856.658733-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: Audio playback speed issue on sam460ex and pegasos2
-To: Rene Engel <ReneEngel80@emailn.de>
-Cc: balaton@eik.bme.hu, qemu-devel@nongnu.org
-References: <b80d09c7-b9e6-debe-9678-f6ac3bbed388@eik.bme.hu>
- <f1ec050c-7315-aae5-b377-1f99b057045c@t-online.de>
- <981db26c-a96d-4e40-1f6f-577eaee9466e@t-online.de>
- <a53db76d-aa94-4a95-0fe1-c8a469cc9086@eik.bme.hu>
- <56ae723446530739cc496afbb63991c7@mail.emailn.de>
- <ed7b48a6-42e2-0381-074e-9d774ecfa26f@t-online.de>
- <146a76841a0fc58eec972fe3c1cc34b0@mail.emailn.de>
- <9f77ce1a-a02e-365e-0d5b-a35a023e53d8@t-online.de>
- <0c71ee37c6d16abb23a03693381113d3@mail.emailn.de>
- <9521731e-359b-f9fe-b4a5-21bdce3e1984@t-online.de>
- <cc449b26874e615e52bca93c1cab078e@mail.emailn.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-In-Reply-To: <cc449b26874e615e52bca93c1cab078e@mail.emailn.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1680118957-96FFAC52-6A6FD3B1/0/0 CLEAN NORMAL
-X-TOI-MSGID: c8f9d2e0-0a00-423f-a2c0-104ff076e6ef
-Received-SPF: none client-ip=194.25.134.17; envelope-from=vr_qemu@t-online.de;
- helo=mailout02.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,127 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 29.03.23 um 14:03 schrieb Rene Engel:
-> After short tests with the command line -audiodev coreaudio,id=audio0,out.frequency=48000 the sound output runs in the correct speed.
->
-> Tested with one and the same mp3 file under AmigaOs4.1 and MacOs with es1370 and ac97 on Pegasos 2 emulation
+Hi,
 
-This indicates that there is a bug in the Core Audio backend. I wonder 
-how you manage to set a system sample rate of 48kHz when QEMU explicitly 
-requires 44.1kHz. See 
-https://lists.nongnu.org/archive/html/qemu-discuss/2023-03/msg00076.html 
-or GitLab issue #1191 https://gitlab.com/qemu-project/qemu/-/issues/1191.
+This series contains changes proposed by Weiwei Li in v5.
 
-I can't really help to fix this Core Audio backend issue. I don't have a 
-Mac. Until this bug is fixed, you will have to live with the workaround.
+All patches are acked.
 
-With best regards,
-Volker
+Changes from v5:
+- patch 9:
+  - remove ext_ifencei setting from rv64_thead_c906_cpu_init()
+- v5 link: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg06740.html
 
-> --- Ursprüngliche Nachricht ---
-> Von: Volker Rümelin <vr_qemu@t-online.de>
-> Datum: 28.03.2023 20:26:14
-> An: Rene Engel <ReneEngel80@emailn.de>
-> Betreff: Re: Audio playback speed issue on sam460ex and pegasos2
->
->> Am 28.03.23 um 16:37 schrieb Rene Engel:
->>> Sorry I was on the wrong branch.
->>> I forget that every time, however that is trace test performed with
->> ac97 under Pegasos 2 Emulation with AmigaOs4.1, startsound played and an
->> mp3 with TuneNet.
->>> audio_open_out 0.000 pid=8358 card=b'via-ac97' name=b'via-ac97.out'
->> freq=0xac44 fmt=b's8' ch=0x1
->>> audio_open_info_out 52921.000 pid=8358 end=b'sw' card=b'via-ac97' name=b'via-ac97.out'
->> freq=0xac44 ch=0x1 bits=0x8 is_signed=0x1 is_float=0x0
->>> audio_open_info_out 0.000 pid=8358 end=b'hw' card=b'via-ac97' name=b'via-ac97.out'
->> freq=0xac44 ch=0x2 bits=0x20 is_signed=0x1 is_float=0x1
->>> audio_open_out 1019.000 pid=8358 card=b'via-ac97' name=b'via-ac97.out'
->> freq=0xac44 fmt=b's16' ch=0x2
->>> audio_open_info_out 2.000 pid=8358 end=b'sw' card=b'via-ac97' name=b'via-ac97.out'
->> freq=0xac44 ch=0x2 bits=0x10 is_signed=0x1 is_float=0x0
->>> audio_open_info_out 0.000 pid=8358 end=b'hw' card=b'via-ac97' name=b'via-ac97.out'
->> freq=0xac44 ch=0x2 bits=0x20 is_signed=0x1 is_float=0x1
->>> audio_fe_frames_out 130352.000 pid=8358 fe_free=0x800 fe_written=0x372
->>> audio_hw_frames_out 2.000 pid=8358 hw_free=0x800 hw_written=0x372
->>> audio_fe_frames_out 10265.000 pid=8358 fe_free=0x68e fe_written=0x372
->>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x68e hw_written=0x372
->>> audio_fe_frames_out 11159.000 pid=8358 fe_free=0x51c fe_written=0x372
->>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x51c hw_written=0x372
->>> audio_fe_frames_out 10211.000 pid=8358 fe_free=0x3aa fe_written=0x372
->>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x3aa hw_written=0x372
->>> audio_fe_frames_out 10522.000 pid=8358 fe_free=0x238 fe_written=0x238
->>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x238 hw_written=0x238
->>> audio_fe_frames_out 10122.000 pid=8358 fe_free=0x200 fe_written=0x13a
->>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x200 hw_written=0x13a
->>> audio_fe_frames_out 10541.000 pid=8358 fe_free=0x2c6 fe_written=0x2c6
->>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x2c6 hw_written=0x2c6
->>> audio_fe_frames_out 10366.000 pid=8358 fe_free=0x200 fe_written=0xac
->>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x200 hw_written=0xac
->>> audio_fe_frames_out 10582.000 pid=8358 fe_free=0x354 fe_written=0x354
->>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x354 hw_written=0x354
->>> audio_fe_frames_out 10111.000 pid=8358 fe_free=0x200 fe_written=0x1e
->>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x200 hw_written=0x1e
->>> audio_fe_frames_out 10367.000 pid=8358 fe_free=0x3e2 fe_written=0x372
->>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x3e2 hw_written=0x372
->>> audio_fe_frames_out 10129.000 pid=8358 fe_free=0x270 fe_written=0x270
->>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x270 hw_written=0x270
->>> audio_fe_frames_out 10204.000 pid=8358 fe_free=0x200 fe_written=0x102
->>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x200 hw_written=0x102
->>> audio_fe_frames_out 10656.000 pid=8358 fe_free=0x2fe fe_written=0x2fe
->>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x2fe hw_written=0x2fe
->>> audio_fe_frames_out 10363.000 pid=8358 fe_free=0x200 fe_written=0x74
->>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x200 hw_written=0x74
->>> audio_fe_frames_out 10436.000 pid=8358 fe_free=0x38c fe_written=0x372
->>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x38c hw_written=0x372
->> Hi Rene,
->>
->> it seems your Mac uses a 48kHz sample rate, although QEMU requested a
->> 44.1kHz sample rate. Could you add -audiodev
->> coreaudio,id=audio0,out.frequency=48000 to your command line and test if
->>
->> the playback speed and pitch is now correct?
->>
->> The default for out.frequency is 44100.
->>
->> With best regards,
->> Volker
->>
->>> --- Ursprüngliche Nachricht ---
->>> Von: Volker Rümelin <vr_qemu@t-online.de>
->>> Datum: 27.03.2023 21:12:42
->>> An: Rene Engel <ReneEngel80@emailn.de>
->>> Betreff: Re: Audio playback speed issue on sam460ex and pegasos2
->>>
->>>> Am 27.03.23 um 16:21 schrieb Rene Engel:
->>>>> I compiled the build from their git branch and enabled the audio
->> trace,
->>>> but with this option the AmigaOs4.1 workbench does not start anymore
->> and
->>>> stops with a load sign. Tested with ac97 it almost looks like the
->> ac97 part
->>>> that used to stop AmigaOs4.1 is not included in your build.
->>>>> This is the command line I used:
->>>>>
->>>>> reneengel@Mac-Studio build % cd /Users/reneengel/qemuVolkerAudioPatch/build
->>>>> reneengel@Mac-Studio build % qemu-system-ppc -L pc-bios -M pegasos2
->>>> -bios /Volumes/BackUP/PegasosQemuDatein/pegasos2.rom -vga none -device
->> sm501
->>>> -drive if=none,id=cd -m 1024 -device ide-cd,drive=cd,bus=ide.1 -drive
->> if=none,id=hd,file=/Volumes/EXTREME\
->>>> SSD/hd1.img,format=raw -device ide-hd,drive=hd,bus=ide.0 -device
->> rtl8139,netdev=network00
->>>> -netdev user,id=network00 -rtc base=localtime -display cocoa -serial
->> stdio
->>>> -smp cores=1 -trace "audio_open*_out" -trace "audio_*_frames_out"
->>>> -trace file=/tmp/qemu-trace
->>>>
->>>> Is the current directory included in the macOS search path? On my
->> Linux
->>>> system qemu-system-ppc starts the installed QEMU executable. I have
->> to
->>>> use ./qemu-system-ppc to start the program from the build directory.
->>>>
->>
->
+Daniel Henrique Barboza (9):
+  target/riscv/cpu.c: add riscv_cpu_validate_v()
+  target/riscv/cpu.c: remove set_vext_version()
+  target/riscv/cpu.c: remove set_priv_version()
+  target/riscv: add PRIV_VERSION_LATEST
+  target/riscv/cpu.c: add priv_spec validate/disable_exts helpers
+  target/riscv/cpu.c: add riscv_cpu_validate_misa_mxl()
+  target/riscv/cpu.c: validate extensions before riscv_timer_init()
+  target/riscv/cpu.c: remove cfg setup from riscv_cpu_init()
+  target/riscv: rework write_misa()
+
+ target/riscv/cpu.c | 330 +++++++++++++++++++++++++++------------------
+ target/riscv/cpu.h |   3 +
+ target/riscv/csr.c |  47 +++----
+ 3 files changed, 221 insertions(+), 159 deletions(-)
+
+-- 
+2.39.2
 
 
