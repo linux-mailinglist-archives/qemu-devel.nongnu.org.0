@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E616CDB6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 16:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF42B6CDB74
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 16:03:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phWNY-0007Lc-9t; Wed, 29 Mar 2023 10:02:20 -0400
+	id 1phWOE-0008AO-Gw; Wed, 29 Mar 2023 10:03:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1phWNV-0007LE-Qo; Wed, 29 Mar 2023 10:02:17 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phWOD-00089s-12
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:03:01 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1phWNQ-0001W6-1z; Wed, 29 Mar 2023 10:02:16 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D9B681FDD1;
- Wed, 29 Mar 2023 14:02:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680098529; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0v7smsUOkD+0PDWZRSps2dW8wIjUlqektUnRtiqndwY=;
- b=x+WCetoCefp5zIX8H2o3l0n5Qc0ZTC8CAqx87CZ0otdreXGDyg7ulFSUHkWaKiV6kJRsFt
- jnuePyciEk9aABf86M+aIMJZWk8qEOPqjWd9l1EsoSXmxf1x9NjWExvGPAdY0bgUR9m9gj
- QkgxEbItVIkewPyATZO/zjrwntHys8o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680098529;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0v7smsUOkD+0PDWZRSps2dW8wIjUlqektUnRtiqndwY=;
- b=iU6ws4hZnGFp9de3bINqs+L2zex2gzAkj9c1srM1RHqHc/2cWdg0eFSfdyiFGZmZRYPdNJ
- g90hJm/Ot2XsspBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 666DE138FF;
- Wed, 29 Mar 2023 14:02:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XVoMDOFEJGSkJwAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 29 Mar 2023 14:02:09 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Halil Pasic <pasic@linux.ibm.com>, David Gibson
- <david@gibson.dropbear.id.au>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, qemu-ppc@nongnu.org, Yanan Wang
- <wangyanan55@huawei.com>, David Hildenbrand <david@redhat.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Eduardo Habkost
- <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Greg Kurz <groug@kaod.org>,
- kvm@vger.kernel.org, Ilya Leoshkevich <iii@linux.ibm.com>, Peter Maydell
- <peter.maydell@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Thomas
- Huth <thuth@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Philippe =?utf-8?Q?Mathieu-Da?=
- =?utf-8?Q?ud=C3=A9?=
- <philmd@linaro.org>, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH-for-8.0 v2 3/3] softmmu: Restore use of CPU watchpoint
- for all accelerators
-In-Reply-To: <20230328173117.15226-4-philmd@linaro.org>
-References: <20230328173117.15226-1-philmd@linaro.org>
- <20230328173117.15226-4-philmd@linaro.org>
-Date: Wed, 29 Mar 2023 11:02:06 -0300
-Message-ID: <87pm8ry7tt.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phWO7-0001bj-1T
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:03:00 -0400
+Received: by mail-wr1-x429.google.com with SMTP id h17so15828507wrt.8
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 07:02:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680098573;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/d8JcgdnzaCOJS/UJ0Kdvwztg/5uDgs84zLYtJeJdxg=;
+ b=pkCf+on6bJ4oOMGejITlkFFdC4It3NAnyGfzPKVtDHJurnLbsXOEWoIKKNwSslynhr
+ wPLIdMqQEaqBTHHzAq/ZtpBRnbdbfWrvgLys2sZQNxO+RvTeK2bPu++GN0vJwztuoBJt
+ MEoYffrZPC6vlpFrPkonkoAzivr55eWEtJlLmQURPqt6Bd23xHot29vYa2dAfo0JjeH2
+ r2Qwjn8jRohxo9D/u4r9p+MTw0+uGmaxaeoHPSJeZQq+1WlXFah9DpDzqnRlu/OjeAtD
+ BTgRe87fyxDCj4LzPhtWcfABZX2iX+d0cU4KG7C+RPmQH0D9rxzp/VOHaMCrUuM+2gcX
+ F/eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680098573;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/d8JcgdnzaCOJS/UJ0Kdvwztg/5uDgs84zLYtJeJdxg=;
+ b=i5Z+Z4d5arlJGg5VSpMuvPtOw8sd0cQ4BZUzXZrj+shZkmyhn8TzfaSeHKD8sr2OFz
+ CJIV+4l8Ivd1Mhn+W9WzPgEUAD634iCUNT6hhpQdiGv2rrRImnIJqPUBsyraZ4uelPwp
+ Aznz5PR9QfVdXjpCF1/x/HFWGopk0v7HXpkxagZJHAU8pwmoXaHrLLJ9WNzjOmn/74zI
+ PtTDzj/pewq8mpX71umA/9n+QZyV1MtAFetDji6kHnK09QdK0AD8EuM1MrTUy4zbRS5+
+ WbwxnHh85r7KfPWk1OHxpnp+Nng10TUnLG2R+0GRVUwfixtFSQzjuXSfG1yGtZ8FKWHV
+ 0CWw==
+X-Gm-Message-State: AAQBX9cPN2CtDUzTLswEDPlWl54xS7ROWaubsu+PBLVQdxAwErLVrZLW
+ cHy3WDzcClJokjFhEiqVUHd6rQ==
+X-Google-Smtp-Source: AKy350bp5nFMkad5k8S7dTdpXyf8B2QIQjE6VxalyijV3MyqV8dG+TwK5JcU4pfrYXjEePuIDhxcTw==
+X-Received: by 2002:a5d:4943:0:b0:2cf:f061:4927 with SMTP id
+ r3-20020a5d4943000000b002cff0614927mr15349164wrs.42.1680098573520; 
+ Wed, 29 Mar 2023 07:02:53 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l3-20020a1c7903000000b003ed1ff06faasm2344296wme.19.2023.03.29.07.02.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Mar 2023 07:02:53 -0700 (PDT)
+Message-ID: <9e0612a6-cfad-bcb3-8699-faa7e8588349@linaro.org>
+Date: Wed, 29 Mar 2023 16:02:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH v2] linux-user: preserve incoming order of environment
+ variables in the target
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Andreas Schwab <schwab@suse.de>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <mvmy1nfslvi.fsf@suse.de> <ZCREaEiPyzYogkFj@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <ZCREaEiPyzYogkFj@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,30 +92,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+On 29/3/23 16:00, Daniel P. Berrangé wrote:
+> On Wed, Mar 29, 2023 at 03:55:13PM +0200, Andreas Schwab wrote:
+>> Do not reverse the order of environment variables in the target environ
+>> array relative to the incoming environ order.  Some testsuites depend on a
+>> specific order, even though it is not defined by any standard.
+>>
+>> Signed-off-by: Andreas Schwab <schwab@suse.de>
+>> ---
+>>   linux-user/main.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+> 
+> bsd-user/main.c appears to have an identical code pattern that
+> will need the same fix
+> 
+>>
+>> diff --git a/linux-user/main.c b/linux-user/main.c
+>> index 4b18461969..dbfd3ee8f1 100644
+>> --- a/linux-user/main.c
+>> +++ b/linux-user/main.c
+>> @@ -691,7 +691,13 @@ int main(int argc, char **argv, char **envp)
+>>       envlist = envlist_create();
+>>   
+>>       /* add current environment into the list */
+>> +    /* envlist_setenv adds to the front of the list; to preserve environ
+>> +       order add from back to front */
 
-> CPU watchpoints can be use by non-TCG accelerators.
->
-> KVM uses them:
->
->   $ git grep CPUWatchpoint|fgrep kvm
->   target/arm/kvm64.c:1558:        CPUWatchpoint *wp =3D find_hw_watchpoin=
-t(cs, debug_exit->far);
->   target/i386/kvm/kvm.c:5216:static CPUWatchpoint hw_watchpoint;
->   target/ppc/kvm.c:443:static CPUWatchpoint hw_watchpoint;
->   target/s390x/kvm/kvm.c:139:static CPUWatchpoint hw_watchpoint;
->
-> See for example commit e4482ab7e3 ("target-arm: kvm - add support
-> for HW assisted debug"):
->
->      This adds basic support for HW assisted debug. The ioctl interface
->      to KVM allows us to pass an implementation defined number of break
->      and watch point registers. [...]
->
-> This partially reverts commit 2609ec2868e6c286e755a73b4504714a0296a.
->
-> Fixes: 2609ec2868 ("softmmu: Extract watchpoint API from physmem.c")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+Also, QEMU coding style now requires:
 
-Reviewed-by: Fabiano Rosas <farosas@suse.de>
+   /*
+    * this comment form.
+    */
+
+;)
+
+>>       for (wrk = environ; *wrk != NULL; wrk++) {
+>> +        continue;
+>> +    }
+>> +    while (wrk != environ) {
+>> +        wrk--;
+>>           (void) envlist_setenv(envlist, *wrk);
+>>       }
+>>   
+>> -- 
+>> 2.40.0
+>>
+>>
+>> -- 
+>> Andreas Schwab, SUSE Labs, schwab@suse.de
+>> GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+>> "And now for something completely different."
+>>
+> 
+> With regards,
+> Daniel
+
 
