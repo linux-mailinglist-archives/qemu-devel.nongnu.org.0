@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80F86CECC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 17:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67376CECD5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 17:26:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phXdU-0007hN-81; Wed, 29 Mar 2023 11:22:52 -0400
+	id 1phXfj-0000f7-15; Wed, 29 Mar 2023 11:25:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phXd6-0007f3-HT
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 11:22:31 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ id 1phXfg-0000et-Kt
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 11:25:08 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phXd5-0006nP-4U
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 11:22:28 -0400
-Received: by mail-pf1-x432.google.com with SMTP id y2so10513633pfw.9
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 08:22:26 -0700 (PDT)
+ id 1phXfe-0007OP-Ho
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 11:25:08 -0400
+Received: by mail-pl1-x636.google.com with SMTP id z19so15291846plo.2
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 08:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680103345;
+ d=linaro.org; s=google; t=1680103504;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=LJs2KsOycMDm7P3yMdYqUDy88zqRQWqeBYY0Mj8WSc4=;
- b=wx8p80JzcDKrbGTTIsjZUZlnMo05e4bMytfzKuDoxk1WAmVO4xogdhG+SwtkScmX9E
- MaFP9rWUlyOvZmd4XYYJWr0oHRjmqqTY50aOyt+bVgYapH20uXGp5bcN0gOL4XZd2FeK
- OuwireuXMux182QSTgOKkRQf2DdyuGGMi/rFm2itvOXcZq82miHe15jJ2kTssZGAQqiN
- Nfbf0gVExoaiEOwrcpomWYz/LnE63oTQvbr/h9TvdSZez1OvZ6azuwYzaWWUJPjCs39o
- 1xa4YMLvgV2K9ye7fhZd/MwTaqZeE8PVYOCkCKeAZ4xamMG+Wc/UESjMARmExuyc3M8O
- amZA==
+ bh=jiOsuj3fDG78moL1r2MBkq9KWcJQN5/977lCd47u9kQ=;
+ b=PpoHIXPFK8e5cCWtZaZfT7s08uxw9upwvWaUYyFhbPTTHKGp+g+LqvEknmp9tpZewQ
+ phCbB+eHrXdIRdN57mzJirX1r+Uu89APXCkM2KAX2w3EHJipXz8AqSB9WjoC0xN6Itsk
+ wQS2sMUC5mjOUdxf5frZB7AZTff16a5wMCkLm3brdopHG0PHULZZ1jaAXg3XtIrpzXza
+ tetkAdBHeGToBs423FNV/KraEYNhR+PLdGxVCCZpwPQ3mSAqqJF/ALAPUMNxPbiS4ewL
+ 6Ti45/KUXsfAujU7TW5XBjmZYY7OQyUSrsBIYm8nhOlwwSOQCNUoNImxWf0MmpHll3CH
+ mWBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680103345;
+ d=1e100.net; s=20210112; t=1680103504;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LJs2KsOycMDm7P3yMdYqUDy88zqRQWqeBYY0Mj8WSc4=;
- b=fDVKEuOi8cuB0qS63ZHbOtSceEFNWKQCcLDZWGIg1RjEEkq37ENw559GkBzM303mHW
- clFRUMwl/w1JxkndtakeUAW/a+FCCd48xm7IOMJzZWCPEb6N4NlwO6c+7V85fcJk7z4m
- 85V1bYb/y7BBLc/mppsCyGTHmpBx00FqkysCuiKNFXi6SO5/7UjNb+lbRm2xI4yjV74y
- VWGAXitlvYW5qcyfaMXdSLyPVYkRa4rzf90n/fSe7J6Tx+bQF9e20zwy81Qyai+us5V8
- TaFp+KJMMpgli0B0oFgjSRtDjxA/Za8kyokN5D9pw5GopWqZBfkSi2ij56D4zTqLwhvy
- Lrng==
-X-Gm-Message-State: AAQBX9d5GJhCA7bKaxoJdLpDitOncUrGTWDvwYCIp5sjAgeNl3mL+b/N
- TamYd/r5vdFdWxYqnVscfRmVgg==
-X-Google-Smtp-Source: AKy350bfwRJQ7hXPi7gg3mPgn7tU3fpitYSVHaQwO8fYZb2Vc4ge1IwrG5aIZib4FvL6pc7jw3kvmA==
-X-Received: by 2002:a05:6a00:88:b0:625:ceff:14ba with SMTP id
- c8-20020a056a00008800b00625ceff14bamr18805888pfj.25.1680103345614; 
- Wed, 29 Mar 2023 08:22:25 -0700 (PDT)
+ bh=jiOsuj3fDG78moL1r2MBkq9KWcJQN5/977lCd47u9kQ=;
+ b=DAZ69pfFAOTyGuB2fmzAhz1uJounr5rkUM5/4HrQzM2DW80ZqAsuvYAdLaKPjuW3gQ
+ DxRDx8A5nmIEEqv68EuEWS+KQuHCRDR2l8VE7214sUfQXiTkm8DVIE42xgWHBCJzxpI8
+ KhMnLDjeiMF492cPHMN4NoPcBKuIYUfCVXNp63dUwpoBIIGFBHZTpRK8z6/dG+euQuVN
+ MXoQhH48B8UCaEP7CyzWi5t96y4j+MQsnsRWAxS4JapnmUwyUrEbDxNIg2Itt2Tuxm+8
+ wOtkmID35oepDoHTyWPk4HdlFBFBdlYPit0R3rPk3XE9e7olMNO1GbokBaDO53Xtt9gr
+ GSgQ==
+X-Gm-Message-State: AAQBX9cBBy+SQ2DShgyveFvPnrVLqAvn83oFua+ft6TSvkmJLSyDLeA3
+ gfD1jPSRmQYiIu71/pw67CqhanAiGuKJQdd9Gng=
+X-Google-Smtp-Source: AKy350Z9iH5+Ialpq7GdkUAZQ+TJFTpORqqdrRr7QdtQ8qKZc/dTAt6fMb6txq0mCUz+LCKJ2/5Oug==
+X-Received: by 2002:a17:902:fa48:b0:1a0:7508:daf2 with SMTP id
+ lb8-20020a170902fa4800b001a07508daf2mr18608022plb.2.1680103504620; 
+ Wed, 29 Mar 2023 08:25:04 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:3369:815f:629b:7300?
  ([2602:ae:1541:f901:3369:815f:629b:7300])
  by smtp.gmail.com with ESMTPSA id
- e18-20020a62ee12000000b00625b9e625fdsm23847103pfi.179.2023.03.29.08.22.24
+ x11-20020a170902fe8b00b001a21a593008sm10267326plm.306.2023.03.29.08.25.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 08:22:25 -0700 (PDT)
-Message-ID: <486324a8-8b3f-fc35-5193-f2fbd6725c24@linaro.org>
-Date: Wed, 29 Mar 2023 08:22:23 -0700
+ Wed, 29 Mar 2023 08:25:04 -0700 (PDT)
+Message-ID: <8741c13b-ecb4-8064-f2e7-cecca98d81ab@linaro.org>
+Date: Wed, 29 Mar 2023 08:25:02 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [RFC PATCH v2 05/44] target/loongarch: Implement vadd/vsub
+Subject: Re: [RFC PATCH v2 09/44] target/loongarch: Implement vhaddw/vhsubw
 Content-Language: en-US
 To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-6-gaosong@loongson.cn>
- <550e1fa3-ee78-a6dd-7b84-457886a2292e@linaro.org>
- <74e9c94d-49cd-ec46-e5c4-3e60d0ea2c38@loongson.cn>
+ <20230328030631.3117129-10-gaosong@loongson.cn>
+ <6c587ced-fcb2-f537-94c7-9612e1499f2e@linaro.org>
+ <0536d40a-4784-809f-84fb-09416617c583@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <74e9c94d-49cd-ec46-e5c4-3e60d0ea2c38@loongson.cn>
+In-Reply-To: <0536d40a-4784-809f-84fb-09416617c583@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,28 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/29/23 02:59, gaosong wrote:
-> 
-> 在 2023/3/29 上午3:59, Richard Henderson 写道:
->> On 3/27/23 20:05, Song Gao wrote:
->>> +    func(mop, vd_ofs, vj_ofs, vk_ofs, 16, 16);
+On 3/28/23 20:24, gaosong wrote:
+>> I also think we could make use of (__typeof(Vd->E1(0))) instead of separately passing 
+>> the output type?  It would appear to be less error-prone.
 >>
->> Oh, reading about ASXD and 256-bit vectors makes me wonder if it would be better to plan 
->> ahead and have a function, or DisasContext member, for the length of the vector. 
-> 
-> like arm:
-> 
-> /* Return the byte size of the "whole" vector register, VL / 8.  */
-> static inline int vec_full_reg_size(DisasContext *s)
-> {
->      return s->vl;
-> }
-> 
-> What I'm confused about is what is the difference between s->vl and s->vec_len ?
+> I will try this on v3.
 
-The first is for aarch64 SVE.
-The second is for armv5 VFP (which was removed from armv8).
+Consider using local typedefs, e.g.
+
+     typedef __typeof(Vd->E1(0)) TD;
 
 
 r~
+
 
