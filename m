@@ -2,62 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E446CEF3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2A66CEF53
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:27:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phYYx-0001Oz-Do; Wed, 29 Mar 2023 12:22:15 -0400
+	id 1phYdn-0002R2-LC; Wed, 29 Mar 2023 12:27:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1phYYu-0001Or-TO
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:22:12 -0400
-Received: from mout.kundenserver.de ([212.227.126.133])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1phYYt-0000e0-3Y
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:22:12 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MC2k1-1pa6IZ0BGX-00CV6A; Wed, 29 Mar 2023 18:22:02 +0200
-Message-ID: <60a7075e-64fd-674a-900c-94ec4ee0b6db@vivier.eu>
-Date: Wed, 29 Mar 2023 18:22:01 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1phYdg-0002Q8-Ox
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:27:09 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1phYde-0001LJ-6P
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:27:08 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id l7so14542691pjg.5
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680107224;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6hcjGeFwyWzDQBXrN7UOz6rgEZeLPt8WlZcS1gj1tKY=;
+ b=HOvmvsju4g/vSq62A9HjW8ejL7pmYzZ9dLaxg8hBFsyK5014WiXwuYr13jLVrIb00M
+ lNJ1Q/p5RYwmmJTvl11rtFxyoIT227nFQ7HD+bSAi9/evua1SpXwKPpIti2v9qsYC3IR
+ 25LK/AJpDLGvbP0t+q4YQHIwrgTrMYBVUZb5T2rBantIY50TrJvJ/fj1qVuh0xQexjxJ
+ Y/W1fX04sDSyUT0K0QKIAFzfoz1+UYHDT50ZVXzfhgdATZPyjm1MQ4bcNmwltWY1Vt67
+ KwN9Q17tMCDoHGkyAbBNFksKSc/d23bEr1PSqAgplRsnTgsCYcWg1F97YZguIvqigW05
+ esqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680107224;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6hcjGeFwyWzDQBXrN7UOz6rgEZeLPt8WlZcS1gj1tKY=;
+ b=W89gi050e4EKYaov2tZckruJQb7iSw3f0YTPjHME7y63bsFZ/wFxukLrjDXWb6l6a2
+ XGS/INWI5vcnIdlnxgxFQk3/lGp3VFXPPRglNNktmLBtHckwyk5Qyx/MPd/wOyu0jza3
+ 7dk5TOhgEPYCl6itNMznS5S6wIWz8NAcgXBSzpn2CHU37cnYnroe3P65G0JlddiQ/EzC
+ o+fpvm/WSHCHonjbiMRRauhq1mmH1vWshf7+ts7a62ygmxlHg2AXDmLVA/d89u9Y55kn
+ gTGUCoZvm1kyGz+1NLSQIra6O5W2kQCYTUvI0O0qluIbpgcj5tWja4361BoG7YJKyFcZ
+ OaGw==
+X-Gm-Message-State: AAQBX9efNoEq5lOz7hYG7BMz4Vz98ZOek8OwEzq9apnV805VzlNqVPEo
+ ezig2YUVLiV2Cs5oUW733bq1TA==
+X-Google-Smtp-Source: AKy350aWo19WWERVM/sXvt2mJy4TQamql8THq1NzSD1oxaBjt7dmfMNEEsx+6yD+zPlgM2sZiWVV2Q==
+X-Received: by 2002:a17:903:22cb:b0:1a1:b174:8363 with SMTP id
+ y11-20020a17090322cb00b001a1b1748363mr24206700plg.59.1680107224345; 
+ Wed, 29 Mar 2023 09:27:04 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:3369:815f:629b:7300?
+ ([2602:ae:1541:f901:3369:815f:629b:7300])
+ by smtp.gmail.com with ESMTPSA id
+ x8-20020a1709027c0800b001a258041049sm4700633pll.32.2023.03.29.09.27.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Mar 2023 09:27:03 -0700 (PDT)
+Message-ID: <08b81942-a356-51c2-9de1-6e057a2ca8b1@linaro.org>
+Date: Wed, 29 Mar 2023 09:27:01 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: stat64 wrong on sparc64 user
-To: Luca Bonissi <qemu@bonslack.org>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-References: <db07e036-cc5f-c9ad-b63c-10fdd5404830@bonslack.org>
- <bdebe626-e552-affb-b756-02c70898bdd6@redhat.com>
- <d49d441a-01a6-d38d-2bc8-98b9658a288e@bonslack.org>
+Subject: Re: [PATCH v2 4/5] target/riscv: Add support for PC-relative
+ translation
 Content-Language: en-US
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <d49d441a-01a6-d38d-2bc8-98b9658a288e@bonslack.org>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230329032346.55185-1-liweiwei@iscas.ac.cn>
+ <20230329032346.55185-5-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230329032346.55185-5-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6R6u3d7NDywLW56gbaL8i0grVSByv91HGZ/Z9veDEbp4fkCLQEX
- h37nAgQ5BIYo37K8e2Wnd5WOadgH8f+VTr6adCOC/XNIuIWsLp6IMqGZLNNlQPNly7zlBkt
- kw/wRWuXB3uIjJYcZ5avRM6Fc8HJ7u7L7ra+lQqgy/B3fTeNYQO6ZP2wHvbD6wpuHJ7Zdhh
- QLUHqmWapyfQr+Y05chsA==
-UI-OutboundReport: notjunk:1;M01:P0:KYE0WS4+j2k=;bOZUFBEPBbfvgGcTIY6y5LEq3GI
- 3LCHTNqU7TmQyuILC4/trWdGslNKPV9tXr47Igo7ZyCt6vuxTH1XhtqRcnTrFmXdfcEk63H66
- 397SuWrL1wO6E3oFznjq9HwpyPSctxR399KXlaPkwFRw8EGRwugf0oa1F6FRWGecgbJ/rbxXF
- GipMZ5ZJv9f131icUJUq9jIhkXbkz1zqyZlWcL4U2Pz5FRO0W+rKHrkNWvJqgmpFzjIwBcmla
- 4681AJ98V51EXHXehKSJZQGVmyP4KQ06as9cd0K/JgQSqlCuwR6mQd0sJnwdU0Qk1+TX4ofS/
- d012YFfuLMOhCZtLH6mhSAVdXJWm1WEqTouQkyXeVJeMoLmCeBn93u25/fTU1+GFQNn77lqh7
- G5zbZnHayDyp7U2SBRpkbZfaVpZdf46JuuU13OW2rxwebgtNdqCql4uBjWOl+eDK5SuQqiNN6
- zbOagUTfHeAWJ5MElghlSE7D6UDsclzEI9AOt3EE7ntsG2yKlgj3YnTHK2wvgJDTqlL90cWTk
- ciDr57ppEf1uqnyxubFtvgIAhsC3pC/KX7mJuVPNHF28n9mX3Alu7bo1wthq7z6u5i0Ocd9QH
- gOTbTt3U+RjvZLJsDr/8xDiNIQMhH9aD1aDTuMNxm0Js0meXe0xtuVOpfvLnNPMY5k6yzcmqH
- +vArxlV8saOeSiPI/MLz0NuowW+xPYN4brHugWxXaA==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,100 +99,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 28/03/2023 à 14:22, Luca Bonissi a écrit :
-> On 28/03/23 13:55, Thomas Huth wrote:
->> On 28/03/2023 13.48, Luca Bonissi wrote:
->>> --- qemu-20230327/linux-user/syscall_defs.h    2023-03-27 15:41:42.000000000 +0200
->>> +++ qemu-20230327/linux-user/syscall_defs.h.new    2023-03-27 21:43:25.615115126 +0200
->>> @@ -1450,7 +1450,7 @@ struct target_stat {
->>>       unsigned int    st_dev;
->>>       abi_ulong    st_ino;
->>>       unsigned int    st_mode;
->>> -    unsigned int    st_nlink;
->>> +    short int    st_nlink;
->>>       unsigned int    st_uid;
->>
->> That looks wrong at a first glance. IIRC Sparc is a very strictly aligned architecture, so if the 
->> previous field "st_mode" was aligned to a 4-byte boundary, the "st_uid" field now would not be 
->> aligned anymore... are you sure about this change? Maybe it needs a padding field now?
-> 
-> The padding is automatic (either on Sparc or x86-64): short will be aligned to 2-byte boundary, int 
-> will be aligned to 4-byte boundary, long will be aligned to 8-byte boundary.
-> 
-> E.g.:
-> st_dev=0x05060708;
-> st_ino=0x1112131415161718;
-> st_mode=0x1a1b1c1d;
-> st_nlink=0x2728;
-> st_uid=0x2a2b2c2d;
-> st_gid=0x3a3b3c3d;
-> st_rdev=0x35363738;
-> st_size=0x4142434445464748;
-> st_blksize=0x5152535455565758;
-> 
-> will result (sparc64 - big endian):
-> 00: 05 06 07 08 00 00 00 00
-> 08: 11 12 13 14 15 16 17 18
-> 10: 1A 1B 1C 1D 27 28 00 00
-> 18: 2A 2B 2C 2D 3A 3B 3C 3D
-> 20: 35 36 37 38 00 00 00 00
-> 28: 41 42 43 44 45 46 47 48
-> 30: 00 00 00 00 00 00 00 00
-> 38: 00 00 00 00 00 00 00 00
-> 40: 00 00 00 00 00 00 00 00
-> 48: 51 52 53 54 55 56 57 58
-> 50: 00 00 00 00 00 00 00 00
-> 58: 00 00 00 00 00 00 00 00
-> 60: 00 00 00 00 00 00 00 00
-> 
-> Or on x86-64 (little endian):
-> 00: 08 07 06 05 00 00 00 00
-> 08: 18 17 16 15 14 13 12 11
-> 10: 1D 1C 1B 1A 28 27 00 00
-> 18: 2D 2C 2B 2A 3D 3C 3B 3A
-> 20: 38 37 36 35 00 00 00 00
-> 28: 48 47 46 45 44 43 42 41
-> 30: 00 00 00 00 00 00 00 00
-> 38: 00 00 00 00 00 00 00 00
-> 40: 00 00 00 00 00 00 00 00
-> 48: 58 57 56 55 54 53 52 51
-> 50: 00 00 00 00 00 00 00 00
-> 58: 00 00 00 00 00 00 00 00
-> 60: 00 00 00 00 00 00 00 00
-> 
-> Please note the automatic padding between "st_dev" and "st_ino" (offset 0x04, 4 bytes), "st_nlink" 
-> and "st_uid" (offset 0x16, 2 bytes), "st_rdev" and "st_size" (offset 0x24, 4 bytes).
-> 
-> Placing st_nlink as int would result in incorrect big/little endian conversion, so it should be set 
-> as short. If you like clearer source code, you can optionally add padding, but it is not mandatory.
-> 
+On 3/28/23 20:23, Weiwei Li wrote:
+>   static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>   {
+> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+> +    assert(ctx->pc_save != -1);
+> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +        TCGv target_pc = tcg_temp_new();
 
-To have automatic alignment according to target ABI, you must use abi_XXX type (see 
-include/exec/user/abitypes.h)
+dest_gpr(s, a->rd)
 
-For sparc, from the kernel, we have:
+> @@ -51,26 +59,43 @@ static bool trans_jal(DisasContext *ctx, arg_jal *a)
+>   static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>   {
+>       TCGLabel *misaligned = NULL;
+> +    TCGv succ_pc = tcg_temp_new();
 
-struct stat {
-         unsigned int st_dev;
-         __kernel_ino_t st_ino;
-         __kernel_mode_t st_mode;
-         short   st_nlink;
-         __kernel_uid32_t st_uid;
-         __kernel_gid32_t st_gid;
-         unsigned int st_rdev;
-         long    st_size;
-         long    st_atime;
-         long    st_mtime;
-         long    st_ctime;
-         long    st_blksize;
-         long    st_blocks;
-         unsigned long  __unused4[2];
-};
+succ_pc can by null for !CF_PCREL...
 
-So for the st_link we need to use abi_short.
+> +    TCGv target_pc = tcg_temp_new();
+> +
+> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +        tcg_gen_addi_tl(succ_pc, cpu_pc, ctx->pc_succ_insn - ctx->pc_save);
+> +    }
 
-We can do the same with stat64 and other fields (see linux/arch/sparc/include/uapi/asm/stat.h)
+... or initialized like
 
-Thanks,
-Laurent
+        } else {
+            succ_pc = tcg_constant_tl(ctx->pc_succ_insn);
+        }
+
+> -    gen_set_pc(ctx, cpu_pc);
+>       if (!has_ext(ctx, RVC)) {
+>           TCGv t0 = tcg_temp_new();
+>   
+>           misaligned = gen_new_label();
+> -        tcg_gen_andi_tl(t0, cpu_pc, 0x2);
+> +        tcg_gen_andi_tl(t0, target_pc, 0x2);
+>           tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
+>       }
+...
+>       if (misaligned) {
+>           gen_set_label(misaligned);
+> -        gen_exception_inst_addr_mis(ctx);
+> +        gen_exception_inst_addr_mis(ctx, target_pc);
+>       }
+
+This is what I expected from patch 3: cpu_pc is unchanged, with the new (incorrect) 
+address passed to inst_addr_mis for assigning to badaddr.  Bug being fixed here, thus 
+should really be a separate patch.
+
+> @@ -172,7 +197,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>       if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>           /* misaligned */
+>           gen_set_pc_imm(ctx, ctx->base.pc_next + a->imm);
+> -        gen_exception_inst_addr_mis(ctx);
+> +        gen_exception_inst_addr_mis(ctx, cpu_pc);
+
+But this one's different and (probably) incorrect.
+
+> @@ -552,13 +567,21 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>       if (!has_ext(ctx, RVC)) {
+>           if ((next_pc & 0x3) != 0) {
+>               gen_set_pc_imm(ctx, next_pc);
+> -            gen_exception_inst_addr_mis(ctx);
+> +            gen_exception_inst_addr_mis(ctx, cpu_pc);
+
+Likewise.
+
+> +    assert(ctx->pc_save != -1);
+> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +        TCGv succ_pc = tcg_temp_new();
+> +        tcg_gen_addi_tl(succ_pc, cpu_pc, ctx->pc_succ_insn - ctx->pc_save);
+> +        gen_set_gpr(ctx, rd, succ_pc);
+
+dest_gpr.
+
+
+
+r~
 
