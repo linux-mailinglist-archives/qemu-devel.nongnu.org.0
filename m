@@ -2,80 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357F76CD941
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 14:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8B26CD95E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 14:34:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phUlx-0000xQ-TO; Wed, 29 Mar 2023 08:19:25 -0400
+	id 1phUyr-00035E-Oc; Wed, 29 Mar 2023 08:32:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phUlw-0000xF-67
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 08:19:24 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phUlu-0005Bd-Ik
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 08:19:23 -0400
-Received: by mail-wm1-x330.google.com with SMTP id s13so8769834wmr.4
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 05:19:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680092360;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GwnHkWHfwL0YsjcR0oDqyt5L6zxT/q3dc7ahpthQ5n0=;
- b=p/GrUAzXvDbb89XPSoi19GVzrlPyb0DmfuENCnVSr9mXZLCVlUm0hE0mNTEPY/k8J9
- w44rkKKkrzpioNsEWvIdJmDODdxw6tyKmtk5Pf2QiU7A/0XftzCPFRde69YvNEZo8Qu+
- sCs9St1+YH5thZPx7qhmJ0cgLR/Ty0CZdPoaCiw4ajTccNhN+1/GLWrTyRtXvztysCcB
- IR/EbN8r0arRs+foZw+sQEPRf94hHeJwd7TFIlQmYnys8E648h7E2S5fzvyzntLD9BLJ
- /qLvA1oXJ9A9f9XwztjN8nrEyU/PjvQtFRbNPYn2ei6L7zdWScMTyxte32jpiGsi3VOX
- gg0w==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1phUyq-00033n-34
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 08:32:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1phUyo-0007oh-6X
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 08:32:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680093160;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5lLhUb81GxxJ0zNBAvuMDcrm6Iu+WxURtndtoNIk6aE=;
+ b=PX2d781NX+OphC3AK926+8tQymePSgFWMGGOoQgnHlp9kgpS4GvFLJtCbPMCoJJw1B5ai5
+ eKmQftBuTo6v3grkcp5+5+hIvhYgUaeIwzTHAwTfloNM2j7Ua7leAXPcEHl/v7SdiHrG+q
+ cI7xDd6HCw5TxLgrkHquFSslxmxvpBc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-104-rjwhPkRUOXi8f0nU_Gjncw-1; Wed, 29 Mar 2023 08:32:38 -0400
+X-MC-Unique: rjwhPkRUOXi8f0nU_Gjncw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ p36-20020a056402502400b004bb926a3d54so21988824eda.2
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 05:32:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680092360;
+ d=1e100.net; s=20210112; t=1680093157; x=1682685157;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GwnHkWHfwL0YsjcR0oDqyt5L6zxT/q3dc7ahpthQ5n0=;
- b=OGqZNucgv5IMZND+69DV3eE9z74BNopPFh5AjJpLhSlEVDYsFVA6ibKAzR91meqpBX
- Mj2HUtEOeRzy14HGpv86maO6tsC6nwx6spQ3Q7CJHKIjgeFSXKpjFQzNBNkoQEcy8oK7
- pGkjbbZNFf/GnpUsfv/Gb0zmoLGRNQ/EPyrlDyXeKxhkkLwWMVZcV8upsSfJunbFhjOY
- /0rjUpxxUUl4kCtUD/ketSL733rDE/tapnDXlFRoJLLnxcEQzlEM8aCVvmMkUQeieQvH
- owZLKsHoQDh/G2XzL+xBxuqCGBOmgLVzRg2YjpCE7Tr3jbaweWVsaqD/yCePGkf6tIYG
- fUXQ==
-X-Gm-Message-State: AO0yUKV67JusYc63+yc5egUuPzSvJF1cLWU8qIyhr9gSSfxwHfr/MgcA
- PdaDrHuKAT+oM7d+GspR7piHjA==
-X-Google-Smtp-Source: AK7set/hh+Y3if1/yUb04b06GQFX2YDLYUf1Ewzx8uxeGI2htw87dfGWgutKeY7i7TY2xBZ9P1cg2g==
-X-Received: by 2002:a7b:c7ce:0:b0:3ee:5147:3acc with SMTP id
- z14-20020a7bc7ce000000b003ee51473accmr15834407wmk.36.1680092360224; 
- Wed, 29 Mar 2023 05:19:20 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k4-20020a05600c1c8400b003ee610d1ce9sm2359483wms.34.2023.03.29.05.19.19
+ bh=5lLhUb81GxxJ0zNBAvuMDcrm6Iu+WxURtndtoNIk6aE=;
+ b=enRyHavxl7IunvLsmNBiyvkS9NgJcVPN0cRPoN92JPXTTn51mqTULIjvRA0IgSSf3o
+ 6bIEAxz1omttEAnfcyG/2J5idvKyM/LqcEzDQ7NG5bPGW4DJt+cp2itKKlgPF+W5ihrE
+ gxZx9QW322jjfXo/ndr4kRwx3iVyQdhb+WMDZ/SWGKVvOKsuG09sA1cfgxlRmEB/Gw8X
+ 9ODjFWuWYbVv/HoRB3iVNtLFQ1OMUkza24vF7EiNYDgqzeqHsRJ9OKNKAIFkfYw0V3Sq
+ A+DU442wErAP8/86h5dyOB7SF/BFx/jLqh/snSx7BXNXWAkEzPYfIQ3yMPQ99HFVXuNW
+ jHKw==
+X-Gm-Message-State: AAQBX9cXS6k9dIphv+/lxIJXLiqydpg54nyhf2qmMLhGjZXgI8VuyQ/x
+ xxscuva7RfeNq63bByoYLlhOcHHbfW0xBOEiiPmjbAD0JP3y030mYnXfd4DmJ0kr55DDdnDR2Br
+ YQ+6NSlWRP7s2EnA=
+X-Received: by 2002:aa7:cfd8:0:b0:4fd:1cf1:b7b0 with SMTP id
+ r24-20020aa7cfd8000000b004fd1cf1b7b0mr16555790edy.7.1680093157830; 
+ Wed, 29 Mar 2023 05:32:37 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aoqSP5WrbQCOFXGl+snLD8HGjHeGWxJ1wRv1uRodUWoG+Xli726nZQZN5G7SIxjiP8dvRNyA==
+X-Received: by 2002:aa7:cfd8:0:b0:4fd:1cf1:b7b0 with SMTP id
+ r24-20020aa7cfd8000000b004fd1cf1b7b0mr16555775edy.7.1680093157576; 
+ Wed, 29 Mar 2023 05:32:37 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ v25-20020a17090606d900b008e22978b98bsm16447444ejb.61.2023.03.29.05.32.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 05:19:19 -0700 (PDT)
-Message-ID: <f83cced2-06dd-3e56-43dc-f76ad10deb56@linaro.org>
-Date: Wed, 29 Mar 2023 14:19:18 +0200
+ Wed, 29 Mar 2023 05:32:36 -0700 (PDT)
+Message-ID: <bad65749-96be-be2d-70ff-98d856459cfb@redhat.com>
+Date: Wed, 29 Mar 2023 14:32:36 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH] linux-user: preserve incoming order of environment
- variables in the target
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH 3/3] configure: install meson to a python virtual
+ environment
 Content-Language: en-US
-To: Andreas Schwab <schwab@suse.de>, Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org
-References: <mvmmt3vu8bz.fsf@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <mvmmt3vu8bz.fsf@suse.de>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
+References: <20230328211119.2748442-1-jsnow@redhat.com>
+ <20230328211119.2748442-4-jsnow@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20230328211119.2748442-4-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,44 +108,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/3/23 13:04, Andreas Schwab wrote:
-> Do not reverse the order of envionment variables in the target environ
+On 3/28/23 23:11, John Snow wrote:
+> +        # Is it a problem if we front-load this now and run it again later?
 
-"environment"
+I would just move all the "pip install" bits after configure has called 
+out to git-submodule.sh.
 
-> array relative to the incoming environ order.  Some testsuites depend on a
-> specific order, even though it is not defined by any standard.
+> +    # --no-build-isolation was added to pip 10.0.
+> +    # --no-use-pep517 was added ... sometime after 18.1?
+> +    pip_flags='--no-build-isolation'
+> +    if $python -m pip install --help | grep 'no-use-pep517' > /dev/null 2>&1 ; then
+> +        pip_flags="${pip_flags} --no-use-pep517"
+> +    fi
+> +    if ! pip_install $pip_flags "${source_path}/meson" ; then
+> +        exit 1
+>       fi
+>   fi
+
+Hmm, I'm not a huge fan of using this flag to cover (essentially) an 
+implementation detail of pip.  I would really keep on using either 
+meson.py here, though I appreciate that this patch is effective in 
+showing off the venv concept, without getting into downloading packages 
+and adding flags to the configure script.
+
 > 
-> Signed-off-by: Andreas Schwab <schwab@suse.de>
-> ---
->   linux-user/main.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 4b18461969..d0ede3f990 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -691,8 +691,13 @@ int main(int argc, char **argv, char **envp)
->       envlist = envlist_create();
->   
->       /* add current environment into the list */
-> +    /* envlist_setenv adds to the front of the list; to preserve environ
-> +       order add from back to front */
->       for (wrk = environ; *wrk != NULL; wrk++) {
-> -        (void) envlist_setenv(envlist, *wrk);
-> +        continue;
-> +    }
-> +    while (wrk != environ) {
-> +        (void) envlist_setenv(envlist, *--wrk);
->       }
+> +# Smoke tests: these shouldn't fail, but I have little faith in esoteric
+> +# platforms I've never used to not do something Deep Strange when I am
+> +# not looking.
+> +if ! test -e "$meson" ; then
+> +    error_exit "??? pyvenv/bin/meson not found, somehow ???"
+> +fi
+> +echo "Meson $($meson --version) found: $meson"
+> +if ! version_ge "$($meson --version)" 0.61.5; then
+> +    error_exit "??? Meson version is too old ???"
+> +fi
 
-Preferably using a dumber form (easier to review IMHO):
+I think this can go away in the final version, since the version is 
+checked against the project() invocation of meson.build.
 
-         while (wrk != environ) {
-            wrk--;
-            (void) envlist_setenv(envlist, *wrk);
-         }
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Paolo
 
 
