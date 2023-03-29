@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F496CD729
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 12:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCFC6CD787
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 12:21:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phSam-0007Z3-Ke; Wed, 29 Mar 2023 05:59:44 -0400
+	id 1phSuB-0002pM-TN; Wed, 29 Mar 2023 06:19:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1phSaj-0007SG-72
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 05:59:41 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1phSu8-0002oi-H1; Wed, 29 Mar 2023 06:19:44 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1phSag-0007wE-O3
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 05:59:40 -0400
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8BxYU8EDCRk97ITAA--.30339S3;
- Wed, 29 Mar 2023 17:59:32 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxeb0CDCRkak4QAA--.10561S3; 
- Wed, 29 Mar 2023 17:59:30 +0800 (CST)
-Subject: Re: [RFC PATCH v2 05/44] target/loongarch: Implement vadd/vsub
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-6-gaosong@loongson.cn>
- <550e1fa3-ee78-a6dd-7b84-457886a2292e@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <74e9c94d-49cd-ec46-e5c4-3e60d0ea2c38@loongson.cn>
-Date: Wed, 29 Mar 2023 17:59:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1phSu5-0002IR-QZ; Wed, 29 Mar 2023 06:19:44 -0400
+Received: from localhost.localdomain (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowAC3vs6yECRkXRyTGA--.54759S2;
+ Wed, 29 Mar 2023 18:19:31 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH] target/riscv: Fix addr type for get_physical_address
+Date: Wed, 29 Mar 2023 18:19:28 +0800
+Message-Id: <20230329101928.83856-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <550e1fa3-ee78-a6dd-7b84-457886a2292e@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Cxeb0CDCRkak4QAA--.10561S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
- ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
- BjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
- xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
- j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxV
- AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
- 67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
- ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E
- 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
- AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
- 6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jr
- v_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
- c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
- v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7I
- U1wL05UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
+X-CM-TRANSID: qwCowAC3vs6yECRkXRyTGA--.54759S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1kXw4DAw13CF1Utrb_yoW8XrW3pr
+ Z7GFW7KF4DXa97Aa9rZr47ZF1UKF9xKa1UG3ykG3sa9r45W345ZF4DK34Yga15WFW8Gw40
+ yr4qyF4Yya1UXrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
+ 6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUoO
+ J5UUUUU
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,27 +73,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Function get_physical_address() translates both virtual address and
+guest physical address, and the latter is 34-bits for Sv32x4. So we
+should use vaddr type for 'addr' parameter.
 
-在 2023/3/29 上午3:59, Richard Henderson 写道:
-> On 3/27/23 20:05, Song Gao wrote:
->> +    func(mop, vd_ofs, vj_ofs, vk_ofs, 16, 16);
->
-> Oh, reading about ASXD and 256-bit vectors makes me wonder if it would 
-> be better to plan ahead and have a function, or DisasContext member, 
-> for the length of the vector. 
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+---
+ target/riscv/cpu_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-like arm:
-
-/* Return the byte size of the "whole" vector register, VL / 8.  */
-static inline int vec_full_reg_size(DisasContext *s)
-{
-     return s->vl;
-}
-
-What I'm confused about is what is the difference between s->vl and 
-s->vec_len ?
-
-Thanks.
-Song Gao
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f88c503cf4..cd6fbaeddc 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -739,7 +739,7 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+  * @env: CPURISCVState
+  * @physical: This will be set to the calculated physical address
+  * @prot: The returned protection attributes
+- * @addr: The virtual address to be translated
++ * @addr: The virtual address or guest physical address to be translated
+  * @fault_pte_addr: If not NULL, this will be set to fault pte address
+  *                  when a error occurs on pte address translation.
+  *                  This will already be shifted to match htval.
+@@ -751,7 +751,7 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+  * @is_debug: Is this access from a debugger or the monitor?
+  */
+ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+-                                int *prot, target_ulong addr,
++                                int *prot, vaddr addr,
+                                 target_ulong *fault_pte_addr,
+                                 int access_type, int mmu_idx,
+                                 bool first_stage, bool two_stage,
+-- 
+2.25.1
 
 
