@@ -2,93 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C4C6CEFF8
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCCF6CF016
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 19:05:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phZ5g-0003Sr-8H; Wed, 29 Mar 2023 12:56:04 -0400
+	id 1phZDH-0005m3-IU; Wed, 29 Mar 2023 13:03:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phZ5c-0003SW-OL
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:56:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phZ5a-0001zY-Ii
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:56:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680108957;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1CKIEZQy8poSRwuqCLaqwW2a1LiKk5FSNOWDECIAAxg=;
- b=UtP+arj6vHpNJXSvksOPxvYT4mkBWDnojzJhNvGWu5COLsvGK1xfQboXHwuLb0faz7B3zV
- AHfIpTFcBH1WbG64RedQabNPRceJJUFs25Vky4KKgf/EzVZzEcXArVVweEpfcgufKzWtrM
- JqK+/2oD/Cdo4GnPrZfm9rv6gTHc3vU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-164-cinz3aI2OZmE9-28BU6n4A-1; Wed, 29 Mar 2023 12:55:55 -0400
-X-MC-Unique: cinz3aI2OZmE9-28BU6n4A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- iv10-20020a05600c548a00b003ee112e6df1so8422730wmb.2
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:55:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1phZDD-0005lM-Rs
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:03:51 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1phZDB-0004Ie-Kg
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:03:51 -0400
+Received: by mail-wm1-x329.google.com with SMTP id o32so9370477wms.1
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 10:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680109427;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JoCrTUdZjzUijMj/c+a1FP5B9Y/v4/IGP4XB7rcbrc0=;
+ b=uk6EotQL5Koc1cIAGYkRzx0kDSVhAH1BCMWO3PtgE+ovDWfaW3Oqb/FNM23v+oSXxM
+ VOgHV0QN1ZbdmE/+LEH+Gy4mA6lbGKdtXZTmJnCLUJBDR2k85Cc7+uMmdEFwSGDZZ6tH
+ w8sM/9o5tTOz0frPWqyfjdbh8z07XPTPbXDuXZpktsex1lENLzRwIsWCdgSZDg+xwy+s
+ qYUkGEZqd2cY7Dg6vOtv2AH992duDkEDFfyLdAvAE/01S/n8PUmJcEYfU4/XDQ5aB8qb
+ wC9peOMEoIjfo/t4LVisWKz+DBEfZzJv/YjVYvrW+VETHZw/e2W5lVjTHbQud17RigYi
+ h5ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680108954;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1CKIEZQy8poSRwuqCLaqwW2a1LiKk5FSNOWDECIAAxg=;
- b=39kk4RDO7eb9XIVHl8qhzWecG10MRezi7fbCa9j7/R9d7qzF7N1qQH/Byz5lwfb6T4
- oX752uOqlJm2W5CdbAFlxahfqsMqAiTBzU9MOP4pEmvSV10zd37TJpqY9bXAopOIMQ7V
- I3d7OEvTTD9ySCF4ABlBlmtRLXYl0gPkpTTIJamflugtQSLJ9dK7vNGVp0/PxxzB8REH
- 59D11Bbii0zv0oNRslgGo77YIOp1vWYkfeM7vjdmbodoH3A8kwDQYjuoQzCNq9LMioe1
- yYutNNZx9HnMwN+d1CZarUMDIiWlfQHS5OvsuZUKTnhibrqEd1BIEFJxwVx6e1IuAP2B
- boFQ==
-X-Gm-Message-State: AAQBX9fxHTkkiNViQJzTt7zMCwEqokzLCl29gST0FNjDKYpbPLVpEt9k
- bYQ9MfVT3vt5kGsGAbqXMRbiuxBY7Y0a3opVKyNOeeY0rtzUVtwIV6kCcKiqkk6k9ZYNa/Jr84b
- 5WYj9yZIG72a7c4A=
-X-Received: by 2002:adf:db4b:0:b0:2d9:eb77:90d2 with SMTP id
- f11-20020adfdb4b000000b002d9eb7790d2mr14829273wrj.70.1680108954622; 
- Wed, 29 Mar 2023 09:55:54 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bNBwmWgzNn8ZrpkYFdgtNLkZrVZYanVEHa/2l9mYW8ZMv7/QoS68X/wiZ1SxE1hsvcFcv0zQ==
-X-Received: by 2002:adf:db4b:0:b0:2d9:eb77:90d2 with SMTP id
- f11-20020adfdb4b000000b002d9eb7790d2mr14829264wrj.70.1680108954299; 
- Wed, 29 Mar 2023 09:55:54 -0700 (PDT)
-Received: from redhat.com ([2.52.18.165]) by smtp.gmail.com with ESMTPSA id
- d9-20020adfe889000000b002d97529b3bbsm20353314wrm.96.2023.03.29.09.55.52
+ d=1e100.net; s=20210112; t=1680109427;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=JoCrTUdZjzUijMj/c+a1FP5B9Y/v4/IGP4XB7rcbrc0=;
+ b=Y2YWpHmRFbkbyHUy/RBy4b2dtXazUbbm5/IYCOXOImvccIO7tEHZ5G1icROSbi02k6
+ l4wCZ0FUyxZxnfKQoYSGwJ5lASa6sfCr78zXyinVHfPo7ddQfOlEDwLXdDn6YasPAB9t
+ v/9Eyc3gIqaqoUHM5vWv6BH92UH8OzBblGWV6KwotQd8dufMUfrK2nVys5NJXPX5N7JU
+ YiNxfqcpFC5Gfy+hoCky8G4eCN4uT6u/vPXAewNT6x3At6pXxanw9mqMXpzrk9ym7d8k
+ GMI0Hpq0iDfJABeDKKcAs/l3INPUAwc13Hfb3jCdKevTFrvzWU0Hy0Rnb/x1eEEq8XsA
+ eQrw==
+X-Gm-Message-State: AO0yUKXxp6TyLmX5yJsyg9vSn0QZd4VYkNn4t8PCLShAOHK+HvpoTaI3
+ JsqhC0x6kdvTjmZWcWKlEzJWZQ==
+X-Google-Smtp-Source: AK7set9tjGpXo7MbmpCzYUOLLRglhq+AKw3/bbQagqybpJ7wQBx46ui8Rcs9SYuZ86NilBiF4oSzwA==
+X-Received: by 2002:a7b:c3c7:0:b0:3ed:fddf:b771 with SMTP id
+ t7-20020a7bc3c7000000b003edfddfb771mr15687614wmj.12.1680109427478; 
+ Wed, 29 Mar 2023 10:03:47 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ t3-20020a5d6903000000b002e105c017adsm7189842wru.44.2023.03.29.10.03.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 09:55:53 -0700 (PDT)
-Date: Wed, 29 Mar 2023 12:55:49 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: shannon.zhaosl@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
- peter.maydell@linaro.org, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
- pbonzini@redhat.com, richard.henderson@linaro.org,
- eduardo@habkost.net, boris.ostrovsky@oracle.com
-Subject: Re: [PATCH 2/2] hw/acpi: i386: bump MADT to revision 5
-Message-ID: <20230329125543-mutt-send-email-mst@kernel.org>
-References: <20230328155926.2277-1-eric.devolder@oracle.com>
- <20230328155926.2277-3-eric.devolder@oracle.com>
- <20230329010126-mutt-send-email-mst@kernel.org>
- <b9fcf584-8c83-9d56-c67a-b830b17c1272@oracle.com>
- <5ff9199b-0149-45dc-6138-3ad9b2d71fd3@oracle.com>
+ Wed, 29 Mar 2023 10:03:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AC4691FFB7;
+ Wed, 29 Mar 2023 18:03:46 +0100 (BST)
+References: <20230329161852.84992-1-philmd@linaro.org>
+User-agent: mu4e 1.10.0; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Fabiano Rosas <farosas@suse.de>, Paolo Bonzini
+ <pbonzini@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] gdbstub: Only build libgdb_user.fa / libgdb_softmmu.fa
+ if necessary
+Date: Wed, 29 Mar 2023 18:03:40 +0100
+In-reply-to: <20230329161852.84992-1-philmd@linaro.org>
+Message-ID: <87bkkbqykt.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5ff9199b-0149-45dc-6138-3ad9b2d71fd3@oracle.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,91 +98,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 29, 2023 at 08:19:22AM -0500, Eric DeVolder wrote:
-> 
-> 
-> On 3/29/23 08:16, Eric DeVolder wrote:
-> > 
-> > 
-> > On 3/29/23 00:03, Michael S. Tsirkin wrote:
-> > > On Tue, Mar 28, 2023 at 11:59:26AM -0400, Eric DeVolder wrote:
-> > > > Currently i386 QEMU generates MADT revision 3, and reports
-> > > > MADT revision 1. ACPI 6.3 introduces MADT revision 5.
-> > > > 
-> > > > For MADT revision 4, that introduces ARM GIC structures, which do
-> > > > not apply to i386.
-> > > > 
-> > > > For MADT revision 5, the Local APIC flags introduces the Online
-> > > > Capable bitfield.
-> > > > 
-> > > > Making MADT generate and report revision 5 will solve problems with
-> > > > CPU hotplug (the Online Capable flag indicates hotpluggable CPUs).
-> > > > 
-> > > > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> > > 
-> > > I am looking for ways to reduce risk of breakage with this.
-> > > We don't currently have a reason to change it if cpu
-> > > hotplug is off, do we? Maybe make it conditional on that.
-> > 
-> > By "cpu hotplug off", do you mean, for example, no maxcpus= option?
-> > In other words, how should I detect "cpu hotplug off"?
-> > eric
-> > 
-> 
-> Actually, if, for example, one had -smp 30,maxcpus=32, then there would be
-> two hotpluggable cpus reported, the last two with the Enabled=0 and Online
-> Capable=1. If one had -smp 32 (ie "cpu hotplug off"), then all cpus would be
-> reported as Enabled and no cpu would have its Online Capable flag set.
-> 
-> Granted in both cases, MADT.revision would report 5, but it would still be accurate.
-> 
-> eric
 
-sounds good.
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > 
-> > > > ---
-> > > >   hw/i386/acpi-common.c | 13 ++++++++++---
-> > > >   1 file changed, 10 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-> > > > index 52e5c1439a..1e3a13a36c 100644
-> > > > --- a/hw/i386/acpi-common.c
-> > > > +++ b/hw/i386/acpi-common.c
-> > > > @@ -38,8 +38,15 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
-> > > >   {
-> > > >       uint32_t apic_id = apic_ids->cpus[uid].arch_id;
-> > > >       /* Flags – Local APIC Flags */
-> > > > -    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
-> > > > -                     1 /* Enabled */ : 0;
-> > > > +    bool enabled = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
-> > > > +                     true /* Enabled */ : false;
-> > > > +    /*
-> > > > +     * ACPI 6.3 5.2.12.2 Local APIC Flags: OnlineCapable must be 0
-> > > > +     * if Enabled is set.
-> > > > +     */
-> > > > +    bool onlinecapable = enabled ? false : true; /* Online Capable */
-> > > > +    uint32_t flags = onlinecapable ? 0x2 : 0x0 |
-> > > > +        enabled ? 0x1 : 0x0;
-> > > >       /* ACPI spec says that LAPIC entry for non present
-> > > >        * CPU may be omitted from MADT or it must be marked
-> > > > @@ -102,7 +109,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-> > > >       MachineClass *mc = MACHINE_GET_CLASS(x86ms);
-> > > >       const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
-> > > >       AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(adev);
-> > > > -    AcpiTable table = { .sig = "APIC", .rev = 1, .oem_id = oem_id,
-> > > > +    AcpiTable table = { .sig = "APIC", .rev = 5, .oem_id = oem_id,
-> > > >                           .oem_table_id = oem_table_id };
-> > > >       acpi_table_begin(&table, table_data);
-> > > > -- 
-> > > > 2.31.1
-> > > > 
-> > > > 
-> > > > 
-> > > 
+> It is pointless to build libgdb_user.fa in a system-only build
+> (or libgdb_softmmu.fa in a user-only build). Besides, in some
+> restricted build configurations, some APIs might be restricted /
+> not available. Example in a KVM-only builds where TCG is disabled:
+>
+>   $ ninja qemu-system-x86_64
+>   [99/2187] Compiling C object gdbstub/libgdb_user.fa.p/user.c.o
+>   FAILED: gdbstub/libgdb_user.fa.p/user.c.o
+>   ../../gdbstub/user.c: In function =E2=80=98gdb_breakpoint_insert=E2=80=
+=99:
+>   ../../gdbstub/user.c:438:19: error: implicit declaration of function =
+=E2=80=98cpu_breakpoint_insert=E2=80=99; did you mean =E2=80=98gdb_breakpoi=
+nt_insert=E2=80=99? [-Werror=3Dimplicit-function-declaration]
+>     438 |             err =3D cpu_breakpoint_insert(cpu, addr, BP_GDB, NU=
+LL);
+>         |                   ^~~~~~~~~~~~~~~~~~~~~
+>         |                   gdb_breakpoint_insert
+>   ../../gdbstub/user.c:438:19: error: nested extern declaration of
+> =E2=80=98cpu_breakpoint_insert=E2=80=99 [-Werror=3Dnested-externs]
+>   ../../gdbstub/user.c: In function =E2=80=98gdb_breakpoint_remove=E2=80=
+=99:
+>   ../../gdbstub/user.c:459:19: error: implicit declaration of function
+> =E2=80=98cpu_breakpoint_remove=E2=80=99; did you mean =E2=80=98gdb_breakp=
+oint_remove=E2=80=99?
+> [-Werror=3Dimplicit-function-declaration]
+>     459 |             err =3D cpu_breakpoint_remove(cpu, addr, BP_GDB);
+>         |                   ^~~~~~~~~~~~~~~~~~~~~
+>         |                   gdb_breakpoint_remove
+>   ../../gdbstub/user.c:459:19: error: nested extern declaration of =E2=80=
+=98cpu_breakpoint_remove=E2=80=99 [-Werror=3Dnested-externs]
+>   cc1: all warnings being treated as errors
+>   ninja: build stopped: subcommand failed.
+>
+> Fixes: 61b2e136db ("gdbstub: only compile gdbstub twice for whole build")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
+Queued to for-8.0/more-misc-fixes, thanks.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
