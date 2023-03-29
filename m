@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC446CDA2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 15:09:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AE46CDA27
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 15:09:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phVX8-0000qZ-NG; Wed, 29 Mar 2023 09:08:10 -0400
+	id 1phVXA-0000rk-C6; Wed, 29 Mar 2023 09:08:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=4450486d3=Mark.Syms@citrix.com>)
- id 1phTRH-00089Q-8K
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 06:53:59 -0400
-Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155])
+ id 1phTRM-00089j-Pf
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 06:54:04 -0400
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=4450486d3=Mark.Syms@citrix.com>)
- id 1phTRF-0006te-N6
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 06:53:59 -0400
+ id 1phTRK-0006uB-Si
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 06:54:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1680087237;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=x4MdWt2kBPYP0ElgtaHjHKOOZ+d88GXTfADLoRNHIU4=;
- b=IfC39ybbzg7tmFC5r04CmOPvAU+4k9OhSoJtb2GATpqDywOlcRVQFlmn
- Hbsx4ghmmr9+RmFg21SNQXLWneQz6/ILLNTKpU9iPtmQ4cZsO4/HWPEK3
- G3duOmtZrMaumUouqphzt1MRWGWhTJ85KPdd/0J4JfysqQ1+cSXq2w+Zp U=;
-Authentication-Results: esa3.hc3370-68.iphmx.com;
+ d=citrix.com; s=securemail; t=1680087242;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=GADAyKytr/XOUOsSzCpFJLI8OYouf6rYBKHpVl/jpr4=;
+ b=KBUXms5jvh8Qx5YwDKaRTlZpHJEflEBF7mhLA4irSwIWrQZoeCUPv+jg
+ ib8wHNaQZPlQJya5lXb4LdWe59B49fzn+t0VlHKHhVje7aep5VWeAkFkB
+ 4TNIueEPbDdlfWfNChWpOo1ZMhuJzHb0fb7rOuWQOe+s1SMPCKHIStN7/ s=;
+Authentication-Results: esa2.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
 X-SBRS: 4.0
-X-MesageID: 103524296
-X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-MesageID: 103413673
+X-Ironport-Server: esa2.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.156.123
 X-Policy: $RELAYED
-IronPort-Data: A9a23:188QhKvu6sWox9YpgG6JkF5f0OfnVAJeMUV32f8akzHdYApBsoF/q
- tZmKW2Fa/mCZGuhL9p3ady0pxkF78fSy9RrT1E/rXozHixE+JbJXdiXEBz9bniYRiHhoOCLz
- O1FM4Wdc5pkJpP4jk3wWlQ0hSAkjclkfpKlVKiffHg3HVQ+IMsYoUoLs/YjhYJ1isSODQqIu
- Nfjy+XSI1bg0DNvWo4uw/vrRChH4bKj6Fv0gnRkPaoQ5ASExiFMZH4iDfrZw0XQE9E88tGSH
- 44v/JnhlkvF8hEkDM+Sk7qTWiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JFAatjsB2bnsgZ9
- Tl4ncfYpTHFnEH7sL91vxFwS0mSNEDdkVPNCSDXXce7lyUqf5ZwqhnH4Y5f0YAwo45K7W9yG
- fMwLisgSj7c36WN5ujnEMpdjIMgIJHMFdZK0p1g5Wmx4fcORJnCR+PB5MNC3Sd2jcdLdRrcT
- 5NHM3w1Nk2GOkARfA5NU/rSn8/x7pX7WxhRslHTnrsy+EDYzRBr0airO93QEjCPbZwNxRvC+
- jiXoQwVBDlDCfjY1AW04kuKm+vovQ3pcr8YMOKRo6sCbFq7mTVIVUx+uUGAieC0j1P7V99BJ
- kg8/C0ooq4vskuxQbHAswaQ+SDe+ERGApwJTrN8sVvWokbJ3+qHLm4fYxpvN4Rhj+lsGWYJ5
- 1XOnN+xIhU65dV5VkmhGqeoQSKaYHZKfD5SNXNYHWPp8PG4/tht00unosJLVffs04arQWyYL
- yWi9nBWulkFsSIcO0xXF3jjiinkmJXGRxVdCu7/DjP8tVMRiGJIiuWVBbnnARVodtzxoqGp5
- iRspiRnxLlm4WuxvCKMWv4RO7qi+uyINjbR6XY2Qcl5r279oCH5JN4OiN2bGKuPGpxcEdMOS
- BG7hO+szMULYCvCgVFfOepd9PjGPYC/TI+4B5g4n/JFY4RrdR/vwRyCkXW4hji3+GB1yPFXB
- HtuWZr0ZZrsIfg9nWXeqiZ0+eND+x3SMkuIG8yhnkr6ief2ibz8Ye5tDWZip9sRtMusyDg5O
- f4FXydW432ziNHDXxQ=
-IronPort-HdrOrdr: A9a23:aswrNKPL2TcNH8BcTgWjsMiBIKoaSvp037BK7S1MoH1uA6mlfq
+IronPort-Data: A9a23:b3XDaKLYKDLnO1hxFE+RhZUlxSXFcZb7ZxGr2PjKsXjdYENShGBVz
+ 2scCj2AP/uDM2rxKYx/Otvl9ksOu8fczdRnGlBlqX01Q3x08seUXt7xwmUcnc+xBpaaEB84t
+ ZV2hv3odp1coqr0/0/1WlTZhSAgk/rOHvykU7Ss1hlZHWdMUD0mhQ9oh9k3i4tphcnRKw6Ws
+ Jb5rta31GWNglaYCUpJrfPTwP9TlK6q4mhA5QZvPakjUGL2zBH5MrpOfcldEFOgKmVkNrbSb
+ /rOyri/4lTY838FYj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnVaPpIAHOgdcS9qZwChxLid/
+ jnvWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I+QrvBIAzt03ZHzaM7H09c5HL25C2
+ 8ZGbws9NDqKoLuk2Zu5dfZj05FLwMnDZOvzu1llxDDdS/0nXYrCU+PB4towMDUY354UW6yEP
+ oxANGQpNU6bC/FMEg5/5JYWue6yhT/EYjhDgFmUubA28y7YywkZPL3FaYKOJoXRG5oO9qqej
+ l7C52jjKx4HCNaS9huF612Ip++SoiyuDer+E5Xnr6U30TV/3Fc7ERATSB63rOe0jma4XNRQL
+ VFS/TAhxZXe72TyEIO7BUfh5ifZ4FhFAYE4//AGBB+l+oTb7yijWC8/fmRrYft/ptYfRwM12
+ Qrc9z/2PgCDoIF5WFrEqOjF/GPiZXRFRYMRTXRaFFVYurEPtKl210uSFYg7TcZZm/WvQVnNL
+ ya2QD/Sbln5peoCzO2F8F/OmFpATbCZH1dutm07so9Ihz6VhbJJhKTyszA3Fd4acO6koqCp5
+ RDoYfS24uEUFo2qnyeQWugLF7zBz6/bYGWE2w40QMN4qWrFF5ufkWZ4umkWyKBBbK45lcLBO
+ heP6Wu9GrcJVJdVUUOHS93oUJl7pUQRPd/kSurVfrJzX3SFTyfepHsGTRfJjwjQfL0EzflX1
+ WGzLZz9Uh73yM1PkFKLegvq+eR1mnpvmz6LGPgWDX2PiNKjWZJccp9dWHPmUwzzxPrsTNn9m
+ zqHC/a39g==
+IronPort-HdrOrdr: A9a23:wEs+/qNpAq+ZcsBcTgWjsMiBIKoaSvp037BK7S1MoH1uA6mlfq
  WV9sjzuiWatN98Yh8dcLO7Scu9qBHnlaKdiLN5VduftWHd01dAR7sSjrcKrQeAJ8X/nNQtr5
  uJccJFeaDN5Y4Rt7eH3OG6eexQv+Vu6MqT9IPjJ+8Gd3ATV0lnhT0JbTqzIwlNayRtI4E2L5
  aY7tovnUvaRZxGBv7LYEXsRoL41qT2qK4=
-X-IronPort-AV: E=Sophos;i="5.98,300,1673931600"; d="scan'208";a="103524296"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673931600"; d="scan'208";a="103413673"
 To: <qemu-devel@nongnu.org>
-CC: <tim.smith@cloud.com>, <mark.syms@cloud.com>
-Subject: Ensure the PV ring is drained on disconnect
-Date: Wed, 29 Mar 2023 11:53:43 +0100
-Message-ID: <20230329105344.3465706-1-mark.syms@citrix.com>
+CC: <tim.smith@cloud.com>, <mark.syms@cloud.com>, Mark Syms
+ <mark.syms@citrix.com>
+Subject: [PATCH] Ensure the PV ring is drained on disconnect
+Date: Wed, 29 Mar 2023 11:53:44 +0100
+Message-ID: <20230329105344.3465706-2-mark.syms@citrix.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230329105344.3465706-1-mark.syms@citrix.com>
+References: <20230329105344.3465706-1-mark.syms@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.145.155;
+Received-SPF: pass client-ip=216.71.145.153;
  envelope-from=prvs=4450486d3=Mark.Syms@citrix.com;
- helo=esa3.hc3370-68.iphmx.com
+ helo=esa2.hc3370-68.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,9 +94,53 @@ From:  Mark Syms via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Also ensure all pending AIO is complete.
 
-If the Xen PV guest VM sends a close whilst there is outstanding I/O
-being processed that IO needs to be completed and drained before
-unrealizing the rings or SEGVs will occurr when the I/O does complete
-and tries to update an already unmapped grant entry.
+Signed-off-by: Mark Syms <mark.syms@citrix.com>
+---
+ hw/block/dataplane/xen-block.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
+index 734da42ea7..067f8e2f45 100644
+--- a/hw/block/dataplane/xen-block.c
++++ b/hw/block/dataplane/xen-block.c
+@@ -523,6 +523,10 @@ static bool xen_block_handle_requests(XenBlockDataPlane *dataplane)
+ 
+     dataplane->more_work = 0;
+ 
++    if (dataplane->sring == 0) {
++        return done_something;
++    }
++
+     rc = dataplane->rings.common.req_cons;
+     rp = dataplane->rings.common.sring->req_prod;
+     xen_rmb(); /* Ensure we see queued requests up to 'rp'. */
+@@ -666,11 +670,23 @@ void xen_block_dataplane_destroy(XenBlockDataPlane *dataplane)
+ void xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
+ {
+     XenDevice *xendev;
++    XenBlockRequest *request, *next;
+ 
+     if (!dataplane) {
+         return;
+     }
+ 
++    /* Ensure we have drained the ring */
++    do {
++        xen_block_handle_requests(dataplane);
++    } while (dataplane->more_work);
++
++    /* Now ensure that all inflight requests are complete */
++    QLIST_FOREACH_SAFE(request, &dataplane->inflight, list, next) {
++        blk_aio_flush(request->dataplane->blk, xen_block_complete_aio,
++                      request);
++    }
++
+     xendev = dataplane->xendev;
+ 
+     aio_context_acquire(dataplane->ctx);
+-- 
+2.39.2
+
 
