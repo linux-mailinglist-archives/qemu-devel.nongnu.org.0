@@ -2,89 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936AD6CEF87
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C4C6CEFF8
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:57:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phYkD-0003uX-JE; Wed, 29 Mar 2023 12:33:53 -0400
+	id 1phZ5g-0003Sr-8H; Wed, 29 Mar 2023 12:56:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1phYkB-0003u5-5Z
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:33:51 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1phYk8-0002WR-4p
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:33:50 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-5445009c26bso302978637b3.8
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=landley-net.20210112.gappssmtp.com; s=20210112; t=1680107626;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=71s7cSRGldjk5lmQXv8X+J97vldmv6SC15S6+zGmms4=;
- b=B7uSatMa2KPZDO3DJrPTgF/uRcm4Rd6QGsa4f8iQ0tnqv5pZCoTpvX6Lx+wmwKppRq
- 1JhGk1J+4+09i2gKYDedQ9FhzR2hFMoNIIWpemzhrH1Uwlj1vY8krCvqBS4q6qAUYBFk
- lerIksHDaMz96auBi9FZeZCPLSexF2IP+dmPnjpmKH4f4ncztyA0mIO3pvOX3W43HISd
- 9beewTRizFjFtdv5cuZ1JOFHGp8nS8s3s7tgcT5QNw8UfjXZKnwZHIjw9/D38HWIkThC
- PH9wWFTxiI6+46Gl3472rAf+d3/Opav6icuzdNsRL5vOsWE1njld5ePPKMe7INWtu6LB
- QuYw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phZ5c-0003SW-OL
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:56:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phZ5a-0001zY-Ii
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:56:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680108957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1CKIEZQy8poSRwuqCLaqwW2a1LiKk5FSNOWDECIAAxg=;
+ b=UtP+arj6vHpNJXSvksOPxvYT4mkBWDnojzJhNvGWu5COLsvGK1xfQboXHwuLb0faz7B3zV
+ AHfIpTFcBH1WbG64RedQabNPRceJJUFs25Vky4KKgf/EzVZzEcXArVVweEpfcgufKzWtrM
+ JqK+/2oD/Cdo4GnPrZfm9rv6gTHc3vU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-164-cinz3aI2OZmE9-28BU6n4A-1; Wed, 29 Mar 2023 12:55:55 -0400
+X-MC-Unique: cinz3aI2OZmE9-28BU6n4A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ iv10-20020a05600c548a00b003ee112e6df1so8422730wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:55:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680107626;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1680108954;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=71s7cSRGldjk5lmQXv8X+J97vldmv6SC15S6+zGmms4=;
- b=rNXRyeHjpAOJCnWEQl7fbLbFCI5vHmvszgugDoXSbxGaQusLXWoZ0K47s+6sPQPnIB
- jtfXa5RDxnwt12qCi/ucAmhyK/afRti2KVIsSwhL42M8XiMGNYdYme+wM507AHEZvgdT
- EYasJLVfDgzUbIkiT9ujoPPCEOetTbRWuN/yypSrybRWBNNwYlfvHQrXoZ7u3+RR1WyC
- fC0nsVnT/Nbl8vT2fd1BAsfyEHqhrXAexrrvK1ZoF0CCw3HdWuOs+zcUevQx0w6WU0v+
- wK9TMCuTQ9522YC/Sdz2oPijCdNFJXZqw+fKmFIZg15WVJ1W7JNCZXH2YcW7UmySR5PC
- 4DJg==
-X-Gm-Message-State: AAQBX9edUpG2MoKjXTKeX3xRONq4HeNPJfozXwNN3spj7LbWVNL5NaSf
- 3lZYzhTkgX2UcK78CUQo/FuG0g==
-X-Google-Smtp-Source: AKy350YjLAPXntxcFnC1W7Hu9QhUpkJj+ONb2saNCR0zz7DvFgKlnIIMuJR4M7FfUtt6H9lfj8q7jg==
-X-Received: by 2002:a0d:e253:0:b0:541:891f:86f6 with SMTP id
- l80-20020a0de253000000b00541891f86f6mr19018198ywe.19.1680107626336; 
- Wed, 29 Mar 2023 09:33:46 -0700 (PDT)
-Received: from [172.16.32.78] ([198.232.126.202])
- by smtp.gmail.com with ESMTPSA id
- bc9-20020a05690c000900b00546160d7fa1sm749585ywb.50.2023.03.29.09.33.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 09:33:45 -0700 (PDT)
-Message-ID: <0ae35be3-794a-deee-1c96-507d5be2306c@landley.net>
-Date: Wed, 29 Mar 2023 11:48:16 -0500
+ bh=1CKIEZQy8poSRwuqCLaqwW2a1LiKk5FSNOWDECIAAxg=;
+ b=39kk4RDO7eb9XIVHl8qhzWecG10MRezi7fbCa9j7/R9d7qzF7N1qQH/Byz5lwfb6T4
+ oX752uOqlJm2W5CdbAFlxahfqsMqAiTBzU9MOP4pEmvSV10zd37TJpqY9bXAopOIMQ7V
+ I3d7OEvTTD9ySCF4ABlBlmtRLXYl0gPkpTTIJamflugtQSLJ9dK7vNGVp0/PxxzB8REH
+ 59D11Bbii0zv0oNRslgGo77YIOp1vWYkfeM7vjdmbodoH3A8kwDQYjuoQzCNq9LMioe1
+ yYutNNZx9HnMwN+d1CZarUMDIiWlfQHS5OvsuZUKTnhibrqEd1BIEFJxwVx6e1IuAP2B
+ boFQ==
+X-Gm-Message-State: AAQBX9fxHTkkiNViQJzTt7zMCwEqokzLCl29gST0FNjDKYpbPLVpEt9k
+ bYQ9MfVT3vt5kGsGAbqXMRbiuxBY7Y0a3opVKyNOeeY0rtzUVtwIV6kCcKiqkk6k9ZYNa/Jr84b
+ 5WYj9yZIG72a7c4A=
+X-Received: by 2002:adf:db4b:0:b0:2d9:eb77:90d2 with SMTP id
+ f11-20020adfdb4b000000b002d9eb7790d2mr14829273wrj.70.1680108954622; 
+ Wed, 29 Mar 2023 09:55:54 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bNBwmWgzNn8ZrpkYFdgtNLkZrVZYanVEHa/2l9mYW8ZMv7/QoS68X/wiZ1SxE1hsvcFcv0zQ==
+X-Received: by 2002:adf:db4b:0:b0:2d9:eb77:90d2 with SMTP id
+ f11-20020adfdb4b000000b002d9eb7790d2mr14829264wrj.70.1680108954299; 
+ Wed, 29 Mar 2023 09:55:54 -0700 (PDT)
+Received: from redhat.com ([2.52.18.165]) by smtp.gmail.com with ESMTPSA id
+ d9-20020adfe889000000b002d97529b3bbsm20353314wrm.96.2023.03.29.09.55.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 09:55:53 -0700 (PDT)
+Date: Wed, 29 Mar 2023 12:55:49 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: shannon.zhaosl@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com, richard.henderson@linaro.org,
+ eduardo@habkost.net, boris.ostrovsky@oracle.com
+Subject: Re: [PATCH 2/2] hw/acpi: i386: bump MADT to revision 5
+Message-ID: <20230329125543-mutt-send-email-mst@kernel.org>
+References: <20230328155926.2277-1-eric.devolder@oracle.com>
+ <20230328155926.2277-3-eric.devolder@oracle.com>
+ <20230329010126-mutt-send-email-mst@kernel.org>
+ <b9fcf584-8c83-9d56-c67a-b830b17c1272@oracle.com>
+ <5ff9199b-0149-45dc-6138-3ad9b2d71fd3@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] hw/mips/gt64xxx_pci: Don't endian-swap GT_PCI0_CFGADDR
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Nathan Chancellor <nathan@kernel.org>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
- balaton@eik.bme.hu, Bernhard Beschow <shentey@gmail.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20230223161958.48696-1-jiaxun.yang@flygoat.com>
- <aa1e6559-55ae-0f7b-80cb-890bb34b9544@linaro.org>
- <20230320165821.GA4064187@dev-arch.thelio-3990X>
- <edea2619-8fe9-638e-cfa0-684123f7ee99@linaro.org>
- <037d00b7-9df9-e888-a4d7-235e6d08f784@landley.net>
- <89504c25-5265-d6c5-6e48-dcdc0be43ea0@linaro.org>
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <89504c25-5265-d6c5-6e48-dcdc0be43ea0@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1136;
- envelope-from=rob@landley.net; helo=mail-yw1-x1136.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5ff9199b-0149-45dc-6138-3ad9b2d71fd3@oracle.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,93 +104,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 3/29/23 11:07, Philippe Mathieu-Daudé wrote:
-> On 29/3/23 18:09, Rob Landley wrote:
->> On 3/28/23 12:02, Philippe Mathieu-Daudé wrote:
->>> On 20/3/23 17:58, Nathan Chancellor wrote:
->>>> On Wed, Mar 08, 2023 at 12:33:38AM +0100, Philippe Mathieu-Daudé wrote:
->>>>> On 23/2/23 17:19, Jiaxun Yang wrote:
->>>>>> 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE
->>>>>> MemoryRegionOps") converted CFGADDR/CFGDATA registers to use PCI_HOST_BRIDGE's
->>>>>> accessor facility and enabled byte swap for both CFGADDR/CFGDATA register.
->>>>>>
->>>>>> However CFGADDR as a ISD internal register is not controled by MByteSwap
->>>>>> bit, it follows endian of all other ISD register, which means it ties to
->>>>>> little endian.
->>>>>>
->>>>>> Move mapping of CFGADDR out of gt64120_update_pci_cfgdata_mapping to disable
->>>>>> endian-swapping.
->>>>>>
->>>>>> This should fix some recent reports about poweroff hang.
->>>>>>
->>>>>> Fixes: 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps")
->>>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>>>>> ---
->>>>>>     hw/pci-host/gt64120.c | 18 ++++++------------
->>>>>>     1 file changed, 6 insertions(+), 12 deletions(-)
->>>>>
->>>>> So this works on little-endian hosts, but fails on
->>>>> big-endian ones :(
->>>>>
->>>>> I.e. on Linux we have early_console_write() -> prom_putchar()
->>>>> looping:
->>>>>
->>>>> IN: prom_putchar
->>>>> 0x8010fab8:  lbu	v0,0(v1)
->>>>> 0x8010fabc:  andi	v0,v0,0x20
->>>>> 0x8010fac0:  beqz	v0,0x8010fab8
->>>>> 0x8010fac4:  andi	v0,a0,0xff
->>>>>
->>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>> ...
->>>>>
->>>>
->>>> Is there going to be a new version of this patch or a different solution
->>>> to the poweroff hang then? I am still seeing that with tip of tree QEMU
->>>> and I see 8.0.0-rc0 has been tagged; I would hate for this to end up in
->>>> a release version.
->>>
->>> I couldn't work a fix, however I ran our (new) tests on merge
->>> commit 3db29dcac2 which is before the offending commit 145e2198d749,
->>> and they fail. So I suppose Malta on big-endian host is badly broken
->>> since quite some time. Thus clearly nobody tests/runs Malta there.
->> 
->> I test/run malta with the mips and mipsel binaries at
->> https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/ but I'm still
->> locally applying the first patch I saw to fix this (attached) until upstream
->> sorts itself out.
->> 
->> Works fine for me. Somebody said it was the wrong fix but I don't remember why...
+On Wed, Mar 29, 2023 at 08:19:22AM -0500, Eric DeVolder wrote:
 > 
-> This is a correct /partial/ fix. With this patch, Malta works on little
-> endian hosts. No luck with big-endian hosts, but this was broken
-> previous to 3db29dcac2 rework, so apparently not a big deal ¯\_(ツ)_/¯
+> 
+> On 3/29/23 08:16, Eric DeVolder wrote:
+> > 
+> > 
+> > On 3/29/23 00:03, Michael S. Tsirkin wrote:
+> > > On Tue, Mar 28, 2023 at 11:59:26AM -0400, Eric DeVolder wrote:
+> > > > Currently i386 QEMU generates MADT revision 3, and reports
+> > > > MADT revision 1. ACPI 6.3 introduces MADT revision 5.
+> > > > 
+> > > > For MADT revision 4, that introduces ARM GIC structures, which do
+> > > > not apply to i386.
+> > > > 
+> > > > For MADT revision 5, the Local APIC flags introduces the Online
+> > > > Capable bitfield.
+> > > > 
+> > > > Making MADT generate and report revision 5 will solve problems with
+> > > > CPU hotplug (the Online Capable flag indicates hotpluggable CPUs).
+> > > > 
+> > > > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> > > 
+> > > I am looking for ways to reduce risk of breakage with this.
+> > > We don't currently have a reason to change it if cpu
+> > > hotplug is off, do we? Maybe make it conditional on that.
+> > 
+> > By "cpu hotplug off", do you mean, for example, no maxcpus= option?
+> > In other words, how should I detect "cpu hotplug off"?
+> > eric
+> > 
+> 
+> Actually, if, for example, one had -smp 30,maxcpus=32, then there would be
+> two hotpluggable cpus reported, the last two with the Enabled=0 and Online
+> Capable=1. If one had -smp 32 (ie "cpu hotplug off"), then all cpus would be
+> reported as Enabled and no cpu would have its Online Capable flag set.
+> 
+> Granted in both cases, MADT.revision would report 5, but it would still be accurate.
+> 
+> eric
 
-No, big endian worked for me with that patch?
+sounds good.
 
-The build in my $PATH is QEMU emulator version 7.2.50
-(v7.2.0-873-g65cc5ccf06-dirty) with that patch, and if you wget
-https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mips.tgz and
-./run-emulator.sh in there, the virtual net can wget http://site (the sample
-image hasn't got https:// support enabled because I didn't include the build
-dependency), and the virtual disk works (if you do "./run-emulator.sh -hda
-blah.img" anyway, the test wrapper I mentioned creates a squashfs image for it
-to mount)). Without the patch I don't even get a PCI bus. Running "file
-/bin/toybox" says MSB, and the mipsel image is the little endian one anyway. I
-also test s390x (which is big endian 64 bit), but I don't think this needed a
-patch? (Hadn't been broken last I checked?)
+> > > 
+> > > 
+> > > 
+> > > 
+> > > 
+> > > > ---
+> > > >   hw/i386/acpi-common.c | 13 ++++++++++---
+> > > >   1 file changed, 10 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> > > > index 52e5c1439a..1e3a13a36c 100644
+> > > > --- a/hw/i386/acpi-common.c
+> > > > +++ b/hw/i386/acpi-common.c
+> > > > @@ -38,8 +38,15 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
+> > > >   {
+> > > >       uint32_t apic_id = apic_ids->cpus[uid].arch_id;
+> > > >       /* Flags – Local APIC Flags */
+> > > > -    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
+> > > > -                     1 /* Enabled */ : 0;
+> > > > +    bool enabled = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
+> > > > +                     true /* Enabled */ : false;
+> > > > +    /*
+> > > > +     * ACPI 6.3 5.2.12.2 Local APIC Flags: OnlineCapable must be 0
+> > > > +     * if Enabled is set.
+> > > > +     */
+> > > > +    bool onlinecapable = enabled ? false : true; /* Online Capable */
+> > > > +    uint32_t flags = onlinecapable ? 0x2 : 0x0 |
+> > > > +        enabled ? 0x1 : 0x0;
+> > > >       /* ACPI spec says that LAPIC entry for non present
+> > > >        * CPU may be omitted from MADT or it must be marked
+> > > > @@ -102,7 +109,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+> > > >       MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+> > > >       const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
+> > > >       AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(adev);
+> > > > -    AcpiTable table = { .sig = "APIC", .rev = 1, .oem_id = oem_id,
+> > > > +    AcpiTable table = { .sig = "APIC", .rev = 5, .oem_id = oem_id,
+> > > >                           .oem_table_id = oem_table_id };
+> > > >       acpi_table_begin(&table, table_data);
+> > > > -- 
+> > > > 2.31.1
+> > > > 
+> > > > 
+> > > > 
+> > > 
 
-I vaguely recall having tested newer qemu, but couldn't say when that was (early
-february at the latest, and if so I didn't install it into /usr/bin/local. It
-takes a while to build all the targets so I only really do it quarterly, usually
-when I'm about to cut a toybox release and want to make sure qemu hasn't broken
-anything important while I wasn't looking...)
-
-Rob
 
