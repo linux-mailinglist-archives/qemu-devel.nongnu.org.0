@@ -2,40 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081F66CF317
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 21:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9946CF36B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 21:44:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phbMW-0005Xz-1O; Wed, 29 Mar 2023 15:21:36 -0400
+	id 1phbh1-0000om-Fp; Wed, 29 Mar 2023 15:42:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1phbMT-0005XP-2p
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 15:21:33 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1phbgz-0000oF-0C
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 15:42:45 -0400
+Received: from mailout02.t-online.de ([194.25.134.17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1phbMR-0007bG-BZ
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 15:21:32 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 75293745712;
- Wed, 29 Mar 2023 21:20:34 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0A69A745706; Wed, 29 Mar 2023 21:20:34 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 08DE87456E3;
- Wed, 29 Mar 2023 21:20:34 +0200 (CEST)
-Date: Wed, 29 Mar 2023 21:20:33 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>
-cc: Rene Engel <ReneEngel80@emailn.de>, qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1phbgw-0002pW-Je
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 15:42:44 -0400
+Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
+ by mailout02.t-online.de (Postfix) with SMTP id 9EDC013076;
+ Wed, 29 Mar 2023 21:42:38 +0200 (CEST)
+Received: from [192.168.211.200] ([79.208.29.86]) by fwd85.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1phbgq-0q2dsX0; Wed, 29 Mar 2023 21:42:37 +0200
+Message-ID: <f5ef0312-2594-3dbd-f48e-2608b4dce161@t-online.de>
+Date: Wed, 29 Mar 2023 21:42:36 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
 Subject: Re: Audio playback speed issue on sam460ex and pegasos2
-In-Reply-To: <9521731e-359b-f9fe-b4a5-21bdce3e1984@t-online.de>
-Message-ID: <22eab6e4-ac94-55c9-585c-330d93c68620@eik.bme.hu>
-References: <073253fedbbcc9467ca42ced0ef7f5e7@mail.emailn.de>
- <ad098507-98ff-3ffe-e5f3-2c508d911a67@t-online.de>
- <b80d09c7-b9e6-debe-9678-f6ac3bbed388@eik.bme.hu>
+To: Rene Engel <ReneEngel80@emailn.de>
+Cc: balaton@eik.bme.hu, qemu-devel@nongnu.org
+References: <b80d09c7-b9e6-debe-9678-f6ac3bbed388@eik.bme.hu>
  <f1ec050c-7315-aae5-b377-1f99b057045c@t-online.de>
  <981db26c-a96d-4e40-1f6f-577eaee9466e@t-online.de>
  <a53db76d-aa94-4a95-0fe1-c8a469cc9086@eik.bme.hu>
@@ -45,17 +42,23 @@ References: <073253fedbbcc9467ca42ced0ef7f5e7@mail.emailn.de>
  <9f77ce1a-a02e-365e-0d5b-a35a023e53d8@t-online.de>
  <0c71ee37c6d16abb23a03693381113d3@mail.emailn.de>
  <9521731e-359b-f9fe-b4a5-21bdce3e1984@t-online.de>
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2008589875-1680117634=:10834"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
+ <cc449b26874e615e52bca93c1cab078e@mail.emailn.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <cc449b26874e615e52bca93c1cab078e@mail.emailn.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1680118957-96FFAC52-6A6FD3B1/0/0 CLEAN NORMAL
+X-TOI-MSGID: c8f9d2e0-0a00-423f-a2c0-104ff076e6ef
+Received-SPF: none client-ip=194.25.134.17; envelope-from=vr_qemu@t-online.de;
+ helo=mailout02.t-online.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,31 +74,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Am 29.03.23 um 14:03 schrieb Rene Engel:
+> After short tests with the command line -audiodev coreaudio,id=audio0,out.frequency=48000 the sound output runs in the correct speed.
+>
+> Tested with one and the same mp3 file under AmigaOs4.1 and MacOs with es1370 and ac97 on Pegasos 2 emulation
 
---3866299591-2008589875-1680117634=:10834
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This indicates that there is a bug in the Core Audio backend. I wonder 
+how you manage to set a system sample rate of 48kHz when QEMU explicitly 
+requires 44.1kHz. See 
+https://lists.nongnu.org/archive/html/qemu-discuss/2023-03/msg00076.html 
+or GitLab issue #1191 https://gitlab.com/qemu-project/qemu/-/issues/1191.
 
-On Tue, 28 Mar 2023, Volker Rümelin wrote:
-> it seems your Mac uses a 48kHz sample rate, although QEMU requested a 44.1kHz 
-> sample rate. Could you add -audiodev coreaudio,id=audio0,out.frequency=48000 
-> to your command line and test if the playback speed and pitch is now correct?
+I can't really help to fix this Core Audio backend issue. I don't have a 
+Mac. Until this bug is fixed, you will have to live with the workaround.
 
-I guess you could also set the sampling rate in the guest to match the 
-host but if that results it to do resampling then it may use more CPU that 
-way.
+With best regards,
+Volker
 
-> The default for out.frequency is 44100.
+> --- Ursprüngliche Nachricht ---
+> Von: Volker Rümelin <vr_qemu@t-online.de>
+> Datum: 28.03.2023 20:26:14
+> An: Rene Engel <ReneEngel80@emailn.de>
+> Betreff: Re: Audio playback speed issue on sam460ex and pegasos2
+>
+>> Am 28.03.23 um 16:37 schrieb Rene Engel:
+>>> Sorry I was on the wrong branch.
+>>> I forget that every time, however that is trace test performed with
+>> ac97 under Pegasos 2 Emulation with AmigaOs4.1, startsound played and an
+>> mp3 with TuneNet.
+>>> audio_open_out 0.000 pid=8358 card=b'via-ac97' name=b'via-ac97.out'
+>> freq=0xac44 fmt=b's8' ch=0x1
+>>> audio_open_info_out 52921.000 pid=8358 end=b'sw' card=b'via-ac97' name=b'via-ac97.out'
+>> freq=0xac44 ch=0x1 bits=0x8 is_signed=0x1 is_float=0x0
+>>> audio_open_info_out 0.000 pid=8358 end=b'hw' card=b'via-ac97' name=b'via-ac97.out'
+>> freq=0xac44 ch=0x2 bits=0x20 is_signed=0x1 is_float=0x1
+>>> audio_open_out 1019.000 pid=8358 card=b'via-ac97' name=b'via-ac97.out'
+>> freq=0xac44 fmt=b's16' ch=0x2
+>>> audio_open_info_out 2.000 pid=8358 end=b'sw' card=b'via-ac97' name=b'via-ac97.out'
+>> freq=0xac44 ch=0x2 bits=0x10 is_signed=0x1 is_float=0x0
+>>> audio_open_info_out 0.000 pid=8358 end=b'hw' card=b'via-ac97' name=b'via-ac97.out'
+>> freq=0xac44 ch=0x2 bits=0x20 is_signed=0x1 is_float=0x1
+>>> audio_fe_frames_out 130352.000 pid=8358 fe_free=0x800 fe_written=0x372
+>>> audio_hw_frames_out 2.000 pid=8358 hw_free=0x800 hw_written=0x372
+>>> audio_fe_frames_out 10265.000 pid=8358 fe_free=0x68e fe_written=0x372
+>>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x68e hw_written=0x372
+>>> audio_fe_frames_out 11159.000 pid=8358 fe_free=0x51c fe_written=0x372
+>>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x51c hw_written=0x372
+>>> audio_fe_frames_out 10211.000 pid=8358 fe_free=0x3aa fe_written=0x372
+>>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x3aa hw_written=0x372
+>>> audio_fe_frames_out 10522.000 pid=8358 fe_free=0x238 fe_written=0x238
+>>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x238 hw_written=0x238
+>>> audio_fe_frames_out 10122.000 pid=8358 fe_free=0x200 fe_written=0x13a
+>>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x200 hw_written=0x13a
+>>> audio_fe_frames_out 10541.000 pid=8358 fe_free=0x2c6 fe_written=0x2c6
+>>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x2c6 hw_written=0x2c6
+>>> audio_fe_frames_out 10366.000 pid=8358 fe_free=0x200 fe_written=0xac
+>>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x200 hw_written=0xac
+>>> audio_fe_frames_out 10582.000 pid=8358 fe_free=0x354 fe_written=0x354
+>>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x354 hw_written=0x354
+>>> audio_fe_frames_out 10111.000 pid=8358 fe_free=0x200 fe_written=0x1e
+>>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x200 hw_written=0x1e
+>>> audio_fe_frames_out 10367.000 pid=8358 fe_free=0x3e2 fe_written=0x372
+>>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x3e2 hw_written=0x372
+>>> audio_fe_frames_out 10129.000 pid=8358 fe_free=0x270 fe_written=0x270
+>>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x270 hw_written=0x270
+>>> audio_fe_frames_out 10204.000 pid=8358 fe_free=0x200 fe_written=0x102
+>>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x200 hw_written=0x102
+>>> audio_fe_frames_out 10656.000 pid=8358 fe_free=0x2fe fe_written=0x2fe
+>>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x2fe hw_written=0x2fe
+>>> audio_fe_frames_out 10363.000 pid=8358 fe_free=0x200 fe_written=0x74
+>>> audio_hw_frames_out 1.000 pid=8358 hw_free=0x200 hw_written=0x74
+>>> audio_fe_frames_out 10436.000 pid=8358 fe_free=0x38c fe_written=0x372
+>>> audio_hw_frames_out 0.000 pid=8358 hw_free=0x38c hw_written=0x372
+>> Hi Rene,
+>>
+>> it seems your Mac uses a 48kHz sample rate, although QEMU requested a
+>> 44.1kHz sample rate. Could you add -audiodev
+>> coreaudio,id=audio0,out.frequency=48000 to your command line and test if
+>>
+>> the playback speed and pitch is now correct?
+>>
+>> The default for out.frequency is 44100.
+>>
+>> With best regards,
+>> Volker
+>>
+>>> --- Ursprüngliche Nachricht ---
+>>> Von: Volker Rümelin <vr_qemu@t-online.de>
+>>> Datum: 27.03.2023 21:12:42
+>>> An: Rene Engel <ReneEngel80@emailn.de>
+>>> Betreff: Re: Audio playback speed issue on sam460ex and pegasos2
+>>>
+>>>> Am 27.03.23 um 16:21 schrieb Rene Engel:
+>>>>> I compiled the build from their git branch and enabled the audio
+>> trace,
+>>>> but with this option the AmigaOs4.1 workbench does not start anymore
+>> and
+>>>> stops with a load sign. Tested with ac97 it almost looks like the
+>> ac97 part
+>>>> that used to stop AmigaOs4.1 is not included in your build.
+>>>>> This is the command line I used:
+>>>>>
+>>>>> reneengel@Mac-Studio build % cd /Users/reneengel/qemuVolkerAudioPatch/build
+>>>>> reneengel@Mac-Studio build % qemu-system-ppc -L pc-bios -M pegasos2
+>>>> -bios /Volumes/BackUP/PegasosQemuDatein/pegasos2.rom -vga none -device
+>> sm501
+>>>> -drive if=none,id=cd -m 1024 -device ide-cd,drive=cd,bus=ide.1 -drive
+>> if=none,id=hd,file=/Volumes/EXTREME\
+>>>> SSD/hd1.img,format=raw -device ide-hd,drive=hd,bus=ide.0 -device
+>> rtl8139,netdev=network00
+>>>> -netdev user,id=network00 -rtc base=localtime -display cocoa -serial
+>> stdio
+>>>> -smp cores=1 -trace "audio_open*_out" -trace "audio_*_frames_out"
+>>>> -trace file=/tmp/qemu-trace
+>>>>
+>>>> Is the current directory included in the macOS search path? On my
+>> Linux
+>>>> system qemu-system-ppc starts the installed QEMU executable. I have
+>> to
+>>>> use ./qemu-system-ppc to start the program from the build directory.
+>>>>
+>>
+>
 
-I think ALSA and Pulseaudio may also default to 48kHz. I remember 
-configuring ALSA to 44.1 kHz on my machine to avoid resampling in the more 
-common case of playing music. So is this a general problem or something 
-with the coreadio backend? Should this somehow detect the host sampling 
-rate and do something about it?
-
-Regards,
-BALATON Zoltan
---3866299591-2008589875-1680117634=:10834--
 
