@@ -2,159 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121DE6CEF9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED376CEFBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:48:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phYqC-0006bA-VZ; Wed, 29 Mar 2023 12:40:05 -0400
+	id 1phYxC-0000YS-A3; Wed, 29 Mar 2023 12:47:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1phYq6-0006ax-Ii
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:39:58 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phYx9-0000Xo-LS
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:47:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1phYq3-0003hf-E3
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:39:57 -0400
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32TEOwRu018062; Wed, 29 Mar 2023 16:39:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=jrq5GHa3ExN7Oy4FjnwLTWkzy9fK6JhHaj1U6PWqgZ8=;
- b=eQI9PZAsWHCasDhyfuXUWQo6V89ZW8p2ClsH++cJFtpOT/n65woaIaNXtS5UFLcpCgzg
- hhoTcU9XL1J4yrOEsZuhBegNWlbJ3alkvo5PnHlM8NMiZpnuVLmozMBmlsSLjHXpnyn/
- lbqEwiUAZfLbtKZGfWhglF77oSEHP2mmW/5gWJCeY/kBj/aoO+VJWWYes0cJg3If5MA/
- JncwOQVJ1jupdSmnoVmJb5he02elV3IXhjyKoRJPFZmunqPsuTlGQbddIdtGr4apu7PT
- 4kUhj07zc/TmkmE2LSSbq+GxkFIS0LD4O1ApTQ1BQSQgeKpQoJvRR1sL5D3f2w/7Mr+m Mw== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pmq1wrdcr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Mar 2023 16:39:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VL60cSAduA01dJIZjFF5vS/nqJskXNwNKytywLrxboJleHeamf9SOcfMVfi7lzuIcALnMDiu2qr+ukbrRPixR3XyN5Hq7hUmx4twAsoXzwuTnOtlkSpA7jSrgYkMQdzGwQvREDIBFkjarFoWCFSSXvqoqV2PuuFcHHMX4c7ZOifQkVZVXmpvqH0eqFph0JqSGPM5VHHyID+0Fp+sEgbivTAXO25O5MJkytwoGVv1wuHa3yKVKw/4eIgX94NMEaPVeghrTu9WkZl+Fm1JFcfA8q/bl5hWAJ5ccIQ0pEpmFF45aewcgevz3hoqoXiA/C5aGlNYFWqi4S/m1AxuGdMAjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jrq5GHa3ExN7Oy4FjnwLTWkzy9fK6JhHaj1U6PWqgZ8=;
- b=i8AaBdc//W5shhJIoNub2nQkalnXUzMjveT11s1KXF0lk9mDL/Le7KVn0JUXN9UZaT/gEGKVCxN9bw6amiCbqsraM8OlTSWlUJ2LrqJr3aidqOLKC+rsMwsBeZaGV4Ec6POqiYfSQvCQwonDpEBHP8GWdu8U49D0XahlryhGA5L6EAdtZf2V8SkuhBi5IPvyBTKMBKx6NHtukH0nxwMqGGeqMpfmcK4nxquefCbbR8rhZycdGKDV5g2xnZPyREHLz0a/A0h1Vx8TWJDHWeDfTGB7YHkRvJg3NA7sqiuian2ZwrW1KURpDNns9ynUvNoEoMtdYO80lxeJKaLkiDMc/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by SA0PR02MB7372.namprd02.prod.outlook.com
- (2603:10b6:806:eb::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.31; Wed, 29 Mar
- 2023 16:39:48 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::eb63:d1c0:28de:72f5]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::eb63:d1c0:28de:72f5%8]) with mapi id 15.20.6222.035; Wed, 29 Mar 2023
- 16:39:48 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, "Marco Liebel
- (QUIC)" <quic_mliebel@quicinc.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Brian Cain
- <bcain@quicinc.com>,
- "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>
-Subject: RE: [PATCH] Use hexagon toolchain version 16.0.0
-Thread-Topic: [PATCH] Use hexagon toolchain version 16.0.0
-Thread-Index: AQHZYknUENibOd2BqUaJj+r/j0WWwK8R8+0AgAABDyA=
-Date: Wed, 29 Mar 2023 16:39:47 +0000
-Message-ID: <SN4PR0201MB88081861438C9226DA21B96EDE899@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20230329142108.1199509-1-quic_mliebel@quicinc.com>
- <87fs9nqzyf.fsf@linaro.org>
-In-Reply-To: <87fs9nqzyf.fsf@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|SA0PR02MB7372:EE_
-x-ms-office365-filtering-correlation-id: 07171061-44ee-4ec9-95aa-08db307435ce
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7I0SZjHGuTsIGDNaEmOXX/NeIKXfaVFnTaSzrZjAhYlHeiTMMlR2V+TZaDvSSAgOan08CBpihfiNpbqKHMfcegBUoWEthlIFQJ7FOlj+lDaKMRzZqy20+KYd0ccdfOguL2Ewd6883FZH/fhqCzvpQqtmzvYhPfTF6Rq6NDP6Sy8JwzrlHnkVy3w8o5kK6Rc85/M6102Y2Ss3ajTF2TD7YXLklfLjgXTgumxzwlUdqOpF/LH2gmsJV9wvhxFRat4eRLrz/LWY36dGCsW/YtzGaZdc10IQ0BiVr0wAlgblpjcPFaQ95LtZnrPrWedt793MEeSe6dpZW9W8SAPPnSJN3SiKPuRhCV1MoJ7WJuN2QKXh+S3uP+6SH0bpuZV7eQs0zEY3cLA486Pump4sDF65HG4HWcwHx/g1kBqlZZqaBn9ENmD9YpF9hTcVM4dv5EWpenpTiVGOgxlVq0YS6LezXaOPuVH8iQw0CTx9D1m+8mbSbD/7vKiEByC3cTBlrceRbLHcL+9KyPyCB0Sexs5OFC0qR7BzHHT+eGSPS35LRLAwN+5ZlSbr9mEOy1Bo7BpycPc+NbEGwk4xhsngP3B8WGo0Mes3/53esQHH2n3lqnM=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(346002)(366004)(136003)(396003)(376002)(451199021)(478600001)(107886003)(5660300002)(66476007)(64756008)(66946007)(76116006)(66556008)(66446008)(4326008)(186003)(316002)(26005)(52536014)(122000001)(41300700001)(8936002)(54906003)(83380400001)(7696005)(8676002)(53546011)(66574015)(966005)(6636002)(9686003)(110136005)(71200400001)(6506007)(55016003)(38070700005)(33656002)(38100700002)(86362001)(2906002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dzJ3MjdBQ0M3eTVtc05qckJhNVJwK0p0T1pmOW5ma1VibnlYOFhwRmEyUmJ5?=
- =?utf-8?B?NmdUV2kvTmMxTDhQbE9TR3lDOFhJTzVOSzR4RjUxSCs2S3YrTnluODlIK3dX?=
- =?utf-8?B?cWsvcjJBS2p5Z0dTS2NxUlIwcGhZSmpDNTFPSzdHK2FYRWhTdTZ6My9ESWY3?=
- =?utf-8?B?bmhac0xXS25ua2QyMjcwWGs5OElJbHN3c2FTNVVOaXhDOGJwY3VEVHRFTnhw?=
- =?utf-8?B?S2pqVGVYN3JqeHBjT3FyQXFVRDNuaXlHdnR2TGIzZHZzWG1udm45WVlHQUJx?=
- =?utf-8?B?WS91bDlObmN1UVdtVlFLamlGQ0p5c2V1cVhrS3NiNysvdVBLSWxqQ2JSMEQv?=
- =?utf-8?B?M3g1QTE0RmJ6ZUJETk1JUjlVYkttcmNWRnN2aGZXNlpUSklsSTVMSnVqdGZG?=
- =?utf-8?B?bWZkaCtMNG5PWHJXNGdZN2oyUXBqZ3dTS0VhdmZ4bnM1YkRtS3NNODh1UU9S?=
- =?utf-8?B?MU96TkdLY0x2TnVjckpRZVVkWjF2N24wRGJBcTlHRDU3ZXJNNTRwYVJRTXBU?=
- =?utf-8?B?eTQwanhGLy9iTm9odUxVRDVMZWNsNjlTdEJCS3I4UXhCOE5yVWlueTc0clEr?=
- =?utf-8?B?SnNFMktILzdNMi9UeEZ5aTdJTjdVM2tsMlI3RWthbEVzZ0J0T1VjTWhEdFFP?=
- =?utf-8?B?R0ZuaXVrZHhDQ3hlLzJIMlYrZkVCWFM4eEh2RGRCT2VtWm5rampUVmxCOFJJ?=
- =?utf-8?B?U01nNkt1K3pRUkJRMW5MWW1TMXNwQmJhOUdiWHAxMnZ4Rm10Tm94azFFZ1Rl?=
- =?utf-8?B?eDRCTHJMV1B5WmpkZXFycDcxNzQrOXdQNDBxZkdPL2hNa3djU002OEVoTEc5?=
- =?utf-8?B?S1YrdG5VcGxnQXdjQ01oUnh6ZWl0eG9GeUpHSHdVN2NBUWpjbzQ3TGZwM0Mv?=
- =?utf-8?B?RzUweXRpalRGRjJPUC9LQUF0QjFtYmp4NWpkZGJUWkFJVzlEdERXTUJGTXp1?=
- =?utf-8?B?UVJjcDdxdEtxcjVEVTBrRWJFWmU2aS9qNkdHMEJVTTQ2WTFnd1dLKytFeDRk?=
- =?utf-8?B?UTJxV1BQY2VQQkNvcG12RFVXVmNld2VqME9lUzB0bnE2aFdhQ2p5QzZYc1JD?=
- =?utf-8?B?ZzJPSTRRbXRaMWdBODBEek9ralljdzBrMWVnUUtDaHR0eHk5NnpNMFFiWDVC?=
- =?utf-8?B?ZDVkNjVxZU80NzA2V04rTm9mN2ZLS3ZQbGQwSk04djBsY1RCTDRaTUg2WjFO?=
- =?utf-8?B?M1BJVTRPbUVEWEQrdDc3M1E2OUd6TUt1LzlkZ1ZBcUs2TTk4NVc2aWZyMUVH?=
- =?utf-8?B?LzB6ZGNEVEhOaTZJZGFCOTNZVGVMeGtPVXgvaXNJdXFDMkQvTFRCZ2lMVDQv?=
- =?utf-8?B?cEpuUWdZb2hXWVMydE9DeEpkeXp5djA0UC8rK0pRZ2RRcFM1dVBYRWtTT2tD?=
- =?utf-8?B?dUZpQVg5UGVleHpVZ3NtVDhzRGR2dE9DZEVpUkw0bFkvLzVBUnhaQkJTTElQ?=
- =?utf-8?B?SHI2QUVzN29uYWdUTnR0elpyNEtqMDY3MWsraGpQc1dJRG5uUEtveWNmNHBX?=
- =?utf-8?B?dC9mNWF2a05pNitOcy9sdGJaN1FBTzlrTnh2RXFIZzlIdDdETHRONTU4OXF0?=
- =?utf-8?B?S2xiQVNrMVgrQjhDMnAvK3g4NlNubFZmaEYvRlNsbXZUT2xLNGZ0WDZYeXVm?=
- =?utf-8?B?eXRLck11Z2pneEMxcHcwY1QwRWNVTTFTWk9ocU1PMDYvSFFZLzREZFU0T2Rz?=
- =?utf-8?B?a3c5RlVSQTlEQ3RrNVBjVlNrVllabHBJYzhRb0dJNmprTjJqTmFGSFR5VUpp?=
- =?utf-8?B?eEw2Qzg0anpuM1BOMEg3Rlk3T0tPZUZvRU5ZYUJ3ZERyTFBaQTNaZGJkbkx3?=
- =?utf-8?B?VzFIY3lUMWlZSmZnRVFzZlZFbkVrQXo2SWVveExXdjNwbUdEZk9OdFQrSXMx?=
- =?utf-8?B?L3kvMjZOaVNBdmdNSkhXSXluSVh5QjhTcmd1TlBjQ2hqUjNCdWdHMkFNTHl0?=
- =?utf-8?B?dEc2T2JrcSt1SVhJRWh6ZWpJbG05VUFxU2ZKc2NPR0Vja3dpYkhaT1k1eWFs?=
- =?utf-8?B?ZlA3YTZUYmtuZk9OUWZIdzBLT3BodFd0ekhpNGQwRUpEenRRSnBWT25JRjhp?=
- =?utf-8?B?MFVSaFN5ZXZKNlh2TmVFSkNrSytxamNoTkRrOElXbzZ2SDdzaUpjWmkrSWxM?=
- =?utf-8?Q?EAIs1p+SH4W+zB+tTq2qLKC9w?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phYx7-0006uR-A8
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:47:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680108432;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hn6FMD2REGcI7oLVfN3s9GEcCBiTF3sBM/dFgBfrsSo=;
+ b=eBpZeyCVztu5hH3T0ExpSUSj7pNoWCc8UTCzdFSkKnUBZ7mUcTI62AlTJKfYAJOW2ALRYi
+ 0+UBkv2BzzKzXlhDn0veDXXMc1efP6eBpRtTU83uAsCncS7D1JgN0wjFGAnBmiwL/BIecE
+ hDQJYYCd3LWXisQt+72WyPcQ0Oz3tv0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-611-PMGsgJIJMTyLrwaPUjHrJQ-1; Wed, 29 Mar 2023 12:47:10 -0400
+X-MC-Unique: PMGsgJIJMTyLrwaPUjHrJQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j27-20020a05600c1c1b00b003edd2023418so9077615wms.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:47:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680108429;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hn6FMD2REGcI7oLVfN3s9GEcCBiTF3sBM/dFgBfrsSo=;
+ b=LKYEEmFtebRCB7XiShgJ3lnWh3yfpHSr5SCsbuj4ieSNQBCNgN8WBqlDQCBlB59Leu
+ ss+9zsD5+A+QLLiBye/AqCCj3RCBI3Eh/hQelZ5+Fb/fnwTtTp/CGN2KIqrfk5E3/Ge9
+ R3CjY5bPL/GtqC2IAAXbOP7lxZeYWhSnMSIiXJNzXUFZoNWZc74mS6FxS7CQxUCfoeuX
+ kysAPM9HBJrZqKg/xOfv9jdAi4RZUkfaqgemaQ/eX9bhYNwvs4LEp5iEKQZ2+HgV4fZE
+ x7/g8mkF2Q+IojPSHsofiDPDuZV2BQobHzOag4o4p2cAjIIpMlHgPdZnpAPlbSysvIbz
+ nK+A==
+X-Gm-Message-State: AAQBX9d4V8kJ/PuP1ofz+offhENKX9gpyd9ilac4pGNBmjocRuVRi8Nw
+ GyYU9DJwNM4fMuJeKk+o/frJvXxEcz6kietFxG+tchaUhgWHUWjMiFl2HTYRIjYHPWo2xeFnXbV
+ mi/01cMc5mjcKlRs=
+X-Received: by 2002:a05:600c:21d9:b0:3ed:5eed:5581 with SMTP id
+ x25-20020a05600c21d900b003ed5eed5581mr2290814wmj.2.1680108429579; 
+ Wed, 29 Mar 2023 09:47:09 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZZhH0Kgk5qBoscNnFSzoG1yfB51rwpBdUWAw+lOiSicSDcNe3aGjSfhGJhKa25+dmg5UeLww==
+X-Received: by 2002:a05:600c:21d9:b0:3ed:5eed:5581 with SMTP id
+ x25-20020a05600c21d900b003ed5eed5581mr2290790wmj.2.1680108429240; 
+ Wed, 29 Mar 2023 09:47:09 -0700 (PDT)
+Received: from redhat.com ([2.52.18.165]) by smtp.gmail.com with ESMTPSA id
+ n2-20020a05600c4f8200b003ef5e5f93f5sm3017273wmq.19.2023.03.29.09.47.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 09:47:08 -0700 (PDT)
+Date: Wed, 29 Mar 2023 12:47:05 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: shannon.zhaosl@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com, richard.henderson@linaro.org,
+ eduardo@habkost.net, boris.ostrovsky@oracle.com
+Subject: Re: [PATCH 0/2] hw/acpi: bump MADT to revision 5
+Message-ID: <20230329124442-mutt-send-email-mst@kernel.org>
+References: <20230328155926.2277-1-eric.devolder@oracle.com>
+ <20230329010406-mutt-send-email-mst@kernel.org>
+ <96144a1b-efa7-ecc2-3e35-56825fcf48c6@oracle.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: WU4uJPgnH4H2bChoY1EfUnAjB4xeXWSs3nePSXJ6yc598hSA7jyTPsZgakMQMJerNqmVUsXvEpK35AA1bEwX46QbYfJnoCH6tzKgQ1I3rXMxhfXOrfu+qm19n/dfVoVLCMQnRUYaFgwvR/utR2UaytR/jIjTUhjvgVejpW8eTxCSP6U52aOqiL8XezMIVs6p6hL6BXy/hzQKdMsVs5dX2SMyETwZHmGcEQPn/zk1a7DJSInK7k50J9aczBil/sxXVG8h6ZqXGeepNYeH2QAmQy1ArCQfY3qpvBf6A2zjubXlwzUxgliXO0Jn7qbM06eSp0W4r5Xc4qDO7eN1kgx18lS15KQ5j0v3qA+K9GJnAYc4iVvNhWr2bgvZrXIfz6sEV1Xrr4vwrM7nJGTD8gzzRja8bqPn4uLWYFLfL98Fjmd3Ul+I4XivdSYB5GYIp89dQoKW4TDFR1Qd0EgFj5qSTBNCnP9YwF5ZWbcMselzJh7soAqsILUEfESJdz/0WrHooyigW/FxhIFHnm7p51w44cF3kn59lwZgN14sKk0eCU0cp4cGO/jzeVloefl9pan3s22bvTr5btZ86gaGphsrDnUtwBNnlOmwTAgs39LmtzqFN/aGr8wWS9Lj4b9sB9nAWpeO9doXiXqjbJLkPmBJ9Vvv6rWddAMzvN085vlV1Fd+KFwY2pJQXRsiwAfb+pQ6QV2xgEgltU+w1R/O4Aoomf96iwWS5tNWL9NG1abs99ci95ujLW/uhTEF9v5hIALBuyTohremJT/hCsoCAPAhHLdYg51UpG6sSlkb8BUTc18=
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07171061-44ee-4ec9-95aa-08db307435ce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2023 16:39:47.9699 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wBztNfYaEdcngTd1BhJrAYETGAaO45rDdetgrnBJMAqxcL7c8hwn4HtJgmOV1QptUT0UJ0LEb6XsNsH10aI/FA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR02MB7372
-X-Proofpoint-ORIG-GUID: bS1ILIJVepqYTnqrMjK2WYS_sSpvKskW
-X-Proofpoint-GUID: bS1ILIJVepqYTnqrMjK2WYS_sSpvKskW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-29_10,2023-03-28_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- suspectscore=0 mlxscore=0 mlxlogscore=999 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303290129
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <96144a1b-efa7-ecc2-3e35-56825fcf48c6@oracle.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -171,31 +100,270 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxleCBCZW5uw6llIDxh
-bGV4LmJlbm5lZUBsaW5hcm8ub3JnPg0KPiBTZW50OiBXZWRuZXNkYXksIE1hcmNoIDI5LCAyMDIz
-IDEwOjM0IEFNDQo+IFRvOiBNYXJjbyBMaWViZWwgKFFVSUMpIDxxdWljX21saWViZWxAcXVpY2lu
-Yy5jb20+DQo+IENjOiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+OyBxZW11
-LWRldmVsQG5vbmdudS5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSF0gVXNlIGhleGFnb24gdG9v
-bGNoYWluIHZlcnNpb24gMTYuMC4wDQo+IA0KPiBNYXJjbyBMaWViZWwgPHF1aWNfbWxpZWJlbEBx
-dWljaW5jLmNvbT4gd3JpdGVzOg0KPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBNYXJjbyBMaWViZWwg
-PHF1aWNfbWxpZWJlbEBxdWljaW5jLmNvbT4NCj4gPiAtLS0NCj4gPiAgdGVzdHMvZG9ja2VyL2Rv
-Y2tlcmZpbGVzL2RlYmlhbi1oZXhhZ29uLWNyb3NzLmRvY2tlciB8IDIgKy0NCj4gPiAgMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0t
-Z2l0IGEvdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2RlYmlhbi1oZXhhZ29uLWNyb3NzLmRvY2tl
-cg0KPiA+IGIvdGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2RlYmlhbi1oZXhhZ29uLWNyb3NzLmRv
-Y2tlcg0KPiA+IGluZGV4IDUzMDhjY2I4ZmUuLmI5OWQ5OWY5NDMgMTAwNjQ0DQo+ID4gLS0tIGEv
-dGVzdHMvZG9ja2VyL2RvY2tlcmZpbGVzL2RlYmlhbi1oZXhhZ29uLWNyb3NzLmRvY2tlcg0KPiA+
-ICsrKyBiL3Rlc3RzL2RvY2tlci9kb2NrZXJmaWxlcy9kZWJpYW4taGV4YWdvbi1jcm9zcy5kb2Nr
-ZXINCj4gPiBAQCAtMjcsNyArMjcsNyBAQCBSVU4gYXB0LWdldCB1cGRhdGUgJiYgXA0KPiA+DQo+
-ID4NCj4gPiAgRU5WIFRPT0xDSEFJTl9JTlNUQUxMIC9vcHQNCj4gPiAtRU5WIFRPT0xDSEFJTl9S
-RUxFQVNFIDE1LjAuMw0KPiA+ICtFTlYgVE9PTENIQUlOX1JFTEVBU0UgMTYuMC4wDQo+ID4gIEVO
-ViBUT09MQ0hBSU5fQkFTRU5BTUUgImNsYW5nK2xsdm0tJHtUT09MQ0hBSU5fUkVMRUFTRX0tY3Jv
-c3MtDQo+IGhleGFnb24tdW5rbm93bi1saW51eC1tdXNsIg0KPiA+ICBFTlYgVE9PTENIQUlOX1VS
-TA0KPiA+IGh0dHBzOi8vY29kZWxpbmFyby5qZnJvZy5pby9hcnRpZmFjdG9yeS9jb2RlbGluYXJv
-LXRvb2xjaGFpbi1mb3ItDQo+IGhleGFnb24vdiR7VE9PTENIQUlOX1JFTEVBU0V9LyR7VE9PTENI
-QUlOX0JBU0VOQU1FfS50YXIueHoNCj4gDQo+IFF1ZXVlZCB0byBmb3ItOC4wL21vcmUtbWlzYy1m
-aXhlcywgdGhhbmtzLg0KDQpUaGFua3MgQWxleCENCg0KVGhpcyB0b29sY2hhaW4gc3VwcG9ydHMg
-dXAgdG8gSGV4YWdvbiB2ZXJzaW9uIHY3NS4gIEknbGwgc3RhcnQgcHJlcGFyaW5nIHBhdGNoZXMg
-dG8gYWRkIHN1cHBvcnQgZm9yIHRoZSBuZXcgaW5zdHJ1Y3Rpb25zIHRvIHRhcmdldC9oZXhhZ29u
-Lg0KDQpUYXlsb3INCg0K
+On Wed, Mar 29, 2023 at 08:14:37AM -0500, Eric DeVolder wrote:
+> 
+> 
+> On 3/29/23 00:19, Michael S. Tsirkin wrote:
+> > Hmm I don't think we can reasonably make such a change for 8.0.
+> > Seems too risky.
+> > Also, I feel we want to have an internal (with "x-" prefix") flag to
+> > revert to old behaviour, in case of breakage on some guests.  and maybe
+> > we want to keep old revision for old machine types.
+> Ok, what option name, for keeping old behavior, would you like?
+
+Don't much care. x-madt-rev?
+
+> > 
+> > 
+> > On Tue, Mar 28, 2023 at 11:59:24AM -0400, Eric DeVolder wrote:
+> > > The following Linux kernel change broke CPU hotplug for MADT revision
+> > > less than 5.
+> > > 
+> > >   commit e2869bd7af60 ("x86/acpi/boot: Do not register processors that cannot be onlined for x2APIC")
+> > 
+> > Presumably it's being fixed? Link to discussion? Patch fixing that in
+> > Linux?
+> 
+> https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devolder@oracle.com/T/#t
+
+Great! Maybe stick a Link: tag in the commit log.
+
+> > 
+> > 
+> > > As part of the investigation into resolving this breakage, I learned
+> > > that i386 QEMU reports revision 1, while technically it is at revision 3.
+> > > (Arm QEMU reports revision 4, and that is valid/correct.)
+> > > 
+> > > ACPI 6.3 bumps MADT revision to 5 as it introduces an Online Capable
+> > > flag that the above Linux patch utilizes to denote hot pluggable CPUs.
+> > > 
+> > > So in order to bump MADT to the current revision of 5, need to
+> > > validate that all MADT table changes between 1 and 5 are present
+> > > in QEMU.
+> > > 
+> > > Below is a table summarizing the changes to the MADT. This information
+> > > gleamed from the ACPI specs on uefi.org.
+> > > 
+> > > ACPI    MADT    What
+> > > Version Version
+> > > 1.0             MADT not present
+> > > 2.0     1       Section 5.2.10.4
+> > > 3.0     2       Section 5.2.11.4
+> > >                   5.2.11.13 Local SAPIC Structure added two new fields:
+> > >                    ACPI Processor UID Value
+> > >                    ACPI Processor UID String
+> > >                   5.2.10.14 Platform Interrupt Sources Structure:
+> > >                    Reserved changed to Platform Interrupt Sources Flags
+> > > 3.0b    2       Section 5.2.11.4
+> > >                   Added a section describing guidelines for the ordering of
+> > >                   processors in the MADT to support proper boot processor
+> > >                   and multi-threaded logical processor operation.
+> > > 4.0     3       Section 5.2.12
+> > >                   Adds Processor Local x2APIC structure type 9
+> > >                   Adds Local x2APIC NMI structure type 0xA
+> > > 5.0     3       Section 5.2.12
+> > > 6.0     3       Section 5.2.12
+> > > 6.0a    4       Section 5.2.12
+> > >                   Adds ARM GIC structure types 0xB-0xF
+> > > 6.2a    45      Section 5.2.12   <--- yep it says version 45!
+> > > 6.2b    5       Section 5.2.12
+> > >                   GIC ITS last Reserved offset changed to 16 from 20 (typo)
+> > > 6.3     5       Section 5.2.12
+> > >                   Adds Local APIC Flags Online Capable!
+> > >                   Adds GICC SPE Overflow Interrupt field
+> > > 6.4     5       Section 5.2.12
+> > >                   Adds Multiprocessor Wakeup Structure type 0x10
+> > >                   (change notes says structure previously misplaced?)
+> > > 6.5     5       Section 5.2.12
+> > > 
+> > > For the MADT revision change 1 -> 2, the spec has a change to the
+> > > SAPIC structure. In general, QEMU does not generate/support SAPIC.
+> > > So the QEMU i386 MADT revision can safely be moved to 2.
+> > > 
+> > > For the MADT revision change 2 -> 3, the spec adds Local x2APIC
+> > > structures. QEMU has long supported x2apic ACPI structures. A simple
+> > > search of x2apic within QEMU source and hw/i386/acpi-common.c
+> > > specifically reveals this.
+> > 
+> > But not unconditionally.
+> 
+> I don't think that reporting revision 3 requires that generation of x2apic;
+> one could still see apic, x2apic, or sapic in theory. I realize qemu doesn't
+> do sapic...
+> 
+> > 
+> > > So the QEMU i386 MADT revision can safely
+> > > be moved to 3.
+> > > 
+> > > For the MADT revision change 3 -> 4, the spec adds support for the ARM
+> > > GIC structures. QEMU ARM does in fact generate and report revision 4.
+> > > As these will not be used by i386 QEMU, so then the QEMU i386 MADT
+> > > revision can safely be moved to 4 as well.
+> > > 
+> > > Now for the MADT revision change 4 -> 5, the spec adds the Online
+> > > Capable flag to the Local APIC structure, and the ARM GICC SPE
+> > > Overflow Interrupt field.
+> > > 
+> > > For the ARM SPE, an existing 3-byte Reserved field is broken into a 1-
+> > > byte Reserved field and a 2-byte SPE field.  The spec says that is SPE
+> > > Overflow is not supported, it should be zero.
+> > > 
+> > > For the i386 Local APIC flag Online Capable, the spec has certain rules
+> > > about this value. And in particuar setting this value now explicitly
+> > > indicates a hotpluggable CPU.
+> > > 
+> > > So this patch makes the needed changes to move both ARM and i386 MADT
+> > > to revision 5. These are not complicated, thankfully.
+> > > 
+> > > Without these changes, the information below shows "how" CPU hotplug
+> > > breaks with the current upstream Linux kernel 6.3.  For example, a Linux
+> > > guest started with:
+> > > 
+> > >   qemu-system-x86_64 -smp 30,maxcpus=32 ...
+> > > 
+> > > and then attempting to hotplug a CPU:
+> > > 
+> > >    (QEMU) device_add id=cpu30 driver=host-x86_64-cpu socket-id=0 core-id=30 thread-id=0
+> > > 
+> > > fails with the following:
+> > > 
+> > >    APIC: NR_CPUS/possible_cpus limit of 30 reached. Processor 30/0x.
+> > >    ACPI: Unable to map lapic to logical cpu number
+> > >    acpi LNXCPU:1e: Enumeration failure
+> > > 
+> > >    # dmesg | grep smpboot
+> > >    smpboot: Allowing 30 CPUs, 0 hotplug CPUs
+> > >    smpboot: CPU0: Intel(R) Xeon(R) CPU D-1533 @ 2.10GHz (family: 0x)
+> > >    smpboot: Max logical packages: 1
+> > >    smpboot: Total of 30 processors activated (125708.76 BogoMIPS)
+> > > 
+> > >    # iasl -d /sys/firmware/tables/acpi/APIC
+> > >    [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Descript
+> > >    [004h 0004   4]                 Table Length : 00000170
+> > >    [008h 0008   1]                     Revision : 01          <=====
+> > >    [009h 0009   1]                     Checksum : 9C
+> > >    [00Ah 0010   6]                       Oem ID : "BOCHS "
+> > >    [010h 0016   8]                 Oem Table ID : "BXPC    "
+> > >    [018h 0024   4]                 Oem Revision : 00000001
+> > >    [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+> > >    [020h 0032   4]        Asl Compiler Revision : 00000001
+> > > 
+> > >    ...
+> > > 
+> > >    [114h 0276   1]                Subtable Type : 00 [Processor Local APIC]
+> > >    [115h 0277   1]                       Length : 08
+> > >    [116h 0278   1]                 Processor ID : 1D
+> > >    [117h 0279   1]                Local Apic ID : 1D
+> > >    [118h 0280   4]        Flags (decoded below) : 00000001
+> > >                               Processor Enabled : 1          <=====
+> > > 
+> > >    [11Ch 0284   1]                Subtable Type : 00 [Processor Local APIC]
+> > >    [11Dh 0285   1]                       Length : 08
+> > >    [11Eh 0286   1]                 Processor ID : 1E
+> > >    [11Fh 0287   1]                Local Apic ID : 1E
+> > >    [120h 0288   4]        Flags (decoded below) : 00000000
+> > >                               Processor Enabled : 0          <=====
+> > > 
+> > >    [124h 0292   1]                Subtable Type : 00 [Processor Local APIC]
+> > >    [125h 0293   1]                       Length : 08
+> > >    [126h 0294   1]                 Processor ID : 1F
+> > >    [127h 0295   1]                Local Apic ID : 1F
+> > >    [128h 0296   4]        Flags (decoded below) : 00000000
+> > >                               Processor Enabled : 0          <=====
+> > > 
+> > > The (latest upstream) Linux kernel sees 30 Enabled processors, and
+> > > does not consider processors 31 and 32 to be hotpluggable.
+> > > 
+> > > With this patch series applied, by bumping MADT to revision 5, the
+> > > latest upstream Linux kernel correctly identifies 30 CPUs plus 2
+> > > hotpluggable CPUS.
+> > > 
+> > >    CPU30 has been hot-added
+> > >    smpboot: Booting Node 0 Processor 30 APIC 0x1e
+> > >    Will online and init hotplugged CPU: 30
+> > > 
+> > >    # dmesg | grep smpboot
+> > >    smpboot: Allowing 32 CPUs, 2 hotplug CPUs
+> > >    smpboot: CPU0: Intel(R) Xeon(R) CPU D-1533 @ 2.10GHz (family: 0x6, model: 0x56, stepping: 0x3)
+> > >    smpboot: Max logical packages: 2
+> > >    smpboot: Total of 30 processors activated (125708.76 BogoMIPS)
+> > > 
+> > >    # iasl -d /sys/firmware/tables/acpi/APIC
+> > >    [000h 0000 004h]                   Signature : "APIC"    [Multiple APIC Descript
+> > >    [004h 0004 004h]                Table Length : 00000170
+> > >    [008h 0008 001h]                    Revision : 05          <=====
+> > >    [009h 0009 001h]                    Checksum : 94
+> > >    [00Ah 0010 006h]                      Oem ID : "BOCHS "
+> > >    [010h 0016 008h]                Oem Table ID : "BXPC    "
+> > >    [018h 0024 004h]                Oem Revision : 00000001
+> > >    [01Ch 0028 004h]             Asl Compiler ID : "BXPC"
+> > >    [020h 0032 004h]       Asl Compiler Revision : 00000001
+> > > 
+> > >    ...
+> > > 
+> > >    [114h 0276 001h]               Subtable Type : 00 [Processor Local APIC]
+> > >    [115h 0277 001h]                      Length : 08
+> > >    [116h 0278 001h]                Processor ID : 1D
+> > >    [117h 0279 001h]               Local Apic ID : 1D
+> > >    [118h 0280 004h]       Flags (decoded below) : 00000001
+> > >                               Processor Enabled : 1          <=====
+> > >                          Runtime Online Capable : 0          <=====
+> > > 
+> > >    [11Ch 0284 001h]               Subtable Type : 00 [Processor Local APIC]
+> > >    [11Dh 0285 001h]                      Length : 08
+> > >    [11Eh 0286 001h]                Processor ID : 1E
+> > >    [11Fh 0287 001h]               Local Apic ID : 1E
+> > >    [120h 0288 004h]       Flags (decoded below) : 00000002
+> > >                               Processor Enabled : 0          <=====
+> > >                          Runtime Online Capable : 1          <=====
+> > > 
+> > >    [124h 0292 001h]               Subtable Type : 00 [Processor Local APIC]
+> > >    [125h 0293 001h]                      Length : 08
+> > >    [126h 0294 001h]                Processor ID : 1F
+> > >    [127h 0295 001h]               Local Apic ID : 1F
+> > >    [128h 0296 004h]       Flags (decoded below) : 00000002
+> > >                               Processor Enabled : 0          <=====
+> > >                          Runtime Online Capable : 1          <=====
+> > > 
+> > > Regards,
+> > > Eric
+> > 
+> > Can you please report which guests were tested?
+> 
+> I've been using primarily upstream Linux. Kernels at and before 6.2.0 didn't
+> have the "broken" patch mentioned above, and worked (for the reasons cited
+> in the patch discussion to "fix" that patch). Any kernel since has the
+> "broken" patch and will exhibit the issue.
+> 
+> I've been using q35.
+> 
+> If there are other samples you'd like to see, let me know and I'll try.
+> 
+> Also, my responses will be delayed as I'm traveling the remainder of the week.
+> 
+> Thanks!
+> eric
+
+As a minimum some windows versions. The older the better.
+
+
+> 
+> > 
+> > 
+> > > 
+> > > Eric DeVolder (2):
+> > >    hw/acpi: arm: bump MADT to revision 5
+> > >    hw/acpi: i386: bump MADT to revision 5
+> > > 
+> > >   hw/arm/virt-acpi-build.c |  6 ++++--
+> > >   hw/i386/acpi-common.c    | 13 ++++++++++---
+> > >   2 files changed, 14 insertions(+), 5 deletions(-)
+> > > 
+> > > -- 
+> > > 2.31.1
+> > > 
+> > > 
+> > > 
+> > 
+
 
