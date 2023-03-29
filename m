@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8AE6CDBC0
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 16:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9066CDBD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 16:16:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phWXz-0003sK-8F; Wed, 29 Mar 2023 10:13:07 -0400
+	id 1phWag-0005TK-AE; Wed, 29 Mar 2023 10:15:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1phWXx-0003qf-G1
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:13:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1phWXv-00036Y-BP
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:13:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680099182;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I+NOoL+vvM0CsAifaYlrbWjSuJMDbomlaQkGj5eyki4=;
- b=O9a235JjIAnU7eQ4+ONRx7mQ9U5HJPKsoIUqcp4PbXGsBXc1UbeXF2kocS9q8WAgZgWbN8
- pF6aWiVdwWJUwLmFrLocrC2uq49kXIB5Ga08VqU+6kH9N6V3nvAhLPcIAkHo4yn+k2jzAP
- cKdvnSff93T9l9pp9d8C77R0WJpQzkQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-163-MF0hklOrOf2_OC7awH6Jrg-1; Wed, 29 Mar 2023 10:13:00 -0400
-X-MC-Unique: MF0hklOrOf2_OC7awH6Jrg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66223381459A;
- Wed, 29 Mar 2023 14:13:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 98559202701F;
- Wed, 29 Mar 2023 14:12:59 +0000 (UTC)
-Date: Wed, 29 Mar 2023 15:12:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andreas Schwab <schwab@suse.de>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] linux-user: preserve incoming order of environment
- variables in the target
-Message-ID: <ZCRHaFl2QyyUzC7m@redhat.com>
-References: <mvmy1nfslvi.fsf@suse.de> <ZCREaEiPyzYogkFj@redhat.com>
- <mvmtty3slfo.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phWaY-0005Sj-1t
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:15:48 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phWaV-0003ba-VF
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:15:45 -0400
+Received: by mail-wm1-x333.google.com with SMTP id s13so9011204wmr.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 07:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680099342;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eWpRz6gOe4hJGWqEzQt0Ul31TyoaFV40MpKnTLCSEHM=;
+ b=wwoUHcBN/zpK58oVMxmMH4MDK7GEqHQ/plvO5JRFVmLaRKbl4lcVnF3bILnmXjcHMc
+ FVhj2ipg1jct20tDUMB96u4NZtSTDdwr2qXy7l1ph08sxqgMO1Dl3j7L0PoYgjbNGYEa
+ pxOHRaL5XFIX2bL7up6kSYtB7UIOJlnmDCk43BrBPwp0fpk+LmhzSNn/YGpEUJ3XClu4
+ 1RlCAT143IQJGvwgxclkGS756n2Sf7XERRRVClkzQngpUGiTh7H/g7Ijj9c9gPCEGmBj
+ p7d8UQc7JEFVD+q0CdnGoQTxGpiPgSXIOCS23qYO31SaBqe+Tw0VPBA7w3pygpLUyLx6
+ yNXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680099342;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eWpRz6gOe4hJGWqEzQt0Ul31TyoaFV40MpKnTLCSEHM=;
+ b=56Q32W77W9FCVpWH9790jbJM08lGGqhjSa4xKLGzepW4cPh2by8zkIKS6vB/eZ4DR0
+ hvJGumzCWpj6HAIrq6EN9ibE4gohrYXweu9BJaQWGN3FCoEtEEfVi5FdM9N+mgT6g1Fh
+ 8MAwIZhPMgtwiiT1qFguYpfhSrScy4Cb9jSUcxP/TWamzN1Xk+ZgwxO+pzI76vL+rhmY
+ mryxqXJxbFhSFh1xco/Y6jWM9Z1H7HjY5RanQfvyOMo8aDcxGHIy5AzKLbpkXZBHlB7v
+ Lr3PizcmBI+MyKDaerR2RxpkrvtqaYuf7qa0u/SpexUdYLhkZLbGYlR6cOzg72McFWdv
+ lmOw==
+X-Gm-Message-State: AO0yUKV7+UlrtZ91FMm+pbWSKkAbbw721R9OHTu8yDm/3p6Y8288lnSQ
+ eLdAZ7SHdA9HAl409xdShjbpTw==
+X-Google-Smtp-Source: AK7set+F/YL0jCem8qMRsEd9jc4TUqVyKzsn/schT5E8+Nk3lilS9Vc5v//f1YyOBSzFl77M5P3XxA==
+X-Received: by 2002:a05:600c:204d:b0:3ed:e6c8:f11d with SMTP id
+ p13-20020a05600c204d00b003ede6c8f11dmr15195807wmg.7.1680099342147; 
+ Wed, 29 Mar 2023 07:15:42 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ k4-20020a05600c1c8400b003ee610d1ce9sm2708420wms.34.2023.03.29.07.15.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Mar 2023 07:15:41 -0700 (PDT)
+Message-ID: <85eca121-d447-7861-c73b-b68adb517d53@linaro.org>
+Date: Wed, 29 Mar 2023 16:15:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH 4/5] hw/i2c: pmbus: block uninitialised string reads
+Content-Language: en-US
+To: Titus Rwantare <titusr@google.com>, minyard@acm.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Patrick Venture <venture@google.com>
+References: <20230322175513.1550412-1-titusr@google.com>
+ <20230322175513.1550412-5-titusr@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230322175513.1550412-5-titusr@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <mvmtty3slfo.fsf@suse.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,46 +89,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 29, 2023 at 04:04:43PM +0200, Andreas Schwab wrote:
-> On Mär 29 2023, Daniel P. Berrangé wrote:
+On 22/3/23 18:55, Titus Rwantare wrote:
+> Devices models calling pmbus_send_string can't be relied upon to
+> send a non-zero pointer. This logs an error and doesn't segfault.
 > 
-> > On Wed, Mar 29, 2023 at 03:55:13PM +0200, Andreas Schwab wrote:
-> >> Do not reverse the order of environment variables in the target environ
-> >> array relative to the incoming environ order.  Some testsuites depend on a
-> >> specific order, even though it is not defined by any standard.
-> >> 
-> >> Signed-off-by: Andreas Schwab <schwab@suse.de>
-> >> ---
-> >>  linux-user/main.c | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> >
-> > bsd-user/main.c appears to have an identical code pattern that
-> > will need the same fix
-> 
-> Yes, but I cannot test it, so I like to let someone else produce the
-> patch.
+> Reviewed-by: Patrick Venture <venture@google.com>
+> Signed-off-by: Titus Rwantare <titusr@google.com>
+> ---
+>   hw/i2c/pmbus_device.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
-The code in this case is 100% identical, so I think it is
-reasonable to expect that patch to cover both of them
-regardless.
-
-In terms of testing we don't require the contributors to test
-all platform combinations affected. Our FreeBSD CI jobs will
-test the build of bsd-user.
-
-If so desired though, any contributor can easily test BSD changes
-too via our VM infra. eg  "make vm-build-freebsd" (see make vm-help
-for further options)
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
