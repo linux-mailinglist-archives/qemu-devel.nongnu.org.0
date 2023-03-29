@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FDC6CDAEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 15:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01926CDB49
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 15:56:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phVuK-0005OL-In; Wed, 29 Mar 2023 09:32:08 -0400
+	id 1phWGk-0002hp-S3; Wed, 29 Mar 2023 09:55:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1phVuI-0005O3-H7
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 09:32:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1phVuG-0004X3-J2
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 09:32:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680096723;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=veuMIm70ltvjZhE7LlLoLwZZm2l4mbEehoGNhM4q2rk=;
- b=Aea5amlOh6hN6BrYeAIVkP8l7pUsxji2Q4c+PCUxzqvpA84g7FvPfocLMlI1FHqA/TqF7X
- Foe26J9wb5XsqxbtKX+dPKf1jEQbtKzJA0n7p+edXnmogIuTd2KgIpCdhDcJ3WdmMsd+Ut
- nUNz8hFIm/6B7k2JgruQRWB7y1OCeMY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-qculsP1EPUGx-OKXUjNgdA-1; Wed, 29 Mar 2023 09:32:01 -0400
-X-MC-Unique: qculsP1EPUGx-OKXUjNgdA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6ED97101A550;
- Wed, 29 Mar 2023 13:32:01 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C3554020C82;
- Wed, 29 Mar 2023 13:31:55 +0000 (UTC)
-Date: Wed, 29 Mar 2023 14:31:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-Subject: Re: [RFC PATCH 3/3] configure: install meson to a python virtual
- environment
-Message-ID: <ZCQ9yfIDIhcm74n/@redhat.com>
-References: <20230328211119.2748442-1-jsnow@redhat.com>
- <20230328211119.2748442-4-jsnow@redhat.com>
- <ZCQ0x3cDXOUsSX76@redhat.com>
- <88e77761-e9fe-d473-a4fa-c1d553bff4f3@redhat.com>
+ (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1phWGi-0002gd-P0
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 09:55:16 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1phWGh-0000Zp-C0
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 09:55:16 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id DA042219EC;
+ Wed, 29 Mar 2023 13:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680098113; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=Ne8hidr9sGfns9P9adlpv5Zz/cqof1nqsaMwstyy1Ks=;
+ b=zpjgSpYALhSoagh4JTfS0FFEYNcqmZ8xdws3xoGeGz7T+wlmqzleWKwhOTrFl4eHOV4Ngf
+ eI0EWZQsN3z6t+uIIKHkpJSjZL6lyD7JPGgkipbMZCnxG/U6S99rWIFXaiagoicaWJsRcv
+ XtwQoXZh5f50azub7B4APh/6KQizWXg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680098113;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=Ne8hidr9sGfns9P9adlpv5Zz/cqof1nqsaMwstyy1Ks=;
+ b=sfwiNr07t6+HkW6wEAPYQkwMX7lbhIXGlU5a2+MeFvHRqVy0AqPixlHjloz1VQ7qnKnZDL
+ yBpveWbatXRhVHBw==
+Received: from hawking.suse.de (unknown [10.168.4.11])
+ by relay2.suse.de (Postfix) with ESMTP id C83DA2C165;
+ Wed, 29 Mar 2023 13:55:13 +0000 (UTC)
+Received: by hawking.suse.de (Postfix, from userid 17005)
+ id 9191C4A0378; Wed, 29 Mar 2023 15:55:13 +0200 (CEST)
+From: Andreas Schwab <schwab@suse.de>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH v2] linux-user: preserve incoming order of environment
+ variables in the target
+CC: qemu-devel@nongnu.org
+X-Yow: Concentrate on th'cute, li'l CARTOON GUYS!
+ Remember the SERIAL NUMBERS!!  Follow the WHIPPLE AVE EXIT!!
+ Have a FREE PEPSI!!  Turn LEFT at th'HOLIDAY INN!!
+ JOIN the CREDIT WORLD!!  MAKE me an OFFER!!!
+Date: Wed, 29 Mar 2023 15:55:13 +0200
+Message-ID: <mvmy1nfslvi.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <88e77761-e9fe-d473-a4fa-c1d553bff4f3@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=schwab@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,35 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 29, 2023 at 03:27:53PM +0200, Paolo Bonzini wrote:
-> On 3/29/23 14:53, Daniel P. Berrangé wrote:
-> > I would love to see a day where configure isn't involved in the
-> > build process. Obviously we can't put this new logic into
-> > meson as its a chicken & egg problem. Could we potentially
-> > have your new  python/scripts/mkvenv.py script be responsible
-> > for setting up meson in the venv though, so we can avoid
-> > adding more shell code to configure ?
-> 
-> Not sure this is the same thing a what you want, but I do have a pipedream
-> of rewriting configure in Python.  At this point it has a lot more logic
-> than it has command invocations.
+Do not reverse the order of environment variables in the target environ
+array relative to the incoming environ order.  Some testsuites depend on a
+specific order, even though it is not defined by any standard.
 
-In a choice between 'shell configure' and 'python configure', I'll
-take the python version, as it is a fundamentally better language to
-be writing anything non-trivial in. My desire is to see the elimination
-of as much shell code as possible. As a broad goal, python should be the
-only scripting language we aim to use, in preference to shell or perl
-or any equivalent.
+Signed-off-by: Andreas Schwab <schwab@suse.de>
+---
+ linux-user/main.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-With regards,
-Daniel
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 4b18461969..dbfd3ee8f1 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -691,7 +691,13 @@ int main(int argc, char **argv, char **envp)
+     envlist = envlist_create();
+ 
+     /* add current environment into the list */
++    /* envlist_setenv adds to the front of the list; to preserve environ
++       order add from back to front */
+     for (wrk = environ; *wrk != NULL; wrk++) {
++        continue;
++    }
++    while (wrk != environ) {
++        wrk--;
+         (void) envlist_setenv(envlist, *wrk);
+     }
+ 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.40.0
 
+
+-- 
+Andreas Schwab, SUSE Labs, schwab@suse.de
+GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+"And now for something completely different."
 
