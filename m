@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC586CECAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 17:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80F86CECC2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 17:23:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phXYW-0005mw-Jo; Wed, 29 Mar 2023 11:17:44 -0400
+	id 1phXdU-0007hN-81; Wed, 29 Mar 2023 11:22:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phXYU-0005mI-8Z
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 11:17:42 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1phXd6-0007f3-HT
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 11:22:31 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phXYS-00061M-7T
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 11:17:41 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id bk5so11826885oib.6
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 08:17:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1phXd5-0006nP-4U
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 11:22:28 -0400
+Received: by mail-pf1-x432.google.com with SMTP id y2so10513633pfw.9
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 08:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680103057;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1680103345;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=e2wAs1Bt4Ldoicm0vdFjv3+AAh4pAPL1kVD7oGWDw6A=;
- b=TKQ8mIzGj1S3cfr28SbdRMIz0cyfwNPyUBVBICZkgYtkTG4lvrlwtPnULkWCejPzZe
- 7hIUB6h4AhaKDHwMUJ/TYg3yoFrb+2D4Nfztz3rszzu68H6AHjGkgrWWZ9f+VRulyZr3
- Fk+wGpdCs4jQwYPpfE4QPlMxdoB2jbsLw0I+2EkjR7Z5uqy288lVP7fw7FQ8DWWDm9cs
- ruIGsFPYHmoSg4cOsHM480IZXs7tk/6rxMDvbaNGEr4TJiim83QrYgKtIFRdS7h5rs3f
- 4oep4cVMSmvfFiptNKKo77xBZnDTpOAb/pw8BEwRbOE/4eppXneV02faDmESAtWijZS5
- uMbw==
+ bh=LJs2KsOycMDm7P3yMdYqUDy88zqRQWqeBYY0Mj8WSc4=;
+ b=wx8p80JzcDKrbGTTIsjZUZlnMo05e4bMytfzKuDoxk1WAmVO4xogdhG+SwtkScmX9E
+ MaFP9rWUlyOvZmd4XYYJWr0oHRjmqqTY50aOyt+bVgYapH20uXGp5bcN0gOL4XZd2FeK
+ OuwireuXMux182QSTgOKkRQf2DdyuGGMi/rFm2itvOXcZq82miHe15jJ2kTssZGAQqiN
+ Nfbf0gVExoaiEOwrcpomWYz/LnE63oTQvbr/h9TvdSZez1OvZ6azuwYzaWWUJPjCs39o
+ 1xa4YMLvgV2K9ye7fhZd/MwTaqZeE8PVYOCkCKeAZ4xamMG+Wc/UESjMARmExuyc3M8O
+ amZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680103057;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1680103345;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e2wAs1Bt4Ldoicm0vdFjv3+AAh4pAPL1kVD7oGWDw6A=;
- b=M65OZdP0/GZqmzFGBK4pP5It3iUeVh9L2k3+I7yEfDIA0eFvghqf8S6isEYJA3tXga
- +Q2eM/yU15erj1sQhyFG5d5hkF83fifi7BFuJEpuZxa+vtZLw0jq92LJ3GsWiBKVOXB+
- 46InvHgN4HiirEsqDVtebaz2UiuNjrAItEuIYHC0rK0GejuCirR0buaAkSxc2zY0SwSJ
- yHsnzE+2MwkeD1fy4wNkF9Mp4WWXdGLWq1dCeNNzHygfLKy2vxTTQvmgjCbb2YjYpiLR
- op3HBmDHkcJR0Nujm1UzIX+lHocscn0zO9WgYXvvs6mofbdxrkrhJw4SY25cjlRCjiLP
- k2xA==
-X-Gm-Message-State: AAQBX9cA881SjtodhWuTFFzTKMegcec4LH6iEVvI8qHgJFniW4LosZPx
- 2mx+Oz3xCGwnHXGH7JrgMc/0Fg==
-X-Google-Smtp-Source: AKy350Y7tq171wfC6PpIJx5QEOth1T/vx7af//J9DiYMsR+pokqDPz/muMekquEX2kepXkerzHTa1w==
-X-Received: by 2002:a05:6808:3a95:b0:389:2a69:72b7 with SMTP id
- fb21-20020a0568083a9500b003892a6972b7mr5255053oib.16.1680103056840; 
- Wed, 29 Mar 2023 08:17:36 -0700 (PDT)
-Received: from [192.168.68.107] ([177.95.89.231])
+ bh=LJs2KsOycMDm7P3yMdYqUDy88zqRQWqeBYY0Mj8WSc4=;
+ b=fDVKEuOi8cuB0qS63ZHbOtSceEFNWKQCcLDZWGIg1RjEEkq37ENw559GkBzM303mHW
+ clFRUMwl/w1JxkndtakeUAW/a+FCCd48xm7IOMJzZWCPEb6N4NlwO6c+7V85fcJk7z4m
+ 85V1bYb/y7BBLc/mppsCyGTHmpBx00FqkysCuiKNFXi6SO5/7UjNb+lbRm2xI4yjV74y
+ VWGAXitlvYW5qcyfaMXdSLyPVYkRa4rzf90n/fSe7J6Tx+bQF9e20zwy81Qyai+us5V8
+ TaFp+KJMMpgli0B0oFgjSRtDjxA/Za8kyokN5D9pw5GopWqZBfkSi2ij56D4zTqLwhvy
+ Lrng==
+X-Gm-Message-State: AAQBX9d5GJhCA7bKaxoJdLpDitOncUrGTWDvwYCIp5sjAgeNl3mL+b/N
+ TamYd/r5vdFdWxYqnVscfRmVgg==
+X-Google-Smtp-Source: AKy350bfwRJQ7hXPi7gg3mPgn7tU3fpitYSVHaQwO8fYZb2Vc4ge1IwrG5aIZib4FvL6pc7jw3kvmA==
+X-Received: by 2002:a05:6a00:88:b0:625:ceff:14ba with SMTP id
+ c8-20020a056a00008800b00625ceff14bamr18805888pfj.25.1680103345614; 
+ Wed, 29 Mar 2023 08:22:25 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:3369:815f:629b:7300?
+ ([2602:ae:1541:f901:3369:815f:629b:7300])
  by smtp.gmail.com with ESMTPSA id
- o2-20020a0568080bc200b00386a2019ab6sm13505128oik.30.2023.03.29.08.17.34
+ e18-20020a62ee12000000b00625b9e625fdsm23847103pfi.179.2023.03.29.08.22.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 08:17:36 -0700 (PDT)
-Message-ID: <e263afd5-1fb8-31b8-5e11-e8a5772ca76b@ventanamicro.com>
-Date: Wed, 29 Mar 2023 12:17:32 -0300
+ Wed, 29 Mar 2023 08:22:25 -0700 (PDT)
+Message-ID: <486324a8-8b3f-fc35-5193-f2fbd6725c24@linaro.org>
+Date: Wed, 29 Mar 2023 08:22:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 02/19] target/riscv: remove MISA properties from
- isa_edata_arr[]
-To: liweiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
- richard.henderson@linaro.org
-References: <20230327224934.363314-1-dbarboza@ventanamicro.com>
- <20230327224934.363314-3-dbarboza@ventanamicro.com>
- <4464e2e6-278f-5031-b358-fab35a37b927@iscas.ac.cn>
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v2 05/44] target/loongarch: Implement vadd/vsub
 Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <4464e2e6-278f-5031-b358-fab35a37b927@iscas.ac.cn>
+To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230328030631.3117129-1-gaosong@loongson.cn>
+ <20230328030631.3117129-6-gaosong@loongson.cn>
+ <550e1fa3-ee78-a6dd-7b84-457886a2292e@linaro.org>
+ <74e9c94d-49cd-ec46-e5c4-3e60d0ea2c38@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <74e9c94d-49cd-ec46-e5c4-3e60d0ea2c38@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,92 +96,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 3/29/23 05:32, liweiwei wrote:
+On 3/29/23 02:59, gaosong wrote:
 > 
-> On 2023/3/28 06:49, Daniel Henrique Barboza wrote:
->> The code that disables extensions if there's a priv version mismatch
->> uses cpu->cfg.ext_N properties to do its job.
+> 在 2023/3/29 上午3:59, Richard Henderson 写道:
+>> On 3/27/23 20:05, Song Gao wrote:
+>>> +    func(mop, vd_ofs, vj_ofs, vk_ofs, 16, 16);
 >>
->> We're aiming to not rely on cpu->cfg.ext_N props for MISA bits. Split
->> the MISA related verifications in a new function, removing it from
->> isa_edata_arr[].
->>
->> We're also erroring it out instead of disabling, making the cpu_init()
->> function responsible for running an adequate priv spec for the MISA
->> extensions it wants to use.
->>
->> Note that the RVV verification is being ignored since we're always have
->> at least PRIV_VERSION_1_10_0.
->>
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> ---
->>   target/riscv/cpu.c | 19 +++++++++++++++++--
->>   1 file changed, 17 insertions(+), 2 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 2711d80e16..21c0c637e4 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -72,10 +72,11 @@ struct isa_ext_data {
->>    * 4. Non-standard extensions (starts with 'X') must be listed after all
->>    *    standard extensions. They must be separated from other multi-letter
->>    *    extensions by an underscore.
->> + *
->> + * Single letter extensions are checked in riscv_cpu_validate_misa_priv()
->> + * instead.
->>    */
->>   static const struct isa_ext_data isa_edata_arr[] = {
->> -    ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
->> -    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
+>> Oh, reading about ASXD and 256-bit vectors makes me wonder if it would be better to plan 
+>> ahead and have a function, or DisasContext member, for the length of the vector. 
 > 
-> If misa properties are removed from here,  the multi_letter field in isa_edata_arr will be redundant.
+> like arm:
 > 
-> We can just remove it. Otherwise, the all patchset is LGTM.
-
-Good point. I'll remove it.
-
+> /* Return the byte size of the "whole" vector register, VL / 8.  */
+> static inline int vec_full_reg_size(DisasContext *s)
+> {
+>      return s->vl;
+> }
 > 
-> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> What I'm confused about is what is the difference between s->vl and s->vec_len ?
+
+The first is for aarch64 SVE.
+The second is for armv5 VFP (which was removed from armv8).
 
 
-Thanks!
-
-
-Daniel
-
-> 
-> Weiwei Li
-> 
->>       ISA_EXT_DATA_ENTRY(zicbom, true, PRIV_VERSION_1_12_0, ext_icbom),
->>       ISA_EXT_DATA_ENTRY(zicboz, true, PRIV_VERSION_1_12_0, ext_icboz),
->>       ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
->> @@ -1131,6 +1132,14 @@ static void riscv_cpu_sync_misa_cfg(CPURISCVState *env)
->>       env->misa_ext = env->misa_ext_mask = ext;
->>   }
->> +static void riscv_cpu_validate_misa_priv(CPURISCVState *env, Error **errp)
->> +{
->> +    if (riscv_has_ext(env, RVH) && env->priv_ver < PRIV_VERSION_1_12_0) {
->> +        error_setg(errp, "H extension requires priv spec 1.12.0");
->> +        return;
->> +    }
->> +}
->> +
->>   static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->>   {
->>       CPUState *cs = CPU(dev);
->> @@ -1174,6 +1183,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->>        */
->>       riscv_cpu_sync_misa_cfg(env);
->> +    riscv_cpu_validate_misa_priv(env, &local_err);
->> +    if (local_err != NULL) {
->> +        error_propagate(errp, local_err);
->> +        return;
->> +    }
->> +
->>       /* Force disable extensions if priv spec version does not match */
->>       for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
->>           if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
-> 
+r~
 
