@@ -2,67 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E70B6CD4E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 10:41:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9276CD5A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 10:57:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phRLP-0006tN-1j; Wed, 29 Mar 2023 04:39:47 -0400
+	id 1phRak-0000vp-I0; Wed, 29 Mar 2023 04:55:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1phRLI-0006t1-Oy; Wed, 29 Mar 2023 04:39:42 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1phRLG-0003Af-8l; Wed, 29 Mar 2023 04:39:40 -0400
-Received: from [192.168.0.119] (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowAB3kNQ_+SNkEViMGA--.12101S2;
- Wed, 29 Mar 2023 16:39:28 +0800 (CST)
-Message-ID: <994af832-9db7-b42f-c1d1-f6d2469259e2@iscas.ac.cn>
-Date: Wed, 29 Mar 2023 16:39:27 +0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phRai-0000vh-RR
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 04:55:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phRah-0005jo-11
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 04:55:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680080133;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ndZsAuNS/jNdMzyOPE4HM63vJyLe4/yT8UQxx0/lThY=;
+ b=DpqL2AOzEPpT556YHDu1GivgpqfowRmMJEAUN7JDvgyswjo1tT3R3W+XFlXA2N4qke8k5a
+ gUoBYjCgXMR0Uvt5XIMfWrfaYAAdaYhy8eeG+NE+GXzt3xz9LECiPo5oWKZWjHbqMxLs0I
+ eg4/xadS8/Z7nxLVrF1jeefbdzIiHd0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-388-dcx1MzrNOGeZSQkfnbxPUw-1; Wed, 29 Mar 2023 04:55:32 -0400
+X-MC-Unique: dcx1MzrNOGeZSQkfnbxPUw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ o63-20020a374142000000b007467ef381beso6990039qka.16
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 01:55:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680080131;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ndZsAuNS/jNdMzyOPE4HM63vJyLe4/yT8UQxx0/lThY=;
+ b=FB34aLWWVDGstsBVXR9F7stw0WtTNQq4UcgZ6VtFZLSLUjaeKVujIEGSGfn1uu791j
+ TmLkaElSUeXyVoofWGo0lYWRgyjwHANJ9SAMiRYJtPvh9GJ+tg2WGDcfIPZvQXAN5lDy
+ wFY2tv3UWTyQ6cO8ac/JkLTIfF4MfQGid41LBfSQEp2rSbvWfdXtXqZha35gqkUTw57G
+ niR1+5nsuHtozoy+1GzApLx8RFtUeVv0junjxxr10jmUjqg3t0cUWjx7n8y9POw4djSE
+ N0eTycD/GB47AoYHlp9fjaDoda9RjKDLPM36Dj8oKRf86q8H7QKXT2FFp1ZFBwzyTQ4T
+ vQTw==
+X-Gm-Message-State: AAQBX9duThFzWKyJi9AO/ACFp8zfCoJDJFRaeVnnfhSuFjMbTo44aqbw
+ LueWcNJUzSFbdqnlHXSg8Sobs7dRnqp2c2bimFpqpY/10HuBJaCBeBIlxl7D5OmDEeS6QzJcCDC
+ abFgaw1xkrvTaigA=
+X-Received: by 2002:a05:6214:5094:b0:5df:8661:567f with SMTP id
+ kk20-20020a056214509400b005df8661567fmr430474qvb.24.1680080131665; 
+ Wed, 29 Mar 2023 01:55:31 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bLKbcq8GtL+GPldM30SDugTTehqXWi4y0J528RjBbZK0k9cv+zdP5AgTwfrQx8+gIPU9oY6g==
+X-Received: by 2002:a05:6214:5094:b0:5df:8661:567f with SMTP id
+ kk20-20020a056214509400b005df8661567fmr430463qvb.24.1680080131434; 
+ Wed, 29 Mar 2023 01:55:31 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-177-100.web.vodafone.de.
+ [109.43.177.100]) by smtp.gmail.com with ESMTPSA id
+ jh19-20020a0562141fd300b005dd8b93457csm4375503qvb.20.2023.03.29.01.55.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Mar 2023 01:55:30 -0700 (PDT)
+Message-ID: <88ab35fc-9226-2ba6-03e4-c8600933dd2a@redhat.com>
+Date: Wed, 29 Mar 2023 10:55:27 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Cc: liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- bmeng@tinylab.org, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-Subject: Re: [PATCH v5 8/9] target/riscv/cpu.c: remove cfg setup from
- riscv_cpu_init()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] hw/mips/gt64xxx_pci: Don't endian-swap GT_PCI0_CFGADDR
 Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-References: <20230328173543.431342-1-dbarboza@ventanamicro.com>
- <20230328173543.431342-9-dbarboza@ventanamicro.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230328173543.431342-9-dbarboza@ventanamicro.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Nathan Chancellor <nathan@kernel.org>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
+ balaton@eik.bme.hu, Rob Landley <rob@landley.net>,
+ Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230223161958.48696-1-jiaxun.yang@flygoat.com>
+ <aa1e6559-55ae-0f7b-80cb-890bb34b9544@linaro.org>
+ <20230320165821.GA4064187@dev-arch.thelio-3990X>
+ <edea2619-8fe9-638e-cfa0-684123f7ee99@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <edea2619-8fe9-638e-cfa0-684123f7ee99@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: qwCowAB3kNQ_+SNkEViMGA--.12101S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xw1xCrykWFyrZr47AF4Dtwb_yoWxGrW5pr
- y5Ga15CrW5J3ZrG3yfXFykCrWrXr1Iv3yaga90va1rGa18CrZrXF97K3W7CFWqgFs3ZFya
- q3Z5GwnrGayxt37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
- v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
- c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
- MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUZa9-UUU
- UU=
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,195 +107,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 28/03/2023 19.02, Philippe Mathieu-Daudé wrote:
+> On 20/3/23 17:58, Nathan Chancellor wrote:
+>> On Wed, Mar 08, 2023 at 12:33:38AM +0100, Philippe Mathieu-Daudé wrote:
+>>> On 23/2/23 17:19, Jiaxun Yang wrote:
+>>>> 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE
+>>>> MemoryRegionOps") converted CFGADDR/CFGDATA registers to use 
+>>>> PCI_HOST_BRIDGE's
+>>>> accessor facility and enabled byte swap for both CFGADDR/CFGDATA register.
+>>>>
+>>>> However CFGADDR as a ISD internal register is not controled by MByteSwap
+>>>> bit, it follows endian of all other ISD register, which means it ties to
+>>>> little endian.
+>>>>
+>>>> Move mapping of CFGADDR out of gt64120_update_pci_cfgdata_mapping to 
+>>>> disable
+>>>> endian-swapping.
+>>>>
+>>>> This should fix some recent reports about poweroff hang.
+>>>>
+>>>> Fixes: 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using 
+>>>> PCI_HOST_BRIDGE MemoryRegionOps")
+>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>>> ---
+>>>>    hw/pci-host/gt64120.c | 18 ++++++------------
+>>>>    1 file changed, 6 insertions(+), 12 deletions(-)
+>>>
+>>> So this works on little-endian hosts, but fails on
+>>> big-endian ones :(
+>>>
+>>> I.e. on Linux we have early_console_write() -> prom_putchar()
+>>> looping:
+>>>
+>>> IN: prom_putchar
+>>> 0x8010fab8:  lbu    v0,0(v1)
+>>> 0x8010fabc:  andi    v0,v0,0x20
+>>> 0x8010fac0:  beqz    v0,0x8010fab8
+>>> 0x8010fac4:  andi    v0,a0,0xff
+>>>
+>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>> ...
+>>>
+>>
+>> Is there going to be a new version of this patch or a different solution
+>> to the poweroff hang then? I am still seeing that with tip of tree QEMU
+>> and I see 8.0.0-rc0 has been tagged; I would hate for this to end up in
+>> a release version.
+> 
+> I couldn't work a fix, however I ran our (new) tests on merge
+> commit 3db29dcac2 which is before the offending commit 145e2198d749,
+> and they fail. So I suppose Malta on big-endian host is badly broken
+> since quite some time. Thus clearly nobody tests/runs Malta there.
+> 
+> Is it worth fixing old bugs nobody hit / reported?
+> Should we stop wasting CI resources testing MIPS on big-endian hosts?
 
-On 2023/3/29 01:35, Daniel Henrique Barboza wrote:
-> We have 4 config settings being done in riscv_cpu_init(): ext_ifencei,
-> ext_icsr, mmu and pmp. This is also the constructor of the "riscv-cpu"
-> device, which happens to be the parent device of every RISC-V cpu.
->
-> The result is that these 4 configs are being set every time, and every
-> other CPU should always account for them. CPUs such as sifive_e need to
-> disable settings that aren't enabled simply because the parent class
-> happens to be enabling it.
->
-> Moving all configurations from the parent class to each CPU will
-> centralize the config of each CPU into its own init(), which is clearer
-> than having to account to whatever happens to be set in the parent
-> device. These settings are also being set in register_cpu_props() when
-> no 'misa_ext' is set, so for these CPUs we don't need changes. Named
-> CPUs will receive all cfgs that the parent were setting into their
-> init().
->
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> ---
->   target/riscv/cpu.c | 60 ++++++++++++++++++++++++++++++++++++----------
->   1 file changed, 48 insertions(+), 12 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1a095ce8e3..cd924029d4 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -326,7 +326,8 @@ static void set_satp_mode_default_map(RISCVCPU *cpu)
->   
->   static void riscv_any_cpu_init(Object *obj)
->   {
-> -    CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +    CPURISCVState *env = &cpu->env;
->   #if defined(TARGET_RISCV32)
->       set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
->   #elif defined(TARGET_RISCV64)
-> @@ -340,6 +341,12 @@ static void riscv_any_cpu_init(Object *obj)
->   #endif
->   
->       env->priv_ver = PRIV_VERSION_LATEST;
-> +
-> +    /* inherited from parent obj via riscv_cpu_init() */
-> +    cpu->cfg.ext_ifencei = true;
-> +    cpu->cfg.ext_icsr = true;
-> +    cpu->cfg.mmu = true;
-> +    cpu->cfg.pmp = true;
->   }
->   
->   #if defined(TARGET_RISCV64)
-> @@ -358,12 +365,19 @@ static void rv64_base_cpu_init(Object *obj)
->   
->   static void rv64_sifive_u_cpu_init(Object *obj)
->   {
-> -    CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +    CPURISCVState *env = &cpu->env;
->       set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
->       env->priv_ver = PRIV_VERSION_1_10_0;
->   #ifndef CONFIG_USER_ONLY
->       set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV39);
->   #endif
-> +
-> +    /* inherited from parent obj via riscv_cpu_init() */
-> +    cpu->cfg.ext_ifencei = true;
-> +    cpu->cfg.ext_icsr = true;
-> +    cpu->cfg.mmu = true;
-> +    cpu->cfg.pmp = true;
->   }
->   
->   static void rv64_sifive_e_cpu_init(Object *obj)
-> @@ -373,10 +387,14 @@ static void rv64_sifive_e_cpu_init(Object *obj)
->   
->       set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
->       env->priv_ver = PRIV_VERSION_1_10_0;
-> -    cpu->cfg.mmu = false;
->   #ifndef CONFIG_USER_ONLY
->       set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->   #endif
-> +
-> +    /* inherited from parent obj via riscv_cpu_init() */
-> +    cpu->cfg.ext_ifencei = true;
-> +    cpu->cfg.ext_icsr = true;
-> +    cpu->cfg.pmp = true;
->   }
->   
->   static void rv64_thead_c906_cpu_init(Object *obj)
-> @@ -404,6 +422,10 @@ static void rv64_thead_c906_cpu_init(Object *obj)
->   #ifndef CONFIG_USER_ONLY
->       set_satp_mode_max_supported(cpu, VM_1_10_SV39);
->   #endif
-> +
-> +    /* inherited from parent obj via riscv_cpu_init() */
-> +    cpu->cfg.ext_ifencei = true;
+This rather sounds like a blind spot in our CI ... we still have some big 
+endian s390x machines there, so maybe this just needs a proper test to avoid 
+regressions? Would it be feasible to add a test to 
+tests/qtest/boot-serial-test.c for this, for example?
 
-Assignment for ext_ifencei is redundant here, since G is enabled in c906 
-cpu.
+  Thomas
 
-Regards,
-
-Weiwei Li
-
-> +    cpu->cfg.pmp = true;
->   }
->   
->   static void rv128_base_cpu_init(Object *obj)
-> @@ -440,12 +462,19 @@ static void rv32_base_cpu_init(Object *obj)
->   
->   static void rv32_sifive_u_cpu_init(Object *obj)
->   {
-> -    CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +    CPURISCVState *env = &cpu->env;
->       set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
->       env->priv_ver = PRIV_VERSION_1_10_0;
->   #ifndef CONFIG_USER_ONLY
->       set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV32);
->   #endif
-> +
-> +    /* inherited from parent obj via riscv_cpu_init() */
-> +    cpu->cfg.ext_ifencei = true;
-> +    cpu->cfg.ext_icsr = true;
-> +    cpu->cfg.mmu = true;
-> +    cpu->cfg.pmp = true;
->   }
->   
->   static void rv32_sifive_e_cpu_init(Object *obj)
-> @@ -455,10 +484,14 @@ static void rv32_sifive_e_cpu_init(Object *obj)
->   
->       set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
->       env->priv_ver = PRIV_VERSION_1_10_0;
-> -    cpu->cfg.mmu = false;
->   #ifndef CONFIG_USER_ONLY
->       set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->   #endif
-> +
-> +    /* inherited from parent obj via riscv_cpu_init() */
-> +    cpu->cfg.ext_ifencei = true;
-> +    cpu->cfg.ext_icsr = true;
-> +    cpu->cfg.pmp = true;
->   }
->   
->   static void rv32_ibex_cpu_init(Object *obj)
-> @@ -468,11 +501,15 @@ static void rv32_ibex_cpu_init(Object *obj)
->   
->       set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
->       env->priv_ver = PRIV_VERSION_1_11_0;
-> -    cpu->cfg.mmu = false;
->   #ifndef CONFIG_USER_ONLY
->       set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->   #endif
->       cpu->cfg.epmp = true;
-> +
-> +    /* inherited from parent obj via riscv_cpu_init() */
-> +    cpu->cfg.ext_ifencei = true;
-> +    cpu->cfg.ext_icsr = true;
-> +    cpu->cfg.pmp = true;
->   }
->   
->   static void rv32_imafcu_nommu_cpu_init(Object *obj)
-> @@ -482,10 +519,14 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
->   
->       set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
->       env->priv_ver = PRIV_VERSION_1_10_0;
-> -    cpu->cfg.mmu = false;
->   #ifndef CONFIG_USER_ONLY
->       set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->   #endif
-> +
-> +    /* inherited from parent obj via riscv_cpu_init() */
-> +    cpu->cfg.ext_ifencei = true;
-> +    cpu->cfg.ext_icsr = true;
-> +    cpu->cfg.pmp = true;
->   }
->   #endif
->   
-> @@ -1344,11 +1385,6 @@ static void riscv_cpu_init(Object *obj)
->   {
->       RISCVCPU *cpu = RISCV_CPU(obj);
->   
-> -    cpu->cfg.ext_ifencei = true;
-> -    cpu->cfg.ext_icsr = true;
-> -    cpu->cfg.mmu = true;
-> -    cpu->cfg.pmp = true;
-> -
->       cpu_set_cpustate_pointers(cpu);
->   
->   #ifndef CONFIG_USER_ONLY
 
 
