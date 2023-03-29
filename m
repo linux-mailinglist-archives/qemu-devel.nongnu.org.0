@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184B76CD468
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 10:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046636CD4B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 10:34:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phR2y-0002Ft-Rc; Wed, 29 Mar 2023 04:20:44 -0400
+	id 1phREQ-0004p7-HG; Wed, 29 Mar 2023 04:32:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phR2x-0002Fk-I4
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 04:20:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phR2v-0000bX-Nu
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 04:20:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680078040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vb0IjGfqxxwehXaOi2ztOXMOz9JLwn/dQl0LW802dXI=;
- b=b50jTNZ6v9nffbrRzhRCbM1gmq5JO+3YuPL9QudkxMJ6XOGerho8BGRSljqqgjlLdN70R1
- Dt0m9X6g6s42uaR26iQLC6CnTiHbPPo87LpuRYwIHLYm3EN+gE8Agg7gh4NJtwCCRi1yUF
- 1uazC1PXiARdurhCnnjj50tqyiHi3O0=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-670-wol4r3IpPC2oBzlAcfxtQg-1; Wed, 29 Mar 2023 04:20:39 -0400
-X-MC-Unique: wol4r3IpPC2oBzlAcfxtQg-1
-Received: by mail-qt1-f197.google.com with SMTP id
- n10-20020a05622a11ca00b003e4e30c6c98so7055571qtk.19
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 01:20:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680078039;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vb0IjGfqxxwehXaOi2ztOXMOz9JLwn/dQl0LW802dXI=;
- b=JBnQYqzhCIOVAwrs5Pw+xUYtq63hC1MJhvuXAQwoIvXDm5esd5hsJFsHs49GQKxEwG
- U7gJclCOU2jJMh1kHkbj8XRtuX9D3vG5fK0d7C3YUtLdT0XVKqpOc3QNDzS28Y7wJEnY
- KpSS5sfNrNorUoGh7soBnIcB/DaGlD0Xbtq5rgLktwVXCaen9LQ26rOF1x5C0AaC9pS9
- FuvYzKfqCN6b1aBWVrcqSY0fU0eX+Y5Te20KUXw5fE+ep6dRhmF7uyLso4kMXj4HWRpg
- GrI+KuRW0kW4HFTLTuSKS7EJ3XRagQ2uQzjo9lU2izasKUAOU9A0okUC1ahyUci7u7sR
- y/qg==
-X-Gm-Message-State: AO0yUKWZb7aAjFp03wBt6zhW1JTZrhgfeIJKJjMWArKouw3NRjqCTflY
- sDPSJVJJBGQCGskyhalQB87rgPIQH4zboZ74u11tmywmZQ6YSf6Z3RxPgZqjAMTwimEpkgREkuc
- SVcC6jbzC5WtvnXaRvDzWuCRylw==
-X-Received: by 2002:ac8:5a0e:0:b0:3e3:7e53:9a8f with SMTP id
- n14-20020ac85a0e000000b003e37e539a8fmr29030049qta.50.1680078038812; 
- Wed, 29 Mar 2023 01:20:38 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/HtRqvjJgiNhqxz2OlQoEGcBQZqJlSvPpL52td+P9euPa7xBPyxdq3U9NwUtTQEQmOi5ukyg==
-X-Received: by 2002:ac8:5a0e:0:b0:3e3:7e53:9a8f with SMTP id
- n14-20020ac85a0e000000b003e37e539a8fmr29030042qta.50.1680078038579; 
- Wed, 29 Mar 2023 01:20:38 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-177-100.web.vodafone.de.
- [109.43.177.100]) by smtp.gmail.com with ESMTPSA id
- v6-20020ac87486000000b003bffe7fdc38sm12366072qtq.9.2023.03.29.01.20.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 01:20:38 -0700 (PDT)
-Message-ID: <93c25ac1-7af7-1d3f-1d91-498f341a57d5@redhat.com>
-Date: Wed, 29 Mar 2023 10:20:36 +0200
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1phREK-0004or-Ap; Wed, 29 Mar 2023 04:32:28 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1phREH-0002Qk-4T; Wed, 29 Mar 2023 04:32:27 -0400
+Received: from [192.168.0.119] (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowAAnL8+O9yNkdMaLGA--.56506S2;
+ Wed, 29 Mar 2023 16:32:15 +0800 (CST)
+Message-ID: <4464e2e6-278f-5031-b358-fab35a37b927@iscas.ac.cn>
+Date: Wed, 29 Mar 2023 16:32:13 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: egl compile error on msys CI runners
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Cc: liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ bmeng@tinylab.org, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
+ richard.henderson@linaro.org
+Subject: Re: [PATCH v2 02/19] target/riscv: remove MISA properties from
+ isa_edata_arr[]
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA96hY7wxj9NjbkZmBshA6VECUQktNXAyGdS+-zLL5rWmw@mail.gmail.com>
- <CAJ+F1C+6YYdNoFbraKwaw0A5NeUnwdJvrM6q98V6z0f-hr68Tw@mail.gmail.com>
- <ZCPxrZT+JlBNL/b6@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <ZCPxrZT+JlBNL/b6@redhat.com>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+References: <20230327224934.363314-1-dbarboza@ventanamicro.com>
+ <20230327224934.363314-3-dbarboza@ventanamicro.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230327224934.363314-3-dbarboza@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: qwCowAAnL8+O9yNkdMaLGA--.56506S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw4UCw13Gw17urW7uryxGrg_yoW5WFW3pF
+ W8G3yakr1DJFnrJ3yfJr15J3W5Crn5W397Wws3G34xJrZxJrZ5Gr1qk3yIgry8JFZ5ur4F
+ va1jqF17ZF4DCFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+ v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
+ c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4U
+ MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUU
+ UU=
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,51 +79,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/03/2023 10.07, Daniel P. Berrangé wrote:
-> On Wed, Mar 29, 2023 at 11:01:35AM +0400, Marc-André Lureau wrote:
->> Hi Peter
->>
->> On Tue, Mar 28, 2023 at 6:39 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->>>
->>> The msys CI runners have started failing to compile with an EGL
->>> related error:
->>>
->>> https://gitlab.com/qemu-project/qemu/-/jobs/4015682307
->>>
->>> In file included from
->>> C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/include/epoxy/egl.h:46,
->>> from C:/GitLab-Runner/builds/qemu-project/qemu/include/ui/egl-helpers.h:5,
->>> from ../ui/egl-helpers.c:21:
->>> C:/GitLab-Runner/builds/qemu-project/qemu/msys64/mingw64/include/epoxy/egl_generated.h:11:10:
->>> fatal error: EGL/eglplatform.h: No such file or directory
->>> 11 | #include "EGL/eglplatform.h"
->>> | ^~~~~~~~~~~~~~~~~~~
->>> ninja: build stopped: subcommand failed.
->>>
->>> Dan says this is because of a msys2 packaging issue:
->>> https://github.com/msys2/MINGW-packages/issues/16492
->>>
->>> Can we have a meson test that doesn't try to enable EGL on systems
->>> like this one where it's broken ? Changing the current meson.build
->>>    if cc.has_header('epoxy/egl.h', dependencies: epoxy)
->>> to whatever the meson is for "actually try to compile with the
->>> header" ought to do the trick, I think.
->>>
->>
->> This is an unfortunate consequence of using a fast-moving rolling
->> distribution, there are random breakages. It would make sense to have
->> tagged / pre-built images instead. That would also speed up the CI a
->> bit, hopefully.
-> 
-> IMHO if the distro is considered susceptible to ongoing random
-> breakage we must not use it as a gating CI job. IOW, these
-> msys jobs should have 'allow-failure: true' added to their
-> definition.
 
-I'm not a fan of 'allow-failure: true' - that basically means nobody will 
-look at the failing jobs, so we could rather disable the jobs by default 
-instead (and just run them manually when you want to have a look at them).
+On 2023/3/28 06:49, Daniel Henrique Barboza wrote:
+> The code that disables extensions if there's a priv version mismatch
+> uses cpu->cfg.ext_N properties to do its job.
+>
+> We're aiming to not rely on cpu->cfg.ext_N props for MISA bits. Split
+> the MISA related verifications in a new function, removing it from
+> isa_edata_arr[].
+>
+> We're also erroring it out instead of disabling, making the cpu_init()
+> function responsible for running an adequate priv spec for the MISA
+> extensions it wants to use.
+>
+> Note that the RVV verification is being ignored since we're always have
+> at least PRIV_VERSION_1_10_0.
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>   target/riscv/cpu.c | 19 +++++++++++++++++--
+>   1 file changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 2711d80e16..21c0c637e4 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -72,10 +72,11 @@ struct isa_ext_data {
+>    * 4. Non-standard extensions (starts with 'X') must be listed after all
+>    *    standard extensions. They must be separated from other multi-letter
+>    *    extensions by an underscore.
+> + *
+> + * Single letter extensions are checked in riscv_cpu_validate_misa_priv()
+> + * instead.
+>    */
+>   static const struct isa_ext_data isa_edata_arr[] = {
+> -    ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
+> -    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
 
-  Thomas
+If misa properties are removed from here,  the multi_letter field in 
+isa_edata_arr will be redundant.
+
+We can just remove it. Otherwise, the all patchset is LGTM.
+
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+
+Weiwei Li
+
+>       ISA_EXT_DATA_ENTRY(zicbom, true, PRIV_VERSION_1_12_0, ext_icbom),
+>       ISA_EXT_DATA_ENTRY(zicboz, true, PRIV_VERSION_1_12_0, ext_icboz),
+>       ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
+> @@ -1131,6 +1132,14 @@ static void riscv_cpu_sync_misa_cfg(CPURISCVState *env)
+>       env->misa_ext = env->misa_ext_mask = ext;
+>   }
+>   
+> +static void riscv_cpu_validate_misa_priv(CPURISCVState *env, Error **errp)
+> +{
+> +    if (riscv_has_ext(env, RVH) && env->priv_ver < PRIV_VERSION_1_12_0) {
+> +        error_setg(errp, "H extension requires priv spec 1.12.0");
+> +        return;
+> +    }
+> +}
+> +
+>   static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>   {
+>       CPUState *cs = CPU(dev);
+> @@ -1174,6 +1183,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>        */
+>       riscv_cpu_sync_misa_cfg(env);
+>   
+> +    riscv_cpu_validate_misa_priv(env, &local_err);
+> +    if (local_err != NULL) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+> +
+>       /* Force disable extensions if priv spec version does not match */
+>       for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+>           if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
 
 
