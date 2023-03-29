@@ -2,83 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72AF6CF42A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 22:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0826CF4E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 22:57:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phcAE-00051r-SR; Wed, 29 Mar 2023 16:12:58 -0400
+	id 1phcqN-00038a-Ih; Wed, 29 Mar 2023 16:56:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phcA3-00050e-JJ
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 16:12:51 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1phcqL-00038K-7d
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 16:56:29 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phc9y-0000DR-6N
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 16:12:47 -0400
-Received: by mail-oi1-x230.google.com with SMTP id q27so11818404oiw.0
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 13:12:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1phcqJ-000836-2Y
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 16:56:29 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003ef90adc168so2756948wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 13:56:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680120761;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0MW6oW5X2zISsQ0SlvtLf4aBKpFW5ruCVIzb0O3R2sY=;
- b=TAOCe6RiIHJVme9NKlAhzMXWyLi471ixdyLy+lkiIMJ/JFJg4gzy4yPFnEfDvM3353
- tQjwQlf2PDcTeHrgY81D56BR928pUV+50IJr56NaQfTtIo2Q4DrlhExqHPXFvwoArzco
- 1bBBAnWKLkY/Pv/NnrbVhJ3gk7wn8XUr6qc3o7z7FfYNeLcSOEwb+DWH2BTDIN6WqYv1
- 85QFyJEqt0JLkB31FJMTyMXwl60e3QSqATlfDKdVvcXzT8sQwISzVlevR9k3SdhWzrL1
- GxJy4e/KE5Ji02k0+nemB3MDAZjO4Oh+oC1xslrcto9CvRImpDgxRdEwEwJw9FhqmV8P
- v9pQ==
+ d=linaro.org; s=google; t=1680123385;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gtBdKuDV256k43h2KK50cgoHxH1VCSEKNO2ufgv5r2s=;
+ b=ICvBLy4hrp+QYvOJ1ErKmxNmxeTXOgckXBBiNKT3vnVWtanE7C3qVx5sWbdmiib32Q
+ ihiDvJTy52AH/W52B9BPoW0YSnxvelQzeHhwKSZeZAjOL7jKnrH/EFkXywHHYORvEZZ7
+ arQbKgXPiQikBaXwzw1q0JWBGocZFCIDs8HzV55O/+9CZ2aidafKfSAmjxIjSXvt/xed
+ aZRQIym1UEYvJxAzXAAFvtw0s7ZyYSYAhwt19IrObO29otdTotcLoUX8iO0g1DmfjSI+
+ u+rHfSTtndm98YXCIQ/LEYwA5KII/qKP8/UPxsTBIBtyKnAEsE5D9H4irlzVmIBbMClf
+ ds8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680120761;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0MW6oW5X2zISsQ0SlvtLf4aBKpFW5ruCVIzb0O3R2sY=;
- b=tTpXyc3TpibvMxxiK5lp8oNeWDjQ0lCNGnDEq3W38/F3fnAJ4vTsuLIk9Dcdr3elag
- oYLwY8hs4Z132TnUfHiSRiBFFGedCdlqp4eZLtAK6O/ljdlUBcpBAUPhTfL33muMQ5bz
- DvEcY7fbV2ip/st8VJ7Q1QQGK3zLuDqdLvt0C/whlF8rsuA7sIwckbuJbMGkktFK7nUm
- uMWvRScrFjDbbYMPKjZuGJ6lFBd6tAIKxF40Yh/7Q3VKpmHMgO+T2sh9mC3/9Y301go9
- rtnq9X7yiPxKzOe7qbpSB6/kvP80RpgLw51b4hh7wm5bgOFj7CqOSR66qo2I9nj9WtlF
- Da7w==
-X-Gm-Message-State: AO0yUKWRRx4+xTuOlgIF+Twj3CtjlUkVrAP8jQBYY0FPgviGZuPQgreZ
- d/YgNH63GzkHKeVnvNLdJNGqy5do1x6vZ0rEN8E=
-X-Google-Smtp-Source: AK7set+kSm/gNnMF2spjUlhso1FApiMq3cnfxj/TU8lhvH7W2fJp5OyL5KXiqp2Yw5gs9H+m0HnuNA==
-X-Received: by 2002:a05:6808:6c4:b0:387:2f8e:fd56 with SMTP id
- m4-20020a05680806c400b003872f8efd56mr8086705oih.33.1680120760770; 
- Wed, 29 Mar 2023 13:12:40 -0700 (PDT)
-Received: from [192.168.68.107] ([177.95.89.231])
+ d=1e100.net; s=20210112; t=1680123385;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=gtBdKuDV256k43h2KK50cgoHxH1VCSEKNO2ufgv5r2s=;
+ b=Q7H8jk7poHnBeeB7JR9Jo50BtxUvr7k1XzCuyldwXqwxwsvBOPKk041lC5SliaSEfl
+ 2QPmZKB4uXlBDV26n04RxOxBtxsxcb0piaHph9uXrWAwxBX3ghJLeROLrsHC+jN0NO0/
+ 8Sl4Vuz5FlETr/Wv+arJNQaJVDjXZwtzDJarNSyFzsvNn7aixsjlrvHKBeE713iyRZlI
+ 70Pdtg6zCSpxcbwBt3R9uqJuD1C3dlomMzsssAyRZOa2f8HdAOsAv30o+UmJv19DkWta
+ ckYWwfS8adDcYNKAYbQbViZvJp57mSr9+9xaffXqkDG60oN66EKGZYi8xVW21yO1T3e5
+ q+UA==
+X-Gm-Message-State: AAQBX9eMkD6yN9H0ZvH2eg/VR+F8aLQblghsuVYbB+tpSKKTb+x4Vw4W
+ DIFWy/ZxLfFTup6ddujofChKeQ==
+X-Google-Smtp-Source: AKy350aw+Y3H6dtCnE8Y8sk2DGBKHBWhiLU1gLE4jX1PUgSL8oum1lRW1blLFjPiXpDkZ0DYjZ3MHw==
+X-Received: by 2002:a1c:cc1a:0:b0:3ef:622c:26d3 with SMTP id
+ h26-20020a1ccc1a000000b003ef622c26d3mr12421462wmb.35.1680123385227; 
+ Wed, 29 Mar 2023 13:56:25 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- v47-20020a4a9772000000b0053479edbc17sm14130845ooi.33.2023.03.29.13.12.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 13:12:39 -0700 (PDT)
-Message-ID: <0514327b-0733-39ee-4c1e-aa2f8b495603@ventanamicro.com>
-Date: Wed, 29 Mar 2023 17:12:35 -0300
+ n2-20020a05600c4f8200b003ef5e5f93f5sm3609213wmq.19.2023.03.29.13.56.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 13:56:24 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6879F1FFB7;
+ Wed, 29 Mar 2023 21:56:24 +0100 (BST)
+References: <20230324160719.1790792-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.10.0; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, David Woodhouse <dwmw@amazon.co.uk>, Cleber Rosa
+ <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Wainer dos
+ Santos Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "open list:Overall KVM CPUs"
+ <kvm@vger.kernel.org>
+Subject: Re: [RFC PATCH] tests/avocado: Test Xen guest support under KVM
+Date: Wed, 29 Mar 2023 21:56:04 +0100
+In-reply-to: <20230324160719.1790792-1-alex.bennee@linaro.org>
+Message-ID: <87y1nfp98n.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v6 0/9] target/riscv: rework CPU extensions validation
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-References: <20230329200856.658733-1-dbarboza@ventanamicro.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230329200856.658733-1-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x230.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,41 +101,219 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-On 3/29/23 17:08, Daniel Henrique Barboza wrote:
-> Hi,
-> 
-> This series contains changes proposed by Weiwei Li in v5.
-> 
-> All patches are acked.
+> From: David Woodhouse <dwmw@amazon.co.uk>
+>
+> Exercise guests with a few different modes for interrupt delivery. In
+> particular we want to cover:
+>
+>  =E2=80=A2 Xen event channel delivery via GSI to the I/O APIC
+>  =E2=80=A2 Xen event channel delivery via GSI to the i8259 PIC
+>  =E2=80=A2 MSIs routed to PIRQ event channels
+>  =E2=80=A2 GSIs routed to PIRQ event channels
+>
+> As well as some variants of normal non-Xen stuff like MSI to vAPIC and
+> PCI INTx going to the I/O APIC and PIC, which ought to still work even
+> in Xen mode.
+>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> ---
+> v2 (ajb)
+>   - switch to plain QemuSystemTest + LinuxSSHMixIn
+>   - switch from fedora to custom kernel and buildroot
+>   - removed some unused code
+> TODO:
+>   - properly probe for host support to skip test
 
-I forgot to mention: this series is based on:
+So any idea for the best thing to check for here?
 
-"[PATCH v3 00/20] remove MISA ext_N flags from cpu->cfg"
+> ---
+>  tests/avocado/kvm_xen_guest.py | 160 +++++++++++++++++++++++++++++++++
+>  1 file changed, 160 insertions(+)
+>  create mode 100644 tests/avocado/kvm_xen_guest.py
+>
+> diff --git a/tests/avocado/kvm_xen_guest.py b/tests/avocado/kvm_xen_guest=
+.py
+> new file mode 100644
+> index 0000000000..1b4524d31c
+> --- /dev/null
+> +++ b/tests/avocado/kvm_xen_guest.py
+> @@ -0,0 +1,160 @@
+> +# KVM Xen guest functional tests
+> +#
+> +# Copyright =C2=A9 2021 Red Hat, Inc.
+> +# Copyright =C2=A9 2023 Amazon.com, Inc. or its affiliates. All Rights R=
+eserved.
+> +#
+> +# Author:
+> +#  David Woodhouse <dwmw2@infradead.org>
+> +#  Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +import os
+> +
+> +from avocado_qemu import LinuxSSHMixIn
+> +from avocado_qemu import QemuSystemTest
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class KVMXenGuest(QemuSystemTest, LinuxSSHMixIn):
+> +    """
+> +    :avocado: tags=3Darch:x86_64
+> +    :avocado: tags=3Dmachine:q35
+> +    :avocado: tags=3Daccel:kvm
+> +    :avocado: tags=3Dkvm_xen_guest
+> +    """
+> +
+> +    KERNEL_DEFAULT =3D 'printk.time=3D0 root=3D/dev/xvda console=3DttyS0'
+> +
+> +    kernel_path =3D None
+> +    kernel_params =3D None
+> +
+> +    # Fetch assets from the kvm-xen-guest subdir of my shared test
+> +    # images directory on fileserver.linaro.org where you can find
+> +    # build instructions for how they where assembled.
+> +    def get_asset(self, name, sha1):
+> +        base_url =3D ('https://fileserver.linaro.org/s/'
+> +                    'kE4nCFLdQcoBF9t/download?'
+> +                    'path=3D%2Fkvm-xen-guest&files=3D' )
+> +        url =3D base_url + name
+> +        # use explicit name rather than failing to neatly parse the
+> +        # URL into a unique one
+> +        return self.fetch_asset(name=3Dname, locations=3D(url), asset_ha=
+sh=3Dsha1)
+> +
+> +    def common_vm_setup(self):
+> +
+> +        # TODO: we also need to check host kernel version/support
+> +        self.require_accelerator("kvm")
+> +
+> +        self.vm.set_console()
+> +
+> +        self.vm.add_args("-accel", "kvm,xen-version=3D0x4000a,kernel-irq=
+chip=3Dsplit")
+> +        self.vm.add_args("-smp", "2")
+> +
+> +        self.kernel_path =3D self.get_asset("bzImage",
+> +                                          "367962983d0d32109998a70b45dce=
+e4672d0b045")
+> +        self.rootfs =3D self.get_asset("rootfs.ext4",
+> +                                     "f1478401ea4b3fa2ea196396be44315bab=
+2bb5e4")
+> +
+> +    def run_and_check(self):
+> +        self.vm.add_args('-kernel', self.kernel_path,
+> +                         '-append', self.kernel_params,
+> +                         '-drive',  f"file=3D{self.rootfs},if=3Dnone,id=
+=3Ddrv0",
+> +                         '-device', 'xen-disk,drive=3Ddrv0,vdev=3Dxvda',
+> +                         '-device', 'virtio-net-pci,netdev=3Dunet',
+> +                         '-netdev', 'user,id=3Dunet,hostfwd=3D:127.0.0.1=
+:0-:22')
+> +
+> +        self.vm.launch()
+> +        self.log.info('VM launched, waiting for sshd')
+> +        console_pattern =3D 'Starting dropbear sshd: OK'
+> +        wait_for_console_pattern(self, console_pattern, 'Oops')
+> +        self.log.info('sshd ready')
+> +        self.ssh_connect('root', '', False)
+> +
+> +        self.ssh_command('cat /proc/cmdline')
+> +        self.ssh_command('dmesg | grep -e "Grant table initialized"')
+> +
+> +    def test_kvm_xen_guest(self):
+> +        """
+> +        :avocado: tags=3Dkvm_xen_guest
+> +        """
+> +
+> +        self.common_vm_setup()
+> +
+> +        self.kernel_params =3D (self.KERNEL_DEFAULT +
+> +                              ' xen_emul_unplug=3Dide-disks')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-pirq.*msi /proc/interrupts')
+> +
+> +    def test_kvm_xen_guest_nomsi(self):
+> +        """
+> +        :avocado: tags=3Dkvm_xen_guest_nomsi
+> +        """
+> +
+> +        self.common_vm_setup()
+> +
+> +        self.kernel_params =3D (self.KERNEL_DEFAULT +
+> +                              ' xen_emul_unplug=3Dide-disks pci=3Dnomsi')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-pirq.* /proc/interrupts')
+> +
+> +    def test_kvm_xen_guest_noapic_nomsi(self):
+> +        """
+> +        :avocado: tags=3Dkvm_xen_guest_noapic_nomsi
+> +        """
+> +
+> +        self.common_vm_setup()
+> +
+> +        self.kernel_params =3D (self.KERNEL_DEFAULT +
+> +                              ' xen_emul_unplug=3Dide-disks noapic pci=
+=3Dnomsi')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-pirq /proc/interrupts')
+> +
+> +    def test_kvm_xen_guest_vapic(self):
+> +        """
+> +        :avocado: tags=3Dkvm_xen_guest_vapic
+> +        """
+> +
+> +        self.common_vm_setup()
+> +        self.vm.add_args('-cpu', 'host,+xen-vapic')
+> +        self.kernel_params =3D (self.KERNEL_DEFAULT +
+> +                              ' xen_emul_unplug=3Dide-disks')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-pirq /proc/interrupts')
+> +        self.ssh_command('grep PCI-MSI /proc/interrupts')
+> +
+> +    def test_kvm_xen_guest_novector(self):
+> +        """
+> +        :avocado: tags=3Dkvm_xen_guest_novector
+> +        """
+> +
+> +        self.common_vm_setup()
+> +        self.kernel_params =3D (self.KERNEL_DEFAULT +
+> +                              ' xen_emul_unplug=3Dide-disks' +
+> +                              ' xen_no_vector_callback')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
+> +
+> +    def test_kvm_xen_guest_novector_nomsi(self):
+> +        """
+> +        :avocado: tags=3Dkvm_xen_guest_novector_nomsi
+> +        """
+> +
+> +        self.common_vm_setup()
+> +
+> +        self.kernel_params =3D (self.KERNEL_DEFAULT +
+> +                              ' xen_emul_unplug=3Dide-disks pci=3Dnomsi'=
+ +
+> +                              ' xen_no_vector_callback')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
+> +
+> +    def test_kvm_xen_guest_novector_noapic(self):
+> +        """
+> +        :avocado: tags=3Dkvm_xen_guest_novector_noapic
+> +        """
+> +
+> +        self.common_vm_setup()
+> +        self.kernel_params =3D (self.KERNEL_DEFAULT +
+> +                              ' xen_emul_unplug=3Dide-disks' +
+> +                              ' xen_no_vector_callback noapic')
+> +        self.run_and_check()
+> +        self.ssh_command('grep xen-platform-pci /proc/interrupts')
 
 
-Daniel
-
-> 
-> Changes from v5:
-> - patch 9:
->    - remove ext_ifencei setting from rv64_thead_c906_cpu_init()
-> - v5 link: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg06740.html
-> 
-> Daniel Henrique Barboza (9):
->    target/riscv/cpu.c: add riscv_cpu_validate_v()
->    target/riscv/cpu.c: remove set_vext_version()
->    target/riscv/cpu.c: remove set_priv_version()
->    target/riscv: add PRIV_VERSION_LATEST
->    target/riscv/cpu.c: add priv_spec validate/disable_exts helpers
->    target/riscv/cpu.c: add riscv_cpu_validate_misa_mxl()
->    target/riscv/cpu.c: validate extensions before riscv_timer_init()
->    target/riscv/cpu.c: remove cfg setup from riscv_cpu_init()
->    target/riscv: rework write_misa()
-> 
->   target/riscv/cpu.c | 330 +++++++++++++++++++++++++++------------------
->   target/riscv/cpu.h |   3 +
->   target/riscv/csr.c |  47 +++----
->   3 files changed, 221 insertions(+), 159 deletions(-)
-> 
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
