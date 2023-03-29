@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE226CF0AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 19:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A8E6CF0FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 19:24:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phZIR-00083d-Ii; Wed, 29 Mar 2023 13:09:16 -0400
+	id 1phZWG-0003DR-AA; Wed, 29 Mar 2023 13:23:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phZIH-00083C-3m
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:09:06 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phZWE-0003DI-SI
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:23:30 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phZIE-0005OP-Vf
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:09:04 -0400
-Received: by mail-wr1-x433.google.com with SMTP id r29so16466664wra.13
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 10:09:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phZWC-00007O-RB
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:23:30 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ q7-20020a05600c46c700b003ef6e809574so6915827wmo.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 10:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680109740;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rek2raNJL4c9ekpCXtCSVgK6Uw98/m+KLWday93AYlI=;
- b=bDk4z2ET1q89GwGpsBn9+3BAkLvwQSHyBGlwxTbqbWKgsw9w7F5Feob7QSH7vKts05
- 2mZbuAp1yNZXv8MzxAoe4R60fg+Cypp90mL8QGArw+C8GZe8/0ajY5kMOkHZaAQvkeEK
- x6aVq7Q7DpHH8D54axDZhF58UFpKvhONo69VUKyccM2PTF4pFM4u6/dEpFLXAbBSHbAj
- EnmG006aCA2VXhjXeLplwv+riRdfkFAcnAaZjred9oPAiwd4DKthlVrIcmhCqn0wXpCu
- 0mpfM95aILVHkYlDVvBR+I0Noc7OMjQpHDOpqNBM7Eot1TYUdU0o8Yt2Ox34pim0/Qx6
- ltCw==
+ d=linaro.org; s=google; t=1680110607;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=O7YfW7YrbKV4o+rT8gJkqbwTHgK6ANsQ7J+yuArTy9I=;
+ b=hUB1mleahVnm+sIk1mp07SUt1DC4tTj2WLFcE5BoQGc37x+aOmSzfP2+Oo0Ws5+XNC
+ ahipoRfqBMkF2uMFqgAXXhiYmI7kU4noF5NOIMbsKiv/tYWglBbi0j5QUvNEs2CCwlnr
+ pcGgSada0WSlDuwp2FJpIEI86h0xwj+z1RgBhfmQnvx8u1JPzXf71jR3E8WVZsonS3ii
+ MP8egw/LwFasG1HiNz9Aqmp+t27smK5grYHQ6c1NeI9dnFDsIuCU/xODN88rf/uCpQiF
+ xMjWrcLo5Oni+QGwipqmkANH2Tl0OFXgk97be7ZwjavicKHIBI/l/LV2HClriigEfelH
+ R3uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680109740;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=rek2raNJL4c9ekpCXtCSVgK6Uw98/m+KLWday93AYlI=;
- b=5PayfXlls2B08BiJ0kBI98zjaAvu05f3AK0LzvBX8A8sX4RLd2EGs/8sOEb/fTSL91
- wr7CGtDABmMYhEiIWijy1LMN3XxHVqkcsapv2bhU58/Qt38Nx4vWFeWLp3UyVERrRYld
- xH9UKVB67bVnf3wu1p+JNKQ/Dyynxc1CregYmmd8Ul/CTbokor6vnuYDYxYpyoq4wEq9
- +rRtS38oHl/UYQgny65Ru3tc44XtRAQABLJQYveB3VVahq947PFa7tqLE8QLnov1v2Dg
- yb0v/TXIMgh60LzAMspXNx7W9VQONGaCarEuYvA7l8JjS+NV+9ONEI4oObmkyERCFsY8
- ShMQ==
-X-Gm-Message-State: AAQBX9cC7qj9o4VaMAzUCnq4bPjqKzCz2e4BwG0gQJ99STpappeAY1Dv
- dsdekzLL5DGNTdj0kAHhFXY61w==
-X-Google-Smtp-Source: AKy350YdLqJFEaYKiuIbXevM+ik4R07G0VOUIcHxS24bu62J78lrUUhm7/SwVkzA7vZ2Keo2cQkcVw==
-X-Received: by 2002:a5d:4f05:0:b0:2cf:e74f:2957 with SMTP id
- c5-20020a5d4f05000000b002cfe74f2957mr15819340wru.33.1680109740053; 
- Wed, 29 Mar 2023 10:09:00 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- g9-20020a5d4889000000b002c559843748sm30620942wrq.10.2023.03.29.10.08.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 10:08:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 692EA1FFB7;
- Wed, 29 Mar 2023 18:08:59 +0100 (BST)
-References: <20230329124601.822209-1-berrange@redhat.com>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Thomas Huth
- <thuth@redhat.com>, Reinoud
- Zandijk <reinoud@netbsd.org>, Warner Losh <imp@bsdimp.com>, Ryo ONODERA
- <ryoon@netbsd.org>, Kyle Evans <kevans@freebsd.org>
-Subject: Re: [PATCH] tests/vm: use the default system python for NetBSD
-Date: Wed, 29 Mar 2023 18:08:54 +0100
-In-reply-to: <20230329124601.822209-1-berrange@redhat.com>
-Message-ID: <87355nqyc4.fsf@linaro.org>
+ d=1e100.net; s=20210112; t=1680110607;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=O7YfW7YrbKV4o+rT8gJkqbwTHgK6ANsQ7J+yuArTy9I=;
+ b=xgbrPp6ndyQ0ElaxoTjm5nnf1et3DUIIpCvFNUIHPc7Eraj7BWXwfqyFp/91bNqph/
+ xxGcxTyloFaVcValH8oMDdXpyXlaT23dFfBLy+/gTOIqF550nb6o3tcYBrTZRKoLXIDi
+ D1y6FPjRrB68xo0e32RivntULWl8lM4s+W7pfsrETySRmVEL12jSK9RwK2Z8eFo8tu3/
+ XvmUpmk0Smjeukp69EJU9adjRLwPkvCglivUWHp/vkduY2XHJIp9HXnfOX00lq96Mx8E
+ PBOfkkh/qHvaLmt+yM68oVhIeur0t/ukogdUho+GAID9VJhw9ugRTHvARc0QgsIDaSbS
+ o3fA==
+X-Gm-Message-State: AO0yUKWe5xGybb1Ic5rKrP48PJ0EbGcSlf4b3WPmoVjro9xuuYfUx1hq
+ YrioYV+8BPkdxo0yaTnBHP3q2A==
+X-Google-Smtp-Source: AK7set/aAuTBcCiUsp6jp1M/pNOgjvivqHDqcCYemnd69bnARDJ+Z33InUwgU/JPifwwEMmZEyf02Q==
+X-Received: by 2002:a1c:4b07:0:b0:3eb:2b88:a69a with SMTP id
+ y7-20020a1c4b07000000b003eb2b88a69amr15708042wma.14.1680110606981; 
+ Wed, 29 Mar 2023 10:23:26 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ e8-20020adffd08000000b002c592535839sm30625968wrr.17.2023.03.29.10.23.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Mar 2023 10:23:26 -0700 (PDT)
+Message-ID: <cf1deca3-49ef-06a3-0f20-92c25968ae7d@linaro.org>
+Date: Wed, 29 Mar 2023 19:23:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH] hw/mips/gt64xxx_pci: Don't endian-swap GT_PCI0_CFGADDR
+Content-Language: en-US
+To: Rob Landley <rob@landley.net>, Nathan Chancellor <nathan@kernel.org>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
+ balaton@eik.bme.hu, Bernhard Beschow <shentey@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20230223161958.48696-1-jiaxun.yang@flygoat.com>
+ <aa1e6559-55ae-0f7b-80cb-890bb34b9544@linaro.org>
+ <20230320165821.GA4064187@dev-arch.thelio-3990X>
+ <edea2619-8fe9-638e-cfa0-684123f7ee99@linaro.org>
+ <037d00b7-9df9-e888-a4d7-235e6d08f784@landley.net>
+ <89504c25-5265-d6c5-6e48-dcdc0be43ea0@linaro.org>
+ <0ae35be3-794a-deee-1c96-507d5be2306c@landley.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <0ae35be3-794a-deee-1c96-507d5be2306c@landley.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,21 +100,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 29/3/23 18:48, Rob Landley wrote:
+> 
+> 
+> On 3/29/23 11:07, Philippe Mathieu-Daudé wrote:
+>> On 29/3/23 18:09, Rob Landley wrote:
+>>> On 3/28/23 12:02, Philippe Mathieu-Daudé wrote:
+>>>> On 20/3/23 17:58, Nathan Chancellor wrote:
+>>>>> On Wed, Mar 08, 2023 at 12:33:38AM +0100, Philippe Mathieu-Daudé wrote:
+>>>>>> On 23/2/23 17:19, Jiaxun Yang wrote:
+>>>>>>> 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE
+>>>>>>> MemoryRegionOps") converted CFGADDR/CFGDATA registers to use PCI_HOST_BRIDGE's
+>>>>>>> accessor facility and enabled byte swap for both CFGADDR/CFGDATA register.
+>>>>>>>
+>>>>>>> However CFGADDR as a ISD internal register is not controled by MByteSwap
+>>>>>>> bit, it follows endian of all other ISD register, which means it ties to
+>>>>>>> little endian.
+>>>>>>>
+>>>>>>> Move mapping of CFGADDR out of gt64120_update_pci_cfgdata_mapping to disable
+>>>>>>> endian-swapping.
+>>>>>>>
+>>>>>>> This should fix some recent reports about poweroff hang.
+>>>>>>>
+>>>>>>> Fixes: 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps")
+>>>>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>>>>>> ---
+>>>>>>>      hw/pci-host/gt64120.c | 18 ++++++------------
+>>>>>>>      1 file changed, 6 insertions(+), 12 deletions(-)
+>>>>>>
+>>>>>> So this works on little-endian hosts, but fails on
+>>>>>> big-endian ones :(
+>>>>>>
+>>>>>> I.e. on Linux we have early_console_write() -> prom_putchar()
+>>>>>> looping:
+>>>>>>
+>>>>>> IN: prom_putchar
+>>>>>> 0x8010fab8:  lbu	v0,0(v1)
+>>>>>> 0x8010fabc:  andi	v0,v0,0x20
+>>>>>> 0x8010fac0:  beqz	v0,0x8010fab8
+>>>>>> 0x8010fac4:  andi	v0,a0,0xff
+>>>>>>
+>>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>>> ...
+>>>>>>
+>>>>>
+>>>>> Is there going to be a new version of this patch or a different solution
+>>>>> to the poweroff hang then? I am still seeing that with tip of tree QEMU
+>>>>> and I see 8.0.0-rc0 has been tagged; I would hate for this to end up in
+>>>>> a release version.
+>>>>
+>>>> I couldn't work a fix, however I ran our (new) tests on merge
+>>>> commit 3db29dcac2 which is before the offending commit 145e2198d749,
+>>>> and they fail. So I suppose Malta on big-endian host is badly broken
+>>>> since quite some time. Thus clearly nobody tests/runs Malta there.
+>>>
+>>> I test/run malta with the mips and mipsel binaries at
+>>> https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/ but I'm still
+>>> locally applying the first patch I saw to fix this (attached) until upstream
+>>> sorts itself out.
+>>>
+>>> Works fine for me. Somebody said it was the wrong fix but I don't remember why...
+>>
+>> This is a correct /partial/ fix. With this patch, Malta works on little
+>> endian hosts. No luck with big-endian hosts, but this was broken
+>> previous to 3db29dcac2 rework, so apparently not a big deal ¯\_(ツ)_/¯
+> 
+> No, big endian worked for me with that patch?
+> 
+> The build in my $PATH is QEMU emulator version 7.2.50
+> (v7.2.0-873-g65cc5ccf06-dirty) with that patch, and if you wget
+> https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mips.tgz and
+> ./run-emulator.sh in there, the virtual net can wget http://site (the sample
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Oh, we are having some QEMU semantic confusion here...
 
-> Currently our NetBSD VM recipe requests instal of the python37 package
-> and explicitly tells QEMU to use that version of python. Since the
-> NetBSD base ISO was updated to version 9.3 though, the default system
-> python version is 3.9 which is sufficiently new for QEMU to rely on.
-> Rather than requesting an older python, just test against the default
-> system python which is what most users will have.
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+You are testing a QEMU big-endian *guest* (or "target") in this example.
 
-Queued to for-8.0/more-misc-fixes, thanks.
+I presume you are testing on a little-endian *host* (x86_64, aarch64,
+ppc64el or mips64el).
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+> image hasn't got https:// support enabled because I didn't include the build
+> dependency), and the virtual disk works (if you do "./run-emulator.sh -hda
+> blah.img" anyway, the test wrapper I mentioned creates a squashfs image for it
+> to mount)). Without the patch I don't even get a PCI bus. Running "file
+> /bin/toybox" says MSB, and the mipsel image is the little endian one anyway. I
+
+Here you describe the little-endian MIPS *target* image.
+
+> also test s390x (which is big endian 64 bit), but I don't think this needed a
+> patch? (Hadn't been broken last I checked?)
+
+Here you describe big-endian s390x *target* image.
+
+> 
+> I vaguely recall having tested newer qemu, but couldn't say when that was (early
+> february at the latest, and if so I didn't install it into /usr/bin/local. It
+> takes a while to build all the targets so I only really do it quarterly, usually
+> when I'm about to cut a toybox release and want to make sure qemu hasn't broken
+> anything important while I wasn't looking...)
+
+Currently, QEMU MIPS (32 and 64-bit) big-endian *targets* regressed
+(regardless on the host architecture).
+
+This patch fixes QEMU MIPS (32 and 64-bit) big-endian *targets* on
+little-endian *hosts* (x86_64, aarch64, ppc64el or mips64el).
+
+However, QEMU MIPS (32 and 64-bit) big-endian *targets* are still
+broken on big-endian *hosts* (s390x, ppc64, mips64, sparc64, ...).
+But this was broken previous to commit 3db29dcac2.
+
+I expect if you run your test with QEMU v7.2.0-873-g65cc5ccf06-dirty
+on any big-endian *host* (like a s390x), the test fails.
+
+It that clear? Sorry for the confusion...
+
+Phil.
 
