@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703D56CEF8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA716CEF9B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:40:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phYmP-0005SB-Kt; Wed, 29 Mar 2023 12:36:10 -0400
+	id 1phYpo-0006Zg-M3; Wed, 29 Mar 2023 12:39:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phYmM-0005RJ-QP
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:36:07 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ id 1phYpm-0006ZF-OX
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:39:38 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1phYmL-00031P-8m
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:36:06 -0400
-Received: by mail-pf1-x434.google.com with SMTP id u38so10657059pfg.10
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:36:04 -0700 (PDT)
+ id 1phYpl-0003fD-2O
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:39:38 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ qe8-20020a17090b4f8800b0023f07253a2cso16720965pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680107764;
+ d=linaro.org; s=google; t=1680107975;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=AjvNAt/4YDJVjLGS76iQaE5yaByPsmOs0MvxHruMIGI=;
- b=CwJeDq0Ukj0w/1o4Ev8GAUcrFA2Ezp7zZtkNxHvFp2xGKLxOCcicKOc08efIaV9IrD
- fWSZaFVqNEscMME4m8gpcbxUuCVywIizL4PbrU1Y+x0GB4SYh++mjY2hC3A1SC014O0b
- uMkx4A9vw3uvTlj3ExQPOzVktgUMVNmCGqhjWIFvuHI2Taz4VuyWe3brURgacEA/O5zU
- l6eKc4/iWtPWYWXnBxz7WKtDD5b7d8x/mQjvMaXgQlwjC8B2Wa3MhGImFe5szp31mYPh
- IaWqrw1+aUB2Iow+aUJ5OJwpaNP12N/IN0CWIGG7SUv+rTZVEJYfCFBOjJ/b/zEMqyXz
- 9CwA==
+ bh=Ivmr51mvy81KoF8KGCG/W9r00l5pymoTyJ+SLLb7qsw=;
+ b=y/InJg1ZJkVeqUNVxQP6MEdvot+DyLnjrXaG+lMHyjigV6EreRrWo1w2xRLhb+q9yI
+ Sc0K7QOGn3PA2ldZMPkIzxDlwt4jwO4RZ+iv80jPRmJWOyPVrSh5ASxwCb2EfuShiMTL
+ 0U+ose1yKJrtJWFZiy9QpaFyk1+GvMhlPQfkrtcXGGndCDdImQW0w/ezSWhc2fgwrfq5
+ 49UvdSfHOZ8vI3wxq4Myriw+584+bO+3BZqwh18gVriMAMTaYqw1SzfBUvLcZVGPkfKT
+ AtYYV0tJWrpU7kmhcyVULMMTrqt4lKf+kIwnHj2v7Vq+F52hPk0VA1wtZz8Jauw6Aux5
+ GlGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680107764;
+ d=1e100.net; s=20210112; t=1680107975;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AjvNAt/4YDJVjLGS76iQaE5yaByPsmOs0MvxHruMIGI=;
- b=r27blQ2KbmgGbvlTQe0hxwrb3HjuoiewPQassfyYKIJMdBEcAeWsJRtr1mK+JLGlnx
- nDC2WWCOexMGofYhQxKguLD9MfIHHLtMIS+fhnwJEac6ZyCMwLncl3XvTDCpPtGBdrk9
- xAxaXMLvk/RgADnLYSBeOgTZrNG54vlALdJdQw3dB45PfP3yeIXx0JCjRJKT4ZwNwDpv
- j2KmP2gxCdNVh3bFCL2NgNZhOyy8RjvAR+VcK9JqdjATKJutrhCF9f3giyPOHfM6nsjr
- 14MJ1wBny+8QkQoY7usjwzwqjqo7LA3supu/TnVBuJl8Z7IkwBXN4LNaknAZChPPGzlp
- Hypw==
-X-Gm-Message-State: AAQBX9ewcWL0jdYA745+tP3bAb5Celkym1B++kf9kJdzR+ZXNaZg+EXK
- GVKwotNERclTbhz5IEyG7j4jUg==
-X-Google-Smtp-Source: AKy350b/nMpobfpsqTpDy+WLvTPIO7H6DAd7FAwDczf3BlTKjiBxyf6Oe0U86J5aDDCgxYR+XtFrCw==
-X-Received: by 2002:a62:1794:0:b0:624:f1f2:234a with SMTP id
- 142-20020a621794000000b00624f1f2234amr15729569pfx.23.1680107763652; 
- Wed, 29 Mar 2023 09:36:03 -0700 (PDT)
+ bh=Ivmr51mvy81KoF8KGCG/W9r00l5pymoTyJ+SLLb7qsw=;
+ b=fw0uxLtHlcsCs/+wVSSYqamAhSCIM0Dx7hYHp2jG5XcALBXl//o2xFUTM/CX1w84jY
+ 9yiS4jEoU6PQROy/GZCFzEUPXjEHw5lC/OStxvEZJxCGPVonZCiUoajvSwYXnJaqJk+0
+ e0QBJdevHRF7tmuFyTRTPklgeZnLLhADGhYWUA2MgYDIIR2CaGpFwhmRikuUu3YgUkzx
+ 3jhZqxCmpA3i6A2+4Fd0HmBGZIugAcGt+54+W51qemB8fpGyzK/1LgnM3xTpLyKp+Lhs
+ wbpWjKYUytJ91+zE5bW0Mrl7tq9X0FuEikSjYOczcOVqhQ/oon2R6oORO/CMoLQrQc0J
+ ZH6w==
+X-Gm-Message-State: AAQBX9fChva+z21G7QY+Y47gJSudKBXrJLo8AzRq3L3/lbV2YFjMoaUJ
+ GrTi2Kv3sFIDEGZhOtU93VX9og==
+X-Google-Smtp-Source: AKy350aJ0jrE8y4YB2fjM5PRgufCdszGlhWmsUFUO1uixpDRUhAdnN9SwmXHEdc2MfDXSxHuzPphXA==
+X-Received: by 2002:a17:90b:33cc:b0:237:40a5:7cb9 with SMTP id
+ lk12-20020a17090b33cc00b0023740a57cb9mr21898864pjb.5.1680107975624; 
+ Wed, 29 Mar 2023 09:39:35 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:3369:815f:629b:7300?
  ([2602:ae:1541:f901:3369:815f:629b:7300])
  by smtp.gmail.com with ESMTPSA id
- d9-20020aa78e49000000b005cd81a74821sm19507939pfr.152.2023.03.29.09.36.02
+ o11-20020a17090aac0b00b002342ccc8280sm1635659pjq.6.2023.03.29.09.39.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 09:36:03 -0700 (PDT)
-Message-ID: <a1809221-ed92-01ec-28b9-7a9397c9066e@linaro.org>
-Date: Wed, 29 Mar 2023 09:36:01 -0700
+ Wed, 29 Mar 2023 09:39:35 -0700 (PDT)
+Message-ID: <3f659630-f990-a2e8-d498-2c4c4888fc5f@linaro.org>
+Date: Wed, 29 Mar 2023 09:39:33 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 5/5] target/riscv: Add pointer mask support for
- instruction fetch
+Subject: Re: [PATCH] gdbstub: Only build libgdb_user.fa / libgdb_softmmu.fa if
+ necessary
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230329032346.55185-1-liweiwei@iscas.ac.cn>
- <20230329032346.55185-6-liweiwei@iscas.ac.cn>
+Cc: Fabiano Rosas <farosas@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+References: <20230329161852.84992-1-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230329032346.55185-6-liweiwei@iscas.ac.cn>
+In-Reply-To: <20230329161852.84992-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,41 +100,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/28/23 20:23, Weiwei Li wrote:
-> Transform the fetch address in cpu_get_tb_cpu_state() when pointer
-> mask for instruction is enabled.
-> Enable PC-relative translation when J is enabled.
+On 3/29/23 09:18, Philippe Mathieu-Daudé wrote:
+> It is pointless to build libgdb_user.fa in a system-only build
+> (or libgdb_softmmu.fa in a user-only build). Besides, in some
+> restricted build configurations, some APIs might be restricted /
+> not available. Example in a KVM-only builds where TCG is disabled:
 > 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>    $ ninja qemu-system-x86_64
+>    [99/2187] Compiling C object gdbstub/libgdb_user.fa.p/user.c.o
+>    FAILED: gdbstub/libgdb_user.fa.p/user.c.o
+>    ../../gdbstub/user.c: In function ‘gdb_breakpoint_insert’:
+>    ../../gdbstub/user.c:438:19: error: implicit declaration of function ‘cpu_breakpoint_insert’; did you mean ‘gdb_breakpoint_insert’? [-Werror=implicit-function-declaration]
+>      438 |             err = cpu_breakpoint_insert(cpu, addr, BP_GDB, NULL);
+>          |                   ^~~~~~~~~~~~~~~~~~~~~
+>          |                   gdb_breakpoint_insert
+>    ../../gdbstub/user.c:438:19: error: nested extern declaration of ‘cpu_breakpoint_insert’ [-Werror=nested-externs]
+>    ../../gdbstub/user.c: In function ‘gdb_breakpoint_remove’:
+>    ../../gdbstub/user.c:459:19: error: implicit declaration of function ‘cpu_breakpoint_remove’; did you mean ‘gdb_breakpoint_remove’? [-Werror=implicit-function-declaration]
+>      459 |             err = cpu_breakpoint_remove(cpu, addr, BP_GDB);
+>          |                   ^~~~~~~~~~~~~~~~~~~~~
+>          |                   gdb_breakpoint_remove
+>    ../../gdbstub/user.c:459:19: error: nested extern declaration of ‘cpu_breakpoint_remove’ [-Werror=nested-externs]
+>    cc1: all warnings being treated as errors
+>    ninja: build stopped: subcommand failed.
+> 
+> Fixes: 61b2e136db ("gdbstub: only compile gdbstub twice for whole build")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   target/riscv/cpu.c        |  4 ++++
->   target/riscv/cpu.h        |  1 +
->   target/riscv/cpu_helper.c | 20 +++++++++++++++++++-
->   target/riscv/csr.c        |  2 --
->   4 files changed, 24 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 646fa31a59..99f0177c6d 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1193,6 +1193,10 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->   
->   
->   #ifndef CONFIG_USER_ONLY
-> +    if(cpu->cfg.ext_j) {
-> +        cs->tcg_cflags |= CF_PCREL;
-> +    }
 
-"if ("
-
-Consider enabling it always for system mode.  The reason for the existence of CF_PCREL is 
-to improve performance with the guest kernel's address space randomization.  Each guest 
-process maps libc.so (et al) at a different virtual address, and this allows those 
-translations to be shared.
-
-I would enable CF_PCREL in a separate patch from MMTE_*_PM_INSN.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
+>   gdbstub/meson.build | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/gdbstub/meson.build b/gdbstub/meson.build
+> index bd5c5cd67d..cdb4d28691 100644
+> --- a/gdbstub/meson.build
+> +++ b/gdbstub/meson.build
+> @@ -20,11 +20,13 @@ gdb_softmmu_ss = gdb_softmmu_ss.apply(config_host, strict: false)
+>   libgdb_user = static_library('gdb_user',
+>                                gdb_user_ss.sources() + genh,
+>                                name_suffix: 'fa',
+> -                             c_args: '-DCONFIG_USER_ONLY')
+> +                             c_args: '-DCONFIG_USER_ONLY',
+> +                             build_by_default: have_user)
+>   
+>   libgdb_softmmu = static_library('gdb_softmmu',
+>                                   gdb_softmmu_ss.sources() + genh,
+> -                                name_suffix: 'fa')
+> +                                name_suffix: 'fa',
+> +                                build_by_default: have_system)
+>   
+>   gdb_user = declare_dependency(link_whole: libgdb_user)
+>   user_ss.add(gdb_user)
+
 
