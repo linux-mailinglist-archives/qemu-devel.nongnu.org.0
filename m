@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66B816CD914
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 14:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357F76CD941
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 14:20:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phTty-0006pH-M7; Wed, 29 Mar 2023 07:23:38 -0400
+	id 1phUlx-0000xQ-TO; Wed, 29 Mar 2023 08:19:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phTtw-0006ok-HT
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 07:23:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phTtu-00044z-RA
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 07:23:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680089013;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C97uR/hhQ+ERIYheJ3+18QOMdGHfvIerzeofdHSNaZc=;
- b=ZN07swD0JJQMgP4foKsrZYMNrBj2Fhh6lGwn0Fuw5QERdeJfOpaN7jpPvbnCeYZzXyFkms
- f1nULeRlAME2sLdGq3xNi/y3RkVQ/4YNLho99wENB4/D/RYDqeId9ER9rhj1PuvwZkH0l2
- ufnEFGawjmW6aDYNU8Stj+mmu3hG33w=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-329-Maj6XGOpNhOwmYEqPAv8bw-1; Wed, 29 Mar 2023 07:23:30 -0400
-X-MC-Unique: Maj6XGOpNhOwmYEqPAv8bw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- pc36-20020a05620a842400b00742c715894bso7082486qkn.21
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 04:23:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phUlw-0000xF-67
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 08:19:24 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phUlu-0005Bd-Ik
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 08:19:23 -0400
+Received: by mail-wm1-x330.google.com with SMTP id s13so8769834wmr.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 05:19:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680092360;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GwnHkWHfwL0YsjcR0oDqyt5L6zxT/q3dc7ahpthQ5n0=;
+ b=p/GrUAzXvDbb89XPSoi19GVzrlPyb0DmfuENCnVSr9mXZLCVlUm0hE0mNTEPY/k8J9
+ w44rkKKkrzpioNsEWvIdJmDODdxw6tyKmtk5Pf2QiU7A/0XftzCPFRde69YvNEZo8Qu+
+ sCs9St1+YH5thZPx7qhmJ0cgLR/Ty0CZdPoaCiw4ajTccNhN+1/GLWrTyRtXvztysCcB
+ IR/EbN8r0arRs+foZw+sQEPRf94hHeJwd7TFIlQmYnys8E648h7E2S5fzvyzntLD9BLJ
+ /qLvA1oXJ9A9f9XwztjN8nrEyU/PjvQtFRbNPYn2ei6L7zdWScMTyxte32jpiGsi3VOX
+ gg0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680089010;
+ d=1e100.net; s=20210112; t=1680092360;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C97uR/hhQ+ERIYheJ3+18QOMdGHfvIerzeofdHSNaZc=;
- b=sKxA2lBxSmSJSp8dL5jM892ed4fgV8r7sW7Waw+4OE+5TsZl1i0wOpu52MilYw52ze
- V0jeG0u4SNICpE+MDdbTkkRES4OouWzloheTdbfNvNEXm4rsC8YMl6uYPIM5wn4a1iUY
- P8gaRJL3+r0AGnh8tpvdxKxPd4lG1fdIakZ7SXss4+nSgH+DEFEffjwHXcLvr3NjxMVP
- 2c5X6i0l+vu/xOzVkn7PDd8mofOh3cQt2s3Kq2mAfP99v7Y2nTVLlQdNQRPkWb8IZSAW
- bsofdN8hDzWxJEh90ihHcSxlHfwLu430dzqtB+cTI2Mw28FWUon8CKqbC+boOecVTNly
- jK6w==
-X-Gm-Message-State: AO0yUKVKCB9dWXk4wVkzS9koSMTJoHdJqd+CNRlMZSDC/th1dzvzcg5k
- UjSZiIYiBi/Yf9FobEgY5WOZKrWt4JLjaKgb2aEnnonqgsdYkRBvz1QYn7NchyNHuh/fRSl65H1
- 3ivpOYGJyxF67+/Q=
-X-Received: by 2002:ac8:5d94:0:b0:3b6:9c63:5ca1 with SMTP id
- d20-20020ac85d94000000b003b69c635ca1mr34426717qtx.43.1680089010211; 
- Wed, 29 Mar 2023 04:23:30 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8nUBQytNfAEK34SfJBGTdciXWweqrSgH8zsqD1CuaqtQJ4LochRS+RjgtIBPJ52FM9jlHctw==
-X-Received: by 2002:ac8:5d94:0:b0:3b6:9c63:5ca1 with SMTP id
- d20-20020ac85d94000000b003b69c635ca1mr34426677qtx.43.1680089009796; 
- Wed, 29 Mar 2023 04:23:29 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-177-100.web.vodafone.de.
- [109.43.177.100]) by smtp.gmail.com with ESMTPSA id
- 66-20020a370b45000000b0071eddd3bebbsm10217371qkl.81.2023.03.29.04.23.28
+ bh=GwnHkWHfwL0YsjcR0oDqyt5L6zxT/q3dc7ahpthQ5n0=;
+ b=OGqZNucgv5IMZND+69DV3eE9z74BNopPFh5AjJpLhSlEVDYsFVA6ibKAzR91meqpBX
+ Mj2HUtEOeRzy14HGpv86maO6tsC6nwx6spQ3Q7CJHKIjgeFSXKpjFQzNBNkoQEcy8oK7
+ pGkjbbZNFf/GnpUsfv/Gb0zmoLGRNQ/EPyrlDyXeKxhkkLwWMVZcV8upsSfJunbFhjOY
+ /0rjUpxxUUl4kCtUD/ketSL733rDE/tapnDXlFRoJLLnxcEQzlEM8aCVvmMkUQeieQvH
+ owZLKsHoQDh/G2XzL+xBxuqCGBOmgLVzRg2YjpCE7Tr3jbaweWVsaqD/yCePGkf6tIYG
+ fUXQ==
+X-Gm-Message-State: AO0yUKV67JusYc63+yc5egUuPzSvJF1cLWU8qIyhr9gSSfxwHfr/MgcA
+ PdaDrHuKAT+oM7d+GspR7piHjA==
+X-Google-Smtp-Source: AK7set/hh+Y3if1/yUb04b06GQFX2YDLYUf1Ewzx8uxeGI2htw87dfGWgutKeY7i7TY2xBZ9P1cg2g==
+X-Received: by 2002:a7b:c7ce:0:b0:3ee:5147:3acc with SMTP id
+ z14-20020a7bc7ce000000b003ee51473accmr15834407wmk.36.1680092360224; 
+ Wed, 29 Mar 2023 05:19:20 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ k4-20020a05600c1c8400b003ee610d1ce9sm2359483wms.34.2023.03.29.05.19.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 04:23:29 -0700 (PDT)
-Message-ID: <257e4262-64dd-ffe1-a3f7-a8d7d4122d03@redhat.com>
-Date: Wed, 29 Mar 2023 13:23:26 +0200
+ Wed, 29 Mar 2023 05:19:19 -0700 (PDT)
+Message-ID: <f83cced2-06dd-3e56-43dc-f76ad10deb56@linaro.org>
+Date: Wed, 29 Mar 2023 14:19:18 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 7/8] iotests: register each I/O test separately with
- meson
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH] linux-user: preserve incoming order of environment
+ variables in the target
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20230303160727.3977246-1-berrange@redhat.com>
- <20230303160727.3977246-8-berrange@redhat.com>
- <2dc0e2fe-bb41-f81a-893f-022d17c98a48@redhat.com>
- <ZCQekQ0/zaRsL2S/@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <ZCQekQ0/zaRsL2S/@redhat.com>
+To: Andreas Schwab <schwab@suse.de>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org
+References: <mvmmt3vu8bz.fsf@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <mvmmt3vu8bz.fsf@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,103 +91,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/03/2023 13.18, Daniel P. Berrangé wrote:
-> On Wed, Mar 29, 2023 at 12:47:51PM +0200, Thomas Huth wrote:
->> On 03/03/2023 17.07, Daniel P. Berrangé wrote:
->>> Currently meson registers a single test that invokes an entire group of
->>> I/O tests, hiding the test granularity from meson. There are various
->>> downsides of doing this
->>>
->>>    * You cannot ask 'meson test' to invoke a single I/O test
->>>    * The meson test timeout can't be applied to the individual
->>>      tests
->>>    * Meson only gets a pass/fail for the overall I/O test group
->>>      not individual tests
->>>    * If a CI job gets killed by the GitLab timeout, we don't
->>>      get visibility into how far through the I/O tests
->>>      execution got.
->>>
->>> This switches meson to perform test discovery by invoking 'check' in
->>> dry-run mode. It then registers one meson test case for each I/O
->>> test. Parallel execution remains disabled since the I/O tests do not
->>> use self contained execution environments and thus conflict with
->>> each other.
->>>
->>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>> ---
->>>    tests/qemu-iotests/meson.build | 35 ++++++++++++++++++++++++++++------
->>>    1 file changed, 29 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
->>> index 323a4acb6a..a162f683ef 100644
->>> --- a/tests/qemu-iotests/meson.build
->>> +++ b/tests/qemu-iotests/meson.build
->>> @@ -32,16 +32,39 @@ foreach k, v : emulators
->>>      endif
->>>    endforeach
->>> +qemu_iotests_check_cmd = files('check')
->>> +
->>>    foreach format, speed: qemu_iotests_formats
->>>      if speed == 'quick'
->>>        suites = 'block'
->>>      else
->>>        suites = ['block-' + speed, speed]
->>>      endif
->>> -  test('qemu-iotests ' + format, sh, args: [files('../check-block.sh'), format],
->>> -       depends: qemu_iotests_binaries, env: qemu_iotests_env,
->>> -       protocol: 'tap',
->>> -       suite: suites,
->>> -       timeout: 0,
->>> -       is_parallel: false)
->>> +
->>> +  args = ['-tap', '-' + format]
->>> +  if speed == 'quick'
->>> +      args += ['-g', 'auto']
->>> +  endif
->>> +
->>> +  rc = run_command(
->>> +      [qemu_iotests_check_cmd] + args + ['-n'],
->>> +      check: true,
->>> +  )
->>> +
->>> +  foreach item: rc.stdout().strip().split()
->>> +      args = ['-tap', '-' + format, item,
->>> +              '--source-dir', meson.current_source_dir(),
->>> +              '--build-dir', meson.current_build_dir()]
->>> +      # Some individual tests take as long as 45 seconds
->>> +      # Bump the timeout to 3 minutes for some headroom
->>> +      # on slow machines to minimize spurious failures
->>> +      test('io-' + format + '-' + item,
->>> +           qemu_iotests_check_cmd,
->>> +           args: args,
->>> +           depends: qemu_iotests_binaries,
->>> +           env: qemu_iotests_env,
->>> +           protocol: 'tap',
->>> +           timeout: 180,
->>> +           suite: suites)
->>> +  endforeach
->>>    endforeach
->>
->> Seems like this somehow broke compilation on NetBSD:
->>
->> https://gitlab.com/thuth/qemu/-/jobs/4021584713#L2980
-> 
-> I ran it locally and got the meson-log.txt file which reports
-> 
->    env: python3: No such file or directory
-> 
-> and indeed there is no python3 binary present in our netbsd
-> VM.
-> 
-> our tests/vm/netbsd script works around this by passing an
-> explicit --python=python3.7 arg to configure, but the way
-> we invoke the 'check' script means it is just using the
-> "#!/usr/bin/env python3"  logic instead.
+On 29/3/23 13:04, Andreas Schwab wrote:
+> Do not reverse the order of envionment variables in the target environ
 
-Ah, that rings a bell - python scripts must not have the executable flags, 
-otherwise meson tries to run them directly instead of using the interpreter 
-that has been specified with the --python option.
+"environment"
 
-  Thomas
+> array relative to the incoming environ order.  Some testsuites depend on a
+> specific order, even though it is not defined by any standard.
+> 
+> Signed-off-by: Andreas Schwab <schwab@suse.de>
+> ---
+>   linux-user/main.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 4b18461969..d0ede3f990 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -691,8 +691,13 @@ int main(int argc, char **argv, char **envp)
+>       envlist = envlist_create();
+>   
+>       /* add current environment into the list */
+> +    /* envlist_setenv adds to the front of the list; to preserve environ
+> +       order add from back to front */
+>       for (wrk = environ; *wrk != NULL; wrk++) {
+> -        (void) envlist_setenv(envlist, *wrk);
+> +        continue;
+> +    }
+> +    while (wrk != environ) {
+> +        (void) envlist_setenv(envlist, *--wrk);
+>       }
+
+Preferably using a dumber form (easier to review IMHO):
+
+         while (wrk != environ) {
+            wrk--;
+            (void) envlist_setenv(envlist, *wrk);
+         }
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
