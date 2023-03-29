@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED376CEFBB
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936AD6CEF87
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 18:34:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phYxC-0000YS-A3; Wed, 29 Mar 2023 12:47:18 -0400
+	id 1phYkD-0003uX-JE; Wed, 29 Mar 2023 12:33:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phYx9-0000Xo-LS
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:47:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phYx7-0006uR-A8
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:47:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680108432;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hn6FMD2REGcI7oLVfN3s9GEcCBiTF3sBM/dFgBfrsSo=;
- b=eBpZeyCVztu5hH3T0ExpSUSj7pNoWCc8UTCzdFSkKnUBZ7mUcTI62AlTJKfYAJOW2ALRYi
- 0+UBkv2BzzKzXlhDn0veDXXMc1efP6eBpRtTU83uAsCncS7D1JgN0wjFGAnBmiwL/BIecE
- hDQJYYCd3LWXisQt+72WyPcQ0Oz3tv0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-611-PMGsgJIJMTyLrwaPUjHrJQ-1; Wed, 29 Mar 2023 12:47:10 -0400
-X-MC-Unique: PMGsgJIJMTyLrwaPUjHrJQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j27-20020a05600c1c1b00b003edd2023418so9077615wms.4
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:47:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1phYkB-0003u5-5Z
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:33:51 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1phYk8-0002WR-4p
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 12:33:50 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-5445009c26bso302978637b3.8
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 09:33:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=landley-net.20210112.gappssmtp.com; s=20210112; t=1680107626;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=71s7cSRGldjk5lmQXv8X+J97vldmv6SC15S6+zGmms4=;
+ b=B7uSatMa2KPZDO3DJrPTgF/uRcm4Rd6QGsa4f8iQ0tnqv5pZCoTpvX6Lx+wmwKppRq
+ 1JhGk1J+4+09i2gKYDedQ9FhzR2hFMoNIIWpemzhrH1Uwlj1vY8krCvqBS4q6qAUYBFk
+ lerIksHDaMz96auBi9FZeZCPLSexF2IP+dmPnjpmKH4f4ncztyA0mIO3pvOX3W43HISd
+ 9beewTRizFjFtdv5cuZ1JOFHGp8nS8s3s7tgcT5QNw8UfjXZKnwZHIjw9/D38HWIkThC
+ PH9wWFTxiI6+46Gl3472rAf+d3/Opav6icuzdNsRL5vOsWE1njld5ePPKMe7INWtu6LB
+ QuYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680108429;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hn6FMD2REGcI7oLVfN3s9GEcCBiTF3sBM/dFgBfrsSo=;
- b=LKYEEmFtebRCB7XiShgJ3lnWh3yfpHSr5SCsbuj4ieSNQBCNgN8WBqlDQCBlB59Leu
- ss+9zsD5+A+QLLiBye/AqCCj3RCBI3Eh/hQelZ5+Fb/fnwTtTp/CGN2KIqrfk5E3/Ge9
- R3CjY5bPL/GtqC2IAAXbOP7lxZeYWhSnMSIiXJNzXUFZoNWZc74mS6FxS7CQxUCfoeuX
- kysAPM9HBJrZqKg/xOfv9jdAi4RZUkfaqgemaQ/eX9bhYNwvs4LEp5iEKQZ2+HgV4fZE
- x7/g8mkF2Q+IojPSHsofiDPDuZV2BQobHzOag4o4p2cAjIIpMlHgPdZnpAPlbSysvIbz
- nK+A==
-X-Gm-Message-State: AAQBX9d4V8kJ/PuP1ofz+offhENKX9gpyd9ilac4pGNBmjocRuVRi8Nw
- GyYU9DJwNM4fMuJeKk+o/frJvXxEcz6kietFxG+tchaUhgWHUWjMiFl2HTYRIjYHPWo2xeFnXbV
- mi/01cMc5mjcKlRs=
-X-Received: by 2002:a05:600c:21d9:b0:3ed:5eed:5581 with SMTP id
- x25-20020a05600c21d900b003ed5eed5581mr2290814wmj.2.1680108429579; 
- Wed, 29 Mar 2023 09:47:09 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZZhH0Kgk5qBoscNnFSzoG1yfB51rwpBdUWAw+lOiSicSDcNe3aGjSfhGJhKa25+dmg5UeLww==
-X-Received: by 2002:a05:600c:21d9:b0:3ed:5eed:5581 with SMTP id
- x25-20020a05600c21d900b003ed5eed5581mr2290790wmj.2.1680108429240; 
- Wed, 29 Mar 2023 09:47:09 -0700 (PDT)
-Received: from redhat.com ([2.52.18.165]) by smtp.gmail.com with ESMTPSA id
- n2-20020a05600c4f8200b003ef5e5f93f5sm3017273wmq.19.2023.03.29.09.47.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 09:47:08 -0700 (PDT)
-Date: Wed, 29 Mar 2023 12:47:05 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: shannon.zhaosl@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
- peter.maydell@linaro.org, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
- pbonzini@redhat.com, richard.henderson@linaro.org,
- eduardo@habkost.net, boris.ostrovsky@oracle.com
-Subject: Re: [PATCH 0/2] hw/acpi: bump MADT to revision 5
-Message-ID: <20230329124442-mutt-send-email-mst@kernel.org>
-References: <20230328155926.2277-1-eric.devolder@oracle.com>
- <20230329010406-mutt-send-email-mst@kernel.org>
- <96144a1b-efa7-ecc2-3e35-56825fcf48c6@oracle.com>
+ d=1e100.net; s=20210112; t=1680107626;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=71s7cSRGldjk5lmQXv8X+J97vldmv6SC15S6+zGmms4=;
+ b=rNXRyeHjpAOJCnWEQl7fbLbFCI5vHmvszgugDoXSbxGaQusLXWoZ0K47s+6sPQPnIB
+ jtfXa5RDxnwt12qCi/ucAmhyK/afRti2KVIsSwhL42M8XiMGNYdYme+wM507AHEZvgdT
+ EYasJLVfDgzUbIkiT9ujoPPCEOetTbRWuN/yypSrybRWBNNwYlfvHQrXoZ7u3+RR1WyC
+ fC0nsVnT/Nbl8vT2fd1BAsfyEHqhrXAexrrvK1ZoF0CCw3HdWuOs+zcUevQx0w6WU0v+
+ wK9TMCuTQ9522YC/Sdz2oPijCdNFJXZqw+fKmFIZg15WVJ1W7JNCZXH2YcW7UmySR5PC
+ 4DJg==
+X-Gm-Message-State: AAQBX9edUpG2MoKjXTKeX3xRONq4HeNPJfozXwNN3spj7LbWVNL5NaSf
+ 3lZYzhTkgX2UcK78CUQo/FuG0g==
+X-Google-Smtp-Source: AKy350YjLAPXntxcFnC1W7Hu9QhUpkJj+ONb2saNCR0zz7DvFgKlnIIMuJR4M7FfUtt6H9lfj8q7jg==
+X-Received: by 2002:a0d:e253:0:b0:541:891f:86f6 with SMTP id
+ l80-20020a0de253000000b00541891f86f6mr19018198ywe.19.1680107626336; 
+ Wed, 29 Mar 2023 09:33:46 -0700 (PDT)
+Received: from [172.16.32.78] ([198.232.126.202])
+ by smtp.gmail.com with ESMTPSA id
+ bc9-20020a05690c000900b00546160d7fa1sm749585ywb.50.2023.03.29.09.33.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Mar 2023 09:33:45 -0700 (PDT)
+Message-ID: <0ae35be3-794a-deee-1c96-507d5be2306c@landley.net>
+Date: Wed, 29 Mar 2023 11:48:16 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <96144a1b-efa7-ecc2-3e35-56825fcf48c6@oracle.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH] hw/mips/gt64xxx_pci: Don't endian-swap GT_PCI0_CFGADDR
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Nathan Chancellor <nathan@kernel.org>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
+ balaton@eik.bme.hu, Bernhard Beschow <shentey@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20230223161958.48696-1-jiaxun.yang@flygoat.com>
+ <aa1e6559-55ae-0f7b-80cb-890bb34b9544@linaro.org>
+ <20230320165821.GA4064187@dev-arch.thelio-3990X>
+ <edea2619-8fe9-638e-cfa0-684123f7ee99@linaro.org>
+ <037d00b7-9df9-e888-a4d7-235e6d08f784@landley.net>
+ <89504c25-5265-d6c5-6e48-dcdc0be43ea0@linaro.org>
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <89504c25-5265-d6c5-6e48-dcdc0be43ea0@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=rob@landley.net; helo=mail-yw1-x1136.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,270 +100,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 29, 2023 at 08:14:37AM -0500, Eric DeVolder wrote:
-> 
-> 
-> On 3/29/23 00:19, Michael S. Tsirkin wrote:
-> > Hmm I don't think we can reasonably make such a change for 8.0.
-> > Seems too risky.
-> > Also, I feel we want to have an internal (with "x-" prefix") flag to
-> > revert to old behaviour, in case of breakage on some guests.  and maybe
-> > we want to keep old revision for old machine types.
-> Ok, what option name, for keeping old behavior, would you like?
-
-Don't much care. x-madt-rev?
-
-> > 
-> > 
-> > On Tue, Mar 28, 2023 at 11:59:24AM -0400, Eric DeVolder wrote:
-> > > The following Linux kernel change broke CPU hotplug for MADT revision
-> > > less than 5.
-> > > 
-> > >   commit e2869bd7af60 ("x86/acpi/boot: Do not register processors that cannot be onlined for x2APIC")
-> > 
-> > Presumably it's being fixed? Link to discussion? Patch fixing that in
-> > Linux?
-> 
-> https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devolder@oracle.com/T/#t
-
-Great! Maybe stick a Link: tag in the commit log.
-
-> > 
-> > 
-> > > As part of the investigation into resolving this breakage, I learned
-> > > that i386 QEMU reports revision 1, while technically it is at revision 3.
-> > > (Arm QEMU reports revision 4, and that is valid/correct.)
-> > > 
-> > > ACPI 6.3 bumps MADT revision to 5 as it introduces an Online Capable
-> > > flag that the above Linux patch utilizes to denote hot pluggable CPUs.
-> > > 
-> > > So in order to bump MADT to the current revision of 5, need to
-> > > validate that all MADT table changes between 1 and 5 are present
-> > > in QEMU.
-> > > 
-> > > Below is a table summarizing the changes to the MADT. This information
-> > > gleamed from the ACPI specs on uefi.org.
-> > > 
-> > > ACPI    MADT    What
-> > > Version Version
-> > > 1.0             MADT not present
-> > > 2.0     1       Section 5.2.10.4
-> > > 3.0     2       Section 5.2.11.4
-> > >                   5.2.11.13 Local SAPIC Structure added two new fields:
-> > >                    ACPI Processor UID Value
-> > >                    ACPI Processor UID String
-> > >                   5.2.10.14 Platform Interrupt Sources Structure:
-> > >                    Reserved changed to Platform Interrupt Sources Flags
-> > > 3.0b    2       Section 5.2.11.4
-> > >                   Added a section describing guidelines for the ordering of
-> > >                   processors in the MADT to support proper boot processor
-> > >                   and multi-threaded logical processor operation.
-> > > 4.0     3       Section 5.2.12
-> > >                   Adds Processor Local x2APIC structure type 9
-> > >                   Adds Local x2APIC NMI structure type 0xA
-> > > 5.0     3       Section 5.2.12
-> > > 6.0     3       Section 5.2.12
-> > > 6.0a    4       Section 5.2.12
-> > >                   Adds ARM GIC structure types 0xB-0xF
-> > > 6.2a    45      Section 5.2.12   <--- yep it says version 45!
-> > > 6.2b    5       Section 5.2.12
-> > >                   GIC ITS last Reserved offset changed to 16 from 20 (typo)
-> > > 6.3     5       Section 5.2.12
-> > >                   Adds Local APIC Flags Online Capable!
-> > >                   Adds GICC SPE Overflow Interrupt field
-> > > 6.4     5       Section 5.2.12
-> > >                   Adds Multiprocessor Wakeup Structure type 0x10
-> > >                   (change notes says structure previously misplaced?)
-> > > 6.5     5       Section 5.2.12
-> > > 
-> > > For the MADT revision change 1 -> 2, the spec has a change to the
-> > > SAPIC structure. In general, QEMU does not generate/support SAPIC.
-> > > So the QEMU i386 MADT revision can safely be moved to 2.
-> > > 
-> > > For the MADT revision change 2 -> 3, the spec adds Local x2APIC
-> > > structures. QEMU has long supported x2apic ACPI structures. A simple
-> > > search of x2apic within QEMU source and hw/i386/acpi-common.c
-> > > specifically reveals this.
-> > 
-> > But not unconditionally.
-> 
-> I don't think that reporting revision 3 requires that generation of x2apic;
-> one could still see apic, x2apic, or sapic in theory. I realize qemu doesn't
-> do sapic...
-> 
-> > 
-> > > So the QEMU i386 MADT revision can safely
-> > > be moved to 3.
-> > > 
-> > > For the MADT revision change 3 -> 4, the spec adds support for the ARM
-> > > GIC structures. QEMU ARM does in fact generate and report revision 4.
-> > > As these will not be used by i386 QEMU, so then the QEMU i386 MADT
-> > > revision can safely be moved to 4 as well.
-> > > 
-> > > Now for the MADT revision change 4 -> 5, the spec adds the Online
-> > > Capable flag to the Local APIC structure, and the ARM GICC SPE
-> > > Overflow Interrupt field.
-> > > 
-> > > For the ARM SPE, an existing 3-byte Reserved field is broken into a 1-
-> > > byte Reserved field and a 2-byte SPE field.  The spec says that is SPE
-> > > Overflow is not supported, it should be zero.
-> > > 
-> > > For the i386 Local APIC flag Online Capable, the spec has certain rules
-> > > about this value. And in particuar setting this value now explicitly
-> > > indicates a hotpluggable CPU.
-> > > 
-> > > So this patch makes the needed changes to move both ARM and i386 MADT
-> > > to revision 5. These are not complicated, thankfully.
-> > > 
-> > > Without these changes, the information below shows "how" CPU hotplug
-> > > breaks with the current upstream Linux kernel 6.3.  For example, a Linux
-> > > guest started with:
-> > > 
-> > >   qemu-system-x86_64 -smp 30,maxcpus=32 ...
-> > > 
-> > > and then attempting to hotplug a CPU:
-> > > 
-> > >    (QEMU) device_add id=cpu30 driver=host-x86_64-cpu socket-id=0 core-id=30 thread-id=0
-> > > 
-> > > fails with the following:
-> > > 
-> > >    APIC: NR_CPUS/possible_cpus limit of 30 reached. Processor 30/0x.
-> > >    ACPI: Unable to map lapic to logical cpu number
-> > >    acpi LNXCPU:1e: Enumeration failure
-> > > 
-> > >    # dmesg | grep smpboot
-> > >    smpboot: Allowing 30 CPUs, 0 hotplug CPUs
-> > >    smpboot: CPU0: Intel(R) Xeon(R) CPU D-1533 @ 2.10GHz (family: 0x)
-> > >    smpboot: Max logical packages: 1
-> > >    smpboot: Total of 30 processors activated (125708.76 BogoMIPS)
-> > > 
-> > >    # iasl -d /sys/firmware/tables/acpi/APIC
-> > >    [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Descript
-> > >    [004h 0004   4]                 Table Length : 00000170
-> > >    [008h 0008   1]                     Revision : 01          <=====
-> > >    [009h 0009   1]                     Checksum : 9C
-> > >    [00Ah 0010   6]                       Oem ID : "BOCHS "
-> > >    [010h 0016   8]                 Oem Table ID : "BXPC    "
-> > >    [018h 0024   4]                 Oem Revision : 00000001
-> > >    [01Ch 0028   4]              Asl Compiler ID : "BXPC"
-> > >    [020h 0032   4]        Asl Compiler Revision : 00000001
-> > > 
-> > >    ...
-> > > 
-> > >    [114h 0276   1]                Subtable Type : 00 [Processor Local APIC]
-> > >    [115h 0277   1]                       Length : 08
-> > >    [116h 0278   1]                 Processor ID : 1D
-> > >    [117h 0279   1]                Local Apic ID : 1D
-> > >    [118h 0280   4]        Flags (decoded below) : 00000001
-> > >                               Processor Enabled : 1          <=====
-> > > 
-> > >    [11Ch 0284   1]                Subtable Type : 00 [Processor Local APIC]
-> > >    [11Dh 0285   1]                       Length : 08
-> > >    [11Eh 0286   1]                 Processor ID : 1E
-> > >    [11Fh 0287   1]                Local Apic ID : 1E
-> > >    [120h 0288   4]        Flags (decoded below) : 00000000
-> > >                               Processor Enabled : 0          <=====
-> > > 
-> > >    [124h 0292   1]                Subtable Type : 00 [Processor Local APIC]
-> > >    [125h 0293   1]                       Length : 08
-> > >    [126h 0294   1]                 Processor ID : 1F
-> > >    [127h 0295   1]                Local Apic ID : 1F
-> > >    [128h 0296   4]        Flags (decoded below) : 00000000
-> > >                               Processor Enabled : 0          <=====
-> > > 
-> > > The (latest upstream) Linux kernel sees 30 Enabled processors, and
-> > > does not consider processors 31 and 32 to be hotpluggable.
-> > > 
-> > > With this patch series applied, by bumping MADT to revision 5, the
-> > > latest upstream Linux kernel correctly identifies 30 CPUs plus 2
-> > > hotpluggable CPUS.
-> > > 
-> > >    CPU30 has been hot-added
-> > >    smpboot: Booting Node 0 Processor 30 APIC 0x1e
-> > >    Will online and init hotplugged CPU: 30
-> > > 
-> > >    # dmesg | grep smpboot
-> > >    smpboot: Allowing 32 CPUs, 2 hotplug CPUs
-> > >    smpboot: CPU0: Intel(R) Xeon(R) CPU D-1533 @ 2.10GHz (family: 0x6, model: 0x56, stepping: 0x3)
-> > >    smpboot: Max logical packages: 2
-> > >    smpboot: Total of 30 processors activated (125708.76 BogoMIPS)
-> > > 
-> > >    # iasl -d /sys/firmware/tables/acpi/APIC
-> > >    [000h 0000 004h]                   Signature : "APIC"    [Multiple APIC Descript
-> > >    [004h 0004 004h]                Table Length : 00000170
-> > >    [008h 0008 001h]                    Revision : 05          <=====
-> > >    [009h 0009 001h]                    Checksum : 94
-> > >    [00Ah 0010 006h]                      Oem ID : "BOCHS "
-> > >    [010h 0016 008h]                Oem Table ID : "BXPC    "
-> > >    [018h 0024 004h]                Oem Revision : 00000001
-> > >    [01Ch 0028 004h]             Asl Compiler ID : "BXPC"
-> > >    [020h 0032 004h]       Asl Compiler Revision : 00000001
-> > > 
-> > >    ...
-> > > 
-> > >    [114h 0276 001h]               Subtable Type : 00 [Processor Local APIC]
-> > >    [115h 0277 001h]                      Length : 08
-> > >    [116h 0278 001h]                Processor ID : 1D
-> > >    [117h 0279 001h]               Local Apic ID : 1D
-> > >    [118h 0280 004h]       Flags (decoded below) : 00000001
-> > >                               Processor Enabled : 1          <=====
-> > >                          Runtime Online Capable : 0          <=====
-> > > 
-> > >    [11Ch 0284 001h]               Subtable Type : 00 [Processor Local APIC]
-> > >    [11Dh 0285 001h]                      Length : 08
-> > >    [11Eh 0286 001h]                Processor ID : 1E
-> > >    [11Fh 0287 001h]               Local Apic ID : 1E
-> > >    [120h 0288 004h]       Flags (decoded below) : 00000002
-> > >                               Processor Enabled : 0          <=====
-> > >                          Runtime Online Capable : 1          <=====
-> > > 
-> > >    [124h 0292 001h]               Subtable Type : 00 [Processor Local APIC]
-> > >    [125h 0293 001h]                      Length : 08
-> > >    [126h 0294 001h]                Processor ID : 1F
-> > >    [127h 0295 001h]               Local Apic ID : 1F
-> > >    [128h 0296 004h]       Flags (decoded below) : 00000002
-> > >                               Processor Enabled : 0          <=====
-> > >                          Runtime Online Capable : 1          <=====
-> > > 
-> > > Regards,
-> > > Eric
-> > 
-> > Can you please report which guests were tested?
-> 
-> I've been using primarily upstream Linux. Kernels at and before 6.2.0 didn't
-> have the "broken" patch mentioned above, and worked (for the reasons cited
-> in the patch discussion to "fix" that patch). Any kernel since has the
-> "broken" patch and will exhibit the issue.
-> 
-> I've been using q35.
-> 
-> If there are other samples you'd like to see, let me know and I'll try.
-> 
-> Also, my responses will be delayed as I'm traveling the remainder of the week.
-> 
-> Thanks!
-> eric
-
-As a minimum some windows versions. The older the better.
 
 
+On 3/29/23 11:07, Philippe Mathieu-Daudé wrote:
+> On 29/3/23 18:09, Rob Landley wrote:
+>> On 3/28/23 12:02, Philippe Mathieu-Daudé wrote:
+>>> On 20/3/23 17:58, Nathan Chancellor wrote:
+>>>> On Wed, Mar 08, 2023 at 12:33:38AM +0100, Philippe Mathieu-Daudé wrote:
+>>>>> On 23/2/23 17:19, Jiaxun Yang wrote:
+>>>>>> 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE
+>>>>>> MemoryRegionOps") converted CFGADDR/CFGDATA registers to use PCI_HOST_BRIDGE's
+>>>>>> accessor facility and enabled byte swap for both CFGADDR/CFGDATA register.
+>>>>>>
+>>>>>> However CFGADDR as a ISD internal register is not controled by MByteSwap
+>>>>>> bit, it follows endian of all other ISD register, which means it ties to
+>>>>>> little endian.
+>>>>>>
+>>>>>> Move mapping of CFGADDR out of gt64120_update_pci_cfgdata_mapping to disable
+>>>>>> endian-swapping.
+>>>>>>
+>>>>>> This should fix some recent reports about poweroff hang.
+>>>>>>
+>>>>>> Fixes: 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps")
+>>>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>>>>> ---
+>>>>>>     hw/pci-host/gt64120.c | 18 ++++++------------
+>>>>>>     1 file changed, 6 insertions(+), 12 deletions(-)
+>>>>>
+>>>>> So this works on little-endian hosts, but fails on
+>>>>> big-endian ones :(
+>>>>>
+>>>>> I.e. on Linux we have early_console_write() -> prom_putchar()
+>>>>> looping:
+>>>>>
+>>>>> IN: prom_putchar
+>>>>> 0x8010fab8:  lbu	v0,0(v1)
+>>>>> 0x8010fabc:  andi	v0,v0,0x20
+>>>>> 0x8010fac0:  beqz	v0,0x8010fab8
+>>>>> 0x8010fac4:  andi	v0,a0,0xff
+>>>>>
+>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
+>>>>> ...
+>>>>>
+>>>>
+>>>> Is there going to be a new version of this patch or a different solution
+>>>> to the poweroff hang then? I am still seeing that with tip of tree QEMU
+>>>> and I see 8.0.0-rc0 has been tagged; I would hate for this to end up in
+>>>> a release version.
+>>>
+>>> I couldn't work a fix, however I ran our (new) tests on merge
+>>> commit 3db29dcac2 which is before the offending commit 145e2198d749,
+>>> and they fail. So I suppose Malta on big-endian host is badly broken
+>>> since quite some time. Thus clearly nobody tests/runs Malta there.
+>> 
+>> I test/run malta with the mips and mipsel binaries at
+>> https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/ but I'm still
+>> locally applying the first patch I saw to fix this (attached) until upstream
+>> sorts itself out.
+>> 
+>> Works fine for me. Somebody said it was the wrong fix but I don't remember why...
 > 
-> > 
-> > 
-> > > 
-> > > Eric DeVolder (2):
-> > >    hw/acpi: arm: bump MADT to revision 5
-> > >    hw/acpi: i386: bump MADT to revision 5
-> > > 
-> > >   hw/arm/virt-acpi-build.c |  6 ++++--
-> > >   hw/i386/acpi-common.c    | 13 ++++++++++---
-> > >   2 files changed, 14 insertions(+), 5 deletions(-)
-> > > 
-> > > -- 
-> > > 2.31.1
-> > > 
-> > > 
-> > > 
-> > 
+> This is a correct /partial/ fix. With this patch, Malta works on little
+> endian hosts. No luck with big-endian hosts, but this was broken
+> previous to 3db29dcac2 rework, so apparently not a big deal ¯\_(ツ)_/¯
 
+No, big endian worked for me with that patch?
+
+The build in my $PATH is QEMU emulator version 7.2.50
+(v7.2.0-873-g65cc5ccf06-dirty) with that patch, and if you wget
+https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mips.tgz and
+./run-emulator.sh in there, the virtual net can wget http://site (the sample
+image hasn't got https:// support enabled because I didn't include the build
+dependency), and the virtual disk works (if you do "./run-emulator.sh -hda
+blah.img" anyway, the test wrapper I mentioned creates a squashfs image for it
+to mount)). Without the patch I don't even get a PCI bus. Running "file
+/bin/toybox" says MSB, and the mipsel image is the little endian one anyway. I
+also test s390x (which is big endian 64 bit), but I don't think this needed a
+patch? (Hadn't been broken last I checked?)
+
+I vaguely recall having tested newer qemu, but couldn't say when that was (early
+february at the latest, and if so I didn't install it into /usr/bin/local. It
+takes a while to build all the targets so I only really do it quarterly, usually
+when I'm about to cut a toybox release and want to make sure qemu hasn't broken
+anything important while I wasn't looking...)
+
+Rob
 
