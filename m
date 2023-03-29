@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6BE6CF0AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 19:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE226CF0AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 19:09:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phZHg-0007kn-65; Wed, 29 Mar 2023 13:08:28 -0400
+	id 1phZIR-00083d-Ii; Wed, 29 Mar 2023 13:09:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phZHc-0007jp-9U
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:08:24 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ id 1phZIH-00083C-3m
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:09:06 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phZHa-00059c-Px
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:08:24 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id e18so16492549wra.9
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 10:08:22 -0700 (PDT)
+ id 1phZIE-0005OP-Vf
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:09:04 -0400
+Received: by mail-wr1-x433.google.com with SMTP id r29so16466664wra.13
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 10:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680109700;
+ d=linaro.org; s=google; t=1680109740;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/UQQMiHQCNCAQw6ed1M7x/nW/8fpp+ROfrnEF1xMS3M=;
- b=p3aJO8oHLnoq1XfXwxwUHYKowjbcblmfJU3CuA1FFJYOGTDMW+sXekmOiL65tk2j7F
- nHceSwr6zfSMdKj3pS2EWp+RSlJ5eLcbi2dsZ2Qo66tISrhrdPyfdEnnhK45e2sa4qSC
- +4JWSzDHjEX6U/BgTN/IpqVNrr3TFe2RM+FaA0ox3/8fGrj6aq+qa7wwiMYFdD9EySvm
- 1G8y17ZaiN7qk2Fso/Q0ZmjNRalmcSOoGepZxjJaH87q9QfYVxmkOWSPnPaUHwEso5Hq
- PZNwR6kJuCrLr56Zc68oxNVECDqDQpeiKA2eI/lnZnAX74tgOJMbtaT3laYdPZnFK9yx
- IB0w==
+ bh=rek2raNJL4c9ekpCXtCSVgK6Uw98/m+KLWday93AYlI=;
+ b=bDk4z2ET1q89GwGpsBn9+3BAkLvwQSHyBGlwxTbqbWKgsw9w7F5Feob7QSH7vKts05
+ 2mZbuAp1yNZXv8MzxAoe4R60fg+Cypp90mL8QGArw+C8GZe8/0ajY5kMOkHZaAQvkeEK
+ x6aVq7Q7DpHH8D54axDZhF58UFpKvhONo69VUKyccM2PTF4pFM4u6/dEpFLXAbBSHbAj
+ EnmG006aCA2VXhjXeLplwv+riRdfkFAcnAaZjred9oPAiwd4DKthlVrIcmhCqn0wXpCu
+ 0mpfM95aILVHkYlDVvBR+I0Noc7OMjQpHDOpqNBM7Eot1TYUdU0o8Yt2Ox34pim0/Qx6
+ ltCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680109700;
+ d=1e100.net; s=20210112; t=1680109740;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=/UQQMiHQCNCAQw6ed1M7x/nW/8fpp+ROfrnEF1xMS3M=;
- b=z+73I8ReiPQMxyL/8n9Mm17zRijCIh+KBA/yP7u6lJsCcld/7Ux3dUy5G/9zPxKbOQ
- 9whJ50K6wo0WAwK4OJpf7kJZ6610Yfa1SgE6uKE78HmzEvYoWEfagQD+gGpCdNoVTQSy
- aciZ7362wImR8ovj8Bv7OQaRtqg+u0fZbYhduVdCLKW/YapWFFHeU7KpvEuMxcteach7
- NsMhmAQ62W0KEnXciL/E2W+Hm8vNoqOMaUIjK8mFiJ0/tG4IhWyfnaVgBh9cTIO7V2bm
- +RFteGXaQGqxgqffpe2cnV1sBcthi42LFnIji0vMWiYjuykLz2RF8L4LbMCMOQm6r7iG
- gpRw==
-X-Gm-Message-State: AAQBX9dtXa8vPZRabccrPuegdtRRRbJP3+X0pk5O2qvl1x3LiZOTL/Bj
- z/jCZCCAxRC5gkEhVGPOfvOJJQ==
-X-Google-Smtp-Source: AKy350bsTQmShOwzGp+qJL5khpQIHQRjO/PqD63kMs8hg2tRemH3WMQilY1QIlJCDGdpC9S4Nwr8Rg==
-X-Received: by 2002:a5d:66cd:0:b0:2d1:5698:3f70 with SMTP id
- k13-20020a5d66cd000000b002d156983f70mr2360723wrw.29.1680109700607; 
- Wed, 29 Mar 2023 10:08:20 -0700 (PDT)
+ bh=rek2raNJL4c9ekpCXtCSVgK6Uw98/m+KLWday93AYlI=;
+ b=5PayfXlls2B08BiJ0kBI98zjaAvu05f3AK0LzvBX8A8sX4RLd2EGs/8sOEb/fTSL91
+ wr7CGtDABmMYhEiIWijy1LMN3XxHVqkcsapv2bhU58/Qt38Nx4vWFeWLp3UyVERrRYld
+ xH9UKVB67bVnf3wu1p+JNKQ/Dyynxc1CregYmmd8Ul/CTbokor6vnuYDYxYpyoq4wEq9
+ +rRtS38oHl/UYQgny65Ru3tc44XtRAQABLJQYveB3VVahq947PFa7tqLE8QLnov1v2Dg
+ yb0v/TXIMgh60LzAMspXNx7W9VQONGaCarEuYvA7l8JjS+NV+9ONEI4oObmkyERCFsY8
+ ShMQ==
+X-Gm-Message-State: AAQBX9cC7qj9o4VaMAzUCnq4bPjqKzCz2e4BwG0gQJ99STpappeAY1Dv
+ dsdekzLL5DGNTdj0kAHhFXY61w==
+X-Google-Smtp-Source: AKy350YdLqJFEaYKiuIbXevM+ik4R07G0VOUIcHxS24bu62J78lrUUhm7/SwVkzA7vZ2Keo2cQkcVw==
+X-Received: by 2002:a5d:4f05:0:b0:2cf:e74f:2957 with SMTP id
+ c5-20020a5d4f05000000b002cfe74f2957mr15819340wru.33.1680109740053; 
+ Wed, 29 Mar 2023 10:09:00 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- f11-20020a5d4dcb000000b002cfe3f842c8sm30387797wru.56.2023.03.29.10.08.20
+ g9-20020a5d4889000000b002c559843748sm30620942wrq.10.2023.03.29.10.08.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 10:08:20 -0700 (PDT)
+ Wed, 29 Mar 2023 10:08:59 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ED4C81FFB7;
- Wed, 29 Mar 2023 18:08:19 +0100 (BST)
-References: <20230329124539.822022-1-berrange@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id 692EA1FFB7;
+ Wed, 29 Mar 2023 18:08:59 +0100 (BST)
+References: <20230329124601.822209-1-berrange@redhat.com>
 User-agent: mu4e 1.10.0; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Kevin Wolf
- <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, Thomas Huth
- <thuth@redhat.com>
-Subject: Re: [PATCH for 8.0] tests/qemu-iotests: explicitly invoke 'check'
- via 'python'
-Date: Wed, 29 Mar 2023 18:08:14 +0100
-In-reply-to: <20230329124539.822022-1-berrange@redhat.com>
-Message-ID: <877cuzqyd8.fsf@linaro.org>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Reinoud
+ Zandijk <reinoud@netbsd.org>, Warner Losh <imp@bsdimp.com>, Ryo ONODERA
+ <ryoon@netbsd.org>, Kyle Evans <kevans@freebsd.org>
+Subject: Re: [PATCH] tests/vm: use the default system python for NetBSD
+Date: Wed, 29 Mar 2023 18:08:54 +0100
+In-reply-to: <20230329124601.822209-1-berrange@redhat.com>
+Message-ID: <87355nqyc4.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,21 +102,12 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> The 'check' script will use "#!/usr/bin/env python3" by default
-> to locate python, but this doesn't work in distros which lack a
-> bare 'python3' binary like NetBSD.
->
-> We need to explicitly invoke 'check' by referring to the 'python'
-> variable in meson, which resolves to the detected python binary
-> that QEMU intends to use.
->
-> This fixes a regression introduced by
->
->   commit 51ab5f8bd795d8980351f8531e54995ff9e6d163
->   Author: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->   Date:   Wed Mar 15 17:43:23 2023 +0000
->
->     iotests: register each I/O test separately with meson
+> Currently our NetBSD VM recipe requests instal of the python37 package
+> and explicitly tells QEMU to use that version of python. Since the
+> NetBSD base ISO was updated to version 9.3 though, the default system
+> python version is 3.9 which is sufficiently new for QEMU to rely on.
+> Rather than requesting an older python, just test against the default
+> system python which is what most users will have.
 >
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
