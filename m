@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A8E6CF0FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 19:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C7B6CF10D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 19:30:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phZWG-0003DR-AA; Wed, 29 Mar 2023 13:23:32 -0400
+	id 1phZbo-0004I4-It; Wed, 29 Mar 2023 13:29:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phZWE-0003DI-SI
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:23:30 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1phZbl-0004Hj-54
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:29:13 -0400
+Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phZWC-00007O-RB
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:23:30 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- q7-20020a05600c46c700b003ef6e809574so6915827wmo.4
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 10:23:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1phZbj-00012Q-FY
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 13:29:12 -0400
+Received: by mail-oo1-xc29.google.com with SMTP id
+ o15-20020a4ae58f000000b00538c0ec9567so2554334oov.1
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 10:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680110607;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=O7YfW7YrbKV4o+rT8gJkqbwTHgK6ANsQ7J+yuArTy9I=;
- b=hUB1mleahVnm+sIk1mp07SUt1DC4tTj2WLFcE5BoQGc37x+aOmSzfP2+Oo0Ws5+XNC
- ahipoRfqBMkF2uMFqgAXXhiYmI7kU4noF5NOIMbsKiv/tYWglBbi0j5QUvNEs2CCwlnr
- pcGgSada0WSlDuwp2FJpIEI86h0xwj+z1RgBhfmQnvx8u1JPzXf71jR3E8WVZsonS3ii
- MP8egw/LwFasG1HiNz9Aqmp+t27smK5grYHQ6c1NeI9dnFDsIuCU/xODN88rf/uCpQiF
- xMjWrcLo5Oni+QGwipqmkANH2Tl0OFXgk97be7ZwjavicKHIBI/l/LV2HClriigEfelH
- R3uw==
+ d=ventanamicro.com; s=google; t=1680110950;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=srykymGZSHMWyT9lGb70r0X8KXpaRiUlM8J4gZTg6/4=;
+ b=pP7AjHtY7RkroEzC+8/my7CXmCjq02HllQ8EG7FeUj1slorOQe/CiUNBPLePWso+Df
+ 7a0hJQbxD14Hq3zU4GQ4rrERJvjGqIvwbKXabfnRmObTONj6TeL/jfEyn0AlRR3UM2GU
+ 2Q4qPDn+og3YFYVleZmHV5uc0D7PjgLeQ/SgCWyfWiRQMZRRCBS9iFgsdW7V10UFW3kJ
+ bR1UnGrFL4O9koLaQfcp63WaYcGpCrsGRB7MGq0k1f4gfj6BeCnsq9x6tx30C7ipRrA4
+ HugZD1IwtVBrfpLhMq1EhXsDbUOK9m56i/siZsjmTrNsdIimRS3zew901ivLaV+1HHzK
+ ZNtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680110607;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=O7YfW7YrbKV4o+rT8gJkqbwTHgK6ANsQ7J+yuArTy9I=;
- b=xgbrPp6ndyQ0ElaxoTjm5nnf1et3DUIIpCvFNUIHPc7Eraj7BWXwfqyFp/91bNqph/
- xxGcxTyloFaVcValH8oMDdXpyXlaT23dFfBLy+/gTOIqF550nb6o3tcYBrTZRKoLXIDi
- D1y6FPjRrB68xo0e32RivntULWl8lM4s+W7pfsrETySRmVEL12jSK9RwK2Z8eFo8tu3/
- XvmUpmk0Smjeukp69EJU9adjRLwPkvCglivUWHp/vkduY2XHJIp9HXnfOX00lq96Mx8E
- PBOfkkh/qHvaLmt+yM68oVhIeur0t/ukogdUho+GAID9VJhw9ugRTHvARc0QgsIDaSbS
- o3fA==
-X-Gm-Message-State: AO0yUKWe5xGybb1Ic5rKrP48PJ0EbGcSlf4b3WPmoVjro9xuuYfUx1hq
- YrioYV+8BPkdxo0yaTnBHP3q2A==
-X-Google-Smtp-Source: AK7set/aAuTBcCiUsp6jp1M/pNOgjvivqHDqcCYemnd69bnARDJ+Z33InUwgU/JPifwwEMmZEyf02Q==
-X-Received: by 2002:a1c:4b07:0:b0:3eb:2b88:a69a with SMTP id
- y7-20020a1c4b07000000b003eb2b88a69amr15708042wma.14.1680110606981; 
- Wed, 29 Mar 2023 10:23:26 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e8-20020adffd08000000b002c592535839sm30625968wrr.17.2023.03.29.10.23.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 10:23:26 -0700 (PDT)
-Message-ID: <cf1deca3-49ef-06a3-0f20-92c25968ae7d@linaro.org>
-Date: Wed, 29 Mar 2023 19:23:24 +0200
+ d=1e100.net; s=20210112; t=1680110950;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=srykymGZSHMWyT9lGb70r0X8KXpaRiUlM8J4gZTg6/4=;
+ b=h9e1UH9kIhN/96Amzn2rRhg3FA9uwcQDtCLJXJF4QFMwfBZGtz5xXfDfNoxKEdyION
+ OIefRy5mIyDSOWeA+mtA1wwj50S4UDsBjJEAllW5Sczp0hJfy8VX6ByxBLhWoXFxdz/v
+ itMG7zJqUQ8WqiNCkr+gpUgjszPGNQFVjckb3S4cevKVMQIHJrK97fR7P6JYO+Ud34/r
+ A9iai83BdScRq09jUlB1IwMW0eTI28L2MJWiVbJ/KDxMMFFdwBBHtFOtdQkuBOIUAVbc
+ rFGI3Gg++8RS9D+vHNmlKSEsF7iLcex/5EHltFuuQwua3aaIeGNPVIIUZktzgezm69ed
+ dREg==
+X-Gm-Message-State: AO0yUKX6Pgi8QscwKgmPZRJJ7AoEO1M5aMnfcp4zXyvAtNYhDsltDNcc
+ 9/Z/tTSAGrgWPuJZe7caT+pRfS41tfjEj+v0rR4=
+X-Google-Smtp-Source: AK7set+0APOf5msa52aPX4rtKxjuCjRN64ResEMwA6tAMjvb/AYZpbxGxrZ2vQ47QMHrWixEEWbBng==
+X-Received: by 2002:a4a:3745:0:b0:53b:700e:378c with SMTP id
+ r66-20020a4a3745000000b0053b700e378cmr9748952oor.9.1680110949998; 
+ Wed, 29 Mar 2023 10:29:09 -0700 (PDT)
+Received: from grind.dc1.ventanamicro.com ([177.95.89.231])
+ by smtp.gmail.com with ESMTPSA id
+ v41-20020a4a8c6c000000b0052532296449sm13866192ooj.20.2023.03.29.10.29.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 10:29:09 -0700 (PDT)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v3 00/20]  remove MISA ext_N flags from cpu->cfg, 
+Date: Wed, 29 Mar 2023 14:28:43 -0300
+Message-Id: <20230329172903.636383-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH] hw/mips/gt64xxx_pci: Don't endian-swap GT_PCI0_CFGADDR
-Content-Language: en-US
-To: Rob Landley <rob@landley.net>, Nathan Chancellor <nathan@kernel.org>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
- balaton@eik.bme.hu, Bernhard Beschow <shentey@gmail.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20230223161958.48696-1-jiaxun.yang@flygoat.com>
- <aa1e6559-55ae-0f7b-80cb-890bb34b9544@linaro.org>
- <20230320165821.GA4064187@dev-arch.thelio-3990X>
- <edea2619-8fe9-638e-cfa0-684123f7ee99@linaro.org>
- <037d00b7-9df9-e888-a4d7-235e6d08f784@landley.net>
- <89504c25-5265-d6c5-6e48-dcdc0be43ea0@linaro.org>
- <0ae35be3-794a-deee-1c96-507d5be2306c@landley.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <0ae35be3-794a-deee-1c96-507d5be2306c@landley.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc29.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,123 +90,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/3/23 18:48, Rob Landley wrote:
-> 
-> 
-> On 3/29/23 11:07, Philippe Mathieu-Daudé wrote:
->> On 29/3/23 18:09, Rob Landley wrote:
->>> On 3/28/23 12:02, Philippe Mathieu-Daudé wrote:
->>>> On 20/3/23 17:58, Nathan Chancellor wrote:
->>>>> On Wed, Mar 08, 2023 at 12:33:38AM +0100, Philippe Mathieu-Daudé wrote:
->>>>>> On 23/2/23 17:19, Jiaxun Yang wrote:
->>>>>>> 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE
->>>>>>> MemoryRegionOps") converted CFGADDR/CFGDATA registers to use PCI_HOST_BRIDGE's
->>>>>>> accessor facility and enabled byte swap for both CFGADDR/CFGDATA register.
->>>>>>>
->>>>>>> However CFGADDR as a ISD internal register is not controled by MByteSwap
->>>>>>> bit, it follows endian of all other ISD register, which means it ties to
->>>>>>> little endian.
->>>>>>>
->>>>>>> Move mapping of CFGADDR out of gt64120_update_pci_cfgdata_mapping to disable
->>>>>>> endian-swapping.
->>>>>>>
->>>>>>> This should fix some recent reports about poweroff hang.
->>>>>>>
->>>>>>> Fixes: 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps")
->>>>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>>>>>> ---
->>>>>>>      hw/pci-host/gt64120.c | 18 ++++++------------
->>>>>>>      1 file changed, 6 insertions(+), 12 deletions(-)
->>>>>>
->>>>>> So this works on little-endian hosts, but fails on
->>>>>> big-endian ones :(
->>>>>>
->>>>>> I.e. on Linux we have early_console_write() -> prom_putchar()
->>>>>> looping:
->>>>>>
->>>>>> IN: prom_putchar
->>>>>> 0x8010fab8:  lbu	v0,0(v1)
->>>>>> 0x8010fabc:  andi	v0,v0,0x20
->>>>>> 0x8010fac0:  beqz	v0,0x8010fab8
->>>>>> 0x8010fac4:  andi	v0,a0,0xff
->>>>>>
->>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>>> gt64120: Illegal register read reg:0x3fc size:4 value:0x00000000
->>>>>> ...
->>>>>>
->>>>>
->>>>> Is there going to be a new version of this patch or a different solution
->>>>> to the poweroff hang then? I am still seeing that with tip of tree QEMU
->>>>> and I see 8.0.0-rc0 has been tagged; I would hate for this to end up in
->>>>> a release version.
->>>>
->>>> I couldn't work a fix, however I ran our (new) tests on merge
->>>> commit 3db29dcac2 which is before the offending commit 145e2198d749,
->>>> and they fail. So I suppose Malta on big-endian host is badly broken
->>>> since quite some time. Thus clearly nobody tests/runs Malta there.
->>>
->>> I test/run malta with the mips and mipsel binaries at
->>> https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/ but I'm still
->>> locally applying the first patch I saw to fix this (attached) until upstream
->>> sorts itself out.
->>>
->>> Works fine for me. Somebody said it was the wrong fix but I don't remember why...
->>
->> This is a correct /partial/ fix. With this patch, Malta works on little
->> endian hosts. No luck with big-endian hosts, but this was broken
->> previous to 3db29dcac2 rework, so apparently not a big deal ¯\_(ツ)_/¯
-> 
-> No, big endian worked for me with that patch?
-> 
-> The build in my $PATH is QEMU emulator version 7.2.50
-> (v7.2.0-873-g65cc5ccf06-dirty) with that patch, and if you wget
-> https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mips.tgz and
-> ./run-emulator.sh in there, the virtual net can wget http://site (the sample
+Hi,
 
-Oh, we are having some QEMU semantic confusion here...
+This new version has a new patch (3) that removes the 'multi_letter'
+attribute from isa_ext_data that became redundant after the changes made
+in patch 2. The change was proposed by Weiwei Li in the v2.
 
-You are testing a QEMU big-endian *guest* (or "target") in this example.
+All patches but patch 3 are acked.
 
-I presume you are testing on a little-endian *host* (x86_64, aarch64,
-ppc64el or mips64el).
+Changes from v2:
+- patch 3 (new)
+  - remove 'multi_letter' from isa_ext_data
+- v2 link: https://lists.gnu.org/archive/html/qemu-devel/2023-03/msg06493.html
 
-> image hasn't got https:// support enabled because I didn't include the build
-> dependency), and the virtual disk works (if you do "./run-emulator.sh -hda
-> blah.img" anyway, the test wrapper I mentioned creates a squashfs image for it
-> to mount)). Without the patch I don't even get a PCI bus. Running "file
-> /bin/toybox" says MSB, and the mipsel image is the little endian one anyway. I
+Daniel Henrique Barboza (20):
+  target/riscv: sync env->misa_ext* with cpu->cfg in realize()
+  target/riscv: remove MISA properties from isa_edata_arr[]
+  target/riscv/cpu.c: remove 'multi_letter' from isa_ext_data
+  target/riscv: introduce riscv_cpu_add_misa_properties()
+  target/riscv: remove cpu->cfg.ext_a
+  target/riscv: remove cpu->cfg.ext_c
+  target/riscv: remove cpu->cfg.ext_d
+  target/riscv: remove cpu->cfg.ext_f
+  target/riscv: remove cpu->cfg.ext_i
+  target/riscv: remove cpu->cfg.ext_e
+  target/riscv: remove cpu->cfg.ext_m
+  target/riscv: remove cpu->cfg.ext_s
+  target/riscv: remove cpu->cfg.ext_u
+  target/riscv: remove cpu->cfg.ext_h
+  target/riscv: remove cpu->cfg.ext_j
+  target/riscv: remove cpu->cfg.ext_v
+  target/riscv: remove riscv_cpu_sync_misa_cfg()
+  target/riscv: remove cfg.ext_g setup from rv64_thead_c906_cpu_init()
+  target/riscv: add RVG and remove cpu->cfg.ext_g
+  target/riscv/cpu.c: redesign register_cpu_props()
 
-Here you describe the little-endian MIPS *target* image.
+ target/riscv/cpu.c | 386 +++++++++++++++++++++++----------------------
+ target/riscv/cpu.h |  19 +--
+ 2 files changed, 202 insertions(+), 203 deletions(-)
 
-> also test s390x (which is big endian 64 bit), but I don't think this needed a
-> patch? (Hadn't been broken last I checked?)
+-- 
+2.39.2
 
-Here you describe big-endian s390x *target* image.
-
-> 
-> I vaguely recall having tested newer qemu, but couldn't say when that was (early
-> february at the latest, and if so I didn't install it into /usr/bin/local. It
-> takes a while to build all the targets so I only really do it quarterly, usually
-> when I'm about to cut a toybox release and want to make sure qemu hasn't broken
-> anything important while I wasn't looking...)
-
-Currently, QEMU MIPS (32 and 64-bit) big-endian *targets* regressed
-(regardless on the host architecture).
-
-This patch fixes QEMU MIPS (32 and 64-bit) big-endian *targets* on
-little-endian *hosts* (x86_64, aarch64, ppc64el or mips64el).
-
-However, QEMU MIPS (32 and 64-bit) big-endian *targets* are still
-broken on big-endian *hosts* (s390x, ppc64, mips64, sparc64, ...).
-But this was broken previous to commit 3db29dcac2.
-
-I expect if you run your test with QEMU v7.2.0-873-g65cc5ccf06-dirty
-on any big-endian *host* (like a s390x), the test fails.
-
-It that clear? Sorry for the confusion...
-
-Phil.
 
