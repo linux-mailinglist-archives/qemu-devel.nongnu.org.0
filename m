@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3126CD162
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 07:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33B46CD164
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 07:04:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phNvI-0004I5-Pa; Wed, 29 Mar 2023 01:00:36 -0400
+	id 1phNyr-0005eL-0o; Wed, 29 Mar 2023 01:04:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phNv9-0004HX-1G
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 01:00:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phNyh-0005dm-Ar
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 01:04:07 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phNv7-0007E4-66
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 01:00:26 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phNyf-0007TK-9g
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 01:04:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680066023;
+ s=mimecast20190719; t=1680066244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=We+AZVUP/d8CpVL/j63W3UR9arAJANgsuPfOHKpyQb4=;
- b=BRiusR28lTBeGVt2FXj1MXWyGRkoDqiNJkRg6mAwM+OQuM63wN6i2X1bIjReGxG+Ja7kvs
- 7k4sjMjC6Res1gBWr45HQWOdLJj2RWTLvB7CmNmd/UH/8o+ZGioWn5nYCK3GB6Plyzlv0o
- RwrXNFdaHynurUOe5k6CqDSY7koUW4E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yP0KyVKE+R1sUog5E8X20TxoAAGxmYFNRLauaZmRtJ0=;
+ b=C49l81fVSIyHiTZSmCp7U+5WchRhBCt94lPx9g/eA6KW1Y2fKsiCsGrFwEq1Pre3vMpTZf
+ HzKEAB5sL9TJ6GmPfD4K394ed2iVl2Ihiqh2XXzP2vNMrWhajc2Mxxpam0ZJJTzIzHfsAU
+ Tyiv6R5/8o1dSp24jBdRjLFVmZWJOlk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-593-UtMw-WC0PGSD2c5rRzrKcA-1; Wed, 29 Mar 2023 01:00:19 -0400
-X-MC-Unique: UtMw-WC0PGSD2c5rRzrKcA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k1-20020a05600c1c8100b003ee6dbceb81so7508362wms.5
- for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 22:00:19 -0700 (PDT)
+ us-mta-605-6G48kep-P22ptgClxLVNkw-1; Wed, 29 Mar 2023 01:04:03 -0400
+X-MC-Unique: 6G48kep-P22ptgClxLVNkw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d18-20020adfa412000000b002d43970bb80so1311365wra.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Mar 2023 22:04:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680066018;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=We+AZVUP/d8CpVL/j63W3UR9arAJANgsuPfOHKpyQb4=;
- b=EwZ2CvZKq7GM2T+owew19Yzt29WXWqIaPbafCI/8R4/7Xqyg7jvNj0X6lXNw88Yf5r
- 8JrBDKa7iERas3ar5ATv5xxctI91SqjDiJ9FGlIJcPtmFiTPMzsYuXYMa3r2QgODv+qx
- NgMfSS5FsBwzpF/2L6PX1W4/yQUVffwfbptvNh8JH/Zumon6shp9LSJC5zUclbhvA4jF
- uc1srR/9XdpEiZq9X4o3HGKkeJHT9qeI427h71LVWKYj+LoOI3DbE2DBVTW6/fZaGxxc
- +2dQZ+P7IhQnwq/ULkf9QPsZ7p7Ojzc4FjOeQ2STjLG+LWq4M6vmDbxpEMsPBAsxVg3Q
- tOCg==
-X-Gm-Message-State: AAQBX9d+GBfx2s9knBfmubQfDVT9l4fNKHFfCQD0cURPi6+I1rIN+69s
- QFdvpl3cpYW7ueQRHizotcY3T/OhkHHf0CgP2qJe5qpNZvvsN3+AQgbc8j81qx0Kz4ZMPGgg6aX
- 5519XyIZMmqEdrVI=
-X-Received: by 2002:a05:6000:7:b0:2cd:e0a8:f2dc with SMTP id
- h7-20020a056000000700b002cde0a8f2dcmr14955491wrx.7.1680066018335; 
- Tue, 28 Mar 2023 22:00:18 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YDOk0pvKdBoYaZ8VC7rjX27v+hYK6oK1AhzIPMsliLPfZOypHN1UqK4iziIPJoino86cEe/w==
-X-Received: by 2002:a05:6000:7:b0:2cd:e0a8:f2dc with SMTP id
- h7-20020a056000000700b002cde0a8f2dcmr14955464wrx.7.1680066017945; 
- Tue, 28 Mar 2023 22:00:17 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680066242;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yP0KyVKE+R1sUog5E8X20TxoAAGxmYFNRLauaZmRtJ0=;
+ b=TdV20+1Xd4Yosqw4HImbZGJ6RLq0BB8fDTuz4TbosiOMGwVm1wk5Tyms7sdtYRl2QM
+ 2X9QKrYkL/PoFWbhL5EX9q8Oq5JRQH78sC35xdEh5iweE4PTLHeF3RSXxeTtVRnfshUG
+ QGTQEpDxTcfOjInBAd6TZSRWmxh6pJtH/BesQUyg4oqGTscszMzA304AdnoQLwFHYll4
+ 3uguO7b+0P8zfUHzYyV1kJpSKQmtVfQEm779jgwVBLhJYAY6eIGd6sMgNroxQ9pLETZS
+ PWon6Bv3xcqShiwdqF0BRs2CnhHkJYCy8xUYFmL0v/6YSIzMbTtTm0wO/MB6m+yWKbuN
+ o+Rw==
+X-Gm-Message-State: AAQBX9cri0YOjMjHNFiuyR2XWeGUIQYB3ZWNcqrMSMBooeP3RhH4fdxU
+ mKEuKZPq/DGv4i6fChtas+F62YUyyTaXyAWZ4T+/d9NrvSRtYf9f3RVm+K91+QjTHMqcIIXCuHH
+ btzCK6snxZkuk3f4=
+X-Received: by 2002:a05:6000:10:b0:2ce:a6f6:edca with SMTP id
+ h16-20020a056000001000b002cea6f6edcamr12814290wrx.55.1680066241948; 
+ Tue, 28 Mar 2023 22:04:01 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aetzuCS/1dqddtIrgIz2NuABICFRacL21RPd/W1pWjL7kfC9yKvGyEskwRE8WoVYb7rDQuVg==
+X-Received: by 2002:a05:6000:10:b0:2ce:a6f6:edca with SMTP id
+ h16-20020a056000001000b002cea6f6edcamr12814272wrx.55.1680066241651; 
+ Tue, 28 Mar 2023 22:04:01 -0700 (PDT)
 Received: from redhat.com ([2.52.18.165]) by smtp.gmail.com with ESMTPSA id
- e13-20020a5d4e8d000000b002ceacff44c7sm29232578wru.83.2023.03.28.22.00.14
+ k10-20020a5d6e8a000000b002d1daafea30sm29066230wrz.34.2023.03.28.22.03.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 22:00:17 -0700 (PDT)
-Date: Wed, 29 Mar 2023 01:00:12 -0400
+ Tue, 28 Mar 2023 22:04:01 -0700 (PDT)
+Date: Wed, 29 Mar 2023 01:03:57 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- dmitry.fomichev@wdc.com, kvm@vger.kernel.org,
- damien.lemoal@opensource.wdc.com, hare@suse.de,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Subject: Re: [PATCH v9 0/5] Add zoned storage emulation to virtio-blk driver
-Message-ID: <20230329005755-mutt-send-email-mst@kernel.org>
-References: <20230327144553.4315-1-faithilikerun@gmail.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: shannon.zhaosl@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com, richard.henderson@linaro.org,
+ eduardo@habkost.net, boris.ostrovsky@oracle.com
+Subject: Re: [PATCH 2/2] hw/acpi: i386: bump MADT to revision 5
+Message-ID: <20230329010126-mutt-send-email-mst@kernel.org>
+References: <20230328155926.2277-1-eric.devolder@oracle.com>
+ <20230328155926.2277-3-eric.devolder@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230327144553.4315-1-faithilikerun@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230328155926.2277-3-eric.devolder@oracle.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -85,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,102 +101,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 27, 2023 at 10:45:48PM +0800, Sam Li wrote:
-> This patch adds zoned storage emulation to the virtio-blk driver. It
-> implements the virtio-blk ZBD support standardization that is
-> recently accepted by virtio-spec. The link to related commit is at
+On Tue, Mar 28, 2023 at 11:59:26AM -0400, Eric DeVolder wrote:
+> Currently i386 QEMU generates MADT revision 3, and reports
+> MADT revision 1. ACPI 6.3 introduces MADT revision 5.
 > 
-> https://github.com/oasis-tcs/virtio-spec/commit/b4e8efa0fa6c8d844328090ad15db65af8d7d981
+> For MADT revision 4, that introduces ARM GIC structures, which do
+> not apply to i386.
 > 
-> The Linux zoned device code that implemented by Dmitry Fomichev has been
-> released at the latest Linux version v6.3-rc1.
+> For MADT revision 5, the Local APIC flags introduces the Online
+> Capable bitfield.
 > 
-> Aside: adding zoned=on alike options to virtio-blk device will be
-> considered in following-up plan.
+> Making MADT generate and report revision 5 will solve problems with
+> CPU hotplug (the Online Capable flag indicates hotpluggable CPUs).
 > 
-> Note: Sorry to send it again because of the previous incoherent patches caused
-> by network error.
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
 
-virtio bits look ok.
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-merge through block layer tree I'm guessing?
+I am looking for ways to reduce risk of breakage with this.
+We don't currently have a reason to change it if cpu
+hotplug is off, do we? Maybe make it conditional on that.
 
 
-> v9:
-> - address review comments
->   * add docs for zoned emulation use case [Matias]
->   * add the zoned feature bit to qmp monitor [Matias]
->   * add the version number for newly added configs of accounting [Markus]
+
+
+
+> ---
+>  hw/i386/acpi-common.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> v8:
-> - address Stefan's review comments
->   * rm aio_context_acquire/release in handle_req
->   * rename function return type
->   * rename BLOCK_ACCT_APPEND to BLOCK_ACCT_ZONE_APPEND for clarity
-> 
-> v7:
-> - update headers to v6.3-rc1
-> 
-> v6:
-> - address Stefan's review comments
->   * add accounting for zone append operation
->   * fix in_iov usage in handle_request, error handling and typos
-> 
-> v5:
-> - address Stefan's review comments
->   * restore the way writing zone append result to buffer
->   * fix error checking case and other errands
-> 
-> v4:
-> - change the way writing zone append request result to buffer
-> - change zone state, zone type value of virtio_blk_zone_descriptor
-> - add trace events for new zone APIs
-> 
-> v3:
-> - use qemuio_from_buffer to write status bit [Stefan]
-> - avoid using req->elem directly [Stefan]
-> - fix error checkings and memory leak [Stefan]
-> 
-> v2:
-> - change units of emulated zone op coresponding to block layer APIs
-> - modify error checking cases [Stefan, Damien]
-> 
-> v1:
-> - add zoned storage emulation
-> 
-> Sam Li (5):
->   include: update virtio_blk headers to v6.3-rc1
->   virtio-blk: add zoned storage emulation for zoned devices
->   block: add accounting for zone append operation
->   virtio-blk: add some trace events for zoned emulation
->   docs/zoned-storage:add zoned emulation use case
-> 
->  block/qapi-sysemu.c                          |  11 +
->  block/qapi.c                                 |  18 +
->  docs/devel/zoned-storage.rst                 |  17 +
->  hw/block/trace-events                        |   7 +
->  hw/block/virtio-blk-common.c                 |   2 +
->  hw/block/virtio-blk.c                        | 405 +++++++++++++++++++
->  hw/virtio/virtio-qmp.c                       |   2 +
->  include/block/accounting.h                   |   1 +
->  include/standard-headers/drm/drm_fourcc.h    |  12 +
->  include/standard-headers/linux/ethtool.h     |  48 ++-
->  include/standard-headers/linux/fuse.h        |  45 ++-
->  include/standard-headers/linux/pci_regs.h    |   1 +
->  include/standard-headers/linux/vhost_types.h |   2 +
->  include/standard-headers/linux/virtio_blk.h  | 105 +++++
->  linux-headers/asm-arm64/kvm.h                |   1 +
->  linux-headers/asm-x86/kvm.h                  |  34 +-
->  linux-headers/linux/kvm.h                    |   9 +
->  linux-headers/linux/vfio.h                   |  15 +-
->  linux-headers/linux/vhost.h                  |   8 +
->  qapi/block-core.json                         |  68 +++-
->  qapi/block.json                              |   4 +
->  21 files changed, 794 insertions(+), 21 deletions(-)
-> 
+> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> index 52e5c1439a..1e3a13a36c 100644
+> --- a/hw/i386/acpi-common.c
+> +++ b/hw/i386/acpi-common.c
+> @@ -38,8 +38,15 @@ void pc_madt_cpu_entry(int uid, const CPUArchIdList *apic_ids,
+>  {
+>      uint32_t apic_id = apic_ids->cpus[uid].arch_id;
+>      /* Flags – Local APIC Flags */
+> -    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
+> -                     1 /* Enabled */ : 0;
+> +    bool enabled = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
+> +                     true /* Enabled */ : false;
+> +    /*
+> +     * ACPI 6.3 5.2.12.2 Local APIC Flags: OnlineCapable must be 0
+> +     * if Enabled is set.
+> +     */
+> +    bool onlinecapable = enabled ? false : true; /* Online Capable */
+> +    uint32_t flags = onlinecapable ? 0x2 : 0x0 |
+> +        enabled ? 0x1 : 0x0;
+>  
+>      /* ACPI spec says that LAPIC entry for non present
+>       * CPU may be omitted from MADT or it must be marked
+> @@ -102,7 +109,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>      MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+>      const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
+>      AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(adev);
+> -    AcpiTable table = { .sig = "APIC", .rev = 1, .oem_id = oem_id,
+> +    AcpiTable table = { .sig = "APIC", .rev = 5, .oem_id = oem_id,
+>                          .oem_table_id = oem_table_id };
+>  
+>      acpi_table_begin(&table, table_data);
 > -- 
-> 2.39.2
+> 2.31.1
+> 
+> 
+> 
 
 
