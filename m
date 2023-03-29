@@ -2,72 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751A56CEC3A
+	by mail.lfdr.de (Postfix) with ESMTPS id 76ADD6CEC3B
 	for <lists+qemu-devel@lfdr.de>; Wed, 29 Mar 2023 16:54:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phXAi-0007CQ-Ku; Wed, 29 Mar 2023 10:53:08 -0400
+	id 1phXBX-0007Q7-O0; Wed, 29 Mar 2023 10:53:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1phXAg-0007CH-JI
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:53:06 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1phXBV-0007Pk-PL
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:53:57 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <schwab@suse.de>) id 1phXAe-0001V3-Qt
- for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:53:06 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 49E801FDEE;
- Wed, 29 Mar 2023 14:53:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680101583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W70CvgaXpVvSeaEjLN6vl79tccp+ZboSleBC1E0iyy4=;
- b=SAZWJnhEFULQERyiA6g6ZGZQW5/rTdHR3DuTTAE8eLojVOFyK97fOyRfLmu8f3zdDB8CLx
- GGIhk3MauRBm+oWnsiIgq2dzGM4vQlSWpGy0nUyvKE4txAwYSA5K1xKO1j2AFpU+xmaWak
- SrN0VBlWfU7jjbmWzhpl7I6nPay7IrY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680101583;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W70CvgaXpVvSeaEjLN6vl79tccp+ZboSleBC1E0iyy4=;
- b=WRzb4WY29D5Ssg/A1bUXpAaCBefvKVS91RNw1TMyXWJ8Edg5PyIPer7jbd0GfWGTzOuoRD
- mptbjH+WdsVHSFDA==
-Received: from hawking.suse.de (unknown [10.168.4.11])
- by relay2.suse.de (Postfix) with ESMTP id 3600A2C17D;
- Wed, 29 Mar 2023 14:53:03 +0000 (UTC)
-Received: by hawking.suse.de (Postfix, from userid 17005)
- id 225DD4A0378; Wed, 29 Mar 2023 16:53:03 +0200 (CEST)
-From: Andreas Schwab <schwab@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Laurent Vivier
- <laurent@vivier.eu>,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] linux-user: preserve incoming order of environment
- variables in the target
-References: <mvmy1nfslvi.fsf@suse.de> <ZCREaEiPyzYogkFj@redhat.com>
- <9e0612a6-cfad-bcb3-8699-faa7e8588349@linaro.org>
-X-Yow: Yow!  Is my fallout shelter termite proof?
-Date: Wed, 29 Mar 2023 16:53:03 +0200
-In-Reply-To: <9e0612a6-cfad-bcb3-8699-faa7e8588349@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 29 Mar 2023 16:02:52
- +0200")
-Message-ID: <mvmpm8rsj74.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1phXBU-0001a8-24
+ for qemu-devel@nongnu.org; Wed, 29 Mar 2023 10:53:57 -0400
+Received: by mail-pl1-x632.google.com with SMTP id c18so15152195ple.11
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 07:53:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680101634;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=ic73GfKE3KO2QSUCixmtw0sClI27fBgfWA0LwuULsN4=;
+ b=LMfQb8lcBU2pmaJFu8+rRjkCydTfcB45VSZFfU3D11ABjLg/rQHaeW9su1DxYN7p8U
+ qZ8f6x6ruLJX1jYgd02Axk5DhK+L9UWZ1HuJG5LJoDTb8DEaNLKVWvvw6GVmXZmLSQHb
+ /J8uduooYsrpK5iMH/xtELc5Es1Y7Kc+hUlRicCWtt/W0Ba2nb7CR/ndS8lrULyJCY44
+ fUr1ymmmpUlIlF3sFq8gkE9tzuIxzwvlOUjkbznESxoILG9xu0NijqrA0KSo5DyfkZsr
+ jaspeFYJCIFG0b7o8oPaVgwiML5S7avbvm8SSe3oGEeZRuwsR8M10Actc7Pun5m1w1LP
+ CQbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680101634;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ic73GfKE3KO2QSUCixmtw0sClI27fBgfWA0LwuULsN4=;
+ b=D+51u1O4bmZ4Av9QO1oi+dqNwKMVoRZFCeG2vR8v+lZOj/+nM2KM0ioEzJHPwpm4lY
+ o7P13uMHiSgwTgzfmgDxeA+a34KbMklmg9k4Jex5LbkyD9cLW7HS7oF/GeUJHDg/mLXW
+ t6cFbLZpmRg287lutXydzIbSaWqvnGS/j8DLtOuPg3eVdhC2wvX6GJUOHaKFgKcCQfst
+ DgM/badP7wXjY5BvSFwZMgLdB0QrvxPsmPRLyigg5awrEveEGJQKpGJxZXsk3JZu3TV+
+ BLAoNNnsuTtbAV0FDGGdq72sCmnzcQpZhZBhGr6TuutyzOSmgSALKSX5RdPTkpbt6w36
+ GqsA==
+X-Gm-Message-State: AAQBX9dMZOUrz4+yL+Y9/8ZHW1qM/R/N8nC20tuwZr8iLDt6BSEibXzy
+ Cv47QbEYLEyMNm3tF/V5jEs=
+X-Google-Smtp-Source: AKy350YWokUK+UnApeZ5VDsflM1FVQyeZILXqMPLnGWVJfMsBVOMylVj/blvOAfDeAyY7Sk03Ok/KA==
+X-Received: by 2002:a17:90a:2d6:b0:234:5d3c:b02b with SMTP id
+ d22-20020a17090a02d600b002345d3cb02bmr20934990pjd.42.1680101634365; 
+ Wed, 29 Mar 2023 07:53:54 -0700 (PDT)
+Received: from [192.168.0.115] ([113.173.97.170])
+ by smtp.gmail.com with ESMTPSA id
+ fz5-20020a17090b024500b0023d28185e35sm1512192pjb.32.2023.03.29.07.53.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Mar 2023 07:53:53 -0700 (PDT)
+Message-ID: <37cbb3b9-8a9a-2b88-2e09-a81f46b8bf74@gmail.com>
+Date: Wed, 29 Mar 2023 21:53:48 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/5] apic: add support for x2APIC mode
+From: Bui Quang Minh <minhquangbui99@gmail.com>
+To: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20230326052039.33717-1-minhquangbui99@gmail.com>
+ <20230326052039.33717-3-minhquangbui99@gmail.com>
+ <a8ea36d901a1b713ab8bc0f5bcd1b7d26ad6f9cb.camel@infradead.org>
+ <05d55576-f703-18a1-7f9f-4c15b8c54490@gmail.com>
+ <0944a6f4c7c1569c182a27d40bdeb0a164a41bbb.camel@infradead.org>
+ <61446cfb-f937-3a0d-2a98-34febcc7e4f3@gmail.com>
+ <3834475953c0f865e88251886f1e861d51c25a2b.camel@infradead.org>
+ <445928d9-4cd3-978d-ce76-9cd01457b6f0@gmail.com>
+ <e47b58ef574bcf61259d7d3f0707a1f5ca808ff6.camel@infradead.org>
+ <49167ae7-4cb4-3863-64b1-1396e1911bbf@gmail.com>
+Content-Language: en-US
+In-Reply-To: <49167ae7-4cb4-3863-64b1-1396e1911bbf@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=schwab@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,43 +108,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mär 29 2023, Philippe Mathieu-Daudé wrote:
-
-> On 29/3/23 16:00, Daniel P. Berrangé wrote:
->> On Wed, Mar 29, 2023 at 03:55:13PM +0200, Andreas Schwab wrote:
->>> Do not reverse the order of environment variables in the target environ
->>> array relative to the incoming environ order.  Some testsuites depend on a
->>> specific order, even though it is not defined by any standard.
+On 3/28/23 22:58, Bui Quang Minh wrote:
+> On 3/27/23 23:49, David Woodhouse wrote:
+>> On Mon, 2023-03-27 at 23:35 +0700, Bui Quang Minh wrote:
+>>> On 3/27/23 23:22, David Woodhouse wrote:
+>>>> On Mon, 2023-03-27 at 22:45 +0700, Bui Quang Minh wrote:
+>>>>>
+>>>>>> Maybe I'm misreading the patch, but to me it looks that
+>>>>>> if (dest == 0xff) apic_get_broadcast_bitmask() bit applies even in
+>>>>>> x2apic mode? So delivering to the APIC with physical ID 255 will be
+>>>>>> misinterpreted as a broadcast?
+>>>>>
+>>>>> In case dest == 0xff the second argument to apic_get_broadcast_bitmask
+>>>>> is set to false which means this is xAPIC broadcast
+>>>>
+>>>> Yeah, but it *isn't* xAPIC broadcast. It's X2APIC unicast to APIC#255.
+>>>>
+>>>> I think you want (although you don't have 'dev') something like this:
+>>>>
+>>>>
+>>>> static void apic_get_delivery_bitmask(uint32_t *deliver_bitmask,
+>>>>                                         uint32_t dest, uint8_t 
+>>>> dest_mode)
+>>>> {
+>>>>       APICCommonState *apic_iter;
+>>>>       int i;
+>>>>
+>>>>       memset(deliver_bitmask, 0x00, max_apic_words * sizeof(uint32_t));
+>>>>
+>>>>       /* x2APIC broadcast id for both physical and logical (cluster) 
+>>>> mode */
+>>>>       if (dest == 0xffffffff) {
+>>>>           apic_get_broadcast_bitmask(deliver_bitmask, true);
+>>>>           return;
+>>>>       }
+>>>>
+>>>>       if (dest_mode == 0) {
+>>>>           apic_find_dest(deliver_bitmask, dest);
+>>>>           /* Broadcast to xAPIC mode apics */
+>>>> -        if (dest == 0xff) {
+>>>> +        if (dest == 0xff && is_x2apic_mode(dev)) {
+>>>>               apic_get_broadcast_bitmask(deliver_bitmask, false);
+>>>>           }
+>>>>       } else {
+>>>>
 >>>
->>> Signed-off-by: Andreas Schwab <schwab@suse.de>
->>> ---
->>>   linux-user/main.c | 6 ++++++
->>>   1 file changed, 6 insertions(+)
->> bsd-user/main.c appears to have an identical code pattern that
->> will need the same fix
->> 
->>>
->>> diff --git a/linux-user/main.c b/linux-user/main.c
->>> index 4b18461969..dbfd3ee8f1 100644
->>> --- a/linux-user/main.c
->>> +++ b/linux-user/main.c
->>> @@ -691,7 +691,13 @@ int main(int argc, char **argv, char **envp)
->>>       envlist = envlist_create();
->>>         /* add current environment into the list */
->>> +    /* envlist_setenv adds to the front of the list; to preserve environ
->>> +       order add from back to front */
->
-> Also, QEMU coding style now requires:
->
->   /*
->    * this comment form.
->    */
+>>> Hmm, the unicast case is handled in apic_find_dest function, the logic
+>>> inside the if (dest == 0xff) is for handling the broadcast case only.
+>>> This is because when dest == 0xff, it can be both a x2APIC unicast and
+>>> xAPIC broadcast in case we have some CPUs that are in xAPIC and others
+>>> are in x2APIC.
+>>
+>> Ah! Yes, I see it now.
+>>
+>> Shouldn't apic_get_broadcast_bitmask(… true) add *all* APICs to the
+>> mask, regardless of their mode? An APIC which is still in xAPIC mode
+>> will only look at the low 8 bits and see 0xFF which it also interprets
+>> as broadcast? Or is that not how real hardware behaves?
+> 
+> This is interesting. Your point looks reasonable to me but I don't know 
+> how to verify it, I'm trying to write kernel module to test it but there 
+> are just too many things running on Linux that uses interrupt so the 
+> system hangs.
+> 
+> This raises another question: when dest == 0x102 in IPI, does the xAPIC 
+> mode CPU with APIC ID 0x2 accept the IPI? I can't see this stated 
+> clearly in the Intel SDM.
 
-It's unfortunate that the next comment just below doesn't follow the
-correct style, so I didn't notice.
-
--- 
-Andreas Schwab, SUSE Labs, schwab@suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+I do some more testing on my hardware, your point is correct when dest 
+== 0xffffffff, the interrupt is delivered to all APICs regardless of 
+their mode. And when dest == 0x102 in IPI, xAPIC mode CPU with APIC ID 
+0x2 also accepts that IPI.
 
