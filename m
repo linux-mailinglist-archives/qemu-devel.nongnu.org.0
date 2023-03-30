@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D276E6D05D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:04:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 201436D05D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:05:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phrws-0007Z5-Vt; Thu, 30 Mar 2023 09:04:15 -0400
+	id 1phrxP-000861-M8; Thu, 30 Mar 2023 09:04:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=446aa7e4f=anthony.perard@citrix.com>)
- id 1phrwq-0007Yu-SX
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:04:12 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175])
+ id 1phrxO-00085s-JQ
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:04:46 -0400
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=446aa7e4f=anthony.perard@citrix.com>)
- id 1phrwp-0007us-6e
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:04:12 -0400
+ id 1phrxM-0007zh-PW
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:04:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1680181451;
+ d=citrix.com; s=securemail; t=1680181484;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=5FcC/uA7lSp2Phb7/lv7hFKSC5V4AzTs6UovUysFa+A=;
- b=CEB+m1JyGUms96p+YQX+uxxWnJV8LBsY/OpuSAPSENKA6uCE5soroCO5
- 6L4O7juh/rlF/Ju1+FVekd5IqeKRiuasy9I1BC7xwwSyiG4CXPogPmdj3
- h9mHNhoiMy7HhRyhQwCA4cLWe6j0C41lQitEeiywvPfUUBb++1wQZAjiT Q=;
-Authentication-Results: esa6.hc3370-68.iphmx.com;
+ bh=Xkpy/kjsmo/X9OUmHcSUliZn05A/VqHXLoRZnj02lSc=;
+ b=CPRZ5PAu6v6U5NmdsfOLQ2pKsX+yy+UvGvdORYqKqKrqcazyxhbzitYM
+ G3SlBmllAXR0bAr4S07POV7q9U0CzRNCl6aXEnsV1hmgyZQhmLczMpQcW
+ u5f+ABTlva1/stRTK3pt5uAge84SZDuvm/Slf/P0xv+hQfutyM42ijuoC g=;
+Authentication-Results: esa5.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
 X-SBRS: 4.0
-X-MesageID: 103041192
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
+X-MesageID: 102479599
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.156.123
 X-Policy: $RELAYED
-IronPort-Data: A9a23:tTZiAay6tiw4EgF+hHx6t+cpwSrEfRIJ4+MujC+fZmUNrF6WrkVVy
- 2NKDT2HbPneZWHzed9/YN+38UsPvcWByNYxGQA4ryAxQypGp/SeCIXCJC8cHc8wwu7rFxs7s
- ppEOrEsCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
- Mj75sbSIzdJ4RYtWo4vw//F+UMHUMja4mtC5QRlPqgT5jcyqlFOZH4hDfDpR5fHatE88t6SH
- 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ai87XAME0e0ZP4whlqvgqo
- Dl7WT5cfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQq2pYjqhljJBheAGEWxgp4KT9Tr
- fESLx0sUh+onfix6a6gG/hGt9t2eaEHPKtH0p1h5TTQDPJgSpHfWaTao9Rf2V/chOgXQ6yYP
- ZBAL2MyMlKZOUYn1lQ/UfrSmM+hgGX/dDtJ7kqYv6Mt70DYzRBr0airO93QEjCPbZwNxR7E/
- zuXpQwVBDkRGOe2mRekqku+i8nzwnijAtoWBq2no6sCbFq7mTVIVUx+uUGAieK5h0iiVsN3J
- Ekd+y5opq83nGSyQ9zgGhG1vnOAlhgbXdVWDqs98g7l4q/d+Q2UAi4NVjBMbNYvqcoeSjkj1
- 1vPlNTsbRR3urqTW3Ob95+OoD+yMDRTJmgHDQcIUg4ay9DmqZM0iFTESZB+E8adjsXyBCrrw
- jaitiU3jKkUlogMzarT1VnamT+op5XPZgco/AjTBTjj6A5lDKaoa5Gh81TcxfZJJoWeVUXHu
- nUY8+CG5f0KJYGAkmqKWuplNKGk4bOJPSPRhXZrHoI97HK99ni7Z4dS7TpiYkBzPa4sfCT1S
- FXetQNY+NlYO37CRbRsf4u7BsAuzK7hPdfoTPbZapxJeJcZXBWG9yFnf0LW323rnEU2iqY5E
- ZOad8+2CjAdE6sP5CK2RuMY3ZcvxyY332SVQor0pzyty7GeeXWWW58MN1/IZec8hIuNuAjP+
- sxTH9eLwR5YFub5Z0HqHZU7dA5QayJhXNav9pIRL7TYSuZ7JI0/I6HMmb4rfKFEo6t+jP3P1
- 22mC15y+UWq0BUrNj62hmBfhKLHBMgg/CNrbXBwbT5EyFB4P9/xsf53m48fOOB+qbc9laMco
- +wtIZ3oPxhZdtjQF93xh7HZpZcqShmkjBnm08GNMGlmJM4Iq+AkF7bZkurTGMomVHDfWTMW+
- eHI6+8iacNrq/5eJMjXcumz6Fi6oGIQnul/N2ORfIkLIRywrtc0e3Kv5hPSHy3qAU+brtd9/
- 1j+PPvljbOV/99dHCfh3shoULtF48MhRxEHTgE3HJ69NDXA/3rL/LKspN2gJGiHPEutofXKW
- Amg562kWBHxtAoQ4tUU/ncC5f5W2uYDUJcAlFo8RCiQNwv1Yl6iS1HftfRyWmR27ucxkWOLt
- oinp7G25Z3h1BvZLWMs
-IronPort-HdrOrdr: A9a23:jHdlpKzTkAfAAUgVU61xKrPwIr1zdoMgy1knxilNoH1uHvBw8v
- rEoB1173DJYVoqNk3I++rhBEDwexLhHPdOiOF6UItKNzOW21dAQrsSiLfK8nnNHDD/6/4Y9Y
- oISdkbNDQoNykZsfrH
-X-IronPort-AV: E=Sophos;i="5.98,303,1673931600"; d="scan'208";a="103041192"
-Date: Thu, 30 Mar 2023 14:03:53 +0100
+IronPort-Data: A9a23:KHAbLqnuFNHxv5OmGTZYucbo5gyYIURdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJNWmzVaKrcMDGhL95xad7joB4HsJCHmNdgSgBpqnw1FyMWpZLJC+rCIxarNUt+DCFhoGFPt
+ JxCN4aafKjYaleG+39B55C49SEUOZmgH+a6U6icfHgqH2eIcQ954Tp7gek1n4V0ttawBgKJq
+ LvartbWfVSowFaYCEpNg064gE4p7aSaVA8w5ARkPqgQ5weGzRH5MbpETU2PByqgKmVrNrbSq
+ 9brlNmR4m7f9hExPdKp+p6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTbZLwXXx/mTSR9+2d/
+ f0W3XCGpaXFCYWX8AgVe0Ew/yiTpsSq8pefSZS0mZT7I0Er7xIAahihZa07FdRwxwp5PY1B3
+ dYfFG4tRRWGu863nvWpR/FnmZkAI8a+aevzulk4pd3YJfMvQJSFSKTW/95Imjw3g6iiH96HO
+ ZBfM2A2Kk2dPVsWYAx/5JEWxY9EglH2dSFYr1SE47I6+WHJwCR60aT3McqTcduPLSlQth/A/
+ D6ZrjmoU3n2MvSmigvaqU+VodbznD3rYttKFLKi8dN11Qj7Kms7V0RNCArTTeOColW+VtRDJ
+ l089S8nrKx0/0uuJvHkUhil5XKJoBMYc9xXFeI89UeK0KW8ywOQHGMJSnhIcNIrsMU/WDkC2
+ VqAntevDjtq2JWNQ3Wb5LaSrBuoNCQVJHNEbigBJSMJ/Nz8iIg2hwDISJBoF+iojbXdGSn33
+ iuRrS4WnbgahtIMzOO851+vqzuxvJXNTwMzzgzKRG+htVk/YoO5D6Sl5UXS9/pHBIaQRFqGp
+ 2RCncWChMgWBIyJvDyARqMKBr7Bz+aINnjQjEBiG7El9i+x4DizcIZI+jZ8KUx1dMEedlfBZ
+ VTPkRlc6J9aID2haqofS5mqF80gwKzkFNLkfvPZdNxDZt52bgDv1Dtvbk6ZxWyrkEUqnawlI
+ pCdWcKtC38ADuJg1jXeb/8d0Lsuygg6xGXaX5e9yA6ouZKUfnWVVLwGInOHaeR/56SByC3c6
+ 9tFPtGG4wleWub5JCLQ9OYuwUsidCZhQ8qs8ooOK7DFe1A9cI08NxPP6ZkmR9JFtKFQqsvJo
+ DavV1dT1wfcinKSfG1mdUtfhKPTsYdX9CxkbH18bQr0ixDPcq70sv5BKsJfka0PsbU6kKUqF
+ 6Rtl9CoWKwnd9jRx9gKgXARRqRGfQ/juw+BNjHNjNMXL885HFyhFjMJk2LSGMgy4smf75FWT
+ 0WIjF+zfHb6b10K4DzqQPyu1UitmnMWhfh/WUDFSvEKJhW0qdE2dXOv3qFpSy3pFfkl7mHCv
+ +pxKUlwmAUwi9VtrImhaV6s9O9F7NeS7mIFRjKGvN5axAHR/3a5wJ8obdtkiQv1DTuukI37P
+ LU98h0JGKFf9Lq8m9YmQukDIGNXz4eHmoK2OSw+RiuTNwnwUuw+SpREtOEW3pBwKnZikVPec
+ iqyFhNyZeTh1B/NeLLJGDcYUw==
+IronPort-HdrOrdr: A9a23:YdVeBa0CNvNo9YmPXLN7lwqjBLwkLtp133Aq2lEZdPU1SKClfq
+ WV98jzuiWatN98Yh8dcLK7WJVoMEm8yXcd2+B4V9qftWLdyQiVxe9ZnO7f6gylNyri9vNMkY
+ dMGpIObOEY1GIK7/rH3A==
+X-IronPort-AV: E=Sophos;i="5.98,303,1673931600"; d="scan'208";a="102479599"
+Date: Thu, 30 Mar 2023 14:04:23 +0100
 To: Bernhard Beschow <shentey@gmail.com>
 CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw@amazon.co.uk>,
@@ -72,18 +72,18 @@ CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Henderson <richard.henderson@linaro.org>, Philippe
  =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Chuck Zmudzinski
  <brchuckz@aol.com>
-Subject: Re: [PATCH v3 3/6] hw/isa/piix3: Wire up Xen PCI IRQ handling
- outside of PIIX3
-Message-ID: <8871c33b-690a-4a0a-9b8b-eda163910571@perard>
+Subject: Re: [PATCH v3 4/6] hw/isa/piix3: Avoid Xen-specific variant of
+ piix3_write_config()
+Message-ID: <3bd7846b-2782-4857-b298-817fd683044e@perard>
 References: <20230312120221.99183-1-shentey@gmail.com>
- <20230312120221.99183-4-shentey@gmail.com>
+ <20230312120221.99183-5-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230312120221.99183-4-shentey@gmail.com>
-Received-SPF: pass client-ip=216.71.155.175;
+In-Reply-To: <20230312120221.99183-5-shentey@gmail.com>
+Received-SPF: pass client-ip=216.71.155.168;
  envelope-from=prvs=446aa7e4f=anthony.perard@citrix.com;
- helo=esa6.hc3370-68.iphmx.com
+ helo=esa5.hc3370-68.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -108,11 +108,16 @@ From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Mar 12, 2023 at 01:02:18PM +0100, Bernhard Beschow wrote:
-> xen_intx_set_irq() doesn't depend on PIIX3State. In order to resolve
-> TYPE_PIIX3_XEN_DEVICE and in order to make Xen agnostic about the
-> precise south bridge being used, set up Xen's PCI IRQ handling of PIIX3
-> in the board.
+On Sun, Mar 12, 2023 at 01:02:19PM +0100, Bernhard Beschow wrote:
+> Subscribe to pci_bus_fire_intx_routing_notifier() instead which allows for
+> having a common piix3_write_config() for the PIIX3 device models.
+> 
+> While at it, move the subscription into machine code to facilitate resolving
+> TYPE_PIIX3_XEN_DEVICE.
+> 
+> In a possible future followup, pci_bus_fire_intx_routing_notifier() could
+> be adjusted in such a way that subscribing to it doesn't require
+> knowledge of the device firing it.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
