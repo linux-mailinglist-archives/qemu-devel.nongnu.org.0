@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E166D0665
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6326D065D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:19:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phsBg-0008LG-7Q; Thu, 30 Mar 2023 09:19:32 -0400
+	id 1phsBh-0008Oz-2J; Thu, 30 Mar 2023 09:19:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBW-0007uG-Tm
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:24 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBa-0007zt-N0
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:27 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBU-00022j-Lt
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:21 -0400
-Received: by mail-wr1-x434.google.com with SMTP id m2so19054675wrh.6
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 06:19:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBZ-0001z6-4M
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:26 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ bg16-20020a05600c3c9000b003eb34e21bdfso13451089wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 06:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680182359;
+ d=linaro.org; s=google; t=1680182364;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hLMvNuV9m+vGoYBzqYhhlHDKS4XBdozQbF/ABoeVmps=;
- b=VnyZ+TcRxuX99uNbCKeRZg7FhEE509QXf1SS33Ac3Ca+75J+il4M4fhrdC5okwHSPh
- 4nl8s9LcvPJcLelLRiOBGcvz98MGWaOKb+krbet5aBMRZJp21uxZI1VghuoHP0gOnR2z
- EiERgIhooz8X7ZnLHrVvsckG+TzKEhkOqUHmGmlzCRAFU+1jo4BMOtsgesT/x4htmj90
- CLBDJVzli55LGQqmtXh0S4C00ceOOn1Mjl1LQcomP6BFILsbcAGDxJAKnyGjG1WEdHYN
- Xx4WThaNoNmf8hfne1WKbQSd2SAdAzr+w2JdF2YAJUp92uKW60Ur90PrQgxZ45WUUOoF
- BSGQ==
+ bh=CBSELtOf9xv0/cDxDhg88YCz+YYHgAmDVorjbtOUtaE=;
+ b=b1gZqUxj6PoTjIdBskg3vZ7vW2lBsuIwClSS4pyVG+hoZ+4i2Dk5OFi9ylvyL9Yu6A
+ XVHGig5bJq4kST3W8iZ+/KHpOmSF+0cCWaX3Q9f/Cq2Wz2qFfiCf7qI+gPcEPEm8mfRb
+ qfbWaVBcdMeSBJSBxl8Jdm/jLPvFXW/COyQAKRrGbgpAQ10eiDlE4XfWSxzewiEzKhFZ
+ KrS7WyYJW360cVFw44jTw9l9enec+yKSl0uuCSp40ldxhlpiaa5j2DGPQWVABifkYyI1
+ 8Htv3SYcY2KVTEN8rjssu+2qwEmbeZnzWh8DUD5MRvNbnngXMDONzCIDXp20fQJeApjM
+ gDuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680182359;
+ d=1e100.net; s=20210112; t=1680182364;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hLMvNuV9m+vGoYBzqYhhlHDKS4XBdozQbF/ABoeVmps=;
- b=Kw61ZB+vYddiMTij2975C5DL5nNtlrA0ZBt68/St65sBJcr8QFXDv/TQ/SRHIp1gYL
- SgWOBDHIPsAgIucAsJ4gt0yiYWPlkPWUHLBd5HOaTDb9sOW2ZsTY5cPKRAQzEdGxCkb1
- EJLQYiFx6s0FSv3AlRANg57VGbHuhK8HS+HDlhZ2mRyg9JqzP19p2ddaAuYGzzcs2djF
- hBacE+5DvhvVuALtaTrVbogq+WYv98xDfdZsFx9NmwZve7/FCHk+lS+RCpI68jFTF1XW
- oNz85OXIhex6feLWxCADg0Q5+hXTG1AnUNPsx8nGMW8pQMdCmsdVl3LfsqNppHxE28Zr
- fT3g==
-X-Gm-Message-State: AAQBX9dNAQTbPgDmMxnoEhS3LABSeOn+uIGzq+Z5TYOZjagoDG/CD77U
- xM6vov2VLQnih+Dk4LMv22pxP3g+8GU2Jfp0i6M=
-X-Google-Smtp-Source: AKy350bQHFq3EE4XMROSlzfQgq2LT/V45+MLVsoZB2LiJi4IhCSNLFsS7As25oF2xPf+nV4brhnP/g==
-X-Received: by 2002:adf:f0cf:0:b0:2ce:aed5:7dc with SMTP id
- x15-20020adff0cf000000b002ceaed507dcmr17714530wro.68.1680182359219; 
- Thu, 30 Mar 2023 06:19:19 -0700 (PDT)
+ bh=CBSELtOf9xv0/cDxDhg88YCz+YYHgAmDVorjbtOUtaE=;
+ b=Wr8na13ulmWnwfRBb1/iZ6iSbhwOyXDrqz//GWx4IGeA6EzL497iXhCWOVGmDGasOj
+ 0H3DT/0ifR/0pLmD6Fy0VeasG43rRJaszLTx/OF+0m2t/zrnfcU7hvJbfUu2s3XeMmQ/
+ BGcXkOXoChvQc4ejInFFjGAoik4HQDcsK24P+gvuGJ+BIjFlsCyhb0M47UsH6xtYptlX
+ GeIaUiMx4OXDhOTVJ2WpQR+BbrT+2FpQBndZI9bJGGcSH1B76Q+m5EatDqqAS7SlhCrz
+ GfzFKP8bY21EUJUZX/BPpI7Yn9vDrwr8bC1eByX4xZvvIkVSVdfKYsHo6d6J5TaW2NYw
+ UH9w==
+X-Gm-Message-State: AO0yUKWEcaR3JQ4aWESiklRLUmKQ3ST5U/oz8dUnlUCPdBvdf9Iwi9Gp
+ 37GHa8s8KaYpzkvN9bklJXcgsUe6AUTQ1lQtXn8=
+X-Google-Smtp-Source: AK7set9aG+/Xp6kv40jDzKzRgRZVGCEFiblLCMB0aVwx+Ulx0C8w7PEhf9JVbokw7kNjPr6V6kyFEA==
+X-Received: by 2002:a1c:7702:0:b0:3ed:cfa6:8854 with SMTP id
+ t2-20020a1c7702000000b003edcfa68854mr18261991wmi.26.1680182364111; 
+ Thu, 30 Mar 2023 06:19:24 -0700 (PDT)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- b5-20020adfee85000000b002c573778432sm32650792wro.102.2023.03.30.06.19.18
+ h16-20020a05600c315000b003eda46d6792sm6268321wmo.32.2023.03.30.06.19.23
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 30 Mar 2023 06:19:18 -0700 (PDT)
+ Thu, 30 Mar 2023 06:19:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Titus Rwantare <titusr@google.com>, Laurent Vivier <laurent@vivier.eu>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Subject: [PULL 4/6] tests/avocado: Enable TuxRun/mips64 (big-endian) test
-Date: Thu, 30 Mar 2023 15:18:54 +0200
-Message-Id: <20230330131856.94210-5-philmd@linaro.org>
+ Patrick Venture <venture@google.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 5/6] hw/i2c: pmbus: block uninitialised string reads
+Date: Thu, 30 Mar 2023 15:18:55 +0200
+Message-Id: <20230330131856.94210-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230330131856.94210-1-philmd@linaro.org>
 References: <20230330131856.94210-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,30 +93,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that the previous commit ("hw/mips/gt64xxx_pci: Don't
-endian-swap GT_PCI0_CFGADDR") fixed the issue accessing
-the GT64120 PCI config-address register on big-endian
-targets, we can enable this TuxRun test.
+From: Titus Rwantare <titusr@google.com>
 
+Devices models calling pmbus_send_string can't be relied upon to
+send a non-zero pointer. This logs an error and doesn't segfault.
+
+Reviewed-by: Patrick Venture <venture@google.com>
+Signed-off-by: Titus Rwantare <titusr@google.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230322175513.1550412-5-titusr@google.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Acked-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230223220404.63630-1-philmd@linaro.org>
 ---
- tests/avocado/tuxrun_baselines.py | 1 -
- 1 file changed, 1 deletion(-)
+ hw/i2c/pmbus_device.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
-index c3fb67f5dc..d343376faa 100644
---- a/tests/avocado/tuxrun_baselines.py
-+++ b/tests/avocado/tuxrun_baselines.py
-@@ -270,7 +270,6 @@ def test_mips32el(self):
-         """
-         self.common_tuxrun(drive="driver=ide-hd,bus=ide.0,unit=0")
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+index c3d6046784..44fe4eddbb 100644
+--- a/hw/i2c/pmbus_device.c
++++ b/hw/i2c/pmbus_device.c
+@@ -94,6 +94,13 @@ void pmbus_send64(PMBusDevice *pmdev, uint64_t data)
  
--    @skip("QEMU currently broken") # regression against stable QEMU
-     def test_mips64(self):
-         """
-         :avocado: tags=arch:mips64
+ void pmbus_send_string(PMBusDevice *pmdev, const char *data)
+ {
++    if (!data) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: %s: uninitialised read from 0x%02x\n",
++                      __func__, DEVICE(pmdev)->canonical_path, pmdev->code);
++        return;
++    }
++
+     size_t len = strlen(data);
+     g_assert(len > 0);
+     g_assert(len + pmdev->out_buf_len < SMBUS_DATA_MAX_LEN);
 -- 
 2.38.1
 
