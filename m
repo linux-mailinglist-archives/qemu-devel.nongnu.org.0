@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5E56D0E55
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 21:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7046D0FF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 22:23:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phxc6-0003Du-D7; Thu, 30 Mar 2023 15:07:10 -0400
+	id 1phymF-00027u-6o; Thu, 30 Mar 2023 16:21:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1phxc3-0003Dk-T2
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 15:07:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1phxc2-0006b9-5A
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 15:07:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680203224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uIRFGDPg14oZmYYKq+mGiRXG/9PTDEeIRc++/KM9Ma4=;
- b=L9KDNcPnMV99j5vIDwoZwh10pzHlGH3KztcJIGqb+9iLV050pL8/KHQN35GihPDhSRVX6o
- 3VMO6gGvIEo8nR+3dxtwM2OnzZVaUWoHtnDmk+tC3mtlZJBIkA/KEviQRlMim4JpTtrXSO
- JEwAIDclFn43Kg+dPY2DlW6Xlv2jC7A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-roNUKrF8OEaUT7QJHA50aw-1; Thu, 30 Mar 2023 15:07:01 -0400
-X-MC-Unique: roNUKrF8OEaUT7QJHA50aw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7C18801206;
- Thu, 30 Mar 2023 19:07:00 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E41640BC797;
- Thu, 30 Mar 2023 19:07:00 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4782221E6926; Thu, 30 Mar 2023 21:06:59 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Yohei Kojima <y-koj@outlook.jp>
-Cc: qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,  Daniel P
- . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 1/4] util: Add thread-safe qemu_strerror() function
-References: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
- <TYZPR06MB5418A6BDB94FB0D97ABA31299D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Date: Thu, 30 Mar 2023 21:06:59 +0200
-In-Reply-To: <TYZPR06MB5418A6BDB94FB0D97ABA31299D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
- (Yohei Kojima's message of "Fri, 31 Mar 2023 02:13:19 +0900")
-Message-ID: <87edp6oy7g.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1phymD-00027E-Ea
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 16:21:41 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1phymA-0006j2-Bs
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 16:21:41 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id y4so81413638edo.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 13:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680207689;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=GkWVAJlvqCL8AOYL044L7LO1MKVoq6fjRUEAS5j/cTY=;
+ b=UOt40J/7GP8TcfuqEDGf/b5hSNsJuoQZhr+B3dFyFGqJ86Ez51xmotnGFoGZIDdriu
+ xZemF5mxK9rRtyaXA9GyWEkR4YcN4mZ22sM/oTGh3bAHs7y5/DjopmIh9rrLlCfbkS8u
+ vpUKusoJL7WT3eWuhc1ocu7W+SGUWSQD7GZw7UkXvNdIwoEz4ppuEDwgek2m0bDlvRjR
+ s8joraZRbY2w8hYaVgKAHbYGRaxh/RwtVo9ZX6OVtDgqFsCZ1ptP4Djy+zXHK6gzwH3z
+ FWUSnH9qRzaO/nweiZ3ZQ4audO6bXuJB+M3AnwCfeeEgr12FmRe3kyhfrpo+aKrDkFra
+ 7ZGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680207689;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GkWVAJlvqCL8AOYL044L7LO1MKVoq6fjRUEAS5j/cTY=;
+ b=ApEJjraSCWzK0NtroRCI1GVP+aTNlROtVyXTrkLavISfBCe1+i2mq1oG+smUjxdKFX
+ z3nExrxtzL7HVkegCosvDZfRTEzPSimbNWPrHvEkxdV49VRgVdFeS0c7zKKRTt7ItOsH
+ AlDuI9Kv8uRVky8OMtUmoQl87Iv6Mgnb+AgS4tNfwqv8Utses6sdoMPjO+XkS06p60Dy
+ mtyttlPtRJPm3VGaXkxeW50/JEdHIjfBVxHRKaA2ljURooU0HDt64evelHSuvNE3J+Gp
+ 8XfpSTh5trXwQonky7XdqoEDOgX8DJfOuAJlN5gwwbF0m59MwKihWm8ab+vc9OLu/rY/
+ VIsQ==
+X-Gm-Message-State: AAQBX9fgKt4+WroMMMupvw+qSnhDyEUgNbDA8n/UHvEaLbYeYKSZ665V
+ XaSPTMT/sxqikjGfdoZpKC0RCeLtcaj3rvtxvfqL+g==
+X-Google-Smtp-Source: AKy350bTGy+8G73MwUuIOTgYGrx/l7gU8qgJByrhI/4YM3Taem9Qpfer9UuG01m2/6YuWGSHWb1thXUa1QDtVQEs4hU=
+X-Received: by 2002:a05:6402:a47:b0:502:3e65:44f7 with SMTP id
+ bt7-20020a0564020a4700b005023e6544f7mr4275784edb.3.1680207689289; Thu, 30 Mar
+ 2023 13:21:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230330101900.2320380-1-peter.maydell@linaro.org>
+In-Reply-To: <20230330101900.2320380-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 30 Mar 2023 13:21:19 -0700
+Message-ID: <CAFXwXrnYWD967nATYA+YAVdxmfvh3jQs-=6-Re34_HAqY+xLQA@mail.gmail.com>
+Subject: Re: [PATCH v2 for-8.0] target/arm: Fix generated code for cpreg reads
+ when HSTR is active
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000785bee05f823d6d8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,19 +85,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Yohei Kojima <y-koj@outlook.jp> writes:
+--000000000000785bee05f823d6d8
+Content-Type: text/plain; charset="UTF-8"
 
-> Add qemu_strerror() which follows the POSIX specification for
-> strerror(). While strerror() is not guaranteed to be thread-safe, this
-> function is thread-safe.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Why not g_strerror()?
+r~
 
-> This function is added to solve the following issue:
-> https://gitlab.com/qemu-project/qemu/-/issues/416
+On Thu, 30 Mar 2023, 03:19 Peter Maydell, <peter.maydell@linaro.org> wrote:
 
-The issue even asks for it...
+> In commit 049edada we added some code to handle HSTR_EL2 traps, which
+> we did as an inline "conditionally branch over a
+> gen_exception_insn()".  Unfortunately this fails to take account of
+> the fact that gen_exception_insn() will set s->base.is_jmp to
+> DISAS_NORETURN.  That means that at the end of the TB we won't
+> generate the necessary code to handle the "branched over the trap and
+> continued normal execution" codepath.  The result is that the TCG
+> main loop thinks that we stopped execution of the TB due to a
+> situation that only happens when icount is enabled, and hits an
+> assertion. Explicitly set is_jmp back to DISAS_NEXT so we generate
+> the correct code for when execution continues past this insn.
+>
+> Note that this only happens for cpreg reads; writes will call
+> gen_lookup_tb() which generates a valid end-of-TB.
+>
+> Fixes: 049edada ("target/arm: Make HSTR_EL2 traps take priority over
+> UNDEF-at-EL1")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1551
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> v1->v2: just unconditionally set is_jmp to DISAS_NEXT.
+> ---
+>  target/arm/tcg/translate.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/target/arm/tcg/translate.c b/target/arm/tcg/translate.c
+> index 2cb9368b1ba..3c8401e9086 100644
+> --- a/target/arm/tcg/translate.c
+> +++ b/target/arm/tcg/translate.c
+> @@ -4623,6 +4623,12 @@ static void do_coproc_insn(DisasContext *s, int
+> cpnum, int is64,
+>              tcg_gen_brcondi_i32(TCG_COND_EQ, t, 0, over.label);
+>
+>              gen_exception_insn(s, 0, EXCP_UDEF, syndrome);
+> +            /*
+> +             * gen_exception_insn() will set is_jmp to DISAS_NORETURN,
+> +             * but since we're conditionally branching over it, we want
+> +             * to assume continue-to-next-instruction.
+> +             */
+> +            s->base.is_jmp = DISAS_NEXT;
+>              set_disas_label(s, over);
+>          }
+>      }
+> --
+> 2.34.1
+>
+>
 
-> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
+--000000000000785bee05f823d6d8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto">Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:rich=
+ard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt;<br><br><div =
+data-smartmail=3D"gmail_signature">r~</div></div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 30 Mar 2023, 03:19 Peter=
+ Maydell, &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">In commit 04=
+9edada we added some code to handle HSTR_EL2 traps, which<br>
+we did as an inline &quot;conditionally branch over a<br>
+gen_exception_insn()&quot;.=C2=A0 Unfortunately this fails to take account =
+of<br>
+the fact that gen_exception_insn() will set s-&gt;base.is_jmp to<br>
+DISAS_NORETURN.=C2=A0 That means that at the end of the TB we won&#39;t<br>
+generate the necessary code to handle the &quot;branched over the trap and<=
+br>
+continued normal execution&quot; codepath.=C2=A0 The result is that the TCG=
+<br>
+main loop thinks that we stopped execution of the TB due to a<br>
+situation that only happens when icount is enabled, and hits an<br>
+assertion. Explicitly set is_jmp back to DISAS_NEXT so we generate<br>
+the correct code for when execution continues past this insn.<br>
+<br>
+Note that this only happens for cpreg reads; writes will call<br>
+gen_lookup_tb() which generates a valid end-of-TB.<br>
+<br>
+Fixes: 049edada (&quot;target/arm: Make HSTR_EL2 traps take priority over U=
+NDEF-at-EL1&quot;)<br>
+Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/1551" re=
+l=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab.com/qemu-proje=
+ct/qemu/-/issues/1551</a><br>
+Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
+" target=3D"_blank" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt;<br>
+---<br>
+v1-&gt;v2: just unconditionally set is_jmp to DISAS_NEXT.<br>
+---<br>
+=C2=A0target/arm/tcg/translate.c | 6 ++++++<br>
+=C2=A01 file changed, 6 insertions(+)<br>
+<br>
+diff --git a/target/arm/tcg/translate.c b/target/arm/tcg/translate.c<br>
+index 2cb9368b1ba..3c8401e9086 100644<br>
+--- a/target/arm/tcg/translate.c<br>
++++ b/target/arm/tcg/translate.c<br>
+@@ -4623,6 +4623,12 @@ static void do_coproc_insn(DisasContext *s, int cpnu=
+m, int is64,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_brcondi_i32(TCG_CON=
+D_EQ, t, 0, over.label);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gen_exception_insn(s, 0, EX=
+CP_UDEF, syndrome);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* gen_exception_insn() wil=
+l set is_jmp to DISAS_NORETURN,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* but since we&#39;re cond=
+itionally branching over it, we want<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* to assume continue-to-ne=
+xt-instruction.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;base.is_jmp =3D DISAS_NEXT=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0set_disas_label(s, over);<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div>
+
+--000000000000785bee05f823d6d8--
 
