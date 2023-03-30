@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BCC6CFC15
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 08:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BF76CFC62
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 09:12:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phmEL-0002sv-Cf; Thu, 30 Mar 2023 02:57:53 -0400
+	id 1phmR1-0005Av-JE; Thu, 30 Mar 2023 03:10:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1phmEH-0002sT-07
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 02:57:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1phmQh-0005A7-Nw
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 03:10:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1phmEF-00016T-En
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 02:57:48 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1phmQf-0003TI-Q1
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 03:10:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680159466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1680160236;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zxRLGKM7jqTPOBcl4keiuSy18AZxhOmSnWDGKo0rHiI=;
- b=Zh/vFdrcRxf4ydTgU9JlnB7KIy7smMbDSTRUwNQGaz9n1tispgg2TJAhwvzDDf5UZKmehy
- Nxuo1+jjhvIRG4eyEoTSZW/azThc0zYGQy31ZhUMPaMDuHF/pukRS8FgQSjXKxxBp1i5K2
- SDZ5P4s9US+dVHJVHFkBg5bz3wcT9r0=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-357-K4cfVJ9KOqCy_iWKC3SDww-1; Thu, 30 Mar 2023 02:57:42 -0400
-X-MC-Unique: K4cfVJ9KOqCy_iWKC3SDww-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-17e7104c589so9471884fac.19
- for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 23:57:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680159462; x=1682751462;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zxRLGKM7jqTPOBcl4keiuSy18AZxhOmSnWDGKo0rHiI=;
- b=lNjcbYZzPoDaD7v+OIh09w57cZoJD85BUZ1rpjcGiWvuUQatQAdh3OvKX0YXjX9RNo
- hMycY626i56oDXM00xhIzIoCNlmACRweVjCZXRfccCav57s1J/GzS5jHXT5rGLFwFBbM
- NoZ7bIYbb28gxmvl2kYNYkmsnHcgzQQqhzv/+ketUD8y6JnRSJCaU4cjSCFBXs3cUkZT
- sIQvzaQ5WuYRF3uM8RkJteKIRZyFAZxutSKycBVxo+yHeuB7bYOQ6qQzSuyBetx/cyeK
- qV3G5SxGz4nNF66pEDUPHUKiIkAfE29vK9Ef7Jz6E4G25avq6khRbd/9r2LBAmJ2Y+ZS
- sSJg==
-X-Gm-Message-State: AO0yUKUCwFskiQBcLPQoJYoyuWJw7XPlR2+j5HwdwlpAo76ZPL6eJ2af
- TOOx5jdaCw/AupCBRmWqnvm7clcKw9ghEVGL2Dnfk0j0a/LIvMIiMfmSdtmf9YrK+moLX/tslLS
- pYCnYThzmSD8N2iO3MAPH3i2/oRQQLgY=
-X-Received: by 2002:a9d:6a5a:0:b0:69f:573:6113 with SMTP id
- h26-20020a9d6a5a000000b0069f05736113mr7041208otn.2.1680159462227; 
- Wed, 29 Mar 2023 23:57:42 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/7K3K5TLbAbr1J0Ga1cSqMghtrPv8pV6XrQ0yY3ppidWyKEIP8asqksc66ds9YjSOhxRrjLRylnGNotP2JGHk=
-X-Received: by 2002:a9d:6a5a:0:b0:69f:573:6113 with SMTP id
- h26-20020a9d6a5a000000b0069f05736113mr7041195otn.2.1680159462058; Wed, 29 Mar
- 2023 23:57:42 -0700 (PDT)
-MIME-Version: 1.0
+ bh=W4h9jP8jroitOAN8PMAlgJf3Qna0h28jT+xYpU9uCwI=;
+ b=EnoW4/Ui21PHVyDH2IRUNGEdpwYpdQZgcsPrOrbaS83HhRvehz7sfeTZ/PlIiqXl7pTMCF
+ WNYpSjun/zg5Bcz13eG7l33ZoBszaBNwmDNG/XUAazt/EeoX8tv1kC2UWNXjwTNZWnxeYh
+ bJ1bZsuuX6SloRuUn/5G2B1ksOv0kB0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-62-4Na133osOLSj-JYlAecGeQ-1; Thu, 30 Mar 2023 03:10:32 -0400
+X-MC-Unique: 4Na133osOLSj-JYlAecGeQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3276B185A790;
+ Thu, 30 Mar 2023 07:10:32 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E19F314171BB;
+ Thu, 30 Mar 2023 07:10:29 +0000 (UTC)
+Date: Thu, 30 Mar 2023 08:10:27 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com,
+ philmd@linaro.org, armbru@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, toke@redhat.com, mprivozn@redhat.com,
+ yuri.benditovich@daynix.com, yan@daynix.com
+Subject: Re: [RFC PATCH 1/5] ebpf: Added eBPF initialization by fds and map
+ update.
+Message-ID: <ZCU1497ElEvDbwnG@redhat.com>
 References: <20230330001522.120774-1-andrew@daynix.com>
-In-Reply-To: <20230330001522.120774-1-andrew@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 30 Mar 2023 14:57:31 +0800
-Message-ID: <CACGkMEvN=bS8L=oz=Kniij_wSsLT38njSwpzioZCZ09aTCuERg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] eBPF RSS through QMP support.
-To: Andrew Melnychenko <andrew@daynix.com>
-Cc: mst@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com, 
- berrange@redhat.com, thuth@redhat.com, philmd@linaro.org, armbru@redhat.com, 
- eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com, 
- mprivozn@redhat.com, yuri.benditovich@daynix.com, yan@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ <20230330001522.120774-2-andrew@daynix.com>
+ <CACGkMEuiEgerMzuZvykQ=8ML5CW9rdi4h6da5tDeuxER-jSPuw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACGkMEuiEgerMzuZvykQ=8ML5CW9rdi4h6da5tDeuxER-jSPuw@mail.gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,57 +85,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 30, 2023 at 8:33=E2=80=AFAM Andrew Melnychenko <andrew@daynix.c=
-om> wrote:
->
-> This series of patches provides the ability to retrieve eBPF program
-> through qmp, so management application may load bpf blob with proper capa=
-bilities.
-> Now, virtio-net devices can accept eBPF programs and maps through propert=
-ies
-> as external file descriptors. Access to the eBPF map is direct through mm=
-ap()
-> call, so it should not require additional capabilities to bpf* calls.
-> eBPF file descriptors can be passed to QEMU from parent process or by uni=
-x
-> socket with sendfd() qmp command.
->
-> Overall, the basic scenario of using the helper looks like this:
->  * Libvirt checks for ebpf_fds property.
->  * Libvirt requests eBPF blob through QMP.
->  * Libvirt loads blob for virtio-net.
->  * Libvirt launches the QEMU with eBPF fds passed.
+On Thu, Mar 30, 2023 at 02:53:16PM +0800, Jason Wang wrote:
+> On Thu, Mar 30, 2023 at 8:33 AM Andrew Melnychenko <andrew@daynix.com> wrote:
+> >
+> > Changed eBPF map updates through mmaped array.
+> > Mmaped arrays provide direct access to map data.
+> > It should omit using bpf_map_update_elem() call,
+> > which may require capabilities that are not present.
+> 
+> This requires kernel support, so after this change, eBPF based RSS
+> doesn't work on old kernels that only support syscall based map
+> updating.
 
-Is there a libvirt side draft that can be used as a reference?
+What kernel version is the cut off ?
 
-Thanks
 
->
-> Andrew Melnychenko (4):
->   ebpf: Added eBPF initialization by fds and map update.
->   virtio-net: Added property to load eBPF RSS with fds.
->   ebpf: Added declaration/initialization routines.
->   qmp: Added new command to retrieve eBPF blob.
->
->  ebpf/ebpf.c                    |  48 +++++++++++++
->  ebpf/ebpf.h                    |  25 +++++++
->  ebpf/ebpf_rss-stub.c           |   6 ++
->  ebpf/ebpf_rss.c                | 124 +++++++++++++++++++++++++++------
->  ebpf/ebpf_rss.h                |  10 +++
->  ebpf/meson.build               |   1 +
->  hw/net/virtio-net.c            |  77 ++++++++++++++++++--
->  include/hw/virtio/virtio-net.h |   1 +
->  monitor/qmp-cmds.c             |  17 +++++
->  qapi/misc.json                 |  25 +++++++
->  10 files changed, 307 insertions(+), 27 deletions(-)
->  create mode 100644 ebpf/ebpf.c
->  create mode 100644 ebpf/ebpf.h
->
-> --
-> 2.39.1
->
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
