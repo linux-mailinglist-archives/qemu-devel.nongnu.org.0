@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5256D00C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 12:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048C46D00C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 12:12:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phpG8-0007YL-Jj; Thu, 30 Mar 2023 06:11:56 -0400
+	id 1phpG9-0007Zg-PJ; Thu, 30 Mar 2023 06:11:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phpG2-0007UU-7M
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:11:51 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ id 1phpG2-0007UP-6I
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:11:50 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phpFy-0000HP-2c
+ id 1phpFy-0000HU-2A
  for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:11:49 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- t17-20020a05600c451100b003edc906aeeaso3036001wmo.1
+Received: by mail-wr1-x42f.google.com with SMTP id d17so18465769wrb.11
  for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 03:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1680171104;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=N6sz1M7T3yD0wZFnzMX54YCnX2Tqb42vTWqBIcF5gCE=;
- b=Bdjj8WKrzy6Wdg1DGEaGjGZqSRqCX4DgewBrwqWLgCJfv7taZDI5horHeWiQ/SzUbW
- KUw0qONWZ7GUfScfifJfjJBELg9DRU3pNKA68IvNJA8yDF24yTw5S0fqUPCwAyHavis6
- 4wMMGRPEo61C2jcj1SNVFjlPKi1/B03K12kIx5SNHB3Jp+EL2Sv5w0Ej0z8SobzUEGp+
- neL8EvuF26pDUFmjW8AfJXIXt7ELFgT87rThfLQMIbYCBteJbQy49TNalCmFoOvXFcP4
- 1DzzL3GU0Kv8FMac39kqMMgC1Xx7gmZIdlBF9V0OKxcrK1y651ssQswBfS91N2EWzA+J
- HAvg==
+ bh=Gey+X0Dy+O+Kq3MElEFAXcP1Z2iyav7fvJs9uGtJ488=;
+ b=psojH1qrds29B92CVLslgMX+0lW3Aa+6vRupIGoTAAccMLJw5ewWp96B6rBZq6oDMS
+ ff4rpSbnE8CG0tabKbEh7/Nyp9WrkfJkMYYLrKuVK9pcHx5ON3ZQpWtLUNNe0tGqnAco
+ YAiHiy9k94oXSNa5DU2JnASLahDM0zN3+Tu3PVl3bK7/PDgQImIHbN3erlSVIusVcAcB
+ s2Yf760aut/zuR6hy/4XHl3Loon6MlSpTkJiNShG8FokDeb/VCZX4FQsIakr/hePrgRu
+ LmvY3bRCDZwC37Qc3DL3pqH8Jg75dBGN0lFf1RO+bYbLFzDEaNRrprcYf6HN2mJ9UKKs
+ jq+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1680171104;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=N6sz1M7T3yD0wZFnzMX54YCnX2Tqb42vTWqBIcF5gCE=;
- b=za282lpb/Qcz91SKehwDvq9h/vSR5g9X+iVjgpKn2BYK5bUKKdKhSqTJdIDqXkAGw7
- kiM5IpACNrNDVX/icHcQfrQqWuSQuIY3a/6v9Dy8Urx0yyi/XNSG7AUoadj0GUnUbWu6
- S7NWP+5gFxn+fe75Ly/j1gtztTGWWlJ2wQKhK9hsLjJlWn5BY7fD8KaoCWBt+/H2OIln
- uTIAaEzq12KVZx43lC61nfe8Wj/LQlTblTjKo+PJ/e2E9Rybnt3flZCh9SpjBWwcOzgR
- dd4p9ObiUvDXGKCiiJqP52kekwX+d7NB6CFJyyQPWEezufw+aHTATmVExl7ygqQTDvqb
- SGSQ==
-X-Gm-Message-State: AO0yUKXaSM0OCF2Pqwy9DHE7A0XowugpPY/Pjv6FJo2GF1+ryAJOg0k4
- jxG+KV+C+s/5PzkFJPUpwEtjKQ==
-X-Google-Smtp-Source: AK7set8e7DIZ9wbF6cWc7Prknb2w+iA0IoNlLrjES/47mo6sMIdmtQK3AeHHrj8OE3q0qKcxmp7iyA==
-X-Received: by 2002:a05:600c:21d8:b0:3ee:5d1d:6c2d with SMTP id
- x24-20020a05600c21d800b003ee5d1d6c2dmr16597876wmj.35.1680171104125; 
+ bh=Gey+X0Dy+O+Kq3MElEFAXcP1Z2iyav7fvJs9uGtJ488=;
+ b=tLdCzUMk8/e2WUUV1y9is3wy6RH4OTuQ7nz3qhD5gsXYVoTbqqYZWakGtPN+ctgGIV
+ iHyeZbID8Y3rsYdz2r0xegCeOwjCXm6a1VmG4kVcpwEbpct2mEniYYc3i6nkvpC3ziNn
+ E0niPkJSjYSvq5tvDJ7rI8Vhc0lskTf5qxEH3vpqHdwu+nWcC5zl0zORqx2w6ET7WZzy
+ KW+HcaVxuUd8xhsNg5OkWsAyqbRydRh+TTsZ6HTDwk50laycmabvEdsmrCIq/DR0lEdN
+ XNt+xiHaQw72IZSQi+j25jSi0gLRNq2NqoAJ5Sdsva2l2LnC38o6oR4aKvEAbCXasnBY
+ ppQA==
+X-Gm-Message-State: AAQBX9df0DsVDi7+LLnd7zkXEwKQga5rhszPz5zTEEzVuCJw0uUTINRx
+ HhaJCqG8FFAK3hi9VVxYFM/R/w==
+X-Google-Smtp-Source: AKy350aqCqo7ciR7fmY0P78yWMLubmZr7eFXchKdCEBo4Tbz+THDSXQYvnLZM4U/dkOtQQKquPLKoQ==
+X-Received: by 2002:a5d:4009:0:b0:2d4:99f:66fa with SMTP id
+ n9-20020a5d4009000000b002d4099f66famr17959815wrp.14.1680171104457; 
  Thu, 30 Mar 2023 03:11:44 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- iw13-20020a05600c54cd00b003ef6988e54csm5414825wmb.15.2023.03.30.03.11.42
+ e4-20020a5d4e84000000b002ceac2ccc4asm32554544wru.23.2023.03.30.03.11.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 03:11:42 -0700 (PDT)
+ Thu, 30 Mar 2023 03:11:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7EB4C1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id 957E71FFBD;
  Thu, 30 Mar 2023 11:11:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -68,27 +67,25 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: [PATCH 04/11] qemu-options: finesse the recommendations around
- -blockdev
-Date: Thu, 30 Mar 2023 11:11:34 +0100
-Message-Id: <20230330101141.30199-5-alex.bennee@linaro.org>
+ Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>
+Subject: [PATCH 05/11] metadata: add .git-blame-ignore-revs
+Date: Thu, 30 Mar 2023 11:11:35 +0100
+Message-Id: <20230330101141.30199-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230330101141.30199-1-alex.bennee@linaro.org>
 References: <20230330101141.30199-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,37 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are a bit premature in recommending -blockdev/-device as the best
-way to configure block devices, especially in the common case.
-Improve the language to hopefully make things clearer.
+Someone mentioned this on IRC so I thought I would try it out with a
+few commits that are pure code style fixes.
 
-Suggested-by: Michael Tokarev <mjt@tls.msk.ru>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20230318115657.1345921-1-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- qemu-options.hx | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .git-blame-ignore-revs | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+ create mode 100644 .git-blame-ignore-revs
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 59bdf67a2c..9a69ed838e 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1143,10 +1143,14 @@ have gone through several iterations as the feature set and complexity
- of the block layer have grown. Many online guides to QEMU often
- reference older and deprecated options, which can lead to confusion.
- 
--The recommended modern way to describe disks is to use a combination of
-+The most explicit way to describe disks is to use a combination of
- ``-device`` to specify the hardware device and ``-blockdev`` to
- describe the backend. The device defines what the guest sees and the
--backend describes how QEMU handles the data.
-+backend describes how QEMU handles the data. The ``-drive`` option
-+combines the device and backend into a single command line options
-+which is useful in the majority of cases. Older options like ``-hda``
-+bake in a lot of assumptions from the days when QEMU was emulating a
-+legacy PC, they are not recommended for modern configurations.
- 
- ERST
- 
+diff --git a/.git-blame-ignore-revs b/.git-blame-ignore-revs
+new file mode 100644
+index 0000000000..fa01e77a1e
+--- /dev/null
++++ b/.git-blame-ignore-revs
+@@ -0,0 +1,21 @@
++#
++# List of code-formatting clean ups the git blame can ignore
++#
++#   git blame --ignore-revs-file .git-blame-ignore-revs
++#
++# or
++#
++#   git config blame.ignoreRevsFile .git-blame-ignore-revs
++#
++
++# gdbstub: clean-up indents
++ad9e4585b3c7425759d3eea697afbca71d2c2082
++
++# e1000e: fix code style
++0eadd56bf53ab196a16d492d7dd31c62e1c24c32
++
++# target/riscv: coding style fixes
++8c7feddddd9218b407792120bcfda0347ed16205
++
++# replace TABs with spaces
+++48805df9c22a0700fba4b3b548fafaa21726ca68
 -- 
 2.39.2
 
