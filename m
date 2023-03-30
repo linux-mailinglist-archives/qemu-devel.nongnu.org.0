@@ -2,56 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A633C6D042F
+	by mail.lfdr.de (Postfix) with ESMTPS id A77876D0430
 	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:59:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phqvO-0007CD-T5; Thu, 30 Mar 2023 07:58:39 -0400
+	id 1phqvW-0007DQ-2j; Thu, 30 Mar 2023 07:58:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1phqvM-0007C1-El
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:58:36 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1phqvU-0007DF-FL
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:58:44 -0400
+Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1phqvK-0004WA-AL
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:58:36 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 4038E41999;
- Thu, 30 Mar 2023 13:58:24 +0200 (CEST)
-Message-ID: <0e3f3a98-835f-b26c-649e-a8a35edce660@proxmox.com>
-Date: Thu, 30 Mar 2023 13:58:22 +0200
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1phqvS-0004YC-U8
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:58:44 -0400
+X-IronPort-RemoteIP: 209.85.222.199
+X-IronPort-MID: 269938813
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:Ccwur6M8E76CacXvrR0blcFynXyQoLVcMsEvi/4bfWQNrUp30zQEz
+ 2QdCGmFbveLZmGmfNB2Ptnk9B5U78KGyYcxQQZtpSBmQkwRlceUXt7xwmUcns+xwm8vaGo9s
+ q3yv/GZdJhcokf0/0vraf656yEnj8lkf5KkYMbcICd9WAR4fykojBNnioYRj5VhxNO0GGthg
+ /uryyHkEALjim4c3l48sfrZ80s056yq4Vv0g3RlDRx1lA6G/5UqJM9HTU2BByOQapVZGOe8W
+ 9HCwNmRlo8O105wYj8Nuu+TnnwiG9Y+DyDX4pZlc/HKbix5m8AH+v1T2MzwyKtgo27hc9hZk
+ L2hvHErIOsjFvSkdO81CnG0H8ziVEHvFXCuzXWX6KSuI0P6n3TE4ORCK2gpPZ0koe9JX2dn+
+ O0eASwSYUXW7w626OrTpuhEg80iKIzyP9patCgxnHfWCvEpRZ2FSKLPjTNa9G1o14YeQLCEP
+ ZBfMGs+BPjDS0Qn1lM/AZYumuuyrnPiNTBUtTp5oIJtvTmCl1whieOF3Nz9ceLbS/wOhGij+
+ mub0Dz7WyBKCc3F4G/Qmp6rrqqV9c/hY6oLGbils/JnnlCX7moUDhIQSB28u/bRt6Klc9dWK
+ khR4yl36KZrpR3tQd76UBm15nWDu3bwRuZtLgHz0ynVooK83upTLjFsouJpADD+iPILeA==
+IronPort-HdrOrdr: A9a23:19AZdapyGStN4DORCjQpolwaV5oDeYIsimQD101hICG9E/bo9f
+ xG+c5x6faaslsssR0b9exoQZPwOk80rKQFmbX5Xo3SPzUO2lHIEGgK1+KLqQEIfReQygc378
+ ddmsZFZuEYQmIK6foSpDPIderJ/bG8gcWVbdi39QYVcelJA5sQiDtENg==
+Received: from mail-qk1-f199.google.com ([209.85.222.199])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 30 Mar 2023 07:58:36 -0400
+Received: by mail-qk1-f199.google.com with SMTP id
+ 206-20020a370cd7000000b007467b5765d2so8788430qkm.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 04:58:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bu.edu; s=s1gsbu; t=1680177515;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MGSsQrurj36w9LLG/vqOxxOQCJUayI+JCrLzJXYBM4A=;
+ b=dZFpRKbYBG/KyARr4wEIliJ0u/9P6PMBg4MmKfaB3oMpKRrCfSZOQcRoDcEVNLJPJ6
+ hafwEJUpxVzp0Cb+hmsux0ro4VZvrfTsOT5ocrjvhdjj7GS44AoXNv7aEsDcB74y6VIX
+ ZRctq8rns0wS3/nAl1jl/EHj3clcaaowN3OOyCawTQ0OXQ5DzeZEuDCpvGEUXXhaQ3II
+ 10ruSohfnDPOmxHn7drAZ+grDcqzYVoVNoc5csTJlYd2aM8XQxdD3Ma+Tz/aI/nA5wpN
+ Vdz6Js7wDH9NM8Rvz8XM4pjvGg/Mu4eYVd/8FwI0ql2UvNDse9W+nUkhAxeva9igUeOC
+ Kpjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680177515;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MGSsQrurj36w9LLG/vqOxxOQCJUayI+JCrLzJXYBM4A=;
+ b=sFd1PhTnR+n7qfOYpHl8ipoyZ7+K9OBEfvbq5vkPL8zo9pugKkKDzKLUsxzto6hT88
+ pokm9qy+CTWpE46x0LksT5AAbGKy20g90Iwwc7tTpZ4wjkJA2EdkBcZGpSa37u9Bth8O
+ Tc7AO/KZg7aZoytXOh94Gp3YkL0kO7ngWJGzBECQwWOKyy0LO8TIBQXrfp5B57KD+6Gi
+ bCRi5NPGX26xRu8S8a9W8Ciy1guNdR68XKwKwYY0/QzAwdHSfvmkMlqsKWzy9WhXsmmq
+ kZMsxozUhxgNhyLYr0boelJcT3wXXBeYd3Xi4PmqcskMBbqK9q6wM2yev9toXesOAiwc
+ GhmQ==
+X-Gm-Message-State: AAQBX9dixwDHyd2VR37WHBmHe1HKVad5CAm7sWMyXSMJ7wjhzAsEB9r9
+ S85jrXG8Gaom0ikBqtzk99W7NHt52V/obiejBqhBPrfYlTcC2DSzmizF1sFKN4xvFOda5GmhwUt
+ LZ4oUGyj9JpmQnT2ZG4tlo0uJj0+RnQ==
+X-Received: by 2002:a05:6214:230d:b0:56e:afe2:ebca with SMTP id
+ gc13-20020a056214230d00b0056eafe2ebcamr39329951qvb.30.1680177515211; 
+ Thu, 30 Mar 2023 04:58:35 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Yez9R1xLbUpvcoSJmsl8AUqrqqBcutBqO/lE+HnkI3nF5kOuUa2wwYG7QXiGmMSHR4SfWzQQ==
+X-Received: by 2002:a05:6214:230d:b0:56e:afe2:ebca with SMTP id
+ gc13-20020a056214230d00b0056eafe2ebcamr39329936qvb.30.1680177514978; 
+ Thu, 30 Mar 2023 04:58:34 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ ny15-20020a056214398f00b005df51f70956sm1295469qvb.22.2023.03.30.04.58.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Mar 2023 04:58:34 -0700 (PDT)
+Date: Thu, 30 Mar 2023 07:58:30 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v3] hw/arm: do not free machine->fdt in arm_load_dtb()
+Message-ID: <20230330115830.gj5ntltek3auh4sz@mozz.bu.edu>
+References: <20230328165935.1512846-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PULL 19/54] acpi: pc: isa bridge: use AcpiDevAmlIf interface to
- build ISA device descriptors
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
-References: <20220610075631.367501-1-mst@redhat.com>
- <20220610075631.367501-20-mst@redhat.com>
- <ba6a8777-723d-7e6c-bec7-71819cedb66d@proxmox.com>
- <20230330102227.39b44b71@imammedo.users.ipa.redhat.com>
-From: Fiona Ebner <f.ebner@proxmox.com>
-In-Reply-To: <20230330102227.39b44b71@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328165935.1512846-1-armbru@redhat.com>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
+ helo=esa7.hc2706-39.iphmx.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,122 +116,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 30.03.23 um 10:22 schrieb Igor Mammedov:
-> On Tue, 28 Mar 2023 14:58:21 +0200
-> Fiona Ebner <f.ebner@proxmox.com> wrote:
+On 230328 1859, Markus Armbruster wrote:
+> At this moment, arm_load_dtb() can free machine->fdt when
+> binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
+> retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
+> the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
+> machine->fdt. And, in that case, the existing g_free(fdt) at the end of
+> arm_load_dtb() will make machine->fdt point to an invalid memory region.
 > 
->> Am 10.06.22 um 09:57 schrieb Michael S. Tsirkin:
->>> From: Igor Mammedov <imammedo@redhat.com>
->>>
->>> replaces ad-hoc build_isa_devices_aml() with generic AcpiDevAmlIf
->>> way to build bridge AML including all devices that are attached to
->>> its ISA bus.
->>>
->>> Later when PCI is converted to AcpiDevAmlIf, build_piix4_isa_bridge()
->>> will also be dropped since PCI parts itself will take care of
->>> building device prologue/epilogue AML for each enumerated PCI
->>> device.
->>>
->>> Expected AML change is contextual, where ISA devices are moved
->>> from separately declared _SB.PCI0.ISA scope , directly under
->>> Device(ISA) node.
->>>
->>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->>> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
->>> Message-Id: <20220608135340.3304695-20-imammedo@redhat.com>
->>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>  
->>
->> Hi,
->> while trying to reproduce another issue, I ended up with a Windows 10
->> guest that would boot with QEMU 7.0, but get stuck after the Windows
->> logo/spinning circles with QEMU 7.1 (also with 8.0.0-rc1). Machine type
->> is pc-i440fx-6.2[0]. Bisecting led to this commit.
->>
->> It only happens the first time the VM is booted, killing the process and
->> re-trying always worked afterwards. So it's not a big deal and might
->> just be some ACPI-related Windows quirk. But I thought I should ask here
->> to be sure.
->>
->> For bisecting, I restored the disk state after each attempt. While
->> getting stuck sometimes took 3-4 attempts, I tested about 10 times until
->> I declared a commit good, and re-tested the commit before this one 15
->> times, so I'm pretty sure this is the one where the issue started appearing.
->>
->> So, anything that could potentially be wrong with the commit or is this
->> most likely just some Windows quirk/bug we can't do much about?
->>
->> If you need more information, please let me know!
+> Since monitor command 'dumpdtb' was introduced a couple of releases
+> ago, running it with any ARM machine that uses arm_load_dtb() will
+> crash QEMU.
 > 
-> Please describe in more detail your setup/steps where it reproduces
-> (incl. Windows version/build, used QEMU CLI) so I could try to reproduce it locally.
+> Let's enable all arm_load_dtb() callers to use dumpdtb properly. Instead
+> of freeing 'fdt', assign it back to ms->fdt.
 > 
-> (in past there were issues with German version that some where
-> experience but not reproducible on my side, that resolved with
-> upgrading to newer QEMU (if I recall correctly issue was opened
-> on QEMU's gitlab tracker))
-> 
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: qemu-arm@nongnu.org
+> Fixes: bf353ad55590f ("qmp/hmp, device_tree.c: introduce dumpdtb")
+> Reported-by: Markus Armbruster <armbru@redhat.com>i
+                                                    ^ Seems like a typo
 
-Windows 10 Education
-Version 1809
-Build 17763.1
-
-It's not the German ISO, I used default settings (except location
-Austria and German keymap) and I don't think I did anything other than
-shutdown after the install was over.
-
-The command line is below. I did use our patched QEMU builds when I got
-into the situation, but I don't think they touch anything ACPI-related
-and bisecting was done without our patches on top.
-
-I tried to reproduce the situation again from scratch today, but wasn't
-able to. I do still have the problematic disk (snapshot) where the issue
-occurs as an LVM-Thin volume. If you'd like to have access to that,
-please send me a direct mail and we can discuss the details there.
-
-Best Regards,
-Fiona
-
->>
->> Best Regards,
->> Fiona
->>
->> [0] command line:
->>> ./qemu-system-x86_64 \
->>>   -accel 'kvm' \
->>>   -name 'stuckafterrollbackonboot,debug-threads=on' \
->>>   -no-shutdown \
->>>   -chardev 'socket,id=qmp,path=/var/run/qemu-server/161.qmp,server=on,wait=off' \
->>>   -mon 'chardev=qmp,mode=control' \
->>>   -chardev 'socket,id=qmp-event,path=/var/run/qmeventd.sock,reconnect=5' \
->>>   -mon 'chardev=qmp-event,mode=control' \
->>>   -pidfile /var/run/qemu-server/161.pid \
->>>   -smbios 'type=1,uuid=f2b77ed0-73c1-4372-9490-b2c1b59431af' \
->>>   -smp '4,sockets=1,cores=4,maxcpus=4' \
->>>   -nodefaults \
->>>   -boot 'menu=on,strict=on,reboot-timeout=1000,splash=/usr/share/qemu-server/bootsplash.jpg' \
->>>   -vnc 'unix:/var/run/qemu-server/161.vnc,password=on' \
->>>   -no-hpet \
->>>   -cpu 'kvm64,enforce,hv_ipi,hv_relaxed,hv_reset,hv_runtime,hv_spinlocks=0x1fff,hv_stimer,hv_synic,hv_time,hv_vapic,hv_vpindex,+kvm_pv_eoi,+kvm_pv_unhalt,+lahf_lm,+sep' \
->>>   -m 6144 \
->>>   -device 'pci-bridge,id=pci.1,chassis_nr=1,bus=pci.0,addr=0x1e' \
->>>   -device 'pci-bridge,id=pci.2,chassis_nr=2,bus=pci.0,addr=0x1f' \
->>>   -device 'pci-bridge,id=pci.3,chassis_nr=3,bus=pci.0,addr=0x5' \
->>>   -device 'vmgenid,guid=faa21a64-5921-45fe-9ff3-1f132b9ed029' \
->>>   -device 'piix3-usb-uhci,id=uhci,bus=pci.0,addr=0x1.0x2' \
->>>   -device 'usb-tablet,id=tablet,bus=uhci.0,port=1' \
->>>   -device 'VGA,id=vga,bus=pci.0,addr=0x2,edid=off' \
->>>   -device 'virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x3,free-page-reporting=on' \
->>>   -iscsi 'initiator-name=iqn.1993-08.org.debian:01:7d9a912f961' \
->>>   -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
->>>   -drive 'file=/dev/pve/vm-161-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
->>>   -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0,bootindex=100' \
->>>   -netdev 'type=tap,id=net0,ifname=tap161i0,script=/var/lib/qemu-server/pve-bridge,downscript=/var/lib/qemu-server/pve-bridgedown' \
->>>   -device 'e1000,mac=42:BF:8B:AE:68:05,netdev=net0,bus=pci.0,addr=0x12,id=net0,bootindex=102' \
->>>   -rtc 'driftfix=slew,base=localtime' \
->>>   -machine 'type=pc-i440fx-6.2' \
->>>   -global 'kvm-pit.lost_tick_policy=discard'  
->>
-
-
+                                                    -Alex
 
