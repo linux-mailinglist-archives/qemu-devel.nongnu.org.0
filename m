@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B216D00D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 12:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926826D00C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 12:12:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phpG8-0007Xs-0I; Thu, 30 Mar 2023 06:11:56 -0400
+	id 1phpGB-0007bb-F8; Thu, 30 Mar 2023 06:11:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phpG4-0007VR-86
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:11:53 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ id 1phpG6-0007WY-OV
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:11:54 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phpG0-0000I8-1l
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:11:51 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h17so18467945wrt.8
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 03:11:47 -0700 (PDT)
+ id 1phpG1-0000Il-8a
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:11:53 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ n10-20020a05600c4f8a00b003ee93d2c914so12771640wmq.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 03:11:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680171106;
+ d=linaro.org; s=google; t=1680171107;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aAQgJCH18/CDlsc1qwu2JEm4YqYOxyDBS+oIfEkPhU4=;
- b=ijq24rLbw9KB7Ngpuo9nzmlgr9AH/Q+z70z73FtVBz3eEZWNULgLQX3F7BfS/cCMcv
- LFceQ8MWV5+ltBHlq5FpZ4hN0TBQYeArPpVRxb1KatMskcUh1EjMPDkxUpiaiJiSiLeS
- TQ0NM4D1vWhWRESMTUyf//HpY41lt4AAoAEAroyVFb5msn9pBokNptAogJHH48SxVJh/
- Jo5jyEXbH0ivTIXKItOsUo41YjdqUpkuW7S5QseJAh4QFTTuUMwULMOw7XQIMuwYM+PR
- zA6sWXJi4pGDWYtGdtuUZySCgZprTxF4HS6TdggiWsy+VpFA6+/jYPJx+HvH1u6YhAiX
- rdvQ==
+ bh=G9GbMYvAaWW0oOBX4NN/Uf9OJgdDvvjHPBRD08CBk9g=;
+ b=r8Tl2Xr9YELbpFcA6fCKKZQzbDwA6NAThE/yqJ7HVsERf8swaDPtXtWhu6w9gO0qjD
+ SRrO1DCNI9XRS5qzZi1fS/L5wbjqKZhAyXgUMawY3rbhQCRnEZIaz8KHwK4QmUf7/AqC
+ BuYLiuaA6fHgbXDERRg1daKEOugBEERn+owVxxbL09VOfdE2XVpo0fOa2Y15Citrl7yZ
+ EVWmY2z46sKktdHuv7iy8bZESN03SDjflLXfAJDE8rEdqe4FeU3VrqVGGYi2yek1dcgp
+ w5m4SKUDxbwDadgvZAQkzouZc8c3OuYg9HHFZuToIv/6+QI5YR5utXiFdUhSAtpyYhwD
+ HQ/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680171106;
+ d=1e100.net; s=20210112; t=1680171107;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aAQgJCH18/CDlsc1qwu2JEm4YqYOxyDBS+oIfEkPhU4=;
- b=zSltP/P0bsJlaMpppRB3sDZx4B8cjgs4DbOF3Yu9pp5Az1WB5gE2qVtVuLc6F4b2EP
- pu/hGwwJ9Oyp3VEWH6PH71T4XJG6IpYo1uu1bukvouFam07t2wfcMVkl/JPCmg9LIFtq
- cUYGyY6WNGEkufFu3I2Gs77sC+BSD+ViqjyqkMsA1HHnD8X3HFpIPQSMfvog/t8Q1d+G
- L7DC7dY+DEulAUQ3mrEx1KQ9xEvas5DaxuOohbaUO2QfDLSPtyGNSHH5u/DqwLg+e2+u
- 2Wbn10yvtbbwzo2UBAcniGcbmcFDwtGe2UhS6cVByjBL4tlZLRcoJFthtdspgjSAlnMB
- Enqg==
-X-Gm-Message-State: AAQBX9e7gkpX76ows17llkP/Tt4POjxEY6Gl2C3fON2utQwbXFCOLmpu
- fsXucVU7rS350rtTha66IPuP5Dxo8qdK8RBK0FY=
-X-Google-Smtp-Source: AKy350b8oUC9tCPFcYOaJu0vRNS/X/VOtiKFgLUi3FKMTmt2a1J0VaBNs5zc3zX2Ys3O1e9Ks9ZNmw==
-X-Received: by 2002:a5d:4b8b:0:b0:2d5:a170:839d with SMTP id
- b11-20020a5d4b8b000000b002d5a170839dmr16514004wrt.25.1680171106299; 
- Thu, 30 Mar 2023 03:11:46 -0700 (PDT)
+ bh=G9GbMYvAaWW0oOBX4NN/Uf9OJgdDvvjHPBRD08CBk9g=;
+ b=OAl4V6YjjhVSeBvNy2luzSdQmVVLTRdskdGR4ZLOrUDmGhYrGzLT4OL+OqQz2+J+vd
+ s9UUPnKyUavKBRyQhfAjoPmQ+ocwY1rAZbUQs5O1vowl5+5wqsPge3UdUoK9zMLN+hE7
+ WNjwBgcCLNfMcohY6fxzVNYaKznUB7FwLYcAaPj7qkLHG/+LU+kFgADrYKDqWM8LpmXa
+ XESp7VfZMp8Inj+3XmY5FHyZfPmwddaa6H7npiHdWIutgPuWMiJ5UtMrkJLGUg/Sbtz9
+ Z8OGzvGYwmVBhA/haTjsHM3jTqkmUjeb/WY3Cc+uhIBOa+a1g82fyYUQouXgNVdXOWkI
+ 7hBg==
+X-Gm-Message-State: AAQBX9e6yqGNlhA91eKWo3vURkriUVJymvs+puner9RcXQpBNfXCrHL8
+ gzMoW8BNXph/Sx/YIeqwFR8IzA==
+X-Google-Smtp-Source: AKy350aiHDpKu/0hJ244xZq+r7uCPSVK3KWCfXuu+rB/HgUtvSoXVIJLfHaKXhOTT91hK9Z6+vgifA==
+X-Received: by 2002:a05:600c:2198:b0:3ef:61f6:d7be with SMTP id
+ e24-20020a05600c219800b003ef61f6d7bemr13838630wme.35.1680171107586; 
+ Thu, 30 Mar 2023 03:11:47 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- s11-20020adff80b000000b002d6f285c0a2sm26315520wrp.42.2023.03.30.03.11.43
+ w20-20020a05600c475400b003f034c76e85sm2315703wmo.38.2023.03.30.03.11.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 03:11:44 -0700 (PDT)
+ Thu, 30 Mar 2023 03:11:47 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 161811FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 2ECA91FFC1;
  Thu, 30 Mar 2023 11:11:43 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -68,17 +69,17 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>
-Subject: [PATCH 10/11] gitlab: fix typo
-Date: Thu, 30 Mar 2023 11:11:40 +0100
-Message-Id: <20230330101141.30199-11-alex.bennee@linaro.org>
+Subject: [PATCH 11/11] tests/gitlab: use kaniko to build images
+Date: Thu, 30 Mar 2023 11:11:41 +0100
+Message-Id: <20230330101141.30199-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230330101141.30199-1-alex.bennee@linaro.org>
 References: <20230330101141.30199-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,22 +102,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .gitlab-ci.d/base.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Apparently the docker-in-docker approach has some flaws including
+needing privileged mode to run and being quite slow. An alternative
+approach is to use Google's kaniko tool. It also works across
+different gitlab executors.
 
-diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
-index 0274228de8..2fbb58d2a3 100644
---- a/.gitlab-ci.d/base.yml
-+++ b/.gitlab-ci.d/base.yml
-@@ -75,5 +75,5 @@
-     - if: '$QEMU_CI != "2" && $CI_PROJECT_NAMESPACE != "qemu-project"'
-       when: manual
- 
--    # Jobs can run if any jobs they depend on were successfull
-+    # Jobs can run if any jobs they depend on were successful
-     - when: on_success
+Following the gitlab example code we drop all the direct docker calls
+and usage of the script and make a direct call to kaniko and hope the
+images are cacheable by others.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20230224180857.1050220-8-alex.bennee@linaro.org>
+
+---
+v2
+  - add danpb's --cache suggestions
+---
+ .gitlab-ci.d/container-template.yml | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
+
+diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
+index 519b8a9482..cd8e0a1ff6 100644
+--- a/.gitlab-ci.d/container-template.yml
++++ b/.gitlab-ci.d/container-template.yml
+@@ -1,21 +1,19 @@
+ .container_job_template:
+   extends: .base_job_template
+-  image: docker:stable
++  image:
++    name: gcr.io/kaniko-project/executor:v1.9.0-debug
++    entrypoint: [""]
+   stage: containers
+-  services:
+-    - docker:dind
+   before_script:
+     - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+     - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
+-    - apk add python3
+-    - docker info
+-    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+   script:
+     - echo "TAG:$TAG"
+     - echo "COMMON_TAG:$COMMON_TAG"
+-    - docker build --tag "$TAG" --cache-from "$TAG" --cache-from "$COMMON_TAG"
+-      --build-arg BUILDKIT_INLINE_CACHE=1
+-      -f "tests/docker/dockerfiles/$NAME.docker" "."
+-    - docker push "$TAG"
+-  after_script:
+-    - docker logout
++    - /kaniko/executor
++          --reproducible
++          --context "${CI_PROJECT_DIR}"
++          --cache=true
++          --cache-repo "${COMMON_TAG}"
++          --dockerfile "${CI_PROJECT_DIR}/tests/docker/dockerfiles/$NAME.docker"
++          --destination "${TAG}"
 -- 
 2.39.2
 
