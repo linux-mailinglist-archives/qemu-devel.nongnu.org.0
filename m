@@ -2,76 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF6B6D0262
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A476D01BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 12:45:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phq0k-00005d-Em; Thu, 30 Mar 2023 07:00:06 -0400
+	id 1phpl7-0003RW-2J; Thu, 30 Mar 2023 06:43:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1phq0h-00005B-Vw
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:00:04 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1phq0f-0001Js-FL
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:00:03 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id d8so11050812pgm.3
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 04:00:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1680174000;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XTiCgZ7xSBFm3gWL4CSeBKzx5O3q/dH0zimA7KxwBQ8=;
- b=mRqOpGdLDWtckAwuGw70abAzbed5cUBaPXO3Of8Q5e+2TVBD26IGsT1p3zqoiLKrll
- Zxatj5/zKCZdkg+vCWHM4lutspzpcQIHyS0xw5X+ciprKCWI066B1WXtNYmwmqPJLBw7
- v41Usb2QZrSx7QrOMcoOAmAoqJzH9CIYAQ9TBj4WCv0PCKGaqR37IeEMa7/d3IPeNHFM
- IlNUcIRiS2i2/r0D7CykGiFiqASwu90Ir9iZ1Fj/fVQ1kOX0Py4MjyiIS5i74IPyXAkY
- R0qqEs5GOf0Gk0YuK5RvxWMbMy1rEyqS1Hu+yHg1+tj1hG39zLnXXW8IoVs3iQeVvmvz
- UYAw==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1phpl1-0003LJ-5E
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:43:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1phpkx-0006Go-Rc
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:43:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680173008;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v7QgJ0jSvjsrCjkBgEVI2JQir+CqZR7LSTn5B8iNC84=;
+ b=ftek/9wqmcDNPjSmzUhY4rZniQ+VpSVXmkAZhPRhlqr6J1H1dGdANOSnx5ahYmvyr0YnIC
+ NR0usDxuBY1Li1Q5/JaVJrjPwEo5sIoQSrMtFqcGGbriZrFddPZ4HopuNsVSU98EFtC20D
+ O76wZFGdmATJFAADa1toPCwuff/y+KM=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-327-yaIxU-RfMMenK91LvfzJKw-1; Thu, 30 Mar 2023 06:43:26 -0400
+X-MC-Unique: yaIxU-RfMMenK91LvfzJKw-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-54196bfcd5fso180703697b3.4
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 03:43:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680174000;
+ d=1e100.net; s=20210112; t=1680173006;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XTiCgZ7xSBFm3gWL4CSeBKzx5O3q/dH0zimA7KxwBQ8=;
- b=vXs8uXxujEDjO7Ix2zL/0kdOlgtld8uiAAWvH2a8q+xOHaKvD3FW2tLhToxWAXlIOZ
- MjHUxwM5CbtVghjVbuJXhtPK8MXoWTZFHkXU15f9MU03oxSwRy+o4o66cg3wBgP6Vi1x
- Ozp0rPQWecOUvVKJVbo82TJnhJ70HBm3SEof3iaj9irHcQSWw06nCbGdi4FqKZ+f1JLi
- m9r1ntfvu2hnVvHHN+lm7ULRfwNGvgMu4mEBJvREisNjpbl1jKRAPLlTLfO7JeDOZmko
- CFd7QPmStJUMDQKsTKaze5lCjiHEmFKm04Yyj3G+GtIukdFjssH5jmqiWX3551nu7byz
- xZaQ==
-X-Gm-Message-State: AAQBX9cwuxOG4bcqgNfT6xqq9HgvRsSxYFruKS8te8KnAl9XFws8o37N
- XrqK/Imt2D+nDxsckJmU0k0Dr8dzN4CShm4QPAe6ow==
-X-Google-Smtp-Source: AKy350YIVz94x2xZegDd8PMOpFPlNMqsOEwFiRcaRCyYznNNlz/fAbDF6+3Vp0Iu5SvvX0Z19Cf4rblVkYwYZQXM7Bw=
-X-Received: by 2002:a63:f46:0:b0:507:4697:392d with SMTP id
- 6-20020a630f46000000b005074697392dmr6284562pgp.7.1680173999749; Thu, 30 Mar
- 2023 03:59:59 -0700 (PDT)
+ bh=v7QgJ0jSvjsrCjkBgEVI2JQir+CqZR7LSTn5B8iNC84=;
+ b=TBW17iHubNM11H+oi/eLirtFJv+o9cnJyWNChTmi2AEnr1ZvGLbUT2+p3MB23hFTep
+ Ehqr7mIbZa+qfN8cAJkfCBOWEf3uWaXAAxfPJmkP/goqnkl7WE9Bnh7e/af3kxFC8+rh
+ Z4BiIT0rVGQEDdRtjEOPZMdha431RmvKrZwQN3Jdu40r/8uV8/Lr0gSuuoaPYpfbaxAY
+ 3dCOcF9wlRXRyglqWltiYKmAOKwgf3peFpg6IDFx0XcAJkghngyUiqmBD5yIeJd1cUCn
+ gghqSW77nJoI/l5rYCa3yOKOJatzsaxGl5TyYXpkjtkqU5x3IoK/WKfCQ6pA0VVIPQN7
+ cRaQ==
+X-Gm-Message-State: AAQBX9dUTf+k6x+RM9fYc1M/tG1g0NC/JT3Uj+UEw0xPUdGQv87FV0+S
+ yLEpDdmz1zskI1BMbolioUEqUHiQcHHpM5HeK0UkfEBPYcmhwjeRCpwTC6TZGP5jsf7u6e9wepT
+ XBwRvupU+5kyOj2YqIUhb3y5cTXzaTkw=
+X-Received: by 2002:a25:680e:0:b0:b78:3a15:e6fe with SMTP id
+ d14-20020a25680e000000b00b783a15e6femr10874142ybc.2.1680173006192; 
+ Thu, 30 Mar 2023 03:43:26 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bzokJjNS1mxp2NCgXqm7jy3lnI9Q0pxuKnypBxcbRs3yPD+7qup9O/h8QRJkGgEl2afdsczPmEailtqtuSy9g=
+X-Received: by 2002:a25:680e:0:b0:b78:3a15:e6fe with SMTP id
+ d14-20020a25680e000000b00b783a15e6femr10874121ybc.2.1680173005946; Thu, 30
+ Mar 2023 03:43:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230330001522.120774-1-andrew@daynix.com>
- <20230330001522.120774-5-andrew@daynix.com>
- <ZCVKqvw2i3xmQZWn@redhat.com>
-In-Reply-To: <ZCVKqvw2i3xmQZWn@redhat.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Thu, 30 Mar 2023 13:42:07 +0300
-Message-ID: <CABcq3pFTWFrbQ=WYNOiOBgr0-qX2U7mKqfk6VDF3A3LP00OW5w@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/5] qmp: Added new command to retrieve eBPF blob.
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: jasowang@redhat.com, mst@redhat.com, pbonzini@redhat.com, 
- marcandre.lureau@redhat.com, thuth@redhat.com, philmd@linaro.org, 
- armbru@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com, 
- mprivozn@redhat.com, yuri.benditovich@daynix.com, yan@daynix.com
+References: <20230323195404.1247326-1-eperezma@redhat.com>
+ <20230323195404.1247326-6-eperezma@redhat.com>
+ <CACGkMEu=8tx-5kDh5HRt2bHtL9W=cPODgUeOXXAyRxoOusW5jw@mail.gmail.com>
+ <CACGkMEtsc-73+U4ZojrO0J+anb1CdDjbm37i0HZY_fQmiFNNFA@mail.gmail.com>
+In-Reply-To: <CACGkMEtsc-73+U4ZojrO0J+anb1CdDjbm37i0HZY_fQmiFNNFA@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 30 Mar 2023 12:42:49 +0200
+Message-ID: <CAJaqyWeUxm9=Hup58gsBypQXJbeW2BTu3YpV7VDVOA2rXbtPWg@mail.gmail.com>
+Subject: Re: [PATCH for 8.1 v2 5/6] vdpa: move CVQ isolation check to
+ net_init_vhost_vdpa
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, alvaro.karsz@solid-run.com, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>,
+ si-wei.liu@oracle.com, 
+ Eli Cohen <eli@mellanox.com>, Shannon Nelson <snelson@pensando.io>, 
+ Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, Harpreet Singh Anand <hanand@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::52f;
- envelope-from=andrew@daynix.com; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,130 +105,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi all,
-
-On Thu, Mar 30, 2023 at 11:39=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@=
-redhat.com> wrote:
+On Thu, Mar 30, 2023 at 8:23=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
+ote:
 >
-> On Thu, Mar 30, 2023 at 03:15:21AM +0300, Andrew Melnychenko wrote:
-> > Added command "request-ebpf". This command returns
-> > eBPF program encoded base64. The program taken from the
-> > skeleton and essentially is an ELF object that can be
-> > loaded in the future with libbpf.
+> On Thu, Mar 30, 2023 at 2:20=E2=80=AFPM Jason Wang <jasowang@redhat.com> =
+wrote:
 > >
-> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> > ---
-> >  monitor/qmp-cmds.c | 17 +++++++++++++++++
-> >  qapi/misc.json     | 25 +++++++++++++++++++++++++
-> >  2 files changed, 42 insertions(+)
+> > On Fri, Mar 24, 2023 at 3:54=E2=80=AFAM Eugenio P=C3=A9rez <eperezma@re=
+dhat.com> wrote:
+> > >
+> > > Evaluating it at start time instead of initialization time may make t=
+he
+> > > guest capable of dynamically adding or removing migration blockers.
+> > >
+> > > Also, moving to initialization reduces the number of ioctls in the
+> > > migration, reducing failure possibilities.
+> > >
+> > > As a drawback we need to check for CVQ isolation twice: one time with=
+ no
+> > > MQ negotiated and another one acking it, as long as the device suppor=
+ts
+> > > it.  This is because Vring ASID / group management is based on vq
+> > > indexes, but we don't know the index of CVQ before negotiating MQ.
 > >
-> > diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> > index b0f948d337..8f2fc3e7ec 100644
-> > --- a/monitor/qmp-cmds.c
-> > +++ b/monitor/qmp-cmds.c
-> > @@ -32,6 +32,7 @@
-> >  #include "hw/mem/memory-device.h"
-> >  #include "hw/intc/intc.h"
-> >  #include "hw/rdma/rdma.h"
-> > +#include "ebpf/ebpf.h"
+> > We need to fail if we see a device that can isolate cvq without MQ but
+> > not with MQ.
 > >
-> >  NameInfo *qmp_query_name(Error **errp)
-> >  {
-> > @@ -209,3 +210,19 @@ static void __attribute__((__constructor__)) monit=
-or_init_qmp_commands(void)
-> >                           qmp_marshal_qmp_capabilities,
-> >                           QCO_ALLOW_PRECONFIG, 0);
-> >  }
-> > +
-> > +EbpfObject *qmp_request_ebpf(const char *id, Error **errp)
-> > +{
-> > +    EbpfObject *ret =3D NULL;
-> > +    size_t size =3D 0;
-> > +    const guchar *data =3D ebpf_find_binary_by_id(id, &size);
+> > >
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > ---
+> > > v2: Take out the reset of the device from vhost_vdpa_cvq_is_isolated
+> > > ---
+> > >  net/vhost-vdpa.c | 194 ++++++++++++++++++++++++++++++++++++---------=
+--
+> > >  1 file changed, 151 insertions(+), 43 deletions(-)
+> > >
+> > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > index 4397c0d4b3..db2c9afcb3 100644
+> > > --- a/net/vhost-vdpa.c
+> > > +++ b/net/vhost-vdpa.c
+> > > @@ -43,6 +43,13 @@ typedef struct VhostVDPAState {
+> > >
+> > >      /* The device always have SVQ enabled */
+> > >      bool always_svq;
+> > > +
+> > > +    /* The device can isolate CVQ in its own ASID if MQ is negotiate=
+d */
+> > > +    bool cvq_isolated_mq;
+> > > +
+> > > +    /* The device can isolate CVQ in its own ASID if MQ is not negot=
+iated */
+> > > +    bool cvq_isolated;
+> >
+> > As stated above, if we need a device that cvq_isolated_mq^cvq_isolated
+> > =3D=3D true, we need to fail. This may reduce the complexity of the cod=
+e?
+> >
+> > Thanks
 >
-> "const void *data"  I believe
+> Since we are the mediation layer, Qemu can alway choose to negotiate
+> MQ regardless whether or not it is supported by the guest. In this
+> way, we can have a stable virtqueue index for cvq.
 >
-> > +
-> > +    if (data) {
-> > +        ret =3D g_new0(EbpfObject, 1);
-> > +        ret->object =3D g_base64_encode(data, size);
-> > +    } else {
-> > +        error_setg(errp, "can't find eBPF object with id: %s", id);
->
-> I think I'm inclined to say that we should add an 'Error **errp'
-> parameter to ebpf_find_binary_by_id(), and make it responsible
-> for this error message, such that we get
 
-Ok, I'll add it.
+I think it is a great idea and it simplifies this patch somehow.
+However, we need something like the queue mapping [1] to do so :).
 
->
->    const void *data  ebpf_find_binary_by_id(id, &size, errp);
->    if (!data) {
->        return NULL;
->    }
->
->    ret =3D g_new0(EbpfObject, 1);
->    ret->object =3D g_base64_encode(data, size);
->    return ret;
->
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > diff --git a/qapi/misc.json b/qapi/misc.json
-> > index 6ddd16ea28..4689802460 100644
-> > --- a/qapi/misc.json
-> > +++ b/qapi/misc.json
-> > @@ -618,3 +618,28 @@
-> >  { 'event': 'VFU_CLIENT_HANGUP',
-> >    'data': { 'vfu-id': 'str', 'vfu-qom-path': 'str',
-> >              'dev-id': 'str', 'dev-qom-path': 'str' } }
-> > +
-> > +##
-> > +# @EbpfObject:
-> > +#
-> > +# Structure that holds eBPF ELF object encoded in base64.
->
-> Needs a 'Since' tag
+To double confirm:
+* If the device supports MQ, only probe MQ. If not, only probe !MQ.
+* Only store cvq_isolated in VhostVDPAState.
 
-Ah yes, thank you.
+Now, if the device does not negotiate MQ but the device supports MQ:
+* All the requests to queue 3 must be redirected to the last queue in
+the device. That includes set_vq_address, notifiers regions, etc.
 
->
-> > +##
-> > +{ 'struct': 'EbpfObject',
-> > +  'data': {'object': 'str'} }
-> > +
-> > +##
-> > +# @request-ebpf:
-> > +#
-> > +# Function returns eBPF object that can be loaded with libbpf.
-> > +# Management applications (g.e. libvirt) may load it and pass file
-> > +# descriptors to QEMU. Which allows running QEMU without BPF capabilit=
-ies.
-> > +#
-> > +# Returns: RSS eBPF object encoded in base64.
-> > +#
-> > +# Since: 7.3
->
-> We're about to release 8.0 and so the next will be 8.1
+I'm totally ok to go this route but it's not immediate.
 
-Thanks, I'll update it.
+Thanks!
 
->
-> > +#
-> > +##
-> > +{ 'command': 'request-ebpf',
-> > +  'data': { 'id': 'str' },
-> > +  'returns': 'EbpfObject' }
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+[1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg07157.html
+
 
