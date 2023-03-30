@@ -2,101 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2506D0C75
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 19:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9526D0C72
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 19:14:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phvqc-00044x-HS; Thu, 30 Mar 2023 13:14:02 -0400
+	id 1phvqj-00045z-33; Thu, 30 Mar 2023 13:14:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1phvqa-00044i-NB
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 13:14:00 -0400
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1phvqh-00045S-0w
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 13:14:07 -0400
 Received: from mail-sgaapc01olkn2082b.outbound.protection.outlook.com
  ([2a01:111:f400:feab::82b]
  helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1phvqY-0006kV-Gk
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 13:13:59 -0400
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1phvqa-0006kV-UG
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 13:14:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VHf9rO2UW3c57NmOzIpy7HpWTreNKUUeWNIgcHbzG+IlvrcEV51mCZuh3VbF739M3IqOiGGNr07uQA+B0qmL1IrvmBf+5p6tHT6sXBbFKtOGRdoG1ycwN9T99YQv6rSa7bFCFPmJ6HLbicUFXnTVbUEGEq64Irap5edyzlnqo7XWSCswoInWi3lLh/iKFTCuuBxd9fA0Zq8IHP9tHmlW2woVeF45yrlkI4tMbqs3DSKe+MxnY33SU7K/+raQfx1yUJNYuxxwlmvptgosXcCDndgexjrJrCMDB1BMIQISTeg7Frdwndc385pDJwbQO7wxx9eE3EF38NT8KMbSWA9RBw==
+ b=VwWX6cJGrh4MsOwme28nPYP3ij282TC7Ub7VWxh+fR5BC6HNWXCMigclkHSm4aglW0ccS+xVQIOXEwI73uJulqACuKsxsTHIQ3zO1CBM3lbUvnqdrl7MSZHerJk5DbBtV8JL4huJFBF2+fCOr+KCYY0eNKenTteP06cY+u3EpKFcMaF+tVljUI9mnjQnLO4f86uAQCKwCsQ8TkUxjVL/oFWMTHQnLkd7KZ1K8UDdFKZVL6IR7v8keJcNbw+NCn/azmoivF8S+4O+MyVncz3WL1bkNJfhUvhUEr+my9vQaFzwe38HkWzJSk2M5ggQfbB+9B9kX7dIcfOOLArlTXCuAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PiJsr9CPrbN55cMeg+aWTS6w64wRE8UZmMfkdXkbFkU=;
- b=T4Ns7eeIv6HIc8a0bj868J5ReXjkp+Q4cerg79W3J0GUdwBMrkRhDqgk35qAq5dESELiNvstc4JNB/KyvecIkOhKyePivcdxEz8U1wHKdTP4Q0ZCDC8o7l+FgMBzH9AwscPYt/j0bhYFN9SjMQEsKzx+e6FWE6ji1I8Xp78nSt9I2IQecp2+8Axvz0v0VRGNP3uAvvPcnm5IfNqRQlahN5AFE3DkMz9Lyt22OIUC8oGSkacp2XQOOsKbDfrMwE8w8drG4wJQ6VstJujQvZfgtTm6wo4npdhYu9d9zhJlW73d7M0XiuXWPvCgPEkTxjJICBXLITXHxzAl2WDHRnqfpg==
+ bh=MDHqcmQRPGkUdd5Ety8ynIkDpC4OBcxd3mYN7rx0y9U=;
+ b=XwhsomZi3tuQg9Smi44wJSAbFetSODPmO+Mm30Ald84oxxTOR1HQMK5QIKWcxpvs+PnCKKinbpKThLixlrw0ECygmddEKsvr4A6YSPXO95N2jkc8MudXOWsFZHkstovIHjVXynnI5xo5tWJoYNdhar34XkbTMreiwiYeTp+Z44VlOtSMX7rA/4vaQfnWyIOsJzOrjt6aWn6xK5E//CppWqIMRa3MOk5bYLp1wGy8H+IBZMwecmPop6vg+PPw4YaYlZNEKxHLiOUc0eeKxjll/njSwUSLbkhuAuZ2nZPknsNk8UNhtjEeoAxeR7lxAc0T5kucWsI6SCr1h5goe28i0w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
  by TY0PR06MB5331.apcprd06.prod.outlook.com (2603:1096:400:214::5)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.33; Thu, 30 Mar
- 2023 17:13:52 +0000
+ 2023 17:13:53 +0000
 Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
  ([fe80::1c39:fb04:b3c2:5a26]) by TYZPR06MB5418.apcprd06.prod.outlook.com
  ([fe80::1c39:fb04:b3c2:5a26%2]) with mapi id 15.20.6222.034; Thu, 30 Mar 2023
- 17:13:52 +0000
+ 17:13:53 +0000
 From: Yohei Kojima <y-koj@outlook.jp>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Yohei Kojima <y-koj@outlook.jp>, Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH v3 2/4] linux-user: replace strerror() function to the thread
- safe qemu_strerror()
-Date: Fri, 31 Mar 2023 02:13:20 +0900
-Message-ID: <TYZPR06MB54189ECF0D8E61A27274B7CE9D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+ Yohei Kojima <y-koj@outlook.jp>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ kvm@vger.kernel.org (open list:Overall KVM CPUs)
+Subject: [PATCH v3 3/4] accel: replace strerror() function to the thread safe
+ qemu_strerror()
+Date: Fri, 31 Mar 2023 02:13:21 +0900
+Message-ID: <TYZPR06MB54184091F777130BFE71A8E99D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
 References: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TMN: [VpntekuQoZnCvNyIzfe0fkI/t9Gu42ZzdxCvMZue9n4WrmWxlHn7d79w22JU1BJK]
+Content-Type: text/plain
+X-TMN: [vH8xj3oNC7xQ1H5dSxnWevjpAJ1zD1NOwxm3XHHcetexZkovbrXZN4/c4I9uAZ9Y]
 X-ClientProxiedBy: TYCP286CA0133.JPNP286.PROD.OUTLOOK.COM
  (2603:1096:400:2b6::20) To TYZPR06MB5418.apcprd06.prod.outlook.com
  (2603:1096:400:202::7)
-X-Microsoft-Original-Message-ID: <5c57a76488a9a5607fdbdd750e29478903d98df7.1680195348.git.y-koj@outlook.jp>
+X-Microsoft-Original-Message-ID: <62bcf6eee9f60dfad0c6fd878e350ee941b4baea.1680195348.git.y-koj@outlook.jp>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|TY0PR06MB5331:EE_
-X-MS-Office365-Filtering-Correlation-Id: f245b35c-a928-4489-3288-08db314222df
+X-MS-Office365-Filtering-Correlation-Id: 0db8d1f7-076f-43ec-7f01-08db3142230c
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XDuGBUGhqeClUvPbGNmHcBxxnl5A0Vbnzg3vQKufnXtY02QmpIoWV9gTyXUPqBzQW+Mi4zzhmpF3lkZZEZXao8n4rR82w2dMijdUr9yW3H28LV8fPPCu2D/t/gY9BvigiXYsyvbL6chdFMViwKnK7bTIc3rJe0pLfApfcO4ffKskvlyaB1s4M17jrgmkPSRaReFhU/AAqNkjyT+8OkKNZukDRD31iy9NY6LlCTRZ2nOg27mPBoi09WgMHt4a7BZdscTlLLB9qe5ZYrLJCjwFwsSYhQOJK/qoMGmaIfD2a7sL+17yRUemyZrRKvMMIS0xS1dKtbW3+D80zvjiJQiqo+yrU4Zj9znG73jQYsgIE+pH0DU5H+/lfojE6Upiyz/ktDaErE3QVSVVU6JcKGAkkeb9kCndbsru41nvkDXBJtuU12nYJkN7GsrdfaCxNVINk2s6Ny1QvxgR86YGZeC5KmDF0eBJC/It6XGz5NdYw+34pFpcpJoc2kGel9IOZYM9RDxaYIcdo3Cwnu8XkO4KCzzqI89HY8E7HWoVriiP6ky/Wav75R6Dosmdvd6duGZKRNXAXUpNi6RCFm0W0mZboBIp6nopDLc5s5DtCEX/6sM=
+X-Microsoft-Antispam-Message-Info: ZVJInF9G7VtDIjsZZJkngPjrvHkSS8X686rn4jhlLv2iOOQ/cGPduB6ZE97fQAnHStNwm8jcWhqt6HRmhAxLrIEP0AAedvZUhWLMbJWe3MmagEBVC6Rzt8cyJGk1+1yIHAx3AaWEz8fiIOW2FduL1dt2XHwRJX35tv+ME9hO29f0soGZqxpU01/FFWsMVlIbyfCyuq8kIb4ckykO/a3QloFzVkq3mmXBATT5l+LUKAFghHet1PedSShOuL5SNVoXdiYZCjzY38X1GxD/iARrEQKKBLBeEreUeBeKLK9BObVy9Z9f9lzjgtQGJo+wXdY57/47cCvs6H3Usf5Eh4fxHWBk1TfeZi7YWZmmop4ycCbfjZ6n8SAgBMH/Ud+4qtKwlElpjiF6Tu5MIvknEX3dPLO16180nKLGHwETirJeNFUzi+awmw+nMRRJuz97kVbFj3UxnMAIP9AQX8gyXyBGP/AWYLti+p+sy+poEPgyK7z6b4an7ppAsW2rsZ7zLC3ULoSQerUX3M5iT0m3ArHvLiGFYJGAUlku6fIl1UYqwzaLOdVHKNkKCvqE8YgE3B8NvwHuOUeeUKgjqudnZH/vZHjPHHJoorfgs3pOuj789ms=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SklWZ0JNVERjQTZRQS8vU21qSDZud2tFbHhrbmJueksvRHZXWS9teHRmNEEw?=
- =?utf-8?B?bGZRRGV1bjJoWDYxZVFnb3BrQWFTOTlBNjRlcllkMVRRbjViY0pGcDVGOStt?=
- =?utf-8?B?dHNtd3NVQW5xZ3lsSWxtNTNmZGQ2TS93THhWRUR0SU02UGdWaTBoWG9WNDNS?=
- =?utf-8?B?VzdJY1R2VkprYnNPVUNyci9PM0ZYSEZTUkVvVkdLTXAwa2UwMVJhZHkrWHpo?=
- =?utf-8?B?NnlYMXhOTGpkR1doTVJ1T0ZxclRuUy8rbjdPL005T0ZMRW9qbG9JOHBabHhw?=
- =?utf-8?B?V0l5Q053VE4vWU1IakxhcjBLMFBBeTIrNlZtQ2VKdXFVcVBxUkRrSnViajgy?=
- =?utf-8?B?enozNkFvYWd2Z0hQajcwQURla3RySExiREljRWpaTjNldnYxWUhzbmpldzE0?=
- =?utf-8?B?OW11Y0FtSytuY09sY1hya096SXdFQVlpRjRoc0R4R0sxdmpXcncvVGpXMXFY?=
- =?utf-8?B?NDlxd0RuU3BlWEhNSlY0eTh0S2tTRXJYN3h1ekFLZ0U4NEJHQXVxaU5nVUtS?=
- =?utf-8?B?ejAwTVZzd1o4SUFvQm9Nc3NXMGFUZUo4aGlURjQzZFRicmNSR2k2bGZxV1JF?=
- =?utf-8?B?TERaSmJlWGpQSnBpaitjTURha3JLK29ZRXVHbGZlZDhyTUtiWjZGWGo4L1lu?=
- =?utf-8?B?TFNBWGhtcldLNDNFNS9EaWY0V3B4cEZpMGh2WkMzd215Wlp2aVhpQTNIZmdm?=
- =?utf-8?B?RzlPOG43S0EzNENzTzdiVDMyb29mN1BvZWwwUlJaWWxLeUNIMkxWMytCeDVt?=
- =?utf-8?B?c2lSL1hpYk12YXErSDBiNk9EQnZEVG9iTmVqQS9NUEhETmF1Sndtb2RpeXph?=
- =?utf-8?B?WlpkTDJ2TmJjN1paamcvbkd2bWFYUndCVjVlM21vQlpHMlQveEtzU213eTk3?=
- =?utf-8?B?MEQ1a2pZOFZORnBQYXVqZXFYVDJXVWtuTUVHVDhUNUk3TGRSbmsyRGhjTU95?=
- =?utf-8?B?UTF0WnNkcXBVenFsV1RlQllsZ1RVUU5Tdmczb0p0Nkhsb0tGV2FQZVF2Qkdx?=
- =?utf-8?B?T09ZekNucENJMjRuaHNYWUpyZ0xnREJHbnQ4d2Y2VGU1blJYUXlXN3dOR1Jh?=
- =?utf-8?B?UnNxRFZSL3ZWekJZTWJ3dUN0WGM5cGE3WHZZWHZ0ZllPdm1QREQrbGpOMThO?=
- =?utf-8?B?R0J3MXpncGNxNVhmOHFMUGIra1R4bGl2dFRiYzJUNEV1c2NJc0RoWThVWWdV?=
- =?utf-8?B?aXhrcnhxenRGc2JERG1PR2FsV2pPanYwcE05UUIwRUtoR2lQUXNBdVNxRWlo?=
- =?utf-8?B?azRHZ0RVQlJQaGRhV09RSDdzNU9VNFJjTUptSnBKb01CYnFIbGJxMjd0RzFP?=
- =?utf-8?B?eWpIRE9PVk9ENjE3V3JRNHgrMW1kTEE4Y3pIb3U1M1J2RS9VN0l1Z3ZPMTd4?=
- =?utf-8?B?YXBEUUgvR00wdi9TVGtTYnZaeksyL2RlTzg4SCt6WEFTdzIzeGNnSEEzc1lC?=
- =?utf-8?B?SmNjVFpqbDR5TXpUeFhXYnJBMS9qTm5YMGM0T3pHc21XVDY4eUlPbXh6Nmh4?=
- =?utf-8?B?Wk41NEhEK0d0Z0hIMFFwMW42VGl1ZFc3Z1FMdTV3UDBBaElnMDd4dGdSTFZU?=
- =?utf-8?B?Z1hKaVc5ZzNaYkp2enpzVHZKNldIVm1kMVFQMFJxamVvMnRRbVBVcjRiOUlv?=
- =?utf-8?B?R3BhNHlRNDl1SUVsTjFUeWVGajhSYUU4YkFlOVBVVklTcmVTVFlIa1hFOUhW?=
- =?utf-8?B?c0ZEM09FRGRIYWNIUVI0MU5BNlNPN2VUQWQzRWM2ajZEeGh3OHA3L0dRPT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5G3ns7+z71PqnY00gAp4d3FH3vJwbXlEiYZnOTp5gyS+qkmNdWtXWc32pvye?=
+ =?us-ascii?Q?UtdWBB88cYDmUDnRXO8fJanq5gyoQU2kWIH+Jy+tg1CihkEA/gSmZfEzwNwx?=
+ =?us-ascii?Q?Wo4GXdtzfxM2yyZxbSFvqJJKDpHXx7jDibyHuSM71Fgxxae3P6jU8qoJ/0MN?=
+ =?us-ascii?Q?h8UJNFam3cjZdmZ6Ngwlu7AbrPqieTsmbztJPXogOvLpE7gYMiVSJeQTDdpH?=
+ =?us-ascii?Q?PQoWjFhvUg8ElOKwZRp7mItN9hjXjvK4WXvDKFkLFgrqCs7eXODmBBASfSL1?=
+ =?us-ascii?Q?46NTjbSdfHJT9zv2/8oce+KGIGBGoNP3HjXV8O3mmL6cgniBYl0HuyFA64Vy?=
+ =?us-ascii?Q?i8rkJkfWfDDh/hkPS0gOjF3ZNNg50AOIgM6J6Wgkl/Hbknr8HkcI+FBOqfqM?=
+ =?us-ascii?Q?jFI4GgKoAuZOOKkzX9rgYcYgq5t4Z/v+Y/S1tqNctiEOthhMDzuCvvxKq7AO?=
+ =?us-ascii?Q?4kcz3Jp/0E2xbNi8xMXNmcSc2/4JZvfIbSW/sqSoTARGjztrn+lTH8MbGstg?=
+ =?us-ascii?Q?BKB5qfWJsMGqeqbcIvWMqYPRLi0s8lgE1+aJemz9crzz7kcc1e08GKPZflDN?=
+ =?us-ascii?Q?mRGaQJn37Zeurw9K99iwB8+cHblUvbYTchWEdsXOx6KJ2yAgAMire1P3lkUf?=
+ =?us-ascii?Q?Jne+ijmzGK82OzNS843KmnuusJwoA9m3zSBAxDDDCZYFiZBYwafwhoutm5Bm?=
+ =?us-ascii?Q?2JCWP1O7lQQfkks59aWiNmCAS0RKNW4hwGEh7jIW+uGAMyyTgGDk3qUpPRJi?=
+ =?us-ascii?Q?S4jrvY5RdhMrJQ45B3LSJjcz2dzkm1oSurUrlw46UAhNgIsKeNR4QAQZ3RTl?=
+ =?us-ascii?Q?Njq+yrG453b2bBpjvecV39o4nKpatE/zUSSZNsNRRnvJdxTnCgDbdk6jAciY?=
+ =?us-ascii?Q?R0bIJSOz751jOlNP83YfHWNNAESSxjvIjZWiaGAPYTBhF6TQXrWcDj9Ezk7K?=
+ =?us-ascii?Q?owYQwvwXdp8FxjibBPfQOcx5MO54gkMVswWo2l2lPhy2hVkAxdEaDpLbcKGs?=
+ =?us-ascii?Q?phyNfVehz/qN+lLIOb9EoQWcbR4Gh++M9CgkkuLjPqY/eUyuwbFqoIRleKZK?=
+ =?us-ascii?Q?mYi/QlOtdNRZVOD90bqX3aDZs4ycrJ3gXYIDknkr3voeODVKKhfe4E0imSFM?=
+ =?us-ascii?Q?cjflmRZqd9KafGwLncEHDIKdRla1FvZp9LPAYzndnreuZACM5P/lYK+HsEKd?=
+ =?us-ascii?Q?TeD6xaz4ZEZlOMVko1zCTCdhEK2nLdA/Jub/7CJLopi1Nxry9LU0Y+Wqzwos?=
+ =?us-ascii?Q?IQdYEs8AlTeaBWqHf7jInfSo9gs1+pyZz33lomvNWw=3D=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: f245b35c-a928-4489-3288-08db314222df
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0db8d1f7-076f-43ec-7f01-08db3142230c
 X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2023 17:13:52.6953 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2023 17:13:52.9980 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
@@ -127,84 +122,217 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 strerror() is not guaranteed to be thread-safe as described in
 (https://gitlab.com/qemu-project/qemu/-/issues/416).
 
-This commit changes files under /linux-user that call strerror() to call
+This commit changes files under /accel that call strerror() to call
 the safer qemu_strerror().
 
 Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- linux-user/elfload.c | 6 ++++--
- linux-user/main.c    | 5 +++--
- linux-user/syscall.c | 2 +-
- 3 files changed, 8 insertions(+), 5 deletions(-)
+ accel/kvm/kvm-all.c | 32 ++++++++++++++++++--------------
+ accel/tcg/cputlb.c  |  3 ++-
+ accel/tcg/perf.c    |  7 ++++---
+ 3 files changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index b96b3e566b..0fde7de735 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -17,6 +17,7 @@
- #include "qemu/guest-random.h"
- #include "qemu/units.h"
- #include "qemu/selfmap.h"
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index f2a6ea6a68..b3dc7743db 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -22,6 +22,7 @@
+ #include "qemu/atomic.h"
+ #include "qemu/option.h"
+ #include "qemu/config-file.h"
 +#include "qemu/cutils.h"
- #include "qapi/error.h"
  #include "qemu/error-report.h"
- #include "target_signal.h"
-@@ -2790,7 +2791,8 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
-         error_report("Unable to reserve 0x%lx bytes of virtual address "
-                      "space at %p (%s) for use as guest address space (check your "
-                      "virtual memory ulimit setting, min_mmap_addr or reserve less "
--                     "using -R option)", reserved_va + 1, test, strerror(errno));
-+                     "using -R option)", reserved_va + 1, test,
-+                     qemu_strerror(errno));
-         exit(EXIT_FAILURE);
+ #include "qapi/error.h"
+ #include "hw/pci/msi.h"
+@@ -315,7 +316,7 @@ err:
+         error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
+                      " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
+                      __func__, mem.slot, slot->start_addr,
+-                     (uint64_t)mem.memory_size, strerror(errno));
++                     (uint64_t)mem.memory_size, qemu_strerror(errno));
      }
- 
-@@ -3583,7 +3585,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
-     g_free(scratch);
- 
-     if (!bprm->p) {
--        fprintf(stderr, "%s: %s\n", bprm->filename, strerror(E2BIG));
-+        fprintf(stderr, "%s: %s\n", bprm->filename, qemu_strerror(E2BIG));
-         exit(-1);
+     return ret;
+ }
+@@ -1366,7 +1367,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+             err = kvm_set_user_memory_region(kml, mem, false);
+             if (err) {
+                 fprintf(stderr, "%s: error unregistering slot: %s\n",
+-                        __func__, strerror(-err));
++                        __func__, qemu_strerror(-err));
+                 abort();
+             }
+             start_addr += slot_size;
+@@ -1389,7 +1390,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+         err = kvm_set_user_memory_region(kml, mem, true);
+         if (err) {
+             fprintf(stderr, "%s: error registering slot: %s\n", __func__,
+-                    strerror(-err));
++                    qemu_strerror(-err));
+             abort();
+         }
+         start_addr += slot_size;
+@@ -1613,7 +1614,7 @@ static void kvm_mem_ioeventfd_add(MemoryListener *listener,
+                                match_data);
+     if (r < 0) {
+         fprintf(stderr, "%s: error adding ioeventfd: %s (%d)\n",
+-                __func__, strerror(-r), -r);
++                __func__, qemu_strerror(-r), -r);
+         abort();
      }
- 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index fe03293516..953b8ede65 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -746,7 +746,8 @@ int main(int argc, char **argv, char **envp)
-     if (execfd == 0) {
-         execfd = open(exec_path, O_RDONLY);
-         if (execfd < 0) {
--            printf("Error while loading %s: %s\n", exec_path, strerror(errno));
-+            printf("Error while loading %s: %s\n", exec_path,
-+                   qemu_strerror(errno));
-             _exit(EXIT_FAILURE);
+ }
+@@ -1649,7 +1650,7 @@ static void kvm_io_ioeventfd_add(MemoryListener *listener,
+                               match_data);
+     if (r < 0) {
+         fprintf(stderr, "%s: error adding ioeventfd: %s (%d)\n",
+-                __func__, strerror(-r), -r);
++                __func__, qemu_strerror(-r), -r);
+         abort();
+     }
+ }
+@@ -1668,7 +1669,7 @@ static void kvm_io_ioeventfd_del(MemoryListener *listener,
+                               match_data);
+     if (r < 0) {
+         fprintf(stderr, "%s: error deleting ioeventfd: %s (%d)\n",
+-                __func__, strerror(-r), -r);
++                __func__, qemu_strerror(-r), -r);
+         abort();
+     }
+ }
+@@ -2278,7 +2279,8 @@ static void kvm_irqchip_create(KVMState *s)
+     } else if (kvm_check_extension(s, KVM_CAP_S390_IRQCHIP)) {
+         ret = kvm_vm_enable_cap(s, KVM_CAP_S390_IRQCHIP, 0);
+         if (ret < 0) {
+-            fprintf(stderr, "Enable kernel irqchip failed: %s\n", strerror(-ret));
++            fprintf(stderr, "Enable kernel irqchip failed: %s\n",
++                    qemu_strerror(-ret));
+             exit(1);
+         }
+     } else {
+@@ -2297,7 +2299,8 @@ static void kvm_irqchip_create(KVMState *s)
          }
      }
-@@ -892,7 +893,7 @@ int main(int argc, char **argv, char **envp)
-     ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
-         info, &bprm);
-     if (ret != 0) {
--        printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
-+        printf("Error while loading %s: %s\n", exec_path, qemu_strerror(-ret));
-         _exit(EXIT_FAILURE);
+     if (ret < 0) {
+-        fprintf(stderr, "Create kernel irqchip failed: %s\n", strerror(-ret));
++        fprintf(stderr, "Create kernel irqchip failed: %s\n",
++                qemu_strerror(-ret));
+         exit(1);
      }
  
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 69f740ff98..f6b4fe8059 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -581,7 +581,7 @@ const char *target_strerror(int err)
-         return "Successful exit from sigreturn";
-     }
+@@ -2446,7 +2449,7 @@ static int kvm_init(MachineState *ms)
  
--    return strerror(target_to_host_errno(err));
-+    return qemu_strerror(target_to_host_errno(err));
+     if (ret < 0) {
+         fprintf(stderr, "ioctl(KVM_CREATE_VM) failed: %d %s\n", -ret,
+-                strerror(-ret));
++                qemu_strerror(-ret));
+ 
+ #ifdef TARGET_S390X
+         if (ret == -EINVAL) {
+@@ -2532,7 +2535,8 @@ static int kvm_init(MachineState *ms)
+             ret = kvm_vm_enable_cap(s, KVM_CAP_DIRTY_LOG_RING, 0, ring_bytes);
+             if (ret) {
+                 error_report("Enabling of KVM dirty ring failed: %s. "
+-                             "Suggested minimum value is 1024.", strerror(-ret));
++                             "Suggested minimum value is 1024.",
++                             qemu_strerror(-ret));
+                 goto err;
+             }
+ 
+@@ -2949,7 +2953,7 @@ int kvm_cpu_exec(CPUState *cpu)
+                 break;
+             }
+             fprintf(stderr, "error: kvm run failed %s\n",
+-                    strerror(-run_ret));
++                    qemu_strerror(-run_ret));
+ #ifdef TARGET_PPC
+             if (run_ret == -EBUSY) {
+                 fprintf(stderr,
+@@ -3455,7 +3459,7 @@ void kvm_init_cpu_signals(CPUState *cpu)
+         r = kvm_set_signal_mask(cpu, &set);
+     }
+     if (r) {
+-        fprintf(stderr, "kvm_set_signal_mask: %s\n", strerror(-r));
++        fprintf(stderr, "kvm_set_signal_mask: %s\n", qemu_strerror(-r));
+         exit(1);
+     }
+ }
+@@ -3538,7 +3542,7 @@ int kvm_set_one_reg(CPUState *cs, uint64_t id, void *source)
+     reg.addr = (uintptr_t) source;
+     r = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+     if (r) {
+-        trace_kvm_failed_reg_set(id, strerror(-r));
++        trace_kvm_failed_reg_set(id, qemu_strerror(-r));
+     }
+     return r;
+ }
+@@ -3552,7 +3556,7 @@ int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target)
+     reg.addr = (uintptr_t) target;
+     r = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+     if (r) {
+-        trace_kvm_failed_reg_get(id, strerror(-r));
++        trace_kvm_failed_reg_get(id, qemu_strerror(-r));
+     }
+     return r;
+ }
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index e984a98dc4..6cf888cdf1 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -40,6 +40,7 @@
+ #include "qemu/plugin-memory.h"
+ #endif
+ #include "tcg/tcg-ldst.h"
++#include "qemu/cutils.h"
+ 
+ /* DEBUG defines, enable DEBUG_TLB_LOG to log to the CPU_LOG_MMU target */
+ /* #define DEBUG_TLB */
+@@ -215,7 +216,7 @@ static void tlb_mmu_resize_locked(CPUTLBDesc *desc, CPUTLBDescFast *fast,
+      */
+     while (fast->table == NULL || desc->fulltlb == NULL) {
+         if (new_size == (1 << CPU_TLB_DYN_MIN_BITS)) {
+-            error_report("%s: %s", __func__, strerror(errno));
++            error_report("%s: %s", __func__, qemu_strerror(errno));
+             abort();
+         }
+         new_size = MAX(new_size >> 1, 1 << CPU_TLB_DYN_MIN_BITS);
+diff --git a/accel/tcg/perf.c b/accel/tcg/perf.c
+index 65e35ea3b9..0c7a3a8822 100644
+--- a/accel/tcg/perf.c
++++ b/accel/tcg/perf.c
+@@ -13,6 +13,7 @@
+ #include "exec/exec-all.h"
+ #include "qemu/timer.h"
+ #include "tcg/tcg.h"
++#include "qemu/cutils.h"
+ 
+ #include "debuginfo.h"
+ #include "perf.h"
+@@ -54,7 +55,7 @@ void perf_enable_perfmap(void)
+     perfmap = safe_fopen_w(map_file);
+     if (perfmap == NULL) {
+         warn_report("Could not open %s: %s, proceeding without perfmap",
+-                    map_file, strerror(errno));
++                    map_file, qemu_strerror(errno));
+     }
  }
  
- static int check_zeroed_user(abi_long addr, size_t ksize, size_t usize)
+@@ -201,7 +202,7 @@ void perf_enable_jitdump(void)
+     jitdump = safe_fopen_w(jitdump_file);
+     if (jitdump == NULL) {
+         warn_report("Could not open %s: %s, proceeding without jitdump",
+-                    jitdump_file, strerror(errno));
++                    jitdump_file, qemu_strerror(errno));
+         return;
+     }
+ 
+@@ -214,7 +215,7 @@ void perf_enable_jitdump(void)
+                        MAP_PRIVATE, fileno(jitdump), 0);
+     if (perf_marker == MAP_FAILED) {
+         warn_report("Could not map %s: %s, proceeding without jitdump",
+-                    jitdump_file, strerror(errno));
++                    jitdump_file, qemu_strerror(errno));
+         fclose(jitdump);
+         jitdump = NULL;
+         return;
 -- 
 2.39.2
 
