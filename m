@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C406D079D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 16:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA4D6D07B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 16:08:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phsuj-0001Sq-Lv; Thu, 30 Mar 2023 10:06:05 -0400
+	id 1phswn-0002yt-CW; Thu, 30 Mar 2023 10:08:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phsuf-0001Sh-Rl
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:06:02 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ id 1phswl-0002yX-Ff
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:08:11 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phsue-0008OE-0K
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:06:01 -0400
-Received: by mail-wr1-x434.google.com with SMTP id y14so19226475wrq.4
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 07:05:59 -0700 (PDT)
+ id 1phswj-0000M0-Bi
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:08:10 -0400
+Received: by mail-wr1-x433.google.com with SMTP id y14so19234745wrq.4
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 07:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680185158;
+ d=linaro.org; s=google; t=1680185288;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jWtgT6rvpfmwwbOmgWn/47elUZECVGrm7udM7vX5Azk=;
- b=oxUlUVYovLPv7lg3EEJNI7wrSHyr1CxlcgnWXZ/HB4+qqjGAq1GDyybH2gsliHjrIn
- h7TCP0UJxV1O5mNfhosqZR0031XvA1kAXoMrR2WhQV9eFWktvCVh8ARO/R6eAjZUM97+
- 8SYKuXUI5lj2phbjVcZl6BwkNFJLHfCw2af10EH2oeqEXYx63GsgSogPiudYYOoHphPo
- +dCDk2HZSrN5y7Xo0JPhgQMa+Sbce208LMyAeZfx/8fSp8Zm5G0AYmu4cu7xd0lzBxGB
- NsN/GW/YzDIxrVL3LxkpU8r7tqGg0lmFqfXwnmq6tI0Vaz4O/mldXMLfDBQB/UUvPwHH
- x5EA==
+ bh=dNHgDuFFsclcKKH94sh6PeVTsWMwhN/Ayyat+jK4bUE=;
+ b=SVUfH0/6mzWY1rdxjql2wzcbly5f4rW6mptHg8+Y0OGHsP+9h8W2lqXiZWNpG0zp9v
+ biXFMlAE4XsFdO1UJ3J5jZ5FHBZWhdcYLPrCSo/MvF0QrF5aQrXuYRvsKymrAU6UGdRs
+ 8O8hr48OUeCgtXNCmu4rtDbIL+6i9EdSZ5VwkwaaLkYXUBmeAh6lpkMxmNpGFnPX0ALt
+ OKNCGZb+y1FGj/W0fmydYiG0dQwzP9J/AU2lUj+Ogkw6caqRblgcuWM9j5D/JWMs+Qrx
+ O8BALXm6qGthch9jhIMXhYk8+2KShQrBPv2b5EANV8uN4eawrMZL+z4XvqyfJboXUyYt
+ nbWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680185158;
+ d=1e100.net; s=20210112; t=1680185288;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=jWtgT6rvpfmwwbOmgWn/47elUZECVGrm7udM7vX5Azk=;
- b=RH1cH89Dv5Q0vUVQt6FGs2gwFboYcBIGu4j6ZECrV8tFvbYI6DCJCrVFa627RcajTG
- M/MTalvDnwuCjkqAcKy1eJkt8mTEXvYvolglZ1+u5jlWgOd/JhM/0LfRR1uORmRDxRox
- s/5r/H+D+DtW5wIPeo+pUcw6Lk5pi7Fe61flV15ss3N0DYKAgVWHMQEgoSKr3gRfGuQx
- fx677dJ+7qfBsP9E95kAJfhsw/mKqF1opzHc/CEpWfXrzjRgncObSMA19WVTdnNNiTVK
- 14LQAEJdejLrdE4cO6rNM7N9fEepYWg0vJ6qfOcFYTb/dYhN1T6X7AC7ESDz8GuOJlRN
- clTg==
-X-Gm-Message-State: AAQBX9eCUDDoNy1aONi3tzzaBjK/+/mRuKP7LWirf3j9dAkz7su51sqo
- xUMsF5H+bPQQOGPLynQPfGNbFt8SywrJ7bDNfYM=
-X-Google-Smtp-Source: AKy350bQo95OvQwInZOqDuZs2sWbZcGrAoW51Ap+xjf9mwTKFdGZ1kwQ4998xtxTlDMCO5uk/trQYQ==
-X-Received: by 2002:adf:f345:0:b0:2d4:d898:75e5 with SMTP id
- e5-20020adff345000000b002d4d89875e5mr4845001wrp.32.1680185157842; 
- Thu, 30 Mar 2023 07:05:57 -0700 (PDT)
+ bh=dNHgDuFFsclcKKH94sh6PeVTsWMwhN/Ayyat+jK4bUE=;
+ b=oSlxrwj5U4tRy4fgCLu/jJUGoXRXw/7rI/fPBeVOOioAWxLn/vHZs4nNnjm5nbErHX
+ g8cwCHjMc/wBWmhLzpkWHI5q0Ko85kBje3m4is0c6bS8ucoxEMLpDU1necJVTHDd+NHo
+ /i29sqMHVZVKXOy4Ok67AvHyKuEMyu6YN14IY19h5O6bsxFeVSWH4ga3GbY/myWDr6BH
+ 6aWGNCcxPkzFvIZci+71gyAgMgNnoy3R6pMJSm1jjs+5Hxt1w87uXjl2orEE/9Syu3r0
+ z8OBJSQde2BH4D/tzYkPuIlkdGOKh+gHvLN40ZTeKNtAWgOLdw0+Qfqf0YbUC7VxN00l
+ AqDw==
+X-Gm-Message-State: AAQBX9fJ8n5XZGmN2qgw4y0ACfOndbaqpAghuzogvw8scPmTMcuQTisc
+ 0Ss7jgY8UMpYtz2uWuIsYv6+ufZeAGJlO+KSxdk=
+X-Google-Smtp-Source: AKy350YCd+y6oV50H4vxwHGLznqaAGQ97OEa6aKSRW2ohxXzUV/ZIRcM9uxCKduafBzXotQevgG53Q==
+X-Received: by 2002:a5d:62c8:0:b0:2db:43ed:1baa with SMTP id
+ o8-20020a5d62c8000000b002db43ed1baamr17616497wrv.24.1680185287695; 
+ Thu, 30 Mar 2023 07:08:07 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- n12-20020a5d484c000000b002c59f18674asm33075018wrs.22.2023.03.30.07.05.57
+ r10-20020adfce8a000000b002cefcac0c62sm33295955wrn.9.2023.03.30.07.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 07:05:57 -0700 (PDT)
+ Thu, 30 Mar 2023 07:08:07 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 023DA1FFB7;
- Thu, 30 Mar 2023 15:05:57 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 139CA1FFB7;
+ Thu, 30 Mar 2023 15:08:07 +0100 (BST)
 References: <cover.1678770219.git.y-koj@outlook.jp>
  <TYZPR06MB5418B64D371016CCEDE577419DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
 User-agent: mu4e 1.10.0; emacs 29.0.60
@@ -66,14 +66,14 @@ To: TYZPR06MB5418216269D0ED2EB37D6FF49DBE9@TYZPR06MB5418.apcprd06.prod.outlook.c
 Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Laurent Vivier
  <laurent@vivier.eu>, Yohei Kojima <y-koj@outlook.jp>, qemu-devel@nongnu.org
 Subject: Re: [RFC PATCH v2 1/2] util: Add thread-safe qemu_strerror() function
-Date: Thu, 30 Mar 2023 15:04:49 +0100
+Date: Thu, 30 Mar 2023 15:06:02 +0100
 In-reply-to: <TYZPR06MB5418B64D371016CCEDE577419DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Message-ID: <87ileinxkr.fsf@linaro.org>
+Message-ID: <87edp6nxh4.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,13 +105,6 @@ Yohei Kojima <y-koj@outlook.jp> writes:
 >
 > This function is added to solve the following issue:
 > https://gitlab.com/qemu-project/qemu/-/issues/416
-
-If you tag this as:
-
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/416
-
-then it will auto clear when merged.
-
 >
 > Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
 > ---
@@ -177,6 +170,9 @@ t char **ptr);
 > +    int is_error =3D strerror_r(errnum, qemu_strerror_buf, 1024);
 > +
 > +    if (is_error =3D=3D 0) return qemu_strerror_buf;
+
+Please follow coding style rules. Checkpatch would have complained here.
+
 > +
 > +    /**
 > +     * handle the error occured in strerror_r
@@ -185,6 +181,9 @@ t char **ptr);
 > +     * strerror_r. Otherwise, errno is updated.
 > +     */
 > +    if (is_error > 0) errno =3D is_error;
+
+and here.
+
 > +
 > +    strncpy(qemu_strerror_buf, "Error %d occured\n", errno);
 > +    return qemu_strerror_buf;
