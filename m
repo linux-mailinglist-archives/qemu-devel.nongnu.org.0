@@ -2,85 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C20A6D07C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 16:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAFF6D080E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 16:21:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pht03-00051t-Ja; Thu, 30 Mar 2023 10:11:35 -0400
+	id 1pht8f-0007PY-3C; Thu, 30 Mar 2023 10:20:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pht00-00051g-L8
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:11:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pht8Z-0007PI-M7
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:20:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phszx-0000vY-UI
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:11:32 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pht8X-0002KF-BM
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:20:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680185489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q8Oxxlisc2op1A7/MGmyhDOusAtAga3utK3yR7JXwBk=;
- b=A9OW3PgilDAMuOQczJt+rBbajWzG+UuzjlxW04FH7FF7v/2c/Kt0xwb3afKvOf3RUQFfNE
- GiU/3j32KOgOjFtI7yG+NYQZetPPQu39EZcggNku4R74T4Z8OU+kiuN4Z8B0ms/oSZsSKh
- zK9BGclGTh/1Lf/P/MyXLjuEmyQoTuU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-155-l69ltTj5Mrqj734RXUxAIw-1; Thu, 30 Mar 2023 10:11:28 -0400
-X-MC-Unique: l69ltTj5Mrqj734RXUxAIw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o28-20020a05600c511c00b003ef69894934so6525708wms.6
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 07:11:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680185487;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q8Oxxlisc2op1A7/MGmyhDOusAtAga3utK3yR7JXwBk=;
- b=B7h97sCEMc8cR5GEcdyijCxFjfdMYtI+14WBGFL1n3BMpW4bQbgaQl0p18exQmGG5x
- 4QDX/O6K/VdRxfO067G4FNV1b2VCKqMFQSpruqsN5AgSKRqV+wApCp0IJ1ycHXKfrB4q
- gasegoIDNDMzfJCpPABW3ariXl3VeZT/EinpfnDQusy1K56PoQgq1SSXVjBkAJ8X4LkR
- a5ae/JMsvn1BJviRKk25U/DomO/iTTHYOzxtclmWIIDnKQxtV0pkCuYF9omoFaxItznc
- pAidQ4kA+qErAR2wsdVfsMhlSH5uMxdompegkp2xaxjFaR0L/bSt0Vmm2UGvziAzDBTK
- pxCg==
-X-Gm-Message-State: AAQBX9ezVGYrL8KTPIqrbYvqqon8hhu2YQm9r8Gqte1XJC6Z1CyzjZXY
- mBGPqB4bhoh1kJKhjAFZWWehh10eDJXLilGekyWBwl0vfPX19Q0v1V1zqYkyVY3eXKGYd3zMoZQ
- uLD3o1RnQRTse8NU=
-X-Received: by 2002:a1c:4c18:0:b0:3ef:7584:9896 with SMTP id
- z24-20020a1c4c18000000b003ef75849896mr7736798wmf.26.1680185486954; 
- Thu, 30 Mar 2023 07:11:26 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bOEo0qNuIR5V7eVuUNdVdg6nlQ2TDk6p3Fq46nUUpavsHDhIGscXVKPtKss9moECGkBJeBwQ==
-X-Received: by 2002:a1c:4c18:0:b0:3ef:7584:9896 with SMTP id
- z24-20020a1c4c18000000b003ef75849896mr7736778wmf.26.1680185486667; 
- Thu, 30 Mar 2023 07:11:26 -0700 (PDT)
-Received: from redhat.com ([2.52.159.107]) by smtp.gmail.com with ESMTPSA id
- l32-20020a05600c1d2000b003f0321c22basm4843075wms.12.2023.03.30.07.11.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 07:11:26 -0700 (PDT)
-Date: Thu, 30 Mar 2023 10:11:22 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Eric DeVolder <eric.devolder@oracle.com>, shannon.zhaosl@gmail.com,
- imammedo@redhat.com, peter.maydell@linaro.org, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
- pbonzini@redhat.com, richard.henderson@linaro.org,
- eduardo@habkost.net, boris.ostrovsky@oracle.com
-Subject: Re: [PATCH 0/2] hw/acpi: bump MADT to revision 5
-Message-ID: <20230330101052-mutt-send-email-mst@kernel.org>
-References: <20230328155926.2277-1-eric.devolder@oracle.com>
- <20230329010406-mutt-send-email-mst@kernel.org>
- <96144a1b-efa7-ecc2-3e35-56825fcf48c6@oracle.com>
- <20230329124442-mutt-send-email-mst@kernel.org>
- <68579d53-cbb5-154a-6c1e-e733f16540@anisinha.ca>
- <20230330094323-mutt-send-email-mst@kernel.org>
- <366bb156-f41f-e1c4-fc59-3ecca6eeaba7@anisinha.ca>
+ s=mimecast20190719; t=1680186020;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ROgNs0yhC/aTmI+BBw71JzyvlKKsJZ8CjTqtQ2LB5Zk=;
+ b=Svu6VFkxk50VC2vIYM0iD2EkniqCQ3yjGG9CHrSA1iyEo12zTvfx8RRAVD+c2LONRzfIwZ
+ Iqn807gDkAOa43I5Spy+Cr2CX3Dvk72bwhBN22Qr326qKJIjWGdMH9VWW4iL7+D9reSWfS
+ cc0SayADmVnD6QfOrH6ocm+ETY6qZEg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-674-pXSoxsQcMbWRACg-L3lJkQ-1; Thu, 30 Mar 2023 10:20:18 -0400
+X-MC-Unique: pXSoxsQcMbWRACg-L3lJkQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 471AE28237CD
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 14:20:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 29FEA4020C92;
+ Thu, 30 Mar 2023 14:20:16 +0000 (UTC)
+Date: Thu, 30 Mar 2023 15:20:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v1 1/1] migration: Disable postcopy + multifd migration
+Message-ID: <ZCWanp5hITk4HImX@redhat.com>
+References: <20230327161518.2385074-1-leobras@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <366bb156-f41f-e1c4-fc59-3ecca6eeaba7@anisinha.ca>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20230327161518.2385074-1-leobras@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,64 +77,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 30, 2023 at 07:32:59PM +0530, Ani Sinha wrote:
+On Mon, Mar 27, 2023 at 01:15:18PM -0300, Leonardo Bras wrote:
+> Since the introduction of multifd, it's possible to perform a multifd
+> migration and finish it using postcopy.
 > 
+> A bug introduced by yank (fixed on cfc3bcf373) was previously preventing
+> a successful use of this migration scenario, and now it should be
+> working on most cases.
 > 
-> On Thu, 30 Mar 2023, Michael S. Tsirkin wrote:
-> 
-> > On Thu, Mar 30, 2023 at 01:06:36PM +0530, Ani Sinha wrote:
-> > >
-> > >
-> > > On Wed, 29 Mar 2023, Michael S. Tsirkin wrote:
-> > >
-> > > > On Wed, Mar 29, 2023 at 08:14:37AM -0500, Eric DeVolder wrote:
-> > > > >
-> > > > >
-> > > > > On 3/29/23 00:19, Michael S. Tsirkin wrote:
-> > > > > > Hmm I don't think we can reasonably make such a change for 8.0.
-> > > > > > Seems too risky.
-> > > > > > Also, I feel we want to have an internal (with "x-" prefix") flag to
-> > > > > > revert to old behaviour, in case of breakage on some guests.  and maybe
-> > > > > > we want to keep old revision for old machine types.
-> > > > > Ok, what option name, for keeping old behavior, would you like?
-> > > >
-> > > > Don't much care. x-madt-rev?
-> > > >
-> > > > > >
-> > > > > >
-> > > > > > On Tue, Mar 28, 2023 at 11:59:24AM -0400, Eric DeVolder wrote:
-> > > > > > > The following Linux kernel change broke CPU hotplug for MADT revision
-> > > > > > > less than 5.
-> > > > > > >
-> > > > > > >   commit e2869bd7af60 ("x86/acpi/boot: Do not register processors that cannot be onlined for x2APIC")
-> > > > > >
-> > > > > > Presumably it's being fixed? Link to discussion? Patch fixing that in
-> > > > > > Linux?
-> > > > >
-> > > > > https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devolder@oracle.com/T/#t
-> > > >
-> > > > Great! Maybe stick a Link: tag in the commit log.
-> > >
-> > > If the original bug is in the kernel and kernel upstream has accepted both
-> > > your fix and Mario's patch on the acpi revision mess, I see no urgency to
-> > > fix this in QEMU.
-> > >
-> > > Maybe we can address this in the 8.1 development window.
-> >
-> > Why "maybe"? Eric is working on a patch I don't see why we won't
-> > address it.
-> >
-> 
-> I am not opposed to addressing it. I just think it might be too risky for
-> 8.0 given that we are already past the hard feature freeze date.
+> But since there is not enough testing/support nor any reported users for
+> this scenario, we should disable this combination before it may cause any
+> problems for users.
 
-This does not look to me like a justified change for 8.0.
-We have rev = 1 for years.
+Clearly we don't have enough testing, but multifd+postcopy looks
+like a clearly useful scenario that we should be supporting.
 
+Every post-copy starts with at least one pre-copy iteration, and
+using multifd for that will be important for big VMs where single
+threaded pre-copy is going to be CPU bound. The greater amount we
+can transfer in the pre-copy phase, the less page faults / latency
+spikes postcopy is going to see.
+
+In terms of migration usage, my personal recommendation to mgmt
+apps would be that they should always enable the post-copy feature
+when starting a migration. Even if they expect to try to get it to
+complete using exclusively pre-copy in the common case, its useful
+to have post-copy capability flag enabled, as a get out of jail
+free card. ie if migration ends up getting stuck in non-convergance,
+or they have a sudden need to urgently complete the migration it is
+good to be able to flip to post-copy mode.
+
+I'd suggest that we instead add a multifd+postcopy test case to
+migration-test.c and tackle any bugs it exposes. By blocking it
+unconditionally we ensure no one will exercise it to expose any
+further bugs.
+
+> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  migration/migration.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index ae2025d9d8..c601964b0e 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1356,6 +1356,11 @@ static bool migrate_caps_check(bool *cap_list,
+>              error_setg(errp, "Postcopy is not compatible with ignore-shared");
+>              return false;
+>          }
+> +
+> +        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
+> +            error_setg(errp, "Postcopy is not yet compatible with multifd");
+> +            return false;
+> +        }
+>      }
+>  
+>      if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
+> -- 
+> 2.40.0
+> 
+> 
+
+With regards,
+Daniel
 -- 
-MST
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
