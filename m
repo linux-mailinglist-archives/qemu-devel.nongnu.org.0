@@ -2,95 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC676D0568
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 14:55:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C697B6D0571
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 14:56:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phrnM-0002H1-VA; Thu, 30 Mar 2023 08:54:25 -0400
+	id 1phrod-00033b-HN; Thu, 30 Mar 2023 08:55:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=446aa7e4f=anthony.perard@citrix.com>)
- id 1phrnH-0002Gq-OQ
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:54:19 -0400
-Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1phroY-00032S-45
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:55:38 -0400
+Received: from mout.kundenserver.de ([212.227.126.134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=446aa7e4f=anthony.perard@citrix.com>)
- id 1phrnE-00058V-Rq
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:54:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1680180855;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=zFVWl6FHEqhOUvgAIvCkLHmwVEt/WkNWTO6CEDMa4UU=;
- b=cSQy4fyUjHro21aPV+3SwykMa1UjH82sb2Yk+4Cw8mmBBYoJOMU3VcOj
- dIbyfE+C06sDnwnX9EkGyjdT5rohJOHY7Mg4Nn57urnAG3u2G/qV9IlGe
- 5y8l2yPui9fo2cFiW6F9TeYb6/DiiIrux2o26SSugbGcbU8PR3P53eBRI M=;
-Authentication-Results: esa3.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 4.0
-X-MesageID: 103702062
-X-Ironport-Server: esa3.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.123
-X-Policy: $RELAYED
-IronPort-Data: A9a23:blYcU6xJU+HUzXxAaJx6t+cpwSrEfRIJ4+MujC+fZmUNrF6WrkUPm
- 2BODWCFPf/fMWKnLookOYqw8UgPsJCBzNNlSVdtqyAxQypGp/SeCIXCJC8cHc8wwu7rFxs7s
- ppEOrEsCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
- Mj75sbSIzdJ4RYtWo4vw//F+UMHUMja4mtC5QRlPqgT5jcyqlFOZH4hDfDpR5fHatE88t6SH
- 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ai87XAME0e0ZP4whlqvgqo
- Dl7WT5cfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQq2pYjqhljJBheAGEWxgp4KXEe9
- qBbAhc3Uheoo+2WxZ7hddA8me12eaEHPKtH0p1h5TTQDPJgSpHfWaTao9Rf2V/chOgXQ6yYP
- ZBAL2MyMlKZOUYn1lQ/UfrSmM+hgGX/dDtJ7kqYv6Mt70DYzRBr0airO93QEjCPbZwNxRnA/
- DqYpQwVBDkaM922zReP7kv3i+HfsQfAZK1KBpCBo6sCbFq7mTVIVUx+uUGAieK5h0iiVsN3J
- Ekd+y5opq83nGSyQ9zgGhG1vnOAlhgbXdVWDqs98g7l4q/d+Q2UAi4NVjBMbNYvqcoeSjkj1
- 1vPlNTsbRR3urqTW3Ob95+OoD+yMDRTJmgHDQcIUg4ay9DmqZM0iFTESZB+E8adjsXyBCrrw
- jaitiU3jKkUlogMzarT1VnamT+op5XPZgco/AjTBTjj6A5lDKaoa5Gh81TcxfZJJoWeVUXHu
- nUY8+CG5f0KJYGAkmqKWuplNKGk4bOJPSPRhXZrHoI97HK99ni7Z4dS7TpiYkBzPa4sfCT1S
- FXetQNY+NlYO37CRbRsf4u7BsAuzK7hPdfoTPbZapxJeJcZXBWG9yFnf0LW323rnEU2iqY5E
- ZOad8+2CjAdE6sP5CK2RuMY3ZcvxyY332SVQor0pzyty7GeeXWWW58MN1/IZec8hIuNuAjP+
- sxTH9eLwR5YFub5Z0HqHZU7dA5QayJhXNav9pIRL7TYSuZ7JI0/I++Bwu9iUatfo6N+sujo+
- 13nZXYI13Oq0BUrNj62hmBfhKLHBMgg/CNrbXBwbT5EyFB4P9/xsf53m48fOOB+qbc9laMco
- +wtIZ3oPxhZdtjQF93xh7HZpZcqShmkjBnm08GNMGlmJM4Iq+AkF7bZkurTGMomVHDfWTMW+
- eHI6+8iacNrq/5eJMjXcumz6Fi6oGIQnul/N2ORfIkLIRywrtc0e3Kv5hPSHy3qAU+brtd9/
- 1j+PPvljbOV/99dHCfh3shoULtF48MhRxEHTgE3HJ69NDXA/3rL/LKspN2gJGiHPEutofXKW
- Amg562kWBHxtAoQ4tUU/ncC5f5W2uYDUJcAlFo8RCiQNwv1Yl6iS1HftfRyWmR27ucxkWOLt
- oino7G25Z3h1BvZLWMs
-IronPort-HdrOrdr: A9a23:ZRgbaaBIfugAqaflHemO55DYdb4zR+YMi2TDtnoBLCC9F/bz+v
- xG88526faZslkssQgb6Le90cq7MBHhHPxOgbX5VI3KNDUO3lHHEGgI1/qA/9SPIUzDH9lmpM
- NdmvhFY+EY1WIK9/oSOjPIa+rIHeP3lpxAWd2utEuFkzsaFp2JgG9Ce3+mLnE=
-X-IronPort-AV: E=Sophos;i="5.98,303,1673931600"; d="scan'208";a="103702062"
-Date: Thu, 30 Mar 2023 13:54:05 +0100
-To: Bernhard Beschow <shentey@gmail.com>
-CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw@amazon.co.uk>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>, Aurelien Jarno
- <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, Paul Durrant
- <paul@xen.org>, <xen-devel@lists.xenproject.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>, Richard
- Henderson <richard.henderson@linaro.org>, Philippe
- =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Chuck Zmudzinski
- <brchuckz@aol.com>
-Subject: Re: [PATCH v3 1/6] include/hw/xen/xen: Rename xen_piix3_set_irq() to
- xen_intx_set_irq()
-Message-ID: <b380f2c5-4f56-4713-b372-91d54114aa4e@perard>
-References: <20230312120221.99183-1-shentey@gmail.com>
- <20230312120221.99183-2-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1phroW-0005o8-9n
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:55:37 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MC2o9-1pZvr40Bvp-00COi6; Thu, 30 Mar 2023 14:54:51 +0200
+Message-ID: <866cb850-8774-e46d-87dd-b96899658e88@vivier.eu>
+Date: Thu, 30 Mar 2023 14:54:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230312120221.99183-2-shentey@gmail.com>
-Received-SPF: pass client-ip=216.71.145.155;
- envelope-from=prvs=446aa7e4f=anthony.perard@citrix.com;
- helo=esa3.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH-for-8.0] linux-user/mips: Use P5600 as default CPU to run
+ NaN2008 ELF binaries
+Content-Language: fr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: YunQiang Su <yunqiang.su@cipunited.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Jue Wang <jue.wang@oss.cipunited.com>
+References: <20230327162444.388-1-philmd@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20230327162444.388-1-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:bAMdf1ZgrJZJGquemP8fcFv4Ff3KLS9q2+yHANALYWorNnyTLrF
+ sYyWLafnwqnSECoCc/REnOzOfQAAOIWs990ziXswvPg9d35NZcSWPXx8WKXCoLftg64WllO
+ IwQcBRHab1Z1EgNUhdQmVC8Ou4erZ7pmOrHB6pyyB2qNVsecdpCwKKpTNxWYNGzDaeXhFr+
+ 1Nfn72Tzz3SpFddt1r6Bw==
+UI-OutboundReport: notjunk:1;M01:P0:yk6+5MvWBTE=;wfATaWxJ1JVxWsWl55Xo128BIHX
+ /EWh2NO9xtV8ENICb5cNEW/00s3s0bBfmX0AP8qVxF4UfuYAQMEgXd3dI/eaOl+DM1/V19iCv
+ Qt8BLploIWQdKhNZ/esM3/H1tvjptbKW3AdcJsJl4poKEvFW2DMQ2l4naZ1GAb5Ba/dPSTYBS
+ 2G0rG21UAFaGy4ZxW/pRVpvx44Ra/M1DSjQn3g+SQWXOQibkXBYtJJ7O/pd0L3trUJVyDlPNc
+ cBMUce20KeYeRQCDbOnf/1PJnEh/aVBIbw7iT7872UX3lhW4YDm/A0K8k/JSqEwgL5mDG2hlu
+ rguNXYzqqfIApl6YNos6lKvxJm9vmsOqlWOYb3mQHY7qjZ6C77rnrqBUNk2zmo/leVABtxGKg
+ XwEuPTlZA6pnQDkAvSmibwkPTYxx5v7ztU1FB6i0Lil1jCpA6jeG26HazT7q5HXi2SfvfadgK
+ P2Nm05WIlXTo/RFZN1UNWpQRX9hWTyyzO9zuX9njQp30bQ9iBBCrzlBDgPHrK0J7P/jbPG/PJ
+ 520t7Nu5NXJUn68vyGM/YprZpww4b3bCNv1KShV1rPE+BuTY2cjGtgwYU1VAaPR3BGWe23724
+ 38bVVPZsDZ5lVp4iPRelmrNW0nlHoBIERNd3xfovXP6H8UiJ4mL9fs0VIPnh+I+H9nTBWMZvv
+ wJfcasZf+IvS0emdkpEmIc8ONHEWWKUKx9/sfjrmUg==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,27 +71,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Mar 12, 2023 at 01:02:16PM +0100, Bernhard Beschow wrote:
-> xen_piix3_set_irq() isn't PIIX specific: PIIX is a single PCI device
-> while xen_piix3_set_irq() maps multiple PCI devices to their respective
-> IRQs, which is board-specific. Rename xen_piix3_set_irq() to communicate
-> this.
+Le 27/03/2023 à 18:24, Philippe Mathieu-Daudé a écrit :
+> Per the release 6.06 revision history:
 > 
-> Also rename XEN_PIIX_NUM_PIRQS to XEN_IOAPIC_NUM_PIRQS since the Xen's
-> IOAPIC rather than PIIX has this many interrupt routes.
+>   5.03 August 21, 2013
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>   • ABS2008 and NAN2008 fields of Table 5.7 “FCSR RegisterField
+>     Descriptions” were optional in release 3 and could be R/W,
+>     but as of release 5 are required, read-only, and preset by
+>     hardware.
+> 
+> The P5600 core implements the release 5, and has the ABS2008
+> and NAN2008 bits set in CP1_fcr31. Therefore it is able to run
+> ELF binaries compiled with EF_MIPS_NAN2008, such the CIP United
+> Debian NaN2008 distribution:
+> http://repo.oss.cipunited.com/mipsel-nan2008/README.txt
+> 
+> In order to run such compiled binaries, select by default the
+> P5600 core when the ELF 'MIPS_NAN2008' flag is set.
+> 
+> Reported-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   linux-user/mips/target_elf.h | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/linux-user/mips/target_elf.h b/linux-user/mips/target_elf.h
+> index a98c9bd6ad..b965e86b2b 100644
+> --- a/linux-user/mips/target_elf.h
+> +++ b/linux-user/mips/target_elf.h
+> @@ -15,6 +15,9 @@ static inline const char *cpu_get_model(uint32_t eflags)
+>       if ((eflags & EF_MIPS_MACH) == EF_MIPS_MACH_5900) {
+>           return "R5900";
+>       }
+> +    if (eflags & EF_MIPS_NAN2008) {
+> +        return "P5600";
+> +    }
+>       return "24Kf";
+>   }
+>   #endif
 
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-
-Thanks,
-
--- 
-Anthony PERARD
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 
