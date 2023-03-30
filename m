@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470896CFF35
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 10:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6296CFFB5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 11:20:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pho1p-000204-WC; Thu, 30 Mar 2023 04:53:06 -0400
+	id 1phoQm-0003at-Lo; Thu, 30 Mar 2023 05:18:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pho1l-0001wd-LD
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 04:53:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pho1j-0002Ce-Ci
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 04:53:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680166378;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=uBC9oPToI0rRaeNL/13eWHJTk2HOz4fmLmZq1VSjUb8=;
- b=MmAIbakcV0qqQMNFaoAB0+Uf/igaHMplCcJ++sol2n6CNhdXinkpj95bcFxIo52NE1hDPZ
- djcg0eOmgBd2nZrrG1kXa4FqgTMFtyjyqv7t33M3tZBfRUpf39Uxh6UgLQUH7C9Gbnw1U+
- jfxSQTAlF5jYrR/Hb/yWOec7Gnq3mNk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-116-yYN7KEciN26SrSxDhyOlNA-1; Thu, 30 Mar 2023 04:52:54 -0400
-X-MC-Unique: yYN7KEciN26SrSxDhyOlNA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75E72185A78B;
- Thu, 30 Mar 2023 08:52:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E78D18EC7;
- Thu, 30 Mar 2023 08:52:52 +0000 (UTC)
-Date: Thu, 30 Mar 2023 09:52:49 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andrew Melnychenko <andrew@daynix.com>
-Cc: jasowang@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, thuth@redhat.com, philmd@linaro.org,
- armbru@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org,
- toke@redhat.com, mprivozn@redhat.com, yuri.benditovich@daynix.com,
- yan@daynix.com
-Subject: Re: [RFC PATCH 2/5] virtio-net: Added property to load eBPF RSS with
- fds.
-Message-ID: <ZCVN4TWwDsXJGfwi@redhat.com>
-References: <20230330001522.120774-1-andrew@daynix.com>
- <20230330001522.120774-3-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1phoQk-0003ac-IM
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 05:18:50 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1phoQi-0007XI-N6
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 05:18:50 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ v20-20020a05600c471400b003ed8826253aso3103348wmo.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 02:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680167927;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DsFhMcVteVDEsc4CoaRUemTtAtlZ7CVOJ+iZ0h7A8f8=;
+ b=Qyc0JLcb+E/gPYEMhSYFfIGLmzOZ3LaFSgxwuNzCRQrEmdVk6edagNQHNm1FuHfV5m
+ ykgSsTQIDTg3Vg0/hH+H9gcjeELlqwArPL0HlBYV729DMoa11wBuIanGBIPmPxN30xmW
+ HUUmSQnQ1H/cncvm9UrL0E6cVGs2EZaL4hlqINjoQ/hnG2xkVVd5h+7kSISdwo4jLdTw
+ CVpwRpzolMMKK9YZBGuGM062Bha5VS6caKrohn0erohUACBoQdk3I9wj0m7Dlk2nnXDC
+ kZ9e9zNHWK73WD0PKnqVZ6IeYaN9JLxjLEYlmdzuCNOiHFlkKBVPo6qq0dZCfilZse+4
+ hWIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680167927;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=DsFhMcVteVDEsc4CoaRUemTtAtlZ7CVOJ+iZ0h7A8f8=;
+ b=cTQ1grPtjYeC8Yc7jElqeeULAusVR1MmDB543nrzz/r7s334k7Xgtpq4CC6wkD0wWk
+ KhGVV4C/NaoNjDNno27O4qhzgldHN4I0+IbIV+l49w1QtAPHqo7t05VeIjVlPInI/Vpg
+ sIO3C+jwSJMQYzYvS/29iFrxYC87jK0hHtLvpuMbNwzswR+O9QpeydTn3imASfmwAKPn
+ Fk8+X4zwup/LreUggVFOOkeH/YN8rb6/rilX5mh+1OC8KieYOFaaiJkcmcbzgApiN7m9
+ xSzpmxbRIG1A1GU02/eTLs1Ke7u+0bguN7Avfk8iEFYNafT/JUDCXluj7dRWUPElD+MC
+ xWFA==
+X-Gm-Message-State: AO0yUKX7GL1I1Cq2iOz1V19PGmwqMrgiMlsySWztjYq7NP5iHSMrgXNV
+ vNabkVHs+9zhsFqMust8o+MUig==
+X-Google-Smtp-Source: AK7set9zBWBC95PgIqOMkXPJ3y5WQSZxPy7/ZR7M3Gkf5yV84s5TSbeTxIdT5GIjhIY9u0x9jKEtFg==
+X-Received: by 2002:a7b:c3c6:0:b0:3ef:128d:7167 with SMTP id
+ t6-20020a7bc3c6000000b003ef128d7167mr16426343wmj.13.1680167927126; 
+ Thu, 30 Mar 2023 02:18:47 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ 10-20020a05600c228a00b003ee44b2effasm5157785wmf.12.2023.03.30.02.18.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Mar 2023 02:18:46 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 71D9E1FFB7;
+ Thu, 30 Mar 2023 10:18:46 +0100 (BST)
+References: <20230327115030.3418323-1-kconsul@linux.vnet.ibm.com>
+ <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
+ <ZCUoKZ7OrEVa4CEN@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+User-agent: mu4e 1.10.0; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Hariharan T S
+ <hariharan.ts@linux.vnet.ibm.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] tests/requirements.txt: bump up avocado-framework
+ version to 101.0
+Date: Thu, 30 Mar 2023 10:18:26 +0100
+In-reply-to: <ZCUoKZ7OrEVa4CEN@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
+Message-ID: <874jq2ppft.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230330001522.120774-3-andrew@daynix.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,186 +99,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 30, 2023 at 03:15:19AM +0300, Andrew Melnychenko wrote:
-> eBPF RSS program and maps may now be passed during initialization.
-> Initially was implemented for libvirt to launch qemu without permissions,
-> and initialized eBPF program through the helper.
-> 
-> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> ---
->  hw/net/virtio-net.c            | 77 ++++++++++++++++++++++++++++++++--
->  include/hw/virtio/virtio-net.h |  1 +
->  2 files changed, 74 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 53e1c32643..45d448a83d 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -42,6 +42,7 @@
->  #include "sysemu/sysemu.h"
->  #include "trace.h"
->  #include "monitor/qdev.h"
-> +#include "monitor/monitor.h"
->  #include "hw/pci/pci_device.h"
->  #include "net_rx_pkt.h"
->  #include "hw/virtio/vhost.h"
-> @@ -1305,14 +1306,81 @@ static void virtio_net_detach_epbf_rss(VirtIONet *n)
->      virtio_net_attach_ebpf_to_backend(n->nic, -1);
->  }
->  
-> -static bool virtio_net_load_ebpf(VirtIONet *n)
-> +static int virtio_net_get_ebpf_rss_fds(char *str, char *fds[], int nfds)
 
-Needs to have an 'Error **errp' parameter
+Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
 
-> +{
-> +    char *ptr = str;
-> +    char *cur = NULL;
-> +    size_t len = strlen(str);
-> +    int i = 0;
-> +
-> +    for (; i < nfds && ptr < str + len;) {
-> +        cur = strchr(ptr, ':');
-> +
-> +        if (cur == NULL) {
-> +            fds[i] = g_strdup(ptr);
-> +        } else {
-> +            fds[i] = g_strndup(ptr, cur - ptr);
-> +        }
-> +
-> +        i++;
-> +        if (cur == NULL) {
-> +            break;
-> +        } else {
-> +            ptr = cur + 1;
-> +        }
-> +    }
+> Hi,
+> On 2023-03-27 07:50:29, Kautuk Consul wrote:
+>> Avocado version 101.0 has a fix to re-compute the checksum
+>> of an asset file if the algorithm used in the *-CHECKSUM
+>> file isn't the same as the one being passed to it by the
+>> avocado user (i.e. the avocado_qemu python module).
+>> In the earlier avocado versions this fix wasn't there due
+>> to which if the checksum wouldn't match the earlier
+>> checksum (calculated by a different algorithm), the avocado
+>> code would start downloading a fresh image from the internet
+>> URL thus making the test-cases take longer to execute.
+>>=20
+>> Bump up the avocado-framework version to 101.0.
+> Any comments on this ? I have tested this patch and it seems to work
+> fine with the avocado test-cases.
 
-...and here needs to error_setg(...) if the string being parsed has
-more FDs present than 'nfds', and return error.
+I've queued up just this patch to for-8.0/more-misc-fixes, thanks.
 
-It should also report error if less than 'nfds' were present.
-
-> +
-> +    return i;
-> +}
-> +
-> +static bool virtio_net_load_ebpf_fds(VirtIONet *n)
->  {
-> -    if (!virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
-> -        /* backend does't support steering ebpf */
-> +    char *fds_strs[EBPF_RSS_MAX_FDS];
-> +    int fds[EBPF_RSS_MAX_FDS];
-> +    int nfds;
-> +    int ret = false;
-> +    Error *errp;
-
-This method should be having 'Error **errp' passed into it
-instead
-
-> +    int i = 0;
-> +
-> +    if (n == NULL || !n->ebpf_rss_fds) {
->          return false;
->      }
-
-The only caller has already de-referenced 'n' so n == NULL is
-impossible. The caller has also chck ebpf_rss_fds != NULL.
-IOW, this is redundant
-
-> -    return ebpf_rss_load(&n->ebpf_rss);
-> +    nfds = virtio_net_get_ebpf_rss_fds(n->ebpf_rss_fds,
-> +                                       fds_strs, EBPF_RSS_MAX_FDS);
-
-Needs to pass in 'errp' and check for the error condition on return
-
-  if (nfds != EBPF_RSS_MAX_FDS)
-      return false;
-
-> +    for (i = 0; i < nfds; i++) {
-> +        fds[i] = monitor_fd_param(monitor_cur(), fds_strs[i], &errp);
-
-if (fds[i] < 0)
-   ....close all FDs so far and return error...
+>>=20
+>> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+>> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+>> ---
+>>  tests/requirements.txt | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/tests/requirements.txt b/tests/requirements.txt
+>> index 0ba561b6bd..a6f73da681 100644
+>> --- a/tests/requirements.txt
+>> +++ b/tests/requirements.txt
+>> @@ -2,5 +2,5 @@
+>>  # in the tests/venv Python virtual environment. For more info,
+>>  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+>>  # Note that qemu.git/python/ is always implicitly installed.
+>> -avocado-framework=3D=3D88.1
+>> +avocado-framework=3D=3D101.0
+>>  pycdlib=3D=3D1.11.0
+>> --=20
+>> 2.39.2
+>>=20
+>>=20
 
 
-> +    }
-> +
-> +    if (nfds == EBPF_RSS_MAX_FDS) {
-> +        ret = ebpf_rss_load_fds(&n->ebpf_rss, fds[0], fds[1], fds[2], fds[3]);
-> +    }
-
-This condition is not required, since we should have check
-it immediately after the virtio_net_get_ebpf_rss_fds() call
-
-
-> +
-> +    if (!ret) {
-> +        for (i = 0; i < nfds; i++) {
-> +            close(fds[i]);
-> +        }
-> +    }
-> +
-> +    for (i = 0; i < nfds; i++) {
-> +        g_free(fds_strs[i]);
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +static bool virtio_net_load_ebpf(VirtIONet *n)
-
-This needs to have "Error **errp' added to it and return an
-error on failure. The caller already has an 'errp' available
-to pass in.
-
-> +{
-> +    bool ret = true;
-> +
-> +    if (virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
-> +        if (!(n->ebpf_rss_fds
-> +                && virtio_net_load_ebpf_fds(n))) {
-> +            ret = ebpf_rss_load(&n->ebpf_rss);
-> +        }
-> +    }
-> +
-> +    return ret;
->  }
->  
->  static void virtio_net_unload_ebpf(VirtIONet *n)
-> @@ -3900,6 +3968,7 @@ static Property virtio_net_properties[] = {
->                      VIRTIO_NET_F_RSS, false),
->      DEFINE_PROP_BIT64("hash", VirtIONet, host_features,
->                      VIRTIO_NET_F_HASH_REPORT, false),
-> +    DEFINE_PROP_STRING("ebpf_rss_fds", VirtIONet, ebpf_rss_fds),
->      DEFINE_PROP_BIT64("guest_rsc_ext", VirtIONet, host_features,
->                      VIRTIO_NET_F_RSC_EXT, false),
->      DEFINE_PROP_UINT32("rsc_interval", VirtIONet, rsc_timeout,
-> diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-> index ef234ffe7e..e10ce88f91 100644
-> --- a/include/hw/virtio/virtio-net.h
-> +++ b/include/hw/virtio/virtio-net.h
-> @@ -219,6 +219,7 @@ struct VirtIONet {
->      VirtioNetRssData rss_data;
->      struct NetRxPkt *rx_pkt;
->      struct EBPFRSSContext ebpf_rss;
-> +    char *ebpf_rss_fds;
->  };
->  
->  size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
-> -- 
-> 2.39.1
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
