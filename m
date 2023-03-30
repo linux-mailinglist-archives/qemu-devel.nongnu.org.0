@@ -2,58 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744FC6D02BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:14:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCA86D030E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:24:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phqEP-0006ju-2g; Thu, 30 Mar 2023 07:14:13 -0400
+	id 1phqO7-00052T-4Y; Thu, 30 Mar 2023 07:24:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1phqEM-0006jP-Qs
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:14:10 -0400
-Received: from bonnix.bonnix.it ([2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phqO5-00051z-BE
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:24:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1phqEK-00043C-8s
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:14:10 -0400
-Received: from [10.0.0.70] (dynamic-adsl-84-221-84-105.clienti.tiscali.it
- [84.221.84.105]) (authenticated bits=0)
- by bonnix.bonnix.it (8.14.4/8.14.4) with ESMTP id 32UBDxXt021028
- (version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
- Thu, 30 Mar 2023 13:14:00 +0200
-DKIM-Filter: OpenDKIM Filter v2.11.0 bonnix.bonnix.it 32UBDxXt021028
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bonslack.org;
- s=20220805; t=1680174840;
- bh=H+lfis/GLIzb6Nbp6+Svf8SB6BXeQ8Edf9isbopRMYk=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=KzlBbzAPxYLbEKjiZUNHileu4grVXAV2WbE4/kr8dWMZGWn3Pm9wWdVBtlu8XpjWJ
- 6cqgFlMLiyeczhc8+dU9OsV/IiowaZT49OxlPWsFYiwY5OmYj5ox3gf6JHz1bux8ub
- JbX/cPoiSGW+vkZJtBFMrXldLAImVPF5FrSFTTwQ=
-Message-ID: <e82e940f-12cf-5c88-0603-37974c4a84df@bonslack.org>
-Date: Thu, 30 Mar 2023 13:13:58 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phqO3-0006Dj-1h
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:24:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680175450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VPaykr/xj2oLc8qsIISK0pGJm888wbt9oTCToJLEbe4=;
+ b=ADzQkOyWiwWUh/sLf2mb4Fhs58gq3epFWnAugh+rzxnBz8E10vu3lIesKHpTC1F5FD5IZs
+ m4c6wPXAczZSzLsmhhadgYW7dxVtf5yqZtnWAXP+oZkzTcON5OLWIfNJHyt8XORoSu+eKb
+ HQvMaD2TKx2RaJM/1gjw2zsthIW3Un8=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-235-_fJVgB6UP8CxkhiKMthcfg-1; Thu, 30 Mar 2023 07:24:08 -0400
+X-MC-Unique: _fJVgB6UP8CxkhiKMthcfg-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ r4-20020ac867c4000000b003bfefb6dd58so12300537qtp.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 04:24:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680175448;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VPaykr/xj2oLc8qsIISK0pGJm888wbt9oTCToJLEbe4=;
+ b=fx6H3itial4G9mmJqvh42L75Y8UHkcChoUKVnNMxOyvujRHw4AEAemTpot3pON7Yx9
+ WsB9r1yPrAEaa0OtdBt16g+FGXe25aHSmClZhNyQZlSTftyordYS+jHIJDbdzQo9TX7+
+ 9/ugllJCQlJVbTfJpmm4pqDcTylEEvV6AQkSULU1C/VrcNMbPCk7ltH7vJoJ1klvhw+L
+ KWJNRae+x9goF/NI1ofLvhiFuDWAANfEwcWKY4LH0lFZkSYHFOcJP3y6SwwEcxJP3XnO
+ bgkFjuPjFizSsjiM2ordAgCdg+E9i/UCUNxzVw5rWJMoGn3B1V+fXy6YzHhzolD6234r
+ f9uw==
+X-Gm-Message-State: AO0yUKX4wTTBvJgPYeHZOqGi52eSkWJp0vuuLmkatuHeUQaRpOUBhQfv
+ L2IC2sQhgaC8idO8ioqQS75vkrfFrusYtTa5JZMc1jIAT844m7xGrX2d1dmu0cWzrHqqo+HzyeD
+ VffAGI6lei7978GA=
+X-Received: by 2002:ac8:59cd:0:b0:3bf:ce15:ff25 with SMTP id
+ f13-20020ac859cd000000b003bfce15ff25mr39577073qtf.12.1680175448448; 
+ Thu, 30 Mar 2023 04:24:08 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/WTJoTF9ssnO5x7PavlTcAchLPUMUViMNR3+lKphLpa3Jz7FhsWgXidtUCxUkfXTuz+e/LJA==
+X-Received: by 2002:ac8:59cd:0:b0:3bf:ce15:ff25 with SMTP id
+ f13-20020ac859cd000000b003bfce15ff25mr39577026qtf.12.1680175448098; 
+ Thu, 30 Mar 2023 04:24:08 -0700 (PDT)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ p9-20020a05620a22e900b007486d9fa1ffsm2300257qki.9.2023.03.30.04.24.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 04:24:07 -0700 (PDT)
+Message-ID: <d0e2a918-3336-67d2-ca5d-62f71e171cb5@redhat.com>
+Date: Thu, 30 Mar 2023 13:24:04 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: stat64 wrong on sparc64 user
-To: Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-References: <db07e036-cc5f-c9ad-b63c-10fdd5404830@bonslack.org>
- <bdebe626-e552-affb-b756-02c70898bdd6@redhat.com>
- <d49d441a-01a6-d38d-2bc8-98b9658a288e@bonslack.org>
- <60a7075e-64fd-674a-900c-94ec4ee0b6db@vivier.eu>
-Content-Language: it, en-US
-From: Luca Bonissi <qemu@bonslack.org>
-In-Reply-To: <60a7075e-64fd-674a-900c-94ec4ee0b6db@vivier.eu>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 03/11] MAINTAINERS: add a section for policy documents
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Warner Losh <imp@bsdimp.com>, Ryo ONODERA <ryoon@netbsd.org>,
+ Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Bernhard Beschow <shentey@gmail.com>
+References: <20230330101141.30199-1-alex.bennee@linaro.org>
+ <20230330101141.30199-4-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230330101141.30199-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8;
- envelope-from=qemu@bonslack.org; helo=bonnix.bonnix.it
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,172 +111,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/03/23 18:22, Laurent Vivier wrote:
-> Le 28/03/2023 à 14:22, Luca Bonissi a écrit :
->> On 28/03/23 13:55, Thomas Huth wrote:
->>> On 28/03/2023 13.48, Luca Bonissi wrote:
->>>> --- qemu-20230327/linux-user/syscall_defs.h    2023-03-27 
->>>> 15:41:42.000000000 +0200
->>>> +++ qemu-20230327/linux-user/syscall_defs.h.new    2023-03-27 
->>>> 21:43:25.615115126 +0200
->>>> @@ -1450,7 +1450,7 @@ struct target_stat {
->>>>       unsigned int    st_dev;
->>>>       abi_ulong    st_ino;
->>>>       unsigned int    st_mode;
->>>> -    unsigned int    st_nlink;
->>>> +    short int    st_nlink;
->>>>       unsigned int    st_uid;
->>>
->>
+On 30/03/2023 12.11, Alex Bennée wrote:
+> We don't update these often but if you are the sort of person who
+> enjoys debating and tuning project policies you could now add yourself
+> as a reviewer here so you don't miss the next debate over tabs vs
+> spaces ;-)
 > 
-> To have automatic alignment according to target ABI, you must use 
-> abi_XXX type (see include/exec/user/abitypes.h)
+> Who's with me?
 > 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Kashyap Chamarthy <kchamart@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Cc: Bernhard Beschow <shentey@gmail.com>
+> 
+> ---
+> v2
+>    - s/your/you are/
+>    - add some willing victims
+> ---
+>   MAINTAINERS | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9e1a60ea24..2c173dbd96 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -64,6 +64,19 @@ L: qemu-devel@nongnu.org
+>   F: *
+>   F: */
+>   
+> +Project policy and developer guides
+> +R: Alex Bennée <alex.bennee@linaro.org>
+> +R: Daniel P. Berrangé <berrange@redhat.com>
+> +R: Thomas Huth <thuth@redhat.com>
+> +R: Markus Armbruster <armbru@redhat.com>
+> +W: https://www.qemu.org/docs/master/devel/index.html
+> +S: Odd Fixes
+> +F: docs/devel/style.rst
+> +F: docs/devel/code-of-conduct.rst
+> +F: docs/devel/conflict-resolution.rst
+> +F: docs/devel/submitting-a-patch.rst
+> +F: docs/devel/submitting-a-pull-request.rst
 
-I tried to keep as much as possibile the source code untouched, but no 
-problem to change all fields with abi_XXX. Tested for sparc and sparc64:
-
---- qemu-20230327/linux-user/syscall_defs.h.orig	2023-03-27 
-15:41:42.000000000 +0200
-+++ qemu-20230327/linux-user/syscall_defs.h	2023-03-30 
-12:52:46.308640526 +0200
-@@ -1447,13 +1447,13 @@ struct target_eabi_stat64 {
-
-  #elif defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-  struct target_stat {
--	unsigned int	st_dev;
-+	abi_uint	st_dev;
-  	abi_ulong	st_ino;
--	unsigned int	st_mode;
--	unsigned int	st_nlink;
--	unsigned int	st_uid;
--	unsigned int	st_gid;
--	unsigned int	st_rdev;
-+	abi_uint	st_mode;
-+	abi_short	st_nlink;
-+	abi_uint	st_uid;
-+	abi_uint	st_gid;
-+	abi_uint	st_rdev;
-  	abi_long	st_size;
-  	abi_long	target_st_atime;
-  	abi_long	target_st_mtime;
-@@ -1465,25 +1465,23 @@ struct target_stat {
-
-  #define TARGET_HAS_STRUCT_STAT64
-  struct target_stat64 {
--	unsigned char	__pad0[6];
--	unsigned short	st_dev;
-+	abi_ullong	st_dev;
-
--	uint64_t	st_ino;
--	uint64_t	st_nlink;
-+	abi_ullong	st_ino;
-+	abi_ullong	st_nlink;
-
--	unsigned int	st_mode;
-+	abi_uint	st_mode;
-
--	unsigned int	st_uid;
--	unsigned int	st_gid;
-+	abi_uint	st_uid;
-+	abi_uint	st_gid;
-
--	unsigned char	__pad2[6];
--	unsigned short	st_rdev;
-+	abi_uint	__pad0;
-+	abi_ullong	st_rdev;
-
--        int64_t		st_size;
--	int64_t		st_blksize;
-+	abi_llong	st_size;
-+	abi_llong	st_blksize;
-
--	unsigned char	__pad4[4];
--	unsigned int	st_blocks;
-+	abi_llong	st_blocks;
-
-  	abi_ulong	target_st_atime;
-  	abi_ulong	target_st_atime_nsec;
-@@ -1501,13 +1499,13 @@ struct target_stat64 {
-
-  #define TARGET_STAT_HAVE_NSEC
-  struct target_stat {
--	unsigned short	st_dev;
-+	abi_ushort	st_dev;
-  	abi_ulong	st_ino;
--	unsigned short	st_mode;
--	short		st_nlink;
--	unsigned short	st_uid;
--	unsigned short	st_gid;
--	unsigned short	st_rdev;
-+	abi_ushort	st_mode;
-+	abi_short	st_nlink;
-+	abi_ushort	st_uid;
-+	abi_ushort	st_gid;
-+	abi_ushort	st_rdev;
-  	abi_long	st_size;
-  	abi_long	target_st_atime;
-  	abi_ulong	target_st_atime_nsec;
-@@ -1522,39 +1520,37 @@ struct target_stat {
-
-  #define TARGET_HAS_STRUCT_STAT64
-  struct target_stat64 {
--	unsigned char	__pad0[6];
--	unsigned short	st_dev;
-+	abi_ullong st_dev;
-
--	uint64_t st_ino;
-+	abi_ullong st_ino;
-
--	unsigned int	st_mode;
--	unsigned int	st_nlink;
-+	abi_uint	st_mode;
-+	abi_uint	st_nlink;
-
--	unsigned int	st_uid;
--	unsigned int	st_gid;
-+	abi_uint	st_uid;
-+	abi_uint	st_gid;
-
--	unsigned char	__pad2[6];
--	unsigned short	st_rdev;
-+	abi_ullong        st_rdev;
-
-  	unsigned char	__pad3[8];
-
--        int64_t	st_size;
--	unsigned int	st_blksize;
-+        abi_llong	st_size;
-+	abi_uint	st_blksize;
-
-  	unsigned char	__pad4[8];
--	unsigned int	st_blocks;
-+	abi_uint	st_blocks;
-
--	unsigned int	target_st_atime;
--	unsigned int	target_st_atime_nsec;
-+	abi_uint	target_st_atime;
-+	abi_uint	target_st_atime_nsec;
-
--	unsigned int	target_st_mtime;
--	unsigned int	target_st_mtime_nsec;
-+	abi_uint	target_st_mtime;
-+	abi_uint	target_st_mtime_nsec;
-
--	unsigned int	target_st_ctime;
--	unsigned int	target_st_ctime_nsec;
-+	abi_uint	target_st_ctime;
-+	abi_uint	target_st_ctime_nsec;
-
--	unsigned int	__unused1;
--	unsigned int	__unused2;
-+	abi_uint	__unused1;
-+	abi_uint	__unused2;
-  };
-
-  #elif defined(TARGET_PPC)
-
-
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
