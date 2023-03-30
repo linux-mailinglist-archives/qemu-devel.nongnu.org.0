@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586B46D0146
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 12:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32DC6D015A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 12:35:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phpYz-00047c-TK; Thu, 30 Mar 2023 06:31:25 -0400
+	id 1phpcb-0005tj-09; Thu, 30 Mar 2023 06:35:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1phpYw-00046k-Er
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:31:22 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ id 1phpcZ-0005tH-0f
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:35:07 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1phpYt-0003rJ-DY
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:31:22 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id x3so74450316edb.10
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 03:31:16 -0700 (PDT)
+ id 1phpcX-0004em-05
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:35:06 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id i5so74759693eda.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 03:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680172275;
+ d=linaro.org; s=google; t=1680172503;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6j5tKtWtgjVcee30MA/GvCiq1FDILEDXA9D/KFXqD/Y=;
- b=ePcPsT2xkAcEPhhiqHXnXt15lS3tSsRUBS+B7LGtFb2lK/Cd3tLXBtUm6/J3Yk2LdE
- OrKIQ3U1tzw+3nYWjvl06i69x7YJ7GxdScuiEi0V8wRILcJTaRv5JJzJH8E//3KVjpXo
- aTzEZykcuFWFPnjzhirW3u5TwtoHzNMGAdJ6uNQxiue/s5Ka+0g7J1wdi0ULH7r/noZi
- ZgZspwQVt+bzqgsh47y02qOTGK36MgrAv3TE4rMKB2de90+mz4wbaYF86SEsYwE29L5b
- ErlVhXc/UJJ7SJ0otPp4JLlw7YQB3YC2/2kP11uhUhVpB8cCTX7OQ500Zp84xPzy3/fY
- kbhw==
+ bh=txGkNYhxQY1ZDH5K+oBgkwLGRZKIXUGcCTeHU3obFh4=;
+ b=yh/SG0MnVD/W3djOgoXSm+86Gq5ve/GDy1piixrXv4vE4FZ+CxmVSU9sHGbbokEqi4
+ lWx401yjTvz7wtIBuwIFd/in0v1y9KWZi6uv9L9vB6fc9c63fPmZga8b5Iktkpk6Rpvj
+ Nt7qfU2stMhAEJSgSxmOTve5QKFXMbtTcjyvf8gciGAwUsxMievB++T/YqCwQBoD6mdq
+ dl/lgUKbyC6riZFALLTwqLFcLeFl3+TIU4KuW3etkgtv/44YBypfMTZruEr5pVJeh4Sr
+ FOhB9t9JyOOLpUapC3hrBSWnem41SQuM5KUYkds5a70Wimis5nk+K9iXbNb53iDZNV4H
+ INuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680172275;
+ d=1e100.net; s=20210112; t=1680172503;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6j5tKtWtgjVcee30MA/GvCiq1FDILEDXA9D/KFXqD/Y=;
- b=XDR2rJMwcIQFf+ndkbNrpxzCj7WpK1xndieDGKsW+Ys2e3MRC2egjE+okdwQozUOw1
- /OnuJJkaNmUoC3sUKMZdI1REN0e0V2SgCynOSu/lZHSS9SQsK71XWpWEM0NQFb/cVZip
- 9pywDZGVqUqefgoMhf3RWLmE3C6SD+h6I0jmdGr6kHHTVR1d5lS09AInEEEVb4ayJgNA
- V41dyi9Qed9eo6Y6aUXuavsDJMGMUActspz/8dnXzMTTs9rZZdHoYu+sFSfRzeN/or9r
- 3+EfFzK9mozr+TcaOe6n35tzEDXK6HqErK/szcNfnjvmb5fQ5/qw3qJJImv2BrrS3iRY
- XuRg==
-X-Gm-Message-State: AAQBX9fih7KDs0gfCx2K5xrcdzCWb9wS0GNhKaLR9q2GNyaQf6kCbBOY
- 28T+2B/e3xRAm1hB+VsVng8C1uFLLv/W3TF9Oquy7Q==
-X-Google-Smtp-Source: AKy350aDTQQsQFJ6XGXT10JB/68gcSqjaV0iCJUo22jcMgbWWxlNS+X/Zvd5DR2RHxD83PqiLZvZgGMezkKSRwHRzhE=
-X-Received: by 2002:a17:906:8683:b0:939:a51a:dc30 with SMTP id
- g3-20020a170906868300b00939a51adc30mr2711398ejx.2.1680172275299; Thu, 30 Mar
- 2023 03:31:15 -0700 (PDT)
+ bh=txGkNYhxQY1ZDH5K+oBgkwLGRZKIXUGcCTeHU3obFh4=;
+ b=KxFZb3hlUZBFSqPeeP3vdb8hIsb2iPixZCSDxShZs1p97mW67jzM12YubGOiPT7TuW
+ vAT+Mr0EHjSnwk251wPK9t7pHOHKmH18Kr8dQ1CyB7aYQ5y/E+CfCnR/Keu6z4WqIjZs
+ g4h3GSp3zAb5OAhzDdpkGmAlepFYkFBO8ZXNaLMz3gQXzzEmMXs1JDK4kKUSTMCmCEVW
+ eOc6mvLgJu+91lJSIvabXr123yCPyk2xeXj4gEJlieY2AbP5fNXXogufy55AGghXh8z9
+ IEkHoNdltJ1l0umM/d/MEpenI1HvvpoBVqjkqTBRx8rmJMguDOnZ3f027OODYxsyrqUh
+ nklA==
+X-Gm-Message-State: AAQBX9cV+Weru6mieZx389NtEjkWck/kwVp4HoSIXBEeYm8qZ3uT7P29
+ PoQvATIMcIzliD2F9K2Yz4Rz1e6FqW27o7Ou/phV2g==
+X-Google-Smtp-Source: AKy350YcW+UscaXCnWkgPQjYjek9tuO/w5Oa4NN1PN2qAUu9U3HqpIpL/agBlmwWgLqYN63SC9MG8SyGhl2XX9Ws9XA=
+X-Received: by 2002:a17:906:483:b0:92f:41e4:e48b with SMTP id
+ f3-20020a170906048300b0092f41e4e48bmr11130910eja.6.1680172502973; Thu, 30 Mar
+ 2023 03:35:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230328212516.29592-1-philmd@linaro.org>
-In-Reply-To: <20230328212516.29592-1-philmd@linaro.org>
+ <CAFEAcA_yP9ibO2NOC0pL4SNbPmHtB+TfPm0A06YfC4Mwec5xAQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_yP9ibO2NOC0pL4SNbPmHtB+TfPm0A06YfC4Mwec5xAQ@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 30 Mar 2023 11:31:04 +0100
-Message-ID: <CAFEAcA_yP9ibO2NOC0pL4SNbPmHtB+TfPm0A06YfC4Mwec5xAQ@mail.gmail.com>
+Date: Thu, 30 Mar 2023 11:34:52 +0100
+Message-ID: <CAFEAcA9w0H+j2EbgFDXACno1OF-dCFcb1OuCNksci9vHqW=RPw@mail.gmail.com>
 Subject: Re: [PATCH-for-8.0 v3] target/arm: Fix non-TCG build failure by
  inlining pauth_ptr_mask()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
@@ -65,8 +66,8 @@ Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Fabiano Rosas <farosas@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,74 +90,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 28 Mar 2023 at 22:25, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
+On Thu, 30 Mar 2023 at 11:31, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
 >
-> aarch64_gdb_get_pauth_reg() -- although disabled since commit
-> 5787d17a42 ("target/arm: Don't advertise aarch64-pauth.xml to
-> gdb") is still compiled in. It calls pauth_ptr_mask() which is
-> located in target/arm/tcg/pauth_helper.c, a TCG specific helper.
+> On Tue, 28 Mar 2023 at 22:25, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
+org> wrote:
+> >
+> > aarch64_gdb_get_pauth_reg() -- although disabled since commit
+> > 5787d17a42 ("target/arm: Don't advertise aarch64-pauth.xml to
+> > gdb") is still compiled in. It calls pauth_ptr_mask() which is
+> > located in target/arm/tcg/pauth_helper.c, a TCG specific helper.
+> >
+> > To avoid a linking error when TCG is not enabled:
+> >
+> >   Undefined symbols for architecture arm64:
+> >     "_pauth_ptr_mask", referenced from:
+> >         _aarch64_gdb_get_pauth_reg in target_arm_gdbstub64.c.o
+> >   ld: symbol(s) not found for architecture arm64
+> >   clang: error: linker command failed with exit code 1 (use -v to see i=
+nvocation)
+> >
+> > - Inline pauth_ptr_mask() in aarch64_gdb_get_pauth_reg()
+> >   (this is the single user),
+> > - Rename pauth_ptr_mask_internal() as pauth_ptr_mask() and
+> >   inline it in "internals.h",
+> >
+> > Fixes: e995d5cce4 ("target/arm: Implement gdbstub pauth extension")
+> > Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> > Reviewed-by: Fabiano Rosas <farosas@suse.de>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> > ---
+> > Supersedes: <20230328133054.6553-1-philmd@linaro.org>
+> >
+> > Since v2:
+> > - Rebased (patch #1 merged)
+> > - Addressed rth's comments
+> > - Added R-b tags
+> > ---
+> >  target/arm/internals.h        | 16 +++++++---------
+> >  target/arm/gdbstub64.c        |  7 +++++--
+> >  target/arm/tcg/pauth_helper.c | 18 +-----------------
+> >  3 files changed, 13 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/target/arm/internals.h b/target/arm/internals.h
+> > index 673519a24a..71f4c6d8a2 100644
+> > --- a/target/arm/internals.h
+> > +++ b/target/arm/internals.h
+> > @@ -1389,15 +1389,13 @@ int exception_target_el(CPUARMState *env);
+> >  bool arm_singlestep_active(CPUARMState *env);
+> >  bool arm_generate_debug_exceptions(CPUARMState *env);
+> >
+> > -/**
+> > - * pauth_ptr_mask:
+> > - * @env: cpu context
+> > - * @ptr: selects between TTBR0 and TTBR1
+> > - * @data: selects between TBI and TBID
+> > - *
+> > - * Return a mask of the bits of @ptr that contain the authentication c=
+ode.
+> > - */
+> > -uint64_t pauth_ptr_mask(CPUARMState *env, uint64_t ptr, bool data);
+> > +static inline uint64_t pauth_ptr_mask(ARMVAParameters param)
+> > +{
+> > +    int bot_pac_bit =3D 64 - param.tsz;
+> > +    int top_pac_bit =3D 64 - 8 * param.tbi;
+> > +
+> > +    return MAKE_64BIT_MASK(bot_pac_bit, top_pac_bit - bot_pac_bit);
+> > +}
 >
-> To avoid a linking error when TCG is not enabled:
->
->   Undefined symbols for architecture arm64:
->     "_pauth_ptr_mask", referenced from:
->         _aarch64_gdb_get_pauth_reg in target_arm_gdbstub64.c.o
->   ld: symbol(s) not found for architecture arm64
->   clang: error: linker command failed with exit code 1 (use -v to see inv=
-ocation)
->
-> - Inline pauth_ptr_mask() in aarch64_gdb_get_pauth_reg()
->   (this is the single user),
-> - Rename pauth_ptr_mask_internal() as pauth_ptr_mask() and
->   inline it in "internals.h",
->
-> Fixes: e995d5cce4 ("target/arm: Implement gdbstub pauth extension")
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Fabiano Rosas <farosas@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
-> Supersedes: <20230328133054.6553-1-philmd@linaro.org>
->
-> Since v2:
-> - Rebased (patch #1 merged)
-> - Addressed rth's comments
-> - Added R-b tags
-> ---
->  target/arm/internals.h        | 16 +++++++---------
->  target/arm/gdbstub64.c        |  7 +++++--
->  target/arm/tcg/pauth_helper.c | 18 +-----------------
->  3 files changed, 13 insertions(+), 28 deletions(-)
->
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index 673519a24a..71f4c6d8a2 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -1389,15 +1389,13 @@ int exception_target_el(CPUARMState *env);
->  bool arm_singlestep_active(CPUARMState *env);
->  bool arm_generate_debug_exceptions(CPUARMState *env);
->
-> -/**
-> - * pauth_ptr_mask:
-> - * @env: cpu context
-> - * @ptr: selects between TTBR0 and TTBR1
-> - * @data: selects between TBI and TBID
-> - *
-> - * Return a mask of the bits of @ptr that contain the authentication cod=
-e.
-> - */
-> -uint64_t pauth_ptr_mask(CPUARMState *env, uint64_t ptr, bool data);
-> +static inline uint64_t pauth_ptr_mask(ARMVAParameters param)
-> +{
-> +    int bot_pac_bit =3D 64 - param.tsz;
-> +    int top_pac_bit =3D 64 - 8 * param.tbi;
-> +
-> +    return MAKE_64BIT_MASK(bot_pac_bit, top_pac_bit - bot_pac_bit);
-> +}
+> Any reason for deleting the doc comment ?
 
-Any reason for deleting the doc comment ?
+Applied to target-arm.next with a doc comment:
 
-thanks
+/**
+ * pauth_ptr_mask:
+ * @param: parameters defining the MMU setup
+ *
+ * Return a mask of the address bits that contain the authentication code,
+ * given the MMU config defined by @param.
+ */
+
+
 -- PMM
 
