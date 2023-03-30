@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D1B6D065F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372A36D073B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:46:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phsBk-0008U3-2f; Thu, 30 Mar 2023 09:19:36 -0400
+	id 1phsaO-00019Q-7U; Thu, 30 Mar 2023 09:45:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBg-0008PG-4y
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:32 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBe-000203-8F
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:31 -0400
-Received: by mail-wm1-x336.google.com with SMTP id n19so10908139wms.0
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 06:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680182369;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b4Qm4LX2kkl4/kGpdszX+MCrNUvG+BMcsxJOvXW1ttk=;
- b=UKwpyL+wLchXVr5BObyFWaNX0D0Dg7SuA3Bqthn9alhX9NGwi5QJombFRFXq5KU9VW
- yrBjeCZ0Ft2xsEMOfWr9WsJ2E+LDL5ajxK6Ba0MMnCqlzwZAMl7w6BuEXdYPrPVrv1hu
- DalJhYSjM+6SEAh96wd1ofNn/mmdv4XNK7nXFNnK6whSWseowUO3Kl+uP8MPmKn0gHb3
- oY0XOPkf3tpsaTdjAUxhKE+3sHWa681dEz7mJEI4ZGLlYcY0QT3KoTXgKRfoFq5T6T6e
- HEuDeFNbw5kLfqw9NP4Gl5HCs74tjyIOtW1L7KZfXdkPFZcYqCPeUM+qz896Pm+XS/Pb
- cCrw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phsaM-000199-IN
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:45:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1phsaK-0005dK-NG
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:45:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680183898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qnYKBQsAzFXmb51+LCyvwkhoPCyx+kIjOqsPwazgt7s=;
+ b=B/oH92wzKx1hUUL2yjsYLxcaFc3LOw5hvt38UPfTBjgFTH7h7lFF447UZ+6QIHDQpnHNJI
+ nHcdoWBgPNivvLKRWSFL87Qo2HWQCsKWbNPOorYck+9Mm14eommMbSFNUlGEh+7Qwo3w+d
+ rtNWWtNwxazfWyndODyWZk0h7Mva6gk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-75-uh1jRyv5N3ifqoxvQ-_A0g-1; Thu, 30 Mar 2023 09:44:56 -0400
+X-MC-Unique: uh1jRyv5N3ifqoxvQ-_A0g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k1-20020a05600c1c8100b003ee6dbceb81so9853282wms.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 06:44:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680182369;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=b4Qm4LX2kkl4/kGpdszX+MCrNUvG+BMcsxJOvXW1ttk=;
- b=EuY2f3nUUPOt27ANVNmT0cwhWWIDsDADrk4RhicQzFFCeLY1tjd1uOAT7v/hI8v2bJ
- JkDW0Bfqe1uVoi24cf7A2q3cUK9Lxln+JuKxwbEfr32mdZcYpdmu+8fhiDdqiPM3dwED
- 0XYAxc84LA/RjBLV8cGg/lyfGuCyM13S3SHSwXa0tfm4UhUfngXzdxItlDC1aIWfgpEL
- uEV/2Snrv1F0mShHroHKB0tv/Z8icT5d8BD+h3ZjWzf5v/y6ayX8f0UUfrDZdzgZdbdo
- Mr0axaOrr8dBPDDfHz0xT1wC2UyZeSbgWr5pOw0TPagDSd1X4VjAQx0SY/JLfaTRxRoh
- 6RDg==
-X-Gm-Message-State: AO0yUKXkixqyt2raHI2a8v4hph1MFLrK1CrawmEELYU00XRR9QKCW/zB
- WhcSnqz38RBszLQ98L7++rJM7OKOUUhlgt8KnNY=
-X-Google-Smtp-Source: AK7set/nh4Kedp9aNO/4L4X+5QPaMWUoOJV/ni/F/zLf9aKIA2YY0V/lnjj7wxhfX+g5H7g8+lCFeA==
-X-Received: by 2002:a7b:cb44:0:b0:3ee:672d:caa3 with SMTP id
- v4-20020a7bcb44000000b003ee672dcaa3mr19345371wmj.18.1680182369214; 
- Thu, 30 Mar 2023 06:19:29 -0700 (PDT)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- s17-20020a05600c45d100b003ed51cdb94csm6177599wmo.26.2023.03.30.06.19.28
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 30 Mar 2023 06:19:28 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Titus Rwantare <titusr@google.com>, Laurent Vivier <laurent@vivier.eu>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Julio Faracco <jcfaracco@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: [PULL 6/6] block/dmg: Ignore C99 prototype declaration mismatch from
- <lzfse.h>
-Date: Thu, 30 Mar 2023 15:18:56 +0200
-Message-Id: <20230330131856.94210-7-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230330131856.94210-1-philmd@linaro.org>
-References: <20230330131856.94210-1-philmd@linaro.org>
+ d=1e100.net; s=20210112; t=1680183896;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qnYKBQsAzFXmb51+LCyvwkhoPCyx+kIjOqsPwazgt7s=;
+ b=cpdWEELlT/MOFgDIQnFY/+iZshdLHg9upfqR4f7hGZ7tjLhVwt8gKDyg5vSjDZxpVE
+ xJtNjk9Fr9YzXsSad3CRnHZtU1lADBGC6VwtXZ0kBjF/vQdBkJ3JpMEszFkQ7e0UflRW
+ rYT+AvNNyt4vI6iXPhrQ70XJ7A0i47p6C4y+1Z6MXMhYBVrwYCvApqPKJfXqVgyfg+AR
+ dYnEqedW2ONgKEPtlIN8J0AqXYIuhHiSUoYJqBhjMhih8BKE6Yj2caOLDpu8ZVIirDHr
+ ehEf/OoEWIZyAXikDOvchiOwpCcQYYGlacCjg0LOQrzOgQGH+EA66Jymi2GIi6j76+y1
+ NOtA==
+X-Gm-Message-State: AAQBX9fDMWxP6UtYs78NZFaztKsEz5e89Haf9mT3yxzJB1tA7t4nK2tM
+ H9IYGxuCcxg1x40/xmVK4qHVE4pgfyWtmAnsu0ef+sVKVwYxo1JHyZQhz6UMK4RlrO85/uAIM8I
+ qfZ2QFKFlHp+5jkw=
+X-Received: by 2002:adf:df88:0:b0:2c7:604:52a1 with SMTP id
+ z8-20020adfdf88000000b002c7060452a1mr16653561wrl.29.1680183895896; 
+ Thu, 30 Mar 2023 06:44:55 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZdyhHiXcqawBqIpv6MXSvLndn3o8nI08r+GooYp51nEpfj0BEnv1n1U3cXsCEZRN01RE4n1g==
+X-Received: by 2002:adf:df88:0:b0:2c7:604:52a1 with SMTP id
+ z8-20020adfdf88000000b002c7060452a1mr16653545wrl.29.1680183895523; 
+ Thu, 30 Mar 2023 06:44:55 -0700 (PDT)
+Received: from redhat.com ([2.52.159.107]) by smtp.gmail.com with ESMTPSA id
+ s17-20020a5d4251000000b002d1801018e2sm32956870wrr.63.2023.03.30.06.44.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Mar 2023 06:44:55 -0700 (PDT)
+Date: Thu, 30 Mar 2023 09:44:51 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Eric DeVolder <eric.devolder@oracle.com>, shannon.zhaosl@gmail.com,
+ imammedo@redhat.com, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com, richard.henderson@linaro.org,
+ eduardo@habkost.net, boris.ostrovsky@oracle.com
+Subject: Re: [PATCH 0/2] hw/acpi: bump MADT to revision 5
+Message-ID: <20230330094323-mutt-send-email-mst@kernel.org>
+References: <20230328155926.2277-1-eric.devolder@oracle.com>
+ <20230329010406-mutt-send-email-mst@kernel.org>
+ <96144a1b-efa7-ecc2-3e35-56825fcf48c6@oracle.com>
+ <20230329124442-mutt-send-email-mst@kernel.org>
+ <68579d53-cbb5-154a-6c1e-e733f16540@anisinha.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68579d53-cbb5-154a-6c1e-e733f16540@anisinha.ca>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,72 +102,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When liblzfe (Apple LZFSE compression library) is present
-(for example installed via 'brew') on Darwin, QEMU build
-fails as:
+On Thu, Mar 30, 2023 at 01:06:36PM +0530, Ani Sinha wrote:
+> 
+> 
+> On Wed, 29 Mar 2023, Michael S. Tsirkin wrote:
+> 
+> > On Wed, Mar 29, 2023 at 08:14:37AM -0500, Eric DeVolder wrote:
+> > >
+> > >
+> > > On 3/29/23 00:19, Michael S. Tsirkin wrote:
+> > > > Hmm I don't think we can reasonably make such a change for 8.0.
+> > > > Seems too risky.
+> > > > Also, I feel we want to have an internal (with "x-" prefix") flag to
+> > > > revert to old behaviour, in case of breakage on some guests.  and maybe
+> > > > we want to keep old revision for old machine types.
+> > > Ok, what option name, for keeping old behavior, would you like?
+> >
+> > Don't much care. x-madt-rev?
+> >
+> > > >
+> > > >
+> > > > On Tue, Mar 28, 2023 at 11:59:24AM -0400, Eric DeVolder wrote:
+> > > > > The following Linux kernel change broke CPU hotplug for MADT revision
+> > > > > less than 5.
+> > > > >
+> > > > >   commit e2869bd7af60 ("x86/acpi/boot: Do not register processors that cannot be onlined for x2APIC")
+> > > >
+> > > > Presumably it's being fixed? Link to discussion? Patch fixing that in
+> > > > Linux?
+> > >
+> > > https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devolder@oracle.com/T/#t
+> >
+> > Great! Maybe stick a Link: tag in the commit log.
+> 
+> If the original bug is in the kernel and kernel upstream has accepted both
+> your fix and Mario's patch on the acpi revision mess, I see no urgency to
+> fix this in QEMU.
+> 
+> Maybe we can address this in the 8.1 development window.
 
-  Has header "lzfse.h" : YES
-  Library lzfse found: YES
+Why "maybe"? Eric is working on a patch I don't see why we won't
+address it.
 
-    Dependencies
-      lzo support                  : NO
-      snappy support               : NO
-      bzip2 support                : YES
-      lzfse support                : YES
-      zstd support                 : YES 1.5.2
-
-    User defined options
-      dmg                          : enabled
-      lzfse                        : enabled
-
-  [221/903] Compiling C object libblock.fa.p/block_dmg-lzfse.c.o
-  FAILED: libblock.fa.p/block_dmg-lzfse.c.o
-  /opt/homebrew/Cellar/lzfse/1.0/include/lzfse.h:56:43: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
-  LZFSE_API size_t lzfse_encode_scratch_size();
-                                            ^
-                                             void
-  /opt/homebrew/Cellar/lzfse/1.0/include/lzfse.h:94:43: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
-  LZFSE_API size_t lzfse_decode_scratch_size();
-                                            ^
-                                             void
-  2 errors generated.
-  ninja: build stopped: subcommand failed.
-
-This issue has been reported in the lzfse project in 2016:
-https://github.com/lzfse/lzfse/issues/3#issuecomment-226574719
-
-Since the project seems unmaintained, simply ignore the
-strict-prototypes warning check for the <lzfse.h> header,
-similarly to how we deal with the GtkItemFactoryCallback
-prototype from <gtk/gtkitemfactory.h>, indirectly included
-by <gtk/gtk.h>.
-
-Cc: Julio Faracco <jcfaracco@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20230327151349.97572-1-philmd@linaro.org>
----
- block/dmg-lzfse.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/block/dmg-lzfse.c b/block/dmg-lzfse.c
-index 6798cf4fbf..4ea0b9b20d 100644
---- a/block/dmg-lzfse.c
-+++ b/block/dmg-lzfse.c
-@@ -23,7 +23,12 @@
-  */
- #include "qemu/osdep.h"
- #include "dmg.h"
-+
-+/* Work around a -Wstrict-prototypes warning in LZFSE headers */
-+#pragma GCC diagnostic push
-+#pragma GCC diagnostic ignored "-Wstrict-prototypes"
- #include <lzfse.h>
-+#pragma GCC diagnostic pop
- 
- static int dmg_uncompress_lzfse_do(char *next_in, unsigned int avail_in,
-                                    char *next_out, unsigned int avail_out)
 -- 
-2.38.1
+MST
 
 
