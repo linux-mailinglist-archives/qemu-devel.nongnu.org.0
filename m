@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACEEB6D0D6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 20:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 799316D0D6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 20:08:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phwdY-0003Lm-NO; Thu, 30 Mar 2023 14:04:36 -0400
+	id 1phwdd-0003MI-9X; Thu, 30 Mar 2023 14:04:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwdR-0003IT-9E
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:04:29 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwdS-0003JC-L7
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:04:30 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwdK-00025S-Sr
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:04:26 -0400
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwdR-000262-14
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:04:30 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 215FC21A2E;
- Thu, 30 Mar 2023 18:04:21 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AA8641F86C;
+ Thu, 30 Mar 2023 18:04:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680199461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1680199463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mC4J7MkyhShPeuviGNSRXVLzIyJv7LGs1dCrXwd+IWo=;
- b=iW/tGpqXPmQvC8iRaAi6AFS/ApeMCva9iwzG7nVZmrsQENmS5SyLXowA4SB4Jz740Upah1
- KdKsg3fh5YR0BrxRiwdq38L8tjiGAA4F9fG6GxIJwwDpoTh5e+3wXdZc0bcKCckHrfGgSx
- eeoav8wxVXbVf1Kx8NUa8UjIKiJmY1w=
+ bh=KK/TQbf2mnwP6VHEO79Vdk2BgwveWe5Obtn01e1sCM4=;
+ b=UQdjHBs/99rN/nMpP9kbvjNNhG/+2Rp1Gu5P+vKDVpYncm2TVnNF11T+GUIkgsomPZzELr
+ pEx23bWrPpb2UVEENK1x+yLsJ6hBhgdHH2BqE95AnUL4OTucQV5buI9mnTxZyhiH4rXOOD
+ vU1I7rMkxqXAa0OIf3aA6EgjUm9UfIw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680199461;
+ s=susede2_ed25519; t=1680199463;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mC4J7MkyhShPeuviGNSRXVLzIyJv7LGs1dCrXwd+IWo=;
- b=7z17LRMxvuaTPsVlomDUotrZb7YGZHgJXPPUGz1BULHssESn3k/NPbhJzc0G2AvE/50ko1
- COYoIRRrR8XnGJAA==
+ bh=KK/TQbf2mnwP6VHEO79Vdk2BgwveWe5Obtn01e1sCM4=;
+ b=jm2KF97cUfEcM1gE39C+zuuAOMzfd5zCTbME9IFgNXosVQOVo25jx50TdHJuK8NHiIDRYJ
+ YZy3FT/Zx5le2bDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 22C8E1348E;
- Thu, 30 Mar 2023 18:04:17 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 984D51348E;
+ Thu, 30 Mar 2023 18:04:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IEVzNiHPJWQ5GwAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 30 Mar 2023 18:04:17 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id QI6cFyXPJWQ5GwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 30 Mar 2023 18:04:21 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com, dfaggioli@suse.com,
  dgilbert@redhat.com,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Nikolay Borisov <nborisov@suse.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [RFC PATCH v1 13/26] tests/qtest: migration-test: Add tests for
- fixed-ram file-based migration
-Date: Thu, 30 Mar 2023 15:03:23 -0300
-Message-Id: <20230330180336.2791-14-farosas@suse.de>
+ Juan Quintela <quintela@redhat.com>
+Subject: [RFC PATCH v1 14/26] migration: Add completion tracepoint
+Date: Thu, 30 Mar 2023 15:03:24 -0300
+Message-Id: <20230330180336.2791-15-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230330180336.2791-1-farosas@suse.de>
 References: <20230330180336.2791-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -90,56 +87,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Nikolay Borisov <nborisov@suse.com>
+Add a completion tracepoint that provides basic stats for
+debug. Displays throughput (MB/s and pages/s) and total time (ms).
 
-Add basic tests for 'fixed-ram' migration.
+Usage:
+  $QEMU ... -trace migration_status
 
-Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+Output:
+  migration_status 1506 MB/s, 436725 pages/s, 8698 ms
+
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/migration-test.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ migration/migration.c  | 6 +++---
+ migration/migration.h  | 4 +++-
+ migration/savevm.c     | 4 ++++
+ migration/trace-events | 1 +
+ 4 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 13e5cdd5a4..84b4c761ad 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -1544,6 +1544,26 @@ static void test_precopy_file_stream_ram(void)
-     test_precopy_common(&args);
+diff --git a/migration/migration.c b/migration/migration.c
+index 29630523e2..17b26c1808 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3811,7 +3811,7 @@ static uint64_t migration_total_bytes(MigrationState *s)
+         ram_counters.multifd_bytes;
  }
  
-+static void *migrate_fixed_ram_start(QTestState *from, QTestState *to)
-+{
-+    migrate_set_capability(from, "fixed-ram", true);
-+    migrate_set_capability(to, "fixed-ram", true);
-+
-+    return NULL;
-+}
-+
-+static void test_precopy_file_fixed_ram(void)
-+{
-+    g_autofree char *uri = g_strdup_printf("file:%s/migfile", tmpfs);
-+    MigrateCommon args = {
-+        .connect_uri = uri,
-+        .listen_uri = "defer",
-+        .start_hook = migrate_fixed_ram_start,
-+    };
-+
-+    test_precopy_common(&args);
-+}
-+
- static void test_precopy_tcp_plain(void)
+-static void migration_calculate_complete(MigrationState *s)
++void migration_calculate_complete(MigrationState *s)
  {
-     MigrateCommon args = {
-@@ -2538,6 +2558,8 @@ int main(int argc, char **argv)
+     uint64_t bytes = migration_total_bytes(s);
+     int64_t end_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+@@ -3843,8 +3843,7 @@ static void update_iteration_initial_status(MigrationState *s)
+     s->iteration_initial_pages = ram_get_total_transferred_pages();
+ }
  
-     qtest_add_func("/migration/precopy/file/stream-ram",
-                    test_precopy_file_stream_ram);
-+    qtest_add_func("/migration/precopy/file/fixed-ram",
-+                   test_precopy_file_fixed_ram);
+-static void migration_update_counters(MigrationState *s,
+-                                      int64_t current_time)
++void migration_update_counters(MigrationState *s, int64_t current_time)
+ {
+     uint64_t transferred, transferred_pages, time_spent;
+     uint64_t current_bytes; /* bytes transferred since the beginning */
+@@ -3941,6 +3940,7 @@ static void migration_iteration_finish(MigrationState *s)
+     case MIGRATION_STATUS_COMPLETED:
+         migration_calculate_complete(s);
+         runstate_set(RUN_STATE_POSTMIGRATE);
++        trace_migration_status((int)s->mbps / 8, (int)s->pages_per_second, s->total_time);
+         break;
+     case MIGRATION_STATUS_COLO:
+         if (!migrate_colo_enabled()) {
+diff --git a/migration/migration.h b/migration/migration.h
+index 84be34587f..01c8201cfa 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -387,7 +387,9 @@ struct MigrationState {
+ };
  
- #ifdef CONFIG_GNUTLS
-     qtest_add_func("/migration/precopy/unix/tls/psk",
+ void migrate_set_state(int *state, int old_state, int new_state);
+-
++void migration_calculate_complete(MigrationState *s);
++void migration_update_counters(MigrationState *s,
++                               int64_t current_time);
+ void migration_fd_process_incoming(QEMUFile *f, Error **errp);
+ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp);
+ void migration_incoming_process(void);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 1f1bc19224..b369d11b19 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1638,6 +1638,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **errp)
+     qemu_mutex_lock_iothread();
+ 
+     while (qemu_file_get_error(f) == 0) {
++        migration_update_counters(ms, qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
+         if (qemu_savevm_state_iterate(f, false) > 0) {
+             break;
+         }
+@@ -1660,6 +1661,9 @@ static int qemu_savevm_state(QEMUFile *f, Error **errp)
+     }
+     migrate_set_state(&ms->state, MIGRATION_STATUS_SETUP, status);
+ 
++    migration_calculate_complete(ms);
++    trace_migration_status((int)ms->mbps / 8, (int)ms->pages_per_second, ms->total_time);
++
+     /* f is outer parameter, it should not stay in global migration state after
+      * this function finished */
+     ms->to_dst_file = NULL;
+diff --git a/migration/trace-events b/migration/trace-events
+index 92161eeac5..23e4dad1ec 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -165,6 +165,7 @@ migration_return_path_end_after(int rp_error) "%d"
+ migration_thread_after_loop(void) ""
+ migration_thread_file_err(void) ""
+ migration_thread_setup_complete(void) ""
++migration_status(int mpbs, int pages_per_second, int64_t total_time) "%d MB/s, %d pages/s, %ld ms"
+ open_return_path_on_source(void) ""
+ open_return_path_on_source_continue(void) ""
+ postcopy_start(void) ""
 -- 
 2.35.3
 
