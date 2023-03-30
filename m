@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56F06D0522
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 14:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1006D0523
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 14:45:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phrdu-0006Hh-K1; Thu, 30 Mar 2023 08:44:38 -0400
+	id 1phrds-0006H3-RD; Thu, 30 Mar 2023 08:44:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1phrdq-0006GY-3k
+ id 1phrdq-0006GZ-4F
  for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:44:34 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1phrdo-0003Yo-GN
+ id 1phrdo-0003Yv-OE
  for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:44:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680180271;
+ s=mimecast20190719; t=1680180272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=gIazBeJ63WjSiXsPhQT21nW30Qf0dH+4hNe+hy29NYg=;
- b=J/NClUSfmObWSvMMrhrZ2dsu6+RJTagSghLyebGc17WKhaO5pokOIJkk/ktY3Nsh5nA8bb
- cMYm7gxrrasBcO41sm+39B5ncbw8bnPXSecOwbyQaMH3YcazCvYNzyrewZ3hypOCfNol8i
- VcHzQv2MOAbAX431AmbwMmxptpcdrjE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nTVuE8NuVb2zdXy2LMXQL0hemJ8bk3hgs1eQsKsjWes=;
+ b=jLGglq0XBKR6rvJUDQrZt1KD/SpkblZBgeNssJyD/5YRWtYpCbbywJQ001tINHxbWnZY30
+ 2rTsnHN399s3qbNShGhpuSpnI2QWvm7pB83ZGgCkstnR0YgKEhZ8wruYuM1fL4Nx8qQSH9
+ mnloRoEbihzk5e4zYS6Ozba6W5KOudA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-608-V6jimQpSMXiLodoQCRmULg-1; Thu, 30 Mar 2023 08:44:29 -0400
-X-MC-Unique: V6jimQpSMXiLodoQCRmULg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d5-20020adfa345000000b002d716fc080fso1984074wrb.22
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 05:44:28 -0700 (PDT)
+ us-mta-610-oJSG1bBtP0KV8mHUT6wI8Q-1; Thu, 30 Mar 2023 08:44:30 -0400
+X-MC-Unique: oJSG1bBtP0KV8mHUT6wI8Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n19-20020a05600c3b9300b003ef63ef4519so8206614wms.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 05:44:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680180266; x=1682772266;
+ d=1e100.net; s=20210112; t=1680180269; x=1682772269;
  h=content-transfer-encoding:mime-version:message-id:date:subject:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gIazBeJ63WjSiXsPhQT21nW30Qf0dH+4hNe+hy29NYg=;
- b=Q4ofjL+hgTjDedHevEb09OC8rHb7Fc6TW1rFI7oeCPGhqcEudCYSX0ZP3mwQbwztuf
- YcIM4S3rdmguiGoHxCYqqD0v4ff4UY8mh+o19ChvKB966Vo1ZfgXCkIOJ72aE4+zlLv0
- mEA9TSA5y4aawAWUqC7GsrpbtgYWj2ArrGRECmcwzHZCYMTPjIZJUKlDXGq5nViazvYa
- 1dBa/BTz8+ZH2Aqx40Q4S2yvCoQreTlObEYtFM9HRDSzKL9JftquBHmtsM+IsSf5yjie
- puCegdXs7CT5zR3nN98MNojrc4bI+sLWwQO1Rwsh9ziaHQHg+A2Tv1HJIlpjaXp/2/bw
- dcmg==
-X-Gm-Message-State: AAQBX9cubg8tkbJyRTOv/RR1wkTfV+si5kEbmWN9FEfny71XyA6GOGST
- LNeU3w/IRTnagCLFr5L2kYK7duv/cMAY7PLpmU4tAU8T6WDbCwo0jCUwOD4eRQ3SwAU16NfX92R
- s+za/FrzCjEc3o0KkAVg4eE9BRllb9ZoAeyUE2KizN/91SBn9CuPXcMhXBQkFYS/8gDO4tljI/A
- luig==
-X-Received: by 2002:a05:600c:2313:b0:3eb:2e27:2d0c with SMTP id
- 19-20020a05600c231300b003eb2e272d0cmr4735633wmo.1.1680180266128; 
- Thu, 30 Mar 2023 05:44:26 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bw2+bqPvh5d5ZpsJfX9/QuXK0gbmlLzEPt1RM4KUVwUqlchN4YPOZb7At3GCnS45tzdw6gFw==
-X-Received: by 2002:a05:600c:2313:b0:3eb:2e27:2d0c with SMTP id
- 19-20020a05600c231300b003eb2e272d0cmr4735619wmo.1.1680180265734; 
- Thu, 30 Mar 2023 05:44:25 -0700 (PDT)
+ bh=nTVuE8NuVb2zdXy2LMXQL0hemJ8bk3hgs1eQsKsjWes=;
+ b=Z3KSIIytx6Z1Wrikt49SXy0GSjAB5BlVE0/c7rjK0ncqQB70+UY46Pc7kzX2TKh16s
+ JbRHH8uUsSDXAjlsL97QemXJleLEfwJ/wt0Rz4g/0z2zYjGv8Vr2fk3RPsRMrrkWHHa/
+ nik0235jw+kly+C+Zkg++zC2U5eBbjUHuUoPcvj77qdA/bDi3LtPNcQG92zlpp3vDB08
+ K2S29a1Ng+RTUq0ntZ/MtleTAIyHaW9rdDmxqooinuIzSPQsdAkEgQUMMZUry/XAklqq
+ MDhdwyG1a1HBVjaLiLkA3CQHfIH/SQPbeKwA18mTjYNiHAtHtnLzMKr4/Y5RDk1z2a+O
+ A+5g==
+X-Gm-Message-State: AAQBX9dUDQlbqy6H5mQYIeBeLM66ZO+y/PoXOWXco1bz2IHFHiBkUUuS
+ B4qV7OcWD5+6iZhBwAE4yC52PGkEhNMAR9p2KY62ZGWxrVUCYBQ79eZiLyRzxG2m14prAqDNLIu
+ EUMQdi2JnFKL6R9yxk6ea5wnDPdTKGfIIGEdhc26GzG4PLQTqUEnESW/4PoOYLwlKm1MYrhNgrd
+ nGKA==
+X-Received: by 2002:a7b:c4c7:0:b0:3ef:6ae7:8994 with SMTP id
+ g7-20020a7bc4c7000000b003ef6ae78994mr12552905wmk.22.1680180269410; 
+ Thu, 30 Mar 2023 05:44:29 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bqpk6MAIPuHhgV1gbGpu3qU0VoT41dTT99QxuredWTBP8aOboULkHvbRbD4c6/UgE3XrrERg==
+X-Received: by 2002:a7b:c4c7:0:b0:3ef:6ae7:8994 with SMTP id
+ g7-20020a7bc4c7000000b003ef6ae78994mr12552890wmk.22.1680180269086; 
+ Thu, 30 Mar 2023 05:44:29 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:4783:a68:c1ee:15c5])
  by smtp.gmail.com with ESMTPSA id
- q18-20020a7bce92000000b003ef71d541cbsm5732958wmj.1.2023.03.30.05.44.24
+ r16-20020a05600c35d000b003ee9f396dcesm6074267wmq.30.2023.03.30.05.44.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 05:44:25 -0700 (PDT)
+ Thu, 30 Mar 2023 05:44:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] vnc: avoid underflow when accessing user-provided address
-Date: Thu, 30 Mar 2023 14:44:24 +0200
-Message-Id: <20230330124424.40610-1-pbonzini@redhat.com>
+Subject: [PATCH] nvme: remove constant argument to tracepoint
+Date: Thu, 30 Mar 2023 14:44:27 +0200
+Message-Id: <20230330124427.40631-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -96,34 +96,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If hostlen is zero, there is a possibility that addrstr[hostlen - 1]
-underflows and, if a closing bracked is there, hostlen - 2 is passed
-to g_strndup() on the next line.  If websocket==false then
-addrstr[0] would be a colon, but if websocket==true this could in
-principle happen.
-
-Fix it by checking hostlen.
-
-Reported by Coverity.
+The last argument to -pci_nvme_err_startfail_virt_state is always "OFFLINE"
+due to the enclosing "if" condition requiring !sctrl->scs.  Reported by
+Coverity.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/vnc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/nvme/ctrl.c       | 4 +---
+ hw/nvme/trace-events | 2 +-
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index bbd8b6baaeca..9d8a24dd8a69 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -3751,7 +3751,7 @@ static int vnc_display_get_address(const char *addrstr,
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 8b7be1420912..4e8f26dc60ad 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -7155,9 +7155,7 @@ static int nvme_start_ctrl(NvmeCtrl *n)
  
-         addr->type = SOCKET_ADDRESS_TYPE_INET;
-         inet = &addr->u.inet;
--        if (addrstr[0] == '[' && addrstr[hostlen - 1] == ']') {
-+        if (hostlen && addrstr[0] == '[' && addrstr[hostlen - 1] == ']') {
-             inet->host = g_strndup(addrstr + 1, hostlen - 2);
-         } else {
-             inet->host = g_strndup(addrstr, hostlen);
+     if (pci_is_vf(PCI_DEVICE(n)) && !sctrl->scs) {
+         trace_pci_nvme_err_startfail_virt_state(le16_to_cpu(sctrl->nvi),
+-                                                le16_to_cpu(sctrl->nvq),
+-                                                sctrl->scs ? "ONLINE" :
+-                                                             "OFFLINE");
++                                                le16_to_cpu(sctrl->nvq));
+         return -1;
+     }
+     if (unlikely(n->cq[0])) {
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index 7f7837e1a281..9afddf3b951c 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -187,7 +187,7 @@ pci_nvme_err_startfail_asqent_sz_zero(void) "nvme_start_ctrl failed because the
+ pci_nvme_err_startfail_acqent_sz_zero(void) "nvme_start_ctrl failed because the admin completion queue size is zero"
+ pci_nvme_err_startfail_zasl_too_small(uint32_t zasl, uint32_t pagesz) "nvme_start_ctrl failed because zone append size limit %"PRIu32" is too small, needs to be >= %"PRIu32""
+ pci_nvme_err_startfail(void) "setting controller enable bit failed"
+-pci_nvme_err_startfail_virt_state(uint16_t vq, uint16_t vi, const char *state) "nvme_start_ctrl failed due to ctrl state: vi=%u vq=%u %s"
++pci_nvme_err_startfail_virt_state(uint16_t vq, uint16_t vi) "nvme_start_ctrl failed due to ctrl state: vi=%u vq=%u"
+ pci_nvme_err_invalid_mgmt_action(uint8_t action) "action=0x%"PRIx8""
+ pci_nvme_err_ignored_mmio_vf_offline(uint64_t addr, unsigned size) "addr 0x%"PRIx64" size %d"
+ 
 -- 
 2.39.2
 
