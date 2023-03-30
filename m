@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D586D09A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 17:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16DA6D09C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 17:34:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phuFx-0004HG-76; Thu, 30 Mar 2023 11:32:05 -0400
+	id 1phuHo-00052F-4F; Thu, 30 Mar 2023 11:34:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1phuFm-0004Gi-Vf
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 11:31:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1phuFl-0006zY-FL
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 11:31:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680190312;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2oTKtNscao0SAqIst4ZltSRzVr4gqWkpgp6pYckWsNc=;
- b=JAU0qJtwZDm7g3jglkuchUK8BOgvKuxDLH/KWmpgHsmxTK8K8IqFDzZi/AEN14GMKw/VXg
- Xw0kxdMSR5ro11DtkiGKveyvSZVDZzL8NFkZlnj/GMH1l/LRsa9FZ0DNPzAayafNGQFKLm
- DEVfgGikzUpJp+ChE4INHdyo2C4HqGw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-XjyocA8sO9qe2a7ugE4O_w-1; Thu, 30 Mar 2023 11:31:47 -0400
-X-MC-Unique: XjyocA8sO9qe2a7ugE4O_w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90F89886066;
- Thu, 30 Mar 2023 15:31:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E667202701E;
- Thu, 30 Mar 2023 15:31:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3EFB921E6926; Thu, 30 Mar 2023 17:31:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,  Warner Losh
- <imp@bsdimp.com>,  Ryo ONODERA <ryoon@netbsd.org>,  Kevin Wolf
- <kwolf@redhat.com>,  Beraldo Leal <bleal@redhat.com>,  Wainer dos Santos
- Moschetta <wainersm@redhat.com>,  Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,  Kyle
- Evans <kevans@freebsd.org>,  Reinoud Zandijk <reinoud@netbsd.org>,  Daniel
- P . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Kashyap Chamarthy
- <kchamart@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Peter
- Maydell <peter.maydell@linaro.org>,  Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH 03/11] MAINTAINERS: add a section for policy documents
-References: <20230330101141.30199-1-alex.bennee@linaro.org>
- <20230330101141.30199-4-alex.bennee@linaro.org>
-Date: Thu, 30 Mar 2023 17:31:43 +0200
-In-Reply-To: <20230330101141.30199-4-alex.bennee@linaro.org> ("Alex
- =?utf-8?Q?Benn=C3=A9e=22's?=
- message of "Thu, 30 Mar 2023 11:11:33 +0100")
-Message-ID: <87pm8qp868.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1phuHk-00051k-EX
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 11:33:56 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1phuHh-00077G-SN
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 11:33:55 -0400
+Received: by mail-ed1-x529.google.com with SMTP id eh3so78007904edb.11
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 08:33:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680190432;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=W8m7oclv/JhwdLC1DGzuajS89S1N824EvTtuAlnQc54=;
+ b=C3ldsXkm5T1Hij6A6lNFOCBkfVbKzfYFnP13YZHVSNHVxEnE61UHw6NHkXjaw+S4UX
+ xTVPV0euvyTaRStKXo7e7i3yo7eLv2KwmMsGy2jNG3ocpgF02clp7wuowLlZrp2+ANEu
+ b1mSdp7ERNwDXbm1QCQAWJMty1qGev0bRKq6nI2JWl8Pvks84xJ7UzAzqAo40sunY87q
+ 4FTfuAS5qUUVbIUl+T1QEbpGtjFYKL5eJPlUHSwxsPR8b9Hr4VYSSbWS4lVca6cHUDUc
+ qB1S+tO2EunVKWgxAOu/0bu5sKesvszbBJxtPDqKU/ghPLyFbAr/WrzgVaK1UFP6/tLI
+ FOTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680190432;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=W8m7oclv/JhwdLC1DGzuajS89S1N824EvTtuAlnQc54=;
+ b=SGVaqanYiqSupYwKpZ8oq679QaQBPjGr7pIZm+TCZ84TblO+QHtGFxmnacFMfb0CAU
+ usu1LuGuWK5XKIkZCKb0aNk10OVlsz/qUTnSYC3P7Dw18ZU/DEd3zDTc3b4H0UrztL2I
+ ao8B/BCJhRaW163vbxkO2MQXWbqHSddE5FADrYJfJFox0UKerJs6LcTGIU8X2+hdVc9S
+ 7xd9ZzBozYA7p5pgFb1owk1gibSAOjtdSIntuWDwAwxTRYLh0AYtbljru5DkLM7V5NYf
+ 3aiDrEMOOASyG0xfqLKKpRC6rAk+bruULjXG5Z0TcJrqKTsTHRo+f/inXe9VRMsIAExR
+ rh3Q==
+X-Gm-Message-State: AAQBX9exIoU0N8cd0+ZBNhCut0p9sftr4TithmK8ZTmmmAvPDrwU22d8
+ ae4MBFtrmywoOc7f5MGv/y6KDyzmibV53FAL3tSCFA==
+X-Google-Smtp-Source: AKy350ZYuaFQ7nRmmqZLSIu5DVbHe3rj6Vfvstz65lTSlXpNV710HJ16rcRu+lbaZFV5x+l/iGp5l7GORhd06ZEOKBk=
+X-Received: by 2002:a50:bae1:0:b0:4fb:3549:a708 with SMTP id
+ x88-20020a50bae1000000b004fb3549a708mr11584509ede.6.1680190432137; Thu, 30
+ Mar 2023 08:33:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230330152613.232082-1-thuth@redhat.com>
+In-Reply-To: <20230330152613.232082-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 Mar 2023 16:33:41 +0100
+Message-ID: <CAFEAcA_2H9rMG6uu8JY8VDY96UjmvPuXBYzoQmy8adM+sqUF+Q@mail.gmail.com>
+Subject: Re: [PATCH] hw/mips/malta: Fix the malta machine on big endian hosts
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-stable@nongnu.org, 
+ Aurelien Jarno <aurelien@aurel32.net>, Rob Landley <rob@landley.net>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,25 +86,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-
-> We don't update these often but if you are the sort of person who
-> enjoys debating and tuning project policies you could now add yourself
-> as a reviewer here so you don't miss the next debate over tabs vs
-> spaces ;-)
+On Thu, 30 Mar 2023 at 16:27, Thomas Huth <thuth@redhat.com> wrote:
 >
-> Who's with me?
+> Booting a Linux kernel with the malta machine is currently broken
+> on big endian hosts. The cpu_to_gt32 macro wants to byteswap a value
+> for little endian targets only, but uses the wrong way to do this:
+> cpu_to_[lb]e32 works the other way round on big endian hosts! Fix
+> it by using the same ways on both, big and little endian hosts.
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: Kashyap Chamarthy <kchamart@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Cc: Bernhard Beschow <shentey@gmail.com>
+> Fixes: 0c8427baf0 ("hw/mips/malta: Use bootloader helper to set BAR registers")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  I've checked that both, the kernel from
+>  https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mipsel.tgz
+>  and the kernel from
+>  https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mips.tgz
+>  now boot fine on both, a little endian (x86) and a big endian (s390x) host.
+>
+>  hw/mips/malta.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> index af9021316d..b26ed1fc9a 100644
+> --- a/hw/mips/malta.c
+> +++ b/hw/mips/malta.c
+> @@ -629,9 +629,9 @@ static void bl_setup_gt64120_jump_kernel(void **p, uint64_t run_addr,
+>
+>      /* Bus endianess is always reversed */
+>  #if TARGET_BIG_ENDIAN
+> -#define cpu_to_gt32 cpu_to_le32
+> +#define cpu_to_gt32(x) (x)
+>  #else
+> -#define cpu_to_gt32 cpu_to_be32
+> +#define cpu_to_gt32(x) bswap32(x)
+>  #endif
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+So if we:
+ * do nothing to the value on a BE host
+ * swap the value on an LE host
 
+isn't that the same as cpu_to_be32() in both cases?
+
+thanks
+-- PMM
 
