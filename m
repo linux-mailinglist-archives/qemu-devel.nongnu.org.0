@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6326D065D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D1B6D065F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:19:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phsBh-0008Oz-2J; Thu, 30 Mar 2023 09:19:33 -0400
+	id 1phsBk-0008U3-2f; Thu, 30 Mar 2023 09:19:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBa-0007zt-N0
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:27 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBg-0008PG-4y
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:32 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBZ-0001z6-4M
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:26 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- bg16-20020a05600c3c9000b003eb34e21bdfso13451089wmb.0
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 06:19:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phsBe-000203-8F
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:19:31 -0400
+Received: by mail-wm1-x336.google.com with SMTP id n19so10908139wms.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 06:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680182364;
+ d=linaro.org; s=google; t=1680182369;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CBSELtOf9xv0/cDxDhg88YCz+YYHgAmDVorjbtOUtaE=;
- b=b1gZqUxj6PoTjIdBskg3vZ7vW2lBsuIwClSS4pyVG+hoZ+4i2Dk5OFi9ylvyL9Yu6A
- XVHGig5bJq4kST3W8iZ+/KHpOmSF+0cCWaX3Q9f/Cq2Wz2qFfiCf7qI+gPcEPEm8mfRb
- qfbWaVBcdMeSBJSBxl8Jdm/jLPvFXW/COyQAKRrGbgpAQ10eiDlE4XfWSxzewiEzKhFZ
- KrS7WyYJW360cVFw44jTw9l9enec+yKSl0uuCSp40ldxhlpiaa5j2DGPQWVABifkYyI1
- 8Htv3SYcY2KVTEN8rjssu+2qwEmbeZnzWh8DUD5MRvNbnngXMDONzCIDXp20fQJeApjM
- gDuw==
+ bh=b4Qm4LX2kkl4/kGpdszX+MCrNUvG+BMcsxJOvXW1ttk=;
+ b=UKwpyL+wLchXVr5BObyFWaNX0D0Dg7SuA3Bqthn9alhX9NGwi5QJombFRFXq5KU9VW
+ yrBjeCZ0Ft2xsEMOfWr9WsJ2E+LDL5ajxK6Ba0MMnCqlzwZAMl7w6BuEXdYPrPVrv1hu
+ DalJhYSjM+6SEAh96wd1ofNn/mmdv4XNK7nXFNnK6whSWseowUO3Kl+uP8MPmKn0gHb3
+ oY0XOPkf3tpsaTdjAUxhKE+3sHWa681dEz7mJEI4ZGLlYcY0QT3KoTXgKRfoFq5T6T6e
+ HEuDeFNbw5kLfqw9NP4Gl5HCs74tjyIOtW1L7KZfXdkPFZcYqCPeUM+qz896Pm+XS/Pb
+ cCrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680182364;
+ d=1e100.net; s=20210112; t=1680182369;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CBSELtOf9xv0/cDxDhg88YCz+YYHgAmDVorjbtOUtaE=;
- b=Wr8na13ulmWnwfRBb1/iZ6iSbhwOyXDrqz//GWx4IGeA6EzL497iXhCWOVGmDGasOj
- 0H3DT/0ifR/0pLmD6Fy0VeasG43rRJaszLTx/OF+0m2t/zrnfcU7hvJbfUu2s3XeMmQ/
- BGcXkOXoChvQc4ejInFFjGAoik4HQDcsK24P+gvuGJ+BIjFlsCyhb0M47UsH6xtYptlX
- GeIaUiMx4OXDhOTVJ2WpQR+BbrT+2FpQBndZI9bJGGcSH1B76Q+m5EatDqqAS7SlhCrz
- GfzFKP8bY21EUJUZX/BPpI7Yn9vDrwr8bC1eByX4xZvvIkVSVdfKYsHo6d6J5TaW2NYw
- UH9w==
-X-Gm-Message-State: AO0yUKWEcaR3JQ4aWESiklRLUmKQ3ST5U/oz8dUnlUCPdBvdf9Iwi9Gp
- 37GHa8s8KaYpzkvN9bklJXcgsUe6AUTQ1lQtXn8=
-X-Google-Smtp-Source: AK7set9aG+/Xp6kv40jDzKzRgRZVGCEFiblLCMB0aVwx+Ulx0C8w7PEhf9JVbokw7kNjPr6V6kyFEA==
-X-Received: by 2002:a1c:7702:0:b0:3ed:cfa6:8854 with SMTP id
- t2-20020a1c7702000000b003edcfa68854mr18261991wmi.26.1680182364111; 
- Thu, 30 Mar 2023 06:19:24 -0700 (PDT)
+ bh=b4Qm4LX2kkl4/kGpdszX+MCrNUvG+BMcsxJOvXW1ttk=;
+ b=EuY2f3nUUPOt27ANVNmT0cwhWWIDsDADrk4RhicQzFFCeLY1tjd1uOAT7v/hI8v2bJ
+ JkDW0Bfqe1uVoi24cf7A2q3cUK9Lxln+JuKxwbEfr32mdZcYpdmu+8fhiDdqiPM3dwED
+ 0XYAxc84LA/RjBLV8cGg/lyfGuCyM13S3SHSwXa0tfm4UhUfngXzdxItlDC1aIWfgpEL
+ uEV/2Snrv1F0mShHroHKB0tv/Z8icT5d8BD+h3ZjWzf5v/y6ayX8f0UUfrDZdzgZdbdo
+ Mr0axaOrr8dBPDDfHz0xT1wC2UyZeSbgWr5pOw0TPagDSd1X4VjAQx0SY/JLfaTRxRoh
+ 6RDg==
+X-Gm-Message-State: AO0yUKXkixqyt2raHI2a8v4hph1MFLrK1CrawmEELYU00XRR9QKCW/zB
+ WhcSnqz38RBszLQ98L7++rJM7OKOUUhlgt8KnNY=
+X-Google-Smtp-Source: AK7set/nh4Kedp9aNO/4L4X+5QPaMWUoOJV/ni/F/zLf9aKIA2YY0V/lnjj7wxhfX+g5H7g8+lCFeA==
+X-Received: by 2002:a7b:cb44:0:b0:3ee:672d:caa3 with SMTP id
+ v4-20020a7bcb44000000b003ee672dcaa3mr19345371wmj.18.1680182369214; 
+ Thu, 30 Mar 2023 06:19:29 -0700 (PDT)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- h16-20020a05600c315000b003eda46d6792sm6268321wmo.32.2023.03.30.06.19.23
+ s17-20020a05600c45d100b003ed51cdb94csm6177599wmo.26.2023.03.30.06.19.28
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 30 Mar 2023 06:19:23 -0700 (PDT)
+ Thu, 30 Mar 2023 06:19:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Titus Rwantare <titusr@google.com>, Laurent Vivier <laurent@vivier.eu>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-block@nongnu.org,
- Patrick Venture <venture@google.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 5/6] hw/i2c: pmbus: block uninitialised string reads
-Date: Thu, 30 Mar 2023 15:18:55 +0200
-Message-Id: <20230330131856.94210-6-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Julio Faracco <jcfaracco@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+Subject: [PULL 6/6] block/dmg: Ignore C99 prototype declaration mismatch from
+ <lzfse.h>
+Date: Thu, 30 Mar 2023 15:18:56 +0200
+Message-Id: <20230330131856.94210-7-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230330131856.94210-1-philmd@linaro.org>
 References: <20230330131856.94210-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,38 +94,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Titus Rwantare <titusr@google.com>
+When liblzfe (Apple LZFSE compression library) is present
+(for example installed via 'brew') on Darwin, QEMU build
+fails as:
 
-Devices models calling pmbus_send_string can't be relied upon to
-send a non-zero pointer. This logs an error and doesn't segfault.
+  Has header "lzfse.h" : YES
+  Library lzfse found: YES
 
-Reviewed-by: Patrick Venture <venture@google.com>
-Signed-off-by: Titus Rwantare <titusr@google.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230322175513.1550412-5-titusr@google.com>
+    Dependencies
+      lzo support                  : NO
+      snappy support               : NO
+      bzip2 support                : YES
+      lzfse support                : YES
+      zstd support                 : YES 1.5.2
+
+    User defined options
+      dmg                          : enabled
+      lzfse                        : enabled
+
+  [221/903] Compiling C object libblock.fa.p/block_dmg-lzfse.c.o
+  FAILED: libblock.fa.p/block_dmg-lzfse.c.o
+  /opt/homebrew/Cellar/lzfse/1.0/include/lzfse.h:56:43: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+  LZFSE_API size_t lzfse_encode_scratch_size();
+                                            ^
+                                             void
+  /opt/homebrew/Cellar/lzfse/1.0/include/lzfse.h:94:43: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+  LZFSE_API size_t lzfse_decode_scratch_size();
+                                            ^
+                                             void
+  2 errors generated.
+  ninja: build stopped: subcommand failed.
+
+This issue has been reported in the lzfse project in 2016:
+https://github.com/lzfse/lzfse/issues/3#issuecomment-226574719
+
+Since the project seems unmaintained, simply ignore the
+strict-prototypes warning check for the <lzfse.h> header,
+similarly to how we deal with the GtkItemFactoryCallback
+prototype from <gtk/gtkitemfactory.h>, indirectly included
+by <gtk/gtk.h>.
+
+Cc: Julio Faracco <jcfaracco@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20230327151349.97572-1-philmd@linaro.org>
 ---
- hw/i2c/pmbus_device.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ block/dmg-lzfse.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
-index c3d6046784..44fe4eddbb 100644
---- a/hw/i2c/pmbus_device.c
-+++ b/hw/i2c/pmbus_device.c
-@@ -94,6 +94,13 @@ void pmbus_send64(PMBusDevice *pmdev, uint64_t data)
- 
- void pmbus_send_string(PMBusDevice *pmdev, const char *data)
- {
-+    if (!data) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: %s: uninitialised read from 0x%02x\n",
-+                      __func__, DEVICE(pmdev)->canonical_path, pmdev->code);
-+        return;
-+    }
+diff --git a/block/dmg-lzfse.c b/block/dmg-lzfse.c
+index 6798cf4fbf..4ea0b9b20d 100644
+--- a/block/dmg-lzfse.c
++++ b/block/dmg-lzfse.c
+@@ -23,7 +23,12 @@
+  */
+ #include "qemu/osdep.h"
+ #include "dmg.h"
 +
-     size_t len = strlen(data);
-     g_assert(len > 0);
-     g_assert(len + pmdev->out_buf_len < SMBUS_DATA_MAX_LEN);
++/* Work around a -Wstrict-prototypes warning in LZFSE headers */
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstrict-prototypes"
+ #include <lzfse.h>
++#pragma GCC diagnostic pop
+ 
+ static int dmg_uncompress_lzfse_do(char *next_in, unsigned int avail_in,
+                                    char *next_out, unsigned int avail_out)
 -- 
 2.38.1
 
