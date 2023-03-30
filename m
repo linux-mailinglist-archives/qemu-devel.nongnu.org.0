@@ -2,107 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54ABB6CFB4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 08:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181716CFB5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 08:16:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phlWA-0006VV-Rv; Thu, 30 Mar 2023 02:12:14 -0400
+	id 1phlZn-0008P0-Uz; Thu, 30 Mar 2023 02:15:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
- id 1phlW7-0006Ug-V7
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 02:12:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1phlZb-0008Lv-HR
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 02:15:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kconsul@linux.vnet.ibm.com>)
- id 1phlW5-0008QE-RN
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 02:12:11 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32U46cBi011960; Thu, 30 Mar 2023 06:12:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pp1; bh=1fFcam6J6GdcRh5SzchFzfWkEn8w1EykE52mj7b1EQE=;
- b=ggV81ufGdxR1BjAoxkAV2ktoamtf2vhhbL5YVeDAjYhYf88af8xr8ZdKo1/1Kcynwuvl
- g1cYfUgS9SE4a+QMhkywbWY5zahr2wFKQBsGAW6zXdqbHh3LA0N8nTJGS+Wg0cr95b9r
- Hp7azJGcaVHq9oBDB7jcQnNbtpGczmp0lap6MaR30z4GKE5O0Rrr8GfaGlEgZ5VY3t4V
- Pb3qX6gYTQcSrrDGIQ7Vjc1DoaejzoUgL0/RWacKhlaH/Q/1MCzZ1/Hv3arx9it7V+Op
- HNLgXXMjqhOFLymJRP5Kzn7QZFJ543CMSfiJizL09uMbjkFR37xdVk87VPQN661h+BDN HQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pmkg2ary3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Mar 2023 06:12:06 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32U67mQB026522;
- Thu, 30 Mar 2023 06:12:05 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pmkg2arxm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Mar 2023 06:12:05 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32T30ehb003455;
- Thu, 30 Mar 2023 06:12:03 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3phrk6vknq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Mar 2023 06:12:03 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32U6C1Jq14287568
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Mar 2023 06:12:01 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5006120040;
- Thu, 30 Mar 2023 06:12:01 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 03F0620049;
- Thu, 30 Mar 2023 06:11:57 +0000 (GMT)
-Received: from li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com (unknown
- [9.43.21.16]) by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Thu, 30 Mar 2023 06:11:56 +0000 (GMT)
-Date: Thu, 30 Mar 2023 11:41:53 +0530
-From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: qemu-devel@nongnu.org, Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-Subject: Re: [PATCH 1/2] tests/requirements.txt: bump up avocado-framework
- version to 101.0
-Message-ID: <ZCUoKZ7OrEVa4CEN@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-References: <20230327115030.3418323-1-kconsul@linux.vnet.ibm.com>
- <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: p5gLZ8CnXm_EdxW6T1XwyF465QH05qLV
-X-Proofpoint-ORIG-GUID: AT-ErYgBHFFuVHCHhNkdtaFXrulf3-cC
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1phlZZ-0000gf-Pe
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 02:15:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680156944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dfpJZ5Q4PDE3gtLd2xOQdUbuOUGSWYys34+KAHsU+0o=;
+ b=DG0nahEETQOhtn6Mc5+B5n8Ss1rpOEX8JIfGQU88S5EWvN+NUVPCeTMdfHxV9GHcQE12ew
+ /jmzKvAgnCDnkYGz7SbnBplbvhhqEZmborTDD0T1xEFxQIx+1Afi/GH0k3pN2HctmySDR4
+ 53k7wgPpAYL/SpXuTw8mAmLr5GvUxBg=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-190-ApHTjd0tP-u--RQdEwGQAw-1; Thu, 30 Mar 2023 02:15:42 -0400
+X-MC-Unique: ApHTjd0tP-u--RQdEwGQAw-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ f18-20020a05680814d200b003877ce3bfb4so4191251oiw.3
+ for <qemu-devel@nongnu.org>; Wed, 29 Mar 2023 23:15:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680156942; x=1682748942;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dfpJZ5Q4PDE3gtLd2xOQdUbuOUGSWYys34+KAHsU+0o=;
+ b=s71UWtolF0tzTJFFBDqPQ8p/RWMGuB9EhT5UPdXOxyuvh6XImmT7mDV2v+QgDf5tfb
+ nd3bMmUTvOV2dIxmCikZwY6vO4/lPd7pPlIErtyygCeT65nYWCXbG3aFjBOKbMT1xETZ
+ WqEYh4xuZRAQqeY69elm2TxcrF7Szi2SiytJv+wayU4HpvxJf7ssKVVCHQMY3sh9Q2Vd
+ eD23fst2kWCMOo8g+H4mSK65xHFsKvsfE1ng3Z0UhC16k9W2tuChXgFqNgirjZiwuU+u
+ 58YqwIrgAeegcqZffJUZ6Hg10idA6C8hQkPOW6KJt6IMKHSjlS/Rp4KLl+WeZxUEa8Ok
+ 1s2A==
+X-Gm-Message-State: AO0yUKVLeUjkudmWC0ogF7m2IjRSBonRBvWXSvvAuXZqDdZqMufP5Ng0
+ Z7sG3f+mQqNoD53e0fCwDfy6picdAeu5PDyW5B/MbxuNsbUALIhvrsP5bvKu5Vg5iCODdNAvPQM
+ bHfrlZ8yCs4SnGIOPOO6MLAk63u36gfs=
+X-Received: by 2002:aca:2306:0:b0:384:c4a:1b49 with SMTP id
+ e6-20020aca2306000000b003840c4a1b49mr6201684oie.9.1680156942254; 
+ Wed, 29 Mar 2023 23:15:42 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9rxLMR2CsDgIz1p1ERQg8vqtkQ+yeKVtPdrZYyJtkf8F/7P6z7RvMGWZ61RcXL8anVbPPutXPNqtEYnXN6yk0=
+X-Received: by 2002:aca:2306:0:b0:384:c4a:1b49 with SMTP id
+ e6-20020aca2306000000b003840c4a1b49mr6201669oie.9.1680156942037; Wed, 29 Mar
+ 2023 23:15:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-30_02,2023-03-30_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
- mlxlogscore=999 suspectscore=0 mlxscore=0 adultscore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303300047
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=kconsul@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230323195404.1247326-1-eperezma@redhat.com>
+ <20230323195404.1247326-4-eperezma@redhat.com>
+In-Reply-To: <20230323195404.1247326-4-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 30 Mar 2023 14:15:31 +0800
+Message-ID: <CACGkMEtP9fUNT3toDLQkybEaU-JvMg_KLa3s9Gu5vRq0s2t6aA@mail.gmail.com>
+Subject: Re: [PATCH for 8.1 v2 3/6] vdpa: add vhost_vdpa_set_dev_features_fd
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, alvaro.karsz@solid-run.com, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>,
+ si-wei.liu@oracle.com, 
+ Eli Cohen <eli@mellanox.com>, Shannon Nelson <snelson@pensando.io>, 
+ Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, Harpreet Singh Anand <hanand@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,41 +102,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-On 2023-03-27 07:50:29, Kautuk Consul wrote:
-> Avocado version 101.0 has a fix to re-compute the checksum
-> of an asset file if the algorithm used in the *-CHECKSUM
-> file isn't the same as the one being passed to it by the
-> avocado user (i.e. the avocado_qemu python module).
-> In the earlier avocado versions this fix wasn't there due
-> to which if the checksum wouldn't match the earlier
-> checksum (calculated by a different algorithm), the avocado
-> code would start downloading a fresh image from the internet
-> URL thus making the test-cases take longer to execute.
-> 
-> Bump up the avocado-framework version to 101.0.
-Any comments on this ? I have tested this patch and it seems to work
-fine with the avocado test-cases.
-> 
-> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+On Fri, Mar 24, 2023 at 3:54=E2=80=AFAM Eugenio P=C3=A9rez <eperezma@redhat=
+.com> wrote:
+>
+> This allows to set the features of a vhost-vdpa device from external
+> subsystems like vhost-net.  It is used in subsequent patches to
+> negotiate features and probe for CVQ ASID isolation.
+>
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+Thanks
+
 > ---
->  tests/requirements.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index 0ba561b6bd..a6f73da681 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -2,5 +2,5 @@
->  # in the tests/venv Python virtual environment. For more info,
->  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
->  # Note that qemu.git/python/ is always implicitly installed.
-> -avocado-framework==88.1
-> +avocado-framework==101.0
->  pycdlib==1.11.0
-> -- 
-> 2.39.2
-> 
-> 
+>  include/hw/virtio/vhost-vdpa.h |  1 +
+>  hw/virtio/vhost-vdpa.c         | 20 +++++++++++++-------
+>  2 files changed, 14 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
+a.h
+> index 28de7da91e..a9cb6f3a32 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -55,6 +55,7 @@ typedef struct vhost_vdpa {
+>  } VhostVDPA;
+>
+>  void vhost_vdpa_reset_status_fd(int fd);
+> +int vhost_vdpa_set_dev_features_fd(int fd, uint64_t features);
+>  int vhost_vdpa_get_iova_range(int fd, struct vhost_vdpa_iova_range *iova=
+_range);
+>
+>  int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 7a2053b8d9..acd5be46a9 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -651,11 +651,22 @@ static int vhost_vdpa_set_mem_table(struct vhost_de=
+v *dev,
+>      return 0;
+>  }
+>
+> +int vhost_vdpa_set_dev_features_fd(int fd, uint64_t features)
+> +{
+> +    int ret;
+> +
+> +    ret =3D vhost_vdpa_call_fd(fd, VHOST_SET_FEATURES, &features);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    return vhost_vdpa_add_status_fd(fd, VIRTIO_CONFIG_S_FEATURES_OK);
+> +}
+> +
+>  static int vhost_vdpa_set_features(struct vhost_dev *dev,
+>                                     uint64_t features)
+>  {
+>      struct vhost_vdpa *v =3D dev->opaque;
+> -    int ret;
+>
+>      if (!vhost_vdpa_first_dev(dev)) {
+>          return 0;
+> @@ -678,12 +689,7 @@ static int vhost_vdpa_set_features(struct vhost_dev =
+*dev,
+>      }
+>
+>      trace_vhost_vdpa_set_features(dev, features);
+> -    ret =3D vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
+> -    if (ret) {
+> -        return ret;
+> -    }
+> -
+> -    return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
+> +    return vhost_vdpa_set_dev_features_fd(vhost_vdpa_dev_fd(dev), featur=
+es);
+>  }
+>
+>  static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+> --
+> 2.31.1
+>
+
 
