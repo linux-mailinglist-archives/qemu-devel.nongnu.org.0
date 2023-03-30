@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B566D07BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 16:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7D76D07C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 16:12:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phsyD-0004Du-5K; Thu, 30 Mar 2023 10:09:41 -0400
+	id 1phszy-0004zU-JE; Thu, 30 Mar 2023 10:11:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phsyA-0004Dd-KD
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:09:38 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1phsy8-0000W0-Qt
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:09:38 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- m6-20020a05600c3b0600b003ee6e324b19so11871753wms.1
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 07:09:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680185375;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l+C1/aghJFCKhZpdRXeYOv16xpBmcw2+wIRUzboa2hs=;
- b=R/jUY877W2Mld3RLZXB1xcUJKSB2sraWswpEVBV1cx5DGjddgL4nMVUZWPGV79FBPA
- eN41IHN4543jUhdBRSS/osOqTjVyVLwxKJ85c99IeGcWLs0hwvQDr7vaaHweu0pvLZ81
- pFui7wolW6KMS6ZB5oU5eQDZvVPMzzjQY1tS0ejF5RXHhOn92sgDhE14KZzRV+JKhSqv
- FHzQ3zkDPVHqT0eSzRky4kekr3OMwMLWtdRA07VpKwVIpotOmQSntpRVUk0Izx7XbSAk
- eH6ZWafxdxGqNEOgxArstFI++YqM+ygrGqAVX5QIXeIwnM9ltwGLET40kSNfYGi9gemS
- 1jvA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1phszw-0004zM-Nj
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:11:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1phszv-0000v4-4S
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:11:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680185481;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RvBY55LzZfbRc7qOGSd9HjuCVSamxUlditgrmAYo1Xw=;
+ b=eGr/tSqY+76ttft4ZvhWt2NCWPL/2eHMWftPdxxHBA0wAbnMBu86wmcjYhPldP2McCdBd/
+ 3p4ufSRsLBgF6zpkbmh3Vz1EmBGro2PvbhNcvkhcLk86CWyHLNZhXxSKfIFYVAjUzWNh61
+ i8c1vnPYXlqrE9fRTfg3vaARyG8/vfk=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-149-aJLZMZ4uN5SCdNDg9BS08w-1; Thu, 30 Mar 2023 10:11:20 -0400
+X-MC-Unique: aJLZMZ4uN5SCdNDg9BS08w-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ f6-20020a170902ce8600b001a25ae310a9so5622089plg.10
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 07:11:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680185375;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=l+C1/aghJFCKhZpdRXeYOv16xpBmcw2+wIRUzboa2hs=;
- b=Y+B9GHCq8znGQvWIpx09g/v7lw+3dG/GkfnN++LDIvpGgITzRQk7lSth8qrbzRzE4k
- TiOKw1Nh7x3yUshuw63Tgrjhtf77+X8UeKstLs2Pj58lg3Hpa40EJ66T9pHSReLl5L8M
- E/Z6YsDe9iCJnVU2W3/gbKQKli6rt8vRXtg+P52azVnFvIJSY20sk2ummfQ5dz/Gz2pq
- W/UH8YKuppXpuBmGSCRgexE7A4Hlj3Kr+WIdkvLHWGqOJNqT3fmzX/SR5+F+PDyCNg0F
- PysCAlXsoDAYZbV9LDC8oSP1FuLTddfZaRmL6B6QAowf6dhiL7ttFrj4GJb7KH1fB3G7
- 5ZJg==
-X-Gm-Message-State: AO0yUKWqCumFmkdZO4O/p5H6rxVSpuy6R0y47TkXjrdYi65HnxTDfZ1G
- JhnDQYPRXbVpOC9tlZD5SysgWAA0RWy9HyD50sA=
-X-Google-Smtp-Source: AK7set8gkwK7CQBDcxgapack0tqfZoStjrswpQrvxajseybRIwNuiv/VfuoxrQ97UFBg5bnkQO/8jA==
-X-Received: by 2002:a7b:cb95:0:b0:3d0:6a57:66a5 with SMTP id
- m21-20020a7bcb95000000b003d06a5766a5mr17385483wmi.0.1680185374928; 
- Thu, 30 Mar 2023 07:09:34 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- g14-20020a7bc4ce000000b003eae73f0fc1sm5871318wmk.18.2023.03.30.07.09.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 07:09:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 493701FFB7;
- Thu, 30 Mar 2023 15:09:34 +0100 (BST)
-References: <cover.1678770219.git.y-koj@outlook.jp>
- <TYZPR06MB541876821E3AD1306D6DC88A9DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: TYZPR06MB5418216269D0ED2EB37D6FF49DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com
-Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Laurent Vivier
- <laurent@vivier.eu>, Yohei Kojima <y-koj@outlook.jp>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 2/2] linux-user: replace strerror() function to
- the thread safe qemu_strerror()
-Date: Thu, 30 Mar 2023 15:08:59 +0100
-In-reply-to: <TYZPR06MB541876821E3AD1306D6DC88A9DBE9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Message-ID: <87a5zunxep.fsf@linaro.org>
+ d=1e100.net; s=20210112; t=1680185479;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RvBY55LzZfbRc7qOGSd9HjuCVSamxUlditgrmAYo1Xw=;
+ b=4shwpXtsDU9DTNu39Pmie6uQ2pGosKiQ45BNIqAnxF/PgbhLe6gHoJO7voSxri9hKD
+ T5Z/foVp/xsfxPgVNJmPK+Nq0giXfZCb+j1oTFNCuUG+oA6+OjYS6JqSiw256vdo93Ci
+ Ym0Pc8yPTnFNpPidemdgAawvfJUkb/riY7hiw6xFTiDTAAtPcjDLkonP0ul1OTH7HzEz
+ d3ihonZ7xtTSYzL6+Qhq1VS8VbxgW9wj8njX1VbrI/GsnSxXIirVztHeRMyojk18QHz9
+ e7dmDfsoNCqU0SaeMR0gozh0BWTULayx1CUKCWr61gRvNpiNsVbuCxnFDWprVwOcB0AZ
+ csYA==
+X-Gm-Message-State: AAQBX9capXPVhpxx3o3gLIRYhoDVpxRcvOPa4y0Vc9RbX6GhbCmzehSQ
+ eHzUs2RQ6QsJzYcgbF8WlH10J9CqQJWWNq0AZ2674d03Hu1EVpKl+9fQt5fcQ0VLCwow/AYOOXV
+ 0hBPjn+IliZcFZJnjmQwv1qIts5HydjU=
+X-Received: by 2002:a17:902:ce83:b0:1a0:4321:920e with SMTP id
+ f3-20020a170902ce8300b001a04321920emr8692412plg.12.1680185479006; 
+ Thu, 30 Mar 2023 07:11:19 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bH3k0FE4SsV7+3z/cyjQdzrM0X6FEbotqQKDeXZ2XjStsXVlbpfNRMgPmHP+I9TuN6yGMBkpJRT6ZeUOUPJZI=
+X-Received: by 2002:a17:902:ce83:b0:1a0:4321:920e with SMTP id
+ f3-20020a170902ce8300b001a04321920emr8692399plg.12.1680185478719; Thu, 30 Mar
+ 2023 07:11:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+References: <20230328211119.2748442-1-jsnow@redhat.com>
+ <44ed710a-f897-2be6-4f07-928ba4cb535e@redhat.com>
+In-Reply-To: <44ed710a-f897-2be6-4f07-928ba4cb535e@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 30 Mar 2023 10:11:07 -0400
+Message-ID: <CAFn=p-YC8rdv2QsU=aNcfDHvYGEtrze6CgSwJ-=9T6xaoAGoiA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] configure: create a python venv and install meson
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009dc49005f81eaa6e"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,21 +95,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--0000000000009dc49005f81eaa6e
+Content-Type: text/plain; charset="UTF-8"
 
-Yohei Kojima <y-koj@outlook.jp> writes:
+On Wed, Mar 29, 2023, 9:02 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> strerror() is not guaranteed to be thread-safe as described in
-> (https://gitlab.com/qemu-project/qemu/-/issues/416).
+> Thanks for posting this!
 >
-> This commit changes files under /linux-user that call strerror() to call
-> the safer qemu_strerror().
+> On 3/28/23 23:11, John Snow wrote:
+> > This series is in RFC state; some notable things:
+> > - So far, only meson is included in this setup.
+> > - There's a ton of debugging prints everywhere. It's extremely chatty
+> right now.
+> > - Sphinx and qemu.qmp are not yet included in this venv.
+> >    (qemu.qmp isn't able to be removed from the tree yet.)
+> > - Testing isn't yet*fully*  switched over.
+> > - There is no online functionality yet, this series is *100% offline* -
+> >    it's the harder option, so I tackled it first.
+> >
+> > Some known bugs as of now:
+> > - venv-in-venv setups are not yet handled.
+> > - python3.7 setups without setuptools/pip in the host environment may be
+> >    unable to generate script file shims; a workaround is in development
+> >    but wasn't ready today. I decided to exclude it.
+>
+> I don't think that's needed at all---requiring setuptools on those older
+> Python versions is good enough and can be mentioned in either an error
+> message or the release notes.  But out of curiosity what was the
+> workaround?
+>
 
-As mentioned on bug tracker I think you need some more patches for the
-other uses. But for this one:
+Run the shim generation inside the venv, alongside checkpip.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+That way we know we have setuptools.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+(It broke for some other reason I didn't diagnose in time to send.)
+
+
+> I think the steps for the first working version should be:
+>
+> * fix venv-in-venv using the .pth trick
+>
+
+Yep.
+
+
+> * undo the meson parts from PATCH 3; make patch 3 create the venv +
+> subsume the MKVENV parts of the Makefiles + always set
+> explicit_python=yes (so that at this point the in-tree meson is always
+> used).
+>
+> * add a patch that starts rejecting --meson=/path/to/meson and drops
+> explicit_python (instead using pyvenv/bin/meson to check whether a
+> system meson is usable)
+>
+> * make Meson use a sphinx-build binary from the virtual environment
+> (i.e. pass -Dsphinx_build=$PWD/pyvenv/bin/sphinx-build)
+>
+
+Yep, let's talk about this part in particular.
+
+
+> These are the bare minimum needed to drop Python 3.6 support in QEMU 8.1.
+>
+> Paolo
+>
+>
+
+--0000000000009dc49005f81eaa6e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Mar 29, 2023, 9:02 AM Paolo Bonzini &lt;<a hre=
+f=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">Thanks for posting this!<br>
+<br>
+On 3/28/23 23:11, John Snow wrote:<br>
+&gt; This series is in RFC state; some notable things:<br>
+&gt; - So far, only meson is included in this setup.<br>
+&gt; - There&#39;s a ton of debugging prints everywhere. It&#39;s extremely=
+ chatty right now.<br>
+&gt; - Sphinx and qemu.qmp are not yet included in this venv.<br>
+&gt;=C2=A0 =C2=A0 (qemu.qmp isn&#39;t able to be removed from the tree yet.=
+)<br>
+&gt; - Testing isn&#39;t yet*fully*=C2=A0 switched over.<br>
+&gt; - There is no online functionality yet, this series is *100% offline* =
+-<br>
+&gt;=C2=A0 =C2=A0 it&#39;s the harder option, so I tackled it first.<br>
+&gt; <br>
+&gt; Some known bugs as of now:<br>
+&gt; - venv-in-venv setups are not yet handled.<br>
+&gt; - python3.7 setups without setuptools/pip in the host environment may =
+be<br>
+&gt;=C2=A0 =C2=A0 unable to generate script file shims; a workaround is in =
+development<br>
+&gt;=C2=A0 =C2=A0 but wasn&#39;t ready today. I decided to exclude it.<br>
+<br>
+I don&#39;t think that&#39;s needed at all---requiring setuptools on those =
+older <br>
+Python versions is good enough and can be mentioned in either an error <br>
+message or the release notes.=C2=A0 But out of curiosity what was the worka=
+round?<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Run the shim generation inside the venv, alongside checkpip.</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">That way we know we have setupto=
+ols.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(It broke for some =
+other reason I didn&#39;t diagnose in time to send.)</div><div dir=3D"auto"=
+><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<br>
+I think the steps for the first working version should be:<br>
+<br>
+* fix venv-in-venv using the .pth trick<br></blockquote></div></div><div di=
+r=3D"auto"><br></div><div dir=3D"auto">Yep.</div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">
+<br>
+* undo the meson parts from PATCH 3; make patch 3 create the venv + <br>
+subsume the MKVENV parts of the Makefiles + always set <br>
+explicit_python=3Dyes (so that at this point the in-tree meson is always <b=
+r>
+used).<br>
+<br>
+* add a patch that starts rejecting --meson=3D/path/to/meson and drops <br>
+explicit_python (instead using pyvenv/bin/meson to check whether a <br>
+system meson is usable)<br>
+<br>
+* make Meson use a sphinx-build binary from the virtual environment <br>
+(i.e. pass -Dsphinx_build=3D$PWD/pyvenv/bin/sphinx-build)<br></blockquote><=
+/div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Yep, let&#39;s tal=
+k about this part in particular.</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+These are the bare minimum needed to drop Python 3.6 support in QEMU 8.1.<b=
+r>
+<br>
+Paolo<br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000009dc49005f81eaa6e--
+
 
