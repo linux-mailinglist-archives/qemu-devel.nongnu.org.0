@@ -2,77 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BF76CFC62
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 09:12:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BABE6CFC84
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 09:16:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phmR1-0005Av-JE; Thu, 30 Mar 2023 03:10:59 -0400
+	id 1phmVC-0006TG-0E; Thu, 30 Mar 2023 03:15:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1phmQh-0005A7-Nw
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 03:10:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1phmV8-0006Ru-Lm; Thu, 30 Mar 2023 03:15:14 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1phmQf-0003TI-Q1
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 03:10:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680160236;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W4h9jP8jroitOAN8PMAlgJf3Qna0h28jT+xYpU9uCwI=;
- b=EnoW4/Ui21PHVyDH2IRUNGEdpwYpdQZgcsPrOrbaS83HhRvehz7sfeTZ/PlIiqXl7pTMCF
- WNYpSjun/zg5Bcz13eG7l33ZoBszaBNwmDNG/XUAazt/EeoX8tv1kC2UWNXjwTNZWnxeYh
- bJ1bZsuuX6SloRuUn/5G2B1ksOv0kB0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-4Na133osOLSj-JYlAecGeQ-1; Thu, 30 Mar 2023 03:10:32 -0400
-X-MC-Unique: 4Na133osOLSj-JYlAecGeQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3276B185A790;
- Thu, 30 Mar 2023 07:10:32 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E19F314171BB;
- Thu, 30 Mar 2023 07:10:29 +0000 (UTC)
-Date: Thu, 30 Mar 2023 08:10:27 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com,
- philmd@linaro.org, armbru@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org, toke@redhat.com, mprivozn@redhat.com,
- yuri.benditovich@daynix.com, yan@daynix.com
-Subject: Re: [RFC PATCH 1/5] ebpf: Added eBPF initialization by fds and map
- update.
-Message-ID: <ZCU1497ElEvDbwnG@redhat.com>
-References: <20230330001522.120774-1-andrew@daynix.com>
- <20230330001522.120774-2-andrew@daynix.com>
- <CACGkMEuiEgerMzuZvykQ=8ML5CW9rdi4h6da5tDeuxER-jSPuw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1phmV6-0003t2-Lv; Thu, 30 Mar 2023 03:15:14 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 4594A401E6;
+ Thu, 30 Mar 2023 10:15:01 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id D4FC792;
+ Thu, 30 Mar 2023 10:15:00 +0300 (MSK)
+Message-ID: <96a0b778-6cb9-c18c-51b3-0318d9ec1379@msgid.tls.msk.ru>
+Date: Thu, 30 Mar 2023 10:15:00 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACGkMEuiEgerMzuZvykQ=8ML5CW9rdi4h6da5tDeuxER-jSPuw@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-stable <qemu-stable@nongnu.org>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Subject: qemu repository write access for -stable
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,30 +53,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 30, 2023 at 02:53:16PM +0800, Jason Wang wrote:
-> On Thu, Mar 30, 2023 at 8:33 AM Andrew Melnychenko <andrew@daynix.com> wrote:
-> >
-> > Changed eBPF map updates through mmaped array.
-> > Mmaped arrays provide direct access to map data.
-> > It should omit using bpf_map_update_elem() call,
-> > which may require capabilities that are not present.
-> 
-> This requires kernel support, so after this change, eBPF based RSS
-> doesn't work on old kernels that only support syscall based map
-> updating.
+Hi!
 
-What kernel version is the cut off ?
+Can I please have write access to qemu repository, to push stable-7.2 branch?
 
+Thanks,
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+/mjt
 
