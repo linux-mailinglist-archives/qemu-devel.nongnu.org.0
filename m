@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F45B6D0D62
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 20:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337616D0D5A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 20:06:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phwd6-0003DI-5w; Thu, 30 Mar 2023 14:04:08 -0400
+	id 1phwd6-0003EH-Ul; Thu, 30 Mar 2023 14:04:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwcr-00038M-Ds
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:03:54 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwcu-0003Bh-Tx
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:03:56 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwcp-00020p-Th
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:03:53 -0400
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwct-00021L-Ei
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:03:56 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2430F1F86C;
- Thu, 30 Mar 2023 18:03:50 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 97176219E8;
+ Thu, 30 Mar 2023 18:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680199430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1680199433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sk83qEGaqZFWkA6OXTepi0U673ImA1hvV5Fb8G0U1QU=;
- b=xSJwDUXJ46/3mfXHNfkMxpUgwYYde3XfIvo5PvnHAWsRopeTO0JPCR4OMX/9mNiPKYoKAR
- PoxG8Uw4CRkPY77evHucOpo5ivBAV3qa3F250qYYHJ6oqvXDH5nK4shYzdRmv+QzcURiUh
- qV762rtuAmXpUyPKkjwoUvIXk9IT79s=
+ bh=q+ZBwUdJwUxaCGnBgDhTSIaWa5ev6qXpjX6yCZCHVwA=;
+ b=apOxVUCnJLDpZRp7mXox/gizyVQUdYBODUJp9cr6TbAsIPBATclFTIpWVmZqKUoEwnEDcN
+ 6cd9quglBhO3dOAQEEQKamFaaotQhvUHgVZeWC6qo0ppQ+uQhKQTFj8FvH4GmMNnTJtdDQ
+ l3d8lygmLsG081tzPG5yDZcfN67wNe0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680199430;
+ s=susede2_ed25519; t=1680199433;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sk83qEGaqZFWkA6OXTepi0U673ImA1hvV5Fb8G0U1QU=;
- b=snNOiWBP8rg59tROOHWrYQ+5bEw86us+sY2Df0o6OrdlW00yxFcS7iF4MtfuLZoqkoxGFi
- YN6fne0VXgLie1Dg==
+ bh=q+ZBwUdJwUxaCGnBgDhTSIaWa5ev6qXpjX6yCZCHVwA=;
+ b=G2WOSJvQSxVjvEhA+GpZD5suiVllN4BRPoMUWjWVysfyNovqouhNvijTEXxBazfbL9numo
+ FKYdI7sZgOYGdgAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1CAB61348E;
- Thu, 30 Mar 2023 18:03:46 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 952971348E;
+ Thu, 30 Mar 2023 18:03:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wAjfNALPJWQ5GwAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 30 Mar 2023 18:03:46 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id IIbAFgbPJWQ5GwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 30 Mar 2023 18:03:50 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com, dfaggioli@suse.com,
@@ -57,18 +57,17 @@ Cc: Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com, dfaggioli@suse.com,
  Juan Quintela <quintela@redhat.com>, Nikolay Borisov <nborisov@suse.com>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [RFC PATCH v1 03/26] tests/qtest: migration: Add migrate_incoming_qmp
- helper
-Date: Thu, 30 Mar 2023 15:03:13 -0300
-Message-Id: <20230330180336.2791-4-farosas@suse.de>
+Subject: [RFC PATCH v1 04/26] tests/qtest: migration-test: Add tests for
+ file-based migration
+Date: Thu, 30 Mar 2023 15:03:14 -0300
+Message-Id: <20230330180336.2791-5-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230330180336.2791-1-farosas@suse.de>
 References: <20230330180336.2791-1-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -93,64 +92,72 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Nikolay Borisov <nborisov@suse.com>
 
-file-based migration requires the target to initiate its migration after
-the source has finished writing out the data in the file. Currently
-there's no easy way to initiate 'migrate-incoming', allow this by
-introducing migrate_incoming_qmp helper, similarly to migrate_qmp.
+Add basic tests for file-based migration.
 
 Signed-off-by: Nikolay Borisov <nborisov@suse.com>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qtest/migration-helpers.c | 19 +++++++++++++++++++
- tests/qtest/migration-helpers.h |  4 ++++
- 2 files changed, 23 insertions(+)
+(farosas) fix segfault when connect_uri is not set
+---
+ tests/qtest/migration-test.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index f6f3c6680f..8161495c27 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -130,6 +130,25 @@ void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...)
-     qobject_unref(rsp);
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 3b615b0da9..13e5cdd5a4 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -748,6 +748,7 @@ static void test_migrate_end(QTestState *from, QTestState *to, bool test_dest)
+     cleanup("migsocket");
+     cleanup("src_serial");
+     cleanup("dest_serial");
++    cleanup("migfile");
  }
  
+ #ifdef CONFIG_GNUTLS
+@@ -1371,6 +1372,14 @@ static void test_precopy_common(MigrateCommon *args)
+          * hanging forever if migration didn't converge */
+         wait_for_migration_complete(from);
+ 
++        /*
++         * For file based migration the target must begin its migration after
++         * the source has finished
++         */
++        if (args->connect_uri && strstr(args->connect_uri, "file:")) {
++            migrate_incoming_qmp(to, args->connect_uri, "{}");
++        }
 +
-+void migrate_incoming_qmp(QTestState *who, const char *uri, const char *fmt, ...)
+         if (!got_stop) {
+             qtest_qmp_eventwait(from, "STOP");
+         }
+@@ -1524,6 +1533,17 @@ static void test_precopy_unix_xbzrle(void)
+     test_precopy_common(&args);
+ }
+ 
++static void test_precopy_file_stream_ram(void)
 +{
-+    va_list ap;
-+    QDict *args, *rsp;
++    g_autofree char *uri = g_strdup_printf("file:%s/migfile", tmpfs);
++    MigrateCommon args = {
++        .connect_uri = uri,
++        .listen_uri = "defer",
++    };
 +
-+    va_start(ap, fmt);
-+    args = qdict_from_vjsonf_nofail(fmt, ap);
-+    va_end(ap);
-+
-+    g_assert(!qdict_haskey(args, "uri"));
-+    qdict_put_str(args, "uri", uri);
-+
-+    rsp = qtest_qmp(who, "{ 'execute': 'migrate-incoming', 'arguments': %p}", args);
-+
-+    g_assert(qdict_haskey(rsp, "return"));
-+    qobject_unref(rsp);
++    test_precopy_common(&args);
 +}
 +
- /*
-  * Note: caller is responsible to free the returned object via
-  * qobject_unref() after use
-diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-index a188b62787..53ddeaebb7 100644
---- a/tests/qtest/migration-helpers.h
-+++ b/tests/qtest/migration-helpers.h
-@@ -31,6 +31,10 @@ QDict *qmp_command(QTestState *who, const char *command, ...);
- G_GNUC_PRINTF(3, 4)
- void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...);
- 
-+G_GNUC_PRINTF(3, 4)
-+void migrate_incoming_qmp(QTestState *who, const char *uri,
-+                          const char *fmt, ...);
+ static void test_precopy_tcp_plain(void)
+ {
+     MigrateCommon args = {
+@@ -2515,6 +2535,10 @@ int main(int argc, char **argv)
+     qtest_add_func("/migration/bad_dest", test_baddest);
+     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+     qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
 +
- QDict *migrate_query(QTestState *who);
- QDict *migrate_query_not_failed(QTestState *who);
- 
++    qtest_add_func("/migration/precopy/file/stream-ram",
++                   test_precopy_file_stream_ram);
++
+ #ifdef CONFIG_GNUTLS
+     qtest_add_func("/migration/precopy/unix/tls/psk",
+                    test_precopy_unix_tls_psk);
 -- 
 2.35.3
 
