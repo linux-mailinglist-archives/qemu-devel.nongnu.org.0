@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155956D09C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 17:35:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01CBA6D0A35
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 17:44:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phuIn-0005kK-CF; Thu, 30 Mar 2023 11:35:01 -0400
+	id 1phuQP-0000Ae-00; Thu, 30 Mar 2023 11:42:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1phuIk-0005jm-08
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 11:34:58 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1phuIf-0007Bd-PB
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 11:34:57 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id er13so37093196edb.9
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 08:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680190491;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VYTCdtgQvqAl7Z8BOj8EWcVApZN8M+KL3m5nJMmwpxw=;
- b=m8axK4R3i871UGZzTSwNibeJgjtpoDzvTQBqKbyFvcq9QO1xVM3M+SLfN7mYsq94IW
- 5tfkosfsb9pApKH0jNIx1q8yGZ766pUysSZFLysleXtSBc3Di1Szl9+slRrIdFfPQaCG
- lRUHg8BXrO4+EpSIFECCM04hp+ahPirrbSjszDM96uVs+2j4QjX1EdbIg77Sy7XGC6q7
- TWIbj17jgW5RhbaAaQWTylmkMEs8O8woGCPduODShaJ+DlbK1Nng7OsJqj20DrVpBvcF
- AsNoK6m30tLGyUN5xtQLBbYsz+WDQoffzst3rcZtK/feUc3LVpNwM+IRFti4h8RYbtXG
- ioHQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phuQM-00009a-95
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 11:42:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phuQK-0000XI-N3
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 11:42:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680190966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VWrjjMp9+UUd30oMuPZbDjzwtG+YdVxvoIR8g4ix2Do=;
+ b=Qx2e/QiM0u4Ya3+qfiA+xU0/atRZUCOJwhLp1yNzeetm7cD3MlOVBTdshn904JbYKiRssT
+ +0B7DBQzj1fR/Rfk2UKD2NHVtou9ZxLCX5sA0zivw/aFvouyWj0RIa1PcBv4eFcoVRqLBf
+ ROXS81yIXEwK775rw9HlcFFLZl/4uy0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-614-KuRjBIWEPDShYbiA_jXGLQ-1; Thu, 30 Mar 2023 11:42:45 -0400
+X-MC-Unique: KuRjBIWEPDShYbiA_jXGLQ-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ d187-20020a3768c4000000b00746864b272cso9061262qkc.15
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 08:42:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680190491;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VYTCdtgQvqAl7Z8BOj8EWcVApZN8M+KL3m5nJMmwpxw=;
- b=iXlmJAfrYNwQDGsQM8zyOYPSGIXucwAV5QCYubUNPSZLANoJDWkhzc9F5vsmg0x/DI
- 5wOZAIkbZtKdRQUVKW/Rr3vx556iwZ+4aYI6og2r0ZQ0UdAVGmnRftg4qSuAkDj+84Xr
- 0rJtY3W5hIUf9Kbr+dCbBZDqenPUq/barDzox12b7or6FtdzUwa3slau8jVhtR3mB6u7
- 5Mt1CPYpWIZ7F0L9kshQt7jQaVEbYPsraxdRDtnbbpwR2N8DudYEkOOmKEZVHr3v6qeu
- iP/YU7l2LDmbqBsxmhshYXMfBRxwOMItFv/R0gQcyANJssrw2AsnqLZdGu2rgF/Ytxch
- 3ksg==
-X-Gm-Message-State: AAQBX9dbTaQijSxkgEeT9iixVtTEVZsEX4dOGBOu43uwwz22gm0pof9S
- emEvtRabO6L0dAIkAxhMdOwEkh4nzvv/LeWqONEf/Q==
-X-Google-Smtp-Source: AKy350ZweD9RS2XpOGiraWQNyc7pdiHGaGzIH6WWsaCV8a3cPwdXqkvuH2q8g+4AVqLHdKfQrK7xXfw2Y8pbDWocRZ8=
-X-Received: by 2002:a17:906:3505:b0:931:faf0:3db1 with SMTP id
- r5-20020a170906350500b00931faf03db1mr3131975eja.4.1680190491053; Thu, 30 Mar
- 2023 08:34:51 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680190965;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VWrjjMp9+UUd30oMuPZbDjzwtG+YdVxvoIR8g4ix2Do=;
+ b=EhB1ZBxIRvJ9kOJZgw2XUg56D8Dt7bAHoDlIIRz/fHTmUIJ93agReorviY8GrAVzfA
+ QgUE68j1ia5wkO6zX2ARrOvoPSi0kXs/HhswqnNXhNmbUt5u7ZiximnxGAbfS3bmFp+A
+ NqBGXdoI3G22sJ/2SpSxHDpjE/a0963so49BA1ka/ivCUzYo0w3R0xCk7eD7lib7WdLH
+ UxfwK5E+T6GLHrU+8ccGynwLjfEVpD8HgBTwXZipywuGebmDDB8upLf4VYh9PS1yc5DA
+ JJcWPfFA2XwqOGUkT81RyOM8ZRkr0509CVPq6byvPE5FXKA1gb4Bh9aPsxofZgvL26PH
+ ieMA==
+X-Gm-Message-State: AAQBX9eHp6gkvVi5bRr/88Kp/Fl5Ku3/hNW/ht8TOz1AwyxIqPhbWESn
+ th/0/8+5s0/qNHcPCjS2cZq1YGQaGA8sJ72i5AOsjBYY3h0MMLZHf51GBhu6sb+GG6PeYVB3Fjw
+ QagXe+zBf3/abNZ0=
+X-Received: by 2002:a05:622a:1cb:b0:3e4:e2ee:7e5a with SMTP id
+ t11-20020a05622a01cb00b003e4e2ee7e5amr28188232qtw.42.1680190965031; 
+ Thu, 30 Mar 2023 08:42:45 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Zf/b6UtQdioRKGGHJ8EqM4vsbN18WR3wVifHSiYWxlKwk2wZvM9LhLtuOQScg14ufSFs8htw==
+X-Received: by 2002:a05:622a:1cb:b0:3e4:e2ee:7e5a with SMTP id
+ t11-20020a05622a01cb00b003e4e2ee7e5amr28188205qtw.42.1680190964769; 
+ Thu, 30 Mar 2023 08:42:44 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-178-166.web.vodafone.de.
+ [109.43.178.166]) by smtp.gmail.com with ESMTPSA id
+ 141-20020a370793000000b0074672975d5csm15293446qkh.91.2023.03.30.08.42.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 08:42:44 -0700 (PDT)
+Message-ID: <2b237e97-5490-9ca0-a540-707ca0fc2669@redhat.com>
+Date: Thu, 30 Mar 2023 17:42:41 +0200
 MIME-Version: 1.0
-References: <20230330101141.30199-1-alex.bennee@linaro.org>
- <20230330101141.30199-4-alex.bennee@linaro.org>
-In-Reply-To: <20230330101141.30199-4-alex.bennee@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 30 Mar 2023 17:34:40 +0200
-Message-ID: <CANCZdfoq2zF3txOwR5ZiDD+uKJmKRL68hSn+u3_vZdUuhi5oAg@mail.gmail.com>
-Subject: Re: [PATCH 03/11] MAINTAINERS: add a section for policy documents
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Ryo ONODERA <ryoon@netbsd.org>, 
- Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Bernhard Beschow <shentey@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000005fe07d05f81fd560"
-Received-SPF: none client-ip=2a00:1450:4864:20::52e;
- envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] hw/mips/malta: Fix the malta machine on big endian hosts
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-stable@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ Rob Landley <rob@landley.net>
+References: <20230330152613.232082-1-thuth@redhat.com>
+ <CAFEAcA_2H9rMG6uu8JY8VDY96UjmvPuXBYzoQmy8adM+sqUF+Q@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAFEAcA_2H9rMG6uu8JY8VDY96UjmvPuXBYzoQmy8adM+sqUF+Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,163 +103,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000005fe07d05f81fd560
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 30/03/2023 17.33, Peter Maydell wrote:
+> On Thu, 30 Mar 2023 at 16:27, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> Booting a Linux kernel with the malta machine is currently broken
+>> on big endian hosts. The cpu_to_gt32 macro wants to byteswap a value
+>> for little endian targets only, but uses the wrong way to do this:
+>> cpu_to_[lb]e32 works the other way round on big endian hosts! Fix
+>> it by using the same ways on both, big and little endian hosts.
+>>
+>> Fixes: 0c8427baf0 ("hw/mips/malta: Use bootloader helper to set BAR registers")
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   I've checked that both, the kernel from
+>>   https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mipsel.tgz
+>>   and the kernel from
+>>   https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mips.tgz
+>>   now boot fine on both, a little endian (x86) and a big endian (s390x) host.
+>>
+>>   hw/mips/malta.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+>> index af9021316d..b26ed1fc9a 100644
+>> --- a/hw/mips/malta.c
+>> +++ b/hw/mips/malta.c
+>> @@ -629,9 +629,9 @@ static void bl_setup_gt64120_jump_kernel(void **p, uint64_t run_addr,
+>>
+>>       /* Bus endianess is always reversed */
+>>   #if TARGET_BIG_ENDIAN
+>> -#define cpu_to_gt32 cpu_to_le32
+>> +#define cpu_to_gt32(x) (x)
+>>   #else
+>> -#define cpu_to_gt32 cpu_to_be32
+>> +#define cpu_to_gt32(x) bswap32(x)
+>>   #endif
+> 
+> So if we:
+>   * do nothing to the value on a BE host
+>   * swap the value on an LE host
+> 
+> isn't that the same as cpu_to_be32() in both cases?
 
-Alex,
+No, it's about the *target*, not the host:
 
-On Thu, Mar 30, 2023 at 12:11=E2=80=AFPM Alex Benn=C3=A9e <alex.bennee@lina=
-ro.org> wrote:
+* do nothing to the value for a BE *target*
+* swap the value for LE *targets*
 
-> We don't update these often but if you are the sort of person who
-> enjoys debating and tuning project policies you could now add yourself
-> as a reviewer here so you don't miss the next debate over tabs vs
-> spaces ;-)
->
-> Who's with me?
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: Kashyap Chamarthy <kchamart@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Cc: Bernhard Beschow <shentey@gmail.com>
->
+It's quite weird and it also took me a while to understand this, but this 
+seems to be the way it's working right with all combinations.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+  Thomas
 
-Since I'm not on the list, I approve :). I had enough dealing with code of
-conduct issues with FreeBSD to last for any number of years...
-
-Warner
-
-
-> ---
-> v2
->   - s/your/you are/
->   - add some willing victims
-> ---
->  MAINTAINERS | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9e1a60ea24..2c173dbd96 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -64,6 +64,19 @@ L: qemu-devel@nongnu.org
->  F: *
->  F: */
->
-> +Project policy and developer guides
-> +R: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> +R: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> +R: Thomas Huth <thuth@redhat.com>
-> +R: Markus Armbruster <armbru@redhat.com>
-> +W: https://www.qemu.org/docs/master/devel/index.html
-> +S: Odd Fixes
-> +F: docs/devel/style.rst
-> +F: docs/devel/code-of-conduct.rst
-> +F: docs/devel/conflict-resolution.rst
-> +F: docs/devel/submitting-a-patch.rst
-> +F: docs/devel/submitting-a-pull-request.rst
-> +
->  Responsible Disclosure, Reporting Security Issues
->  -------------------------------------------------
->  W: https://wiki.qemu.org/SecurityProcess
-> --
-> 2.39.2
->
->
-
---0000000000005fe07d05f81fd560
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Alex,</div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 30, 2023 at 12:11=E2=80=
-=AFPM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.b=
-ennee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">We don&#39;t update these often but if you are the sort of =
-person who<br>
-enjoys debating and tuning project policies you could now add yourself<br>
-as a reviewer here so you don&#39;t miss the next debate over tabs vs<br>
-spaces ;-)<br>
-<br>
-Who&#39;s with me?<br>
-<br>
-Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
-g" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
-Cc: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_blank">t=
-huth@redhat.com</a>&gt;<br>
-Cc: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com" targ=
-et=3D"_blank">berrange@redhat.com</a>&gt;<br>
-Cc: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=3D"_b=
-lank">armbru@redhat.com</a>&gt;<br>
-Cc: Kashyap Chamarthy &lt;<a href=3D"mailto:kchamart@redhat.com" target=3D"=
-_blank">kchamart@redhat.com</a>&gt;<br>
-Cc: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_bla=
-nk">pbonzini@redhat.com</a>&gt;<br>
-Cc: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D=
-"_blank">peter.maydell@linaro.org</a>&gt;<br>
-Cc: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org" ta=
-rget=3D"_blank">philmd@linaro.org</a>&gt;<br>
-Cc: Bernhard Beschow &lt;<a href=3D"mailto:shentey@gmail.com" target=3D"_bl=
-ank">shentey@gmail.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed=
--by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&g=
-t;</div><div><br></div><div>Since I&#39;m not on the list, I approve :). I =
-had enough dealing with code of conduct issues with FreeBSD to last for any=
- number of years...</div><div><br></div><div>Warner</div><div>=C2=A0</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-v2<br>
-=C2=A0 - s/your/you are/<br>
-=C2=A0 - add some willing victims<br>
----<br>
-=C2=A0MAINTAINERS | 13 +++++++++++++<br>
-=C2=A01 file changed, 13 insertions(+)<br>
-<br>
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index 9e1a60ea24..2c173dbd96 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -64,6 +64,19 @@ L: <a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_b=
-lank">qemu-devel@nongnu.org</a><br>
-=C2=A0F: *<br>
-=C2=A0F: */<br>
-<br>
-+Project policy and developer guides<br>
-+R: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" target=
-=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
-+R: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com" targ=
-et=3D"_blank">berrange@redhat.com</a>&gt;<br>
-+R: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_blank">t=
-huth@redhat.com</a>&gt;<br>
-+R: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=3D"_b=
-lank">armbru@redhat.com</a>&gt;<br>
-+W: <a href=3D"https://www.qemu.org/docs/master/devel/index.html" rel=3D"no=
-referrer" target=3D"_blank">https://www.qemu.org/docs/master/devel/index.ht=
-ml</a><br>
-+S: Odd Fixes<br>
-+F: docs/devel/style.rst<br>
-+F: docs/devel/code-of-conduct.rst<br>
-+F: docs/devel/conflict-resolution.rst<br>
-+F: docs/devel/submitting-a-patch.rst<br>
-+F: docs/devel/submitting-a-pull-request.rst<br>
-+<br>
-=C2=A0Responsible Disclosure, Reporting Security Issues<br>
-=C2=A0-------------------------------------------------<br>
-=C2=A0W: <a href=3D"https://wiki.qemu.org/SecurityProcess" rel=3D"noreferre=
-r" target=3D"_blank">https://wiki.qemu.org/SecurityProcess</a><br>
--- <br>
-2.39.2<br>
-<br>
-</blockquote></div></div>
-
---0000000000005fe07d05f81fd560--
 
