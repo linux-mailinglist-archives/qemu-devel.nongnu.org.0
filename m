@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C697B6D0571
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 14:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25116D0573
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 14:56:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phrod-00033b-HN; Thu, 30 Mar 2023 08:55:44 -0400
+	id 1phrok-00035t-Rm; Thu, 30 Mar 2023 08:55:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1phroY-00032S-45
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:55:38 -0400
-Received: from mout.kundenserver.de ([212.227.126.134])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1phrog-00034Z-78
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:55:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1phroW-0005o8-9n
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:55:37 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1phrod-0005q7-MV
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:55:45 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MC2o9-1pZvr40Bvp-00COi6; Thu, 30 Mar 2023 14:54:51 +0200
-Message-ID: <866cb850-8774-e46d-87dd-b96899658e88@vivier.eu>
-Date: Thu, 30 Mar 2023 14:54:47 +0200
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MI59b-1pcgjX1uQJ-00FF1j; Thu, 30 Mar 2023 14:55:20 +0200
+Message-ID: <cb1daac2-d4cd-5291-f643-0bc4536f2c58@vivier.eu>
+Date: Thu, 30 Mar 2023 14:55:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH-for-8.0] linux-user/mips: Use P5600 as default CPU to run
- NaN2008 ELF binaries
+Subject: Re: [PATCH-for-8.0] linux-user/sparc: Don't use 16-bit UIDs on SPARC
+ V9
 Content-Language: fr
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
-Cc: YunQiang Su <yunqiang.su@cipunited.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Jue Wang <jue.wang@oss.cipunited.com>
-References: <20230327162444.388-1-philmd@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Gregor Riepl <onitake@gmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Zach van Rijn <me@zv.io>
+References: <20230327131910.78564-1-philmd@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230327162444.388-1-philmd@linaro.org>
+In-Reply-To: <20230327131910.78564-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bAMdf1ZgrJZJGquemP8fcFv4Ff3KLS9q2+yHANALYWorNnyTLrF
- sYyWLafnwqnSECoCc/REnOzOfQAAOIWs990ziXswvPg9d35NZcSWPXx8WKXCoLftg64WllO
- IwQcBRHab1Z1EgNUhdQmVC8Ou4erZ7pmOrHB6pyyB2qNVsecdpCwKKpTNxWYNGzDaeXhFr+
- 1Nfn72Tzz3SpFddt1r6Bw==
-UI-OutboundReport: notjunk:1;M01:P0:yk6+5MvWBTE=;wfATaWxJ1JVxWsWl55Xo128BIHX
- /EWh2NO9xtV8ENICb5cNEW/00s3s0bBfmX0AP8qVxF4UfuYAQMEgXd3dI/eaOl+DM1/V19iCv
- Qt8BLploIWQdKhNZ/esM3/H1tvjptbKW3AdcJsJl4poKEvFW2DMQ2l4naZ1GAb5Ba/dPSTYBS
- 2G0rG21UAFaGy4ZxW/pRVpvx44Ra/M1DSjQn3g+SQWXOQibkXBYtJJ7O/pd0L3trUJVyDlPNc
- cBMUce20KeYeRQCDbOnf/1PJnEh/aVBIbw7iT7872UX3lhW4YDm/A0K8k/JSqEwgL5mDG2hlu
- rguNXYzqqfIApl6YNos6lKvxJm9vmsOqlWOYb3mQHY7qjZ6C77rnrqBUNk2zmo/leVABtxGKg
- XwEuPTlZA6pnQDkAvSmibwkPTYxx5v7ztU1FB6i0Lil1jCpA6jeG26HazT7q5HXi2SfvfadgK
- P2Nm05WIlXTo/RFZN1UNWpQRX9hWTyyzO9zuX9njQp30bQ9iBBCrzlBDgPHrK0J7P/jbPG/PJ
- 520t7Nu5NXJUn68vyGM/YprZpww4b3bCNv1KShV1rPE+BuTY2cjGtgwYU1VAaPR3BGWe23724
- 38bVVPZsDZ5lVp4iPRelmrNW0nlHoBIERNd3xfovXP6H8UiJ4mL9fs0VIPnh+I+H9nTBWMZvv
- wJfcasZf+IvS0emdkpEmIc8ONHEWWKUKx9/sfjrmUg==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:lGN/67RI6Y4fKwgoZyFRKuPOQ/rAaCpgebH1LUccWaWyEckYOQT
+ 1YjmU22FSVaEU0PA78Tmplygd/bTnenYtCRqZ25VAyv1wDJOjMyJrZSiofRqS+nxifaEghU
+ VTzT2omvEZ+2SXcwJV7ukOeKRMJV5M9Aqxvw1Krgh/+cicOpuwt5BQyOTnJw6M0r286iGXJ
+ zsJmFKpPAf2WC+lN37GpA==
+UI-OutboundReport: notjunk:1;M01:P0:GzTm7HeZ3S8=;pxtQfXJfchp7udxq8raGJtrTEM2
+ 0aB5rjYssAYsQ8RqFErJdQS5aYJITWP9sOIPpJE+yMLryr8G/uDDIWpTTEivr/RhTLMv+HVq3
+ gD29d5xJ107aQyFLmu5TuE8Kla5AItK7m9HKmxSewlpu3afRHqi4DCBXMifMx3+ehqZ4W5H8C
+ YFRE57A6GX4TQwOHwyFe1IWeg27dXhRaQJYVuievxc1zGgPfYAva/4j4MRdPX7UJ6eujn+XNG
+ IPYlNHnPSEBJd3gjwednW7wqCJwUPyH1dVNPA21Vm/3j3pWc3vgyEbz9irblC8H7F28dkE8D1
+ zHiFw819JRqP2QY76oNICsnX79gFOz+njF/Bdaam8wgN9rL320sm9/9+WlLYuctxDygNIQPa7
+ hjget/w2JFVFAmrHsTeilooIp/YXMHPpXXQ2Tvkc3Cx9ODzYHeRiXeGgbyqczaTNuhRtcmw3m
+ fET6qob5wbFZWPzRerGnAGUzaGduiwN182YZdxQtpjGV/xf5roSkgxk1UjkDjTuoBECKYKcc3
+ wQQMylhtiqZgugQBepPgPYLXlnetP5NBBn97SseavGAlf/z+AKCHtE4UWseydz3a6auHHfEKG
+ +ix/vuZAuAmNVD600d7gacEfcbnGCYbfgXmRfJutBIsLM5rw5nMVTlcpw9frosc3GZNMqGwF6
+ jvPOj2xv/zOoH715p1rfXqz8DyQcSabSWiG/E0IpfA==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,45 +76,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 27/03/2023 à 18:24, Philippe Mathieu-Daudé a écrit :
-> Per the release 6.06 revision history:
+Le 27/03/2023 à 15:19, Philippe Mathieu-Daudé a écrit :
+> The 64-bit SPARC V9 syscall ABI uses 32-bit UIDs. Only enable
+> the 16-bit UID wrappers for 32-bit SPARC (V7 and V8).
 > 
->   5.03 August 21, 2013
+> Possibly missed in commit 992f48a036 ("Support for 32 bit
+> ABI on 64 bit targets (only enabled Sparc64)").
 > 
->   • ABS2008 and NAN2008 fields of Table 5.7 “FCSR RegisterField
->     Descriptions” were optional in release 3 and could be R/W,
->     but as of release 5 are required, read-only, and preset by
->     hardware.
-> 
-> The P5600 core implements the release 5, and has the ABS2008
-> and NAN2008 bits set in CP1_fcr31. Therefore it is able to run
-> ELF binaries compiled with EF_MIPS_NAN2008, such the CIP United
-> Debian NaN2008 distribution:
-> http://repo.oss.cipunited.com/mipsel-nan2008/README.txt
-> 
-> In order to run such compiled binaries, select by default the
-> P5600 core when the ELF 'MIPS_NAN2008' flag is set.
-> 
-> Reported-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Reported-by: Gregor Riepl <onitake@gmail.com>
+> Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Tested-by: Zach van Rijn <me@zv.io>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1394
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   linux-user/mips/target_elf.h | 3 +++
->   1 file changed, 3 insertions(+)
+>   linux-user/syscall_defs.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/mips/target_elf.h b/linux-user/mips/target_elf.h
-> index a98c9bd6ad..b965e86b2b 100644
-> --- a/linux-user/mips/target_elf.h
-> +++ b/linux-user/mips/target_elf.h
-> @@ -15,6 +15,9 @@ static inline const char *cpu_get_model(uint32_t eflags)
->       if ((eflags & EF_MIPS_MACH) == EF_MIPS_MACH_5900) {
->           return "R5900";
->       }
-> +    if (eflags & EF_MIPS_NAN2008) {
-> +        return "P5600";
-> +    }
->       return "24Kf";
->   }
->   #endif
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 614a1cbc8e..cc37054cb5 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -61,7 +61,7 @@
+>   
+>   #if (defined(TARGET_I386) && defined(TARGET_ABI32)) \
+>       || (defined(TARGET_ARM) && defined(TARGET_ABI32)) \
+> -    || defined(TARGET_SPARC) \
+> +    || (defined(TARGET_SPARC) && defined(TARGET_ABI32)) \
+>       || defined(TARGET_M68K) || defined(TARGET_SH4) || defined(TARGET_CRIS)
+>       /* 16 bit uid wrappers emulation */
+>   #define USE_UID16
 
 Acked-by: Laurent Vivier <laurent@vivier.eu>
 
