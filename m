@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107076D02FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:21:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408B86D0336
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:32:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phqKM-00036Y-SD; Thu, 30 Mar 2023 07:20:22 -0400
+	id 1phqVM-0000nZ-Po; Thu, 30 Mar 2023 07:31:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1phqKE-0002vl-0E
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:20:14 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1phqVF-0000mE-If
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:31:38 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1phqKB-0005lj-G8
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:20:13 -0400
-Received: by mail-pg1-x533.google.com with SMTP id k15so11069612pgt.10
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 04:20:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1phqVB-00006e-FP
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:31:35 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id z10so11094956pgr.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 04:31:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1680175210;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1680175891;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wAY/F84NlaORXXC45idlmMzw9UB2BeTyrfHaWU/WpSo=;
- b=oC0Vmi/OjI44WRSahGRmojlOGnHDRR2NqrzloXNogaTJbXZ+qi8DL19+H8Yr3wBDL3
- YoiNiBpalMlVA+fZyAq0j+UQO8SWsS0PWFicxkE4cNQ+cMnQtK801adCL5fObYp1fjXn
- v3rlx72cf5KSvZlAHElkI2qqIG1HGT43MF37+q1nG99qbqv65DuBxoNiOPc9Sr0cBvB1
- mlKPdEbSk+nJQiO69JrT+j75FNgZRGHrKHGXJ5fi2XIS1Z7a6ID+EjvnFH+5nBqMe/zs
- glw2yzeg9j97eDhHLLqf8igcvqzkOqooysQZ2p2SVl6tR9RkCyBlzT2UUPJ2o7sTDJi+
- 2xRA==
+ bh=LcSryHPmr8lryjngsOsPg/86/Wskup+th0s8PwA5E5M=;
+ b=3VYspWgDMN5oMqRl1jFWw+TBLiKeV7DhohbBtcOTpx1MKWBbSOdrNunvQ0G8/IEZwJ
+ +1WVLfHH+akVnu8MxXB1r/vK2NVcMmdQwC7h71ZGmVZ5sgFKpC/BseWUJjA0qNr6SGIs
+ ZXWnvxK+vNv9JhCjXX+3oaC3Ewqd23C5zx3ly5/yk0t44ausuenvqAj9W4Q9onmPDCdo
+ fDK1mW/VKTJ2a5TeNROzTSn5blwbfebNeKgW4iXx4AWXtz8nmhWi4Jc5DasuLQHIgAj1
+ OdufPzo4HXhFYYz+NwNO3tSvxk3Li8xFX9A9l9J3VDthUHhuicfs9/SKilt8YbLu+LaW
+ mQvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680175210;
+ d=1e100.net; s=20210112; t=1680175891;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wAY/F84NlaORXXC45idlmMzw9UB2BeTyrfHaWU/WpSo=;
- b=7UyxohEIgpO1iGuw/3EH2TM1Cb10vv7lNgZNWZYrX967GST9g/pQd8EsUTbpcD+bdM
- 8M3C/IQL5oByVE1aGShLsVIMjfXv8euYxrYN/60suhPI782ws4Qllgt+RwsrenAJqNdY
- XaJxcLtG3e9fLjAE5CWxGtsRawgW9vXUhT4SwdA4a1dom68T6naRFYYCXPerz+tsf2F/
- 5FRl/T/16zKuP1FR3yYCgRXcEGQVFMdGdi+hjB0wjlEILyFjqZP9CqjXSJYQYj2gR3ig
- LUblEsIXLGyu1lKGMYTNMmH/61L5jKBui0wftPwwNhlzmYrONaLiXZrATdB5wftAN4/f
- pTTQ==
-X-Gm-Message-State: AAQBX9cW8NDOPJn/U+p0eT10fNTRconYv5OKKIjQAPoy1FnqHaJ41V3i
- Tcr+LWnihNQ6LiIn/zvbqu2m72frWkSbmc0DgZXXCA==
-X-Google-Smtp-Source: AKy350YXfyMjvqhCj2fxt7yY0DtZy5Eil5za2x3o0HyLVXtFypRShF6IW79T/BdkajCZwG8W1N/uoTUGwsXxS9xYPZ4=
-X-Received: by 2002:a63:f46:0:b0:507:4697:392d with SMTP id
- 6-20020a630f46000000b005074697392dmr6305121pgp.7.1680175209703; Thu, 30 Mar
- 2023 04:20:09 -0700 (PDT)
+ bh=LcSryHPmr8lryjngsOsPg/86/Wskup+th0s8PwA5E5M=;
+ b=XXhGJ8o26bcT/as1xXIdIyZ3RCrc8U0eGQVqPTlFfRObciawyuhhM2S/FBw5Tmsc85
+ sFfgpbkDVwh3mILYq86Z43q1iZXFlfFKHehadz0sP4zZf/TpzlW9RpPD1KwhzW984ksP
+ shEHPpknohme0n3ajnNkgqdYWYDh2aVcsNKjCX9Ik0RCOcIB++4H41CdKO/V3tm4XiIz
+ QeqX02+8IZ/vYuVHS+VEAyzg3Nt1oKEq9UxYXAOV4Rmr6diF2LlLx9C1dnc+nQasJfhN
+ yAdAPFvxwrrmzWubqCgRh2gIsfPMGUvq6MP548rqfhmyxZHy7+g0cPkgJz8xoOG9AP+q
+ mG+A==
+X-Gm-Message-State: AAQBX9e/AthhIWIf39y0FLVMiS303+u8DRo00NGpu/r/5dtm+om5Slda
+ Gpmwj8J5713l0+NMWcJXIMznHo83TzcKmt5NUeHKrQ==
+X-Google-Smtp-Source: AKy350ZnWr1r+D3dw9zROdTg58SBzv9CZS1AAwpqQkxOxGk6h1Z76A1iLFdr4NQiPZu0JlqSqg2OYzrQAPZKwaL0M54=
+X-Received: by 2002:a05:6a00:1894:b0:622:b78d:f393 with SMTP id
+ x20-20020a056a00189400b00622b78df393mr12334473pfh.2.1680175891285; Thu, 30
+ Mar 2023 04:31:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230330001522.120774-1-andrew@daynix.com>
- <20230330001522.120774-4-andrew@daynix.com>
- <ZCVJQlCXQpWMwmP9@redhat.com>
-In-Reply-To: <ZCVJQlCXQpWMwmP9@redhat.com>
+ <20230330001522.120774-2-andrew@daynix.com>
+ <CACGkMEuiEgerMzuZvykQ=8ML5CW9rdi4h6da5tDeuxER-jSPuw@mail.gmail.com>
+ <ZCU1497ElEvDbwnG@redhat.com>
+In-Reply-To: <ZCU1497ElEvDbwnG@redhat.com>
 From: Andrew Melnichenko <andrew@daynix.com>
-Date: Thu, 30 Mar 2023 14:02:17 +0300
-Message-ID: <CABcq3pHUC2-qntoJFqK=CEmGwceUf7R19-=bP1pm5PuHv6ui-w@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] ebpf: Added declaration/initialization routines.
+Date: Thu, 30 Mar 2023 14:13:39 +0300
+Message-ID: <CABcq3pGMYucxpr2CLFkQQNDWBJwCrtLm9fFbBGALfVZ8iFfzqQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/5] ebpf: Added eBPF initialization by fds and map
+ update.
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: jasowang@redhat.com, mst@redhat.com, pbonzini@redhat.com, 
+Cc: Jason Wang <jasowang@redhat.com>, mst@redhat.com, pbonzini@redhat.com, 
  marcandre.lureau@redhat.com, thuth@redhat.com, philmd@linaro.org, 
  armbru@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com, 
  mprivozn@redhat.com, yuri.benditovich@daynix.com, yan@daynix.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::533;
- envelope-from=andrew@daynix.com; helo=mail-pg1-x533.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=andrew@daynix.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,187 +91,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Hi all,
 
-On Thu, Mar 30, 2023 at 11:33=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@=
+On Thu, Mar 30, 2023 at 10:10=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@=
 redhat.com> wrote:
 >
-> On Thu, Mar 30, 2023 at 03:15:20AM +0300, Andrew Melnychenko wrote:
-> > Now, the binary objects may be retrieved by id/name.
-> > It would require for future qmp commands that may require specific
-> > eBPF blob.
+> On Thu, Mar 30, 2023 at 02:53:16PM +0800, Jason Wang wrote:
+> > On Thu, Mar 30, 2023 at 8:33=E2=80=AFAM Andrew Melnychenko <andrew@dayn=
+ix.com> wrote:
+> > >
+> > > Changed eBPF map updates through mmaped array.
+> > > Mmaped arrays provide direct access to map data.
+> > > It should omit using bpf_map_update_elem() call,
+> > > which may require capabilities that are not present.
 > >
-> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> > ---
-> >  ebpf/ebpf.c      | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
-> >  ebpf/ebpf.h      | 25 +++++++++++++++++++++++++
-> >  ebpf/ebpf_rss.c  |  4 ++++
-> >  ebpf/meson.build |  1 +
-> >  4 files changed, 78 insertions(+)
-> >  create mode 100644 ebpf/ebpf.c
-> >  create mode 100644 ebpf/ebpf.h
-> >
-> > diff --git a/ebpf/ebpf.c b/ebpf/ebpf.c
-> > new file mode 100644
-> > index 0000000000..86320d72f5
-> > --- /dev/null
-> > +++ b/ebpf/ebpf.c
-> > @@ -0,0 +1,48 @@
-> > +/*
-> > + * QEMU eBPF binary declaration routine.
-> > + *
-> > + * Developed by Daynix Computing LTD (http://www.daynix.com)
-> > + *
-> > + * Authors:
-> > + *  Andrew Melnychenko <andrew@daynix.com>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or
-> > + * later.  See the COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/queue.h"
-> > +#include "ebpf/ebpf.h"
-> > +
-> > +struct ElfBinaryDataEntry {
-> > +    const char *id;
-> > +    const void * (*fn)(size_t *);
->
-> It feels odd to be storing the function there, as that's just
-> an artifact of how the EBPF rss program is acquired. IMHO
-> this should just be
->
->    const void *data;
->    size_t datalen;
+> > This requires kernel support, so after this change, eBPF based RSS
+> > doesn't work on old kernels that only support syscall based map
+> > updating.
 >
 
-Yeah, have an idea to store data/size instead. the skeleton provides
-them in function,
-didn't want to make dirty hacks for the constructor. So I've passed
-the function straight to
-the structure.
+It would not work either - bpf_map_update_elem() requires BPF capabilities.
 
-> > +
-> > +    QSLIST_ENTRY(ElfBinaryDataEntry) node;
-> > +};
-> > +
-> > +static QSLIST_HEAD(, ElfBinaryDataEntry) ebpf_elf_obj_list =3D
-> > +                                            QSLIST_HEAD_INITIALIZER();
-> > +
-> > +void ebpf_register_binary_data(const char *id, const void * (*fn)(size=
-_t *))
-> > +{
-> > +    struct ElfBinaryDataEntry *data =3D NULL;
-> > +
-> > +    data =3D g_malloc0(sizeof(*data));
->
-> We prefer g_new0 over g_malloc and initialize when declaring eg
->
->     struct ElfBinaryDataEntry *data =3D g_new0(struct ElfBinaryDataEntry,=
- 1);
->
+> What kernel version is the cut off ?
 
-Ok, thank you.
-
-> > +    data->fn =3D fn;
-> > +    data->id =3D id;
-> > +
-> > +    QSLIST_INSERT_HEAD(&ebpf_elf_obj_list, data, node);
-> > +}
-> > +
-> > +const void *ebpf_find_binary_by_id(const char *id, size_t *sz)
-> > +{
-> > +    struct ElfBinaryDataEntry *it =3D NULL;
-> > +    QSLIST_FOREACH(it, &ebpf_elf_obj_list, node) {
-> > +        if (strcmp(id, it->id) =3D=3D 0) {
-> > +            return it->fn(sz);
-> > +        }
-> > +    }
-> > +
-> > +    return NULL;
-> > +}
-> > diff --git a/ebpf/ebpf.h b/ebpf/ebpf.h
-> > new file mode 100644
-> > index 0000000000..fd705cb73e
-> > --- /dev/null
-> > +++ b/ebpf/ebpf.h
-> > @@ -0,0 +1,25 @@
-> > +/*
-> > + * QEMU eBPF binary declaration routine.
-> > + *
-> > + * Developed by Daynix Computing LTD (http://www.daynix.com)
-> > + *
-> > + * Authors:
-> > + *  Andrew Melnychenko <andrew@daynix.com>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or
-> > + * later.  See the COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#ifndef EBPF_H
-> > +#define EBPF_H
-> > +
-> > +void ebpf_register_binary_data(const char *id, const void * (*fn)(size=
-_t *));
->
-> IMHO it would be better as
->
-> void ebpf_register_binary_data(const char *id, const void *data, size_t d=
-atalen);
->
->
-> > +const void *ebpf_find_binary_by_id(const char *id, size_t *sz);
-> > +
-> > +#define ebpf_binary_init(id, fn)                                      =
-     \
-> > +static void __attribute__((constructor)) ebpf_binary_init_ ## fn(void)=
-     \
-> > +{                                                                     =
-     \
-> > +    ebpf_register_binary_data(id, fn);                                =
-     \
->
-> size_t datalen;
-> const void *data =3D fn(&datalen);
-> ebpf_register_binary_data(oid, data, datalen);
->
-
-Yeah, it can work like that. For some reason, I want that register
-function and the constructor
-have the same call/mention.
+If I'm not mistaken - something like kernel 5.5<.
+But in any case - the RSS eBPF program is quite big and would require featu=
+res
+like jumpsback.
+So, on old kernels, it would not load.
 
 >
-> > +}
-> > +
-> > +#endif /* EBPF_H */
-> > diff --git a/ebpf/ebpf_rss.c b/ebpf/ebpf_rss.c
-> > index 08015fecb1..b4038725f2 100644
-> > --- a/ebpf/ebpf_rss.c
-> > +++ b/ebpf/ebpf_rss.c
-> > @@ -21,6 +21,8 @@
-> >
-> >  #include "ebpf/ebpf_rss.h"
-> >  #include "ebpf/rss.bpf.skeleton.h"
-> > +#include "ebpf/ebpf.h"
-> > +
-> >  #include "trace.h"
-> >
-> >  void ebpf_rss_init(struct EBPFRSSContext *ctx)
-> > @@ -237,3 +239,5 @@ void ebpf_rss_unload(struct EBPFRSSContext *ctx)
-> >      ctx->obj =3D NULL;
-> >      ctx->program_fd =3D -1;
-> >  }
-> > +
-> > +ebpf_binary_init("rss", rss_bpf__elf_bytes)
-> > diff --git a/ebpf/meson.build b/ebpf/meson.build
-> > index 2dd0fd8948..67c3f53aa9 100644
-> > --- a/ebpf/meson.build
-> > +++ b/ebpf/meson.build
-> > @@ -1 +1,2 @@
-> > +softmmu_ss.add(files('ebpf.c'))
-> >  softmmu_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: f=
-iles('ebpf_rss-stub.c'))
-> > --
-> > 2.39.1
-> >
 >
 > With regards,
 > Daniel
