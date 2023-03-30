@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658706D0D69
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 20:07:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD78E6D0D4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 20:05:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phwd8-0003F4-IF; Thu, 30 Mar 2023 14:04:10 -0400
+	id 1phwdG-0003Fi-JT; Thu, 30 Mar 2023 14:04:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwd6-0003EV-OW
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:04:08 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwd8-0003FN-LN
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:04:10 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwd4-000231-8M
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:04:08 -0400
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwd7-00023c-0X
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:04:10 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2F77321A3A;
- Thu, 30 Mar 2023 18:04:05 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E6B191F86C;
+ Thu, 30 Mar 2023 18:04:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680199445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1680199447; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lZHIAYJbTcNFGV7RvsNwFPqk358QZF0Jidk56nhi3ZQ=;
- b=WT7vGwlet30JmgnJaB9RJfEK3Kf9i3o7VcbxEQrz7NCxSCM3JLWkWXffQElg7n2FhFr3W6
- cX0WDj4EJG6EJ6KjAi0ejWfGFuCfiEHkk4BmKi0NGOTC1O/RD1x9aRBkGGrcj5c5OqPMTF
- NDUHD5ddzb6JpVtiO4CzRcAw84V1xKI=
+ bh=w2iIpM0EFvr9p+63Rr5g9tPKF2Wyn2N9bky1lumiT4A=;
+ b=DmIt0xElaKmXFCoSxwJIB3Yb0z2AjHFWMrN/876ENsGnj6K50IljkYzb77GUGZzbE+H5aA
+ PHpoaSYrsWdUafQzX0VXPz0EOyLQujOra1p6W3w9VGiBM84rtcmf8P/z+cwsHx79VYe1lc
+ 9OAj6zsupPogExeCzaVfb9HgfxfS/j4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680199445;
+ s=susede2_ed25519; t=1680199447;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lZHIAYJbTcNFGV7RvsNwFPqk358QZF0Jidk56nhi3ZQ=;
- b=lCnh6kGMUOOCsITKqviQldPM6rHYlvybgIBDDxlm3Zppa7/7iyUOqMW36cLRe25v/ecbvm
- 594eA/4lshrORwDA==
+ bh=w2iIpM0EFvr9p+63Rr5g9tPKF2Wyn2N9bky1lumiT4A=;
+ b=EdVcAXmzsvJShHrCgq9geeo8Omm2w8XVR34uyNNZIaceOHRK/LjfEjqjH9KdTfOvx4oO8i
+ UeXBSVho9cyU63Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DA1281348E;
- Thu, 30 Mar 2023 18:04:02 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A28D81348E;
+ Thu, 30 Mar 2023 18:04:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aGubJxLPJWQ5GwAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 30 Mar 2023 18:04:02 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id IG1EGhXPJWQ5GwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 30 Mar 2023 18:04:05 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com, dfaggioli@suse.com,
  dgilbert@redhat.com,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Nikolay Borisov <nborisov@suse.com>
-Subject: [RFC PATCH v1 08/26] io: implement io_pwritev/preadv for
- QIOChannelFile
-Date: Thu, 30 Mar 2023 15:03:18 -0300
-Message-Id: <20230330180336.2791-9-farosas@suse.de>
+Subject: [RFC PATCH v1 09/26] migration/qemu-file: add utility methods for
+ working with seekable channels
+Date: Thu, 30 Mar 2023 15:03:19 -0300
+Message-Id: <20230330180336.2791-10-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230330180336.2791-1-farosas@suse.de>
 References: <20230330180336.2791-1-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,89 +90,161 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Nikolay Borisov <nborisov@suse.com>
 
-The upcoming 'fixed-ram' feature will require qemu to write data to
-(and restore from) specific offsets of the migration file.
+Add utility methods that will be needed when implementing 'fixed-ram'
+migration capability.
 
-Add a minimal implementation of pwritev/preadv and expose them via the
-io_pwritev and io_preadv interfaces.
+qemu_file_is_seekable
+qemu_put_buffer_at
+qemu_get_buffer_at
+qemu_set_offset
+qemu_get_offset
 
 Signed-off-by: Nikolay Borisov <nborisov@suse.com>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- io/channel-file.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+fixed total_transferred accounting
 
-diff --git a/io/channel-file.c b/io/channel-file.c
-index a0268232da..a3d2f0bcf9 100644
---- a/io/channel-file.c
-+++ b/io/channel-file.c
-@@ -145,6 +145,56 @@ static ssize_t qio_channel_file_writev(QIOChannel *ioc,
-     return ret;
+restructured to use qio_channel_file_preadv instead of the _full
+variant
+---
+ include/migration/qemu-file-types.h |  2 +
+ migration/qemu-file.c               | 80 +++++++++++++++++++++++++++++
+ migration/qemu-file.h               |  4 ++
+ 3 files changed, 86 insertions(+)
+
+diff --git a/include/migration/qemu-file-types.h b/include/migration/qemu-file-types.h
+index 2867e3da84..eb0325ee86 100644
+--- a/include/migration/qemu-file-types.h
++++ b/include/migration/qemu-file-types.h
+@@ -50,6 +50,8 @@ unsigned int qemu_get_be16(QEMUFile *f);
+ unsigned int qemu_get_be32(QEMUFile *f);
+ uint64_t qemu_get_be64(QEMUFile *f);
+ 
++bool qemu_file_is_seekable(QEMUFile *f);
++
+ static inline void qemu_put_be64s(QEMUFile *f, const uint64_t *pv)
+ {
+     qemu_put_be64(f, *pv);
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 102ab3b439..a1f7dbb3d9 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -30,6 +30,7 @@
+ #include "qemu-file.h"
+ #include "trace.h"
+ #include "qapi/error.h"
++#include "io/channel-file.h"
+ 
+ #define IO_BUF_SIZE 32768
+ #define MAX_IOV_SIZE MIN_CONST(IOV_MAX, 64)
+@@ -281,6 +282,10 @@ static void qemu_iovec_release_ram(QEMUFile *f)
+     memset(f->may_free, 0, sizeof(f->may_free));
  }
  
-+static ssize_t qio_channel_file_preadv(QIOChannel *ioc,
-+                                       const struct iovec *iov,
-+                                       size_t niov,
-+                                       off_t offset,
-+                                       Error **errp)
++bool qemu_file_is_seekable(QEMUFile *f)
 +{
-+    QIOChannelFile *fioc = QIO_CHANNEL_FILE(ioc);
-+    ssize_t ret;
++    return qio_channel_has_feature(f->ioc, QIO_CHANNEL_FEATURE_SEEKABLE);
++}
+ 
+ /**
+  * Flushes QEMUFile buffer
+@@ -559,6 +564,81 @@ void qemu_put_buffer(QEMUFile *f, const uint8_t *buf, size_t size)
+     }
+ }
+ 
++void qemu_put_buffer_at(QEMUFile *f, const uint8_t *buf, size_t buflen, off_t pos)
++{
++    Error *err = NULL;
 +
-+ retry:
-+    ret = preadv(fioc->fd, iov, niov, offset);
-+    if (ret < 0) {
-+        if (errno == EAGAIN) {
-+            return QIO_CHANNEL_ERR_BLOCK;
-+        }
-+        if (errno == EINTR) {
-+            goto retry;
-+        }
-+
-+        error_setg_errno(errp, errno, "Unable to read from file");
-+        return -1;
++    if (f->last_error) {
++        return;
 +    }
 +
++    qemu_fflush(f);
++    qio_channel_pwritev(f->ioc, (char *)buf, buflen, pos, &err);
++
++    if (err) {
++        qemu_file_set_error_obj(f, -EIO, err);
++    } else {
++        f->total_transferred += buflen;
++    }
++
++    return;
++}
++
++
++size_t qemu_get_buffer_at(QEMUFile *f, const uint8_t *buf, size_t buflen, off_t pos)
++{
++    Error *err = NULL;
++    ssize_t ret;
++
++    if (f->last_error) {
++        return 0;
++    }
++
++    ret = qio_channel_preadv(f->ioc, (char *)buf, buflen, pos, &err);
++    if (ret == -1 || err) {
++        goto error;
++    }
++
++    return (size_t)ret;
++
++ error:
++    qemu_file_set_error_obj(f, -EIO, err);
++    return 0;
++}
++
++void qemu_set_offset(QEMUFile *f, off_t off, int whence)
++{
++    Error *err = NULL;
++    off_t ret;
++
++    qemu_fflush(f);
++
++    if (!qemu_file_is_writable(f)) {
++        f->buf_index = 0;
++        f->buf_size = 0;
++    }
++
++    ret = qio_channel_io_seek(f->ioc, off, whence, &err);
++    if (ret == (off_t)-1) {
++        qemu_file_set_error_obj(f, -EIO, err);
++    }
++}
++
++off_t qemu_get_offset(QEMUFile *f)
++{
++    Error *err = NULL;
++    off_t ret;
++
++    qemu_fflush(f);
++
++    ret = qio_channel_io_seek(f->ioc, 0, SEEK_CUR, &err);
++    if (ret == (off_t)-1) {
++        qemu_file_set_error_obj(f, -EIO, err);
++    }
 +    return ret;
 +}
 +
-+static ssize_t qio_channel_file_pwritev(QIOChannel *ioc,
-+                                        const struct iovec *iov,
-+                                        size_t niov,
-+                                        off_t offset,
-+                                        Error **errp)
-+{
-+    QIOChannelFile *fioc = QIO_CHANNEL_FILE(ioc);
-+    ssize_t ret;
 +
-+ retry:
-+    ret = pwritev(fioc->fd, iov, niov, offset);
-+    if (ret <= 0) {
-+        if (errno == EAGAIN) {
-+            return QIO_CHANNEL_ERR_BLOCK;
-+        }
-+        if (errno == EINTR) {
-+            goto retry;
-+        }
-+        error_setg_errno(errp, errno, "Unable to write to file");
-+        return -1;
-+    }
-+    return ret;
-+}
-+
- static int qio_channel_file_set_blocking(QIOChannel *ioc,
-                                          bool enabled,
-                                          Error **errp)
-@@ -227,6 +277,8 @@ static void qio_channel_file_class_init(ObjectClass *klass,
-     ioc_klass->io_writev = qio_channel_file_writev;
-     ioc_klass->io_readv = qio_channel_file_readv;
-     ioc_klass->io_set_blocking = qio_channel_file_set_blocking;
-+    ioc_klass->io_pwritev = qio_channel_file_pwritev;
-+    ioc_klass->io_preadv = qio_channel_file_preadv;
-     ioc_klass->io_seek = qio_channel_file_seek;
-     ioc_klass->io_close = qio_channel_file_close;
-     ioc_klass->io_create_watch = qio_channel_file_create_watch;
+ void qemu_put_byte(QEMUFile *f, int v)
+ {
+     if (f->last_error) {
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index 9d0155a2a1..350273b441 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -149,6 +149,10 @@ QEMUFile *qemu_file_get_return_path(QEMUFile *f);
+ void qemu_fflush(QEMUFile *f);
+ void qemu_file_set_blocking(QEMUFile *f, bool block);
+ int qemu_file_get_to_fd(QEMUFile *f, int fd, size_t size);
++void qemu_set_offset(QEMUFile *f, off_t off, int whence);
++off_t qemu_get_offset(QEMUFile *f);
++void qemu_put_buffer_at(QEMUFile *f, const uint8_t *buf, size_t buflen, off_t pos);
++size_t qemu_get_buffer_at(QEMUFile *f, const uint8_t *buf, size_t buflen, off_t pos);
+ 
+ void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
+ void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
 -- 
 2.35.3
 
