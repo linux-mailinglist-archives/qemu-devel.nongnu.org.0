@@ -2,97 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1BE6D03B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A633C6D042F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:59:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phqhE-0004y7-0j; Thu, 30 Mar 2023 07:44:00 -0400
+	id 1phqvO-0007CD-T5; Thu, 30 Mar 2023 07:58:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phqh3-0004xZ-Nr
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:43:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1phqvM-0007C1-El
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:58:36 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1phqh1-0002NF-Qd
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:43:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680176626;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qcpUhw1FJ4YDv6mKM0XdJLQ5cue6gwouLW6paE1LB8o=;
- b=STDZWIGZspNA7zF7hUtG8Q2d1Oa8pW1XHqQvCq7XrFDaixE9HWk2eDgv0JIrUFepxwXUIy
- A8RTZIut5RfcLZ3xNJB1SQd62SGfGA0FEW9IqM7KBWt8AREJioNH9CT+6W53scpyb3Xtmr
- owWyfKYiQvcjw3DDra+e+Psfqw7lRsU=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-387-_tI7u1EpPQiRzMinv9920g-1; Thu, 30 Mar 2023 07:43:45 -0400
-X-MC-Unique: _tI7u1EpPQiRzMinv9920g-1
-Received: by mail-qv1-f72.google.com with SMTP id
- p14-20020a0cc3ce000000b005e14204a86bso4935qvi.10
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 04:43:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680176625;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qcpUhw1FJ4YDv6mKM0XdJLQ5cue6gwouLW6paE1LB8o=;
- b=fky/AbnngCufSKMyphaXr8viBPpVB/QHkbLwSlawwfW9vendUmwhOGrbuRBuuX2ZM/
- 711x3iZbUN+FbrVXPed1ipF7D36uoF/1hk75iobYPq+PpN+lgyyD1TRetSXIKZnodx1i
- ufdmjkoliCx4jFY1tcJaeSxCa8U5yxZqyZzT2HFVDYhefg1gbkXQsWrcf7c1xcMqqEdq
- pTVz+llI5lXVDyklqKpOPbBlRzKxdMY45MMnD1WV1cF1ftBAiXACQyJC2T7wrmXPNheC
- Ok2eA2FjUvokx9Y3syZyvFOm/tNAvHMeFHmT2HI/nVDgX/gb2QdYY7rAp6EllsfIs002
- wYwA==
-X-Gm-Message-State: AAQBX9eqZfY0v369ieTfEJU9RZIg872nLktsGxF9HMNltth0BzcN96CY
- 5dLHS1NzQQyvq7On9UYYnR+lS3yPw3dKGR8erCgDuNZCAYnu6o3gHrrpw7qj+dgflpV7Au5P0I0
- jJzfuvG0tj4VJekM=
-X-Received: by 2002:a05:6214:29e7:b0:5b1:a698:43c6 with SMTP id
- jv7-20020a05621429e700b005b1a69843c6mr34959070qvb.18.1680176625009; 
- Thu, 30 Mar 2023 04:43:45 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Zscz9VE2XLKbFL7xa2UlOiYxiE5NBGYMGVlXH5wP2i/FiOLobO+kZKMaMDHW3oooQLnUFkFw==
-X-Received: by 2002:a05:6214:29e7:b0:5b1:a698:43c6 with SMTP id
- jv7-20020a05621429e700b005b1a69843c6mr34959041qvb.18.1680176624767; 
- Thu, 30 Mar 2023 04:43:44 -0700 (PDT)
-Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- a14-20020a0ccdce000000b005dd8b9345e5sm5372610qvn.125.2023.03.30.04.43.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Mar 2023 04:43:44 -0700 (PDT)
-Message-ID: <b23ab886-e9f5-bb94-c98d-ccdd45cdeff1@redhat.com>
-Date: Thu, 30 Mar 2023 13:43:41 +0200
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1phqvK-0004WA-AL
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:58:36 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 4038E41999;
+ Thu, 30 Mar 2023 13:58:24 +0200 (CEST)
+Message-ID: <0e3f3a98-835f-b26c-649e-a8a35edce660@proxmox.com>
+Date: Thu, 30 Mar 2023 13:58:22 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 09/11] tests/requirements.txt: bump up avocado-framework
- version to 101.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PULL 19/54] acpi: pc: isa bridge: use AcpiDevAmlIf interface to
+ build ISA device descriptors
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
-Cc: Warner Losh <imp@bsdimp.com>, Ryo ONODERA <ryoon@netbsd.org>,
- Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- Kautuk Consul <kconsul@linux.vnet.ibm.com>,
- Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-References: <20230330101141.30199-1-alex.bennee@linaro.org>
- <20230330101141.30199-10-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230330101141.30199-10-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+References: <20220610075631.367501-1-mst@redhat.com>
+ <20220610075631.367501-20-mst@redhat.com>
+ <ba6a8777-723d-7e6c-bec7-71819cedb66d@proxmox.com>
+ <20230330102227.39b44b71@imammedo.users.ipa.redhat.com>
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <20230330102227.39b44b71@imammedo.users.ipa.redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,49 +67,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/03/2023 12.11, Alex Bennée wrote:
-> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+Am 30.03.23 um 10:22 schrieb Igor Mammedov:
+> On Tue, 28 Mar 2023 14:58:21 +0200
+> Fiona Ebner <f.ebner@proxmox.com> wrote:
 > 
-> Avocado version 101.0 has a fix to re-compute the checksum
-> of an asset file if the algorithm used in the *-CHECKSUM
-> file isn't the same as the one being passed to it by the
-> avocado user (i.e. the avocado_qemu python module).
-> In the earlier avocado versions this fix wasn't there due
-> to which if the checksum wouldn't match the earlier
-> checksum (calculated by a different algorithm), the avocado
-> code would start downloading a fresh image from the internet
-> URL thus making the test-cases take longer to execute.
+>> Am 10.06.22 um 09:57 schrieb Michael S. Tsirkin:
+>>> From: Igor Mammedov <imammedo@redhat.com>
+>>>
+>>> replaces ad-hoc build_isa_devices_aml() with generic AcpiDevAmlIf
+>>> way to build bridge AML including all devices that are attached to
+>>> its ISA bus.
+>>>
+>>> Later when PCI is converted to AcpiDevAmlIf, build_piix4_isa_bridge()
+>>> will also be dropped since PCI parts itself will take care of
+>>> building device prologue/epilogue AML for each enumerated PCI
+>>> device.
+>>>
+>>> Expected AML change is contextual, where ISA devices are moved
+>>> from separately declared _SB.PCI0.ISA scope , directly under
+>>> Device(ISA) node.
+>>>
+>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>>> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>>> Message-Id: <20220608135340.3304695-20-imammedo@redhat.com>
+>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>  
+>>
+>> Hi,
+>> while trying to reproduce another issue, I ended up with a Windows 10
+>> guest that would boot with QEMU 7.0, but get stuck after the Windows
+>> logo/spinning circles with QEMU 7.1 (also with 8.0.0-rc1). Machine type
+>> is pc-i440fx-6.2[0]. Bisecting led to this commit.
+>>
+>> It only happens the first time the VM is booted, killing the process and
+>> re-trying always worked afterwards. So it's not a big deal and might
+>> just be some ACPI-related Windows quirk. But I thought I should ask here
+>> to be sure.
+>>
+>> For bisecting, I restored the disk state after each attempt. While
+>> getting stuck sometimes took 3-4 attempts, I tested about 10 times until
+>> I declared a commit good, and re-tested the commit before this one 15
+>> times, so I'm pretty sure this is the one where the issue started appearing.
+>>
+>> So, anything that could potentially be wrong with the commit or is this
+>> most likely just some Windows quirk/bug we can't do much about?
+>>
+>> If you need more information, please let me know!
 > 
-> Bump up the avocado-framework version to 101.0.
+> Please describe in more detail your setup/steps where it reproduces
+> (incl. Windows version/build, used QEMU CLI) so I could try to reproduce it locally.
 > 
-> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
-> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
-> ---
->   tests/requirements.txt | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> (in past there were issues with German version that some where
+> experience but not reproducible on my side, that resolved with
+> upgrading to newer QEMU (if I recall correctly issue was opened
+> on QEMU's gitlab tracker))
 > 
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index 0ba561b6bd..a6f73da681 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -2,5 +2,5 @@
->   # in the tests/venv Python virtual environment. For more info,
->   # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
->   # Note that qemu.git/python/ is always implicitly installed.
-> -avocado-framework==88.1
-> +avocado-framework==101.0
->   pycdlib==1.11.0
 
-Did you check whether the same amount of avocado tests still works as 
-before? ... last time I tried to bump the version, a lot of things were 
-failing, and I think Cleber was recently working  on fixing things, but I 
-haven't heart anything back from him yet that it would be OK to bump to a 
-newer version now ...
-So upgrading to a new version of Avocado during the softfreeze sounds 
-somewhat risky to me right now - I'd appreciate if we could do that after 
-the release instead.
+Windows 10 Education
+Version 1809
+Build 17763.1
 
-  Thomas
+It's not the German ISO, I used default settings (except location
+Austria and German keymap) and I don't think I did anything other than
+shutdown after the install was over.
+
+The command line is below. I did use our patched QEMU builds when I got
+into the situation, but I don't think they touch anything ACPI-related
+and bisecting was done without our patches on top.
+
+I tried to reproduce the situation again from scratch today, but wasn't
+able to. I do still have the problematic disk (snapshot) where the issue
+occurs as an LVM-Thin volume. If you'd like to have access to that,
+please send me a direct mail and we can discuss the details there.
+
+Best Regards,
+Fiona
+
+>>
+>> Best Regards,
+>> Fiona
+>>
+>> [0] command line:
+>>> ./qemu-system-x86_64 \
+>>>   -accel 'kvm' \
+>>>   -name 'stuckafterrollbackonboot,debug-threads=on' \
+>>>   -no-shutdown \
+>>>   -chardev 'socket,id=qmp,path=/var/run/qemu-server/161.qmp,server=on,wait=off' \
+>>>   -mon 'chardev=qmp,mode=control' \
+>>>   -chardev 'socket,id=qmp-event,path=/var/run/qmeventd.sock,reconnect=5' \
+>>>   -mon 'chardev=qmp-event,mode=control' \
+>>>   -pidfile /var/run/qemu-server/161.pid \
+>>>   -smbios 'type=1,uuid=f2b77ed0-73c1-4372-9490-b2c1b59431af' \
+>>>   -smp '4,sockets=1,cores=4,maxcpus=4' \
+>>>   -nodefaults \
+>>>   -boot 'menu=on,strict=on,reboot-timeout=1000,splash=/usr/share/qemu-server/bootsplash.jpg' \
+>>>   -vnc 'unix:/var/run/qemu-server/161.vnc,password=on' \
+>>>   -no-hpet \
+>>>   -cpu 'kvm64,enforce,hv_ipi,hv_relaxed,hv_reset,hv_runtime,hv_spinlocks=0x1fff,hv_stimer,hv_synic,hv_time,hv_vapic,hv_vpindex,+kvm_pv_eoi,+kvm_pv_unhalt,+lahf_lm,+sep' \
+>>>   -m 6144 \
+>>>   -device 'pci-bridge,id=pci.1,chassis_nr=1,bus=pci.0,addr=0x1e' \
+>>>   -device 'pci-bridge,id=pci.2,chassis_nr=2,bus=pci.0,addr=0x1f' \
+>>>   -device 'pci-bridge,id=pci.3,chassis_nr=3,bus=pci.0,addr=0x5' \
+>>>   -device 'vmgenid,guid=faa21a64-5921-45fe-9ff3-1f132b9ed029' \
+>>>   -device 'piix3-usb-uhci,id=uhci,bus=pci.0,addr=0x1.0x2' \
+>>>   -device 'usb-tablet,id=tablet,bus=uhci.0,port=1' \
+>>>   -device 'VGA,id=vga,bus=pci.0,addr=0x2,edid=off' \
+>>>   -device 'virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x3,free-page-reporting=on' \
+>>>   -iscsi 'initiator-name=iqn.1993-08.org.debian:01:7d9a912f961' \
+>>>   -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
+>>>   -drive 'file=/dev/pve/vm-161-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
+>>>   -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0,bootindex=100' \
+>>>   -netdev 'type=tap,id=net0,ifname=tap161i0,script=/var/lib/qemu-server/pve-bridge,downscript=/var/lib/qemu-server/pve-bridgedown' \
+>>>   -device 'e1000,mac=42:BF:8B:AE:68:05,netdev=net0,bus=pci.0,addr=0x12,id=net0,bootindex=102' \
+>>>   -rtc 'driftfix=slew,base=localtime' \
+>>>   -machine 'type=pc-i440fx-6.2' \
+>>>   -global 'kvm-pit.lost_tick_policy=discard'  
+>>
+
 
 
