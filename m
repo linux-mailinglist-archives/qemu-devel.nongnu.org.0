@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144D46D065B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B166D054B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 14:51:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phsAp-0006KW-Kc; Thu, 30 Mar 2023 09:18:39 -0400
+	id 1phrje-00014f-NJ; Thu, 30 Mar 2023 08:50:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tanhongze@loongson.cn>)
- id 1phrfW-0008F7-Bp
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:46:18 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tanhongze@loongson.cn>) id 1phrfQ-00043g-Io
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:46:14 -0400
-Received: from loongson.cn (unknown [123.125.11.117])
- by gateway (Coremail) with SMTP id _____8BxMMyJhCVkfGgUAA--.31383S3;
- Thu, 30 Mar 2023 20:46:02 +0800 (CST)
-Received: from tanhongze-Dell-G15-5511.. (unknown [123.125.11.117])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxur2IhCVkfzARAA--.13524S2; 
- Thu, 30 Mar 2023 20:46:01 +0800 (CST)
-From: tanhongze <tanhongze@loongson.cn>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] target/loongarch: Enables plugins to get instruction codes
-Date: Thu, 30 Mar 2023 20:46:00 +0800
-Message-Id: <20230330124600.1523026-1-tanhongze@loongson.cn>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phrjc-000147-BF
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:50:32 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phrjZ-0004kS-Pz
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 08:50:31 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id h17so18941365wrt.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 05:50:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680180628;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1p3iFLY6gCvaWCh9eCMcHAH/L+nIbjjvFrbxepMTOGM=;
+ b=rt2MwtJ2vnUmf020Y+0Kn+D0JMtRC6pd/I3SCUCLj/7gNJ5wuhslqMbqWlbCxv3Pt9
+ o4gfaUK2gaPm1N+Oq2ES1PRLIGdHk9ApIwOFa6DevlRCzVmkmDCX2D+MYPN/FoKbnnuj
+ lEhkIkLhF/Mo4Ihe/NDk/4+rJLlKp0xQJ1Zmt9sFDc28TGP9pfWfO8OVhQSvWnIzpacd
+ oJSVsAyz4zlVQCPHRlV8Hvu5tL4yykXQqzZG/ny9wZxAXoL5vIp8JjmV4Y3IQ2W6hIs7
+ 5jKWDKcOUra3Rn8sogsBKiyKybMw4cwSTjmBf7/5v1Sqox+io7IgHP6aBsfF98OhmVyi
+ MWPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680180628;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1p3iFLY6gCvaWCh9eCMcHAH/L+nIbjjvFrbxepMTOGM=;
+ b=WSemDqDAHtw6PFJmi3IdS0ckHu8gUlAD0eNog0L/mQ+Gk/6kZpXmdpanTqVPMs5kA4
+ aLvXm4mMWVria6uscKvkHyZHgPFxxBnClgblXie/yUOg53HUW+mQWvdMZXy5qRRWAINt
+ b3s1Fm9GM8cE7YoS5cyaJe/znXYyKews3UoyE4cS6U1TJ7IMDdtXjFUn4iGPFRlGRM8Y
+ leoDpvRD3iCghzId/rFwIWaRpsnUikaRW1ZayCc9Y203MTsOKzDWh/z58lrE0in2RRCX
+ xtFstMX8GFEYtToQUJdeIafARIQLO3LvCfAhm1Qf4l4nwv5lEDJgE/psThiHuxbRp3bt
+ Uwkg==
+X-Gm-Message-State: AAQBX9cIgjlvwa2RIS+X7d73mIpwgaVp9d9hfV7P7/I3AoyID1tpEsrc
+ hAOnJCK+ydyErXJj4Foo8UzJLA==
+X-Google-Smtp-Source: AKy350ZlHfvVjxaGKKm9AeMDApZwKmxranNfw2npntzzLxTC/1gmjSEpUOnw69kcHvMmHENqbsBSpA==
+X-Received: by 2002:adf:fb0d:0:b0:2e5:17a4:7d65 with SMTP id
+ c13-20020adffb0d000000b002e517a47d65mr812798wrr.39.1680180627889; 
+ Thu, 30 Mar 2023 05:50:27 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ s2-20020a5d5102000000b002c71b4d476asm32699987wrt.106.2023.03.30.05.50.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 05:50:27 -0700 (PDT)
+Message-ID: <6bdaf1ec-3dcc-6e94-cdf2-8755c88bc4bd@linaro.org>
+Date: Thu, 30 Mar 2023 14:50:26 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxur2IhCVkfzARAA--.13524S2
-X-CM-SenderInfo: xwdqx0pqj2vqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvdXoW7Jw45KryktFy8XFykGr1fXrb_yoW3Zrg_AF
- 1fX3Z7Wr4ruFyIyw409r98Xr1UC3W8WFnYv3Z0gay8GFy5Xw43GrWqq3Z5Cr4j9rs8Xrn8
- u3srtry5Ar1rujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
- j7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
- AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
- 6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7
- xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWle2I2
- 62IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4
- CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvj
- eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2IqxV
- CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
- 6r1rMI8E67AF67kF1VAFwI0_Jr0_JrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
- WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
- 6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_Gr
- UvcSsGvfC2KfnxnUUI43ZEXa7IU1CPfJUUUUU==
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=tanhongze@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: [PATCH] vnc: avoid underflow when accessing user-provided address
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+References: <20230330124424.40610-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230330124424.40610-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 30 Mar 2023 09:18:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,25 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: tanhongze <tanhongze@loongson.cn>
----
- target/loongarch/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 30/3/23 14:44, Paolo Bonzini wrote:
+> If hostlen is zero, there is a possibility that addrstr[hostlen - 1]
+> underflows and, if a closing bracked is there, hostlen - 2 is passed
+> to g_strndup() on the next line.  If websocket==false then
+> addrstr[0] would be a colon, but if websocket==true this could in
+> principle happen.
+> 
+> Fix it by checking hostlen.
+> 
+> Reported by Coverity.
 
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 3bb63bfb3e..50d6b62f39 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -198,7 +198,7 @@ static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     CPULoongArchState *env = cs->env_ptr;
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
- 
--    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
-+    ctx->opcode = translator_ldl(env, &ctx->base, ctx->base.pc_next);
- 
-     if (!decode(ctx, ctx->opcode)) {
-         qemu_log_mask(LOG_UNIMP, "Error: unknown opcode. "
--- 
-2.34.1
+Also by Vladimir Sementsov-Ogievskiy few months ago:
+https://lore.kernel.org/qemu-devel/20221206192334.65012-1-vsementsov@yandex-team.ru/
+
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   ui/vnc.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/ui/vnc.c b/ui/vnc.c
+> index bbd8b6baaeca..9d8a24dd8a69 100644
+> --- a/ui/vnc.c
+> +++ b/ui/vnc.c
+> @@ -3751,7 +3751,7 @@ static int vnc_display_get_address(const char *addrstr,
+>   
+>           addr->type = SOCKET_ADDRESS_TYPE_INET;
+>           inet = &addr->u.inet;
+> -        if (addrstr[0] == '[' && addrstr[hostlen - 1] == ']') {
+> +        if (hostlen && addrstr[0] == '[' && addrstr[hostlen - 1] == ']') {
+>               inet->host = g_strndup(addrstr + 1, hostlen - 2);
+>           } else {
+>               inet->host = g_strndup(addrstr, hostlen);
 
 
