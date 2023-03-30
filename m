@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A576D0C78
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 19:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC566D0D6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 20:08:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phvsV-0007JL-MS; Thu, 30 Mar 2023 13:15:59 -0400
+	id 1phwd5-0003Cn-FH; Thu, 30 Mar 2023 14:04:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1phvsT-0007HS-7q; Thu, 30 Mar 2023 13:15:57 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwcl-000386-Hb
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:03:50 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1phvsR-0007Wp-9X; Thu, 30 Mar 2023 13:15:57 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-54601d90118so211174187b3.12; 
- Thu, 30 Mar 2023 10:15:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680196553;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=RmnUNt2fv7zIJyYexWKIRPZpeYxc2O4UwrnTDCVAxl0=;
- b=VgGqgcb57SAtqW3kYkGNf/JsLUtNoltHuDZRKIl9hWHUazYU2Lg/zYiSjfTemMrs9G
- /QZX9sOnLd3iGJhPzUFVYKB2+vVc1WcJNtOSaEIlxstfLwyoVwUEkzHAdYjcBAKqDJsq
- Uw1qaWATlLYkSu1Q0FmGaDtliZJnhM9Tuo3al+aZ2jUA6n0R3zKAJau+ndN8lunQPJEx
- fzlG9cUFELMIvAlntf/RVnWqnMZIwXFCLsSVXGh9CaIAzq8+t6Pu5AmVW8ATNo70OjSN
- rZunoU8taj8CCGado+wgRbDl6paWjcSTh8dhzu99Drf+Lq9PrHywblL+aVDUtbpTIq+u
- qsFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680196553;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RmnUNt2fv7zIJyYexWKIRPZpeYxc2O4UwrnTDCVAxl0=;
- b=qHgwG1oeDPemg6OXo41k9ngtlUsMQ6yutIBpHO4HVMKHtV57U6+cCRziAX6SueW2a9
- PT88U8B1wVHAZ+4trSvhlgdYys/irn+7+1ERtIBNL698jxp2M87/Hd2Eh1oLIYpcGvuY
- 3puqOYtdOhQ6ss9YbrSRUa7mOMGblnqZ892X1f2im5ETguxkdQrEj2yOr+kp7vqw8lSX
- 75affR05VGnndFR8Q0PYsmi5ylzl0vxlol+SmfWnju4u5cPvojluDSX3WgnGmneTldgl
- FY2EibA5LhI9XVi/2G/rKCZOxdne7XtYpruHyGW/IlEcxUQhqWZlLaS8q5l7w4CJewmX
- n0Gw==
-X-Gm-Message-State: AAQBX9cWBPZ1osVhcbheELIrdkCgNaK74upb1oM2xTFpRicXTWsh9Fv/
- uvFI7btW7q6wqzI3SGvyWI8=
-X-Google-Smtp-Source: AKy350YjD2T0khxrU/YLN0rXFKxTRhaAe4qiQduFc/yczP92Q9XhdBN9jOCaPTJDzXbhOs1RqxvXyg==
-X-Received: by 2002:a0d:f7c1:0:b0:544:c7e0:9706 with SMTP id
- h184-20020a0df7c1000000b00544c7e09706mr20607110ywf.42.1680196553040; 
- Thu, 30 Mar 2023 10:15:53 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- b2-20020a81bc42000000b00545a08184a7sm3610966ywl.55.2023.03.30.10.15.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 10:15:52 -0700 (PDT)
-Date: Thu, 30 Mar 2023 10:15:51 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/5] hw/net/imx_fec: Support two Ethernet interfaces
- connected to single MDIO bus
-Message-ID: <a1824028-7aba-4b17-910b-6845834d73f7@roeck-us.net>
-References: <20230315145248.1639364-1-linux@roeck-us.net>
- <20230315145248.1639364-2-linux@roeck-us.net>
- <CAFEAcA8=0m-UFj9noTa+J69sEMP5cqTvaMoVoqHVd4V2JF3Oxw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1phwcj-0001zN-F0
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 14:03:47 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 118BA219E8;
+ Thu, 30 Mar 2023 18:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680199421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AFAQN/vE6QaTnkS2/NV1Iasv89EmbvTrAb4VMkULGKw=;
+ b=tSInl+1jzgRCi9pXb7V7SBbUtfLGLoco+dIQg3DWMlqdGbA5oc5OnjcQMkutAEdDTKUE+X
+ E6esCikKmW0F734T+0kPNMfa3pN7JwGx2endBqO3BFC5K1f3LkAQidLczACAiB+jAiWLtq
+ CsNYJYsBL+cq8g2YILif1pnLu+1IbQY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680199421;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AFAQN/vE6QaTnkS2/NV1Iasv89EmbvTrAb4VMkULGKw=;
+ b=Ohsy9uGXski/+uAlLkO486gBctYd2C9DADl/peSWk6X5SOLZQ5w1+MCOBNyc7ZbLsKaFlF
+ MWc9Os+uKZ90f9Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00DE81348E;
+ Thu, 30 Mar 2023 18:03:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id wPZTLvrOJWQ5GwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 30 Mar 2023 18:03:38 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com, dfaggioli@suse.com,
+ dgilbert@redhat.com,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [RFC PATCH v1 00/26] migration: File based migration with multifd and
+ fixed-ram
+Date: Thu, 30 Mar 2023 15:03:10 -0300
+Message-Id: <20230330180336.2791-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8=0m-UFj9noTa+J69sEMP5cqTvaMoVoqHVd4V2JF3Oxw@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=groeck7@gmail.com; helo=mail-yw1-x112f.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,59 +85,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 30, 2023 at 05:31:13PM +0100, Peter Maydell wrote:
-> On Wed, 15 Mar 2023 at 14:52, Guenter Roeck <linux@roeck-us.net> wrote:
-> >
-> > The SOC on i.MX6UL and i.MX7 has 2 Ethernet interfaces. The PHY on each may
-> > be connected to separate MDIO busses, or both may be connected on the same
-> > MDIO bus using different PHY addresses. Commit 461c51ad4275 ("Add a phy-num
-> > property to the i.MX FEC emulator") added support for specifying PHY
-> > addresses, but it did not provide support for linking the second PHY on
-> > a given MDIO bus to the other Ethernet interface.
-> >
-> > To be able to support two PHY instances on a single MDIO bus, two properties
-> > are needed: First, there needs to be a flag indicating if the MDIO bus on
-> > a given Ethernet interface is connected. If not, attempts to read from this
-> > bus must always return 0xffff. Implement this property as phy-connected.
-> > Second, if the MDIO bus on an interface is active, it needs a link to the
-> > consumer interface to be able to provide PHY access for it. Implement this
-> > property as phy-consumer.
-> >
-> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> 
-> > @@ -282,11 +282,19 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
-> >      uint32_t val;
-> >      uint32_t phy = reg / 32;
-> >
-> > -    if (phy != s->phy_num) {
-> > -        trace_imx_phy_read_num(phy, s->phy_num);
-> > +    if (!s->phy_connected) {
-> >          return 0xffff;
-> >      }
-> >
-> > +    if (phy != s->phy_num) {
-> > +        if (s->phy_consumer && phy == s->phy_consumer->phy_num) {
-> > +            s = s->phy_consumer;
-> 
-> This does work, but it leaves me wondering if we should really
-> be modelling the phy as a separate device object, so that we
-> can use link properties to connect the right phy to the right
-> IMXFECState rather than having this odd "actually use the pointer
-> to this other instance of the device"... A quick glance through
+Hi folks,
 
-Possibly, but I don't understand well enough how this would work
-to be able to implement it. I'll be happy to test patches from others,
-of course.
+I'm continuing the work done last year to add a new format of
+migration stream that can be used to migrate large guests to a single
+file in a performant way.
 
-Thanks,
-Guenter
+This is an early RFC with the previous code + my additions to support
+multifd and direct IO. Let me know what you think!
 
-> the code suggests that the phy and the ethernet controller
-> proper don't really care about each others' internals.
-> (imx_phy_update_irq() does call imx_eth_update() but AFAICT
-> that is unnecessary because imx_eth_update() doesn't care about
-> any of the phy state...)
-> 
-> thanks
-> -- PMM
+Here are the reference links for previous discussions:
+
+https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01813.html
+https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg01338.html
+https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg05536.html
+
+The series has 4 main parts:
+
+1) File migration: A new "file:" migration URI. So "file:mig" does the
+   same as "exec:cat > mig". Patches 1-4 implement this;
+
+2) Fixed-ram format: A new format for the migration stream. Puts guest
+   pages at their relative offsets in the migration file. This saves
+   space on the worst case of RAM utilization because every page has a
+   fixed offset in the migration file and (potentially) saves us time
+   because we could write pages independently in parallel. It also
+   gives alignment guarantees so we could use O_DIRECT. Patches 5-13
+   implement this;
+
+With patches 1-13 these two^ can be used with:
+
+(qemu) migrate_set_capability fixed-ram on
+(qemu) migrate[_incoming] file:mig
+
+--> new in this series:
+
+3) MultiFD support: This is about making use of the parallelism
+   allowed by the new format. We just need the threading and page
+   queuing infrastructure that is already in place for
+   multifd. Patches 14-24 implement this;
+
+(qemu) migrate_set_capability fixed-ram on
+(qemu) migrate_set_capability multifd on
+(qemu) migrate_set_parameter multifd-channels 4
+(qemu) migrate_set_parameter max-bandwith 0
+(qemu) migrate[_incoming] file:mig
+
+4) Add a new "direct_io" parameter and enable O_DIRECT for the
+   properly aligned segments of the migration (mostly ram). Patch 25.
+
+(qemu) migrate_set_parameter direct-io on
+
+Thanks! Some data below:
+=====
+
+Outgoing migration to file. NVMe disk. XFS filesystem.
+
+- Single migration runs of stopped 32G guest with ~90% RAM usage. Guest
+  running `stress-ng --vm 4 --vm-bytes 90% --vm-method all --verify -t
+  10m -v`:
+
+migration type  | MB/s | pages/s |  ms
+----------------+------+---------+------
+savevm io_uring |  434 |  102294 | 71473
+file:           | 3017 |  855862 | 10301
+fixed-ram       | 1982 |  330686 | 15637
+----------------+------+---------+------
+fixed-ram + multifd + O_DIRECT
+         2 ch.  | 5565 | 1500882 |  5576
+         4 ch.  | 5735 | 1991549 |  5412
+         8 ch.  | 5650 | 1769650 |  5489
+        16 ch.  | 6071 | 1832407 |  5114
+        32 ch.  | 6147 | 1809588 |  5050
+        64 ch.  | 6344 | 1841728 |  4895
+       128 ch.  | 6120 | 1915669 |  5085
+----------------+------+---------+------
+
+- Average of 10 migration runs of guestperf.py --mem 32 --cpus 4:
+
+migration type | #ch. | MB/s | ms
+---------------+------+------+-----
+fixed-ram +    |    2 | 4132 | 8388
+multifd        |    4 | 4273 | 8082
+               |    8 | 4094 | 8441
+               |   16 | 4204 | 8217
+               |   32 | 4048 | 8528
+               |   64 | 3861 | 8946
+               |  128 | 3777 | 9147
+---------------+------+------+-----
+fixed-ram +    |    2 | 6031 | 5754
+multifd +      |    4 | 6377 | 5421
+O_DIRECT       |    8 | 6386 | 5416
+               |   16 | 6321 | 5466
+               |   32 | 5911 | 5321
+               |   64 | 6375 | 5433
+               |  128 | 6400 | 5412
+---------------+------+------+-----
+
+Fabiano Rosas (13):
+  migration: Add completion tracepoint
+  migration/multifd: Remove direct "socket" references
+  migration/multifd: Allow multifd without packets
+  migration/multifd: Add outgoing QIOChannelFile support
+  migration/multifd: Add incoming QIOChannelFile support
+  migration/multifd: Add pages to the receiving side
+  io: Add a pwritev/preadv version that takes a discontiguous iovec
+  migration/ram: Add a wrapper for fixed-ram shadow bitmap
+  migration/multifd: Support outgoing fixed-ram stream format
+  migration/multifd: Support incoming fixed-ram stream format
+  tests/qtest: Add a multifd + fixed-ram migration test
+  migration: Add direct-io parameter
+  tests/migration/guestperf: Add file, fixed-ram and direct-io support
+
+Nikolay Borisov (13):
+  migration: Add support for 'file:' uri for source migration
+  migration: Add support for 'file:' uri for incoming migration
+  tests/qtest: migration: Add migrate_incoming_qmp helper
+  tests/qtest: migration-test: Add tests for file-based migration
+  migration: Initial support of fixed-ram feature for
+    analyze-migration.py
+  io: add and implement QIO_CHANNEL_FEATURE_SEEKABLE for channel file
+  io: Add generic pwritev/preadv interface
+  io: implement io_pwritev/preadv for QIOChannelFile
+  migration/qemu-file: add utility methods for working with seekable
+    channels
+  migration/ram: Introduce 'fixed-ram' migration stream capability
+  migration: Refactor precopy ram loading code
+  migration: Add support for 'fixed-ram' migration restore
+  tests/qtest: migration-test: Add tests for fixed-ram file-based
+    migration
+
+ docs/devel/migration.rst              |  38 +++
+ include/exec/ramblock.h               |   8 +
+ include/io/channel-file.h             |   1 +
+ include/io/channel.h                  | 133 ++++++++++
+ include/migration/qemu-file-types.h   |   2 +
+ include/qemu/osdep.h                  |   2 +
+ io/channel-file.c                     |  60 +++++
+ io/channel.c                          | 140 +++++++++++
+ migration/file.c                      | 130 ++++++++++
+ migration/file.h                      |  14 ++
+ migration/meson.build                 |   1 +
+ migration/migration-hmp-cmds.c        |   9 +
+ migration/migration.c                 | 108 +++++++-
+ migration/migration.h                 |  11 +-
+ migration/multifd.c                   | 327 ++++++++++++++++++++----
+ migration/multifd.h                   |  13 +
+ migration/qemu-file.c                 |  80 ++++++
+ migration/qemu-file.h                 |   4 +
+ migration/ram.c                       | 349 ++++++++++++++++++++------
+ migration/ram.h                       |   1 +
+ migration/savevm.c                    |  23 +-
+ migration/trace-events                |   1 +
+ qapi/migration.json                   |  19 +-
+ scripts/analyze-migration.py          |  51 +++-
+ tests/migration/guestperf/engine.py   |  38 ++-
+ tests/migration/guestperf/scenario.py |  14 +-
+ tests/migration/guestperf/shell.py    |  18 +-
+ tests/qtest/migration-helpers.c       |  19 ++
+ tests/qtest/migration-helpers.h       |   4 +
+ tests/qtest/migration-test.c          |  73 ++++++
+ util/osdep.c                          |   9 +
+ 31 files changed, 1546 insertions(+), 154 deletions(-)
+ create mode 100644 migration/file.c
+ create mode 100644 migration/file.h
+
+-- 
+2.35.3
+
 
