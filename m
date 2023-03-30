@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0956D0783
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 16:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4966D078E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 16:03:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phspr-0006UA-91; Thu, 30 Mar 2023 10:01:03 -0400
+	id 1phsrx-0008Ek-HN; Thu, 30 Mar 2023 10:03:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1phspl-0006U0-GS
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:00:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1phspj-0007lR-5n
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:00:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680184846;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6smZsD9fVdTv5X2D00gzGEEo5MdEuCcsdzpA7DpfReY=;
- b=IuE8SjGdiBkS9WRNCPTND841qQv5yM/b3TuGrqDhdplKjwE1iIQhfuYnY7d09xu5r5bbVd
- 9+x1FW8+/Id0DNHgWiLOl9AGbXZcfChHBUNePvSejWfnsq7trKdc0naNtZO7OKHRZKvHpn
- 73HjsIVWuSvlkJmR/FCjQjoGRxK//TQ=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-656-ptDX1UIPMdCMKBHriC4VsQ-1; Thu, 30 Mar 2023 10:00:44 -0400
-X-MC-Unique: ptDX1UIPMdCMKBHriC4VsQ-1
-Received: by mail-pf1-f197.google.com with SMTP id
- t67-20020a628146000000b0062d6d838243so6533664pfd.21
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 07:00:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1phsrv-0008Dy-AN
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:03:11 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1phsrs-0007xC-TU
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 10:03:10 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ e15-20020a17090ac20f00b0023d1b009f52so22050935pjt.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 07:03:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112; t=1680184987;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bbba0TpdX/+MZRHS5ch5oFXZb/MbtM4FYt9Wt3Q92Pw=;
+ b=djhy5x7jYiHfr2W6pAlukxSkhn7v3GitqTTTxuVJcSCTH5aThtJrimoRAceukUd+US
+ A3m29eb1gSybclbDOrKMEna8scZHV7SbeWFux/BjYdWygyqbki/le3+yIfQyGN6OQP4K
+ RlUCWZz3u78ZbigLyBJHVvrRBIy4jMFFhlqP4kEx3IcGZH3ezOHSSbDuMf9PDq93f9cf
+ quq7b8EYl4HNLnplHxhFGLPNN8PvHpXWbsaPd0cxTUJYxC9o6DKgS7KtrE7eJ9Y/C+Ml
+ ZyisApd5LxPSBgnTQioRrSr+zw0PqRe7biNgElp2ioLoh1eVx6HlIOeG1WgBDoexWqK6
+ qfTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680184843;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6smZsD9fVdTv5X2D00gzGEEo5MdEuCcsdzpA7DpfReY=;
- b=Tnbx1SXM+GOnSwqiUMYcLgDJS1cSi3bcvq+KjQzaZv39QDB7bVjVbJEVMhK8X5Zo7c
- S5P3BB+b+g0ILnT2sTQAS/ooMn8tVUt9QVmQbgBdUwbaREmi8l+5r7vWSFmD5lGZpMjh
- T0HKSfpUs7L3bpz2zOr1XJvodwpeH1NLBm7aVCzuc1/Qh/nUCPcahH+6nRBVTL5oooF0
- iBK5NseQ9Z8wDLHNQKhtGsZu4SJXjRn4kNyQMorzyJBfuq6Ov/T8jBO2YVgJ3rX/l2Z8
- naJ2E52czqyyAXQSu65sJ4k2fVvsZNePd7JWgDG8DhzSdEglvI0kR2hq5slzLWCYeaxS
- kxlA==
-X-Gm-Message-State: AAQBX9cFDyxswS4QxlVGCjPaGwMLx2W7FWQHxbfdddYaVraSc718RZFi
- 6B/H5EcwMc1vRo5YsfLQnsR+CN6W3RvzlvQJ8n6fsXp4j6TgQBpCuVoDGx6eLX9i5e1erKgAtD5
- bCDlfJ14kIAmZxHZEdJBdDxDN8Yy2iUg=
-X-Received: by 2002:a17:902:b114:b0:1a2:8eb5:2ed with SMTP id
- q20-20020a170902b11400b001a28eb502edmr628137plr.12.1680184843348; 
- Thu, 30 Mar 2023 07:00:43 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZERXrkQArGgjaC11NrIvMljy1kIoOh9pksgDCilubxCp9RBOUlbWzQybRkjorE30J08qlWcqgYJArdOA/futQ=
-X-Received: by 2002:a17:902:b114:b0:1a2:8eb5:2ed with SMTP id
- q20-20020a170902b11400b001a28eb502edmr628121plr.12.1680184842867; Thu, 30 Mar
- 2023 07:00:42 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680184987;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bbba0TpdX/+MZRHS5ch5oFXZb/MbtM4FYt9Wt3Q92Pw=;
+ b=mVSoahCjSROGhUYsGzwORwB7nL4ffgz4EGI20lNLuX5Wh/PNT85QOiFvNYBbkkv4aK
+ B6OOv61i7/tACQV6KnBxxHu3OWAArtC2lPyPqTA0Vc/ASsQkAnd3xe3J1zsoQ8gJyrS1
+ +kMo9OPEQ4236bnZyF0bPvOou4yFYU22Eduv2F0Kg7k1vUMwPva3cFY9roj6wizF0Lwl
+ 7bdRbXfBPC+BI4mZ+zrdfCQapGvlr8EdpRc/v+7Uz7OqQkxKYzal/Kh9TcLXcsS+Ep82
+ kf7ySCBziO6Sl+Xb3wFjgYUKvRdVQNNBSdEuVCLEoYFYuasix+W7AHq5HJvz0SMR9eo5
+ SPpQ==
+X-Gm-Message-State: AO0yUKWUOYdxGKSOdFFk5eW3hmbPl6xcAyihDrjVxT4if44K0Ei3R+or
+ 18lpmNY/vubXUbxOz0JpVs5PLA==
+X-Google-Smtp-Source: AK7set9jBAhoAGdr9YEgXilXKzYkJYc9rKsEqgzpvKM2wFZ6xEwrl0WQ6MUxxtqkOnra1orwmP2bHA==
+X-Received: by 2002:a05:6a20:c509:b0:db:520c:430a with SMTP id
+ gm9-20020a056a20c50900b000db520c430amr22704804pzb.38.1680184987151; 
+ Thu, 30 Mar 2023 07:03:07 -0700 (PDT)
+Received: from rhel9-box ([203.163.242.253])
+ by smtp.googlemail.com with ESMTPSA id
+ j26-20020aa7929a000000b0062c0c3da6b8sm11299417pfa.13.2023.03.30.07.03.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Mar 2023 07:03:06 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Thu, 30 Mar 2023 19:32:59 +0530 (IST)
+To: "Michael S. Tsirkin" <mst@redhat.com>
+cc: Ani Sinha <ani@anisinha.ca>, Eric DeVolder <eric.devolder@oracle.com>, 
+ shannon.zhaosl@gmail.com, imammedo@redhat.com, peter.maydell@linaro.org, 
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, 
+ pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net, 
+ boris.ostrovsky@oracle.com
+Subject: Re: [PATCH 0/2] hw/acpi: bump MADT to revision 5
+In-Reply-To: <20230330094323-mutt-send-email-mst@kernel.org>
+Message-ID: <366bb156-f41f-e1c4-fc59-3ecca6eeaba7@anisinha.ca>
+References: <20230328155926.2277-1-eric.devolder@oracle.com>
+ <20230329010406-mutt-send-email-mst@kernel.org>
+ <96144a1b-efa7-ecc2-3e35-56825fcf48c6@oracle.com>
+ <20230329124442-mutt-send-email-mst@kernel.org>
+ <68579d53-cbb5-154a-6c1e-e733f16540@anisinha.ca>
+ <20230330094323-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <20230328211119.2748442-1-jsnow@redhat.com>
- <20230328211119.2748442-2-jsnow@redhat.com>
- <d49d0152-ff58-a317-7eca-a243ed080ca0@redhat.com>
-In-Reply-To: <d49d0152-ff58-a317-7eca-a243ed080ca0@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 30 Mar 2023 10:00:32 -0400
-Message-ID: <CAFn=p-bu1nhw5-PdtxZ2U=PA5uq7VTrgW-W8boh29JRHxSVTyg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] python: add mkvenv.py
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000b76b0305f81e84d4"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,210 +95,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000b76b0305f81e84d4
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Mar 29, 2023, 8:56 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> On 3/28/23 23:11, John Snow wrote:
-> > +        # venv class is cute and toggles this off before post_setup,
-> > +        # but we need it to decide if we want to generate shims or not.
->
-> Ha, yeah that's a bug in the venv package.  post_setup() can already run
-> with system_site_packages reverted to True.
->
-> > +            for entry_point in entry_points:
-> > +                # Python 3.8 doesn't have 'module' or 'attr' attributes
-> > +                if not (hasattr(entry_point, 'module') and
-> > +                        hasattr(entry_point, 'attr')):
-> > +                    match = pattern.match(entry_point.value)
-> > +                    assert match is not None
-> > +                    module = match.group('module')
-> > +                    attr = match.group('attr')
-> > +                else:
-> > +                    module = entry_point.module
-> > +                    attr = entry_point.attr
-> > +                yield {
-> > +                    'name': entry_point.name,
-> > +                    'module': module,
-> > +                    'import_name': attr,
-> > +                    'func': attr,
->
-> What about using a dataclass or namedtuple instead of a dictionary?
->
-
-Sure. Once 3.8 is our minimum there's no point, though.
 
 
+On Thu, 30 Mar 2023, Michael S. Tsirkin wrote:
+
+> On Thu, Mar 30, 2023 at 01:06:36PM +0530, Ani Sinha wrote:
 > >
-> > +
-> > +    try:
-> > +        entry_points = _get_entry_points()
-> > +    except ImportError as exc:
-> > +        logger.debug("%s", str(exc))
-> > +        raise Ouch(
-> > +            "Neither importlib.metadata nor pkg_resources found, "
-> > +            "can't generate console script shims.\n"
-> > +            "Use Python 3.8+, or install importlib-metadata, or
-> setuptools."
-> > +        ) from exc
+> >
+> > On Wed, 29 Mar 2023, Michael S. Tsirkin wrote:
+> >
+> > > On Wed, Mar 29, 2023 at 08:14:37AM -0500, Eric DeVolder wrote:
+> > > >
+> > > >
+> > > > On 3/29/23 00:19, Michael S. Tsirkin wrote:
+> > > > > Hmm I don't think we can reasonably make such a change for 8.0.
+> > > > > Seems too risky.
+> > > > > Also, I feel we want to have an internal (with "x-" prefix") flag to
+> > > > > revert to old behaviour, in case of breakage on some guests.  and maybe
+> > > > > we want to keep old revision for old machine types.
+> > > > Ok, what option name, for keeping old behavior, would you like?
+> > >
+> > > Don't much care. x-madt-rev?
+> > >
+> > > > >
+> > > > >
+> > > > > On Tue, Mar 28, 2023 at 11:59:24AM -0400, Eric DeVolder wrote:
+> > > > > > The following Linux kernel change broke CPU hotplug for MADT revision
+> > > > > > less than 5.
+> > > > > >
+> > > > > >   commit e2869bd7af60 ("x86/acpi/boot: Do not register processors that cannot be onlined for x2APIC")
+> > > > >
+> > > > > Presumably it's being fixed? Link to discussion? Patch fixing that in
+> > > > > Linux?
+> > > >
+> > > > https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devolder@oracle.com/T/#t
+> > >
+> > > Great! Maybe stick a Link: tag in the commit log.
+> >
+> > If the original bug is in the kernel and kernel upstream has accepted both
+> > your fix and Mario's patch on the acpi revision mess, I see no urgency to
+> > fix this in QEMU.
+> >
+> > Maybe we can address this in the 8.1 development window.
 >
-> Why not put this extra try/except inside _get_entry_points()?
->
-
-I don't remember. I'll look! I know it looks goofy. The ultimate answer is
-"So I can log all import failures without nesting eight layers deep".
-
-
-> > +
-> > +    # Test for ensurepip:
-> > +    try:
-> > +        import ensurepip
->
-> Use find_spec()?
->
-
-That might be better. Originally I tried to use ensurepip directly, but
-found it didn't work right if you had already imported pip. This survived
-from the earlier draft.
-
-
-> BTW, another way to repair Debian 10's pip is to create a symbolic link
-> to sys.base_prefix + '/share/python-wheels' in sys.prefix +
-> '/share/python-wheels'.  Since this is much faster, perhaps it can be
-> done unconditionally and checkpip mode can go away together with
-> self._context?
->
-
-I guess I like it less because it's way more Debian-specific at that point.
-I think I'd sooner say "Sorry, Debian 10 isn't supported!"
-
-(Or encourage users to upgrade their pip/setuptools/ensurepip to something
-that doesn't trigger the bug.)
-
-Or, IOW, I feel like it's normal to expect ensurepip to work but mussing
-around with symlinks to special directories created by a distribution just
-feels way more fiddly.
-
-
-> Paolo
->
+> Why "maybe"? Eric is working on a patch I don't see why we won't
+> address it.
 >
 
---000000000000b76b0305f81e84d4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Mar 29, 2023, 8:56 AM Paolo Bonzini &lt;<a hre=
-f=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">On 3/28/23 23:11, John Snow wrote:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # venv class is cute and toggles this off=
- before post_setup,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # but we need it to decide if we want to =
-generate shims or not.<br>
-<br>
-Ha, yeah that&#39;s a bug in the venv package.=C2=A0 post_setup() can alrea=
-dy run <br>
-with system_site_packages reverted to True.<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for entry_point in entry_po=
-ints:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Python 3.8 =
-doesn&#39;t have &#39;module&#39; or &#39;attr&#39; attributes<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not (hasat=
-tr(entry_point, &#39;module&#39;) and<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 hasattr(entry_point, &#39;attr&#39;)):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- match =3D pattern.match(entry_point.value)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- assert match is not None<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- module =3D match.group(&#39;module&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- attr =3D match.group(&#39;attr&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- module =3D entry_point.module<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- attr =3D entry_point.attr<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 yield {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &#39;name&#39;: <a href=3D"http://entry_point.name" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">entry_point.name</a>,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &#39;module&#39;: module,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &#39;import_name&#39;: attr,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &#39;func&#39;: attr,<br>
-<br>
-What about using a dataclass or namedtuple instead of a dictionary?<br></bl=
-ockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Sure. On=
-ce 3.8 is our minimum there&#39;s no point, though.</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex"><br>
-&gt; <br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 try:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 entry_points =3D _get_entry_points()<br>
-&gt; +=C2=A0 =C2=A0 except ImportError as exc:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;%s&quot;, str(exc))<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise Ouch(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Neither importlib.met=
-adata nor pkg_resources found, &quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;can&#39;t generate co=
-nsole script shims.\n&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Use Python 3.8+, or i=
-nstall importlib-metadata, or setuptools.&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ) from exc<br>
-<br>
-Why not put this extra try/except inside _get_entry_points()?<br></blockquo=
-te></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">I don&#39;t re=
-member. I&#39;ll look! I know it looks goofy. The ultimate answer is &quot;=
-So I can log all import failures without nesting eight layers deep&quot;.</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote=
-"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">
-<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 # Test for ensurepip:<br>
-&gt; +=C2=A0 =C2=A0 try:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 import ensurepip<br>
-<br>
-Use find_spec()?<br></blockquote></div></div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">That might be better. Originally I tried to use ensurepip d=
-irectly, but found it didn&#39;t work right if you had already imported pip=
-. This survived from the earlier draft.</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-BTW, another way to repair Debian 10&#39;s pip is to create a symbolic link=
- <br>
-to sys.base_prefix + &#39;/share/python-wheels&#39; in sys.prefix + <br>
-&#39;/share/python-wheels&#39;.=C2=A0 Since this is much faster, perhaps it=
- can be <br>
-done unconditionally and checkpip mode can go away together with <br>
-self._context?<br></blockquote></div></div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">I guess I like it less because it&#39;s way more Debian-speci=
-fic at that point. I think I&#39;d sooner say &quot;Sorry, Debian 10 isn&#3=
-9;t supported!&quot;</div><div dir=3D"auto"><br></div><div dir=3D"auto">(Or=
- encourage users to upgrade their pip/setuptools/ensurepip to something tha=
-t doesn&#39;t trigger the bug.)</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Or, IOW, I feel like it&#39;s normal to expect ensurepip to work =
-but mussing around with symlinks to special directories created by a distri=
-bution just feels way more fiddly.</div><div dir=3D"auto"><br></div><div di=
-r=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Paolo<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000b76b0305f81e84d4--
-
+I am not opposed to addressing it. I just think it might be too risky for
+8.0 given that we are already past the hard feature freeze date.
 
