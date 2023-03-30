@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4D96D016E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 12:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF6B6D0262
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:01:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phph8-00017Q-5P; Thu, 30 Mar 2023 06:39:50 -0400
+	id 1phq0k-00005d-Em; Thu, 30 Mar 2023 07:00:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phph6-00016w-2W
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:39:48 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1phq0h-00005B-Vw
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:00:04 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phph2-0005We-L4
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 06:39:47 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id s13so10590926wmr.4
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 03:39:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1phq0f-0001Js-FL
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:00:03 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id d8so11050812pgm.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 04:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680172782;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8Zxc/oShUwgURDUwxQwMx7Wg4oASIHoxnBHv+XXDhyk=;
- b=Yu/b4vfTTEzS8TAbHrqXfKmbN1ATYYLd9w/k7GR3Jc7Xbc2RpMEQGg0/aa7UMAv9kr
- 6nhvtR0Xr8QLSFk4sRdzqPZCWohoM2GEmgkAVAxg2tPkfwjNs6FaSs5lor6EXdOIDB8O
- aXULxVOb+iQfcFJ6j5YZ6rDIgjSU0ml70F8QBOBxzdfOANOXs4Ztja3ncLjIGIwBg+DB
- dg9CH1Ew70/Xzj5LsW6rrV/w1WTVJ0ll5pW3CcAYZrd8p0c0bgFatPMq4ULqZFwcGol3
- 6AcMbpexE5ZukkO/ANs+RwYosLNbMXCdwUpqHxiGCcHk9Dy9ZxT+rgsOqxJa0rMH9Hsv
- h/2A==
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1680174000;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XTiCgZ7xSBFm3gWL4CSeBKzx5O3q/dH0zimA7KxwBQ8=;
+ b=mRqOpGdLDWtckAwuGw70abAzbed5cUBaPXO3Of8Q5e+2TVBD26IGsT1p3zqoiLKrll
+ Zxatj5/zKCZdkg+vCWHM4lutspzpcQIHyS0xw5X+ciprKCWI066B1WXtNYmwmqPJLBw7
+ v41Usb2QZrSx7QrOMcoOAmAoqJzH9CIYAQ9TBj4WCv0PCKGaqR37IeEMa7/d3IPeNHFM
+ IlNUcIRiS2i2/r0D7CykGiFiqASwu90Ir9iZ1Fj/fVQ1kOX0Py4MjyiIS5i74IPyXAkY
+ R0qqEs5GOf0Gk0YuK5RvxWMbMy1rEyqS1Hu+yHg1+tj1hG39zLnXXW8IoVs3iQeVvmvz
+ UYAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680172782;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8Zxc/oShUwgURDUwxQwMx7Wg4oASIHoxnBHv+XXDhyk=;
- b=arzV1c4dRXW8Pxq2BNupHAajuN6JsWo8tZVuZ9O9IgjL35nOZdDRNqPs74TRt/YJXZ
- ZUDWrA1Uqh7ViI5iWt5Bo9cPY1adU16yiF/7Y5Jzg5/i/KNvNR26zTXO3lN7tlSs19o5
- DxUuaGO4hoqb6W05dZilGMRMWCaDM0qZDakp+SzgOpQBqWGi3rUlN3RykQSJI9NE0qQs
- l/Lmvw4Zq1qm9I77BCTbU12a/QUhrIJcRQW5EqrhVs6mqE9tuohAOfpAsn8zzBpCxZyb
- JHK1HCk5VFn7j9/+pc1eOwqtla3+HYmQlhqsVKIG+zKiY2jV2y29Y1CKI92FqHKksZv7
- 6E9Q==
-X-Gm-Message-State: AO0yUKVnu+LKVVzS5ElQOaeF8cfUKFWBVeGo7P3QRQswqFhvyDOp7g3L
- LEI1TxobJL/YY3AWUpKC7Ep5yw==
-X-Google-Smtp-Source: AK7set/YvuobzU9c4LkuP3udxdhn1b3kpk+oN7ie7EHm1dsYZARdqV7TFOERc1Dr1LfM2Jh9UpqClw==
-X-Received: by 2002:a05:600c:280e:b0:3ea:bc08:b63e with SMTP id
- m14-20020a05600c280e00b003eabc08b63emr18071393wmb.2.1680172782424; 
- Thu, 30 Mar 2023 03:39:42 -0700 (PDT)
-Received: from [192.168.201.175] (2.red-88-29-181.dynamicip.rima-tde.net.
- [88.29.181.2]) by smtp.gmail.com with ESMTPSA id
- o5-20020a05600c510500b003ef5bb63f13sm5803108wms.10.2023.03.30.03.39.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Mar 2023 03:39:42 -0700 (PDT)
-Message-ID: <f0e8abb4-6844-bd85-b4dd-b4ede924e423@linaro.org>
-Date: Thu, 30 Mar 2023 12:39:40 +0200
+ d=1e100.net; s=20210112; t=1680174000;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XTiCgZ7xSBFm3gWL4CSeBKzx5O3q/dH0zimA7KxwBQ8=;
+ b=vXs8uXxujEDjO7Ix2zL/0kdOlgtld8uiAAWvH2a8q+xOHaKvD3FW2tLhToxWAXlIOZ
+ MjHUxwM5CbtVghjVbuJXhtPK8MXoWTZFHkXU15f9MU03oxSwRy+o4o66cg3wBgP6Vi1x
+ Ozp0rPQWecOUvVKJVbo82TJnhJ70HBm3SEof3iaj9irHcQSWw06nCbGdi4FqKZ+f1JLi
+ m9r1ntfvu2hnVvHHN+lm7ULRfwNGvgMu4mEBJvREisNjpbl1jKRAPLlTLfO7JeDOZmko
+ CFd7QPmStJUMDQKsTKaze5lCjiHEmFKm04Yyj3G+GtIukdFjssH5jmqiWX3551nu7byz
+ xZaQ==
+X-Gm-Message-State: AAQBX9cwuxOG4bcqgNfT6xqq9HgvRsSxYFruKS8te8KnAl9XFws8o37N
+ XrqK/Imt2D+nDxsckJmU0k0Dr8dzN4CShm4QPAe6ow==
+X-Google-Smtp-Source: AKy350YIVz94x2xZegDd8PMOpFPlNMqsOEwFiRcaRCyYznNNlz/fAbDF6+3Vp0Iu5SvvX0Z19Cf4rblVkYwYZQXM7Bw=
+X-Received: by 2002:a63:f46:0:b0:507:4697:392d with SMTP id
+ 6-20020a630f46000000b005074697392dmr6284562pgp.7.1680173999749; Thu, 30 Mar
+ 2023 03:59:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH 10/11] gitlab: fix typo
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Warner Losh <imp@bsdimp.com>,
- Ryo ONODERA <ryoon@netbsd.org>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>
-References: <20230330101141.30199-1-alex.bennee@linaro.org>
- <20230330101141.30199-11-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230330101141.30199-11-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230330001522.120774-1-andrew@daynix.com>
+ <20230330001522.120774-5-andrew@daynix.com>
+ <ZCVKqvw2i3xmQZWn@redhat.com>
+In-Reply-To: <ZCVKqvw2i3xmQZWn@redhat.com>
+From: Andrew Melnichenko <andrew@daynix.com>
+Date: Thu, 30 Mar 2023 13:42:07 +0300
+Message-ID: <CABcq3pFTWFrbQ=WYNOiOBgr0-qX2U7mKqfk6VDF3A3LP00OW5w@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/5] qmp: Added new command to retrieve eBPF blob.
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: jasowang@redhat.com, mst@redhat.com, pbonzini@redhat.com, 
+ marcandre.lureau@redhat.com, thuth@redhat.com, philmd@linaro.org, 
+ armbru@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com, 
+ mprivozn@redhat.com, yuri.benditovich@daynix.com, yan@daynix.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=andrew@daynix.com; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,12 +87,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/3/23 12:11, Alex Bennée wrote:
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   .gitlab-ci.d/base.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+Hi all,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+On Thu, Mar 30, 2023 at 11:39=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@=
+redhat.com> wrote:
+>
+> On Thu, Mar 30, 2023 at 03:15:21AM +0300, Andrew Melnychenko wrote:
+> > Added command "request-ebpf". This command returns
+> > eBPF program encoded base64. The program taken from the
+> > skeleton and essentially is an ELF object that can be
+> > loaded in the future with libbpf.
+> >
+> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > ---
+> >  monitor/qmp-cmds.c | 17 +++++++++++++++++
+> >  qapi/misc.json     | 25 +++++++++++++++++++++++++
+> >  2 files changed, 42 insertions(+)
+> >
+> > diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> > index b0f948d337..8f2fc3e7ec 100644
+> > --- a/monitor/qmp-cmds.c
+> > +++ b/monitor/qmp-cmds.c
+> > @@ -32,6 +32,7 @@
+> >  #include "hw/mem/memory-device.h"
+> >  #include "hw/intc/intc.h"
+> >  #include "hw/rdma/rdma.h"
+> > +#include "ebpf/ebpf.h"
+> >
+> >  NameInfo *qmp_query_name(Error **errp)
+> >  {
+> > @@ -209,3 +210,19 @@ static void __attribute__((__constructor__)) monit=
+or_init_qmp_commands(void)
+> >                           qmp_marshal_qmp_capabilities,
+> >                           QCO_ALLOW_PRECONFIG, 0);
+> >  }
+> > +
+> > +EbpfObject *qmp_request_ebpf(const char *id, Error **errp)
+> > +{
+> > +    EbpfObject *ret =3D NULL;
+> > +    size_t size =3D 0;
+> > +    const guchar *data =3D ebpf_find_binary_by_id(id, &size);
+>
+> "const void *data"  I believe
+>
+> > +
+> > +    if (data) {
+> > +        ret =3D g_new0(EbpfObject, 1);
+> > +        ret->object =3D g_base64_encode(data, size);
+> > +    } else {
+> > +        error_setg(errp, "can't find eBPF object with id: %s", id);
+>
+> I think I'm inclined to say that we should add an 'Error **errp'
+> parameter to ebpf_find_binary_by_id(), and make it responsible
+> for this error message, such that we get
 
+Ok, I'll add it.
+
+>
+>    const void *data  ebpf_find_binary_by_id(id, &size, errp);
+>    if (!data) {
+>        return NULL;
+>    }
+>
+>    ret =3D g_new0(EbpfObject, 1);
+>    ret->object =3D g_base64_encode(data, size);
+>    return ret;
+>
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > diff --git a/qapi/misc.json b/qapi/misc.json
+> > index 6ddd16ea28..4689802460 100644
+> > --- a/qapi/misc.json
+> > +++ b/qapi/misc.json
+> > @@ -618,3 +618,28 @@
+> >  { 'event': 'VFU_CLIENT_HANGUP',
+> >    'data': { 'vfu-id': 'str', 'vfu-qom-path': 'str',
+> >              'dev-id': 'str', 'dev-qom-path': 'str' } }
+> > +
+> > +##
+> > +# @EbpfObject:
+> > +#
+> > +# Structure that holds eBPF ELF object encoded in base64.
+>
+> Needs a 'Since' tag
+
+Ah yes, thank you.
+
+>
+> > +##
+> > +{ 'struct': 'EbpfObject',
+> > +  'data': {'object': 'str'} }
+> > +
+> > +##
+> > +# @request-ebpf:
+> > +#
+> > +# Function returns eBPF object that can be loaded with libbpf.
+> > +# Management applications (g.e. libvirt) may load it and pass file
+> > +# descriptors to QEMU. Which allows running QEMU without BPF capabilit=
+ies.
+> > +#
+> > +# Returns: RSS eBPF object encoded in base64.
+> > +#
+> > +# Since: 7.3
+>
+> We're about to release 8.0 and so the next will be 8.1
+
+Thanks, I'll update it.
+
+>
+> > +#
+> > +##
+> > +{ 'command': 'request-ebpf',
+> > +  'data': { 'id': 'str' },
+> > +  'returns': 'EbpfObject' }
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
