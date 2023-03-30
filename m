@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC4E6D05A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A63FC6D05A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 15:01:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phrsv-0005Qf-T4; Thu, 30 Mar 2023 09:00:09 -0400
+	id 1phrtr-0005YN-L6; Thu, 30 Mar 2023 09:01:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phrst-0005Q4-CP
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:00:07 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1phrsr-00070y-6a
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:00:06 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id l12so18968401wrm.10
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 06:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680181203;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ma3XDkiSXLvZWrR7r8V15Ik0qYtB7paYBPWPXT8XiT0=;
- b=ZwVtkTxOTovMciFYRHG7xiGL9T7xT8+xbgshuQPsLPF2xNKMq+0mOjR/G3hXmnkHxb
- VqxgHzPmXkE7Z27tX5XMBYwf0faLMtUxDgT7LBwgdG4amVLQD1ynYnnyXgtBpmh381XA
- uG8Hq4CJ80hYheKM1KjEWA7xo4Alh1HcRpjYJPrKkyhrGCxmQxAvwdOP5qDPOhMMpScs
- QRmfHB9VOoSi6GJJqQGS2ZDo0aTXzaqBDYxtrWsooL4r+COZQa7bKm4bc4J2RLcYwbLa
- Ge6WhEPS8+5dseH1faDX5u+y9CzLgNCqZ6NQmCAyY1Zy5uM6UH/Nff6BVJpK5bzcXdpv
- kMhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680181203;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ma3XDkiSXLvZWrR7r8V15Ik0qYtB7paYBPWPXT8XiT0=;
- b=IA9ZVTeNkXVOHc6D6vQAwRrUP8a9moJ61uqTWErC1eY/zl0DRyBNxE+KIF2GklVK/5
- WQ7OU09GUsj+EDqbL/VvFMmsY1sGHIVuKGaMfCD3NHpO7RazHGB5SoLQyKZVM2uMleg2
- cdkxSYLzDeO424DuUIFTriAYjYaGHVleigyoWWSbtEtBeQC4qDhofafCXsSWJyoSzWjx
- xayQgTUXklb1ILDGaiKrJ9wfaoLlh1YsjVcvXufco80d125a07lQSmJOWv29IDZDSmZm
- g2jerPt0A3V/5jgMjhFqoM1Q3kipzM/ME12bCJmSg2u6L+MB9y7BYa+HfRz2Q1v7JevJ
- NZUw==
-X-Gm-Message-State: AAQBX9dhU0IqegZkeG+CEdbxhgElvBX3aRT57KJLvSNBipRCcwviJgAp
- 5yjZAJP5eTL5woTB03P+3CSq6w==
-X-Google-Smtp-Source: AKy350ZDUVbHj88EJiY9u0RdwFigGUru2sysBe981rTiRJBJ3G3n/XuE8VHZ376pO6pPfLzJPk+IYQ==
-X-Received: by 2002:adf:f544:0:b0:2cf:f2f9:5aab with SMTP id
- j4-20020adff544000000b002cff2f95aabmr18948384wrp.20.1680181203327; 
- Thu, 30 Mar 2023 06:00:03 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o10-20020a5d684a000000b002d89e113691sm23797137wrw.52.2023.03.30.06.00.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Mar 2023 06:00:02 -0700 (PDT)
-Message-ID: <6ac0c848-6206-c2f2-f718-68a08b5fe001@linaro.org>
-Date: Thu, 30 Mar 2023 15:00:01 +0200
+ (Exim 4.90_1)
+ (envelope-from <prvs=446aa7e4f=anthony.perard@citrix.com>)
+ id 1phrtL-0005WC-LF
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:00:36 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=446aa7e4f=anthony.perard@citrix.com>)
+ id 1phrtJ-0007KK-MF
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 09:00:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1680181233;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=8DRJWvLzrc0qU2F2dmm/GwAwKgJ2cyVW9LJwugMHSuM=;
+ b=OfBtWmHfm04ItHuOvbNDlp7oOAoIcoWjZX308KdcD5p5UOAj6doGD4vL
+ 2+8Nkq0upMnhRUn08+K5nf79UidfiUprkum8eHWgqwPOqyse8Iy36pkHt
+ pGRDKQdM1GaJsTk1tf1F1xfykoIA+uSz7McDb5L5QNojfAoAsRnPm1Uhv E=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 4.0
+X-MesageID: 103703221
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.123
+X-Policy: $RELAYED
+IronPort-Data: A9a23:5/dgu6g3MkyItm68BKVfqQRgX161fhcKZh0ujC45NGQN5FlHY01je
+ htvWTvVP/zYM2XxfdB/bNux/R4CvJbXxoMwSAQ9rS48FSkb9cadCdqndUqhZCn6wu8v7q5Ex
+ 55HNoSfdpBcolv0/ErF3m3J9CEkvU2wbuOgTrWCYmYpHlUMpB4J0XpLg/Q+jpNjne+3CgaMv
+ cKai8DEMRqu1iUc3lg8sspvkzsy+qWi0N8klgZmP6sT5wSGzyN94K83fsldEVOpGuG4IcbiL
+ wrz5OnR1n/U+R4rFuSknt7TGqHdauePVeQmoiM+t5mK2nCulARrukoIHKN0hXNsoyeIh7hMJ
+ OBl7vRcf+uL0prkw4zxWzEAe8130DYvFLXveRBTuuTLp6HKnueFL1yDwyjaMKVBktubD12i+
+ tQbGBcxTTumm9nvnomECeBqoeQuFNPSadZ3VnFIlVk1DN4jSJHHBa7L+cVZzHE7gcUm8fT2P
+ pRDL2A1NVKZPkMJYw1MYH49tL7Aan3XejtEqFWTtOwv7nLa1gBZ27nxKtvFPNeNQK25m27B/
+ jmZpz+jWEhy2Nq3+GC41yyOm9LzpDrlQ9hNJr6m7Ox3nwjGroAUIEJPDgbqyRWjsWa7QM53M
+ UEY+iMy66M18SSDVcLhVhe1pHqFuB80WNdKFeA+rgaXxcL8+w+EAkAUQzgHb8Yp3OcmSDpv2
+ lKXktfBAT10rKbTWX+b7q2Trz65JW4SN2BqTSUeRgsY6NrxiIg0ilTESdMLOKetg8f8Az3Y3
+ zGApy94jLIW5eYR1q679ErLxTKhoJTEVBUy4C3TX2Ss9AQ/Y5SqD6Sw6Vnf6PpoKIefR0OG+
+ n8elKC26ekUBpyJ0iWVTugJFri04t6KNTTdhRhkGJxJ3yyn/HixfIZRyCtzKEdgLoAPfjqBS
+ FTTtAVN6Y57M36jbKsxaIW0Y+wzwK39UNjoSP3QRtxJZJd3aUmA5i4GTUeNxW3pkUUquagiI
+ 5qfKpzqC3sGYYxqwCe/Xesa+b8izCM53n+VQ53npzyrzr+BTHeQQKUCNh2FaaYk78usoB3S7
+ s1ENs2i0RhWW/H5eW/Q64F7ELwRBSFlX9as8ZURL7PdZFM8QwnNFsM935siS6tZvI9wityRo
+ EqCGUZe73ryvWf+fFDihm9YVF//YXpuhStlYn19bQb0hyhLjZWHt/lGKcZuFVUz3Kk6lKMvE
+ aFYEymVKq4XIgkr7QjxenUUQGZKUB2wzTyDMCO+CNTUV84xHleZkjMIk+aGycXvMsZUnZFky
+ 1FY/lmHKafvviw7ZCosVNqhzkmqoV8Wk/9oUk3DL7F7IRu8qNEzd3Ku0K9pfangzCkvIBPAj
+ 2565j9GzdQhXqdvqIWZ7Ux6h9zB/xRC8rpyQDCAsOfe2djy9Wu/245QONu1kcTmfDqsos2KP
+ LwFp8wQxdVbxD6mRaIgSec0pU//jvOzz4JnIvNMRi+VNwz2Ues/fBFrH6Bn78Vw+1OQgiPuM
+ mrnxzWQEezh1B/NeLLJGDcYUw==
+IronPort-HdrOrdr: A9a23:EiuXFq/ZlB0CewvI0xluk+DWI+orL9Y04lQ7vn2ZKCY4TiX8ra
+ uTdZsguiMc5Ax+ZJhDo7C90di7IE80nKQdieN9AV7IZniEhILHFvAG0aLShxHmBi3i5qp8+M
+ 5bAsxD4QTLfDpHsfo=
+X-IronPort-AV: E=Sophos;i="5.98,303,1673931600"; d="scan'208";a="103703221"
+Date: Thu, 30 Mar 2023 14:00:25 +0100
+To: Bernhard Beschow <shentey@gmail.com>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw@amazon.co.uk>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>, Aurelien Jarno
+ <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, Paul Durrant
+ <paul@xen.org>, <xen-devel@lists.xenproject.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>, "Richard
+ Henderson" <richard.henderson@linaro.org>, Philippe
+ =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Chuck Zmudzinski
+ <brchuckz@aol.com>
+Subject: Re: [PATCH v3 2/6] hw/isa/piix3: Reuse piix3_realize() in
+ piix3_xen_realize()
+Message-ID: <f52c41f7-e662-4afd-8ac9-ce2c0da2b1be@perard>
+References: <20230312120221.99183-1-shentey@gmail.com>
+ <20230312120221.99183-3-shentey@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH-for-8.0 v3] target/arm: Fix non-TCG build failure by
- inlining pauth_ptr_mask()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Fabiano Rosas <farosas@suse.de>
-References: <20230328212516.29592-1-philmd@linaro.org>
- <CAFEAcA_yP9ibO2NOC0pL4SNbPmHtB+TfPm0A06YfC4Mwec5xAQ@mail.gmail.com>
- <CAFEAcA9w0H+j2EbgFDXACno1OF-dCFcb1OuCNksci9vHqW=RPw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAFEAcA9w0H+j2EbgFDXACno1OF-dCFcb1OuCNksci9vHqW=RPw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230312120221.99183-3-shentey@gmail.com>
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=prvs=446aa7e4f=anthony.perard@citrix.com;
+ helo=esa3.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,87 +103,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/3/23 12:34, Peter Maydell wrote:
-> On Thu, 30 Mar 2023 at 11:31, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Tue, 28 Mar 2023 at 22:25, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>>
->>> aarch64_gdb_get_pauth_reg() -- although disabled since commit
->>> 5787d17a42 ("target/arm: Don't advertise aarch64-pauth.xml to
->>> gdb") is still compiled in. It calls pauth_ptr_mask() which is
->>> located in target/arm/tcg/pauth_helper.c, a TCG specific helper.
->>>
->>> To avoid a linking error when TCG is not enabled:
->>>
->>>    Undefined symbols for architecture arm64:
->>>      "_pauth_ptr_mask", referenced from:
->>>          _aarch64_gdb_get_pauth_reg in target_arm_gdbstub64.c.o
->>>    ld: symbol(s) not found for architecture arm64
->>>    clang: error: linker command failed with exit code 1 (use -v to see invocation)
->>>
->>> - Inline pauth_ptr_mask() in aarch64_gdb_get_pauth_reg()
->>>    (this is the single user),
->>> - Rename pauth_ptr_mask_internal() as pauth_ptr_mask() and
->>>    inline it in "internals.h",
->>>
->>> Fixes: e995d5cce4 ("target/arm: Implement gdbstub pauth extension")
->>> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
->>> Reviewed-by: Fabiano Rosas <farosas@suse.de>
->>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> ---
->>> Supersedes: <20230328133054.6553-1-philmd@linaro.org>
->>>
->>> Since v2:
->>> - Rebased (patch #1 merged)
->>> - Addressed rth's comments
->>> - Added R-b tags
->>> ---
->>>   target/arm/internals.h        | 16 +++++++---------
->>>   target/arm/gdbstub64.c        |  7 +++++--
->>>   target/arm/tcg/pauth_helper.c | 18 +-----------------
->>>   3 files changed, 13 insertions(+), 28 deletions(-)
->>>
->>> diff --git a/target/arm/internals.h b/target/arm/internals.h
->>> index 673519a24a..71f4c6d8a2 100644
->>> --- a/target/arm/internals.h
->>> +++ b/target/arm/internals.h
->>> @@ -1389,15 +1389,13 @@ int exception_target_el(CPUARMState *env);
->>>   bool arm_singlestep_active(CPUARMState *env);
->>>   bool arm_generate_debug_exceptions(CPUARMState *env);
->>>
->>> -/**
->>> - * pauth_ptr_mask:
->>> - * @env: cpu context
->>> - * @ptr: selects between TTBR0 and TTBR1
->>> - * @data: selects between TBI and TBID
->>> - *
->>> - * Return a mask of the bits of @ptr that contain the authentication code.
->>> - */
->>> -uint64_t pauth_ptr_mask(CPUARMState *env, uint64_t ptr, bool data);
->>> +static inline uint64_t pauth_ptr_mask(ARMVAParameters param)
->>> +{
->>> +    int bot_pac_bit = 64 - param.tsz;
->>> +    int top_pac_bit = 64 - 8 * param.tbi;
->>> +
->>> +    return MAKE_64BIT_MASK(bot_pac_bit, top_pac_bit - bot_pac_bit);
->>> +}
->>
->> Any reason for deleting the doc comment ?
+On Sun, Mar 12, 2023 at 01:02:17PM +0100, Bernhard Beschow wrote:
+> This is a preparational patch for the next one to make the following
+> more obvious:
 > 
-> Applied to target-arm.next with a doc comment:
+> First, pci_bus_irqs() is now called twice in case of Xen where the
+> second call overrides the pci_set_irq_fn with the Xen variant.
+
+pci_bus_irqs() does allocates pci_bus->irq_count, so the second call in
+piix3_xen_realize() will leak `pci_bus->irq_count`. Could you look if
+pci_bus_irqs_cleanup() can be called before the second pci_bus_irqs()
+call, or maybe some other way to avoid the leak?
+
+> Second, pci_bus_set_route_irq_fn() is now also called in Xen mode.
 > 
-> /**
->   * pauth_ptr_mask:
->   * @param: parameters defining the MMU setup
->   *
->   * Return a mask of the address bits that contain the authentication code,
->   * given the MMU config defined by @param.
->   */
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Thank you!
+Beside the leak which I think can happen only once, patch is fine:
+Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
 
+Thanks,
+
+-- 
+Anthony PERARD
 
