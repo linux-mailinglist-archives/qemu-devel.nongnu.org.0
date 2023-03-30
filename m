@@ -2,87 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6F96D02BA
+	by mail.lfdr.de (Postfix) with ESMTPS id 744FC6D02BB
 	for <lists+qemu-devel@lfdr.de>; Thu, 30 Mar 2023 13:14:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1phqE6-0006dj-Sx; Thu, 30 Mar 2023 07:13:56 -0400
+	id 1phqEP-0006ju-2g; Thu, 30 Mar 2023 07:14:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phqE2-0006dJ-9R
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:13:50 -0400
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1phqE0-000425-Qj
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:13:50 -0400
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-17aeb49429eso19318496fac.6
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 04:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680174827;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5oAXVDBVa31P76KWaQrtxvoRm2ZMBG/QMEUM96oSda8=;
- b=lHatjWNvsqPRapDvQplP9iv5MghVpukB91Mq5SADJQr0JBkDgZG4i6Yf0jjv7tQee8
- zTZrDjKvkEXLmyk6HqoWM2N0Vk8yBK7M4BhmrRFPd+THVy/u+cJWvpIt5w3bdIgcbl9n
- 0HOjf2/XDW1w/nMUK756MEFocP2h5ZRTDFdWksvBR/fmATfwmrDSNmdGEqLqdQ0qKY0W
- mmVMjdmaWayDlGzb7CNF9oO7z1SHcd8M/rWG3BZSDEaLELzWq1uMFPgJT6Xn5yQ7E5cc
- SHt2vJ4ZUXqaTekyaD/X7utsvFQZRJL0k7x7WaOpWr7YWymZxoZKZVmC3nIGvqs+woa0
- SqxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680174827;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5oAXVDBVa31P76KWaQrtxvoRm2ZMBG/QMEUM96oSda8=;
- b=LCY9ez1aPZsOgd5royXK5AzebzzDFDowGZZij+Tx4ejLMRz42dpj1KT11Yav+6DlGb
- fWFzlTQ8yCVMvV860hLokdIjpDfjjKkflDI7acLDCugjE9Y4z8lz5cVhraGxzHVMF0/t
- Zc7AGf8Sxmg1+5usdZ7IVhnaLXMmyorLwORoJPJTlBOyW+2xy/0hBkZoXwN98uBqNyzv
- V1P3zksTQ9t56wyZJDa+xMRWRYOiufybUgLuddRUhd37pAXOTDpTBJqLqxFoVr8CnUkR
- zIGfra4ODOBmBTj5dEQgZOI1ZgkHeoKf2ORajxWhgOc5UI5RFmEQODLcj4vnbDdfKpox
- iHNg==
-X-Gm-Message-State: AAQBX9dj0oJn1dkpxg3oBY21nwfwdrk42YWSKxAQ0yiUScW9ba2lNxwO
- 5hSxEBuSkFPikgSML9ZuI39avQ==
-X-Google-Smtp-Source: AKy350YnVz3as49xPL0h0owigKfmfJ1Rg8vvwGLTqQVN3wwRnqaWmcFVST918SVGpkxU8LUurwMeTQ==
-X-Received: by 2002:a05:6870:2104:b0:177:80a2:4dc6 with SMTP id
- f4-20020a056870210400b0017780a24dc6mr14281327oae.58.1680174827326; 
- Thu, 30 Mar 2023 04:13:47 -0700 (PDT)
-Received: from ?IPV6:2804:7f0:bcc0:bdf2:b7ba:a476:c0e3:fb59?
- ([2804:7f0:bcc0:bdf2:b7ba:a476:c0e3:fb59])
- by smtp.gmail.com with ESMTPSA id
- p14-20020a056830130e00b006a14579a8besm4165569otq.43.2023.03.30.04.13.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Mar 2023 04:13:46 -0700 (PDT)
-Message-ID: <4b77267e-84bf-a7ec-575d-92b671b5ba38@ventanamicro.com>
-Date: Thu, 30 Mar 2023 08:13:43 -0300
+ (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1phqEM-0006jP-Qs
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:14:10 -0400
+Received: from bonnix.bonnix.it ([2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1phqEK-00043C-8s
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 07:14:10 -0400
+Received: from [10.0.0.70] (dynamic-adsl-84-221-84-105.clienti.tiscali.it
+ [84.221.84.105]) (authenticated bits=0)
+ by bonnix.bonnix.it (8.14.4/8.14.4) with ESMTP id 32UBDxXt021028
+ (version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+ Thu, 30 Mar 2023 13:14:00 +0200
+DKIM-Filter: OpenDKIM Filter v2.11.0 bonnix.bonnix.it 32UBDxXt021028
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bonslack.org;
+ s=20220805; t=1680174840;
+ bh=H+lfis/GLIzb6Nbp6+Svf8SB6BXeQ8Edf9isbopRMYk=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=KzlBbzAPxYLbEKjiZUNHileu4grVXAV2WbE4/kr8dWMZGWn3Pm9wWdVBtlu8XpjWJ
+ 6cqgFlMLiyeczhc8+dU9OsV/IiowaZT49OxlPWsFYiwY5OmYj5ox3gf6JHz1bux8ub
+ JbX/cPoiSGW+vkZJtBFMrXldLAImVPF5FrSFTTwQ=
+Message-ID: <e82e940f-12cf-5c88-0603-37974c4a84df@bonslack.org>
+Date: Thu, 30 Mar 2023 13:13:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] target/riscv: Set opcode to env->bins for illegal/virtual
- instruction fault
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230330034636.44585-1-liweiwei@iscas.ac.cn>
-Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230330034636.44585-1-liweiwei@iscas.ac.cn>
+ Thunderbird/102.8.0
+Subject: Re: stat64 wrong on sparc64 user
+To: Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+References: <db07e036-cc5f-c9ad-b63c-10fdd5404830@bonslack.org>
+ <bdebe626-e552-affb-b756-02c70898bdd6@redhat.com>
+ <d49d441a-01a6-d38d-2bc8-98b9658a288e@bonslack.org>
+ <60a7075e-64fd-674a-900c-94ec4ee0b6db@vivier.eu>
+Content-Language: it, en-US
+From: Luca Bonissi <qemu@bonslack.org>
+In-Reply-To: <60a7075e-64fd-674a-900c-94ec4ee0b6db@vivier.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x34.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8;
+ envelope-from=qemu@bonslack.org; helo=bonnix.bonnix.it
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,34 +69,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 3/30/23 00:46, Weiwei Li wrote:
-> decode_save_opc() will not work for generate_exception(), since 0 is passed
-> to riscv_raise_exception() as pc in helper_raise_exception(), and bins will
-> not be restored in this case.
+On 29/03/23 18:22, Laurent Vivier wrote:
+> Le 28/03/2023 à 14:22, Luca Bonissi a écrit :
+>> On 28/03/23 13:55, Thomas Huth wrote:
+>>> On 28/03/2023 13.48, Luca Bonissi wrote:
+>>>> --- qemu-20230327/linux-user/syscall_defs.h    2023-03-27 
+>>>> 15:41:42.000000000 +0200
+>>>> +++ qemu-20230327/linux-user/syscall_defs.h.new    2023-03-27 
+>>>> 21:43:25.615115126 +0200
+>>>> @@ -1450,7 +1450,7 @@ struct target_stat {
+>>>>       unsigned int    st_dev;
+>>>>       abi_ulong    st_ino;
+>>>>       unsigned int    st_mode;
+>>>> -    unsigned int    st_nlink;
+>>>> +    short int    st_nlink;
+>>>>       unsigned int    st_uid;
+>>>
+>>
 > 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-
-
->   target/riscv/insn_trans/trans_rvh.c.inc | 2 ++
->   1 file changed, 2 insertions(+)
+> To have automatic alignment according to target ABI, you must use 
+> abi_XXX type (see include/exec/user/abitypes.h)
 > 
-> diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-> index 9248b48c36..4b730cd492 100644
-> --- a/target/riscv/insn_trans/trans_rvh.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvh.c.inc
-> @@ -20,6 +20,8 @@
->   static bool check_access(DisasContext *ctx)
->   {
->       if (!ctx->hlsx) {
-> +        tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
-> +                       offsetof(CPURISCVState, bins));
->           if (ctx->virt_enabled) {
->               generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT);
->           } else {
+
+I tried to keep as much as possibile the source code untouched, but no 
+problem to change all fields with abi_XXX. Tested for sparc and sparc64:
+
+--- qemu-20230327/linux-user/syscall_defs.h.orig	2023-03-27 
+15:41:42.000000000 +0200
++++ qemu-20230327/linux-user/syscall_defs.h	2023-03-30 
+12:52:46.308640526 +0200
+@@ -1447,13 +1447,13 @@ struct target_eabi_stat64 {
+
+  #elif defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+  struct target_stat {
+-	unsigned int	st_dev;
++	abi_uint	st_dev;
+  	abi_ulong	st_ino;
+-	unsigned int	st_mode;
+-	unsigned int	st_nlink;
+-	unsigned int	st_uid;
+-	unsigned int	st_gid;
+-	unsigned int	st_rdev;
++	abi_uint	st_mode;
++	abi_short	st_nlink;
++	abi_uint	st_uid;
++	abi_uint	st_gid;
++	abi_uint	st_rdev;
+  	abi_long	st_size;
+  	abi_long	target_st_atime;
+  	abi_long	target_st_mtime;
+@@ -1465,25 +1465,23 @@ struct target_stat {
+
+  #define TARGET_HAS_STRUCT_STAT64
+  struct target_stat64 {
+-	unsigned char	__pad0[6];
+-	unsigned short	st_dev;
++	abi_ullong	st_dev;
+
+-	uint64_t	st_ino;
+-	uint64_t	st_nlink;
++	abi_ullong	st_ino;
++	abi_ullong	st_nlink;
+
+-	unsigned int	st_mode;
++	abi_uint	st_mode;
+
+-	unsigned int	st_uid;
+-	unsigned int	st_gid;
++	abi_uint	st_uid;
++	abi_uint	st_gid;
+
+-	unsigned char	__pad2[6];
+-	unsigned short	st_rdev;
++	abi_uint	__pad0;
++	abi_ullong	st_rdev;
+
+-        int64_t		st_size;
+-	int64_t		st_blksize;
++	abi_llong	st_size;
++	abi_llong	st_blksize;
+
+-	unsigned char	__pad4[4];
+-	unsigned int	st_blocks;
++	abi_llong	st_blocks;
+
+  	abi_ulong	target_st_atime;
+  	abi_ulong	target_st_atime_nsec;
+@@ -1501,13 +1499,13 @@ struct target_stat64 {
+
+  #define TARGET_STAT_HAVE_NSEC
+  struct target_stat {
+-	unsigned short	st_dev;
++	abi_ushort	st_dev;
+  	abi_ulong	st_ino;
+-	unsigned short	st_mode;
+-	short		st_nlink;
+-	unsigned short	st_uid;
+-	unsigned short	st_gid;
+-	unsigned short	st_rdev;
++	abi_ushort	st_mode;
++	abi_short	st_nlink;
++	abi_ushort	st_uid;
++	abi_ushort	st_gid;
++	abi_ushort	st_rdev;
+  	abi_long	st_size;
+  	abi_long	target_st_atime;
+  	abi_ulong	target_st_atime_nsec;
+@@ -1522,39 +1520,37 @@ struct target_stat {
+
+  #define TARGET_HAS_STRUCT_STAT64
+  struct target_stat64 {
+-	unsigned char	__pad0[6];
+-	unsigned short	st_dev;
++	abi_ullong st_dev;
+
+-	uint64_t st_ino;
++	abi_ullong st_ino;
+
+-	unsigned int	st_mode;
+-	unsigned int	st_nlink;
++	abi_uint	st_mode;
++	abi_uint	st_nlink;
+
+-	unsigned int	st_uid;
+-	unsigned int	st_gid;
++	abi_uint	st_uid;
++	abi_uint	st_gid;
+
+-	unsigned char	__pad2[6];
+-	unsigned short	st_rdev;
++	abi_ullong        st_rdev;
+
+  	unsigned char	__pad3[8];
+
+-        int64_t	st_size;
+-	unsigned int	st_blksize;
++        abi_llong	st_size;
++	abi_uint	st_blksize;
+
+  	unsigned char	__pad4[8];
+-	unsigned int	st_blocks;
++	abi_uint	st_blocks;
+
+-	unsigned int	target_st_atime;
+-	unsigned int	target_st_atime_nsec;
++	abi_uint	target_st_atime;
++	abi_uint	target_st_atime_nsec;
+
+-	unsigned int	target_st_mtime;
+-	unsigned int	target_st_mtime_nsec;
++	abi_uint	target_st_mtime;
++	abi_uint	target_st_mtime_nsec;
+
+-	unsigned int	target_st_ctime;
+-	unsigned int	target_st_ctime_nsec;
++	abi_uint	target_st_ctime;
++	abi_uint	target_st_ctime_nsec;
+
+-	unsigned int	__unused1;
+-	unsigned int	__unused2;
++	abi_uint	__unused1;
++	abi_uint	__unused2;
+  };
+
+  #elif defined(TARGET_PPC)
+
+
+
+
 
