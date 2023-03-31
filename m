@@ -2,106 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908C16D28CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 21:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE716D295C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 22:24:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piKgy-0007Bs-4O; Fri, 31 Mar 2023 15:45:44 -0400
+	id 1piLHs-0006FC-8r; Fri, 31 Mar 2023 16:23:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1piKgd-0007BN-Ei
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 15:45:23 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1piLHp-0006EZ-4y
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 16:23:49 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@linux.vnet.ibm.com>)
- id 1piKgb-0004EG-EC
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 15:45:23 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32VJdYIl013551; Fri, 31 Mar 2023 19:45:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=H9XYfxDJPOmQ60f9IwgAEVLZIF0qvf0SSa1an42xNQM=;
- b=Ww5YHfLuZq2LjwI60M+FcPBNGOfFwW/KkxI8tERhNHXaJWrD2Gaua4wv8DKdp5PkVMkQ
- Bp3thua9GEXNYWRdByy680CAv0oI4BE+heWv+jyEK2pKOXNFE74qGQQ/PeRZfApt9e3H
- PPeT/1Br/tHLj6yMIbA9EAGVXE58E3V3r3YpbK/oWaS+m5/PqTadc9rNMF6hIZ0bFg2u
- DzTIw20BM85goq6FWwBMf7Zi3gtfoMc7mEHQSbG6Nguh2daaIoShOtE5PQP8DGgs0TDY
- Px/MUBNWFgsB4eERFiCd9L+0zORtxTPdAuNLO6OIV/UZeOA7HiDGxPIS+uIXVtgYgy3P Pg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pp3cvd6s3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 19:45:01 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32VIw4WV014252;
- Fri, 31 Mar 2023 19:45:00 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pp3cvd6re-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 19:45:00 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32VHgcOl028981;
- Fri, 31 Mar 2023 19:44:59 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
- by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3phrk8bpcq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 19:44:59 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
- [10.241.53.104])
- by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32VJiuss55509436
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Mar 2023 19:44:57 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A21A558069;
- Fri, 31 Mar 2023 19:44:56 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 70C9D58052;
- Fri, 31 Mar 2023 19:44:56 +0000 (GMT)
-Received: from [9.211.144.73] (unknown [9.211.144.73])
- by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 31 Mar 2023 19:44:56 +0000 (GMT)
-Message-ID: <c3e54a34-33d2-bbf9-e854-4fe37ce54b16@linux.vnet.ibm.com>
-Date: Fri, 31 Mar 2023 14:44:56 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v5 3/3] qtest: Add a test case for TPM TIS I2C connected
- to Aspeed I2C controller
-Content-Language: en-US
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, thuth@redhat.com, clg@kaod.org,
- ninad@linux.ibm.com, joel@jms.id.au, andrew@aj.id.au
-References: <20230331173051.3857801-1-stefanb@linux.ibm.com>
- <20230331173051.3857801-4-stefanb@linux.ibm.com>
-From: Ninad Palsule <ninad@linux.vnet.ibm.com>
-In-Reply-To: <20230331173051.3857801-4-stefanb@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: umeYupiCR4ffEA0Mz9kB6digd1tB66nD
-X-Proofpoint-ORIG-GUID: dhkiwgaZLo08lJcXQ6eQEuFbw-27JTGU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-31_07,2023-03-31_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- mlxscore=0 mlxlogscore=999 adultscore=0 priorityscore=1501 phishscore=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303310156
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=ninad@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1piLHm-0002Q9-JZ
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 16:23:48 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id B62325C00CA;
+ Fri, 31 Mar 2023 16:23:41 -0400 (EDT)
+Received: from imap42 ([10.202.2.92])
+ by compute1.internal (MEProxy); Fri, 31 Mar 2023 16:23:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+ 1680294221; x=1680380621; bh=L7aM2rQC34GtoxtvfgmG3H9yC64rRDO7C2A
+ 0+YMP3nM=; b=mN0/2pi3V2lfALcs/g5hQJX0OFwgI7xjy8BmcBani3nClxgbg2v
+ sKqwo0VhQwXbI8el9aH4AAr5OeyNOy/jwPK9fcpMKMa+6b5gGqYPveNPlnmwEZTI
+ BjH2E5h+641WlXz9L4k5S6O0qsg2El0noFNCAMMNpaEl3qH0Gk3boAxiueTBbP69
+ GzJWfehYB6K45TjqmFgqsHOtAypI6PLcIJ41tdnmGaXaudw2SCfGd+rVICIwCbXy
+ VaqA0Dy16vOgUiqb/PSdaRSYBYUP3kuO0tmKbH3r7cM/5EC8ETn9a1Z6n+xX/Ixf
+ thteaZzSFQDZU7J3Auqp8McGLGRxMoeOkiw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1680294221; x=1680380621; bh=L7aM2rQC34GtoxtvfgmG3H9yC64rRDO7C2A
+ 0+YMP3nM=; b=hG9qEQEdyG7pqZNeR5k8/5R7LMItHyUSse4pTAUNjC+qNyr53EJ
+ ROUjYsCWB1L3xHxUka9W4ZbcFyC/viUIZw89sOBI/7C0AIicxzbJVxjKSSGKZrKc
+ 4CwcADzv5GMSPcCQtW2s2bGtvvLPJIgYSTjkrz+5sPlSwFEoDJWoX+1QOwKCVFL0
+ s4k7GJvhwSC8aK4APfMyuZkRm0KyBr/KoNCt9/upKq2V+RnwSHU2afIT9X8emeRC
+ 1T6cLSRAQk+r2nzS/sQJYzou00MNPzA3Vx5lY2jbnfPw2kzi3r0sAfvvAxBJQ5yW
+ m1GCm88HX/cj67WJPrq0QzJgtDab/HXcXUg==
+X-ME-Sender: <xms:TUEnZKdqYYsDSLelnjKf-LhC5z6gKZUzy_AWV9DBTTDKVdeVKMuzZA>
+ <xme:TUEnZEOPNkpGW8quHgNU_8-bdrEXKUHixZCuchiBL2pM81ahiRFE8qL560eUSMUQF
+ QDbTZ2dewLBs8aAFw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiuddgudegiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enfghrlhcuvffnffculdefhedmnecujfgurhepofgfggfkjghffffhvfevufgtgfesthhq
+ redtreerjeenucfhrhhomhepfdffrghnihgvlhcuighufdcuoegugihusegugihuuhhurd
+ ighiiiqeenucggtffrrghtthgvrhhnpeevheduteefvddthfdvgfehjeejtdfhieeigffg
+ gfduvdfftdevleejleelfeeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ epmhgrihhlfhhrohhmpegugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:TUEnZLiJFcF8v7JcshEdzcpXVFIugSaehBS3pPFrHApXsSzmziiCWg>
+ <xmx:TUEnZH9faloendLpKap0tGM-UZ1u4SNi1WlKR0T8G4_dyZ-bwuFtzQ>
+ <xmx:TUEnZGuHbngs8651EDLU_8VlmP2Z04tel2gW2KArQQhzO1iaT95xAg>
+ <xmx:TUEnZP72nPAYr7yV0hz3TL7mjac2QZNhOv065BEyzYg7a6550iFWXw>
+Feedback-ID: i6a694271:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 4DE3EBC007C; Fri, 31 Mar 2023 16:23:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-238-g746678b8b6-fm-20230329.001-g746678b8
+Mime-Version: 1.0
+Message-Id: <4d1cc7a0-54a6-4a7c-87a9-5bc643a0162f@app.fastmail.com>
+In-Reply-To: <ZBwbQCxg+aDuofY+@redhat.com>
+References: <cover.1679530587.git.dxu@dxuuu.xyz>
+ <9b355e4fe0574022459c0fd94ed30de3b7415011.1679530587.git.dxu@dxuuu.xyz>
+ <ZBwbQCxg+aDuofY+@redhat.com>
+Date: Fri, 31 Mar 2023 14:23:21 -0600
+From: "Daniel Xu" <dxu@dxuuu.xyz>
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: kkostiuk@redhat.com, michael.roth@amd.com,
+ =?UTF-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@gmail.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 2/3] qga: Add `merged` variant to
+ GuestExecCaptureOutputMode
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=dxu@dxuuu.xyz;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,16 +105,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Daniel,
 
-On 3/31/23 12:30 PM, Stefan Berger wrote:
-> Add a test case for the TPM TIS I2C device exercising most of its
-> functionality, including localities.
+On Thu, Mar 23, 2023, at 3:26 AM, Daniel P. Berrang=C3=A9 wrote:
+> On Wed, Mar 22, 2023 at 06:19:27PM -0600, Daniel Xu wrote:
+>> Currently, any captured output (via `capture-output`) is segregated i=
+nto
+>> separate GuestExecStatus fields (`out-data` and `err-data`). This mea=
+ns
+>> that downstream consumers have no way to reassemble the captured data
+>> back into the original stream.
+>>=20
+>> This is relevant for chatty and semi-interactive (ie. read only) CLI
+>> tools.  Such tools may deliberately interleave stdout and stderr for
+>> visual effect. If segregated, the output becomes harder to visually
+>> understand.
+>>=20
+>> This commit adds a new enum variant to the GuestExecCaptureOutputMode
+>> qapi to merge the output streams such that consumers can have a prist=
+ine
+>> view of the original command output.
+>>=20
+>> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+>> ---
+>>  qga/commands.c       | 25 +++++++++++++++++++++++--
+>>  qga/qapi-schema.json |  5 ++++-
+>>  2 files changed, 27 insertions(+), 3 deletions(-)
 >
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> Tested-by: Cédric Le Goater <clg@kaod.org>
-> ---
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Tested-by: Ninad Palsule<ninad@linux.ibm.com>
+Is there anyone in particular I should CC to get this series merged?
 
-
+Thanks,
+Daniel
 
