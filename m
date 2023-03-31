@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148BA6D14A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 03:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1CF6D1496
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 03:02:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi39R-0003Fl-Po; Thu, 30 Mar 2023 21:01:57 -0400
+	id 1pi39S-0003G0-D2; Thu, 30 Mar 2023 21:01:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3_zAmZAcKCiIIMKJMBGEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--komlodi.bounces.google.com>)
- id 1pi39P-0003F1-4j
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:55 -0400
-Received: from mail-pl1-x649.google.com ([2607:f8b0:4864:20::649])
+ <3ATEmZAcKCiQKOMLODIGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--komlodi.bounces.google.com>)
+ id 1pi39Q-0003FY-Sm
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:56 -0400
+Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3_zAmZAcKCiIIMKJMBGEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--komlodi.bounces.google.com>)
- id 1pi39N-0006by-A0
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:54 -0400
-Received: by mail-pl1-x649.google.com with SMTP id
- z16-20020a170902d55000b001a06f9b5e31so12297588plf.21
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 18:01:52 -0700 (PDT)
+ <3ATEmZAcKCiQKOMLODIGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--komlodi.bounces.google.com>)
+ id 1pi39P-0006cB-50
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:56 -0400
+Received: by mail-pf1-x449.google.com with SMTP id
+ y15-20020a62f24f000000b00627dd180a30so9525328pfl.6
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 18:01:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680224511;
+ d=google.com; s=20210112; t=1680224513;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=z9daf8epV3wtDyZD1agoFY4Syp6h/vNC0BTkpI5/9/A=;
- b=jt4DXKXc7jdVUZE1N8eMgT1Z6F64+BFuReMETxbBaGlFkD16Locc22TTP98EzHGHGT
- S/f0iTK1TISEknUPonuuV1EY1o9vmTWt7C2h0WyltPHqgajVQcgVCMH1V5mw40jL1XXD
- rC0nSor4/qNV6skNVUI78w4X1HjGUIUK8Jh0Z+8/Zyqd8ytqukmz7pVBe7PGCMF6qxRS
- 9pVjesHiAWMIA/zpjyv+CvbsYy3aXK++XQGqr6evk0T1+p8RLZtpb2PL8WMwLAIGzMiu
- Aso8M0HXihVVxAZMFljEPoNAE4mni+6lNiikBbrmukSpIyVpPbJ90bcW/L7Q/eN4e9K7
- AuFg==
+ bh=xxmkfnav+C8zEtIsn1y237i6/yeHQ5Aob1crdW87PWU=;
+ b=b4G2rzgA5Erkrvl/gkIl6GWrBcrb9+RGJhdAZVn3WWMai15SN85W3i8e6Ddh21BkUc
+ b3ifrpC5nayi0YtRsdHBadpGsSaB08ZV6heZAggxIYORoe2FjL5k5Geq7WGUw+vhsXLK
+ EglxpBtFvBIvONfu8IW6S5Ru0SWZD/rzIs9jJ2YZwvWxSUlPMkZ+v3QbAsR7AdT0PPGx
+ tcaSaa+gR0qqla9S5fuqsDDgNlHHv/vHOkDfnTiC9WV6BpnNEYciCHwk2sVsQKCcLdxg
+ yJSLRCu028muQuVeFN1MyIk1gXMgOWUTjl7IKBLcCl3Lzy5WtL3EWLfTiCrHI2WirNRs
+ sf6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680224511;
+ d=1e100.net; s=20210112; t=1680224513;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z9daf8epV3wtDyZD1agoFY4Syp6h/vNC0BTkpI5/9/A=;
- b=RdmcBFlzs8O/tOlJ7BvezrTCRe9eimZyWwGrgfiJfx2Q0OshG1Zw6cezoXp63EKa8N
- GQDWlNuBk8Zz8IOgGnEmwQz/ugwwOBovz9AbfMp0O/OJTNzk7WpsIiyKSILxv9iI3x4A
- acJYUeFwM40hDgvSbcEJpMMd/y1BCaj6Zxhet2ipx8jQlYfOeQ7pTgIhZBzzo6G5mwv2
- tfCMCxQ9iZl6wRSdjlIBbyglBTfWeZxB/dd9+eMrg5Vkcok/k8uJyz++6SnVXGoNGWpR
- gxpiI1iN/LZuf8chmTK5h1RoVXKi/PvqR1ijGvbXM5M1RcVbMN5s3juIHHy7Am5J9Jx4
- Mvng==
-X-Gm-Message-State: AAQBX9crlVUtaKKmBvVkWQAyKx1bi1HAIwNw1f8uhlanJKOnGUCJ7HCH
- Ay2n5LiGi/noRwNSttLY6JYhdirDVssL9Zd/MCN3DmHIladXzeI/4slX3Ga3LXn/i8Yb0TFzx7i
- LZZ5uLpT8Nvf/IEOhO4HcSnPi2GMYplBdrMLSxvDyEM3AtYcK16p9fg3Pj3dx00Q=
-X-Google-Smtp-Source: AKy350ajrU+uwpm0u2ajBH5dwdp5V8EdIIFbxnuvDcfN5QLkP7jFt9tDpR+lXVyRzhE+BewoOKTRZclQyyK8
+ bh=xxmkfnav+C8zEtIsn1y237i6/yeHQ5Aob1crdW87PWU=;
+ b=wl6ERerhAqa+4rkJ5TxEVqFggImG36rAlDP8G0PALwq9yGIXWnhZowoKmLtqXYkgWO
+ WJ+SFixUc5WnKPJry+HBUT14+EnQfwCcBGDyB95AO3fFKYBazVXql+kvkmevsS1HwvPU
+ ZXNx7ANSHPa1bTlMKIUmWV2qx5zF9Gl3LnhOmVBv/DJOgr7trBeCNwb3lUgGg79M0oGL
+ dJAucbXrNFvrpQVC1aCpo1FoB5uGRrW1qvb/CwD3iW1VnLIuNLYOEIvD2stiUHew/INv
+ 6sHm0cryOmvsP9kGze7W8JDWzqq4jUOrMK1q8hc/WVXdeq+t/HXVfzqRhipSM4OI2KlQ
+ h3nQ==
+X-Gm-Message-State: AAQBX9c0UJ86Na3UX9/Nva4U0h5XkFRTNwObELLp0KWIhE6K/u64e7LP
+ qA64ACn9GOJi3PiKOWeCzCDMHbK3pGJncF3XNsgdUUcAgtupVfl9Jq4zKxy4veB/gX9TAQrklXw
+ dLQgG1i7dWV5VW0TCT7taMS340z5it2zzE+o8te6lMOWQ5vIxDPCSwelUPaILshU=
+X-Google-Smtp-Source: AKy350Zbgjru9zzZPZQ6RSAF+4Pu+S6WgUAAV1gWezGRr0qbIAFqWApQuu1oVFvcNQjOXYyj+HdE32Qeqi1k
 X-Received: from komlodi.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:35ee])
- (user=komlodi job=sendgmr) by 2002:a05:6a00:a1a:b0:62d:9b70:1afd with SMTP id
- p26-20020a056a000a1a00b0062d9b701afdmr3616121pfh.1.1680224511502; Thu, 30 Mar
- 2023 18:01:51 -0700 (PDT)
-Date: Fri, 31 Mar 2023 01:01:26 +0000
+ (user=komlodi job=sendgmr) by 2002:a17:90a:c095:b0:234:acfd:c8da with SMTP id
+ o21-20020a17090ac09500b00234acfdc8damr7919148pjs.2.1680224513354; Thu, 30 Mar
+ 2023 18:01:53 -0700 (PDT)
+Date: Fri, 31 Mar 2023 01:01:27 +0000
 In-Reply-To: <20230331010131.1412571-1-komlodi@google.com>
 Mime-Version: 1.0
 References: <20230331010131.1412571-1-komlodi@google.com>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230331010131.1412571-12-komlodi@google.com>
-Subject: [PATCH 11/16] hw/i3c/aspeed_i3c: Add ctrl MMIO handling
+Message-ID: <20230331010131.1412571-13-komlodi@google.com>
+Subject: [PATCH 12/16] hw/i3c/aspeed_i3c: Add controller resets
 From: Joe Komlodi <komlodi@google.com>
 To: qemu-devel@nongnu.org
 Cc: venture@google.com, komlodi@google.com, peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::649;
- envelope-from=3_zAmZAcKCiIIMKJMBGEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--komlodi.bounces.google.com;
- helo=mail-pl1-x649.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
+ envelope-from=3ATEmZAcKCiQKOMLODIGOOGLE.COMQEMU-DEVELNONGNU.ORG@flex--komlodi.bounces.google.com;
+ helo=mail-pf1-x449.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -90,77 +90,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Adds functionality to the CTRL register.
+Adds behavior to the device reset register.
 
 Signed-off-by: Joe Komlodi <komlodi@google.com>
 
-Reviewed-by: Titus Rwantare <titusr@google.com>
 Reviewed-by: Patrick Venture <venture@google.com>
+Reviewed-by: Stephen Longfield <slongfield@google.com>
 ---
- hw/i3c/aspeed_i3c.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ hw/i3c/aspeed_i3c.c | 110 +++++++++++++++++++++++++++++++++++++++++---
+ hw/i3c/trace-events |   1 +
+ 2 files changed, 104 insertions(+), 7 deletions(-)
 
 diff --git a/hw/i3c/aspeed_i3c.c b/hw/i3c/aspeed_i3c.c
-index 055ad3f7fd..4c0c074012 100644
+index 4c0c074012..19d766f074 100644
 --- a/hw/i3c/aspeed_i3c.c
 +++ b/hw/i3c/aspeed_i3c.c
-@@ -340,6 +340,8 @@ REG32(DEVICE_ADDR_TABLE_LOC1, 0x280)
-     FIELD(DEVICE_ADDR_TABLE_LOC1, DEV_NACK_RETRY_CNT, 29, 2)
-     FIELD(DEVICE_ADDR_TABLE_LOC1, LEGACY_I2C_DEVICE, 31, 1)
- 
-+static void aspeed_i3c_device_cmd_queue_execute(AspeedI3CDevice *s);
-+
- static const uint32_t ast2600_i3c_controller_ro[ASPEED_I3C_DEVICE_NR_REGS] = {
-     [R_I3C1_REG0]                   = 0xfc000000,
-     [R_I3C1_REG1]                   = 0xfff00000,
-@@ -588,6 +590,37 @@ static int aspeed_i3c_device_recv_data(AspeedI3CDevice *s, bool is_i2c,
-     return ret;
+@@ -938,6 +938,108 @@ static void aspeed_i3c_device_intr_force_w(AspeedI3CDevice *s, uint32_t val)
+     aspeed_i3c_device_update_irq(s);
  }
  
-+static inline void aspeed_i3c_device_ctrl_w(AspeedI3CDevice *s,
-+                                                   uint32_t val)
++static void aspeed_i3c_device_cmd_queue_reset(AspeedI3CDevice *s)
 +{
-+    /*
-+     * If the user is setting I3C_RESUME, the controller was halted.
-+     * Try and resume execution and leave the bit cleared.
-+     */
-+    if (FIELD_EX32(val, DEVICE_CTRL, I3C_RESUME)) {
-+        aspeed_i3c_device_cmd_queue_execute(s);
-+        val = FIELD_DP32(val, DEVICE_CTRL, I3C_RESUME, 0);
-+    }
-+    /*
-+     * I3C_ABORT being set sends an I3C STOP. It's cleared when the STOP is
-+     * sent.
-+     */
-+    if (FIELD_EX32(val, DEVICE_CTRL, I3C_ABORT)) {
-+        aspeed_i3c_device_end_transfer(s, /*is_i2c=*/true);
-+        aspeed_i3c_device_end_transfer(s, /*is_i2c=*/false);
-+        val = FIELD_DP32(val, DEVICE_CTRL, I3C_ABORT, 0);
-+        ARRAY_FIELD_DP32(s->regs, INTR_STATUS, TRANSFER_ABORT, 1);
-+        aspeed_i3c_device_update_irq(s);
-+    }
-+    /* Update present state. */
-+    ARRAY_FIELD_DP32(s->regs, PRESENT_STATE, CM_TFR_ST_STATUS,
-+                     ASPEED_I3C_TRANSFER_STATE_IDLE);
-+    ARRAY_FIELD_DP32(s->regs, PRESENT_STATE, CM_TFR_STATUS,
-+                     ASPEED_I3C_TRANSFER_STATUS_IDLE);
++    fifo32_reset(&s->cmd_queue);
 +
-+    s->regs[R_DEVICE_CTRL] = val;
++    ARRAY_FIELD_DP32(s->regs, QUEUE_STATUS_LEVEL, CMD_QUEUE_EMPTY_LOC,
++                     fifo32_num_free(&s->cmd_queue));
++    uint8_t empty_threshold = ARRAY_FIELD_EX32(s->regs, QUEUE_THLD_CTRL,
++                                               CMD_BUF_EMPTY_THLD);
++    if (fifo32_num_free(&s->cmd_queue) >= empty_threshold) {
++        ARRAY_FIELD_DP32(s->regs, INTR_STATUS, CMD_QUEUE_RDY, 1);
++        aspeed_i3c_device_update_irq(s);
++    };
 +}
 +
- static inline bool aspeed_i3c_device_target_is_i2c(AspeedI3CDevice *s,
-                                                    uint16_t offset)
++static void aspeed_i3c_device_resp_queue_reset(AspeedI3CDevice *s)
++{
++    fifo32_reset(&s->resp_queue);
++
++    ARRAY_FIELD_DP32(s->regs, QUEUE_STATUS_LEVEL, RESP_BUF_BLR,
++                     fifo32_num_used(&s->resp_queue));
++    /*
++     * This interrupt will always be cleared because the threshold is a minimum
++     * of 1 and the queue size is 0.
++     */
++    ARRAY_FIELD_DP32(s->regs, INTR_STATUS, RESP_RDY, 0);
++    aspeed_i3c_device_update_irq(s);
++}
++
++static void aspeed_i3c_device_ibi_queue_reset(AspeedI3CDevice *s)
++{
++    fifo32_reset(&s->ibi_queue);
++
++    ARRAY_FIELD_DP32(s->regs, QUEUE_STATUS_LEVEL, IBI_BUF_BLR,
++                     fifo32_num_used(&s->resp_queue));
++    /*
++     * This interrupt will always be cleared because the threshold is a minimum
++     * of 1 and the queue size is 0.
++     */
++    ARRAY_FIELD_DP32(s->regs, INTR_STATUS, IBI_THLD, 0);
++    aspeed_i3c_device_update_irq(s);
++}
++
++static void aspeed_i3c_device_tx_queue_reset(AspeedI3CDevice *s)
++{
++    fifo32_reset(&s->tx_queue);
++
++    ARRAY_FIELD_DP32(s->regs, DATA_BUFFER_STATUS_LEVEL, TX_BUF_EMPTY_LOC,
++                     fifo32_num_free(&s->tx_queue));
++    /* TX buf is empty, so this interrupt will always be set. */
++    ARRAY_FIELD_DP32(s->regs, INTR_STATUS, TX_THLD, 1);
++    aspeed_i3c_device_update_irq(s);
++}
++
++static void aspeed_i3c_device_rx_queue_reset(AspeedI3CDevice *s)
++{
++    fifo32_reset(&s->rx_queue);
++
++    ARRAY_FIELD_DP32(s->regs, DATA_BUFFER_STATUS_LEVEL, RX_BUF_BLR,
++                     fifo32_num_used(&s->resp_queue));
++    /*
++     * This interrupt will always be cleared because the threshold is a minimum
++     * of 1 and the queue size is 0.
++     */
++    ARRAY_FIELD_DP32(s->regs, INTR_STATUS, RX_THLD, 0);
++    aspeed_i3c_device_update_irq(s);
++}
++
++static void aspeed_i3c_device_reset(DeviceState *dev)
++{
++    AspeedI3CDevice *s = ASPEED_I3C_DEVICE(dev);
++    trace_aspeed_i3c_device_reset(s->id);
++
++    memcpy(s->regs, ast2600_i3c_device_resets, sizeof(s->regs));
++    aspeed_i3c_device_cmd_queue_reset(s);
++    aspeed_i3c_device_resp_queue_reset(s);
++    aspeed_i3c_device_ibi_queue_reset(s);
++    aspeed_i3c_device_tx_queue_reset(s);
++    aspeed_i3c_device_rx_queue_reset(s);
++}
++
++static void aspeed_i3c_device_reset_ctrl_w(AspeedI3CDevice *s, uint32_t val)
++{
++    if (FIELD_EX32(val, RESET_CTRL, CORE_RESET)) {
++        aspeed_i3c_device_reset(DEVICE(s));
++    }
++    if (FIELD_EX32(val, RESET_CTRL, CMD_QUEUE_RESET)) {
++        aspeed_i3c_device_cmd_queue_reset(s);
++    }
++    if (FIELD_EX32(val, RESET_CTRL, RESP_QUEUE_RESET)) {
++        aspeed_i3c_device_resp_queue_reset(s);
++    }
++    if (FIELD_EX32(val, RESET_CTRL, TX_BUF_RESET)) {
++        aspeed_i3c_device_tx_queue_reset(s);
++    }
++    if (FIELD_EX32(val, RESET_CTRL, RX_BUF_RESET)) {
++        aspeed_i3c_device_rx_queue_reset(s);
++    }
++    if (FIELD_EX32(val, RESET_CTRL, IBI_QUEUE_RESET)) {
++        aspeed_i3c_device_ibi_queue_reset(s);
++    }
++}
++
+ static uint32_t aspeed_i3c_device_pop_rx(AspeedI3CDevice *s)
  {
-@@ -1650,6 +1683,9 @@ static void aspeed_i3c_device_write(void *opaque, hwaddr offset,
-                       "] = 0x%08" PRIx64 "\n",
-                       __func__, offset, value);
+     if (fifo32_is_empty(&s->rx_queue)) {
+@@ -1693,6 +1795,7 @@ static void aspeed_i3c_device_write(void *opaque, hwaddr offset,
+         aspeed_i3c_device_cmd_queue_port_w(s, val32);
          break;
-+    case R_DEVICE_CTRL:
-+        aspeed_i3c_device_ctrl_w(s, val32);
-+        break;
-     case R_RX_TX_DATA_PORT:
-         aspeed_i3c_device_push_tx(s, val32);
+     case R_RESET_CTRL:
++        aspeed_i3c_device_reset_ctrl_w(s, val32);
          break;
+     case R_INTR_STATUS:
+         aspeed_i3c_device_intr_status_w(s, val32);
+@@ -1728,13 +1831,6 @@ static const MemoryRegionOps aspeed_i3c_device_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
+ 
+-static void aspeed_i3c_device_reset(DeviceState *dev)
+-{
+-    AspeedI3CDevice *s = ASPEED_I3C_DEVICE(dev);
+-
+-    memcpy(s->regs, ast2600_i3c_device_resets, sizeof(s->regs));
+-}
+-
+ static void aspeed_i3c_device_realize(DeviceState *dev, Error **errp)
+ {
+     AspeedI3CDevice *s = ASPEED_I3C_DEVICE(dev);
+diff --git a/hw/i3c/trace-events b/hw/i3c/trace-events
+index 7a202b28c9..71e3059f8d 100644
+--- a/hw/i3c/trace-events
++++ b/hw/i3c/trace-events
+@@ -9,6 +9,7 @@ aspeed_i3c_device_send(uint32_t deviceid, uint32_t num_bytes) "I3C Dev[%u] send
+ aspeed_i3c_device_recv_data(uint32_t deviceid, uint32_t num_bytes) "I3C Dev[%u] recv %" PRId32 " bytes from bus"
+ aspeed_i3c_device_ibi_recv(uint32_t deviceid, uint8_t ibi_byte) "I3C Dev[%u] recv IBI byte 0x%" PRIx8
+ aspeed_i3c_device_ibi_handle(uint32_t deviceid, uint8_t addr, bool rnw) "I3C Dev[%u] handle IBI from address 0x%" PRIx8 " RnW=%d"
++aspeed_i3c_device_reset(uint32_t deviceid) "I3C Dev[%u] reset"
+ aspeed_i3c_device_pop_rx(uint32_t deviceid, uint32_t data) "I3C Dev[%u] pop 0x%" PRIx32 " from RX FIFO"
+ aspeed_i3c_device_resp_queue_push(uint32_t deviceid, uint32_t data) "I3C Dev[%u] push 0x%" PRIx32 " to response queue"
+ aspeed_i3c_device_push_tx(uint32_t deviceid, uint32_t data) "I3C Dev[%u] push 0x%" PRIx32 " to TX FIFO"
 -- 
 2.40.0.348.gf938b09366-goog
 
