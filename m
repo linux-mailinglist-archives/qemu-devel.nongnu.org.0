@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8789E6D192F
+	by mail.lfdr.de (Postfix) with ESMTPS id 811D96D192E
 	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 10:00:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi9fR-00025o-SN; Fri, 31 Mar 2023 03:59:25 -0400
+	id 1pi9fc-00028A-6h; Fri, 31 Mar 2023 03:59:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pi9fP-00025Z-AC
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 03:59:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pi9fY-00027u-EO; Fri, 31 Mar 2023 03:59:32 -0400
+Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pi9fN-0002ET-PN
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 03:59:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680249560;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QPwEq0GxE3CalZGt5YBJz3du7IQERp2K95XK7ALMVvw=;
- b=Fhqsr9eEOuzJtqUDGU9bVCVv1y6rrsCSyOgklbP4emvst+f6QT5u/+wMU6mypR1MOYfI21
- I0a5qyG60kRaq0XyCSN4DQPKTAyYu085Xitkajpfo5S3vzkxE4M1/qOQEN5sZSYbB3Bi1/
- P6Uf61LmL8LKG8SwKn8kn6a12ZlKI2Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-DqlOM4fYMzOUch0xjc3B4A-1; Fri, 31 Mar 2023 03:59:16 -0400
-X-MC-Unique: DqlOM4fYMzOUch0xjc3B4A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CE8F281424F;
- Fri, 31 Mar 2023 07:59:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10EB1202701E;
- Fri, 31 Mar 2023 07:59:13 +0000 (UTC)
-Date: Fri, 31 Mar 2023 08:59:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com,
- philmd@linaro.org, armbru@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org, toke@redhat.com, mprivozn@redhat.com,
- yuri.benditovich@daynix.com, yan@daynix.com
-Subject: Re: [RFC PATCH 3/5] ebpf: Added declaration/initialization routines.
-Message-ID: <ZCaSzxCmqtec/Vin@redhat.com>
-References: <20230330001522.120774-1-andrew@daynix.com>
- <20230330001522.120774-4-andrew@daynix.com>
- <CACGkMEs1hRNLL67W96MO3eMg4H=ex4bYvFxcUkNPgfXXbOvo3A@mail.gmail.com>
- <ZCVJoi7YQlt3axba@redhat.com>
- <CACGkMEugLOsQJz_Hie1-0WLbPEiC2B_7y=RVqqmGi8-aqBfHXQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pi9fW-0002Ei-91; Fri, 31 Mar 2023 03:59:32 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R391e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0Vf1QCWt_1680249559; 
+Received: from 30.221.97.117(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0Vf1QCWt_1680249559) by smtp.aliyun-inc.com;
+ Fri, 31 Mar 2023 15:59:20 +0800
+Message-ID: <5c9940b3-e2d9-7e3e-a1c9-c8c929a59d36@linux.alibaba.com>
+Date: Fri, 31 Mar 2023 15:59:16 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACGkMEugLOsQJz_Hie1-0WLbPEiC2B_7y=RVqqmGi8-aqBfHXQ@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v3 5/6] target/riscv: Enable PC-relative translation in
+ system mode
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230331014530.29805-1-liweiwei@iscas.ac.cn>
+ <20230331014530.29805-6-liweiwei@iscas.ac.cn>
+Content-Language: en-US
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230331014530.29805-6-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.124.30.98;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-98.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,43 +63,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 31, 2023 at 03:48:18PM +0800, Jason Wang wrote:
-> On Thu, Mar 30, 2023 at 4:34 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Thu, Mar 30, 2023 at 02:54:32PM +0800, Jason Wang wrote:
-> > > On Thu, Mar 30, 2023 at 8:33 AM Andrew Melnychenko <andrew@daynix.com> wrote:
-> > >
-> > > Who or how the ABI compatibility is preserved between libvirt and Qemu?
-> >
-> > There's no real problem with binary compatibility to solve any more.
-> >
-> > When libvirt first launches a QEMU VM, it will fetch the eBPF programs
-> > it needs from that running QEMU using QMP. WHen it later needs to
-> > enable features that use eBPF, it already has the program data that
-> > matches the running QEMU
-> 
-> Ok, then who will validate the eBPF program? I don't think libvirt can
-> trust what is received from Qemu otherwise arbitrary eBPF programs
-> could be executed by Qemu in this way. One example is that when guests
-> escape to Qemu it can modify the rss_bpf__elf_bytes. Though
-> BPF_PROG_TYPE_SOCKET_FILTER gives some of the restrictions, we still
-> need to evaluate side effects of this. Or we need to find other ways
-> like using the binary in libvirt or use rx filter events.
 
-As I mentioned, when libvirt first launches QEMU it will fetch the
-eBPF programs and keep them for later use. At that point the guest
-CPUs haven't started running, and so QEMU it still sufficiently
-trustworthy.
+On 2023/3/31 9:45, Weiwei Li wrote:
+> The existence of CF_PCREL can improve performance with the guest
+> kernel's address space randomization.  Each guest process maps
+> libc.so (et al) at a different virtual address, and this allows
+> those translations to be shared.
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> ---
+>   target/riscv/cpu.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 646fa31a59..3b562d5d9f 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1193,6 +1193,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>   
+>   
+>   #ifndef CONFIG_USER_ONLY
+> +    cs->tcg_cflags |= CF_PCREL;
+> +
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
+Zhiwei
+
+>       if (cpu->cfg.ext_sstc) {
+>           riscv_timer_init(cpu);
+>       }
 
