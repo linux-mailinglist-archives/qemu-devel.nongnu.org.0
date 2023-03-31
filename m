@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B636D2260
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:25:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02D56D2256
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:24:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piFfK-0004JA-4S; Fri, 31 Mar 2023 10:23:42 -0400
+	id 1piFfK-0004JB-0l; Fri, 31 Mar 2023 10:23:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@umbrella>) id 1piFfI-0004IM-9e
+ (Exim 4.90_1) (envelope-from <imp@umbrella>) id 1piFfI-0004Ic-I5
  for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:23:40 -0400
 Received: from c-71-237-47-177.hsd1.co.comcast.net ([71.237.47.177]
  helo=umbrella) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imp@umbrella>) id 1piFfF-0003uc-Ut
+ (envelope-from <imp@umbrella>) id 1piFfF-0003ue-Ve
  for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:23:40 -0400
-Received: from imp (uid 730) (envelope-from imp@umbrella) id 1801d
+Received: from imp (uid 730) (envelope-from imp@umbrella) id 180a3
  by umbrella (DragonFly Mail Agent v0.13+ on umbrella);
  Fri, 31 Mar 2023 08:18:33 -0600
 From: Warner Losh <imp@bsdimp.com>
@@ -24,9 +24,9 @@ To: qemu-devel@nongnu.org
 Cc: Ryo ONODERA <ryoon@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
  Brad Smith <brad@comstyle.com>, Kyle Evans <kevans@freebsd.org>,
  Warner Losh <imp@bsdimp.com>
-Subject: [PATCH 1/7] bsd-user: Remove obsolete prototypes
-Date: Fri, 31 Mar 2023 08:18:27 -0600
-Message-Id: <20230331141833.3647-2-imp@bsdimp.com>
+Subject: [PATCH 2/7] bsd-user: Remove netbsd system call inclusion and defines
+Date: Fri, 31 Mar 2023 08:18:28 -0600
+Message-Id: <20230331141833.3647-3-imp@bsdimp.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230331141833.3647-1-imp@bsdimp.com>
 References: <20230331141833.3647-1-imp@bsdimp.com>
@@ -57,30 +57,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These prototypes have been obsolete since 304f944e5104.
+Remove NetBSD system call inclusion and defines. We've not supported
+building all the BSDs into one module for some time, and the NetBSD
+support hasn't even built since the meson conversion.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/qemu.h | 6 ------
- 1 file changed, 6 deletions(-)
+ bsd-user/syscall_defs.h | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 41d84e0b81..4062ee720f 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -169,12 +169,6 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-                             abi_long arg2, abi_long arg3, abi_long arg4,
-                             abi_long arg5, abi_long arg6, abi_long arg7,
-                             abi_long arg8);
--abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
--                           abi_long arg2, abi_long arg3, abi_long arg4,
--                           abi_long arg5, abi_long arg6);
--abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
--                            abi_long arg2, abi_long arg3, abi_long arg4,
--                            abi_long arg5, abi_long arg6);
- void gemu_log(const char *fmt, ...) G_GNUC_PRINTF(1, 2);
- extern __thread CPUState *thread_cpu;
- void cpu_loop(CPUArchState *env);
+diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
+index b6d113d24a..8352ab783c 100644
+--- a/bsd-user/syscall_defs.h
++++ b/bsd-user/syscall_defs.h
+@@ -26,7 +26,6 @@
+ #include "errno_defs.h"
+ 
+ #include "freebsd/syscall_nr.h"
+-#include "netbsd/syscall_nr.h"
+ #include "openbsd/syscall_nr.h"
+ 
+ /*
+@@ -40,9 +39,6 @@
+  * FreeBSD uses a 64bits time_t except on i386
+  * so we have to add a special case here.
+  *
+- * On NetBSD time_t is always defined as an int64_t.  On OpenBSD time_t
+- * is always defined as an int.
+- *
+  */
+ #if (!defined(TARGET_I386))
+ typedef int64_t target_freebsd_time_t;
+@@ -69,18 +65,6 @@ struct target_iovec {
+ 
+ #define TARGET_FREEBSD_MAP_FLAGMASK     0x1ff7
+ 
+-#define TARGET_NETBSD_MAP_INHERIT       0x0080  /* region is retained after */
+-                                                /* exec */
+-#define TARGET_NETBSD_MAP_TRYFIXED      0x0400  /* attempt hint address, even */
+-                                                /* within break */
+-#define TARGET_NETBSD_MAP_WIRED         0x0800  /* mlock() mapping when it is */
+-                                                /* established */
+-
+-#define TARGET_NETBSD_MAP_STACK         0x2000  /* allocated from memory, */
+-                                                /* swap space (stack) */
+-
+-#define TARGET_NETBSD_MAP_FLAGMASK      0x3ff7
+-
+ #define TARGET_OPENBSD_MAP_INHERIT      0x0080  /* region is retained after */
+                                                 /* exec */
+ #define TARGET_OPENBSD_MAP_NOEXTEND     0x0100  /* for MAP_FILE, don't change */
 -- 
 2.39.2
 
