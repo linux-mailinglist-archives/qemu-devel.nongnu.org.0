@@ -2,55 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0533A6D1511
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 03:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2111C6D1548
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 03:47:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi3f6-0004ZN-HN; Thu, 30 Mar 2023 21:34:40 -0400
+	id 1pi3pw-00066h-Kb; Thu, 30 Mar 2023 21:45:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pi3f4-0004Z8-9n; Thu, 30 Mar 2023 21:34:38 -0400
-Received: from out30-110.freemail.mail.aliyun.com ([115.124.30.110])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pi3f2-00045p-6b; Thu, 30 Mar 2023 21:34:38 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0Vf05cDw_1680226464; 
-Received: from 30.221.97.117(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0Vf05cDw_1680226464) by smtp.aliyun-inc.com;
- Fri, 31 Mar 2023 09:34:25 +0800
-Message-ID: <51afd8dd-be0c-045d-eabf-47e6d07eccbd@linux.alibaba.com>
-Date: Fri, 31 Mar 2023 09:34:22 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/5] target/riscv: Update cur_pmmask/base when xl
- changes
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pi3pr-00063i-9i; Thu, 30 Mar 2023 21:45:47 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pi3po-0005uO-C6; Thu, 30 Mar 2023 21:45:47 -0400
+Received: from localhost.localdomain (unknown [180.175.29.170])
+ by APP-05 (Coremail) with SMTP id zQCowAAnLFQ9OyZkGtBjDA--.31947S2;
+ Fri, 31 Mar 2023 09:45:35 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
 Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230329032346.55185-1-liweiwei@iscas.ac.cn>
- <20230329032346.55185-3-liweiwei@iscas.ac.cn>
-Content-Language: en-US
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <20230329032346.55185-3-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=115.124.30.110;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-110.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v3 0/6] target/riscv: Fix pointer mask related support
+Date: Fri, 31 Mar 2023 09:45:24 +0800
+Message-Id: <20230331014530.29805-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAnLFQ9OyZkGtBjDA--.31947S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1xCw13AFWkJF1xXF1xAFb_yoW8Gr1rpr
+ WfC3y3t398JFZ3Xr1fJa1kur15GF4fWr4UCwn7Jw1rJw4YyrWYqrn7K342kFWkJFyrWry7
+ KF1jyr1fuF4UArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+ W8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
+ McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7
+ v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF
+ 7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+ 0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+ tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+ CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+ wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj
+ fUoOJ5UUUUU
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,39 +73,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This patchset tries to fix some problem in current implementation for pointer mask, and add support for pointer mask of instruction fetch.
 
-On 2023/3/29 11:23, Weiwei Li wrote:
-> write_mstatus() can only change current xl when in debug mode.
-> And we need update cur_pmmask/base in this case.
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
->   target/riscv/csr.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d522efc0b6..43b9ad4500 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1277,8 +1277,15 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
->           mstatus = set_field(mstatus, MSTATUS64_SXL, xl);
->       }
->       env->mstatus = mstatus;
-> -    env->xl = cpu_recompute_xl(env);
->   
-> +    /*
-> +     * Except in debug mode, UXL/SXL can only be modified by higher
-> +     * privilege mode. So xl will not be changed in normal mode.
-> +     */
-> +    if (env->debugger) {
-> +        env->xl = cpu_recompute_xl(env);
-> +        riscv_cpu_update_mask(env);
-> +    }
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-pm-fix-v2
 
-Zhiwei
->       return RISCV_EXCP_NONE;
->   }
->   
+v2:
+* drop some error patchs
+* Add patch 2 and 3 to fix the new problems
+* Add patch 4 and 5 to use PC-relative translation for pointer mask for instruction fetch
+
+v3:
+* use target_pc temp instead of cpu_pc to store into badaddr in patch 3
+* use dest_gpr instead of tcg_temp_new() for succ_pc in patch 4
+* enable CF_PCREL for system mode in seperate patch 5
+
+Weiwei Li (6):
+  target/riscv: Fix pointer mask transformation for vector address
+  target/riscv: Update cur_pmmask/base when xl changes
+  target/riscv: Fix target address to update badaddr
+  target/riscv: Add support for PC-relative translation
+  target/riscv: Enable PC-relative translation in system mode
+  target/riscv: Add pointer mask support for instruction fetch
+
+ target/riscv/cpu.c                      | 31 +++++++----
+ target/riscv/cpu.h                      |  1 +
+ target/riscv/cpu_helper.c               | 20 ++++++-
+ target/riscv/csr.c                      | 11 +++-
+ target/riscv/insn_trans/trans_rvi.c.inc | 38 ++++++++++---
+ target/riscv/translate.c                | 73 +++++++++++++++++++------
+ target/riscv/vector_helper.c            |  2 +-
+ 7 files changed, 135 insertions(+), 41 deletions(-)
+
+-- 
+2.25.1
+
 
