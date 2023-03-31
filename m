@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A14E6D1499
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 03:03:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6756D1495
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 03:02:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi39C-0003B6-Me; Thu, 30 Mar 2023 21:01:42 -0400
+	id 1pi39D-0003B8-45; Thu, 30 Mar 2023 21:01:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <37TAmZAcKChA04214tyw44w1u.s426u2A-tuBu1343w3A.47w@flex--komlodi.bounces.google.com>)
- id 1pi399-0003AQ-Rz
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:39 -0400
-Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049])
+ <37zAmZAcKChI26436v0y66y3w.u648w4C-vwDw3565y5C.69y@flex--komlodi.bounces.google.com>)
+ id 1pi39A-0003Ag-PO
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:40 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <37TAmZAcKChA04214tyw44w1u.s426u2A-tuBu1343w3A.47w@flex--komlodi.bounces.google.com>)
- id 1pi397-0006Zo-5r
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:39 -0400
-Received: by mail-pj1-x1049.google.com with SMTP id
- o89-20020a17090a0a6200b0023b3d3acdd6so10015112pjo.3
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 18:01:34 -0700 (PDT)
+ <37zAmZAcKChI26436v0y66y3w.u648w4C-vwDw3565y5C.69y@flex--komlodi.bounces.google.com>)
+ id 1pi398-0006Zv-5n
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:40 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ z31-20020a25a122000000b00b38d2b9a2e9so20306310ybh.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 18:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680224493;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=CWOHIBA1YMKJPt+zP+i5ZpURGqnsWVNWiJjU8OCt6E0=;
- b=j9KSX7orJO6oc3aRpmWHnh5lbAsSwwZZRxrtBqkiIIZ/EXis9JBlRVp5ez2ndaYEV0
- 5AjC4VTDiuYrzX9vhiqDXOvcQhoeqDYQH0VLafcnSU2O+sdqloD36leMVcLZxFkOnsID
- hN0/diJJDNsIpecmzKLCZdfCisGAnFUxgXTG83ucCxNG0cOCwbnfD+/Wf7G3w/IELnm4
- Zgy3/N0SZjhumGYeb8QuQuFiJykbwMfxZ5FKNJuxpIk1iuesnDw/jR4anhHn/jPk4nHL
- tk3u2CBTJvpSI7eqXJwO2HKa6lAJWgKpNuvoyBgNfdRR+C+lPaVa3gv1nTZKLrOSXnt1
- IrpQ==
+ d=google.com; s=20210112; t=1680224495;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=FwjqfUNaxStAr97zk6xPM5MCnKIclcyU4ODUMMQVp9o=;
+ b=TkdWcjl1J+Yhutu9B4aGOjpSgKqgq1Dxk8rh51b+gly3BzMwbAxWBXyMWIpqSgnb7K
+ xC9FwBIpze+eDuLLWSqoi8xABulA4L5eWkM+lyZIEP19uRKX/qX+b0esbNtM9TSq+L0i
+ 8v1F+IIevakjCIXE7Npwr4MZyKVP0F36buxLffR1mkNnx5niUQpI3d7YOqUuLNkkLXNJ
+ nV3djME6A3qaP2kkPaSOqayW+RNwlCsBUwjWXkvEJV5eD5HFCpuAh61hAuAiIDLs1tkz
+ aoUJun5EvtpYAWnxExDIDTjeYoZ8nzX2K+hFkrrYyCArgqGGuFIjnUL1CKW4p3bWWU0z
+ H5xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680224493;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CWOHIBA1YMKJPt+zP+i5ZpURGqnsWVNWiJjU8OCt6E0=;
- b=3/Ff9lLvegLwz1X2iHozfZHvdMBzDkKmNcBhtOOzMhXC75/MhbkBdjRJSn6usdDaJU
- pi3ZL4mr0HSUP8E1tv3PODRAIsFb9TkDAQ/I9E502IOr8sWXGGJpCyIsYRijHkKued90
- PVLUwz/CnEP5JSwJA2nyYZvVDRH327bx9WwtjGfZeGowo/8gSduGLfuSfmsWKwX2/GOg
- E8JetAlOfgBwBDfatuP/zSxq1dDSaRmL/anVQecacnN1695fR5Go/JYm0p6K8J/mL7L6
- oDvnXBEopuzYVktIi/TnrDIiihTUNyWGb+qPe9hQ9UZUPCQd5dj9tYje8eQYeJPrWC3C
- IsEQ==
-X-Gm-Message-State: AAQBX9dob3Vr167VxvcPwVIY5yIi950NgJhvZ1HKXjzLuW6ce2qgNVnb
- orGsvZ/o+W0PAb5xggave/c+EFBzyE6/uj1GSrUtdBqPEQ1H3CB5APnU11HnYKHgUgRJDk6yxdg
- PZ75R0IV5zMKolez5tJuWwfoWPllJZGN0w+5aRDK+nHIJji4+YweuYFX8zZkfFpM=
-X-Google-Smtp-Source: AKy350YdRQo/XaSvIcvhuJ3Lh5cprcl6QM9jHCj3oebXGUmnXErBXh6me2M0YXHqeusHLAiLan2S4SmCZQGk
+ d=1e100.net; s=20210112; t=1680224495;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FwjqfUNaxStAr97zk6xPM5MCnKIclcyU4ODUMMQVp9o=;
+ b=c3kkaGoGV4D7U2e0K7oBLVojUHzILH7ACuCnGzGfNPH9RdeMmDJW5SSOUbQJkCkV4w
+ fK7uQIMyj2CAnZBmC4oAXhB6cNl6VAiR8vg8WXLo5e6iSLUKqowCskZt/hZ7UZfsP2Qf
+ 55VBTLKxzIjGALhpG8PCG/F5pHaDYzRRWE5l+sSoO0xYHQ3rvN1wdwzah4Xu2v7NI/iB
+ 9C6M3qY8KXIbxzlqZIxB2iXn1fQ8/2mCR/2UroE8cgWzinKHkSCOkiQcU3ucegFeRICZ
+ HpNKeAOxTTfB0nmImggMep7BInR7x7AUX0iGnhdVxn/nW1HQP5tCtLVgPGEgLrTGNjd+
+ j2iQ==
+X-Gm-Message-State: AAQBX9eYdtcxE2aNzrhovOmjlwfti9wGx0j0Y5/bBFG5STZJWXPHwaMI
+ LCYrH6AZxOFsc4/9QkGtcNLA8pkJ+Q3r4wqaFfh2vDDoqG1/ktuXzyCuxY4N0VwHyiukoCY8ATn
+ PATdgGq/Jn/iSrbLoZ4A6LLub7OG74F7Ji+6FLUxa4sc1FtSuQ1kKgdVRcVSozdQ=
+X-Google-Smtp-Source: AKy350ZM9kPx7dtglnLgHuN0DnqorK5wNQoVguGoyXo3G/7YsuuAx3u20BlsLFw7QByydcytejDAgwtrzsHk
 X-Received: from komlodi.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:35ee])
- (user=komlodi job=sendgmr) by 2002:a17:903:493:b0:1a2:6e4d:7831 with SMTP id
- jj19-20020a170903049300b001a26e4d7831mr3170500plb.12.1680224493415; Thu, 30
- Mar 2023 18:01:33 -0700 (PDT)
-Date: Fri, 31 Mar 2023 01:01:15 +0000
+ (user=komlodi job=sendgmr) by 2002:a05:6902:a8e:b0:b7c:1144:a729 with SMTP id
+ cd14-20020a0569020a8e00b00b7c1144a729mr8255690ybb.9.1680224495151; Thu, 30
+ Mar 2023 18:01:35 -0700 (PDT)
+Date: Fri, 31 Mar 2023 01:01:16 +0000
+In-Reply-To: <20230331010131.1412571-1-komlodi@google.com>
 Mime-Version: 1.0
+References: <20230331010131.1412571-1-komlodi@google.com>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230331010131.1412571-1-komlodi@google.com>
-Subject: [PATCH 00/16] i3c: aspeed: Add I3C support
+Message-ID: <20230331010131.1412571-2-komlodi@google.com>
+Subject: [PATCH 01/16] hw/misc/aspeed_i3c: Move to i3c directory
 From: Joe Komlodi <komlodi@google.com>
 To: qemu-devel@nongnu.org
 Cc: venture@google.com, komlodi@google.com, peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
- envelope-from=37TAmZAcKChA04214tyw44w1u.s426u2A-tuBu1343w3A.47w@flex--komlodi.bounces.google.com;
- helo=mail-pj1-x1049.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=37zAmZAcKChI26436v0y66y3w.u648w4C-vwDw3565y5C.69y@flex--komlodi.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -88,93 +90,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi all,
+Moves the Aspeed I3C model and traces into hw/i3c and create I3C build
+files.
 
-This series adds I3C bus support to QEMU and adds more functionality to the
-Aspeed I3C controller.
+Signed-off-by: Joe Komlodi <komlodi@google.com>
 
-This implementation is a basic implementation that introduces IBIs
-(including hot-join), CCCs, and SDR data transfer. As-is, it doesnt support
-multi-controller buses or HDR transfers.
-
-First we add the I3C bus and controller model. With that added we
-gradually extend the functionality of the Aspeed I3C controller so it
-can do transfers.
-
-With that added, we add 2 targets. The first target is a mock I3C
-target. It's intended to be a very simple target just to verify that I3C
-is working on the guest. Internally, we've used it on Linux to verify
-that i3C devices can be probed and can send/receive data and send IBIs.
-
-The second target is a remote target. The intention of this is to be
-able to communicate to a target that exists outside of QEMU.
-
-Lastly we add hotplugging support. The hotplugging doesn't do anything too
-complicated, it just adds the device attempting to hotplug to the bus. It is
-the device's responsibility to hot-join and go through the DAA process to
-participate on the bus.
-
-Thanks!
-Joe
-
-Joe Komlodi (16):
-  hw/misc/aspeed_i3c: Move to i3c directory
-  hw/i3c: Add bus support
-  hw/i3c/aspeed_i3c: Add more register fields
-  hw/i3c/aspeed_i3c: Add more reset values
-  hw/i3c/aspeed_i3c: Add register RO field masks
-  hw/i3c/aspeed_i3c: Treat more registers as read-as-zero
-  hw/i3c/aspeed_i3c: Use 32 bits on MMIO writes
-  hw/i3c/aspeed_i3c: Add IRQ MMIO behavior
-  hw/i3c/aspeed_i3c: Add data TX and RX
-  hw/i3c/aspeed_i3c: Add IBI handling
-  hw/i3c/aspeed_i3c: Add ctrl MMIO handling
-  hw/i3c/aspeed_i3c: Add controller resets
-  hw/i3c: Add Mock target
-  hw/i3c: remote_i3c: Add model
-  qtest: remote_i3c: Add remote I3C qtest
-  hw/i3c: Add hotplug support
-
- hw/Kconfig                    |    1 +
- hw/arm/Kconfig                |    2 +
- hw/i3c/Kconfig                |   17 +
- hw/i3c/aspeed_i3c.c           | 2044 +++++++++++++++++++++++++++++++++
- hw/i3c/core.c                 |  646 +++++++++++
- hw/i3c/meson.build            |    6 +
- hw/i3c/mock-target.c          |  314 +++++
- hw/i3c/remote-i3c.c           |  469 ++++++++
- hw/i3c/trace-events           |   52 +
- hw/i3c/trace.h                |    1 +
- hw/meson.build                |    1 +
- hw/misc/aspeed_i3c.c          |  384 -------
- hw/misc/meson.build           |    1 -
- hw/misc/trace-events          |    6 -
- include/hw/arm/aspeed_soc.h   |    2 +-
- include/hw/i3c/aspeed_i3c.h   |  207 ++++
- include/hw/i3c/i3c.h          |  275 +++++
- include/hw/i3c/mock-target.h  |   60 +
- include/hw/i3c/remote-i3c.h   |   72 ++
- include/hw/misc/aspeed_i3c.h  |   48 -
- meson.build                   |    1 +
- tests/qtest/meson.build       |    1 +
- tests/qtest/remote-i3c-test.c |  610 ++++++++++
- 23 files changed, 4780 insertions(+), 440 deletions(-)
+Reviewed-by: Patrick Venture <venture@google.com>
+Reviewed-by: Titus Rwantare <titusr@google.com>
+---
+ hw/Kconfig                            | 1 +
+ hw/arm/Kconfig                        | 1 +
+ hw/i3c/Kconfig                        | 2 ++
+ hw/{misc => i3c}/aspeed_i3c.c         | 2 +-
+ hw/i3c/meson.build                    | 3 +++
+ hw/i3c/trace-events                   | 7 +++++++
+ hw/i3c/trace.h                        | 1 +
+ hw/meson.build                        | 1 +
+ hw/misc/meson.build                   | 1 -
+ hw/misc/trace-events                  | 6 ------
+ include/hw/arm/aspeed_soc.h           | 2 +-
+ include/hw/{misc => i3c}/aspeed_i3c.h | 0
+ meson.build                           | 1 +
+ 13 files changed, 19 insertions(+), 9 deletions(-)
  create mode 100644 hw/i3c/Kconfig
- create mode 100644 hw/i3c/aspeed_i3c.c
- create mode 100644 hw/i3c/core.c
+ rename hw/{misc => i3c}/aspeed_i3c.c (99%)
  create mode 100644 hw/i3c/meson.build
- create mode 100644 hw/i3c/mock-target.c
- create mode 100644 hw/i3c/remote-i3c.c
  create mode 100644 hw/i3c/trace-events
  create mode 100644 hw/i3c/trace.h
- delete mode 100644 hw/misc/aspeed_i3c.c
- create mode 100644 include/hw/i3c/aspeed_i3c.h
- create mode 100644 include/hw/i3c/i3c.h
- create mode 100644 include/hw/i3c/mock-target.h
- create mode 100644 include/hw/i3c/remote-i3c.h
- delete mode 100644 include/hw/misc/aspeed_i3c.h
- create mode 100644 tests/qtest/remote-i3c-test.c
+ rename include/hw/{misc => i3c}/aspeed_i3c.h (100%)
 
+diff --git a/hw/Kconfig b/hw/Kconfig
+index ba62ff6417..b7c8c24bfd 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -12,6 +12,7 @@ source dma/Kconfig
+ source gpio/Kconfig
+ source hyperv/Kconfig
+ source i2c/Kconfig
++source i3c/Kconfig
+ source ide/Kconfig
+ source input/Kconfig
+ source intc/Kconfig
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index b5aed4aff5..a6ca5a9c55 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -454,6 +454,7 @@ config ASPEED_SOC
+     select DS1338
+     select FTGMAC100
+     select I2C
++    select I3C
+     select DPS310
+     select PCA9552
+     select SERIAL
+diff --git a/hw/i3c/Kconfig b/hw/i3c/Kconfig
+new file mode 100644
+index 0000000000..e07fe445c6
+--- /dev/null
++++ b/hw/i3c/Kconfig
+@@ -0,0 +1,2 @@
++config I3C
++    bool
+diff --git a/hw/misc/aspeed_i3c.c b/hw/i3c/aspeed_i3c.c
+similarity index 99%
+rename from hw/misc/aspeed_i3c.c
+rename to hw/i3c/aspeed_i3c.c
+index f54f5da522..999978fb7d 100644
+--- a/hw/misc/aspeed_i3c.c
++++ b/hw/i3c/aspeed_i3c.c
+@@ -10,7 +10,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
+ #include "qemu/error-report.h"
+-#include "hw/misc/aspeed_i3c.h"
++#include "hw/i3c/aspeed_i3c.h"
+ #include "hw/registerfields.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+diff --git a/hw/i3c/meson.build b/hw/i3c/meson.build
+new file mode 100644
+index 0000000000..c0c38b4c12
+--- /dev/null
++++ b/hw/i3c/meson.build
+@@ -0,0 +1,3 @@
++i3c_ss = ss.source_set()
++i3c_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_i3c.c'))
++softmmu_ss.add_all(when: 'CONFIG_I3C', if_true: i3c_ss)
+diff --git a/hw/i3c/trace-events b/hw/i3c/trace-events
+new file mode 100644
+index 0000000000..3ead84eb45
+--- /dev/null
++++ b/hw/i3c/trace-events
+@@ -0,0 +1,7 @@
++# See docs/devel/tracing.rst for syntax documentation.
++
++# aspeed_i3c.c
++aspeed_i3c_read(uint64_t offset, uint64_t data) "I3C read: offset 0x%" PRIx64 " data 0x%" PRIx64
++aspeed_i3c_write(uint64_t offset, uint64_t data) "I3C write: offset 0x%" PRIx64 " data 0x%" PRIx64
++aspeed_i3c_device_read(uint32_t deviceid, uint64_t offset, uint64_t data) "I3C Dev[%u] read: offset 0x%" PRIx64 " data 0x%" PRIx64
++aspeed_i3c_device_write(uint32_t deviceid, uint64_t offset, uint64_t data) "I3C Dev[%u] write: offset 0x%" PRIx64 " data 0x%" PRIx64
+diff --git a/hw/i3c/trace.h b/hw/i3c/trace.h
+new file mode 100644
+index 0000000000..9d4a082e19
+--- /dev/null
++++ b/hw/i3c/trace.h
+@@ -0,0 +1 @@
++#include "trace/trace-hw_i3c.h"
+diff --git a/hw/meson.build b/hw/meson.build
+index c7ac7d3d75..b3225de5f9 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -12,6 +12,7 @@ subdir('dma')
+ subdir('gpio')
+ subdir('hyperv')
+ subdir('i2c')
++subdir('i3c')
+ subdir('ide')
+ subdir('input')
+ subdir('intc')
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index a40245ad44..f87c56fb87 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -115,7 +115,6 @@ softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c'))
+ softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
+ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
+   'aspeed_hace.c',
+-  'aspeed_i3c.c',
+   'aspeed_lpc.c',
+   'aspeed_scu.c',
+   'aspeed_sbc.c',
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index c47876a902..cc335fc89d 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -205,12 +205,6 @@ armsse_mhu_write(uint64_t offset, uint64_t data, unsigned size) "SSE-200 MHU wri
+ # aspeed_xdma.c
+ aspeed_xdma_write(uint64_t offset, uint64_t data) "XDMA write: offset 0x%" PRIx64 " data 0x%" PRIx64
+ 
+-# aspeed_i3c.c
+-aspeed_i3c_read(uint64_t offset, uint64_t data) "I3C read: offset 0x%" PRIx64 " data 0x%" PRIx64
+-aspeed_i3c_write(uint64_t offset, uint64_t data) "I3C write: offset 0x%" PRIx64 " data 0x%" PRIx64
+-aspeed_i3c_device_read(uint32_t deviceid, uint64_t offset, uint64_t data) "I3C Dev[%u] read: offset 0x%" PRIx64 " data 0x%" PRIx64
+-aspeed_i3c_device_write(uint32_t deviceid, uint64_t offset, uint64_t data) "I3C Dev[%u] write: offset 0x%" PRIx64 " data 0x%" PRIx64
+-
+ # aspeed_sdmc.c
+ aspeed_sdmc_write(uint64_t reg, uint64_t data) "reg @0x%" PRIx64 " data: 0x%" PRIx64
+ aspeed_sdmc_read(uint64_t reg, uint64_t data) "reg @0x%" PRIx64 " data: 0x%" PRIx64
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 8adff70072..603cebe5b3 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -22,7 +22,7 @@
+ #include "hw/timer/aspeed_timer.h"
+ #include "hw/rtc/aspeed_rtc.h"
+ #include "hw/i2c/aspeed_i2c.h"
+-#include "hw/misc/aspeed_i3c.h"
++#include "hw/i3c/aspeed_i3c.h"
+ #include "hw/ssi/aspeed_smc.h"
+ #include "hw/misc/aspeed_hace.h"
+ #include "hw/misc/aspeed_sbc.h"
+diff --git a/include/hw/misc/aspeed_i3c.h b/include/hw/i3c/aspeed_i3c.h
+similarity index 100%
+rename from include/hw/misc/aspeed_i3c.h
+rename to include/hw/i3c/aspeed_i3c.h
+diff --git a/meson.build b/meson.build
+index 29f8644d6d..91f9b4bbe7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2979,6 +2979,7 @@ if have_system
+     'hw/dma',
+     'hw/hyperv',
+     'hw/i2c',
++    'hw/i3c',
+     'hw/i386',
+     'hw/i386/xen',
+     'hw/i386/kvm',
 -- 
 2.40.0.348.gf938b09366-goog
 
