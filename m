@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3ED6D2248
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:23:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77EE6D22C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:39:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piFdr-0003PK-IR; Fri, 31 Mar 2023 10:22:13 -0400
+	id 1piFtK-0004FX-KS; Fri, 31 Mar 2023 10:38:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1piFdo-0003PA-Q4
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:22:09 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1piFtH-0004F1-Ha
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:38:07 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1piFdm-0003bi-N7
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:22:08 -0400
-Received: by mail-ed1-x534.google.com with SMTP id y4so90330787edo.2
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 07:22:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680272524;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bP/V2ZDBY/0fyyYWFud1XH7A1r53moBzmCMCi+IXFmg=;
- b=j1PXNKVBXNkTdbXxCj0xqwCrVGZHPYiRlhQXPCe+hMb/zZ+CeZXDFbCZuCkkhFcsg8
- cv/XehOZfUmTE1ZJZEq7eLvdJApISwtEgPSbn9xTs/Y7t4jJYkcxgYuo6okkcgmm2ydE
- SQF/Xu414pjU6ojpH+OeyvxGZN6kQ0jSZCFoQQ84GL0hlwL6IyUHPBWqQIeArJp7z9rF
- M7DprJoihTJch92urInKZFH5Gf6YMbtrEzS0R3B7NLhvmhXWOexUT1yyGC1kqE5JHxTB
- zSchGF17Ts0BvfMdcAaec/8Yw9yBaRRwh8FFIeN3NFC/pw8ZHyPXPR0yWOJhHz9AL/dB
- KKrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680272524;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bP/V2ZDBY/0fyyYWFud1XH7A1r53moBzmCMCi+IXFmg=;
- b=jyLd6u5ctN+YtaCZMR+SAaRe++m4K0e1wrDwqGRUQOPlIU4gsstqkS3L9hL3UdEzcf
- POgEKYztQ008CUSA05SckuFX3ENibskowV73Z9eRP3xRSUeHgCXY2vUd0KLqzvaMOg7r
- j8wtDSDALs6gl2CpZEaH3G3TMlty4t1WAxkwqsGmQUrqjoFXoiWc2eVkfFtF7SSeirsv
- 1y6jK3RGy6iSHFeDj2vTXnmPSivxfaaI56zdr+EssYu3DD5+T+VWfxAAW4DJtXjwwitX
- jPwCcEaDHoPT7fHo3uSRh/fA0XoEwdlUDNV7YEf3EKFWd1J5qxze+uTsE0SbDwk1APrm
- JuOw==
-X-Gm-Message-State: AAQBX9cER4zdfj2uNnQGlfSqUusTLvo0fz8nERybTEjHy+EpZRmcEOMM
- g5bUVBaCzxRitUfgDLUmYCt29zA70ORkT+qbGpAIgIMMBxQNfDfH
-X-Google-Smtp-Source: AKy350ZIrBg8CPNYHD2CGXLx8/L1ZGjNR9IK1+aKS9TTwZgKoHvA24gLVgZeZm0JkPy1l7CDbVHzT5ZK470fmqakvvA=
-X-Received: by 2002:a17:906:9f0b:b0:8b1:38d6:9853 with SMTP id
- fy11-20020a1709069f0b00b008b138d69853mr12376438ejc.2.1680272524458; Fri, 31
- Mar 2023 07:22:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1piFtF-0006qC-Dw
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:38:07 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A1BC821A5F;
+ Fri, 31 Mar 2023 14:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680273473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=snY7drbdjkmlgf0pWIS/7rxdCTggmV1lfkruO1K+rcc=;
+ b=B4jOtp1cQdM2m9pcty6ysbWg4uang3gTiVNcBjWRpeTLKnI1ec9vtpA7QtWXLkn7ltbukR
+ W5NKqRiYfB4WYIFeQcHPjxnOpN2Dlqv9mUdraqrMTHTsUuNkirNquoIdfY//fUfoEHtjvv
+ ahulsC++zQE967Pn051sL47lr0vfyx4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680273473;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=snY7drbdjkmlgf0pWIS/7rxdCTggmV1lfkruO1K+rcc=;
+ b=d3pIIFpt1k4veRI0/YAZlhX54bcVjgRUsBSCW4CoZG2rZJ7NBl6RpCVAN2StNL4LCKZLCq
+ i+BW4iCxa1ZGglCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2311F134F7;
+ Fri, 31 Mar 2023 14:37:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id VxJUNkDwJmQEbgAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 31 Mar 2023 14:37:52 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ jfehlig@suse.com, dfaggioli@suse.com, dgilbert@redhat.com, =?utf-8?Q?Dani?=
+ =?utf-8?Q?el_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, Juan Quintela
+ <quintela@redhat.com>
+Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with
+ multifd and fixed-ram
+In-Reply-To: <ZCYCE0llX9WANK18@x1n>
+References: <20230330180336.2791-1-farosas@suse.de> <ZCYCE0llX9WANK18@x1n>
+Date: Fri, 31 Mar 2023 11:37:50 -0300
+Message-ID: <87edp5oukh.fsf@suse.de>
 MIME-Version: 1.0
-References: <20230331141833.3647-1-imp@bsdimp.com>
-In-Reply-To: <20230331141833.3647-1-imp@bsdimp.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 31 Mar 2023 08:21:53 -0600
-Message-ID: <CANCZdfrV5kObU7_G3bAkgmbna2ZmXG0SC9c-V-xUcOK88t2cpw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] bsd-user: remove bitrotted NetBSD and OpenBSD
- bsd-user support
-To: qemu-devel@nongnu.org
-Cc: Ryo ONODERA <ryoon@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- Brad Smith <brad@comstyle.com>, Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="000000000000f2518505f832ee34"
-Received-SPF: none client-ip=2a00:1450:4864:20::534;
- envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,179 +85,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000f2518505f832ee34
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Peter Xu <peterx@redhat.com> writes:
 
-Please note: This did come from me, from a new machine that's slightly
-misconfigured, so it didn't go through Google's email server and so you may
-get a spoofing warning. I'll fix that in v2, if there is one, or in the
-pull request if there's no changes.
-
-Warner
-
-On Fri, Mar 31, 2023 at 8:19=E2=80=AFAM Warner Losh <imp@bsdimp.com> wrote:
-
-> The NetBSD and OpenBSD support in bsd-user hasn't built since before the
-> meson
-> conversion. It's also out of sync with many of the recent changes in the
-> bsd-user fork and has just been removed there. Remove it from master for
-> the
-> same reasons: it generates a number of false positives with grep and has
-> increasingly gotten in the way. The bsd-user fork code is much more
-> advanced,
-> and even it doesn't compile and is out of date. Remove this from both
-> branches. If others wish to bring it up to speed, I'm happy to help them.
+> On Thu, Mar 30, 2023 at 03:03:10PM -0300, Fabiano Rosas wrote:
+>> Hi folks,
 >
-> Warner Losh (7):
->   bsd-user: Remove obsolete prototypes
->   bsd-user: Remove netbsd system call inclusion and defines
->   bsd-user: Remove netbsd system call tracing
->   bsd-user: Remove openbsd system call inclusion and defines
->   bsd-user: Remove openbsd system call tracing
->   bsd-user: Remove netbsd directory
->   bsd-user: Remove openbsd directory
+> Hi,
 >
->  bsd-user/netbsd/host-os.h            |  25 --
->  bsd-user/netbsd/os-strace.h          |   1 -
->  bsd-user/netbsd/strace.list          | 145 -----------
->  bsd-user/netbsd/syscall_nr.h         | 373 ---------------------------
->  bsd-user/netbsd/target_os_elf.h      | 147 -----------
->  bsd-user/netbsd/target_os_siginfo.h  |  82 ------
->  bsd-user/netbsd/target_os_signal.h   |  69 -----
->  bsd-user/netbsd/target_os_stack.h    |  56 ----
->  bsd-user/netbsd/target_os_thread.h   |  25 --
->  bsd-user/openbsd/host-os.h           |  25 --
->  bsd-user/openbsd/os-strace.h         |   1 -
->  bsd-user/openbsd/strace.list         | 187 --------------
->  bsd-user/openbsd/syscall_nr.h        | 225 ----------------
->  bsd-user/openbsd/target_os_elf.h     | 147 -----------
->  bsd-user/openbsd/target_os_siginfo.h |  82 ------
->  bsd-user/openbsd/target_os_signal.h  |  69 -----
->  bsd-user/openbsd/target_os_stack.h   |  56 ----
->  bsd-user/openbsd/target_os_thread.h  |  25 --
->  bsd-user/qemu.h                      |  16 --
->  bsd-user/strace.c                    |  34 ---
->  bsd-user/syscall_defs.h              |  29 +--
->  21 files changed, 1 insertion(+), 1818 deletions(-)
->  delete mode 100644 bsd-user/netbsd/host-os.h
->  delete mode 100644 bsd-user/netbsd/os-strace.h
->  delete mode 100644 bsd-user/netbsd/strace.list
->  delete mode 100644 bsd-user/netbsd/syscall_nr.h
->  delete mode 100644 bsd-user/netbsd/target_os_elf.h
->  delete mode 100644 bsd-user/netbsd/target_os_siginfo.h
->  delete mode 100644 bsd-user/netbsd/target_os_signal.h
->  delete mode 100644 bsd-user/netbsd/target_os_stack.h
->  delete mode 100644 bsd-user/netbsd/target_os_thread.h
->  delete mode 100644 bsd-user/openbsd/host-os.h
->  delete mode 100644 bsd-user/openbsd/os-strace.h
->  delete mode 100644 bsd-user/openbsd/strace.list
->  delete mode 100644 bsd-user/openbsd/syscall_nr.h
->  delete mode 100644 bsd-user/openbsd/target_os_elf.h
->  delete mode 100644 bsd-user/openbsd/target_os_siginfo.h
->  delete mode 100644 bsd-user/openbsd/target_os_signal.h
->  delete mode 100644 bsd-user/openbsd/target_os_stack.h
->  delete mode 100644 bsd-user/openbsd/target_os_thread.h
+>> 
+>> I'm continuing the work done last year to add a new format of
+>> migration stream that can be used to migrate large guests to a single
+>> file in a performant way.
+>> 
+>> This is an early RFC with the previous code + my additions to support
+>> multifd and direct IO. Let me know what you think!
+>> 
+>> Here are the reference links for previous discussions:
+>> 
+>> https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01813.html
+>> https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg01338.html
+>> https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg05536.html
+>> 
+>> The series has 4 main parts:
+>> 
+>> 1) File migration: A new "file:" migration URI. So "file:mig" does the
+>>    same as "exec:cat > mig". Patches 1-4 implement this;
+>> 
+>> 2) Fixed-ram format: A new format for the migration stream. Puts guest
+>>    pages at their relative offsets in the migration file. This saves
+>>    space on the worst case of RAM utilization because every page has a
+>>    fixed offset in the migration file and (potentially) saves us time
+>>    because we could write pages independently in parallel. It also
+>>    gives alignment guarantees so we could use O_DIRECT. Patches 5-13
+>>    implement this;
+>> 
+>> With patches 1-13 these two^ can be used with:
+>> 
+>> (qemu) migrate_set_capability fixed-ram on
+>> (qemu) migrate[_incoming] file:mig
 >
-> --
-> 2.39.2
+> Have you considered enabling the new fixed-ram format with postcopy when
+> loading?
 >
+> Due to the linear offseting of pages, I think it can achieve super fast vm
+> loads due to O(1) lookup of pages and local page fault resolutions.
 >
 
---000000000000f2518505f832ee34
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I don't think we have looked that much at the loading side yet. Good to
+know that it has potential to be faster. I'll look into it. Thanks for
+the suggestion.
 
-<div dir=3D"ltr">Please note: This did come from me, from a new machine tha=
-t&#39;s slightly misconfigured, so it didn&#39;t go through Google&#39;s em=
-ail server and so you may get a spoofing=C2=A0warning. I&#39;ll fix that in=
- v2, if there is one, or in the pull request if there&#39;s no changes.<div=
-><br></div><div>Warner</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Fri, Mar 31, 2023 at 8:19=E2=80=AFAM Warne=
-r Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">The NetBSD and O=
-penBSD support in bsd-user hasn&#39;t built since before the meson<br>
-conversion. It&#39;s also out of sync with many of the recent changes in th=
-e<br>
-bsd-user fork and has just been removed there. Remove it from master for th=
-e<br>
-same reasons: it generates a number of false positives with grep and has<br=
+>> 
+>> --> new in this series:
+>> 
+>> 3) MultiFD support: This is about making use of the parallelism
+>>    allowed by the new format. We just need the threading and page
+>>    queuing infrastructure that is already in place for
+>>    multifd. Patches 14-24 implement this;
+>> 
+>> (qemu) migrate_set_capability fixed-ram on
+>> (qemu) migrate_set_capability multifd on
+>> (qemu) migrate_set_parameter multifd-channels 4
+>> (qemu) migrate_set_parameter max-bandwith 0
+>> (qemu) migrate[_incoming] file:mig
+>> 
+>> 4) Add a new "direct_io" parameter and enable O_DIRECT for the
+>>    properly aligned segments of the migration (mostly ram). Patch 25.
+>> 
+>> (qemu) migrate_set_parameter direct-io on
+>> 
+>> Thanks! Some data below:
+>> =====
+>> 
+>> Outgoing migration to file. NVMe disk. XFS filesystem.
+>> 
+>> - Single migration runs of stopped 32G guest with ~90% RAM usage. Guest
+>>   running `stress-ng --vm 4 --vm-bytes 90% --vm-method all --verify -t
+>>   10m -v`:
+>> 
+>> migration type  | MB/s | pages/s |  ms
+>> ----------------+------+---------+------
+>> savevm io_uring |  434 |  102294 | 71473
 >
-increasingly gotten in the way. The bsd-user fork code is much more advance=
-d,<br>
-and even it doesn&#39;t compile and is out of date. Remove this from both<b=
-r>
-branches. If others wish to bring it up to speed, I&#39;m happy to help the=
-m.<br>
-<br>
-Warner Losh (7):<br>
-=C2=A0 bsd-user: Remove obsolete prototypes<br>
-=C2=A0 bsd-user: Remove netbsd system call inclusion and defines<br>
-=C2=A0 bsd-user: Remove netbsd system call tracing<br>
-=C2=A0 bsd-user: Remove openbsd system call inclusion and defines<br>
-=C2=A0 bsd-user: Remove openbsd system call tracing<br>
-=C2=A0 bsd-user: Remove netbsd directory<br>
-=C2=A0 bsd-user: Remove openbsd directory<br>
-<br>
-=C2=A0bsd-user/netbsd/host-os.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 25 --<br>
-=C2=A0bsd-user/netbsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- =C2=A01 -<br>
-=C2=A0bsd-user/netbsd/strace.list=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 145 -=
-----------<br>
-=C2=A0bsd-user/netbsd/syscall_nr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 373 -=
---------------------------<br>
-=C2=A0bsd-user/netbsd/target_os_elf.h=C2=A0 =C2=A0 =C2=A0 | 147 -----------=
-<br>
-=C2=A0bsd-user/netbsd/target_os_siginfo.h=C2=A0 |=C2=A0 82 ------<br>
-=C2=A0bsd-user/netbsd/target_os_signal.h=C2=A0 =C2=A0|=C2=A0 69 -----<br>
-=C2=A0bsd-user/netbsd/target_os_stack.h=C2=A0 =C2=A0 |=C2=A0 56 ----<br>
-=C2=A0bsd-user/netbsd/target_os_thread.h=C2=A0 =C2=A0|=C2=A0 25 --<br>
-=C2=A0bsd-user/openbsd/host-os.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 25 --<br>
-=C2=A0bsd-user/openbsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0=
- =C2=A01 -<br>
-=C2=A0bsd-user/openbsd/strace.list=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 187 -=
--------------<br>
-=C2=A0bsd-user/openbsd/syscall_nr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 225 ------=
-----------<br>
-=C2=A0bsd-user/openbsd/target_os_elf.h=C2=A0 =C2=A0 =C2=A0| 147 -----------=
-<br>
-=C2=A0bsd-user/openbsd/target_os_siginfo.h |=C2=A0 82 ------<br>
-=C2=A0bsd-user/openbsd/target_os_signal.h=C2=A0 |=C2=A0 69 -----<br>
-=C2=A0bsd-user/openbsd/target_os_stack.h=C2=A0 =C2=A0|=C2=A0 56 ----<br>
-=C2=A0bsd-user/openbsd/target_os_thread.h=C2=A0 |=C2=A0 25 --<br>
-=C2=A0bsd-user/qemu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 16 --<br>
-=C2=A0bsd-user/strace.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 34 ---<br>
-=C2=A0bsd-user/syscall_defs.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 29 +--<br>
-=C2=A021 files changed, 1 insertion(+), 1818 deletions(-)<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/host-os.h<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/os-strace.h<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/strace.list<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/syscall_nr.h<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/target_os_elf.h<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/target_os_siginfo.h<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/target_os_signal.h<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/target_os_stack.h<br>
-=C2=A0delete mode 100644 bsd-user/netbsd/target_os_thread.h<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/host-os.h<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/os-strace.h<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/strace.list<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/syscall_nr.h<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/target_os_elf.h<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/target_os_siginfo.h<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/target_os_signal.h<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/target_os_stack.h<br>
-=C2=A0delete mode 100644 bsd-user/openbsd/target_os_thread.h<br>
-<br>
--- <br>
-2.39.2<br>
-<br>
-</blockquote></div>
+> So I assume this is the non-live migration scenario.  Could you explain
+> what does io_uring mean here?
+>
 
---000000000000f2518505f832ee34--
+This table is all non-live migration. This particular line is a snapshot
+(hmp_savevm->save_snapshot). I thought it could be relevant because it
+is another way by which we write RAM into disk.
+
+The io_uring is noise, I was initially under the impression that the
+block device aio configuration affected this scenario.
+
+>> file:           | 3017 |  855862 | 10301
+>> fixed-ram       | 1982 |  330686 | 15637
+>> ----------------+------+---------+------
+>> fixed-ram + multifd + O_DIRECT
+>>          2 ch.  | 5565 | 1500882 |  5576
+>>          4 ch.  | 5735 | 1991549 |  5412
+>>          8 ch.  | 5650 | 1769650 |  5489
+>>         16 ch.  | 6071 | 1832407 |  5114
+>>         32 ch.  | 6147 | 1809588 |  5050
+>>         64 ch.  | 6344 | 1841728 |  4895
+>>        128 ch.  | 6120 | 1915669 |  5085
+>> ----------------+------+---------+------
+>
+> Thanks,
 
