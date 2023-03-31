@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282B16D2307
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C7D6D230B
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:52:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piG5i-0000b3-Bx; Fri, 31 Mar 2023 10:50:58 -0400
+	id 1piG71-00028z-Vi; Fri, 31 Mar 2023 10:52:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1piG5d-0000a7-4i
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:50:53 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1piG5Z-0000bl-9O
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:50:52 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id e18so22690624wra.9
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 07:50:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680274248;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=aMsJpOiutF8EzuYcJAT/HhM6ChC4opwqxSHP+TBtq/M=;
- b=nwn8Qs8JNNLY3nGW4c4MGpvxPMJJO3q7h9TngWbPGG1PUcpVET5Zry4Xz1TcEA4RmR
- AHu5tP6X1XcPQcZJ6Zs8sO/htvUGIEpl9+03+6ixRiYDcpJAbbuKIFwEz6RSb6pjJ4Bh
- 7/rYw7nB3VA8EWq4f7S3slaKaP39hL02SQnWmO0OMh+VBy+69gOaAbRs46LMjW1R2AVr
- CxXAOcYvSCbcAURTXRr1B/cSVEQXsXY8O3Wdxcww2P8f3q4rTfH+rHG3bXHCdWkDsbb5
- QjX/qGZzlPznbIumCha+sqzQUNNYIe3UNbZOXxhH6DjmJ/5xjg+N0ZtgRWg85ZiMqBxI
- F30Q==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1piG6y-00023J-O0
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:52:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1piG6w-0000sL-DQ
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:52:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680274333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+2LPw2B8Vj+gH1I/JFtauXNhFjrMVhk4mtWyi4cJla8=;
+ b=PK5KGNC8ii0Ph87WaxzqSD2BandNbUtK/qFF6SwdEQAFp/qlIqdK/ahj4/Mimgg9HisOaL
+ VO676h84Gtuu1D6oVa9GFC6itvtnTeFg5EGcajorzcoRzutKToNTLF9O9D/pVINBDZchAG
+ z/rMQDvmCX9RnhwBjVBAKO5aRdTBzEE=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-76-7yCJU21APmabCS1xXvl4bg-1; Fri, 31 Mar 2023 10:52:11 -0400
+X-MC-Unique: 7yCJU21APmabCS1xXvl4bg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ w2-20020a0cc242000000b00583d8e55181so9828084qvh.23
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 07:52:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680274248;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aMsJpOiutF8EzuYcJAT/HhM6ChC4opwqxSHP+TBtq/M=;
- b=sSbDHuLpTfaKhZJFVGqJB9uzJiBhICSX0Z2mjNssP70QUYXG/EiHOyXwk+CHpCYgNi
- 6CvF26dr6kbi0BfFNw5Ea9eDusF2PFpzcif0e602kD54ftn9CYTO6/bcSxsVde4ahytO
- psywcAyVExiqjXIY3omGVKZ9jPr51jBADdKVvosQ/74PblyHkRKhRS/Ugdi/ufY5RsPj
- ow5JF5DNtdUHUO0/XNL/WZJZSlcV7a6yIdX98e9fruPXpiYg1ay0TIyoK/ci2ljgaddZ
- IzY6Iju4Zbx7WAfEr5PuXdKI5EA6C+s4Zs89jry92z/cV5mEuFsmqWOriIJKzduQVv0r
- S2qA==
-X-Gm-Message-State: AAQBX9f5XRDMuEzRUF1h/wvgb2UXACBvWWxFFgLYdFvbqHH4rX9tPpnN
- fCMvOaIPTkypV9/EVfd93ddLgNgRyASpZo56v/k=
-X-Google-Smtp-Source: AKy350Zgn14Ne3CUi7Ioc2ov4GVW7QBnYTcisGS4pnjmJx9RGgVHvpqnWN64W/75UEqCeESeHaRasA==
-X-Received: by 2002:a5d:440e:0:b0:2e5:6441:2d16 with SMTP id
- z14-20020a5d440e000000b002e564412d16mr2610695wrq.42.1680274248009; 
- Fri, 31 Mar 2023 07:50:48 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- l12-20020a5d560c000000b002cfe685bfd6sm2339831wrv.108.2023.03.31.07.50.47
+ d=1e100.net; s=20210112; t=1680274331; x=1682866331;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+2LPw2B8Vj+gH1I/JFtauXNhFjrMVhk4mtWyi4cJla8=;
+ b=eE299p4YjMzkLkGO+XOm9wZlaz34u0vH1EHsd/r/XvK8Uj5QIQNfOutIoCe19Ok5c8
+ g2rtO5ccCwZePqTif65mxTyquVFLpIC1/1GK5JaPgL0kNuO5c585BiKTdmzGK30/J6Zb
+ ljIQs2jWojccVQrRJePck+nYFSFrIxoYBP1sgyWl84zBMYqjPvipo8QJu+L0W+Q8g8+z
+ iRZdqjvgPOXNTvEaJOdv+lY+uvNRlvn5FtaBcTdMJqcdF7ldySM7wrlHyYb6As8mR3Lp
+ hsADYxCBoEKAyj6zwuya1iqpEk7rCTheh+aSWBcLm8U9160Urr1vyMNzLzYFGUBGgB1H
+ 6FjQ==
+X-Gm-Message-State: AAQBX9fGu2ozjx3W7Kmd8WOEVF2BcD7iV2XjATXAR9BZgHArwDw46n7w
+ COpDf+umzHmGTqFXTArEkBzSiFUDf2xAOrhBBvQyBYhtnetNuGWuMOaafniBjqujAQg1ZEeJZ9k
+ +LUOASOC2kbXQQ+c=
+X-Received: by 2002:a05:6214:300f:b0:5da:b965:1efd with SMTP id
+ ke15-20020a056214300f00b005dab9651efdmr42385579qvb.2.1680274331443; 
+ Fri, 31 Mar 2023 07:52:11 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aQ1QLGiMD0VhRz6hJTQ4lkX8LK+g2I73f/78v6Jd2CM35Wa9IE9H99mGsO2wdrRdC3pe4J4g==
+X-Received: by 2002:a05:6214:300f:b0:5da:b965:1efd with SMTP id
+ ke15-20020a056214300f00b005dab9651efdmr42385562qvb.2.1680274331185; 
+ Fri, 31 Mar 2023 07:52:11 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ x21-20020a05620a0b5500b0074236d3a149sm705285qkg.92.2023.03.31.07.52.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Mar 2023 07:50:47 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/arm: Implement FEAT_PAN3
-Date: Fri, 31 Mar 2023 15:50:45 +0100
-Message-Id: <20230331145045.2584941-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230331145045.2584941-1-peter.maydell@linaro.org>
-References: <20230331145045.2584941-1-peter.maydell@linaro.org>
+ Fri, 31 Mar 2023 07:52:10 -0700 (PDT)
+Date: Fri, 31 Mar 2023 10:52:09 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ jfehlig@suse.com, dfaggioli@suse.com, dgilbert@redhat.com,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with
+ multifd and fixed-ram
+Message-ID: <ZCbzmZXz3JG/jElA@x1n>
+References: <20230330180336.2791-1-farosas@suse.de> <ZCYCE0llX9WANK18@x1n>
+ <87edp5oukh.fsf@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87edp5oukh.fsf@suse.de>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,95 +100,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-FEAT_PAN3 adds an EPAN bit to SCTLR_EL1 and SCTLR_EL2, which allows
-the PAN bit to make memory non-privileged-read/write if it is
-user-executable as well as if it is user-read/write.
+On Fri, Mar 31, 2023 at 11:37:50AM -0300, Fabiano Rosas wrote:
+> >> Outgoing migration to file. NVMe disk. XFS filesystem.
+> >> 
+> >> - Single migration runs of stopped 32G guest with ~90% RAM usage. Guest
+> >>   running `stress-ng --vm 4 --vm-bytes 90% --vm-method all --verify -t
+> >>   10m -v`:
+> >> 
+> >> migration type  | MB/s | pages/s |  ms
+> >> ----------------+------+---------+------
+> >> savevm io_uring |  434 |  102294 | 71473
+> >
+> > So I assume this is the non-live migration scenario.  Could you explain
+> > what does io_uring mean here?
+> >
+> 
+> This table is all non-live migration. This particular line is a snapshot
+> (hmp_savevm->save_snapshot). I thought it could be relevant because it
+> is another way by which we write RAM into disk.
 
-Implement this feature and enable it in the AArch64 'max' CPU.
+I see, so if all non-live that explains, because I was curious what's the
+relationship between this feature and the live snapshot that QEMU also
+supports.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/arm/emulation.rst |  1 +
- target/arm/cpu.h              |  5 +++++
- target/arm/cpu64.c            |  2 +-
- target/arm/ptw.c              | 14 +++++++++++++-
- 4 files changed, 20 insertions(+), 2 deletions(-)
+I also don't immediately see why savevm will be much slower, do you have an
+answer?  Maybe it's somewhere but I just overlooked..
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 2062d712610..73389878755 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -56,6 +56,7 @@ the following architecture extensions:
- - FEAT_MTE3 (MTE Asymmetric Fault Handling)
- - FEAT_PAN (Privileged access never)
- - FEAT_PAN2 (AT S1E1R and AT S1E1W instruction variants affected by PSTATE.PAN)
-+- FEAT_PAN3 (Support for SCTLR_ELx.EPAN)
- - FEAT_PAuth (Pointer authentication)
- - FEAT_PMULL (PMULL, PMULL2 instructions)
- - FEAT_PMUv3p1 (PMU Extensions v3.1)
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index c097cae9882..d469a2637b3 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3823,6 +3823,11 @@ static inline bool isar_feature_aa64_ats1e1(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, PAN) >= 2;
- }
- 
-+static inline bool isar_feature_aa64_pan3(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, PAN) >= 3;
-+}
-+
- static inline bool isar_feature_aa64_hcx(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, HCX) != 0;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 0fb07cc7b6d..735ca541634 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -1302,7 +1302,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);       /* FEAT_VHE */
-     t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1);     /* FEAT_HPDS */
-     t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);       /* FEAT_LOR */
--    t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2);      /* FEAT_PAN2 */
-+    t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 3);      /* FEAT_PAN3 */
-     t = FIELD_DP64(t, ID_AA64MMFR1, XNX, 1);      /* FEAT_XNX */
-     t = FIELD_DP64(t, ID_AA64MMFR1, ETS, 1);      /* FEAT_ETS */
-     t = FIELD_DP64(t, ID_AA64MMFR1, HCX, 1);      /* FEAT_HCX */
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index ec3f51782aa..499308fcb07 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -947,6 +947,7 @@ static int get_S2prot(CPUARMState *env, int s2ap, int xn, bool s1_is_el0)
- static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
-                       int ap, int ns, int xn, int pxn)
- {
-+    ARMCPU *cpu = env_archcpu(env);
-     bool is_user = regime_is_user(env, mmu_idx);
-     int prot_rw, user_rw;
-     bool have_wxn;
-@@ -958,8 +959,19 @@ static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
-     if (is_user) {
-         prot_rw = user_rw;
-     } else {
-+        /*
-+         * PAN controls can forbid data accesses but don't affect insn fetch.
-+         * Plain PAN forbids data accesses if EL0 has data permissions;
-+         * PAN3 forbids data accesses if EL0 has either data or exec perms.
-+         * Note that for AArch64 the 'user can exec' case is exactly !xn.
-+         * We make the IMPDEF choices that SCR_EL3.SIF and Realm EL2&0
-+         * do not affect EPAN.
-+         */
-         if (user_rw && regime_is_pan(env, mmu_idx)) {
--            /* PAN forbids data accesses but doesn't affect insn fetch */
-+            prot_rw = 0;
-+        } else if (cpu_isar_feature(aa64_pan3, cpu) && is_aa64 &&
-+                   regime_is_pan(env, mmu_idx) &&
-+                   (regime_sctlr(env, mmu_idx) & SCTLR_EPAN) && !xn) {
-             prot_rw = 0;
-         } else {
-             prot_rw = simple_ap_to_rw_prot_is_user(ap, false);
+IIUC this is "vm suspend" case, so there's an extra benefit knowledge of
+"we can stop the VM".  It smells slightly weird to build this on top of
+"migrate" from that pov, rather than "savevm", though.  Any thoughts on
+this aspect (on why not building this on top of "savevm")?
+
+Thanks,
+
+> 
+> The io_uring is noise, I was initially under the impression that the
+> block device aio configuration affected this scenario.
+> 
+> >> file:           | 3017 |  855862 | 10301
+> >> fixed-ram       | 1982 |  330686 | 15637
+> >> ----------------+------+---------+------
+> >> fixed-ram + multifd + O_DIRECT
+> >>          2 ch.  | 5565 | 1500882 |  5576
+> >>          4 ch.  | 5735 | 1991549 |  5412
+> >>          8 ch.  | 5650 | 1769650 |  5489
+> >>         16 ch.  | 6071 | 1832407 |  5114
+> >>         32 ch.  | 6147 | 1809588 |  5050
+> >>         64 ch.  | 6344 | 1841728 |  4895
+> >>        128 ch.  | 6120 | 1915669 |  5085
+> >> ----------------+------+---------+------
+> >
+> > Thanks,
+> 
+
 -- 
-2.34.1
+Peter Xu
 
 
