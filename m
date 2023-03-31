@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FFB6D13E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 02:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EADF6D13E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 02:09:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi2KT-0007ZD-Sq; Thu, 30 Mar 2023 20:09:17 -0400
+	id 1pi2KS-0007SM-Ko; Thu, 30 Mar 2023 20:09:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3hiQmZAYKCo8C1CDBAz77z4x.v759x5D-wxEx4676z6D.7Az@flex--titusr.bounces.google.com>)
- id 1pi2K7-00078k-FT
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 20:08:55 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
+ <3hyQmZAYKCpAD2DECB08805y.w86Ay6E-xyFy578707E.8B0@flex--titusr.bounces.google.com>)
+ id 1pi2K9-0007Cb-DE
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 20:08:57 -0400
+Received: from mail-yw1-x114a.google.com ([2607:f8b0:4864:20::114a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3hiQmZAYKCo8C1CDBAz77z4x.v759x5D-wxEx4676z6D.7Az@flex--titusr.bounces.google.com>)
- id 1pi2K5-0005q3-So
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 20:08:55 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id
- w5-20020a253005000000b00aedd4305ff2so20521945ybw.13
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 17:08:39 -0700 (PDT)
+ <3hyQmZAYKCpAD2DECB08805y.w86Ay6E-xyFy578707E.8B0@flex--titusr.bounces.google.com>)
+ id 1pi2K6-0005qQ-6P
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 20:08:57 -0400
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-5458201ab8cso207036377b3.23
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 17:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=google.com; s=20210112; t=1680221319;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=6MwfbHdxuIOtH0NAbW8vcKKizTpZOCl4cwXr1Kj34SU=;
- b=XoqaedzahbGh+jdb0RPj/l7LmuvLGh5OLjY9N8gJSQDQZreoS1iqM+GU5+rk4StbyZ
- FCcD+RcCcFpAChkpL+8M9qivd6zPiw8U3R56U6YLNzqLRB5Xx2bkGOVM1yjbLF8bXu3k
- btALCziXrptWhtHJeJG9W10VkxyTpQPJlGI1H9T5VK3YqwqaN7ZRX9dnNux0gM2s/pj4
- PdVCxund3TjIOd4Gx+bH9gQ+ci3f4LSxW9Zo9SDvQzofryNRW+LvQnlGNGtdMPIFqTK8
- xOXIENr52JTgebC3fAWnr85AedJca+xCliAMrxG9ll+rtRpl0lusEXe4pV5oem3uqAiP
- sKWw==
+ bh=8gvomdt3DUwUN4FoSBnJV4Ctxju8JwPTYOQalHBdVD4=;
+ b=UEfgoMO4eZQeg9kuztrUq2cXxkWJmLL3WxzcUu/vTNNLbE7hASopSjKN9Lc5UAkL0e
+ fhzkZPiq92TAWvBKIVZtmDOG+2CF+RjCWAhlDa1p/gaBLQzf9TvyMbuXfYtPvYs5DXJ6
+ O2/S0gUXr6GAwLOjq8C3X/DJ+asKLUBeI6qQ9+KLMotSimFJOpWSkO9JDsqz57Oqk04C
+ GlCByLNnK0sDDrj3+Sjy/ObynhFcYXnHIMZkTppUlX3pGU+95vPZwhSStRkxbH+QXmSK
+ T+xSsh7O5Yg+AnBfF9jha6pPPEEOjU4ea7raDB4q+aGrCVh3ckrmdjR0D1qfHBxQnEjs
+ EjZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1680221319;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6MwfbHdxuIOtH0NAbW8vcKKizTpZOCl4cwXr1Kj34SU=;
- b=PBgFl4R74HSzZZkXgkIOHSbrml84kuarvnNhVMWZK3JBBwtRASdy9u6ldx5/QZK69f
- OfWYuw/S701BkC+MzAJ4L3DHJI0yR9DqjWf976QgysOJ9KUOJLoY//PFPrsRK/LP3gyA
- bqanLWgINYJfgckt/1bott/x8GYIxpF/6pq7aXh6nz2oE3Rw8oN12aiT2e/nkLz4mRtI
- 93A6QUBa/0a99Z1Nh9J3QWebPmMqNMk3J6KJWVufBayVSEFvgd/kgsXMbzKbtnyJeLSh
- CZG2GR3eOkzQ5Lt09yhfpI6uLdepLK3uHjZxLA233FefD6/oEQdVsY24QaKqQfgrPjUi
- Lrmg==
-X-Gm-Message-State: AAQBX9dIjjve61HPpTx1MExc6eJsxTi+CqaX+W48ikaJDdF6/sul+uD7
- R32aAxqZH/OV85hlWiKw+2n4d4s9GPU=
-X-Google-Smtp-Source: AKy350a1f89ion6Eqm9uoKjoKMUMuvuZI5MEq1nMoNDe7NwhRJ6DiSyh67J8Iuom+ADiccRJJIIqFKrnV3E=
+ bh=8gvomdt3DUwUN4FoSBnJV4Ctxju8JwPTYOQalHBdVD4=;
+ b=0iJ6t/rlFfJhyqybZewwUt15uyw2HgERuh5jd3cI549VNX0FwLtlEviTPmW0LPjxRd
+ BfXO3Q0La+jTmu40uv+xwgh4qFLf3s7NmIbWXiNHFNd1GrgYqe5REfXDwdWwzPCz42Jh
+ ApaF1Nltqu6XiNX1At7zM+Scxz1y/zD+KGyEfdbfYQ0+6Fq/plAWy25Qd0qSQoLkKSgw
+ kibzHGahRJR96WdxBYZmWxBQrt6Drk7LrPPtx71JDnTiCvtHLF0Gl3lC/RgeukalaPp/
+ S6KBIdZBe5sd7ekfKA53tDW/GsDGRNWVfmNvQzEABJ2kLlUca8o1eEztZClDADs+50qS
+ DSKA==
+X-Gm-Message-State: AAQBX9fXyGlb4No0a9Ol6OwIkP8D56pscFW7mIebGtIkCt88XImthYoZ
+ P5HdoOw2q5Eb2IN7LgRgARZTFKzQ2E8=
+X-Google-Smtp-Source: AKy350bMKwN4e9D5fZq0GnlqP+dMuSeSVPl5UJpB9T0Zsu7bFb1uBlAWqN5xEc5SLF1FP5lwTuEo4bXHCCg=
 X-Received: from titusr.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:22b8])
- (user=titusr job=sendgmr) by 2002:a05:6902:168d:b0:98e:6280:90e7 with SMTP id
- bx13-20020a056902168d00b0098e628090e7mr16740002ybb.13.1680221318928; Thu, 30
- Mar 2023 17:08:38 -0700 (PDT)
-Date: Fri, 31 Mar 2023 00:07:54 +0000
+ (user=titusr job=sendgmr) by 2002:a05:6902:18d5:b0:b75:3fd4:1b31 with SMTP id
+ ck21-20020a05690218d500b00b753fd41b31mr17197516ybb.1.1680221319710; Thu, 30
+ Mar 2023 17:08:39 -0700 (PDT)
+Date: Fri, 31 Mar 2023 00:07:55 +0000
 In-Reply-To: <20230331000756.1712787-1-titusr@google.com>
 Mime-Version: 1.0
 References: <20230331000756.1712787-1-titusr@google.com>
 X-Mailer: git-send-email 2.40.0.423.gd6c402a77b-goog
-Message-ID: <20230331000756.1712787-6-titusr@google.com>
-Subject: [PATCH 5/7] hw/i2c: pmbus: add VCAP register
+Message-ID: <20230331000756.1712787-7-titusr@google.com>
+Subject: [PATCH 6/7] hw/sensor: add ADM1266 device model
 From: Titus Rwantare <titusr@google.com>
 To: philmd@linaro.org, minyard@acm.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Titus Rwantare <titusr@google.com>, Benjamin Streb <bstreb@google.com>
+ Titus Rwantare <titusr@google.com>, Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3hiQmZAYKCo8C1CDBAz77z4x.v759x5D-wxEx4676z6D.7Az@flex--titusr.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
+ envelope-from=3hyQmZAYKCpAD2DECB08805y.w86Ay6E-xyFy578707E.8B0@flex--titusr.bounces.google.com;
+ helo=mail-yw1-x114a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -89,46 +89,323 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-VCAP is a register for devices with energy storage capacitors.
+  The ADM1266 is a cascadable super sequencer with margin control and
+  fault recording.
+  This commit adds basic support for its PMBus commands and models
+  the identification registers that can be modified in a firmware
+  update.
 
-Reviewed-by: Benjamin Streb <bstreb@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
 Signed-off-by: Titus Rwantare <titusr@google.com>
 ---
- hw/i2c/pmbus_device.c         | 8 ++++++++
- include/hw/i2c/pmbus_device.h | 1 +
- 2 files changed, 9 insertions(+)
+ hw/arm/Kconfig        |   1 +
+ hw/sensor/Kconfig     |   5 +
+ hw/sensor/adm1266.c   | 255 ++++++++++++++++++++++++++++++++++++++++++
+ hw/sensor/meson.build |   1 +
+ 4 files changed, 262 insertions(+)
+ create mode 100644 hw/sensor/adm1266.c
 
-diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
-index 18e629eaac..ef0314a913 100644
---- a/hw/i2c/pmbus_device.c
-+++ b/hw/i2c/pmbus_device.c
-@@ -903,6 +903,14 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
-         }
-         break;
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index b5aed4aff5..4e44a7451d 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -407,6 +407,7 @@ config XLNX_VERSAL
+ config NPCM7XX
+     bool
+     select A9MPCORE
++    select ADM1266
+     select ADM1272
+     select ARM_GIC
+     select SMBUS
+diff --git a/hw/sensor/Kconfig b/hw/sensor/Kconfig
+index e03bd09b50..bc6331b4ab 100644
+--- a/hw/sensor/Kconfig
++++ b/hw/sensor/Kconfig
+@@ -22,6 +22,11 @@ config ADM1272
+     bool
+     depends on I2C
  
-+    case PMBUS_READ_VCAP:                 /* Read-Only word */
-+        if (pmdev->pages[index].page_flags & PB_HAS_VCAP) {
-+            pmbus_send16(pmdev, pmdev->pages[index].read_vcap);
-+        } else {
-+            goto passthough;
-+        }
++config ADM1266
++    bool
++    depends on PMBUS
++    default y if PMBUS
++
+ config MAX34451
+     bool
+     depends on I2C
+diff --git a/hw/sensor/adm1266.c b/hw/sensor/adm1266.c
+new file mode 100644
+index 0000000000..0745b12b1d
+--- /dev/null
++++ b/hw/sensor/adm1266.c
+@@ -0,0 +1,255 @@
++/*
++ * Analog Devices ADM1266 Cascadable Super Sequencer with Margin Control and
++ * Fault Recording with PMBus
++ *
++ * https://www.analog.com/media/en/technical-documentation/data-sheets/adm1266.pdf
++ *
++ * Copyright 2023 Google LLC
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include <string.h>
++#include "hw/i2c/pmbus_device.h"
++#include "hw/irq.h"
++#include "migration/vmstate.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++
++#define TYPE_ADM1266 "adm1266"
++OBJECT_DECLARE_SIMPLE_TYPE(ADM1266State, ADM1266)
++
++#define ADM1266_BLACKBOX_CONFIG                 0xD3
++#define ADM1266_PDIO_CONFIG                     0xD4
++#define ADM1266_READ_STATE                      0xD9
++#define ADM1266_READ_BLACKBOX                   0xDE
++#define ADM1266_SET_RTC                         0xDF
++#define ADM1266_GPIO_SYNC_CONFIGURATION         0xE1
++#define ADM1266_BLACKBOX_INFORMATION            0xE6
++#define ADM1266_PDIO_STATUS                     0xE9
++#define ADM1266_GPIO_STATUS                     0xEA
++
++/* Defaults */
++#define ADM1266_OPERATION_DEFAULT               0x80
++#define ADM1266_CAPABILITY_DEFAULT              0xA0
++#define ADM1266_CAPABILITY_NO_PEC               0x20
++#define ADM1266_PMBUS_REVISION_DEFAULT          0x22
++#define ADM1266_MFR_ID_DEFAULT                  "ADI"
++#define ADM1266_MFR_ID_DEFAULT_LEN              32
++#define ADM1266_MFR_MODEL_DEFAULT               "ADM1266-A1"
++#define ADM1266_MFR_MODEL_DEFAULT_LEN           32
++#define ADM1266_MFR_REVISION_DEFAULT            "25"
++#define ADM1266_MFR_REVISION_DEFAULT_LEN        8
++
++#define ADM1266_NUM_PAGES               17
++/**
++ * PAGE Index
++ * Page 0 VH1.
++ * Page 1 VH2.
++ * Page 2 VH3.
++ * Page 3 VH4.
++ * Page 4 VP1.
++ * Page 5 VP2.
++ * Page 6 VP3.
++ * Page 7 VP4.
++ * Page 8 VP5.
++ * Page 9 VP6.
++ * Page 10 VP7.
++ * Page 11 VP8.
++ * Page 12 VP9.
++ * Page 13 VP10.
++ * Page 14 VP11.
++ * Page 15 VP12.
++ * Page 16 VP13.
++ */
++typedef struct ADM1266State {
++    PMBusDevice parent;
++
++    char mfr_id[32];
++    char mfr_model[32];
++    char mfr_rev[8];
++} ADM1266State;
++
++static const uint8_t adm1266_ic_device_id[] = {0x03, 0x41, 0x12, 0x66};
++static const uint8_t adm1266_ic_device_rev[] = {0x08, 0x01, 0x08, 0x07, 0x0,
++                                                0x0, 0x07, 0x41, 0x30};
++
++static void adm1266_exit_reset(Object *obj)
++{
++    ADM1266State *s = ADM1266(obj);
++    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
++
++    pmdev->page = 0;
++    pmdev->capability = ADM1266_CAPABILITY_NO_PEC;
++
++    for (int i = 0; i < ADM1266_NUM_PAGES; i++) {
++        pmdev->pages[i].operation = ADM1266_OPERATION_DEFAULT;
++        pmdev->pages[i].revision = ADM1266_PMBUS_REVISION_DEFAULT;
++        pmdev->pages[i].vout_mode = 0;
++        pmdev->pages[i].read_vout = pmbus_data2linear_mode(12, 0);
++        pmdev->pages[i].vout_margin_high = pmbus_data2linear_mode(15, 0);
++        pmdev->pages[i].vout_margin_low = pmbus_data2linear_mode(3, 0);
++        pmdev->pages[i].vout_ov_fault_limit = pmbus_data2linear_mode(16, 0);
++        pmdev->pages[i].revision = ADM1266_PMBUS_REVISION_DEFAULT;
++    }
++
++    strncpy(s->mfr_id, ADM1266_MFR_ID_DEFAULT, 4);
++    strncpy(s->mfr_model, ADM1266_MFR_MODEL_DEFAULT, 11);
++    strncpy(s->mfr_rev, ADM1266_MFR_REVISION_DEFAULT, 3);
++}
++
++static uint8_t adm1266_read_byte(PMBusDevice *pmdev)
++{
++    ADM1266State *s = ADM1266(pmdev);
++
++    switch (pmdev->code) {
++    case PMBUS_MFR_ID:                    /* R/W block */
++        pmbus_send_string(pmdev, s->mfr_id);
 +        break;
 +
-     case PMBUS_READ_VOUT:                 /* Read-Only word */
-         if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
-             pmbus_send16(pmdev, pmdev->pages[index].read_vout);
-diff --git a/include/hw/i2c/pmbus_device.h b/include/hw/i2c/pmbus_device.h
-index ad431bdc7c..f195c11384 100644
---- a/include/hw/i2c/pmbus_device.h
-+++ b/include/hw/i2c/pmbus_device.h
-@@ -243,6 +243,7 @@ OBJECT_DECLARE_TYPE(PMBusDevice, PMBusDeviceClass,
- #define PB_HAS_VIN_RATING          BIT_ULL(13)
- #define PB_HAS_VOUT_RATING         BIT_ULL(14)
- #define PB_HAS_VOUT_MODE           BIT_ULL(15)
-+#define PB_HAS_VCAP                BIT_ULL(16)
- #define PB_HAS_IOUT                BIT_ULL(21)
- #define PB_HAS_IIN                 BIT_ULL(22)
- #define PB_HAS_IOUT_RATING         BIT_ULL(23)
++    case PMBUS_MFR_MODEL:                 /* R/W block */
++        pmbus_send_string(pmdev, s->mfr_model);
++        break;
++
++    case PMBUS_MFR_REVISION:              /* R/W block */
++        pmbus_send_string(pmdev, s->mfr_rev);
++        break;
++
++    case PMBUS_IC_DEVICE_ID:
++        pmbus_send(pmdev, adm1266_ic_device_id, sizeof(adm1266_ic_device_id));
++        break;
++
++    case PMBUS_IC_DEVICE_REV:
++        pmbus_send(pmdev, adm1266_ic_device_rev, sizeof(adm1266_ic_device_rev));
++        break;
++
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: reading from unimplemented register: 0x%02x\n",
++                      __func__, pmdev->code);
++        return 0xFF;
++    }
++
++    return 0;
++}
++
++static int adm1266_write_data(PMBusDevice *pmdev, const uint8_t *buf,
++                              uint8_t len)
++{
++    ADM1266State *s = ADM1266(pmdev);
++
++    switch (pmdev->code) {
++    case PMBUS_MFR_ID:                    /* R/W block */
++        pmbus_receive_block(pmdev, (uint8_t *)s->mfr_id, sizeof(s->mfr_id));
++        break;
++
++    case PMBUS_MFR_MODEL:                 /* R/W block */
++        pmbus_receive_block(pmdev, (uint8_t *)s->mfr_model,
++                            sizeof(s->mfr_model));
++        break;
++
++    case PMBUS_MFR_REVISION:               /* R/W block*/
++        pmbus_receive_block(pmdev, (uint8_t *)s->mfr_rev, sizeof(s->mfr_rev));
++        break;
++
++    case ADM1266_SET_RTC:   /* do nothing */
++        break;
++
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: writing to unimplemented register: 0x%02x\n",
++                      __func__, pmdev->code);
++        break;
++    }
++    return 0;
++}
++
++static void adm1266_get(Object *obj, Visitor *v, const char *name, void *opaque,
++                        Error **errp)
++{
++    uint16_t value;
++    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
++    PMBusVoutMode *mode = (PMBusVoutMode *)&pmdev->pages[0].vout_mode;
++
++    if (strcmp(name, "vout") == 0) {
++        value = pmbus_linear_mode2data(*(uint16_t *)opaque, mode->exp);
++    } else {
++        value = *(uint16_t *)opaque;
++    }
++
++    visit_type_uint16(v, name, &value, errp);
++}
++
++static void adm1266_set(Object *obj, Visitor *v, const char *name, void *opaque,
++                        Error **errp)
++{
++    uint16_t *internal = opaque;
++    uint16_t value;
++    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
++    PMBusVoutMode *mode = (PMBusVoutMode *)&pmdev->pages[0].vout_mode;
++
++    if (!visit_type_uint16(v, name, &value, errp)) {
++        return;
++    }
++
++    *internal = pmbus_data2linear_mode(value, mode->exp);
++    pmbus_check_limits(pmdev);
++}
++
++static const VMStateDescription vmstate_adm1266 = {
++    .name = "ADM1266",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]){
++        VMSTATE_PMBUS_DEVICE(parent, ADM1266State),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void adm1266_init(Object *obj)
++{
++    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
++    uint64_t flags = PB_HAS_VOUT_MODE | PB_HAS_VOUT | PB_HAS_VOUT_MARGIN |
++                     PB_HAS_VOUT_RATING | PB_HAS_STATUS_MFR_SPECIFIC;
++
++    for (int i = 0; i < ADM1266_NUM_PAGES; i++) {
++        pmbus_page_config(pmdev, i, flags);
++
++        object_property_add(obj, "vout[*]", "uint16",
++                            adm1266_get,
++                            adm1266_set, NULL, &pmdev->pages[i].read_vout);
++    }
++}
++
++static void adm1266_class_init(ObjectClass *klass, void *data)
++{
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PMBusDeviceClass *k = PMBUS_DEVICE_CLASS(klass);
++
++    dc->desc = "Analog Devices ADM1266 Hot Swap controller";
++    dc->vmsd = &vmstate_adm1266;
++    k->write_data = adm1266_write_data;
++    k->receive_byte = adm1266_read_byte;
++    k->device_num_pages = 17;
++
++    rc->phases.exit = adm1266_exit_reset;
++}
++
++static const TypeInfo adm1266_info = {
++    .name = TYPE_ADM1266,
++    .parent = TYPE_PMBUS_DEVICE,
++    .instance_size = sizeof(ADM1266State),
++    .instance_init = adm1266_init,
++    .class_init = adm1266_class_init,
++};
++
++static void adm1266_register_types(void)
++{
++    type_register_static(&adm1266_info);
++}
++
++type_init(adm1266_register_types)
+diff --git a/hw/sensor/meson.build b/hw/sensor/meson.build
+index 9e9be602c3..4528ee6215 100644
+--- a/hw/sensor/meson.build
++++ b/hw/sensor/meson.build
+@@ -3,6 +3,7 @@ softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
+ softmmu_ss.add(when: 'CONFIG_DPS310', if_true: files('dps310.c'))
+ softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
+ softmmu_ss.add(when: 'CONFIG_ADM1272', if_true: files('adm1272.c'))
++softmmu_ss.add(when: 'CONFIG_ADM1266', if_true: files('adm1266.c'))
+ softmmu_ss.add(when: 'CONFIG_MAX34451', if_true: files('max34451.c'))
+ softmmu_ss.add(when: 'CONFIG_LSM303DLHC_MAG', if_true: files('lsm303dlhc_mag.c'))
+ softmmu_ss.add(when: 'CONFIG_ISL_PMBUS_VR', if_true: files('isl_pmbus_vr.c'))
 -- 
 2.40.0.423.gd6c402a77b-goog
 
