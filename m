@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76AFF6D29F3
+	by mail.lfdr.de (Postfix) with ESMTPS id 810996D29F4
 	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 23:27:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piMFr-0000bL-AR; Fri, 31 Mar 2023 17:25:51 -0400
+	id 1piMGL-0000h8-R4; Fri, 31 Mar 2023 17:26:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1piMFZ-0000Vl-Q6; Fri, 31 Mar 2023 17:25:38 -0400
+ id 1piMGJ-0000gh-VM; Fri, 31 Mar 2023 17:26:19 -0400
 Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1piMFX-0005Q9-Eu; Fri, 31 Mar 2023 17:25:32 -0400
+ id 1piMGH-0005ai-0w; Fri, 31 Mar 2023 17:26:18 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 567C91FDE6;
- Fri, 31 Mar 2023 21:25:29 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 929F61FE88;
+ Fri, 31 Mar 2023 21:26:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680297929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1680297975; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BMlDsM1D+ez8VuWKjZmV2YQd6UyYiK/RU+lypXVu7Vg=;
- b=Kszt4P0UcfhHCFGR6tRRlG4c8ImcNAeh7oeYTgatbJ2RcF9hnMJRwdi2BAchmM4131Vz+J
- 7LpQyNadHDLsRcBfkJw9kAK0DYQqUZSDRjYsALWORWfT2WZ4DFSLPIYnvDX6LWedlNZO2y
- ATLJwbP830pkL4d2KGTFGGu9Q531w+8=
+ bh=UUmHVSNajgVMVVFZwZJVp7hYF/jK9p+VuEDQRQMVgOU=;
+ b=OYG5xNkmgJYNJwwoa0Y1nj8Vgeqb0eWn6Fhs1YnN5L6FVOoro4Q01AJjejy96Ou6z+QXTD
+ jCxUDMdZeTVJ3nkD/gcG7979RiHl7IozIPAMR1CcqCn+exrG0uBOs26k3NNfR3ltysA4Xv
+ KsXGKgqTfc1MkqmHUn2jfi3NG7yCnQc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680297929;
+ s=susede2_ed25519; t=1680297975;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BMlDsM1D+ez8VuWKjZmV2YQd6UyYiK/RU+lypXVu7Vg=;
- b=VkCszlEJ0PzEyq82xAfov6zCqZ9ecl+NYDQSz4PDns47+R6ZLMYpcP824FULCzDbnXCf5n
- uT/mQ+oHl+VhISAQ==
+ bh=UUmHVSNajgVMVVFZwZJVp7hYF/jK9p+VuEDQRQMVgOU=;
+ b=x5CxX5agd+two0SDekmf94866//EDXSrTA4rn+taHOwlyTWDKlpXoQN+t3jziXlescFA+j
+ I5/wUbUhrXxSSGDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D429B134F7;
- Fri, 31 Mar 2023 21:25:28 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 12FB3134F7;
+ Fri, 31 Mar 2023 21:26:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +OedJshPJ2Q9IwAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 31 Mar 2023 21:25:28 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id nNXHMvZPJ2SBIwAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 31 Mar 2023 21:26:14 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org, Daniel
  Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 4/6] target/ppc: Alignment faults do not set DSISR in
- ISA v3.0 onward
-In-Reply-To: <20230327131218.2721044-4-npiggin@gmail.com>
+Subject: Re: [PATCH v2 5/6] target/ppc: Add SRR1 prefix indication to
+ interrupt handlers
+In-Reply-To: <20230327131218.2721044-5-npiggin@gmail.com>
 References: <20230327131218.2721044-1-npiggin@gmail.com>
- <20230327131218.2721044-4-npiggin@gmail.com>
-Date: Fri, 31 Mar 2023 18:25:26 -0300
-Message-ID: <87h6u0zk8p.fsf@suse.de>
+ <20230327131218.2721044-5-npiggin@gmail.com>
+Date: Fri, 31 Mar 2023 18:26:12 -0300
+Message-ID: <87edp4zk7f.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
@@ -86,13 +86,9 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Nicholas Piggin <npiggin@gmail.com> writes:
 
-> This optional behavior was removed from the ISA in v3.0, see
-> Summary of Changes preface:
->
->   Data Storage Interrupt Status Register for Alignment Interrupt:
->   Simplifies the Alignment interrupt by remov- ing the Data Storage
->   Interrupt Status Register (DSISR) from the set of registers modified
->   by the Alignment interrupt.
+> ISA v3.1 introduced prefix instructions. Among the changes, various
+> synchronous interrupts report whether they were caused by a prefix
+> instruction in (H)SRR1.
 >
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
