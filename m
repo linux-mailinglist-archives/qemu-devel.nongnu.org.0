@@ -2,92 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396276D19B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 10:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1CB6D1A8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 10:41:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piA0o-0001wk-0K; Fri, 31 Mar 2023 04:21:30 -0400
+	id 1piAJP-000625-6Z; Fri, 31 Mar 2023 04:40:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1piA0k-0001wW-VX
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 04:21:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1piAJN-00061t-Aq
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 04:40:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1piA0j-0000sz-3m
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 04:21:26 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1piAJL-0008C0-99
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 04:40:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680250883;
+ s=mimecast20190719; t=1680252037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mrLzS9aXTCNI2kPymDBaB9weApO4J1V/ZRhbbCvldvM=;
- b=FQMTcI3TIW3DRrq0feKp4pjRD/pFr9inaxxPK0mgaF3Ac8CWDUJXbBWAqro3u3MKBy2uBX
- v38xLjXWpe5hrAriBLJ1uQP12Vwl1E9VsWySu4zFnBohvJZxy92H7mskHAeFrce67P4n2p
- jXPn1Ct8tqBB+Y8uOn0ocfpOVEdMJVY=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TNjkqYcb0wAAgQPh43AbrgIuRUewu7oYSZiItdK/eoI=;
+ b=TN7d3qLm9CK5aVFQYz0nijDdgUTWNkh8hccACcxp1xDvkef5QUAj4PBzpOZT5Q4dVOZzJO
+ b1IoNTrHdLuM+1oF0k+UNP1u+Ooi+6sLYudLT83974JoWbROYon7cuD49qVb6SseeFFJKw
+ 84lcv7LK7d3RquIospdCbYB7aazgb5Y=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-116-r-tr7KDbNKO9gMjiBzeHHQ-1; Fri, 31 Mar 2023 04:21:21 -0400
-X-MC-Unique: r-tr7KDbNKO9gMjiBzeHHQ-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-17a678c2de9so11082508fac.14
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 01:21:21 -0700 (PDT)
+ us-mta-641-n9k2-HKzNyG_WbR4exZEoA-1; Fri, 31 Mar 2023 04:40:34 -0400
+X-MC-Unique: n9k2-HKzNyG_WbR4exZEoA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ a27-20020a50c31b000000b0050047ecf4bfso30930682edb.19
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 01:40:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680250880; x=1682842880;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mrLzS9aXTCNI2kPymDBaB9weApO4J1V/ZRhbbCvldvM=;
- b=ZOAgNxWESlq2lSCsDOnJuuPCK0j3c4IFbody5K0QpZosTX+1JX9slk3N8Zml7dRWll
- BLRYCjC8X+DsAXACI5NyYTxXllwYXOkGQZgV8Z0ux2peyjLVHo7kOxLCxJ4R16UvJvMi
- /eQmNpAATTiv99bVaN9uZM2UPHjyv3qpod6xTDqys1J1UoP2j6vbbcCOBsuNw7gtPGUJ
- 8dUs7oVAJ4W+pOfFHrg33Sg70k0JIHFQZPWW4CSyR2ikXyC+2ZLTDJfULSDUcfVbzj2c
- C2LdCcAWa3wBrPeVTsR5ebFE68zR7m9t/Rh0w92RJ9FRPD9x7lTc8gp8W5sJc8UvJyrI
- h8Mg==
-X-Gm-Message-State: AAQBX9epeZkS5wVn6dfg8oAmKHl+xHprzRqSBpW4KO64rw+5sJ7hQxsv
- aEM1LAqUFoftzwH1ElpTfrqWQ59ptWFDvKyXE/ZrUEvfWSvjFkIGqzLtSxAvdJDlwrFcra6YtyX
- Q8Qy+gy59Q7q5dsOO43Z0mvtOOOjBYHQ=
-X-Received: by 2002:a05:6808:9bb:b0:389:86c3:b1fb with SMTP id
- e27-20020a05680809bb00b0038986c3b1fbmr1075230oig.9.1680250880694; 
- Fri, 31 Mar 2023 01:21:20 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y9Irpw4o7sSiJwP3g/+9OeEgxhUfj3DD5ijgTjCuAXKbTV+bm4P3NTau1wBFvLJl1vdT9QJIavSaRrhKb4xS4=
-X-Received: by 2002:a05:6808:9bb:b0:389:86c3:b1fb with SMTP id
- e27-20020a05680809bb00b0038986c3b1fbmr1075217oig.9.1680250880470; Fri, 31 Mar
- 2023 01:21:20 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680252033; x=1682844033;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TNjkqYcb0wAAgQPh43AbrgIuRUewu7oYSZiItdK/eoI=;
+ b=cIt+1Xz5xqh/bNbHeJ0YO2Pemt/53ocQjx6e/rZmMqAULqYKyPyMyA1iw6f69/sC3e
+ bkcoh1RpiEkwSrff6nRFwmGKUqpSPUzNVioxftQohLMq4uLV1purAqYVzhuWByoa/iIL
+ +R3Bwrlr/fOYuevQVsSdJzirEyJ+nRYcaXQYGSEiFC05gh7KBiLH/iBulRGf1otV+L3D
+ qJFmMeA5lgGBouHueg4V2yomv6MGzNBeBAPMCV8JFExEywHbD5bWZYhvBEI1zwSyZZxi
+ VgGj/y+OkfyFPwUfRjzlbP5kUOGOovvetBVph7X8gn390R2qYRoRaBe8EqR9SwWLLIax
+ dBcA==
+X-Gm-Message-State: AAQBX9fnJTw7tHd4wJbMaMyGCypVPndGMGh8E9eEULqNXpjply+f/jEt
+ +B0d9AUxHoh5hUyGBVGECk/tjTO42VvqP1CaCOaRNz0XWuNnNsNzfXPc6j6ED8zz9dK9DgH4xVI
+ XpZRGPgQQDGcaqOc=
+X-Received: by 2002:a17:906:b849:b0:93d:c570:5b3a with SMTP id
+ ga9-20020a170906b84900b0093dc5705b3amr28016760ejb.67.1680252033550; 
+ Fri, 31 Mar 2023 01:40:33 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aWYhTrMJDSQGN+Aokz24B7OKzBAc9Of/Al28VaxgWiNV+zVC83fjelGV/AMYnfSpJJCWrZdQ==
+X-Received: by 2002:a17:906:b849:b0:93d:c570:5b3a with SMTP id
+ ga9-20020a170906b84900b0093dc5705b3amr28016745ejb.67.1680252033239; 
+ Fri, 31 Mar 2023 01:40:33 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.googlemail.com with ESMTPSA id
+ g4-20020a17090669c400b0093341746105sm736025ejs.117.2023.03.31.01.40.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Mar 2023 01:40:32 -0700 (PDT)
+Message-ID: <e99b9f37-d8ab-5858-e9c3-5c99a63e8788@redhat.com>
+Date: Fri, 31 Mar 2023 10:40:30 +0200
 MIME-Version: 1.0
-References: <20230330001522.120774-1-andrew@daynix.com>
- <20230330001522.120774-4-andrew@daynix.com>
- <CACGkMEs1hRNLL67W96MO3eMg4H=ex4bYvFxcUkNPgfXXbOvo3A@mail.gmail.com>
- <ZCVJoi7YQlt3axba@redhat.com>
- <CACGkMEugLOsQJz_Hie1-0WLbPEiC2B_7y=RVqqmGi8-aqBfHXQ@mail.gmail.com>
- <ZCaSzxCmqtec/Vin@redhat.com>
- <CACGkMEuMgbxci4LLrmSqth73Mv8kriHX42=y==26mJPFHMzRLA@mail.gmail.com>
- <ZCaWLehDbWTAJtIi@redhat.com>
-In-Reply-To: <ZCaWLehDbWTAJtIi@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 31 Mar 2023 16:21:09 +0800
-Message-ID: <CACGkMEutODVu76qmVM9XyY=dCbx=3RHFF2b8phEVp+7buQRr6g@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] ebpf: Added declaration/initialization routines.
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, thuth@redhat.com, philmd@linaro.org, 
- armbru@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com, 
- mprivozn@redhat.com, yuri.benditovich@daynix.com, yan@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH 0/3] configure: create a python venv and install meson
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
+References: <20230328211119.2748442-1-jsnow@redhat.com>
+ <44ed710a-f897-2be6-4f07-928ba4cb535e@redhat.com>
+ <CAFn=p-YC8rdv2QsU=aNcfDHvYGEtrze6CgSwJ-=9T6xaoAGoiA@mail.gmail.com>
+Content-Language: en-US
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFn=p-YC8rdv2QsU=aNcfDHvYGEtrze6CgSwJ-=9T6xaoAGoiA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,82 +109,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 31, 2023 at 4:13=E2=80=AFPM Daniel P. Berrang=C3=A9 <berrange@r=
-edhat.com> wrote:
->
-> On Fri, Mar 31, 2023 at 04:03:39PM +0800, Jason Wang wrote:
-> > On Fri, Mar 31, 2023 at 3:59=E2=80=AFPM Daniel P. Berrang=C3=A9 <berran=
-ge@redhat.com> wrote:
-> > >
-> > > On Fri, Mar 31, 2023 at 03:48:18PM +0800, Jason Wang wrote:
-> > > > On Thu, Mar 30, 2023 at 4:34=E2=80=AFPM Daniel P. Berrang=C3=A9 <be=
-rrange@redhat.com> wrote:
-> > > > >
-> > > > > On Thu, Mar 30, 2023 at 02:54:32PM +0800, Jason Wang wrote:
-> > > > > > On Thu, Mar 30, 2023 at 8:33=E2=80=AFAM Andrew Melnychenko <and=
-rew@daynix.com> wrote:
-> > > > > >
-> > > > > > Who or how the ABI compatibility is preserved between libvirt a=
-nd Qemu?
-> > > > >
-> > > > > There's no real problem with binary compatibility to solve any mo=
-re.
-> > > > >
-> > > > > When libvirt first launches a QEMU VM, it will fetch the eBPF pro=
-grams
-> > > > > it needs from that running QEMU using QMP. WHen it later needs to
-> > > > > enable features that use eBPF, it already has the program data th=
-at
-> > > > > matches the running QEMU
-> > > >
-> > > > Ok, then who will validate the eBPF program? I don't think libvirt =
-can
-> > > > trust what is received from Qemu otherwise arbitrary eBPF programs
-> > > > could be executed by Qemu in this way. One example is that when gue=
-sts
-> > > > escape to Qemu it can modify the rss_bpf__elf_bytes. Though
-> > > > BPF_PROG_TYPE_SOCKET_FILTER gives some of the restrictions, we stil=
-l
-> > > > need to evaluate side effects of this. Or we need to find other way=
-s
-> > > > like using the binary in libvirt or use rx filter events.
-> > >
-> > > As I mentioned, when libvirt first launches QEMU it will fetch the
-> > > eBPF programs and keep them for later use. At that point the guest
-> > > CPUs haven't started running, and so QEMU it still sufficiently
-> > > trustworthy.
-> >
-> > Well, this means the QMP command is safe only before Qemu starts to
-> > run VCPU. I'm not sure this is a good design. Or at least we need to
-> > fail the QMP command if VCPU starts to run.
->
-> Currently QEMU has the ability to just create the eBPF programs itself
-> at will, when it is launched in a privileged scenario regardless of
-> guest CPU state. In terms of QMP, the reporting of QEMU PIDs for its
-> various vCPU, I/O threads is also not to be trusted after vCPU starts
-> if the guest workload is not trustworthy.
+On 3/30/23 16:11, John Snow wrote:
+>     * undo the meson parts from PATCH 3; make patch 3 create the venv +
+>     subsume the MKVENV parts of the Makefiles + always set
+>     explicit_python=yes (so that at this point the in-tree meson is always
+>     used).
+> 
+>     * add a patch that starts rejecting --meson=/path/to/meson and drops
+>     explicit_python (instead using pyvenv/bin/meson to check whether a
+>     system meson is usable)
+> 
+>     * make Meson use a sphinx-build binary from the virtual environment
+>     (i.e. pass -Dsphinx_build=$PWD/pyvenv/bin/sphinx-build)
+> 
+> 
+> Yep, let's talk about this part in particular.
 
-Indeed.
+Oh, wait, for this one I already have a patch from my experiment that
+used importlib.metadata to look up the entry point dynamically[1] (and
+that's where the shim idea developed from).  All I need to do is change
+the path passed to find_program() and rewrite the commit message.
 
-> I feel this is more of docs
-> problem to explain the caveats that apps should be aware of.
+Paolo
 
-Ok, we can probably document this and in the future we probably need
-to address them.
+[1] https://lore.kernel.org/qemu-devel/2c63f79d-b46d-841b-bed3-0dca33eab2c0@redhat.com/
 
-Thanks
+--------------------------- 8< --------------------------------
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] meson: pick sphinx-build from virtual environment
 
->
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+configure is now creating a virtual environment and populating it
+with shim binaries that always refer to the correct Python runtime.
+docs/meson.build can rely on this, and stop using a sphinx_build
+option that may or may not refer to the same version of Python that
+is used for the rest of the build.
+
+In the long term, it may actually make sense for Meson's Python
+module to include the logic to build such shims, so that other
+programs can do the same without needing a full-blown virtual
+environment.  However, in the context of QEMU there is no need to
+wait for that; QEMU's meson.build already relies on config-host.mak
+and on the target list that configure prepares, i.e. it is not
+standalone.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+
+diff --git a/docs/conf.py b/docs/conf.py
+index 7e215aa9a5c6..c687ff266301 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -32,15 +32,6 @@
+  from distutils.version import LooseVersion
+  from sphinx.errors import ConfigError
+  
+-# Make Sphinx fail cleanly if using an old Python, rather than obscurely
+-# failing because some code in one of our extensions doesn't work there.
+-# In newer versions of Sphinx this will display nicely; in older versions
+-# Sphinx will also produce a Python backtrace but at least the information
+-# gets printed...
+-if sys.version_info < (3,7):
+-    raise ConfigError(
+-        "QEMU requires a Sphinx that uses Python 3.7 or better\n")
+-
+  # The per-manual conf.py will set qemu_docdir for a single-manual build;
+  # otherwise set it here if this is an entire-manual-set build.
+  # This is always the absolute path of the docs/ directory in the source tree.
+diff --git a/docs/meson.build b/docs/meson.build
+index f220800e3e59..1c5fd66bfa7f 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -1,5 +1,6 @@
+-sphinx_build = find_program(get_option('sphinx_build'),
+# This assumes that Python is inside the venv that configure prepares
++sphinx_build = find_program(fs.parent(python.full_path()) / 'sphinx-build',
+                              required: get_option('docs'))
+  
+  # Check if tools are available to build documentation.
+diff --git a/meson_options.txt b/meson_options.txt
+index b541ab2851dd..8dedec0cf91a 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -12,8 +12,6 @@ option('pkgversion', type : 'string', value : '',
+         description: 'use specified string as sub-version of the package')
+  option('smbd', type : 'string', value : '',
+         description: 'Path to smbd for slirp networking')
+-option('sphinx_build', type : 'string', value : 'sphinx-build',
+-       description: 'Use specified sphinx-build for building document')
+  option('iasl', type : 'string', value : '',
+         description: 'Path to ACPI disassembler')
+  option('tls_priority', type : 'string', value : 'NORMAL',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index bf852f4b957e..6a71c3bad296 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -58,8 +58,6 @@ meson_options_help() {
+    printf "%s\n" '  --localedir=VALUE        Locale data directory [share/locale]'
+    printf "%s\n" '  --localstatedir=VALUE    Localstate data directory [/var/local]'
+    printf "%s\n" '  --mandir=VALUE           Manual page directory [share/man]'
+-  printf "%s\n" '  --sphinx-build=VALUE     Use specified sphinx-build for building document'
+-  printf "%s\n" '                           [sphinx-build]'
+    printf "%s\n" '  --sysconfdir=VALUE       Sysconf data directory [etc]'
+    printf "%s\n" '  --tls-priority=VALUE     Default TLS protocol/cipher priority string'
+    printf "%s\n" '                           [NORMAL]'
+@@ -429,7 +427,6 @@ _meson_option_parse() {
+      --disable-sndio) printf "%s" -Dsndio=disabled ;;
+      --enable-sparse) printf "%s" -Dsparse=enabled ;;
+      --disable-sparse) printf "%s" -Dsparse=disabled ;;
+-    --sphinx-build=*) quote_sh "-Dsphinx_build=$2" ;;
+      --enable-spice) printf "%s" -Dspice=enabled ;;
+      --disable-spice) printf "%s" -Dspice=disabled ;;
+      --enable-spice-protocol) printf "%s" -Dspice_protocol=enabled ;;
+-- 
+2.39.2
+
+
 
 
