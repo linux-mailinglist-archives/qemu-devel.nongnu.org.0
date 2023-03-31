@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46A66D24C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 18:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0417B6D2506
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 18:14:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piHKk-0000Mk-8N; Fri, 31 Mar 2023 12:10:34 -0400
+	id 1piHNn-0001Fo-NR; Fri, 31 Mar 2023 12:13:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1piHKh-0000MZ-A8
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:10:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1piHNl-0001FZ-6a
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:13:41 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1piHKf-00015v-5p
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:10:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680279028;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=M0ekIqf3ffMBacN1WlWol8GEJII/3FXedWbtGZbqW5U=;
- b=OAQcFqtIFiO5iCsMPGMCow+PM+ysnGM8aB17k3HtRmSy0zphyf98tm5wCw0YRLLc3HzLNS
- sRzl7GZFm8dhbta7/jbAbMydSNThF6xrWsGGPNEmeNB+LYB5YzLnKWwDSgUPjM7z4swGTR
- rcLGSq3ZXCqnFBfW7Ao5oP+VPS+PK28=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-OoE5hcUYPOafHzdK7JhP4w-1; Fri, 31 Mar 2023 12:10:24 -0400
-X-MC-Unique: OoE5hcUYPOafHzdK7JhP4w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75C978030DA;
- Fri, 31 Mar 2023 16:10:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BAED2166B33;
- Fri, 31 Mar 2023 16:10:18 +0000 (UTC)
-Date: Fri, 31 Mar 2023 17:10:16 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com,
- dfaggioli@suse.com, dgilbert@redhat.com,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with
- multifd and fixed-ram
-Message-ID: <ZCcF6I0qb+1xlPhJ@redhat.com>
-References: <20230330180336.2791-1-farosas@suse.de> <ZCYCE0llX9WANK18@x1n>
- <87edp5oukh.fsf@suse.de> <ZCbzmZXz3JG/jElA@x1n>
- <878rfdos4a.fsf@suse.de> <ZCcCV8PIsuvab1lO@x1n>
+ (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1piHNj-0001ly-6c
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:13:40 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32VG6WDH015509; Fri, 31 Mar 2023 16:13:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=oalYcJ4Elne8uNbznwGYRq2QFiocCzdt5Oj07cbkols=;
+ b=KWVGlYu13Ik6b6D/mRPkgsX2W20LMMwUkal76o/j8gwORt7joSwXdn6G1Du21/NaKzGv
+ F1TOmn5Emu0r0sGDglJEILZxnhl/B+Idiaj5XxrZ/k7d//s4rtgOUbvI2OwK6RmMsC1m
+ LBP8tvFHjZdZr331qSU1Z5b6RVcPtgreBajq4tORTfDhpo/H3WubijDcCoSw+6lQqjAm
+ HypYBEhf+lY3YFqcG4vrqQk+9p05nGGZicV3XENvngyNo9QHq2qjdWRM5EAGlSW/Uy2Z
+ F0/5qXZcWgf1Re8SIE3jXp/l//ngLC6z6cOVs59wSAVT9Fx4ICyAkPH0cxJby1kYoBXZ Vw== 
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pnvq9st44-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 Mar 2023 16:13:26 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32VF2C2i029126;
+ Fri, 31 Mar 2023 16:13:25 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
+ by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3phrk7tn7n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 Mar 2023 16:13:25 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
+ [10.39.53.229])
+ by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32VGDMRk36635204
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 31 Mar 2023 16:13:22 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 562A45805C;
+ Fri, 31 Mar 2023 16:13:22 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 400355805F;
+ Fri, 31 Mar 2023 16:13:22 +0000 (GMT)
+Received: from gfwa601.aus.stglabs.ibm.com (unknown [9.3.62.226])
+ by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
+ Fri, 31 Mar 2023 16:13:22 +0000 (GMT)
+Received: by gfwa601.aus.stglabs.ibm.com (Postfix, from userid 155676)
+ id AC7812E5674; Fri, 31 Mar 2023 11:13:21 -0500 (CDT)
+From: Ninad Palsule <ninadpalsule@us.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: Ninad Palsule <ninadpalsule@us.ibm.com>, joel@jms.id.au, andrew@aj.id.au, 
+ stefanb@linux.ibm.com, clg@kaod.org, ninad@linux.ibm.com
+Subject: [PATCH v12 0/3] Add support for TPM devices over I2C bus
+Date: Fri, 31 Mar 2023 11:13:16 -0500
+Message-Id: <20230331161319.2250334-1-ninadpalsule@us.ibm.com>
+X-Mailer: git-send-email 2.37.2
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: HyR_dndC-OsETE3Vi67E15YYhuwwv8XN
+X-Proofpoint-ORIG-GUID: HyR_dndC-OsETE3Vi67E15YYhuwwv8XN
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZCcCV8PIsuvab1lO@x1n>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-31_07,2023-03-31_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ impostorscore=0 priorityscore=1501 mlxscore=0 phishscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=786 adultscore=0 malwarescore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303310127
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=ninad@us.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,108 +101,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 31, 2023 at 11:55:03AM -0400, Peter Xu wrote:
-> On Fri, Mar 31, 2023 at 12:30:45PM -0300, Fabiano Rosas wrote:
-> > Peter Xu <peterx@redhat.com> writes:
-> > 
-> > > On Fri, Mar 31, 2023 at 11:37:50AM -0300, Fabiano Rosas wrote:
-> > >> >> Outgoing migration to file. NVMe disk. XFS filesystem.
-> > >> >> 
-> > >> >> - Single migration runs of stopped 32G guest with ~90% RAM usage. Guest
-> > >> >>   running `stress-ng --vm 4 --vm-bytes 90% --vm-method all --verify -t
-> > >> >>   10m -v`:
-> > >> >> 
-> > >> >> migration type  | MB/s | pages/s |  ms
-> > >> >> ----------------+------+---------+------
-> > >> >> savevm io_uring |  434 |  102294 | 71473
-> > >> >
-> > >> > So I assume this is the non-live migration scenario.  Could you explain
-> > >> > what does io_uring mean here?
-> > >> >
-> > >> 
-> > >> This table is all non-live migration. This particular line is a snapshot
-> > >> (hmp_savevm->save_snapshot). I thought it could be relevant because it
-> > >> is another way by which we write RAM into disk.
-> > >
-> > > I see, so if all non-live that explains, because I was curious what's the
-> > > relationship between this feature and the live snapshot that QEMU also
-> > > supports.
-> > >
-> > > I also don't immediately see why savevm will be much slower, do you have an
-> > > answer?  Maybe it's somewhere but I just overlooked..
-> > >
-> > 
-> > I don't have a concrete answer. I could take a jab and maybe blame the
-> > extra memcpy for the buffer in QEMUFile? Or perhaps an unintended effect
-> > of bandwidth limits?
-> 
-> IMHO it would be great if this can be investigated and reasons provided in
-> the next cover letter.
-> 
-> > 
-> > > IIUC this is "vm suspend" case, so there's an extra benefit knowledge of
-> > > "we can stop the VM".  It smells slightly weird to build this on top of
-> > > "migrate" from that pov, rather than "savevm", though.  Any thoughts on
-> > > this aspect (on why not building this on top of "savevm")?
-> > >
-> > 
-> > I share the same perception. I have done initial experiments with
-> > savevm, but I decided to carry on the work that was already started by
-> > others because my understanding of the problem was yet incomplete.
-> > 
-> > One point that has been raised is that the fixed-ram format alone does
-> > not bring that many performance improvements. So we'll need
-> > multi-threading and direct-io on top of it. Re-using multifd
-> > infrastructure seems like it could be a good idea.
-> 
-> The thing is IMHO concurrency is not as hard if VM stopped, and when we're
-> 100% sure locally on where the page will go.
 
-We shouldn't assume the VM is stopped though. When saving to the file
-the VM may still be active. The fixed-ram format lets us re-write the
-same memory location on disk multiple times in this case, thus avoiding
-growth of the file size.
+Hello,
+Incorporated review comments from Stefan. Please review.
 
-> IOW, I think multifd provides a lot of features that may not really be
-> useful for this effort, meanwhile using those features may need to already
-> pay for the overhead to support those features.
-> 
-> For example, a major benefit of multifd is it allows pages sent out of
-> order, so it indexes the page as a header.  I didn't read the follow up
-> patches, but I assume that's not needed in this effort.
-> 
-> What I understand so far with fixes-ram is we dump the whole ramblock
-> memory into a chunk at offset of a file.  Can concurrency of that
-> achievable easily by creating a bunch of threads dumping altogether during
-> the savevm, with different offsets of guest ram & file passed over?
+This drop adds support for the TPM devices attached to the I2C bus. It
+only supports the TPM2 protocol. You need to run it with the external
+TPM emulator like swtpm. I have tested it with swtpm.
 
-I feel like the migration code is already insanely complicated and
-the many threads involved have caused no end of subtle bugs. 
+I have refered to the work done by zhdaniel@meta.com but at the core
+level out implementation is different.
+https://github.com/theopolis/qemu/commit/2e2e57cde9e419c36af8071bb85392ad1ed70966
 
-It was Juan I believe who expressed a desire to entirely remove
-non-multifd code in the future, in order to reduce the maint burden.
-IOW, ideally we would be pushing mgmt apps towards always using
-multifd at all times, even if they only ask it to create 1 single
-thread.
+Based-on: $MESSAGE_ID
 
-That would in turn suggest against creating new concurrency
-mechanisms on top of non-multifd code, both to avoid adding yet
-more complexity and also because it would make it harder to later
-delete the non-multifd code.
+Ninad Palsule (3):
+  docs: Add support for TPM devices over I2C bus
+  tpm: Extend common APIs to support TPM TIS I2C
+  tpm: Add support for TPM device over I2C bus
 
-On the libvirt side wrt fixed-ram, we could just use multifd
-exclusively, as there should be no downside to it even for a
-single FD.
+ docs/specs/tpm.rst      |  21 ++
+ hw/arm/Kconfig          |   1 +
+ hw/tpm/Kconfig          |   7 +
+ hw/tpm/meson.build      |   1 +
+ hw/tpm/tpm_tis.h        |   3 +
+ hw/tpm/tpm_tis_common.c |  36 ++-
+ hw/tpm/tpm_tis_i2c.c    | 562 ++++++++++++++++++++++++++++++++++++++++
+ hw/tpm/trace-events     |   6 +
+ include/hw/acpi/tpm.h   |  41 +++
+ include/sysemu/tpm.h    |   3 +
+ 10 files changed, 673 insertions(+), 8 deletions(-)
+ create mode 100644 hw/tpm/tpm_tis_i2c.c
 
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.37.2
 
 
