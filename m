@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77EE6D22C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F406D22C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:40:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piFtK-0004FX-KS; Fri, 31 Mar 2023 10:38:10 -0400
+	id 1piFui-0005CY-Gh; Fri, 31 Mar 2023 10:39:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1piFtH-0004F1-Ha
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:38:07 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1piFtF-0006qC-Dw
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:38:07 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A1BC821A5F;
- Fri, 31 Mar 2023 14:37:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680273473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1piFue-0005AL-SF
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:39:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1piFuc-00072O-RL
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:39:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680273569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=snY7drbdjkmlgf0pWIS/7rxdCTggmV1lfkruO1K+rcc=;
- b=B4jOtp1cQdM2m9pcty6ysbWg4uang3gTiVNcBjWRpeTLKnI1ec9vtpA7QtWXLkn7ltbukR
- W5NKqRiYfB4WYIFeQcHPjxnOpN2Dlqv9mUdraqrMTHTsUuNkirNquoIdfY//fUfoEHtjvv
- ahulsC++zQE967Pn051sL47lr0vfyx4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680273473;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=snY7drbdjkmlgf0pWIS/7rxdCTggmV1lfkruO1K+rcc=;
- b=d3pIIFpt1k4veRI0/YAZlhX54bcVjgRUsBSCW4CoZG2rZJ7NBl6RpCVAN2StNL4LCKZLCq
- i+BW4iCxa1ZGglCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2311F134F7;
- Fri, 31 Mar 2023 14:37:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id VxJUNkDwJmQEbgAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 31 Mar 2023 14:37:52 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- jfehlig@suse.com, dfaggioli@suse.com, dgilbert@redhat.com, =?utf-8?Q?Dani?=
- =?utf-8?Q?el_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, Juan Quintela
- <quintela@redhat.com>
-Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with
- multifd and fixed-ram
-In-Reply-To: <ZCYCE0llX9WANK18@x1n>
-References: <20230330180336.2791-1-farosas@suse.de> <ZCYCE0llX9WANK18@x1n>
-Date: Fri, 31 Mar 2023 11:37:50 -0300
-Message-ID: <87edp5oukh.fsf@suse.de>
+ bh=YoXzIfaII3Xn5i7FlEH28kc14gYoVkLshvwLgrr4C4c=;
+ b=EcIwUkuK1YtDp1juBZKudVa6BZefNx/hN8JWgzjbECEhcLI88iEBl71qxeOQ1fENU2Dmbh
+ qAjg8VZjfxk5xMX8++itnWdy4IhFl/WAdUBxKUL9Y9fl8AwDwdyDvVW6U4Y9f612NyVy6b
+ 14WvYJGgVELz5XxRhb8rFl3ksR/xPsg=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-8wasZsiTPyaPh3z695XcjA-1; Fri, 31 Mar 2023 10:39:26 -0400
+X-MC-Unique: 8wasZsiTPyaPh3z695XcjA-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ l13-20020a05622a174d00b003e4df699997so12567882qtk.20
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 07:39:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680273566;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YoXzIfaII3Xn5i7FlEH28kc14gYoVkLshvwLgrr4C4c=;
+ b=tCePEJqxAD/AI1pHBjoFlR6IySzDi6tYrU7L8FuYzeGUl9ydufNxO67PFBezAprkNv
+ 7OKp9wFFfiztd0obfH0oqBS4IWqpzNH0GC8SzpVOVWkiKPrmtPu87pwSVHYPRki6IggP
+ QONVkc7w128EwN5m1E0FS5QCPJeLCauZFCutRoI1xMI5JH/sRt7lVme3taofvEPVp4ob
+ ddBwqXsl41wfcKMZgDX2XojZBihimrnDVIFWGY3o8J6CZrMuLLVsR+BoNy+ShollwtAV
+ 8gAkvYcStGukLR8y7bGOr0IiSe5GFDxS4uxDjP7ty29ahqNMWncre67PsEYm4rIiUX+p
+ pDUA==
+X-Gm-Message-State: AAQBX9fAJenPlGrBPySy3ATNXTlJvbV/tP2ugHVZklOnxKYDzWWpnWPJ
+ 2ORmDqegp9OQX4FFwrCipxS8pRLDhSzGwN866T9FesKTW9m2qtSzUgZtrC07OR8p7o8RLFH2yPv
+ WCOABGRHDTHPyOQk=
+X-Received: by 2002:a05:622a:1802:b0:3bf:c458:5bac with SMTP id
+ t2-20020a05622a180200b003bfc4585bacmr9070458qtc.0.1680273565829; 
+ Fri, 31 Mar 2023 07:39:25 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z1Am+wypvFewRcYu/S8+bqrovPuxnSCzW6X5gjtEq2SsoLbRQyOcH9HZPPFIGrs0npQE9HIQ==
+X-Received: by 2002:a05:622a:1802:b0:3bf:c458:5bac with SMTP id
+ t2-20020a05622a180200b003bfc4585bacmr9070399qtc.0.1680273565282; 
+ Fri, 31 Mar 2023 07:39:25 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ q19-20020ac87353000000b003e387a2fbdfsm675185qtp.0.2023.03.31.07.39.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Mar 2023 07:39:24 -0700 (PDT)
+Date: Fri, 31 Mar 2023 10:39:23 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, jfehlig@suse.com,
+ dfaggioli@suse.com, dgilbert@redhat.com,
+ Juan Quintela <quintela@redhat.com>, Nikolay Borisov <nborisov@suse.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH v1 10/26] migration/ram: Introduce 'fixed-ram'
+ migration stream capability
+Message-ID: <ZCbwm8qLMOyK93T/@x1n>
+References: <20230330180336.2791-1-farosas@suse.de>
+ <20230330180336.2791-11-farosas@suse.de> <ZCYGz3ht61FBQs3e@x1n>
+ <ZCaSEfMphjQ1ic2j@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZCaSEfMphjQ1ic2j@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,111 +106,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> writes:
+On Fri, Mar 31, 2023 at 08:56:01AM +0100, Daniel P. Berrangé wrote:
+> On Thu, Mar 30, 2023 at 06:01:51PM -0400, Peter Xu wrote:
+> > On Thu, Mar 30, 2023 at 03:03:20PM -0300, Fabiano Rosas wrote:
+> > > From: Nikolay Borisov <nborisov@suse.com>
+> > > 
+> > > Implement 'fixed-ram' feature. The core of the feature is to ensure that
+> > > each ram page of the migration stream has a specific offset in the
+> > > resulting migration stream. The reason why we'd want such behavior are
+> > > two fold:
+> > > 
+> > >  - When doing a 'fixed-ram' migration the resulting file will have a
+> > >    bounded size, since pages which are dirtied multiple times will
+> > >    always go to a fixed location in the file, rather than constantly
+> > >    being added to a sequential stream. This eliminates cases where a vm
+> > >    with, say, 1G of ram can result in a migration file that's 10s of
+> > >    GBs, provided that the workload constantly redirties memory.
+> > > 
+> > >  - It paves the way to implement DIO-enabled save/restore of the
+> > >    migration stream as the pages are ensured to be written at aligned
+> > >    offsets.
+> > > 
+> > > The feature requires changing the stream format. First, a bitmap is
+> > > introduced which tracks which pages have been written (i.e are
+> > > dirtied) during migration and subsequently it's being written in the
+> > > resulting file, again at a fixed location for every ramblock. Zero
+> > > pages are ignored as they'd be zero in the destination migration as
+> > > well. With the changed format data would look like the following:
+> > > 
+> > > |name len|name|used_len|pc*|bitmap_size|pages_offset|bitmap|pages|
+> > 
+> > What happens with huge pages?  Would page size matter here?
+> > 
+> > I would assume it's fine it uses a constant (small) page size, assuming
+> > that should match with the granule that qemu tracks dirty (which IIUC is
+> > the host page size not guest's).
+> > 
+> > But I didn't yet pay any further thoughts on that, maybe it would be
+> > worthwhile in all cases to record page sizes here to be explicit or the
+> > meaning of bitmap may not be clear (and then the bitmap_size will be a
+> > field just for sanity check too).
+> 
+> I think recording the page sizes is an anti-feature in this case.
+> 
+> The migration format / state needs to reflect the guest ABI, but
+> we need to be free to have different backend config behind that
+> either side of the save/restore.
+> 
+> IOW, if I start a QEMU with 2 GB of RAM, I should be free to use
+> small pages initially and after restore use 2 x 1 GB hugepages,
+> or vica-verca.
+> 
+> The important thing with the pages that are saved into the file
+> is that they are a 1:1 mapping guest RAM regions to file offsets.
+> IOW, the 2 GB of guest RAM is always a contiguous 2 GB region
+> in the file.
+> 
+> If the src VM used 1 GB pages, we would be writing a full 2 GB
+> of data assuming both pages were dirty.
+> 
+> If the src VM used 4k pages, we would be writing some subset of
+> the 2 GB of data, and the rest would be unwritten.
+> 
+> Either way, when reading back the data we restore it into either
+> 1 GB pages of 4k pages, beause any places there were unwritten
+> orignally  will read back as zeros.
 
-> On Thu, Mar 30, 2023 at 03:03:10PM -0300, Fabiano Rosas wrote:
->> Hi folks,
->
-> Hi,
->
->> 
->> I'm continuing the work done last year to add a new format of
->> migration stream that can be used to migrate large guests to a single
->> file in a performant way.
->> 
->> This is an early RFC with the previous code + my additions to support
->> multifd and direct IO. Let me know what you think!
->> 
->> Here are the reference links for previous discussions:
->> 
->> https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01813.html
->> https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg01338.html
->> https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg05536.html
->> 
->> The series has 4 main parts:
->> 
->> 1) File migration: A new "file:" migration URI. So "file:mig" does the
->>    same as "exec:cat > mig". Patches 1-4 implement this;
->> 
->> 2) Fixed-ram format: A new format for the migration stream. Puts guest
->>    pages at their relative offsets in the migration file. This saves
->>    space on the worst case of RAM utilization because every page has a
->>    fixed offset in the migration file and (potentially) saves us time
->>    because we could write pages independently in parallel. It also
->>    gives alignment guarantees so we could use O_DIRECT. Patches 5-13
->>    implement this;
->> 
->> With patches 1-13 these two^ can be used with:
->> 
->> (qemu) migrate_set_capability fixed-ram on
->> (qemu) migrate[_incoming] file:mig
->
-> Have you considered enabling the new fixed-ram format with postcopy when
-> loading?
->
-> Due to the linear offseting of pages, I think it can achieve super fast vm
-> loads due to O(1) lookup of pages and local page fault resolutions.
->
+I think there's already the page size information, because there's a bitmap
+embeded in the format at least in the current proposal, and the bitmap can
+only be defined with a page size provided in some form.
 
-I don't think we have looked that much at the loading side yet. Good to
-know that it has potential to be faster. I'll look into it. Thanks for
-the suggestion.
+Here I agree the backend can change before/after a migration (live or
+not).  Though the question is whether page size matters in the snapshot
+layout rather than what the loaded QEMU instance will use as backend.
 
->> 
->> --> new in this series:
->> 
->> 3) MultiFD support: This is about making use of the parallelism
->>    allowed by the new format. We just need the threading and page
->>    queuing infrastructure that is already in place for
->>    multifd. Patches 14-24 implement this;
->> 
->> (qemu) migrate_set_capability fixed-ram on
->> (qemu) migrate_set_capability multifd on
->> (qemu) migrate_set_parameter multifd-channels 4
->> (qemu) migrate_set_parameter max-bandwith 0
->> (qemu) migrate[_incoming] file:mig
->> 
->> 4) Add a new "direct_io" parameter and enable O_DIRECT for the
->>    properly aligned segments of the migration (mostly ram). Patch 25.
->> 
->> (qemu) migrate_set_parameter direct-io on
->> 
->> Thanks! Some data below:
->> =====
->> 
->> Outgoing migration to file. NVMe disk. XFS filesystem.
->> 
->> - Single migration runs of stopped 32G guest with ~90% RAM usage. Guest
->>   running `stress-ng --vm 4 --vm-bytes 90% --vm-method all --verify -t
->>   10m -v`:
->> 
->> migration type  | MB/s | pages/s |  ms
->> ----------------+------+---------+------
->> savevm io_uring |  434 |  102294 | 71473
->
-> So I assume this is the non-live migration scenario.  Could you explain
-> what does io_uring mean here?
->
+> 
+> > If postcopy might be an option, we'd want the page size to be the host page
+> > size because then looking up the bitmap will be straightforward, deciding
+> > whether we should copy over page (UFFDIO_COPY) or fill in with zeros
+> > (UFFDIO_ZEROPAGE).
+> 
+> This format is only intended for the case where we are migrating to
+> a random-access medium, aka a file, because the fixed RAM mappings
+> to disk mean that we need to seek back to the original location to
+> re-write pages that get dirtied. It isn't suitable for a live
+> migration stream, and thus postcopy is inherantly out of scope.
 
-This table is all non-live migration. This particular line is a snapshot
-(hmp_savevm->save_snapshot). I thought it could be relevant because it
-is another way by which we write RAM into disk.
+Yes, I've commented also in the cover letter, but I can expand a bit.
 
-The io_uring is noise, I was initially under the impression that the
-block device aio configuration affected this scenario.
+I mean support postcopy only when loading, but not when saving.
 
->> file:           | 3017 |  855862 | 10301
->> fixed-ram       | 1982 |  330686 | 15637
->> ----------------+------+---------+------
->> fixed-ram + multifd + O_DIRECT
->>          2 ch.  | 5565 | 1500882 |  5576
->>          4 ch.  | 5735 | 1991549 |  5412
->>          8 ch.  | 5650 | 1769650 |  5489
->>         16 ch.  | 6071 | 1832407 |  5114
->>         32 ch.  | 6147 | 1809588 |  5050
->>         64 ch.  | 6344 | 1841728 |  4895
->>        128 ch.  | 6120 | 1915669 |  5085
->> ----------------+------+---------+------
->
-> Thanks,
+Saving to file definitely cannot work with postcopy because there's no dest
+qemu running.
+
+Loading from file, OTOH, can work together with postcopy.
+
+Right now AFAICT current approach is precopy loading the whole guest image
+with the supported snapshot format (if I can call it just a snapshot).
+
+What I want to say is we can consider supporting postcopy on loading in
+that we start an "empty" QEMU dest node, when any page fault triggered we
+do it using userfault and lookup the snapshot file instead rather than
+sending a request back to the source.  I mentioned that because there'll be
+two major benefits which I mentioned in reply to the cover letter quickly,
+but I can also extend here:
+
+  - Firstly, the snapshot format is ideally storing pages in linear
+    offsets, it means when we know some page missing we can use O(1) time
+    looking it up from the snapshot image.
+
+  - Secondly, we don't need to let the page go through the wires, neither
+    do we need to send a request to src qemu or anyone.  What we need here
+    is simply test the bit on the snapshot bitmap, then:
+
+    - If it is copied, do UFFDIO_COPY to resolve page faults,
+    - If it is not copied, do UFFDIO_ZEROPAGE (e.g., if not hugetlb,
+      hugetlb can use a fake UFFDIO_COPY)
+
+So this is a perfect testing ground for using postcopy in a very efficient
+way against a file snapshot.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
