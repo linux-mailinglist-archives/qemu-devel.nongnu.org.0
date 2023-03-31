@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0559B6D1DDA
+	by mail.lfdr.de (Postfix) with ESMTPS id 204146D1DDB
 	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 12:21:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piBrv-0001Af-Cl; Fri, 31 Mar 2023 06:20:27 -0400
+	id 1piBsN-0001D0-IZ; Fri, 31 Mar 2023 06:20:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1piBrs-0001AS-Jn
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:20:24 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1piBrq-0007Bt-Om
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:20:24 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id n19so12595490wms.0
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 03:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680258021;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WmEQCeCTXeZhHdbuEMP79HEnE/U6lDpAiMnb2a3RWgk=;
- b=ecglU8O8swIJKfmnX8cLKIZPgopkZjsv88QsPRn1WYPF+rVSj3018a6VAQD/sH+U8b
- Gu4ET0Fbreyhji0MfnwF0Ap4/wS6+ZyaleC1WWj9JWmLHu2GhJeAjMkj6qk1x1YBMVaT
- U9Pnk0Ahi4g4Jk/CHBFAoXbxRiM7mOAnlFXaktj3va9zaERwSvakcBrhzIW//LtgpVq/
- wRSd/9lm2YT132Ue++oaln1+Vk16DMtUfB+NqA/aPA3AfuiiyNyGBpv76aUkrXa8epRq
- 8lprpDbc/ZSWjxPdn3q1iYd5e2sRXBXvQ6iPDGT5YB7g1uKW8RSnnF7GZbRxtf0NKQUg
- KLmQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1piBsK-0001CU-IX
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:20:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1piBsJ-0007VR-5p
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:20:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680258050;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HYUlUoQlfLZxNSf1SRZO8JrPe/O+c5Lngo8k2Veo+oY=;
+ b=BvWlYNfdPmiru/TjMTHsVhaTyIuZfld/8S0fiB3AyiPErcaxS5J89gd8u9LY0Bh1FdUhoR
+ uZVK1pwGcFsXh09W/vJYkgZpRpRaRlweXONSoYv3aaoKzfjQcnVM38a3KWP41rpHnoMgPe
+ xxmDEQ8+qwF5g4lo8n2hWeR00o6dD8E=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-606-gT0nbYTiPRGtgl6jonx7Tw-1; Fri, 31 Mar 2023 06:20:48 -0400
+X-MC-Unique: gT0nbYTiPRGtgl6jonx7Tw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ d11-20020a05600c34cb00b003ee89ce8cc3so10858017wmq.7
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 03:20:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680258021;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=WmEQCeCTXeZhHdbuEMP79HEnE/U6lDpAiMnb2a3RWgk=;
- b=0TkiuWCeX1Hjisa+hsdqW2Iz2wLGaqGZ2/eZNLzI3aiPiOo4aJN8ixaPV8B5DskUtb
- C8THc8fUS0BWyfYpVVSUaShvaaxk4u1kw2af5ga8JdYuqG4SDQdLX2OnG5RsU/E1c/55
- gAA4CAUkX8j2T7JTba6FnXvY+JtiRtyt05eCBeMDVB6piULd/Bs/+sDxOWgmmCIOZOv3
- lQP/hHVS4y811yx0MYwYmIfMpackwNfm1b8BaUy8JUgQYnxCAa7+7goA/psMj1hij7wC
- 3gEyM3SCBAxzsL0g3L0NF+rHlv9HFpeRdXztQP4E7U5nxGmbCAuCOD/hD+TMEQHK7DLq
- J5Bw==
-X-Gm-Message-State: AO0yUKXlcGqqqKxfBkQYr3oiclUvpjQl529fbGj0ImuZb7Qrgle1cbls
- avsbqR7ifET4RPTtCzcv5U/nWQ==
-X-Google-Smtp-Source: AK7set8+tx1OCHq/+kYE1aNVxgylxthNKtgIFzFZS0NbINUVoOiha9S/2dNyS9mMHPCKMiJA3yghXQ==
-X-Received: by 2002:a7b:cbd0:0:b0:3ed:2a8f:e6dd with SMTP id
- n16-20020a7bcbd0000000b003ed2a8fe6ddmr18878507wmi.6.1680258020925; 
- Fri, 31 Mar 2023 03:20:20 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- v8-20020a05600c470800b003ef71d7d64asm9501310wmo.6.2023.03.31.03.20.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Mar 2023 03:20:20 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 318051FFB7;
- Fri, 31 Mar 2023 11:20:20 +0100 (BST)
-References: <20230327115030.3418323-1-kconsul@linux.vnet.ibm.com>
- <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
- <ZCUoKZ7OrEVa4CEN@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Hariharan T S
- <hariharan.ts@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/2] tests/requirements.txt: bump up avocado-framework
- version to 101.0
-Date: Fri, 31 Mar 2023 11:19:18 +0100
-In-reply-to: <ZCUoKZ7OrEVa4CEN@li-a450e7cc-27df-11b2-a85c-b5a9ac31e8ef.ibm.com>
-Message-ID: <87wn2xmdcr.fsf@linaro.org>
+ d=1e100.net; s=20210112; t=1680258047;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HYUlUoQlfLZxNSf1SRZO8JrPe/O+c5Lngo8k2Veo+oY=;
+ b=pdobD/r4Kde1flzUT/TRfkjMJ/jcUyatD8yyAZG3m+Y/85DdJd9KtKHzuG+oke08Tr
+ RvByFrQkrcKO+oqPMpDL7oMQq0pQRCpv1vrq3t3w9Evj90KVYldGICEIgdHlc/PZ2YWP
+ p5nW4LEplmD8fQQKunL6US+vDDMlalBLAo/PorQICIXsqE0kW8Jsdn5CkV1U/f9bq1AF
+ bqzg89hoHHsU7qJB19kPg6+zbPhmOdidCh0YWUrFbCHOFmVLHT6TqwT4Mu+VAmmzSR0V
+ P5Tc2Q/zfCi8YpItEH9gJKE3DFQQYBuTNp+WSpW5PkOnVoTuHRGqftHIKYgI5SLFg5fj
+ RavQ==
+X-Gm-Message-State: AAQBX9cHy2W5UHyveM/tcWadUjR6LdQRoG+An88RKtmWQBrav9sPQXkK
+ Uq2N4pOEzHqsWQV+6p3+xqP3i4Iwy5EQihgbYnN3ewnrlJV6hLGIvzMSxOfv1dB0G6pZE+A9kNe
+ gL140YSywkqDYKxbVLaGsQkizhQ==
+X-Received: by 2002:a5d:46c9:0:b0:2c7:e5f:e0e0 with SMTP id
+ g9-20020a5d46c9000000b002c70e5fe0e0mr21625746wrs.65.1680258047181; 
+ Fri, 31 Mar 2023 03:20:47 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bosl8GN2gOuO28hcSz6NU1dlxFsVdLvOIxPsu+beKc1mqpx7itoalta7sLHIjCBBw9gr67XQ==
+X-Received: by 2002:a5d:46c9:0:b0:2c7:e5f:e0e0 with SMTP id
+ g9-20020a5d46c9000000b002c70e5fe0e0mr21625730wrs.65.1680258046896; 
+ Fri, 31 Mar 2023 03:20:46 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-177-12.web.vodafone.de.
+ [109.43.177.12]) by smtp.gmail.com with ESMTPSA id
+ m3-20020a056000180300b002e5f3d81c06sm1288644wrh.89.2023.03.31.03.20.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Mar 2023 03:20:46 -0700 (PDT)
+Message-ID: <fcbd60cc-81af-9854-60ab-ce30c170e831@redhat.com>
+Date: Fri, 31 Mar 2023 12:20:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 1/3] qtest: Add functions for accessing devices on
+ Aspeed I2C controller
+Content-Language: en-US
+To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, clg@kaod.org, ninad@linux.ibm.com,
+ joel@jms.id.au, andrew@aj.id.au
+References: <20230328171958.3677734-1-stefanb@linux.ibm.com>
+ <20230328171958.3677734-2-stefanb@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230328171958.3677734-2-stefanb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,54 +102,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 28/03/2023 19.19, Stefan Berger wrote:
+> Add read and write functions for accessing registers of I2C devices
+> connected to the Aspeed I2C controller.
+> 
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> Reviewed-by: Ninad Palsule <ninad@linux.ibm.com>
+> ---
+>   include/hw/i2c/aspeed_i2c.h |   7 +++
+>   tests/qtest/qtest_aspeed.c  | 117 ++++++++++++++++++++++++++++++++++++
+>   tests/qtest/qtest_aspeed.h  |  41 +++++++++++++
+>   3 files changed, 165 insertions(+)
+>   create mode 100644 tests/qtest/qtest_aspeed.c
+>   create mode 100644 tests/qtest/qtest_aspeed.h
 
-Kautuk Consul <kconsul@linux.vnet.ibm.com> writes:
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-> Hi,
-> On 2023-03-27 07:50:29, Kautuk Consul wrote:
->> Avocado version 101.0 has a fix to re-compute the checksum
->> of an asset file if the algorithm used in the *-CHECKSUM
->> file isn't the same as the one being passed to it by the
->> avocado user (i.e. the avocado_qemu python module).
->> In the earlier avocado versions this fix wasn't there due
->> to which if the checksum wouldn't match the earlier
->> checksum (calculated by a different algorithm), the avocado
->> code would start downloading a fresh image from the internet
->> URL thus making the test-cases take longer to execute.
->>=20
->> Bump up the avocado-framework version to 101.0.
-> Any comments on this ? I have tested this patch and it seems to work
-> fine with the avocado test-cases.
-
-I'm dropping this from the for-8.0 series as it causes a bunch of
-failures in tests. I'll keep it in testing/next for when the tree
-re-opens.
-
->>=20
->> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
->> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
->> ---
->>  tests/requirements.txt | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/tests/requirements.txt b/tests/requirements.txt
->> index 0ba561b6bd..a6f73da681 100644
->> --- a/tests/requirements.txt
->> +++ b/tests/requirements.txt
->> @@ -2,5 +2,5 @@
->>  # in the tests/venv Python virtual environment. For more info,
->>  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
->>  # Note that qemu.git/python/ is always implicitly installed.
->> -avocado-framework=3D=3D88.1
->> +avocado-framework=3D=3D101.0
->>  pycdlib=3D=3D1.11.0
->> --=20
->> 2.39.2
->>=20
->>=20
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
