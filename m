@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4546D2201
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D9B6D2200
 	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:01:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piFJ6-0001rz-BQ; Fri, 31 Mar 2023 10:00:46 -0400
+	id 1piFJh-0003K3-16; Fri, 31 Mar 2023 10:01:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1piFIV-0001iZ-6k; Fri, 31 Mar 2023 10:00:07 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
+ id 1piFJb-0003C2-8z; Fri, 31 Mar 2023 10:01:18 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1piFIR-0007PO-6x; Fri, 31 Mar 2023 10:00:06 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id z83so27490081ybb.2;
- Fri, 31 Mar 2023 07:00:02 -0700 (PDT)
+ id 1piFJZ-0007we-DJ; Fri, 31 Mar 2023 10:01:14 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id cf7so27507379ybb.5;
+ Fri, 31 Mar 2023 07:01:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680271201; x=1682863201;
+ d=gmail.com; s=20210112; t=1680271272; x=1682863272;
  h=in-reply-to:content-disposition:mime-version:references:reply-to
  :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
  :message-id:reply-to;
- bh=A35LsKk33rCg2gBbdVQbvofYqSEYLzvxYH/mCZEhK2A=;
- b=CL5sHiQabdwgqr8KaQVE6Y4M4paCdSzHgwbm30VTJPoyYUn7RLWne2GZfGtlA8LPFz
- 4ckBrlSzPBJ9yzIgd2P9m54RKJXjiky6bBM2TRc3hkPyJFUyA3Efnbbzr0faYHXBNhka
- /lYog96utWIBkzlToZf0EuFJOumgbMxI+JKjIyGsSZ1Td4YC1Qih+4MMolpPQXvuiT55
- 87Vk97p+32Dl+s1fBY3dQbyD868S5UU415CdeXKa2STZVRNmawmUomoCHlpOT5o5SkVL
- XBA8SC8/epwf6nkV0T7CfTHi2bca2m4dor/X0QNPqvw2xXlAjfOvSL0odI0JdpGVe0N/
- bvFw==
+ bh=1ByPIoPx0ZrWexgRaIPhlGfo2kAd1Na+8wyIySIdvJg=;
+ b=nFN7k19JaJXKJswrFzjzezbp8ZrnrdmyFq6+1Y/8if5hqlklKmTc2YdySn+63ktxGz
+ qoD2V9jRmax3TcAdQUbVV+CKF31eEZn8sEUdnepUvAXzzs2ZDO8pZuT/oVncT268tMDX
+ AzIY/ONoNLV/0cjDvcVSCqcxvEkYm5ZWbSvJCif7npo+FyIzqZ3sdhaXsXui71/0dFqB
+ 5K175TO3FhlytTPZwE9SWv+7bjx6memHc2j536qGy9ANtFd1x3U5KurAwQg5Gmu3YD34
+ 7UusEMSipzE31p5usiaJ8A3Vneqb/+pfY91eYDVvDri1zQEmYa1Sf1qDQa1MJJ88m/9C
+ 1EhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680271201; x=1682863201;
+ d=1e100.net; s=20210112; t=1680271272; x=1682863272;
  h=in-reply-to:content-disposition:mime-version:references:reply-to
  :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=A35LsKk33rCg2gBbdVQbvofYqSEYLzvxYH/mCZEhK2A=;
- b=mUs1mK5s6Ac3YsKdmddnZwYkbtgtTWwd45ALEkZHi6b0sI8tT2WvJR+gVqknqBfpjC
- Cy+eN+9xLPeTLj5ylJdezkQI0V0Bnywl3GG/Ln3U3+b4JbemHkDgCktvuoG1G4EuAtMm
- JphpzN0KMeoyD1eAPRxHgB26xZxl0qWceOqIaVV6ub1v7sL7BJmIInj1cT2iQWOEZrwV
- FjhAzADhDUJY8i1qgAk1j+0FmtQkxbWzb2Rg50zQ3GNdTibc7QsAV7qRPJi9aQj3ZZ37
- TcaA4TZrQovydqivDw9ZH+2TP6j1trojv3z+81VGA4fDAocZCEJcyR3xnE9qC3Y8JZ2W
- 0AgA==
-X-Gm-Message-State: AAQBX9fDqXnRsZko+Oz5YUo3tqMaymCQ8H8lg6fyxvW1t6aj6h9jFUYJ
- 3wXtqyLCbZhOKGS5rd9jbg==
-X-Google-Smtp-Source: AKy350YvK8o0SPxZybg5j0kIWpM4n904biW4efGQC3lxcVY/7aOe3WfqKFtn4kO8P2n9DEkz4yY5wg==
-X-Received: by 2002:a25:1502:0:b0:a6f:7ac8:e746 with SMTP id
- 2-20020a251502000000b00a6f7ac8e746mr20540770ybv.45.1680271201285; 
- Fri, 31 Mar 2023 07:00:01 -0700 (PDT)
+ bh=1ByPIoPx0ZrWexgRaIPhlGfo2kAd1Na+8wyIySIdvJg=;
+ b=kT86Skb4h3wOig56w9z+8lgahKIXocdhuvQbvpKjs9KnzL6sGYiZsOqQgkPNqMVo9d
+ 6w2tLJHFwmGZMYfkDvpyI4acQ+nErCu1+VxzzpbYUYrXZX2zSJCMpzbagF+6bYY0bLtg
+ M8sUZXtNBhVlxipDgTUFF0fidmZr7So+3nLMTFXDQmIybjdnCS2s8BGb3KWcxvVSYWng
+ tG74EmbHKPJV9IY+ycQkbjq7KGbyZZ2dOcZkKEc5uwsSwJ/fGZ6+uE6kKQlpAECQ1bFH
+ PoMy125/VmqykevjWiX+imr1rrv/mRxGoGy1KmDo1plHIEjqpQm+3SJDELWEVsiTRSbw
+ 0BGQ==
+X-Gm-Message-State: AAQBX9d8hXq8988vKwKhvVQEYj4ZJQUrjHI7PcX5AAnj7+05j4yIrP+Q
+ hVeS6kvQm3h2T/ZN/VcMF75JC4mJtA==
+X-Google-Smtp-Source: AKy350bI8qxJuZg3BMdGtKQ+NbITADUJYsYewL24Oizhz8GKRlwnirS8d9Q7YmriBZN/dOd6g1i6ag==
+X-Received: by 2002:a25:2584:0:b0:997:e3f5:d0cd with SMTP id
+ l126-20020a252584000000b00997e3f5d0cdmr24068583ybl.45.1680271271596; 
+ Fri, 31 Mar 2023 07:01:11 -0700 (PDT)
 Received: from serve.minyard.net ([47.184.185.84])
  by smtp.gmail.com with ESMTPSA id
- b21-20020a25cb15000000b00b7767ca746fsm587857ybg.12.2023.03.31.07.00.00
+ cj9-20020a056902188900b00b7b0aba5cccsm582057ybb.22.2023.03.31.07.01.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Mar 2023 07:00:00 -0700 (PDT)
+ Fri, 31 Mar 2023 07:01:11 -0700 (PDT)
 Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:4b5:7e28:63da:3be])
- by serve.minyard.net (Postfix) with ESMTPSA id 0F0711800BB;
- Fri, 31 Mar 2023 14:00:00 +0000 (UTC)
-Date: Fri, 31 Mar 2023 08:59:58 -0500
+ by serve.minyard.net (Postfix) with ESMTPSA id 67D081800BB;
+ Fri, 31 Mar 2023 14:01:10 +0000 (UTC)
+Date: Fri, 31 Mar 2023 09:01:09 -0500
 From: Corey Minyard <minyard@acm.org>
 To: Titus Rwantare <titusr@google.com>
 Cc: philmd@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
  Hao Wu <wuhaotsh@google.com>
-Subject: Re: [PATCH 6/7] hw/sensor: add ADM1266 device model
-Message-ID: <ZCbnXrYJ32NC4RnC@minyard.net>
+Subject: Re: [PATCH 7/7] tests/qtest: add tests for ADM1266
+Message-ID: <ZCbnpcnaj2dnfYXV@minyard.net>
 References: <20230331000756.1712787-1-titusr@google.com>
- <20230331000756.1712787-7-titusr@google.com>
+ <20230331000756.1712787-8-titusr@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230331000756.1712787-7-titusr@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=tcminyard@gmail.com; helo=mail-yb1-xb34.google.com
+In-Reply-To: <20230331000756.1712787-8-titusr@google.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=tcminyard@gmail.com; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,89 +95,48 @@ Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Mar 31, 2023 at 12:07:55AM +0000, Titus Rwantare wrote:
->   The ADM1266 is a cascadable super sequencer with margin control and
->   fault recording.
-
-This sounds like serious marketing-speak :).  I looked up the chip and
-yes, that's what they say about it.
-
->   This commit adds basic support for its PMBus commands and models
->   the identification registers that can be modified in a firmware
->   update.
+On Fri, Mar 31, 2023 at 12:07:56AM +0000, Titus Rwantare wrote:
+>   The ADM1266 can have string fields written by the driver, so
+>   it's worth specifically testing.
 > 
 > Reviewed-by: Hao Wu <wuhaotsh@google.com>
 > Signed-off-by: Titus Rwantare <titusr@google.com>
 
-Looks good. 
-
 Acked-by: Corey Minyard <cminyard@mvista.com>
 
 > ---
->  hw/arm/Kconfig        |   1 +
->  hw/sensor/Kconfig     |   5 +
->  hw/sensor/adm1266.c   | 255 ++++++++++++++++++++++++++++++++++++++++++
->  hw/sensor/meson.build |   1 +
->  4 files changed, 262 insertions(+)
->  create mode 100644 hw/sensor/adm1266.c
+>  tests/qtest/adm1266-test.c | 123 +++++++++++++++++++++++++++++++++++++
+>  tests/qtest/meson.build    |   1 +
+>  2 files changed, 124 insertions(+)
+>  create mode 100644 tests/qtest/adm1266-test.c
 > 
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index b5aed4aff5..4e44a7451d 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -407,6 +407,7 @@ config XLNX_VERSAL
->  config NPCM7XX
->      bool
->      select A9MPCORE
-> +    select ADM1266
->      select ADM1272
->      select ARM_GIC
->      select SMBUS
-> diff --git a/hw/sensor/Kconfig b/hw/sensor/Kconfig
-> index e03bd09b50..bc6331b4ab 100644
-> --- a/hw/sensor/Kconfig
-> +++ b/hw/sensor/Kconfig
-> @@ -22,6 +22,11 @@ config ADM1272
->      bool
->      depends on I2C
->  
-> +config ADM1266
-> +    bool
-> +    depends on PMBUS
-> +    default y if PMBUS
-> +
->  config MAX34451
->      bool
->      depends on I2C
-> diff --git a/hw/sensor/adm1266.c b/hw/sensor/adm1266.c
+> diff --git a/tests/qtest/adm1266-test.c b/tests/qtest/adm1266-test.c
 > new file mode 100644
-> index 0000000000..0745b12b1d
+> index 0000000000..6431a21de6
 > --- /dev/null
-> +++ b/hw/sensor/adm1266.c
-> @@ -0,0 +1,255 @@
+> +++ b/tests/qtest/adm1266-test.c
+> @@ -0,0 +1,123 @@
 > +/*
 > + * Analog Devices ADM1266 Cascadable Super Sequencer with Margin Control and
 > + * Fault Recording with PMBus
 > + *
-> + * https://www.analog.com/media/en/technical-documentation/data-sheets/adm1266.pdf
-> + *
-> + * Copyright 2023 Google LLC
+> + * Copyright 2022 Google LLC
 > + *
 > + * SPDX-License-Identifier: GPL-2.0-or-later
 > + */
 > +
 > +#include "qemu/osdep.h"
-> +#include <string.h>
+> +#include <math.h>
 > +#include "hw/i2c/pmbus_device.h"
-> +#include "hw/irq.h"
-> +#include "migration/vmstate.h"
-> +#include "qapi/error.h"
-> +#include "qapi/visitor.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
+> +#include "libqtest-single.h"
+> +#include "libqos/qgraph.h"
+> +#include "libqos/i2c.h"
+> +#include "qapi/qmp/qdict.h"
+> +#include "qapi/qmp/qnum.h"
+> +#include "qemu/bitops.h"
 > +
-> +#define TYPE_ADM1266 "adm1266"
-> +OBJECT_DECLARE_SIMPLE_TYPE(ADM1266State, ADM1266)
+> +#define TEST_ID "adm1266-test"
+> +#define TEST_ADDR (0x12)
 > +
 > +#define ADM1266_BLACKBOX_CONFIG                 0xD3
 > +#define ADM1266_PDIO_CONFIG                     0xD4
@@ -200,228 +159,98 @@ Acked-by: Corey Minyard <cminyard@mvista.com>
 > +#define ADM1266_MFR_MODEL_DEFAULT_LEN           32
 > +#define ADM1266_MFR_REVISION_DEFAULT            "25"
 > +#define ADM1266_MFR_REVISION_DEFAULT_LEN        8
+> +#define TEST_STRING_A                           "a sample"
+> +#define TEST_STRING_B                           "b sample"
+> +#define TEST_STRING_C                           "rev c"
 > +
-> +#define ADM1266_NUM_PAGES               17
-> +/**
-> + * PAGE Index
-> + * Page 0 VH1.
-> + * Page 1 VH2.
-> + * Page 2 VH3.
-> + * Page 3 VH4.
-> + * Page 4 VP1.
-> + * Page 5 VP2.
-> + * Page 6 VP3.
-> + * Page 7 VP4.
-> + * Page 8 VP5.
-> + * Page 9 VP6.
-> + * Page 10 VP7.
-> + * Page 11 VP8.
-> + * Page 12 VP9.
-> + * Page 13 VP10.
-> + * Page 14 VP11.
-> + * Page 15 VP12.
-> + * Page 16 VP13.
-> + */
-> +typedef struct ADM1266State {
-> +    PMBusDevice parent;
-> +
-> +    char mfr_id[32];
-> +    char mfr_model[32];
-> +    char mfr_rev[8];
-> +} ADM1266State;
-> +
-> +static const uint8_t adm1266_ic_device_id[] = {0x03, 0x41, 0x12, 0x66};
-> +static const uint8_t adm1266_ic_device_rev[] = {0x08, 0x01, 0x08, 0x07, 0x0,
-> +                                                0x0, 0x07, 0x41, 0x30};
-> +
-> +static void adm1266_exit_reset(Object *obj)
+> +static void compare_string(QI2CDevice *i2cdev, uint8_t reg,
+> +                           const char *test_str)
 > +{
-> +    ADM1266State *s = ADM1266(obj);
-> +    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
+> +    uint8_t len = i2c_get8(i2cdev, reg);
+> +    char i2c_str[SMBUS_DATA_MAX_LEN] = {0};
 > +
-> +    pmdev->page = 0;
-> +    pmdev->capability = ADM1266_CAPABILITY_NO_PEC;
-> +
-> +    for (int i = 0; i < ADM1266_NUM_PAGES; i++) {
-> +        pmdev->pages[i].operation = ADM1266_OPERATION_DEFAULT;
-> +        pmdev->pages[i].revision = ADM1266_PMBUS_REVISION_DEFAULT;
-> +        pmdev->pages[i].vout_mode = 0;
-> +        pmdev->pages[i].read_vout = pmbus_data2linear_mode(12, 0);
-> +        pmdev->pages[i].vout_margin_high = pmbus_data2linear_mode(15, 0);
-> +        pmdev->pages[i].vout_margin_low = pmbus_data2linear_mode(3, 0);
-> +        pmdev->pages[i].vout_ov_fault_limit = pmbus_data2linear_mode(16, 0);
-> +        pmdev->pages[i].revision = ADM1266_PMBUS_REVISION_DEFAULT;
-> +    }
-> +
-> +    strncpy(s->mfr_id, ADM1266_MFR_ID_DEFAULT, 4);
-> +    strncpy(s->mfr_model, ADM1266_MFR_MODEL_DEFAULT, 11);
-> +    strncpy(s->mfr_rev, ADM1266_MFR_REVISION_DEFAULT, 3);
+> +    i2c_read_block(i2cdev, reg, (uint8_t *)i2c_str, len);
+> +    g_assert_cmpstr(i2c_str, ==, test_str);
 > +}
 > +
-> +static uint8_t adm1266_read_byte(PMBusDevice *pmdev)
+> +static void write_and_compare_string(QI2CDevice *i2cdev, uint8_t reg,
+> +                                     const char *test_str, uint8_t len)
 > +{
-> +    ADM1266State *s = ADM1266(pmdev);
-> +
-> +    switch (pmdev->code) {
-> +    case PMBUS_MFR_ID:                    /* R/W block */
-> +        pmbus_send_string(pmdev, s->mfr_id);
-> +        break;
-> +
-> +    case PMBUS_MFR_MODEL:                 /* R/W block */
-> +        pmbus_send_string(pmdev, s->mfr_model);
-> +        break;
-> +
-> +    case PMBUS_MFR_REVISION:              /* R/W block */
-> +        pmbus_send_string(pmdev, s->mfr_rev);
-> +        break;
-> +
-> +    case PMBUS_IC_DEVICE_ID:
-> +        pmbus_send(pmdev, adm1266_ic_device_id, sizeof(adm1266_ic_device_id));
-> +        break;
-> +
-> +    case PMBUS_IC_DEVICE_REV:
-> +        pmbus_send(pmdev, adm1266_ic_device_rev, sizeof(adm1266_ic_device_rev));
-> +        break;
-> +
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "%s: reading from unimplemented register: 0x%02x\n",
-> +                      __func__, pmdev->code);
-> +        return 0xFF;
-> +    }
-> +
-> +    return 0;
+> +    char buf[SMBUS_DATA_MAX_LEN] = {0};
+> +    buf[0] = len;
+> +    strncpy(buf + 1, test_str, len);
+> +    i2c_write_block(i2cdev, reg, (uint8_t *)buf, len + 1);
+> +    compare_string(i2cdev, reg, test_str);
 > +}
 > +
-> +static int adm1266_write_data(PMBusDevice *pmdev, const uint8_t *buf,
-> +                              uint8_t len)
+> +static void test_defaults(void *obj, void *data, QGuestAllocator *alloc)
 > +{
-> +    ADM1266State *s = ADM1266(pmdev);
+> +    uint16_t i2c_value;
+> +    QI2CDevice *i2cdev = (QI2CDevice *)obj;
 > +
-> +    switch (pmdev->code) {
-> +    case PMBUS_MFR_ID:                    /* R/W block */
-> +        pmbus_receive_block(pmdev, (uint8_t *)s->mfr_id, sizeof(s->mfr_id));
-> +        break;
+> +    i2c_value = i2c_get8(i2cdev, PMBUS_OPERATION);
+> +    g_assert_cmphex(i2c_value, ==, ADM1266_OPERATION_DEFAULT);
 > +
-> +    case PMBUS_MFR_MODEL:                 /* R/W block */
-> +        pmbus_receive_block(pmdev, (uint8_t *)s->mfr_model,
-> +                            sizeof(s->mfr_model));
-> +        break;
+> +    i2c_value = i2c_get8(i2cdev, PMBUS_REVISION);
+> +    g_assert_cmphex(i2c_value, ==, ADM1266_PMBUS_REVISION_DEFAULT);
 > +
-> +    case PMBUS_MFR_REVISION:               /* R/W block*/
-> +        pmbus_receive_block(pmdev, (uint8_t *)s->mfr_rev, sizeof(s->mfr_rev));
-> +        break;
-> +
-> +    case ADM1266_SET_RTC:   /* do nothing */
-> +        break;
-> +
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "%s: writing to unimplemented register: 0x%02x\n",
-> +                      __func__, pmdev->code);
-> +        break;
-> +    }
-> +    return 0;
+> +    compare_string(i2cdev, PMBUS_MFR_ID, ADM1266_MFR_ID_DEFAULT);
+> +    compare_string(i2cdev, PMBUS_MFR_MODEL, ADM1266_MFR_MODEL_DEFAULT);
+> +    compare_string(i2cdev, PMBUS_MFR_REVISION, ADM1266_MFR_REVISION_DEFAULT);
 > +}
 > +
-> +static void adm1266_get(Object *obj, Visitor *v, const char *name, void *opaque,
-> +                        Error **errp)
+> +/* test r/w registers */
+> +static void test_rw_regs(void *obj, void *data, QGuestAllocator *alloc)
 > +{
-> +    uint16_t value;
-> +    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-> +    PMBusVoutMode *mode = (PMBusVoutMode *)&pmdev->pages[0].vout_mode;
+> +    QI2CDevice *i2cdev = (QI2CDevice *)obj;
 > +
-> +    if (strcmp(name, "vout") == 0) {
-> +        value = pmbus_linear_mode2data(*(uint16_t *)opaque, mode->exp);
-> +    } else {
-> +        value = *(uint16_t *)opaque;
-> +    }
+> +    /* empty strings */
+> +    i2c_set8(i2cdev, PMBUS_MFR_ID, 0);
+> +    compare_string(i2cdev, PMBUS_MFR_ID, "");
 > +
-> +    visit_type_uint16(v, name, &value, errp);
+> +    i2c_set8(i2cdev, PMBUS_MFR_MODEL, 0);
+> +    compare_string(i2cdev, PMBUS_MFR_MODEL, "");
+> +
+> +    i2c_set8(i2cdev, PMBUS_MFR_REVISION, 0);
+> +    compare_string(i2cdev, PMBUS_MFR_REVISION, "");
+> +
+> +    /* test strings */
+> +    write_and_compare_string(i2cdev, PMBUS_MFR_ID, TEST_STRING_A,
+> +                             sizeof(TEST_STRING_A));
+> +    write_and_compare_string(i2cdev, PMBUS_MFR_ID, TEST_STRING_B,
+> +                             sizeof(TEST_STRING_B));
+> +    write_and_compare_string(i2cdev, PMBUS_MFR_ID, TEST_STRING_C,
+> +                             sizeof(TEST_STRING_C));
 > +}
 > +
-> +static void adm1266_set(Object *obj, Visitor *v, const char *name, void *opaque,
-> +                        Error **errp)
+> +static void adm1266_register_nodes(void)
 > +{
-> +    uint16_t *internal = opaque;
-> +    uint16_t value;
-> +    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-> +    PMBusVoutMode *mode = (PMBusVoutMode *)&pmdev->pages[0].vout_mode;
+> +    QOSGraphEdgeOptions opts = {
+> +        .extra_device_opts = "id=" TEST_ID ",address=0x12"
+> +    };
+> +    add_qi2c_address(&opts, &(QI2CAddress) { TEST_ADDR });
 > +
-> +    if (!visit_type_uint16(v, name, &value, errp)) {
-> +        return;
-> +    }
+> +    qos_node_create_driver("adm1266", i2c_device_create);
+> +    qos_node_consumes("adm1266", "i2c-bus", &opts);
 > +
-> +    *internal = pmbus_data2linear_mode(value, mode->exp);
-> +    pmbus_check_limits(pmdev);
+> +    qos_add_test("test_defaults", "adm1266", test_defaults, NULL);
+> +    qos_add_test("test_rw_regs", "adm1266", test_rw_regs, NULL);
 > +}
 > +
-> +static const VMStateDescription vmstate_adm1266 = {
-> +    .name = "ADM1266",
-> +    .version_id = 0,
-> +    .minimum_version_id = 0,
-> +    .fields = (VMStateField[]){
-> +        VMSTATE_PMBUS_DEVICE(parent, ADM1266State),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
+> +libqos_init(adm1266_register_nodes);
 > +
-> +static void adm1266_init(Object *obj)
-> +{
-> +    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-> +    uint64_t flags = PB_HAS_VOUT_MODE | PB_HAS_VOUT | PB_HAS_VOUT_MARGIN |
-> +                     PB_HAS_VOUT_RATING | PB_HAS_STATUS_MFR_SPECIFIC;
-> +
-> +    for (int i = 0; i < ADM1266_NUM_PAGES; i++) {
-> +        pmbus_page_config(pmdev, i, flags);
-> +
-> +        object_property_add(obj, "vout[*]", "uint16",
-> +                            adm1266_get,
-> +                            adm1266_set, NULL, &pmdev->pages[i].read_vout);
-> +    }
-> +}
-> +
-> +static void adm1266_class_init(ObjectClass *klass, void *data)
-> +{
-> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    PMBusDeviceClass *k = PMBUS_DEVICE_CLASS(klass);
-> +
-> +    dc->desc = "Analog Devices ADM1266 Hot Swap controller";
-> +    dc->vmsd = &vmstate_adm1266;
-> +    k->write_data = adm1266_write_data;
-> +    k->receive_byte = adm1266_read_byte;
-> +    k->device_num_pages = 17;
-> +
-> +    rc->phases.exit = adm1266_exit_reset;
-> +}
-> +
-> +static const TypeInfo adm1266_info = {
-> +    .name = TYPE_ADM1266,
-> +    .parent = TYPE_PMBUS_DEVICE,
-> +    .instance_size = sizeof(ADM1266State),
-> +    .instance_init = adm1266_init,
-> +    .class_init = adm1266_class_init,
-> +};
-> +
-> +static void adm1266_register_types(void)
-> +{
-> +    type_register_static(&adm1266_info);
-> +}
-> +
-> +type_init(adm1266_register_types)
-> diff --git a/hw/sensor/meson.build b/hw/sensor/meson.build
-> index 9e9be602c3..4528ee6215 100644
-> --- a/hw/sensor/meson.build
-> +++ b/hw/sensor/meson.build
-> @@ -3,6 +3,7 @@ softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
->  softmmu_ss.add(when: 'CONFIG_DPS310', if_true: files('dps310.c'))
->  softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
->  softmmu_ss.add(when: 'CONFIG_ADM1272', if_true: files('adm1272.c'))
-> +softmmu_ss.add(when: 'CONFIG_ADM1266', if_true: files('adm1266.c'))
->  softmmu_ss.add(when: 'CONFIG_MAX34451', if_true: files('max34451.c'))
->  softmmu_ss.add(when: 'CONFIG_LSM303DLHC_MAG', if_true: files('lsm303dlhc_mag.c'))
->  softmmu_ss.add(when: 'CONFIG_ISL_PMBUS_VR', if_true: files('isl_pmbus_vr.c'))
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 85ea4e8d99..d3cf7b2287 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -232,6 +232,7 @@ qos_test_ss = ss.source_set()
+>  qos_test_ss.add(
+>    'ac97-test.c',
+>    'adm1272-test.c',
+> +  'adm1266-test.c',
+>    'ds1338-test.c',
+>    'e1000-test.c',
+>    'eepro100-test.c',
 > -- 
 > 2.40.0.423.gd6c402a77b-goog
 > 
