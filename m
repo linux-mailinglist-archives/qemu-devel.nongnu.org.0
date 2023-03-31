@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A05C6D2503
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 18:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6E76D2504
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 18:14:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piHNn-0001Fu-Vd; Fri, 31 Mar 2023 12:13:44 -0400
+	id 1piHNq-0001H8-Qq; Fri, 31 Mar 2023 12:13:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1piHNl-0001Fh-Th
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:13:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1piHNn-0001Fv-O0
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:13:43 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1piHNk-0001mI-Bm
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:13:41 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32VFnxX4009307; Fri, 31 Mar 2023 16:13:25 GMT
+ (Exim 4.90_1) (envelope-from <ninad@us.ibm.com>) id 1piHNl-0001mR-Gj
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:13:43 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32VG6hVB001740; Fri, 31 Mar 2023 16:13:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=pp1;
- bh=DLJNZfj27hB0b68npyrJtnyoZEJWZ25EymoZchufdfs=;
- b=Km0Lvn3LZfZxiz3Ln56uudE++WkwFQ/0RBZN2GtavlmHbaTjp0RZft7n4QQqW+nKQs/3
- K9h8x3Epz1YU6cuGBCfKw53ikGuj0wIv5tGX8gXyl4xh0c3FuM8GeIg9zCtlO7yFF1ZI
- EJfy1j2OYbv4M2s0B7Uo7dnOqiag9EnZlYOkiLVteucnb5RNpOGPeE0EF2jYsAs7hgcK
- lFo48GHKtFzxIDpzXH71wmDIQ06CqM4tKq1qrbgUyL8tHoZO0o9rNee1Wgs06CjrRIDk
- UGCt6t4gonlPL2Fs5mO5jz7RZJ4viluIfuJqCjc5Gu2tOieFLnvXNKMFbAj4k9iHV/hP KA== 
+ bh=WBbmwnHASeRRHuylgyxLWvuXF+fnwxupJM9h6jpb8bg=;
+ b=P8AWg/jRqNnycyAlFTxVOA5Sm5mku0cyhzRngxtBw53EppZMVPvO3WyGCpoAkrzqCKkn
+ St8e+Rm0qDpI58EmJ5sju0jKjTy4LpVyZlj40MMF0cac1T83V2UbJZ+oDX7LQLinUlPs
+ zwfMAMbiDuZSv6BZzvUdXYWGB3z1YOJj9uqHFh+QPFLJalKWbmf8RqPwaRdpR4/khvgk
+ loYfdOaVPz72cPAVkzPHjiva0yL2fUQcpe4/9zGGoW2xlPcVAJ/8BGy+G7W5pzxCuDSb
+ uz7YlLZtYjVOXWCeWDNaA7wuijnhS0HSKqKnbSWW6avORYG4nGkUx9g5upXNK2aIks1r cg== 
 Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
  [169.62.189.11])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pp2grgkt3-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pp19cajny-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 31 Mar 2023 16:13:25 +0000
 Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32VEqDfc029113;
+ by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32VEbcwE029109;
  Fri, 31 Mar 2023 16:13:24 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
- by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3phrk7tn7h-1
+Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
+ by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3phrk7tn7j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 31 Mar 2023 16:13:24 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
- [10.241.53.102])
- by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32VGDMVL22020610
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com
+ [10.39.53.233])
+ by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32VGDM3d14025224
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 31 Mar 2023 16:13:22 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 26E1A58060;
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6F68558064;
  Fri, 31 Mar 2023 16:13:22 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 193D458056;
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4FEB358056;
  Fri, 31 Mar 2023 16:13:22 +0000 (GMT)
 Received: from gfwa601.aus.stglabs.ibm.com (unknown [9.3.62.226])
- by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTPS;
+ by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
  Fri, 31 Mar 2023 16:13:22 +0000 (GMT)
 Received: by gfwa601.aus.stglabs.ibm.com (Postfix, from userid 155676)
- id B5B0C2E5673; Fri, 31 Mar 2023 11:13:21 -0500 (CDT)
+ id C61EB2E5676; Fri, 31 Mar 2023 11:13:21 -0500 (CDT)
 From: Ninad Palsule <ninadpalsule@us.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: Ninad Palsule <ninad@linux.ibm.com>, joel@jms.id.au, andrew@aj.id.au,
  stefanb@linux.ibm.com, clg@kaod.org
-Subject: [PATCH v12 1/3] docs: Add support for TPM devices over I2C bus
-Date: Fri, 31 Mar 2023 11:13:17 -0500
-Message-Id: <20230331161319.2250334-2-ninadpalsule@us.ibm.com>
+Subject: [PATCH v12 2/3] tpm: Extend common APIs to support TPM TIS I2C
+Date: Fri, 31 Mar 2023 11:13:18 -0500
+Message-Id: <20230331161319.2250334-3-ninadpalsule@us.ibm.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230331161319.2250334-1-ninadpalsule@us.ibm.com>
 References: <20230331161319.2250334-1-ninadpalsule@us.ibm.com>
@@ -73,25 +72,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ic0UmgzvwKW4dRVG0AbM3LBwt2iOUQ4V
-X-Proofpoint-ORIG-GUID: ic0UmgzvwKW4dRVG0AbM3LBwt2iOUQ4V
+X-Proofpoint-GUID: h4wQ34UU_DKRV9x7JLnyhbcRN4bUE8Ou
+X-Proofpoint-ORIG-GUID: h4wQ34UU_DKRV9x7JLnyhbcRN4bUE8Ou
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-31_07,2023-03-31_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0
- phishscore=0 malwarescore=0 impostorscore=0 mlxscore=0 priorityscore=1501
- suspectscore=0 spamscore=0 mlxlogscore=999 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=999
+ phishscore=0 lowpriorityscore=0 mlxscore=0 bulkscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2303310127
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=ninad@us.ibm.com;
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=ninad@us.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,89 +108,227 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ninad Palsule <ninad@linux.ibm.com>
 
-This is a documentation change for I2C TPM device support.
+Qemu already supports devices attached to ISA and sysbus. This drop adds
+support for the I2C bus attached TPM devices.
 
-Qemu already supports devices attached to ISA and sysbus.
-This drop adds support for the I2C bus attached TPM devices.
+This commit includes changes for the common code.
+- Added support for the new checksum registers which are required for
+  the I2C support. The checksum calculation is handled in the qemu
+  common code.
+- Added wrapper function for read and write data so that I2C code can
+  call it without MMIO interface.
+
+The TPM TIS I2C spec describes in the table in section "Interface Locality
+Usage per Register" that the TPM_INT_ENABLE and TPM_INT_STATUS registers
+must be writable for any locality even if the locality is not the active
+locality. Therefore, remove the checks whether the writing locality is the
+active locality for these registers.
 
 Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Tested-by: Stefan Berger <stefanb@linux.ibm.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
+Tested-by: Joel Stanley <joel@jms.id.au>
 
 ---
 V2:
 
-Incorporated Stephen's review comments
-- Added example in the document.
+Incorporated Stephen's comments.
+
+- Removed checksum enable and checksum get registers.
+- Added checksum calculation function which can be called from
+  i2c layer.
+
+---
+V3:
+Incorporated review comments from Cedric and Stefan.
+
+- Pass locality to the checksum calculation function and cleanup
+- Moved I2C related definations in the acpi/tpm.h
 
 ---
 V4:
-Incorporate Cedric & Stefan's comments
 
-- Added example for ast2600-evb
-- Corrected statement about arm virtual machine.
+Incorporated review comments by Stefan
+
+- Remove the check for locality while calculating checksum
+- Use bswap16 instead of cpu_ti_be16.
+- Rename TPM_I2C register by dropping _TIS_ from it.
 
 ---
-V6:
+V7:
+
 Incorporated review comments from Stefan.
+
+- Removed locality check from INT_ENABLE and INT_STATUS registers write
+  path.
+- Moved TPM_DATA_CSUM_ENABLED define in the tpm.h
 
 ---
 V8:
+Incorporated review comments from Stefan
 
-Incorporate review comments from Joel and Stefan
+- Moved the INT_ENABLE mask to tpm.h file.
 
-- Removed the rainier example
-- Added step required to configure on ast2600-evb
 ---
- docs/specs/tpm.rst | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+V12:
+Incorporated review comments from Stefan.
+- Moved STS read/write mask to tpm.h
+---
+ hw/tpm/tpm_tis.h        |  3 +++
+ hw/tpm/tpm_tis_common.c | 36 ++++++++++++++++++++++++++++--------
+ include/hw/acpi/tpm.h   | 41 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 72 insertions(+), 8 deletions(-)
 
-diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-index 535912a92b..efe124a148 100644
---- a/docs/specs/tpm.rst
-+++ b/docs/specs/tpm.rst
-@@ -21,12 +21,16 @@ QEMU files related to TPM TIS interface:
-  - ``hw/tpm/tpm_tis_common.c``
-  - ``hw/tpm/tpm_tis_isa.c``
-  - ``hw/tpm/tpm_tis_sysbus.c``
-+ - ``hw/tpm/tpm_tis_i2c.c``
-  - ``hw/tpm/tpm_tis.h``
+diff --git a/hw/tpm/tpm_tis.h b/hw/tpm/tpm_tis.h
+index f6b5872ba6..6f29a508dd 100644
+--- a/hw/tpm/tpm_tis.h
++++ b/hw/tpm/tpm_tis.h
+@@ -86,5 +86,8 @@ int tpm_tis_pre_save(TPMState *s);
+ void tpm_tis_reset(TPMState *s);
+ enum TPMVersion tpm_tis_get_tpm_version(TPMState *s);
+ void tpm_tis_request_completed(TPMState *s, int ret);
++uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size);
++void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, uint32_t size);
++uint16_t tpm_tis_get_checksum(TPMState *s);
  
- Both an ISA device and a sysbus device are available. The former is
- used with pc/q35 machine while the latter can be instantiated in the
- Arm virt machine.
+ #endif /* TPM_TPM_TIS_H */
+diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
+index 503be2a541..c07c179dbc 100644
+--- a/hw/tpm/tpm_tis_common.c
++++ b/hw/tpm/tpm_tis_common.c
+@@ -26,6 +26,8 @@
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+ #include "qapi/error.h"
++#include "qemu/bswap.h"
++#include "qemu/crc-ccitt.h"
+ #include "qemu/module.h"
  
-+An I2C device support is also provided which can be instantiated in the Arm
-+based emulation machines. This device only supports the TPM 2 protocol.
-+
- CRB interface
- -------------
+ #include "hw/acpi/tpm.h"
+@@ -447,6 +449,23 @@ static uint64_t tpm_tis_mmio_read(void *opaque, hwaddr addr,
+     return val;
+ }
  
-@@ -348,6 +352,23 @@ In case an Arm virt machine is emulated, use the following command line:
-     -drive if=pflash,format=raw,file=flash0.img,readonly=on \
-     -drive if=pflash,format=raw,file=flash1.img
++/*
++ * A wrapper read function so that it can be directly called without
++ * mmio.
++ */
++uint32_t tpm_tis_read_data(TPMState *s, hwaddr addr, unsigned size)
++{
++    return tpm_tis_mmio_read(s, addr, size);
++}
++
++/*
++ * Calculate current data buffer checksum
++ */
++uint16_t tpm_tis_get_checksum(TPMState *s)
++{
++    return bswap16(crc_ccitt(0, s->buffer, s->rw_offset));
++}
++
+ /*
+  * Write a value to a register of the TIS interface
+  * See specs pages 33-63 for description of the registers
+@@ -588,10 +607,6 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
  
-+In case a ast2600-evb bmc machine is emulated and you want to use a TPM device
-+attached to I2C bus, use the following command line:
-+
-+.. code-block:: console
-+
-+  qemu-system-arm -M ast2600-evb -nographic \
-+    -kernel arch/arm/boot/zImage \
-+    -dtb arch/arm/boot/dts/aspeed-ast2600-evb.dtb \
-+    -initrd rootfs.cpio \
-+    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
-+    -tpmdev emulator,id=tpm0,chardev=chrtpm \
-+    -device tpm-tis-i2c,tpmdev=tpm0,bus=aspeed.i2c.bus.12,address=0x2e
-+
-+  For testing, use this command to load the driver to the correct address
-+
-+  echo tpm_tis_i2c 0x2e > /sys/bus/i2c/devices/i2c-12/new_device
-+
- In case SeaBIOS is used as firmware, it should show the TPM menu item
- after entering the menu with 'ESC'.
+         break;
+     case TPM_TIS_REG_INT_ENABLE:
+-        if (s->active_locty != locty) {
+-            break;
+-        }
+-
+         s->loc[locty].inte &= mask;
+         s->loc[locty].inte |= (val & (TPM_TIS_INT_ENABLED |
+                                         TPM_TIS_INT_POLARITY_MASK |
+@@ -601,10 +616,6 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
+         /* hard wired -- ignore */
+         break;
+     case TPM_TIS_REG_INT_STATUS:
+-        if (s->active_locty != locty) {
+-            break;
+-        }
+-
+         /* clearing of interrupt flags */
+         if (((val & TPM_TIS_INTERRUPTS_SUPPORTED)) &&
+             (s->loc[locty].ints & TPM_TIS_INTERRUPTS_SUPPORTED)) {
+@@ -767,6 +778,15 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
+     }
+ }
  
++/*
++ * A wrapper write function so that it can be directly called without
++ * mmio.
++ */
++void tpm_tis_write_data(TPMState *s, hwaddr addr, uint64_t val, uint32_t size)
++{
++    tpm_tis_mmio_write(s, addr, val, size);
++}
++
+ const MemoryRegionOps tpm_tis_memory_ops = {
+     .read = tpm_tis_mmio_read,
+     .write = tpm_tis_mmio_write,
+diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
+index 559ba6906c..579c45f5ba 100644
+--- a/include/hw/acpi/tpm.h
++++ b/include/hw/acpi/tpm.h
+@@ -93,6 +93,7 @@
+ #define TPM_TIS_CAP_DATA_TRANSFER_64B    (3 << 9)
+ #define TPM_TIS_CAP_DATA_TRANSFER_LEGACY (0 << 9)
+ #define TPM_TIS_CAP_BURST_COUNT_DYNAMIC  (0 << 8)
++#define TPM_TIS_CAP_BURST_COUNT_STATIC   (1 << 8)
+ #define TPM_TIS_CAP_INTERRUPT_LOW_LEVEL  (1 << 4) /* support is mandatory */
+ #define TPM_TIS_CAPABILITIES_SUPPORTED1_3 \
+     (TPM_TIS_CAP_INTERRUPT_LOW_LEVEL | \
+@@ -209,6 +210,46 @@ REG32(CRB_DATA_BUFFER, 0x80)
+ #define TPM_PPI_FUNC_ALLOWED_USR_NOT_REQ (4 << 0)
+ #define TPM_PPI_FUNC_MASK                (7 << 0)
+ 
++/* TPM TIS I2C registers */
++#define TPM_I2C_REG_LOC_SEL              0x00
++#define TPM_I2C_REG_ACCESS               0x04
++#define TPM_I2C_REG_INT_ENABLE           0x08
++#define TPM_I2C_REG_INT_CAPABILITY       0x14
++#define TPM_I2C_REG_STS                  0x18
++#define TPM_I2C_REG_DATA_FIFO            0x24
++#define TPM_I2C_REG_INTF_CAPABILITY      0x30
++#define TPM_I2C_REG_I2C_DEV_ADDRESS      0x38
++#define TPM_I2C_REG_DATA_CSUM_ENABLE     0x40
++#define TPM_I2C_REG_DATA_CSUM_GET        0x44
++#define TPM_I2C_REG_DID_VID              0x48
++#define TPM_I2C_REG_RID                  0x4c
++#define TPM_I2C_REG_UNKNOWN              0xff
++
++/* I2C specific interface capabilities */
++#define TPM_I2C_CAP_INTERFACE_TYPE     (0x2 << 0)       /* FIFO interface */
++#define TPM_I2C_CAP_INTERFACE_VER      (0x0 << 4)       /* TCG I2C intf 1.0 */
++#define TPM_I2C_CAP_TPM2_FAMILY        (0x1 << 7)       /* TPM 2.0 family. */
++#define TPM_I2C_CAP_DEV_ADDR_CHANGE    (0x0 << 27)      /* No dev addr chng */
++#define TPM_I2C_CAP_BURST_COUNT_STATIC (0x1 << 29)      /* Burst count static */
++#define TPM_I2C_CAP_LOCALITY_CAP       (0x1 << 25)      /* 0-5 locality */
++#define TPM_I2C_CAP_BUS_SPEED          (3   << 21)      /* std and fast mode */
++
++/*
++ * TPM_I2C_STS masks for read/writing bits from/to TIS
++ * TPM_STS mask for read bits 31:26 must be zero
++ */
++#define TPM_I2C_STS_READ_MASK          0x00ffffdd
++#define TPM_I2C_STS_WRITE_MASK         0x03000062
++
++/* Checksum enabled. */
++#define TPM_DATA_CSUM_ENABLED     0x1
++
++/*
++ * TPM_I2C_INT_ENABLE mask. Linux kernel does not support
++ * interrupts hence setting it to 0.
++ */
++#define TPM_I2C_INT_ENABLE_MASK   0x0
++
+ void tpm_build_ppi_acpi(TPMIf *tpm, Aml *dev);
+ 
+ #endif /* CONFIG_TPM */
 -- 
 2.37.2
 
