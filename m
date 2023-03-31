@@ -2,100 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5039F6D1D8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 12:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAD36D1DA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 12:11:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piBaG-0005ED-E4; Fri, 31 Mar 2023 06:02:12 -0400
+	id 1piBhn-0006Zo-Nu; Fri, 31 Mar 2023 06:09:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1piBaC-0005Dm-KW
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:02:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1piBaA-0002kz-8u
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:02:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680256925;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Xohx1tj/YPW6tf8X3qPvgAftP5O6cIH3fUzZ8U7KPDU=;
- b=PLTm8M6An866etfM0dwS5Ql2DB26AUFIkwS1AUW9etg0e5g+lmv3H5c9QIo1UVFhZvxdVL
- KENwIx52LeZ8lsa1lcT5zDmInh6s+E0yCi79pWXVRrlTmerpVunaiRvhYYZz40Pn6I+tjX
- 0kaBD8JtjqcaIy5yRcSeqr2OymWSHEo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-665-QTcp-zVmMQyNn_bEIv3qnA-1; Fri, 31 Mar 2023 06:02:00 -0400
-X-MC-Unique: QTcp-zVmMQyNn_bEIv3qnA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- b1-20020aa7dc01000000b004ad062fee5eso30895035edu.17
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 03:01:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1piBhl-0006YF-If
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:09:57 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1piBhj-0003uF-P9
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:09:57 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id eg48so87453103edb.13
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 03:09:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680257393;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=h9af1lSdqqFuGqOlXprH7XXugQwSJlYdPbXQkuK5d/I=;
+ b=hMkgYGLjp5bTyoN7ajtdYJmozflBLWMz8wzXehVFSS+qbGKjkt+9D2ZHpxFkaqHfha
+ piKFO2W0ywRqiEtdQS2KGRLo2nZp1istyH6E7I0i6uMznYTFxGNocY17/P62MII1wu7I
+ QBLSBVrD1XMiQRSCsXGo437pA0x5tL+qApYdHkbOM++fZNXfoD+f9BhI8BmS3DU52Woe
+ 8v5Zo40eud9hWBF7bXPeEhXlDzNe6cIlD5p5jGSYraCwncT4NW9ZAZkyXlioTpLsSfeh
+ 3igJebvsQ9ZAlGRmjUwrWFNjyY4wKZgz5rbZCwALrvH2vNOWOaqxnukFntHgYj49aXh3
+ TxJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680256919; x=1682848919;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Xohx1tj/YPW6tf8X3qPvgAftP5O6cIH3fUzZ8U7KPDU=;
- b=p+cn3g+cB97hlixNWnllW0kLqyOFIUBb5SU6eQAIj+dOQ4cj+4Rkj3pNK5ZZfvSYSI
- HuH4pDcMikNeAObE+YxUFKV5RtOk7eUoZ0gjGmccBlzYw5FXn+sfyIgOi5++U/IuhbXr
- qJzzVLGtkBvfaFTk0Yk+P+MutqDWwwUaXNHwwyr3cFYwYlSd3RKj4mnca3Htg5LEBt5+
- Q1e8db5J5a327Tf/LNXhtQrtngTYObYUsp6yxZTuidLh0cjRNimBn3B6vxLygFwcj1dN
- nfH8FGpcM1726KjNxHI1yeCQDzojfLurz8ku0ixlTfToV0cEw18+9hLISnkEK1MKUwGR
- AZ0Q==
-X-Gm-Message-State: AAQBX9dP8oAI+1F60N29uTU/R6VihztoMDpi5C/0jTqyA6peu3xtONiN
- iae9kAJwlgxsszSnBD+PasuGtDXd9lzfBGikjV9khp6e+7g+5QHOASRpMCtXYmIhAia07AmtATz
- SDKTa3SVtn0SkF4o=
-X-Received: by 2002:a05:6402:e:b0:4fa:d75c:16cd with SMTP id
- d14-20020a056402000e00b004fad75c16cdmr22742252edu.34.1680256919143; 
- Fri, 31 Mar 2023 03:01:59 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YKiVP3rXADRdhrDgCbsBXdnxatakYEDoJkpsC4ZO0bzLFfIsIQIajeYbABY6J7wzwPtW1juA==
-X-Received: by 2002:a05:6402:e:b0:4fa:d75c:16cd with SMTP id
- d14-20020a056402000e00b004fad75c16cdmr22742234edu.34.1680256918884; 
- Fri, 31 Mar 2023 03:01:58 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.googlemail.com with ESMTPSA id
- cx7-20020a05640222a700b004fd1ee3f723sm830305edb.67.2023.03.31.03.01.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Mar 2023 03:01:58 -0700 (PDT)
-Message-ID: <1f08066a-5104-cfdf-94c7-d5f7af33d256@redhat.com>
-Date: Fri, 31 Mar 2023 12:01:56 +0200
+ d=1e100.net; s=20210112; t=1680257393;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=h9af1lSdqqFuGqOlXprH7XXugQwSJlYdPbXQkuK5d/I=;
+ b=HRNUCSUc3oZN5OPTrGV+65emNLyrU3XM2suJAnKyNIJL3Y2X3b1zbsQATYpsfF/Eyx
+ 17vPlNJcsvuUzOQef8WuKoAuIYEo/3wMPgHQWgVoMe1jz5SvvSb9Xi68sIHNCtyccpqa
+ sI3wDIMzyG7fR/vemcl8hemk4ysaCzcvCqAPx6i1c92PcTc4GMO7DE9nIs3Nvvaki+iq
+ JQaDRUwCvukiBkD4wzheoVobV2i+u/3zajYvllUzCjogK1sz7YU4LRxnhvkrG8PrR/qF
+ CQFV+bmqPIDd0lUxXf+Cu+aw3CJD1LsksHM7wgsuZAfeBYd5zFRN6EMgOFRbJzCX3bcX
+ Ip0A==
+X-Gm-Message-State: AAQBX9elmd2z17MH2GCUi/UB593mbunAj+zMLlbYWTlWrGV/aZNvySZ5
+ JRnrnIOynSWQtjFKWv7H3UszWU/IFRcaxKc0+D0=
+X-Google-Smtp-Source: AKy350ZItIbfQDGniyOWfFJa4JA6ZX5BOHDeFi1GsVLsdqW+cNy6E8V2b1HtwGp2niC/Y3UTe1KLoAMRQhySWe61Erw=
+X-Received: by 2002:a17:906:4f1a:b0:930:528b:91e5 with SMTP id
+ t26-20020a1709064f1a00b00930528b91e5mr13046478eju.4.1680257393260; Fri, 31
+ Mar 2023 03:09:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 1/3] python: add mkvenv.py
-Content-Language: en-US
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-References: <20230328211119.2748442-1-jsnow@redhat.com>
- <20230328211119.2748442-2-jsnow@redhat.com>
- <d49d0152-ff58-a317-7eca-a243ed080ca0@redhat.com>
- <CAFn=p-bu1nhw5-PdtxZ2U=PA5uq7VTrgW-W8boh29JRHxSVTyg@mail.gmail.com>
- <7f39388b-1689-c40a-9e2f-861408dae7b8@redhat.com>
-In-Reply-To: <7f39388b-1689-c40a-9e2f-861408dae7b8@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230323182811.2641044-1-crauer@google.com>
+In-Reply-To: <20230323182811.2641044-1-crauer@google.com>
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Date: Fri, 31 Mar 2023 12:09:41 +0200
+Message-ID: <CAJy5ezqP50f3frM0tBNOHo4-4PaeaMA7-YXAd8G_w+iRqu2cjw@mail.gmail.com>
+Subject: Re: [PATCH] hw/ssi: Fix Linux driver init issue with xilinx_spi
+To: Chris Rauer <crauer@google.com>
+Cc: alistair@alistair23.me, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000000e7d3905f82f695e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,20 +83,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/31/23 10:44, Paolo Bonzini wrote:
->>
->>     What about using a dataclass or namedtuple instead of a dictionary?
->>
->>
->> Sure. Once 3.8 is our minimum there's no point, though.
-> 
-> Well, that's why I also mentioned namedtuples.  But no big deal.
+--0000000000000e7d3905f82f695e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry, I misunderstood this (I read "until 3.8 is our minimum" and 
-interpreted that as "dataclasses are not in 3.6").
+On Thu, Mar 23, 2023 at 7:29=E2=80=AFPM Chris Rauer <crauer@google.com> wro=
+te:
 
-I agree, not much need to future-proof the <=3.7 parts of the code.
+> The problem is that the Linux driver expects the master transaction inhib=
+it
+> bit(R_SPICR_MTI) to be set during driver initialization so that it can
+> detect the fifo size but QEMU defaults it to zero out of reset.  The
+> datasheet indicates this bit is active on reset.
+>
+> See page 25, SPI Control Register section:
+>
+> https://www.xilinx.com/content/dam/xilinx/support/documents/ip_documentat=
+ion/axi_quad_spi/v3_2/pg153-axi-quad-spi.pdf
+>
+>
+Yes, MTI should be set when the device comes out of reset.
 
-Paolo
+Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
 
+
+
+> Signed-off-by: Chris Rauer <crauer@google.com>
+> ---
+>  hw/ssi/xilinx_spi.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/ssi/xilinx_spi.c b/hw/ssi/xilinx_spi.c
+> index 552927622f..d4de2e7aab 100644
+> --- a/hw/ssi/xilinx_spi.c
+> +++ b/hw/ssi/xilinx_spi.c
+> @@ -156,6 +156,7 @@ static void xlx_spi_do_reset(XilinxSPI *s)
+>      txfifo_reset(s);
+>
+>      s->regs[R_SPISSR] =3D ~0;
+> +    s->regs[R_SPICR] =3D R_SPICR_MTI;
+>      xlx_spi_update_irq(s);
+>      xlx_spi_update_cs(s);
+>  }
+> --
+> 2.40.0.348.gf938b09366-goog
+>
+>
+>
+
+--0000000000000e7d3905f82f695e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 23, 2023 at 7:29=E2=80=AFPM C=
+hris Rauer &lt;<a href=3D"mailto:crauer@google.com">crauer@google.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The pr=
+oblem is that the Linux driver expects the master transaction inhibit<br>
+bit(R_SPICR_MTI) to be set during driver initialization so that it can<br>
+detect the fifo size but QEMU defaults it to zero out of reset.=C2=A0 The<b=
+r>
+datasheet indicates this bit is active on reset.<br>
+<br>
+See page 25, SPI Control Register section:<br>
+<a href=3D"https://www.xilinx.com/content/dam/xilinx/support/documents/ip_d=
+ocumentation/axi_quad_spi/v3_2/pg153-axi-quad-spi.pdf" rel=3D"noreferrer" t=
+arget=3D"_blank">https://www.xilinx.com/content/dam/xilinx/support/document=
+s/ip_documentation/axi_quad_spi/v3_2/pg153-axi-quad-spi.pdf</a><br>
+<br></blockquote><div><br></div><div>Yes, MTI should be set when the device=
+ comes out of reset.</div><div><br></div><div>Reviewed-by: Edgar E. Iglesia=
+s &lt;<a href=3D"mailto:edgar@zeroasic.com">edgar@zeroasic.com</a>&gt;<br><=
+/div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
+Signed-off-by: Chris Rauer &lt;<a href=3D"mailto:crauer@google.com" target=
+=3D"_blank">crauer@google.com</a>&gt;<br>
+---<br>
+=C2=A0hw/ssi/xilinx_spi.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/hw/ssi/xilinx_spi.c b/hw/ssi/xilinx_spi.c<br>
+index 552927622f..d4de2e7aab 100644<br>
+--- a/hw/ssi/xilinx_spi.c<br>
++++ b/hw/ssi/xilinx_spi.c<br>
+@@ -156,6 +156,7 @@ static void xlx_spi_do_reset(XilinxSPI *s)<br>
+=C2=A0 =C2=A0 =C2=A0txfifo_reset(s);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;regs[R_SPISSR] =3D ~0;<br>
++=C2=A0 =C2=A0 s-&gt;regs[R_SPICR] =3D R_SPICR_MTI;<br>
+=C2=A0 =C2=A0 =C2=A0xlx_spi_update_irq(s);<br>
+=C2=A0 =C2=A0 =C2=A0xlx_spi_update_cs(s);<br>
+=C2=A0}<br>
+-- <br>
+2.40.0.348.gf938b09366-goog<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--0000000000000e7d3905f82f695e--
 
