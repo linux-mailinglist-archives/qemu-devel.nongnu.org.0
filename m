@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AB76D2391
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 17:07:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D236D2395
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 17:07:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piGKn-0000Gr-L5; Fri, 31 Mar 2023 11:06:33 -0400
+	id 1piGKs-0000M9-8F; Fri, 31 Mar 2023 11:06:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1piGKi-0000Fz-5p; Fri, 31 Mar 2023 11:06:28 -0400
+ id 1piGKj-0000Gj-9B; Fri, 31 Mar 2023 11:06:29 -0400
 Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1piGKf-0003xY-Dj; Fri, 31 Mar 2023 11:06:27 -0400
+ id 1piGKg-0003xv-1p; Fri, 31 Mar 2023 11:06:29 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowAB3fs7k9iZkzJBxGQ--.8380S8;
- Fri, 31 Mar 2023 23:06:16 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowAB3fs7k9iZkzJBxGQ--.8380S9;
+ Fri, 31 Mar 2023 23:06:17 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,23 +26,23 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v4 6/8] accel/tcg: Fix tb mis-matched problem when CF_PCREL is
- enabled
-Date: Fri, 31 Mar 2023 23:06:07 +0800
-Message-Id: <20230331150609.114401-7-liweiwei@iscas.ac.cn>
+Subject: [PATCH v4 7/8] target/riscv: Enable PC-relative translation in system
+ mode
+Date: Fri, 31 Mar 2023 23:06:08 +0800
+Message-Id: <20230331150609.114401-8-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230331150609.114401-1-liweiwei@iscas.ac.cn>
 References: <20230331150609.114401-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAB3fs7k9iZkzJBxGQ--.8380S8
-X-Coremail-Antispam: 1UD129KBjvJXoW7tr18AF4rCF1UJF4fJry3CFg_yoW8GFWxpr
- ZrJF1YkaykWF12qa1DZ347W34rWF4DCFWkG3y5uryI9w1Sgw10yws5Cr4xurW5CrWFgFnr
- AFs2vr1FqF18ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUP214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
+X-CM-TRANSID: qwCowAB3fs7k9iZkzJBxGQ--.8380S9
+X-Coremail-Antispam: 1UD129KBjvdXoWrZw47ury3Ar45AryDur1xXwb_yoW3KFb_W3
+ y09Fs7u3yUX3WI9F45Ar1rGr1rC3s5WFy0gFWftFs5KFyq9r97A3WkKFZ3Jw1UurZxAF9x
+ A3s7Jry7Cr4UWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbqxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
+ IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
+ F7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
  1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
  3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
  IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
@@ -77,41 +77,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A corner case is triggered  when tb block with first_pc = 0x80000008
-and first_pc = 0x800000200 has the same jump cache hash, and share
-the same tb entry with the same tb information except PC.
-The executed sequence is as follows:
-tb(0x80000008) -> tb(0x80000008)-> tb(0x800000200) -> tb(0x80000008)
-
-1. At the first time tb for 0x80000008 is loaded, tb in jmp_cache is
-filled, however pc is not updated.
-2. At the second time tb for 0x80000008 is looked up in tb_lookup(),
-pc in jmp cache is set to 0x80000008.
-3. when tb for 0x800000200 is loaded, tb for jmp cache is updated to
-this block, however pc is not updated, and remains to be 0x80000008.
-4. Finally at the last time tb for 0x80000008 is looked up, tb for
-0x800000200 is mismatched.
+The existence of CF_PCREL can improve performance with the guest
+kernel's address space randomization.  Each guest process maps
+libc.so (et al) at a different virtual address, and this allows
+those translations to be shared.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 ---
- accel/tcg/cpu-exec.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/riscv/cpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index c815f2dbfd..faff413f42 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -983,6 +983,9 @@ cpu_exec_loop(CPUState *cpu, SyncClocks *sc)
-                 h = tb_jmp_cache_hash_func(pc);
-                 /* Use the pc value already stored in tb->pc. */
-                 qatomic_set(&cpu->tb_jmp_cache->array[h].tb, tb);
-+                if (cflags & CF_PCREL) {
-+                    qatomic_set(&cpu->tb_jmp_cache->array[h].pc, pc);
-+                }
-             }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 646fa31a59..3b562d5d9f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -1193,6 +1193,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+ 
  
  #ifndef CONFIG_USER_ONLY
++    cs->tcg_cflags |= CF_PCREL;
++
+     if (cpu->cfg.ext_sstc) {
+         riscv_timer_init(cpu);
+     }
 -- 
 2.25.1
 
