@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEBFA6D224B
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA0A06D224A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:24:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piFfJ-0004Ie-2v; Fri, 31 Mar 2023 10:23:41 -0400
+	id 1piFfK-0004Jq-Ld; Fri, 31 Mar 2023 10:23:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@umbrella>) id 1piFfH-0004I5-9B
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:23:39 -0400
+ (Exim 4.90_1) (envelope-from <imp@umbrella>) id 1piFfI-0004Ib-H4
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:23:40 -0400
 Received: from c-71-237-47-177.hsd1.co.comcast.net ([71.237.47.177]
  helo=umbrella) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imp@umbrella>) id 1piFfF-0003uf-Ut
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:23:39 -0400
-Received: from imp (uid 730) (envelope-from imp@umbrella) id 180ad
+ (envelope-from <imp@umbrella>) id 1piFfF-0003uZ-V5
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:23:40 -0400
+Received: from imp (uid 730) (envelope-from imp@umbrella) id 180b2
  by umbrella (DragonFly Mail Agent v0.13+ on umbrella);
  Fri, 31 Mar 2023 08:18:33 -0600
 From: Warner Losh <imp@bsdimp.com>
@@ -24,9 +24,9 @@ To: qemu-devel@nongnu.org
 Cc: Ryo ONODERA <ryoon@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
  Brad Smith <brad@comstyle.com>, Kyle Evans <kevans@freebsd.org>,
  Warner Losh <imp@bsdimp.com>
-Subject: [PATCH 4/7] bsd-user: Remove openbsd system call inclusion and defines
-Date: Fri, 31 Mar 2023 08:18:30 -0600
-Message-Id: <20230331141833.3647-5-imp@bsdimp.com>
+Subject: [PATCH 5/7] bsd-user: Remove openbsd system call tracing
+Date: Fri, 31 Mar 2023 08:18:31 -0600
+Message-Id: <20230331141833.3647-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230331141833.3647-1-imp@bsdimp.com>
 References: <20230331141833.3647-1-imp@bsdimp.com>
@@ -57,44 +57,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Remove OpenBSD system call inclusion and defines. We've not supported
-building all the BSDs into one module for some time, and the OpenBSD
-support hasn't even built since the meson conversion.
----
- bsd-user/syscall_defs.h | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+Remove OpenBSD system call tracing. We've not supported building all the
+BSDs into one module for some time, and the OpenBSD support hasn't even
+built since the meson conversion.
 
-diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
-index 8352ab783c..a3a0fdbb52 100644
---- a/bsd-user/syscall_defs.h
-+++ b/bsd-user/syscall_defs.h
-@@ -26,7 +26,6 @@
- #include "errno_defs.h"
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+---
+ bsd-user/qemu.h   |  5 -----
+ bsd-user/strace.c | 17 -----------------
+ 2 files changed, 22 deletions(-)
+
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index b82f7b6f00..c921c3cb63 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -195,11 +195,6 @@ print_freebsd_syscall(int num,
+                       abi_long arg1, abi_long arg2, abi_long arg3,
+                       abi_long arg4, abi_long arg5, abi_long arg6);
+ void print_freebsd_syscall_ret(int num, abi_long ret);
+-void
+-print_openbsd_syscall(int num,
+-                      abi_long arg1, abi_long arg2, abi_long arg3,
+-                      abi_long arg4, abi_long arg5, abi_long arg6);
+-void print_openbsd_syscall_ret(int num, abi_long ret);
+ /**
+  * print_taken_signal:
+  * @target_signum: target signal being taken
+diff --git a/bsd-user/strace.c b/bsd-user/strace.c
+index bde906e9be..26abb9f1db 100644
+--- a/bsd-user/strace.c
++++ b/bsd-user/strace.c
+@@ -152,9 +152,6 @@ static void print_syscall_ret_addr(const struct syscallname *name, abi_long ret)
+ static const struct syscallname freebsd_scnames[] = {
+ #include "freebsd/strace.list"
+ };
+-static const struct syscallname openbsd_scnames[] = {
+-#include "openbsd/strace.list"
+-};
  
- #include "freebsd/syscall_nr.h"
--#include "openbsd/syscall_nr.h"
+ static void print_syscall(int num, const struct syscallname *scnames,
+         unsigned int nscnames, abi_long arg1, abi_long arg2, abi_long arg3,
+@@ -226,20 +223,6 @@ void print_freebsd_syscall_ret(int num, abi_long ret)
+     print_syscall_ret(num, ret, freebsd_scnames, ARRAY_SIZE(freebsd_scnames));
+ }
  
- /*
-  * machine/_types.h
-@@ -65,17 +64,7 @@ struct target_iovec {
- 
- #define TARGET_FREEBSD_MAP_FLAGMASK     0x1ff7
- 
--#define TARGET_OPENBSD_MAP_INHERIT      0x0080  /* region is retained after */
--                                                /* exec */
--#define TARGET_OPENBSD_MAP_NOEXTEND     0x0100  /* for MAP_FILE, don't change */
--                                                /* file size */
--#define TARGET_OPENBSD_MAP_TRYFIXED     0x0400  /* attempt hint address, */
--                                                /* even within heap */
+-void print_openbsd_syscall(int num, abi_long arg1, abi_long arg2, abi_long arg3,
+-        abi_long arg4, abi_long arg5, abi_long arg6)
+-{
 -
--#define TARGET_OPENBSD_MAP_FLAGMASK     0x17f7
+-    print_syscall(num, openbsd_scnames, ARRAY_SIZE(openbsd_scnames), arg1, arg2,
+-            arg3, arg4, arg5, arg6);
+-}
 -
--/* XXX */
--#define TARGET_BSD_MAP_FLAGMASK         0x3ff7
-+#define TARGET_BSD_MAP_FLAGMASK         0x1ff7
- 
- /*
-  * sys/time.h
+-void print_openbsd_syscall_ret(int num, abi_long ret)
+-{
+-
+-    print_syscall_ret(num, ret, openbsd_scnames, ARRAY_SIZE(openbsd_scnames));
+-}
+-
+ static void
+ print_signal(abi_ulong arg, int last)
+ {
 -- 
 2.39.2
 
