@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDD66D2BD4
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9C56D2BD2
 	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 01:52:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piOWB-0007UJ-AN; Fri, 31 Mar 2023 19:50:51 -0400
+	id 1piOWT-0007VX-DM; Fri, 31 Mar 2023 19:51:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <31XEnZAsKCn4cemgtng0vpiiqqing.eqosgow-fgxgnpqpipw.qti@flex--ackerleytng.bounces.google.com>)
- id 1piOW9-0007U8-Lm
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 19:50:49 -0400
-Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449])
+ <32HEnZAsKCoEfhpjwqj3ysllttlqj.htrvjrz-ij0jqstslsz.twl@flex--ackerleytng.bounces.google.com>)
+ id 1piOWK-0007Uw-KM
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 19:51:00 -0400
+Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <31XEnZAsKCn4cemgtng0vpiiqqing.eqosgow-fgxgnpqpipw.qti@flex--ackerleytng.bounces.google.com>)
- id 1piOW7-0000Vr-Os
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 19:50:49 -0400
-Received: by mail-pf1-x449.google.com with SMTP id
- c2-20020a62f842000000b0062d93664ad5so7029985pfm.19
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 16:50:46 -0700 (PDT)
+ <32HEnZAsKCoEfhpjwqj3ysllttlqj.htrvjrz-ij0jqstslsz.twl@flex--ackerleytng.bounces.google.com>)
+ id 1piOWB-0000Wh-5p
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 19:50:53 -0400
+Received: by mail-pj1-x1049.google.com with SMTP id
+ qa18-20020a17090b4fd200b002400d8a8d1dso11489714pjb.7
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 16:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680306645;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MX7MCqmj1YYihUkBpAVlEeGMviJT2cJPKDZIN4OR+eI=;
- b=rs2Oji081/y9n1X5EoKWy+YAnL83qBuCdumcenLPrxwfD9FhAIw4hlVj4XP7/Y5Csq
- lU5b9UIB/trmNN3L2g1BONn/YlWj6kHwCJvT6fd05AaijB3WMTF8/D+hd3HfgCkafQDu
- NbHJ0a1bnlAMC3KxpgtTUZNOqAMxuDxYtesuddpHrX/ENLS89CzH5G+JzzOmQK4jvnd5
- 5mTrfkQj806FnvEE68QrxmzAe0mZ26vs2memR3hQ+yGRR4Hz54qvdF34OtXX2se9Qkq6
- yuJZ+avzEi827lI5ZZjCExL+izen0tkcmYbNDaEC2FQNPb5gMHAwJLc2JI7bg+7pOI5w
- M4qA==
+ d=google.com; s=20210112; t=1680306648;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=67aN/B+WtOaSUEhiQW5ieKe9kdphJ9yXXZLhFTmAYCY=;
+ b=aqbsmcr2pK1zJc/QddLocmFe7u0eN9wv3vYw/b6U0d43YucmpKQusaaQyAaVSa0brL
+ LpSKYapJtGiMflg5mvZkz3d5j4vniDYYeKTW9Q4ay1SgV2A+IZ22Cf6Rxm/yGJKvgMN8
+ SMKUd9my6zvqI6T79WbKu7yBu6efMqRgxeGWTlGD4T7pNs+f8J8J0byx5Zn/rGxIBacK
+ RO2pdC/oG+kndVLe0/EN60h+Ufhb6JX9aJrTNcBTxw5DYOj8yvfJ2FTBeGdPqfrf3kJN
+ vw3lhr7RqWCr8GoHdH9B4JRBqn6YLWfmu0XgDDbuD1vuUAihW3PD1pSNBYYD+O6dlOsv
+ bwXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680306645;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MX7MCqmj1YYihUkBpAVlEeGMviJT2cJPKDZIN4OR+eI=;
- b=NCKGMXqziVJGOgLcs/ZHmy1lcwzjmh1bHAlAGjtf2CJyGPZIEXAF/MEo8HOuoNCJni
- PkdlenJMdWT0oC0elsNQMTnGi+g7h6J8+yk7JamR+IHyvAclxdrKaXNgyZ9uuwdi8wRK
- q61LMfBDybMpfFDPJhcTVibB/jeCXR8bkxPSMo6EQwk2fcj8sz1gBMMLjv9ewe7EpF3z
- dU6Gb1htQMDi9fy7BKPOFZ7c2y1DMR/A+syVO/Hrzh4B1XGP8OUsuMVQbq4Qir2A10aU
- Ek9MpmcGovCoXMO1dabXV99gLkmPMTLfDiYMez+VWJtvNiy58ioqz44oihMxOFmun/9t
- zN1Q==
-X-Gm-Message-State: AAQBX9csUtRxo5mGCus7340/AePDW3/lQVqmvycGXIb16jTvgq+W2Rht
- x1E/wZ3zTPtZ2yrIzyy+IHQa/VHqU2kpyGcd4A==
-X-Google-Smtp-Source: AKy350ZJqTbZ16YecPSOF6v5SkmsCRDk16kOZmltq0SjCslWgUg34hFI5HGJzZ+7T5IgczsqwP1P6KdxKJ0KIpzgeg==
+ d=1e100.net; s=20210112; t=1680306648;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=67aN/B+WtOaSUEhiQW5ieKe9kdphJ9yXXZLhFTmAYCY=;
+ b=Jb8G47s69PKfvQEvHHYSxEXMc9340cI8mfwOSw6e/3YmNVFZRNFOf9zNNVSKQi09ta
+ gw8w7O9eGxRd7rq0c4jXXGAhal6z/TXXYGlrKyE5rU6vhLpn6ejsBhwqxe0hSIhcnWOH
+ 8UkuFfDDSCpbUFiItdY3J7Yq2s3xlUFbPDNZTjWeS0EH4gDLtoRcnp44nKRrTKKNjR/w
+ 33KEfRlvNlAMuJfVxcldRL+8JBrQJtamG7e0eJAS48Ujrpihm3Dk2TXXqQyrQ7AogL4W
+ 7OkfkJw0tvvEStKpdTMORmbKVAPt5DjBfoGOdxf+DSzWeA10lTDsMDL3kAf8L4hPQSRK
+ WdIQ==
+X-Gm-Message-State: AAQBX9evt2GrrvONkYYk5By8HlxbbkbjuGOvayZBgTLEIFpEjuDmbqh2
+ 5UroC+E2IR6OTRcUtlLi4/ScOMvJwjZbh55Lgw==
+X-Google-Smtp-Source: AKy350Y16oanl4juVqg+eyN21vJExuVR4y0XGk1EcBSjqL6yTWS/45m6tpDkpZOf1psTO3M9dHBN9cOBWfihqWNDiA==
 X-Received: from ackerleytng-cloudtop.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a05:6a00:a12:b0:62d:9bea:2a0c with
- SMTP id p18-20020a056a000a1200b0062d9bea2a0cmr8375791pfh.4.1680306645245;
- Fri, 31 Mar 2023 16:50:45 -0700 (PDT)
-Date: Fri, 31 Mar 2023 23:50:38 +0000
+ (user=ackerleytng job=sendgmr) by 2002:a17:90a:ba0a:b0:23f:6eff:9430 with
+ SMTP id s10-20020a17090aba0a00b0023f6eff9430mr9066957pjr.3.1680306648452;
+ Fri, 31 Mar 2023 16:50:48 -0700 (PDT)
+Date: Fri, 31 Mar 2023 23:50:39 +0000
+In-Reply-To: <cover.1680306489.git.ackerleytng@google.com>
 Mime-Version: 1.0
+References: <cover.1680306489.git.ackerleytng@google.com>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <cover.1680306489.git.ackerleytng@google.com>
-Subject: [RFC PATCH v3 0/2] Providing mount in memfd_restricted() syscall
+Message-ID: <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
+Subject: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
 From: Ackerley Tng <ackerleytng@google.com>
 To: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
@@ -77,10 +79,9 @@ Cc: aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org,
  wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org, 
  yu.c.zhang@linux.intel.com, Ackerley Tng <ackerleytng@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
- envelope-from=31XEnZAsKCn4cemgtng0vpiiqqing.eqosgow-fgxgnpqpipw.qti@flex--ackerleytng.bounces.google.com;
- helo=mail-pf1-x449.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
+ envelope-from=32HEnZAsKCoEfhpjwqj3ysllttlqj.htrvjrz-ij0jqstslsz.twl@flex--ackerleytng.bounces.google.com;
+ helo=mail-pj1-x1049.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -103,90 +104,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+By default, the backing shmem file for a restrictedmem fd is created
+on shmem's kernel space mount.
 
-This patchset builds upon the memfd_restricted() system call that was
-discussed in the =E2=80=98KVM: mm: fd-based approach for supporting KVM=E2=
-=80=99 patch
-series, at
-https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.int=
-el.com/T/
+With this patch, an optional tmpfs mount can be specified via an fd,
+which will be used as the mountpoint for backing the shmem file
+associated with a restrictedmem fd.
 
-The tree can be found at:
-https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-provide-mou=
-nt-fd-rfc-v3
+This will help restrictedmem fds inherit the properties of the
+provided tmpfs mounts, for example, hugepage allocation hints, NUMA
+binding hints, etc.
 
-In this patchset, a modification to the memfd_restricted() syscall is
-proposed, which allows userspace to provide a mount, on which the
-restrictedmem file will be created and returned from the
-memfd_restricted().
+Permissions for the fd passed to memfd_restricted() is modeled after
+the openat() syscall, since both of these allow creation of a file
+upon a mount/directory.
 
-Allowing userspace to provide a mount allows userspace to control
-various memory binding policies via tmpfs mount options, such as
-Transparent HugePage memory allocation policy through
-=E2=80=98huge=3Dalways/never=E2=80=99 and NUMA memory allocation policy thr=
-ough
-=E2=80=98mpol=3Dlocal/bind:*=E2=80=99.
+Permission to reference the mount the fd represents is checked upon fd
+creation by other syscalls (e.g. fsmount(), open(), or open_tree(),
+etc) and any process that can present memfd_restricted() with a valid
+fd is expected to have obtained permission to use the mount
+represented by the fd. This behavior is intended to parallel that of
+the openat() syscall.
 
-Changes since RFCv2:
-+ Tightened semantics to accept only fds of the root of a tmpfs mount,
-  as Christian suggested
-+ Added permissions check on the inode represented by the fd to guard
-  against creation of restrictedmem files on read-only tmpfs
-  filesystems or mounts
-+ Renamed RMFD_TMPFILE to RMFD_USERMNT to better represent providing a
-  userspace mount to create a restrictedmem file on
-+ Updated selftests for tighter semantics and added selftests to check
-  for permissions
+memfd_restricted() will check that the tmpfs superblock is
+writable, and that the mount is also writable, before attempting to
+create a restrictedmem file on the mount.
 
-Changes since RFCv1:
-+ Use fd to represent mount instead of path string, as Kirill
-  suggested. I believe using fds makes this syscall interface more
-  aligned with the other syscalls like fsopen(), fsconfig(), and
-  fsmount() in terms of using and passing around fds
-+ Remove unused variable char *orig_shmem_enabled from selftests
-
-Dependencies:
-+ Sean=E2=80=99s iteration of the =E2=80=98KVM: mm: fd-based approach for s=
-upporting
-  KVM=E2=80=99 patch series at
-  https://github.com/sean-jc/linux/tree/x86/upm_base_support
-+ Proposed fixes for these issues mentioned on the mailing list:
-    + https://lore.kernel.org/lkml/diqzzga0fv96.fsf@ackerleytng-cloudtop-sg=
-.c.googlers.com/
-
-Links to earlier patch series:
-+ RFC v2: https://lore.kernel.org/lkml/cover.1679428901.git.ackerleytng@goo=
-gle.com/T/
-+ RFC v1: https://lore.kernel.org/lkml/cover.1676507663.git.ackerleytng@goo=
-gle.com/T/
-
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
-
-Ackerley Tng (2):
-  mm: restrictedmem: Allow userspace to specify mount for
-    memfd_restricted
-  selftests: restrictedmem: Check hugepage-ness of shmem file backing
-    restrictedmem fd
-
- include/linux/syscalls.h                      |   2 +-
- include/uapi/linux/restrictedmem.h            |   8 +
- mm/restrictedmem.c                            |  74 ++-
- tools/testing/selftests/Makefile              |   1 +
- .../selftests/restrictedmem/.gitignore        |   3 +
- .../testing/selftests/restrictedmem/Makefile  |  15 +
- .../testing/selftests/restrictedmem/common.c  |   9 +
- .../testing/selftests/restrictedmem/common.h  |   8 +
- .../restrictedmem_hugepage_test.c             | 486 ++++++++++++++++++
- 9 files changed, 599 insertions(+), 7 deletions(-)
+ include/linux/syscalls.h           |  2 +-
+ include/uapi/linux/restrictedmem.h |  8 ++++
+ mm/restrictedmem.c                 | 74 +++++++++++++++++++++++++++---
+ 3 files changed, 77 insertions(+), 7 deletions(-)
  create mode 100644 include/uapi/linux/restrictedmem.h
- create mode 100644 tools/testing/selftests/restrictedmem/.gitignore
- create mode 100644 tools/testing/selftests/restrictedmem/Makefile
- create mode 100644 tools/testing/selftests/restrictedmem/common.c
- create mode 100644 tools/testing/selftests/restrictedmem/common.h
- create mode 100644 tools/testing/selftests/restrictedmem/restrictedmem_hug=
-epage_test.c
 
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index f9e9e0c820c5..a23c4c385cd3 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+ asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+ 					    unsigned long home_node,
+ 					    unsigned long flags);
+-asmlinkage long sys_memfd_restricted(unsigned int flags);
++asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
+
+ /*
+  * Architecture-specific system calls
+diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
+new file mode 100644
+index 000000000000..22d6f2285f6d
+--- /dev/null
++++ b/include/uapi/linux/restrictedmem.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
++#define _UAPI_LINUX_RESTRICTEDMEM_H
++
++/* flags for memfd_restricted */
++#define RMFD_USERMNT		0x0001U
++
++#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index c5d869d8c2d8..f7b62364a31a 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -1,11 +1,12 @@
+ // SPDX-License-Identifier: GPL-2.0
+-#include "linux/sbitmap.h"
++#include <linux/namei.h>
+ #include <linux/pagemap.h>
+ #include <linux/pseudo_fs.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/syscalls.h>
+ #include <uapi/linux/falloc.h>
+ #include <uapi/linux/magic.h>
++#include <uapi/linux/restrictedmem.h>
+ #include <linux/restrictedmem.h>
+
+ struct restrictedmem {
+@@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+ 	return file;
+ }
+
+-SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
++static int restrictedmem_create(struct vfsmount *mount)
+ {
+ 	struct file *file, *restricted_file;
+ 	int fd, err;
+
+-	if (flags)
+-		return -EINVAL;
+-
+ 	fd = get_unused_fd_flags(0);
+ 	if (fd < 0)
+ 		return fd;
+
+-	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
++	if (mount)
++		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
++	else
++		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
++
+ 	if (IS_ERR(file)) {
+ 		err = PTR_ERR(file);
+ 		goto err_fd;
+@@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+ 	return err;
+ }
+
++static bool is_shmem_mount(struct vfsmount *mnt)
++{
++	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
++}
++
++static bool is_mount_root(struct file *file)
++{
++	return file->f_path.dentry == file->f_path.mnt->mnt_root;
++}
++
++static int restrictedmem_create_on_user_mount(int mount_fd)
++{
++	int ret;
++	struct fd f;
++	struct vfsmount *mnt;
++
++	f = fdget_raw(mount_fd);
++	if (!f.file)
++		return -EBADF;
++
++	ret = -EINVAL;
++	if (!is_mount_root(f.file))
++		goto out;
++
++	mnt = f.file->f_path.mnt;
++	if (!is_shmem_mount(mnt))
++		goto out;
++
++	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
++	if (ret)
++		goto out;
++
++	ret = mnt_want_write(mnt);
++	if (unlikely(ret))
++		goto out;
++
++	ret = restrictedmem_create(mnt);
++
++	mnt_drop_write(mnt);
++out:
++	fdput(f);
++
++	return ret;
++}
++
++SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
++{
++	if (flags & ~RMFD_USERMNT)
++		return -EINVAL;
++
++	if (flags == RMFD_USERMNT) {
++		if (mount_fd < 0)
++			return -EINVAL;
++
++		return restrictedmem_create_on_user_mount(mount_fd);
++	} else {
++		return restrictedmem_create(NULL);
++	}
++}
++
+ int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+ 		       struct restrictedmem_notifier *notifier, bool exclusive)
+ {
 --
 2.40.0.348.gf938b09366-goog
 
