@@ -2,56 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3913B6D256A
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 18:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 690E06D2571
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 18:26:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piHXe-0005gE-Mh; Fri, 31 Mar 2023 12:23:55 -0400
+	id 1piHZU-0006ZI-Kg; Fri, 31 Mar 2023 12:25:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1piHXa-0005fu-CJ
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:23:50 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1piHZS-0006Yx-D0
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:25:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1piHXT-0004K2-HP
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:23:49 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1piHZQ-0004wh-47
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 12:25:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680279819;
+ s=mimecast20190719; t=1680279943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Z3010CIVo8Dmj3AUBg3E7k8iXmYW2uvFUFnR/lPJqOk=;
- b=M4uad3TsWRZYDCPV6Spvqapv6UrqBUdADqgYB+nQNOguD05eghFiqjwZKl7vn6ylY5cvL5
- Zh5pEv2+6+UHkXmE3kyabqpWp621I3qieX+AR8fIV3fJZ3oKSYfcjYsvij72SWTIU9SpF2
- XYzvT4IU+PqrRbBWZVM/H7vqAMwxYwM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-152-OU8Q6TgQNjSu5nXz55DfSw-1; Fri, 31 Mar 2023 12:23:37 -0400
-X-MC-Unique: OU8Q6TgQNjSu5nXz55DfSw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38838885627;
- Fri, 31 Mar 2023 16:23:37 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.254])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B86112166B33;
- Fri, 31 Mar 2023 16:23:36 +0000 (UTC)
-From: Hanna Czenczek <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Hanna Czenczek <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Fiona Ebner <f.ebner@proxmox.com>, John Snow <jsnow@redhat.com>
-Subject: [PATCH v2] block-backend: Add new bds_io_in_flight counter
-Date: Fri, 31 Mar 2023 18:23:35 +0200
-Message-Id: <20230331162335.27518-1-hreitz@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1z/xKDEepmtzoVL5Vw/+Vhr34qLFw8UK3I2Lqi6kE7s=;
+ b=Hs3Czi9wTct9bjdJmIj2+EsJDURvc/V1LqaTmJELk6zAeT+hhCIhye9fd8RNsW/3a5n3bx
+ 1cWLt4aodd7qR355AQNLDef1VRJJtkGZQjXM6lYy/MbiYzQMZWD303e2/ZF+geB/+3qvIR
+ ZJi5EDZLO2M8CkKIlCCyQjS9G3HoT1c=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-178-mgjURDv_Oliqq7rwTz7XOQ-1; Fri, 31 Mar 2023 12:25:41 -0400
+X-MC-Unique: mgjURDv_Oliqq7rwTz7XOQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ k14-20020a508ace000000b005024a8cef5cso21616957edk.22
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 09:25:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680279940;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1z/xKDEepmtzoVL5Vw/+Vhr34qLFw8UK3I2Lqi6kE7s=;
+ b=teBYW57CsYwxZzWSQU0M4ApcBX7rdqpwYRqRbkK2Qqo+4i5LpVkudpPCi0zQCi2Iv2
+ oq4cqIRBmuoUBXjIgyGQxqqOm7fEcalYa72akiIbekiIRUGxliCWZA1UznIjMEsYPILe
+ xaSP7sVVTPicKvZkjCG7oDSRQcNGK4yFlFCqBGWMR49Q/+WLtvl2xEEJ3709JxlN01OH
+ odg7cAj5HxwWQcVWPWerbQdUVWRKKNP3nLARKQeOiZ6F6DfNYDPyytuj+36GHogVhh9v
+ 0IzXqXtpyV8JXxwaQvNaK1NKSoR1MjYjf6ql/pfBwS3bvyI9lJd2coe5tfwDNNTB7ufn
+ lt8Q==
+X-Gm-Message-State: AAQBX9dhec23rdjFtVp9mvcxn9+pkfhw5E9OdhVFtKk9oJrxpVrZ0OoY
+ AwYnmMeaqZgqEod/RkMDvJCf11x5WKZuPkbDPdRmlRmfR2x6HvoSS4+w9ZH0r566sXYCtrX27Fk
+ MKMkmXiIWh7hwT7M=
+X-Received: by 2002:aa7:d815:0:b0:4fd:2533:f56 with SMTP id
+ v21-20020aa7d815000000b004fd25330f56mr25270544edq.39.1680279940531; 
+ Fri, 31 Mar 2023 09:25:40 -0700 (PDT)
+X-Google-Smtp-Source: AKy350a+0fdUG3KiKuOV+SF96WPvmrE1WcqnBUa1Pu1/3DTuLgPi7s8rKQlGcL1sJZog7PGvilW32w==
+X-Received: by 2002:aa7:d815:0:b0:4fd:2533:f56 with SMTP id
+ v21-20020aa7d815000000b004fd25330f56mr25270530edq.39.1680279940190; 
+ Fri, 31 Mar 2023 09:25:40 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ m9-20020a50c189000000b004fd2aab4953sm1227587edf.45.2023.03.31.09.25.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Mar 2023 09:25:39 -0700 (PDT)
+Date: Fri, 31 Mar 2023 18:25:38 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eric DeVolder <eric.devolder@oracle.com>, shannon.zhaosl@gmail.com,
+ ani@anisinha.ca, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
+ richard.henderson@linaro.org, eduardo@habkost.net,
+ boris.ostrovsky@oracle.com
+Subject: Re: [PATCH 0/2] hw/acpi: bump MADT to revision 5
+Message-ID: <20230331182538.15980cc9@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230329124442-mutt-send-email-mst@kernel.org>
+References: <20230328155926.2277-1-eric.devolder@oracle.com>
+ <20230329010406-mutt-send-email-mst@kernel.org>
+ <96144a1b-efa7-ecc2-3e35-56825fcf48c6@oracle.com>
+ <20230329124442-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -75,393 +106,292 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-IDE TRIM is a BB user that wants to elevate its BB's in-flight counter
-for a "macro" operation that consists of several actual I/O operations.
-Each of those operations is individually started and awaited.  It does
-this so that blk_drain() will drain the whole TRIM, and not just a
-single one of the many discard operations it may encompass.
+On Wed, 29 Mar 2023 12:47:05 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-When request queuing is enabled, this leads to a deadlock: The currently
-ongoing discard is drained, and the next one is queued, waiting for the
-drain to stop.  Meanwhile, TRIM still keeps the in-flight counter
-elevated, waiting for all discards to stop -- which will never happen,
-because with the in-flight counter elevated, the BB is never considered
-drained, so the drained section does not begin and cannot end.
+> On Wed, Mar 29, 2023 at 08:14:37AM -0500, Eric DeVolder wrote:
+> > 
+> > 
+> > On 3/29/23 00:19, Michael S. Tsirkin wrote:  
+> > > Hmm I don't think we can reasonably make such a change for 8.0.
+> > > Seems too risky.
+> > > Also, I feel we want to have an internal (with "x-" prefix") flag to
+> > > revert to old behaviour, in case of breakage on some guests.  and maybe
+> > > we want to keep old revision for old machine types.  
+> > Ok, what option name, for keeping old behavior, would you like?  
+> 
+> Don't much care. x-madt-rev?
 
-There are two separate cases to look at here, namely bdrv_drain*() and
-blk_drain*().  As said above, we do want blk_drain*() to settle the
-whole operation: The only way to do so is to disable request queuing,
-then.  So, we do that: Have blk_drain() and blk_drain_all() temporarily
-disable request queuing, which prevents the deadlock.
+if it works fine (cold & hot-plug) with older linux/windows guests
+I'd rather avoid adding compat knob (we typically do that in ACPI tables
+only when change breaks something).
 
-(The devil's in the details, though: blk_drain_all() runs
-bdrv_drain_all_begin() first, so when we get to the individual BB, there
-may already be queued requests.  Therefore, we have to not only disable
-request queuing then, but resume all already-queued requests, too.)
+(as old guest I'd define WinXP sp3 (/me wonders if we  still care about
+dead EOLed OS) perhaps WS2008 would be a better minimum target these days
+and RHEL6 (or some older ACPI enabled kernel with hotplug support))
 
-For bdrv_drain*(), we want request queuing -- and macro requests such as
-IDE's TRIM request do not matter.  bdrv_drain*() wants to keep I/O
-requests from BDS nodes, and the TRIM does not issue such requests; it
-instead does so through blk_*() functions, which themselves elevate the
-BB's in-flight counter.  So the idea is to drain (and potentially queue)
-those blk_*() requests, but completely ignore the TRIM.
+> 
+> > > 
+> > > 
+> > > On Tue, Mar 28, 2023 at 11:59:24AM -0400, Eric DeVolder wrote:  
+> > > > The following Linux kernel change broke CPU hotplug for MADT revision
+> > > > less than 5.
+> > > > 
+> > > >   commit e2869bd7af60 ("x86/acpi/boot: Do not register processors that cannot be onlined for x2APIC")  
+> > > 
+> > > Presumably it's being fixed? Link to discussion? Patch fixing that in
+> > > Linux?  
+> > 
+> > https://lore.kernel.org/linux-acpi/20230327191026.3454-1-eric.devolder@oracle.com/T/#t  
+> 
+> Great! Maybe stick a Link: tag in the commit log.
 
-We can do that by splitting a new counter off of the existing BB
-counter: The new bds_io_in_flight counter counts all those blk_*()
-requests that can issue I/O to a BDS (so must be drained by
-bdrv_drain*()), but will never block waiting on another request on the
-BB.
+So it's guest bug which is in process of being fixed.
+(i.e. QEMU technically correct as long as MADT revision < 5)
 
-In blk_drain*(), we disable request queuing and settle all requests (the
-full in_flight count).  In bdrv_drain*() (i.e. blk_root_drained_poll()),
-we only settle bds_io_in_flight_count, ignoring all requests that will
-not directly issue I/O requests to BDS nodes.
+In this case I'd not touch x86 MADT at all (It should be upto
+downstream distros to fix guest kernel).
 
-Reported-by: Fiona Ebner <f.ebner@proxmox.com>
-Fixes: 7e5cdb345f77d76cb4877fe6230c4e17a7d0d0ca
-       ("ide: Increment BB in-flight counter for TRIM BH")
-Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
----
- block/block-backend.c | 157 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 130 insertions(+), 27 deletions(-)
+Probably the same applies to ARM variant
+i.e. we should bump rev only when current one gets in the way
+(aka we are pulling in new fields/definitions from new version)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 2ee39229e4..6b9cf1c8c4 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -91,8 +91,27 @@ struct BlockBackend {
-      * in-flight requests but aio requests can exist even when blk->root is
-      * NULL, so we cannot rely on its counter for that case.
-      * Accessed with atomic ops.
-+     *
-+     * bds_io_in_flight is the subset of in-flight requests that may directly
-+     * issue I/O to a BDS node.  Polling the BB's AioContext, these requests
-+     * must always make progress, eventually leading to bds_io_in_flight being
-+     * decremented again (either when they request is settled, or when it is
-+     * queued because of request queuing).
-+     * In contrast to these, there are more abstract requests, which will not
-+     * themselves issue I/O to a BDS node, but instead, when necessary, create
-+     * specific BDS I/O requests that do so on their behalf, and then they block
-+     * waiting for those subordinate requests.
-+     * While request queuing is enabled, we must not have drained_poll wait on
-+     * such abstract requests, because if one of its subordinate requests is
-+     * queued, it will block and cannot progress until the drained section ends,
-+     * which leads to a deadlock.  Luckily, it is safe to ignore such requests
-+     * when draining BDS nodes: After all, they themselves do not issue I/O to
-+     * BDS nodes.
-+     * Finally, when draining a BB (blk_drain(), blk_drain_all()), we simply
-+     * disable request queuing and can thus safely await all in-flight requests.
-      */
-     unsigned int in_flight;
-+    unsigned int bds_io_in_flight;
- };
- 
- typedef struct BlockBackendAIOCB {
-@@ -138,6 +157,9 @@ static bool blk_root_change_aio_ctx(BdrvChild *child, AioContext *ctx,
-                                     GHashTable *visited, Transaction *tran,
-                                     Error **errp);
- 
-+static void blk_inc_bds_io_in_flight(BlockBackend *blk);
-+static void blk_dec_bds_io_in_flight(BlockBackend *blk);
-+
- static char *blk_root_get_parent_desc(BdrvChild *child)
- {
-     BlockBackend *blk = child->opaque;
-@@ -1266,15 +1288,15 @@ blk_check_byte_request(BlockBackend *blk, int64_t offset, int64_t bytes)
-     return 0;
- }
- 
--/* To be called between exactly one pair of blk_inc/dec_in_flight() */
-+/* To be called between exactly one pair of blk_inc/dec_bds_io_in_flight() */
- static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
- {
--    assert(blk->in_flight > 0);
-+    assert(blk->in_flight > 0 && blk->bds_io_in_flight > 0);
- 
-     if (blk->quiesce_counter && !blk->disable_request_queuing) {
--        blk_dec_in_flight(blk);
-+        blk_dec_bds_io_in_flight(blk);
-         qemu_co_queue_wait(&blk->queued_requests, NULL);
--        blk_inc_in_flight(blk);
-+        blk_inc_bds_io_in_flight(blk);
-     }
- }
- 
-@@ -1332,9 +1354,9 @@ int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
-     int ret;
-     IO_OR_GS_CODE();
- 
--    blk_inc_in_flight(blk);
-+    blk_inc_bds_io_in_flight(blk);
-     ret = blk_co_do_preadv_part(blk, offset, bytes, qiov, 0, flags);
--    blk_dec_in_flight(blk);
-+    blk_dec_bds_io_in_flight(blk);
- 
-     return ret;
- }
-@@ -1346,9 +1368,9 @@ int coroutine_fn blk_co_preadv_part(BlockBackend *blk, int64_t offset,
-     int ret;
-     IO_OR_GS_CODE();
- 
--    blk_inc_in_flight(blk);
-+    blk_inc_bds_io_in_flight(blk);
-     ret = blk_co_do_preadv_part(blk, offset, bytes, qiov, qiov_offset, flags);
--    blk_dec_in_flight(blk);
-+    blk_dec_bds_io_in_flight(blk);
- 
-     return ret;
- }
-@@ -1400,9 +1422,9 @@ int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
-     int ret;
-     IO_OR_GS_CODE();
- 
--    blk_inc_in_flight(blk);
-+    blk_inc_bds_io_in_flight(blk);
-     ret = blk_co_do_pwritev_part(blk, offset, bytes, qiov, qiov_offset, flags);
--    blk_dec_in_flight(blk);
-+    blk_dec_bds_io_in_flight(blk);
- 
-     return ret;
- }
-@@ -1463,6 +1485,37 @@ int blk_make_zero(BlockBackend *blk, BdrvRequestFlags flags)
-     return bdrv_make_zero(blk->root, flags);
- }
- 
-+/*
-+ * Increments both the general in-flight counter, and the BDS I/O in-flight
-+ * counter.  This must be used by requests that can directly issue BDS I/O
-+ * requests, so that blk_root_drained_poll() will properly drain them.
-+ * Requests wrapped in this must continuously make progress when polled by
-+ * blk_root_drained_poll(), i.e. must eventually reach
-+ * blk_dec_bds_io_in_flight().  Notably, they must not launch other BB requests
-+ * and block waiting on them to complete, because those might be queued, and
-+ * then they will not make progress until the drained section ends.
-+ */
-+static void blk_inc_bds_io_in_flight(BlockBackend *blk)
-+{
-+    IO_CODE();
-+    blk_inc_in_flight(blk);
-+    qatomic_inc(&blk->bds_io_in_flight);
-+}
-+
-+static void blk_dec_bds_io_in_flight(BlockBackend *blk)
-+{
-+    IO_CODE();
-+    qatomic_dec(&blk->bds_io_in_flight);
-+    blk_dec_in_flight(blk);
-+}
-+
-+/*
-+ * Increments the general in-flight counter, but not the BDS I/O in-flight
-+ * counter.  This is an externally visible function, and external users must not
-+ * directly issue I/O to BDS nodes, instead going through BB functions (which
-+ * then are the BDS I/O in-flight requests), so those users cannot create what
-+ * counts as "BDS I/O requests" for the purpose of bds_io_in_flight.
-+ */
- void blk_inc_in_flight(BlockBackend *blk)
- {
-     IO_CODE();
-@@ -1480,7 +1533,7 @@ static void error_callback_bh(void *opaque)
- {
-     struct BlockBackendAIOCB *acb = opaque;
- 
--    blk_dec_in_flight(acb->blk);
-+    blk_dec_bds_io_in_flight(acb->blk);
-     acb->common.cb(acb->common.opaque, acb->ret);
-     qemu_aio_unref(acb);
- }
-@@ -1492,7 +1545,12 @@ BlockAIOCB *blk_abort_aio_request(BlockBackend *blk,
-     struct BlockBackendAIOCB *acb;
-     IO_CODE();
- 
--    blk_inc_in_flight(blk);
-+    /*
-+     * Will not actually submit BDS I/O, but will also not depend on queued
-+     * requests, so treating it as a BDS I/O request is fine (and will allow the
-+     * BH to be run when the BDS is drained, which some users may expect)
-+     */
-+    blk_inc_bds_io_in_flight(blk);
-     acb = blk_aio_get(&block_backend_aiocb_info, blk, cb, opaque);
-     acb->blk = blk;
-     acb->ret = ret;
-@@ -1524,8 +1582,16 @@ static const AIOCBInfo blk_aio_em_aiocb_info = {
- static void blk_aio_complete(BlkAioEmAIOCB *acb)
- {
-     if (acb->has_returned) {
-+        /*
-+         * Calling blk_dec_bds_io_in_flight() after invoking the CB is a bit
-+         * dangerous: We do not know what the CB does, so if it blocks waiting
-+         * for a queued BB request, we can end up in a deadlock.  We just hope
-+         * it will not do that.
-+         * Some callers (test-bdrv-drain) expect that draining a BDS will lead
-+         * to the completion CB being fully run, which is why we do this.
-+         */
-         acb->common.cb(acb->common.opaque, acb->rwco.ret);
--        blk_dec_in_flight(acb->rwco.blk);
-+        blk_dec_bds_io_in_flight(acb->rwco.blk);
-         qemu_aio_unref(acb);
-     }
- }
-@@ -1546,7 +1612,7 @@ static BlockAIOCB *blk_aio_prwv(BlockBackend *blk, int64_t offset,
-     BlkAioEmAIOCB *acb;
-     Coroutine *co;
- 
--    blk_inc_in_flight(blk);
-+    blk_inc_bds_io_in_flight(blk);
-     acb = blk_aio_get(&blk_aio_em_aiocb_info, blk, cb, opaque);
-     acb->rwco = (BlkRwCo) {
-         .blk    = blk,
-@@ -1672,7 +1738,7 @@ void blk_aio_cancel_async(BlockAIOCB *acb)
-     bdrv_aio_cancel_async(acb);
- }
- 
--/* To be called between exactly one pair of blk_inc/dec_in_flight() */
-+/* To be called between exactly one pair of blk_inc/dec_bds_io_in_flight() */
- static int coroutine_fn
- blk_co_do_ioctl(BlockBackend *blk, unsigned long int req, void *buf)
- {
-@@ -1694,9 +1760,9 @@ int coroutine_fn blk_co_ioctl(BlockBackend *blk, unsigned long int req,
-     int ret;
-     IO_OR_GS_CODE();
- 
--    blk_inc_in_flight(blk);
-+    blk_inc_bds_io_in_flight(blk);
-     ret = blk_co_do_ioctl(blk, req, buf);
--    blk_dec_in_flight(blk);
-+    blk_dec_bds_io_in_flight(blk);
- 
-     return ret;
- }
-@@ -1718,7 +1784,7 @@ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned long int req, void *buf,
-     return blk_aio_prwv(blk, req, 0, buf, blk_aio_ioctl_entry, 0, cb, opaque);
- }
- 
--/* To be called between exactly one pair of blk_inc/dec_in_flight() */
-+/* To be called between exactly one pair of blk_inc/dec_bds_io_in_flight() */
- static int coroutine_fn
- blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes)
- {
-@@ -1760,14 +1826,14 @@ int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset,
-     int ret;
-     IO_OR_GS_CODE();
- 
--    blk_inc_in_flight(blk);
-+    blk_inc_bds_io_in_flight(blk);
-     ret = blk_co_do_pdiscard(blk, offset, bytes);
--    blk_dec_in_flight(blk);
-+    blk_dec_bds_io_in_flight(blk);
- 
-     return ret;
- }
- 
--/* To be called between exactly one pair of blk_inc/dec_in_flight() */
-+/* To be called between exactly one pair of blk_inc/dec_bds_io_in_flight() */
- static int coroutine_fn blk_co_do_flush(BlockBackend *blk)
- {
-     IO_CODE();
-@@ -1802,16 +1868,26 @@ int coroutine_fn blk_co_flush(BlockBackend *blk)
-     int ret;
-     IO_OR_GS_CODE();
- 
--    blk_inc_in_flight(blk);
-+    blk_inc_bds_io_in_flight(blk);
-     ret = blk_co_do_flush(blk);
--    blk_dec_in_flight(blk);
-+    blk_dec_bds_io_in_flight(blk);
- 
-     return ret;
- }
- 
-+static void blk_resume_queued_requests(BlockBackend *blk)
-+{
-+    assert(blk->quiesce_counter == 0 || blk->disable_request_queuing);
-+
-+    while (qemu_co_enter_next(&blk->queued_requests, NULL)) {
-+        /* Resume all queued requests */
-+    }
-+}
-+
- void blk_drain(BlockBackend *blk)
- {
-     BlockDriverState *bs = blk_bs(blk);
-+    bool disable_request_queuing;
-     GLOBAL_STATE_CODE();
- 
-     if (bs) {
-@@ -1819,10 +1895,21 @@ void blk_drain(BlockBackend *blk)
-         bdrv_drained_begin(bs);
-     }
- 
-+    /*
-+     * We want blk_drain() to await all in-flight requests, including those that
-+     * encompass and block on other potentially queuable requests.  Disable
-+     * request queuing temporarily so we will not end in a deadlock.
-+     */
-+    disable_request_queuing = blk->disable_request_queuing;
-+    blk_set_disable_request_queuing(blk, true);
-+    blk_resume_queued_requests(blk);
-+
-     /* We may have -ENOMEDIUM completions in flight */
-     AIO_WAIT_WHILE(blk_get_aio_context(blk),
-                    qatomic_mb_read(&blk->in_flight) > 0);
- 
-+    blk_set_disable_request_queuing(blk, disable_request_queuing);
-+
-     if (bs) {
-         bdrv_drained_end(bs);
-         bdrv_unref(bs);
-@@ -1839,12 +1926,25 @@ void blk_drain_all(void)
- 
-     while ((blk = blk_all_next(blk)) != NULL) {
-         AioContext *ctx = blk_get_aio_context(blk);
-+        bool disable_request_queuing;
- 
-         aio_context_acquire(ctx);
- 
-+        /*
-+         * We want blk_drain_all() to await all in-flight requests, including
-+         * those that encompass and block on other potentially queuable
-+         * requests.  Disable request queuing temporarily so we will not end in
-+         * a deadlock.
-+         */
-+        disable_request_queuing = blk->disable_request_queuing;
-+        blk_set_disable_request_queuing(blk, true);
-+        blk_resume_queued_requests(blk);
-+
-         /* We may have -ENOMEDIUM completions in flight */
-         AIO_WAIT_WHILE(ctx, qatomic_mb_read(&blk->in_flight) > 0);
- 
-+        blk_set_disable_request_queuing(blk, disable_request_queuing);
-+
-         aio_context_release(ctx);
-     }
- 
-@@ -2594,7 +2694,12 @@ static bool blk_root_drained_poll(BdrvChild *child)
-     if (blk->dev_ops && blk->dev_ops->drained_poll) {
-         busy = blk->dev_ops->drained_poll(blk->dev_opaque);
-     }
--    return busy || !!blk->in_flight;
-+
-+    /*
-+     * This is BdrvChild.drained_poll(), i.e. only invoked for BDS drains, so
-+     * we must only await requests that may actually directly submit BDS I/O.
-+     */
-+    return busy || !!blk->bds_io_in_flight;
- }
- 
- static void blk_root_drained_end(BdrvChild *child)
-@@ -2609,9 +2714,7 @@ static void blk_root_drained_end(BdrvChild *child)
-         if (blk->dev_ops && blk->dev_ops->drained_end) {
-             blk->dev_ops->drained_end(blk->dev_opaque);
-         }
--        while (qemu_co_enter_next(&blk->queued_requests, NULL)) {
--            /* Resume all queued requests */
--        }
-+        blk_resume_queued_requests(blk);
-     }
- }
- 
--- 
-2.39.1
+   
+> > > > As part of the investigation into resolving this breakage, I learned
+> > > > that i386 QEMU reports revision 1, while technically it is at revision 3.
+> > > > (Arm QEMU reports revision 4, and that is valid/correct.)
+> > > > 
+> > > > ACPI 6.3 bumps MADT revision to 5 as it introduces an Online Capable
+> > > > flag that the above Linux patch utilizes to denote hot pluggable CPUs.
+> > > > 
+> > > > So in order to bump MADT to the current revision of 5, need to
+> > > > validate that all MADT table changes between 1 and 5 are present
+> > > > in QEMU.
+> > > > 
+> > > > Below is a table summarizing the changes to the MADT. This information
+> > > > gleamed from the ACPI specs on uefi.org.
+> > > > 
+> > > > ACPI    MADT    What
+> > > > Version Version
+> > > > 1.0             MADT not present
+> > > > 2.0     1       Section 5.2.10.4
+> > > > 3.0     2       Section 5.2.11.4
+> > > >                   5.2.11.13 Local SAPIC Structure added two new fields:
+> > > >                    ACPI Processor UID Value
+> > > >                    ACPI Processor UID String
+> > > >                   5.2.10.14 Platform Interrupt Sources Structure:
+> > > >                    Reserved changed to Platform Interrupt Sources Flags
+> > > > 3.0b    2       Section 5.2.11.4
+> > > >                   Added a section describing guidelines for the ordering of
+> > > >                   processors in the MADT to support proper boot processor
+> > > >                   and multi-threaded logical processor operation.
+> > > > 4.0     3       Section 5.2.12
+> > > >                   Adds Processor Local x2APIC structure type 9
+> > > >                   Adds Local x2APIC NMI structure type 0xA
+> > > > 5.0     3       Section 5.2.12
+> > > > 6.0     3       Section 5.2.12
+> > > > 6.0a    4       Section 5.2.12
+> > > >                   Adds ARM GIC structure types 0xB-0xF
+> > > > 6.2a    45      Section 5.2.12   <--- yep it says version 45!
+> > > > 6.2b    5       Section 5.2.12
+> > > >                   GIC ITS last Reserved offset changed to 16 from 20 (typo)
+> > > > 6.3     5       Section 5.2.12
+> > > >                   Adds Local APIC Flags Online Capable!
+> > > >                   Adds GICC SPE Overflow Interrupt field
+> > > > 6.4     5       Section 5.2.12
+> > > >                   Adds Multiprocessor Wakeup Structure type 0x10
+> > > >                   (change notes says structure previously misplaced?)
+> > > > 6.5     5       Section 5.2.12
+> > > > 
+> > > > For the MADT revision change 1 -> 2, the spec has a change to the
+> > > > SAPIC structure. In general, QEMU does not generate/support SAPIC.
+> > > > So the QEMU i386 MADT revision can safely be moved to 2.
+> > > > 
+> > > > For the MADT revision change 2 -> 3, the spec adds Local x2APIC
+> > > > structures. QEMU has long supported x2apic ACPI structures. A simple
+> > > > search of x2apic within QEMU source and hw/i386/acpi-common.c
+> > > > specifically reveals this.  
+> > > 
+> > > But not unconditionally.  
+> > 
+> > I don't think that reporting revision 3 requires that generation of x2apic;
+> > one could still see apic, x2apic, or sapic in theory. I realize qemu doesn't
+> > do sapic...
+> >   
+> > >   
+> > > > So the QEMU i386 MADT revision can safely
+> > > > be moved to 3.
+> > > > 
+> > > > For the MADT revision change 3 -> 4, the spec adds support for the ARM
+> > > > GIC structures. QEMU ARM does in fact generate and report revision 4.
+> > > > As these will not be used by i386 QEMU, so then the QEMU i386 MADT
+> > > > revision can safely be moved to 4 as well.
+> > > > 
+> > > > Now for the MADT revision change 4 -> 5, the spec adds the Online
+> > > > Capable flag to the Local APIC structure, and the ARM GICC SPE
+> > > > Overflow Interrupt field.
+> > > > 
+> > > > For the ARM SPE, an existing 3-byte Reserved field is broken into a 1-
+> > > > byte Reserved field and a 2-byte SPE field.  The spec says that is SPE
+> > > > Overflow is not supported, it should be zero.
+> > > > 
+> > > > For the i386 Local APIC flag Online Capable, the spec has certain rules
+> > > > about this value. And in particuar setting this value now explicitly
+> > > > indicates a hotpluggable CPU.
+> > > > 
+> > > > So this patch makes the needed changes to move both ARM and i386 MADT
+> > > > to revision 5. These are not complicated, thankfully.
+> > > > 
+> > > > Without these changes, the information below shows "how" CPU hotplug
+> > > > breaks with the current upstream Linux kernel 6.3.  For example, a Linux
+> > > > guest started with:
+> > > > 
+> > > >   qemu-system-x86_64 -smp 30,maxcpus=32 ...
+> > > > 
+> > > > and then attempting to hotplug a CPU:
+> > > > 
+> > > >    (QEMU) device_add id=cpu30 driver=host-x86_64-cpu socket-id=0 core-id=30 thread-id=0
+> > > > 
+> > > > fails with the following:
+> > > > 
+> > > >    APIC: NR_CPUS/possible_cpus limit of 30 reached. Processor 30/0x.
+> > > >    ACPI: Unable to map lapic to logical cpu number
+> > > >    acpi LNXCPU:1e: Enumeration failure
+> > > > 
+> > > >    # dmesg | grep smpboot
+> > > >    smpboot: Allowing 30 CPUs, 0 hotplug CPUs
+> > > >    smpboot: CPU0: Intel(R) Xeon(R) CPU D-1533 @ 2.10GHz (family: 0x)
+> > > >    smpboot: Max logical packages: 1
+> > > >    smpboot: Total of 30 processors activated (125708.76 BogoMIPS)
+> > > > 
+> > > >    # iasl -d /sys/firmware/tables/acpi/APIC
+> > > >    [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Descript
+> > > >    [004h 0004   4]                 Table Length : 00000170
+> > > >    [008h 0008   1]                     Revision : 01          <=====
+> > > >    [009h 0009   1]                     Checksum : 9C
+> > > >    [00Ah 0010   6]                       Oem ID : "BOCHS "
+> > > >    [010h 0016   8]                 Oem Table ID : "BXPC    "
+> > > >    [018h 0024   4]                 Oem Revision : 00000001
+> > > >    [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+> > > >    [020h 0032   4]        Asl Compiler Revision : 00000001
+> > > > 
+> > > >    ...
+> > > > 
+> > > >    [114h 0276   1]                Subtable Type : 00 [Processor Local APIC]
+> > > >    [115h 0277   1]                       Length : 08
+> > > >    [116h 0278   1]                 Processor ID : 1D
+> > > >    [117h 0279   1]                Local Apic ID : 1D
+> > > >    [118h 0280   4]        Flags (decoded below) : 00000001
+> > > >                               Processor Enabled : 1          <=====
+> > > > 
+> > > >    [11Ch 0284   1]                Subtable Type : 00 [Processor Local APIC]
+> > > >    [11Dh 0285   1]                       Length : 08
+> > > >    [11Eh 0286   1]                 Processor ID : 1E
+> > > >    [11Fh 0287   1]                Local Apic ID : 1E
+> > > >    [120h 0288   4]        Flags (decoded below) : 00000000
+> > > >                               Processor Enabled : 0          <=====
+> > > > 
+> > > >    [124h 0292   1]                Subtable Type : 00 [Processor Local APIC]
+> > > >    [125h 0293   1]                       Length : 08
+> > > >    [126h 0294   1]                 Processor ID : 1F
+> > > >    [127h 0295   1]                Local Apic ID : 1F
+> > > >    [128h 0296   4]        Flags (decoded below) : 00000000
+> > > >                               Processor Enabled : 0          <=====
+> > > > 
+> > > > The (latest upstream) Linux kernel sees 30 Enabled processors, and
+> > > > does not consider processors 31 and 32 to be hotpluggable.
+> > > > 
+> > > > With this patch series applied, by bumping MADT to revision 5, the
+> > > > latest upstream Linux kernel correctly identifies 30 CPUs plus 2
+> > > > hotpluggable CPUS.
+> > > > 
+> > > >    CPU30 has been hot-added
+> > > >    smpboot: Booting Node 0 Processor 30 APIC 0x1e
+> > > >    Will online and init hotplugged CPU: 30
+> > > > 
+> > > >    # dmesg | grep smpboot
+> > > >    smpboot: Allowing 32 CPUs, 2 hotplug CPUs
+> > > >    smpboot: CPU0: Intel(R) Xeon(R) CPU D-1533 @ 2.10GHz (family: 0x6, model: 0x56, stepping: 0x3)
+> > > >    smpboot: Max logical packages: 2
+> > > >    smpboot: Total of 30 processors activated (125708.76 BogoMIPS)
+> > > > 
+> > > >    # iasl -d /sys/firmware/tables/acpi/APIC
+> > > >    [000h 0000 004h]                   Signature : "APIC"    [Multiple APIC Descript
+> > > >    [004h 0004 004h]                Table Length : 00000170
+> > > >    [008h 0008 001h]                    Revision : 05          <=====
+> > > >    [009h 0009 001h]                    Checksum : 94
+> > > >    [00Ah 0010 006h]                      Oem ID : "BOCHS "
+> > > >    [010h 0016 008h]                Oem Table ID : "BXPC    "
+> > > >    [018h 0024 004h]                Oem Revision : 00000001
+> > > >    [01Ch 0028 004h]             Asl Compiler ID : "BXPC"
+> > > >    [020h 0032 004h]       Asl Compiler Revision : 00000001
+> > > > 
+> > > >    ...
+> > > > 
+> > > >    [114h 0276 001h]               Subtable Type : 00 [Processor Local APIC]
+> > > >    [115h 0277 001h]                      Length : 08
+> > > >    [116h 0278 001h]                Processor ID : 1D
+> > > >    [117h 0279 001h]               Local Apic ID : 1D
+> > > >    [118h 0280 004h]       Flags (decoded below) : 00000001
+> > > >                               Processor Enabled : 1          <=====
+> > > >                          Runtime Online Capable : 0          <=====
+> > > > 
+> > > >    [11Ch 0284 001h]               Subtable Type : 00 [Processor Local APIC]
+> > > >    [11Dh 0285 001h]                      Length : 08
+> > > >    [11Eh 0286 001h]                Processor ID : 1E
+> > > >    [11Fh 0287 001h]               Local Apic ID : 1E
+> > > >    [120h 0288 004h]       Flags (decoded below) : 00000002
+> > > >                               Processor Enabled : 0          <=====
+> > > >                          Runtime Online Capable : 1          <=====
+> > > > 
+> > > >    [124h 0292 001h]               Subtable Type : 00 [Processor Local APIC]
+> > > >    [125h 0293 001h]                      Length : 08
+> > > >    [126h 0294 001h]                Processor ID : 1F
+> > > >    [127h 0295 001h]               Local Apic ID : 1F
+> > > >    [128h 0296 004h]       Flags (decoded below) : 00000002
+> > > >                               Processor Enabled : 0          <=====
+> > > >                          Runtime Online Capable : 1          <=====
+> > > > 
+> > > > Regards,
+> > > > Eric  
+> > > 
+> > > Can you please report which guests were tested?  
+> > 
+> > I've been using primarily upstream Linux. Kernels at and before 6.2.0 didn't
+> > have the "broken" patch mentioned above, and worked (for the reasons cited
+> > in the patch discussion to "fix" that patch). Any kernel since has the
+> > "broken" patch and will exhibit the issue.
+> > 
+> > I've been using q35.
+> > 
+> > If there are other samples you'd like to see, let me know and I'll try.
+> > 
+> > Also, my responses will be delayed as I'm traveling the remainder of the week.
+> > 
+> > Thanks!
+> > eric  
+> 
+> As a minimum some windows versions. The older the better.
+> 
+> 
+> >   
+> > > 
+> > >   
+> > > > 
+> > > > Eric DeVolder (2):
+> > > >    hw/acpi: arm: bump MADT to revision 5
+> > > >    hw/acpi: i386: bump MADT to revision 5
+> > > > 
+> > > >   hw/arm/virt-acpi-build.c |  6 ++++--
+> > > >   hw/i386/acpi-common.c    | 13 ++++++++++---
+> > > >   2 files changed, 14 insertions(+), 5 deletions(-)
+> > > > 
+> > > > -- 
+> > > > 2.31.1
+> > > > 
+> > > > 
+> > > >   
+> > >   
+> 
 
 
