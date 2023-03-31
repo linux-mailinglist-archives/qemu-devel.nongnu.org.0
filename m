@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C986D149C
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 03:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3726D14A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 03:05:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi39K-0003Dd-3J; Thu, 30 Mar 2023 21:01:50 -0400
+	id 1pi39M-0003ER-NH; Thu, 30 Mar 2023 21:01:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3-DAmZAcKChsBFDCF497FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--komlodi.bounces.google.com>)
- id 1pi39I-0003D6-Bc
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:48 -0400
+ <3-jAmZAcKCh0DHFEH6B9HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--komlodi.bounces.google.com>)
+ id 1pi39K-0003Dx-2V
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:50 -0400
 Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3-DAmZAcKChsBFDCF497FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--komlodi.bounces.google.com>)
- id 1pi39G-0006b5-Rs
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:48 -0400
+ <3-jAmZAcKCh0DHFEH6B9HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--komlodi.bounces.google.com>)
+ id 1pi39I-0006bM-Ec
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 21:01:49 -0400
 Received: by mail-pf1-x449.google.com with SMTP id
- i26-20020aa796fa000000b006261da7aeceso9538682pfq.5
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 18:01:45 -0700 (PDT)
+ t67-20020a628146000000b0062d6d838243so7217422pfd.21
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 18:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680224505;
+ d=google.com; s=20210112; t=1680224506;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=NSxgqMkN76sf5i6jVWeEWEGMcfgMjXp+O1ZiyMeH4SQ=;
- b=o8L7wtD1IgMev5WTcAGcXqWUNOeQsdepMRIgclkB+2GfZ/1PEx4bdil/2vf3PWhjFo
- L+9sLnGOf9H2eAkTkyV48Mme1jQfY+udWbgbYcnFNwx0UTtYuZK6Ymu+1DxJokH76Fii
- ckj2hH01r8CZCV9iloqQoNPXIk1CebwXvjP44NmuluKrP9jIBa17g9gbLTqWGc3trOmN
- czsZbjSBJonD4KQJgDg62fS9DIQqSCyg9rYiF/HDLaBzBaDUNBhJq7mBxMq3rTAnlUVe
- gxvR2+BJidnl92wGYjNk7dFJhnWp08huHjZS/A2zsDFieLaMgrOe5wi4FcZe1q3C32i/
- 681Q==
+ bh=29sNXL7y+2uWwg7caIe+EWdFRWQP6+Wn+OUoGeGi/Jo=;
+ b=BQBJOsKAqmaZMy/H8CVuvp8K345fALxhpgKndYJnHu+gN6OyiZ/hooYEL25bFos2in
+ BLTyqBHadQPf3C8hkjHYXtlIlt7NtCBxRUlTjCCAyjF/r52ORv4rChfXFtC6+9AC7x+e
+ H6f6FnV0NBGpBNNXemQ7fGttzpvdyiuw3wOU2IfrcLfArZQ6ZEtbFFe4dWpz1XC6iE+b
+ KpjwYZkbKV4lQOSR7+jNXfm99VPCAgzVehzGhtqeImAki+7y4UX6SMZBMKTGynRGGo41
+ 34CFfM2dW3d9sV+80cglf3SHDHmShREA2JhMTfKkI8A0PZ4A+UY0rfJbS7eMmSdCIeT+
+ XRIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680224505;
+ d=1e100.net; s=20210112; t=1680224506;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NSxgqMkN76sf5i6jVWeEWEGMcfgMjXp+O1ZiyMeH4SQ=;
- b=kdeeq0iMTmXS8qQg3u197bOB5iLLHkyyFsSoQo6AQtbnNcqsYrT2nOfoYLdY4CkctF
- tq/0SRfFOSMmMD8nyPxCd6jBhsKHXGJyfU+sNZcV57sA59hxWqe58ypAisBSlo83mLYE
- QlstFySzRShEl2jRkTM+NZciWpBtNYD6Ix8TUT3CeLvycifRXLe0Od76ZqYTehEMajjH
- XMzuve87M8sMwfNL0KAtv4RcrULBRkl/K8tra0flxRXmKqyv1/i1/3HyXxS+H/9lHuFk
- xGGN1KPrBoBpDBdPnk60whx47cEkDjmc8bQcnuo6vnaUF383DQb1Amv7RRDHSNg+DzF+
- +iQQ==
-X-Gm-Message-State: AAQBX9dGssUXmnd0UyM9mOCue4dvU6GeYxuZzLXZz93Z+xdbSDuWByom
- 57GZKuPH+WausP686EpnzMfcSKyn+LbQs0Hw5UKAddT71sirYoYLBBJA6ucO8YG419Y7JEaK1SS
- xKga0XBQr9Huncu9Wy9TB+rC3kT4z56fGmTc/iZ0DmJ8A7F47K3r4JgNuWixf8Xg=
-X-Google-Smtp-Source: AKy350aIts+j/jJCbFyHyfH6vY8hLBQVpfrntaX0K7I1uEIrshSNmqkP1G286kVjpClJZTpHtPFsurrwBJSj
+ bh=29sNXL7y+2uWwg7caIe+EWdFRWQP6+Wn+OUoGeGi/Jo=;
+ b=B3QiZ/53T6AgGzKOhr2l4zeG93MXfpn9X8eqtT8h98YGWNeKYkgCQXcxtLGzxQtiUQ
+ 8EqoaAdbRFNxg1ZdF+4n4/EjOMn5ckK6Wky4h0wSE32tff/0dJrU4yk/kz8IchfyO275
+ EHQ54SohjVOEBh/nq6ok/4ONI2YqvmWK0PX0DvJtKCS9CKDQkimkZwbss+r3r2Jsr1AK
+ HNKg7AE4Fg1BN9Rom5UpZqBNaiZ8hprSo594DyFqMpHcsebFQrd10+3v73sBRqG5+e1b
+ l0n+OEr/MKzkAOljAvDN64Yb75advjf0+PzoZEQjVjWStgOBNhE1yw9behOrHopCku7D
+ iiCw==
+X-Gm-Message-State: AAQBX9cbkUe8OIIqskGe/5en8FSdXXQPxERfbXsCZqtF0FtI+YUECVR4
+ +YpOUfHre6TXCyPmVWigbmLTxGMfytzGFqxcs9GSGfo4XCRXh7tAfNPonjJd6opNYoNDyFnGV58
+ 9pglV+5bvpYEgxEG5AHBFK/BmmBJ3IEwINJLChsEfO6Hc9tVJqZbdKkM7aCz5xd8=
+X-Google-Smtp-Source: AKy350bC7AGRTuZZVaUgsxb2zrhDmW18HzVKUMBZlmJP/GqsNuzGlk9VGxwhlCBwiquvjVrj4OQAzQGSjgts
 X-Received: from komlodi.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:35ee])
- (user=komlodi job=sendgmr) by 2002:a17:90a:2dce:b0:23d:33e5:33ec with SMTP id
- q14-20020a17090a2dce00b0023d33e533ecmr7951388pjm.1.1680224504784; Thu, 30 Mar
- 2023 18:01:44 -0700 (PDT)
-Date: Fri, 31 Mar 2023 01:01:22 +0000
+ (user=komlodi job=sendgmr) by 2002:a63:e104:0:b0:507:3e33:4390 with SMTP id
+ z4-20020a63e104000000b005073e334390mr2391965pgh.6.1680224506532; Thu, 30 Mar
+ 2023 18:01:46 -0700 (PDT)
+Date: Fri, 31 Mar 2023 01:01:23 +0000
 In-Reply-To: <20230331010131.1412571-1-komlodi@google.com>
 Mime-Version: 1.0
 References: <20230331010131.1412571-1-komlodi@google.com>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230331010131.1412571-8-komlodi@google.com>
-Subject: [PATCH 07/16] hw/i3c/aspeed_i3c: Use 32 bits on MMIO writes
+Message-ID: <20230331010131.1412571-9-komlodi@google.com>
+Subject: [PATCH 08/16] hw/i3c/aspeed_i3c: Add IRQ MMIO behavior
 From: Joe Komlodi <komlodi@google.com>
 To: qemu-devel@nongnu.org
 Cc: venture@google.com, komlodi@google.com, peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
- envelope-from=3-DAmZAcKChsBFDCF497FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--komlodi.bounces.google.com;
+ envelope-from=3-jAmZAcKCh0DHFEH6B9HH9E7.5HFJ7FN-67O7EGHG9GN.HK9@flex--komlodi.bounces.google.com;
  helo=mail-pf1-x449.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
@@ -90,43 +90,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The registers are only 32 bits wide, so we should cast the 64-bit value
-passed in to only be 32 bits wide.
-
 Signed-off-by: Joe Komlodi <komlodi@google.com>
 
 Reviewed-by: Patrick Venture <venture@google.com>
-Reviewed-by: Titus Rwantare <titusr@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
 ---
- hw/i3c/aspeed_i3c.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/i3c/aspeed_i3c.c | 57 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
 diff --git a/hw/i3c/aspeed_i3c.c b/hw/i3c/aspeed_i3c.c
-index 79715f462d..2ed09234ff 100644
+index 2ed09234ff..b9aa1367d8 100644
 --- a/hw/i3c/aspeed_i3c.c
 +++ b/hw/i3c/aspeed_i3c.c
-@@ -441,10 +441,11 @@ static void aspeed_i3c_device_write(void *opaque, hwaddr offset,
+@@ -17,6 +17,8 @@
+ #include "qapi/error.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
++#include "hw/i3c/i3c.h"
++#include "hw/irq.h"
+ 
+ /* I3C Controller Registers */
+ REG32(I3C1_REG0, 0x10)
+@@ -412,6 +414,46 @@ static const uint32_t ast2600_i3c_device_ro[ASPEED_I3C_DEVICE_NR_REGS] = {
+     [R_SLAVE_CONFIG]                = 0xffffffff,
+ };
+ 
++static void aspeed_i3c_device_update_irq(AspeedI3CDevice *s)
++{
++    bool level = !!(s->regs[R_INTR_SIGNAL_EN] & s->regs[R_INTR_STATUS]);
++    qemu_set_irq(s->irq, level);
++}
++
++static uint32_t aspeed_i3c_device_intr_status_r(AspeedI3CDevice *s)
++{
++    /* Only return the status whose corresponding EN bits are set. */
++    return s->regs[R_INTR_STATUS] & s->regs[R_INTR_STATUS_EN];
++}
++
++static void aspeed_i3c_device_intr_status_w(AspeedI3CDevice *s, uint32_t val)
++{
++    /* INTR_STATUS[13:5] is w1c, other bits are RO. */
++    val &= 0x3fe0;
++    s->regs[R_INTR_STATUS] &= ~val;
++
++    aspeed_i3c_device_update_irq(s);
++}
++
++static void aspeed_i3c_device_intr_status_en_w(AspeedI3CDevice *s, uint32_t val)
++{
++    s->regs[R_INTR_STATUS_EN] = val;
++    aspeed_i3c_device_update_irq(s);
++}
++
++static void aspeed_i3c_device_intr_signal_en_w(AspeedI3CDevice *s, uint32_t val)
++{
++    s->regs[R_INTR_SIGNAL_EN] = val;
++    aspeed_i3c_device_update_irq(s);
++}
++
++static void aspeed_i3c_device_intr_force_w(AspeedI3CDevice *s, uint32_t val)
++{
++    /* INTR_FORCE is WO, just set the corresponding INTR_STATUS bits. */
++    s->regs[R_INTR_STATUS] = val;
++    aspeed_i3c_device_update_irq(s);
++}
++
+ static uint64_t aspeed_i3c_device_read(void *opaque, hwaddr offset,
+                                        unsigned size)
  {
-     AspeedI3CDevice *s = ASPEED_I3C_DEVICE(opaque);
-     uint32_t addr = offset >> 2;
-+    uint32_t val32 = (uint32_t)value;
- 
-     trace_aspeed_i3c_device_write(s->id, offset, value);
- 
--    value &= ~ast2600_i3c_device_ro[addr];
-+    val32 &= ~ast2600_i3c_device_ro[addr];
-     switch (addr) {
-     case R_HW_CAPABILITY:
-     case R_RESPONSE_QUEUE_PORT:
-@@ -470,7 +471,7 @@ static void aspeed_i3c_device_write(void *opaque, hwaddr offset,
+@@ -426,6 +468,9 @@ static uint64_t aspeed_i3c_device_read(void *opaque, hwaddr offset,
+     case R_INTR_FORCE:
+         value = 0;
+         break;
++    case R_INTR_STATUS:
++        value = aspeed_i3c_device_intr_status_r(s);
++        break;
+     default:
+         value = s->regs[addr];
+         break;
+@@ -470,6 +515,18 @@ static void aspeed_i3c_device_write(void *opaque, hwaddr offset,
+         break;
      case R_RESET_CTRL:
          break;
++    case R_INTR_STATUS:
++        aspeed_i3c_device_intr_status_w(s, val32);
++        break;
++    case R_INTR_STATUS_EN:
++        aspeed_i3c_device_intr_status_en_w(s, val32);
++        break;
++    case R_INTR_SIGNAL_EN:
++        aspeed_i3c_device_intr_signal_en_w(s, val32);
++        break;
++    case R_INTR_FORCE:
++        aspeed_i3c_device_intr_force_w(s, val32);
++        break;
      default:
--        s->regs[addr] = value;
-+        s->regs[addr] = val32;
+         s->regs[addr] = val32;
          break;
-     }
- }
 -- 
 2.40.0.348.gf938b09366-goog
 
