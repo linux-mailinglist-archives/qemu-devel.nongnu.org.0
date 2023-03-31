@@ -2,99 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF116D17E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 08:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F5C6D18F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 09:50:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi8eV-0004QH-1G; Fri, 31 Mar 2023 02:54:23 -0400
+	id 1pi9V1-0005rS-KQ; Fri, 31 Mar 2023 03:48:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pi8eF-0004Nz-3P; Fri, 31 Mar 2023 02:54:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pi9Uz-0005rA-3c
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 03:48:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pi8eD-0007Zq-Ql; Fri, 31 Mar 2023 02:54:06 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32V6O8Z1032266; Fri, 31 Mar 2023 06:54:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=QCc8384Al2jYnUQSe4EwljmNa85EfJTAhJh00S65iAg=;
- b=DKHEf5pk8wSFuiLTW78+GeV+QECFRfKF/W86pw+Y047YRLwvyxYJ01vhk1uvyJCoMeId
- eEZxf2qt2VobCPhugXhgU0qCCakjOW9V/BUvZb9YZTiCWYLASOvpqiUsVk+QadSCEoS1
- ZhrXRT6yzJBJlgpI29pKbPP3p70M2nmciRAjztZFSBzGoAPPcbYfA2u7ATBxHL+9BSbV
- bhKF2EkNU29wOqeGrsXSBgVn0Iau5y5E5CItOK2lSkcfBjlpMgN/rNjt7SwYXMvOjW88
- iNoL8LsEhhrWNR9ZvQTUrAXPHw/HMf7DYBPypESzTNXEjL4UGK+w6QeHghQVgDrI2OzX cg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pnt32ru3n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 06:54:04 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32V6YOaN009598;
- Fri, 31 Mar 2023 06:54:04 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pnt32ru34-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 06:54:04 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32UIXY2T019495;
- Fri, 31 Mar 2023 06:54:02 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3phrk6phqa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 06:54:02 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32V6s0Id58917134
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Mar 2023 06:54:00 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 078CD2004E;
- Fri, 31 Mar 2023 06:54:00 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B551220040;
- Fri, 31 Mar 2023 06:53:58 +0000 (GMT)
-Received: from li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com.com (unknown
- [9.43.10.55]) by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 31 Mar 2023 06:53:58 +0000 (GMT)
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-To: qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, danielhb413@gmail.com
-Subject: [PATCH 5/5] MAINTAINERS: Adding myself in the list for ppc/spapr
-Date: Fri, 31 Mar 2023 12:23:44 +0530
-Message-Id: <20230331065344.112341-6-harshpb@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230331065344.112341-1-harshpb@linux.ibm.com>
-References: <20230331065344.112341-1-harshpb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pi9Uw-0000Cq-Ms
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 03:48:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680248913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sW5oQtCW75QNrtts1aAwGzUT+oGMa3oC/4dGg2/l0SI=;
+ b=HDH32am9217c3ERkqDi6Lg04kiW+yx2oMhl3L/aWf13UOXnM5Cpf1gjXYB2lIVQUiLvze7
+ xfBCzYc8Wcj56TKJHqf7QSgXLQivSMNVu4v5wr+x+p78ZjIkJwHiRr1cyi7sd1LbOkPT0L
+ b3SqWoYTFNWna98NC6i9y3PK5pcDsE4=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-672-Da_IZZyMPXOb1nuWpAA40g-1; Fri, 31 Mar 2023 03:48:30 -0400
+X-MC-Unique: Da_IZZyMPXOb1nuWpAA40g-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-17e11dd9a3dso11037207fac.10
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 00:48:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680248910; x=1682840910;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sW5oQtCW75QNrtts1aAwGzUT+oGMa3oC/4dGg2/l0SI=;
+ b=u+mAHIU4oHw3UAS0g+NRf9wN4sqk2ap0PakYn50qz8Eic/sTWpiHj5V8KIwxAEccL+
+ 8z8kLvOngj9d7ppPLUzlzdsTulgWpCudxvVteelb2f1cArKEU6DgFuX2+wIGPHwba7s/
+ ILwDWRRC5aHGNaM3FghZxJzp7TTmGqznrn4L0KHFlGkgNDPODBxD+5gxbaoNaM5x7c+W
+ osh2TwlKrhXjkv8JUbww6g1eiB8Cnl8wlp7+GbwUqnpQMn7CVHDtOCmnbGxDfkL170Iv
+ 9W1r0fTIH5u8Q6YOW7EtnXS86PJHoJ4iM+dmFD+NQp8cEpCi3IQ39ncf7WtiDHZMmEnr
+ ELCQ==
+X-Gm-Message-State: AAQBX9e8Xt2H84Rdo1xsiexTIc9eaiOwiHHWYJ3JQD7o6FJTVYqhGeaQ
+ x9s70M0PXliWOK+VOr513IgQpEpnervi/CfNyV7+sIN+L/4FtI+sM6rUgre6i5zIpaGH47JVfdL
+ /X6elbVmJKQqtqmf+KfCANOVLn9MGzHU=
+X-Received: by 2002:a05:6870:df85:b0:17f:6fc4:6dd6 with SMTP id
+ us5-20020a056870df8500b0017f6fc46dd6mr4047494oab.9.1680248910192; 
+ Fri, 31 Mar 2023 00:48:30 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bGvg/ieg1mvRzP6po7P4FkweGEZzZbWa2RSb6AT7UfLqPVrmtVBN13fY05eZH4gzGptW8EkTv2cBUX7LMhiSs=
+X-Received: by 2002:a05:6870:df85:b0:17f:6fc4:6dd6 with SMTP id
+ us5-20020a056870df8500b0017f6fc46dd6mr4047477oab.9.1680248909898; Fri, 31 Mar
+ 2023 00:48:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Etg8K3XRRQH98zvK5GGTwl8-B2vD9SBx
-X-Proofpoint-GUID: pjcskO7qHRNAmj-2p7OhWGigTQsKKmtR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-31_02,2023-03-30_04,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 suspectscore=0
- adultscore=0 mlxlogscore=930 impostorscore=0 clxscore=1015 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303310053
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230330001522.120774-1-andrew@daynix.com>
+ <20230330001522.120774-4-andrew@daynix.com>
+ <CACGkMEs1hRNLL67W96MO3eMg4H=ex4bYvFxcUkNPgfXXbOvo3A@mail.gmail.com>
+ <ZCVJoi7YQlt3axba@redhat.com>
+In-Reply-To: <ZCVJoi7YQlt3axba@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 31 Mar 2023 15:48:18 +0800
+Message-ID: <CACGkMEugLOsQJz_Hie1-0WLbPEiC2B_7y=RVqqmGi8-aqBfHXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/5] ebpf: Added declaration/initialization routines.
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, thuth@redhat.com, philmd@linaro.org, 
+ armbru@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com, 
+ mprivozn@redhat.com, yuri.benditovich@daynix.com, yan@daynix.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,26 +99,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Would like to get notified of changes in this area and review them.
+On Thu, Mar 30, 2023 at 4:34=E2=80=AFPM Daniel P. Berrang=C3=A9 <berrange@r=
+edhat.com> wrote:
+>
+> On Thu, Mar 30, 2023 at 02:54:32PM +0800, Jason Wang wrote:
+> > On Thu, Mar 30, 2023 at 8:33=E2=80=AFAM Andrew Melnychenko <andrew@dayn=
+ix.com> wrote:
+> > >
+> > > Now, the binary objects may be retrieved by id/name.
+> > > It would require for future qmp commands that may require specific
+> > > eBPF blob.
+> > >
+> > > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > > ---
+> > >  ebpf/ebpf.c      | 48 ++++++++++++++++++++++++++++++++++++++++++++++=
+++
+> > >  ebpf/ebpf.h      | 25 +++++++++++++++++++++++++
+> > >  ebpf/ebpf_rss.c  |  4 ++++
+> > >  ebpf/meson.build |  1 +
+> > >  4 files changed, 78 insertions(+)
+> > >  create mode 100644 ebpf/ebpf.c
+> > >  create mode 100644 ebpf/ebpf.h
+> > >
+> > > diff --git a/ebpf/ebpf.c b/ebpf/ebpf.c
+> > > new file mode 100644
+> > > index 0000000000..86320d72f5
+> > > --- /dev/null
+> > > +++ b/ebpf/ebpf.c
+> > > @@ -0,0 +1,48 @@
+> > > +/*
+> > > + * QEMU eBPF binary declaration routine.
+> > > + *
+> > > + * Developed by Daynix Computing LTD (http://www.daynix.com)
+> > > + *
+> > > + * Authors:
+> > > + *  Andrew Melnychenko <andrew@daynix.com>
+> > > + *
+> > > + * This work is licensed under the terms of the GNU GPL, version 2 o=
+r
+> > > + * later.  See the COPYING file in the top-level directory.
+> > > + */
+> > > +
+> > > +#include "qemu/osdep.h"
+> > > +#include "qemu/queue.h"
+> > > +#include "ebpf/ebpf.h"
+> > > +
+> > > +struct ElfBinaryDataEntry {
+> > > +    const char *id;
+> > > +    const void * (*fn)(size_t *);
+> > > +
+> > > +    QSLIST_ENTRY(ElfBinaryDataEntry) node;
+> > > +};
+> > > +
+> > > +static QSLIST_HEAD(, ElfBinaryDataEntry) ebpf_elf_obj_list =3D
+> > > +                                            QSLIST_HEAD_INITIALIZER(=
+);
+> > > +
+> > > +void ebpf_register_binary_data(const char *id, const void * (*fn)(si=
+ze_t *))
+> > > +{
+> > > +    struct ElfBinaryDataEntry *data =3D NULL;
+> > > +
+> > > +    data =3D g_malloc0(sizeof(*data));
+> > > +    data->fn =3D fn;
+> > > +    data->id =3D id;
+> > > +
+> > > +    QSLIST_INSERT_HEAD(&ebpf_elf_obj_list, data, node);
+> > > +}
+> > > +
+> > > +const void *ebpf_find_binary_by_id(const char *id, size_t *sz)
+> > > +{
+> > > +    struct ElfBinaryDataEntry *it =3D NULL;
+> > > +    QSLIST_FOREACH(it, &ebpf_elf_obj_list, node) {
+> > > +        if (strcmp(id, it->id) =3D=3D 0) {
+> > > +            return it->fn(sz);
+> > > +        }
+> > > +    }
+> > > +
+> > > +    return NULL;
+> > > +}
+> > > diff --git a/ebpf/ebpf.h b/ebpf/ebpf.h
+> > > new file mode 100644
+> > > index 0000000000..fd705cb73e
+> > > --- /dev/null
+> > > +++ b/ebpf/ebpf.h
+> > > @@ -0,0 +1,25 @@
+> > > +/*
+> > > + * QEMU eBPF binary declaration routine.
+> > > + *
+> > > + * Developed by Daynix Computing LTD (http://www.daynix.com)
+> > > + *
+> > > + * Authors:
+> > > + *  Andrew Melnychenko <andrew@daynix.com>
+> > > + *
+> > > + * This work is licensed under the terms of the GNU GPL, version 2 o=
+r
+> > > + * later.  See the COPYING file in the top-level directory.
+> > > + */
+> > > +
+> > > +#ifndef EBPF_H
+> > > +#define EBPF_H
+> > > +
+> > > +void ebpf_register_binary_data(const char *id, const void * (*fn)(si=
+ze_t *));
+> > > +const void *ebpf_find_binary_by_id(const char *id, size_t *sz);
+> > > +
+> > > +#define ebpf_binary_init(id, fn)                                    =
+       \
+> > > +static void __attribute__((constructor)) ebpf_binary_init_ ## fn(voi=
+d)     \
+> > > +{                                                                   =
+       \
+> > > +    ebpf_register_binary_data(id, fn);                              =
+       \
+> > > +}
+> > > +
+> > > +#endif /* EBPF_H */
+> > > diff --git a/ebpf/ebpf_rss.c b/ebpf/ebpf_rss.c
+> > > index 08015fecb1..b4038725f2 100644
+> > > --- a/ebpf/ebpf_rss.c
+> > > +++ b/ebpf/ebpf_rss.c
+> > > @@ -21,6 +21,8 @@
+> > >
+> > >  #include "ebpf/ebpf_rss.h"
+> > >  #include "ebpf/rss.bpf.skeleton.h"
+> > > +#include "ebpf/ebpf.h"
+> > > +
+> > >  #include "trace.h"
+> > >
+> > >  void ebpf_rss_init(struct EBPFRSSContext *ctx)
+> > > @@ -237,3 +239,5 @@ void ebpf_rss_unload(struct EBPFRSSContext *ctx)
+> > >      ctx->obj =3D NULL;
+> > >      ctx->program_fd =3D -1;
+> > >  }
+> > > +
+> > > +ebpf_binary_init("rss", rss_bpf__elf_bytes)
+> >
+> > Who or how the ABI compatibility is preserved between libvirt and Qemu?
+>
+> There's no real problem with binary compatibility to solve any more.
+>
+> When libvirt first launches a QEMU VM, it will fetch the eBPF programs
+> it needs from that running QEMU using QMP. WHen it later needs to
+> enable features that use eBPF, it already has the program data that
+> matches the running QEMU
 
-Signed-off-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Ok, then who will validate the eBPF program? I don't think libvirt can
+trust what is received from Qemu otherwise arbitrary eBPF programs
+could be executed by Qemu in this way. One example is that when guests
+escape to Qemu it can modify the rss_bpf__elf_bytes. Though
+BPF_PROG_TYPE_SOCKET_FILTER gives some of the restrictions, we still
+need to evaluate side effects of this. Or we need to find other ways
+like using the binary in libvirt or use rx filter events.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9b56ccdd92..be99e5c4e9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1406,6 +1406,7 @@ M: Daniel Henrique Barboza <danielhb413@gmail.com>
- R: Cédric Le Goater <clg@kaod.org>
- R: David Gibson <david@gibson.dropbear.id.au>
- R: Greg Kurz <groug@kaod.org>
-+R: Harsh Prateek Bora <harshpb@linux.ibm.com>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/*/spapr*
--- 
-2.31.1
+Thanks
+
+>
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
 
