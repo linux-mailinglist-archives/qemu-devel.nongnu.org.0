@@ -2,99 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04C76D1AAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 10:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0D26D1AEE
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 10:57:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piAN4-000769-Fu; Fri, 31 Mar 2023 04:44:30 -0400
+	id 1piAYB-0001Nz-QM; Fri, 31 Mar 2023 04:55:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1piAMz-000761-Gw
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 04:44:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1piAMx-0000ro-FF
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 04:44:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680252262;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iT36bl2LveGyDzR/VSDPins2A5GJhwuqw4RWQiaB99k=;
- b=LA5YWtaPqGQ+5KgXaEALL92qJ4VcWdU9yU0WRnbdmPU2VxYe6pCs4vBjR8Aqx1XKMtoYdP
- qTfuTPC86YZBxEPtxA6ucNaDXaQzb8u9kE7UspX/Z+2nrbs4JBOX/vN3HYbOaFQ2/sXEv2
- emU3GN/dNiojbFqBxCWBYuEvhFs1E1k=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-104-9EQuRR5HNkqHxAznIGjpgw-1; Fri, 31 Mar 2023 04:44:20 -0400
-X-MC-Unique: 9EQuRR5HNkqHxAznIGjpgw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- m18-20020a50d7d2000000b00501dfd867a4so31124161edj.20
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 01:44:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1piAY5-0001Mg-8j
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 04:55:53 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1piAY3-0004Ht-1z
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 04:55:53 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id h8so86883585ede.8
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 01:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680252948;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=8ed8Hu3kKsZ661zk2+70P5iF+xJu/RCkyMhzbJHVuTs=;
+ b=GVSRRhpXuNO5WmL2RG3Ig4TxLfJYGpwUfUTUnhwVxSzDP9HCqLa1z8ss7vDWp8pmC+
+ U7UuuTYWe0Vjzj6GOKSyAecLxNe20cja0pU0F0qSCYTg/ngiAhUZuvDKM5RUXqhdRjaS
+ pgap7ISmO2KY5CGet7vb+BmL49rmLMJsPOIBJVwPwquzxBXoYPGmRkZnzsbnLRcxnN/0
+ vffn+VcUYUqj7An7daiwTevLyXSAxSyPHTgh5dB/0+DmWkH8Sxx/fMkr25R1DxY2iAuG
+ tYeGaBLMC359vTCYTtJlDzsKvKL28lI9I3ZsbtpJAj9TebSmmdb53XYr7kW8bzbdVCRG
+ WHcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680252259; x=1682844259;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iT36bl2LveGyDzR/VSDPins2A5GJhwuqw4RWQiaB99k=;
- b=nzlCkpbRJHVKK1cMR4fcR2uZuAqDYbRDa6iVRDeKb1SPCK0WJAaTeRgfSDPcTEqKiK
- AaE3lRul/dfIt83wjxqjpIu/aftW7yousvLZrNN7lvKFeKx2vjLX5BN36EOcMRtygZj8
- 0vhHLTZuOttkBxII2ojD0YjymOhl43ZUICo/9N9izm+i8jvATiBEiHab0FINZ0+XArQq
- GkLkafgvbwjuD0HxMMw+KFTBlH5bo77BBrB+A/cNYuzU/PePUshIqzN4kUTI2TufhH3V
- kaItvAgFZpqOt9bE21WzYoiOdwqvOc19HN1dXZ6Smp6lMZJFGXHM5eNCqmiZR9GbOqib
- AcOA==
-X-Gm-Message-State: AAQBX9ehzPWBz4lTkuYj+GqAcPgZXShYpJVbrMJZZu4/qeGze0Xbh638
- yoqRIe+iUJ/CGk+rmGWNB3ayXxBBzrX53t/gCqd3u6uxVSEH6ANuSDXDtifereBdha3wXnr0lcF
- sDL40qynpXU89fTA=
-X-Received: by 2002:a05:6402:1044:b0:4fa:eccd:9849 with SMTP id
- e4-20020a056402104400b004faeccd9849mr23350780edu.9.1680252259587; 
- Fri, 31 Mar 2023 01:44:19 -0700 (PDT)
-X-Google-Smtp-Source: AKy350axInEpM2o5OfpCjNiO3a03conrJktyQ9A+nbfN0MrE0p/cfLumS6cD6oZNQlJVyjgtgZ15hA==
-X-Received: by 2002:a05:6402:1044:b0:4fa:eccd:9849 with SMTP id
- e4-20020a056402104400b004faeccd9849mr23350767edu.9.1680252259338; 
- Fri, 31 Mar 2023 01:44:19 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.googlemail.com with ESMTPSA id
- u25-20020a50c2d9000000b004fbdfbb5acesm774213edf.89.2023.03.31.01.44.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Mar 2023 01:44:18 -0700 (PDT)
-Message-ID: <7f39388b-1689-c40a-9e2f-861408dae7b8@redhat.com>
-Date: Fri, 31 Mar 2023 10:44:17 +0200
+ d=1e100.net; s=20210112; t=1680252948;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8ed8Hu3kKsZ661zk2+70P5iF+xJu/RCkyMhzbJHVuTs=;
+ b=eYfeUSyypWyaCvasMixwInOoUUmtOOiUfc0iDM59K+98bPU4fPCJlblsWpxA1/ko7x
+ icwSzMVwxYGChWyzoCKbtVxOOxEde8jyoMafPd5a8JAkB8VchosXNdI45hRlsiB0Y+0m
+ Sy94iB6RkRDOpUoCsQjrVbdrBmx6oZLLW9jhwmzh+uK0FLebwC80SATDtFCqeSbysBVy
+ tnAR1Q7tBMX2E2u/PK35Z2H5H+9wPFjl4I4YqWUl9VVM9nDdKBDOYz8xiVJpXZjJOMQL
+ yJCmOp1CUraF0sWQu4ApzZ3D5budrH6K+nYDhFNysPhB+a867QTLl2ufg6M1ITyJx8Sb
+ ti6Q==
+X-Gm-Message-State: AAQBX9f3QpVgljR6uAQkXsGw64izm7QlPYxmrG4fZKdUrb0cd1agwm08
+ RlLcKNOZlNb6tDg4CcZKjSholiE6ODH4kF57aHzeo+qZENfuJZyiS2w=
+X-Google-Smtp-Source: AKy350ZBPL2LSc4BevTwCTS1hiUKQ87W6GH+taiewvf+20eT922narpfjqA4hB8/gjwZ0Hin3rIemwtbG/p3JXd1qQA=
+X-Received: by 2002:a17:906:9619:b0:932:446:b2f7 with SMTP id
+ s25-20020a170906961900b009320446b2f7mr12099960ejx.6.1680252948160; Fri, 31
+ Mar 2023 01:55:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 1/3] python: add mkvenv.py
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-References: <20230328211119.2748442-1-jsnow@redhat.com>
- <20230328211119.2748442-2-jsnow@redhat.com>
- <d49d0152-ff58-a317-7eca-a243ed080ca0@redhat.com>
- <CAFn=p-bu1nhw5-PdtxZ2U=PA5uq7VTrgW-W8boh29JRHxSVTyg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFn=p-bu1nhw5-PdtxZ2U=PA5uq7VTrgW-W8boh29JRHxSVTyg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 31 Mar 2023 09:55:37 +0100
+Message-ID: <CAFEAcA9+cDYiF1p_Q-76Ox87XUMxO690LpKFLcqdMfzhHNAc9w@mail.gmail.com>
+Subject: virtio-net-failover intermittent test hangs eating CPU on s390 host
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,47 +80,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/30/23 16:00, John Snow wrote:
->      > +                yield {
->      > +                    'name': entry_point.name
->     <http://entry_point.name>,
->      > +                    'module': module,
->      > +                    'import_name': attr,
->      > +                    'func': attr,
-> 
->     What about using a dataclass or namedtuple instead of a dictionary?
-> 
-> 
-> Sure. Once 3.8 is our minimum there's no point, though.
+Found a couple of virtio-net-failover test processes sat on the
+s390 CI runner with the virtio-net-failover process eating CPU.
+Backtrace (I captured from both, but the backtraces are the same
+in both cases):
 
-Well, that's why I also mentioned namedtuples.  But no big deal.
 
->     BTW, another way to repair Debian 10's pip is to create a symbolic link
->     to sys.base_prefix + '/share/python-wheels' in sys.prefix +
->     '/share/python-wheels'.  Since this is much faster, perhaps it can be
->     done unconditionally and checkpip mode can go away together with
->     self._context?
-> 
-> 
-> I guess I like it less because it's way more Debian-specific at that 
-> point. I think I'd sooner say "Sorry, Debian 10 isn't supported!"
-> 
-> (Or encourage users to upgrade their pip/setuptools/ensurepip to 
-> something that doesn't trigger the bug.)
-> 
-> Or, IOW, I feel like it's normal to expect ensurepip to work but mussing 
-> around with symlinks to special directories created by a distribution 
-> just feels way more fiddly.
+Process tree:
+virtio-net-fail(3435488)---qemu-system-i38(3435776)
+===========================================================
+PROCESS: 3435488
+gitlab-+ 3435488 3415953 24 Mar30 ?        04:01:46
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/build/tests/qtest/virtio-net-failover
+--tap -k
+[New LWP 3435489]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+__libc_send (fd=fd@entry=3, buf=buf@entry=0x2aa08e5f5c0,
+len=len@entry=29, flags=flags@entry=0) at
+../sysdeps/unix/sysv/linux/send.c:30
+30      ../sysdeps/unix/sysv/linux/send.c: No such file or directory.
 
-No doubt about that.  It's just the balance between simple fiddly code 
-and more robust code that is also longer.
+Thread 2 (Thread 0x3ffb25ff900 (LWP 3435489)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa086d9cf4 in qemu_futex_wait (val=<optimized out>,
+f=<optimized out>) at
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.h:29
+#2  qemu_event_wait (ev=ev@entry=0x2aa0874b890 <rcu_call_ready_event>)
+at ../util/qemu-thread-posix.c:464
+#3  0x000002aa08705e82 in call_rcu_thread (opaque=opaque@entry=0x0) at
+../util/rcu.c:261
+#4  0x000002aa086d8d5a in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#5  0x000003ffb2887e66 in start_thread (arg=0x3ffb25ff900) at
+pthread_create.c:477
+#6  0x000003ffb277cbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-Anyhow later on we will split mkvenv.py in multiple patches so it will 
-be easy to revert checkpip when time comes.  For example, when Python 
-3.7 is dropped for good rather than being just "untested but should 
-work", this Debian 10 hack and the importlib_metadata/pkg_resources 
-fallbacks go away at the same time.
+Thread 1 (Thread 0x3ffb2cf2770 (LWP 3435488)):
+#0  __libc_send (fd=fd@entry=3, buf=buf@entry=0x2aa08e5f5c0,
+len=len@entry=29, flags=flags@entry=0) at
+../sysdeps/unix/sysv/linux/send.c:30
+#1  0x000002aa086d5878 in qemu_send_full (s=s@entry=3,
+buf=0x2aa08e5f5c0, count=count@entry=29) at ../util/osdep.c:509
+#2  0x000002aa086aab8a in socket_send (size=<optimized out>,
+buf=<optimized out>, fd=3) at ../tests/qtest/libqmp.c:172
+#3  _qmp_fd_vsend_fds (fd=<optimized out>, fds=<optimized out>,
+fds@entry=0x0, fds_num=fds_num@entry=0, fmt=<optimized out>,
+ap=ap@entry=0x3ffd0679f00) at ../tests/qtest/libqmp.c:172
+#4  0x000002aa086aaf72 in qmp_fd_vsend (fd=<optimized out>,
+fmt=<optimized out>, ap=ap@entry=0x3ffd0679f00) at
+../tests/qtest/libqmp.c:190
+#5  0x000002aa086a886c in qtest_qmp_vsend (ap=0x3ffd0679f00,
+fmt=<optimized out>, s=0x2aa08e63d70) at ../tests/qtest/libqtest.c:788
+#6  qtest_vqmp (ap=0x3ffd0679f00, fmt=<optimized out>,
+s=0x2aa08e63d70) at ../tests/qtest/libqtest.c:762
+#7  qtest_qmp (s=0x2aa08e63d70, fmt=<optimized out>) at
+../tests/qtest/libqtest.c:788
+#8  0x000002aa086911d0 in migrate_status (qts=<optimized out>) at
+../tests/qtest/virtio-net-failover.c:596
+#9  0x000002aa0869cee0 in test_migrate_off_abort (opaque=<optimized
+out>) at ../tests/qtest/virtio-net-failover.c:1425
+#10 0x000003ffb2a7e608 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#11 0x000003ffb2a7e392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#12 0x000003ffb2a7e392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#13 0x000003ffb2a7e392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#14 0x000003ffb2a7e392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#15 0x000003ffb2a7eada in g_test_run_suite () from
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#16 0x000003ffb2a7eb10 in g_test_run () from
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#17 0x000002aa086905e2 in main (argc=<optimized out>, argv=<optimized
+out>) at ../tests/qtest/virtio-net-failover.c:1897
+[Inferior 1 (process 3435488) detached]
 
-Paolo
+===========================================================
+PROCESS: 3435776
+gitlab-+ 3435776 3435488 18 Mar30 ?        03:04:00 ./qemu-system-i386
+-qtest unix:/tmp/qtest-3435488.sock -qtest-log /dev/null -chardev
+socket,path=/tmp/qtest-3435488.qmp,id=char0 -mon
+chardev=char0,mode=control -display none -M q35 -nodefaults -device
+pcie-root-port,id=root0,addr=0x1,bus=pcie.0,chassis=1 -device
+pcie-root-port,id=root1,addr=0x2,bus=pcie.0,chassis=2 -netdev
+user,id=hs0 -netdev user,id=hs1 -accel qtest
+[New LWP 3435778]
+[New LWP 3435779]
+[New LWP 3435780]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+0x000003ff8e871c8c in __ppoll (fds=0x2aa37996d80, nfds=5,
+timeout=<optimized out>, timeout@entry=0x3ffcf0fa428,
+sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
 
+Thread 4 (Thread 0x3ff7e9a0900 (LWP 3435780)):
+#0  futex_wait_cancelable (private=0, expected=0,
+futex_word=0x2aa3789d928) at ../sysdeps/nptl/futex-internal.h:183
+#1  __pthread_cond_wait_common (abstime=0x0, clockid=0,
+mutex=0x2aa36313260 <qemu_global_mutex>, cond=0x2aa3789d900) at
+pthread_cond_wait.c:508
+#2  __pthread_cond_wait (cond=cond@entry=0x2aa3789d900,
+mutex=mutex@entry=0x2aa36313260 <qemu_global_mutex>) at
+pthread_cond_wait.c:647
+#3  0x000002aa35a3d4be in qemu_cond_wait_impl (cond=0x2aa3789d900,
+mutex=0x2aa36313260 <qemu_global_mutex>, file=0x2aa35b84c4c
+"../softmmu/cpus.c", line=<optimized out>) at
+../util/qemu-thread-posix.c:225
+#4  0x000002aa3566df2e in qemu_wait_io_event
+(cpu=cpu@entry=0x2aa37897350) at ../softmmu/cpus.c:424
+#5  0x000002aa356df704 in dummy_cpu_thread_fn
+(arg=arg@entry=0x2aa37897350) at ../accel/dummy-cpus.c:60
+#6  0x000002aa35a3cada in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#7  0x000003ff8e987e66 in start_thread (arg=0x3ff7e9a0900) at
+pthread_create.c:477
+#8  0x000003ff8e87cbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 3 (Thread 0x3ff7f1a1900 (LWP 3435779)):
+#0  0x000003ff8e871b32 in __GI___poll (fds=0x3ff700032a0, nfds=3,
+timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+#1  0x000003ff91054386 in  () at /lib/s390x-linux-gnu/libglib-2.0.so.0
+#2  0x000003ff91054790 in g_main_loop_run () at
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#3  0x000002aa358ecffe in iothread_run
+(opaque=opaque@entry=0x2aa376c2f00) at ../iothread.c:70
+#4  0x000002aa35a3cada in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#5  0x000003ff8e987e66 in start_thread (arg=0x3ff7f1a1900) at
+pthread_create.c:477
+#6  0x000003ff8e87cbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 2 (Thread 0x3ff7faa3900 (LWP 3435778)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa35a3da74 in qemu_futex_wait (val=<optimized out>,
+f=<optimized out>) at
+/home/gitlab-runner/builds/-LCfcJ2T/0/qemu-project/qemu/include/qemu/futex.h:29
+#2  qemu_event_wait (ev=ev@entry=0x2aa36343548 <rcu_call_ready_event>)
+at ../util/qemu-thread-posix.c:464
+#3  0x000002aa35a4786a in call_rcu_thread (opaque=opaque@entry=0x0) at
+../util/rcu.c:261
+#4  0x000002aa35a3cada in qemu_thread_start (args=<optimized out>) at
+../util/qemu-thread-posix.c:541
+#5  0x000003ff8e987e66 in start_thread (arg=0x3ff7faa3900) at
+pthread_create.c:477
+#6  0x000003ff8e87cbe6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 1 (Thread 0x3ff921fe4a0 (LWP 3435776)):
+#0  0x000003ff8e871c8c in __ppoll (fds=0x2aa37996d80, nfds=5,
+timeout=<optimized out>, timeout@entry=0x3ffcf0fa428,
+sigmask=sigmask@entry=0x0) at ../sysdeps/unix/sysv/linux/ppoll.c:44
+#1  0x000002aa35a53aa2 in ppoll (__ss=0x0, __timeout=0x3ffcf0fa428,
+__nfds=<optimized out>, __fds=<optimized out>) at
+/usr/include/s390x-linux-gnu/bits/poll2.h:77
+#2  qemu_poll_ns (fds=<optimized out>, nfds=<optimized out>,
+timeout=timeout@entry=1000000000) at ../util/qemu-timer.c:351
+#3  0x000002aa35a50ab8 in os_host_main_loop_wait (timeout=1000000000)
+at ../util/main-loop.c:308
+#4  main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:592
+#5  0x000002aa35674b04 in qemu_main_loop () at ../softmmu/runstate.c:731
+#6  0x000002aa3548df9a in qemu_default_main () at ../softmmu/main.c:37
+#7  0x000003ff8e7a440a in __libc_start_main (main=0x2aa3548b560
+<main>, argc=<optimized out>, argv=0x3ffcf0fa878, init=<optimized
+out>, fini=<optimized out>, rtld_fini=0x3ff92210e50 <_dl_fini>,
+stack_end=0x3ffcf0fa7c0) at libc-start.c:308
+#8  0x000002aa3548dec4 in _start () at ../softmmu/main.c:48
+[Inferior 1 (process 3435776) detached]
+
+thanks
+-- PMM
 
