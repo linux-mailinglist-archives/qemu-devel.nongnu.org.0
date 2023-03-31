@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EFF6D26FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 19:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9F66D27AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 20:20:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piIrr-0004Ep-GN; Fri, 31 Mar 2023 13:48:51 -0400
+	id 1piJKp-0005NB-Jb; Fri, 31 Mar 2023 14:18:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1piIrq-0004Eb-2Z
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 13:48:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1piIro-0005lD-9p
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 13:48:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680284926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tJ8EQ4ykuOZ9M3ku9rkD+TOSVsStDyPG5U2sLp6oQvk=;
- b=fXwgBtSAcr7zhPKd2yOXnpxQP+pOLr6MD+/gSYnL3ZchJKRyeVRaobIBx+hZNqtDx82ef3
- WyHzhen+WhYkhcBg8GXjgHTHIvb7IEciNSRSY0yhRvR9CF5QoceMPnw6ygisiiFrNVxTcn
- yn3a3GwxOqC7FyaWwdyPVxjTSvDcGCo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-f9Slo2yHMfSbQ1EuxfCdjw-1; Fri, 31 Mar 2023 13:48:45 -0400
-X-MC-Unique: f9Slo2yHMfSbQ1EuxfCdjw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1piJKn-0005Mi-76
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 14:18:45 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1piJKl-0004DG-3Y
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 14:18:44 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4A44280BF67
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 17:48:44 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C032F1415117
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 17:48:44 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] coverity: unify Fedora dockerfiles
-Date: Fri, 31 Mar 2023 13:48:44 -0400
-Message-Id: <20230331174844.376300-1-pbonzini@redhat.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3AD1F21AB9;
+ Fri, 31 Mar 2023 18:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680286720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/VyoUjI5x2cDEA0LAcY16AlwyMdL4rAeAITz150AIsw=;
+ b=BeNaKRlfF57oIbGf9LMmuZt+XvYqLsWFKC2hr/54jBkscmUr0Fj+VqDFaos3ZCAVs/UzBL
+ pNF5waBGGuFgyBEosYGz8epaJRGruq2Grz9B8FLdwf50INvk+I4h7QRWFhSZEvucPbonjJ
+ Lbc+jQ6CBBJUpTBoh526Yqjh6I5/Q+Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680286720;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/VyoUjI5x2cDEA0LAcY16AlwyMdL4rAeAITz150AIsw=;
+ b=4udA8UHN6wrEO7MNftuhWd9p9X/Hy2WXdTa931ngrynAxENj5AwgJPglAABdS5bq066IY5
+ EIh5ulcZE8LH59Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B928D133B6;
+ Fri, 31 Mar 2023 18:18:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ft18H/8jJ2QKVwAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 31 Mar 2023 18:18:39 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Peter Xu <peterx@redhat.com>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ jfehlig@suse.com, dfaggioli@suse.com, dgilbert@redhat.com, Juan Quintela
+ <quintela@redhat.com>
+Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with
+ multifd and fixed-ram
+In-Reply-To: <ZCcKBDM9sLomGOQE@x1n>
+References: <20230330180336.2791-1-farosas@suse.de> <ZCYCE0llX9WANK18@x1n>
+ <87edp5oukh.fsf@suse.de> <ZCbzmZXz3JG/jElA@x1n> <878rfdos4a.fsf@suse.de>
+ <ZCcCV8PIsuvab1lO@x1n> <ZCcF6I0qb+1xlPhJ@redhat.com>
+ <ZCcKBDM9sLomGOQE@x1n>
+Date: Fri, 31 Mar 2023 15:18:37 -0300
+Message-ID: <875yagpywy.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,278 +91,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Fedora CI and coverity runs are using a slightly different set of
-packages.  Copy most of the content over from tests/docker while
-keeping the commands at the end that unpack the tools.
+Peter Xu <peterx@redhat.com> writes:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/coverity-scan/coverity-scan.docker | 250 ++++++++++++---------
- 1 file changed, 145 insertions(+), 105 deletions(-)
+> On Fri, Mar 31, 2023 at 05:10:16PM +0100, Daniel P. Berrang=C3=A9 wrote:
+>> On Fri, Mar 31, 2023 at 11:55:03AM -0400, Peter Xu wrote:
+>> > On Fri, Mar 31, 2023 at 12:30:45PM -0300, Fabiano Rosas wrote:
+>> > > Peter Xu <peterx@redhat.com> writes:
+>> > >=20
+>> > > > On Fri, Mar 31, 2023 at 11:37:50AM -0300, Fabiano Rosas wrote:
+>> > > >> >> Outgoing migration to file. NVMe disk. XFS filesystem.
+>> > > >> >>=20
+>> > > >> >> - Single migration runs of stopped 32G guest with ~90% RAM usa=
+ge. Guest
+>> > > >> >>   running `stress-ng --vm 4 --vm-bytes 90% --vm-method all --v=
+erify -t
+>> > > >> >>   10m -v`:
+>> > > >> >>=20
+>> > > >> >> migration type  | MB/s | pages/s |  ms
+>> > > >> >> ----------------+------+---------+------
+>> > > >> >> savevm io_uring |  434 |  102294 | 71473
+>> > > >> >
+>> > > >> > So I assume this is the non-live migration scenario.  Could you=
+ explain
+>> > > >> > what does io_uring mean here?
+>> > > >> >
+>> > > >>=20
+>> > > >> This table is all non-live migration. This particular line is a s=
+napshot
+>> > > >> (hmp_savevm->save_snapshot). I thought it could be relevant becau=
+se it
+>> > > >> is another way by which we write RAM into disk.
+>> > > >
+>> > > > I see, so if all non-live that explains, because I was curious wha=
+t's the
+>> > > > relationship between this feature and the live snapshot that QEMU =
+also
+>> > > > supports.
+>> > > >
+>> > > > I also don't immediately see why savevm will be much slower, do yo=
+u have an
+>> > > > answer?  Maybe it's somewhere but I just overlooked..
+>> > > >
+>> > >=20
+>> > > I don't have a concrete answer. I could take a jab and maybe blame t=
+he
+>> > > extra memcpy for the buffer in QEMUFile? Or perhaps an unintended ef=
+fect
+>> > > of bandwidth limits?
+>> >=20
+>> > IMHO it would be great if this can be investigated and reasons provide=
+d in
+>> > the next cover letter.
+>> >=20
+>> > >=20
+>> > > > IIUC this is "vm suspend" case, so there's an extra benefit knowle=
+dge of
+>> > > > "we can stop the VM".  It smells slightly weird to build this on t=
+op of
+>> > > > "migrate" from that pov, rather than "savevm", though.  Any though=
+ts on
+>> > > > this aspect (on why not building this on top of "savevm")?
+>> > > >
+>> > >=20
+>> > > I share the same perception. I have done initial experiments with
+>> > > savevm, but I decided to carry on the work that was already started =
+by
+>> > > others because my understanding of the problem was yet incomplete.
+>> > >=20
+>> > > One point that has been raised is that the fixed-ram format alone do=
+es
+>> > > not bring that many performance improvements. So we'll need
+>> > > multi-threading and direct-io on top of it. Re-using multifd
+>> > > infrastructure seems like it could be a good idea.
+>> >=20
+>> > The thing is IMHO concurrency is not as hard if VM stopped, and when w=
+e're
+>> > 100% sure locally on where the page will go.
+>>=20
+>> We shouldn't assume the VM is stopped though. When saving to the file
+>> the VM may still be active. The fixed-ram format lets us re-write the
+>> same memory location on disk multiple times in this case, thus avoiding
+>> growth of the file size.
+>
+> Before discussing on reusing multifd below, now I have a major confusing =
+on
+> the use case of the feature..
+>
+> The question is whether we would like to stop the VM after fixed-ram
+> migration completes.  I'm asking because:
+>
 
-diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
-index 6f60a52d23..a349578526 100644
---- a/scripts/coverity-scan/coverity-scan.docker
-+++ b/scripts/coverity-scan/coverity-scan.docker
-@@ -15,112 +15,152 @@
- # The work of actually doing the build is handled by the
- # run-coverity-scan script.
- 
--FROM fedora:30
--ENV PACKAGES \
--    alsa-lib-devel \
--    bc \
--    brlapi-devel \
--    bzip2 \
--    bzip2-devel \
--    ccache \
--    clang \
--    curl \
--    cyrus-sasl-devel \
--    dbus-daemon \
--    device-mapper-multipath-devel \
--    findutils \
--    gcc \
--    gcc-c++ \
--    gettext \
--    git \
--    glib2-devel \
--    glusterfs-api-devel \
--    gnutls-devel \
--    gtk3-devel \
--    hostname \
--    libaio-devel \
--    libasan \
--    libattr-devel \
--    libblockdev-mpath-devel \
--    libcap-devel \
--    libcap-ng-devel \
--    libcurl-devel \
--    libepoxy-devel \
--    libfdt-devel \
--    libgbm-devel \
--    libiscsi-devel \
--    libjpeg-devel \
--    libpmem-devel \
--    libnfs-devel \
--    libpng-devel \
--    librbd-devel \
--    libseccomp-devel \
--    libssh-devel \
--    libubsan \
--    libudev-devel \
--    libusbx-devel \
--    libzstd-devel \
--    llvm \
--    lzo-devel \
--    make \
--    mingw32-bzip2 \
--    mingw32-curl \
--    mingw32-glib2 \
--    mingw32-gmp \
--    mingw32-gnutls \
--    mingw32-gtk3 \
--    mingw32-libjpeg-turbo \
--    mingw32-libpng \
--    mingw32-libtasn1 \
--    mingw32-nettle \
--    mingw32-nsis \
--    mingw32-pixman \
--    mingw32-pkg-config \
--    mingw32-SDL2 \
--    mingw64-bzip2 \
--    mingw64-curl \
--    mingw64-glib2 \
--    mingw64-gmp \
--    mingw64-gnutls \
--    mingw64-gtk3 \
--    mingw64-libjpeg-turbo \
--    mingw64-libpng \
--    mingw64-libtasn1 \
--    mingw64-nettle \
--    mingw64-pixman \
--    mingw64-pkg-config \
--    mingw64-SDL2 \
--    ncurses-devel \
--    nettle-devel \
--    numactl-devel \
--    perl \
--    perl-Test-Harness \
--    pixman-devel \
--    pulseaudio-libs-devel \
--    python3 \
--    python3-sphinx \
--    PyYAML \
--    rdma-core-devel \
--    SDL2-devel \
--    snappy-devel \
--    sparse \
--    spice-server-devel \
--    systemd-devel \
--    systemtap-sdt-devel \
--    tar \
--    usbredir-devel \
--    virglrenderer-devel \
--    vte291-devel \
--    wget \
--    which \
--    xen-devel \
--    xfsprogs-devel \
--    zlib-devel
--ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
-+FROM registry.fedoraproject.org/fedora:37
- 
--RUN dnf install -y $PACKAGES
--RUN rpm -q $PACKAGES | sort > /packages.txt
--ENV PATH $PATH:/usr/libexec/python3-sphinx/
-+RUN dnf install -y nosync && \
-+    echo -e '#!/bin/sh\n\
-+if test -d /usr/lib64\n\
-+then\n\
-+    export LD_PRELOAD=/usr/lib64/nosync/nosync.so\n\
-+else\n\
-+    export LD_PRELOAD=/usr/lib/nosync/nosync.so\n\
-+fi\n\
-+exec "$@"' > /usr/bin/nosync && \
-+    chmod +x /usr/bin/nosync && \
-+    nosync dnf update -y && \
-+    nosync dnf install -y \
-+               SDL2-devel \
-+               SDL2_image-devel \
-+               alsa-lib-devel \
-+               bash \
-+               bc \
-+               bison \
-+               brlapi-devel \
-+               bzip2 \
-+               bzip2-devel \
-+               ca-certificates \
-+               capstone-devel \
-+               ccache \
-+               clang \
-+               ctags \
-+               cyrus-sasl-devel \
-+               daxctl-devel \
-+               dbus-daemon \
-+               device-mapper-multipath-devel \
-+               diffutils \
-+               findutils \
-+               flex \
-+               fuse3-devel \
-+               gcc \
-+               gcc-c++ \
-+               gcovr \
-+               genisoimage \
-+               gettext \
-+               git \
-+               glib2-devel \
-+               glib2-static \
-+               glibc-langpack-en \
-+               glibc-static \
-+               glusterfs-api-devel \
-+               gnutls-devel \
-+               gtk3-devel \
-+               hostname \
-+               jemalloc-devel \
-+               json-c-devel \
-+               libaio-devel \
-+               libasan \
-+               libattr-devel \
-+               libbpf-devel \
-+               libcacard-devel \
-+               libcap-ng-devel \
-+               libcmocka-devel \
-+               libcurl-devel \
-+               libdrm-devel \
-+               libepoxy-devel \
-+               libfdt-devel \
-+               libffi-devel \
-+               libgcrypt-devel \
-+               libiscsi-devel \
-+               libjpeg-devel \
-+               libnfs-devel \
-+               libpmem-devel \
-+               libpng-devel \
-+               librbd-devel \
-+               libseccomp-devel \
-+               libselinux-devel \
-+               libslirp-devel \
-+               libssh-devel \
-+               libtasn1-devel \
-+               libubsan \
-+               liburing-devel \
-+               libusbx-devel \
-+               libzstd-devel \
-+               llvm \
-+               lttng-ust-devel \
-+               lzo-devel \
-+               make \
-+               mesa-libgbm-devel \
-+               meson \
-+               ncurses-devel \
-+               nettle-devel \
-+               ninja-build \
-+               nmap-ncat \
-+               numactl-devel \
-+               openssh-clients \
-+               pam-devel \
-+               pcre-static \
-+               pixman-devel \
-+               pkgconfig \
-+               pulseaudio-libs-devel \
-+               python3 \
-+               python3-PyYAML \
-+               python3-numpy \
-+               python3-opencv \
-+               python3-pillow \
-+               python3-pip \
-+               python3-sphinx \
-+               python3-sphinx_rtd_theme \
-+               rdma-core-devel \
-+               rpm \
-+               sed \
-+               snappy-devel \
-+               socat \
-+               sparse \
-+               spice-protocol \
-+               spice-server-devel \
-+               systemd-devel \
-+               systemtap-sdt-devel \
-+               tar \
-+               tesseract \
-+               tesseract-langpack-eng \
-+               usbredir-devel \
-+               util-linux \
-+               virglrenderer-devel \
-+               vte291-devel \
-+               which \
-+               xen-devel \
-+               xfsprogs-devel \
-+               zlib-devel \
-+               zlib-static \
-+               zstd && \
-+    nosync dnf autoremove -y && \
-+    nosync dnf clean all -y && \
-+    rpm -qa | sort > /packages.txt && \
-+    mkdir -p /usr/libexec/ccache-wrappers && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-+    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
-+
-+ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
-+ENV LANG "en_US.UTF-8"
-+ENV MAKE "/usr/bin/make"
-+ENV NINJA "/usr/bin/ninja"
-+ENV PYTHON "/usr/bin/python3"
-+ENV QEMU_CONFIGURE_OPTS --meson=internal
-+
-+RUN dnf install -y curl wget
- ENV COVERITY_TOOL_BASE=/coverity-tools
- COPY coverity_tool.tgz coverity_tool.tgz
- RUN mkdir -p /coverity-tools/coverity_tool && cd /coverity-tools/coverity_tool && tar xf /coverity_tool.tgz
--- 
-2.39.1
+We would.
 
+>   1. If it will stop, then it looks like a "VM suspend" to me. If so, cou=
+ld
+>      anyone help explain why we don't stop the VM first then migrate?
+>      Because it avoids copying single pages multiple times, no fiddling
+>      with dirty tracking at all - we just don't ever track anything.  In
+>      short, we'll stop the VM anyway, then why not stop it slightly
+>      earlier?
+>
+
+Looking at the previous discussions I don't see explicit mentions of a
+requirement either way (stop before or stop after). I agree it makes
+more sense to stop the guest first and then migrate without having to
+deal with dirty pages.
+
+I presume libvirt just migrates without altering the guest run state so
+we implemented this to work in both scenarios. But even then, it seems
+QEMU could store the current VM state, stop it, migrate and restore the
+state on the destination.
+
+I might be missing context here since I wasn't around when this work
+started. Someone correct me if I'm wrong please.
+
+>   2. If it will not stop, then it's "VM live snapshot" to me.  We have
+>      that, aren't we?  That's more efficient because it'll wr-protect all
+>      guest pages, any write triggers a CoW and we only copy the guest pag=
+es
+>      once and for all.
+>
+> Either way to go, there's no need to copy any page more than once.  Did I
+> miss anything perhaps very important?
+>
+> I would guess it's option (1) above, because it seems we don't snapshot t=
+he
+> disk alongside.  But I am really not sure now..
+>
 
