@@ -2,75 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9766A6D1DAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 12:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8836D1DB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 12:12:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piBjU-0007Lf-CF; Fri, 31 Mar 2023 06:11:44 -0400
+	id 1piBk3-00081I-9v; Fri, 31 Mar 2023 06:12:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1piBjS-0007LV-CO
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:11:42 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1piBjQ-0004UI-DB
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:11:41 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id h8so87580252ede.8
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 03:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680257498;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dhRwvzGuPc0LA38LVLDlGZ7o0wD05j/ZYckfzk0lw/I=;
- b=rxkQU4dmM5I+05L7suzxWgUfmOKczvc0dOryEgKnMSgowcJg9RBAXBENWu+MZReZTt
- 8gXs1dQpJdYRPhP1b6Hb9vR7RM2ctci0JA5Nly+5vHgxMlrgpLG/y306cGShqWUzg4uV
- aIo0cKESRIP76nlj/3TOjrrnI5tgf7reRgQTG5Yxn1Wum8lswcCjBdVgIxZ3oRMt7nn1
- 1egQhmvgKv7AEP+cBmHd2elTa8dMS6xCEeNPQ1y/nW8LJAxBFlRX7uD9KYKppcceAkQQ
- I9ve9jl83d0cCZb8QhHDsfGKSKJ0DjVoMmb41bFRlqDE+nV/e9gpcfoXWkoFWYAH2nCU
- /M6Q==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1piBk1-00080u-CZ
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:12:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1piBjz-0004YM-OY
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 06:12:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680257534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JX/aRVgeMK7mHFZh6hOUUdzytZn60ZCf9XMOSa4kxRw=;
+ b=KF57QKuXT6RUU8f7CQMPcNn0m6dqERjP+vqnnudA/JrUYCQSaQ2EWSxEi7nh9HHLdWmV/w
+ IuaIVK1S5tArSncJDzFMFr2plhJWaI3FnHdsXJ8d6zIeDDYVA7M0K23qzcA2QGrCrUWlC2
+ Uir2SkZY18LZ4udFs6MLr9zzfoS3nqw=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-849GMxFKMd-bdwXVTm8DoA-1; Fri, 31 Mar 2023 06:12:13 -0400
+X-MC-Unique: 849GMxFKMd-bdwXVTm8DoA-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ f66-20020a255145000000b00b714602d43fso21786095ybb.10
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 03:12:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680257498;
+ d=1e100.net; s=20210112; t=1680257532;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dhRwvzGuPc0LA38LVLDlGZ7o0wD05j/ZYckfzk0lw/I=;
- b=P+bCLov0abF3tbB5f2CWX0BqCPsF6ism+kvhV1mOcgokIWuMyovBi9ViXdCA5sqtDo
- zMfgIaH0pooHmG/AWc10IsiADttgRR15N6o0hBJLgBopXu1TrZcAVKCNMQR/Yv/U+xBW
- 2XhB068N6Qi3TBnW7QepMHEiN34Sk2tMr+RsceGoafhpA8+1/wBbSJfmrwLkYHiZVYA9
- dy84EQwgsTpBK2Dh9OHI+5STGxxip5M3tIHeBE+Cm4ZG3o+jNzvtUSzUMd8U1w5w7Fao
- PqxMZyEzRqCInXJKBjfn7ilGbwBs9P+lV/PKIIxNeGFpC/psmaZTCnPn+knO/hwHUHw6
- /zgg==
-X-Gm-Message-State: AAQBX9fiIKE9MkoA6jQyc2qbsaB+ttRr52+Rjojm9QfnPdmoDZUlVyXD
- MnjdKxPeTR5nlTYZIept3faxAEXPHbuKII70aQjQ4Q==
-X-Google-Smtp-Source: AKy350bO7VwGJDqandT0geY2mY+MsbYV2epW7wanDkChNJxoqQLRT47ml9YE51l979v93JbQ7cNwMgCz3bxK7FmG9Og=
-X-Received: by 2002:a17:906:8683:b0:939:a51a:dc30 with SMTP id
- g3-20020a170906868300b00939a51adc30mr4416996ejx.2.1680257498700; Fri, 31 Mar
- 2023 03:11:38 -0700 (PDT)
+ bh=JX/aRVgeMK7mHFZh6hOUUdzytZn60ZCf9XMOSa4kxRw=;
+ b=xU5R7YA6KCk1ArUVTHvhQ1iXQKInkOHN3FQyg6GbZiWulbvU7idohlxRKGrx5+mPC8
+ apMBI9J9tov+I1WgXC1XRlwgR81OsIZKTG6nDN1d5bx9W+5Y/isbPEEzCVvYAYdaDP9U
+ WMiS4HXK9FZCNfgZkN1B/NC5GOZn2lS+UUxVD55FZj+QKwbAKWPXbu49/zLrYhEQyoGN
+ IqNWOenKUPNsnbTK1O3Rnrb3s/iZpbacd4LQwUGYPKHlAEr1TIm2A7rbrFiZIQIhbaDo
+ COfIySJ08dh1eCJdB2JtuMyS2f0YrZU/IQgez6q3mEMCAA4ZvZuxD8qcfQXUSEVxksMb
+ r7Sw==
+X-Gm-Message-State: AAQBX9ckRcsr2MYcKeegLDp7qS6y+yDPQ+52r06WLFuegG9b/J5KgVJ0
+ 32pPIkQvmvV4irkDcfqF3aWDsnkI/kzKIxmBT0L95SWIvlvn8+jeapD6MlqjfLbSozYwBvap2Yr
+ eEcwWwqB1FnruD+/CqPKBl2PbwXrO6xQ=
+X-Received: by 2002:a81:c444:0:b0:544:a67b:8be0 with SMTP id
+ s4-20020a81c444000000b00544a67b8be0mr12687494ywj.3.1680257532494; 
+ Fri, 31 Mar 2023 03:12:12 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZuhfSwrfV99GPoD+W6VfsjwQ+3Z9QedDXr/tP1I0U6L+zNYvF53XtVcWxn/Iuy+K8xODojw6oOA2U33cWl3LE=
+X-Received: by 2002:a81:c444:0:b0:544:a67b:8be0 with SMTP id
+ s4-20020a81c444000000b00544a67b8be0mr12687484ywj.3.1680257532241; Fri, 31 Mar
+ 2023 03:12:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230323182811.2641044-1-crauer@google.com>
- <CAJy5ezqP50f3frM0tBNOHo4-4PaeaMA7-YXAd8G_w+iRqu2cjw@mail.gmail.com>
-In-Reply-To: <CAJy5ezqP50f3frM0tBNOHo4-4PaeaMA7-YXAd8G_w+iRqu2cjw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 31 Mar 2023 11:11:28 +0100
-Message-ID: <CAFEAcA8F=GHxNx6S60WPjnk6PgS5a6A19OOeb6GHjo2Rz1i-MQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/ssi: Fix Linux driver init issue with xilinx_spi
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Cc: Chris Rauer <crauer@google.com>, alistair@alistair23.me,
- qemu-devel@nongnu.org
+References: <20230323195404.1247326-1-eperezma@redhat.com>
+ <20230323195404.1247326-6-eperezma@redhat.com>
+ <CACGkMEu=8tx-5kDh5HRt2bHtL9W=cPODgUeOXXAyRxoOusW5jw@mail.gmail.com>
+ <CACGkMEtsc-73+U4ZojrO0J+anb1CdDjbm37i0HZY_fQmiFNNFA@mail.gmail.com>
+ <CAJaqyWeUxm9=Hup58gsBypQXJbeW2BTu3YpV7VDVOA2rXbtPWg@mail.gmail.com>
+ <0cc19893-f832-f03a-cbb0-19f053ff8aa7@redhat.com>
+In-Reply-To: <0cc19893-f832-f03a-cbb0-19f053ff8aa7@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 31 Mar 2023 12:11:36 +0200
+Message-ID: <CAJaqyWfk0x0Sym1wZvm5jKPi6EsyQMXFr3Tnb_StxM25uamoTA@mail.gmail.com>
+Subject: Re: [PATCH for 8.1 v2 5/6] vdpa: move CVQ isolation check to
+ net_init_vhost_vdpa
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, alvaro.karsz@solid-run.com, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>,
+ si-wei.liu@oracle.com, 
+ Eli Cohen <eli@mellanox.com>, Shannon Nelson <snelson@pensando.io>, 
+ Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, Harpreet Singh Anand <hanand@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,29 +107,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 31 Mar 2023 at 11:09, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
->
-> On Thu, Mar 23, 2023 at 7:29=E2=80=AFPM Chris Rauer <crauer@google.com> w=
+On Fri, Mar 31, 2023 at 10:00=E2=80=AFAM Jason Wang <jasowang@redhat.com> w=
 rote:
->>
->> The problem is that the Linux driver expects the master transaction inhi=
-bit
->> bit(R_SPICR_MTI) to be set during driver initialization so that it can
->> detect the fifo size but QEMU defaults it to zero out of reset.  The
->> datasheet indicates this bit is active on reset.
->>
->> See page 25, SPI Control Register section:
->> https://www.xilinx.com/content/dam/xilinx/support/documents/ip_documenta=
-tion/axi_quad_spi/v3_2/pg153-axi-quad-spi.pdf
->>
 >
-> Yes, MTI should be set when the device comes out of reset.
 >
-> Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
+> =E5=9C=A8 2023/3/30 18:42, Eugenio Perez Martin =E5=86=99=E9=81=93:
+> > On Thu, Mar 30, 2023 at 8:23=E2=80=AFAM Jason Wang <jasowang@redhat.com=
+> wrote:
+> >> On Thu, Mar 30, 2023 at 2:20=E2=80=AFPM Jason Wang <jasowang@redhat.co=
+m> wrote:
+> >>> On Fri, Mar 24, 2023 at 3:54=E2=80=AFAM Eugenio P=C3=A9rez <eperezma@=
+redhat.com> wrote:
+> >>>> Evaluating it at start time instead of initialization time may make =
+the
+> >>>> guest capable of dynamically adding or removing migration blockers.
+> >>>>
+> >>>> Also, moving to initialization reduces the number of ioctls in the
+> >>>> migration, reducing failure possibilities.
+> >>>>
+> >>>> As a drawback we need to check for CVQ isolation twice: one time wit=
+h no
+> >>>> MQ negotiated and another one acking it, as long as the device suppo=
+rts
+> >>>> it.  This is because Vring ASID / group management is based on vq
+> >>>> indexes, but we don't know the index of CVQ before negotiating MQ.
+> >>> We need to fail if we see a device that can isolate cvq without MQ bu=
+t
+> >>> not with MQ.
+> >>>
+> >>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >>>> ---
+> >>>> v2: Take out the reset of the device from vhost_vdpa_cvq_is_isolated
+> >>>> ---
+> >>>>   net/vhost-vdpa.c | 194 ++++++++++++++++++++++++++++++++++++-------=
+----
+> >>>>   1 file changed, 151 insertions(+), 43 deletions(-)
+> >>>>
+> >>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> >>>> index 4397c0d4b3..db2c9afcb3 100644
+> >>>> --- a/net/vhost-vdpa.c
+> >>>> +++ b/net/vhost-vdpa.c
+> >>>> @@ -43,6 +43,13 @@ typedef struct VhostVDPAState {
+> >>>>
+> >>>>       /* The device always have SVQ enabled */
+> >>>>       bool always_svq;
+> >>>> +
+> >>>> +    /* The device can isolate CVQ in its own ASID if MQ is negotiat=
+ed */
+> >>>> +    bool cvq_isolated_mq;
+> >>>> +
+> >>>> +    /* The device can isolate CVQ in its own ASID if MQ is not nego=
+tiated */
+> >>>> +    bool cvq_isolated;
+> >>> As stated above, if we need a device that cvq_isolated_mq^cvq_isolate=
+d
+> >>> =3D=3D true, we need to fail. This may reduce the complexity of the c=
+ode?
+> >>>
+> >>> Thanks
+> >> Since we are the mediation layer, Qemu can alway choose to negotiate
+> >> MQ regardless whether or not it is supported by the guest. In this
+> >> way, we can have a stable virtqueue index for cvq.
+> >>
+> > I think it is a great idea and it simplifies this patch somehow.
+> > However, we need something like the queue mapping [1] to do so :).
+> >
+> > To double confirm:
+> > * If the device supports MQ, only probe MQ. If not, only probe !MQ.
+> > * Only store cvq_isolated in VhostVDPAState.
+> >
+> > Now, if the device does not negotiate MQ but the device supports MQ:
+>
+>
+> I'm not sure I understand here, if device supports MQ it should accepts
+> MQ or we can fail the initialization here.
+>
 
-Thanks; applied to target-arm.next for 8.0.
+My fault, I wanted to say "if the device offers MQ but the driver does
+not acks it".
 
--- PMM
+>
+> > * All the requests to queue 3 must be redirected to the last queue in
+> > the device. That includes set_vq_address, notifiers regions, etc.
+>
+>
+> This also means we will only mediate the case:
+>
+> 1) Qemu emulated virtio-net has 1 queue but device support multiple queue
+>
+> but not
+>
+> 2) Qemu emulated virtio-net has M queue but device support N queue (N>M)
+>
+
+Right.
+
+>
+> >
+> > I'm totally ok to go this route but it's not immediate.
+>
+>
+> Yes but I mean, we can start from failing the device if
+> cvq_isolated_mq^cvq_isolated =3D=3D true
+>
+
+So probe the two cases but set VhostVDPAState->cvq_isolated =3D
+cvq_isolated && cvq_mq_isolated then? No map involved that way, and
+all parents should behave that way.
+
+> (or I wonder if we can meet this condition for any existing parents).
+
+I don't think so, but I think we need to probe the two anyway.
+Otherwise we may change the dataplane asid too.
+
+Thanks!
+
 
