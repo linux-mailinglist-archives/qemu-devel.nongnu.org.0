@@ -2,90 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE2E6D120A
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 00:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379776D13D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 02:07:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi0bY-00047i-B8; Thu, 30 Mar 2023 18:18:48 -0400
+	id 1pi2Hl-0006If-FQ; Thu, 30 Mar 2023 20:06:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pi0bW-00047a-HD
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 18:18:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pi0bU-00081p-1j
- for qemu-devel@nongnu.org; Thu, 30 Mar 2023 18:18:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680214722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qznnXn/M3+Owz/QxtcHnkbakU5rju9iECJOgd8wOfX0=;
- b=PIOj3XrlAPvorrZZkLrYFJ6HQ3XfXlA0TAHdYhG7G/Uq8ga3WXDIHwwCsyukcZ2Umk/em/
- 09GSD/6bz7XoNQAR2W/hlOYsz9+zwgb9dgSMM5DF2PkEeN4L5+Gg0Vam/RoY9Vyk62zlYQ
- b3xQnBQKZ5aVlfxnIvLQxVoLnj/xfAk=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-530-2quYf3QtNJm48cLYDIpT2Q-1; Thu, 30 Mar 2023 18:18:41 -0400
-X-MC-Unique: 2quYf3QtNJm48cLYDIpT2Q-1
-Received: by mail-qt1-f198.google.com with SMTP id
- p22-20020a05622a00d600b003e38f7f800bso13257394qtw.9
- for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 15:18:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1pi2Hi-0006Hz-L2
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 20:06:26 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1pi2Hf-0005Lq-65
+ for qemu-devel@nongnu.org; Thu, 30 Mar 2023 20:06:25 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ l15-20020a05600c4f0f00b003ef6d684102so9058924wmq.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Mar 2023 17:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1680221181;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1WLBC0gjVME/dta252pNYiZG2XKN/7BIovbR1073VCk=;
+ b=kFXcg4CvRmwG8Kt5ydf4zjfhhX+wvw9WwqFhEGMnJkN8QSQu5BTGIPdVDqFwfwr6yB
+ IXjEKS3qPAFSAOd7yEpwkblSbO6rwcpRW8HZGQ3aqbevC1/DQUDzkVlOIHVs5SXiSrqt
+ tdA473chTEbENhBxMY+HC5UeW5Sp53pXFdgfRnTJIc4wcYtdn4L+dtHvnFXiHINNiwJf
+ bKlk5o8AKuXpyMfowr/5A33cnl5e0eBtCocgeLHyIO7jT0Vfu0It/vsm6Bu/jn4mjCfM
+ M92nG2/YABxBJSm5EFlICMHDqRuHppJnjSefc/HKsqPsvUULiif3yWxMntXIKSIcuL6D
+ omyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680214720; x=1682806720;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qznnXn/M3+Owz/QxtcHnkbakU5rju9iECJOgd8wOfX0=;
- b=MlSFCFK8pkYyPWPQvvcwudsFFS6/P4pwIF/vsn10eFAE54Q8mYyh+HC5l1l+C0hbfR
- 2wYXzAElu/SFZW9kesvv9h2VAV2KwgO10vbw0O47G/Ebs5UUVswnZEdwdTpRi6Hm47Tj
- +6AQpTlt21nBwO+PadbsMWq1nYjKfkWEljoezqGVEFp9qnlwo0WOvJ4caMaKBbjQS07J
- cw/qU2FlIy7EyKHDslmGDiW99uSAn0fKRsFWNjeORsM5DNS7YLhsf4obAF+eYIXjdHg3
- BSCgtKF+nzgpo6vTf0qfkNcCY5tfazrGlvYaq49T5Rv6a8TtbgIlm+3W/LYg6xko99FN
- s3rA==
-X-Gm-Message-State: AAQBX9dVfmCk1loyyBzDCGEyc42Cn+GAFjvbX1TNdusc8x20z7ohYIGi
- t7cwRiO6Gzu13r7h4rzWC1QWcr/UQSKDhT6f09s23UqnbDxGFuq5b12ATxCmHKsFM0cI4PGPqQu
- L0gwQbeYvEedGsIE=
-X-Received: by 2002:a05:6214:f67:b0:5e0:3825:9adb with SMTP id
- iy7-20020a0562140f6700b005e038259adbmr5907059qvb.2.1680214720550; 
- Thu, 30 Mar 2023 15:18:40 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bkkSNJzeiL0tecmJZ0c/IbFlxbxqGf7dYQ8h8eQ8oFK+GSda3a6z8rsARvelUyYeDNZJ1b/Q==
-X-Received: by 2002:a05:6214:f67:b0:5e0:3825:9adb with SMTP id
- iy7-20020a0562140f6700b005e038259adbmr5907032qvb.2.1680214720245; 
- Thu, 30 Mar 2023 15:18:40 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- c26-20020a056214071a00b005dd8b9345cdsm142425qvz.101.2023.03.30.15.18.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 15:18:39 -0700 (PDT)
-Date: Thu, 30 Mar 2023 18:18:38 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Leonardo Bras <leobras@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v1 1/1] migration: Disable postcopy + multifd migration
-Message-ID: <ZCYKvo/bs1srv2HK@x1n>
-References: <20230327161518.2385074-1-leobras@redhat.com>
- <ZCWanp5hITk4HImX@redhat.com> <ZCWeWy3Yluda1VbF@x1n>
- <ZCWjWzkNK3dupgo6@redhat.com> <ZCWxzROM13XLoGyf@work-vm>
+ d=1e100.net; s=20210112; t=1680221181;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1WLBC0gjVME/dta252pNYiZG2XKN/7BIovbR1073VCk=;
+ b=4TvX863GnMHG9NzMmQi7b/mFwPV8ZWHV3j0hWpKxBoJwi5bk5K272L1BAHx8u2W5ij
+ Y0yYb9hQQCuQx87HfD2YCex0ERQo2mz9gV6SdVIdrhyCoVRINXsi2DHWMNHfOM4eCNJG
+ BGLfHX43VQ3CG+NuyLnnsAb9OiFs6iAmuO3B4TVEn8h789koCgWMolYCSAsnUqeghL68
+ dWc97ToJTgWiIZzLtf84g/RotWiZfcv5AVKtdr+xqgFd6cmZbAWWck+BBsBVEWBxBUEh
+ zw26CCjVfN0j5WRyfn9gxXbRS2oclPztfTV6q/rjP+ggtmBx8ZfFQ5FLI0mk+9LrfgJk
+ cEjw==
+X-Gm-Message-State: AAQBX9fzuXTPcfG+XCJxkUfzgr04PeH4ACruo31lzwZr3pL/NAczKI/j
+ Q3PSkvTB8sLq+k64+iji2I0yrvovZoTfzL3DMRR5LA==
+X-Google-Smtp-Source: AKy350bD4guRpIBnni3IGTHAGxXwFVmcj+x3dyohxXRMA7depLBOjC9rrNK/TQDsSQuT17+AWOHrTGbtUayQiYMS0KE=
+X-Received: by 2002:a7b:cb10:0:b0:3ef:66ec:1e73 with SMTP id
+ u16-20020a7bcb10000000b003ef66ec1e73mr4442601wmj.6.1680221180629; Thu, 30 Mar
+ 2023 17:06:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZCWxzROM13XLoGyf@work-vm>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20230322175513.1550412-1-titusr@google.com>
+ <20230322175513.1550412-2-titusr@google.com>
+ <ZCW2XDxAzptykEQf@minyard.net>
+In-Reply-To: <ZCW2XDxAzptykEQf@minyard.net>
+From: Titus Rwantare <titusr@google.com>
+Date: Thu, 30 Mar 2023 17:05:44 -0700
+Message-ID: <CAMvPwGrpLey-GtWvo4Hjv-bjWZPF=cdcvWbNCAn=7HsvctUvrA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] hw/i2c: pmbus add support for block receive
+To: minyard@acm.org
+Cc: philmd@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Hao Wu <wuhaotsh@google.com>
+Content-Type: multipart/alternative; boundary="0000000000009df4c805f826fa3a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=titusr@google.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,160 +86,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 30, 2023 at 04:59:09PM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Thu, Mar 30, 2023 at 10:36:11AM -0400, Peter Xu wrote:
-> > > On Thu, Mar 30, 2023 at 03:20:14PM +0100, Daniel P. Berrangé wrote:
-> > > > On Mon, Mar 27, 2023 at 01:15:18PM -0300, Leonardo Bras wrote:
-> > > > > Since the introduction of multifd, it's possible to perform a multifd
-> > > > > migration and finish it using postcopy.
-> > > > > 
-> > > > > A bug introduced by yank (fixed on cfc3bcf373) was previously preventing
-> > > > > a successful use of this migration scenario, and now it should be
-> > > > > working on most cases.
-> > > > > 
-> > > > > But since there is not enough testing/support nor any reported users for
-> > > > > this scenario, we should disable this combination before it may cause any
-> > > > > problems for users.
-> > > > 
-> > > > Clearly we don't have enough testing, but multifd+postcopy looks
-> > > > like a clearly useful scenario that we should be supporting.
-> > > > 
-> > > > Every post-copy starts with at least one pre-copy iteration, and
-> > > > using multifd for that will be important for big VMs where single
-> > > > threaded pre-copy is going to be CPU bound. The greater amount we
-> > > > can transfer in the pre-copy phase, the less page faults / latency
-> > > > spikes postcopy is going to see.
-> > > 
-> > > If we're using 1-round precopy + postcopy approach, the amount of memory
-> > > will be the same which is the guest mem size.
-> > > 
-> > > Multifd will make the round shorter so more chance of getting less
-> > > re-dirtied pages during the iteration, but that effect is limited.  E.g.:
-> > > 
-> > >   - For a very idle guest, finishing 1st round in 1min or 3min may not
-> > >     bring a large difference because most of the pages will be constant
-> > >     anyway, or
-> > > 
-> > >   - For a very busy guest, probably similar amount of pages will be dirtied
-> > >     no matter in 1min / 3min.  Multifd will bring a benefit here, but
-> > >     busier the guest smaller the effect.
-> > 
-> > I don't feel like that follows. If we're bottlenecking mostly on CPU
-> > but have sufficient network bandwidth, then multifd can be the difference
-> > between needing to switch to post-copy or being successful in converging
-> > in pre-copy.
-> > 
-> > IOW, without multifd we can expect 90% of guests will get stuck and need
-> > a switch to post-copy, but with multifd 90% of the guest will complete
-> > while in precopy mode and only 10% need switch to post-copy. That's good
-> > because it means most guests will avoid the increased failure risk and
-> > the period of increased page fault latency from post-copy.
+--0000000000009df4c805f826fa3a
+Content-Type: text/plain; charset="UTF-8"
 
-Makes sense.  But we may need someone to look after that, though.  I am
-aware that Juan used to plan doing work in this area.  Juan, have you
-started looking into fixing multifd + postcopy (for current phase, not for
-a complete support)?  If we're confident and think resolving it is easy
-then I think it'll be worthwhile, and this patch may not be needed.
+Apologies. I've updated the commit descriptions and added a sensor using
+this code in v2.
 
-We should always keep in mind though that currently the user can suffer
-from weird errors or crashes when using them together, and that's the major
-reason Leonardo proposed this patch - we either fix things soon or we
-disable them, which also makes sense to me.
+While doing block receive I discovered that it is valid behaviour to erase
+a field and have it be an empty string.
 
-I think time somehow proved that it's non-trivial to fix them soon, hence
-this patch.  I'll be 100% more than happy when patches coming to prove me
-wrong to fix things up (along with a multifd+postcopy qtest).
+-Titus
 
-> 
-> Agreed, although I think Peter's point was that in the cases where you
-> know the guests are crazy busy and you're always going to need postcopy,
-> it's a bit less of an issue.
-> (But still, getting multiple fd's in the postcopy phase is good to
-> reduce latency).
+On Thu, 30 Mar 2023 at 09:18, Corey Minyard <minyard@acm.org> wrote:
 
-Yes, that'll be another story though, IMHO.
+> It's generally frowned upon to have empty descriptions, some rationale
+> would be helpful.  For instance, you remove a length check from the send
+> string, why did you do that?
+>
+> Any why is this being added?  What's it supporting?
+>
+> -corey
+>
+> On Wed, Mar 22, 2023 at 05:55:09PM +0000, Titus Rwantare wrote:
+> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> > Signed-off-by: Titus Rwantare <titusr@google.com>
+> > ---
+> >  hw/i2c/pmbus_device.c         | 30 +++++++++++++++++++++++++++++-
+> >  include/hw/i2c/pmbus_device.h |  7 +++++++
+> >  2 files changed, 36 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+> > index c3d6046784..02647769cd 100644
+> > --- a/hw/i2c/pmbus_device.c
+> > +++ b/hw/i2c/pmbus_device.c
+> > @@ -95,7 +95,6 @@ void pmbus_send64(PMBusDevice *pmdev, uint64_t data)
+> >  void pmbus_send_string(PMBusDevice *pmdev, const char *data)
+> >  {
+> >      size_t len = strlen(data);
+> > -    g_assert(len > 0);
+> >      g_assert(len + pmdev->out_buf_len < SMBUS_DATA_MAX_LEN);
+> >      pmdev->out_buf[len + pmdev->out_buf_len] = len;
+> >
+> > @@ -105,6 +104,35 @@ void pmbus_send_string(PMBusDevice *pmdev, const
+> char *data)
+> >      pmdev->out_buf_len += len + 1;
+> >  }
+> >
+> > +uint8_t pmbus_receive_block(PMBusDevice *pmdev, uint8_t *dest, size_t
+> len)
+> > +{
+> > +    /* dest may contain data from previous writes */
+> > +    memset(dest, 0, len);
+> > +
+> > +    /* Exclude command code from return value */
+> > +    pmdev->in_buf++;
+> > +    pmdev->in_buf_len--;
+> > +
+> > +    /* The byte after the command code denotes the length */
+> > +    uint8_t sent_len = pmdev->in_buf[0];
+> > +
+> > +    if (sent_len != pmdev->in_buf_len - 1) {
+> > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > +                      "%s: length mismatch. Expected %d bytes, got %d
+> bytes\n",
+> > +                      __func__, sent_len, pmdev->in_buf_len - 1);
+> > +    }
+> > +
+> > +    /* exclude length byte */
+> > +    pmdev->in_buf++;
+> > +    pmdev->in_buf_len--;
+> > +
+> > +    if (pmdev->in_buf_len < len) {
+> > +        len = pmdev->in_buf_len;
+> > +    }
+> > +    memcpy(dest, pmdev->in_buf, len);
+> > +    return len;
+> > +}
+> > +
+> >
+> >  static uint64_t pmbus_receive_uint(PMBusDevice *pmdev)
+> >  {
+> > diff --git a/include/hw/i2c/pmbus_device.h
+> b/include/hw/i2c/pmbus_device.h
+> > index 93f5d57c9d..7dc00cc4d9 100644
+> > --- a/include/hw/i2c/pmbus_device.h
+> > +++ b/include/hw/i2c/pmbus_device.h
+> > @@ -501,6 +501,13 @@ void pmbus_send64(PMBusDevice *state, uint64_t
+> data);
+> >   */
+> >  void pmbus_send_string(PMBusDevice *state, const char *data);
+> >
+> > +/**
+> > + * @brief Receive data sent with Block Write.
+> > + * @param dest - memory with enough capacity to receive the write
+> > + * @param len - the capacity of dest
+> > + */
+> > +uint8_t pmbus_receive_block(PMBusDevice *pmdev, uint8_t *dest, size_t
+> len);
+> > +
+> >  /**
+> >   * @brief Receive data over PMBus
+> >   * These methods help track how much data is being received over PMBus
+> > --
+> > 2.40.0.rc1.284.g88254d51c5-goog
+> >
+>
 
-When talking about this, I'd guess it'll be easier (and much less code) to
-just spawn more preempt threads than multifd ones: some of them can service
-page faults only, but some of them just keeps dumping concurrently with the
-migration thread.
+--0000000000009df4c805f826fa3a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It should be easy because all preempt threads on dest buffers the reads and
-they'll be as simple as a wrapper of ram_load_postcopy().  I think it could
-naturally just work, but I'll need to check when we think it more
-seriously.
+<div dir=3D"ltr">Apologies. I&#39;ve updated the commit descriptions and ad=
+ded a sensor using this code in v2.<div><br></div><div>While doing block re=
+ceive I discovered that it is valid behaviour to erase a field and have it =
+be an empty string.</div><div><br></div><div>-Titus</div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 30 Mar 202=
+3 at 09:18, Corey Minyard &lt;<a href=3D"mailto:minyard@acm.org">minyard@ac=
+m.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">It&#39;s generally frowned upon to have empty descriptions, some ratio=
+nale<br>
+would be helpful.=C2=A0 For instance, you remove a length check from the se=
+nd<br>
+string, why did you do that?<br>
+<br>
+Any why is this being added?=C2=A0 What&#39;s it supporting?<br>
+<br>
+-corey<br>
+<br>
+On Wed, Mar 22, 2023 at 05:55:09PM +0000, Titus Rwantare wrote:<br>
+&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
+=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
+&gt; Signed-off-by: Titus Rwantare &lt;<a href=3D"mailto:titusr@google.com"=
+ target=3D"_blank">titusr@google.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/i2c/pmbus_device.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 30 ++++=
++++++++++++++++++++++++++-<br>
+&gt;=C2=A0 include/hw/i2c/pmbus_device.h |=C2=A0 7 +++++++<br>
+&gt;=C2=A0 2 files changed, 36 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c<br>
+&gt; index c3d6046784..02647769cd 100644<br>
+&gt; --- a/hw/i2c/pmbus_device.c<br>
+&gt; +++ b/hw/i2c/pmbus_device.c<br>
+&gt; @@ -95,7 +95,6 @@ void pmbus_send64(PMBusDevice *pmdev, uint64_t data)=
+<br>
+&gt;=C2=A0 void pmbus_send_string(PMBusDevice *pmdev, const char *data)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 size_t len =3D strlen(data);<br>
+&gt; -=C2=A0 =C2=A0 g_assert(len &gt; 0);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 g_assert(len + pmdev-&gt;out_buf_len &lt; SMBUS_DA=
+TA_MAX_LEN);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 pmdev-&gt;out_buf[len + pmdev-&gt;out_buf_len] =3D=
+ len;<br>
+&gt;=C2=A0 <br>
+&gt; @@ -105,6 +104,35 @@ void pmbus_send_string(PMBusDevice *pmdev, const =
+char *data)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 pmdev-&gt;out_buf_len +=3D len + 1;<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; +uint8_t pmbus_receive_block(PMBusDevice *pmdev, uint8_t *dest, size_t=
+ len)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 /* dest may contain data from previous writes */<br>
+&gt; +=C2=A0 =C2=A0 memset(dest, 0, len);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Exclude command code from return value */<br>
+&gt; +=C2=A0 =C2=A0 pmdev-&gt;in_buf++;<br>
+&gt; +=C2=A0 =C2=A0 pmdev-&gt;in_buf_len--;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* The byte after the command code denotes the length *=
+/<br>
+&gt; +=C2=A0 =C2=A0 uint8_t sent_len =3D pmdev-&gt;in_buf[0];<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (sent_len !=3D pmdev-&gt;in_buf_len - 1) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 &quot;%s: length mismatch. Expected %d bytes, got %d bytes\n&quot;,=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 __func__, sent_len, pmdev-&gt;in_buf_len - 1);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* exclude length byte */<br>
+&gt; +=C2=A0 =C2=A0 pmdev-&gt;in_buf++;<br>
+&gt; +=C2=A0 =C2=A0 pmdev-&gt;in_buf_len--;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (pmdev-&gt;in_buf_len &lt; len) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D pmdev-&gt;in_buf_len;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 memcpy(dest, pmdev-&gt;in_buf, len);<br>
+&gt; +=C2=A0 =C2=A0 return len;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 static uint64_t pmbus_receive_uint(PMBusDevice *pmdev)<br>
+&gt;=C2=A0 {<br>
+&gt; diff --git a/include/hw/i2c/pmbus_device.h b/include/hw/i2c/pmbus_devi=
+ce.h<br>
+&gt; index 93f5d57c9d..7dc00cc4d9 100644<br>
+&gt; --- a/include/hw/i2c/pmbus_device.h<br>
+&gt; +++ b/include/hw/i2c/pmbus_device.h<br>
+&gt; @@ -501,6 +501,13 @@ void pmbus_send64(PMBusDevice *state, uint64_t da=
+ta);<br>
+&gt;=C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 void pmbus_send_string(PMBusDevice *state, const char *data);<br=
+>
+&gt;=C2=A0 <br>
+&gt; +/**<br>
+&gt; + * @brief Receive data sent with Block Write.<br>
+&gt; + * @param dest - memory with enough capacity to receive the write<br>
+&gt; + * @param len - the capacity of dest<br>
+&gt; + */<br>
+&gt; +uint8_t pmbus_receive_block(PMBusDevice *pmdev, uint8_t *dest, size_t=
+ len);<br>
+&gt; +<br>
+&gt;=C2=A0 /**<br>
+&gt;=C2=A0 =C2=A0* @brief Receive data over PMBus<br>
+&gt;=C2=A0 =C2=A0* These methods help track how much data is being received=
+ over PMBus<br>
+&gt; -- <br>
+&gt; 2.40.0.rc1.284.g88254d51c5-goog<br>
+&gt; <br>
+</blockquote></div>
 
-> 
-> Dave
-> 
-> > 
-> > > > In terms of migration usage, my personal recommendation to mgmt
-> > > > apps would be that they should always enable the post-copy feature
-> > > > when starting a migration. Even if they expect to try to get it to
-> > > > complete using exclusively pre-copy in the common case, its useful
-> > > > to have post-copy capability flag enabled, as a get out of jail
-> > > > free card. ie if migration ends up getting stuck in non-convergance,
-> > > > or they have a sudden need to urgently complete the migration it is
-> > > > good to be able to flip to post-copy mode.
-> > > 
-> > > I fully agree.
-> > > 
-> > > It should not need to be enabled only if not capable, e.g., the dest host
-> > > may not have privilege to initiate the userfaultfd (since QEMU postcopy
-> > > requires kernel fault traps, so it's very likely).
-> > 
-> > Sure, the mgmt app (libvirt) should be checking support for userfaultfd
-> > on both sides before permitting / trying to enable the feature.
-> > 
-> > 
-> > > > I'd suggest that we instead add a multifd+postcopy test case to
-> > > > migration-test.c and tackle any bugs it exposes. By blocking it
-> > > > unconditionally we ensure no one will exercise it to expose any
-> > > > further bugs.
-> > > 
-> > > That's doable.  But then we'd better also figure out how to identify the
-> > > below two use cases of both features enabled:
-> > > 
-> > >   a. Enable multifd in precopy only, then switch to postcopy (currently
-> > >   mostly working but buggy; I think Juan can provide more information here,
-> > >   at least we need to rework multifd flush when switching, and test and
-> > >   test over to make sure there's nothing else missing).
-> > > 
-> > >   b. Enable multifd in both precopy and postcopy phase (currently
-> > >   definitely not supported)
-> > > 
-> > > So that mgmt app will be aware whether multifd will be enabled in postcopy
-> > > or not.  Currently we can't identify it.
-> > > 
-> > > I assume we can say by default "mutlifd+postcopy" means a) above, but we
-> > > need to document it, and when b) is wanted and implemented someday, we'll
-> > > need some other flag/cap for it.
-> > 
-> > As I've mentioned a few times, I think we need to throw away the idea
-> > of exposing capabilities that mgmt apps need to learn about, and make
-> > the migration protocol fully bi-directional so src + dst QEMU can
-> > directly negotiate features. Apps shouldn't have to care about the
-> > day-to-day improvements in the migration impl to the extent that they
-> > are today.
-
-I agree that setting the same caps on both sides are ugly, but shouldn't
-this a separate problem, and we should allow the user to choose (no matter
-to apply that to src only, or to both sides)?
-
-To be explicit, I am thinking maybe even if multifd+postcopy full support
-will be implemented, for some reason the user still wants to only use
-multifd during precopy but not postcopy.  I'm afraid automatically choose
-what's the latest supported may not always work for the user for whatever
-reasons and could have other implications here.
-
-In short, IMHO it's an ABI breakage if user enabled both features, then it
-behaves differently after upgrading QEMU with a full multifd+postcopy
-support added.
-
-Thanks,
-
--- 
-Peter Xu
-
+--0000000000009df4c805f826fa3a--
 
