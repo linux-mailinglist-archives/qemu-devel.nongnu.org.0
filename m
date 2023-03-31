@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391626D2330
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4CE6D2335
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 16:55:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piG9H-0004EJ-RW; Fri, 31 Mar 2023 10:54:39 -0400
+	id 1piG9z-0004qL-Gj; Fri, 31 Mar 2023 10:55:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1piG9G-0004E1-BV
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:54:38 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1piG9x-0004q6-Gf
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:55:21 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1piG9E-0001II-Uw
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:54:38 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id c18so21431780ple.11
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 07:54:36 -0700 (PDT)
+ id 1piG9w-0001Xt-5J
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 10:55:21 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ p13-20020a17090a284d00b0023d2e945aebso8846332pjf.0
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 07:55:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680274475;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=20RKCJv+oE1sswzhWlm+OQclkrNxey7/te23BWRGZh4=;
- b=Ja6GQMw5+r4W+MOU9145M0qL5JNwxMZ3H3fBmgGFNi3Ovx7V4wbpn1qHl3aY9/Q+2A
- nSx8i+xfPGRHfK0sgj9Agw2PKyXpMwq3r4zcYGt2lByEy4Dr+w6UnHF9VdxYBoZ7lkxU
- jq9aoenw2Azz8QwAIq24+wyqaANiY7GslMUFJRkgyfuaxKCg14IIpo96xyqWFYvUWUeB
- 2MtELHQpP1NEhCzTderb6eK2PUw4XBqyvy5arI4BVnqCrBRpqYTzQNGMm2o65bcrBZ94
- JYgmPK5VO761L+cp7aGjCrqSxvmIBdVCfbtEMfGozuNJtBrNE7uFx3avI9IXlBxN4NPE
- Pxiw==
+ d=linaro.org; s=google; t=1680274518;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KKFxFrMLcQuzpMsM/Ew6ZyCQQAEMNeo00KH6hy3WTq8=;
+ b=kO+dBkwGoZgb6uV+TzCyQpx0yiTFFurt1eRW7EANQx0LhsaVnUbyzTvGXRzER3RKKF
+ RXYUue9X7LRoGNGHW8PwiNPbiLK4s4MOCe3zMcxtjHEf8pRvX7LYvyPt3eznySHIfm/R
+ KGt5LuAXvHon6JoE8PWksdTDSjayKycldhw9S9vSUTEpit3VJQZMOE/8dS+e96dY78I5
+ ssi9lkoIk1RSfeqZcEeeWzoGTDS3FmaW0d9a3JF5Vzd4iaZaoO+TND3yqJg6eIAhWqPh
+ FVm7DHTwLYwa/3fWe02YjjlWNu1fN1ONExDdn/fOPy+BChdcUlga7LDjG40ILF8jNaQe
+ yUIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680274475;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1680274518;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=20RKCJv+oE1sswzhWlm+OQclkrNxey7/te23BWRGZh4=;
- b=WeTV6cZhYSNS8L8BncWxbhmSXAOcDJEpXquKaQM/djfWrYBWf/CXiURPZ8R5s+IbNQ
- 0pDo2RN0YdlJLwvS3yQABBUM2eW2d4nVwN1z3Iw1Q3SFWAAnsEeVuHrmilG/qLp4gRdL
- DLlps98qrLIXOX3MYUR0WVE+wfGSc6dF20OYV1GHATjt8X9WmgMAQ23aEaRCLGh1PTmO
- pCxozl87oVnF8dkV24FnhUFCqG9bt62JHqYAQ3t6AjLjTiNa3Z21t64okZDNxoBTS2FC
- ilV6sp9dwNVX+EnIYR2l8egE1Qai9FAiQ7pBd7i0cvjxlBcJg0AwhyD1CfCLDQpMjms8
- ou3g==
-X-Gm-Message-State: AAQBX9fLoxGd17D6MrjEz+Hc3JHkIqyhkI1edd7ZguORZ1nrwOAh1wwX
- P11eepXG2CxMhY5DHnree6+wFQ==
-X-Google-Smtp-Source: AKy350Z4WUVK+VM5abUiVgbZv0dmTejH1cPSAfBKreSZVMk9d7Kfs2ELJDv1z9NFvKDI3UeL8ROX5Q==
-X-Received: by 2002:a17:902:daca:b0:19f:3d59:e0ac with SMTP id
- q10-20020a170902daca00b0019f3d59e0acmr33659066plx.44.1680274475152; 
- Fri, 31 Mar 2023 07:54:35 -0700 (PDT)
+ bh=KKFxFrMLcQuzpMsM/Ew6ZyCQQAEMNeo00KH6hy3WTq8=;
+ b=kstcNllIXlsTyPf1KZbX7GZ3XSXKdcoTELzbfYdB5UTUABiqgE6vg/JT8AcyIHMpvy
+ /gN/vJIt9x1dETuvkx28d6cC23O2rnU5LcHu2R+/nosTJPfUoZ/oKre1v2vX+8vWiw2k
+ CD7YycPNfx7KwEvrCIlGh4hWBTi/A0P9WVqn6QU83pOQZjgnbD7tVf5eqvWxYyaYhjZb
+ nWs3Ikpcj17yt+qygbxzIox0DhzTjrfv8y01G3Ly5GCxTQLOAUuLdebq8/gkqZnqufrv
+ 4+c1FAB5isV9y68NZtEmSzODc6C6G5bm2VD0JK05T12bA8YU99odggP2Lb5KFkbggp4Z
+ f9OQ==
+X-Gm-Message-State: AAQBX9fCSsNad793JbJbs14ag700pos56F5fsTGSIU2rgg5Pl3PjRj5D
+ TWJfG/E5nNdiGHfRBnuBDoHxjQ==
+X-Google-Smtp-Source: AKy350YYQuCchADr5+b4fyeiClGJSEZBAHszSndIg0OWcgeMzMiW4LvYnjZ4ZEau6PmpOooez6EntQ==
+X-Received: by 2002:a17:902:d48b:b0:1a0:4046:23f2 with SMTP id
+ c11-20020a170902d48b00b001a0404623f2mr33882764plg.56.1680274518626; 
+ Fri, 31 Mar 2023 07:55:18 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:b714:1fce:85fa:2fc7?
  ([2602:ae:1541:f901:b714:1fce:85fa:2fc7])
  by smtp.gmail.com with ESMTPSA id
- z1-20020a170903018100b001993a1fce7bsm1655764plg.196.2023.03.31.07.54.34
+ s64-20020a635e43000000b004fb171df68fsm1707333pgb.7.2023.03.31.07.55.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Mar 2023 07:54:34 -0700 (PDT)
-Message-ID: <543ac996-1be2-dd4b-d8cf-a92fc5ba53a6@linaro.org>
-Date: Fri, 31 Mar 2023 07:54:32 -0700
+ Fri, 31 Mar 2023 07:55:18 -0700 (PDT)
+Message-ID: <5a3b2e5b-d1e4-1803-a83b-5989987f5a52@linaro.org>
+Date: Fri, 31 Mar 2023 07:55:15 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
 Subject: Re: [PATCH] meson: add more version numbers to the summary
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20230330104622.29087-1-pbonzini@redhat.com>
 Content-Language: en-US
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230330104622.29087-1-pbonzini@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20230330104622.29087-1-pbonzini@redhat.com>
+ <543ac996-1be2-dd4b-d8cf-a92fc5ba53a6@linaro.org>
+In-Reply-To: <543ac996-1be2-dd4b-d8cf-a92fc5ba53a6@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,15 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/30/23 03:46, Paolo Bonzini wrote:
-> -        cc.find_library('gpg-error', required: true)])
-> +        cc.find_library('gpg-error', required: true)],
-> +        version: gcrypt.version())
+On 3/31/23 07:54, Richard Henderson wrote:
+> On 3/30/23 03:46, Paolo Bonzini wrote:
+>> -        cc.find_library('gpg-error', required: true)])
+>> +        cc.find_library('gpg-error', required: true)],
+>> +        version: gcrypt.version())
+> 
+> Indentation.
 
-Indentation.
+Bah, mis-read the patch.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> 
+> r~
 
-
-r~
 
