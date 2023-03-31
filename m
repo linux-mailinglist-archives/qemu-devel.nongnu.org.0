@@ -2,88 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F5C6D18F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 09:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6B16D18FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Mar 2023 09:51:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pi9V1-0005rS-KQ; Fri, 31 Mar 2023 03:48:39 -0400
+	id 1pi9X7-0006wW-23; Fri, 31 Mar 2023 03:50:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pi9Uz-0005rA-3c
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 03:48:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pi9X1-0006vi-8a
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 03:50:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pi9Uw-0000Cq-Ms
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 03:48:36 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pi9Wz-0000Zk-IH
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 03:50:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680248913;
+ s=mimecast20190719; t=1680249040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sW5oQtCW75QNrtts1aAwGzUT+oGMa3oC/4dGg2/l0SI=;
- b=HDH32am9217c3ERkqDi6Lg04kiW+yx2oMhl3L/aWf13UOXnM5Cpf1gjXYB2lIVQUiLvze7
- xfBCzYc8Wcj56TKJHqf7QSgXLQivSMNVu4v5wr+x+p78ZjIkJwHiRr1cyi7sd1LbOkPT0L
- b3SqWoYTFNWna98NC6i9y3PK5pcDsE4=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uaul/LgDKY8qeQMIfrQcT/xqF6e1Yvc3uuXg8WRWAYg=;
+ b=ZMsf3BqT4xgZknCnkUnuX7+NI1DyoziIeR0sPK1p8y8YlhtL9+MFnXXEaQB9Wrdz+Ucx2D
+ dvk2AAQPSLHGXIaTuTGgTjpmU+YhwEJIbG1UDO1RufpY7Z88QN9XV5OJQEqhY0Gkbovivc
+ 3FPzs8pQyXF95fsxh3lyisUJVE7PJSM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-672-Da_IZZyMPXOb1nuWpAA40g-1; Fri, 31 Mar 2023 03:48:30 -0400
-X-MC-Unique: Da_IZZyMPXOb1nuWpAA40g-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-17e11dd9a3dso11037207fac.10
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 00:48:30 -0700 (PDT)
+ us-mta-553-DupfQ_aLNLC-T2MtKY-VYw-1; Fri, 31 Mar 2023 03:50:39 -0400
+X-MC-Unique: DupfQ_aLNLC-T2MtKY-VYw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j27-20020a05600c1c1b00b003edd2023418so11614476wms.4
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 00:50:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680248910; x=1682840910;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sW5oQtCW75QNrtts1aAwGzUT+oGMa3oC/4dGg2/l0SI=;
- b=u+mAHIU4oHw3UAS0g+NRf9wN4sqk2ap0PakYn50qz8Eic/sTWpiHj5V8KIwxAEccL+
- 8z8kLvOngj9d7ppPLUzlzdsTulgWpCudxvVteelb2f1cArKEU6DgFuX2+wIGPHwba7s/
- ILwDWRRC5aHGNaM3FghZxJzp7TTmGqznrn4L0KHFlGkgNDPODBxD+5gxbaoNaM5x7c+W
- osh2TwlKrhXjkv8JUbww6g1eiB8Cnl8wlp7+GbwUqnpQMn7CVHDtOCmnbGxDfkL170Iv
- 9W1r0fTIH5u8Q6YOW7EtnXS86PJHoJ4iM+dmFD+NQp8cEpCi3IQ39ncf7WtiDHZMmEnr
- ELCQ==
-X-Gm-Message-State: AAQBX9e8Xt2H84Rdo1xsiexTIc9eaiOwiHHWYJ3JQD7o6FJTVYqhGeaQ
- x9s70M0PXliWOK+VOr513IgQpEpnervi/CfNyV7+sIN+L/4FtI+sM6rUgre6i5zIpaGH47JVfdL
- /X6elbVmJKQqtqmf+KfCANOVLn9MGzHU=
-X-Received: by 2002:a05:6870:df85:b0:17f:6fc4:6dd6 with SMTP id
- us5-20020a056870df8500b0017f6fc46dd6mr4047494oab.9.1680248910192; 
- Fri, 31 Mar 2023 00:48:30 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bGvg/ieg1mvRzP6po7P4FkweGEZzZbWa2RSb6AT7UfLqPVrmtVBN13fY05eZH4gzGptW8EkTv2cBUX7LMhiSs=
-X-Received: by 2002:a05:6870:df85:b0:17f:6fc4:6dd6 with SMTP id
- us5-20020a056870df8500b0017f6fc46dd6mr4047477oab.9.1680248909898; Fri, 31 Mar
- 2023 00:48:29 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680249038;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uaul/LgDKY8qeQMIfrQcT/xqF6e1Yvc3uuXg8WRWAYg=;
+ b=UpzWJ7ckg0C09EHzpBX+tRsGiRzdKl+DfZMw4hwLW454EqicTWL/QUFDC9KXGNxgmg
+ cXVhsTuwSRII1EB2+RSWZhe1Nvsn8r5XUOYWIFYlBGXCSFfW5gmD39CgxyevQNDwdRz/
+ IuJV6BK00Qiu9UXJbL8axjm8GQS3t91wP5nn0dhasYLo/Uab7GExwdvK53Dvmeiqf655
+ PjuerrcFLOiiOMsxer5D3IZFA347e7gaRGSlMaXV+C6YD1Q+otojrALZkzKsQt06Qjf4
+ xE45hY4BYW+z25gbhMps087V5R7ZCQKPrrVAeHRtSAHHZn8Qki9YH5dFD+iXao0QxxO9
+ XSCA==
+X-Gm-Message-State: AAQBX9djUgYXRBynBtqBQLILYZukGhOANEFw1r06FxJG41gnFF5VzkV4
+ iRO1mgsDvdCiS4timTnKl26MC68KKrbR1enLzhqQgTU0RSpq0gHboov8slX8QA5y7g73HA0hBm0
+ PWOutrLeL3JXs+TI=
+X-Received: by 2002:a1c:f704:0:b0:3f0:44d1:3ba7 with SMTP id
+ v4-20020a1cf704000000b003f044d13ba7mr656437wmh.17.1680249038272; 
+ Fri, 31 Mar 2023 00:50:38 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bU7TXyYItFW058VUnYcU6fNB6vTfUY5BGwUIj48soBPLisSrvXkzRSf4Wkglq4MIqGvpQI4A==
+X-Received: by 2002:a1c:f704:0:b0:3f0:44d1:3ba7 with SMTP id
+ v4-20020a1cf704000000b003f044d13ba7mr656411wmh.17.1680249037956; 
+ Fri, 31 Mar 2023 00:50:37 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-177-12.web.vodafone.de.
+ [109.43.177.12]) by smtp.gmail.com with ESMTPSA id
+ t23-20020a1c7717000000b003edcc2223c6sm1775916wmi.28.2023.03.31.00.50.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Mar 2023 00:50:37 -0700 (PDT)
+Message-ID: <83a38091-aa46-c92d-b078-ad8738f03cdf@redhat.com>
+Date: Fri, 31 Mar 2023 09:50:34 +0200
 MIME-Version: 1.0
-References: <20230330001522.120774-1-andrew@daynix.com>
- <20230330001522.120774-4-andrew@daynix.com>
- <CACGkMEs1hRNLL67W96MO3eMg4H=ex4bYvFxcUkNPgfXXbOvo3A@mail.gmail.com>
- <ZCVJoi7YQlt3axba@redhat.com>
-In-Reply-To: <ZCVJoi7YQlt3axba@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 31 Mar 2023 15:48:18 +0800
-Message-ID: <CACGkMEugLOsQJz_Hie1-0WLbPEiC2B_7y=RVqqmGi8-aqBfHXQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] ebpf: Added declaration/initialization routines.
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, thuth@redhat.com, philmd@linaro.org, 
- armbru@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com, 
- mprivozn@redhat.com, yuri.benditovich@daynix.com, yan@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 09/11] tests/requirements.txt: bump up avocado-framework
+ version to 101.0
+Content-Language: en-US
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Kautuk Consul <kconsul@linux.vnet.ibm.com>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>,
+ Ryo ONODERA <ryoon@netbsd.org>, Kevin Wolf <kwolf@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+References: <20230330101141.30199-1-alex.bennee@linaro.org>
+ <20230330101141.30199-10-alex.bennee@linaro.org>
+ <b23ab886-e9f5-bb94-c98d-ccdd45cdeff1@redhat.com> <87zg7uo2pi.fsf@linaro.org>
+ <92ed3dc1-32c2-cce2-57be-28f5aa702d60@redhat.com>
+In-Reply-To: <92ed3dc1-32c2-cce2-57be-28f5aa702d60@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,172 +111,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 30, 2023 at 4:34=E2=80=AFPM Daniel P. Berrang=C3=A9 <berrange@r=
-edhat.com> wrote:
->
-> On Thu, Mar 30, 2023 at 02:54:32PM +0800, Jason Wang wrote:
-> > On Thu, Mar 30, 2023 at 8:33=E2=80=AFAM Andrew Melnychenko <andrew@dayn=
-ix.com> wrote:
-> > >
-> > > Now, the binary objects may be retrieved by id/name.
-> > > It would require for future qmp commands that may require specific
-> > > eBPF blob.
-> > >
-> > > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> > > ---
-> > >  ebpf/ebpf.c      | 48 ++++++++++++++++++++++++++++++++++++++++++++++=
-++
-> > >  ebpf/ebpf.h      | 25 +++++++++++++++++++++++++
-> > >  ebpf/ebpf_rss.c  |  4 ++++
-> > >  ebpf/meson.build |  1 +
-> > >  4 files changed, 78 insertions(+)
-> > >  create mode 100644 ebpf/ebpf.c
-> > >  create mode 100644 ebpf/ebpf.h
-> > >
-> > > diff --git a/ebpf/ebpf.c b/ebpf/ebpf.c
-> > > new file mode 100644
-> > > index 0000000000..86320d72f5
-> > > --- /dev/null
-> > > +++ b/ebpf/ebpf.c
-> > > @@ -0,0 +1,48 @@
-> > > +/*
-> > > + * QEMU eBPF binary declaration routine.
-> > > + *
-> > > + * Developed by Daynix Computing LTD (http://www.daynix.com)
-> > > + *
-> > > + * Authors:
-> > > + *  Andrew Melnychenko <andrew@daynix.com>
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version 2 o=
-r
-> > > + * later.  See the COPYING file in the top-level directory.
-> > > + */
-> > > +
-> > > +#include "qemu/osdep.h"
-> > > +#include "qemu/queue.h"
-> > > +#include "ebpf/ebpf.h"
-> > > +
-> > > +struct ElfBinaryDataEntry {
-> > > +    const char *id;
-> > > +    const void * (*fn)(size_t *);
-> > > +
-> > > +    QSLIST_ENTRY(ElfBinaryDataEntry) node;
-> > > +};
-> > > +
-> > > +static QSLIST_HEAD(, ElfBinaryDataEntry) ebpf_elf_obj_list =3D
-> > > +                                            QSLIST_HEAD_INITIALIZER(=
-);
-> > > +
-> > > +void ebpf_register_binary_data(const char *id, const void * (*fn)(si=
-ze_t *))
-> > > +{
-> > > +    struct ElfBinaryDataEntry *data =3D NULL;
-> > > +
-> > > +    data =3D g_malloc0(sizeof(*data));
-> > > +    data->fn =3D fn;
-> > > +    data->id =3D id;
-> > > +
-> > > +    QSLIST_INSERT_HEAD(&ebpf_elf_obj_list, data, node);
-> > > +}
-> > > +
-> > > +const void *ebpf_find_binary_by_id(const char *id, size_t *sz)
-> > > +{
-> > > +    struct ElfBinaryDataEntry *it =3D NULL;
-> > > +    QSLIST_FOREACH(it, &ebpf_elf_obj_list, node) {
-> > > +        if (strcmp(id, it->id) =3D=3D 0) {
-> > > +            return it->fn(sz);
-> > > +        }
-> > > +    }
-> > > +
-> > > +    return NULL;
-> > > +}
-> > > diff --git a/ebpf/ebpf.h b/ebpf/ebpf.h
-> > > new file mode 100644
-> > > index 0000000000..fd705cb73e
-> > > --- /dev/null
-> > > +++ b/ebpf/ebpf.h
-> > > @@ -0,0 +1,25 @@
-> > > +/*
-> > > + * QEMU eBPF binary declaration routine.
-> > > + *
-> > > + * Developed by Daynix Computing LTD (http://www.daynix.com)
-> > > + *
-> > > + * Authors:
-> > > + *  Andrew Melnychenko <andrew@daynix.com>
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version 2 o=
-r
-> > > + * later.  See the COPYING file in the top-level directory.
-> > > + */
-> > > +
-> > > +#ifndef EBPF_H
-> > > +#define EBPF_H
-> > > +
-> > > +void ebpf_register_binary_data(const char *id, const void * (*fn)(si=
-ze_t *));
-> > > +const void *ebpf_find_binary_by_id(const char *id, size_t *sz);
-> > > +
-> > > +#define ebpf_binary_init(id, fn)                                    =
-       \
-> > > +static void __attribute__((constructor)) ebpf_binary_init_ ## fn(voi=
-d)     \
-> > > +{                                                                   =
-       \
-> > > +    ebpf_register_binary_data(id, fn);                              =
-       \
-> > > +}
-> > > +
-> > > +#endif /* EBPF_H */
-> > > diff --git a/ebpf/ebpf_rss.c b/ebpf/ebpf_rss.c
-> > > index 08015fecb1..b4038725f2 100644
-> > > --- a/ebpf/ebpf_rss.c
-> > > +++ b/ebpf/ebpf_rss.c
-> > > @@ -21,6 +21,8 @@
-> > >
-> > >  #include "ebpf/ebpf_rss.h"
-> > >  #include "ebpf/rss.bpf.skeleton.h"
-> > > +#include "ebpf/ebpf.h"
-> > > +
-> > >  #include "trace.h"
-> > >
-> > >  void ebpf_rss_init(struct EBPFRSSContext *ctx)
-> > > @@ -237,3 +239,5 @@ void ebpf_rss_unload(struct EBPFRSSContext *ctx)
-> > >      ctx->obj =3D NULL;
-> > >      ctx->program_fd =3D -1;
-> > >  }
-> > > +
-> > > +ebpf_binary_init("rss", rss_bpf__elf_bytes)
-> >
-> > Who or how the ABI compatibility is preserved between libvirt and Qemu?
->
-> There's no real problem with binary compatibility to solve any more.
->
-> When libvirt first launches a QEMU VM, it will fetch the eBPF programs
-> it needs from that running QEMU using QMP. WHen it later needs to
-> enable features that use eBPF, it already has the program data that
-> matches the running QEMU
+On 30/03/2023 14.21, Thomas Huth wrote:
+> On 30/03/2023 14.12, Alex Bennée wrote:
+>>
+>> Thomas Huth <thuth@redhat.com> writes:
+>>
+>>> On 30/03/2023 12.11, Alex Bennée wrote:
+>>>> From: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+>>>> Avocado version 101.0 has a fix to re-compute the checksum
+>>>> of an asset file if the algorithm used in the *-CHECKSUM
+>>>> file isn't the same as the one being passed to it by the
+>>>> avocado user (i.e. the avocado_qemu python module).
+>>>> In the earlier avocado versions this fix wasn't there due
+>>>> to which if the checksum wouldn't match the earlier
+>>>> checksum (calculated by a different algorithm), the avocado
+>>>> code would start downloading a fresh image from the internet
+>>>> URL thus making the test-cases take longer to execute.
+>>>> Bump up the avocado-framework version to 101.0.
+>>>> Signed-off-by: Kautuk Consul <kconsul@linux.vnet.ibm.com>
+>>>> Tested-by: Hariharan T S <hariharan.ts@linux.vnet.ibm.com>
+>>>> Message-Id: <20230327115030.3418323-2-kconsul@linux.vnet.ibm.com>
+>>>> ---
+>>>>    tests/requirements.txt | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>> diff --git a/tests/requirements.txt b/tests/requirements.txt
+>>>> index 0ba561b6bd..a6f73da681 100644
+>>>> --- a/tests/requirements.txt
+>>>> +++ b/tests/requirements.txt
+>>>> @@ -2,5 +2,5 @@
+>>>>    # in the tests/venv Python virtual environment. For more info,
+>>>>    # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+>>>>    # Note that qemu.git/python/ is always implicitly installed.
+>>>> -avocado-framework==88.1
+>>>> +avocado-framework==101.0
+>>>>    pycdlib==1.11.0
+>>>
+>>> Did you check whether the same amount of avocado tests still works as
+>>> before? ... last time I tried to bump the version, a lot of things
+>>> were failing, and I think Cleber was recently working  on fixing
+>>> things, but I haven't heart anything back from him yet that it would
+>>> be OK to bump to a newer version now ...
+>>
+>> I ran it on my default build and the only failure was:
+>>
+>>   (008/222) 
+>> tests/avocado/boot_linux.py:BootLinuxS390X.test_s390_ccw_virtio_tcg: 
+>> INTERRUPTED: timeout (240.01 s)
+>>
+>> which passed on a retry. But now I realise with failfast it skipped a bunch:
+> 
+> That one is also failing for me here when I apply the patch. Without the 
+> patch, the test is working fine. I think this needs more careful testing 
+> first - e.g. the tests are run in parallel now by default, which breaks a 
+> lot of our timeout settings.
 
-Ok, then who will validate the eBPF program? I don't think libvirt can
-trust what is received from Qemu otherwise arbitrary eBPF programs
-could be executed by Qemu in this way. One example is that when guests
-escape to Qemu it can modify the rss_bpf__elf_bytes. Though
-BPF_PROG_TYPE_SOCKET_FILTER gives some of the restrictions, we still
-need to evaluate side effects of this. Or we need to find other ways
-like using the binary in libvirt or use rx filter events.
+FWIW, I think we likely want something like this added to this patch,
+so we avoid to run those tests in parallel (unless requested with -jX):
 
-Thanks
+diff a/tests/Makefile.include b/tests/Makefile.include
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -138,12 +138,15 @@ get-vm-image-fedora-31-%: check-venv
+  # download all vm images, according to defined targets
+  get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
+  
++JOBS_OPTION=$(lastword -j1 $(filter-out -j, $(filter -j%, $(MAKEFLAGS))))
++
+  check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+         $(call quiet-command, \
+              $(TESTS_PYTHON) -m avocado \
+              --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+              $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
+                         --filter-by-tags-include-empty-key) \
++            --max-parallel-tasks $(JOBS_OPTION:-j%=%) \
+              $(AVOCADO_CMDLINE_TAGS) \
+              $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
+              "AVOCADO", "tests/avocado")
 
->
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+That way we can avoid the timeout problems unless we found a
+proper solution for those.
+
+  Thomas
 
 
