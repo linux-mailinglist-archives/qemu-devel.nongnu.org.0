@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC3B6D30C2
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:41:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5E56D30C5
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:43:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piaXw-0006L9-4c; Sat, 01 Apr 2023 08:41:28 -0400
+	id 1piaZg-0000zW-8Q; Sat, 01 Apr 2023 08:43:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=4482bb7e5=graf@amazon.de>)
- id 1piaXh-0005uX-Kx
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 08:41:14 -0400
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90])
+ id 1piaZe-0000yn-6O
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 08:43:14 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=4482bb7e5=graf@amazon.de>)
- id 1piaXe-0000eI-JT
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 08:41:12 -0400
+ id 1piaZb-0000u0-Va
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 08:43:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1680352871; x=1711888871;
+ t=1680352992; x=1711888992;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=9qXfC0xHGeCL09ygysOKYkdBIrVZYPlUcet5l/cWMHI=;
- b=s4KG5kDL1h6pVBeS7ro1L4dS7RWghkAObaf5WhVB/UCRB6TM2RUljFaH
- De1oFa/22gCPGr2hMKkNtpcNrHEmiMt9jpJaZZB7eW2QBa6YSwkzoYjIQ
- pcpzMBSxpipGz6mwVZq5zsitW7KbcBOWpgGFQ3yiqAwpcaM2WpsHGusy0 4=;
-X-IronPort-AV: E=Sophos;i="5.98,310,1673913600"; d="scan'208";a="313744599"
+ bh=8c/E0rud/3uH31zecPIBN4losQ7jkEfsT4XNyQWTKqw=;
+ b=WSCyN7Na/CshNnhmNdUE+Jz6UQICWREI+S37nRqbL8JNOdMwoh/o58sP
+ 0D2cP9x28bewVpzDxTiNDV7TOUoEvzv4AkxaXrjakpKQHxAR6difsA0L/
+ bhzy5OkfWrPphiyhUa/4iyhPAD/Ukkt5XIBS4kOTHNLzg8ZmJA5UM8hij M=;
+X-IronPort-AV: E=Sophos;i="5.98,310,1673913600"; d="scan'208";a="274014686"
 Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
- email-inbound-relay-pdx-2a-m6i4x-3ef535ca.us-west-2.amazon.com) ([10.43.8.6])
- by smtp-border-fw-6002.iad6.amazon.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 12:41:07 +0000
-Received: from EX19MTAUWC002.ant.amazon.com
+ email-inbound-relay-pdx-2b-m6i4x-a893d89c.us-west-2.amazon.com) ([10.43.8.6])
+ by smtp-border-fw-33001.sea14.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 12:43:04 +0000
+Received: from EX19MTAUWB002.ant.amazon.com
  (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
- by email-inbound-relay-pdx-2a-m6i4x-3ef535ca.us-west-2.amazon.com (Postfix)
- with ESMTPS id 2A8AA609DE; Sat,  1 Apr 2023 12:41:05 +0000 (UTC)
+ by email-inbound-relay-pdx-2b-m6i4x-a893d89c.us-west-2.amazon.com (Postfix)
+ with ESMTPS id E99B941440; Sat,  1 Apr 2023 12:43:01 +0000 (UTC)
 Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Sat, 1 Apr 2023 12:41:04 +0000
+ 15.2.1118.25; Sat, 1 Apr 2023 12:43:01 +0000
 Received: from dev-dsk-graf-1a-5ce218e4.eu-west-1.amazon.com (10.253.83.51) by
  EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP
  Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 1 Apr 2023 12:41:02 +0000
+ 15.2.1118.26; Sat, 1 Apr 2023 12:42:59 +0000
 From: Alexander Graf <graf@amazon.com>
 To: <qemu-devel@nongnu.org>
 CC: David Hildenbrand <david@redhat.com>, Markus Armbruster
@@ -54,19 +54,19 @@ CC: David Hildenbrand <david@redhat.com>, Markus Armbruster
  Bonzini" <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, "Stefan
  Hajnoczi" <stefanha@redhat.com>, Ashish Kalra <ashish.kalra@amd.com>, "Tom
  Lendacky" <thomas.lendacky@amd.com>, Stefan Hajnoczi <stefanha@gmail.com>
-Subject: [PATCH v3] hostmem-file: add offset option
-Date: Sat, 1 Apr 2023 12:41:00 +0000
-Message-ID: <20230401124100.23163-1-graf@amazon.com>
+Subject: [PATCH v4] hostmem-file: add offset option
+Date: Sat, 1 Apr 2023 12:42:57 +0000
+Message-ID: <20230401124257.24537-1-graf@amazon.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 X-Originating-IP: [10.253.83.51]
-X-ClientProxiedBy: EX19D043UWA002.ant.amazon.com (10.13.139.53) To
+X-ClientProxiedBy: EX19D044UWB002.ant.amazon.com (10.13.139.188) To
  EX19D020UWC004.ant.amazon.com (10.13.138.149)
 Precedence: Bulk
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=52.95.49.90;
- envelope-from=prvs=4482bb7e5=graf@amazon.de; helo=smtp-fw-6002.amazon.com
+Received-SPF: pass client-ip=207.171.190.10;
+ envelope-from=prvs=4482bb7e5=graf@amazon.de; helo=smtp-fw-33001.amazon.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -107,6 +107,10 @@ v1 -> v2:
   - propagate offset into truncate, size and alignment checks
 
 v2 -> v3:
+
+  - failed attempt at fixing typo
+
+v2 -> v4:
 
   - fix typo
 ---
@@ -233,7 +237,7 @@ index f4fb6a2111..90a8269290 100644
                                   uint32_t ram_flags, int fd, off_t offset,
                                   bool readonly, Error **errp);
 diff --git a/qapi/qom.json b/qapi/qom.json
-index a877b879b9..8f5eaa8415 100644
+index a877b879b9..bbb0664062 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
 @@ -635,6 +635,10 @@
@@ -241,7 +245,7 @@ index a877b879b9..8f5eaa8415 100644
  #         0 selects a default alignment (currently the page size). (default: 0)
  #
 +# @offset: the offset into the target file that the region starts at. You can
-+#          use this option to overload multiple regions into a single fils.
++#          use this option to overload multiple regions into a single file.
 +#          (default: 0)
 +#
  # @discard-data: if true, the file contents can be destroyed when QEMU exits,
