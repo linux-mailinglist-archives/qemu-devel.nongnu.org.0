@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C8E6D2D70
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 03:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714096D2D73
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 03:55:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piQQk-0003tT-61; Fri, 31 Mar 2023 21:53:22 -0400
+	id 1piQSR-0005Of-CQ; Fri, 31 Mar 2023 21:55:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1piQQh-0003sZ-9w
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 21:53:19 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1piQSP-0005O4-GG
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 21:55:05 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1piQQf-0002XP-Gs
- for qemu-devel@nongnu.org; Fri, 31 Mar 2023 21:53:18 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- o6-20020a17090a9f8600b0023f32869993so27334626pjp.1
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 18:53:16 -0700 (PDT)
+ id 1piQSM-0002oo-Pc
+ for qemu-devel@nongnu.org; Fri, 31 Mar 2023 21:55:05 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ h12-20020a17090aea8c00b0023d1311fab3so25305543pjz.1
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 18:55:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680313996;
+ d=linaro.org; s=google; t=1680314101;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dvQdYQm60kdC0woncVYX8KkpM+a1FEo8clZV8tamiek=;
- b=W7qGU3nqladuZg7uq/xAJai+yupv+1bcNb9mW9B33aD1WgXH+LnyOJcm8telOrS0wZ
- rAG3LcQq7k3jOUT4Fv6/F6CQqSlP2ZdTquNQIaxgfcFCf7rnq+KOy8Rdr+x+Z5LbPF73
- VHv4+TtPwXPwGn/mLy2oEres7dhMk82EZCCVY6vRqFd0XMZDjSvcIu5bz7bzdix22MVr
- kVDmLCOANyT2elBWNW7NkAJCWYZfvPC5wjjtVM1h4FO9kWKXgayKF9zVvA8DxjnNOzb7
- zC4CC0CGceAB8q7h1+FJdqQn8VM6uirOzoNfcFa6QjN4ZzfOuuovoq4E5W5NltP8UPR1
- 9NPA==
+ bh=SjSXnjm5qi84eEs+q9sDAi4NhodN6CMX1wcTiQSdqu4=;
+ b=gM179A+7oB2KvEUjqYeqc7LfJyWcV9C9VojApXKiszAkU++emgvfVRIjxjxHgT+L7I
+ fDInPeP9cqFAj7JXp46ERlgWB2MozOxme7zjW390O7ej5fUpLYJqzP80gyTL0KEA7nAz
+ GOVeImDOYYZh5gvYCmQ5zVQXEk67vZkewr7H8UkjU54cEGE7HNYb36SgIR2azsCstFII
+ dlVM495/WFHHIovrpWTRAV4k2ALQg3MgLqrgqF8oayNtAvQEOJvFFOSA6CUPaCE7ykjO
+ bW+/zreWk/eX+LB5EUKdY4/6V9O6kMtdfyJX6nUdJj2UyG+yTjsIbXRyK8ql9ShR1rab
+ VmCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680313996;
+ d=1e100.net; s=20210112; t=1680314101;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dvQdYQm60kdC0woncVYX8KkpM+a1FEo8clZV8tamiek=;
- b=DLmpjwUhnmUJfYtMbkzWGWtS5mYxPuR84Z63/SNr6vY0BoRPBf5DhC5ztwdhz1uGsW
- k8+25eA0d+1drXr0iYt/KUEcIdIrlaG3SZ38BCXjSzb4GhQ9ktZ1Au2lRmu3gQWKNa0c
- PsZf1oouYlB0v+eBcugxG6QM34moqpHsK5HoTXr9v9udOOA/P1AkE2+mmiYJ9WweJCl0
- 5X8OsFsdVSZd0q6gEbo/gf/7HMa/OxtghHPXAMeoPiOchj7imSWLER28tgD3KQndny6U
- XO9MMG28UIS46phJYF3hFjGPGRWasv4zn232j8KS6qw3VZUQqfjSpWWz9wG+sW0zyS7c
- U1Zg==
-X-Gm-Message-State: AAQBX9cAYq1jY3w2TUF/h9XkKb5GLDrfCxzCpe9M76Q+DL2cNlABzxvw
- K+Zl/vPMaDr2Weu+6fbwiSgCSg==
-X-Google-Smtp-Source: AKy350beTUHI4qGg8TEJUFLfoYYLcjmzOqlcLsq85P6FANqCqBh7Hk+5MwO3VmfYwocXkLMkS66RVQ==
-X-Received: by 2002:a17:902:daca:b0:19f:3d59:e0ac with SMTP id
- q10-20020a170902daca00b0019f3d59e0acmr35948865plx.44.1680313995849; 
- Fri, 31 Mar 2023 18:53:15 -0700 (PDT)
+ bh=SjSXnjm5qi84eEs+q9sDAi4NhodN6CMX1wcTiQSdqu4=;
+ b=u/lKlHpNKeXCS/Ph2nKo86YJMjuXJOlExiHFOFvWjruKFyfUpbrFBjFbAYavKKKMZ8
+ KPD83KH+XwNWUtBk5agV+jO9F/7fsS3yvB2t9XU8uMw5xmS9igTzKT7x6Qnpbj4R+MNk
+ f3XBg8i5/pvP+9mtA3YlohUfh5+bqY4ZvQ0+Ez77QUDK1LExNoVZ5BIhM1WOXrx2w1RO
+ i0Gwcl0qDAlKVsT01MyCiZ9d1E9LHiNTiFDM0I54vYojZgS5yPvbkQblVbuwMRuiEAnf
+ T8sRWan55bm0sVzu7oynvhG2jKXVrd3ozCakj433aFsSBTKYFDK2oMFkw22Us+j/y69V
+ v1PA==
+X-Gm-Message-State: AAQBX9cSmcgNiBPepx3p4B9O6pkKc2P0g6ZhW7otnHLevMccNC581AHQ
+ 2CrVAdAPzksnXMW1l+648Ciljg==
+X-Google-Smtp-Source: AKy350bgECNkelDnYse9yKmZTQcIvSXU2ptI2863eybpiwW7xdAC+KWqRivr4GOsbDzr8oNe6I8kRw==
+X-Received: by 2002:a17:903:234c:b0:1a1:a0b7:7244 with SMTP id
+ c12-20020a170903234c00b001a1a0b77244mr36316405plh.63.1680314101236; 
+ Fri, 31 Mar 2023 18:55:01 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:b714:1fce:85fa:2fc7?
  ([2602:ae:1541:f901:b714:1fce:85fa:2fc7])
  by smtp.gmail.com with ESMTPSA id
- x6-20020a170902ea8600b0019aa5e0aadesm2185463plb.110.2023.03.31.18.53.14
+ h14-20020a170902f7ce00b001a217a7a11csm2189091plw.131.2023.03.31.18.55.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Mar 2023 18:53:15 -0700 (PDT)
-Message-ID: <a7ad22bf-5b21-1941-0317-e2228cfd53f5@linaro.org>
-Date: Fri, 31 Mar 2023 18:53:13 -0700
+ Fri, 31 Mar 2023 18:55:00 -0700 (PDT)
+Message-ID: <c3a6fe9f-e771-5baa-4953-358e9330cc4e@linaro.org>
+Date: Fri, 31 Mar 2023 18:54:59 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v4 7/8] target/riscv: Enable PC-relative translation in
- system mode
+Subject: Re: [PATCH v4 8/8] target/riscv: Add pointer mask support for
+ instruction fetch
 Content-Language: en-US
 To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
@@ -71,13 +71,13 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
 References: <20230331150609.114401-1-liweiwei@iscas.ac.cn>
- <20230331150609.114401-8-liweiwei@iscas.ac.cn>
+ <20230331150609.114401-9-liweiwei@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230331150609.114401-8-liweiwei@iscas.ac.cn>
+In-Reply-To: <20230331150609.114401-9-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,17 +101,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/31/23 08:06, Weiwei Li wrote:
-> The existence of CF_PCREL can improve performance with the guest
-> kernel's address space randomization.  Each guest process maps
-> libc.so (et al) at a different virtual address, and this allows
-> those translations to be shared.
+> Transform the fetch address in cpu_get_tb_cpu_state() when pointer
+> mask for instruction is enabled.
 > 
 > Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
 > Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
-> Reviewed-by: LIU Zhiwei<zhiwei_liu@linux.alibaba.com>
 > ---
->   target/riscv/cpu.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   target/riscv/cpu.h        |  1 +
+>   target/riscv/cpu_helper.c | 20 +++++++++++++++++++-
+>   target/riscv/csr.c        |  2 --
+>   3 files changed, 20 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
