@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C836D30BF
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D0F6D30BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:40:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piaW8-0003Zt-KF; Sat, 01 Apr 2023 08:39:36 -0400
+	id 1piaW5-0003X0-Nf; Sat, 01 Apr 2023 08:39:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1piaW3-0003Vu-GY; Sat, 01 Apr 2023 08:39:31 -0400
+ id 1piaW2-0003Vh-Jy; Sat, 01 Apr 2023 08:39:30 -0400
 Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1piaW0-0000Bd-0u; Sat, 01 Apr 2023 08:39:31 -0400
+ id 1piaVz-0000Bo-Vc; Sat, 01 Apr 2023 08:39:30 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowACHj8_3JShkBbjBGQ--.7361S3;
+ by APP-01 (Coremail) with SMTP id qwCowACHj8_3JShkBbjBGQ--.7361S4;
  Sat, 01 Apr 2023 20:39:21 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
@@ -26,22 +26,21 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v3 1/6] target/riscv: Fix pointer mask transformation for
- vector address
-Date: Sat,  1 Apr 2023 20:39:12 +0800
-Message-Id: <20230401123917.20471-2-liweiwei@iscas.ac.cn>
+Subject: [PATCH v3 2/6] target/riscv: Update cur_pmmask/base when xl changes
+Date: Sat,  1 Apr 2023 20:39:13 +0800
+Message-Id: <20230401123917.20471-3-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230401123917.20471-1-liweiwei@iscas.ac.cn>
 References: <20230401123917.20471-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACHj8_3JShkBbjBGQ--.7361S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7Wry8uw18tw4rtryUXFyfCrg_yoWfZFc_GF
- 48WFsxW3yUZa1F9FWrCrn0yryxZFykurs0vw4xJrs7GFyj9ay3CwnrKan5A3W09rZxJrnI
- k3ZrXrWxCr15CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbDxFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGwA2048vs2IY02
- 0Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+X-CM-TRANSID: qwCowACHj8_3JShkBbjBGQ--.7361S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7GFW8XrW3uFy8uF1xGFWfZrb_yoWDWFgE9r
+ 4IgF1kW3yjg3Z2kFWDJa4F9ry8Zry0gr1jvw1fKr15Gryj9rZrJ3Wvqwn7Jry5Zr4DJrnx
+ AwnrXw17Cr12vjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbDxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
+ 0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
  wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
  x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
  e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
@@ -51,7 +50,7 @@ X-Coremail-Antispam: 1UD129KBjvdXoW7Wry8uw18tw4rtryUXFyfCrg_yoWfZFc_GF
  xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
  kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
  6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
- CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5SoXUUUU
+ CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU8BMNUUUU
  U
 X-Originating-IP: [180.175.29.170]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
@@ -77,29 +76,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-actual_address = (requested_address & ~mpmmask) | mpmbase.
+write_mstatus() can only change current xl when in debug mode.
+And we need update cur_pmmask/base in this case.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 ---
- target/riscv/vector_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/csr.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 2423affe37..a58d82af8c 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -172,7 +172,7 @@ static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t desc,
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index d522efc0b6..43b9ad4500 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1277,8 +1277,15 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+         mstatus = set_field(mstatus, MSTATUS64_SXL, xl);
+     }
+     env->mstatus = mstatus;
+-    env->xl = cpu_recompute_xl(env);
  
- static inline target_ulong adjust_addr(CPURISCVState *env, target_ulong addr)
- {
--    return (addr & env->cur_pmmask) | env->cur_pmbase;
-+    return (addr & ~env->cur_pmmask) | env->cur_pmbase;
++    /*
++     * Except in debug mode, UXL/SXL can only be modified by higher
++     * privilege mode. So xl will not be changed in normal mode.
++     */
++    if (env->debugger) {
++        env->xl = cpu_recompute_xl(env);
++        riscv_cpu_update_mask(env);
++    }
+     return RISCV_EXCP_NONE;
  }
  
- /*
 -- 
 2.25.1
 
