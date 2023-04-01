@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7791C6D2E39
+	by mail.lfdr.de (Postfix) with ESMTPS id 634BA6D2E36
 	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 06:52:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piTCu-0003r9-7k; Sat, 01 Apr 2023 00:51:16 -0400
+	id 1piTCt-0003r4-OD; Sat, 01 Apr 2023 00:51:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1piTCr-0003qQ-2o
+ id 1piTCr-0003qY-E1
  for qemu-devel@nongnu.org; Sat, 01 Apr 2023 00:51:13 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1piTCo-0003O7-Rh
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 00:51:12 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- h12-20020a17090aea8c00b0023d1311fab3so25608113pjz.1
- for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 21:51:10 -0700 (PDT)
+ id 1piTCp-0003PJ-L2
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 00:51:13 -0400
+Received: by mail-pl1-x636.google.com with SMTP id u10so23318833plz.7
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 21:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680324669;
+ d=linaro.org; s=google; t=1680324670;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EH536+i2nk5iE4kCFR7uLvByCyKiD9xDAloG6x5h4Xs=;
- b=XfOQwyPq6UAPn29ky+taPVmxqZeIW0yAqk+0/ho5bXOKn2FtGZcPFB29VCvvvq3mm6
- hFm/bIc7CIg1rEDPMEBQx/VR2NH4J2Ji8S34/ISPveNRI0Gx/Zd57qH8ePAya+79sJqD
- LhoMv1jKwlgq2QnK2i6w7PnV0sKt9yPyPQY13vrwizvLDmRH3boRW+me+WiWFwqGaF7/
- m7SfB+Oz0ZuPVgFSs1jA4IAuC8VXpXWIGN0Onhf0xRuzbNVFt3dQOen/SgcyiH0o5zJC
- 309KafILezBuVt2arNfcDyUQdg5aRR17Qw5vX/EGiwwUkoVuNpD8l9sMCs0Ld1J+6o9E
- 8dKg==
+ bh=5bGxmCesttnNxUtKHDP3pWQs68ofrrfygUflIUG0Pek=;
+ b=t/izS8NMP7K+fItsIFZdOqlV+fhWYjouDJCX21+WtsH8jm1BAjOvd9xLUaU908Ktq6
+ xtx1RShsy5Vxjz0nXL81Jc1k3qzPPotq4gNwn2/WZD7Twl5xv2ss3+4dwrBRDjjX7pkG
+ uFTDLuaPU8n9A+2MT08cxsdC928n+eGWFnkSJXG6QgYNBXnDMxzhnW16AK+RRJ+CVIJD
+ M3qLZXalnzfWoboYVRJBRwkgiX6z0FVQxuRhBd5P0w++2CJdTofcOZr31Q18z9EWH2yp
+ CoJ267vkVpIdEPFIwf2/iFwP8ycHAaAAFx1y9lj9bJwPFWKUhyNsRZIQXzU/7DWDeRDq
+ OoEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680324669;
+ d=1e100.net; s=20210112; t=1680324670;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EH536+i2nk5iE4kCFR7uLvByCyKiD9xDAloG6x5h4Xs=;
- b=HgbdF4SAyJGf6RDCKscyHq2jPLn5JigZywoW77csjaJ//ekBB6Jq8DJswVHYm/JSRw
- iBb33EfPeEDQAmpGj4l+dts232ZuEor24HeSsS9Ok9P1EfRFs629AmeL4UADKkmw0zbS
- 3JBP6rcTPuCKSJzeoLKMjHqOos2ezxKGEIMQRg65QLK4RPRSVYvWApwhwaCins05MUWD
- nw0hvx1bW3QdFLxl4oQlwqYvvqoqj3qy4SZV+vsMAQwxHI/VNgd5jC8q9o0olZY0h64K
- Gv0mDH4+tiOCXXHJoKpY5P6zT6pCo8v2xMq4OVe9NTm8ToF2AxVHHZfYjkFbsU4HuxXX
- k80w==
-X-Gm-Message-State: AAQBX9c2EvsZ2XFgFR3jVq1wFE4jTUDqqKmuqqZXEnJ/FsWH6wGO9APt
- 5dQi7UZN+LOO89WBmtwgWnuQyBHAN9OCIi1yZ5I=
-X-Google-Smtp-Source: AKy350Y/8Tqj4sd70nckM/eunkK6rc9laNO3qaLbxd4NBxXMqm/B3kBqZy/pyk0F9HqRynond1FwHg==
-X-Received: by 2002:a17:90b:3b4a:b0:23f:1868:94fa with SMTP id
- ot10-20020a17090b3b4a00b0023f186894famr32745919pjb.36.1680324669445; 
- Fri, 31 Mar 2023 21:51:09 -0700 (PDT)
+ bh=5bGxmCesttnNxUtKHDP3pWQs68ofrrfygUflIUG0Pek=;
+ b=BtRlHDLV5mV9jo1msP4Camto/JgAr4j/qdLYFgeGek2Y3+N/75JSJgbCLVXJfn7h+/
+ BAFpy68aEAg3JvMCFt9l2vyDWDYYqHsgPYxIMhiWnr94BTim5xf9UEmqK4xgNLlbgyZs
+ F8C8N8JEN3nqOPSBzLkvnAynCPCNSMT64nNaE1/SmeW1J4PCLPH+YD7PI4e3VHvqBIB8
+ 6mxL/9CRbEqVVn2qQ8LvPYgt0r0srG44mwL3K9l1CPxNKPJS1LMPGVE30a/lG8FRNzTD
+ H/u510dTxaHWGKfxCCFPEv1qFKUMYezbg9192f1AquW3Jj3BF0/A5g7mreZ1rF1H4WOM
+ IcAQ==
+X-Gm-Message-State: AAQBX9dN42NHFb4EahbdHlar3Wr95jQtZ57IE92cJgwgUGBYBcbEQG7s
+ EzzjqOEmVUW0DmCJDv/43v9k5dGHvZlx2ZxdWsQ=
+X-Google-Smtp-Source: AKy350bhMJvj/jNPox5UtLhzjSED9Z/Hh0Ocy0Lw/4derAMyOG3929bEq7oeHQ6ryo5NKYNIoShwBg==
+X-Received: by 2002:a17:903:2290:b0:1a1:a727:a802 with SMTP id
+ b16-20020a170903229000b001a1a727a802mr13180560plh.19.1680324670262; 
+ Fri, 31 Mar 2023 21:51:10 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1541:f901:b714:1fce:85fa:2fc7])
  by smtp.gmail.com with ESMTPSA id
- a17-20020a170902ee9100b001a24cded097sm2360122pld.236.2023.03.31.21.51.08
+ a17-20020a170902ee9100b001a24cded097sm2360122pld.236.2023.03.31.21.51.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 31 Mar 2023 21:51:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, Weiwei Li <liweiwei@iscas.ac.cn>,
- Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Subject: [PATCH 2/3] accel/tcg: Fix overwrite problems of tcg_cflags
-Date: Fri, 31 Mar 2023 21:51:05 -0700
-Message-Id: <20230401045106.3885562-3-richard.henderson@linaro.org>
+Cc: alex.bennee@linaro.org,
+	Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH 3/3] accel/tcg: Fix jump cache set in cpu_exec_loop
+Date: Fri, 31 Mar 2023 21:51:06 -0700
+Message-Id: <20230401045106.3885562-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230401045106.3885562-1-richard.henderson@linaro.org>
 References: <20230401045106.3885562-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,34 +91,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Weiwei Li <liweiwei@iscas.ac.cn>
+Assign pc and use store_release to assign tb.
 
-CPUs often set CF_PCREL in tcg_cflags before qemu_init_vcpu(), in which
-tcg_cflags will be overwrited by tcg_cpu_init_cflags().
-
-Fixes: 4be790263ffc ("accel/tcg: Replace `TARGET_TB_PCREL` with `CF_PCREL`")
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Message-Id: <20230331150609.114401-6-liweiwei@iscas.ac.cn>
+Fixes: 2dd5b7a1b91 ("accel/tcg: Move jmp-cache `CF_PCREL` checks to caller")
+Reported-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tcg-accel-ops.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/tcg/cpu-exec.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index af35e0d092..58c8e64096 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -59,7 +59,7 @@ void tcg_cpu_init_cflags(CPUState *cpu, bool parallel)
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index c815f2dbfd..8370c92c05 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -257,7 +257,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
  
-     cflags |= parallel ? CF_PARALLEL : 0;
-     cflags |= icount_enabled() ? CF_USE_ICOUNT : 0;
--    cpu->tcg_cflags = cflags;
-+    cpu->tcg_cflags |= cflags;
- }
+     if (cflags & CF_PCREL) {
+         /* Use acquire to ensure current load of pc from jc. */
+-        tb =  qatomic_load_acquire(&jc->array[hash].tb);
++        tb = qatomic_load_acquire(&jc->array[hash].tb);
  
- void tcg_cpus_destroy(CPUState *cpu)
+         if (likely(tb &&
+                    jc->array[hash].pc == pc &&
+@@ -272,7 +272,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+             return NULL;
+         }
+         jc->array[hash].pc = pc;
+-        /* Use store_release on tb to ensure pc is written first. */
++        /* Ensure pc is written first. */
+         qatomic_store_release(&jc->array[hash].tb, tb);
+     } else {
+         /* Use rcu_read to ensure current load of pc from *tb. */
+@@ -971,18 +971,27 @@ cpu_exec_loop(CPUState *cpu, SyncClocks *sc)
+ 
+             tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
+             if (tb == NULL) {
++                CPUJumpCache *jc;
+                 uint32_t h;
+ 
+                 mmap_lock();
+                 tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+                 mmap_unlock();
++
+                 /*
+                  * We add the TB in the virtual pc hash table
+                  * for the fast lookup
+                  */
+                 h = tb_jmp_cache_hash_func(pc);
+-                /* Use the pc value already stored in tb->pc. */
+-                qatomic_set(&cpu->tb_jmp_cache->array[h].tb, tb);
++                jc = cpu->tb_jmp_cache;
++                if (cflags & CF_PCREL) {
++                    jc->array[h].pc = pc;
++                    /* Ensure pc is written first. */
++                    qatomic_store_release(&jc->array[h].tb, tb);
++                } else {
++                    /* Use the pc value already stored in tb->pc. */
++                    qatomic_set(&jc->array[h].tb, tb);
++                }
+             }
+ 
+ #ifndef CONFIG_USER_ONLY
 -- 
 2.34.1
 
