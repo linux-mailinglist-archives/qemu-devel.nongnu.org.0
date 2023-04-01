@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D0F6D30BD
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6010E6D30C0
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:41:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piaW5-0003X0-Nf; Sat, 01 Apr 2023 08:39:33 -0400
+	id 1piaW7-0003ZI-0k; Sat, 01 Apr 2023 08:39:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1piaW2-0003Vh-Jy; Sat, 01 Apr 2023 08:39:30 -0400
+ id 1piaW3-0003W8-OG; Sat, 01 Apr 2023 08:39:31 -0400
 Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1piaVz-0000Bo-Vc; Sat, 01 Apr 2023 08:39:30 -0400
+ id 1piaW0-0000Bv-05; Sat, 01 Apr 2023 08:39:31 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowACHj8_3JShkBbjBGQ--.7361S4;
- Sat, 01 Apr 2023 20:39:21 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowACHj8_3JShkBbjBGQ--.7361S5;
+ Sat, 01 Apr 2023 20:39:22 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v3 2/6] target/riscv: Update cur_pmmask/base when xl changes
-Date: Sat,  1 Apr 2023 20:39:13 +0800
-Message-Id: <20230401123917.20471-3-liweiwei@iscas.ac.cn>
+ Weiwei Li <liweiwei@iscas.ac.cn>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v3 3/6] target/riscv: Fix target address to update badaddr
+Date: Sat,  1 Apr 2023 20:39:14 +0800
+Message-Id: <20230401123917.20471-4-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230401123917.20471-1-liweiwei@iscas.ac.cn>
 References: <20230401123917.20471-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACHj8_3JShkBbjBGQ--.7361S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFW8XrW3uFy8uF1xGFWfZrb_yoWDWFgE9r
- 4IgF1kW3yjg3Z2kFWDJa4F9ry8Zry0gr1jvw1fKr15Gryj9rZrJ3Wvqwn7Jry5Zr4DJrnx
- AwnrXw17Cr12vjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbDxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
- 0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
- 8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
- jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
- kIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
- xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
- kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
- 6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
- CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU8BMNUUUU
- U
+X-CM-TRANSID: qwCowACHj8_3JShkBbjBGQ--.7361S5
+X-Coremail-Antispam: 1UD129KBjvJXoWxurykJF4kGrWxJw15Kr1rJFb_yoWrKr1UpF
+ 13Cw17WrWDJFZxZay0ga1jyF15Gr4SgrWjkw4Skw1kKa13trW5CF1DKFWakFyUuFZ5Xr4Y
+ 9FZ0yF1jvw4jqa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUP014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+ x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+ ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+ M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+ v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+ F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
+ IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+ wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
+ 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+ xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+ 1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbJ73DUU
+ UUU==
 X-Originating-IP: [180.175.29.170]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
@@ -76,37 +77,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-write_mstatus() can only change current xl when in debug mode.
-And we need update cur_pmmask/base in this case.
+Compute the target address  before storing it into badaddr
+when mis-aligned exception is triggered.
+Use a target_pc temp to store the target address to avoid
+the confusing operation that udpate target address into
+cpu_pc before misalign check, then update it into badaddr
+and restore cpu_pc to current pc if exception is triggered.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/csr.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ target/riscv/insn_trans/trans_rvi.c.inc | 23 ++++++++++++++++-------
+ target/riscv/translate.c                | 21 ++++++++++-----------
+ 2 files changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d522efc0b6..43b9ad4500 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1277,8 +1277,15 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
-         mstatus = set_field(mstatus, MSTATUS64_SXL, xl);
-     }
-     env->mstatus = mstatus;
--    env->xl = cpu_recompute_xl(env);
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index 4ad54e8a49..48c73cfcfe 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -51,25 +51,30 @@ static bool trans_jal(DisasContext *ctx, arg_jal *a)
+ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+ {
+     TCGLabel *misaligned = NULL;
++    TCGv target_pc = tcg_temp_new();
  
-+    /*
-+     * Except in debug mode, UXL/SXL can only be modified by higher
-+     * privilege mode. So xl will not be changed in normal mode.
-+     */
-+    if (env->debugger) {
-+        env->xl = cpu_recompute_xl(env);
-+        riscv_cpu_update_mask(env);
+-    tcg_gen_addi_tl(cpu_pc, get_gpr(ctx, a->rs1, EXT_NONE), a->imm);
+-    tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
++    tcg_gen_addi_tl(target_pc, get_gpr(ctx, a->rs1, EXT_NONE), a->imm);
++    tcg_gen_andi_tl(target_pc, target_pc, (target_ulong)-2);
++
++    if (get_xl(ctx) == MXL_RV32) {
++        tcg_gen_ext32s_tl(target_pc, target_pc);
 +    }
-     return RISCV_EXCP_NONE;
+ 
+-    gen_set_pc(ctx, cpu_pc);
+     if (!has_ext(ctx, RVC)) {
+         TCGv t0 = tcg_temp_new();
+ 
+         misaligned = gen_new_label();
+-        tcg_gen_andi_tl(t0, cpu_pc, 0x2);
++        tcg_gen_andi_tl(t0, target_pc, 0x2);
+         tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
+     }
+ 
+     gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
++    tcg_gen_mov_tl(cpu_pc, target_pc);
+     lookup_and_goto_ptr(ctx);
+ 
+     if (misaligned) {
+         gen_set_label(misaligned);
+-        gen_exception_inst_addr_mis(ctx);
++        gen_exception_inst_addr_mis(ctx, target_pc);
+     }
+     ctx->base.is_jmp = DISAS_NORETURN;
+ 
+@@ -153,6 +158,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+     TCGLabel *l = gen_new_label();
+     TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
+     TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
++    target_ulong next_pc;
+ 
+     if (get_xl(ctx) == MXL_RV128) {
+         TCGv src1h = get_gprh(ctx, a->rs1);
+@@ -169,9 +175,12 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+ 
+     gen_set_label(l); /* branch taken */
+ 
+-    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
++    next_pc = ctx->base.pc_next + a->imm;
++    if (!has_ext(ctx, RVC) && (next_pc & 0x3)) {
+         /* misaligned */
+-        gen_exception_inst_addr_mis(ctx);
++        TCGv target_pc = tcg_temp_new();
++        gen_get_target_pc(target_pc, ctx, next_pc);
++        gen_exception_inst_addr_mis(ctx, target_pc);
+     } else {
+         gen_goto_tb(ctx, 0, ctx->base.pc_next + a->imm);
+     }
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 0ee8ee147d..7b5223efc2 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -222,21 +222,18 @@ static void decode_save_opc(DisasContext *ctx)
+     ctx->insn_start = NULL;
  }
  
+-static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
++static void gen_get_target_pc(TCGv target, DisasContext *ctx,
++                              target_ulong dest)
+ {
+     if (get_xl(ctx) == MXL_RV32) {
+         dest = (int32_t)dest;
+     }
+-    tcg_gen_movi_tl(cpu_pc, dest);
++    tcg_gen_movi_tl(target, dest);
+ }
+ 
+-static void gen_set_pc(DisasContext *ctx, TCGv dest)
++static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
+ {
+-    if (get_xl(ctx) == MXL_RV32) {
+-        tcg_gen_ext32s_tl(cpu_pc, dest);
+-    } else {
+-        tcg_gen_mov_tl(cpu_pc, dest);
+-    }
++    gen_get_target_pc(cpu_pc, ctx, dest);
+ }
+ 
+ static void generate_exception(DisasContext *ctx, int excp)
+@@ -257,9 +254,9 @@ static void gen_exception_illegal(DisasContext *ctx)
+     }
+ }
+ 
+-static void gen_exception_inst_addr_mis(DisasContext *ctx)
++static void gen_exception_inst_addr_mis(DisasContext *ctx, TCGv target)
+ {
+-    tcg_gen_st_tl(cpu_pc, cpu_env, offsetof(CPURISCVState, badaddr));
++    tcg_gen_st_tl(target, cpu_env, offsetof(CPURISCVState, badaddr));
+     generate_exception(ctx, RISCV_EXCP_INST_ADDR_MIS);
+ }
+ 
+@@ -551,7 +548,9 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+     next_pc = ctx->base.pc_next + imm;
+     if (!has_ext(ctx, RVC)) {
+         if ((next_pc & 0x3) != 0) {
+-            gen_exception_inst_addr_mis(ctx);
++            TCGv target_pc = tcg_temp_new();
++            gen_get_target_pc(target_pc, ctx, next_pc);
++            gen_exception_inst_addr_mis(ctx, target_pc);
+             return;
+         }
+     }
 -- 
 2.25.1
 
