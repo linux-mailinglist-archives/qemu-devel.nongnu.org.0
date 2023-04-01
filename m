@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5663F6D2FB5
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 12:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3326D2FCF
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 13:05:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piYok-0000yT-8g; Sat, 01 Apr 2023 06:50:45 -0400
+	id 1piZ1L-00022b-GJ; Sat, 01 Apr 2023 07:03:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3awwoZAgKCkw60267otou22uzs.q204s08-rs9sz121u18.25u@flex--smostafa.bounces.google.com>)
- id 1piYob-0000ur-Iw
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 06:50:33 -0400
-Received: from mail-wm1-x349.google.com ([2a00:1450:4864:20::349])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3awwoZAgKCkw60267otou22uzs.q204s08-rs9sz121u18.25u@flex--smostafa.bounces.google.com>)
- id 1piYoZ-0002v6-Pp
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 06:50:33 -0400
-Received: by mail-wm1-x349.google.com with SMTP id
- v7-20020a05600c470700b003ef6ebfa99fso9255351wmo.8
- for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 03:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680346219;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=3LnacweXtaTHJ6qAN/W+TaByNM8t88vuJX4sTOd7WXM=;
- b=in7BOcaVtwIVeotCmFQ54pUI1TADQ+LGmRUpfNdtGSzz4VGt6pfas0TUu8zzXmuzEE
- vcOpxuXpFDT3Tmf9uaDk/F18aqfWUAuhm0isYt0ytxORH8Py7OJIanerwN0PeUVU2MQw
- MeUzQK+XBU67iQgvEq+ynvujbyOxX+WxN3ito50DeXEJolghnys6Ni5mqrofzaPOUyCz
- J0Z7iwgBN1IIWfqWSU0xFDOjMNRu4Z1o8J+HTktbGPHvJyGWrVIrbubuAFcCIii63Swr
- R9hok/YKhRZ8KJ6DfhlxZVSAxvEEAJ8EVOd86HY6FV4TbQcVHEpDufXxnaGZmTh5BF0D
- j9uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680346219;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3LnacweXtaTHJ6qAN/W+TaByNM8t88vuJX4sTOd7WXM=;
- b=JecPadxyLVKKgPQk8lSKaWLN+kn9U5fiRwwQoQJrlkB60kbiyG1XMrBek1hSSbhGzs
- GFmNJH321XAYAjIGlyaAQuMMbnoTxANi6JobyIvkEOq5ZJQg3QCFeyfJ3n7uYtKr8tHO
- iBpbL0HANvn48CrJ9dhtsk3r3Dyeodv6fyR+YNjrSR4GFpr6l+X+yuB08w6jrFxriC7K
- kZK2Y5zyEFFLyz/l+hk7kRlGnYv2Ddfdp/wdFsvIvh5zYYEbxLAvApzvk1FfuYa3Kfe8
- m/BuIMb23HrHb42I982K5xzgappL4HI9KPxX7qI8vpnqj39UtUjBOlgb+8ggMmWZEnw6
- gboA==
-X-Gm-Message-State: AAQBX9fdF9UVULMyTIst2BGM3lRu9Ef/byfzy3136CXwDOM3GKSIiH5q
- vXfc9Zy7jDh1H5Q3jWJVvqNtfgdReYzHKMrxqywgikAO+LIGn18J7XkdatBxfuvvJUBG0PyiRQU
- uauTBcb/ZqeoVowxDETqrNUWyf2HCfwzQsXqO6Sg+Un8vYyTq97THK/DPTD3vRfajVQ==
-X-Google-Smtp-Source: AKy350Z0XefQUZbsgRHEsLLbs4vpSQFfFyK0ihoml6uwJCLF3JCFfZv+K5luaTGdn+yepP/JDezTfzjdlmcjJQ==
-X-Received: from mostafa.c.googlers.com
- ([fda3:e722:ac3:cc00:28:9cb1:c0a8:333c])
- (user=smostafa job=sendgmr) by 2002:a05:600c:cce:b0:3ee:136f:bce6 with SMTP
- id fk14-20020a05600c0cce00b003ee136fbce6mr4729514wmb.2.1680346219648; Sat, 01
- Apr 2023 03:50:19 -0700 (PDT)
-Date: Sat,  1 Apr 2023 10:49:53 +0000
-In-Reply-To: <20230401104953.1325983-1-smostafa@google.com>
-Mime-Version: 1.0
-References: <20230401104953.1325983-1-smostafa@google.com>
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230401104953.1325983-11-smostafa@google.com>
-Subject: [RFC PATCH v3 10/10] hw/arm/smmuv3: Add knob to choose translation
- stage and enable stage-2
-From: Mostafa Saleh <smostafa@google.com>
-To: qemu-devel@nongnu.org
-Cc: jean-philippe@linaro.org, eric.auger@redhat.com, peter.maydell@linaro.org, 
- qemu-arm@nongnu.org, richard.henderson@linaro.org, 
- Mostafa Saleh <smostafa@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::349;
- envelope-from=3awwoZAgKCkw60267otou22uzs.q204s08-rs9sz121u18.25u@flex--smostafa.bounces.google.com;
- helo=mail-wm1-x349.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1piZ1J-00022T-1V
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 07:03:41 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>) id 1piZ1F-0007fj-QZ
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 07:03:40 -0400
+Received: from [192.168.0.119] (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowAA3Pkp_Dyhkig68GQ--.14816S2;
+ Sat, 01 Apr 2023 19:03:29 +0800 (CST)
+Message-ID: <55366094-d6bd-c692-bcbb-310f1e239ac8@iscas.ac.cn>
+Date: Sat, 1 Apr 2023 19:03:27 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Cc: liweiwei@iscas.ac.cn, alex.bennee@linaro.org
+Subject: Re: [PATCH 3/3] accel/tcg: Fix jump cache set in cpu_exec_loop
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230401045106.3885562-1-richard.henderson@linaro.org>
+ <20230401045106.3885562-4-richard.henderson@linaro.org>
+Content-Language: en-US
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230401045106.3885562-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: qwCowAA3Pkp_Dyhkig68GQ--.14816S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cryxuw4kZr1rAFyDWry3Arb_yoW8tr1rpr
+ 48Ja15KrWIqry7Ca9Ig3srW3WrZ3ZYkF43JwnYkw4fZw1Sg34rA3W0kayfXFZFkrWIvr1I
+ vrsI9F95Aa4UJrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkC14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+ AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+ Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfU5WlkUU
+ UUU
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,130 +77,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As everything is in place, we can use a new system property to
-advertise which stage is supported and remove bad_ste from STE
-stage2 config.
 
-The property added arm-smmuv3.stage can have 3 values:
-- "1": Stage-1 only is advertised.
-- "2": Stage-2 only is advertised.
-- "all": Stage-1 + Stage-2 are supported, which is not implemented in
-this patch series.
+On 2023/4/1 12:51, Richard Henderson wrote:
+> Assign pc and use store_release to assign tb.
+>
+> Fixes: 2dd5b7a1b91 ("accel/tcg: Move jmp-cache `CF_PCREL` checks to caller")
+> Reported-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   accel/tcg/cpu-exec.c | 17 +++++++++++++----
+>   1 file changed, 13 insertions(+), 4 deletions(-)
+>
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index c815f2dbfd..8370c92c05 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -257,7 +257,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+>   
+>       if (cflags & CF_PCREL) {
+>           /* Use acquire to ensure current load of pc from jc. */
+> -        tb =  qatomic_load_acquire(&jc->array[hash].tb);
+> +        tb = qatomic_load_acquire(&jc->array[hash].tb);
+>   
+>           if (likely(tb &&
+>                      jc->array[hash].pc == pc &&
+> @@ -272,7 +272,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+>               return NULL;
+>           }
+>           jc->array[hash].pc = pc;
+> -        /* Use store_release on tb to ensure pc is written first. */
+> +        /* Ensure pc is written first. */
+>           qatomic_store_release(&jc->array[hash].tb, tb);
+>       } else {
+>           /* Use rcu_read to ensure current load of pc from *tb. */
+> @@ -971,18 +971,27 @@ cpu_exec_loop(CPUState *cpu, SyncClocks *sc)
+>   
+>               tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
+>               if (tb == NULL) {
+> +                CPUJumpCache *jc;
+>                   uint32_t h;
+>   
+>                   mmap_lock();
+>                   tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+>                   mmap_unlock();
+> +
+Blank line.
+>                   /*
+>                    * We add the TB in the virtual pc hash table
+>                    * for the fast lookup
+>                    */
+>                   h = tb_jmp_cache_hash_func(pc);
+> -                /* Use the pc value already stored in tb->pc. */
+> -                qatomic_set(&cpu->tb_jmp_cache->array[h].tb, tb);
+> +                jc = cpu->tb_jmp_cache;
+> +                if (cflags & CF_PCREL) {
+> +                    jc->array[h].pc = pc;
+> +                    /* Ensure pc is written first. */
+> +                    qatomic_store_release(&jc->array[h].tb, tb);
 
-If not passed or an unsupported value is passed, it will default to
-stage-1.
+Whether we should add a qatomic_load_require() before this?
 
-Advertise VMID16.
+Regards,
 
-Don't try to decode CD, if stage-2 is configured.
+Weiwei Li
 
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
----
-Changes in v2:
-- Squash knob patch with stage-2 enable patch.
-- Don't try to decode CD, if stage-2 is configured.
----
- hw/arm/smmuv3.c         | 34 +++++++++++++++++++++++++---------
- include/hw/arm/smmuv3.h |  1 +
- 2 files changed, 26 insertions(+), 9 deletions(-)
-
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 826aacf8b1..22b5613d4c 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -21,6 +21,7 @@
- #include "hw/irq.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-+#include "hw/qdev-properties.h"
- #include "hw/qdev-core.h"
- #include "hw/pci/pci.h"
- #include "cpu.h"
-@@ -248,14 +249,20 @@ void smmuv3_record_event(SMMUv3State *s, SMMUEventInfo *info)
- 
- static void smmuv3_init_regs(SMMUv3State *s)
- {
--    /**
--     * IDR0: stage1 only, AArch64 only, coherent access, 16b ASID,
--     *       multi-level stream table
-+    /*
-+     * Based on sys property, the stages supported in smmu will be advertised.
-+     * At the moment "all" is not supported and default to stage-1.
-      */
--    s->idr[0] = FIELD_DP32(s->idr[0], IDR0, S1P, 1); /* stage 1 supported */
-+    if (s->stage && !strcmp("2", s->stage)) {
-+        s->idr[0] = FIELD_DP32(s->idr[0], IDR0, S2P, 1);
-+    } else {
-+        s->idr[0] = FIELD_DP32(s->idr[0], IDR0, S1P, 1);
-+    }
-+
-     s->idr[0] = FIELD_DP32(s->idr[0], IDR0, TTF, 2); /* AArch64 PTW only */
-     s->idr[0] = FIELD_DP32(s->idr[0], IDR0, COHACC, 1); /* IO coherent */
-     s->idr[0] = FIELD_DP32(s->idr[0], IDR0, ASID16, 1); /* 16-bit ASID */
-+    s->idr[0] = FIELD_DP32(s->idr[0], IDR0, VMID16, 1); /* 16-bit VMID */
-     s->idr[0] = FIELD_DP32(s->idr[0], IDR0, TTENDIAN, 2); /* little endian */
-     s->idr[0] = FIELD_DP32(s->idr[0], IDR0, STALL_MODEL, 1); /* No stall */
-     /* terminated transaction will always be aborted/error returned */
-@@ -458,10 +465,6 @@ static int decode_ste_s2_cfg(SMMUTransCfg *cfg, STE *ste)
-         goto bad_ste;
-     }
- 
--    /* This is still here as stage 2 has not been fully enabled yet. */
--    qemu_log_mask(LOG_UNIMP, "SMMUv3 does not support stage 2 yet\n");
--    goto bad_ste;
--
-     return 0;
- 
- bad_ste:
-@@ -740,7 +743,7 @@ static int smmuv3_decode_config(IOMMUMemoryRegion *mr, SMMUTransCfg *cfg,
-         return ret;
-     }
- 
--    if (cfg->aborted || cfg->bypassed) {
-+    if (cfg->aborted || cfg->bypassed || (cfg->stage == 2)) {
-         return 0;
-     }
- 
-@@ -1809,6 +1812,18 @@ static const VMStateDescription vmstate_smmuv3 = {
-     }
- };
- 
-+static Property smmuv3_properties[] = {
-+    /*
-+     * Stages of translation advertised.
-+     * "1": Stage 1
-+     * "2": Stage 2
-+     * "all": Stage 1 + Stage 2
-+     * Defaults to stage 1
-+     */
-+    DEFINE_PROP_STRING("stage", SMMUv3State, stage),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
- static void smmuv3_instance_init(Object *obj)
- {
-     /* Nothing much to do here as of now */
-@@ -1825,6 +1840,7 @@ static void smmuv3_class_init(ObjectClass *klass, void *data)
-                                        &c->parent_phases);
-     c->parent_realize = dc->realize;
-     dc->realize = smmu_realize;
-+    device_class_set_props(dc, smmuv3_properties);
- }
- 
- static int smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
-diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-index 6031d7d325..d183a62766 100644
---- a/include/hw/arm/smmuv3.h
-+++ b/include/hw/arm/smmuv3.h
-@@ -62,6 +62,7 @@ struct SMMUv3State {
- 
-     qemu_irq     irq[4];
-     QemuMutex mutex;
-+    char *stage;
- };
- 
- typedef enum {
--- 
-2.40.0.348.gf938b09366-goog
+> +                } else {
+> +                    /* Use the pc value already stored in tb->pc. */
+> +                    qatomic_set(&jc->array[h].tb, tb);
+> +                }
+>               }
+>   
+>   #ifndef CONFIG_USER_ONLY
 
 
