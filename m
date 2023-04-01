@@ -2,73 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2B56D30F0
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 15:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829EB6D32F1
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 19:42:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pib5D-0008GN-KV; Sat, 01 Apr 2023 09:15:51 -0400
+	id 1pifEV-0003fe-IR; Sat, 01 Apr 2023 13:41:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pib55-0008FZ-Of
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 09:15:43 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pib53-0007zZ-Bz
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 09:15:43 -0400
-Received: by mail-ed1-x534.google.com with SMTP id y4so100364419edo.2
- for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 06:15:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680354939;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yveBq8rqGhgx5kz+GiAVT8Kw8aYR5uUMqZ33D2DhE3s=;
- b=aeMoT/4ezpT9ZF3NzrFK3jIbv0c3dj+F/Ock2um+bAxSQB95wTaC5QtPIpMGIxjhf5
- S3TV1scqGPoWbVd1O5r2L86nw9AXUlfoLRn5XbkUW+Uj2uHe6m9OzFwTzk0RkD/BhL2N
- hBxjgDpk53T9/sn48h0Vk1029cRgUnKh2WqYPS3dcbjqTaa2LWVXDia3BwZXxPxwKlOY
- juKCBIG0bip2J6tWZ31e/eJVynr6Oz3/uFL6r2fqyP4mamlvUKk37WlQBl+BRUHlkF79
- WF0KNb02I8xA/CiGi9tZ6lUs1vjrDOqr7ilnFVp6cfKPoYnraLjnBhfmUfBV8pCaXdtd
- cQ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680354939;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yveBq8rqGhgx5kz+GiAVT8Kw8aYR5uUMqZ33D2DhE3s=;
- b=2A7goNSjM8rDUzsM2WgAAHQTK0Oo+q/LBiMtgnc+ha8D5k4og7o6aWMQ7IvEPr1IZR
- RgjCrVrdr2frehkKoBHbQF7sUfCjTm6mFmEeKXeNnNVyB42ncQUFn5UXSNGtxwsTCSHa
- MjHLdzWm4KZmxFyX7U317EHGK1wANMjYGnQx65npKtKKMq7rVwNYcq9+BKF2gkxoM0pY
- 117IijCfM8GWuI9N/QXXlG5cQ6c1E+5Ogu/TDGFo8AFUNhUg2upOh0+bGxFPgoORB7Zd
- uYwoNPkuVOEh4hbZ/gQaNnaWE5Py/TgC/v/3b5AnAL0lArz0wyBSYXgatXHcz95AqSXs
- P62A==
-X-Gm-Message-State: AAQBX9fVBQpGZJq8cEvGUvlmtxQ4t1c5wHez3rNG3QFJJkvFDxFvxNuf
- EBibNV3Vxr8suP2ncYZgt+1wsxtphe96Beng63GcPw==
-X-Google-Smtp-Source: AKy350ZBLL8sCWy0R9xcr+pZznCsRPl5qMpJSJ+SxlFyaNhv9LSZ3ynFlg6ekb+hPrX/zvsDg0xO72Sf6AQh7PM03Fw=
-X-Received: by 2002:a50:9b5c:0:b0:4fa:e5e0:9466 with SMTP id
- a28-20020a509b5c000000b004fae5e09466mr15407224edj.7.1680354938679; Sat, 01
- Apr 2023 06:15:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ben@fluff.org>) id 1pif1m-0000IE-LA
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 13:28:34 -0400
+Received: from test-v6.fluff.org ([2a01:4f8:222:2004::3] helo=hetzy.fluff.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ben@fluff.org>) id 1pif1k-0005Le-Jy
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 13:28:34 -0400
+Received: from ben by hetzy.fluff.org with local (Exim 4.89)
+ (envelope-from <ben@fluff.org>)
+ id 1pif1d-0005aS-Ep; Sat, 01 Apr 2023 18:28:25 +0100
+Date: Sat, 1 Apr 2023 18:28:25 +0100
+From: Ben Dooks <qemu@fluff.org>
+To: Joe Komlodi <komlodi@google.com>
+Cc: qemu-devel@nongnu.org, venture@google.com, peter.maydell@linaro.org
+Subject: Re: [PATCH 00/16] i3c: aspeed: Add I3C support
+Message-ID: <20230401172825.tvmfms6qbh3tmi5s@hetzy.fluff.org>
+References: <20230331010131.1412571-1-komlodi@google.com>
 MIME-Version: 1.0
-References: <20230331141833.3647-1-imp@bsdimp.com>
- <ZCgq9Ll+QJoZDVl3@gorilla.13thmonkey.org>
-In-Reply-To: <ZCgq9Ll+QJoZDVl3@gorilla.13thmonkey.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sat, 1 Apr 2023 07:15:27 -0600
-Message-ID: <CANCZdfqAfebzwm6vc1oHM+fNkT=FxveK9rPS=OvccbQFP2s4jQ@mail.gmail.com>
-Subject: Re: [PATCH 0/7] bsd-user: remove bitrotted NetBSD and OpenBSD
- bsd-user support
-To: Reinoud Zandijk <reinoud@netbsd.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Ryo ONODERA <ryoon@netbsd.org>, 
- Brad Smith <brad@comstyle.com>, Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="0000000000003787cd05f8461f85"
-Received-SPF: none client-ip=2a00:1450:4864:20::534;
- envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x534.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230331010131.1412571-1-komlodi@google.com>
+X-Disclaimer: These are my views alone.
+X-URL: http://www.fluff.org/
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: ben@fluff.org
+X-SA-Exim-Scanned: No (on hetzy.fluff.org); SAEximRunCond expanded to false
+Received-SPF: pass client-ip=2a01:4f8:222:2004::3; envelope-from=ben@fluff.org;
+ helo=hetzy.fluff.org
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 01 Apr 2023 13:41:37 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,200 +59,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000003787cd05f8461f85
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Mar 31, 2023 at 01:01:15AM +0000, Joe Komlodi wrote:
+> Hi all,
+> 
+> This series adds I3C bus support to QEMU and adds more functionality to the
+> Aspeed I3C controller.
+> 
+> This implementation is a basic implementation that introduces IBIs
+> (including hot-join), CCCs, and SDR data transfer. As-is, it doesnt support
+> multi-controller buses or HDR transfers.
+> 
+> First we add the I3C bus and controller model. With that added we
+> gradually extend the functionality of the Aspeed I3C controller so it
+> can do transfers.
+> 
+> With that added, we add 2 targets. The first target is a mock I3C
+> target. It's intended to be a very simple target just to verify that I3C
+> is working on the guest. Internally, we've used it on Linux to verify
+> that i3C devices can be probed and can send/receive data and send IBIs.
+> 
+> The second target is a remote target. The intention of this is to be
+> able to communicate to a target that exists outside of QEMU.
+> 
+> Lastly we add hotplugging support. The hotplugging doesn't do anything too
+> complicated, it just adds the device attempting to hotplug to the bus. It is
+> the device's responsibility to hot-join and go through the DAA process to
+> participate on the bus.
+> 
+> Thanks!
+> Joe
+> 
+> Joe Komlodi (16):
+>   hw/misc/aspeed_i3c: Move to i3c directory
+>   hw/i3c: Add bus support
+>   hw/i3c/aspeed_i3c: Add more register fields
+>   hw/i3c/aspeed_i3c: Add more reset values
+>   hw/i3c/aspeed_i3c: Add register RO field masks
+>   hw/i3c/aspeed_i3c: Treat more registers as read-as-zero
+>   hw/i3c/aspeed_i3c: Use 32 bits on MMIO writes
+>   hw/i3c/aspeed_i3c: Add IRQ MMIO behavior
+>   hw/i3c/aspeed_i3c: Add data TX and RX
+>   hw/i3c/aspeed_i3c: Add IBI handling
+>   hw/i3c/aspeed_i3c: Add ctrl MMIO handling
+>   hw/i3c/aspeed_i3c: Add controller resets
+>   hw/i3c: Add Mock target
+>   hw/i3c: remote_i3c: Add model
+>   qtest: remote_i3c: Add remote I3C qtest
+>   hw/i3c: Add hotplug support
 
-These haven't even compiled in years. Last time I polled the NetBSD and
-OpenBSD communities they weren't using this and had no plans to fix.
+Isn't this the designware i3c ip block, and as such could we name
+it so? I was going to send an i2c only version of this but it seems
+you've beaten me to it and got the i3c core going.
 
-I'd be happy to work with anybody that wanted to fix that state of affairs.
+>  hw/Kconfig                    |    1 +
+>  hw/arm/Kconfig                |    2 +
+>  hw/i3c/Kconfig                |   17 +
+>  hw/i3c/aspeed_i3c.c           | 2044 +++++++++++++++++++++++++++++++++
+>  hw/i3c/core.c                 |  646 +++++++++++
+>  hw/i3c/meson.build            |    6 +
+>  hw/i3c/mock-target.c          |  314 +++++
+>  hw/i3c/remote-i3c.c           |  469 ++++++++
+>  hw/i3c/trace-events           |   52 +
+>  hw/i3c/trace.h                |    1 +
+>  hw/meson.build                |    1 +
+>  hw/misc/aspeed_i3c.c          |  384 -------
+>  hw/misc/meson.build           |    1 -
+>  hw/misc/trace-events          |    6 -
+>  include/hw/arm/aspeed_soc.h   |    2 +-
+>  include/hw/i3c/aspeed_i3c.h   |  207 ++++
+>  include/hw/i3c/i3c.h          |  275 +++++
+>  include/hw/i3c/mock-target.h  |   60 +
+>  include/hw/i3c/remote-i3c.h   |   72 ++
+>  include/hw/misc/aspeed_i3c.h  |   48 -
+>  meson.build                   |    1 +
+>  tests/qtest/meson.build       |    1 +
+>  tests/qtest/remote-i3c-test.c |  610 ++++++++++
+>  23 files changed, 4780 insertions(+), 440 deletions(-)
+>  create mode 100644 hw/i3c/Kconfig
+>  create mode 100644 hw/i3c/aspeed_i3c.c
+>  create mode 100644 hw/i3c/core.c
+>  create mode 100644 hw/i3c/meson.build
+>  create mode 100644 hw/i3c/mock-target.c
+>  create mode 100644 hw/i3c/remote-i3c.c
+>  create mode 100644 hw/i3c/trace-events
+>  create mode 100644 hw/i3c/trace.h
+>  delete mode 100644 hw/misc/aspeed_i3c.c
+>  create mode 100644 include/hw/i3c/aspeed_i3c.h
+>  create mode 100644 include/hw/i3c/i3c.h
+>  create mode 100644 include/hw/i3c/mock-target.h
+>  create mode 100644 include/hw/i3c/remote-i3c.h
+>  delete mode 100644 include/hw/misc/aspeed_i3c.h
+>  create mode 100644 tests/qtest/remote-i3c-test.c
+> 
+> -- 
+> 2.40.0.348.gf938b09366-goog
+> 
+> 
 
-Warner
+-- 
+Ben Dooks, ben@fluff.org, http://www.fluff.org/ben/
 
-On Sat, Apr 1, 2023, 7:00 AM Reinoud Zandijk <reinoud@netbsd.org> wrote:
+Large Hadron Colada: A large Pina Colada that makes the universe disappear.
 
-> Dear Qemu folks,
->
-> I'll throw it in the NetBSD group for feedback.
->
-> With regards,
-> Reinoud
->
-> On Fri, Mar 31, 2023 at 08:18:26AM -0600, Warner Losh wrote:
-> > The NetBSD and OpenBSD support in bsd-user hasn't built since before the
-> meson
-> > conversion. It's also out of sync with many of the recent changes in the
-> > bsd-user fork and has just been removed there. Remove it from master for
-> the
-> > same reasons: it generates a number of false positives with grep and has
-> > increasingly gotten in the way. The bsd-user fork code is much more
-> advanced,
-> > and even it doesn't compile and is out of date. Remove this from both
-> > branches. If others wish to bring it up to speed, I'm happy to help them.
-> >
-> > Warner Losh (7):
-> >   bsd-user: Remove obsolete prototypes
-> >   bsd-user: Remove netbsd system call inclusion and defines
-> >   bsd-user: Remove netbsd system call tracing
-> >   bsd-user: Remove openbsd system call inclusion and defines
-> >   bsd-user: Remove openbsd system call tracing
-> >   bsd-user: Remove netbsd directory
-> >   bsd-user: Remove openbsd directory
-> >
-> >  bsd-user/netbsd/host-os.h            |  25 --
-> >  bsd-user/netbsd/os-strace.h          |   1 -
-> >  bsd-user/netbsd/strace.list          | 145 -----------
-> >  bsd-user/netbsd/syscall_nr.h         | 373 ---------------------------
-> >  bsd-user/netbsd/target_os_elf.h      | 147 -----------
-> >  bsd-user/netbsd/target_os_siginfo.h  |  82 ------
-> >  bsd-user/netbsd/target_os_signal.h   |  69 -----
-> >  bsd-user/netbsd/target_os_stack.h    |  56 ----
-> >  bsd-user/netbsd/target_os_thread.h   |  25 --
-> >  bsd-user/openbsd/host-os.h           |  25 --
-> >  bsd-user/openbsd/os-strace.h         |   1 -
-> >  bsd-user/openbsd/strace.list         | 187 --------------
-> >  bsd-user/openbsd/syscall_nr.h        | 225 ----------------
-> >  bsd-user/openbsd/target_os_elf.h     | 147 -----------
-> >  bsd-user/openbsd/target_os_siginfo.h |  82 ------
-> >  bsd-user/openbsd/target_os_signal.h  |  69 -----
-> >  bsd-user/openbsd/target_os_stack.h   |  56 ----
-> >  bsd-user/openbsd/target_os_thread.h  |  25 --
-> >  bsd-user/qemu.h                      |  16 --
-> >  bsd-user/strace.c                    |  34 ---
-> >  bsd-user/syscall_defs.h              |  29 +--
-> >  21 files changed, 1 insertion(+), 1818 deletions(-)
-> >  delete mode 100644 bsd-user/netbsd/host-os.h
-> >  delete mode 100644 bsd-user/netbsd/os-strace.h
-> >  delete mode 100644 bsd-user/netbsd/strace.list
-> >  delete mode 100644 bsd-user/netbsd/syscall_nr.h
-> >  delete mode 100644 bsd-user/netbsd/target_os_elf.h
-> >  delete mode 100644 bsd-user/netbsd/target_os_siginfo.h
-> >  delete mode 100644 bsd-user/netbsd/target_os_signal.h
-> >  delete mode 100644 bsd-user/netbsd/target_os_stack.h
-> >  delete mode 100644 bsd-user/netbsd/target_os_thread.h
-> >  delete mode 100644 bsd-user/openbsd/host-os.h
-> >  delete mode 100644 bsd-user/openbsd/os-strace.h
-> >  delete mode 100644 bsd-user/openbsd/strace.list
-> >  delete mode 100644 bsd-user/openbsd/syscall_nr.h
-> >  delete mode 100644 bsd-user/openbsd/target_os_elf.h
-> >  delete mode 100644 bsd-user/openbsd/target_os_siginfo.h
-> >  delete mode 100644 bsd-user/openbsd/target_os_signal.h
-> >  delete mode 100644 bsd-user/openbsd/target_os_stack.h
-> >  delete mode 100644 bsd-user/openbsd/target_os_thread.h
-> >
-> > --
-> > 2.39.2
-> >
->
-
---0000000000003787cd05f8461f85
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">These haven&#39;t even compiled in years. Last time I pol=
-led the NetBSD and OpenBSD communities they weren&#39;t using this and had =
-no plans to fix.<div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;d be ha=
-ppy to work with anybody that wanted to fix that state of affairs.<br><div =
-dir=3D"auto"><br></div><div dir=3D"auto">Warner</div></div></div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Apr 1, 2=
-023, 7:00 AM Reinoud Zandijk &lt;<a href=3D"mailto:reinoud@netbsd.org">rein=
-oud@netbsd.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Dear =
-Qemu folks,<br>
-<br>
-I&#39;ll throw it in the NetBSD group for feedback.<br>
-<br>
-With regards,<br>
-Reinoud<br>
-<br>
-On Fri, Mar 31, 2023 at 08:18:26AM -0600, Warner Losh wrote:<br>
-&gt; The NetBSD and OpenBSD support in bsd-user hasn&#39;t built since befo=
-re the meson<br>
-&gt; conversion. It&#39;s also out of sync with many of the recent changes =
-in the<br>
-&gt; bsd-user fork and has just been removed there. Remove it from master f=
-or the<br>
-&gt; same reasons: it generates a number of false positives with grep and h=
-as<br>
-&gt; increasingly gotten in the way. The bsd-user fork code is much more ad=
-vanced,<br>
-&gt; and even it doesn&#39;t compile and is out of date. Remove this from b=
-oth<br>
-&gt; branches. If others wish to bring it up to speed, I&#39;m happy to hel=
-p them.<br>
-&gt; <br>
-&gt; Warner Losh (7):<br>
-&gt;=C2=A0 =C2=A0bsd-user: Remove obsolete prototypes<br>
-&gt;=C2=A0 =C2=A0bsd-user: Remove netbsd system call inclusion and defines<=
-br>
-&gt;=C2=A0 =C2=A0bsd-user: Remove netbsd system call tracing<br>
-&gt;=C2=A0 =C2=A0bsd-user: Remove openbsd system call inclusion and defines=
-<br>
-&gt;=C2=A0 =C2=A0bsd-user: Remove openbsd system call tracing<br>
-&gt;=C2=A0 =C2=A0bsd-user: Remove netbsd directory<br>
-&gt;=C2=A0 =C2=A0bsd-user: Remove openbsd directory<br>
-&gt; <br>
-&gt;=C2=A0 bsd-user/netbsd/host-os.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 25 --<br>
-&gt;=C2=A0 bsd-user/netbsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A01 -<br>
-&gt;=C2=A0 bsd-user/netbsd/strace.list=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =
-145 -----------<br>
-&gt;=C2=A0 bsd-user/netbsd/syscall_nr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
-373 ---------------------------<br>
-&gt;=C2=A0 bsd-user/netbsd/target_os_elf.h=C2=A0 =C2=A0 =C2=A0 | 147 ------=
------<br>
-&gt;=C2=A0 bsd-user/netbsd/target_os_siginfo.h=C2=A0 |=C2=A0 82 ------<br>
-&gt;=C2=A0 bsd-user/netbsd/target_os_signal.h=C2=A0 =C2=A0|=C2=A0 69 -----<=
-br>
-&gt;=C2=A0 bsd-user/netbsd/target_os_stack.h=C2=A0 =C2=A0 |=C2=A0 56 ----<b=
-r>
-&gt;=C2=A0 bsd-user/netbsd/target_os_thread.h=C2=A0 =C2=A0|=C2=A0 25 --<br>
-&gt;=C2=A0 bsd-user/openbsd/host-os.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 25 --<br>
-&gt;=C2=A0 bsd-user/openbsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A01 -<br>
-&gt;=C2=A0 bsd-user/openbsd/strace.list=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
-187 --------------<br>
-&gt;=C2=A0 bsd-user/openbsd/syscall_nr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 225 -=
----------------<br>
-&gt;=C2=A0 bsd-user/openbsd/target_os_elf.h=C2=A0 =C2=A0 =C2=A0| 147 ------=
------<br>
-&gt;=C2=A0 bsd-user/openbsd/target_os_siginfo.h |=C2=A0 82 ------<br>
-&gt;=C2=A0 bsd-user/openbsd/target_os_signal.h=C2=A0 |=C2=A0 69 -----<br>
-&gt;=C2=A0 bsd-user/openbsd/target_os_stack.h=C2=A0 =C2=A0|=C2=A0 56 ----<b=
-r>
-&gt;=C2=A0 bsd-user/openbsd/target_os_thread.h=C2=A0 |=C2=A0 25 --<br>
-&gt;=C2=A0 bsd-user/qemu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 16 --<br>
-&gt;=C2=A0 bsd-user/strace.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 34 ---<br>
-&gt;=C2=A0 bsd-user/syscall_defs.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 |=C2=A0 29 +--<br>
-&gt;=C2=A0 21 files changed, 1 insertion(+), 1818 deletions(-)<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/host-os.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/os-strace.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/strace.list<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/syscall_nr.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/target_os_elf.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/target_os_siginfo.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/target_os_signal.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/target_os_stack.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/netbsd/target_os_thread.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/host-os.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/os-strace.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/strace.list<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/syscall_nr.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/target_os_elf.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/target_os_siginfo.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/target_os_signal.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/target_os_stack.h<br>
-&gt;=C2=A0 delete mode 100644 bsd-user/openbsd/target_os_thread.h<br>
-&gt; <br>
-&gt; -- <br>
-&gt; 2.39.2<br>
-&gt; <br>
-</blockquote></div>
-
---0000000000003787cd05f8461f85--
 
