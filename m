@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D8F6D30BE
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC3B6D30C2
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:41:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piaW6-0003ZP-VM; Sat, 01 Apr 2023 08:39:34 -0400
+	id 1piaXw-0006L9-4c; Sat, 01 Apr 2023 08:41:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1piaW3-0003WO-VJ; Sat, 01 Apr 2023 08:39:31 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1piaW0-0000CE-9o; Sat, 01 Apr 2023 08:39:31 -0400
-Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowACHj8_3JShkBbjBGQ--.7361S8;
- Sat, 01 Apr 2023 20:39:24 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 6/6] target/riscv: Add pointer mask support for instruction
- fetch
-Date: Sat,  1 Apr 2023 20:39:17 +0800
-Message-Id: <20230401123917.20471-7-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230401123917.20471-1-liweiwei@iscas.ac.cn>
-References: <20230401123917.20471-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <prvs=4482bb7e5=graf@amazon.de>)
+ id 1piaXh-0005uX-Kx
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 08:41:14 -0400
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=4482bb7e5=graf@amazon.de>)
+ id 1piaXe-0000eI-JT
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 08:41:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1680352871; x=1711888871;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9qXfC0xHGeCL09ygysOKYkdBIrVZYPlUcet5l/cWMHI=;
+ b=s4KG5kDL1h6pVBeS7ro1L4dS7RWghkAObaf5WhVB/UCRB6TM2RUljFaH
+ De1oFa/22gCPGr2hMKkNtpcNrHEmiMt9jpJaZZB7eW2QBa6YSwkzoYjIQ
+ pcpzMBSxpipGz6mwVZq5zsitW7KbcBOWpgGFQ3yiqAwpcaM2WpsHGusy0 4=;
+X-IronPort-AV: E=Sophos;i="5.98,310,1673913600"; d="scan'208";a="313744599"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
+ email-inbound-relay-pdx-2a-m6i4x-3ef535ca.us-west-2.amazon.com) ([10.43.8.6])
+ by smtp-border-fw-6002.iad6.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2023 12:41:07 +0000
+Received: from EX19MTAUWC002.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+ by email-inbound-relay-pdx-2a-m6i4x-3ef535ca.us-west-2.amazon.com (Postfix)
+ with ESMTPS id 2A8AA609DE; Sat,  1 Apr 2023 12:41:05 +0000 (UTC)
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.25; Sat, 1 Apr 2023 12:41:04 +0000
+Received: from dev-dsk-graf-1a-5ce218e4.eu-west-1.amazon.com (10.253.83.51) by
+ EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 1 Apr 2023 12:41:02 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <qemu-devel@nongnu.org>
+CC: David Hildenbrand <david@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, "Daniel P .
+ Berrange" <berrange@redhat.com>, Eric Blake <eblake@redhat.com>, "Philippe
+ Mathieu-Daude" <philmd@linaro.org>, Peter Xu <peterx@redhat.com>, "Paolo
+ Bonzini" <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, "Stefan
+ Hajnoczi" <stefanha@redhat.com>, Ashish Kalra <ashish.kalra@amd.com>, "Tom
+ Lendacky" <thomas.lendacky@amd.com>, Stefan Hajnoczi <stefanha@gmail.com>
+Subject: [PATCH v3] hostmem-file: add offset option
+Date: Sat, 1 Apr 2023 12:41:00 +0000
+Message-ID: <20230401124100.23163-1-graf@amazon.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACHj8_3JShkBbjBGQ--.7361S8
-X-Coremail-Antispam: 1UD129KBjvJXoWxJF4DWryDKFy7JrW3Aw15CFg_yoW5uryfpr
- 48C3yakr4DtFZrGa43tw4Dtrn8Ja98KF4UAws7GaySy3y5JayrArn8KwnrZF1DWFWrWr12
- 93WDCr1UZF47ZrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
- 1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j
- 6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7V
- C0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j
- 6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x0262
- 8vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
- ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
- WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
- OBTYUUUUU
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.253.83.51]
+X-ClientProxiedBy: EX19D043UWA002.ant.amazon.com (10.13.139.53) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Precedence: Bulk
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=52.95.49.90;
+ envelope-from=prvs=4482bb7e5=graf@amazon.de; helo=smtp-fw-6002.amazon.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,115 +89,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Transform the fetch address in cpu_get_tb_cpu_state() when pointer
-mask for instruction is enabled.
+Add an option for hostmem-file to start the memory object at an offset
+into the target file. This is useful if multiple memory objects reside
+inside the same target file, such as a device node.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+In particular, it's useful to map guest memory directly into /dev/mem
+for experimentation.
+
+Signed-off-by: Alexander Graf <graf@amazon.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@gmail.com>
+
 ---
- target/riscv/cpu.h        |  1 +
- target/riscv/cpu_helper.c | 20 +++++++++++++++++++-
- target/riscv/csr.c        |  2 --
- 3 files changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 638e47c75a..57bd9c3279 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -368,6 +368,7 @@ struct CPUArchState {
- #endif
-     target_ulong cur_pmmask;
-     target_ulong cur_pmbase;
-+    bool cur_pminsn;
+v1 -> v2:
+
+  - add qom documentation
+  - propagate offset into truncate, size and alignment checks
+
+v2 -> v3:
+
+  - fix typo
+---
+ backends/hostmem-file.c | 40 +++++++++++++++++++++++++++++++++++++++-
+ include/exec/memory.h   |  2 ++
+ include/exec/ram_addr.h |  3 ++-
+ qapi/qom.json           |  5 +++++
+ qemu-options.hx         |  6 +++++-
+ softmmu/memory.c        |  3 ++-
+ softmmu/physmem.c       | 14 ++++++++++----
+ 7 files changed, 65 insertions(+), 8 deletions(-)
+
+diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
+index 25141283c4..38ea65bec5 100644
+--- a/backends/hostmem-file.c
++++ b/backends/hostmem-file.c
+@@ -27,6 +27,7 @@ struct HostMemoryBackendFile {
  
-     /* Fields from here on are preserved across CPU reset. */
-     QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f88c503cf4..b683a770fe 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -40,6 +40,19 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+     char *mem_path;
+     uint64_t align;
++    uint64_t offset;
+     bool discard_data;
+     bool is_pmem;
+     bool readonly;
+@@ -58,7 +59,8 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+     ram_flags |= fb->is_pmem ? RAM_PMEM : 0;
+     memory_region_init_ram_from_file(&backend->mr, OBJECT(backend), name,
+                                      backend->size, fb->align, ram_flags,
+-                                     fb->mem_path, fb->readonly, errp);
++                                     fb->mem_path, fb->offset, fb->readonly,
++                                     errp);
+     g_free(name);
  #endif
  }
+@@ -125,6 +127,36 @@ static void file_memory_backend_set_align(Object *o, Visitor *v,
+     fb->align = val;
+ }
  
-+static target_ulong adjust_pc_address(CPURISCVState *env, target_ulong pc)
++static void file_memory_backend_get_offset(Object *o, Visitor *v,
++                                          const char *name, void *opaque,
++                                          Error **errp)
 +{
-+    target_ulong adjust_pc = pc;
++    HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(o);
++    uint64_t val = fb->offset;
 +
-+    if (env->cur_pminsn) {
-+        adjust_pc = (adjust_pc & ~env->cur_pmmask) | env->cur_pmbase;
-+    } else if (env->xl == MXL_RV32) {
-+        adjust_pc &= UINT32_MAX;
-+    }
-+
-+    return adjust_pc;
++    visit_type_size(v, name, &val, errp);
 +}
 +
- void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-                           target_ulong *cs_base, uint32_t *pflags)
++static void file_memory_backend_set_offset(Object *o, Visitor *v,
++                                          const char *name, void *opaque,
++                                          Error **errp)
++{
++    HostMemoryBackend *backend = MEMORY_BACKEND(o);
++    HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(o);
++    uint64_t val;
++
++    if (host_memory_backend_mr_inited(backend)) {
++        error_setg(errp, "cannot change property '%s' of %s", name,
++                   object_get_typename(o));
++        return;
++    }
++
++    if (!visit_type_size(v, name, &val, errp)) {
++        return;
++    }
++    fb->offset = val;
++}
++
+ #ifdef CONFIG_LIBPMEM
+ static bool file_memory_backend_get_pmem(Object *o, Error **errp)
  {
-@@ -48,7 +61,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+@@ -197,6 +229,12 @@ file_backend_class_init(ObjectClass *oc, void *data)
+         file_memory_backend_get_align,
+         file_memory_backend_set_align,
+         NULL, NULL);
++    object_class_property_add(oc, "offset", "int",
++        file_memory_backend_get_offset,
++        file_memory_backend_set_offset,
++        NULL, NULL);
++    object_class_property_set_description(oc, "offset",
++        "Offset into the target file (ex: 1G)");
+ #ifdef CONFIG_LIBPMEM
+     object_class_property_add_bool(oc, "pmem",
+         file_memory_backend_get_pmem, file_memory_backend_set_pmem);
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 15ade918ba..3b7295fbe2 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1318,6 +1318,7 @@ void memory_region_init_resizeable_ram(MemoryRegion *mr,
+  * @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM,
+  *             RAM_NORESERVE,
+  * @path: the path in which to allocate the RAM.
++ * @offset: offset within the file referenced by path
+  * @readonly: true to open @path for reading, false for read/write.
+  * @errp: pointer to Error*, to store an error if it happens.
+  *
+@@ -1331,6 +1332,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+                                       uint64_t align,
+                                       uint32_t ram_flags,
+                                       const char *path,
++                                      ram_addr_t offset,
+                                       bool readonly,
+                                       Error **errp);
  
-     uint32_t flags = 0;
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index f4fb6a2111..90a8269290 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -110,6 +110,7 @@ long qemu_maxrampagesize(void);
+  *  @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM,
+  *              RAM_NORESERVE.
+  *  @mem_path or @fd: specify the backing file or device
++ *  @offset: Offset into target file
+  *  @readonly: true to open @path for reading, false for read/write.
+  *  @errp: pointer to Error*, to store an error if it happens
+  *
+@@ -119,7 +120,7 @@ long qemu_maxrampagesize(void);
+  */
+ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+                                    uint32_t ram_flags, const char *mem_path,
+-                                   bool readonly, Error **errp);
++                                   off_t offset, bool readonly, Error **errp);
+ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+                                  uint32_t ram_flags, int fd, off_t offset,
+                                  bool readonly, Error **errp);
+diff --git a/qapi/qom.json b/qapi/qom.json
+index a877b879b9..8f5eaa8415 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -635,6 +635,10 @@
+ #         specify the required alignment via this option.
+ #         0 selects a default alignment (currently the page size). (default: 0)
+ #
++# @offset: the offset into the target file that the region starts at. You can
++#          use this option to overload multiple regions into a single fils.
++#          (default: 0)
++#
+ # @discard-data: if true, the file contents can be destroyed when QEMU exits,
+ #                to avoid unnecessarily flushing data to the backing file. Note
+ #                that ``discard-data`` is only an optimization, and QEMU might
+@@ -655,6 +659,7 @@
+ { 'struct': 'MemoryBackendFileProperties',
+   'base': 'MemoryBackendProperties',
+   'data': { '*align': 'size',
++            '*offset': 'size',
+             '*discard-data': 'bool',
+             'mem-path': 'str',
+             '*pmem': { 'type': 'bool', 'if': 'CONFIG_LIBPMEM' },
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 59bdf67a2c..701cf39feb 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4859,7 +4859,7 @@ SRST
+     they are specified. Note that the 'id' property must be set. These
+     objects are placed in the '/objects' path.
  
--    *pc = env->xl == MXL_RV32 ? env->pc & UINT32_MAX : env->pc;
-+    *pc = adjust_pc_address(env, env->pc);
-     *cs_base = 0;
+-    ``-object memory-backend-file,id=id,size=size,mem-path=dir,share=on|off,discard-data=on|off,merge=on|off,dump=on|off,prealloc=on|off,host-nodes=host-nodes,policy=default|preferred|bind|interleave,align=align,readonly=on|off``
++    ``-object memory-backend-file,id=id,size=size,mem-path=dir,share=on|off,discard-data=on|off,merge=on|off,dump=on|off,prealloc=on|off,host-nodes=host-nodes,policy=default|preferred|bind|interleave,align=align,offset=offset,readonly=on|off``
+         Creates a memory file backend object, which can be used to back
+         the guest RAM with huge pages.
  
-     if (cpu->cfg.ext_zve32f) {
-@@ -124,6 +137,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
- void riscv_cpu_update_mask(CPURISCVState *env)
+@@ -4929,6 +4929,10 @@ SRST
+         such cases, users can specify the required alignment via this
+         option.
+ 
++        The ``offset`` option specifies the offset into the target file
++        that the region starts at. You can use this parameter to overload
++        multiple regions into a single file.
++
+         The ``pmem`` option specifies whether the backing file specified
+         by ``mem-path`` is in host persistent memory that can be
+         accessed using the SNIA NVM programming model (e.g. Intel
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 5305aca7ca..9f620085a0 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1601,6 +1601,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+                                       uint64_t align,
+                                       uint32_t ram_flags,
+                                       const char *path,
++                                      ram_addr_t offset,
+                                       bool readonly,
+                                       Error **errp)
  {
-     target_ulong mask = -1, base = 0;
-+    bool insn = false;
-     /*
-      * TODO: Current RVJ spec does not specify
-      * how the extension interacts with XLEN.
-@@ -135,18 +149,21 @@ void riscv_cpu_update_mask(CPURISCVState *env)
-             if (env->mmte & M_PM_ENABLE) {
-                 mask = env->mpmmask;
-                 base = env->mpmbase;
-+                insn = env->mmte & MMTE_M_PM_INSN;
-             }
-             break;
-         case PRV_S:
-             if (env->mmte & S_PM_ENABLE) {
-                 mask = env->spmmask;
-                 base = env->spmbase;
-+                insn = env->mmte & MMTE_S_PM_INSN;
-             }
-             break;
-         case PRV_U:
-             if (env->mmte & U_PM_ENABLE) {
-                 mask = env->upmmask;
-                 base = env->upmbase;
-+                insn = env->mmte & MMTE_U_PM_INSN;
-             }
-             break;
-         default:
-@@ -161,6 +178,7 @@ void riscv_cpu_update_mask(CPURISCVState *env)
-         env->cur_pmmask = mask;
-         env->cur_pmbase = base;
+@@ -1612,7 +1613,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+     mr->destructor = memory_region_destructor_ram;
+     mr->align = align;
+     mr->ram_block = qemu_ram_alloc_from_file(size, mr, ram_flags, path,
+-                                             readonly, &err);
++                                             offset, readonly, &err);
+     if (err) {
+         mr->size = int128_zero();
+         object_unparent(OBJECT(mr));
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index e35061bba4..829c508b3b 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1369,6 +1369,11 @@ static void *file_ram_alloc(RAMBlock *block,
+         error_setg(errp, "alignment 0x%" PRIx64
+                    " must be a power of two", block->mr->align);
+         return NULL;
++    } else if (offset % block->page_size) {
++        error_setg(errp, "offset 0x%" PRIx64
++                   " must be multiples of page size 0x%zx",
++                   offset, block->page_size);
++        return NULL;
      }
-+    env->cur_pminsn = insn;
- }
+     block->mr->align = MAX(block->page_size, block->mr->align);
+ #if defined(__s390x__)
+@@ -1400,7 +1405,7 @@ static void *file_ram_alloc(RAMBlock *block,
+      * those labels. Therefore, extending the non-empty backend file
+      * is disabled as well.
+      */
+-    if (truncate && ftruncate(fd, memory)) {
++    if (truncate && ftruncate(fd, offset + memory)) {
+         perror("ftruncate");
+     }
  
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 43b9ad4500..0902b64129 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3518,8 +3518,6 @@ static RISCVException write_mmte(CPURISCVState *env, int csrno,
-     /* for machine mode pm.current is hardwired to 1 */
-     wpri_val |= MMTE_M_PM_CURRENT;
+@@ -1889,7 +1894,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
  
--    /* hardwiring pm.instruction bit to 0, since it's not supported yet */
--    wpri_val &= ~(MMTE_M_PM_INSN | MMTE_S_PM_INSN | MMTE_U_PM_INSN);
-     env->mmte = wpri_val | PM_EXT_DIRTY;
-     riscv_cpu_update_mask(env);
+     size = HOST_PAGE_ALIGN(size);
+     file_size = get_file_size(fd);
+-    if (file_size > 0 && file_size < size) {
++    if (file_size > offset && file_size < (offset + size)) {
+         error_setg(errp, "backing store size 0x%" PRIx64
+                    " does not match 'size' option 0x" RAM_ADDR_FMT,
+                    file_size, size);
+@@ -1929,7 +1934,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
  
+ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+                                    uint32_t ram_flags, const char *mem_path,
+-                                   bool readonly, Error **errp)
++                                   off_t offset, bool readonly, Error **errp)
+ {
+     int fd;
+     bool created;
+@@ -1941,7 +1946,8 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+         return NULL;
+     }
+ 
+-    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, 0, readonly, errp);
++    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, offset, readonly,
++                                   errp);
+     if (!block) {
+         if (created) {
+             unlink(mem_path);
 -- 
-2.25.1
+2.32.0
+
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
 
 
