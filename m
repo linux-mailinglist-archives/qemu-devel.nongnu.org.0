@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CB76D30B4
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD726D30BC
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 14:40:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piaBc-0007Uu-Eb; Sat, 01 Apr 2023 08:18:24 -0400
+	id 1piaW9-0003cE-8d; Sat, 01 Apr 2023 08:39:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1piaBa-0007Um-IC
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 08:18:22 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1piaBZ-0005Nu-2c
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 08:18:22 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id p204so30105588ybc.12
- for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 05:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680351499;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CIxL/zt4eXWyXZCeqK8QtgbHpl2ONNRo9zkehBKaApk=;
- b=fG5TfOu9uIFQvPcaf0F0PBCHQTTeXVpKal0S1/ixf1yJCJXXQ4XntsqNrWkIsSruAB
- BXjRBmUYHEmWDjIbGUt61qMFX1KBV2rAJy8lCX3YbbBIPCybEDh7DGAMjyjOEkDyiC9n
- hr1b0uE0koOaBUJRxqHVFb55fbGxmCrucugjreiYJGW/GG1Bl+MI7NhKMK89b1621DT2
- d7dVkIMYUcIimTei8dYdHp9PPCVB9GtLZjyoEoaToE0z9pwOWgcwtHpS6i96yrAybI6R
- yH8UPIcSIwZhRHpDJveyS8O/kXObSTltS/+o9BsPzv1W8ZAwHFRDBWajWPruFsPlhHO2
- 2OMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680351499;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CIxL/zt4eXWyXZCeqK8QtgbHpl2ONNRo9zkehBKaApk=;
- b=duYPJeTuHCEu55jiW3X/zAW7qDAIvLePn3e/F0pSz4DK1ay1bMGDa9t94kVupVtMh9
- lmw/9MNPO6Muus7msi2ixYLBxu7S4Vi0x1kugXi3CPkXY4XL/CZXdiFXJbL7igPpkNDK
- XzwM/KOafZUmD/bdgDnSza/8P1PWkV3stcJH4WW0KtaDET/04TOgLBiRHZ3owBh35egz
- Z1TjwnJ0ZZlJRwDqimIe3SGzOHHXzcrDfiRWqhF51GttGCIDS3eaNA7zXkXynzCPrbZ1
- LvpwRf4WeDlkxljxJXHcbpsZaDX8fD17LEWKlLbvz9iGUK/9hsIAWRgBuomSRuIS+XF7
- mfwg==
-X-Gm-Message-State: AAQBX9e8Thj9YKAZlWSQaA+YNoKIYuS55sS5OBWjkNs0XYXKNlL9+Cb8
- 9SWM1ymIzJRK+c+eOatuk+Rl4HTIXXOGnarg/l0=
-X-Google-Smtp-Source: AKy350bKDXWdF7Nqj5w8QNWLdy0qANjRaDnWtW6xiSSInBYXB29+n3AqiJfFF/T4vznDcNVYqzg7bUR8RrcUm8savqY=
-X-Received: by 2002:a05:6902:1545:b0:b75:8ac3:d5dc with SMTP id
- r5-20020a056902154500b00b758ac3d5dcmr19739694ybu.2.1680351499332; Sat, 01 Apr
- 2023 05:18:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1piaW3-0003Vv-H9; Sat, 01 Apr 2023 08:39:31 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1piaVz-0000Bf-Vk; Sat, 01 Apr 2023 08:39:31 -0400
+Received: from localhost.localdomain (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowACHj8_3JShkBbjBGQ--.7361S2;
+ Sat, 01 Apr 2023 20:39:20 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v3 0/6] target/riscv: Fix pointer mask related support
+Date: Sat,  1 Apr 2023 20:39:11 +0800
+Message-Id: <20230401123917.20471-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230401121316.2025-1-graf@amazon.com>
-In-Reply-To: <20230401121316.2025-1-graf@amazon.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Sat, 1 Apr 2023 08:18:07 -0400
-Message-ID: <CAJSP0QUTN6Jp5go=_j_6F14mxs0=4pdfTGmcVyedMJo3YELYOw@mail.gmail.com>
-Subject: Re: [PATCH v2] hostmem-file: add offset option
-To: Alexander Graf <graf@amazon.com>
-Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
- "Daniel P . Berrange" <berrange@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Philippe Mathieu-Daude <philmd@linaro.org>, Peter Xu <peterx@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Ashish Kalra <ashish.kalra@amd.com>, 
- Tom Lendacky <thomas.lendacky@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowACHj8_3JShkBbjBGQ--.7361S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw1fCw18uryDXFyfWryxAFb_yoW8Ww45pF
+ WfC3y3AaykJFZ7Xr4fJa18Ar15GF4fuFWUCwn7Jwn5tw45trWYqrn7K34jkFWUJFyrWry7
+ KF1jyr1fuFyUAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+ 6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+ 628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+ GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+ 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0J
+ UdHUDUUUUU=
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,20 +74,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 1 Apr 2023 at 08:14, Alexander Graf <graf@amazon.com> wrote:
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index a877b879b9..8f5eaa8415 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -635,6 +635,10 @@
->  #         specify the required alignment via this option.
->  #         0 selects a default alignment (currently the page size). (default: 0)
->  #
-> +# @offset: the offset into the target file that the region starts at. You can
-> +#          use this option to overload multiple regions into a single fils.
+This patchset tries to fix some problem in current implementation for pointer mask, and add support for pointer mask of instruction fetch.
 
-s/fils/file/
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-pm-fix-v5
 
-Other than that:
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+v2:
+* drop some error patchs
+* Add patch 2 and 3 to fix the new problems
+* Add patch 4 and 5 to use PC-relative translation for pointer mask for instruction fetch
+
+v3:
+* use target_pc temp instead of cpu_pc to store into badaddr in patch 3
+* use dest_gpr instead of tcg_temp_new() for succ_pc in patch 4
+* enable CF_PCREL for system mode in seperate patch 5
+
+v4：
+* Fix wrong pc_save value for conditional jump in patch 4
+* Fix tcg_cflags overwrite problem to make CF_PCREL really work in new patch 5
+* Fix tb mis-matched problem in new patch 6
+
+v5:
+* use gen_get_target_pc to compute target address of auipc and successor address of jalr in patch 4.
+* separate tcg related fix patches(5, 6) from this patchset
+
+Weiwei Li (6):
+  target/riscv: Fix pointer mask transformation for vector address
+  target/riscv: Update cur_pmmask/base when xl changes
+  target/riscv: Fix target address to update badaddr
+  target/riscv: Add support for PC-relative translation
+  target/riscv: Enable PC-relative translation in system mode
+  target/riscv: Add pointer mask support for instruction fetch
+
+ target/riscv/cpu.c                      | 31 +++++++----
+ target/riscv/cpu.h                      |  1 +
+ target/riscv/cpu_helper.c               | 20 ++++++-
+ target/riscv/csr.c                      | 11 ++--
+ target/riscv/insn_trans/trans_rvi.c.inc | 37 +++++++++----
+ target/riscv/translate.c                | 72 ++++++++++++++++++-------
+ target/riscv/vector_helper.c            |  2 +-
+ 7 files changed, 131 insertions(+), 43 deletions(-)
+
+-- 
+2.25.1
+
 
