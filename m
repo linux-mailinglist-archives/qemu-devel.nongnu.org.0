@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3382A6D2E50
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 07:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522186D2E5D
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 07:21:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piTX5-00020k-OQ; Sat, 01 Apr 2023 01:12:07 -0400
+	id 1piTfR-0004j4-63; Sat, 01 Apr 2023 01:20:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1piTX2-00020R-P7
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 01:12:04 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1piTWz-00078x-Ox
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 01:12:04 -0400
-Received: from loongson.cn (unknown [223.72.62.225])
- by gateway (Coremail) with SMTP id _____8BxYU8WvSdkoCkVAA--.32763S3;
- Sat, 01 Apr 2023 13:11:51 +0800 (CST)
-Received: from [192.168.1.6] (unknown [223.72.62.225])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxAeUVvSdkr5wSAA--.51680S3; 
- Sat, 01 Apr 2023 13:11:50 +0800 (CST)
-Message-ID: <317e3008-e2bd-8af6-2cf5-dad49d98cb8d@loongson.cn>
-Date: Sat, 1 Apr 2023 13:11:50 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1piTfP-0004iu-QX
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 01:20:43 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1piTfN-0000a4-Q6
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 01:20:43 -0400
+Received: by mail-pf1-x434.google.com with SMTP id q20so4946861pfs.2
+ for <qemu-devel@nongnu.org>; Fri, 31 Mar 2023 22:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680326440;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JPoJr9dAxB5FKe6gbYlLM9zemS1Z8ptHQ95ZAHMgRSQ=;
+ b=uBeRgkn76+sL+9lj7sRdPBAG4mqMPc6VibfJltjRH3j32tYEzK84THUmYcMnAjh9Ar
+ qC88CoTaKao3ZFle01xsa34fzChb4LupXh+ZgA1gG8mV2n1u6wjzAbKjBWxhkBlNToND
+ wzIpVw4Lgsgx0aJJpKY73Dbl1S7kUTBobepLSXUJPU5X9ppIVRoDPgmnJw90DlCZER1x
+ cdL02sUZRtuB0I8R1kE/zejnaii2y7TGWQKCbFl8vJ7c/Cl5Wm1OmNkyrf6K9wJUTt6q
+ mNbdevibXjO5kQQ2YsVZssb1aH+Z0ZPKQZSWGgf9jABkDrd7sUHC5IPiW4iCA4r86tKd
+ JjXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680326440;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JPoJr9dAxB5FKe6gbYlLM9zemS1Z8ptHQ95ZAHMgRSQ=;
+ b=wy0HA9au25dtbqYTDfFOWT+MitjqcSoClPRmd+GjI6jxXaJ9CGJwZJ5sZS7fxJ4pdE
+ BvSbK/oeMqDw5isUho0ro9+zRlROSFUzFmAt3wdA8+DXfxzSBhOF/MEeAMs+hroAa+Rq
+ oPtsbEFY9cvdeSFFNguHJAe+cDi67n6+0okfbtRULl1cE6bxynAPDeHnbie63kHX2C8o
+ ae7RWxGF96WxkI+FujVIHysNZ+oF2mXZD4m49QdroaYY5esQIseC6DytWXqgl4TDJXg+
+ MZXdtbyL1mbBpjIDUO3lNNBF87rGVaf5dGy+g8+n53rEwQR3fDXMEkaEjW41k85ZSI/q
+ +0Yw==
+X-Gm-Message-State: AAQBX9c7ZY0/geDhISd1FQTTyBArL7phviTpagnBV961fBhzS2fhz6IT
+ Vi912j23qyRTofjiTyOaZVFAIJ88cirf8l6Gwh0=
+X-Google-Smtp-Source: AKy350YaNrYBlIHk5ZTQy8jWCLaKCf9q33IK0NDTmIX9nBIfYMCthxz2tk1P8SGCopxiF1I75SGcJA==
+X-Received: by 2002:a62:585:0:b0:5e0:a86:a76f with SMTP id
+ 127-20020a620585000000b005e00a86a76fmr26436050pff.0.1680326439723; 
+ Fri, 31 Mar 2023 22:20:39 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:b714:1fce:85fa:2fc7?
+ ([2602:ae:1541:f901:b714:1fce:85fa:2fc7])
+ by smtp.gmail.com with ESMTPSA id
+ 65-20020a630444000000b0050fb4181e8bsm2464292pge.40.2023.03.31.22.20.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Mar 2023 22:20:39 -0700 (PDT)
+Message-ID: <d45bc806-9d9e-5640-af80-a83761b8eb65@linaro.org>
+Date: Fri, 31 Mar 2023 22:20:37 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: On integrating LoongArch EDK2 firmware into QEMU build process
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel <qemu-devel@nongnu.org>,
- Song Gao <gaosong@loongson.cn>, =?UTF-8?B?5p2o5bCP5aif?=
- <yangxiaojuan@loongson.cn>, Chao Li <lichao@loongson.cn>
-References: <1f1d3d9f-c3df-4f29-df66-886410994cc3@xen0n.name>
- <67517424-0f32-09f8-6446-53f71ebd59b5@loongson.cn>
- <x5vbhjcyc3jl5u3qdjg2dq2znwhdq7ordmbjm6s2hftwyusqp2@r6smasorrjor>
+Subject: Re: [RFC PATCH v2 21/44] target/loongarch: Implement
+ vmskltz/vmskgez/vmsknz
 Content-Language: en-US
-From: maobibo <maobibo@loongson.cn>
-In-Reply-To: <x5vbhjcyc3jl5u3qdjg2dq2znwhdq7ordmbjm6s2hftwyusqp2@r6smasorrjor>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230328030631.3117129-1-gaosong@loongson.cn>
+ <20230328030631.3117129-22-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230328030631.3117129-22-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxAeUVvSdkr5wSAA--.51680S3
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Zr18Jry3XFy7CrWkZF4rGrg_yoW8JFyfpF
- y3Z3srKFWvvF9Ygr1DKw1UWrZ8Zr93JrZ8JF98t348Ar13uFySvw1vgr4IgFyDAw47C3yY
- v3y8J34kG3W3ZaDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
- kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
- k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
- MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
- 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
- IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL05UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,47 +95,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 3/27/23 20:06, Song Gao wrote:
+> +void HELPER(vmskltz_b)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
+> +{
+> +    VReg temp;
+> +    VReg *Vd = &(env->fpr[vd].vreg);
+> +    VReg *Vj = &(env->fpr[vj].vreg);
+> +
+> +    temp.D(0) = 0;
+> +    temp.D(1) = 0;
+> +    temp.H(0) = do_vmskltz_b(Vj->D(0));
+> +    temp.H(0) |= (do_vmskltz_b(Vj->D(1)) << 8);
+> +    Vd->D(0) = temp.D(0);
+> +    Vd->D(1) = 0;
+> +}
+
+Better as uint16_t temp, instead of a full VReg.
+
+> +static uint64_t do_vmskltz_d(int64_t val)
+> +{
+> +    uint64_t m = 0x8000000000000000ULL;
+> +    uint64_t c =  val & m;
+> +    c |= c << 63;
+> +    return c >> 63;
+> +}
+
+No mask or shift left required.
 
 
-On 2023/3/31 20:12, Gerd Hoffmann wrote:
-> On Fri, Mar 31, 2023 at 08:54:16AM +0800, maobibo wrote:
->> Xuerui,
->>
->> Thanks for your mail, it is a good suggestion. Now we are planing to
->> move LoongArch uefi bios from edk2-platform to edk2 repo, so that uefi
->> bios supporting LoongArch can be auto compiled and uploaded to qemu
->> repo. Only that process is somwhat slow since lacking of hands,
->> however we are doing this.
-> 
-> Good, so I think it makes sense for qemu to just wait for that to
-> happen.
-> 
-> Related question:  What are the requirements to build the firmware?
-> Fedora 38 ships cross compiler packages ...
-> 
->    binutils-loongarch64-linux-gnu-2.39-3.fc38.x86_64
->    gcc-loongarch64-linux-gnu-12.2.1-5.fc38.x86_64
-> 
-> ... but when trying to use them to compile the loongarch firmware gcc
-> throws errors:
-> 
-> loongarch64-linux-gnu-gcc: error: unrecognized command-line option ‘-mno-explicit-relocs’
-> 
-> I suspect gcc-12 is just too old?
-There is a little different about relocation between gcc-12 and gcc-13 
-on LoongArch, gcc-13 is required for edk2 compiler now.
-
-However I think it is actually is one issue if gcc-12 can not be used 
-and gcc-12 is popular latest compiler for all architectures. We will 
-solve this problem.
-
-Regards
-Bibo, Mao
-
-
-> 
-> take care,
->    Gerd
-> 
-
+r~
 
