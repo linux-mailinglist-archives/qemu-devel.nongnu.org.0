@@ -2,48 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A636D2F1B
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 10:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701856D2F1C
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 10:52:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piWpl-0003AM-Es; Sat, 01 Apr 2023 04:43:37 -0400
+	id 1piWxj-0004T8-6y; Sat, 01 Apr 2023 04:51:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1piWpj-0003AB-Uq; Sat, 01 Apr 2023 04:43:35 -0400
+ id 1piWxf-0004Sw-FZ; Sat, 01 Apr 2023 04:51:47 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1piWpi-0000gB-BV; Sat, 01 Apr 2023 04:43:35 -0400
+ id 1piWxc-0002Dp-C0; Sat, 01 Apr 2023 04:51:45 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 01E6F4000E;
- Sat,  1 Apr 2023 11:43:31 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 6D50792;
- Sat,  1 Apr 2023 11:43:31 +0300 (MSK)
-Message-ID: <f3ce4948-a24b-e466-653c-2159b76adfbe@msgid.tls.msk.ru>
-Date: Sat, 1 Apr 2023 11:43:31 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: qemu-stable final release process
-Content-Language: en-US
+ by isrv.corpit.ru (Postfix) with ESMTP id 821054000E;
+ Sat,  1 Apr 2023 11:51:41 +0300 (MSK)
+Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with SMTP id EB56192;
+ Sat,  1 Apr 2023 11:51:40 +0300 (MSK)
+Received: (nullmailer pid 2692015 invoked by uid 1000);
+ Sat, 01 Apr 2023 08:51:40 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
-To: Michael Roth <michael.roth@amd.com>, qemu-stable
- <qemu-stable@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-References: <e2788576-8a0b-0027-6483-d5fb4aa02925@msgid.tls.msk.ru>
-In-Reply-To: <e2788576-8a0b-0027-6483-d5fb4aa02925@msgid.tls.msk.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: Michael Tokarev <mjt@tls.msk.ru>, Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH trivial for-8.0] hw/virtio/virtio-qmp.c: spelling: suppoted
+Date: Sat,  1 Apr 2023 11:51:40 +0300
+Message-Id: <20230401085140.2691965-1-mjt@msgid.tls.msk.ru>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
 X-Spam_score_int: -68
 X-Spam_score: -6.9
 X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,22 +55,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping? :)
+Fixes: f3034ad71fcd0a6a58bc37830f182b307f089159
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+---
+ hw/virtio/virtio-qmp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-30.03.2023 13:18, Michael Tokarev wrote:
-> Hi!
-> 
-> Michael, there's the final step to do, after having the branch and increasing version number, -
-> this is about to make the actual release. I see scripts/make-release which apparently does what
-> it should, hopefully anyway. What's the final steps?  This tarball needs to be published too.
-> 
-> There's a branch published, https://gitlab.com/qemu-project/qemu/-/tree/stable-7.2 , which should
-> hopefully become 7.2.1. I haven't tagged it yet though.
-> 
-> Thanks!
-> 
-> /mjt
-> 
-> 
+This patch were previously sent at 5 Nov 2022, now the
+code moved to another file, and the patch is still applies
+(with changed filename).
 
+diff --git a/hw/virtio/virtio-qmp.c b/hw/virtio/virtio-qmp.c
+index 808446b4c9..e76218bdd5 100644
+--- a/hw/virtio/virtio-qmp.c
++++ b/hw/virtio/virtio-qmp.c
+@@ -343 +343 @@ qmp_virtio_feature_map_t virtio_scsi_feature_map[] = {
+-            "buffers suppoted"),
++            "buffers supported"),
+-- 
+2.30.2
 
