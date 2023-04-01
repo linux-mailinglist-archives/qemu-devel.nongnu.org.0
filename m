@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52756D2FBD
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 12:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B60326D2FBE
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 12:52:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piYo8-0000k5-Rd; Sat, 01 Apr 2023 06:50:04 -0400
+	id 1piYoA-0000k8-9K; Sat, 01 Apr 2023 06:50:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3VQwoZAgKCjYkegklSXSYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--smostafa.bounces.google.com>)
- id 1piYo6-0000j1-6c
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 06:50:02 -0400
+ <3VwwoZAgKCjgmgimnUZUaiiafY.WigkYgo-XYpYfhihaho.ila@flex--smostafa.bounces.google.com>)
+ id 1piYo7-0000jN-GV
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 06:50:03 -0400
 Received: from mail-wm1-x349.google.com ([2a00:1450:4864:20::349])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3VQwoZAgKCjYkegklSXSYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--smostafa.bounces.google.com>)
- id 1piYo4-0002v6-8L
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 06:50:01 -0400
+ <3VwwoZAgKCjgmgimnUZUaiiafY.WigkYgo-XYpYfhihaho.ila@flex--smostafa.bounces.google.com>)
+ id 1piYo5-0002vq-HH
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 06:50:03 -0400
 Received: by mail-wm1-x349.google.com with SMTP id
- v7-20020a05600c470700b003ef6ebfa99fso9254929wmo.8
- for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 03:49:59 -0700 (PDT)
+ o37-20020a05600c512500b003edd119ec9eso12273153wms.0
+ for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 03:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680346198;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kRrF6MNR2XbaLDmQzcheKTq7EdFqZPkuW0K+vNgaOSA=;
- b=P9R6nvGrMrYX/gL1kOS6gu6rlMYO6B8dELFJQ4VDYjUporOYCD9Gw9k/4uyJsKifRK
- hjMMcn5gKYJsk8FLDoxpGDWhu1OztrWhc8MmrJ3KKq+eqKuYhUt9TWTmGgGC9ai66INF
- uq6qrn3NjHrCvPKAkqB7pyfPdUWb0OYkIXjtDlcSEo0TjTh+PnnOuk37qXPrfoepB1Nr
- qTwnlMqSpyD4a7OjEdLVUkNUeMP3hGND/2x9CiQfSmt0tVZQL/pfUAL09VhuHzl6ihnk
- 5g1pt89Isd2a36SUsUHgQuAMrMZS9AoCWV0ZIBoZ8Bw/AJpTjdRKbtVjMvbx7hPQeFKN
- vRWg==
+ d=google.com; s=20210112; t=1680346200;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mHb+9pWVY/xkO23nYC8/HU3/EYklX+t3i/qHwcl5iIg=;
+ b=oPqMPJ1bqLhZya+luSV4YPOhiSITqTgRR7/T+FkctAyHbajWmgh1jShlt/LYl/HDUI
+ lK79eEoi+rf2mPcJsJKEp/7TF2pbxd8v8BRj4SHCyrh6WefM+rlnuOodTKDmq1uLTkdm
+ 5BTM0K0xwZEg+hCLwYmVLCU5wVGpVO0sIQ2HUr15dWyDqZMuAZPZ+f/Xq1kBLIk/DzsV
+ 1C6f4rjJs/hqGjprHTy8YNoGywozpISyFlA4xAPP0he4l4EvkNrv7ONsqKGhZUxjuQJe
+ AwDw3muxw0eFbte92L412QPPmPaEGPR+pJNuTR+vwqmPOacktx91EbgybR6OuLqYQG1P
+ xX6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680346198;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kRrF6MNR2XbaLDmQzcheKTq7EdFqZPkuW0K+vNgaOSA=;
- b=pWQ0TFxS2VMvM+NUEjg32uyh19ZWvgiSUOksF6TCEWdbRa4stbpdpP5wikTmA+WHPw
- ec04qw+7FfHDtWKE6eF1oheMne9WgqPClWol4RGq7vVhhKYy+yc/bR8H7RJVEClGimil
- S52J75f9EleN4BHvhX8QAbs/NYrH7q24OVRL3XmXQScxV/AEs82mCJYKb309+Go+qcx9
- jZ+sFgK8yayL2LsuPipNwFX1240cyYPRDDEc2sA4v+dgHhnzhLkxHbGknfhW82oBy+fE
- p1OkwLfLeIewBRMTgiw855hZxqE/jiev7jGIJhhKP6Xws63F5PPCqiI3gBGyLZDeGSR+
- 0G4g==
-X-Gm-Message-State: AO0yUKUT3BmsxMU/7QszQ7WkJBiW19qXtsAVnq/iB1NwYgn/gS8xcvA2
- 7GdPEiG6H5MV+lcFwJhEpqV/HhjlvF2eWd+rkp+d/5U2YmMeYd74OBsVs4Pld/DYBme0OiOHhmw
- U7Jk1U+RR57o067exE+3Grli52MIpVn6ZpV9BaakMq+BlpKyAEPeXpd20QpQoff6MYg==
-X-Google-Smtp-Source: AK7set/estSl2aZtaWIRvTGYKSsvEWaGsA7P2rcjRtR0+RdeLHxFq9RyzBeDfNgSCYHBunKcVcAEGSWtwQx1jQ==
+ d=1e100.net; s=20210112; t=1680346200;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mHb+9pWVY/xkO23nYC8/HU3/EYklX+t3i/qHwcl5iIg=;
+ b=Yo0wqdDo2SNKEUTN/EISikXQfyHDMn2YV9PByCtH1qlrSr2sRE/ZBhvUAmVguAMmeI
+ fMsUkLXqfHfIBoQh2QBYDp0pKOssruDVkSiqo6AeWKmj0zhFyLaZTqAzybLk42eHCrVW
+ 2SDKnxHNBqFb31pwXoa8Yh1EuqJ5nRksIfYIuUaz/e/SyKHGynvrypMg5eyCROwohegy
+ 0eAcilTS7mXhq/m2u4n3PunkTSQ66QAwBJ0fc0ivIjxlZqZ2NICqYeTntM3n62qfa0s2
+ rSiqP6/Tnv7E4qrfs36u2n8q2QtPBbpe416KdJ79I+0Gw3AmKqH4p6z5yU7vEt76KRI/
+ HseA==
+X-Gm-Message-State: AAQBX9eghZOdzasVE+BIyiRbLPCfuJ75FpSatF2zxpU3pt53/3KOSTZF
+ y9BCL8P04AWY2pHBVaxLE6sATweGSlapNFa0drsDsgkbzlaNWahX5k7xPL+ydqf1QcUKandl6ix
+ 3BTdh8OzDYgtYkLzUtQIEiNpUF1rK4SjE77RtiZmO1F/n25XcpK4FD29bi9nC0VEasg==
+X-Google-Smtp-Source: AKy350ayKRQnbxiaoSMZuLS3nGMDLxsU3ndf8AN4Ik5jCbCNDjiUp5Nh7QXSJHWPE8zi+wCi1F6sxkCqQFs7eA==
 X-Received: from mostafa.c.googlers.com
  ([fda3:e722:ac3:cc00:28:9cb1:c0a8:333c])
- (user=smostafa job=sendgmr) by 2002:a7b:c8c3:0:b0:3ee:7e7e:bae8 with SMTP id
- f3-20020a7bc8c3000000b003ee7e7ebae8mr6962964wml.6.1680346197944; Sat, 01 Apr
- 2023 03:49:57 -0700 (PDT)
-Date: Sat,  1 Apr 2023 10:49:43 +0000
+ (user=smostafa job=sendgmr) by 2002:a7b:c8d8:0:b0:3ef:5da6:45e2 with SMTP id
+ f24-20020a7bc8d8000000b003ef5da645e2mr2998961wml.3.1680346199881; Sat, 01 Apr
+ 2023 03:49:59 -0700 (PDT)
+Date: Sat,  1 Apr 2023 10:49:44 +0000
+In-Reply-To: <20230401104953.1325983-1-smostafa@google.com>
 Mime-Version: 1.0
+References: <20230401104953.1325983-1-smostafa@google.com>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230401104953.1325983-1-smostafa@google.com>
-Subject: [RFC PATCH v3 00/10] Add stage-2 translation for SMMUv3
+Message-ID: <20230401104953.1325983-2-smostafa@google.com>
+Subject: [RFC PATCH v3 01/10] hw/arm/smmuv3: Add missing fields for IDR0
 From: Mostafa Saleh <smostafa@google.com>
 To: qemu-devel@nongnu.org
 Cc: jean-philippe@linaro.org, eric.auger@redhat.com, peter.maydell@linaro.org, 
  qemu-arm@nongnu.org, richard.henderson@linaro.org, 
  Mostafa Saleh <smostafa@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::349;
- envelope-from=3VQwoZAgKCjYkegklSXSYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--smostafa.bounces.google.com;
+ envelope-from=3VwwoZAgKCjgmgimnUZUaiiafY.WigkYgo-XYpYfhihaho.ila@flex--smostafa.bounces.google.com;
  helo=mail-wm1-x349.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
@@ -92,121 +92,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch series adds stage-2 translation support for SMMUv3. It is
-controlled by a new system property =E2=80=9Carm-smmuv3.stage=E2=80=9D.
-- When set to =E2=80=9C1=E2=80=9D: Stage-1 only would be advertised and sup=
-ported (default
-behaviour)
-- When set to =E2=80=9C2=E2=80=9D: Stage-2 only would be advertised and sup=
-ported.
-- Value =E2=80=9Call=E2=80=9D is reserved for nesting support. However it i=
-s not
-implemented in this patch series (more about this in the end)
+In preparation for adding stage-2 support.
+Add IDR0 fields related to stage-2.
 
-Features implemented in stage-2 are mostly synonymous with stage-1
-- VMID16.
-- Only AArch64 translation tables are supported.
-- Only little endian translation table supported.
-- Stall is not supported.
-- HTTU is not supported, SW is expected to maintain the Access flag.
+VMID16: 16-bit VMID supported.
+S2P: Stage-2 translation supported.
 
-To make it easy to support nesting, a new structure(SMMUS2Cfg) is
-embedded within SMMUTransCfg, to hold stage-2 configuration.
+They are described in 6.3.1 SMMU_IDR0.
 
-TLBs were updated to support VMID, where when stage-2 is used ASID is
-set to -1 and ignored and when stage-1 is used VMID is set to -1 and
-ignored.
-As only one stage is supported at a time at the moment, TLB will
-represent IPA=3D>PA translation with proper attributes(granularity and
-t0sz) parsed from STEs for stage-2, and will represent VA=3D>PA
-translation with proper attributes parsed from the CDs for stage-1.
+No functional change intended.
 
-New commands where added that are used with stage-2
-- CMD_TLBI_S12_VMALL: Invalidate all translations for a VMID.
-- CMD_TLBI_S2_IPA: Invalidate stage-2 by VMID and IPA
-Some commands are illegal to be used from stage-2 were modified to
-return CERROR_ILL.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Mostafa Saleh <smostafa@google.com>
 
-This patch series can be used to run Linux pKVM SMMUv3 patches (currently o=
-n the list)
-which controls stage-2 (from EL2) while providing a paravirtualized
-interface the host(EL1)
-https://lore.kernel.org/kvmarm/20230201125328.2186498-1-jean-philippe@linar=
-o.org/
+---
+Changes in V2:
+- Collected Reviewed-by tags.
+---
+ hw/arm/smmuv3-internal.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Looking forward, nesting is the next feature to go for, here are some
-thoughts about this:
-
-- TLB would require big changes for this, we can go either for a combined
-implementation or per stage one. This would affect returns from PTW and
-invalidation commands.
-
-- Stage-1 data structures should be translated by stage-2 if enabled (as
-context descriptors and ttb0/ttb1)
-
-- Translated addresses from stage-1 should be translated by stage-2 if
-enabled.
-
-- Some existing commands(as CMD_TLBI_S2_IPA, CMD_TLBI_NH_ASID =E2=80=A6) wo=
-uld be
-modified and some of those would be based on the design of the TLBs.
-
-- Currently, VMID is ignored when stage-1 is used as it can=E2=80=99t be us=
-ed with
-stage-2. However when nesting is advertised VMID shouldn=E2=80=99t be ignor=
-ed
-even if stage-2 is bypassed.
-
-Changes in v3:
-- Collected Reviewed-by tags
-- Separate stage-2 record faults from stage-1
-- Fix input address check in stage-2 walk
-- Fix shift in STE_S2HD, STE_S2HA, STE_S2S, STE_S2R
-- Add more logs for illegal configs and commands.
-- Rename SMMU translation macros to VMSA as they are not part of SMMU spec
-- Rename stage-2 variables and functions (iova=3D>ipa, ap=3D>s2ap, ...)
-- Rename oas in SMMUS2Cfg to eff_ps
-- Improve comments (mention user manuals versions, field names)
-
-Changes in v2:
--Collected Reviewed-by tags
--Add oas to SMMUS2Cfg, and use it in PTW
--Add stage member to to SMMUPTWEventInfo to differentiate stage-1 and
- stage-2 PTW faults
--Move stage-2 knob to the last patch
--Add all STE parsing in one patch
--Pares and use S2PS and S2ENDI
--Split S2AFF patch over PTW and STE patches.
--Fix TLB aliasing issue
--Renaming and refactoring and rewording commits.
--Populate OAS based on PARANGE
--Add checks for stage-1 only commands
--Update trace events to hold translation stage, vmid when possible
--Remove feature flags for supported stages as they were redundant with IDR0
-
-
-Mostafa Saleh (10):
-  hw/arm/smmuv3: Add missing fields for IDR0
-  hw/arm/smmuv3: Update translation config to hold stage-2
-  hw/arm/smmuv3: Refactor stage-1 PTW
-  hw/arm/smmuv3: Add page table walk for stage-2
-  hw/arm/smmuv3: Parse STE config for stage-2
-  hw/arm/smmuv3: Make TLB lookup work for stage-2
-  hw/arm/smmuv3: Add VMID to TLB tagging
-  hw/arm/smmuv3: Add CMDs related to stage-2
-  hw/arm/smmuv3: Add stage-2 support in iova notifier
-  hw/arm/smmuv3: Add knob to choose translation stage and enable stage-2
-
- hw/arm/smmu-common.c         | 209 +++++++++++++++++---
- hw/arm/smmu-internal.h       |  37 ++++
- hw/arm/smmuv3-internal.h     |  12 +-
- hw/arm/smmuv3.c              | 364 ++++++++++++++++++++++++++++++-----
- hw/arm/trace-events          |  14 +-
- include/hw/arm/smmu-common.h |  45 ++++-
- include/hw/arm/smmuv3.h      |   4 +
- 7 files changed, 595 insertions(+), 90 deletions(-)
-
---=20
+diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+index e8f0ebf25e..183d5ac8dc 100644
+--- a/hw/arm/smmuv3-internal.h
++++ b/hw/arm/smmuv3-internal.h
+@@ -34,10 +34,12 @@ typedef enum SMMUTranslationStatus {
+ /* MMIO Registers */
+ 
+ REG32(IDR0,                0x0)
++    FIELD(IDR0, S2P,         0 , 1)
+     FIELD(IDR0, S1P,         1 , 1)
+     FIELD(IDR0, TTF,         2 , 2)
+     FIELD(IDR0, COHACC,      4 , 1)
+     FIELD(IDR0, ASID16,      12, 1)
++    FIELD(IDR0, VMID16,      18, 1)
+     FIELD(IDR0, TTENDIAN,    21, 2)
+     FIELD(IDR0, STALL_MODEL, 24, 2)
+     FIELD(IDR0, TERM_MODEL,  26, 1)
+-- 
 2.40.0.348.gf938b09366-goog
 
 
