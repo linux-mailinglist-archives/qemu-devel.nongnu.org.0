@@ -2,83 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D223E6D33E3
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Apr 2023 22:48:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2876D34E1
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 00:38:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pii7M-0006eu-1J; Sat, 01 Apr 2023 16:46:32 -0400
+	id 1pijqD-0003pG-G0; Sat, 01 Apr 2023 18:36:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pii7G-0006dh-U6
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 16:46:30 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pijqB-0003or-BZ
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 18:36:55 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pii7F-00034x-4r
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 16:46:26 -0400
-Received: by mail-pl1-x634.google.com with SMTP id kq3so24603263plb.13
- for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 13:46:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pijq9-0004L8-Nu
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 18:36:55 -0400
+Received: by mail-ed1-x536.google.com with SMTP id eg48so103414608edb.13
+ for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 15:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680381982;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6cWxOZtks/uh5u+furLK/EcRw/7BV2wvdixm7ACnNHM=;
- b=fEApnGrr+tflp7MT8CNm3q4orOSltwuEgWwyfljhtxyuXn207E5//Cb/SMpgds36lt
- WHthfx3fwo3ANVOWS9+NQlYnWuWRNOyXxb0vwTj50z17bkYTsjgSqnOiJLowjAiYYUGf
- P3bupPhKaF8gPliVyYcaTembdHhiNIQMbeS4rYLMAKT2bc3+sfNDpmTBmVvQJ/L1xnlW
- L8dY10KfZ3orVgYMzPc6YNgYvzwMPRed+y5AfJH4biokU8ivM6MehtCqun2zG9NrLbr3
- EfFHZ5JjK8wd57mErezp0J4xl4Twmhthdl9G79L3K6YGOzNp0QStj+WaxStBSC7d1zgT
- n1sQ==
+ d=gmail.com; s=20210112; t=1680388611;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3mcXjgUWbrap77dni2Kc4rFFZA3pvAccTjwmsDr8bxU=;
+ b=mEteHCJVGbFfX6tRGM1s1+VkgCn+hxBW1ZPMXM8bHo1lDikF/amdVWjUftAXcShM8a
+ QSUCelFL9ah0+AXtIsc17IFeWQH3I9hozzG5sbBDkZn+ElBcPC9HegHKvD+3vyTOjND3
+ ugVPymLueNtOS+uB1+vL9uTzj6FXIW+y9HEhS2zqCKO91NvGVU76xY7V5+tEJG7NKrZj
+ Zvoov0pcWYrLUjrLk3iPcEgyiUbVABU0T3DFZfzBGIhRfiIIfV26WtEYaypcV8qu1J8r
+ HEWMBS+85UsEL27hFh76IGPqOkyEEeNSgnno6LLxlQm/ygtzQTIaNvuKHJa8j26iRqFv
+ 04YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680381983;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6cWxOZtks/uh5u+furLK/EcRw/7BV2wvdixm7ACnNHM=;
- b=MB5AZqAV7M7fJw1YzuLZpAUP2RwY6wh5FmfkbMQKWYWrqvxT0c1x/Isx/LeGfdR1Dw
- jDLNdzpYQ8SYaUpH/y78jUoyJiL04d3po+JbK2+D9QwJCli+eFJ5/ZKrrHk0DmN56vaC
- B6m/Ow7GKSr+Mt8911sWogh474mALbySTh0n96N5xTEPS4hyV/FGQSkQnlY2BSJpP95q
- bOltkjmDzF0YNwm49Wvi6z/cenavgnw2tWiwsfxFJ/vV3pe/a6pOud2LirxdRjP3qtmU
- 3SDdSkvV6e9RcuD0T3OkqekWj2Z8OEHO0+52hGJWJ1Ssb42ORbQ4C+ypYjXu3o5gSscf
- nQTg==
-X-Gm-Message-State: AO0yUKX11CVT65k3ld/BVQG5w+LvPuHD5LLDxPrSoEzUdluRXtjZY9cJ
- SFiYogr678fgltHBXp52MUjLYQ==
-X-Google-Smtp-Source: AK7set/AHrN7r3cRJKQrlJOgMT+p5CcQTukh9fHLAGzl7vot3c5piSBRLzOdx15dFqPZd4IVg4NvEQ==
-X-Received: by 2002:a05:6a20:50ca:b0:de:7389:9772 with SMTP id
- m10-20020a056a2050ca00b000de73899772mr25141726pza.57.1680381982634; 
- Sat, 01 Apr 2023 13:46:22 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:f30a:3ab0:889f:f03d?
- ([2602:ae:1541:f901:f30a:3ab0:889f:f03d])
- by smtp.gmail.com with ESMTPSA id
- u4-20020a654c04000000b00513b3ea831esm3536536pgq.29.2023.04.01.13.46.21
+ d=1e100.net; s=20210112; t=1680388611;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3mcXjgUWbrap77dni2Kc4rFFZA3pvAccTjwmsDr8bxU=;
+ b=wR8xbRHweCuVhvZDTXFS0WJF22+w7yY7uYk49MURGKvBi0+jdwCLWGIeB5ez6zSP6G
+ gIJxydmG7ySd794TlpJ/z13uV5b8CkzAlgqT0liXz7ZxBIYEcJ3ayxAgFAbVOhfW1y8x
+ q5GF015T9c//A6zSgvHID4z7QGdvmT5rjo07ifDJWDf4n8Etlq8bP/IZ/fkRGJ7dza3O
+ uhP4Yt0W9mdgrn1jj/DSMC3PATN6Zh5MPfHajvK3pojH3KuuCtbiQwSHNwbZEzvSWchI
+ oF7cFN31MuynClk+6ZBX+az/GrdwTXtMSi20dWBJWLBmx9/tirB1OmdvAIcDz8vkZOkM
+ Jd6w==
+X-Gm-Message-State: AAQBX9f3Eu5EVHbXjdUR8grghWQXDCpeNi1cKoOpAzCMoedDns6H69+f
+ u15qVv+BmWFRsuhEk5L6YkM=
+X-Google-Smtp-Source: AKy350ZBAQ0NclZYRHIFZo8U4NApWMVwMHMu7y4terrO7HGjAO6fxbeX8o8y5iqHZuYoEBhpoQdpEA==
+X-Received: by 2002:a17:907:2077:b0:92f:fbac:69c4 with SMTP id
+ qp23-20020a170907207700b0092ffbac69c4mr30391166ejb.56.1680388611436; 
+ Sat, 01 Apr 2023 15:36:51 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-013-027-219.77.13.pool.telefonica.de.
+ [77.13.27.219]) by smtp.gmail.com with ESMTPSA id
+ bq18-20020a056402215200b00501c2a9e16dsm2525599edb.74.2023.04.01.15.36.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Apr 2023 13:46:22 -0700 (PDT)
-Message-ID: <0bf61876-b730-6449-41e2-99869da6caee@linaro.org>
-Date: Sat, 1 Apr 2023 13:46:20 -0700
+ Sat, 01 Apr 2023 15:36:51 -0700 (PDT)
+Date: Sat, 01 Apr 2023 22:36:45 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+CC: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw@amazon.co.uk>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, 
+ Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Chuck Zmudzinski <brchuckz@aol.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_2/6=5D_hw/isa/piix3=3A_Reuse?=
+ =?US-ASCII?Q?_piix3=5Frealize=28=29_in_piix3=5Fxen=5Frealize=28=29?=
+In-Reply-To: <f52c41f7-e662-4afd-8ac9-ce2c0da2b1be@perard>
+References: <20230312120221.99183-1-shentey@gmail.com>
+ <20230312120221.99183-3-shentey@gmail.com>
+ <f52c41f7-e662-4afd-8ac9-ce2c0da2b1be@perard>
+Message-ID: <7F45B51F-F1E3-4F04-A46F-4C80509C7195@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 3/3] accel/tcg: Fix jump cache set in cpu_exec_loop
-To: liweiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-References: <20230401045106.3885562-1-richard.henderson@linaro.org>
- <20230401045106.3885562-4-richard.henderson@linaro.org>
- <55366094-d6bd-c692-bcbb-310f1e239ac8@iscas.ac.cn>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <55366094-d6bd-c692-bcbb-310f1e239ac8@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,30 +101,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/1/23 04:03, liweiwei wrote:
->>                   mmap_unlock();
->> +
-> Blank line.
-
-Yes, adding separation.
-
->>                   /*
->>                    * We add the TB in the virtual pc hash table
->>                    * for the fast lookup
->>                    */
->>                   h = tb_jmp_cache_hash_func(pc);
->> -                /* Use the pc value already stored in tb->pc. */
->> -                qatomic_set(&cpu->tb_jmp_cache->array[h].tb, tb);
->> +                jc = cpu->tb_jmp_cache;
->> +                if (cflags & CF_PCREL) {
->> +                    jc->array[h].pc = pc;
->> +                    /* Ensure pc is written first. */
->> +                    qatomic_store_release(&jc->array[h].tb, tb);
-> 
-> Whether we should add a qatomic_load_require() before this?
-
-The load_acquire is already present in tb_lookup.
 
 
-r~
+Am 30=2E M=C3=A4rz 2023 13:00:25 UTC schrieb Anthony PERARD <anthony=2Eper=
+ard@citrix=2Ecom>:
+>On Sun, Mar 12, 2023 at 01:02:17PM +0100, Bernhard Beschow wrote:
+>> This is a preparational patch for the next one to make the following
+>> more obvious:
+>>=20
+>> First, pci_bus_irqs() is now called twice in case of Xen where the
+>> second call overrides the pci_set_irq_fn with the Xen variant=2E
+>
+>pci_bus_irqs() does allocates pci_bus->irq_count, so the second call in
+>piix3_xen_realize() will leak `pci_bus->irq_count`=2E Could you look if
+>pci_bus_irqs_cleanup() can be called before the second pci_bus_irqs()
+>call, or maybe some other way to avoid the leak?
+
+Thanks for catching this! I'll post a v4=2E
+
+I think the most fool-proof way to fix this is to free irq_count just befo=
+re the assignment=2E pci_bus_irqs_cleanup() would then have to NULL the att=
+ribute such that pci_bus_irqs() can be called afterwards=2E
+
+BTW: I tried running qemu-system-x86_64 with PIIX4 rather than PIIX3 as Xe=
+n guest with my pc-piix4 branch without success=2E This branch essentially =
+just provides slightly different PCI IDs for PIIX=2E Does xl or something e=
+lse in Xen check these? If not then this means I'm still missing something=
+=2E Under KVM this branch works just fine=2E Any idea?
+
+Thanks,
+Bernhard
+
+>
+>> Second, pci_bus_set_route_irq_fn() is now also called in Xen mode=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
+>
+>Beside the leak which I think can happen only once, patch is fine:
+>Reviewed-by: Anthony PERARD <anthony=2Eperard@citrix=2Ecom>
+>
+>Thanks,
+>
 
