@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517126D399C
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 19:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C88A6D3998
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 19:58:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pj1wg-0006rq-SE; Sun, 02 Apr 2023 13:56:50 -0400
+	id 1pj1wh-0006s6-Ci; Sun, 02 Apr 2023 13:56:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pj1wc-0006p9-Lr
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:46 -0400
+ id 1pj1wf-0006rd-Cs
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:49 -0400
 Received: from mout.web.de ([212.227.17.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pj1wa-00046U-0B
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:45 -0400
+ id 1pj1wd-00049E-SD
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1680458200; i=lukasstraub2@web.de;
- bh=gakdj9MuRP2kmr9tpcbl0VTtVwaDkY+EO+nYuW3YLiU=;
+ t=1680458203; i=lukasstraub2@web.de;
+ bh=EB8VaRAWBK0oXLR+71tIM6tqF5W0FQ15mCpwJS4kA3U=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=wZ2EK//+zMH1zYWQeTcdkSwoRy5mf9Xrojkp6kIXhcLtwNtakCkKZT2+LSEY8EETE
- Nj6K8V/IOKNqjLprDFriAk0Lcw9NkdYdtVAYYFCGWJOrlr6nh08h71JnuKJ6eeJoGT
- IS/kv4u/jOienfRoM/VXsgeutHxrtVm+ic+rTAMK88kopDGbDmWBqSfRHyruLD+Icq
- Vxsnp2yNGMh9RJ1oi8Mc5u6yvKI6PFND96ZhzfbfY4ISnfDP3i9WMm8O9PMSf2J2NW
- aaiqdxOPKJ6T6yMWLHLCbGSUMU7XlfbvY2Src9vnDKyH2bCeDTWH58UTglz0qWUhyp
- WZwj9tB2fhgHw==
+ b=ZumiD/YCehugIaWecE1yeLgz01JrBqthWXCSKovTJyAHhKLMBBVnx5+1WVW6VozCZ
+ dFD4tB4Kv8PU5+KvBIhr3RcmFKN3JDjV6wQJGYRIQGVShfSDydvKl6kIF9ODzOxmoJ
+ gsMdnlO0H6oAvmA/qogPLwPhqJENzOTw7QpOUoAAXLP5+u7khLatGkxh6gcc603fXn
+ 0XUkCNrzj2Yhx9/3XrhT2IPnf0e8YLMpxvImpvsb86f2mVOhcIMlvTJ85uD9eGV/wI
+ uFrBxpa8V6z641VPwrg1mYeR/WuAJsSwpWuYRBruVu20ZSxTVAoe16ZD2x7wZ8cwt0
+ frpJOyOpvOiMg==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.111]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MA4bA-1pYct80bAg-00By3I; Sun, 02
- Apr 2023 19:56:40 +0200
-Date: Sun, 2 Apr 2023 17:56:39 +0000
+Received: from gecko.fritz.box ([82.207.254.111]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MfKtN-1qKakC1d8N-00ga7n; Sun, 02
+ Apr 2023 19:56:43 +0200
+Date: Sun, 2 Apr 2023 17:56:42 +0000
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
  <quintela@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: [PATCH 11/14] ram compress: Assert that the file buffer matches the
- result
-Message-ID: <929d6df4337b8a206cfbc201b5d350a324d66b02.1680457764.git.lukasstraub2@web.de>
+Subject: [PATCH 12/14] ram.c: Remove unused include after moving out code
+Message-ID: <b79093582686e7f495c8dba6346d50efd6f07a98.1680457764.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1680457764.git.lukasstraub2@web.de>
 References: <cover.1680457764.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Ue_U6aUdgYxVII2sSJ3SJAm";
+Content-Type: multipart/signed; boundary="Sig_/9SucF5WtwMDwze47kR+5Lte";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:5gSpBR/4RVf4RiBuFq1kJjb403pqUxpInx8MPhGiHXPrlbSJj3/
- /TQ+TodjwiKKvklzd6xVKrKU2cB1/djRpqz0Nw2wkQS7OmHHDv7M3w40I4AjkPb8obwH4ao
- UzRQiV3E0bfD53w3RtGtuwGMrRUsHXJQwQrw5MP8oK+GeZ/aaiIFm7JDDouXsNaBZCTzh/m
- y+7NIECErIARoTxoD/qVg==
-UI-OutboundReport: notjunk:1;M01:P0:DHDwzci6qds=;oN6s4vYFEsetkXpiGPmORZ+Ikmc
- w/l2j/XEj1WYyOsHPhKBO7sQhCqV6Zr7jo64TZ65T/Q+jS9niCNSiI+XWcQCWBZHl/q4PCscW
- 9dMEjrnNTYhNd5tSFhPHPt02T2Lg5QFkub7/U1XCMcrzfpqifWIYQHYFDHQCgQYUtgqMA6rU6
- Mh3/zKm49Jax/C+3LZgJiKUfKBOFAc8L2AZNt/AQHOESHOuu3UnaaWOGXL69WehlRyPBbmejv
- 3wBWyyXOpXh1f1CLSbSYhT+qPzHY0dsLCM0TOAYl21yWnmKDuXUm3qXBl9WdeqsHTZLMPqxWo
- AtuzWS2M1OP6Pr1VAS6WAFNOyXIppQ0aguqoitqqxyPk4+XQfef5W8cKX2ZkhaqaDFIRlhmGt
- 79OmeotdSIgWGUo0M+cKWjYLAuS8fOlKOB+ph3Gd3Qapb48QI2pmwZG7j5AQOiIw0C+b01QPX
- bEzhlNHvMXYTzx7IfF15ihIgaAeB+6ZpK0dGOCdpOhTxHge0jkQrxlDSggEvPyPOPv9x8BBC+
- LUk0j+zuUMA27L8mqpZBpfSOD9i/v4zPPaj56kjTfg90ePOFOj039lYSGx05SIYos31TW8soe
- g3zcQRozJhtko/XLbS5/+FASM55VpxXKBnVSHrAEzlFpH5XK8zkkNWSs6erkYC4JG8sOk9Y0v
- fTtJkiMgH5ZXFg5fV5HTEhmN4HkBLm3/dlh/zs6Z8MWEW6S6Nf+YEVA7cwIgepaKW3S/PwwKX
- 59d+jgTHJhAGxHRLkVZM7srMxaKkkbM9J6+IdiPH+xtoS3wTyDEH3GrqTSHrUPvRj34iKOFBB
- NTulDia63BczFY1TVv5NtdRiS7aYQ9BZ/vhExCdwa18i09rX5Th3Gpa5oSZs936de9XfxQnbd
- FuZFrVg5QJG3TP8eKhcXJ5FsJFgTKPNK5r4w1XDHzPJG0ooSTFMJVG3SOADrDs08HPjpCiIy3
- OEUp47T4MGLu33YInHm7FWRPGeI=
+X-Provags-ID: V03:K1:WQgbku5LHYMz+D+yNvZHdlYu/sFOdpCOtCWza8BOacZmQMLwq6V
+ 6NdJiQ+Bysdbjk0rNoln5HL1lAMjQ00RTEabHsf9D0jttjCeiuIVwfU7DLE9MI+mTexzF64
+ f5XpaHjVMP3KlSVS8PX5KoYf1NK4E2ejTl1Uxc0SrqHqo2Np6uvQ3VhPCyoHrLQB50GtsAh
+ 6Dw59DRqKZJFZbO2rUPTg==
+UI-OutboundReport: notjunk:1;M01:P0:cajR0OPTqdw=;LsQgOTQPanAafeOcI9rpw4PKwU6
+ eU5uqjrgktDiCUlvWAE5QTDtS2w/MYWXx4BDmDMQF66X4In8GWguiqp+n+NEG4i3A1F5ZchxG
+ qVNFonJZfCNMPIZEjmuXr5pRCoCd2mK8wsxgxzRmuOqnyC8cCSMbbxIpB7HgULCkEjiTwmOnu
+ nuPj3DAKIdf2THomTO9jnQHUu7ngdcNmpnTUgJiUH4Vk47iiKJ+DZ2hxe+01DN9eTPQOJT9L/
+ 66M2PyNx8guZveZH23SdbmieTxr1+rQR/8/CoD+KsgI11ICtnKy+AHlfQcGEzX4jBj8GgfXI0
+ apqk52L4dPu2o3O1UVSDBHMetwx4lxiSvbTGxon9SwemAZfsvPOKYbsczXe68WOFJMr8X3TAr
+ +ZSdP8T+4dCkzfl9dH12adXL4p6xThTM0oxnI0dbFpxpcxgYccSGfIrehgG1Nw/63tB0UXc4b
+ W1vJKtu8TmeJf6t1sX4sTUNq8OagiyovDBuTlGHf0VzhikXkexpuVtKkX5FmwAFZ9isufS+ry
+ teH16p58P19WGejjHqE3RLfxJZe2Bt/Fl9sJHOS62GevMnjCoANkJIxuI6cx46FKbrlEC2ZvB
+ HwiOxpY5W04NdX9kUyUoSetHxJBRXStyCWA7Plto5RiAFWK2/huHOwPn1kjTqv3jc1GM/qvoY
+ WipqYA7B5z+4qs1SMYvZOhZjsTey1E0HQdVAbSpU2IE2aiV6a8rBA3+2NnBt8Lm40LARwdBaK
+ 4JR3DPDEemdJu6Sne4yf3HZWfS2Yu4HhaGPEdrViMLrtjL46jGegwrasUFRs9V6hpWa9DTnk2
+ akH0rOjSaXDS5mdaVOW3DHvelxw7G+XOA0QtSY/t+ZgkCazkvva7WE+TRqdcXcOt21RCDcYle
+ LBeXx62JrCpPw4zwrWwfKiIfv8y6zLPxCwLlxBk/bwF/uJeQnX0oSXFo5bqC6fEvDze6rmfLo
+ twIphIElRX56zl+w0te7hP6akvQ=
 Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -18
@@ -89,143 +88,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/Ue_U6aUdgYxVII2sSJ3SJAm
+--Sig_/9SucF5WtwMDwze47kR+5Lte
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Before this series, "nothing to send" was handled by the file buffer
-being empty. Now it is tracked via param->result.
-
-Assert that the file buffer state matches the result.
-
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/qemu-file.c    | 11 +++++++++++
- migration/qemu-file.h    |  1 +
- migration/ram-compress.c |  5 +++++
- migration/ram.c          |  2 ++
- 4 files changed, 19 insertions(+)
-
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 102ab3b439..2b3f3f8549 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -887,6 +887,17 @@ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_sr=
-c)
-     return len;
- }
-
-+/*
-+ * Check if the writable buffer is empty
-+ */
-+
-+bool qemu_file_buffer_empty(QEMUFile *file)
-+{
-+    assert(qemu_file_is_writable(file));
-+
-+    return !file->iovcnt;
-+}
-+
- /*
-  * Get a string whose length is determined by a single preceding byte
-  * A preallocated 256 byte buffer must be passed in.
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 9d0155a2a1..15e5f189f0 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -113,6 +113,7 @@ size_t qemu_get_buffer_in_place(QEMUFile *f, uint8_t **=
-buf, size_t size);
- ssize_t qemu_put_compression_data(QEMUFile *f, z_stream *stream,
-                                   const uint8_t *p, size_t size);
- int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src);
-+bool qemu_file_buffer_empty(QEMUFile *file);
-
- /*
-  * Note that you can only peek continuous bytes from where the current poi=
-nter
-diff --git a/migration/ram-compress.c b/migration/ram-compress.c
-index f75b8c3079..b75a9d2b9a 100644
---- a/migration/ram-compress.c
-+++ b/migration/ram-compress.c
-@@ -193,6 +193,8 @@ static CompressResult do_compress_ram_page(QEMUFile *f,=
- z_stream *stream,
-     uint8_t *p =3D block->host + offset;
-     int ret;
-
-+    assert(qemu_file_buffer_empty(f));
-+
-     if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
-         return RES_ZEROPAGE;
-     }
-@@ -207,6 +209,7 @@ static CompressResult do_compress_ram_page(QEMUFile *f,=
- z_stream *stream,
-     if (ret < 0) {
-         qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
-         error_report("compressed data failed!");
-+        qemu_fflush(f);
-         return RES_NONE;
-     }
-     return RES_COMPRESS;
-@@ -238,6 +241,7 @@ void flush_compressed_data(int (send_queued_data(Compre=
-ssParam *)))
-         if (!comp_param[idx].quit) {
-             CompressParam *param =3D &comp_param[idx];
-             send_queued_data(param);
-+            assert(qemu_file_buffer_empty(param->file));
-             compress_reset_result(param);
-         }
-         qemu_mutex_unlock(&comp_param[idx].mutex);
-@@ -267,6 +271,7 @@ retry:
-             qemu_mutex_lock(&param->mutex);
-             param->done =3D false;
-             send_queued_data(param);
-+            assert(qemu_file_buffer_empty(param->file));
-             compress_reset_result(param);
-             set_compress_params(param, block, offset);
+ migration/ram.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 5a2486bf89..7a8f540737 100644
+index 7a8f540737..9072d70f7c 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -1333,11 +1333,13 @@ static int send_queued_data(CompressParam *param)
-     assert(block =3D=3D pss->last_sent_block);
-
-     if (param->result =3D=3D RES_ZEROPAGE) {
-+        assert(qemu_file_buffer_empty(param->file));
-         len +=3D save_page_header(pss, file, block, offset | RAM_SAVE_FLAG=
-_ZERO);
-         qemu_put_byte(file, 0);
-         len +=3D 1;
-         ram_release_page(block->idstr, offset);
-     } else if (param->result =3D=3D RES_COMPRESS) {
-+        assert(!qemu_file_buffer_empty(param->file));
-         len +=3D save_page_header(pss, file, block,
-                                 offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
-         len +=3D qemu_put_qemu_file(file, param->file);
+@@ -32,7 +32,6 @@
+ #include "qemu/bitmap.h"
+ #include "qemu/madvise.h"
+ #include "qemu/main-loop.h"
+-#include "io/channel-null.h"
+ #include "xbzrle.h"
+ #include "ram-compress.h"
+ #include "ram.h"
 --
 2.30.2
 
 
---Sig_/Ue_U6aUdgYxVII2sSJ3SJAm
+--Sig_/9SucF5WtwMDwze47kR+5Lte
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQpwdcACgkQNasLKJxd
-sliPpBAAka4G4s/gcW/BUFJEuk63gSwILUsdb6wDNoCEpbpGFO4AFvqk3l7MW8He
-bauem+2LjknCEsA2nV3GQKPqFRaLz8KlQFcerljbOwrf2O+jwaObc+znG9FHJXfJ
-fciKJqAzsJttU1cMcWVcbQ0v7Wde6QIlrT2RMCW2EvGrVCKL6o4r9eHtjP5SIHJl
-/2f0OizfcDQofeO1lZlEfP4c5Te6i84b61p90kOjcwxuV+mRs8vWEJ9XuUKf+yAH
-jZhyVe8Cnye0uraFzsjPSVOeVy6tdHs//3Djb1s4NMMR6s1Fyg/AwtRxEOGTbVHa
-g1n+EuTVZYndXW0BVe0EHXcm7GWzAQwXpipHPufWBM3VvPNlG8wQ4FV4U/KwrpN0
-lroKWjbZOoG8/Ns6kPCvkLdYI00d4ox28TpjCtk+duknuBvtSzKIABDS7uztRI0z
-pLf8fInkKOzwhOVFEWlQSNzXkGxuz2XQ0q2SfUnw/GZSynKCWkB2Mxvq7Oe8YaJw
-UL07l0YObgEWxax8rEQz9uoVjFlDwONBfM5jk5p68v3zR4gXA+oy7h/bQfxGxtid
-8K8wCn7/5qxZ/NaXTSutSnp+SYC44l2qrMX5/PyNy+pc5PcR0EFDAw1zBZVqOQNc
-pd8HwQvLF0a16bA1cjp86ZRsog7gjNobRWu6m0a6dym2/PE9Vas=
-=j9gj
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQpwdoACgkQNasLKJxd
+slid4Q/9GOVZL2uCKe4A3Xy9O58ZC3MFG5j8pcGsaYtadkEoVrEfee4RnH5t2ms8
+wPhiN0OMI54tk78vmIB5ko6sny9C5AuqziU8hwF839vtNGtQUpLjIxFcRL7SiHJU
+HiTNy9fnMLAHxmu56Fbh6LthgZ1xMs6DSmw1qJBqBAr5SH7nxtwZCvS/xYpyOtRc
+RMnn16i0uMEh0NnrQ7zAMSEc4Uvia31ZmVXGXLaJd4JltGkS4XR9ygI5XBHivZkZ
+8VDQRrCVPe6lolY7Wut/4ZIzVwNCPiAc+8A9plzy/C9sjds2tSoMuWy2P0XE908I
+ReiwxL85lY/QpRKDPsik92iV7CEUBPfNR96gY+1D+ufkJUyW9KMIQ5ehvPbb5xsV
+Ob8TV0iHrXyTAILPj8Ad/5OcDQETaQrqgc+R+yAEq22Jgb4tRWkC08/zh5SpcYJS
+z0OfjbMdgbzK2Efzjv1Djpcg7iI0KZt7AJQqTvvLSQjI1bogvaHFTbdxUqF1n1H/
+eurmEORp/dTMbX0PuBTchNUQPlkoQYaOa78aziM989m9+T+5deIaikooZzXRxi/m
+UaTpS99PVKIwgYbwYnGjfTT+dRgRSEGJhIeqR3n8p2bC2Td+TWKGy6XADQ+yN2kO
+4rUscMNLX9zPs/Ws5Uzk3ODa/iwYyz8Zn/LfBQMcTx5AoyfGrFg=
+=YLJL
 -----END PGP SIGNATURE-----
 
---Sig_/Ue_U6aUdgYxVII2sSJ3SJAm--
+--Sig_/9SucF5WtwMDwze47kR+5Lte--
 
