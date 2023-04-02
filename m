@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BAC6D3596
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 07:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C292C6D3598
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 07:23:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piq8A-0000ib-Cp; Sun, 02 Apr 2023 01:19:54 -0400
+	id 1piqB2-0001Se-Qk; Sun, 02 Apr 2023 01:22:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1piq88-0000i9-0a
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 01:19:52 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+ id 1piqAx-0001SD-7l
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 01:22:48 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1piq86-0000NF-7I
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 01:19:51 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 184so1049345pga.12
- for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 22:19:49 -0700 (PDT)
+ id 1piqAv-0000tX-6d
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 01:22:46 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ f6-20020a17090ac28600b0023b9bf9eb63so27480694pjt.5
+ for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 22:22:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680412788;
+ d=linaro.org; s=google; t=1680412963;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=wrff1ev1LQayWge5YI0VQlv0HUlTEaadwlhJamPOC4s=;
- b=r+lurR5sgESh9Cq3Y7+Ngbkls18Iclh6++9Brpto8lcFoAIt72ginkqBLlsBXp5NSY
- Qdt3B9PaNNqdYPh48Z8WrOEoiCHLA2zaxV3EbWWOo9ghH3jjQRCJR3RciRryWkr1Fbtw
- CAmA92+B/lkySTeGg8J2eyejBLpaV5mxXE8N6tAIzOdW6OlnD1LpU/QHjsZ+wF6c+MBl
- vsntGnqJw84Nq6qbc0vnEePa4BZZ6j3s/14UfsBD9CoUkXpbm3GyE85I+sgpMY3BIMhq
- dlaNgc8n0M7pN9Xsj94JAhWdMKcNCoMfMWFnKfXCdeZy8e2bRa+uIUZsGu31ukgi2lL+
- ZBmg==
+ bh=1sSiDyXoimocMbYxgorSuCG3917TufqXbYQbSjwQG0o=;
+ b=IMGoz8ba2cn1euAfYDc4aAui5RNz0jhlsgSv6lt1Jhi0biUNmMvqx8paARfOmIbpwT
+ KVSlSbdPKSQArZj0uUtN8nCGAjgPkRMySjBXa7sbYT//SN0sQXaBScwEawtzrrMht3+0
+ R9x0t9RmCJqxj5BoikGEsK9t493mBKig3XKv169gy5u+HMsGaLJSSAyCVir0Eebr/+dy
+ PqpvXJpklnAFbDWdhXV7aQRv7K5WO2Eza6aQKngXUNFIwx0gldmLE3SdqqliyrpZtoTw
+ YPl99xFwsDMM93X5AjtQg5F3zkWPMZTrg2l9BAUqp3b81Ji7kFZx3wxTS/0EnMzFwg60
+ SL2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680412788;
+ d=1e100.net; s=20210112; t=1680412963;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wrff1ev1LQayWge5YI0VQlv0HUlTEaadwlhJamPOC4s=;
- b=HamwWFiQdfAynDkixM3oNvsWfir2HFMqv0CsnXODWRwvQmh6w8WMmLmZVmiKiZqjpZ
- YfTgicIG6NqC0uXKLpcYt+JoxSy5kTEZrWU+NWf9Q4JUVoD1F3t32LIsWV6EPaa7JCLO
- lpACxXhPTRaeQPzWHFSJlDTaJ+wMQrGG2pkYImwAKFEx6iBK/QiBEic0hfutcEALrcbw
- VacC9uE16OqWgG9sFNTBNztoXuCLvto32bvfIyiAHTB8YMkbJ9e25ZGodCPYBtJ/f1zd
- vl+t9kPtLJ2Jw8u9i8iEqPN0z+zkR5LeakiVOnlCYJgzH24CXR5z9YnYfFa4DaARMdno
- P1+g==
-X-Gm-Message-State: AAQBX9edLUVvP6w7i1xNmoQ0BUer7oXLNTWDNtWCuBEvAZkMFmh0jSPt
- xYFJ8R2DEpn2Ul/AtXzm1rb7yShaLjBoCpFydr4=
-X-Google-Smtp-Source: AKy350YzKp4jxb0EBXAPTnZt01I8T6uJk6o0E43wQOnW7DwBIYSNsY4QNWXBBBHvxUcF8x3t7VnNvQ==
-X-Received: by 2002:a62:1807:0:b0:625:a34a:89fd with SMTP id
- 7-20020a621807000000b00625a34a89fdmr25816982pfy.16.1680412788083; 
- Sat, 01 Apr 2023 22:19:48 -0700 (PDT)
+ bh=1sSiDyXoimocMbYxgorSuCG3917TufqXbYQbSjwQG0o=;
+ b=8RM11PokR9hNlUDH25tZL+ZqRrCvVilXvb88jBfFSfLMKF64cX2l4e9sgURMeTocIG
+ O6LIj1OMtKNccQoPT5PNGDYZbbUHaFrY2DF1p47ExfpYt6ieqdOZeBeXg9v38cUQ9tm1
+ 1AWA/95P7FnpcCYKAkwFJVosiQFT+XpVUiXULiCDbE0sii8d1y/n1iVHTzpw4sq+LiNu
+ tdlIjW8ZmBN/d1PZE+WcgP94b6HV3Tj30d9nRLeO45OdQZak+iYaxn4rOCh7fE2RS1bj
+ xoNsaQnb8W9lwwF/uR23SRU5qqKuQx3okHgh96lrFRwGvpmIHrKXMvRs9ffaku3rcVJ4
+ 86lA==
+X-Gm-Message-State: AAQBX9cAt6dCmQKZfplod7jC12ZmpqN0BkQX9noO1AY7yLTT5ie2Gdbx
+ j+PYq8p6bWSGB4AOZCsKMT4fQg==
+X-Google-Smtp-Source: AKy350aLPeovwL8+ZvOunipC4/fQyaDxcLcQJQb9ONY+1DIAAo5jxQs9pBmcDtZCKnqifgvlEu6IvQ==
+X-Received: by 2002:a17:90b:33cc:b0:237:40a5:7cb9 with SMTP id
+ lk12-20020a17090b33cc00b0023740a57cb9mr36390273pjb.5.1680412963696; 
+ Sat, 01 Apr 2023 22:22:43 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:f30a:3ab0:889f:f03d?
  ([2602:ae:1541:f901:f30a:3ab0:889f:f03d])
  by smtp.gmail.com with ESMTPSA id
- a19-20020a62e213000000b0062e0515f020sm948839pfi.162.2023.04.01.22.19.47
+ i21-20020a17090adc1500b0023fcece8067sm3894987pjv.2.2023.04.01.22.22.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Apr 2023 22:19:47 -0700 (PDT)
-Message-ID: <afcab21c-f596-cae6-ce3a-2ba2244d8ac1@linaro.org>
-Date: Sat, 1 Apr 2023 22:19:46 -0700
+ Sat, 01 Apr 2023 22:22:43 -0700 (PDT)
+Message-ID: <6fd79c60-550d-f33b-586a-b170eceb7abb@linaro.org>
+Date: Sat, 1 Apr 2023 22:22:41 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [RFC PATCH v2 34/44] target/loongarch: Implement LSX fpu arith
+Subject: Re: [RFC PATCH v2 35/44] target/loongarch: Implement LSX fpu fcvt
  instructions
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-35-gaosong@loongson.cn>
+ <20230328030631.3117129-36-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-35-gaosong@loongson.cn>
+In-Reply-To: <20230328030631.3117129-36-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,27 +98,58 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/27/23 20:06, Song Gao wrote:
 > This patch includes:
-> - VF{ADD/SUB/MUL/DIV}.{S/D};
-> - VF{MADD/MSUB/NMADD/NMSUB}.{S/D};
-> - VF{MAX/MIN}.{S/D};
-> - VF{MAXA/MINA}.{S/D};
-> - VFLOGB.{S/D};
-> - VFCLASS.{S/D};
-> - VF{SQRT/RECIP/RSQRT}.{S/D}.
+> - VFCVT{L/H}.{S.H/D.S};
+> - VFCVT.{H.S/S.D};
+> - VFRINT[{RNE/RZ/RP/RM}].{S/D};
+> - VFTINT[{RNE/RZ/RP/RM}].{W.S/L.D};
+> - VFTINT[RZ].{WU.S/LU.D};
+> - VFTINT[{RNE/RZ/RP/RM}].W.D;
+> - VFTINT[{RNE/RZ/RP/RM}]{L/H}.L.S;
+> - VFFINT.{S.W/D.L}[U];
+> - VFFINT.S.L, VFFINT{L/H}.D.W.
 > 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
 > ---
->   target/loongarch/cpu.h                      |   4 +
->   target/loongarch/disas.c                    |  46 +++++
->   target/loongarch/fpu_helper.c               |   2 +-
->   target/loongarch/helper.h                   |  41 +++++
->   target/loongarch/insn_trans/trans_lsx.c.inc |  55 ++++++
->   target/loongarch/insns.decode               |  43 +++++
->   target/loongarch/internals.h                |   1 +
->   target/loongarch/lsx_helper.c               | 187 ++++++++++++++++++++
->   8 files changed, 378 insertions(+), 1 deletion(-)
+>   fpu/softfloat.c                             |  55 +++
+>   include/fpu/softfloat.h                     |  27 ++
+>   target/loongarch/disas.c                    |  56 +++
+>   target/loongarch/helper.h                   |  56 +++
+>   target/loongarch/insn_trans/trans_lsx.c.inc |  56 +++
+>   target/loongarch/insns.decode               |  56 +++
+>   target/loongarch/lsx_helper.c               | 369 ++++++++++++++++++++
+>   7 files changed, 675 insertions(+)
+> 
+> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+> index c7454c3eb1..79975c6b01 100644
+> --- a/fpu/softfloat.c
+> +++ b/fpu/softfloat.c
+> @@ -2988,6 +2988,25 @@ float64 float64_round_to_int(float64 a, float_status *s)
+>       return float64_round_pack_canonical(&p, s);
+>   }
+>   
+> +#define FRINT_RM(rm, rmode, bits)                             \
+> +float ## bits float ## bits ## _round_to_int_ ## rm(          \
+> +                         float ## bits a, float_status *s)    \
+> +{                                                             \
+> +    FloatParts64 pa;   \
+> +    float ## bits ## _unpack_canonical(&pa, a, s); \
+> +    parts_round_to_int(&pa, rmode, 0, s, &float64_params);    \
+> +    return float ## bits ## _round_pack_canonical(&pa, s);    \
+> +}
+> +FRINT_RM(rne, float_round_nearest_even, 32)
+> +FRINT_RM(rm,  float_round_down,         32)
+> +FRINT_RM(rp,  float_round_up,           32)
+> +FRINT_RM(rz,  float_round_to_zero,      32)
+> +FRINT_RM(rne, float_round_nearest_even, 64)
+> +FRINT_RM(rm,  float_round_down,         64)
+> +FRINT_RM(rp,  float_round_up,           64)
+> +FRINT_RM(rz,  float_round_to_zero,      64)
+> +#undef FRINT_RM
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+No, you should simply swap your float_status rounding mode around the operation.
+See the arm/tcg gen_set_rmode function.
+
 
 r~
 
