@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562D76D3997
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 19:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699AA6D39A6
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 20:01:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pj1wo-00071e-Ng; Sun, 02 Apr 2023 13:56:58 -0400
+	id 1pj212-0007hd-B5; Sun, 02 Apr 2023 14:01:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pj1wm-0006wK-8Y
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:56 -0400
-Received: from mout.web.de ([217.72.192.78])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pj1wk-0004Cv-Ma
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1680458210; i=lukasstraub2@web.de;
- bh=uD0yPQy46Dhm1GKDNQ2Z+mjWaN0hh4FDx8761C9QICQ=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=PU22aoKWcrvyWyuWPebtjdgie0VjsDxTbqdSi1jrHbef0oqdxRXJ73ojtZPWYG8/B
- uglmDPOb9tM9Zp/sep5KrdioOPbddBZxT5AQkHQInfcSiiMCbOqgxhEY4tQm4mS0dK
- v3iEM6SlL85dHqg/ZeTFdER5PWgaD6hysgskerYCgL/3SSWMWA/k3z7+ZHDDrz5Rmv
- pezdkbv9thf8BAfOuJ20Zhw9PGOFhHaVnP+DOoREaAbLvBcS70sNMvmJyVAen3KtW4
- HIV8oL6fCp7hqI4N++QLscW1bRTPcJe5YsQ4nBQgkyEjY4TuO9x9GRSFOWbI1Bsjza
- lco1PKYcxL8VA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.111]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M28WJ-1pgYyR2tgH-002NHv; Sun, 02
- Apr 2023 19:56:50 +0200
-Date: Sun, 2 Apr 2023 17:56:49 +0000
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
- <quintela@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: [PATCH 14/14] migration: Initialize and cleanup decompression in
- migration.c
-Message-ID: <d2e81233cdd90002213a118c266060b739d377c6.1680457764.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1680457764.git.lukasstraub2@web.de>
-References: <cover.1680457764.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pj20p-0007fw-JJ
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 14:01:07 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pj20j-0005S6-55
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 14:01:07 -0400
+Received: by mail-pl1-x633.google.com with SMTP id u10so25942009plz.7
+ for <qemu-devel@nongnu.org>; Sun, 02 Apr 2023 11:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680458459;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=50/MORJXGiGELOfi51bGwFeHg6JkFIafyR4uAqyikms=;
+ b=RGvbzGg9nyTFOw0WLEx1lCdgWevfrTUbv5ocM8HrDLRsDSdOUr3BpKvRzhPZUnlR9c
+ +Qrf/u07KezfG1vkb+dL0C87UDhBDNbNiIasqkIlC8j6HL7IsvjrpIZclRDda7CuDAfB
+ LfzFiAKnLl2dH7MFf3f0VM9VJINlr0DK4deIcKvfeiLDGXoyP0ExE2tw7MOB7DaV2apC
+ AvcZujKDUp8tzLBBkL+qhzfCGiqY9nXrCsVUD94usFuegMJKy6zmUDvU/I3vJDjhmdql
+ p45Fn4ZQOA3A24OHRUkIn8v2RAVtL/JasJXuoJQuvLH+oPyEMhdC3zvU0Sv4Gezny0de
+ apdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680458459;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=50/MORJXGiGELOfi51bGwFeHg6JkFIafyR4uAqyikms=;
+ b=kDmsIOSrLrJPU6Iu6Q9t545ds9oBuubfx4XLbkad0Jt5vibz9+64EhBjzVlGcY2xCz
+ X39DVT6hkcz/5JVuimL5Ksab56HnT7SUfFmwh/ZhBFyLjhHxSKMnkYWGRxJrlHUw/2Nx
+ 4B8MOolRmRNuNpPgOgWQSozPLJjB/BM9Q3kITEMgVtloQBFzhF74lBJxNYfz29BDF9aX
+ MaAs1SnlFkmoKSGbMW8T0xDUKSl/KSwZcVAL7LHGlwlWd1UptS16897kFk3aJ+ZOEVlC
+ R5vnLaeDQcWgsB6TgmPCznFH7rACkamAdDRAF6w/mEJUxRtVNzrV3iC3fXxAvnhQflaZ
+ m2LQ==
+X-Gm-Message-State: AAQBX9cZUAK+xW53HfGfXFdr22VRQZxsECBYL2FluKdC55Fsos/Bcehf
+ vg/+M4AU5nnxPG/CmOibhPdk+g==
+X-Google-Smtp-Source: AKy350YIK+Y3PyeTHC4dIKSgB1NLreRtwA6QferEbM89DvHN0lqajLPWATfYz6w/XSO2riVDbD6EpA==
+X-Received: by 2002:a17:90b:3b45:b0:23f:86c2:54e2 with SMTP id
+ ot5-20020a17090b3b4500b0023f86c254e2mr36826534pjb.16.1680458459362; 
+ Sun, 02 Apr 2023 11:00:59 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:8c4d:19ea:12ae:de91?
+ ([2602:ae:1541:f901:8c4d:19ea:12ae:de91])
+ by smtp.gmail.com with ESMTPSA id
+ kd14-20020a17090b348e00b00233ebab3770sm4767340pjb.23.2023.04.02.11.00.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 Apr 2023 11:00:58 -0700 (PDT)
+Message-ID: <83dc4a04-1b26-dd72-63cb-940f8929b58f@linaro.org>
+Date: Sun, 2 Apr 2023 11:00:56 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/JfDtzNv5ymNQMg7=xZdCJVM";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:mDmYvNswxKOqH0dcZX//2ZFAwptpKBTmBsyp0L1gJ9m1pmDd7EP
- e92Zcf7wS3ZpCiEHVa/Syvamq+5ZcZQJl990n4/vWx1qWKWIHQb9a05Xbo9uOHDM3GfZl53
- gGmlzEeJ0ypyTMGg7JRUON0dyf7QwWStryAHOkLw5joG9YFle937yPKuJDBj6AgyYTURG7S
- bgbBBNKUvqvZxfz2xNVhA==
-UI-OutboundReport: notjunk:1;M01:P0:RYlcS/pKWSM=;GpBwB0pe33Lk0NCOaO9mimXwSXg
- dDHqLKlDPFpoGG5WATc6DnoZdYDWSjAbUNlATXQBTBFoJDhEbdrxKv1IR0UIOjdMJXScqCpif
- nXp2Tc8/FGsQu48ce2z8+b+Me5n2pi19bIROJ8s4wHU7HhnAi1BG6wURqIh8txkygY6L6ePkT
- ZrQmywrXSOs1Nn2jfDF27LHapRdUrkwk5z5ot1B6n/9gSJa8fyAymsUt56jGZkUA9xMKWkGnS
- VIjdc+I3neZjzsKjMYFCr3IQ9+o5L5s+WKWeWH2FAShRKaEKyese6KZd9c9Dt9jKc6oi5E0CW
- vLM2S0ojWIa+HHhcz4iH1UZrKHVictKb0eVXP4QEAMyaSm66dSKk3TnPTosqyD5nd7lylr3G4
- lCc1Zi5nLtic1+OkN+LLu2ZblHzQDKc9cbaV5jcS0ZIxKk3TY0rJtJhmggN2jeSUoKgHV8r3e
- NBPn43iimlXP6ulwFTWxR0t6g2XZlMQ3XwdKR/NPaewMYBrkx9I/SynlUQ4L8maKPhSjIdzd8
- mpT85C+gg6fKCMjusQv6Yti0ZS/yeiXKmjY6orhtoTXSpeujgR8+6YCTB2nsMv1qIg844OhPo
- K0yP2baR/5BJYpwRNqqXc5AGvIC6M0tR09dxVRsPiYm5pbwPgmGlRGWQiKVEQwMxRyZYe2vQk
- Rlxs8EvnuuJqIHpDVRsuoDW7Qx+RdVJ60piDCwXmypjrgyTsVe+00F+yUS9/s6Gg49szvzAWe
- vENIsIqUtX22jrrh9PjzKxfL6DgGIIE3PmySEcj/8AFbquI/u5qpnCFmZ9Xp6isrBF69OOzN5
- AVhn2OYWAWHUZ1pE47mC3TkOqDHKWYSgoZVSaaKps1B+r/lFLHg4HI8kqbGYuSlpnfNH5l3Vc
- LelF4k7LcI+cayjXkc2+8pQCoKoFY7zEcyQXppwTTqOarAIYcSufpBN4+fOaTis7Vd4Tj7LIl
- 1iuQZGUUpQFa0N51PJ+fSI8CsfM=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RESEND PATCH v5 4/6] target/riscv: Add support for PC-relative
+ translation
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, liweiwei
+ <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230401124935.20997-1-liweiwei@iscas.ac.cn>
+ <20230401124935.20997-5-liweiwei@iscas.ac.cn>
+ <15b60df7-40ca-330c-faa9-daaa78b2000d@linux.alibaba.com>
+ <7e87df52-cc1d-4a85-a83b-f12b80b7f040@iscas.ac.cn>
+ <e0dc20a2-1a93-6c3d-b3e1-f62c7d1d61c9@linux.alibaba.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <e0dc20a2-1a93-6c3d-b3e1-f62c7d1d61c9@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.37,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,106 +101,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/JfDtzNv5ymNQMg7=xZdCJVM
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 4/2/23 06:17, LIU Zhiwei wrote:
+>>> Why set pc_save here?  IMHO, pc_save is a constant.
+>>
+>> pc_save is a value which is strictly related to the value of env->pc.
+>> real_pc = (old)env->pc + target_pc(from tb) - ctx->pc_save
+> 
+> In this formula, the meaning of target_pc(from tb) doesn't match with gen_get_target_pc in 
+> the code. Its meaning in the code matches the real_pc in the formula. I think we should 
+> rename the gen_get_target_pc to gen_get_real_pc.
 
-This fixes compress with colo.
+Neither name is ideal, because it is also used for things that are not "pc".
+See e.g. target/arm/, where this is called gen_pc_plus_diff.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- migration/migration.c | 9 +++++++++
- migration/ram.c       | 5 -----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+This makes slightly more sense for uses like auipc and jalr.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index ae2025d9d8..cbdc10b840 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -26,6 +26,7 @@
- #include "sysemu/cpu-throttle.h"
- #include "rdma.h"
- #include "ram.h"
-+#include "ram-compress.h"
- #include "migration/global_state.h"
- #include "migration/misc.h"
- #include "migration.h"
-@@ -316,6 +317,7 @@ void migration_incoming_state_destroy(void)
-     struct MigrationIncomingState *mis =3D migration_incoming_get_current(=
-);
 
-     multifd_load_cleanup();
-+    compress_threads_load_cleanup();
-
-     if (mis->to_src_file) {
-         /* Tell source that we are done */
-@@ -598,6 +600,12 @@ process_incoming_migration_co(void *opaque)
-     Error *local_err =3D NULL;
-
-     assert(mis->from_src_file);
-+
-+    if (compress_threads_load_setup(mis->from_src_file)) {
-+        error_report("Failed to setup decompress threads");
-+        goto fail;
-+    }
-+
-     mis->migration_incoming_co =3D qemu_coroutine_self();
-     mis->largest_page_size =3D qemu_ram_pagesize_largest();
-     postcopy_state_set(POSTCOPY_INCOMING_NONE);
-@@ -663,6 +671,7 @@ fail:
-     qemu_fclose(mis->from_src_file);
-
-     multifd_load_cleanup();
-+    compress_threads_load_cleanup();
-
-     exit(EXIT_FAILURE);
- }
-diff --git a/migration/ram.c b/migration/ram.c
-index 9072d70f7c..e9a295fab9 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3559,10 +3559,6 @@ void colo_release_ram_cache(void)
-  */
- static int ram_load_setup(QEMUFile *f, void *opaque)
- {
--    if (compress_threads_load_setup(f)) {
--        return -1;
--    }
--
-     xbzrle_load_setup();
-     ramblock_recv_map_init();
-
-@@ -3578,7 +3574,6 @@ static int ram_load_cleanup(void *opaque)
-     }
-
-     xbzrle_load_cleanup();
--    compress_threads_load_cleanup();
-
-     RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
-         g_free(rb->receivedmap);
---
-2.30.2
-
---Sig_/JfDtzNv5ymNQMg7=xZdCJVM
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQpweEACgkQNasLKJxd
-sljYjA//SvJmFjTM68tgq/FGvGx/byYqgJILJjp3SPyCf6d5ah1C7cLHMpck2Cvo
-8iZEwEQHMZvU/CcimsjsYtyCQfOL/esSKEbyKuEN3WFobWN4SPHq5SXlZHFEPeiM
-2/wZiakuOza19uOQGSXzMytsX5olSNYeSlyeWdJweceKiQpz+Wzjqiosrgvff3V3
-TgA7MHK/8BPQSYj6Go0/MfXpDvSTKU/iTbZqb99Kissfpveue+Yrl54SMltAoAga
-rwqwoKI/F1a+SujZiT45iQSDxnEI0hLr1SPEA0XsfgLW/7kiN//3Afk3bZzvQDDO
-kD/ZRLRpQiqoVe8FHRwhGCp6lERPdUv46Z+Cx2vpiGg2qo+MQ8AtzsrTcfYgHE0b
-wgkrtf8lQb4ZhgEgJ18XU0Hfc2ZpJ2rUYf0oJKy+I3QF7lXfn9n3I3Eyp0mnBGf0
-NS5pHqM6JKnYsv6l3gUQvk1e8jFJ9KYqn1iA/aSMvBZ2Jzf9jdy0pmzyMRfzkL23
-mTGnogxwlVgYRSCeMzyMvzKmxgNKPRF0LK2mPW+WHpnjoMk1XdMkjB0PNMB/+GXN
-rZtvIF9I/KS0mwFB8Wnfe2N4TCoLqf/yrjEiUkVShRUy9TeBolv4eK+vj9jhkXBC
-saZjKoE2vs2MATj7mJephw8hu7207AegolWotBQQ1O4GKdbMbEQ=
-=OR0H
------END PGP SIGNATURE-----
-
---Sig_/JfDtzNv5ymNQMg7=xZdCJVM--
+r~
 
