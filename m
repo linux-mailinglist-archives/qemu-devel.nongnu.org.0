@@ -2,113 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9032D6D367D
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 11:28:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC066D36CB
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 11:59:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pitzN-00014I-QO; Sun, 02 Apr 2023 05:27:05 -0400
+	id 1piuT2-0005Zg-66; Sun, 02 Apr 2023 05:57:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>)
- id 1pitzJ-00013v-Sd; Sun, 02 Apr 2023 05:27:01 -0400
-Received: from mail-psaapc01olkn2067.outbound.protection.outlook.com
- ([40.92.52.67] helo=APC01-PSA-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1piuT0-0005ZY-4r
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 05:57:42 -0400
+Received: from mail-sgaapc01olkn20817.outbound.protection.outlook.com
+ ([2a01:111:f400:feab::817]
+ helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>)
- id 1pitzH-000654-PE; Sun, 02 Apr 2023 05:27:01 -0400
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1piuSy-0001fC-05
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 05:57:41 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fi4muQE+Laqk0zS0CWIYeNYk6RP02krLOGWDrb4FnuhJdv/moUHr5MxB4MCkfb4ILrOqYMlk4FDZCBYC1TqtFhJljGOhznJoREMSH16dsfw0Pg0GUTmswgVEfzTPOJbB6K4WpYlTc1hX0vJF91ZKWCi4m+CkpABDhO2SI9J44wiTNPn2sFBZ2NsM07ysvct8hg4VUY5FbzXSOpGih2Pf/T5MG1M426l04UHDPlIfcnx1xPwA4+MulbK1Z3cliBY1K8ODSJE5EPN5lzVFpG4qPrWFVAm3qdZh6KAr1CTG+C5b0Frxr4ywk/EwTiQ++cl/QNAMFYdthXq5rPfnTprKHw==
+ b=GYZ8gX/FLhEqD0YECJ34VNm7LiB+JL3BQUXWwzAivYgl7gPhSffeIxXh7WbQKLtPA4yIZtl88jzjt/v8h8GR2BRvhKwUDobdA6/do00ao4dS6b3yBKKdSHI40U6y5MRbAnUUAJKM594/424B2eEJbPAN9gMiKc3WxjYedwYJ4zGeRP94Z3qlsphCyoP7y94obfRfQXy4q/XG+3iD7gq20gK83m4UFT2etvHGtSoJEOFDNXdGWUE5bvjaLPN74xyhwUqY38uXAeS+kCvEZf54ORnVgiqsrNGAHHRbZHlymd87DVhC1lUVuvoLYcFS3na6AjbkRBrdzCKbSOaj74gnbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=INBECriHlpJLgJTURvXq/LUDqEAul8uSVX+XQiV7OOU=;
- b=btsz/NDwCpTZrMkKVGNHDIyjS3ZbpHjHIe/NLTvJCvkgVVEUbn3QcpqHPocVlh9CI3t/3M50zdWE+MCKrZDYsyjzupOeylDRrAR9g5mHRQjWl7T4uiRKurP9vi4FrCrNSR1l8v8juzLtahjUIk61r5HHnzE5EdyXjE+Y98asvDnFPz4L35r6tC4c7tMy3uVqsANBlX57zG6bjdXCYB3bYS16y7SouVCKexF5ss20IPY6y/UwtcMQGw71BrBDSDmib5uYdu6RXwKp6TNFYbzEFHljHUe7GNEYBI5JstA97kntYr3vuvs+Kg1KXHkTb7bM0LBja4FILyDsH5Yq6D4X1g==
+ bh=YvDi78l0xnIiI4j1eYf0iSwAdbn6tYVR0MQu3rJLL2k=;
+ b=BoAUrGcvdKJj3CcA8hozNLMmEX4pU33aJGrcoQrPhpxCBkMe9KY8mLSp1PgYuKdivXdchW9hp5gxYu7o4GWWlqtXcDrwomVk4BFFo32ZzJ5JRzm9ezED7CjDUPa+ap4uEJcEpmI5VzsSBQT/EGpIXj20dEbPErpzk2IsULhkbAPNYiZEyetPravbc2A+XB/M/8M/uvQ/nglUhokcja4yvhGngmp3DZB1+L6CqRuIzwl6nvJ7P1fV+LS9s3EbyN1QRLCpLTccKzo9zUC490XHTkfvjxkNoNpQFeg6ZzN3tBkPqLvak8rVabXXQBFjNSWRukA7BU7rCuoxfYoYZ4L5rw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
- by TYZPR06MB5783.apcprd06.prod.outlook.com (2603:1096:400:269::10)
+ by TYZPR06MB4635.apcprd06.prod.outlook.com (2603:1096:400:126::8)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.26; Sun, 2 Apr
- 2023 09:21:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.28; Sun, 2 Apr
+ 2023 09:57:32 +0000
 Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
  ([fe80::1c39:fb04:b3c2:5a26]) by TYZPR06MB5418.apcprd06.prod.outlook.com
  ([fe80::1c39:fb04:b3c2:5a26%2]) with mapi id 15.20.6254.029; Sun, 2 Apr 2023
- 09:21:50 +0000
-Message-ID: <TYZPR06MB5418AC3E4B7F013B486581049D8D9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Date: Sun, 2 Apr 2023 18:21:48 +0900
+ 09:57:32 +0000
+Message-ID: <TYZPR06MB5418EC5B3EB13310002E025F9D8D9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+Date: Sun, 2 Apr 2023 18:57:31 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] qemu-options.hx: Update descriptions of memory options
- for NUMA node
+Subject: Re: [PATCH v3 0/4] util: Add thread-safe qemu_strerror() function
 Content-Language: en-US
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, alex.bennee@linaro.org,
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Yohei Kojima <y-koj@outlook.jp>
-References: <TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+References: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
 From: Yohei Kojima <y-koj@outlook.jp>
-In-Reply-To: <TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+In-Reply-To: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TMN: [9SPuEBSKSmlNgQBZoxYn1yjL8efPWr5WuAgu3YnmVAgh4/ACnNLcLL0EjFsLmp/IXiJqNFGjkQM=]
-X-ClientProxiedBy: TYCP286CA0317.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3b7::7) To TYZPR06MB5418.apcprd06.prod.outlook.com
+X-TMN: [R00EFJFO4LaFB2NyThyibKGr3ah/bLXqLrulfx2f5f+xf8spinJG4BLnASEvwYBjoVUian5B65c=]
+X-ClientProxiedBy: TYWP286CA0002.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:178::17) To TYZPR06MB5418.apcprd06.prod.outlook.com
  (2603:1096:400:202::7)
-X-Microsoft-Original-Message-ID: <f0b007a7-f737-2c33-ac6d-7b943139f220@outlook.jp>
+X-Microsoft-Original-Message-ID: <260f15bf-cab6-f10d-f4e3-12c015856af0@outlook.jp>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|TYZPR06MB5783:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55c106db-5853-4410-eb33-08db335bb0ca
+X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|TYZPR06MB4635:EE_
+X-MS-Office365-Filtering-Correlation-Id: ece7caa4-a152-4290-bb62-08db3360ad9e
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GiUhSYOVndpZaHJL1FHSxFsgFXElziV9FTDyhMS9BktUjXRhkXhz7Uh+droZaksMtdWC512tYf7fPXewWmLo/6lFLfEwVBq77HrF+B8AZV3H4PkXqEtyyCzMBRMxt4GlRuxDCy+5lE3xaf+8J8UBTFRrYJ1wtMNhugfXPfBwoEd7Gh/HA9HRxDFlCXPB2TDX3xkI3t7/b3w0wvJmMdi8RqxJXtJd81illwPiqUB4uYikNHZtxzUrW1BgbTKA29f1iYtTssWhzzX3IOYrIOwB+eGjoWrBWDtkXNwMPRdWdDgRS0O4XNVJ9yTakXHy1JFMcUVe8umxdI+3O8AsRra5XYm+ZFxPkD+dAuGnsOUxb6tMkKAicoeRowpCesBycmCWMKYuoaVg5xtX+u48faY1LUZp++peuUhpA9545ff8T0q6yEf2n6xt06r7Rg3aF06aGuF520jhyCyyqvcLfH2lsoeo7kZy7qncm5e8p/KVbFJXNKDk3E2lAhoaoPZcjg9BpdtqxA9zumoOfaOSAejrnlLZJWPaWm282sweIy4CxT10690PgO8lnurpKJfahIvDwx17iXwnSv+AGCpygAC9v/dVjWsutfz7lNXMFAsaHmNNW0tOfzcO577mM9Xv8aiCfvZ1N3H6sdGY6DRZZLEmqUyw1St2THBQq03tBPQxwd0=
+X-Microsoft-Antispam-Message-Info: PauYKpb4VSqn0qDLQNmacAQV0MeRu9OGp8Zad5hK4FrSiBaeM5qR7N4d6KBPElGb9tB4TaQOPhjpMcCPjvVpXOIMQ8VqexDLhtjOlRccsDPvuQuwOIqkQbap/GNtIgVA4Ns83b4a+dFsu31wlZA0f87ps7MhcHoDgzfjfdsHgOz+yqNVbzRWFdzl7xeaR/gU+EDiepulIaFSsPM1ZOLABdK9dAcHrlEwMwEl+v90NqcUbYeSBAS39I2C9p36BXAsNEWZS9v3ySBK5D3hssQo6WNO+A+R0770qAf5o/n1IMbos0ll0nWac7aWWWsZrshV8MkMdri9AyVFV+g1/15LcgvIJniuoOf4BE78uN2Y7a9TWVbRncmXUw3fqOYAcdswTEtLp3SsGeFGCLY+dlPtO9u5mhRIl23RxYMv1mxJSvBsf4zTQ+04Mvo136zJ5FI9R5BDpImOB6DGm/7WTuDT8Ry1dSz5SLrsGbgMvCr8XgYWgXj7P8JgxPQUSfTszh7PQioudTKdVmT40blA+50ARXFPobhcMcZd7ADk4RDZkBa+ZEdnheHwu8ckVI07YEmyd/HXqnKln8VStA58x9ROiAC5Cx/KtfiHcQ/nFtnzMIVMQiBtTQla4rT3yashXEFJRhORad3+kyWumJEK1umSPQ==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFRPd0ZZYURuV2tUci9xdG5pUHJJcFNMUGNTekczSFNMOGZJWGlqTVA2NTJ2?=
- =?utf-8?B?NVNDUVh4czhROWhmaWlsY2xiVWduQkpWei9XNitaNVRSR0dHcms1K1V2YUh0?=
- =?utf-8?B?d01sYVdVZFdUYk9mN0VQbTJIeWFiY0N1VFNBaWdrUjZTMmcrR2pxTWg2cTFB?=
- =?utf-8?B?NHNWSXZFTGpMcUVTejNJZWUwaHZ3NE5JRzdHcmRma3pHVHMrSHJ0MThkMkZ6?=
- =?utf-8?B?S0kwbDJ4SnEvVzA0SHVma1pKZlNFSjlDOFoyNzZ2cHZndmxIN1NsbXVRMDlp?=
- =?utf-8?B?ZzY1c3diWjk3ZzhBVG9sbVRMVUdjWFZDMERldktvWm04bmF2UlJpRGtUOUw2?=
- =?utf-8?B?M3pDTm1ydURwZTlxL0pwT3pmNjc1WThjRjl4QUZVU0daUW9aRHlYY0NPaXFq?=
- =?utf-8?B?bitwWnNXUlVhaCtyVG5mZXJYekQycElMc1pBVzg5K2tDV3hKQ1lDVlk0YVdl?=
- =?utf-8?B?aGJ4eUVaNmg5L0dNY3hYN1VIazFuVkhxWC9Hdk1QVktQeURxVXJQT21OZHo5?=
- =?utf-8?B?WFhCeTVsK2Q0YzdhbituNEtwNk1XUVRLVG9zRnFyekV4dTlJejhEcmVSNllJ?=
- =?utf-8?B?eXBzamY4SUl3RWVsckNaUVNjNnF4cWhBN3hMTElCc20vZUo2VUFyOUVwc1cr?=
- =?utf-8?B?dWVIRnljTEhCK1NWK2c2ZVFuM0dXNURRWW9lVmZsNFA3WmRrWlRtQ2lyVXBS?=
- =?utf-8?B?ZCtnaGNsMDA0c1RCTFlqK0tYRUtjK3pQbGU0alVEQTlXZFJjQ1g2V2cyQ3J6?=
- =?utf-8?B?MmFxUTRTd3JvWHgrcEVuSDFVNHpjUyt0YmJ6eHd6VjI4eWc1ZUp1NU9Obmhn?=
- =?utf-8?B?RlFjUGFweEFaUGZXTkhad0c4UzlvVFhNeU1FRFpoRE9YREJmU1dLZUZTdEly?=
- =?utf-8?B?M1dweSt2cDhnUjJodkRPQXBpeXBCU0J1QVYvQWZwa3pCVHVVWENVZlhlUEdp?=
- =?utf-8?B?ei9qQ2ZlU3N4ZGlvdm1MS3E5K2xXQlRlZjhkR0lKeVlZdTAxM1J0WnlaQ2U3?=
- =?utf-8?B?bDhDbXFWeE4zeWVTUU5wQUZ1aFIxbDkzcjFDell4YjE3V2RRelhjajlPTnNK?=
- =?utf-8?B?TzFmSmJ5SDRvS1FzYnIwZUNwbDMraTRkM1FWVnBybWxNeWt2SjhXOEpxVTNr?=
- =?utf-8?B?MjZJa2g2ZU0yQVBkTSsxY3BrVC9abHEzamRwVlBOaGNCWHVpS2J5S0FBbUpu?=
- =?utf-8?B?WGNNSUlQSyt3V2dkU3pEZVRmaDhVd2FCM21oc1ppQ0w4RHIrWDhxQ1lsUXI3?=
- =?utf-8?B?QUpOL2VZeVg4WnQ1a2pOZ1FyczBsNVBFL09IUElsa05Cak1DVkR1SytoQ1dm?=
- =?utf-8?B?SFBkL3lKVFdHdVlLVWRGSE1jWTF6ak92ZmFVWjRYMy9XUGNBbFBaYXExWkxT?=
- =?utf-8?B?WXlEUEcwV1RpS241cE90Yk1xTytweTE4bUNSSmNycWVCbzNiOTN5R1hMcTdI?=
- =?utf-8?B?bVRJdUZqUjJhTFpUcEVqekJSc1VFSDdsWkJ5S25GcEtPUmJiWGFsbmt3N3Zm?=
- =?utf-8?B?THRjOU9IK29ueW5PelVIcjFhMWwyek5ub0ZxMlRkOFE3NExIUWFhNFlrTWVx?=
- =?utf-8?B?b2NBSnhXRkx6REwrRUNSTlRQRjBpSnU3dXFyY2sremlnNDZVYUdYRWV5MnJn?=
- =?utf-8?B?TTdSNEhXZnFkdnMwZGxGTEZaNGZFZ2lnMFlDbXlYT1ZsY1d1eGNXcnBoeXpS?=
- =?utf-8?B?TW93RE1JSnU2ajc2czhoSDVibXZmZE1sdkxjd1JwU2hyTnM0dkZsQXlnPT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2FZRFRxM3RJWFppd3AxRnFGblNLQWN5REhpMWQza25UL2pSQWowTEtrNXRZ?=
+ =?utf-8?B?RW9seTdCRTY5KzlFTnVabHVOSHZ6NVJraXl1MlV5bUdkNFN2NmZGZkgvVmlk?=
+ =?utf-8?B?N2NtVlcycVZmNmE4QXRnUTdJWHRvNjlualJ5N0dzQUJ4K3k2ZUM4OFFLNExX?=
+ =?utf-8?B?Q2dRWkhkUVpKcFdnczBvbDd2M1hPYzNkWEp6NE82ZXlPRnBJM2d5QXFGWFVX?=
+ =?utf-8?B?OTNZV0ZCWnNLa0UyazFNZytzSmdLU3BOYzBjMFVObHExSEMzZ0tJTmlHZk1I?=
+ =?utf-8?B?R1dTS3UzcStCMlB6T0VIL0FOVjZBZ3ovZ3JyZnVyNDF5bzlBdHhQODVEWm1M?=
+ =?utf-8?B?T1hQVnVoVGNERXhVeFVvRVhXRHpvUVdvRzFmL0dyLzg4aUNvbEQ4M2ZuTWRJ?=
+ =?utf-8?B?U1hTakFIZjBMQ1FnOU52Qm0zRklKZ1JYa21RQWlEWU94aVVuU0pGSFN5bjZB?=
+ =?utf-8?B?cnpYbVphRWpiVm9oTURha01FaDVobWlSRkVzbDVMSGw0bk5QbmdoS3l4SXZO?=
+ =?utf-8?B?ZWNkNVNWc0o3YVFoZjdZUGNvUjl2c0k2bHNibzExcTR1bWd5SkR5ZzJPb2hh?=
+ =?utf-8?B?eW8xMHo5blkzcE5RMGNwdUdJdUpWZFdCQndNMTkvb2dhZVpONHFnMVZURGpM?=
+ =?utf-8?B?TG8wZlpMaDBRdVB4aUFUYWgyTHp0ekZmYWxMV1hOY1U5bTQzSDBFelFJVXc4?=
+ =?utf-8?B?Yy9FQlhxU0dSUVg0Zms1UUV5ck1ZY0ZZNzZhR25ORmFLZmF5VWlZNm1nc0dK?=
+ =?utf-8?B?M0JEa3l3WkR3cVIvRFI5bWZ3STZGemNSTXNjT1VDeWg5eUhCMExpRHRJbVk0?=
+ =?utf-8?B?VUxhSGQwMEpFV2hKZFAzMjArNFByZ05pbkQ1RUpTVVFLTHJRWGk0MGk0KzhX?=
+ =?utf-8?B?WUUxUFRTQm51ZUhXb3hxb1RQT1Q2aUd0TUM0UlZ3cUNaZmlPU2RUbkRNL1pP?=
+ =?utf-8?B?M2FaNzczcFdmOCtYNkxsRVhQM2M1LzJoOHBpZ0xPd3dDc1NCZkVlRDhEOENp?=
+ =?utf-8?B?MXhDRW00WHdmZFBXb3N4MHByaWNZQlFuVHExSzVmTkZvcm5mNlpTY1VDV3dV?=
+ =?utf-8?B?V3F6UVZLTmxOd0tWVFAvaDNyQlhPcE9iRUxJNXloZnY3OVlVSG42bjRVdXh5?=
+ =?utf-8?B?eEY2NExaYzFoVExsR2ZQRENUS1JkcjFJaWpaYjl4TEk3YVcyc1RFVDNaNGZU?=
+ =?utf-8?B?TVVLbTN2OHRUYVBRNStUUzFsVFJRRXNENXNldi82RGx0RlBQS1BvMmFZbVRw?=
+ =?utf-8?B?Umk5QzErWmF2S3poTkxLYmpZRGE1MXJ5bG9DOU1KbFc5NDFiRVVrZEJQdFFJ?=
+ =?utf-8?B?bzdwVEhwVHRMaG41SVBrUXp2RTFmUTRXQjdHcmlEU1dnUERWZGZrMy9jemhk?=
+ =?utf-8?B?eXR2bXRCSml4eGd5QThvTHBkY0hCb0p1UkJRS2RYYVNWbkpPZkdwcXdDbDZa?=
+ =?utf-8?B?OFo2Uk02NzRLejcxMVFsaFR4NW14bE93OVFvOUNrdm5FZWU1Q3Z0amhUZUR1?=
+ =?utf-8?B?N25JVXhjSSthVDcwQTNQcjRlNXJYLy9CMW1TZ2VVcDN3ZmQyYjQvdnhROEpz?=
+ =?utf-8?B?TDRLcFBYSjA0VkdnS1NEOWU3aHo0c2RjYWkydVdBZnZHd016NzcyMDhWaXZh?=
+ =?utf-8?B?S25rVkZpWUlsd3JaRnFzSzZvcUVqY3JXY2hxcEZodHpxdmFPb2xNZG8yZG83?=
+ =?utf-8?B?NFdyWkZGeEV3Yzk2WWdFak8yWHl2bkFwVk44bzU5UUNCUVgybFZHdmlRPT0=?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55c106db-5853-4410-eb33-08db335bb0ca
+X-MS-Exchange-CrossTenant-Network-Message-Id: ece7caa4-a152-4290-bb62-08db3360ad9e
 X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2023 09:21:50.6439 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2023 09:57:32.7285 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5783
-Received-SPF: pass client-ip=40.92.52.67; envelope-from=y-koj@outlook.jp;
- helo=APC01-PSA-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4635
+Received-SPF: pass client-ip=2a01:111:f400:feab::817;
+ envelope-from=y-koj@outlook.jp;
+ helo=APC01-SG2-obe.outbound.protection.outlook.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
 X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,104 +126,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I add more detailed explanation for the documentation update here.
+I explain why I did not add "Fixes:" line while it is advised to add
+in the previous review. It is because this patch series solves the
+issue partially, not completely. There are many more files that
+includes `strerror()` call, but changing all of them will result in
+the huge patch series that is hard to merge.
 
-On 2023/03/30 19:09, Yohei Kojima wrote:
-> This commit adds the following description:
-> 1. `memdev` option is recommended over `mem` option (see [1,2])
-> 2. users must specify memory for all NUMA nodes (see [2])
+In short, fixes line is not added to avoid closing and reopening the
+partially fixed issue. The patch series is incomplete because the
+complete patch series will be very large.
+
+On 2023/03/31 2:07, Yohei Kojima wrote:
+> This patch series adds qemu_strerror() function, which is thread-safe
+> version of the libc strerror(). The first patch introduces the
+> qemu_strerror() function, and the second patch replaces strerror()
+> function in linux-user/* with qemu_strerror() function.
 > 
-> This commit also separates descriptions for `mem` and `memdev` into two
-> paragraphs. The old doc describes legacy `mem` option first, and it was
-> a bit confusing.
+> The difference between this patch series are:
+>   1. Add the following patches
+>     accel: replace strerror() function to the thread safe qemu_strerror()
+>     target/i386: replace strerror() function to the thread safe
+>   2. Add `#include "qemu/cutils.h"` line to linux-user/elfload.c
+>   3. Fix qemu_strerror() to follow the QEMU coding style
 > 
-> Related documantations:
-> [1] https://wiki.qemu.org/ChangeLog/5.1#Incompatible_changes
-> [2] https://www.qemu.org/docs/master/about/removed-features.html
+> The following lines are same to the cover letter in the previous
+> version.
 > 
-> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
-> ---
->  qemu-options.hx | 25 ++++++++++++++++---------
->  1 file changed, 16 insertions(+), 9 deletions(-)
+> Because it involves thread safety, qemu_strerror() should be tested
+> carefully. But before adding tests, I want to ask (1) will this patch be
+> acceptable to QEMU project after adding tests, (2) where and how
+> qemu_strerror() should be tested.
 > 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 59bdf67a2c..174f0d0c2d 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -405,15 +405,22 @@ SRST
->          -numa node,nodeid=0 -numa node,nodeid=1 \
->          -numa cpu,node-id=0,socket-id=0 -numa cpu,node-id=1,socket-id=1
->  
-> -    Legacy '\ ``mem``\ ' assigns a given RAM amount to a node (not supported
-> -    for 5.1 and newer machine types). '\ ``memdev``\ ' assigns RAM from
-> -    a given memory backend device to a node. If '\ ``mem``\ ' and
-> -    '\ ``memdev``\ ' are omitted in all nodes, RAM is split equally between them.
-
-RAM is no longer split equally in this situation. For example, the
-command below fails and emits an error. It also reproduces on other
-machine types (e.g. pc-q35-5.0).
-
-$ qemu-system-x86_64 -m 2G -machine pc-q35-7.2 \
-    -numa node,nodeid=0 -numa node,nodeid=1
-
-qemu-system-x86_64: total memory for NUMA nodes (0x0) should equal RAM size (0x80000000)
-
-> -
-> -
-> -    '\ ``mem``\ ' and '\ ``memdev``\ ' are mutually exclusive.
-> -    Furthermore, if one node uses '\ ``memdev``\ ', all of them have to
-> -    use it.
-
-And if one node uses ``mem`` (on supported machine type), all of the
-rest have to use ``mem``, because omitting the memory option is no
-longer supported.
-
-> +    '\ ``memdev``\ ' option assigns RAM from a given memory backend
-> +    device to a node. It is recommended to use '\ ``memdev``\ ' option
-> +    over legacy '\ ``mem``\ ' option. This is because '\ ``memdev``\ '
-> +    option provides better performance and more control over the
-> +    backend's RAM (e.g. '\ ``prealloc``\ ' parameter of
-> +    '\ ``-memory-backend-ram``\ ' allows memory preallocation).
-
-``memdev`` is described first, because ``mem`` is not supported on
-machine type 5.1 and later. Readers will see the supported option first.
-
-> +
-> +    For compatibility reasons, legacy '\ ``mem``\ ' option is
-> +    supported in 5.0 and older machine types. Note that '\ ``mem``\ '
-> +    and '\ ``memdev``\ ' are mutually exclusive. If one node uses
-> +    '\ ``memdev``\ ', the rest nodes have to use '\ ``memdev``\ '
-> +    option, and vice versa.
-
-Description for ``mem`` is moved here. It also describes that ``mem``
-and ``memdev`` is mutually exclusive.
-
-> +
-> +    Users must specify memory for all NUMA nodes by '\ ``memdev``\ '
-> +    (or legacy '\ ``mem``\ ' if available). In QEMU 5.2, the support
-> +    for '\ ``-numa node``\ ' without memory specified was removed.
-
-Users must specify the memory size for each node like
-either (A) or (B), instead of (C). Note that (A) emits warnings (A1).
-Also note that, as described above, the machine type for (A) should be
-5.0 or older (pc-q35-5.0 here).
-
-(A) qemu-system-x86_64 -m 2G -machine pc-q35-5.0 \
-    -numa node,nodeid=0,mem=1G -numa node,nodeid=1,mem=1G
-
-(A1)
-qemu-system-x86_64: -numa node,nodeid=0,mem=1G: warning: Parameter -numa node,mem is deprecated, use -numa node,memdev instead
-qemu-system-x86_64: -numa node,nodeid=1,mem=1G: warning: Parameter -numa node,mem is deprecated, use -numa node,memdev instead
-
-(B) qemu-system-x86_64 -m 2G -machine pc-q35-7.2 \
-    -object memory-backend-ram,size=1G,id=m0 \
-    -object memory-backend-ram,size=1G,id=m1 \
-    -numa node,nodeid=0,memdev=m0 -numa node,nodeid=1,memdev=m1
-
-(C) qemu-system-x86_64 -m 2G -machine pc-q35-7.2 \
-    -numa node,nodeid=0 -numa node,nodeid=1
-
->  
->      '\ ``initiator``\ ' is an additional option that points to an
->      initiator NUMA node that has best performance (the lowest latency or
+> (1) means that: is my approach too complicated to solve potential
+> thread-unsafe implementation of strerror()? Although strerror() is not
+> guaranteed to be thread-safe, glibc implements thread-safe strerror().
+> We have to consider the balance between maintenance costs and potential
+> risks.
+> 
+> (2) means that: is tests/unit/test-cutils.c a good place for tests?
+> Because the behavior of qemu_strerror() is changed by the feature test
+> macros, the tests should be run with different test macros, hopefully
+> in different OSs.
+> 
+> Note that strerror_r() function called by qemu_strerror() has
+> different return types between architectures because of the historical
+> reason. qemu_strerror() handles both the newer POSIX strerror() and the
+> older POSIX strerror().
+> 
+> All tests except for skipped ones are passed in my environment (x86_64
+> linux).
+> 
+> Yohei Kojima (4):
+>   util: Add thread-safe qemu_strerror() function
+>   linux-user: replace strerror() function to the thread safe
+>     qemu_strerror()
+>   accel: replace strerror() function to the thread safe qemu_strerror()
+>   target/i386: replace strerror() function to the thread safe
+>     qemu_strerror()
+> 
+>  accel/kvm/kvm-all.c               | 32 +++++++++++---------
+>  accel/tcg/cputlb.c                |  3 +-
+>  accel/tcg/perf.c                  |  7 +++--
+>  include/qemu/cutils.h             | 20 +++++++++++++
+>  linux-user/elfload.c              |  6 ++--
+>  linux-user/main.c                 |  5 ++--
+>  linux-user/syscall.c              |  2 +-
+>  target/i386/kvm/kvm.c             | 49 ++++++++++++++++---------------
+>  target/i386/kvm/xen-emu.c         |  7 +++--
+>  target/i386/nvmm/nvmm-accel-ops.c |  2 +-
+>  target/i386/sev.c                 |  5 ++--
+>  target/i386/whpx/whpx-accel-ops.c |  2 +-
+>  util/cutils.c                     | 49 +++++++++++++++++++++++++++++++
+>  13 files changed, 136 insertions(+), 53 deletions(-)
+> 
 
