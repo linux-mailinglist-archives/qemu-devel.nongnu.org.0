@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C9F6D399A
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 19:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 517126D399C
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 19:59:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pj1wc-0006p4-Hl; Sun, 02 Apr 2023 13:56:46 -0400
+	id 1pj1wg-0006rq-SE; Sun, 02 Apr 2023 13:56:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pj1wZ-0006oc-AO
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:43 -0400
-Received: from mout.web.de ([212.227.17.11])
+ id 1pj1wc-0006p9-Lr
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:46 -0400
+Received: from mout.web.de ([212.227.17.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pj1wX-00044Q-13
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:43 -0400
+ id 1pj1wa-00046U-0B
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1680458196; i=lukasstraub2@web.de;
- bh=TBYuBZEdHM9itefC6FEFGIchlHsJurZstc3lDoPhNX8=;
+ t=1680458200; i=lukasstraub2@web.de;
+ bh=gakdj9MuRP2kmr9tpcbl0VTtVwaDkY+EO+nYuW3YLiU=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=WFz6bcsjbuRhzSK+AmoKeZVrLw79YejE+15zKwy2nuT5AAkN+i3ioiOlO2OMIKA0H
- T+lKmfs4nwDo+Go3nM3f0aGtZhT0MjUnKxGIyxHughBVo/wVTUaL+X/E4+dyfJo6e2
- nOXi8Im6JU5bex6nFSTE5K68SLHyUplnDoWcEqu2Pytllr03tzl+e63ZNdmKSrdoEU
- 6dvSekRv/5Poz97iCu/w7G/b3CCIzqeV96UOZou/MbVmy35POyfEgaFfC9cpYFkzac
- Udvl8T/7OO+YerOB00npWGL26QH/fl9CUYgbnYCmMVcTZQJ1MM69ohIS0J8UiWLJPD
- VsFWn5dVd4qJg==
+ b=wZ2EK//+zMH1zYWQeTcdkSwoRy5mf9Xrojkp6kIXhcLtwNtakCkKZT2+LSEY8EETE
+ Nj6K8V/IOKNqjLprDFriAk0Lcw9NkdYdtVAYYFCGWJOrlr6nh08h71JnuKJ6eeJoGT
+ IS/kv4u/jOienfRoM/VXsgeutHxrtVm+ic+rTAMK88kopDGbDmWBqSfRHyruLD+Icq
+ Vxsnp2yNGMh9RJ1oi8Mc5u6yvKI6PFND96ZhzfbfY4ISnfDP3i9WMm8O9PMSf2J2NW
+ aaiqdxOPKJ6T6yMWLHLCbGSUMU7XlfbvY2Src9vnDKyH2bCeDTWH58UTglz0qWUhyp
+ WZwj9tB2fhgHw==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.111]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N45xz-1qQZxF2psH-00zprQ; Sun, 02
- Apr 2023 19:56:36 +0200
-Date: Sun, 2 Apr 2023 17:56:35 +0000
+Received: from gecko.fritz.box ([82.207.254.111]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MA4bA-1pYct80bAg-00By3I; Sun, 02
+ Apr 2023 19:56:40 +0200
+Date: Sun, 2 Apr 2023 17:56:39 +0000
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
  <quintela@redhat.com>, Peter Xu <peterx@redhat.com>
-Subject: [PATCH 10/14] ram.c: Move core decompression code into its own file
-Message-ID: <2af9a607c95a9b543a213c7123be5c8f131e922c.1680457764.git.lukasstraub2@web.de>
+Subject: [PATCH 11/14] ram compress: Assert that the file buffer matches the
+ result
+Message-ID: <929d6df4337b8a206cfbc201b5d350a324d66b02.1680457764.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1680457764.git.lukasstraub2@web.de>
 References: <cover.1680457764.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qD3MiitBfU791lsd+zCjl7K";
+Content-Type: multipart/signed; boundary="Sig_/Ue_U6aUdgYxVII2sSJ3SJAm";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:BQJnpT5XPmoh82m+VPTKKT3XVYx2JVmWEfy23RI6qD82cw5hyAM
- uskcG5xkjB6X2/8o9njONJ9q4dXNVLad3GW/ZwHl8QE1USI5LquVCFsX0ujW9yAQeewtQT3
- qzXmZoBscqx8ak++qpvWDAX86mhKGjrh092vbQQsGHs9UinE0Dhvic0duwzjPM2Dehs5dOt
- 9tnOdINxbzAvIJ00r0hVQ==
-UI-OutboundReport: notjunk:1;M01:P0:vbmtOslda68=;0mpP3qqzNpRz24opK1+Umwbe6Y5
- DS2A3uEpXBvyfIXy2jQ/vGfxy2BeLYHhIU5D7iGhAnYSb3noXKjbzR08Ghb/+vkqRW5c1+8cR
- 2ma+mdCwQOt+rVBV/rBDsEonkPCypZRt9tyG1rYnrfUFrHnNov9LxhrrDPIpsBTITbPA/JHg2
- OPXt0LUQanNZefHxsr2+sUa68lyTr5QU7v3zYh1D9PkUyL+aEAQTwcU0Hr/mYP4j1wS+b4KHE
- HnHW/A7lbUTOPpqqkJy2gBQMgJZNSUc+VQk1HcWkGv/9EsywcWowri1x2faUv0PaWjS+TgUrD
- qKAFskCnDjOkJdYaGHL9XZ+I3YlUYelbE1s7Ogi0oFfK6Aaj6/orUjhKOuHF485d6U26WFbIS
- bltibsY6hRKvFyOJcWfZJQZNc3j4IvbAbdFSS6pLMLr2r4EYGpkPo/lIAVWlI3DbGNDWvjuYO
- 4VTfRwOc4omVmzivdZK/9AGXKSIYXKwoMwroUTqU8dfU7UIpDnlMFaABw+Ki7KdYw6MCVJ9WI
- s3Ql3WWQ6FWah1zgbvP2mdytbKrT5u+umDfNTE9dUtEiJyFeJtqB8hxYoHvCjJ3rSmI6qOCJr
- zLallzc0Y55n2DaLZZ6LAsbf3mVLTubeFrwNpO+LlSRt9tjaro+PGrHEK7LdQTWXNQcg2Ssf9
- YDArlPvZ9Zo1GYAxkkQLrdPyZyF4BewnEBAkZyqlJtXuKoyrTG5ITNItpXzRhFDbWCauxEIZA
- JyFQk6YqOTgWa51L0EGbBJui5yhp3lm0WFgs6TaNi8YT7Y/gKkz5WHswTly0X7i1bcVrDZGWu
- yga4fWlkN1nkLlUR8oPUch5yitSf2KPs5oUtWp4QrvBACsBf3eQNowvT/V2Xr9PMDHfJt7DHo
- uJxnaNc2E8ERmTfz+mRNoddWVZ4j0zgyJHohsDY/IBDk5240KkPeOImvlRkiScRcpd1uW7Hxo
- 7JI90qIyhGiq59/T5jVnJpzKVlI=
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:5gSpBR/4RVf4RiBuFq1kJjb403pqUxpInx8MPhGiHXPrlbSJj3/
+ /TQ+TodjwiKKvklzd6xVKrKU2cB1/djRpqz0Nw2wkQS7OmHHDv7M3w40I4AjkPb8obwH4ao
+ UzRQiV3E0bfD53w3RtGtuwGMrRUsHXJQwQrw5MP8oK+GeZ/aaiIFm7JDDouXsNaBZCTzh/m
+ y+7NIECErIARoTxoD/qVg==
+UI-OutboundReport: notjunk:1;M01:P0:DHDwzci6qds=;oN6s4vYFEsetkXpiGPmORZ+Ikmc
+ w/l2j/XEj1WYyOsHPhKBO7sQhCqV6Zr7jo64TZ65T/Q+jS9niCNSiI+XWcQCWBZHl/q4PCscW
+ 9dMEjrnNTYhNd5tSFhPHPt02T2Lg5QFkub7/U1XCMcrzfpqifWIYQHYFDHQCgQYUtgqMA6rU6
+ Mh3/zKm49Jax/C+3LZgJiKUfKBOFAc8L2AZNt/AQHOESHOuu3UnaaWOGXL69WehlRyPBbmejv
+ 3wBWyyXOpXh1f1CLSbSYhT+qPzHY0dsLCM0TOAYl21yWnmKDuXUm3qXBl9WdeqsHTZLMPqxWo
+ AtuzWS2M1OP6Pr1VAS6WAFNOyXIppQ0aguqoitqqxyPk4+XQfef5W8cKX2ZkhaqaDFIRlhmGt
+ 79OmeotdSIgWGUo0M+cKWjYLAuS8fOlKOB+ph3Gd3Qapb48QI2pmwZG7j5AQOiIw0C+b01QPX
+ bEzhlNHvMXYTzx7IfF15ihIgaAeB+6ZpK0dGOCdpOhTxHge0jkQrxlDSggEvPyPOPv9x8BBC+
+ LUk0j+zuUMA27L8mqpZBpfSOD9i/v4zPPaj56kjTfg90ePOFOj039lYSGx05SIYos31TW8soe
+ g3zcQRozJhtko/XLbS5/+FASM55VpxXKBnVSHrAEzlFpH5XK8zkkNWSs6erkYC4JG8sOk9Y0v
+ fTtJkiMgH5ZXFg5fV5HTEhmN4HkBLm3/dlh/zs6Z8MWEW6S6Nf+YEVA7cwIgepaKW3S/PwwKX
+ 59d+jgTHJhAGxHRLkVZM7srMxaKkkbM9J6+IdiPH+xtoS3wTyDEH3GrqTSHrUPvRj34iKOFBB
+ NTulDia63BczFY1TVv5NtdRiS7aYQ9BZ/vhExCdwa18i09rX5Th3Gpa5oSZs936de9XfxQnbd
+ FuZFrVg5QJG3TP8eKhcXJ5FsJFgTKPNK5r4w1XDHzPJG0ooSTFMJVG3SOADrDs08HPjpCiIy3
+ OEUp47T4MGLu33YInHm7FWRPGeI=
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -88,502 +89,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/qD3MiitBfU791lsd+zCjl7K
+--Sig_/Ue_U6aUdgYxVII2sSJ3SJAm
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-No functional changes intended.
+Before this series, "nothing to send" was handled by the file buffer
+being empty. Now it is tracked via param->result.
+
+Assert that the file buffer state matches the result.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/ram-compress.c | 203 ++++++++++++++++++++++++++++++++++++++
- migration/ram-compress.h |   5 +
- migration/ram.c          | 204 ---------------------------------------
- 3 files changed, 208 insertions(+), 204 deletions(-)
+ migration/qemu-file.c    | 11 +++++++++++
+ migration/qemu-file.h    |  1 +
+ migration/ram-compress.c |  5 +++++
+ migration/ram.c          |  2 ++
+ 4 files changed, 19 insertions(+)
 
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 102ab3b439..2b3f3f8549 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -887,6 +887,17 @@ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_sr=
+c)
+     return len;
+ }
+
++/*
++ * Check if the writable buffer is empty
++ */
++
++bool qemu_file_buffer_empty(QEMUFile *file)
++{
++    assert(qemu_file_is_writable(file));
++
++    return !file->iovcnt;
++}
++
+ /*
+  * Get a string whose length is determined by a single preceding byte
+  * A preallocated 256 byte buffer must be passed in.
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index 9d0155a2a1..15e5f189f0 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -113,6 +113,7 @@ size_t qemu_get_buffer_in_place(QEMUFile *f, uint8_t **=
+buf, size_t size);
+ ssize_t qemu_put_compression_data(QEMUFile *f, z_stream *stream,
+                                   const uint8_t *p, size_t size);
+ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src);
++bool qemu_file_buffer_empty(QEMUFile *file);
+
+ /*
+  * Note that you can only peek continuous bytes from where the current poi=
+nter
 diff --git a/migration/ram-compress.c b/migration/ram-compress.c
-index 77902a1d65..f75b8c3079 100644
+index f75b8c3079..b75a9d2b9a 100644
 --- a/migration/ram-compress.c
 +++ b/migration/ram-compress.c
-@@ -47,6 +47,24 @@ static QemuThread *compress_threads;
- static QemuMutex comp_done_lock;
- static QemuCond comp_done_cond;
+@@ -193,6 +193,8 @@ static CompressResult do_compress_ram_page(QEMUFile *f,=
+ z_stream *stream,
+     uint8_t *p =3D block->host + offset;
+     int ret;
 
-+struct DecompressParam {
-+    bool done;
-+    bool quit;
-+    QemuMutex mutex;
-+    QemuCond cond;
-+    void *des;
-+    uint8_t *compbuf;
-+    int len;
-+    z_stream stream;
-+};
-+typedef struct DecompressParam DecompressParam;
++    assert(qemu_file_buffer_empty(f));
 +
-+static QEMUFile *decomp_file;
-+static DecompressParam *decomp_param;
-+static QemuThread *decompress_threads;
-+static QemuMutex decomp_done_lock;
-+static QemuCond decomp_done_cond;
-+
- static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
-                                            RAMBlock *block, ram_addr_t off=
-set,
-                                            uint8_t *source_buf);
-@@ -271,3 +289,188 @@ retry:
+     if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
+         return RES_ZEROPAGE;
+     }
+@@ -207,6 +209,7 @@ static CompressResult do_compress_ram_page(QEMUFile *f,=
+ z_stream *stream,
+     if (ret < 0) {
+         qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+         error_report("compressed data failed!");
++        qemu_fflush(f);
+         return RES_NONE;
+     }
+     return RES_COMPRESS;
+@@ -238,6 +241,7 @@ void flush_compressed_data(int (send_queued_data(Compre=
+ssParam *)))
+         if (!comp_param[idx].quit) {
+             CompressParam *param =3D &comp_param[idx];
+             send_queued_data(param);
++            assert(qemu_file_buffer_empty(param->file));
+             compress_reset_result(param);
+         }
+         qemu_mutex_unlock(&comp_param[idx].mutex);
+@@ -267,6 +271,7 @@ retry:
+             qemu_mutex_lock(&param->mutex);
+             param->done =3D false;
+             send_queued_data(param);
++            assert(qemu_file_buffer_empty(param->file));
+             compress_reset_result(param);
+             set_compress_params(param, block, offset);
 
-     return pages;
- }
-+
-+/* return the size after decompression, or negative value on error */
-+static int
-+qemu_uncompress_data(z_stream *stream, uint8_t *dest, size_t dest_len,
-+                     const uint8_t *source, size_t source_len)
-+{
-+    int err;
-+
-+    err =3D inflateReset(stream);
-+    if (err !=3D Z_OK) {
-+        return -1;
-+    }
-+
-+    stream->avail_in =3D source_len;
-+    stream->next_in =3D (uint8_t *)source;
-+    stream->avail_out =3D dest_len;
-+    stream->next_out =3D dest;
-+
-+    err =3D inflate(stream, Z_NO_FLUSH);
-+    if (err !=3D Z_STREAM_END) {
-+        return -1;
-+    }
-+
-+    return stream->total_out;
-+}
-+
-+static void *do_data_decompress(void *opaque)
-+{
-+    DecompressParam *param =3D opaque;
-+    unsigned long pagesize;
-+    uint8_t *des;
-+    int len, ret;
-+
-+    qemu_mutex_lock(&param->mutex);
-+    while (!param->quit) {
-+        if (param->des) {
-+            des =3D param->des;
-+            len =3D param->len;
-+            param->des =3D 0;
-+            qemu_mutex_unlock(&param->mutex);
-+
-+            pagesize =3D TARGET_PAGE_SIZE;
-+
-+            ret =3D qemu_uncompress_data(&param->stream, des, pagesize,
-+                                       param->compbuf, len);
-+            if (ret < 0 && migrate_get_current()->decompress_error_check) {
-+                error_report("decompress data failed");
-+                qemu_file_set_error(decomp_file, ret);
-+            }
-+
-+            qemu_mutex_lock(&decomp_done_lock);
-+            param->done =3D true;
-+            qemu_cond_signal(&decomp_done_cond);
-+            qemu_mutex_unlock(&decomp_done_lock);
-+
-+            qemu_mutex_lock(&param->mutex);
-+        } else {
-+            qemu_cond_wait(&param->cond, &param->mutex);
-+        }
-+    }
-+    qemu_mutex_unlock(&param->mutex);
-+
-+    return NULL;
-+}
-+
-+int wait_for_decompress_done(void)
-+{
-+    int idx, thread_count;
-+
-+    if (!migrate_use_compression()) {
-+        return 0;
-+    }
-+
-+    thread_count =3D migrate_decompress_threads();
-+    qemu_mutex_lock(&decomp_done_lock);
-+    for (idx =3D 0; idx < thread_count; idx++) {
-+        while (!decomp_param[idx].done) {
-+            qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
-+        }
-+    }
-+    qemu_mutex_unlock(&decomp_done_lock);
-+    return qemu_file_get_error(decomp_file);
-+}
-+
-+void compress_threads_load_cleanup(void)
-+{
-+    int i, thread_count;
-+
-+    if (!migrate_use_compression()) {
-+        return;
-+    }
-+    thread_count =3D migrate_decompress_threads();
-+    for (i =3D 0; i < thread_count; i++) {
-+        /*
-+         * we use it as a indicator which shows if the thread is
-+         * properly init'd or not
-+         */
-+        if (!decomp_param[i].compbuf) {
-+            break;
-+        }
-+
-+        qemu_mutex_lock(&decomp_param[i].mutex);
-+        decomp_param[i].quit =3D true;
-+        qemu_cond_signal(&decomp_param[i].cond);
-+        qemu_mutex_unlock(&decomp_param[i].mutex);
-+    }
-+    for (i =3D 0; i < thread_count; i++) {
-+        if (!decomp_param[i].compbuf) {
-+            break;
-+        }
-+
-+        qemu_thread_join(decompress_threads + i);
-+        qemu_mutex_destroy(&decomp_param[i].mutex);
-+        qemu_cond_destroy(&decomp_param[i].cond);
-+        inflateEnd(&decomp_param[i].stream);
-+        g_free(decomp_param[i].compbuf);
-+        decomp_param[i].compbuf =3D NULL;
-+    }
-+    g_free(decompress_threads);
-+    g_free(decomp_param);
-+    decompress_threads =3D NULL;
-+    decomp_param =3D NULL;
-+    decomp_file =3D NULL;
-+}
-+
-+int compress_threads_load_setup(QEMUFile *f)
-+{
-+    int i, thread_count;
-+
-+    if (!migrate_use_compression()) {
-+        return 0;
-+    }
-+
-+    thread_count =3D migrate_decompress_threads();
-+    decompress_threads =3D g_new0(QemuThread, thread_count);
-+    decomp_param =3D g_new0(DecompressParam, thread_count);
-+    qemu_mutex_init(&decomp_done_lock);
-+    qemu_cond_init(&decomp_done_cond);
-+    decomp_file =3D f;
-+    for (i =3D 0; i < thread_count; i++) {
-+        if (inflateInit(&decomp_param[i].stream) !=3D Z_OK) {
-+            goto exit;
-+        }
-+
-+        decomp_param[i].compbuf =3D g_malloc0(compressBound(TARGET_PAGE_SI=
-ZE));
-+        qemu_mutex_init(&decomp_param[i].mutex);
-+        qemu_cond_init(&decomp_param[i].cond);
-+        decomp_param[i].done =3D true;
-+        decomp_param[i].quit =3D false;
-+        qemu_thread_create(decompress_threads + i, "decompress",
-+                           do_data_decompress, decomp_param + i,
-+                           QEMU_THREAD_JOINABLE);
-+    }
-+    return 0;
-+exit:
-+    compress_threads_load_cleanup();
-+    return -1;
-+}
-+
-+void decompress_data_with_multi_threads(QEMUFile *f, void *host, int len)
-+{
-+    int idx, thread_count;
-+
-+    thread_count =3D migrate_decompress_threads();
-+    QEMU_LOCK_GUARD(&decomp_done_lock);
-+    while (true) {
-+        for (idx =3D 0; idx < thread_count; idx++) {
-+            if (decomp_param[idx].done) {
-+                decomp_param[idx].done =3D false;
-+                qemu_mutex_lock(&decomp_param[idx].mutex);
-+                qemu_get_buffer(f, decomp_param[idx].compbuf, len);
-+                decomp_param[idx].des =3D host;
-+                decomp_param[idx].len =3D len;
-+                qemu_cond_signal(&decomp_param[idx].cond);
-+                qemu_mutex_unlock(&decomp_param[idx].mutex);
-+                break;
-+            }
-+        }
-+        if (idx < thread_count) {
-+            break;
-+        } else {
-+            qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
-+        }
-+    }
-+}
-diff --git a/migration/ram-compress.h b/migration/ram-compress.h
-index 06570a799c..6f7fe2f472 100644
---- a/migration/ram-compress.h
-+++ b/migration/ram-compress.h
-@@ -62,4 +62,9 @@ void flush_compressed_data(int (send_queued_data(Compress=
-Param *)));
- int compress_page_with_multi_thread(RAMBlock *block, ram_addr_t offset,
-                                 int (send_queued_data(CompressParam *)));
-
-+int wait_for_decompress_done(void);
-+void compress_threads_load_cleanup(void);
-+int compress_threads_load_setup(QEMUFile *f);
-+void decompress_data_with_multi_threads(QEMUFile *f, void *host, int len);
-+
- #endif
 diff --git a/migration/ram.c b/migration/ram.c
-index 31b9b0b9ec..5a2486bf89 100644
+index 5a2486bf89..7a8f540737 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -492,24 +492,6 @@ typedef struct MigrationOps MigrationOps;
+@@ -1333,11 +1333,13 @@ static int send_queued_data(CompressParam *param)
+     assert(block =3D=3D pss->last_sent_block);
 
- MigrationOps *migration_ops;
-
--struct DecompressParam {
--    bool done;
--    bool quit;
--    QemuMutex mutex;
--    QemuCond cond;
--    void *des;
--    uint8_t *compbuf;
--    int len;
--    z_stream stream;
--};
--typedef struct DecompressParam DecompressParam;
--
--static QEMUFile *decomp_file;
--static DecompressParam *decomp_param;
--static QemuThread *decompress_threads;
--static QemuMutex decomp_done_lock;
--static QemuCond decomp_done_cond;
--
- static int ram_save_host_page_urgent(PageSearchStatus *pss);
-
- /* NOTE: page is the PFN not real ram_addr_t. */
-@@ -3467,192 +3449,6 @@ void ram_handle_compressed(void *host, uint8_t ch, =
-uint64_t size)
-     }
- }
-
--/* return the size after decompression, or negative value on error */
--static int
--qemu_uncompress_data(z_stream *stream, uint8_t *dest, size_t dest_len,
--                     const uint8_t *source, size_t source_len)
--{
--    int err;
--
--    err =3D inflateReset(stream);
--    if (err !=3D Z_OK) {
--        return -1;
--    }
--
--    stream->avail_in =3D source_len;
--    stream->next_in =3D (uint8_t *)source;
--    stream->avail_out =3D dest_len;
--    stream->next_out =3D dest;
--
--    err =3D inflate(stream, Z_NO_FLUSH);
--    if (err !=3D Z_STREAM_END) {
--        return -1;
--    }
--
--    return stream->total_out;
--}
--
--static void *do_data_decompress(void *opaque)
--{
--    DecompressParam *param =3D opaque;
--    unsigned long pagesize;
--    uint8_t *des;
--    int len, ret;
--
--    qemu_mutex_lock(&param->mutex);
--    while (!param->quit) {
--        if (param->des) {
--            des =3D param->des;
--            len =3D param->len;
--            param->des =3D 0;
--            qemu_mutex_unlock(&param->mutex);
--
--            pagesize =3D TARGET_PAGE_SIZE;
--
--            ret =3D qemu_uncompress_data(&param->stream, des, pagesize,
--                                       param->compbuf, len);
--            if (ret < 0 && migrate_get_current()->decompress_error_check) {
--                error_report("decompress data failed");
--                qemu_file_set_error(decomp_file, ret);
--            }
--
--            qemu_mutex_lock(&decomp_done_lock);
--            param->done =3D true;
--            qemu_cond_signal(&decomp_done_cond);
--            qemu_mutex_unlock(&decomp_done_lock);
--
--            qemu_mutex_lock(&param->mutex);
--        } else {
--            qemu_cond_wait(&param->cond, &param->mutex);
--        }
--    }
--    qemu_mutex_unlock(&param->mutex);
--
--    return NULL;
--}
--
--static int wait_for_decompress_done(void)
--{
--    int idx, thread_count;
--
--    if (!migrate_use_compression()) {
--        return 0;
--    }
--
--    thread_count =3D migrate_decompress_threads();
--    qemu_mutex_lock(&decomp_done_lock);
--    for (idx =3D 0; idx < thread_count; idx++) {
--        while (!decomp_param[idx].done) {
--            qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
--        }
--    }
--    qemu_mutex_unlock(&decomp_done_lock);
--    return qemu_file_get_error(decomp_file);
--}
--
--static void compress_threads_load_cleanup(void)
--{
--    int i, thread_count;
--
--    if (!migrate_use_compression()) {
--        return;
--    }
--    thread_count =3D migrate_decompress_threads();
--    for (i =3D 0; i < thread_count; i++) {
--        /*
--         * we use it as a indicator which shows if the thread is
--         * properly init'd or not
--         */
--        if (!decomp_param[i].compbuf) {
--            break;
--        }
--
--        qemu_mutex_lock(&decomp_param[i].mutex);
--        decomp_param[i].quit =3D true;
--        qemu_cond_signal(&decomp_param[i].cond);
--        qemu_mutex_unlock(&decomp_param[i].mutex);
--    }
--    for (i =3D 0; i < thread_count; i++) {
--        if (!decomp_param[i].compbuf) {
--            break;
--        }
--
--        qemu_thread_join(decompress_threads + i);
--        qemu_mutex_destroy(&decomp_param[i].mutex);
--        qemu_cond_destroy(&decomp_param[i].cond);
--        inflateEnd(&decomp_param[i].stream);
--        g_free(decomp_param[i].compbuf);
--        decomp_param[i].compbuf =3D NULL;
--    }
--    g_free(decompress_threads);
--    g_free(decomp_param);
--    decompress_threads =3D NULL;
--    decomp_param =3D NULL;
--    decomp_file =3D NULL;
--}
--
--static int compress_threads_load_setup(QEMUFile *f)
--{
--    int i, thread_count;
--
--    if (!migrate_use_compression()) {
--        return 0;
--    }
--
--    thread_count =3D migrate_decompress_threads();
--    decompress_threads =3D g_new0(QemuThread, thread_count);
--    decomp_param =3D g_new0(DecompressParam, thread_count);
--    qemu_mutex_init(&decomp_done_lock);
--    qemu_cond_init(&decomp_done_cond);
--    decomp_file =3D f;
--    for (i =3D 0; i < thread_count; i++) {
--        if (inflateInit(&decomp_param[i].stream) !=3D Z_OK) {
--            goto exit;
--        }
--
--        decomp_param[i].compbuf =3D g_malloc0(compressBound(TARGET_PAGE_SI=
-ZE));
--        qemu_mutex_init(&decomp_param[i].mutex);
--        qemu_cond_init(&decomp_param[i].cond);
--        decomp_param[i].done =3D true;
--        decomp_param[i].quit =3D false;
--        qemu_thread_create(decompress_threads + i, "decompress",
--                           do_data_decompress, decomp_param + i,
--                           QEMU_THREAD_JOINABLE);
--    }
--    return 0;
--exit:
--    compress_threads_load_cleanup();
--    return -1;
--}
--
--static void decompress_data_with_multi_threads(QEMUFile *f,
--                                               void *host, int len)
--{
--    int idx, thread_count;
--
--    thread_count =3D migrate_decompress_threads();
--    QEMU_LOCK_GUARD(&decomp_done_lock);
--    while (true) {
--        for (idx =3D 0; idx < thread_count; idx++) {
--            if (decomp_param[idx].done) {
--                decomp_param[idx].done =3D false;
--                qemu_mutex_lock(&decomp_param[idx].mutex);
--                qemu_get_buffer(f, decomp_param[idx].compbuf, len);
--                decomp_param[idx].des =3D host;
--                decomp_param[idx].len =3D len;
--                qemu_cond_signal(&decomp_param[idx].cond);
--                qemu_mutex_unlock(&decomp_param[idx].mutex);
--                break;
--            }
--        }
--        if (idx < thread_count) {
--            break;
--        } else {
--            qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
--        }
--    }
--}
--
- static void colo_init_ram_state(void)
- {
-     ram_state_init(&ram_state);
+     if (param->result =3D=3D RES_ZEROPAGE) {
++        assert(qemu_file_buffer_empty(param->file));
+         len +=3D save_page_header(pss, file, block, offset | RAM_SAVE_FLAG=
+_ZERO);
+         qemu_put_byte(file, 0);
+         len +=3D 1;
+         ram_release_page(block->idstr, offset);
+     } else if (param->result =3D=3D RES_COMPRESS) {
++        assert(!qemu_file_buffer_empty(param->file));
+         len +=3D save_page_header(pss, file, block,
+                                 offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
+         len +=3D qemu_put_qemu_file(file, param->file);
 --
 2.30.2
 
 
---Sig_/qD3MiitBfU791lsd+zCjl7K
+--Sig_/Ue_U6aUdgYxVII2sSJ3SJAm
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQpwdMACgkQNasLKJxd
-slhBaw/9GKohUdW0XEF6eJcjZDKxRnlt25Svitvn05CiEyMinXiAu64eEJVJRRpL
-D7pYsds2JcLwt8lbvM+PdC6emYpwcmC+wkvJeJpHxpIzesOfAHttKXnMeByErKt8
-Nd0lfcd6GPrQzoFNfNaR+YnwtdeAz1Qx6Bh+seatFz03bD7UWvzfRnjRzQg46De4
-nJiHQhsUNOokZIiwGQniviwlNTe88XsnnSfTj9cnkze/RRxrExRCwRKmQUaoBEZR
-nay4cYsYKf5zIpjpn3kMC8TGR72LsWM5z42HhSLLQ5wgOdXl4B1o1XCzNIXXAyU9
-RXh0PTZdVvWwFFjwpCdjVXcIBrKUJzKHdXmVGlrNwywOk4HAylPYff+yhwabje5J
-lGf9slJSeV2qvZdDeBEgaVx5TIRrLegJR8W7Ere8KLfzPBEJz746o0H38MV8RXn6
-oMbyyRCSWnWa9Ef3/9oIMtBMqQniqqgMxcukVmKAPG3z7++7qh4qAvDed3tJkTGj
-MHZE0/bQVuJews0Z/PU8PiEbSW2yvrjLjt/aXSeVqoB28kxBYRFSyg+hzsV8ibaQ
-rOmRdjM77urEgRfsb3iLm9/vKGxWNL2q9SvKBbG8aznyaxncHmyD2vDf6xWGreai
-vtoGFfFnbgZDu8PgNvmln9U1+rPGfqxGuW8xp5cnikWM9mIAGwM=
-=XF0p
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQpwdcACgkQNasLKJxd
+sliPpBAAka4G4s/gcW/BUFJEuk63gSwILUsdb6wDNoCEpbpGFO4AFvqk3l7MW8He
+bauem+2LjknCEsA2nV3GQKPqFRaLz8KlQFcerljbOwrf2O+jwaObc+znG9FHJXfJ
+fciKJqAzsJttU1cMcWVcbQ0v7Wde6QIlrT2RMCW2EvGrVCKL6o4r9eHtjP5SIHJl
+/2f0OizfcDQofeO1lZlEfP4c5Te6i84b61p90kOjcwxuV+mRs8vWEJ9XuUKf+yAH
+jZhyVe8Cnye0uraFzsjPSVOeVy6tdHs//3Djb1s4NMMR6s1Fyg/AwtRxEOGTbVHa
+g1n+EuTVZYndXW0BVe0EHXcm7GWzAQwXpipHPufWBM3VvPNlG8wQ4FV4U/KwrpN0
+lroKWjbZOoG8/Ns6kPCvkLdYI00d4ox28TpjCtk+duknuBvtSzKIABDS7uztRI0z
+pLf8fInkKOzwhOVFEWlQSNzXkGxuz2XQ0q2SfUnw/GZSynKCWkB2Mxvq7Oe8YaJw
+UL07l0YObgEWxax8rEQz9uoVjFlDwONBfM5jk5p68v3zR4gXA+oy7h/bQfxGxtid
+8K8wCn7/5qxZ/NaXTSutSnp+SYC44l2qrMX5/PyNy+pc5PcR0EFDAw1zBZVqOQNc
+pd8HwQvLF0a16bA1cjp86ZRsog7gjNobRWu6m0a6dym2/PE9Vas=
+=j9gj
 -----END PGP SIGNATURE-----
 
---Sig_/qD3MiitBfU791lsd+zCjl7K--
+--Sig_/Ue_U6aUdgYxVII2sSJ3SJAm--
 
