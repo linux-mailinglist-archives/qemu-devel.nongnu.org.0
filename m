@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9096D3565
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 05:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F086D3566
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 05:36:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pioTu-0000Zs-Mb; Sat, 01 Apr 2023 23:34:14 -0400
+	id 1pioVW-0001NJ-EC; Sat, 01 Apr 2023 23:35:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pioTt-0000Zj-6V
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 23:34:13 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pioVT-0001Mu-TO
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 23:35:51 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pioTr-0000qn-OG
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 23:34:12 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- p13-20020a17090a284d00b0023d2e945aebso11542446pjf.0
- for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 20:34:11 -0700 (PDT)
+ id 1pioVR-0001Dg-MC
+ for qemu-devel@nongnu.org; Sat, 01 Apr 2023 23:35:51 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ om3-20020a17090b3a8300b0023efab0e3bfso29396605pjb.3
+ for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 20:35:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680406450;
+ d=linaro.org; s=google; t=1680406548;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5BfKGKMjVQPevJDjca6lHCuHc4hwZXRrzlsCgCxn7w4=;
- b=C24stcYAsKZl3sNafWISoD13XD3XxbX9IXcQDpB/89paj3pQMKmHOd5eXg5g7Mse4s
- ttI9BiKD8TjLqCX079mmA/cem6uJ9Efd4OOmkLDvWLOiwT/qNpP80ldUzOuGc9Zz0EU6
- hIiHyN/Wvemm+Ollsucw2Sh/dlaygZW9tJiMD+0x1bPVuqTCtj3goLV1+F43OI1EQl9F
- VfIM4vUl8pFp3i1I0ZDrD93PN2Bs863J0YR8qdL23M2/KOJ2/eZf9UD9R/g37ckjPJDN
- lgOF1AhFog0zgEyVnJSzquNTY9/9h94woOGELFIuskGULFpijCyAG124hhC8FE7d8DC6
- lifA==
+ bh=rHudBHCiF+JjDHG3Th/Vau7yXcE+T1ArOGjSDvt/hC4=;
+ b=rcEv1DlUybRmPi/xYHTdWDI69JOauUSvb2vRk6Ve10hBnNZjSVwNT54/E9YRIeZZ9B
+ YN4AGmIFhF0ARXmNthfuLYLW/Ucg+DUmqav6v8XlUpHaI5ks9UbEH+CND9SwJnSdPG3F
+ H88RXjT0COeWvcSu2qgH3wakcnXC7Y89yJZvvdMchpxHm3rsj7tI6iiWchasb0UNff0c
+ kkcTEVu+6LVtHyR630pzeGIWAyV3uVg8dRp/5QXSH1Mxffh0QOh8JWwvFXwfj+lEHHw2
+ QMy8DfMejvcBwF0zUTy1m53KEoTr00wSK718ircoYcAcw7SI3TniJsdOLfJUhx84Enpb
+ 3IQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680406450;
+ d=1e100.net; s=20210112; t=1680406548;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5BfKGKMjVQPevJDjca6lHCuHc4hwZXRrzlsCgCxn7w4=;
- b=DqMBiQFe460FfDc0uY+Yq1+yDq+u6nUREe4jYYfNtB2l0EHkPK3TgyTVxs5I05dVij
- aep0pTeR/zbxjRPPGEjtBrvpVSeU34OcBYyxtB7Khw8X99s+OJSwBLg/K38cM+tZm8Cl
- wAvoREr7aNdDWhjRw4j/kPrcpEo3Ktfqa9a3nfRkAVsSAGSxwL/8zUMZnNRAaV7NoOeU
- wB4EoMt5E1IOaNIYNQcSmIPBbGtmzNOOcIxMbSNILXzFAxc47845Ymy11jJY3XqXz2eA
- OTIGFieOhj7RE4R3tXNvnAc4M7S6L60xmT5f+MbIdM3DWpv/Z+J+jnTKLpLS2eoVvEeC
- 2ELg==
-X-Gm-Message-State: AAQBX9eUZL8uzyIQ9t/AvYFrNdv2ctfh4qGxE3jUCtxoKuziOi9Ix5re
- hYTSo3QYBaZNugFO7kIwR2w82w==
-X-Google-Smtp-Source: AKy350ZRhSoFslYXhwyYWYqMSBD/M9aUcOM+gSGrhL/eRk8WCxm0sPDov5Y+yNAmaduRq6D2aT5AFQ==
-X-Received: by 2002:a17:903:120a:b0:1a2:9dd0:1f74 with SMTP id
- l10-20020a170903120a00b001a29dd01f74mr9403554plh.54.1680406450134; 
- Sat, 01 Apr 2023 20:34:10 -0700 (PDT)
+ bh=rHudBHCiF+JjDHG3Th/Vau7yXcE+T1ArOGjSDvt/hC4=;
+ b=H0tteWRq/aJUOCPnfVNcHKBplU8R9VOvNMn4qsgAI2LLrS66wAf1TlIC0iNrlFHZUR
+ ZDcRy0k1uRF8E94dkKhgBNosFB/+P4Gp3UnGYOJb0xH4FFegpTH7RLRwc8zzjML0dtgH
+ Zw6lKXLAT0P42J7JTGdn3ow3OMBow5uLEVioqYGwgMtHNzro7qRRVxBfdxh0QrBfZ9d3
+ zvpY9Pf7/p+P4PPFs4Evb/3tl3jjKOxkWtMJf7wvGrBvk/GlTanL22NCQxycrgwce+L9
+ RqcMkpRryRpYxQ3WSYnXx1H4ePdJcUuDi8Ke5hxeVusEG1WvIwY2cv1m3Uq7kShPRFxR
+ V5rg==
+X-Gm-Message-State: AO0yUKUQ1FxVcMkxD41ibS2qr5NnU0unDO97p6TuQKrohDLyz4ydeWI8
+ M3Os/IR8uq8Ytd7Qi/j9ljV66hhqceer3NNVFCg=
+X-Google-Smtp-Source: AK7set8GuQe3mDdOcimXzCGKjNBpETt3JGbZwlJpo0nYVujH17avcCrKYPeNbsA/0OF++5MqzPMQEw==
+X-Received: by 2002:a05:6a20:3ba3:b0:cb:af96:ace7 with SMTP id
+ b35-20020a056a203ba300b000cbaf96ace7mr30229242pzh.46.1680406548133; 
+ Sat, 01 Apr 2023 20:35:48 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:f30a:3ab0:889f:f03d?
  ([2602:ae:1541:f901:f30a:3ab0:889f:f03d])
  by smtp.gmail.com with ESMTPSA id
- j4-20020a170902c08400b001a06eb43880sm4058338pld.153.2023.04.01.20.34.09
+ e22-20020aa78256000000b00625cfe645ddsm4282627pfn.2.2023.04.01.20.35.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Apr 2023 20:34:09 -0700 (PDT)
-Message-ID: <d81762ea-f939-ac48-018c-826c581e5fad@linaro.org>
-Date: Sat, 1 Apr 2023 20:34:08 -0700
+ Sat, 01 Apr 2023 20:35:47 -0700 (PDT)
+Message-ID: <7bf403ab-7258-bedb-e8dc-36f20d31c303@linaro.org>
+Date: Sat, 1 Apr 2023 20:35:46 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [RFC PATCH v2 30/44] target/loongarch: Implement vclo vclz
+Subject: Re: [RFC PATCH v2 31/44] target/loongarch: Implement vpcnt
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-31-gaosong@loongson.cn>
+ <20230328030631.3117129-32-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-31-gaosong@loongson.cn>
+In-Reply-To: <20230328030631.3117129-32-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,12 +96,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/27/23 20:06, Song Gao wrote:
-> +#define DO_CLO_B(N)  (clz32((uint8_t)~N) - 24)
-> +#define DO_CLO_H(N)  (clz32((uint16_t)~N) - 16)
+> +static uint64_t do_vpcnt(uint64_t u1)
+> +{
+> +    u1 = (u1 & 0x5555555555555555ULL) + ((u1 >>  1) & 0x5555555555555555ULL);
+> +    u1 = (u1 & 0x3333333333333333ULL) + ((u1 >>  2) & 0x3333333333333333ULL);
+> +    u1 = (u1 & 0x0F0F0F0F0F0F0F0FULL) + ((u1 >>  4) & 0x0F0F0F0F0F0F0F0FULL);
+> +    u1 = (u1 & 0x00FF00FF00FF00FFULL) + ((u1 >>  8) & 0x00FF00FF00FF00FFULL);
+> +    u1 = (u1 & 0x0000FFFF0000FFFFULL) + ((u1 >> 16) & 0x0000FFFF0000FFFFULL);
+> +    u1 = (u1 & 0x00000000FFFFFFFFULL) + ((u1 >> 32));
+> +
+> +    return u1;
+> +}
+> +
+> +#define VPCNT(NAME, BIT, E, T)                                      \
+> +void HELPER(NAME)(CPULoongArchState *env, uint32_t vd, uint32_t vj) \
+> +{                                                                   \
+> +    int i;                                                          \
+> +    VReg *Vd = &(env->fpr[vd].vreg);                                \
+> +    VReg *Vj = &(env->fpr[vj].vreg);                                \
+> +                                                                    \
+> +    for (i = 0; i < LSX_LEN/BIT; i++)                               \
+> +    {                                                               \
+> +        Vd->E(i) = do_vpcnt((T)Vj->E(i));                           \
+> +    }                                                               \
+> +}
+> +
+> +VPCNT(vpcnt_b, 8, B, uint8_t)
+> +VPCNT(vpcnt_h, 16, H, uint16_t)
+> +VPCNT(vpcnt_w, 32, W, uint32_t)
+> +VPCNT(vpcnt_d, 64, D, uint64_t)
 
-I think this is wrong.  You *want* the high bits to be set, so that they are ones, and 
-included in the count, which you then subtract off.  You want the "real" count to start 
-after the 24th leading 1.
+host-utils.h has ctpop{8,16,32,64}.
 
 
 r~
