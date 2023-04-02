@@ -2,90 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2876D34E1
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 00:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216E16D3512
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 02:36:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pijqD-0003pG-G0; Sat, 01 Apr 2023 18:36:57 -0400
+	id 1pilgg-0004BX-GP; Sat, 01 Apr 2023 20:35:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pijqB-0003or-BZ
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 18:36:55 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pijq9-0004L8-Nu
- for qemu-devel@nongnu.org; Sat, 01 Apr 2023 18:36:55 -0400
-Received: by mail-ed1-x536.google.com with SMTP id eg48so103414608edb.13
- for <qemu-devel@nongnu.org>; Sat, 01 Apr 2023 15:36:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680388611;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3mcXjgUWbrap77dni2Kc4rFFZA3pvAccTjwmsDr8bxU=;
- b=mEteHCJVGbFfX6tRGM1s1+VkgCn+hxBW1ZPMXM8bHo1lDikF/amdVWjUftAXcShM8a
- QSUCelFL9ah0+AXtIsc17IFeWQH3I9hozzG5sbBDkZn+ElBcPC9HegHKvD+3vyTOjND3
- ugVPymLueNtOS+uB1+vL9uTzj6FXIW+y9HEhS2zqCKO91NvGVU76xY7V5+tEJG7NKrZj
- Zvoov0pcWYrLUjrLk3iPcEgyiUbVABU0T3DFZfzBGIhRfiIIfV26WtEYaypcV8qu1J8r
- HEWMBS+85UsEL27hFh76IGPqOkyEEeNSgnno6LLxlQm/ygtzQTIaNvuKHJa8j26iRqFv
- 04YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680388611;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3mcXjgUWbrap77dni2Kc4rFFZA3pvAccTjwmsDr8bxU=;
- b=wR8xbRHweCuVhvZDTXFS0WJF22+w7yY7uYk49MURGKvBi0+jdwCLWGIeB5ez6zSP6G
- gIJxydmG7ySd794TlpJ/z13uV5b8CkzAlgqT0liXz7ZxBIYEcJ3ayxAgFAbVOhfW1y8x
- q5GF015T9c//A6zSgvHID4z7QGdvmT5rjo07ifDJWDf4n8Etlq8bP/IZ/fkRGJ7dza3O
- uhP4Yt0W9mdgrn1jj/DSMC3PATN6Zh5MPfHajvK3pojH3KuuCtbiQwSHNwbZEzvSWchI
- oF7cFN31MuynClk+6ZBX+az/GrdwTXtMSi20dWBJWLBmx9/tirB1OmdvAIcDz8vkZOkM
- Jd6w==
-X-Gm-Message-State: AAQBX9f3Eu5EVHbXjdUR8grghWQXDCpeNi1cKoOpAzCMoedDns6H69+f
- u15qVv+BmWFRsuhEk5L6YkM=
-X-Google-Smtp-Source: AKy350ZBAQ0NclZYRHIFZo8U4NApWMVwMHMu7y4terrO7HGjAO6fxbeX8o8y5iqHZuYoEBhpoQdpEA==
-X-Received: by 2002:a17:907:2077:b0:92f:fbac:69c4 with SMTP id
- qp23-20020a170907207700b0092ffbac69c4mr30391166ejb.56.1680388611436; 
- Sat, 01 Apr 2023 15:36:51 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-013-027-219.77.13.pool.telefonica.de.
- [77.13.27.219]) by smtp.gmail.com with ESMTPSA id
- bq18-20020a056402215200b00501c2a9e16dsm2525599edb.74.2023.04.01.15.36.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Apr 2023 15:36:51 -0700 (PDT)
-Date: Sat, 01 Apr 2023 22:36:45 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Anthony PERARD <anthony.perard@citrix.com>
-CC: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw@amazon.co.uk>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, 
- Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Chuck Zmudzinski <brchuckz@aol.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_2/6=5D_hw/isa/piix3=3A_Reuse?=
- =?US-ASCII?Q?_piix3=5Frealize=28=29_in_piix3=5Fxen=5Frealize=28=29?=
-In-Reply-To: <f52c41f7-e662-4afd-8ac9-ce2c0da2b1be@perard>
-References: <20230312120221.99183-1-shentey@gmail.com>
- <20230312120221.99183-3-shentey@gmail.com>
- <f52c41f7-e662-4afd-8ac9-ce2c0da2b1be@perard>
-Message-ID: <7F45B51F-F1E3-4F04-A46F-4C80509C7195@gmail.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pilgb-00049o-U0; Sat, 01 Apr 2023 20:35:09 -0400
+Received: from out30-99.freemail.mail.aliyun.com ([115.124.30.99])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pilgY-0006r5-Lg; Sat, 01 Apr 2023 20:35:09 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0Vf6jEKG_1680395692; 
+Received: from 192.168.3.95(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0Vf6jEKG_1680395692) by smtp.aliyun-inc.com;
+ Sun, 02 Apr 2023 08:34:53 +0800
+Message-ID: <15b60df7-40ca-330c-faa9-daaa78b2000d@linux.alibaba.com>
+Date: Sun, 2 Apr 2023 08:34:50 +0800
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RESEND PATCH v5 4/6] target/riscv: Add support for PC-relative
+ translation
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230401124935.20997-1-liweiwei@iscas.ac.cn>
+ <20230401124935.20997-5-liweiwei@iscas.ac.cn>
+Content-Language: en-US
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230401124935.20997-5-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.99;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-99.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,45 +68,248 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-
-Am 30=2E M=C3=A4rz 2023 13:00:25 UTC schrieb Anthony PERARD <anthony=2Eper=
-ard@citrix=2Ecom>:
->On Sun, Mar 12, 2023 at 01:02:17PM +0100, Bernhard Beschow wrote:
->> This is a preparational patch for the next one to make the following
->> more obvious:
->>=20
->> First, pci_bus_irqs() is now called twice in case of Xen where the
->> second call overrides the pci_set_irq_fn with the Xen variant=2E
+On 2023/4/1 20:49, Weiwei Li wrote:
+> Add a base save_pc For
+pc_save for
+> PC-relative translation(CF_PCREL).
+> Diable the directly sync pc from tb by riscv_cpu_synchronize_from_tb.
+> Sync pc before it's used or updated from tb related pc:
+>     real_pc = (old)env->pc + target_pc(from tb) - ctx->save_pc
+pc_save in the code.
+> Use gen_get_target_pc to compute target address of auipc and successor
+> address of jalr.
 >
->pci_bus_irqs() does allocates pci_bus->irq_count, so the second call in
->piix3_xen_realize() will leak `pci_bus->irq_count`=2E Could you look if
->pci_bus_irqs_cleanup() can be called before the second pci_bus_irqs()
->call, or maybe some other way to avoid the leak?
-
-Thanks for catching this! I'll post a v4=2E
-
-I think the most fool-proof way to fix this is to free irq_count just befo=
-re the assignment=2E pci_bus_irqs_cleanup() would then have to NULL the att=
-ribute such that pci_bus_irqs() can be called afterwards=2E
-
-BTW: I tried running qemu-system-x86_64 with PIIX4 rather than PIIX3 as Xe=
-n guest with my pc-piix4 branch without success=2E This branch essentially =
-just provides slightly different PCI IDs for PIIX=2E Does xl or something e=
-lse in Xen check these? If not then this means I'm still missing something=
-=2E Under KVM this branch works just fine=2E Any idea?
-
-Thanks,
-Bernhard
-
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/riscv/cpu.c                      | 29 +++++++++-----
+>   target/riscv/insn_trans/trans_rvi.c.inc | 14 +++++--
+>   target/riscv/translate.c                | 53 +++++++++++++++++++++----
+>   3 files changed, 75 insertions(+), 21 deletions(-)
 >
->> Second, pci_bus_set_route_irq_fn() is now also called in Xen mode=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
->
->Beside the leak which I think can happen only once, patch is fine:
->Reviewed-by: Anthony PERARD <anthony=2Eperard@citrix=2Ecom>
->
->Thanks,
->
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1e97473af2..646fa31a59 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -658,16 +658,18 @@ static vaddr riscv_cpu_get_pc(CPUState *cs)
+>   static void riscv_cpu_synchronize_from_tb(CPUState *cs,
+>                                             const TranslationBlock *tb)
+>   {
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> -    CPURISCVState *env = &cpu->env;
+> -    RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+> +    if (!(tb_cflags(tb) & CF_PCREL)) {
+> +        RISCVCPU *cpu = RISCV_CPU(cs);
+> +        CPURISCVState *env = &cpu->env;
+> +        RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+>   
+> -    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
+> +        tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
+>   
+> -    if (xl == MXL_RV32) {
+> -        env->pc = (int32_t) tb->pc;
+> -    } else {
+> -        env->pc = tb->pc;
+> +        if (xl == MXL_RV32) {
+> +            env->pc = (int32_t) tb->pc;
+> +        } else {
+> +            env->pc = tb->pc;
+> +        }
+>       }
+>   }
+>   
+> @@ -693,11 +695,18 @@ static void riscv_restore_state_to_opc(CPUState *cs,
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+>       CPURISCVState *env = &cpu->env;
+>       RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+> +    target_ulong pc;
+> +
+> +    if (tb_cflags(tb) & CF_PCREL) {
+> +        pc = (env->pc & TARGET_PAGE_MASK) | data[0];
+> +    } else {
+> +        pc = data[0];
+> +    }
+>   
+>       if (xl == MXL_RV32) {
+> -        env->pc = (int32_t)data[0];
+> +        env->pc = (int32_t)pc;
+>       } else {
+> -        env->pc = data[0];
+> +        env->pc = pc;
+>       }
+>       env->bins = data[1];
+>   }
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index 48c73cfcfe..52ef260eff 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -38,7 +38,9 @@ static bool trans_lui(DisasContext *ctx, arg_lui *a)
+>   
+>   static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>   {
+> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+> +    TCGv target_pc = dest_gpr(ctx, a->rd);
+> +    gen_get_target_pc(target_pc, ctx, a->imm + ctx->base.pc_next);
+> +    gen_set_gpr(ctx, a->rd, target_pc);
+>       return true;
+>   }
+>   
+> @@ -52,6 +54,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>   {
+>       TCGLabel *misaligned = NULL;
+>       TCGv target_pc = tcg_temp_new();
+> +    TCGv succ_pc = dest_gpr(ctx, a->rd);
+>   
+>       tcg_gen_addi_tl(target_pc, get_gpr(ctx, a->rs1, EXT_NONE), a->imm);
+>       tcg_gen_andi_tl(target_pc, target_pc, (target_ulong)-2);
+> @@ -68,7 +71,9 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>           tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
+>       }
+>   
+> -    gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
+> +    gen_get_target_pc(succ_pc, ctx, ctx->pc_succ_insn);
+> +    gen_set_gpr(ctx, a->rd, succ_pc);
+> +
+>       tcg_gen_mov_tl(cpu_pc, target_pc);
+>       lookup_and_goto_ptr(ctx);
+>   
+> @@ -159,6 +164,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>       TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
+>       TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
+>       target_ulong next_pc;
+> +    target_ulong orig_pc_save = ctx->pc_save;
+>   
+>       if (get_xl(ctx) == MXL_RV128) {
+>           TCGv src1h = get_gprh(ctx, a->rs1);
+> @@ -175,6 +181,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>   
+>       gen_set_label(l); /* branch taken */
+>   
+> +    ctx->pc_save = orig_pc_save;
+>       next_pc = ctx->base.pc_next + a->imm;
+>       if (!has_ext(ctx, RVC) && (next_pc & 0x3)) {
+>           /* misaligned */
+> @@ -182,8 +189,9 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>           gen_get_target_pc(target_pc, ctx, next_pc);
+>           gen_exception_inst_addr_mis(ctx, target_pc);
+>       } else {
+> -        gen_goto_tb(ctx, 0, ctx->base.pc_next + a->imm);
+> +        gen_goto_tb(ctx, 0, next_pc);
+>       }
+> +    ctx->pc_save = -1;
+>       ctx->base.is_jmp = DISAS_NORETURN;
+>   
+>       return true;
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 7b5223efc2..2dd594ddae 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -59,6 +59,7 @@ typedef struct DisasContext {
+>       DisasContextBase base;
+>       /* pc_succ_insn points to the instruction following base.pc_next */
+>       target_ulong pc_succ_insn;
+> +    target_ulong pc_save;
+>       target_ulong priv_ver;
+>       RISCVMXL misa_mxl_max;
+>       RISCVMXL xl;
+> @@ -225,15 +226,24 @@ static void decode_save_opc(DisasContext *ctx)
+>   static void gen_get_target_pc(TCGv target, DisasContext *ctx,
+>                                 target_ulong dest)
+>   {
+> -    if (get_xl(ctx) == MXL_RV32) {
+> -        dest = (int32_t)dest;
+> +    assert(ctx->pc_save != -1);
+> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +        tcg_gen_addi_tl(target, cpu_pc, dest - ctx->pc_save);
+> +        if (get_xl(ctx) == MXL_RV32) {
+> +            tcg_gen_ext32s_tl(target, target);
+> +        }
+> +    } else {
+> +        if (get_xl(ctx) == MXL_RV32) {
+> +            dest = (int32_t)dest;
+> +        }
+> +        tcg_gen_movi_tl(target, dest);
+>       }
+> -    tcg_gen_movi_tl(target, dest);
+>   }
+>   
+>   static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
+>   {
+>       gen_get_target_pc(cpu_pc, ctx, dest);
+> +    ctx->pc_save = dest;
+
+Why set pc_save here?  IMHO, pc_save is a constant.
+
+Zhiwei
+
+>   }
+>   
+>   static void generate_exception(DisasContext *ctx, int excp)
+> @@ -287,8 +297,21 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+>         * direct block chain benefits will be small.
+>         */
+>       if (translator_use_goto_tb(&ctx->base, dest) && !ctx->itrigger) {
+> -        tcg_gen_goto_tb(n);
+> -        gen_set_pc_imm(ctx, dest);
+> +        /*
+> +         * For pcrel, the pc must always be up-to-date on entry to
+> +         * the linked TB, so that it can use simple additions for all
+> +         * further adjustments.  For !pcrel, the linked TB is compiled
+> +         * to know its full virtual address, so we can delay the
+> +         * update to pc to the unlinked path.  A long chain of links
+> +         * can thus avoid many updates to the PC.
+> +         */
+> +        if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +            gen_set_pc_imm(ctx, dest);
+> +            tcg_gen_goto_tb(n);
+> +        } else {
+> +            tcg_gen_goto_tb(n);
+> +            gen_set_pc_imm(ctx, dest);
+> +        }
+>           tcg_gen_exit_tb(ctx->base.tb, n);
+>       } else {
+>           gen_set_pc_imm(ctx, dest);
+> @@ -555,8 +578,16 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>           }
+>       }
+>   
+> -    gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+> -    gen_goto_tb(ctx, 0, ctx->base.pc_next + imm); /* must use this for safety */
+> +    assert(ctx->pc_save != -1);
+> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +        TCGv succ_pc = dest_gpr(ctx, rd);
+> +        tcg_gen_addi_tl(succ_pc, cpu_pc, ctx->pc_succ_insn - ctx->pc_save);
+> +        gen_set_gpr(ctx, rd, succ_pc);
+> +    } else {
+> +        gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+> +    }
+> +
+> +    gen_goto_tb(ctx, 0, next_pc); /* must use this for safety */
+>       ctx->base.is_jmp = DISAS_NORETURN;
+>   }
+>   
+> @@ -1150,6 +1181,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+>       uint32_t tb_flags = ctx->base.tb->flags;
+>   
+> +    ctx->pc_save = ctx->base.pc_first;
+>       ctx->pc_succ_insn = ctx->base.pc_first;
+>       ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
+>       ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
+> @@ -1195,8 +1227,13 @@ static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+>   static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+>   {
+>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +    target_ulong pc_next = ctx->base.pc_next;
+> +
+> +    if (tb_cflags(dcbase->tb) & CF_PCREL) {
+> +        pc_next &= ~TARGET_PAGE_MASK;
+> +    }
+>   
+> -    tcg_gen_insn_start(ctx->base.pc_next, 0);
+> +    tcg_gen_insn_start(pc_next, 0);
+>       ctx->insn_start = tcg_last_op();
+>   }
+>   
 
