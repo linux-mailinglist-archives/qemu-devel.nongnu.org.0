@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B716D3987
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 19:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C276D3994
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 19:57:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pj1ov-0003In-Sx; Sun, 02 Apr 2023 13:48:49 -0400
+	id 1pj1wF-0006kD-8o; Sun, 02 Apr 2023 13:56:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pj1os-0003Gp-QO
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:48:47 -0400
+ id 1pj1w4-0006iy-Ro
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:13 -0400
 Received: from mout.web.de ([212.227.17.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pj1oq-0002h6-B1
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:48:46 -0400
+ id 1pj1vy-00040f-84
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 13:56:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1680457719; i=lukasstraub2@web.de;
- bh=g8CpH09MCnsv7m0q/+YFIHQE1GLIeIMiUJ3+xuDtBac=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=RBNjM5tzudU/v5v5fqsmig5/UhOM+nq/awDLUUB1JXRDysAmNFzNbxpA21bWh8fml
- Ap/JrJqR/iNe1Lf4eZyLBUnGQdYbThA1yl7NUiFPaRkqK7e+a+cueo88WGVu5ePxnm
- ZXrbdlHTOT8o+rKrhYCYfRBSdyewpTS/PKj7/VIRh0FoauZPQ95T8SHILd81JRZxhl
- YS5smBXuRzx4A8zG1BiN6Yzqqy5Zhzu0JACgA0EF6fTaxx62uCRtkpSGoFSlVtjn7u
- nlHVYddSdBPbkMEPFyILdUcP84iptKsk6u8ciX89yxcbm/9hn2Kp3LIi11i2bYFFCL
- 86AZC6zw99Slw==
+ t=1680458161; i=lukasstraub2@web.de;
+ bh=cJFvZoHNLbXh1reNm7jTVEfpy+kko2XYCNTMSyLzzWE=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=p3H9vE5Z3vBoTuulWyevmwLpmRNCFqSpxuSg5gPvMbtITlj9KUyXVI5z445CS20Lu
+ TH8x0iJUhtfwuVbTIzF3tdCRmKHhEynxmQepY6WJ59+qf3LCQI3VjS5K3hRg33P6NX
+ lOuEdoLad8xSBfKEzJ5VZ3IZzA3k2eJ71EfMvL+4Fa2OFOutZj348D7cbAjK0gzRRP
+ iBE9sIFEcbQV69wabfsx0VBH60b4WcIkq3UUwRTPDjNihgDbDmS0/bpxjFloHJHTed
+ eY0e3ninL9sJ8d1mnECohwWdEHKjFPldSWuvGyoSRMxz2YK39GYNnTnpXQ2YR5ECwV
+ Wsu2KA5jU1Gpw==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.111]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MBjMM-1pZ57T2eho-00COLC; Sun, 02
- Apr 2023 19:48:39 +0200
-Date: Sun, 2 Apr 2023 17:48:38 +0000
+Received: from gecko.fritz.box ([82.207.254.111]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MKMA1-1pzkXW0LOh-00LgwT; Sun, 02
+ Apr 2023 19:56:01 +0200
+Date: Sun, 2 Apr 2023 17:55:59 +0000
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
- <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, Thomas Huth
- <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>
-Subject: [PATCH RESEND 2/2] migration/ram.c: Fix migration with compress
- enabled
-Message-ID: <f0cbd720150d72951e1cafe88ba75e853993f359.1680457631.git.lukasstraub2@web.de>
-In-Reply-To: <af76761aa6978071c5b8e9b872b697db465a5520.1680457631.git.lukasstraub2@web.de>
-References: <af76761aa6978071c5b8e9b872b697db465a5520.1680457631.git.lukasstraub2@web.de>
+ <quintela@redhat.com>, Peter Xu <peterx@redhat.com>
+Subject: [PATCH 00/14] migration/ram.c: Refactor compress code
+Message-ID: <cover.1680457764.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/z/gE0F3EOf5TXEjYcoT9w9j";
+Content-Type: multipart/signed; boundary="Sig_/rqmfmya_cA_YPCW0nWS1D7s";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:hBDurFHeYOZwIjj8l7DLAiHbQuT5o0U42fO11C6pRIgLehIZyw0
- 5/PbZ18jKaVMiPGoTw1qgQ0l1xlilWp1jIpmMMB9MHVIck94ZosZOw8tO+EGUYxUOUXd8BL
- mWSmAdZR6msf9IWf91mnD1wx5YM5Vlnhp9LZ+uq3WhtEZ5J0zUuBxa+tX3WUhMlN3l9MPe6
- 7JuQ2keW25s2kuyzWXQpg==
-UI-OutboundReport: notjunk:1;M01:P0:4d/CN6g3mPs=;TRb0limn6WQEXujp+ZaevjHaPjd
- IpDpZl3pT1XQRdkG/TqZMswUjuc9fnO2bgBDmZwesTcUC0rVC5aSlQIemfSvS+6eVzXWISQKR
- 4ehccBAUaTNeeS7rnnig0/kR2QV3IyYpaqJy+y9peaacP4upAsXyqPaAqYXHi/QGM3ybEtr5f
- Xoe4y09xq5vhrtQF7pZll3LGliHtxeMpod2ybPmLbf7PFQPVnE35sAd4VTS0CxR1BzgAja3TC
- DjhIFj65XcdKiTCQFDpHW64yhL4KfQLSIqZjrumOOxjDptU0ehBfSc1AbOZ07DLcmlhAHnttY
- TMG+M92r3wMU4SRm9auqtn5UOvq7xpC2VftQ7ZReHSyZivaJUSNu79zzA/Z1hQLVXVr80z3Xk
- hDRuHKQEkU3+6qbanHYIApjrhyH3IZzdrF0wqVB2qNc3DyQtkuj6JbSQbPjJG3gSmXxidTlJx
- Fgl7nr2NAPpRvebjRU8KrdERqdzQaieJ0qTWNQcKI6wS1uVhOOgGBncr+QTIKz7tK647wZ9r8
- j9iNkag22K5qrqKM0ZH73l4rghT8Xe51lyUxXFrF47IOjSkgSMoU/ICIvF20Jc8iNfArZAXpd
- /CLSO555Gmk8Fho9+YrM1b0HmATsEVE7u/2MfFtSoxB8XB47/VjDDrWHmvfR+LpH+TkemdyaY
- h1BEf7M8Fzt/AEAep3PWW0OJGjUJIYakFgAUI8FgJc+MCcioV9EjvLrGf1/KXaScc3qiCa1YQ
- bqh5f+oYZxRDXT6C63x6jT6piECxlqrJ0M7T4f1YM8rcPTTLtC34+XbNRmWeNxg+Hm0lcmCiE
- xV6LXXmEo00iLN4vS32ss6l7E1k2EY2MX9qRgKCHNtPN+9sHHGyF4e69fA5X6A2aM6baLnNoY
- L1y90qxxI3QdsKtlPhdIbvDFO/ptL2TT3TUaINHesG/rT2MZZqlzH2QxSijnivneXEQgnXVCS
- yRZTFemlVir0zFch45TADVUwcJc=
+X-Provags-ID: V03:K1:EF8eJ6PPxSeSNCtswoRvQNj06K2EOmAvoOZZGuwPEEeh5j9WUXm
+ 9GwHMgxO9RMsz+prqPp+lnWnaDfMAejblAQ3d4ltMpdW59OHgt7GxXhJ6+WxNO8dqwQIEho
+ 84eNpNI6Ez0hlQvtcHkii5NW32g5OTIqqv1vohNYg5Y47nIKGtoC0kMNoVRIdU5m1J3WDtj
+ MUTcU2EtF/OvbIm6knh4w==
+UI-OutboundReport: notjunk:1;M01:P0:ha+XPRyV1H8=;zXWh2UQZiv4I5N0hha3y/Ts4wQj
+ s4ViNktcODGnmLmYtjtKfFAWx6jII9x43w0IBcMUd4bycMtAJ9P3xGc42iocWi4nQTyfq4537
+ vflEtM1RQLtu3rSeps+uB9jLpb4UlzioxLd3ZRcT+/FJ3GDyH2JjXLAQ9VC9iC0hijC6Rw4MQ
+ GOHpPql9mWBfRgUwv5Oj9KL1yV7bcjCzLfqXhHqQxsC70D7GVz2+Pg+ascr1suJtX18foKDfh
+ omiK4jrkre86e3Sxmt8trRrNFlE4dxTi0ZLpUuVPXeIfOniJ3WToc4E4HyogT7sXPhH+Fqar+
+ A2fsnFt1e+scU1JIg7VUfqpdjI7BE7bBuRBktPx4qlFag+whJJYgkaG21cSO2RGrYAgGghrnd
+ fWznQWTNA1LcYC5yw97LieLah6ruc4d6dQO/NLM8jQsvFrTlQL7BIbHB8BRK9xjBd2f+KVZ2r
+ oTbCZK81D7O/VulmUd5o5OLVv2UzkrDeJv5O40AMeZ4mtTM6+5RVymGPBGGmehs7LJL04sEUF
+ i1KBsV2DAn26sOZLz4zaiWp8ar/n/J5po/Na/yAqJOIpbiZ5ARvBH5C06I4dM/ylWX5mML40z
+ fAUsmP6VHTGFmT85UCIwiu+/Y6YQ8ArKB2KeKa6ttbIVc9TO3HtKHYvT6tuu9J/EBa/3ghyMQ
+ 68d1DPeNKeaCmN/SQQGt8MDYbRghEn2cALieurju094/lgZLHHh93ixI25isRaQJBnyFL0eSs
+ WzuTy1SkC48+8QOdabg+MhpILoQdDcZlSWmnkHLd32Tw7DdIusX00a+HgegxM51NDPxs9r+mM
+ yanUIozdlX1DWPKkGTxKjWGYDWlULoqAiukrjhLamqbppO0+51FKmRNYjGElBLjM7yDTEqAvH
+ IvjeIzbkEwZ1NUo6Ot02l4Qq/dw76j7q3/cRz3oJFItInLZPQADmerC98LtOqWh3XTxDjCZ3L
+ 7dbe6oKmJYEGByipizN3nvDdkOA=
 Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -18
@@ -91,144 +86,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/z/gE0F3EOf5TXEjYcoT9w9j
+--Sig_/rqmfmya_cA_YPCW0nWS1D7s
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Since ec6f3ab9, migration with compress enabled was broken, because
-the compress threads use a dummy QEMUFile which just acts as a
-buffer and that commit accidentally changed it to use the outgoing
-migration channel instead.
+This series refactors the ram compress code.
 
-Fix this by using the dummy file again in the compress threads.
+It first removes ram.c dependencies from the core compress code, then
+moves it out to its own file. Finally, on the migration destination side
+the initialisation and cleanup of compress threads is moved out of ram.c
+to migration.c. This allows using COLO with compress enabled.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- migration/ram.c | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+This series is based on the following series:
+https://lore.kernel.org/qemu-devel/af76761aa6978071c5b8e9b872b697db465a5520=
+.1680457631.git.lukasstraub2@web.de/T/#t
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 96e8a19a58..9d1817ab7b 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -688,12 +688,11 @@ exit:
-  * @offset: offset inside the block for the page
-  *          in the lower bits, it contains flags
-  */
--static size_t save_page_header(PageSearchStatus *pss, RAMBlock *block,
--                               ram_addr_t offset)
-+static size_t save_page_header(PageSearchStatus *pss, QEMUFile *f,
-+                               RAMBlock *block, ram_addr_t offset)
- {
-     size_t size, len;
-     bool same_block =3D (block =3D=3D pss->last_sent_block);
--    QEMUFile *f =3D pss->pss_channel;
-=20
-     if (same_block) {
-         offset |=3D RAM_SAVE_FLAG_CONTINUE;
-@@ -867,7 +866,7 @@ static int save_xbzrle_page(RAMState *rs, PageSearchSta=
-tus *pss,
-     }
-=20
-     /* Send XBZRLE based compressed page */
--    bytes_xbzrle =3D save_page_header(pss, block,
-+    bytes_xbzrle =3D save_page_header(pss, pss->pss_channel, block,
-                                     offset | RAM_SAVE_FLAG_XBZRLE);
-     qemu_put_byte(file, ENCODING_FLAG_XBZRLE);
-     qemu_put_be16(file, encoded_len);
-@@ -1302,15 +1301,14 @@ void ram_release_page(const char *rbname, uint64_t =
-offset)
-  * @block: block that contains the page we want to send
-  * @offset: offset inside the block for the page
-  */
--static int save_zero_page_to_file(PageSearchStatus *pss,
-+static int save_zero_page_to_file(PageSearchStatus *pss, QEMUFile *file,
-                                   RAMBlock *block, ram_addr_t offset)
- {
-     uint8_t *p =3D block->host + offset;
--    QEMUFile *file =3D pss->pss_channel;
-     int len =3D 0;
-=20
-     if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
--        len +=3D save_page_header(pss, block, offset | RAM_SAVE_FLAG_ZERO);
-+        len +=3D save_page_header(pss, file, block, offset | RAM_SAVE_FLAG=
-_ZERO);
-         qemu_put_byte(file, 0);
-         len +=3D 1;
-         ram_release_page(block->idstr, offset);
-@@ -1327,10 +1325,10 @@ static int save_zero_page_to_file(PageSearchStatus =
-*pss,
-  * @block: block that contains the page we want to send
-  * @offset: offset inside the block for the page
-  */
--static int save_zero_page(PageSearchStatus *pss, RAMBlock *block,
-+static int save_zero_page(PageSearchStatus *pss, QEMUFile *f, RAMBlock *bl=
-ock,
-                           ram_addr_t offset)
- {
--    int len =3D save_zero_page_to_file(pss, block, offset);
-+    int len =3D save_zero_page_to_file(pss, f, block, offset);
-=20
-     if (len) {
-         stat64_add(&ram_atomic_counters.duplicate, 1);
-@@ -1394,7 +1392,7 @@ static int save_normal_page(PageSearchStatus *pss, RA=
-MBlock *block,
- {
-     QEMUFile *file =3D pss->pss_channel;
-=20
--    ram_transferred_add(save_page_header(pss, block,
-+    ram_transferred_add(save_page_header(pss, pss->pss_channel, block,
-                                          offset | RAM_SAVE_FLAG_PAGE));
-     if (async) {
-         qemu_put_buffer_async(file, buf, TARGET_PAGE_SIZE,
-@@ -1473,11 +1471,11 @@ static bool do_compress_ram_page(QEMUFile *f, z_str=
-eam *stream, RAMBlock *block,
-     uint8_t *p =3D block->host + offset;
-     int ret;
-=20
--    if (save_zero_page_to_file(pss, block, offset)) {
-+    if (save_zero_page_to_file(pss, f, block, offset)) {
-         return true;
-     }
-=20
--    save_page_header(pss, block, offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
-+    save_page_header(pss, f, block, offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
-=20
-     /*
-      * copy it to a internal buffer to avoid it being modified by VM
-@@ -2355,7 +2353,7 @@ static int ram_save_target_page_legacy(RAMState *rs, =
-PageSearchStatus *pss)
-         return 1;
-     }
-=20
--    res =3D save_zero_page(pss, block, offset);
-+    res =3D save_zero_page(pss, pss->pss_channel, block, offset);
-     if (res > 0) {
-         /* Must let xbzrle know, otherwise a previous (now 0'd) cached
-          * page would be stale
---=20
+Lukas Straub (14):
+  ram.c: Let the compress threads return a CompressResult enum
+  ram.c: Dont change param->block in the compress thread
+  ram.c: Reset result after sending queued data
+  ram.c: Do not call save_page_header() from compress threads
+  ram.c: Call update_compress_thread_counts from
+    compress_send_queued_data
+  ram.c: Remove last ram.c dependency from the core compress code
+  ram.c: Introduce whitespace (squash with next patch)
+  ram.c: Move core compression code into its own file
+  ram.c: Remove whitespace (squash with previous patch)
+  ram.c: Move core decompression code into its own file
+  ram compress: Assert that the file buffer matches the result
+  ram.c: Remove unused include after moving out code
+  ram-compress.c: Make target independent
+  migration: Initialize and cleanup decompression in migration.c
+
+ migration/meson.build    |   5 +-
+ migration/migration.c    |   9 +
+ migration/qemu-file.c    |  11 +
+ migration/qemu-file.h    |   1 +
+ migration/ram-compress.c | 483 ++++++++++++++++++++++++++++++++++++++
+ migration/ram-compress.h |  70 ++++++
+ migration/ram.c          | 490 +++------------------------------------
+ 7 files changed, 615 insertions(+), 454 deletions(-)
+ create mode 100644 migration/ram-compress.c
+ create mode 100644 migration/ram-compress.h
+
+--
 2.30.2
 
---Sig_/z/gE0F3EOf5TXEjYcoT9w9j
+--Sig_/rqmfmya_cA_YPCW0nWS1D7s
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQpv/YACgkQNasLKJxd
-slgVTg//bpFQ/xGrW9BFA/hUMFhEZ5/vGolKnIsC0qJ03pP1vNF/VfnzYwOycpER
-3UyMIYL/RrVwsChEWK2B8YRE2VVTspANiC7Cf4FkGSeltIDJQrst12RVsVWFp0NC
-rN+mE+n8hEOTZ5rH7PYwoAvEph0CM2ZiL1ALILUVoEJJCuJkKn1IyBPhdtFo+TxH
-mmTJylx7a+rVN49InalOfzDNtvl+kJyS2Y0elq5ATpOVzFLEDGAW+vtvra7Kya9h
-3Ephym0uxguxTZWs50hIqLyTnYPtWvJmfh1W9YQpIfuNAfaDQ/spBusJHg0eDCxB
-OTFk7eO+zk57T29GpVejmU5Oc3PgWrdYsdwc4CL156ENjncrEYcxMAanYzDVhPsL
-KLZ4MaOlm/n0tZ296pGUjQJGX0Sgaei9wA/LTnMfOkMuKxj/Umgx2/58jLngT01/
-k5aJKbpCOQ0goN6jGHc3mphRGt17qbiGRBMSysl+T8jUlw+4LrhGYSqWy+32PiO0
-Au3f6l7TvAWS7AmUjRqDBT/8MSCHqKlFit7gjVx29DJWTLiCVlJ1PG3ab+TbB5S8
-FhMsdQd0J/V1FLi201XDa8TmIaBOzm6TRdZ+amU9CrvHBjeQ0TNA7kC+GibbEzPo
-DchONxfmaOjJvPjyWLLOw0PFbtlJXjphwmz7jG5xF7i+P97yHlQ=
-=CK67
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQpwa8ACgkQNasLKJxd
+slggEg/+Jhhu6mJAvgOmHcLCGGjXOwvHo4bGTHM6eRQv3XaKDKFoqhqLRqHza6s8
+/krmSj36TVQEZ+e2TOrv4RoH/MXRW4HG0mBP5sZhUMt58Kf7h+douHurcZJcJJ36
+kIPe1skfX+YoAYmuoZKrEz1vgZ62GF4u45R0Y9xFT44vi/tF5649rAkR15ZTUJQi
+zf4FEDoOcDAJ0QhZyeVAHFNF5RROCvxpWv4YdDOowjWmVYpF/PPBvtrEd8rjZPJ6
+CAbG1MPXS8o4I5KjBBxQZVe8l5rwxyM9c+sA/5R/fyTFfVgvu82GxdZ+hzGMAC1f
++ZRIcCTHbbjlKUiTMcRXUzyZGInRKXk8bYNDAwgtznba5OFSbtS3aQNkLASBA773
+tSNUhVlKqKjbhUknKl1WI5GDRB9fB/VyyArCESbZ/h5uVUgvJqXVaIGlkpM2INdD
+wEqYv5Y1TDC+tbwWVFVQncPtZwa00I9e3eBArsuYwmufYuPnFb9HfRFoRg5xGMQn
+tcFf6PO7c4heVA8IJxNa+TgZciHddNCBUvW/BdoBxOZ4WFBNqpfYqDg+fTF4EXSg
+ano2XAsi5C+/xZJ+UHQ1yWyopcUJ7PGl2DLYHGRuja2+MVrXFI3rGkxLhSMNZvr1
+jGLultU+2gCuoEsmhtLSa3YLOFmHKNI0b+afqZcDwmtTLbvVf/s=
+=augn
 -----END PGP SIGNATURE-----
 
---Sig_/z/gE0F3EOf5TXEjYcoT9w9j--
+--Sig_/rqmfmya_cA_YPCW0nWS1D7s--
 
