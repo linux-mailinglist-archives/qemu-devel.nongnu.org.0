@@ -2,71 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5419B6D362B
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 10:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9032D6D367D
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 11:28:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pisuc-0004tq-3Z; Sun, 02 Apr 2023 04:18:06 -0400
+	id 1pitzN-00014I-QO; Sun, 02 Apr 2023 05:27:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pisuZ-0004qT-4N; Sun, 02 Apr 2023 04:18:03 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pisuV-0004hF-2p; Sun, 02 Apr 2023 04:18:02 -0400
-Received: from [192.168.0.120] (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAAnLFwoOilkTtI1DQ--.46101S2;
- Sun, 02 Apr 2023 16:17:45 +0800 (CST)
-Message-ID: <7e87df52-cc1d-4a85-a83b-f12b80b7f040@iscas.ac.cn>
-Date: Sun, 2 Apr 2023 16:17:44 +0800
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>)
+ id 1pitzJ-00013v-Sd; Sun, 02 Apr 2023 05:27:01 -0400
+Received: from mail-psaapc01olkn2067.outbound.protection.outlook.com
+ ([40.92.52.67] helo=APC01-PSA-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>)
+ id 1pitzH-000654-PE; Sun, 02 Apr 2023 05:27:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fi4muQE+Laqk0zS0CWIYeNYk6RP02krLOGWDrb4FnuhJdv/moUHr5MxB4MCkfb4ILrOqYMlk4FDZCBYC1TqtFhJljGOhznJoREMSH16dsfw0Pg0GUTmswgVEfzTPOJbB6K4WpYlTc1hX0vJF91ZKWCi4m+CkpABDhO2SI9J44wiTNPn2sFBZ2NsM07ysvct8hg4VUY5FbzXSOpGih2Pf/T5MG1M426l04UHDPlIfcnx1xPwA4+MulbK1Z3cliBY1K8ODSJE5EPN5lzVFpG4qPrWFVAm3qdZh6KAr1CTG+C5b0Frxr4ywk/EwTiQ++cl/QNAMFYdthXq5rPfnTprKHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=INBECriHlpJLgJTURvXq/LUDqEAul8uSVX+XQiV7OOU=;
+ b=btsz/NDwCpTZrMkKVGNHDIyjS3ZbpHjHIe/NLTvJCvkgVVEUbn3QcpqHPocVlh9CI3t/3M50zdWE+MCKrZDYsyjzupOeylDRrAR9g5mHRQjWl7T4uiRKurP9vi4FrCrNSR1l8v8juzLtahjUIk61r5HHnzE5EdyXjE+Y98asvDnFPz4L35r6tC4c7tMy3uVqsANBlX57zG6bjdXCYB3bYS16y7SouVCKexF5ss20IPY6y/UwtcMQGw71BrBDSDmib5uYdu6RXwKp6TNFYbzEFHljHUe7GNEYBI5JstA97kntYr3vuvs+Kg1KXHkTb7bM0LBja4FILyDsH5Yq6D4X1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
+ by TYZPR06MB5783.apcprd06.prod.outlook.com (2603:1096:400:269::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.26; Sun, 2 Apr
+ 2023 09:21:50 +0000
+Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::1c39:fb04:b3c2:5a26]) by TYZPR06MB5418.apcprd06.prod.outlook.com
+ ([fe80::1c39:fb04:b3c2:5a26%2]) with mapi id 15.20.6254.029; Sun, 2 Apr 2023
+ 09:21:50 +0000
+Message-ID: <TYZPR06MB5418AC3E4B7F013B486581049D8D9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+Date: Sun, 2 Apr 2023 18:21:48 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [RESEND PATCH v5 4/6] target/riscv: Add support for PC-relative
- translation
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230401124935.20997-1-liweiwei@iscas.ac.cn>
- <20230401124935.20997-5-liweiwei@iscas.ac.cn>
- <15b60df7-40ca-330c-faa9-daaa78b2000d@linux.alibaba.com>
+Subject: Re: [PATCH] qemu-options.hx: Update descriptions of memory options
+ for NUMA node
 Content-Language: en-US
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <15b60df7-40ca-330c-faa9-daaa78b2000d@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAnLFwoOilkTtI1DQ--.46101S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3ZF17WF1fXr1UAFWUXr4xZwb_yoWkWry3pr
- 1kGrWUJFy5Wr95JF18Jr4UJFy5Jr18G3WDJr18X3WUJr47Jr1jgr4UWrsIgF1UAr48Xr1j
- yF4DArnrZr47JFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
- n2IY04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
- CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
- nIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, alex.bennee@linaro.org,
+ Yohei Kojima <y-koj@outlook.jp>
+References: <TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+From: Yohei Kojima <y-koj@outlook.jp>
+In-Reply-To: <TYZPR06MB5418D6B0175A49E8E76988439D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TMN: [9SPuEBSKSmlNgQBZoxYn1yjL8efPWr5WuAgu3YnmVAgh4/ACnNLcLL0EjFsLmp/IXiJqNFGjkQM=]
+X-ClientProxiedBy: TYCP286CA0317.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3b7::7) To TYZPR06MB5418.apcprd06.prod.outlook.com
+ (2603:1096:400:202::7)
+X-Microsoft-Original-Message-ID: <f0b007a7-f737-2c33-ac6d-7b943139f220@outlook.jp>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|TYZPR06MB5783:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55c106db-5853-4410-eb33-08db335bb0ca
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GiUhSYOVndpZaHJL1FHSxFsgFXElziV9FTDyhMS9BktUjXRhkXhz7Uh+droZaksMtdWC512tYf7fPXewWmLo/6lFLfEwVBq77HrF+B8AZV3H4PkXqEtyyCzMBRMxt4GlRuxDCy+5lE3xaf+8J8UBTFRrYJ1wtMNhugfXPfBwoEd7Gh/HA9HRxDFlCXPB2TDX3xkI3t7/b3w0wvJmMdi8RqxJXtJd81illwPiqUB4uYikNHZtxzUrW1BgbTKA29f1iYtTssWhzzX3IOYrIOwB+eGjoWrBWDtkXNwMPRdWdDgRS0O4XNVJ9yTakXHy1JFMcUVe8umxdI+3O8AsRra5XYm+ZFxPkD+dAuGnsOUxb6tMkKAicoeRowpCesBycmCWMKYuoaVg5xtX+u48faY1LUZp++peuUhpA9545ff8T0q6yEf2n6xt06r7Rg3aF06aGuF520jhyCyyqvcLfH2lsoeo7kZy7qncm5e8p/KVbFJXNKDk3E2lAhoaoPZcjg9BpdtqxA9zumoOfaOSAejrnlLZJWPaWm282sweIy4CxT10690PgO8lnurpKJfahIvDwx17iXwnSv+AGCpygAC9v/dVjWsutfz7lNXMFAsaHmNNW0tOfzcO577mM9Xv8aiCfvZ1N3H6sdGY6DRZZLEmqUyw1St2THBQq03tBPQxwd0=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFRPd0ZZYURuV2tUci9xdG5pUHJJcFNMUGNTekczSFNMOGZJWGlqTVA2NTJ2?=
+ =?utf-8?B?NVNDUVh4czhROWhmaWlsY2xiVWduQkpWei9XNitaNVRSR0dHcms1K1V2YUh0?=
+ =?utf-8?B?d01sYVdVZFdUYk9mN0VQbTJIeWFiY0N1VFNBaWdrUjZTMmcrR2pxTWg2cTFB?=
+ =?utf-8?B?NHNWSXZFTGpMcUVTejNJZWUwaHZ3NE5JRzdHcmRma3pHVHMrSHJ0MThkMkZ6?=
+ =?utf-8?B?S0kwbDJ4SnEvVzA0SHVma1pKZlNFSjlDOFoyNzZ2cHZndmxIN1NsbXVRMDlp?=
+ =?utf-8?B?ZzY1c3diWjk3ZzhBVG9sbVRMVUdjWFZDMERldktvWm04bmF2UlJpRGtUOUw2?=
+ =?utf-8?B?M3pDTm1ydURwZTlxL0pwT3pmNjc1WThjRjl4QUZVU0daUW9aRHlYY0NPaXFq?=
+ =?utf-8?B?bitwWnNXUlVhaCtyVG5mZXJYekQycElMc1pBVzg5K2tDV3hKQ1lDVlk0YVdl?=
+ =?utf-8?B?aGJ4eUVaNmg5L0dNY3hYN1VIazFuVkhxWC9Hdk1QVktQeURxVXJQT21OZHo5?=
+ =?utf-8?B?WFhCeTVsK2Q0YzdhbituNEtwNk1XUVRLVG9zRnFyekV4dTlJejhEcmVSNllJ?=
+ =?utf-8?B?eXBzamY4SUl3RWVsckNaUVNjNnF4cWhBN3hMTElCc20vZUo2VUFyOUVwc1cr?=
+ =?utf-8?B?dWVIRnljTEhCK1NWK2c2ZVFuM0dXNURRWW9lVmZsNFA3WmRrWlRtQ2lyVXBS?=
+ =?utf-8?B?ZCtnaGNsMDA0c1RCTFlqK0tYRUtjK3pQbGU0alVEQTlXZFJjQ1g2V2cyQ3J6?=
+ =?utf-8?B?MmFxUTRTd3JvWHgrcEVuSDFVNHpjUyt0YmJ6eHd6VjI4eWc1ZUp1NU9Obmhn?=
+ =?utf-8?B?RlFjUGFweEFaUGZXTkhad0c4UzlvVFhNeU1FRFpoRE9YREJmU1dLZUZTdEly?=
+ =?utf-8?B?M1dweSt2cDhnUjJodkRPQXBpeXBCU0J1QVYvQWZwa3pCVHVVWENVZlhlUEdp?=
+ =?utf-8?B?ei9qQ2ZlU3N4ZGlvdm1MS3E5K2xXQlRlZjhkR0lKeVlZdTAxM1J0WnlaQ2U3?=
+ =?utf-8?B?bDhDbXFWeE4zeWVTUU5wQUZ1aFIxbDkzcjFDell4YjE3V2RRelhjajlPTnNK?=
+ =?utf-8?B?TzFmSmJ5SDRvS1FzYnIwZUNwbDMraTRkM1FWVnBybWxNeWt2SjhXOEpxVTNr?=
+ =?utf-8?B?MjZJa2g2ZU0yQVBkTSsxY3BrVC9abHEzamRwVlBOaGNCWHVpS2J5S0FBbUpu?=
+ =?utf-8?B?WGNNSUlQSyt3V2dkU3pEZVRmaDhVd2FCM21oc1ppQ0w4RHIrWDhxQ1lsUXI3?=
+ =?utf-8?B?QUpOL2VZeVg4WnQ1a2pOZ1FyczBsNVBFL09IUElsa05Cak1DVkR1SytoQ1dm?=
+ =?utf-8?B?SFBkL3lKVFdHdVlLVWRGSE1jWTF6ak92ZmFVWjRYMy9XUGNBbFBaYXExWkxT?=
+ =?utf-8?B?WXlEUEcwV1RpS241cE90Yk1xTytweTE4bUNSSmNycWVCbzNiOTN5R1hMcTdI?=
+ =?utf-8?B?bVRJdUZqUjJhTFpUcEVqekJSc1VFSDdsWkJ5S25GcEtPUmJiWGFsbmt3N3Zm?=
+ =?utf-8?B?THRjOU9IK29ueW5PelVIcjFhMWwyek5ub0ZxMlRkOFE3NExIUWFhNFlrTWVx?=
+ =?utf-8?B?b2NBSnhXRkx6REwrRUNSTlRQRjBpSnU3dXFyY2sremlnNDZVYUdYRWV5MnJn?=
+ =?utf-8?B?TTdSNEhXZnFkdnMwZGxGTEZaNGZFZ2lnMFlDbXlYT1ZsY1d1eGNXcnBoeXpS?=
+ =?utf-8?B?TW93RE1JSnU2ajc2czhoSDVibXZmZE1sdkxjd1JwU2hyTnM0dkZsQXlnPT0=?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55c106db-5853-4410-eb33-08db335bb0ca
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2023 09:21:50.6439 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5783
+Received-SPF: pass client-ip=40.92.52.67; envelope-from=y-koj@outlook.jp;
+ helo=APC01-PSA-obe.outbound.protection.outlook.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
+ FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,259 +125,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+I add more detailed explanation for the documentation update here.
 
-On 2023/4/2 08:34, LIU Zhiwei wrote:
->
-> On 2023/4/1 20:49, Weiwei Li wrote:
->> Add a base save_pc For
-> pc_save for
->> PC-relative translation(CF_PCREL).
->> Diable the directly sync pc from tb by riscv_cpu_synchronize_from_tb.
->> Sync pc before it's used or updated from tb related pc:
->>     real_pc = (old)env->pc + target_pc(from tb) - ctx->save_pc
-> pc_save in the code.
-OK. I'll fix this.
->> Use gen_get_target_pc to compute target address of auipc and successor
->> address of jalr.
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/riscv/cpu.c                      | 29 +++++++++-----
->>   target/riscv/insn_trans/trans_rvi.c.inc | 14 +++++--
->>   target/riscv/translate.c                | 53 +++++++++++++++++++++----
->>   3 files changed, 75 insertions(+), 21 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 1e97473af2..646fa31a59 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -658,16 +658,18 @@ static vaddr riscv_cpu_get_pc(CPUState *cs)
->>   static void riscv_cpu_synchronize_from_tb(CPUState *cs,
->>                                             const TranslationBlock *tb)
->>   {
->> -    RISCVCPU *cpu = RISCV_CPU(cs);
->> -    CPURISCVState *env = &cpu->env;
->> -    RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
->> +    if (!(tb_cflags(tb) & CF_PCREL)) {
->> +        RISCVCPU *cpu = RISCV_CPU(cs);
->> +        CPURISCVState *env = &cpu->env;
->> +        RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
->>   -    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
->> +        tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
->>   -    if (xl == MXL_RV32) {
->> -        env->pc = (int32_t) tb->pc;
->> -    } else {
->> -        env->pc = tb->pc;
->> +        if (xl == MXL_RV32) {
->> +            env->pc = (int32_t) tb->pc;
->> +        } else {
->> +            env->pc = tb->pc;
->> +        }
->>       }
->>   }
->>   @@ -693,11 +695,18 @@ static void 
->> riscv_restore_state_to_opc(CPUState *cs,
->>       RISCVCPU *cpu = RISCV_CPU(cs);
->>       CPURISCVState *env = &cpu->env;
->>       RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
->> +    target_ulong pc;
->> +
->> +    if (tb_cflags(tb) & CF_PCREL) {
->> +        pc = (env->pc & TARGET_PAGE_MASK) | data[0];
->> +    } else {
->> +        pc = data[0];
->> +    }
->>         if (xl == MXL_RV32) {
->> -        env->pc = (int32_t)data[0];
->> +        env->pc = (int32_t)pc;
->>       } else {
->> -        env->pc = data[0];
->> +        env->pc = pc;
->>       }
->>       env->bins = data[1];
->>   }
->> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc 
->> b/target/riscv/insn_trans/trans_rvi.c.inc
->> index 48c73cfcfe..52ef260eff 100644
->> --- a/target/riscv/insn_trans/trans_rvi.c.inc
->> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
->> @@ -38,7 +38,9 @@ static bool trans_lui(DisasContext *ctx, arg_lui *a)
->>     static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
->>   {
->> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
->> +    TCGv target_pc = dest_gpr(ctx, a->rd);
->> +    gen_get_target_pc(target_pc, ctx, a->imm + ctx->base.pc_next);
->> +    gen_set_gpr(ctx, a->rd, target_pc);
->>       return true;
->>   }
->>   @@ -52,6 +54,7 @@ static bool trans_jalr(DisasContext *ctx, 
->> arg_jalr *a)
->>   {
->>       TCGLabel *misaligned = NULL;
->>       TCGv target_pc = tcg_temp_new();
->> +    TCGv succ_pc = dest_gpr(ctx, a->rd);
->>         tcg_gen_addi_tl(target_pc, get_gpr(ctx, a->rs1, EXT_NONE), 
->> a->imm);
->>       tcg_gen_andi_tl(target_pc, target_pc, (target_ulong)-2);
->> @@ -68,7 +71,9 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
->>           tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
->>       }
->>   -    gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
->> +    gen_get_target_pc(succ_pc, ctx, ctx->pc_succ_insn);
->> +    gen_set_gpr(ctx, a->rd, succ_pc);
->> +
->>       tcg_gen_mov_tl(cpu_pc, target_pc);
->>       lookup_and_goto_ptr(ctx);
->>   @@ -159,6 +164,7 @@ static bool gen_branch(DisasContext *ctx, arg_b 
->> *a, TCGCond cond)
->>       TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
->>       TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
->>       target_ulong next_pc;
->> +    target_ulong orig_pc_save = ctx->pc_save;
->>         if (get_xl(ctx) == MXL_RV128) {
->>           TCGv src1h = get_gprh(ctx, a->rs1);
->> @@ -175,6 +181,7 @@ static bool gen_branch(DisasContext *ctx, arg_b 
->> *a, TCGCond cond)
->>         gen_set_label(l); /* branch taken */
->>   +    ctx->pc_save = orig_pc_save;
->>       next_pc = ctx->base.pc_next + a->imm;
->>       if (!has_ext(ctx, RVC) && (next_pc & 0x3)) {
->>           /* misaligned */
->> @@ -182,8 +189,9 @@ static bool gen_branch(DisasContext *ctx, arg_b 
->> *a, TCGCond cond)
->>           gen_get_target_pc(target_pc, ctx, next_pc);
->>           gen_exception_inst_addr_mis(ctx, target_pc);
->>       } else {
->> -        gen_goto_tb(ctx, 0, ctx->base.pc_next + a->imm);
->> +        gen_goto_tb(ctx, 0, next_pc);
->>       }
->> +    ctx->pc_save = -1;
->>       ctx->base.is_jmp = DISAS_NORETURN;
->>         return true;
->> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->> index 7b5223efc2..2dd594ddae 100644
->> --- a/target/riscv/translate.c
->> +++ b/target/riscv/translate.c
->> @@ -59,6 +59,7 @@ typedef struct DisasContext {
->>       DisasContextBase base;
->>       /* pc_succ_insn points to the instruction following 
->> base.pc_next */
->>       target_ulong pc_succ_insn;
->> +    target_ulong pc_save;
->>       target_ulong priv_ver;
->>       RISCVMXL misa_mxl_max;
->>       RISCVMXL xl;
->> @@ -225,15 +226,24 @@ static void decode_save_opc(DisasContext *ctx)
->>   static void gen_get_target_pc(TCGv target, DisasContext *ctx,
->>                                 target_ulong dest)
->>   {
->> -    if (get_xl(ctx) == MXL_RV32) {
->> -        dest = (int32_t)dest;
->> +    assert(ctx->pc_save != -1);
->> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
->> +        tcg_gen_addi_tl(target, cpu_pc, dest - ctx->pc_save);
->> +        if (get_xl(ctx) == MXL_RV32) {
->> +            tcg_gen_ext32s_tl(target, target);
->> +        }
->> +    } else {
->> +        if (get_xl(ctx) == MXL_RV32) {
->> +            dest = (int32_t)dest;
->> +        }
->> +        tcg_gen_movi_tl(target, dest);
->>       }
->> -    tcg_gen_movi_tl(target, dest);
->>   }
->>     static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
->>   {
->>       gen_get_target_pc(cpu_pc, ctx, dest);
->> +    ctx->pc_save = dest;
->
-> Why set pc_save here?  IMHO, pc_save is a constant.
+On 2023/03/30 19:09, Yohei Kojima wrote:
+> This commit adds the following description:
+> 1. `memdev` option is recommended over `mem` option (see [1,2])
+> 2. users must specify memory for all NUMA nodes (see [2])
+> 
+> This commit also separates descriptions for `mem` and `memdev` into two
+> paragraphs. The old doc describes legacy `mem` option first, and it was
+> a bit confusing.
+> 
+> Related documantations:
+> [1] https://wiki.qemu.org/ChangeLog/5.1#Incompatible_changes
+> [2] https://www.qemu.org/docs/master/about/removed-features.html
+> 
+> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
+> ---
+>  qemu-options.hx | 25 ++++++++++++++++---------
+>  1 file changed, 16 insertions(+), 9 deletions(-)
+> 
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 59bdf67a2c..174f0d0c2d 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -405,15 +405,22 @@ SRST
+>          -numa node,nodeid=0 -numa node,nodeid=1 \
+>          -numa cpu,node-id=0,socket-id=0 -numa cpu,node-id=1,socket-id=1
+>  
+> -    Legacy '\ ``mem``\ ' assigns a given RAM amount to a node (not supported
+> -    for 5.1 and newer machine types). '\ ``memdev``\ ' assigns RAM from
+> -    a given memory backend device to a node. If '\ ``mem``\ ' and
+> -    '\ ``memdev``\ ' are omitted in all nodes, RAM is split equally between them.
 
-pc_save is a value which is strictly related to the value of env->pc.
+RAM is no longer split equally in this situation. For example, the
+command below fails and emits an error. It also reproduces on other
+machine types (e.g. pc-q35-5.0).
 
-real_pc = (old)env->pc + target_pc(from tb) - ctx->pc_save
+$ qemu-system-x86_64 -m 2G -machine pc-q35-7.2 \
+    -numa node,nodeid=0 -numa node,nodeid=1
 
-So it also needs update when cpu_pc is updated.
+qemu-system-x86_64: total memory for NUMA nodes (0x0) should equal RAM size (0x80000000)
 
-Regards,
+> -
+> -
+> -    '\ ``mem``\ ' and '\ ``memdev``\ ' are mutually exclusive.
+> -    Furthermore, if one node uses '\ ``memdev``\ ', all of them have to
+> -    use it.
 
-Weiwei Li
+And if one node uses ``mem`` (on supported machine type), all of the
+rest have to use ``mem``, because omitting the memory option is no
+longer supported.
 
->
-> Zhiwei
->
->>   }
->>     static void generate_exception(DisasContext *ctx, int excp)
->> @@ -287,8 +297,21 @@ static void gen_goto_tb(DisasContext *ctx, int 
->> n, target_ulong dest)
->>         * direct block chain benefits will be small.
->>         */
->>       if (translator_use_goto_tb(&ctx->base, dest) && !ctx->itrigger) {
->> -        tcg_gen_goto_tb(n);
->> -        gen_set_pc_imm(ctx, dest);
->> +        /*
->> +         * For pcrel, the pc must always be up-to-date on entry to
->> +         * the linked TB, so that it can use simple additions for all
->> +         * further adjustments.  For !pcrel, the linked TB is compiled
->> +         * to know its full virtual address, so we can delay the
->> +         * update to pc to the unlinked path.  A long chain of links
->> +         * can thus avoid many updates to the PC.
->> +         */
->> +        if (tb_cflags(ctx->base.tb) & CF_PCREL) {
->> +            gen_set_pc_imm(ctx, dest);
->> +            tcg_gen_goto_tb(n);
->> +        } else {
->> +            tcg_gen_goto_tb(n);
->> +            gen_set_pc_imm(ctx, dest);
->> +        }
->>           tcg_gen_exit_tb(ctx->base.tb, n);
->>       } else {
->>           gen_set_pc_imm(ctx, dest);
->> @@ -555,8 +578,16 @@ static void gen_jal(DisasContext *ctx, int rd, 
->> target_ulong imm)
->>           }
->>       }
->>   -    gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
->> -    gen_goto_tb(ctx, 0, ctx->base.pc_next + imm); /* must use this 
->> for safety */
->> +    assert(ctx->pc_save != -1);
->> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
->> +        TCGv succ_pc = dest_gpr(ctx, rd);
->> +        tcg_gen_addi_tl(succ_pc, cpu_pc, ctx->pc_succ_insn - 
->> ctx->pc_save);
->> +        gen_set_gpr(ctx, rd, succ_pc);
->> +    } else {
->> +        gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
->> +    }
->> +
->> +    gen_goto_tb(ctx, 0, next_pc); /* must use this for safety */
->>       ctx->base.is_jmp = DISAS_NORETURN;
->>   }
->>   @@ -1150,6 +1181,7 @@ static void 
->> riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->>       RISCVCPU *cpu = RISCV_CPU(cs);
->>       uint32_t tb_flags = ctx->base.tb->flags;
->>   +    ctx->pc_save = ctx->base.pc_first;
->>       ctx->pc_succ_insn = ctx->base.pc_first;
->>       ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
->>       ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
->> @@ -1195,8 +1227,13 @@ static void riscv_tr_tb_start(DisasContextBase 
->> *db, CPUState *cpu)
->>   static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState 
->> *cpu)
->>   {
->>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
->> +    target_ulong pc_next = ctx->base.pc_next;
->> +
->> +    if (tb_cflags(dcbase->tb) & CF_PCREL) {
->> +        pc_next &= ~TARGET_PAGE_MASK;
->> +    }
->>   -    tcg_gen_insn_start(ctx->base.pc_next, 0);
->> +    tcg_gen_insn_start(pc_next, 0);
->>       ctx->insn_start = tcg_last_op();
->>   }
+> +    '\ ``memdev``\ ' option assigns RAM from a given memory backend
+> +    device to a node. It is recommended to use '\ ``memdev``\ ' option
+> +    over legacy '\ ``mem``\ ' option. This is because '\ ``memdev``\ '
+> +    option provides better performance and more control over the
+> +    backend's RAM (e.g. '\ ``prealloc``\ ' parameter of
+> +    '\ ``-memory-backend-ram``\ ' allows memory preallocation).
 
+``memdev`` is described first, because ``mem`` is not supported on
+machine type 5.1 and later. Readers will see the supported option first.
+
+> +
+> +    For compatibility reasons, legacy '\ ``mem``\ ' option is
+> +    supported in 5.0 and older machine types. Note that '\ ``mem``\ '
+> +    and '\ ``memdev``\ ' are mutually exclusive. If one node uses
+> +    '\ ``memdev``\ ', the rest nodes have to use '\ ``memdev``\ '
+> +    option, and vice versa.
+
+Description for ``mem`` is moved here. It also describes that ``mem``
+and ``memdev`` is mutually exclusive.
+
+> +
+> +    Users must specify memory for all NUMA nodes by '\ ``memdev``\ '
+> +    (or legacy '\ ``mem``\ ' if available). In QEMU 5.2, the support
+> +    for '\ ``-numa node``\ ' without memory specified was removed.
+
+Users must specify the memory size for each node like
+either (A) or (B), instead of (C). Note that (A) emits warnings (A1).
+Also note that, as described above, the machine type for (A) should be
+5.0 or older (pc-q35-5.0 here).
+
+(A) qemu-system-x86_64 -m 2G -machine pc-q35-5.0 \
+    -numa node,nodeid=0,mem=1G -numa node,nodeid=1,mem=1G
+
+(A1)
+qemu-system-x86_64: -numa node,nodeid=0,mem=1G: warning: Parameter -numa node,mem is deprecated, use -numa node,memdev instead
+qemu-system-x86_64: -numa node,nodeid=1,mem=1G: warning: Parameter -numa node,mem is deprecated, use -numa node,memdev instead
+
+(B) qemu-system-x86_64 -m 2G -machine pc-q35-7.2 \
+    -object memory-backend-ram,size=1G,id=m0 \
+    -object memory-backend-ram,size=1G,id=m1 \
+    -numa node,nodeid=0,memdev=m0 -numa node,nodeid=1,memdev=m1
+
+(C) qemu-system-x86_64 -m 2G -machine pc-q35-7.2 \
+    -numa node,nodeid=0 -numa node,nodeid=1
+
+>  
+>      '\ ``initiator``\ ' is an additional option that points to an
+>      initiator NUMA node that has best performance (the lowest latency or
 
