@@ -2,115 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC066D36CB
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 11:59:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1266D3813
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Apr 2023 15:19:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1piuT2-0005Zg-66; Sun, 02 Apr 2023 05:57:44 -0400
+	id 1pixaa-0007SP-D9; Sun, 02 Apr 2023 09:17:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1piuT0-0005ZY-4r
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 05:57:42 -0400
-Received: from mail-sgaapc01olkn20817.outbound.protection.outlook.com
- ([2a01:111:f400:feab::817]
- helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pixaX-0007Rf-1S; Sun, 02 Apr 2023 09:17:41 -0400
+Received: from out30-100.freemail.mail.aliyun.com ([115.124.30.100])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1piuSy-0001fC-05
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 05:57:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GYZ8gX/FLhEqD0YECJ34VNm7LiB+JL3BQUXWwzAivYgl7gPhSffeIxXh7WbQKLtPA4yIZtl88jzjt/v8h8GR2BRvhKwUDobdA6/do00ao4dS6b3yBKKdSHI40U6y5MRbAnUUAJKM594/424B2eEJbPAN9gMiKc3WxjYedwYJ4zGeRP94Z3qlsphCyoP7y94obfRfQXy4q/XG+3iD7gq20gK83m4UFT2etvHGtSoJEOFDNXdGWUE5bvjaLPN74xyhwUqY38uXAeS+kCvEZf54ORnVgiqsrNGAHHRbZHlymd87DVhC1lUVuvoLYcFS3na6AjbkRBrdzCKbSOaj74gnbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YvDi78l0xnIiI4j1eYf0iSwAdbn6tYVR0MQu3rJLL2k=;
- b=BoAUrGcvdKJj3CcA8hozNLMmEX4pU33aJGrcoQrPhpxCBkMe9KY8mLSp1PgYuKdivXdchW9hp5gxYu7o4GWWlqtXcDrwomVk4BFFo32ZzJ5JRzm9ezED7CjDUPa+ap4uEJcEpmI5VzsSBQT/EGpIXj20dEbPErpzk2IsULhkbAPNYiZEyetPravbc2A+XB/M/8M/uvQ/nglUhokcja4yvhGngmp3DZB1+L6CqRuIzwl6nvJ7P1fV+LS9s3EbyN1QRLCpLTccKzo9zUC490XHTkfvjxkNoNpQFeg6ZzN3tBkPqLvak8rVabXXQBFjNSWRukA7BU7rCuoxfYoYZ4L5rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
- by TYZPR06MB4635.apcprd06.prod.outlook.com (2603:1096:400:126::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.28; Sun, 2 Apr
- 2023 09:57:32 +0000
-Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
- ([fe80::1c39:fb04:b3c2:5a26]) by TYZPR06MB5418.apcprd06.prod.outlook.com
- ([fe80::1c39:fb04:b3c2:5a26%2]) with mapi id 15.20.6254.029; Sun, 2 Apr 2023
- 09:57:32 +0000
-Message-ID: <TYZPR06MB5418EC5B3EB13310002E025F9D8D9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Date: Sun, 2 Apr 2023 18:57:31 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 0/4] util: Add thread-safe qemu_strerror() function
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Yohei Kojima <y-koj@outlook.jp>
-References: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-From: Yohei Kojima <y-koj@outlook.jp>
-In-Reply-To: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TMN: [R00EFJFO4LaFB2NyThyibKGr3ah/bLXqLrulfx2f5f+xf8spinJG4BLnASEvwYBjoVUian5B65c=]
-X-ClientProxiedBy: TYWP286CA0002.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:178::17) To TYZPR06MB5418.apcprd06.prod.outlook.com
- (2603:1096:400:202::7)
-X-Microsoft-Original-Message-ID: <260f15bf-cab6-f10d-f4e3-12c015856af0@outlook.jp>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pixaS-0003ds-3E; Sun, 02 Apr 2023 09:17:40 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0Vf89-qS_1680441440; 
+Received: from 192.168.3.95(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0Vf89-qS_1680441440) by smtp.aliyun-inc.com;
+ Sun, 02 Apr 2023 21:17:21 +0800
+Message-ID: <e0dc20a2-1a93-6c3d-b3e1-f62c7d1d61c9@linux.alibaba.com>
+Date: Sun, 2 Apr 2023 21:17:17 +0800
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|TYZPR06MB4635:EE_
-X-MS-Office365-Filtering-Correlation-Id: ece7caa4-a152-4290-bb62-08db3360ad9e
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PauYKpb4VSqn0qDLQNmacAQV0MeRu9OGp8Zad5hK4FrSiBaeM5qR7N4d6KBPElGb9tB4TaQOPhjpMcCPjvVpXOIMQ8VqexDLhtjOlRccsDPvuQuwOIqkQbap/GNtIgVA4Ns83b4a+dFsu31wlZA0f87ps7MhcHoDgzfjfdsHgOz+yqNVbzRWFdzl7xeaR/gU+EDiepulIaFSsPM1ZOLABdK9dAcHrlEwMwEl+v90NqcUbYeSBAS39I2C9p36BXAsNEWZS9v3ySBK5D3hssQo6WNO+A+R0770qAf5o/n1IMbos0ll0nWac7aWWWsZrshV8MkMdri9AyVFV+g1/15LcgvIJniuoOf4BE78uN2Y7a9TWVbRncmXUw3fqOYAcdswTEtLp3SsGeFGCLY+dlPtO9u5mhRIl23RxYMv1mxJSvBsf4zTQ+04Mvo136zJ5FI9R5BDpImOB6DGm/7WTuDT8Ry1dSz5SLrsGbgMvCr8XgYWgXj7P8JgxPQUSfTszh7PQioudTKdVmT40blA+50ARXFPobhcMcZd7ADk4RDZkBa+ZEdnheHwu8ckVI07YEmyd/HXqnKln8VStA58x9ROiAC5Cx/KtfiHcQ/nFtnzMIVMQiBtTQla4rT3yashXEFJRhORad3+kyWumJEK1umSPQ==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2FZRFRxM3RJWFppd3AxRnFGblNLQWN5REhpMWQza25UL2pSQWowTEtrNXRZ?=
- =?utf-8?B?RW9seTdCRTY5KzlFTnVabHVOSHZ6NVJraXl1MlV5bUdkNFN2NmZGZkgvVmlk?=
- =?utf-8?B?N2NtVlcycVZmNmE4QXRnUTdJWHRvNjlualJ5N0dzQUJ4K3k2ZUM4OFFLNExX?=
- =?utf-8?B?Q2dRWkhkUVpKcFdnczBvbDd2M1hPYzNkWEp6NE82ZXlPRnBJM2d5QXFGWFVX?=
- =?utf-8?B?OTNZV0ZCWnNLa0UyazFNZytzSmdLU3BOYzBjMFVObHExSEMzZ0tJTmlHZk1I?=
- =?utf-8?B?R1dTS3UzcStCMlB6T0VIL0FOVjZBZ3ovZ3JyZnVyNDF5bzlBdHhQODVEWm1M?=
- =?utf-8?B?T1hQVnVoVGNERXhVeFVvRVhXRHpvUVdvRzFmL0dyLzg4aUNvbEQ4M2ZuTWRJ?=
- =?utf-8?B?U1hTakFIZjBMQ1FnOU52Qm0zRklKZ1JYa21RQWlEWU94aVVuU0pGSFN5bjZB?=
- =?utf-8?B?cnpYbVphRWpiVm9oTURha01FaDVobWlSRkVzbDVMSGw0bk5QbmdoS3l4SXZO?=
- =?utf-8?B?ZWNkNVNWc0o3YVFoZjdZUGNvUjl2c0k2bHNibzExcTR1bWd5SkR5ZzJPb2hh?=
- =?utf-8?B?eW8xMHo5blkzcE5RMGNwdUdJdUpWZFdCQndNMTkvb2dhZVpONHFnMVZURGpM?=
- =?utf-8?B?TG8wZlpMaDBRdVB4aUFUYWgyTHp0ekZmYWxMV1hOY1U5bTQzSDBFelFJVXc4?=
- =?utf-8?B?Yy9FQlhxU0dSUVg0Zms1UUV5ck1ZY0ZZNzZhR25ORmFLZmF5VWlZNm1nc0dK?=
- =?utf-8?B?M0JEa3l3WkR3cVIvRFI5bWZ3STZGemNSTXNjT1VDeWg5eUhCMExpRHRJbVk0?=
- =?utf-8?B?VUxhSGQwMEpFV2hKZFAzMjArNFByZ05pbkQ1RUpTVVFLTHJRWGk0MGk0KzhX?=
- =?utf-8?B?WUUxUFRTQm51ZUhXb3hxb1RQT1Q2aUd0TUM0UlZ3cUNaZmlPU2RUbkRNL1pP?=
- =?utf-8?B?M2FaNzczcFdmOCtYNkxsRVhQM2M1LzJoOHBpZ0xPd3dDc1NCZkVlRDhEOENp?=
- =?utf-8?B?MXhDRW00WHdmZFBXb3N4MHByaWNZQlFuVHExSzVmTkZvcm5mNlpTY1VDV3dV?=
- =?utf-8?B?V3F6UVZLTmxOd0tWVFAvaDNyQlhPcE9iRUxJNXloZnY3OVlVSG42bjRVdXh5?=
- =?utf-8?B?eEY2NExaYzFoVExsR2ZQRENUS1JkcjFJaWpaYjl4TEk3YVcyc1RFVDNaNGZU?=
- =?utf-8?B?TVVLbTN2OHRUYVBRNStUUzFsVFJRRXNENXNldi82RGx0RlBQS1BvMmFZbVRw?=
- =?utf-8?B?Umk5QzErWmF2S3poTkxLYmpZRGE1MXJ5bG9DOU1KbFc5NDFiRVVrZEJQdFFJ?=
- =?utf-8?B?bzdwVEhwVHRMaG41SVBrUXp2RTFmUTRXQjdHcmlEU1dnUERWZGZrMy9jemhk?=
- =?utf-8?B?eXR2bXRCSml4eGd5QThvTHBkY0hCb0p1UkJRS2RYYVNWbkpPZkdwcXdDbDZa?=
- =?utf-8?B?OFo2Uk02NzRLejcxMVFsaFR4NW14bE93OVFvOUNrdm5FZWU1Q3Z0amhUZUR1?=
- =?utf-8?B?N25JVXhjSSthVDcwQTNQcjRlNXJYLy9CMW1TZ2VVcDN3ZmQyYjQvdnhROEpz?=
- =?utf-8?B?TDRLcFBYSjA0VkdnS1NEOWU3aHo0c2RjYWkydVdBZnZHd016NzcyMDhWaXZh?=
- =?utf-8?B?S25rVkZpWUlsd3JaRnFzSzZvcUVqY3JXY2hxcEZodHpxdmFPb2xNZG8yZG83?=
- =?utf-8?B?NFdyWkZGeEV3Yzk2WWdFak8yWHl2bkFwVk44bzU5UUNCUVgybFZHdmlRPT0=?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: ece7caa4-a152-4290-bb62-08db3360ad9e
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2023 09:57:32.7285 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4635
-Received-SPF: pass client-ip=2a01:111:f400:feab::817;
- envelope-from=y-koj@outlook.jp;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RESEND PATCH v5 4/6] target/riscv: Add support for PC-relative
+ translation
+Content-Language: en-US
+To: liweiwei <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230401124935.20997-1-liweiwei@iscas.ac.cn>
+ <20230401124935.20997-5-liweiwei@iscas.ac.cn>
+ <15b60df7-40ca-330c-faa9-daaa78b2000d@linux.alibaba.com>
+ <7e87df52-cc1d-4a85-a83b-f12b80b7f040@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <7e87df52-cc1d-4a85-a83b-f12b80b7f040@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.100;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-100.freemail.mail.aliyun.com
+X-Spam_score_int: -122
+X-Spam_score: -12.3
+X-Spam_bar: ------------
+X-Spam_report: (-12.3 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-2.37, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,77 +69,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I explain why I did not add "Fixes:" line while it is advised to add
-in the previous review. It is because this patch series solves the
-issue partially, not completely. There are many more files that
-includes `strerror()` call, but changing all of them will result in
-the huge patch series that is hard to merge.
 
-In short, fixes line is not added to avoid closing and reopening the
-partially fixed issue. The patch series is incomplete because the
-complete patch series will be very large.
+On 2023/4/2 16:17, liweiwei wrote:
+>
+> On 2023/4/2 08:34, LIU Zhiwei wrote:
+>>
+>> On 2023/4/1 20:49, Weiwei Li wrote:
+>>> Add a base save_pc For
+>> pc_save for
+>>> PC-relative translation(CF_PCREL).
+>>> Diable the directly sync pc from tb by riscv_cpu_synchronize_from_tb.
+>>> Sync pc before it's used or updated from tb related pc:
+>>>     real_pc = (old)env->pc + target_pc(from tb) - ctx->save_pc
+>> pc_save in the code.
+> OK. I'll fix this.
+>>> Use gen_get_target_pc to compute target address of auipc and successor
+>>> address of jalr.
+>>>
+>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   target/riscv/cpu.c                      | 29 +++++++++-----
+>>>   target/riscv/insn_trans/trans_rvi.c.inc | 14 +++++--
+>>>   target/riscv/translate.c                | 53 
+>>> +++++++++++++++++++++----
+>>>   3 files changed, 75 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>>> index 1e97473af2..646fa31a59 100644
+>>> --- a/target/riscv/cpu.c
+>>> +++ b/target/riscv/cpu.c
+>>> @@ -658,16 +658,18 @@ static vaddr riscv_cpu_get_pc(CPUState *cs)
+>>>   static void riscv_cpu_synchronize_from_tb(CPUState *cs,
+>>>                                             const TranslationBlock *tb)
+>>>   {
+>>> -    RISCVCPU *cpu = RISCV_CPU(cs);
+>>> -    CPURISCVState *env = &cpu->env;
+>>> -    RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+>>> +    if (!(tb_cflags(tb) & CF_PCREL)) {
+>>> +        RISCVCPU *cpu = RISCV_CPU(cs);
+>>> +        CPURISCVState *env = &cpu->env;
+>>> +        RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+>>>   -    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
+>>> +        tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
+>>>   -    if (xl == MXL_RV32) {
+>>> -        env->pc = (int32_t) tb->pc;
+>>> -    } else {
+>>> -        env->pc = tb->pc;
+>>> +        if (xl == MXL_RV32) {
+>>> +            env->pc = (int32_t) tb->pc;
+>>> +        } else {
+>>> +            env->pc = tb->pc;
+>>> +        }
+>>>       }
+>>>   }
+>>>   @@ -693,11 +695,18 @@ static void 
+>>> riscv_restore_state_to_opc(CPUState *cs,
+>>>       RISCVCPU *cpu = RISCV_CPU(cs);
+>>>       CPURISCVState *env = &cpu->env;
+>>>       RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+>>> +    target_ulong pc;
+>>> +
+>>> +    if (tb_cflags(tb) & CF_PCREL) {
+>>> +        pc = (env->pc & TARGET_PAGE_MASK) | data[0];
+>>> +    } else {
+>>> +        pc = data[0];
+>>> +    }
+>>>         if (xl == MXL_RV32) {
+>>> -        env->pc = (int32_t)data[0];
+>>> +        env->pc = (int32_t)pc;
+>>>       } else {
+>>> -        env->pc = data[0];
+>>> +        env->pc = pc;
+>>>       }
+>>>       env->bins = data[1];
+>>>   }
+>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc 
+>>> b/target/riscv/insn_trans/trans_rvi.c.inc
+>>> index 48c73cfcfe..52ef260eff 100644
+>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+>>> @@ -38,7 +38,9 @@ static bool trans_lui(DisasContext *ctx, arg_lui *a)
+>>>     static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>>>   {
+>>> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+>>> +    TCGv target_pc = dest_gpr(ctx, a->rd);
+>>> +    gen_get_target_pc(target_pc, ctx, a->imm + ctx->base.pc_next);
+>>> +    gen_set_gpr(ctx, a->rd, target_pc);
+>>>       return true;
+>>>   }
+>>>   @@ -52,6 +54,7 @@ static bool trans_jalr(DisasContext *ctx, 
+>>> arg_jalr *a)
+>>>   {
+>>>       TCGLabel *misaligned = NULL;
+>>>       TCGv target_pc = tcg_temp_new();
+>>> +    TCGv succ_pc = dest_gpr(ctx, a->rd);
+>>>         tcg_gen_addi_tl(target_pc, get_gpr(ctx, a->rs1, EXT_NONE), 
+>>> a->imm);
+>>>       tcg_gen_andi_tl(target_pc, target_pc, (target_ulong)-2);
+>>> @@ -68,7 +71,9 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr 
+>>> *a)
+>>>           tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
+>>>       }
+>>>   -    gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
+>>> +    gen_get_target_pc(succ_pc, ctx, ctx->pc_succ_insn);
+>>> +    gen_set_gpr(ctx, a->rd, succ_pc);
+>>> +
+>>>       tcg_gen_mov_tl(cpu_pc, target_pc);
+>>>       lookup_and_goto_ptr(ctx);
+>>>   @@ -159,6 +164,7 @@ static bool gen_branch(DisasContext *ctx, 
+>>> arg_b *a, TCGCond cond)
+>>>       TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
+>>>       TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
+>>>       target_ulong next_pc;
+>>> +    target_ulong orig_pc_save = ctx->pc_save;
+>>>         if (get_xl(ctx) == MXL_RV128) {
+>>>           TCGv src1h = get_gprh(ctx, a->rs1);
+>>> @@ -175,6 +181,7 @@ static bool gen_branch(DisasContext *ctx, arg_b 
+>>> *a, TCGCond cond)
+>>>         gen_set_label(l); /* branch taken */
+>>>   +    ctx->pc_save = orig_pc_save;
+>>>       next_pc = ctx->base.pc_next + a->imm;
+>>>       if (!has_ext(ctx, RVC) && (next_pc & 0x3)) {
+>>>           /* misaligned */
+>>> @@ -182,8 +189,9 @@ static bool gen_branch(DisasContext *ctx, arg_b 
+>>> *a, TCGCond cond)
+>>>           gen_get_target_pc(target_pc, ctx, next_pc);
+>>>           gen_exception_inst_addr_mis(ctx, target_pc);
+>>>       } else {
+>>> -        gen_goto_tb(ctx, 0, ctx->base.pc_next + a->imm);
+>>> +        gen_goto_tb(ctx, 0, next_pc);
+>>>       }
+>>> +    ctx->pc_save = -1;
+>>>       ctx->base.is_jmp = DISAS_NORETURN;
+>>>         return true;
+>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>>> index 7b5223efc2..2dd594ddae 100644
+>>> --- a/target/riscv/translate.c
+>>> +++ b/target/riscv/translate.c
+>>> @@ -59,6 +59,7 @@ typedef struct DisasContext {
+>>>       DisasContextBase base;
+>>>       /* pc_succ_insn points to the instruction following 
+>>> base.pc_next */
+>>>       target_ulong pc_succ_insn;
+>>> +    target_ulong pc_save;
+>>>       target_ulong priv_ver;
+>>>       RISCVMXL misa_mxl_max;
+>>>       RISCVMXL xl;
+>>> @@ -225,15 +226,24 @@ static void decode_save_opc(DisasContext *ctx)
+>>>   static void gen_get_target_pc(TCGv target, DisasContext *ctx,
+>>>                                 target_ulong dest)
+>>>   {
+>>> -    if (get_xl(ctx) == MXL_RV32) {
+>>> -        dest = (int32_t)dest;
+>>> +    assert(ctx->pc_save != -1);
+>>> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+>>> +        tcg_gen_addi_tl(target, cpu_pc, dest - ctx->pc_save);
+>>> +        if (get_xl(ctx) == MXL_RV32) {
+>>> +            tcg_gen_ext32s_tl(target, target);
+>>> +        }
+>>> +    } else {
+>>> +        if (get_xl(ctx) == MXL_RV32) {
+>>> +            dest = (int32_t)dest;
+>>> +        }
+>>> +        tcg_gen_movi_tl(target, dest);
+>>>       }
+>>> -    tcg_gen_movi_tl(target, dest);
+>>>   }
+>>>     static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
+>>>   {
+>>>       gen_get_target_pc(cpu_pc, ctx, dest);
+>>> +    ctx->pc_save = dest;
+>>
+>> Why set pc_save here?  IMHO, pc_save is a constant.
+>
+> pc_save is a value which is strictly related to the value of env->pc.
+> real_pc = (old)env->pc + target_pc(from tb) - ctx->pc_save
 
-On 2023/03/31 2:07, Yohei Kojima wrote:
-> This patch series adds qemu_strerror() function, which is thread-safe
-> version of the libc strerror(). The first patch introduces the
-> qemu_strerror() function, and the second patch replaces strerror()
-> function in linux-user/* with qemu_strerror() function.
-> 
-> The difference between this patch series are:
->   1. Add the following patches
->     accel: replace strerror() function to the thread safe qemu_strerror()
->     target/i386: replace strerror() function to the thread safe
->   2. Add `#include "qemu/cutils.h"` line to linux-user/elfload.c
->   3. Fix qemu_strerror() to follow the QEMU coding style
-> 
-> The following lines are same to the cover letter in the previous
-> version.
-> 
-> Because it involves thread safety, qemu_strerror() should be tested
-> carefully. But before adding tests, I want to ask (1) will this patch be
-> acceptable to QEMU project after adding tests, (2) where and how
-> qemu_strerror() should be tested.
-> 
-> (1) means that: is my approach too complicated to solve potential
-> thread-unsafe implementation of strerror()? Although strerror() is not
-> guaranteed to be thread-safe, glibc implements thread-safe strerror().
-> We have to consider the balance between maintenance costs and potential
-> risks.
-> 
-> (2) means that: is tests/unit/test-cutils.c a good place for tests?
-> Because the behavior of qemu_strerror() is changed by the feature test
-> macros, the tests should be run with different test macros, hopefully
-> in different OSs.
-> 
-> Note that strerror_r() function called by qemu_strerror() has
-> different return types between architectures because of the historical
-> reason. qemu_strerror() handles both the newer POSIX strerror() and the
-> older POSIX strerror().
-> 
-> All tests except for skipped ones are passed in my environment (x86_64
-> linux).
-> 
-> Yohei Kojima (4):
->   util: Add thread-safe qemu_strerror() function
->   linux-user: replace strerror() function to the thread safe
->     qemu_strerror()
->   accel: replace strerror() function to the thread safe qemu_strerror()
->   target/i386: replace strerror() function to the thread safe
->     qemu_strerror()
-> 
->  accel/kvm/kvm-all.c               | 32 +++++++++++---------
->  accel/tcg/cputlb.c                |  3 +-
->  accel/tcg/perf.c                  |  7 +++--
->  include/qemu/cutils.h             | 20 +++++++++++++
->  linux-user/elfload.c              |  6 ++--
->  linux-user/main.c                 |  5 ++--
->  linux-user/syscall.c              |  2 +-
->  target/i386/kvm/kvm.c             | 49 ++++++++++++++++---------------
->  target/i386/kvm/xen-emu.c         |  7 +++--
->  target/i386/nvmm/nvmm-accel-ops.c |  2 +-
->  target/i386/sev.c                 |  5 ++--
->  target/i386/whpx/whpx-accel-ops.c |  2 +-
->  util/cutils.c                     | 49 +++++++++++++++++++++++++++++++
->  13 files changed, 136 insertions(+), 53 deletions(-)
-> 
+In this formula, the meaning of target_pc(from tb) doesn't match with 
+gen_get_target_pc in the code. Its meaning in the code matches the 
+real_pc in the formula. I think we should rename the gen_get_target_pc 
+to gen_get_real_pc.
+
+We should also move the comment in patch 5 to this patch. That will help 
+us understand what we are doing here.
+
+Absolute field in DisasContext used in translation should be replaced 
+with a relative representation. For example, ctx->base.pc_next should 
+replace with (cpu_pc + ctx->base.pc_next - ctx->base.pc_first).
+
+So the formula can be described as,
+
+real_pc =  env->pc + abs_dest_pc - abs_first_pc
+
+>
+> So it also needs update when cpu_pc is updated.
+
+When cpu_pc updates (usually a jmp or branch instruction), we end the 
+block at the same time.  Does a field in DisasContext, i.e., the 
+ctx->pc_save still have some meaning after a block has been translated?
+
+Zhiwei
+
+> Regards,
+>
+> Weiwei Li
+>
+>>
+>> Zhiwei
+>>
+>>>   }
+>>>     static void generate_exception(DisasContext *ctx, int excp)
+>>> @@ -287,8 +297,21 @@ static void gen_goto_tb(DisasContext *ctx, int 
+>>> n, target_ulong dest)
+>>>         * direct block chain benefits will be small.
+>>>         */
+>>>       if (translator_use_goto_tb(&ctx->base, dest) && !ctx->itrigger) {
+>>> -        tcg_gen_goto_tb(n);
+>>> -        gen_set_pc_imm(ctx, dest);
+>>> +        /*
+>>> +         * For pcrel, the pc must always be up-to-date on entry to
+>>> +         * the linked TB, so that it can use simple additions for all
+>>> +         * further adjustments.  For !pcrel, the linked TB is compiled
+>>> +         * to know its full virtual address, so we can delay the
+>>> +         * update to pc to the unlinked path.  A long chain of links
+>>> +         * can thus avoid many updates to the PC.
+>>> +         */
+>>> +        if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+>>> +            gen_set_pc_imm(ctx, dest);
+>>> +            tcg_gen_goto_tb(n);
+>>> +        } else {
+>>> +            tcg_gen_goto_tb(n);
+>>> +            gen_set_pc_imm(ctx, dest);
+>>> +        }
+>>>           tcg_gen_exit_tb(ctx->base.tb, n);
+>>>       } else {
+>>>           gen_set_pc_imm(ctx, dest);
+>>> @@ -555,8 +578,16 @@ static void gen_jal(DisasContext *ctx, int rd, 
+>>> target_ulong imm)
+>>>           }
+>>>       }
+>>>   -    gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+>>> -    gen_goto_tb(ctx, 0, ctx->base.pc_next + imm); /* must use this 
+>>> for safety */
+>>> +    assert(ctx->pc_save != -1);
+>>> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+>>> +        TCGv succ_pc = dest_gpr(ctx, rd);
+>>> +        tcg_gen_addi_tl(succ_pc, cpu_pc, ctx->pc_succ_insn - 
+>>> ctx->pc_save);
+>>> +        gen_set_gpr(ctx, rd, succ_pc);
+>>> +    } else {
+>>> +        gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+>>> +    }
+>>> +
+>>> +    gen_goto_tb(ctx, 0, next_pc); /* must use this for safety */
+>>>       ctx->base.is_jmp = DISAS_NORETURN;
+>>>   }
+>>>   @@ -1150,6 +1181,7 @@ static void 
+>>> riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>>>       RISCVCPU *cpu = RISCV_CPU(cs);
+>>>       uint32_t tb_flags = ctx->base.tb->flags;
+>>>   +    ctx->pc_save = ctx->base.pc_first;
+>>>       ctx->pc_succ_insn = ctx->base.pc_first;
+>>>       ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
+>>>       ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
+>>> @@ -1195,8 +1227,13 @@ static void 
+>>> riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+>>>   static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState 
+>>> *cpu)
+>>>   {
+>>>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
+>>> +    target_ulong pc_next = ctx->base.pc_next;
+>>> +
+>>> +    if (tb_cflags(dcbase->tb) & CF_PCREL) {
+>>> +        pc_next &= ~TARGET_PAGE_MASK;
+>>> +    }
+>>>   -    tcg_gen_insn_start(ctx->base.pc_next, 0);
+>>> +    tcg_gen_insn_start(pc_next, 0);
+>>>       ctx->insn_start = tcg_last_op();
+>>>   }
 
