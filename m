@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EBE6D4A92
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 16:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF7E6D4A82
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 16:47:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjLSS-0003sg-Ox; Mon, 03 Apr 2023 10:46:56 -0400
+	id 1pjLSc-0003uw-Ik; Mon, 03 Apr 2023 10:47:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjLSN-0003rI-O6
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 10:46:53 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1pjLSM-0003qj-II
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 10:46:50 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjLSJ-0001AO-P8
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 10:46:51 -0400
-Received: by mail-wm1-x336.google.com with SMTP id s13so17256048wmr.4
+ id 1pjLSJ-0001AS-Og
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 10:46:50 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ l10-20020a05600c1d0a00b003f04bd3691eso3386532wms.5
  for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 07:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1680533203;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tOMQqYczbQzJT4cpOfgtd59pSmpxm7+Vtg1FH5cDagc=;
- b=N/GkXXgLNwP1pVBVS4lLVbtrzB3qKXJ0Ql8zn67MdylWVnGz2Up8fKOPaydMeWux2U
- Tr9xWJqm3sR4bQzqIMSwWWBg5elzwh6RTNgZ8GJXFjQN2zrfAK9QY9lX1624GYVwonEt
- awHsBD014OZuYKebcjT8x0YvRqGOH59FqGOq4SyoP3oj8dEMVx2y8qPSG83qzR99tcEw
- Q9j42B3NHYpvnk7yzMHw/6MevBNjsg4NESSjZBniSHBMP7Ctx5dwXoyQvukf9Xskm/AT
- Y3z+2byUfAnRq8U6SrWlAqDfiDRteu5c2HIfGaJfnFLN0UJC9CYq9dHth980c8erYD7j
- fyBA==
+ bh=3epTQBYW6Jzl8bhA8JL/NwcO0wptisWs4DJRdCAPoII=;
+ b=AlbMeKsScGDONiGb/vOejVPMuGqUv8apX5hpFUCt4RXTLIKcQpyQIPCoYpGnu8nNLf
+ rjXRxm3rPs2cqBYL2x3RCQBUX/2Nzdkh/Rb4JCL5bwqBf1xe4YtGBQZmIRRB1pfvJlz8
+ p9PO9bWNNPBEPXcWCZ2aEYCjA+E/ZPwB2+T3K5EybFdJ/t+sM/HbEh8qKf+LWbEY5DBB
+ hHdXxiSYIHtZox2c31BxM5KR55fpDQLr7Ro3e4BJLS9eusYjYvI3PuBE/s66rpcjjNt1
+ 2vChk31H3t+fZlRxisXQspv5yY6tEbj0395L/zT43/jdqajUTl4vd75vLKtgRLpoSi4M
+ 4Xqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1680533203;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tOMQqYczbQzJT4cpOfgtd59pSmpxm7+Vtg1FH5cDagc=;
- b=M8fOAYhAD0rGOdELVpP1JmHR+ZzhhWNpVfPUxeYSITskURt3qqDHwkPUjHq3YQvE3n
- dy6vLbI6A5APQCtcZNmO/ZXvs6SkTH9HKpihHLFD5EjAzSsu8FYqtk/YPZxk23gqbOzj
- GFflFqu6WtX9oiXCKUC3yy/r752/VmDDWmJf0RQBkwlGddAM1sTQIQe/sC90ygO6mW9o
- iEFfxZZIgmZDtKNZMH+iikCuRgvcDXItO6LUyY+3vnYC0rlWDDNy4xPJ2dIdcEDUH3WP
- E8pd8LWpOY97FRDGTvkm7+ob0FHjIhYJdHTLicGD91mUzORC/S1tJa4f8IYgNHgb9hAj
- /JJA==
-X-Gm-Message-State: AO0yUKVJ95VJ5K9U/bHGRaBNb/ZEX2ec4Mebi1L1KkjenQC9UNLC7E+c
- +8q6aamLKbypk8oC0crx48MNNhqTRyp6Ht+YSo4=
-X-Google-Smtp-Source: AK7set8NcGIJAUD5f36RHhgV7Ky9UxQeFrXMEE5BLtDHABZNNw+mNXeZQbTiZWacVrj4KtJvhLpS5A==
-X-Received: by 2002:a7b:ce16:0:b0:3ed:9b20:c7c1 with SMTP id
- m22-20020a7bce16000000b003ed9b20c7c1mr24843697wmc.20.1680533202768; 
- Mon, 03 Apr 2023 07:46:42 -0700 (PDT)
+ bh=3epTQBYW6Jzl8bhA8JL/NwcO0wptisWs4DJRdCAPoII=;
+ b=ZPs/n84fwz8yWqHnScfz0tb+BNI6Ca1A5qjGQmL4SSVXrwDoZC0bN4ZqWVxtdVYjJo
+ zv3mHfq35VP6O/G2AL+J3RH50IaMI8HVVAEebBPAwcrUaDSRb5Jce8jj03OIhYn636Z1
+ W6uozzUPZMLqsUF6Xhen8U6woM20V08Oy4uIwXxxncQJJbB5YD7xtMp/yZ3uQ8FkTdHM
+ llXNixwyGKZ3tGPuqRtD8KwHsFpt4tzlMnOFLSx8Rj5l03B8AG63Ngbt2LhRepfDhoZT
+ RrffmVKcNwGWT7X/ujw+XnQCaeHcIIf/HsWBTCnXAbdyhTfxK1CAt2wyIa0pMrenWK31
+ fgcw==
+X-Gm-Message-State: AO0yUKWok8n1+5jFyLtAJ/w7QD+CGda9rk+BVi8nhwW5e+e0wDxn+Qog
+ 4DXf2YY/H2b4LseGzIZWmzNPGlgRA4+GTugayRg=
+X-Google-Smtp-Source: AK7set+xP3gfF+j8oxnNRd3t5FXyXZVPfyeg0UVQHEZEGl49R6I4Vn4aApCXnzJCw7ZRQc+CODZHJw==
+X-Received: by 2002:a1c:4b07:0:b0:3eb:2b88:a69a with SMTP id
+ y7-20020a1c4b07000000b003eb2b88a69amr27060975wma.14.1680533203364; 
+ Mon, 03 Apr 2023 07:46:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  p4-20020a056000018400b002c56013c07fsm9786747wrx.109.2023.04.03.07.46.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 07:46:42 -0700 (PDT)
+ Mon, 03 Apr 2023 07:46:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -62,17 +63,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2 06/10] Document that -singlestep command line option is
- deprecated
-Date: Mon,  3 Apr 2023 15:46:33 +0100
-Message-Id: <20230403144637.2949366-7-peter.maydell@linaro.org>
+Subject: [PATCH v2 07/10] hmp: Add 'one-insn-per-tb' command equivalent to
+ 'singlestep'
+Date: Mon,  3 Apr 2023 15:46:34 +0100
+Message-Id: <20230403144637.2949366-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230403144637.2949366-1-peter.maydell@linaro.org>
 References: <20230403144637.2949366-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,77 +96,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Document that the -singlestep command line option is now
-deprecated, as it is replaced by either the TCG accelerator
-property 'one-insn-per-tb' for system emulation or the new
-'-one-insn-per-tb' option for usermode emulation, and remove
-the only use of the deprecated syntax from a README.
+The 'singlestep' HMP command is confusing, because it doesn't
+actually have anything to do with single-stepping the CPU.  What it
+does do is force TCG emulation to put one guest instruction in each
+TB, which can be useful in some situations.
+
+Create a new HMP command  'one-insn-per-tb', so we can document that
+'singlestep' is just a deprecated synonym for it, and eventually
+perhaps drop it.
+
+We aren't obliged to do deprecate-and-drop for HMP commands,
+but it's easy enough to do so, so we do.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/about/deprecated.rst | 16 ++++++++++++++++
- qemu-options.hx           |  5 +++--
- tcg/tci/README            |  2 +-
- 3 files changed, 20 insertions(+), 3 deletions(-)
+ docs/about/deprecated.rst   |  9 +++++++++
+ include/monitor/hmp.h       |  2 +-
+ softmmu/runstate-hmp-cmds.c |  2 +-
+ tests/qtest/test-hmp.c      |  1 +
+ hmp-commands.hx             | 25 +++++++++++++++++++++----
+ 5 files changed, 33 insertions(+), 6 deletions(-)
 
 diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 1ca9dc33d61..3c62671dac1 100644
+index 3c62671dac1..6f5e689aa45 100644
 --- a/docs/about/deprecated.rst
 +++ b/docs/about/deprecated.rst
-@@ -111,6 +111,22 @@ Use ``-machine acpi=off`` instead.
- The HAXM project has been retired (see https://github.com/intel/haxm#status).
- Use "whpx" (on Windows) or "hvf" (on macOS) instead.
+@@ -199,6 +199,15 @@ accepted incorrect commands will return an error. Users should make sure that
+ all arguments passed to ``device_add`` are consistent with the documented
+ property types.
  
-+``-singlestep`` (since 8.1)
-+'''''''''''''''''''''''''''
++Human Monitor Protocol (HMP) commands
++-------------------------------------
 +
-+The ``-singlestep`` option has been turned into an accelerator property,
-+and given a name that better reflects what it actually does.
-+Use ``-accel tcg,one-insn-per-tb=on`` instead.
++``singlestep`` (since 8.1)
++''''''''''''''''''''''''''
 +
-+User-mode emulator command line arguments
-+-----------------------------------------
++The ``singlestep`` command has been replaced by the ``one-insn-per-tb``
++command, which has the same behaviour but a less misleading name.
 +
-+``-singlestep`` (since 8.1)
-+'''''''''''''''''''''''''''
-+
-+The ``-singlestep`` option has been given a name that better reflects
-+what it actually does. For both linux-user and bsd-user, use the
-+new ``-one-insn-per-tb`` option instead.
+ Host Architectures
+ ------------------
  
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 1dffd36884e..6a59e997497 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4159,10 +4159,11 @@ SRST
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index fdb69b7f9ca..13f9a2dedb8 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -158,7 +158,7 @@ void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+ void hmp_human_readable_text_helper(Monitor *mon,
+                                     HumanReadableText *(*qmp_handler)(Error **));
+ void hmp_info_stats(Monitor *mon, const QDict *qdict);
+-void hmp_singlestep(Monitor *mon, const QDict *qdict);
++void hmp_one_insn_per_tb(Monitor *mon, const QDict *qdict);
+ void hmp_watchdog_action(Monitor *mon, const QDict *qdict);
+ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
+ void hmp_info_capture(Monitor *mon, const QDict *qdict);
+diff --git a/softmmu/runstate-hmp-cmds.c b/softmmu/runstate-hmp-cmds.c
+index 127521a483a..76d1399ed85 100644
+--- a/softmmu/runstate-hmp-cmds.c
++++ b/softmmu/runstate-hmp-cmds.c
+@@ -41,7 +41,7 @@ void hmp_info_status(Monitor *mon, const QDict *qdict)
+     qapi_free_StatusInfo(info);
+ }
+ 
+-void hmp_singlestep(Monitor *mon, const QDict *qdict)
++void hmp_one_insn_per_tb(Monitor *mon, const QDict *qdict)
+ {
+     const char *option = qdict_get_try_str(qdict, "option");
+     AccelState *accel = current_accel();
+diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
+index b4a920df898..cb3530df722 100644
+--- a/tests/qtest/test-hmp.c
++++ b/tests/qtest/test-hmp.c
+@@ -64,6 +64,7 @@ static const char *hmp_cmds[] = {
+     "screendump /dev/null",
+     "sendkey x",
+     "singlestep on",
++    "one-insn-per-tb on",
+     "wavcapture /dev/null",
+     "stopcapture 0",
+     "sum 0 512",
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index bb85ee1d267..9afbb54a515 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -378,18 +378,35 @@ SRST
+   only *tag* as parameter.
  ERST
  
- DEF("singlestep", 0, QEMU_OPTION_singlestep, \
--    "-singlestep     always run in singlestep mode\n", QEMU_ARCH_ALL)
-+    "-singlestep     deprecated synonym for -accel tcg,one-insn-per-tb=on\n", QEMU_ARCH_ALL)
++    {
++        .name       = "one-insn-per-tb",
++        .args_type  = "option:s?",
++        .params     = "[on|off]",
++        .help       = "run emulation with one guest instruction per translation block",
++        .cmd        = hmp_one_insn_per_tb,
++    },
++
++SRST
++``one-insn-per-tb [off]``
++  Run the emulation with one guest instruction per translation block.
++  This slows down emulation a lot, but can be useful in some situations,
++  such as when trying to analyse the logs produced by the ``-d`` option.
++  This only has an effect when using TCG, not with KVM or other accelerators.
++
++  If called with option off, the emulation returns to normal mode.
++ERST
++
+     {
+         .name       = "singlestep",
+         .args_type  = "option:s?",
+         .params     = "[on|off]",
+-        .help       = "run emulation in singlestep mode or switch to normal mode",
+-        .cmd        = hmp_singlestep,
++        .help       = "deprecated synonym for one-insn-per-tb",
++        .cmd        = hmp_one_insn_per_tb,
+     },
+ 
  SRST
- ``-singlestep``
--    Run the emulation in single step mode.
-+    This is a deprecated synonym for the TCG accelerator property
-+    ``one-insn-per-tb``.
+ ``singlestep [off]``
+-  Run the emulation in single step mode.
+-  If called with option off, the emulation returns to normal mode.
++  This is a deprecated synonym for the one-insn-per-tb command.
  ERST
  
- DEF("preconfig", 0, QEMU_OPTION_preconfig, \
-diff --git a/tcg/tci/README b/tcg/tci/README
-index f72a40a395a..4a8b5b54018 100644
---- a/tcg/tci/README
-+++ b/tcg/tci/README
-@@ -49,7 +49,7 @@ The only difference from running QEMU with TCI to running without TCI
- should be speed. Especially during development of TCI, it was very
- useful to compare runs with and without TCI. Create /tmp/qemu.log by
- 
--        qemu-system-i386 -d in_asm,op_opt,cpu -D /tmp/qemu.log -singlestep
-+        qemu-system-i386 -d in_asm,op_opt,cpu -D /tmp/qemu.log -accel tcg,one-insn-per-tb=on
- 
- once with interpreter and once without interpreter and compare the resulting
- qemu.log files. This is also useful to see the effects of additional
+     {
 -- 
 2.34.1
 
