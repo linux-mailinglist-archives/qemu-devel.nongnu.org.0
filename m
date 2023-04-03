@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BBE6D507A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 20:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC50E6D5079
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 20:31:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjOx9-00019S-8K; Mon, 03 Apr 2023 14:30:51 -0400
+	id 1pjOwz-00016l-ED; Mon, 03 Apr 2023 14:30:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjOwy-00016U-LB
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:30:40 -0400
+ id 1pjOwu-00013Z-Dn
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:30:36 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjOww-0000ZM-PF
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:30:39 -0400
+ id 1pjOws-0000Y4-W2
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:30:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680546638;
+ s=mimecast20190719; t=1680546634;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hEwtCA8s9JuIEhTUsGQuJCNn3dK7Smgq43ityTlAMA0=;
- b=Lnrio41Ndcl5KWzHj1mSXttVR4bt1ycF+CyG/zN6Vm+FFS0j66QuxBl0fVWidDb1jHiHW6
- cumIu+VxkhJ/6sl+Sk2rYQRH/Pj5HwYejTKHm3HTBCMMqduCu49N/nhaHR0vIl8mkEEIAS
- QeN/sMf56DctZ7AtyKGhbQwy47D74o4=
+ bh=02kXX9aX6Yr2x3VYWWh4xRNvlIxdZtHtMoEfskS16XA=;
+ b=jG/URGlzduMp2atXz4KaNq3IKZO6oJIHO0i5UZihTsZ1MocxkdAM98rtBCvP7YZGG6WByY
+ GluIqgXkZH/9e/fZj2iM1JdrVfoiobkwrMrhMTdqDgAAt0Q+c34ldRkCdmeb6CCCAJruct
+ 0V59YdLPn84w4MwihA1UoDBLiAAhgBc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-37-LlfGX1TgPQ-M7RE1UMTAgw-1; Mon, 03 Apr 2023 14:30:34 -0400
-X-MC-Unique: LlfGX1TgPQ-M7RE1UMTAgw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-453-9CKa4rlENESBndwEgTyXrw-1; Mon, 03 Apr 2023 14:30:31 -0400
+X-MC-Unique: 9CKa4rlENESBndwEgTyXrw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 408E3101A551;
- Mon,  3 Apr 2023 18:30:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC85B185A790;
+ Mon,  3 Apr 2023 18:30:29 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B806140EBF4;
- Mon,  3 Apr 2023 18:30:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1ED14400F4F;
+ Mon,  3 Apr 2023 18:30:28 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@redhat.com>,
@@ -64,14 +64,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>
-Subject: [PATCH 07/13] virtio: do not set is_external=true on host notifiers
-Date: Mon,  3 Apr 2023 14:29:58 -0400
-Message-Id: <20230403183004.347205-8-stefanha@redhat.com>
+Subject: [PATCH 08/13] hw/xen: do not use aio_set_fd_handler(is_external=true)
+ in xen_xenstore
+Date: Mon,  3 Apr 2023 14:29:59 -0400
+Message-Id: <20230403183004.347205-9-stefanha@redhat.com>
 In-Reply-To: <20230403183004.347205-1-stefanha@redhat.com>
 References: <20230403183004.347205-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -96,67 +97,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Host notifiers trigger virtqueue processing. There are critical sections
-when new I/O requests must not be submitted because they would cause
-interference.
+There is no need to suspend activity between aio_disable_external() and
+aio_enable_external(), which is mainly used for the block layer's drain
+operation.
 
-In the past this was solved using aio_set_event_notifiers()
-is_external=true argument, which disables fd monitoring between
-aio_disable/enable_external() calls. This API is not multi-queue block
-layer friendly because it requires knowledge of the specific AioContext.
-In a multi-queue block layer world any thread can submit I/O and we
-don't know which AioContexts are currently involved.
-
-virtio-blk and virtio-scsi are the only users that depend on
-is_external=true. Both rely on the block layer, where we can take
-advantage of the existing request queuing behavior that happens during
-drained sections. The block layer's drained sections are the only user
-of aio_disable_external().
-
-After this patch the virtqueues will be processed during drained
-section, but submitted I/O requests will be queued in the BlockBackend.
-Queued requests are resumed when the drained section ends. Therefore,
-the BlockBackend is still quiesced during drained sections but we no
-longer rely on is_external=true to achieve this.
-
-Note that virtqueues have a finite size, so queuing requests does not
-lead to unbounded memory usage.
+This is part of ongoing work to remove the aio_disable_external() API.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/virtio/virtio.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/i386/kvm/xen_xenstore.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 98c4819fcc..dcd7aabb4e 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3491,7 +3491,7 @@ static void virtio_queue_host_notifier_aio_poll_end(EventNotifier *n)
+diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
+index 900679af8a..6e81bc8791 100644
+--- a/hw/i386/kvm/xen_xenstore.c
++++ b/hw/i386/kvm/xen_xenstore.c
+@@ -133,7 +133,7 @@ static void xen_xenstore_realize(DeviceState *dev, Error **errp)
+         error_setg(errp, "Xenstore evtchn port init failed");
+         return;
+     }
+-    aio_set_fd_handler(qemu_get_aio_context(), xen_be_evtchn_fd(s->eh), true,
++    aio_set_fd_handler(qemu_get_aio_context(), xen_be_evtchn_fd(s->eh), false,
+                        xen_xenstore_event, NULL, NULL, NULL, s);
  
- void virtio_queue_aio_attach_host_notifier(VirtQueue *vq, AioContext *ctx)
- {
--    aio_set_event_notifier(ctx, &vq->host_notifier, true,
-+    aio_set_event_notifier(ctx, &vq->host_notifier, false,
-                            virtio_queue_host_notifier_read,
-                            virtio_queue_host_notifier_aio_poll,
-                            virtio_queue_host_notifier_aio_poll_ready);
-@@ -3508,14 +3508,14 @@ void virtio_queue_aio_attach_host_notifier(VirtQueue *vq, AioContext *ctx)
-  */
- void virtio_queue_aio_attach_host_notifier_no_poll(VirtQueue *vq, AioContext *ctx)
- {
--    aio_set_event_notifier(ctx, &vq->host_notifier, true,
-+    aio_set_event_notifier(ctx, &vq->host_notifier, false,
-                            virtio_queue_host_notifier_read,
-                            NULL, NULL);
- }
- 
- void virtio_queue_aio_detach_host_notifier(VirtQueue *vq, AioContext *ctx)
- {
--    aio_set_event_notifier(ctx, &vq->host_notifier, true, NULL, NULL, NULL);
-+    aio_set_event_notifier(ctx, &vq->host_notifier, false, NULL, NULL, NULL);
-     /* Test and clear notifier before after disabling event,
-      * in case poll callback didn't have time to run. */
-     virtio_queue_host_notifier_read(&vq->host_notifier);
+     s->impl = xs_impl_create(xen_domid);
 -- 
 2.39.2
 
