@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F116D44E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 14:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343306D44F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 14:55:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjJfE-0007Uo-Ad; Mon, 03 Apr 2023 08:52:00 -0400
+	id 1pjJhq-0002vu-Qg; Mon, 03 Apr 2023 08:54:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pjJf9-0007NA-LL
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 08:51:55 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pjJf7-0002Ev-7k
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 08:51:55 -0400
-Received: by mail-ed1-x536.google.com with SMTP id r11so116903856edd.5
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 05:51:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680526311;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XZQJ/SrYT2XIXIybDEy8fy9yAPBlgN02xPp8TzIOe1c=;
- b=AeL9jhMVDHtjt7zUi5FEnjT0ynv5jDd6G+GNP1B5/IC+0GYgSVEf1fADuAeUgy1HeU
- anDuUAKFfqJQxOAfesN17pCekg9Fd9HdToD4CA7kEnHQAu1gVllG67tQrUXgU05ahNdm
- TSRWc8Jlkx28HHcQwVWjggSA6qCQnQYnIS3OJXm6fBUYJASNKAHUEuK7x/IF7X5dsWLI
- a42l5UUoV4OXYYILX/nwBJKACAu2WTCuy1Fzh8ZFli4wjMaJ6L5ey5x7HPEehDNN2vBv
- Rr7/vtgOHbgRfQniRshziFJxLsq//zt/BijS2VeUKBN0c2qp4VBf5+0YlFc6jijuTfOK
- 87oQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pjJhl-0002v7-9c
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 08:54:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pjJhj-00032z-N3
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 08:54:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680526474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HxsPSZ/TaKJw8J39GChw7x8ALqh+XUgy7V0un9pUQro=;
+ b=Ywww8e0ZYom9RsgnEiOGw1ShnX9g1YMp1CwKE7LEKR2XoVDHrzwehmgXEfAzHo4J403/uW
+ TGyLd8/9oL8dhxRuaLlaFIK4sWAv973yoIQzypbnsGhWWh6WG9wxpyycYSurRnQ0C0PUab
+ hyg5WovN9ERXRRZLLbajAsqiyWAK7YA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-671-VshrGpHfPzafwuk5m_u85g-1; Mon, 03 Apr 2023 08:54:32 -0400
+X-MC-Unique: VshrGpHfPzafwuk5m_u85g-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ fi8-20020a056402550800b004a26cc7f6cbso40987003edb.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 05:54:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680526311;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20210112; t=1680526471; x=1683118471;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=XZQJ/SrYT2XIXIybDEy8fy9yAPBlgN02xPp8TzIOe1c=;
- b=xjqIiQcImYJ/ai/AdWhcr9Tsi6bzGgy3n/zqhOzx94HITnIcViK3dcogj3QGD8KdeE
- HGmFaUsKjgo+kgaFitdoUlrTe2GkMZMN7cUW5ZkqwyR22dLHfq/DsxCAx2gKujaqCyWv
- 5AQHZLTh+0tAjii+k0JKBUN/s5mtDTlf4XIFP3dpVk1FwLGFTQQdfOiLE5BUh2UugYew
- FFe6Sy0cUmRokPC8++JxugnJbSD+iIKTt6a7Uut9+ecYydpcQrSPXCwzY0Y3HgcITwJ+
- r0xCqaeWCcXxc2tE1iSBPQRW/68UX3fLDEg7XRqhdTlc1NE2r0/lvrN2A0WqmsYsyn40
- jz/g==
-X-Gm-Message-State: AAQBX9foH9PmRiYYKI3mQ6WOn8EvSgSP6Gxzs0K4SPhaNCQdMUWIhZfQ
- P6wVeYG237Lo18YZm1D+EWWTXm+0P7ZVAHR8cTPkIlrD7lZG6tCO
-X-Google-Smtp-Source: AKy350ZOwiY2n6Mr3RTl3w4X9d5ioymnbgLgvPTeiEHgmgovO0zMa3nVX7jEzC0LmBA/cEeoMKEvCRTfvAzjZBguigE=
-X-Received: by 2002:a50:bac7:0:b0:4ad:6052:ee90 with SMTP id
- x65-20020a50bac7000000b004ad6052ee90mr17501610ede.7.1680526311536; Mon, 03
- Apr 2023 05:51:51 -0700 (PDT)
+ bh=HxsPSZ/TaKJw8J39GChw7x8ALqh+XUgy7V0un9pUQro=;
+ b=dN7SUoH3BlOsSuCG5rAXOpBME+anefb+865UcrmiWTPRtTgnUlSGHpIBhlBaNjJRV9
+ da3s4vF+VBJbqgKNFEmbqwgoN/fo7KCo188EXIYaQsA8JdVwfdBmrdG01uyLXxpk3usk
+ fjm6fsY61MdYhpXzWC8Iu53jQeslnrvGhFxT1RBy0mR1ZtMAtzuBaXxMiMPSIJZ1Zvk1
+ rGOkP5mQLfQHirolYpXoRK+zSJ5fbHXcARUHopsnCpk1NTZeRhHupz67bTOQHfogCq+W
+ rrm2oacn1l2Wx9Ad8nph6Bzz8gUI5GCf8skQRCU+cVFV++F9UQsaMMRipOa3ZDwnzkM9
+ +9PQ==
+X-Gm-Message-State: AAQBX9euUyuEhSBOP0/S1hKsZODZfVdx3fl2HxpSkpTp6EdkNu3briRC
+ Q4x3WtrSxU/VrevgbbQtSxXXbhyKKM59UMdnTX2XH64ZcAPH7fIsU/yhWJZnJfYpLcSYz8gzVSC
+ oxYAAeXt5AANUo+STJOCiY0ZrsT3hR/rtPXd8YQaNqwM1CKrxuNNSqY7g5OJx77q6sUcLseOrqY
+ iimQ==
+X-Received: by 2002:aa7:cd42:0:b0:4fd:247a:9873 with SMTP id
+ v2-20020aa7cd42000000b004fd247a9873mr31683210edw.5.1680526471169; 
+ Mon, 03 Apr 2023 05:54:31 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bzZZL7GSTI5es0c3AMEjNR24iWZXZeXVFtNmbLexvu6qXw91Qzc7sLwi78tUZPFCjX1Q0u0Q==
+X-Received: by 2002:aa7:cd42:0:b0:4fd:247a:9873 with SMTP id
+ v2-20020aa7cd42000000b004fd247a9873mr31683195edw.5.1680526470784; 
+ Mon, 03 Apr 2023 05:54:30 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ y2-20020a50ce02000000b004fa268da13esm4586104edi.56.2023.04.03.05.54.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Apr 2023 05:54:30 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2] lasi: fix RTC migration
+Date: Mon,  3 Apr 2023 14:54:29 +0200
+Message-Id: <20230403125429.360605-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230403120250.2071560-1-alex.bennee@linaro.org>
- <64964f55-345a-843a-aca1-ba28e10bf75e@linaro.org>
-In-Reply-To: <64964f55-345a-843a-aca1-ba28e10bf75e@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 3 Apr 2023 06:51:40 -0600
-Message-ID: <CANCZdfr=0rxY=os4DPJv99vJX-GiGZ9GVOP8uQh1UYLX-7=5=A@mail.gmail.com>
-Subject: Re: [RFC PATCH] gdbstub: don't report auxv feature unless on Linux
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- QEMU Developers <qemu-devel@nongnu.org>, Lirong Yuan <yuanzi@google.com>
-Content-Type: multipart/alternative; boundary="000000000000d5cf4905f86e05fc"
-Received-SPF: none client-ip=2a00:1450:4864:20::536;
- envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,110 +97,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000d5cf4905f86e05fc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Migrate rtc_ref (which only needs to be 32-bit because it is summed to
+a 32-bit register), which requires bumping the migration version.
+The HPPA machine does not have versioned machine types so it is okay
+to block migration to old versions of QEMU.
 
-On Mon, Apr 3, 2023, 6:37 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
->
-wrote:
+While at it, drop the write-only field rtc from LasiState.
 
-> On 3/4/23 14:02, Alex Benn=C3=A9e wrote:
-> > The later handler if conditionally compiled only for Linux but we
-> > forgot to ensure we don't advertise it lest we confuse our BSD
-> > brethren.
-> >
-> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > ---
-> >   gdbstub/gdbstub.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-> > index 2a66371aa5..0760d78685 100644
-> > --- a/gdbstub/gdbstub.c
-> > +++ b/gdbstub/gdbstub.c
-> > @@ -1468,7 +1468,7 @@ static void handle_query_supported(GArray *params=
-,
-> void *user_ctx)
-> >               ";ReverseStep+;ReverseContinue+");
-> >       }
-> >
-> > -#ifdef CONFIG_USER_ONLY
-> > +#if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX)
-> >       if (gdbserver_state.c_cpu->opaque) {
-> >           g_string_append(gdbserver_state.str_buf, ";qXfer:auxv:read+")=
-;
-> >       }
->
-> Fixes: 51c623b0de ("gdbstub: add support to Xfer:auxv:read: packet")
-> Reported-by: Warner Losh <imp@bsdimp.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->
+Supersedes: <20230330120319.36069-1-pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/misc/lasi.c         | 4 ++--
+ include/hw/misc/lasi.h | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-Tested-by: Warner Losh <imp@bsdimp.com>
+diff --git a/hw/misc/lasi.c b/hw/misc/lasi.c
+index 23a7634a8c3a..ff9dc893ae65 100644
+--- a/hw/misc/lasi.c
++++ b/hw/misc/lasi.c
+@@ -194,7 +194,7 @@ static const MemoryRegionOps lasi_chip_ops = {
+ 
+ static const VMStateDescription vmstate_lasi = {
+     .name = "Lasi",
+-    .version_id = 1,
++    .version_id = 2,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32(irr, LasiState),
+@@ -204,6 +204,7 @@ static const VMStateDescription vmstate_lasi = {
+         VMSTATE_UINT32(iar, LasiState),
+         VMSTATE_UINT32(errlog, LasiState),
+         VMSTATE_UINT32(amr, LasiState),
++        VMSTATE_UINT32_V(rtc_ref, LasiState, 2),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -233,7 +234,6 @@ static void lasi_reset(DeviceState *dev)
+     s->iar = 0xFFFB0000 + 3; /* CPU_HPA + 3 */
+ 
+     /* Real time clock (RTC), it's only one 32-bit counter @9000 */
+-    s->rtc = time(NULL);
+     s->rtc_ref = 0;
+ }
+ 
+diff --git a/include/hw/misc/lasi.h b/include/hw/misc/lasi.h
+index ecc7065ce858..0a8c7352be21 100644
+--- a/include/hw/misc/lasi.h
++++ b/include/hw/misc/lasi.h
+@@ -69,8 +69,7 @@ struct LasiState {
+ 
+     uint32_t errlog;
+     uint32_t amr;
+-    uint32_t rtc;
+-    time_t rtc_ref;
++    uint32_t rtc_ref;
+ 
+     MemoryRegion this_mem;
+ };
+-- 
+2.39.2
 
-I can debug with this now. Cross debugging of binaries in a chroot with gdb
-has issues though... that's orthogonal to this patch...
-
-Warner
-
->
-
---000000000000d5cf4905f86e05fc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Apr 3, 2023, 6:37 AM Philippe Mathieu-Daud=C3=
-=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@linaro.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">On 3/4/23 14:02, Alex Benn=C3=A9=
-e wrote:<br>
-&gt; The later handler if conditionally compiled only for Linux but we<br>
-&gt; forgot to ensure we don&#39;t advertise it lest we confuse our BSD<br>
-&gt; brethren.<br>
-&gt; <br>
-&gt; Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@lina=
-ro.org" target=3D"_blank" rel=3D"noreferrer">alex.bennee@linaro.org</a>&gt;=
-<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0gdbstub/gdbstub.c | 2 +-<br>
-&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c<br>
-&gt; index 2a66371aa5..0760d78685 100644<br>
-&gt; --- a/gdbstub/gdbstub.c<br>
-&gt; +++ b/gdbstub/gdbstub.c<br>
-&gt; @@ -1468,7 +1468,7 @@ static void handle_query_supported(GArray *param=
-s, void *user_ctx)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;;ReverseSt=
-ep+;ReverseContinue+&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -#ifdef CONFIG_USER_ONLY<br>
-&gt; +#if defined(CONFIG_USER_ONLY) &amp;&amp; defined(CONFIG_LINUX)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (gdbserver_state.c_cpu-&gt;opaque) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_string_append(gdbserver_stat=
-e.str_buf, &quot;;qXfer:auxv:read+&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-Fixes: 51c623b0de (&quot;gdbstub: add support to Xfer:auxv:read: packet&quo=
-t;)<br>
-Reported-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_b=
-lank" rel=3D"noreferrer">imp@bsdimp.com</a>&gt;<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linar=
-o.org" target=3D"_blank" rel=3D"noreferrer">philmd@linaro.org</a>&gt;<br></=
-blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Review=
-ed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>=
-&gt;</div><div dir=3D"auto">Tested-by: Warner Losh &lt;<a href=3D"mailto:im=
-p@bsdimp.com">imp@bsdimp.com</a>&gt;</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">I can debug with this now. Cross debugging of binaries in a ch=
-root with gdb has issues though... that&#39;s orthogonal to this patch...</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto">Warner=C2=A0</div><div di=
-r=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---000000000000d5cf4905f86e05fc--
 
