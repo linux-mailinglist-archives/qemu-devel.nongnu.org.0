@@ -2,101 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D518D6D4D05
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 18:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B2F6D4D51
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 18:13:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjMdI-0005c7-E0; Mon, 03 Apr 2023 12:02:12 -0400
+	id 1pjMnV-0003h9-0x; Mon, 03 Apr 2023 12:12:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pjMdF-0005Ut-0A
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 12:02:09 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pjMdC-0002Hn-Ry
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 12:02:08 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- p3-20020a17090a74c300b0023f69bc7a68so31037639pjl.4
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 09:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680537724;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=At16ZM2v/CKGa5kust2up3B9GAiQeOyqfdZzJInX35w=;
- b=T0zv/9y9rtTQ1e8DpNLfJQ3xP1ed6KgWpm7CxG9WIrQn0dtyTI9Em0IpccKVVaRqcv
- A687uwauvBVV1xMr+WN7l0APo3bpR11hQW8iMGkRTSGY4lr0dU4kgdMui12C8DOMTU1j
- f/chIplKvhdluJJTwQi1Ex/C3vUEi2WZN9GdCUh+PPEJzaUhnzvcfUqhpyKnJd/WZTCk
- q8qajx8Ex4Z0DxX3eQZpNJchiXM3pYk6v5k6JVEgM1wYxhxeR7fwpkZHmssuwU3FOc+i
- 1kxOF5ubnwo+aHd2k7Qud1HdvlF7B0BEMq7+M27m0pTy+B9foz8l8EguOH/WhxkUd9Mq
- YdAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680537724;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=At16ZM2v/CKGa5kust2up3B9GAiQeOyqfdZzJInX35w=;
- b=J1oVEZp5+0TlT7TUgM9RF949WB0UJp/zkvApnw8eo8utIC86fgDbVieAj4L0H0fqTN
- S2tmm07GmsXvPxd9dwPHBBcaIdQG/rWNMUxgMHW9pA0RbeQsDrTVZHu8Sj8aQG8wdMRX
- maAwHBLaGXkagtGH9+D8EGAHkcr2R1cgTRXl0zjIPCzHFHcDve0QNZgCEhW49wl+RI7+
- gQmBvI84qq6oB7Z+7Jw62Fz3q1ERAVaWd+yDzFCIUYvO561xYBHYgM4/XBvp7OKoWZiU
- AePmFPrRDCOmImgvvaA8tmE/Zw9G8SD566bN2uscIEgtMEnLZ1zNS53tCPz0BwBSfbUm
- Ajhw==
-X-Gm-Message-State: AO0yUKVMqYvU6m/+76wCsNM7gRP+l+C/3camqkwkPlph74xPtlKRbNBz
- vuB5kA2GPyt3ERSKumXsB7k=
-X-Google-Smtp-Source: AK7set+Ek2MO3bdcAJ4oKHcS94cvgz2xaSbZCCyjM0/K3+XQ284Vugw5Y5Ofrp20zTKEUKIQXY5DlA==
-X-Received: by 2002:a05:6a20:2903:b0:d3:a347:7db4 with SMTP id
- t3-20020a056a20290300b000d3a3477db4mr32108821pzf.15.1680537723615; 
- Mon, 03 Apr 2023 09:02:03 -0700 (PDT)
-Received: from [192.168.0.115] ([113.173.97.170])
- by smtp.gmail.com with ESMTPSA id
- r13-20020a63440d000000b0050336b0b08csm6098174pga.19.2023.04.03.09.02.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 09:02:03 -0700 (PDT)
-Message-ID: <1c3f75d1-2f00-4059-dbc6-7264481e10e3@gmail.com>
-Date: Mon, 3 Apr 2023 23:01:58 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/5] apic: add support for x2APIC mode
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: David Woodhouse <dwmw2@infradead.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20230326052039.33717-1-minhquangbui99@gmail.com>
- <20230326052039.33717-3-minhquangbui99@gmail.com>
- <a8ea36d901a1b713ab8bc0f5bcd1b7d26ad6f9cb.camel@infradead.org>
- <05d55576-f703-18a1-7f9f-4c15b8c54490@gmail.com>
- <0944a6f4c7c1569c182a27d40bdeb0a164a41bbb.camel@infradead.org>
- <61446cfb-f937-3a0d-2a98-34febcc7e4f3@gmail.com>
- <3834475953c0f865e88251886f1e861d51c25a2b.camel@infradead.org>
- <445928d9-4cd3-978d-ce76-9cd01457b6f0@gmail.com>
- <e47b58ef574bcf61259d7d3f0707a1f5ca808ff6.camel@infradead.org>
- <49167ae7-4cb4-3863-64b1-1396e1911bbf@gmail.com>
- <37cbb3b9-8a9a-2b88-2e09-a81f46b8bf74@gmail.com>
- <60228a86-633e-3cf6-b0d9-890b032d44f3@gmail.com>
- <20230330102850.33882a75@imammedo.users.ipa.redhat.com>
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pjMnS-0003fD-AF
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 12:12:42 -0400
+Received: from mailout1.w2.samsung.com ([211.189.100.11])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pjMnO-0004Mc-NB
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 12:12:41 -0400
+Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
+ by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20230403161231usoutp019abffc54d20751eaae05887fd0138bb3~SeLoZtR2H0296002960usoutp01m;
+ Mon,  3 Apr 2023 16:12:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
+ 20230403161231usoutp019abffc54d20751eaae05887fd0138bb3~SeLoZtR2H0296002960usoutp01m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1680538351;
+ bh=/89FKJn8O+K4M+L/t8O6QMIgGK3omS9+L2WS6HKm9Kw=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=QwuHOfRP+QXYuNOWtfZ9y5xOU4EvZLNoDLExrQgjKA/g2Dyg9fGIYk43UJh5jcc66
+ uuLoYLpb9lwftXOrkwkhioqcbfn/boUb/8q52qH3GVSfErbe7THfuksgxWrU8SBCkp
+ i9B7jArtkHJXp6x9MwnhP1M3akM+In4HU7UQnPh0=
+Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
+ [203.254.195.111]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230403161231uscas1p286d3129777f4c6da34a018cfe619017b~SeLoE4bzF1952319523uscas1p2y;
+ Mon,  3 Apr 2023 16:12:31 +0000 (GMT)
+Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
+ ussmges2new.samsung.com (USCPEMTA) with SMTP id 4B.20.09670.FEAFA246; Mon, 
+ 3 Apr 2023 12:12:31 -0400 (EDT)
+Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
+ [203.254.195.92]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230403161230uscas1p2012cc71d5d95b6f44be42031ba0d90c4~SeLntqx081951919519uscas1p20;
+ Mon,  3 Apr 2023 16:12:30 +0000 (GMT)
+X-AuditID: cbfec36f-6f9ff700000025c6-0c-642afaef7c78
+Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.146]) by
+ ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id 57.80.09515.EEAFA246; Mon, 
+ 3 Apr 2023 12:12:30 -0400 (EDT)
+Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
+ SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.24; Mon, 3 Apr 2023 09:12:30 -0700
+Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
+ SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Mon,
+ 3 Apr 2023 09:12:30 -0700
+From: Fan Ni <fan.ni@samsung.com>
+To: =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: Maverickk 78 <maverickk1778@gmail.com>, Jonathan Cameron
+ <jonathan.cameron@huawei.com>, qemu-devel <qemu-devel@nongnu.org>, "Michael
+ S. Tsirkin" <mst@redhat.com>
+Subject: Re: property 'cxl-type3.size' not found
+Thread-Topic: property 'cxl-type3.size' not found
+Thread-Index: AQHZZhAYabuU7RRa+ke6FPcUtNczWK8aN2EA
+Date: Mon, 3 Apr 2023 16:12:30 +0000
+Message-ID: <20230403161221.GA1765179@bgt-140510-bm03>
+In-Reply-To: <1a4048c2-b9cc-fe3c-cbba-64fe84f78827@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-From: Bui Quang Minh <minhquangbui99@gmail.com>
-In-Reply-To: <20230330102850.33882a75@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=minhquangbui99@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.349,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <9106B8DF3F43CF4DB5E10EDED975CA73@ssi.samsung.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIKsWRmVeSWpSXmKPExsWy7djXc7rvf2mlGOw6x2exauE1Nov+jXvY
+ LP7/esVqsWaFsMXx3h0sDqweO2fdZfdoOfKW1ePOtT1sHk+ubWbyeL/vKlsAaxSXTUpqTmZZ
+ apG+XQJXxrp3D9kLXktWfF04i6WB8aRYFyMnh4SAicT5v6+Zuhi5OIQEVjJKtJx7zQbhtDJJ
+ rNt9gx2mqrWtDapqLaPEmp3XGCGcj4wS76Y9YoVwljJKdE89wAzSwiagKLGvazsbiC0i4Cgx
+ q2cTWBEzyJKdH/aygiSEBQwk/j+8AFTEAVRkKPHpeDiEaSSx4lkQSAWLgIrEuhWLGEFsXgEz
+ iX8Pr7GA2JwCdhL33y8DizMKiEl8P7WGCcRmFhCXuPVkPhPE1YISi2bvYYawxST+7XrIBmEr
+ Stz//pIdol5P4sbUKWwQtp3Ew7bfjBC2tsSyha+ZIfYKSpyc+YQFoldS4uCKGywgr0gIXOCQ
+ WPG1C2qoi8SL1e1QRdIS09dcZgH5RUIgWWLVRy6IcI7E/CVboEqsJRb+Wc80gVFlFpKzZyE5
+ aRaSk2YhOWkWkpMWMLKuYhQvLS7OTU8tNspLLdcrTswtLs1L10vOz93ECExFp/8dzt/BeP3W
+ R71DjEwcjIcYJTiYlUR4Vbu0UoR4UxIrq1KL8uOLSnNSiw8xSnOwKInzGtqeTBYSSE8sSc1O
+ TS1ILYLJMnFwSjUwSVn8juy4u2M/21523at59esDPGNVlT5ytx7R/GWms891oWHwlNWSqb1l
+ y5aYTajNmJyhbKf0fGkW651tB6eKKh5xM2O2VfYXmS0+j4tnW0G9Att8+W/huc3mJTwWcvw3
+ E4WW/wxMPnbkTZTD9w9SXH4u67/oFwbZVSxN2VqsGC4mwLS6TatvXssbz8o1ZZJSb8VdvjKL
+ hckIly9KV4s7saYhmrN5zrdcswWWG36xf13T1baZxXBfrm13/bRI+acWYl9vrNAo03AzVU/X
+ lAn4vfJeutHJy7eUSp+vKxer3diSzFt4r/AVX8MSj42vd3zId05as5Wj8LeDjJ+2jkHXx28G
+ 6+cY3nzRvfblEyWW4oxEQy3mouJEAEcOaPy0AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAIsWRmVeSWpSXmKPExsWS2cA0SffdL60Ug8YlRharFl5js+jfuIfN
+ 4v+vV6wWa1YIWxzv3cHiwOqxc9Zddo+WI29ZPe5c28Pm8eTaZiaP9/uusgWwRnHZpKTmZJal
+ FunbJXBlrHv3kL3gtWTF14WzWBoYT4p1MXJySAiYSLS2tTF1MXJxCAmsZpRYeewfM4TzkVFi
+ 1eK3bBDOUkaJjz3nmUBa2AQUJfZ1bWcDsUUEHCVm9WxiBSliFljJKLHzw15WkISwgIHE/4cX
+ gIo4gIoMJT4dD4cwjSRWPAsCqWARUJFYt2IRI4jNK2Am8e/hNRaIXTcYJd6dWM8OkuAUsJO4
+ /34ZWBGjgJjE91NrwG5gFhCXuPVkPhPECwISS/acZ4awRSVePv7HCmErStz//pIdol5P4sbU
+ KWwQtp3Ew7bfjBC2tsSyha+ZIY4QlDg58wkLRK+kxMEVN1gmMErMQrJuFpJRs5CMmoVk1Cwk
+ oxYwsq5iFC8tLs5Nryg2zkst1ytOzC0uzUvXS87P3cQIjOTT/w7H7GC8d+uj3iFGJg7GQ4wS
+ HMxKIryqXVopQrwpiZVVqUX58UWlOanFhxilOViUxHk9YifGCwmkJ5akZqemFqQWwWSZODil
+ GphOeK961xru/OVupG9Mpqfl46U3s+TFbGqNFE+tmcO26FdO+8P5x73Nrj/jnHihJu3VlFPb
+ 71iL/Spf8SNfebpsRWv3264Ngi/2Bp55Xnn04R7WH74/N7NP+/2KW6l+1Xk5y5quX4+/8q/Z
+ dCfG2+rKoiqF3llHV62w+M4zT6R9A6/n2Q8l8U+Cz3Cbu/5w/nau6rVoeXjTVr6Xn4T2mWlf
+ q7T7rNEp0xjVd0Atb8Gz1dcKqveLS7hVMF1oPZq8QPXcUfugr1csooPndR8JUGCbdqD+cmHI
+ SVUhSSYdsfVMdiZOzkxVNw5yX75QFRDPqff/9IdyF/NnEla+1077soj+5TQztynrmW2gkz5n
+ 8gElluKMREMt5qLiRABKuoUoUwMAAA==
+X-CMS-MailID: 20230403161230uscas1p2012cc71d5d95b6f44be42031ba0d90c4
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20230403093826uscas1p2ba12423655f742977ebd458e3e8f6328
+References: <CALfBBTuGSPYE_HV1ns_9T_Ud3BEAajhN2ivMCJ37f+hC1XOy+w@mail.gmail.com>
+ <CGME20230403093826uscas1p2ba12423655f742977ebd458e3e8f6328@uscas1p2.samsung.com>
+ <1a4048c2-b9cc-fe3c-cbba-64fe84f78827@linaro.org>
+Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
+ helo=mailout1.w2.samsung.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,167 +135,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/30/23 15:28, Igor Mammedov wrote:
-> On Wed, 29 Mar 2023 22:30:44 +0700
-> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
-> 
->> On 3/29/23 21:53, Bui Quang Minh wrote:
->>> On 3/28/23 22:58, Bui Quang Minh wrote:
->>>> On 3/27/23 23:49, David Woodhouse wrote:
->>>>> On Mon, 2023-03-27 at 23:35 +0700, Bui Quang Minh wrote:
->>>>>> On 3/27/23 23:22, David Woodhouse wrote:
->>>>>>> On Mon, 2023-03-27 at 22:45 +0700, Bui Quang Minh wrote:
->>>>>>>>   
->>>>>>>>> Maybe I'm misreading the patch, but to me it looks that
->>>>>>>>> if (dest == 0xff) apic_get_broadcast_bitmask() bit applies even in
->>>>>>>>> x2apic mode? So delivering to the APIC with physical ID 255 will be
->>>>>>>>> misinterpreted as a broadcast?
->>>>>>>>
->>>>>>>> In case dest == 0xff the second argument to
->>>>>>>> apic_get_broadcast_bitmask
->>>>>>>> is set to false which means this is xAPIC broadcast
->>>>>>>
->>>>>>> Yeah, but it *isn't* xAPIC broadcast. It's X2APIC unicast to APIC#255.
->>>>>>>
->>>>>>> I think you want (although you don't have 'dev') something like this:
->>>>>>>
->>>>>>>
->>>>>>> static void apic_get_delivery_bitmask(uint32_t *deliver_bitmask,
->>>>>>>                                          uint32_t dest, uint8_t
->>>>>>> dest_mode)
->>>>>>> {
->>>>>>>        APICCommonState *apic_iter;
->>>>>>>        int i;
->>>>>>>
->>>>>>>        memset(deliver_bitmask, 0x00, max_apic_words *
->>>>>>> sizeof(uint32_t));
->>>>>>>
->>>>>>>        /* x2APIC broadcast id for both physical and logical
->>>>>>> (cluster) mode */
->>>>>>>        if (dest == 0xffffffff) {
->>>>>>>            apic_get_broadcast_bitmask(deliver_bitmask, true);
->>>>>>>            return;
->>>>>>>        }
->>>>>>>
->>>>>>>        if (dest_mode == 0) {
->>>>>>>            apic_find_dest(deliver_bitmask, dest);
->>>>>>>            /* Broadcast to xAPIC mode apics */
->>>>>>> -        if (dest == 0xff) {
->>>>>>> +        if (dest == 0xff && is_x2apic_mode(dev)) {
->>>>>>>                apic_get_broadcast_bitmask(deliver_bitmask, false);
->>>>>>>            }
->>>>>>>        } else {
->>>>>>>   
->>>>>>
->>>>>> Hmm, the unicast case is handled in apic_find_dest function, the logic
->>>>>> inside the if (dest == 0xff) is for handling the broadcast case only.
->>>>>> This is because when dest == 0xff, it can be both a x2APIC unicast and
->>>>>> xAPIC broadcast in case we have some CPUs that are in xAPIC and others
->>>>>> are in x2APIC.
->>>>>
->>>>> Ah! Yes, I see it now.
->>>>>
->>>>> Shouldn't apic_get_broadcast_bitmask(… true) add *all* APICs to the
->>>>> mask, regardless of their mode? An APIC which is still in xAPIC mode
->>>>> will only look at the low 8 bits and see 0xFF which it also interprets
->>>>> as broadcast? Or is that not how real hardware behaves?
->>>>
->>>> This is interesting. Your point looks reasonable to me but I don't
->>>> know how to verify it, I'm trying to write kernel module to test it
->>>> but there are just too many things running on Linux that uses
->>>> interrupt so the system hangs.
->>>>
->>>> This raises another question: when dest == 0x102 in IPI, does the
->>>> xAPIC mode CPU with APIC ID 0x2 accept the IPI? I can't see this
->>>> stated clearly in the Intel SDM.
->>>
->>> I do some more testing on my hardware, your point is correct when dest
->>> == 0xffffffff, the interrupt is delivered to all APICs regardless of
->>> their mode.
->>
->> To be precisely, it only broadcasts to CPUs in xAPIC mode if the IPI
->> destination mode is physical. In case the destination mode is logical,
->> flat model/cluster model rule applies to determine if the xAPIC CPUs
->> accept the IPI. Wow, this is so complicated :)
-> 
-> It would be nice if you could update apic kvm unit test with your
-> findings if it doesn't test those variants yet.
-> 
->>
->>
->>> And when dest == 0x102 in IPI, xAPIC mode CPU with APIC ID
->>> 0x2 also accepts that IPI.
+On Mon, Apr 03, 2023 at 11:38:22AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Cc'ing CXL maintainers.
+>=20
+> On 3/4/23 11:04, Maverickk 78 wrote:
+> > Hello,
+> >=20
+> > I am trying qemu-system-aarch64 & cxl configuration listed in
+> >=20
+> > https://urldefense.com/v3/__https://www.qemu.org/docs/master/system/dev=
+ices/cxl.html__;!!EwVzqGoTKBqv-0DWAJBm!RhlUw_6f1jcigdN0SxPK7vXwp0-XgEXVUUvB=
+pQ4M4D0ourDVGBkVXgVapWI3nQuQcq-73-XqXFBIGMz1$  <https://urldefense.com/v3/_=
+_https://www.qemu.org/docs/master/system/devices/cxl.html__;!!EwVzqGoTKBqv-=
+0DWAJBm!RhlUw_6f1jcigdN0SxPK7vXwp0-XgEXVUUvBpQ4M4D0ourDVGBkVXgVapWI3nQuQcq-=
+73-XqXFBIGMz1$
+> > >
+> >=20
+> > qemu-system-aarch64 -M virt,gic-version=3D3,cxl=3Don -m 4g,maxmem=3D8G,=
+slots=3D8
+> > -cpu max \
+> > ...
+> > -object memory-backend-file,id=3Dcxl-mem0,share=3Don,mem-path=3D/tmp/cx=
+ltest.raw,size=3D256M
+> > \
+> > -object memory-backend-file,id=3Dcxl-mem1,share=3Don,mem-path=3D/tmp/cx=
+ltest1.raw,size=3D256M
+> > \
+> > -object memory-backend-file,id=3Dcxl-mem2,share=3Don,mem-path=3D/tmp/cx=
+ltest2.raw,size=3D256M
+> > \
+> > -object memory-backend-file,id=3Dcxl-mem3,share=3Don,mem-path=3D/tmp/cx=
+ltest3.raw,size=3D256M
+> > \
+> > -object
+> > memory-backend-file,id=3Dcxl-lsa0,share=3Don,mem-path=3D/tmp/lsa0.raw,s=
+ize=3D256M
+> > \
+> > -object
+> > memory-backend-file,id=3Dcxl-lsa1,share=3Don,mem-path=3D/tmp/lsa1.raw,s=
+ize=3D256M
+> > \
+> > -object
+> > memory-backend-file,id=3Dcxl-lsa2,share=3Don,mem-path=3D/tmp/lsa2.raw,s=
+ize=3D256M
+> > \
+> > -object
+> > memory-backend-file,id=3Dcxl-lsa3,share=3Don,mem-path=3D/tmp/lsa3.raw,s=
+ize=3D256M
+> > \
+> > -device pxb-cxl,bus_nr=3D12,bus=3Dpcie.0,id=3Dcxl.1 \
+> > -device cxl-rp,port=3D0,bus=3Dcxl.1,id=3Droot_port0,chassis=3D0,slot=3D=
+0 \
+> > -device cxl-rp,port=3D1,bus=3Dcxl.1,id=3Droot_port1,chassis=3D0,slot=3D=
+1 \
+> > -device cxl-upstream,bus=3Droot_port0,id=3Dus0 \
+> > -device cxl-downstream,port=3D0,bus=3Dus0,id=3Dswport0,chassis=3D0,slot=
+=3D4 \
+> > -device
+> > cxl-type3,bus=3Dswport0,memdev=3Dcxl-mem0,lsa=3Dcxl-lsa0,id=3Dcxl-pmem0=
+,size=3D256M
+> > \
+> > -device cxl-downstream,port=3D1,bus=3Dus0,id=3Dswport1,chassis=3D0,slot=
+=3D5 \
+> > -device
+> > cxl-type3,bus=3Dswport1,memdev=3Dcxl-mem1,lsa=3Dcxl-lsa1,id=3Dcxl-pmem1=
+,size=3D256M
+> > \
+> > -device cxl-downstream,port=3D2,bus=3Dus0,id=3Dswport2,chassis=3D0,slot=
+=3D6 \
+> > -device
+> > cxl-type3,bus=3Dswport2,memdev=3Dcxl-mem2,lsa=3Dcxl-lsa2,id=3Dcxl-pmem2=
+,size=3D256M
+> > \
+> > -device cxl-downstream,port=3D3,bus=3Dus0,id=3Dswport3,chassis=3D0,slot=
+=3D7 \
+> > -device
+> > cxl-type3,bus=3Dswport3,memdev=3Dcxl-mem3,lsa=3Dcxl-lsa3,id=3Dcxl-pmem3=
+,size=3D256M
+> > \
+> > -M cxl-fmw.0.targets.0=3Dcxl.1,cxl-fmw.0.size=3D4G,cxl-fmw.0.interleave=
+-granularity=3D4k
+> >=20
+> >=20
+> >=20
+> > I hit this following error
+> > qemu-system-aarch64: -device
+> > cxl-type3,bus=3Dswport0,memdev=3Dcxl-mem0,lsa=3Dcxl-lsa0,id=3Dcxl-pmem0=
+,size=3D256M:
+> > property 'cxl-type3.size' not found
+> >=20
+check cxl_type3.c where you can find the properties supported by the
+device. 'size' is not needed and it will take the size of cxl-pmem0.
 
-KVM does not do the same way as the real hardware in these cases, if the 
-destination of IPI is 0xffffffff, IPI is broadcasted to x2APIC CPUs but 
-not xAPIC CPUs. The same with IPI has destination 0x102 does not deliver 
-to xAPIC CPU with APIC ID 0x2. This is the intended behavior as I see 
-some comments mentioning it.
-
-diff --git a/x86/apic.c b/x86/apic.c
-index 20c3a1a..8c91d27 100644
---- a/x86/apic.c
-+++ b/x86/apic.c
-@@ -679,7 +679,7 @@ static void set_ldr(void *__ldr)
-  	apic_write(APIC_LDR, ldr << 24);
-  }
-
--static int test_fixed_ipi(u32 dest_mode, u8 dest, u8 vector,
-+static int test_fixed_ipi(u32 dest_mode, u32 dest, u8 vector,
-  			  int nr_ipis_expected, const char *mode_name)
-  {
-  	u64 start = rdtsc();
-@@ -913,6 +913,38 @@ static void test_aliased_xapic_physical_ipi(void)
-  	report(!f, "IPI to aliased xAPIC physical IDs");
-  }
-
-+static void reset_apic_cpu(void *arg)
-+{
-+	u8 *id = (u8 *)arg;
-+	reset_apic();
-+	*id = apic_id();
-+}
-+
-+static void test_physical_ipi_with_x2apic_id(void)
-+{
-+	u8 vector = 0xf1;
-+	int f = 0;
-+	u8 apic_id_cpu1;
-+
-+	if (cpu_count() < 2)
-+		return;
-+
-+	if (!is_x2apic_enabled())
-+		return;
-+
-+	on_cpu(1, reset_apic_cpu, &apic_id_cpu1);
-+	handle_irq(vector, handle_ipi);
-+
-+	/*
-+	 * CPU1 is in xAPIC so it accepts the IPI because the (destination & 0xff)
-+	 * matches its APIC ID.
-+	 */
-+	f += test_fixed_ipi(APIC_DEST_PHYSICAL, apic_id_cpu1 | 0x100, vector, 
-1, "physical");
-+	f += test_fixed_ipi(APIC_DEST_PHYSICAL, 0xffffffff, vector, 
-cpu_count(), "physical");
-+
-+	report(!f, "IPI with x2apic id to xapic CPU");
-+}
-+
-  typedef void (*apic_test_fn)(void);
-
-  int main(void)
-@@ -950,6 +982,7 @@ int main(void)
-  		test_apic_id,
-  		test_apicbase,
-  		test_aliased_xapic_physical_ipi,
-+		test_physical_ipi_with_x2apic_id,
-  	};
-
-  	assert_msg(is_apic_hw_enabled() && is_apic_sw_enabled(),
-
-With this patch in kvm-unit-test, the version 3 of this series, which I 
-will post soon, passes the test but not KVM. So I am not sure if I 
-should post this test to kvm-unit-test.
+Fan
+> >=20
+> > Any clue if I am missing something?
+> >=20
+> >=20
+> > Regards
+> >=20
+> >=20
+> >=20
+> =
 
