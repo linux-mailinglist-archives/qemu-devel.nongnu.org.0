@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C976D3D41
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 08:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5596D3D56
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 08:29:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjDaJ-0007I8-Rj; Mon, 03 Apr 2023 02:22:31 -0400
+	id 1pjDgB-0008Sl-7i; Mon, 03 Apr 2023 02:28:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjDaE-0007Fn-2m
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 02:22:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjDg8-0008SY-Q0
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 02:28:33 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjDaB-0000zy-0v
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 02:22:25 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjDg6-0002Lo-6E
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 02:28:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680502939;
+ s=mimecast20190719; t=1680503306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Ke0XOLjHyP51AZrx6au9pHWRsLphMBn4QLOm46d90k=;
- b=aLruUzYi35UEtgoVBuslYLnZaOsoVJj0B7D6a5gtoZjy3gtz5rbCZyvSpA8COmQX+70eKZ
- 2vZ5n74zHRFrHRO6h1IuMT8wVNMBOXBWhEYrh+TyJAxLyBF7qZQNNmftHSk2v3eFNNbPKo
- kusldfJ0Tv4bkGFOyItOe/VJnZfV3jE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MNYHkvdVbPsOyDw64i0voYt61we28dCA9+Lb6X7CZdY=;
+ b=GNcRZvHDAJgBRmg1sIEfQ7a+uLWkMLAGbS88DR/uZL2sP8/BUKmO/UjYc2VT9kTJ9STuZb
+ R8XrethAiy5IjMDzEzXXvWzUGvwZ01zsX6iRXDffl2hxBuDlvm45cibzf9xsZd0qDZuCgQ
+ RWboWZxz24lzVwx5sHq8+Ts9vLQlYtM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-qz1yvOKfM3ebFQxxURVUQw-1; Mon, 03 Apr 2023 02:22:16 -0400
-X-MC-Unique: qz1yvOKfM3ebFQxxURVUQw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-626-qevRgVNxOmyh_ERbWgtRKA-1; Mon, 03 Apr 2023 02:28:23 -0400
+X-MC-Unique: qevRgVNxOmyh_ERbWgtRKA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83D85858289;
- Mon,  3 Apr 2023 06:22:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EFEA03C025B7;
+ Mon,  3 Apr 2023 06:28:22 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C67741415117;
- Mon,  3 Apr 2023 06:22:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A947C15BB8;
+ Mon,  3 Apr 2023 06:28:22 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8FC7321E6926; Mon,  3 Apr 2023 08:22:12 +0200 (CEST)
+ id 3D4B721E6926; Mon,  3 Apr 2023 08:28:21 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,  Warner Losh
- <imp@bsdimp.com>,  Ryo ONODERA <ryoon@netbsd.org>,  Kevin Wolf
- <kwolf@redhat.com>,  Beraldo Leal <bleal@redhat.com>,  Wainer dos Santos
- Moschetta <wainersm@redhat.com>,  Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,  Kyle
- Evans <kevans@freebsd.org>,  Reinoud Zandijk <reinoud@netbsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PATCH 04/11] qemu-options: finesse the recommendations around
- -blockdev
-References: <20230330101141.30199-1-alex.bennee@linaro.org>
- <20230330101141.30199-5-alex.bennee@linaro.org>
-Date: Mon, 03 Apr 2023 08:22:12 +0200
-In-Reply-To: <20230330101141.30199-5-alex.bennee@linaro.org> ("Alex
- =?utf-8?Q?Benn=C3=A9e=22's?=
- message of "Thu, 30 Mar 2023 11:11:34 +0100")
-Message-ID: <871ql1lc2z.fsf@pond.sub.org>
+To: Alexander Graf <graf@amazon.com>
+Cc: <qemu-devel@nongnu.org>,  David Hildenbrand <david@redhat.com>,  Eduardo
+ Habkost <eduardo@habkost.net>,  "Daniel P . Berrange"
+ <berrange@redhat.com>,  Eric Blake <eblake@redhat.com>,  "Philippe
+ Mathieu-Daude" <philmd@linaro.org>,  Peter Xu <peterx@redhat.com>,  "Paolo
+ Bonzini" <pbonzini@redhat.com>,  Igor Mammedov <imammedo@redhat.com>,
+ "Stefan Hajnoczi" <stefanha@redhat.com>,  Ashish Kalra
+ <ashish.kalra@amd.com>,  "Tom Lendacky" <thomas.lendacky@amd.com>
+Subject: Re: [PATCH v2] hostmem-file: add offset option
+References: <20230401121316.2025-1-graf@amazon.com>
+Date: Mon, 03 Apr 2023 08:28:21 +0200
+In-Reply-To: <20230401121316.2025-1-graf@amazon.com> (Alexander Graf's message
+ of "Sat, 1 Apr 2023 12:13:16 +0000")
+Message-ID: <87wn2tjx8a.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -90,71 +84,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Alexander Graf <graf@amazon.com> writes:
 
-> We are a bit premature in recommending -blockdev/-device as the best
-> way to configure block devices, especially in the common case.
-> Improve the language to hopefully make things clearer.
+> Add an option for hostmem-file to start the memory object at an offset
+> into the target file. This is useful if multiple memory objects reside
+> inside the same target file, such as a device node.
 >
-> Suggested-by: Michael Tokarev <mjt@tls.msk.ru>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  qemu-options.hx | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> In particular, it's useful to map guest memory directly into /dev/mem
+> for experimentation.
 >
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 59bdf67a2c..9a69ed838e 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1143,10 +1143,14 @@ have gone through several iterations as the featu=
-re set and complexity
->  of the block layer have grown. Many online guides to QEMU often
->  reference older and deprecated options, which can lead to confusion.
->=20=20
-> -The recommended modern way to describe disks is to use a combination of
-> +The most explicit way to describe disks is to use a combination of
->  ``-device`` to specify the hardware device and ``-blockdev`` to
->  describe the backend. The device defines what the guest sees and the
-> -backend describes how QEMU handles the data.
-> +backend describes how QEMU handles the data. The ``-drive`` option
-> +combines the device and backend into a single command line options
-> +which is useful in the majority of cases.
+> Signed-off-by: Alexander Graf <graf@amazon.com>
 
--drive may look simpler from afar, but it really is a hot mess.  Sadly,
-we can't get rid of it until we find a replacement for configuring
-onboard block devices.  We might be able to clean it up some if we
-accept compatibility breaks.  A new convenience option would be less
-confusing, I guess.
+[...]
 
->                                            Older options like ``-hda``
-> +bake in a lot of assumptions from the days when QEMU was emulating a
-> +legacy PC, they are not recommended for modern configurations.
->=20=20
->  ERST
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index a877b879b9..8f5eaa8415 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -635,6 +635,10 @@
+>  #         specify the required alignment via this option.
+>  #         0 selects a default alignment (currently the page size). (default: 0)
+>  #
+> +# @offset: the offset into the target file that the region starts at. You can
+> +#          use this option to overload multiple regions into a single fils.
 
-These older options and the non-option argument are simple macros for
--drive:
+single file
 
-    IMG-FILE                    -drive index=3D0,file=3DIMG-FILE,media=3Ddi=
-sk
-    -hda IMG-FILE               -drive index=3D0,file=3DIMG-FILE,media=3Ddi=
-sk
-    -hdb IMG-FILE               -drive index=3D1,file=3DIMG-FILE,media=3Ddi=
-sk
-    -hdc IMG-FILE               -drive index=3D2,file=3DIMG-FILE,media=3Ddi=
-sk
-    -hdd IMG-FILE               -drive index=3D3,file=3DIMG-FILE,media=3Ddi=
-sk
-    -cdrom IMG-FILE             -drive index=3D2,file=3DIMG-FILE,media=3Dcd=
-rom
-    -fda IMG-FILE               -drive if=3Dfloppy,index=3D0,file=3DIMG-FILE
-    -fdb IMG-FILE               -drive if=3Dfloppy,index=3D1,file=3DIMG-FILE
-    -mtdblock IMG-FILE          -drive if=3Dmtd,file=3DIMG-FILE
-    -sd IMG-FILE                -drive if=3Dsd,file=3DIMG-FILE
-    -pflash IMG-FILE            -drive if=3Dpflash,file=3DIMG-FILE
+I'm not sure about "to overload multiple regions into a single file".
+Maybe "to back multiple regions with a single file".
 
-What assumptions do you have in mind?
+Any alignment requirements?
 
-I think you need at least Kevin's Acked-by for this.
+What happens when the regions overlap?
+
+> +#          (default: 0)
+
+(since 8.1)
+
+> +#
+>  # @discard-data: if true, the file contents can be destroyed when QEMU exits,
+>  #                to avoid unnecessarily flushing data to the backing file. Note
+>  #                that ``discard-data`` is only an optimization, and QEMU might
+> @@ -655,6 +659,7 @@
+>  { 'struct': 'MemoryBackendFileProperties',
+>    'base': 'MemoryBackendProperties',
+>    'data': { '*align': 'size',
+> +            '*offset': 'size',
+>              '*discard-data': 'bool',
+>              'mem-path': 'str',
+>              '*pmem': { 'type': 'bool', 'if': 'CONFIG_LIBPMEM' },
+
+[...]
 
 
