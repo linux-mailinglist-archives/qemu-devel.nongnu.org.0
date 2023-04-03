@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C0C6D4E8F
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 19:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914046D4E90
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 19:01:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjNX5-0007MA-Fd; Mon, 03 Apr 2023 12:59:51 -0400
+	id 1pjNXq-0007ll-F7; Mon, 03 Apr 2023 13:00:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
- id 1pjNX3-0007Kp-GH
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 12:59:49 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
- id 1pjNX0-0007Es-6e
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 12:59:49 -0400
-Received: by mail-ed1-x530.google.com with SMTP id t10so119854273edd.12
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 09:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ionos.com; s=google; t=1680541184; x=1683133184;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wNMxQ+zfHAOsBeuPp8Czzl7TnWpSrEoNJYnQhh1L5dE=;
- b=Yu9zu2WcU6dKheTK5C+jyvfzZKaZKNgXH3hm/aejTZvyN6w3fS5AGe/Kykfl1mpwuV
- DX8eu8cG/GtB/XsjJJTaYEF1n9oin/pAE+qmDnpLcKJ+aD6wbR1i6rlFqhkDIb2RAVmm
- C0OVAS1nRItxbYn3Tt3aIjXiP4IRDvxO68o+SUQIKcN2afoCeWJnFpPIv3fyO6qe9nHR
- lWw4LkxsWTRF8TJ0+J8l0NdqnMFcz4HoZDmdzEcovNX/h2M+Npa+GkkdGqq4tl0s8Xxd
- R1jM5ueELpMisQETp4THiPYMvRpLf6Xba1gaAVwK2YaRie3AooH4IxXfNgYdZrCjN1m1
- 7m5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680541184; x=1683133184;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wNMxQ+zfHAOsBeuPp8Czzl7TnWpSrEoNJYnQhh1L5dE=;
- b=dTlOtuPnSgbaL+M0gK5iOXos2fGuwscDE2I378qNnN75zzn70VJ9vg7lfcdi7ETiYq
- fpslIHuhjRm0CHkzW1Jqj/pR+YpIroU+LOdPFDihN3aSxE8Ym1nPoLcRZlH2MHoQYlK4
- L57PFhCtPcKi3LTW0c/LNpkgQbj2SQF3jnq2lUYowwuMr0u8Flzum7poNEVj+GrErurb
- rkYmKw+6jz3Ti5NkbzOEwrqr2TvP1t48ajdhgSo7BMf+denwSDn16Vskap5khUCQbs7D
- U2CLlIRMFtV0+tubH0G65BtbkrsA/LxsQLNfQw4O1sL4ym2fhLKYApqHturBtAHEA7d9
- 7kFA==
-X-Gm-Message-State: AAQBX9cNa+oIU+VORiPypsuT8YAU4+WcKP+dOHQPoG/26lmqjZkmolbh
- vZ1aiaQ6TPv6vUXJmMCxzHHa9LodhHIMknu5f1l0xw==
-X-Google-Smtp-Source: AKy350bcsPLiqdZBrVoeJonS0wPLsSSw7wSWiymTt0KJexQkEh2iAjpYTeDkeA+7iSrJQMjIV20RhNkFomLqheH0wBE=
-X-Received: by 2002:a50:9e89:0:b0:500:547b:4e1b with SMTP id
- a9-20020a509e89000000b00500547b4e1bmr18460523edf.6.1680541184062; Mon, 03 Apr
- 2023 09:59:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjNXj-0007af-8d
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:00:35 -0400
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjNXg-0007Y1-G6
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:00:30 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.159])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 7C03D21A64;
+ Mon,  3 Apr 2023 17:00:17 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 3 Apr
+ 2023 19:00:16 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R00668c84391-52c9-43c2-9851-4a4da833c602,
+ 4495CFE2DD90E14DCA06BFA94F64C604EA11AEBF) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <6541fc8a-9c57-ecbf-d25f-ddb0808e3ae7@kaod.org>
+Date: Mon, 3 Apr 2023 19:00:15 +0200
 MIME-Version: 1.0
-References: <CAHEcVy5SV34jaubY5F-q=H+smvMVOzKbb=rTaNJDNXyGdFaLZg@mail.gmail.com>
- <94e21f89-0a3e-701b-7171-7398dff9ce46@redhat.com>
-In-Reply-To: <94e21f89-0a3e-701b-7171-7398dff9ce46@redhat.com>
-From: Yu Zhang <yu.zhang@ionos.com>
-Date: Mon, 3 Apr 2023 18:59:33 +0200
-Message-ID: <CAHEcVy5TiQwYofhCe3RpdFopYzYWbGnL7EO5nE_HQTAVEeaqAg@mail.gmail.com>
-Subject: Re: an issue for device hot-unplug
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Elmar Gerdes <elmar.gerdes@ionos.com>, Jinpu Wang <jinpu.wang@ionos.com>
-Content-Type: multipart/alternative; boundary="0000000000004ea27b05f8717cf0"
-Received-SPF: permerror client-ip=2a00:1450:4864:20::530;
- envelope-from=yu.zhang@ionos.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v19 13/21] docs/s390x/cpu topology: document s390x cpu
+ topology
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
+ <berrange@redhat.com>
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-14-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230403162905.17703-14-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: fa09f524-32c0-4b74-b48c-be2e6674ada4
+X-Ovh-Tracer-Id: 441634240368511955
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeijedguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeipdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpnhhsgheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkhhvmhesvh
+ hgvghrrdhkvghrnhgvlhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpmhhsthesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.349,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,269 +81,472 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000004ea27b05f8717cf0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 4/3/23 18:28, Pierre Morel wrote:
+> Add some basic examples for the definition of cpu topology
+> in s390x.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   MAINTAINERS                        |   2 +
+>   docs/devel/index-internals.rst     |   1 +
+>   docs/devel/s390-cpu-topology.rst   | 161 +++++++++++++++++++
+>   docs/system/s390x/cpu-topology.rst | 238 +++++++++++++++++++++++++++++
+>   docs/system/target-s390x.rst       |   1 +
+>   5 files changed, 403 insertions(+)
+>   create mode 100644 docs/devel/s390-cpu-topology.rst
+>   create mode 100644 docs/system/s390x/cpu-topology.rst
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index de9052f753..fe5638e31d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1660,6 +1660,8 @@ S: Supported
+>   F: include/hw/s390x/cpu-topology.h
+>   F: hw/s390x/cpu-topology.c
+>   F: target/s390x/kvm/cpu_topology.c
+> +F: docs/devel/s390-cpu-topology.rst
+> +F: docs/system/s390x/cpu-topology.rst
+>   
+>   X86 Machines
+>   ------------
+> diff --git a/docs/devel/index-internals.rst b/docs/devel/index-internals.rst
+> index e1a93df263..6f81df92bc 100644
+> --- a/docs/devel/index-internals.rst
+> +++ b/docs/devel/index-internals.rst
+> @@ -14,6 +14,7 @@ Details about QEMU's various subsystems including how to add features to them.
+>      migration
+>      multi-process
+>      reset
+> +   s390-cpu-topology
+>      s390-dasd-ipl
+>      tracing
+>      vfio-migration
+> diff --git a/docs/devel/s390-cpu-topology.rst b/docs/devel/s390-cpu-topology.rst
+> new file mode 100644
+> index 0000000000..0b7bb42079
+> --- /dev/null
+> +++ b/docs/devel/s390-cpu-topology.rst
+> @@ -0,0 +1,161 @@
+> +QAPI interface for S390 CPU topology
+> +====================================
+> +
+> +Let's start QEMU with the following command:
+> +
+> +.. code-block:: bash
+> +
+> + qemu-system-s390x \
+> +    -enable-kvm \
+> +    -cpu z14,ctop=on \
+> +    -smp 1,drawers=3,books=3,sockets=2,cores=2,maxcpus=36 \
+> +    \
+> +    -device z14-s390x-cpu,core-id=19,polarization=3 \
+> +    -device z14-s390x-cpu,core-id=11,polarization=1 \
+> +    -device z14-s390x-cpu,core-id=112,polarization=3 \
+> +   ...
+> +
+> +and see the result when using the QAPI interface.
+> +
+> +Addons to query-cpus-fast
+> +-------------------------
+> +
+> +The command query-cpus-fast allows to query the topology tree and
+> +modifiers for all configured vCPUs.
+> +
+> +.. code-block:: QMP
+> +
+> + { "execute": "query-cpus-fast" }
+> + {
+> +  "return": [
+> +    {
+> +      "dedicated": false,
+> +      "thread-id": 536993,
+> +      "props": {
+> +        "core-id": 0,
+> +        "socket-id": 0,
+> +        "drawer-id": 0,
+> +        "book-id": 0
+> +      },
+> +      "cpu-state": "operating",
+> +      "entitlement": "medium",
+> +      "qom-path": "/machine/unattached/device[0]",
+> +      "cpu-index": 0,
+> +      "target": "s390x"
+> +    },
+> +    {
+> +      "dedicated": false,
+> +      "thread-id": 537003,
+> +      "props": {
+> +        "core-id": 19,
+> +        "socket-id": 1,
+> +        "drawer-id": 0,
+> +        "book-id": 2
+> +      },
+> +      "cpu-state": "operating",
+> +      "entitlement": "high",
+> +      "qom-path": "/machine/peripheral-anon/device[0]",
+> +      "cpu-index": 19,
+> +      "target": "s390x"
+> +    },
+> +    {
+> +      "dedicated": false,
+> +      "thread-id": 537004,
+> +      "props": {
+> +        "core-id": 11,
+> +        "socket-id": 1,
+> +        "drawer-id": 0,
+> +        "book-id": 1
+> +      },
+> +      "cpu-state": "operating",
+> +      "entitlement": "low",
+> +      "qom-path": "/machine/peripheral-anon/device[1]",
+> +      "cpu-index": 11,
+> +      "target": "s390x"
+> +    },
+> +    {
+> +      "dedicated": true,
+> +      "thread-id": 537005,
+> +      "props": {
+> +        "core-id": 112,
+> +        "socket-id": 0,
+> +        "drawer-id": 3,
+> +        "book-id": 2
+> +      },
+> +      "cpu-state": "operating",
+> +      "entitlement": "high",
+> +      "qom-path": "/machine/peripheral-anon/device[2]",
+> +      "cpu-index": 112,
+> +      "target": "s390x"
+> +    }
+> +  ]
+> + }
+> +
+> +
+> +QAPI command: set-cpu-topology
+> +------------------------------
+> +
+> +The command set-cpu-topology allows to modify the topology tree
+> +or the topology modifiers of a vCPU in the configuration.
+> +
+> +.. code-block:: QMP
+> +
+> +    { "execute": "set-cpu-topology",
+> +      "arguments": {
+> +         "core-id": 11,
+> +         "socket-id": 0,
+> +         "book-id": 0,
+> +         "drawer-id": 0,
+> +         "entitlement": "low",
+> +         "dedicated": false
+> +      }
+> +    }
+> +    {"return": {}}
+> +
+> +The core-id parameter is the only non optional parameter and every
+> +unspecified parameter keeps its previous value.
+> +
+> +QAPI event CPU_POLARIZATION_CHANGE
+> +----------------------------------
+> +
+> +When a guest is requests a modification of the polarization,
+> +QEMU sends a CPU_POLARIZATION_CHANGE event.
+> +
+> +When requesting the change, the guest only specifies horizontal or
+> +vertical polarization.
+> +It is the job of the upper layer to set the dedication and fine grained
+> +vertical entitlement in response to this event.
+> +
+> +Note that a vertical polarized dedicated vCPU can only have a high
+> +entitlement, this gives 6 possibilities for vCPU polarization:
+> +
+> +- Horizontal
+> +- Horizontal dedicated
+> +- Vertical low
+> +- Vertical medium
+> +- Vertical high
+> +- Vertical high dedicated
+> +
+> +Example of the event received when the guest issues the CPU instruction
+> +Perform Topology Function PTF(0) to request an horizontal polarization:
+> +
+> +.. code-block:: QMP
+> +
+> +    { "event": "CPU_POLARIZATION_CHANGE",
+> +      "data": { "polarization": 0 },
+> +      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
+> +
+> +QAPI query command: query-cpu-polarization
+> +------------------------------
 
-Dear Laurent,
+Some dashes are missing from this line. No need to resend, it's easy to fix.
 
-Thank you for your quick reply. We used qemu-7.1, but it is reproducible
-with qemu from v6.2 to the recent v8.0 release candidates.
-I found that it's introduced by the commit  9323f892b39 (between v6.2.0-rc2
-and v6.2.0-rc3).
+Thanks,
 
-If it doesn't break anything else, it suffices to remove the line below
-from acpi_pcihp_device_unplug_request_cb():
+C.
 
-    pdev->qdev.pending_deleted_event =3D true;
+> +
+> +The query command query-cpu-polarization returns the current
+> +CPU polarization of the machine.
+> +
+> +.. code-block:: QMP
+> +
+> +    { "execute": "query-cpu-polarization" }
+> +    {
+> +        "return": {
+> +          "polarization": "vertical"
+> +        }
+> +    }
+> diff --git a/docs/system/s390x/cpu-topology.rst b/docs/system/s390x/cpu-topology.rst
+> new file mode 100644
+> index 0000000000..c1fe3da51c
+> --- /dev/null
+> +++ b/docs/system/s390x/cpu-topology.rst
+> @@ -0,0 +1,238 @@
+> +CPU topology on s390x
+> +=====================
+> +
+> +Since QEMU 8.1, CPU topology on s390x provides up to 3 levels of
+> +topology containers: drawers, books, sockets, defining a tree shaped
+> +hierarchy.
+> +
+> +The socket container contains one or more CPU entries.
+> +Each of these CPU entries consists of a bitmap and three CPU attributes:
+> +
+> +- CPU type
+> +- polarization entitlement
+> +- dedication
+> +
+> +Each bit set in the bitmap correspond to the core-id of a vCPU with
+> +matching the three attribute.
+> +
+> +This documentation provide general information on S390 CPU topology,
+> +how to enable it and on the new CPU attributes.
+> +For information on how to modify the S390 CPU topology and on how to
+> +monitor the polarization change see ``Developer Information``.
+> +
+> +Prerequisites
+> +-------------
+> +
+> +To use the CPU topology, you need to run with KVM on a s390x host that
+> +uses the Linux kernel v6.0 or newer (which provide the so-called
+> +``KVM_CAP_S390_CPU_TOPOLOGY`` capability that allows QEMU to signal the
+> +CPU topology facility via the so-called STFLE bit 11 to the VM).
+> +
+> +Enabling CPU topology
+> +---------------------
+> +
+> +Currently, CPU topology is only enabled in the host model by default.
+> +
+> +Enabling CPU topology in a CPU model is done by setting the CPU flag
+> +``ctop`` to ``on`` like in:
+> +
+> +.. code-block:: bash
+> +
+> +   -cpu gen16b,ctop=on
+> +
+> +Having the topology disabled by default allows migration between
+> +old and new QEMU without adding new flags.
+> +
+> +Default topology usage
+> +----------------------
+> +
+> +The CPU topology can be specified on the QEMU command line
+> +with the ``-smp`` or the ``-device`` QEMU command arguments.
+> +
+> +Note also that since 7.2 threads are no longer supported in the topology
+> +and the ``-smp`` command line argument accepts only ``threads=1``.
+> +
+> +If none of the containers attributes (drawers, books, sockets) are
+> +specified for the ``-smp`` flag, the number of these containers
+> +is ``1`` .
+> +
+> +.. code-block:: bash
+> +
+> +    -smp cpus=5,drawer=1,books=1,sockets=8,cores=4,maxcpus=32
+> +
+> +or
+> +
+> +.. code-block:: bash
+> +
+> +    -smp cpus=5,sockets=8,cores=4,maxcpus=32
+> +
+> +When a CPU is defined by the ``-smp`` command argument, its position
+> +inside the topology is calculated by adding the CPUs to the topology
+> +based on the core-id starting with core-0 at position 0 of socket-0,
+> +book-0, drawer-0 and filling all CPUs of socket-0 before to fill socket-1
+> +of book-0 and so on up to the last socket of the last book of the last
+> +drawer.
+> +
+> +When a CPU is defined by the ``-device`` command argument, the
+> +tree topology attributes must be all defined or all not defined.
+> +
+> +.. code-block:: bash
+> +
+> +    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=1
+> +
+> +or
+> +
+> +.. code-block:: bash
+> +
+> +    -device gen16b-s390x-cpu,core-id=1,dedication=true
+> +
+> +If none of the tree attributes (drawer, book, sockets), are specified
+> +for the ``-device`` argument, as for all CPUs defined with the ``-smp``
+> +command argument the topology tree attributes will be set by simply
+> +adding the CPUs to the topology based on the core-id starting with
+> +core-0 at position 0 of socket-0, book-0, drawer-0.
+> +
+> +QEMU will not try to solve collisions and will report an error if the
+> +CPU topology, explicitly or implicitly defined on a ``-device``
+> +argument collides with the definition of a CPU implicitely defined
+> +on the ``-smp`` argument.
+> +
+> +When the topology modifier attributes are not defined for the
+> +``-device`` command argument they takes following default values:
+> +
+> +- dedication: ``false``
+> +- entitlement: ``medium``
+> +
+> +
+> +Hot plug
+> +++++++++
+> +
+> +New CPUs can be plugged using the device_add hmp command as in:
+> +
+> +.. code-block:: bash
+> +
+> +  (qemu) device_add gen16b-s390x-cpu,core-id=9
+> +
+> +The same placement of the CPU is derived from the core-id as described above.
+> +
+> +The topology can of course be fully defined:
+> +
+> +.. code-block:: bash
+> +
+> +    (qemu) device_add gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=1
+> +
+> +
+> +Examples
+> +++++++++
+> +
+> +In the following machine we define 8 sockets with 4 cores each.
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-s390x -m 2G \
+> +    -cpu gen16b,ctop=on \
+> +    -smp cpus=5,sockets=8,cores=4,maxcpus=32 \
+> +    -device host-s390x-cpu,core-id=14 \
+> +
+> +A new CPUs can be plugged using the device_add hmp command as before:
+> +
+> +.. code-block:: bash
+> +
+> +  (qemu) device_add gen16b-s390x-cpu,core-id=9
+> +
+> +The core-id defines the placement of the core in the topology by
+> +starting with core 0 in socket 0 up to maxcpus.
+> +
+> +In the example above:
+> +
+> +* There are 5 CPUs provided to the guest with the ``-smp`` command line
+> +  They will take the core-ids 0,1,2,3,4
+> +  As we have 4 cores in a socket, we have 4 CPUs provided
+> +  to the guest in socket 0, with core-ids 0,1,2,3.
+> +  The last cpu, with core-id 4, will be on socket 1.
+> +
+> +* the core with ID 14 provided by the ``-device`` command line will
+> +  be placed in socket 3, with core-id 14
+> +
+> +* the core with ID 9 provided by the ``device_add`` qmp command will
+> +  be placed in socket 2, with core-id 9
+> +
+> +
+> +Polarization, entitlement and dedication
+> +----------------------------------------
+> +
+> +Polarization
+> +++++++++++++
+> +
+> +The polarization is an indication given by the ``guest`` to the host
+> +that it is able to make use of CPU provisioning information.
+> +The guest indicates the polarization by using the PTF instruction.
+> +
+> +Polarization is define two models of CPU provisioning: horizontal
+> +and vertical.
+> +
+> +The horizontal polarization is the default model on boot and after
+> +subsystem reset in which the guest considers all vCPUs being having
+> +an equal provisioning of CPUs by the host.
+> +
+> +In the vertical polarization model the guest can make use of the
+> +vCPU entitlement information provided by the host to optimize
+> +kernel thread scheduling.
+> +
+> +A subsystem reset puts all vCPU of the configuration into the
+> +horizontal polarization.
+> +
+> +Entitlement
+> ++++++++++++
+> +
+> +The vertical polarization specifies that the guest's vCPU can get
+> +different real CPU provisions:
+> +
+> +- a vCPU with vertical high entitlement specifies that this
+> +  vCPU gets 100% of the real CPU provisioning.
+> +
+> +- a vCPU with vertical medium entitlement specifies that this
+> +  vCPU shares the real CPU with other vCPUs.
+> +
+> +- a vCPU with vertical low entitlement specifies that this
+> +  vCPU only gets real CPU provisioning when no other vCPUs needs it.
+> +
+> +In the case a vCPU with vertical high entitlement does not use
+> +the real CPU, the unused "slack" can be dispatched to other vCPU
+> +with medium or low entitlement.
+> +
+> +The upper level specifies a vCPU as ``dedicated`` when the vCPU is
+> +fully dedicated to a single real CPU.
+> +
+> +The dedicated bit is an indication of affinity of a vCPU for a real CPU
+> +while the entitlement indicates the sharing or exclusivity of use.
+> +
+> +Defining the topology on command line
+> +-------------------------------------
+> +
+> +The topology can entirely be defined using -device cpu statements,
+> +with the exception of CPU 0 which must be defined with the -smp
+> +argument.
+> +
+> +For example, here we set the position of the cores 1,2,3 to
+> +drawer 1, book 1, socket 2 and cores 0,9 and 14 to drawer 0,
+> +book 0, socket 0 with all horizontal polarization and not dedicated.
+> +The core 4, will be set on its default position on socket 1
+> +(since we have 4 core per socket) and we define it with dedication and
+> +vertical high entitlement.
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-s390x -m 2G \
+> +    -cpu gen16b,ctop=on \
+> +    -smp cpus=1,sockets=8,cores=4,maxcpus=32 \
+> +    \
+> +    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=1 \
+> +    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=2 \
+> +    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=3 \
+> +    \
+> +    -device gen16b-s390x-cpu,drawer-id=0,book-id=0,socket-id=0,core-id=9 \
+> +    -device gen16b-s390x-cpu,drawer-id=0,book-id=0,socket-id=0,core-id=14 \
+> +    \
+> +    -device gen16b-s390x-cpu,core-id=4,dedicated=on,polarization=3 \
+> +
+> diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
+> index f6f11433c7..94c981e732 100644
+> --- a/docs/system/target-s390x.rst
+> +++ b/docs/system/target-s390x.rst
+> @@ -34,3 +34,4 @@ Architectural features
+>   .. toctree::
+>      s390x/bootdevices
+>      s390x/protvirt
+> +   s390x/cpu-topology
 
-but you may have a reason to keep it. First of all, I'll open a bug in the
-bug tracker and let you know.
-
-Best regards,
-Yu Zhang
-
-On Mon, Apr 3, 2023 at 6:32=E2=80=AFPM Laurent Vivier <lvivier@redhat.com> =
-wrote:
-
-> Hi Yu,
->
-> please open a bug in the bug tracker:
->
-> https://gitlab.com/qemu/qemu/-/issues
->
-> It's easier to track the problem.
->
-> What is the version of QEMU you are using?
-> Could you provide QEMU command line?
->
-> Thanks,
-> Laurent
->
->
-> On 4/3/23 15:24, Yu Zhang wrote:
-> > Dear Laurent,
-> >
-> > recently we run into an issue with the following error:
-> >
-> > command '{ "execute": "device_del", "arguments": { "id": "virtio-diskX"
-> } }' for VM "id"
-> > failed ({ "return": {"class": "GenericError", "desc": "Device
-> virtio-diskX is already in
-> > the process of unplug"} }).
-> >
-> > The issue is reproducible. With a few seconds delay before hot-unplug,
-> hot-unplug just
-> > works fine.
-> >
-> > After a few digging, we found that the commit 9323f892b39 may incur the
-> issue.
-> > ------------------
-> >      failover: fix unplug pending detection
-> >
-> >      Failover needs to detect the end of the PCI unplug to start
-> migration
-> >      after the VFIO card has been unplugged.
-> >
-> >      To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and
-> reset in
-> >      pcie_unplug_device().
-> >
-> >      But since
-> >          17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default
-> on Q35")
-> >      we have switched to ACPI unplug and these functions are not called
-> anymore
-> >      and the flag not set. So failover migration is not able to detect
-> if card
-> >      is really unplugged and acts as it's done as soon as it's started.
-> So it
-> >      doesn't wait the end of the unplug to start the migration. We don'=
-t
-> see any
-> >      problem when we test that because ACPI unplug is faster than PCIe
-> native
-> >      hotplug and when the migration really starts the unplug operation =
-is
-> >      already done.
-> >
-> >      See c000a9bd06ea ("pci: mark device having guest unplug request
-> pending")
-> >          a99c4da9fc2a ("pci: mark devices partially unplugged")
-> >
-> >      Signed-off-by: Laurent Vivier <lvivier@redhat.com <mailto:
-> lvivier@redhat.com>>
-> >      Reviewed-by: Ani Sinha <ani@anisinha.ca <mailto:ani@anisinha.ca>>
-> >      Message-Id: <20211118133225.324937-4-lvivier@redhat.com
-> > <mailto:20211118133225.324937-4-lvivier@redhat.com>>
-> >      Reviewed-by: Michael S. Tsirkin <mst@redhat.com <mailto:
-> mst@redhat.com>>
-> >      Signed-off-by: Michael S. Tsirkin <mst@redhat.com <mailto:
-> mst@redhat.com>>
-> > ------------------
-> > The purpose is for detecting the end of the PCI device hot-unplug.
-> However, we feel the
-> > error confusing. How is it possible that a disk "is already in the
-> process of unplug"
-> > during the first hot-unplug attempt? So far as I know, the issue was
-> also encountered by
-> > libvirt, but they simply ignored it:
-> >
-> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659
-> > <https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659>
-> >
-> > Hence, a question is: should we have the line below in
-> acpi_pcihp_device_unplug_request_cb()?
-> >
-> >     pdev->qdev.pending_deleted_event =3D true;
-> >
-> > It would be great if you as the author could give us a few hints.
-> >
-> > Thank you very much for your reply!
-> >
-> > Sincerely,
-> >
-> > Yu Zhang @ Compute Platform IONOS
-> > 03.04.2013
->
->
-
---0000000000004ea27b05f8717cf0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Dear Laurent,<div><br></div><div>Thank you for your quick =
-reply. We used qemu-7.1, but it is reproducible with qemu from v6.2 to the =
-recent v8.0 release candidates.</div><div>I found that it&#39;s introduced =
-by the commit=C2=A0=C2=A09323f892b39 (between v6.2.0-rc2 and v6.2.0-rc3).=
-=C2=A0</div><div><br></div><div>If it doesn&#39;t break anything else, it s=
-uffices to remove the line below from acpi_pcihp_device_unplug_request_cb()=
-:</div><div><br></div><div>=C2=A0 =C2=A0 pdev-&gt;qdev.pending_deleted_even=
-t =3D true;<br></div><div><br></div><div>but you may have a reason to keep =
-it. First of all, I&#39;ll open a bug in the bug tracker and let you know.<=
-/div><div><br></div><div>Best regards,</div><div>Yu Zhang</div></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr =
-3, 2023 at 6:32=E2=80=AFPM Laurent Vivier &lt;<a href=3D"mailto:lvivier@red=
-hat.com">lvivier@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">Hi Yu,<br>
-<br>
-please open a bug in the bug tracker:<br>
-<br>
-<a href=3D"https://gitlab.com/qemu/qemu/-/issues" rel=3D"noreferrer" target=
-=3D"_blank">https://gitlab.com/qemu/qemu/-/issues</a><br>
-<br>
-It&#39;s easier to track the problem.<br>
-<br>
-What is the version of QEMU you are using?<br>
-Could you provide QEMU command line?<br>
-<br>
-Thanks,<br>
-Laurent<br>
-<br>
-<br>
-On 4/3/23 15:24, Yu Zhang wrote:<br>
-&gt; Dear Laurent,<br>
-&gt; <br>
-&gt; recently we run into an issue with the following error:<br>
-&gt; <br>
-&gt; command &#39;{ &quot;execute&quot;: &quot;device_del&quot;, &quot;argu=
-ments&quot;: { &quot;id&quot;: &quot;virtio-diskX&quot; } }&#39; for VM &qu=
-ot;id&quot; <br>
-&gt; failed ({ &quot;return&quot;: {&quot;class&quot;: &quot;GenericError&q=
-uot;, &quot;desc&quot;: &quot;Device virtio-diskX is already in <br>
-&gt; the process of unplug&quot;} }).<br>
-&gt; <br>
-&gt; The issue is reproducible. With a few seconds delay before hot-unplug,=
- hot-unplug just <br>
-&gt; works fine.<br>
-&gt; <br>
-&gt; After a few digging, we found that the commit 9323f892b39 may incur th=
-e issue.<br>
-&gt; ------------------<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 failover: fix unplug pending detection<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Failover needs to detect the end of the PCI unplug=
- to start migration<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 after the VFIO card has been unplugged.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 To do that, a flag is set in pcie_cap_slot_unplug_=
-request_cb() and reset in<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 pcie_unplug_device().<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 But since<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 17858a169508 (&quot;hw/acpi/ich9: Se=
-t ACPI PCI hot-plug as default on Q35&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 we have switched to ACPI unplug and these function=
-s are not called anymore<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 and the flag not set. So failover migration is not=
- able to detect if card<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 is really unplugged and acts as it&#39;s done as s=
-oon as it&#39;s started. So it<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 doesn&#39;t wait the end of the unplug to start th=
-e migration. We don&#39;t see any<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 problem when we test that because ACPI unplug is f=
-aster than PCIe native<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 hotplug and when the migration really starts the u=
-nplug operation is<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 already done.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 See c000a9bd06ea (&quot;pci: mark device having gu=
-est unplug request pending&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 a99c4da9fc2a (&quot;pci: mark device=
-s partially unplugged&quot;)<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Signed-off-by: Laurent Vivier &lt;<a href=3D"mailt=
-o:lvivier@redhat.com" target=3D"_blank">lvivier@redhat.com</a> &lt;mailto:<=
-a href=3D"mailto:lvivier@redhat.com" target=3D"_blank">lvivier@redhat.com</=
-a>&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Reviewed-by: Ani Sinha &lt;<a href=3D"mailto:ani@a=
-nisinha.ca" target=3D"_blank">ani@anisinha.ca</a> &lt;mailto:<a href=3D"mai=
-lto:ani@anisinha.ca" target=3D"_blank">ani@anisinha.ca</a>&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Message-Id: &lt;<a href=3D"mailto:20211118133225.3=
-24937-4-lvivier@redhat.com" target=3D"_blank">20211118133225.324937-4-lvivi=
-er@redhat.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:20211118133225.324937-4-lvivier@redhat.co=
-m" target=3D"_blank">20211118133225.324937-4-lvivier@redhat.com</a>&gt;&gt;=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Reviewed-by: Michael S. Tsirkin &lt;<a href=3D"mai=
-lto:mst@redhat.com" target=3D"_blank">mst@redhat.com</a> &lt;mailto:<a href=
-=3D"mailto:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Signed-off-by: Michael S. Tsirkin &lt;<a href=3D"m=
-ailto:mst@redhat.com" target=3D"_blank">mst@redhat.com</a> &lt;mailto:<a hr=
-ef=3D"mailto:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt;&gt;<b=
-r>
-&gt; ------------------<br>
-&gt; The purpose is for detecting the end of the PCI device hot-unplug. How=
-ever, we feel the <br>
-&gt; error confusing. How is it possible that a disk &quot;is already in th=
-e process of unplug&quot; <br>
-&gt; during the first hot-unplug attempt? So far as I know, the issue was a=
-lso encountered by <br>
-&gt; libvirt, but they simply ignored it:<br>
-&gt; <br>
-&gt; <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659" rel=
-=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?=
-id=3D1878659</a> <br>
-&gt; &lt;<a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659" =
-rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.c=
-gi?id=3D1878659</a>&gt;<br>
-&gt; <br>
-&gt; Hence, a question is: should we have the line below in=C2=A0 acpi_pcih=
-p_device_unplug_request_cb()?<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0pdev-&gt;qdev.pending_deleted_event =3D true;<br>
-&gt; <br>
-&gt; It would be great if you as the author could give us a few hints.<br>
-&gt; <br>
-&gt; Thank you very much for your reply!<br>
-&gt; <br>
-&gt; Sincerely,<br>
-&gt; <br>
-&gt; Yu Zhang @ Compute Platform IONOS<br>
-&gt; 03.04.2013<br>
-<br>
-</blockquote></div>
-
---0000000000004ea27b05f8717cf0--
 
