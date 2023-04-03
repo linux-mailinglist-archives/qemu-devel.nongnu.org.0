@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3444D6D3F76
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 10:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475606D3FB2
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 11:06:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjFum-0006ji-Kb; Mon, 03 Apr 2023 04:51:48 -0400
+	id 1pjG7R-0000zJ-4o; Mon, 03 Apr 2023 05:04:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
- id 1pjFuj-0006jZ-Rt
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 04:51:45 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maobibo@loongson.cn>) id 1pjFuh-0006y9-9K
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 04:51:45 -0400
-Received: from loongson.cn (unknown [10.20.42.170])
- by gateway (Coremail) with SMTP id _____8BxfdqWkypkkPoVAA--.22572S3;
- Mon, 03 Apr 2023 16:51:34 +0800 (CST)
-Received: from [10.20.42.170] (unknown [10.20.42.170])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxsOSWkypkk1QUAA--.54706S3; 
- Mon, 03 Apr 2023 16:51:34 +0800 (CST)
-Message-ID: <acbba848-d770-2d17-f3eb-60b87bfa9447@loongson.cn>
-Date: Mon, 3 Apr 2023 16:51:34 +0800
+ (Exim 4.90_1) (envelope-from <maverickk1778@gmail.com>)
+ id 1pjG7L-0000yv-99
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:04:47 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maverickk1778@gmail.com>)
+ id 1pjG7J-0001sM-9h
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:04:47 -0400
+Received: by mail-il1-x12e.google.com with SMTP id n11so1884021ilj.9
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 02:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680512683;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=1KRJ06UP8WcUlaJV//ul06eZlAExICLRlAexusOtxpI=;
+ b=LS8Wf54LPY9nGn+I0Kp/9gBxz4mV919SpPmrJbuD3EYHApZ7kjxlej3toLr7qaIVAi
+ CIioAR0inysaMbkEvxD5GuouRCUA3nf4jzak5AyMFn3QQFWlwtfajy3TYAssoIebDU9L
+ Ic/HyA3iKi3/RGl5qBqZxVM/DUyBj69IGKBVurMqIpAJl18daxuhnlsBiJ9HZ07ELwvm
+ q5TYTADapBiJ0M6FPpFw0JVoLqd62rB5XsXorX5dU61p/pXDjY1g0BaUoSSOx/OsADf8
+ Tia0V7EncOwkLVpWNKEZUCDFxaZCYHNrUv07FFSej5CNAo0bh9DQIavQPvHK/shpgWVl
+ Sfww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680512683;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1KRJ06UP8WcUlaJV//ul06eZlAExICLRlAexusOtxpI=;
+ b=tNPDd20tX51i26Sbw7qQ+9nb7x6fLy161MYOwLsoBZCQM83g/87IEuBRGV1TkqKarD
+ jPZ6Hx2IasdOQhFT5cjHECT8Ckgj/dCaGyOBSQjVElAG5sk5fahoqXxWXfl0aGGtvfPT
+ HZnzCL2IvlK4ExCZ3dQ9nXkr8DToinSJvaFm35PoXN6ZUuOuzWIF0OKmN0WBHkzZLhn3
+ ou3xk6OsypLnDhCL1Y3M/Q2jc7uLb2AAmjVD1J+XRUEtjNzE/Y14CxPK5Vh7hFdR0Qb9
+ T4hRWDJc8qBxJN/ccA8ojoEtoJar8TRd+fVwsUk0OfF2WIRKYxeQZDjBzRuEKBCch7yx
+ 0GGQ==
+X-Gm-Message-State: AAQBX9c2NucmGn8vEnCAh/HOCGNHS+xwddr5UiIDt8FQ8jX6aTPl3dPG
+ XHaXV9BwOhr99D7vGci2TN3jMdurESLYfDC6tWon0IkQNy0=
+X-Google-Smtp-Source: AKy350b5e0ZaD5eRM97tgnetj4K9cQenv6OjsgAbon9RJ15jrNRcjhRCgYXxOFkb/fyk/J+Q/Gol/X4K4EOVRLifJBs=
+X-Received: by 2002:a05:6e02:1486:b0:313:c399:73c8 with SMTP id
+ n6-20020a056e02148600b00313c39973c8mr18565795ilk.4.1680512682773; Mon, 03 Apr
+ 2023 02:04:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: On integrating LoongArch EDK2 firmware into QEMU build process
-Content-Language: en-US
-From: maobibo <maobibo@loongson.cn>
-To: Chao Li <lichao@loongson.cn>
-Cc: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel <qemu-devel@nongnu.org>,
- Song Gao <gaosong@loongson.cn>, =?UTF-8?B?5p2o5bCP5aif?=
- <yangxiaojuan@loongson.cn>, devel@edk2.groups.io,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <1f1d3d9f-c3df-4f29-df66-886410994cc3@xen0n.name>
- <67517424-0f32-09f8-6446-53f71ebd59b5@loongson.cn>
- <x5vbhjcyc3jl5u3qdjg2dq2znwhdq7ordmbjm6s2hftwyusqp2@r6smasorrjor>
- <317e3008-e2bd-8af6-2cf5-dad49d98cb8d@loongson.cn>
-In-Reply-To: <317e3008-e2bd-8af6-2cf5-dad49d98cb8d@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxsOSWkypkk1QUAA--.54706S3
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7urWUKw4xuw13Ar1rCw17Jrb_yoW8CF4UpF
- y7ZasrtrWvqr9Ygryvg3sxXrs0vr97Gry5GF90q34kAr43urySqr10gr4Y9FyDZw4fC3yj
- vr48Ja4kK3WfZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU70PfDUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.37,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Maverickk 78 <maverickk1778@gmail.com>
+Date: Mon, 3 Apr 2023 14:34:33 +0530
+Message-ID: <CALfBBTuGSPYE_HV1ns_9T_Ud3BEAajhN2ivMCJ37f+hC1XOy+w@mail.gmail.com>
+Subject: property 'cxl-type3.size' not found
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000007f50c105f86ad968"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=maverickk1778@gmail.com; helo=mail-il1-x12e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,63 +80,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cc to Chao Li who is maintainer of edk2 about LoongArch support.
+--0000000000007f50c105f86ad968
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Chao, 
+Hello,
 
-Fedora38 is used to build edk2 binary in qemu CI, cross gcc-12 is
-integrated on Fedora38. There is one issue when gcc-12 is used to
-build edk2 loongarch like this:
-> ... but when trying to use them to compile the loongarch firmware gcc
-> throws errors:
->
-> loongarch64-linux-gnu-gcc: error: unrecognized command-line option ‘-mno-explicit-reloc
+I am trying qemu-system-aarch64 & cxl configuration listed in
 
-what is your option about this issue?
+https://www.qemu.org/docs/master/system/devices/cxl.html
+
+qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8
+-cpu max \
+...
+-object
+memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M
+\
+-object
+memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M
+\
+-object
+memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M
+\
+-object
+memory-backend-file,id=cxl-mem3,share=on,mem-path=/tmp/cxltest3.raw,size=256M
+\
+-object
+memory-backend-file,id=cxl-lsa0,share=on,mem-path=/tmp/lsa0.raw,size=256M \
+-object
+memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa1.raw,size=256M \
+-object
+memory-backend-file,id=cxl-lsa2,share=on,mem-path=/tmp/lsa2.raw,size=256M \
+-object
+memory-backend-file,id=cxl-lsa3,share=on,mem-path=/tmp/lsa3.raw,size=256M \
+-device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+-device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0 \
+-device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
+-device cxl-upstream,bus=root_port0,id=us0 \
+-device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
+-device
+cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
+-device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
+-device
+cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
+-device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
+-device
+cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
+-device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
+-device
+cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
+-M
+cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
+
+
+
+I hit this following error
+qemu-system-aarch64: -device
+cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M:
+property 'cxl-type3.size' not found
+
+
+Any clue if I am missing something?
+
 
 Regards
-Bibo, Mao
 
-在 2023/4/1 13:11, maobibo 写道:
-> 
-> 
-> On 2023/3/31 20:12, Gerd Hoffmann wrote:
->> On Fri, Mar 31, 2023 at 08:54:16AM +0800, maobibo wrote:
->>> Xuerui,
->>>
->>> Thanks for your mail, it is a good suggestion. Now we are planing to
->>> move LoongArch uefi bios from edk2-platform to edk2 repo, so that uefi
->>> bios supporting LoongArch can be auto compiled and uploaded to qemu
->>> repo. Only that process is somwhat slow since lacking of hands,
->>> however we are doing this.
->>
->> Good, so I think it makes sense for qemu to just wait for that to
->> happen.
->>
->> Related question:  What are the requirements to build the firmware?
->> Fedora 38 ships cross compiler packages ...
->>
->>    binutils-loongarch64-linux-gnu-2.39-3.fc38.x86_64
->>    gcc-loongarch64-linux-gnu-12.2.1-5.fc38.x86_64
->>
->> ... but when trying to use them to compile the loongarch firmware gcc
->> throws errors:
->>
->> loongarch64-linux-gnu-gcc: error: unrecognized command-line option ‘-mno-explicit-relocs’
->>
->> I suspect gcc-12 is just too old?
-> There is a little different about relocation between gcc-12 and gcc-13 on LoongArch, gcc-13 is required for edk2 compiler now.
-> 
-> However I think it is actually is one issue if gcc-12 can not be used and gcc-12 is popular latest compiler for all architectures. We will solve this problem.
-> 
-> Regards
-> Bibo, Mao
-> 
-> 
->>
->> take care,
->>    Gerd
->>
-> 
+--0000000000007f50c105f86ad968
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hello,<br><br>I am trying qemu-system-aarch64 &amp; cxl co=
+nfiguration listed in<br><br><a href=3D"https://www.qemu.org/docs/master/sy=
+stem/devices/cxl.html">https://www.qemu.org/docs/master/system/devices/cxl.=
+html</a><br><br>qemu-system-aarch64 -M virt,gic-version=3D3,cxl=3Don -m 4g,=
+maxmem=3D8G,slots=3D8 -cpu max \<br>...<br>-object memory-backend-file,id=
+=3Dcxl-mem0,share=3Don,mem-path=3D/tmp/cxltest.raw,size=3D256M \<br>-object=
+ memory-backend-file,id=3Dcxl-mem1,share=3Don,mem-path=3D/tmp/cxltest1.raw,=
+size=3D256M \<br>-object memory-backend-file,id=3Dcxl-mem2,share=3Don,mem-p=
+ath=3D/tmp/cxltest2.raw,size=3D256M \<br>-object memory-backend-file,id=3Dc=
+xl-mem3,share=3Don,mem-path=3D/tmp/cxltest3.raw,size=3D256M \<br>-object me=
+mory-backend-file,id=3Dcxl-lsa0,share=3Don,mem-path=3D/tmp/lsa0.raw,size=3D=
+256M \<br>-object memory-backend-file,id=3Dcxl-lsa1,share=3Don,mem-path=3D/=
+tmp/lsa1.raw,size=3D256M \<br>-object memory-backend-file,id=3Dcxl-lsa2,sha=
+re=3Don,mem-path=3D/tmp/lsa2.raw,size=3D256M \<br>-object memory-backend-fi=
+le,id=3Dcxl-lsa3,share=3Don,mem-path=3D/tmp/lsa3.raw,size=3D256M \<br>-devi=
+ce pxb-cxl,bus_nr=3D12,bus=3Dpcie.0,id=3Dcxl.1 \<br>-device cxl-rp,port=3D0=
+,bus=3Dcxl.1,id=3Droot_port0,chassis=3D0,slot=3D0 \<br>-device cxl-rp,port=
+=3D1,bus=3Dcxl.1,id=3Droot_port1,chassis=3D0,slot=3D1 \<br>-device cxl-upst=
+ream,bus=3Droot_port0,id=3Dus0 \<br>-device cxl-downstream,port=3D0,bus=3Du=
+s0,id=3Dswport0,chassis=3D0,slot=3D4 \<br>-device cxl-type3,bus=3Dswport0,m=
+emdev=3Dcxl-mem0,lsa=3Dcxl-lsa0,id=3Dcxl-pmem0,size=3D256M \<br>-device cxl=
+-downstream,port=3D1,bus=3Dus0,id=3Dswport1,chassis=3D0,slot=3D5 \<br>-devi=
+ce cxl-type3,bus=3Dswport1,memdev=3Dcxl-mem1,lsa=3Dcxl-lsa1,id=3Dcxl-pmem1,=
+size=3D256M \<br>-device cxl-downstream,port=3D2,bus=3Dus0,id=3Dswport2,cha=
+ssis=3D0,slot=3D6 \<br>-device cxl-type3,bus=3Dswport2,memdev=3Dcxl-mem2,ls=
+a=3Dcxl-lsa2,id=3Dcxl-pmem2,size=3D256M \<br>-device cxl-downstream,port=3D=
+3,bus=3Dus0,id=3Dswport3,chassis=3D0,slot=3D7 \<br>-device cxl-type3,bus=3D=
+swport3,memdev=3Dcxl-mem3,lsa=3Dcxl-lsa3,id=3Dcxl-pmem3,size=3D256M \<br>-M=
+ cxl-fmw.0.targets.0=3Dcxl.1,cxl-fmw.0.size=3D4G,cxl-fmw.0.interleave-granu=
+larity=3D4k<br><br><br><br>I hit this following error<br>qemu-system-aarch6=
+4: -device cxl-type3,bus=3Dswport0,memdev=3Dcxl-mem0,lsa=3Dcxl-lsa0,id=3Dcx=
+l-pmem0,size=3D256M: property &#39;cxl-type3.size&#39; not found<br><br><br=
+>Any clue if I am missing something?<br><br><br>Regards<br><br><br><br></di=
+v>
+
+--0000000000007f50c105f86ad968--
 
