@@ -2,98 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597FE6D40B7
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 11:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299666D40C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 11:38:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjGYt-0006fL-W9; Mon, 03 Apr 2023 05:33:16 -0400
+	id 1pjGdy-00084W-GK; Mon, 03 Apr 2023 05:38:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=450632f3c=anthony.perard@citrix.com>)
- id 1pjGYb-0006eg-V3
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:33:06 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=450632f3c=anthony.perard@citrix.com>)
- id 1pjGYX-0008Rx-US
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:32:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1680514373;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=T2DC+/OPrwDbeBS4v/+rJb1xT1/fC0TmvToGkyyaFpk=;
- b=fdUGg+qYMIIew3IUdJZfcweVBVTsARbMxwr9b78j4ugkW/AE4cw/Z25X
- PokLCjG7cUSsTiTfVyHJPoCdvjJ96aJeUfeBPY7179VDsJGSmMiEg0f3E
- jGa+xQODXE24MiyP1L1FHtdA+3KHxCJtUjd6Jd9qYj1yK0GOb7dpLkUQC 4=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 4.0
-X-MesageID: 106520249
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.123
-X-Policy: $RELAYED
-IronPort-Data: A9a23:l8VL2aqdlaonzn1/kayP8Vs8ttleBmILYhIvgKrLsJaIsI4StFCzt
- garIBmAOPvcZ2OmL4t3YI6x8kIE6sXTz9MyQFFk/CFnEC8Qo5uZCYyVIHmrMnLJJKUvbq7FA
- +Y2MYCccZ9uHhcwgj/3b9ANeFEljfngqoLUUbKCYWYpA1c/Ek/NsDo788YhmIlknNOlNA2Ev
- NL2sqX3NUSsnjV5KQr40YrawP9UlKm06WNwUmAWP6gR5weCzyJNVfrzGInqR5fGatgMdgKFb
- 76rIIGRpgvx4xorA9W5pbf3GmVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0MC+7vw6hjdFpo
- OihgLTrIesf0g8gr8xGO/VQO3kW0aSrY9YrK1Dn2SCY5xWun3cBX5yCpaz5VGEV0r8fPI1Ay
- RAXABdKNTOanOKn+oKASfhF1uYpF5jFPKpK7xmMzRmBZRonaZXKQqGM7t5ExjYgwMtJGJ4yZ
- eJAN2ApNk6ZJUQSZBFOUslWcOSA3xETdxVRrk6VoqwmpXDe1gVr3JDmMcbPe8zMTsJQ9qqdj
- jueoTmjWktGZbRzzxKp+XLrhtfQkRn7e6g1KIGU/+ZYvEaqkzl75Bo+CgLg/KjRZlSFc8lfJ
- koI9zsGoq079UjtRd74NzWhrXuZ+xIRRddUO+s97g6L1+zT+QnxLm0NVDVMbJovrME7QTYjy
- 1qhkNbgBDgpu7qQIVqF/LCSvzK0OAAPIGMCbDNCRgwAi/Hvv4QsphvKR8RkFui+iZvoGlnYw
- yiNsTMlhrM7l8MC3Lm85hbAmT3EjpHUVAMx5wjRdmu49A59P9TjYYG0gXDW4etJNoqeZlmIt
- nsDgNTY6u0SZbmVnTGJaPUAGveu/fntGC3RhxtjEocs8xyp+mW/ZsZA7TdmPkBrP80YPzjzb
- yf7vBhNzIVeMHujcel8ZIfZI98x0aHqGNDhV/bVRtlDeJ58cEmA5i4GTVSR1GDkikRqkaw5N
- ZqBasGqJXIbD619y3yxXeh1+acrxyQ7yUvXRJby1RPh1qCRDFafU7wFLVCNfMgw66fCqwLQm
- /5WL8aQwg9TePH/aCLQt4UUKDg3wWMTXM6s7ZYNL6jaf1QgQTt6YxPM/V8/U6sixIdMjefZx
- EGGWV5xmHj1vizpKSzfPxiPd4jTsYZDQWMTZHJ8ZQzzhyh+Me5D/49EKcJpIOBPGPhLiKctE
- qJbI5jo7uFnEGyvxtgLUXXqQGWOnjyPjBnGASeqaSNXk3VIF12QoY+MkucCGUAz4suLWSgW+
- efIOvvzG8ZreuibJJ++hAiT512wp2MBv+l5QlHFJNJeEG21rtgyd3Kp0qFueptVQfkm+td9/
- 1/PaSr0WMGX+9NlmDU3rfvsQ3iV/xtWQRMBQjizAUeePijG5GuzqbJ9vBKzVWmFDgvcofzyD
- di5OtmgaJXran4W6dsje1uqpIpij+bSS0hylVg1RiSVNQ3zUtuN4BCuhKFyi0GE/ZcB0SPeZ
- 65F0oMy1WmhUC89LGMsGQ==
-IronPort-HdrOrdr: A9a23:MrQ0wais0fnonQkgXQQkTigvOnBQXisji2hC6mlwRA09TyXPrb
- HJoB17726XtN91YhpLpTnuAtj5fZqiz+8P3WB8B9qftUzd2FdAT7sSiLcKoQeAJ8SWzIc06U
- 4jSdkcNDSXNzRHZK3BjjVQfexO/DCPytHTuc7ui01pRQtpL41m8gtjEx2aCEEzZCQuP+tcKL
- OsovBDrzCjPVAadN6yCHVAf8WrnayzqLvWJSQCDxQkrDSDhTftyJOSKWn+4isj
-X-IronPort-AV: E=Sophos;i="5.98,314,1673931600"; d="scan'208";a="106520249"
-Date: Mon, 3 Apr 2023 10:32:37 +0100
-To: Bernhard Beschow <shentey@gmail.com>
-CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw@amazon.co.uk>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>, Aurelien Jarno
- <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, Paul Durrant
- <paul@xen.org>, <xen-devel@lists.xenproject.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>, Richard
- Henderson <richard.henderson@linaro.org>, Philippe
- =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Chuck Zmudzinski
- <brchuckz@aol.com>
-Subject: Re: [PATCH v3 2/6] hw/isa/piix3: Reuse piix3_realize() in
- piix3_xen_realize()
-Message-ID: <622b9674-fffd-4634-ac30-d0db3230478e@perard>
-References: <20230312120221.99183-1-shentey@gmail.com>
- <20230312120221.99183-3-shentey@gmail.com>
- <f52c41f7-e662-4afd-8ac9-ce2c0da2b1be@perard>
- <7F45B51F-F1E3-4F04-A46F-4C80509C7195@gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjGdw-000839-7a
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:38:28 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjGdu-0001LS-BO
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:38:27 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e18so28619024wra.9
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 02:38:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680514704;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tEsPQLcFTVUBBQzBJKaIowUYL0XySD8h9xsEZ5sdlqc=;
+ b=ZJPTeps9ElSF27tlqQkyISGgGTNN9ddEiRJWdV9Qv2QjZmWwFR5l2fMWT3KogU12bf
+ gBYYkCW43F2BUR8t8GjmtKRkTvpDlEAYQVaCUPfi5QyX6rp0ziPJzz6/ly6GQbJ9CC+G
+ HH9G1NDIBMavAjrp+P+7k/EIfBxCZk/pJUncOGwGRBaiv2fzG8zJuZNwmH7fZzA5+/QV
+ qoEbyzSm3cMYi/2mkkeTNOXzRX4OfSWQgnF7+Dnk4AnjpgpPJRIfWQL6Zy28HD1EP1w3
+ JNx4b02iCc12s/jrMGOeTEF3em8EXAv1Av51ruSseOq/QvyeXmr9dF1FgmyYNpB/gpqd
+ frHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680514704;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tEsPQLcFTVUBBQzBJKaIowUYL0XySD8h9xsEZ5sdlqc=;
+ b=neAUi/Tkd9DzrgxIPJQpDLcPoRurGnkqYQwuFlNnHsU/bENrU/r5V5FC13Lerd8MXf
+ T8K/5Nu761deOBA0Lm1J7oESrKXLGWmW0O4mk7U7jUUYr5STV1dDLl43wZZb6CFP829j
+ N63kdb+kAuxiiuabKD7zqUMorR5HAdqovA/SL5H7SmvAAbuvKbG9N7Ch/Damr6kpk3o7
+ uVnmkpjGWmAHflQ0XZknrbNsfAynmevNblYQhVFe0YrtnXEunqNgB5OALFCSeldeirs2
+ FfljTrq9aR4McbYpcjs3aZZmIhNBcG3rUfU6F7irNGWp+/7Y29Bgvp6Y9DS1Tac+qRGr
+ ks1A==
+X-Gm-Message-State: AAQBX9cpFW8Q6LmeMF6W9F+w6VjhGvNqOjIwkPyRkSsyGWO/c4J5l+cZ
+ 7A61yne8TZR531sdb9LroGR53Q==
+X-Google-Smtp-Source: AKy350aDV3P0G4687kpCMUVvOliLMF5RH4iNHIO6hiRu2HYETML4ISUW/rCYrUcWoOa+7RSpplbwmw==
+X-Received: by 2002:a5d:550c:0:b0:2d9:5608:ee0 with SMTP id
+ b12-20020a5d550c000000b002d956080ee0mr27085186wrv.69.1680514703858; 
+ Mon, 03 Apr 2023 02:38:23 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ b13-20020adff24d000000b002c573778432sm9181576wrp.102.2023.04.03.02.38.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Apr 2023 02:38:23 -0700 (PDT)
+Message-ID: <1a4048c2-b9cc-fe3c-cbba-64fe84f78827@linaro.org>
+Date: Mon, 3 Apr 2023 11:38:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7F45B51F-F1E3-4F04-A46F-4C80509C7195@gmail.com>
-Received-SPF: pass client-ip=216.71.155.144;
- envelope-from=prvs=450632f3c=anthony.perard@citrix.com;
- helo=esa4.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.0
+Subject: Re: property 'cxl-type3.size' not found
+Content-Language: en-US
+To: Maverickk 78 <maverickk1778@gmail.com>, Fan Ni <fan.ni@samsung.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>
+References: <CALfBBTuGSPYE_HV1ns_9T_Ud3BEAajhN2ivMCJ37f+hC1XOy+w@mail.gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CALfBBTuGSPYE_HV1ns_9T_Ud3BEAajhN2ivMCJ37f+hC1XOy+w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.37,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,40 +88,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Apr 01, 2023 at 10:36:45PM +0000, Bernhard Beschow wrote:
-> 
-> 
-> Am 30. März 2023 13:00:25 UTC schrieb Anthony PERARD <anthony.perard@citrix.com>:
-> >On Sun, Mar 12, 2023 at 01:02:17PM +0100, Bernhard Beschow wrote:
-> >> This is a preparational patch for the next one to make the following
-> >> more obvious:
-> >> 
-> >> First, pci_bus_irqs() is now called twice in case of Xen where the
-> >> second call overrides the pci_set_irq_fn with the Xen variant.
-> >
-> >pci_bus_irqs() does allocates pci_bus->irq_count, so the second call in
-> >piix3_xen_realize() will leak `pci_bus->irq_count`. Could you look if
-> >pci_bus_irqs_cleanup() can be called before the second pci_bus_irqs()
-> >call, or maybe some other way to avoid the leak?
-> 
-> Thanks for catching this! I'll post a v4.
-> 
-> I think the most fool-proof way to fix this is to free irq_count just before the assignment. pci_bus_irqs_cleanup() would then have to NULL the attribute such that pci_bus_irqs() can be called afterwards.
-> 
-> BTW: I tried running qemu-system-x86_64 with PIIX4 rather than PIIX3 as Xen guest with my pc-piix4 branch without success. This branch essentially just provides slightly different PCI IDs for PIIX. Does xl or something else in Xen check these? If not then this means I'm still missing something. Under KVM this branch works just fine. Any idea?
+Cc'ing CXL maintainers.
 
-Maybe the ACPI tables provided by libxl needs to be updated.
-Or maybe something in the firmware (SeaBIOS or OVMF/OvmfXen) check the
-id (I know that the PCI id of the root bus is checked, but I don't know
-if that's the one that's been changed).
+On 3/4/23 11:04, Maverickk 78 wrote:
+> Hello,
+> 
+> I am trying qemu-system-aarch64 & cxl configuration listed in
+> 
+> https://www.qemu.org/docs/master/system/devices/cxl.html 
+> <https://www.qemu.org/docs/master/system/devices/cxl.html>
+> 
+> qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 
+> -cpu max \
+> ...
+> -object 
+> memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+> -object 
+> memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M \
+> -object 
+> memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M \
+> -object 
+> memory-backend-file,id=cxl-mem3,share=on,mem-path=/tmp/cxltest3.raw,size=256M \
+> -object 
+> memory-backend-file,id=cxl-lsa0,share=on,mem-path=/tmp/lsa0.raw,size=256M \
+> -object 
+> memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa1.raw,size=256M \
+> -object 
+> memory-backend-file,id=cxl-lsa2,share=on,mem-path=/tmp/lsa2.raw,size=256M \
+> -object 
+> memory-backend-file,id=cxl-lsa3,share=on,mem-path=/tmp/lsa3.raw,size=256M \
+> -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+> -device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0 \
+> -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
+> -device cxl-upstream,bus=root_port0,id=us0 \
+> -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
+> -device 
+> cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
+> -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
+> -device 
+> cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
+> -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
+> -device 
+> cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
+> -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
+> -device 
+> cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
+> -M 
+> cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
+> 
+> 
+> 
+> I hit this following error
+> qemu-system-aarch64: -device 
+> cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M: property 'cxl-type3.size' not found
+> 
+> 
+> Any clue if I am missing something?
+> 
+> 
+> Regards
+> 
+> 
+> 
 
-Thanks,
-
--- 
-Anthony PERARD
 
