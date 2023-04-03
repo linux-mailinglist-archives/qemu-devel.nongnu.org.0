@@ -2,61 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D226D4EED
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 19:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39046D4EF9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 19:30:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjNxk-0000ea-0L; Mon, 03 Apr 2023 13:27:24 -0400
+	id 1pjNzZ-0001Xf-II; Mon, 03 Apr 2023 13:29:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjNxh-0000eK-Rs
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:27:21 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pjNzW-0001WJ-Er
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:29:14 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjNxg-0003jF-F8
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:27:21 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pjNzT-0003p9-8N
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:29:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680542839;
+ s=mimecast20190719; t=1680542950;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hjQGC0LUKgjdqpb+MtHaLfA9/sHLY7DuBlHtBS/E1wo=;
- b=Y7Xr7UCJAHuwAC7vSnbnSNW8clt/M4jGZKqrOcbKBZKnqXpHcHGwzYNDnb9X3heRBGUHjU
- RNXgEmzGRc3Jokx7QngRq1V5T/0OuwlVZcrMpBkyqhHfAXTRmg8mc2KgNYT8ru4YkgQbQz
- kPQIjKozi9o7+w+0Q477IvVePJVsPCU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-HSVt2_xlPQe4XntkVA7ktQ-1; Mon, 03 Apr 2023 13:27:16 -0400
-X-MC-Unique: HSVt2_xlPQe4XntkVA7ktQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6510185A5B1;
- Mon,  3 Apr 2023 17:27:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30A20C15BA0;
- Mon,  3 Apr 2023 17:27:16 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2BBE121E6926; Mon,  3 Apr 2023 19:27:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org,  stefanha@redhat.com,  quintela@redhat.com,
- dave@treblig.org,  peter.maydell@linaro.org,  alex.bennee@linaro.org
-Subject: Re: [PATCH] MAINTAINERS: Remove and change David Gilbert maintainer
- entries
-References: <20230330095524.37691-1-dgilbert@redhat.com>
-Date: Mon, 03 Apr 2023 19:27:15 +0200
-In-Reply-To: <20230330095524.37691-1-dgilbert@redhat.com> (David Alan
- Gilbert's message of "Thu, 30 Mar 2023 10:55:24 +0100")
-Message-ID: <87edp07u6k.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iua7amQSazSLORwfTCLHiXl3n6eXfPsBT5qVe62QKHQ=;
+ b=ARUDoSKfWRLtTF3tQSN7tUy6+sdkW8hKVY7bz/6tG8mQ+nCsf1GGN6ORdVkKPpL/ksKFOs
+ n2cogjYH7eS21r4dj1cEjIc9c2oyQe3GFCyIi/EzInUXH2YUhgF7gVNDcZKfl+AOjsjgWY
+ L0GMn3IQ8f0xUqQ/bjxSxKRqS2uf4X8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-373-G4FTPsIBNB65LpuBZtZPag-1; Mon, 03 Apr 2023 13:29:09 -0400
+X-MC-Unique: G4FTPsIBNB65LpuBZtZPag-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b6-20020a509f06000000b005029d95390aso5726995edf.2
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 10:29:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680542947; x=1683134947;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iua7amQSazSLORwfTCLHiXl3n6eXfPsBT5qVe62QKHQ=;
+ b=SO3HXkWrfOh+N7HqoK2jF3tboiyspavA8pfWf4nU+EGITaFxQK5lUVPt2ppUBLKhYc
+ kJbi4WGmTkwgDCSd9kGARe8LhDg8gRBCRBg3LfqeOskoYMRl7FAWwFSPebk3OTkzwqm1
+ kxs6nCbAcqiORvg/8UPrHFR0jV3NopVh5W8RwqB2yv9AZ1/kw2570GIreosYFMRKVPjs
+ P/2sTiYcL0WmrlHOAbQI21tCEVU8SsSsSG/l4l/c4WcM2YjGewIqcyqo9KgXL1f1eErh
+ DhcnVuhJG74IX6OIu2H5YxYwW5x1q/u3uKq2NI2Nt09vou20CQ2D9tr23ApbURqdXf4e
+ NMEA==
+X-Gm-Message-State: AAQBX9cYkvNf1ga3l6CacJ2h8i6Y0HqXmd8HeyPMQOc/lL2xEv1XC4pO
+ 5nBDTNRIj18xczMhQhDR/0eU/jbUbdYTXKTZn5P+3/dH5Jf8xqtMNYjD20SbjhKSqoonptnVOiC
+ SSM8aU9v0PRtLpq5BsbJ7eGdf2xKPfktR76eNLi+hfZvonDB3AGfFKLX1B6KjztZgO69EgVdb5M
+ Ey2A==
+X-Received: by 2002:a05:6402:796:b0:4be:b39b:ea8f with SMTP id
+ d22-20020a056402079600b004beb39bea8fmr53435edy.2.1680542947690; 
+ Mon, 03 Apr 2023 10:29:07 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z37SKIctpg/J4qHs5epRsXb7IbD4h4SyJWzFsyhYsjF05gngeciS/43fM9JMfRpiWvq+gjlg==
+X-Received: by 2002:a05:6402:796:b0:4be:b39b:ea8f with SMTP id
+ d22-20020a056402079600b004beb39bea8fmr53417edy.2.1680542947346; 
+ Mon, 03 Apr 2023 10:29:07 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ k17-20020a50c091000000b004fa99a22c3bsm4837104edf.61.2023.04.03.10.29.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Apr 2023 10:29:06 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: philmd@linaro.org
+Subject: [PATCH] target/mips: tcg: detect out-of-bounds accesses to cpu_gpr
+ and cpu_gpr_hi
+Date: Mon,  3 Apr 2023 19:29:06 +0200
+Message-Id: <20230403172906.397188-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,24 +98,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> writes:
+In some cases (for example gen_compute_branch_nm in
+nanomips_translate.c.inc) registers can be unused
+on some paths and a negative value is passed in that case:
 
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> I'm leaving Red Hat next week, so clean up the maintainer entries.
->
-> 'virtiofs' is just the device code now, so is pretty small, and
-> Stefan is still a maintainer there.
->
-> 'migration' still has Juan.
->
-> For 'HMP' I'll swing that over to my personal email.
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+        gen_compute_branch_nm(ctx, OPC_BPOSGE32, 4, -1, -2,
+                              imm << 1);
 
-Thank you for you distinguished service, and thank you some more for
-staying on as HMP maintainer.
+To avoid an out of bounds access in those cases, introduce
+assertions.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/mips/tcg/translate.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 1fb4ef712729..999fbb7cc1c0 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -1223,6 +1223,7 @@ static const char regnames_LO[][4] = {
+ /* General purpose registers moves. */
+ void gen_load_gpr(TCGv t, int reg)
+ {
++    assert(reg >= 0 && reg <= ARRAY_SIZE(cpu_gpr));
+     if (reg == 0) {
+         tcg_gen_movi_tl(t, 0);
+     } else {
+@@ -1232,6 +1233,7 @@ void gen_load_gpr(TCGv t, int reg)
+ 
+ void gen_store_gpr(TCGv t, int reg)
+ {
++    assert(reg >= 0 && reg <= ARRAY_SIZE(cpu_gpr));
+     if (reg != 0) {
+         tcg_gen_mov_tl(cpu_gpr[reg], t);
+     }
+@@ -1240,6 +1242,7 @@ void gen_store_gpr(TCGv t, int reg)
+ #if defined(TARGET_MIPS64)
+ void gen_load_gpr_hi(TCGv_i64 t, int reg)
+ {
++    assert(reg >= 0 && reg <= ARRAY_SIZE(cpu_gpr_hi));
+     if (reg == 0) {
+         tcg_gen_movi_i64(t, 0);
+     } else {
+@@ -1249,6 +1252,7 @@ void gen_load_gpr_hi(TCGv_i64 t, int reg)
+ 
+ void gen_store_gpr_hi(TCGv_i64 t, int reg)
+ {
++    assert(reg >= 0 && reg <= ARRAY_SIZE(cpu_gpr_hi));
+     if (reg != 0) {
+         tcg_gen_mov_i64(cpu_gpr_hi[reg], t);
+     }
+-- 
+2.39.2
 
 
