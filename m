@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3966D50B5
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 20:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B552D6D511F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 21:17:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjP1V-0003Ca-Kz; Mon, 03 Apr 2023 14:35:21 -0400
+	id 1pjPfe-0005jh-FY; Mon, 03 Apr 2023 15:16:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pjP1Q-0003B0-Ik
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:35:17 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1pjPfc-0005jA-1l; Mon, 03 Apr 2023 15:16:48 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pjP1O-0001e4-Fs
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:35:16 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id f22so24837147plr.0
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 11:35:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1pjPfa-0001Kg-9l; Mon, 03 Apr 2023 15:16:47 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ i5-20020a05600c354500b003edd24054e0so20493824wmq.4; 
+ Mon, 03 Apr 2023 12:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680546912;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=q6LvyU6QGKhuMNDE7/2b7QiDG3CEbR76RgjKEuu7fio=;
- b=F8AerTUZh2q9400HJ3kuCcOCYcez1zbfQC4TMqWzLkS6Eo6doXuSAL3Wzbo4qMYOA2
- Y8E3byv68GB2x3yCEGJ8BFUHNV22bTVvI9BO7JHpqx0K3RJtc6stOSIw35kaPUA6bz8E
- IF+mKKTMUQ/PdDokX5iOe+JHy8Yi28U9yrgkG4Nbh/ltPtr9bPsqK7IAxNGUCKk+RvmL
- IXhjF4zQB80QQbVS7RaUu/q7kO/sIpcwLQ/it4+zHw7hWsT2/XdIfIkqLdOxdgJwp9dJ
- uTbpPtJg2PqmZS7EfgDh9Ng5rt4lXjRX6wwv/YprRmXZkpHyOi+OLo2XtB5Vv99Avkge
- IvrQ==
+ d=gmail.com; s=20210112; t=1680549403;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KtGeefx8eNnQOPdD5E0djsAwT6dYykWx7TqVYkfzahU=;
+ b=BoZJjiCO7aeDrYp8beQD6wkuGlSuFXDigltrHvWzxGjNtokvDOeqpCqE3cvm4eATEv
+ p/9jS7GTQblXfKEUgU9DhaeqT0/T1dAOgdUmu03cKct2QjAxXbz0Tix1iIfkKwf1dhsp
+ QLBjOQhO3xwGsvVCkpOhrk9s1g7he5eC9Uzm/s7uA4OIcKeZr4rCa31Js+iWqQhtKBzB
+ 3Y32+141eoP/pOjsd+mQH2khmOiYhcZxIL7utqfELyaC64EudlFlMSRHCUf64OzN+B+k
+ zdfy6nfcfixl27v73OCiSIYN/EdvGDfZnaVBTf8Y5V0bMylmg3icvei7iXO7rcum7mOS
+ qt2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680546912;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q6LvyU6QGKhuMNDE7/2b7QiDG3CEbR76RgjKEuu7fio=;
- b=qQPbyMEZyj8yHz7q2NEDGJLs1kQaZuQDMRPT/BxmbXE8fncJHJ+S0H0+OEGRqOH4p/
- SQbCHltDEoWRUHIrKD/1XwHfvusg4a8YZt+0Di9J9Q7fSfqd9hAFxwpgVkADSssXnVAS
- mPasa/DvoO/7EQJPym4xkG4qoCfVJcI+amYBrSe/goDkNCbQIbzQ34sNCezCzydfGaTr
- e0gW1CUeElZ48Qz1a4jBkTY976/BRfum+Qo2PUACh2YBZhXQxYFkPH97IZJGXhEiqW48
- TioAHiz3XPBH+tL31FXABdQZxBn71S5BLrXQ+GNSruCVPymDMcDynS2qYX3us8Opq8Bq
- HYtA==
-X-Gm-Message-State: AO0yUKW96Wunj5nk2P6eOzBg+bF9MIinlirRYKRXkovJ0GhZaeqhvC+i
- 8W7sZbHyetGbuXFvajPA9PxCuQ==
-X-Google-Smtp-Source: AK7set+qZrJWW+DXejs0D0zGH4M9qy5Bxd56XPh3uf2N2O+cTCS7SUutKML4hk47M0A9gDf5xZaHzg==
-X-Received: by 2002:a05:6a20:4ca3:b0:dd:44a8:9d2c with SMTP id
- fq35-20020a056a204ca300b000dd44a89d2cmr30191893pzb.47.1680546912306; 
- Mon, 03 Apr 2023 11:35:12 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
- ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
+ d=1e100.net; s=20210112; t=1680549403;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KtGeefx8eNnQOPdD5E0djsAwT6dYykWx7TqVYkfzahU=;
+ b=F8TD3E4hgJ8lQ2EEPDV6HJPumTSCTQAAP0H2V37jxzEalLn0nFRNGwKepzl1b3eUYv
+ vyu+Zuz6QhuL1ilSPg4mHYF5RRrxEv3CZm3truu4TSZHdRaM1lhUhnxaY2YDuZaBQHlJ
+ lFEODgf6JeaILcuhLpSzFgwG8yd4HGcMVEQIY3gxRWqdwwsqyPPxmfGZKVD+SRkqi2un
+ jT+/dx8z/PNHgfBcf88XEUp6ictQ9m59yKlIVTxIWLhIepc6GLG8x6Qm5WV2qNj+wcxm
+ Y9wBt/WDh1fZzd5YJmbmHx2LeyoPNA/wm+I5FfbA0z7L6rwLEFSZqFCvxxj02sN9mgqQ
+ CIdA==
+X-Gm-Message-State: AAQBX9cozRLxzz9b0kkyDDJlWitO0O+ugfsyysIWJcarbp5+Y5ccSysr
+ aEDtpSL7K3pZP9DZY6hjTr5JJwIu4nXeew==
+X-Google-Smtp-Source: AKy350aUgSmgR3yt2L9hY7YJwPtM1fK/f0+IRCISYw32Z1fR7w0H0oTED8BRsr0bPktr1zsTKhL7fw==
+X-Received: by 2002:a7b:ce10:0:b0:3eb:25ff:3446 with SMTP id
+ m16-20020a7bce10000000b003eb25ff3446mr376540wmc.4.1680549403389; 
+ Mon, 03 Apr 2023 12:16:43 -0700 (PDT)
+Received: from omega.lan (233.87.95.79.rev.sfr.net. [79.95.87.233])
  by smtp.gmail.com with ESMTPSA id
- u3-20020a631403000000b004fb5f4bf585sm6330145pgl.78.2023.04.03.11.35.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 11:35:11 -0700 (PDT)
-Message-ID: <441b74d5-2f13-6166-ec5c-e96b0d0c7de6@linaro.org>
-Date: Mon, 3 Apr 2023 11:35:10 -0700
+ t6-20020a7bc3c6000000b003ee1b2ab9a0sm12801051wmj.11.2023.04.03.12.16.41
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 03 Apr 2023 12:16:42 -0700 (PDT)
+From: francesco.cagnin@gmail.com
+X-Google-Original-From: fcagnin@quarkslab.com
+To: qemu-devel@nongnu.org
+Cc: mads@ynddal.dk, dirty@apple.com, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com,
+ alex.bennee@linaro.org, Francesco Cagnin <fcagnin@quarkslab.com>
+Subject: [PATCH v4 0/2] Add gdbstub support to HVF
+Date: Mon,  3 Apr 2023 21:15:58 +0200
+Message-Id: <20230403191600.43487-1-fcagnin@quarkslab.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 04/10] linux-user: Add '-one-insn-per-tb' option
- equivalent to '-singlestep'
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
-References: <20230403144637.2949366-1-peter.maydell@linaro.org>
- <20230403144637.2949366-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230403144637.2949366-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=francesco.cagnin@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,23 +90,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/3/23 07:46, Peter Maydell wrote:
-> The '-singlestep' option is confusing, because it doesn't actually
-> have anything to do with single-stepping the CPU. What it does do
-> is force TCG emulation to put one guest instruction in each TB,
-> which can be useful in some situations.
-> 
-> Create a new command line argument -one-insn-per-tb, so we can
-> document that -singlestep is just a deprecated synonym for it,
-> and eventually perhaps drop it.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   docs/user/main.rst | 7 ++++++-
->   linux-user/main.c  | 9 ++++++---
->   2 files changed, 12 insertions(+), 4 deletions(-)
+From: Francesco Cagnin <fcagnin@quarkslab.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This patch series aims to add gdbstub support to HVF (the 'QEMU
+accelerator on macOS that employs Hypervisor.framework') on Apple
+Silicon hosts.
 
-r~
+The proposed implementation, structured like the KVM counterpart,
+handles single-stepping, software breakpoints, hardware breakpoints and
+hardware watchpoints.
+
+The patch has been most recently tested working on macOS Ventura 13.3
+hosts and single-core Linux kernel 5.19 guests with the test script
+'tests/guest-debug/test-gdbstub.py' (slightly updated to make it work
+with Linux kernels compiled on macOS, see
+https://gitlab.com/qemu-project/qemu/-/issues/1489).
+
+The patch still has uninvestigated issues with multi-cores guests (see
+thread https://www.mail-archive.com/qemu-devel@nongnu.org/msg932884.html).
+
+v4:
+* Add license and copyright comment in 'hyp_gdbstub.c'
+* Fix build on x86 macos
+* Add architecture specific functions to check guest debug support
+* Move include to the top of the file in 'hvf.h'
+* Merge patches 2 and 3 from previous patch series
+* Re-inject EC_AA64_BKPT into the guest if unhandled
+* Add comments explaining how debug registers are handled
+* Minor refactor around debug registers for readability
+* Other minor changes
+
+Francesco Cagnin (2):
+  arm: move KVM breakpoints helpers
+  hvf: implement guest debugging on Apple Silicon hosts
+
+ accel/hvf/hvf-accel-ops.c | 115 +++++++
+ accel/hvf/hvf-all.c       |  23 ++
+ include/sysemu/hvf.h      |  34 ++
+ include/sysemu/hvf_int.h  |   1 +
+ target/arm/hvf/hvf.c      | 709 +++++++++++++++++++++++++++++++++++++-
+ target/arm/hyp_gdbstub.c  | 253 ++++++++++++++
+ target/arm/internals.h    |  50 +++
+ target/arm/kvm64.c        | 276 ---------------
+ target/arm/meson.build    |   3 +-
+ target/i386/hvf/hvf.c     |  33 ++
+ 10 files changed, 1218 insertions(+), 279 deletions(-)
+ create mode 100644 target/arm/hyp_gdbstub.c
+
+-- 
+2.40.0
+
 
