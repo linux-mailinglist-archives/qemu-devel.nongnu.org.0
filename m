@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BEB6D4630
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 15:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3046D462D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 15:50:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjKYt-0002xP-1I; Mon, 03 Apr 2023 09:49:31 -0400
+	id 1pjKYr-0002vs-Te; Mon, 03 Apr 2023 09:49:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pjKYq-0002uY-8s
+ id 1pjKYq-0002u2-0G
  for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:49:28 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pjKYm-0004tC-9j
+ id 1pjKYm-0004tH-Ad
  for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:49:27 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- m6-20020a05600c3b0600b003ee6e324b19so18179980wms.1
+Received: by mail-wm1-x331.google.com with SMTP id
+ hg25-20020a05600c539900b003f05a99a841so240154wmb.3
  for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 06:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1680529762;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VBQGpqWmgJmN3spJtbY9ofJJqcdbpRTH4FCdiaUq178=;
- b=H4QstZX/rS1x1LifCE9PcChSlhTKrXM1xvEbZTlLirjUI/RKnVpIUf5i0ZDtBZYRX+
- BXEEzSG+k9s3MkHeQnsexzyaMFuT5wqn3PUAKKS9MMVd85bE5Ghku89tTedIx1ORbbDM
- 7fwKLJsWRHoy7kj5r53uVIdQMKNChX4p9mxE0hlNr27F2Xq/Kxz1SheWm1TF89jS0sKs
- Yqyy3YdqRE12hYcOnLu65RT52HTSpbHmN9laA5R8bbWO1YP9xrbfcJJHnYZsC/AKUSpU
- eUGnAGbALhvUf6T5fvwIYkh1Wxw0u3qoU6hFrEA8L1jCb1mFb2u7gOxGANgT5+MLZPRL
- vV1A==
+ bh=mN816sNtX5Vdj2G92pvv8I3i5QnGeNTrX25n5LbvU4I=;
+ b=O5sLqRX3o8wg3JSEuHWQfk7e53SjZslyalKpbNubzgxabPQbImJEAab9cWKIwTylAL
+ WgcyZqFlockFyY+eZ0Bf7vXgYjz2ZTwNjuS2v73b4lgsIVnXRvHaM3qr2WnHPKUdJAQI
+ 5B7WEues0f+SO+CL77LGCSGQrN7h0W/Tk+GIroANmG1yd2r3D4iFC3sC8EHZrTpiedQM
+ sCILzvAqFtezCm6x72Z0UwzZmMlakI+VNU2GyYzB0Ne1NYLNF4GJQVY+tueL2OS5ZQkU
+ bx43IXHTD/y2FJ9UOtFFsIU3eYKPZNE6kaHy0DTyMLxFc6WvKs0qn0lonWM8EUzREfvE
+ 2wSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1680529762;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VBQGpqWmgJmN3spJtbY9ofJJqcdbpRTH4FCdiaUq178=;
- b=GkjjcAbAo/6kHv3evC0F/2DdvITbf2PtkLf+E1txqQM3wb7rxLQTY8v3lKduB/YRQq
- xTRO2tAIsTwA4EH2mA0h09K1MTskxteWaxKl4okyWUy9cttjTDWW/sH2qDanTx+QjBMt
- +LCBEUSpWkKaM+nxvNU/+6hpUY7QkTejyuCb5dfGp+DTNL4NUxkMOiDMmGeTlfZySKMb
- h+/F9Kys+tOx5U1PSVIBtmSPIQkh187Zu93McPuaiGI7Z6dl+/hEPkA8vjMCQmqGHqtP
- YYBPQ9TIeL0RBsZny5ss/Nnkn2O6+xn9xwU2t3uNsdvWZcW1WHawQTrz1rYva9JYRtPP
- HD5w==
-X-Gm-Message-State: AAQBX9elf8RgNDg4NgZ8QpK5CbCmyxwDtYDfV/MDeHnnBv9xtQCVe+0Q
- jUr6SWMgAKEPcE1ZPb77a5nRLg==
-X-Google-Smtp-Source: AKy350adEMNdoAny6K7tt+gEXhIno5WjB+5zl1E0OzgZy/kdk0TZ8Gz6NZBlFwEo4yk3JyvTab8maA==
-X-Received: by 2002:a05:600c:220c:b0:3ef:61f7:7d34 with SMTP id
- z12-20020a05600c220c00b003ef61f77d34mr22447919wml.1.1680529761634; 
+ bh=mN816sNtX5Vdj2G92pvv8I3i5QnGeNTrX25n5LbvU4I=;
+ b=0OiRLCRsYem6KPfZy2SlMw8t3M2fukc49xL8UcOX685K8dIBavZfBGA/61m7il2ztW
+ 4YbjIqRX9UrQ29jJJYYJXLAiIWs5x9gtx7siUKJvWmpxtRSjzMLZVAdeuBkSYJ5CM46y
+ RiWO7/XfkA/YbCi+gG3REaIYhtMJD4ga2bygtMpANLXZ1JW+ZFFh75zXqpldDb7TPO8g
+ fUKQY2yuMmSqHOfhbpW2uLN6L/Vxg6OxefjqaJXiuebWrJ2wd2GRYxL/47ADdz1ZoMwb
+ 5HVPTG8J7Tu/OUMp07TuYNaaCjj9hi0PjBGS58Bj/NwGmAsE6p1t20U5o+BAQ4/Vhzdn
+ lSiw==
+X-Gm-Message-State: AAQBX9d88S9o/uG0L9N3wNxjMmjTCClMNxpmxOPzI8heVB42fOTp4+/a
+ D8ERIVLQH2Ra0T6BKjH1u1AKjcZ5aDojsUpDnMk=
+X-Google-Smtp-Source: AKy350ZwFB2r0eAYmFp0426BeiHDQwJvp+zag6ay5Q14nm/hpxxlQCHq0zP0DbsDmaKOiNfdE1IMxQ==
+X-Received: by 2002:a7b:c045:0:b0:3ef:6fee:8057 with SMTP id
+ u5-20020a7bc045000000b003ef6fee8057mr19211144wmc.25.1680529761833; 
  Mon, 03 Apr 2023 06:49:21 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- t14-20020a05600c198e00b003ee1e07a14asm19528903wmq.45.2023.04.03.06.49.21
+ l7-20020a05600c4f0700b003ef5deb4188sm19526828wmq.17.2023.04.03.06.49.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 03 Apr 2023 06:49:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CCCCE1FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id E356F1FFBA;
  Mon,  3 Apr 2023 14:49:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -70,18 +70,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Subject: [PATCH v2 01/11] scripts/coverage: initial coverage comparison script
-Date: Mon,  3 Apr 2023 14:49:10 +0100
-Message-Id: <20230403134920.2132362-2-alex.bennee@linaro.org>
+ Kevin Wolf <kwolf@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v2 02/11] gdbstub: Only build libgdb_user.fa /
+ libgdb_softmmu.fa if necessary
+Date: Mon,  3 Apr 2023 14:49:11 +0100
+Message-Id: <20230403134920.2132362-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403134920.2132362-1-alex.bennee@linaro.org>
 References: <20230403134920.2132362-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,169 +106,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a very rough and ready first pass at comparing gcovr's json
-output between two different runs. At the moment it will give you a
-file level diff between two runs but hopefully it wont be too hard to
-extend to give better insight.
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-After generating the coverage results you run with something like:
+It is pointless to build libgdb_user.fa in a system-only build
+(or libgdb_softmmu.fa in a user-only build). Besides, in some
+restricted build configurations, some APIs might be restricted /
+not available. Example in a KVM-only builds where TCG is disabled:
 
-  ./scripts/coverage/compare_gcov_json.py \
-    -a ./builds/gcov.config1/coverage.json \
-    -b ./builds/gcov.config2/coverage.json
+  $ ninja qemu-system-x86_64
+  [99/2187] Compiling C object gdbstub/libgdb_user.fa.p/user.c.o
+  FAILED: gdbstub/libgdb_user.fa.p/user.c.o
+  ../../gdbstub/user.c: In function ‘gdb_breakpoint_insert’:
+  ../../gdbstub/user.c:438:19: error: implicit declaration of function ‘cpu_breakpoint_insert’; did you mean ‘gdb_breakpoint_insert’? [-Werror=implicit-function-declaration]
+    438 |             err = cpu_breakpoint_insert(cpu, addr, BP_GDB, NULL);
+        |                   ^~~~~~~~~~~~~~~~~~~~~
+        |                   gdb_breakpoint_insert
+  ../../gdbstub/user.c:438:19: error: nested extern declaration of ‘cpu_breakpoint_insert’ [-Werror=nested-externs]
+  ../../gdbstub/user.c: In function ‘gdb_breakpoint_remove’:
+  ../../gdbstub/user.c:459:19: error: implicit declaration of function ‘cpu_breakpoint_remove’; did you mean ‘gdb_breakpoint_remove’? [-Werror=implicit-function-declaration]
+    459 |             err = cpu_breakpoint_remove(cpu, addr, BP_GDB);
+        |                   ^~~~~~~~~~~~~~~~~~~~~
+        |                   gdb_breakpoint_remove
+  ../../gdbstub/user.c:459:19: error: nested extern declaration of ‘cpu_breakpoint_remove’ [-Werror=nested-externs]
+  cc1: all warnings being treated as errors
+  ninja: build stopped: subcommand failed.
 
-My hope is we can use this to remove some redundancy from testing as
-well as evaluate if new tests are actually providing additional
-coverage or just burning our precious CI time.
-
+Fixes: 61b2e136db ("gdbstub: only compile gdbstub twice for whole build")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230329161852.84992-1-philmd@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Kautuk Consul <kconsul@linux.vnet.ibm.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230330101141.30199-2-alex.bennee@linaro.org>
+Message-Id: <20230330101141.30199-3-alex.bennee@linaro.org>
 ---
- MAINTAINERS                           |   5 ++
- scripts/coverage/compare_gcov_json.py | 119 ++++++++++++++++++++++++++
- 2 files changed, 124 insertions(+)
- create mode 100755 scripts/coverage/compare_gcov_json.py
+ gdbstub/meson.build | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef45b5e71e..9e1a60ea24 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3908,3 +3908,8 @@ Performance Tools and Tests
- M: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
- S: Maintained
- F: scripts/performance/
-+
-+Code Coverage Tools
-+M: Alex Bennée <alex.bennee@linaro.org>
-+S: Odd Fixes
-+F: scripts/coverage/
-diff --git a/scripts/coverage/compare_gcov_json.py b/scripts/coverage/compare_gcov_json.py
-new file mode 100755
-index 0000000000..1b92dc2c8c
---- /dev/null
-+++ b/scripts/coverage/compare_gcov_json.py
-@@ -0,0 +1,119 @@
-+#!/usr/bin/env python3
-+#
-+# Compare output of two gcovr JSON reports and report differences. To
-+# generate the required output first:
-+#   - create two build dirs with --enable-gcov
-+#   - run set of tests in each
-+#   - run make coverage-html in each
-+#   - run gcovr --json --exclude-unreachable-branches \
-+#           --print-summary -o coverage.json --root ../../ . *.p
-+#
-+# Author: Alex Bennée <alex.bennee@linaro.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+
-+import argparse
-+import json
-+import sys
-+from pathlib import Path
-+
-+def create_parser():
-+    parser = argparse.ArgumentParser(
-+        prog='compare_gcov_json',
-+        description='analyse the differences in coverage between two runs')
-+
-+    parser.add_argument('-a', type=Path, default=None,
-+                        help=('First file to check'))
-+
-+    parser.add_argument('-b', type=Path, default=None,
-+                        help=('Second file to check'))
-+
-+    parser.add_argument('--verbose', action='store_true', default=False,
-+                        help=('A minimal verbosity level that prints the '
-+                              'overall result of the check/wait'))
-+    return parser
-+
-+
-+# See https://gcovr.com/en/stable/output/json.html#json-format-reference
-+def load_json(json_file_path: Path, verbose = False) -> dict[str, set[int]]:
-+
-+    with open(json_file_path) as f:
-+        data = json.load(f)
-+
-+    root_dir = json_file_path.absolute().parent
-+    covered_lines = dict()
-+
-+    for filecov in data["files"]:
-+        file_path = Path(filecov["file"])
-+
-+        # account for generated files - map into src tree
-+        resolved_path = Path(file_path).absolute()
-+        if resolved_path.is_relative_to(root_dir):
-+            file_path = resolved_path.relative_to(root_dir)
-+            # print(f"remapped {resolved_path} to {file_path}")
-+
-+        lines = filecov["lines"]
-+
-+        executed_lines = set(
-+            linecov["line_number"]
-+            for linecov in filecov["lines"]
-+            if linecov["count"] != 0 and not linecov["gcovr/noncode"]
-+        )
-+
-+        # if this file has any coverage add it to the system
-+        if len(executed_lines) > 0:
-+            if verbose:
-+                print(f"file {file_path} {len(executed_lines)}/{len(lines)}")
-+            covered_lines[str(file_path)] = executed_lines
-+
-+    return covered_lines
-+
-+def find_missing_files(first, second):
-+    """
-+    Return a list of files not covered in the second set
-+    """
-+    missing_files = []
-+    for f in sorted(first):
-+        file_a = first[f]
-+        try:
-+            file_b = second[f]
-+        except KeyError:
-+            missing_files.append(f)
-+
-+    return missing_files
-+
-+def main():
-+    """
-+    Script entry point
-+    """
-+    parser = create_parser()
-+    args = parser.parse_args()
-+
-+    if not args.a or not args.b:
-+        print("We need two files to compare")
-+        sys.exit(1)
-+
-+    first_coverage = load_json(args.a, args.verbose)
-+    second_coverage = load_json(args.b, args.verbose)
-+
-+    first_missing = find_missing_files(first_coverage,
-+                                       second_coverage)
-+
-+    second_missing = find_missing_files(second_coverage,
-+                                        first_coverage)
-+
-+    a_name = args.a.parent.name
-+    b_name = args.b.parent.name
-+
-+    print(f"{b_name} missing coverage in {len(first_missing)} files")
-+    for f in first_missing:
-+        print(f"  {f}")
-+
-+    print(f"{a_name} missing coverage in {len(second_missing)} files")
-+    for f in second_missing:
-+        print(f"  {f}")
-+
-+
-+if __name__ == '__main__':
-+    main()
+diff --git a/gdbstub/meson.build b/gdbstub/meson.build
+index bd5c5cd67d..cdb4d28691 100644
+--- a/gdbstub/meson.build
++++ b/gdbstub/meson.build
+@@ -20,11 +20,13 @@ gdb_softmmu_ss = gdb_softmmu_ss.apply(config_host, strict: false)
+ libgdb_user = static_library('gdb_user',
+                              gdb_user_ss.sources() + genh,
+                              name_suffix: 'fa',
+-                             c_args: '-DCONFIG_USER_ONLY')
++                             c_args: '-DCONFIG_USER_ONLY',
++                             build_by_default: have_user)
+ 
+ libgdb_softmmu = static_library('gdb_softmmu',
+                                 gdb_softmmu_ss.sources() + genh,
+-                                name_suffix: 'fa')
++                                name_suffix: 'fa',
++                                build_by_default: have_system)
+ 
+ gdb_user = declare_dependency(link_whole: libgdb_user)
+ user_ss.add(gdb_user)
 -- 
 2.39.2
 
