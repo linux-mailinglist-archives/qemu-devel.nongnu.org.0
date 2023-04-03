@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51726D44E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 14:52:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849BE6D4202
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 12:29:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjJeu-0007A1-J8; Mon, 03 Apr 2023 08:51:40 -0400
+	id 1pjHPj-0008SP-Hb; Mon, 03 Apr 2023 06:27:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lichao@loongson.cn>)
- id 1pjHCJ-00065N-3h
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 06:13:59 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lichao@loongson.cn>) id 1pjHCF-0001dW-Uf
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 06:13:58 -0400
-Received: from loongson.cn (unknown [10.40.24.149])
- by gateway (Coremail) with SMTP id _____8BxMI_YpipkugIWAA--.34174S3;
- Mon, 03 Apr 2023 18:13:44 +0800 (CST)
-Received: from [10.40.24.149] (unknown [10.40.24.149])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxB73Vpipkx14UAA--.16654S3; 
- Mon, 03 Apr 2023 18:13:42 +0800 (CST)
-Content-Type: multipart/alternative;
- boundary="------------q1W7P05EB1Ffogyg0VeLiJ2W"
-Message-ID: <aa56f4de-e50e-7a7f-3e0e-39e5fa20df29@loongson.cn>
-Date: Mon, 3 Apr 2023 18:13:41 +0800
+ (Exim 4.90_1) (envelope-from
+ <BATV+0749aab078386e543669+7162+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pjHPf-0008S3-UB
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 06:27:47 -0400
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+0749aab078386e543669+7162+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pjHPc-00053N-Sh
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 06:27:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=rXYAoqpfjs+2eMsW5OQiqz3WeiQrNYyaya6S59U1hsk=; b=I3HuX98/l2bmdFs0QWjNcCfMhr
+ BlogyGXWPorUCHj5czFaJutJeUtxVufoQhZSPOzzJSafadJVUlXu9iObDT1qjpm/jCrX06g9IQXiX
+ LycUOSsykGIUtPLnsJfouSEaiYx3jqfl3cVZndAkOETgOGEjb6m2rFhVp7KB1If+xV5aY9R3xB5E9
+ vjXLZ/bLFIfU+CFi6B+3N3MH8sbsgVJqdEZWqqezRAT2tFAd8HyphxlI6jekXJu7mJ8O0kCoNexLZ
+ EtIOsLA+kqXYW4Z9J+kqt7D/6F0GFPP6QamRVUjTHZV0gM7lRRRLObUA+H60lGIsg439hLtTch9+v
+ Aad6YVAg==;
+Received: from [2001:8b0:10b:5:d5d6:3e6a:30cf:94f8]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pjHPV-00E1wv-H5; Mon, 03 Apr 2023 10:27:37 +0000
+Message-ID: <6c74f2c83fdd7fcf61e468cb731c9af669fd0da2.camel@infradead.org>
+Subject: Re: [PATCH v2 2/5] apic: add support for x2APIC mode
+From: David Woodhouse <dwmw2@infradead.org>
+To: Bui Quang Minh <minhquangbui99@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, 
+ "Michael S . Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Igor Mammedov <imammedo@redhat.com>, Alex
+ =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Date: Mon, 03 Apr 2023 11:27:36 +0100
+In-Reply-To: <60228a86-633e-3cf6-b0d9-890b032d44f3@gmail.com>
+References: <20230326052039.33717-1-minhquangbui99@gmail.com>
+ <20230326052039.33717-3-minhquangbui99@gmail.com>
+ <a8ea36d901a1b713ab8bc0f5bcd1b7d26ad6f9cb.camel@infradead.org>
+ <05d55576-f703-18a1-7f9f-4c15b8c54490@gmail.com>
+ <0944a6f4c7c1569c182a27d40bdeb0a164a41bbb.camel@infradead.org>
+ <61446cfb-f937-3a0d-2a98-34febcc7e4f3@gmail.com>
+ <3834475953c0f865e88251886f1e861d51c25a2b.camel@infradead.org>
+ <445928d9-4cd3-978d-ce76-9cd01457b6f0@gmail.com>
+ <e47b58ef574bcf61259d7d3f0707a1f5ca808ff6.camel@infradead.org>
+ <49167ae7-4cb4-3863-64b1-1396e1911bbf@gmail.com>
+ <37cbb3b9-8a9a-2b88-2e09-a81f46b8bf74@gmail.com>
+ <60228a86-633e-3cf6-b0d9-890b032d44f3@gmail.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-jvXpJt+APPSuykYlPrj1"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [edk2-devel] On integrating LoongArch EDK2 firmware into QEMU
- build process
-To: devel@edk2.groups.io, maobibo@loongson.cn
-Cc: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel <qemu-devel@nongnu.org>,
- Song Gao <gaosong@loongson.cn>, =?UTF-8?B?5p2o5bCP5aif?=
- <yangxiaojuan@loongson.cn>, Gerd Hoffmann <kraxel@redhat.com>
-References: <1f1d3d9f-c3df-4f29-df66-886410994cc3@xen0n.name>
- <67517424-0f32-09f8-6446-53f71ebd59b5@loongson.cn>
- <x5vbhjcyc3jl5u3qdjg2dq2znwhdq7ordmbjm6s2hftwyusqp2@r6smasorrjor>
- <317e3008-e2bd-8af6-2cf5-dad49d98cb8d@loongson.cn>
- <acbba848-d770-2d17-f3eb-60b87bfa9447@loongson.cn>
-From: Chao Li <lichao@loongson.cn>
-In-Reply-To: <acbba848-d770-2d17-f3eb-60b87bfa9447@loongson.cn>
-X-CM-TRANSID: AQAAf8DxB73Vpipkx14UAA--.16654S3
-X-CM-SenderInfo: xolfxt3r6o00pqjv00gofq/1tbiAQAKCGQpcHcbxAABsX
-X-Coremail-Antispam: 1Uk129KBjvJXoWxCFWDtrW5WF1fKrWxuryrCrg_yoW5uw15pF
- W3Z3sxtF9Yqr9Y93y8Gw17WFsYv395Kry5XF98K3ykZr43uFWIvw18KrZYvFyUuws09ayj
- qr1rX3s5G3WUZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- DUYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Jr0_
- Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFV
- AK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2
- z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr
- 1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG
- 8wAqjxCEc2xF0cIa020Ex4CE44I27wAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aV
- AFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx8GjcxK6IxK0xII
- j40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_
- JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCT
- nIWIevJa73UjIFyTuYvjxUz4SrUUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=lichao@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+0749aab078386e543669+7162+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-2.37, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 03 Apr 2023 08:51:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,247 +89,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------q1W7P05EB1Ffogyg0VeLiJ2W
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi Bibo,
+--=-jvXpJt+APPSuykYlPrj1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for Cc to me.
+On Wed, 2023-03-29 at 22:30 +0700, Bui Quang Minh wrote:
+>=20
+> >=20
+> > I do some more testing on my hardware, your point is correct when dest=
+=20
+> > =3D=3D 0xffffffff, the interrupt is delivered to all APICs regardless o=
+f=20
+> > their mode.
+>=20
+> To be precisely, it only broadcasts to CPUs in xAPIC mode if the IPI=20
+> destination mode is physical. In case the destination mode is logical,=
+=20
+> flat model/cluster model rule applies to determine if the xAPIC CPUs=20
+> accept the IPI. Wow, this is so complicated :)
 
+So even if you send to *all* of the first 8 CPUs in a cluster (e.g.
+cluster 0x0001 giving a destination 0x000100FF, a CPU in xAPIC mode
+doesn't see that as a broadcast because it's logical mode?
 
-Hi Gerd,
+I would have assumed that a CPU in xAPIC mode would have looked at the
+low byte and interpreted it as xAPIC logical mode, with the cluster in
+the high nybble and the 4-bit mask in the low nybble?
 
-This problem is because the gcc-12 does not yet to support the option 
-'mno-explicit-reloc', this option is used to open the new reloaction 
-type for LoongArch, this new feature is very important for LoongArch, 
-because it can reduce the binary size and improve code execution 
-efficiency, so we turn it on when submitting the code to the EDK2 repo.
+--=-jvXpJt+APPSuykYlPrj1
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-gcc-13 will support this new feature, so we expect this issue to be 
-resolved when using gcc-13, which may be released at this month.
-
-If Fedora38 does not plan to use gcc-13 now, I suggest that CI can 
-download a LoongArch cross gcc-13 when creating a docker image, just 
-like EDK2 CI process. You can refer following link for more information: 
-https://github.com/tianocore/containers/blob/main/Fedora-37/Dockerfile . 
-EDK2 CI uses Fedora35 and Fedora37 docker images for LoongArch,  they 
-will download a LoongArch cross gcc-13 when the CI targets is LoongArch.
-
-We are really sorry about that, I think this solution will make more 
-work for you, but I think it is the best way for now, and I believe it 
-will be solved when Fedora uses gcc-13 in the future.
-
-
-Thanks,
-Chao
-在 2023/4/3 16:51, maobibo 写道:
-> Cc to Chao Li who is maintainer of edk2 about LoongArch support.
->
-> Hi Chao,
->
-> Fedora38 is used to build edk2 binary in qemu CI, cross gcc-12 is
-> integrated on Fedora38. There is one issue when gcc-12 is used to
-> build edk2 loongarch like this:
->> ... but when trying to use them to compile the loongarch firmware gcc
->> throws errors:
->>
->> loongarch64-linux-gnu-gcc: error: unrecognized command-line option ‘-mno-explicit-reloc
-> what is your option about this issue?
->
-> Regards
-> Bibo, Mao
->
-> 在 2023/4/1 13:11, maobibo 写道:
->>
->> On 2023/3/31 20:12, Gerd Hoffmann wrote:
->>> On Fri, Mar 31, 2023 at 08:54:16AM +0800, maobibo wrote:
->>>> Xuerui,
->>>>
->>>> Thanks for your mail, it is a good suggestion. Now we are planing to
->>>> move LoongArch uefi bios from edk2-platform to edk2 repo, so that uefi
->>>> bios supporting LoongArch can be auto compiled and uploaded to qemu
->>>> repo. Only that process is somwhat slow since lacking of hands,
->>>> however we are doing this.
->>> Good, so I think it makes sense for qemu to just wait for that to
->>> happen.
->>>
->>> Related question:  What are the requirements to build the firmware?
->>> Fedora 38 ships cross compiler packages ...
->>>
->>>     binutils-loongarch64-linux-gnu-2.39-3.fc38.x86_64
->>>     gcc-loongarch64-linux-gnu-12.2.1-5.fc38.x86_64
->>>
->>> ... but when trying to use them to compile the loongarch firmware gcc
->>> throws errors:
->>>
->>> loongarch64-linux-gnu-gcc: error: unrecognized command-line option ‘-mno-explicit-relocs’
->>>
->>> I suspect gcc-12 is just too old?
->> There is a little different about relocation between gcc-12 and gcc-13 on LoongArch, gcc-13 is required for edk2 compiler now.
->>
->> However I think it is actually is one issue if gcc-12 can not be used and gcc-12 is popular latest compiler for all architectures. We will solve this problem.
->>
->> Regards
->> Bibo, Mao
->>
->>
->>> take care,
->>>     Gerd
->>>
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Groups.io Links: You receive all messages sent to this group.
-> View/Reply Online (#102377):https://edk2.groups.io/g/devel/message/102377
-> Mute This Topic:https://groups.io/mt/98030924/6496846
-> Group Owner:devel+owner@edk2.groups.io
-> Unsubscribe:https://edk2.groups.io/g/devel/unsub  [lichao@loongson.cn]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
---------------q1W7P05EB1Ffogyg0VeLiJ2W
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><font size="2">Hi Bibo,</font></p>
-    <p><font size="2">Thanks for Cc to me.</font></p>
-    <p><br>
-    </p>
-    <p><font size="2">Hi Gerd,</font></p>
-    <p><font size="2">This problem is because the gcc-12 does not yet to
-        support the option 'mno-explicit-reloc', this option is used to
-        open the new reloaction type for LoongArch, this new feature is
-        very important for LoongArch, because it can reduce the binary
-        size and improve code execution efficiency, so we turn it on
-        when submitting the code to the EDK2 repo.</font></p>
-    <p><font size="2">gcc-13 will support this new feature, so we expect
-        this issue to be resolved when using gcc-13, which may be
-        released at this month.</font></p>
-    <p><font size="2">If Fedora38 does not plan to use gcc-13 now, I
-        suggest that CI can download a LoongArch cross gcc-13 when
-        creating a docker image, just like EDK2 CI process. You can
-        refer following link for more information:
-        <a class="moz-txt-link-freetext" href="https://github.com/tianocore/containers/blob/main/Fedora-37/Dockerfile">https://github.com/tianocore/containers/blob/main/Fedora-37/Dockerfile</a>
-        . EDK2 CI uses Fedora35 and Fedora37 docker images for
-        LoongArch,  they will download a LoongArch cross gcc-13 when the
-        CI targets is LoongArch.</font></p>
-    <p><font size="2">We are really sorry about that, I think this
-        solution will make more work for you, but I think it is the best
-        way for now, and I believe it will be solved when Fedora uses
-        gcc-13 in the future.<br>
-      </font></p>
-    <div class="moz-signature"
-      signature-switch-id="18b8a24a-8ce6-4aca-a108-921eeebcd5e9"><br>
-      <div
-        style="width:15%;height:1px;background-color:grey;transform:scaleY(0.3)"></div>
-      <div style="color:grey;font-size:11px">Thanks,<br>
-        Chao<br>
-      </div>
-    </div>
-    <div class="moz-cite-prefix">在 2023/4/3 16:51, maobibo 写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:acbba848-d770-2d17-f3eb-60b87bfa9447@loongson.cn">
-      <pre class="moz-quote-pre" wrap="">Cc to Chao Li who is maintainer of edk2 about LoongArch support.
-
-Hi Chao, 
-
-Fedora38 is used to build edk2 binary in qemu CI, cross gcc-12 is
-integrated on Fedora38. There is one issue when gcc-12 is used to
-build edk2 loongarch like this:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">... but when trying to use them to compile the loongarch firmware gcc
-throws errors:
-
-loongarch64-linux-gnu-gcc: error: unrecognized command-line option ‘-mno-explicit-reloc
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-what is your option about this issue?
-
-Regards
-Bibo, Mao
-
-在 2023/4/1 13:11, maobibo 写道:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-
-On 2023/3/31 20:12, Gerd Hoffmann wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On Fri, Mar 31, 2023 at 08:54:16AM +0800, maobibo wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">Xuerui,
-
-Thanks for your mail, it is a good suggestion. Now we are planing to
-move LoongArch uefi bios from edk2-platform to edk2 repo, so that uefi
-bios supporting LoongArch can be auto compiled and uploaded to qemu
-repo. Only that process is somwhat slow since lacking of hands,
-however we are doing this.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">
-Good, so I think it makes sense for qemu to just wait for that to
-happen.
-
-Related question:  What are the requirements to build the firmware?
-Fedora 38 ships cross compiler packages ...
-
-   binutils-loongarch64-linux-gnu-2.39-3.fc38.x86_64
-   gcc-loongarch64-linux-gnu-12.2.1-5.fc38.x86_64
-
-... but when trying to use them to compile the loongarch firmware gcc
-throws errors:
-
-loongarch64-linux-gnu-gcc: error: unrecognized command-line option ‘-mno-explicit-relocs’
-
-I suspect gcc-12 is just too old?
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">There is a little different about relocation between gcc-12 and gcc-13 on LoongArch, gcc-13 is required for edk2 compiler now.
-
-However I think it is actually is one issue if gcc-12 can not be used and gcc-12 is popular latest compiler for all architectures. We will solve this problem.
-
-Regards
-Bibo, Mao
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwNDAzMTAyNzM2WjAvBgkqhkiG9w0BCQQxIgQgbsm/ThrL
+SHhhjhfVDi+ECvlr752vbYli/YyM92hrGbAwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBe1RkM7N67GhmE31a214WeF+JW3nsCAtj9
+1rbZKZOUlie8Ouc7W3DKqVfLwdxydhBibW8u3zDRQJrIBgZz/Qj6s9M0sujoGDYVqoOI+Yyj2m/W
+1iO3qjGVBN+si19HaBmlkscrUUmaM8yGZe555fmleh3XBDqB9fqaoSMNolx++WJ7a0jLqBluDmXd
+nS10j6rMcM8Z/EPF0VqIkJb2eHQIiPPVQHDtv6FGZC9MgbuvwUR5+OfM9P5ck/d/7LMa4fRAw0hu
+6ijEbXPB9AFxXgR95yK3i8l+z3Oc4TT9GM3krHEnjro67azakIsnudFRNIE0x7r2OnI6u4kkBraO
+ZeTA1Ip613kG/WyX9FXrdGNrcgxhsObm2083jYbl8tBIyxcNXTXbs9Xmg0dAs67DCKnpFc+rO/gh
+t4kYZYk6IDe1nEfuAxUr/pfxIBxWQ8LlGHZ6uk/SD002U9B51rsFRz9h5v4jHiGJYTCGDxj2GeaH
+/cd7s/ipuAjI+YoRP3hLnUT+i6xid45N2ZXdi2bt1sRHWlB3wMTWA7ZKdtAXqQX98N30evvRAE78
+xjdax1uHavWNOu5AegFc61Jer/Vkg63z0nBpjZwPdff0mF/cqaOsQAiT0QNw7o///MzF0wACNTNF
+Ux/6lVtNULay5Bjf/Uz20HoCL8RfWSnJa96oCNDnDAAAAAAAAA==
 
 
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">
-take care,
-   Gerd
-
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-
-
--=-=-=-=-=-=-=-=-=-=-=-
-Groups.io Links: You receive all messages sent to this group.
-View/Reply Online (#102377): <a class="moz-txt-link-freetext" href="https://edk2.groups.io/g/devel/message/102377">https://edk2.groups.io/g/devel/message/102377</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://groups.io/mt/98030924/6496846">https://groups.io/mt/98030924/6496846</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:devel+owner@edk2.groups.io">devel+owner@edk2.groups.io</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://edk2.groups.io/g/devel/unsub">https://edk2.groups.io/g/devel/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:lichao@loongson.cn">lichao@loongson.cn</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------q1W7P05EB1Ffogyg0VeLiJ2W--
-
+--=-jvXpJt+APPSuykYlPrj1--
 
