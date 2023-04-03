@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8AD6D519A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 21:52:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E766D5208
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 22:15:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjQCY-0008PW-Pw; Mon, 03 Apr 2023 15:50:50 -0400
+	id 1pjQYn-0004cv-L2; Mon, 03 Apr 2023 16:13:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=450ae5ae2=graf@amazon.de>)
- id 1pjQCV-0008PG-Ni
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 15:50:47 -0400
-Received: from smtp-fw-9103.amazon.com ([207.171.188.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=450ae5ae2=graf@amazon.de>)
- id 1pjQCT-0001QY-Nz
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 15:50:47 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjQYm-0004cT-A9
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 16:13:48 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjQYj-0006hG-JE
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 16:13:46 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ h12-20020a17090aea8c00b0023d1311fab3so31755475pjz.1
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 13:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1680551445; x=1712087445;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=nSZ7T3vtjme82+/Yd9MpJgA0NBpFJa0n5gzeQseUcE0=;
- b=jf14rkEZW0pJDPD1jKE7BDXET1Au5HLYTuOZiQKHC4Jlt/Lj93sbw9BR
- TrRVMbsSjPsXpBcQCPV+Wh1Re8iH++ltpPhzpFdrlv5jBLlQO00NJLhcc
- bHA5tKk7yxN7EDRtc0oFla1CDMXYImGol8nQ7Nyi1Q5cSjsf9/th5r9Zq 8=;
-X-IronPort-AV: E=Sophos;i="5.98,315,1673913600"; d="scan'208";a="1119087801"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO
- email-inbound-relay-pdx-2b-m6i4x-f323d91c.us-west-2.amazon.com)
- ([10.25.36.214]) by smtp-border-fw-9103.sea19.amazon.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2023 19:50:33 +0000
-Received: from EX19MTAUWC002.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
- by email-inbound-relay-pdx-2b-m6i4x-f323d91c.us-west-2.amazon.com (Postfix)
- with ESMTPS id 4E35840E0F; Mon,  3 Apr 2023 19:50:32 +0000 (UTC)
-Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 3 Apr 2023 19:50:31 +0000
-Received: from [0.0.0.0] (10.253.83.51) by EX19D020UWC004.ant.amazon.com
- (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Mon, 3 Apr
- 2023 19:50:28 +0000
-Message-ID: <28323b1b-1d54-f0ef-81e2-3f391ef815a7@amazon.com>
-Date: Mon, 3 Apr 2023 21:50:26 +0200
+ d=linaro.org; s=google; t=1680552824;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yumJUo4J+0QlLXxMg8/iltXig5wg5/zYVyQvDjXEfGs=;
+ b=ooHq35Rc/FA8FvQUHFoZpo1CWejK8ENX6J05FbzG4iK3mXiN9/Xt/26yQWp1joz8kG
+ 6iJFSSvXkOrQV9Wtz6O7t/j74D3doEdokjVwz7pvwuGOcxnPxie3PIKYm5xPSYCY8VpL
+ 4DuuHM5P5KBrovLkD0OeA3zwQDXGsUvY22+otHudOfw6S5GlzzlOxMasxKUUmlb8wiTw
+ ygHGovdJmm1o3X06VHITrShhKT/DwX8kbj6XQz+z92lIynD97E10B+20a8oVXCR9OSnO
+ TaLt4yGgCUFEfU4xUM2IXbLH7E7kEPdX2/4fB6lfUxFfkoyuoB6Q+QDMmsp52ZfdI2Ws
+ U/Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680552824;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yumJUo4J+0QlLXxMg8/iltXig5wg5/zYVyQvDjXEfGs=;
+ b=Jk15PEXLhxK4cWlnXI8nU/kcaDsFASPRbMtUS5q8K1W/CoR1krFx+hntTalVkBKD9n
+ 9RFFfOVMYVrCiT4kQnbsd2htSrTaVHAW+QdseKpt5l1/1maYFAAyCQSfZJtklKDf/leJ
+ d1bGZhBknPkiP5zBozboC94mStTNhXoST4enTeBkyeDfzjzcuRLjMlK44ajaiymxsFjn
+ /QCmL7xmCzg0WFM9tpBq0fzJ3u/mQGTkUuZtxaCNZVvuCWL/moyaX4yb2q+sOVgwg2zm
+ kgUL0GI5AzkfNhme7NWpW1zzyRZBI54dyFRwEb0mN8t6oFWlTEMvRddNfmopu47dLCSn
+ +P7A==
+X-Gm-Message-State: AAQBX9eL0ubxTucGzOq/mYombkNPEDNGOGDYmDoW52vqw+ZXL0NlrzNf
+ JcVKAMipsVAjqbwW7IxUwkeu6rYcx0YptaiYxGg=
+X-Google-Smtp-Source: AKy350bkAlTodgKEYn8c0EfuLaKH0BTCmNzNgStxKodwDCtVQfSZBcyFfNiCBxTZODksV/vGLL4hpg==
+X-Received: by 2002:a17:903:22c1:b0:1a0:42c0:b2a5 with SMTP id
+ y1-20020a17090322c100b001a042c0b2a5mr330585plg.24.1680552823948; 
+ Mon, 03 Apr 2023 13:13:43 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
+ ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
+ by smtp.gmail.com with ESMTPSA id
+ f3-20020a170902e98300b0019cc3d0e1basm6966436plb.112.2023.04.03.13.13.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Apr 2023 13:13:43 -0700 (PDT)
+Message-ID: <ed0c6b91-a9ea-1578-e244-c87cf8c918c4@linaro.org>
+Date: Mon, 3 Apr 2023 13:13:41 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH v2] hostmem-file: add offset option
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH v2 18/44] target/loongarch: Implement vsat
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-CC: <qemu-devel@nongnu.org>, David Hildenbrand <david@redhat.com>, "Eduardo
- Habkost" <eduardo@habkost.net>, "Daniel P . Berrange" <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Philippe Mathieu-Daude <philmd@linaro.org>,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, "Igor
- Mammedov" <imammedo@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Ashish Kalra" <ashish.kalra@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>
-References: <20230401121316.2025-1-graf@amazon.com>
- <87wn2tjx8a.fsf@pond.sub.org>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <87wn2tjx8a.fsf@pond.sub.org>
-X-Originating-IP: [10.253.83.51]
-X-ClientProxiedBy: EX19D037UWC004.ant.amazon.com (10.13.139.254) To
- EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Precedence: Bulk
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.188.200;
- envelope-from=prvs=450ae5ae2=graf@amazon.de; helo=smtp-fw-9103.amazon.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.349,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230328030631.3117129-1-gaosong@loongson.cn>
+ <20230328030631.3117129-19-gaosong@loongson.cn>
+ <c30ab882-1b50-7325-87bb-fd273e479e51@linaro.org>
+ <8d077ca4-9f49-6a38-744e-0a7878df26c9@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <8d077ca4-9f49-6a38-744e-0a7878df26c9@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,34 +97,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ck9uIDAzLjA0LjIzIDA4OjI4LCBNYXJrdXMgQXJtYnJ1c3RlciB3cm90ZToKCj4gQWxleGFuZGVy
-IEdyYWYgPGdyYWZAYW1hem9uLmNvbT4gd3JpdGVzOgo+Cj4+IEFkZCBhbiBvcHRpb24gZm9yIGhv
-c3RtZW0tZmlsZSB0byBzdGFydCB0aGUgbWVtb3J5IG9iamVjdCBhdCBhbiBvZmZzZXQKPj4gaW50
-byB0aGUgdGFyZ2V0IGZpbGUuIFRoaXMgaXMgdXNlZnVsIGlmIG11bHRpcGxlIG1lbW9yeSBvYmpl
-Y3RzIHJlc2lkZQo+PiBpbnNpZGUgdGhlIHNhbWUgdGFyZ2V0IGZpbGUsIHN1Y2ggYXMgYSBkZXZp
-Y2Ugbm9kZS4KPj4KPj4gSW4gcGFydGljdWxhciwgaXQncyB1c2VmdWwgdG8gbWFwIGd1ZXN0IG1l
-bW9yeSBkaXJlY3RseSBpbnRvIC9kZXYvbWVtCj4+IGZvciBleHBlcmltZW50YXRpb24uCj4+Cj4+
-IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBHcmFmIDxncmFmQGFtYXpvbi5jb20+Cj4gWy4uLl0K
-Pgo+PiBkaWZmIC0tZ2l0IGEvcWFwaS9xb20uanNvbiBiL3FhcGkvcW9tLmpzb24KPj4gaW5kZXgg
-YTg3N2I4NzliOS4uOGY1ZWFhODQxNSAxMDA2NDQKPj4gLS0tIGEvcWFwaS9xb20uanNvbgo+PiAr
-KysgYi9xYXBpL3FvbS5qc29uCj4+IEBAIC02MzUsNiArNjM1LDEwIEBACj4+ICAgIyAgICAgICAg
-IHNwZWNpZnkgdGhlIHJlcXVpcmVkIGFsaWdubWVudCB2aWEgdGhpcyBvcHRpb24uCj4+ICAgIyAg
-ICAgICAgIDAgc2VsZWN0cyBhIGRlZmF1bHQgYWxpZ25tZW50IChjdXJyZW50bHkgdGhlIHBhZ2Ug
-c2l6ZSkuIChkZWZhdWx0OiAwKQo+PiAgICMKPj4gKyMgQG9mZnNldDogdGhlIG9mZnNldCBpbnRv
-IHRoZSB0YXJnZXQgZmlsZSB0aGF0IHRoZSByZWdpb24gc3RhcnRzIGF0LiBZb3UgY2FuCj4+ICsj
-ICAgICAgICAgIHVzZSB0aGlzIG9wdGlvbiB0byBvdmVybG9hZCBtdWx0aXBsZSByZWdpb25zIGlu
-dG8gYSBzaW5nbGUgZmlscy4KPiBzaW5nbGUgZmlsZQo+Cj4gSSdtIG5vdCBzdXJlIGFib3V0ICJ0
-byBvdmVybG9hZCBtdWx0aXBsZSByZWdpb25zIGludG8gYSBzaW5nbGUgZmlsZSIuCj4gTWF5YmUg
-InRvIGJhY2sgbXVsdGlwbGUgcmVnaW9ucyB3aXRoIGEgc2luZ2xlIGZpbGUiLgoKCkkgbGlrZSBp
-dCwgSSdsbCB1c2UgdGhhdCB2ZXJzaW9uIGhlcmUgYW5kIGluIHRoZSBxZW11LW9wdGlvbnMuaHgg
-ZmlsZS4KCgo+IEFueSBhbGlnbm1lbnQgcmVxdWlyZW1lbnRzPwoKClBhZ2Ugc2l6ZSwgSSdsbCBh
-ZGQgaXQuCgoKPgo+IFdoYXQgaGFwcGVucyB3aGVuIHRoZSByZWdpb25zIG92ZXJsYXA/CgoKSXQg
-Imp1c3Qgd29ya3MiIC0gc2FtZSBhcyBtYXBwaW5nIHRoZSBzYW1lIGZpbGUgdHdpY2UuIEl0J3Mg
-dXAgdG8gdGhlIAp1c2VyIHRvIGVuc3VyZSB0aGF0IG5vdGhpbmcgYmFkIGhhcHBlbnMgYmVjYXVz
-ZSBvZiB0aGF0LgoKCkFsZXgKCgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkg
-R21iSApLcmF1c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJp
-c3RpYW4gU2NobGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNo
-dCBDaGFybG90dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDog
-REUgMjg5IDIzNyA4NzkKCgo=
+On 4/3/23 05:55, gaosong wrote:
+> Hi, Richard
+> 
+> 在 2023/4/1 下午1:03, Richard Henderson 写道:
+>> On 3/27/23 20:06, Song Gao wrote:
+>>> +static void gen_vsat_s(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
+>>> +{
+>>> +    TCGv_vec t1;
+>>> +    int64_t max  = (1l << imm) - 1;
+>>
+>> This needed 1ull, but better to just use
+>>
+>>     max = MAKE_64BIT_MASK(0, imm - 1); 
+> For the signed  version use ll?
+> I think use MAKE_64BIT_MASK(0, imm -1 )  for the signed version is not suitable.
+
+int64_t max = MAKE_64BIT_MASK(0, imm);
+int64_t min = ~max // or -1 - max
+
 
 
