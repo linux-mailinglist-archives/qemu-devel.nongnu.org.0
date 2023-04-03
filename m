@@ -2,58 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129D66D3C06
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 05:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D1B6D44E8
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 14:52:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjAYM-0001yg-RD; Sun, 02 Apr 2023 23:08:18 -0400
+	id 1pjJer-00078z-Jk; Mon, 03 Apr 2023 08:51:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
- id 1pjAYJ-0001yM-Nm
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 23:08:15 -0400
-Received: from pi.codeconstruct.com.au ([203.29.241.158]
- helo=codeconstruct.com.au)
+ (Exim 4.90_1) (envelope-from <Alexey.Kardashevskiy@amd.com>)
+ id 1pjAhs-0003zz-HI
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 23:18:08 -0400
+Received: from mail-dm6nam10on2075.outbound.protection.outlook.com
+ ([40.107.93.75] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
- id 1pjAYH-0003hj-Cb
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 23:08:15 -0400
-Received: from [172.16.75.132] (unknown [49.255.141.98])
- by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 47BFC20033;
- Mon,  3 Apr 2023 11:08:01 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=codeconstruct.com.au; s=2022a; t=1680491282;
- bh=5L9vKXShmytSPCFEutOEwmTR9cwf8uRAtk/lIj5umjY=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References;
- b=fvlcLWVhPMmD2EInV97jrhYi1XBZW2sbz1i+O6wq7X2FzDIw0PRoLeyMJNcj06eCM
- JwWOYOH6oaHCXrIgo+7ijNxeoiCemBUc36uvtyKdruDOfgDVxjxLnvhEJ3xJRoFGgX
- OK3q6DFEZUJZg5D4qi8/o6u5xwBtoPXrC1WSLlq1/L3sJrhRCoWhjBfEyBv9HeblKa
- ElAng12ELKctOlKlIVI0585237ZPgDVGyePaGrGuHzvhcMK55sSlpVNtRa3LAyuppd
- 9lN64p9rfLHDSMHxcHkJXvkhGWIupuFT7DCLJEizFMs2EhIlavPxBXiQ46lQXnR5mF
- cgSfqSNXI5fjQ==
-Message-ID: <55b3164d58dd67954ef99551550dcb5a93673150.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 10/16] hw/i3c/aspeed_i3c: Add IBI handling
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Joe Komlodi <komlodi@google.com>, qemu-devel@nongnu.org
-Cc: venture@google.com, peter.maydell@linaro.org
-Date: Mon, 03 Apr 2023 11:08:00 +0800
-In-Reply-To: <20230331010131.1412571-11-komlodi@google.com>
-References: <20230331010131.1412571-1-komlodi@google.com>
- <20230331010131.1412571-11-komlodi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.4-1 
+ (Exim 4.90_1) (envelope-from <Alexey.Kardashevskiy@amd.com>)
+ id 1pjAho-0005H6-S1
+ for qemu-devel@nongnu.org; Sun, 02 Apr 2023 23:18:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fO2+6Eav/8HbhKgR8QTmSR3TwUWGyetqxrAKJN8b+r+70epVTraQAb4mqo9AcF4IlISmwoe7kyyULz2b1Gb6kur4ez8L9YgMk5pTcYLJcnTez5roS3yk4Np8TISoVlBCsCq/qja8WJw/A0KjbFfmd/ydzpqbO2ohLsZl7Epajc31O87C1CZZ6bkluqvsrU13sGQnZ6sJs6MxQnIrUyfJv7RcAkUVr+H2UiXrYIwlkN6/VkMGLRCF3w3v/6T8lE5l3vtzOsg92DssPV1lenuqCULVlqgPBf0/7Hg2igr0DCT/LafDYD02Qlp4SsMaKQSKlt9mjZlnf2Hc861IeptJww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wy/sINq1UzDIWpmF5QWD+l+VOpForLdBvt0pGbqfCKs=;
+ b=Gt2aVkeiaB5KPzvB4yNjbOfiROv6YGQ4bzau4gHq2Qp14WQX/r75odVWjNJsh8toZtQrxtP5RZzIT6+woZz6tuiGaUHFl6WHvbTJraD5ZbqNMCHgvUF48iRRHu57nFhP/wC3JKkkrJM44ty2WrCZG+hcoECyrp+6xv8ourWGc2N/mU4nlViMGgsscdNTJRj6pwAL0RmZ2+qX2Yt3p9lmPlw2bp7tqhrIBG76GTVzCZVAU/w/z0jEvjOIl7xYCSRPMf/2X5CvaTlDYYP9BM9ViRYgYPEScim7irJWmBRgli9TBWf5OVt/ST7JelkB9bc3OSS7/g2WuCRpl+t4Ppyr5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wy/sINq1UzDIWpmF5QWD+l+VOpForLdBvt0pGbqfCKs=;
+ b=kr/KjrY3eRUH1vx+xcFGoO8U9FqpMBxNtdmSfMuq6DWwDru2kkGrO/gE+yJVnxj9YRKrgpD6ryQYsz77X+8e04T8EGuH5cMSeoxq1QtM2Fa4eC6gyXEmyC0xAs3JOQ15a5MEv+pPy6iVboQi/RHyYH9VUuOn/Axf9BkScPv6OUk=
+Received: from MW2PR16CA0040.namprd16.prod.outlook.com (2603:10b6:907:1::17)
+ by SN7PR12MB6912.namprd12.prod.outlook.com (2603:10b6:806:26d::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.29; Mon, 3 Apr
+ 2023 03:12:56 +0000
+Received: from CO1NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:907:1:cafe::f8) by MW2PR16CA0040.outlook.office365.com
+ (2603:10b6:907:1::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.22 via Frontend
+ Transport; Mon, 3 Apr 2023 03:12:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT034.mail.protection.outlook.com (10.13.174.248) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6277.16 via Frontend Transport; Mon, 3 Apr 2023 03:12:55 +0000
+Received: from aiemdeew.1.ozlabs.ru (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Sun, 2 Apr
+ 2023 22:12:52 -0500
+From: Alexey Kardashevskiy <aik@amd.com>
+To: <kvm@vger.kernel.org>
+CC: <qemu-devel@nongnu.org>, Alexey Kardashevskiy <aik@amd.com>
+Subject: [PATCH qemu] sev/i386: Fix error reporting
+Date: Mon, 3 Apr 2023 13:12:31 +1000
+Message-ID: <20230403031231.2003480-1-aik@amd.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=203.29.241.158;
- envelope-from=jk@codeconstruct.com.au; helo=codeconstruct.com.au
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT034:EE_|SN7PR12MB6912:EE_
+X-MS-Office365-Filtering-Correlation-Id: b5b9ed9b-1ebc-4574-af60-08db33f1521f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XK2OqHgKAWx3Ha5Rz4WKWq1R8uMyRozQZVrw8LAC7iuX6T4yWNXnqoi3tM59bE6DfssFMAsSf74fQD1zLxptiOdobcFNlUvbTclIINfbUv0JUuJrYOepokmPOMH9nXkxN0mXXZOaSTH4w+B6i3DDSAcyXMkN54sJQFGjtAZwAVb9bZ7aF5zQXTJ5q/7IHfZ8jUxR0FNY+ma+d9eaE1r2LZ/rio7zCfY0oZUT17UHro9H3xxN69wlm/6r4PnvRob3++jT4lKh3+pmWHQlhv3Lin4W0VvK4Mv076c4cSCzdenn0RkQHe5P92YpMsMFkg2uuHgj6gD5EfhXwZqQmzZIdEDq4HD9XRkDwahB5GDfzrW4dvaKJoNbYrmbupaoXQX27D2J+SJaXRiXh7IiSrCM9olwgqbhnk27hTVVPMbHvMn83/IZ7AtbpRNXlkH+48nNsBZUiYL5twIHfJc3IJIiItY+TuOY9jDpex2e9OD1SaQlDcUd8Wy2XDcYt4PyWKQMSsGGrxXSMgYeKbFUOiQ/RHHiOKkp1oz2RFaVeWBBGABCLJFxY/IiKaAUPFvlNsjMPe33gccEeW8b+Y74RZqL0zdJ4DP1/AJdo/9sJRXh9GwiLUiJw7mEgJtTkOhaDXzxMkHDJGcH0GOFlV8EyTHFdS0FEWvU8Cv41KsdWZuDDsVCeQyeEW6EC91QAp4d059UnP6AqGG6rFQUz8/PBaRFN5F36nQxQpAMbUUj5uurOlU=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(376002)(39860400002)(346002)(396003)(451199021)(40470700004)(46966006)(36840700001)(82310400005)(2906002)(36756003)(40460700003)(40480700001)(2616005)(83380400001)(336012)(16526019)(186003)(47076005)(26005)(1076003)(6666004)(4326008)(8676002)(70586007)(36860700001)(478600001)(70206006)(81166007)(6916009)(41300700001)(5660300002)(82740400003)(356005)(54906003)(316002)(426003)(8936002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2023 03:12:55.9594 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5b9ed9b-1ebc-4574-af60-08db33f1521f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6912
+Received-SPF: softfail client-ip=40.107.93.75;
+ envelope-from=Alexey.Kardashevskiy@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 03 Apr 2023 08:51:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,78 +119,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-SGkgSm9lLAoKRmlyc3QgdXAsIG5pY2Ugd29yayB3aXRoIHRoaXMgc2VyaWVzISBJIGhhdmVuJ3Qg
-eWV0IGhhZCBhIHRob3JvdWdoIGxvb2sKYXQgdGhlIHNlcmllcywgYnV0IG9uZSBpdGVtIG9uIHNv
-bWV0aGluZyB0aGF0IGNhdWdodCBtZSB1cCBvbiB0aGUgTGludXgKc2lkZToKCj4gK3N0YXRpYyB2
-b2lkIGFzcGVlZF9pM2NfZGV2aWNlX2liaV9xdWV1ZV9wdXNoKEFzcGVlZEkzQ0RldmljZSAqcykK
-PiArewo+ICvCoMKgwqAgLyogU3RvcmVkIHZhbHVlIGlzIGluIDMyLWJpdCBjaHVua3MsIGNvbnZl
-cnQgaXQgdG8gYnl0ZSBjaHVua3MuICovCj4gK8KgwqDCoCB1aW50OF90IGliaV9zbGljZV9zaXpl
-ID0gYXNwZWVkX2kzY19kZXZpY2VfaWJpX3NsaWNlX3NpemUocyk7Cj4gK8KgwqDCoCB1aW50OF90
-IG51bV9zbGljZXMgPSBmaWZvOF9udW1fdXNlZCgmcy0+aWJpX2RhdGEuaWJpX2ludGVybWVkaWF0
-ZV9xdWV1ZSkgLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgaWJpX3NsaWNlX3NpemU7Cj4gK8KgwqDCoCB1aW50OF90IGliaV9zdGF0dXNfY291bnQg
-PSBudW1fc2xpY2VzOwo+ICvCoMKgwqAgdW5pb24gewo+ICvCoMKgwqDCoMKgwqDCoCB1aW50OF90
-IGJbc2l6ZW9mKHVpbnQzMl90KV07Cj4gK8KgwqDCoMKgwqDCoMKgIHVpbnQzMl90IHZhbDMyOwo+
-ICvCoMKgwqAgfSBpYmlfZGF0YSA9IHsKPiArwqDCoMKgwqDCoMKgwqAgLnZhbDMyID0gMAo+ICvC
-oMKgwqAgfTsKPiArCj4gK8KgwqDCoCAvKiBUaGUgcmVwb3J0IHdhcyBzdXBwcmVzc2VkLCBkbyBu
-b3RoaW5nLiAqLwo+ICvCoMKgwqAgaWYgKHMtPmliaV9kYXRhLmliaV9uYWNrZWQgJiYgIXMtPmli
-aV9kYXRhLm5vdGlmeV9pYmlfbmFjaykgewo+ICvCoMKgwqDCoMKgwqDCoCBBUlJBWV9GSUVMRF9E
-UDMyKHMtPnJlZ3MsIFBSRVNFTlRfU1RBVEUsIENNX1RGUl9TVF9TVEFUVVMsCj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBBU1BFRURfSTNDX1RSQU5T
-RkVSX1NUQVRFX0lETEUpOwo+ICvCoMKgwqDCoMKgwqDCoCBBUlJBWV9GSUVMRF9EUDMyKHMtPnJl
-Z3MsIFBSRVNFTlRfU1RBVEUsIENNX1RGUl9TVEFUVVMsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBBU1BFRURfSTNDX1RSQU5TRkVSX1NUQVRVU19J
-RExFKTsKPiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwo+ICvCoMKgwqAgfQo+ICsKPiArwqDCoMKg
-IC8qIElmIHdlIGRvbid0IGhhdmUgYW55IHNsaWNlcyB0byBwdXNoLCBqdXN0IHB1c2ggdGhlIHN0
-YXR1cy4gKi8KPiArwqDCoMKgIGlmIChudW1fc2xpY2VzID09IDApIHsKPiArwqDCoMKgwqDCoMKg
-wqAgcy0+aWJpX2RhdGEuaWJpX3F1ZXVlX3N0YXR1cyA9Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBGSUVMRF9EUDMyKHMtPmliaV9kYXRhLmliaV9xdWV1ZV9zdGF0dXMsIElCSV9RVUVVRV9T
-VEFUVVMsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-TEFTVF9TVEFUVVMsIDEpOwo+ICvCoMKgwqDCoMKgwqDCoCBmaWZvMzJfcHVzaCgmcy0+aWJpX3F1
-ZXVlLCBzLT5pYmlfZGF0YS5pYmlfcXVldWVfc3RhdHVzKTsKPiArwqDCoMKgwqDCoMKgwqAgaWJp
-X3N0YXR1c19jb3VudCA9IDE7Cj4gK8KgwqDCoCB9Cj4gKwo+ICvCoMKgwqAgZm9yICh1aW50OF90
-IGkgPSAwOyBpIDwgbnVtX3NsaWNlczsgaSsrKSB7Cj4gK8KgwqDCoMKgwqDCoMKgIC8qIElmIHRo
-aXMgaXMgdGhlIGxhc3Qgc2xpY2UsIHNldCBMQVNUX1NUQVRVUy4gKi8KPiArwqDCoMKgwqDCoMKg
-wqAgaWYgKGZpZm84X251bV91c2VkKCZzLT5pYmlfZGF0YS5pYmlfaW50ZXJtZWRpYXRlX3F1ZXVl
-KSA8Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWJpX3NsaWNlX3NpemUpIHsKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBzLT5pYmlfZGF0YS5pYmlfcXVldWVfc3RhdHVzID0KPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIEZJRUxEX0RQMzIocy0+aWJpX2RhdGEuaWJpX3F1ZXVl
-X3N0YXR1cywgSUJJX1FVRVVFX1NUQVRVUywKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBJQklfREFUQV9MRU4sCj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmlmbzhfbnVtX3VzZWQoJnMt
-PmliaV9kYXRhLmliaV9pbnRlcm1lZGlhdGVfcXVldWUpKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBzLT5pYmlfZGF0YS5pYmlfcXVldWVfc3RhdHVzID0KPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIEZJRUxEX0RQMzIocy0+aWJpX2RhdGEuaWJpX3F1ZXVlX3N0YXR1cywgSUJJ
-X1FVRVVFX1NUQVRVUywKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBMQVNUX1NUQVRVUywgMSk7Cj4gK8KgwqDCoMKgwqDCoMKgIH0gZWxzZSB7
-Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcy0+aWJpX2RhdGEuaWJpX3F1ZXVlX3N0YXR1cyA9
-Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBGSUVMRF9EUDMyKHMtPmliaV9kYXRh
-LmliaV9xdWV1ZV9zdGF0dXMsIElCSV9RVUVVRV9TVEFUVVMsCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgSUJJX0RBVEFfTEVOLCBpYmlfc2xp
-Y2Vfc2l6ZSk7Cj4gK8KgwqDCoMKgwqDCoMKgIH0KPiArCj4gK8KgwqDCoMKgwqDCoMKgIC8qIFB1
-c2ggdGhlIElCSSBzdGF0dXMgaGVhZGVyLiAqLwo+ICvCoMKgwqDCoMKgwqDCoCBmaWZvMzJfcHVz
-aCgmcy0+aWJpX3F1ZXVlLCBzLT5pYmlfZGF0YS5pYmlfcXVldWVfc3RhdHVzKTsKPiArwqDCoMKg
-wqDCoMKgwqAgLyogTW92ZSBlYWNoIElCSSBieXRlIGludG8gYSAzMi1iaXQgd29yZCBhbmQgcHVz
-aCBpdCBpbnRvIHRoZSBxdWV1ZS4gKi8KPiArwqDCoMKgwqDCoMKgwqAgZm9yICh1aW50OF90IGog
-PSAwOyBqIDwgaWJpX3NsaWNlX3NpemU7ICsraikgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGlmIChmaWZvOF9pc19lbXB0eSgmcy0+aWJpX2RhdGEuaWJpX2ludGVybWVkaWF0ZV9xdWV1ZSkp
-IHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFrOwo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIH0KPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWJpX2RhdGEuYltq
-ICYgM10gPSBmaWZvOF9wb3AoJnMtPmliaV9kYXRhLmliaV9pbnRlcm1lZGlhdGVfcXVldWUpOwo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qIFdlIGhhdmUgMzItYml0cywgcHVzaCBpdCB0byB0
-aGUgSUJJIEZJRk8uICovCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKChqICYgMHgwMykg
-PT0gMHgwMykgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmlmbzMyX3B1c2go
-JnMtPmliaV9xdWV1ZSwgaWJpX2RhdGEudmFsMzIpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgaWJpX2RhdGEudmFsMzIgPSAwOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0K
-PiArwqDCoMKgwqDCoMKgwqAgfQoKWW91J2xsIHByb2JhYmx5IHdhbnQgdG8gaGFuZGxlIHRoZSBJ
-QklfUEVDX0VOIERBVCBmaWVsZCB3aGVuIHB1c2hpbmcgdGhlCklCSSB0byB0aGUgZmlmbyBoZXJl
-LgoKRHVlIHRvIGEgSFcgZXJyYXRhLCB0aGUgZHJpdmVyIHdpbGwgKmFsd2F5cyogbmVlZCB0byBl
-bmFibGUgUEVDX0VOLiBJbgpjYXNlcyB3aGVyZSB0aGUgcmVtb3RlIGlzbid0IGFjdHVhbGx5IHNl
-bmRpbmcgYSBQRUMsIHRoaXMgd2lsbCBjb25zdW1lCnRoZSBsYXN0IGJ5dGUgb2YgdGhlIElCSSBw
-YXlsb2FkIChhbmQgcHJvYmFibHkgY2F1c2UgYSBQRUMgZXJyb3IsIHdoaWNoCnRoZSBkcml2ZXIg
-bmVlZHMgdG8gaWdub3JlKS4KClNlZSBoZXJlIGZvciB0aGUgZHJpdmVyIHNpZGUsIGluIHBhdGNo
-ZXMgNC81IGFuZCA1LzU6CgogIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWkzYy9kNWQ3
-NmE4ZDIzMzZkMmE3MTg4NjUzN2Y0MmU3MWQ1MWRiMTg0ZGY2LjE2ODAxNjE4MjMuZ2l0LmprQGNv
-ZGVjb25zdHJ1Y3QuY29tLmF1L1QvI3UKCkNoZWVycywKCgpKZXJlbXkK
+c9f5aaa6bce8 ("sev: Add Error ** to sev_kvm_init()") converted
+error_report() to error_setg(), however it missed one error_report()
+and other 2 changes added error_report() after conversion. The result
+is the caller - kvm_init() - crashes in error_report_err as local_err
+is NULL.
+
+Follow the pattern and use error_setg instead of error_report.
+
+Fixes: 9681f8677f26 ("sev/i386: Require in-kernel irqchip support for SEV-ES guests")
+Fixes: 6b98e96f1842 ("sev/i386: Add initial support for SEV-ES")
+Fixes: c9f5aaa6bce8 ("sev: Add Error ** to sev_kvm_init()")
+Signed-off-by: Alexey Kardashevskiy <aik@amd.com>
+---
+ target/i386/sev.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 859e06f6ad..6b640b5c1f 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -922,7 +922,7 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+ 
+     ret = ram_block_discard_disable(true);
+     if (ret) {
+-        error_report("%s: cannot disable RAM discard", __func__);
++        error_setg(errp, "%s: cannot disable RAM discard", __func__);
+         return -1;
+     }
+ 
+@@ -968,15 +968,14 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+ 
+     if (sev_es_enabled()) {
+         if (!kvm_kernel_irqchip_allowed()) {
+-            error_report("%s: SEV-ES guests require in-kernel irqchip support",
+-                         __func__);
++            error_setg(errp, "%s: SEV-ES guests require in-kernel irqchip support",
++                       __func__);
+             goto err;
+         }
+ 
+         if (!(status.flags & SEV_STATUS_FLAGS_CONFIG_ES)) {
+-            error_report("%s: guest policy requires SEV-ES, but "
+-                         "host SEV-ES support unavailable",
+-                         __func__);
++            error_setg(errp, "%s: guest policy requires SEV-ES, but host SEV-ES support unavailable",
++                       __func__);
+             goto err;
+         }
+         cmd = KVM_SEV_ES_INIT;
+-- 
+2.39.1
 
 
