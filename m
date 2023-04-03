@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBC36D45BC
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 15:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA5D6D45E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 15:33:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjKBF-0004FZ-PQ; Mon, 03 Apr 2023 09:25:05 -0400
+	id 1pjKJG-0006ek-Ia; Mon, 03 Apr 2023 09:33:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
- id 1pjKBA-0004FH-Bz
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:25:01 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yu.zhang@ionos.com>)
- id 1pjKB8-0000oT-Ap
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:25:00 -0400
-Received: by mail-ed1-x536.google.com with SMTP id eh3so117235574edb.11
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 06:24:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ionos.com; s=google; t=1680528294; x=1683120294;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=6jcIanIM08U1QVYyWthAHTs9EFuEJ+uc1bp/Pr8cBQs=;
- b=S/nU+5vBCdIaRAB76p/VonIPN6hA3i5Xx4/EcujfcLzdyKECdwzVv5eAaItKHCh6Vc
- +hriv6bHUhzsTh6oXyKUFNuzkpNBfML+FnRX3scysTpfUFLiLZB3W2T1z52Lqx6ExKFK
- qeSVeJcbyKz77whsYY7LVBtJdGuVwhBFtJ9FK1tEWzHaaVhG9AS6dGPDzQ7L57Vte+TL
- 9zonNYE3BUeJhyZYIIXQpwtvAGWotkJErDMlXYydIhw2f/Rr24YYIXhz7YnafR5O86Oh
- SldCpiWwJVgDAn1k6j7CBRGo/tFLIatzUQmZcvsKf5PiTz976rXxta/fiBo35zwikbWm
- poeQ==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pjKJB-0006dk-IZ
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:33:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pjKJ8-00023E-OW
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:33:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680528793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6Uz6aWhckVK/vxMXpedDQcTBhQ+ey5gl905tnk4mVIU=;
+ b=DRVP9Jafij+EggEwMAtsXt5253qYAQI0BEZIGIV/fxXdON3dg9xThA8GupMOupzpXlochE
+ P0iF5DKUakvcGOzMvPgCoss5USNNtfERe695jCLG/AO+3k9hXrjUhcBnnY4nfWBq1UIVt1
+ EIRRWhOH/QJsy7tCNItJi3lFHHRpm8E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-602-d6OnkTbNP9WMG3XDozoajg-1; Mon, 03 Apr 2023 09:33:12 -0400
+X-MC-Unique: d6OnkTbNP9WMG3XDozoajg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v7-20020a05600c470700b003ef6ebfa99fso11565320wmo.8
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 06:33:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680528294; x=1683120294;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6jcIanIM08U1QVYyWthAHTs9EFuEJ+uc1bp/Pr8cBQs=;
- b=TXlRSZ3Aw71F++z5ktBdI5p5Gkd6yJ2J5Q0dYAgdQF+lw/YPQjTXhUNKSAbQ/4khbq
- Li5wfuqcq2SWMBCpwZS/TPHAFEn8jZazW0riuJx+S3Wxr0ifLq599kx+DwvGUCoaaDbO
- 6TLyOuxLQISf7lEeCIfpFT2Aik/An6fgqd6y2qJmrIqAHeIm4/Yjj6i13VQ5xC2KqBZU
- QJf6eDWaEpLjyh0fGGh8WoSjY8R6MhjvxkCNEyK6qhyxf5nQxV/MKwasnoZ9i5VBM1x6
- pJ+7FKlVwHWNYC1KJrXZug7VRDX5nPhOmFYjq28tRyPPs9AMYjgfOE7JDjILJBK92p8T
- sa9w==
-X-Gm-Message-State: AAQBX9fJ1UrwuZn1iTqxnRrvyeulAZiK57f1B53v36hx/BNnMckR/TJW
- zd7XsOvTh4k842nEMY4A4nHeYxM1qltdBGrb0rvO0w==
-X-Google-Smtp-Source: AKy350bhBu1sg554ez38IxFxoPsWj7V781aiorkQeJlWmMrcGhtwjIApKoZk5ZhUqC3uMSgr6ng5nAaG6Lk6rKLGhS4=
-X-Received: by 2002:a50:9fae:0:b0:501:c965:33bd with SMTP id
- c43-20020a509fae000000b00501c96533bdmr16744963edf.6.1680528294296; Mon, 03
- Apr 2023 06:24:54 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680528791;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6Uz6aWhckVK/vxMXpedDQcTBhQ+ey5gl905tnk4mVIU=;
+ b=BWU/+BVGzL2nAkI2GCHIRN4LGEfCLE+Fn0Urm668nhikVWul98PfC82YffTxqqA11V
+ TcsvAAeiMDmGJGk90MAq1qoEEFf8Zi88f2Z9zqOoDi5obRyTcoacEYsvZLTDZ8muX9c5
+ V2Q8VFRXTST2CN3TTH9asogTQzqDyG5Dyq+o/7IXwO1GyWPYHKpvuVYnEVk8e51uX1AU
+ 4nvcy/uGKQSGzTc+CZtElxn4/1oifQ/O6hW3R3eIKO54JqiYT8vCo/U/E0ncUog4EB+P
+ efZyT/XWAQYA5Pgvy5G0f7HhdSqeHamQV3+90amhGLYHd5XOt5WqVpC1T4zmzNyckPDY
+ Dz7Q==
+X-Gm-Message-State: AAQBX9d7tHU+7KTUQj6DFni9Q5iUrkWFA51yw5nxDeCo1K4PbOouINYN
+ ZXNujveB5Dize6twVURbxUWS6HHvIXjXCicdlvaZMXD0X9/9e008VvEEruRkqsr6xejcORgAdZm
+ 1TOJmeBtu2VIy8F8=
+X-Received: by 2002:a7b:c84e:0:b0:3f0:3ab2:a7e5 with SMTP id
+ c14-20020a7bc84e000000b003f03ab2a7e5mr9786942wml.34.1680528791287; 
+ Mon, 03 Apr 2023 06:33:11 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b0b/26XQIBMK+OS4zFTj+aMMVW9sFl+pCrlKZ032GVuoDT7yxgT/MFukZYS9mgv2zBtGC3Dw==
+X-Received: by 2002:a7b:c84e:0:b0:3f0:3ab2:a7e5 with SMTP id
+ c14-20020a7bc84e000000b003f03ab2a7e5mr9786926wml.34.1680528790938; 
+ Mon, 03 Apr 2023 06:33:10 -0700 (PDT)
+Received: from ?IPV6:2003:cf:d72b:b3c3:84ec:cc63:3ddf:7d93?
+ (p200300cfd72bb3c384eccc633ddf7d93.dip0.t-ipconnect.de.
+ [2003:cf:d72b:b3c3:84ec:cc63:3ddf:7d93])
+ by smtp.gmail.com with ESMTPSA id
+ o9-20020a05600c4fc900b003ef6bc71cccsm19881656wmq.27.2023.04.03.06.33.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Apr 2023 06:33:10 -0700 (PDT)
+Message-ID: <751be7a2-f32a-569d-c464-c7821560edea@redhat.com>
+Date: Mon, 3 Apr 2023 15:33:08 +0200
 MIME-Version: 1.0
-From: Yu Zhang <yu.zhang@ionos.com>
-Date: Mon, 3 Apr 2023 15:24:43 +0200
-Message-ID: <CAHEcVy5SV34jaubY5F-q=H+smvMVOzKbb=rTaNJDNXyGdFaLZg@mail.gmail.com>
-Subject: an issue for device hot-unplug
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Jinpu Wang <jinpu.wang@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>
-Content-Type: multipart/alternative; boundary="00000000000004501805f86e7ccd"
-Received-SPF: permerror client-ip=2a00:1450:4864:20::536;
- envelope-from=yu.zhang@ionos.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 2/4] block: Split padded I/O vectors exceeding IOV_MAX
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>
+References: <20230317175019.10857-1-hreitz@redhat.com>
+ <20230317175019.10857-3-hreitz@redhat.com>
+ <794be57d-9bbb-4de4-00ef-32df10cc3eaa@yandex-team.ru>
+Content-Language: en-US
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <794be57d-9bbb-4de4-00ef-32df10cc3eaa@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.349, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,128 +106,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000004501805f86e7ccd
-Content-Type: text/plain; charset="UTF-8"
+(Sorry for the rather late reply... Thanks for the review!)
 
-Dear Laurent,
+On 20.03.23 11:31, Vladimir Sementsov-Ogievskiy wrote:
+> On 17.03.23 20:50, Hanna Czenczek wrote:
 
-recently we run into an issue with the following error:
+[...]
 
-command '{ "execute": "device_del", "arguments": { "id": "virtio-diskX" }
-}' for VM "id" failed ({ "return": {"class": "GenericError", "desc":
-"Device virtio-diskX is already in the process of unplug"} }).
+>> diff --git a/block/io.c b/block/io.c
+>> index 8974d46941..1e9cdba17a 100644
+>> --- a/block/io.c
+>> +++ b/block/io.c
+>
+> [..]
+>
+>> +    pad->write = write;
+>> +
+>>       return true;
+>>   }
+>>   @@ -1545,6 +1561,18 @@ zero_mem:
+>>     static void bdrv_padding_destroy(BdrvRequestPadding *pad)
+>
+> Maybe, rename to _finalize, to stress that it's not only freeing memory.
 
-The issue is reproducible. With a few seconds delay before hot-unplug,
-hot-unplug just works fine.
+Sounds good!
 
-After a few digging, we found that the commit 9323f892b39 may incur the
-issue.
-------------------
-    failover: fix unplug pending detection
+[...]
 
-    Failover needs to detect the end of the PCI unplug to start migration
-    after the VFIO card has been unplugged.
+>> @@ -1552,6 +1580,101 @@ static void 
+>> bdrv_padding_destroy(BdrvRequestPadding *pad)
+>>       memset(pad, 0, sizeof(*pad));
+>>   }
+>>   +/*
+>> + * Create pad->local_qiov by wrapping @iov in the padding head and 
+>> tail, while
+>> + * ensuring that the resulting vector will not exceed IOV_MAX elements.
+>> + *
+>> + * To ensure this, when necessary, the first couple of elements (up 
+>> to three)
+>
+> maybe, "first two-three elements"
 
-    To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and
-reset in
-    pcie_unplug_device().
+Sure (here and...
 
-    But since
-        17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on
-Q35")
-    we have switched to ACPI unplug and these functions are not called
-anymore
-    and the flag not set. So failover migration is not able to detect if
-card
-    is really unplugged and acts as it's done as soon as it's started. So it
-    doesn't wait the end of the unplug to start the migration. We don't see
-any
-    problem when we test that because ACPI unplug is faster than PCIe native
-    hotplug and when the migration really starts the unplug operation is
-    already done.
+[...]
 
-    See c000a9bd06ea ("pci: mark device having guest unplug request
-pending")
-        a99c4da9fc2a ("pci: mark devices partially unplugged")
+>> +    /*
+>> +     * If padded_niov > IOV_MAX, we cannot just concatenate everything.
+>> +     * Instead, merge the first couple of elements of @iov to reduce 
+>> the number
+>
+> maybe, "first two-three elements"
 
-    Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-    Reviewed-by: Ani Sinha <ani@anisinha.ca>
-    Message-Id: <20211118133225.324937-4-lvivier@redhat.com>
-    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-------------------
-The purpose is for detecting the end of the PCI device hot-unplug. However,
-we feel the error confusing. How is it possible that a disk "is already in
-the process of unplug" during the first hot-unplug attempt? So far as I
-know, the issue was also encountered by libvirt, but they simply ignored it:
+...here).
 
-    https://bugzilla.redhat.com/show_bug.cgi?id=1878659
+>
+>> +     * of vector elements as necessary.
+>> +     */
+>> +    if (padded_niov > IOV_MAX) {
+>>
+>
+> [..]
+>
+>> @@ -1653,8 +1786,8 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild 
+>> *child,
+>>           flags |= BDRV_REQ_COPY_ON_READ;
+>>       }
+>>   -    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, 
+>> &bytes, &pad,
+>> -                           NULL, &flags);
+>> +    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, 
+>> false,
+>> +                           &pad, NULL, &flags);
+>>       if (ret < 0) {
+>>           goto fail;
+>>       }
+>
+> a bit later:
+>
+> tracked_request_end(&req);
+> bdrv_padding_destroy(&pad);
+>
+>
+> Now, the request is formally finished inside bdrv_padding_destroy().. 
+> Not sure, does it really violate something, but seems safer to swap 
+> these two calls. 
 
-Hence, a question is: should we have the line below in
-acpi_pcihp_device_unplug_request_cb()?
+I’d rather not, for two reasons: First, tracked requests are (as far as 
+I understand) only there to implement request serialization, and so only 
+care about metadata (offset, length, and type), which is not changed by 
+changes to the I/O vector.
 
-   pdev->qdev.pending_deleted_event = true;
+Second, even if the state of the I/O vector were relevant to tracked 
+requests, I think it would actually be the other way around, i.e. the 
+tracked request must be ended before the padding is 
+finalized/destroyed.  The tracked request is about the actual request we 
+submit to `child` (which is why tracked_request_begin() is called after 
+bdrv_pad_request()), and that request is done using the modified I/O 
+vector.  So if the tracked request had any connection to the request’s 
+I/O vector (which it doesn’t), it would be to this modified one, so we 
+mustn’t invalidate it via bdrv_padding_finalize() while the tracked 
+request lives.
 
-It would be great if you as the author could give us a few hints.
+Or, said differently: I generally try to clean up things in the inverse 
+way they were set up, and because bdrv_pad_requests() comes before 
+tracked_request_begin(), I think tracked_request_end() should come 
+before bdrv_padding_finalize().
 
-Thank you very much for your reply!
+> With that:
+>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>
+>
+>
+> PS, I feel here still exists small space for optimization:
 
-Sincerely,
+The question is whether any optimization is really worth it, and I’m not 
+sure it is.  The bug has been in qemu for over two years, and because 
+the only report I’ve seen about it came from our QE department, it seems 
+like a very rare case, so I find it more important for the code to be as 
+simple as possible than to optimize.
 
-Yu Zhang @ Compute Platform IONOS
-03.04.2013
+> move the logic to bdrv_init_padding(), and
+>
+> 1. allocate only one buffer
+> 2. make the new collpase are to be attached to head or tail padding
+> 3. avoid creating extra iov-slice, maybe with help of some new 
+> qemu_iovec_* API that can control number of copied/to-be-copied iovs 
+> and/or calculation number of iovs in qiov/qiov_offset/bytes slice
 
---00000000000004501805f86e7ccd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I’ve actually begun by trying to reuse the padding buffer, and to 
+collapse head/tail into it, but found it to be rather complicated. See 
+also my reply to Stefan here: 
+https://lists.nongnu.org/archive/html/qemu-devel/2023-03/msg04774.html
 
-<div dir=3D"ltr">Dear Laurent,<br><br>recently we run into an issue with th=
-e following error:<br><br>command &#39;{ &quot;execute&quot;: &quot;device_=
-del&quot;, &quot;arguments&quot;: { &quot;id&quot;: &quot;virtio-diskX&quot=
-; } }&#39; for VM &quot;id&quot; failed ({ &quot;return&quot;: {&quot;class=
-&quot;: &quot;GenericError&quot;, &quot;desc&quot;: &quot;Device virtio-dis=
-kX is already in the process of unplug&quot;} }).<br><br>The issue is repro=
-ducible. With a few seconds delay before hot-unplug, hot-unplug just works =
-fine.<br><br>After a few digging, we found that the commit 9323f892b39 may =
-incur the issue.<br>------------------=C2=A0<br>=C2=A0 =C2=A0 failover: fix=
- unplug pending detection<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 Failover needs=
- to detect the end of the PCI unplug to start migration<br>=C2=A0 =C2=A0 af=
-ter the VFIO card has been unplugged.<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 To=
- do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in<b=
-r>=C2=A0 =C2=A0 pcie_unplug_device().<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 Bu=
-t since<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 17858a169508 (&quot;hw/acpi/ich9: Se=
-t ACPI PCI hot-plug as default on Q35&quot;)<br>=C2=A0 =C2=A0 we have switc=
-hed to ACPI unplug and these functions are not called anymore<br>=C2=A0 =C2=
-=A0 and the flag not set. So failover migration is not able to detect if ca=
-rd<br>=C2=A0 =C2=A0 is really unplugged and acts as it&#39;s done as soon a=
-s it&#39;s started. So it<br>=C2=A0 =C2=A0 doesn&#39;t wait the end of the =
-unplug to start the migration. We don&#39;t see any<br>=C2=A0 =C2=A0 proble=
-m when we test that because ACPI unplug is faster than PCIe native<br>=C2=
-=A0 =C2=A0 hotplug and when the migration really starts the unplug operatio=
-n is<br>=C2=A0 =C2=A0 already done.<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 See =
-c000a9bd06ea (&quot;pci: mark device having guest unplug request pending&qu=
-ot;)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 a99c4da9fc2a (&quot;pci: mark devices p=
-artially unplugged&quot;)<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 Signed-off-by:=
- Laurent Vivier &lt;<a href=3D"mailto:lvivier@redhat.com">lvivier@redhat.co=
-m</a>&gt;<br>=C2=A0 =C2=A0 Reviewed-by: Ani Sinha &lt;<a href=3D"mailto:ani=
-@anisinha.ca">ani@anisinha.ca</a>&gt;<br>=C2=A0 =C2=A0 Message-Id: &lt;<a h=
-ref=3D"mailto:20211118133225.324937-4-lvivier@redhat.com">20211118133225.32=
-4937-4-lvivier@redhat.com</a>&gt;<br>=C2=A0 =C2=A0 Reviewed-by: Michael S. =
-Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt;<br>=C2=
-=A0 =C2=A0 Signed-off-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redh=
-at.com">mst@redhat.com</a>&gt;<br>------------------=C2=A0=C2=A0<br>The pur=
-pose is for detecting the end of the PCI device hot-unplug. However, we fee=
-l the error confusing. How is it possible that a disk &quot;is already in t=
-he process of unplug&quot; during the first hot-unplug attempt? So far as I=
- know, the issue was also encountered by libvirt, but they simply ignored i=
-t:<br><br>=C2=A0 =C2=A0 <a href=3D"https://bugzilla.redhat.com/show_bug.cgi=
-?id=3D1878659">https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659</a><br=
->=C2=A0 =C2=A0 <br>Hence, a question is: should we have the line below in=
-=C2=A0 acpi_pcihp_device_unplug_request_cb()?<br><br>=C2=A0 =C2=A0pdev-&gt;=
-qdev.pending_deleted_event =3D true;<br>=C2=A0 =C2=A0<br>It would be great =
-if you as the author could give us a few hints. <br><br>Thank you very much=
- for your reply!<br><br>Sincerely,<br><br>Yu Zhang @ Compute Platform IONOS=
-<br>03.04.2013<br></div>
+Hanna
 
---00000000000004501805f86e7ccd--
 
