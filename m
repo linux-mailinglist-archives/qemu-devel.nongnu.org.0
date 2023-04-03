@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D736D5361
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 23:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3566D53B9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 23:38:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjRb9-0003VP-JY; Mon, 03 Apr 2023 17:20:19 -0400
+	id 1pjRrl-0007RF-Mc; Mon, 03 Apr 2023 17:37:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pjRb7-0003Rz-Mc
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 17:20:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pjRrj-0007R6-I1
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 17:37:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pjRag-00073z-BF
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 17:20:17 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pjRr2-0002Wp-EH
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 17:37:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680556789;
+ s=mimecast20190719; t=1680557802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mZpoiDE/1O/to4scl5azAq937rqkicDP8woUOwMVabM=;
- b=P4ItGDR2zvR/nwyC35nUArixjg8J9KS+EXm8SyyYoujoZGToIP4rKoTzoGdogIjTpRM1TP
- IUdYBxXmNNsAREd5iREYzj11OXr/2993u9BXROZecwgRV5c+4KBFKoFtbsjz/+yNoT4+Em
- iy7DTf1dPDW0Pu2HrS9lafyl7/2llcA=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0aX3C6PzDeAmHttIb0a7lAmd3nwV2gv0QuACd65iBTY=;
+ b=SLKnDioNofPkTS4e2aBxkEb5tcbFx3uSTcL47nWhlDKKqPdMJA9yzTYGIsLOrb38hM5fb4
+ lRLFXNR8/RZKCpGHgSVk9ccJdKOVaSncsQ7pXbPdVMhZZMxe9bRwYoCrd2IH7vqFHNTjcu
+ 7oyEp41JfnAba8HQx5UMZ2o0FFfc2TU=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-RvkKZ4zrOnqKyreH4MbY8Q-1; Mon, 03 Apr 2023 17:19:48 -0400
-X-MC-Unique: RvkKZ4zrOnqKyreH4MbY8Q-1
-Received: by mail-qt1-f199.google.com with SMTP id
- y10-20020a05622a164a00b003e38e0a3cc3so20604365qtj.14
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 14:19:43 -0700 (PDT)
+ us-mta-563-mAd4ysRPP9eZouuSuEwEzg-1; Mon, 03 Apr 2023 17:36:35 -0400
+X-MC-Unique: mAd4ysRPP9eZouuSuEwEzg-1
+Received: by mail-il1-f199.google.com with SMTP id
+ a9-20020a921a09000000b003264524481cso7701188ila.7
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 14:36:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680556782; x=1683148782;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mZpoiDE/1O/to4scl5azAq937rqkicDP8woUOwMVabM=;
- b=Hiv/B1p1bGdzhM82erxU29j5Anh8qSOHKnE4x3rRBiK3EdB5PIDGJTU1IASUGoqdPv
- UZhKfZ+YmgMhz9S8gxj1IwvSmvPfKFqWMLl7Y4x7+SlbizLqPS11PTNcV7PTw5gVmMRL
- D1VIwie5SHdDYEtuLo2UOk3WnbyLin8vtFJlTlQHSpLYZUScRrz/uuvvgwjaVOylNLkZ
- kpdwpwZY0JQi3Um3KshNnsXjUUQcgoA+X0nMzx0GXjq//rJx0vq0SHd99loBdlOtnCZG
- iNUlZmsM3ylf2RMoZIiCHK6jCahi/u4WdhOkSGnVLqu3bMmBNvpdqVYYZGAEWr5I145X
- lrHw==
-X-Gm-Message-State: AAQBX9d8asw8Zc3Mn1ztZevheNVqihr4ikOdN6c+Ju6/UwbScUUQpKES
- XdRC7aYTez8ilF5iePQrkn+exj2NobbqowWPTu2xouj8+ruCntrVTETjOy7nvXifwS/mJ65PPMN
- NMqs4fKG/jj6IXApSvc6cED0=
-X-Received: by 2002:a05:6214:4106:b0:5df:4d41:9560 with SMTP id
- kc6-20020a056214410600b005df4d419560mr387537qvb.0.1680556782643; 
- Mon, 03 Apr 2023 14:19:42 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZZN3R/sp/+0gINIgrbyTMT2INOghFHyzPmKLA8UE8EH8aYEbb6OZzWSBaDTTv7ll365J7/dA==
-X-Received: by 2002:a05:6214:4106:b0:5df:4d41:9560 with SMTP id
- kc6-20020a056214410600b005df4d419560mr387509qvb.0.1680556782353; 
- Mon, 03 Apr 2023 14:19:42 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- ea7-20020ad458a7000000b005dd8b9345a7sm2883258qvb.63.2023.04.03.14.19.41
+ d=1e100.net; s=20210112; t=1680557795;
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0aX3C6PzDeAmHttIb0a7lAmd3nwV2gv0QuACd65iBTY=;
+ b=zc/c5wb0fNyw7f18u2/HhPmu+XSKOKWklAmtQn+Pe8smr1pAXYBy3qqOabJ/7KlzmH
+ e5rxHt2uBdHUJh379gwemIEI5/WE1o1FJ4v1WSGP+jEzHhXXWMB7brcQ3KieHHE3eSL4
+ hNbK9SrrlcnxAQwQxs2NtPluz+dCrIhYDsVYhzgn1jzkg1W+WWNW5wV7b9nUssTusBDR
+ UYXtAAHaSb/9nrJ0ELzNICtMYeEoS8iITPhzHLZNocPyZIktWUGZvkw4yQILJZAg0zDN
+ ukgmP2eFXDiwed+PFdozL4fHukAm7MRAR5+IsYAr0MOTQp1Hibna6Vhad+aGXDc52GLX
+ etoQ==
+X-Gm-Message-State: AAQBX9eUXd0bKC2Sb6jzyuVtQcCcEfUUjamLM5uiLMJhbeClGj5v830Q
+ pEbbcP5wMMjuSpCIa+ECPpB7ULix/S79PARWlA4Q2MGGaIBrzzPnuGagzLOqob56dtJdyBbdLOu
+ V2JvTVHL+IE0BIlg=
+X-Received: by 2002:a5e:de4c:0:b0:750:6c44:3454 with SMTP id
+ e12-20020a5ede4c000000b007506c443454mr604764ioq.12.1680557795110; 
+ Mon, 03 Apr 2023 14:36:35 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b5/vWErZS4EimYlkocTjMJol+k5vYj68cztvjr7tHmFwuSkt3zBhr4VgtqV4pHvHVjdJLAVw==
+X-Received: by 2002:a5e:de4c:0:b0:750:6c44:3454 with SMTP id
+ e12-20020a5ede4c000000b007506c443454mr604754ioq.12.1680557794839; 
+ Mon, 03 Apr 2023 14:36:34 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ z2-20020a05663822a200b00408f47b0369sm2941018jas.24.2023.04.03.14.36.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 14:19:41 -0700 (PDT)
-Date: Mon, 3 Apr 2023 17:19:40 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH RESEND 2/2] migration/ram.c: Fix migration with compress
- enabled
-Message-ID: <ZCtC7OTHLg0u9c09@x1n>
-References: <af76761aa6978071c5b8e9b872b697db465a5520.1680457631.git.lukasstraub2@web.de>
- <f0cbd720150d72951e1cafe88ba75e853993f359.1680457631.git.lukasstraub2@web.de>
+ Mon, 03 Apr 2023 14:36:34 -0700 (PDT)
+Date: Mon, 3 Apr 2023 15:36:33 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org, Keqian Zhu
+ <zhukeqian1@huawei.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH] vfio/migration: Skip log_sync during migration SETUP state
+Message-ID: <20230403153633.1aeeceec.alex.williamson@redhat.com>
+In-Reply-To: <bebd7827-1d72-9572-ea1a-d41d8b856dbe@redhat.com>
+References: <20230403130000.6422-1-avihaih@nvidia.com>
+ <bebd7827-1d72-9572-ea1a-d41d8b856dbe@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f0cbd720150d72951e1cafe88ba75e853993f359.1680457631.git.lukasstraub2@web.de>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,30 +101,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Apr 02, 2023 at 05:48:38PM +0000, Lukas Straub wrote:
-> Since ec6f3ab9, migration with compress enabled was broken, because
-> the compress threads use a dummy QEMUFile which just acts as a
-> buffer and that commit accidentally changed it to use the outgoing
-> migration channel instead.
+On Mon, 3 Apr 2023 22:36:42 +0200
+C=C3=A9dric Le Goater <clg@redhat.com> wrote:
 
-Sorry. :(
+> On 4/3/23 15:00, Avihai Horon wrote:
+> > Currently, VFIO log_sync can be issued while migration is in SETUP
+> > state. However, doing this log_sync is at best redundant and at worst
+> > can fail.
+> >=20
+> > Redundant -- all RAM is marked dirty in migration SETUP state and is
+> > transferred only after migration is set to ACTIVE state, so doing
+> > log_sync during migration SETUP is pointless.
+> >=20
+> > Can fail -- there is a time window, between setting migration state to
+> > SETUP and starting dirty tracking by RAM save_live_setup handler, during
+> > which dirty tracking is still not started. Any VFIO log_sync call that
+> > is issued during this time window will fail. For example, this error can
+> > be triggered by migrating a VM when a GUI is active, which constantly
+> > calls log_sync.
+> >=20
+> > Fix it by skipping VFIO log_sync while migration is in SETUP state.
+> >=20
+> > Fixes: 758b96b61d5c ("vfio/migrate: Move switch of dirty tracking into =
+vfio_memory_listener")
+> > Signed-off-by: Avihai Horon <avihaih@nvidia.com> =20
+> migration is still experimental, so this can wait 8.1. Correct me if not.
 
-> Fix this by using the dummy file again in the compress threads.
-> 
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Agreed, this doesn't seem nearly catastrophic enough as an experimental
+feature that it can't wait for the 8.1 devel cycle to open.  Thanks,
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Alex
 
-Let's also add a Fixes tag to be clear:
-
-ec6f3ab9f4 ("migration: Move last_sent_block into PageSearchStatus")
-
-Even though it may not need to copy stable.
-
-I think this is for 8.0, am I right?  It should be very clear if so,
-otherwise it's easy to get overlooked.
-
--- 
-Peter Xu
+> > ---
+> >   hw/vfio/common.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> > index 4d01ea3515..78358ede27 100644
+> > --- a/hw/vfio/common.c
+> > +++ b/hw/vfio/common.c
+> > @@ -478,7 +478,8 @@ static bool vfio_devices_all_dirty_tracking(VFIOCon=
+tainer *container)
+> >       VFIODevice *vbasedev;
+> >       MigrationState *ms =3D migrate_get_current();
+> >  =20
+> > -    if (!migration_is_setup_or_active(ms->state)) {
+> > +    if (ms->state !=3D MIGRATION_STATUS_ACTIVE &&
+> > +        ms->state !=3D MIGRATION_STATUS_DEVICE) {
+> >           return false;
+> >       }
+> >    =20
+>=20
 
 
