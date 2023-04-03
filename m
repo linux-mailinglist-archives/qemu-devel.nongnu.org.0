@@ -2,109 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D1B6D44E8
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 14:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D176D3CEB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 07:34:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjJer-00078z-Jk; Mon, 03 Apr 2023 08:51:37 -0400
+	id 1pjCo6-0003vF-2I; Mon, 03 Apr 2023 01:32:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Alexey.Kardashevskiy@amd.com>)
- id 1pjAhs-0003zz-HI
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 23:18:08 -0400
-Received: from mail-dm6nam10on2075.outbound.protection.outlook.com
- ([40.107.93.75] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pjCo2-0003u4-6x
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 01:32:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Alexey.Kardashevskiy@amd.com>)
- id 1pjAho-0005H6-S1
- for qemu-devel@nongnu.org; Sun, 02 Apr 2023 23:18:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fO2+6Eav/8HbhKgR8QTmSR3TwUWGyetqxrAKJN8b+r+70epVTraQAb4mqo9AcF4IlISmwoe7kyyULz2b1Gb6kur4ez8L9YgMk5pTcYLJcnTez5roS3yk4Np8TISoVlBCsCq/qja8WJw/A0KjbFfmd/ydzpqbO2ohLsZl7Epajc31O87C1CZZ6bkluqvsrU13sGQnZ6sJs6MxQnIrUyfJv7RcAkUVr+H2UiXrYIwlkN6/VkMGLRCF3w3v/6T8lE5l3vtzOsg92DssPV1lenuqCULVlqgPBf0/7Hg2igr0DCT/LafDYD02Qlp4SsMaKQSKlt9mjZlnf2Hc861IeptJww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wy/sINq1UzDIWpmF5QWD+l+VOpForLdBvt0pGbqfCKs=;
- b=Gt2aVkeiaB5KPzvB4yNjbOfiROv6YGQ4bzau4gHq2Qp14WQX/r75odVWjNJsh8toZtQrxtP5RZzIT6+woZz6tuiGaUHFl6WHvbTJraD5ZbqNMCHgvUF48iRRHu57nFhP/wC3JKkkrJM44ty2WrCZG+hcoECyrp+6xv8ourWGc2N/mU4nlViMGgsscdNTJRj6pwAL0RmZ2+qX2Yt3p9lmPlw2bp7tqhrIBG76GTVzCZVAU/w/z0jEvjOIl7xYCSRPMf/2X5CvaTlDYYP9BM9ViRYgYPEScim7irJWmBRgli9TBWf5OVt/ST7JelkB9bc3OSS7/g2WuCRpl+t4Ppyr5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wy/sINq1UzDIWpmF5QWD+l+VOpForLdBvt0pGbqfCKs=;
- b=kr/KjrY3eRUH1vx+xcFGoO8U9FqpMBxNtdmSfMuq6DWwDru2kkGrO/gE+yJVnxj9YRKrgpD6ryQYsz77X+8e04T8EGuH5cMSeoxq1QtM2Fa4eC6gyXEmyC0xAs3JOQ15a5MEv+pPy6iVboQi/RHyYH9VUuOn/Axf9BkScPv6OUk=
-Received: from MW2PR16CA0040.namprd16.prod.outlook.com (2603:10b6:907:1::17)
- by SN7PR12MB6912.namprd12.prod.outlook.com (2603:10b6:806:26d::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.29; Mon, 3 Apr
- 2023 03:12:56 +0000
-Received: from CO1NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:907:1:cafe::f8) by MW2PR16CA0040.outlook.office365.com
- (2603:10b6:907:1::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.22 via Frontend
- Transport; Mon, 3 Apr 2023 03:12:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT034.mail.protection.outlook.com (10.13.174.248) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6277.16 via Frontend Transport; Mon, 3 Apr 2023 03:12:55 +0000
-Received: from aiemdeew.1.ozlabs.ru (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Sun, 2 Apr
- 2023 22:12:52 -0500
-From: Alexey Kardashevskiy <aik@amd.com>
-To: <kvm@vger.kernel.org>
-CC: <qemu-devel@nongnu.org>, Alexey Kardashevskiy <aik@amd.com>
-Subject: [PATCH qemu] sev/i386: Fix error reporting
-Date: Mon, 3 Apr 2023 13:12:31 +1000
-Message-ID: <20230403031231.2003480-1-aik@amd.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pjCo0-0007dw-9q
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 01:32:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680499953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dY4+ROuFQjZ0QTuuuAtF0F2oEcC1Wsnh452W6tOVk8s=;
+ b=SXT4aaIseV0exKDabo2tHSqIqhArxZZlsy0P4Zeib6WEBH5r+9y5BgEy6xqX7KlaR3ZhWL
+ E/HXf/oVV9uZU1ejf0IRG3qX2p47vXEEHgQpLTJ17uD1+qd4N/nnraU4eyJ6Q84n6NetRn
+ mpr6n9hVR/MgI9hdZGkCUv0x3CYiSDo=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-423-5jVL5sm5PqqdzRTrJRIjwA-1; Mon, 03 Apr 2023 01:32:32 -0400
+X-MC-Unique: 5jVL5sm5PqqdzRTrJRIjwA-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-1802c0ae9bbso5443405fac.5
+ for <qemu-devel@nongnu.org>; Sun, 02 Apr 2023 22:32:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680499952; x=1683091952;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dY4+ROuFQjZ0QTuuuAtF0F2oEcC1Wsnh452W6tOVk8s=;
+ b=E9nOO67bAIa8OvwOisNIoRutCYXBq5A6E6t7ylgMhOaVfwwv6xStii4eo7QqpHkc9V
+ m7FespRKydw/yfaafoBZ4Rt5F3mVGvg/cXjK+SbIlxHYoEuQpw9rEW34kZIW+8S723ac
+ sDyZw8/0cLwP9OgW/dxhXKqlFBPbSEscw5/Ov4l5T3czOPrzzD4vZBTMkp3c80m6n6LI
+ eA46hIlcB4OoiPuuWSSPPrSBfDVmjuDkpIZ1iky/bmAUXe3u5RPIOp/zVnQ+rodayMvB
+ UKPNk2MFSeB3oN4sXIIJIcepUc914PoMOG+6r6ET4loEx1Ma/20wVHOX1IElXMCUi5kS
+ STDw==
+X-Gm-Message-State: AAQBX9f6xG7BxZhuk23VAH5IqA5g2RJjSsyeOZrjPDqai7Io8Oz39qeI
+ SliOG1AUyK1677j1h+q30MN0iQIG6XV5kNTXeaO2tn/ramrb7Q8A9AKJVBgTkWa4hn/w4rTMMDM
+ uB+tY4tnGFCCxEQ56rWUIb+bc4Z6XPno=
+X-Received: by 2002:a9d:5a11:0:b0:6a1:cbc6:f1b3 with SMTP id
+ v17-20020a9d5a11000000b006a1cbc6f1b3mr3526622oth.2.1680499951808; 
+ Sun, 02 Apr 2023 22:32:31 -0700 (PDT)
+X-Google-Smtp-Source: AKy350amvvIQNdFXuF/w0mLzKPjZFyZP7zko512TCdC/k05c1Cko19R1IO5igbc6pBt+THoei8AIiFLBlLQv7dXvahI=
+X-Received: by 2002:a9d:5a11:0:b0:6a1:cbc6:f1b3 with SMTP id
+ v17-20020a9d5a11000000b006a1cbc6f1b3mr3526602oth.2.1680499951535; Sun, 02 Apr
+ 2023 22:32:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT034:EE_|SN7PR12MB6912:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5b9ed9b-1ebc-4574-af60-08db33f1521f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XK2OqHgKAWx3Ha5Rz4WKWq1R8uMyRozQZVrw8LAC7iuX6T4yWNXnqoi3tM59bE6DfssFMAsSf74fQD1zLxptiOdobcFNlUvbTclIINfbUv0JUuJrYOepokmPOMH9nXkxN0mXXZOaSTH4w+B6i3DDSAcyXMkN54sJQFGjtAZwAVb9bZ7aF5zQXTJ5q/7IHfZ8jUxR0FNY+ma+d9eaE1r2LZ/rio7zCfY0oZUT17UHro9H3xxN69wlm/6r4PnvRob3++jT4lKh3+pmWHQlhv3Lin4W0VvK4Mv076c4cSCzdenn0RkQHe5P92YpMsMFkg2uuHgj6gD5EfhXwZqQmzZIdEDq4HD9XRkDwahB5GDfzrW4dvaKJoNbYrmbupaoXQX27D2J+SJaXRiXh7IiSrCM9olwgqbhnk27hTVVPMbHvMn83/IZ7AtbpRNXlkH+48nNsBZUiYL5twIHfJc3IJIiItY+TuOY9jDpex2e9OD1SaQlDcUd8Wy2XDcYt4PyWKQMSsGGrxXSMgYeKbFUOiQ/RHHiOKkp1oz2RFaVeWBBGABCLJFxY/IiKaAUPFvlNsjMPe33gccEeW8b+Y74RZqL0zdJ4DP1/AJdo/9sJRXh9GwiLUiJw7mEgJtTkOhaDXzxMkHDJGcH0GOFlV8EyTHFdS0FEWvU8Cv41KsdWZuDDsVCeQyeEW6EC91QAp4d059UnP6AqGG6rFQUz8/PBaRFN5F36nQxQpAMbUUj5uurOlU=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(39860400002)(346002)(396003)(451199021)(40470700004)(46966006)(36840700001)(82310400005)(2906002)(36756003)(40460700003)(40480700001)(2616005)(83380400001)(336012)(16526019)(186003)(47076005)(26005)(1076003)(6666004)(4326008)(8676002)(70586007)(36860700001)(478600001)(70206006)(81166007)(6916009)(41300700001)(5660300002)(82740400003)(356005)(54906003)(316002)(426003)(8936002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2023 03:12:55.9594 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5b9ed9b-1ebc-4574-af60-08db33f1521f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT034.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6912
-Received-SPF: softfail client-ip=40.107.93.75;
- envelope-from=Alexey.Kardashevskiy@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
+References: <20230323195404.1247326-1-eperezma@redhat.com>
+ <20230323195404.1247326-6-eperezma@redhat.com>
+ <CACGkMEu=8tx-5kDh5HRt2bHtL9W=cPODgUeOXXAyRxoOusW5jw@mail.gmail.com>
+ <CACGkMEtsc-73+U4ZojrO0J+anb1CdDjbm37i0HZY_fQmiFNNFA@mail.gmail.com>
+ <CAJaqyWeUxm9=Hup58gsBypQXJbeW2BTu3YpV7VDVOA2rXbtPWg@mail.gmail.com>
+ <0cc19893-f832-f03a-cbb0-19f053ff8aa7@redhat.com>
+ <CAJaqyWfk0x0Sym1wZvm5jKPi6EsyQMXFr3Tnb_StxM25uamoTA@mail.gmail.com>
+In-Reply-To: <CAJaqyWfk0x0Sym1wZvm5jKPi6EsyQMXFr3Tnb_StxM25uamoTA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 3 Apr 2023 13:32:20 +0800
+Message-ID: <CACGkMEvYcO3aC7CQX00POC7+U6w4Rjekeg+rcY70EVRsToaGGg@mail.gmail.com>
+Subject: Re: [PATCH for 8.1 v2 5/6] vdpa: move CVQ isolation check to
+ net_init_vhost_vdpa
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, alvaro.karsz@solid-run.com, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>,
+ si-wei.liu@oracle.com, 
+ Eli Cohen <eli@mellanox.com>, Shannon Nelson <snelson@pensando.io>, 
+ Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Parav Pandit <parav@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
+ longpeng2@huawei.com, Harpreet Singh Anand <hanand@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 03 Apr 2023 08:51:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,56 +108,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-c9f5aaa6bce8 ("sev: Add Error ** to sev_kvm_init()") converted
-error_report() to error_setg(), however it missed one error_report()
-and other 2 changes added error_report() after conversion. The result
-is the caller - kvm_init() - crashes in error_report_err as local_err
-is NULL.
+On Fri, Mar 31, 2023 at 6:12=E2=80=AFPM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Fri, Mar 31, 2023 at 10:00=E2=80=AFAM Jason Wang <jasowang@redhat.com>=
+ wrote:
+> >
+> >
+> > =E5=9C=A8 2023/3/30 18:42, Eugenio Perez Martin =E5=86=99=E9=81=93:
+> > > On Thu, Mar 30, 2023 at 8:23=E2=80=AFAM Jason Wang <jasowang@redhat.c=
+om> wrote:
+> > >> On Thu, Mar 30, 2023 at 2:20=E2=80=AFPM Jason Wang <jasowang@redhat.=
+com> wrote:
+> > >>> On Fri, Mar 24, 2023 at 3:54=E2=80=AFAM Eugenio P=C3=A9rez <eperezm=
+a@redhat.com> wrote:
+> > >>>> Evaluating it at start time instead of initialization time may mak=
+e the
+> > >>>> guest capable of dynamically adding or removing migration blockers=
+.
+> > >>>>
+> > >>>> Also, moving to initialization reduces the number of ioctls in the
+> > >>>> migration, reducing failure possibilities.
+> > >>>>
+> > >>>> As a drawback we need to check for CVQ isolation twice: one time w=
+ith no
+> > >>>> MQ negotiated and another one acking it, as long as the device sup=
+ports
+> > >>>> it.  This is because Vring ASID / group management is based on vq
+> > >>>> indexes, but we don't know the index of CVQ before negotiating MQ.
+> > >>> We need to fail if we see a device that can isolate cvq without MQ =
+but
+> > >>> not with MQ.
+> > >>>
+> > >>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >>>> ---
+> > >>>> v2: Take out the reset of the device from vhost_vdpa_cvq_is_isolat=
+ed
+> > >>>> ---
+> > >>>>   net/vhost-vdpa.c | 194 ++++++++++++++++++++++++++++++++++++-----=
+------
+> > >>>>   1 file changed, 151 insertions(+), 43 deletions(-)
+> > >>>>
+> > >>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > >>>> index 4397c0d4b3..db2c9afcb3 100644
+> > >>>> --- a/net/vhost-vdpa.c
+> > >>>> +++ b/net/vhost-vdpa.c
+> > >>>> @@ -43,6 +43,13 @@ typedef struct VhostVDPAState {
+> > >>>>
+> > >>>>       /* The device always have SVQ enabled */
+> > >>>>       bool always_svq;
+> > >>>> +
+> > >>>> +    /* The device can isolate CVQ in its own ASID if MQ is negoti=
+ated */
+> > >>>> +    bool cvq_isolated_mq;
+> > >>>> +
+> > >>>> +    /* The device can isolate CVQ in its own ASID if MQ is not ne=
+gotiated */
+> > >>>> +    bool cvq_isolated;
+> > >>> As stated above, if we need a device that cvq_isolated_mq^cvq_isola=
+ted
+> > >>> =3D=3D true, we need to fail. This may reduce the complexity of the=
+ code?
+> > >>>
+> > >>> Thanks
+> > >> Since we are the mediation layer, Qemu can alway choose to negotiate
+> > >> MQ regardless whether or not it is supported by the guest. In this
+> > >> way, we can have a stable virtqueue index for cvq.
+> > >>
+> > > I think it is a great idea and it simplifies this patch somehow.
+> > > However, we need something like the queue mapping [1] to do so :).
+> > >
+> > > To double confirm:
+> > > * If the device supports MQ, only probe MQ. If not, only probe !MQ.
+> > > * Only store cvq_isolated in VhostVDPAState.
+> > >
+> > > Now, if the device does not negotiate MQ but the device supports MQ:
+> >
+> >
+> > I'm not sure I understand here, if device supports MQ it should accepts
+> > MQ or we can fail the initialization here.
+> >
+>
+> My fault, I wanted to say "if the device offers MQ but the driver does
+> not acks it".
+>
+> >
+> > > * All the requests to queue 3 must be redirected to the last queue in
+> > > the device. That includes set_vq_address, notifiers regions, etc.
+> >
+> >
+> > This also means we will only mediate the case:
+> >
+> > 1) Qemu emulated virtio-net has 1 queue but device support multiple que=
+ue
+> >
+> > but not
+> >
+> > 2) Qemu emulated virtio-net has M queue but device support N queue (N>M=
+)
+> >
+>
+> Right.
+>
+> >
+> > >
+> > > I'm totally ok to go this route but it's not immediate.
+> >
+> >
+> > Yes but I mean, we can start from failing the device if
+> > cvq_isolated_mq^cvq_isolated =3D=3D true
+> >
+>
+> So probe the two cases but set VhostVDPAState->cvq_isolated =3D
+> cvq_isolated && cvq_mq_isolated then? No map involved that way, and
+> all parents should behave that way.
+>
+> > (or I wonder if we can meet this condition for any existing parents).
+>
+> I don't think so, but I think we need to probe the two anyway.
+> Otherwise we may change the dataplane asid too.
 
-Follow the pattern and use error_setg instead of error_report.
+Just to make sure we are at the same page, I meant we could fail the
+initialization of vhost-vDPA is the device:
 
-Fixes: 9681f8677f26 ("sev/i386: Require in-kernel irqchip support for SEV-ES guests")
-Fixes: 6b98e96f1842 ("sev/i386: Add initial support for SEV-ES")
-Fixes: c9f5aaa6bce8 ("sev: Add Error ** to sev_kvm_init()")
-Signed-off-by: Alexey Kardashevskiy <aik@amd.com>
----
- target/i386/sev.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+1) can isolate cvq in the case of singqueue but not multiqueue
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 859e06f6ad..6b640b5c1f 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -922,7 +922,7 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- 
-     ret = ram_block_discard_disable(true);
-     if (ret) {
--        error_report("%s: cannot disable RAM discard", __func__);
-+        error_setg(errp, "%s: cannot disable RAM discard", __func__);
-         return -1;
-     }
- 
-@@ -968,15 +968,14 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- 
-     if (sev_es_enabled()) {
-         if (!kvm_kernel_irqchip_allowed()) {
--            error_report("%s: SEV-ES guests require in-kernel irqchip support",
--                         __func__);
-+            error_setg(errp, "%s: SEV-ES guests require in-kernel irqchip support",
-+                       __func__);
-             goto err;
-         }
- 
-         if (!(status.flags & SEV_STATUS_FLAGS_CONFIG_ES)) {
--            error_report("%s: guest policy requires SEV-ES, but "
--                         "host SEV-ES support unavailable",
--                         __func__);
-+            error_setg(errp, "%s: guest policy requires SEV-ES, but host SEV-ES support unavailable",
-+                       __func__);
-             goto err;
-         }
-         cmd = KVM_SEV_ES_INIT;
--- 
-2.39.1
+or
+
+2) can isolate cvq in the case of multiqueue but not single queue
+
+Because I don't think there are any parents that have such a buggy
+implementation.
+
+Thanks
+
+>
+> Thanks!
+>
 
 
