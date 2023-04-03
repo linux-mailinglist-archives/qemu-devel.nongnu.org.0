@@ -2,57 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263886D3D2C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 08:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C976D3D41
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 08:24:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjDSI-0003cf-85; Mon, 03 Apr 2023 02:14:14 -0400
+	id 1pjDaJ-0007I8-Rj; Mon, 03 Apr 2023 02:22:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
- id 1pjDSB-0003av-32
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 02:14:07 -0400
-Received: from pi.codeconstruct.com.au ([203.29.241.158]
- helo=codeconstruct.com.au)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjDaE-0007Fn-2m
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 02:22:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
- id 1pjDS8-0007TO-HG
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 02:14:06 -0400
-Received: from [172.16.75.132] (unknown [49.255.141.98])
- by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 5C10520033;
- Mon,  3 Apr 2023 14:13:56 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=codeconstruct.com.au; s=2022a; t=1680502437;
- bh=SNgifGz+HEOSAGQ8/C9Uts/OkYGw7whqSLVBfhASENM=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References;
- b=StG8NkKf1MA1R3ucyrgF8tGe1VRlpsB8Lv5Sfcs+yUjeKFprT+ENTHiH7w0+85Kxi
- dkGKy8HQbXetsZ9ax89Z73KyHvVjOBsUpn+eSkF+Zfp+11vev2tGhnoZV8FNIqlhxA
- Th9Y/rE8x+1BCCi3pLVFSPWil27OgbXKbPREjoLXfPmjAk7CcB0A2Q/hI0gveKWbYR
- 0ZEUc1fHvgonEyE4kHJPxfb8LzUR1cgKgdBLA8ETcMJpc4vgp9ctZw6+1WYnnlnnmS
- LAsQ5rhj/VDd5TsIOF3/0p+DzbdLgWwR6IsLMiZ55m0zK9eQTI5TY8BHlNifeG7Qza
- 7eBrqiD2XacMw==
-Message-ID: <3bc0910f6b8078b07f43b3dd6d04686c25829ec1.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 14/16] hw/i3c: remote_i3c: Add model
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Joe Komlodi <komlodi@google.com>, qemu-devel@nongnu.org
-Cc: venture@google.com, peter.maydell@linaro.org
-Date: Mon, 03 Apr 2023 14:13:45 +0800
-In-Reply-To: <20230331010131.1412571-15-komlodi@google.com>
-References: <20230331010131.1412571-1-komlodi@google.com>
- <20230331010131.1412571-15-komlodi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-1 
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjDaB-0000zy-0v
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 02:22:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680502939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Ke0XOLjHyP51AZrx6au9pHWRsLphMBn4QLOm46d90k=;
+ b=aLruUzYi35UEtgoVBuslYLnZaOsoVJj0B7D6a5gtoZjy3gtz5rbCZyvSpA8COmQX+70eKZ
+ 2vZ5n74zHRFrHRO6h1IuMT8wVNMBOXBWhEYrh+TyJAxLyBF7qZQNNmftHSk2v3eFNNbPKo
+ kusldfJ0Tv4bkGFOyItOe/VJnZfV3jE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-486-qz1yvOKfM3ebFQxxURVUQw-1; Mon, 03 Apr 2023 02:22:16 -0400
+X-MC-Unique: qz1yvOKfM3ebFQxxURVUQw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83D85858289;
+ Mon,  3 Apr 2023 06:22:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C67741415117;
+ Mon,  3 Apr 2023 06:22:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8FC7321E6926; Mon,  3 Apr 2023 08:22:12 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,  Warner Losh
+ <imp@bsdimp.com>,  Ryo ONODERA <ryoon@netbsd.org>,  Kevin Wolf
+ <kwolf@redhat.com>,  Beraldo Leal <bleal@redhat.com>,  Wainer dos Santos
+ Moschetta <wainersm@redhat.com>,  Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,  Kyle
+ Evans <kevans@freebsd.org>,  Reinoud Zandijk <reinoud@netbsd.org>,
+ Michael Tokarev <mjt@tls.msk.ru>
+Subject: Re: [PATCH 04/11] qemu-options: finesse the recommendations around
+ -blockdev
+References: <20230330101141.30199-1-alex.bennee@linaro.org>
+ <20230330101141.30199-5-alex.bennee@linaro.org>
+Date: Mon, 03 Apr 2023 08:22:12 +0200
+In-Reply-To: <20230330101141.30199-5-alex.bennee@linaro.org> ("Alex
+ =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Thu, 30 Mar 2023 11:11:34 +0100")
+Message-ID: <871ql1lc2z.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=203.29.241.158;
- envelope-from=jk@codeconstruct.com.au; helo=codeconstruct.com.au
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,38 +90,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Joe,
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> Adds a model to communicate to remote I3C devices over chardev. This
-> allows QEMU to communicate to I3C targets that exist outside of QEMU.
+> We are a bit premature in recommending -blockdev/-device as the best
+> way to configure block devices, especially in the common case.
+> Improve the language to hopefully make things clearer.
+>
+> Suggested-by: Michael Tokarev <mjt@tls.msk.ru>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  qemu-options.hx | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 59bdf67a2c..9a69ed838e 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1143,10 +1143,14 @@ have gone through several iterations as the featu=
+re set and complexity
+>  of the block layer have grown. Many online guides to QEMU often
+>  reference older and deprecated options, which can lead to confusion.
+>=20=20
+> -The recommended modern way to describe disks is to use a combination of
+> +The most explicit way to describe disks is to use a combination of
+>  ``-device`` to specify the hardware device and ``-blockdev`` to
+>  describe the backend. The device defines what the guest sees and the
+> -backend describes how QEMU handles the data.
+> +backend describes how QEMU handles the data. The ``-drive`` option
+> +combines the device and backend into a single command line options
+> +which is useful in the majority of cases.
 
-Nice!
+-drive may look simpler from afar, but it really is a hot mess.  Sadly,
+we can't get rid of it until we find a replacement for configuring
+onboard block devices.  We might be able to clean it up some if we
+accept compatibility breaks.  A new convenience option would be less
+confusing, I guess.
 
-I've been wanting something similar for a while, both for i2c and i3c
-busses, to the point of having a similar concept partly implemented.
+>                                            Older options like ``-hda``
+> +bake in a lot of assumptions from the days when QEMU was emulating a
+> +legacy PC, they are not recommended for modern configurations.
+>=20=20
+>  ERST
 
-A couple of design decisions though:
+These older options and the non-option argument are simple macros for
+-drive:
 
-1) Is this something that qemu upstream would accept? Do we need a
-formal description of the guest-to-host interface somewhere? Or is there
-a more standard way of exposing busses like this?
+    IMG-FILE                    -drive index=3D0,file=3DIMG-FILE,media=3Ddi=
+sk
+    -hda IMG-FILE               -drive index=3D0,file=3DIMG-FILE,media=3Ddi=
+sk
+    -hdb IMG-FILE               -drive index=3D1,file=3DIMG-FILE,media=3Ddi=
+sk
+    -hdc IMG-FILE               -drive index=3D2,file=3DIMG-FILE,media=3Ddi=
+sk
+    -hdd IMG-FILE               -drive index=3D3,file=3DIMG-FILE,media=3Ddi=
+sk
+    -cdrom IMG-FILE             -drive index=3D2,file=3DIMG-FILE,media=3Dcd=
+rom
+    -fda IMG-FILE               -drive if=3Dfloppy,index=3D0,file=3DIMG-FILE
+    -fdb IMG-FILE               -drive if=3Dfloppy,index=3D1,file=3DIMG-FILE
+    -mtdblock IMG-FILE          -drive if=3Dmtd,file=3DIMG-FILE
+    -sd IMG-FILE                -drive if=3Dsd,file=3DIMG-FILE
+    -pflash IMG-FILE            -drive if=3Dpflash,file=3DIMG-FILE
 
-2) My approach was at the bus level rather than the device level: the
-protocol is bidirectional to allow the model to either participate as a
-i3c controller or a target. There's quite a bit of mis-fit when applying
-that to the qemu device structure though, so your approach is a lot
-cleaner.
+What assumptions do you have in mind?
 
-I'll have a go at adapting my client to your protocol, and see how the
-device interface goes.
+I think you need at least Kevin's Acked-by for this.
 
-Assuming we do adopt your approach though, I think the protocol
-description needs some work. There seems to be other messages not listed
-in your protocol comments, and the direction of some seems to be
-reversed. I'm happy to contribute to that documentation if you like.
-
-Cheers,
-
-
-Jeremy
 
