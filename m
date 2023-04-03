@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836A66D4646
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 15:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DE16D471D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 16:17:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjKe0-0003Qi-5L; Mon, 03 Apr 2023 09:54:48 -0400
+	id 1pjKyZ-0000X3-Kb; Mon, 03 Apr 2023 10:16:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjKdu-0003QH-RT
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:54:42 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjKdt-0006GT-Cy
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:54:42 -0400
-Received: by mail-ed1-x530.google.com with SMTP id eg48so117584107edb.13
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 06:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680530079;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=O63RSbGTNRHKa70AimcDILSKXnM2Bbeq2uBasOeJ6X0=;
- b=b3KhXdWjmt11ii5EU4KSZDPZpXqTKp4krQcikdRIAjVuwXFT3etlfHfWFXDHMCY7TU
- Pmjh9q41prtCMVM6Tq/5jro3h7stcKTyBppUyG6fZgvuLIL8lJQj3bkDGBMDWtUDIVtt
- lCB5880eyjnO2csiptZasGoj5BocPo4W2898hZ6QvpC2yaEtmfCrdsXJztKU/aHUqaFr
- A/oS4QStlsi2r70gxBfsMuAL6iyHtMLnXYhieEo0ifWYLSjwJ7sYZgiPxN8+tK2tTJGg
- ZDjdG/6oSay8gWCwEYxnwCwnNNAJ913ns2RxFSK9TW+pM/kja8uhtWftygNSpF++4kOd
- iy+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680530079;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=O63RSbGTNRHKa70AimcDILSKXnM2Bbeq2uBasOeJ6X0=;
- b=Gd9/+YPBJWXJocaHuELcn0T3S2OrNFE+3hRZGUQEqA9/qvuM00if9+zsZkJ21JP3vY
- tqI4+2T9hSe1UQZC0g2c/WPzx2WjO/NeYB1XkJJe+9HKQ6c1P0zgP0SD4PJ4KGWkf0Sq
- fy5qAW2By6aEHpkRDL42zOILU2LDGRclbLUfY/ZEHUutQ6rBeDm/Ox1DH6Z8xGZ2qVW+
- WlhXkbhOz0MkE8k4BRAkWOr5B0X9QciGlcUbWKvwGUdIF4i/gecrD7oU2PH8TJb5hamB
- r8fsyaHEa2iDOUP2XoXX+Y3By8fhh6N2ql4eK4UhPfWZ8y0/zYLetvcX5ks5IuCCRoH1
- dbYQ==
-X-Gm-Message-State: AAQBX9clL4Wxtd3JY2S9H2BfBwR/jcfxWjIFku6JT3oO9YLxUsjC/aYX
- 1UCp9fNuvJ6omNwS4jf05jeSFOcH5LPhrIS4X5V0cA==
-X-Google-Smtp-Source: AKy350ZTWUbwm9XhG8JQjUJoZC2z8PAdlitmVCiDszGk4fFKtbX5vMjAosTLx1kjWta8G48EF2eZERWBpPBP0FpSg0E=
-X-Received: by 2002:a50:9e89:0:b0:500:547b:4e1b with SMTP id
- a9-20020a509e89000000b00500547b4e1bmr18124132edf.6.1680530079218; Mon, 03 Apr
- 2023 06:54:39 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=xBS6=72=zx2c4.com=Jason@kernel.org>)
+ id 1pjKyV-0000Wi-TU
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 10:16:00 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=xBS6=72=zx2c4.com=Jason@kernel.org>)
+ id 1pjKyS-0003Zt-Uu
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 10:15:59 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 29CBA61CAF
+ for <qemu-devel@nongnu.org>; Mon,  3 Apr 2023 14:15:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A78F8C433A1
+ for <qemu-devel@nongnu.org>; Mon,  3 Apr 2023 14:15:46 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="AEoUdL93"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1680531342;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0mQmAx02Zj5uOCocaZqE67gVVXoPRHHRUuBGcWk6B7w=;
+ b=AEoUdL93A/bndlaqzbF38NqVqsTX3vPLvKBF0oALXuTYMxxbkTeQqP/IgKRus55ETsH5sn
+ b8w5HVFNWdA9rVGg8fUYkBgWadqkDPcfA40MGLkLVQBZ+VgzHMhtpFeHD0qj/KuinE5F+c
+ /Ct7GgX8ILo9olR3wuiHnfXLA4NYk6o=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 73030cb7
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Mon, 3 Apr 2023 14:15:42 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id d18so25499657vsv.11
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 07:15:42 -0700 (PDT)
+X-Gm-Message-State: AAQBX9es+UzV2ASuVIUIlhUwbqQ7YmOyFdq2sQhPXlVeeO+gljEqkOQb
+ LLEYyNKnK1E4oQZFvrciwiRt4O+qjDedFtSLgBQ=
+X-Google-Smtp-Source: AKy350abbvl83cQP41wFloYpBwPFithghD4JmQGFihHDOH//a+xVCNuFl3g+BXT3X3K19lkdQgEuKZ/aI7vnl4AQMpU=
+X-Received: by 2002:a67:c812:0:b0:426:da10:2408 with SMTP id
+ u18-20020a67c812000000b00426da102408mr8497333vsk.5.1680531341755; Mon, 03 Apr
+ 2023 07:15:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230403121537.71320-1-lucas@osdyne.com>
-In-Reply-To: <20230403121537.71320-1-lucas@osdyne.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Apr 2023 14:54:28 +0100
-Message-ID: <CAFEAcA9ERb4a8kwcgtr3VAxnjaCuOVnKFJ56FfkNx=F73a0o-A@mail.gmail.com>
-Subject: Re: [PATCH] stm32vldiscovery: allow overriding of RAM size
-To: Lucas Villa Real <lucasvr@gmail.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, erdnaxe@crans.org, 
- lucas@osdyne.com
+References: <20230403105245.29499-1-bchalios@amazon.es>
+In-Reply-To: <20230403105245.29499-1-bchalios@amazon.es>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Mon, 3 Apr 2023 16:15:30 +0200
+X-Gmail-Original-Message-ID: <CAHmME9q3W4HKXERGdtrMHvaTO_as3UYow9qHQjRroyWW0iA-8Q@mail.gmail.com>
+Message-ID: <CAHmME9q3W4HKXERGdtrMHvaTO_as3UYow9qHQjRroyWW0iA-8Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/1] Implement entropy leak reporting for virtio-rng
+To: Babis Chalios <bchalios@amazon.es>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Amit Shah <amit@kernel.org>, 
+ qemu-devel@nongnu.org, sgarzare@redhat.com, graf@amazon.de, 
+ xmarcalx@amazon.co.uk
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=xBS6=72=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,21 +89,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 3 Apr 2023 at 13:51, Lucas Villa Real <lucasvr@gmail.com> wrote:
->
-> stm32vldiscovery comes with 8KB of SRAM, which may be too low when
-> running some workloads on QEMU. The command line argument "-m mem_size"
-> is not recognized by the current implementation, though, so one cannot
-> easily override the default memory size.
->
-> This patch fixes that by adding a memory subregion according to the
-> value provided on that command line argument. If absent, the default
-> value of 8KB still applies.
->
-> Signed-off-by: Lucas Villa Real <lucas@osdyne.com>
+Hi Babis,
 
-Does the real hardware have (options for) more than 8K of SRAM here ?
+Why are you resending this? As I mentioned before, I'm going to move
+forward in implementing this feature in a way that actually works with
+the RNG. I'll use your RFC patch as a base, but I think beyond that, I
+can take it from here.
 
-thanks
--- PMM
+Thanks,
+Jason
 
