@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343306D44F9
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 14:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FA56D44FA
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 14:55:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjJhq-0002vu-Qg; Mon, 03 Apr 2023 08:54:42 -0400
+	id 1pjJiV-0003bf-1e; Mon, 03 Apr 2023 08:55:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pjJhl-0002v7-9c
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 08:54:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pjJhj-00032z-N3
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 08:54:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680526474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HxsPSZ/TaKJw8J39GChw7x8ALqh+XUgy7V0un9pUQro=;
- b=Ywww8e0ZYom9RsgnEiOGw1ShnX9g1YMp1CwKE7LEKR2XoVDHrzwehmgXEfAzHo4J403/uW
- TGyLd8/9oL8dhxRuaLlaFIK4sWAv973yoIQzypbnsGhWWh6WG9wxpyycYSurRnQ0C0PUab
- hyg5WovN9ERXRRZLLbajAsqiyWAK7YA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-671-VshrGpHfPzafwuk5m_u85g-1; Mon, 03 Apr 2023 08:54:32 -0400
-X-MC-Unique: VshrGpHfPzafwuk5m_u85g-1
-Received: by mail-ed1-f71.google.com with SMTP id
- fi8-20020a056402550800b004a26cc7f6cbso40987003edb.4
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 05:54:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680526471; x=1683118471;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HxsPSZ/TaKJw8J39GChw7x8ALqh+XUgy7V0un9pUQro=;
- b=dN7SUoH3BlOsSuCG5rAXOpBME+anefb+865UcrmiWTPRtTgnUlSGHpIBhlBaNjJRV9
- da3s4vF+VBJbqgKNFEmbqwgoN/fo7KCo188EXIYaQsA8JdVwfdBmrdG01uyLXxpk3usk
- fjm6fsY61MdYhpXzWC8Iu53jQeslnrvGhFxT1RBy0mR1ZtMAtzuBaXxMiMPSIJZ1Zvk1
- rGOkP5mQLfQHirolYpXoRK+zSJ5fbHXcARUHopsnCpk1NTZeRhHupz67bTOQHfogCq+W
- rrm2oacn1l2Wx9Ad8nph6Bzz8gUI5GCf8skQRCU+cVFV++F9UQsaMMRipOa3ZDwnzkM9
- +9PQ==
-X-Gm-Message-State: AAQBX9euUyuEhSBOP0/S1hKsZODZfVdx3fl2HxpSkpTp6EdkNu3briRC
- Q4x3WtrSxU/VrevgbbQtSxXXbhyKKM59UMdnTX2XH64ZcAPH7fIsU/yhWJZnJfYpLcSYz8gzVSC
- oxYAAeXt5AANUo+STJOCiY0ZrsT3hR/rtPXd8YQaNqwM1CKrxuNNSqY7g5OJx77q6sUcLseOrqY
- iimQ==
-X-Received: by 2002:aa7:cd42:0:b0:4fd:247a:9873 with SMTP id
- v2-20020aa7cd42000000b004fd247a9873mr31683210edw.5.1680526471169; 
- Mon, 03 Apr 2023 05:54:31 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bzZZL7GSTI5es0c3AMEjNR24iWZXZeXVFtNmbLexvu6qXw91Qzc7sLwi78tUZPFCjX1Q0u0Q==
-X-Received: by 2002:aa7:cd42:0:b0:4fd:247a:9873 with SMTP id
- v2-20020aa7cd42000000b004fd247a9873mr31683195edw.5.1680526470784; 
- Mon, 03 Apr 2023 05:54:30 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- y2-20020a50ce02000000b004fa268da13esm4586104edi.56.2023.04.03.05.54.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 05:54:30 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2] lasi: fix RTC migration
-Date: Mon,  3 Apr 2023 14:54:29 +0200
-Message-Id: <20230403125429.360605-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pjJiP-0003Xm-KW
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 08:55:17 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pjJiM-0003Oo-8n
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 08:55:17 -0400
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8CxztqqzCpkihAWAA--.22401S3;
+ Mon, 03 Apr 2023 20:55:07 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxqr2pzCpkr3AUAA--.16290S3; 
+ Mon, 03 Apr 2023 20:55:06 +0800 (CST)
+Subject: Re: [RFC PATCH v2 18/44] target/loongarch: Implement vsat
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230328030631.3117129-1-gaosong@loongson.cn>
+ <20230328030631.3117129-19-gaosong@loongson.cn>
+ <c30ab882-1b50-7325-87bb-fd273e479e51@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <8d077ca4-9f49-6a38-744e-0a7878df26c9@loongson.cn>
+Date: Mon, 3 Apr 2023 20:55:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <c30ab882-1b50-7325-87bb-fd273e479e51@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------EEBB56322351B8EACCD1346A"
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Bxqr2pzCpkr3AUAA--.16290S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7ZFWkWF1UKF4DAF1xKF13twb_yoW8Ar4kpr
+ y7JrsrG3yrtw18JF48K3WYvr9rAw15Cas8GrZrWrWDJryUGw18Jry7ZFW09r4DXw40yw17
+ XF1kJrWjqr4kXw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ DUYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Jr0_
+ Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFV
+ AK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2
+ z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr
+ 1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG
+ 8wAqjxCEc2xF0cIa020Ex4CE44I27wAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aV
+ AFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx8GjcxK6IxK0xII
+ j40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
+ Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+ x4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
+ 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+ JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCT
+ nIWIevJa73UjIFyTuYvjxUz4SrUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-1.349, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,65 +80,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Migrate rtc_ref (which only needs to be 32-bit because it is summed to
-a 32-bit register), which requires bumping the migration version.
-The HPPA machine does not have versioned machine types so it is okay
-to block migration to old versions of QEMU.
+This is a multi-part message in MIME format.
+--------------EEBB56322351B8EACCD1346A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-While at it, drop the write-only field rtc from LasiState.
+Hi, Richard
 
-Supersedes: <20230330120319.36069-1-pbonzini@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/misc/lasi.c         | 4 ++--
- include/hw/misc/lasi.h | 3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+在 2023/4/1 下午1:03, Richard Henderson 写道:
+> On 3/27/23 20:06, Song Gao wrote:
+>> +static void gen_vsat_s(unsigned vece, TCGv_vec t, TCGv_vec a, 
+>> int64_t imm)
+>> +{
+>> +    TCGv_vec t1;
+>> +    int64_t max  = (1l << imm) - 1;
+>
+> This needed 1ull, but better to just use
+>
+>     max = MAKE_64BIT_MASK(0, imm - 1); 
+For the signed  version use ll?
+I think use MAKE_64BIT_MASK(0, imm -1 )  for the signed version is not 
+suitable.
 
-diff --git a/hw/misc/lasi.c b/hw/misc/lasi.c
-index 23a7634a8c3a..ff9dc893ae65 100644
---- a/hw/misc/lasi.c
-+++ b/hw/misc/lasi.c
-@@ -194,7 +194,7 @@ static const MemoryRegionOps lasi_chip_ops = {
- 
- static const VMStateDescription vmstate_lasi = {
-     .name = "Lasi",
--    .version_id = 1,
-+    .version_id = 2,
-     .minimum_version_id = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(irr, LasiState),
-@@ -204,6 +204,7 @@ static const VMStateDescription vmstate_lasi = {
-         VMSTATE_UINT32(iar, LasiState),
-         VMSTATE_UINT32(errlog, LasiState),
-         VMSTATE_UINT32(amr, LasiState),
-+        VMSTATE_UINT32_V(rtc_ref, LasiState, 2),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -233,7 +234,6 @@ static void lasi_reset(DeviceState *dev)
-     s->iar = 0xFFFB0000 + 3; /* CPU_HPA + 3 */
- 
-     /* Real time clock (RTC), it's only one 32-bit counter @9000 */
--    s->rtc = time(NULL);
-     s->rtc_ref = 0;
- }
- 
-diff --git a/include/hw/misc/lasi.h b/include/hw/misc/lasi.h
-index ecc7065ce858..0a8c7352be21 100644
---- a/include/hw/misc/lasi.h
-+++ b/include/hw/misc/lasi.h
-@@ -69,8 +69,7 @@ struct LasiState {
- 
-     uint32_t errlog;
-     uint32_t amr;
--    uint32_t rtc;
--    time_t rtc_ref;
-+    uint32_t rtc_ref;
- 
-     MemoryRegion this_mem;
- };
--- 
-2.39.2
+e.g   imm is 1,
+
+  imm is 1
+1ll << imm  -1    1
+1ull << imm  -1   1
+MAKE_64BIT_MASK   ffffffffffffffff
+
+vsat.w    vr 22  vr25  0x1.
+input  vr25:   {0, 0}
+result vr22: {0, 0}
+if we use MAKE_64BIT_MASK ,   result is {ffffffffffffffff, 
+ffffffffffffffff}.
+
+
+This is   RISU test log:
+
+......
+
+imm is d
+1ll << imm  -1    1fff
+1ull << imm  -1   1fff
+MAKE_64BIT_MASK   fff
+imm is 8
+1ll << imm  -1    ff
+1ull << imm  -1   ff
+MAKE_64BIT_MASK   7f
+imm is 7
+1ll << imm  -1    7f
+1ull << imm  -1   7f
+MAKE_64BIT_MASK   3f
+imm is 1d
+1ll << imm  -1    1fffffff
+1ull << imm  -1   1fffffff
+MAKE_64BIT_MASK   fffffff
+imm is 29
+1ll << imm  -1    1ffffffffff
+1ull << imm  -1   1ffffffffff
+MAKE_64BIT_MASK   ffffffffff
+imm is 6
+1ll << imm  -1    3f
+1ull << imm  -1   3f
+MAKE_64BIT_MASK   1f
+imm is 3
+1ll << imm  -1    7
+1ull << imm  -1   7
+MAKE_64BIT_MASK   3
+imm is 1
+1ll << imm  -1    1
+1ull << imm  -1   1
+MAKE_64BIT_MASK   ffffffffffffffff
+Mismatch reg after 63 checkpoints
+
+......
+
+mismatch detail (master : apprentice):
+   f22    : 0000000000000000 vs ffffffffffffffff
+   v22    : {0000000000000000, 0000000000000000} vs {ffffffffffffffff, 
+ffffffffffffffff}
+
+Thanks.
+Song Gao.
+
+--------------EEBB56322351B8EACCD1346A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi, Richard<br>
+    </p>
+    <div class="moz-cite-prefix">在 2023/4/1 下午1:03, Richard Henderson
+      写道:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:c30ab882-1b50-7325-87bb-fd273e479e51@linaro.org">On
+      3/27/23 20:06, Song Gao wrote:
+      <br>
+      <blockquote type="cite" style="color: #000000;">+static void
+        gen_vsat_s(unsigned vece, TCGv_vec t, TCGv_vec a, int64_t imm)
+        <br>
+        +{
+        <br>
+        +    TCGv_vec t1;
+        <br>
+        +    int64_t max  = (1l &lt;&lt; imm) - 1;
+        <br>
+      </blockquote>
+      <br>
+      This needed 1ull, but better to just use
+      <br>
+      <br>
+          max = MAKE_64BIT_MASK(0, imm - 1);
+    </blockquote>
+    For the signed  version use ll? <br>
+    I think use MAKE_64BIT_MASK(0, imm -1 )  for the signed version is
+    not suitable.<br>
+    <p>e.g   imm is 1, </p>
+     imm is 1<br>
+    1ll &lt;&lt; imm  -1    1<br>
+    1ull &lt;&lt; imm  -1   1<br>
+    MAKE_64BIT_MASK   ffffffffffffffff<br>
+    <br>
+    vsat.w    vr 22  vr25  0x1.<br>
+    input  vr25:   {0, 0}<br>
+    result vr22: {0, 0}    <br>
+    if we use MAKE_64BIT_MASK ,   result is {ffffffffffffffff,
+    ffffffffffffffff}.<br>
+    <p><br>
+    </p>
+    <p>This is   RISU test log:<br>
+    </p>
+    <p>......</p>
+    <p>imm is d<br>
+      1ll &lt;&lt; imm  -1    1fff<br>
+      1ull &lt;&lt; imm  -1   1fff<br>
+      MAKE_64BIT_MASK   fff<br>
+      imm is 8<br>
+      1ll &lt;&lt; imm  -1    ff<br>
+      1ull &lt;&lt; imm  -1   ff<br>
+      MAKE_64BIT_MASK   7f<br>
+      imm is 7<br>
+      1ll &lt;&lt; imm  -1    7f<br>
+      1ull &lt;&lt; imm  -1   7f<br>
+      MAKE_64BIT_MASK   3f<br>
+      imm is 1d<br>
+      1ll &lt;&lt; imm  -1    1fffffff<br>
+      1ull &lt;&lt; imm  -1   1fffffff<br>
+      MAKE_64BIT_MASK   fffffff<br>
+      imm is 29<br>
+      1ll &lt;&lt; imm  -1    1ffffffffff<br>
+      1ull &lt;&lt; imm  -1   1ffffffffff<br>
+      MAKE_64BIT_MASK   ffffffffff<br>
+      imm is 6<br>
+      1ll &lt;&lt; imm  -1    3f<br>
+      1ull &lt;&lt; imm  -1   3f<br>
+      MAKE_64BIT_MASK   1f<br>
+      imm is 3<br>
+      1ll &lt;&lt; imm  -1    7<br>
+      1ull &lt;&lt; imm  -1   7<br>
+      MAKE_64BIT_MASK   3<br>
+      imm is 1<br>
+      1ll &lt;&lt; imm  -1    1<br>
+      1ull &lt;&lt; imm  -1   1<br>
+      MAKE_64BIT_MASK   ffffffffffffffff<br>
+      Mismatch reg after 63 checkpoints<br>
+    </p>
+    <p>......</p>
+    <p>mismatch detail (master : apprentice):<br>
+        f22    : 0000000000000000 vs ffffffffffffffff<br>
+        v22    : {0000000000000000, 0000000000000000} vs
+      {ffffffffffffffff, ffffffffffffffff}<br>
+      <br>
+    </p>
+    Thanks.<br>
+    Song Gao.<br>
+  </body>
+</html>
+
+--------------EEBB56322351B8EACCD1346A--
 
 
