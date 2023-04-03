@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F026D5078
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 20:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4056D50A9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 20:34:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjOxF-0001I8-2V; Mon, 03 Apr 2023 14:30:57 -0400
+	id 1pjP0D-0001lJ-Us; Mon, 03 Apr 2023 14:34:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjOx0-000198-EZ
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:30:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pjP0C-0001l4-3b
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:34:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjOwy-0000ZZ-Cy
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:30:42 -0400
+ id 1pjP0A-0001H7-Os
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 14:33:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680546639;
+ s=mimecast20190719; t=1680546837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Kvgpibm7uG8By4vHBOsqesPFxvQEinDBgjjk4WE12qY=;
- b=DyZWgozvonCNdk51UFkNvkrpbWYGOejy/COWk3F8LTqA/htvwuZSXeNqKNT2K4KKUdE+e2
- FHSAdd7gAZiylf5VinXU4HrQkFT3K9NIc8SadSGtdOwLgkbgoyQMlcFYimUSGxr62JTnUD
- ivJfVPg7oV32j2orFv9Rxgox5lnPAMU=
+ bh=hLGTNhZNr3bIXX7Mx11PRwkKdI3CfrxoXkyIIe5WNhM=;
+ b=F+KGODZeWnjO06iBeGXu1GsIu2iw04oQLGujd32EevpihS9Rzx5T4Qqtfrde3BHMI4LZgx
+ iYk27pdQUail9zYFunJ3RytksdYoSbs+oUuJVGn/eXH1RzdkZ8BNdIHrOaXRiKQ/nf/wQn
+ +6IYJL4BHd8jmiVFQeTEV2m4dfzayFI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-fKluM2IgOGOWbZExTvDE9Q-1; Mon, 03 Apr 2023 14:30:35 -0400
-X-MC-Unique: fKluM2IgOGOWbZExTvDE9Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-117-j26lxWggN_O159O5n3-PNg-1; Mon, 03 Apr 2023 14:33:46 -0400
+X-MC-Unique: j26lxWggN_O159O5n3-PNg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9501101A553;
- Mon,  3 Apr 2023 18:30:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3118C885620;
+ Mon,  3 Apr 2023 18:30:37 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B0242166B26;
- Mon,  3 Apr 2023 18:30:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71C5440C6EC4;
+ Mon,  3 Apr 2023 18:30:36 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@redhat.com>,
@@ -64,15 +64,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>
-Subject: [PATCH 10/13] block/export: rewrite vduse-blk drain code
-Date: Mon,  3 Apr 2023 14:30:01 -0400
-Message-Id: <20230403183004.347205-11-stefanha@redhat.com>
+Subject: [PATCH 11/13] block/fuse: take AioContext lock around
+ blk_exp_ref/unref()
+Date: Mon,  3 Apr 2023 14:30:02 -0400
+Message-Id: <20230403183004.347205-12-stefanha@redhat.com>
 In-Reply-To: <20230403183004.347205-1-stefanha@redhat.com>
 References: <20230403183004.347205-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,280 +97,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-vduse_blk_detach_ctx() waits for in-flight requests using
-AIO_WAIT_WHILE(). This is not allowed according to a comment in
-bdrv_set_aio_context_commit():
+These functions must be called with the AioContext acquired:
 
-  /*
-   * Take the old AioContex when detaching it from bs.
-   * At this point, new_context lock is already acquired, and we are now
-   * also taking old_context. This is safe as long as bdrv_detach_aio_context
-   * does not call AIO_POLL_WHILE().
-   */
-
-Use this opportunity to rewrite the drain code in vduse-blk:
-
-- Use the BlockExport refcount so that vduse_blk_exp_delete() is only
-  called when there are no more requests in flight.
-
-- Implement .drained_poll() so in-flight request coroutines are stopped
-  by the time .bdrv_detach_aio_context() is called.
-
-- Remove AIO_WAIT_WHILE() from vduse_blk_detach_ctx() to solve the
-  .bdrv_detach_aio_context() constraint violation. It's no longer
-  needed due to the previous changes.
-
-- Always handle the VDUSE file descriptor, even in drained sections. The
-  VDUSE file descriptor doesn't submit I/O, so it's safe to handle it in
-  drained sections. This ensures that the VDUSE kernel code gets a fast
-  response.
-
-- Suspend virtqueue fd handlers in .drained_begin() and resume them in
-  .drained_end(). This eliminates the need for the
-  aio_set_fd_handler(is_external=true) flag, which is being removed from
-  QEMU.
-
-This is a long list but splitting it into individual commits would
-probably lead to git bisect failures - the changes are all related.
+  /* Callers must hold exp->ctx lock */
+  void blk_exp_ref(BlockExport *exp)
+  ...
+  /* Callers must hold exp->ctx lock */
+  void blk_exp_unref(BlockExport *exp)
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/export/vduse-blk.c | 132 +++++++++++++++++++++++++++------------
- 1 file changed, 93 insertions(+), 39 deletions(-)
+ block/export/fuse.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-index f7ae44e3ce..35dc8fcf45 100644
---- a/block/export/vduse-blk.c
-+++ b/block/export/vduse-blk.c
-@@ -31,7 +31,8 @@ typedef struct VduseBlkExport {
-     VduseDev *dev;
-     uint16_t num_queues;
-     char *recon_file;
--    unsigned int inflight;
-+    unsigned int inflight; /* atomic */
-+    bool vqs_started;
- } VduseBlkExport;
- 
- typedef struct VduseBlkReq {
-@@ -41,13 +42,24 @@ typedef struct VduseBlkReq {
- 
- static void vduse_blk_inflight_inc(VduseBlkExport *vblk_exp)
- {
--    vblk_exp->inflight++;
-+    if (qatomic_fetch_inc(&vblk_exp->inflight) == 0) {
-+        /* Prevent export from being deleted */
-+        aio_context_acquire(vblk_exp->export.ctx);
-+        blk_exp_ref(&vblk_exp->export);
-+        aio_context_release(vblk_exp->export.ctx);
-+    }
- }
- 
- static void vduse_blk_inflight_dec(VduseBlkExport *vblk_exp)
- {
--    if (--vblk_exp->inflight == 0) {
-+    if (qatomic_fetch_dec(&vblk_exp->inflight) == 1) {
-+        /* Wake AIO_WAIT_WHILE() */
-         aio_wait_kick();
-+
-+        /* Now the export can be deleted */
-+        aio_context_acquire(vblk_exp->export.ctx);
-+        blk_exp_unref(&vblk_exp->export);
-+        aio_context_release(vblk_exp->export.ctx);
-     }
- }
- 
-@@ -124,8 +136,12 @@ static void vduse_blk_enable_queue(VduseDev *dev, VduseVirtq *vq)
- {
-     VduseBlkExport *vblk_exp = vduse_dev_get_priv(dev);
- 
-+    if (!vblk_exp->vqs_started) {
-+        return; /* vduse_blk_drained_end() will start vqs later */
-+    }
-+
-     aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
--                       true, on_vduse_vq_kick, NULL, NULL, NULL, vq);
-+                       false, on_vduse_vq_kick, NULL, NULL, NULL, vq);
-     /* Make sure we don't miss any kick afer reconnecting */
-     eventfd_write(vduse_queue_get_fd(vq), 1);
- }
-@@ -133,9 +149,14 @@ static void vduse_blk_enable_queue(VduseDev *dev, VduseVirtq *vq)
- static void vduse_blk_disable_queue(VduseDev *dev, VduseVirtq *vq)
- {
-     VduseBlkExport *vblk_exp = vduse_dev_get_priv(dev);
-+    int fd = vduse_queue_get_fd(vq);
- 
--    aio_set_fd_handler(vblk_exp->export.ctx, vduse_queue_get_fd(vq),
--                       true, NULL, NULL, NULL, NULL, NULL);
-+    if (fd < 0) {
-+        return;
-+    }
-+
-+    aio_set_fd_handler(vblk_exp->export.ctx, fd, false,
-+                       NULL, NULL, NULL, NULL, NULL);
- }
- 
- static const VduseOps vduse_blk_ops = {
-@@ -152,42 +173,19 @@ static void on_vduse_dev_kick(void *opaque)
- 
- static void vduse_blk_attach_ctx(VduseBlkExport *vblk_exp, AioContext *ctx)
- {
--    int i;
--
-     aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->dev),
--                       true, on_vduse_dev_kick, NULL, NULL, NULL,
-+                       false, on_vduse_dev_kick, NULL, NULL, NULL,
-                        vblk_exp->dev);
- 
--    for (i = 0; i < vblk_exp->num_queues; i++) {
--        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
--        int fd = vduse_queue_get_fd(vq);
--
--        if (fd < 0) {
--            continue;
--        }
--        aio_set_fd_handler(vblk_exp->export.ctx, fd, true,
--                           on_vduse_vq_kick, NULL, NULL, NULL, vq);
--    }
-+    /* Virtqueues are handled by vduse_blk_drained_end() */
- }
- 
- static void vduse_blk_detach_ctx(VduseBlkExport *vblk_exp)
- {
--    int i;
--
--    for (i = 0; i < vblk_exp->num_queues; i++) {
--        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
--        int fd = vduse_queue_get_fd(vq);
--
--        if (fd < 0) {
--            continue;
--        }
--        aio_set_fd_handler(vblk_exp->export.ctx, fd,
--                           true, NULL, NULL, NULL, NULL, NULL);
--    }
-     aio_set_fd_handler(vblk_exp->export.ctx, vduse_dev_get_fd(vblk_exp->dev),
--                       true, NULL, NULL, NULL, NULL, NULL);
-+                       false, NULL, NULL, NULL, NULL, NULL);
- 
--    AIO_WAIT_WHILE(vblk_exp->export.ctx, vblk_exp->inflight > 0);
-+    /* Virtqueues are handled by vduse_blk_drained_begin() */
- }
- 
- 
-@@ -220,8 +218,55 @@ static void vduse_blk_resize(void *opaque)
-                             (char *)&config.capacity);
- }
- 
-+static void vduse_blk_stop_virtqueues(VduseBlkExport *vblk_exp)
-+{
-+    for (uint16_t i = 0; i < vblk_exp->num_queues; i++) {
-+        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
-+        vduse_blk_disable_queue(vblk_exp->dev, vq);
-+    }
-+
-+    vblk_exp->vqs_started = false;
-+}
-+
-+static void vduse_blk_start_virtqueues(VduseBlkExport *vblk_exp)
-+{
-+    vblk_exp->vqs_started = true;
-+
-+    for (uint16_t i = 0; i < vblk_exp->num_queues; i++) {
-+        VduseVirtq *vq = vduse_dev_get_queue(vblk_exp->dev, i);
-+        vduse_blk_enable_queue(vblk_exp->dev, vq);
-+    }
-+}
-+
-+static void vduse_blk_drained_begin(void *opaque)
-+{
-+    BlockExport *exp = opaque;
-+    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
-+
-+    vduse_blk_stop_virtqueues(vblk_exp);
-+}
-+
-+static void vduse_blk_drained_end(void *opaque)
-+{
-+    BlockExport *exp = opaque;
-+    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
-+
-+    vduse_blk_start_virtqueues(vblk_exp);
-+}
-+
-+static bool vduse_blk_drained_poll(void *opaque)
-+{
-+    BlockExport *exp = opaque;
-+    VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
-+
-+    return qatomic_read(&vblk_exp->inflight) > 0;
-+}
-+
- static const BlockDevOps vduse_block_ops = {
--    .resize_cb = vduse_blk_resize,
-+    .resize_cb     = vduse_blk_resize,
-+    .drained_begin = vduse_blk_drained_begin,
-+    .drained_end   = vduse_blk_drained_end,
-+    .drained_poll  = vduse_blk_drained_poll,
- };
- 
- static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-@@ -268,6 +313,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-     vblk_exp->handler.serial = g_strdup(vblk_opts->serial ?: "");
-     vblk_exp->handler.logical_block_size = logical_block_size;
-     vblk_exp->handler.writable = opts->writable;
-+    vblk_exp->vqs_started = true;
- 
-     config.capacity =
-             cpu_to_le64(blk_getlength(exp->blk) >> VIRTIO_BLK_SECTOR_BITS);
-@@ -322,14 +368,20 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
-         vduse_dev_setup_queue(vblk_exp->dev, i, queue_size);
-     }
- 
--    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev), true,
-+    aio_set_fd_handler(exp->ctx, vduse_dev_get_fd(vblk_exp->dev), false,
-                        on_vduse_dev_kick, NULL, NULL, NULL, vblk_exp->dev);
- 
-     blk_add_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-                                  vblk_exp);
--
-     blk_set_dev_ops(exp->blk, &vduse_block_ops, exp);
- 
-+    /*
-+     * We handle draining ourselves using an in-flight counter and by disabling
-+     * virtqueue fd handlers. Do not queue BlockBackend requests, they need to
-+     * complete so the in-flight counter reaches zero.
-+     */
-+    blk_set_disable_request_queuing(exp->blk, true);
-+
-     return 0;
- err:
-     vduse_dev_destroy(vblk_exp->dev);
-@@ -344,6 +396,9 @@ static void vduse_blk_exp_delete(BlockExport *exp)
-     VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
+diff --git a/block/export/fuse.c b/block/export/fuse.c
+index 06fa41079e..18394f9e07 100644
+--- a/block/export/fuse.c
++++ b/block/export/fuse.c
+@@ -244,7 +244,9 @@ static void read_from_fuse_export(void *opaque)
+     FuseExport *exp = opaque;
      int ret;
  
-+    assert(qatomic_read(&vblk_exp->inflight) == 0);
-+
-+    vduse_blk_detach_ctx(vblk_exp);
-     blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-                                     vblk_exp);
-     blk_set_dev_ops(exp->blk, NULL, NULL);
-@@ -355,13 +410,12 @@ static void vduse_blk_exp_delete(BlockExport *exp)
-     g_free(vblk_exp->handler.serial);
++    aio_context_acquire(exp->common.ctx);
+     blk_exp_ref(&exp->common);
++    aio_context_release(exp->common.ctx);
+ 
+     do {
+         ret = fuse_session_receive_buf(exp->fuse_session, &exp->fuse_buf);
+@@ -256,7 +258,9 @@ static void read_from_fuse_export(void *opaque)
+     fuse_session_process_buf(exp->fuse_session, &exp->fuse_buf);
+ 
+ out:
++    aio_context_acquire(exp->common.ctx);
+     blk_exp_unref(&exp->common);
++    aio_context_release(exp->common.ctx);
  }
  
-+/* Called with exp->ctx acquired */
- static void vduse_blk_exp_request_shutdown(BlockExport *exp)
- {
-     VduseBlkExport *vblk_exp = container_of(exp, VduseBlkExport, export);
- 
--    aio_context_acquire(vblk_exp->export.ctx);
--    vduse_blk_detach_ctx(vblk_exp);
--    aio_context_acquire(vblk_exp->export.ctx);
-+    vduse_blk_stop_virtqueues(vblk_exp);
- }
- 
- const BlockExportDriver blk_exp_vduse_blk = {
+ static void fuse_export_shutdown(BlockExport *blk_exp)
 -- 
 2.39.2
 
