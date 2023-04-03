@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D40F6D3E80
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 09:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6C36D3EAE
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 10:10:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjF3y-0001Rt-PX; Mon, 03 Apr 2023 03:57:14 -0400
+	id 1pjFFU-0003xp-1r; Mon, 03 Apr 2023 04:09:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjF3r-0001PO-3J
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 03:57:07 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pjFFO-0003xB-CI
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 04:09:05 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjF3o-0004xw-F5
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 03:57:06 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id n19so16525619wms.0
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 00:57:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pjFFM-0000yX-Sf
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 04:09:02 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id er13so72785445edb.9
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 01:09:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680508622;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+5CUmS9uiUc6wBzNHLYhRjJc44NvJVtnZp/INg+khjg=;
- b=i1AQXT4BL+dqc5dLPKaW8EoSElLNwlSG6V4yrajIp1XN5B7XhVdHzbasUq3VTI93sK
- R5RXekYcJb1Kg7PdbRRTExfyoGry8/VcNZb1OQJtvmeWcdsnmH2M8lJuJ0Dx16XJ3Vib
- tPj6W8kY/UHsRE2mOhb6X57hiAZ3FZpxV3pfoeURvALctR8mz5cJ3g80CCqowLE8tBaZ
- hJWPRo41nsmqGz+I5QC73Ar6+Y4KsOR54uGF6TIgFj6qgxxJJz9MhWJ6ei1B3/HEvQ8R
- lg2lhuP82+cGMD0nWmAqJUI8Zzvop0/ck/ra+V0zAKz83uQI3gMd+K2nG7WihGRGFGxU
- 6VJA==
+ d=gmail.com; s=20210112; t=1680509339;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h7gZ4I+1THSU6WybzqtCa4itJGFjNPYCsJ3+ZxZ33L8=;
+ b=g/yKJq8X2JpUJmxLRLkfW2Ei4bn+orZIp2D0WXpN1GZ8fDDktL6EaELr85Ejz5DqtK
+ M2UYewx344latdwSIgrNpZqcOWCSxZPSz9KPBE08Fjt7braFb+Cn0U59CmirAOW6iLiy
+ rC8auNdRyR0+Pgrda8sTcY8swp8rvrDMlM4Ci/izaFEF7vWBVKv6zJaY8Vn/59ZZso0B
+ QSad5dETKrLhgqX+jCTxh6+1yopnRJzr94Kcc+ZXunE0a4h2viUpjqtvwpIvJFVIN+6X
+ iDVk7Ii3wNE+Pz1f7gL5LFqzch0JlgA2B2dqA+6KAgy0pdh0b+dGQiY65MHJdvvQMfeW
+ mjrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680508622;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+5CUmS9uiUc6wBzNHLYhRjJc44NvJVtnZp/INg+khjg=;
- b=cTkuoxOAFLedtvv/qvHBV86jvdnBz9qF8iGxn5cAH8O6iGQHGznHbfekUqnB7Zg16a
- vBpVn3hsY3ZxChrcyij/nmeyAJINk5GYhyCMgdwgC7B3iLPsj0HukK7AArybGSapfN5R
- XL31z1gol3lK6CnxqEtqHY5OfRAXkUBvigQxeNtZzoNweD9FuT4pz2aCT19of13nhdee
- wDaF2TQ28gcbzCDOBtQ+ZDuUkyT9MFRmZ1ss08O4dP+efVX5IlUr0BIcp7QXixmDZOwU
- rsIgn7ruTvJoVSqECm+M2A8XkcqjmoVZfb13pWhDrBWiy/LI6On+FsRHoW7/8fDhriLu
- Gw1A==
-X-Gm-Message-State: AO0yUKWmTKhk3jsou/rkNkTEW93zfB2f2Ird7N1FLdjNPQ9KtXsV+cI5
- 7NvlDQh5hFhXgdt3GLrkf1X9sg==
-X-Google-Smtp-Source: AK7set+mnRoGh33p3jpassjg2zuMAy/tYjGTxDnzolgAcUeGNW4In5cZ/IF0/8d9vW84mvFBQm8O/A==
-X-Received: by 2002:a05:600c:2049:b0:3ea:edd7:1f24 with SMTP id
- p9-20020a05600c204900b003eaedd71f24mr25210078wmg.39.1680508621881; 
- Mon, 03 Apr 2023 00:57:01 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- ip21-20020a05600ca69500b003edf2ae2432sm17889718wmb.7.2023.04.03.00.57.00
+ d=1e100.net; s=20210112; t=1680509339;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h7gZ4I+1THSU6WybzqtCa4itJGFjNPYCsJ3+ZxZ33L8=;
+ b=soRmOHzf9CsITQZ5z8fLeiG/f5aCtHlN/jao5l98720tEzQhHXKMDNjan76GJfnDJH
+ xbh6MqCAcxljdhcjAIcrPWducoBviQkRe/Pp5hpFFoQ5XYgedStIUkgf0BKQkOM18NvR
+ +0hPUz3668UZow5YirPwwqkxMvQ+P5/ea8WkDKofdvTfwtC3uk2+4GMsUuqkRGojp27K
+ nxrW5zEtTn63soCF1Q1NWAUKjq9SuskGZAgFQ40MvQdlp0mMz0zSCVs1uEAddu3ny97K
+ gRUvP45vr80ubv60OdG0dSevo6joyV2Ww/1IeDbrZpPaHyVxFobIzfmNIj1uCjxd2WPV
+ s5QQ==
+X-Gm-Message-State: AAQBX9e5feTy6U3dSuTgdWqtQ9ENHPfjuyLKnEyFhb99ETOC2+zQTY+w
+ T6Ua0lvbp7Yag/DCrNDsz4w=
+X-Google-Smtp-Source: AKy350YggZvBQRQXxduHGJx+5C4Cd2Q1/ABqM+BmlNa87irJ7SgtPy2crbAhiUHp2jFkWurGwsvNoA==
+X-Received: by 2002:a17:907:8694:b0:947:c221:eb38 with SMTP id
+ qa20-20020a170907869400b00947c221eb38mr11083800ejc.13.1680509339124; 
+ Mon, 03 Apr 2023 01:08:59 -0700 (PDT)
+Received: from [127.0.0.1] ([62.214.191.67]) by smtp.gmail.com with ESMTPSA id
+ r30-20020a50aade000000b004f9e6495f94sm4252444edc.50.2023.04.03.01.08.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 00:57:01 -0700 (PDT)
-Message-ID: <a8ab630d-e807-3928-fd7c-3a57b210fc8d@linaro.org>
-Date: Mon, 3 Apr 2023 09:56:59 +0200
+ Mon, 03 Apr 2023 01:08:58 -0700 (PDT)
+Date: Mon, 03 Apr 2023 08:08:49 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+CC: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw@amazon.co.uk>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <eduardo@habkost.net>, 
+ Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Chuck Zmudzinski <brchuckz@aol.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_2/6=5D_hw/isa/piix3=3A_Reuse?=
+ =?US-ASCII?Q?_piix3=5Frealize=28=29_in_piix3=5Fxen=5Frealize=28=29?=
+In-Reply-To: <7F45B51F-F1E3-4F04-A46F-4C80509C7195@gmail.com>
+References: <20230312120221.99183-1-shentey@gmail.com>
+ <20230312120221.99183-3-shentey@gmail.com>
+ <f52c41f7-e662-4afd-8ac9-ce2c0da2b1be@perard>
+ <7F45B51F-F1E3-4F04-A46F-4C80509C7195@gmail.com>
+Message-ID: <B4AB508E-C750-4D5E-BF89-908082A1CD84@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH 03/11] MAINTAINERS: add a section for policy documents
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Warner Losh <imp@bsdimp.com>,
- Ryo ONODERA <ryoon@netbsd.org>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- Kyle Evans <kevans@freebsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-References: <20230330101141.30199-1-alex.bennee@linaro.org>
- <20230330101141.30199-4-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230330101141.30199-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.37,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,60 +101,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/3/23 12:11, Alex Bennée wrote:
-> We don't update these often but if you are the sort of person who
-> enjoys debating and tuning project policies you could now add yourself
-> as a reviewer here so you don't miss the next debate over tabs vs
-> spaces ;-)
-> 
-> Who's with me?
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: Kashyap Chamarthy <kchamart@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Cc: Bernhard Beschow <shentey@gmail.com>
-> 
-> ---
-> v2
->    - s/your/you are/
->    - add some willing victims
-> ---
->   MAINTAINERS | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9e1a60ea24..2c173dbd96 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -64,6 +64,19 @@ L: qemu-devel@nongnu.org
->   F: *
->   F: */
->   
-> +Project policy and developer guides
-> +R: Alex Bennée <alex.bennee@linaro.org>
-> +R: Daniel P. Berrangé <berrange@redhat.com>
-> +R: Thomas Huth <thuth@redhat.com>
-> +R: Markus Armbruster <armbru@redhat.com>
 
-Please add me too.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Am 1=2E April 2023 22:36:45 UTC schrieb Bernhard Beschow <shentey@gmail=2E=
+com>:
+>
+>
+>Am 30=2E M=C3=A4rz 2023 13:00:25 UTC schrieb Anthony PERARD <anthony=2Epe=
+rard@citrix=2Ecom>:
+>>On Sun, Mar 12, 2023 at 01:02:17PM +0100, Bernhard Beschow wrote:
+>>> This is a preparational patch for the next one to make the following
+>>> more obvious:
+>>>=20
+>>> First, pci_bus_irqs() is now called twice in case of Xen where the
+>>> second call overrides the pci_set_irq_fn with the Xen variant=2E
+>>
+>>pci_bus_irqs() does allocates pci_bus->irq_count, so the second call in
+>>piix3_xen_realize() will leak `pci_bus->irq_count`=2E Could you look if
+>>pci_bus_irqs_cleanup() can be called before the second pci_bus_irqs()
+>>call, or maybe some other way to avoid the leak?
+>
+>Thanks for catching this! I'll post a v4=2E
 
-> +W: https://www.qemu.org/docs/master/devel/index.html
-> +S: Odd Fixes
-> +F: docs/devel/style.rst
-> +F: docs/devel/code-of-conduct.rst
-> +F: docs/devel/conflict-resolution.rst
-> +F: docs/devel/submitting-a-patch.rst
-> +F: docs/devel/submitting-a-pull-request.rst
-> +
->   Responsible Disclosure, Reporting Security Issues
->   -------------------------------------------------
->   W: https://wiki.qemu.org/SecurityProcess
+V4 is out=2E
 
+Thanks,
+Bernhard
+
+>
+>I think the most fool-proof way to fix this is to free irq_count just bef=
+ore the assignment=2E pci_bus_irqs_cleanup() would then have to NULL the at=
+tribute such that pci_bus_irqs() can be called afterwards=2E
+>
+>BTW: I tried running qemu-system-x86_64 with PIIX4 rather than PIIX3 as X=
+en guest with my pc-piix4 branch without success=2E This branch essentially=
+ just provides slightly different PCI IDs for PIIX=2E Does xl or something =
+else in Xen check these? If not then this means I'm still missing something=
+=2E Under KVM this branch works just fine=2E Any idea?
+>
+>Thanks,
+>Bernhard
+>
+>>
+>>> Second, pci_bus_set_route_irq_fn() is now also called in Xen mode=2E
+>>>=20
+>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>>> Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
+>>
+>>Beside the leak which I think can happen only once, patch is fine:
+>>Reviewed-by: Anthony PERARD <anthony=2Eperard@citrix=2Ecom>
+>>
+>>Thanks,
+>>
 
