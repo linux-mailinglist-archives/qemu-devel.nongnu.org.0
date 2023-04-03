@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914046D4E90
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 19:01:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABDF6D4EA0
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 19:05:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjNXq-0007ll-F7; Mon, 03 Apr 2023 13:00:38 -0400
+	id 1pjNbT-0001H6-Rz; Mon, 03 Apr 2023 13:04:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjNXj-0007af-8d
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:00:35 -0400
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pjNbR-0001Gf-N1
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:04:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjNXg-0007Y1-G6
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:00:30 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.159])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 7C03D21A64;
- Mon,  3 Apr 2023 17:00:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 3 Apr
- 2023 19:00:16 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R00668c84391-52c9-43c2-9851-4a4da833c602,
- 4495CFE2DD90E14DCA06BFA94F64C604EA11AEBF) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <6541fc8a-9c57-ecbf-d25f-ddb0808e3ae7@kaod.org>
-Date: Mon, 3 Apr 2023 19:00:15 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pjNbP-00089U-Ig
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 13:04:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680541458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1aXiNGRWqndeS0vAUnuKocqzR3r28SW2WgkynxB7LZg=;
+ b=IOAdgVOm+hFTOndDBDt+mbVJjc7isxeXGlwP7qZTL92TlzdTGcL9sVi9n+4nteR6Ijku9Z
+ BKvdqtapf1HsS7kBN7n6eJz2hHX8VIwTQqXGogDMrEkORYAkgozui1iyaBIwICiUUrWhb6
+ z0qVUp9nE2IOJAaX+Z2ufP7+o5BhnJk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-439-3DxfKdfsPAGRo7gY-jgkOg-1; Mon, 03 Apr 2023 13:04:15 -0400
+X-MC-Unique: 3DxfKdfsPAGRo7gY-jgkOg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7EE381C08785;
+ Mon,  3 Apr 2023 17:04:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59D4A40C6EC4;
+ Mon,  3 Apr 2023 17:04:13 +0000 (UTC)
+Date: Mon, 3 Apr 2023 13:04:11 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, hare@suse.de,
+ Fam Zheng <fam@euphon.net>, dmitry.fomichev@wdc.com,
+ damien.lemoal@opensource.wdc.com, Julia Suvorova <jusual@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org
+Subject: Re: [PATCH v7 1/4] file-posix: add tracking of the zone write pointers
+Message-ID: <20230403170411.GB318024@fedora>
+References: <20230323051907.5948-1-faithilikerun@gmail.com>
+ <20230323051907.5948-2-faithilikerun@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v19 13/21] docs/s390x/cpu topology: document s390x cpu
- topology
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
- <berrange@redhat.com>
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-14-pmorel@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230403162905.17703-14-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: fa09f524-32c0-4b74-b48c-be2e6674ada4
-X-Ovh-Tracer-Id: 441634240368511955
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeijedguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeipdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpnhhsgheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkhhvmhesvh
- hgvghrrdhkvghrnhgvlhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpmhhsthesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.349,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FJMnOb6P8fcNgx2C"
+Content-Disposition: inline
+In-Reply-To: <20230323051907.5948-2-faithilikerun@gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,472 +84,453 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/3/23 18:28, Pierre Morel wrote:
-> Add some basic examples for the definition of cpu topology
-> in s390x.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+
+--FJMnOb6P8fcNgx2C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Mar 23, 2023 at 01:19:04PM +0800, Sam Li wrote:
+> Since Linux doesn't have a user API to issue zone append operations to
+> zoned devices from user space, the file-posix driver is modified to add
+> zone append emulation using regular writes. To do this, the file-posix
+> driver tracks the wp location of all zones of the device. It uses an
+> array of uint64_t. The most significant bit of each wp location indicates
+> if the zone type is conventional zones.
+>=20
+> The zones wp can be changed due to the following operations issued:
+> - zone reset: change the wp to the start offset of that zone
+> - zone finish: change to the end location of that zone
+> - write to a zone
+> - zone append
+>=20
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
 > ---
->   MAINTAINERS                        |   2 +
->   docs/devel/index-internals.rst     |   1 +
->   docs/devel/s390-cpu-topology.rst   | 161 +++++++++++++++++++
->   docs/system/s390x/cpu-topology.rst | 238 +++++++++++++++++++++++++++++
->   docs/system/target-s390x.rst       |   1 +
->   5 files changed, 403 insertions(+)
->   create mode 100644 docs/devel/s390-cpu-topology.rst
->   create mode 100644 docs/system/s390x/cpu-topology.rst
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index de9052f753..fe5638e31d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1660,6 +1660,8 @@ S: Supported
->   F: include/hw/s390x/cpu-topology.h
->   F: hw/s390x/cpu-topology.c
->   F: target/s390x/kvm/cpu_topology.c
-> +F: docs/devel/s390-cpu-topology.rst
-> +F: docs/system/s390x/cpu-topology.rst
->   
->   X86 Machines
->   ------------
-> diff --git a/docs/devel/index-internals.rst b/docs/devel/index-internals.rst
-> index e1a93df263..6f81df92bc 100644
-> --- a/docs/devel/index-internals.rst
-> +++ b/docs/devel/index-internals.rst
-> @@ -14,6 +14,7 @@ Details about QEMU's various subsystems including how to add features to them.
->      migration
->      multi-process
->      reset
-> +   s390-cpu-topology
->      s390-dasd-ipl
->      tracing
->      vfio-migration
-> diff --git a/docs/devel/s390-cpu-topology.rst b/docs/devel/s390-cpu-topology.rst
-> new file mode 100644
-> index 0000000000..0b7bb42079
-> --- /dev/null
-> +++ b/docs/devel/s390-cpu-topology.rst
-> @@ -0,0 +1,161 @@
-> +QAPI interface for S390 CPU topology
-> +====================================
+>  block/file-posix.c               | 168 ++++++++++++++++++++++++++++++-
+>  include/block/block-common.h     |  14 +++
+>  include/block/block_int-common.h |   5 +
+>  3 files changed, 183 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 65efe5147e..0fb425dcae 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1324,6 +1324,85 @@ static int hdev_get_max_segments(int fd, struct st=
+at *st)
+>  #endif
+>  }
+> =20
+> +#if defined(CONFIG_BLKZONED)
+> +/*
+> + * If the ra (reset_all) flag > 0, then the wp of that zone should be re=
+set to
+> + * the start sector. Else, take the real wp of the device.
+> + */
+> +static int get_zones_wp(int fd, BlockZoneWps *wps, int64_t offset,
+> +                        unsigned int nrz, int ra) {
+
+Please use bool for true/false and use clear variable names:
+int ra -> bool reset_all
+
+> +    struct blk_zone *blkz;
+> +    size_t rep_size;
+> +    uint64_t sector =3D offset >> BDRV_SECTOR_BITS;
+> +    int ret, n =3D 0, i =3D 0;
+> +    rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(struct bl=
+k_zone);
+> +    g_autofree struct blk_zone_report *rep =3D NULL;
 > +
-> +Let's start QEMU with the following command:
+> +    rep =3D g_malloc(rep_size);
+> +    blkz =3D (struct blk_zone *)(rep + 1);
+> +    while (n < nrz) {
+> +        memset(rep, 0, rep_size);
+> +        rep->sector =3D sector;
+> +        rep->nr_zones =3D nrz - n;
 > +
-> +.. code-block:: bash
+> +        do {
+> +            ret =3D ioctl(fd, BLKREPORTZONE, rep);
+> +        } while (ret !=3D 0 && errno =3D=3D EINTR);
+> +        if (ret !=3D 0) {
+> +            error_report("%d: ioctl BLKREPORTZONE at %" PRId64 " failed =
+%d",
+> +                    fd, offset, errno);
+> +            return -errno;
+> +        }
 > +
-> + qemu-system-s390x \
-> +    -enable-kvm \
-> +    -cpu z14,ctop=on \
-> +    -smp 1,drawers=3,books=3,sockets=2,cores=2,maxcpus=36 \
-> +    \
-> +    -device z14-s390x-cpu,core-id=19,polarization=3 \
-> +    -device z14-s390x-cpu,core-id=11,polarization=1 \
-> +    -device z14-s390x-cpu,core-id=112,polarization=3 \
-> +   ...
+> +        if (!rep->nr_zones) {
+> +            break;
+> +        }
 > +
-> +and see the result when using the QAPI interface.
-> +
-> +Addons to query-cpus-fast
-> +-------------------------
-> +
-> +The command query-cpus-fast allows to query the topology tree and
-> +modifiers for all configured vCPUs.
-> +
-> +.. code-block:: QMP
-> +
-> + { "execute": "query-cpus-fast" }
-> + {
-> +  "return": [
-> +    {
-> +      "dedicated": false,
-> +      "thread-id": 536993,
-> +      "props": {
-> +        "core-id": 0,
-> +        "socket-id": 0,
-> +        "drawer-id": 0,
-> +        "book-id": 0
-> +      },
-> +      "cpu-state": "operating",
-> +      "entitlement": "medium",
-> +      "qom-path": "/machine/unattached/device[0]",
-> +      "cpu-index": 0,
-> +      "target": "s390x"
-> +    },
-> +    {
-> +      "dedicated": false,
-> +      "thread-id": 537003,
-> +      "props": {
-> +        "core-id": 19,
-> +        "socket-id": 1,
-> +        "drawer-id": 0,
-> +        "book-id": 2
-> +      },
-> +      "cpu-state": "operating",
-> +      "entitlement": "high",
-> +      "qom-path": "/machine/peripheral-anon/device[0]",
-> +      "cpu-index": 19,
-> +      "target": "s390x"
-> +    },
-> +    {
-> +      "dedicated": false,
-> +      "thread-id": 537004,
-> +      "props": {
-> +        "core-id": 11,
-> +        "socket-id": 1,
-> +        "drawer-id": 0,
-> +        "book-id": 1
-> +      },
-> +      "cpu-state": "operating",
-> +      "entitlement": "low",
-> +      "qom-path": "/machine/peripheral-anon/device[1]",
-> +      "cpu-index": 11,
-> +      "target": "s390x"
-> +    },
-> +    {
-> +      "dedicated": true,
-> +      "thread-id": 537005,
-> +      "props": {
-> +        "core-id": 112,
-> +        "socket-id": 0,
-> +        "drawer-id": 3,
-> +        "book-id": 2
-> +      },
-> +      "cpu-state": "operating",
-> +      "entitlement": "high",
-> +      "qom-path": "/machine/peripheral-anon/device[2]",
-> +      "cpu-index": 112,
-> +      "target": "s390x"
+> +        for (i =3D 0; i < rep->nr_zones; i++, n++) {
+> +            /*
+> +             * The wp tracking cares only about sequential writes requir=
+ed and
+> +             * sequential write preferred zones so that the wp can advan=
+ce to
+> +             * the right location.
+> +             * Use the most significant bit of the wp location to indica=
+te the
+> +             * zone type: 0 for SWR/SWP zones and 1 for conventional zon=
+es.
+> +             */
+> +            if (blkz[i].type =3D=3D BLK_ZONE_TYPE_CONVENTIONAL) {
+> +                wps->wp[i] &=3D 1ULL << 63;
+> +            } else {
+> +                switch(blkz[i].cond) {
+> +                case BLK_ZONE_COND_FULL:
+> +                case BLK_ZONE_COND_READONLY:
+> +                    /* Zone not writable */
+> +                    wps->wp[i] =3D (blkz[i].start + blkz[i].len) << BDRV=
+_SECTOR_BITS;
+> +                    break;
+> +                case BLK_ZONE_COND_OFFLINE:
+> +                    /* Zone not writable nor readable */
+> +                    wps->wp[i] =3D (blkz[i].start) << BDRV_SECTOR_BITS;
+> +                    break;
+> +                default:
+> +                    if (ra > 0) {
+> +                        wps->wp[i] =3D blkz[i].start << BDRV_SECTOR_BITS;
+> +                    } else {
+> +                        wps->wp[i] =3D blkz[i].wp << BDRV_SECTOR_BITS;
+> +                    }
+> +                    break;
+> +                }
+> +            }
+> +        }
+> +        sector =3D blkz[i - 1].start + blkz[i - 1].len;
 > +    }
-> +  ]
-> + }
 > +
+> +    return 0;
+> +}
 > +
-> +QAPI command: set-cpu-topology
-> +------------------------------
-> +
-> +The command set-cpu-topology allows to modify the topology tree
-> +or the topology modifiers of a vCPU in the configuration.
-> +
-> +.. code-block:: QMP
-> +
-> +    { "execute": "set-cpu-topology",
-> +      "arguments": {
-> +         "core-id": 11,
-> +         "socket-id": 0,
-> +         "book-id": 0,
-> +         "drawer-id": 0,
-> +         "entitlement": "low",
-> +         "dedicated": false
-> +      }
+> +static void update_zones_wp(int fd, BlockZoneWps *wps, int64_t offset,
+> +                            unsigned int nrz) {
+
+QEMU coding style puts the opening curly bracket on a new line:
+
+  static void update_zones_wp(int fd, BlockZoneWps *wps, int64_t offset,
+                              unsigned int nrz)
+  {
+
+> +    if (get_zones_wp(fd, wps, offset, nrz, 0) < 0) {
+> +        error_report("update zone wp failed");
 > +    }
-> +    {"return": {}}
+> +}
+> +#endif
 > +
-> +The core-id parameter is the only non optional parameter and every
-> +unspecified parameter keeps its previous value.
+>  static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>  {
+>      BDRVRawState *s =3D bs->opaque;
+> @@ -1413,6 +1492,21 @@ static void raw_refresh_limits(BlockDriverState *b=
+s, Error **errp)
+>          if (ret >=3D 0) {
+>              bs->bl.max_active_zones =3D ret;
+>          }
 > +
-> +QAPI event CPU_POLARIZATION_CHANGE
-> +----------------------------------
+> +        ret =3D get_sysfs_long_val(&st, "physical_block_size");
+> +        if (ret >=3D 0) {
+> +            bs->bl.write_granularity =3D ret;
+> +        }
 > +
-> +When a guest is requests a modification of the polarization,
-> +QEMU sends a CPU_POLARIZATION_CHANGE event.
-> +
-> +When requesting the change, the guest only specifies horizontal or
-> +vertical polarization.
-> +It is the job of the upper layer to set the dedication and fine grained
-> +vertical entitlement in response to this event.
-> +
-> +Note that a vertical polarized dedicated vCPU can only have a high
-> +entitlement, this gives 6 possibilities for vCPU polarization:
-> +
-> +- Horizontal
-> +- Horizontal dedicated
-> +- Vertical low
-> +- Vertical medium
-> +- Vertical high
-> +- Vertical high dedicated
-> +
-> +Example of the event received when the guest issues the CPU instruction
-> +Perform Topology Function PTF(0) to request an horizontal polarization:
-> +
-> +.. code-block:: QMP
-> +
-> +    { "event": "CPU_POLARIZATION_CHANGE",
-> +      "data": { "polarization": 0 },
-> +      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
-> +
-> +QAPI query command: query-cpu-polarization
-> +------------------------------
+> +        bs->bl.wps =3D g_malloc(sizeof(BlockZoneWps) +
+> +                sizeof(int64_t) * bs->bl.nr_zones);
 
-Some dashes are missing from this line. No need to resend, it's easy to fix.
+This function can be called multiple times, so the old bs->bl.wps needs
+to be freed to avoid a memory leak here.
 
-Thanks,
+> +        ret =3D get_zones_wp(s->fd, bs->bl.wps, 0, bs->bl.nr_zones, 0);
+> +        if (ret < 0) {
+> +            error_setg_errno(errp, -ret, "report wps failed");
+> +            g_free(bs->bl.wps);
 
-C.
+Please set it to NULL to reduce the risk of a double-free.
 
+> +            return;
+> +        }
+> +        qemu_co_mutex_init(&bs->bl.wps->colock);
+
+I just noticed there is a problem with keeping the mutex and
+heap-allocated wps inside bs.bl. bdrv_refresh_limits does this:
+
+  memset(&bs->bl, 0, sizeof(bs->bl));
+
+It would be possible to exclude the wps and mutex from the memset, but
+maybe they should be BlockDriverState fields instead. They are not
+really limits.
+
+>          return;
+>      }
+>  out:
+> @@ -2338,9 +2432,15 @@ static int coroutine_fn raw_co_prw(BlockDriverStat=
+e *bs, uint64_t offset,
+>  {
+>      BDRVRawState *s =3D bs->opaque;
+>      RawPosixAIOData acb;
+> +    int ret;
+> =20
+>      if (fd_open(bs) < 0)
+>          return -EIO;
+> +#if defined(CONFIG_BLKZONED)
+> +    if (type & QEMU_AIO_WRITE && bs->bl.wps) {
+> +        qemu_co_mutex_lock(&bs->bl.wps->colock);
+> +    }
+> +#endif
+> =20
+>      /*
+>       * When using O_DIRECT, the request must be aligned to be able to use
+> @@ -2354,14 +2454,16 @@ static int coroutine_fn raw_co_prw(BlockDriverSta=
+te *bs, uint64_t offset,
+>      } else if (s->use_linux_io_uring) {
+>          LuringState *aio =3D aio_get_linux_io_uring(bdrv_get_aio_context=
+(bs));
+>          assert(qiov->size =3D=3D bytes);
+> -        return luring_co_submit(bs, aio, s->fd, offset, qiov, type);
+> +        ret =3D luring_co_submit(bs, aio, s->fd, offset, qiov, type);
+> +        goto out;
+>  #endif
+>  #ifdef CONFIG_LINUX_AIO
+>      } else if (s->use_linux_aio) {
+>          LinuxAioState *aio =3D aio_get_linux_aio(bdrv_get_aio_context(bs=
+));
+>          assert(qiov->size =3D=3D bytes);
+> -        return laio_co_submit(bs, aio, s->fd, offset, qiov, type,
+> +        ret =3D laio_co_submit(bs, aio, s->fd, offset, qiov, type,
+>                                s->aio_max_batch);
+> +        goto out;
+>  #endif
+>      }
+> =20
+> @@ -2378,7 +2480,32 @@ static int coroutine_fn raw_co_prw(BlockDriverStat=
+e *bs, uint64_t offset,
+>      };
+> =20
+>      assert(qiov->size =3D=3D bytes);
+> -    return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
+> +    ret =3D raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
 > +
-> +The query command query-cpu-polarization returns the current
-> +CPU polarization of the machine.
-> +
-> +.. code-block:: QMP
-> +
-> +    { "execute": "query-cpu-polarization" }
-> +    {
-> +        "return": {
-> +          "polarization": "vertical"
+> +out:
+> +#if defined(CONFIG_BLKZONED)
+> +    BlockZoneWps *wps =3D bs->bl.wps;
+> +    if (ret =3D=3D 0) {
+> +        if (type & QEMU_AIO_WRITE && wps && bs->bl.zone_size) {
+> +            uint64_t *wp =3D &wps->wp[offset / bs->bl.zone_size];
+> +            if (!BDRV_ZT_IS_CONV(*wp)) {
+> +                /* Advance the wp if needed */
+> +                if (offset + bytes > *wp) {
+> +                    *wp =3D offset + bytes;
+> +                }
+> +            }
+> +        }
+> +    } else {
+> +        if (type & QEMU_AIO_WRITE) {
+> +            update_zones_wp(s->fd, bs->bl.wps, 0, 1);
 > +        }
 > +    }
-> diff --git a/docs/system/s390x/cpu-topology.rst b/docs/system/s390x/cpu-topology.rst
-> new file mode 100644
-> index 0000000000..c1fe3da51c
-> --- /dev/null
-> +++ b/docs/system/s390x/cpu-topology.rst
-> @@ -0,0 +1,238 @@
-> +CPU topology on s390x
-> +=====================
 > +
-> +Since QEMU 8.1, CPU topology on s390x provides up to 3 levels of
-> +topology containers: drawers, books, sockets, defining a tree shaped
-> +hierarchy.
-> +
-> +The socket container contains one or more CPU entries.
-> +Each of these CPU entries consists of a bitmap and three CPU attributes:
-> +
-> +- CPU type
-> +- polarization entitlement
-> +- dedication
-> +
-> +Each bit set in the bitmap correspond to the core-id of a vCPU with
-> +matching the three attribute.
-> +
-> +This documentation provide general information on S390 CPU topology,
-> +how to enable it and on the new CPU attributes.
-> +For information on how to modify the S390 CPU topology and on how to
-> +monitor the polarization change see ``Developer Information``.
-> +
-> +Prerequisites
-> +-------------
-> +
-> +To use the CPU topology, you need to run with KVM on a s390x host that
-> +uses the Linux kernel v6.0 or newer (which provide the so-called
-> +``KVM_CAP_S390_CPU_TOPOLOGY`` capability that allows QEMU to signal the
-> +CPU topology facility via the so-called STFLE bit 11 to the VM).
-> +
-> +Enabling CPU topology
-> +---------------------
-> +
-> +Currently, CPU topology is only enabled in the host model by default.
-> +
-> +Enabling CPU topology in a CPU model is done by setting the CPU flag
-> +``ctop`` to ``on`` like in:
-> +
-> +.. code-block:: bash
-> +
-> +   -cpu gen16b,ctop=on
-> +
-> +Having the topology disabled by default allows migration between
-> +old and new QEMU without adding new flags.
-> +
-> +Default topology usage
-> +----------------------
-> +
-> +The CPU topology can be specified on the QEMU command line
-> +with the ``-smp`` or the ``-device`` QEMU command arguments.
-> +
-> +Note also that since 7.2 threads are no longer supported in the topology
-> +and the ``-smp`` command line argument accepts only ``threads=1``.
-> +
-> +If none of the containers attributes (drawers, books, sockets) are
-> +specified for the ``-smp`` flag, the number of these containers
-> +is ``1`` .
-> +
-> +.. code-block:: bash
-> +
-> +    -smp cpus=5,drawer=1,books=1,sockets=8,cores=4,maxcpus=32
-> +
-> +or
-> +
-> +.. code-block:: bash
-> +
-> +    -smp cpus=5,sockets=8,cores=4,maxcpus=32
-> +
-> +When a CPU is defined by the ``-smp`` command argument, its position
-> +inside the topology is calculated by adding the CPUs to the topology
-> +based on the core-id starting with core-0 at position 0 of socket-0,
-> +book-0, drawer-0 and filling all CPUs of socket-0 before to fill socket-1
-> +of book-0 and so on up to the last socket of the last book of the last
-> +drawer.
-> +
-> +When a CPU is defined by the ``-device`` command argument, the
-> +tree topology attributes must be all defined or all not defined.
-> +
-> +.. code-block:: bash
-> +
-> +    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=1
-> +
-> +or
-> +
-> +.. code-block:: bash
-> +
-> +    -device gen16b-s390x-cpu,core-id=1,dedication=true
-> +
-> +If none of the tree attributes (drawer, book, sockets), are specified
-> +for the ``-device`` argument, as for all CPUs defined with the ``-smp``
-> +command argument the topology tree attributes will be set by simply
-> +adding the CPUs to the topology based on the core-id starting with
-> +core-0 at position 0 of socket-0, book-0, drawer-0.
-> +
-> +QEMU will not try to solve collisions and will report an error if the
-> +CPU topology, explicitly or implicitly defined on a ``-device``
-> +argument collides with the definition of a CPU implicitely defined
-> +on the ``-smp`` argument.
-> +
-> +When the topology modifier attributes are not defined for the
-> +``-device`` command argument they takes following default values:
-> +
-> +- dedication: ``false``
-> +- entitlement: ``medium``
-> +
-> +
-> +Hot plug
-> +++++++++
-> +
-> +New CPUs can be plugged using the device_add hmp command as in:
-> +
-> +.. code-block:: bash
-> +
-> +  (qemu) device_add gen16b-s390x-cpu,core-id=9
-> +
-> +The same placement of the CPU is derived from the core-id as described above.
-> +
-> +The topology can of course be fully defined:
-> +
-> +.. code-block:: bash
-> +
-> +    (qemu) device_add gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=1
-> +
-> +
-> +Examples
-> +++++++++
-> +
-> +In the following machine we define 8 sockets with 4 cores each.
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-s390x -m 2G \
-> +    -cpu gen16b,ctop=on \
-> +    -smp cpus=5,sockets=8,cores=4,maxcpus=32 \
-> +    -device host-s390x-cpu,core-id=14 \
-> +
-> +A new CPUs can be plugged using the device_add hmp command as before:
-> +
-> +.. code-block:: bash
-> +
-> +  (qemu) device_add gen16b-s390x-cpu,core-id=9
-> +
-> +The core-id defines the placement of the core in the topology by
-> +starting with core 0 in socket 0 up to maxcpus.
-> +
-> +In the example above:
-> +
-> +* There are 5 CPUs provided to the guest with the ``-smp`` command line
-> +  They will take the core-ids 0,1,2,3,4
-> +  As we have 4 cores in a socket, we have 4 CPUs provided
-> +  to the guest in socket 0, with core-ids 0,1,2,3.
-> +  The last cpu, with core-id 4, will be on socket 1.
-> +
-> +* the core with ID 14 provided by the ``-device`` command line will
-> +  be placed in socket 3, with core-id 14
-> +
-> +* the core with ID 9 provided by the ``device_add`` qmp command will
-> +  be placed in socket 2, with core-id 9
-> +
-> +
-> +Polarization, entitlement and dedication
-> +----------------------------------------
-> +
-> +Polarization
-> +++++++++++++
-> +
-> +The polarization is an indication given by the ``guest`` to the host
-> +that it is able to make use of CPU provisioning information.
-> +The guest indicates the polarization by using the PTF instruction.
-> +
-> +Polarization is define two models of CPU provisioning: horizontal
-> +and vertical.
-> +
-> +The horizontal polarization is the default model on boot and after
-> +subsystem reset in which the guest considers all vCPUs being having
-> +an equal provisioning of CPUs by the host.
-> +
-> +In the vertical polarization model the guest can make use of the
-> +vCPU entitlement information provided by the host to optimize
-> +kernel thread scheduling.
-> +
-> +A subsystem reset puts all vCPU of the configuration into the
-> +horizontal polarization.
-> +
-> +Entitlement
-> ++++++++++++
-> +
-> +The vertical polarization specifies that the guest's vCPU can get
-> +different real CPU provisions:
-> +
-> +- a vCPU with vertical high entitlement specifies that this
-> +  vCPU gets 100% of the real CPU provisioning.
-> +
-> +- a vCPU with vertical medium entitlement specifies that this
-> +  vCPU shares the real CPU with other vCPUs.
-> +
-> +- a vCPU with vertical low entitlement specifies that this
-> +  vCPU only gets real CPU provisioning when no other vCPUs needs it.
-> +
-> +In the case a vCPU with vertical high entitlement does not use
-> +the real CPU, the unused "slack" can be dispatched to other vCPU
-> +with medium or low entitlement.
-> +
-> +The upper level specifies a vCPU as ``dedicated`` when the vCPU is
-> +fully dedicated to a single real CPU.
-> +
-> +The dedicated bit is an indication of affinity of a vCPU for a real CPU
-> +while the entitlement indicates the sharing or exclusivity of use.
-> +
-> +Defining the topology on command line
-> +-------------------------------------
-> +
-> +The topology can entirely be defined using -device cpu statements,
-> +with the exception of CPU 0 which must be defined with the -smp
-> +argument.
-> +
-> +For example, here we set the position of the cores 1,2,3 to
-> +drawer 1, book 1, socket 2 and cores 0,9 and 14 to drawer 0,
-> +book 0, socket 0 with all horizontal polarization and not dedicated.
-> +The core 4, will be set on its default position on socket 1
-> +(since we have 4 core per socket) and we define it with dedication and
-> +vertical high entitlement.
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-s390x -m 2G \
-> +    -cpu gen16b,ctop=on \
-> +    -smp cpus=1,sockets=8,cores=4,maxcpus=32 \
-> +    \
-> +    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=1 \
-> +    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=2 \
-> +    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=3 \
-> +    \
-> +    -device gen16b-s390x-cpu,drawer-id=0,book-id=0,socket-id=0,core-id=9 \
-> +    -device gen16b-s390x-cpu,drawer-id=0,book-id=0,socket-id=0,core-id=14 \
-> +    \
-> +    -device gen16b-s390x-cpu,core-id=4,dedicated=on,polarization=3 \
-> +
-> diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
-> index f6f11433c7..94c981e732 100644
-> --- a/docs/system/target-s390x.rst
-> +++ b/docs/system/target-s390x.rst
-> @@ -34,3 +34,4 @@ Architectural features
->   .. toctree::
->      s390x/bootdevices
->      s390x/protvirt
-> +   s390x/cpu-topology
+> +    if (type & QEMU_AIO_WRITE && wps) {
+> +        qemu_co_mutex_unlock(&wps->colock);
+> +    }
+> +#endif
+> +    return ret;
+>  }
+> =20
+>  static int coroutine_fn raw_co_preadv(BlockDriverState *bs, int64_t offs=
+et,
+> @@ -2486,6 +2613,11 @@ static void raw_close(BlockDriverState *bs)
+>      BDRVRawState *s =3D bs->opaque;
+> =20
+>      if (s->fd >=3D 0) {
+> +#if defined(CONFIG_BLKZONED)
+> +        if (bs->bl.wps) {
+> +            g_free(bs->bl.wps);
+> +        }
+
+The if statement can be replaced with an unconditional
+g_free(bs->bl.wps) call. g_free(NULL) is valid and just returns
+immediately.
+
+> +#endif
+>          qemu_close(s->fd);
+>          s->fd =3D -1;
+>      }
+> @@ -3283,6 +3415,7 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDrive=
+rState *bs, BlockZoneOp op,
+>      const char *op_name;
+>      unsigned long zo;
+>      int ret;
+> +    BlockZoneWps *wps =3D bs->bl.wps;
+>      int64_t capacity =3D bs->total_sectors << BDRV_SECTOR_BITS;
+> =20
+>      zone_size =3D bs->bl.zone_size;
+> @@ -3300,6 +3433,15 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDriv=
+erState *bs, BlockZoneOp op,
+>          return -EINVAL;
+>      }
+> =20
+> +    qemu_co_mutex_lock(&wps->colock);
+
+I suggest using:
+
+  QEMU_LOCK_GUARD(&wps->colock);
+  ...
+
+or:
+
+  WITH_QEMU_LOCK_GUARD(&wps->colock) {
+      ...
+  }
+
+instead of qemu_co_mutex_lock/unlock().
+
+That way the lock is guaranteed to be unlocked when the function returns
+and you don't need to convert the error code paths to use goto.
+
+> +    uint32_t i =3D offset / bs->bl.zone_size;
+> +    uint64_t *wp =3D &wps->wp[i];
+> +    if (BDRV_ZT_IS_CONV(*wp) && len !=3D capacity) {
+> +        error_report("zone mgmt operations are not allowed for conventio=
+nal zones");
+> +        ret =3D -EIO;
+> +        goto out;
+> +    }
+> +
+>      switch (op) {
+>      case BLK_ZO_OPEN:
+>          op_name =3D "BLKOPENZONE";
+> @@ -3319,7 +3461,8 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDrive=
+rState *bs, BlockZoneOp op,
+>          break;
+>      default:
+>          error_report("Unsupported zone op: 0x%x", op);
+> -        return -ENOTSUP;
+> +        ret =3D -ENOTSUP;
+> +        goto out;
+>      }
+> =20
+>      acb =3D (RawPosixAIOData) {
+> @@ -3337,10 +3480,27 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDri=
+verState *bs, BlockZoneOp op,
+>                          len >> BDRV_SECTOR_BITS);
+>      ret =3D raw_thread_pool_submit(bs, handle_aiocb_zone_mgmt, &acb);
+>      if (ret !=3D 0) {
+> +        update_zones_wp(s->fd, wps, offset, i);
+
+
+>          ret =3D -errno;
+>          error_report("ioctl %s failed %d", op_name, ret);
+> +        goto out;
+> +    }
+> +
+> +    if (zo =3D=3D BLKRESETZONE && len =3D=3D capacity) {
+> +        ret =3D get_zones_wp(s->fd, wps, 0, bs->bl.nr_zones, 1);
+> +        if (ret < 0) {
+> +            error_report("reporting single wp failed");
+> +            return ret;
+> +        }
+> +    } else if (zo =3D=3D BLKRESETZONE) {
+> +        *wp =3D offset;
+> +    } else if (zo =3D=3D BLKFINISHZONE) {
+> +        /* The zoned device allows the last zone smaller that the zone s=
+ize. */
+> +        *wp =3D offset + len;
+>      }
+
+The BLKRESETZONE and BLKFINISHZONE only update one zone's wp, but
+[offset, offset+len) can cover multiple zones.
+
+A loop is needed to update wps for multiple zones:
+
+  } else if (zo =3D=3D BLKRESETZONE) {
+      for each zone {
+          wp[i] =3D offset + i * zone_size;
+      }
+  } else if (zo =3D=3D BLKFINISHZONE) {
+      for each zone {
+          /* The last zone may be short */
+          wp[i] =3D MIN(offset + (i + 1) * zone_size, offset + len);
+      }
+  }
+
+> =20
+> +out:
+> +    qemu_co_mutex_unlock(&wps->colock);
+>      return ret;
+>  }
+>  #endif
+> diff --git a/include/block/block-common.h b/include/block/block-common.h
+> index 1576fcf2ed..93196229ac 100644
+> --- a/include/block/block-common.h
+> +++ b/include/block/block-common.h
+> @@ -118,6 +118,14 @@ typedef struct BlockZoneDescriptor {
+>      BlockZoneState state;
+>  } BlockZoneDescriptor;
+> =20
+> +/*
+> + * Track write pointers of a zone in bytes.
+> + */
+> +typedef struct BlockZoneWps {
+> +    CoMutex colock;
+> +    uint64_t wp[];
+> +} BlockZoneWps;
+> +
+>  typedef struct BlockDriverInfo {
+>      /* in bytes, 0 if irrelevant */
+>      int cluster_size;
+> @@ -240,6 +248,12 @@ typedef enum {
+>  #define BDRV_SECTOR_BITS   9
+>  #define BDRV_SECTOR_SIZE   (1ULL << BDRV_SECTOR_BITS)
+> =20
+> +/*
+> + * Get the first most significant bit of wp. If it is zero, then
+> + * the zone type is SWR.
+> + */
+> +#define BDRV_ZT_IS_CONV(wp)    (wp & (1ULL << 63))
+> +
+>  #define BDRV_REQUEST_MAX_SECTORS MIN_CONST(SIZE_MAX >> BDRV_SECTOR_BITS,=
+ \
+>                                             INT_MAX >> BDRV_SECTOR_BITS)
+>  #define BDRV_REQUEST_MAX_BYTES (BDRV_REQUEST_MAX_SECTORS << BDRV_SECTOR_=
+BITS)
+> diff --git a/include/block/block_int-common.h b/include/block/block_int-c=
+ommon.h
+> index 1bd2aef4d5..69d1c3e6dd 100644
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -884,6 +884,11 @@ typedef struct BlockLimits {
+> =20
+>      /* maximum number of active zones */
+>      int64_t max_active_zones;
+> +
+> +    /* array of write pointers' location of each zone in the zoned devic=
+e. */
+> +    BlockZoneWps *wps;
+> +
+> +    int64_t write_granularity;
+
+What is this limit? Is it specific to zones?
+
+>  } BlockLimits;
+> =20
+>  typedef struct BdrvOpBlocker BdrvOpBlocker;
+> --=20
+> 2.39.2
+>=20
+
+--FJMnOb6P8fcNgx2C
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQrBwsACgkQnKSrs4Gr
+c8gjCAf9Fh3lBg4WHnzt/euI6pstIObu8aQJQq50k3bcc9ih/x2m2YDNj8OJYxCr
+Ish468wP4XVtKq21Cm8+FNjNhECFyVmX6cc6F4NH032/ddPCEVUqmpX+dZ3idz8k
+Gyip5c/hFVe6XZKhNKzprkpOsRDe0AtxxudapKmxE9kninTKUL+QNGMwyTCg2PTY
+SF5OgqTYNq0fDyqzsFXAwCNcLSjdw7iylIt3L30s/fchoi5I5EZoqtTT4Uv45c6R
+n5jpa8Ga5SCGvsG+wjFw00ggl74noznMoxK/tyrtNAYMRzmDqTZH3chWefIbXWww
+zVXyzbHPW5JoPkC1Wxd0keHUobhCOw==
+=NQHK
+-----END PGP SIGNATURE-----
+
+--FJMnOb6P8fcNgx2C--
 
 
