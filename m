@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89BE6D462C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 15:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DBE6D4628
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 15:50:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjKYx-00032H-9B; Mon, 03 Apr 2023 09:49:35 -0400
+	id 1pjKYv-00030S-Ev; Mon, 03 Apr 2023 09:49:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pjKYs-0002xX-Jm
+ id 1pjKYs-0002xO-Ev
  for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:49:30 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pjKYo-0004vi-Av
+ id 1pjKYn-0004t5-UC
  for qemu-devel@nongnu.org; Mon, 03 Apr 2023 09:49:30 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- n10-20020a05600c4f8a00b003ee93d2c914so19552524wmq.2
+Received: by mail-wr1-x436.google.com with SMTP id q19so26356676wrc.5
  for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 06:49:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1680529765;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BNNm+hFhYmn6A4btsbTy8z3ys/wMqr7F5fsQ6UPTE0U=;
- b=uMZTW/+EF5o1W2A5JdfLs4oBqxYHeVBh65G8DF6NWJWPjReRFhKuCC/ncNpHwzh1qs
- mMEW2tZDNckEfFHS0GjWwR6IQexwG7ZXXRhicNL8f20z5m5Wdk3P5cQ8w/jkdpiCdqDL
- nLh92n6g0umdfLVI/eQbiF1cxRXgRItEeUiApK+mbKSMit9AUhnjl4hdTriQp+jk79nE
- 6tFc8cnDjdFMut0KwN1OCHIduIw+ynMVFPZ/mXSo/w5MIZx1TOwiMx0bB0B/C3Z3gm0j
- 6ePgrajdov1CzO49xyt1IvyKD+1XurKgKZaKP/PrY/1o3SOzUPkceYK5rLcstSpCjaYb
- OY9A==
+ bh=PldKx1qfpz7lDvG61jB68knTHdO2ooZN76NERNqkzDY=;
+ b=tAaXPTuxrZUwgDhNs2VAA3i3A5sbpUS96TJNu9EnHiuS5McEnfl5cstLz9L8iPRyMm
+ jWDWiyCo47qpsZoFmbQlC86I9o0KKIsuvTeq+G6EWzEJkwAAJpeHCXDuAQsCgp2zn9eX
+ F4qqn5xVcYpsCdCgRKXYKrcLgDuVHj3/chtJPS5xOJaQqG0XSxlyHWqCpnnl5tDVrWwd
+ EhL57J/td90pFXIrSsBfNC92WqwTVsqMuokr0Zsf2W5SUy3L5RWjqyLYARjjsoYgZyCW
+ p7Jd4iSOaVHpFVYz33XRBz8xdSqji6nhgSHdB/Kbk3PNu/cm1fr86kp6okiP5IdY760a
+ pjow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1680529765;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BNNm+hFhYmn6A4btsbTy8z3ys/wMqr7F5fsQ6UPTE0U=;
- b=PAgQW8SVBaO7qrjjQJiXbsV7dlV2FtGrDSZkTqf3EnGB05PBI6nP4CXj559X9oRPwl
- o5RP25Ex7eqMNO7qcCvsMgZuq/jS+fZlXqYIrUUVb1fme/UUn1I5tiSraHk8ySYM4UhA
- og/3EzTaghnKHH4tkfrWPognNYVo+CKVborXO0sN6kTcNSwtsu6PZqNl2bxFJUDuix3h
- bvxaxMf1CprMyCPdYUS+q04g8bJvXjC+K3oBfKujlIAw+uF0H/wpVtV0MP92GS6khpsG
- xJ/JIj0huP2lPMxQ1hYgUXgQoHZ/RHoDMoVCRKah+manRs93j7hVvsqd4E6eUR/qXJly
- E4bw==
-X-Gm-Message-State: AAQBX9dg5lOdP8L2Th+af3v6Jek8IQR77naTuOaBkIWs6XC8E5qXllZI
- LyDNmXim3AHQXEPe48afYDjSdg==
-X-Google-Smtp-Source: AKy350b3NNR46AzUUhLxuq4xz5tHpBeQaaVzMjYEw3SBCZ7bSYJ9UQeC7a2TmNiaH4Ew781UGyqx8w==
-X-Received: by 2002:a7b:c4c7:0:b0:3ef:6ae7:8994 with SMTP id
- g7-20020a7bc4c7000000b003ef6ae78994mr21868141wmk.22.1680529765031; 
+ bh=PldKx1qfpz7lDvG61jB68knTHdO2ooZN76NERNqkzDY=;
+ b=UDn3GmVhn7GrUF3UMLWEKxkPxmQCFWzf9b6m0T/wpmDZyipxvWeoW5YcGGmzIYo2GN
+ gn5d9DlgnTZRySYfMIhrZ4BraLgsAoBCepwMjGfQo8z+v5qQYDdONdJ2YEEf4iXqwicM
+ DIKWE5Qckt/a+cDcDIgVgyMeRap+9V/j/7eBZ+3A/SGff3QPQ7gjto4SqBlBmmXj5ydG
+ 73YAuQdykrFpL5T04hxiWMC7b4JY4Y4W6Q72Kkh1tBgnUWDgkfPukjIW9MPSg+X+mBWk
+ QldfieTjBSh+kd7yW0tkcTbEIHDjX+SngBJ6w7bQFy86eopFi2cdaokqKrb/yvFcvfZn
+ aZ2w==
+X-Gm-Message-State: AAQBX9fM/78u9OLpWAWPUFZBjuZYCyO9C7nhau0iwewI12id+DLud4tC
+ xN7NeQhtuwWnzPSdRsZhjjeTcw==
+X-Google-Smtp-Source: AKy350bQGOJWN5zGDlFHeOGdE2SUiSfVLxmAnGCX0rxA7lXuuoZ5vohL7JrbQpsr9aKTsRFQUoJkHg==
+X-Received: by 2002:adf:e848:0:b0:2c7:fde:f7e0 with SMTP id
+ d8-20020adfe848000000b002c70fdef7e0mr24295594wrn.65.1680529765220; 
  Mon, 03 Apr 2023 06:49:25 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- r16-20020a05600c35d000b003ee9f396dcesm19503795wmq.30.2023.04.03.06.49.22
+ p13-20020a05600c468d00b003ef7058ea02sm19327158wmo.29.2023.04.03.06.49.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 03 Apr 2023 06:49:23 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7E9FF1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 960301FFC0;
  Mon,  3 Apr 2023 14:49:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -72,18 +71,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
  Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 08/11] tests/qemu-iotests: explicitly invoke 'check' via
- 'python'
-Date: Mon,  3 Apr 2023 14:49:17 +0100
-Message-Id: <20230403134920.2132362-9-alex.bennee@linaro.org>
+Subject: [PATCH v2 09/11] tests/vm: use the default system python for NetBSD
+Date: Mon,  3 Apr 2023 14:49:18 +0100
+Message-Id: <20230403134920.2132362-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230403134920.2132362-1-alex.bennee@linaro.org>
 References: <20230403134920.2132362-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,61 +106,45 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-The 'check' script will use "#!/usr/bin/env python3" by default
-to locate python, but this doesn't work in distros which lack a
-bare 'python3' binary like NetBSD.
-
-We need to explicitly invoke 'check' by referring to the 'python'
-variable in meson, which resolves to the detected python binary
-that QEMU intends to use.
-
-This fixes a regression introduced by
-
-  commit 51ab5f8bd795d8980351f8531e54995ff9e6d163
-  Author: Daniel P. Berrangé <berrange@redhat.com>
-  Date:   Wed Mar 15 17:43:23 2023 +0000
-
-    iotests: register each I/O test separately with meson
+Currently our NetBSD VM recipe requests instal of the python37 package
+and explicitly tells QEMU to use that version of python. Since the
+NetBSD base ISO was updated to version 9.3 though, the default system
+python version is 3.9 which is sufficiently new for QEMU to rely on.
+Rather than requesting an older python, just test against the default
+system python which is what most users will have.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230329124539.822022-1-berrange@redhat.com>
+Message-Id: <20230329124601.822209-1-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230330101141.30199-8-alex.bennee@linaro.org>
+Message-Id: <20230330101141.30199-9-alex.bennee@linaro.org>
 ---
- tests/qemu-iotests/meson.build | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ tests/vm/netbsd | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-index a162f683ef..9735071a29 100644
---- a/tests/qemu-iotests/meson.build
-+++ b/tests/qemu-iotests/meson.build
-@@ -47,19 +47,20 @@ foreach format, speed: qemu_iotests_formats
-   endif
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index aa54338dfa..0b9536ca17 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -30,7 +30,6 @@ class NetBSDVM(basevm.BaseVM):
+         "git-base",
+         "pkgconf",
+         "xz",
+-        "python37",
+         "ninja-build",
  
-   rc = run_command(
--      [qemu_iotests_check_cmd] + args + ['-n'],
-+      [python, qemu_iotests_check_cmd] + args + ['-n'],
-       check: true,
-   )
- 
-   foreach item: rc.stdout().strip().split()
--      args = ['-tap', '-' + format, item,
-+      args = [qemu_iotests_check_cmd,
-+              '-tap', '-' + format, item,
-               '--source-dir', meson.current_source_dir(),
-               '--build-dir', meson.current_build_dir()]
-       # Some individual tests take as long as 45 seconds
-       # Bump the timeout to 3 minutes for some headroom
-       # on slow machines to minimize spurious failures
-       test('io-' + format + '-' + item,
--           qemu_iotests_check_cmd,
-+           python,
-            args: args,
-            depends: qemu_iotests_binaries,
-            env: qemu_iotests_env,
+         # gnu tools
+@@ -66,7 +65,7 @@ class NetBSDVM(basevm.BaseVM):
+         mkdir src build; cd src;
+         tar -xf /dev/rld1a;
+         cd ../build
+-        ../src/configure --python=python3.7 --disable-opengl {configure_opts};
++        ../src/configure --disable-opengl {configure_opts};
+         gmake --output-sync -j{jobs} {target} {verbose};
+     """
+     poweroff = "/sbin/poweroff"
 -- 
 2.39.2
 
