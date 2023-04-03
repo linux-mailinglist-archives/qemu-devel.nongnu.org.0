@@ -2,98 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C9B6D3DEE
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 09:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4066D44E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 14:53:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjENw-0003Af-Dy; Mon, 03 Apr 2023 03:13:48 -0400
+	id 1pjJeq-00078f-MC; Mon, 03 Apr 2023 08:51:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pjENl-0003AC-Ub
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 03:13:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <sergey.kambalin@auriga.com>)
+ id 1pjEgQ-0000Ls-8o
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 03:32:54 -0400
+Received: from hq-ms.auriga.com ([82.97.202.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pjENj-0001KI-OJ
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 03:13:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680506013;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HPaJccEIbufahlWEDRXHQ8z3tRX6nxKYZWhFBUrA/vw=;
- b=DBCeuH1TpCXXdjhO6Z0OHMtn2OUw8OZvRPxHRzsVQGBfwBhZl2/KQ6pePxWQLczWGjAR1Z
- lHK+nuxMe63VahFpx2gQe3IZs8HIsFPMOOnDEj21B1/D2LYj2+jKebYs6gocec5pox8kiO
- NxbqOT9c11ZOLVx5AO1uSJEdZJp73p0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-348-hVdl53z6O9exSQdLHNJP7w-1; Mon, 03 Apr 2023 03:13:32 -0400
-X-MC-Unique: hVdl53z6O9exSQdLHNJP7w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- b14-20020a05600003ce00b002cfefd8e637so2988224wrg.15
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 00:13:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680506011;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :content-language:references:cc:to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HPaJccEIbufahlWEDRXHQ8z3tRX6nxKYZWhFBUrA/vw=;
- b=GfvdwTWzXwbZHqoJwYa/VuYI5AeB2RNUvAhpR8dKvB/CLw0QO6HEVGu+4RnrtLq4XW
- msmSoduxLGg4EJyn5H25OBEkZE2TSZO8GmfXQeryDrcNGcLIN0ht409Tbzsl/1Iz3KXK
- 1WtAkVDGc5XucLvW8Dvw9U2rJm8xd4YoLyJAIm8oh34ACENjH3Rmc4J2Yq/3GfCsyNv4
- 6DRkGDnoLn0WgQreIORC3TgYR66pbJAxB5DGavVcZNnf11jkogDnLDvOdYKl6T3uvHFT
- bgPLzsVYlGkpcoejdDYXUkDZTfB4wpIkylK7MCAM5yrqFFyewktGtdhiyGb3SxrhUAkv
- ikTQ==
-X-Gm-Message-State: AO0yUKWGm3vj8WXdnuuIWY/grUiEDGT57kHgocEUGt9iP5K6oqJctcky
- xgAXQwLqm4HwvHy8x9/0TBlggltihQRi1t5wG4tJRemNwpiPiRN5RQZ9rf1FMv67JRK/W96NxJs
- Y2bFDGA3AweF3kmY=
-X-Received: by 2002:a7b:c5c8:0:b0:3eb:2de8:b739 with SMTP id
- n8-20020a7bc5c8000000b003eb2de8b739mr25407139wmk.37.1680506011062; 
- Mon, 03 Apr 2023 00:13:31 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/NPN/xIz60IZp6r8tdlqWRCeT6tK0qgF3SrQpWsWeufeR3YZvo44XbGNxQBWkW42GlTA4xYQ==
-X-Received: by 2002:a7b:c5c8:0:b0:3eb:2de8:b739 with SMTP id
- n8-20020a7bc5c8000000b003eb2de8b739mr25407110wmk.37.1680506010671; 
- Mon, 03 Apr 2023 00:13:30 -0700 (PDT)
-Received: from [192.168.3.108] (p5b0c69e9.dip0.t-ipconnect.de. [91.12.105.233])
- by smtp.gmail.com with ESMTPSA id
- f11-20020a7bc8cb000000b003edff838723sm11147646wml.3.2023.04.03.00.13.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 00:13:30 -0700 (PDT)
-Message-ID: <f2e232df-51d4-9cac-557d-329523a69530@redhat.com>
-Date: Mon, 3 Apr 2023 09:13:29 +0200
+ (Exim 4.90_1) (envelope-from <sergey.kambalin@auriga.com>)
+ id 1pjEgN-0004VN-RW
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 03:32:54 -0400
+Received: from HQ-MS1.office.auriga.msk (82.97.202.32) by
+ hq-ms1.office.auriga.msk (82.97.202.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.20; Mon, 3 Apr 2023 10:21:34 +0300
+Received: from HQ-MS1.office.auriga.msk ([fe80::4260:7fa4:9d90:6a4]) by
+ hq-ms1.office.auriga.msk ([fe80::4260:7fa4:9d90:6a4%4]) with mapi id
+ 15.02.1118.020; Mon, 3 Apr 2023 10:21:34 +0300
+From: "Kambalin, Sergey" <sergey.kambalin@auriga.com>
+To: =?gb2312?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkqKY=?= <philmd@linaro.org>, "Sergey
+ Kambalin" <serg.oker@gmail.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] Make bootable RPi4B model
+Thread-Topic: [PATCH] Make bootable RPi4B model
+Thread-Index: AQHZZYOjYBGb8AwaJkq25tl8aVt1VK8Y9AeAgAA3h5I=
+Date: Mon, 3 Apr 2023 07:21:33 +0000
+Message-ID: <49d14fcd4ece4b5bb5f8671b43d8c2af@auriga.com>
+References: <20230402165306.137092-1-sergey.kambalin@auriga.com>,
+ <a83dd975-2270-1be6-0264-516badbacc38@linaro.org>
+In-Reply-To: <a83dd975-2270-1be6-0264-516badbacc38@linaro.org>
+Accept-Language: ru-RU, en-US
+Content-Language: ru-RU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [134.191.220.81]
+x-tm-as-product-ver: SMEX-14.0.0.1158-9.0.1002-27542.001
+x-tm-as-result: No-10--14.659200-8.000000
+x-tmase-matchedrid: IWY1H69iwzqJVA+ukO+5MWg4D2QV/2zL6r3HCixfuKcc4ri4RJV/1W/R
+ DAZTdSI3QnEYvg6//klFmXhQ6rgRVOyDy8V8lTWUzH6d90mb4+Ih6cl1707zKlZxVB3B2qbP6Xk
+ ezPna397QLE3MitZAfl9/IWsrV5Ek1LFdtmiebE5itzfafzhYerzutTz14s8peZ45ULYLKJNNsi
+ /bk0au/dXoB9VhhQjLkal2kc7jh2YQcafPsw1WnC+PrAd8gbHJb0NcOFSwefIhm837eIt7zYtH2
+ SdBWxvyRKy3EMcSFoDJspWbiyjo+lcXzsaYdfq0rmLeMrcoM6iZmLDnd2pI3+PsX9qV3arkaV+s
+ 9jXgu68DCvV3UwP6eBY8qLUhOhRKsEBAuoaUqK+If3m0sUfx5+io2PgrXLs41YzbHoRn9L2R5xt
+ feKAptiER4oyikLD9/76CM4Z/MGbQ3sOMB3Fk1OLzNWBegCW2Fw5hfb1M/f6wxhlzj2zwm6KVxQ
+ goNH15XRw2IdQKZOGaYJyl6AkboUGyQ7v//E9hlExlQIQeRG0=
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--14.659200-8.000000
+x-tmase-version: SMEX-14.0.0.1158-9.0.1002-27542.001
+x-tm-snts-smtp: 3956783C8207A1CAB4928AC2C4DA81283C66EB7EC762B33A84B7D5E261DDC2882000:8
+Content-Type: multipart/alternative;
+ boundary="_000_49d14fcd4ece4b5bb5f8671b43d8c2afaurigacom_"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-To: Stefan Hajnoczi <stefanha@redhat.com>, Alexander Graf <graf@amazon.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Daniel P . Berrange" <berrange@redhat.com>, Eric Blake <eblake@redhat.com>,
- Philippe Mathieu-Daude <philmd@linaro.org>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ashish Kalra <ashish.kalra@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- Stefan Hajnoczi <stefanha@gmail.com>
-References: <20230401124257.24537-1-graf@amazon.com>
- <20230401174716.GB154566@fedora>
-Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v4] hostmem-file: add offset option
-In-Reply-To: <20230401174716.GB154566@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.37, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=82.97.202.32;
+ envelope-from=sergey.kambalin@auriga.com; helo=hq-ms.auriga.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ MIME_CHARSET_FARAWAY=2.45, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 03 Apr 2023 08:51:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,67 +84,228 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01.04.23 19:47, Stefan Hajnoczi wrote:
-> On Sat, Apr 01, 2023 at 12:42:57PM +0000, Alexander Graf wrote:
->> Add an option for hostmem-file to start the memory object at an offset
->> into the target file. This is useful if multiple memory objects reside
->> inside the same target file, such as a device node.
->>
->> In particular, it's useful to map guest memory directly into /dev/mem
->> for experimentation.
->>
->> Signed-off-by: Alexander Graf <graf@amazon.com>
->> Reviewed-by: Stefan Hajnoczi <stefanha@gmail.com>
->>
->> ---
->>
->> v1 -> v2:
->>
->>    - add qom documentation
->>    - propagate offset into truncate, size and alignment checks
->>
->> v2 -> v3:
->>
->>    - failed attempt at fixing typo
->>
->> v2 -> v4:
->>
->>    - fix typo
->> ---
->>   backends/hostmem-file.c | 40 +++++++++++++++++++++++++++++++++++++++-
->>   include/exec/memory.h   |  2 ++
->>   include/exec/ram_addr.h |  3 ++-
->>   qapi/qom.json           |  5 +++++
->>   qemu-options.hx         |  6 +++++-
->>   softmmu/memory.c        |  3 ++-
->>   softmmu/physmem.c       | 14 ++++++++++----
->>   7 files changed, 65 insertions(+), 8 deletions(-)
-> 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+--_000_49d14fcd4ece4b5bb5f8671b43d8c2afaurigacom_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-The change itself looks good to me, but I do think some other QEMU code 
-that ends up working on the RAMBlock is not prepared yet. Most probably, 
-because we never ended up using fd with an offset as guest RAM.
+SGkgUGhpbCENCg0KDQpJJ3ZlIHB1dCB1bml0IHRlc3RzIHRvIGEgc2VwYXJhdGUgcGF0Y2ggaW4g
+b3JkZXIgdG8gbm90IG92ZXJ3aGVsbSB5b3Ugd2l0aCBjb2RlLg0KDQpJdCBpcyBhbHJlYWR5IGEg
+aHVnZSBwaWVjZSwgYW5kIEkgYWdyZWUgdGhhdCAgMzAwMCsgbGluZXMgYXJlIGEgc29ydCBvZiBh
+IGNoYWxsZW5nZSB0byBhIHJldmlld2VyLg0KDQpPSywgSSdsbCB0cnkgdG8gc3BsaXQgaXQgaW50
+byBhIHNldmVyYWwgcGF0Y2hlcyAtIGNvcmUgZnVuY3Rpb25hbGl0eSArIGEgc2luZ2xlIHBhdGNo
+IGZvciBlYWNoIGRldmljZSAoZ3BpbywgdHJuZywgdGhlcm1hbCBzZW5zb3JzKQ0KDQoNCkJSLA0K
+DQpTZXJnZXkNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCqewp+Q6IFBoaWxp
+cHBlIE1hdGhpZXUtRGF1ZKimIDxwaGlsbWRAbGluYXJvLm9yZz4NCqewp+Sn4afip9Gn06fdp9an
+36fgOiAzIKfRp+Gn4qfWp92n8SAyMDIzIKfULiA5OjUxOjExDQqnrKfgp96n5TogU2VyZ2V5IEth
+bWJhbGluOyBxZW11LWRldmVsQG5vbmdudS5vcmcNCqesp+Cn4afap/E6IEthbWJhbGluLCBTZXJn
+ZXkNCqe0p9an3qfROiBSZTogW1BBVENIXSBNYWtlIGJvb3RhYmxlIFJQaTRCIG1vZGVsDQoNCkhp
+IFNlcmdleSwNCg0KT24gMi80LzIzIDE4OjUzLCBTZXJnZXkgS2FtYmFsaW4gd3JvdGU6DQo+IFNp
+Z25lZC1vZmYtYnk6IFNlcmdleSBLYW1iYWxpbiA8c2VyZ2V5LmthbWJhbGluQGF1cmlnYS5jb20+
+DQo+IC0tLQ0KPiAgIGNvbmZpZ3MvZGV2aWNlcy9hYXJjaDY0LXNvZnRtbXUvZGVmYXVsdC5tYWsg
+fCAgIDEgKw0KPiAgIGh3L2FybS9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgIDcgKw0KPiAgIGh3L2FybS9iY20yODM1X3BlcmlwaGVyYWxzLmMgICAgICAgICAgICAgICAg
+fCAyMTggKysrKysrLS0tLQ0KPiAgIGh3L2FybS9iY20yODM2LmMgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAxMjkgKysrLS0tDQo+ICAgaHcvYXJtL2JjbTI4MzguYyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB8IDI5NCArKysrKysrKysrKysrKw0KPiAgIGh3L2FybS9iY20yODM4X3Bj
+aWUuYyAgICAgICAgICAgICAgICAgICAgICAgfCAzMDAgKysrKysrKysrKysrKysNCj4gICBody9h
+cm0vYmNtMjgzOF9wZXJpcGhlcmFscy5jICAgICAgICAgICAgICAgIHwgMjYyICsrKysrKysrKysr
+Kw0KPiAgIGh3L2FybS9tZXNvbi5idWlsZCAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDYg
+Kw0KPiAgIGh3L2FybS9yYXNwaS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAxMjgg
+KysrLS0tDQo+ICAgaHcvYXJtL3Jhc3BpNGIuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
+IDIzMiArKysrKysrKysrKw0KPiAgIGh3L2FybS90cmFjZS1ldmVudHMgICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAgIDYgKw0KPiAgIGh3L2dwaW8vYmNtMjgzOF9ncGlvLmMgICAgICAgICAgICAg
+ICAgICAgICAgfCAzOTUgKysrKysrKysrKysrKysrKysrDQo+ICAgaHcvZ3Bpby9tZXNvbi5idWls
+ZCAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ICAgaHcvbWlzYy9iY20yODM1X3By
+b3BlcnR5LmMgICAgICAgICAgICAgICAgICB8IDMxOCArKysrKysrKysrKystLS0NCj4gICBody9t
+aXNjL2JjbTI4Mzhfcm5nMjAwLmMgICAgICAgICAgICAgICAgICAgIHwgNDIxICsrKysrKysrKysr
+KysrKysrKysrDQo+ICAgaHcvbWlzYy9iY20yODM4X3RoZXJtYWwuYyAgICAgICAgICAgICAgICAg
+ICB8ICA5NyArKysrKw0KPiAgIGh3L21pc2MvbWVzb24uYnVpbGQgICAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgIDQgKw0KPiAgIGh3L21pc2MvdHJhY2UtZXZlbnRzICAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgMTAgKw0KPiAgIGluY2x1ZGUvaHcvYXJtL2JjbTI4MzVfcGVyaXBoZXJhbHMuaCAg
+ICAgICAgfCAgMjkgKy0NCj4gICBpbmNsdWRlL2h3L2FybS9iY20yODM2LmggICAgICAgICAgICAg
+ICAgICAgIHwgIDMwICstDQo+ICAgaW5jbHVkZS9ody9hcm0vYmNtMjgzOC5oICAgICAgICAgICAg
+ICAgICAgICB8ICAyNiArKw0KPiAgIGluY2x1ZGUvaHcvYXJtL2JjbTI4MzhfcGNpZS5oICAgICAg
+ICAgICAgICAgfCAgNjcgKysrKw0KPiAgIGluY2x1ZGUvaHcvYXJtL2JjbTI4MzhfcGVyaXBoZXJh
+bHMuaCAgICAgICAgfCAgNTYgKysrDQo+ICAgaW5jbHVkZS9ody9hcm0vcmFzcGk0Yl9wbGF0Zm9y
+bS5oICAgICAgICAgICB8ICA1NCArKysNCj4gICBpbmNsdWRlL2h3L2FybS9yYXNwaV9wbGF0Zm9y
+bS5oICAgICAgICAgICAgIHwgIDM0ICsrDQo+ICAgaW5jbHVkZS9ody9kaXNwbGF5L2JjbTI4MzVf
+ZmIuaCAgICAgICAgICAgICB8ICAgMiArDQo+ICAgaW5jbHVkZS9ody9ncGlvL2JjbTI4MzhfZ3Bp
+by5oICAgICAgICAgICAgICB8ICA0NSArKysNCj4gICBpbmNsdWRlL2h3L21pc2MvYmNtMjgzOF9y
+bmcyMDAuaCAgICAgICAgICAgIHwgIDc3ICsrKysNCj4gICBpbmNsdWRlL2h3L21pc2MvYmNtMjgz
+OF90aGVybWFsLmggICAgICAgICAgIHwgIDI0ICsrDQo+ICAgaW5jbHVkZS9ody9taXNjL3Jhc3Bi
+ZXJyeXBpLWZ3LWRlZnMuaCAgICAgICB8IDE2OSArKysrKysrKw0KPiAgIDMwIGZpbGVzIGNoYW5n
+ZWQsIDMxNzUgaW5zZXJ0aW9ucygrKSwgMjY3IGRlbGV0aW9ucygtKQ0KDQpUaGUgcGF0Y2ggc3Vi
+amVjdCBzb3VuZHMgcHJvbWlzaW5nISBIb3dldmVyIDMxNzUgbGluZXMgb2YNCmNvZGUgdG8gcmV2
+aWV3IGlzIGEgYml0IGhhcmRjb3JlLi4uIENvdWxkIHlvdSBzcGxpdCB5b3VyDQpwYXRjaCBwZXIg
+ZGV2aWNlIChhdCBsZWFzdCk/DQoNCklkZWFsbHkgb25lIHBhdGNoIHNob3VsZCBjb250YWluIGEg
+c2luZ2xlIGxvZ2ljYWwgY2hhbmdlLg0KDQpBbHNvLCBjYW4geW91IHByb3ZpZGUgaG93IHlvdSB0
+ZXN0ZWQgeW91ciBwYXRjaD8NCg0KVGhhbmtzLA0KDQpQaGlsLg0K
 
-We don't seem to be remembering that offset in the RAMBlock. First, I 
-thought block->offset would be used for that, but that's just the offset 
-in the ram_addr_t space. Maybe we need a new "block->fd_offset" to 
-remember the offset (unless I am missing something).
+--_000_49d14fcd4ece4b5bb5f8671b43d8c2afaurigacom_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
 
-The real offset in the file would be required at least in two cases I 
-can see (whenever we essentially end up calling mmap() on the fd again):
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
+ding-left: 4pt; border-left: #800000 2px solid; } --></style>
+</head>
+<body>
+<meta content=3D"text/html; charset=3DUTF-8">
+<style type=3D"text/css" style=3D"">
+<!--
+p
+	{margin-top:0;
+	margin-bottom:0}
+-->
+</style>
+<div dir=3D"ltr">
+<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
+or:#000000; font-family:Calibri,Helvetica,sans-serif">
+<p>Hi Phil!</p>
+<p><br>
+</p>
+<p>I've put unit tests to a separate patch in order to not overwhelm you wi=
+th code.</p>
+<p>It is already a huge piece, and I agree that<span style=3D"font-size:12p=
+t">&nbsp;</span><span style=3D"font-size:12pt">&nbsp;3000&#43; lines
+</span><span style=3D"font-size:12pt">are</span><span style=3D"font-size:12=
+pt"> a sort of a challenge to a reviewer.</span></p>
+<p>OK, I'll try to split it into a several patches - core functionality &#4=
+3; a single patch for each&nbsp;device (gpio, trng, thermal sensors)</p>
+<p><br>
+</p>
+<p>BR,</p>
+<p>Sergey</p>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>=A7=B0=A7=E4:</b> Philippe Ma=
+thieu-Daud=A8=A6 &lt;philmd@linaro.org&gt;<br>
+<b>=A7=B0=A7=E4=A7=E1=A7=E2=A7=D1=A7=D3=A7=DD=A7=D6=A7=DF=A7=E0:</b> 3 =A7=
+=D1=A7=E1=A7=E2=A7=D6=A7=DD=A7=F1 2023 =A7=D4. 9:51:11<br>
+<b>=A7=AC=A7=E0=A7=DE=A7=E5:</b> Sergey Kambalin; qemu-devel@nongnu.org<br>
+<b>=A7=AC=A7=E0=A7=E1=A7=DA=A7=F1:</b> Kambalin, Sergey<br>
+<b>=A7=B4=A7=D6=A7=DE=A7=D1:</b> Re: [PATCH] Make bootable RPi4B model</fon=
+t>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:10pt;">
+<div class=3D"PlainText">Hi Sergey,<br>
+<br>
+On 2/4/23 18:53, Sergey Kambalin wrote:<br>
+&gt; Signed-off-by: Sergey Kambalin &lt;sergey.kambalin@auriga.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp;&nbsp; configs/devices/aarch64-softmmu/default.mak |&nbsp;&nbsp; =
+1 &#43;<br>
+&gt;&nbsp;&nbsp; hw/arm/Kconfig&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 7 &#4=
+3;<br>
+&gt;&nbsp;&nbsp; hw/arm/bcm2835_peripherals.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 218 &#43;&#4=
+3;&#43;&#43;&#43;&#43;----<br>
+&gt;&nbsp;&nbsp; hw/arm/bcm2836.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 129 &#43;&#43;&#43;---<br>
+&gt;&nbsp;&nbsp; hw/arm/bcm2838.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 294 &#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; hw/arm/bcm2838_pcie.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; | 300 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; hw/arm/bcm2838_peripherals.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 262 &#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; hw/arm/meson.build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 6 &#43;<br>
+&gt;&nbsp;&nbsp; hw/arm/raspi.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 128 &#43;&#43;&#4=
+3;---<br>
+&gt;&nbsp;&nbsp; hw/arm/raspi4b.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 232 &#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; hw/arm/trace-events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 6 &#43;<br>
+&gt;&nbsp;&nbsp; hw/gpio/bcm2838_gpio.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; | 395 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; hw/gpio/meson.build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 1 &#43;<br>
+&gt;&nbsp;&nbsp; hw/misc/bcm2835_property.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 31=
+8 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;---<br>
+&gt;&nbsp;&nbsp; hw/misc/bcm2838_rng200.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; | 421 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#4=
+3;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; hw/misc/bcm2838_thermal.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ |&nbsp; 97 &#43;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; hw/misc/meson.build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 4 &#43;<br>
+&gt;&nbsp;&nbsp; hw/misc/trace-events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 10 &#43;<br>
+&gt;&nbsp;&nbsp; include/hw/arm/bcm2835_peripherals.h&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; |&nbsp; 29 &#43;-<br>
+&gt;&nbsp;&nbsp; include/hw/arm/bcm2836.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; |&nbsp; 30 &#43;-<br>
+&gt;&nbsp;&nbsp; include/hw/arm/bcm2838.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; |&nbsp; 26 &#43;&#43;<br>
+&gt;&nbsp;&nbsp; include/hw/arm/bcm2838_pcie.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 67 &#43;&#4=
+3;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; include/hw/arm/bcm2838_peripherals.h&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; |&nbsp; 56 &#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; include/hw/arm/raspi4b_platform.h&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 54 &#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; include/hw/arm/raspi_platform.h&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 34 &#43;&#43;<br>
+&gt;&nbsp;&nbsp; include/hw/display/bcm2835_fb.h&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 2 &#43;<br>
+&gt;&nbsp;&nbsp; include/hw/gpio/bcm2838_gpio.h&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 45 &#43;&#43;&#4=
+3;<br>
+&gt;&nbsp;&nbsp; include/hw/misc/bcm2838_rng200.h&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 77 &#43;&#43;&#43;&#43;<br=
+>
+&gt;&nbsp;&nbsp; include/hw/misc/bcm2838_thermal.h&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 24 &#43;&#43;<br>
+&gt;&nbsp;&nbsp; include/hw/misc/raspberrypi-fw-defs.h&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; | 169 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;<br>
+&gt;&nbsp;&nbsp; 30 files changed, 3175 insertions(&#43;), 267 deletions(-)=
+<br>
+<br>
+The patch subject sounds promising! However 3175 lines of<br>
+code to review is a bit hardcore... Could you split your<br>
+patch per device (at least)?<br>
+<br>
+Ideally one patch should contain a single logical change.<br>
+<br>
+Also, can you provide how you tested your patch?<br>
+<br>
+Thanks,<br>
+<br>
+Phil.<br>
+</div>
+</span></font>
+</body>
+</html>
 
-1) qemu_ram_remap(): We'd have to add the file offset on top of the 
-calculated offset.
-
-2) vhost-user: most probably whenever we set the mmap_offset. For 
-example, in vhost_user_fill_set_mem_table_msg() we'd similarly have to 
-add the file_offset on top of the calculated offset. 
-vhost_user_get_mr_data() should most probably do that.
-
--- 
-Thanks,
-
-David / dhildenb
-
+--_000_49d14fcd4ece4b5bb5f8671b43d8c2afaurigacom_--
 
