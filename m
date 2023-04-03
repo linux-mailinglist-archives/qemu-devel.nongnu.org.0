@@ -2,78 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E336D5120
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 21:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7466A6D513B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 21:21:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjPfP-0005iR-RG; Mon, 03 Apr 2023 15:16:35 -0400
+	id 1pjPjc-00009o-OE; Mon, 03 Apr 2023 15:20:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjPfO-0005iH-2y
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 15:16:34 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjPjb-00009P-7e
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 15:20:55 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjPfM-0001JO-12
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 15:16:33 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id r11so121538925edd.5
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 12:16:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjPjZ-0002Rp-MX
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 15:20:55 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id c18so29052199ple.11
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 12:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680549390;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dOCc0rVLqLUxUmALhTL2PbpqXostbHVyQaVsUR8RKuk=;
- b=Q/p2nRepbtJGmgFFyYITBnkUztCwHKj4723/UcKISeXgRMKS/XyhXE+8AufMl07nqo
- /9Y/kSD7LkK29B67a6gs9hhQFrlbJg9PsvqvZGXYGpAh6C4uqUerxSP4u737L6yxLLRy
- FbDYEZH/jmYEK2Ln2JJ4+HJjNY3jEyqrw+BoxqMd9LBqVf3zc8Q5BV36Fw9nyF3xFf8B
- nyoToIGczUdJKSYs36fz3xGSj6priOG2dwtDHHzNCwYLXKfsIczuKS4ZFT/Q0aDxCdtB
- HL1hQJr8lo9R6/h5/8lesA7VHaqr2vx8BTKBzs8GLjKtXp36DQmP3VZ0aEHuBycx1dDt
- Auxg==
+ d=linaro.org; s=google; t=1680549652;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=v8Vi+yDhyvfX2iy+C2AxwMu82CjZ6iE+ENcKnxVjC8E=;
+ b=bOF3tEOGNQu/NXCgGUzPi5oHfcKsqk8rvWcCJBQ9LqY7FkRLNjkOUGEIa5ChUOUZSr
+ IT0n/LQB7iKToh5AcXxcIPpGyyR8iqBg4d9QHCeuHcDlMi0izKYjxmwe9IJRUeGool8/
+ drPPyiAnACzSuT15E+M8dBE/qbTFPBVwsMD1sH0+LdjhiilA2NTFSygu+ElhCiXGQ52i
+ t9/03x+/iRIN17iDi9BSqMy8/1nZ31ybZWlTyDpv8fmhlZQZiRKAiOlHJI2OZ2cTixj0
+ lWdscqCISnr5czt7xucSYEkvUTNjQ1R8HyXHrmzBb8+FmLAC07FyPuMuwcT0wv0Dytcv
+ xOQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680549390;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dOCc0rVLqLUxUmALhTL2PbpqXostbHVyQaVsUR8RKuk=;
- b=A8gEjH6PMcCfJx2nZ8Nf8jIpnxWqul4O3zk7pPNDoCQZLjvv5BC2rS/Qs4oJWlfS4I
- smsd5m9LWoNow9aUjeeJGkz8TT55/+LyWa6/Rith4YzaC2nugPeTc6ySkDoQMgaldKAH
- l+BPFYAqCY/ogXLQBH6CSTJ1mzyhF+3537ipz1QvxjNAYeojQdMbi5FlnIeMv/K9wN45
- dJmTR1BXyZ2f4IEb2+YMCpnbtdws+cLyghcWLhthr/qa/qnuQyDds07YyFUctF/83/uM
- 2ihA2qHV3RP64BNyGMU0SF7m75oo7Z2sTbuOjCl8Y6sNjCpjwwB2i/NHc1o3NTjMLtS/
- 8nXg==
-X-Gm-Message-State: AAQBX9c1d+6RF7A5bEZYTzlBkYNmLms8yLAjTEHmbczbKek9Ecx0xXtC
- uNIAael7sQZSRUhh7GvytwbZfsWHfNH+VV0TtU5eHhPTS5uDA9MF7Ic=
-X-Google-Smtp-Source: AKy350bI+72+khvgi5icDs2x04twPsK8DqgLmOrjJhPq7UZtLnuSn2wA0I68t2uxAe5BDbVd+VdTvn4GXK+n/4tNpEM=
-X-Received: by 2002:a17:906:6a03:b0:930:90ce:a1a6 with SMTP id
- qw3-20020a1709066a0300b0093090cea1a6mr18480018ejc.6.1680549389655; Mon, 03
- Apr 2023 12:16:29 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680549652;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=v8Vi+yDhyvfX2iy+C2AxwMu82CjZ6iE+ENcKnxVjC8E=;
+ b=jFWuk62twoVY+jrrjrXdOqlV4vzsEjhMWtmnRJ0YfO/lRwyX/k+85+LeDu0k21wI0C
+ BAb4NrEVNrmFbWuj+3XZBxnbyDkgDLPEf0ju1KWq+NeAmRbdSffe0LXenhXyDAy+dpii
+ DPtRLgr4cj4sWbNnhPlU1DzzAMaGuX48pDMY3QdLDeaLc4zUmA4SYNBDEYKVrE0fYrJI
+ 746hEvThG8oaKrEinFGBDmXeWxtxX6QF3FI58/0lMHjjtqiOzxmYUMIz1jT2TTo2gcA0
+ qwXQ8qDEAeptU4goXexDSs5SPaHPa4Wr15xj1DNXXg0lpGmmHK73uNkN2vsuc3R5gPOM
+ lmqg==
+X-Gm-Message-State: AAQBX9dUH3tlTzBmKmBXGKH8jX563YLYgMrMqeedO3XpAPfedsSsv80F
+ LAYgFpGBpRoKI0H9mCiL7lMHHQ==
+X-Google-Smtp-Source: AKy350ZP/glo+qvIm4LxmzlJSW1mSVrgtqsXsb3lCURhRujnxieUjbTUEBh0PyfzdjDpRseJJGvLgg==
+X-Received: by 2002:a17:902:e5d1:b0:19e:4bc3:b1ef with SMTP id
+ u17-20020a170902e5d100b0019e4bc3b1efmr73863plf.64.1680549651999; 
+ Mon, 03 Apr 2023 12:20:51 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
+ ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
+ by smtp.gmail.com with ESMTPSA id
+ jb21-20020a170903259500b001a042f532cfsm7020707plb.27.2023.04.03.12.20.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Apr 2023 12:20:51 -0700 (PDT)
+Message-ID: <b6ddd9af-ca2f-d8db-f5c3-a1656da961cc@linaro.org>
+Date: Mon, 3 Apr 2023 12:20:49 -0700
 MIME-Version: 1.0
-References: <20230302172211.4146376-1-peter.maydell@linaro.org>
- <CAFEAcA_Pf11W3FuaLHvzQ7yrkh6KC556HDfvXpZYaHqN4iMvsg@mail.gmail.com>
- <CAFEAcA92kLBwgJoAc9HCr4oX=S0V=RmdO4+rOnKPJn32hQAf4Q@mail.gmail.com>
- <CAFEAcA_gGWVqcabvrVC4QGvnBtb=dq41gHWgRfp9Ym2PDTTJ0w@mail.gmail.com>
-In-Reply-To: <CAFEAcA_gGWVqcabvrVC4QGvnBtb=dq41gHWgRfp9Ym2PDTTJ0w@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Apr 2023 20:16:18 +0100
-Message-ID: <CAFEAcA9qhjEwnS2LnfAND0A3rP23mkBBz2yK7oNpddOTUb8ruA@mail.gmail.com>
-Subject: Re: [PATCH] tests/qtest/migration-test: Disable
- migration/multifd/tcp/plain/cancel
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 05/10] bsd-user: Add '-one-insn-per-tb' option
+ equivalent to '-singlestep'
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
+References: <20230403144637.2949366-1-peter.maydell@linaro.org>
+ <20230403144637.2949366-6-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230403144637.2949366-6-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,102 +99,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gV2VkLCAyMiBNYXIgMjAyMyBhdCAyMDoxNSwgUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIubWF5ZGVs
-bEBsaW5hcm8ub3JnPiB3cm90ZToNCj4NCj4gT24gVHVlLCA3IE1hciAyMDIzIGF0IDA5OjUzLCBQ
-ZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+IHdyb3RlOg0KPiA+DQo+ID4g
-T24gU2F0LCA0IE1hciAyMDIzIGF0IDE1OjM5LCBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxs
-QGxpbmFyby5vcmc+IHdyb3RlOg0KPiA+ID4NCj4gPiA+IE9uIFRodSwgMiBNYXIgMjAyMyBhdCAx
-NzoyMiwgUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPiB3cm90ZToNCj4g
-PiA+ID4NCj4gPiA+ID4gbWlncmF0aW9uLXRlc3QgaGFzIGJlZW4gZmxha3kgZm9yIGEgbG9uZyB0
-aW1lLCBib3RoIGluIENJIGFuZA0KPiA+ID4gPiBvdGhlcndpc2U6DQo+ID4gPiA+DQo+ID4gPg0K
-PiA+ID4NCj4gPiA+ID4gSW4gdGhlIGNhc2VzIHdoZXJlIEkndmUgbG9va2VkIGF0IHRoZSB1bmRl
-cmx5aW5nIGxvZywgdGhpcyBzZWVtcyB0bw0KPiA+ID4gPiBiZSBpbiB0aGUgbWlncmF0aW9uL211
-bHRpZmQvdGNwL3BsYWluL2NhbmNlbCBzdWJ0ZXN0LiAgRGlzYWJsZSB0aGF0DQo+ID4gPiA+IHNw
-ZWNpZmljIHN1YnRlc3QgYnkgZGVmYXVsdCB1bnRpbCBzb21lYm9keSBjYW4gdHJhY2sgZG93biB0
-aGUNCj4gPiA+ID4gdW5kZXJseWluZyBjYXVzZS4gRW50aHVzaWFzdHMgY2FuIG9wdCBiYWNrIGlu
-IGJ5IHNldHRpbmcNCj4gPiA+ID4gUUVNVV9URVNUX0ZMQUtZX1RFU1RTPTEgaW4gdGhlaXIgZW52
-aXJvbm1lbnQuDQo+ID4gPg0KPiA+ID4gU28gSSdtIGdvaW5nIHRvIGFwcGx5IHRoaXMsIGJlY2F1
-c2UgaG9wZWZ1bGx5IGl0IHdpbGwgaW1wcm92ZQ0KPiA+ID4gdGhlIHJlbGlhYmlsaXR5IGEgYml0
-LCBidXQgaXQncyBjbGVhcmx5IG5vdCBhbGwgb2YgdGhlDQo+ID4gPiBpc3N1ZXMgd2l0aCBtaWdy
-YXRpb24tdGVzdCwgYmVjYXVzZSBpbiB0aGUgY291cnNlIG9mIHRoZQ0KPiA+ID4gcnVuIEkgd2Fz
-IGRvaW5nIHRvIHRlc3QgaXQgYmVmb3JlIGFwcGx5aW5nIGl0IEkgZ290IHRoaXMNCj4gPiA+IGVy
-cm9yIGZyb20gdGhlIE9wZW5CU0QgVk06DQo+ID4gPg0KPiA+ID4gIDMyLzY0NiBxZW11OnF0ZXN0
-K3F0ZXN0LWFhcmNoNjQgLyBxdGVzdC1hYXJjaDY0L21pZ3JhdGlvbi10ZXN0DQo+ID4gPiAgICAg
-ICAgICAgIEVSUk9SICAgICAgICAgIDEzNC43M3MgICBraWxsZWQgYnkgc2lnbmFsIDYgU0lHQUJS
-VA0KPiA+ID4g4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCVIOKcgCAg4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCVDQo+ID4gPiBzdGRlcnI6DQo+ID4gPiBxZW11LXN5c3RlbS1hYXJjaDY0OiBtdWx0
-aWZkX3NlbmRfc3luY19tYWluOiBjaGFubmVsIDE1IGhhcyBhbHJlYWR5IHF1aXQNCj4gPiA+IHFl
-bXUtc3lzdGVtLWFhcmNoNjQ6IGZhaWxlZCB0byBzYXZlIFNhdmVTdGF0ZUVudHJ5IHdpdGggaWQo
-bmFtZSk6IDIocmFtKTogLTENCj4gPiA+IHFlbXUtc3lzdGVtLWFhcmNoNjQ6IEZhaWxlZCB0byBj
-b25uZWN0IHRvICcxMjcuMC4wLjE6MTk1ODEnOiBBZGRyZXNzDQo+ID4gPiBhbHJlYWR5IGluIHVz
-ZQ0KPiA+ID4gcXVlcnktbWlncmF0ZSBzaG93cyBmYWlsZWQgbWlncmF0aW9uOiBGYWlsZWQgdG8g
-Y29ubmVjdCB0bw0KPiA+ID4gJzEyNy4wLjAuMToxOTU4MSc6IEFkZHJlc3MgYWxyZWFkeSBpbiB1
-c2UNCj4gPiA+ICoqDQo+ID4gPiBFUlJPUjouLi9zcmMvdGVzdHMvcXRlc3QvbWlncmF0aW9uLWhl
-bHBlcnMuYzoxNTE6bWlncmF0ZV9xdWVyeV9ub3RfZmFpbGVkOg0KPiA+ID4gYXNzZXJ0aW9uIGZh
-aWxlZDogKCFnX3N0cl9lcXVhbChzdGF0dXMsICJmYWlsZWQiKSkNCj4gPiA+DQo+ID4gPiAodGVz
-dCBwcm9ncmFtIGV4aXRlZCB3aXRoIHN0YXR1cyBjb2RlIC02KQ0KPiA+DQo+ID4gR290IGFub3Ro
-ZXIgcmVwZWF0IG9mIHRoaXMgb25lIHRvZGF5OyBhZ2Fpbiwgb24gdGhlIE9wZW5CU0QgVk06DQo+
-ID4NCj4gPiAgMzIvNjQ2IHFlbXU6cXRlc3QrcXRlc3QtYWFyY2g2NCAvIHF0ZXN0LWFhcmNoNjQv
-bWlncmF0aW9uLXRlc3QNCj4gPiAgICAgICAgICAgIEVSUk9SDQo+ID4gICAxMzEuMjhzICAga2ls
-bGVkIGJ5IHNpZ25hbCA2IFNJR0FCUlQNCj4gPiDigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJUg4pyAICDigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJUNCj4gPiBzdGRlcnI6DQo+ID4gcWVtdS1zeXN0
-ZW0tYWFyY2g2NDogbXVsdGlmZF9zZW5kX3N5bmNfbWFpbjogY2hhbm5lbCAxNSBoYXMgYWxyZWFk
-eSBxdWl0DQo+ID4gcWVtdS1zeXN0ZW0tYWFyY2g2NDogZmFpbGVkIHRvIHNhdmUgU2F2ZVN0YXRl
-RW50cnkgd2l0aCBpZChuYW1lKTogMihyYW0pOiAtMQ0KPiA+IHFlbXUtc3lzdGVtLWFhcmNoNjQ6
-IEZhaWxlZCB0byBjb25uZWN0IHRvICcxMjcuMC4wLjE6MzAzMTInOiBBZGRyZXNzDQo+ID4gYWxy
-ZWFkeSBpbiB1c2UNCj4gPiBxdWVyeS1taWdyYXRlIHNob3dzIGZhaWxlZCBtaWdyYXRpb246IEZh
-aWxlZCB0byBjb25uZWN0IHRvDQo+ID4gJzEyNy4wLjAuMTozMDMxMic6IEFkZHJlc3MgYWxyZWFk
-eSBpDQo+ID4gbiB1c2UNCj4gPiAqKg0KPiA+IEVSUk9SOi4uL3NyYy90ZXN0cy9xdGVzdC9taWdy
-YXRpb24taGVscGVycy5jOjE1MTptaWdyYXRlX3F1ZXJ5X25vdF9mYWlsZWQ6DQo+ID4gYXNzZXJ0
-aW9uIGZhaWxlZDogKCENCj4gPiBnX3N0cl9lcXVhbChzdGF0dXMsICJmYWlsZWQiKSkNCj4gPg0K
-PiA+ICh0ZXN0IHByb2dyYW0gZXhpdGVkIHdpdGggc3RhdHVzIGNvZGUgLTYpDQo+ID4g4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-DQo+DQo+IFRoaXMgb25lJ3Mgc3RpbGwgaGVyZSAob3BlbmJzZCBWTSBhZ2Fpbik6DQo+DQo+ICAz
-Ny83NzQgcWVtdTpxdGVzdCtxdGVzdC14ODZfNjQgLyBxdGVzdC14ODZfNjQvbWlncmF0aW9uLXRl
-c3QNCj4gICAgICAgICAgICBFUlJPUiAgICAgICAgICA1NjUuNDJzICAga2lsbGVkIGJ5IHNpZ25h
-bCA2IFNJR0FCUlQNCj4g4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCVIOKcgCAg4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCVDQo+IHN0ZGVycjoNCj4gcWVtdS1zeXN0ZW0teDg2XzY0OiBtdWx0aWZk
-X3NlbmRfc3luY19tYWluOiBjaGFubmVsIDE1IGhhcyBhbHJlYWR5IHF1aXQNCj4gcWVtdS1zeXN0
-ZW0teDg2XzY0OiBGYWlsZWQgdG8gY29ubmVjdCB0byAnMTI3LjAuMC4xOjc4NTYnOiBBZGRyZXNz
-DQo+IGFscmVhZHkgaW4gdXNlDQo+IHF1ZXJ5LW1pZ3JhdGUgc2hvd3MgZmFpbGVkIG1pZ3JhdGlv
-bjogRmFpbGVkIHRvIGNvbm5lY3QgdG8NCj4gJzEyNy4wLjAuMTo3ODU2JzogQWRkcmVzcyBhbHJl
-YWR5IGluIHVzZQ0KPiAqKg0KPiBFUlJPUjouLi9zcmMvdGVzdHMvcXRlc3QvbWlncmF0aW9uLWhl
-bHBlcnMuYzoxNTE6bWlncmF0ZV9xdWVyeV9ub3RfZmFpbGVkOg0KPiBhc3NlcnRpb24gZmFpbGVk
-OiAoIWdfc3RyX2VxdWFsKHN0YXR1cywgImZhaWxlZCIpKQ0KPg0KPiAodGVzdCBwcm9ncmFtIGV4
-aXRlZCB3aXRoIHN0YXR1cyBjb2RlIC02KQ0KDQpBbmQgYWdhaW4sIGhlcmUgb24geDg2IG1hY29z
-Og0KDQogMzIvNjI2IHFlbXU6cXRlc3QrcXRlc3QtYWFyY2g2NCAvIHF0ZXN0LWFhcmNoNjQvbWln
-cmF0aW9uLXRlc3QNCiAgICAgICAgICAgRVJST1IgICAgICAgICAgNDEzLjAwcyAgIGtpbGxlZCBi
-eSBzaWduYWwgNiBTSUdBQlJUDQrigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJUg4pyAICDigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXigJXi
-gJXigJXigJXigJXigJXigJXigJUNCnN0ZGVycjoNCnFlbXUtc3lzdGVtLWFhcmNoNjQ6IG11bHRp
-ZmRfc2VuZF9zeW5jX21haW46IGNoYW5uZWwgMTQgaGFzIGFscmVhZHkgcXVpdA0KcWVtdS1zeXN0
-ZW0tYWFyY2g2NDogRmFpbGVkIHRvIGNvbm5lY3QgdG8gJzEyNy4wLjAuMTo1MjY4OSc6DQpDb25u
-ZWN0aW9uIHJlc2V0IGJ5IHBlZXINCnF1ZXJ5LW1pZ3JhdGUgc2hvd3MgZmFpbGVkIG1pZ3JhdGlv
-bjogRmFpbGVkIHRvIGNvbm5lY3QgdG8NCicxMjcuMC4wLjE6NTI2ODknOiBDb25uZWN0aW9uIHJl
-c2V0IGJ5IHBlZXINCioqDQpFUlJPUjouLi8uLi90ZXN0cy9xdGVzdC9taWdyYXRpb24taGVscGVy
-cy5jOjE1MTptaWdyYXRlX3F1ZXJ5X25vdF9mYWlsZWQ6DQphc3NlcnRpb24gZmFpbGVkOiAoIWdf
-c3RyX2VxdWFsKHN0YXR1cywgImZhaWxlZCIpKQ0KDQoodGVzdCBwcm9ncmFtIGV4aXRlZCB3aXRo
-IHN0YXR1cyBjb2RlIC02KQ0K4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCV
-4oCV4oCV4oCV4oCV4oCV4oCV4oCV4oCVDQoNCg0KSWYgdGhpcyBpc24ndCBzdWZmaWNpZW50IG91
-dHB1dCB0byBiZSBhYmxlIHRvIGZpZ3VyZSBvdXQgdGhlDQpwcm9ibGVtLCBjYW4gd2UgYWRkIG1v
-cmUgZGlhZ25vc3RpY3MgdG8gdGhlIHRlc3QgYW5kL29yIHRoZQ0KbWlncmF0aW9uIGNvZGUgc28g
-dGhhdCB0aGUgdGVzdCBkb2VzIHByb2R1Y2UgaGVscGZ1bCBvdXRwdXQ/DQoNCnRoYW5rcw0KLS0g
-UE1NDQo=
+On 4/3/23 07:46, Peter Maydell wrote:
+> The '-singlestep' option is confusing, because it doesn't actually
+> have anything to do with single-stepping the CPU. What it does do
+> is force TCG emulation to put one guest instruction in each TB,
+> which can be useful in some situations.
+> 
+> Create a new command line argument -one-insn-per-tb, so we can
+> document that -singlestep is just a deprecated synonym for it,
+> and eventually perhaps drop it.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+> NB: not even compile tested!
+> ---
+>   docs/user/main.rst | 7 ++++++-
+>   bsd-user/main.c    | 5 +++--
+>   2 files changed, 9 insertions(+), 3 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
