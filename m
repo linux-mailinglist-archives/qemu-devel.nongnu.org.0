@@ -2,99 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9596D52D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 22:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE456D52D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 22:49:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjR5V-0004LW-Lk; Mon, 03 Apr 2023 16:47:37 -0400
+	id 1pjR6t-0005gk-L5; Mon, 03 Apr 2023 16:49:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjR5D-0004Cd-Os
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 16:47:20 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pjR6r-0005gD-3K
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 16:49:01 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjR5A-0007DX-FG
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 16:47:19 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- n10-20020a05600c4f8a00b003ee93d2c914so20278739wmq.2
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 13:47:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pjR6p-0007gI-AD
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 16:49:00 -0400
+Received: by mail-ed1-x530.google.com with SMTP id cn12so122466331edb.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 13:48:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680554835;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lQW83CaEFIKTAbTGMK7zJAXx2zCsHH8oRPYKrzlIxPw=;
- b=fNGh2NV6/uj7FXzhYWT2H2X1iMgLhYqx5DQL6GwdoEYEHkvIK7KGPOYxFcq407H4T+
- SPpDo7z8o68YlOOG65fHhKTjYHMuzp3pjBoINet7XgMWmiIsuJq1JC7vZu25hbshHqkm
- 4ePpZieKILGkS/7UVLBCblFqD/mw2XE4aUt4Op92vlqL4PkWxCqswfJkmLEw9eJJvlmP
- BOjt3AZDAkZEszXzDqBSBhAJ0++TjQg0Qhn2xutvRsF0zqVsrFK49JBMJ94rsnhv/u5Z
- UHdh2GTjPUtx1NU5SFlV6jvmMTsWTt8WzXQWdclyISmEQ/TtGy22fxDk3RZzbbD9OIHP
- dbUQ==
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680554937;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vVOtEO/QMukwBBsypx39+522l4mW5B+0ax6P67gnT+g=;
+ b=GQ5KED/uboCuccDQ7TtV8xUsVHLILPbDdmqnC4DZ859CitFpFLO4aYo2BD+HBwQWEJ
+ sRzvzVSg0xAb/1JNjGvBn6kYN1n6gH9XdTHRnR0B8u94cDlDP1FVMlA7FwRUlFDsWYHj
+ CuzX+G2UKP+6bWUnX6GqlPWfgHZ8OVDCZUr08PhUJgWDJIPt51egsCxB/BzgfpEbViwQ
+ Cty/PHQQIQHOSPmS7XakyUX1OVE3LR6SG6qQr/KK6D+QkN4iNiKIM6iim5GXw6kDGcE7
+ XRSaSeraHX/OLOGzx4uaSi/WaqH6lXMngrEeyfiPhhPtTTyZ+YHLmfB1GyV6pIMry4iz
+ 7KIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680554835;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lQW83CaEFIKTAbTGMK7zJAXx2zCsHH8oRPYKrzlIxPw=;
- b=H9Oi0g5J9FfsNLKS3u/pA9cB1L1q8Vq4h+W52Ijn+/LWPei2n6hQQ6sYJoZiHqASgx
- XzfVw3MDKn/UlA5Lx7GIp9Tb8sF1dPEhFrbNDpxGREePFGJF/kUcqF4ThwzL8QvLyo8U
- qPySQC9xvzwV81wbQP+vXlmEC2KLZKY0StZJu8b0MLbtsFP0zm6DYcyuVkEX9/hSyY1w
- 2+aRJGbDA5Py6gSvtNmBRlnBN6b/Hb1yZoxzT4qere/iLF4j4PY6UYyMgRtQD20EayDM
- a5o5+5aKQSDtyNV/ghQn0UTNv7j7HY7G/eH0RENAyo0N8zmhFgIL/H7QzQxo/YGHSai2
- qdcA==
-X-Gm-Message-State: AAQBX9c6hK1jsygmYcT+KRN/djz/NqDivmNpfbBXtIWcNediSAGd5Sp1
- 9d9AlpsDfT9o1AUYRg+RwS1mgA==
-X-Google-Smtp-Source: AKy350YJckSFRktwO+Ap2UM2V7mr6N7rsDxT5yrMXbEjRUK205rt4FU3Ijr4q2cDcOnc7yvmq+n7YQ==
-X-Received: by 2002:a05:600c:3789:b0:3ee:b3bf:5f7c with SMTP id
- o9-20020a05600c378900b003eeb3bf5f7cmr491399wmr.23.1680554835048; 
- Mon, 03 Apr 2023 13:47:15 -0700 (PDT)
-Received: from [192.168.69.115] (pas38-h02-176-184-5-132.dsl.sta.abo.bbox.fr.
- [176.184.5.132]) by smtp.gmail.com with ESMTPSA id
- l32-20020a05600c1d2000b003f0321c22basm19001040wms.12.2023.04.03.13.47.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 13:47:14 -0700 (PDT)
-Message-ID: <2bbe988c-0802-55c3-b2a3-05e3f94e2f04@linaro.org>
-Date: Mon, 3 Apr 2023 22:47:11 +0200
+ d=1e100.net; s=20210112; t=1680554937;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vVOtEO/QMukwBBsypx39+522l4mW5B+0ax6P67gnT+g=;
+ b=exV0aCl93E+TnoGIXuDE/nZdYyB6sWNw5zlm4PDBWtiwzjpOzGq7dDA+I5PtLdiU6d
+ hOsi8yQj9DWBqlC8BOaZ8ZlztnlgNWR0NdveRAuEAum9bsXF5AVBwlRyjo6ZNy+9laGW
+ QMVN82EfrZp6dQr3u2BSMOzTGOw2QlNj+rMG4mVjGP6DkdKFCX3BAwoo3nB9DyLmsH1u
+ YB4+6a8+QVRnKt4/VVQVB8IlpwiKrh3Q0Bntri+5ygxQESMuUKoiFF8ERZf1M4ThSQp8
+ jqd6jKbewzFRl+GQ562NzXV3CQEB1d77Rb74L/xkyWHJJCSt8ZwOinGfxIFcqxoE5vZm
+ B63Q==
+X-Gm-Message-State: AAQBX9e9bPUOW9Qq+A89JV4grAERDjkJPdETPCYlrsEPp4hcY60gPprA
+ DpRw4XuydPnNzhPOmHKTD3qKPVjCaVZ6DUeIWeUbAA==
+X-Google-Smtp-Source: AKy350YS8Zx83Ki5eS1yp8MpzSkHDXGdSDIFtifnT6/lCQyDz/TUWSbHC8R/MjP/UFUcebK3LLb361hLb4/wUN3Xa/0=
+X-Received: by 2002:a17:907:a0c:b0:8b1:3298:c587 with SMTP id
+ bb12-20020a1709070a0c00b008b13298c587mr23114ejc.2.1680554937328; Mon, 03 Apr
+ 2023 13:48:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH 01/13] virtio-scsi: avoid race between unplug and
- transport event
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
- Coiby Xu <Coiby.Xu@gmail.com>, xen-devel@lists.xenproject.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>, qemu-block@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>, Paul Durrant <paul@xen.org>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Fam Zheng <fam@euphon.net>,
- David Woodhouse <dwmw2@infradead.org>, Stefan Weil <sw@weilnetz.de>,
- Juan Quintela <quintela@redhat.com>, Xie Yongji <xieyongji@bytedance.com>,
- Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- eesposit@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>
-References: <20230403183004.347205-1-stefanha@redhat.com>
- <20230403183004.347205-2-stefanha@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230403183004.347205-2-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230403144637.2949366-1-peter.maydell@linaro.org>
+ <20230403144637.2949366-5-peter.maydell@linaro.org>
+ <441b74d5-2f13-6166-ec5c-e96b0d0c7de6@linaro.org>
+In-Reply-To: <441b74d5-2f13-6166-ec5c-e96b0d0c7de6@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Mon, 3 Apr 2023 14:48:45 -0600
+Message-ID: <CANCZdfq24u5Njga0P-mmnd7cNNVXszx7rhHY37dsWnQTiPgmQg@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] linux-user: Add '-one-insn-per-tb' option
+ equivalent to '-singlestep'
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ Kyle Evans <kevans@freebsd.org>, libvir-list@redhat.com, 
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000010ba7105f874b09e"
+Received-SPF: none client-ip=2a00:1450:4864:20::530;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,37 +87,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/4/23 20:29, Stefan Hajnoczi wrote:
-> Only report a transport reset event to the guest after the SCSIDevice
-> has been unrealized by qdev_simple_device_unplug_cb().
-> 
-> qdev_simple_device_unplug_cb() sets the SCSIDevice's qdev.realized field
-> to false so that scsi_device_find/get() no longer see it.
-> 
-> scsi_target_emulate_report_luns() also needs to be updated to filter out
-> SCSIDevices that are unrealized.
-> 
-> These changes ensure that the guest driver does not see the SCSIDevice
-> that's being unplugged if it responds very quickly to the transport
-> reset event.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   hw/scsi/scsi-bus.c    |  3 ++-
->   hw/scsi/virtio-scsi.c | 18 +++++++++---------
->   2 files changed, 11 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-> index c97176110c..f9bd064833 100644
-> --- a/hw/scsi/scsi-bus.c
-> +++ b/hw/scsi/scsi-bus.c
-> @@ -487,7 +487,8 @@ static bool scsi_target_emulate_report_luns(SCSITargetReq *r)
->               DeviceState *qdev = kid->child;
->               SCSIDevice *dev = SCSI_DEVICE(qdev);
->   
-> -            if (dev->channel == channel && dev->id == id && dev->lun != 0) {
-> +            if (dev->channel == channel && dev->id == id && dev->lun != 0 &&
-> +                qatomic_load_acquire(&dev->qdev.realized)) {
+--00000000000010ba7105f874b09e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Would this be more useful as a qdev_is_realized() helper?
+On Mon, Apr 3, 2023 at 12:35=E2=80=AFPM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 4/3/23 07:46, Peter Maydell wrote:
+> > The '-singlestep' option is confusing, because it doesn't actually
+> > have anything to do with single-stepping the CPU. What it does do
+> > is force TCG emulation to put one guest instruction in each TB,
+> > which can be useful in some situations.
+> >
+> > Create a new command line argument -one-insn-per-tb, so we can
+> > document that -singlestep is just a deprecated synonym for it,
+> > and eventually perhaps drop it.
+> >
+> > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> > ---
+> >   docs/user/main.rst | 7 ++++++-
+> >   linux-user/main.c  | 9 ++++++---
+> >   2 files changed, 12 insertions(+), 4 deletions(-)
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+
+Reviewed-by: Warner Losh <imp@bsdimp.com>
+
+
+> r~
+>
+
+--00000000000010ba7105f874b09e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 3, 2023 at 12:35=E2=80=AF=
+PM Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">ri=
+chard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">On 4/3/23 07:46, Peter Maydell wrote:<br>
+&gt; The &#39;-singlestep&#39; option is confusing, because it doesn&#39;t =
+actually<br>
+&gt; have anything to do with single-stepping the CPU. What it does do<br>
+&gt; is force TCG emulation to put one guest instruction in each TB,<br>
+&gt; which can be useful in some situations.<br>
+&gt; <br>
+&gt; Create a new command line argument -one-insn-per-tb, so we can<br>
+&gt; document that -singlestep is just a deprecated synonym for it,<br>
+&gt; and eventually perhaps drop it.<br>
+&gt; <br>
+&gt; Signed-off-by: Peter Maydell&lt;<a href=3D"mailto:peter.maydell@linaro=
+.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0docs/user/main.rst | 7 ++++++-<br>
+&gt;=C2=A0 =C2=A0linux-user/main.c=C2=A0 | 9 ++++++---<br>
+&gt;=C2=A0 =C2=A02 files changed, 12 insertions(+), 4 deletions(-)<br>
+<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
+ote><div><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@=
+bsdimp.com">imp@bsdimp.com</a>&gt;<br></div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+r~<br>
+</blockquote></div></div>
+
+--00000000000010ba7105f874b09e--
 
