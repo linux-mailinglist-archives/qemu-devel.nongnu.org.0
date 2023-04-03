@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475606D3FB2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 11:06:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA696D3FBC
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Apr 2023 11:10:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjG7R-0000zJ-4o; Mon, 03 Apr 2023 05:04:54 -0400
+	id 1pjGBs-0002Gt-8w; Mon, 03 Apr 2023 05:09:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maverickk1778@gmail.com>)
- id 1pjG7L-0000yv-99
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:04:47 -0400
-Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maverickk1778@gmail.com>)
- id 1pjG7J-0001sM-9h
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:04:47 -0400
-Received: by mail-il1-x12e.google.com with SMTP id n11so1884021ilj.9
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 02:04:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680512683;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=1KRJ06UP8WcUlaJV//ul06eZlAExICLRlAexusOtxpI=;
- b=LS8Wf54LPY9nGn+I0Kp/9gBxz4mV919SpPmrJbuD3EYHApZ7kjxlej3toLr7qaIVAi
- CIioAR0inysaMbkEvxD5GuouRCUA3nf4jzak5AyMFn3QQFWlwtfajy3TYAssoIebDU9L
- Ic/HyA3iKi3/RGl5qBqZxVM/DUyBj69IGKBVurMqIpAJl18daxuhnlsBiJ9HZ07ELwvm
- q5TYTADapBiJ0M6FPpFw0JVoLqd62rB5XsXorX5dU61p/pXDjY1g0BaUoSSOx/OsADf8
- Tia0V7EncOwkLVpWNKEZUCDFxaZCYHNrUv07FFSej5CNAo0bh9DQIavQPvHK/shpgWVl
- Sfww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680512683;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1KRJ06UP8WcUlaJV//ul06eZlAExICLRlAexusOtxpI=;
- b=tNPDd20tX51i26Sbw7qQ+9nb7x6fLy161MYOwLsoBZCQM83g/87IEuBRGV1TkqKarD
- jPZ6Hx2IasdOQhFT5cjHECT8Ckgj/dCaGyOBSQjVElAG5sk5fahoqXxWXfl0aGGtvfPT
- HZnzCL2IvlK4ExCZ3dQ9nXkr8DToinSJvaFm35PoXN6ZUuOuzWIF0OKmN0WBHkzZLhn3
- ou3xk6OsypLnDhCL1Y3M/Q2jc7uLb2AAmjVD1J+XRUEtjNzE/Y14CxPK5Vh7hFdR0Qb9
- T4hRWDJc8qBxJN/ccA8ojoEtoJar8TRd+fVwsUk0OfF2WIRKYxeQZDjBzRuEKBCch7yx
- 0GGQ==
-X-Gm-Message-State: AAQBX9c2NucmGn8vEnCAh/HOCGNHS+xwddr5UiIDt8FQ8jX6aTPl3dPG
- XHaXV9BwOhr99D7vGci2TN3jMdurESLYfDC6tWon0IkQNy0=
-X-Google-Smtp-Source: AKy350b5e0ZaD5eRM97tgnetj4K9cQenv6OjsgAbon9RJ15jrNRcjhRCgYXxOFkb/fyk/J+Q/Gol/X4K4EOVRLifJBs=
-X-Received: by 2002:a05:6e02:1486:b0:313:c399:73c8 with SMTP id
- n6-20020a056e02148600b00313c39973c8mr18565795ilk.4.1680512682773; Mon, 03 Apr
- 2023 02:04:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pjGBp-0002Gk-Kt
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:09:25 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>) id 1pjGBm-0003D0-Og
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 05:09:25 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-05 (Coremail) with SMTP id zQCowADX32eylypk0U2WDQ--.58135S2;
+ Mon, 03 Apr 2023 17:09:09 +0800 (CST)
+Message-ID: <3212ace5-a35d-ac74-c786-29c3e124065e@iscas.ac.cn>
+Date: Mon, 3 Apr 2023 17:09:06 +0800
 MIME-Version: 1.0
-From: Maverickk 78 <maverickk1778@gmail.com>
-Date: Mon, 3 Apr 2023 14:34:33 +0530
-Message-ID: <CALfBBTuGSPYE_HV1ns_9T_Ud3BEAajhN2ivMCJ37f+hC1XOy+w@mail.gmail.com>
-Subject: property 'cxl-type3.size' not found
-To: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000007f50c105f86ad968"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
- envelope-from=maverickk1778@gmail.com; helo=mail-il1-x12e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Cc: liweiwei@iscas.ac.cn, alex.bennee@linaro.org,
+ Junqiang Wang <wangjunqiang@iscas.ac.cn>, Anton Johansson <anjo@rev.ng>
+Subject: Re: [PATCH 2/3] accel/tcg: Fix overwrite problems of tcg_cflags
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230401045106.3885562-1-richard.henderson@linaro.org>
+ <20230401045106.3885562-3-richard.henderson@linaro.org>
+ <c91e5f52-32db-c381-3286-1d22e15a2141@linaro.org>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <c91e5f52-32db-c381-3286-1d22e15a2141@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowADX32eylypk0U2WDQ--.58135S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1fAry3uw45GFWDWrWktFb_yoW8KFykpr
+ 97Ka15tFyrJwn5Kayqqry3Way7Xrn5Aa17Jw1UA3W5ZryqqF1jqwsYgan8WrW7WayxCr10
+ yrs0gr1UuFy3AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUU
+ U==
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.37,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,108 +80,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000007f50c105f86ad968
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On 2023/4/3 16:09, Philippe Mathieu-Daudé wrote:
+> On 1/4/23 06:51, Richard Henderson wrote:
+>> From: Weiwei Li <liweiwei@iscas.ac.cn>
+>>
+>> CPUs often set CF_PCREL in tcg_cflags before qemu_init_vcpu(), in which
+>> tcg_cflags will be overwrited by tcg_cpu_init_cflags().
+>
+> The description makes sense, but I couldn't reproduce using:
+>
+> -- >8 --
+> diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+> index af35e0d092..23ebf7de21 100644
+> --- a/accel/tcg/tcg-accel-ops.c
+> +++ b/accel/tcg/tcg-accel-ops.c
+> @@ -59,6 +59,7 @@ void tcg_cpu_init_cflags(CPUState *cpu, bool parallel)
+>
+>      cflags |= parallel ? CF_PARALLEL : 0;
+>      cflags |= icount_enabled() ? CF_USE_ICOUNT : 0;
+> +    tcg_debug_assert(!cpu->tcg_cflags);
+>      cpu->tcg_cflags = cflags;
+>  }
+> ---
+>
+> Li and Junqiang, what is your use case?
 
-I am trying qemu-system-aarch64 & cxl configuration listed in
+Only few CPUs support CF_PCREL currently. I found this problem when I 
+tried to introduce PC-relative translation into RISC-V.
 
-https://www.qemu.org/docs/master/system/devices/cxl.html
+Maybe It also can be reproduced in system mode for ARM and X86.
 
-qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8
--cpu max \
-...
--object
-memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M
-\
--object
-memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M
-\
--object
-memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M
-\
--object
-memory-backend-file,id=cxl-mem3,share=on,mem-path=/tmp/cxltest3.raw,size=256M
-\
--object
-memory-backend-file,id=cxl-lsa0,share=on,mem-path=/tmp/lsa0.raw,size=256M \
--object
-memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa1.raw,size=256M \
--object
-memory-backend-file,id=cxl-lsa2,share=on,mem-path=/tmp/lsa2.raw,size=256M \
--object
-memory-backend-file,id=cxl-lsa3,share=on,mem-path=/tmp/lsa3.raw,size=256M \
--device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
--device cxl-rp,port=0,bus=cxl.1,id=root_port0,chassis=0,slot=0 \
--device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
--device cxl-upstream,bus=root_port0,id=us0 \
--device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
--device
-cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
--device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
--device
-cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
--device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
--device
-cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
--device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
--device
-cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
--M
-cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
+Regards,
+
+Weiwei Li
 
 
+>
+>> Fixes: 4be790263ffc ("accel/tcg: Replace `TARGET_TB_PCREL` with 
+>> `CF_PCREL`")
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> Message-Id: <20230331150609.114401-6-liweiwei@iscas.ac.cn>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   accel/tcg/tcg-accel-ops.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+>> index af35e0d092..58c8e64096 100644
+>> --- a/accel/tcg/tcg-accel-ops.c
+>> +++ b/accel/tcg/tcg-accel-ops.c
+>> @@ -59,7 +59,7 @@ void tcg_cpu_init_cflags(CPUState *cpu, bool parallel)
+>>         cflags |= parallel ? CF_PARALLEL : 0;
+>>       cflags |= icount_enabled() ? CF_USE_ICOUNT : 0;
+>> -    cpu->tcg_cflags = cflags;
+>> +    cpu->tcg_cflags |= cflags;
+>
+> This could be acceptable as a release kludge, but semantically
+> tcg_cpu_init_cflags() is meant to *initialize* all flags, not
+> set few of them. Either we aren't calling it from the proper place,
+> or we need to rename it.
+>
+>>   }
+>>     void tcg_cpus_destroy(CPUState *cpu)
 
-I hit this following error
-qemu-system-aarch64: -device
-cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M:
-property 'cxl-type3.size' not found
-
-
-Any clue if I am missing something?
-
-
-Regards
-
---0000000000007f50c105f86ad968
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<br><br>I am trying qemu-system-aarch64 &amp; cxl co=
-nfiguration listed in<br><br><a href=3D"https://www.qemu.org/docs/master/sy=
-stem/devices/cxl.html">https://www.qemu.org/docs/master/system/devices/cxl.=
-html</a><br><br>qemu-system-aarch64 -M virt,gic-version=3D3,cxl=3Don -m 4g,=
-maxmem=3D8G,slots=3D8 -cpu max \<br>...<br>-object memory-backend-file,id=
-=3Dcxl-mem0,share=3Don,mem-path=3D/tmp/cxltest.raw,size=3D256M \<br>-object=
- memory-backend-file,id=3Dcxl-mem1,share=3Don,mem-path=3D/tmp/cxltest1.raw,=
-size=3D256M \<br>-object memory-backend-file,id=3Dcxl-mem2,share=3Don,mem-p=
-ath=3D/tmp/cxltest2.raw,size=3D256M \<br>-object memory-backend-file,id=3Dc=
-xl-mem3,share=3Don,mem-path=3D/tmp/cxltest3.raw,size=3D256M \<br>-object me=
-mory-backend-file,id=3Dcxl-lsa0,share=3Don,mem-path=3D/tmp/lsa0.raw,size=3D=
-256M \<br>-object memory-backend-file,id=3Dcxl-lsa1,share=3Don,mem-path=3D/=
-tmp/lsa1.raw,size=3D256M \<br>-object memory-backend-file,id=3Dcxl-lsa2,sha=
-re=3Don,mem-path=3D/tmp/lsa2.raw,size=3D256M \<br>-object memory-backend-fi=
-le,id=3Dcxl-lsa3,share=3Don,mem-path=3D/tmp/lsa3.raw,size=3D256M \<br>-devi=
-ce pxb-cxl,bus_nr=3D12,bus=3Dpcie.0,id=3Dcxl.1 \<br>-device cxl-rp,port=3D0=
-,bus=3Dcxl.1,id=3Droot_port0,chassis=3D0,slot=3D0 \<br>-device cxl-rp,port=
-=3D1,bus=3Dcxl.1,id=3Droot_port1,chassis=3D0,slot=3D1 \<br>-device cxl-upst=
-ream,bus=3Droot_port0,id=3Dus0 \<br>-device cxl-downstream,port=3D0,bus=3Du=
-s0,id=3Dswport0,chassis=3D0,slot=3D4 \<br>-device cxl-type3,bus=3Dswport0,m=
-emdev=3Dcxl-mem0,lsa=3Dcxl-lsa0,id=3Dcxl-pmem0,size=3D256M \<br>-device cxl=
--downstream,port=3D1,bus=3Dus0,id=3Dswport1,chassis=3D0,slot=3D5 \<br>-devi=
-ce cxl-type3,bus=3Dswport1,memdev=3Dcxl-mem1,lsa=3Dcxl-lsa1,id=3Dcxl-pmem1,=
-size=3D256M \<br>-device cxl-downstream,port=3D2,bus=3Dus0,id=3Dswport2,cha=
-ssis=3D0,slot=3D6 \<br>-device cxl-type3,bus=3Dswport2,memdev=3Dcxl-mem2,ls=
-a=3Dcxl-lsa2,id=3Dcxl-pmem2,size=3D256M \<br>-device cxl-downstream,port=3D=
-3,bus=3Dus0,id=3Dswport3,chassis=3D0,slot=3D7 \<br>-device cxl-type3,bus=3D=
-swport3,memdev=3Dcxl-mem3,lsa=3Dcxl-lsa3,id=3Dcxl-pmem3,size=3D256M \<br>-M=
- cxl-fmw.0.targets.0=3Dcxl.1,cxl-fmw.0.size=3D4G,cxl-fmw.0.interleave-granu=
-larity=3D4k<br><br><br><br>I hit this following error<br>qemu-system-aarch6=
-4: -device cxl-type3,bus=3Dswport0,memdev=3Dcxl-mem0,lsa=3Dcxl-lsa0,id=3Dcx=
-l-pmem0,size=3D256M: property &#39;cxl-type3.size&#39; not found<br><br><br=
->Any clue if I am missing something?<br><br><br>Regards<br><br><br><br></di=
-v>
-
---0000000000007f50c105f86ad968--
 
