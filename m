@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2DD6D6BFC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 20:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EEC6D6C9B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 20:50:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjlOO-000581-GK; Tue, 04 Apr 2023 14:28:28 -0400
+	id 1pjlhw-0000UK-BC; Tue, 04 Apr 2023 14:48:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjlOM-00057p-EK
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 14:28:26 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ id 1pjlhu-0000UC-S8
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 14:48:38 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjlOK-0001y9-ME
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 14:28:25 -0400
-Received: by mail-ed1-x533.google.com with SMTP id er13so93326010edb.9
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 11:28:24 -0700 (PDT)
+ id 1pjlhs-0007OC-Gb
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 14:48:38 -0400
+Received: by mail-ed1-x534.google.com with SMTP id eg48so134418772edb.13
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 11:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680632903;
+ d=linaro.org; s=google; t=1680634115;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=r+d5Q9YLXYIEcRrYG4TRRbzODXP0vlh3YF3733MY38Y=;
- b=f3BpCBNxoILDtSyKj6axT8mrPBlR5NN0lRzyoX5tdjNO/89HEPknpa4WvDWvmDY58B
- BI0hYUwNBgaMA8tYJ7g1HLqAvUExLBy3m1U1+4LSeQHitztp3uTADQEFWKk3ejKh8zHG
- d8eIbwe2BJ3fYazGz2Q4bSoA4I96qXA5V+g/6roXRdYcnwfhMpurLv7XqBXSibhOa8T4
- uZcgEoBlNaqEyFJ1VY53AKfCGcQ/Cel/7ok7tvgZq4mf9GXwVfV67QswY7pBPxG4byhj
- 5Gzf52tGeynPD3urXrj/SVyzZcSHBswX6C3Zinr9W2c1498cvHXAwVpExI0VTjq7CdSU
- bAWQ==
+ bh=YEjesRf2tdmqJxd3+io5sORtdo/ZwbHLfrPI2HSy2m0=;
+ b=XlF7O7nCWQJCy55gWKMKIeih1ZzRoIH/JIERVOR6nGpAcP5DYnpdyxBhSDxUHXWEox
+ ZrHWKtUUUW+yI5uVNkR4MZSwYm/d5sVQuVYAKtMfaE3iTwE56pvYmI+Lqwp/Y+b+oT4K
+ mElQnqIGxDnPeAsFiEv+bwkw1MOCU3EXWW3qvxaWX8hJUvwq9Zs27w4pQTBeARQTkztu
+ oo4W0SQaHX5D9bRHZpArzPlT68VACjQDEMeye7mimZgC374b0VadSLVbpRIQY5ThLSHf
+ c1It0FJa6157MWEqSO6Dx6EmDe8sSEX5Nk3k29i0b10ssoVAX1dTng7+gPkJTNFEK3z+
+ D+hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680632903;
+ d=1e100.net; s=20210112; t=1680634115;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=r+d5Q9YLXYIEcRrYG4TRRbzODXP0vlh3YF3733MY38Y=;
- b=5g3OftvfVnHEwx08Vsr0egw1lNOr0Awu0yThFNkqDW1JiGbRPh5Gr/NcnefEgEu9Va
- RqsxcCQDOvYVUhCdyW+IEat1AntXNWrpMnNdDmQ/0a2jAS2df/kgoJ04olX329HlX0Kv
- MSkeq7MwHakjH8oOnzV3CwFaYr0CTFAsVHzIzUX4t4nNn+mjGY1qv7MnVEHpDeKNtwJy
- DZFK04wcd6cfV7nXpITpWgGMo1U36FWBiImMuNJAzhqUc1HgMBBHbGqDDIwEhbvu+O1U
- a4VK2jM+LdcgTDiUt1iYKM4dWlInrtB+ep64s3urnB8RlVq+KRJ1dpm0KdtlYfpJ0DmY
- x5Mw==
-X-Gm-Message-State: AAQBX9cskIqlm4XN8Mm+3zTdyBCr2Y74jGwEUn6YOy+1t+lYY5lYG5S5
- VvgcqFb0AIWnsLdQXqJqkUQglwD3fX09HVyBkr5mhQ==
-X-Google-Smtp-Source: AKy350ZT252GSKd/98j6Mu/b60fK17QV1dP+JE4fqqkBHdumFzII2W394UiPvTI+M3TSV0LF0wvFMeuQ5PxM5EcMK/M=
-X-Received: by 2002:a50:bb43:0:b0:4fb:7e7a:ebf1 with SMTP id
- y61-20020a50bb43000000b004fb7e7aebf1mr222707ede.6.1680632902832; Tue, 04 Apr
- 2023 11:28:22 -0700 (PDT)
+ bh=YEjesRf2tdmqJxd3+io5sORtdo/ZwbHLfrPI2HSy2m0=;
+ b=apN9Xryi76LQ4cGgiq0B3nNZKMD/pdf14Ul3PKLccwgIHREXgohEroEYjfVNZ4HI74
+ Zvms/q2ZyvLmg8kwcv3y0J9T4si7swyEVAUZ0msXkY74q7JPBQmGtSvTgcgi2iGvqBqz
+ y1MmKaOsS6IoejiwCzrQQMUrWJRZBDPUzuCDeBrBZTlRq49pMgUrrz4Ij966lpfTFpRd
+ SVrDkGhi4AroYkWjQV3zxDKdfh8AzQ8Xo4IfoD3BJG4NkdP8v13OYbgIFMTeVQYPbpF6
+ ZfflDw4pnHYt1ks+n3t/wP97qwNZaGOO8+c9qyyplEBPYgZemzBRfMV7imwCNMbPP9ZR
+ Pfkw==
+X-Gm-Message-State: AAQBX9cHs7WPTSKsh1V5eXOTdzU/FlhxPfBeAdW5a0HPzt1ZgesidJBu
+ rjzxhmFlAT0I2D9kKRdhOhN5DxI6BQJqWO8n4CFrpwy4MQQrqntS
+X-Google-Smtp-Source: AKy350ZtnuAN5LLZu7dh4U8a0CMMn9GbXwP8NtYQIY/c9OxIG+mW9UdLrn+80lOQPCkymhkJllJM0rgXHFYg4bACyE8=
+X-Received: by 2002:a17:906:b6cd:b0:8b1:cd2e:177a with SMTP id
+ ec13-20020a170906b6cd00b008b1cd2e177amr283092ejb.6.1680634115036; Tue, 04 Apr
+ 2023 11:48:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <daaa71eea7fa0c4bdb70131d794ce8e5cee0e0c2.camel@infradead.org>
-In-Reply-To: <daaa71eea7fa0c4bdb70131d794ce8e5cee0e0c2.camel@infradead.org>
+References: <20230404144244.185609-1-eblake@redhat.com>
+In-Reply-To: <20230404144244.185609-1-eblake@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Apr 2023 19:28:12 +0100
-Message-ID: <CAFEAcA_-ejPodtPeaJb1xpS7aK1ApQtE1qdRU7L5aJO_XzgPZA@mail.gmail.com>
-Subject: Re: [PATCH] hw/xen: Fix memory leak in libxenstore_open() for Xen
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- xen-devel <xen-devel@lists.xenproject.org>, 
- Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>, 
- Stefano Stabellini <sstabellini@kernel.org>
+Date: Tue, 4 Apr 2023 19:48:24 +0100
+Message-ID: <CAFEAcA_1siMez5ZB9PnW-ro8DaHXwt+PQmqNzjxOSbLSrsJFEg@mail.gmail.com>
+Subject: Re: [PULL 0/1] NBD patches for 8.0-tc3
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,41 +83,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 4 Apr 2023 at 19:25, David Woodhouse <dwmw2@infradead.org> wrote:
+On Tue, 4 Apr 2023 at 15:43, Eric Blake <eblake@redhat.com> wrote:
 >
-> From: David Woodhouse <dwmw@amazon.co.uk>
+> The following changes since commit 51a6dc9d394098e8f4141fad869a1ee9585f54f8:
 >
-> There was a superfluous allocation of the XS handle, leading to it
-> being leaked on both the error path and the success path (where it gets
-> allocated again).
+>   Merge tag 'pull-target-arm-20230403' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-04-03 17:01:47 +0100)
 >
-> Spotted by Coverity (CID 1508098).
+> are available in the Git repository at:
 >
-> Fixes: ba2a92db1ff6 ("hw/xen: Add xenstore operations to allow redirection to internal emulation")
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->  hw/xen/xen-operations.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2023-04-04
 >
-> diff --git a/hw/xen/xen-operations.c b/hw/xen/xen-operations.c
-> index 4b78fbf4bd..3d213d28df 100644
-> --- a/hw/xen/xen-operations.c
-> +++ b/hw/xen/xen-operations.c
-> @@ -287,7 +287,7 @@ static void watch_event(void *opaque)
->  static struct qemu_xs_handle *libxenstore_open(void)
->  {
->      struct xs_handle *xsh = xs_open(0);
-> -    struct qemu_xs_handle *h = g_new0(struct qemu_xs_handle, 1);
-> +    struct qemu_xs_handle *h;
+> for you to fetch changes up to f1426881a827a6d3f31b65616c4a8db1e9e7c45e:
 >
->      if (!xsh) {
->          return NULL;
-> --
-> 2.34.1
+>   nbd/server: Request TCP_NODELAY (2023-04-04 08:13:15 -0500)
+>
+> ----------------------------------------------------------------
+> nbd patches for 2023-04-04
+>
+> - Eric Blake: use TCP_NODELAY in nbd server, as followup to corking
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
 -- PMM
 
