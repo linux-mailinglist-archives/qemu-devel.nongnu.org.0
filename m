@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D1D6D5FD9
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 14:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A101F6D5FC5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 14:00:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjfJt-0002MA-Hc; Tue, 04 Apr 2023 07:59:25 -0400
+	id 1pjfKB-0002UP-9T; Tue, 04 Apr 2023 07:59:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjfJp-0002Ki-EK
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:59:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjfJx-0002QQ-Op
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:59:29 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjfJn-0007vs-DD
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:59:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjfJp-0007yo-UQ
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:59:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680609558;
+ s=mimecast20190719; t=1680609561;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qflFd4e8k/3lVxJspPd6obz2Ka/C9S3TbmVEPDuK0RI=;
- b=ISalk9/NSG7sjaPKTgqR25uTdFbmoGFZK8ZdgihDvVLsQGAKl9yVxcJ8p4/rT2CBOn1FcQ
- 0ZoJ8o2NBPFFWCSGISVbwhbcNZIwS7Ce158oSg3xHPF9KrOB79mkSRJ5RoF+DgNbBV8Zyb
- Eg11kMXhEuP6UqrRH2vHwhuFbaeLqX0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oabqFk/z4EBxl7zredTstVdnfun811XWPqO1mHGHX8U=;
+ b=Y75sM5xwUse6eLur7BwFs/1M8OEDCaMIjZN5irWwIIO3Gvj6qjveD36iJQtx8cHN658iNv
+ fyMWXqn97659NzxzcNoRbEzzE3YyaGMyweCSApGdntWeHMi23bhLnIM5Ic3zyb8XA/jQHy
+ WwnvRB+XleiyNHcqHCKUQhQjpiTtlMM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-306-WkeUj-PCNW2S5whRmed6nQ-1; Tue, 04 Apr 2023 07:59:15 -0400
-X-MC-Unique: WkeUj-PCNW2S5whRmed6nQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-438-6akJtYpSOOGQrpViuZvdQA-1; Tue, 04 Apr 2023 07:59:16 -0400
+X-MC-Unique: 6akJtYpSOOGQrpViuZvdQA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F9A92808E77;
- Tue,  4 Apr 2023 11:59:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B24A100DEAE;
+ Tue,  4 Apr 2023 11:59:15 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6E6C40C6EC4;
- Tue,  4 Apr 2023 11:59:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6777B492C13;
+ Tue,  4 Apr 2023 11:59:15 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C8E0B21E693B; Tue,  4 Apr 2023 13:59:12 +0200 (CEST)
+ id CBA0521E693C; Tue,  4 Apr 2023 13:59:12 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, eblake@redhat.com, kwolf@redhat.com,
@@ -51,15 +51,16 @@ Cc: michael.roth@amd.com, eblake@redhat.com, kwolf@redhat.com,
  wangyanan55@huawei.com, quintela@redhat.com, jasowang@redhat.com,
  yuval.shaia.ml@gmail.com, stefanha@redhat.com, kraxel@redhat.com,
  kkostiuk@redhat.com, qemu-block@nongnu.org
-Subject: [PATCH 04/16] qapi: Fix up references to long gone error classes
-Date: Tue,  4 Apr 2023 13:59:00 +0200
-Message-Id: <20230404115912.2829251-5-armbru@redhat.com>
+Subject: [PATCH 05/16] qapi/block-core: Clean up after removal of dirty bitmap
+ @status
+Date: Tue,  4 Apr 2023 13:59:01 +0200
+Message-Id: <20230404115912.2829251-6-armbru@redhat.com>
 In-Reply-To: <20230404115912.2829251-1-armbru@redhat.com>
 References: <20230404115912.2829251-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -68,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,82 +85,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit de253f14912e88f4 (qmp: switch to the new error format on the
-wire) removed most error classes.  Several later commits mistakenly
-mentioned them in documentation.  Replace them by the actual error
-class there.
+Commit 81cbfd50886 (block: remove dirty bitmaps 'status' field)
+removed deprecated BlockDirtyInfo member @status.  It neglected to
+remove references to its enumeration values from the documentation of
+its replacements.  Do that now.
 
-Fixes: 44e3e053af56 (qmp: add interface blockdev-snapshot-delete-internal-sync)
-Fixes: f323bc9e8b3b (qmp: add interface blockdev-snapshot-internal-sync)
-Fixes: ba1c048a8f9c (qapi: Introduce add-fd, remove-fd, query-fdsets)
-Fixes: ed61fc10e8c8 (QAPI: add command for live block commit, 'block-commit')
-Fixes: e4c8f004c55d (qapi: convert sendkey)
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
  qapi/block-core.json | 4 ++--
- qapi/misc.json       | 6 +++---
- qapi/ui.json         | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index c05ad0c07e..75f7c62405 100644
+index 75f7c62405..eeb2ed3f16 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -5784,7 +5784,7 @@
- #          - If any snapshot matching @name exists, or @name is empty,
- #            GenericError
- #          - If the format of the image used does not support it,
--#            BlockFormatFeatureNotSupported
-+#            GenericError
+@@ -582,11 +582,11 @@
+ # @granularity: granularity of the dirty bitmap in bytes (since 1.4)
  #
- # Since: 1.7
+ # @recording: true if the bitmap is recording new writes from the guest.
+-#             Replaces ``active`` and ``disabled`` statuses. (since 4.0)
++#             (since 4.0)
  #
-@@ -5820,7 +5820,7 @@
- #          - If @device is not a valid block device, GenericError
- #          - If snapshot not found, GenericError
- #          - If the format of the image used does not support it,
--#            BlockFormatFeatureNotSupported
-+#            GenericError
- #          - If @id and @name are both not specified, GenericError
+ # @busy: true if the bitmap is in-use by some operation (NBD or jobs)
+ #        and cannot be modified via QMP or used by another operation.
+-#        Replaces ``locked`` and ``frozen`` statuses. (since 4.0)
++#        (since 4.0)
  #
- # Since: 1.7
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 6ddd16ea28..7e278ca1eb 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -349,8 +349,8 @@
- # @opaque: A free-form string that can be used to describe the fd.
- #
- # Returns: - @AddfdInfo on success
--#          - If file descriptor was not received, FdNotSupplied
--#          - If @fdset-id is a negative value, InvalidParameterValue
-+#          - If file descriptor was not received, GenericError
-+#          - If @fdset-id is a negative value, GenericError
- #
- # Notes: The list of fd sets is shared by all monitor connections.
- #
-@@ -379,7 +379,7 @@
- # @fd: The file descriptor that is to be removed.
- #
- # Returns: - Nothing on success
--#          - If @fdset-id or @fd is not found, FdNotFound
-+#          - If @fdset-id or @fd is not found, GenericError
- #
- # Since: 1.2
- #
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 98322342f7..25f9d731df 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -985,7 +985,7 @@
- #             to 100
- #
- # Returns: - Nothing on success
--#          - If key is unknown or redundant, InvalidParameter
-+#          - If key is unknown or redundant, GenericError
- #
- # Since: 1.3
- #
+ # @persistent: true if the bitmap was stored on disk, is scheduled to be stored
+ #              on disk, or both. (since 4.0)
 -- 
 2.39.2
 
