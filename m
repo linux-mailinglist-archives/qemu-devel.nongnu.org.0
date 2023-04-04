@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461A76D59D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 09:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1246D59D5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 09:41:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjbHi-0007Y5-TO; Tue, 04 Apr 2023 03:40:54 -0400
+	id 1pjbI5-0007eK-Ca; Tue, 04 Apr 2023 03:41:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pjbHg-0007Xb-Ah
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 03:40:52 -0400
-Received: from mout.web.de ([212.227.15.4])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjbI2-0007aV-T8
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 03:41:14 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pjbHe-0005n5-9n
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 03:40:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1680594043; i=lukasstraub2@web.de;
- bh=lur/S36QdmfKJIf624a/vjqTKJlxQ/rAeE81eL8fDg8=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=YG02/bULzkmckYAyD9GnndcB7RNurZKMBw8rgOIEvw5m7zJ1GefmXvq2gN3uZXu0C
- zmCW2osETuccfmQPRx0gzJGTt5RZDBUaXaDejCXX2BJP4RCekpUwBYW87kovzkB3TA
- GuialoSwYBu8YocmdVOw52DK9Jdhua1bdUmKKKzDqO+ODY2EdhXVg/SBKVO3W/9cAC
- 4yLYWcFimCs3l1LVADrrzdkVZiiGS1Ndxh2T4UxB6Wuyomni8CjF6mdpCfbJdNw5T3
- vnk8aQw2kFxddQ5Y9ACwSiYNvKKA9wTfvfCuj+PQZxVQ0ErFGVUJ47M1gxOafNRr6K
- q4SW0r2RfAPdQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.102]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MS17v-1ppLsm2g3P-00TRxO; Tue, 04
- Apr 2023 09:40:43 +0200
-Date: Tue, 4 Apr 2023 07:40:20 +0000
-From: Lukas Straub <lukasstraub2@web.de>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>, Thomas Huth
- <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>
-Subject: Re: [PATCH RESEND 1/2] qtest/migration-test.c: Add test with
- compress enabled
-Message-ID: <20230404074020.3a6d1e5a@gecko.fritz.box>
-In-Reply-To: <ZCtCgDV9DI5BlcQH@x1n>
-References: <af76761aa6978071c5b8e9b872b697db465a5520.1680457631.git.lukasstraub2@web.de>
- <ZCtCgDV9DI5BlcQH@x1n>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjbI1-0005vO-0X
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 03:41:14 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.233])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1FB0521711;
+ Tue,  4 Apr 2023 07:41:09 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 4 Apr
+ 2023 09:41:08 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0022fcbf9e4-7470-40b3-9410-4c66e3272b75,
+ 85507D0075A56E5AD4EA03BF56E5282CC2D8C3A6) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <227eb09d-e5dc-2662-32b0-0b9ca4e8ef34@kaod.org>
+Date: Tue, 4 Apr 2023 09:41:07 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/rX0weWhljHOnpq9eGvmoW//";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:hZz9dbq8/gxUGBBPLdzUz4Tlnp7fpUtxJ1de6IXdDriJ53nXLa9
- v1ZcfqPsF9zu+4n7WjF/H3z64hz28UrG8jtd10Ojo1lYWMQX9/RzI+Szbch7lcNPpEklTL9
- raKdcKyh5JOztE0Tw4iTxHFbgZEJZtcADKMwCTRQeA7GP0EkG+zPhB0HCFVCZzGzdbQa9A1
- p/NxLScR0sWHW/2DlGV7g==
-UI-OutboundReport: notjunk:1;M01:P0:63LX8JbWizk=;5SrLCk08dRYK/QB4XKS2N952Vl2
- rcqsxolxmrL4Vvnhu38J3UuRXIofcNKSCLnptP8bRYoJ7qQ1AnJLkwQk6Q/1TAiWulicJmo3x
- AdX+pJfyRyMpDHAh4oJ7SSYtmjsr1uny40ozOHX3odH74f6AF32ICBBvqB8mPYoZbp1Y4tnUz
- dFRRJKEf0TpJolg0+e1EsoVVU88HgNU1XRMzJgnH7ybTIU+nmk+DMPhtHR7knjdxFHOUs+R+1
- mnCf4G8qOM4snY+C4P+b5s0tn802yMSIVBfkOrs9seglqKJ+VWh73bspKztseaqgmWX2FJv95
- gQ6VR4akvNDsW/vBF6ESjb1SkRmymG38MBSnoWrTKgxAv9NFLtv36KqxCi+rhCqnogZxpey2W
- crLE8OZGdxS503KbuPBwxpd6ZaXgrdF793BAbprlOTVdG+hhqMxuhR+5qG7Kg8m7Ba2Klj8s0
- Bux0eYyTd28ti7o7cvvOiOXzZ8I9r7cZWn8+QUW5k7i5O9sEeOOI5p4lyKnJOBiLMNdKEf7G5
- bC18AiwowTuegFQWtCJ/h/Aq5oIv9i30bWl1XfdO+ImkMZzdGhgNMuDYpd2QRm5Otnuk0cEWY
- 6wKnaH2uMsvod6AgXoLf1uhy8wY1gV582+ppWj4SXRe6XsjfWmwoELtXfK2It8Zb7j2kB6lx8
- Zxgq+d+jHTCxbhWpob63i+vVwPMMQblf0RoL187qkK4QeMSTPejBh3QjLkkyV2VmnDkpFJnrZ
- zwMp7p20G7anZX/CgWgg7msf6N1drtJtwvl5GbudWrGF5490Y1sST4yB2FX/ztmP9p6vvf/pm
- POiMRc0FyUJ1zytjNHfcxjEoqYnOn1hMPVb68UeYEiRpnh0WWlR1/GoirKgkOJXYeKgSsSRpL
- q67lIn414uLuKSAWoiRwrNABiFa/CfRdWX7TjIGFlG1YxlPt0417g0OGEyhFULSUWqtdYbCem
- rc0C4zcLbSDiGmNJP9ySqTwlGWY=
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v19 06/21] s390x/cpu topology: interception of PTF
+ instruction
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
+ <berrange@redhat.com>
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-7-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230403162905.17703-7-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: b7aa4e4c-f92b-4df4-9d98-f74575e51847
+X-Ovh-Tracer-Id: 15317868234580397011
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeikedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljedpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnshhgsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvgh
+ gvrhdrkhgvrhhnvghlrdhorhhgpdhfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.349,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,156 +81,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/rX0weWhljHOnpq9eGvmoW//
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 4/3/23 18:28, Pierre Morel wrote:
+> When the host supports the CPU topology facility, the PTF
+> instruction with function code 2 is interpreted by the SIE,
+> provided that the userland hypervisor activates the interpretation
+> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+> 
+> The PTF instructions with function code 0 and 1 are intercepted
+> and must be emulated by the userland hypervisor.
+> 
+> During RESET all CPU of the configuration are placed in
+> horizontal polarity.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   include/hw/s390x/s390-virtio-ccw.h |  6 ++++
+>   hw/s390x/cpu-topology.c            | 56 ++++++++++++++++++++++++++++--
+>   target/s390x/kvm/kvm.c             | 11 ++++++
+>   3 files changed, 71 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index ea10a6c6e1..9aa9f48bd0 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -31,6 +31,12 @@ struct S390CcwMachineState {
+>       bool vertical_polarization;
+>   };
+>   
+> +#define S390_PTF_REASON_NONE (0x00 << 8)
+> +#define S390_PTF_REASON_DONE (0x01 << 8)
+> +#define S390_PTF_REASON_BUSY (0x02 << 8)
+> +#define S390_TOPO_FC_MASK 0xffUL
+> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
+> +
+>   struct S390CcwMachineClass {
+>       /*< private >*/
+>       MachineClass parent_class;
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index 1d672d4d81..eec6c9a896 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -26,8 +26,6 @@
+>    * .smp: keeps track of the machine topology.
+>    * .list: queue the topology entries inside which
+>    *        we keep the information on the CPU topology.
+> - * .polarization: the current subsystem polarization
+> - *
 
-On Mon, 3 Apr 2023 17:17:52 -0400
-Peter Xu <peterx@redhat.com> wrote:
+Please remove from patch 3 instead.
 
-> On Sun, Apr 02, 2023 at 05:47:45PM +0000, Lukas Straub wrote:
-> > There has never been a test for migration with compress enabled.
-> >=20
-> > Add a suitable test, testing with compress-wait-thread =3D false
-> > too.
-> >=20
-> > iterations =3D 2 is intentional, so it also tests that no invalid
-> > thread state is left over from the previous iteration.
-> >=20
-> > Signed-off-by: Lukas Straub <lukasstraub2@web.de> =20
->=20
-> Overall looks good to me:
->=20
-> Reviewed-by: Peter Xu <peterx@redhat.com>
->=20
-> A few nitpicks below.
->=20
-> > ---
-> >  tests/qtest/migration-test.c | 67 ++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 67 insertions(+)
-> >=20
-> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> > index 3b615b0da9..dbcab2e8ae 100644
-> > --- a/tests/qtest/migration-test.c
-> > +++ b/tests/qtest/migration-test.c
-> >
-> > [...]
-> >
-> >  static void migrate_ensure_non_converge(QTestState *who)
-> >  {
-> >      /* Can't converge with 1ms downtime + 3 mbs bandwidth limit */
-> > @@ -1524,6 +1559,36 @@ static void test_precopy_unix_xbzrle(void)
-> >      test_precopy_common(&args);
-> >  }
-> > =20
-> > +static void *
-> > +test_migrate_compress_start(QTestState *from,
-> > +                          QTestState *to)
-> > +{
-> > +    migrate_set_parameter_int(from, "compress-level", 9);
-> > +    migrate_set_parameter_int(from, "compress-threads", 1);
-> > +    migrate_set_parameter_bool(from, "compress-wait-thread", false); =
-=20
->=20
-> May worth trying both true/false (can split into two tests)?
+>    */
+>   S390Topology s390_topology = {
+>       /* will be initialized after the cpu model is realized */
+> @@ -86,6 +84,57 @@ static void s390_topology_init(MachineState *ms)
+>       QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
+>   }
+>   
+> +/*
+> + * s390_handle_ptf:
+> + *
+> + * @register 1: contains the function code
+> + *
+> + * Function codes 0 (horizontal) and 1 (vertical) define the CPU
+> + * polarization requested by the guest.
+> + *
+> + * Function code 2 is handling topology changes and is interpreted
+> + * by the SIE.
+> + */
+> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
+> +{
+> +    struct S390CcwMachineState *s390ms = S390_CCW_MACHINE(current_machine);
+> +    CPUS390XState *env = &cpu->env;
+> +    uint64_t reg = env->regs[r1];
+> +    int fc = reg & S390_TOPO_FC_MASK;
+> +
+> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+> +        s390_program_interrupt(env, PGM_OPERATION, ra);
+> +        return;
+> +    }
+> +
+> +    if (env->psw.mask & PSW_MASK_PSTATE) {
+> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
+> +        return;
+> +    }
+> +
+> +    if (reg & ~S390_TOPO_FC_MASK) {
+> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+> +        return;
+> +    }
+> +
+> +    switch (fc) {
+> +    case S390_CPU_POLARIZATION_VERTICAL:
+> +    case S390_CPU_POLARIZATION_HORIZONTAL:
+> +        if (s390ms->vertical_polarization == !!fc) {
+> +            env->regs[r1] |= S390_PTF_REASON_DONE;
+> +            setcc(cpu, 2);
+> +        } else {
+> +            s390ms->vertical_polarization = !!fc;
+> +            s390_cpu_topology_set_changed(true);
+> +            setcc(cpu, 0);
+> +        }
+> +        break;
+> +    default:
+> +        /* Note that fc == 2 is interpreted by the SIE */
+> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+> +    }
+> +}
+> +
+>   /**
+>    * s390_topology_reset:
+>    *
+> @@ -94,7 +143,10 @@ static void s390_topology_init(MachineState *ms)
+>    */
+>   void s390_topology_reset(void)
+>   {
+> +    struct S390CcwMachineState *s390ms = S390_CCW_MACHINE(current_machine);
+> +
+>       s390_cpu_topology_set_changed(false);
+> +    s390ms->vertical_polarization = false;
+>   }
+>   
+>   /**
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index bc953151ce..fb63be41b7 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -96,6 +96,7 @@
+>   
+>   #define PRIV_B9_EQBS                    0x9c
+>   #define PRIV_B9_CLP                     0xa0
+> +#define PRIV_B9_PTF                     0xa2
+>   #define PRIV_B9_PCISTG                  0xd0
+>   #define PRIV_B9_PCILG                   0xd2
+>   #define PRIV_B9_RPCIT                   0xd3
+> @@ -1464,6 +1465,13 @@ static int kvm_mpcifc_service_call(S390CPU *cpu, struct kvm_run *run)
+>       }
+>   }
+>   
+> +static void kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
+> +{
+> +    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
+> +
+> +    s390_handle_ptf(cpu, r1, RA_IGNORED);
+> +}
+> +
+>   static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+>   {
+>       int r = 0;
+> @@ -1481,6 +1489,9 @@ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+>       case PRIV_B9_RPCIT:
+>           r = kvm_rpcit_service_call(cpu, run);
+>           break;
+> +    case PRIV_B9_PTF:
+> +        kvm_handle_ptf(cpu, run);
+> +        break;
+>       case PRIV_B9_EQBS:
+>           /* just inject exception */
+>           r = -1;
 
-Maybe, I just wasn't sure with your CI resources being tight, whether
-I should add more tests. I think this test gives the most "bang for the
-buck".
-
-> > +    migrate_set_parameter_int(to, "decompress-threads", 1); =20
->=20
-> Why not set both compress/decompress threads to something >1 to check ara=
-ce
-> conditions between the threads?
-
-I just wanted to make sure that it won't get too fast so it really
-sends some pages uncompressed. But I guess this can be fixed when
-splitting it into 2 tests.
-
-> > +
-> > +    migrate_set_capability(from, "compress", true);
-> > +    migrate_set_capability(to, "compress", true);
-> > +
-> > +    return NULL;
-> > +}
-> > +
-> > +static void test_precopy_unix_compress(void)
-> > +{
-> > +    g_autofree char *uri =3D g_strdup_printf("unix:%s/migsocket", tmpf=
-s);
-> > +    MigrateCommon args =3D {
-> > +        .connect_uri =3D uri,
-> > +        .listen_uri =3D uri,
-> > + =20
->=20
-> Empty line.
->=20
-> > +        .start_hook =3D test_migrate_compress_start,
-> > + =20
->=20
-> Empty line.
->=20
-> > +        .iterations =3D 2, =20
->=20
-> Maybe move the comment in commit message over here?
-
-Good idea, will fix in the next version.
-
-Regards,
-Lukas Straub
-
-> > +    };
-> > +
-> > +    test_precopy_common(&args);
-> > +}
-> > +
-> >  static void test_precopy_tcp_plain(void)
-> >  {
-> >      MigrateCommon args =3D {
-> > @@ -2515,6 +2580,8 @@ int main(int argc, char **argv)
-> >      qtest_add_func("/migration/bad_dest", test_baddest);
-> >      qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_=
-plain);
-> >      qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix=
-_xbzrle);
-> > +    qtest_add_func("/migration/precopy/unix/compress",
-> > +                   test_precopy_unix_compress);
-> >  #ifdef CONFIG_GNUTLS
-> >      qtest_add_func("/migration/precopy/unix/tls/psk",
-> >                     test_precopy_unix_tls_psk);
-> > --=20
-> > 2.30.2
-> >  =20
->=20
->=20
->=20
-
-
-
---=20
-
-
---Sig_/rX0weWhljHOnpq9eGvmoW//
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQr1GQACgkQNasLKJxd
-slhlog/+NFFw7nVvRpbpJoRQy6li/nGUYZcmmPhhVjFMd3+xLEl1kBM0kXoneoBn
-kV7josp5EnZAtNSoUcWr126lmbui1Z21s4t0potgCAKv/lfEay6mAxIt/l3eBsnL
-auXtYm1GJv/DxlSprF6lgywE6L/wFSItFij+gAZJ+LC3xp5y+sNWo9WHcdQs9KTY
-H8bmqzrkHo6rrRBU49W4kkJv2gQLfp+c1hvlEFbFz3JzM1kcCyBAArG1pcwXVdnc
-9ynfaLsSBRtQ7B+J4B6j+MshDBakmvFxJKFvf8UsOP9JFujpDdbBU1Pn3yKJrJdQ
-MJ4fXPaYkpvsPY0i+/PNioYvlaSPPLFq34BhNRbXD6U+hL2Jhkw7/T9JrAD2KvR2
-6L8sGOX2TE46w+qZJZ5Wf1TwPQkgASDjrh3JCHWZMZTOcSI+iagssLQ3AZJvU25p
-L716CthrklTt7z4Ne5PA8N8gA6j+xH61TJngnTCfKb/2w6erYO6EnwjLzgpXhfqW
-XQbS87x+SDxDOqGSsXaLzf3Cam3SRat0vTQDP4Fl6uh8P1oEVprw+bcGQ5AQ+Ha0
-i9x6QE3WybeRqDytqboqR459SXZMzQVJU/qAS+/Y9tBTg908GcEY7Gl92YExLban
-o9k/bX0r8s1pjSYzTbRMfrfIqI0Il3DlZQflZwBCHU0A7SW5Emw=
-=7awc
------END PGP SIGNATURE-----
-
---Sig_/rX0weWhljHOnpq9eGvmoW//--
 
