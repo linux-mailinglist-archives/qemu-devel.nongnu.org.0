@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4B86D66A2
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 17:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DE96D6699
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 17:00:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pji8Q-0004K3-Ul; Tue, 04 Apr 2023 10:59:50 -0400
+	id 1pji8g-0004Le-LX; Tue, 04 Apr 2023 11:00:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pji8F-0004FO-Vw
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:59:36 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ id 1pji8K-0004HR-Pp
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:59:40 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pji8A-0005B4-97
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:59:35 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id d17so33121909wrb.11
+ id 1pji8D-0005B6-TQ
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:59:37 -0400
+Received: by mail-wr1-x430.google.com with SMTP id d17so33121925wrb.11
  for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 07:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1680620367;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ephpmQKt93ZYQzGx2uBErwScg+gDyS6wyGuV7TyDF0o=;
- b=jSS38C7hrPvrRpPrpsoCZlMrsNU2f+FV5jqtSIam4Ap1jcD4Of/50oN3wa+f/q/UNz
- Slmyv5KOxhWeKxKTWuNS038noxc7OVYQkycQHfsPGRwd4vbBEsBc0G4MjF+FuR/8agKc
- waAC9zzknl5Ayqe/saWxg/wp86BYIuvEMmKUFU33L0IzAmbctq8x9D5R345CISVO/GaI
- 2tBowGfvJBlg7ufLw5OPgdkIHbwIb2HLPMevp0/8HMMoH/SCvhEix1b3iXF0NeNkwNWS
- NhrI8T1VKmwKlKiLNEjDwhsCcncVK8La4GNIcXgLxRAmDVHbAMgpjZ9ARBvIOuDf4dHF
- mMFw==
+ bh=LjHLaVrEVQKJ9Md9w/twy+uhYkbwEad0mCPaPdBTuAs=;
+ b=AT0nGEw5nmeFBXg9FVoLQ+/xfbvylAyVo9vxqj0wM1wrdqrMVYpyInhiAK0Buo5o9q
+ OJ85hpHT9AxkpM1sBrCPdRtZc5I5fEyQpPrBACGx/uxA26eyoMvdhIsIo71GU0K+xw62
+ OEtARa8LKnbAjGyM52jYY4uiW5OVuAHffnZ+6xZ9/zwiob9Hu9srGhbkDlghL+/csA3+
+ Ft9IxYdeh2O6IqcSJQ/ftSjzOxhjv1vVzit/zGKsj6ZVj8cDJtAA/pUcELrCwovkpeQz
+ PmDIF85lyPqxpqR+y4b1TpDd4iv3mACVIyy/wwuxsOoYHdtxJgR6ib/R0LoluKa84X8U
+ eF2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1680620367;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ephpmQKt93ZYQzGx2uBErwScg+gDyS6wyGuV7TyDF0o=;
- b=eD5hgP4cigmlHqtr1lTOJvvIhOSNA7kceC6V1S/xxVlP9TKn2qOAYx5GG7/IdrVUtO
- S7HsHZHE1u/W6S6dFF50CAJyYgH+LREZaEKOGqCH+DryoQlXTbULA5pB8cT35Z7MXdXs
- aI/v+vrYgAbaANl97NonjNi2j201o1okYI0KjzzkiFyE5CX5kHFxUmSE7OoyAldec1hq
- Dl3LgzV8ylzq2JE05AYVxKok3okxCmq+Hl6wNajBP4JdE/UoLAGTqaEVIUv+b7m80CJg
- h87/jYifqHAXs+AqH9d6oR8TqzZePAEVAtJsehKhoK5hDfLh+c2wO0R4LbDapydC0don
- OiTA==
-X-Gm-Message-State: AAQBX9cA4RUT++LbqHP6Ky8W7sQpVbiFIK7cReOKqQSDGdRcpmOgozQu
- 286m7r8zf/w8fUKTo91P32rAovwVVgRDNbXkZaE=
-X-Google-Smtp-Source: AKy350ZNP68yHu5RfcnTNhGinQ8s0kxIkxJus/NLiglz7FAWpqyIY2lx9lvIvdpLRnjP2dQ+5tgPew==
-X-Received: by 2002:adf:e2c4:0:b0:2c7:dad:5630 with SMTP id
- d4-20020adfe2c4000000b002c70dad5630mr1915815wrj.27.1680620367195; 
+ bh=LjHLaVrEVQKJ9Md9w/twy+uhYkbwEad0mCPaPdBTuAs=;
+ b=qS8zsMJYhsrvvxNOK4fk0tWnco2JQ5iM2scLVzw1NjcGffsLj68jnLWvIDubPHPKOf
+ dIm+3tM2edY2Z/+I2quCx04sY5plsQ+AUVJyJzsdPDXONyLOBYdNY2QAbPG3ijrC8KbL
+ JHQAGuESnrxbNPCvjSq7ts4LqoX68gELegPATX6d5S6DJE8cAqYdD3LhBGe4rrItryKT
+ 4J5IH6IJk5DNyD/YizL1Sn/XdX08/BpBs+buDwgKJEIkj1YRXOjZ880ccp+Ey1sdas4H
+ 7WA2wDi/eUP6x22xN5PCCsjymki9OyGH8zxACag8RfocwpBDt2Z7gflXOFAsyDqaYTro
+ vklg==
+X-Gm-Message-State: AAQBX9fl4EGHOcBtwQCB1i7cR4DKnn4V0sZ7FZuavlYJe89wRaqF5iHw
+ syaY7iFkk8wstSgLqlzTj8upAA==
+X-Google-Smtp-Source: AKy350bPFZBXeDF3LQ1CL6CywJpWgZHjAX/V7wjC3hNoJnAi1Ylst76GoX3TGZsAK4XN8FQZtSG0ww==
+X-Received: by 2002:a05:6000:10cc:b0:2ce:ae57:71db with SMTP id
+ b12-20020a05600010cc00b002ceae5771dbmr2025455wrx.33.1680620367402; 
  Tue, 04 Apr 2023 07:59:27 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z7-20020a05600c220700b003f04646838esm14222848wml.39.2023.04.04.07.59.25
+ 24-20020a05600c231800b003ed2276cd0dsm15456291wmo.38.2023.04.04.07.59.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 07:59:25 -0700 (PDT)
+ Tue, 04 Apr 2023 07:59:27 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7D39C1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id 92B161FFBD;
  Tue,  4 Apr 2023 15:59:25 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Warner Losh <imp@bsdimp.com>,
- Markus Armbruster <armbru@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 04/10] MAINTAINERS: add a section for policy documents
-Date: Tue,  4 Apr 2023 15:59:19 +0100
-Message-Id: <20230404145925.2638152-5-alex.bennee@linaro.org>
+Subject: [PULL 05/10] metadata: add .git-blame-ignore-revs
+Date: Tue,  4 Apr 2023 15:59:20 +0100
+Message-Id: <20230404145925.2638152-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230404145925.2638152-1-alex.bennee@linaro.org>
 References: <20230404145925.2638152-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,42 +96,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We don't update these often but now at least we have a few like minded
-individuals keeping reviewers eye out for changes.
+Someone mentioned this on IRC so I thought I would try it out with a
+few commits that are pure code style fixes.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230403134920.2132362-5-alex.bennee@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230403134920.2132362-7-alex.bennee@linaro.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9e1a60ea24..2f67894604 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -64,6 +64,20 @@ L: qemu-devel@nongnu.org
- F: *
- F: */
- 
-+Project policy and developer guides
-+R: Alex Bennée <alex.bennee@linaro.org>
-+R: Daniel P. Berrangé <berrange@redhat.com>
-+R: Thomas Huth <thuth@redhat.com>
-+R: Markus Armbruster <armbru@redhat.com>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
-+W: https://www.qemu.org/docs/master/devel/index.html
-+S: Odd Fixes
-+F: docs/devel/style.rst
-+F: docs/devel/code-of-conduct.rst
-+F: docs/devel/conflict-resolution.rst
-+F: docs/devel/submitting-a-patch.rst
-+F: docs/devel/submitting-a-pull-request.rst
+diff --git a/.git-blame-ignore-revs b/.git-blame-ignore-revs
+new file mode 100644
+index 0000000000..93718ef425
+--- /dev/null
++++ b/.git-blame-ignore-revs
+@@ -0,0 +1,21 @@
++#
++# List of code-formatting clean ups the git blame can ignore
++#
++#   git blame --ignore-revs-file .git-blame-ignore-revs
++#
++# or
++#
++#   git config blame.ignoreRevsFile .git-blame-ignore-revs
++#
 +
- Responsible Disclosure, Reporting Security Issues
- -------------------------------------------------
- W: https://wiki.qemu.org/SecurityProcess
++# gdbstub: clean-up indents
++ad9e4585b3c7425759d3eea697afbca71d2c2082
++
++# e1000e: fix code style
++0eadd56bf53ab196a16d492d7dd31c62e1c24c32
++
++# target/riscv: coding style fixes
++8c7feddddd9218b407792120bcfda0347ed16205
++
++# replace TABs with spaces
++48805df9c22a0700fba4b3b548fafaa21726ca68
 -- 
 2.39.2
 
