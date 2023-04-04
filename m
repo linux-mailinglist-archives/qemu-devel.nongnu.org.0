@@ -2,66 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64956D5F3D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 13:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D636D5EEC
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 13:26:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjeze-00017M-KB; Tue, 04 Apr 2023 07:38:30 -0400
+	id 1pjemU-0006w8-K0; Tue, 04 Apr 2023 07:24:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjezb-00016q-Cd
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:38:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjeza-0003SX-1d
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:38:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680608305;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=rbvKIXfSNN1KTIF8TOv/5LXnSXVqrxwq+jrZxoGhmG0=;
- b=hGUa/kGhmR+l1ciff9Gtho7PG/O/CX1JpEV33jVPYxAWJfTv0bMuOkMJGrjSYo35V15+UR
- 4qYAmRBZ6htkWbdxneX5xM03oxsML/eD1+7S4xENwu3TzzpEsiuG544sO9zXIwn6bUQ2J2
- 265KUDwdSnqlnuPN9xHRp7Ci/o+cf+Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-HtvMFCLvNcO7e1iJMg17rQ-1; Tue, 04 Apr 2023 07:38:22 -0400
-X-MC-Unique: HtvMFCLvNcO7e1iJMg17rQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB4AD800B23;
- Tue,  4 Apr 2023 11:38:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 596AA2166B26;
- Tue,  4 Apr 2023 11:38:21 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH] block/nvme: use AIO_WAIT_WHILE_UNLOCKED()
-Date: Tue,  4 Apr 2023 07:20:44 -0400
-Message-Id: <20230404112044.427062-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjemS-0006vw-O0
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:24:52 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjemR-0002Wq-6j
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:24:52 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id y14so32442391wrq.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 04:24:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680607489;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=N87mk8mRdOayl+ChZVFIelbjG/oXWu2x7UlDEIktud4=;
+ b=Lhmagjj7NuCmNr9lXMkd6xtkZPotwRC9N8Xcabq7EJPqwjbhmhm42DMK2OqXQXSiLd
+ D9HxaYrlYDcExj7pm9OJoXeTk8vxbBS35lQwpkhHkwCaRzOw9iPlZDRxDbGlUhzUA9Zx
+ ikMNvPvd7RUfatGO99YYgixg6Lx62C002tpik4X0BM5jUGReTVlljPhIfhS7zitiz9j8
+ XiMBbo+gTyScKATMNWpw20CGJ4IOjcEfNS51A1CfXI/QdbggIGFQEMfCvb0RoW/6QsFL
+ 5n5i1Xs5yQYFp+Un1+H0YUz3c02649NiWpjDXcdNl9K+44rE/bBnrQydsL9eVbmDlctU
+ /YVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680607489;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N87mk8mRdOayl+ChZVFIelbjG/oXWu2x7UlDEIktud4=;
+ b=VSQXDBXv4rAlcAh25zZbe5QntbfCKwQwEXOEAc+QaYcwLfzXmdU+ky6d+Y4MEF+Q/z
+ TNVYH/gUNcyiGT0KMwe0wNCH32Gy4nRI2F6nosXpxd+blddNkzlOG6/w5X8PE01Z7vXz
+ B1kGVPLbiZA+qCeTClOY57yyrTaXyxZ1C4o59HgfORI+Cvqtu8L0mMYvTlQ0nzeKs5/z
+ 46Vp7rUGQJHc2Yogw1bmoRUSy6/D+KF0TnuO6p7FCMdUQdQ7NTZuk0fye+O8I8nSjSuH
+ WfcOiEtNsPEVZ5SAsjkMkAzxFS4hvCQK9UA0s/tlKt+Q8S7nf6crZ8fvEibTpIf9qtpS
+ gbzA==
+X-Gm-Message-State: AAQBX9edoPpYHTv1pR+LCWDAvxg1PZ+2l8sp/DDWZHJn3k3ikvyszcej
+ GcInLYxmJs1IorFFDGHuRVX9kA==
+X-Google-Smtp-Source: AKy350bmUJLylVHqUnD5hN8Q9rm7xsIhoB5PavXlWhfUWYsXikCRIOibm3MeKksjOnaxzIPlkGXpBg==
+X-Received: by 2002:adf:ed81:0:b0:2e6:ba1a:8d8 with SMTP id
+ c1-20020adfed81000000b002e6ba1a08d8mr1431350wro.41.1680607489516; 
+ Tue, 04 Apr 2023 04:24:49 -0700 (PDT)
+Received: from [192.168.69.115] (gra94-h02-176-184-53-13.dsl.sta.abo.bbox.fr.
+ [176.184.53.13]) by smtp.gmail.com with ESMTPSA id
+ d9-20020adff849000000b002c56af32e8csm12074373wrq.35.2023.04.04.04.24.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 04:24:49 -0700 (PDT)
+Message-ID: <72fdb847-46ec-93e3-dc55-2e87ac96367c@linaro.org>
+Date: Tue, 4 Apr 2023 13:24:46 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH v2 09/11] tests/vm: use the default system python for
+ NetBSD
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk
+ <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ Beraldo Leal <bleal@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ kvm@vger.kernel.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20230403134920.2132362-1-alex.bennee@linaro.org>
+ <20230403134920.2132362-10-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230403134920.2132362-10-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,44 +101,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A few Admin Queue commands are submitted during nvme_file_open(). They
-are synchronous since device initialization cannot continue until the
-commands complete.
+On 3/4/23 15:49, Alex Bennée wrote:
+> From: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> Currently our NetBSD VM recipe requests instal of the python37 package
+> and explicitly tells QEMU to use that version of python. Since the
+> NetBSD base ISO was updated to version 9.3 though, the default system
+> python version is 3.9 which is sufficiently new for QEMU to rely on.
+> Rather than requesting an older python, just test against the default
+> system python which is what most users will have.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Message-Id: <20230329124601.822209-1-berrange@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Message-Id: <20230330101141.30199-9-alex.bennee@linaro.org>
+> ---
+>   tests/vm/netbsd | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
-AIO_WAIT_WHILE() is currently used, but the block/nvme.c code actually
-doesn't rely on the AioContext lock. Replace it with
-AIO_WAIT_WHILE_UNLOCKED(NULL, condition). There is no change in behavior
-and the dependency on the AioContext lock is eliminated.
-
-This is a step towards removing the AioContext lock.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/nvme.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/block/nvme.c b/block/nvme.c
-index 5b744c2bda..829b9c04db 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -512,7 +512,6 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
- {
-     BDRVNVMeState *s = bs->opaque;
-     NVMeQueuePair *q = s->queues[INDEX_ADMIN];
--    AioContext *aio_context = bdrv_get_aio_context(bs);
-     NVMeRequest *req;
-     int ret = -EINPROGRESS;
-     req = nvme_get_free_req_nowait(q);
-@@ -521,7 +520,7 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
-     }
-     nvme_submit_command(q, req, cmd, nvme_admin_cmd_sync_cb, &ret);
- 
--    AIO_WAIT_WHILE(aio_context, ret == -EINPROGRESS);
-+    AIO_WAIT_WHILE_UNLOCKED(NULL, ret == -EINPROGRESS);
-     return ret;
- }
- 
--- 
-2.39.2
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
