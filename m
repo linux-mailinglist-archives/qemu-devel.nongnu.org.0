@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA446D5A77
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 10:12:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3736D5A78
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 10:12:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjbkX-0005n5-Sw; Tue, 04 Apr 2023 04:10:41 -0400
+	id 1pjbm0-0006Wi-MU; Tue, 04 Apr 2023 04:12:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pjbkS-0005mQ-6n; Tue, 04 Apr 2023 04:10:36 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pjbkN-0008Hs-Gz; Tue, 04 Apr 2023 04:10:34 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:2619:0:640:e777:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 1968C5F54F;
- Tue,  4 Apr 2023 11:10:17 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b4b1::1:2d] (unknown
- [2a02:6b8:b081:b4b1::1:2d])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id FAJqAZ0Oc0U0-yl7W3jOH; Tue, 04 Apr 2023 11:10:16 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1680595816; bh=PV5rkB/rvibEICgAX5Kddg/34FJVMHJk6OjgvF73vbk=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=dfy0GGxuc2AKmAgA5K2K5wgQLZUFHO3oh2SdlDjFektFoAFNRgmJ6mySBcQ3VvujC
- YpDPumWVqwG5hOg1ArLTHieukmy95SyOQ5D+8MAoFrUhtp6kalXAKJSMwYsbeFAPTp
- 3O0RVrQbqTxzxjWvvpRraJ0EfNe4WjtYoesihQ20=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <9bf47acd-9c41-b838-c6a9-fea2c586d385@yandex-team.ru>
-Date: Tue, 4 Apr 2023 11:10:14 +0300
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjblc-0006Le-66
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 04:11:50 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjblZ-0002J7-DZ
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 04:11:47 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id t4so26584965wra.7
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 01:11:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680595902;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SQ4OM53uGJWae40egDsFihB6ynm3ZaJg0nlR+iNF1m0=;
+ b=Ujmpc+1eFAYW5MBikLGTd/epaASW+i0Gsnkelksi46Fbr99rytZBANnpBZHft0GO/D
+ aB0Mu1yFmmnobE30tfyYWL583CCq9jxbu9V/8ybfLeepEb9WBrUb68BRb/pMWjHi/Z3H
+ Ed3fDlCxBKjOcR6rAbE7o1SZ2q+9YIYQKjlAHoCIT5vI0SYFv3cQe9V/0A+3Emib27dq
+ vL8bBLlJVboFrexzdepse+wyWTdp5fO4Zx/qXvRnhnM2kU40BShO++xE8l+WS5eaFK31
+ AH/SRTmP2uMMlInOnetmRXldxx2WfqtTvfeX37n4U7JTp+Ze1WZAwQPq/Lp494cgZTw0
+ srRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680595902;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SQ4OM53uGJWae40egDsFihB6ynm3ZaJg0nlR+iNF1m0=;
+ b=SC7di3IwRU5b54nJwC95RS6uqqSk65Ip9BD5vC9I1Pb4L0DWUwsIUDo944ria/EBR3
+ GQ01ouKQIkDl4ZJBCefKbuVDeVshntTvQuOUrZPVSnL2UZG3ADNlLb5vtQVwQEL1GaQI
+ 24clVXGHUZ/3Y6D1t3mZow/oczrgQBbXDezxKzVsXpk4+mJDRYjQfWmNUzUKaG6QyrCc
+ s91eLkhvQyQgxmnnZu1t0LXt7vhfpRPdvQkkSZXMnq/esPFVvXBP/Q3yrmNRnGIQDBZ9
+ 5bCK7d2wfG4fI/bhs972PfwOF5aH83SBFt4XKqyCI3FMBPkBaI+uWJbumXn9w1uvKERa
+ /LWw==
+X-Gm-Message-State: AAQBX9dYz6ItHPB3EisEId3aEZcLCzPvS8aCmUQEBAf+6y/rrKIZaEPu
+ y06vyRklDgbLKX6bbY6Q9KUkbA==
+X-Google-Smtp-Source: AKy350atJMMBU1Pz69o6ZW877QvdnSIbD19tEYSUEGoUL3x8WiQaDCbQ/7Z8SJUicb5raq7tUpiPxQ==
+X-Received: by 2002:a5d:5302:0:b0:2cf:f486:5c31 with SMTP id
+ e2-20020a5d5302000000b002cff4865c31mr1236224wrv.24.1680595902542; 
+ Tue, 04 Apr 2023 01:11:42 -0700 (PDT)
+Received: from [192.168.69.115] (pas38-h02-176-184-5-132.dsl.sta.abo.bbox.fr.
+ [176.184.5.132]) by smtp.gmail.com with ESMTPSA id
+ m2-20020a5d4a02000000b002d75ef32032sm11645924wrq.68.2023.04.04.01.11.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 01:11:42 -0700 (PDT)
+Message-ID: <7e5598a3-cc72-a375-105a-93bf4976206e@linaro.org>
+Date: Tue, 4 Apr 2023 10:11:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 2/4] block: Split padded I/O vectors exceeding IOV_MAX
-To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>
-References: <20230317175019.10857-1-hreitz@redhat.com>
- <20230317175019.10857-3-hreitz@redhat.com>
- <794be57d-9bbb-4de4-00ef-32df10cc3eaa@yandex-team.ru>
- <751be7a2-f32a-569d-c464-c7821560edea@redhat.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH v2 for 8.0?] nbd/server: Request TCP_NODELAY
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: Florian Westphal <fw@strlen.de>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+References: <20230404004047.142086-1-eblake@redhat.com>
 Content-Language: en-US
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <751be7a2-f32a-569d-c464-c7821560edea@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230404004047.142086-1-eblake@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,121 +93,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03.04.23 16:33, Hanna Czenczek wrote:
-> (Sorry for the rather late reply... Thanks for the review!)
+On 4/4/23 02:40, Eric Blake wrote:
+> Nagle's algorithm adds latency in order to reduce network packet
+> overhead on small packets.  But when we are already using corking to
+> merge smaller packets into transactional requests, the extra delay
+> from TCP defaults just gets in the way (see recent commit bd2cd4a4).
 > 
-> On 20.03.23 11:31, Vladimir Sementsov-Ogievskiy wrote:
->> On 17.03.23 20:50, Hanna Czenczek wrote:
+> For reference, qemu as an NBD client already requests TCP_NODELAY (see
+> nbd_connect() in nbd/client-connection.c); as does libnbd as a client
+> [1], and nbdkit as a server [2].  Furthermore, the NBD spec recommends
+> the use of TCP_NODELAY [3].
 > 
-> [...]
+> [1] https://gitlab.com/nbdkit/libnbd/-/blob/a48a1142/generator/states-connect.c#L39
+> [2] https://gitlab.com/nbdkit/nbdkit/-/blob/45b72f5b/server/sockets.c#L430
+> [3] https://github.com/NetworkBlockDevice/nbd/blob/master/doc/proto.md#protocol-phases
 > 
->>> diff --git a/block/io.c b/block/io.c
->>> index 8974d46941..1e9cdba17a 100644
->>> --- a/block/io.c
->>> +++ b/block/io.c
->>
->> [..]
->>
->>> +    pad->write = write;
->>> +
->>>       return true;
->>>   }
->>>   @@ -1545,6 +1561,18 @@ zero_mem:
->>>     static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->>
->> Maybe, rename to _finalize, to stress that it's not only freeing memory.
+> CC: Florian Westphal <fw@strlen.de>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Message-Id: <20230327192947.1324372-1-eblake@redhat.com>
+> ---
 > 
-> Sounds good!
+> v2 fix typo, enhance commit message
 > 
-> [...]
-> 
->>> @@ -1552,6 +1580,101 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->>>       memset(pad, 0, sizeof(*pad));
->>>   }
->>>   +/*
->>> + * Create pad->local_qiov by wrapping @iov in the padding head and tail, while
->>> + * ensuring that the resulting vector will not exceed IOV_MAX elements.
->>> + *
->>> + * To ensure this, when necessary, the first couple of elements (up to three)
->>
->> maybe, "first two-three elements"
-> 
-> Sure (here and...
-> 
-> [...]
-> 
->>> +    /*
->>> +     * If padded_niov > IOV_MAX, we cannot just concatenate everything.
->>> +     * Instead, merge the first couple of elements of @iov to reduce the number
->>
->> maybe, "first two-three elements"
-> 
-> ...here).
-> 
->>
->>> +     * of vector elements as necessary.
->>> +     */
->>> +    if (padded_niov > IOV_MAX) {
->>>
->>
->> [..]
->>
->>> @@ -1653,8 +1786,8 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
->>>           flags |= BDRV_REQ_COPY_ON_READ;
->>>       }
->>>   -    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
->>> -                           NULL, &flags);
->>> +    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, false,
->>> +                           &pad, NULL, &flags);
->>>       if (ret < 0) {
->>>           goto fail;
->>>       }
->>
->> a bit later:
->>
->> tracked_request_end(&req);
->> bdrv_padding_destroy(&pad);
->>
->>
->> Now, the request is formally finished inside bdrv_padding_destroy().. Not sure, does it really violate something, but seems safer to swap these two calls. 
-> 
-> I’d rather not, for two reasons: First, tracked requests are (as far as I understand) only there to implement request serialization, and so only care about metadata (offset, length, and type), which is not changed by changes to the I/O vector.
-> 
-> Second, even if the state of the I/O vector were relevant to tracked requests, I think it would actually be the other way around, i.e. the tracked request must be ended before the padding is finalized/destroyed.  The tracked request is about the actual request we submit to `child` (which is why tracked_request_begin() is called after bdrv_pad_request()), and that request is done using the modified I/O vector.  So if the tracked request had any connection to the request’s I/O vector (which it doesn’t), it would be to this modified one, so we mustn’t invalidate it via bdrv_padding_finalize() while the tracked request lives.
-> 
-> Or, said differently: I generally try to clean up things in the inverse way they were set up, and because bdrv_pad_requests() comes before tracked_request_begin(), I think tracked_request_end() should come before bdrv_padding_finalize().
+> Given that corking made it in through Kevin's tree for 8.0-rc2 but
+> this one did not, but I didn't get any R-b, is there any objection to
+> me doing a pull request to get this into 8.0-rc3?
 
-Note, that it's wise-versa in bdrv_co_pwritev_part().
+FWIW, no objection.
 
-For me it's just simpler to think that the whole request, including filling user-given qiov with data on read part is inside tracked_request_begin() / tracked_request_end(). And moving the last manipulation with qiov out of it breaks this simple thought.
-Guest should not care of it, as it doesn't know about request tracking.. But what about internal code? Some code may depend on some requests be finished after bdrv_drained_begin() call, but now they may be not fully finished, and some data may be not copied back to original qiov.
+>   nbd/server.c | 1 +
+>   1 file changed, 1 insertion(+)
 
-I agree with your point about sequence of objects finalization, but maybe, that just shows that copying data back to qiov should not be a part of bdrv_padding_finalize(), but instead be a separate function, called before tracked_request_end().
-
-> 
->> With that:
->>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>
->>
->>
->> PS, I feel here still exists small space for optimization:
-> 
-> The question is whether any optimization is really worth it, and I’m not sure it is.  The bug has been in qemu for over two years, and because the only report I’ve seen about it came from our QE department, it seems like a very rare case, so I find it more important for the code to be as simple as possible than to optimize.
-> 
->> move the logic to bdrv_init_padding(), and
->>
->> 1. allocate only one buffer
->> 2. make the new collpase are to be attached to head or tail padding
->> 3. avoid creating extra iov-slice, maybe with help of some new qemu_iovec_* API that can control number of copied/to-be-copied iovs and/or calculation number of iovs in qiov/qiov_offset/bytes slice
-> 
-> I’ve actually begun by trying to reuse the padding buffer, and to collapse head/tail into it, but found it to be rather complicated. See also my reply to Stefan here: https://lists.nongnu.org/archive/html/qemu-devel/2023-03/msg04774.html
-> 
-> Hanna
-> 
-
--- 
-Best regards,
-Vladimir
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
