@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1246D59D5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 09:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF65A6D64EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:12:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjbI5-0007eK-Ca; Tue, 04 Apr 2023 03:41:17 -0400
+	id 1pjhNc-0002Xk-Ql; Tue, 04 Apr 2023 10:11:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjbI2-0007aV-T8
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 03:41:14 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ (Exim 4.90_1) (envelope-from <jiangfeng@kylinos.cn>)
+ id 1pjbMN-0000r7-1J; Tue, 04 Apr 2023 03:45:44 -0400
+Received: from mailgw.kylinos.cn ([124.126.103.232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjbI1-0005vO-0X
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 03:41:14 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.233])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1FB0521711;
- Tue,  4 Apr 2023 07:41:09 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 4 Apr
- 2023 09:41:08 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0022fcbf9e4-7470-40b3-9410-4c66e3272b75,
- 85507D0075A56E5AD4EA03BF56E5282CC2D8C3A6) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <227eb09d-e5dc-2662-32b0-0b9ca4e8ef34@kaod.org>
-Date: Tue, 4 Apr 2023 09:41:07 +0200
+ (Exim 4.90_1) (envelope-from <jiangfeng@kylinos.cn>)
+ id 1pjbMI-0007VI-Jg; Tue, 04 Apr 2023 03:45:42 -0400
+X-UUID: 7109e155d15f4e1d9b90988a8f9b9732-20230404
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:c230e7ff-7383-4e37-9e3d-befd4212d63f, IP:15,
+ URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:35
+X-CID-INFO: VERSION:1.1.22, REQID:c230e7ff-7383-4e37-9e3d-befd4212d63f, IP:15,
+ UR
+ L:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:35
+X-CID-META: VersionHash:120426c, CLOUDID:fcfcc3f7-ddba-41c3-91d9-10eeade8eac7,
+ B
+ ulkID:2304041545233UXU9CEP,BulkQuantity:0,Recheck:0,SF:38|24|17|19|44|102,
+ TC:nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
+ OSI:0,OSA:0,AV:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-UUID: 7109e155d15f4e1d9b90988a8f9b9732-20230404
+X-User: jiangfeng@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+ (envelope-from <jiangfeng@kylinos.cn>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 631463944; Tue, 04 Apr 2023 15:45:21 +0800
+From: Feng Jiang <jiangfeng@kylinos.cn>
+To: i.mitsyanko@gmail.com,
+	peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Feng Jiang <jiangfeng@kylinos.cn>
+Subject: [PATCH] exynos: Fix out-of-bounds access in exynos4210_gcomp_find
+Date: Tue,  4 Apr 2023 15:45:06 +0800
+Message-Id: <20230404074506.112615-1-jiangfeng@kylinos.cn>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v19 06/21] s390x/cpu topology: interception of PTF
- instruction
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
- <berrange@redhat.com>
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-7-pmorel@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230403162905.17703-7-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: b7aa4e4c-f92b-4df4-9d98-f74575e51847
-X-Ovh-Tracer-Id: 15317868234580397011
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeikedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeljedpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnshhgsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvgh
- gvrhdrkhgvrhhnvghlrdhorhhgpdhfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.349,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=124.126.103.232;
+ envelope-from=jiangfeng@kylinos.cn; helo=mailgw.kylinos.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 04 Apr 2023 10:11:21 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,162 +73,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/3/23 18:28, Pierre Morel wrote:
-> When the host supports the CPU topology facility, the PTF
-> instruction with function code 2 is interpreted by the SIE,
-> provided that the userland hypervisor activates the interpretation
-> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
-> 
-> The PTF instructions with function code 0 and 1 are intercepted
-> and must be emulated by the userland hypervisor.
-> 
-> During RESET all CPU of the configuration are placed in
-> horizontal polarity.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   include/hw/s390x/s390-virtio-ccw.h |  6 ++++
->   hw/s390x/cpu-topology.c            | 56 ++++++++++++++++++++++++++++--
->   target/s390x/kvm/kvm.c             | 11 ++++++
->   3 files changed, 71 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-> index ea10a6c6e1..9aa9f48bd0 100644
-> --- a/include/hw/s390x/s390-virtio-ccw.h
-> +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -31,6 +31,12 @@ struct S390CcwMachineState {
->       bool vertical_polarization;
->   };
->   
-> +#define S390_PTF_REASON_NONE (0x00 << 8)
-> +#define S390_PTF_REASON_DONE (0x01 << 8)
-> +#define S390_PTF_REASON_BUSY (0x02 << 8)
-> +#define S390_TOPO_FC_MASK 0xffUL
-> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
-> +
->   struct S390CcwMachineClass {
->       /*< private >*/
->       MachineClass parent_class;
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index 1d672d4d81..eec6c9a896 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -26,8 +26,6 @@
->    * .smp: keeps track of the machine topology.
->    * .list: queue the topology entries inside which
->    *        we keep the information on the CPU topology.
-> - * .polarization: the current subsystem polarization
-> - *
+When 'res' equals -1, the array 's->g_timer.reg.comp[]' is accessed
+out of bounds.
 
-Please remove from patch 3 instead.
+Signed-off-by: Feng Jiang <jiangfeng@kylinos.cn>
+---
+ hw/timer/exynos4210_mct.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
->    */
->   S390Topology s390_topology = {
->       /* will be initialized after the cpu model is realized */
-> @@ -86,6 +84,57 @@ static void s390_topology_init(MachineState *ms)
->       QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
->   }
->   
-> +/*
-> + * s390_handle_ptf:
-> + *
-> + * @register 1: contains the function code
-> + *
-> + * Function codes 0 (horizontal) and 1 (vertical) define the CPU
-> + * polarization requested by the guest.
-> + *
-> + * Function code 2 is handling topology changes and is interpreted
-> + * by the SIE.
-> + */
-> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
-> +{
-> +    struct S390CcwMachineState *s390ms = S390_CCW_MACHINE(current_machine);
-> +    CPUS390XState *env = &cpu->env;
-> +    uint64_t reg = env->regs[r1];
-> +    int fc = reg & S390_TOPO_FC_MASK;
-> +
-> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
-> +        s390_program_interrupt(env, PGM_OPERATION, ra);
-> +        return;
-> +    }
-> +
-> +    if (env->psw.mask & PSW_MASK_PSTATE) {
-> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-> +        return;
-> +    }
-> +
-> +    if (reg & ~S390_TOPO_FC_MASK) {
-> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +        return;
-> +    }
-> +
-> +    switch (fc) {
-> +    case S390_CPU_POLARIZATION_VERTICAL:
-> +    case S390_CPU_POLARIZATION_HORIZONTAL:
-> +        if (s390ms->vertical_polarization == !!fc) {
-> +            env->regs[r1] |= S390_PTF_REASON_DONE;
-> +            setcc(cpu, 2);
-> +        } else {
-> +            s390ms->vertical_polarization = !!fc;
-> +            s390_cpu_topology_set_changed(true);
-> +            setcc(cpu, 0);
-> +        }
-> +        break;
-> +    default:
-> +        /* Note that fc == 2 is interpreted by the SIE */
-> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +    }
-> +}
-> +
->   /**
->    * s390_topology_reset:
->    *
-> @@ -94,7 +143,10 @@ static void s390_topology_init(MachineState *ms)
->    */
->   void s390_topology_reset(void)
->   {
-> +    struct S390CcwMachineState *s390ms = S390_CCW_MACHINE(current_machine);
-> +
->       s390_cpu_topology_set_changed(false);
-> +    s390ms->vertical_polarization = false;
->   }
->   
->   /**
-> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-> index bc953151ce..fb63be41b7 100644
-> --- a/target/s390x/kvm/kvm.c
-> +++ b/target/s390x/kvm/kvm.c
-> @@ -96,6 +96,7 @@
->   
->   #define PRIV_B9_EQBS                    0x9c
->   #define PRIV_B9_CLP                     0xa0
-> +#define PRIV_B9_PTF                     0xa2
->   #define PRIV_B9_PCISTG                  0xd0
->   #define PRIV_B9_PCILG                   0xd2
->   #define PRIV_B9_RPCIT                   0xd3
-> @@ -1464,6 +1465,13 @@ static int kvm_mpcifc_service_call(S390CPU *cpu, struct kvm_run *run)
->       }
->   }
->   
-> +static void kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
-> +{
-> +    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
-> +
-> +    s390_handle_ptf(cpu, r1, RA_IGNORED);
-> +}
-> +
->   static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
->   {
->       int r = 0;
-> @@ -1481,6 +1489,9 @@ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
->       case PRIV_B9_RPCIT:
->           r = kvm_rpcit_service_call(cpu, run);
->           break;
-> +    case PRIV_B9_PTF:
-> +        kvm_handle_ptf(cpu, run);
-> +        break;
->       case PRIV_B9_EQBS:
->           /* just inject exception */
->           r = -1;
+diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
+index c17b247da3..446bbd2b96 100644
+--- a/hw/timer/exynos4210_mct.c
++++ b/hw/timer/exynos4210_mct.c
+@@ -480,11 +480,14 @@ static int32_t exynos4210_gcomp_find(Exynos4210MCTState *s)
+         res = min_comp_i;
+     }
+ 
+-    DPRINTF("found comparator %d: comp 0x%llx distance 0x%llx, gfrc 0x%llx\n",
+-            res,
+-            s->g_timer.reg.comp[res],
+-            distance_min,
+-            gfrc);
++    if (res >= 0) {
++        DPRINTF("found comparator %d: "
++                "comp 0x%llx distance 0x%llx, gfrc 0x%llx\n",
++                res,
++                s->g_timer.reg.comp[res],
++                distance_min,
++                gfrc);
++    }
+ 
+     return res;
+ }
+-- 
+2.39.2
 
 
