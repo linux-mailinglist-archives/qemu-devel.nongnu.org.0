@@ -2,79 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1209F6D6533
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:25:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1356D6571
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:34:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjhaP-0003Nn-Tn; Tue, 04 Apr 2023 10:24:37 -0400
+	id 1pjhiR-000541-0d; Tue, 04 Apr 2023 10:32:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjhaN-0003Nb-UM
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:24:35 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjhaM-00015C-6Z
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:24:35 -0400
-Received: by mail-ed1-x535.google.com with SMTP id ek18so131408587edb.6
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 07:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680618272;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=h1JjJ2CfNxg+yo1MyBPoDK1KmOJD9aU2mtRWyYtvck4=;
- b=bzhpI5znV5n8DEHRjFaS0CLdH1H1seRooESsKFq9d/1IgpBl7XR4hRZFs0wdcGOQLp
- EBe/EqTESYtCA6ZjiAxqSa5R144rzwywt+CGw5yAIEs9pomahWSu8qlZ/FA/CKSR1YIr
- NtxxpeZDG/swVAageUC7aVoMfmwjux0VAJiHHohfYeoofQyC2wrNNsQJCEMMKm/6iUVv
- sIvB3U81yfNJxKZN3y8kGDOvvhKRU6ZNmOXH6AVvy/YlAeXiESgMktADsYy4MUvSbzTn
- VTkohs8dE+dnBULEVXB56RmQ/kdJsBf7WPGTcTMVz5AcD94YXpc11wOQmWQd3f6gvaB1
- xGaA==
+ (Exim 4.90_1) (envelope-from <clegoate@redhat.com>)
+ id 1pjhiO-00053f-Rd
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:32:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clegoate@redhat.com>)
+ id 1pjhiM-0004Qq-NT
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:32:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680618769;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TxbYkw2JinzxDSS40BjlDqxgi00BxF5rz63Ixpi6NJU=;
+ b=Br9KMYTgJaVrn3FcBWPwgZV1Gh3lk9g+e0OaVGJK3Dez6vMhpry7EDDk9lvJ9ALf56DCoy
+ kHHc1m5jTLFDCK95YH8ezH4jcDEchFZxVtTxfG+PcZXKyxNNVtrPrQw6rjt51Q0WHXxCZJ
+ fD6oDCMKSQcbxxvP4EMUl6FfBdmarQQ=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-539-Ja7lPt6vNq6k5bzMZh3G4w-1; Tue, 04 Apr 2023 10:32:48 -0400
+X-MC-Unique: Ja7lPt6vNq6k5bzMZh3G4w-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ j11-20020a25230b000000b00b6871c296bdso31880101ybj.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 07:32:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680618272;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=h1JjJ2CfNxg+yo1MyBPoDK1KmOJD9aU2mtRWyYtvck4=;
- b=3fz4tbA6k0CVWL3Ij+2Gt0j0Vdg3/HYmRbNO8crAaQPtqPrbpveia4TQUdZkcs9Si1
- AUJbjpKr1G9Ij36bfdQpI1ZC2xsLSbt5bocINFkEVTUtqMMMnL71s1Ti53FB09jsyMnO
- wsE7G6ozVK+9yRukAgu017GVx9RBDcfrMYJos5goyOEt2ZEyxodUJnP7V2L4Tdclu5nB
- 3R5jq9XJfl8ET5T10MwtdHS7NhvF6UpY1mYvUaNbbB5Nm2lmooBbeBTkm/X3bG/Ft3QS
- zXlbquj1RddZVD/ff2VhQvc+Nn8cq8RZQBwc3CQo3qbLeUketUXJ0qmM5Zl7qQcLqL4g
- iLpg==
-X-Gm-Message-State: AAQBX9ekw2YrMUhoVWahVtOL2R1ea1EouXxVZKINT9/tg+y5rV8akuCt
- AyMtPu46CcGMD9sbpBwPeH89K4cmsJURpDX6qOkF2A==
-X-Google-Smtp-Source: AKy350aDh0zvKIqLzWpzIK/6FMyzYytywcL4zbYXf1hunHdM/QoMj2BO1mMSFZTikvBoh27Qb5xTnTb7xbQ/facfQgE=
-X-Received: by 2002:a17:907:6b8f:b0:932:4577:6705 with SMTP id
- rg15-20020a1709076b8f00b0093245776705mr1412544ejc.6.1680618272074; Tue, 04
- Apr 2023 07:24:32 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680618768;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TxbYkw2JinzxDSS40BjlDqxgi00BxF5rz63Ixpi6NJU=;
+ b=ysdFIi0p+czBtw/t7rBInCkURgOR7kKOMO32v1yB1pLLEM9zpLfLt6Hn13VfIsd50C
+ YlQtEPg9Dg3EJ0BZQQHCsjLBKeFz/3joKm16OyfBv1sVPUjkwqNgmV8sxtT440iAsjEH
+ 9qVxr/YGcJYsoLdGMY/o5UwEmo/koO3xfoM53QYSJWsoGGbbiyOz6lT0gNECHyE/7wK7
+ 95epo1+C1HKMmyD7j5UkJ4NwOkUEVGisAtvjDiWzQC+q0c9RRYNWSstBVeP42n6YDP90
+ CyYP0SuRYUT0WEf11kUfGEG0jVSeUB2k3huChNneFM8WVpkay7rOZTYosDRLoL6rqdOP
+ OCzg==
+X-Gm-Message-State: AAQBX9dTthXVi6PGtUITQYhTD+ewKAw6+5gpT4+vcnAMj9qE1eCCUodZ
+ n2a4BhjzdFO9Rz+L3O9luFk36zISehSPXbODiB0uPPps9mPX70W3PqlssRxKcaXZKA0MvYh4AgB
+ xj9yIO7xPFirjPWk=
+X-Received: by 2002:a81:6108:0:b0:541:69c4:84b4 with SMTP id
+ v8-20020a816108000000b0054169c484b4mr3186213ywb.51.1680618767859; 
+ Tue, 04 Apr 2023 07:32:47 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YyAQyp1oEQ3i20Ti5Za8fjTo0RIvks5XfRyG95iwTEnFWrsXA5tcLBlaNLjD53ZYa5lpyZaw==
+X-Received: by 2002:a81:6108:0:b0:541:69c4:84b4 with SMTP id
+ v8-20020a816108000000b0054169c484b4mr3186186ywb.51.1680618767591; 
+ Tue, 04 Apr 2023 07:32:47 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ by smtp.gmail.com with ESMTPSA id
+ s186-20020ae9dec3000000b007426e664cdcsm2320500qkf.133.2023.04.04.07.32.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 07:32:46 -0700 (PDT)
+Message-ID: <dc07d506-283a-b884-1ab5-54f2e1134fb8@redhat.com>
+Date: Tue, 4 Apr 2023 16:32:43 +0200
 MIME-Version: 1.0
-References: <20230403144637.2949366-1-peter.maydell@linaro.org>
- <20230403144637.2949366-11-peter.maydell@linaro.org>
- <87wn2s12bu.fsf@pond.sub.org>
- <CAFEAcA_v4yt1S+jjX2acyDLjb6OGTGOSLGxGUkH5XALKjBkHVQ@mail.gmail.com>
- <875yabzsmc.fsf@pond.sub.org>
-In-Reply-To: <875yabzsmc.fsf@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Apr 2023 15:24:21 +0100
-Message-ID: <CAFEAcA9owMUFkwy-CPC7i=ZFiqce=bzV9YJNFK9YQbh3oOAj1w@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] hmp: Deprecate 'singlestep' member of StatusInfo
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- libvir-list@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
+ Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20230130114428.1297295-1-thuth@redhat.com>
+ <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
+ <Y9exrDWT2NUoinu1@redhat.com> <87h6w7694t.fsf@linaro.org>
+ <dbc8b2f6-3e9e-65d7-998f-568b6376d25c@ilande.co.uk>
+ <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clegoate@redhat.com>
+In-Reply-To: <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=clegoate@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.925, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,76 +116,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 4 Apr 2023 at 14:25, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Tue, 4 Apr 2023 at 09:25, Markus Armbruster <armbru@redhat.com> wrote:
-> >> Hmm.  We report it in query-status, which means it's relevant to QMP
-> >> clients.  We provide the command to control it only in HMP, which means
-> >> it's not relevant to QMP clients.
-> >>
-> >> Why is reading it relevant to QMP clients, but not writing?
-> >
-> > I suspect that neither is very relevant to QMP clients, but I
-> > thought we had a requirement that HMP interfaces went
-> > via QMP ones ?
->
-> Kind of.  Here's my current boilerplate on the subject:
->
->     HMP commands without a QMP equivalent are okay if their
->     functionality makes no sense in QMP, or is of use only for human
->     users.
->
->     Example for "makes no sense in QMP": setting the current CPU,
->     because a QMP monitor doesn't have a current CPU.
->
->     Examples for "is of use only for human users": HMP command "help",
->     the integrated pocket calculator.
->
->     Debugging commands are kind of borderline.  Debugging is commonly a
->     human activity, where HMP is just fine.  However, humans create
->     tools to assist with their activities, and then QMP is useful.
->     While I wouldn't encourage HMP-only for the debugging use case, I
->     wouldn't veto it.
->
-> When adding an HMP-only command, explain why it is HMP-only in the
-> commit message.
->
-> >                If not, we could just make the HMP query
-> > interface directly look at the TCG property, the way the
-> > write interface does.
->
-> How useful is it HMP?
+[ adding Zoltan ]
 
-Well, as usual, we have no idea if anybody really uses any feature.
-I've never used it myself but I have a vague recollection of reading
-list mail once from somebody who used it. You can construct theoretical
-scenarios where it might be nice (eg "boot guest OS quickly and then
-turn on the one-insn-per-tb mode once you get to the point of interest"),
-I guess. These theoretical scenarios are equally valid (or esoteric)
-whether you're trying to control QEMU via QMP or HMP.
+On 4/4/23 16:00, Thomas Huth wrote:
+> On 05/02/2023 23.12, Mark Cave-Ayland wrote:
+>> On 30/01/2023 20:45, Alex Bennée wrote:
+>>
+>>> Daniel P. Berrangé <berrange@redhat.com> writes:
+>>>
+>>>> On Mon, Jan 30, 2023 at 11:47:02AM +0000, Peter Maydell wrote:
+>>>>> On Mon, 30 Jan 2023 at 11:44, Thomas Huth <thuth@redhat.com> wrote:
+>>>>>>
+>>>>>> Testing 32-bit host OS support takes a lot of precious time during the QEMU
+>>>>>> contiguous integration tests, and considering that many OS vendors stopped
+>>>>>> shipping 32-bit variants of their OS distributions and most hardware from
+>>>>>> the past >10 years is capable of 64-bit
+>>>>>
+>>>>> True for x86, not necessarily true for other architectures.
+>>>>> Are you proposing to deprecate x86 32-bit, or all 32-bit?
+>>>>> I'm not entirely sure about whether we're yet at a point where
+>>>>> I'd want to deprecate-and-drop 32-bit arm host support.
+>>>>
+>>>> Do we have a feeling on which aspects of 32-bit cause us the support
+>>>> burden ? The boring stuff like compiler errors from mismatched integer
+>>>> sizes is mostly quick & easy to detect simply through a cross compile.
+>>>>
+>>>> I vaguely recall someone mentioned problems with atomic ops in the past,
+>>>> or was it 128-bit ints, caused implications for the codebase ?
+>>>
+>>> Atomic operations on > TARGET_BIT_SIZE and cputlb when
+>>> TCG_OVERSIZED_GUEST is set. Also the core TCG code and a bunch of the
+>>> backends have TARGET_LONG_BITS > TCG_TARGET_REG_BITS ifdefs peppered
+>>> throughout.
+>>
+>> I am one of an admittedly small group of people still interested in using KVM-PR on ppc32 to boot MacOS, although there is some interest on using 64-bit KVM-PR to run super-fast MacOS on modern Talos hardware.
+>>
+>>  From my perspective losing the ability to run 64-bit guests on 32-bit hardware with TCG wouldn't be an issue, as long as it were still possible to use qemu-system-ppc on 32-bit hardware using both TCG and KVM to help debug the remaining issues.
+> 
+>   Hi Mark!
+> 
+> Just out of curiosity (since we briefly talked about 32-bit KVM on ppc in today's QEMU/KVM call - in the context of whether qemu-system-ppc64 is a proper superset of qemu-system-ppc when it comes to building a unified qemu-system binary): What host machine are you using for running KVM-PR? And which QEMU machine are you using for running macOS? The mac99 or the g3beige machine?
 
-I think on balance I would go for:
- * remove (ie deprecate-and-drop) 'singlestep' from the QMP struct,
-   rather than merely renaming it
- * if anybody comes along and says they want to do this via QMP,
-   implement Paolo's idea of putting the accelerator object
-   somewhere they can get at it and use qom-get/qom-set on it
-   [My guess is this is very unlikely: nobody's complained so
-   far that QMP doesn't permit setting 'singlestep'; and
-   wanting read without write seems even more marginal.]
- * keep the HMP commands, but have both read and write directly
-   talk to the accel object. I favour splitting the 'read'
-   part out into its own 'info one-insn-per-tb', for consistency
-   (then 'info status' matches the QMP query-status)
+Zoltan, what about the pegasos2 and sam460ex machines ? can they be run under KVM ?
 
-In particular, the fact that messing with this obscure debug
-functionality requires updating the reference-output for a
-bunch of io tests that have no interest at all in it rather
-suggests that even if we did want to expose this to QMP that
-the query-status command is the wrong place to do it.
+Thanks,
 
-thanks
--- PMM
+C.
+
 
