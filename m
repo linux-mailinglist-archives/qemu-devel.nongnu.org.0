@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CC76D5BAE
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 11:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1536D5BB7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 11:20:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjcnO-00089K-F5; Tue, 04 Apr 2023 05:17:42 -0400
+	id 1pjcpL-0000dP-AU; Tue, 04 Apr 2023 05:19:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjcnM-00088T-Gc
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 05:17:40 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjcnK-0007u9-LF
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 05:17:40 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id ew6so127721385edb.7
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 02:17:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680599857;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=buEtwnTNCi90u2KLQvpNIN60Nr5cvQbZ+5RtlfCShe0=;
- b=GdlwZ6c4MURFEfQF6LkmYRwpW3sp6Ji+Y3cGVX5jUDq9LxnTP2r3JFosa2U/Q9h65Z
- /nVvS3D7ozrO42yFqtPnslNjCuLTu1ZMOHlyYgDXMMLMD/Ym9x8Uy0uwv2kcpDRU0u6T
- EAN177cGaloBAuB6bFt3M5Fm5cc7V+d+IZ6+bjjbVvZCVhoblLTrfjTgeYIGKddhO3t/
- zt1nY3C4nksKSrzWU3zC8aquYDE54SF88xzTSsgPcs2CJJe0HRvpvTya3K5Z6eqeG+Qf
- DJSDtFeJv2i83zLW20LZXedDw/cL3VYsHCuIesCz1mhUE7la3Jzdn+Lp+o8Ncudojxhv
- +j5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680599857;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=buEtwnTNCi90u2KLQvpNIN60Nr5cvQbZ+5RtlfCShe0=;
- b=OPe5bK53Aui/yzQyV1QcFGlxSUOHpZBVeKgTelx7V0x52s1d4OylN13Rab5FodE2C/
- ekcjpHfESzzIq9d4G4votsx+zLARdixXlOeJZWg/j073Kn3C/dXoG3Uk/TlRahP+nn6b
- RsmtAZHE1KfTQ3OMK5JDyIp7O7f3PyB8H1tTH6zM9mOl2/E2vJ4UMhKU0VFZDb0TOtv4
- CuvecVEHxJAXWhRkqFZIXFwpfdQZSykkBwr+t73Nan0PstWNF8q5+35qdVu7GnQX9Xh3
- 7PV3FVMo4q7G1DIo6EU8xJFhjx70B02qde0iZ82sfDWD8/uf2VNLmb86S3xnGm46bc0e
- XPbQ==
-X-Gm-Message-State: AAQBX9cRrag8ICF5a9OT1MoX7CUyHghurI+m8ViLU/lWNMKrJQBA8/X+
- q2cY2EMo8jbr/FL9qPO0SCq2/p2z9AN6AdNQzDOWiw==
-X-Google-Smtp-Source: AKy350aYcNk7geSbeuPeUadp3MRIRVpo1eIi/XZ6wBgVj641PEUX6IdXt5d1lnGuPIe3ZtfpHJ1ExiDrv+d82SwdOpo=
-X-Received: by 2002:a50:a457:0:b0:4fb:3549:a708 with SMTP id
- v23-20020a50a457000000b004fb3549a708mr996428edb.6.1680599856795; Tue, 04 Apr
- 2023 02:17:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pjcpJ-0000dB-FB; Tue, 04 Apr 2023 05:19:41 -0400
+Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pjcpH-0000jq-Kc; Tue, 04 Apr 2023 05:19:41 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.140])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id AB4A72BE61;
+ Tue,  4 Apr 2023 09:19:34 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 4 Apr
+ 2023 11:19:33 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0029dcf3b05-a962-4e76-b96e-0c999b7dc0df,
+ 85507D0075A56E5AD4EA03BF56E5282CC2D8C3A6) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <e86317ad-74d6-937e-5b48-f3ee93171ded@kaod.org>
+Date: Tue, 4 Apr 2023 11:19:28 +0200
 MIME-Version: 1.0
-References: <20230403144637.2949366-1-peter.maydell@linaro.org>
- <20230403144637.2949366-11-peter.maydell@linaro.org>
- <87wn2s12bu.fsf@pond.sub.org>
-In-Reply-To: <87wn2s12bu.fsf@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Apr 2023 10:17:26 +0100
-Message-ID: <CAFEAcA_v4yt1S+jjX2acyDLjb6OGTGOSLGxGUkH5XALKjBkHVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] hmp: Deprecate 'singlestep' member of StatusInfo
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- libvir-list@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v19 17/21] tests/avocado: s390x cpu topology test
+ dedicated CPU
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
+ <berrange@redhat.com>
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-18-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230403162905.17703-18-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 69bda3fc-d316-4ad8-9a3e-e81398be960d
+X-Ovh-Tracer-Id: 16980259448577035219
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleejpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpnhhsgheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkhhvmhesvhhgvg
+ hrrdhkvghrnhgvlhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpmhhsthesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
+ helo=5.mo552.mail-out.ovh.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.349,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,82 +81,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 4 Apr 2023 at 09:25, Markus Armbruster <armbru@redhat.com> wrote:
->
-> In the title: "qmp:"
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > diff --git a/qapi/run-state.json b/qapi/run-state.json
-> > index 9d34afa39e0..1de8c5c55d0 100644
-> > --- a/qapi/run-state.json
-> > +++ b/qapi/run-state.json
-> > @@ -104,16 +104,27 @@
-> >  #
-> >  # @running: true if all VCPUs are runnable, false if not runnable
-> >  #
-> > -# @singlestep: true if VCPUs are in single-step mode
-> > +# @one-insn-per-tb: true if using TCG with one guest instruction
-> > +#                   per translation block
-> > +#
-> > +# @singlestep: deprecated synonym for @one-insn-per-tb
-> >  #
-> >  # @status: the virtual machine @RunState
-> >  #
-> > +# Features:
-> > +# @deprecated: Member 'singlestep' is deprecated. Use @one-insn-per-tb instead.
->
-> Wrap this line, please.
->
-> > +#
-> >  # Since: 0.14
-> >  #
-> > -# Notes: @singlestep is enabled through the GDB stub
-> > +# Notes: @one-insn-per-tb is enabled on the command line with
-> > +#        '-accel tcg,one-insn-per-tb=on', or with the HMP
-> > +#        'one-insn-per-tb' command.
-> >  ##
->
-> Hmm.  We report it in query-status, which means it's relevant to QMP
-> clients.  We provide the command to control it only in HMP, which means
-> it's not relevant to QMP clients.
->
-> Why is reading it relevant to QMP clients, but not writing?
+On 4/3/23 18:29, Pierre Morel wrote:
+> A dedicated CPU in vertical polarization can only have
+> a high entitlement.
+> Let's check this.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   tests/avocado/s390_topology.py | 43 +++++++++++++++++++++++++++++++++-
+>   1 file changed, 42 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/avocado/s390_topology.py b/tests/avocado/s390_topology.py
+> index f12f0ae148..6a41f08897 100644
+> --- a/tests/avocado/s390_topology.py
+> +++ b/tests/avocado/s390_topology.py
+> @@ -52,6 +52,7 @@ class S390CPUTopology(LinuxKernelTest):
+>       The polarization is changed on a request from the guest.
+>       """
+>       timeout = 90
+> +    skip_basis = False
+>   
 
-I suspect that neither is very relevant to QMP clients, but I
-thought we had a requirement that HMP interfaces went
-via QMP ones ? If not, we could just make the HMP query
-interface directly look at the TCG property, the way the
-write interface does.
+This should come through its own patch.
 
-I don't want to add a QMP interface for writing it unless
-there's somebody who actually has a use case for it.
 
-> Use cases for reading it via QMP query-status?
->
-> Have you considered tacking feature 'unstable' to it?
+>       def check_topology(self, c, s, b, d, e, t):
+> @@ -116,12 +117,14 @@ def system_init(self):
+>           exec_command_and_wait_for_pattern(self,
+>                   '/bin/cat /sys/devices/system/cpu/dispatching', '0')
+>   
+> +    @skipIf(skip_basis, 'skipping basis tests')
+>       def test_single(self):
+>           self.kernel_init()
+>           self.vm.launch()
+>           self.wait_for_console_pattern('no job control')
+>           self.check_topology(0, 0, 0, 0, 'medium', False)
+>   
+> +    @skipIf(skip_basis, 'skipping basis tests')
+>       def test_default(self):
+>           """
+>           This test checks the implicite topology.
+> @@ -147,6 +150,7 @@ def test_default(self):
+>           self.check_topology(11, 2, 1, 0, 'medium', False)
+>           self.check_topology(12, 0, 0, 1, 'medium', False)
+>   
+> +    @skipIf(skip_basis, 'skipping basis tests')
+>       def test_move(self):
+>           """
+>           This test checks the topology modification by moving a CPU
+> @@ -167,6 +171,7 @@ def test_move(self):
+>           self.assertEqual(res['return'], {})
+>           self.check_topology(0, 2, 0, 0, 'low', False)
+>   
+> +    @skipIf(skip_basis, 'skipping basis tests')
+>       def test_hotplug(self):
+>           """
+>           This test verifies that a CPU defined with '-device' command line
+> @@ -184,6 +189,7 @@ def test_hotplug(self):
+>   
+>           self.check_topology(10, 2, 1, 0, 'medium', False)
+>   
+> +    @skipIf(skip_basis, 'skipping basis tests')
+>       def test_hotplug_full(self):
+>           """
+>           This test verifies that a hotplugged fully defined with '-device'
+> @@ -202,6 +208,7 @@ def test_hotplug_full(self):
+>           self.wait_for_console_pattern('no job control')
+>           self.check_topology(1, 1, 1, 1, 'medium', False)
+>   
+> +    @skipIf(skip_basis, 'skipping basis tests')
+>       def test_polarisation(self):
+>           """
+>           This test verifies that QEMU modifies the entitlement change after
+> @@ -231,7 +238,7 @@ def test_polarisation(self):
+>   
+>           self.check_topology(0, 0, 0, 0, 'medium', False)
+>   
+> -    def test_set_cpu_topology_entitlement(self):
+> +    def test_entitlement(self):
 
-Nope, because I don't know anything about what that does :-)
+May be introduce the correct name in the first patch.
 
-> >  { 'struct': 'StatusInfo',
-> > -  'data': {'running': 'bool', 'singlestep': 'bool', 'status': 'RunState'} }
-> > +  'data': {'running': 'bool',
-> > +           'singlestep': { 'type': 'bool', 'features': [ 'deprecated' ]},
-> > +           'one-insn-per-tb': 'bool',
-> > +           'status': 'RunState'} }
-> >
-> >  ##
-> >  # @query-status:
->
-> I see a bunch of query-status results in
-> tests/qemu-iotests/{183,234,262,280}.out.  Do they need an update?
 
-"make check" passed, so I guess not, unless those don't run
-in "make check"...
+>           """
+>           This test verifies that QEMU modifies the polarization
+>           after a guest request.
+> @@ -286,3 +293,37 @@ def test_set_cpu_topology_entitlement(self):
+>           self.check_topology(1, 0, 0, 0, 'medium', False)
+>           self.check_topology(2, 1, 0, 0, 'high', False)
+>           self.check_topology(3, 1, 0, 0, 'high', False)
+> +
+> +    def test_dedicated(self):
+> +        """
+> +        This test verifies that QEMU modifies the entitlement change correctly
+> +        for a dedicated CPU after several guest polarization change requests.
+> +
+> +        :avocado: tags=arch:s390x
+> +        :avocado: tags=machine:s390-ccw-virtio
+> +        """
+> +        self.kernel_init()
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('no job control')
+> +
+> +        self.system_init()
+> +
+> +        res = self.vm.qmp('set-cpu-topology',
+> +                          {'core-id': 0, 'dedicated': True})
+> +        self.assertEqual(res['return'], {})
+> +
+> +        self.check_topology(0, 0, 0, 0, 'high', True)
+> +
+> +        exec_command(self, 'echo 1 > /sys/devices/system/cpu/dispatching')
+> +        time.sleep(0.2)
+> +        exec_command_and_wait_for_pattern(self,
+> +                '/bin/cat /sys/devices/system/cpu/dispatching', '1')
+> +
+> +        self.check_topology(0, 0, 0, 0, 'high', True)
+> +
+> +        exec_command(self, 'echo 0 > /sys/devices/system/cpu/dispatching')
+> +        time.sleep(0.2)
+> +        exec_command_and_wait_for_pattern(self,
+> +                '/bin/cat /sys/devices/system/cpu/dispatching', '0')
+> +
+> +        self.check_topology(0, 0, 0, 0, 'high', True)
 
-Do those .out files need exact matching output, or can they
-be written to say "we don't care about what value this field
-has or whether it exists" ?
-
-thanks
--- PMM
 
