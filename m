@@ -2,94 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658986D6638
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:56:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF456D666D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:58:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pji5L-0001PV-5X; Tue, 04 Apr 2023 10:56:35 -0400
+	id 1pji6D-0002CO-6V; Tue, 04 Apr 2023 10:57:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pji5D-0001DG-NM
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:56:30 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pji6A-0002Bs-Dt
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:57:26 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pji5A-0003KN-UF
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:56:26 -0400
-Received: by mail-wr1-x431.google.com with SMTP id e18so33119770wra.9
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 07:56:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pji67-0004Gd-8Q
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:57:26 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id o2so31534772plg.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 07:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680620183;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=obKEkwqIA/UnnZ7qcR4bdBjhT/6IB1/3ZLo8wtQ71b0=;
- b=ymxGALMqmeR3q85RJD29P/Fd/W4VOnPznkhxBCZAB0Z81aL79AcUy0nbR4+UxZRc/V
- NMeETudNfyggtu2xDFkpUuSfyTC7udWIXxny2EujN2Njo39E6MXkRxj7vkyWCQiV3s8M
- rH5S4wO8Dw1gVXZzwRvp3C04CfVpkX7/kGuRjtGTQ+0F8UkejvI5dQN8OOxlSK8COd4B
- vJSKGE3lsgASGVuv1rftPTBJvXqie6ug0mAtATb0x+AdQQGyR/NIS1GoJUD8eX6El0C7
- ShJOr7hlFHdM41X9ZDns+qlMEjFO7u48XngczegyOJS5ZQ0stpYGhF6GhfiCbFqdqFJV
- cNIA==
+ d=linaro.org; s=google; t=1680620241;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AlIMbFDr9iUgp0I8bC1VIUUbikAePRjLep+Ruu0fJ44=;
+ b=k12l5ec+BHUCc3xITheDluiJUm7ItvihyQ1NJHXHJ83nAbFP7kPcDy62am48pEHpaH
+ UJkP9zWRdQ6CRw004eZ3XA8V5bNTabZhzHtCpKp+fwwYeiIaHrA+OSqLZo8Kv4HSm2XQ
+ MjHbH6ILyzpH3ssca+mezSg5/FXx/ftwk1OZgdfIA3ir9jT4AyyDQ8XOil1iHNM7EIzr
+ todlln976eYKiIGnslYCuTnNm69d+DDa0jd8RXicx9zzCLhmVS8Oajb01W57Y+J9InEE
+ 8ChcvlEF8dy72fTvK3V6ZTevk8dOeSb+mcFqEH2AKlbNVBYwuMQMqLE6Mun3p0DSNLQq
+ qfXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680620183;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=obKEkwqIA/UnnZ7qcR4bdBjhT/6IB1/3ZLo8wtQ71b0=;
- b=6YMS67+EymqWFgU+zxPcdKU0KcZk6I300BK8rD88VaDcxY38LMQup3jAOJUhdk3E+K
- 6VGjYW442qNjl0hSkZp0kLgZSSm7OHyMBBN1TcnWeHtWRzPDFPlOwC/Z/TBDW/YORzQ0
- kcZ22pblSEwUYgMWMgQRMlqJRPGNP4Rrr+0yL5T2k1up9dnriIjgGRJxbX8HLLh490ZS
- 4eC3xAu6/XntQjGid8hG1Y6P2ZhtNL6Y3cjZmelqwLwIfSsxSOyXZlK9n5KqPpcjr/b6
- id8LCr4eaNfydGqJr4cNBbxAv0yY9b8G83tLH0HWvyKDeTbee8S5/A/JN4yBEhl/o8ZS
- GKCQ==
-X-Gm-Message-State: AAQBX9ez09snedbIvN5xCcl6lfSo22mSj4G8Y05wG09v1zZ37rKudARp
- QI5iTD1z+4BpRLR9V7gvOfquJg==
-X-Google-Smtp-Source: AKy350ZtPqbSE0MQbkP1p/Uyy9dFn4+jmrWqAORR28S/M6WWKDeFMqwgtz2A/3AgNe6EHQhLPDOcOg==
-X-Received: by 2002:adf:ef10:0:b0:2e4:abb1:3e8d with SMTP id
- e16-20020adfef10000000b002e4abb13e8dmr2114466wro.54.1680620183073; 
- Tue, 04 Apr 2023 07:56:23 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20210112; t=1680620241;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AlIMbFDr9iUgp0I8bC1VIUUbikAePRjLep+Ruu0fJ44=;
+ b=qToZvtz1GKk4tdtNNTMFJ71pU7NpDKhNRB1r1ZyA0CfOvrZl6GT7LOg4AkqoMrz4tJ
+ cxbKpvrJFJkdsoxqS0fjc1no9ApIj98FsZzPr5UDHhuqhNbyqlnI5kzAl35oO5GJ4T/z
+ s9OE9bjMfiwpHKl74YS6udVjASBlSs//KZB2B/rDbBq3IaghL2FJVlQfVv2ggrKhWNc4
+ 6mZ245JmUkqa8PxRs0+L1/wsxCpfYl3X4BpdVvoKK/nHNtss1a4i4MImm/zdWvHRQF1t
+ hl0BNKspwfkoMI+9NCeNKt/D8JOoNzqLWG8wkERj/G3G5OTWLGtC1hSr6G/qqAjcVbS3
+ C43A==
+X-Gm-Message-State: AAQBX9d2bgfn3vDbmyJdXVm8A13w6ucUcUrzI7aHde/iQCY6t22HXl6c
+ PZYeRAwPJx1XDXnSB/J4DmpY0A==
+X-Google-Smtp-Source: AKy350Y0+EW8ZfJCsrU2GCJEt2roOOPJQeCQc6wStkIANDKcGA/9RnMqcAAqd+Pas7HrLQmpQFuN/A==
+X-Received: by 2002:a05:6a20:3148:b0:dd:b941:5d90 with SMTP id
+ 8-20020a056a20314800b000ddb9415d90mr2351014pzk.60.1680620241394; 
+ Tue, 04 Apr 2023 07:57:21 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:1d41:7730:d7dd:6f41?
+ ([2602:ae:1541:f901:1d41:7730:d7dd:6f41])
  by smtp.gmail.com with ESMTPSA id
- f16-20020adffcd0000000b002d5a8d8442asm12430275wrs.37.2023.04.04.07.56.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 07:56:22 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4943C1FFB7;
- Tue,  4 Apr 2023 15:56:22 +0100 (BST)
-References: <20230403134920.2132362-1-alex.bennee@linaro.org>
- <20230403134920.2132362-6-alex.bennee@linaro.org>
- <ZCwsvaxRzx4bzbXo@redhat.com>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Reinoud
- Zandijk <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>, Warner Losh
- <imp@bsdimp.com>, Beraldo Leal <bleal@redhat.com>, Philippe =?utf-8?Q?Mat?=
- =?utf-8?Q?hieu-Daud=C3=A9?=
- <philmd@linaro.org>, Kyle Evans <kevans@freebsd.org>, kvm@vger.kernel.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Cleber Rosa
- <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>, Michael Tokarev
- <mjt@tls.msk.ru>, armbru@redhat.com
-Subject: Re: [PATCH v2 05/11] qemu-options: finesse the recommendations
- around -blockdev
-Date: Tue, 04 Apr 2023 15:55:34 +0100
-In-reply-to: <ZCwsvaxRzx4bzbXo@redhat.com>
-Message-ID: <87ttxvlmqx.fsf@linaro.org>
+ v11-20020aa7850b000000b0062db20e63a8sm8560789pfn.156.2023.04.04.07.57.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 07:57:20 -0700 (PDT)
+Message-ID: <24d824ed-4018-302a-9c4b-22758ea1f64e@linaro.org>
+Date: Tue, 4 Apr 2023 07:57:18 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v6 4/6] target/riscv: Add support for PC-relative
+ translation
+Content-Language: en-US
+To: liweiwei <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230404020653.18911-1-liweiwei@iscas.ac.cn>
+ <20230404020653.18911-5-liweiwei@iscas.ac.cn>
+ <f0923f4b-e5e5-b648-6c77-4a5a151a9b6c@linaro.org>
+ <f466aa0b-1312-d8ba-c2d6-d386038df781@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <f466aa0b-1312-d8ba-c2d6-d386038df781@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925,
+ PDS_TONAME_EQ_TOLOCAL_SHORT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,67 +101,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/4/23 07:33, liweiwei wrote:
+> If we want to hide all of them in gen_pc_plus_diff,  then we need calculate the diff for 
+> pc_succ_insn or introduce a new API for it, since we need get the successor pc in many 
+> instructions.
+> 
+> And the logic for gen_goto_tb or gen_set_pc_imm also need update.
 
-Kevin Wolf <kwolf@redhat.com> writes:
-
-> Am 03.04.2023 um 15:49 hat Alex Benn=C3=A9e geschrieben:
->> We are a bit premature in recommending -blockdev/-device as the best
->> way to configure block devices, especially in the common case.
->> Improve the language to hopefully make things clearer.
->>=20
->> Suggested-by: Michael Tokarev <mjt@tls.msk.ru>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->> Message-Id: <20230330101141.30199-5-alex.bennee@linaro.org>
->> ---
->>  qemu-options.hx | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 59bdf67a2c..9a69ed838e 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -1143,10 +1143,14 @@ have gone through several iterations as the feat=
-ure set and complexity
->>  of the block layer have grown. Many online guides to QEMU often
->>  reference older and deprecated options, which can lead to confusion.
->>=20=20
->> -The recommended modern way to describe disks is to use a combination of
->> +The most explicit way to describe disks is to use a combination of
->>  ``-device`` to specify the hardware device and ``-blockdev`` to
->>  describe the backend. The device defines what the guest sees and the
->> -backend describes how QEMU handles the data.
->> +backend describes how QEMU handles the data. The ``-drive`` option
->> +combines the device and backend into a single command line options
->> +which is useful in the majority of cases. Older options like ``-hda``
->> +bake in a lot of assumptions from the days when QEMU was emulating a
->> +legacy PC, they are not recommended for modern configurations.
->
-> Let's not make the use of -drive look more advisable than it really is.
-> If you're writing a management tool/script and you're still using -drive
-> today, you're doing it wrong.
->
-> Maybe this is actually the point where we should just clearly define
-> that -blockdev is the only supported stable API (like QMP), and that
-> -drive etc. are convenient shortcuts for human users with no
-> compatibility promise (like HMP).
-
-OK I'll drop this patch from today's PR and await a better description
-in due course.
-
->
-> What stopped us from doing so is that there are certain boards that
-> don't allow the user to configure the onboard devices, but that look at
-> -drive. These wouldn't provide any stable API any more after this
-> change. However, if this hasn't been solved in many years, maybe it's
-> time to view it as the board's problem, and use this change to motivate
-> them to implement ways to configure the devices. Or maybe some don't
-> even want to bother with a stable API, who knows.
->
-> Kevin
+Yes, exactly.
 
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+r~
 
