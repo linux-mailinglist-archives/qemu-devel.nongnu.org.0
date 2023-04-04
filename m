@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FF36D559E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 02:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9D36D55A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 02:49:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjUkf-0001uo-NZ; Mon, 03 Apr 2023 20:42:21 -0400
+	id 1pjUqd-000388-3c; Mon, 03 Apr 2023 20:48:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pjUkc-0001uW-MS
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 20:42:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pjUjH-0005tz-OX
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 20:42:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680568854;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ghimxv6q2GZqhNn00GP/SmdJfIdYbYnsMJqJgbJ/IwU=;
- b=dRZirAlMQStDdG548Giec02rREYKCNv/ncLtxeUSVj/UkiTq0ScM1Vw8TntMPAaMwcWC5f
- BtcnYVXMz2CGUv+hqpR0zeQ/zHHLRLY07la5JjUsc0uJ5ZPBMMtsxFCp21Y+hy15di51L/
- iUHkKSOzyv9Kg3D+5pA7ugIZYlWL9dk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-67eh01FRNaWBv_myHO-c0w-1; Mon, 03 Apr 2023 20:40:51 -0400
-X-MC-Unique: 67eh01FRNaWBv_myHO-c0w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1EEC3101A550;
- Tue,  4 Apr 2023 00:40:51 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3AF522027040;
- Tue,  4 Apr 2023 00:40:50 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Florian Westphal <fw@strlen.de>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org (open list:Network Block Dev...)
-Subject: [PATCH v2 for 8.0?] nbd/server: Request TCP_NODELAY
-Date: Mon,  3 Apr 2023 19:40:47 -0500
-Message-Id: <20230404004047.142086-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjUqY-00036O-3E
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 20:48:27 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjUq3-0000ej-0P
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 20:48:25 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id ml21so6958372pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 17:47:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680569273;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RDqXbtWUx6DUKQdRj4sITob2V/VEoH41+mMTM8PMSM8=;
+ b=bm6FA6icUeoId8qgueKQLq+r03gaiu13Si4LSm8WixsyrxxaZ+jOrfddEraaZUOIVT
+ IeQou8f/bzAowjdr6WqXGjMDq1LO11Qfkik6zEZTuc2E+baixcNfES6A6HKiDXDhgjxB
+ u+W4qAonzC57AT3gjiwf6yZAx5867YnYZsPRDDx85ME9+ZnyYRwfSmrlm0FGsj+7u4iZ
+ 8o7zppDgB1YuUaKlAUWRGssaTmpos1PABKsm4gLv1iDbBcChTLY8F5yZUJKuxXv3EL/2
+ xZWep4hJIMzhdEWL+hEKm3XfXStaRvrZzGjAs9rgWKNIc528Av4HF+LsLlRI1ishQJXr
+ 6TzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680569273;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RDqXbtWUx6DUKQdRj4sITob2V/VEoH41+mMTM8PMSM8=;
+ b=7G1JwQP1GaQtVkfZNo6lIhLTyUM6EHxIxKl7JBF+l/AeupGhJE1vIWWU4xbg2wZleY
+ HYV+ZXusidUlZIR6bc4vmHlibLfVmxo70VTAFmXStJnLATHYqt0kDQ42katLzkZVBpk1
+ tb2qvi9OXano+FFMwPWTnyAE7bXDH6juDC23DxNr1xM+SfKIynF1fQOmDe7hCFbZJMH0
+ RUYKVR1w1TBAmg2dWJvD5F0B+7XpcETePgMmLn9w/zgSo7SX1sWZdxtSKoJ0b3SM/ltN
+ N6+/TpLZyJZjaczoaoeFPCba2wDI1xdXW/XSVcnZIzfBGqPPMmi+4KXvv9qKSt55vK85
+ Auzg==
+X-Gm-Message-State: AAQBX9dKcptSYWvJ/58QBz8SyLyjTPlEVUVOHZ1WoEFTvzy3WCBjG3y5
+ LxW9Lin4hvZhk/S4sXPkwllHnA==
+X-Google-Smtp-Source: AKy350btGF3SJKoQJd6JL8kurN/cYeKUxoHv86bVkDu/KTyXtkYWvWA3upE77bsRp5i4byVuHjympw==
+X-Received: by 2002:a17:902:c406:b0:1a2:6f9f:de16 with SMTP id
+ k6-20020a170902c40600b001a26f9fde16mr958427plk.11.1680569273004; 
+ Mon, 03 Apr 2023 17:47:53 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
+ ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
+ by smtp.gmail.com with ESMTPSA id
+ t20-20020a170902b21400b0019e88453492sm7261049plr.4.2023.04.03.17.47.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Apr 2023 17:47:52 -0700 (PDT)
+Message-ID: <747fd4cf-93c2-db25-2963-f79335034817@linaro.org>
+Date: Mon, 3 Apr 2023 17:47:50 -0700
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH v2 37/44] target/loongarch: Implement vfcmp
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230328030631.3117129-1-gaosong@loongson.cn>
+ <20230328030631.3117129-38-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230328030631.3117129-38-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,49 +94,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Nagle's algorithm adds latency in order to reduce network packet
-overhead on small packets.  But when we are already using corking to
-merge smaller packets into transactional requests, the extra delay
-from TCP defaults just gets in the way (see recent commit bd2cd4a4).
+On 3/27/23 20:06, Song Gao wrote:
+> +static uint64_t vfcmp_common(CPULoongArchState *env,
+> +                             FloatRelation cmp, uint32_t flags)
+> +{
+> +    bool ret;
+> +
+> +    switch (cmp) {
+> +    case float_relation_less:
+> +        ret = (flags & FCMP_LT);
+> +        break;
+> +    case float_relation_equal:
+> +        ret = (flags & FCMP_EQ);
+> +        break;
+> +    case float_relation_greater:
+> +        ret = (flags & FCMP_GT);
+> +        break;
+> +    case float_relation_unordered:
+> +        ret = (flags & FCMP_UN);
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    return ret;
+> +}
 
-For reference, qemu as an NBD client already requests TCP_NODELAY (see
-nbd_connect() in nbd/client-connection.c); as does libnbd as a client
-[1], and nbdkit as a server [2].  Furthermore, the NBD spec recommends
-the use of TCP_NODELAY [3].
+Either change the return type to bool, or return {0, -1} here...
 
-[1] https://gitlab.com/nbdkit/libnbd/-/blob/a48a1142/generator/states-connect.c#L39
-[2] https://gitlab.com/nbdkit/nbdkit/-/blob/45b72f5b/server/sockets.c#L430
-[3] https://github.com/NetworkBlockDevice/nbd/blob/master/doc/proto.md#protocol-phases
+> +
+> +#define VFCMP(NAME, BIT, T, E, FN)                                       \
+> +void HELPER(NAME)(CPULoongArchState *env,                                \
+> +                  uint32_t vd, uint32_t vj, uint32_t vk, uint32_t flags) \
+> +{                                                                        \
+> +    int i;                                                               \
+> +    VReg t;                                                              \
+> +    VReg *Vd = &(env->fpr[vd].vreg);                                     \
+> +    VReg *Vj = &(env->fpr[vj].vreg);                                     \
+> +    VReg *Vk = &(env->fpr[vk].vreg);                                     \
+> +                                                                         \
+> +    vec_clear_cause(env);                                                \
+> +    for (i = 0; i < LSX_LEN/BIT ; i++) {                                 \
+> +        FloatRelation cmp;                                               \
+> +        cmp = FN(Vj->E(i), Vk->E(i), &env->fp_status);                   \
+> +        t.E(i) = (vfcmp_common(env, cmp, flags)) ? -1 : 0;               \
 
-CC: Florian Westphal <fw@strlen.de>
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20230327192947.1324372-1-eblake@redhat.com>
----
+... and avoid the extra conditional here.
 
-v2 fix typo, enhance commit message
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Given that corking made it in through Kevin's tree for 8.0-rc2 but
-this one did not, but I didn't get any R-b, is there any objection to
-me doing a pull request to get this into 8.0-rc3?
 
- nbd/server.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/nbd/server.c b/nbd/server.c
-index 848836d4140..3d8d0d81df2 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -2758,6 +2758,7 @@ void nbd_client_new(QIOChannelSocket *sioc,
-     }
-     client->tlsauthz = g_strdup(tlsauthz);
-     client->sioc = sioc;
-+    qio_channel_set_delay(QIO_CHANNEL(sioc), false);
-     object_ref(OBJECT(client->sioc));
-     client->ioc = QIO_CHANNEL(sioc);
-     object_ref(OBJECT(client->ioc));
-
-base-commit: efcd0ec14b0fe9ee0ee70277763b2d538d19238d
--- 
-2.39.2
-
+r~
 
