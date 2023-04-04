@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7086D5626
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 03:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7015A6D5656
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 04:00:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjVWk-0005je-F0; Mon, 03 Apr 2023 21:32:02 -0400
+	id 1pjVwb-00010H-SI; Mon, 03 Apr 2023 21:58:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pjVWi-0005jJ-MB
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:32:00 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pjVWg-0001Ra-KC
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:31:59 -0400
-Received: by mail-pl1-x629.google.com with SMTP id c18so29832083ple.11
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 18:31:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680571917;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MB9P0N4tiOjSWNMHH8/1nCjbTDiNrW+e88SJNWXe6uI=;
- b=a/T/mv/6JfbO/mngAfWXXXLpN1bHNqTNqKh0rfrGS6qvezeb5xBEpZplHdw3t1E65V
- fBKYdJ815bd7cmqi4OGjFwiASUDXkz5V2b8zUUsF9+pnVo10U2AGkl7dNWiCBZqTGIWc
- xg+UPV4ZMewyW4dKNDEygKGKGvAyCxCl0y1YS6Zgrkhupn6glLi2mBuu7ot+DZdtl0sw
- oElM6Y0251iIy3NpoGLkj3UiEhZUhF0e6LIrQNzfp4/4T/N5LIpFc8RSlps+SqwOH4J7
- PaMD4Od62ZgagXHRMf9TP60Ywi3+NBcwllEzGM4IwP8I2zvotzMEe/eWZeGMRop1qSNF
- CGNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680571917;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MB9P0N4tiOjSWNMHH8/1nCjbTDiNrW+e88SJNWXe6uI=;
- b=iEgHdQwVbiF7ThFeu/pRQgQD0l/Y6lGyqtDHx2t/hiT3BIX8VQVyJClQJ660VsVBWV
- 0eyJ49IC/HPsu9rrDyw7Z6EQ1zs/UaSAlY6ovzqmJJeB7ZlDgBm5wFTHfDOhZUxSc0G2
- STNq0OSOlhv8BXYbFX6D+fPNXA5P8jaR9VqgdjGx6zCxouS+CNvoZtSjj29+FMgNvDDz
- YdsfHkQRs2s7c+dyrGg1/XccsEHCGy04sRDkGIT9Ab/C8lPVrePSJbCSk+2GHtRk0x+5
- +2gukateNeR9rlU+bp7K2pJ4l6lVV6CJPWvkA2c+2GUvXbuTmhbNSBTYe56fxC7HTAwr
- pv/g==
-X-Gm-Message-State: AAQBX9esB2+AfCkldjMTDMmsxq13Fp0SfLgPNZPZ8UXchWrsLUM0kI+x
- yqcVfa1MY0+Qvi0IBNkOlcPqaw==
-X-Google-Smtp-Source: AKy350agzZuD4ZQGoRp3iv+3xa3HqcvW408BwFlQ/EpOqJYWwS3NfagY5v9Ernvz9suMoq94bb8iQg==
-X-Received: by 2002:a17:90b:4c49:b0:23f:5c60:67b with SMTP id
- np9-20020a17090b4c4900b0023f5c60067bmr1028625pjb.5.1680571916875; 
- Mon, 03 Apr 2023 18:31:56 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
- ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
- by smtp.gmail.com with ESMTPSA id
- z7-20020a170902ccc700b0019e30e3068bsm7318296ple.168.2023.04.03.18.31.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 18:31:56 -0700 (PDT)
-Message-ID: <dc6abc63-1d0e-ba30-bd6f-faefb9a71d3e@linaro.org>
-Date: Mon, 3 Apr 2023 18:31:54 -0700
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pjVwZ-000100-AE; Mon, 03 Apr 2023 21:58:43 -0400
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pjVwW-0004qv-Eg; Mon, 03 Apr 2023 21:58:43 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R361e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VfJg8u7_1680573506; 
+Received: from 30.221.97.97(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VfJg8u7_1680573506) by smtp.aliyun-inc.com;
+ Tue, 04 Apr 2023 09:58:27 +0800
+Message-ID: <3e210469-7251-327a-7cf4-52a604ff3442@linux.alibaba.com>
+Date: Tue, 4 Apr 2023 09:58:22 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH v2 41/44] target/loongarch: Implement vilvl vilvh
- vextrins vshuf
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [RESEND PATCH v5 4/6] target/riscv: Add support for PC-relative
+ translation
 Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-42-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-42-gaosong@loongson.cn>
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230401124935.20997-1-liweiwei@iscas.ac.cn>
+ <20230401124935.20997-5-liweiwei@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230401124935.20997-5-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.131;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-131.freemail.mail.aliyun.com
+X-Spam_score_int: -111
+X-Spam_score: -11.2
+X-Spam_bar: -----------
+X-Spam_report: (-11.2 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.349, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,97 +67,250 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 20:06, Song Gao wrote:
-> +void HELPER(vshuf_b)(CPULoongArchState *env,
-> +                     uint32_t vd, uint32_t vj, uint32_t vk, uint32_t va)
-> +{
-> +    int i, m, k;
-> +    VReg temp;
-> +    VReg *Vd = &(env->fpr[vd].vreg);
-> +    VReg *Vj = &(env->fpr[vj].vreg);
-> +    VReg *Vk = &(env->fpr[vk].vreg);
-> +    VReg *Va = &(env->fpr[va].vreg);
+
+On 2023/4/1 20:49, Weiwei Li wrote:
+> Add a base save_pc For PC-relative translation(CF_PCREL).
+> Diable the directly sync pc from tb by riscv_cpu_synchronize_from_tb.
+> Sync pc before it's used or updated from tb related pc:
+>     real_pc = (old)env->pc + target_pc(from tb) - ctx->save_pc
+> Use gen_get_target_pc to compute target address of auipc and successor
+> address of jalr.
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/riscv/cpu.c                      | 29 +++++++++-----
+>   target/riscv/insn_trans/trans_rvi.c.inc | 14 +++++--
+>   target/riscv/translate.c                | 53 +++++++++++++++++++++----
+>   3 files changed, 75 insertions(+), 21 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1e97473af2..646fa31a59 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -658,16 +658,18 @@ static vaddr riscv_cpu_get_pc(CPUState *cs)
+>   static void riscv_cpu_synchronize_from_tb(CPUState *cs,
+>                                             const TranslationBlock *tb)
+>   {
+> -    RISCVCPU *cpu = RISCV_CPU(cs);
+> -    CPURISCVState *env = &cpu->env;
+> -    RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+> +    if (!(tb_cflags(tb) & CF_PCREL)) {
+> +        RISCVCPU *cpu = RISCV_CPU(cs);
+> +        CPURISCVState *env = &cpu->env;
+> +        RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+>   
+> -    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
+> +        tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
+>   
+> -    if (xl == MXL_RV32) {
+> -        env->pc = (int32_t) tb->pc;
+> -    } else {
+> -        env->pc = tb->pc;
+> +        if (xl == MXL_RV32) {
+> +            env->pc = (int32_t) tb->pc;
+> +        } else {
+> +            env->pc = tb->pc;
+> +        }
+>       }
+>   }
+>   
+> @@ -693,11 +695,18 @@ static void riscv_restore_state_to_opc(CPUState *cs,
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+>       CPURISCVState *env = &cpu->env;
+>       RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+> +    target_ulong pc;
 > +
-> +    m = LSX_LEN/8;
-> +    for (i = 0; i < m ; i++) {
-> +        k = (Va->B(i)& 0x3f) % (2 * m);
-
-Eh?  Double masking?
-
-> +        temp.B(i) = (Va->B(i) & 0xc0) ? 0 : k < m ? Vk->B(k) : Vj->B(k - m);
-
-Triple masking?
-
-I would have expected something like
-
-     k = Va->B(i) % N;
-     temp.B(i) = (k < m ? Vj : k < 2 * m ? Vk : 0);
-
-> +#define VSHUF(NAME, BIT, E)                                                  \
-> +void HELPER(NAME)(CPULoongArchState *env,                                    \
-> +                  uint32_t vd, uint32_t vj, uint32_t vk)                     \
-> +{                                                                            \
-> +    int i, m, k;                                                             \
-> +    VReg temp;                                                               \
-> +    VReg *Vd = &(env->fpr[vd].vreg);                                         \
-> +    VReg *Vj = &(env->fpr[vj].vreg);                                         \
-> +    VReg *Vk = &(env->fpr[vk].vreg);                                         \
-> +                                                                             \
-> +    m = LSX_LEN/BIT;                                                         \
-> +    for (i = 0; i < m; i++) {                                                \
-> +        k  = (Vd->E(i) & 0x3f) % (2 * m);                                    \
-> +        temp.E(i) = (Vd->E(i) & 0xc0) ? 0 : k < m ? Vk->E(k) : Vj->E(k - m); \
-> +    }                                                                        \
-> +    Vd->D(0) = temp.D(0);                                                    \
-> +    Vd->D(1) = temp.D(1);                                                    \
-> +}
-
-Likewise.
-
-> +#define SHF_POS(i, imm) (((i) & 0xfc) + (((imm) >> (2 * ((i) & 0x03))) & 0x03))
+> +    if (tb_cflags(tb) & CF_PCREL) {
+> +        pc = (env->pc & TARGET_PAGE_MASK) | data[0];
+> +    } else {
+> +        pc = data[0];
+> +    }
+>   
+>       if (xl == MXL_RV32) {
+> -        env->pc = (int32_t)data[0];
+> +        env->pc = (int32_t)pc;
+>       } else {
+> -        env->pc = data[0];
+> +        env->pc = pc;
+>       }
+>       env->bins = data[1];
+>   }
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index 48c73cfcfe..52ef260eff 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -38,7 +38,9 @@ static bool trans_lui(DisasContext *ctx, arg_lui *a)
+>   
+>   static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>   {
+> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+> +    TCGv target_pc = dest_gpr(ctx, a->rd);
+> +    gen_get_target_pc(target_pc, ctx, a->imm + ctx->base.pc_next);
+> +    gen_set_gpr(ctx, a->rd, target_pc);
+>       return true;
+>   }
+>   
+> @@ -52,6 +54,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>   {
+>       TCGLabel *misaligned = NULL;
+>       TCGv target_pc = tcg_temp_new();
+> +    TCGv succ_pc = dest_gpr(ctx, a->rd);
+>   
+>       tcg_gen_addi_tl(target_pc, get_gpr(ctx, a->rs1, EXT_NONE), a->imm);
+>       tcg_gen_andi_tl(target_pc, target_pc, (target_ulong)-2);
+> @@ -68,7 +71,9 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>           tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
+>       }
+>   
+> -    gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
+> +    gen_get_target_pc(succ_pc, ctx, ctx->pc_succ_insn);
+> +    gen_set_gpr(ctx, a->rd, succ_pc);
 > +
-> +#define VSHUF4I(NAME, BIT, E)                             \
-> +void HELPER(NAME)(CPULoongArchState *env,                 \
-> +                  uint32_t vd, uint32_t vj, uint32_t imm) \
-> +{                                                         \
-> +    int i;                                                \
-> +    VReg temp;                                            \
-> +    VReg *Vd = &(env->fpr[vd].vreg);                      \
-> +    VReg *Vj = &(env->fpr[vj].vreg);                      \
-> +                                                          \
-> +    for (i = 0; i < LSX_LEN/BIT; i++) {                   \
-> +         temp.E(i) = Vj->E(SHF_POS(i, imm));              \
-> +    }                                                     \
-> +    Vd->D[0] = temp.D[0];                                 \
-> +    Vd->D[1] = temp.D[1];                                 \
-> +}
+>       tcg_gen_mov_tl(cpu_pc, target_pc);
 
-Merge SHF_POS unless you expect it to be used again?
+If pointer masking enabled, should we adjust the target_pc before it is 
+written into the cpu_pc?
 
-> +void HELPER(vshuf4i_d)(CPULoongArchState *env,
-> +                       uint32_t vd, uint32_t vj, uint32_t imm)
-> +{
-> +    VReg *Vd = &(env->fpr[vd].vreg);
-> +    VReg *Vj = &(env->fpr[vj].vreg);
+>       lookup_and_goto_ptr(ctx);
+>   
+> @@ -159,6 +164,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>       TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
+>       TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
+>       target_ulong next_pc;
+> +    target_ulong orig_pc_save = ctx->pc_save;
+>   
+>       if (get_xl(ctx) == MXL_RV128) {
+>           TCGv src1h = get_gprh(ctx, a->rs1);
+> @@ -175,6 +181,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>   
+>       gen_set_label(l); /* branch taken */
+>   
+> +    ctx->pc_save = orig_pc_save;
+>       next_pc = ctx->base.pc_next + a->imm;
+>       if (!has_ext(ctx, RVC) && (next_pc & 0x3)) {
+>           /* misaligned */
+> @@ -182,8 +189,9 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>           gen_get_target_pc(target_pc, ctx, next_pc);
+>           gen_exception_inst_addr_mis(ctx, target_pc);
+>       } else {
+> -        gen_goto_tb(ctx, 0, ctx->base.pc_next + a->imm);
+> +        gen_goto_tb(ctx, 0, next_pc);
+>       }
+> +    ctx->pc_save = -1;
+>       ctx->base.is_jmp = DISAS_NORETURN;
+>   
+>       return true;
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 7b5223efc2..2dd594ddae 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -59,6 +59,7 @@ typedef struct DisasContext {
+>       DisasContextBase base;
+>       /* pc_succ_insn points to the instruction following base.pc_next */
+>       target_ulong pc_succ_insn;
+> +    target_ulong pc_save;
+>       target_ulong priv_ver;
+>       RISCVMXL misa_mxl_max;
+>       RISCVMXL xl;
+> @@ -225,15 +226,24 @@ static void decode_save_opc(DisasContext *ctx)
+>   static void gen_get_target_pc(TCGv target, DisasContext *ctx,
+>                                 target_ulong dest)
+>   {
+> -    if (get_xl(ctx) == MXL_RV32) {
+> -        dest = (int32_t)dest;
+> +    assert(ctx->pc_save != -1);
+> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +        tcg_gen_addi_tl(target, cpu_pc, dest - ctx->pc_save);
+> +        if (get_xl(ctx) == MXL_RV32) {
+> +            tcg_gen_ext32s_tl(target, target);
+> +        }
+> +    } else {
+> +        if (get_xl(ctx) == MXL_RV32) {
+> +            dest = (int32_t)dest;
+> +        }
+> +        tcg_gen_movi_tl(target, dest);
+>       }
+> -    tcg_gen_movi_tl(target, dest);
+>   }
+>   
+>   static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
+>   {
+>       gen_get_target_pc(cpu_pc, ctx, dest);
+
+Same like here.
+
+Zhiwei
+
+> +    ctx->pc_save = dest;
+>   }
+>   
+>   static void generate_exception(DisasContext *ctx, int excp)
+> @@ -287,8 +297,21 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+>         * direct block chain benefits will be small.
+>         */
+>       if (translator_use_goto_tb(&ctx->base, dest) && !ctx->itrigger) {
+> -        tcg_gen_goto_tb(n);
+> -        gen_set_pc_imm(ctx, dest);
+> +        /*
+> +         * For pcrel, the pc must always be up-to-date on entry to
+> +         * the linked TB, so that it can use simple additions for all
+> +         * further adjustments.  For !pcrel, the linked TB is compiled
+> +         * to know its full virtual address, so we can delay the
+> +         * update to pc to the unlinked path.  A long chain of links
+> +         * can thus avoid many updates to the PC.
+> +         */
+> +        if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +            gen_set_pc_imm(ctx, dest);
+> +            tcg_gen_goto_tb(n);
+> +        } else {
+> +            tcg_gen_goto_tb(n);
+> +            gen_set_pc_imm(ctx, dest);
+> +        }
+>           tcg_gen_exit_tb(ctx->base.tb, n);
+>       } else {
+>           gen_set_pc_imm(ctx, dest);
+> @@ -555,8 +578,16 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>           }
+>       }
+>   
+> -    gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+> -    gen_goto_tb(ctx, 0, ctx->base.pc_next + imm); /* must use this for safety */
+> +    assert(ctx->pc_save != -1);
+> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+> +        TCGv succ_pc = dest_gpr(ctx, rd);
+> +        tcg_gen_addi_tl(succ_pc, cpu_pc, ctx->pc_succ_insn - ctx->pc_save);
+> +        gen_set_gpr(ctx, rd, succ_pc);
+> +    } else {
+> +        gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+> +    }
 > +
-> +    VReg temp;
-> +    temp.D(0) = ((imm & 0x03) == 0x00) ? Vd->D(0):
-> +                ((imm & 0x03) == 0x01) ? Vd->D(1):
-> +                ((imm & 0x03) == 0x02) ? Vj->D(0): Vj->D(1);
+> +    gen_goto_tb(ctx, 0, next_pc); /* must use this for safety */
+>       ctx->base.is_jmp = DISAS_NORETURN;
+>   }
+>   
+> @@ -1150,6 +1181,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+>       uint32_t tb_flags = ctx->base.tb->flags;
+>   
+> +    ctx->pc_save = ctx->base.pc_first;
+>       ctx->pc_succ_insn = ctx->base.pc_first;
+>       ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
+>       ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
+> @@ -1195,8 +1227,13 @@ static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+>   static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+>   {
+>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +    target_ulong pc_next = ctx->base.pc_next;
 > +
-> +    temp.D(1) = ((imm & 0x0c) == 0x00) ? Vd->D(0):
-> +                ((imm & 0x0c) == 0x04) ? Vd->D(1):
-> +                ((imm & 0x0c) == 0x08) ? Vj->D(0): Vj->D(1);
-> +
-> +    Vd->D[0] = temp.D[0];
-> +    Vd->D[1] = temp.D[1];
-> +}
-
-Perhaps
-
-     temp.D(0) = (imm & 2 ? Vj : Vd)->D(imm & 1);
-     temp.D(1) = (imm & 8 ? Vj : Vd)->D((imm >> 2) & 1);
-
-
-r~
+> +    if (tb_cflags(dcbase->tb) & CF_PCREL) {
+> +        pc_next &= ~TARGET_PAGE_MASK;
+> +    }
+>   
+> -    tcg_gen_insn_start(ctx->base.pc_next, 0);
+> +    tcg_gen_insn_start(pc_next, 0);
+>       ctx->insn_start = tcg_last_op();
+>   }
+>   
 
