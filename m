@@ -2,106 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CFF6D5624
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 03:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7086D5626
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 03:32:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjVUV-0004pS-BD; Mon, 03 Apr 2023 21:29:43 -0400
+	id 1pjVWk-0005je-F0; Mon, 03 Apr 2023 21:32:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Alexey.Kardashevskiy@amd.com>)
- id 1pjVUQ-0004oz-QF
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:29:41 -0400
-Received: from mail-mw2nam04on20627.outbound.protection.outlook.com
- ([2a01:111:f400:7e8c::627]
- helo=NAM04-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Alexey.Kardashevskiy@amd.com>)
- id 1pjVUN-0000Ik-7x
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:29:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OECw6nWdYlMFm1QP+qb4JlbHrtq8UFTzxLf9kfGLWLRK70CBgJomf/iTlaZJfU3DrMQ9wuxYQqUSnCUo+mzTccCgwPj+69h4u1xQSbGFdgz/9RdZjJA0P3q88hnVl0vmF3U3JfYwkyLqBdw0AJdTwqSZz0hmrZtfyNiU/pCTHRhyLaJ6DXL5V6GNQ2yoO9fhmgVMoc0t45u89hihGs4XgRvZFhu+2n3wpxEiDenqNMys5NhUM73EpxVx65a7MJjz5aDrAVpl4CY55naJUzsWM7/DAPNJclSC9d47oLe/AGfRmeyO+31N+s9ssfLGhFJPsT32FYEKBpGq4tOnueyrzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q2lFnPcFsK/Mka8yGrmaUDAiUhMyI3oJ0iqN3giDIFQ=;
- b=LbEpJxTrCCT7NhT/PsERFKO5p3yZDW6JwAv8gb+5p+Z08Ke1ihIcyQ7SsUd9P1OF+wvIlhCrJBefdex6cT8C3pKSFKIN2qoEMH1A0149Rjo8Ci3eS7D7+S48V3+ENVtwhtOnnDt3+oEVcaMRTunTnjXFBEyHTmJlUL0AW/ANBa2udxcHdM1bDlT7KGQCpHJRDNdQmsdXDXGIn8f8QIyih15LJ3O396nZZ0An7lJVLVafd0QX0MGrg3gI7OSblKyLNyOcsTdkGrgtJCGrESKAyFED4SxzY3xOAS5bnKxgBlCEZIHzjHNeu9CqTGe8sOx/3EqGc2K7X5cHyWJgvNRf+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q2lFnPcFsK/Mka8yGrmaUDAiUhMyI3oJ0iqN3giDIFQ=;
- b=vnyXHYtkNWqBWcT8HPczTj/hIerky8tV1YleWzNXwQDgG+gxshR8pPsYK0eQbzCqjjK5a4pCbHU2npZe/1+D68icfG1fPXOqnKQjeA6Gam81XsODFyoLb4bzgvpQYGNvm6T1CD7NMPQjJafDQ9BxjHco0qS4PkzgbOSRPaU4VQM=
-Received: from BN9PR03CA0563.namprd03.prod.outlook.com (2603:10b6:408:138::28)
- by PH7PR12MB6881.namprd12.prod.outlook.com (2603:10b6:510:1b7::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.30; Tue, 4 Apr
- 2023 01:29:28 +0000
-Received: from BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:138:cafe::cc) by BN9PR03CA0563.outlook.office365.com
- (2603:10b6:408:138::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.22 via Frontend
- Transport; Tue, 4 Apr 2023 01:29:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT034.mail.protection.outlook.com (10.13.176.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6277.28 via Frontend Transport; Tue, 4 Apr 2023 01:29:27 +0000
-Received: from aiemdeew.1.ozlabs.ru (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 3 Apr
- 2023 20:29:25 -0500
-From: Alexey Kardashevskiy <aik@amd.com>
-To: <qemu-devel@nongnu.org>
-CC: Markus Armbruster <armbru@redhat.com>, Alexey Kardashevskiy <aik@amd.com>
-Subject: [PATCH qemu v2] sev/i386: Fix error reporting
-Date: Tue, 4 Apr 2023 11:29:13 +1000
-Message-ID: <20230404012913.2051042-1-aik@amd.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjVWi-0005jJ-MB
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:32:00 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjVWg-0001Ra-KC
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:31:59 -0400
+Received: by mail-pl1-x629.google.com with SMTP id c18so29832083ple.11
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 18:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680571917;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MB9P0N4tiOjSWNMHH8/1nCjbTDiNrW+e88SJNWXe6uI=;
+ b=a/T/mv/6JfbO/mngAfWXXXLpN1bHNqTNqKh0rfrGS6qvezeb5xBEpZplHdw3t1E65V
+ fBKYdJ815bd7cmqi4OGjFwiASUDXkz5V2b8zUUsF9+pnVo10U2AGkl7dNWiCBZqTGIWc
+ xg+UPV4ZMewyW4dKNDEygKGKGvAyCxCl0y1YS6Zgrkhupn6glLi2mBuu7ot+DZdtl0sw
+ oElM6Y0251iIy3NpoGLkj3UiEhZUhF0e6LIrQNzfp4/4T/N5LIpFc8RSlps+SqwOH4J7
+ PaMD4Od62ZgagXHRMf9TP60Ywi3+NBcwllEzGM4IwP8I2zvotzMEe/eWZeGMRop1qSNF
+ CGNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680571917;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MB9P0N4tiOjSWNMHH8/1nCjbTDiNrW+e88SJNWXe6uI=;
+ b=iEgHdQwVbiF7ThFeu/pRQgQD0l/Y6lGyqtDHx2t/hiT3BIX8VQVyJClQJ660VsVBWV
+ 0eyJ49IC/HPsu9rrDyw7Z6EQ1zs/UaSAlY6ovzqmJJeB7ZlDgBm5wFTHfDOhZUxSc0G2
+ STNq0OSOlhv8BXYbFX6D+fPNXA5P8jaR9VqgdjGx6zCxouS+CNvoZtSjj29+FMgNvDDz
+ YdsfHkQRs2s7c+dyrGg1/XccsEHCGy04sRDkGIT9Ab/C8lPVrePSJbCSk+2GHtRk0x+5
+ +2gukateNeR9rlU+bp7K2pJ4l6lVV6CJPWvkA2c+2GUvXbuTmhbNSBTYe56fxC7HTAwr
+ pv/g==
+X-Gm-Message-State: AAQBX9esB2+AfCkldjMTDMmsxq13Fp0SfLgPNZPZ8UXchWrsLUM0kI+x
+ yqcVfa1MY0+Qvi0IBNkOlcPqaw==
+X-Google-Smtp-Source: AKy350agzZuD4ZQGoRp3iv+3xa3HqcvW408BwFlQ/EpOqJYWwS3NfagY5v9Ernvz9suMoq94bb8iQg==
+X-Received: by 2002:a17:90b:4c49:b0:23f:5c60:67b with SMTP id
+ np9-20020a17090b4c4900b0023f5c60067bmr1028625pjb.5.1680571916875; 
+ Mon, 03 Apr 2023 18:31:56 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
+ ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
+ by smtp.gmail.com with ESMTPSA id
+ z7-20020a170902ccc700b0019e30e3068bsm7318296ple.168.2023.04.03.18.31.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Apr 2023 18:31:56 -0700 (PDT)
+Message-ID: <dc6abc63-1d0e-ba30-bd6f-faefb9a71d3e@linaro.org>
+Date: Mon, 3 Apr 2023 18:31:54 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT034:EE_|PH7PR12MB6881:EE_
-X-MS-Office365-Filtering-Correlation-Id: 00b3ba96-f9fb-46bd-2602-08db34ac07fe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5tsbh3vOiK7KMPy9y+PkwctL0cK+gKwY2prAAWgBMUBc8OfTvu1Ja6cOggNKwWyjo70awnHKaj5ESXWUWLUhkIWiotAKP/LBjRedpE7GPXKLqiLp3J52R2AWFQTpdl+CX8X2NdVY59MCDF6wlZR7qdDXWI4jqAmQ8WxCo1I7zAAqRwrDakpkgTGab3QUQTrvhEFEskTmWUI+R5Qar53SN3Wr42YUJHnEso1wHY6zqN70Sy/4wWIAV6qKMkwzJh0Z1jYHBayiDfF+Kc484kqlCXde/OoBfZVbQYRM2dMxTZTPsgqdLizFisWnZuNQP6Tx9WFpDtaYn0MYRN4CRT//a2Q4MtkoBg69RpKXMoEGvVMhGFwumkRlvNfLar+g2kt8CU/nmH7XwhKf210Bn6NIyhc5fJppxuzyUmxN2ss6IFrZWJnDgRTlt9JF66SsRClHkAsBjBX1gat1lIDtKKQ31ZMokZ8MZ3t1664ICG3RE+6Lxt/1i8QEgyPFazL+LVsjtpS+uqAX5riDZUfmmCVkUqw+rUj+qr2KRUL7QnYQ9z0xG4CulRAjhr3eqzqxgABIsORvZb8TmhMzbjfrJ7UjDo2IjnFnAuxQ+XLVkNVVCiXQKh0Y2+/JRc3aLPilskkzMaJU5JL6evflSyNDFS8okC4cnx332fD1aeFjKGLxJN49jPrcWLElLuIpHkGzVFRrBz8pbAq0wtjee2s+nHzdl+2Jt1mPk33KepOBbfto+XE=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(136003)(346002)(376002)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(82740400003)(82310400005)(356005)(81166007)(40460700003)(36756003)(40480700001)(6666004)(16526019)(2906002)(186003)(4326008)(26005)(1076003)(70206006)(70586007)(5660300002)(8936002)(41300700001)(478600001)(6916009)(8676002)(54906003)(316002)(36860700001)(426003)(336012)(47076005)(2616005)(83380400001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 01:29:27.5704 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00b3ba96-f9fb-46bd-2602-08db34ac07fe
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6881
-Received-SPF: softfail client-ip=2a01:111:f400:7e8c::627;
- envelope-from=Alexey.Kardashevskiy@amd.com;
- helo=NAM04-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH v2 41/44] target/loongarch: Implement vilvl vilvh
+ vextrins vshuf
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230328030631.3117129-1-gaosong@loongson.cn>
+ <20230328030631.3117129-42-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230328030631.3117129-42-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,59 +95,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-c9f5aaa6bce8 ("sev: Add Error ** to sev_kvm_init()") converted
-error_report() to error_setg(), however it missed one error_report()
-and other 2 changes added error_report() after conversion. The result
-is the caller - kvm_init() - crashes in error_report_err as local_err
-is NULL.
+On 3/27/23 20:06, Song Gao wrote:
+> +void HELPER(vshuf_b)(CPULoongArchState *env,
+> +                     uint32_t vd, uint32_t vj, uint32_t vk, uint32_t va)
+> +{
+> +    int i, m, k;
+> +    VReg temp;
+> +    VReg *Vd = &(env->fpr[vd].vreg);
+> +    VReg *Vj = &(env->fpr[vj].vreg);
+> +    VReg *Vk = &(env->fpr[vk].vreg);
+> +    VReg *Va = &(env->fpr[va].vreg);
+> +
+> +    m = LSX_LEN/8;
+> +    for (i = 0; i < m ; i++) {
+> +        k = (Va->B(i)& 0x3f) % (2 * m);
 
-Follow the pattern and use error_setg instead of error_report.
-Remove the __func__ anti-pattern.
+Eh?  Double masking?
 
-Fixes: 9681f8677f26 ("sev/i386: Require in-kernel irqchip support for SEV-ES guests")
-Fixes: 6b98e96f1842 ("sev/i386: Add initial support for SEV-ES")
-Fixes: c9f5aaa6bce8 ("sev: Add Error ** to sev_kvm_init()")
-Signed-off-by: Alexey Kardashevskiy <aik@amd.com>
----
-Changes:
-v2:
-* removed __func__ from afftected lines
----
- target/i386/sev.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+> +        temp.B(i) = (Va->B(i) & 0xc0) ? 0 : k < m ? Vk->B(k) : Vj->B(k - m);
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 859e06f6ad..eabb095a69 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -922,7 +922,7 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- 
-     ret = ram_block_discard_disable(true);
-     if (ret) {
--        error_report("%s: cannot disable RAM discard", __func__);
-+        error_setg(errp, "Cannot disable RAM discard");
-         return -1;
-     }
- 
-@@ -968,15 +968,12 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- 
-     if (sev_es_enabled()) {
-         if (!kvm_kernel_irqchip_allowed()) {
--            error_report("%s: SEV-ES guests require in-kernel irqchip support",
--                         __func__);
-+            error_setg(errp, "SEV-ES guests require in-kernel irqchip support");
-             goto err;
-         }
- 
-         if (!(status.flags & SEV_STATUS_FLAGS_CONFIG_ES)) {
--            error_report("%s: guest policy requires SEV-ES, but "
--                         "host SEV-ES support unavailable",
--                         __func__);
-+            error_setg(errp, "Guest policy requires SEV-ES, but host SEV-ES support unavailable");
-             goto err;
-         }
-         cmd = KVM_SEV_ES_INIT;
--- 
-2.39.1
+Triple masking?
 
+I would have expected something like
+
+     k = Va->B(i) % N;
+     temp.B(i) = (k < m ? Vj : k < 2 * m ? Vk : 0);
+
+> +#define VSHUF(NAME, BIT, E)                                                  \
+> +void HELPER(NAME)(CPULoongArchState *env,                                    \
+> +                  uint32_t vd, uint32_t vj, uint32_t vk)                     \
+> +{                                                                            \
+> +    int i, m, k;                                                             \
+> +    VReg temp;                                                               \
+> +    VReg *Vd = &(env->fpr[vd].vreg);                                         \
+> +    VReg *Vj = &(env->fpr[vj].vreg);                                         \
+> +    VReg *Vk = &(env->fpr[vk].vreg);                                         \
+> +                                                                             \
+> +    m = LSX_LEN/BIT;                                                         \
+> +    for (i = 0; i < m; i++) {                                                \
+> +        k  = (Vd->E(i) & 0x3f) % (2 * m);                                    \
+> +        temp.E(i) = (Vd->E(i) & 0xc0) ? 0 : k < m ? Vk->E(k) : Vj->E(k - m); \
+> +    }                                                                        \
+> +    Vd->D(0) = temp.D(0);                                                    \
+> +    Vd->D(1) = temp.D(1);                                                    \
+> +}
+
+Likewise.
+
+> +#define SHF_POS(i, imm) (((i) & 0xfc) + (((imm) >> (2 * ((i) & 0x03))) & 0x03))
+> +
+> +#define VSHUF4I(NAME, BIT, E)                             \
+> +void HELPER(NAME)(CPULoongArchState *env,                 \
+> +                  uint32_t vd, uint32_t vj, uint32_t imm) \
+> +{                                                         \
+> +    int i;                                                \
+> +    VReg temp;                                            \
+> +    VReg *Vd = &(env->fpr[vd].vreg);                      \
+> +    VReg *Vj = &(env->fpr[vj].vreg);                      \
+> +                                                          \
+> +    for (i = 0; i < LSX_LEN/BIT; i++) {                   \
+> +         temp.E(i) = Vj->E(SHF_POS(i, imm));              \
+> +    }                                                     \
+> +    Vd->D[0] = temp.D[0];                                 \
+> +    Vd->D[1] = temp.D[1];                                 \
+> +}
+
+Merge SHF_POS unless you expect it to be used again?
+
+> +void HELPER(vshuf4i_d)(CPULoongArchState *env,
+> +                       uint32_t vd, uint32_t vj, uint32_t imm)
+> +{
+> +    VReg *Vd = &(env->fpr[vd].vreg);
+> +    VReg *Vj = &(env->fpr[vj].vreg);
+> +
+> +    VReg temp;
+> +    temp.D(0) = ((imm & 0x03) == 0x00) ? Vd->D(0):
+> +                ((imm & 0x03) == 0x01) ? Vd->D(1):
+> +                ((imm & 0x03) == 0x02) ? Vj->D(0): Vj->D(1);
+> +
+> +    temp.D(1) = ((imm & 0x0c) == 0x00) ? Vd->D(0):
+> +                ((imm & 0x0c) == 0x04) ? Vd->D(1):
+> +                ((imm & 0x0c) == 0x08) ? Vj->D(0): Vj->D(1);
+> +
+> +    Vd->D[0] = temp.D[0];
+> +    Vd->D[1] = temp.D[1];
+> +}
+
+Perhaps
+
+     temp.D(0) = (imm & 2 ? Vj : Vd)->D(imm & 1);
+     temp.D(1) = (imm & 8 ? Vj : Vd)->D((imm >> 2) & 1);
+
+
+r~
 
