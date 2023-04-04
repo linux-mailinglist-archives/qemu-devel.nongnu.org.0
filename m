@@ -2,105 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1356D6571
+	by mail.lfdr.de (Postfix) with ESMTPS id 1449E6D6572
 	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:34:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjhiR-000541-0d; Tue, 04 Apr 2023 10:32:55 -0400
+	id 1pjhjQ-0005VL-8p; Tue, 04 Apr 2023 10:33:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clegoate@redhat.com>)
- id 1pjhiO-00053f-Rd
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:32:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clegoate@redhat.com>)
- id 1pjhiM-0004Qq-NT
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:32:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680618769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TxbYkw2JinzxDSS40BjlDqxgi00BxF5rz63Ixpi6NJU=;
- b=Br9KMYTgJaVrn3FcBWPwgZV1Gh3lk9g+e0OaVGJK3Dez6vMhpry7EDDk9lvJ9ALf56DCoy
- kHHc1m5jTLFDCK95YH8ezH4jcDEchFZxVtTxfG+PcZXKyxNNVtrPrQw6rjt51Q0WHXxCZJ
- fD6oDCMKSQcbxxvP4EMUl6FfBdmarQQ=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-539-Ja7lPt6vNq6k5bzMZh3G4w-1; Tue, 04 Apr 2023 10:32:48 -0400
-X-MC-Unique: Ja7lPt6vNq6k5bzMZh3G4w-1
-Received: by mail-yb1-f198.google.com with SMTP id
- j11-20020a25230b000000b00b6871c296bdso31880101ybj.5
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 07:32:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680618768;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TxbYkw2JinzxDSS40BjlDqxgi00BxF5rz63Ixpi6NJU=;
- b=ysdFIi0p+czBtw/t7rBInCkURgOR7kKOMO32v1yB1pLLEM9zpLfLt6Hn13VfIsd50C
- YlQtEPg9Dg3EJ0BZQQHCsjLBKeFz/3joKm16OyfBv1sVPUjkwqNgmV8sxtT440iAsjEH
- 9qVxr/YGcJYsoLdGMY/o5UwEmo/koO3xfoM53QYSJWsoGGbbiyOz6lT0gNECHyE/7wK7
- 95epo1+C1HKMmyD7j5UkJ4NwOkUEVGisAtvjDiWzQC+q0c9RRYNWSstBVeP42n6YDP90
- CyYP0SuRYUT0WEf11kUfGEG0jVSeUB2k3huChNneFM8WVpkay7rOZTYosDRLoL6rqdOP
- OCzg==
-X-Gm-Message-State: AAQBX9dTthXVi6PGtUITQYhTD+ewKAw6+5gpT4+vcnAMj9qE1eCCUodZ
- n2a4BhjzdFO9Rz+L3O9luFk36zISehSPXbODiB0uPPps9mPX70W3PqlssRxKcaXZKA0MvYh4AgB
- xj9yIO7xPFirjPWk=
-X-Received: by 2002:a81:6108:0:b0:541:69c4:84b4 with SMTP id
- v8-20020a816108000000b0054169c484b4mr3186213ywb.51.1680618767859; 
- Tue, 04 Apr 2023 07:32:47 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YyAQyp1oEQ3i20Ti5Za8fjTo0RIvks5XfRyG95iwTEnFWrsXA5tcLBlaNLjD53ZYa5lpyZaw==
-X-Received: by 2002:a81:6108:0:b0:541:69c4:84b4 with SMTP id
- v8-20020a816108000000b0054169c484b4mr3186186ywb.51.1680618767591; 
- Tue, 04 Apr 2023 07:32:47 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
- by smtp.gmail.com with ESMTPSA id
- s186-20020ae9dec3000000b007426e664cdcsm2320500qkf.133.2023.04.04.07.32.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Apr 2023 07:32:46 -0700 (PDT)
-Message-ID: <dc07d506-283a-b884-1ab5-54f2e1134fb8@redhat.com>
-Date: Tue, 4 Apr 2023 16:32:43 +0200
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pjhjG-0005QM-40; Tue, 04 Apr 2023 10:33:46 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pjhjB-0004ZT-Ne; Tue, 04 Apr 2023 10:33:44 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowADHzUkzNSxkWLDLGg--.15797S2;
+ Tue, 04 Apr 2023 22:33:23 +0800 (CST)
+Content-Type: multipart/alternative;
+ boundary="------------dBagsI9phAph2Sd8orhKyq0G"
+Message-ID: <f466aa0b-1312-d8ba-c2d6-d386038df781@iscas.ac.cn>
+Date: Tue, 4 Apr 2023 22:33:22 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+ Thunderbird/102.9.0
+Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, dbarboza@ventanamicro.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Subject: Re: [PATCH v6 4/6] target/riscv: Add support for PC-relative
+ translation
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
- <Y9exrDWT2NUoinu1@redhat.com> <87h6w7694t.fsf@linaro.org>
- <dbc8b2f6-3e9e-65d7-998f-568b6376d25c@ilande.co.uk>
- <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clegoate@redhat.com>
-In-Reply-To: <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=clegoate@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.925, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230404020653.18911-1-liweiwei@iscas.ac.cn>
+ <20230404020653.18911-5-liweiwei@iscas.ac.cn>
+ <f0923f4b-e5e5-b648-6c77-4a5a151a9b6c@linaro.org>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <f0923f4b-e5e5-b648-6c77-4a5a151a9b6c@linaro.org>
+X-CM-TRANSID: qwCowADHzUkzNSxkWLDLGg--.15797S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7GF4UKw4xurWkCr4rCFy7GFg_yoW8JF45p3
+ 4rGrnFyFWDJFW0ya4kWw4kuFy3Xw4fGw4DGwn2yasayF4SqrW2grWFqrWS93s5XrZ3W3yr
+ Za1Yyw1qvF43AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjI
+ I2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mx8GjcxK6IxK0xIIj40E5I8C
+ rwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+ cVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxh
+ VjvjDU0xZFpf9x0JUtkuxUUUUU=
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-1.925, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,51 +81,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-[ adding Zoltan ]
+This is a multi-part message in MIME format.
+--------------dBagsI9phAph2Sd8orhKyq0G
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 4/4/23 16:00, Thomas Huth wrote:
-> On 05/02/2023 23.12, Mark Cave-Ayland wrote:
->> On 30/01/2023 20:45, Alex Bennée wrote:
->>
->>> Daniel P. Berrangé <berrange@redhat.com> writes:
->>>
->>>> On Mon, Jan 30, 2023 at 11:47:02AM +0000, Peter Maydell wrote:
->>>>> On Mon, 30 Jan 2023 at 11:44, Thomas Huth <thuth@redhat.com> wrote:
->>>>>>
->>>>>> Testing 32-bit host OS support takes a lot of precious time during the QEMU
->>>>>> contiguous integration tests, and considering that many OS vendors stopped
->>>>>> shipping 32-bit variants of their OS distributions and most hardware from
->>>>>> the past >10 years is capable of 64-bit
->>>>>
->>>>> True for x86, not necessarily true for other architectures.
->>>>> Are you proposing to deprecate x86 32-bit, or all 32-bit?
->>>>> I'm not entirely sure about whether we're yet at a point where
->>>>> I'd want to deprecate-and-drop 32-bit arm host support.
->>>>
->>>> Do we have a feeling on which aspects of 32-bit cause us the support
->>>> burden ? The boring stuff like compiler errors from mismatched integer
->>>> sizes is mostly quick & easy to detect simply through a cross compile.
->>>>
->>>> I vaguely recall someone mentioned problems with atomic ops in the past,
->>>> or was it 128-bit ints, caused implications for the codebase ?
->>>
->>> Atomic operations on > TARGET_BIT_SIZE and cputlb when
->>> TCG_OVERSIZED_GUEST is set. Also the core TCG code and a bunch of the
->>> backends have TARGET_LONG_BITS > TCG_TARGET_REG_BITS ifdefs peppered
->>> throughout.
->>
->> I am one of an admittedly small group of people still interested in using KVM-PR on ppc32 to boot MacOS, although there is some interest on using 64-bit KVM-PR to run super-fast MacOS on modern Talos hardware.
->>
->>  From my perspective losing the ability to run 64-bit guests on 32-bit hardware with TCG wouldn't be an issue, as long as it were still possible to use qemu-system-ppc on 32-bit hardware using both TCG and KVM to help debug the remaining issues.
-> 
->   Hi Mark!
-> 
-> Just out of curiosity (since we briefly talked about 32-bit KVM on ppc in today's QEMU/KVM call - in the context of whether qemu-system-ppc64 is a proper superset of qemu-system-ppc when it comes to building a unified qemu-system binary): What host machine are you using for running KVM-PR? And which QEMU machine are you using for running macOS? The mac99 or the g3beige machine?
 
-Zoltan, what about the pegasos2 and sam460ex machines ? can they be run under KVM ?
+On 2023/4/4 21:56, Richard Henderson wrote:
+> On 4/3/23 19:06, Weiwei Li wrote:
+>>   static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>>   {
+>> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+>> +    TCGv target_pc = dest_gpr(ctx, a->rd);
+>> +    gen_pc_plus_diff(target_pc, ctx, a->imm + ctx->base.pc_next);
+>> +    gen_set_gpr(ctx, a->rd, target_pc);
+>>       return true;
+>>   }
+>
+> This is not how I expect a function called "pc plus diff" to work.
 
-Thanks,
+Yeah, it's different from the similar function in ARM.
 
-C.
+However, it's more in line with the original RISC-V logic.
+
+Maybe we can change a name for the function, such as 
+gen_pc_relative_address().
+
+> It should be simpler:
+>
+>
+>     TCGv rd = dest_gpr(ctx, a->rd);
+>
+>     gen_pc_plus_diff(ctx, rd, a->imm);
+>     gen_set_gpr(ctx, a->rd, rd);
+>
+> All of the manipulation of cpu_pc, pc_save, and pc_next are all hidden 
+> inside the function.  All that "add upper immediate to pc" should do 
+> is supply the immediate.
+
+If we want to hide all of them in gen_pc_plus_diff,  then we need 
+calculate the diff for pc_succ_insn or introduce a new API for it, since 
+we need get the successor pc in many instructions.
+
+And the logic for gen_goto_tb or gen_set_pc_imm also need update.
+
+Regards,
+
+Weiwei Li
+
+>
+>
+> r~
+--------------dBagsI9phAph2Sd8orhKyq0G
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2023/4/4 21:56, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:f0923f4b-e5e5-b648-6c77-4a5a151a9b6c@linaro.org">On
+      4/3/23 19:06, Weiwei Li wrote:
+      <br>
+      <blockquote type="cite">  static bool trans_auipc(DisasContext
+        *ctx, arg_auipc *a)
+        <br>
+          {
+        <br>
+        -    gen_set_gpri(ctx, a-&gt;rd, a-&gt;imm +
+        ctx-&gt;base.pc_next);
+        <br>
+        +    TCGv target_pc = dest_gpr(ctx, a-&gt;rd);
+        <br>
+        +    gen_pc_plus_diff(target_pc, ctx, a-&gt;imm +
+        ctx-&gt;base.pc_next);
+        <br>
+        +    gen_set_gpr(ctx, a-&gt;rd, target_pc);
+        <br>
+              return true;
+        <br>
+          }
+        <br>
+      </blockquote>
+      <br>
+      This is not how I expect a function called "pc plus diff" to work.
+      <br>
+    </blockquote>
+    <p>Yeah, it's different from the similar function in ARM.</p>
+    <p>However, it's more in line with the original RISC-V logic.</p>
+    <p><span style="color: #000000;">Maybe we can change a name for the
+        function, such as gen_pc_relative_address().</span></p>
+    <blockquote type="cite"
+      cite="mid:f0923f4b-e5e5-b648-6c77-4a5a151a9b6c@linaro.org">It
+      should be simpler:
+      <br>
+      <br>
+      <br>
+          TCGv rd = dest_gpr(ctx, a-&gt;rd);
+      <br>
+      <br>
+          gen_pc_plus_diff(ctx, rd, a-&gt;imm);
+      <br>
+          gen_set_gpr(ctx, a-&gt;rd, rd);
+      <br>
+      <br>
+      All of the manipulation of cpu_pc, pc_save, and pc_next are all
+      hidden inside the function.  All that "add upper immediate to pc"
+      should do is supply the immediate.
+      <br>
+    </blockquote>
+    <p>If we want to hide all of them in gen_pc_plus_diff,  then we need
+      calculate the diff for <span style="color: #000000;">pc_succ_insn</span>
+      or introduce a new API for it, since we need get the successor pc
+      in many instructions.</p>
+    <p>And the logic for <span style="color: #000000;">gen_goto_tb or
+        gen_set_pc_imm also need update.</span></p>
+    <p>Regards,</p>
+    <p>Weiwei Li<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:f0923f4b-e5e5-b648-6c77-4a5a151a9b6c@linaro.org">
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+  </body>
+</html>
+
+--------------dBagsI9phAph2Sd8orhKyq0G--
 
 
