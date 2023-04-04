@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8DD6D63D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 15:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBF46D6410
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 15:55:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjh2A-0006Om-R2; Tue, 04 Apr 2023 09:49:14 -0400
+	id 1pjh6i-0000vE-GQ; Tue, 04 Apr 2023 09:53:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pjh28-0006M9-O2
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 09:49:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
+ id 1pjh6N-0000tF-5O
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 09:53:36 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pjh27-0008RC-5x
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 09:49:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680616150;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iGqu3Hkq0a1a3n2Kq3cuzJo1Icv0FRBGNq1vK4iJAs8=;
- b=hNy29uEGT8I81UCEdfry/3j/oJFxD8YrBiUbkR36B5SC3Ad/YC7n0LL0hiuRWgDK/BoNhD
- hIEfPG2p+XPFOVG1ZKD/ZaQ0vbpZNggSA24DNj87wYARxFSDMBA9sr3xkzmvPB3ZbvQZAF
- k4IjXolaSL7kcLxAGaRXLO38dozr68g=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-547-IvFpLjhcMNC0G-pUeDcbfA-1; Tue, 04 Apr 2023 09:49:09 -0400
-X-MC-Unique: IvFpLjhcMNC0G-pUeDcbfA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- a40-20020a509eab000000b005024c025bf4so33957018edf.14
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 06:49:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680616147; x=1683208147;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iGqu3Hkq0a1a3n2Kq3cuzJo1Icv0FRBGNq1vK4iJAs8=;
- b=SsCEOcgtw3/H93eYuZef+uYO2qJddIgFczaWaiZ5zEzdMx4Oz09aJeIzUjJA5AnFoM
- Ak47wr5Oit3RMAQe5UtdgKJ9+OeE6a6fFUkmuFPhkqLNdO/wr8sizzKRQT9gDlV0ZVic
- 5YVJOkOeuT7H+AszwOeu1CIIDLaWGUdR1BquWDc8yilFLFnmjZLdku93DZYmenR3IgRp
- cjV6FGusdV/SdKOEb4CIzYxfYM5N3lxTmTnSG/HCL3sviv7yy3nngcr5lq+lELu2FP+4
- 9oLFqNcAnG9YM1/LiztOq+VeBtnlfxOEumtImyDBvpCof7oV64fBvhihG7L7LWp1BKL5
- qxVA==
-X-Gm-Message-State: AAQBX9dUNnJv89Cp5sTCe/toettLp4UV03/0qO4ih98o6+x1zILuwn/A
- tj11pB7w7FepJQq1hb3nDQJ5WVPeeNNZxn2iBinFtGNkTbuxq1U/KPs0waV57hcZQuw0y9xkvVi
- qzii2tgsD/l1K7N8yXQrR9UE=
-X-Received: by 2002:a17:906:99c6:b0:947:5bd8:9523 with SMTP id
- s6-20020a17090699c600b009475bd89523mr2508234ejn.31.1680616147658; 
- Tue, 04 Apr 2023 06:49:07 -0700 (PDT)
-X-Google-Smtp-Source: AKy350auPVJh1gQRaTRU3aXZArdJH5xdSHcDYfdK6SkpPa+8loCjFJNkeBSuUcKGS0+/6kuaAUU3LQ==
-X-Received: by 2002:a17:906:99c6:b0:947:5bd8:9523 with SMTP id
- s6-20020a17090699c600b009475bd89523mr2508217ejn.31.1680616147379; 
- Tue, 04 Apr 2023 06:49:07 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- v7-20020a170906564700b009447277c26fsm5999210ejr.72.2023.04.04.06.49.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Apr 2023 06:49:06 -0700 (PDT)
-Message-ID: <2d2d0705-b5eb-b3b6-f558-3d460db58729@redhat.com>
-Date: Tue, 4 Apr 2023 15:49:05 +0200
+ (Exim 4.90_1) (envelope-from <brauner@kernel.org>)
+ id 1pjh6J-0001Hr-5x
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 09:53:33 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3DEE461240;
+ Tue,  4 Apr 2023 13:53:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01718C4339B;
+ Tue,  4 Apr 2023 13:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680616407;
+ bh=/XmQ33Vz5rwMvBxocOUTIIX51AasQPq8MBzmwbLl0tM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=j3pvbEx+ZOhkZUE1LhdjIxby9njBvyhGGDw8XHNztZL/HYm+7Hxi7G2yVH87tLGXc
+ 8CnD+aWL0pEfl8K8eEelOm98QkGvx9t82yLNNIDbeUQbrNgrgJfn5szL4qfacmifzK
+ rPf45WV4a2jbZGv1xNcqWD6pLaJXwrjXc0olsbyf9BBEd2EZkpozWqX1cpZJ+N/H4B
+ DgcmwjDTRFPqxMyHwoKOds6qUcJuJA5u8+/FD/+XXp0LvwfGWk4fHYFr/UhTWZm0gV
+ fPQ9esbG+NnpA8lDyV4zQGiCjpZvv+DaqXProbhEGTYkWTuiPCv+24pkuCN8MpR4Xn
+ uVKJnk0xDg9EA==
+Date: Tue, 4 Apr 2023 15:53:13 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: kvm@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
+ ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
+ bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
+ corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
+ hughd@google.com, jlayton@kernel.org, jmattson@google.com,
+ joro@8bytes.org, jun.nakajima@intel.com,
+ kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
+ luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
+ michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
+ pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
+ seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
+ tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
+ vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
+ wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
+Subject: Re: [RFC PATCH v3 1/2] mm: restrictedmem: Allow userspace to specify
+ mount for memfd_restricted
+Message-ID: <20230404-amnesty-untying-01de932d4945@brauner>
+References: <cover.1680306489.git.ackerleytng@google.com>
+ <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 for 8.0?] nbd/server: Request TCP_NODELAY
-Content-Language: en-US
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Cc: Florian Westphal <fw@strlen.de>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>
-References: <20230404004047.142086-1-eblake@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230404004047.142086-1-eblake@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <592ebd9e33a906ba026d56dc68f42d691706f865.1680306489.git.ackerleytng@google.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=brauner@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.925, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,50 +89,247 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/4/23 02:40, Eric Blake wrote:
-> Nagle's algorithm adds latency in order to reduce network packet
-> overhead on small packets.  But when we are already using corking to
-> merge smaller packets into transactional requests, the extra delay
-> from TCP defaults just gets in the way (see recent commit bd2cd4a4).
+On Fri, Mar 31, 2023 at 11:50:39PM +0000, Ackerley Tng wrote:
+> By default, the backing shmem file for a restrictedmem fd is created
+> on shmem's kernel space mount.
 > 
-> For reference, qemu as an NBD client already requests TCP_NODELAY (see
-> nbd_connect() in nbd/client-connection.c); as does libnbd as a client
-> [1], and nbdkit as a server [2].  Furthermore, the NBD spec recommends
-> the use of TCP_NODELAY [3].
+> With this patch, an optional tmpfs mount can be specified via an fd,
+> which will be used as the mountpoint for backing the shmem file
+> associated with a restrictedmem fd.
 > 
-> [1] https://gitlab.com/nbdkit/libnbd/-/blob/a48a1142/generator/states-connect.c#L39
-> [2] https://gitlab.com/nbdkit/nbdkit/-/blob/45b72f5b/server/sockets.c#L430
-> [3] https://github.com/NetworkBlockDevice/nbd/blob/master/doc/proto.md#protocol-phases
+> This will help restrictedmem fds inherit the properties of the
+> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
+> binding hints, etc.
 > 
-> CC: Florian Westphal <fw@strlen.de>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> Message-Id: <20230327192947.1324372-1-eblake@redhat.com>
+> Permissions for the fd passed to memfd_restricted() is modeled after
+> the openat() syscall, since both of these allow creation of a file
+> upon a mount/directory.
+> 
+> Permission to reference the mount the fd represents is checked upon fd
+> creation by other syscalls (e.g. fsmount(), open(), or open_tree(),
+> etc) and any process that can present memfd_restricted() with a valid
+> fd is expected to have obtained permission to use the mount
+> represented by the fd. This behavior is intended to parallel that of
+> the openat() syscall.
+> 
+> memfd_restricted() will check that the tmpfs superblock is
+> writable, and that the mount is also writable, before attempting to
+> create a restrictedmem file on the mount.
+> 
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 > ---
+>  include/linux/syscalls.h           |  2 +-
+>  include/uapi/linux/restrictedmem.h |  8 ++++
+>  mm/restrictedmem.c                 | 74 +++++++++++++++++++++++++++---
+>  3 files changed, 77 insertions(+), 7 deletions(-)
+>  create mode 100644 include/uapi/linux/restrictedmem.h
 > 
-> v2 fix typo, enhance commit message
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index f9e9e0c820c5..a23c4c385cd3 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+>  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+>  					    unsigned long home_node,
+>  					    unsigned long flags);
+> -asmlinkage long sys_memfd_restricted(unsigned int flags);
+> +asmlinkage long sys_memfd_restricted(unsigned int flags, int mount_fd);
 > 
-> Given that corking made it in through Kevin's tree for 8.0-rc2 but
-> this one did not, but I didn't get any R-b, is there any objection to
-> me doing a pull request to get this into 8.0-rc3?
+>  /*
+>   * Architecture-specific system calls
+> diff --git a/include/uapi/linux/restrictedmem.h b/include/uapi/linux/restrictedmem.h
+> new file mode 100644
+> index 000000000000..22d6f2285f6d
+> --- /dev/null
+> +++ b/include/uapi/linux/restrictedmem.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_LINUX_RESTRICTEDMEM_H
+> +#define _UAPI_LINUX_RESTRICTEDMEM_H
+> +
+> +/* flags for memfd_restricted */
+> +#define RMFD_USERMNT		0x0001U
+> +
+> +#endif /* _UAPI_LINUX_RESTRICTEDMEM_H */
+> diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> index c5d869d8c2d8..f7b62364a31a 100644
+> --- a/mm/restrictedmem.c
+> +++ b/mm/restrictedmem.c
+> @@ -1,11 +1,12 @@
+>  // SPDX-License-Identifier: GPL-2.0
+> -#include "linux/sbitmap.h"
+> +#include <linux/namei.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/pseudo_fs.h>
+>  #include <linux/shmem_fs.h>
+>  #include <linux/syscalls.h>
+>  #include <uapi/linux/falloc.h>
+>  #include <uapi/linux/magic.h>
+> +#include <uapi/linux/restrictedmem.h>
+>  #include <linux/restrictedmem.h>
 > 
->   nbd/server.c | 1 +
->   1 file changed, 1 insertion(+)
+>  struct restrictedmem {
+> @@ -189,19 +190,20 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+>  	return file;
+>  }
 > 
-> diff --git a/nbd/server.c b/nbd/server.c
-> index 848836d4140..3d8d0d81df2 100644
-> --- a/nbd/server.c
-> +++ b/nbd/server.c
-> @@ -2758,6 +2758,7 @@ void nbd_client_new(QIOChannelSocket *sioc,
->       }
->       client->tlsauthz = g_strdup(tlsauthz);
->       client->sioc = sioc;
-> +    qio_channel_set_delay(QIO_CHANNEL(sioc), false);
->       object_ref(OBJECT(client->sioc));
->       client->ioc = QIO_CHANNEL(sioc);
->       object_ref(OBJECT(client->ioc));
+> -SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+> +static int restrictedmem_create(struct vfsmount *mount)
+>  {
+>  	struct file *file, *restricted_file;
+>  	int fd, err;
 > 
-> base-commit: efcd0ec14b0fe9ee0ee70277763b2d538d19238d
+> -	if (flags)
+> -		return -EINVAL;
+> -
+>  	fd = get_unused_fd_flags(0);
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Any reasons the file descriptors aren't O_CLOEXEC by default? I don't
+see any reasons why we should introduce new fdtypes that aren't
+O_CLOEXEC by default. The "don't mix-and-match" train has already left
+the station anyway as we do have seccomp noitifer fds and pidfds both of
+which are O_CLOEXEC by default.
 
+>  	if (fd < 0)
+>  		return fd;
+> 
+> -	file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +	if (mount)
+> +		file = shmem_file_setup_with_mnt(mount, "memfd:restrictedmem", 0, VM_NORESERVE);
+> +	else
+> +		file = shmem_file_setup("memfd:restrictedmem", 0, VM_NORESERVE);
+> +
+>  	if (IS_ERR(file)) {
+>  		err = PTR_ERR(file);
+>  		goto err_fd;
+> @@ -223,6 +225,66 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+>  	return err;
+>  }
+> 
+> +static bool is_shmem_mount(struct vfsmount *mnt)
+> +{
+> +	return mnt && mnt->mnt_sb && mnt->mnt_sb->s_magic == TMPFS_MAGIC;
+
+This can just be if (mnt->mnt_sb->s_magic == TMPFS_MAGIC).
+
+> +}
+> +
+> +static bool is_mount_root(struct file *file)
+> +{
+> +	return file->f_path.dentry == file->f_path.mnt->mnt_root;
+
+mount -t tmpfs tmpfs /mnt
+touch /mnt/bla
+touch /mnt/ble
+mount --bind /mnt/bla /mnt/ble
+fd = open("/mnt/ble")
+fd_restricted = memfd_restricted(fd)
+
+IOW, this doesn't restrict it to the tmpfs root. It only restricts it to
+paths that refer to the root of any tmpfs mount. To exclude bind-mounts
+that aren't bind-mounts of the whole filesystem you want:
+
+path->dentry == path->mnt->mnt_root && 
+path->mnt->mnt_root == path->mnt->mnt_sb->s_root
+
+> +}
+> +
+> +static int restrictedmem_create_on_user_mount(int mount_fd)
+> +{
+> +	int ret;
+> +	struct fd f;
+> +	struct vfsmount *mnt;
+> +
+> +	f = fdget_raw(mount_fd);
+> +	if (!f.file)
+> +		return -EBADF;
+> +
+> +	ret = -EINVAL;
+> +	if (!is_mount_root(f.file))
+> +		goto out;
+> +
+> +	mnt = f.file->f_path.mnt;
+> +	if (!is_shmem_mount(mnt))
+> +		goto out;
+> +
+> +	ret = file_permission(f.file, MAY_WRITE | MAY_EXEC);
+
+With the current semantics you're asking whether you have write
+permissions on the /mnt/ble file in order to get answer to the question
+whether you're allowed to create an unlinked restricted memory file.
+That doesn't make much sense afaict.
+
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = mnt_want_write(mnt);
+> +	if (unlikely(ret))
+> +		goto out;
+> +
+> +	ret = restrictedmem_create(mnt);
+> +
+> +	mnt_drop_write(mnt);
+> +out:
+> +	fdput(f);
+> +
+> +	return ret;
+> +}
+> +
+> +SYSCALL_DEFINE2(memfd_restricted, unsigned int, flags, int, mount_fd)
+> +{
+> +	if (flags & ~RMFD_USERMNT)
+> +		return -EINVAL;
+> +
+> +	if (flags == RMFD_USERMNT) {
+
+Why do you even need this flag? It seems that @mount_fd being < 0 is
+sufficient to indicate that a new restricted memory fd is supposed to be
+created in the system instance.
+
+> +		if (mount_fd < 0)
+> +			return -EINVAL;
+> +
+> +		return restrictedmem_create_on_user_mount(mount_fd);
+> +	} else {
+> +		return restrictedmem_create(NULL);
+> +	}
+> +}
+
+I have to say that I'm very confused by all of this the more I look at it.
+
+Effectively memfd restricted functions as a wrapper filesystem around
+the tmpfs filesystem. This is basically a weird overlay filesystem.
+You're allocating tmpfs files that you stash in restrictedmem files. 
+I have to say that this seems very hacky. I didn't get this at all at
+first.
+
+So what does the caller get if they call statx() on a restricted memfd?
+Do they get the device number of the tmpfs mount and the inode numbers
+of the tmpfs mount? Because it looks like they would:
+
+static int restrictedmem_getattr(struct user_namespace *mnt_userns,
+				 const struct path *path, struct kstat *stat,
+				 u32 request_mask, unsigned int query_flags)
+{
+	struct inode *inode = d_inode(path->dentry);
+	struct restrictedmem *rm = inode->i_mapping->private_data;
+	struct file *memfd = rm->memfd;
+
+	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
+					     request_mask, query_flags);
+
+That @memfd would be a struct file allocated in a tmpfs instance, no? So
+you'd be calling the inode operation of the tmpfs file meaning that
+struct kstat will be filled up with the info from the tmpfs instance.
+
+But then if I call statfs() and check the fstype I would get
+RESTRICTEDMEM_MAGIC, no? This is... unorthodox?
+
+I'm honestly puzzled and this sounds really strange. There must be a
+better way to implement all of this.
+
+Shouldn't you try and make this a part of tmpfs proper? Make a really
+separate filesystem and add a memfs library that both tmpfs and
+restrictedmemfs can use? Add a mount option to tmpfs that makes it a
+restricted tmpfs?
 
