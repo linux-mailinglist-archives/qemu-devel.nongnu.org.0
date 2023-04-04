@@ -2,59 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2426D6BB2
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 20:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F616D6BD3
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 20:25:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjlIS-00039d-Jj; Tue, 04 Apr 2023 14:22:20 -0400
+	id 1pjlLA-00041d-Gw; Tue, 04 Apr 2023 14:25:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+8e7372aa539f26de88ef+7163+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pjlIP-00039B-AQ
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 14:22:17 -0400
+ id 1pjlL6-00041A-9W
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 14:25:04 -0400
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+8e7372aa539f26de88ef+7163+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pjlIK-0008JL-V3
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 14:22:16 -0400
+ id 1pjlL4-0000mG-Fy
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 14:25:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Lu8jZhJaTM8m5Xr4ZDYrxrjU1MfxECiW0p4YuCvnGkU=; b=p1Vzi9eB2flWEAyLvCdP73AYed
- 5cxIUcKX2e4Hj3GBqR/JPEJjgr/GVER5EDKP7iF5VfmYr+uSi6nhaNXHLE0ZBmwMv4+e4MvoiqtHd
- 8RCwRAdlISuh7VlCxlnbuIT/lWgZs+NR+ScqzUTbFVkCUEYsq3XgGfLPXjgGpmYQzN5xEBK2HFpA+
- 7SXBDrfuAsizV++3ptudrG4I0Y07Mnw6egH2DTCSyYmZVQ15SPHHIjddJwp6RlnIhyem75hDjwrsb
- ojy6qE07qp6nad4Rw2PlbthbVobe25Zyo9JhYOsInVqt28A/RHbe7XIFHX4bxocciULrlgR3Uzf0w
- Uf/iNuMQ==;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:Date:Cc:To:
+ From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=480JJEkRxs3cmNNvJ6vGQyvJ1jJTqswEUwkTvI30tHc=; b=onf3GHa5oA8L0Q8WHPctBlPRUW
+ zHbocjgALQoABlp3ZuxwkP093PFoR8fNhfXGq7VdpaL5Jqn70+CPmKTlOK8ypnn2CK7y4Wt6WY/+s
+ Qv4L+OTeCABVyU9PvgyFa02QfsH0g6IFbUszb+3kih8UgsPVsrxkjXb4gX7T1EE3QVeU2+nc3Qn8i
+ 8GxXREN4h3+7tm7jBzGEGDKqjpEpd2W6OOhMROVwD6Ey5HTd+KtCWjzcM33o0XSGfYSr2Qwrz2iDz
+ ZB4GbV+pPvGdBodDDwbV1QSX3LjjC4VicQIXWXPeumJDV6w+qmydTovyCnDE3NDDODkkkb7nrKq20
+ /e0Vmrng==;
 Received: from [2001:8b0:10b:5:99d7:d5a0:55b7:41c3]
  (helo=u3832b3a9db3152.ant.amazon.com)
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pjlIB-00Fbbn-KB; Tue, 04 Apr 2023 18:22:03 +0000
-Message-ID: <59486d12e4c22fccf5fad4a34cfae68547c759c2.camel@infradead.org>
-Subject: Re: [PULL 13/27] hw/xen: Add xenstore operations to allow
- redirection to internal emulation
+ id 1pjlL2-00Fbl8-3s; Tue, 04 Apr 2023 18:25:00 +0000
+Message-ID: <daaa71eea7fa0c4bdb70131d794ce8e5cee0e0c2.camel@infradead.org>
+Subject: [PATCH] hw/xen: Fix memory leak in libxenstore_open() for Xen
 From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant
- <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>, Ankur Arora
- <ankur.a.arora@oracle.com>, Stefano Stabellini <sstabellini@kernel.org>, 
- vikram.garhwal@amd.com, Anthony Perard <anthony.perard@citrix.com>, 
- xen-devel@lists.xenproject.org, Juan Quintela <quintela@redhat.com>, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>
-Date: Tue, 04 Apr 2023 19:21:53 +0100
-In-Reply-To: <CAFEAcA-DT-990Y81mh0rgBp-P0fdLTYCD=DN7m1qued7VFVrVg@mail.gmail.com>
-References: <20230307182707.2298618-1-dwmw2@infradead.org>
- <20230307182707.2298618-14-dwmw2@infradead.org>
- <CAFEAcA_SS8xRjGKZoSyGc0nh_-C2Wh8hauGzR82Aj8S1g8xBOQ@mail.gmail.com>
- <d079d8c1f455c96203dc44906d37c2ac8963a6ae.camel@infradead.org>
- <CAFEAcA-DT-990Y81mh0rgBp-P0fdLTYCD=DN7m1qued7VFVrVg@mail.gmail.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: xen-devel <xen-devel@lists.xenproject.org>, Paul Durrant <paul@xen.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 04 Apr 2023 19:24:59 +0100
 Content-Type: multipart/signed; micalg="sha-256";
  protocol="application/pkcs7-signature"; 
- boundary="=-5qfME1/1OsAkh+xXm9Bs"
+ boundary="=-uipq9uCR3mh5JLaPWdR1"
 User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
@@ -85,67 +75,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---=-5qfME1/1OsAkh+xXm9Bs
+--=-uipq9uCR3mh5JLaPWdR1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2023-04-04 at 18:45 +0100, Peter Maydell wrote:
-> On Tue, 4 Apr 2023 at 18:45, David Woodhouse <dwmw2@infradead.org>
-> wrote:
-> >=20
-> > On Tue, 2023-04-04 at 18:35 +0100, Peter Maydell wrote:
-> > > On Tue, 7 Mar 2023 at 18:27, David Woodhouse
-> > > <dwmw2@infradead.org>
-> > > wrote:
-> > > >=20
-> > > > From: Paul Durrant <pdurrant@amazon.com>
-> > > >=20
-> > > > Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-> > > > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> > > > Reviewed-by: Paul Durrant <paul@xen.org>
-> > > > ---
-> > >=20
-> > > Hi; Coverity points out a memory leak in this code (CID 1508098):
-> > >=20
-> > > > +static struct qemu_xs_handle *libxenstore_open(void)
-> > > > +{
-> > > > +=C2=A0=C2=A0=C2=A0 struct xs_handle *xsh =3D xs_open(0);
-> > > > +=C2=A0=C2=A0=C2=A0 struct qemu_xs_handle *h =3D g_new0(struct qemu=
-_xs_handle,
-> > > > 1);
-> > >=20
-> > > Here we allocate memory...
-> > >=20
-> > > > +
-> > > > +=C2=A0=C2=A0=C2=A0 if (!xsh) {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
-> > >=20
-> > > ...but here we can return without freeing it...
-> > >=20
-> > > > +=C2=A0=C2=A0=C2=A0 }
-> > > > +
-> > > > +=C2=A0=C2=A0=C2=A0 h =3D g_new0(struct qemu_xs_handle, 1);
-> > >=20
-> > > ...and here we allocate a second time and overwrite the
-> > > pointer to the first allocation.
-> > >=20
-> > > Deleting the first call to g_new0() would fix both of these.
-> >=20
-> > Indeed, thanks. Do you want a
-> >=20
-> > Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
-> >=20
-> > or would you prefer me to submit the actual patch as described?
->=20
-> If you could submit the patch that would be easiest -- you're in
-> a better position to test it.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-I've been getting Paul to test the parts on actual Xen, so I'll send it
-and let him test.
+There was a superfluous allocation of the XS handle, leading to it
+being leaked on both the error path and the success path (where it gets
+allocated again).
+
+Spotted by Coverity (CID 1508098).
+
+Fixes: ba2a92db1ff6 ("hw/xen: Add xenstore operations to allow redirection =
+to internal emulation")
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ hw/xen/xen-operations.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/xen/xen-operations.c b/hw/xen/xen-operations.c
+index 4b78fbf4bd..3d213d28df 100644
+--- a/hw/xen/xen-operations.c
++++ b/hw/xen/xen-operations.c
+@@ -287,7 +287,7 @@ static void watch_event(void *opaque)
+ static struct qemu_xs_handle *libxenstore_open(void)
+ {
+     struct xs_handle *xsh =3D xs_open(0);
+-    struct qemu_xs_handle *h =3D g_new0(struct qemu_xs_handle, 1);
++    struct qemu_xs_handle *h;
+=20
+     if (!xsh) {
+         return NULL;
+--=20
+2.34.1
 
 
 
---=-5qfME1/1OsAkh+xXm9Bs
+--=-uipq9uCR3mh5JLaPWdR1
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
@@ -237,25 +205,25 @@ IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
 dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
 NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
 xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwNDA0MTgyMTUzWjAvBgkqhkiG9w0BCQQxIgQgugYs5ujX
-NisPvvX7Yn5LgbTK0p3LWuuOwcg/UVqe3pAwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwNDA0MTgyNDU5WjAvBgkqhkiG9w0BCQQxIgQgjC6wgXqc
+50+U+F35zaGyC+2DHwu+0q2L01ltJKIfXIMwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
 BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
 A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
 dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
 DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
 MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
 Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAtJTGL0p1GfoAN7M+KDM7nTNR8U75JMSb3
-sOI7kfy+vAfZvuHJFydxVn4P1AMSj3TIbMJr3FbR5ajQuIPeYkuT43WMnL6Mgsh7XeBpdyJdXwyV
-al9m3lWZq9xUYu/89yBEd70Rc8iivB/lFgvQaNFMyAQoJUS8BgDAqo65U+8bz01c7HYMcM0Os3cP
-eTLXI/zcSYZP/6eqVAuP2SP9u3ikA0YyqhI3ca7lX4QWGNaGnLCb75tOtRYjJ/50Z/pvSX8a0k1L
-lX68GPM6GIURFUV5m8f/tyQcPOZUYUrqypWvPXuh35GtQinDsIDRM6bBrUp0jRdn4An7Lsc9e6iW
-8PP20IrrpYor9H1+WhxHZ/ip9AM5yO5ZYwlw+3cx+BftbRDhNfu3T6Mwr5AhfzHCXpYHvcxoTdrS
-hOeoEpclqTaCRivyd2lhGh2f4AMp6/EsO6JyN5+/j8QXO7lCdPaN6YrLHkXNoeSocR72la516Jlr
-cmlxFFBK9VQm7DiRtesUkSpOLg3XKt/iZcv6pN6ruBbEYEGEFmmc8MWbXymR75WmaxslrDSnNtQV
-I/welI9d6hZrlAwVprmJbomQyVyJgWd4R1HPzSXYZ+XjNgUNYMDY7mv7pCtZkfuOa3QEpGphWW+I
-cpkAD3slZePZ5QsNRYRg6W3yhL8CMu755G3bAP7jyQAAAAAAAA==
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAKBg6VhCEJOc7AzHqmKKK0YSirnbRs5g0S
+3gKvk9aXDcf3mlWMN1oZuqQsqnqaZQBIKhq6P4+GOnvfEBsImBCP94LMUb+YI/Sm3VRUAq9at0nK
+mrWV3mvz82Gu8J0ZoZQqleUcfFUHwBp39pSxnXSFi4XFp2kp9OhLCbMjK8TbGozVAr6nuEhQY+ki
+f1Mx9Pm2Mu4JgzhBm5gnOgRwvdZ9ZspufLBP9VpCVIsIrCczajM01MNCENvX4p19ORPTjF+J1RBV
+dN7gcj6lvCyj6N591JB15s5NYJ2SwqaqCl61HeG+43K6XwbySMrEW4YHkZG4WgkX0gxq/vTGVQDV
+CfhbvOKaqNQNdhKY8cg3shh/zCAmQgzVrap+N2dFWq4AVVOVFvHwQGkkaRwyagO9qPb+ADDk3nak
+/xhWdaHLxz8cNmdrqEyAk57dbxos5P5kMpqMXpxDthbMLheCjSHTBscyVdCCADsHYzCRUCYHepng
+hmYoVM4uE5CBPN6PYvnD6sg1bWRwpOQYLmadoilhRWNxBz5J/cAdUAH0kzPg7CHqaUwJRYuHBQFu
+KJ/h38hGXLUAoz4X21Vro+oJUh2D+jB5MJHeV2P6UuOiTTh8iP6Vb10X6vg5b+lYOT4A2HpLj1Yt
+LhOP1GmoU8nM2YroVqXt9OVE1SPNyF8vi7RLdxljtwAAAAAAAA==
 
 
---=-5qfME1/1OsAkh+xXm9Bs--
+--=-uipq9uCR3mh5JLaPWdR1--
 
