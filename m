@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2D46D6E9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 23:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324596D6FD0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 00:01:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjnpo-00051p-RY; Tue, 04 Apr 2023 17:04:56 -0400
+	id 1pjohS-0004Xj-Vd; Tue, 04 Apr 2023 18:00:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjnpj-000512-J3
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 17:04:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjnph-0002R0-Uy
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 17:04:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680642289;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nzP6fmPsLpxmtr/dHctXT699XVp9501+3aNzUwPLVNM=;
- b=KJ81W6gSVLfmRlalh5bCvfZrAgBDcKLyYtshyopc23O8sQksj51IagB8dikTytVA8xmu3w
- TNIp1+mvCPyEDmMev2JTwQRrM5mIHymRv9LYYrTv5WNWogqF61avGHx+2pirWlM5m2IzUE
- 6cOwhJ292EwaBqudNGsZy0rKyc2y+BQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-DimVpMkPOYuLTzIRXxdNzg-1; Tue, 04 Apr 2023 17:04:45 -0400
-X-MC-Unique: DimVpMkPOYuLTzIRXxdNzg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 74F9B887400;
- Tue,  4 Apr 2023 21:04:44 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CEA78C35999;
- Tue,  4 Apr 2023 21:04:43 +0000 (UTC)
-Date: Tue, 4 Apr 2023 17:04:42 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Julia Suvorova <jusual@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
- Coiby Xu <Coiby.Xu@gmail.com>, xen-devel@lists.xenproject.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>, qemu-block@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Paul Durrant <paul@xen.org>, "Richard W.M. Jones" <rjones@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Fam Zheng <fam@euphon.net>, David Woodhouse <dwmw2@infradead.org>,
- Stefan Weil <sw@weilnetz.de>, Juan Quintela <quintela@redhat.com>,
- Xie Yongji <xieyongji@bytedance.com>, Hanna Reitz <hreitz@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, eesposit@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>
-Subject: Re: [PATCH 00/13] block: remove aio_disable_external() API
-Message-ID: <20230404210442.GC603232@fedora>
-References: <20230403183004.347205-1-stefanha@redhat.com>
- <261efade-683e-84dc-d402-7143be7199c3@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjohM-0004XO-UX
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 18:00:17 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pjohI-0001Jr-CB
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 18:00:16 -0400
+Received: by mail-wr1-x432.google.com with SMTP id y14so34323384wrq.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 15:00:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680645607;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=G8wi6niKdb0i/F4cdC05yUACNJ/HbvyHgDVqgrK+EO8=;
+ b=Ce0lKcgYXcyJRUkKTLOdCTrI72GNH2ncgjQNYMJGvQVUZG1JQo+Yy9QG1qg27qpldx
+ vpFZq2UO7aau61n2V87xjcHw7X3aYFoTYoR6gTzhsiDJvKe5i3m4FC8YiQ5epBkdb265
+ lb2epxfPizSIuVVTmgiLjl+AhkzNPVMGIaFlHMke1/E3lBFsxSWUk2re4qLZlacMdLbY
+ YslwIx3iSBNNn04xvWncrTZGk8fF4Ua2lPB24KtAeDsyOFBH6Y5wM4lbx0/8xDQ6yzko
+ pPFaiRUZiillYjSLW5dH3TLs/vDrhktsARJ1X+x/obKv0PFTm9YchgmYYMBYhTlUc0xh
+ oS5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680645607;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G8wi6niKdb0i/F4cdC05yUACNJ/HbvyHgDVqgrK+EO8=;
+ b=omxJGo5d+pvEbIMiBb7QFYlJj8KPnraq4Vo7JneCTbvsIxrp92x/brC2cHdqmUSYTi
+ ZV5/58h1kW+hp1pmDOtofkenDYIV8FGR1ZnwrpLj/5rDLo/J74Bn324SlGGvBT03Gckp
+ iR5Kpi2hSRFABlpXbYZ7B2iYcQTd1nWoK86V+Oq5ujscKwSnRx20afSbDUxQvIFBGj7A
+ n8PYnZ0ZyNU2Je2egchL+CpCJ7OaX3yd9/kS5nTPB1jQJRIMbMw0fzXFgmWqEVXSo1L3
+ xdmV9rQ2PSKMuyI9TcRJe9SOi7T9qA/cOY4zVFKHK+Iwx2rDbsvjcQLap9quJVAxoSMI
+ jXHg==
+X-Gm-Message-State: AAQBX9fgGGGCZ5uVVdFsFaOF1Bma3Hdkp/rNpPo8vGgW80/Bs//OG7+9
+ j/CBIHdq4hsNICF5/gwj3TLi7g==
+X-Google-Smtp-Source: AKy350bp0uYc2QAny3XI2FcpCIniCTIPnxSplQz+xre7Yij6MyDfj4SuFDaeORvnJryqUBLb3qEWFA==
+X-Received: by 2002:adf:eeca:0:b0:2c7:adb:db9 with SMTP id
+ a10-20020adfeeca000000b002c70adb0db9mr2624384wrp.63.1680645606767; 
+ Tue, 04 Apr 2023 15:00:06 -0700 (PDT)
+Received: from [192.168.1.101] (4ab54-h01-176-184-52-81.dsl.sta.abo.bbox.fr.
+ [176.184.52.81]) by smtp.gmail.com with ESMTPSA id
+ r13-20020adff10d000000b002e45f6ffe63sm13241781wro.26.2023.04.04.15.00.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 15:00:06 -0700 (PDT)
+Message-ID: <9da71dfa-52b7-5b65-3160-6f236440add4@linaro.org>
+Date: Wed, 5 Apr 2023 00:00:04 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="snMIsWYZfG/EJhXo"
-Content-Disposition: inline
-In-Reply-To: <261efade-683e-84dc-d402-7143be7199c3@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH] tap: fix net_init_tap() return code
+Content-Language: en-US
+To: Steve Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>
+References: <1680624004-154390-1-git-send-email-steven.sistare@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <1680624004-154390-1-git-send-email-steven.sistare@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,114 +91,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/4/23 18:00, Steve Sistare wrote:
+> When net_init_tap() succeeds for a multi-queue device, it returns a
+> non-zero ret=1 code to its caller, because of this code where ret becomes
 
---snMIsWYZfG/EJhXo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Indeed g_unix_set_fd_nonblocking() returns TRUE on success.
 
-On Tue, Apr 04, 2023 at 03:43:20PM +0200, Paolo Bonzini wrote:
-> On 4/3/23 20:29, Stefan Hajnoczi wrote:
-> > The aio_disable_external() API temporarily suspends file descriptor mon=
-itoring
-> > in the event loop. The block layer uses this to prevent new I/O request=
-s being
-> > submitted from the guest and elsewhere between bdrv_drained_begin() and
-> > bdrv_drained_end().
-> >=20
-> > While the block layer still needs to prevent new I/O requests in drained
-> > sections, the aio_disable_external() API can be replaced with
-> > .drained_begin/end/poll() callbacks that have been added to BdrvChildCl=
-ass and
-> > BlockDevOps.
-> >=20
-> > This newer .bdrained_begin/end/poll() approach is attractive because it=
- works
-> > without specifying a specific AioContext. The block layer is moving tow=
-ards
-> > multi-queue and that means multiple AioContexts may be processing I/O
-> > simultaneously.
-> >=20
-> > The aio_disable_external() was always somewhat hacky. It suspends all f=
-ile
-> > descriptors that were registered with is_external=3Dtrue, even if they =
-have
-> > nothing to do with the BlockDriverState graph nodes that are being drai=
-ned.
-> > It's better to solve a block layer problem in the block layer than to h=
-ave an
-> > odd event loop API solution.
-> >=20
-> > That covers the motivation for this change, now on to the specifics of =
-this
-> > series:
-> >=20
-> > While it would be nice if a single conceptual approach could be applied=
- to all
-> > is_external=3Dtrue file descriptors, I ended up looking at callers on a
-> > case-by-case basis. There are two general ways I migrated code away from
-> > is_external=3Dtrue:
-> >=20
-> > 1. Block exports are typically best off unregistering fds in .drained_b=
-egin()
-> >     and registering them again in .drained_end(). The .drained_poll() f=
-unction
-> >     waits for in-flight requests to finish using a reference counter.
-> >=20
-> > 2. Emulated storage controllers like virtio-blk and virtio-scsi are a l=
-ittle
-> >     simpler. They can rely on BlockBackend's request queuing during dra=
-in
-> >     feature. Guest I/O request coroutines are suspended in a drained se=
-ction and
-> >     resume upon the end of the drained section.
->=20
-> Sorry, I disagree with this.
->=20
-> Request queuing was shown to cause deadlocks; Hanna's latest patch is pil=
-ing
-> another hack upon it, instead in my opinion we should go in the direction=
- of
-> relying _less_ (or not at all) on request queuing.
->=20
-> I am strongly convinced that request queuing must apply only after
-> bdrv_drained_begin has returned, which would also fix the IDE TRIM bug
-> reported by Fiona Ebner.  The possible livelock scenario is generally not=
- a
-> problem because 1) outside an iothread you have anyway the BQL that preve=
-nts
-> a vCPU from issuing more I/O operations during bdrv_drained_begin 2) in
-> iothreads you have aio_disable_external() instead of .drained_begin().
->=20
-> It is also less tidy to start a request during the drained_begin phase,
-> because a request that has been submitted has to be completed (cancel
-> doesn't really work).
->=20
-> So in an ideal world, request queuing would not only apply only after
-> bdrv_drained_begin has returned, it would log a warning and .drained_begi=
-n()
-> should set up things so that there are no such warnings.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-That's fine, I will give .drained_begin/end/poll() a try with virtio-blk
-and virtio-scsi in the next revision.
+> 1 when g_unix_set_fd_nonblocking succeeds.  Luckily, the only current call
+> site checks for negative, rather than non-zero.
+> 
+>      ret = g_unix_set_fd_nonblocking(fd, true, NULL);
+>      if (!ret) {
+>          ...
+>          goto free_fail;
+> 
+> Also, if g_unix_set_fd_nonblocking fails (though unlikely), ret=0 is returned,
+> and the caller will use a broken interface.
 
-Stefan
+We should return -1 from free_fail, not trying to propagate 'ret':
 
---snMIsWYZfG/EJhXo
-Content-Type: application/pgp-signature; name="signature.asc"
+-- >8 --
+diff --git a/net/tap.c b/net/tap.c
+index 1bf085d422..e59238bda0 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -821,3 +821,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
+      char ifname[128];
+-    int ret = 0;
 
------BEGIN PGP SIGNATURE-----
+@@ -896,3 +895,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
+                             "the number of vhostfds passed");
+-                ret = -1;
+                  goto free_fail;
+@@ -904,3 +902,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
+              if (fd == -1) {
+-                ret = -1;
+                  goto free_fail;
+@@ -908,4 +905,3 @@ int net_init_tap(const Netdev *netdev, const char *name,
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQskOoACgkQnKSrs4Gr
-c8jsQAf+PJyaSj96NmHb9lkSsM0rDSEoQ56fJV7vTR+eUUuvgwbRl1u07Nrka9s6
-mwJjQLVUZpsLuOTCC1ZOvePeeo0daHHZ6pkLMI9xTh2noy8/ka3KUSkbYAE2y8+/
-CYqbu19QuEIEEjjPEXl7xda50dSz16N27J+A367ZKS2jcB+p4hr73gII1vLwCnbi
-3xuLsNRy/f9mcOiv+30w/fiGLxmVDYlq/5msaY5JlLkNzbeAWC4s06Pcvoxa71Jr
-RgB1YLWcwI5x+AIZQ6Je1bZyK5beUHJGxIKEkAq5CyiaDaBCwRpoiuFAbI4lXz4X
-2Pwa17IPZ6Zgqvf4L6E9LAMB/nCygA==
-=UdcK
------END PGP SIGNATURE-----
+-            ret = g_unix_set_fd_nonblocking(fd, true, NULL);
+-            if (!ret) {
++            if (!g_unix_set_fd_nonblocking(fd, true, NULL)) {
+                  error_setg_errno(errp, errno, "%s: Can't use file 
+descriptor %d",
+@@ -918,3 +914,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
+                  if (vnet_hdr < 0) {
+-                    ret = -1;
+                      goto free_fail;
+@@ -924,3 +919,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
+                             "vnet_hdr not consistent across given tap 
+fds");
+-                ret = -1;
+                  goto free_fail;
+@@ -934,3 +928,2 @@ int net_init_tap(const Netdev *netdev, const char *name,
+                  error_propagate(errp, err);
+-                ret = -1;
+                  goto free_fail;
+@@ -948,3 +941,3 @@ free_fail:
+          g_free(vhost_fds);
+-        return ret;
++        return -1;
+      } else if (tap->helper) {
+---
 
---snMIsWYZfG/EJhXo--
-
+> Fixes: a8208626ba89.. ("net: replace qemu_set_nonblock()")
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>   net/tap.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
