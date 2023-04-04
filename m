@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46466D6772
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 17:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87526D676B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 17:34:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjien-0004cl-Oy; Tue, 04 Apr 2023 11:33:14 -0400
+	id 1pjiex-0004gN-8p; Tue, 04 Apr 2023 11:33:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pjiel-0004bI-FC; Tue, 04 Apr 2023 11:33:11 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pjiej-0006Ag-Nb; Tue, 04 Apr 2023 11:33:11 -0400
-Received: by mail-pg1-x531.google.com with SMTP id s19so19911885pgi.0;
- Tue, 04 Apr 2023 08:33:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680622388;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uIUl4aibgYpMUzkAkax39ZDiJuLd9+zXASXmdChjI9U=;
- b=Ophiuqt/ZzQ8SMrVWEuYuxilO9A/E9bmSwlC/0peLIra3durd/vkAZ0+K74QCoJ6yX
- ep2+xi0JQoteolldR/aLQSaovbdggUwScBdPPt0uLyp9uOVlplCPsDnHUqYeVDhosOK/
- TyxbFsbXHc6BEOfs3M/ckwJfJAO1KxTlIvOt7TVKhznjEZ0SKv+I8FlNyOhVxyPvqj+v
- i1CLmAQi6RCPVbPEQ5KdMzKPryLyrti4oMUzXUR4nYHtA14wUr5gFX5QErkx6WUjzzqQ
- 5+PxAxvE7rc2XqmFTLFEayqVB5oJRfFlmPaGWqQZdimShKOjUdguUW5lw9b980+kYGtF
- ylNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680622388;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uIUl4aibgYpMUzkAkax39ZDiJuLd9+zXASXmdChjI9U=;
- b=cjuaICjyDHuqwHRl2EN3TmywuP+7YI0el3StY57uTyPcBIp6p4I6FkCtOoQXhAXV16
- VP+b+TYtGm++sK5swX5U8KIhu0hMBn2VMezLEGEdSTT90H1FUdkJ1IJk1YmZfRBIfDaE
- NBCW9L52RTlBy0Ry1ETPc/CHhHPL2ScbAQN9mWDrDAFgoFG4MIGbcTspKOujYExQxoHz
- 36/fb/6xgfjH7Jr41wJEru3WmMtDBnrwWdVd43zcJut3ZexUx4b4R4xI83oR/BeSSPs/
- TQl5/ox6sjjlsy2u8fkLT2JXLRTXiWpR4fuwN/P5hBvCCaN4UZowLgI4XlJmGMCtGtyj
- xZ1g==
-X-Gm-Message-State: AAQBX9fhWo6i0w5NYUe2MtQYNzDohoxsjZKEfNZIPEzY1wMZOITDB8su
- 7nIUaBz4dZ2e39ly9GOkOMtqLa9m/eIIXN+3loE=
-X-Google-Smtp-Source: AKy350ZkFQGgRrBJTtdPY0vsKdeol+znGMP085cE8xd4TABj2ArSbvIO2IenLJmXUNOTAh1lGKQhsw==
-X-Received: by 2002:a62:3847:0:b0:626:a9b:94b8 with SMTP id
- f68-20020a623847000000b006260a9b94b8mr2515425pfa.20.1680622387516; 
- Tue, 04 Apr 2023 08:33:07 -0700 (PDT)
-Received: from fedlinux.. ([106.84.131.166]) by smtp.gmail.com with ESMTPSA id
- p11-20020a62ab0b000000b0059085684b54sm9231519pff.140.2023.04.04.08.33.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 08:33:06 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pjieq-0004fN-Dk
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 11:33:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pjieo-0006IC-KP
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 11:33:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680622392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bjyPDZXwnHGoW4spyOT0eqr5W8m5uF3NL8ShpQytmSo=;
+ b=cCznBGXJm7hQgGtPcdkxqH0GlZ8GYSqY6vIzar7uUJzmhnK68ANzK0muC5+HRb807LWtqn
+ h3JeEzFmDjyn7CkWzvpE7AGP999vY12sZFM+/bUaXq46hPOTov34yjRoot5Y0oeh2Hitb7
+ XToShmAn0hdmzit8uN8FQxqAxmzY4g4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-163-1ZwQuTbrPtKfrAgv_AnkDQ-1; Tue, 04 Apr 2023 11:33:11 -0400
+X-MC-Unique: 1ZwQuTbrPtKfrAgv_AnkDQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 635688996F4;
+ Tue,  4 Apr 2023 15:33:10 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9016C492C13;
+ Tue,  4 Apr 2023 15:33:09 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>, hare@suse.de, Hanna Reitz <hreitz@redhat.com>,
- dmitry.fomichev@wdc.com, Julia Suvorova <jusual@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, damien.lemoal@opensource.wdc.com,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v8 4/4] block: add some trace events for zone append
-Date: Tue,  4 Apr 2023 23:32:39 +0800
-Message-Id: <20230404153239.32234-5-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230404153239.32234-1-faithilikerun@gmail.com>
-References: <20230404153239.32234-1-faithilikerun@gmail.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>, eesposit@redhat.com
+Subject: [PATCH] aio-wait: avoid AioContext lock in aio_wait_bh_oneshot()
+Date: Tue,  4 Apr 2023 11:33:07 -0400
+Message-Id: <20230404153307.458883-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x531.google.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,48 +77,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/file-posix.c | 3 +++
- block/trace-events | 2 ++
- 2 files changed, 5 insertions(+)
+There is no need for the AioContext lock in aio_wait_bh_oneshot().
+It's easy to remove the lock from existing callers and then switch from
+AIO_WAIT_WHILE() to AIO_WAIT_WHILE_UNLOCKED() in aio_wait_bh_oneshot().
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index a7130b1024..825301467e 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2502,6 +2502,8 @@ out:
-             if (!BDRV_ZT_IS_CONV(*wp)) {
-                 if (type & QEMU_AIO_ZONE_APPEND) {
-                     *s->offset = *wp;
-+                    trace_zbd_zone_append_complete(bs, *s->offset
-+                        >> BDRV_SECTOR_BITS);
-                 }
-                 /* Advance the wp if needed */
-                 if (offset + bytes > *wp) {
-@@ -3546,6 +3548,7 @@ static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
-         len += iov_len;
+Document that the AioContext lock should not be held across
+aio_wait_bh_oneshot(). Holding a lock across aio_poll() can cause
+deadlock so we don't want callers to do that.
+
+This is a step towards getting rid of the AioContext lock.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ include/block/aio-wait.h        | 2 +-
+ hw/block/dataplane/virtio-blk.c | 3 ++-
+ hw/scsi/virtio-scsi-dataplane.c | 2 --
+ util/aio-wait.c                 | 2 +-
+ 4 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
+index da13357bb8..fdd14294ec 100644
+--- a/include/block/aio-wait.h
++++ b/include/block/aio-wait.h
+@@ -131,7 +131,7 @@ void aio_wait_kick(void);
+  *
+  * Run a BH in @ctx and wait for it to complete.
+  *
+- * Must be called from the main loop thread with @ctx acquired exactly once.
++ * Must be called from the main loop thread without @ctx acquired.
+  * Note that main loop event processing may occur.
+  */
+ void aio_wait_bh_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque);
+diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
+index b28d81737e..e0111efd6d 100644
+--- a/hw/block/dataplane/virtio-blk.c
++++ b/hw/block/dataplane/virtio-blk.c
+@@ -314,9 +314,10 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
+     s->stopping = true;
+     trace_virtio_blk_data_plane_stop(s);
+ 
+-    aio_context_acquire(s->ctx);
+     aio_wait_bh_oneshot(s->ctx, virtio_blk_data_plane_stop_bh, s);
+ 
++    aio_context_acquire(s->ctx);
++
+     /* Wait for virtio_blk_dma_restart_bh() and in flight I/O to complete */
+     blk_drain(s->conf->conf.blk);
+ 
+diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplane.c
+index 20bb91766e..f3214e1c57 100644
+--- a/hw/scsi/virtio-scsi-dataplane.c
++++ b/hw/scsi/virtio-scsi-dataplane.c
+@@ -197,9 +197,7 @@ void virtio_scsi_dataplane_stop(VirtIODevice *vdev)
      }
+     s->dataplane_stopping = true;
  
-+    trace_zbd_zone_append(bs, *offset >> BDRV_SECTOR_BITS);
-     return raw_co_prw(bs, *offset, len, qiov, QEMU_AIO_ZONE_APPEND);
+-    aio_context_acquire(s->ctx);
+     aio_wait_bh_oneshot(s->ctx, virtio_scsi_dataplane_stop_bh, s);
+-    aio_context_release(s->ctx);
+ 
+     blk_drain_all(); /* ensure there are no in-flight requests */
+ 
+diff --git a/util/aio-wait.c b/util/aio-wait.c
+index 98c5accd29..b5336cf5fd 100644
+--- a/util/aio-wait.c
++++ b/util/aio-wait.c
+@@ -82,5 +82,5 @@ void aio_wait_bh_oneshot(AioContext *ctx, QEMUBHFunc *cb, void *opaque)
+     assert(qemu_get_current_aio_context() == qemu_get_aio_context());
+ 
+     aio_bh_schedule_oneshot(ctx, aio_wait_bh, &data);
+-    AIO_WAIT_WHILE(ctx, !data.done);
++    AIO_WAIT_WHILE_UNLOCKED(NULL, !data.done);
  }
- #endif
-diff --git a/block/trace-events b/block/trace-events
-index 3f4e1d088a..32665158d6 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -211,6 +211,8 @@ file_hdev_is_sg(int type, int version) "SG device found: type=%d, version=%d"
- file_flush_fdatasync_failed(int err) "errno %d"
- zbd_zone_report(void *bs, unsigned int nr_zones, int64_t sector) "bs %p report %d zones starting at sector offset 0x%" PRIx64 ""
- zbd_zone_mgmt(void *bs, const char *op_name, int64_t sector, int64_t len) "bs %p %s starts at sector offset 0x%" PRIx64 " over a range of 0x%" PRIx64 " sectors"
-+zbd_zone_append(void *bs, int64_t sector) "bs %p append at sector offset 0x%" PRIx64 ""
-+zbd_zone_append_complete(void *bs, int64_t sector) "bs %p returns append sector 0x%" PRIx64 ""
- 
- # ssh.c
- sftp_error(const char *op, const char *ssh_err, int ssh_err_code, int sftp_err_code) "%s failed: %s (libssh error code: %d, sftp error code: %d)"
 -- 
 2.39.2
 
