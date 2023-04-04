@@ -2,91 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36DF6D6051
+	by mail.lfdr.de (Postfix) with ESMTPS id C58876D6052
 	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 14:27:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjfjd-0006Ie-6l; Tue, 04 Apr 2023 08:26:01 -0400
+	id 1pjfjy-0006NA-AW; Tue, 04 Apr 2023 08:26:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pjfjb-0006IN-F0
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 08:25:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pjfjw-0006Mi-H6; Tue, 04 Apr 2023 08:26:20 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pjfjZ-0008SP-PH
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 08:25:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680611156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OnQ+4V4JUcC+1PmeTVsoyTZvteUrx3UcOw3Ck/zmaiY=;
- b=Sazkcfr/vyIiXCVTOFUfR8AldXPGOvLbJiAdSNblxo62HdY/aYMqkfPFh6eYcNf/tlIzFL
- 7Nmd4jqZo/+V/vUhGRSWVS/Ndhj3a0H0bE/FTLOlL7a5jUVluohBg/l2RyH7fJ9UhAikYa
- WGVPPuLbWHxzOcfWQFJVt108duN0Q9A=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-602-nD5tO-WLOUOSnH2jr3MyVw-1; Tue, 04 Apr 2023 08:25:55 -0400
-X-MC-Unique: nD5tO-WLOUOSnH2jr3MyVw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- b6-20020a509f06000000b005029d95390aso9326440edf.2
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 05:25:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680611154;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OnQ+4V4JUcC+1PmeTVsoyTZvteUrx3UcOw3Ck/zmaiY=;
- b=5xgT03GWNv92i/1pIN6R2prc9aWgm9+t7aoGPBo3tHnj5gP+0ExUz/UteACWEBEcSX
- BfpQud9B521c/AL7f36qqaghpR1tYw+cMNS4Bg7SOIs/ZyfdTvXBPNW300eG2TZMWrCp
- NSqpHURB5Kz2uJq7Ym7QGzr7PBAxDpHvfVlSSz/0hldHT2/M1WQR8ffnH76jvmtiPGAq
- LCJs9b+iLcleBFuHu2aFpQB/Jw+ZzxMIufDRE/Ag1vJIXWo/ZECo0QNIpft3LO3jNWh0
- fbSXMxXpTRw7YJjjAEIegvQyaL+9t5mLzvUoDHiPwQgBbkYBMSHK4M7ajZDoybJAR+2i
- Xi3w==
-X-Gm-Message-State: AAQBX9cnol0elCMCbsJ7dwiYSCnbtlkoDUArk7EcOqFvE18oGCYJHktx
- +Lj/xQQtdWZImQWYfZTCo2nt+SM2pYvZrVHWbuH+9DlXeaRD38BOq0+GG92aZ7EpIzAjAdeSYNG
- Hvm9XqDRVPyFhrj8=
-X-Received: by 2002:a17:907:8d88:b0:93e:5baa:d443 with SMTP id
- tf8-20020a1709078d8800b0093e5baad443mr2159793ejc.63.1680611154543; 
- Tue, 04 Apr 2023 05:25:54 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bSZzqJtF7qvfkVrFNuOdg0jgu9YPrAG7nfx2xYLKyqmmcXlmQdRL6QW9WB935ja4dQx11CWQ==
-X-Received: by 2002:a17:907:8d88:b0:93e:5baa:d443 with SMTP id
- tf8-20020a1709078d8800b0093e5baad443mr2159778ejc.63.1680611154302; 
- Tue, 04 Apr 2023 05:25:54 -0700 (PDT)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- t13-20020a1709067c0d00b009353047c02dsm5876414ejo.167.2023.04.04.05.25.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 05:25:53 -0700 (PDT)
-Date: Tue, 4 Apr 2023 14:25:53 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jinpu Wang <jinpu.wang@ionos.com>
-Cc: Yu Zhang <yu.zhang@ionos.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Elmar Gerdes <elmar.gerdes@ionos.com>
-Subject: Re: an issue for device hot-unplug
-Message-ID: <20230404142553.31030bb7@imammedo.users.ipa.redhat.com>
-In-Reply-To: <CAMGffE=cxQzMrT+wbPazApmsGfgAx6z8O0DzEJfWyMQaGFs80w@mail.gmail.com>
-References: <CAHEcVy5SV34jaubY5F-q=H+smvMVOzKbb=rTaNJDNXyGdFaLZg@mail.gmail.com>
- <94e21f89-0a3e-701b-7171-7398dff9ce46@redhat.com>
- <CAHEcVy5TiQwYofhCe3RpdFopYzYWbGnL7EO5nE_HQTAVEeaqAg@mail.gmail.com>
- <CAMGffE=cxQzMrT+wbPazApmsGfgAx6z8O0DzEJfWyMQaGFs80w@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pjfjt-0008WU-SX; Tue, 04 Apr 2023 08:26:20 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 334COssU016373; Tue, 4 Apr 2023 12:26:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=lhpLjR6BXG1mgdq8uWZsC1HdWY+0psylr0Xyk6SqHJA=;
+ b=m67y04VWvJ12KAJWrDKaTQrKeaYQNfhAzVjugBjFqfvj8qVW/6kouyPREeRRHOy1UNh8
+ WOWtX/4ht76atCi4YEL9e1I2J4+P26+a6yTBx+nSBgFtF6ypLtyo4fTeZ5rKQkNqyDAJ
+ pjMPFzX0mGy0f1tUSlOeBWcDI+v4jiwzVYXfXRxEnz9d2A8ALC62da5OnfpJ+Y2fp324
+ S2lxO97WbKVhrLjZOXeoo+uoL8zD0MVfLcoqQqx4FgcWPZE0Dr9Ka8LsLLfbbHdr1CQ8
+ /SMfC8Ahpq9BNyClV+wnXjlzTbvxiS0UipVZpm29Oi7Xm95s93DLrVpE+sl8ZC1mAAUE AA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3prhqd3jpa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Apr 2023 12:26:13 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 334BrEnS012104;
+ Tue, 4 Apr 2023 12:26:13 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3prhqd3jnp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Apr 2023 12:26:12 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3342i6PF004214;
+ Tue, 4 Apr 2023 12:26:11 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3ppc86svwg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Apr 2023 12:26:10 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 334CQ7S718743948
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Apr 2023 12:26:07 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 52DDB2004B;
+ Tue,  4 Apr 2023 12:26:07 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 37EB420040;
+ Tue,  4 Apr 2023 12:26:06 +0000 (GMT)
+Received: from [9.152.222.242] (unknown [9.152.222.242])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue,  4 Apr 2023 12:26:06 +0000 (GMT)
+Message-ID: <bd5cc488-20a7-54d1-7c3e-86136db77f84@linux.ibm.com>
+Date: Tue, 4 Apr 2023 14:26:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v19 01/21] s390x/cpu topology: add s390 specifics to CPU
+ topology
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-2-pmorel@linux.ibm.com>
+ <4118bb4e-0505-26d3-3ffe-49245eae5364@kaod.org>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <4118bb4e-0505-26d3-3ffe-49245eae5364@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: zo_miAIhagiWzHZGSEIXp87iItCyCD7f
+X-Proofpoint-GUID: kucrRBm9vTmrSgMl0s0qJO-rCdWs2zsm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-04_04,2023-04-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ lowpriorityscore=0 mlxscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304040112
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,56 +123,331 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 4 Apr 2023 08:45:54 +0200
-Jinpu Wang <jinpu.wang@ionos.com> wrote:
 
-> Hi Yu,
->=20
-> On Mon, Apr 3, 2023 at 6:59=E2=80=AFPM Yu Zhang <yu.zhang@ionos.com> wrot=
-e:
-> >
-> > Dear Laurent,
-> >
-> > Thank you for your quick reply. We used qemu-7.1, but it is reproducibl=
-e with qemu from v6.2 to the recent v8.0 release candidates.
-> > I found that it's introduced by the commit  9323f892b39 (between v6.2.0=
--rc2 and v6.2.0-rc3).
-> >
-> > If it doesn't break anything else, it suffices to remove the line below=
- from acpi_pcihp_device_unplug_request_cb():
-> >
-> >     pdev->qdev.pending_deleted_event =3D true;
-> >
-> > but you may have a reason to keep it. First of all, I'll open a bug in =
-the bug tracker and let you know.
-> >
-> > Best regards,
-> > Yu Zhang =20
-> This patch from Igor Mammedov seems relevant,
-> https://lore.kernel.org/qemu-devel/20230403131833-mutt-send-email-mst@ker=
-nel.org/T/#t
+On 4/4/23 09:03, Cédric Le Goater wrote:
+> On 4/3/23 18:28, Pierre Morel wrote:
+>> S390 adds two new SMP levels, drawers and books to the CPU
+>> topology.
+>> The S390 CPU have specific topology features like dedication
+>> and entitlement to give to the guest indications on the host
+>> vCPUs scheduling and help the guest take the best decisions
+>> on the scheduling of threads on the vCPUs.
+>>
+>> Let us provide the SMP properties with books and drawers levels
+>> and S390 CPU with dedication and entitlement,
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>
+> Some minor comments below,
+>
+>> ---
+>>   MAINTAINERS                     |  5 ++++
+>>   qapi/machine-common.json        | 22 ++++++++++++++
+>>   qapi/machine-target.json        | 12 ++++++++
+>>   qapi/machine.json               | 17 +++++++++--
+>>   include/hw/boards.h             | 10 ++++++-
+>>   include/hw/s390x/cpu-topology.h | 15 ++++++++++
+>>   target/s390x/cpu.h              |  5 ++++
+>>   hw/core/machine-smp.c           | 53 ++++++++++++++++++++++++++++-----
+>>   hw/core/machine.c               |  4 +++
+>>   hw/s390x/s390-virtio-ccw.c      |  2 ++
+>>   softmmu/vl.c                    |  6 ++++
+>>   target/s390x/cpu.c              |  7 +++++
+>>   qapi/meson.build                |  1 +
+>>   qemu-options.hx                 |  7 +++--
+>>   14 files changed, 152 insertions(+), 14 deletions(-)
+>>   create mode 100644 qapi/machine-common.json
+>>   create mode 100644 include/hw/s390x/cpu-topology.h
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 5340de0515..9b1f80739e 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1654,6 +1654,11 @@ F: hw/s390x/event-facility.c
+>>   F: hw/s390x/sclp*.c
+>>   L: qemu-s390x@nongnu.org
+>>   +S390 CPU topology
+>> +M: Pierre Morel <pmorel@linux.ibm.com>
+>> +S: Supported
+>> +F: include/hw/s390x/cpu-topology.h
+>> +
+>>   X86 Machines
+>>   ------------
+>>   PC
+>> diff --git a/qapi/machine-common.json b/qapi/machine-common.json
+>> new file mode 100644
+>> index 0000000000..73ea38d976
+>> --- /dev/null
+>> +++ b/qapi/machine-common.json
+>> @@ -0,0 +1,22 @@
+>> +# -*- Mode: Python -*-
+>> +# vim: filetype=python
+>> +#
+>> +# This work is licensed under the terms of the GNU GPL, version 2 or 
+>> later.
+>> +# See the COPYING file in the top-level directory.
+>> +
+>> +##
+>> +# = Machines S390 data types
+>> +##
+>> +
+>> +##
+>> +# @CpuS390Entitlement:
+>> +#
+>> +# An enumeration of cpu entitlements that can be assumed by a virtual
+>> +# S390 CPU
+>> +#
+>> +# Since: 8.1
+>> +##
+>> +{ 'enum': 'CpuS390Entitlement',
+>> +  'prefix': 'S390_CPU_ENTITLEMENT',
+>> +  'data': [ 'horizontal', 'low', 'medium', 'high' ] }
+>> +
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index 2e267fa458..42a6a40333 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -342,3 +342,15 @@
+>>                      'TARGET_S390X',
+>>                      'TARGET_MIPS',
+>>                      'TARGET_LOONGARCH64' ] } }
+>> +
+>> +##
+>> +# @CpuS390Polarization:
+>> +#
+>> +# An enumeration of cpu polarization that can be assumed by a virtual
+>> +# S390 CPU
+>> +#
+>> +# Since: 8.1
+>> +##
+>> +{ 'enum': 'CpuS390Polarization',
+>> +  'prefix': 'S390_CPU_POLARIZATION',
+>> +  'data': [ 'horizontal', 'vertical' ] }
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index 604b686e59..1cdd83f3fd 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -9,6 +9,7 @@
+>>   ##
+>>     { 'include': 'common.json' }
+>> +{ 'include': 'machine-common.json' }
+>>     ##
+>>   # @SysEmuTarget:
+>> @@ -70,7 +71,7 @@
+>>   #
+>>   # @thread-id: ID of the underlying host thread
+>>   #
+>> -# @props: properties describing to which node/socket/core/thread
+>> +# @props: properties describing to which 
+>> node/drawer/book/socket/core/thread
+>>   #         virtual CPU belongs to, provided if supported by board
+>>   #
+>>   # @target: the QEMU system emulation target, which determines which
+>> @@ -902,13 +903,15 @@
+>>   # a CPU is being hotplugged.
+>>   #
+>>   # @node-id: NUMA node ID the CPU belongs to
+>> -# @socket-id: socket number within node/board the CPU belongs to
+>> +# @drawer-id: drawer number within node/board the CPU belongs to 
+>> (since 8.1)
+>> +# @book-id: book number within drawer/node/board the CPU belongs to 
+>> (since 8.1)
+>> +# @socket-id: socket number within book/node/board the CPU belongs to
+>>   # @die-id: die number within socket the CPU belongs to (since 4.1)
+>>   # @cluster-id: cluster number within die the CPU belongs to (since 
+>> 7.1)
+>>   # @core-id: core number within cluster the CPU belongs to
+>>   # @thread-id: thread number within core the CPU belongs to
+>>   #
+>> -# Note: currently there are 6 properties that could be present
+>> +# Note: currently there are 8 properties that could be present
+>>   #       but management should be prepared to pass through other
+>>   #       properties with device_add command to allow for future
+>>   #       interface extension. This also requires the filed names to 
+>> be kept in
+>> @@ -918,6 +921,8 @@
+>>   ##
+>>   { 'struct': 'CpuInstanceProperties',
+>>     'data': { '*node-id': 'int',
+>> +            '*drawer-id': 'int',
+>> +            '*book-id': 'int',
+>>               '*socket-id': 'int',
+>>               '*die-id': 'int',
+>>               '*cluster-id': 'int',
+>> @@ -1467,6 +1472,10 @@
+>>   #
+>>   # @cpus: number of virtual CPUs in the virtual machine
+>>   #
+>> +# @drawers: number of drawers in the CPU topology (since 8.1)
+>> +#
+>> +# @books: number of books in the CPU topology (since 8.1)
+>> +#
+>>   # @sockets: number of sockets in the CPU topology
+>>   #
+>>   # @dies: number of dies per socket in the CPU topology
+>> @@ -1483,6 +1492,8 @@
+>>   ##
+>>   { 'struct': 'SMPConfiguration', 'data': {
+>>        '*cpus': 'int',
+>> +     '*drawers': 'int',
+>> +     '*books': 'int',
+>>        '*sockets': 'int',
+>>        '*dies': 'int',
+>>        '*clusters': 'int',
+>> diff --git a/include/hw/boards.h b/include/hw/boards.h
+>> index 6fbbfd56c8..9ef0bb76cf 100644
+>> --- a/include/hw/boards.h
+>> +++ b/include/hw/boards.h
+>> @@ -131,12 +131,16 @@ typedef struct {
+>>    * @clusters_supported - whether clusters are supported by the machine
+>>    * @has_clusters - whether clusters are explicitly specified in the 
+>> user
+>>    *                 provided SMP configuration
+>> + * @books_supported - whether books are supported by the machine
+>> + * @drawers_supported - whether drawers are supported by the machine
+>>    */
+>>   typedef struct {
+>>       bool prefer_sockets;
+>>       bool dies_supported;
+>>       bool clusters_supported;
+>>       bool has_clusters;
+>> +    bool books_supported;
+>> +    bool drawers_supported;
+>>   } SMPCompatProps;
+>>     /**
+>> @@ -301,7 +305,9 @@ typedef struct DeviceMemoryState {
+>>   /**
+>>    * CpuTopology:
+>>    * @cpus: the number of present logical processors on the machine
+>> - * @sockets: the number of sockets on the machine
+>> + * @drawers: the number of drawers on the machine
+>> + * @books: the number of books in one drawer
+>> + * @sockets: the number of sockets in one book
+>>    * @dies: the number of dies in one socket
+>>    * @clusters: the number of clusters in one die
+>>    * @cores: the number of cores in one cluster
+>> @@ -310,6 +316,8 @@ typedef struct DeviceMemoryState {
+>>    */
+>>   typedef struct CpuTopology {
+>>       unsigned int cpus;
+>> +    unsigned int drawers;
+>> +    unsigned int books;
+>>       unsigned int sockets;
+>>       unsigned int dies;
+>>       unsigned int clusters;
+>> diff --git a/include/hw/s390x/cpu-topology.h 
+>> b/include/hw/s390x/cpu-topology.h
+>> new file mode 100644
+>> index 0000000000..83f31604cc
+>> --- /dev/null
+>> +++ b/include/hw/s390x/cpu-topology.h
+>> @@ -0,0 +1,15 @@
+>> +/*
+>> + * CPU Topology
+>> + *
+>> + * Copyright IBM Corp. 2022
+>
+> Shouldn't we have some range : 2022-2023 ?
 
-this patch targets corner case of early boot where
-guest hasn't initialized ACPI subsystem yet and 'broken'
-management asking to unplug device too early which leads
-to device stuck in being unplugged state due to regression
-in QEMU.
-However, It doesn't apply to fully booted guest.
+There was a discussion on this in the first spins, I think to remember 
+that Nina wanted 22 and Thomas 23,
+
+now we have a third opinion :) .
+
+I must say that all three have their reasons and I take what the 
+majority wants.
+
+A vote?
+
+
+>
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 
+>> or (at
+>> + * your option) any later version. See the COPYING file in the 
+>> top-level
+>> + * directory.
+>> + */
+>
+> QEMU uses a SPDX tag like the kernel now :
+>
+> /* SPDX-License-Identifier: GPL-2.0-or-later */
+
+
+OK, so I will add it on all .c and .h new files
+
+
+>
+>> +#ifndef HW_S390X_CPU_TOPOLOGY_H
+>> +#define HW_S390X_CPU_TOPOLOGY_H
+>> +
+>> +#define S390_TOPOLOGY_CPU_IFL   0x03
+>
+> This definition is only used in patch 3. May be introduce it then,
+> it would cleaner.
+
+
+yes.
+
+
+>
+>> +
+>> +#endif
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index 7d6d01325b..f2b2a38fe7 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -131,6 +131,11 @@ struct CPUArchState {
+>>     #if !defined(CONFIG_USER_ONLY)
+>>       uint32_t core_id; /* PoP "CPU address", same as cpu_index */
+>> +    int32_t socket_id;
+>> +    int32_t book_id;
+>> +    int32_t drawer_id;
+>> +    bool dedicated;
+>> +    uint8_t entitlement;        /* Used only for vertical 
+>> polarization */
+>>       uint64_t cpuid;
+>>   #endif
+>>   diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+>> index c3dab007da..6f5622a024 100644
+>> --- a/hw/core/machine-smp.c
+>> +++ b/hw/core/machine-smp.c
+>> @@ -30,8 +30,19 @@ static char *cpu_hierarchy_to_string(MachineState 
+>> *ms)
+>>   {
+>>       MachineClass *mc = MACHINE_GET_CLASS(ms);
+>>       GString *s = g_string_new(NULL);
+>> +    const char *multiply = " * ", *prefix = "";
+>>   -    g_string_append_printf(s, "sockets (%u)", ms->smp.sockets);
+>> +    if (mc->smp_props.drawers_supported) {
+>> +        g_string_append_printf(s, "drawers (%u)", ms->smp.drawers);
+>> +    prefix = multiply;
+>
+> indent issue.
+
+right, seems I forgot to update the patch set after the checkpatch.
+
+
+>
+>> +    }
+>> +
+>> +    if (mc->smp_props.books_supported) {
+>> +        g_string_append_printf(s, "%sbooks (%u)", prefix, 
+>> ms->smp.books);
+>> +    prefix = multiply;
+>
+> ditto.
+>
+>> +    }
+>> +
 
 [...]
 
-> >> > The purpose is for detecting the end of the PCI device hot-unplug. H=
-owever, we feel the
-> >> > error confusing. How is it possible that a disk "is already in the p=
-rocess of unplug"
-> >> > during the first hot-unplug attempt? So far as I know, the issue was=
- also encountered by
-> >> > libvirt, but they simply ignored it:
-> >> >
-> >> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659
-> >> > <https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659>
-see my other reply email/BZ comment 17.
+Thanks
 
-[...]
+Regards,
+
+Pierre
 
 
