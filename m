@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88BE6D676C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 17:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836936D6769
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 17:34:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjif9-0004kl-2Z; Tue, 04 Apr 2023 11:33:35 -0400
+	id 1pjieX-0004V1-LN; Tue, 04 Apr 2023 11:32:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pjif7-0004kO-EO
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 11:33:33 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pjieR-0004TF-IG; Tue, 04 Apr 2023 11:32:51 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pjif5-0006kB-HE
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 11:33:32 -0400
-Received: by mail-wr1-x432.google.com with SMTP id d17so33240865wrb.11
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 08:33:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pjieP-0005W6-UY; Tue, 04 Apr 2023 11:32:51 -0400
+Received: by mail-pf1-x431.google.com with SMTP id l14so21700778pfc.11;
+ Tue, 04 Apr 2023 08:32:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680622410;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=30Xb4MTU0LlwxYPEYNjJgbxv/W9Xn5OKDhMjBDvqHn4=;
- b=tQ4jjBvyLW05DLzWMDnqE7A7XEYc50yMfLoM574J+6A5W+UVGTvfK0Ry+I5DD6jNXq
- 8HxcojrxDCa+uBccBd5qf0VigCeXn/OqviAAakmD/4UXKRlJxqXkt5jl0H/SQKkxN1C2
- Es5J0K+oa2UMNr49O71S46PLu5VO/3IUrpXzjD035ov5kaJDVwxfwgOyKhZ1evT7/+SB
- CCwS9iDbYi2/kyPxrrjc4QO2gRGWcBEXGpHcJ/w0dKI1dA0YjrxVPWE3y/eSQNs24GQd
- n82e1hrfCbzgyAbZxHV3LEY2OAN+XQLowQ9yxH9bNijXx2xYLGnesN0JIKLhXIM7dKS0
- XrYw==
+ d=gmail.com; s=20210112; t=1680622367;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oZ3OrMO07C+u/qpaa/OODOHDNM+STRq3HkuGIvKY/ZY=;
+ b=oJGOPfytff2VqqIT6NCBzGXZuVcITZ9xIGMMkuv/slK8a2rHZfqKTFpzgGk848/v16
+ fLrlmGKq1ZuDN4D/IgCO9B1Cbs0T0bVqk9heSJQBzqxcpsTi5l18jksMHUvbMu2+KfVx
+ Rn8LSJE0E5aYKSELj18DxfBPU9Vi5PSYpy+YtO749ESUQQFU6386x9nErer+pMRajN8w
+ zOhQyZQJRjoAz/TO+W9n3b3XTzLLxr37wuXFpG2eI9h7bAGHWHlmEa4Wxa4FFyx+zsrL
+ 0pfrp5GETGOPBWXwuNeUYwI3t0e5xAyNLomK4825NIcWmyH7xRD9WdIZxFfOmQw7qDh2
+ zoDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680622410;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=30Xb4MTU0LlwxYPEYNjJgbxv/W9Xn5OKDhMjBDvqHn4=;
- b=54Wet4jfyDZZV9iVxtZHloAQ8uWMq0Gwro3GaYo5uvgJpeTyF3KG9LlR0Tesw05xzm
- EJ0ruja5mzgArE/Via3nYqFfnHcUUr748kBNu9xibOqJoOWVGBOFwKvTi/c4SoUA0Ve7
- zmK/7hUERkYNK89y7hWmp4nD/T0i/T4k/8CevKL1lqEM766jRsn2DG6WZxYCQyILmk4F
- DVOHvMzWDVF/GGxMjAlMV/UynqPqXXMMHu+AHMppp7jmcURg+xWbAvbQ6j8kFJJRL3qt
- LIR//B7+IIrfigbm7L+UPTvpFox+zyW9pDJsqWyG+Eu1AladIiijLFeygDoeoLt3R6yp
- U2QQ==
-X-Gm-Message-State: AAQBX9cEh50WOJPyQfRkQcS20flLn1zk/RkwXXTw2AkMNxrNuwkoeGER
- y/ehhDjwAFKKFyG5N0ulR1pDpA==
-X-Google-Smtp-Source: AKy350Yzfe49FrsH9Z6/OB3y6cRhc5pawFX7sPJxAsFbpa/SuN7vKe9GYPn9ooNnRuhTB2fPANY9MA==
-X-Received: by 2002:adf:ed05:0:b0:2c3:dd81:49ad with SMTP id
- a5-20020adfed05000000b002c3dd8149admr2130934wro.33.1680622409707; 
- Tue, 04 Apr 2023 08:33:29 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- w18-20020a5d6812000000b002cde25fba30sm12671041wru.1.2023.04.04.08.33.29
+ d=1e100.net; s=20210112; t=1680622367;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oZ3OrMO07C+u/qpaa/OODOHDNM+STRq3HkuGIvKY/ZY=;
+ b=C0shbhbiwV5HUk56KmSuD3bsOIQcsaF20siYTPivNmHkqFyef5VineD53h5x270ewq
+ 2ejLnC+ZBM8VVbvKFaAKAQxDMAqrjDk59ZlGQkuptN57vNjRgW5T/VbrJHYnxTfaD0+X
+ jaZtL/pGsNNZU3gwzdZFyNaGihd/wwAHo+I0HZMVxVmquOi26b0UM8YDVJBs8DuRPWqb
+ CT/ItAT/6zFGeKvM8wleUXQQT1SI+hCviIGSRrzZrkogJuwtwEBZvjqi7c7NPC75C2x2
+ rUFyq0u5rP3M9gd/Z9eeN3zHRq1OI03DAeamNNr9WGhd96F9B52nsVFtMLLcx5yIH7Wu
+ qgbg==
+X-Gm-Message-State: AAQBX9cY44bd4V8oA8qQa+2tB6EuuvSxL+/icPBKBWSUVRJSrWuBDuTx
+ yGTjZMDvSMqA+tO7N5y9RPdtU7D1j4VlfUAu
+X-Google-Smtp-Source: AKy350ZmSccDSx3aAyJZ3D9+vbQJLXj2Bkj8booon9wa0yR2m892AZKHdLEudtVOaGkm2YNGL4lQTQ==
+X-Received: by 2002:aa7:9423:0:b0:626:41d:db30 with SMTP id
+ y3-20020aa79423000000b00626041ddb30mr2772791pfo.25.1680622367414; 
+ Tue, 04 Apr 2023 08:32:47 -0700 (PDT)
+Received: from fedlinux.. ([106.84.131.166]) by smtp.gmail.com with ESMTPSA id
+ p11-20020a62ab0b000000b0059085684b54sm9231519pff.140.2023.04.04.08.32.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 08:33:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 082A91FFB7;
- Tue,  4 Apr 2023 16:33:29 +0100 (BST)
-References: <20230404150435.1571646-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: peter.maydell@linaro.org, philmd@linaro.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH for-8.0] tcg/sparc64: Disable direct linking for goto_tb
-Date: Tue, 04 Apr 2023 16:32:14 +0100
-In-reply-to: <20230404150435.1571646-1-richard.henderson@linaro.org>
-Message-ID: <87pm8jll13.fsf@linaro.org>
+ Tue, 04 Apr 2023 08:32:47 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, hare@suse.de, Hanna Reitz <hreitz@redhat.com>,
+ dmitry.fomichev@wdc.com, Julia Suvorova <jusual@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, damien.lemoal@opensource.wdc.com,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v8 0/4] Add zone append write for zoned device
+Date: Tue,  4 Apr 2023 23:32:35 +0800
+Message-Id: <20230404153239.32234-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.39.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,82 +90,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This patch series add zone append operation based on the previous
+zoned device support part. The file-posix driver is modified to
+add zone append emulation using regular writes.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+v8:
+- address review comments [Stefan]
+  * fix zone_mgmt covering multiple zones case
+  * fix memory leak bug of wps in refresh_limits()
+  * mv BlockZoneWps field from BlockLimits to BlockDriverState
+  * add check_qiov_request() to bdrv_co_zone_append
 
-> Something is wrong with this code, and also wrong with gdb on the
-> sparc systems to which I have access, so I cannot debug it either.
-> Disable for now, so the release is not broken.
+v7:
+- address review comments
+  * fix wp assignment [Stefan]
+  * fix reset_all cases, skip R/O & offline zones [Dmitry, Damien]
+  * fix locking on non-zap related cases [Stefan]
+  * cleanups and typos correction
+- add "zap -p" option to qemuio-cmds [Stefan]
 
-Why isn't this a revert then?
+v6:
+- add small fixes
 
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/sparc64/tcg-target.c.inc | 30 ++++--------------------------
->  1 file changed, 4 insertions(+), 26 deletions(-)
->
-> diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
-> index ccc4144f7c..694f2b9dd4 100644
-> --- a/tcg/sparc64/tcg-target.c.inc
-> +++ b/tcg/sparc64/tcg-target.c.inc
-> @@ -1445,12 +1445,12 @@ static void tcg_out_goto_tb(TCGContext *s, int wh=
-ich)
->  {
->      ptrdiff_t off =3D tcg_tbrel_diff(s, (void *)get_jmp_target_addr(s, w=
-hich));
->=20=20
-> -    /* Direct branch will be patched by tb_target_set_jmp_target. */
-> +    /* Load link and indirect branch. */
->      set_jmp_insn_offset(s, which);
-> -    tcg_out32(s, CALL);
-> -    /* delay slot */
-> -    tcg_debug_assert(check_fit_ptr(off, 13));
->      tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TB, TCG_REG_TB, off);
-> +    tcg_out_arithi(s, TCG_REG_G0, TCG_REG_TB, 0, JMPL);
-> +    /* delay slot */
-> +    tcg_out_nop(s);
->      set_jmp_reset_offset(s, which);
->=20=20
->      /*
-> @@ -1469,28 +1469,6 @@ static void tcg_out_goto_tb(TCGContext *s, int whi=
-ch)
->  void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
->                                uintptr_t jmp_rx, uintptr_t jmp_rw)
->  {
-> -    uintptr_t addr =3D tb->jmp_target_addr[n];
-> -    intptr_t br_disp =3D (intptr_t)(addr - jmp_rx) >> 2;
-> -    tcg_insn_unit insn;
-> -
-> -    br_disp >>=3D 2;
-> -    if (check_fit_ptr(br_disp, 19)) {
-> -        /* ba,pt %icc, addr */
-> -        insn =3D deposit32(INSN_OP(0) | INSN_OP2(1) | INSN_COND(COND_A)
-> -                         | BPCC_ICC | BPCC_PT, 0, 19, br_disp);
-> -    } else if (check_fit_ptr(br_disp, 22)) {
-> -        /* ba addr */
-> -        insn =3D deposit32(INSN_OP(0) | INSN_OP2(2) | INSN_COND(COND_A),
-> -                         0, 22, br_disp);
-> -    } else {
-> -        /* The code_gen_buffer can't be larger than 2GB.  */
-> -        tcg_debug_assert(check_fit_ptr(br_disp, 30));
-> -        /* call addr */
-> -        insn =3D deposit32(CALL, 0, 30, br_disp);
-> -    }
-> -
-> -    qatomic_set((uint32_t *)jmp_rw, insn);
-> -    flush_idcache_range(jmp_rx, jmp_rw, 4);
+v5:
+- fix locking conditions and error handling
+- drop some trival optimizations
+- add tracing points for zone append
 
-So the result it we never patch the jump so return to the main loop
-after every block?
+v4:
+- fix lock related issues[Damien]
+- drop all field in zone_mgmt op [Damien]
+- fix state checks in zong_mgmt command [Damien]
+- return start sector of wp when issuing zap req [Damien]
 
-In so far this won't break anything else and I suspect you are one of
-the last people who actually uses the backend:
+v3:
+- only read wps when it is locked [Damien]
+- allow last smaller zone case [Damien]
+- add zone type and state checks in zone_mgmt command [Damien]
+- fix RESET_ALL related problems
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+v2:
+- split patch to two patches for better reviewing
+- change BlockZoneWps's structure to an array of integers
+- use only mutex lock on locking conditions of zone wps
+- coding styles and clean-ups
 
+v1:
+- introduce zone append write
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Sam Li (4):
+  file-posix: add tracking of the zone write pointers
+  block: introduce zone append write for zoned devices
+  qemu-iotests: test zone append operation
+  block: add some trace events for zone append
+
+ block/block-backend.c              |  60 ++++++++
+ block/file-posix.c                 | 221 ++++++++++++++++++++++++++++-
+ block/io.c                         |  27 ++++
+ block/io_uring.c                   |   4 +
+ block/linux-aio.c                  |   3 +
+ block/raw-format.c                 |   8 ++
+ block/trace-events                 |   2 +
+ include/block/block-common.h       |  14 ++
+ include/block/block-io.h           |   4 +
+ include/block/block_int-common.h   |   8 ++
+ include/block/raw-aio.h            |   4 +-
+ include/sysemu/block-backend-io.h  |   9 ++
+ qemu-io-cmds.c                     |  75 ++++++++++
+ tests/qemu-iotests/tests/zoned     |  16 +++
+ tests/qemu-iotests/tests/zoned.out |  16 +++
+ 15 files changed, 464 insertions(+), 7 deletions(-)
+
+-- 
+2.39.2
+
 
