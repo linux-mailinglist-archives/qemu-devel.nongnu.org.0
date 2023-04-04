@@ -2,111 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A686D5FE0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 14:03:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220C76D5FFC
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 14:18:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjfNG-0004Kl-Ue; Tue, 04 Apr 2023 08:02:55 -0400
+	id 1pjfbF-0003pt-Fj; Tue, 04 Apr 2023 08:17:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pjfNB-000446-Qy; Tue, 04 Apr 2023 08:02:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjfbB-0003nQ-7z
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 08:17:17 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pjfN9-0001hW-0I; Tue, 04 Apr 2023 08:02:49 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3349nwvB016184; Tue, 4 Apr 2023 12:02:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=TbysJwY2zHe6zj8FEPLRW3eHWnteIjZYOe15z9d+Csg=;
- b=puvhR0U5xdNYIPUCLigac3gUZaBuSi1pIprb4GlK6qtQgg0A/aAMfwIAfHErXl7FhZfj
- ZdOrBe02E++8yEOuTIQdYOmscYtbTqSmGFEK63Rc/dqfDnjkGQRXSCs/BkGanrHVV0It
- RdVkADrW6frYKpBc+xsynxpHyTjMq7Y4h4Lo/WcwiLIV1PyP30BcKs6I8K3l1r97eHMo
- 7oRIjFlNpw7hkYkMIDzTekXobrCoJCjn6cBTnKcDnfWHkqfP6tFzAzzP7r0PDYlv7hND
- j0qvtoe7kk1a1+cdPjsboYO5xZDgmKn8UtDa8WBY/NBtPHwPqqHExF4vwgS0OgwR5xGW Pw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pr4d95bgj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Apr 2023 12:02:41 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 334BFINu014345;
- Tue, 4 Apr 2023 12:02:40 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3pr4d95bf7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Apr 2023 12:02:40 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3344qwQX023380;
- Tue, 4 Apr 2023 12:02:38 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3ppbvfsvs9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Apr 2023 12:02:38 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 334C2YlH46858640
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 Apr 2023 12:02:34 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9E2902004E;
- Tue,  4 Apr 2023 12:02:34 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 19CA720043;
- Tue,  4 Apr 2023 12:02:34 +0000 (GMT)
-Received: from [9.152.222.242] (unknown [9.152.222.242])
- by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Tue,  4 Apr 2023 12:02:34 +0000 (GMT)
-Message-ID: <2b3c224e-cfa2-df8f-443c-d49ced4ae29b@linux.ibm.com>
-Date: Tue, 4 Apr 2023 14:02:33 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjfb6-0002Ua-Rm
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 08:17:16 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.188])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1E53022056;
+ Tue,  4 Apr 2023 12:17:03 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 4 Apr
+ 2023 14:17:02 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00271947050-032d-42f3-bbac-fe0ddad42753,
+ 85507D0075A56E5AD4EA03BF56E5282CC2D8C3A6) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c24550f7-4468-a56e-17b0-642df650700c@kaod.org>
+Date: Tue, 4 Apr 2023 14:17:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v19 17/21] tests/avocado: s390x cpu topology test
- dedicated CPU
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v19 14/21] tests/avocado: s390x cpu topology core
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
+ <berrange@redhat.com>
 References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-18-pmorel@linux.ibm.com>
- <e86317ad-74d6-937e-5b48-f3ee93171ded@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <e86317ad-74d6-937e-5b48-f3ee93171ded@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20230403162905.17703-15-pmorel@linux.ibm.com>
+ <2b678e7d-488d-0072-2b27-cd54a43a77b2@kaod.org>
+In-Reply-To: <2b678e7d-488d-0072-2b27-cd54a43a77b2@kaod.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: fZt5OK4u7k42VpedB6PuxqUavbLf9nmo
-X-Proofpoint-ORIG-GUID: nZ_GS_eCO_ZSXVza753QUAN7BEhMO5lk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-04_04,2023-04-04_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- priorityscore=1501 malwarescore=0 spamscore=0 bulkscore=0 impostorscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304040107
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 14b8fda1-0778-48eb-85ca-62282ac2068c
+X-Ovh-Tracer-Id: 1530942398634429395
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledghedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffhvfevfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegveegudfffeeigfdvteeukeefleetgeekgfefudekuedvjeduleeftdeihfdtffenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleejpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpnhhsgheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkhhvmhesvhhgvg
+ hrrdhkvghrnhgvlhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpmhhsthesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.925,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,93 +81,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 4/4/23 11:19, Cédric Le Goater wrote:
-> On 4/3/23 18:29, Pierre Morel wrote:
->> A dedicated CPU in vertical polarization can only have
->> a high entitlement.
->> Let's check this.
+On 4/4/23 11:21, Cédric Le Goater wrote:
+> On 4/3/23 18:28, Pierre Morel wrote:
+>> Introduction of the s390x cpu topology core functions and
+>> basic tests.
+>>
+>> We test the corelation between the command line and
+>> the QMP results in query-cpus-fast for various CPU topology.
 >>
 >> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   tests/avocado/s390_topology.py | 43 +++++++++++++++++++++++++++++++++-
->>   1 file changed, 42 insertions(+), 1 deletion(-)
->>
->> diff --git a/tests/avocado/s390_topology.py 
->> b/tests/avocado/s390_topology.py
->> index f12f0ae148..6a41f08897 100644
->> --- a/tests/avocado/s390_topology.py
->> +++ b/tests/avocado/s390_topology.py
->> @@ -52,6 +52,7 @@ class S390CPUTopology(LinuxKernelTest):
->>       The polarization is changed on a request from the guest.
->>       """
->>       timeout = 90
->> +    skip_basis = False
->
-> This should come through its own patch.
+> 
+> I gave the tests a run on a z LPAR. Nice job !
 
-OK, this is more a debug help, I wonder if I should not just remove it
+I forgot to add some timing output :
 
-
->
->
->>       def check_topology(self, c, s, b, d, e, t):
->> @@ -116,12 +117,14 @@ def system_init(self):
->>           exec_command_and_wait_for_pattern(self,
->>                   '/bin/cat /sys/devices/system/cpu/dispatching', '0')
->>   +    @skipIf(skip_basis, 'skipping basis tests')
->>       def test_single(self):
->>           self.kernel_init()
->>           self.vm.launch()
->>           self.wait_for_console_pattern('no job control')
->>           self.check_topology(0, 0, 0, 0, 'medium', False)
->>   +    @skipIf(skip_basis, 'skipping basis tests')
->>       def test_default(self):
->>           """
->>           This test checks the implicite topology.
->> @@ -147,6 +150,7 @@ def test_default(self):
->>           self.check_topology(11, 2, 1, 0, 'medium', False)
->>           self.check_topology(12, 0, 0, 1, 'medium', False)
->>   +    @skipIf(skip_basis, 'skipping basis tests')
->>       def test_move(self):
->>           """
->>           This test checks the topology modification by moving a CPU
->> @@ -167,6 +171,7 @@ def test_move(self):
->>           self.assertEqual(res['return'], {})
->>           self.check_topology(0, 2, 0, 0, 'low', False)
->>   +    @skipIf(skip_basis, 'skipping basis tests')
->>       def test_hotplug(self):
->>           """
->>           This test verifies that a CPU defined with '-device' 
->> command line
->> @@ -184,6 +189,7 @@ def test_hotplug(self):
->>             self.check_topology(10, 2, 1, 0, 'medium', False)
->>   +    @skipIf(skip_basis, 'skipping basis tests')
->>       def test_hotplug_full(self):
->>           """
->>           This test verifies that a hotplugged fully defined with 
->> '-device'
->> @@ -202,6 +208,7 @@ def test_hotplug_full(self):
->>           self.wait_for_console_pattern('no job control')
->>           self.check_topology(1, 1, 1, 1, 'medium', False)
->>   +    @skipIf(skip_basis, 'skipping basis tests')
->>       def test_polarisation(self):
->>           """
->>           This test verifies that QEMU modifies the entitlement 
->> change after
->> @@ -231,7 +238,7 @@ def test_polarisation(self):
->>             self.check_topology(0, 0, 0, 0, 'medium', False)
->>   -    def test_set_cpu_topology_entitlement(self):
->> +    def test_entitlement(self):
->
-> May be introduce the correct name in the first patch.
+$ build/tests/venv/bin/avocado --show=app run   build/tests/avocado/s390_topology.py
+  (01/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_single: PASS (4.78 s)
+  (02/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_default: PASS (3.90 s)
+  (03/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_move: PASS (3.82 s)
+  (04/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_hotplug: PASS (3.84 s)
+  (05/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_hotplug_full: PASS (3.94 s)
+  (06/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_polarisation: PASS (4.59 s)
+  (07/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_entitlement: PASS (4.65 s)
+  (08/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_dedicated: PASS (4.65 s)
+  (09/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_socket_full: PASS (4.25 s)
+  (10/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_dedicated_error: PASS (4.46 s)
+  (11/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_move_error: PASS (4.22 s)
+  (12/12) build/tests/avocado/s390_topology.py:S390CPUTopology.test_query_polarization: PASS (4.63 s)
 
 
-right.
-
-
-Thanks,
-
-Pierre
-
+C.
 
