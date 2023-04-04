@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4266D642E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 15:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605C36D642D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 15:57:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjh9H-00027Q-CL; Tue, 04 Apr 2023 09:56:35 -0400
+	id 1pjh9a-0002LP-8a; Tue, 04 Apr 2023 09:56:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pjh9F-00027G-7h
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 09:56:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pjh9D-0002e6-Jl
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 09:56:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680616590;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PTCVD5Frp1j12qePatxZ98x7+F3tWllXGKbYuQmf1fw=;
- b=As+i64jrJ6PQBu+VOQdITqIlVrmT3rbTNmluzXj0GGGnHsymnVgzbO9G3mu+J9nXwlietJ
- kdIPe6G26q19jqSNWKojJhKJVwg0QcmFqWZw4MJxCoSxUwCkO0LYun2sFmDjeLHM7ePkal
- Jj4ddlD0U6UIoCKDBiWDUEwBgBxZkuc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-480-TmINPegGNauMbAQK4kci7A-1; Tue, 04 Apr 2023 09:56:28 -0400
-X-MC-Unique: TmINPegGNauMbAQK4kci7A-1
-Received: by mail-ed1-f72.google.com with SMTP id
- c1-20020a0564021f8100b004acbe232c03so45481636edc.9
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 06:56:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjh9X-0002HM-L8
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 09:56:51 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pjh9V-0003KI-Se
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 09:56:51 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id le6so31309450plb.12
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 06:56:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680616608;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3kRCQPATvee73mIKCO2KHqyh62Qrt/XnrvotLVomgo0=;
+ b=VS57fUZwHjAYAS816428wEt9QSV3WcmGO+1IdEajHSRfwl0Izw6uSbTp36Y25L+hKB
+ OwznJfm/d66IXtZwFSJuoWRrR7G3BAHyLE1Gbn6B5hZCsrCkqawKSRzhpLtj9nOyIg2Z
+ oab6SqkMUhIFtvcRKCmHO/DcVVfMDdY1t1nJgjSFjUc3ZUigDT41ad4G2i25YjJVMzgx
+ J5NcGwBjHPJy0V33VY06vYyqc1h8z81decRji6+ipCyGCQwdIgqHjxMJtHQ0TgvGh+eR
+ la+3MPX2Z2qlnEkql6qj95vfL4Uakj2ryHR45uRbS1SUyOFZcgg/bu7W8Tpqrw58CnU3
+ jGXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680616584;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PTCVD5Frp1j12qePatxZ98x7+F3tWllXGKbYuQmf1fw=;
- b=4OvOyav3BS3EhfSc3zX8395ThIZbAK+U8NspWeGAgPLa97DiF0wudt6pGIPPfB/QAt
- wehmoOswbt1hMA56JUwmQS393GJ9xlvUp3/iUXRQLB560/H/a7bReoRedwfT9GYctI5h
- ZeviQGulbmO5maPW6ROl4MIDkZS2vRGSnvs8hkQTxN8YIFxN/RuEp7/HVRL6fUYKqJVt
- tKpQ3MQPB4rQK39P3GbzfuzYr2SdXZ4vzkGgRoWP5Nu8udRyFlY31Yt60Kbva2e6SJA9
- 9cWTsP2gusA0VbKg2L6ei0CUQxfdhMY651uQASjPpIX3FkypkKmaXwPJ2HIGwz3CPYX2
- IKig==
-X-Gm-Message-State: AAQBX9diYpQbZXmcl+hEqpM0AstBJ3fItu2dJLu77jyGjvG11ilWagZC
- NBmOD9vFVqWgAOPndqx/L0JVoSw/bDVYfn6bXngtm4EWbxpQ4geKlGHgTa1s6tAOxuoqhUnvYCw
- u4KCRZ9WuqNXzx/A=
-X-Received: by 2002:a17:906:6a0b:b0:93e:8791:7d8e with SMTP id
- qw11-20020a1709066a0b00b0093e87917d8emr2871082ejc.2.1680616584640; 
- Tue, 04 Apr 2023 06:56:24 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YS9wz7smWMWhw0cu/umkgUxZNGd0j0YVxBPziKNgClgvJ6ftnY45zSgKPD5py/nIOWua4ooA==
-X-Received: by 2002:a17:906:6a0b:b0:93e:8791:7d8e with SMTP id
- qw11-20020a1709066a0b00b0093e87917d8emr2871064ejc.2.1680616584374; 
- Tue, 04 Apr 2023 06:56:24 -0700 (PDT)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- l22-20020a1709061c5600b00927f6c799e6sm5975252ejg.132.2023.04.04.06.56.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 06:56:23 -0700 (PDT)
-Date: Tue, 4 Apr 2023 15:56:22 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Ani Sinha <anisinha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org, jusual@redhat.com, pbonzini@redhat.com
-Subject: Re: [PATCH] acpi: pcihp: make pending delete expire in 5sec
-Message-ID: <20230404155622.4525ee14@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230404084019-mutt-send-email-mst@kernel.org>
-References: <20230403161618.1344414-1-imammedo@redhat.com>
- <20230403131833-mutt-send-email-mst@kernel.org>
- <qdzi3oh24okot23eccd6d453wehyagbxhldoss4bup2whfohfo@hkzr2p3fq6na>
- <1de406aa-338f-277a-96a2-dcf6afbc8aec@redhat.com>
- <20230404084019-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ d=1e100.net; s=20210112; t=1680616608;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3kRCQPATvee73mIKCO2KHqyh62Qrt/XnrvotLVomgo0=;
+ b=PevpfcZFRrXG/sADIWVNMlOMMjqNAYw6ddrUgxHTIdeRZ3ZDdOxKBso74ND30ydhpd
+ FPIT3+2SrlyWmuqg2Gz9AzNgusDdg0CReYk4RKYtWma5m2OGFNNnZ2Iyh4bV+A+qicBh
+ CMkbylgV04PbvzjKTWMiUG+/YK3my+4Yg7tbl55mLWvpTgW25wNyMJvxATtTPd1jfbaI
+ v56XtNqJWskbEGeqkcW7i97MarPkKAG5ioWsbJlHlz3/iSI6JsbEQmvjrRXkFdPXV2XV
+ M5IKQ0AiyanoLHtgLIYK1+F/P7dGDAZkmfX3+arWI/+Ry7RcsXeQII4eqjwbhqtiR4DP
+ qg5g==
+X-Gm-Message-State: AAQBX9eFpQFA7AP0nttbNq1/uPOGGzOfh7d0TtAdk69al/DjOj218ASe
+ wo4qo1k388EoUnuCwT373CYcXA==
+X-Google-Smtp-Source: AKy350bSS30gQrWmufuOvylanm4K3XvxwIIqlcVuSq5p7XrbsKq0O7P/CKc+a/z+izfEEGA6z3SgIw==
+X-Received: by 2002:a17:90b:1c03:b0:237:47b0:3235 with SMTP id
+ oc3-20020a17090b1c0300b0023747b03235mr3022591pjb.32.1680616608124; 
+ Tue, 04 Apr 2023 06:56:48 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
+ ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
+ by smtp.gmail.com with ESMTPSA id
+ z8-20020a1709028f8800b001948ff5cc32sm8336625plo.215.2023.04.04.06.56.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Apr 2023 06:56:47 -0700 (PDT)
+Message-ID: <f0923f4b-e5e5-b648-6c77-4a5a151a9b6c@linaro.org>
+Date: Tue, 4 Apr 2023 06:56:45 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v6 4/6] target/riscv: Add support for PC-relative
+ translation
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230404020653.18911-1-liweiwei@iscas.ac.cn>
+ <20230404020653.18911-5-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230404020653.18911-5-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,53 +99,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 4 Apr 2023 08:40:45 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 4/3/23 19:06, Weiwei Li wrote:
+>   static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>   {
+> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+> +    TCGv target_pc = dest_gpr(ctx, a->rd);
+> +    gen_pc_plus_diff(target_pc, ctx, a->imm + ctx->base.pc_next);
+> +    gen_set_gpr(ctx, a->rd, target_pc);
+>       return true;
+>   }
 
-> On Tue, Apr 04, 2023 at 01:06:38PM +0530, Ani Sinha wrote:
-> > 
-> > 
-> > On Tue, 4 Apr 2023, Gerd Hoffmann wrote:
-> >   
-> > >   Hi,
-> > >  
-> > > > > Allowing pending delete expire brings ACPI PCI hotplug on par
-> > > > > with native PCIe unplug behavior [1] which in its turn refers
-> > > > > back to ACPI PCI hotplug ability to repeat unplug requests.  
-> > >  
-> > > > A bit concerned about how this interacts with failover,
-> > > > and 5sec is a lot of time that I hoped we'd avoid with acpi.
-> > > > Any better ideas of catching such misbehaving guests?  
-> > >
-> > > The 5sec are coming from the pcie spec: The hot-unplug request can be
-> > > canceled within 5 seconds by pressing the button again. The problem here
-> > > is that both hotplug and hot-unplug use the same signaling path, so we
-> > > really have to wait the 5 seconds to avoid the OS mis-interpreting the
-> > > button press as 'cancel' event.
-> > >
-> > > ACPI hotplug hasn't this problem.  A unplug request is a unplug request,  
-> > 
-> > For ACPI case, I think all we want is to make sure that the first unplug
-> > event to not stick forever. A non-zero but small delay would make sure
-> > that the first
-> > unplug event would get cleared after that interval and subsequent unplug
-> > events will get registered without that error.
-> >   
-> > > period.  And it can't be canceled.  So it should be possible to use a
-> > > shorter period.  Possibly even no delay at all.
-> > >
-> > > take care,
-> > >   Gerd
-> > >
-> > >  
-> 
-> 
-> But why do we want a delay at all? for acpi you can resend
-> the interrupt as many times as you like.
+This is not how I expect a function called "pc plus diff" to work.
+It should be simpler:
 
-yep, we can. It makes possible for user to cause limited
-"interrupt storm". That also leads to device_del abuse [1]
 
-1) https://www.mail-archive.com/qemu-devel@nongnu.org/msg952738.html
+     TCGv rd = dest_gpr(ctx, a->rd);
 
+     gen_pc_plus_diff(ctx, rd, a->imm);
+     gen_set_gpr(ctx, a->rd, rd);
+
+All of the manipulation of cpu_pc, pc_save, and pc_next are all hidden inside the 
+function.  All that "add upper immediate to pc" should do is supply the immediate.
+
+
+r~
 
