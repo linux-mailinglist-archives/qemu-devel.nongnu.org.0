@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480DB6D5539
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 01:33:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3056D559B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 02:38:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjTeN-0001Cg-Uq; Mon, 03 Apr 2023 19:31:47 -0400
+	id 1pjUg2-0000ed-5g; Mon, 03 Apr 2023 20:37:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjTeL-0001C9-Ml
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 19:31:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pjUfz-0000eG-NN
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 20:37:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pjTdH-0004nI-FT
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 19:31:45 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pjUfF-0004v7-5m
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 20:37:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680564637;
+ s=mimecast20190719; t=1680568603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=tA3XlYA82TA/7gYytK0+kHEr1Nx0u+maq2USH/2zBF4=;
- b=PNlSf+UoKGJ+fKVfOCIzIeqiqyPYAgV2rsjxykGH1GQr/7m3aNGI9PuU7vU+8frZZ0TitE
- NNtLuJ04gS2uSkiQy1CYwPEMrURV5J2Y9sJKS/mX/RIUwl9KE2V7ibmzqTtoM+Yl0AITkL
- GqDiKAdM1nPLYwnWY4UMLe1xjsIS9YY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-tJRQzVa7M6ia0bOtMwFwkA-1; Mon, 03 Apr 2023 19:30:36 -0400
-X-MC-Unique: tJRQzVa7M6ia0bOtMwFwkA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4E40848B67;
- Mon,  3 Apr 2023 23:30:35 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5D5440C83A9;
- Mon,  3 Apr 2023 23:30:34 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- eesposit@redhat.com, Peter Lieven <pl@kamp.de>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH] block/nfs: avoid BDRV_POLL_WHILE() in
- nfs_co_get_allocated_file_size()
-Date: Mon,  3 Apr 2023 19:30:33 -0400
-Message-Id: <20230403233033.408120-1-stefanha@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WAnbz455ju5JtPpU1B/aelnT/VtDTfayKc9YAI8XtlY=;
+ b=bH/bqWFu/yafQ6vFBDHgrHevs/88AryRQRfFmVOp1dYDFQ8QaZvHoEn2FcGu3SDlv3Aayc
+ I/BxnyEc+94JEWTPUpRzk6Jp+MiAZDaNkpxpc2qS0wIEn1uizX30aRjBdMMToMf253i+rp
+ JiDTjbLbVpi98lyl2cQHNSBKjWA/YrE=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-628-CNWW5NtKPNepxBFt4E7eQQ-1; Mon, 03 Apr 2023 20:36:42 -0400
+X-MC-Unique: CNWW5NtKPNepxBFt4E7eQQ-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ t18-20020a4a7452000000b00525456d55f7so8106611ooe.14
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 17:36:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680568601; x=1683160601;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WAnbz455ju5JtPpU1B/aelnT/VtDTfayKc9YAI8XtlY=;
+ b=NTFhzFvN6ITB+I0lioppJ0lvsyaWPtRjaF/5z5hJajT64F35QUBGzlvSPErNZ2cdUZ
+ zxk8pSQSo/OaaypPCMC09m2vbZqMmmVERoxFjuoi6TDJFgrM1gp8zk2ZL7Q3gQN1LqcQ
+ lpPWx9YpLZBw4SZkTSS6JkMIchwgEKuDRubkrgWewiw++ch+Wulz8J7f1o9xh4pNISTR
+ xX8w4tRizM0Zztqo8hoJ//OOg5hGjWxMNbowbe80sBF/MZOk8I2NvdS7nfXymU91D0A7
+ 7wTfAqoVVdQh1ueCRGBRtq2RWMGyMfJNdmMM2KpSeC/P4N1bvtOQPObFElrZohHcFPh2
+ fTPQ==
+X-Gm-Message-State: AAQBX9eCKkpnJ1dAXM5FQ7Qt9ej2vbzBcW9JpUaUlBnlebxMs4dals21
+ s0LOzW3lZrNWZ4ij3CqtxDuQqn/7VSyzPqXXO1mGxQEyQR0QwOsCuNHF32CpuMhJgUf3jTGScmi
+ egmEMSGy/PyUUCMneU+SvIs/pJBuVHiU=
+X-Received: by 2002:a4a:e6c1:0:b0:539:7cb5:7a0e with SMTP id
+ v1-20020a4ae6c1000000b005397cb57a0emr543233oot.0.1680568601723; 
+ Mon, 03 Apr 2023 17:36:41 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YueUgtFKS/uYg3NfeTA+4Rhj2t3S25ehhD1UdZnHu05DSZxtjzcgOZ3cTjg2343+4y3KvD36AmE9mWoET0OCQ=
+X-Received: by 2002:a4a:e6c1:0:b0:539:7cb5:7a0e with SMTP id
+ v1-20020a4ae6c1000000b005397cb57a0emr543227oot.0.1680568601494; Mon, 03 Apr
+ 2023 17:36:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+References: <20230331150410.2627214-1-eperezma@redhat.com>
+In-Reply-To: <20230331150410.2627214-1-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 4 Apr 2023 08:36:30 +0800
+Message-ID: <CACGkMEvneh-NF-LftBNpjBzvEfBzA0PVVoGkqqiJEkSZKV1NSg@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_=5BPATCH=5D_MAINTAINERS=3A_Add_Eugenio_P=C3=A9rez_as_vhost?=
+ =?UTF-8?Q?=2Dshadow=2Dvirtqueue_reviewer?=
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,114 +94,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit 82618d7bc341 ("block: Convert bdrv_get_allocated_file_size() to
-co_wrapper") made nfs_get_allocated_file_size() a coroutine. The
-coroutine still uses BDRV_POLL_WHILE() to wait for the NFS RPC to
-complete.
+On Fri, Mar 31, 2023 at 11:04=E2=80=AFPM Eugenio P=C3=A9rez <eperezma@redha=
+t.com> wrote:
+>
+> I'd like to be notified on SVQ patches and review them.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-Take it a step further and yield the coroutine until the RPC completes.
-This avoids the blocking, nested event loop and unifies
-nfs_co_get_allocated_file_size() with the other coroutine functions that
-send RPCs:
-- Use nfs_co_init_task() to set up a coroutine NFSRPC task.
-- Take client->mutex to protect fd handler state since we're in IO_CODE.
-- Use nfs_co_generic_cb() instead of a specialized callback function.
-- Yield until the task completes.
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-Getting rid of BDRV_POLL_WHILE() helps with the multi-queue block layer
-effort where we don't want to take the AioContext lock.
+Thanks
 
-This commit passes qemu-iotests/check -nfs, except inactivate-failure,
-which also fails before this commit.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/nfs.c | 45 +++++++++++++++++----------------------------
- 1 file changed, 17 insertions(+), 28 deletions(-)
-
-diff --git a/block/nfs.c b/block/nfs.c
-index 351dc6ec8d..71062c9b47 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -248,14 +248,18 @@ nfs_co_generic_cb(int ret, struct nfs_context *nfs, void *data,
- {
-     NFSRPC *task = private_data;
-     task->ret = ret;
--    assert(!task->st);
-     if (task->ret > 0 && task->iov) {
-+        assert(!task->st);
-         if (task->ret <= task->iov->size) {
-             qemu_iovec_from_buf(task->iov, 0, data, task->ret);
-         } else {
-             task->ret = -EIO;
-         }
-     }
-+    if (task->ret == 0 && task->st) {
-+        assert(!task->iov);
-+        memcpy(task->st, data, sizeof(struct stat));
-+    }
-     if (task->ret < 0) {
-         error_report("NFS Error: %s", nfs_get_error(nfs));
-     }
-@@ -713,29 +717,10 @@ static int nfs_has_zero_init(BlockDriverState *bs)
- }
- 
- #if !defined(_WIN32)
--/* Called (via nfs_service) with QemuMutex held.  */
--static void
--nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs, void *data,
--                               void *private_data)
--{
--    NFSRPC *task = private_data;
--    task->ret = ret;
--    if (task->ret == 0) {
--        memcpy(task->st, data, sizeof(struct stat));
--    }
--    if (task->ret < 0) {
--        error_report("NFS Error: %s", nfs_get_error(nfs));
--    }
--
--    /* Set task->complete before reading bs->wakeup.  */
--    qatomic_mb_set(&task->complete, 1);
--    bdrv_wakeup(task->bs);
--}
--
- static int64_t coroutine_fn nfs_co_get_allocated_file_size(BlockDriverState *bs)
- {
-     NFSClient *client = bs->opaque;
--    NFSRPC task = {0};
-+    NFSRPC task;
-     struct stat st;
- 
-     if (bdrv_is_read_only(bs) &&
-@@ -743,15 +728,19 @@ static int64_t coroutine_fn nfs_co_get_allocated_file_size(BlockDriverState *bs)
-         return client->st_blocks * 512;
-     }
- 
--    task.bs = bs;
-+    nfs_co_init_task(bs, &task);
-     task.st = &st;
--    if (nfs_fstat_async(client->context, client->fh, nfs_get_allocated_file_size_cb,
--                        &task) != 0) {
--        return -ENOMEM;
--    }
-+    WITH_QEMU_LOCK_GUARD(&client->mutex) {
-+        if (nfs_fstat_async(client->context, client->fh, nfs_co_generic_cb,
-+                            &task) != 0) {
-+            return -ENOMEM;
-+        }
- 
--    nfs_set_events(client);
--    BDRV_POLL_WHILE(bs, !task.complete);
-+        nfs_set_events(client);
-+    }
-+    while (!task.complete) {
-+        qemu_coroutine_yield();
-+    }
- 
-     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
- }
--- 
-2.39.2
+> ---
+>  MAINTAINERS | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ef45b5e71e..986119e8ab 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2061,6 +2061,10 @@ F: backends/vhost-user.c
+>  F: include/sysemu/vhost-user-backend.h
+>  F: subprojects/libvhost-user/
+>
+> +vhost-shadow-virtqueue
+> +R: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> +F: hw/virtio/vhost-shadow-virtqueue.*
+> +
+>  virtio
+>  M: Michael S. Tsirkin <mst@redhat.com>
+>  S: Supported
+> --
+> 2.31.1
+>
 
 
