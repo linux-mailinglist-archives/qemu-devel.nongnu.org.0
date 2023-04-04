@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8500A6D5BC2
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 11:23:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4356D5BCB
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 11:24:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjcsD-0001av-PM; Tue, 04 Apr 2023 05:22:46 -0400
+	id 1pjctj-0002z1-Pa; Tue, 04 Apr 2023 05:24:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjcs6-0001aT-UT
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 05:22:35 -0400
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pjcth-0002yp-J3; Tue, 04 Apr 2023 05:24:13 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pjcs5-0003J8-4F
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 05:22:34 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5CEC62BFCA;
- Tue,  4 Apr 2023 09:22:29 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 4 Apr
- 2023 11:22:28 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0054cd988ad-d4e0-4a68-815e-4da39195e32a,
- 85507D0075A56E5AD4EA03BF56E5282CC2D8C3A6) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <0a5daba1-16df-cd01-f0fb-c6b9cccb04d3@kaod.org>
-Date: Tue, 4 Apr 2023 11:22:27 +0200
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pjctd-0006Ph-Dm; Tue, 04 Apr 2023 05:24:13 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VfLHLNv_1680600240; 
+Received: from 30.221.97.97(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VfLHLNv_1680600240) by smtp.aliyun-inc.com;
+ Tue, 04 Apr 2023 17:24:01 +0800
+Message-ID: <5154086f-2948-cdf2-d135-ecc77b809f7f@linux.alibaba.com>
+Date: Tue, 4 Apr 2023 17:23:56 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH v19 15/21] tests/avocado: s390x cpu topology polarisation
+Subject: Re: [PATCH v6 4/6] target/riscv: Add support for PC-relative
+ translation
+To: liweiwei <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230404020653.18911-1-liweiwei@iscas.ac.cn>
+ <20230404020653.18911-5-liweiwei@iscas.ac.cn>
+ <3bd89c54-3a20-1031-1502-a8744c2caa36@linux.alibaba.com>
+ <943a4563-2f63-1885-47d6-ec2a23552672@iscas.ac.cn>
+ <5c23fb0d-76d1-572c-a53a-d7e0d0e56643@linux.alibaba.com>
+ <01681204-ad1d-4bbe-82d2-93f23d78f859@iscas.ac.cn>
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <nsg@linux.ibm.com>, <frankja@linux.ibm.com>,
- <berrange@redhat.com>
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-16-pmorel@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230403162905.17703-16-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 00c44b89-e119-4cc6-a75b-6aa42af93303
-X-Ovh-Tracer-Id: 17029517567254367187
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeiledgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeetgeetfffgvefhgfdviefgtdevffettedvueelueejieetveejveeiueelhefhfeenucffohhmrghinheplhhoghdrihhnfhhonecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpnhhsgheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtse
- hrvgguhhgrthdrtghomhdpkhhvmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpmhhsthesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.349,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <01681204-ad1d-4bbe-82d2-93f23d78f859@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.130;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-130.freemail.mail.aliyun.com
+X-Spam_score_int: -111
+X-Spam_score: -11.2
+X-Spam_bar: -----------
+X-Spam_report: (-11.2 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.349, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,78 +71,369 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/3/23 18:28, Pierre Morel wrote:
-> Polarization is changed on a request from the guest.
-> Let's verify the polarization is accordingly set by QEMU.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   tests/avocado/s390_topology.py | 38 +++++++++++++++++++++++++++++++++-
->   1 file changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/avocado/s390_topology.py b/tests/avocado/s390_topology.py
-> index 38e9cc4f16..a4bbbc2cb6 100644
-> --- a/tests/avocado/s390_topology.py
-> +++ b/tests/avocado/s390_topology.py
-> @@ -107,6 +107,15 @@ def kernel_init(self):
->                            '-initrd', initrd_path,
->                            '-append', kernel_command_line)
->   
-> +    def system_init(self):
-> +        self.log.info("System init")
-> +        exec_command(self, 'mount proc -t proc /proc')
-> +        time.sleep(0.2)
-> +        exec_command(self, 'mount sys -t sysfs /sys')
-> +        time.sleep(0.2)
-> +        exec_command_and_wait_for_pattern(self,
-> +                '/bin/cat /sys/devices/system/cpu/dispatching', '0')
-> +
->       def test_single(self):
->           self.kernel_init()
->           self.vm.launch()
-> @@ -116,7 +125,6 @@ def test_single(self):
->       def test_default(self):
->           """
->           This test checks the implicite topology.
-> -
 
-unwanted change I guess ?
+On 2023/4/4 16:48, liweiwei wrote:
+>
+> On 2023/4/4 15:07, LIU Zhiwei wrote:
+>>
+>> On 2023/4/4 11:46, liweiwei wrote:
+>>>
+>>> On 2023/4/4 11:12, LIU Zhiwei wrote:
+>>>>
+>>>> On 2023/4/4 10:06, Weiwei Li wrote:
+>>>>> Add a base pc_save for PC-relative translation(CF_PCREL).
+>>>>> Diable the directly sync pc from tb by riscv_cpu_synchronize_from_tb.
+>>>>> We can get pc-relative address from following formula:
+>>>>>    real_pc = (old)env->pc + diff, where diff = target_pc - 
+>>>>> ctx->pc_save.
+>>>>> Use gen_get_target_pc to compute target address of auipc and 
+>>>>> successor
+>>>>> address of jalr and jal.
+>>>>>
+>>>>> The existence of CF_PCREL can improve performance with the guest
+>>>>> kernel's address space randomization.  Each guest process maps 
+>>>>> libc.so
+>>>>> (et al) at a different virtual address, and this allows those
+>>>>> translations to be shared.
+>>>>>
+>>>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>>> ---
+>>>>>   target/riscv/cpu.c                      | 29 +++++++++------
+>>>>>   target/riscv/insn_trans/trans_rvi.c.inc | 14 ++++++--
+>>>>
+>>>> Miss the process for trans_ebreak.
+>>>>
+>>>> I want to construct the PCREL feature on the processing of ctx pc 
+>>>> related fields, which is the reason why we need do specially 
+>>>> process. For example,
+>>>>
+>>>>  static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>>>>  {
+>>>> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+>>>> +    if (tb_cflags(ctx->cflags) & CF_PCREL) {
+>>>> +        target_ulong pc_rel = ctx->base.pc_next - 
+>>>> ctx->base.pc_first + a->imm;
+>>>> +        gen_set_gpr_pcrel(ctx, a->rd, cpu_pc, pc_rel);
+>>>> +    } else {
+>>>> +        gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+>>>> +    }
+>>>>      return true;
+>>>>  }
+>>>>
+>>>> +static void gen_set_gpr_pcrel(DisasContext *ctx, int reg_num, TCGv 
+>>>> t, target_ulong rel)
+>>>> +{
+>>>> +    TCGv dest = dest_gpr(ctx, reg_num);
+>>>> +    tcg_gen_addi_tl(dest, t, rel);
+>>>> +    gen_set_gpr(ctx, reg_num, dest);
+>>>> +}
+>>>> +
+>>>>
+>>>> But if it is too difficult to reuse the current implementation, 
+>>>> your implementation is also acceptable to me.
+>>>
+>>> Sorry, I don't get your idea. gen_pc_plus_diff() can do all the 
+>>> above job.
+>>
+>> Yes, I think so. I just suspect whether it is easy to read and verify 
+>> the correctness. And the maintenance for the future.
+>>
+>>
+>> 1) Maybe we should split the PCREL to a split patch set, as it is a 
+>> new feature. The point masking can still use this thread.
+>
+> Point mask for instruction relies on PCREL. That's why I introduce 
+> PCREL in this patchset.
+>
+> Maybe we can divide this patch if needed.
+If we won't use another way to rewrite the PCREL, we don't have to split it.
+>
+>>
+>>
+>> 2) For the new patch set for PCREL, process where we need to modify 
+>> one by one. One clue for recognize where to modify is the ctx pc 
+>> related fields, such as pc_next/pc_first/succ_insn_pc.
+>>
+>> One thing may worth to try is that don't change the code in 
+>> insn_trans/trans_X.  Just rename the origin API we need to modify to 
+>> a new name with _abs suffix. And and a correspond set of API for 
+>> PCREL with _pcrel suffix.
+>>
+>  I don't find a good way to  remain trans_* unchanged to support PCREL.
+>> For example, in DisasContext, we define
+>>
+>> void (*gen_set_gpri)(DisasContext *ctx, int reg_num, target_long imm);
+>>
+>> In disas_init_fn,
+>>
+>> if (tb_cflags(tb) & CF_PCREL) {
+>>     gen_set_gpri = gen_set_gpri_pcrel;
+>> } else {
+>>     gen_set_gpri = gen_set_gpri_abs;
+>> } Thus we can write the code in trans_insn without think about the 
+>> PCREL.
+>
+> That's what I want. And PCREL also have  been avoided in following 
+> code of trans_*.
+>
+> However, we should't update  pc_next/pc_succ_insn related address into 
+> register directly by reusing existed API like gen_set_gpri.
+>
+> It's a general API to set gpr to any imm. However PC-relative only 
+> works for pc-related imm.
+>
+> Maybe we can introduce a new API like gen_set_gpr_pci() to set pc 
+> related imm.
 
+Yes, I think so, except _pci is not a good suffix.  But I don't insist 
+on this way.
 
->           :avocado: tags=arch:s390x
->           :avocado: tags=machine:s390-ccw-virtio
->           """
-> @@ -194,3 +202,31 @@ def test_hotplug_full(self):
->           self.wait_for_console_pattern('no job control')
->           self.check_topology(1, 1, 1, 1, 'medium', False)
->   
-> +    def test_polarisation(self):
-> +        """
-> +        This test verifies that QEMU modifies the entitlement change after
-> +        several guest polarization change requests.
-> +
-> +        :avocado: tags=arch:s390x
-> +        :avocado: tags=machine:s390-ccw-virtio
-> +        """
-> +        self.kernel_init()
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern('no job control')
-> +
-> +        self.system_init()
-> +        self.check_topology(0, 0, 0, 0, 'medium', False)
-> +
-> +        exec_command(self, 'echo 1 > /sys/devices/system/cpu/dispatching')
-> +        time.sleep(0.2)
-> +        exec_command_and_wait_for_pattern(self,
-> +                '/bin/cat /sys/devices/system/cpu/dispatching', '1')
-> +
-> +        self.check_topology(0, 0, 0, 0, 'medium', False)
-> +
-> +        exec_command(self, 'echo 0 > /sys/devices/system/cpu/dispatching')
-> +        time.sleep(0.2)
-> +        exec_command_and_wait_for_pattern(self,
-> +                '/bin/cat /sys/devices/system/cpu/dispatching', '0')
-> +
-> +        self.check_topology(0, 0, 0, 0, 'medium', False)
+Zhiwei
 
+>
+> However it seems unnecessary, because it's no difference from current 
+> logic by using gen_pc_plus_diff() from the developer hand.
+>
+> Regards,
+>
+> Weiwei Li
+>
+>>
+>> Thanks,
+>> Zhiwei
+>>
+>>>
+>>> Regards,
+>>>
+>>> Weiwei Li
+>>>
+>>>>
+>>>> Zhiwei
+>>>>
+>>>>>   target/riscv/translate.c | 48 ++++++++++++++++++++-----
+>>>>>   3 files changed, 70 insertions(+), 21 deletions(-)
+>>>>>
+>>>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>>>>> index 1e97473af2..646fa31a59 100644
+>>>>> --- a/target/riscv/cpu.c
+>>>>> +++ b/target/riscv/cpu.c
+>>>>> @@ -658,16 +658,18 @@ static vaddr riscv_cpu_get_pc(CPUState *cs)
+>>>>>   static void riscv_cpu_synchronize_from_tb(CPUState *cs,
+>>>>>                                             const TranslationBlock 
+>>>>> *tb)
+>>>>>   {
+>>>>> -    RISCVCPU *cpu = RISCV_CPU(cs);
+>>>>> -    CPURISCVState *env = &cpu->env;
+>>>>> -    RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+>>>>> +    if (!(tb_cflags(tb) & CF_PCREL)) {
+>>>>> +        RISCVCPU *cpu = RISCV_CPU(cs);
+>>>>> +        CPURISCVState *env = &cpu->env;
+>>>>> +        RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+>>>>>   -    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
+>>>>> +        tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
+>>>>>   -    if (xl == MXL_RV32) {
+>>>>> -        env->pc = (int32_t) tb->pc;
+>>>>> -    } else {
+>>>>> -        env->pc = tb->pc;
+>>>>> +        if (xl == MXL_RV32) {
+>>>>> +            env->pc = (int32_t) tb->pc;
+>>>>> +        } else {
+>>>>> +            env->pc = tb->pc;
+>>>>> +        }
+>>>>>       }
+>>>>>   }
+>>>>>   @@ -693,11 +695,18 @@ static void 
+>>>>> riscv_restore_state_to_opc(CPUState *cs,
+>>>>>       RISCVCPU *cpu = RISCV_CPU(cs);
+>>>>>       CPURISCVState *env = &cpu->env;
+>>>>>       RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+>>>>> +    target_ulong pc;
+>>>>> +
+>>>>> +    if (tb_cflags(tb) & CF_PCREL) {
+>>>>> +        pc = (env->pc & TARGET_PAGE_MASK) | data[0];
+>>>>> +    } else {
+>>>>> +        pc = data[0];
+>>>>> +    }
+>>>>>         if (xl == MXL_RV32) {
+>>>>> -        env->pc = (int32_t)data[0];
+>>>>> +        env->pc = (int32_t)pc;
+>>>>>       } else {
+>>>>> -        env->pc = data[0];
+>>>>> +        env->pc = pc;
+>>>>>       }
+>>>>>       env->bins = data[1];
+>>>>>   }
+>>>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc 
+>>>>> b/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>> index cc72864d32..7cbbdac5aa 100644
+>>>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+>>>>> @@ -38,7 +38,9 @@ static bool trans_lui(DisasContext *ctx, arg_lui 
+>>>>> *a)
+>>>>>     static bool trans_auipc(DisasContext *ctx, arg_auipc *a)
+>>>>>   {
+>>>>> -    gen_set_gpri(ctx, a->rd, a->imm + ctx->base.pc_next);
+>>>>> +    TCGv target_pc = dest_gpr(ctx, a->rd);
+>>>>> +    gen_pc_plus_diff(target_pc, ctx, a->imm + ctx->base.pc_next);
+>>>>> +    gen_set_gpr(ctx, a->rd, target_pc);
+>>>>>       return true;
+>>>>>   }
+>>>>>   @@ -52,6 +54,7 @@ static bool trans_jalr(DisasContext *ctx, 
+>>>>> arg_jalr *a)
+>>>>>   {
+>>>>>       TCGLabel *misaligned = NULL;
+>>>>>       TCGv target_pc = tcg_temp_new();
+>>>>> +    TCGv succ_pc = dest_gpr(ctx, a->rd);
+>>>>>         tcg_gen_addi_tl(target_pc, get_gpr(ctx, a->rs1, EXT_NONE), 
+>>>>> a->imm);
+>>>>>       tcg_gen_andi_tl(target_pc, target_pc, (target_ulong)-2);
+>>>>> @@ -68,7 +71,9 @@ static bool trans_jalr(DisasContext *ctx, 
+>>>>> arg_jalr *a)
+>>>>>           tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
+>>>>>       }
+>>>>>   -    gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
+>>>>> +    gen_pc_plus_diff(succ_pc, ctx, ctx->pc_succ_insn);
+>>>>> +    gen_set_gpr(ctx, a->rd, succ_pc);
+>>>>> +
+>>>>>       tcg_gen_mov_tl(cpu_pc, target_pc);
+>>>>>       lookup_and_goto_ptr(ctx);
+>>>>>   @@ -159,6 +164,7 @@ static bool gen_branch(DisasContext *ctx, 
+>>>>> arg_b *a, TCGCond cond)
+>>>>>       TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
+>>>>>       TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
+>>>>>       target_ulong next_pc;
+>>>>> +    target_ulong orig_pc_save = ctx->pc_save;
+>>>>>         if (get_xl(ctx) == MXL_RV128) {
+>>>>>           TCGv src1h = get_gprh(ctx, a->rs1);
+>>>>> @@ -175,6 +181,7 @@ static bool gen_branch(DisasContext *ctx, 
+>>>>> arg_b *a, TCGCond cond)
+>>>>>         gen_set_label(l); /* branch taken */
+>>>>>   +    ctx->pc_save = orig_pc_save;
+>>>>>       next_pc = ctx->base.pc_next + a->imm;
+>>>>>       if (!has_ext(ctx, RVC) && (next_pc & 0x3)) {
+>>>>>           /* misaligned */
+>>>>> @@ -182,8 +189,9 @@ static bool gen_branch(DisasContext *ctx, 
+>>>>> arg_b *a, TCGCond cond)
+>>>>>           gen_pc_plus_diff(target_pc, ctx, next_pc);
+>>>>>           gen_exception_inst_addr_mis(ctx, target_pc);
+>>>>>       } else {
+>>>>> -        gen_goto_tb(ctx, 0, ctx->base.pc_next + a->imm);
+>>>>> +        gen_goto_tb(ctx, 0, next_pc);
+>>>>>       }
+>>>>> +    ctx->pc_save = -1;
+>>>>>       ctx->base.is_jmp = DISAS_NORETURN;
+>>>>>         return true;
+>>>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>>>>> index d434fedb37..4623749602 100644
+>>>>> --- a/target/riscv/translate.c
+>>>>> +++ b/target/riscv/translate.c
+>>>>> @@ -59,6 +59,7 @@ typedef struct DisasContext {
+>>>>>       DisasContextBase base;
+>>>>>       /* pc_succ_insn points to the instruction following 
+>>>>> base.pc_next */
+>>>>>       target_ulong pc_succ_insn;
+>>>>> +    target_ulong pc_save;
+>>>>>       target_ulong priv_ver;
+>>>>>       RISCVMXL misa_mxl_max;
+>>>>>       RISCVMXL xl;
+>>>>> @@ -225,15 +226,24 @@ static void decode_save_opc(DisasContext *ctx)
+>>>>>   static void gen_pc_plus_diff(TCGv target, DisasContext *ctx,
+>>>>>                                 target_ulong dest)
+>>>>>   {
+>>>>> -    if (get_xl(ctx) == MXL_RV32) {
+>>>>> -        dest = (int32_t)dest;
+>>>>> +    assert(ctx->pc_save != -1);
+>>>>> +    if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+>>>>> +        tcg_gen_addi_tl(target, cpu_pc, dest - ctx->pc_save);
+>>>>> +        if (get_xl(ctx) == MXL_RV32) {
+>>>>> +            tcg_gen_ext32s_tl(target, target);
+>>>>> +        }
+>>>>> +    } else {
+>>>>> +        if (get_xl(ctx) == MXL_RV32) {
+>>>>> +            dest = (int32_t)dest;
+>>>>> +        }
+>>>>> +        tcg_gen_movi_tl(target, dest);
+>>>>>       }
+>>>>> -    tcg_gen_movi_tl(target, dest);
+>>>>>   }
+>>>>>     static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
+>>>>>   {
+>>>>>       gen_pc_plus_diff(cpu_pc, ctx, dest);
+>>>>> +    ctx->pc_save = dest;
+>>>>>   }
+>>>>>     static void generate_exception(DisasContext *ctx, int excp)
+>>>>> @@ -287,8 +297,21 @@ static void gen_goto_tb(DisasContext *ctx, 
+>>>>> int n, target_ulong dest)
+>>>>>         * direct block chain benefits will be small.
+>>>>>         */
+>>>>>       if (translator_use_goto_tb(&ctx->base, dest) && 
+>>>>> !ctx->itrigger) {
+>>>>> -        tcg_gen_goto_tb(n);
+>>>>> -        gen_set_pc_imm(ctx, dest);
+>>>>> +        /*
+>>>>> +         * For pcrel, the pc must always be up-to-date on entry to
+>>>>> +         * the linked TB, so that it can use simple additions for 
+>>>>> all
+>>>>> +         * further adjustments.  For !pcrel, the linked TB is 
+>>>>> compiled
+>>>>> +         * to know its full virtual address, so we can delay the
+>>>>> +         * update to pc to the unlinked path.  A long chain of links
+>>>>> +         * can thus avoid many updates to the PC.
+>>>>> +         */
+>>>>> +        if (tb_cflags(ctx->base.tb) & CF_PCREL) {
+>>>>> +            gen_set_pc_imm(ctx, dest);
+>>>>> +            tcg_gen_goto_tb(n);
+>>>>> +        } else {
+>>>>> +            tcg_gen_goto_tb(n);
+>>>>> +            gen_set_pc_imm(ctx, dest);
+>>>>> +        }
+>>>>>           tcg_gen_exit_tb(ctx->base.tb, n);
+>>>>>       } else {
+>>>>>           gen_set_pc_imm(ctx, dest);
+>>>>> @@ -543,6 +566,7 @@ static void gen_set_fpr_d(DisasContext *ctx, 
+>>>>> int reg_num, TCGv_i64 t)
+>>>>>   static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+>>>>>   {
+>>>>>       target_ulong next_pc;
+>>>>> +    TCGv succ_pc = dest_gpr(ctx, rd);
+>>>>>         /* check misaligned: */
+>>>>>       next_pc = ctx->base.pc_next + imm;
+>>>>> @@ -555,8 +579,10 @@ static void gen_jal(DisasContext *ctx, int 
+>>>>> rd, target_ulong imm)
+>>>>>           }
+>>>>>       }
+>>>>>   -    gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+>>>>> -    gen_goto_tb(ctx, 0, ctx->base.pc_next + imm); /* must use 
+>>>>> this for safety */
+>>>>> +    gen_pc_plus_diff(succ_pc, ctx, ctx->pc_succ_insn);
+>>>>> +    gen_set_gpr(ctx, rd, succ_pc);
+>>>>> +
+>>>>> +    gen_goto_tb(ctx, 0, next_pc); /* must use this for safety */
+>>>>>       ctx->base.is_jmp = DISAS_NORETURN;
+>>>>>   }
+>>>>>   @@ -1150,6 +1176,7 @@ static void 
+>>>>> riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>>>>>       RISCVCPU *cpu = RISCV_CPU(cs);
+>>>>>       uint32_t tb_flags = ctx->base.tb->flags;
+>>>>>   +    ctx->pc_save = ctx->base.pc_first;
+>>>>>       ctx->pc_succ_insn = ctx->base.pc_first;
+>>>>>       ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
+>>>>>       ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
+>>>>> @@ -1195,8 +1222,13 @@ static void 
+>>>>> riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+>>>>>   static void riscv_tr_insn_start(DisasContextBase *dcbase, 
+>>>>> CPUState *cpu)
+>>>>>   {
+>>>>>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
+>>>>> +    target_ulong pc_next = ctx->base.pc_next;
+>>>>> +
+>>>>> +    if (tb_cflags(dcbase->tb) & CF_PCREL) {
+>>>>> +        pc_next &= ~TARGET_PAGE_MASK;
+>>>>> +    }
+>>>>>   -    tcg_gen_insn_start(ctx->base.pc_next, 0);
+>>>>> +    tcg_gen_insn_start(pc_next, 0);
+>>>>>       ctx->insn_start = tcg_last_op();
+>>>>>   }
 
