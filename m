@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0BF6D58E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 08:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B58B6D58E6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 08:50:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjaRf-0003cn-Jm; Tue, 04 Apr 2023 02:47:08 -0400
+	id 1pjaTt-0004db-Fm; Tue, 04 Apr 2023 02:49:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1pjaRU-0003at-Da
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 02:46:57 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jinpu.wang@ionos.com>)
- id 1pjaQj-0001mI-G6
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 02:46:56 -0400
-Received: by mail-ed1-x530.google.com with SMTP id ek18so126397714edb.6
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 23:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ionos.com; s=google; t=1680590765;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Jdc4Rz1hjMlcCsqLlhgN/a8EwNe86NqDV2Io/T3fQGI=;
- b=LKybr3Did2+HGMt8uqmOwIh0QURTwA40bZByerWS0K76DA1Q3rXIMkRN4X67oYLInU
- bpChSVufVozYBiImvVdFBVQIqVYjmBiAysuHEBy8O2uX9GhabKLPOipTT6bXD1Z92jjr
- A5EZg8V9WTnbPiq3WY9OFny818GZewk3fPGyXtb8OpsKkUr0p5L5H+PsF1Rs1d2l8Hwf
- 0oeaSFGhH9a7PTkwQEV2D+MABMHMlnXErkoynyI3IjyVCspI3MEXSbntsPSzadYcPN6t
- KifmOtZME8mSBRKAdPNaIBjQwC5iGsIA2ht8L/pAkB8j1/qL8Q8UxZBa8MIxHVuxVlSa
- j4XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680590765;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jdc4Rz1hjMlcCsqLlhgN/a8EwNe86NqDV2Io/T3fQGI=;
- b=rc6yHMWKBOZmCKThyVlOxE+ZsNiQX3GOHsjX7K4u6ospGeTfNivQkXZyeXf8YhzAzb
- lVd22gQIaxdi746WbeOy04uI3vWp3SE5RazedEAn5aIdvPs41rNeqdWYH4/w0lKE3HZ4
- N/4AaxOZjIVIampwMKbcQO8fsRwrlKllKFM0R58vzLL2tHxkzb9+a8XiFm+GxdZidSU+
- O0pKeHXnZGavDZzn58iffI+/zIsx5ExlS+p4SbUyGFF2nl+FEEOGOVk/96Rn6KZnLRBN
- KOcvq8PSIaYoR1HQJB4EOVTtvjnGa4KdlrqtssM5XNEqHHV7NjOXtVmFJKiQXhVJdRsC
- sj0Q==
-X-Gm-Message-State: AAQBX9foKU1ZoI/w578F2KV8bdCyWNQ2so1SHSaDIbnwidfr31wRfm8/
- lv5V16Rbk86iZqmztZykQQfYvrESOszZ5Ex+hyzreA==
-X-Google-Smtp-Source: AKy350YYlORy/EVTGO2hr8z5hNScvP+/KbOcC/u78BiN7i63WVj5qYPQu2iAC2LCYh4juDwJkZB1Htcv59tw+DQw8eA=
-X-Received: by 2002:a17:907:a687:b0:8b2:8876:cdd4 with SMTP id
- vv7-20020a170907a68700b008b28876cdd4mr656518ejc.7.1680590765019; Mon, 03 Apr
- 2023 23:46:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjaTn-0004d0-Qm
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 02:49:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pjaT8-0002Xp-Lz
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 02:49:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680590917;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=v3CORH+sBL1yduy3gQjrX81ua0rFJGHlL8JvXRt3dKw=;
+ b=C5JjfOLoG8aKcw8j+yJsTb45RWl2hD7lMPcJTpCEwmuYRV2v5pa1rB6gkiUyRtRUYLDxHJ
+ /yj6f8KqtPIpmdBPrBDFoAgw5YrBRE8xmHxTqxtj2byc/HH5qkoJ+nZ1orz4Pg+2gKNbag
+ mnlL6A3Nbhf5GLFQqwCHVko/RVM0whU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-414-tTVjKliRNzqnZ_pk2fdgow-1; Tue, 04 Apr 2023 02:48:33 -0400
+X-MC-Unique: tTVjKliRNzqnZ_pk2fdgow-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CF263C0D856;
+ Tue,  4 Apr 2023 06:48:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C9142166B26;
+ Tue,  4 Apr 2023 06:48:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E7F7F21E6926; Tue,  4 Apr 2023 08:48:31 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alexander Graf <graf@amazon.com>
+Cc: <qemu-devel@nongnu.org>,  David Hildenbrand <david@redhat.com>,  Markus
+ Armbruster <armbru@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,
+ "Daniel P . Berrange" <berrange@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  "Philippe Mathieu-Daude" <philmd@linaro.org>,  Peter
+ Xu <peterx@redhat.com>,  "Paolo Bonzini" <pbonzini@redhat.com>,  Igor
+ Mammedov <imammedo@redhat.com>,  "Stefan Hajnoczi" <stefanha@redhat.com>,
+ Ashish Kalra <ashish.kalra@amd.com>,  "Tom Lendacky"
+ <thomas.lendacky@amd.com>
+Subject: Re: [PATCH v5] hostmem-file: add offset option
+References: <20230403221421.60877-1-graf@amazon.com>
+Date: Tue, 04 Apr 2023 08:48:31 +0200
+In-Reply-To: <20230403221421.60877-1-graf@amazon.com> (Alexander Graf's
+ message of "Mon, 3 Apr 2023 22:14:21 +0000")
+Message-ID: <878rf82lds.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CAHEcVy5SV34jaubY5F-q=H+smvMVOzKbb=rTaNJDNXyGdFaLZg@mail.gmail.com>
- <94e21f89-0a3e-701b-7171-7398dff9ce46@redhat.com>
- <CAHEcVy5TiQwYofhCe3RpdFopYzYWbGnL7EO5nE_HQTAVEeaqAg@mail.gmail.com>
-In-Reply-To: <CAHEcVy5TiQwYofhCe3RpdFopYzYWbGnL7EO5nE_HQTAVEeaqAg@mail.gmail.com>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Tue, 4 Apr 2023 08:45:54 +0200
-Message-ID: <CAMGffE=cxQzMrT+wbPazApmsGfgAx6z8O0DzEJfWyMQaGFs80w@mail.gmail.com>
-Subject: Re: an issue for device hot-unplug
-To: Yu Zhang <yu.zhang@ionos.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Elmar Gerdes <elmar.gerdes@ionos.com>, imammedo@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: permerror client-ip=2a00:1450:4864:20::530;
- envelope-from=jinpu.wang@ionos.com; helo=mail-ed1-x530.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,135 +85,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Yu,
+Alexander Graf <graf@amazon.com> writes:
 
-On Mon, Apr 3, 2023 at 6:59=E2=80=AFPM Yu Zhang <yu.zhang@ionos.com> wrote:
+> Add an option for hostmem-file to start the memory object at an offset
+> into the target file. This is useful if multiple memory objects reside
+> inside the same target file, such as a device node.
 >
-> Dear Laurent,
+> In particular, it's useful to map guest memory directly into /dev/mem
+> for experimentation.
 >
-> Thank you for your quick reply. We used qemu-7.1, but it is reproducible =
-with qemu from v6.2 to the recent v8.0 release candidates.
-> I found that it's introduced by the commit  9323f892b39 (between v6.2.0-r=
-c2 and v6.2.0-rc3).
+> To make this work consistently, also fix up all places in QEMU that
+> expect fd offsets to be 0.
 >
-> If it doesn't break anything else, it suffices to remove the line below f=
-rom acpi_pcihp_device_unplug_request_cb():
->
->     pdev->qdev.pending_deleted_event =3D true;
->
-> but you may have a reason to keep it. First of all, I'll open a bug in th=
-e bug tracker and let you know.
->
-> Best regards,
-> Yu Zhang
-This patch from Igor Mammedov seems relevant,
-https://lore.kernel.org/qemu-devel/20230403131833-mutt-send-email-mst@kerne=
-l.org/T/#t
-Can you try it out?
+> Signed-off-by: Alexander Graf <graf@amazon.com>
 
-Regards!
-Jinpu
->
-> On Mon, Apr 3, 2023 at 6:32=E2=80=AFPM Laurent Vivier <lvivier@redhat.com=
-> wrote:
->>
->> Hi Yu,
->>
->> please open a bug in the bug tracker:
->>
->> https://gitlab.com/qemu/qemu/-/issues
->>
->> It's easier to track the problem.
->>
->> What is the version of QEMU you are using?
->> Could you provide QEMU command line?
->>
->> Thanks,
->> Laurent
->>
->>
->> On 4/3/23 15:24, Yu Zhang wrote:
->> > Dear Laurent,
->> >
->> > recently we run into an issue with the following error:
->> >
->> > command '{ "execute": "device_del", "arguments": { "id": "virtio-diskX=
-" } }' for VM "id"
->> > failed ({ "return": {"class": "GenericError", "desc": "Device virtio-d=
-iskX is already in
->> > the process of unplug"} }).
->> >
->> > The issue is reproducible. With a few seconds delay before hot-unplug,=
- hot-unplug just
->> > works fine.
->> >
->> > After a few digging, we found that the commit 9323f892b39 may incur th=
-e issue.
->> > ------------------
->> >      failover: fix unplug pending detection
->> >
->> >      Failover needs to detect the end of the PCI unplug to start migra=
-tion
->> >      after the VFIO card has been unplugged.
->> >
->> >      To do that, a flag is set in pcie_cap_slot_unplug_request_cb() an=
-d reset in
->> >      pcie_unplug_device().
->> >
->> >      But since
->> >          17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default=
- on Q35")
->> >      we have switched to ACPI unplug and these functions are not calle=
-d anymore
->> >      and the flag not set. So failover migration is not able to detect=
- if card
->> >      is really unplugged and acts as it's done as soon as it's started=
-. So it
->> >      doesn't wait the end of the unplug to start the migration. We don=
-'t see any
->> >      problem when we test that because ACPI unplug is faster than PCIe=
- native
->> >      hotplug and when the migration really starts the unplug operation=
- is
->> >      already done.
->> >
->> >      See c000a9bd06ea ("pci: mark device having guest unplug request p=
-ending")
->> >          a99c4da9fc2a ("pci: mark devices partially unplugged")
->> >
->> >      Signed-off-by: Laurent Vivier <lvivier@redhat.com <mailto:lvivier=
-@redhat.com>>
->> >      Reviewed-by: Ani Sinha <ani@anisinha.ca <mailto:ani@anisinha.ca>>
->> >      Message-Id: <20211118133225.324937-4-lvivier@redhat.com
->> > <mailto:20211118133225.324937-4-lvivier@redhat.com>>
->> >      Reviewed-by: Michael S. Tsirkin <mst@redhat.com <mailto:mst@redha=
-t.com>>
->> >      Signed-off-by: Michael S. Tsirkin <mst@redhat.com <mailto:mst@red=
-hat.com>>
->> > ------------------
->> > The purpose is for detecting the end of the PCI device hot-unplug. How=
-ever, we feel the
->> > error confusing. How is it possible that a disk "is already in the pro=
-cess of unplug"
->> > during the first hot-unplug attempt? So far as I know, the issue was a=
-lso encountered by
->> > libvirt, but they simply ignored it:
->> >
->> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659
->> > <https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659>
->> >
->> > Hence, a question is: should we have the line below in  acpi_pcihp_dev=
-ice_unplug_request_cb()?
->> >
->> >     pdev->qdev.pending_deleted_event =3D true;
->> >
->> > It would be great if you as the author could give us a few hints.
->> >
->> > Thank you very much for your reply!
->> >
->> > Sincerely,
->> >
->> > Yu Zhang @ Compute Platform IONOS
->> > 03.04.2013
->>
+[...]
+
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index a877b879b9..f740f74be3 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -635,6 +635,10 @@
+>  #         specify the required alignment via this option.
+>  #         0 selects a default alignment (currently the page size). (default: 0)
+>  #
+> +# @offset: the offset into the target file that the region starts at. You can
+> +#          use this option to back multiple regions with a single file. Must be
+> +#          a multiple of the page size. (default: 0) (since 8.1)
+> +#
+>  # @discard-data: if true, the file contents can be destroyed when QEMU exits,
+>  #                to avoid unnecessarily flushing data to the backing file. Note
+>  #                that ``discard-data`` is only an optimization, and QEMU might
+> @@ -655,6 +659,7 @@
+>  { 'struct': 'MemoryBackendFileProperties',
+>    'base': 'MemoryBackendProperties',
+>    'data': { '*align': 'size',
+> +            '*offset': 'size',
+>              '*discard-data': 'bool',
+>              'mem-path': 'str',
+>              '*pmem': { 'type': 'bool', 'if': 'CONFIG_LIBPMEM' },
+
+Acked-by: Markus Armbruster <armbru@redhat.com>
+
+[...]
+
 
