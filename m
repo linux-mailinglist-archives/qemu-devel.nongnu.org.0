@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9D36D55A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 02:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7B8E6D55B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 03:05:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjUqd-000388-3c; Mon, 03 Apr 2023 20:48:31 -0400
+	id 1pjV5j-0005wx-2t; Mon, 03 Apr 2023 21:04:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pjUqY-00036O-3E
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 20:48:27 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1pjV5Z-0005w0-2V
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:03:57 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pjUq3-0000ej-0P
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 20:48:25 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id ml21so6958372pjb.4
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 17:47:54 -0700 (PDT)
+ id 1pjV50-0005SC-2y
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:03:56 -0400
+Received: by mail-pl1-x633.google.com with SMTP id le6so29777326plb.12
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 18:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680569273;
+ d=linaro.org; s=google; t=1680570199;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=RDqXbtWUx6DUKQdRj4sITob2V/VEoH41+mMTM8PMSM8=;
- b=bm6FA6icUeoId8qgueKQLq+r03gaiu13Si4LSm8WixsyrxxaZ+jOrfddEraaZUOIVT
- IeQou8f/bzAowjdr6WqXGjMDq1LO11Qfkik6zEZTuc2E+baixcNfES6A6HKiDXDhgjxB
- u+W4qAonzC57AT3gjiwf6yZAx5867YnYZsPRDDx85ME9+ZnyYRwfSmrlm0FGsj+7u4iZ
- 8o7zppDgB1YuUaKlAUWRGssaTmpos1PABKsm4gLv1iDbBcChTLY8F5yZUJKuxXv3EL/2
- xZWep4hJIMzhdEWL+hEKm3XfXStaRvrZzGjAs9rgWKNIc528Av4HF+LsLlRI1ishQJXr
- 6TzQ==
+ bh=I79MuwzCZkQ+aoJ6sNG7czkMhwqzTSZIQsEbLMlPlUk=;
+ b=XYe5j1Vf2CaU0fL6uKTGAS37B2Z3EJ12en7bhzpPRtCH1gd144o+ZnK7JaJuFTG24+
+ PTuYdr+nX/JyWD38hm0QT/0jQ9nJ/Y1BApIqqMVFffKkLXuQAUetCBDoY0vmP4VLmvvs
+ kOWx7Tu9Ju9ORLV/Fr+GvWpyDDkCuB1ruSI5LgpbH1v6RlI3p1zyjoijAckuPmmCiEIy
+ wiCKDDNlRFXd0AdBnjw9JHwrDTIbCLu+j/zni+fB7+3Fib8Jb5fMDer1ql5Az0UYG44i
+ bd1MyaDhvPDTS5TZZI/CZ0EVU4XiFLyvfYr1nMBbeix3DcS+GcoHQvhcYGlaRo3lK4+b
+ As/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680569273;
+ d=1e100.net; s=20210112; t=1680570199;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RDqXbtWUx6DUKQdRj4sITob2V/VEoH41+mMTM8PMSM8=;
- b=7G1JwQP1GaQtVkfZNo6lIhLTyUM6EHxIxKl7JBF+l/AeupGhJE1vIWWU4xbg2wZleY
- HYV+ZXusidUlZIR6bc4vmHlibLfVmxo70VTAFmXStJnLATHYqt0kDQ42katLzkZVBpk1
- tb2qvi9OXano+FFMwPWTnyAE7bXDH6juDC23DxNr1xM+SfKIynF1fQOmDe7hCFbZJMH0
- RUYKVR1w1TBAmg2dWJvD5F0B+7XpcETePgMmLn9w/zgSo7SX1sWZdxtSKoJ0b3SM/ltN
- N6+/TpLZyJZjaczoaoeFPCba2wDI1xdXW/XSVcnZIzfBGqPPMmi+4KXvv9qKSt55vK85
- Auzg==
-X-Gm-Message-State: AAQBX9dKcptSYWvJ/58QBz8SyLyjTPlEVUVOHZ1WoEFTvzy3WCBjG3y5
- LxW9Lin4hvZhk/S4sXPkwllHnA==
-X-Google-Smtp-Source: AKy350btGF3SJKoQJd6JL8kurN/cYeKUxoHv86bVkDu/KTyXtkYWvWA3upE77bsRp5i4byVuHjympw==
-X-Received: by 2002:a17:902:c406:b0:1a2:6f9f:de16 with SMTP id
- k6-20020a170902c40600b001a26f9fde16mr958427plk.11.1680569273004; 
- Mon, 03 Apr 2023 17:47:53 -0700 (PDT)
+ bh=I79MuwzCZkQ+aoJ6sNG7czkMhwqzTSZIQsEbLMlPlUk=;
+ b=5vKtKY2WkN96zVRUvaqH70SqDiB2KIN/213orV1YSzphhwYo1QxkS7fV5pRhqM17lL
+ 5/uz6ujC5o+Bq//6pphgrKZ7W4pLcU/PoFJovJCVkQ5smMqpxxIbQMgmplhyDAYVh256
+ 54KzH8p3qXhExfQ/JqHzh6knpSxdFbOkZbqD+FxS8Lcl0xEOOxJ9STUuXF7Fkrwz3oT7
+ jx29S118EbllB2KrOqKi+ekpMOgsHCz5nrKsxLTK652yLm88YE+9lA2JuJOf8hB3CnjX
+ wibFf8Jav3iocKlBCm3U8JKP1jsvZ5OViiYYa5XL2+2zO0dMnpPi+4Xsbm1olgCGhnn9
+ aadg==
+X-Gm-Message-State: AAQBX9fl7QnPp90mpRTksWjnw4VvchQuoowL+BuAGo73koMxNfum8y0N
+ Knnvlv0/Ix6lZUTD/8izQfeWfQ==
+X-Google-Smtp-Source: AKy350aXLWnpbJPWMFcfYiuOZtDcemGYzjpJibdEruk+TOh/q7YNPx7eBLEgkYqogEvqH01jdnsZDw==
+X-Received: by 2002:a05:6a20:304a:b0:d6:7d3a:c6e with SMTP id
+ 10-20020a056a20304a00b000d67d3a0c6emr510046pzx.44.1680570199205; 
+ Mon, 03 Apr 2023 18:03:19 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
  ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
  by smtp.gmail.com with ESMTPSA id
- t20-20020a170902b21400b0019e88453492sm7261049plr.4.2023.04.03.17.47.52
+ h5-20020a62b405000000b005a7c892b435sm7549419pfn.25.2023.04.03.18.03.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 17:47:52 -0700 (PDT)
-Message-ID: <747fd4cf-93c2-db25-2963-f79335034817@linaro.org>
-Date: Mon, 3 Apr 2023 17:47:50 -0700
+ Mon, 03 Apr 2023 18:03:18 -0700 (PDT)
+Message-ID: <dc51342e-952c-c014-3b60-4dd751646468@linaro.org>
+Date: Mon, 3 Apr 2023 18:03:16 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [RFC PATCH v2 37/44] target/loongarch: Implement vfcmp
+Subject: Re: [RFC PATCH v2 38/44] target/loongarch: Implement vbitsel vset
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-38-gaosong@loongson.cn>
+ <20230328030631.3117129-39-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-38-gaosong@loongson.cn>
+In-Reply-To: <20230328030631.3117129-39-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -95,54 +95,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 3/27/23 20:06, Song Gao wrote:
-> +static uint64_t vfcmp_common(CPULoongArchState *env,
-> +                             FloatRelation cmp, uint32_t flags)
+> +static void gen_vbitseli(unsigned vece, TCGv_vec a, TCGv_vec b, int64_t imm)
 > +{
-> +    bool ret;
+> +    TCGv_vec t;
 > +
-> +    switch (cmp) {
-> +    case float_relation_less:
-> +        ret = (flags & FCMP_LT);
-> +        break;
-> +    case float_relation_equal:
-> +        ret = (flags & FCMP_EQ);
-> +        break;
-> +    case float_relation_greater:
-> +        ret = (flags & FCMP_GT);
-> +        break;
-> +    case float_relation_unordered:
-> +        ret = (flags & FCMP_UN);
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
+> +    t = tcg_temp_new_vec_matching(a);
+> +    tcg_gen_dupi_vec(vece, t, imm);
+
+tcg_constant_vec_matching.
+
+> +void HELPER(vseteqz_v)(CPULoongArchState *env, uint32_t cd, uint32_t vj)
+> +{
+> +    VReg *Vj = &(env->fpr[vj].vreg);
+> +    env->cf[cd & 0x7] = (Vj->Q(0) == 0);
+> +}
 > +
-> +    return ret;
+> +void HELPER(vsetnez_v)(CPULoongArchState *env, uint32_t cd, uint32_t vj)
+> +{
+> +    VReg *Vj = &(env->fpr[vj].vreg);
+> +    env->cf[cd & 0x7] = (Vj->Q(0) != 0);
 > +}
 
-Either change the return type to bool, or return {0, -1} here...
+This is trivial inline.
 
-> +
-> +#define VFCMP(NAME, BIT, T, E, FN)                                       \
-> +void HELPER(NAME)(CPULoongArchState *env,                                \
-> +                  uint32_t vd, uint32_t vj, uint32_t vk, uint32_t flags) \
-> +{                                                                        \
-> +    int i;                                                               \
-> +    VReg t;                                                              \
-> +    VReg *Vd = &(env->fpr[vd].vreg);                                     \
-> +    VReg *Vj = &(env->fpr[vj].vreg);                                     \
-> +    VReg *Vk = &(env->fpr[vk].vreg);                                     \
-> +                                                                         \
-> +    vec_clear_cause(env);                                                \
-> +    for (i = 0; i < LSX_LEN/BIT ; i++) {                                 \
-> +        FloatRelation cmp;                                               \
-> +        cmp = FN(Vj->E(i), Vk->E(i), &env->fp_status);                   \
-> +        t.E(i) = (vfcmp_common(env, cmp, flags)) ? -1 : 0;               \
+> +#define SETANYEQZ(NAME, BIT, E)                                     \
+> +void HELPER(NAME)(CPULoongArchState *env, uint32_t cd, uint32_t vj) \
+> +{                                                                   \
+> +    int i;                                                          \
+> +    bool ret = false;                                               \
+> +    VReg *Vj = &(env->fpr[vj].vreg);                                \
+> +                                                                    \
+> +    for (i = 0; i < LSX_LEN/BIT; i++) {                             \
+> +        ret |= (Vj->E(i) == 0);                                     \
+> +    }                                                               \
+> +    env->cf[cd & 0x7] = ret;                                        \
+> +}
+> +SETANYEQZ(vsetanyeqz_b, 8, B)
+> +SETANYEQZ(vsetanyeqz_h, 16, H)
+> +SETANYEQZ(vsetanyeqz_w, 32, W)
+> +SETANYEQZ(vsetanyeqz_d, 64, D)
 
-... and avoid the extra conditional here.
+These could be inlined, though slightly harder.
+C.f. target/arm/sve_helper.c, do_match2 (your n == 0).
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Anyway, leaving this as-is for now is also ok.
 
 
 r~
