@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0616D5DF2
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 12:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64956D5F3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 13:39:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjeCO-0005ca-RS; Tue, 04 Apr 2023 06:47:36 -0400
+	id 1pjeze-00017M-KB; Tue, 04 Apr 2023 07:38:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pjeCN-0005cJ-6n
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 06:47:35 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pjeCI-0007Ho-AB
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 06:47:31 -0400
-Received: by mail-lj1-x235.google.com with SMTP id o20so30393625ljp.3
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 03:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680605247;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9vTFjSbAatVV/uDGOat4nJpCcR0zlplA9EarDO5LbQo=;
- b=JVf9Pqna28GYGM2Nm/nfSHclCif+090C24Ou0dykqojgJMneXPTy5WVabh+S6wRy5W
- RRQr2AOlzeREASDsY09/zAtr45ZGQFAW2uFBIn/2FvfUOZq1j/KP8b+AASl6YP9fgO8P
- ABNjmeXwAO8skec+PgwYTDtWpDmpk3HvdnrwgKFrJ4xCb5K582B3SHFJIMJisZ1nTZ+g
- Jp4J0s5kefKoejTcKKLzJE4lcEfF71Qe/3ZhwAjfUmeqZWaYBxY5LYNuoUza7wioJmsy
- eE3ZYAhEONESW00dy7JWsupbWZoM/fxQNPauiGlp8IFk5fqIzMSkkHq9xmW/7rDkfL98
- B12A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680605247;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9vTFjSbAatVV/uDGOat4nJpCcR0zlplA9EarDO5LbQo=;
- b=bErvBRCd6UL4ekYJ6te7Msc7LeI2GrE/PKV6h1I6OtBtZG/eYIOzOe1+cUqLXRrwuV
- 7z1C98KPf6ggIzQXByX9Vtg2K7xXMZk6Xls4RaKCDPR4as8WDRghn9Yko7bIxig5S8Lv
- n5yd9ayfb+yPJqLqxsIrJfojSoR1dfiDmHyiSahkTEUtaYn2mu5ADbIGrecTgW7QEgkn
- L35P56Hokmw8hzDilPpWbVrh9RuczU2zt2efxMdBdr4joqwI8dyqPNPJcNQF8EhwB4XM
- jX5cxeT6uCdRMxSJp/5JhOduPZUjvwII17PYtc7W3z6pvnmUja4Yxe7ANN+deRy/lNTh
- hEFg==
-X-Gm-Message-State: AAQBX9eb5jFLq0lME5sA4DrFQoaTS7nsy/ScQkIWQDiooYHwckzK+iaq
- FlLyU0Uv1zpsiCy1+Eb2RZKklDOIkR8jQKmuaxM=
-X-Google-Smtp-Source: AKy350aeksuTPohSDOSJqzIPdiYbVNa/YxnFrY+meJxBALUttzoVFT8mx/ySmaobuVjWBuKPX5E5pJsQdl9qNdorrzk=
-X-Received: by 2002:a2e:9416:0:b0:295:acea:5875 with SMTP id
- i22-20020a2e9416000000b00295acea5875mr760522ljh.2.1680605246793; Tue, 04 Apr
- 2023 03:47:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pjezb-00016q-Cd
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:38:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pjeza-0003SX-1d
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:38:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680608305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rbvKIXfSNN1KTIF8TOv/5LXnSXVqrxwq+jrZxoGhmG0=;
+ b=hGUa/kGhmR+l1ciff9Gtho7PG/O/CX1JpEV33jVPYxAWJfTv0bMuOkMJGrjSYo35V15+UR
+ 4qYAmRBZ6htkWbdxneX5xM03oxsML/eD1+7S4xENwu3TzzpEsiuG544sO9zXIwn6bUQ2J2
+ 265KUDwdSnqlnuPN9xHRp7Ci/o+cf+Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-589-HtvMFCLvNcO7e1iJMg17rQ-1; Tue, 04 Apr 2023 07:38:22 -0400
+X-MC-Unique: HtvMFCLvNcO7e1iJMg17rQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB4AD800B23;
+ Tue,  4 Apr 2023 11:38:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 596AA2166B26;
+ Tue,  4 Apr 2023 11:38:21 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] block/nvme: use AIO_WAIT_WHILE_UNLOCKED()
+Date: Tue,  4 Apr 2023 07:20:44 -0400
+Message-Id: <20230404112044.427062-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20230403202053.80737-1-dbassey@redhat.com>
- <CACzuRyzGL6H_452-vJ4qXkEcmZrAd9uSgDEHFYsUT7Y-iTqsLg@mail.gmail.com>
-In-Reply-To: <CACzuRyzGL6H_452-vJ4qXkEcmZrAd9uSgDEHFYsUT7Y-iTqsLg@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 4 Apr 2023 14:47:15 +0400
-Message-ID: <CAJ+F1CLtm8PrheLbggupPY-9mWPZsR802z1H51Ak=Mzz7__-GQ@mail.gmail.com>
-Subject: Re: [PATCH v10] audio/pwaudio.c: Add Pipewire audio backend for QEMU
-To: Dorinda Bassey <dbassey@redhat.com>
-Cc: qemu-devel@nongnu.org, vr_qemu@t-online.de, kraxel@redhat.com, 
- armbru@redhat.com, qemu_oss@crudebyte.com, pbonzini@redhat.com, 
- wtaymans@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,37 +77,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Dorinda
+A few Admin Queue commands are submitted during nvme_file_open(). They
+are synchronous since device initialization cannot continue until the
+commands complete.
 
-On Tue, Apr 4, 2023 at 12:36=E2=80=AFAM Dorinda Bassey <dbassey@redhat.com>=
- wrote:
->
-> Hi Volker, Marc.
->
-> I have spent a significant amount of time revising the patchset and I'm e=
-ager to see them included in the project. I understand that reviewing the p=
-atches can be a time-consuming process and I appreciate the effort you've p=
-ut into providing feedback and guiding me through the revision process. How=
-ever I would appreciate any information you can provide on the expected tim=
-eline for merging the patches. Let me know if there's anything else I can d=
-o to help move this process forward.
->
+AIO_WAIT_WHILE() is currently used, but the block/nvme.c code actually
+doesn't rely on the AioContext lock. Replace it with
+AIO_WAIT_WHILE_UNLOCKED(NULL, condition). There is no change in behavior
+and the dependency on the AioContext lock is eliminated.
 
-QEMU is in freeze, until next week or the week after
-(https://wiki.qemu.org/Planning/8.0)
+This is a step towards removing the AioContext lock.
 
-It is expected that newly introduced features or code take many
-iterations before they are accepted. For the pipewire audio backend,
-none of us is an expert afaik, so we are also learning about it, and
-trying to make it better than the existing one if possible. Once all
-comments are addressed and the patch has a few "Reviewed-by", the
-maintainers can queue it. Then we can address further issues as
-users/developpers start finding them. In any case, the pipewire
-backend will not be "released" before QEMU 8.1 (in about 4 months,
-depending on planning)
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ block/nvme.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-thanks
+diff --git a/block/nvme.c b/block/nvme.c
+index 5b744c2bda..829b9c04db 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -512,7 +512,6 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
+ {
+     BDRVNVMeState *s = bs->opaque;
+     NVMeQueuePair *q = s->queues[INDEX_ADMIN];
+-    AioContext *aio_context = bdrv_get_aio_context(bs);
+     NVMeRequest *req;
+     int ret = -EINPROGRESS;
+     req = nvme_get_free_req_nowait(q);
+@@ -521,7 +520,7 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
+     }
+     nvme_submit_command(q, req, cmd, nvme_admin_cmd_sync_cb, &ret);
+ 
+-    AIO_WAIT_WHILE(aio_context, ret == -EINPROGRESS);
++    AIO_WAIT_WHILE_UNLOCKED(NULL, ret == -EINPROGRESS);
+     return ret;
+ }
+ 
+-- 
+2.39.2
 
---=20
-Marc-Andr=C3=A9 Lureau
 
