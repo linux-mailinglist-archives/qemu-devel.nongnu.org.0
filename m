@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8B46D55CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 03:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F566D55D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 03:21:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjVK1-0000xB-J7; Mon, 03 Apr 2023 21:18:53 -0400
+	id 1pjVMU-0001mS-0z; Mon, 03 Apr 2023 21:21:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pjVJy-0000x0-7u
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:18:50 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
+ id 1pjVMS-0001m1-8a
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:21:24 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pjVJ9-0003WI-W4
- for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:18:49 -0400
-Received: by mail-pl1-x634.google.com with SMTP id le6so29806236plb.12
- for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 18:17:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
+ id 1pjVLK-0004dk-Fs
+ for qemu-devel@nongnu.org; Mon, 03 Apr 2023 21:21:23 -0400
+Received: by mail-qt1-x829.google.com with SMTP id p2so25105985qtw.13
+ for <qemu-devel@nongnu.org>; Mon, 03 Apr 2023 18:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680571078;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IpcS5DnfaqxCSsf0/qW43qfqm1MTwMbXslKnjRGQCjY=;
- b=DngOt41FhKvnjql5Zw2jPyxc8gaYaNVUcY5jPDw4O9D/3AFibMiPrnTxk99a45jSqb
- lHJuE85I2jW0vD7dVQvhTSjXJ13l4mJzegQEXx9HLXamW9SNNOkDCUOfhHqTbwT4zlW9
- e1uWMZu2yCYUFs9pTWG5F8saAw67JK9KHlmL3XzidXmQTEtXDvpiLy5mDZCkpGb6BLsr
- ef3U8K08um6ZcEWl3CM70bIRNvStM2weiIDqWL3yN5vdGis2YPEt4Tqpipz37Mgxpjt2
- wAXGgWt9b9ERwSv+Fad74r9JNKe/kUAiUjkOVnJm99yCIFqGOTolq5m4kVKEJpKXFAR5
- ovdA==
+ d=gmail.com; s=20210112; t=1680571212;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=J0GrULLPmmqWPWBNRXHFMKEFlhMzwFaD7JDE8ON8reY=;
+ b=chWuJYooO9m5LB9P7LJ3bdTsjN5GRnKofESLNldhAh9N16B4HiosCTO07ORt8dzarF
+ UDRlFV5+Wv4oJttO3qB3umCtlr3A5G6C2pC9BReYlSYd0PArx8QZYp8c0likHT23TXVw
+ gW86kT5y+G9sT68TIHJ5i7Zoi8yOs39BEbFF3mVrkVqAw7oCVMPOr4DsFK9rJxEHb8uh
+ PpK4pq1/JkBtctMFN7IqCNserew5WNcrtYIi4tNJLzzps4KFT7+BsxxTgBzsD++h0jFm
+ IwGPwqZVE0y5IqceGL8SgE9p46i/YrrIu/d6xii3ByxRTbeKglj4KAqFz8NfUogaNnQy
+ RuIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680571078;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IpcS5DnfaqxCSsf0/qW43qfqm1MTwMbXslKnjRGQCjY=;
- b=MAGF1bRoWN7Ce7x0aXrf6gT6ZqwN+J5BQU2HJh1YRszCETtZSxXvaGZ6js4JIX0ViB
- 1wrw01SCOV/0B7nTWT2BlMMMJTbhiIsLkIaUM3EIpaYrvs5HjCVQzVINNCplroI3OHLZ
- 8EKJpzqM8Q1hNwXuMjgthaxIJwnrkCqn+qfgkHwS02tfoaaQUPYL20bSAIdR0YMARdmj
- xbdFi/c6f/Wq/fOjTSwLgKeVZSXaMrjAfpyTcIKcSpW9j9F+CamN1AEoIwnlT2DJAyXq
- 7Mb0JqJMxJq9fo42F9K32KU7/asa6ByKsvshD0QOAkOOebXlNHqc8bkKEZNsXmkRHji9
- P1Lg==
-X-Gm-Message-State: AAQBX9eD8rv9z2uXNUGirlEl12yp9vKN066EffqvwhKiR3Pdcr8HeKck
- oiVsMsEQIQ6F2WmGSHD1iXZkNw==
-X-Google-Smtp-Source: AKy350ab2T29wbZKFPekJxu1f0j+rLHESi9YaPQ3P2qwNU8T64MlNtsnOW74qangRJ86/oroUg6NLQ==
-X-Received: by 2002:a17:90a:347:b0:23a:66:1d3a with SMTP id
- 7-20020a17090a034700b0023a00661d3amr783238pjf.45.1680571078250; 
- Mon, 03 Apr 2023 18:17:58 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:c7ce:2c40:3ee4:21c4?
- ([2602:ae:1541:f901:c7ce:2c40:3ee4:21c4])
+ d=1e100.net; s=20210112; t=1680571212;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J0GrULLPmmqWPWBNRXHFMKEFlhMzwFaD7JDE8ON8reY=;
+ b=At06K3uVjQRF3oqbmffdiA2Xo+ncsXlXP1MAInLtyvDyeZF8WrHVu7u3ofYqsR2gnY
+ 6PeNZyMCT/nqTG4BHb4514di1whnVmjd78kEerQVjMWqV9KCElK2zHYHh2fq8c7n8U2f
+ RTVAJcNNgDcyTfvsiakBQWHi5hnr7khuofibP5ZVFDyHwxns2cQiCdkuhY1+rgdzFPUE
+ HW9hzMS0DuimwXXiy4cju3AeiyFrvC7WUKZ4GBikVheqlbTB8qBH9w3LWwKPBzhABGtH
+ NOmwUJVCx26h1u2h/Q3Q8RykCjEAvPK4mGuuHyqbsrDMEYVVRIA7ouEhAqmv7woR/Jm7
+ dsKw==
+X-Gm-Message-State: AAQBX9d4f5rUtjS4UPNE+H6Jm156xw+R2rS+TJCdM76MrMlW3h7KogDw
+ ux0x24iASmVteRQ0fkCo23XrYy+Ohks=
+X-Google-Smtp-Source: AKy350Ycrig54WYxDzDjd48BObizgpe97uzucOTXWnS3Mz2Ix+vAT9V4HN2WRCTsbeko2ReCnYDJvA==
+X-Received: by 2002:ac8:7d42:0:b0:3bf:da79:6703 with SMTP id
+ h2-20020ac87d42000000b003bfda796703mr972142qtb.3.1680571212606; 
+ Mon, 03 Apr 2023 18:20:12 -0700 (PDT)
+Received: from debian.hsd1.ma.comcast.net ([2601:182:cc00:77b0::3e69])
  by smtp.gmail.com with ESMTPSA id
- p3-20020a634f43000000b0050f85ef50d1sm6565760pgl.26.2023.04.03.18.17.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 18:17:57 -0700 (PDT)
-Message-ID: <0b5c1876-d76f-15e3-82fd-347d26aafdaf@linaro.org>
-Date: Mon, 3 Apr 2023 18:17:56 -0700
+ i4-20020a05620a248400b0074865a9cb34sm3229909qkn.28.2023.04.03.18.20.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Apr 2023 18:20:12 -0700 (PDT)
+From: Dinah Baum <dinahbaum123@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Dinah Baum <dinahbaum123@gmail.com>
+Subject: [RESEND PATCH v2 0/3] Enable -cpu <cpu>,help
+Date: Mon,  3 Apr 2023 21:19:53 -0400
+Message-Id: <20230404011956.90375-1-dinahbaum123@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH v2 40/44] target/loongarch: Implement vreplve vpack
- vpick
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-41-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230328030631.3117129-41-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=dinahbaum123@gmail.com; helo=mail-qt1-x829.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,46 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/27/23 20:06, Song Gao wrote:
-> +static bool trans_vbsll_v(DisasContext *ctx, arg_vv_i *a)
-> +{
-> +    int ofs;
-> +    TCGv_i64 desthigh, destlow, high, low, t;
-> +
-> +    CHECK_SXE;
-> +
-> +    desthigh = tcg_temp_new_i64();
-> +    destlow = tcg_temp_new_i64();
-> +    high = tcg_temp_new_i64();
-> +    low = tcg_temp_new_i64();
-> +    t = tcg_constant_i64(0);
-> +
-> +    tcg_gen_ld_i64(high, cpu_env,
-> +                   offsetof(CPULoongArchState, fpr[a->vj].vreg.D(1)));
-> +    tcg_gen_ld_i64(low, cpu_env,
-> +                   offsetof(CPULoongArchState, fpr[a->vj].vreg.D(0)));
-> +
-> +    ofs = ((a->imm) & 0xf) * 8;
-> +    if (ofs < 64) {
-> +        tcg_gen_extract2_i64(desthigh, low, high, 64 -ofs);
+Part 1 is a refactor/code motion patch for
+qapi/machine target required for setup of
 
-high is only used here, therefore the load should be delayed.
+Part 2 which enables query-cpu-model-expansion
+on all architectures
 
-> +        tcg_gen_shli_i64(destlow, low, ofs);
-> +    } else {
-> +        tcg_gen_shli_i64(desthigh, low, ofs -64);
-> +        tcg_gen_mov_i64(destlow, t);
+Part 3 implements the '<cpu>,help' feature
 
-Delay the allocation of destlow into the < 64 block,
-then simply assign destlow = tcg_constant_i64(0) here.
+Limitations:
+Currently only 'FULL' expansion queries are implemented since
+that's the only type enabled on the architectures that
+allow feature probing
 
-Watch the spacing: "ofs - 64".
+Unlike the 'device,help' command, default values aren't
+printed
 
-Similarly for trans_vbsrl_v.
+Changes since v2: Rebase
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Dinah Baum (3):
+  qapi/machine-target: refactor machine-target
+  cpu, qapi, target/arm, i386, s390x: Generalize
+    query-cpu-model-expansion
+  cpu, qdict, vl: Enable printing options for CPU type
 
+ MAINTAINERS                      |   1 +
+ cpu.c                            |  61 +++++++++++++++
+ include/exec/cpu-common.h        |  10 +++
+ include/qapi/qmp/qdict.h         |   2 +
+ qapi/machine-target-common.json  | 130 +++++++++++++++++++++++++++++++
+ qapi/machine-target.json         | 129 +-----------------------------
+ qapi/meson.build                 |   1 +
+ qemu-options.hx                  |   7 +-
+ qobject/qdict.c                  |   5 ++
+ softmmu/vl.c                     |  36 ++++++++-
+ target/arm/arm-qmp-cmds.c        |   7 +-
+ target/arm/cpu.h                 |   7 +-
+ target/i386/cpu-sysemu.c         |   7 +-
+ target/i386/cpu.h                |   6 ++
+ target/s390x/cpu.h               |   7 ++
+ target/s390x/cpu_models_sysemu.c |   6 +-
+ 16 files changed, 278 insertions(+), 144 deletions(-)
+ create mode 100644 qapi/machine-target-common.json
 
-r~
+-- 
+2.30.2
+
 
