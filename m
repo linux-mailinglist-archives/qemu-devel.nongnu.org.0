@@ -2,100 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDE76D660F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658986D6638
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:56:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pji4K-0000qW-Fy; Tue, 04 Apr 2023 10:55:32 -0400
+	id 1pji5L-0001PV-5X; Tue, 04 Apr 2023 10:56:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pji4J-0000qK-6U
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:55:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pji4G-0002UA-LC
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:55:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680620128;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kdU/+ctku1zi0ulE1XXGeEHs6eyIPwmeDvFauVVxst0=;
- b=hxi4J7hkIIt17P7ljJYJXpkyn/kX9PDA5LV3ppU4qH0ZURKd8VRBybYWzwGBdc8anrojlj
- 6OzISFcZUZp827hoLP1+1GxSI568WtYmmilZw7FtLLN8vV/8qZz1X4/67n8mhyDlcJJIwu
- /IS/u+5ACYMO0xxf5bVp016juU2BUn4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-OfpgDfKDMESgERO5AUubzA-1; Tue, 04 Apr 2023 10:55:26 -0400
-X-MC-Unique: OfpgDfKDMESgERO5AUubzA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- t14-20020a056402240e00b004fb36e6d670so46188813eda.5
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 07:55:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pji5D-0001DG-NM
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:56:30 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pji5A-0003KN-UF
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:56:26 -0400
+Received: by mail-wr1-x431.google.com with SMTP id e18so33119770wra.9
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 07:56:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680620183;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=obKEkwqIA/UnnZ7qcR4bdBjhT/6IB1/3ZLo8wtQ71b0=;
+ b=ymxGALMqmeR3q85RJD29P/Fd/W4VOnPznkhxBCZAB0Z81aL79AcUy0nbR4+UxZRc/V
+ NMeETudNfyggtu2xDFkpUuSfyTC7udWIXxny2EujN2Njo39E6MXkRxj7vkyWCQiV3s8M
+ rH5S4wO8Dw1gVXZzwRvp3C04CfVpkX7/kGuRjtGTQ+0F8UkejvI5dQN8OOxlSK8COd4B
+ vJSKGE3lsgASGVuv1rftPTBJvXqie6ug0mAtATb0x+AdQQGyR/NIS1GoJUD8eX6El0C7
+ ShJOr7hlFHdM41X9ZDns+qlMEjFO7u48XngczegyOJS5ZQ0stpYGhF6GhfiCbFqdqFJV
+ cNIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680620119; x=1683212119;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kdU/+ctku1zi0ulE1XXGeEHs6eyIPwmeDvFauVVxst0=;
- b=oo/hzoiFvCnogEZVBzBxFBmAKUmrHr6udwkt9rQ2LMJOuGPOuZy3Lf2pyRzB+vOkHb
- cwmTeVzL1Qao/pczxeyfPCKXpTzF062TMGWXYxl8uy6t5EMrOXkx4Z/NtRdX021Eu6EM
- R3lsQlrJU+T6mXTyamDgpdzaKFTlhC+AavXAC2w5G415DWBJsi/ugb2eSvzpUFwavXL6
- m08eR8Ad0ortYIvJRD4AYxR0JX7/A4u+wDggen0/DZmxIsu5TLp36X+JDZv71vq9pCMW
- LMNvLoBeU7+9hJRxiiM9yHp+LL+a7FIn73cSBItebjc0V4h5qAkWJ7EX+WG8z3c3DIKK
- 1d1w==
-X-Gm-Message-State: AAQBX9fzMSYljL84QTRtXFJZkQa1a7HuD/NVmdX4ENaz9nv30dN9++iv
- Ze//2u5NZXE1R20DXAHdJ4OvoDwyxOx+vq1Bv3B8bOZ67iMWL8yUJLxZ8OHqwXLhbwAbLs+B9aG
- fH37AZPNPvp1BoPI=
-X-Received: by 2002:a05:6402:125a:b0:502:91c6:fa8f with SMTP id
- l26-20020a056402125a00b0050291c6fa8fmr2303708edw.42.1680620119344; 
- Tue, 04 Apr 2023 07:55:19 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YQQUF0ACgRNRH+7vGBtzhtQFUmDhxZjW4bM94/YNtGlwoqo8UQOe8jNNKH74BWPqJ3VE8S8g==
-X-Received: by 2002:a05:6402:125a:b0:502:91c6:fa8f with SMTP id
- l26-20020a056402125a00b0050291c6fa8fmr2303690edw.42.1680620119029; 
- Tue, 04 Apr 2023 07:55:19 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- 28-20020a508e5c000000b004c13fe8fabfsm6014256edx.84.2023.04.04.07.55.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Apr 2023 07:55:18 -0700 (PDT)
-Message-ID: <20b559cb-28ef-4603-bbf3-994414c2681a@redhat.com>
-Date: Tue, 4 Apr 2023 16:55:17 +0200
+ d=1e100.net; s=20210112; t=1680620183;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=obKEkwqIA/UnnZ7qcR4bdBjhT/6IB1/3ZLo8wtQ71b0=;
+ b=6YMS67+EymqWFgU+zxPcdKU0KcZk6I300BK8rD88VaDcxY38LMQup3jAOJUhdk3E+K
+ 6VGjYW442qNjl0hSkZp0kLgZSSm7OHyMBBN1TcnWeHtWRzPDFPlOwC/Z/TBDW/YORzQ0
+ kcZ22pblSEwUYgMWMgQRMlqJRPGNP4Rrr+0yL5T2k1up9dnriIjgGRJxbX8HLLh490ZS
+ 4eC3xAu6/XntQjGid8hG1Y6P2ZhtNL6Y3cjZmelqwLwIfSsxSOyXZlK9n5KqPpcjr/b6
+ id8LCr4eaNfydGqJr4cNBbxAv0yY9b8G83tLH0HWvyKDeTbee8S5/A/JN4yBEhl/o8ZS
+ GKCQ==
+X-Gm-Message-State: AAQBX9ez09snedbIvN5xCcl6lfSo22mSj4G8Y05wG09v1zZ37rKudARp
+ QI5iTD1z+4BpRLR9V7gvOfquJg==
+X-Google-Smtp-Source: AKy350ZtPqbSE0MQbkP1p/Uyy9dFn4+jmrWqAORR28S/M6WWKDeFMqwgtz2A/3AgNe6EHQhLPDOcOg==
+X-Received: by 2002:adf:ef10:0:b0:2e4:abb1:3e8d with SMTP id
+ e16-20020adfef10000000b002e4abb13e8dmr2114466wro.54.1680620183073; 
+ Tue, 04 Apr 2023 07:56:23 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ f16-20020adffcd0000000b002d5a8d8442asm12430275wrs.37.2023.04.04.07.56.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Apr 2023 07:56:22 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4943C1FFB7;
+ Tue,  4 Apr 2023 15:56:22 +0100 (BST)
+References: <20230403134920.2132362-1-alex.bennee@linaro.org>
+ <20230403134920.2132362-6-alex.bennee@linaro.org>
+ <ZCwsvaxRzx4bzbXo@redhat.com>
+User-agent: mu4e 1.10.0; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Reinoud
+ Zandijk <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>, Warner Losh
+ <imp@bsdimp.com>, Beraldo Leal <bleal@redhat.com>, Philippe =?utf-8?Q?Mat?=
+ =?utf-8?Q?hieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Kyle Evans <kevans@freebsd.org>, kvm@vger.kernel.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Cleber Rosa
+ <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>, Michael Tokarev
+ <mjt@tls.msk.ru>, armbru@redhat.com
+Subject: Re: [PATCH v2 05/11] qemu-options: finesse the recommendations
+ around -blockdev
+Date: Tue, 04 Apr 2023 15:55:34 +0100
+In-reply-to: <ZCwsvaxRzx4bzbXo@redhat.com>
+Message-ID: <87ttxvlmqx.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 10/10] hmp: Deprecate 'singlestep' member of StatusInfo
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- libvir-list@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Eric Blake <eblake@redhat.com>
-References: <20230403144637.2949366-1-peter.maydell@linaro.org>
- <20230403144637.2949366-11-peter.maydell@linaro.org>
- <87wn2s12bu.fsf@pond.sub.org>
- <CAFEAcA_v4yt1S+jjX2acyDLjb6OGTGOSLGxGUkH5XALKjBkHVQ@mail.gmail.com>
- <875yabzsmc.fsf@pond.sub.org>
- <CAFEAcA9owMUFkwy-CPC7i=ZFiqce=bzV9YJNFK9YQbh3oOAj1w@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA9owMUFkwy-CPC7i=ZFiqce=bzV9YJNFK9YQbh3oOAj1w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.925, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,23 +105,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/4/23 16:24, Peter Maydell wrote:
-> I think on balance I would go for:
->   * remove (ie deprecate-and-drop) 'singlestep' from the QMP struct,
->     rather than merely renaming it
->   * if anybody comes along and says they want to do this via QMP,
->     implement Paolo's idea of putting the accelerator object
->     somewhere they can get at it and use qom-get/qom-set on it
->     [My guess is this is very unlikely: nobody's complained so
->     far that QMP doesn't permit setting 'singlestep'; and
->     wanting read without write seems even more marginal.]
->   * keep the HMP commands, but have both read and write directly
->     talk to the accel object. I favour splitting the 'read'
->     part out into its own 'info one-insn-per-tb', for consistency
->     (then 'info status' matches the QMP query-status)
 
-I think the read part could be added to 'info jit'.
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Paolo
+> Am 03.04.2023 um 15:49 hat Alex Benn=C3=A9e geschrieben:
+>> We are a bit premature in recommending -blockdev/-device as the best
+>> way to configure block devices, especially in the common case.
+>> Improve the language to hopefully make things clearer.
+>>=20
+>> Suggested-by: Michael Tokarev <mjt@tls.msk.ru>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> Message-Id: <20230330101141.30199-5-alex.bennee@linaro.org>
+>> ---
+>>  qemu-options.hx | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index 59bdf67a2c..9a69ed838e 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -1143,10 +1143,14 @@ have gone through several iterations as the feat=
+ure set and complexity
+>>  of the block layer have grown. Many online guides to QEMU often
+>>  reference older and deprecated options, which can lead to confusion.
+>>=20=20
+>> -The recommended modern way to describe disks is to use a combination of
+>> +The most explicit way to describe disks is to use a combination of
+>>  ``-device`` to specify the hardware device and ``-blockdev`` to
+>>  describe the backend. The device defines what the guest sees and the
+>> -backend describes how QEMU handles the data.
+>> +backend describes how QEMU handles the data. The ``-drive`` option
+>> +combines the device and backend into a single command line options
+>> +which is useful in the majority of cases. Older options like ``-hda``
+>> +bake in a lot of assumptions from the days when QEMU was emulating a
+>> +legacy PC, they are not recommended for modern configurations.
+>
+> Let's not make the use of -drive look more advisable than it really is.
+> If you're writing a management tool/script and you're still using -drive
+> today, you're doing it wrong.
+>
+> Maybe this is actually the point where we should just clearly define
+> that -blockdev is the only supported stable API (like QMP), and that
+> -drive etc. are convenient shortcuts for human users with no
+> compatibility promise (like HMP).
 
+OK I'll drop this patch from today's PR and await a better description
+in due course.
+
+>
+> What stopped us from doing so is that there are certain boards that
+> don't allow the user to configure the onboard devices, but that look at
+> -drive. These wouldn't provide any stable API any more after this
+> change. However, if this hasn't been solved in many years, maybe it's
+> time to view it as the board's problem, and use this change to motivate
+> them to implement ways to configure the devices. Or maybe some don't
+> even want to bother with a stable API, who knows.
+>
+> Kevin
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
