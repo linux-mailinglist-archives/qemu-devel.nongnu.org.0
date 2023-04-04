@@ -2,140 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B329E6D5872
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 08:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22026D64EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:12:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjZpf-0003aw-2S; Tue, 04 Apr 2023 02:07:51 -0400
+	id 1pjhNc-0002Uy-5U; Tue, 04 Apr 2023 10:11:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pjZpb-0003YV-Hi
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 02:07:47 -0400
-Received: from mail-co1nam11on20610.outbound.protection.outlook.com
- ([2a01:111:f400:7eab::610]
- helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
+ id 1pja4d-0008AN-NU; Tue, 04 Apr 2023 02:23:19 -0400
+Received: from redisdead.crans.org ([185.230.79.39])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pjZpZ-00011p-IL
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 02:07:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nnbsYpkWizSkOurdojLjBZwUsq3Nf2QA1Efq8WU2ysWXYDI3pvc5HXYFTYII3X662Vb4zECxnTJa7ly/2TaDMSYQFMrf6CJmU6Xna8sgAOkfLMofGLhbz+41SBdERplsHHKXEfdgO4c1MKv8BRYdJili4VT4tHWXG+mWnSStNQQ1ig0it8z8h8cOBw0qHr1NWqEWgOrte0ax8RQNTVIunrHKoBsHCE8kXTzEF+pkoBn6gI9tTU9WUDacTOwaB+Y2SskDwo5mCXqFx6ALBiOPmBTMIZMpwDuzcnmTUTcFmQuqpYqYykSm0beNG9R33++vKE+iwCtj50LAdkIEnyu/yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=02ij0e2tcYGnmzf18jdogx+iIDSF5Y0lRB0UE4JMJ04=;
- b=ky2u2UdVuXTDolAOfXfPIwuWwIxJlZ1jkTHg73S8Md7d4BA7Eafjf4cqNCMr9Mbmi8QrlirhApk3lE1JVTA7ttZJL1+/h2P1GZ/X2/HukdpZFVAeUr3z9VzraghEAlaLYYz+vd4m2LbbOj9RVmGJN/O79NhRoQ5xdhIDz8M0sIwSfCz3KC47LLAgayUFXXqANBCUjCIbH3an1weM1qrVdHCfaCM29YJElyeGcqApSaYHanXZhv4mdM4Q6DI/bwVDUOx3oOriCuXpUO+ArCRn2KM1LfLh0cF5OeUCkXY4IArdncjPcg1bdyiTT9Ta8zHF1xT/GDHuNKV522RDlcOfaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=02ij0e2tcYGnmzf18jdogx+iIDSF5Y0lRB0UE4JMJ04=;
- b=OUQRiVgRQxWQ81gy6bHeNiLTiv+t3XhIBzkEmWpDqdZptWY2kMObiH8crq7cWGhSImFvGAGdZCquuS75IQXAr6BMeTlhs/2uhRWzW+uf7dc/An+g2Ah6WG9AA0MjIusqcG5jN6+ico6mzuUshqOQaDhN0P5jutowe0kY8epf7LPrzh6KvP0Fo+J4ZCONKBogagA4E8bp7tPiqE3vuH0FTd+batQa9VSjef+xXar6oAjphDBTBZjs6bj/JLNV7BSXVjH9GDrkfmL9hYg4HvUIvnyMKjsuWaKmCsMHm7oIuxT4HictSjlVF20ZvhrcS2NEkHu4gvD3CYa7ILCMt1FHgg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB5544.namprd12.prod.outlook.com (2603:10b6:a03:1d9::22)
- by CY8PR12MB7242.namprd12.prod.outlook.com (2603:10b6:930:59::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Tue, 4 Apr
- 2023 06:07:38 +0000
-Received: from BY5PR12MB5544.namprd12.prod.outlook.com
- ([fe80::423c:5fb4:a0f0:e918]) by BY5PR12MB5544.namprd12.prod.outlook.com
- ([fe80::423c:5fb4:a0f0:e918%8]) with mapi id 15.20.6254.034; Tue, 4 Apr 2023
- 06:07:37 +0000
-Message-ID: <f6c26122-83bf-7bd2-6d13-dd1b2a136cb7@nvidia.com>
-Date: Tue, 4 Apr 2023 09:07:30 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] vfio/migration: Skip log_sync during migration SETUP state
-To: Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-Cc: qemu-devel@nongnu.org, Keqian Zhu <zhukeqian1@huawei.com>,
- Joao Martins <joao.m.martins@oracle.com>
-References: <20230403130000.6422-1-avihaih@nvidia.com>
- <bebd7827-1d72-9572-ea1a-d41d8b856dbe@redhat.com>
- <20230403153633.1aeeceec.alex.williamson@redhat.com>
-Content-Language: en-US
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <20230403153633.1aeeceec.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PA7P264CA0084.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:349::8) To BY5PR12MB5544.namprd12.prod.outlook.com
- (2603:10b6:a03:1d9::22)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
+ id 1pja4b-0003Fh-K7; Tue, 04 Apr 2023 02:23:19 -0400
+Received: from [192.168.1.21] (41.169.89.92.rev.sfr.net [92.89.169.41])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by redisdead.crans.org (Postfix) with ESMTPSA id D137A218;
+ Tue,  4 Apr 2023 08:23:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
+ t=1680589385; bh=Fj25J7vboI1OAuzqs9WhgF682ENnfIJoNrbt8d/MnxE=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+ b=ecYjFCGc3DBazoiEb15I8gy5+4YHd8q8TN1c2xeA/mD3fmhUWTUdv/lIqy2xuqOzx
+ 2kcefe/Qkk/JfshIuZGahqpL9RAa2+mQVs1ECTxCp5qWZPYOk6Y/oH04LtRtg3GW+s
+ CdEk4Dev2Co/DAQZD7xI36qFCNs/kIIaHnDSqg+JjetniS6e6L3i7fzdrksUVkjgKI
+ +Tu4DkBvGQlup3N+guduui+5qASBiMHjacBcSPwddmcu2/oTulweUlDTTw+WozPyxQ
+ QboYHF/VZEnavLJnzPp3/zwikQHrF/517TVCmOg/KaQfPu1e9YXciS1cflked0kPMY
+ oFAsUh7HPefKAcNIZ/KoDX3ozrWdBlguKcRXBcxbP0/K++F6iLBfg0Z5LYwd6Q7VGz
+ wWFNXOGga9fhOEola6Gn6K5Dwos/xcyXGzZ9ZuxgFwOcVz+Xl/+E6Lozib2Nq6R2U/
+ UkDRPiodOZIT7Y+8eUGI9gbu8g4oakrG6gjUI1os3CA/af2E8campwP9SGuZ9dRA79
+ o+8SWLLR48qE3Ny9KY36q+KJ2pl9T+Pqnk3DE+IlO9lhuAiz5VFKcMpqqYabG2nrRw
+ Wg+5zT0VypajeNH8UtbkLNdXcatLgmcPTPB01a3F5VWylRh5rMrh96MPCsItl2wrJb
+ flDkG/LRih+pjoumSl7pJoko=
+Message-ID: <3c2d07b5-ef07-998a-df15-9dc38a4e474e@crans.org>
+Date: Tue, 4 Apr 2023 08:22:59 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR12MB5544:EE_|CY8PR12MB7242:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7fc448c-7dc0-406e-78a2-08db34d2e3cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VO7bq4rJ9jZwrb5enZx71u5GGGUqviBVQo/2+g3HMu3WnAt+DYY6zOMWDA4pPX6ZlhOMtCCRImJM+Of4pxKwlimgkkEF3PIeayhkoI/pnF1q7mfCOq6Wb0KB8+j3PQO2f/yagXPVJvSkGF09fujQOmR936G5YDCxhzJ/UKHikmRh3WuIFLvqm6I7oEHtClM2Thsfy3FvpJUU8/oejbcuXTkL5qodt5hFz2wmVbSVXYVarhAXMExCrLuO3fPZFnGfTHGgpzXGpGlMVX5ZtDKYnx3Htz3IbPFGsJyu6kf6XnspJeu39PJW7FonmcMXH965GiV33dvE0xGZPi+KTnCky26OIZh7QD65cV1UmTnBbTsRrzD+iiYXSkW4Z9TxbDTqKoPUaC1t3wSLMdo51Omou6tA/vokwrcB//MnrnxvM5bgPtdi5m4o2Wz8N3cwL3RU2sbiIAvXYvzjjjAKlfTxt6K38Qi6+kEWXgQM8XNhwnel3Z71KUG10E3yliBijq7aaKjTIM4rLlbWyI79p8olM+BF9+dusKAZxeRhKxj9SVSmN+BN07HVxash2qDqwqvHj97W8i22+uq7HKOcJ/LLjZWBrbhBg4ptjF61heHqhpqTXVynC1ubBbvhZKsGALPG3P22diV/QsMFLimYs6fndw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR12MB5544.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(366004)(346002)(396003)(39860400002)(451199021)(36756003)(4326008)(54906003)(110136005)(8676002)(66476007)(316002)(66946007)(66556008)(6486002)(6666004)(478600001)(8936002)(5660300002)(41300700001)(2906002)(86362001)(31696002)(38100700002)(2616005)(186003)(6512007)(26005)(6506007)(53546011)(83380400001)(66574015)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3BacGZid1lteFdmUWFqdHpRTDBUdk8zdFpkVnU3citSVFpXWW4ydnBBRGow?=
- =?utf-8?B?eXF1NTRvdytQMW9EeTM0SUxJYlVoaUpuby9lZUxXQUczOU5KV0lZTDA0SmNW?=
- =?utf-8?B?Y2twU001MFJjZ2ZnRjdmbDRONEJjQ3B6YUZSSzZpb2hkRnhhMWErVU9Wc1pX?=
- =?utf-8?B?eklpR2l0VStyNDI2emxxWUpWMFNMZVRWeFR1UEFpRWJMQmRmcnVZSFhMQWpY?=
- =?utf-8?B?NTd4YnloanZQYjJMS1lVSCtLemFWRlJSa2FuUmdQRTRtQnpWcDRGUmtBVmxa?=
- =?utf-8?B?TjBsblVqclpUSGJ5V25XNzVWYVZteEFXQUI4cE0zYW8xR0xxQVBqcFp0ZUtz?=
- =?utf-8?B?c1pVWW5VdVBIM2FWOXVWRHJQQllSeWFBWlh3RHk2NkxmeldOaFY0RXlmTkx4?=
- =?utf-8?B?S0FCeVEvMDZLdVBkTC80LzFzNzFPWTE4b0RnVHlkWElaN0g5b3Mwa2VGbGdM?=
- =?utf-8?B?dU1pN290S21MTm9RTi9nRStzSjZWSy84dmQwdWI1VDA0dUE1aTlRUDJhclFJ?=
- =?utf-8?B?WXpOLzNSbmluc28xaW45UmZaYUV1bnZCWjVrME94cWRveFNneUVOUjVzdU9H?=
- =?utf-8?B?YnJNVmZuL004TlNaZFM3WHp6Yk1RenpMZXgrUWk3RDlCRG9aQ0dDRkNyUFR5?=
- =?utf-8?B?NytOKzdma2pHOGYxU3l5ZE1nUjBGTUR0Y0xIVDJ5bHpJWUhSQk92eFZjeTg0?=
- =?utf-8?B?K052NmxBU2IrVFoyZUZNUUZGc0V4TVNPdlRFdFBQN2l6R0RHa2FrYjJFMlBj?=
- =?utf-8?B?aDlIWTZHVFF2RHJCeXIyakFwc3FtRmJwaEJVN0QyU3VDd1lzeWNYKzVJVGdZ?=
- =?utf-8?B?VVlvRHRBR3ExcGFyWndVL1p5TlI1MkJCdzJ1ZStGZzU1eDJjVUl1SVBwK1c0?=
- =?utf-8?B?ajFRNTE5ek1xOXlwV0NwWE4waGdIK3ZTY1dGU0RyRjVmYkJIOTErbHNLUVB4?=
- =?utf-8?B?Q2FGZzZIbGI4bVhYNlhHbEQ5blVOeW5RZ0hmR0VZQ1ZGd1FmVlZuTmx4ZTh1?=
- =?utf-8?B?QXl2R0VKYnRWS2ozeGgvb3Rwc2FLMXFVMklUY0N2a3BCOC9Xa3ozMGFUY2Z5?=
- =?utf-8?B?WEMwL1NCeUNZWWwrMlhKSHVwYWIzSkU2MFFRek00bVFIV20rKzRtTStnTlpj?=
- =?utf-8?B?ZkFHc3EyN1FnMlh3M0lXa0lQSlVMSTJraGxLUTFtdTdsc3dHRkFEMEtybEJN?=
- =?utf-8?B?ZVdZUE5acnRUdDVsRVBoLys5M2hsN3VLaUZJUThtMzNjME1VTUVGc0VyeENh?=
- =?utf-8?B?aUpJcEhuWDg4NE52UjFIWm1BMlNxWWNLYmdlMHdnWGIxTkpDYkR0SVI1RlE5?=
- =?utf-8?B?NCszckMzZ0JBa0U0T3RCSCtDcE1Bdk9HT1lvaXd6WlBzYlo2VlpRcnZVWjlN?=
- =?utf-8?B?WE1xd0Q4RjFFVHpuTDg2NVFQaXFUdHY1WXVsamlMMWpwc0tQSWcvUW04akFD?=
- =?utf-8?B?K1U1b05pTmEvemFpS082Wkw5MlFMOUE2dGxhR21Rbkc0aFVLM1hvejA1dlpk?=
- =?utf-8?B?RnE1RHdFWkVZcUdKMWpHRzFZWGgzc0lDNDNLZDJqcDY3SGU1eFBpaVU2eml0?=
- =?utf-8?B?Z3FSSjk1UHJYZHd3WGJuTWRzT0FsMDVjOFRlZkNhdWJtOVNMUlBnelU4NFRh?=
- =?utf-8?B?M2JDZDcwZzFhR2VocW5sZVNuSXNMUXZUTGlUWG9wZGdFNTJSZUYvUjNmcEVj?=
- =?utf-8?B?cjA2ZTJ4YTI1OExGaDExWWhYam1Ec0VQLzA2RG5ISTQ4eUhhazlZc1dBWFdN?=
- =?utf-8?B?andybDB0RXVEZWxuZWhIMWZXTEhUOTBJYzZsTDlzcHFHbU03Z3E3d3FxOEEx?=
- =?utf-8?B?a2doSWc5SmN3MTVCVXNrSlVWLzRBaHFDcFZGQjlFRWhJbm5MZVN1R0k4Qllq?=
- =?utf-8?B?aVdUUkxsNEx5VTErQUhGVmtGT1g0RVd0Q21tTU1zUkNXYjFpVWw0c1BvWGJt?=
- =?utf-8?B?UWdHb2NWSVAvYTBQS0xyRTlFMFpqNmxUWHZ2UFo3S0o1Q1NBSVZTK3FOcSti?=
- =?utf-8?B?UU5VMkQ1L3RXc0NYQ3N2ZmJyMDNzQkdzSEFhY0RKM245M0ZvZktpdmhHcU5u?=
- =?utf-8?B?amtpUlJTVVBabTQ3Z2d3ZGZQSVB1cXhwSVJOT0paSEF0clhLZmwxUmp0UUNT?=
- =?utf-8?Q?6fSvPauH1Y+Vrh9H36/PQyBc9?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7fc448c-7dc0-406e-78a2-08db34d2e3cd
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB5544.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2023 06:07:37.5883 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GsSw2l+MTMo2j1Uticd4n6WMm5y6O7mWXI714J6OceNShpVnogaZv/srUVu9Ka1WFylUS/NcbuH3yjnUTCwX3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7242
-Received-SPF: softfail client-ip=2a01:111:f400:7eab::610;
- envelope-from=avihaih@nvidia.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: "Lucas C. Villa Real" <lucas@osdyne.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Lucas Villa Real <lucasvr@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230403121537.71320-1-lucas@osdyne.com>
+ <CAFEAcA9ERb4a8kwcgtr3VAxnjaCuOVnKFJ56FfkNx=F73a0o-A@mail.gmail.com>
+ <CAL+Dfo6ysWqeKCR5p4_JMazjgdwqq5+kdYxTXVpHE0oZNMVpOQ@mail.gmail.com>
+From: Alexandre IOOSS <erdnaxe@crans.org>
+Organization: Crans
+Subject: Re: [PATCH] stm32vldiscovery: allow overriding of RAM size
+In-Reply-To: <CAL+Dfo6ysWqeKCR5p4_JMazjgdwqq5+kdYxTXVpHE0oZNMVpOQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------tX0bH3ZA9cAGF3U44ywBdPca"
+Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
+ helo=redisdead.crans.org
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.349, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 04 Apr 2023 10:11:21 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,58 +80,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------tX0bH3ZA9cAGF3U44ywBdPca
+Content-Type: multipart/mixed; boundary="------------UZ4pqPR89vgxN08KixPcU1us";
+ protected-headers="v1"
+From: Alexandre IOOSS <erdnaxe@crans.org>
+To: "Lucas C. Villa Real" <lucas@osdyne.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Lucas Villa Real <lucasvr@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Message-ID: <3c2d07b5-ef07-998a-df15-9dc38a4e474e@crans.org>
+Subject: Re: [PATCH] stm32vldiscovery: allow overriding of RAM size
+References: <20230403121537.71320-1-lucas@osdyne.com>
+ <CAFEAcA9ERb4a8kwcgtr3VAxnjaCuOVnKFJ56FfkNx=F73a0o-A@mail.gmail.com>
+ <CAL+Dfo6ysWqeKCR5p4_JMazjgdwqq5+kdYxTXVpHE0oZNMVpOQ@mail.gmail.com>
+In-Reply-To: <CAL+Dfo6ysWqeKCR5p4_JMazjgdwqq5+kdYxTXVpHE0oZNMVpOQ@mail.gmail.com>
 
-On 04/04/2023 0:36, Alex Williamson wrote:
-> External email: Use caution opening links or attachments
->
->
-> On Mon, 3 Apr 2023 22:36:42 +0200
-> Cédric Le Goater <clg@redhat.com> wrote:
->
->> On 4/3/23 15:00, Avihai Horon wrote:
->>> Currently, VFIO log_sync can be issued while migration is in SETUP
->>> state. However, doing this log_sync is at best redundant and at worst
->>> can fail.
->>>
->>> Redundant -- all RAM is marked dirty in migration SETUP state and is
->>> transferred only after migration is set to ACTIVE state, so doing
->>> log_sync during migration SETUP is pointless.
->>>
->>> Can fail -- there is a time window, between setting migration state to
->>> SETUP and starting dirty tracking by RAM save_live_setup handler, during
->>> which dirty tracking is still not started. Any VFIO log_sync call that
->>> is issued during this time window will fail. For example, this error can
->>> be triggered by migrating a VM when a GUI is active, which constantly
->>> calls log_sync.
->>>
->>> Fix it by skipping VFIO log_sync while migration is in SETUP state.
->>>
->>> Fixes: 758b96b61d5c ("vfio/migrate: Move switch of dirty tracking into vfio_memory_listener")
->>> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
->> migration is still experimental, so this can wait 8.1. Correct me if not.
-> Agreed, this doesn't seem nearly catastrophic enough as an experimental
-> feature that it can't wait for the 8.1 devel cycle to open.
+--------------UZ4pqPR89vgxN08KixPcU1us
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Sure, so let's wait for 8.1 cycle to open.
+T24gNC8zLzIzIDE2OjQ4LCBMdWNhcyBDLiBWaWxsYSBSZWFsIHdyb3RlOg0KPiBPbiBNb24s
+IEFwciAzLCAyMDIzIGF0IDEwOjU04oCvQU0gUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIubWF5ZGVs
+bEBsaW5hcm8ub3JnIA0KPiA8bWFpbHRvOnBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4+IHdy
+b3RlOg0KPiANCj4gICAgIE9uIE1vbiwgMyBBcHIgMjAyMyBhdCAxMzo1MSwgTHVjYXMgVmls
+bGEgUmVhbCA8bHVjYXN2ckBnbWFpbC5jb20NCj4gICAgIDxtYWlsdG86bHVjYXN2ckBnbWFp
+bC5jb20+PiB3cm90ZToNCj4gICAgICA+DQo+ICAgICAgPiBzdG0zMnZsZGlzY292ZXJ5IGNv
+bWVzIHdpdGggOEtCIG9mIFNSQU0sIHdoaWNoIG1heSBiZSB0b28gbG93IHdoZW4NCj4gICAg
+ICA+IHJ1bm5pbmcgc29tZSB3b3JrbG9hZHMgb24gUUVNVS4gVGhlIGNvbW1hbmQgbGluZSBh
+cmd1bWVudCAiLW0NCj4gICAgIG1lbV9zaXplIg0KPiAgICAgID4gaXMgbm90IHJlY29nbml6
+ZWQgYnkgdGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb24sIHRob3VnaCwgc28gb25lDQo+ICAg
+ICBjYW5ub3QNCj4gICAgICA+IGVhc2lseSBvdmVycmlkZSB0aGUgZGVmYXVsdCBtZW1vcnkg
+c2l6ZS4NCj4gICAgICA+DQo+ICAgICAgPiBUaGlzIHBhdGNoIGZpeGVzIHRoYXQgYnkgYWRk
+aW5nIGEgbWVtb3J5IHN1YnJlZ2lvbiBhY2NvcmRpbmcgdG8gdGhlDQo+ICAgICAgPiB2YWx1
+ZSBwcm92aWRlZCBvbiB0aGF0IGNvbW1hbmQgbGluZSBhcmd1bWVudC4gSWYgYWJzZW50LCB0
+aGUgZGVmYXVsdA0KPiAgICAgID4gdmFsdWUgb2YgOEtCIHN0aWxsIGFwcGxpZXMuDQo+ICAg
+ICAgPg0KPiAgICAgID4gU2lnbmVkLW9mZi1ieTogTHVjYXMgVmlsbGEgUmVhbCA8bHVjYXNA
+b3NkeW5lLmNvbQ0KPiAgICAgPG1haWx0bzpsdWNhc0Bvc2R5bmUuY29tPj4NCj4gDQo+ICAg
+ICBEb2VzIHRoZSByZWFsIGhhcmR3YXJlIGhhdmUgKG9wdGlvbnMgZm9yKSBtb3JlIHRoYW4g
+OEsgb2YgU1JBTSBoZXJlID8NCj4gDQo+ICAgICB0aGFua3MNCj4gICAgIC0tIFBNTQ0KPiAN
+Cj4gDQo+IFllcywgaXQncyBwb3NzaWJsZSB0byBhZGQgbW9yZSAocClTUkFNIHZpYSB0aGUg
+U1RNMzJGMTB4eHgncyBGU01DIA0KPiAoZmxleGlibGUgc3RhdGljIG1lbW9yeSBjb250cm9s
+bGVyKS4gVGhlIG5ldyBtZW1vcnkgaXMgbWFwcGVkIHRvIEZTTUMgDQo+IGJhbmsgMSBhdCAw
+eDYwMDBfMDAwMCwgdGhvdWdoIChhcyBvcHBvc2VkIHRvIHRoZSBlbWJlZGRlZCBTUkFNJ3Mg
+Zml4ZWQgDQo+IGFkZHJlc3MgYXQgMHgyMDAwXzAwMDApLCBhcyBJIGhhdmUgbm93IHJlYWxp
+emVkLiBJJ20gaGFwcHkgdG8gc2VuZCBhbiANCj4gdXBkYXRlZCBwYXRjaCBzbyB0aGF0ICIt
+bSBtZW1fc2l6ZSIgY3JlYXRlcyBhIG1lbW9yeSBzdWJyZWdpb24gYXQgDQo+IDB4NjAwMF8w
+MDAwIGluc3RlYWQuDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IEx1Y2FzDQo+IA0KDQpMb29r
+aW5nIGF0IHRoZSBTVE0zMkYxMDB4eCByZWZlcmVuY2UgbWFudWFsIHBhZ2UgNDk0IA0KKGh0
+dHBzOi8vd3d3LnN0LmNvbS9yZXNvdXJjZS9lbi9yZWZlcmVuY2VfbWFudWFsL3JtMDA0MS1z
+dG0zMmYxMDB4eC1hZHZhbmNlZC1hcm1iYXNlZC0zMmJpdC1tY3VzLXN0bWljcm9lbGVjdHJv
+bmljcy5wZGYpLCANCkZTTUMgaXMgb25seSBwcmVzZW50IG9uIGhpZ2gtZGVuc2l0eSB2YWx1
+ZSBsaW5lIGRldmljZXMgb25seS4gVGhpcyBpcyANCm5vdCB0aGUgY2FzZSBvZiB0aGUgU1RN
+MzJWTERJU0NPVkVSWSB3aGljaCB1c2VzIGEgU1RNMzJGMTAwUkIgDQoobG93L21lZGl1bS1k
+ZW5zaXR5IHZhbHVlIGxpbmUpLg0KDQpDb3JyZWN0IG1lIGlmIEknbSB3cm9uZywgYnV0IEkg
+YmVsaWV2ZSB5b3UgY2Fubm90IGJ1eSBhIFNUTTMyVkxESVNDT1ZFUlkgDQp0aGF0IGNvdWxk
+IHN1cHBvcnQgRlNNQyBvciBoYXZlIG1vcmUgdGhhbiA4S0Igb2Ygb24tY2hpcCBTUkFNLg0K
+DQpIb3dldmVyLCBjb3VsZCBpdCBiZSBhIGdvb2QgaWRlYSB0byBpbXBsZW1lbnQgYSBnZW5l
+cmljIFNUTTMyRjEwMHh4IA0KbWFjaGluZSBpbiBRRU1VIHRoYXQgaXMgImhpZ2gtZGVuc2l0
+eSIgYnkgZGVmYXVsdCBhbmQgdGhhdCBjb3VsZCBiZSANCmNvbmZpZ3VyZWQgdXNpbmcgY29t
+bWFuZCBsaW5lIG9wdGlvbnMgPyBUaGlzIGNvdWxkIGNvdmVyIGEgd2lkZSByYW5nZSBvZiAN
+CmNhc2VzIHdpdGggYSBzaW5nbGUgbWFjaGluZS4NCg0KVGhhbmtzLA0KLS0gDQpBbGV4YW5k
+cmUNCg==
 
-Thanks!
+--------------UZ4pqPR89vgxN08KixPcU1us--
 
->>> ---
->>>    hw/vfio/common.c | 3 ++-
->>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->>> index 4d01ea3515..78358ede27 100644
->>> --- a/hw/vfio/common.c
->>> +++ b/hw/vfio/common.c
->>> @@ -478,7 +478,8 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
->>>        VFIODevice *vbasedev;
->>>        MigrationState *ms = migrate_get_current();
->>>
->>> -    if (!migration_is_setup_or_active(ms->state)) {
->>> +    if (ms->state != MIGRATION_STATUS_ACTIVE &&
->>> +        ms->state != MIGRATION_STATUS_DEVICE) {
->>>            return false;
->>>        }
->>>
+--------------tX0bH3ZA9cAGF3U44ywBdPca
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmQrwkMFAwAAAAAACgkQbHknjz/NzAKH
+6hAAj0fFC0AbOd9epjFsXrc48B461Mmgx+XsK/1b0cdoFQc67g5HVTAV+ZKu4TDIDawQRld60xVr
+HqkY8ojbgrvrGHJxhNmyKdfL1TYicMTAMbKa+LbJ/SvnQTBSbsDsROzMubzUjjCmE7dVB1sO4l6F
+yqFTSoSeE96L9f3fEB0s6BOQuNErM94qERfJj1mwiJoe53aCkE28ms6e+eXfA7JHLMN3DehHupYy
+iIls4kV2puFplgtWod1XFt9S/p7XzczyBPCWatO7X0YA00CZKsk9hVFW6ZGhTW4uJe9wqnHlbHJA
+3E76UEEYUro+4wPeR/K8vPoUckpW4u3g6as5zqQlaZRfrXIA4rxk7Zvo4wswv90t0AwN3EPjHf/V
+uZs4/astBZIkIEgEr8hPQppYCG9ot5WNFusJ/V+4AHOnuyz2C/+ZfE49jnz6mD7l8L4ihyxp3vmx
+qpM/8cUVyJL1cJGdG15kCF40kahZjDNBbQgbrfGX1zhfjNZqwhms0i862lIWgW0eXbPG75hubWPk
+kJLEFAg9vQEQaKx0X4BFFD2p4BuqjUqoDwNWtLCh4jdvlgI3hcj/pOGZNHDjjGa3zL3PZbPz3AX3
+TZD5OPzedWrzmHXKZyimOlu4QOE19YxNNl28JEpI4tk2xvH8na+174RgbiAUnR5GoFLt2uj/EEYE
+xoY=
+=Apdd
+-----END PGP SIGNATURE-----
+
+--------------tX0bH3ZA9cAGF3U44ywBdPca--
 
