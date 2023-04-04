@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA556D657A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E856D657F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:36:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjhlE-00073R-6E; Tue, 04 Apr 2023 10:35:48 -0400
+	id 1pjhli-0007aP-7U; Tue, 04 Apr 2023 10:36:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pjhlB-000738-LG
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:35:45 -0400
-Received: from mout.web.de ([212.227.15.14])
+ id 1pjhlf-0007Z9-CQ
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:36:15 -0400
+Received: from mout.web.de ([212.227.15.3])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pjhl9-0005NB-NE
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:35:45 -0400
+ id 1pjhlb-0005WR-U6
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 10:36:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1680618937; i=lukasstraub2@web.de;
- bh=s0Lcg0rRLB6m+2pzNGnotaTSSpHMe5TOmLpFADUMnUw=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=eXTfif3tLlBIfv8sx3pBbCSWyZaQAJEbnKvh+QPACM7SRk81K2k0YpallP4aIaMtj
- 1weoiTNLEtLzW65KgIoR0LHRhQYgNgQWb8UXOuGq5UFzpIYvv9DZ/9U+GlexIsWmK3
- a8qTIj84EtNvlVnQeYIuj3QlLQquj3bKl8FAtxa7uVXyltfKPdYbMh5huVL7wrFd5+
- lrppphLnUZ8aBYP1E2T6QNFQaS9O3WT+xVSzv5qhRB8VwnSdKqYCZzNehjkdpdVFya
- KMwkqCM/QF1amegIoZsvIIHrKAT1hjednh7Y6ufPc/6GXUhViLLRlOqFOP80vyzT6K
- jl2NyWeaKa18w==
+ t=1680618965; i=lukasstraub2@web.de;
+ bh=1Uc1GejUrfx0MLB/D7QKtrjGVaAz2I225ybeOKSqUKk=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=o4x3alFQhsTW4Ne4b7o2pC0b+P2LklHNFYYoLd8/hSbDGgrHH/8h0JNzcvRUyo56Q
+ p/QBKisknw3cyrYcpVx9lyIaL32cVn7sCACQk6cSPnvOx3q7sjHtYQSzlbYGudL4ox
+ FiRdBhZvvE6yfT5q68Y2KC75yMfG6GUtjgBRerlfdKApKHcoJXY5nxkePDoTHgifVu
+ SCqLJ1uGRJ3vnksinyyq9xteWMrLNBnz+E7i3t1Ws/3F1zGP5X22uC87EFyS8pmetC
+ a32c8BqWFjfle7vGGw3JMdewutIR4va8p4wkmbZYbqYP+EYcdid5A045F16UdKC2ob
+ g4BVCYLCwpOew==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from gecko.fritz.box ([82.207.254.102]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N2jaS-1qOZtN1Z1g-013Iml; Tue, 04
- Apr 2023 16:35:37 +0200
-Date: Tue, 4 Apr 2023 14:35:27 +0000
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MwR05-1qZsPY08RR-00rzq1; Tue, 04
+ Apr 2023 16:36:05 +0200
+Date: Tue, 4 Apr 2023 14:36:03 +0000
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
  <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, Thomas Huth
  <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini
  <pbonzini@redhat.com>
-Subject: [PATCH for-8.0 v2 1/2] qtest/migration-test.c: Add tests with
- compress enabled
-Message-ID: <2f4abb67cf5f3e1591b2666676462a93bdd20bbc.1680618040.git.lukasstraub2@web.de>
+Subject: [PATCH for-8.0 v2 2/2] migration/ram.c: Fix migration with compress
+ enabled
+Message-ID: <2c4cac0ca620ea0304d88b8f5110fe290400c8c8.1680618040.git.lukasstraub2@web.de>
+In-Reply-To: <2f4abb67cf5f3e1591b2666676462a93bdd20bbc.1680618040.git.lukasstraub2@web.de>
+References: <2f4abb67cf5f3e1591b2666676462a93bdd20bbc.1680618040.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/h5l4ivoBs0f3sdeeqOiWOWv";
+Content-Type: multipart/signed; boundary="Sig_/HdGoBVXvrWZ+p4=S22CN9Ws";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:BD4QU++qaWP46izr+U3OKQfcbVtwcoQ4oRX19vebF6hW+kPAbrE
- XZxdBhFZ25rOW9HKO9JK7+xDMOhF3BFnxGos9aqFlSBx6WF9WFBDZp5ZCJ6h2T+ZSumFMey
- uDb5o9ZaQ95aBXyS0fWAs0sp0tiDtgYuuwt/iigJ60VQYK5fzqI+3u2g1WE5axBTKz11G0p
- urXTwCG9cG/V9wI9ox60Q==
-UI-OutboundReport: notjunk:1;M01:P0:INyjCGUUccE=;E8lXNXtAwEN0yMZLZsnSJu7e/3K
- ceLTq/7dbZnY7RbjKcDeakhwkUsUWdWWvyZ3WFCUvLC9Sm0+dAaAXhr46I4jXKO8hlupr3tiu
- oQITKKzIi5/yIon12CHwuwtTerBMROhBmA3wypXLUE4RAWXhDUuFyON8umO0RRjhlBNpvz9g1
- b7Whz1vM6pHhco45O66Wlbboat6p3Zbb9wFttMDix3aVur2/hMrjfFNzqLdhiI0nRlE6NZ7r4
- sxcGLj1hevNNr9C7RFkuMx/cAi+GjrTo3SRf2bTNDCPMYWyJtFxekyDMlva8hWCWMUjGJcLng
- V33lwhSQL2EqOUE9HjrLdJECCStWBreO/yA66X4W0AXal6KLjTCVm9zgG2YggNoM8H9IZT40J
- mEtWMcgQjc9SNWufra4h55JoNFu+s1L1lZAHsJbdwNMIunM3BsJfm0p+z3bF56xxvZFPx2w+q
- awVW4uAiJlPxdFe2AKXbEELQnclajipvajtP1r0lMhkMYrmwZR4/RYvG9JUnsxZLOHwhOv88p
- sPMyaFMUQPQPVWL763LHMDS0FzuI4MCt/ZrgzxTO6N/CcRi0j2kpAOPhlgZ3k2w9vhxEWuSZt
- Tw7tMyH09bnONetErnQ8AF7InHsFYXBlEuQLpVflxKymmcjw6t1bMLGiEcqc2SxDbrmCm1dUN
- iK318vmsprmXxsHVplXAaNqmlUVS0QthsjmM+jaEA3ioWuoKJ129gFS6Y7NEHHcVBqs5ZsEna
- qEiEFauzn9W1rUhJRo/rMAJq0KIKiV0EOlLSjwfapJihpIPtT1ROv1x9TTKGEVQ13EKmtKTSX
- DFKl8nVZRUrad0hRTjuJx5W2+gce3INDT4oZD6QpQcpNJGVTGMqqge+qzXqw+4nWdBUXmnzV3
- HVL8n4j98bzN5kZ+rJvDxvTmDoF7HeVNaUCg0dA/g/ZdmKvK5wUD1cPg//ILmEIlm6qoZ06ay
- 7khUOQPc7szkiDEGeE0e+rfXD88=
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:UYABQygXjINGT2Dy7+IcjheoyY2Gf+UnfkYiQcYIil7eNZxVIXZ
+ QRLI9ZVCWIal+1mi4FiEB0fuuBl9bvgQRPnbbHOJowJPXEzduKs9ZWAFElPINuuHUUa4FXO
+ 9Gq3x5lSpwrQJjWvXUokZwrG5Ff6HS3FTW5RQQ6gT287ZTbEbTKmdbV+BXT0ou6xlaa3Ryo
+ 5EdR2+OGW3hMaTJccWY3A==
+UI-OutboundReport: notjunk:1;M01:P0:hBwdjc8rav8=;da8v6kiUAdf3fLgUV8Zxh6I87Dt
+ HvlAIN0T1StLZfR4q1e0e0mw5vSb75GfHUmDpL9uAdqXqN3jJL0zRXcSSCcamQe0VxWbAEWud
+ ZKtGfIEG7bngBFDRZWr7caQx/o78FVl1SOzSVSzCj0k8Qs1UZKus0fAJBaHvLWXIp2Sar9J3h
+ Yg4+MNZcauoswhobozrHcGZAxSJrZjW7Vt1Nx8hmHxGjyJHKfc5CW4KTMpgGyZaPfn8BjRm0/
+ qtueeYjg3gXjuwT9gxt3zoxUyRdCugBRdCznsxAOgf8yDxE+GRskCMxjWXk9tGWcHDhvMHhje
+ Vc7bixtBxLCewr9by4cxDuavTz8yOuc07F7k/hOATPaTS/XT0UqTlUe0u2hL27E9M/2yDqmOo
+ F0XraMRah6+EiWIbJlXRjwvCx9TYxKOoRUuubODjTINmGB8CF1SRMUUxqXbRQwf3Gg5Q5oseK
+ EsFAaXilMsZB0yqQUr8hedB/8zBuMHf//Xw66jJ2URpsuQFgHRh74gKVQnv8AP0HchAAfQ18W
+ yNMkH/VZE2IKaOApAUbtJL7nqHPSqzPVXGIp6jnfmPgbRImnzllpk0wXN1zMdUMgIsFvtZF8i
+ 4j/R/KWxGfHuQpheS4TaZVy2qKY6BObWUgwU8UfqkDhDh2NdTqP+WFoPnhfcwox1VVQccdpNY
+ rM/qHuzJT+RFjeVzKyRI3D07qRJkfIt0LeLrQNfLdlPAcZvqdcm54LaRVk3SZeVRtEoGf7IfU
+ eOYYOaCnz1prU7g6vDspw/4w+IRjg4B9aZUKNYiXpgABdeLTIz0+FUl+KkG8+K79IAcZWsVm4
+ eAJp8XFgx02nrXk0uQQvJ2mYT2d43ZaRvSqh78F1qTb78YtBSjOGPMY1e+alM39PLvLptxbbJ
+ phIYxvssrHEzvYPK5V/yEwKVmveAS+pGth+jTg7M180+6/K0mBzChRXTj3Kj4Qaf2t7BhJSfR
+ kxWHOA==
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -72,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,183 +91,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/h5l4ivoBs0f3sdeeqOiWOWv
+--Sig_/HdGoBVXvrWZ+p4=S22CN9Ws
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-There has never been tests for migration with compress enabled.
+Since ec6f3ab9, migration with compress enabled was broken, because
+the compress threads use a dummy QEMUFile which just acts as a
+buffer and that commit accidentally changed it to use the outgoing
+migration channel instead.
 
-Add suitable tests, testing with compress-wait-thread =3D false
-too.
+Fix this by using the dummy file again in the compress threads.
 
+Fixes: ec6f3ab9f4 ("migration: Move last_sent_block into PageSearchStatus")
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 ---
 v2:
- - Split into 2 tests, one with compress-wait-thread =3D true and faster
-   compress options. And one with compress-wait-thread =3D false and slower
-   compress options, so it definitely sends some pages uncompressed.
- - Add comment for iterations =3D 2.
+ - Add Fixed: and Reviewed-by: tags
 
- tests/qtest/migration-test.c | 103 +++++++++++++++++++++++++++++++++++
- 1 file changed, 103 insertions(+)
+ migration/ram.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 3b615b0da9..1f2a019ce0 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -406,6 +406,41 @@ static void migrate_set_parameter_str(QTestState *who,=
- const char *parameter,
-     migrate_check_parameter_str(who, parameter, value);
- }
-=20
-+static long long migrate_get_parameter_bool(QTestState *who,
-+                                           const char *parameter)
-+{
-+    QDict *rsp;
-+    int result;
-+
-+    rsp =3D wait_command(who, "{ 'execute': 'query-migrate-parameters' }");
-+    result =3D qdict_get_bool(rsp, parameter);
-+    qobject_unref(rsp);
-+    return !!result;
-+}
-+
-+static void migrate_check_parameter_bool(QTestState *who, const char *para=
-meter,
-+                                        int value)
-+{
-+    int result;
-+
-+    result =3D migrate_get_parameter_bool(who, parameter);
-+    g_assert_cmpint(result, =3D=3D, value);
-+}
-+
-+static void migrate_set_parameter_bool(QTestState *who, const char *parame=
-ter,
-+                                      int value)
-+{
-+    QDict *rsp;
-+
-+    rsp =3D qtest_qmp(who,
-+                    "{ 'execute': 'migrate-set-parameters',"
-+                    "'arguments': { %s: %i } }",
-+                    parameter, value);
-+    g_assert(qdict_haskey(rsp, "return"));
-+    qobject_unref(rsp);
-+    migrate_check_parameter_bool(who, parameter, value);
-+}
-+
- static void migrate_ensure_non_converge(QTestState *who)
+diff --git a/migration/ram.c b/migration/ram.c
+index 96e8a19a58..9d1817ab7b 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -688,12 +688,11 @@ exit:
+  * @offset: offset inside the block for the page
+  *          in the lower bits, it contains flags
+  */
+-static size_t save_page_header(PageSearchStatus *pss, RAMBlock *block,
+-                               ram_addr_t offset)
++static size_t save_page_header(PageSearchStatus *pss, QEMUFile *f,
++                               RAMBlock *block, ram_addr_t offset)
  {
-     /* Can't converge with 1ms downtime + 3 mbs bandwidth limit */
-@@ -1524,6 +1559,70 @@ static void test_precopy_unix_xbzrle(void)
-     test_precopy_common(&args);
- }
+     size_t size, len;
+     bool same_block =3D (block =3D=3D pss->last_sent_block);
+-    QEMUFile *f =3D pss->pss_channel;
 =20
-+static void *
-+test_migrate_compress_start(QTestState *from,
-+                            QTestState *to)
-+{
-+    migrate_set_parameter_int(from, "compress-level", 1);
-+    migrate_set_parameter_int(from, "compress-threads", 4);
-+    migrate_set_parameter_bool(from, "compress-wait-thread", true);
-+    migrate_set_parameter_int(to, "decompress-threads", 4);
-+
-+    migrate_set_capability(from, "compress", true);
-+    migrate_set_capability(to, "compress", true);
-+
-+    return NULL;
-+}
-+
-+static void test_precopy_unix_compress(void)
-+{
-+    g_autofree char *uri =3D g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    MigrateCommon args =3D {
-+        .connect_uri =3D uri,
-+        .listen_uri =3D uri,
-+        .start_hook =3D test_migrate_compress_start,
-+        /*
-+         * Test that no invalid thread state is left over from
-+         * the previous iteration.
-+         */
-+        .iterations =3D 2,
-+    };
-+
-+    test_precopy_common(&args);
-+}
-+
-+static void *
-+test_migrate_compress_nowait_start(QTestState *from,
-+                                   QTestState *to)
-+{
-+    migrate_set_parameter_int(from, "compress-level", 9);
-+    migrate_set_parameter_int(from, "compress-threads", 1);
-+    migrate_set_parameter_bool(from, "compress-wait-thread", false);
-+    migrate_set_parameter_int(to, "decompress-threads", 1);
-+
-+    migrate_set_capability(from, "compress", true);
-+    migrate_set_capability(to, "compress", true);
-+
-+    return NULL;
-+}
-+
-+static void test_precopy_unix_compress_nowait(void)
-+{
-+    g_autofree char *uri =3D g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    MigrateCommon args =3D {
-+        .connect_uri =3D uri,
-+        .listen_uri =3D uri,
-+        .start_hook =3D test_migrate_compress_nowait_start,
-+        /*
-+         * Test that no invalid thread state is left over from
-+         * the previous iteration.
-+         */
-+        .iterations =3D 2,
-+    };
-+
-+    test_precopy_common(&args);
-+}
-+
- static void test_precopy_tcp_plain(void)
+     if (same_block) {
+         offset |=3D RAM_SAVE_FLAG_CONTINUE;
+@@ -867,7 +866,7 @@ static int save_xbzrle_page(RAMState *rs, PageSearchSta=
+tus *pss,
+     }
+=20
+     /* Send XBZRLE based compressed page */
+-    bytes_xbzrle =3D save_page_header(pss, block,
++    bytes_xbzrle =3D save_page_header(pss, pss->pss_channel, block,
+                                     offset | RAM_SAVE_FLAG_XBZRLE);
+     qemu_put_byte(file, ENCODING_FLAG_XBZRLE);
+     qemu_put_be16(file, encoded_len);
+@@ -1302,15 +1301,14 @@ void ram_release_page(const char *rbname, uint64_t =
+offset)
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+  */
+-static int save_zero_page_to_file(PageSearchStatus *pss,
++static int save_zero_page_to_file(PageSearchStatus *pss, QEMUFile *file,
+                                   RAMBlock *block, ram_addr_t offset)
  {
-     MigrateCommon args =3D {
-@@ -2515,6 +2614,10 @@ int main(int argc, char **argv)
-     qtest_add_func("/migration/bad_dest", test_baddest);
-     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plai=
-n);
-     qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbz=
-rle);
-+    qtest_add_func("/migration/precopy/unix/compress/wait",
-+                   test_precopy_unix_compress);
-+    qtest_add_func("/migration/precopy/unix/compress/nowait",
-+                   test_precopy_unix_compress_nowait);
- #ifdef CONFIG_GNUTLS
-     qtest_add_func("/migration/precopy/unix/tls/psk",
-                    test_precopy_unix_tls_psk);
+     uint8_t *p =3D block->host + offset;
+-    QEMUFile *file =3D pss->pss_channel;
+     int len =3D 0;
+=20
+     if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
+-        len +=3D save_page_header(pss, block, offset | RAM_SAVE_FLAG_ZERO);
++        len +=3D save_page_header(pss, file, block, offset | RAM_SAVE_FLAG=
+_ZERO);
+         qemu_put_byte(file, 0);
+         len +=3D 1;
+         ram_release_page(block->idstr, offset);
+@@ -1327,10 +1325,10 @@ static int save_zero_page_to_file(PageSearchStatus =
+*pss,
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+  */
+-static int save_zero_page(PageSearchStatus *pss, RAMBlock *block,
++static int save_zero_page(PageSearchStatus *pss, QEMUFile *f, RAMBlock *bl=
+ock,
+                           ram_addr_t offset)
+ {
+-    int len =3D save_zero_page_to_file(pss, block, offset);
++    int len =3D save_zero_page_to_file(pss, f, block, offset);
+=20
+     if (len) {
+         stat64_add(&ram_atomic_counters.duplicate, 1);
+@@ -1394,7 +1392,7 @@ static int save_normal_page(PageSearchStatus *pss, RA=
+MBlock *block,
+ {
+     QEMUFile *file =3D pss->pss_channel;
+=20
+-    ram_transferred_add(save_page_header(pss, block,
++    ram_transferred_add(save_page_header(pss, pss->pss_channel, block,
+                                          offset | RAM_SAVE_FLAG_PAGE));
+     if (async) {
+         qemu_put_buffer_async(file, buf, TARGET_PAGE_SIZE,
+@@ -1473,11 +1471,11 @@ static bool do_compress_ram_page(QEMUFile *f, z_str=
+eam *stream, RAMBlock *block,
+     uint8_t *p =3D block->host + offset;
+     int ret;
+=20
+-    if (save_zero_page_to_file(pss, block, offset)) {
++    if (save_zero_page_to_file(pss, f, block, offset)) {
+         return true;
+     }
+=20
+-    save_page_header(pss, block, offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
++    save_page_header(pss, f, block, offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
+=20
+     /*
+      * copy it to a internal buffer to avoid it being modified by VM
+@@ -2355,7 +2353,7 @@ static int ram_save_target_page_legacy(RAMState *rs, =
+PageSearchStatus *pss)
+         return 1;
+     }
+=20
+-    res =3D save_zero_page(pss, block, offset);
++    res =3D save_zero_page(pss, pss->pss_channel, block, offset);
+     if (res > 0) {
+         /* Must let xbzrle know, otherwise a previous (now 0'd) cached
+          * page would be stale
 --=20
 2.40.0
 
-
---Sig_/h5l4ivoBs0f3sdeeqOiWOWv
+--Sig_/HdGoBVXvrWZ+p4=S22CN9Ws
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQsNa8ACgkQNasLKJxd
-sli2oRAAsIGW/dAQanmyNLml1V89FTFjmSmpN31O8gIPMJMRyD68dG5/5C4MVd8X
-y9xRcubgTwaKX97/JaOmOcQX6lsnX4tSHqm2jtXky7lEv+FRwUTpFKmqkSDzEBoC
-6bkBQuUbN16Q+LoPrNrF1NfWRjeO389dDSSuCQksK/0NDnS0xKYsrkwVXHF7+kNL
-cpS9shTGwqEsWpkjlJwuFldiFoB+YdWnNr7LD3GhQbtdMWkH64dyZIcOfVunDw38
-YMuYpVcQusnaX74bzwEG0wS7uWL8rju3geHzLx8NNv7UWDs98fzNFea/aoJ1dyYG
-F/++HKSr+ElsRuqNKRUQ3pvlr80NBpCNZ/sClAgRgE4qlSVEWBEJrkra0N3jPY3B
-gqzfCMM8rFRF1ebUkQoMy5/R4k14KNmyVdXuL5/nryzjZ6kQPx80n+dGwZk9GWWK
-H7HmPTo4juaxCzzy9aV1Y1I87uu7VhhFUSP9Q+8HQM5Lf9QyeTnnq2nj0taxskR6
-JKytsysRg6P39gncL09CvD/4HFb7MdeiGPZL6HG/yngiiZQtMtPp7UEsOfhLc/Vu
-0iv+ibsYhnMecp0B7VNdtGsZr1Uu9Jgz5sGyrrwifEnvPO9MAifU+B8STJr2Py9a
-aeOKGggIGyKjHb+vXDMGZbvgHdfKV2DSeo9uVgx90+qioQmYCzU=
-=poUX
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQsNdMACgkQNasLKJxd
+slgd8A//U+a2Iolafr2SqHC4+Ghy5mgmSwCxEhk5FnRDaT2GqHAaZTbSJQuX93mA
+8oFs7CqnHfV/u/zmR8JvwaydUGx1oLDkjJZxYp7plCOvpx1+Vgl8r0EGZtbNOGhM
+Jogy1JgtNSAzYemLZFz31GnZ43N157pK9rWTTWpCbc18NzcdTLeyILdEzzuDDyey
+o2BUcriwkC6s8HQSHTo2f+x3QldYoSdy4H++9boQpHXpVnz7ja/WQG2JgEKrpmqZ
+TWrKBcHxI54mJMNu8NgspHNQCo21noCsJlJKs1RFA/sW+DQfOq/3ZT2g+QLKdUts
+bsAEaihBGtcc/biaL74iolyjqPh24LPD5JL9jkERfardCzLrUJrw9ogKLDlhv/OF
+flzf6c+U+NEWjGxh53Gmp886QPZ59jv6bTio2NDGAI9b6Wj1CrmhmSzrMzD4jRx5
+8gLqQhvRSUnq1vKkUp1TCaOwBh8rm6DNi4yDYyPDMZy5dzI4U7uNzqUGGQKdsfh6
+9lDSS9IOxRkLwxm6Fb24qp+Zc/ua8UHUvcRZiNsik204d1o9pVWANnzxm0NTKopl
+oz271ZcIWVQwAP22KyS2HInsMMOKb2h8sJdkMnS9ldSTEj10xvOmUFhKLPfaErM0
+APjbAKYBoyTYofEkrGq7oVtyWLqEEPv8WK+d8r8k1MQI/GaeZMM=
+=o3Ab
 -----END PGP SIGNATURE-----
 
---Sig_/h5l4ivoBs0f3sdeeqOiWOWv--
+--Sig_/HdGoBVXvrWZ+p4=S22CN9Ws--
 
