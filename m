@@ -2,111 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06216D5B8E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 11:08:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DFA6D5BAD
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 11:18:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjcdX-0005ut-Hw; Tue, 04 Apr 2023 05:07:31 -0400
+	id 1pjcmf-0007Yc-25; Tue, 04 Apr 2023 05:16:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pjcdU-0005u4-R7; Tue, 04 Apr 2023 05:07:28 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pjcmd-0007Xz-69
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 05:16:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pjcdS-0000VV-Gi; Tue, 04 Apr 2023 05:07:28 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3347O879011242; Tue, 4 Apr 2023 09:07:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=LtYzJ1e+FxahVkD/XXuROe/QwjD9fm8As8cNegASnag=;
- b=bIQCoTcIuTDTKXYC430omPdVeTGxATGKXuuy194MVtJJwiBBrl+aHO9sjPdVpAi7FI3R
- Odfiwt3qJb/ctCpYGdx1QXVIXn5IGCYRprJd91fJL7NJQrkRFHh+D4jGhwS7Y1I3GhFi
- GM29xHoL5T8eP7sWepBal43tBfp3fYuSDEDR1MqAgjJgg/b/+lAeVgctLe6lQsL+u8ue
- l79WyJMMkJAOkN9+uHkvs2jD+g1glJkFmxP9NKt42TlI73AJKEriOZTgLkg9g4Xj59rR
- hN5Z8lsDNMPRYafmxEHp/cWhJ/aa1QO0AxlnP/AWE0bMjOZEHa+ctnHf7QUFxLP8EQWY DQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pr3gs27w5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Apr 2023 09:07:16 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33497ClL007551;
- Tue, 4 Apr 2023 09:07:16 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pr3gs27vg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Apr 2023 09:07:15 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3341PM0e004923;
- Tue, 4 Apr 2023 09:07:14 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3ppc87adc5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Apr 2023 09:07:13 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 334979KY48103742
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 Apr 2023 09:07:09 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0528520043;
- Tue,  4 Apr 2023 09:07:09 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 805FC2004E;
- Tue,  4 Apr 2023 09:07:08 +0000 (GMT)
-Received: from [9.152.222.242] (unknown [9.152.222.242])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Tue,  4 Apr 2023 09:07:08 +0000 (GMT)
-Message-ID: <01ad25d3-7c91-d184-56c8-9f28f4044de9@linux.ibm.com>
-Date: Tue, 4 Apr 2023 11:07:08 +0200
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pjcma-0007Rm-Cf
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 05:16:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680599811;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=BSBmdTbfTkUl7Ea3VQh27DTaOioxkwyVdy28bzui4ZE=;
+ b=TgXtDmjtb1ePN/ZgAR2e7E+pVn4W+h7hpNLD9EiuJa8h/dl2UlxrlO4igwoqQicEg6xaEA
+ rADGMWgiqj6aTFc5w7+C/zNwrczKbhYi7kKFwbCD+TcVQ4R6JruqbZHqDS7AiPHBU0Scxa
+ rYxFZb87WkosFNXv/J8HYHhiwSPm1WQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-1-N_ZzTqsmOm64FRdq63zpmg-1; Tue, 04 Apr 2023 05:16:50 -0400
+X-MC-Unique: N_ZzTqsmOm64FRdq63zpmg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ iv18-20020a05600c549200b003ee21220fccso15793456wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 02:16:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680599809;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BSBmdTbfTkUl7Ea3VQh27DTaOioxkwyVdy28bzui4ZE=;
+ b=VxGmf9WvjKkWD+JhcRNSmRjlr8WWhVn6Im+IkTTezTfk1F6bZPHH/4TQTXntobcWpY
+ Q6fIYV/fbaB8G3FsTbaab6D0+BaIET2gkhOkn6Kh1Nh0gMNvffy7MbaIe/bC8w97EG87
+ +ziJb4N/ZpDWL4JjWdOIIDTGuj3727+8pwLW6X7+SlpNc58gJ0aWBAw0kNsMOuDdTXj4
+ 000Vza402Nn7CP6bKQ4YzoWNdPCbqMpO63qpVWt98Qac+uNZ8eRk+XjVO8/+6jtl6Syd
+ +nfgWtcb6bvioraz0QL8Z5oaELvp4tW5m++xQas5lvQ7RxtWl0QvHPaas3KxNqWy7Fze
+ P8LA==
+X-Gm-Message-State: AAQBX9dEAg/eIJLLCXF82fWMUIb/LrVZ5LFp+H4BRGJQ1zXrDblGJXve
+ QgAki6C2XRbgqLRdo405Fhf8xoY9RA7y8Sd1QSopXOI7MgwdDyoTzFE9a6IiiWsK2hm4RROux66
+ FYnEzS4Ek52joFb0=
+X-Received: by 2002:a05:6000:508:b0:2d7:89ce:8319 with SMTP id
+ a8-20020a056000050800b002d789ce8319mr1013747wrf.27.1680599809115; 
+ Tue, 04 Apr 2023 02:16:49 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bBjCYY8Gmu90141dU4yV/FMGGIfHstBOuovWY7hslWLD6VBET6tgmgZ4mx0XgXOelUMo6HKg==
+X-Received: by 2002:a05:6000:508:b0:2d7:89ce:8319 with SMTP id
+ a8-20020a056000050800b002d789ce8319mr1013723wrf.27.1680599808769; 
+ Tue, 04 Apr 2023 02:16:48 -0700 (PDT)
+Received: from redhat.com ([47.58.164.113]) by smtp.gmail.com with ESMTPSA id
+ s17-20020a05600c45d100b003ed51cdb94csm21819628wmo.26.2023.04.04.02.16.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Apr 2023 02:16:48 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Julia
+ Suvorova <jusual@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Peter
+ Lieven <pl@kamp.de>,  Coiby Xu <Coiby.Xu@gmail.com>,
+ xen-devel@lists.xenproject.org,  Richard Henderson
+ <richard.henderson@linaro.org>,  Stefano Garzarella <sgarzare@redhat.com>,
+ <qemu-block@nongnu.org>,  Eduardo Habkost <eduardo@habkost.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Paul Durrant
+ <paul@xen.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>,  Stefano Stabellini
+ <sstabellini@kernel.org>,  Fam Zheng <fam@euphon.net>,  David Woodhouse
+ <dwmw2@infradead.org>,  Stefan Weil <sw@weilnetz.de>,  Xie Yongji
+ <xieyongji@bytedance.com>,  Hanna Reitz <hreitz@redhat.com>,  Ronnie
+ Sahlberg <ronniesahlberg@gmail.com>,  eesposit@redhat.com,  "Michael S.
+ Tsirkin" <mst@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>, Anthony Perard <anthony.perard@citrix.com>
+Subject: Re: [PATCH 13/13] aio: remove aio_disable_external() API
+In-Reply-To: <20230403183004.347205-14-stefanha@redhat.com> (Stefan Hajnoczi's
+ message of "Mon, 3 Apr 2023 14:30:04 -0400")
+References: <20230403183004.347205-1-stefanha@redhat.com>
+ <20230403183004.347205-14-stefanha@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 04 Apr 2023 11:16:46 +0200
+Message-ID: <877cusroqp.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v19 06/21] s390x/cpu topology: interception of PTF
- instruction
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com
-References: <20230403162905.17703-1-pmorel@linux.ibm.com>
- <20230403162905.17703-7-pmorel@linux.ibm.com>
- <227eb09d-e5dc-2662-32b0-0b9ca4e8ef34@kaod.org>
-Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <227eb09d-e5dc-2662-32b0-0b9ca4e8ef34@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bRTNnqSvAFuAqUkWDbff2X79xsGEMl8P
-X-Proofpoint-ORIG-GUID: hwSuVrplmOOHs9unM_6wM4MvBmsSYUV-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-04_02,2023-04-03_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015
- spamscore=0 bulkscore=0 phishscore=0 priorityscore=1501 malwarescore=0
- impostorscore=0 mlxlogscore=999 lowpriorityscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304040083
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,176 +111,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 4/4/23 09:41, Cédric Le Goater wrote:
-> On 4/3/23 18:28, Pierre Morel wrote:
->> When the host supports the CPU topology facility, the PTF
->> instruction with function code 2 is interpreted by the SIE,
->> provided that the userland hypervisor activates the interpretation
->> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
->>
->> The PTF instructions with function code 0 and 1 are intercepted
->> and must be emulated by the userland hypervisor.
->>
->> During RESET all CPU of the configuration are placed in
->> horizontal polarity.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/s390x/s390-virtio-ccw.h |  6 ++++
->>   hw/s390x/cpu-topology.c            | 56 ++++++++++++++++++++++++++++--
->>   target/s390x/kvm/kvm.c             | 11 ++++++
->>   3 files changed, 71 insertions(+), 2 deletions(-)
->>
->> diff --git a/include/hw/s390x/s390-virtio-ccw.h 
->> b/include/hw/s390x/s390-virtio-ccw.h
->> index ea10a6c6e1..9aa9f48bd0 100644
->> --- a/include/hw/s390x/s390-virtio-ccw.h
->> +++ b/include/hw/s390x/s390-virtio-ccw.h
->> @@ -31,6 +31,12 @@ struct S390CcwMachineState {
->>       bool vertical_polarization;
->>   };
->>   +#define S390_PTF_REASON_NONE (0x00 << 8)
->> +#define S390_PTF_REASON_DONE (0x01 << 8)
->> +#define S390_PTF_REASON_BUSY (0x02 << 8)
->> +#define S390_TOPO_FC_MASK 0xffUL
->> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
->> +
->>   struct S390CcwMachineClass {
->>       /*< private >*/
->>       MachineClass parent_class;
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index 1d672d4d81..eec6c9a896 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -26,8 +26,6 @@
->>    * .smp: keeps track of the machine topology.
->>    * .list: queue the topology entries inside which
->>    *        we keep the information on the CPU topology.
->> - * .polarization: the current subsystem polarization
->> - *
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> All callers now pass is_external=false to aio_set_fd_handler() and
+> aio_set_event_notifier(). The aio_disable_external() API that
+> temporarily disables fd handlers that were registered is_external=true
+> is therefore dead code.
 >
-> Please remove from patch 3 instead.
-
-
-Yes of course
-
-Thanks,
-
-Pierre
-
-
+> Remove aio_disable_external(), aio_enable_external(), and the
+> is_external arguments to aio_set_fd_handler() and
+> aio_set_event_notifier().
 >
->>    */
->>   S390Topology s390_topology = {
->>       /* will be initialized after the cpu model is realized */
->> @@ -86,6 +84,57 @@ static void s390_topology_init(MachineState *ms)
->>       QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
->>   }
->>   +/*
->> + * s390_handle_ptf:
->> + *
->> + * @register 1: contains the function code
->> + *
->> + * Function codes 0 (horizontal) and 1 (vertical) define the CPU
->> + * polarization requested by the guest.
->> + *
->> + * Function code 2 is handling topology changes and is interpreted
->> + * by the SIE.
->> + */
->> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
->> +{
->> +    struct S390CcwMachineState *s390ms = 
->> S390_CCW_MACHINE(current_machine);
->> +    CPUS390XState *env = &cpu->env;
->> +    uint64_t reg = env->regs[r1];
->> +    int fc = reg & S390_TOPO_FC_MASK;
->> +
->> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
->> +        s390_program_interrupt(env, PGM_OPERATION, ra);
->> +        return;
->> +    }
->> +
->> +    if (env->psw.mask & PSW_MASK_PSTATE) {
->> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
->> +        return;
->> +    }
->> +
->> +    if (reg & ~S390_TOPO_FC_MASK) {
->> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->> +        return;
->> +    }
->> +
->> +    switch (fc) {
->> +    case S390_CPU_POLARIZATION_VERTICAL:
->> +    case S390_CPU_POLARIZATION_HORIZONTAL:
->> +        if (s390ms->vertical_polarization == !!fc) {
->> +            env->regs[r1] |= S390_PTF_REASON_DONE;
->> +            setcc(cpu, 2);
->> +        } else {
->> +            s390ms->vertical_polarization = !!fc;
->> +            s390_cpu_topology_set_changed(true);
->> +            setcc(cpu, 0);
->> +        }
->> +        break;
->> +    default:
->> +        /* Note that fc == 2 is interpreted by the SIE */
->> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->> +    }
->> +}
->> +
->>   /**
->>    * s390_topology_reset:
->>    *
->> @@ -94,7 +143,10 @@ static void s390_topology_init(MachineState *ms)
->>    */
->>   void s390_topology_reset(void)
->>   {
->> +    struct S390CcwMachineState *s390ms = 
->> S390_CCW_MACHINE(current_machine);
->> +
->>       s390_cpu_topology_set_changed(false);
->> +    s390ms->vertical_polarization = false;
->>   }
->>     /**
->> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->> index bc953151ce..fb63be41b7 100644
->> --- a/target/s390x/kvm/kvm.c
->> +++ b/target/s390x/kvm/kvm.c
->> @@ -96,6 +96,7 @@
->>     #define PRIV_B9_EQBS                    0x9c
->>   #define PRIV_B9_CLP                     0xa0
->> +#define PRIV_B9_PTF                     0xa2
->>   #define PRIV_B9_PCISTG                  0xd0
->>   #define PRIV_B9_PCILG                   0xd2
->>   #define PRIV_B9_RPCIT                   0xd3
->> @@ -1464,6 +1465,13 @@ static int kvm_mpcifc_service_call(S390CPU 
->> *cpu, struct kvm_run *run)
->>       }
->>   }
->>   +static void kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
->> +{
->> +    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
->> +
->> +    s390_handle_ptf(cpu, r1, RA_IGNORED);
->> +}
->> +
->>   static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
->>   {
->>       int r = 0;
->> @@ -1481,6 +1489,9 @@ static int handle_b9(S390CPU *cpu, struct 
->> kvm_run *run, uint8_t ipa1)
->>       case PRIV_B9_RPCIT:
->>           r = kvm_rpcit_service_call(cpu, run);
->>           break;
->> +    case PRIV_B9_PTF:
->> +        kvm_handle_ptf(cpu, run);
->> +        break;
->>       case PRIV_B9_EQBS:
->>           /* just inject exception */
->>           r = -1;
+> The entire test-fdmon-epoll test is removed because its sole purpose was
+> testing aio_disable_external().
 >
+> Parts of this patch were generated using the following coccinelle
+> (https://coccinelle.lip6.fr/) semantic patch:
+>
+>   @@
+>   expression ctx, fd, is_external, io_read, io_write, io_poll, io_poll_ready, opaque;
+>   @@
+>   - aio_set_fd_handler(ctx, fd, is_external, io_read, io_write, io_poll, io_poll_ready, opaque)
+>   + aio_set_fd_handler(ctx, fd, io_read, io_write, io_poll, io_poll_ready, opaque)
+>
+>   @@
+>   expression ctx, notifier, is_external, io_read, io_poll, io_poll_ready;
+>   @@
+>   - aio_set_event_notifier(ctx, notifier, is_external, io_read, io_poll, io_poll_ready)
+>   + aio_set_event_notifier(ctx, notifier, io_read, io_poll, io_poll_ready)
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+[....]
+
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index df646be35e..aee41ca43e 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -3104,15 +3104,15 @@ static void qio_channel_rdma_set_aio_fd_handler(QIOChannel *ioc,
+>  {
+>      QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
+>      if (io_read) {
+> -        aio_set_fd_handler(ctx, rioc->rdmain->recv_comp_channel->fd,
+> -                           false, io_read, io_write, NULL, NULL, opaque);
+> -        aio_set_fd_handler(ctx, rioc->rdmain->send_comp_channel->fd,
+> -                           false, io_read, io_write, NULL, NULL, opaque);
+> +        aio_set_fd_handler(ctx, rioc->rdmain->recv_comp_channel->fd, io_read,
+> +                           io_write, NULL, NULL, opaque);
+> +        aio_set_fd_handler(ctx, rioc->rdmain->send_comp_channel->fd, io_read,
+> +                           io_write, NULL, NULL, opaque);
+>      } else {
+> -        aio_set_fd_handler(ctx, rioc->rdmaout->recv_comp_channel->fd,
+> -                           false, io_read, io_write, NULL, NULL, opaque);
+> -        aio_set_fd_handler(ctx, rioc->rdmaout->send_comp_channel->fd,
+> -                           false, io_read, io_write, NULL, NULL, opaque);
+> +        aio_set_fd_handler(ctx, rioc->rdmaout->recv_comp_channel->fd, io_read,
+> +                           io_write, NULL, NULL, opaque);
+> +        aio_set_fd_handler(ctx, rioc->rdmaout->send_comp_channel->fd, io_read,
+> +                           io_write, NULL, NULL, opaque);
+>      }
+>  }
+
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+For the migration bits.
+I don't even want to know why the RDMA code uses a low level block layer API.
+
 
