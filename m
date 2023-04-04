@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407E56D67CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 17:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996326D67D1
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 17:47:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjiqX-0004IW-MJ; Tue, 04 Apr 2023 11:45:21 -0400
+	id 1pjirt-0005QL-Kj; Tue, 04 Apr 2023 11:46:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjiqF-0004HT-TP
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 11:45:04 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pjirs-0005QA-3b; Tue, 04 Apr 2023 11:46:44 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pjiqC-000253-Ca
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 11:45:03 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id er13so91425671edb.9
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 08:44:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1pjirq-0003rB-62; Tue, 04 Apr 2023 11:46:43 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id r11so132476665edd.5;
+ Tue, 04 Apr 2023 08:46:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680623096;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=uB+NUxhB2f9O1zfRnJO76Hbw627RcL7S8kpnJ5Esk2c=;
- b=VLKPsGbt5OCIQ9qu4KmoelgwWbofEkhiQ0gHYRNTkCy0bPCFDsSQtf9kvftrfiUia/
- 208d5XBRPB7cYv6tNDzGmEdtiq0ZiQn35azf4wzlGKX8hFjnaWGWpQLXyIs5O3TRvQlW
- 1QnX6hDiWjKoWWE/+Kmh0i3mWJZwJaf4KteF8WC95YefY8fw9+IZ9ye9IZLNpMvaCUud
- YUHJz8C3A1zLT8LI2hO1B4ylJv9zuhevvKthHfKXKS2qPHIjakBEH6mrtT0HjGdKGF/D
- +5dN3UeEN1u/XDcE8Lof6d9svF0WvKFdSSrjsh1d1sjv9ZC5RP+LGQL1SczCYt3Oh5we
- FcGw==
+ d=gmail.com; s=20210112; t=1680623200;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HXW7PcHR8jY5rjao2CXqqhAggW80wQf9CATLv2awgpo=;
+ b=V5dNrM8dHK3wPLgQ/hko/4XDDZxu6Rmght8bAA/yfiA1aCFjPFZdg4FnIZcejQ5Wvh
+ QIfeXkqr0p09Mj1i60uOuMHGPRjzkMiLajoS/956pSJcRN8kHXW3vscrhk6e67sWkTZX
+ SXY+WM88N3laXzuyso4ZPwOFuUVrs9PFtKE0/NLbSDdM6P8fLskq43jb9pIZUGaLHFlt
+ muu1VhoRZ7myTAEI+tbMMBBtIGj4QxsLoiR6h1h05VhzRdAMbOV1eWYbqpMTdEgQz8WK
+ MbZl37LH8w1dfidTYfeXbEQcdT8Ros+pZM+YSBbUaGiVZHHixmRjZYZ8nV9wZh2FmDG+
+ Onbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680623096;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uB+NUxhB2f9O1zfRnJO76Hbw627RcL7S8kpnJ5Esk2c=;
- b=YQXX140dSgRVuHJUrdlxjrdWFdA1TJukcKHvSuNVxmCKtoTIcqNVyg2DL+tcK3k9Lp
- ZEniYHI9+V9ombBAmIaHdNBcXeTISe3GlMo5D2XeBXfgmYn5r27McCItfwviECh68a3u
- qJ+MgsUMgL18TUBt03MaydRrRlrsviAdvI9Gqk9/T+vZBaly9SvIR8KbboeTl+5CUHn3
- d+xGG0ey0UPYoHyRYeF4ao8IZAUiwUnkdAhv3KHqQ7CkbXneRbz35MdQjN+ev20bYIFF
- HRtTQy3nKiBhYf4QKbPpxeg7Z/Pr/9RPn7UTAt/dSp+3taSXshT96D7Nx/Gb/cxViUAf
- 8CKQ==
-X-Gm-Message-State: AAQBX9cl4ZaKrgTXHAS4Gb0WKf/j6yYurgQ62J9qkntDXHpxC7dTcoeO
- ioSAYWTRXJdqc3bxtJ7/qqx2GpeGzxpJffQvEX242w==
-X-Google-Smtp-Source: AKy350acEm2sLBhEuvcF8oDsJmzonfrUXukWsBaNH+y320iQ5V/K5rKyWvwzKJhlw4PK9c2yJHMxlHj8YPgLE56uXfs=
-X-Received: by 2002:a50:a457:0:b0:4fb:3549:a708 with SMTP id
- v23-20020a50a457000000b004fb3549a708mr1593195edb.6.1680623096284; Tue, 04 Apr
- 2023 08:44:56 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680623200;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HXW7PcHR8jY5rjao2CXqqhAggW80wQf9CATLv2awgpo=;
+ b=rM8AlsLKVYIapUN37oJWmZvyYfkqLAj2/aRQOeEWpQ1IsTCttaDU/CaAWCl9J2SFl4
+ gFEJeXCIWnV/TvC8CDLZqwdjs6B/DPXLNUZ7AlfamtfecQNejQjpcoby9oGqtntDexXl
+ 19JKveksf2r+hHQLyYGrXRcgWSZcfVY16iSYPCk2rFPVQXjfMRQ5fkt6Bh2mn/w36wZP
+ kjX2PpoP8aUgfl+6ZwGPeckXyYhgxRx4KYUvc113eotk+mcuPw1kgq7FDUrA4jOmBCjw
+ EsBofsucfzn/KIoAb+9ArFeqNQofCeZAu5wRHi199nJfq1mqSvRGfdULmgPU/yxUheuP
+ mqfQ==
+X-Gm-Message-State: AAQBX9ebK48d2c9j5DWL34ILKIwpjWFo0XryHnyYa1YP5YVcZCjnfkWC
+ Ug5EeX0eiYJag6+Ie5g0ee8QT+qE24z/wnPs8ps=
+X-Google-Smtp-Source: AKy350bgFXwfBN/tb0T+h0XQFwa57ZRcGIFEiJh0i4TiJV2bhRqO8lgSh4ru8ADFtK2rF+lmArBusdGs/lP8H7aIZbE=
+X-Received: by 2002:a50:a6d1:0:b0:4fb:4a9f:eb95 with SMTP id
+ f17-20020a50a6d1000000b004fb4a9feb95mr1724260edc.2.1680623199972; Tue, 04 Apr
+ 2023 08:46:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <166990932074.29941.8709118178538288040-0@git.sr.ht>
- <166990932074.29941.8709118178538288040-8@git.sr.ht>
-In-Reply-To: <166990932074.29941.8709118178538288040-8@git.sr.ht>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Apr 2023 16:44:45 +0100
-Message-ID: <CAFEAcA9JLOhxa3LeiFJ8YqinuSV33N4Vbj2m4ZnoOxry0=YGGA@mail.gmail.com>
-Subject: Re: [PATCH qemu.git v3 8/8] hw/timer/imx_epit: fix compare timer
- handling
-To: "~axelheider" <axelheider@gmx.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20230327144553.4315-1-faithilikerun@gmail.com>
+ <20230329005755-mutt-send-email-mst@kernel.org>
+ <CAJSP0QW1FFYYMbwSdG94SvotMe_ER_4Dxe5e+2FAcQMWaJ3ucA@mail.gmail.com>
+In-Reply-To: <CAJSP0QW1FFYYMbwSdG94SvotMe_ER_4Dxe5e+2FAcQMWaJ3ucA@mail.gmail.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Tue, 4 Apr 2023 23:46:13 +0800
+Message-ID: <CAAAx-8J72fiVpOqeK71t8uNiyJLR2DowzGouk_H3oFRF_czc+w@mail.gmail.com>
+Subject: Re: [PATCH v9 0/5] Add zoned storage emulation to virtio-blk driver
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Cornelia Huck <cohuck@redhat.com>, dmitry.fomichev@wdc.com, kvm@vger.kernel.org,
+ damien.lemoal@opensource.wdc.com, hare@suse.de, Kevin Wolf <kwolf@redhat.com>, 
+ qemu-block@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=faithilikerun@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,127 +92,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 1 Dec 2022 at 15:42, ~axelheider <axelheider@git.sr.ht> wrote:
+Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=883=E6=
+=97=A5=E5=91=A8=E4=B8=80 20:18=E5=86=99=E9=81=93=EF=BC=9A
 >
-> From: Axel Heider <axel.heider@hensoldt.net>
+> On Wed, 29 Mar 2023 at 01:01, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Mon, Mar 27, 2023 at 10:45:48PM +0800, Sam Li wrote:
+> >
+> > virtio bits look ok.
+> >
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> >
+> > merge through block layer tree I'm guessing?
 >
-> - fix #1263 for CR writes
-> - rework compare time handling
->   - The compare timer has to run even if CR.OCIEN is not set,
->     as SR.OCIF must be updated.
->   - The compare timer fires exactly once when the
->     compare value is less than the current value, but the
->     reload values is less than the compare value.
->   - The compare timer will never fire if the reload value is
->     less than the compare value. Disable it in this case.
->
-> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
+> Sounds good. Thank you!
 
-Hi; Coverity has just noticed an issue with this patch:
+Hi Stefan,
 
+I've sent the v8 zone append write to the list where I move the wps
+field to BlockDriverState. It will make a small change the emulation
+code, which is in hw/block/virtio-blk.c of [2/5] virtio-blk: add zoned
+storage emulation for zoned devices:
+- if (BDRV_ZT_IS_CONV(bs->bl.wps->wp[index])) {
++ if (BDRV_ZT_IS_CONV(bs->wps->wp[index])) {
 
-> -/* Must be called from ptimer_transaction_begin/commit block for s->timer_cmp */
-> -static void imx_epit_reload_compare_timer(IMXEPITState *s)
-> +/*
-> + * Must be called from a ptimer_transaction_begin/commit block for
-> + * s->timer_cmp, but outside of a transaction block of s->timer_reload,
-> + * so the proper counter value is read.
-> + */
-> +static void imx_epit_update_compare_timer(IMXEPITState *s)
->  {
-> -    if ((s->cr & (CR_EN | CR_OCIEN)) == (CR_EN | CR_OCIEN))  {
-> -        /* if the compare feature is on and timers are running */
-> -        uint32_t tmp = ptimer_get_count(s->timer_reload);
-> -        uint64_t next;
-> -        if (tmp > s->cmp) {
-> -            /* It'll fire in this round of the timer */
-> -            next = tmp - s->cmp;
-> -        } else { /* catch it next time around */
-> -            next = tmp - s->cmp + ((s->cr & CR_RLD) ? EPIT_TIMER_MAX : s->lr);
-> +    uint64_t counter = 0;
-> +    bool is_oneshot = false;
+Please let me know if you prefer a new version or not.
 
-Here we declare the is_oneshot variable...
-
-> +    /* The compare timer only has to run if the timer peripheral is active
-> +     * and there is an input clock, Otherwise it can be switched off.
-> +     */
-> +    bool is_active = (s->cr & CR_EN) && imx_epit_get_freq(s);
-> +    if (is_active) {
-> +        /*
-> +         * Calculate next timeout for compare timer. Reading the reload
-> +         * counter returns proper results only if pending transactions
-> +         * on it are committed here. Otherwise stale values are be read.
-> +         */
-> +        counter = ptimer_get_count(s->timer_reload);
-> +        uint64_t limit = ptimer_get_limit(s->timer_cmp);
-> +        /*
-> +         * The compare timer is a periodic timer if the limit is at least
-> +         * the compare value. Otherwise it may fire at most once in the
-> +         * current round.
-> +         */
-> +        bool is_oneshot = (limit >= s->cmp);
-
-...but here we declare another is_oneshot, which shadows the first
-declaration...
-
-> +        if (counter >= s->cmp) {
-> +            /* The compare timer fires in the current round. */
-> +            counter -= s->cmp;
-> +        } else if (!is_oneshot) {
-> +            /*
-> +             * The compare timer fires after a reload, as it below the
-> +             * compare value already in this round. Note that the counter
-> +             * value calculated below can be above the 32-bit limit, which
-> +             * is legal here because the compare timer is an internal
-> +             * helper ptimer only.
-> +             */
-> +            counter += limit - s->cmp;
-> +        } else {
-> +            /*
-> +             * The compare timer won't fire in this round, and the limit is
-> +             * set to a value below the compare value. This practically means
-> +             * it will never fire, so it can be switched off.
-> +             */
-> +            is_active = false;
->          }
-> -        ptimer_set_count(s->timer_cmp, next);
->      }
-> +
-> +    /*
-> +     * Set the compare timer and let it run, or stop it. This is agnostic
-> +     * of CR.OCIEN bit, as this bit affects interrupt generation only. The
-> +     * compare timer needs to run even if no interrupts are to be generated,
-> +     * because the SR.OCIF bit must be updated also.
-> +     * Note that the timer might already be stopped or be running with
-> +     * counter values. However, finding out when an update is needed and
-> +     * when not is not trivial. It's much easier applying the setting again,
-> +     * as this does not harm either and the overhead is negligible.
-> +     */
-> +    if (is_active) {
-> +        ptimer_set_count(s->timer_cmp, counter);
-> +        ptimer_run(s->timer_cmp, is_oneshot ? 1 : 0);
-
-...so here when the inner variable is no longer in scope, the
-value of the outer is_oneshot variable must always be 'false',
-because there's never any assignment to it.
-
-> +    } else {
-> +        ptimer_stop(s->timer_cmp);
-> +    }
-> +
->  }
-
-What was the intention here? My guess is that there should only
-have been one 'is_oneshot', not two.
-
-There's also been this bug report:
-https://gitlab.com/qemu-project/qemu/-/issues/1491
-which suggests that the condition for setting is_oneshot
-should be "(limit <= s->cmp)" rather than ">=".
-
-What do you think ?
-
-thanks
--- PMM
+Thanks,
+Sam
 
