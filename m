@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22026D64EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 16:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557216D58D1
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 08:38:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjhNc-0002Uy-5U; Tue, 04 Apr 2023 10:11:24 -0400
+	id 1pjaHT-00016I-Pg; Tue, 04 Apr 2023 02:36:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1pja4d-0008AN-NU; Tue, 04 Apr 2023 02:23:19 -0400
-Received: from redisdead.crans.org ([185.230.79.39])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pjaHQ-000169-Od
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 02:36:33 -0400
+Received: from mailout08.t-online.de ([194.25.134.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1pja4b-0003Fh-K7; Tue, 04 Apr 2023 02:23:19 -0400
-Received: from [192.168.1.21] (41.169.89.92.rev.sfr.net [92.89.169.41])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by redisdead.crans.org (Postfix) with ESMTPSA id D137A218;
- Tue,  4 Apr 2023 08:23:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
- t=1680589385; bh=Fj25J7vboI1OAuzqs9WhgF682ENnfIJoNrbt8d/MnxE=;
- h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
- b=ecYjFCGc3DBazoiEb15I8gy5+4YHd8q8TN1c2xeA/mD3fmhUWTUdv/lIqy2xuqOzx
- 2kcefe/Qkk/JfshIuZGahqpL9RAa2+mQVs1ECTxCp5qWZPYOk6Y/oH04LtRtg3GW+s
- CdEk4Dev2Co/DAQZD7xI36qFCNs/kIIaHnDSqg+JjetniS6e6L3i7fzdrksUVkjgKI
- +Tu4DkBvGQlup3N+guduui+5qASBiMHjacBcSPwddmcu2/oTulweUlDTTw+WozPyxQ
- QboYHF/VZEnavLJnzPp3/zwikQHrF/517TVCmOg/KaQfPu1e9YXciS1cflked0kPMY
- oFAsUh7HPefKAcNIZ/KoDX3ozrWdBlguKcRXBcxbP0/K++F6iLBfg0Z5LYwd6Q7VGz
- wWFNXOGga9fhOEola6Gn6K5Dwos/xcyXGzZ9ZuxgFwOcVz+Xl/+E6Lozib2Nq6R2U/
- UkDRPiodOZIT7Y+8eUGI9gbu8g4oakrG6gjUI1os3CA/af2E8campwP9SGuZ9dRA79
- o+8SWLLR48qE3Ny9KY36q+KJ2pl9T+Pqnk3DE+IlO9lhuAiz5VFKcMpqqYabG2nrRw
- Wg+5zT0VypajeNH8UtbkLNdXcatLgmcPTPB01a3F5VWylRh5rMrh96MPCsItl2wrJb
- flDkG/LRih+pjoumSl7pJoko=
-Message-ID: <3c2d07b5-ef07-998a-df15-9dc38a4e474e@crans.org>
-Date: Tue, 4 Apr 2023 08:22:59 +0200
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pjaHN-0008MD-Iy
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 02:36:32 -0400
+Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
+ by mailout08.t-online.de (Postfix) with SMTP id D2F728062;
+ Tue,  4 Apr 2023 08:36:25 +0200 (CEST)
+Received: from [192.168.211.200] ([79.208.29.86]) by fwd72.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pjaHI-2rP1FJ0; Tue, 4 Apr 2023 08:36:24 +0200
+Message-ID: <3b962e4c-02fd-fc4d-b416-75436ac4bad0@t-online.de>
+Date: Tue, 4 Apr 2023 08:36:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v8] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+To: Dorinda Bassey <dbassey@redhat.com>
+Cc: qemu-devel@nongnu.org, marcandre.lureau@gmail.com, kraxel@redhat.com,
+ armbru@redhat.com, qemu_oss@crudebyte.com, pbonzini@redhat.com,
+ wtaymans@redhat.com
+References: <20230315164633.60924-1-dbassey@redhat.com>
+ <325b0fd9-d435-e8c6-25cc-124e7ad68f8c@t-online.de>
+ <CACzuRywrL7E4bj_85HyJxqkWXAh_--z-BQ4FURPS8ufPu=fAhw@mail.gmail.com>
+ <9a02901b-77d9-5a79-69dd-7a45a9241d7e@t-online.de>
+ <CACzuRyyFOXaUpJ+OVKU1yTjqPH=qtFDisDNjp2ukg6Sy2kchQw@mail.gmail.com>
 Content-Language: en-US
-To: "Lucas C. Villa Real" <lucas@osdyne.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: Lucas Villa Real <lucasvr@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230403121537.71320-1-lucas@osdyne.com>
- <CAFEAcA9ERb4a8kwcgtr3VAxnjaCuOVnKFJ56FfkNx=F73a0o-A@mail.gmail.com>
- <CAL+Dfo6ysWqeKCR5p4_JMazjgdwqq5+kdYxTXVpHE0oZNMVpOQ@mail.gmail.com>
-From: Alexandre IOOSS <erdnaxe@crans.org>
-Organization: Crans
-Subject: Re: [PATCH] stm32vldiscovery: allow overriding of RAM size
-In-Reply-To: <CAL+Dfo6ysWqeKCR5p4_JMazjgdwqq5+kdYxTXVpHE0oZNMVpOQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------tX0bH3ZA9cAGF3U44ywBdPca"
-Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
- helo=redisdead.crans.org
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <CACzuRyyFOXaUpJ+OVKU1yTjqPH=qtFDisDNjp2ukg6Sy2kchQw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1680590184-3C8ABC0E-4CD6D271/0/0 CLEAN NORMAL
+X-TOI-MSGID: 371245fe-ae37-4e8e-846f-8a4dff321597
+Received-SPF: none client-ip=194.25.134.20; envelope-from=vr_qemu@t-online.de;
+ helo=mailout08.t-online.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 04 Apr 2023 10:11:21 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,91 +70,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------tX0bH3ZA9cAGF3U44ywBdPca
-Content-Type: multipart/mixed; boundary="------------UZ4pqPR89vgxN08KixPcU1us";
- protected-headers="v1"
-From: Alexandre IOOSS <erdnaxe@crans.org>
-To: "Lucas C. Villa Real" <lucas@osdyne.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: Lucas Villa Real <lucasvr@gmail.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Message-ID: <3c2d07b5-ef07-998a-df15-9dc38a4e474e@crans.org>
-Subject: Re: [PATCH] stm32vldiscovery: allow overriding of RAM size
-References: <20230403121537.71320-1-lucas@osdyne.com>
- <CAFEAcA9ERb4a8kwcgtr3VAxnjaCuOVnKFJ56FfkNx=F73a0o-A@mail.gmail.com>
- <CAL+Dfo6ysWqeKCR5p4_JMazjgdwqq5+kdYxTXVpHE0oZNMVpOQ@mail.gmail.com>
-In-Reply-To: <CAL+Dfo6ysWqeKCR5p4_JMazjgdwqq5+kdYxTXVpHE0oZNMVpOQ@mail.gmail.com>
+Hi Dorinda,
 
---------------UZ4pqPR89vgxN08KixPcU1us
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> Hi Volker,
+>
+>     Filling a buffer with zeros to produce silence still wrong for
+>     unsigned
+>     samples. For example, a 0 in SPA_AUDIO_FORMAT_U8 format maps to
+>     -1.0 in
+>     SPA_AUDIO_FORMAT_F32.
+>
+>     This is a bug. On a buffer underrun, the buffer filled with
+>     silence is
+>     dropped.
+>
+> What are your suggestions to improve this?
+>
 
-T24gNC8zLzIzIDE2OjQ4LCBMdWNhcyBDLiBWaWxsYSBSZWFsIHdyb3RlOg0KPiBPbiBNb24s
-IEFwciAzLCAyMDIzIGF0IDEwOjU04oCvQU0gUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIubWF5ZGVs
-bEBsaW5hcm8ub3JnIA0KPiA8bWFpbHRvOnBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4+IHdy
-b3RlOg0KPiANCj4gICAgIE9uIE1vbiwgMyBBcHIgMjAyMyBhdCAxMzo1MSwgTHVjYXMgVmls
-bGEgUmVhbCA8bHVjYXN2ckBnbWFpbC5jb20NCj4gICAgIDxtYWlsdG86bHVjYXN2ckBnbWFp
-bC5jb20+PiB3cm90ZToNCj4gICAgICA+DQo+ICAgICAgPiBzdG0zMnZsZGlzY292ZXJ5IGNv
-bWVzIHdpdGggOEtCIG9mIFNSQU0sIHdoaWNoIG1heSBiZSB0b28gbG93IHdoZW4NCj4gICAg
-ICA+IHJ1bm5pbmcgc29tZSB3b3JrbG9hZHMgb24gUUVNVS4gVGhlIGNvbW1hbmQgbGluZSBh
-cmd1bWVudCAiLW0NCj4gICAgIG1lbV9zaXplIg0KPiAgICAgID4gaXMgbm90IHJlY29nbml6
-ZWQgYnkgdGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb24sIHRob3VnaCwgc28gb25lDQo+ICAg
-ICBjYW5ub3QNCj4gICAgICA+IGVhc2lseSBvdmVycmlkZSB0aGUgZGVmYXVsdCBtZW1vcnkg
-c2l6ZS4NCj4gICAgICA+DQo+ICAgICAgPiBUaGlzIHBhdGNoIGZpeGVzIHRoYXQgYnkgYWRk
-aW5nIGEgbWVtb3J5IHN1YnJlZ2lvbiBhY2NvcmRpbmcgdG8gdGhlDQo+ICAgICAgPiB2YWx1
-ZSBwcm92aWRlZCBvbiB0aGF0IGNvbW1hbmQgbGluZSBhcmd1bWVudC4gSWYgYWJzZW50LCB0
-aGUgZGVmYXVsdA0KPiAgICAgID4gdmFsdWUgb2YgOEtCIHN0aWxsIGFwcGxpZXMuDQo+ICAg
-ICAgPg0KPiAgICAgID4gU2lnbmVkLW9mZi1ieTogTHVjYXMgVmlsbGEgUmVhbCA8bHVjYXNA
-b3NkeW5lLmNvbQ0KPiAgICAgPG1haWx0bzpsdWNhc0Bvc2R5bmUuY29tPj4NCj4gDQo+ICAg
-ICBEb2VzIHRoZSByZWFsIGhhcmR3YXJlIGhhdmUgKG9wdGlvbnMgZm9yKSBtb3JlIHRoYW4g
-OEsgb2YgU1JBTSBoZXJlID8NCj4gDQo+ICAgICB0aGFua3MNCj4gICAgIC0tIFBNTQ0KPiAN
-Cj4gDQo+IFllcywgaXQncyBwb3NzaWJsZSB0byBhZGQgbW9yZSAocClTUkFNIHZpYSB0aGUg
-U1RNMzJGMTB4eHgncyBGU01DIA0KPiAoZmxleGlibGUgc3RhdGljIG1lbW9yeSBjb250cm9s
-bGVyKS4gVGhlIG5ldyBtZW1vcnkgaXMgbWFwcGVkIHRvIEZTTUMgDQo+IGJhbmsgMSBhdCAw
-eDYwMDBfMDAwMCwgdGhvdWdoIChhcyBvcHBvc2VkIHRvIHRoZSBlbWJlZGRlZCBTUkFNJ3Mg
-Zml4ZWQgDQo+IGFkZHJlc3MgYXQgMHgyMDAwXzAwMDApLCBhcyBJIGhhdmUgbm93IHJlYWxp
-emVkLiBJJ20gaGFwcHkgdG8gc2VuZCBhbiANCj4gdXBkYXRlZCBwYXRjaCBzbyB0aGF0ICIt
-bSBtZW1fc2l6ZSIgY3JlYXRlcyBhIG1lbW9yeSBzdWJyZWdpb24gYXQgDQo+IDB4NjAwMF8w
-MDAwIGluc3RlYWQuDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IEx1Y2FzDQo+IA0KDQpMb29r
-aW5nIGF0IHRoZSBTVE0zMkYxMDB4eCByZWZlcmVuY2UgbWFudWFsIHBhZ2UgNDk0IA0KKGh0
-dHBzOi8vd3d3LnN0LmNvbS9yZXNvdXJjZS9lbi9yZWZlcmVuY2VfbWFudWFsL3JtMDA0MS1z
-dG0zMmYxMDB4eC1hZHZhbmNlZC1hcm1iYXNlZC0zMmJpdC1tY3VzLXN0bWljcm9lbGVjdHJv
-bmljcy5wZGYpLCANCkZTTUMgaXMgb25seSBwcmVzZW50IG9uIGhpZ2gtZGVuc2l0eSB2YWx1
-ZSBsaW5lIGRldmljZXMgb25seS4gVGhpcyBpcyANCm5vdCB0aGUgY2FzZSBvZiB0aGUgU1RN
-MzJWTERJU0NPVkVSWSB3aGljaCB1c2VzIGEgU1RNMzJGMTAwUkIgDQoobG93L21lZGl1bS1k
-ZW5zaXR5IHZhbHVlIGxpbmUpLg0KDQpDb3JyZWN0IG1lIGlmIEknbSB3cm9uZywgYnV0IEkg
-YmVsaWV2ZSB5b3UgY2Fubm90IGJ1eSBhIFNUTTMyVkxESVNDT1ZFUlkgDQp0aGF0IGNvdWxk
-IHN1cHBvcnQgRlNNQyBvciBoYXZlIG1vcmUgdGhhbiA4S0Igb2Ygb24tY2hpcCBTUkFNLg0K
-DQpIb3dldmVyLCBjb3VsZCBpdCBiZSBhIGdvb2QgaWRlYSB0byBpbXBsZW1lbnQgYSBnZW5l
-cmljIFNUTTMyRjEwMHh4IA0KbWFjaGluZSBpbiBRRU1VIHRoYXQgaXMgImhpZ2gtZGVuc2l0
-eSIgYnkgZGVmYXVsdCBhbmQgdGhhdCBjb3VsZCBiZSANCmNvbmZpZ3VyZWQgdXNpbmcgY29t
-bWFuZCBsaW5lIG9wdGlvbnMgPyBUaGlzIGNvdWxkIGNvdmVyIGEgd2lkZSByYW5nZSBvZiAN
-CmNhc2VzIHdpdGggYSBzaW5nbGUgbWFjaGluZS4NCg0KVGhhbmtzLA0KLS0gDQpBbGV4YW5k
-cmUNCg==
+The code in patch v7 handled buffer underruns in playback_on_process() 
+correctly. I suggest to use that part of the code again. It was just 
+wrong to fill the buffer with zeros for unsigned samples. Christian 
+suggested to use the audio_pcm_info_clear_buf() function instead of 
+memset(p, 0, n_bytes). If you don't want to use 
+audio_pcm_info_clear_buf() you could use the code there as a template.
 
---------------UZ4pqPR89vgxN08KixPcU1us--
+There is no guarantee that guests can produce audio samples fast enough. 
+Buffer underruns should therefore be handled properly.
 
---------------tX0bH3ZA9cAGF3U44ywBdPca
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>     Why don't you need a lock here? Is pw_stream_set_active() thread safe?
+>
+> I will put a lock there, Thanks.
+>
+>     You only have the three volume levels 2.0, 1.0 and 0.0 while
+>     vol[i] has
+>     256 levels.
+>
+> Ack.
+>
+>     It's an optimization. Evaluating req =
+>     (uint64_t)v->g->dev->timer_period
+>     * v->info.rate * 1 / 2 / 1000000 * v->frame_size once in
+>     qpw_init_out()
+>     vs. a lot of needless evaluations every few milliseconds in the
+>     callback.
+>
+> Ack
+>
+>      <http://out.name> options. Please
+>
+> Can you please clarify WYM here?
+>
 
------BEGIN PGP SIGNATURE-----
+I didn't write that. The link was already in your email.
 
-wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmQrwkMFAwAAAAAACgkQbHknjz/NzAKH
-6hAAj0fFC0AbOd9epjFsXrc48B461Mmgx+XsK/1b0cdoFQc67g5HVTAV+ZKu4TDIDawQRld60xVr
-HqkY8ojbgrvrGHJxhNmyKdfL1TYicMTAMbKa+LbJ/SvnQTBSbsDsROzMubzUjjCmE7dVB1sO4l6F
-yqFTSoSeE96L9f3fEB0s6BOQuNErM94qERfJj1mwiJoe53aCkE28ms6e+eXfA7JHLMN3DehHupYy
-iIls4kV2puFplgtWod1XFt9S/p7XzczyBPCWatO7X0YA00CZKsk9hVFW6ZGhTW4uJe9wqnHlbHJA
-3E76UEEYUro+4wPeR/K8vPoUckpW4u3g6as5zqQlaZRfrXIA4rxk7Zvo4wswv90t0AwN3EPjHf/V
-uZs4/astBZIkIEgEr8hPQppYCG9ot5WNFusJ/V+4AHOnuyz2C/+ZfE49jnz6mD7l8L4ihyxp3vmx
-qpM/8cUVyJL1cJGdG15kCF40kahZjDNBbQgbrfGX1zhfjNZqwhms0i862lIWgW0eXbPG75hubWPk
-kJLEFAg9vQEQaKx0X4BFFD2p4BuqjUqoDwNWtLCh4jdvlgI3hcj/pOGZNHDjjGa3zL3PZbPz3AX3
-TZD5OPzedWrzmHXKZyimOlu4QOE19YxNNl28JEpI4tk2xvH8na+174RgbiAUnR5GoFLt2uj/EEYE
-xoY=
-=Apdd
------END PGP SIGNATURE-----
+With best regards,
+Volker
 
---------------tX0bH3ZA9cAGF3U44ywBdPca--
+> Thanks,
+> Dorinda
+>
+> On Mon, Apr 3, 2023 at 8:51 AM Volker Rümelin <vr_qemu@t-online.de> wrote:
+>
+>     Am 28.03.23 um 13:56 schrieb Dorinda Bassey:
+>
+>     Hi Dorinda,
+>
+>     > Hi Volker,
+>     >
+>     > Thanks for the feedback.
+>     >
+>     >     This term is constant for the lifetime of the playback
+>     stream. It
+>     >     could
+>     >     be precalculated in qpw_init_out().
+>     >
+>     > It's still constant even when precalculated in qpw_init_out().
+>
+>     It's an optimization. Evaluating req =
+>     (uint64_t)v->g->dev->timer_period
+>     * v->info.rate * 1 / 2 / 1000000 * v->frame_size once in
+>     qpw_init_out()
+>     vs. a lot of needless evaluations every few milliseconds in the
+>     callback.
+>
+>     With best regards,
+>     Volker
+>
+>     >
+>     >     The if (!v->enabled) block isn't needed. When the guest
+>     stops the
+>     >     playback stream, it won't write new samples. After the pipewire
+>     >     ringbuffer is drained, avail is always 0. It's better to
+>     drain the
+>     >     ringbuffer, otherwise the first thing you will hear after
+>     playback
+>     >     starts again will be stale audio samples.
+>     >
+>     >     You removed the code to play silence on a buffer underrun. I
+>     >     suggest to
+>     >     add it again. Use a trace point with the "simple" trace
+>     backend to
+>     >     see
+>     >     how often pipewire now calls the callback in short
+>     succession for a
+>     >     disabled stream before giving up. Please read again Marc-André's
+>     >     comments for the v7 version of the
+>     >     pipewire backend. When the guest enables/disables an audio
+>     stream,
+>     >     pipewire should know this. It's unnecessary that pipewire
+>     calls the
+>     >     callback code for disabled streams. Don't forget to connect the
+>     >     stream
+>     >     with the flag PW_STREAM_FLAG_INACTIVE. Every QEMU audio device
+>     >     enables
+>     >     the stream before playback/recording starts. The pcm_ops
+>     functions
+>     >     volume_out and volume_in are missing. Probably
+>     >     SPA_PROP_channelVolumes can be used to adjust the stream
+>     volumes.
+>     >     Without these functions the guest can adjust the stream
+>     volume and
+>     >     the
+>     >     host has an independent way to adjust the stream volume. This is
+>     >     sometimes irritating.
+>     >
+>     >     The pipewire backend code doesn't use the in|out.name
+>     <http://out.name>
+>     >     <http://out.name> options. Please
+>     >     either remove the name options or add code to connect to the
+>     >     specified
+>     >     source/sink. I would prefer the latter. PW_KEY_TARGET_OBJECT
+>     looks
+>     >     promising.
+>     >
+>     > Ack.
+>     >
+>     > Thanks,
+>     > Dorinda.
+>     >
+>     >
+>     >
+>     > On Mon, Mar 20, 2023 at 7:31 AM Volker Rümelin
+>     <vr_qemu@t-online.de>
+>     > wrote:
+>     >
+>     >
+>     >     > diff --git a/audio/trace-events b/audio/trace-events
+>     >     > index e1ab643add..e0acf9ac56 100644
+>     >     > --- a/audio/trace-events
+>     >     > +++ b/audio/trace-events
+>     >     > @@ -18,6 +18,13 @@ dbus_audio_register(const char *s,
+>     const char
+>     >     *dir) "sender = %s, dir = %s"
+>     >     >   dbus_audio_put_buffer_out(size_t len) "len = %zu"
+>     >     >   dbus_audio_read(size_t len) "len = %zu"
+>     >     >
+>     >     > +# pwaudio.c
+>     >     > +pw_state_changed(const char *s) "stream state: %s"
+>     >     > +pw_node(int nodeid) "node id: %d"
+>     >     > +pw_read(int32_t avail, uint32_t index, size_t len) "avail=%u
+>     >     index=%u len=%zu"
+>     >     > +pw_write(int32_t filled, int32_t avail, uint32_t index,
+>     size_t
+>     >     len) "filled=%u avail=%u index=%u len=%zu"
+>     >     > +pw_audio_init(void) "Initialize Pipewire context"
+>     >     > +
+>     >
+>     >     Hi Dorinda,
+>     >
+>     >     the format specifiers and parameter types don't always match.
+>     >
+>     >     With  best regards,
+>     >     Volker
+>     >
+>     >     >   # audio.c
+>     >     >   audio_timer_start(int interval) "interval %d ms"
+>     >     >   audio_timer_stop(void) ""
+>     >     >
+>     >
+>
+
 
