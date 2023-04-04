@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991506D6973
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 18:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869AA6D69C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 19:05:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjjsg-0001iR-LJ; Tue, 04 Apr 2023 12:51:38 -0400
+	id 1pjk4D-0003hj-MV; Tue, 04 Apr 2023 13:03:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pjjse-0001iF-RY
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 12:51:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pjk4A-0003hN-RW
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 13:03:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pjjsd-0006OR-75
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 12:51:36 -0400
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pjk48-0003J4-B1
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 13:03:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680627094;
+ s=mimecast20190719; t=1680627806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WWiM6I6ozw62jgfryY18Jy0J7LjaT0zcb9eKRxEGfMU=;
- b=dFvYoOvxiH+WTttxUKk+jdlX+dGaE0c+4+8+K2Vg+iV/GJoVWrrBqpsQCv/qibEPF/TkCn
- 6251Mzo65ommgAqa5Sr/qp45ZGEpgQ1syuY7pZMiOTpL0fGrDgCv1rjiVNWoLgjBaAplVW
- JO5UC7pN4/hxqi5OW0ONmv2Q9vou6Jo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NSBW+jjizSbfVzvgN5BIFNL0c1pRYgkYU7fuwh8KRN8=;
+ b=OZpVRuzXGlH7PoDn/XZdrzGDc1VyGcjj4NdHUzS7R5ssVjU/HobBWYIcxv6hSoAtHqnZ02
+ BOenKETiEevYOMYMdmFrJZBeXr7LA8ob8tZetTNLrJ7Vce00LVcUcDNPiG53LHuT88tHa1
+ I2mG/aHtzAoTrkUkfk1duMy+SNHEGak=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-191-rxE9T4ddOueHcGwON9bQYw-1; Tue, 04 Apr 2023 12:51:25 -0400
-X-MC-Unique: rxE9T4ddOueHcGwON9bQYw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f15-20020a50a6cf000000b0050050d2326aso46516058edc.18
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 09:51:25 -0700 (PDT)
+ us-mta-450-MeYiIRrvPKi0SeKVh55wWw-1; Tue, 04 Apr 2023 13:03:24 -0400
+X-MC-Unique: MeYiIRrvPKi0SeKVh55wWw-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-5446a91c40cso330855407b3.18
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 10:03:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680627084; x=1683219084;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WWiM6I6ozw62jgfryY18Jy0J7LjaT0zcb9eKRxEGfMU=;
- b=NTLgHyPWZJVn5AZK77YTf2NHWXeyBzR7mixRbPul/st5XX1z3MElBoxa+D9cNA+pWA
- hvPPLn+9tbpdq1pr9kHKGOEfhNIWPhIuD0gRFOiWaAKqaVCIzF44mpcPcpyh2d22+N6O
- ZxfrhQvaw7hLrsq/IR5pSN0FPJ7ZlDdlRBtaiw29lcy5clGd295n5zsYmnyesaYvNl/S
- 0PqZ2wM+SE4/+YVa6ZDBP4AiCpjgw/UH6fKKZMG3nuXrEFR72MPI8XvJvEY5eeAE4N87
- yz4tPI6aMhHsZx4E+/zEghlRAKcfbrr8IMbcI1nJjA5ohBg0pmEvH7fomFKTfWD2TjWv
- A1lA==
-X-Gm-Message-State: AAQBX9dT9Xm0x/l9vrahxSj7UTMZCJ2cmRobF24cEn45cSroVyHQUZOK
- dA97W74sP2BIMui6HmAZinGDg4PMqT9teIBxA4BCqpJGLGJhxhL7ZP3YM9ozFcKaLiorT3yukzQ
- gJKRlJaYb7ZRZvTU=
-X-Received: by 2002:a17:906:4f0c:b0:93b:46f7:a716 with SMTP id
- t12-20020a1709064f0c00b0093b46f7a716mr220784eju.50.1680627084247; 
- Tue, 04 Apr 2023 09:51:24 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YWuIkcrBB5OJ9lUXVtOLOkrgsBDaXqnnQpT6MgXGxeNzFE4QSeirLHCbyLEVWclTXZEthNww==
-X-Received: by 2002:a17:906:4f0c:b0:93b:46f7:a716 with SMTP id
- t12-20020a1709064f0c00b0093b46f7a716mr220756eju.50.1680627083989; 
- Tue, 04 Apr 2023 09:51:23 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- z8-20020a1709063ac800b00947ed087a2csm5053520ejd.154.2023.04.04.09.51.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Apr 2023 09:51:23 -0700 (PDT)
-Message-ID: <fa8538dd-7a90-5c02-9afa-0aa24e2a06b3@redhat.com>
-Date: Tue, 4 Apr 2023 18:51:22 +0200
+ d=1e100.net; s=20210112; t=1680627801;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NSBW+jjizSbfVzvgN5BIFNL0c1pRYgkYU7fuwh8KRN8=;
+ b=JkYTPHyhvS9nNryt+7gAZEOEGrsvfICS+Hbt2WoOK51/I4j3vcc+XuhhA4Ze9aY4l1
+ sD5SSZwVRhhCwvVcwQSIqFJFApezjCfArulnIMqczis/IBcq9jh4i7mPLIX28Yy7mLRJ
+ LMliV6IXlhwheLSdVW7ryLXlREUMMeX+vNzThzBwxAjMlIcwyxXkLWlqGQn6ofOSqvY4
+ d0Iy3lIEFYXg0+1x8qcrIhgdf1TTvES36uc6oq+2hFKiHv55lfK9bPWAFsk4UAwv1LR9
+ ITcag+qdrtKTkWO08MxYPCYOrgNwC5z6bbeUWgtTVmEfHZw1McCb2RQI1dfxfat456QA
+ eAnA==
+X-Gm-Message-State: AAQBX9eS7oC3RexygLtHaP8xPlnygMly20juT9i9w5Z8uHTVy8Vs/LyB
+ 4axPpspaLg9F9VvTGrj+qAKthOfu3C3sBv/cz8y1GJ+65cEM7XV3UIJJb18rrWSJ/lorc58x6Zo
+ 9DtM24GpnQJ96jFFcSQh3gS4lgehiKb0=
+X-Received: by 2002:a25:d1cd:0:b0:ac9:cb97:bd0e with SMTP id
+ i196-20020a25d1cd000000b00ac9cb97bd0emr1919373ybg.5.1680627801253; 
+ Tue, 04 Apr 2023 10:03:21 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bZ/0a+a4MCRZSC5b5Y9O6GpOLDrDA7id3NLuYf5pHI1h2yHbQM+WsmiEzEhIqHOEbeQNwRFOFfJs+ewBdmW1k=
+X-Received: by 2002:a25:d1cd:0:b0:ac9:cb97:bd0e with SMTP id
+ i196-20020a25d1cd000000b00ac9cb97bd0emr1919348ybg.5.1680627801022; Tue, 04
+ Apr 2023 10:03:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] aio-wait: avoid AioContext lock in aio_wait_bh_oneshot()
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, eesposit@redhat.com
-References: <20230404153307.458883-1-stefanha@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230404153307.458883-1-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+References: <20230404115912.2829251-1-armbru@redhat.com>
+ <20230404115912.2829251-2-armbru@redhat.com>
+In-Reply-To: <20230404115912.2829251-2-armbru@redhat.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Tue, 4 Apr 2023 20:03:09 +0300
+Message-ID: <CAPMcbCrvOy439x1pR53eY=VepvFdXrR3U_4cP_Mik3rZqN58AQ@mail.gmail.com>
+Subject: Re: [PATCH 01/16] qga/qapi-schema: Tidy up documentation of
+ guest-fsfreeze-status
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com, eblake@redhat.com, 
+ kwolf@redhat.com, hreitz@redhat.com, pbonzini@redhat.com, 
+ marcandre.lureau@redhat.com, arei.gonglei@huawei.com, pizhenwei@bytedance.com, 
+ jsnow@redhat.com, vsementsov@yandex-team.ru, eduardo@habkost.net, 
+ marcel.apfelbaum@gmail.com, wangyanan55@huawei.com, quintela@redhat.com, 
+ jasowang@redhat.com, yuval.shaia.ml@gmail.com, stefanha@redhat.com, 
+ kraxel@redhat.com, qemu-block@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000014793805f885a7c2"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.925, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,19 +99,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/4/23 17:33, Stefan Hajnoczi wrote:
-> There is no need for the AioContext lock in aio_wait_bh_oneshot().
-> It's easy to remove the lock from existing callers and then switch from
-> AIO_WAIT_WHILE() to AIO_WAIT_WHILE_UNLOCKED() in aio_wait_bh_oneshot().
-> 
-> Document that the AioContext lock should not be held across
-> aio_wait_bh_oneshot(). Holding a lock across aio_poll() can cause
-> deadlock so we don't want callers to do that.
-> 
-> This is a step towards getting rid of the AioContext lock.
+--00000000000014793805f885a7c2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-Paolo
+On Tue, Apr 4, 2023 at 2:59=E2=80=AFPM Markus Armbruster <armbru@redhat.com=
+> wrote:
+
+> Delete "error state indicates", because it doesn't make sense.
+> I suspect it was an accident.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  qga/qapi-schema.json | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> index 796434ed34..f349345116 100644
+> --- a/qga/qapi-schema.json
+> +++ b/qga/qapi-schema.json
+> @@ -420,7 +420,7 @@
+>  ##
+>  # @guest-fsfreeze-status:
+>  #
+> -# Get guest fsfreeze state. error state indicates
+> +# Get guest fsfreeze state.
+>  #
+>  # Returns: GuestFsfreezeStatus ("thawed", "frozen", etc., as defined
+> below)
+>  #
+> --
+> 2.39.2
+>
+>
+
+--00000000000014793805f885a7c2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
+tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Apr 4=
+, 2023 at 2:59=E2=80=AFPM Markus Armbruster &lt;<a href=3D"mailto:armbru@re=
+dhat.com">armbru@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">Delete &quot;error state indicates&quot;, becaus=
+e it doesn&#39;t make sense.<br>
+I suspect it was an accident.<br>
+<br>
+Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
+arget=3D"_blank">armbru@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0qga/qapi-schema.json | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json<br>
+index 796434ed34..f349345116 100644<br>
+--- a/qga/qapi-schema.json<br>
++++ b/qga/qapi-schema.json<br>
+@@ -420,7 +420,7 @@<br>
+=C2=A0##<br>
+=C2=A0# @guest-fsfreeze-status:<br>
+=C2=A0#<br>
+-# Get guest fsfreeze state. error state indicates<br>
++# Get guest fsfreeze state.<br>
+=C2=A0#<br>
+=C2=A0# Returns: GuestFsfreezeStatus (&quot;thawed&quot;, &quot;frozen&quot=
+;, etc., as defined below)<br>
+=C2=A0#<br>
+-- <br>
+2.39.2<br>
+<br>
+</blockquote></div>
+
+--00000000000014793805f885a7c2--
 
 
