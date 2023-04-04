@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239DE6D5FFD
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 14:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B36DF6D6051
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 14:27:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjfbO-0003uk-NR; Tue, 04 Apr 2023 08:17:30 -0400
+	id 1pjfjd-0006Ie-6l; Tue, 04 Apr 2023 08:26:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pjfbM-0003uR-Kb
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 08:17:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pjfjb-0006IN-F0
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 08:25:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pjfbI-0002rF-Q7
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 08:17:28 -0400
+ id 1pjfjZ-0008SP-PH
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 08:25:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680610643;
+ s=mimecast20190719; t=1680611156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EvJj+eXa4lyNV4pyHPyFSVmiPqoerN8s5s7i267Lkds=;
- b=Xg2lJOKqdwliktvrcbP9u5b6gev5ymHROMjvTdQ6iUtmsD+zxZh1i/xrsERnYSULyed5II
- 75ctd8AP3KBrTvYH/cK3xd+4kyuGc0TAsD+M3efy6BPKnvX4fxugZLZfy+AxjUdCgdzCEs
- GJc0Ild8j/iTmzdZnNkIehgbemHfDe4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OnQ+4V4JUcC+1PmeTVsoyTZvteUrx3UcOw3Ck/zmaiY=;
+ b=Sazkcfr/vyIiXCVTOFUfR8AldXPGOvLbJiAdSNblxo62HdY/aYMqkfPFh6eYcNf/tlIzFL
+ 7Nmd4jqZo/+V/vUhGRSWVS/Ndhj3a0H0bE/FTLOlL7a5jUVluohBg/l2RyH7fJ9UhAikYa
+ WGVPPuLbWHxzOcfWQFJVt108duN0Q9A=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-351-mgXESXW6P8SzOzC-Y2ohBQ-1; Tue, 04 Apr 2023 08:17:22 -0400
-X-MC-Unique: mgXESXW6P8SzOzC-Y2ohBQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- k30-20020a50ce5e000000b00500544ebfb1so45551246edj.7
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 05:17:21 -0700 (PDT)
+ us-mta-602-nD5tO-WLOUOSnH2jr3MyVw-1; Tue, 04 Apr 2023 08:25:55 -0400
+X-MC-Unique: nD5tO-WLOUOSnH2jr3MyVw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ b6-20020a509f06000000b005029d95390aso9326440edf.2
+ for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 05:25:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680610641;
+ d=1e100.net; s=20210112; t=1680611154;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EvJj+eXa4lyNV4pyHPyFSVmiPqoerN8s5s7i267Lkds=;
- b=KlAW+0wCiTcTlQlrQEZLAd+7Wd6XpJYcAoGEF7xRR2Dt2N29WQK1oIgjdSZT2zeLo4
- EiG3euMKycEnyF/9oX3+Sto3je3WpzP2RSAbJ+qhv/XLhkMyFFiyod2lzE321Y3xP/03
- A4XlF0rNFYNIo8bspnYBhTC4o7qv3cB8faT3VaY3vO5NqkaYZapUXQg1GyCrZRKzI4sO
- LODTKa/PCHC9eWMd6/4jLOZDAm65oWhhefW4Frqhc6fz3kuQ6AzQwuD9V+W8ENNyhiOT
- YAY4dJNp8I3pBL5iBT/L4qeqihbaMr1jXgXCiOKuyuYCcXSpC1SC5XQpTSAI1K525v4C
- 9SOw==
-X-Gm-Message-State: AAQBX9fAloG6Vu8IVxQTPzzInVrHeFvtva0OG/ue5ViZoiP57//+Tohk
- lZ1oBydRxRQEg1npVTJmFFRMPOlHQFjcAxG1VFUw84s9j6DEvASaZhG6x4pTzJiaPEtYbRaazUP
- 8Gr4yVJgVlzAy+a0=
-X-Received: by 2002:a17:906:e24a:b0:8af:3b78:315d with SMTP id
- gq10-20020a170906e24a00b008af3b78315dmr1918763ejb.23.1680610640979; 
- Tue, 04 Apr 2023 05:17:20 -0700 (PDT)
-X-Google-Smtp-Source: AKy350begm9ZIBN7DO7MzDYFifQxnJL71sQB3vzzjCMpvsFaHb5wLUho+1YhLfXlDDDtnE8i8Cewvg==
-X-Received: by 2002:a17:906:e24a:b0:8af:3b78:315d with SMTP id
- gq10-20020a170906e24a00b008af3b78315dmr1918730ejb.23.1680610640607; 
- Tue, 04 Apr 2023 05:17:20 -0700 (PDT)
+ bh=OnQ+4V4JUcC+1PmeTVsoyTZvteUrx3UcOw3Ck/zmaiY=;
+ b=5xgT03GWNv92i/1pIN6R2prc9aWgm9+t7aoGPBo3tHnj5gP+0ExUz/UteACWEBEcSX
+ BfpQud9B521c/AL7f36qqaghpR1tYw+cMNS4Bg7SOIs/ZyfdTvXBPNW300eG2TZMWrCp
+ NSqpHURB5Kz2uJq7Ym7QGzr7PBAxDpHvfVlSSz/0hldHT2/M1WQR8ffnH76jvmtiPGAq
+ LCJs9b+iLcleBFuHu2aFpQB/Jw+ZzxMIufDRE/Ag1vJIXWo/ZECo0QNIpft3LO3jNWh0
+ fbSXMxXpTRw7YJjjAEIegvQyaL+9t5mLzvUoDHiPwQgBbkYBMSHK4M7ajZDoybJAR+2i
+ Xi3w==
+X-Gm-Message-State: AAQBX9cnol0elCMCbsJ7dwiYSCnbtlkoDUArk7EcOqFvE18oGCYJHktx
+ +Lj/xQQtdWZImQWYfZTCo2nt+SM2pYvZrVHWbuH+9DlXeaRD38BOq0+GG92aZ7EpIzAjAdeSYNG
+ Hvm9XqDRVPyFhrj8=
+X-Received: by 2002:a17:907:8d88:b0:93e:5baa:d443 with SMTP id
+ tf8-20020a1709078d8800b0093e5baad443mr2159793ejc.63.1680611154543; 
+ Tue, 04 Apr 2023 05:25:54 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bSZzqJtF7qvfkVrFNuOdg0jgu9YPrAG7nfx2xYLKyqmmcXlmQdRL6QW9WB935ja4dQx11CWQ==
+X-Received: by 2002:a17:907:8d88:b0:93e:5baa:d443 with SMTP id
+ tf8-20020a1709078d8800b0093e5baad443mr2159778ejc.63.1680611154302; 
+ Tue, 04 Apr 2023 05:25:54 -0700 (PDT)
 Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- q15-20020a17090676cf00b00947c0cecceasm5291403ejn.206.2023.04.04.05.17.19
+ t13-20020a1709067c0d00b009353047c02dsm5876414ejo.167.2023.04.04.05.25.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Apr 2023 05:17:20 -0700 (PDT)
-Date: Tue, 4 Apr 2023 14:17:19 +0200
+ Tue, 04 Apr 2023 05:25:53 -0700 (PDT)
+Date: Tue, 4 Apr 2023 14:25:53 +0200
 From: Igor Mammedov <imammedo@redhat.com>
-To: Yu Zhang <yu.zhang@ionos.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Jinpu Wang <jinpu.wang@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>
+To: Jinpu Wang <jinpu.wang@ionos.com>
+Cc: Yu Zhang <yu.zhang@ionos.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Elmar Gerdes <elmar.gerdes@ionos.com>
 Subject: Re: an issue for device hot-unplug
-Message-ID: <20230404141719.1bc087c8@imammedo.users.ipa.redhat.com>
-In-Reply-To: <CAHEcVy5SV34jaubY5F-q=H+smvMVOzKbb=rTaNJDNXyGdFaLZg@mail.gmail.com>
+Message-ID: <20230404142553.31030bb7@imammedo.users.ipa.redhat.com>
+In-Reply-To: <CAMGffE=cxQzMrT+wbPazApmsGfgAx6z8O0DzEJfWyMQaGFs80w@mail.gmail.com>
 References: <CAHEcVy5SV34jaubY5F-q=H+smvMVOzKbb=rTaNJDNXyGdFaLZg@mail.gmail.com>
+ <94e21f89-0a3e-701b-7171-7398dff9ce46@redhat.com>
+ <CAHEcVy5TiQwYofhCe3RpdFopYzYWbGnL7EO5nE_HQTAVEeaqAg@mail.gmail.com>
+ <CAMGffE=cxQzMrT+wbPazApmsGfgAx6z8O0DzEJfWyMQaGFs80w@mail.gmail.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,87 +103,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 3 Apr 2023 15:24:43 +0200
-Yu Zhang <yu.zhang@ionos.com> wrote:
+On Tue, 4 Apr 2023 08:45:54 +0200
+Jinpu Wang <jinpu.wang@ionos.com> wrote:
 
-> Dear Laurent,
-> 
-> recently we run into an issue with the following error:
-> 
-> command '{ "execute": "device_del", "arguments": { "id": "virtio-diskX" }
-> }' for VM "id" failed ({ "return": {"class": "GenericError", "desc":
-> "Device virtio-diskX is already in the process of unplug"} }).
-> 
-> The issue is reproducible. With a few seconds delay before hot-unplug,
-> hot-unplug just works fine.
-> 
-> After a few digging, we found that the commit 9323f892b39 may incur the
-> issue.
-> ------------------
->     failover: fix unplug pending detection
-> 
->     Failover needs to detect the end of the PCI unplug to start migration
->     after the VFIO card has been unplugged.
-> 
->     To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and
-> reset in
->     pcie_unplug_device().
-> 
->     But since
->         17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on
-> Q35")
->     we have switched to ACPI unplug and these functions are not called
-> anymore
->     and the flag not set. So failover migration is not able to detect if
-> card
->     is really unplugged and acts as it's done as soon as it's started. So it
->     doesn't wait the end of the unplug to start the migration. We don't see
-> any
->     problem when we test that because ACPI unplug is faster than PCIe native
->     hotplug and when the migration really starts the unplug operation is
->     already done.
-> 
->     See c000a9bd06ea ("pci: mark device having guest unplug request
-> pending")
->         a99c4da9fc2a ("pci: mark devices partially unplugged")
-> 
->     Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->     Reviewed-by: Ani Sinha <ani@anisinha.ca>
->     Message-Id: <20211118133225.324937-4-lvivier@redhat.com>
->     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ------------------
-> The purpose is for detecting the end of the PCI device hot-unplug. However,
+> Hi Yu,
+>=20
+> On Mon, Apr 3, 2023 at 6:59=E2=80=AFPM Yu Zhang <yu.zhang@ionos.com> wrot=
+e:
+> >
+> > Dear Laurent,
+> >
+> > Thank you for your quick reply. We used qemu-7.1, but it is reproducibl=
+e with qemu from v6.2 to the recent v8.0 release candidates.
+> > I found that it's introduced by the commit  9323f892b39 (between v6.2.0=
+-rc2 and v6.2.0-rc3).
+> >
+> > If it doesn't break anything else, it suffices to remove the line below=
+ from acpi_pcihp_device_unplug_request_cb():
+> >
+> >     pdev->qdev.pending_deleted_event =3D true;
+> >
+> > but you may have a reason to keep it. First of all, I'll open a bug in =
+the bug tracker and let you know.
+> >
+> > Best regards,
+> > Yu Zhang =20
+> This patch from Igor Mammedov seems relevant,
+> https://lore.kernel.org/qemu-devel/20230403131833-mutt-send-email-mst@ker=
+nel.org/T/#t
 
-unplug is async process and issuing multiple unplug requests waiting for
-'not found' error as a means to detect that device has been unplugged
-hardly a sane way to do that.
-Instead of swamping guest with unplug requests (which lead to hw interrupts)
-you should wait for DEVICE_DELETED QMP event.
+this patch targets corner case of early boot where
+guest hasn't initialized ACPI subsystem yet and 'broken'
+management asking to unplug device too early which leads
+to device stuck in being unplugged state due to regression
+in QEMU.
+However, It doesn't apply to fully booted guest.
 
-> we feel the error confusing. How is it possible that a disk "is already in
-> the process of unplug" during the first hot-unplug attempt? So far as I
-> know, the issue was also encountered by libvirt, but they simply ignored it:
-> 
->     https://bugzilla.redhat.com/show_bug.cgi?id=1878659
-> 
-> Hence, a question is: should we have the line below in
-> acpi_pcihp_device_unplug_request_cb()?
-> 
->    pdev->qdev.pending_deleted_event = true;
+[...]
 
-comment 15 in above BZ describes how we could get rid of this line
-but also see comment 17
-(in nutshell you get error because device hasn't been removed yet)
- 
-> 
-> It would be great if you as the author could give us a few hints.
-> 
-> Thank you very much for your reply!
-> 
-> Sincerely,
-> 
-> Yu Zhang @ Compute Platform IONOS
-> 03.04.2013
+> >> > The purpose is for detecting the end of the PCI device hot-unplug. H=
+owever, we feel the
+> >> > error confusing. How is it possible that a disk "is already in the p=
+rocess of unplug"
+> >> > during the first hot-unplug attempt? So far as I know, the issue was=
+ also encountered by
+> >> > libvirt, but they simply ignored it:
+> >> >
+> >> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659
+> >> > <https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659>
+see my other reply email/BZ comment 17.
+
+[...]
 
 
