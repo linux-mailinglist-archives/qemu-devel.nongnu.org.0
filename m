@@ -2,65 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1BB6D5F3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 13:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A25B6D5F42
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 13:40:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjf03-0001A6-Dh; Tue, 04 Apr 2023 07:38:55 -0400
+	id 1pjf1F-00033C-3p; Tue, 04 Apr 2023 07:40:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pjf01-00019p-Nh
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:38:53 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pjezz-0003VL-Kt
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 07:38:53 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Dx3tpGDCxkU2cWAA--.23264S3;
- Tue, 04 Apr 2023 19:38:46 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxsOQ5DCxk9TEVAA--.56095S4; 
- Tue, 04 Apr 2023 19:38:46 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- tanhongze <tanhongze@loongson.cn>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 2/2] target/loongarch: Enables plugins to get instruction codes
-Date: Tue,  4 Apr 2023 19:38:33 +0800
-Message-Id: <20230404113833.1909736-3-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230404113833.1909736-1-gaosong@loongson.cn>
-References: <20230404113833.1909736-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pjf16-0002lm-AY; Tue, 04 Apr 2023 07:40:01 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pjf13-0003gy-Pl; Tue, 04 Apr 2023 07:40:00 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3349kVlS032887; Tue, 4 Apr 2023 11:39:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=5M3KptzvVMXLKqcU+fyWOaCQnyZjY4gNixVaLfPF6QQ=;
+ b=WSMWNYa6VplrmeR7zZGZplVorThVplGEgqfR+BgH/lIcUJmMSWDNZx5I0wW/2rqawkQE
+ 4tdllvpfwjTh7c7x88F9mpOH1o0cZ2H6jKMdPxidpQIlSQ4B8sn99dXJWk5EndLgT3yS
+ DY/c/XrdLhWFq7Q+29SfBmKklTSyFcUzdIzO/XH6WjcD0WdAAYwtRnyoX5/+S4DGLYqS
+ zdGzcpGgI34dvhLX+mh67XEahvTCrRrHhDJm5QTydH8zqD45qnFfN+m7kOzJD9qs0FQ2
+ KLwXBYES/dQhEiR0nuXBodT1VW40t1zdT/6eaJ/ZXLN+pmeu9K1C4Wo6Yfjn84Bl//Wi AA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3prhjd2ncp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Apr 2023 11:39:47 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3349uvXx034449;
+ Tue, 4 Apr 2023 11:39:46 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3prhjd2nbr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Apr 2023 11:39:46 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3344L7o7025622;
+ Tue, 4 Apr 2023 11:39:42 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3ppbvg2ftk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Apr 2023 11:39:42 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 334BdcU744892580
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Apr 2023 11:39:38 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0AAF420043;
+ Tue,  4 Apr 2023 11:39:38 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8C7BE2004B;
+ Tue,  4 Apr 2023 11:39:37 +0000 (GMT)
+Received: from [9.152.222.242] (unknown [9.152.222.242])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue,  4 Apr 2023 11:39:37 +0000 (GMT)
+Message-ID: <c4b05d61-75af-8c90-df7c-9ed09612b879@linux.ibm.com>
+Date: Tue, 4 Apr 2023 13:39:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v19 02/21] s390x/cpu topology: add topology entries on CPU
+ hotplug
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com
+References: <20230403162905.17703-1-pmorel@linux.ibm.com>
+ <20230403162905.17703-3-pmorel@linux.ibm.com>
+ <7affffef-8d04-ac9f-0920-f765d362d60d@kaod.org>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <7affffef-8d04-ac9f-0920-f765d362d60d@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxsOQ5DCxk9TEVAA--.56095S4
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvdXoW7JF15Ar1xur1fKFyxGr17ZFb_yoWkJrg_JF
- yIq3Z7ur1UuFyIkw4F9rZ8Jry8Cw18GFn09Fn09aykJa4Yq3y5GrWqq3Wkur4a9rs8Zrn8
- C347tr18Arn5WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
- V7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
- vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
- xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
- 0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
- 44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
- AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
- Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
- k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
- xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: EzAFr4alKHCJrvAKsWSKbC0WhgaoLKdl
+X-Proofpoint-ORIG-GUID: jswu3TboVL1qKbWQIzzxlAig-bFvlfpR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-04_04,2023-04-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1015 phishscore=0 adultscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304040107
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,31 +121,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: tanhongze <tanhongze@loongson.cn>
 
-Signed-off-by: tanhongze <tanhongze@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230330124600.1523026-1-tanhongze@loongson.cn>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- target/loongarch/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 4/4/23 09:31, Cédric Le Goater wrote:
+> On 4/3/23 18:28, Pierre Morel wrote:
+>>
 
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index f443b5822f..21d86077f4 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -177,7 +177,7 @@ static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     CPULoongArchState *env = cs->env_ptr;
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
- 
--    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
-+    ctx->opcode = translator_ldl(env, &ctx->base, ctx->base.pc_next);
- 
-     if (!decode(ctx, ctx->opcode)) {
-         qemu_log_mask(LOG_UNIMP, "Error: unknown opcode. "
--- 
-2.31.1
+[...]
+
+
+>> +
+>> +/**
+>> + * s390_socket_nb:
+>> + * @cpu: s390x CPU
+>> + *
+>> + * Returns the socket number used inside the cores_per_socket array
+>> + * for a cpu.
+>> + */
+>> +int s390_socket_nb(S390CPU *cpu)
+>
+> s390_socket_nb() doesn't seem to be used anywhere else than in
+> hw/s390x/cpu-topology.c. It should be static.
+
+
+right
+
+[...]
+>> +/**
+>> + * s390_topology_add_core_to_socket:
+>> + * @cpu: the new S390CPU to insert in the topology structure
+>> + * @drawer_id: new drawer_id
+>> + * @book_id: new book_id
+>> + * @socket_id: new socket_id
+>> + * @creation: if is true the CPU is a new CPU and there is no old 
+>> socket
+>> + *            to handle.
+>> + *            if is false, this is a moving the CPU and old socket 
+>> count
+>> + *            must be decremented.
+>> + * @errp: the error pointer
+>> + *
+>> + */
+>> +static void s390_topology_add_core_to_socket(S390CPU *cpu, int 
+>> drawer_id,
+>> +                                             int book_id, int 
+>> socket_id,
+>> +                                             bool creation, Error 
+>> **errp)
+>> +{
+>
+> Since this routine is called twice, in s390_topology_setup_cpu() for
+> creation, and in s390_change_topology() for socket migration, we could
+> duplicate the code in two distinct routines.
+>
+> I think this would simplify a bit each code path and avoid the 'creation'
+> parameter which is confusing.
+
+
+right
+
+Thanks.
+
+
+>
+>
+>> +    int old_socket_entry = s390_socket_nb(cpu);
+>> +    int new_socket_entry;
+>> +
+>> +    if (creation) {
+>> +        new_socket_entry = old_socket_entry;
+>> +    } else {
+>> +        new_socket_entry = (drawer_id * s390_topology.smp->books + 
+>> book_id) *
+>> +                            s390_topology.smp->sockets + socket_id;
+>
+> A helper common routine that s390_socket_nb() could use also would be 
+> a plus.
+
+
+Yes, thanks
+
+
+>
+>> +    }
+>> +
+>> +    /* Check for space on new socket */
+>> +    if ((new_socket_entry != old_socket_entry) &&
+>> +        (s390_topology.cores_per_socket[new_socket_entry] >=
+>> +         s390_topology.smp->cores)) {
+>> +        error_setg(errp, "No more space on this socket");
+>> +        return;
+>> +    }
+>> +
+>> +    /* Update the count of cores in sockets */
+>> +    s390_topology.cores_per_socket[new_socket_entry] += 1;
+>> +    if (!creation) {
+>> +        s390_topology.cores_per_socket[old_socket_entry] -= 1;
+>> +    }
+>> +}
+>> +
+>> +/**
+>> + * s390_update_cpu_props:
+>> + * @ms: the machine state
+>> + * @cpu: the CPU for which to update the properties from the 
+>> environment.
+>> + *
+>> + */
+>> +static void s390_update_cpu_props(MachineState *ms, S390CPU *cpu)
+>> +{
+>> +    CpuInstanceProperties *props;
+>> +
+>> +    props = &ms->possible_cpus->cpus[cpu->env.core_id].props;
+>> +
+>> +    props->socket_id = cpu->env.socket_id;
+>> +    props->book_id = cpu->env.book_id;
+>> +    props->drawer_id = cpu->env.drawer_id;
+>> +}
+>> +
+>> +/**
+>> + * s390_topology_setup_cpu:
+>> + * @ms: MachineState used to initialize the topology structure on
+>> + *      first call.
+>> + * @cpu: the new S390CPU to insert in the topology structure
+>> + * @errp: the error pointer
+>> + *
+>> + * Called from CPU Hotplug to check and setup the CPU attributes
+>> + * before to insert the CPU in the topology.
+>
+> ... before the CPU is inserted in the topology.
+OK
+>
+>> + * There is no use to update the MTCR explicitely here because it
+>
+> ... is no need ... sounds better.
+OK
+>
+>> + * will be updated by KVM on creation of the new vCPU.
+>
+> "CPU" is used everywhere else.
+OK
+>
+>> + */
+>> +void s390_topology_setup_cpu(MachineState *ms, S390CPU *cpu, Error 
+>> **errp)
+>> +{
+>> +    ERRP_GUARD();
+>> +
+>> +    /*
+>> +     * We do not want to initialize the topology if the cpu model
+>> +     * does not support topology, consequently, we have to wait for
+>> +     * the first CPU to be realized, which realizes the CPU model
+>> +     * to initialize the topology structures.
+>> +     *
+>> +     * s390_topology_setup_cpu() is called from the cpu hotplug.
+>> +     */
+>> +    if (!s390_topology.cores_per_socket) {
+>> +        s390_topology_init(ms);
+>> +    }
+>> +
+>> +    s390_topology_cpu_default(cpu, errp);
+>> +    if (*errp) {
+>
+> May be having s390_topology_cpu_default() return a bool would be cleaner.
+> Same comment for the routines below. This is minor.
+
+
+Yes and it is more readable. I do it.
+
+
+Thanks for the comments.
+
+Regards,
+
+Pierre
 
 
