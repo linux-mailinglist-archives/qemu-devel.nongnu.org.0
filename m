@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8A06D5A2A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 10:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA446D5A77
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Apr 2023 10:12:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjbaZ-0002xY-Qj; Tue, 04 Apr 2023 04:00:23 -0400
+	id 1pjbkX-0005n5-Sw; Tue, 04 Apr 2023 04:10:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pjbaX-0002xE-Lv
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 04:00:21 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pjbaV-0002AV-J0
- for qemu-devel@nongnu.org; Tue, 04 Apr 2023 04:00:21 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E8E271FE8A;
- Tue,  4 Apr 2023 08:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680595216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I1k4U3EGDpJVeK0FU1SpPdl43m9A/aroP+aMYOaCUfg=;
- b=pAZeISlnx3KQHvWRQa0/b+QJTD7rqbt3HVRcx/ptJ3s21CR2SbM79gQuCl1mFJHgTwy4Ud
- UsTz3JG8hQYauWAU4EERWKtuIUZ2R1/FJAl9K1v0D75zgoAMm6TPLXx8fYaIkhFe4Zqagt
- utoH1Pk+l3gF8Sa9Z3ax0uWd2r0GMvQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680595216;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I1k4U3EGDpJVeK0FU1SpPdl43m9A/aroP+aMYOaCUfg=;
- b=P4BpWwtPSY7tJyFRbsEUCVzW4ex2fFC14fq0Fr0aR+jrZwakSpfuW5YbjBX08NMsXe81f+
- v/TwhNLwBVkBMnBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A2C8513920;
- Tue,  4 Apr 2023 08:00:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lXc2JhDZK2TPAwAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 04 Apr 2023 08:00:16 +0000
-Message-ID: <e4a0c911-aa51-e700-640d-2876881bd077@suse.de>
-Date: Tue, 4 Apr 2023 10:00:16 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pjbkS-0005mQ-6n; Tue, 04 Apr 2023 04:10:36 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pjbkN-0008Hs-Gz; Tue, 04 Apr 2023 04:10:34 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:2619:0:640:e777:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 1968C5F54F;
+ Tue,  4 Apr 2023 11:10:17 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b4b1::1:2d] (unknown
+ [2a02:6b8:b081:b4b1::1:2d])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id FAJqAZ0Oc0U0-yl7W3jOH; Tue, 04 Apr 2023 11:10:16 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1680595816; bh=PV5rkB/rvibEICgAX5Kddg/34FJVMHJk6OjgvF73vbk=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=dfy0GGxuc2AKmAgA5K2K5wgQLZUFHO3oh2SdlDjFektFoAFNRgmJ6mySBcQ3VvujC
+ YpDPumWVqwG5hOg1ArLTHieukmy95SyOQ5D+8MAoFrUhtp6kalXAKJSMwYsbeFAPTp
+ 3O0RVrQbqTxzxjWvvpRraJ0EfNe4WjtYoesihQ20=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <9bf47acd-9c41-b838-c6a9-fea2c586d385@yandex-team.ru>
+Date: Tue, 4 Apr 2023 11:10:14 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with multifd
- and fixed-ram
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 2/4] block: Split padded I/O vectors exceeding IOV_MAX
+To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>
+References: <20230317175019.10857-1-hreitz@redhat.com>
+ <20230317175019.10857-3-hreitz@redhat.com>
+ <794be57d-9bbb-4de4-00ef-32df10cc3eaa@yandex-team.ru>
+ <751be7a2-f32a-569d-c464-c7821560edea@redhat.com>
 Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>
-Cc: Fabiano Rosas <farosas@suse.de>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, qemu-devel@nongnu.org, jfehlig@suse.com,
- dfaggioli@suse.com, dgilbert@redhat.com, Juan Quintela <quintela@redhat.com>
-References: <ZCYCE0llX9WANK18@x1n> <87edp5oukh.fsf@suse.de>
- <ZCbzmZXz3JG/jElA@x1n> <878rfdos4a.fsf@suse.de> <ZCcCV8PIsuvab1lO@x1n>
- <ZCcF6I0qb+1xlPhJ@redhat.com> <ZCcKBDM9sLomGOQE@x1n> <875yagpywy.fsf@suse.de>
- <ZCdWJ59rqY6oScvg@x1n> <d2b40262-3791-8820-5104-e4eb313cd796@suse.de>
- <ZCsogia3r7ePKBR9@x1n>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <ZCsogia3r7ePKBR9@x1n>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <751be7a2-f32a-569d-c464-c7821560edea@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.349,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,105 +77,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Peter,
-
-On 4/3/23 21:26, Peter Xu wrote:
-> Hi, Claudio,
+On 03.04.23 16:33, Hanna Czenczek wrote:
+> (Sorry for the rather late reply... Thanks for the review!)
 > 
-> Thanks for the context.
+> On 20.03.23 11:31, Vladimir Sementsov-Ogievskiy wrote:
+>> On 17.03.23 20:50, Hanna Czenczek wrote:
 > 
-> On Mon, Apr 03, 2023 at 09:47:26AM +0200, Claudio Fontana wrote:
->> Hi, not sure if what is asked here is context in terms of the previous
->> upstream discussions or our specific requirement we are trying to bring
->> upstream.
+> [...]
+> 
+>>> diff --git a/block/io.c b/block/io.c
+>>> index 8974d46941..1e9cdba17a 100644
+>>> --- a/block/io.c
+>>> +++ b/block/io.c
 >>
->> In terms of the specific requirement we are trying to bring upstream, we
->> need to get libvirt+QEMU VM save and restore functionality to be able to
->> transfer VM sizes of ~30 GB (4/8 vcpus) in roughly 5 seconds.  When an
->> event trigger happens, the VM needs to be quickly paused and saved to
->> disk safely, including datasync, and another VM needs to be restored,
->> also in ~5 secs.  For our specific requirement, the VM is never running
->> when its data (mostly consisting of RAM) is saved.
+>> [..]
 >>
->> I understand that the need to handle also the "live" case comes from
->> upstream discussions about solving the "general case", where someone
->> might want to do this for "live" VMs, but if helpful I want to highlight
->> that it is not part of the specific requirement we are trying to address,
->> and for this specific case won't also in the future, as the whole point
->> of the trigger is to replace the running VM with another VM, so it cannot
->> be kept running.
+>>> +    pad->write = write;
+>>> +
+>>>       return true;
+>>>   }
+>>>   @@ -1545,6 +1561,18 @@ zero_mem:
+>>>     static void bdrv_padding_destroy(BdrvRequestPadding *pad)
+>>
+>> Maybe, rename to _finalize, to stress that it's not only freeing memory.
 > 
-> From what I read so far, that scenario suites exactly what live snapshot
-> would do with current QEMU - that at least should involve a snapshot on the
-> disks being used or I can't see how that can be live.  So it looks like a
-> separate request.
+> Sounds good!
 > 
->> The reason we are using "migrate" here likely stems from the fact that
->> existing libvirt code currently uses QMP migrate to implement the save
->> and restore commands.  And in my personal view, I think that reusing the
->> existing building blocks (migration, multifd) would be preferable, to
->> avoid having to maintain two separate ways to do the same thing.  That
->> said, it could be done in a different way, if the performance can keep
->> up. Just thinking of reducing the overall effort and also maintenance
->> surface.
+> [...]
 > 
-> I would vaguely guess the performance can not only keep up but better than
-> what the current solution would provide, due to the possibility of (1)
-> batch handling of continuous guest pages, and (2) completely no dirty
-> tracking overhead.
+>>> @@ -1552,6 +1580,101 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
+>>>       memset(pad, 0, sizeof(*pad));
+>>>   }
+>>>   +/*
+>>> + * Create pad->local_qiov by wrapping @iov in the padding head and tail, while
+>>> + * ensuring that the resulting vector will not exceed IOV_MAX elements.
+>>> + *
+>>> + * To ensure this, when necessary, the first couple of elements (up to three)
+>>
+>> maybe, "first two-three elements"
 > 
-> For (2), it's not about wr-protect page faults or vmexits due to PML being
-> full (because vcpus will be stopped anyway..), it's about enabling the
-> dirty tracking (which already contains overhead, especially when huge pages
-> are enabled, to split huge pages in EPT pgtables) and all the bitmap
-> operations QEMU does during live migration even if the VM is not live.
+> Sure (here and...
+> 
+> [...]
+> 
+>>> +    /*
+>>> +     * If padded_niov > IOV_MAX, we cannot just concatenate everything.
+>>> +     * Instead, merge the first couple of elements of @iov to reduce the number
+>>
+>> maybe, "first two-three elements"
+> 
+> ...here).
+> 
+>>
+>>> +     * of vector elements as necessary.
+>>> +     */
+>>> +    if (padded_niov > IOV_MAX) {
+>>>
+>>
+>> [..]
+>>
+>>> @@ -1653,8 +1786,8 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
+>>>           flags |= BDRV_REQ_COPY_ON_READ;
+>>>       }
+>>>   -    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
+>>> -                           NULL, &flags);
+>>> +    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, false,
+>>> +                           &pad, NULL, &flags);
+>>>       if (ret < 0) {
+>>>           goto fail;
+>>>       }
+>>
+>> a bit later:
+>>
+>> tracked_request_end(&req);
+>> bdrv_padding_destroy(&pad);
+>>
+>>
+>> Now, the request is formally finished inside bdrv_padding_destroy().. Not sure, does it really violate something, but seems safer to swap these two calls. 
+> 
+> I’d rather not, for two reasons: First, tracked requests are (as far as I understand) only there to implement request serialization, and so only care about metadata (offset, length, and type), which is not changed by changes to the I/O vector.
+> 
+> Second, even if the state of the I/O vector were relevant to tracked requests, I think it would actually be the other way around, i.e. the tracked request must be ended before the padding is finalized/destroyed.  The tracked request is about the actual request we submit to `child` (which is why tracked_request_begin() is called after bdrv_pad_request()), and that request is done using the modified I/O vector.  So if the tracked request had any connection to the request’s I/O vector (which it doesn’t), it would be to this modified one, so we mustn’t invalidate it via bdrv_padding_finalize() while the tracked request lives.
+> 
+> Or, said differently: I generally try to clean up things in the inverse way they were set up, and because bdrv_pad_requests() comes before tracked_request_begin(), I think tracked_request_end() should come before bdrv_padding_finalize().
 
-something we could profile for, I do not remember it being really an important source of overhead in my previous profile runs,
-but maybe worthwhile redoing the profiling with Fabiano's patchset.
+Note, that it's wise-versa in bdrv_co_pwritev_part().
+
+For me it's just simpler to think that the whole request, including filling user-given qiov with data on read part is inside tracked_request_begin() / tracked_request_end(). And moving the last manipulation with qiov out of it breaks this simple thought.
+Guest should not care of it, as it doesn't know about request tracking.. But what about internal code? Some code may depend on some requests be finished after bdrv_drained_begin() call, but now they may be not fully finished, and some data may be not copied back to original qiov.
+
+I agree with your point about sequence of objects finalization, but maybe, that just shows that copying data back to qiov should not be a part of bdrv_padding_finalize(), but instead be a separate function, called before tracked_request_end().
 
 > 
-> IMHO reusing multifd may or may not be a good idea here, because it'll of
-> course also complicate multifd code, hence makes multifd harder to
-> maintain, while not in a good way, because as I mentioned I don't think it
-> can use much of what multifd provides.
-
-
-The main advantage we get is the automatic multithreading of the qemu_savevm_state_iterate code in my view.
-
-Reimplementing the same thing again has the potential to cause bitrot for this use case, and using multiple fds for the transfer is exactly what is needed here,
-and in my understanding the same exact reason multifd exists: to take advantage of high bandwidth migration channels.
-
-The only adjustment needed to multifd is the ability to work with block devices (file fds) as the migration channels instead of just sockets,
-so it seems a very natural extension of multifd to me.
-
+>> With that:
+>>
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>
+>>
+>>
+>> PS, I feel here still exists small space for optimization:
 > 
-> I don't have a strong opinion on the impl (even though I do have a
-> preference..), but I think at least we should still check on two things:
+> The question is whether any optimization is really worth it, and I’m not sure it is.  The bug has been in qemu for over two years, and because the only report I’ve seen about it came from our QE department, it seems like a very rare case, so I find it more important for the code to be as simple as possible than to optimize.
 > 
->   - Being crystal clear on the use case above, and double check whether "VM
->     stop" should be the default operation at the start of the new cmd - we
->     shouldn't assume the user will be aware of doing this, neither should
->     we assume the user is aware of the performance implications.
-
-
-Not sure I can identify what you are asking specifically: the use case is to stop executing the currently running VM as soon as possible, save it to disk, then restore another VM as soon as possible.
-Probably I missed something there.
-
+>> move the logic to bdrv_init_padding(), and
+>>
+>> 1. allocate only one buffer
+>> 2. make the new collpase are to be attached to head or tail padding
+>> 3. avoid creating extra iov-slice, maybe with help of some new qemu_iovec_* API that can control number of copied/to-be-copied iovs and/or calculation number of iovs in qiov/qiov_offset/bytes slice
 > 
->   - Making sure the image layout is well defined, so:
+> I’ve actually begun by trying to reuse the padding buffer, and to collapse head/tail into it, but found it to be rather complicated. See also my reply to Stefan here: https://lists.nongnu.org/archive/html/qemu-devel/2023-03/msg04774.html
 > 
->     - It'll be extensible in the future, and,
-> 
->     - If someone would like to refactor it to not use the migration thread
->       model anymore, the image format, hopefully, can be easy to keep
->       untouched so it can be compatible with the current approach.
-> 
-> Just my two cents. I think Juan should have the best grasp on this.
-> 
-> Thanks,
+> Hanna
 > 
 
-Ciao,
+-- 
+Best regards,
+Vladimir
 
-Claudio
 
