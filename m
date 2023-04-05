@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43A46D7D9F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 15:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A516D79C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:34:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk34w-0007Cx-0l; Wed, 05 Apr 2023 09:21:34 -0400
+	id 1pk0RG-0000yg-Po; Wed, 05 Apr 2023 06:32:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1pk0Mx-0000Fw-1M
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:27:59 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1pk0Mu-0004Pa-Hh
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:27:58 -0400
-Received: by mail-pg1-x532.google.com with SMTP id z10so21397160pgr.8
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680690471;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XdQm+7ejU5W3ZiYW2kITWuF4BnboMdtjnWMQZ1zoLuE=;
- b=p7kqE4dXfcsReP2L4GVuvJxuNmIEOb8H460SfvUY+AXKAypXa4g7JOE8USHH66ZHjD
- YYpYkKpNpoNPDY2N6bimKmhuC3ODjH1IUPChwLTtPxyLsTAKgx+o8oqkOzFRCGjfy8OO
- eZhFXBjBLO+dUfOeRB8PGpcFFQ3LITwlXHibo1+MJ0uD9MxOp0RkLUxMGTdjuC6PfFRs
- suOgFSgxJOFs0hyz1PnQswXTBCFjXiqD7HcGdXWzdihoWx41w+/5cBnKqAWCQOGooOEL
- tJLyZDzauEPIz0IBR3cm96MrOrtjAp4B1pQ43aXQIhtBPfXcPZeDeKKEBItLVvJOfyH1
- h75Q==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pk0RD-0000xZ-KW
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:32:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pk0RC-0007Ow-2f
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:32:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680690741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Sn62tRxlY5kSlEVoDBJ2xBI3ipflYG+CvTvPc0iJBEA=;
+ b=F4M6j1NZ+1F5vTq6c/Q263NdAUukkiac8uh4HndrozVarL1a5xeUxL2jdADkKM4SClRPGb
+ B1DHbW3KwkVkOu7EsAaxJ2f2HFuX75CkY94Rfg4UEmGW9zi8qYge/8yddTEt3UuNEBLQP+
+ uEoBJiqTY3J6yjgkIBgFurvl/iMIezU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-12-oKdyjOMFNlea0XciSmvYKg-1; Wed, 05 Apr 2023 06:32:19 -0400
+X-MC-Unique: oKdyjOMFNlea0XciSmvYKg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-946832a17f7so31102366b.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:32:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680690471;
+ d=1e100.net; s=20210112; t=1680690738; x=1683282738;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=XdQm+7ejU5W3ZiYW2kITWuF4BnboMdtjnWMQZ1zoLuE=;
- b=D4z2brM3bTkWyO+hhsPxkgG3ROUtkyI+sn0HN81huGF469XbVZwfDDmsqCNSP6rHa9
- uw41/pxSmRFlBzpUOc62oDs8ahO2wRsK1HYBOto3+wknulIVrz68wTNqIYsKKMTFxz/+
- 9PbQCr9tXzP1QAjVxvZV5KMfKSBMfVVHQJie+5oePl8TL3LqYC9luU0GLfXR9YkqYQMd
- +vBMtcPzahXBPOQ98mvOjn7DPYVwTIho+SJnLqlYk9PeGSLn+vVywK8p7G0CqY99gzGK
- 1/MU99zvj5YliiyMJTLPeiOR8Yh3/fKuNSumnFQWMdxYC7fKqR+LVIDQdAZpog2TtTmd
- WV6w==
-X-Gm-Message-State: AAQBX9ex2bfFcWcmImkmjxLfgPDMioMG/eg7jf2oZjWMOstt52j/2PGF
- PZYUyd5/30/dkKxkTt844ys=
-X-Google-Smtp-Source: AKy350bU3LXZrgVAk4T/GI7cITLXQhOv/+63Ip+JOh3OtKU1Z4vJbPg7TP6bGcP8RUg8E5fjWg73wA==
-X-Received: by 2002:a62:3885:0:b0:626:26f:5e4b with SMTP id
- f127-20020a623885000000b00626026f5e4bmr5052134pfa.1.1680690471514; 
- Wed, 05 Apr 2023 03:27:51 -0700 (PDT)
-Received: from raghuh-elastics.. ([2406:7400:56:45c3:a6be:1cbb:af02:2769])
+ bh=Sn62tRxlY5kSlEVoDBJ2xBI3ipflYG+CvTvPc0iJBEA=;
+ b=C0QeEfBoRJE0rvUNVr5rw3Qo6IgMzYUZVmQWUP3gF22AV+hkBqz6kh6m/G/BxZI6mC
+ UqdCY8LSl330SjnPhD4BgwJzMR/WFA1sSuhKN+1z2p7fRMcya9g+JkJdHbrnTdOlHOI9
+ 5s4v9lsU143E5/5uHzbXvhqKJbaqh7PDqclNVGWORQiehh8YVXnXVvartBi7dtpuBTB0
+ 5qefcWK2Q5x4RJg8nVpQppGQaio1bpx1YbtvMy5Qnh13UJSnoVWXVWvbYrS5DwaAYeIF
+ VWr0hvpm/q56ysJII0I1lIptw6yrfVBZYO9Yk3e3sy4BDdAoe8bq8SVJBFwIle0wb1ug
+ GaFw==
+X-Gm-Message-State: AAQBX9dD3EajUTEvlU48JSEDSvFWM6NKVEc9TnZ1dhhWVy5gYwUvxrIm
+ ecI0oluX/YgxFG3NUPGazTKFhvbmj25L6Sun/Ka6M2yDjT/PpX3UgewctWNhVSd2C6DQyagKk8m
+ QXt+isNWwBWk2y/NY+HM4gnGm6J3D76Mm3f9oWgl7sGlDfc9i7ShOIguZ133RrJ4+pR3cRl8q4c
+ g=
+X-Received: by 2002:aa7:c587:0:b0:4fa:b302:84d4 with SMTP id
+ g7-20020aa7c587000000b004fab30284d4mr1261896edq.13.1680690738176; 
+ Wed, 05 Apr 2023 03:32:18 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YSMupNcSRvdhGateaiuNbJy1VvbhAIuTyB/lGYzJ+ccKMpRRG1EELVLdVExvOCrYE5Au8TBA==
+X-Received: by 2002:aa7:c587:0:b0:4fa:b302:84d4 with SMTP id
+ g7-20020aa7c587000000b004fab30284d4mr1261879edq.13.1680690737854; 
+ Wed, 05 Apr 2023 03:32:17 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- d3-20020aa78683000000b0062e024b5584sm7375186pfo.34.2023.04.05.03.27.49
+ r6-20020a1709064d0600b0093034e71b94sm7220304eju.65.2023.04.05.03.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 03:27:51 -0700 (PDT)
-From: Raghu H <raghuhack78@gmail.com>
-To: 
-Cc: maverickk1778@gmail.com, Raghu H <raghuhack78@gmail.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH] docs:remove cxl3 device size
-Date: Wed,  5 Apr 2023 15:57:38 +0530
-Message-Id: <20230405102738.2062169-1-raghuhack78@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Wed, 05 Apr 2023 03:32:17 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org
+Subject: [PATCH 0/4] block: clean up coroutine versions of bdrv_{is_allocated,
+ block_status}*
+Date: Wed,  5 Apr 2023 12:32:12 +0200
+Message-Id: <20230405103216.128103-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=raghuhack78@gmail.com; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 05 Apr 2023 09:21:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,66 +98,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-cxl device typ3 size is read from the memory backend device, removing the
-size option specified in cxl sample command.
+Provide coroutine versions of bdrv_is_allocated* and bdrv_block_status*,
+since the underlying BlockDriver API is coroutine-based, and use
+automatically-generated wrappers for the "mixed" versions.
 
-Updating sample command to reflect target architecture as x86_64.
+Paolo
 
-Signed-off-by: Raghu H <raghuhack78@gmail.com>
----
- docs/system/devices/cxl.rst | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Paolo Bonzini (4):
+  block: rename the bdrv_co_block_status static function
+  block: complete public block status API
+  block: switch to co_wrapper for bdrv_is_allocated_*
+  block: convert more bdrv_is_allocated* and bdrv_block_status* calls to
+    coroutine versions
 
-diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-index f25783a4ec..b228146cec 100644
---- a/docs/system/devices/cxl.rst
-+++ b/docs/system/devices/cxl.rst
-@@ -302,7 +302,7 @@ Example command lines
- ---------------------
- A very simple setup with just one directly attached CXL Type 3 device::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
-   ...
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
-@@ -315,7 +315,7 @@ A setup suitable for 4 way interleave. Only one fixed window provided, to enable
- interleave across 2 CXL host bridges.  Each host bridge has 2 CXL Root Ports, with
- the CXL Type3 device directly attached (no switches).::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
-   ...
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M \
-@@ -339,7 +339,7 @@ the CXL Type3 device directly attached (no switches).::
- 
- An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
-   ...
-   -object memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M \
-@@ -354,13 +354,13 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
-   -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
-   -device cxl-upstream,bus=root_port0,id=us0 \
-   -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
--  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
-+  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0 \
-   -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
--  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
-+  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1 \
-   -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
--  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
-+  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2 \
-   -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
--  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
-+  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3 \
-   -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
- 
- Kernel Configuration Options
+ block/copy-before-write.c |  2 +-
+ block/copy-on-read.c      |  8 ++--
+ block/io.c                | 87 +++++++++------------------------------
+ block/mirror.c            | 10 ++---
+ block/qcow2.c             |  5 ++-
+ block/replication.c       |  8 ++--
+ block/stream.c            |  8 ++--
+ block/vvfat.c             | 18 ++++----
+ include/block/block-io.h  | 30 +++++++++-----
+ 9 files changed, 69 insertions(+), 107 deletions(-)
+
 -- 
-2.34.1
+2.39.2
 
 
