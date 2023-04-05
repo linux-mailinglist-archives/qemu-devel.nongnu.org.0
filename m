@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332666D7700
+	by mail.lfdr.de (Postfix) with ESMTPS id 358256D7701
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 10:33:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjyZ4-0001fx-Br; Wed, 05 Apr 2023 04:32:22 -0400
+	id 1pjyZq-00020U-5u; Wed, 05 Apr 2023 04:33:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pjyZ1-0001fk-Lc
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:32:19 -0400
-Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pjyYz-0000Bo-Pp
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:32:19 -0400
-Received: by mail-ua1-x92e.google.com with SMTP id ay14so25028160uab.13
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 01:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680683536;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sxChsz6QRVjl1Q0Rpe+G8xtVtKmXDaYXhQ9S0HAfbS4=;
- b=pgLdPn5yekogsGXcZIYEjvx/jkKXqh7q0OnbFCJDYGzvh3NT26IivbxCh3UAcQc7+M
- 5Zc1pYEMm1sQ/X03lR5vrz1nYSnuhsK+htEOZoqthhyKNndq/yKPR59PSAjX4QaZZLsU
- 1554GYsp4PeRVUW06EWM9QyKPmvyh8NmGmcE7rTgAk/mL4+1PqRgAg8zEcjWveX3gczN
- 1ZmtayY3glmgUzFtrNWbbAtw5yvwsN6XK/JNxCDfGSuuljwIkGTQ0YOaj5CmKmooolNf
- Ki84hejf8pvuFiznockq8YuveY5x341Ji9oLKh4+J4zIKDW85ZGkRTNNt/zbMtpc+HL9
- owUw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pjyZn-000204-LS
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:33:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pjyZk-0000KO-Si
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:33:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680683583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G5QU+7fQtNjBlDy4FdUF+XWHHQxkAdzhCdoYY6e5EZE=;
+ b=eic9ThoUxd56rXn05zBE+Zq7HEx0WQCo3tmvD3T/LjTvf7LB2ZM5aMzJRjugQUaJQdYV4P
+ dJ9jOgmk0791yZymQdD91TE1546vCzXQQ6Jn9FgTcHprzWUYYBex+POWCSpB7sAfliUkuJ
+ p9nMFfba+H74jUWcgdnlLZttscz94d4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-63-jp_Dh-FgMoWkNqM9VsJCMA-1; Wed, 05 Apr 2023 04:32:22 -0400
+X-MC-Unique: jp_Dh-FgMoWkNqM9VsJCMA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ m18-20020a50d7d2000000b00501dfd867a4so49657563edj.20
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 01:32:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680683536;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sxChsz6QRVjl1Q0Rpe+G8xtVtKmXDaYXhQ9S0HAfbS4=;
- b=NalWDMBLnnbjsgRXph4lv7die0P+N/A3SvYVQOwlSMrolnpccUAGWSn5MkpgcbdZ12
- zwRax2nSoUUWeUSi2bXkbe2sqYaV70azRcRTeocorDD7I/KOb7lOdMcejjXHIc0vk/lP
- XVE12S+0sDEMTRvb34h8DYKfhVQ95eFQ22ePqN3Yekqej/RPB9YmG1QvgHIbJI310Cuj
- X/mVgyloP13XFrjrBqqBZ15S+Le8bGmOIGdjO3xmnvUbqxGGXi5hy3C4rrkwRd+oNkiU
- H9dv9mXq7vdytvYd/2iM+L2GR9LJEIDHpqRqo7x+0saCJp6gsIVRnys8MJLAi4XfxGgi
- LLiA==
-X-Gm-Message-State: AAQBX9ce3t3ebR/q2HYQ7aln6+ZtrCkgnLsQjb5Ht3tXXMqXT/lbTt+f
- I59qBBkrPDHmxLntWQcJVFj8MevmcM6Za8n9vgk=
-X-Google-Smtp-Source: AKy350bSrhbMKHDktrFY2JMMx5Je6NQdHXJ1pPQRI1mqBCsPYeesg54Q2zjXYy+sH02zi9u0exqMu1hQMtc/VqNaZ98=
-X-Received: by 2002:a1f:ad0b:0:b0:43c:6481:2b50 with SMTP id
- w11-20020a1fad0b000000b0043c64812b50mr4165664vke.0.1680683536593; Wed, 05 Apr
- 2023 01:32:16 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680683541;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G5QU+7fQtNjBlDy4FdUF+XWHHQxkAdzhCdoYY6e5EZE=;
+ b=sx8zQ/pTBKNOhUIIHdNxRqc7X0HiyHfyZxS+uP9EwK1LvxEgIc+cSKHSBQty4OrmEA
+ 2pVgr3r051VIlAY4ArmivFFE0F25C2jpFPA8r+9rAoomowoYR0mLQqCL2xIEkP7bSoPM
+ 6z1FmNt1SIrEZieEgEp1FgmwozweEdqMRGJ9OiVR6nuz/GswfXHAwOcmgUUQ8kJgh51Z
+ SojbYPNuGR/9Dm0i+WiLxiWeRR9AI3rx98eN/Z1LdtSz6qDZebZVQ4QqBcDXOeEb+Tza
+ d9bnP7u/a4faYY1F1WYmB22to88Oea3x0xs527wW02J3ocmqIKE9Of0RxRdTpoUIGWjA
+ YGRQ==
+X-Gm-Message-State: AAQBX9fkMRIFqerot0AEItjJ6OpRGwICp8Qb3+2czo9ksMUXxq8MjobR
+ 4hvqpdPiqVEG42Z0zYu3OKi3HE8Icgyv8TIDZ3LGqr3R5urByvSGvQSLtD5SrwMOyw+bJJ73BqR
+ TUjl3m+njr9RvCRU=
+X-Received: by 2002:a17:906:5298:b0:8e6:266c:d195 with SMTP id
+ c24-20020a170906529800b008e6266cd195mr2105877ejm.38.1680683541422; 
+ Wed, 05 Apr 2023 01:32:21 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aQ4CTBL9JUTrGccoVeJDNEGSJLU8pYECHBu5oD3pFhvQo3Mg78vJBRsR7uOcZY70ye2AWApg==
+X-Received: by 2002:a17:906:5298:b0:8e6:266c:d195 with SMTP id
+ c24-20020a170906529800b008e6266cd195mr2105864ejm.38.1680683541057; 
+ Wed, 05 Apr 2023 01:32:21 -0700 (PDT)
+Received: from redhat.com ([2.52.139.22]) by smtp.gmail.com with ESMTPSA id
+ q16-20020a50aa90000000b004af6c5f1805sm6967191edc.52.2023.04.05.01.32.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Apr 2023 01:32:20 -0700 (PDT)
+Date: Wed, 5 Apr 2023 04:32:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, anisinha@redhat.com, jusual@redhat.com,
+ kraxel@redhat.com, pbonzini@redhat.com
+Subject: Re: [PATCH] acpi: pcihp: make pending delete expire in 5sec
+Message-ID: <20230405043026-mutt-send-email-mst@kernel.org>
+References: <20230403161618.1344414-1-imammedo@redhat.com>
+ <20230403131833-mutt-send-email-mst@kernel.org>
+ <20230404102807.4626b0be@imammedo.users.ipa.redhat.com>
+ <20230404084603-mutt-send-email-mst@kernel.org>
+ <20230404160435.45c2513d@imammedo.users.ipa.redhat.com>
+ <20230404104122-mutt-send-email-mst@kernel.org>
+ <20230405093020.3cbcd6e7@imammedo.users.ipa.redhat.com>
 MIME-Version: 1.0
-References: <20230329084513.7835-1-jth@kernel.org>
- <20230329084513.7835-4-jth@kernel.org>
-In-Reply-To: <20230329084513.7835-4-jth@kernel.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 5 Apr 2023 18:32:00 +1000
-Message-ID: <CAKmqyKOKZBZfa_7UhLz4=J=OPpmQideEmxD65i_-7guQPhtekA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] serial-mcb: Add serial via MEN chameleon bus
-To: Johannes Thumshirn <jth@kernel.org>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
- Javier Rodriguez <josejavier.rodriguez@duagon.com>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x92e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230405093020.3cbcd6e7@imammedo.users.ipa.redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,180 +101,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 29, 2023 at 11:09=E2=80=AFPM Johannes Thumshirn <jth@kernel.org=
-> wrote:
->
-> Add MEN z125 UART over MEN Chameleon Bus emulation.
->
-> Signed-off-by: Johannes Thumshirn <jth@kernel.org>
+On Wed, Apr 05, 2023 at 09:30:20AM +0200, Igor Mammedov wrote:
+> On Tue, 4 Apr 2023 10:42:04 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > On Tue, Apr 04, 2023 at 04:04:35PM +0200, Igor Mammedov wrote:
+> > > On Tue, 4 Apr 2023 08:46:15 -0400
+> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > >   
+> > > > On Tue, Apr 04, 2023 at 10:28:07AM +0200, Igor Mammedov wrote:  
+> > > > > On Mon, 3 Apr 2023 13:23:45 -0400
+> > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > > >     
+> > > > > > On Mon, Apr 03, 2023 at 06:16:18PM +0200, Igor Mammedov wrote:    
+> > > > > > > with Q35 using ACPI PCI hotplug by default, user's request to unplug
+> > > > > > > device is ignored when it's issued before guest OS has been booted.
+> > > > > > > And any additional attempt to request device hot-unplug afterwards
+> > > > > > > results in following error:
+> > > > > > > 
+> > > > > > >   "Device XYZ is already in the process of unplug"
+> > > > > > > 
+> > > > > > > arguably it can be considered as a regression introduced by [2],
+> > > > > > > before which it was possible to issue unplug request multiple
+> > > > > > > times.
+> > > > > > > 
+> > > > > > > Allowing pending delete expire brings ACPI PCI hotplug on par
+> > > > > > > with native PCIe unplug behavior [1] which in its turn refers
+> > > > > > > back to ACPI PCI hotplug ability to repeat unplug requests.
+> > > > > > > 
+> > > > > > > PS:      
+> > > > > > > >From ACPI point of view, unplug request sets PCI hotplug status      
+> > > > > > > bit in GPE0 block. However depending on OSPM, status bits may
+> > > > > > > be retained (Windows) or cleared (Linux) during guest's ACPI
+> > > > > > > subsystem initialization, and as result Linux guest looses
+> > > > > > > plug/unplug event (no SCI generated) if plug/unplug has
+> > > > > > > happend before guest OS initialized GPE registers handling.
+> > > > > > > I couldn't find any restrictions wrt OPM clearing GPE status
+> > > > > > > bits ACPI spec.
+> > > > > > > Hence a fallback approach is to let user repeat unplug request
+> > > > > > > later at the time when guest OS has booted.
+> > > > > > > 
+> > > > > > > 1) 18416c62e3 ("pcie: expire pending delete")
+> > > > > > > 2)
+> > > > > > > Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
+> > > > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>      
+> > > > > > 
+> > > > > > A bit concerned about how this interacts with failover,
+> > > > > > and 5sec is a lot of time that I hoped we'd avoid with acpi.
+> > > > > > Any better ideas of catching such misbehaving guests?    
+> > > > > 
+> > > > > It shouldn't affect affect failover, pending_delete is not
+> > > > > cleared after all (only device removal should do that).
+> > > > > So all patch does is allowing to reissue unplug request
+> > > > > in case it was lost, delay here doesn't mean much
+> > > > > (do you have any preference wrt specific value)?    
+> > > > 
+> > > > I'd prefer immediately.  
+> > > 
+> > > ok, lets use 1ms then, I'd rather reuse the preexisting
+> > > pending_deleted_expires_ms machinery instead of
+> > > special-casing immediate repeat.  
+> > 
+> > And just to make sure, are you working on fixing this in Linux
+> > at least? Because the work around is ok but it still causes
+> > latency.
+> 
+> 
+> Fixing what, clearing GPE status bits during ACPI subsystem
+> initialization?
+> 
+> Well at this point I'm not seeing a good justification for
+> removing GPE clearing (spec does not mandate that).
+> (but there is no harm in trying to send a patch, though
+> even if idea is accepted it won't do a dime for all current
+> and older distributions history show it was the thing even
+> since 2.6 kernels).
+> 
+> As for workaround, well it's not a workaround, but expected
+> behavior. 
+> ACPI hotplug expects functioning OSPM on guest side to work
+> properly. It's user's mistake to ask for unplug before that 
+> and user shall repeat request once guest is booted. What is
+> broken on QEMU side is that 'repeat' thingy (as it's noted
+> in commit message).
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+I don't see how you can claim it's user's mistake.  All users want is
+device to be removed. How is our problem.  Guest can reboot at any time
+and there's no indication to user that guest booted, blaming
+users won't help if we do not have a fix for them.
 
-Alistair
 
-> ---
->  hw/char/Kconfig      |   6 +++
->  hw/char/meson.build  |   1 +
->  hw/char/serial-mcb.c | 115 +++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 122 insertions(+)
->  create mode 100644 hw/char/serial-mcb.c
->
-> diff --git a/hw/char/Kconfig b/hw/char/Kconfig
-> index 6b6cf2fc1d..9e8ebf1d3d 100644
-> --- a/hw/char/Kconfig
-> +++ b/hw/char/Kconfig
-> @@ -71,3 +71,9 @@ config GOLDFISH_TTY
->
->  config SHAKTI_UART
->      bool
-> +
-> +config SERIAL_MCB
-> +    bool
-> +    default y if MCB
-> +    depends on MCB
-> +    select SERIAL
-> diff --git a/hw/char/meson.build b/hw/char/meson.build
-> index e02c60dd54..d5893a142d 100644
-> --- a/hw/char/meson.build
-> +++ b/hw/char/meson.build
-> @@ -20,6 +20,7 @@ softmmu_ss.add(when: 'CONFIG_SHAKTI_UART', if_true: fil=
-es('shakti_uart.c'))
->  softmmu_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-cons=
-ole.c'))
->  softmmu_ss.add(when: 'CONFIG_XEN_BUS', if_true: files('xen_console.c'))
->  softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_uartlite.c'=
-))
-> +softmmu_ss.add(when: 'CONFIG_SERIAL_MCB', if_true: files('serial-mcb.c')=
-)
->
->  softmmu_ss.add(when: 'CONFIG_AVR_USART', if_true: files('avr_usart.c'))
->  softmmu_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_uart.c'))
-> diff --git a/hw/char/serial-mcb.c b/hw/char/serial-mcb.c
-> new file mode 100644
-> index 0000000000..7ca8a248ac
-> --- /dev/null
-> +++ b/hw/char/serial-mcb.c
-> @@ -0,0 +1,115 @@
-> +/*
-> + * QEMU MEN 16z125 UART over MCB emulation
-> + *
-> + * Copyright (C) 2023 Johannes Thumshirn <jth@kernel.org>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2.  See
-> + * the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu/module.h"
-> +#include "hw/char/serial.h"
-> +#include "hw/mcb/mcb.h"
-> +#include "hw/irq.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/qdev-properties-system.h"
-> +#include "migration/vmstate.h"
-> +
-> +struct MCBSerialState {
-> +    MCBDevice dev;
-> +    SerialState state;
-> +};
-> +
-> +#define TYPE_MCB_SERIAL "mcb-serial"
-> +OBJECT_DECLARE_SIMPLE_TYPE(MCBSerialState, MCB_SERIAL)
-> +
-> +static void serial_mcb_realize(DeviceState *dev, Error **errp)
-> +{
-> +    MCBDevice *mdev =3D MCB_DEVICE(dev);
-> +    MCBSerialState *mss =3D DO_UPCAST(MCBSerialState, dev, mdev);
-> +    MCBus *bus =3D MCB_BUS(qdev_get_parent_bus(DEVICE(dev)));
-> +    SerialState *s =3D &mss->state;
-> +
-> +    mdev->gdd =3D mcb_new_chameleon_descriptor(bus, 125, mdev->rev,
-> +                                             mdev->var, 0x10);
-> +    if (!mdev->gdd) {
-> +        return;
-> +    }
-> +
-> +    s->baudbase =3D 115200;
-> +    if (!qdev_realize(DEVICE(s), NULL, errp)) {
-> +        return;
-> +    }
-> +
-> +    s->irq =3D mcb_allocate_irq(&mss->dev);
-> +    memory_region_init_io(&s->io, OBJECT(mss), &serial_io_ops, s, "seria=
-l", 8);
-> +    memory_region_add_subregion(&bus->mmio_region, mdev->gdd->offset, &s=
-->io);
-> +}
-> +
-> +static void serial_mcb_unrealize(DeviceState *dev)
-> +{
-> +    MCBDevice *mdev =3D MCB_DEVICE(dev);
-> +    MCBSerialState *mss =3D DO_UPCAST(MCBSerialState, dev, mdev);
-> +    SerialState *s =3D &mss->state;
-> +
-> +    qdev_unrealize(DEVICE(s));
-> +    qemu_free_irq(s->irq);
-> +    g_free(&mdev->gdd);
-> +}
-> +
-> +static const VMStateDescription vmstate_mcb_serial =3D {
-> +    .name =3D "mcb-serial",
-> +    .version_id =3D 1,
-> +    .minimum_version_id =3D 1,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_MCB_DEVICE(dev, MCBSerialState),
-> +        VMSTATE_STRUCT(state, MCBSerialState, 0, vmstate_serial, SerialS=
-tate),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static Property serial_mcb_properties[] =3D {
-> +    DEFINE_PROP_UINT8("rev", MCBSerialState, dev.rev, 0),
-> +    DEFINE_PROP_UINT8("var", MCBSerialState, dev.var, 0),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void serial_mcb_class_initfn(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +    MCBDeviceClass *mc =3D MCB_DEVICE_CLASS(klass);
-> +
-> +    mc->realize =3D serial_mcb_realize;
-> +    mc->unrealize =3D serial_mcb_unrealize;
-> +
-> +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-> +    dc->desc =3D "MEN 16z125 UART over MCB";
-> +    dc->vmsd =3D &vmstate_mcb_serial;
-> +    device_class_set_props(dc, serial_mcb_properties);
-> +}
-> +
-> +static void serial_mcb_init(Object *o)
-> +{
-> +    MCBSerialState *mss =3D MCB_SERIAL(o);
-> +
-> +    object_initialize_child(o, "serial", &mss->state, TYPE_SERIAL);
-> +
-> +    qdev_alias_all_properties(DEVICE(&mss->state), o);
-> +}
-> +
-> +static const TypeInfo serial_mcb_info =3D {
-> +    .name =3D "mcb-serial",
-> +    .parent =3D TYPE_MCB_DEVICE,
-> +    .instance_size =3D sizeof(MCBSerialState),
-> +    .instance_init =3D serial_mcb_init,
-> +    .class_init =3D serial_mcb_class_initfn,
-> +};
-> +
-> +static void serial_mcb_register_types(void)
-> +{
-> +    type_register_static(&serial_mcb_info);
-> +}
-> +
-> +type_init(serial_mcb_register_types);
-> --
-> 2.39.2
->
->
+> PS:
+> See commit message, Windows is not affected as it doesn't
+> clear GPE status bits during ACPI initialization
+> (at least the one version I've tested with, and I won't bet
+> on this with other versions or staying this way)
+
+So I am saying linux should match windows. Clearing GPE
+is a bad idea as you then miss events.
+
+> > 
+> > > >   
+> > > > > As for 'misbehaving' - I tried to find justification
+> > > > > for it in spec, but I couldn't.
+> > > > > Essentially it's upto OSPM to clear or not GPE status
+> > > > > bits at startup (linux was doing it since forever),
+> > > > > depending on guest's ability to handle hotplug events
+> > > > > at boot time.
+> > > > > 
+> > > > > It's more a user error, ACPI hotplug does imply booted
+> > > > > guest for it to function properly. So it's fine to
+> > > > > loose unplug event at boot time. What QEMU does wrong is
+> > > > > preventing follow up unplug requests.  
+> > > > >     
+> > > > > > 
+> > > > > > Also at this point I do not know why we deny hotplug
+> > > > > > pending_deleted_event in qdev core.  
+> > > > > > Commit log says:
+> > > > > > 
+> > > > > >     Device unplug can be done asynchronously. Thus, sending the second
+> > > > > >     device_del before the previous unplug is complete may lead to
+> > > > > >     unexpected results. On PCIe devices, this cancels the hot-unplug
+> > > > > >     process.
+> > > > > > 
+> > > > > > so it's a work around for an issue in pcie hotplug (and maybe shpc
+> > > > > > too?). Maybe we should have put that check in pcie/shpc and
+> > > > > > leave acpi along?
+> > > > > > 
+> > > > > > 
+> > > > > > 
+> > > > > >     
+> > > > > > > ---
+> > > > > > > CC: mst@redhat.com
+> > > > > > > CC: anisinha@redhat.com
+> > > > > > > CC: jusual@redhat.com
+> > > > > > > CC: kraxel@redhat.com
+> > > > > > > ---
+> > > > > > >  hw/acpi/pcihp.c | 2 ++
+> > > > > > >  1 file changed, 2 insertions(+)
+> > > > > > > 
+> > > > > > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > > > > > > index dcfb779a7a..cd4f9fee0a 100644
+> > > > > > > --- a/hw/acpi/pcihp.c
+> > > > > > > +++ b/hw/acpi/pcihp.c
+> > > > > > > @@ -357,6 +357,8 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+> > > > > > >       * acpi_pcihp_eject_slot() when the operation is completed.
+> > > > > > >       */
+> > > > > > >      pdev->qdev.pending_deleted_event = true;
+> > > > > > > +    pdev->qdev.pending_deleted_expires_ms =
+> > > > > > > +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 5000; /* 5 secs */
+> > > > > > >      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
+> > > > > > >      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
+> > > > > > >  }
+> > > > > > > -- 
+> > > > > > > 2.39.1      
+> > > > > >     
+> > > >   
+> > 
+
 
