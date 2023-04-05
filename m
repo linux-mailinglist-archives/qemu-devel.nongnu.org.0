@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249E06D7D19
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 14:58:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61926D7D1F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 14:59:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk2iN-0007gg-Ae; Wed, 05 Apr 2023 08:58:15 -0400
+	id 1pk2iX-0007jH-70; Wed, 05 Apr 2023 08:58:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_acaggian@quicinc.com>)
- id 1pk2iK-0007g3-Uw
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:58:12 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ id 1pk2iU-0007iR-IN
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:58:22 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_acaggian@quicinc.com>)
- id 1pk2iI-0001uM-Gc
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:58:11 -0400
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ id 1pk2iR-00021Q-VA
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:58:22 -0400
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3359cjjb002563
- for <qemu-devel@nongnu.org>; Wed, 5 Apr 2023 12:58:08 GMT
+ 335BU7Ac008566; Wed, 5 Apr 2023 12:58:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=ekTB4UYemVx9nxG4GoPyMcoLj/8NAhKRJ6xHJ2q4emM=;
- b=enZEiXbRDUsitI6qlE+HuHZzlEjkbP10c2tODpwqIMIvbJYf2r00IlDYRDr74GeIYsbM
- QBVTKXxMoRRcsVAGSGAhB4pa222HZNS0D4G+/sHVh12wyN6e7iPbDSr/aBm5SLBZpawJ
- KYR92wlsAJwtlsY8Tyy8vyIq5IrCv6S33FZfTsX2kP2Ic/MjUNw5wuZVrOQEMzHRvk6U
- emuRMcyjcA7kDsx3n4LofYgGWc6FgcQ0uAMvJZ0St7slsUq9hJl/+8/CV2Cp1DrxP59g
- 7uGqdQo0NBZPHu5zvPFMbqCwVmHaQBT9xUdDhfc9Xh2GdpaCOCNSQyIP8epV+c8ildFZ DA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=Qyaxf0DIACoe+I5SRtSSKC0xJqmF0t/CsmsiQzW0+N0=;
+ b=bU+61YjGUhH/d50CeYn8Q+ikPaG2jqFqbnzfTbEm6Qv+qDhBpocC2FiTmW1t/iy+WlGD
+ H1f5RHU72N6wSNN83LLGxs7RHMllW8Ez7OzZVZWG65rMd+rJhbhNByK9j4RpY0ZNb2F8
+ sQt/s0reurNoF39R4ai7+AQQS7sq5fYD435AR75Edc6sDuHqaKF8SE+HYSDPS/Zzub0E
+ CO4G7WN1Xu25oknyTo41Btv+Eznu8nHnCIOnpqY4Y8uiWf2AMx1gUdKozA4QQoS83jTV
+ JRPd+nR4P6EZCWWaBWY8Fsy7ihaLqwTsd61GeK1DwOjCFcrPGhYW1slQlwgFA5ukT3U1 SA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prnvg2rgm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 12:58:07 +0000
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prppujj9y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Apr 2023 12:58:16 +0000
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
  [10.47.97.35])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335Cw699009419
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 5 Apr 2023 12:58:06 GMT
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335CwFHK030322
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 5 Apr 2023 12:58:16 GMT
 Received: from ACAGGIAN-mac.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 5 Apr 2023 05:58:05 -0700
+ 15.2.986.42; Wed, 5 Apr 2023 05:58:14 -0700
 From: Antonio Caggiano <quic_acaggian@quicinc.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH RFC 0/1] MemoryListener address_space_map callback
-Date: Wed, 5 Apr 2023 14:57:55 +0200
-Message-ID: <20230405125756.63290-1-quic_acaggian@quicinc.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, David
+ Hildenbrand <david@redhat.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>
+Subject: [PATCH RFC 1/1] memory: Address space map listener
+Date: Wed, 5 Apr 2023 14:57:56 +0200
+Message-ID: <20230405125756.63290-2-quic_acaggian@quicinc.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230405125756.63290-1-quic_acaggian@quicinc.com>
+References: <20230405125756.63290-1-quic_acaggian@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -61,24 +65,25 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: G0IuzyC6aTN9koyc-NXvXu5uohqMno-v
-X-Proofpoint-ORIG-GUID: G0IuzyC6aTN9koyc-NXvXu5uohqMno-v
+X-Proofpoint-GUID: 2zOtmjHcVB9ygDyfUsAxFKx5XVYcMgol
+X-Proofpoint-ORIG-GUID: 2zOtmjHcVB9ygDyfUsAxFKx5XVYcMgol
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_07,2023-04-05_01,2023-02-09_01
+ definitions=2023-04-05_08,2023-04-05_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
- bulkscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=758
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304050115
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=quic_acaggian@quicinc.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ impostorscore=0
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 phishscore=0 bulkscore=0 priorityscore=1501
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304050117
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=quic_acaggian@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,46 +100,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi! This is the RFC about the memory issue I mentioned in our last KVM call.
-
-In our use case, QEMU is used as a library, where RAM and Alias MemoryRegions
-are created by listening to read/write events through MemoryRegionOps callbacks.
-In this case, no read/write happened yet, so we did not have a chance to create
-those memory regions yet.
-
-The callstack looks like this:
-- virtio_blk_get_request
-  - virtqueue_pop -> virtqueue_split_pop -> virtqueue_map_desc
-    - dma_memory_map -> address_space_map
-
-The address_space_map function calls flatview_translate to get the memory region
-for a certain address. If the memory region is not directly accessible, the
-bounce buffer is used which only allows one mapping at a time, forcing to unmap
-before mapping again.
-
-The virtqueue_map_desc function calls iteratively address_space_map for a region
-of 4KB but address_space_map is only mapping 1KB using the bounce buffer.
-Then virtqueue_map_desc calls address_space_map again for mapping the missing
-3KB, but address_space_map returns NULL as the bounce is in use now.
-
-With this patch a MemoryListener callback is introduced for listening to address
-space map events, before calling flatview_translate, so that listeners might
-have a chance to create any needed alias or RAM memory region for that address
-space. Effectively making flatview_translate return a directly accessible memory
-region, and avoiding address_space_map to use the bounce buffer.
+Introduce a MemoryListener callback for address space map events.
 
 This will require a change to the memory listener callbacks: while it
 currently uses "self" as first argument for the callbacks, this new
 approach is going to use an "opaque" member, effectively following the
 model used for MemoryRegion and MemoryRegionOps.
 
-Antonio Caggiano (1):
-  memory: Address space map listener
-
+Signed-off-by: Antonio Caggiano <quic_acaggian@quicinc.com>
+---
  include/exec/memory.h | 19 +++++++++++++++++++
  softmmu/physmem.c     | 34 ++++++++++++++++++++++++++++++++++
  2 files changed, 53 insertions(+)
 
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 7ec6df3289..f959d53a12 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1045,6 +1045,18 @@ struct MemoryListener {
+      */
+     void (*coalesced_io_del)(MemoryListener *listener, MemoryRegionSection *section,
+                                hwaddr addr, hwaddr len);
++
++    /**
++     * @map:
++     *
++     * Called during an address space map.
++     *
++     * @opaque: User data opaque object
++     * @addr: address within that address space
++     * @len: length of buffer
++     */
++    void (*map)(void *opaque, hwaddr addr, hwaddr len);
++
+     /**
+      * @priority:
+      *
+@@ -1054,6 +1066,13 @@ struct MemoryListener {
+      */
+     unsigned priority;
+ 
++    /**
++     * @opaque:
++     *
++     * Opaque pointer to user data
++     */
++    void *opaque;
++
+     /**
+      * @name:
+      *
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 9486a1ebdf..0f8bad6b40 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -3246,6 +3246,38 @@ flatview_extend_translation(FlatView *fv, hwaddr addr,
+     }
+ }
+ 
++enum ListenerDirection { Forward, Reverse };
++
++/*
++ * This will require a change to the memory listener callbacks:
++ * while it currently uses "self" as first argument for the callbacks, this new
++ * approach is going to use an "opaque" member, effectively following the model
++ * used for MemoryRegion and MemoryRegionOps.
++ */
++#define MEMORY_LISTENER_CALL(_as, _callback, _direction, _args...) \
++    do {                                                                \
++        MemoryListener *_listener;                                      \
++                                                                        \
++        switch (_direction) {                                           \
++        case Forward:                                                   \
++            QTAILQ_FOREACH(_listener, &(_as)->listeners, link_as) {     \
++                if (_listener->_callback) {                             \
++                    _listener->_callback(_listener->opaque, ##_args);   \
++                }                                                       \
++            }                                                           \
++            break;                                                      \
++        case Reverse:                                                   \
++            QTAILQ_FOREACH_REVERSE(_listener, &(_as)->listeners, link_as) { \
++                if (_listener->_callback) {                             \
++                    _listener->_callback(_listener->opaque, ##_args);   \
++                }                                                       \
++            }                                                           \
++            break;                                                      \
++        default:                                                        \
++            abort();                                                    \
++        }                                                               \
++    } while (0)
++
+ /* Map a physical memory region into a host virtual address.
+  * May map a subset of the requested range, given by and returned in *plen.
+  * May return NULL if resources needed to perform the mapping are exhausted.
+@@ -3268,6 +3300,8 @@ void *address_space_map(AddressSpace *as,
+         return NULL;
+     }
+ 
++    MEMORY_LISTENER_CALL(as, map, Reverse, addr, len);
++
+     l = len;
+     RCU_READ_LOCK_GUARD();
+     fv = address_space_to_flatview(as);
 -- 
 2.40.0
 
