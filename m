@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E216D7D02
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 14:55:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249E06D7D19
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 14:58:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk2fK-0006lQ-A0; Wed, 05 Apr 2023 08:55:06 -0400
+	id 1pk2iN-0007gg-Ae; Wed, 05 Apr 2023 08:58:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pk2fG-0006kW-H3
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:55:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quic_acaggian@quicinc.com>)
+ id 1pk2iK-0007g3-Uw
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:58:12 -0400
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pk2f9-000720-N9
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:55:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680699294;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S6wXYwIonHGPBUjY9tHOqoqVWrP4r3JjRktFwvMiIj0=;
- b=h1CK7Bu8qPsCZWm8syHZiXZnxK59JqZIIPrJtT6x0gAo4Zokhn83DlSJpZKH4wMFf09XwF
- HgUAutSpXqH6mw/vpJwubdx+dIK5NGk7V2vsDw2DUqWhlJCIXknvEP/MWEHCLu0P4NWPRf
- +7l6Ew08fklbymMKwwtlg5aE0hGWXCo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-225-94jEvfmcO8GiiBVeGwZ8wg-1; Wed, 05 Apr 2023 08:54:53 -0400
-X-MC-Unique: 94jEvfmcO8GiiBVeGwZ8wg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A05CF8996E4;
- Wed,  5 Apr 2023 12:54:52 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 49DA2140EBF4;
- Wed,  5 Apr 2023 12:54:52 +0000 (UTC)
-Date: Wed, 5 Apr 2023 07:54:50 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Re: [PATCH] nbd: a BlockExport always has a BlockBackend
-Message-ID: <kw3mfjwhrp67nyofmigyryc7uj5tpfpaxbc3zzpqkksm46rt6k@vtchtohggi73>
-References: <20230405101634.10537-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <quic_acaggian@quicinc.com>)
+ id 1pk2iI-0001uM-Gc
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:58:11 -0400
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3359cjjb002563
+ for <qemu-devel@nongnu.org>; Wed, 5 Apr 2023 12:58:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=ekTB4UYemVx9nxG4GoPyMcoLj/8NAhKRJ6xHJ2q4emM=;
+ b=enZEiXbRDUsitI6qlE+HuHZzlEjkbP10c2tODpwqIMIvbJYf2r00IlDYRDr74GeIYsbM
+ QBVTKXxMoRRcsVAGSGAhB4pa222HZNS0D4G+/sHVh12wyN6e7iPbDSr/aBm5SLBZpawJ
+ KYR92wlsAJwtlsY8Tyy8vyIq5IrCv6S33FZfTsX2kP2Ic/MjUNw5wuZVrOQEMzHRvk6U
+ emuRMcyjcA7kDsx3n4LofYgGWc6FgcQ0uAMvJZ0St7slsUq9hJl/+8/CV2Cp1DrxP59g
+ 7uGqdQo0NBZPHu5zvPFMbqCwVmHaQBT9xUdDhfc9Xh2GdpaCOCNSQyIP8epV+c8ildFZ DA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prnvg2rgm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 12:58:07 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335Cw699009419
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 5 Apr 2023 12:58:06 GMT
+Received: from ACAGGIAN-mac.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 5 Apr 2023 05:58:05 -0700
+From: Antonio Caggiano <quic_acaggian@quicinc.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH RFC 0/1] MemoryListener address_space_map callback
+Date: Wed, 5 Apr 2023 14:57:55 +0200
+Message-ID: <20230405125756.63290-1-quic_acaggian@quicinc.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230405101634.10537-1-pbonzini@redhat.com>
-User-Agent: NeoMutt/20230322
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: G0IuzyC6aTN9koyc-NXvXu5uohqMno-v
+X-Proofpoint-ORIG-GUID: G0IuzyC6aTN9koyc-NXvXu5uohqMno-v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_07,2023-04-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=758
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304050115
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=quic_acaggian@quicinc.com; helo=mx0b-0031df01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,29 +95,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 05, 2023 at 12:16:34PM +0200, Paolo Bonzini wrote:
-> exp->common.blk cannot be NULL, nbd_export_delete() is only called from
-> blk_exp_unref() and in turn that can only happen after blk_exp_add()
-> has asserted exp->blk != NULL.
+Hi! This is the RFC about the memory issue I mentioned in our last KVM call.
 
-Commit message is a bit imprecise (maybe due to refactoring in the
-meantime?): drv->delete is only called from blk_exp_delete_bh(), but
-that in turn is indeed only called from blk_exp_unref(), so the logic
-is sound.
+In our use case, QEMU is used as a library, where RAM and Alias MemoryRegions
+are created by listening to read/write events through MemoryRegionOps callbacks.
+In this case, no read/write happened yet, so we did not have a chance to create
+those memory regions yet.
 
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  nbd/server.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
+The callstack looks like this:
+- virtio_blk_get_request
+  - virtqueue_pop -> virtqueue_split_pop -> virtqueue_map_desc
+    - dma_memory_map -> address_space_map
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+The address_space_map function calls flatview_translate to get the memory region
+for a certain address. If the memory region is not directly accessible, the
+bounce buffer is used which only allows one mapping at a time, forcing to unmap
+before mapping again.
 
-As this is only removal of a useless conditional, it can wait for 8.1.
+The virtqueue_map_desc function calls iteratively address_space_map for a region
+of 4KB but address_space_map is only mapping 1KB using the bounce buffer.
+Then virtqueue_map_desc calls address_space_map again for mapping the missing
+3KB, but address_space_map returns NULL as the bounce is in use now.
+
+With this patch a MemoryListener callback is introduced for listening to address
+space map events, before calling flatview_translate, so that listeners might
+have a chance to create any needed alias or RAM memory region for that address
+space. Effectively making flatview_translate return a directly accessible memory
+region, and avoiding address_space_map to use the bounce buffer.
+
+This will require a change to the memory listener callbacks: while it
+currently uses "self" as first argument for the callbacks, this new
+approach is going to use an "opaque" member, effectively following the
+model used for MemoryRegion and MemoryRegionOps.
+
+Antonio Caggiano (1):
+  memory: Address space map listener
+
+ include/exec/memory.h | 19 +++++++++++++++++++
+ softmmu/physmem.c     | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.40.0
 
 
