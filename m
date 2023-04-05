@@ -2,94 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E84C6D75E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 09:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C993A6D762A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 10:03:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjxvU-0000uS-KP; Wed, 05 Apr 2023 03:51:28 -0400
+	id 1pjy5f-0003j5-Mj; Wed, 05 Apr 2023 04:01:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pjxvH-0000sS-ED
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 03:51:15 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pjy5b-0003hZ-Pk
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:01:55 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pjxvE-0008Jw-PR
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 03:51:15 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pjy5X-000585-QL
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:01:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680681071;
+ s=mimecast20190719; t=1680681709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DBEIT7dwEZdmHTEQLW/eajYnQk6si81aebMLhSmcG6o=;
- b=W1RP3XBo1zCt1rUqpncFU0L5xBLuOIEei6FuRp0DlkAeQlqaOQtvOw2latFmULCF1ZakZq
- d4izzNQJnmlZOOdPHmD4hSY1Z/msZIxLtDljz3fuzIPbXKIBZ5kKnAyNjLHFbCSrfEHpAS
- +8ZQRuriiFcW30Nz3TtOtMlxGfnFX5U=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fSK/pBBaakWjepZ3BWn/D3how8j8GL2/EmR11UgPN+4=;
+ b=bif+JscdQ2sc+6M4gSWQ5BVS8gQ4Mwrd4HxYF7yflKSRW05maw3iO6GVB3qb+wIyZ10AjV
+ YgTwxjTzikeyTTJO/fQm7TiIWGIla4IzVeBn2/Jx1paHQxK8t44UKBcXK9P+s6qH/bw8H6
+ WcDfiqB61xZ1/gocvt9kY81rvcYJC7E=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-590--nqQ9JyLP22WgS4reMBa0g-1; Wed, 05 Apr 2023 03:51:10 -0400
-X-MC-Unique: -nqQ9JyLP22WgS4reMBa0g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-501d484e26aso833071a12.0
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 00:51:09 -0700 (PDT)
+ us-mta-460-hdnhDTNaOM-L-pSi-O1Yig-1; Wed, 05 Apr 2023 04:01:48 -0400
+X-MC-Unique: hdnhDTNaOM-L-pSi-O1Yig-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ 198-20020a370bcf000000b007468cffa4e2so15866297qkl.10
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 01:01:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680681069;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DBEIT7dwEZdmHTEQLW/eajYnQk6si81aebMLhSmcG6o=;
- b=HBS78t/KH78vBVfvEryVQt2Qw4qqZGCihylzxjzM564GOBXKi2LVA2HT1yiTCDdnaL
- ZqRL2or2tbGLxeswBQMjTwelwY7eXuGikdN4saI8GLiqiyS06v7VbuFOQpo2mXQ69Mud
- N3xIEh3h1dcg7gJNTjAeO/IW8KJ0bayOYbm/4YgShrxcjcxaLPjOVNzUcQQpEf5sheHU
- /Luv6di00nRdue/vZfoyW+FT3AB6YxgdgWHEy8T3uI/StHy2j2s71uum6qleJnyTdTYL
- h2BOL3qPFah/qNmk50YArFJkftIcqmraoaknAF138kh8Obh+1P3z2WmFNSIoEuJ5VImx
- fYyw==
-X-Gm-Message-State: AAQBX9fwKN2GKIu7/H7flZ+8PJthQIvp1bRgoVvU9NKGFkBPBfAbu/1R
- ENRqCQZF1srGf0E3SysGnhLZu/L2dMxsE+h7Ec0TFVAKYOtQ8w4Rai2NJAecurcAQotjdKU0v2K
- Isdn1Jw4+8U4Wvbk=
-X-Received: by 2002:a05:6402:84f:b0:4b6:821e:1859 with SMTP id
- b15-20020a056402084f00b004b6821e1859mr867531edz.7.1680681069055; 
- Wed, 05 Apr 2023 00:51:09 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YbARkbZT8S5hMeRLUMPNy1oCHW5vySuNg58Olj9px8bHSpIoOP8ZBT7xjX7490bA4eOj1FZA==
-X-Received: by 2002:a05:6402:84f:b0:4b6:821e:1859 with SMTP id
- b15-20020a056402084f00b004b6821e1859mr867519edz.7.1680681068759; 
- Wed, 05 Apr 2023 00:51:08 -0700 (PDT)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- dn25-20020a05640222f900b004be11e97ca2sm6756898edb.90.2023.04.05.00.51.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 00:51:08 -0700 (PDT)
-Date: Wed, 5 Apr 2023 09:51:07 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Yu Zhang <yu.zhang@ionos.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Jinpu Wang <jinpu.wang@ionos.com>, Elmar Gerdes <elmar.gerdes@ionos.com>
-Subject: Re: an issue for device hot-unplug
-Message-ID: <20230405095107.19367c7e@imammedo.users.ipa.redhat.com>
-In-Reply-To: <CAHEcVy5xSvOWXNV99DTQ0dBMEATZzEgjw2exKMk5wUstjmR3Kw@mail.gmail.com>
-References: <CAHEcVy5SV34jaubY5F-q=H+smvMVOzKbb=rTaNJDNXyGdFaLZg@mail.gmail.com>
- <94e21f89-0a3e-701b-7171-7398dff9ce46@redhat.com>
- <CAHEcVy5TiQwYofhCe3RpdFopYzYWbGnL7EO5nE_HQTAVEeaqAg@mail.gmail.com>
- <CAMGffE=cxQzMrT+wbPazApmsGfgAx6z8O0DzEJfWyMQaGFs80w@mail.gmail.com>
- <20230404142553.31030bb7@imammedo.users.ipa.redhat.com>
- <CAHEcVy5xSvOWXNV99DTQ0dBMEATZzEgjw2exKMk5wUstjmR3Kw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ d=1e100.net; s=20210112; t=1680681708;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fSK/pBBaakWjepZ3BWn/D3how8j8GL2/EmR11UgPN+4=;
+ b=X+r9rT+eGgNrcoVQTy05lbthuDg7NnWc5pDOaSX4dboq5R1rRI2iJi1Tpgu2MUn9vC
+ qvuYm721SQbBWi/2oEf28qjBIcjFgWoZquoKyYqfBZ3rM+d+wamkf0bTiqDp1YHekE6Y
+ mqgE0wNgsGLmpIN6qWevZ2+9uiSFRXsTM4B/gpAX1KNfBcoWQ/loXwSL86gQYBqxbmVb
+ M3WFw3QxEtZ9LaXoQbBrRTC8A73FKdmoVrntYyKcJj5bt2C4+L2V1fcmpplDNEzIy92b
+ HpapwrFHwqyPgvNimPu4Q4HgQhY7KpiSRBtltbdQBrZOOeI2SUO7VHQBQjnqgGyOChcG
+ +npQ==
+X-Gm-Message-State: AAQBX9fvD5Fg1kldXQDb3nMLePlXsNrrVfL8F4hqVdlcYJtUBwCJOgfn
+ nFGARm0zXKgouEjWcEBSFA237qo0eQtxptgoj/H9derQJpripnICIgmXZ7yQ7QmLMhydalCK09n
+ N6sA8wRf170kMFv0=
+X-Received: by 2002:a05:6214:528e:b0:5dd:aee7:e016 with SMTP id
+ kj14-20020a056214528e00b005ddaee7e016mr7951174qvb.8.1680681707947; 
+ Wed, 05 Apr 2023 01:01:47 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZBYX8ptk50KXX/cd1L0pn6ou0jtiUN64Cjr5uTCTgISDfM9kdap50AGdDJ6AGN0tb1/S52Gw==
+X-Received: by 2002:a05:6214:528e:b0:5dd:aee7:e016 with SMTP id
+ kj14-20020a056214528e00b005ddaee7e016mr7951145qvb.8.1680681707688; 
+ Wed, 05 Apr 2023 01:01:47 -0700 (PDT)
+Received: from [192.168.8.101] (tmo-066-157.customers.d1-online.com.
+ [80.187.66.157]) by smtp.gmail.com with ESMTPSA id
+ jh14-20020a0562141fce00b005dd8b9345b6sm4021282qvb.78.2023.04.05.01.01.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Apr 2023 01:01:46 -0700 (PDT)
+Message-ID: <55cab42d-19b1-c454-8979-0aaae4a64a00@redhat.com>
+Date: Wed, 5 Apr 2023 10:01:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clegoate@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
+ Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20230130114428.1297295-1-thuth@redhat.com>
+ <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
+ <Y9exrDWT2NUoinu1@redhat.com> <87h6w7694t.fsf@linaro.org>
+ <dbc8b2f6-3e9e-65d7-998f-568b6376d25c@ilande.co.uk>
+ <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
+ <dc07d506-283a-b884-1ab5-54f2e1134fb8@redhat.com>
+ <77c41865-1585-6a3a-f02e-1c072a4368bd@eik.bme.hu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <77c41865-1585-6a3a-f02e-1c072a4368bd@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.925, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,134 +115,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 4 Apr 2023 18:00:06 +0200
-Yu Zhang <yu.zhang@ionos.com> wrote:
+On 04/04/2023 17.42, BALATON Zoltan wrote:
+> On Tue, 4 Apr 2023, Cédric Le Goater wrote:
+>> [ adding Zoltan ]
+>>
+>> On 4/4/23 16:00, Thomas Huth wrote:
+>>> On 05/02/2023 23.12, Mark Cave-Ayland wrote:
+>>>> On 30/01/2023 20:45, Alex Bennée wrote:
+>>>>
+>>>>> Daniel P. Berrangé <berrange@redhat.com> writes:
+>>>>>
+>>>>>> On Mon, Jan 30, 2023 at 11:47:02AM +0000, Peter Maydell wrote:
+>>>>>>> On Mon, 30 Jan 2023 at 11:44, Thomas Huth <thuth@redhat.com> wrote:
+>>>>>>>>
+>>>>>>>> Testing 32-bit host OS support takes a lot of precious time during 
+>>>>>>>> the QEMU
+>>>>>>>> contiguous integration tests, and considering that many OS vendors 
+>>>>>>>> stopped
+>>>>>>>> shipping 32-bit variants of their OS distributions and most hardware 
+>>>>>>>> from
+>>>>>>>> the past >10 years is capable of 64-bit
+>>>>>>>
+>>>>>>> True for x86, not necessarily true for other architectures.
+>>>>>>> Are you proposing to deprecate x86 32-bit, or all 32-bit?
+>>>>>>> I'm not entirely sure about whether we're yet at a point where
+>>>>>>> I'd want to deprecate-and-drop 32-bit arm host support.
+>>>>>>
+>>>>>> Do we have a feeling on which aspects of 32-bit cause us the support
+>>>>>> burden ? The boring stuff like compiler errors from mismatched integer
+>>>>>> sizes is mostly quick & easy to detect simply through a cross compile.
+>>>>>>
+>>>>>> I vaguely recall someone mentioned problems with atomic ops in the past,
+>>>>>> or was it 128-bit ints, caused implications for the codebase ?
+>>>>>
+>>>>> Atomic operations on > TARGET_BIT_SIZE and cputlb when
+>>>>> TCG_OVERSIZED_GUEST is set. Also the core TCG code and a bunch of the
+>>>>> backends have TARGET_LONG_BITS > TCG_TARGET_REG_BITS ifdefs peppered
+>>>>> throughout.
+>>>>
+>>>> I am one of an admittedly small group of people still interested in 
+>>>> using KVM-PR on ppc32 to boot MacOS, although there is some interest on 
+>>>> using 64-bit KVM-PR to run super-fast MacOS on modern Talos hardware.
+>>>>
+>>>>  From my perspective losing the ability to run 64-bit guests on 32-bit 
+>>>> hardware with TCG wouldn't be an issue, as long as it were still 
+>>>> possible to use qemu-system-ppc on 32-bit hardware using both TCG and 
+>>>> KVM to help debug the remaining issues.
+>>>
+>>>   Hi Mark!
+>>>
+>>> Just out of curiosity (since we briefly talked about 32-bit KVM on ppc in 
+>>> today's QEMU/KVM call - in the context of whether qemu-system-ppc64 is a 
+>>> proper superset of qemu-system-ppc when it comes to building a unified 
+>>> qemu-system binary): What host machine are you using for running KVM-PR? 
+>>> And which QEMU machine are you using for running macOS? The mac99 or the 
+>>> g3beige machine?
+>>
+>> Zoltan, what about the pegasos2 and sam460ex machines ? can they be run 
+>> under KVM ?
+> 
+> I don't know as I don't have PPC hardware to test on but theoretically they 
+> should work. Although BookE KVM was dropped from Linux I think so sam460ex 
+> could only work with an old kernel on a BookE host which is now rare 
+[...]
 
-> > this patch targets corner case of early boot where
-> > guest hasn't initialized ACPI subsystem yet and 'broken'
-> > management asking to unplug device too early which leads
-> > to device stuck in being unplugged state due to regression
-> > in QEMU.
-> > However, It doesn't apply to fully booted guest. =20
->=20
-> by adding a few debug lines I see that in
-> acpi_pcihp_device_unplug_request_cb(),
->=20
->     pdev->qdev.pending_deleted_event =3D true;
->=20
-> was executed, which then directly triggered the error in:
+Thanks for your explanations, that indeed helps to understand the situation!
 
-If you do repeat unplug request right away after the 1st one,
-then getting this error is expected behavior
-(as guest needs time to react and unplug device).
+But are you sure about the BookE KVM removal in the Linux kernel? ... when I 
+look at the arch/powerpc/kvm/ folder there, I can still see some files there 
+with "booke" in the name?
 
-> void qmp_device_del(const char *id, Error **errp)
-> {
->     DeviceState *dev =3D find_device_state(id, errp);
->     if (dev !=3D NULL) {
->         if (dev->pending_deleted_event &&
->             (dev->pending_deleted_expires_ms =3D=3D 0 ||
->              dev->pending_deleted_expires_ms >
-> qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL))) {
->             error_setg(errp, "Device %s is already in the "
->                              "process of unplug", id);
->             return;
->         }
->=20
->         qdev_unplug(dev, errp);
->     }
-> }
->=20
-> In QEMU code, there are 6 lines where this flag is changed:
->=20
-> hw/core/qdev.c:564:        dev->pending_deleted_event =3D false;
-> hw/core/qdev.c:601:        dev->pending_deleted_event =3D true;
-> hw/acpi/pcihp.c:219:                    qdev->pending_deleted_event =3D f=
-alse;
-> hw/acpi/pcihp.c:359:    pdev->qdev.pending_deleted_event =3D true;
-> hw/pci/pcie.c:516:        dev->qdev.pending_deleted_event =3D false;
-> hw/pci/pcie.c:573:    dev->pending_deleted_event =3D true;
->=20
-> Considering the complexity of the code, the logic for setting and clearing
-> this flag
-> seems not quite straightforward. I doubt that the setting of
-> pending_deleted_event in
-> acpi_pcihp_device_unplug_request_cb() is the appropriate approach to
-> accomplish its target.
+  Thomas
 
-It's true that pending_deleted_event is abused by failover and later by
-pci hotplug.
-see comment 15 where Paolo suggest how to fix it
-   https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659#c15
-
-and than see comment 17, explaining that cleaning up pending_deleted_event
-usage won't change current behavior.
-
-Anyways, clean up patches are welcome if you wish to follow up
-on Paolo's suggestion.
-
-> On Tue, Apr 4, 2023 at 2:25=E2=80=AFPM Igor Mammedov <imammedo@redhat.com=
-> wrote:
->=20
-> > On Tue, 4 Apr 2023 08:45:54 +0200
-> > Jinpu Wang <jinpu.wang@ionos.com> wrote:
-> > =20
-> > > Hi Yu,
-> > >
-> > > On Mon, Apr 3, 2023 at 6:59=E2=80=AFPM Yu Zhang <yu.zhang@ionos.com> =
-wrote: =20
-> > > >
-> > > > Dear Laurent,
-> > > >
-> > > > Thank you for your quick reply. We used qemu-7.1, but it is =20
-> > reproducible with qemu from v6.2 to the recent v8.0 release candidates.=
- =20
-> > > > I found that it's introduced by the commit  9323f892b39 (between =20
-> > v6.2.0-rc2 and v6.2.0-rc3). =20
-> > > >
-> > > > If it doesn't break anything else, it suffices to remove the line =
-=20
-> > below from acpi_pcihp_device_unplug_request_cb(): =20
-> > > >
-> > > >     pdev->qdev.pending_deleted_event =3D true;
-> > > >
-> > > > but you may have a reason to keep it. First of all, I'll open a bug=
- in =20
-> > the bug tracker and let you know. =20
-> > > >
-> > > > Best regards,
-> > > > Yu Zhang =20
-> > > This patch from Igor Mammedov seems relevant,
-> > > =20
-> > https://lore.kernel.org/qemu-devel/20230403131833-mutt-send-email-mst@k=
-ernel.org/T/#t
-> >
-> > this patch targets corner case of early boot where
-> > guest hasn't initialized ACPI subsystem yet and 'broken'
-> > management asking to unplug device too early which leads
-> > to device stuck in being unplugged state due to regression
-> > in QEMU.
-> > However, It doesn't apply to fully booted guest.
-> >
-> > [...]
-> > =20
-> > > >> > The purpose is for detecting the end of the PCI device hot-unplu=
-g. =20
-> > However, we feel the =20
-> > > >> > error confusing. How is it possible that a disk "is already in t=
-he =20
-> > process of unplug" =20
-> > > >> > during the first hot-unplug attempt? So far as I know, the issue=
- =20
-> > was also encountered by =20
-> > > >> > libvirt, but they simply ignored it:
-> > > >> >
-> > > >> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659
-> > > >> > <https://bugzilla.redhat.com/show_bug.cgi?id=3D1878659> =20
-> > see my other reply email/BZ comment 17.
-> >
-> > [...]
-> >
-> > =20
 
 
