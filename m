@@ -2,65 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AC66D7C08
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 13:56:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648506D7C07
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 13:56:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk1k0-0006iV-UR; Wed, 05 Apr 2023 07:55:52 -0400
+	id 1pk1j8-00061n-BO; Wed, 05 Apr 2023 07:54:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pk1jy-0006iB-Hz
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 07:55:50 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1pk1j5-00060z-8o; Wed, 05 Apr 2023 07:54:55 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pk1jv-0002lv-Vw
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 07:55:50 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5B3B6746361;
- Wed,  5 Apr 2023 13:54:42 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0DCD974633D; Wed,  5 Apr 2023 13:54:42 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 0AF57746377;
- Wed,  5 Apr 2023 13:54:42 +0200 (CEST)
-Date: Wed, 5 Apr 2023 13:54:42 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Thomas Huth <thuth@redhat.com>
-cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clegoate@redhat.com>, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
- =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>, 
- =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com, 
- Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>, 
- Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>, 
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
-In-Reply-To: <55cab42d-19b1-c454-8979-0aaae4a64a00@redhat.com>
-Message-ID: <b1e05818-2dce-15fb-9796-680648ca3dd6@eik.bme.hu>
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
- <Y9exrDWT2NUoinu1@redhat.com> <87h6w7694t.fsf@linaro.org>
- <dbc8b2f6-3e9e-65d7-998f-568b6376d25c@ilande.co.uk>
- <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
- <dc07d506-283a-b884-1ab5-54f2e1134fb8@redhat.com>
- <77c41865-1585-6a3a-f02e-1c072a4368bd@eik.bme.hu>
- <55cab42d-19b1-c454-8979-0aaae4a64a00@redhat.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1pk1j3-0002AJ-2t; Wed, 05 Apr 2023 07:54:54 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 9DAFB4000E;
+ Wed,  5 Apr 2023 14:54:48 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id D44C0DD;
+ Wed,  5 Apr 2023 14:54:47 +0300 (MSK)
+Message-ID: <62db7253-9cd7-e095-6b9f-ffcdecfa9bf6@msgid.tls.msk.ru>
+Date: Wed, 5 Apr 2023 14:54:47 +0300
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2121317180-1680695682=:43849"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-stable <qemu-stable@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Subject: QEMU stable 7.2.1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,96 +57,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+So let it be, with a delay of about a week.
 
---3866299591-2121317180-1680695682=:43849
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Since no one from the qemu team replied to my final-release steps, I'm
+making it available on my site instead:
 
-On Wed, 5 Apr 2023, Thomas Huth wrote:
-> On 04/04/2023 17.42, BALATON Zoltan wrote:
->> On Tue, 4 Apr 2023, Cédric Le Goater wrote:
->>> [ adding Zoltan ]
->>> 
->>> On 4/4/23 16:00, Thomas Huth wrote:
->>>> On 05/02/2023 23.12, Mark Cave-Ayland wrote:
->>>>> On 30/01/2023 20:45, Alex Bennée wrote:
->>>>> 
->>>>>> Daniel P. Berrangé <berrange@redhat.com> writes:
->>>>>> 
->>>>>>> On Mon, Jan 30, 2023 at 11:47:02AM +0000, Peter Maydell wrote:
->>>>>>>> On Mon, 30 Jan 2023 at 11:44, Thomas Huth <thuth@redhat.com> wrote:
->>>>>>>>> 
->>>>>>>>> Testing 32-bit host OS support takes a lot of precious time during 
->>>>>>>>> the QEMU
->>>>>>>>> contiguous integration tests, and considering that many OS vendors 
->>>>>>>>> stopped
->>>>>>>>> shipping 32-bit variants of their OS distributions and most hardware 
->>>>>>>>> from
->>>>>>>>> the past >10 years is capable of 64-bit
->>>>>>>> 
->>>>>>>> True for x86, not necessarily true for other architectures.
->>>>>>>> Are you proposing to deprecate x86 32-bit, or all 32-bit?
->>>>>>>> I'm not entirely sure about whether we're yet at a point where
->>>>>>>> I'd want to deprecate-and-drop 32-bit arm host support.
->>>>>>> 
->>>>>>> Do we have a feeling on which aspects of 32-bit cause us the support
->>>>>>> burden ? The boring stuff like compiler errors from mismatched integer
->>>>>>> sizes is mostly quick & easy to detect simply through a cross compile.
->>>>>>> 
->>>>>>> I vaguely recall someone mentioned problems with atomic ops in the 
->>>>>>> past,
->>>>>>> or was it 128-bit ints, caused implications for the codebase ?
->>>>>> 
->>>>>> Atomic operations on > TARGET_BIT_SIZE and cputlb when
->>>>>> TCG_OVERSIZED_GUEST is set. Also the core TCG code and a bunch of the
->>>>>> backends have TARGET_LONG_BITS > TCG_TARGET_REG_BITS ifdefs peppered
->>>>>> throughout.
->>>>> 
->>>>> I am one of an admittedly small group of people still interested in 
->>>>> using KVM-PR on ppc32 to boot MacOS, although there is some interest on 
->>>>> using 64-bit KVM-PR to run super-fast MacOS on modern Talos hardware.
->>>>> 
->>>>>  From my perspective losing the ability to run 64-bit guests on 32-bit 
->>>>> hardware with TCG wouldn't be an issue, as long as it were still 
->>>>> possible to use qemu-system-ppc on 32-bit hardware using both TCG and 
->>>>> KVM to help debug the remaining issues.
->>>> 
->>>>   Hi Mark!
->>>> 
->>>> Just out of curiosity (since we briefly talked about 32-bit KVM on ppc in 
->>>> today's QEMU/KVM call - in the context of whether qemu-system-ppc64 is a 
->>>> proper superset of qemu-system-ppc when it comes to building a unified 
->>>> qemu-system binary): What host machine are you using for running KVM-PR? 
->>>> And which QEMU machine are you using for running macOS? The mac99 or the 
->>>> g3beige machine?
->>> 
->>> Zoltan, what about the pegasos2 and sam460ex machines ? can they be run 
->>> under KVM ?
->> 
->> I don't know as I don't have PPC hardware to test on but theoretically they 
->> should work. Although BookE KVM was dropped from Linux I think so sam460ex 
->> could only work with an old kernel on a BookE host which is now rare 
-> [...]
->
-> Thanks for your explanations, that indeed helps to understand the situation!
->
-> But are you sure about the BookE KVM removal in the Linux kernel? ... when I 
-> look at the arch/powerpc/kvm/ folder there, I can still see some files there 
-> with "booke" in the name?
+   http://www.corpit.ru/mjt/qemu/qemu-7.2.1.tar.xz
+   http://www.corpit.ru/mjt/qemu/qemu-7.2.1.tar.xz.sig - signed with my GPG key
+   http://www.corpit.ru/mjt/qemu/qemu-7.2.1.diff - whole difference from 7.2.0.
 
-No, I'm not sure but I think KVM on PPC440 (which is used by sam460ex) is 
-likely not working properly. What's there may work on newer cores such as 
-e500 and later but not sure if that can run PPC440 code. I never heard 
-anyone successfully getting sam460ex work with KVM but that may also be 
-because real PPC440 hosts are rare.
+The tag (v7.2.1) is in the main qemu repository.
 
-But if the question is if we still need 32 bit PPC host I think we do for 
-now as that's the only way to run 32bit guests with G3 and G4 until the 
-issues which prevent them to run on 64bit host kernel are fixed.
+The shortlog:
 
-Regards,
-BALATON Zoltan
---3866299591-2121317180-1680695682=:43849--
+Akihiko Odaki (4):
+       vhost-user-gpio: Configure vhost_dev when connecting
+       vhost-user-i2c: Back up vqs before cleaning up vhost_dev
+       vhost-user-rng: Back up vqs before cleaning up vhost_dev
+       hw/timer/hpet: Fix expiration time overflow
+
+Alex Bennée (2):
+       target/arm: fix handling of HLT semihosting in system mode
+       tests/tcg: fix unused variable in linux-test
+
+Anton Johansson (1):
+       block: Handle curl 7.55.0, 7.85.0 version changes
+
+Carlos López (2):
+       vhost: avoid a potential use of an uninitialized variable in vhost_svq_poll()
+       libvhost-user: check for NULL when allocating a virtqueue element
+
+Chenyi Qiang (2):
+       virtio-mem: Fix the bitmap index of the section offset
+       virtio-mem: Fix the iterator variable in a vmem->rdl_list loop
+
+David Hildenbrand (2):
+       migration/ram: Fix error handling in ram_write_tracking_start()
+       migration/ram: Fix populate_read_range()
+
+Dr. David Alan Gilbert (2):
+       virtio-rng-pci: fix migration compat for vectors
+       virtio-rng-pci: fix transitional migration compat for vectors
+
+Eugenio Pérez (1):
+       vdpa: stop all svq on device deletion
+
+Evgeny Iakovlev (1):
+       target/arm: allow writes to SCR_EL3.HXEn bit when FEAT_HCX is enabled
+
+Guenter Roeck (1):
+       target/sh4: Mask restore of env->flags from tb->flags
+
+Jason Wang (3):
+       vhost: fix vq dirty bitmap syncing when vIOMMU is enabled
+       intel-iommu: fail MAP notifier without caching mode
+       intel-iommu: fail DEVIOTLB_UNMAP without dt mode
+
+Julia Suvorova (1):
+       hw/smbios: fix field corruption in type 4 table
+
+Kevin Wolf (1):
+       qcow2: Fix theoretical corruption in store_bitmap() error path
+
+Klaus Jensen (2):
+       hw/nvme: fix missing endian conversions for doorbell buffers
+       hw/nvme: fix missing cq eventidx update
+
+Laszlo Ersek (1):
+       acpi: cpuhp: fix guest-visible maximum access size to the legacy reg block
+
+Marc-André Lureau (1):
+       build-sys: fix crlf-ending C code
+
+Michael S. Tsirkin (6):
+       Revert "x86: do not re-randomize RNG seed on snapshot load"
+       Revert "x86: re-initialize RNG seed when selecting kernel"
+       Revert "x86: reinitialize RNG seed on system reboot"
+       Revert "x86: use typedef for SetupData struct"
+       Revert "x86: return modified setup_data only if read as memory, not as file"
+       Revert "hw/i386: pass RNG seed via setup_data entry"
+
+Michael Tokarev (1):
+       Update version for 7.2.1 release
+
+Paolo Bonzini (4):
+       meson: accept relative symlinks in "meson introspect --installed" data
+       configure: fix GLIB_VERSION for cross-compilation
+       target/i386: fix ADOX followed by ADCX
+       block/iscsi: fix double-free on BUSY or similar statuses
+
+Richard Henderson (8):
+       target/riscv: Set pc_succ_insn for !rvc illegal insn
+       target/arm: Fix sve_probe_page
+       target/arm: Fix in_debug path in S1_ptw_translate
+       target/arm: Fix physical address resolution for Stage2
+       tests/tcg/i386: Introduce and use reg_t consistently
+       target/i386: Fix BEXTR instruction
+       target/i386: Fix C flag for BLSI, BLSMSK, BLSR
+       target/i386: Fix BZHI instruction
+
+Stefan Hajnoczi (1):
+       block: fix detect-zeroes= with BDRV_REQ_REGISTERED_BUF
+
+Yajun Wu (1):
+       chardev/char-socket: set s->listener = NULL in char_socket_finalize
+
+I want to make another release of 7.2 series.
+
+Thank you all for all the help with this series!
+
+/mjt
 
