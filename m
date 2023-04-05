@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36916D8046
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 17:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBF16D8054
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 17:03:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk4dr-0002Qw-8W; Wed, 05 Apr 2023 11:01:43 -0400
+	id 1pk4ex-0003Kh-BM; Wed, 05 Apr 2023 11:02:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pk4dp-0002QW-IN
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 11:01:41 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pk4ev-0003KA-Hh
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 11:02:49 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pk4do-0001v9-3B
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 11:01:41 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pk4et-00028f-Ur
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 11:02:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680706899;
+ s=mimecast20190719; t=1680706966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6l+u7xD96RHkpqZ3v/PXf9QKq0R3DTdrPXgvJXVI+YA=;
- b=c7QOuQKH3AEPhyUURMc77qbCQNA2LhkEv7gt9nHBk437yW1vwocI6JApQlhwVNlingIrQB
- 4n0KN76QxDY1ww+xRmv/KbzcMjM1dmvF5IqqSVs6+6LWCPZ2y0rFeF06SEIhWW3hVPqlaw
- N/0sX2PMgvuctWL74u+0r5ud9lc0MIM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bbfpU6VOFXMZpagW8/QqPkXoEc0tvJXpCZNSlzEMxh0=;
+ b=IVUWUcqpQS4WRXCKLJpMrZUiWxQlRXsmiRC+UNDIqIqJH+kWBXre/RPsW05iVUZHF8ox76
+ LQISuCjWwX6tG7HIbR0O89V5LKPRIEx1mxTGs3mrmBm8UDQHI+/4c2e7jjicweDMbH2Ao4
+ r7WbkX9bR7fgtMJpN5blvTNpUTXTRBA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-520-f9-hb8mKNa6KNKzaazJI3w-1; Wed, 05 Apr 2023 11:01:22 -0400
-X-MC-Unique: f9-hb8mKNa6KNKzaazJI3w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n11-20020a05600c3b8b00b003f04739b77aso7318773wms.9
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 08:01:20 -0700 (PDT)
+ us-mta-534-GFqotUfmOiShRIGIM3fiSg-1; Wed, 05 Apr 2023 11:02:44 -0400
+X-MC-Unique: GFqotUfmOiShRIGIM3fiSg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ t26-20020a50d71a000000b005003c5087caso49721777edi.1
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 08:02:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680706879; x=1683298879;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6l+u7xD96RHkpqZ3v/PXf9QKq0R3DTdrPXgvJXVI+YA=;
- b=wTDpK0WkAjvC4RYvjk894zHu2wJztt9aC+5F3UUMPWvVRKM6NBoUoTs0quHGv4bN7b
- 8pFcVR7SDToxc85PAS/N+vO7HVTRVmZBlYJ+M3Eqxh4u/YffXScxy5jwdj0LHJjHGxRo
- I08cvlBXcMFAuJ6hMklzp+9/FbVvu9Dqb88un3fAyJePz+euAg/7lz4xOw5NLlD2tAHZ
- vyxLLdYJ7QuTkCpUzm5uD/OG8yQKaCScFDZBYt4EbQ9G2w9Revo84r+a+l0kfOANCNco
- HpOk8Ivph0XsT61C1w+6HbyXZ05vaM4tKNHzomzM9W7xel2I9qQFdx7XogBZnkGg+bSg
- th5A==
-X-Gm-Message-State: AAQBX9cz72Wl/JdL9YbMoSwEok5mvtEx+ymm6jpiJb+MSBdv0LTQx2mt
- uM1nJqZm3Oo4iAtb3RDXJU4wKDwMI73FJzoFR86xi+VJEQJc27v97UOX0Rl3FHGUZTrQswJ+tb4
- XqnSh0YbPn2aiA58=
-X-Received: by 2002:a5d:6791:0:b0:2d6:4e98:5f32 with SMTP id
- v17-20020a5d6791000000b002d64e985f32mr4498087wru.23.1680706879400; 
- Wed, 05 Apr 2023 08:01:19 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YaUeig5YDlb6YXbFkv9xIJaG906k5+sNM17RNycOwiLLHH2WOlJ4Mzpgpkcp4rOLlz1LUzsw==
-X-Received: by 2002:a5d:6791:0:b0:2d6:4e98:5f32 with SMTP id
- v17-20020a5d6791000000b002d64e985f32mr4498063wru.23.1680706879058; 
- Wed, 05 Apr 2023 08:01:19 -0700 (PDT)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ d=1e100.net; s=20210112; t=1680706963; x=1683298963;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bbfpU6VOFXMZpagW8/QqPkXoEc0tvJXpCZNSlzEMxh0=;
+ b=WUOdS9+Hvw4w6t2lfs1PHyktqGsX1RPgmTYDQQUyFyPjlSahtZg6JVT4ep3TktieWd
+ d+mGAlktvIEClOae1u3cnneRHF87xWYVuUyRLzLx0aU4vF/hBpUgk8B4O8svvB1ukMEF
+ Ys18Akrl+KAc2sRjqGuFlMDdVxccDoPfBD+vBb0zN2rT9e6/rpN7bdNamfu5K78LbLVs
+ l2FWHGD6GUZSn7DHRHaEhv3sme6pxhb04D1t7hb5FbcxkSLCi/52XGbaPTrnrJ+Sdaqn
+ pY3QtNAnZ2e/z9VQrVd0eZaZTxBJXNJ4CdI3hKZKKcEbTQmSnsdSMl0blCKeuXpVKxFh
+ JOvw==
+X-Gm-Message-State: AAQBX9eDVrFvEH8maGgJJ2BjADUEp9acpNPGnMRzRBxfjx9WRsnbPhTo
+ wpF6IO26e1d9ZhtOKk1CjC8YHmhIxF+gyTxkT3EBBXqBOuLS8pGXkMUmNOGeO3BIl2MIeNhsIXY
+ rqRJ66qzNJnrXpKy6ZhdP10RjOUa8ElSKvphqoZoiky0mnS2SFMmrNG4dJhmcNrW48qrFUBD7ri
+ Y=
+X-Received: by 2002:a17:906:c7d9:b0:93c:847d:a456 with SMTP id
+ dc25-20020a170906c7d900b0093c847da456mr3127847ejb.22.1680706962709; 
+ Wed, 05 Apr 2023 08:02:42 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Yxhoob5pzxmHA9Pq9sgwvA5miu3l4KtFWLhO89TVDuN5NpMSQ9XMS3ZKeKQcdOdcZ6RfhD5w==
+X-Received: by 2002:a17:906:c7d9:b0:93c:847d:a456 with SMTP id
+ dc25-20020a170906c7d900b0093c847da456mr3127815ejb.22.1680706962350; 
+ Wed, 05 Apr 2023 08:02:42 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a056000018400b002c56013c07fsm15089646wrx.109.2023.04.05.08.01.18
+ n20-20020a17090625d400b00914001c91fcsm7453212ejb.86.2023.04.05.08.02.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 08:01:18 -0700 (PDT)
-Date: Wed, 5 Apr 2023 16:01:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- libvir-list@redhat.com, Laurent Vivier <laurent@vivier.eu>,
- Eric Blake <eblake@redhat.com>, dave@treblig.org
-Subject: Re: [PATCH v2 10/10] hmp: Deprecate 'singlestep' member of StatusInfo
-Message-ID: <ZC2NPOezgZ58998o@work-vm>
-References: <20230403144637.2949366-1-peter.maydell@linaro.org>
- <20230403144637.2949366-11-peter.maydell@linaro.org>
- <87wn2s12bu.fsf@pond.sub.org>
- <CAFEAcA_v4yt1S+jjX2acyDLjb6OGTGOSLGxGUkH5XALKjBkHVQ@mail.gmail.com>
- <875yabzsmc.fsf@pond.sub.org>
- <CAFEAcA9owMUFkwy-CPC7i=ZFiqce=bzV9YJNFK9YQbh3oOAj1w@mail.gmail.com>
- <ZC2MGswxJiBfhPR2@work-vm>
- <CAFEAcA8za098K5wTLmr4ar+dT-wFzN+XCg3fjxPXn5qEA+U7iQ@mail.gmail.com>
+ Wed, 05 Apr 2023 08:02:41 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: armbru@redhat.com
+Subject: [PATCH] qapi-gen: mark coroutine QMP command functions as coroutine_fn
+Date: Wed,  5 Apr 2023 17:02:40 +0200
+Message-Id: <20230405150240.182627-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8za098K5wTLmr4ar+dT-wFzN+XCg3fjxPXn5qEA+U7iQ@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -110,42 +97,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Wed, 5 Apr 2023 at 15:56, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
-> >
-> > * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > > I think on balance I would go for:
-> > >  * remove (ie deprecate-and-drop) 'singlestep' from the QMP struct,
-> > >    rather than merely renaming it
-> > >  * if anybody comes along and says they want to do this via QMP,
-> > >    implement Paolo's idea of putting the accelerator object
-> > >    somewhere they can get at it and use qom-get/qom-set on it
-> > >    [My guess is this is very unlikely: nobody's complained so
-> > >    far that QMP doesn't permit setting 'singlestep'; and
-> > >    wanting read without write seems even more marginal.]
-> > >  * keep the HMP commands, but have both read and write directly
-> > >    talk to the accel object. I favour splitting the 'read'
-> > >    part out into its own 'info one-insn-per-tb', for consistency
-> > >    (then 'info status' matches the QMP query-status)
-> >
-> > If it's pretty obscure, then the qom-set/get is fine; as long
-> > as there is a way to do it, then just make sure in the commit
-> > message you say what the replacement command is
-> 
-> The point is that there isn't a replacement way to do it
-> *right now*, but that we have a sketch of how we'd do it if
-> anybody showed up and really cared about it. I think the chances
-> of that happening are quite close to zero, so I don't
-> want to do the work to actually implement the mechanism
-> on spec...
+Coroutine commands have to be declared as coroutine_fn, but the
+marker does not show up in the qapi-comands-* headers; likewise, the
+marshaling function calls the command and therefore must be coroutine_fn.
+Static analysis would want coroutine_fn to match between prototype and
+declaration, because in principle coroutines might be compiled to a
+completely different calling convention.  So we would like to add the
+marker to the header.
 
-Sure, then just drop it.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/qapi/commands.py | 33 +++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
-Dave
-
-> -- PMM
-> 
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 79c5e5c3a989..a079378d1b8d 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -41,11 +41,13 @@
+ def gen_command_decl(name: str,
+                      arg_type: Optional[QAPISchemaObjectType],
+                      boxed: bool,
+-                     ret_type: Optional[QAPISchemaType]) -> str:
++                     ret_type: Optional[QAPISchemaType],
++                     coroutine: bool) -> str:
+     return mcgen('''
+-%(c_type)s qmp_%(c_name)s(%(params)s);
++%(c_type)s %(coroutine_fn)sqmp_%(c_name)s(%(params)s);
+ ''',
+                  c_type=(ret_type and ret_type.c_type()) or 'void',
++                 coroutine_fn='coroutine_fn ' if coroutine else '',
+                  c_name=c_name(name),
+                  params=build_params(arg_type, boxed, 'Error **errp'))
+ 
+@@ -157,16 +159,21 @@ def gen_marshal_output(ret_type: QAPISchemaType) -> str:
+                  c_type=ret_type.c_type(), c_name=ret_type.c_name())
+ 
+ 
+-def build_marshal_proto(name: str) -> str:
+-    return ('void qmp_marshal_%s(QDict *args, QObject **ret, Error **errp)'
+-            % c_name(name))
++def build_marshal_proto(name: str,
++                        coroutine: bool) -> str:
++    return ('void %(coroutine_fn)sqmp_marshal_%(c_name)s(%(params)s)' % {
++        'coroutine_fn': 'coroutine_fn ' if coroutine else '',
++        'c_name': c_name(name),
++        'params': 'QDict *args, QObject **ret, Error **errp',
++    })
+ 
+ 
+-def gen_marshal_decl(name: str) -> str:
++def gen_marshal_decl(name: str,
++                     coroutine: bool) -> str:
+     return mcgen('''
+ %(proto)s;
+ ''',
+-                 proto=build_marshal_proto(name))
++                 proto=build_marshal_proto(name, coroutine))
+ 
+ 
+ def gen_trace(name: str) -> str:
+@@ -181,7 +188,8 @@ def gen_marshal(name: str,
+                 arg_type: Optional[QAPISchemaObjectType],
+                 boxed: bool,
+                 ret_type: Optional[QAPISchemaType],
+-                gen_tracing: bool) -> str:
++                gen_tracing: bool,
++                coroutine: bool) -> str:
+     have_args = boxed or (arg_type and not arg_type.is_empty())
+     if have_args:
+         assert arg_type is not None
+@@ -195,7 +203,7 @@ def gen_marshal(name: str,
+     bool ok = false;
+     Visitor *v;
+ ''',
+-                proto=build_marshal_proto(name))
++                proto=build_marshal_proto(name, coroutine))
+ 
+     if ret_type:
+         ret += mcgen('''
+@@ -387,10 +395,11 @@ def visit_command(self,
+                            self._genh, self._genc):
+                 self._genc.add(gen_marshal_output(ret_type))
+         with ifcontext(ifcond, self._genh, self._genc):
+-            self._genh.add(gen_command_decl(name, arg_type, boxed, ret_type))
+-            self._genh.add(gen_marshal_decl(name))
++            self._genh.add(gen_command_decl(name, arg_type, boxed,
++                                            ret_type, coroutine))
++            self._genh.add(gen_marshal_decl(name, coroutine))
+             self._genc.add(gen_marshal(name, arg_type, boxed, ret_type,
+-                                       self._gen_tracing))
++                                       self._gen_tracing, coroutine))
+             if self._gen_tracing:
+                 self._gen_trace_events.add(gen_trace(name))
+         with self._temp_module('./init'):
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.39.2
 
 
