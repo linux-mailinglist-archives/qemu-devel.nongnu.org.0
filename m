@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8D06D7925
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCCB6D7924
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 11:59:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjzvJ-0003LG-KJ; Wed, 05 Apr 2023 05:59:25 -0400
+	id 1pjzvH-0003L2-QH; Wed, 05 Apr 2023 05:59:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pjzvH-0003L4-Ha; Wed, 05 Apr 2023 05:59:23 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pjzvG-0003KX-0y
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 05:59:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pjzvE-0000Zz-1v; Wed, 05 Apr 2023 05:59:23 -0400
-Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:2cab:0:640:424b:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 9E17D5FE51;
- Wed,  5 Apr 2023 12:59:07 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b4b1::1:2d] (unknown
- [2a02:6b8:b081:b4b1::1:2d])
- by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id 5xL3X70Oqa60-C7tpMdGy; Wed, 05 Apr 2023 12:59:06 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1680688746; bh=NJckkpsZ41ezcoIYpTo8QJUCh0v3o7AXNKNGgV+QkWc=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=A2dU9BTH0bmz2ZyJfUcdxp7N3YvCNtTTwrxu1eufTygeScKVz02qe9mT0IbAlrjC4
- qD2/IjPDJzHMYzN0k5nJtedACj0ez46kdsD466HQM9DBVoTaGfFNnZA0nSOI9F7au5
- pQmuo1oJBOco2cwenNQS6MBsusPkcIwpxTTzNugo=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <163e2982-e055-2f42-8540-b6688dadd3b6@yandex-team.ru>
-Date: Wed, 5 Apr 2023 12:59:05 +0300
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pjzvE-0000cH-1n
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 05:59:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680688758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z1RoLdTGjJKknDxS8UDtn94lJcmRP42I+fSSFbPgTSU=;
+ b=gpYuFqObAowB0CGE7U/a4ZeGZyCAlCLyqIBpemNgTt+pTrnx0LaYmtXLgGauk1Npd2J+hm
+ X9qNzKmvSx11VKj+A4L+hUznudJHLuSnd2B6DMF2MHFwi60mCnzn4dPedv6OZnK1a8KyS9
+ UKVbUqLQxKkMYX8ryhqLMtpzXDJ4zoA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-380-lTLVc6WQMMerU5oZzeRcWA-1; Wed, 05 Apr 2023 05:59:17 -0400
+X-MC-Unique: lTLVc6WQMMerU5oZzeRcWA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-946832a17f7so29597266b.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 02:59:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680688756;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=z1RoLdTGjJKknDxS8UDtn94lJcmRP42I+fSSFbPgTSU=;
+ b=o5hjTpCQILydrS+Z2e+JseuvrNaSBGLdIfhPQrmlmeVeWQy9FLTTrduN5lap3sFJ2T
+ YenX3QXNEp9Xa5joewJetav1oJS7J+1FhM0TIwmgYoaKcA7Lrbtq2bL8Oo+YLHlFLZEB
+ 4bmUrSoGNPAAZQU4hYtHq7F5LUQrKU9ngFjWPhnfO0HsJN+f0S8QjgUz8Z6fMmOUaw7G
+ 339U87RRV/bRdk5nAAvqD2JGObTq/eh4fVVlguX9myuTOWWpOLaDbylRy9gYZsKqJtEH
+ OZVfQauGrR+gPqNrZtwlCfsVaov9ftWP2DkziyocJ3/jhNjkYStZUcPNgd40DpfRXkQA
+ YETQ==
+X-Gm-Message-State: AAQBX9cT5v0bempHq9LaTnekePUYYHnRldbin/opGVPk0dTMfn6H8Vkk
+ ibD7dYr6SC8qU2SfkRz0Ftcba66BFCFd+Hdh5bGqktBHq2Qx9wNg9ttCDQb15L7frdHWreZLq0m
+ 5x783PzQq06HtXWY=
+X-Received: by 2002:aa7:d84c:0:b0:502:7d3f:bdbe with SMTP id
+ f12-20020aa7d84c000000b005027d3fbdbemr1606381eds.15.1680688756132; 
+ Wed, 05 Apr 2023 02:59:16 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bCSAkDe0zC+0zfGkyFV7+PF3uRCEfWEqh0OkOCtYBcsYFK3X1T7fUZWEkEFxC1bn3ZjdCzrQ==
+X-Received: by 2002:aa7:d84c:0:b0:502:7d3f:bdbe with SMTP id
+ f12-20020aa7d84c000000b005027d3fbdbemr1606176eds.15.1680688750256; 
+ Wed, 05 Apr 2023 02:59:10 -0700 (PDT)
+Received: from redhat.com ([2.52.139.22]) by smtp.gmail.com with ESMTPSA id
+ o28-20020a509b1c000000b004aeeb476c5bsm7036514edi.24.2023.04.05.02.59.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Apr 2023 02:59:09 -0700 (PDT)
+Date: Wed, 5 Apr 2023 05:59:06 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, anisinha@redhat.com, jusual@redhat.com,
+ kraxel@redhat.com, pbonzini@redhat.com
+Subject: Re: [PATCH] acpi: pcihp: make pending delete expire in 5sec
+Message-ID: <20230405055833-mutt-send-email-mst@kernel.org>
+References: <20230403161618.1344414-1-imammedo@redhat.com>
+ <20230403131833-mutt-send-email-mst@kernel.org>
+ <20230404102807.4626b0be@imammedo.users.ipa.redhat.com>
+ <20230404084603-mutt-send-email-mst@kernel.org>
+ <20230404160435.45c2513d@imammedo.users.ipa.redhat.com>
+ <20230404104122-mutt-send-email-mst@kernel.org>
+ <20230405093020.3cbcd6e7@imammedo.users.ipa.redhat.com>
+ <20230405043026-mutt-send-email-mst@kernel.org>
+ <20230405112416.38e83b0c@imammedo.users.ipa.redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 2/4] block: Split padded I/O vectors exceeding IOV_MAX
-Content-Language: en-US
-To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>
-References: <20230317175019.10857-1-hreitz@redhat.com>
- <20230317175019.10857-3-hreitz@redhat.com>
- <794be57d-9bbb-4de4-00ef-32df10cc3eaa@yandex-team.ru>
- <751be7a2-f32a-569d-c464-c7821560edea@redhat.com>
- <9bf47acd-9c41-b838-c6a9-fea2c586d385@yandex-team.ru>
- <251b1d36-7fe0-498d-f257-b1a0d256779f@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <251b1d36-7fe0-498d-f257-b1a0d256779f@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230405112416.38e83b0c@imammedo.users.ipa.redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,119 +103,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04.04.23 20:32, Hanna Czenczek wrote:
-> On 04.04.23 10:10, Vladimir Sementsov-Ogievskiy wrote:
->> On 03.04.23 16:33, Hanna Czenczek wrote:
->>> (Sorry for the rather late reply... Thanks for the review!)
->>>
->>> On 20.03.23 11:31, Vladimir Sementsov-Ogievskiy wrote:
->>>> On 17.03.23 20:50, Hanna Czenczek wrote:
->>>
->>> [...]
->>>
->>>>> diff --git a/block/io.c b/block/io.c
->>>>> index 8974d46941..1e9cdba17a 100644
->>>>> --- a/block/io.c
->>>>> +++ b/block/io.c
->>>>
->>>> [..]
->>>>
->>>>> +    pad->write = write;
->>>>> +
->>>>>       return true;
->>>>>   }
->>>>>   @@ -1545,6 +1561,18 @@ zero_mem:
->>>>>     static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->>>>
->>>> Maybe, rename to _finalize, to stress that it's not only freeing memory.
->>>
->>> Sounds good!
->>>
->>> [...]
->>>
->>>>> @@ -1552,6 +1580,101 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->>>>>       memset(pad, 0, sizeof(*pad));
->>>>>   }
->>>>>   +/*
->>>>> + * Create pad->local_qiov by wrapping @iov in the padding head and tail, while
->>>>> + * ensuring that the resulting vector will not exceed IOV_MAX elements.
->>>>> + *
->>>>> + * To ensure this, when necessary, the first couple of elements (up to three)
->>>>
->>>> maybe, "first two-three elements"
->>>
->>> Sure (here and...
->>>
->>> [...]
->>>
->>>>> +    /*
->>>>> +     * If padded_niov > IOV_MAX, we cannot just concatenate everything.
->>>>> +     * Instead, merge the first couple of elements of @iov to reduce the number
->>>>
->>>> maybe, "first two-three elements"
->>>
->>> ...here).
->>>
->>>>
->>>>> +     * of vector elements as necessary.
->>>>> +     */
->>>>> +    if (padded_niov > IOV_MAX) {
->>>>>
->>>>
->>>> [..]
->>>>
->>>>> @@ -1653,8 +1786,8 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
->>>>>           flags |= BDRV_REQ_COPY_ON_READ;
->>>>>       }
->>>>>   -    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
->>>>> -                           NULL, &flags);
->>>>> +    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, false,
->>>>> +                           &pad, NULL, &flags);
->>>>>       if (ret < 0) {
->>>>>           goto fail;
->>>>>       }
->>>>
->>>> a bit later:
->>>>
->>>> tracked_request_end(&req);
->>>> bdrv_padding_destroy(&pad);
->>>>
->>>>
->>>> Now, the request is formally finished inside bdrv_padding_destroy().. Not sure, does it really violate something, but seems safer to swap these two calls. 
->>>
->>> I’d rather not, for two reasons: First, tracked requests are (as far as I understand) only there to implement request serialization, and so only care about metadata (offset, length, and type), which is not changed by changes to the I/O vector.
->>>
->>> Second, even if the state of the I/O vector were relevant to tracked requests, I think it would actually be the other way around, i.e. the tracked request must be ended before the padding is finalized/destroyed.  The tracked request is about the actual request we submit to `child` (which is why tracked_request_begin() is called after bdrv_pad_request()), and that request is done using the modified I/O vector.  So if the tracked request had any connection to the request’s I/O vector (which it doesn’t), it would be to this modified one, so we mustn’t invalidate it via bdrv_padding_finalize() while the tracked request lives.
->>>
->>> Or, said differently: I generally try to clean up things in the inverse way they were set up, and because bdrv_pad_requests() comes before tracked_request_begin(), I think tracked_request_end() should come before bdrv_padding_finalize().
->>
->> Note, that it's wise-versa in bdrv_co_pwritev_part().
+On Wed, Apr 05, 2023 at 11:24:16AM +0200, Igor Mammedov wrote:
+> > > PS:
+> > > See commit message, Windows is not affected as it doesn't
+> > > clear GPE status bits during ACPI initialization
+> > > (at least the one version I've tested with, and I won't bet
+> > > on this with other versions or staying this way)  
+> > 
+> > So I am saying linux should match windows. Clearing GPE
+> > is a bad idea as you then miss events.
 > 
-> Well, and it’s this way here.  We agree that for clean-up, the order doesn’t functionally matter, so either way is actually fine.
+> I'd say it depends on if guest OS is able to handle hot[un]plug
+> at boot time when it enables GPE handlers (or any other time).
+> (My point of view here, it's a guest OS policy and management
+> layer should know what installed guest is capable of and what
+> quirks to use with it)
 > 
->> For me it's just simpler to think that the whole request, including filling user-given qiov with data on read part is inside tracked_request_begin() / tracked_request_end().
-> 
-> It isn’t, though, because padding must be done before the tracked request is created.  The tracked request uses the request’s actual offset and length, after padding, so bdrv_pad_request() must always be done before (i.e., outside) tracked_request_begin().
-> 
->> And moving the last manipulation with qiov out of it breaks this simple thought.
->> Guest should not care of it, as it doesn't know about request tracking.. But what about internal code? Some code may depend on some requests be finished after bdrv_drained_begin() call, but now they may be not fully finished, and some data may be not copied back to original qiov.
+> I'll try to send a kernel patch to remove GPEx.status clearing,
+> though it might be more complex than it seems,
+> hence I'm quite sceptical about it.
 
-You didn't answered here. Do you think that's wrong assumption for the user of drained sections?
-
->>
->> I agree with your point about sequence of objects finalization, but maybe, that just shows that copying data back to qiov should not be a part of bdrv_padding_finalize(), but instead be a separate function, called before tracked_request_end().
-> 
-> But my thought is that copying back shouldn’t be done before tracked_request_end(), because copying back is not part of the tracked request.  What we track is the padded request, which uses a modified I/O vector, so undoing that modification shouldn’t be done while the tracked request lives.
-> 
-> I know I’m inconsistent with regards to bdrv_co_pwritev_part(), which is because it doesn’t matter.  My actual position is that tracked requests are about metadata, so undoing/finalizing the padding (including potentially copying data back) has nothing to do with a tracked request, so the order cannot of finalizing both cannot matter.
-> 
-> But you’re arguing for consistency, and my position on that is, if we want consistency, I’d finalize the tracked request first, and the padding second.  This is also because tracking is done for serialization, so we should end it as soon as possible, so that concurrent requests are resumed quickly.  (Though I’m not sure if delaying it by a memcpy() matters for an essentially single-threaded block layer at this time.)
-> 
-> Hanna
-> 
+In the world of ACPI, windows is basically the gold standard,
+whatever it does linux has to do ;)
 
 -- 
-Best regards,
-Vladimir
+MST
 
 
