@@ -2,96 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764096D7F65
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 16:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E49326D7FEA
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 16:46:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk45v-00014D-1A; Wed, 05 Apr 2023 10:26:39 -0400
+	id 1pk4NN-0004cE-Ap; Wed, 05 Apr 2023 10:44:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pk45s-0000yo-6a
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 10:26:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1pk4NL-0004bl-O8
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 10:44:39 -0400
+Received: from mout.web.de ([212.227.17.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pk45q-0000Bi-Cg
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 10:26:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680704793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L/746hNUK6zgxJCZdtTvcblOHXpUtBaerzH23eH8mE4=;
- b=ZsPWJa+AyIe7vg48qYZ19XMFa7rO3FlfQQvpKHd6De904Guow6cGvz7vrc7EA/cAyIkJEh
- RM2YllZ6T3C1Vp06MaorUovoNbFBxAehVrQKdysptLU7ZbnyuldlDIirs64Hvl8rb5MgtL
- pZIOy/C79iyOIktV/GAdept7mGbhyYY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-YUpC3zruPmyiKsnHvRYuwQ-1; Wed, 05 Apr 2023 10:26:31 -0400
-X-MC-Unique: YUpC3zruPmyiKsnHvRYuwQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- hg24-20020a05600c539800b003f066c0b044so531868wmb.0
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 07:26:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680704790;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=L/746hNUK6zgxJCZdtTvcblOHXpUtBaerzH23eH8mE4=;
- b=17LbS6d6buIUtPLE/B/8XpE2Ev3j9QyJYyxQoR4jIToO4QeGqTWjNc5rIydezcsse5
- oJowAPi8PpcwJUejURZczDH0U4DwiDMzxUr+i9m/kSW9LfEAkeVnN5cLFpsprGdwT4EP
- /yRYAIVwHP37pr8EnHAeeq7OlkKdxuhFscw0+J5iSs0th6djdtIXqErc81hwD7jdyDDD
- BdYc/p2u647v/fzLxTW2dAZW+j9ju1TJ60UzoGwcXHphWys6HYgSLnASFSynJX7x64w6
- SYxQ/92a4Pk6fNxf9UCJ3TMiAYb8Rxwbv8G4XWbvZmrPvpwBO0VnvgXzpwTwS/FL7SEP
- sNvg==
-X-Gm-Message-State: AAQBX9c6aCmIfnpzYB9U/qbwPK0oMg7xGckUBVaGZKwb8tYVVth1N0iR
- mdk5nTqHP629+OPdBK+FFKk6jfQgqR9G70XlneJ0IQZMkeyKhvzbAgA+6MYtuWNvHBYh5qfetRZ
- JjLg+0YULQr5GJm4=
-X-Received: by 2002:adf:f312:0:b0:2ce:a893:e45f with SMTP id
- i18-20020adff312000000b002cea893e45fmr4920148wro.15.1680704790587; 
- Wed, 05 Apr 2023 07:26:30 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aQeEJ+89UIur3GRhEoB4rIGBesGGM/q61WGlOwA172JHzw91clQjXgDfkdpzZgF5LkKQBTVg==
-X-Received: by 2002:adf:f312:0:b0:2ce:a893:e45f with SMTP id
- i18-20020adff312000000b002cea893e45fmr4920131wro.15.1680704790283; 
- Wed, 05 Apr 2023 07:26:30 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c703:d00:ca74:d9ea:11e0:dfb?
- (p200300cbc7030d00ca74d9ea11e00dfb.dip0.t-ipconnect.de.
- [2003:cb:c703:d00:ca74:d9ea:11e0:dfb])
- by smtp.gmail.com with ESMTPSA id
- y13-20020adff14d000000b002c55306f6edsm15175424wro.54.2023.04.05.07.26.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Apr 2023 07:26:29 -0700 (PDT)
-Message-ID: <f3d172d7-dcdf-1252-13b4-989bfd80f490@redhat.com>
-Date: Wed, 5 Apr 2023 16:26:28 +0200
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1pk4NK-0001nH-0I
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 10:44:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1680705871; i=lukasstraub2@web.de;
+ bh=lBluFbhbB8wxJnfOuawF9LoqEn1U3NWmoM/EuIY5ln8=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=OdtxvjiJs6BNOD3F0p8RmsgOM9azAPa6dp/kR+ziAd7Tk7B2fu1oLn/GnnT/A+CLa
+ CVPWq5YN93DE5qwllmdEUeo3kDkSBjI6DnVQLZb11ISDxJopdFAKPu1vEtJ3Bxbpn6
+ OAdNAT3ciSX19jR2MHUiDFgofNPW+FvwEJJSpt63ePrSHda+DaBhgHw/vR/xLjDsCC
+ eMCWVRPBKcp1vWVhHyacNZRkGxbzpFhmoznCssk6OYR4yhtXq/fLFmRy/21r+7Sc54
+ x5IlViIXLy30jzzlgQ07JX88T+9kapg8ahPN9A1hDgvhbrDLdgdymdL9mrA64vDKu1
+ oHOhls01+IAIQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gecko.fritz.box ([82.207.254.108]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N79RG-1qT95X2VEi-017mMo; Wed, 05
+ Apr 2023 16:44:31 +0200
+Date: Wed, 5 Apr 2023 14:44:13 +0000
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, Alex
+ =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>, Philippe
+ =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Thomas Huth
+ <thuth@redhat.com>
+Subject: Re: [PATCH 00/14] migration/ram.c: Refactor compress code
+Message-ID: <20230405144413.67f0b505@gecko.fritz.box>
+In-Reply-To: <cover.1680457764.git.lukasstraub2@web.de>
+References: <cover.1680457764.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH RFC 1/1] memory: Address space map listener
-Content-Language: en-US
-To: Antonio Caggiano <quic_acaggian@quicinc.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230405125756.63290-1-quic_acaggian@quicinc.com>
- <20230405125756.63290-2-quic_acaggian@quicinc.com>
- <81993f24-41fd-d52d-baa0-0328d414cf20@redhat.com>
- <f72d5432-9300-dfcb-d6b5-0902d67601c6@quicinc.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <f72d5432-9300-dfcb-d6b5-0902d67601c6@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.355, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/1u0=RzmI/bXTIgBB87Yt2Rj";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:Zgl2cBtvHDJlNX3bzcpTj4eb437BE30LiTJEf1ejRj7dKJb38aM
+ j0JAQAYP6Aj8Fi32TcmcQrdWnf/OIPGmLL8QjJ2CVWG3o6VIS/xZ2pzAdFmZZcYX2JkmIwN
+ ANqjdnuZ823+kuQUyJt+oghFgN5cwxw878uMfGDdXtDp/FN3D2Gv4ojmo8NHRoFb/oqnu1P
+ 81OvrGdaP5xhkBEmGmNMg==
+UI-OutboundReport: notjunk:1;M01:P0:tiQIC9G+Lb4=;fTSyzimWQTUHu1wnExsJ9j2yMjz
+ +kAo2WmBGNQM3sl+2gj1PAfWp+UrGVV8uV56f/rJdDpbGSBJv9aBfm7Xc4qMwB3H94vB1wYxF
+ SHbIxeKtNClCKc76g6Xsl769zkKVc4A6S42WFDu32g1VD5vWVjNCyrQLP+QSvD8U7IM+21c1p
+ ferysoKP3lm16N1P/FRaeH9dX6YSZasy5ocfoTPEi3pyeNN4vC07LaKdUR43L7zEBk5j7o8KI
+ Gb7PzbNnAmtWxDEBL5f4dLuCNlN58xokfVz9DuLSqJuw97JsjqyMX8JLe1orZc+49IXSd+jsM
+ h4zCgXTvgU9OOua4R1RLC2OeBZos4ruRi/l1/k/faO/p+IxCKXRpkONZ1OjBJfqI+rWA/8784
+ YsTyB28ekE/m+4te4pj9XEABE2x6Jt//ECMBVdsHTRfTsLGpJ7cEo2KeQBtgMgbLZvoeczV3z
+ vwbANu/Fkwx4F5sOq9HoiBwTuuUt25TFy559T0kza0Zuc8fN3iDiTbiQIn8HsEvle3b6xivi3
+ KBnOa9SVQ+n7DUDCFp7tkm3rbpWAslAs10n+ipAdQV7B0BlN6dz+9CCMSlIRtLlgg9K95Nmtx
+ 0/SZk3pNxWLQyUI7u93sz5eCfRz9tvwczHN0z7BTAyvo4X7imA+dZkWyqgLBzT9YSaToPeUgJ
+ fz9U29xmsO24j08pgsOTF0CFnvCFHezZ8YoH32LORSvnXs0eknyeqoTlg1pHoVt5oc+7eBevu
+ TPAt0TV1Vk6Z6nh/XDn098jQLakB5LMAG3J1rAcdroeZq9P0hq3ceRbSLtBep73Ta+6vatmdD
+ lW+gx0TE16SmYlDc30As0qMzmm7Zk5AM20YLhGlp6hz0j3QWGzqm77Z/p01KS2vx+pVLkyS/w
+ kl6tJ+lT0DO47DAQDRbEED6V6hUFZ0HDypVNMgi39O5bid/xQ9WYT6t9VFrDtEcqy7xDwqn05
+ Rn2rMOC22qREQpeLK/wAi63PNQI=
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,27 +90,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05.04.23 16:25, Antonio Caggiano wrote:
-> Hi David,
-> 
-> On 05/04/23 15:23, David Hildenbrand wrote:
->> On 05.04.23 14:57, Antonio Caggiano wrote:
->>> Introduce a MemoryListener callback for address space map events.
->>>
->>
->> Why?
->>
-> 
-> Please, have a look at the cover letter "[PATCH RFC 0/1] MemoryListener
-> address_space_map callback" with a detail explanation of the issue and
-> the reason behind this. While I think it solves the issue for my use
-> case, it might not be the best or even the right solution for it.
+--Sig_/1u0=RzmI/bXTIgBB87Yt2Rj
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Oh, you did not CC me on the cover letter, so I missed it ...
+On Sun, 2 Apr 2023 17:55:59 +0000
+Lukas Straub <lukasstraub2@web.de> wrote:
 
--- 
-Thanks,
+> This series refactors the ram compress code.
+>=20
+> It first removes ram.c dependencies from the core compress code, then
+> moves it out to its own file. Finally, on the migration destination side
+> the initialisation and cleanup of compress threads is moved out of ram.c
+> to migration.c. This allows using COLO with compress enabled.
+>=20
+> This series is based on the following series:
+> https://lore.kernel.org/qemu-devel/af76761aa6978071c5b8e9b872b697db465a55=
+20.1680457631.git.lukasstraub2@web.de/T/#t
+>=20
 
-David / dhildenb
+Hmm, I'm wondering if I should add postcopy+compress tests in this
+series? Because if we start this, the test matrix really will explode.
 
+Regards,
+Lukas Straub
+
+--=20
+
+
+--Sig_/1u0=RzmI/bXTIgBB87Yt2Rj
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmQtiT0ACgkQNasLKJxd
+sliZURAArIwauN9p3TdPA3nTyewrDIWSldLr4egjdAS7+cY24xPtpAk/aU6Mg13b
+ROHXjrfyValByMx19Kyez8GateNeh9u9vUohGNH9UVOuwSloHT5OC0qd4FitBSL8
+7tmh6pjhQhD4zjllBKF3v5nWCkvNxpMRFHLJvstFbTSGXs1dFdd4xXEAdjE4uouv
+EfHYtysDusmqU7cFmjtf4AMvwftj1mAoVppT5X0Jg4dARFmcMCCh1gPAfjfCLowe
+LfsSNJDu6RZV82VvEbMY/HbPbXT9nn85RPkSETJYh9fJU+LRllLYfK3lomTIHhtv
+7W4CpvRh2snZ+vxgxpmQ+EUGoil5k0SuMXGmJlRFu7BQuPrcCiJWAmoOj71UP3Lh
+U/kT49wuj3egeA3kCxDncV3FVnkmm7ttEUd9RE1HR7LwvKHuAeb0lBFp9/1YEYxB
+LY7+PBBxFUDnGBF/Uar3/32ErfZFJXliznoQUAew+ZBrCNJTjZv12JOgt7APa8tS
+FzMj5uxLOtvheDqm1+GBFHciQ/VwxQFRqPgIMjtkhWtKVlYsd63IameGytCTaFKb
+yTtbFdc8CXw2IG//gs8TohMtg0gXOCJDC8yE05S/kxZFwXiuYSQXjgBe4JXOZASZ
+PlvNj7ppAiGFKVmtEJhy8+S4Ok6tDu3GcuotP4VwCVtwZCXPeJU=
+=rG90
+-----END PGP SIGNATURE-----
+
+--Sig_/1u0=RzmI/bXTIgBB87Yt2Rj--
 
