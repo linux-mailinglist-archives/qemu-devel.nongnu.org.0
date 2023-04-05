@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89F46D7DA0
+	by mail.lfdr.de (Postfix) with ESMTPS id D98926D7DA1
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 15:22:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk34u-0007Al-Mb; Wed, 05 Apr 2023 09:21:32 -0400
+	id 1pk34w-0007D0-0L; Wed, 05 Apr 2023 09:21:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3r3AtZAUKCm4PUSUfSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--digit.bounces.google.com>)
- id 1pk2jd-0000nR-L0
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:59:33 -0400
-Received: from mail-ej1-x64a.google.com ([2a00:1450:4864:20::64a])
+ <3tXAtZAUKCnQVaYalYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--digit.bounces.google.com>)
+ id 1pk2jj-0000oQ-7I
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:59:39 -0400
+Received: from mail-ed1-x54a.google.com ([2a00:1450:4864:20::54a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3r3AtZAUKCm4PUSUfSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--digit.bounces.google.com>)
- id 1pk2ja-0003aA-Co
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:59:33 -0400
-Received: by mail-ej1-x64a.google.com with SMTP id
- a640c23a62f3a-93071c20d6bso32955866b.2
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 05:59:28 -0700 (PDT)
+ <3tXAtZAUKCnQVaYalYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--digit.bounces.google.com>)
+ id 1pk2jh-0003tx-6B
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:59:38 -0400
+Received: by mail-ed1-x54a.google.com with SMTP id
+ c11-20020a509f8b000000b00501e2facf47so50035133edf.16
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 05:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680699567;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=koAQPE9F3CPzP0Azi/DuIEpOs0IIxdSTScvuPiygnT4=;
- b=lHpzMQeL2nid23yeYtNaldssYtOlLn+JV6uxUYkB7tmzXkQFV9kKJzhNLcpOMGT3Oe
- tYS22bJVR+EQh8H2PawUKfVOGmM7YKZ++CvdPyU78ACwxZLVLSoBhdJxyu8fgno+m4ZA
- 2XA/uR01ZQBRL2LXbjwBjrhyaUbo9dSPB0NkBKtu7xsTAykdKhXajzLaKDwGbarLs6eT
- g2MlFk+5TWQ3VGx9BkhJcYKYUTd6AKdtTQs1c+bVUnSAJrR8hu8ZuGOdZXenpU5beQV2
- vPIldxc4DB4ycXaxvwEcY0S88ICYikBFSPVur0lpH0VTjXEyRAHmkecUVbP3Ad8fTsSJ
- T+QQ==
+ d=google.com; s=20210112; t=1680699574;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KSldPe0deeSyf3HYxnNOuVuY5+gkfHfz8Olmmt/PVAU=;
+ b=LTa74Lp/33UpBBIXpeR/ozjWPmVUFAqd/u8X3qiDWwlCto3PkvCou4j1pacf+/cq3M
+ zrZsl8c+VRvXbGpJy2mUuPK+q2vn9WGeyL6SXZp7DEiewXGN+HLgoAKjr3m3XDYIKZ8s
+ Jxi00/PltP4/wVkSNshiRyNEaz05+hI4Nt37A3ENyrtyfcbyokmHp5ls5LeKCmfcyh7z
+ 7CVfGN97Mu+g+oxXRsm27dQuW2glb2SNffI4hZSiIPFa20knhGm3RTljZi/iT+bwoG40
+ sA/VtOVCxzM+tw9kspTwPJU7Kbl75NJTfEV5Vofql5n11mKHXcmeNs5oHZ608yCpKAZ3
+ nCJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680699567;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=koAQPE9F3CPzP0Azi/DuIEpOs0IIxdSTScvuPiygnT4=;
- b=3OWObAjYc0ZIlifRORFpnkjximL+HIH5mjqVR2TPnaEWsF9VSvT/+Sk2xE3jQ5OwyD
- bNss+G5gVG2uLKowRWmvoeI5wGezguLqe/9QHti5kGX/sYit0bZC4s3vg7WubD+B7DUU
- pGIu1x4ZQ50f0KrEO58iA7pVdhLc4kqUFFh9M9UKhWeESkvYCKeJQCPp6dyShG3BgaXR
- SajzfeOCq8oIkvwrTYl6+iIrRGL+kGa3v1ENRcGGg98VP+GCGlKlJvM5XUX+CfWS8yZs
- F3kT0uIWAjT3hZW5nqhPEEiZqewpzIyof8i2CRcaPA0Jknl68r8nLjpvr5lfEGQw5eql
- mt5w==
-X-Gm-Message-State: AAQBX9fiemFAp8bKOfeO/Ji4DYpJdX0vev1iituzgc0E0Yw6MUsanwlE
- xU8Cuy3flrS0qdVPjY1/WTU76ntemRD7H582rCsRxDF/no04BuAONqoyI/o/HY1/oTqpSDirANO
- 1dmwyXGBSgAnovHYZTdENFL5VRRgas5IgKcGFS8oewcAvleP4mUiCc1IAZg==
-X-Google-Smtp-Source: AKy350aw7zYe+CN3+TJdEDcjvQGVYYFY72BR4YrLde2cl+tuYOeIK1VMQzQZhKWNQYIkfjvprG0Ue3VhdA==
+ d=1e100.net; s=20210112; t=1680699574;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KSldPe0deeSyf3HYxnNOuVuY5+gkfHfz8Olmmt/PVAU=;
+ b=cwBYteNjHLxzN9g46edealIR/Y4sTqZqycMjZx7H50T/wYYsfedES41IrssckAjHWm
+ O8H9oLRY+sjDNe2uo+XCOxD40sB3+SPeoNGnrvOpPdjmKK1wkgb99JJM2bC2K/hnyL5d
+ RiG1GnED/mNBnwPqCxrF6KSrUvtssA8yVjk3XGrfWD+vlFWnsc6NQmE3k0jESOUFNS98
+ W/9nAfIXJVtSSgDP2UjLq0UVxjSqJektvcmfxoj/mVlbkVDV27qKrHCX+PAGAHczQfK4
+ xN8H6htQf7tYxHU0jfJEN0JwrhUVCne/9SQx67gT1i3wV3Rrr7Ub4B3B1swA3vZoZBFl
+ av4w==
+X-Gm-Message-State: AAQBX9ejpSqigZhaHfvRsCTOF9RX5vmhBVlVZjxSQqb4T+br5v1pQl79
+ UKXCCCQh4p0lZUnELaMHF8ZyGCYj4YAbOItExE7F6+ipA+8zRj0eW5yPJLz/7Rd1T3uuVl7lg8M
+ J57eaNBv9DZPJfM4XsP+YQ6jmLvNPbxeSqW5QUqOgyjt7bjd64C/GBzA//Q==
+X-Google-Smtp-Source: AKy350aDuyE7yG/13EHN9WmEDaRqxkOD9aSAWNC6b8d2F7Jc4O+l9GGEX7fUr/wxkSwpQ+vAp7rVi4Q0gw==
 X-Received: from digit-linux-eng.par.corp.google.com
  ([2a00:79e0:a0:1:d1d4:d452:da86:5ee0])
- (user=digit job=sendgmr) by 2002:a50:ce47:0:b0:502:4a93:9c51 with SMTP id
- k7-20020a50ce47000000b005024a939c51mr1093318edj.5.1680699567435; Wed, 05 Apr
- 2023 05:59:27 -0700 (PDT)
-Date: Wed,  5 Apr 2023 14:59:18 +0200
+ (user=digit job=sendgmr) by 2002:a17:906:3598:b0:8d1:9162:514a with SMTP id
+ o24-20020a170906359800b008d19162514amr1586488ejb.8.1680699573846; Wed, 05 Apr
+ 2023 05:59:33 -0700 (PDT)
+Date: Wed,  5 Apr 2023 14:59:19 +0200
+In-Reply-To: <20230405125920.2951721-1-digit@google.com>
 Mime-Version: 1.0
+References: <20230405125920.2951721-1-digit@google.com>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230405125920.2951721-1-digit@google.com>
-Subject: [PATCH 0/2] Fix QEMU compilation on Debian 10
+Message-ID: <20230405125920.2951721-2-digit@google.com>
+Subject: [PATCH 1/2] Fix libvhost-user.c compilation.
 From: "David 'Digit' Turner" <digit@google.com>
 To: qemu-devel@nongnu.org
-Cc: "David 'Digit' Turner" <digit@google.com>
+Cc: "David 'Digit' Turner" <digit@google.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::64a;
- envelope-from=3r3AtZAUKCm4PUSUfSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--digit.bounces.google.com;
- helo=mail-ej1-x64a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::54a;
+ envelope-from=3tXAtZAUKCnQVaYalYggYdW.UgeiWem-VWnWdfgfYfm.gjY@flex--digit.bounces.google.com;
+ helo=mail-ed1-x54a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -89,33 +92,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QEMU does not compile on an old Debian 10 system for the
-following reasons:
+The source file uses VIRTIO_F_VERSION_1 which is
+not defined by <linux/virtio_config.h> on Debian 10.
 
-- Several sources include recent kernel headers that are
-  not provided by this system, and not listed in
-  linux-headers/
+The system-provided <linux/virtio_config.h> which
+does not include the macro definition is included
+through <linux/vhost.h>, so fix the issue by including
+the standard-headers version before that.
 
-- The libvhost-user.c source file ends up including a
-  system kernel header, instead of the up-to-date
-  standard-headers/ version that contains the right
-  macro definition.
+Signed-off-by: David 'Digit' Turner <digit@google.com>
+---
+ subprojects/libvhost-user/libvhost-user.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-David 'Digit' Turner (2):
-  Fix libvhost-user.c compilation.
-  Add missing Linux kernel headers.
-
- linux-headers/linux/const.h               |  36 +++++++
- linux-headers/linux/memfd.h               |  35 +++++++
- linux-headers/linux/nvme_ioctl.h          | 114 ++++++++++++++++++++++
- linux-headers/linux/vfio.h                |  15 +--
- scripts/update-linux-headers.sh           |   4 +-
- subprojects/libvhost-user/libvhost-user.c |   6 ++
- 6 files changed, 202 insertions(+), 8 deletions(-)
- create mode 100644 linux-headers/linux/const.h
- create mode 100644 linux-headers/linux/memfd.h
- create mode 100644 linux-headers/linux/nvme_ioctl.h
-
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index 0200b78e8e..0a5768cb55 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -32,6 +32,12 @@
+ #include <sys/mman.h>
+ #include <endian.h>
+ 
++/* Necessary to provide VIRTIO_F_VERSION_1 on system
++ * with older linux headers. Must appear before
++ * <linux/vhost.h> below.
++ */
++#include "standard-headers/linux/virtio_config.h"
++
+ #if defined(__linux__)
+ #include <sys/syscall.h>
+ #include <fcntl.h>
 -- 
 2.40.0.348.gf938b09366-goog
 
