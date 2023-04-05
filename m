@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995786D77A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 11:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 101EC6D77D6
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 11:11:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjyyQ-0000hH-0q; Wed, 05 Apr 2023 04:58:34 -0400
+	id 1pjz9f-0007Am-Gg; Wed, 05 Apr 2023 05:10:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pjyyN-0000fl-6z; Wed, 05 Apr 2023 04:58:31 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pjyyI-0003Cx-Rl; Wed, 05 Apr 2023 04:58:30 -0400
-Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAAH+BQoOC1kWY5GDg--.24854S6;
- Wed, 05 Apr 2023 16:58:20 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v3 4/4] target/riscv: Fix lines with over 80 characters
-Date: Wed,  5 Apr 2023 16:58:13 +0800
-Message-Id: <20230405085813.40643-5-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230405085813.40643-1-liweiwei@iscas.ac.cn>
-References: <20230405085813.40643-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pjz9c-00075b-U8
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 05:10:09 -0400
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pjz9Y-00077d-SH
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 05:10:07 -0400
+Received: by mail-ua1-x92c.google.com with SMTP id p91so7933174uap.1
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 02:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680685803;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xWzATY0XPHMMgRmrUwFBz3FxroV4vUsjfoX3L7k9x6I=;
+ b=I6V95Vrf3p28jBwBKl+ScLz68Rk3Swng4MpwB1rXwfDev7Uk1h2hoOQVHZY4Z14nhJ
+ KOY/xjSgSuM78Viufw8pjm0GFi115ZJBpUJWesgw9L8AOQu9L1OvACPSmiJpy8qDGax+
+ y0VDCWsgS8pLs7VUmOBecqs6O8eJGxpkc1j9WgilJ0vsu0el7gFoQbq2jufqVk61l6zW
+ ZSL6+/66Y5/RxM3CrFCjPzD7dMq/oKzi1BtT4hd6XTdqBhNueECoBPNZEmmdJmVLhgph
+ oM9tGGaRRpNYnqQrzn7Bd5hpiMBmVi2VPTsIEZE2yYNoNwyDIj45iH8cenZysjaLiEep
+ TVtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680685803;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xWzATY0XPHMMgRmrUwFBz3FxroV4vUsjfoX3L7k9x6I=;
+ b=JRF4FY1SaxxK2hNva4rxOxViQCVkVgog585g/ryBFcTvn/4F1xHqRTu+mDCW8lZefk
+ nmoXAilI+4v3DVcEdNE4lgzWnsp2tWv9eQGUh4Iegw81sTkg8Lz9vYcReS2KhcuYDvzm
+ mixqEKlFtLUaVMRjBNoQDonr32Y7f1TORb7MimY0D6JMOV40kV2pV1Km3dlWGe2WyqH+
+ pBj3lPy8P7p2YFjMeGIz8hGVDcU7sOshYTrvP212bV5yyMPlba45cV/HN7qS1FDKfkRn
+ OXpAIkkohWOSFd6gxLdlkYOgCONktvT8NZaMOCN1i9OyHcwsPblDYZ3VcfxeulOxmtsI
+ FWLA==
+X-Gm-Message-State: AAQBX9eTBYTUgoTkRbgp/RTV/jv/Y8E2u/JFr67TPCWiKbFucyFlMK2m
+ zqxVhseHUYH4jIMeREeKEwmLyj7An54PwNq2O1k6rDpQbpLQbw==
+X-Google-Smtp-Source: AKy350ZMrFnpAtejBKley//HTwUw6zZRrE6v4BGOShXhWnYPb0zLQaVO5CfLBDCiy37pd3V95hmARrSvm5iFZUncX5Q=
+X-Received: by 2002:a9f:37cd:0:b0:764:64c1:9142 with SMTP id
+ q71-20020a9f37cd000000b0076464c19142mr1851817uaq.0.1680685803471; Wed, 05 Apr
+ 2023 02:10:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAH+BQoOC1kWY5GDg--.24854S6
-X-Coremail-Antispam: 1UD129KBjvAXoW3ur1xAry8Ar18XFy5GFyfJFb_yoW8CFWrZo
- WrGr4rZrWkCw1S9asI9F1Iqr17Xr4Dtws5Xa1DKFW0g3Z3WrWrXFW3trZxAay2qrs3AFWU
- Xa92qF15JF1kAryfn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUUO07AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
- j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r126s0DM28Irc
- Ia0xkI8VCY1x0267AKxVW5JVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l
- 84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r
- 4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j
- 6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7V
- C0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j
- 6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x0262
- 8vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
- ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
- WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
- OBTYUUUUU
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230329084513.7835-1-jth@kernel.org>
+ <20230329084513.7835-2-jth@kernel.org>
+In-Reply-To: <20230329084513.7835-2-jth@kernel.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 5 Apr 2023 19:09:00 +1000
+Message-ID: <CAKmqyKPYQ8QWb4eb2cLm8-MFY1Q6zk9F3EsE0uy1Pea1SfVpfA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] Add MEN Chameleon Bus emulation
+To: Johannes Thumshirn <jth@kernel.org>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
+ Javier Rodriguez <josejavier.rodriguez@duagon.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x92c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,470 +89,396 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix lines with over 80 characters for both code and comments.
+On Wed, Mar 29, 2023 at 11:08=E2=80=AFPM Johannes Thumshirn <jth@kernel.org=
+> wrote:
+>
+> The MEN Chameleon Bus (MCB) is an on-chip bus system exposing IP Cores of=
+ an
+> FPGA to a outside bus system like PCIe.
+>
+> Signed-off-by: Johannes Thumshirn <jth@kernel.org>
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+I don't know a lot about MEN Chameleon Bus, but this looks fine to me
+
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c           |  3 +-
- target/riscv/cpu.h           |  4 +-
- target/riscv/cpu_helper.c    |  3 +-
- target/riscv/csr.c           | 38 ++++++++++--------
- target/riscv/debug.c         | 11 +++---
- target/riscv/gdbstub.c       |  3 +-
- target/riscv/pmp.c           |  6 ++-
- target/riscv/pmu.c           |  3 +-
- target/riscv/vector_helper.c | 76 ++++++++++++++++++++++++------------
- 9 files changed, 91 insertions(+), 56 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 2e45b1f076..cb68916fce 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -1700,7 +1700,8 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_props(dc, riscv_cpu_properties);
- }
- 
--static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-+static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str,
-+                                 int max_str_len)
- {
-     char *old = *isa_str;
-     char *new = *isa_str;
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 5018a3b1b2..cbf3de2708 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -591,8 +591,8 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
- bool riscv_cpu_two_stage_lookup(int mmu_idx);
- int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
- G_NORETURN void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
--                                               MMUAccessType access_type, int mmu_idx,
--                                               uintptr_t retaddr);
-+                                               MMUAccessType access_type,
-+                                               int mmu_idx, uintptr_t retaddr);
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr);
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 445ffe691a..2310c7905f 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -1121,7 +1121,8 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
-             cs->exception_index = RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT;
-         } else {
-             cs->exception_index = page_fault_exceptions ?
--                RISCV_EXCP_STORE_PAGE_FAULT : RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
-+                RISCV_EXCP_STORE_PAGE_FAULT :
-+                RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
-         }
-         break;
-     default:
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 76755ee128..e0b871f6dc 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1137,7 +1137,8 @@ static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
- static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP |
-                                               SIP_LCOFIP;
- static const target_ulong hip_writable_mask = MIP_VSSIP;
--static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
-+static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP |
-+                                               MIP_VSEIP;
- static const target_ulong vsip_writable_mask = MIP_VSSIP;
- 
- const bool valid_vm_1_10_32[16] = {
-@@ -1298,7 +1299,8 @@ static RISCVException write_mstatush(CPURISCVState *env, int csrno,
- static RISCVException read_mstatus_i128(CPURISCVState *env, int csrno,
-                                         Int128 *val)
- {
--    *val = int128_make128(env->mstatus, add_status_sd(MXL_RV128, env->mstatus));
-+    *val = int128_make128(env->mstatus, add_status_sd(MXL_RV128,
-+                                                      env->mstatus));
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -2823,7 +2825,8 @@ static RISCVException write_hstatus(CPURISCVState *env, int csrno,
- {
-     env->hstatus = val;
-     if (riscv_cpu_mxl(env) != MXL_RV32 && get_field(val, HSTATUS_VSXL) != 2) {
--        qemu_log_mask(LOG_UNIMP, "QEMU does not support mixed HSXLEN options.");
-+        qemu_log_mask(LOG_UNIMP,
-+                      "QEMU does not support mixed HSXLEN options.");
-     }
-     if (get_field(val, HSTATUS_VSBE) != 0) {
-         qemu_log_mask(LOG_UNIMP, "QEMU does not support big endian guests.");
-@@ -3490,9 +3493,9 @@ static RISCVException write_mmte(CPURISCVState *env, int csrno,
-     target_ulong wpri_val = val & MMTE_MASK;
- 
-     if (val != wpri_val) {
--        qemu_log_mask(LOG_GUEST_ERROR, "%s" TARGET_FMT_lx " %s" TARGET_FMT_lx "\n",
--                      "MMTE: WPRI violation written 0x", val,
--                      "vs expected 0x", wpri_val);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s" TARGET_FMT_lx " %s"
-+                      TARGET_FMT_lx "\n", "MMTE: WPRI violation written 0x",
-+                      val, "vs expected 0x", wpri_val);
-     }
-     /* for machine mode pm.current is hardwired to 1 */
-     wpri_val |= MMTE_M_PM_CURRENT;
-@@ -3521,9 +3524,9 @@ static RISCVException write_smte(CPURISCVState *env, int csrno,
-     target_ulong wpri_val = val & SMTE_MASK;
- 
-     if (val != wpri_val) {
--        qemu_log_mask(LOG_GUEST_ERROR, "%s" TARGET_FMT_lx " %s" TARGET_FMT_lx "\n",
--                      "SMTE: WPRI violation written 0x", val,
--                      "vs expected 0x", wpri_val);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s" TARGET_FMT_lx " %s"
-+                      TARGET_FMT_lx "\n", "SMTE: WPRI violation written 0x",
-+                      val, "vs expected 0x", wpri_val);
-     }
- 
-     /* if pm.current==0 we can't modify current PM CSRs */
-@@ -3549,9 +3552,9 @@ static RISCVException write_umte(CPURISCVState *env, int csrno,
-     target_ulong wpri_val = val & UMTE_MASK;
- 
-     if (val != wpri_val) {
--        qemu_log_mask(LOG_GUEST_ERROR, "%s" TARGET_FMT_lx " %s" TARGET_FMT_lx "\n",
--                      "UMTE: WPRI violation written 0x", val,
--                      "vs expected 0x", wpri_val);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s" TARGET_FMT_lx " %s"
-+                      TARGET_FMT_lx "\n", "UMTE: WPRI violation written 0x",
-+                      val, "vs expected 0x", wpri_val);
-     }
- 
-     if (check_pm_current_disabled(env, csrno)) {
-@@ -3941,7 +3944,8 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
-      * Fall back to 64-bit version for now, if the 128-bit alternative isn't
-      * at all defined.
-      * Note, some CSRs don't need to extend to MXLEN (64 upper bits non
--     * significant), for those, this fallback is correctly handling the accesses
-+     * significant), for those, this fallback is correctly handling the
-+     * accesses
-      */
-     target_ulong old_value;
-     ret = riscv_csrrw_do64(env, csrno, &old_value,
-@@ -4154,11 +4158,11 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
- 
-     /* Supervisor Trap Setup */
-     [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus,
--                         NULL,                read_sstatus_i128               },
--    [CSR_SIE]        = { "sie",        smode, NULL,   NULL,    rmw_sie        },
--    [CSR_STVEC]      = { "stvec",      smode, read_stvec,      write_stvec    },
-+                         NULL,                read_sstatus_i128              },
-+    [CSR_SIE]        = { "sie",        smode, NULL,   NULL,    rmw_sie       },
-+    [CSR_STVEC]      = { "stvec",      smode, read_stvec,      write_stvec   },
-     [CSR_SCOUNTEREN] = { "scounteren", smode, read_scounteren,
--                         write_scounteren                                     },
-+                         write_scounteren                                    },
- 
-     /* Supervisor Trap Handling */
-     [CSR_SSCRATCH] = { "sscratch", smode, read_sscratch, write_sscratch,
-diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-index 1f7aed23c9..75ee1c4971 100644
---- a/target/riscv/debug.c
-+++ b/target/riscv/debug.c
-@@ -282,8 +282,8 @@ static target_ulong type2_mcontrol_validate(CPURISCVState *env,
-     /* validate size encoding */
-     size = type2_breakpoint_size(env, ctrl);
-     if (access_size[size] == -1) {
--        qemu_log_mask(LOG_UNIMP, "access size %d is not supported, using SIZE_ANY\n",
--                      size);
-+        qemu_log_mask(LOG_UNIMP, "access size %d is not supported, using "
-+                                 "SIZE_ANY\n", size);
-     } else {
-         val |= (ctrl & TYPE2_SIZELO);
-         if (riscv_cpu_mxl(env) == MXL_RV64) {
-@@ -411,8 +411,8 @@ static target_ulong type6_mcontrol6_validate(CPURISCVState *env,
-     /* validate size encoding */
-     size = extract32(ctrl, 16, 4);
-     if (access_size[size] == -1) {
--        qemu_log_mask(LOG_UNIMP, "access size %d is not supported, using SIZE_ANY\n",
--                      size);
-+        qemu_log_mask(LOG_UNIMP, "access size %d is not supported, using "
-+                                 "SIZE_ANY\n", size);
-     } else {
-         val |= (ctrl & TYPE6_SIZE);
-     }
-@@ -696,7 +696,8 @@ target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index)
-     int trigger_type;
-     switch (tdata_index) {
-     case TDATA1:
--        trigger_type = extract_trigger_type(env, env->tdata1[env->trigger_cur]);
-+        trigger_type = extract_trigger_type(env,
-+                                            env->tdata1[env->trigger_cur]);
-         if ((trigger_type == TRIGGER_TYPE_INST_CNT) && icount_enabled()) {
-             return deposit64(env->tdata1[env->trigger_cur], 10, 14,
-                              itrigger_get_adjust_count(env));
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 692bbb64f6..fa537aed74 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -321,7 +321,8 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-     }
-     if (env->misa_ext & RVV) {
-         int base_reg = cs->gdb_num_regs;
--        gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set_vector,
-+        gdb_register_coprocessor(cs, riscv_gdb_get_vector,
-+                                 riscv_gdb_set_vector,
-                                  ricsv_gen_dynamic_vector_xml(cs, base_reg),
-                                  "riscv-vector.xml", 0);
-     }
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 6ab2ae81c7..1f5aca42e8 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -129,7 +129,8 @@ static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
-     }
- }
- 
--static void pmp_decode_napot(target_ulong a, target_ulong *sa, target_ulong *ea)
-+static void pmp_decode_napot(target_ulong a, target_ulong *sa,
-+                             target_ulong *ea)
- {
-     /*
-      * aaaa...aaa0   8-byte NAPOT range
-@@ -217,7 +218,8 @@ static void pmp_update_rule(CPURISCVState *env, uint32_t pmp_index)
-     pmp_update_rule_nums(env);
- }
- 
--static int pmp_is_in_range(CPURISCVState *env, int pmp_index, target_ulong addr)
-+static int pmp_is_in_range(CPURISCVState *env, int pmp_index,
-+                           target_ulong addr)
- {
-     int result = 0;
- 
-diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-index 48ad60be2b..db06b3882f 100644
---- a/target/riscv/pmu.c
-+++ b/target/riscv/pmu.c
-@@ -419,7 +419,8 @@ int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value, uint32_t ctr_idx)
-     } else {
-         return -1;
-     }
--    overflow_at = (uint64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + overflow_ns;
-+    overflow_at = (uint64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-+                  overflow_ns;
- 
-     if (overflow_at > INT64_MAX) {
-         overflow_left += overflow_at - INT64_MAX;
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 81ac85b7d5..f4d0438988 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -382,8 +382,8 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
- }
- 
- /*
-- * masked unit-stride load and store operation will be a special case of stride,
-- * stride = NF * sizeof (MTYPE)
-+ * masked unit-stride load and store operation will be a special case of
-+ * stride, stride = NF * sizeof (MTYPE)
-  */
- 
- #define GEN_VEXT_LD_US(NAME, ETYPE, LOAD_FN)                            \
-@@ -678,7 +678,8 @@ vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
-         /* load/store rest of elements of current segment pointed by vstart */
-         for (pos = off; pos < max_elems; pos++, env->vstart++) {
-             target_ulong addr = base + ((pos + k * max_elems) << log2_esz);
--            ldst_elem(env, adjust_addr(env, addr), pos + k * max_elems, vd, ra);
-+            ldst_elem(env, adjust_addr(env, addr), pos + k * max_elems, vd,
-+                      ra);
-         }
-         k++;
-     }
-@@ -1306,7 +1307,9 @@ GEN_VEXT_SHIFT_VV(vsra_vv_h, uint16_t, int16_t, H2, H2, DO_SRL, 0xf)
- GEN_VEXT_SHIFT_VV(vsra_vv_w, uint32_t, int32_t, H4, H4, DO_SRL, 0x1f)
- GEN_VEXT_SHIFT_VV(vsra_vv_d, uint64_t, int64_t, H8, H8, DO_SRL, 0x3f)
- 
--/* generate the helpers for shift instructions with one vector and one scalar */
-+/*
-+ * generate the helpers for shift instructions with one vector and one scalar
-+ */
- #define GEN_VEXT_SHIFT_VX(NAME, TD, TS2, HD, HS2, OP, MASK) \
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1,      \
-                   void *vs2, CPURISCVState *env,            \
-@@ -2165,7 +2168,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,     \
-                  do_##NAME, ESZ);                               \
- }
- 
--static inline uint8_t saddu8(CPURISCVState *env, int vxrm, uint8_t a, uint8_t b)
-+static inline uint8_t saddu8(CPURISCVState *env, int vxrm, uint8_t a,
-+                             uint8_t b)
- {
-     uint8_t res = a + b;
-     if (res < a) {
-@@ -2309,7 +2313,8 @@ static inline int8_t sadd8(CPURISCVState *env, int vxrm, int8_t a, int8_t b)
-     return res;
- }
- 
--static inline int16_t sadd16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
-+static inline int16_t sadd16(CPURISCVState *env, int vxrm, int16_t a,
-+                             int16_t b)
- {
-     int16_t res = a + b;
-     if ((res ^ a) & (res ^ b) & INT16_MIN) {
-@@ -2319,7 +2324,8 @@ static inline int16_t sadd16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
-     return res;
- }
- 
--static inline int32_t sadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-+static inline int32_t sadd32(CPURISCVState *env, int vxrm, int32_t a,
-+                             int32_t b)
- {
-     int32_t res = a + b;
-     if ((res ^ a) & (res ^ b) & INT32_MIN) {
-@@ -2329,7 +2335,8 @@ static inline int32_t sadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-     return res;
- }
- 
--static inline int64_t sadd64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
-+static inline int64_t sadd64(CPURISCVState *env, int vxrm, int64_t a,
-+                             int64_t b)
- {
-     int64_t res = a + b;
-     if ((res ^ a) & (res ^ b) & INT64_MIN) {
-@@ -2357,7 +2364,8 @@ GEN_VEXT_VX_RM(vsadd_vx_h, 2)
- GEN_VEXT_VX_RM(vsadd_vx_w, 4)
- GEN_VEXT_VX_RM(vsadd_vx_d, 8)
- 
--static inline uint8_t ssubu8(CPURISCVState *env, int vxrm, uint8_t a, uint8_t b)
-+static inline uint8_t ssubu8(CPURISCVState *env, int vxrm, uint8_t a,
-+                             uint8_t b)
- {
-     uint8_t res = a - b;
-     if (res > a) {
-@@ -2428,7 +2436,8 @@ static inline int8_t ssub8(CPURISCVState *env, int vxrm, int8_t a, int8_t b)
-     return res;
- }
- 
--static inline int16_t ssub16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
-+static inline int16_t ssub16(CPURISCVState *env, int vxrm, int16_t a,
-+                             int16_t b)
- {
-     int16_t res = a - b;
-     if ((res ^ a) & (a ^ b) & INT16_MIN) {
-@@ -2438,7 +2447,8 @@ static inline int16_t ssub16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
-     return res;
- }
- 
--static inline int32_t ssub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-+static inline int32_t ssub32(CPURISCVState *env, int vxrm, int32_t a,
-+                             int32_t b)
- {
-     int32_t res = a - b;
-     if ((res ^ a) & (a ^ b) & INT32_MIN) {
-@@ -2448,7 +2458,8 @@ static inline int32_t ssub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-     return res;
- }
- 
--static inline int64_t ssub64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
-+static inline int64_t ssub64(CPURISCVState *env, int vxrm, int64_t a,
-+                             int64_t b)
- {
-     int64_t res = a - b;
-     if ((res ^ a) & (a ^ b) & INT64_MIN) {
-@@ -2504,7 +2515,8 @@ static inline uint8_t get_round(int vxrm, uint64_t v, uint8_t shift)
-     return 0; /* round-down (truncate) */
- }
- 
--static inline int32_t aadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-+static inline int32_t aadd32(CPURISCVState *env, int vxrm, int32_t a,
-+                             int32_t b)
- {
-     int64_t res = (int64_t)a + b;
-     uint8_t round = get_round(vxrm, res, 1);
-@@ -2512,7 +2524,8 @@ static inline int32_t aadd32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-     return (res >> 1) + round;
- }
- 
--static inline int64_t aadd64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
-+static inline int64_t aadd64(CPURISCVState *env, int vxrm, int64_t a,
-+                             int64_t b)
- {
-     int64_t res = a + b;
-     uint8_t round = get_round(vxrm, res, 1);
-@@ -2577,7 +2590,8 @@ GEN_VEXT_VX_RM(vaaddu_vx_h, 2)
- GEN_VEXT_VX_RM(vaaddu_vx_w, 4)
- GEN_VEXT_VX_RM(vaaddu_vx_d, 8)
- 
--static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-+static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a,
-+                             int32_t b)
- {
-     int64_t res = (int64_t)a - b;
-     uint8_t round = get_round(vxrm, res, 1);
-@@ -2585,7 +2599,8 @@ static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
-     return (res >> 1) + round;
- }
- 
--static inline int64_t asub64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
-+static inline int64_t asub64(CPURISCVState *env, int vxrm, int64_t a,
-+                             int64_t b)
- {
-     int64_t res = (int64_t)a - b;
-     uint8_t round = get_round(vxrm, res, 1);
-@@ -4498,7 +4513,9 @@ RVVCALL(OPFVV1, vfwcvt_x_f_v_w, WOP_UU_W, H8, H4, float32_to_int64)
- GEN_VEXT_V_ENV(vfwcvt_x_f_v_h, 4)
- GEN_VEXT_V_ENV(vfwcvt_x_f_v_w, 8)
- 
--/* vfwcvt.f.xu.v vd, vs2, vm # Convert unsigned integer to double-width float */
-+/*
-+ * vfwcvt.f.xu.v vd, vs2, vm # Convert unsigned integer to double-width float.
-+ */
- RVVCALL(OPFVV1, vfwcvt_f_xu_v_b, WOP_UU_B, H2, H1, uint8_to_float16)
- RVVCALL(OPFVV1, vfwcvt_f_xu_v_h, WOP_UU_H, H4, H2, uint16_to_float32)
- RVVCALL(OPFVV1, vfwcvt_f_xu_v_w, WOP_UU_W, H8, H4, uint32_to_float64)
-@@ -4515,8 +4532,7 @@ GEN_VEXT_V_ENV(vfwcvt_f_x_v_h, 4)
- GEN_VEXT_V_ENV(vfwcvt_f_x_v_w, 8)
- 
- /*
-- * vfwcvt.f.f.v vd, vs2, vm
-- * Convert single-width float to double-width float.
-+ * vfwcvt.f.f.v vd, vs2, vm # Convert single-width float to double-width float.
-  */
- static uint32_t vfwcvtffv16(uint16_t a, float_status *s)
- {
-@@ -4549,7 +4565,9 @@ GEN_VEXT_V_ENV(vfncvt_x_f_w_b, 1)
- GEN_VEXT_V_ENV(vfncvt_x_f_w_h, 2)
- GEN_VEXT_V_ENV(vfncvt_x_f_w_w, 4)
- 
--/* vfncvt.f.xu.v vd, vs2, vm # Convert double-width unsigned integer to float */
-+/*
-+ * vfncvt.f.xu.v vd, vs2, vm # Convert double-width unsigned integer to float.
-+ */
- RVVCALL(OPFVV1, vfncvt_f_xu_w_h, NOP_UU_H, H2, H4, uint32_to_float16)
- RVVCALL(OPFVV1, vfncvt_f_xu_w_w, NOP_UU_W, H4, H8, uint64_to_float32)
- GEN_VEXT_V_ENV(vfncvt_f_xu_w_h, 2)
-@@ -4699,14 +4717,20 @@ GEN_VEXT_FRED(vfredosum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
- GEN_VEXT_FRED(vfredosum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
- 
- /* Maximum value */
--GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maximum_number)
--GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4, float32_maximum_number)
--GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8, float64_maximum_number)
-+GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2,
-+              float16_maximum_number)
-+GEN_VEXT_FRED(vfredmax_vs_w, uint32_t, uint32_t, H4, H4,
-+              float32_maximum_number)
-+GEN_VEXT_FRED(vfredmax_vs_d, uint64_t, uint64_t, H8, H8,
-+              float64_maximum_number)
- 
- /* Minimum value */
--GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2, float16_minimum_number)
--GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4, float32_minimum_number)
--GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, float64_minimum_number)
-+GEN_VEXT_FRED(vfredmin_vs_h, uint16_t, uint16_t, H2, H2,
-+              float16_minimum_number)
-+GEN_VEXT_FRED(vfredmin_vs_w, uint32_t, uint32_t, H4, H4,
-+              float32_minimum_number)
-+GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8,
-+              float64_minimum_number)
- 
- /* Vector Widening Floating-Point Add Instructions */
- static uint32_t fwadd16(uint32_t a, uint16_t b, float_status *s)
--- 
-2.25.1
+Alistair
 
+> ---
+>  MAINTAINERS          |   6 ++
+>  hw/Kconfig           |   1 +
+>  hw/mcb/Kconfig       |   2 +
+>  hw/mcb/mcb.c         | 182 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/mcb/meson.build   |   1 +
+>  hw/meson.build       |   1 +
+>  include/hw/mcb/mcb.h | 106 +++++++++++++++++++++++++
+>  7 files changed, 299 insertions(+)
+>  create mode 100644 hw/mcb/Kconfig
+>  create mode 100644 hw/mcb/mcb.c
+>  create mode 100644 hw/mcb/meson.build
+>  create mode 100644 include/hw/mcb/mcb.h
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 98cb2d64cf..badec8abdd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1947,6 +1947,12 @@ R: Paolo Bonzini <pbonzini@redhat.com>
+>  S: Odd Fixes
+>  F: hw/char/
+>
+> +MEN Chameleon Bus
+> +M: Johannes Thumshirn <jth@kernel.org>
+> +S: Maintained
+> +F: hw/mcb/
+> +F: include/hw/mcb/
+> +
+>  Network devices
+>  M: Jason Wang <jasowang@redhat.com>
+>  S: Odd Fixes
+> diff --git a/hw/Kconfig b/hw/Kconfig
+> index ba62ff6417..f5ef84b10b 100644
+> --- a/hw/Kconfig
+> +++ b/hw/Kconfig
+> @@ -18,6 +18,7 @@ source intc/Kconfig
+>  source ipack/Kconfig
+>  source ipmi/Kconfig
+>  source isa/Kconfig
+> +source mcb/Kconfig
+>  source mem/Kconfig
+>  source misc/Kconfig
+>  source net/Kconfig
+> diff --git a/hw/mcb/Kconfig b/hw/mcb/Kconfig
+> new file mode 100644
+> index 0000000000..36a7a583a8
+> --- /dev/null
+> +++ b/hw/mcb/Kconfig
+> @@ -0,0 +1,2 @@
+> +config MCB
+> +    bool
+> diff --git a/hw/mcb/mcb.c b/hw/mcb/mcb.c
+> new file mode 100644
+> index 0000000000..f2bf722de5
+> --- /dev/null
+> +++ b/hw/mcb/mcb.c
+> @@ -0,0 +1,182 @@
+> +/*
+> + * QEMU MEN Chameleon Bus emulation
+> + *
+> + * Copyright (C) 2023 Johannes Thumshirn <jth@kernel.org>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2.  See
+> + * the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/module.h"
+> +#include "hw/mcb/mcb.h"
+> +#include "hw/irq.h"
+> +#include "hw/qdev-properties.h"
+> +#include "migration/vmstate.h"
+> +
+> +ChameleonDeviceDescriptor *mcb_new_chameleon_descriptor(MCBus *bus, uint=
+8_t id,
+> +                                                        uint8_t rev,
+> +                                                        uint8_t var,
+> +                                                        uint32_t size)
+> +{
+> +    BusChild *kid;
+> +    ChameleonDeviceDescriptor *gdd;
+> +    uint32_t reg1 =3D 0;
+> +    uint32_t offset =3D 0x200;
+> +    uint32_t end =3D 0;
+> +
+> +    gdd =3D  g_new0(ChameleonDeviceDescriptor, 1);
+> +    if (!gdd) {
+> +        return NULL;
+> +    }
+> +
+> +    reg1 |=3D GDD_DEV(id);
+> +    reg1 |=3D GDD_DTY(CHAMELEON_DTYPE_GENERAL);
+> +    reg1 |=3D GDD_REV(rev);
+> +    reg1 |=3D GDD_VAR(var);
+> +    gdd->reg1 =3D cpu_to_le32(reg1);
+> +
+> +    QTAILQ_FOREACH(kid, &BUS(bus)->children, sibling) {
+> +        DeviceState *qdev =3D kid->child;
+> +        MCBDevice *mdev =3D MCB_DEVICE(qdev);
+> +
+> +        if (mdev->gdd) {
+> +            offset =3D mdev->gdd->offset;
+> +            end =3D offset + mdev->gdd->size;
+> +        }
+> +    }
+> +
+> +    gdd->offset =3D offset + end;
+> +    gdd->size =3D size;
+> +
+> +    return gdd;
+> +}
+> +
+> +static void mcb_irq_handler(void *opaque, int irq_num, int level)
+> +{
+> +    MCBDevice *dev =3D opaque;
+> +    MCBus *bus =3D MCB_BUS(qdev_get_parent_bus(DEVICE(dev)));
+> +
+> +    if (bus->set_irq) {
+> +        bus->set_irq(dev, irq_num, level);
+> +    }
+> +}
+> +
+> +qemu_irq mcb_allocate_irq(MCBDevice *dev)
+> +{
+> +    int irq =3D 0;
+> +    return qemu_allocate_irq(mcb_irq_handler, dev, irq);
+> +}
+> +
+> +MCBDevice *mcb_device_find(MCBus *bus, hwaddr addr)
+> +{
+> +    BusChild *kid;
+> +    uint32_t start;
+> +    uint32_t end;
+> +
+> +    QTAILQ_FOREACH(kid, &BUS(bus)->children, sibling) {
+> +        DeviceState *qdev =3D kid->child;
+> +        MCBDevice *mdev =3D MCB_DEVICE(qdev);
+> +
+> +        start =3D mdev->gdd->offset;
+> +        end =3D start + mdev->gdd->size;
+> +
+> +        if (addr >=3D start && addr <=3D end) {
+> +            return mdev;
+> +        }
+> +    }
+> +    return NULL;
+> +}
+> +
+> +void mcb_bus_init(MCBus *bus, size_t bus_size,
+> +                  DeviceState *parent,
+> +                  uint8_t n_slots,
+> +                  qemu_irq_handler handler)
+> +{
+> +    qbus_init(bus, bus_size, TYPE_MCB_BUS, parent, NULL);
+> +    bus->n_slots =3D n_slots;
+> +    bus->set_irq =3D handler;
+> +}
+> +
+> +static void mcb_device_realize(DeviceState *dev, Error **errp)
+> +{
+> +    MCBDevice *mdev =3D MCB_DEVICE(dev);
+> +    MCBus *bus =3D MCB_BUS(qdev_get_parent_bus(dev));
+> +    MCBDeviceClass *k =3D MCB_DEVICE_GET_CLASS(dev);
+> +
+> +    if (mdev->slot < 0) {
+> +        mdev->slot =3D bus->free_slot;
+> +    }
+> +
+> +    if (mdev->slot >=3D bus->n_slots) {
+> +        error_setg(errp, "Only %" PRIu8 " slots available.", bus->n_slot=
+s);
+> +        return;
+> +    }
+> +    bus->free_slot =3D mdev->slot + 1;
+> +
+> +    mdev->irq =3D qemu_allocate_irqs(bus->set_irq, mdev, 1);
+> +
+> +    k->realize(dev, errp);
+> +}
+> +
+> +static void mcb_device_unrealize(DeviceState *dev)
+> +{
+> +    MCBDevice *mdev =3D MCB_DEVICE(dev);
+> +    MCBDeviceClass *k =3D MCB_DEVICE_GET_CLASS(dev);
+> +
+> +    if (k->unrealize) {
+> +        k->unrealize(dev);
+> +        return;
+> +    }
+> +
+> +    qemu_free_irqs(mdev->irq, 1);
+> +}
+> +
+> +static Property mcb_device_props[] =3D {
+> +    DEFINE_PROP_INT32("slot", MCBDevice, slot, -1),
+> +    DEFINE_PROP_END_OF_LIST()
+> +};
+> +
+> +static void mcb_device_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *k =3D DEVICE_CLASS(klass);
+> +
+> +    set_bit(DEVICE_CATEGORY_INPUT, k->categories);
+> +    k->bus_type =3D TYPE_MCB_BUS;
+> +    k->realize =3D mcb_device_realize;
+> +    k->unrealize =3D mcb_device_unrealize;
+> +    device_class_set_props(k, mcb_device_props);
+> +}
+> +
+> +const VMStateDescription vmstate_mcb_device =3D {
+> +    .name =3D "mcb_device",
+> +    .version_id =3D 1,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_INT32(slot, MCBDevice),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static const TypeInfo mcb_device_info =3D {
+> +    .name =3D TYPE_MCB_DEVICE,
+> +    .parent =3D TYPE_DEVICE,
+> +    .instance_size =3D sizeof(MCBDevice),
+> +    .class_size =3D sizeof(MCBDeviceClass),
+> +    .class_init =3D mcb_device_class_init,
+> +    .abstract =3D true,
+> +};
+> +
+> +static const TypeInfo mcb_bus_info =3D {
+> +    .name =3D TYPE_MCB_BUS,
+> +    .parent =3D TYPE_BUS,
+> +    .instance_size =3D sizeof(MCBus),
+> +};
+> +
+> +static void mcb_register_types(void)
+> +{
+> +    type_register_static(&mcb_device_info);
+> +    type_register_static(&mcb_bus_info);
+> +}
+> +
+> +type_init(mcb_register_types);
+> diff --git a/hw/mcb/meson.build b/hw/mcb/meson.build
+> new file mode 100644
+> index 0000000000..a385edc07c
+> --- /dev/null
+> +++ b/hw/mcb/meson.build
+> @@ -0,0 +1 @@
+> +softmmu_ss.add(when: 'CONFIG_MCB', if_true: files('mcb.c'))
+> diff --git a/hw/meson.build b/hw/meson.build
+> index c7ac7d3d75..3d1462ad8b 100644
+> --- a/hw/meson.build
+> +++ b/hw/meson.build
+> @@ -18,6 +18,7 @@ subdir('intc')
+>  subdir('ipack')
+>  subdir('ipmi')
+>  subdir('isa')
+> +subdir('mcb')
+>  subdir('mem')
+>  subdir('misc')
+>  subdir('net')
+> diff --git a/include/hw/mcb/mcb.h b/include/hw/mcb/mcb.h
+> new file mode 100644
+> index 0000000000..ff120073e1
+> --- /dev/null
+> +++ b/include/hw/mcb/mcb.h
+> @@ -0,0 +1,106 @@
+> +/*
+> + * QEMU MEN Chameleon Bus emulation
+> + *
+> + * Copyright (C) 2023 Johannes Thumshirn <jth@kernel.org>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2.  See
+> + * the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef QEMU_MCB_H
+> +#define QEMU_MCB_H
+> +
+> +#include "hw/qdev-core.h"
+> +#include "qom/object.h"
+> +#include "exec/memory.h"
+> +
+> +#define CHAMELEON_DTYPE_GENERAL  0x0
+> +#define CHAMELEON_DTYPE_END 0xf
+> +
+> +typedef struct {
+> +    uint32_t reg1;
+> +    uint32_t reg2;
+> +    uint32_t offset;
+> +    uint32_t size;
+> +} ChameleonDeviceDescriptor;
+> +
+> +#define GDD_DEV(x) (((x) & 0x3ff) << 18)
+> +#define GDD_DTY(x) (((x) & 0xf) << 28)
+> +#define GDD_REV(x) (((x) & 0x3f) << 5)
+> +#define GDD_VAR(x) (((x) & 0x3f) << 11)
+> +
+> +/* GDD Register 1 fields */
+> +#define GDD_IRQ(x) ((x) & 0x1f)
+> +
+> +/* GDD Register 2 fields */
+> +#define GDD_BAR(x) ((x) & 0x7)
+> +#define GDD_INS(x) (((x) >> 3) & 0x3f)
+> +#define GDD_GRP(x) (((x) >> 9) & 0x3f)
+> +
+> +typedef struct MCBus MCBus;
+> +
+> +#define TYPE_MCB_BUS "MEN Chameleon Bus"
+> +OBJECT_DECLARE_SIMPLE_TYPE(MCBus, MCB_BUS)
+> +
+> +struct MCBus {
+> +    /*< private >*/
+> +    BusState parent_obj;
+> +
+> +    uint8_t n_slots;
+> +    uint8_t free_slot;
+> +    qemu_irq_handler set_irq;
+> +    MemoryRegion mmio_region;
+> +};
+> +
+> +typedef struct MCBDevice MCBDevice;
+> +typedef struct MCBDeviceClass MCBDeviceClass;
+> +
+> +#define TYPE_MCB_DEVICE "mcb-device"
+> +#define MCB_DEVICE(obj) \
+> +    OBJECT_CHECK(MCBDevice, (obj), TYPE_MCB_DEVICE)
+> +#define MCB_DEVICE_CLASS(klass) \
+> +    OBJECT_CLASS_CHECK(MCBDeviceClass, (klass), TYPE_MCB_DEVICE)
+> +#define MCB_DEVICE_GET_CLASS(obj) \
+> +     OBJECT_GET_CLASS(MCBDeviceClass, (obj), TYPE_MCB_DEVICE)
+> +
+> +struct MCBDeviceClass {
+> +    /*< private >*/
+> +    DeviceClass parent_class;
+> +    /*< public >*/
+> +
+> +
+> +    DeviceRealize realize;
+> +    DeviceUnrealize unrealize;
+> +};
+> +
+> +struct MCBDevice {
+> +    /*< private >*/
+> +    DeviceState parent_obj;
+> +    /*< public >*/
+> +
+> +    qemu_irq *irq;
+> +    ChameleonDeviceDescriptor *gdd;
+> +    int slot;
+> +
+> +    uint8_t rev;
+> +    uint8_t var;
+> +};
+> +
+> +extern const VMStateDescription vmstate_mcb_device;
+> +
+> +ChameleonDeviceDescriptor *mcb_new_chameleon_descriptor(MCBus *bus, uint=
+8_t id,
+> +                                                        uint8_t rev,
+> +                                                        uint8_t var,
+> +                                                        uint32_t size);
+> +
+> +#define VMSTATE_MCB_DEVICE(_field, _state)      \
+> +    VMSTATE_STRUCT(_field, _state, 1, vmstate_mcb_device, MCBDevice)
+> +
+> +MCBDevice *mcb_device_find(MCBus *bus, hwaddr addr);
+> +void mcb_bus_init(MCBus *bus, size_t bus_size,
+> +                  DeviceState *parent,
+> +                  uint8_t n_slots,
+> +                  qemu_irq_handler handler);
+> +
+> +qemu_irq mcb_allocate_irq(MCBDevice *dev);
+> +#endif
+> --
+> 2.39.2
+>
+>
 
