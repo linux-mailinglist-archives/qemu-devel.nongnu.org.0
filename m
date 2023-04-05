@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98326D79AA
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C43A46D7D9F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 15:22:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk0M2-00081i-Gn; Wed, 05 Apr 2023 06:27:02 -0400
+	id 1pk34w-0007Cx-0l; Wed, 05 Apr 2023 09:21:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pk0Lx-00081I-9X
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:26:59 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
+ id 1pk0Mx-0000Fw-1M
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:27:59 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pk0Lu-00040q-Sc
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:26:56 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id v1so35666492wrv.1
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:26:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
+ id 1pk0Mu-0004Pa-Hh
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:27:58 -0400
+Received: by mail-pg1-x532.google.com with SMTP id z10so21397160pgr.8
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:27:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680690413;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Lww6dDMe0bMEJli6/6ZP6j4C+of80/qR+ErByK0yw5g=;
- b=A+4oG+PJQ4lEZ6T1z8xTGbTG1pEru7t6wl92B6x2UAdtjSn4xJzf7eV7I2j4gpyXbn
- 92WZ5xE3JJgQFywvuyLRJMG40XXULmggfQHz69w92CEIWEygoSuigsrjq9ht1V3Zgu4i
- z6TNY9OfzzcZUcU6HOCAxUSIK/3goyowjInTAglW7fsosL6LxLa21DNgd+90SoYxNwuq
- nd1NNnRxAH+BUWyGiJkYqmYw+QSWqTzOkEiAh19YsI+W7wvfl1+9S9BkkI5tN+bxmvJZ
- grxortISRJgmJfB1B0BK78szZCrNSh2iGdM/WCCfqUuU/hheHyQVJZmwC0sSHOmCINwS
- /EBA==
+ d=gmail.com; s=20210112; t=1680690471;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XdQm+7ejU5W3ZiYW2kITWuF4BnboMdtjnWMQZ1zoLuE=;
+ b=p7kqE4dXfcsReP2L4GVuvJxuNmIEOb8H460SfvUY+AXKAypXa4g7JOE8USHH66ZHjD
+ YYpYkKpNpoNPDY2N6bimKmhuC3ODjH1IUPChwLTtPxyLsTAKgx+o8oqkOzFRCGjfy8OO
+ eZhFXBjBLO+dUfOeRB8PGpcFFQ3LITwlXHibo1+MJ0uD9MxOp0RkLUxMGTdjuC6PfFRs
+ suOgFSgxJOFs0hyz1PnQswXTBCFjXiqD7HcGdXWzdihoWx41w+/5cBnKqAWCQOGooOEL
+ tJLyZDzauEPIz0IBR3cm96MrOrtjAp4B1pQ43aXQIhtBPfXcPZeDeKKEBItLVvJOfyH1
+ h75Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680690413;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Lww6dDMe0bMEJli6/6ZP6j4C+of80/qR+ErByK0yw5g=;
- b=oAl/MYZsnlw/jMdhI9acPTRsj3KM/jCeXleZnLksRo8eqGS3u2F03JYFiyaG0Bad1r
- q3Te7s6MMJ9ub1Ff0mWb93R+peXVfoHzrTCrwTDDazkbtlxSG/6aB3Xd3LnQL8IEFkOx
- AiDX/csuqpjd0fYPFzgXE4EBxo7VJMHU/mcA1ixL9SF8x9K1GVVEmLcX4E8c3dhGip5I
- 61iKR1Bx0jBGi1ApWxVPk6ccj7KzcOeYyMOhl/MG9kuWxYH72rvla1fu5bPOGCex6j3+
- JmYQVYZMzu+c2lq9J6DOHLlU9D0MVkz4D7oVN3O3mTd7TuyTu4gdpN+sWE5zWNFRH1h0
- s1HA==
-X-Gm-Message-State: AAQBX9e5MjfXT7HIhl1JdNQWFBKV8pEtLLlF105ipCVthveal0IY8Z5h
- A7pfAudZGNEOlGBB4fFGhgH7yQ==
-X-Google-Smtp-Source: AKy350bNr4KJH+ZbusBX8ddHYWCR5TF9ug/D4hQCNf5bE3nZzYv03gsenyNx3XTYaQjbqtu0borjcw==
-X-Received: by 2002:a5d:6b0a:0:b0:2cd:bc79:5444 with SMTP id
- v10-20020a5d6b0a000000b002cdbc795444mr3747030wrw.2.1680690413210; 
- Wed, 05 Apr 2023 03:26:53 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20210112; t=1680690471;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XdQm+7ejU5W3ZiYW2kITWuF4BnboMdtjnWMQZ1zoLuE=;
+ b=D4z2brM3bTkWyO+hhsPxkgG3ROUtkyI+sn0HN81huGF469XbVZwfDDmsqCNSP6rHa9
+ uw41/pxSmRFlBzpUOc62oDs8ahO2wRsK1HYBOto3+wknulIVrz68wTNqIYsKKMTFxz/+
+ 9PbQCr9tXzP1QAjVxvZV5KMfKSBMfVVHQJie+5oePl8TL3LqYC9luU0GLfXR9YkqYQMd
+ +vBMtcPzahXBPOQ98mvOjn7DPYVwTIho+SJnLqlYk9PeGSLn+vVywK8p7G0CqY99gzGK
+ 1/MU99zvj5YliiyMJTLPeiOR8Yh3/fKuNSumnFQWMdxYC7fKqR+LVIDQdAZpog2TtTmd
+ WV6w==
+X-Gm-Message-State: AAQBX9ex2bfFcWcmImkmjxLfgPDMioMG/eg7jf2oZjWMOstt52j/2PGF
+ PZYUyd5/30/dkKxkTt844ys=
+X-Google-Smtp-Source: AKy350bU3LXZrgVAk4T/GI7cITLXQhOv/+63Ip+JOh3OtKU1Z4vJbPg7TP6bGcP8RUg8E5fjWg73wA==
+X-Received: by 2002:a62:3885:0:b0:626:26f:5e4b with SMTP id
+ f127-20020a623885000000b00626026f5e4bmr5052134pfa.1.1680690471514; 
+ Wed, 05 Apr 2023 03:27:51 -0700 (PDT)
+Received: from raghuh-elastics.. ([2406:7400:56:45c3:a6be:1cbb:af02:2769])
  by smtp.gmail.com with ESMTPSA id
- bd5-20020a05600c1f0500b003f0472ffc7csm1768461wmb.11.2023.04.05.03.26.52
+ d3-20020aa78683000000b0062e024b5584sm7375186pfo.34.2023.04.05.03.27.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 03:26:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7DA471FFB7;
- Wed,  5 Apr 2023 11:26:52 +0100 (BST)
-References: <cover.1678351495.git.viresh.kumar@linaro.org>
- <20230405080512.nvxiw4lv7hyuzqej@vireshk-i7> <87h6tulkae.fsf@linaro.org>
- <20230405060340-mutt-send-email-mst@kernel.org>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>, qemu-devel@nongnu.org,
- virtio-dev@lists.oasis-open.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- stratos-dev@op-lists.linaro.org, Oleksandr Tyshchenko
- <olekstysh@gmail.com>, xen-devel@lists.xen.org, Andrew Cooper
- <andrew.cooper3@citrix.com>, Juergen Gross <jgross@suse.com>, Sebastien
- Boeuf <sebastien.boeuf@intel.com>, Liu Jiang <gerry@linux.alibaba.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH V3 0/2] qemu: vhost-user: Support Xen memory mapping quirks
-Date: Wed, 05 Apr 2023 11:24:43 +0100
-In-reply-to: <20230405060340-mutt-send-email-mst@kernel.org>
-Message-ID: <87cz4ilj4j.fsf@linaro.org>
+ Wed, 05 Apr 2023 03:27:51 -0700 (PDT)
+From: Raghu H <raghuhack78@gmail.com>
+To: 
+Cc: maverickk1778@gmail.com, Raghu H <raghuhack78@gmail.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH] docs:remove cxl3 device size
+Date: Wed,  5 Apr 2023 15:57:38 +0530
+Message-Id: <20230405102738.2062169-1-raghuhack78@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=raghuhack78@gmail.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 05 Apr 2023 09:21:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,60 +90,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+cxl device typ3 size is read from the memory backend device, removing the
+size option specified in cxl sample command.
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+Updating sample command to reflect target architecture as x86_64.
 
-> On Wed, Apr 05, 2023 at 11:00:34AM +0100, Alex Benn=C3=A9e wrote:
->>=20
->> Viresh Kumar <viresh.kumar@linaro.org> writes:
->>=20
->> > On 09-03-23, 14:20, Viresh Kumar wrote:
->> >> Hello,
->> >>=20
->> >> This patchset tries to update the vhost-user protocol to make it supp=
-ort special
->> >> memory mapping required in case of Xen hypervisor.
->> >>=20
->> >> The first patch is mostly cleanup and second one introduces a new xen=
- specific
->> >> feature.
->> >
->> > Can we apply this now ? I have developed code for rust-vmm crates
->> > based on this and we need to get this merged/finalized first before
->> > merging those changes.
->>=20
->>=20
->> I've queued into my virtio/vhost-user-device series so I'll get merged
->> with that series unless mst wants to take it now.
->
-> Well the patches are tagged and I was going to take these after the relea=
-se.
-> Probably easier not to work on this in two trees.
-> Still if there's something in your tree being blocked
-> by these patches then
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> Let me know.
+Signed-off-by: Raghu H <raghuhack78@gmail.com>
+---
+ docs/system/devices/cxl.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-The virtio/vhost-user-device tree work is orthogonal to this vhost-user
-enhancement although all the work is related to our latest VirtIO
-project inside Linaro, Orko:
-https://linaro.atlassian.net/wiki/spaces/ORKO/overview
+diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
+index f25783a4ec..b228146cec 100644
+--- a/docs/system/devices/cxl.rst
++++ b/docs/system/devices/cxl.rst
+@@ -302,7 +302,7 @@ Example command lines
+ ---------------------
+ A very simple setup with just one directly attached CXL Type 3 device::
+ 
+-  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
++  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
+   ...
+   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+   -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
+@@ -315,7 +315,7 @@ A setup suitable for 4 way interleave. Only one fixed window provided, to enable
+ interleave across 2 CXL host bridges.  Each host bridge has 2 CXL Root Ports, with
+ the CXL Type3 device directly attached (no switches).::
+ 
+-  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
++  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
+   ...
+   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+   -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M \
+@@ -339,7 +339,7 @@ the CXL Type3 device directly attached (no switches).::
+ 
+ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
+ 
+-  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
++  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
+   ...
+   -object memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M \
+   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M \
+@@ -354,13 +354,13 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
+   -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
+   -device cxl-upstream,bus=root_port0,id=us0 \
+   -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
+-  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
++  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0 \
+   -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
+-  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
++  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1 \
+   -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
+-  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
++  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2 \
+   -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
+-  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
++  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3 \
+   -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
+ 
+ Kernel Configuration Options
+-- 
+2.34.1
 
-So if you are happy please take these patches now for when the tree
-re-opens.
-
->
->
->> >
->> > Thanks.
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
->> Virtualisation Tech Lead @ Linaro
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
