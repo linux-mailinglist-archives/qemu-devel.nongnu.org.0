@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73EC96D739A
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 07:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 529A36D73A5
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 07:12:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjvIF-0008NK-09; Wed, 05 Apr 2023 01:02:47 -0400
+	id 1pjvPc-0001DR-5e; Wed, 05 Apr 2023 01:10:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pjvI1-0008Ml-EG
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 01:02:37 -0400
-Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33])
+ id 1pjvPX-0001Cw-1v; Wed, 05 Apr 2023 01:10:20 -0400
+Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pjvHx-0000IC-6m
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 01:02:33 -0400
-Received: by mail-vs1-xe33.google.com with SMTP id h27so30447610vsa.1
- for <qemu-devel@nongnu.org>; Tue, 04 Apr 2023 22:02:27 -0700 (PDT)
+ id 1pjvPT-0008Ob-0p; Wed, 05 Apr 2023 01:10:18 -0400
+Received: by mail-vs1-xe29.google.com with SMTP id df34so30398473vsb.8;
+ Tue, 04 Apr 2023 22:10:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680670946;
+ d=gmail.com; s=20210112; t=1680671410;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LGwRoVP1Vl01VWEiEJ8t6A70sClpk4r6c0Clt0CKsYI=;
- b=bUyMAhIB6BjI+j+b1P8RHdLcZEUFfrhBLmgxdblZfW3WUslWu858zOajfXYusXNuGt
- yOMCnsksH8cWWLqubxyZsUrWwJDpjpcTe/XNN3/JiMkXf+EGk7HX9TdOsIMNgKVq6Lvg
- fKJEDu35SwdBbeDncLlMLotU0i7VkuqwCdxm9gyczPTPIknJoHAbtvnpRRU0T9ASEgRh
- cCC6JJWLIqsmV+w1YVI1o8GEC7OcBKDO4cFXBbVetKOcb2xUCdfFx2loPR/WKAt6yT8K
- eqluGVMr57Ntewl/YUmq/UIOyE6WHm7jwR4ttU0cw9SI7PRflvdtVjXaVoQIphlO8PBP
- yvWw==
+ bh=72kN9BlG3PEbZHWwE6kiJqhzMkkc6hjjs6UOp+QedQg=;
+ b=FLCoNMdaPaJmYfNmQLBazgqlMHJBu1dBJiHd+6njGxVRcDTcNCOOQuZKHjmodFkl/p
+ F1jiJDyC/QIssWnY4ecUAtHjvjbRIvBdYnykMIBro60SuY+UxvYgzTa+/HRg+G5jtELf
+ Ak5fBvAp3MDBzYM3LFdPpfsRNy7vWKGyBzMe2bwQpIY9qESL+W8DSHhK155nfyHYzUXB
+ bUcvozcokeDOY/6bSv/ku5uxARMeAaUUYvycSWcO9P1mkQba3g13ineXchJBV99CwbqF
+ Kl2zAUlNXNoamCxpOh3c+YPCEn9AYlY08IivpzVPEIGhUncBVGLiUkl1MuigC8FYV6LJ
+ Bqcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680670946;
+ d=1e100.net; s=20210112; t=1680671410;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LGwRoVP1Vl01VWEiEJ8t6A70sClpk4r6c0Clt0CKsYI=;
- b=pbeOC76X8N4yPo7rkPxpc9Dk+dpCZeZjCOuw6DE9ma0FwUl8SAb9g0oms2VBj0LjoU
- sOk4i88HRKPPk9uLqnop8A+8KSOhsIWnuC4JUP7iqjFT0ylQO3nbUkEO7cRYEksUtyjv
- Ld6bSPWM4Rztn9hPr11TUiLUbxUklwRifUT6Rj7HcpuEknnERFFRy0tzWjgD9Lc7lXu8
- M+IwU4bZ/MVJCkQ3EAeDGo1z8WxK4TGkfi9YyNac1iUiOJt+rDBpvJy51AVueg8k49Tx
- b90w0wdK5+Y4sK4uDZ1OMqUfaamGzBhv2OBpcMr6a+oU8eNu4PjLK2GuKMkZarwjVoCp
- cbNg==
-X-Gm-Message-State: AAQBX9cGsMftLHRf7wjbulVlXfh6bwnHmBLAXmLedqXKJxGNTBbKPnki
- UJAMO1ZvM+rvljy8A4xqenmZ0LDkiiruKSjYa7E=
-X-Google-Smtp-Source: AKy350YddGSIxSXMtpX3wcfSKrDRO/xPfMhLRuMC2Cuhf7KXMJHVdqjRDZcLgBl3oYYMGLDP2qhcVr5K7z0YRRJNAVo=
-X-Received: by 2002:a67:e106:0:b0:402:999f:51dd with SMTP id
- d6-20020a67e106000000b00402999f51ddmr4134825vsl.3.1680670946323; Tue, 04 Apr
- 2023 22:02:26 -0700 (PDT)
+ bh=72kN9BlG3PEbZHWwE6kiJqhzMkkc6hjjs6UOp+QedQg=;
+ b=vK8yZRWpkm9FP1Pl769zBukrjLbKpnBNzda0ydlSZ+HnVbsFg6rXfQiNqmxb3ZS+GW
+ nGrGHGkWbv4btyZi7qGclG6U+r6sJiqfaxPy8YtTNNT6cqQGEPdRTiYFLOYzTryTy81p
+ CF715v41YMxwm2X6Is56AbeoWeA/bNliHQ0H425Kwk52logI6S8J7+VzVFMGmoEGtvXw
+ I9vfwWNRzB//+G45cuW7pyFm5mWL2mZ/3GkSSuAEyvsSG3ZO6hR9Uf0iWiqUA0wAH8cP
+ G9nuBzlLqbGexY28KiB+Og3vB37ER96PJwBjklNVfwy+7goDYHA3trp2DWVR+RekwvMZ
+ BI7g==
+X-Gm-Message-State: AAQBX9fUfPRWe412wUdJc0vZxKdsxEL94bt0uqQr04LRon6qPRIs8ip2
+ UJdMFbaCu9eT7IoPVbdnvc6mOpGgMYKrRueKXUM=
+X-Google-Smtp-Source: AKy350YD0KVvaP/aKhZM7BDw/bOJ4cdPTpxFv6l+SvA9VgQdd1+hWZQGeuCRC+grQvE06gvsGjzq7VcO6UYrGV5ZCCY=
+X-Received: by 2002:a67:c29e:0:b0:425:d39f:3882 with SMTP id
+ k30-20020a67c29e000000b00425d39f3882mr4004120vsj.3.1680671410583; Tue, 04 Apr
+ 2023 22:10:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230206234220.8414-1-dongli.zhang@oracle.com>
-In-Reply-To: <20230206234220.8414-1-dongli.zhang@oracle.com>
+References: <20230324064011.976-1-zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230324064011.976-1-zhiwei_liu@linux.alibaba.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 5 Apr 2023 15:02:00 +1000
-Message-ID: <CAKmqyKNosXyarcem0USvbtFUk93Xw_CbKhZPNom88iJwRTgu4w@mail.gmail.com>
-Subject: Re: [PATCH 1/1] hw/core/cpu: always print cpu index with cpu state
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, richard.henderson@linaro.org, 
- pbonzini@redhat.com, joe.jin@oracle.com
+Date: Wed, 5 Apr 2023 15:09:44 +1000
+Message-ID: <CAKmqyKP2twN5tisvKOR2BfRZH8cMkozN2KBWdLE3Wrgp++xWHg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix itrigger when icount is used
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, Alistair.Francis@wdc.com, palmer@dabbelt.com, 
+ bin.meng@windriver.com, liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com, 
+ qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe29.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,50 +86,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 7, 2023 at 9:46=E2=80=AFAM Dongli Zhang <dongli.zhang@oracle.co=
-m> wrote:
+On Sat, Mar 25, 2023 at 2:04=E2=80=AFAM LIU Zhiwei <zhiwei_liu@linux.alibab=
+a.com> wrote:
 >
-> The cpu_dump_state() does not print the cpu index. When the
-> cpu_dump_state() is invoked due to the KVM failure, we are not able to te=
-ll
-> from which CPU the state is. The below is an example.
+> When I boot a ubuntu image, QEMU output a "Bad icount read" message and e=
+xit.
+> The reason is that when execute helper_mret or helper_sret, it will
+> cause a call to icount_get_raw_locked (), which needs set can_do_io flag
+> on cpustate.
 >
-> KVM internal error. Suberror: 764064
-> RAX=3D0000000000000002 RBX=3Dffff8a9e57c38400 RCX=3D00000000ffffffff RDX=
-=3Dffff8a9cc00ba8a0
-> RSI=3D0000000000000003 RDI=3Dffff8a9e57c38400 RBP=3Dffffb6120c5b3c50 RSP=
-=3Dffffb6120c5b3c40
-> R8 =3D0000000000000000 R9 =3Dffff8a9cc00ba8a0 R10=3Dffffffff8e467350 R11=
-=3D0000000000000007
-> R12=3D000000000000000a R13=3Dffffffff8f987e25 R14=3Dffffffff8f988a01 R15=
-=3D0000000000000000
-> RIP=3Dffffffff8e51bb04 RFL=3D00010046 [---Z-P-] CPL=3D0 II=3D0 A20=3D1 SM=
-M=3D0 HLT=3D0
-> ES =3D0000 0000000000000000 ffffffff 00c00000
-> CS =3D0010 0000000000000000 ffffffff 00a09b00 DPL=3D0 CS64 [-RA]
-> SS =3D0000 0000000000000000 ffffffff 00c00000
-> DS =3D0000 0000000000000000 ffffffff 00c00000
-> FS =3D0000 0000000000000000 ffffffff 00c00000
-> GS =3D0000 ffff8ac27fcc0000 ffffffff 00c00000
-> LDT=3D0000 0000000000000000 ffffffff 00c00000
-> TR =3D0040 fffffe0000096000 0000206f 00008b00 DPL=3D0 TSS64-busy
-> GDT=3D     fffffe0000094000 0000007f
-> IDT=3D     fffffe0000000000 00000fff
-> CR0=3D80050033 CR2=3D0000000000000000 CR3=3D00000010ca40a001 CR4=3D003606=
-e0
-> DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
-=3D0000000000000000
-> DR6=3D00000000fffe0ff0 DR7=3D0000000000000400
-> EFER=3D0000000000000d01
-> Code=3D0f 1f ... ...
+> Thus we setting this flag when execute these two instructions.
 >
-> Print the cpu->cpu_index in cpu_dump_state() and remove it from the calle=
-r.
->
-> Cc: Joe Jin <joe.jin@oracle.com>
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-Any more comments or thoughts?
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
+
+> ---
+>  target/riscv/insn_trans/trans_privileged.c.inc | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/risc=
+v/insn_trans/trans_privileged.c.inc
+> index 59501b2780..e3bee971c6 100644
+> --- a/target/riscv/insn_trans/trans_privileged.c.inc
+> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
+> @@ -77,6 +77,9 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
+>  #ifndef CONFIG_USER_ONLY
+>      if (has_ext(ctx, RVS)) {
+>          decode_save_opc(ctx);
+> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> +            gen_io_start();
+> +        }
+>          gen_helper_sret(cpu_pc, cpu_env);
+>          exit_tb(ctx); /* no chaining */
+>          ctx->base.is_jmp =3D DISAS_NORETURN;
+> @@ -93,6 +96,9 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
+>  {
+>  #ifndef CONFIG_USER_ONLY
+>      decode_save_opc(ctx);
+> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> +        gen_io_start();
+> +    }
+>      gen_helper_mret(cpu_pc, cpu_env);
+>      exit_tb(ctx); /* no chaining */
+>      ctx->base.is_jmp =3D DISAS_NORETURN;
+> --
+> 2.17.1
+>
+>
 
