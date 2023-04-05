@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A536D79C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E386D7A29
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:46:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk0RM-00013p-V6; Wed, 05 Apr 2023 06:32:32 -0400
+	id 1pk0dM-000812-Oq; Wed, 05 Apr 2023 06:44:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pk0RK-00011a-Tw
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:32:30 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pk0dK-00080a-He
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:44:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pk0RI-0007jI-Aa
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:32:30 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pk0dH-0001mq-NH
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:44:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680690747;
+ s=mimecast20190719; t=1680691490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kkESQVtv/MgXRVmpuCvbJqBLRbuLYc8sOwwtcOcWjkg=;
- b=SOwun3GQK/brwHTSG1VwC/8Lxj5yOaUzNHipBWsNexO4lmEZc1WLHfMynIUYxQwJGK5msV
- CLJ7kN8OVtxdIZ4BQ1eKamguHEbAAblcBV5/ipmP00UF3Y/p7w4PM+u7PB/pzCqoWVNO9H
- zIHusGpke8ySN2kMGBP6Eo7cT6zoVD0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kq6oZ7N2bYTf0eEXEKbV1aFmSrlbXHt85D5v+zP8YuE=;
+ b=P5h8Z4HanZmxIKjr+3U3TADXTbFoS61M9v/o8WYWLp6aDcjWEVGMQh9jvqvYkyXhB7nXv/
+ aXE7Vh6ZcS2BNqt+uBWLHY1+6Yng+ZUXJQO93+lKhQ7sDeQ09IoKa0pkXlVM8fUP1j0aN5
+ GtLXscteQOusM/5wIEz7dexXxOGQ0bs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-175-VK3MR2-MMiGcSGRhtrMn7w-1; Wed, 05 Apr 2023 06:32:26 -0400
-X-MC-Unique: VK3MR2-MMiGcSGRhtrMn7w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- x35-20020a50baa6000000b005021d1b1e9eso49905399ede.13
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:32:26 -0700 (PDT)
+ us-mta-601-NyH2sXngPQitOtm6xeRUOg-1; Wed, 05 Apr 2023 06:44:48 -0400
+X-MC-Unique: NyH2sXngPQitOtm6xeRUOg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b6-20020a509f06000000b005029d95390aso12975547edf.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:44:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680690745; x=1683282745;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kkESQVtv/MgXRVmpuCvbJqBLRbuLYc8sOwwtcOcWjkg=;
- b=4gSmulGuZJcMjWmzG/8RD2jv0U2ZQL+UVjY1ZnHDknvrQoMKjPwXJkeehm86W7cJa8
- WkysHD4RGKXRYKZnbeYNADwipAB4jHn4snPNtFXu+SDNc+2fHN0xAj7lcQ2IIlV+0Wpk
- 5hKXrEByIf1qTdK/XZfy25X0fSnlULRr0LFT9ablSxaSUNYF61HWfhKJcsmZcxMrToH5
- B8IqfUZHdmojk/NwxNFB/oDaGeZ97mGg/dLJSWBmlCmVi/WqgVOKUL/ItIkAJcULIxUO
- 5oIGFJnykcb05v7VVJHwXschRnhkMXhf9RRowZdOnedaB7GWb3jRPOsrF7p0yCeik9Gd
- 6F3w==
-X-Gm-Message-State: AAQBX9clHMea+Wn2mn1e8gh+3AAKM9NU47fIUWFYD2S9JhQh7oqFJMjk
- SnqNjI1333/0xUW7RiWLNfq6LQGn1oA3N8+d8zdAD+7D5e/57qeSaQIjjVluOBC3HofaREOSqtj
- xx7xs1VYdzUXrZNXs6PfrOdjozsWrSZWEN9xoz+AOaHUcK6sTiBj66m1vQAjra2lhWQuDII0xLx
- o=
-X-Received: by 2002:a17:906:f88f:b0:92f:5f00:db9c with SMTP id
- lg15-20020a170906f88f00b0092f5f00db9cmr2455636ejb.23.1680690744819; 
- Wed, 05 Apr 2023 03:32:24 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Y2DGejES7hrAl1lhz+QkEGx4G5csLe14O8CEAw7VupO1CyVggKDUNfrAWQmZWLAaBzsPGLUw==
-X-Received: by 2002:a17:906:f88f:b0:92f:5f00:db9c with SMTP id
- lg15-20020a170906f88f00b0092f5f00db9cmr2455624ejb.23.1680690744492; 
- Wed, 05 Apr 2023 03:32:24 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- 29-20020a170906009d00b008ca52f7fbcbsm7183108ejc.1.2023.04.05.03.32.23
+ d=1e100.net; s=20210112; t=1680691488;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kq6oZ7N2bYTf0eEXEKbV1aFmSrlbXHt85D5v+zP8YuE=;
+ b=4y7wotcTWX9Z9QBWmMRFvEP1IOAOtD2QQn+kE77swmcr20iUhAfuE0HjWNEFCFJqBT
+ 1Vx+jUNZHYJXt3u23nR4TZ3Cp+VfKpYRlIaJndOSdtjYxaDL301iD1lin9CmDLeQVokO
+ BKV+wD/mUH2f8yduzD5MkQ/OGSP1/waHifbtiI44eB6zIL0GB+lEs60C8k1rfvQg+vP+
+ 5hH9dfhB5ve+m6jXOpL3EebFM+u8aPKG8gbAbsGoyHXYC9Ba0lYUhHguciF64kNwdcwm
+ UYbFJUaQ3hV5kdj11N0qB0jM3hHoDOsoyQZP+UeUx8QZiuCjKB2ay5TbPhT7Oe35WcUi
+ fQxQ==
+X-Gm-Message-State: AAQBX9cdjczN1ruOelQY/5taZZxTSPv1hSIV23PpNsRWgBnXWqn6Hguj
+ N1BfW7FZmnFJvZ19J+5FfbWCQ4B+E9eDOYhVkFru+1t/k80ml1ypdfrnd6kctyt4QKx64SlzW9Y
+ Sx9sVEiASIMekcyY=
+X-Received: by 2002:a17:906:d045:b0:931:624b:6804 with SMTP id
+ bo5-20020a170906d04500b00931624b6804mr2345360ejb.33.1680691487916; 
+ Wed, 05 Apr 2023 03:44:47 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b5k+F7FQS0kEh/ahvkTDuRpd40DUgmdol+8mUYtq06ub6whVh6ZTdy0b/m/9U1TYG1Nw5Bew==
+X-Received: by 2002:a17:906:d045:b0:931:624b:6804 with SMTP id
+ bo5-20020a170906d04500b00931624b6804mr2345345ejb.33.1680691487657; 
+ Wed, 05 Apr 2023 03:44:47 -0700 (PDT)
+Received: from redhat.com ([2.52.139.22]) by smtp.gmail.com with ESMTPSA id
+ p25-20020a170906a01900b0093a7952411asm7207199ejy.48.2023.04.05.03.44.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 03:32:23 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org
-Subject: [PATCH 4/4] block: convert more bdrv_is_allocated* and
- bdrv_block_status* calls to coroutine versions
-Date: Wed,  5 Apr 2023 12:32:16 +0200
-Message-Id: <20230405103216.128103-5-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230405103216.128103-1-pbonzini@redhat.com>
-References: <20230405103216.128103-1-pbonzini@redhat.com>
+ Wed, 05 Apr 2023 03:44:47 -0700 (PDT)
+Date: Wed, 5 Apr 2023 06:44:42 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>, qemu-devel@nongnu.org,
+ virtio-dev@lists.oasis-open.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ stratos-dev@op-lists.linaro.org,
+ Oleksandr Tyshchenko <olekstysh@gmail.com>, xen-devel@lists.xen.org,
+ Andrew Cooper <andrew.cooper3@citrix.com>, Juergen Gross <jgross@suse.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Liu Jiang <gerry@linux.alibaba.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [PATCH V3 0/2] qemu: vhost-user: Support Xen memory mapping quirks
+Message-ID: <20230405064417-mutt-send-email-mst@kernel.org>
+References: <cover.1678351495.git.viresh.kumar@linaro.org>
+ <20230405080512.nvxiw4lv7hyuzqej@vireshk-i7>
+ <87h6tulkae.fsf@linaro.org>
+ <20230405060340-mutt-send-email-mst@kernel.org>
+ <87cz4ilj4j.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+In-Reply-To: <87cz4ilj4j.fsf@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,7 +92,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,215 +108,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/copy-before-write.c |  2 +-
- block/copy-on-read.c      |  8 ++++----
- block/io.c                |  6 +++---
- block/mirror.c            | 10 +++++-----
- block/qcow2.c             |  5 +++--
- block/replication.c       |  8 ++++----
- block/stream.c            |  8 ++++----
- block/vvfat.c             | 18 +++++++++---------
- 8 files changed, 33 insertions(+), 32 deletions(-)
+On Wed, Apr 05, 2023 at 11:24:43AM +0100, Alex Bennée wrote:
+> 
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
+> 
+> > On Wed, Apr 05, 2023 at 11:00:34AM +0100, Alex Bennée wrote:
+> >> 
+> >> Viresh Kumar <viresh.kumar@linaro.org> writes:
+> >> 
+> >> > On 09-03-23, 14:20, Viresh Kumar wrote:
+> >> >> Hello,
+> >> >> 
+> >> >> This patchset tries to update the vhost-user protocol to make it support special
+> >> >> memory mapping required in case of Xen hypervisor.
+> >> >> 
+> >> >> The first patch is mostly cleanup and second one introduces a new xen specific
+> >> >> feature.
+> >> >
+> >> > Can we apply this now ? I have developed code for rust-vmm crates
+> >> > based on this and we need to get this merged/finalized first before
+> >> > merging those changes.
+> >> 
+> >> 
+> >> I've queued into my virtio/vhost-user-device series so I'll get merged
+> >> with that series unless mst wants to take it now.
+> >
+> > Well the patches are tagged and I was going to take these after the release.
+> > Probably easier not to work on this in two trees.
+> > Still if there's something in your tree being blocked
+> > by these patches then
+> > Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> > Let me know.
+> 
+> The virtio/vhost-user-device tree work is orthogonal to this vhost-user
+> enhancement although all the work is related to our latest VirtIO
+> project inside Linaro, Orko:
+> https://linaro.atlassian.net/wiki/spaces/ORKO/overview
+> 
+> So if you are happy please take these patches now for when the tree
+> re-opens.
 
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 646d8227a461..20c227cd8f8d 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -305,7 +305,7 @@ cbw_co_snapshot_block_status(BlockDriverState *bs,
-         return -EACCES;
-     }
- 
--    ret = bdrv_block_status(child->bs, offset, cur_bytes, pnum, map, file);
-+    ret = bdrv_co_block_status(child->bs, offset, cur_bytes, pnum, map, file);
-     if (child == s->target) {
-         /*
-          * We refer to s->target only for areas that we've written to it.
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index cc0f848b0f10..d7881abd69d9 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -146,11 +146,11 @@ cor_co_preadv_part(BlockDriverState *bs, int64_t offset, int64_t bytes,
-         local_flags = flags;
- 
-         /* In case of failure, try to copy-on-read anyway */
--        ret = bdrv_is_allocated(bs->file->bs, offset, bytes, &n);
-+        ret = bdrv_co_is_allocated(bs->file->bs, offset, bytes, &n);
-         if (ret <= 0) {
--            ret = bdrv_is_allocated_above(bdrv_backing_chain_next(bs->file->bs),
--                                          state->bottom_bs, true, offset,
--                                          n, &n);
-+            ret = bdrv_co_is_allocated_above(bdrv_backing_chain_next(bs->file->bs),
-+                                             state->bottom_bs, true, offset,
-+                                             n, &n);
-             if (ret > 0 || ret < 0) {
-                 local_flags |= BDRV_REQ_COPY_ON_READ;
-             }
-diff --git a/block/io.c b/block/io.c
-index cacde79a3e98..b0f6a49dc5df 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1210,8 +1210,8 @@ bdrv_co_do_copy_on_readv(BdrvChild *child, int64_t offset, int64_t bytes,
-             ret = 1; /* "already allocated", so nothing will be copied */
-             pnum = MIN(cluster_bytes, max_transfer);
-         } else {
--            ret = bdrv_is_allocated(bs, cluster_offset,
--                                    MIN(cluster_bytes, max_transfer), &pnum);
-+            ret = bdrv_co_is_allocated(bs, cluster_offset,
-+                                       MIN(cluster_bytes, max_transfer), &pnum);
-             if (ret < 0) {
-                 /*
-                  * Safe to treat errors in querying allocation as if
-@@ -1358,7 +1358,7 @@ bdrv_aligned_preadv(BdrvChild *child, BdrvTrackedRequest *req,
-         /* The flag BDRV_REQ_COPY_ON_READ has reached its addressee */
-         flags &= ~BDRV_REQ_COPY_ON_READ;
- 
--        ret = bdrv_is_allocated(bs, offset, bytes, &pnum);
-+        ret = bdrv_co_is_allocated(bs, offset, bytes, &pnum);
-         if (ret < 0) {
-             goto out;
-         }
-diff --git a/block/mirror.c b/block/mirror.c
-index af9bbd23d4cf..1c46ad51bf50 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -560,9 +560,9 @@ static uint64_t coroutine_fn mirror_iteration(MirrorBlockJob *s)
- 
-         assert(!(offset % s->granularity));
-         WITH_GRAPH_RDLOCK_GUARD() {
--            ret = bdrv_block_status_above(source, NULL, offset,
--                                        nb_chunks * s->granularity,
--                                        &io_bytes, NULL, NULL);
-+            ret = bdrv_co_block_status_above(source, NULL, offset,
-+                                             nb_chunks * s->granularity,
-+                                             &io_bytes, NULL, NULL);
-         }
-         if (ret < 0) {
-             io_bytes = MIN(nb_chunks * s->granularity, max_io_bytes);
-@@ -867,8 +867,8 @@ static int coroutine_fn mirror_dirty_init(MirrorBlockJob *s)
-         }
- 
-         WITH_GRAPH_RDLOCK_GUARD() {
--            ret = bdrv_is_allocated_above(bs, s->base_overlay, true, offset,
--                                          bytes, &count);
-+            ret = bdrv_co_is_allocated_above(bs, s->base_overlay, true, offset,
-+                                             bytes, &count);
-         }
-         if (ret < 0) {
-             return ret;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index fe5def438e15..f8ea03a34515 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3951,7 +3951,8 @@ finish:
- }
- 
- 
--static bool is_zero(BlockDriverState *bs, int64_t offset, int64_t bytes)
-+static bool coroutine_fn GRAPH_RDLOCK
-+is_zero(BlockDriverState *bs, int64_t offset, int64_t bytes)
- {
-     int64_t nr;
-     int res;
-@@ -3972,7 +3973,7 @@ static bool is_zero(BlockDriverState *bs, int64_t offset, int64_t bytes)
-      * backing file. So, we need a loop.
-      */
-     do {
--        res = bdrv_block_status_above(bs, NULL, offset, bytes, &nr, NULL, NULL);
-+        res = bdrv_co_block_status_above(bs, NULL, offset, bytes, &nr, NULL, NULL);
-         offset += nr;
-         bytes -= nr;
-     } while (res >= 0 && (res & BDRV_BLOCK_ZERO) && nr && bytes);
-diff --git a/block/replication.c b/block/replication.c
-index de01f9618467..c0758841888e 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -276,10 +276,10 @@ replication_co_writev(BlockDriverState *bs, int64_t sector_num,
-     while (remaining_sectors > 0) {
-         int64_t count;
- 
--        ret = bdrv_is_allocated_above(top->bs, base->bs, false,
--                                      sector_num * BDRV_SECTOR_SIZE,
--                                      remaining_sectors * BDRV_SECTOR_SIZE,
--                                      &count);
-+        ret = bdrv_co_is_allocated_above(top->bs, base->bs, false,
-+                                         sector_num * BDRV_SECTOR_SIZE,
-+                                         remaining_sectors * BDRV_SECTOR_SIZE,
-+                                         &count);
-         if (ret < 0) {
-             goto out1;
-         }
-diff --git a/block/stream.c b/block/stream.c
-index 7f9e1ecdbb41..d92a4c99d359 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -163,7 +163,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         copy = false;
- 
-         WITH_GRAPH_RDLOCK_GUARD() {
--            ret = bdrv_is_allocated(unfiltered_bs, offset, STREAM_CHUNK, &n);
-+            ret = bdrv_co_is_allocated(unfiltered_bs, offset, STREAM_CHUNK, &n);
-             if (ret == 1) {
-                 /* Allocated in the top, no need to copy.  */
-             } else if (ret >= 0) {
-@@ -171,9 +171,9 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-                  * Copy if allocated in the intermediate images.  Limit to the
-                  * known-unallocated area [offset, offset+n*BDRV_SECTOR_SIZE).
-                  */
--                ret = bdrv_is_allocated_above(bdrv_cow_bs(unfiltered_bs),
--                                            s->base_overlay, true,
--                                            offset, n, &n);
-+                ret = bdrv_co_is_allocated_above(bdrv_cow_bs(unfiltered_bs),
-+                                                 s->base_overlay, true,
-+                                                 offset, n, &n);
-                 /* Finish early if end of backing file has been reached */
-                 if (ret == 0 && n == 0) {
-                     n = len - offset;
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 0ddc91fc096a..5df2d6b1c64d 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -1481,8 +1481,8 @@ vvfat_read(BlockDriverState *bs, int64_t sector_num, uint8_t *buf, int nb_sector
-         if (s->qcow) {
-             int64_t n;
-             int ret;
--            ret = bdrv_is_allocated(s->qcow->bs, sector_num * BDRV_SECTOR_SIZE,
--                                    (nb_sectors - i) * BDRV_SECTOR_SIZE, &n);
-+            ret = bdrv_co_is_allocated(s->qcow->bs, sector_num * BDRV_SECTOR_SIZE,
-+                                       (nb_sectors - i) * BDRV_SECTOR_SIZE, &n);
-             if (ret < 0) {
-                 return ret;
-             }
-@@ -1807,10 +1807,10 @@ cluster_was_modified(BDRVVVFATState *s, uint32_t cluster_num)
-     }
- 
-     for (i = 0; !was_modified && i < s->sectors_per_cluster; i++) {
--        was_modified = bdrv_is_allocated(s->qcow->bs,
--                                         (cluster2sector(s, cluster_num) +
--                                          i) * BDRV_SECTOR_SIZE,
--                                         BDRV_SECTOR_SIZE, NULL);
-+        was_modified = bdrv_co_is_allocated(s->qcow->bs,
-+                                            (cluster2sector(s, cluster_num) +
-+                                             i) * BDRV_SECTOR_SIZE,
-+                                            BDRV_SECTOR_SIZE, NULL);
-     }
- 
-     /*
-@@ -1968,9 +1968,9 @@ get_cluster_count_for_direntry(BDRVVVFATState* s, direntry_t* direntry, const ch
-                 for (i = 0; i < s->sectors_per_cluster; i++) {
-                     int res;
- 
--                    res = bdrv_is_allocated(s->qcow->bs,
--                                            (offset + i) * BDRV_SECTOR_SIZE,
--                                            BDRV_SECTOR_SIZE, NULL);
-+                    res = bdrv_co_is_allocated(s->qcow->bs,
-+                                               (offset + i) * BDRV_SECTOR_SIZE,
-+                                               BDRV_SECTOR_SIZE, NULL);
-                     if (res < 0) {
-                         return -1;
-                     }
--- 
-2.39.2
+Yes, I tagged them for when the tree reopens.
+
+> >
+> >
+> >> >
+> >> > Thanks.
+> >> 
+> >> 
+> >> -- 
+> >> Alex Bennée
+> >> Virtualisation Tech Lead @ Linaro
+> 
+> 
+> -- 
+> Alex Bennée
+> Virtualisation Tech Lead @ Linaro
 
 
