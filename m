@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8D86D79C5
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A536D79C4
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:34:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk0RM-000125-83; Wed, 05 Apr 2023 06:32:32 -0400
+	id 1pk0RM-00013p-V6; Wed, 05 Apr 2023 06:32:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pk0RJ-00010d-Hb
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:32:29 -0400
+ id 1pk0RK-00011a-Tw
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:32:30 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pk0RG-0007bF-Ib
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:32:29 -0400
+ id 1pk0RI-0007jI-Aa
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:32:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680690745;
+ s=mimecast20190719; t=1680690747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cWCmqRJ7FD5WGIGTqakMZCDpKu840VhqTlbHYtjTE2g=;
- b=gSDSTKcoaekl3g9EIBNUj7slEhwNjf2v6OoG7j6k9QDS3UM8+yUKaub/rF9HqtqY7kUSKQ
- FBM55QQ1fegZqUXfvaNDYfKWBv+ZE2MdDNSk1lG8fTAilktHiIIBf+qRkei5T2vjVstRoC
- h8r0EMV1ddhBE7T90wi0gf9++ZLPhd8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kkESQVtv/MgXRVmpuCvbJqBLRbuLYc8sOwwtcOcWjkg=;
+ b=SOwun3GQK/brwHTSG1VwC/8Lxj5yOaUzNHipBWsNexO4lmEZc1WLHfMynIUYxQwJGK5msV
+ CLJ7kN8OVtxdIZ4BQ1eKamguHEbAAblcBV5/ipmP00UF3Y/p7w4PM+u7PB/pzCqoWVNO9H
+ zIHusGpke8ySN2kMGBP6Eo7cT6zoVD0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-121-xvS3sSGNMHyyUUHXssV7Gw-1; Wed, 05 Apr 2023 06:32:24 -0400
-X-MC-Unique: xvS3sSGNMHyyUUHXssV7Gw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-4fd22779a36so267412a12.3
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:32:24 -0700 (PDT)
+ us-mta-175-VK3MR2-MMiGcSGRhtrMn7w-1; Wed, 05 Apr 2023 06:32:26 -0400
+X-MC-Unique: VK3MR2-MMiGcSGRhtrMn7w-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ x35-20020a50baa6000000b005021d1b1e9eso49905399ede.13
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:32:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680690743; x=1683282743;
+ d=1e100.net; s=20210112; t=1680690745; x=1683282745;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cWCmqRJ7FD5WGIGTqakMZCDpKu840VhqTlbHYtjTE2g=;
- b=qeic/Y8eEQ0K86ZxYpIbTeMzmB9T4xJwuPxrUlfGhDadEBKBwnYsZb810uxSLpssPk
- vxlX9AZ3bw2yTc6EmbM2nMyUwmrtGhPAp4J/VQfpnRHhnN5+XSdsXXkwQd65NL46NSHn
- 2yJTonwCny7Z6l+PwD7uB+W62m9H0Lg5Wj04hKvND3+2cWKlXFVwrsA9/7XoDoQvwsIu
- gTcY2WqnzNgN7bHLjvNhawrgsd3fv1TETQAKkrCU67Fvt+3jcFrziVStbSUZyj+bNkt0
- FVhDAwD7FpOx1fMYw+BiHm6M5re9o4p8KDAmIH9akoe66wsSnDYY5S7ELSCAwrr5JvlV
- vg0Q==
-X-Gm-Message-State: AAQBX9fSTE70QpHto8LS/cDDMZNVPXG2mT/7nGdlAbhoZGnYjB/PSj66
- iMI1QFjywYy9Mbufo9O9Zh4uxDOHruS6VyI4ZcXFMsfyre7JLTvjZhAARhz/9lHmr5Nyl/v68UL
- Ja9yru421XNYEkuQ7zgoX0CU/p/EFxTLOgxCBySkWhkYg618KQoSHgJ3VUpcHH5BpQjfTaGXFyB
- U=
-X-Received: by 2002:aa7:c543:0:b0:4fb:54b7:50ea with SMTP id
- s3-20020aa7c543000000b004fb54b750eamr1433870edr.21.1680690743048; 
- Wed, 05 Apr 2023 03:32:23 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b0rg5p0Cl9n98ZI7d/lDa3/gfirXsgoIjBA4gSPVlqEQmb5hG+updwio92bxUWLbi2blypVg==
-X-Received: by 2002:aa7:c543:0:b0:4fb:54b7:50ea with SMTP id
- s3-20020aa7c543000000b004fb54b750eamr1433847edr.21.1680690742662; 
- Wed, 05 Apr 2023 03:32:22 -0700 (PDT)
+ bh=kkESQVtv/MgXRVmpuCvbJqBLRbuLYc8sOwwtcOcWjkg=;
+ b=4gSmulGuZJcMjWmzG/8RD2jv0U2ZQL+UVjY1ZnHDknvrQoMKjPwXJkeehm86W7cJa8
+ WkysHD4RGKXRYKZnbeYNADwipAB4jHn4snPNtFXu+SDNc+2fHN0xAj7lcQ2IIlV+0Wpk
+ 5hKXrEByIf1qTdK/XZfy25X0fSnlULRr0LFT9ablSxaSUNYF61HWfhKJcsmZcxMrToH5
+ B8IqfUZHdmojk/NwxNFB/oDaGeZ97mGg/dLJSWBmlCmVi/WqgVOKUL/ItIkAJcULIxUO
+ 5oIGFJnykcb05v7VVJHwXschRnhkMXhf9RRowZdOnedaB7GWb3jRPOsrF7p0yCeik9Gd
+ 6F3w==
+X-Gm-Message-State: AAQBX9clHMea+Wn2mn1e8gh+3AAKM9NU47fIUWFYD2S9JhQh7oqFJMjk
+ SnqNjI1333/0xUW7RiWLNfq6LQGn1oA3N8+d8zdAD+7D5e/57qeSaQIjjVluOBC3HofaREOSqtj
+ xx7xs1VYdzUXrZNXs6PfrOdjozsWrSZWEN9xoz+AOaHUcK6sTiBj66m1vQAjra2lhWQuDII0xLx
+ o=
+X-Received: by 2002:a17:906:f88f:b0:92f:5f00:db9c with SMTP id
+ lg15-20020a170906f88f00b0092f5f00db9cmr2455636ejb.23.1680690744819; 
+ Wed, 05 Apr 2023 03:32:24 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Y2DGejES7hrAl1lhz+QkEGx4G5csLe14O8CEAw7VupO1CyVggKDUNfrAWQmZWLAaBzsPGLUw==
+X-Received: by 2002:a17:906:f88f:b0:92f:5f00:db9c with SMTP id
+ lg15-20020a170906f88f00b0092f5f00db9cmr2455624ejb.23.1680690744492; 
+ Wed, 05 Apr 2023 03:32:24 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- q18-20020a170906941200b009316783c92csm7274644ejx.12.2023.04.05.03.32.21
+ 29-20020a170906009d00b008ca52f7fbcbsm7183108ejc.1.2023.04.05.03.32.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 03:32:22 -0700 (PDT)
+ Wed, 05 Apr 2023 03:32:23 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org
-Subject: [PATCH 3/4] block: switch to co_wrapper for bdrv_is_allocated_*
-Date: Wed,  5 Apr 2023 12:32:15 +0200
-Message-Id: <20230405103216.128103-4-pbonzini@redhat.com>
+Subject: [PATCH 4/4] block: convert more bdrv_is_allocated* and
+ bdrv_block_status* calls to coroutine versions
+Date: Wed,  5 Apr 2023 12:32:16 +0200
+Message-Id: <20230405103216.128103-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230405103216.128103-1-pbonzini@redhat.com>
 References: <20230405103216.128103-1-pbonzini@redhat.com>
@@ -102,114 +103,212 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/io.c               | 53 ++++++----------------------------------
- include/block/block-io.h | 12 +++++----
- 2 files changed, 14 insertions(+), 51 deletions(-)
+ block/copy-before-write.c |  2 +-
+ block/copy-on-read.c      |  8 ++++----
+ block/io.c                |  6 +++---
+ block/mirror.c            | 10 +++++-----
+ block/qcow2.c             |  5 +++--
+ block/replication.c       |  8 ++++----
+ block/stream.c            |  8 ++++----
+ block/vvfat.c             | 18 +++++++++---------
+ 8 files changed, 33 insertions(+), 32 deletions(-)
 
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 646d8227a461..20c227cd8f8d 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -305,7 +305,7 @@ cbw_co_snapshot_block_status(BlockDriverState *bs,
+         return -EACCES;
+     }
+ 
+-    ret = bdrv_block_status(child->bs, offset, cur_bytes, pnum, map, file);
++    ret = bdrv_co_block_status(child->bs, offset, cur_bytes, pnum, map, file);
+     if (child == s->target) {
+         /*
+          * We refer to s->target only for areas that we've written to it.
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index cc0f848b0f10..d7881abd69d9 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -146,11 +146,11 @@ cor_co_preadv_part(BlockDriverState *bs, int64_t offset, int64_t bytes,
+         local_flags = flags;
+ 
+         /* In case of failure, try to copy-on-read anyway */
+-        ret = bdrv_is_allocated(bs->file->bs, offset, bytes, &n);
++        ret = bdrv_co_is_allocated(bs->file->bs, offset, bytes, &n);
+         if (ret <= 0) {
+-            ret = bdrv_is_allocated_above(bdrv_backing_chain_next(bs->file->bs),
+-                                          state->bottom_bs, true, offset,
+-                                          n, &n);
++            ret = bdrv_co_is_allocated_above(bdrv_backing_chain_next(bs->file->bs),
++                                             state->bottom_bs, true, offset,
++                                             n, &n);
+             if (ret > 0 || ret < 0) {
+                 local_flags |= BDRV_REQ_COPY_ON_READ;
+             }
 diff --git a/block/io.c b/block/io.c
-index 0aad0f57d8c7..cacde79a3e98 100644
+index cacde79a3e98..b0f6a49dc5df 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -2623,45 +2623,6 @@ int coroutine_fn bdrv_co_is_allocated(BlockDriverState *bs, int64_t offset,
-     return !!(ret & BDRV_BLOCK_ALLOCATED);
+@@ -1210,8 +1210,8 @@ bdrv_co_do_copy_on_readv(BdrvChild *child, int64_t offset, int64_t bytes,
+             ret = 1; /* "already allocated", so nothing will be copied */
+             pnum = MIN(cluster_bytes, max_transfer);
+         } else {
+-            ret = bdrv_is_allocated(bs, cluster_offset,
+-                                    MIN(cluster_bytes, max_transfer), &pnum);
++            ret = bdrv_co_is_allocated(bs, cluster_offset,
++                                       MIN(cluster_bytes, max_transfer), &pnum);
+             if (ret < 0) {
+                 /*
+                  * Safe to treat errors in querying allocation as if
+@@ -1358,7 +1358,7 @@ bdrv_aligned_preadv(BdrvChild *child, BdrvTrackedRequest *req,
+         /* The flag BDRV_REQ_COPY_ON_READ has reached its addressee */
+         flags &= ~BDRV_REQ_COPY_ON_READ;
+ 
+-        ret = bdrv_is_allocated(bs, offset, bytes, &pnum);
++        ret = bdrv_co_is_allocated(bs, offset, bytes, &pnum);
+         if (ret < 0) {
+             goto out;
+         }
+diff --git a/block/mirror.c b/block/mirror.c
+index af9bbd23d4cf..1c46ad51bf50 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -560,9 +560,9 @@ static uint64_t coroutine_fn mirror_iteration(MirrorBlockJob *s)
+ 
+         assert(!(offset % s->granularity));
+         WITH_GRAPH_RDLOCK_GUARD() {
+-            ret = bdrv_block_status_above(source, NULL, offset,
+-                                        nb_chunks * s->granularity,
+-                                        &io_bytes, NULL, NULL);
++            ret = bdrv_co_block_status_above(source, NULL, offset,
++                                             nb_chunks * s->granularity,
++                                             &io_bytes, NULL, NULL);
+         }
+         if (ret < 0) {
+             io_bytes = MIN(nb_chunks * s->granularity, max_io_bytes);
+@@ -867,8 +867,8 @@ static int coroutine_fn mirror_dirty_init(MirrorBlockJob *s)
+         }
+ 
+         WITH_GRAPH_RDLOCK_GUARD() {
+-            ret = bdrv_is_allocated_above(bs, s->base_overlay, true, offset,
+-                                          bytes, &count);
++            ret = bdrv_co_is_allocated_above(bs, s->base_overlay, true, offset,
++                                             bytes, &count);
+         }
+         if (ret < 0) {
+             return ret;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index fe5def438e15..f8ea03a34515 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3951,7 +3951,8 @@ finish:
  }
  
--int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
--                      int64_t *pnum)
--{
--    int ret;
--    int64_t dummy;
--    IO_CODE();
--
--    ret = bdrv_common_block_status_above(bs, bs, true, false, offset,
--                                         bytes, pnum ? pnum : &dummy, NULL,
--                                         NULL, NULL);
--    if (ret < 0) {
--        return ret;
--    }
--    return !!(ret & BDRV_BLOCK_ALLOCATED);
--}
--
--/* See bdrv_is_allocated_above for documentation */
--int coroutine_fn bdrv_co_is_allocated_above(BlockDriverState *top,
--                                            BlockDriverState *base,
--                                            bool include_base, int64_t offset,
--                                            int64_t bytes, int64_t *pnum)
--{
--    int depth;
--    int ret;
--    IO_CODE();
--
--    ret = bdrv_co_common_block_status_above(top, base, include_base, false,
--                                            offset, bytes, pnum, NULL, NULL,
--                                            &depth);
--    if (ret < 0) {
--        return ret;
--    }
--
--    if (ret & BDRV_BLOCK_ALLOCATED) {
--        return depth;
--    }
--    return 0;
--}
--
- /*
-  * Given an image chain: ... -> [BASE] -> [INTER1] -> [INTER2] -> [TOP]
-  *
-@@ -2679,18 +2640,18 @@ int coroutine_fn bdrv_co_is_allocated_above(BlockDriverState *top,
-  * words, the result is not necessarily the maximum possible range);
-  * but 'pnum' will only be 0 when end of file is reached.
-  */
--int bdrv_is_allocated_above(BlockDriverState *top,
--                            BlockDriverState *base,
--                            bool include_base, int64_t offset,
--                            int64_t bytes, int64_t *pnum)
-+int coroutine_fn bdrv_co_is_allocated_above(BlockDriverState *bs,
-+                                            BlockDriverState *base,
-+                                            bool include_base, int64_t offset,
-+                                            int64_t bytes, int64_t *pnum)
+ 
+-static bool is_zero(BlockDriverState *bs, int64_t offset, int64_t bytes)
++static bool coroutine_fn GRAPH_RDLOCK
++is_zero(BlockDriverState *bs, int64_t offset, int64_t bytes)
  {
-     int depth;
-     int ret;
-     IO_CODE();
+     int64_t nr;
+     int res;
+@@ -3972,7 +3973,7 @@ static bool is_zero(BlockDriverState *bs, int64_t offset, int64_t bytes)
+      * backing file. So, we need a loop.
+      */
+     do {
+-        res = bdrv_block_status_above(bs, NULL, offset, bytes, &nr, NULL, NULL);
++        res = bdrv_co_block_status_above(bs, NULL, offset, bytes, &nr, NULL, NULL);
+         offset += nr;
+         bytes -= nr;
+     } while (res >= 0 && (res & BDRV_BLOCK_ZERO) && nr && bytes);
+diff --git a/block/replication.c b/block/replication.c
+index de01f9618467..c0758841888e 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -276,10 +276,10 @@ replication_co_writev(BlockDriverState *bs, int64_t sector_num,
+     while (remaining_sectors > 0) {
+         int64_t count;
  
--    ret = bdrv_common_block_status_above(top, base, include_base, false,
--                                         offset, bytes, pnum, NULL, NULL,
--                                         &depth);
-+    ret = bdrv_co_common_block_status_above(bs, base, include_base, false,
-+                                            offset, bytes, pnum, NULL, NULL,
-+                                            &depth);
-     if (ret < 0) {
-         return ret;
+-        ret = bdrv_is_allocated_above(top->bs, base->bs, false,
+-                                      sector_num * BDRV_SECTOR_SIZE,
+-                                      remaining_sectors * BDRV_SECTOR_SIZE,
+-                                      &count);
++        ret = bdrv_co_is_allocated_above(top->bs, base->bs, false,
++                                         sector_num * BDRV_SECTOR_SIZE,
++                                         remaining_sectors * BDRV_SECTOR_SIZE,
++                                         &count);
+         if (ret < 0) {
+             goto out1;
+         }
+diff --git a/block/stream.c b/block/stream.c
+index 7f9e1ecdbb41..d92a4c99d359 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -163,7 +163,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+         copy = false;
+ 
+         WITH_GRAPH_RDLOCK_GUARD() {
+-            ret = bdrv_is_allocated(unfiltered_bs, offset, STREAM_CHUNK, &n);
++            ret = bdrv_co_is_allocated(unfiltered_bs, offset, STREAM_CHUNK, &n);
+             if (ret == 1) {
+                 /* Allocated in the top, no need to copy.  */
+             } else if (ret >= 0) {
+@@ -171,9 +171,9 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+                  * Copy if allocated in the intermediate images.  Limit to the
+                  * known-unallocated area [offset, offset+n*BDRV_SECTOR_SIZE).
+                  */
+-                ret = bdrv_is_allocated_above(bdrv_cow_bs(unfiltered_bs),
+-                                            s->base_overlay, true,
+-                                            offset, n, &n);
++                ret = bdrv_co_is_allocated_above(bdrv_cow_bs(unfiltered_bs),
++                                                 s->base_overlay, true,
++                                                 offset, n, &n);
+                 /* Finish early if end of backing file has been reached */
+                 if (ret == 0 && n == 0) {
+                     n = len - offset;
+diff --git a/block/vvfat.c b/block/vvfat.c
+index 0ddc91fc096a..5df2d6b1c64d 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -1481,8 +1481,8 @@ vvfat_read(BlockDriverState *bs, int64_t sector_num, uint8_t *buf, int nb_sector
+         if (s->qcow) {
+             int64_t n;
+             int ret;
+-            ret = bdrv_is_allocated(s->qcow->bs, sector_num * BDRV_SECTOR_SIZE,
+-                                    (nb_sectors - i) * BDRV_SECTOR_SIZE, &n);
++            ret = bdrv_co_is_allocated(s->qcow->bs, sector_num * BDRV_SECTOR_SIZE,
++                                       (nb_sectors - i) * BDRV_SECTOR_SIZE, &n);
+             if (ret < 0) {
+                 return ret;
+             }
+@@ -1807,10 +1807,10 @@ cluster_was_modified(BDRVVVFATState *s, uint32_t cluster_num)
      }
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 0947f83d9ac7..9e179861895c 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -134,16 +134,18 @@ bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
- int coroutine_fn GRAPH_RDLOCK
- bdrv_co_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
-                      int64_t *pnum);
--int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
--                      int64_t *pnum);
-+int co_wrapper_mixed_bdrv_rdlock
-+bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
-+                  int64_t bytes, int64_t *pnum);
  
- int coroutine_fn GRAPH_RDLOCK
- bdrv_co_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
-                            bool include_base, int64_t offset, int64_t bytes,
-                            int64_t *pnum);
--int bdrv_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
--                            bool include_base, int64_t offset, int64_t bytes,
--                            int64_t *pnum);
-+int co_wrapper_mixed_bdrv_rdlock
-+bdrv_is_allocated_above(BlockDriverState *bs, BlockDriverState *base,
-+                        bool include_base, int64_t offset,
-+                        int64_t bytes, int64_t *pnum);
+     for (i = 0; !was_modified && i < s->sectors_per_cluster; i++) {
+-        was_modified = bdrv_is_allocated(s->qcow->bs,
+-                                         (cluster2sector(s, cluster_num) +
+-                                          i) * BDRV_SECTOR_SIZE,
+-                                         BDRV_SECTOR_SIZE, NULL);
++        was_modified = bdrv_co_is_allocated(s->qcow->bs,
++                                            (cluster2sector(s, cluster_num) +
++                                             i) * BDRV_SECTOR_SIZE,
++                                            BDRV_SECTOR_SIZE, NULL);
+     }
  
- int coroutine_fn GRAPH_RDLOCK
- bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset, int64_t bytes);
+     /*
+@@ -1968,9 +1968,9 @@ get_cluster_count_for_direntry(BDRVVVFATState* s, direntry_t* direntry, const ch
+                 for (i = 0; i < s->sectors_per_cluster; i++) {
+                     int res;
+ 
+-                    res = bdrv_is_allocated(s->qcow->bs,
+-                                            (offset + i) * BDRV_SECTOR_SIZE,
+-                                            BDRV_SECTOR_SIZE, NULL);
++                    res = bdrv_co_is_allocated(s->qcow->bs,
++                                               (offset + i) * BDRV_SECTOR_SIZE,
++                                               BDRV_SECTOR_SIZE, NULL);
+                     if (res < 0) {
+                         return -1;
+                     }
 -- 
 2.39.2
 
