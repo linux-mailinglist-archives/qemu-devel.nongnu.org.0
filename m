@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213A16D7893
+	by mail.lfdr.de (Postfix) with ESMTPS id 228496D7894
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 11:40:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjzbR-0004zH-U6; Wed, 05 Apr 2023 05:38:53 -0400
+	id 1pjzbg-000508-4P; Wed, 05 Apr 2023 05:39:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pjzbP-0004yj-R3
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 05:38:51 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pjzbM-00082f-F3
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 05:38:51 -0400
-Received: by mail-oi1-x231.google.com with SMTP id bx42so10660004oib.6
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 02:38:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680687526;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ajJGqwfcEblMvMwj7bXrSlKFEhxQBhyxnuN+nUuvY9g=;
- b=cPXTmlUce7ATYsNLx4om7/uxO7USOS/WR4wYVxYp6+CT/KAIeY+z8QSVONVFzSPyq4
- Ei0fAAGXm/ddhWVkS1Rwkc21mennw8slHTZePC06VToM+BGrJI4AwEV8jswabkjAnYGm
- Int49maa6C+5+1choZ1XYeuP4NS8uaX7nPPXCRNRJpmWpMRGhDEdKq7iAxvlJFxk/p87
- x47ugdFa9gjU6PA8QEGEjcBiW0olDoywopQl5qUCVU9f5hE22NCjAxkI/4uyv52DhzJz
- xEhrasy4f36Kv81tC3SxeWGNqwQ9I66VwDHnPBhc2GB4WqooLQH3m/0MzfAotxdY/AHN
- 9wVQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pjzbd-0004zv-6U
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 05:39:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pjzbZ-0008AK-IZ
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 05:39:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680687540;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3KXQFgKFYEdPjEY2/X/wngIDyK+EaLFd/xiMhWMtVcI=;
+ b=YYXaYih+K0dvwliP+BZXWsOvyCLPdP7OD2FTANVJJXpXg+/HFLBk1mAiEGXbjZWvBPPIeC
+ 8xJ4+Av0NO9sO8Pe6ACJEba4zrXNcxm6eQRNWnEc5fc5hwgwNSHmXyIM2JY7dRmFIlaaN4
+ 1d9SdQL/hY/HKjHsp9+/VretwNgwJ1s=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-117-volyXI2EPsKzE_CBrA0zUA-1; Wed, 05 Apr 2023 05:38:58 -0400
+X-MC-Unique: volyXI2EPsKzE_CBrA0zUA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ m18-20020a50d7d2000000b00501dfd867a4so49822152edj.20
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 02:38:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680687526;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ajJGqwfcEblMvMwj7bXrSlKFEhxQBhyxnuN+nUuvY9g=;
- b=MHGubkUoQVi0H0MeTizSdTeR50STsmxXuXt1pc8jIhAlLhBn3aRPpYoky2N5mbQb2d
- S7w2JxCW+txg5Ph01aW656veE4mnWBZKNtQwnxhATJtJnHKW5uCfFw9pPqrQg+y9EkuY
- h2ccisUIfpLfKUVLheaCUaWgyI5tGbIjHEFvnYOVT8s6J/oLYvwPIgfmHMizy0/6t/FQ
- 9ESrjRyavz4ujzM4Z0GxhY+uUsx//ovCwyqT2ZI3D3gqVdboQw5zmijAkn8TT3t0IPVs
- 1L5j4hFiDrtzSlQenZj7Ia9KCrG/IJhyCrRTVt3oVJtzOCf7RAvbpFcgsBVN9NYmuvp3
- ZGBA==
-X-Gm-Message-State: AAQBX9eJwNFgq8748ni1EXCcSnVRgLlOo3K77IqQ3PV/60wL/7cpoi9z
- +CpzenTCcaXRYQpEQbt32uZxwQ==
-X-Google-Smtp-Source: AKy350bqQjHGNDZTjP6ABuz3tJI2HiblduKN2fGq5df+TlIurJs6YTfeeKVVbVO539caFwhFbcPhkA==
-X-Received: by 2002:aca:120e:0:b0:386:9c8a:e729 with SMTP id
- 14-20020aca120e000000b003869c8ae729mr1800725ois.17.1680687526539; 
- Wed, 05 Apr 2023 02:38:46 -0700 (PDT)
-Received: from [192.168.68.107] ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- u188-20020a4a57c5000000b00541269a2fcesm4384369ooa.25.2023.04.05.02.38.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Apr 2023 02:38:46 -0700 (PDT)
-Message-ID: <b17e58dc-f530-1730-5e1d-070edcd1f950@ventanamicro.com>
-Date: Wed, 5 Apr 2023 06:38:41 -0300
+ d=1e100.net; s=20210112; t=1680687538;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3KXQFgKFYEdPjEY2/X/wngIDyK+EaLFd/xiMhWMtVcI=;
+ b=SiYj8RE+juH1iL8VKCKbB6jSO7IK1gMii7kU2sRcrSSOW8kxkxDWHXLwedV7eojL5v
+ 0cjnYoeCDG7i5hRK79sCX31/VjITZIsIdgGELNDeiDWRdMSFCNrD4+FJZ1+5r+zYEjHI
+ JtKp+Y74O1HFIll7b9ktnu6OT0woBst5FCAxzyrLtQoiCAfXfQr2O5HCfrnNw4m+YbX2
+ 5dINsHgXjk6dYHMlMKr586JmNmVIIP1SVOTJfmxSmgSD5EBHnpdtG8Uo7CITYBllpjm2
+ X4M8BU7JeGe6wnCJ1NgdGJHdeVhcDYjF044G1WN+YN/yHBamVICViTt4wVGaoqxfbRfs
+ bd8w==
+X-Gm-Message-State: AAQBX9dexVJh3v77TF7J/RCVPLWfZNEI6LMODaLheJcg7WSskgwHRaoz
+ bqmrlF38eYuEOq2xG3duc01+uJaTRqG0sVTBEmIXZ+nHkWlN/9Ct5zo5YfyNx0FCeUeg3IjGvis
+ NHnFjlEUyFtyi+8c=
+X-Received: by 2002:a17:906:a005:b0:93d:e132:9122 with SMTP id
+ p5-20020a170906a00500b0093de1329122mr2317726ejy.35.1680687537803; 
+ Wed, 05 Apr 2023 02:38:57 -0700 (PDT)
+X-Google-Smtp-Source: AKy350b0a89mD8Hc7VYDo1wkyUeQO6AHyp9nl/JdPNEjd1WwM4+aYcN7y+emWviZqF5esiGgd+L98g==
+X-Received: by 2002:a17:906:a005:b0:93d:e132:9122 with SMTP id
+ p5-20020a170906a00500b0093de1329122mr2317717ejy.35.1680687537488; 
+ Wed, 05 Apr 2023 02:38:57 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ h23-20020a170906261700b008e0bb004976sm7083995ejc.134.2023.04.05.02.38.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Apr 2023 02:38:57 -0700 (PDT)
+Date: Wed, 5 Apr 2023 11:38:56 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, anisinha@redhat.com, jusual@redhat.com,
+ kraxel@redhat.com
+Subject: Re: [PATCH v2] acpi: pcihp: make pending delete blocking action expire
+Message-ID: <20230405113856.72065fd0@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230405044231-mutt-send-email-mst@kernel.org>
+References: <20230405083444.1536720-1-imammedo@redhat.com>
+ <20230405044231-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 1/1] hw/riscv: Fix max size limit when put initrd to RAM
-Content-Language: en-US
-To: Alistair Francis <alistair23@gmail.com>,
- Hang Xu <xuhang@eswincomputing.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@rivosinc.com,
- alistair.francis@wdc.com
-References: <20230313021826.6898-1-xuhang@eswincomputing.com>
- <20230313021826.6898-2-xuhang@eswincomputing.com>
- <CAKmqyKNuA-4SpfN+RNDo8wOFgVuD-s-tXGOg+1po4KYW8KfhUQ@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAKmqyKNuA-4SpfN+RNDo8wOFgVuD-s-tXGOg+1po4KYW8KfhUQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x231.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.925,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,214 +101,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 5 Apr 2023 04:47:48 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-
-On 4/5/23 02:53, Alistair Francis wrote:
-> On Mon, Mar 13, 2023 at 11:12 PM Hang Xu <xuhang@eswincomputing.com> wrote:
->>
->> Because the starting address of ram is not necessarily 0,
->> the remaining free space in ram is
->> ram_size - (start - ram_base) instead of ram_size-start.
+> On Wed, Apr 05, 2023 at 10:34:44AM +0200, Igor Mammedov wrote:
+> > with Q35 using ACPI PCI hotplug by default, user's request to unplug
+> > device is ignored when it's issued before guest OS has been booted.
+> > And any additional attempt to request device hot-unplug afterwards
+> > results in following error:
+> > 
+> >   "Device XYZ is already in the process of unplug"
+> > 
+> > arguably it can be considered as a regression introduced by [2],
+> > before which it was possible to issue unplug request multiple
+> > times.
+> > 
+> > Allowing pending delete blocking expire brings ACPI PCI hotplug
+> > on par with native PCIe unplug behavior [1] and allows user
+> > to repeat unplug requests at propper times.
+> > Set expire timeout to arbitrary 1msec so user won't be able to
+> > flood guest with SCI interrupts by calling device_del in tight loop.
+> > 
+> > PS:
+> > ACPI spec doesn't mandate what OSPM can do with GPEx.status
+> > bits set before it's booted => it's impl. depended.
+> > Status bits may be retained (I tested with one Windows version)
+> > or cleared (Linux since 2.6 kernel times) during guest's ACPI
+> > subsystem initialization.
+> > Clearing status bits (though not wrong per se) hides the unplug
+> > event from guest, and it's upto user to repeat device_del later
+> > when guest is able to handle unplug requests.
+> > 
+> > 1) 18416c62e3 ("pcie: expire pending delete")
+> > 2)
+> > Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
 > 
-> I think this could be clearer. It's not clear here that you mean the
-> free space after the kernel (for in the initrd).
+> I feel a real solution is to detect guest handling the
+> event such as clearing GPE and allowing resending
+> the interrupt then.
+
+I did consider preserving(masking clearing attempt) of GPE0.sts[]
+IF en[] hasn't been enabled ever (i.e. should help with unplug at
+the 1st boot). But that won't work across reboots (depends on
+reboot kind) and it's twisting rules wrt spec (platform(QEMU/fw)
+may set status bits, but it's upto OSPM to decide what to do with
+them (when and how clear or ignore them). 
+
+> A similar strategy should be possible with the attention
+> button.
 > 
->>
->> Signed-off-by: Hang Xu <xuhang@eswincomputing.com>
->> ---
->>   hw/riscv/boot.c            | 19 +++++++++++++------
->>   hw/riscv/microchip_pfsoc.c |  5 ++++-
->>   hw/riscv/opentitan.c       |  2 +-
->>   hw/riscv/sifive_e.c        |  2 +-
->>   hw/riscv/sifive_u.c        |  5 ++++-
->>   hw/riscv/spike.c           |  5 ++++-
->>   hw/riscv/virt.c            |  5 ++++-
->>   include/hw/riscv/boot.h    |  2 ++
->>   8 files changed, 33 insertions(+), 12 deletions(-)
->>
->> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
->> index 52bf8e67de..cfbc376a82 100644
->> --- a/hw/riscv/boot.c
->> +++ b/hw/riscv/boot.c
->> @@ -173,13 +173,14 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
->>       exit(1);
->>   }
->>
->> -static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
->> +static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry,
->> +                              uint64_t ram_base, uint64_t ram_size)
->>   {
->>       const char *filename = machine->initrd_filename;
->> -    uint64_t mem_size = machine->ram_size;
->>       void *fdt = machine->fdt;
->>       hwaddr start, end;
->>       ssize_t size;
->> +    uint64_t max_initrd;
->>
->>       g_assert(filename != NULL);
->>
->> @@ -193,12 +194,16 @@ static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
->>        * So for boards with less  than 256MB of RAM we put the initrd
->>        * halfway into RAM, and for boards with 256MB of RAM or more we put
->>        * the initrd at 128MB.
->> +     * A ram_size == 0, usually from a MemMapEntry[].size element,
->> +     * means that the RAM block goes all the way to ms->ram_size.
->>        */
->> -    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
->> +    ram_size = ram_size ? MIN(machine->ram_size, ram_size) : machine->ram_size;
-> 
-> This doesn't seem right. If machine->ram_size is greater then the
-> board can support we should tell the user and have them set a correct
-> size
 
-'ram_size' here is the size of the memory block that the board will use to put
-initrd into.
-
-Perhaps this var can be renamed to 'ram_block_size' or 'memmap_size' for clarity.
-
-
-Daniel
+> This patch is more of a band-aid - it is possible that guest
+> rebooted and so user knows a new device_del is required,
+> and we arbitrarily reject that. Right?
+You lost me here. Can you elaborate?
 
 > 
->> +    start = kernel_entry + MIN(ram_size / 2, 128 * MiB);
->> +    max_initrd = ram_size - (start - ram_base);
+> This is arguably a regression but not in this release yes?
+> So I don't think it needs to block qemu release.
 > 
-> Good catch. Passing the base address of memory is a good move here.
 > 
-> Alistair
+> > ---
+> > v2:
+> >    * change timeout to 1ms
+> >    * add comment to expire usage
+> >    * massage commit message to be a bit more clear
+> > 
+> > CC: mst@redhat.com
+> > CC: anisinha@redhat.com
+> > CC: jusual@redhat.com
+> > CC: kraxel@redhat.com  
 > 
->>
->> -    size = load_ramdisk(filename, start, mem_size - start);
->> +    size = load_ramdisk(filename, start, max_initrd);
->>       if (size == -1) {
->> -        size = load_image_targphys(filename, start, mem_size - start);
->> +        size = load_image_targphys(filename, start, max_initrd);
->>           if (size == -1) {
->>               error_report("could not load ramdisk '%s'", filename);
->>               exit(1);
->> @@ -217,6 +222,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->>                                  RISCVHartArrayState *harts,
->>                                  target_ulong kernel_start_addr,
->>                                  bool load_initrd,
->> +                               uint64_t ram_base,
->> +                               uint64_t ram_size,
->>                                  symbol_fn_t sym_cb)
->>   {
->>       const char *kernel_filename = machine->kernel_filename;
->> @@ -263,7 +270,7 @@ out:
->>       }
->>
->>       if (load_initrd && machine->initrd_filename) {
->> -        riscv_load_initrd(machine, kernel_entry);
->> +        riscv_load_initrd(machine, kernel_entry, ram_base, ram_size);
->>       }
->>
->>       if (fdt && machine->kernel_cmdline && *machine->kernel_cmdline) {
->> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
->> index e81bbd12df..b42d90b89e 100644
->> --- a/hw/riscv/microchip_pfsoc.c
->> +++ b/hw/riscv/microchip_pfsoc.c
->> @@ -630,7 +630,10 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->>                                                            firmware_end_addr);
->>
->>           kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
->> -                                         kernel_start_addr, true, NULL);
->> +                                         kernel_start_addr, true,
->> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO].base,
->> +                                         memmap[MICROCHIP_PFSOC_DRAM_LO].size,
->> +                                         NULL);
->>
->>           /* Compute the fdt load address in dram */
->>           fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
->> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
->> index b06944d382..bb663523d5 100644
->> --- a/hw/riscv/opentitan.c
->> +++ b/hw/riscv/opentitan.c
->> @@ -103,7 +103,7 @@ static void opentitan_board_init(MachineState *machine)
->>       if (machine->kernel_filename) {
->>           riscv_load_kernel(machine, &s->soc.cpus,
->>                             memmap[IBEX_DEV_RAM].base,
->> -                          false, NULL);
->> +                          false, 0, 0, NULL);
->>       }
->>   }
->>
->> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
->> index 04939b60c3..5b47d539a6 100644
->> --- a/hw/riscv/sifive_e.c
->> +++ b/hw/riscv/sifive_e.c
->> @@ -116,7 +116,7 @@ static void sifive_e_machine_init(MachineState *machine)
->>       if (machine->kernel_filename) {
->>           riscv_load_kernel(machine, &s->soc.cpus,
->>                             memmap[SIFIVE_E_DEV_DTIM].base,
->> -                          false, NULL);
->> +                          false, 0, 0, NULL);
->>       }
->>   }
->>
->> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
->> index 35a335b8d0..b45fdc968c 100644
->> --- a/hw/riscv/sifive_u.c
->> +++ b/hw/riscv/sifive_u.c
->> @@ -599,7 +599,10 @@ static void sifive_u_machine_init(MachineState *machine)
->>                                                            firmware_end_addr);
->>
->>           kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
->> -                                         kernel_start_addr, true, NULL);
->> +                                         kernel_start_addr, true,
->> +                                         memmap[SIFIVE_U_DEV_DRAM].base,
->> +                                         memmap[SIFIVE_U_DEV_DRAM].size,
->> +                                         NULL);
->>       } else {
->>          /*
->>           * If dynamic firmware is used, it doesn't know where is the next mode
->> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
->> index a584d5b3a2..e322ed8506 100644
->> --- a/hw/riscv/spike.c
->> +++ b/hw/riscv/spike.c
->> @@ -307,7 +307,10 @@ static void spike_board_init(MachineState *machine)
->>
->>           kernel_entry = riscv_load_kernel(machine, &s->soc[0],
->>                                            kernel_start_addr,
->> -                                         true, htif_symbol_callback);
->> +                                         true,
->> +                                         memmap[SPIKE_DRAM].base,
->> +                                         memmap[SPIKE_DRAM].size,
->> +                                         htif_symbol_callback);
->>       } else {
->>          /*
->>           * If dynamic firmware is used, it doesn't know where is the next mode
->> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
->> index 4e3efbee16..11f26b0dc0 100644
->> --- a/hw/riscv/virt.c
->> +++ b/hw/riscv/virt.c
->> @@ -1287,7 +1287,10 @@ static void virt_machine_done(Notifier *notifier, void *data)
->>                                                            firmware_end_addr);
->>
->>           kernel_entry = riscv_load_kernel(machine, &s->soc[0],
->> -                                         kernel_start_addr, true, NULL);
->> +                                         kernel_start_addr, true,
->> +                                         memmap[VIRT_DRAM].base,
->> +                                         memmap[VIRT_DRAM].size,
->> +                                         NULL);
->>       } else {
->>          /*
->>           * If dynamic firmware is used, it doesn't know where is the next mode
->> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
->> index a2e4ae9cb0..987e1add38 100644
->> --- a/include/hw/riscv/boot.h
->> +++ b/include/hw/riscv/boot.h
->> @@ -47,6 +47,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->>                                  RISCVHartArrayState *harts,
->>                                  target_ulong firmware_end_addr,
->>                                  bool load_initrd,
->> +                               uint64_t ram_base,
->> +                               uint64_t ram_size,
->>                                  symbol_fn_t sym_cb);
->>   uint64_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
->>                                   MachineState *ms);
->> --
->> 2.17.1
->>
->>
+> It's helpful to have CC before --- so backporters know whom to CC, too.
+
+ok, I'll fix it up and respin
+
+> 
+> > ---
+> >  hw/acpi/pcihp.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > index dcfb779a7a..5daa732a33 100644
+> > --- a/hw/acpi/pcihp.c
+> > +++ b/hw/acpi/pcihp.c
+> > @@ -357,6 +357,16 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+> >       * acpi_pcihp_eject_slot() when the operation is completed.
+> >       */
+> >      pdev->qdev.pending_deleted_event = true;
+> > +    /* if unplug was requested before OSPM is initialized,
+> > +     * linux kernel will clear GPE0.sts[] bits during boot, which effectively
+> > +     * hides unplug event. BAnd than followup qmp_device_del() calls remain  
+> 
+> BAnd?
+> 
+> > +     * blocked by above flag permanently.
+> > +     * Unblock qmp_device_del() by setting expire limit, so user can
+> > +     * repeat unplug request later when OSPM has been booted.
+> > +     */
+> > +    pdev->qdev.pending_deleted_expires_ms =
+> > +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL); /* 1 msec */
+> > +
+> >      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
+> >      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
+> >  }
+> > -- 
+> > 2.39.1  
+> 
+
 
