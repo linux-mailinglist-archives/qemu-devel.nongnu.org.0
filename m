@@ -2,82 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358256D7701
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 10:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65FFE6D770A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 10:35:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjyZq-00020U-5u; Wed, 05 Apr 2023 04:33:10 -0400
+	id 1pjybV-0004EI-5U; Wed, 05 Apr 2023 04:34:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pjyZn-000204-LS
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:33:08 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pjybT-0004Dq-4X
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:34:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pjyZk-0000KO-Si
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:33:06 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pjybR-0001Ij-LB
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:34:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680683583;
+ s=mimecast20190719; t=1680683689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G5QU+7fQtNjBlDy4FdUF+XWHHQxkAdzhCdoYY6e5EZE=;
- b=eic9ThoUxd56rXn05zBE+Zq7HEx0WQCo3tmvD3T/LjTvf7LB2ZM5aMzJRjugQUaJQdYV4P
- dJ9jOgmk0791yZymQdD91TE1546vCzXQQ6Jn9FgTcHprzWUYYBex+POWCSpB7sAfliUkuJ
- p9nMFfba+H74jUWcgdnlLZttscz94d4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-63-jp_Dh-FgMoWkNqM9VsJCMA-1; Wed, 05 Apr 2023 04:32:22 -0400
-X-MC-Unique: jp_Dh-FgMoWkNqM9VsJCMA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- m18-20020a50d7d2000000b00501dfd867a4so49657563edj.20
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 01:32:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680683541;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G5QU+7fQtNjBlDy4FdUF+XWHHQxkAdzhCdoYY6e5EZE=;
- b=sx8zQ/pTBKNOhUIIHdNxRqc7X0HiyHfyZxS+uP9EwK1LvxEgIc+cSKHSBQty4OrmEA
- 2pVgr3r051VIlAY4ArmivFFE0F25C2jpFPA8r+9rAoomowoYR0mLQqCL2xIEkP7bSoPM
- 6z1FmNt1SIrEZieEgEp1FgmwozweEdqMRGJ9OiVR6nuz/GswfXHAwOcmgUUQ8kJgh51Z
- SojbYPNuGR/9Dm0i+WiLxiWeRR9AI3rx98eN/Z1LdtSz6qDZebZVQ4QqBcDXOeEb+Tza
- d9bnP7u/a4faYY1F1WYmB22to88Oea3x0xs527wW02J3ocmqIKE9Of0RxRdTpoUIGWjA
- YGRQ==
-X-Gm-Message-State: AAQBX9fkMRIFqerot0AEItjJ6OpRGwICp8Qb3+2czo9ksMUXxq8MjobR
- 4hvqpdPiqVEG42Z0zYu3OKi3HE8Icgyv8TIDZ3LGqr3R5urByvSGvQSLtD5SrwMOyw+bJJ73BqR
- TUjl3m+njr9RvCRU=
-X-Received: by 2002:a17:906:5298:b0:8e6:266c:d195 with SMTP id
- c24-20020a170906529800b008e6266cd195mr2105877ejm.38.1680683541422; 
- Wed, 05 Apr 2023 01:32:21 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aQ4CTBL9JUTrGccoVeJDNEGSJLU8pYECHBu5oD3pFhvQo3Mg78vJBRsR7uOcZY70ye2AWApg==
-X-Received: by 2002:a17:906:5298:b0:8e6:266c:d195 with SMTP id
- c24-20020a170906529800b008e6266cd195mr2105864ejm.38.1680683541057; 
- Wed, 05 Apr 2023 01:32:21 -0700 (PDT)
-Received: from redhat.com ([2.52.139.22]) by smtp.gmail.com with ESMTPSA id
- q16-20020a50aa90000000b004af6c5f1805sm6967191edc.52.2023.04.05.01.32.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 01:32:20 -0700 (PDT)
-Date: Wed, 5 Apr 2023 04:32:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, anisinha@redhat.com, jusual@redhat.com,
- kraxel@redhat.com, pbonzini@redhat.com
-Subject: Re: [PATCH] acpi: pcihp: make pending delete expire in 5sec
-Message-ID: <20230405043026-mutt-send-email-mst@kernel.org>
-References: <20230403161618.1344414-1-imammedo@redhat.com>
- <20230403131833-mutt-send-email-mst@kernel.org>
- <20230404102807.4626b0be@imammedo.users.ipa.redhat.com>
- <20230404084603-mutt-send-email-mst@kernel.org>
- <20230404160435.45c2513d@imammedo.users.ipa.redhat.com>
- <20230404104122-mutt-send-email-mst@kernel.org>
- <20230405093020.3cbcd6e7@imammedo.users.ipa.redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vQL9qZ8ytji1vrVfw+iTd79hb0hfSOmIshWEVAUvKf4=;
+ b=Wy/X0V6LKU1Yndr4zAuAhQQD5Sf0kBtgc6J1J6aTeC818UTwnhooXx0IZQsebG8r08H2fs
+ t2k2qOjoyKuY3/C9maUB3xLqauvujWxUd9m6mngUFlA1t5INhD5r3w6Vi06op6HjK9ji+1
+ 122qEne0OJcEAV0s4vNWVJq5SL7C+sQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-489-g6NFDgiXOPSs-NHicPioFQ-1; Wed, 05 Apr 2023 04:34:47 -0400
+X-MC-Unique: g6NFDgiXOPSs-NHicPioFQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E35D384709A
+ for <qemu-devel@nongnu.org>; Wed,  5 Apr 2023 08:34:47 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq2.redhat.com
+ (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A447492C14;
+ Wed,  5 Apr 2023 08:34:46 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, anisinha@redhat.com, jusual@redhat.com, kraxel@redhat.com
+Subject: [PATCH v2] acpi: pcihp: make pending delete blocking action expire
+Date: Wed,  5 Apr 2023 10:34:44 +0200
+Message-Id: <20230405083444.1536720-1-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230405093020.3cbcd6e7@imammedo.users.ipa.redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,162 +76,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 05, 2023 at 09:30:20AM +0200, Igor Mammedov wrote:
-> On Tue, 4 Apr 2023 10:42:04 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > On Tue, Apr 04, 2023 at 04:04:35PM +0200, Igor Mammedov wrote:
-> > > On Tue, 4 Apr 2023 08:46:15 -0400
-> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > >   
-> > > > On Tue, Apr 04, 2023 at 10:28:07AM +0200, Igor Mammedov wrote:  
-> > > > > On Mon, 3 Apr 2023 13:23:45 -0400
-> > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > >     
-> > > > > > On Mon, Apr 03, 2023 at 06:16:18PM +0200, Igor Mammedov wrote:    
-> > > > > > > with Q35 using ACPI PCI hotplug by default, user's request to unplug
-> > > > > > > device is ignored when it's issued before guest OS has been booted.
-> > > > > > > And any additional attempt to request device hot-unplug afterwards
-> > > > > > > results in following error:
-> > > > > > > 
-> > > > > > >   "Device XYZ is already in the process of unplug"
-> > > > > > > 
-> > > > > > > arguably it can be considered as a regression introduced by [2],
-> > > > > > > before which it was possible to issue unplug request multiple
-> > > > > > > times.
-> > > > > > > 
-> > > > > > > Allowing pending delete expire brings ACPI PCI hotplug on par
-> > > > > > > with native PCIe unplug behavior [1] which in its turn refers
-> > > > > > > back to ACPI PCI hotplug ability to repeat unplug requests.
-> > > > > > > 
-> > > > > > > PS:      
-> > > > > > > >From ACPI point of view, unplug request sets PCI hotplug status      
-> > > > > > > bit in GPE0 block. However depending on OSPM, status bits may
-> > > > > > > be retained (Windows) or cleared (Linux) during guest's ACPI
-> > > > > > > subsystem initialization, and as result Linux guest looses
-> > > > > > > plug/unplug event (no SCI generated) if plug/unplug has
-> > > > > > > happend before guest OS initialized GPE registers handling.
-> > > > > > > I couldn't find any restrictions wrt OPM clearing GPE status
-> > > > > > > bits ACPI spec.
-> > > > > > > Hence a fallback approach is to let user repeat unplug request
-> > > > > > > later at the time when guest OS has booted.
-> > > > > > > 
-> > > > > > > 1) 18416c62e3 ("pcie: expire pending delete")
-> > > > > > > 2)
-> > > > > > > Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
-> > > > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>      
-> > > > > > 
-> > > > > > A bit concerned about how this interacts with failover,
-> > > > > > and 5sec is a lot of time that I hoped we'd avoid with acpi.
-> > > > > > Any better ideas of catching such misbehaving guests?    
-> > > > > 
-> > > > > It shouldn't affect affect failover, pending_delete is not
-> > > > > cleared after all (only device removal should do that).
-> > > > > So all patch does is allowing to reissue unplug request
-> > > > > in case it was lost, delay here doesn't mean much
-> > > > > (do you have any preference wrt specific value)?    
-> > > > 
-> > > > I'd prefer immediately.  
-> > > 
-> > > ok, lets use 1ms then, I'd rather reuse the preexisting
-> > > pending_deleted_expires_ms machinery instead of
-> > > special-casing immediate repeat.  
-> > 
-> > And just to make sure, are you working on fixing this in Linux
-> > at least? Because the work around is ok but it still causes
-> > latency.
-> 
-> 
-> Fixing what, clearing GPE status bits during ACPI subsystem
-> initialization?
-> 
-> Well at this point I'm not seeing a good justification for
-> removing GPE clearing (spec does not mandate that).
-> (but there is no harm in trying to send a patch, though
-> even if idea is accepted it won't do a dime for all current
-> and older distributions history show it was the thing even
-> since 2.6 kernels).
-> 
-> As for workaround, well it's not a workaround, but expected
-> behavior. 
-> ACPI hotplug expects functioning OSPM on guest side to work
-> properly. It's user's mistake to ask for unplug before that 
-> and user shall repeat request once guest is booted. What is
-> broken on QEMU side is that 'repeat' thingy (as it's noted
-> in commit message).
+with Q35 using ACPI PCI hotplug by default, user's request to unplug
+device is ignored when it's issued before guest OS has been booted.
+And any additional attempt to request device hot-unplug afterwards
+results in following error:
 
-I don't see how you can claim it's user's mistake.  All users want is
-device to be removed. How is our problem.  Guest can reboot at any time
-and there's no indication to user that guest booted, blaming
-users won't help if we do not have a fix for them.
+  "Device XYZ is already in the process of unplug"
 
+arguably it can be considered as a regression introduced by [2],
+before which it was possible to issue unplug request multiple
+times.
 
-> PS:
-> See commit message, Windows is not affected as it doesn't
-> clear GPE status bits during ACPI initialization
-> (at least the one version I've tested with, and I won't bet
-> on this with other versions or staying this way)
+Allowing pending delete blocking expire brings ACPI PCI hotplug
+on par with native PCIe unplug behavior [1] and allows user
+to repeat unplug requests at propper times.
+Set expire timeout to arbitrary 1msec so user won't be able to
+flood guest with SCI interrupts by calling device_del in tight loop.
 
-So I am saying linux should match windows. Clearing GPE
-is a bad idea as you then miss events.
+PS:
+ACPI spec doesn't mandate what OSPM can do with GPEx.status
+bits set before it's booted => it's impl. depended.
+Status bits may be retained (I tested with one Windows version)
+or cleared (Linux since 2.6 kernel times) during guest's ACPI
+subsystem initialization.
+Clearing status bits (though not wrong per se) hides the unplug
+event from guest, and it's upto user to repeat device_del later
+when guest is able to handle unplug requests.
 
-> > 
-> > > >   
-> > > > > As for 'misbehaving' - I tried to find justification
-> > > > > for it in spec, but I couldn't.
-> > > > > Essentially it's upto OSPM to clear or not GPE status
-> > > > > bits at startup (linux was doing it since forever),
-> > > > > depending on guest's ability to handle hotplug events
-> > > > > at boot time.
-> > > > > 
-> > > > > It's more a user error, ACPI hotplug does imply booted
-> > > > > guest for it to function properly. So it's fine to
-> > > > > loose unplug event at boot time. What QEMU does wrong is
-> > > > > preventing follow up unplug requests.  
-> > > > >     
-> > > > > > 
-> > > > > > Also at this point I do not know why we deny hotplug
-> > > > > > pending_deleted_event in qdev core.  
-> > > > > > Commit log says:
-> > > > > > 
-> > > > > >     Device unplug can be done asynchronously. Thus, sending the second
-> > > > > >     device_del before the previous unplug is complete may lead to
-> > > > > >     unexpected results. On PCIe devices, this cancels the hot-unplug
-> > > > > >     process.
-> > > > > > 
-> > > > > > so it's a work around for an issue in pcie hotplug (and maybe shpc
-> > > > > > too?). Maybe we should have put that check in pcie/shpc and
-> > > > > > leave acpi along?
-> > > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > >     
-> > > > > > > ---
-> > > > > > > CC: mst@redhat.com
-> > > > > > > CC: anisinha@redhat.com
-> > > > > > > CC: jusual@redhat.com
-> > > > > > > CC: kraxel@redhat.com
-> > > > > > > ---
-> > > > > > >  hw/acpi/pcihp.c | 2 ++
-> > > > > > >  1 file changed, 2 insertions(+)
-> > > > > > > 
-> > > > > > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> > > > > > > index dcfb779a7a..cd4f9fee0a 100644
-> > > > > > > --- a/hw/acpi/pcihp.c
-> > > > > > > +++ b/hw/acpi/pcihp.c
-> > > > > > > @@ -357,6 +357,8 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-> > > > > > >       * acpi_pcihp_eject_slot() when the operation is completed.
-> > > > > > >       */
-> > > > > > >      pdev->qdev.pending_deleted_event = true;
-> > > > > > > +    pdev->qdev.pending_deleted_expires_ms =
-> > > > > > > +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 5000; /* 5 secs */
-> > > > > > >      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
-> > > > > > >      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
-> > > > > > >  }
-> > > > > > > -- 
-> > > > > > > 2.39.1      
-> > > > > >     
-> > > >   
-> > 
+1) 18416c62e3 ("pcie: expire pending delete")
+2)
+Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+v2:
+   * change timeout to 1ms
+   * add comment to expire usage
+   * massage commit message to be a bit more clear
+
+CC: mst@redhat.com
+CC: anisinha@redhat.com
+CC: jusual@redhat.com
+CC: kraxel@redhat.com
+---
+ hw/acpi/pcihp.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index dcfb779a7a..5daa732a33 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -357,6 +357,16 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+      * acpi_pcihp_eject_slot() when the operation is completed.
+      */
+     pdev->qdev.pending_deleted_event = true;
++    /* if unplug was requested before OSPM is initialized,
++     * linux kernel will clear GPE0.sts[] bits during boot, which effectively
++     * hides unplug event. BAnd than followup qmp_device_del() calls remain
++     * blocked by above flag permanently.
++     * Unblock qmp_device_del() by setting expire limit, so user can
++     * repeat unplug request later when OSPM has been booted.
++     */
++    pdev->qdev.pending_deleted_expires_ms =
++        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL); /* 1 msec */
++
+     s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
+     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
+ }
+-- 
+2.39.1
 
 
