@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C006D89B0
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 23:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7356D89BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 23:39:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkAoJ-0005QP-Mp; Wed, 05 Apr 2023 17:36:55 -0400
+	id 1pkAoI-0005PP-2u; Wed, 05 Apr 2023 17:36:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pkAo7-0005K7-1g
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:36:43 -0400
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136])
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pkAo7-0005KK-Tn
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:36:46 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pkAo5-0005co-H1
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:36:42 -0400
-Received: by mail-il1-x136.google.com with SMTP id v5so16952436ilj.4
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pkAo6-0005dD-Aj
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:36:43 -0400
+Received: by mail-il1-x12f.google.com with SMTP id h11so19505547ild.11
  for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 14:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680730600;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680730601;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bcNp7Qm4e5ur6jtltz7qLJuPFY0Q7omcuhRi+MALXJI=;
- b=zM9OHifSYnPImtDXox8+1hEC4YNuJqtHIuZMOP2VhCUKTobh7G7hzs+baOoi+p171q
- Tzgi8tUddo49FeBWiOrmV/XT3yyNbOVEshMz7vZYlHUb+w4KMY7hJe57bTJEouxhDGBH
- 1g3h3MIhgbf3cNPn9x9CfA/mzaJLnE98C/Oc7p7QDnMMtK//gKEpTDMPxz55fqj7BP26
- xB58+p8Vj74gNZinVcKN/q50M2HniVXTaR3PPh/UuVDTW9AugE6pVAGuTTAGEIBphn9M
- hzX6EG/JViTOREq8bvBF5GQx5RWMaaFZL3hXWyv7RxB+ml7UmUf9W7uj2q2IVxBbZkh4
- tSvw==
+ bh=N8f0c0zWU0uf6KygAvtJ1QQK3oFJ68EqdIaad3VmCHw=;
+ b=WcKg6DHxtwKuCxPiKbXzDlgVNt/oS8V4wQB+2ckROdhWcf4key7b7E34f8VhWWF5tj
+ Bo8pC0WnUFzGwt9Nou3Vfp2TdXyer/VhtbSUckKGITxd8oKwyMIEkS3Q+yMtkMrGMijx
+ TU+4flxrsrYKl+u6jUpXe7cd0RFwOGII8RqsSTqrNiiJVs/Czr1wKwx9tWWsL+aFjgcY
+ o6C3hR2amAirxc5pC5/Lk0D2zp7TXIXJkF3/uallRmooYVHdqiln6Fqi4JOxYJbAUMix
+ ZEHRlqZ97vg4yHgdSXguzizVd/6UPPWiykQ/8SMrd7kmu1Enid+eyO7DF+wUCBiql7nY
+ 4ngA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680730600;
+ d=1e100.net; s=20210112; t=1680730601;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bcNp7Qm4e5ur6jtltz7qLJuPFY0Q7omcuhRi+MALXJI=;
- b=CvCjA2eSoQt3GoIiCCA/w7Iw0Dj/ElgGgcdKjXnqIMi6GOAVejOmz9ikHv7C/uhtZg
- qF5nVW2xIHMf7fzMcJKaSMWnIMed5jzGZ52ekr9yDsJJh+hkwwl4Qdq4naP0LTxqOp36
- 8LPkvzqyohOmGrDyabJkA3rTtsy+DRXBNFV/EtEucVJBDw359xiUXwIDSLCkaHL0z7o4
- /fHXGuQrBiI/79hDLDp8FuvZhUs/YgCV+VTw8mji8D5ZAQ60P2Q3temOFoLiTkZa1XZe
- wjUy27cqJzcXRdIi539bqFa5hEVuU7UghAr/Rd1TOrs0T6h8Haa0ez5x6DbxNU7UWalO
- gVmQ==
-X-Gm-Message-State: AAQBX9cZxow9yseo2/PEiRvpfIqcWOBx12b7VBbmlJc4zkCmZlpXQLdr
- XG8iA6YCynCX97sle2bB36FCuRV4Dfq9br/Ah9M=
-X-Google-Smtp-Source: AKy350awoeDgAWmD/r4b/V2gJ9VdS0uHOnIvz4joWQwgw/+K5LV4d03c7J/cUIZJxITy9jIblrUoPw==
-X-Received: by 2002:a92:dd86:0:b0:325:bab7:cb17 with SMTP id
- g6-20020a92dd86000000b00325bab7cb17mr4931494iln.24.1680730599882; 
- Wed, 05 Apr 2023 14:36:39 -0700 (PDT)
+ bh=N8f0c0zWU0uf6KygAvtJ1QQK3oFJ68EqdIaad3VmCHw=;
+ b=Ab8Clg30CPTzgAEpn3WTxl8/TcbBE/RTB7HSCujOLgpoNe2nPBKtviEg0348Znnd1Q
+ OTLtbUnLY+IyMDjRo1wRrIGOXsJaFi43DbVOHZIaDW/qNrb5ihPvIrNA5rKYPhYv9FY/
+ d5DBwSEEiDybn+YTcHCzV6ZvAsKWZ1aksWKgniP47k24RcMtSkeI3lxoYi5hiN8F/pD8
+ fwW8JTIS/ZjZeW+CzQG2qX/mrPfSL/J5oVR4KfzzDttwcWsnlvoOXsUOLcU9cPLGZZyZ
+ TfuMNahiE46SZpjmxRwwaY9M9EgX56xTCTXnD49NG0bLIE4dm4XBAYwDYrOuVcqYhwM0
+ 0iKA==
+X-Gm-Message-State: AAQBX9fKU0+FvMs+QEnJHweCTz6y+eCYAs0Y4aJy+eS6xEYcr6CWzFcq
+ RI5EPAATvWo7E7hx7pwy4WyEZFt+s7vea1b7iBg=
+X-Google-Smtp-Source: AKy350ZDd/Mnz+HJANkpJqgIG/zQmfUNStlLhfeiAer8g5ymkjGxfYbgdSdCplRb5pUQlQF1OU3XmQ==
+X-Received: by 2002:a05:6e02:14c:b0:317:99d0:8afa with SMTP id
+ j12-20020a056e02014c00b0031799d08afamr5500364ilr.12.1680730600906; 
+ Wed, 05 Apr 2023 14:36:40 -0700 (PDT)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- i18-20020a926d12000000b003261b6acc8asm4110473ilc.79.2023.04.05.14.36.39
+ i18-20020a926d12000000b003261b6acc8asm4110473ilc.79.2023.04.05.14.36.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 14:36:39 -0700 (PDT)
+ Wed, 05 Apr 2023 14:36:40 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: reinoud@netbsd.org, riastradh@netbsd.org, ryoon@netbsd.org,
  jrtc27@jrtc27.com, Warner Losh <imp@bsdimp.com>, kevans@freebsd.org,
  Brad Smith <brad@comstyle.com>
-Subject: [PATCH 15/16] bsd-user: Add SIGSYS to core dump signals.
-Date: Wed,  5 Apr 2023 15:36:11 -0600
-Message-Id: <20230405213612.15942-16-imp@bsdimp.com>
+Subject: [PATCH 16/16] bsd-user: Implement SIGSYS on arm
+Date: Wed,  5 Apr 2023 15:36:12 -0600
+Message-Id: <20230405213612.15942-17-imp@bsdimp.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230405213612.15942-1-imp@bsdimp.com>
 References: <20230405213612.15942-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::136;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x136.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,45 +89,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-SIGSYS creates a core by default if uncaught. Follow that here. Sort
-with the same order as is in the kernel.
+When a system call returns ENOSYS, send a SIGSYS to the process (to
+generate a core dump).
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/signal.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ bsd-user/arm/target_arch_cpu.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index f4e078ee1da..4301595cc2f 100644
---- a/bsd-user/signal.c
-+++ b/bsd-user/signal.c
-@@ -330,17 +330,22 @@ int block_signals(void)
-     return qatomic_xchg(&ts->signal_pending, 1);
- }
- 
--/* Returns 1 if given signal should dump core if not handled. */
-+/*
-+ * Returns 1 if given signal should dump core if not handled.
-+ * Compare with kern_sig.c sigproptbl[].
-+ */
- static int core_dump_signal(int sig)
- {
-     switch (sig) {
-+    case TARGET_SIGQUIT:
-+    case TARGET_SIGILL:
-+    case TARGET_SIGTRAP:
-     case TARGET_SIGABRT:
-+    case TARGET_SIGEMT:
-     case TARGET_SIGFPE:
--    case TARGET_SIGILL:
--    case TARGET_SIGQUIT:
-     case TARGET_SIGSEGV:
--    case TARGET_SIGTRAP:
-     case TARGET_SIGBUS:
-+    case TARGET_SIGSYS:
-         return 1;
-     default:
-         return 0;
+diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
+index 517d0087644..c4b21fef713 100644
+--- a/bsd-user/arm/target_arch_cpu.h
++++ b/bsd-user/arm/target_arch_cpu.h
+@@ -127,6 +127,14 @@ static inline void target_cpu_loop(CPUARMState *env)
+                     env->regs[15] -= env->thumb ? 2 : 4;
+                     break;
+                 }
++                /*
++                 * Emulate BSD's sigsys behavior on unimplemented system calls.
++                 * XXX may need to gate this somehow or arrange for sigsys to be
++                 * masked in some use cases.
++                 */
++                if (ret == -TARGET_ENOSYS) {
++                    force_sig_fault(TARGET_SIGSYS, SI_KERNEL, env->regs[15]);
++                }
+                 if ((unsigned int)ret >= (unsigned int)(-515)) {
+                     ret = -ret;
+                     cpsr_write(env, CPSR_C, CPSR_C, CPSRWriteByInstr);
 -- 
 2.40.0
 
