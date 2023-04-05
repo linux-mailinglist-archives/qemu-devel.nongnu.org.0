@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4526D835C
+	by mail.lfdr.de (Postfix) with ESMTPS id 870946D835A
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 18:15:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk5m7-0007kT-Pg; Wed, 05 Apr 2023 12:14:19 -0400
+	id 1pk5m9-0007mW-US; Wed, 05 Apr 2023 12:14:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pk5lw-0007i6-Mx
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 12:14:10 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pk5m3-0007kZ-B9
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 12:14:19 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pk5lv-0006Yj-5b
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 12:14:08 -0400
-Received: by mail-wr1-x429.google.com with SMTP id m2so36755093wrh.6
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 09:14:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pk5lz-0006ZP-LP
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 12:14:13 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id y14so36786161wrq.4
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 09:14:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680711245;
+ d=linaro.org; s=google; t=1680711250;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=31Dm8tqveH6A+pTj5FPrc9/OxO1iY2GmqoL5qWMaQ24=;
- b=pd14cQKQnbGXSS7TUuEfdyDf5sS/zlY7sHExBVdaAoLm+FR9z4m97A4mvOPC2H8vyl
- Gmz3wjbmUwxY/fJqAOLuDOhY616GTL2Q01yU23hOvKYe5S3u7w5HMDoKvtMf+89yPnKW
- TJh1p0Vr+34FXtgnN9X54/7OdJnOV7yf+V4DeDcrkDTaQc6VPniCpr5vSXUXqAHSYMbY
- eeWSSwe4gODZc5fJdhIkgFvMmlCnM3sbzsuI09kT6kRfZgBvgHP7FiCnkJzQo2xF7F4D
- fqJGxbPspWNuXTatpW9EJFD+QObBG2IvHfaCUe0D2Se1nPtRizuXb0zttJf9EXgZ0BS2
- 3i9Q==
+ bh=AeQZJldIaB/1zbNu3DV9kzUmDswJpW46rk6Q7NupZW4=;
+ b=Jj6PRM82WrwNk30qUgHPYkD/CupV2v9dtjKlKSBDUTiqD/HY1boMe0z16ZthvltKrI
+ 6OBlRem4em2riWVCMinDtCGa74F0CPJxw4gn19+eIta0Ld+562Wtqb8ZymvxntgwjOYG
+ jsiSachkDUS3JDBRSQAvFCYFygDbXZP5toRT1yfzg6Tz6tXaINtbnKY8SDoJyeu+5v8A
+ 9PKx52iYbL4AwfUTmTNH6ACdvU6IyabBBtG/LDB/Teyi72wAMxjoQNYxcCt5HSJXaV6O
+ Bb8418Qrxzp/8s33AXF2RYDjazr8bgDkfM7b04aSps79FwhecISdEc0k9ztLsOKwThM+
+ mB7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680711245;
+ d=1e100.net; s=20210112; t=1680711250;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=31Dm8tqveH6A+pTj5FPrc9/OxO1iY2GmqoL5qWMaQ24=;
- b=dL0oAKXgG9okcLDYd75Wze77PAQ4sTG/ngFp4H3/2Tu7c51DIXcMs423eIA+1C5TVY
- w+Vf3L+2QHsb3mcsL8rbdh8t6wbkeUDJVk9qOeo4FS83LMeqn9s3GWiTY+eeizHK34Dg
- u9yL1WEYBv0oIYnI921O8lTMYRSI0OXStlnRanEhYiQB3tGssl5nY9IPJzsNCEPRLXPf
- U4k1bTaDdsa4wL7MKTGc4PGWc+U84FczQ0xBV3OC/9yxAWamo2ntW5auSzAFNbAmWyMp
- 8KRL/QfyjGkHx3esPgRGwL6gawkfGjLRN7vjzcz6/KsLON5HFIqX3TWeYxTBEGMYAGGs
- 697Q==
-X-Gm-Message-State: AAQBX9cFAzfe1WVMq9voWfUjvFHksXalfI/PcNdfZK99FhSyPY1mToQz
- btC/kcL3wDvGIWwE6TjbGUvzihm92xAFDqOw0+k=
-X-Google-Smtp-Source: AKy350bBfE6YE7vKkF6jYUa53ola/eVUuEKMInhDF04I462o2T68qmBLO7/fpuw89LhKQ8T1lLCkdA==
-X-Received: by 2002:adf:fcc5:0:b0:2d0:c37a:5ebd with SMTP id
- f5-20020adffcc5000000b002d0c37a5ebdmr4814064wrs.64.1680711244870; 
- Wed, 05 Apr 2023 09:14:04 -0700 (PDT)
+ bh=AeQZJldIaB/1zbNu3DV9kzUmDswJpW46rk6Q7NupZW4=;
+ b=vhW13bkfXKQ3nwhRak5P9/0VToz0vwhNvsCcBeZ9OtGKFEdAyOYVYebhBefhE/+mbI
+ xAlHad6FJGRyU8+X1jTrcw29k61BvKJDcKFtIon9GL35y+uTYLWA6GShOsY2sgX3JhEU
+ aXAXOaeDAPd2kQps1RfU9X7B5l57hE4f/IpfiZBuvEthC9ppgZ5yxlCtCjsPS+EqUlpX
+ kLD5JRvB/rm2zNtZBS2X4tL4hUjmUEfg4BM9nVVsWaSAcyuol7kha9Av9RstTzE38ZpB
+ FRctaaIYbzeji6CY0sSLPqALDXiwMvZGoev5V31+YcS6z/OtC8wyLqybEvXLx+NR7I3j
+ FrlQ==
+X-Gm-Message-State: AAQBX9d5GHIg9mAkF4JH+YV1ajX/Q3NBiN+xsSVyXOxyloRtQi9DBofl
+ j/UBin5u/UVqP7J04Ku0120zeA==
+X-Google-Smtp-Source: AKy350Y6ALMh7Z7Kp0IY6mnGdmB+FjCWSj2doTPrJmE3yfwWgU0aUMSZwESpTe+CWuF918MaRYtvgg==
+X-Received: by 2002:a5d:452f:0:b0:2c7:cdf:e548 with SMTP id
+ j15-20020a5d452f000000b002c70cdfe548mr4108119wra.71.1680711250196; 
+ Wed, 05 Apr 2023 09:14:10 -0700 (PDT)
 Received: from localhost.localdomain
  (4ab54-h01-176-184-52-81.dsl.sta.abo.bbox.fr. [176.184.52.81])
  by smtp.gmail.com with ESMTPSA id
- k12-20020adfe8cc000000b002c7b229b1basm15351729wrn.15.2023.04.05.09.14.03
+ z17-20020a5d4d11000000b002da75c5e143sm15277695wrt.29.2023.04.05.09.14.09
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 05 Apr 2023 09:14:04 -0700 (PDT)
+ Wed, 05 Apr 2023 09:14:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Thomas Huth <thuth@redhat.com>,
 	qemu-devel@nongnu.org
@@ -61,17 +61,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 1/2] accel/stubs: Remove kvm_flush_coalesced_mmio_buffer() stub
-Date: Wed,  5 Apr 2023 18:13:55 +0200
-Message-Id: <20230405161356.98004-2-philmd@linaro.org>
+Subject: [PATCH 2/2] accel/stubs: Build HAX/KVM/XEN stubs once
+Date: Wed,  5 Apr 2023 18:13:56 +0200
+Message-Id: <20230405161356.98004-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230405161356.98004-1-philmd@linaro.org>
 References: <20230405161356.98004-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,31 +94,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-kvm_flush_coalesced_mmio_buffer() is only called from
-qemu_flush_coalesced_mmio_buffer() where it is protected
-by a kvm_enabled() check. When KVM is not available, the
-call is elided, there is no need for a stub definition.
+These stub files don't require any target-specific bit.
+(TCG stubs do, so this file is left in specific_ss[]).
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- accel/stubs/kvm-stub.c | 4 ----
- 1 file changed, 4 deletions(-)
+ accel/stubs/meson.build | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 235dc661bc..c0e2df3fbf 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -29,10 +29,6 @@ bool kvm_ioeventfd_any_length_allowed;
- bool kvm_msi_use_devid;
- bool kvm_direct_msi_allowed;
- 
--void kvm_flush_coalesced_mmio_buffer(void)
--{
--}
+diff --git a/accel/stubs/meson.build b/accel/stubs/meson.build
+index 0249b9258f..a67f21a964 100644
+--- a/accel/stubs/meson.build
++++ b/accel/stubs/meson.build
+@@ -1,7 +1,9 @@
++sysemu_stubs_specific_ss = ss.source_set()
++sysemu_stubs_specific_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
++specific_ss.add_all(when: ['CONFIG_SOFTMMU'], if_true: sysemu_stubs_specific_ss)
++
+ sysemu_stubs_ss = ss.source_set()
+ sysemu_stubs_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
+-sysemu_stubs_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
+ sysemu_stubs_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
+-sysemu_stubs_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
 -
- void kvm_cpu_synchronize_state(CPUState *cpu)
- {
- }
+-specific_ss.add_all(when: ['CONFIG_SOFTMMU'], if_true: sysemu_stubs_ss)
++sysemu_stubs_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
++softmmu_ss.add_all(when: ['CONFIG_SOFTMMU'], if_true: sysemu_stubs_ss)
 -- 
 2.38.1
 
