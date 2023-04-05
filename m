@@ -2,80 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E5C6D892F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 23:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1EA6D894A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 23:08:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkAGg-0007JW-1K; Wed, 05 Apr 2023 17:02:10 -0400
+	id 1pkAMF-0000HD-4u; Wed, 05 Apr 2023 17:07:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pkAGc-0007JC-L1
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:02:06 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1pkAM8-0000CB-Dq; Wed, 05 Apr 2023 17:07:48 -0400
+Received: from mail-sn1nam02on2062e.outbound.protection.outlook.com
+ ([2a01:111:f400:7ea9::62e]
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pkAGZ-0002Xl-D1
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:02:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Aw20wDkzuV0QVQ7CHVvmFxZ8aKmFM4PkVcG/xn24lSk=; b=RIubAwr07XvXQLMAO6onbyBys1
- 34q5AoDHx6ANgAdIu5+tQ8VRHoOHECEGqJkl4CcPnrc3Kx5t/7sUnTumeWXDonKh4nAzvPqb/J5U5
- r4CHpz45WduyBHUne01Tbh/9Gx/ALHeVQQUdycE+JDrs2GbPEGMGR1Od+uw8gAXRitq9PlMie5wWB
- atnTBL6WjjhxOo17o3KxO8U7llbGHCODiOEeXP9JMge6Z1X7RLstQ+VNuWPQo2XwLY//9NS66wI2b
- xp+JfslFsp5UnP9YuUB3AVyYNYKzS1VDaTS5RDinJ0G9zIMrCCGk/Xn98IJ8VDEzhtyeTpRi6ED7e
- Nvn5QlJ4i45U0EkOjfbnCTAGZSOz9NfEfzy+leCfumyKLrjvLq/CqlTezZOpW7Ov8J9wbcoudS11U
- mcMET14iIAIB9Ylt4tvGpBCTYFlpJDibT7rY1BLzQpNjBgysNqT/IktHEWGFKkAhk3uSKsHWuY4KQ
- ODXwod+7ibQuyMioY84UkZJ+BLlK9RDQjZcVwo2HdzCbq3SihGZTjcfKWfj4pomrQRpjcwDzSGeqY
- VjL7kUgiZ7GjMMmPh6upy/JhziFHcMXxw8UPvBEtK/zOFwK9trN4ecdZoapbHYyRo0WTzragvI79H
- r9ogN8ExEcEb/Wd5xnIDu9b66B4P+N0IBXdSeXdW0=;
-Received: from [2a00:23c4:8bac:6900:b726:cf58:4c12:f013]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pkAFb-00033y-Ll; Wed, 05 Apr 2023 22:01:04 +0100
-Message-ID: <1cfdad4a-0868-a9aa-4afb-af22c6aa7f93@ilande.co.uk>
-Date: Wed, 5 Apr 2023 22:01:45 +0100
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1pkALx-0003l8-Mm; Wed, 05 Apr 2023 17:07:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gJxVB+bntSF8pzqIw5ttyZh6ff5A5mKE+5m0tEzLdKW3i5I3dWnDw0mC0XKFzCYeXaeRy7MPxERoX9s9rPKlSKdQWyAtWGJSwZIXR07tJeXFF4ifY35ac4UHMgbywdlNmQdnaOwPzs5qoU0p9DasNCznsNtHWT+phRcvOlUS15UQw1obdZg5zApZhjRDCHpjdNxwlebr6cG5zj5a5Iva83xFpDAO9mZfQvV9Mz14bW1CZ8UqJxCmMkvSzzsr47dQCXR2DTwCdlwK1Glajx1hLODQaoFvmgAfKPF+sUGGTXHSni7Ko5T586m1ZfaZYdM5Mqjd+kkfpMTX0YT+8wOJbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZSo2KcDlX7gprSquWrMqXjvg73+gC2Yv1HsPqrVtaJQ=;
+ b=bSlD3U7w4sEkHAZnbGLtFCHflLCPhWIf0vOxu9YVR1rf2tln0K25qjZybAt7dhfnnu+8dOQobrXwqxxKXtIm+cjLxfWBagIXdwQryD03m67ETBLzVVzDYy4EEctLh9+NHJIxcnNdeKZ4WcjZueV3J8b1NJfSPJVWsNa8hmUmidZPdLSz5LBSVo7TFqfd/FMMjE+91DYa0TaIs2sSaZZ2jRahiO9zIscSGQ22iL9cpCU8lBWcuFzNcsTeGgo6BwJinbxiMYz1IbIcp6ObR4cvM1CCQSVK2liph/D34iy7z4L8nXt8p5znerTT8O89klV+nC66yXbBnjGyUTwt3DHAcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=tls.msk.ru smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZSo2KcDlX7gprSquWrMqXjvg73+gC2Yv1HsPqrVtaJQ=;
+ b=RqMt6RgnMXCk/l1Zv9Piw+8sVc7Jo6CHUUn+ZpV0V1Fb6IcCPoWWwlGPgo6oA6bVe6lg2AHYHe/EU0HOYGjpHz5mZl65qdRcml+4EGpqZpbusvMn6D9ejlnztEvb97kyTzQNMt4bd19d0DtxfvMVtvuYnQ47xaqrL/8pFhZd1Xk=
+Received: from BN9P221CA0020.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::32)
+ by DM6PR12MB4465.namprd12.prod.outlook.com (2603:10b6:5:28f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
+ 2023 21:07:30 +0000
+Received: from BN8NAM11FT105.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10a:cafe::15) by BN9P221CA0020.outlook.office365.com
+ (2603:10b6:408:10a::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.43 via Frontend
+ Transport; Wed, 5 Apr 2023 21:07:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT105.mail.protection.outlook.com (10.13.176.183) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6277.30 via Frontend Transport; Wed, 5 Apr 2023 21:07:29 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 5 Apr
+ 2023 16:07:25 -0500
+Date: Wed, 5 Apr 2023 16:06:58 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+CC: QEMU Developers <qemu-devel@nongnu.org>, qemu-stable
+ <qemu-stable@nongnu.org>
+Subject: Re: QEMU stable 7.2.1
+Message-ID: <20230405210658.yg2i6grklgqp73rr@amd.com>
+References: <62db7253-9cd7-e095-6b9f-ffcdecfa9bf6@msgid.tls.msk.ru>
+ <20230405135818.52ggpbvumybryvr7@amd.com>
+ <ce3bbb93-2534-e2bc-ece5-8bc4e2943bb8@msgid.tls.msk.ru>
+ <20230405185720.2yxd52njk3tcsauk@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Cedric Le Goater <clegoate@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
- <Y9exrDWT2NUoinu1@redhat.com> <87h6w7694t.fsf@linaro.org>
- <dbc8b2f6-3e9e-65d7-998f-568b6376d25c@ilande.co.uk>
- <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8bac:6900:b726:cf58:4c12:f013
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.355,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230405185720.2yxd52njk3tcsauk@amd.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT105:EE_|DM6PR12MB4465:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3680d8b-8eeb-4c2b-1417-08db3619c3f4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tDiTk/0zDoIrFQuRgqhqONUVkRVrXBtz2AziWCudP9yhFjjfItsjCXezrLZqhNarenSYn/kqlL+Nv4/fPDHeXY5v9CUBiNn9VC5I50ZjUUtGV+DpdSNzkoor2jDlQ/NuW4gktiAW6xtytR29k7N5aVkZCSdFRZQLSn0gLD557PwtLCrtsBBG8yjGhwsjtAfyrO68PDN/77QttJifO+dA3eXHQVXZO4kvBgmWYGlmV9Auk8bgZdTERmTv2VWCu0d5gaX6v5A4yROlqR0KeGG/MlE4jh6BCgHEmmk7vrG8kmV54ivRIDYt3pYMOhwMpM3UIg6og7b160zUtB2mLGlH2c967a7aV0/ZniYLcc8mg7laq9/eed3Bkt8airaspGcxs752CXnvXF4Ndu3hmepnE/qCQmdAtX6mUpjxtaqeF7wl/KnjEXUkhk8lGdDK2znb7DyzrGqX39PvGMWsWLsvt+3ku4yGmEHH5Dvtl4/yTVBRYbjiGiX6C1i8KZWbkmYlB68xrmGi33/ZYf6zbsFr15csGfzfghHJI1QAo1McNXd1lI3BYad+MrtA+tlRBnSB73bvYfCiOnOA2RyU7pqPBd8RWA7Oi3vyAYNNt33l7af2FiCiTIFIxyC8hc6eYa3kDa8akK22/soe5DTL9bzJ+epXChzgftD9EoRIy+WYRhACvWvFbCe1n74KKIHM7ZxFWKklovYj6LcddpGPUvXeLESGqVEc/2n34YufdBR/Oco=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(136003)(376002)(396003)(346002)(451199021)(36840700001)(46966006)(40470700004)(70586007)(6916009)(44832011)(8676002)(4326008)(70206006)(54906003)(186003)(316002)(5660300002)(41300700001)(478600001)(7116003)(8936002)(966005)(2906002)(6666004)(356005)(16526019)(40460700003)(1076003)(26005)(81166007)(2616005)(336012)(426003)(83380400001)(47076005)(36756003)(40480700001)(82740400003)(36860700001)(86362001)(82310400005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 21:07:29.2380 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3680d8b-8eeb-4c2b-1417-08db3619c3f4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT105.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4465
+Received-SPF: softfail client-ip=2a01:111:f400:7ea9::62e;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,102 +121,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/04/2023 15:00, Thomas Huth wrote:
-
-> On 05/02/2023 23.12, Mark Cave-Ayland wrote:
->> On 30/01/2023 20:45, Alex Bennée wrote:
->>
->>> Daniel P. Berrangé <berrange@redhat.com> writes:
->>>
->>>> On Mon, Jan 30, 2023 at 11:47:02AM +0000, Peter Maydell wrote:
->>>>> On Mon, 30 Jan 2023 at 11:44, Thomas Huth <thuth@redhat.com> wrote:
->>>>>>
->>>>>> Testing 32-bit host OS support takes a lot of precious time during the QEMU
->>>>>> contiguous integration tests, and considering that many OS vendors stopped
->>>>>> shipping 32-bit variants of their OS distributions and most hardware from
->>>>>> the past >10 years is capable of 64-bit
->>>>>
->>>>> True for x86, not necessarily true for other architectures.
->>>>> Are you proposing to deprecate x86 32-bit, or all 32-bit?
->>>>> I'm not entirely sure about whether we're yet at a point where
->>>>> I'd want to deprecate-and-drop 32-bit arm host support.
->>>>
->>>> Do we have a feeling on which aspects of 32-bit cause us the support
->>>> burden ? The boring stuff like compiler errors from mismatched integer
->>>> sizes is mostly quick & easy to detect simply through a cross compile.
->>>>
->>>> I vaguely recall someone mentioned problems with atomic ops in the past,
->>>> or was it 128-bit ints, caused implications for the codebase ?
->>>
->>> Atomic operations on > TARGET_BIT_SIZE and cputlb when
->>> TCG_OVERSIZED_GUEST is set. Also the core TCG code and a bunch of the
->>> backends have TARGET_LONG_BITS > TCG_TARGET_REG_BITS ifdefs peppered
->>> throughout.
->>
->> I am one of an admittedly small group of people still interested in using KVM-PR on 
->> ppc32 to boot MacOS, although there is some interest on using 64-bit KVM-PR to run 
->> super-fast MacOS on modern Talos hardware.
->>
->>  From my perspective losing the ability to run 64-bit guests on 32-bit hardware 
->> with TCG wouldn't be an issue, as long as it were still possible to use 
->> qemu-system-ppc on 32-bit hardware using both TCG and KVM to help debug the 
->> remaining issues.
+On Wed, Apr 05, 2023 at 01:57:20PM -0500, Michael Roth wrote:
+> On Wed, Apr 05, 2023 at 05:16:33PM +0300, Michael Tokarev wrote:
+> > 05.04.2023 16:58, Michael Roth wrote:
+> > > On Wed, Apr 05, 2023 at 02:54:47PM +0300, Michael Tokarev wrote:
+> > > > So let it be, with a delay of about a week.
+> > > > 
+> > > > Since no one from the qemu team replied to my final-release steps, I'm
+> > > > making it available on my site instead:
+> > > > 
+> > > >    http://www.corpit.ru/mjt/qemu/qemu-7.2.1.tar.xz
+> > > >    http://www.corpit.ru/mjt/qemu/qemu-7.2.1.tar.xz.sig - signed with my GPG key
+> > > >    http://www.corpit.ru/mjt/qemu/qemu-7.2.1.diff - whole difference from 7.2.0.
+> > > > 
+> > > > The tag (v7.2.1) is in the main qemu repository.
+> > > 
+> > 
+> > For the tarballs, it's definitely better to follow the established practice,
+> > I published the generated tarball on my site just as a last-resort, so that
+> > it ends up *somewhere*. It should be prepared the same way as other releases
+> > has been made, including the .bz2 version.
+> > 
+> > If that's okay with you, feel free to re-create the tarball from v7.2.1
+> > tag, and compress the tarball with whatever compressors usually used by
+> > the qemu team.  It's the way to go.
 > 
->   Hi Mark!
+> Ok, sure, I'll go ahead and re-publish 7.2.1 tarball a bit later today.
+
+Re-packaged tarball based on your 7.2.1 tag is now uploaded:
+
+  https://www.qemu.org/download/
+
+-Mike
+
 > 
-> Just out of curiosity (since we briefly talked about 32-bit KVM on ppc in today's 
-> QEMU/KVM call - in the context of whether qemu-system-ppc64 is a proper superset of 
-> qemu-system-ppc when it comes to building a unified qemu-system binary): What host 
-> machine are you using for running KVM-PR? And which QEMU machine are you using for 
-> running macOS? The mac99 or the g3beige machine?
-
-I'm using a G4 Mac Mini for my KVM experiments running Debian ports which is fairly 
-up to date e.g. gcc-12 for building QEMU. Both the mac99 and g3beige machines will 
-boot up to the OS X 10.2 installer on my current (custom) 5.1 kernel.
-
-> Unrelated to KVM: Do you happen to know whether there are any problems when running 
-> 32-bit guests with TCG with the mac99 or g3beige machine while using qemu-system-ppc64 ?
-
-I'm not sure as I don't run qemu-system-ppc64 on a regular basis, but I have heard 
-from people in the past who have happily used it to boot 64-bit Linux.
-
-(goes and turns on the Mac Mini)
-
-A quick test this evening shows that latest git master builds qemu-system-ppc and 
-runs fine with -accel=kvm on the Mac Mini, however something now asserts with 
--accel=tcg on startup which didn't happen before:
-
-
-Thread 1 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-tcg_tb_alloc (s=0x1) at ../tcg/tcg.c:1025
-1025        tb = (void *)ROUND_UP((uintptr_t)s->code_gen_ptr, align);
-(gdb) bt
-#0  0x00ad4148 in tcg_tb_alloc (s=0x1) at ../tcg/tcg.c:1025
-#1  0x00ad34c8 in tcg_context_init (max_cpus=1) at ../tcg/tcg.c:959
-#2  0x00ad34c8 in tcg_init (tb_size=0, splitwx=0, max_cpus=max_cpus@entry=1) at 
-../tcg/tcg.c:1010
-#3  0x00b3b784 in tcg_init_machine (ms=<optimized out>) at ../accel/tcg/tcg-all.c:127
-#4  0x008dc784 in accel_init_machine (accel=accel@entry=0x159f8c0, ms=0x1538000) at 
-../accel/accel-softmmu.c:39
-#5  0x00869184 in do_configure_accelerator (opaque=opaque@entry=0xbffff2ac, 
-opts=opts@entry=0x159f4f0, errp=errp@entry=0x13694cc <error_fatal>) at 
-../softmmu/vl.c:2224
-#6  0x00d8e13c in qemu_opts_foreach (list=<optimized out>, func=func@entry=0x869010 
-<do_configure_accelerator>, opaque=opaque@entry=0xbffff2ac, errp=errp@entry=0x13694cc 
-<error_fatal>)
-     at ../util/qemu-option.c:1135
-#7  0x0086c3b4 in configure_accelerators (progname=<optimized out>) at 
-../softmmu/vl.c:2293
-#8  0x0086c3b4 in qemu_init (argc=<optimized out>, argv=<optimized out>) at 
-../softmmu/vl.c:3561
-#9  0x0060acd4 in main (argc=<optimized out>, argv=<optimized out>) at 
-../softmmu/main.c:47
-
-
-Richard, any thoughts on this at all?
-
-
-ATB,
-
-Mark.
+> We can stick with this approach until you're all set up for uploading.
+> 
+> -Mike
+> 
+> > 
+> > Thanks,
+> > 
+> > /mjt
+> > 
 
