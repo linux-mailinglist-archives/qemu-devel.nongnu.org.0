@@ -2,46 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648506D7C07
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 13:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15376D7C29
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 14:05:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk1j8-00061n-BO; Wed, 05 Apr 2023 07:54:58 -0400
+	id 1pk1rs-0001BF-VD; Wed, 05 Apr 2023 08:04:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pk1j5-00060z-8o; Wed, 05 Apr 2023 07:54:55 -0400
-Received: from isrv.corpit.ru ([86.62.121.231])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pk1rq-0001AD-Jn
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:03:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pk1j3-0002AJ-2t; Wed, 05 Apr 2023 07:54:54 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 9DAFB4000E;
- Wed,  5 Apr 2023 14:54:48 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id D44C0DD;
- Wed,  5 Apr 2023 14:54:47 +0300 (MSK)
-Message-ID: <62db7253-9cd7-e095-6b9f-ffcdecfa9bf6@msgid.tls.msk.ru>
-Date: Wed, 5 Apr 2023 14:54:47 +0300
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pk1ro-0000x9-9Z
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:03:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680696234;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R04Ve/J3b5Dtba/pIzl+GCHJxHI6qGUd0P4syUgs3AI=;
+ b=iVe96TS5h0CU3h4Cs5h3XDaOKF9FOz0ymPug23m3kOJ9/NMEWWoVEZNNk/ja1AJ8tIl2J/
+ Y2Prad+PAeK6lnpXtxs/UaY0g+g7Z7CHqWskgXYzCpPRg19iVoBZ8FtRAR70gCnTWO9fcK
+ WNX8uHHe5dJCjJ1R7PZoHlWoSsJJ5qw=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-539-K5YpzphzPm2NV5UacpO5jw-1; Wed, 05 Apr 2023 08:03:37 -0400
+X-MC-Unique: K5YpzphzPm2NV5UacpO5jw-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ h6-20020ac85846000000b003e3c23d562aso24201103qth.1
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 05:03:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680696216;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R04Ve/J3b5Dtba/pIzl+GCHJxHI6qGUd0P4syUgs3AI=;
+ b=QYty5jgmCjdhuF0+1AT3dKWDquq4bUGxGt9OlSdPZpkBQCjNAG0daJi+8LcRpjBACe
+ UECdkZegjxoGUDjgCIq0EodSHMRbc/4Z8t+o9G8s2SY6orQy9GEcB622LxfAIEPX+AVM
+ brIbzJEKfKGHOU21Rb78Jmz31vglqBGy/P04CWZ2daNYgBcKOemzTYBzF74cULpJc1FH
+ VFY10m4LbxrIy1SWTV3kwcei17yCi08BOpH7nuh0iDbJ4kD0jxvyZANbFXCXdaA3KkUm
+ 1zvfcvA22I8/G8s7eZkilr65AaMavk9ozkJV4Y8ezuZlR/Y0Ze8BSkK55zl1aRK9Y6hk
+ EWWQ==
+X-Gm-Message-State: AAQBX9cHD4bgJRC2TiliaajXE4WBlWQ/vFWH71ryToA67ON0nq/IF6Hr
+ JWkwz5G7gbODcwOfvonI41VaqeVG6FY2uHNo+HgysRyu15M+s1Mf1WcEfL2S/Mx2SqmWDs85moM
+ 2fcEGSN62wTkaSqI=
+X-Received: by 2002:ac8:7d54:0:b0:3db:786f:d91a with SMTP id
+ h20-20020ac87d54000000b003db786fd91amr4349241qtb.57.1680696216591; 
+ Wed, 05 Apr 2023 05:03:36 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bCivEID9IcFQfN1L3OPeXzSXpQVNLxi0d00+4gdnoKiYejeyc26nlRFyxoxDVIy6aLig9FNw==
+X-Received: by 2002:ac8:7d54:0:b0:3db:786f:d91a with SMTP id
+ h20-20020ac87d54000000b003db786fd91amr4349198qtb.57.1680696216235; 
+ Wed, 05 Apr 2023 05:03:36 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ q12-20020ac8450c000000b003dd8ad765dcsm3923287qtn.76.2023.04.05.05.03.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Apr 2023 05:03:35 -0700 (PDT)
+Date: Wed, 5 Apr 2023 14:03:32 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, anisinha@redhat.com, jusual@redhat.com,
+ kraxel@redhat.com, pbonzini@redhat.com
+Subject: Re: [PATCH] acpi: pcihp: make pending delete expire in 5sec
+Message-ID: <20230405140332.2dd50298@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230405055833-mutt-send-email-mst@kernel.org>
+References: <20230403161618.1344414-1-imammedo@redhat.com>
+ <20230403131833-mutt-send-email-mst@kernel.org>
+ <20230404102807.4626b0be@imammedo.users.ipa.redhat.com>
+ <20230404084603-mutt-send-email-mst@kernel.org>
+ <20230404160435.45c2513d@imammedo.users.ipa.redhat.com>
+ <20230404104122-mutt-send-email-mst@kernel.org>
+ <20230405093020.3cbcd6e7@imammedo.users.ipa.redhat.com>
+ <20230405043026-mutt-send-email-mst@kernel.org>
+ <20230405112416.38e83b0c@imammedo.users.ipa.redhat.com>
+ <20230405055833-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-To: QEMU Developers <qemu-devel@nongnu.org>,
- qemu-stable <qemu-stable@nongnu.org>
-Cc: Michael Roth <michael.roth@amd.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Subject: QEMU stable 7.2.1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,114 +109,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-So let it be, with a delay of about a week.
+On Wed, 5 Apr 2023 05:59:06 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Since no one from the qemu team replied to my final-release steps, I'm
-making it available on my site instead:
+> On Wed, Apr 05, 2023 at 11:24:16AM +0200, Igor Mammedov wrote:
+> > > > PS:
+> > > > See commit message, Windows is not affected as it doesn't
+> > > > clear GPE status bits during ACPI initialization
+> > > > (at least the one version I've tested with, and I won't bet
+> > > > on this with other versions or staying this way)    
+> > > 
+> > > So I am saying linux should match windows. Clearing GPE
+> > > is a bad idea as you then miss events.  
+> > 
+> > I'd say it depends on if guest OS is able to handle hot[un]plug
+> > at boot time when it enables GPE handlers (or any other time).
+> > (My point of view here, it's a guest OS policy and management
+> > layer should know what installed guest is capable of and what
+> > quirks to use with it)
+> > 
+> > I'll try to send a kernel patch to remove GPEx.status clearing,
+> > though it might be more complex than it seems,
+> > hence I'm quite sceptical about it.  
+> 
+> In the world of ACPI, windows is basically the gold standard,
+> whatever it does linux has to do ;)
+I'd say other way around (with their limited acpi interpreter,
+it's getting better though),
+While linux basically is acpica reference code.
 
-   http://www.corpit.ru/mjt/qemu/qemu-7.2.1.tar.xz
-   http://www.corpit.ru/mjt/qemu/qemu-7.2.1.tar.xz.sig - signed with my GPG key
-   http://www.corpit.ru/mjt/qemu/qemu-7.2.1.diff - whole difference from 7.2.0.
-
-The tag (v7.2.1) is in the main qemu repository.
-
-The shortlog:
-
-Akihiko Odaki (4):
-       vhost-user-gpio: Configure vhost_dev when connecting
-       vhost-user-i2c: Back up vqs before cleaning up vhost_dev
-       vhost-user-rng: Back up vqs before cleaning up vhost_dev
-       hw/timer/hpet: Fix expiration time overflow
-
-Alex Bennée (2):
-       target/arm: fix handling of HLT semihosting in system mode
-       tests/tcg: fix unused variable in linux-test
-
-Anton Johansson (1):
-       block: Handle curl 7.55.0, 7.85.0 version changes
-
-Carlos López (2):
-       vhost: avoid a potential use of an uninitialized variable in vhost_svq_poll()
-       libvhost-user: check for NULL when allocating a virtqueue element
-
-Chenyi Qiang (2):
-       virtio-mem: Fix the bitmap index of the section offset
-       virtio-mem: Fix the iterator variable in a vmem->rdl_list loop
-
-David Hildenbrand (2):
-       migration/ram: Fix error handling in ram_write_tracking_start()
-       migration/ram: Fix populate_read_range()
-
-Dr. David Alan Gilbert (2):
-       virtio-rng-pci: fix migration compat for vectors
-       virtio-rng-pci: fix transitional migration compat for vectors
-
-Eugenio Pérez (1):
-       vdpa: stop all svq on device deletion
-
-Evgeny Iakovlev (1):
-       target/arm: allow writes to SCR_EL3.HXEn bit when FEAT_HCX is enabled
-
-Guenter Roeck (1):
-       target/sh4: Mask restore of env->flags from tb->flags
-
-Jason Wang (3):
-       vhost: fix vq dirty bitmap syncing when vIOMMU is enabled
-       intel-iommu: fail MAP notifier without caching mode
-       intel-iommu: fail DEVIOTLB_UNMAP without dt mode
-
-Julia Suvorova (1):
-       hw/smbios: fix field corruption in type 4 table
-
-Kevin Wolf (1):
-       qcow2: Fix theoretical corruption in store_bitmap() error path
-
-Klaus Jensen (2):
-       hw/nvme: fix missing endian conversions for doorbell buffers
-       hw/nvme: fix missing cq eventidx update
-
-Laszlo Ersek (1):
-       acpi: cpuhp: fix guest-visible maximum access size to the legacy reg block
-
-Marc-André Lureau (1):
-       build-sys: fix crlf-ending C code
-
-Michael S. Tsirkin (6):
-       Revert "x86: do not re-randomize RNG seed on snapshot load"
-       Revert "x86: re-initialize RNG seed when selecting kernel"
-       Revert "x86: reinitialize RNG seed on system reboot"
-       Revert "x86: use typedef for SetupData struct"
-       Revert "x86: return modified setup_data only if read as memory, not as file"
-       Revert "hw/i386: pass RNG seed via setup_data entry"
-
-Michael Tokarev (1):
-       Update version for 7.2.1 release
-
-Paolo Bonzini (4):
-       meson: accept relative symlinks in "meson introspect --installed" data
-       configure: fix GLIB_VERSION for cross-compilation
-       target/i386: fix ADOX followed by ADCX
-       block/iscsi: fix double-free on BUSY or similar statuses
-
-Richard Henderson (8):
-       target/riscv: Set pc_succ_insn for !rvc illegal insn
-       target/arm: Fix sve_probe_page
-       target/arm: Fix in_debug path in S1_ptw_translate
-       target/arm: Fix physical address resolution for Stage2
-       tests/tcg/i386: Introduce and use reg_t consistently
-       target/i386: Fix BEXTR instruction
-       target/i386: Fix C flag for BLSI, BLSMSK, BLSR
-       target/i386: Fix BZHI instruction
-
-Stefan Hajnoczi (1):
-       block: fix detect-zeroes= with BDRV_REQ_REGISTERED_BUF
-
-Yajun Wu (1):
-       chardev/char-socket: set s->listener = NULL in char_socket_finalize
-
-I want to make another release of 7.2 series.
-
-Thank you all for all the help with this series!
-
-/mjt
 
