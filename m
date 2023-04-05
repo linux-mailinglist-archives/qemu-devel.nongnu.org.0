@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AACA6D8670
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 20:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4770E6D86A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 21:15:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk8Ly-0008Me-8U; Wed, 05 Apr 2023 14:59:30 -0400
+	id 1pk8Zx-0002sm-3c; Wed, 05 Apr 2023 15:13:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pk8Lv-0008MA-Tx
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 14:59:27 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pk8Zu-0002rr-W1
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 15:13:55 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pk8Lu-0002DW-AE
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 14:59:27 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- om3-20020a17090b3a8300b0023efab0e3bfso40463759pjb.3
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 11:59:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pk8Zs-0003nJ-UT
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 15:13:54 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ 6-20020a9d0106000000b006a177038dfeso10396211otu.7
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 12:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680721164;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=iEdcsTW1hEUvLFvYsO3M1U005BBk9gqYd/+r2kFboD0=;
- b=pTRUXT2zyFaZcozFdzAOCjIlkpMOcFWTtZD565n6ybUEsSmEFlHF9g6Uuw4jx/bpfL
- U5f/kYsVvlyWMpD2s78NL8EeDBmXP1iWRv2ZNQ22WbsXX+HF6iI4iPsKzxSGJpKK+or7
- BUkgF+d6Bixv38ivOBgmaSwcU+P3Hxo4AOtuRrd/6+daYFueYNnijXwWh9J36kru1Shf
- 2wjGCoLgYb3Ra9+b3LSlzTa5+Lu3SaOECDPlOLXcLB2uH7V/EkIrfZ2+tMd1FA2cnmmh
- cKtFYZVUiI/0Ta4ApgkmCBPNcZES3CdlyjV4urzf6awiCSDipSW73lAJa53k/hxSTxD7
- i5wA==
+ d=ventanamicro.com; s=google; t=1680722031;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9jVHEoVonGCOo26+u9IMJJuRLp2Wov+OVgK3XrIXGuY=;
+ b=WRXkCjvYwdoX7Pgi2XXkD3OIrJsp6ZA4URhrKvumTdEPIwZoMLr5eJxF/pSrFjnALK
+ P5dvpSVVaIhklMmaQTYoMUgvbOs7q1VU8va/gEYtq3weZZofLAosFOjXmXa7Un6l1Fb/
+ AdO+YnNWFyL9bymlj5x4GFOjHdePujj5krusYRl8vhOJgg6wFXsACNB0P3RCPRkhTX1b
+ grdoxI8yXMpxXKjTUbOgMaDvM+3GpAWw/RelsS64/mJfvnrBmKwKJKf9528u0vpcIGkz
+ eWd2pISjFcuIJDdrI4D00NUvyvPIaiE4mDfiIXKiV0o2PQySpaAQs8U4G+jxNpO8cwWx
+ MgHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680721164;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iEdcsTW1hEUvLFvYsO3M1U005BBk9gqYd/+r2kFboD0=;
- b=WiGwqHghRmhVaC1cjNK9YWyDbQNd2SCi7npNq43p3fzJcKSnJzG54NtvAunwws4rLC
- fxF2OBQWxJQwOzxb9AmuT4z80SNUX6P4suaMp6c6/YejvLL6LGGz2KqR3KEQv5YnV85Q
- tbNONzjykfXFMIMskEVhtnJ/mUC41sOxAOqj1iXQ+C4hXS52tS0SMbgfrxpWaXEDjoOY
- TYX7b1EPcwmlCq4G3euVM5NjThSPhy1NXpqOdXFJJv/CQHCrR2UT6aaK0lOs61ViKrFG
- D7jLI/wpuKhYnv/dSkhBS2aPrwnaTAvSrLkRRRg8hkZ13o43Sh2WrfjwU9QP0C6FGRQK
- 2zsQ==
-X-Gm-Message-State: AAQBX9fgubRnW28lbwUsgeBWeKnFvDawG7RT8I6Nt5lluPNe0s4Upi41
- qXXImcFJyqBm15vKhJBMarBsVOu+nr8U65VFOZQ=
-X-Google-Smtp-Source: AKy350YSymPtadW9/imFrBFe2tpVuJoaFjWjv/HVAoQodKRw/9QpDjAtpJoO2/B/MgLYZXNvtg9H0Q==
-X-Received: by 2002:a17:90b:1b4d:b0:237:24eb:99d8 with SMTP id
- nv13-20020a17090b1b4d00b0023724eb99d8mr7758820pjb.19.1680721163986; 
- Wed, 05 Apr 2023 11:59:23 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1541:f901:ce11:4532:7f18:7c59])
+ d=1e100.net; s=20210112; t=1680722031;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9jVHEoVonGCOo26+u9IMJJuRLp2Wov+OVgK3XrIXGuY=;
+ b=M6TopEyW5uM9Il3MpeOhKcH3PiNUbdG1Jrw2cT2irIZE/E+hBj5caCbWVbS7qinlbc
+ GlUkG0bD0cfDfEuzNMmnPumDr3M5DG5iVm38CltftgHHw224zHz09gcH34Bc5RXJa9gp
+ Gugbilf+MNpl+SgWqIlrjP/wszVWZ3Fd4I+8urPRgUPOG0y6igwQGt31ZwP/psJvGl0W
+ WfMxzhNAJEE93A4MBw9Wl/17aOh6NNhWogJpGfZMS/wBDCVXGWcOMQX632GAHoh11sdN
+ efRFdp/bgCBbEAv2DIdd9qcmD0GpwtvtiSmY0Z8tVD7w5aecUV04g828LPlM8LgED8q1
+ NLbg==
+X-Gm-Message-State: AAQBX9cGCNqT3sos7Upa5y64rOhqTbzTtVfweMNF6kDbcpqqG+N03j8D
+ hf6RE8EOIuNF8gwoWxPUFekhKw==
+X-Google-Smtp-Source: AKy350bIh3sOazRAdKHuNzcag73pdPSDTFp4jxLdmHUHq3QYhYooNnQgfWtr+rJ7BS1xayW2TManmg==
+X-Received: by 2002:a05:6830:10e:b0:69f:382d:4212 with SMTP id
+ i14-20020a056830010e00b0069f382d4212mr3076096otp.19.1680722031561; 
+ Wed, 05 Apr 2023 12:13:51 -0700 (PDT)
+Received: from [192.168.68.107] ([191.255.108.232])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a17090a348d00b002310ed024adsm1738134pjb.12.2023.04.05.11.59.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 11:59:23 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH for-8.1] target/sparc: Use tcg_gen_lookup_and_goto_ptr
-Date: Wed,  5 Apr 2023 11:59:22 -0700
-Message-Id: <20230405185922.2122668-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ v7-20020a0568301bc700b00690dc5d9b9esm7117497ota.6.2023.04.05.12.13.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Apr 2023 12:13:51 -0700 (PDT)
+Message-ID: <8add0945-742d-5b8a-9582-b565fb6602cc@ventanamicro.com>
+Date: Wed, 5 Apr 2023 16:13:46 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3 0/4] target/riscv: Simplification for RVH related check
+ and code style fix
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230405085813.40643-1-liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230405085813.40643-1-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32b.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.355,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,52 +97,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/sparc/translate.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index 137bdc5159..47940fd85e 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -322,7 +322,7 @@ static void gen_goto_tb(DisasContext *s, int tb_num,
-         /* jump to another page: currently not optimized */
-         tcg_gen_movi_tl(cpu_pc, pc);
-         tcg_gen_movi_tl(cpu_npc, npc);
--        tcg_gen_exit_tb(NULL, 0);
-+        tcg_gen_lookup_and_goto_ptr();
-     }
- }
- 
-@@ -4153,7 +4153,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                                 /* End TB to notice changed ASI.  */
-                                 save_state(dc);
-                                 gen_op_next_insn();
--                                tcg_gen_exit_tb(NULL, 0);
-+                                tcg_gen_lookup_and_goto_ptr();
-                                 dc->base.is_jmp = DISAS_NORETURN;
-                                 break;
-                             case 0x6: /* V9 wrfprs */
-@@ -4162,7 +4162,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                                 dc->fprs_dirty = 0;
-                                 save_state(dc);
-                                 gen_op_next_insn();
--                                tcg_gen_exit_tb(NULL, 0);
-+                                tcg_gen_lookup_and_goto_ptr();
-                                 dc->base.is_jmp = DISAS_NORETURN;
-                                 break;
-                             case 0xf: /* V9 sir, nop if user */
-@@ -5661,7 +5661,7 @@ static void sparc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-                 tcg_gen_movi_tl(cpu_pc, dc->pc);
-             }
-             save_npc(dc);
--            tcg_gen_exit_tb(NULL, 0);
-+            tcg_gen_lookup_and_goto_ptr();
-         }
-         break;
- 
--- 
-2.34.1
 
+On 4/5/23 05:58, Weiwei Li wrote:
+> This patchset tries to simplify the RVH related check and fix some code style problems, such as problems for indentation, multi-line comments and lines with over 80 characters.
+> 
+> The port is available here:
+> https://github.com/plctlab/plct-qemu/tree/plct-virtfix-upstream
+> 
+> v2:
+> * add comment to specify riscv_cpu_set_virt_enabled() can only be called when RVH is enabled in patch 4 (suggested by Richard Henderson)
+> * merge patch from LIU Zhiwei(Message-ID: <20230325145348.1208-1-zhiwei_liu@linux.alibaba.com>) to patch 5
+> * use env->virt_enabled directly instead of riscv_cpu_virt_enabled() in patch 6 (suggested by LIU Zhiwei)
+> * remain the orginal identation for macro name in patch 8 (suggested by LIU Zhiwei)
+> 
+> v3:
+> * rebase on riscv-to-apply.next (partial patches in v2 have been applied)
+> * Fix new found format problem in patch 2,3,4 of v3
+
+All patches:
+
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+> 
+> Weiwei Li (4):
+>    target/riscv: Remove riscv_cpu_virt_enabled()
+>    target/riscv: Fix format for indentation
+>    target/riscv: Fix format for comments
+>    target/riscv: Fix lines with over 80 characters
+> 
+>   target/riscv/arch_dump.c                |   7 +-
+>   target/riscv/cpu.c                      |  47 ++--
+>   target/riscv/cpu.h                      |  31 +--
+>   target/riscv/cpu_bits.h                 |   2 +-
+>   target/riscv/cpu_helper.c               | 274 ++++++++++----------
+>   target/riscv/csr.c                      |  90 +++----
+>   target/riscv/debug.c                    |  21 +-
+>   target/riscv/fpu_helper.c               |  24 +-
+>   target/riscv/gdbstub.c                  |   3 +-
+>   target/riscv/insn_trans/trans_rvv.c.inc |  36 +--
+>   target/riscv/m128_helper.c              |  16 +-
+>   target/riscv/machine.c                  |  18 +-
+>   target/riscv/op_helper.c                |  20 +-
+>   target/riscv/pmp.c                      |  66 ++---
+>   target/riscv/pmp.h                      |   9 +-
+>   target/riscv/pmu.c                      |   7 +-
+>   target/riscv/sbi_ecall_interface.h      |   8 +-
+>   target/riscv/translate.c                |  26 +-
+>   target/riscv/vector_helper.c            | 317 ++++++++++++++----------
+>   19 files changed, 552 insertions(+), 470 deletions(-)
+> 
 
