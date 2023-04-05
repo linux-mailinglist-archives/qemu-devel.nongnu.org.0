@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0614B6D7B87
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 13:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39AC66D7C08
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 13:56:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk1TO-000384-Jr; Wed, 05 Apr 2023 07:38:42 -0400
+	id 1pk1k0-0006iV-UR; Wed, 05 Apr 2023 07:55:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pk1TK-00037k-NU
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 07:38:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pk1jy-0006iB-Hz
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 07:55:50 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pk1TI-0006i8-C4
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 07:38:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680694713;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=c9uXHheAfjTgEZlvQ3udcA+FmWRpvPCLVGD0g3tPNk4=;
- b=K+9g2CVOIngVRgKCcpn52Flcyyf7XI1Lir8+UFeiTplWnBYbPD6SjMrFX/gsp6823f0l30
- RnGZXNiUyCA9BLrZiyTZmVlGar+NUSXHktKAmadsa/w//Iyb+C5pPYILO8sGeZZelL+F/A
- qUfZHKW0G6V8tLaWTh+WnIj/mxs/A8M=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-283-sda2iRQpPa2ApDFtxnqZ-Q-1; Wed, 05 Apr 2023 07:38:32 -0400
-X-MC-Unique: sda2iRQpPa2ApDFtxnqZ-Q-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-54476ef9caeso350367867b3.6
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 04:38:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680694711;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=c9uXHheAfjTgEZlvQ3udcA+FmWRpvPCLVGD0g3tPNk4=;
- b=1eFQYFsszQHTBaLCCSufVygvnBHB/QNbv5VLgM49GS4+B0temvur+fTdXyWMofUHrI
- D0kLK955a+SVsOELET6zoGoPjVHAWWIxQvARJi0BQ2DQaKRBAeEAit5bnusXFiilr1r3
- aWqAyIpk7sR2G9QE2jg1vV8Nz3KVOZTz3iWN9+NuqyvNFMWXmQIbtij2Mh0JQmW1Zu14
- HT4n7E8+YSLKba8owvkAMUyvpOVYVudtfyNTwd8JTuGsuF+MAwcGs5jZ4ETUG0BlUiML
- ENDtR7bW7LbUNwi+3tmnIgxoNgYK7oxXIdG0tvmj8//j7oujTdl7KfuoG7QrewbxFZ4e
- 9rbg==
-X-Gm-Message-State: AAQBX9dcHSh9rMRdHVh49IOzK7nEw+Py1+3OwScI+gKg2lrIFdDvn7B4
- JxA1GBb+B7K0GDoGJ4N4IItshZ6mouKjsSbhD4drrgSkAnrhxmayIfw9lUKx2K4mUqJxNIvmb8L
- R7LWLOsF6vrJUELdomy8ynMDEdkXVMK+pVMAArAg=
-X-Received: by 2002:a81:b609:0:b0:541:8995:5334 with SMTP id
- u9-20020a81b609000000b0054189955334mr3400732ywh.3.1680694711537; 
- Wed, 05 Apr 2023 04:38:31 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aUqZnM/qmindH54PzA0esyhEWI3gCCe7TmG55KVKtF/IqiDC5Bdz4qPEKXy2W4+6PIzbLox0H8NSd/K5hbCZU=
-X-Received: by 2002:a81:b609:0:b0:541:8995:5334 with SMTP id
- u9-20020a81b609000000b0054189955334mr3400713ywh.3.1680694711135; Wed, 05 Apr
- 2023 04:38:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pk1jv-0002lv-Vw
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 07:55:50 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 5B3B6746361;
+ Wed,  5 Apr 2023 13:54:42 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0DCD974633D; Wed,  5 Apr 2023 13:54:42 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0AF57746377;
+ Wed,  5 Apr 2023 13:54:42 +0200 (CEST)
+Date: Wed, 5 Apr 2023 13:54:42 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Thomas Huth <thuth@redhat.com>
+cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clegoate@redhat.com>, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
+ =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>, 
+ =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com, 
+ Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>, 
+ Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>, 
+ Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+In-Reply-To: <55cab42d-19b1-c454-8979-0aaae4a64a00@redhat.com>
+Message-ID: <b1e05818-2dce-15fb-9796-680648ca3dd6@eik.bme.hu>
+References: <20230130114428.1297295-1-thuth@redhat.com>
+ <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
+ <Y9exrDWT2NUoinu1@redhat.com> <87h6w7694t.fsf@linaro.org>
+ <dbc8b2f6-3e9e-65d7-998f-568b6376d25c@ilande.co.uk>
+ <4e42ea6b-0f9b-69e0-1593-c3288712d13c@redhat.com>
+ <dc07d506-283a-b884-1ab5-54f2e1134fb8@redhat.com>
+ <77c41865-1585-6a3a-f02e-1c072a4368bd@eik.bme.hu>
+ <55cab42d-19b1-c454-8979-0aaae4a64a00@redhat.com>
 MIME-Version: 1.0
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 5 Apr 2023 13:37:54 +0200
-Message-ID: <CAJaqyWdV6pKP0SVZciMiu_HN86aJriZh0HBiwHNkO7+yErXnBA@mail.gmail.com>
-Subject: Reducing vdpa migration downtime because of memory pin / maps
-To: qemu-level <qemu-devel@nongnu.org>
-Cc: Jason Wang <jasowang@redhat.com>, Michael Tsirkin <mst@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, Longpeng <longpeng2@huawei.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eli Cohen <elic@nvidia.com>, 
- Parav Pandit <parav@nvidia.com>, Juan Quintela <quintela@redhat.com>, 
- David Gilbert <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-2121317180-1680695682=:43849"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,28 +77,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi!
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-As mentioned in the last upstream virtio-networking meeting, one of
-the factors that adds more downtime to migration is the handling of
-the guest memory (pin, map, etc). At this moment this handling is
-bound to the virtio life cycle (DRIVER_OK, RESET). In that sense, the
-destination device waits until all the guest memory / state is
-migrated to start pinning all the memory.
+--3866299591-2121317180-1680695682=:43849
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-The proposal is to bind it to the char device life cycle (open vs
-close), so all the guest memory can be pinned for all the guest / qemu
-lifecycle.
+On Wed, 5 Apr 2023, Thomas Huth wrote:
+> On 04/04/2023 17.42, BALATON Zoltan wrote:
+>> On Tue, 4 Apr 2023, Cédric Le Goater wrote:
+>>> [ adding Zoltan ]
+>>> 
+>>> On 4/4/23 16:00, Thomas Huth wrote:
+>>>> On 05/02/2023 23.12, Mark Cave-Ayland wrote:
+>>>>> On 30/01/2023 20:45, Alex Bennée wrote:
+>>>>> 
+>>>>>> Daniel P. Berrangé <berrange@redhat.com> writes:
+>>>>>> 
+>>>>>>> On Mon, Jan 30, 2023 at 11:47:02AM +0000, Peter Maydell wrote:
+>>>>>>>> On Mon, 30 Jan 2023 at 11:44, Thomas Huth <thuth@redhat.com> wrote:
+>>>>>>>>> 
+>>>>>>>>> Testing 32-bit host OS support takes a lot of precious time during 
+>>>>>>>>> the QEMU
+>>>>>>>>> contiguous integration tests, and considering that many OS vendors 
+>>>>>>>>> stopped
+>>>>>>>>> shipping 32-bit variants of their OS distributions and most hardware 
+>>>>>>>>> from
+>>>>>>>>> the past >10 years is capable of 64-bit
+>>>>>>>> 
+>>>>>>>> True for x86, not necessarily true for other architectures.
+>>>>>>>> Are you proposing to deprecate x86 32-bit, or all 32-bit?
+>>>>>>>> I'm not entirely sure about whether we're yet at a point where
+>>>>>>>> I'd want to deprecate-and-drop 32-bit arm host support.
+>>>>>>> 
+>>>>>>> Do we have a feeling on which aspects of 32-bit cause us the support
+>>>>>>> burden ? The boring stuff like compiler errors from mismatched integer
+>>>>>>> sizes is mostly quick & easy to detect simply through a cross compile.
+>>>>>>> 
+>>>>>>> I vaguely recall someone mentioned problems with atomic ops in the 
+>>>>>>> past,
+>>>>>>> or was it 128-bit ints, caused implications for the codebase ?
+>>>>>> 
+>>>>>> Atomic operations on > TARGET_BIT_SIZE and cputlb when
+>>>>>> TCG_OVERSIZED_GUEST is set. Also the core TCG code and a bunch of the
+>>>>>> backends have TARGET_LONG_BITS > TCG_TARGET_REG_BITS ifdefs peppered
+>>>>>> throughout.
+>>>>> 
+>>>>> I am one of an admittedly small group of people still interested in 
+>>>>> using KVM-PR on ppc32 to boot MacOS, although there is some interest on 
+>>>>> using 64-bit KVM-PR to run super-fast MacOS on modern Talos hardware.
+>>>>> 
+>>>>>  From my perspective losing the ability to run 64-bit guests on 32-bit 
+>>>>> hardware with TCG wouldn't be an issue, as long as it were still 
+>>>>> possible to use qemu-system-ppc on 32-bit hardware using both TCG and 
+>>>>> KVM to help debug the remaining issues.
+>>>> 
+>>>>   Hi Mark!
+>>>> 
+>>>> Just out of curiosity (since we briefly talked about 32-bit KVM on ppc in 
+>>>> today's QEMU/KVM call - in the context of whether qemu-system-ppc64 is a 
+>>>> proper superset of qemu-system-ppc when it comes to building a unified 
+>>>> qemu-system binary): What host machine are you using for running KVM-PR? 
+>>>> And which QEMU machine are you using for running macOS? The mac99 or the 
+>>>> g3beige machine?
+>>> 
+>>> Zoltan, what about the pegasos2 and sam460ex machines ? can they be run 
+>>> under KVM ?
+>> 
+>> I don't know as I don't have PPC hardware to test on but theoretically they 
+>> should work. Although BookE KVM was dropped from Linux I think so sam460ex 
+>> could only work with an old kernel on a BookE host which is now rare 
+> [...]
+>
+> Thanks for your explanations, that indeed helps to understand the situation!
+>
+> But are you sure about the BookE KVM removal in the Linux kernel? ... when I 
+> look at the arch/powerpc/kvm/ folder there, I can still see some files there 
+> with "booke" in the name?
 
-This has two main problems:
-* At this moment the reset semantics forces the vdpa device to unmap
-all the memory. So this change needs a vhost vdpa feature flag.
-* This may increase the initialization time. Maybe we can delay it if
-qemu is not the destination of a LM. Anyway I think this should be
-done as an optimization on top.
+No, I'm not sure but I think KVM on PPC440 (which is used by sam460ex) is 
+likely not working properly. What's there may work on newer cores such as 
+e500 and later but not sure if that can run PPC440 code. I never heard 
+anyone successfully getting sam460ex work with KVM but that may also be 
+because real PPC440 hosts are rare.
 
-Any ideas or comments in this regard?
+But if the question is if we still need 32 bit PPC host I think we do for 
+now as that's the only way to run 32bit guests with G3 and G4 until the 
+issues which prevent them to run on 64bit host kernel are fixed.
 
-Thanks!
-
+Regards,
+BALATON Zoltan
+--3866299591-2121317180-1680695682=:43849--
 
