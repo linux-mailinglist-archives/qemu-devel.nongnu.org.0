@@ -2,89 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5FA6D7931
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2416D7932
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:02:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjzxy-0004vS-Lw; Wed, 05 Apr 2023 06:02:10 -0400
+	id 1pjzyS-0005Xy-Jx; Wed, 05 Apr 2023 06:02:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pjzxd-0004rQ-Jj
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:01:52 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pjzxc-0001JJ-0j
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:01:49 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id j24so35650689wrd.0
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680688906;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xDFJjTGQNkjMjQaKDKrEsiOprP+3eY5rMht1R3BPmqI=;
- b=qJuUB8lXKPAV5az5FqyOzh/WnCwEbzeWlRe/pF6mMPsBue+wMOt4jrinivf9lbjUpj
- 549SQvsI4JEw1kWHpGuzNjjgtF2FaRY74NPXxJL3rebT/OBdwarrYv3hKyub+n6lHD+v
- W1KKhZQ8xjsJwLmRTzhw1Jk0CGJc9RwPZTQr83EK9C0L96NZNLAlfk8qH1mvrT1mhp9E
- V7+aPEI7hnb4bZ+spDvZL1hbXutqqILlju2OgGdfRbp7wMf7Tpzjfq2e+dBmEqUyZHIe
- XvGZlRwMbSL9yUBa64cqjZlqK/PQIpmHT+l9dqKQsfiMiQ0J67JYpgDz+eVq5o4Ks3H7
- Semg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pjzyR-0005Xg-B0
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:02:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pjzyP-0001SO-H8
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:02:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680688956;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fzroT10Iz8pTditWZ6zJs8YbKVhN6khiwPIsMlpaV9E=;
+ b=Qg4tL1sOKoI/5e/SCTd5iOKRDoD0M4R+HBfsFJZGE2u14yHE3+isbvhrmT3Qm+8hsfl8HG
+ 9h2UC75EHf8slqWKPq4Gy6npUWVwX/fhySQZFiSfYUwme8X0KgHkkh5I7RMrggej3iGN2X
+ 0suOILa8mxhq0ni7MzOGm54GdFRJbbw=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-171-FG6OMGsOPau3ufH7KsBdtg-1; Wed, 05 Apr 2023 06:02:35 -0400
+X-MC-Unique: FG6OMGsOPau3ufH7KsBdtg-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ f16-20020a05651c03d000b0029bebfa766dso7732147ljp.11
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:02:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680688906;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=xDFJjTGQNkjMjQaKDKrEsiOprP+3eY5rMht1R3BPmqI=;
- b=ZTErZ0DhushuQDU+gTLGgWu55vG9zx+yBOsd3uVzLMHuwHrcB7zNWrnKHcZpoNK0aS
- mY+BVfCV1093nQ6ByaSVuS7QATDuAA1crboGFHwWV7m8H1ZDIn0dJIPCQDybo7A6SbIn
- QKHaY10U0RKhruxI/XG4kmJ0vnc1sP0ivnmZQCsbpWl2oCxvTVzdNPwSFStm9uGaSAfl
- SlywwJJq9q8mwZpXfHIHQ2w/ygJ54m2Pr6uZjC0hLN5RW0VHeRs/TQFu9peB3zJQGEil
- AC7KoqhPsRteQlfIUv2RmnVb81k/Grv9BRWjHZHCdnLXHBRWrxxdvwEEGv/Ta4gLPE19
- VeOw==
-X-Gm-Message-State: AAQBX9fyIQDxO6mI/Gr/zbCOVNc5nUjAFEQBP3dTOLjlMUjb/QXhdQka
- TDaTKCgCNl1s5ajSHEHCohF8Zg==
-X-Google-Smtp-Source: AKy350ZtC2zcGgpmA1tObIYkI/B3t4R7tGoffPFGOXgc8gOET2D0kOgJ1A31FE4xklaO7MxIT2j8nA==
-X-Received: by 2002:adf:f1cc:0:b0:2cf:e67c:8245 with SMTP id
- z12-20020adff1cc000000b002cfe67c8245mr3708097wro.44.1680688905956; 
- Wed, 05 Apr 2023 03:01:45 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- w7-20020adfec47000000b002cfe687fc7asm14532282wrn.67.2023.04.05.03.01.45
+ d=1e100.net; s=20210112; t=1680688953;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fzroT10Iz8pTditWZ6zJs8YbKVhN6khiwPIsMlpaV9E=;
+ b=0+kLym8nEpO5dtMnDq6Zfk9noWDn1VLxRZA8+JYxFr7fi9jsqxIjYecIsrGJw17qRs
+ SzMyjYc7m9/ma2twvq1QeqKB/LdEEk9RuVSz/WGODKD3c24POded3BLddzRUlorK9Pl/
+ j7GJqQnDeCAeEdZKc3PciWpkaWx/Qg2XdEawS6RDLT7aODmDPY5zf3i+nrtr0N9yZoPO
+ zGPfm02+ZFrvfIogBSHS51KKOgZ2PMHCVxyghwuwBG0CU8bfaz936CmCjH4aYAFMVHz+
+ o2XWTR4cMcmAhSySJK4t/J0xak6MuN2GsdudNGSRyTH43yFYZsNlRlkF7Qo6GkizR4vH
+ 1FeA==
+X-Gm-Message-State: AAQBX9dFju7li/ZKtWfIGGdHvjeriQdEWaQX+XMgDcUeHTv0hrYQXoUt
+ eUCWhyFjrdf1CPrSvKsaIueHDdPDpZG3YJJL/L9ipl4FhSkpKES9RmCTcGkT5VKBupBkloaPFij
+ wO9w5e6gsARxkNDA=
+X-Received: by 2002:ac2:5eda:0:b0:4e8:221f:5886 with SMTP id
+ d26-20020ac25eda000000b004e8221f5886mr1676570lfq.19.1680688953606; 
+ Wed, 05 Apr 2023 03:02:33 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bbjfB6nA1Q7kOB/NgrrIWX6DEEKTfb0QBunxyX4Z/7HlJvVo2M/Lv6hwiGkHRJh7FYhvrw4g==
+X-Received: by 2002:ac2:5eda:0:b0:4e8:221f:5886 with SMTP id
+ d26-20020ac25eda000000b004e8221f5886mr1676560lfq.19.1680688953205; 
+ Wed, 05 Apr 2023 03:02:33 -0700 (PDT)
+Received: from redhat.com ([2.52.139.22]) by smtp.gmail.com with ESMTPSA id
+ i9-20020a50c3c9000000b005023a4b20dfsm7102513edf.2.2023.04.05.03.02.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 03:01:45 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1E04B1FFB7;
- Wed,  5 Apr 2023 11:01:45 +0100 (BST)
-References: <cover.1678351495.git.viresh.kumar@linaro.org>
- <20230405080512.nvxiw4lv7hyuzqej@vireshk-i7>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: qemu-devel@nongnu.org, virtio-dev@lists.oasis-open.org, Stefan Hajnoczi
- <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Vincent
- Guittot <vincent.guittot@linaro.org>, stratos-dev@op-lists.linaro.org,
- Oleksandr Tyshchenko <olekstysh@gmail.com>, xen-devel@lists.xen.org,
- Andrew Cooper <andrew.cooper3@citrix.com>, Juergen Gross
- <jgross@suse.com>, Sebastien Boeuf <sebastien.boeuf@intel.com>, Liu Jiang
- <gerry@linux.alibaba.com>, Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH V3 0/2] qemu: vhost-user: Support Xen memory mapping quirks
-Date: Wed, 05 Apr 2023 11:00:34 +0100
-In-reply-to: <20230405080512.nvxiw4lv7hyuzqej@vireshk-i7>
-Message-ID: <87h6tulkae.fsf@linaro.org>
+ Wed, 05 Apr 2023 03:02:32 -0700 (PDT)
+Date: Wed, 5 Apr 2023 06:02:29 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, anisinha@redhat.com, jusual@redhat.com,
+ kraxel@redhat.com
+Subject: Re: [PATCH v2] acpi: pcihp: make pending delete blocking action expire
+Message-ID: <20230405055946-mutt-send-email-mst@kernel.org>
+References: <20230405083444.1536720-1-imammedo@redhat.com>
+ <20230405044231-mutt-send-email-mst@kernel.org>
+ <20230405113856.72065fd0@imammedo.users.ipa.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230405113856.72065fd0@imammedo.users.ipa.redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,33 +97,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Apr 05, 2023 at 11:38:56AM +0200, Igor Mammedov wrote:
+> On Wed, 5 Apr 2023 04:47:48 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > On Wed, Apr 05, 2023 at 10:34:44AM +0200, Igor Mammedov wrote:
+> > > with Q35 using ACPI PCI hotplug by default, user's request to unplug
+> > > device is ignored when it's issued before guest OS has been booted.
+> > > And any additional attempt to request device hot-unplug afterwards
+> > > results in following error:
+> > > 
+> > >   "Device XYZ is already in the process of unplug"
+> > > 
+> > > arguably it can be considered as a regression introduced by [2],
+> > > before which it was possible to issue unplug request multiple
+> > > times.
+> > > 
+> > > Allowing pending delete blocking expire brings ACPI PCI hotplug
+> > > on par with native PCIe unplug behavior [1] and allows user
+> > > to repeat unplug requests at propper times.
+> > > Set expire timeout to arbitrary 1msec so user won't be able to
+> > > flood guest with SCI interrupts by calling device_del in tight loop.
+> > > 
+> > > PS:
+> > > ACPI spec doesn't mandate what OSPM can do with GPEx.status
+> > > bits set before it's booted => it's impl. depended.
+> > > Status bits may be retained (I tested with one Windows version)
+> > > or cleared (Linux since 2.6 kernel times) during guest's ACPI
+> > > subsystem initialization.
+> > > Clearing status bits (though not wrong per se) hides the unplug
+> > > event from guest, and it's upto user to repeat device_del later
+> > > when guest is able to handle unplug requests.
+> > > 
+> > > 1) 18416c62e3 ("pcie: expire pending delete")
+> > > 2)
+> > > Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
+> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
+> > 
+> > I feel a real solution is to detect guest handling the
+> > event such as clearing GPE and allowing resending
+> > the interrupt then.
+> 
+> I did consider preserving(masking clearing attempt) of GPE0.sts[]
+> IF en[] hasn't been enabled ever (i.e. should help with unplug at
+> the 1st boot). But that won't work across reboots (depends on
+> reboot kind) and it's twisting rules wrt spec (platform(QEMU/fw)
+> may set status bits, but it's upto OSPM to decide what to do with
+> them (when and how clear or ignore them). 
+> 
+> > A similar strategy should be possible with the attention
+> > button.
+> > 
+> 
+> > This patch is more of a band-aid - it is possible that guest
+> > rebooted and so user knows a new device_del is required,
+> > and we arbitrarily reject that. Right?
+> You lost me here. Can you elaborate?
 
-Viresh Kumar <viresh.kumar@linaro.org> writes:
-
-> On 09-03-23, 14:20, Viresh Kumar wrote:
->> Hello,
->>=20
->> This patchset tries to update the vhost-user protocol to make it support=
- special
->> memory mapping required in case of Xen hypervisor.
->>=20
->> The first patch is mostly cleanup and second one introduces a new xen sp=
-ecific
->> feature.
->
-> Can we apply this now ? I have developed code for rust-vmm crates
-> based on this and we need to get this merged/finalized first before
-> merging those changes.
+I request device deletion but guest was rebooting losing state.
+I want to request deletion again but the request will fail
+until 1ms passes. 1ms is not a lot but I really don't want
+management to learn weird tricks like waiting for 1ms.
 
 
-I've queued into my virtio/vhost-user-device series so I'll get merged
-with that series unless mst wants to take it now.
 
->
-> Thanks.
+> > 
+> > This is arguably a regression but not in this release yes?
+> > So I don't think it needs to block qemu release.
+> > 
+> > 
+> > > ---
+> > > v2:
+> > >    * change timeout to 1ms
+> > >    * add comment to expire usage
+> > >    * massage commit message to be a bit more clear
+> > > 
+> > > CC: mst@redhat.com
+> > > CC: anisinha@redhat.com
+> > > CC: jusual@redhat.com
+> > > CC: kraxel@redhat.com  
+> > 
+> > It's helpful to have CC before --- so backporters know whom to CC, too.
+> 
+> ok, I'll fix it up and respin
+> 
+> > 
+> > > ---
+> > >  hw/acpi/pcihp.c | 10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > > 
+> > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > > index dcfb779a7a..5daa732a33 100644
+> > > --- a/hw/acpi/pcihp.c
+> > > +++ b/hw/acpi/pcihp.c
+> > > @@ -357,6 +357,16 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+> > >       * acpi_pcihp_eject_slot() when the operation is completed.
+> > >       */
+> > >      pdev->qdev.pending_deleted_event = true;
+> > > +    /* if unplug was requested before OSPM is initialized,
+> > > +     * linux kernel will clear GPE0.sts[] bits during boot, which effectively
+> > > +     * hides unplug event. BAnd than followup qmp_device_del() calls remain  
+> > 
+> > BAnd?
+> > 
+> > > +     * blocked by above flag permanently.
+> > > +     * Unblock qmp_device_del() by setting expire limit, so user can
+> > > +     * repeat unplug request later when OSPM has been booted.
+> > > +     */
+> > > +    pdev->qdev.pending_deleted_expires_ms =
+> > > +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL); /* 1 msec */
+> > > +
+> > >      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
+> > >      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
+> > >  }
+> > > -- 
+> > > 2.39.1  
+> > 
 
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
