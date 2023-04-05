@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD4F6D76CA
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 10:24:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332666D7700
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 10:33:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjyR1-0000BM-JU; Wed, 05 Apr 2023 04:24:03 -0400
+	id 1pjyZ4-0001fx-Br; Wed, 05 Apr 2023 04:32:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1pjyQz-0000Av-HN
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:24:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1pjyQy-0003o5-1W
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:24:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680683039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MnNQNnbOxqBChnoeMpTOJaTE/OMthbXYBV6kxWZLWwA=;
- b=BfBmxQUA0SiUQizhi5/B6yj/TkFtfashkB0w4r8cwZ3Jy/UgaFOdeA9sI/ikZ0yNsgOmF2
- cCLzzHHCfeiLG0Iw9FvRxGBYdcKe+WEIk5sxTOs8OQ5CnYhVIlkEelH9twE8Cw5SU8uExD
- XCzE20HYaklASs5UD936wX0xluL+kTk=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-639-vl17I1P8OPKpPKKXAi8JlA-1; Wed, 05 Apr 2023 04:23:58 -0400
-X-MC-Unique: vl17I1P8OPKpPKKXAi8JlA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- h6-20020a05622a170600b003e22c6de617so23992782qtk.13
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 01:23:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pjyZ1-0001fk-Lc
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:32:19 -0400
+Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pjyYz-0000Bo-Pp
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 04:32:19 -0400
+Received: by mail-ua1-x92e.google.com with SMTP id ay14so25028160uab.13
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 01:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680683536;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sxChsz6QRVjl1Q0Rpe+G8xtVtKmXDaYXhQ9S0HAfbS4=;
+ b=pgLdPn5yekogsGXcZIYEjvx/jkKXqh7q0OnbFCJDYGzvh3NT26IivbxCh3UAcQc7+M
+ 5Zc1pYEMm1sQ/X03lR5vrz1nYSnuhsK+htEOZoqthhyKNndq/yKPR59PSAjX4QaZZLsU
+ 1554GYsp4PeRVUW06EWM9QyKPmvyh8NmGmcE7rTgAk/mL4+1PqRgAg8zEcjWveX3gczN
+ 1ZmtayY3glmgUzFtrNWbbAtw5yvwsN6XK/JNxCDfGSuuljwIkGTQ0YOaj5CmKmooolNf
+ Ki84hejf8pvuFiznockq8YuveY5x341Ji9oLKh4+J4zIKDW85ZGkRTNNt/zbMtpc+HL9
+ owUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680683037;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MnNQNnbOxqBChnoeMpTOJaTE/OMthbXYBV6kxWZLWwA=;
- b=Ej6gVQzdEbVrodhos9aoOVEgVrAh6KZA0Y5/4jdiKj5qI/ZCUcG8OlmIonvYNJmndS
- xw+Bjzo6Vl5wV2er8WOJQa2BZJe/o0EtIYr2bdOIr6xDbsA43LMVp4CKSa/3xkmzA5Gu
- 3fDhdt04r1+plMZqN+44GhvkVEOcMb3LHPLo9o4+tLdMQezLrDu5FhPh6DPk1/u0Gzcu
- 4ikqkXvh24DLwxvamKl5/nzyqI+fWfitTlUEywVYrU1KKBd4LglKWPYIy2hKmqHirMbt
- ISh23h7Y5MyEqIjaEQz9ha9fQp7mybg1mJsfkKDP0AJPdpWnHi5pfNVS/usC5cGmDuU3
- +oHw==
-X-Gm-Message-State: AAQBX9d3Ps9/4gz4TJuO6zGqtIASMqyPd7BBqJXG9QnW9m0sNM1EDZnG
- WIZO+om57W8M74QLVqsGVS37o6szcH0HBKGfV2w6V9HEsHZEvoJkRhN+QjAtKs18Wpyvn1Hht50
- gBOPU7NF+K75eDvo=
-X-Received: by 2002:a05:622a:24e:b0:3e4:e479:6f9f with SMTP id
- c14-20020a05622a024e00b003e4e4796f9fmr2865808qtx.24.1680683037565; 
- Wed, 05 Apr 2023 01:23:57 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZD5tTOHSkwREqS78cGI6mRtkcCvKDlDkV/IJkrM6JDNaRPUr/EFSVQzRWYqi8JJuJtYTp28Q==
-X-Received: by 2002:a05:622a:24e:b0:3e4:e479:6f9f with SMTP id
- c14-20020a05622a024e00b003e4e4796f9fmr2865799qtx.24.1680683037331; 
- Wed, 05 Apr 2023 01:23:57 -0700 (PDT)
-Received: from [192.168.149.90]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- f9-20020ac84989000000b003e38f7e4562sm3804792qtq.69.2023.04.05.01.23.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Apr 2023 01:23:56 -0700 (PDT)
-Message-ID: <63b7fa1e-c601-ddc8-2769-28db738177f4@redhat.com>
-Date: Wed, 5 Apr 2023 10:23:52 +0200
+ d=1e100.net; s=20210112; t=1680683536;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sxChsz6QRVjl1Q0Rpe+G8xtVtKmXDaYXhQ9S0HAfbS4=;
+ b=NalWDMBLnnbjsgRXph4lv7die0P+N/A3SvYVQOwlSMrolnpccUAGWSn5MkpgcbdZ12
+ zwRax2nSoUUWeUSi2bXkbe2sqYaV70azRcRTeocorDD7I/KOb7lOdMcejjXHIc0vk/lP
+ XVE12S+0sDEMTRvb34h8DYKfhVQ95eFQ22ePqN3Yekqej/RPB9YmG1QvgHIbJI310Cuj
+ X/mVgyloP13XFrjrBqqBZ15S+Le8bGmOIGdjO3xmnvUbqxGGXi5hy3C4rrkwRd+oNkiU
+ H9dv9mXq7vdytvYd/2iM+L2GR9LJEIDHpqRqo7x+0saCJp6gsIVRnys8MJLAi4XfxGgi
+ LLiA==
+X-Gm-Message-State: AAQBX9ce3t3ebR/q2HYQ7aln6+ZtrCkgnLsQjb5Ht3tXXMqXT/lbTt+f
+ I59qBBkrPDHmxLntWQcJVFj8MevmcM6Za8n9vgk=
+X-Google-Smtp-Source: AKy350bSrhbMKHDktrFY2JMMx5Je6NQdHXJ1pPQRI1mqBCsPYeesg54Q2zjXYy+sH02zi9u0exqMu1hQMtc/VqNaZ98=
+X-Received: by 2002:a1f:ad0b:0:b0:43c:6481:2b50 with SMTP id
+ w11-20020a1fad0b000000b0043c64812b50mr4165664vke.0.1680683536593; Wed, 05 Apr
+ 2023 01:32:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] aio-wait: avoid AioContext lock in aio_wait_bh_oneshot()
-Content-Language: de-CH
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20230404153307.458883-1-stefanha@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20230404153307.458883-1-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.925, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20230329084513.7835-1-jth@kernel.org>
+ <20230329084513.7835-4-jth@kernel.org>
+In-Reply-To: <20230329084513.7835-4-jth@kernel.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 5 Apr 2023 18:32:00 +1000
+Message-ID: <CAKmqyKOKZBZfa_7UhLz4=J=OPpmQideEmxD65i_-7guQPhtekA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] serial-mcb: Add serial via MEN chameleon bus
+To: Johannes Thumshirn <jth@kernel.org>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
+ Javier Rodriguez <josejavier.rodriguez@duagon.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x92e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,22 +89,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Mar 29, 2023 at 11:09=E2=80=AFPM Johannes Thumshirn <jth@kernel.org=
+> wrote:
+>
+> Add MEN z125 UART over MEN Chameleon Bus emulation.
+>
+> Signed-off-by: Johannes Thumshirn <jth@kernel.org>
 
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-Am 04/04/2023 um 17:33 schrieb Stefan Hajnoczi:
-> There is no need for the AioContext lock in aio_wait_bh_oneshot().
-> It's easy to remove the lock from existing callers and then switch from
-> AIO_WAIT_WHILE() to AIO_WAIT_WHILE_UNLOCKED() in aio_wait_bh_oneshot().
-> 
-> Document that the AioContext lock should not be held across
-> aio_wait_bh_oneshot(). Holding a lock across aio_poll() can cause
-> deadlock so we don't want callers to do that.
-> 
-> This is a step towards getting rid of the AioContext lock.
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> 
-Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Alistair
 
+> ---
+>  hw/char/Kconfig      |   6 +++
+>  hw/char/meson.build  |   1 +
+>  hw/char/serial-mcb.c | 115 +++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 122 insertions(+)
+>  create mode 100644 hw/char/serial-mcb.c
+>
+> diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+> index 6b6cf2fc1d..9e8ebf1d3d 100644
+> --- a/hw/char/Kconfig
+> +++ b/hw/char/Kconfig
+> @@ -71,3 +71,9 @@ config GOLDFISH_TTY
+>
+>  config SHAKTI_UART
+>      bool
+> +
+> +config SERIAL_MCB
+> +    bool
+> +    default y if MCB
+> +    depends on MCB
+> +    select SERIAL
+> diff --git a/hw/char/meson.build b/hw/char/meson.build
+> index e02c60dd54..d5893a142d 100644
+> --- a/hw/char/meson.build
+> +++ b/hw/char/meson.build
+> @@ -20,6 +20,7 @@ softmmu_ss.add(when: 'CONFIG_SHAKTI_UART', if_true: fil=
+es('shakti_uart.c'))
+>  softmmu_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-cons=
+ole.c'))
+>  softmmu_ss.add(when: 'CONFIG_XEN_BUS', if_true: files('xen_console.c'))
+>  softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_uartlite.c'=
+))
+> +softmmu_ss.add(when: 'CONFIG_SERIAL_MCB', if_true: files('serial-mcb.c')=
+)
+>
+>  softmmu_ss.add(when: 'CONFIG_AVR_USART', if_true: files('avr_usart.c'))
+>  softmmu_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_uart.c'))
+> diff --git a/hw/char/serial-mcb.c b/hw/char/serial-mcb.c
+> new file mode 100644
+> index 0000000000..7ca8a248ac
+> --- /dev/null
+> +++ b/hw/char/serial-mcb.c
+> @@ -0,0 +1,115 @@
+> +/*
+> + * QEMU MEN 16z125 UART over MCB emulation
+> + *
+> + * Copyright (C) 2023 Johannes Thumshirn <jth@kernel.org>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2.  See
+> + * the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/module.h"
+> +#include "hw/char/serial.h"
+> +#include "hw/mcb/mcb.h"
+> +#include "hw/irq.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/qdev-properties-system.h"
+> +#include "migration/vmstate.h"
+> +
+> +struct MCBSerialState {
+> +    MCBDevice dev;
+> +    SerialState state;
+> +};
+> +
+> +#define TYPE_MCB_SERIAL "mcb-serial"
+> +OBJECT_DECLARE_SIMPLE_TYPE(MCBSerialState, MCB_SERIAL)
+> +
+> +static void serial_mcb_realize(DeviceState *dev, Error **errp)
+> +{
+> +    MCBDevice *mdev =3D MCB_DEVICE(dev);
+> +    MCBSerialState *mss =3D DO_UPCAST(MCBSerialState, dev, mdev);
+> +    MCBus *bus =3D MCB_BUS(qdev_get_parent_bus(DEVICE(dev)));
+> +    SerialState *s =3D &mss->state;
+> +
+> +    mdev->gdd =3D mcb_new_chameleon_descriptor(bus, 125, mdev->rev,
+> +                                             mdev->var, 0x10);
+> +    if (!mdev->gdd) {
+> +        return;
+> +    }
+> +
+> +    s->baudbase =3D 115200;
+> +    if (!qdev_realize(DEVICE(s), NULL, errp)) {
+> +        return;
+> +    }
+> +
+> +    s->irq =3D mcb_allocate_irq(&mss->dev);
+> +    memory_region_init_io(&s->io, OBJECT(mss), &serial_io_ops, s, "seria=
+l", 8);
+> +    memory_region_add_subregion(&bus->mmio_region, mdev->gdd->offset, &s=
+->io);
+> +}
+> +
+> +static void serial_mcb_unrealize(DeviceState *dev)
+> +{
+> +    MCBDevice *mdev =3D MCB_DEVICE(dev);
+> +    MCBSerialState *mss =3D DO_UPCAST(MCBSerialState, dev, mdev);
+> +    SerialState *s =3D &mss->state;
+> +
+> +    qdev_unrealize(DEVICE(s));
+> +    qemu_free_irq(s->irq);
+> +    g_free(&mdev->gdd);
+> +}
+> +
+> +static const VMStateDescription vmstate_mcb_serial =3D {
+> +    .name =3D "mcb-serial",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_MCB_DEVICE(dev, MCBSerialState),
+> +        VMSTATE_STRUCT(state, MCBSerialState, 0, vmstate_serial, SerialS=
+tate),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static Property serial_mcb_properties[] =3D {
+> +    DEFINE_PROP_UINT8("rev", MCBSerialState, dev.rev, 0),
+> +    DEFINE_PROP_UINT8("var", MCBSerialState, dev.var, 0),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void serial_mcb_class_initfn(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +    MCBDeviceClass *mc =3D MCB_DEVICE_CLASS(klass);
+> +
+> +    mc->realize =3D serial_mcb_realize;
+> +    mc->unrealize =3D serial_mcb_unrealize;
+> +
+> +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+> +    dc->desc =3D "MEN 16z125 UART over MCB";
+> +    dc->vmsd =3D &vmstate_mcb_serial;
+> +    device_class_set_props(dc, serial_mcb_properties);
+> +}
+> +
+> +static void serial_mcb_init(Object *o)
+> +{
+> +    MCBSerialState *mss =3D MCB_SERIAL(o);
+> +
+> +    object_initialize_child(o, "serial", &mss->state, TYPE_SERIAL);
+> +
+> +    qdev_alias_all_properties(DEVICE(&mss->state), o);
+> +}
+> +
+> +static const TypeInfo serial_mcb_info =3D {
+> +    .name =3D "mcb-serial",
+> +    .parent =3D TYPE_MCB_DEVICE,
+> +    .instance_size =3D sizeof(MCBSerialState),
+> +    .instance_init =3D serial_mcb_init,
+> +    .class_init =3D serial_mcb_class_initfn,
+> +};
+> +
+> +static void serial_mcb_register_types(void)
+> +{
+> +    type_register_static(&serial_mcb_info);
+> +}
+> +
+> +type_init(serial_mcb_register_types);
+> --
+> 2.39.2
+>
+>
 
