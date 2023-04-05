@@ -2,69 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F136D82BC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 17:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715666D8354
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 18:14:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk5St-00007n-Nl; Wed, 05 Apr 2023 11:54:27 -0400
+	id 1pk5lf-0007ga-HX; Wed, 05 Apr 2023 12:13:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pk5Sr-00006q-58
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 11:54:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pk5la-0007gF-Dd; Wed, 05 Apr 2023 12:13:46 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pk5Sp-0007wp-K9
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 11:54:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680710062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/VGSJSEBBQClVeqL21/CdBFRFob2gVXzaA7NBZgVFdk=;
- b=iDPitA9aNRTxqjMbU+O5nLfLcQowSPz34GA+ViY+P/8NFrWy3pyhZ1EynattqGglwyVipu
- mdqtK4P70ka6M0GratPteL+a8Amvi/fdOBPGmwZhrkp1FIJ+GRDTJWPeYq+jNFWOrpo/Zr
- t64FoArEM9lNqwryERKbF+t2z00k3GU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-6pZvoYWKPtqJ90dUKdmh0Q-1; Wed, 05 Apr 2023 11:54:18 -0400
-X-MC-Unique: 6pZvoYWKPtqJ90dUKdmh0Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 663F388B767;
- Wed,  5 Apr 2023 15:54:18 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15B752027061;
- Wed,  5 Apr 2023 15:54:17 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Turner <digit@google.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/2] Add missing Linux kernel headers.
-In-Reply-To: <CACnJMqrf-YH6P0zBC4FSSp_LcO=pxDOrx-P3MGGFDj_uWbWjvg@mail.gmail.com>
-Organization: Red Hat GmbH
-References: <20230405125920.2951721-1-digit@google.com>
- <20230405125920.2951721-3-digit@google.com> <87h6tuqy0f.fsf@redhat.com>
- <CACnJMqrf-YH6P0zBC4FSSp_LcO=pxDOrx-P3MGGFDj_uWbWjvg@mail.gmail.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Wed, 05 Apr 2023 17:54:16 +0200
-Message-ID: <87mt3mxr2v.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pk5lW-0006VG-RG; Wed, 05 Apr 2023 12:13:44 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E5577746369;
+ Wed,  5 Apr 2023 18:12:34 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 6EF0A74633D; Wed,  5 Apr 2023 18:12:34 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Wed, 5 Apr 2023 17:57:19 +0200
+Subject: [PATCH] hw/display/sm501: Remove unneeded increment from loop
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20230405161234.6EF0A74633D@zero.eik.bme.hu>
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,36 +54,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 05 2023, David Turner <digit@google.com> wrote:
+As Coverity points out (CID 1508621) the calculation to increment i in
+the fill fallback loop is ineffective as it is overwritten in next
+statement. This was left there by mistake from a previous version but
+is not needed in the current approach so remove the superfluous
+increment statement.
 
-> On Wed, Apr 5, 2023 at 3:06=E2=80=AFPM Cornelia Huck <cohuck@redhat.com> =
-wrote:
->
->> On Wed, Apr 05 2023, "David 'Digit' Turner" <digit@google.com> wrote:
->> > The script has then been run against the official
->> > 6.2.8 kernel source tree (current stable release),
->> > which explains why comments in <linux/vfio.h>
->> > have been updated too.
->>
->> I think we usually run the script against a release or release
->> candidate, not stable.
->>
->> I meant that this was run against the headers of the 6.2.8 official
-> release, which was listed as "stable" on https://kernel.org/ (that page n=
-ow
-> lists the 6.2.9 release btw)
-> I'd be happy to re-run it against a different set if you can tell me which
-> one (and where to get it, just in case).
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/display/sm501.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think most people actually run it against a checkout of Linus' git
-tree, preferrably either the latest -rc version (or the latest release
-during the kernel merge window) -- people usually run the script because
-they want to use some new interfaces that were recently introduced to
-the kernel. (This also ensures linear history, although I don't think
-that's too much of a problem.)
-
-Just make sure you note the exact version (or git hash), then it's
-fine. Might also be worth splitting this into adding the new files to
-the script and actually updating the headers.
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index dbabbc4339..0eecd00701 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -901,7 +901,7 @@ static void sm501_2d_operation(SM501State *s)
+             /* fallback when pixman failed or we don't want to call it */
+             uint8_t *d = s->local_mem + dst_base;
+             unsigned int x, y, i;
+-            for (y = 0; y < height; y++, i += dst_pitch * bypp) {
++            for (y = 0; y < height; y++) {
+                 i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
+                 for (x = 0; x < width; x++, i += bypp) {
+                     stn_he_p(&d[i], bypp, color);
+-- 
+2.30.8
 
 
