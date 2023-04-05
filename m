@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D02D6D84CA
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1B06D84C8
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 19:22:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk6p8-0004hy-Do; Wed, 05 Apr 2023 13:21:30 -0400
+	id 1pk6pB-0004k7-L0; Wed, 05 Apr 2023 13:21:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3Fa4tZAUKClAv0y0By66y3w.u648w4C-vwDw3565y5C.69y@flex--digit.bounces.google.com>)
- id 1pk6p6-0004hl-Vz
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 13:21:29 -0400
-Received: from mail-ed1-x549.google.com ([2a00:1450:4864:20::549])
+ <3GK4tZAUKClMy313E19916z.x97Bz7F-yzGz689818F.9C1@flex--digit.bounces.google.com>)
+ id 1pk6pA-0004iF-42
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 13:21:32 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3Fa4tZAUKClAv0y0By66y3w.u648w4C-vwDw3565y5C.69y@flex--digit.bounces.google.com>)
- id 1pk6p5-0004bJ-Cz
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 13:21:28 -0400
-Received: by mail-ed1-x549.google.com with SMTP id
- 4fb4d7f45d1cf-4fd22779a36so455646a12.3
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 10:21:26 -0700 (PDT)
+ <3GK4tZAUKClMy313E19916z.x97Bz7F-yzGz689818F.9C1@flex--digit.bounces.google.com>)
+ id 1pk6p8-0004ng-Ik
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 13:21:31 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id
+ 3-20020a250b03000000b00b5f1fab9897so36290139ybl.19
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 10:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680715285;
+ d=google.com; s=20210112; t=1680715289;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=KSldPe0deeSyf3HYxnNOuVuY5+gkfHfz8Olmmt/PVAU=;
- b=pBNfpLhcoZqPuPerPA8uwDAg4l9XV688mSxLXQrWihdc2qm8PCIRPBF6OdWc8GoClD
- zj9orYeNYwNaOiIQjRzdCmeGjFOFgIWST0C6Tcb7qMfdm1DiaohPjGFoRrL8p07J4pA1
- mKinfQ6abU8kHBXj2aiDqcwaSRSBiHAZKnwL6QBAMaHwywIjcT2rbX1W6YKkFVj/H0pu
- s5VlzRBCW2HfMbiwikpeIA7vFPA+p1XT9g//l7WkvD2OjiUKPWUFsWJ/jYoXYa8T4fEB
- riphjYtY0LMhDo+GihMMACwvHK5YWyoVHU3b6lkPBxOywK3tIJf04JaM30I5AmxwS9aY
- tE3A==
+ bh=aPZnSmUoFakrcaZGaUb56diGDq0a+dfVZtvtkIIV5dM=;
+ b=YhpmWexSse86X9JvAu7U222Hh2hASGM9RIRKWykfwXx7qVhJ2QV7gJfoXWZ2+tWnvI
+ dN20J722MtlkbDTzu/t+YcvqdWwySQTyStS6WV6bfkzmZWD6YhU2R/5URtcmMC09tDHF
+ HGKAU5IPOr9QQyHBkT0rvy4W0rIafyeVeWB4KB3z226BDt0SgOLWNlyhSZQRB4g50LlU
+ RiyFlOXf8m2HDZKW6nl0wycVg+WeRi4knzuXrlqyQ/qoXhHnvmbA15bXc8hLX5ESl+NI
+ rrtywP3F7GOeILt+k0sKkOZyQ53IY0+k/rk/7AA7T0QvfhJXkMRTOAOjWfNkUIfVJ5g5
+ homQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680715285;
+ d=1e100.net; s=20210112; t=1680715289;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KSldPe0deeSyf3HYxnNOuVuY5+gkfHfz8Olmmt/PVAU=;
- b=iDsD3S5tg3xTMZGe7tN2izC53rcjcIRUUUqygJ02ZrpDLhEyoV0TsmP4IABVFHMnIN
- FuZXUgNwYeWWBZSks13XXbAm+0FVVjTgf4ioYFRoXiyhjOmKbMZzowXXhBKpAYv8CSGv
- R8iQvF4kTEJogDepwCsBTj8lduZYeU3RpWBL4F/xi+rc48TeuB/BUCKxPvfOydhJCAQy
- mTqtO2qU0DwhvrecXRhWBTtSMxNgSa68qUlnNEVnQqV0xVt0PizjS657xF3NXxp8CBMi
- D7Yh1BNtTtMh/3Z+AX3lu8WEehjJRXwLfRXzbhJ8E6z93RDz6yu92QxxwRMMGHQuUWTu
- 9Nhg==
-X-Gm-Message-State: AAQBX9fFjzqpbaP93RkSuf7EMu1INGCSJ1cAO5OEoyygvWy89nQF6gqM
- 05Ruaw0IHHB1mbPmVkWT6n+Yij3Z/E/grmEEp9SJqdMEp1HY1dPhKn2BcVtDFFpYa2Zlqt5kIQn
- jw8i0HgPkGJvLGCGhBIAMD1IOkCIKb6Q5eaAAPycrL2MiBfz5gOANSgXAKw==
-X-Google-Smtp-Source: AKy350Ydm62hsavLGEkZyEFiZHsXTuUqqpuZzpSWr3FFl64zvi+T78Ek3JPWVDWil2srqFT6B64w/rfHog==
+ bh=aPZnSmUoFakrcaZGaUb56diGDq0a+dfVZtvtkIIV5dM=;
+ b=dE5SVemovCyWp22AYk1MvVO20mnjkPsFUV1+dyy0+fJMzA04QhgM4Mq+ZWzyeLHTuK
+ 2r9k6CvfjxVZDLGCgcC/8rgPKiXAzeqMyhgeTLG+Oik5sD4qSNC5q3w8DEe+hz0ixUoD
+ Cjh4EGOIxihdGgjg7EH08XCicohosFQo2EQR1Umq42FQwQ+1LIJPREZcrfyUJiMD/qj5
+ SqBLHuBKRvGCA8aF5JLftgAcBPNknnZW0P4/wppUndN4Pm53gP4qAPutg45ZBWdDNDXU
+ PHF17mAVCroOuxTUfsJJKrSDSJB7TZyTuSPEXD2pIuE2nmQ8RRQ+OuVrEh6EXywNYS35
+ PrWw==
+X-Gm-Message-State: AAQBX9fkr97hrNKBlTl5RJ1fGkoTIwQ+IhvlGzWFkxJ0T1CCgKBtFrYG
+ 2ewFz1cEGTE7QimYfQBAogyN/NIzgCo86w1NEsjEGMe58IorbvWDbd2Arm4G14ZwTGc4tCNGApU
+ ePNKOR/hZKtauBZGqgxCm7Mhwn1WDhveU7uZyZCw6F/2D3C+tsevgEdo9BQ==
+X-Google-Smtp-Source: AKy350YvChQASNMI2T5PFBb9LCIy3MbNMjy8k60YR643Jeud5i5+zGVQcVVyLKnxfm9YreiuYJINfATo5g==
 X-Received: from digit-linux-eng.par.corp.google.com
  ([2a00:79e0:a0:1:d1d4:d452:da86:5ee0])
- (user=digit job=sendgmr) by 2002:a50:9987:0:b0:502:4c87:7982 with SMTP id
- m7-20020a509987000000b005024c877982mr1647969edb.2.1680715285369; Wed, 05 Apr
- 2023 10:21:25 -0700 (PDT)
-Date: Wed,  5 Apr 2023 19:21:07 +0200
+ (user=digit job=sendgmr) by 2002:a81:4304:0:b0:541:7f69:aa9b with SMTP id
+ q4-20020a814304000000b005417f69aa9bmr4104942ywa.4.1680715288758; Wed, 05 Apr
+ 2023 10:21:28 -0700 (PDT)
+Date: Wed,  5 Apr 2023 19:21:08 +0200
 In-Reply-To: <20230405172109.3081788-1-digit@google.com>
 Mime-Version: 1.0
 References: <20230405172109.3081788-1-digit@google.com>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230405172109.3081788-2-digit@google.com>
-Subject: [PATCH 1/3] Fix libvhost-user.c compilation.
+Message-ID: <20230405172109.3081788-3-digit@google.com>
+Subject: [PATCH 2/3] update-linux-headers.sh: Add missing kernel headers.
 From: "David 'Digit' Turner" <digit@google.com>
 To: qemu-devel@nongnu.org
 Cc: "David 'Digit' Turner" <digit@google.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::549;
- envelope-from=3Fa4tZAUKClAv0y0By66y3w.u648w4C-vwDw3565y5C.69y@flex--digit.bounces.google.com;
- helo=mail-ed1-x549.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3GK4tZAUKClMy313E19916z.x97Bz7F-yzGz689818F.9C1@flex--digit.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -91,36 +92,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The source file uses VIRTIO_F_VERSION_1 which is
-not defined by <linux/virtio_config.h> on Debian 10.
+Add <linux/memfd.h>, used by hw/display/virtio-gpu-udmabuf.c
+Add <linux/nvme_ioctl.h>, used by qga/commands-posix.c
+Add <linux/const.h> used by kvm-all.c, which requires
+the _BITUL() macro definition to be available.
 
-The system-provided <linux/virtio_config.h> which
-does not include the macro definition is included
-through <linux/vhost.h>, so fix the issue by including
-the standard-headers version before that.
+Without these, QEMU will not compile on Debian 10 systems.
 
 Signed-off-by: David 'Digit' Turner <digit@google.com>
 ---
- subprojects/libvhost-user/libvhost-user.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ scripts/update-linux-headers.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 0200b78e8e..0a5768cb55 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -32,6 +32,12 @@
- #include <sys/mman.h>
- #include <endian.h>
+diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+index b1ad99cba8..e21225baf3 100755
+--- a/scripts/update-linux-headers.sh
++++ b/scripts/update-linux-headers.sh
+@@ -160,8 +160,8 @@ done
  
-+/* Necessary to provide VIRTIO_F_VERSION_1 on system
-+ * with older linux headers. Must appear before
-+ * <linux/vhost.h> below.
-+ */
-+#include "standard-headers/linux/virtio_config.h"
-+
- #if defined(__linux__)
- #include <sys/syscall.h>
- #include <fcntl.h>
+ rm -rf "$output/linux-headers/linux"
+ mkdir -p "$output/linux-headers/linux"
+-for header in kvm.h vfio.h vfio_ccw.h vfio_zdev.h vhost.h \
+-              psci.h psp-sev.h userfaultfd.h mman.h vduse.h; do
++for header in const.h kvm.h vfio.h vfio_ccw.h vfio_zdev.h vhost.h \
++              psci.h psp-sev.h userfaultfd.h memfd.h mman.h nvme_ioctl.h vduse.h; do
+     cp "$tmpdir/include/linux/$header" "$output/linux-headers/linux"
+ done
+ 
 -- 
 2.40.0.348.gf938b09366-goog
 
