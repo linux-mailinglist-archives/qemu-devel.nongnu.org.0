@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7B46D796A
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E7E6D7973
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 12:18:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk0Cr-0005Hx-US; Wed, 05 Apr 2023 06:17:33 -0400
+	id 1pk0Dc-00065H-4T; Wed, 05 Apr 2023 06:18:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pk0Cq-0005HW-0y
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:17:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pk0Cn-0008Fi-TW
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:17:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680689848;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bxnc1gRpcN+4GVGBSaR/kYZy2gdzYtnrizkroteUqc8=;
- b=YWINqjk4m8In9qtrr7IGTcHUqdlz5DtSD/4KHe7VP2UB6zA0I3RNr+jptaEgHHvoVRd0uG
- +h/Bb3Xc7QH0TblFPm0d4iUR3JvImGJcDkc6jEpV9V8v6xZ0cFikAX4k6qhmHUJtwAqNOi
- TgMSxHESe3XfSoy6axhe1NvVyEDsZ/A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-80-ZGwJx5bVM8eBIkdvDPlEPA-1; Wed, 05 Apr 2023 06:17:24 -0400
-X-MC-Unique: ZGwJx5bVM8eBIkdvDPlEPA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 307E98996E2
- for <qemu-devel@nongnu.org>; Wed,  5 Apr 2023 10:17:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.200])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF53C400F57;
- Wed,  5 Apr 2023 10:17:23 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B954B1800097; Wed,  5 Apr 2023 12:17:22 +0200 (CEST)
-Date: Wed, 5 Apr 2023 12:17:22 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, anisinha@redhat.com, 
- jusual@redhat.com
-Subject: Re: [PATCH v3] acpi: pcihp: make pending delete blocking action expire
-Message-ID: <ospmt6sdtawjpsgk7f7bigrdok5n3orht2awuedf2vlxgeqlro@v62qktfetqlf>
-References: <20230405094256.1539122-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pk0Da-000656-CA
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:18:18 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pk0DY-00018i-Er
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 06:18:18 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ v14-20020a05600c470e00b003f06520825fso740240wmo.0
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 03:18:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680689894;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=R3c7APLhxJFNCqIErCGS2nhF3aw+HLHuokeVO/lFk00=;
+ b=OBiO/iyMPp7HhyBZcX7fJgp2AA6LNBmXbyqspQfxTpbw5ifIhJkHachSnVGxiHum7T
+ pDyTjdZU/TDYDH8YqIYCNPP2VKdx3wdUBLlBxM9gzo34nXlEfQws3UH3CuMpU0XuvBtJ
+ BR0Y9rfffghCpUn3Lq722SfA08hTOExgU+rQvnILo+j+5Ft88ticBqenXwg5p/GlGvca
+ 41krEivQExeKbzC6OcydV1hPviKH9pwe4ul7G2ol7M0QTifUHh3PLePZ/6n5cypktE9F
+ 2KVXZ7OB0raOVG9XCJUMp3dAf1zpvJiqWUaGdW48AgcrjBnZSMXe3CucyEtdxru47k5Y
+ KTzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680689894;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R3c7APLhxJFNCqIErCGS2nhF3aw+HLHuokeVO/lFk00=;
+ b=enRhiLQCu1ESJzoLSvE+69N2FtEkUoAXF4dCk4lVcYCi84vwh5ZkEK6gHnWID+g/ly
+ hF58UQye9BLeBGcOcncZ57LCmGZ0WPGp/cLI6NNfNt4n44rNOo81g6sxJYqk9jjby+5B
+ SbnSGuHLvcMjdkmpQ8D2RZolWWw0F1wkj5Aov002kA4I+Nfp6C0D5MJ2KsXqk2K7Er6+
+ 5guvPpYbpDI4EGoNm4J58MlRJN+5nKblmZPiXXhSerWcK+H3aJLk9dK9x12lKASxS+Oo
+ r66VQefGNnG0I1drDoEuKBRwMMdWFqLJOsFkOzy9YLm59lIKpYAvpQ/2NwgTYDMYC19M
+ 4BBg==
+X-Gm-Message-State: AAQBX9cZC9xWbUlLRqRVGcb1feegQ7FyKfmToP3VrHbRvn6lr02wXsah
+ qFB9apuXs61Y/py0I3AiFvDjZU1Mnuc+j+jdMs4=
+X-Google-Smtp-Source: AKy350Ybve9k60nXpw2N7+saf2pFb1rgNJYM8Jf0Z78V3ulPWVpu1aVqOeAnHikWi6TcyhWdL0mjyg==
+X-Received: by 2002:a7b:c4d3:0:b0:3ed:551b:b78f with SMTP id
+ g19-20020a7bc4d3000000b003ed551bb78fmr4181570wmk.4.1680689894558; 
+ Wed, 05 Apr 2023 03:18:14 -0700 (PDT)
+Received: from localhost.localdomain
+ (4ab54-h01-176-184-52-81.dsl.sta.abo.bbox.fr. [176.184.52.81])
+ by smtp.gmail.com with ESMTPSA id
+ t16-20020a05600c451000b003ef66c89af0sm5203608wmo.0.2023.04.05.03.18.13
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 05 Apr 2023 03:18:14 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 00/14] accel: Share CPUState accel context (HAX/NVMM/WHPX/HVF)
+Date: Wed,  5 Apr 2023 12:17:57 +0200
+Message-Id: <20230405101811.76663-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230405094256.1539122-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,43 +91,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Apr 05, 2023 at 11:42:56AM +0200, Igor Mammedov wrote:
-> with Q35 using ACPI PCI hotplug by default, user's request to unplug
-> device is ignored when it's issued before guest OS has been booted.
-> And any additional attempt to request device hot-unplug afterwards
-> results in following error:
-> 
->   "Device XYZ is already in the process of unplug"
-> 
-> arguably it can be considered as a regression introduced by [2],
-> before which it was possible to issue unplug request multiple
-> times.
-> 
-> Allowing pending delete blocking expire brings ACPI PCI hotplug
-> on par with native PCIe unplug behavior [1] and allows user
-> to repeat unplug requests at propper times.
-> Set expire timeout to arbitrary 1msec so user won't be able to
-> flood guest with SCI interrupts by calling device_del in tight loop.
-> 
-> PS:
-> ACPI spec doesn't mandate what OSPM can do with GPEx.status
-> bits set before it's booted => it's impl. depended.
-> Status bits may be retained (I tested with one Windows version)
-> or cleared (Linux since 2.6 kernel times) during guest's ACPI
-> subsystem initialization.
-> Clearing status bits (though not wrong per se) hides the unplug
-> event from guest, and it's upto user to repeat device_del later
-> when guest is able to handle unplug requests.
-> 
-> 1) 18416c62e3 ("pcie: expire pending delete")
-> 2)
-> Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> CC: mst@redhat.com
-> CC: anisinha@redhat.com
-> CC: jusual@redhat.com
-> CC: kraxel@redhat.com
+This series is part of the single binary effort.
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+All accelerator will share their per-vCPU context in
+an opaque 'accel' pointer within the CPUState.
+
+First handle HAX/NVMM/WHPX/HVF. KVM and TCG will follow
+as two different (bigger) follow-up series.
+
+Philippe Mathieu-Daudé (14):
+  accel: Document generic accelerator headers
+  accel: Remove unused hThread variable on TCG/WHPX
+  accel: Fix a leak on Windows HAX
+  accel: Destroy HAX vCPU threads once done
+  accel: Rename 'hax_vcpu' as 'accel' in CPUState
+  accel: Use a typedef for struct hax_vcpu_state
+  accel: Rename struct hax_vcpu_state -> struct AccelvCPUState
+  accel: Move HAX hThread to accelerator context
+  accel: Allocate NVMM vCPU using g_try_FOO()
+  accel: Rename NVMM struct qemu_vcpu -> struct AccelvCPUState
+  accel: Inline NVMM get_qemu_vcpu()
+  accel: Rename WHPX struct whpx_vcpu -> struct AccelvCPUState
+  accel: Inline WHPX get_whpx_vcpu()
+  accel: Rename HVF struct hvf_vcpu_state -> struct AccelvCPUState
+
+ include/hw/core/cpu.h             | 11 ++---
+ include/sysemu/hax.h              |  2 +
+ include/sysemu/hvf_int.h          |  2 +-
+ include/sysemu/kvm.h              |  2 +
+ include/sysemu/nvmm.h             |  2 +
+ include/sysemu/tcg.h              |  2 +
+ include/sysemu/whpx.h             |  2 +
+ include/sysemu/xen.h              |  2 +
+ target/i386/hax/hax-i386.h        | 14 ++++---
+ accel/hvf/hvf-accel-ops.c         | 16 +++----
+ accel/tcg/tcg-accel-ops-mttcg.c   |  4 --
+ accel/tcg/tcg-accel-ops-rr.c      |  3 --
+ target/arm/hvf/hvf.c              | 70 +++++++++++++++----------------
+ target/i386/hax/hax-accel-ops.c   |  5 ++-
+ target/i386/hax/hax-all.c         | 26 +++++++-----
+ target/i386/hax/hax-posix.c       |  4 +-
+ target/i386/hax/hax-windows.c     |  6 +--
+ target/i386/nvmm/nvmm-all.c       | 38 +++++++----------
+ target/i386/whpx/whpx-accel-ops.c |  3 --
+ target/i386/whpx/whpx-all.c       | 39 +++++++----------
+ 20 files changed, 123 insertions(+), 130 deletions(-)
+
+-- 
+2.38.1
 
 
