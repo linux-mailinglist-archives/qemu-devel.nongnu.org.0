@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCAC6D89B5
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 23:38:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F0E6D89B2
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 23:38:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkAo4-0005IV-3E; Wed, 05 Apr 2023 17:36:41 -0400
+	id 1pkAoD-0005JR-LF; Wed, 05 Apr 2023 17:36:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pkAnx-0005Ho-30
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pkAnx-0005Hs-Gt
  for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:36:34 -0400
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pkAnv-0005aP-Ev
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:36:32 -0400
-Received: by mail-il1-x135.google.com with SMTP id h14so18153701ilj.0
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pkAnv-0005af-V8
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 17:36:33 -0400
+Received: by mail-il1-x12d.google.com with SMTP id n1so18792419ili.10
  for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 14:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680730590;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680730591;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AhXur0mol2eJRCuT8H9O7gNE5+OMCeuHhvCsZFIq5AU=;
- b=Hu3iTcR0bmj5FTe+D3yBkxQHhjT6G0r33E3HzDRpgvXSl7QAYQPsJIySwcyjATIKWZ
- zD1dsnxRGfCgxwXweBpmGObiSItcFVHxZTS6tBtvuQD2QjZyzgvYYc+j5fuhhlkVuGA9
- 75v76qiHEqF9tVozIhH1GsfDKKopCAYpGSXJfBHcIU+GIcVKlf1ZSudjF8Czjo5JzCyx
- mvO+fQV0V6u4kOfnr0L9vRXjEma1MbOPk/yZlwLStV1yDVVfeovUaqSR20vIy17ZNqo8
- gNY1kmMY052nxrhntI4NavsREugm7sbIoBXD+xG7vw0CO9hXacjGTpBbjS5ci+y0tL8y
- keng==
+ bh=1BJY2q4N9OTbwCSs0lpKm2HeXuDh951JsDQY9hlEtgM=;
+ b=nRGU74Kq2K72WplUgDfkKvK6qcCcdu0fcCpvRASMGoNz7ANU/WbY+wluJIQ705l1Aa
+ S6Dq4NVioyKBA+6Bg8pv2OkRqPw8GBWE6z+ZHq3CiX0m2OtlsGKh+H8WTZShz5EDM10t
+ 4+1QLN+3T1XQ5tPhqL76xbsmf4oVJXKZIKzG21orAezJnT2An61GFw6k+KBBw3p9zScx
+ mD18ZkmsV9yoQ0ypxTNYiEZbkFB0XulmvD6qe3bEc3JsxV1Le01PpVPAr/nLqF4SThdC
+ dfwXoWIPSjdPDReuTZCa/IB38ktfM34eOUJGYHpiQAFDwKGTy3ifHT044q4wenpc/6N+
+ BjGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680730590;
+ d=1e100.net; s=20210112; t=1680730591;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AhXur0mol2eJRCuT8H9O7gNE5+OMCeuHhvCsZFIq5AU=;
- b=BvX4xd9TMPKcLWaPElTfj7DL5OU8igtsYFMHhoPutCWYciS3nkcYeUzfBFUtSnOWpP
- /6KDG8xyrE7zvEIYf1UtdF60htdQe5fnIMBGKuLLYiUywwOZq5lRo/pjjm6kyWZmJS9t
- FE9VteQjKL9AMBO/sdLVQcbt3gedS88wOGZ7tHz0QiuKj0VUPp/jC3gCNZOPMu8di3z9
- E8r6Zgf7MXhvrVw5VC2lg9DWAQigA+baSwjSZ1rYqZFW9G4udo+ZBj1JINRtDkn7PD1T
- Ukqk1kJMqD0yX5QQMFo9/H2+JxWMQ01Rm5BMYr2eIx2QddhB84jg63N4Ggk6M86mt3oZ
- phqw==
-X-Gm-Message-State: AAQBX9dnCPUzGctBgkvRKlQgfYbhs9MjA4ASDNARrENvJq5OlhI7X2Fm
- m2/SqhtHpU45Ifp52syGudTpikc+svuRRRDlVoc=
-X-Google-Smtp-Source: AKy350ZUFAXgFwqZbkFWPXtZMovi1xYv9yaAP0EJQow5fpCn9n2QgZ8i0brSvnyV1eZuOrOQUTXiDA==
-X-Received: by 2002:a92:d38f:0:b0:315:420e:a77b with SMTP id
- o15-20020a92d38f000000b00315420ea77bmr2658964ilo.10.1680730589887; 
- Wed, 05 Apr 2023 14:36:29 -0700 (PDT)
+ bh=1BJY2q4N9OTbwCSs0lpKm2HeXuDh951JsDQY9hlEtgM=;
+ b=mmbQdbXJIcllULWdA87214ToVwgcFF0csFfR8/+KHqCa517bKH75wxw4G5sIIr+j0u
+ wL5QRTvCkbIYZWdhQa1TIAhLqancHCzUgjS9d2D0cKyp3Q+bmadUHqXa1MaFkZPwhQrG
+ ajWbru9G7talNS0WqsBxRYmH9bEvZpl/h6JP2ahiJnE3D1kjbshdyCrUrp+yAKWq1E4+
+ UgmdOPu5HVJrrjC2wWQU5WCQ1rao29fvutUtH2sxpBneAAeyl+bPbw5P1CFiFPzU1/0y
+ t6UDLrVYL2hf8jRDJQ8y6FmzLWe8xbJJD8n4E4cDMUOiShS11WetZkTgqY/2iJX5dgL/
+ Sy5Q==
+X-Gm-Message-State: AAQBX9dxS9zc7f191tBoqa7BAuZerq53TEaZgkETj4QgYxzQZ+TO963S
+ qp7qcyTjNICZlHKgKuz8HHWs26NYAbV+eN2O/+Q=
+X-Google-Smtp-Source: AKy350ZdnEvDGSzOs7CiJ1Z1UxYrXp/W9H+v2b9OZcFXtzaTK63plkfBF47xDqEoWlou8qHJL3axOg==
+X-Received: by 2002:a92:cc02:0:b0:326:54d0:38b3 with SMTP id
+ s2-20020a92cc02000000b0032654d038b3mr4672471ilp.16.1680730590726; 
+ Wed, 05 Apr 2023 14:36:30 -0700 (PDT)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
  i18-20020a926d12000000b003261b6acc8asm4110473ilc.79.2023.04.05.14.36.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 14:36:29 -0700 (PDT)
+ Wed, 05 Apr 2023 14:36:30 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: reinoud@netbsd.org, riastradh@netbsd.org, ryoon@netbsd.org,
  jrtc27@jrtc27.com, Warner Losh <imp@bsdimp.com>, kevans@freebsd.org,
  Brad Smith <brad@comstyle.com>
-Subject: [PATCH 04/16] bsd-user: Move system FreeBSD call table to
- freebsd/os-syscall.c
-Date: Wed,  5 Apr 2023 15:36:00 -0600
-Message-Id: <20230405213612.15942-5-imp@bsdimp.com>
+Subject: [PATCH 05/16] bsd-user: Remove NetBSD specific syscall printing
+Date: Wed,  5 Apr 2023 15:36:01 -0600
+Message-Id: <20230405213612.15942-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230405213612.15942-1-imp@bsdimp.com>
 References: <20230405213612.15942-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::135;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x135.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,49 +89,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Move the system call table, and FreeBSD helper routines out of strace.c.
-We do not support multiple BSD-types in one binary, so simplify things
-by moving it.
+Nothing calls these routines now. In the bsd-user fork, though, they've
+moved to netbsd/os-syscall.c, but those aren't ready for upstreaming.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/freebsd/os-syscall.c | 19 +++++++++++++++++++
- bsd-user/qemu.h               |  5 -----
- bsd-user/strace.c             | 17 -----------------
- 3 files changed, 19 insertions(+), 22 deletions(-)
+ bsd-user/qemu.h   |  5 -----
+ bsd-user/strace.c | 17 -----------------
+ 2 files changed, 22 deletions(-)
 
-diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index c8f998ecec1..354a38943e5 100644
---- a/bsd-user/freebsd/os-syscall.c
-+++ b/bsd-user/freebsd/os-syscall.c
-@@ -517,6 +517,25 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-     return ret;
- }
- 
-+static const struct syscallname freebsd_scnames[] = {
-+#include "freebsd/strace.list"
-+};
-+
-+static void print_freebsd_syscall(int num, abi_long arg1, abi_long arg2,
-+                                  abi_long arg3, abi_long arg4, abi_long arg5,
-+                                  abi_long arg6)
-+{
-+
-+    print_syscall(num, freebsd_scnames, ARRAY_SIZE(freebsd_scnames), arg1, arg2,
-+            arg3, arg4, arg5, arg6);
-+}
-+
-+static void print_freebsd_syscall_ret(int num, abi_long ret)
-+{
-+
-+    print_syscall_ret(num, ret, freebsd_scnames, ARRAY_SIZE(freebsd_scnames));
-+}
-+
- /*
-  * do_freebsd_syscall() should always have a single exit point at the end so
-  * that actions, such as logging of syscall results, can be performed. This
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 22e16816a9e..c5240938da7 100644
+index c5240938da7..cee02d2a0ea 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
 @@ -196,11 +196,6 @@ struct syscallname {
@@ -140,46 +107,46 @@ index 22e16816a9e..c5240938da7 100644
  };
  
 -void
--print_freebsd_syscall(int num,
--                      abi_long arg1, abi_long arg2, abi_long arg3,
--                      abi_long arg4, abi_long arg5, abi_long arg6);
--void print_freebsd_syscall_ret(int num, abi_long ret);
+-print_netbsd_syscall(int num,
+-                     abi_long arg1, abi_long arg2, abi_long arg3,
+-                     abi_long arg4, abi_long arg5, abi_long arg6);
+-void print_netbsd_syscall_ret(int num, abi_long ret);
  void
- print_netbsd_syscall(int num,
-                      abi_long arg1, abi_long arg2, abi_long arg3,
+ print_openbsd_syscall(int num,
+                       abi_long arg1, abi_long arg2, abi_long arg3,
 diff --git a/bsd-user/strace.c b/bsd-user/strace.c
-index e45909b8688..7d0117fd3cf 100644
+index 7d0117fd3cf..8e76caa3c3f 100644
 --- a/bsd-user/strace.c
 +++ b/bsd-user/strace.c
 @@ -146,9 +146,6 @@ void print_syscall_ret_addr(const struct syscallname *name, abi_long ret)
   * An array of all of the syscalls we know about
   */
  
--static const struct syscallname freebsd_scnames[] = {
--#include "freebsd/strace.list"
+-static const struct syscallname netbsd_scnames[] = {
+-#include "netbsd/strace.list"
 -};
- static const struct syscallname netbsd_scnames[] = {
- #include "netbsd/strace.list"
+ static const struct syscallname openbsd_scnames[] = {
+ #include "openbsd/strace.list"
  };
-@@ -212,20 +209,6 @@ void print_syscall_ret(int num, abi_long ret, const struct syscallname *scnames,
+@@ -209,20 +206,6 @@ void print_syscall_ret(int num, abi_long ret, const struct syscallname *scnames,
  /*
   * The public interface to this module.
   */
--void print_freebsd_syscall(int num, abi_long arg1, abi_long arg2, abi_long arg3,
+-void print_netbsd_syscall(int num, abi_long arg1, abi_long arg2, abi_long arg3,
 -        abi_long arg4, abi_long arg5, abi_long arg6)
 -{
 -
--    print_syscall(num, freebsd_scnames, ARRAY_SIZE(freebsd_scnames), arg1, arg2,
--            arg3, arg4, arg5, arg6);
+-    print_syscall(num, netbsd_scnames, ARRAY_SIZE(netbsd_scnames),
+-                  arg1, arg2, arg3, arg4, arg5, arg6);
 -}
 -
--void print_freebsd_syscall_ret(int num, abi_long ret)
+-void print_netbsd_syscall_ret(int num, abi_long ret)
 -{
 -
--    print_syscall_ret(num, ret, freebsd_scnames, ARRAY_SIZE(freebsd_scnames));
+-    print_syscall_ret(num, ret, netbsd_scnames, ARRAY_SIZE(netbsd_scnames));
 -}
 -
- void print_netbsd_syscall(int num, abi_long arg1, abi_long arg2, abi_long arg3,
+ void print_openbsd_syscall(int num, abi_long arg1, abi_long arg2, abi_long arg3,
          abi_long arg4, abi_long arg5, abi_long arg6)
  {
 -- 
