@@ -2,90 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61926D7D1F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 14:59:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89F46D7DA0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 15:22:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pk2iX-0007jH-70; Wed, 05 Apr 2023 08:58:25 -0400
+	id 1pk34u-0007Al-Mb; Wed, 05 Apr 2023 09:21:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_acaggian@quicinc.com>)
- id 1pk2iU-0007iR-IN
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:58:22 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_acaggian@quicinc.com>)
- id 1pk2iR-00021Q-VA
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:58:22 -0400
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 335BU7Ac008566; Wed, 5 Apr 2023 12:58:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=Qyaxf0DIACoe+I5SRtSSKC0xJqmF0t/CsmsiQzW0+N0=;
- b=bU+61YjGUhH/d50CeYn8Q+ikPaG2jqFqbnzfTbEm6Qv+qDhBpocC2FiTmW1t/iy+WlGD
- H1f5RHU72N6wSNN83LLGxs7RHMllW8Ez7OzZVZWG65rMd+rJhbhNByK9j4RpY0ZNb2F8
- sQt/s0reurNoF39R4ai7+AQQS7sq5fYD435AR75Edc6sDuHqaKF8SE+HYSDPS/Zzub0E
- CO4G7WN1Xu25oknyTo41Btv+Eznu8nHnCIOnpqY4Y8uiWf2AMx1gUdKozA4QQoS83jTV
- JRPd+nR4P6EZCWWaBWY8Fsy7ihaLqwTsd61GeK1DwOjCFcrPGhYW1slQlwgFA5ukT3U1 SA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3prppujj9y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Apr 2023 12:58:16 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 335CwFHK030322
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 5 Apr 2023 12:58:16 GMT
-Received: from ACAGGIAN-mac.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Wed, 5 Apr 2023 05:58:14 -0700
-From: Antonio Caggiano <quic_acaggian@quicinc.com>
-To: <qemu-devel@nongnu.org>
-CC: Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, David
- Hildenbrand <david@redhat.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>
-Subject: [PATCH RFC 1/1] memory: Address space map listener
-Date: Wed, 5 Apr 2023 14:57:56 +0200
-Message-ID: <20230405125756.63290-2-quic_acaggian@quicinc.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230405125756.63290-1-quic_acaggian@quicinc.com>
-References: <20230405125756.63290-1-quic_acaggian@quicinc.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 2zOtmjHcVB9ygDyfUsAxFKx5XVYcMgol
-X-Proofpoint-ORIG-GUID: 2zOtmjHcVB9ygDyfUsAxFKx5XVYcMgol
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_08,2023-04-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- adultscore=0 mlxlogscore=999 phishscore=0 bulkscore=0 priorityscore=1501
- mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304050117
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=quic_acaggian@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3r3AtZAUKCm4PUSUfSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--digit.bounces.google.com>)
+ id 1pk2jd-0000nR-L0
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:59:33 -0400
+Received: from mail-ej1-x64a.google.com ([2a00:1450:4864:20::64a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3r3AtZAUKCm4PUSUfSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--digit.bounces.google.com>)
+ id 1pk2ja-0003aA-Co
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 08:59:33 -0400
+Received: by mail-ej1-x64a.google.com with SMTP id
+ a640c23a62f3a-93071c20d6bso32955866b.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 05:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1680699567;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=koAQPE9F3CPzP0Azi/DuIEpOs0IIxdSTScvuPiygnT4=;
+ b=lHpzMQeL2nid23yeYtNaldssYtOlLn+JV6uxUYkB7tmzXkQFV9kKJzhNLcpOMGT3Oe
+ tYS22bJVR+EQh8H2PawUKfVOGmM7YKZ++CvdPyU78ACwxZLVLSoBhdJxyu8fgno+m4ZA
+ 2XA/uR01ZQBRL2LXbjwBjrhyaUbo9dSPB0NkBKtu7xsTAykdKhXajzLaKDwGbarLs6eT
+ g2MlFk+5TWQ3VGx9BkhJcYKYUTd6AKdtTQs1c+bVUnSAJrR8hu8ZuGOdZXenpU5beQV2
+ vPIldxc4DB4ycXaxvwEcY0S88ICYikBFSPVur0lpH0VTjXEyRAHmkecUVbP3Ad8fTsSJ
+ T+QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680699567;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=koAQPE9F3CPzP0Azi/DuIEpOs0IIxdSTScvuPiygnT4=;
+ b=3OWObAjYc0ZIlifRORFpnkjximL+HIH5mjqVR2TPnaEWsF9VSvT/+Sk2xE3jQ5OwyD
+ bNss+G5gVG2uLKowRWmvoeI5wGezguLqe/9QHti5kGX/sYit0bZC4s3vg7WubD+B7DUU
+ pGIu1x4ZQ50f0KrEO58iA7pVdhLc4kqUFFh9M9UKhWeESkvYCKeJQCPp6dyShG3BgaXR
+ SajzfeOCq8oIkvwrTYl6+iIrRGL+kGa3v1ENRcGGg98VP+GCGlKlJvM5XUX+CfWS8yZs
+ F3kT0uIWAjT3hZW5nqhPEEiZqewpzIyof8i2CRcaPA0Jknl68r8nLjpvr5lfEGQw5eql
+ mt5w==
+X-Gm-Message-State: AAQBX9fiemFAp8bKOfeO/Ji4DYpJdX0vev1iituzgc0E0Yw6MUsanwlE
+ xU8Cuy3flrS0qdVPjY1/WTU76ntemRD7H582rCsRxDF/no04BuAONqoyI/o/HY1/oTqpSDirANO
+ 1dmwyXGBSgAnovHYZTdENFL5VRRgas5IgKcGFS8oewcAvleP4mUiCc1IAZg==
+X-Google-Smtp-Source: AKy350aw7zYe+CN3+TJdEDcjvQGVYYFY72BR4YrLde2cl+tuYOeIK1VMQzQZhKWNQYIkfjvprG0Ue3VhdA==
+X-Received: from digit-linux-eng.par.corp.google.com
+ ([2a00:79e0:a0:1:d1d4:d452:da86:5ee0])
+ (user=digit job=sendgmr) by 2002:a50:ce47:0:b0:502:4a93:9c51 with SMTP id
+ k7-20020a50ce47000000b005024a939c51mr1093318edj.5.1680699567435; Wed, 05 Apr
+ 2023 05:59:27 -0700 (PDT)
+Date: Wed,  5 Apr 2023 14:59:18 +0200
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
+Message-ID: <20230405125920.2951721-1-digit@google.com>
+Subject: [PATCH 0/2] Fix QEMU compilation on Debian 10
+From: "David 'Digit' Turner" <digit@google.com>
+To: qemu-devel@nongnu.org
+Cc: "David 'Digit' Turner" <digit@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::64a;
+ envelope-from=3r3AtZAUKCm4PUSUfSaaSXQ.OaYcQYg-PQhQXZaZSZg.adS@flex--digit.bounces.google.com;
+ helo=mail-ej1-x64a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 05 Apr 2023 09:21:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,109 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Introduce a MemoryListener callback for address space map events.
+QEMU does not compile on an old Debian 10 system for the
+following reasons:
 
-This will require a change to the memory listener callbacks: while it
-currently uses "self" as first argument for the callbacks, this new
-approach is going to use an "opaque" member, effectively following the
-model used for MemoryRegion and MemoryRegionOps.
+- Several sources include recent kernel headers that are
+  not provided by this system, and not listed in
+  linux-headers/
 
-Signed-off-by: Antonio Caggiano <quic_acaggian@quicinc.com>
----
- include/exec/memory.h | 19 +++++++++++++++++++
- softmmu/physmem.c     | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+)
+- The libvhost-user.c source file ends up including a
+  system kernel header, instead of the up-to-date
+  standard-headers/ version that contains the right
+  macro definition.
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 7ec6df3289..f959d53a12 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1045,6 +1045,18 @@ struct MemoryListener {
-      */
-     void (*coalesced_io_del)(MemoryListener *listener, MemoryRegionSection *section,
-                                hwaddr addr, hwaddr len);
-+
-+    /**
-+     * @map:
-+     *
-+     * Called during an address space map.
-+     *
-+     * @opaque: User data opaque object
-+     * @addr: address within that address space
-+     * @len: length of buffer
-+     */
-+    void (*map)(void *opaque, hwaddr addr, hwaddr len);
-+
-     /**
-      * @priority:
-      *
-@@ -1054,6 +1066,13 @@ struct MemoryListener {
-      */
-     unsigned priority;
- 
-+    /**
-+     * @opaque:
-+     *
-+     * Opaque pointer to user data
-+     */
-+    void *opaque;
-+
-     /**
-      * @name:
-      *
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 9486a1ebdf..0f8bad6b40 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -3246,6 +3246,38 @@ flatview_extend_translation(FlatView *fv, hwaddr addr,
-     }
- }
- 
-+enum ListenerDirection { Forward, Reverse };
-+
-+/*
-+ * This will require a change to the memory listener callbacks:
-+ * while it currently uses "self" as first argument for the callbacks, this new
-+ * approach is going to use an "opaque" member, effectively following the model
-+ * used for MemoryRegion and MemoryRegionOps.
-+ */
-+#define MEMORY_LISTENER_CALL(_as, _callback, _direction, _args...) \
-+    do {                                                                \
-+        MemoryListener *_listener;                                      \
-+                                                                        \
-+        switch (_direction) {                                           \
-+        case Forward:                                                   \
-+            QTAILQ_FOREACH(_listener, &(_as)->listeners, link_as) {     \
-+                if (_listener->_callback) {                             \
-+                    _listener->_callback(_listener->opaque, ##_args);   \
-+                }                                                       \
-+            }                                                           \
-+            break;                                                      \
-+        case Reverse:                                                   \
-+            QTAILQ_FOREACH_REVERSE(_listener, &(_as)->listeners, link_as) { \
-+                if (_listener->_callback) {                             \
-+                    _listener->_callback(_listener->opaque, ##_args);   \
-+                }                                                       \
-+            }                                                           \
-+            break;                                                      \
-+        default:                                                        \
-+            abort();                                                    \
-+        }                                                               \
-+    } while (0)
-+
- /* Map a physical memory region into a host virtual address.
-  * May map a subset of the requested range, given by and returned in *plen.
-  * May return NULL if resources needed to perform the mapping are exhausted.
-@@ -3268,6 +3300,8 @@ void *address_space_map(AddressSpace *as,
-         return NULL;
-     }
- 
-+    MEMORY_LISTENER_CALL(as, map, Reverse, addr, len);
-+
-     l = len;
-     RCU_READ_LOCK_GUARD();
-     fv = address_space_to_flatview(as);
+David 'Digit' Turner (2):
+  Fix libvhost-user.c compilation.
+  Add missing Linux kernel headers.
+
+ linux-headers/linux/const.h               |  36 +++++++
+ linux-headers/linux/memfd.h               |  35 +++++++
+ linux-headers/linux/nvme_ioctl.h          | 114 ++++++++++++++++++++++
+ linux-headers/linux/vfio.h                |  15 +--
+ scripts/update-linux-headers.sh           |   4 +-
+ subprojects/libvhost-user/libvhost-user.c |   6 ++
+ 6 files changed, 202 insertions(+), 8 deletions(-)
+ create mode 100644 linux-headers/linux/const.h
+ create mode 100644 linux-headers/linux/memfd.h
+ create mode 100644 linux-headers/linux/nvme_ioctl.h
+
 -- 
-2.40.0
+2.40.0.348.gf938b09366-goog
 
 
