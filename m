@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECE46D7283
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 04:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DCF6D7296
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 04:46:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjsvO-0005s3-Sq; Tue, 04 Apr 2023 22:31:02 -0400
+	id 1pjt97-0000rd-C4; Tue, 04 Apr 2023 22:45:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pjsvL-0005rO-C7; Tue, 04 Apr 2023 22:30:59 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pjsvI-0002rP-Fs; Tue, 04 Apr 2023 22:30:59 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-93071b2952bso12181566b.3; 
- Tue, 04 Apr 2023 19:30:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
+ id 1pjt92-0000rH-LE
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 22:45:08 -0400
+Received: from pi.codeconstruct.com.au ([203.29.241.158]
+ helo=codeconstruct.com.au)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jk@codeconstruct.com.au>)
+ id 1pjt8v-0007Cw-3K
+ for qemu-devel@nongnu.org; Tue, 04 Apr 2023 22:45:04 -0400
+Received: from pecola.lan (unknown [159.196.93.152])
+ by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 1F6AB2009F;
+ Wed,  5 Apr 2023 10:44:54 +0800 (AWST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jms.id.au; s=google; t=1680661853;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jnP57dC8rylB2761bWqyuNL0r4Jsti2x2iE31vPHG2U=;
- b=W6aRPiwpDjHHuqf52E5wfQWXwaHas0VACvNM2cacMLwC1U9hY50EjDdRuusUxCaPaA
- TUnIG0mT4GJKx3yn8X7JciMWutfoTRItooBvQUgYO4yA2ZMLXIZtIcubtAgfJELFolUP
- ICS69/C2tBErilkyOlnNREPWEP9S2Tp8QBoQo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680661853;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jnP57dC8rylB2761bWqyuNL0r4Jsti2x2iE31vPHG2U=;
- b=enQxxuT87ZEIFXLGp2MMvAAcQ24wsNSyyLafpp4V1E4lvw5bVJRABfska0QhaasRkl
- gP9JqGggvgJ1pDG4pr+Sn6sm+3lOJTLsWYfinily1zyKqaPd1rtoTf5tkGfcM1PuZw13
- Y6MHWrUS4FzzknVxxmKYbmn8CKMMvgWj4KR0OpkqLfv1Excl/QyfDndTPwrOmwAvcT9B
- mpYgm/xA5p63Ya5111SGlgKsnPYku+A0JI9tnRR1lCQldG38kohtjNZlfGscMqHtVhTH
- ZhTsuDejHinHjv10yQWdLfF3B/m9CKejYCcZUYSA9h1Tj2zgDzb+HkQZrdTH1vEQCijA
- CUaA==
-X-Gm-Message-State: AAQBX9f9mtzfccsDr9m1k8dWpQywkY9HNIa3KdutgWfr3nJvDSvEojHQ
- Ua200HhyU86ti3eiJ0qmD82FDHm0ZF82dulJF/g=
-X-Google-Smtp-Source: AKy350an400TqV10hOL4wbCkQwIo6jyO4ExqwNV/ArJCjcAW4ErxDAnNpkPHswRTVwsE9GwFNX9uRIOGtbDNKXjhWRM=
-X-Received: by 2002:a50:874e:0:b0:4fb:7e7a:ebf1 with SMTP id
- 14-20020a50874e000000b004fb7e7aebf1mr318318edv.6.1680661852826; Tue, 04 Apr
- 2023 19:30:52 -0700 (PDT)
-MIME-Version: 1.0
+ d=codeconstruct.com.au; s=2022a; t=1680662694;
+ bh=xKXc5AFfFHw6LcO/OvseefSHBk944fjVrssackMyQFE=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References;
+ b=F20FyoIO2PMi7FSVaMn6InXQ3i+C3Eyv1SeTp1253AGSfhpefczKy2PqVZGtxXRco
+ RwA68lekvyDQSgIxVHVDKATtfAMITg2KdCqUenfiBRWjKptWQjQJS4nY+mE/GlXsOR
+ DZ37bVMfwxipi08nYWs1TphUVzcLlj5Qc7MLCggyLGzSlKy/Y3hzY2lkzCnBj2sdTo
+ OXcyUwFJWyKgZrooFaGEa4YUxNdw4cKn8d4kQcTYX9QsRRMKYaTQTQ2hzDc3mY+qbn
+ fK/LPnk4hlcu5524GpCGpZJ04JdcCRlYgpW0JgdrJsyRBsTGCnxzNRNJ/xMUlHNYiW
+ Kx7rk4vrg8pog==
+Message-ID: <dc3f421cfa0aa9bc2e417ff7872fa68a311548b2.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 14/16] hw/i3c: remote_i3c: Add model
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Joe Komlodi <komlodi@google.com>
+Cc: qemu-devel@nongnu.org, venture@google.com, peter.maydell@linaro.org
+Date: Wed, 05 Apr 2023 10:44:53 +0800
+In-Reply-To: <CAGDLtxuwJndMS_L1xWz9TWadA_T4SK3Rb6cExJf9+4jJ1ssQQg@mail.gmail.com>
 References: <20230331010131.1412571-1-komlodi@google.com>
- <20230401172825.tvmfms6qbh3tmi5s@hetzy.fluff.org>
- <74148c47-8232-02d3-2c37-d12c1fe156e2@kaod.org>
- <50b19eb8929da77f150c34585f805345e460daed.camel@codeconstruct.com.au>
- <CAGDLtxv3z69dmDMpA=7dk8ADHwTaMPT-a3BceTvyidXk66+8oA@mail.gmail.com>
- <0f44daa680719e06071e3a56c61fff18f3918139.camel@codeconstruct.com.au>
-In-Reply-To: <0f44daa680719e06071e3a56c61fff18f3918139.camel@codeconstruct.com.au>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 5 Apr 2023 02:30:40 +0000
-Message-ID: <CACPK8XfdPhYdsg6T3Ux2++3ogXi_0ZJSMrqZu_mQwAEKh7TBZA@mail.gmail.com>
-Subject: Re: [PATCH 00/16] i3c: aspeed: Add I3C support
-To: Jeremy Kerr <jk@codeconstruct.com.au>
-Cc: Joe Komlodi <komlodi@google.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Ben Dooks <qemu@fluff.org>, qemu-devel@nongnu.org, venture@google.com, 
- peter.maydell@linaro.org, Andrew Jeffery <andrew@aj.id.au>,
- qemu-arm <qemu-arm@nongnu.org>, 
- Troy Lee <troy_lee@aspeedtech.com>, Graeme Gregory <quic_ggregory@quicinc.com>
+ <20230331010131.1412571-15-komlodi@google.com>
+ <3bc0910f6b8078b07f43b3dd6d04686c25829ec1.camel@codeconstruct.com.au>
+ <CAGDLtxuwJndMS_L1xWz9TWadA_T4SK3Rb6cExJf9+4jJ1ssQQg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=joel.stan@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
+MIME-Version: 1.0
+Received-SPF: pass client-ip=203.29.241.158;
+ envelope-from=jk@codeconstruct.com.au; helo=codeconstruct.com.au
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,45 +70,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 5 Apr 2023 at 02:07, Jeremy Kerr <jk@codeconstruct.com.au> wrote:
->
-> Hi Joe,
->
-> > > > Jeremy, how different is it ? Could we introduce properties or sub
-> > > > classes, to support both.
-> > >
-> > > The differences (at least from the view of the current Linux driver
-> > > implementation) are very minor; unless we want to be errata-compatible,
-> > > you could use the dw driver directly, plus the ast2600-specific global
-> > > register space.
-> > >
-> >
-> > This is my understanding as well from an outside look.
-> > From a QEMU standpoint I could split off the dwc portion into a
-> > dwc_i3c model, which the aspeed_i3c portion inherits from. I can do
-> > that in a v2 if that sounds good with everyone.
->
-> I'm not a qemu maintainer, but for the record: I'm fine with the current
-> approach. I don't have access to any of the non-aspeed dw documentation,
-> so verifying what should go into the dw model vs. what is
-> ast2600-specific has been a bit tricky.
->
-> If someone needs a non-aspeed dw model, and has a bit of documentation
-> about the underlying dw hardware, it should be easy enough to split back
-> out. Maybe just make sure any "known" divergences - like the IBI PEC
-> behaviour - are well commented.
->
-> That said, if you're keen to do the split dw+aspeed models, that's also
-> good :)
+Hi Joe,
 
-I think the split makes sense. It will help other platforms who have
-the designware part add it to their system in the future.
+> > 1) Is this something that qemu upstream would accept? Do we need a
+> > formal description of the guest-to-host interface somewhere? Or is ther=
+e
+> > a more standard way of exposing busses like this?
+> >=20
+> Not sure! I'm open to ideas.
+> I think the most controversial portion of the remote target like this
+> might be doing socket transfers in an MMIO context.
+> i.e. driver does a write to I3C controller -> triggers a transaction
+> to remote target -> remote target sends/reads data over socket.
+>=20
+> Because of that, we might need to add a way to do these transactions
+> asynchronously.
 
-Joe, when you send out the patches again please be sure to use
-get_maintianers.pl to send it to the appropriate reviewers. Thanks for
-sharing your work!
+OK, that plus the general concept of having a socket interface to the i3c
+bus might need a review from someone above my qemu pay-grade.
+
+but, on the assumption that those are acceptable in general:
+
+> > Assuming we do adopt your approach though, I think the protocol
+> > description needs some work. There seems to be other messages not liste=
+d
+> > in your protocol comments, and the direction of some seems to be
+> > reversed. I'm happy to contribute to that documentation if you like.
+>=20
+> Oops. I'll reread and revise in v2. If you have anything else you want
+> to add too, let me know and I'll add them as well.
+
+So I implemented a little daemon for the other side of the socket
+interface. I have a few thoughts on the protocol structure:
+
+ * can we change the target -> controller read response messages (data +
+   len) into a normal message type (ie, assign an opcode and use that in
+   the header)? We may want to use separate opcodes for each response
+   type.
+
+ * I would suggest expanding the start behaviour a little: the message
+   could contain the target address, and the target responds with an
+   ACK/NACK event. The model would need to block on the response in
+   order to return the correct ACK/NACK value (and pass to the
+   hardware), but this means we can either implement the protocol at the
+   bus level, or at the individual-device level.
+
+   (with the current standalone NACK event, I don't see how a model
+   could reliably handle that)
+
+ * I'm not clear on why the RemoteI3CRXEvents are defined separately.
+   Can these just be normal messages with an opcode (and no payload)?
+
+I've yet to implement IBIs though, that's next on my list. Happy to chat
+separately if this gets off-topic for the qemu general discussion.
+
+Overall though, this is great work! Thanks for the contributions.
 
 Cheers,
 
-Joel
+
+Jeremy
 
