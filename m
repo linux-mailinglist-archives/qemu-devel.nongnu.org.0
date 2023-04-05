@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18B86D74F0
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 09:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D7B6D758B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Apr 2023 09:31:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pjxAd-0006r5-Sx; Wed, 05 Apr 2023 03:03:05 -0400
+	id 1pjxbG-0004kd-58; Wed, 05 Apr 2023 03:30:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pjxAX-0006qZ-L8
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 03:02:57 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pjxAT-0002Aq-OZ
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 03:02:57 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- lr16-20020a17090b4b9000b0023f187954acso36366967pjb.2
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 00:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1680678172; x=1683270172;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=1Z0+1ZY20suxjwfAVbU4A3dZMNsDAUXYruoP0iRlgbw=;
- b=bfaJ5rgori6YxbwThhAhcny8+ENaOqPdj/1ZnE9RI31Lv3I3x+6Gvu2ifum+YFYYBC
- wAIbyuSUG+NQMKwqXJtTozuIyZVATuETlQC6yNS9aKzCnzbqyiFmb24tkccR4IGdtbGO
- cWRg2R/m05LjbIrBhxsYvuPYXnn11H9lQ4U+9+3CUYRMmEvxUUvmL8YyUzrgTPpoQb47
- VVK2Xcm54c+lFgHmFOeKfQHlT3prb4nuZWe/WYi8V21kfAIM1028hVbMue518YORaBsC
- rzRduTy5WG3pMRVCA02ADpf/v+F5M7qWbKf69QSjWspqM/zE08rWm8PZTTtCTA+YGHUP
- npMA==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pjxbD-0004h3-BQ
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 03:30:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pjxbA-0004b3-Cx
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 03:30:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680679824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l/2ZzFO68Bqaq6IVUIh0b30V2u+GScsMfuUZDZRw5Wc=;
+ b=fsX8zawxPzvHhWqGVYlaRjPb2snK+p4C4KkgCnoYcVLSxqzbrKqSrs6IeCEil+4OoHasER
+ 7jgoZIc/Nq37jbOGHuZe5l4weIjKwxF0fzkjrHE8H9piRYc8VYn55LSPJyoNEuDOu0wSFg
+ z2w8pPmBVSkiDoEnZB6xdfVbSsK9LsU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-197-8m-pv3YnNQeN2Vm8YNXx5w-1; Wed, 05 Apr 2023 03:30:23 -0400
+X-MC-Unique: 8m-pv3YnNQeN2Vm8YNXx5w-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ v1-20020a50d581000000b0050291cda08aso15558905edi.15
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 00:30:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680678172; x=1683270172;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1Z0+1ZY20suxjwfAVbU4A3dZMNsDAUXYruoP0iRlgbw=;
- b=nJdpGQvEemhfWWjMh8BxZrGnM4nbat7joCI/BJlEc80Z0h6MTQy7cLMNwL5GwefLMP
- t6IeO6aKdJV0s4FazeU5oCKNYs1zuRDcsw0EduWIq5t3+NpipToiSIryS04fbrE1voyr
- 30EASm+JYcAJ+XZlk8GkXaMMAfBp0KGK5GI/IvS0TVwIfC474Im66zzs+8En7e/PUHl9
- IgIx5A2O/gsCdmrgThucuKz2x0JqBbPrj3NOc6SZ1Aa8SKnAEeiz/9MtVH9DYnCmZVnJ
- qNt4YXxeF73iZkKmamPWP6u+p3x+Uhc7d01fVf9iVTmVHEfMIPwXMlz0jYNnXpU5DY4c
- qoTQ==
-X-Gm-Message-State: AAQBX9cyXTH531TlJ4GM5VN0ro3ZZl0RdmFWsiIqVRY0R6dgy3UdHdSU
- u5ZTnxlts2h5ax5Q/iD9n05gP4N3LVfww8+qaGnfqA==
-X-Google-Smtp-Source: AKy350YQjZiQjCktP674kxJT8eArvKfhUjlrzD/of8AUdwEKqspv9wC0kUD9MfsqmUdmA5zaHr151Q==
-X-Received: by 2002:a05:6a20:2a28:b0:dd:abea:7a78 with SMTP id
- e40-20020a056a202a2800b000ddabea7a78mr4352261pzh.16.1680678171826; 
- Wed, 05 Apr 2023 00:02:51 -0700 (PDT)
-Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- n9-20020aa79049000000b00625e885a6ffsm10210421pfo.18.2023.04.05.00.02.50
+ d=1e100.net; s=20210112; t=1680679822;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=l/2ZzFO68Bqaq6IVUIh0b30V2u+GScsMfuUZDZRw5Wc=;
+ b=QT+Xms4hJwcveFPeEMcannIKYSAFILZSHi6P+PubuxxN9Z7zVOOyI+tg5T20+1tQgj
+ 3l5tU8yubCKRCXv37zSYkU59gQmc3o9DGlYpUcfY61d3PCWTjhhW7jMbwkRKqoRpo3Zr
+ rhjX42OPjU/zqKMOv0nNLx+EIP0n8CAlkehHyDJ+BKifc62uchsf2mucLxyib1JNS+Ur
+ f8ssgIznvm4N+dX930eFKFLpYi1KuevdP5vCOSIs4gbOgQ9rPdA/FtkDYCOn4wrROeed
+ y1a/uRuNDAWPDk+wn4+2UAfZxG5ns8AwEU1yv9BL4XRNVKC/yx42seS8rxqI7fhfbXxt
+ xGeg==
+X-Gm-Message-State: AAQBX9cbM5xOhIp5+terd0QzXcctEdPYPBSUZUXLSjHziIKrhhVzK5j3
+ x1xryryzf/wXbHoUm2+RiW+7eehgMxcnKBOhjLon9TNum3Evh3/vsnunz3UL8o8a3UVUu4DJbNl
+ wPkROvjTehxu7K+k=
+X-Received: by 2002:a17:906:4d8c:b0:8b1:88aa:46da with SMTP id
+ s12-20020a1709064d8c00b008b188aa46damr2103711eju.48.1680679822198; 
+ Wed, 05 Apr 2023 00:30:22 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YIpCo/tswl/ll3U6ji8OHZrl3GlShbIJxgKVzPus9QzCqooZoX3jlpm51vwMdsNP67J0/r0A==
+X-Received: by 2002:a17:906:4d8c:b0:8b1:88aa:46da with SMTP id
+ s12-20020a1709064d8c00b008b188aa46damr2103693eju.48.1680679821868; 
+ Wed, 05 Apr 2023 00:30:21 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ gl18-20020a170906e0d200b00924d38bbdc0sm6969711ejb.105.2023.04.05.00.30.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 00:02:51 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, kvm@vger.kernel.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH] target/arm: Check if debug is already initialized
-Date: Wed,  5 Apr 2023 16:02:44 +0900
-Message-Id: <20230405070244.23464-1-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.40.0
+ Wed, 05 Apr 2023 00:30:21 -0700 (PDT)
+Date: Wed, 5 Apr 2023 09:30:20 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, anisinha@redhat.com, jusual@redhat.com,
+ kraxel@redhat.com, pbonzini@redhat.com
+Subject: Re: [PATCH] acpi: pcihp: make pending delete expire in 5sec
+Message-ID: <20230405093020.3cbcd6e7@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230404104122-mutt-send-email-mst@kernel.org>
+References: <20230403161618.1344414-1-imammedo@redhat.com>
+ <20230403131833-mutt-send-email-mst@kernel.org>
+ <20230404102807.4626b0be@imammedo.users.ipa.redhat.com>
+ <20230404084603-mutt-send-email-mst@kernel.org>
+ <20230404160435.45c2513d@imammedo.users.ipa.redhat.com>
+ <20230404104122-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,80 +105,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When virtualizing SMP system, kvm_arm_init_debug() will be called
-multiple times. Check if the debug feature is already initialized when the
-function is called; otherwise it will overwrite pointers to memory
-allocated with the previous call and leak it.
+On Tue, 4 Apr 2023 10:42:04 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Fixes: e4482ab7e3 ("target-arm: kvm - add support for HW assisted debug")
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- target/arm/kvm64.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+> On Tue, Apr 04, 2023 at 04:04:35PM +0200, Igor Mammedov wrote:
+> > On Tue, 4 Apr 2023 08:46:15 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > On Tue, Apr 04, 2023 at 10:28:07AM +0200, Igor Mammedov wrote:  
+> > > > On Mon, 3 Apr 2023 13:23:45 -0400
+> > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > >     
+> > > > > On Mon, Apr 03, 2023 at 06:16:18PM +0200, Igor Mammedov wrote:    
+> > > > > > with Q35 using ACPI PCI hotplug by default, user's request to unplug
+> > > > > > device is ignored when it's issued before guest OS has been booted.
+> > > > > > And any additional attempt to request device hot-unplug afterwards
+> > > > > > results in following error:
+> > > > > > 
+> > > > > >   "Device XYZ is already in the process of unplug"
+> > > > > > 
+> > > > > > arguably it can be considered as a regression introduced by [2],
+> > > > > > before which it was possible to issue unplug request multiple
+> > > > > > times.
+> > > > > > 
+> > > > > > Allowing pending delete expire brings ACPI PCI hotplug on par
+> > > > > > with native PCIe unplug behavior [1] which in its turn refers
+> > > > > > back to ACPI PCI hotplug ability to repeat unplug requests.
+> > > > > > 
+> > > > > > PS:      
+> > > > > > >From ACPI point of view, unplug request sets PCI hotplug status      
+> > > > > > bit in GPE0 block. However depending on OSPM, status bits may
+> > > > > > be retained (Windows) or cleared (Linux) during guest's ACPI
+> > > > > > subsystem initialization, and as result Linux guest looses
+> > > > > > plug/unplug event (no SCI generated) if plug/unplug has
+> > > > > > happend before guest OS initialized GPE registers handling.
+> > > > > > I couldn't find any restrictions wrt OPM clearing GPE status
+> > > > > > bits ACPI spec.
+> > > > > > Hence a fallback approach is to let user repeat unplug request
+> > > > > > later at the time when guest OS has booted.
+> > > > > > 
+> > > > > > 1) 18416c62e3 ("pcie: expire pending delete")
+> > > > > > 2)
+> > > > > > Fixes: cce8944cc9ef ("qdev-monitor: Forbid repeated device_del")
+> > > > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>      
+> > > > > 
+> > > > > A bit concerned about how this interacts with failover,
+> > > > > and 5sec is a lot of time that I hoped we'd avoid with acpi.
+> > > > > Any better ideas of catching such misbehaving guests?    
+> > > > 
+> > > > It shouldn't affect affect failover, pending_delete is not
+> > > > cleared after all (only device removal should do that).
+> > > > So all patch does is allowing to reissue unplug request
+> > > > in case it was lost, delay here doesn't mean much
+> > > > (do you have any preference wrt specific value)?    
+> > > 
+> > > I'd prefer immediately.  
+> > 
+> > ok, lets use 1ms then, I'd rather reuse the preexisting
+> > pending_deleted_expires_ms machinery instead of
+> > special-casing immediate repeat.  
+> 
+> And just to make sure, are you working on fixing this in Linux
+> at least? Because the work around is ok but it still causes
+> latency.
 
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 1197253d12..d2fce5e582 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -32,7 +32,11 @@
- #include "hw/acpi/ghes.h"
- #include "hw/arm/virt.h"
- 
--static bool have_guest_debug;
-+static enum {
-+    GUEST_DEBUG_UNINITED,
-+    GUEST_DEBUG_INITED,
-+    GUEST_DEBUG_UNAVAILABLE,
-+} guest_debug;
- 
- /*
-  * Although the ARM implementation of hardware assisted debugging
-@@ -84,8 +88,14 @@ GArray *hw_breakpoints, *hw_watchpoints;
-  */
- static void kvm_arm_init_debug(CPUState *cs)
- {
--    have_guest_debug = kvm_check_extension(cs->kvm_state,
--                                           KVM_CAP_SET_GUEST_DEBUG);
-+    if (guest_debug) {
-+        return;
-+    }
-+
-+    if (!kvm_check_extension(cs->kvm_state, KVM_CAP_SET_GUEST_DEBUG)) {
-+        guest_debug = GUEST_DEBUG_UNAVAILABLE;
-+        return;
-+    }
- 
-     max_hw_wps = kvm_check_extension(cs->kvm_state, KVM_CAP_GUEST_DEBUG_HW_WPS);
-     hw_watchpoints = g_array_sized_new(true, true,
-@@ -94,7 +104,8 @@ static void kvm_arm_init_debug(CPUState *cs)
-     max_hw_bps = kvm_check_extension(cs->kvm_state, KVM_CAP_GUEST_DEBUG_HW_BPS);
-     hw_breakpoints = g_array_sized_new(true, true,
-                                        sizeof(HWBreakpoint), max_hw_bps);
--    return;
-+
-+    guest_debug = GUEST_DEBUG_INITED;
- }
- 
- /**
-@@ -1483,7 +1494,7 @@ static const uint32_t brk_insn = 0xd4200000;
- 
- int kvm_arch_insert_sw_breakpoint(CPUState *cs, struct kvm_sw_breakpoint *bp)
- {
--    if (have_guest_debug) {
-+    if (guest_debug == GUEST_DEBUG_INITED) {
-         if (cpu_memory_rw_debug(cs, bp->pc, (uint8_t *)&bp->saved_insn, 4, 0) ||
-             cpu_memory_rw_debug(cs, bp->pc, (uint8_t *)&brk_insn, 4, 1)) {
-             return -EINVAL;
-@@ -1499,7 +1510,7 @@ int kvm_arch_remove_sw_breakpoint(CPUState *cs, struct kvm_sw_breakpoint *bp)
- {
-     static uint32_t brk;
- 
--    if (have_guest_debug) {
-+    if (guest_debug == GUEST_DEBUG_INITED) {
-         if (cpu_memory_rw_debug(cs, bp->pc, (uint8_t *)&brk, 4, 0) ||
-             brk != brk_insn ||
-             cpu_memory_rw_debug(cs, bp->pc, (uint8_t *)&bp->saved_insn, 4, 1)) {
--- 
-2.40.0
+
+Fixing what, clearing GPE status bits during ACPI subsystem
+initialization?
+
+Well at this point I'm not seeing a good justification for
+removing GPE clearing (spec does not mandate that).
+(but there is no harm in trying to send a patch, though
+even if idea is accepted it won't do a dime for all current
+and older distributions history show it was the thing even
+since 2.6 kernels).
+
+As for workaround, well it's not a workaround, but expected
+behavior. 
+ACPI hotplug expects functioning OSPM on guest side to work
+properly. It's user's mistake to ask for unplug before that 
+and user shall repeat request once guest is booted. What is
+broken on QEMU side is that 'repeat' thingy (as it's noted
+in commit message).
+
+PS:
+See commit message, Windows is not affected as it doesn't
+clear GPE status bits during ACPI initialization
+(at least the one version I've tested with, and I won't bet
+on this with other versions or staying this way)
+
+> 
+> > >   
+> > > > As for 'misbehaving' - I tried to find justification
+> > > > for it in spec, but I couldn't.
+> > > > Essentially it's upto OSPM to clear or not GPE status
+> > > > bits at startup (linux was doing it since forever),
+> > > > depending on guest's ability to handle hotplug events
+> > > > at boot time.
+> > > > 
+> > > > It's more a user error, ACPI hotplug does imply booted
+> > > > guest for it to function properly. So it's fine to
+> > > > loose unplug event at boot time. What QEMU does wrong is
+> > > > preventing follow up unplug requests.  
+> > > >     
+> > > > > 
+> > > > > Also at this point I do not know why we deny hotplug
+> > > > > pending_deleted_event in qdev core.  
+> > > > > Commit log says:
+> > > > > 
+> > > > >     Device unplug can be done asynchronously. Thus, sending the second
+> > > > >     device_del before the previous unplug is complete may lead to
+> > > > >     unexpected results. On PCIe devices, this cancels the hot-unplug
+> > > > >     process.
+> > > > > 
+> > > > > so it's a work around for an issue in pcie hotplug (and maybe shpc
+> > > > > too?). Maybe we should have put that check in pcie/shpc and
+> > > > > leave acpi along?
+> > > > > 
+> > > > > 
+> > > > > 
+> > > > >     
+> > > > > > ---
+> > > > > > CC: mst@redhat.com
+> > > > > > CC: anisinha@redhat.com
+> > > > > > CC: jusual@redhat.com
+> > > > > > CC: kraxel@redhat.com
+> > > > > > ---
+> > > > > >  hw/acpi/pcihp.c | 2 ++
+> > > > > >  1 file changed, 2 insertions(+)
+> > > > > > 
+> > > > > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > > > > > index dcfb779a7a..cd4f9fee0a 100644
+> > > > > > --- a/hw/acpi/pcihp.c
+> > > > > > +++ b/hw/acpi/pcihp.c
+> > > > > > @@ -357,6 +357,8 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+> > > > > >       * acpi_pcihp_eject_slot() when the operation is completed.
+> > > > > >       */
+> > > > > >      pdev->qdev.pending_deleted_event = true;
+> > > > > > +    pdev->qdev.pending_deleted_expires_ms =
+> > > > > > +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 5000; /* 5 secs */
+> > > > > >      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
+> > > > > >      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
+> > > > > >  }
+> > > > > > -- 
+> > > > > > 2.39.1      
+> > > > >     
+> > >   
+> 
 
 
