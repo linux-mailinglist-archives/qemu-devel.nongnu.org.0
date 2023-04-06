@@ -2,80 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE9B6D983A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE90B6D994F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 16:15:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkPfl-0002yY-5q; Thu, 06 Apr 2023 09:29:05 -0400
+	id 1pkQMy-0003Le-JD; Thu, 06 Apr 2023 10:13:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1pkPfi-0002yN-U3
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:29:03 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1pkPfh-0004hH-6X
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:29:02 -0400
-Received: by mail-pf1-x436.google.com with SMTP id y2so25776307pfw.9
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 06:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680787740;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6IbWi9AYylmMC6HKIK8ULl0MOrEJWIU17u5I5UW81oY=;
- b=dCel0PRKKWRsBStq5nu0oCMUtzZRbybsl6sKaSktPq6dH43fOOf39oDavjM866nUJS
- qykUWGjE4oBnTKuFnraJtyOzgaNlTHWXqbedI8r+sNncxKLgJVFVX3NfDHiHuSwhUhWl
- 7FeEav0qC3urznQoC+yWb1FtNOoHMAVVTo50nj8mFYWvrploegaWPSwMQHR+gSof76II
- 9AgFrR48gkQnBme+r0r1lLI/M5Jrup62JEn6yfHIoPM9OTxrhRoKE0N4qrWk16R6Zna7
- 4PW+qMxQozgE/Qp/SPKmG8juxB8B+CUTGVyDBjZJMSorIF/gd36LFEXgAiYItEGSZd0I
- SQlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680787740;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6IbWi9AYylmMC6HKIK8ULl0MOrEJWIU17u5I5UW81oY=;
- b=j4J2CrTvgqgvmoEK5nETIh3lVC/QSIw50aCyavnMQaj31UpR4XjFFpvm3Hgh4o+GvW
- GMrSKqvm/y2Jd3hIyBa5JVagOVr+x4HEi9I64vsCOjVU6Cpn0+/hOIwTyQ7f/c8nON+s
- NV0y54E/56Qflvs1bCl9ryevIeCm3XLoJic+R3NqRm50amsapNugZSr+9G9vOzC2HVo7
- 3zi2kxbRKpHx+W4rxGfLFVHg2pYM0mXkjP4vqs/GcqxFt523Fwkn9N18068boaOREoDG
- bfqDQIuRnN7x2iIOESgi30TWB2QIvmgxjGRcYm4b034DEC8Sz9bNFZR4AktIxCjRIk54
- UCRg==
-X-Gm-Message-State: AAQBX9e2WV00ACb6/ttxPIUH1Albx3K0WwBCfKlv958XpHBKep7NveNt
- UbOJlSsQqMG4H4zJAiiOGxI=
-X-Google-Smtp-Source: AKy350buzdYHQ1MRFhyolDEYTpkyydZSQAQdlvnUvRaI+Y5i0pPYX1dSdPkLL4d7k1GgiZ0BX6El4A==
-X-Received: by 2002:a05:6a00:4502:b0:594:1f1c:3d3b with SMTP id
- cw2-20020a056a00450200b005941f1c3d3bmr6148931pfb.16.1680787739742; 
- Thu, 06 Apr 2023 06:28:59 -0700 (PDT)
-Received: from raghuh-elastics.. ([2406:7400:56:45c3:5697:bbf2:968:7051])
- by smtp.gmail.com with ESMTPSA id
- c20-20020a62e814000000b005cdbd9c8825sm1349883pfi.195.2023.04.06.06.28.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 06:28:59 -0700 (PDT)
-From: Raghu H <raghuhack78@gmail.com>
-To: maverickk1778@gmail.com, Jonathan.Cameron@huawei.com, qemu-devel@nongnu.org
-Cc: Raghu H <raghuhack78@gmail.com>
-Subject: [PATCH v2 2/2] docs/cxl: Replace unsupported AARCH64 with x86_64
-Date: Thu,  6 Apr 2023 18:58:39 +0530
-Message-Id: <20230406132839.3357195-3-raghuhack78@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230406132839.3357195-1-raghuhack78@gmail.com>
-References: <20230406113640.0000277c@Huawei.com>
- <20230406132839.3357195-1-raghuhack78@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pkQMw-0003LV-4B
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 10:13:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1pkQMt-0006TK-5j
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 10:13:41 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 336D3pIR011934; Thu, 6 Apr 2023 14:13:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ZzclgH5FUPvaNfXJGtOt4d/gBTNOKJeoVhRcBstwChI=;
+ b=cyVpn8MVwYZ3spHGCJOuiqM4VqZQEO7jMTrSFe67pjJio6oWedzi2bQx0FIZibo1tY9B
+ 1qw3OoXUFMZ9ZgwItZyoar+Iq9uVvI+OreSuB0nVJJcW2C9K3AHvHoLB/N/kOR6t20a0
+ 40uiAxXp72fvzPwfbSskORw5vLs4yfQQy4cxbGadwKeWBzyRcFNqb5hm9+jR8o0jH7ZQ
+ /72i0x+90Ba2/rLWMr058nQOzzZTyJZ4l4/csKDTZuGyxF+ZaIUldeQwoPgi7Iy+pwup
+ MDLcKt9NGG3MTCkg1CjqnQCAiZN4vuTiuyuF2JWNRT6rksD2kWzHhB0CZTaAahHCcu+x hQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3psta9gd3k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Apr 2023 14:13:35 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 336DNpv4025806;
+ Thu, 6 Apr 2023 14:13:34 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3psta9gd3a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Apr 2023 14:13:34 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 336Cck7o022336;
+ Thu, 6 Apr 2023 14:13:33 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
+ by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3ppc88smp7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Apr 2023 14:13:33 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
+ [10.241.53.102])
+ by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 336EDWhN41419236
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 6 Apr 2023 14:13:32 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B4E105803F;
+ Thu,  6 Apr 2023 14:13:32 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 567C758056;
+ Thu,  6 Apr 2023 14:13:32 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  6 Apr 2023 14:13:32 +0000 (GMT)
+Message-ID: <8520898b-14e8-33a8-c34f-e98fecbedcb3@linux.ibm.com>
+Date: Thu, 6 Apr 2023 10:13:31 -0400
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PULL v2 05/25] error: add global &error_warn destination
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
+ <20230313114648.426607-6-marcandre.lureau@redhat.com>
+ <CAFEAcA9zNpzj_VU3ysWaa24tTqaBDcB9o1+0HhO0R7hhVOdgdA@mail.gmail.com>
+ <CAFEAcA9_GP8HqtYgG4mice_ACd8eqFLF6qrMYRz_5oe_HSM=-g@mail.gmail.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <CAFEAcA9_GP8HqtYgG4mice_ACd8eqFLF6qrMYRz_5oe_HSM=-g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=raghuhack78@gmail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: UsqThuXjHh8CC-t6s5G1qjXPegGzYSME
+X-Proofpoint-ORIG-GUID: 3j3_cauw9tzog8p6VkQqFWIjLpfNgTNN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-06_06,2023-04-06_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 spamscore=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 mlxscore=0
+ mlxlogscore=999 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303200000 definitions=main-2304060124
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,47 +121,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently Qemu CXL emulation support is not availabe on AARCH64 but its
-available with qemu x86_64 architecture, updating the document to reflect
-the supported platform.
 
-Signed-off-by: Raghu H <raghuhack78@gmail.com>
----
- docs/system/devices/cxl.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-index 46f9ae9bf1..2ca5a78c51 100644
---- a/docs/system/devices/cxl.rst
-+++ b/docs/system/devices/cxl.rst
-@@ -302,7 +302,7 @@ Example command lines
- ---------------------
- A very simple setup with just one directly attached CXL Type 3 device::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -M q35,cxl=on -m 4G,maxmem=8G,slots=8 -smp 4 \
-   ...
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
-@@ -315,7 +315,7 @@ A setup suitable for 4 way interleave. Only one fixed window provided, to enable
- interleave across 2 CXL host bridges.  Each host bridge has 2 CXL Root Ports, with
- the CXL Type3 device directly attached (no switches).::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -M q35,cxl=on -m 4G,maxmem=8G,slots=8 -smp 4 \
-   ...
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M \
-@@ -339,7 +339,7 @@ the CXL Type3 device directly attached (no switches).::
- 
- An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -M q35,cxl=on -m 4G,maxmem=8G,slots=8 -smp 4 \
-   ...
-   -object memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M \
--- 
-2.34.1
+On 4/6/23 09:17, Peter Maydell wrote:
+> On Thu, 6 Apr 2023 at 14:16, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Mon, 13 Mar 2023 at 11:47, <marcandre.lureau@redhat.com> wrote:
+>>>
+>>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>>
+>>> This can help debugging issues or develop, when error handling is
+>>> introduced.
+>>>
+>>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+>>> Message-Id: <20230221124802.4103554-6-marcandre.lureau@redhat.com>
+>>
+>> Hi; Coverity points out that this introduces a use-after-free
+>> (CID 1507493):
+> 
+> ...and also CID 1508179 (same issue, just one warning about the
+> callsite in error_setv() and one about the callsite in
+> error_propagate()).
+> 
+> thanks
+> -- PMM
+> 
+
+I'll be out starting tomorrow. I don't see Marc-André online.
+
+Would this be acceptable?
+It ensures that if error_handle() returns, err has been freed.
+In the other two cases a copy is being made of the Error that can then be used after the error_handle() call.
+
+
+diff --git a/util/error.c b/util/error.c
+index 5537245da6..7a2296e969 100644
+--- a/util/error.c
++++ b/util/error.c
+@@ -46,6 +46,8 @@ static void error_handle(Error **errp, Error *err)
+      }
+      if (errp == &error_warn) {
+          warn_report_err(err);
++    } else {
++        error_free(err);
+      }
+  }
+
+@@ -55,7 +57,7 @@ static void error_setv(Error **errp,
+                         ErrorClass err_class, const char *fmt, va_list ap,
+                         const char *suffix)
+  {
+-    Error *err;
++    Error *err, *err_bak;
+      int saved_errno = errno;
+
+      if (errp == NULL) {
+@@ -75,8 +77,10 @@ static void error_setv(Error **errp,
+      err->line = line;
+      err->func = func;
+
++    err_bak = error_copy(err);
+      error_handle(errp, err);
+-    *errp = err;
++
++    *errp = err_bak;
+
+      errno = saved_errno;
+  }
+@@ -285,14 +289,14 @@ void error_free_or_abort(Error **errp)
+
+  void error_propagate(Error **dst_errp, Error *local_err)
+  {
++    Error *local_err_bak;
+      if (!local_err) {
+          return;
+      }
++    local_err_bak = error_copy(local_err);
+      error_handle(dst_errp, local_err);
+      if (dst_errp && !*dst_errp) {
+-        *dst_errp = local_err;
+-    } else {
+-        error_free(local_err);
++        *dst_errp = local_err_bak;
+      }
+  }
 
 
