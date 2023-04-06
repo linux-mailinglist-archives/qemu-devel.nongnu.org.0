@@ -2,87 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B3E6D9E0B
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9EB6D9E0A
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 18:57:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkSuV-0004GJ-HQ; Thu, 06 Apr 2023 12:56:31 -0400
+	id 1pkSuV-0004GH-93; Thu, 06 Apr 2023 12:56:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pkSuT-0004FW-Aa
+ id 1pkSuT-0004FJ-2t
  for qemu-devel@nongnu.org; Thu, 06 Apr 2023 12:56:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pkSuQ-0000YX-0T
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 12:56:29 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 336GhdlN008397; Thu, 6 Apr 2023 16:56:24 GMT
+ id 1pkSuQ-0000Yb-Hf
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 12:56:28 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 336FV8BU008416; Thu, 6 Apr 2023 16:56:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=cWm2DVdiGycSq3yBhOLKPQZ65meQJjq6d5A+Z86PLig=;
- b=SL/rea5b9iUYLaJ1q8RVeSQwYfwpd60OprrpqsybZSLproN6C8DS0dvG6MCUZ5Kp4uvi
- /wUxN0Tw6VH3ryMF/TggkKOza/c9m5kj8yujwM8c9ITn5ZpBsFvhhvs6s/P6aWfyvo1l
- /5RC1+qRIbrJoGmsDuXY+4BA3t5pxhEDmw/mAc3Oluf8W4yu/q1lwpowwmgC2c5iGPiZ
- Pijgbphe4/RnQQur59d/qg6hGw6hTveZEx2b6mGP3Fwiq55u1Dxf76kZZFt3Ky9JFa7y
- 5xOBXkFk3ZygtlCSYhVxLguDMyiyqOkYpS/aD8SAk4TIDBqZ1x6lbG1eeos+92l7LGes RA== 
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3psajp1nxc-1
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=PseD9JjBXD0WaqtFHKIPDbEs3HeefOyk1JGPC70vwq4=;
+ b=Azd7hcdLncxg1M4/wEZN1c7kJBCflOnb+O9x9UjpwLPjaISvyZDbEdNtHe9uJzxQFg3g
+ Iaoe/VVTDbTBLoeUcU+Nb3V+70RMEz3d4ObiauW+09BxZJ6giCi2sEddr6l+k11qjkRc
+ o+XcYGyiMpWtHKg3/zLwLErI9ASPD9MJvOmZf6PODKpkuCkP8xpp70XqG0j3CtJW5NLu
+ 352ndMiqWrYShRgXbVHI0O92k2L0oDngkWvkOuzyq4R2F6IRJ/m1pGIoBbQLCmiY6FwF
+ 9YtoonWFxt0Ey6NWBn7nMlmQi2aHO8XOFa4ln0gOn895X+m1ItuFLVs8zcNzXzze1o5p Pw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pt0n82e0m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 06 Apr 2023 16:56:24 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 336FQsdx023796;
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 336GSb5x001055;
+ Thu, 6 Apr 2023 16:56:24 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pt0n82e0d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Apr 2023 16:56:24 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 336FVACO008617;
  Thu, 6 Apr 2023 16:56:23 GMT
 Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
- by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3ppc88knvh-1
+ by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3ppc883nbr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 06 Apr 2023 16:56:23 +0000
 Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com
  [10.39.53.231])
  by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 336GuMqi31326958
+ 336GuM0331326962
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 6 Apr 2023 16:56:22 GMT
 Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 164E258045;
+ by IMSVA (Postfix) with ESMTP id CAADF58052;
  Thu,  6 Apr 2023 16:56:22 +0000 (GMT)
 Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9829B58050;
- Thu,  6 Apr 2023 16:56:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3D21058045;
+ Thu,  6 Apr 2023 16:56:22 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  6 Apr 2023 16:56:21 +0000 (GMT)
+ Thu,  6 Apr 2023 16:56:22 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PULL 0/1] Fix use-after-free errors in util/error.c
-Date: Thu,  6 Apr 2023 12:56:14 -0400
-Message-Id: <20230406165615.4102782-1-stefanb@linux.ibm.com>
+Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 1/1] util/error: Fix use-after-free errors reported by Coverity
+Date: Thu,  6 Apr 2023 12:56:15 -0400
+Message-Id: <20230406165615.4102782-2-stefanb@linux.ibm.com>
 X-Mailer: git-send-email 2.39.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: wYBPEwWEiOXTJRhnFQXPcxxg7OSHOyAX
-X-Proofpoint-GUID: wYBPEwWEiOXTJRhnFQXPcxxg7OSHOyAX
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20230406165615.4102782-1-stefanb@linux.ibm.com>
+References: <20230406165615.4102782-1-stefanb@linux.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9d1154yNZGw-NGpEuY64FBnflAKHdBWT
+X-Proofpoint-ORIG-GUID: Aw2qzO4tnr8uv-P2v0Q70rtqtVj-gGbe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-06_09,2023-04-06_03,2023-02-09_01
+ definitions=2023-04-06_10,2023-04-06_03,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0 priorityscore=1501
- mlxlogscore=571 lowpriorityscore=0 phishscore=0 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304060148
+ clxscore=1015
+ priorityscore=1501 malwarescore=0 mlxscore=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 mlxlogscore=965 spamscore=0 suspectscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304060148
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -104,33 +114,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello!
+Fix use-after-free errors in the code path that called error_handle(). A
+call to error_handle() will now either free the passed Error 'err' or
+assign it to '*errp' if '*errp' is currently NULL. This ensures that 'err'
+either has been freed or is assigned to '*errp' if this function returns.
+Adjust the two callers of this function to not assign the 'err' to '*errp'
+themselves, since this is now handled by error_handle().
 
-   This PR fixes use-after-free errors in util/error.c as reported by Coverity.
-
-Regards,
-   Stefan
-
-
-The following changes since commit 60ca584b8af0de525656f959991a440f8c191f12:
-
-  Merge tag 'pull-for-8.0-220323-1' of https://gitlab.com/stsquad/qemu into staging (2023-03-22 17:58:12 +0000)
-
-are available in the Git repository at:
-
-  https://github.com/stefanberger/qemu-tpm.git tags/pull_error_handle_fix_use_after_free.v1
-
-for you to fetch changes up to cc40b8b8448de351f0d15412f20d428712b2e207:
-
-  util/error: Fix use-after-free errors reported by Coverity (2023-04-06 12:38:42 -0400)
-
-----------------------------------------------------------------
-Stefan Berger (1):
-      util/error: Fix use-after-free errors reported by Coverity
-
+Fixes: commit 3ffef1a55ca3 ("error: add global &error_warn destination")
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-id: 20230406154347.4100700-1-stefanb@linux.ibm.com
+---
  util/error.c | 10 ++++------
  1 file changed, 4 insertions(+), 6 deletions(-)
 
+diff --git a/util/error.c b/util/error.c
+index 5537245da6..e5e247209a 100644
+--- a/util/error.c
++++ b/util/error.c
+@@ -46,6 +46,10 @@ static void error_handle(Error **errp, Error *err)
+     }
+     if (errp == &error_warn) {
+         warn_report_err(err);
++    } else if (errp && !*errp) {
++        *errp = err;
++    } else {
++        error_free(err);
+     }
+ }
+ 
+@@ -76,7 +80,6 @@ static void error_setv(Error **errp,
+     err->func = func;
+ 
+     error_handle(errp, err);
+-    *errp = err;
+ 
+     errno = saved_errno;
+ }
+@@ -289,11 +292,6 @@ void error_propagate(Error **dst_errp, Error *local_err)
+         return;
+     }
+     error_handle(dst_errp, local_err);
+-    if (dst_errp && !*dst_errp) {
+-        *dst_errp = local_err;
+-    } else {
+-        error_free(local_err);
+-    }
+ }
+ 
+ void error_propagate_prepend(Error **dst_errp, Error *err,
 -- 
 2.39.1
 
