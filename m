@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12926DA27E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 22:19:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780856DA28D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 22:22:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkW4g-00076F-Lg; Thu, 06 Apr 2023 16:19:14 -0400
+	id 1pkW7F-00088r-E7; Thu, 06 Apr 2023 16:21:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1pkW4e-000760-ON; Thu, 06 Apr 2023 16:19:12 -0400
+ id 1pkW7D-00088V-9L; Thu, 06 Apr 2023 16:21:51 -0400
 Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1pkW4c-0005mt-85; Thu, 06 Apr 2023 16:19:12 -0400
+ id 1pkW7A-0001HC-5O; Thu, 06 Apr 2023 16:21:51 -0400
 Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-536af432ee5so761884667b3.0; 
- Thu, 06 Apr 2023 13:19:09 -0700 (PDT)
+ 00721157ae682-54c061acbc9so81235257b3.11; 
+ Thu, 06 Apr 2023 13:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680812349;
+ d=gmail.com; s=20210112; t=1680812506;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QW7iVzywVli8sxVgWsjUGFQia6PRWzEb61XhKSuAwXU=;
- b=Ipa7UR9IbtiQOaGVjGzLdq0mgojZ3lKSgOJnxAMFMRmMOkQKF4s2qA9DEj+URwDbmh
- 7WDkMbo1URDz5mXEfZW0hCgAxyz3yZy2ri6bTOIKM+YPKuRh6Ndm0jFCNKq3/u9+xTso
- aTWisEYikgv7WgECJSfihbU0OReb9sWxn13ajdqryXrbQbFe2vF3dabzLrAkYblFr4+d
- OCOlob3ZW9BODfx43DT7QpMidudO61JhMw2MIh2Qjdn26AGg2d8AxaUweTsyqqg9qhTF
- Dl4X1QAOJ1gjbEXl9B7B4j3AZ734prwDFYAvHZbhXco52fybf8+bKD2JNkG3vJoCnu7Y
- Ie5Q==
+ bh=hwZIOk9r8WecfKC7qcRFGFJG7SUVCUqRcjrp8HwA4Ek=;
+ b=W5mZuJFB578NfKe7LCRwEzhXFryUgbcbtXSZhaUPhMqCJQi9VdKJg+bnnGz8GR1GLa
+ XQHWlOhwuB43J5u1IlC8hcfIe0QFDSPQZzf9En2TbdedihcG6JO47h4fjEbxtIi1R299
+ /XfJSkNu2YPyTqwYTZrAKCahrtWsm3o15ttZPb9txxn8zKn4wq+GCS0RmIERUaJ4a+RI
+ 3EQ6oqQEQTaw1f+0Dq6LpiYFrFmN1NIXeHjgOjoIStq+3+oGYleS5EUCLkp1rs25t8Rp
+ c05O8meRYGD4bfj7JtXyXHZGySLbNEcTYS+iPsqzoBtnToZv/+qFMxdwA0ufu6RmTMDU
+ K/fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680812349;
+ d=1e100.net; s=20210112; t=1680812506;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=QW7iVzywVli8sxVgWsjUGFQia6PRWzEb61XhKSuAwXU=;
- b=UUGpVGKo1EaCEslctjb5vVImEo5T/gjPnOh2BRI9v3OpskiRPQvTrK27LM0yVy3/vf
- FclEEJZ+cJih+KiCUU3dV2sGgICruCKpnw9SBC9R+6GPo5JoEwHafZ2GmV4xR+pLzD+S
- A1fjPvbNXK0BjxMtijDbJAH0T33BfOFM6811x+kB+1XaaXfyyQ5/w7AdnzRBXHu0cQa8
- dcc2Gd/AIf+b7FRuZMyJL9Yc8dqBGa7i83u1m+0p4whsfvaXh4rBRx30mXJD0nHffLcg
- qm6Hvq/xZyZWX0mGAxb9fn8hhSbatD7o6+ylPpUrZo5JfQf2OmCjuOHMeSnDu2Hh5IQf
- pK3Q==
-X-Gm-Message-State: AAQBX9fsqk/L2WJjuLYHUSfvGYT6F2b6z3vxJZdIIad9QmNkYSge0DKx
- +G/8oBLtNdu3KjvdpV2IZq1uJ+ofQR4euhpcyl4=
-X-Google-Smtp-Source: AKy350aaTuiWkiSkply0Fe9LIO5K+z1OOvszEIHQ4sc+3Bvn1lf3oOu6Q0cgIR39//Xhs90LrSOTKo5QbkSbpwHA/oQ=
-X-Received: by 2002:a81:e545:0:b0:545:4133:fc40 with SMTP id
- c5-20020a81e545000000b005454133fc40mr6345551ywm.9.1680812348810; Thu, 06 Apr
- 2023 13:19:08 -0700 (PDT)
+ bh=hwZIOk9r8WecfKC7qcRFGFJG7SUVCUqRcjrp8HwA4Ek=;
+ b=s4d27vLzldlqSJfRjNEvFgLH/j0QE7OxiBVdwNebL0NON2LGU4G8gBV/5gMTPy5gUk
+ I1QvNS7Mr1tF03lvW/V5/bAcJRFYDNt92C+9Tk1a3zb2puTg9+H8wQkarnELLgpkhfAZ
+ Cdjygj73z0DG0JU1948LZNculNBY+OCDWd6nkOl8eZbFwd99fwxRMciJKnoBUDkKyRZn
+ 32NDPPup8WEjx08rdnHu7IxYYpMEFwK8xEH9C+o6lmX9f+s+WyqFTZCEvXhMZH30tve3
+ 2yvZIqdj6ln7ibHTX9NGi3UzuxJ/a+/BFtxyxuQP1JtYlsmH96kuCwQmp9hZcLtVAZE3
+ z31A==
+X-Gm-Message-State: AAQBX9egjY/LU9H2jD6Prjyua+E7cyI1gOGjrRmFfd4gXdvrGvKl8eCp
+ CvrL38u23d9jiPhzb81OdjM3BRMvzUk9GK4osLfdeIOHyYs=
+X-Google-Smtp-Source: AKy350Zt1kj4mmSKSdG/nqdKJkL7iHcqNMhUVnYx/6AOoAibQJCzUuojmq8DYHlWYqg1MF0ho0AFpYgxWUPr57r/dLA=
+X-Received: by 2002:a81:c406:0:b0:534:d71f:14e6 with SMTP id
+ j6-20020a81c406000000b00534d71f14e6mr6683197ywi.9.1680812505737; Thu, 06 Apr
+ 2023 13:21:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230328054654.18620-1-qianfanguijin@163.com>
- <20230328054654.18620-8-qianfanguijin@163.com>
-In-Reply-To: <20230328054654.18620-8-qianfanguijin@163.com>
+References: <20230328054832.18790-1-qianfanguijin@163.com>
+ <20230328054832.18790-2-qianfanguijin@163.com>
+In-Reply-To: <20230328054832.18790-2-qianfanguijin@163.com>
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Thu, 6 Apr 2023 22:18:57 +0200
-Message-ID: <CAPan3Wpm6KqrXrdtrSqQPGAQGwJpiraUj0n3FKJOAoSrR1c71w@mail.gmail.com>
-Subject: Re: [PATCH v2 07/12] hw: sd: allwinner-sdhost: Add sun50i-a64 SoC
- support
+Date: Thu, 6 Apr 2023 22:21:34 +0200
+Message-ID: <CAPan3WpDB-Zhck8TQO_6Tu4Et11qKL=Vyro=fCbnTwDDhEha6Q@mail.gmail.com>
+Subject: Re: [PATCH v2 11/12] tests: avocado: boot_linux_console: Add test
+ case for bpim2u
 To: qianfanguijin@163.com
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, 
  Beniamino Galvani <b.galvani@gmail.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000fc2a9005f8b09ee2"
+Content-Type: multipart/alternative; boundary="00000000000056af0505f8b0a83c"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
  envelope-from=nieklinnenbank@gmail.com; helo=mail-yw1-x1131.google.com
 X-Spam_score_int: -20
@@ -88,568 +88,645 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000fc2a9005f8b09ee2
+--00000000000056af0505f8b0a83c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 28, 2023 at 7:47=E2=80=AFAM <qianfanguijin@163.com> wrote:
+Hi Qianfan,
+
+The tests look good to me and are working OK:
+
+ARMBIAN_ARTIFACTS_CACHED=3Dyes AVOCADO_ALLOW_LARGE_STORAGE=3Dyes
+./build/tests/venv/bin/avocado --show=3Dapp,console run -t machine:bpim2u
+tests/avocado/boot_linux_console.py
+ (1/4)
+tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_bpim2u:
+/console: [    0.000000] Booting Linux on physical CPU 0x0
+console: [    0.000000] Linux version 5.10.16-sunxi (root@beast)
+(arm-linux-gnueabihf-gcc (GNU Toolchain for the A-profile Architecture
+8.3-2019.03 (arm-rel-8.36)) 8.3.0, GNU ld (GNU Toolchain for the A-profile
+Architecture 8.3-2019.03 (arm-rel-8.36)) 2.32.0.20190321) #21.02.2 SMP Sun
+Feb 14 21:12:17 CET 2021
+console: [    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7),
+cr=3D50c5387d
+...
+PASS (15.77 s)
+RESULTS    : PASS 4 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 |
+CANCEL 0
+JOB TIME   : 62.90 s
+
+So for me:
+
+Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+
+
+On Tue, Mar 28, 2023 at 7:49=E2=80=AFAM <qianfanguijin@163.com> wrote:
 
 > From: qianfan Zhao <qianfanguijin@163.com>
 >
-> A64's sd register was similar to H3, and it introduced a new register
-> named SAMP_DL_REG location at 0x144. The dma descriptor buffer size of
-> mmc2 is only 8K and the other mmc controllers has 64K.
+> Add test case for booting from initrd and sd card.
 >
 > Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 > ---
->  hw/sd/allwinner-sdhost.c         | 70 ++++++++++++++++++++++++++++++--
->  include/hw/sd/allwinner-sdhost.h |  9 ++++
->  2 files changed, 76 insertions(+), 3 deletions(-)
+>  tests/avocado/boot_linux_console.py | 176 ++++++++++++++++++++++++++++
+>  1 file changed, 176 insertions(+)
 >
-> diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-> index 51e5e90830..38e7844399 100644
-> --- a/hw/sd/allwinner-sdhost.c
-> +++ b/hw/sd/allwinner-sdhost.c
-> @@ -77,6 +77,7 @@ enum {
->      REG_SD_DATA1_CRC  =3D 0x12C, /* CRC Data 1 from card/eMMC */
->      REG_SD_DATA0_CRC  =3D 0x130, /* CRC Data 0 from card/eMMC */
->      REG_SD_CRC_STA    =3D 0x134, /* CRC status from card/eMMC during wri=
-te
-> */
-> +    REG_SD_SAMP_DL    =3D 0x144, /* Sample Delay Control (sun50i-a64) */
->      REG_SD_FIFO       =3D 0x200, /* Read/Write FIFO */
->  };
+> diff --git a/tests/avocado/boot_linux_console.py
+> b/tests/avocado/boot_linux_console.py
+> index 574609bf43..d17417828c 100644
+> --- a/tests/avocado/boot_linux_console.py
+> +++ b/tests/avocado/boot_linux_console.py
+> @@ -760,6 +760,182 @@ def test_arm_quanta_gsj_initrd(self):
+>          self.wait_for_console_pattern(
+>                  'Give root password for system maintenance')
 >
-> @@ -158,6 +159,7 @@ enum {
->      REG_SD_RES_CRC_RST      =3D 0x0,
->      REG_SD_DATA_CRC_RST     =3D 0x0,
->      REG_SD_CRC_STA_RST      =3D 0x0,
-> +    REG_SD_SAMPLE_DL_RST    =3D 0x00002000,
->      REG_SD_FIFO_RST         =3D 0x0,
->  };
->
-> @@ -438,6 +440,7 @@ static uint64_t allwinner_sdhost_read(void *opaque,
-> hwaddr offset,
->  {
->      AwSdHostState *s =3D AW_SDHOST(opaque);
->      AwSdHostClass *sc =3D AW_SDHOST_GET_CLASS(s);
-> +    bool out_of_bounds =3D false;
->      uint32_t res =3D 0;
->
->      switch (offset) {
-> @@ -556,13 +559,24 @@ static uint64_t allwinner_sdhost_read(void *opaque,
-> hwaddr offset,
->      case REG_SD_FIFO:      /* Read/Write FIFO */
->          res =3D allwinner_sdhost_fifo_read(s);
->          break;
-> +    case REG_SD_SAMP_DL: /* Sample Delay */
->
-Sample Delay Control
-
-
-> +        if (sc->can_calibrate) {
-> +            res =3D s->sample_delay;
-> +        } else {
-> +            out_of_bounds =3D true;
-> +        }
-> +        break;
->      default:
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset %"
-> -                      HWADDR_PRIx"\n", __func__, offset);
-> +        out_of_bounds =3D true;
->          res =3D 0;
->          break;
->      }
->
-> +    if (out_of_bounds) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset %"
-> +                      HWADDR_PRIx"\n", __func__, offset);
-> +    }
+> +    def test_arm_bpim2u(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:bpim2u
+> +        :avocado: tags=3Daccel:tcg
+> +        """
+> +        deb_url =3D ('
+> https://apt.armbian.com/pool/main/l/linux-5.10.16-sunxi/'
+> +                   'linux-image-current-sunxi_21.02.2_armhf.deb')
+> +        deb_hash =3D '9fa84beda245cabf0b4fa84cf6eaa7738ead1da0'
+> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
+> +        kernel_path =3D self.extract_from_deb(deb_path,
+> +                                            '/boot/vmlinuz-5.10.16-sunxi=
+')
+> +        dtb_path =3D ('/usr/lib/linux-image-current-sunxi/'
+> +                    'sun8i-r40-bananapi-m2-ultra.dtb')
+> +        dtb_path =3D self.extract_from_deb(deb_path, dtb_path)
 > +
->      trace_allwinner_sdhost_read(offset, res, size);
->      return res;
->  }
-> @@ -581,6 +595,7 @@ static void allwinner_sdhost_write(void *opaque,
-> hwaddr offset,
->  {
->      AwSdHostState *s =3D AW_SDHOST(opaque);
->      AwSdHostClass *sc =3D AW_SDHOST_GET_CLASS(s);
-> +    bool out_of_bounds =3D false;
->
->      trace_allwinner_sdhost_write(offset, value, size);
->
-> @@ -704,10 +719,21 @@ static void allwinner_sdhost_write(void *opaque,
-> hwaddr offset,
->      case REG_SD_DATA0_CRC: /* CRC Data 0 from card/eMMC */
->      case REG_SD_CRC_STA:   /* CRC status from card/eMMC in write
-> operation */
->          break;
-> +    case REG_SD_SAMP_DL: /* Sample delay control */
-> +        if (sc->can_calibrate) {
-> +            s->sample_delay =3D value;
-> +        } else {
-> +            out_of_bounds =3D true;
-> +        }
-> +        break;
->      default:
-> +        out_of_bounds =3D true;
-> +        break;
-> +    }
+> +        self.vm.set_console()
+> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+> +                               'console=3DttyS0,115200n8 '
+> +                               'earlycon=3Duart,mmio32,0x1c28000')
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-dtb', dtb_path,
+> +                         '-append', kernel_command_line)
+> +        self.vm.launch()
+> +        console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
+> +        self.wait_for_console_pattern(console_pattern)
 > +
-> +    if (out_of_bounds) {
->          qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset %"
->                        HWADDR_PRIx"\n", __func__, offset);
-> -        break;
->      }
->  }
->
-> @@ -756,6 +782,7 @@ static const VMStateDescription
-> vmstate_allwinner_sdhost =3D {
->          VMSTATE_UINT32(response_crc, AwSdHostState),
->          VMSTATE_UINT32_ARRAY(data_crc, AwSdHostState, 8),
->          VMSTATE_UINT32(status_crc, AwSdHostState),
-> +        VMSTATE_UINT32(sample_delay, AwSdHostState),
->          VMSTATE_END_OF_LIST()
->      }
->  };
-> @@ -794,6 +821,7 @@ static void allwinner_sdhost_realize(DeviceState *dev=
-,
-> Error **errp)
->  static void allwinner_sdhost_reset(DeviceState *dev)
->  {
->      AwSdHostState *s =3D AW_SDHOST(dev);
-> +    AwSdHostClass *sc =3D AW_SDHOST_GET_CLASS(s);
->
->      s->global_ctl =3D REG_SD_GCTL_RST;
->      s->clock_ctl =3D REG_SD_CKCR_RST;
-> @@ -834,6 +862,10 @@ static void allwinner_sdhost_reset(DeviceState *dev)
->      }
->
->      s->status_crc =3D REG_SD_CRC_STA_RST;
+> +    def test_arm_bpim2u_initrd(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Daccel:tcg
+> +        :avocado: tags=3Dmachine:bpim2u
+> +        """
+> +        deb_url =3D ('
+> https://apt.armbian.com/pool/main/l/linux-5.10.16-sunxi/'
+> +                   'linux-image-current-sunxi_21.02.2_armhf.deb')
+> +        deb_hash =3D '9fa84beda245cabf0b4fa84cf6eaa7738ead1da0'
+> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
+> +        kernel_path =3D self.extract_from_deb(deb_path,
+> +                                            '/boot/vmlinuz-5.10.16-sunxi=
+')
+> +        dtb_path =3D ('/usr/lib/linux-image-current-sunxi/'
+> +                    'sun8i-r40-bananapi-m2-ultra.dtb')
+> +        dtb_path =3D self.extract_from_deb(deb_path, dtb_path)
+> +        initrd_url =3D ('https://github.com/groeck/linux-build-test/raw/=
+'
+> +                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
+> +                      'arm/rootfs-armv7a.cpio.gz')
+> +        initrd_hash =3D '604b2e45cdf35045846b8bbfbf2129b1891bdc9c'
+> +        initrd_path_gz =3D self.fetch_asset(initrd_url,
+> asset_hash=3Dinitrd_hash)
+> +        initrd_path =3D os.path.join(self.workdir, 'rootfs.cpio')
+> +        archive.gzip_uncompress(initrd_path_gz, initrd_path)
 > +
-> +    if (sc->can_calibrate) {
-> +        s->sample_delay =3D REG_SD_SAMPLE_DL_RST;
-> +    }
->  }
->
->  static void allwinner_sdhost_bus_class_init(ObjectClass *klass, void
-> *data)
-> @@ -867,6 +899,24 @@ static void
-> allwinner_sdhost_sun5i_class_init(ObjectClass *klass, void *data)
->      sc->is_sun4i =3D false;
->  }
->
-> +static void allwinner_sdhost_sun50i_a64_class_init(ObjectClass *klass,
-> +                                                   void *data)
-> +{
-> +    AwSdHostClass *sc =3D AW_SDHOST_CLASS(klass);
-> +    sc->max_desc_size =3D 64 * KiB;
-> +    sc->is_sun4i =3D false;
-> +    sc->can_calibrate =3D true;
->
-
-perhaps in the other two existing _init() functions for sun4i/sun5i, we
-should also explicitly set the new can_calibrate value to false,
-to avoid the risk of using uninitialized data in the other machines/socs.
-
-
-> +}
+> +        self.vm.set_console()
+> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+> +                               'console=3DttyS0,115200 '
+> +                               'panic=3D-1 noreboot')
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-dtb', dtb_path,
+> +                         '-initrd', initrd_path,
+> +                         '-append', kernel_command_line,
+> +                         '-no-reboot')
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('Boot successful.')
 > +
-> +static void allwinner_sdhost_sun50i_a64_emmc_class_init(ObjectClass
-> *klass,
-> +                                                        void *data)
-> +{
-> +    AwSdHostClass *sc =3D AW_SDHOST_CLASS(klass);
-> +    sc->max_desc_size =3D 8 * KiB;
-> +    sc->is_sun4i =3D false;
-> +    sc->can_calibrate =3D true;
-> +}
+> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
+> +                                                'Allwinner sun8i Family'=
+)
+> +        exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
+> +                                                'system-control@1c00000'=
+)
+> +        exec_command_and_wait_for_pattern(self, 'reboot',
+> +                                                'reboot: Restarting
+> system')
+> +        # Wait for VM to shut down gracefully
+> +        self.vm.wait()
 > +
->  static const TypeInfo allwinner_sdhost_info =3D {
->      .name          =3D TYPE_AW_SDHOST,
->      .parent        =3D TYPE_SYS_BUS_DEVICE,
-> @@ -889,6 +939,18 @@ static const TypeInfo allwinner_sdhost_sun5i_info =
-=3D {
->      .class_init    =3D allwinner_sdhost_sun5i_class_init,
->  };
->
-> +static const TypeInfo allwinner_sdhost_sun50i_a64_info =3D {
-> +    .name          =3D TYPE_AW_SDHOST_SUN50I_A64,
-> +    .parent        =3D TYPE_AW_SDHOST,
-> +    .class_init    =3D allwinner_sdhost_sun50i_a64_class_init,
-> +};
+> +    def test_arm_bpim2u_gmac(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Daccel:tcg
+> +        :avocado: tags=3Dmachine:bpim2u
+> +        :avocado: tags=3Ddevice:sd
+> +        """
+> +        self.require_netdev('user')
 > +
-> +static const TypeInfo allwinner_sdhost_sun50i_a64_emmc_info =3D {
-> +    .name          =3D TYPE_AW_SDHOST_SUN50I_A64_EMMC,
-> +    .parent        =3D TYPE_AW_SDHOST,
-> +    .class_init    =3D allwinner_sdhost_sun50i_a64_emmc_class_init,
-> +};
+> +        deb_url =3D ('
+> https://apt.armbian.com/pool/main/l/linux-5.10.16-sunxi/'
+> +                   'linux-image-current-sunxi_21.02.2_armhf.deb')
+> +        deb_hash =3D '9fa84beda245cabf0b4fa84cf6eaa7738ead1da0'
+> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
+> +        kernel_path =3D self.extract_from_deb(deb_path,
+> +                                            '/boot/vmlinuz-5.10.16-sunxi=
+')
+> +        dtb_path =3D ('/usr/lib/linux-image-current-sunxi/'
+> +                    'sun8i-r40-bananapi-m2-ultra.dtb')
+> +        dtb_path =3D self.extract_from_deb(deb_path, dtb_path)
+> +        rootfs_url =3D ('
+> http://storage.kernelci.org/images/rootfs/buildroot/'
 > +
->  static const TypeInfo allwinner_sdhost_bus_info =3D {
->      .name =3D TYPE_AW_SDHOST_BUS,
->      .parent =3D TYPE_SD_BUS,
-> @@ -901,6 +963,8 @@ static void allwinner_sdhost_register_types(void)
->      type_register_static(&allwinner_sdhost_info);
->      type_register_static(&allwinner_sdhost_sun4i_info);
->      type_register_static(&allwinner_sdhost_sun5i_info);
-> +    type_register_static(&allwinner_sdhost_sun50i_a64_info);
-> +    type_register_static(&allwinner_sdhost_sun50i_a64_emmc_info);
->      type_register_static(&allwinner_sdhost_bus_info);
->  }
->
-> diff --git a/include/hw/sd/allwinner-sdhost.h
-> b/include/hw/sd/allwinner-sdhost.h
-> index 30c1e60404..1b951177dd 100644
-> --- a/include/hw/sd/allwinner-sdhost.h
-> +++ b/include/hw/sd/allwinner-sdhost.h
-> @@ -38,6 +38,12 @@
->  /** Allwinner sun5i family and newer (A13, H2+, H3, etc) */
->  #define TYPE_AW_SDHOST_SUN5I TYPE_AW_SDHOST "-sun5i"
->
-> +/** Allwinner sun50i-a64 */
-> +#define TYPE_AW_SDHOST_SUN50I_A64 TYPE_AW_SDHOST "-sun50i-a64"
+> 'buildroot-baseline/20221116.0/armel/rootfs.ext2.xz')
+> +        rootfs_hash =3D 'fae32f337c7b87547b10f42599acf109da8b6d9a'
+> +        rootfs_path_xz =3D self.fetch_asset(rootfs_url,
+> asset_hash=3Drootfs_hash)
+> +        rootfs_path =3D os.path.join(self.workdir, 'rootfs.cpio')
+> +        archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
+> +        image_pow2ceil_expand(rootfs_path)
 > +
-> +/** Allwinner sun50i-a64 emmc */
-> +#define TYPE_AW_SDHOST_SUN50I_A64_EMMC  TYPE_AW_SDHOST "-sun50i-a64-emmc=
-"
+> +        self.vm.set_console()
+> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+> +                               'console=3DttyS0,115200 '
+> +                               'root=3D/dev/mmcblk0 rootwait rw '
+> +                               'panic=3D-1 noreboot')
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-dtb', dtb_path,
+> +                         '-drive', 'file=3D' + rootfs_path +
+> ',if=3Dsd,format=3Draw',
+> +                         '-net', 'nic,model=3Dgmac,netdev=3Dhost_gmac',
+> +                         '-netdev', 'user,id=3Dhost_gmac',
+> +                         '-append', kernel_command_line,
+> +                         '-no-reboot')
+> +        self.vm.launch()
+> +        shell_ready =3D "/bin/sh: can't access tty; job control turned o=
+ff"
+> +        self.wait_for_console_pattern(shell_ready)
 > +
->  /** @} */
->
->  /**
-> @@ -110,6 +116,7 @@ struct AwSdHostState {
->      uint32_t startbit_detect;   /**< eMMC DDR Start Bit Detection Contro=
-l
-> */
->      uint32_t response_crc;      /**< Response CRC */
->      uint32_t data_crc[8];       /**< Data CRC */
-> +    uint32_t sample_delay;      /**< Sample delay control */
->      uint32_t status_crc;        /**< Status CRC */
->
->      /** @} */
-> @@ -132,6 +139,8 @@ struct AwSdHostClass {
->      size_t max_desc_size;
->      bool   is_sun4i;
->
-> +    /** does the IP block support autocalibration? */
-> +    bool can_calibrate;
->  };
->
->  #endif /* HW_SD_ALLWINNER_SDHOST_H */
+> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
+> +                                                'Allwinner sun8i Family'=
+)
+> +        exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
+> +                                                'mmcblk0')
+> +        exec_command_and_wait_for_pattern(self, 'ifconfig eth0 up',
+> +                                                 'eth0: Link is Up')
+> +        exec_command_and_wait_for_pattern(self, 'udhcpc eth0',
+> +            'udhcpc: lease of 10.0.2.15 obtained')
+> +        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2',
+> +            '3 packets transmitted, 3 packets received, 0% packet loss')
+> +        exec_command_and_wait_for_pattern(self, 'reboot',
+> +                                                'reboot: Restarting
+> system')
+> +        # Wait for VM to shut down gracefully
+> +        self.vm.wait()
+> +
+> +    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage
+> limited')
+> +    def test_arm_bpim2u_openwrt_22_03_3(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:bpim2u
+> +        :avocado: tags=3Ddevice:sd
+> +        """
+> +
+> +        # This test download a 8.9 MiB compressed image and expand it
+> +        # to 127 MiB.
+> +        image_url =3D ('
+> https://downloads.openwrt.org/releases/22.03.3/targets/'
+> +                     'sunxi/cortexa7/openwrt-22.03.3-sunxi-cortexa7-'
+> +                     'sinovoip_bananapi-m2-ultra-ext4-sdcard.img.gz')
+> +        image_hash =3D ('5b41b4e11423e562c6011640f9a7cd3b'
+> +                      'dd0a3d42b83430f7caa70a432e6cd82c')
+> +        image_path_gz =3D self.fetch_asset(image_url, asset_hash=3Dimage=
+_hash,
+> +                                         algorithm=3D'sha256')
+> +        image_path =3D archive.extract(image_path_gz, self.workdir)
+> +        image_pow2ceil_expand(image_path)
+> +
+> +        self.vm.set_console()
+> +        self.vm.add_args('-drive', 'file=3D' + image_path +
+> ',if=3Dsd,format=3Draw',
+> +                         '-nic', 'user',
+> +                         '-no-reboot')
+> +        self.vm.launch()
+> +
+> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+> +                               'usbcore.nousb '
+> +                               'noreboot')
+> +
+> +        self.wait_for_console_pattern('U-Boot SPL')
+> +
+> +        interrupt_interactive_console_until_pattern(
+> +                self, 'Hit any key to stop autoboot:', '=3D>')
+> +        exec_command_and_wait_for_pattern(self, "setenv extraargs '" +
+> +                                                kernel_command_line +
+> "'", '=3D>')
+> +        exec_command_and_wait_for_pattern(self, 'boot', 'Starting kernel
+> ...');
+> +
+> +        self.wait_for_console_pattern(
+> +            'Please press Enter to activate this console.')
+> +
+> +        exec_command_and_wait_for_pattern(self, ' ', 'root@')
+> +
+> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
+> +                                                'Allwinner sun8i Family'=
+)
+> +        exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
+> +                                                'system-control@1c00000'=
+)
+> +
+>      def test_arm_orangepi(self):
+>          """
+>          :avocado: tags=3Darch:arm
 > --
 > 2.25.1
 >
 >
-In this patch, I don't see any update to the new allwinner-r40.c file.
-If you make the required changes to allwinner-r40.c in this patch, you can
-also avoid having patch 08.
-
-Regards,
-Niek
 
 --=20
 Niek Linnenbank
 
---000000000000fc2a9005f8b09ee2
+--00000000000056af0505f8b0a83c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 28, 2023 at 7:47=E2=80=AF=
-AM &lt;<a href=3D"mailto:qianfanguijin@163.com">qianfanguijin@163.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: =
-qianfan Zhao &lt;<a href=3D"mailto:qianfanguijin@163.com" target=3D"_blank"=
->qianfanguijin@163.com</a>&gt;<br>
+<div dir=3D"ltr"><div>Hi Qianfan,</div><div><br></div><div>The tests look g=
+ood to me and are working OK:</div><div><br></div><div>ARMBIAN_ARTIFACTS_CA=
+CHED=3Dyes AVOCADO_ALLOW_LARGE_STORAGE=3Dyes ./build/tests/venv/bin/avocado=
+ --show=3Dapp,console run -t machine:bpim2u tests/avocado/boot_linux_consol=
+e.py</div><div>=C2=A0(1/4) tests/avocado/boot_linux_console.py:BootLinuxCon=
+sole.test_arm_bpim2u: /console: [ =C2=A0 =C2=A00.000000] Booting Linux on p=
+hysical CPU 0x0<br>console: [ =C2=A0 =C2=A00.000000] Linux version 5.10.16-=
+sunxi (root@beast) (arm-linux-gnueabihf-gcc (GNU Toolchain for the A-profil=
+e Architecture 8.3-2019.03 (arm-rel-8.36)) 8.3.0, GNU ld (GNU Toolchain for=
+ the A-profile Architecture 8.3-2019.03 (arm-rel-8.36)) 2.32.0.20190321) #2=
+1.02.2 SMP Sun Feb 14 21:12:17 CET 2021<br>console: [ =C2=A0 =C2=A00.000000=
+] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=3D50c5387d<br></di=
+v><div>...</div><div>PASS (15.77 s)<br>RESULTS =C2=A0 =C2=A0: PASS 4 | ERRO=
+R 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0<br>JOB TIME =C2=A0 =
+: 62.90 s</div><div><br></div><div>So for me:</div><div><br></div><div>Test=
+ed-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com">niek=
+linnenbank@gmail.com</a>&gt;<br></div><div><br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 28, 2023=
+ at 7:49=E2=80=AFAM &lt;<a href=3D"mailto:qianfanguijin@163.com">qianfangui=
+jin@163.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">From: qianfan Zhao &lt;<a href=3D"mailto:qianfanguijin@163.com" =
+target=3D"_blank">qianfanguijin@163.com</a>&gt;<br>
 <br>
-A64&#39;s sd register was similar to H3, and it introduced a new register<b=
-r>
-named SAMP_DL_REG location at 0x144. The dma descriptor buffer size of<br>
-mmc2 is only 8K and the other mmc controllers has 64K.<br>
+Add test case for booting from initrd and sd card.<br>
 <br>
 Signed-off-by: qianfan Zhao &lt;<a href=3D"mailto:qianfanguijin@163.com" ta=
 rget=3D"_blank">qianfanguijin@163.com</a>&gt;<br>
 ---<br>
-=C2=A0hw/sd/allwinner-sdhost.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 70 ++++++=
-++++++++++++++++++++++++--<br>
-=C2=A0include/hw/sd/allwinner-sdhost.h |=C2=A0 9 ++++<br>
-=C2=A02 files changed, 76 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c<br>
-index 51e5e90830..38e7844399 100644<br>
---- a/hw/sd/allwinner-sdhost.c<br>
-+++ b/hw/sd/allwinner-sdhost.c<br>
-@@ -77,6 +77,7 @@ enum {<br>
-=C2=A0 =C2=A0 =C2=A0REG_SD_DATA1_CRC=C2=A0 =3D 0x12C, /* CRC Data 1 from ca=
-rd/eMMC */<br>
-=C2=A0 =C2=A0 =C2=A0REG_SD_DATA0_CRC=C2=A0 =3D 0x130, /* CRC Data 0 from ca=
-rd/eMMC */<br>
-=C2=A0 =C2=A0 =C2=A0REG_SD_CRC_STA=C2=A0 =C2=A0 =3D 0x134, /* CRC status fr=
-om card/eMMC during write */<br>
-+=C2=A0 =C2=A0 REG_SD_SAMP_DL=C2=A0 =C2=A0 =3D 0x144, /* Sample Delay Contr=
-ol (sun50i-a64) */<br>
-=C2=A0 =C2=A0 =C2=A0REG_SD_FIFO=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x200, /* Rea=
-d/Write FIFO */<br>
-=C2=A0};<br>
-<br>
-@@ -158,6 +159,7 @@ enum {<br>
-=C2=A0 =C2=A0 =C2=A0REG_SD_RES_CRC_RST=C2=A0 =C2=A0 =C2=A0 =3D 0x0,<br>
-=C2=A0 =C2=A0 =C2=A0REG_SD_DATA_CRC_RST=C2=A0 =C2=A0 =C2=A0=3D 0x0,<br>
-=C2=A0 =C2=A0 =C2=A0REG_SD_CRC_STA_RST=C2=A0 =C2=A0 =C2=A0 =3D 0x0,<br>
-+=C2=A0 =C2=A0 REG_SD_SAMPLE_DL_RST=C2=A0 =C2=A0 =3D 0x00002000,<br>
-=C2=A0 =C2=A0 =C2=A0REG_SD_FIFO_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x=
-0,<br>
-=C2=A0};<br>
-<br>
-@@ -438,6 +440,7 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwa=
-ddr offset,<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0AwSdHostState *s =3D AW_SDHOST(opaque);<br>
-=C2=A0 =C2=A0 =C2=A0AwSdHostClass *sc =3D AW_SDHOST_GET_CLASS(s);<br>
-+=C2=A0 =C2=A0 bool out_of_bounds =3D false;<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t res =3D 0;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0switch (offset) {<br>
-@@ -556,13 +559,24 @@ static uint64_t allwinner_sdhost_read(void *opaque, h=
-waddr offset,<br>
-=C2=A0 =C2=A0 =C2=A0case REG_SD_FIFO:=C2=A0 =C2=A0 =C2=A0 /* Read/Write FIF=
-O */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0res =3D allwinner_sdhost_fifo_read(s);<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+=C2=A0 =C2=A0 case REG_SD_SAMP_DL: /* Sample Delay */<br></blockquote><div=
->Sample Delay Control<br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sc-&gt;can_calibrate) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D s-&gt;sample_delay;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out_of_bounds =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0default:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: out-o=
-f-bounds offset %&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 HWADDR_PRIx&quot;\n&quot;, __func__, offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 out_of_bounds =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0res =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 if (out_of_bounds) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: out-o=
-f-bounds offset %&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 HWADDR_PRIx&quot;\n&quot;, __func__, offset);<br>
-+=C2=A0 =C2=A0 }<br>
+=C2=A0tests/avocado/boot_linux_console.py | 176 +++++++++++++++++++++++++++=
 +<br>
-=C2=A0 =C2=A0 =C2=A0trace_allwinner_sdhost_read(offset, res, size);<br>
-=C2=A0 =C2=A0 =C2=A0return res;<br>
-=C2=A0}<br>
-@@ -581,6 +595,7 @@ static void allwinner_sdhost_write(void *opaque, hwaddr=
- offset,<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0AwSdHostState *s =3D AW_SDHOST(opaque);<br>
-=C2=A0 =C2=A0 =C2=A0AwSdHostClass *sc =3D AW_SDHOST_GET_CLASS(s);<br>
-+=C2=A0 =C2=A0 bool out_of_bounds =3D false;<br>
+=C2=A01 file changed, 176 insertions(+)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0trace_allwinner_sdhost_write(offset, value, size);<br>
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux=
+_console.py<br>
+index 574609bf43..d17417828c 100644<br>
+--- a/tests/avocado/boot_linux_console.py<br>
++++ b/tests/avocado/boot_linux_console.py<br>
+@@ -760,6 +760,182 @@ def test_arm_quanta_gsj_initrd(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.wait_for_console_pattern(<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;Give roo=
+t password for system maintenance&#39;)<br>
 <br>
-@@ -704,10 +719,21 @@ static void allwinner_sdhost_write(void *opaque, hwad=
-dr offset,<br>
-=C2=A0 =C2=A0 =C2=A0case REG_SD_DATA0_CRC: /* CRC Data 0 from card/eMMC */<=
-br>
-=C2=A0 =C2=A0 =C2=A0case REG_SD_CRC_STA:=C2=A0 =C2=A0/* CRC status from car=
-d/eMMC in write operation */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+=C2=A0 =C2=A0 case REG_SD_SAMP_DL: /* Sample delay control */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sc-&gt;can_calibrate) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;sample_delay =3D value;<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out_of_bounds =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 out_of_bounds =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (out_of_bounds) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: =
-out-of-bounds offset %&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0HWADDR_PRIx&quot;\n&quot;, __func__, offset);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
-@@ -756,6 +782,7 @@ static const VMStateDescription vmstate_allwinner_sdhos=
-t =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT32(response_crc, AwSdHostStat=
-e),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT32_ARRAY(data_crc, AwSdHostSt=
-ate, 8),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT32(status_crc, AwSdHostState)=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(sample_delay, AwSdHostState),<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_END_OF_LIST()<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0};<br>
-@@ -794,6 +821,7 @@ static void allwinner_sdhost_realize(DeviceState *dev, =
-Error **errp)<br>
-=C2=A0static void allwinner_sdhost_reset(DeviceState *dev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0AwSdHostState *s =3D AW_SDHOST(dev);<br>
-+=C2=A0 =C2=A0 AwSdHostClass *sc =3D AW_SDHOST_GET_CLASS(s);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;global_ctl =3D REG_SD_GCTL_RST;<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;clock_ctl =3D REG_SD_CKCR_RST;<br>
-@@ -834,6 +862,10 @@ static void allwinner_sdhost_reset(DeviceState *dev)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;status_crc =3D REG_SD_CRC_STA_RST;<br>
-+<br>
-+=C2=A0 =C2=A0 if (sc-&gt;can_calibrate) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;sample_delay =3D REG_SD_SAMPLE_DL_RST;<b=
-r>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void allwinner_sdhost_bus_class_init(ObjectClass *klass, void =
-*data)<br>
-@@ -867,6 +899,24 @@ static void allwinner_sdhost_sun5i_class_init(ObjectCl=
-ass *klass, void *data)<br>
-=C2=A0 =C2=A0 =C2=A0sc-&gt;is_sun4i =3D false;<br>
-=C2=A0}<br>
-<br>
-+static void allwinner_sdhost_sun50i_a64_class_init(ObjectClass *klass,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 AwSdHostClass *sc =3D AW_SDHOST_CLASS(klass);<br>
-+=C2=A0 =C2=A0 sc-&gt;max_desc_size =3D 64 * KiB;<br>
-+=C2=A0 =C2=A0 sc-&gt;is_sun4i =3D false;<br>
-+=C2=A0 =C2=A0 sc-&gt;can_calibrate =3D true;<br></blockquote><div><br></di=
-v><div>perhaps in the other two existing _init() functions for sun4i/sun5i,=
- we should also explicitly set the new can_calibrate value to false,</div><=
-div>to avoid the risk of using uninitialized data in the other machines/soc=
-s.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">
-+}<br>
-+<br>
-+static void allwinner_sdhost_sun50i_a64_emmc_class_init(ObjectClass *klass=
++=C2=A0 =C2=A0 def test_arm_bpim2u(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:arm<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:bpim2u<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Daccel:tcg<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_url =3D (&#39;<a href=3D"https://apt.armbi=
+an.com/pool/main/l/linux-5.10.16-sunxi/" rel=3D"noreferrer" target=3D"_blan=
+k">https://apt.armbian.com/pool/main/l/linux-5.10.16-sunxi/</a>&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;=
+linux-image-current-sunxi_21.02.2_armhf.deb&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_hash =3D &#39;9fa84beda245cabf0b4fa84cf6ea=
+a7738ead1da0&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_path =3D self.fetch_asset(deb_url, asset_h=
+ash=3Ddeb_hash)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_path =3D self.extract_from_deb(deb_path=
 ,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 AwSdHostClass *sc =3D AW_SDHOST_CLASS(klass);<br>
-+=C2=A0 =C2=A0 sc-&gt;max_desc_size =3D 8 * KiB;<br>
-+=C2=A0 =C2=A0 sc-&gt;is_sun4i =3D false;<br>
-+=C2=A0 =C2=A0 sc-&gt;can_calibrate =3D true;<br>
-+}<br>
+=C2=A0 &#39;/boot/vmlinuz-5.10.16-sunxi&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_path =3D (&#39;/usr/lib/linux-image-curren=
+t-sunxi/&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;sun8i-r40-bananapi-m2-ultra.dtb&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_path =3D self.extract_from_deb(deb_path, d=
+tb_path)<br>
 +<br>
-=C2=A0static const TypeInfo allwinner_sdhost_info =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_AW_SDH=
-OST,<br>
-=C2=A0 =C2=A0 =C2=A0.parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_SYS_BUS_DEV=
-ICE,<br>
-@@ -889,6 +939,18 @@ static const TypeInfo allwinner_sdhost_sun5i_info =3D =
-{<br>
-=C2=A0 =C2=A0 =C2=A0.class_init=C2=A0 =C2=A0 =3D allwinner_sdhost_sun5i_cla=
-ss_init,<br>
-=C2=A0};<br>
-<br>
-+static const TypeInfo allwinner_sdhost_sun50i_a64_info =3D {<br>
-+=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_AW_SDHOST_S=
-UN50I_A64,<br>
-+=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_AW_SDHOST,<br>
-+=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =3D allwinner_sdhost_sun50i_a64_cla=
-ss_init,<br>
-+};<br>
-+<br>
-+static const TypeInfo allwinner_sdhost_sun50i_a64_emmc_info =3D {<br>
-+=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_AW_SDHOST_S=
-UN50I_A64_EMMC,<br>
-+=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_AW_SDHOST,<br>
-+=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =3D allwinner_sdhost_sun50i_a64_emm=
-c_class_init,<br>
-+};<br>
-+<br>
-=C2=A0static const TypeInfo allwinner_sdhost_bus_info =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.name =3D TYPE_AW_SDHOST_BUS,<br>
-=C2=A0 =C2=A0 =C2=A0.parent =3D TYPE_SD_BUS,<br>
-@@ -901,6 +963,8 @@ static void allwinner_sdhost_register_types(void)<br>
-=C2=A0 =C2=A0 =C2=A0type_register_static(&amp;allwinner_sdhost_info);<br>
-=C2=A0 =C2=A0 =C2=A0type_register_static(&amp;allwinner_sdhost_sun4i_info);=
-<br>
-=C2=A0 =C2=A0 =C2=A0type_register_static(&amp;allwinner_sdhost_sun5i_info);=
-<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;allwinner_sdhost_sun50i_a64_info);=
-<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;allwinner_sdhost_sun50i_a64_emmc_i=
-nfo);<br>
-=C2=A0 =C2=A0 =C2=A0type_register_static(&amp;allwinner_sdhost_bus_info);<b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.set_console()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (self.KERNEL_COMMON_CO=
+MMAND_LINE +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;console=3DttyS0,115200n8 &#39;<b=
 r>
-=C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;earlycon=3Duart,mmio32,0x1c28000=
+&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-kernel&#39;, kernel_pat=
+h,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-dtb&#39;, dtb_path,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-append&#39;, kernel_command_line)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.launch()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 console_pattern =3D &#39;Kernel command line: =
+%s&#39; % kernel_command_line<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(console_pattern)=
 <br>
-diff --git a/include/hw/sd/allwinner-sdhost.h b/include/hw/sd/allwinner-sdh=
-ost.h<br>
-index 30c1e60404..1b951177dd 100644<br>
---- a/include/hw/sd/allwinner-sdhost.h<br>
-+++ b/include/hw/sd/allwinner-sdhost.h<br>
-@@ -38,6 +38,12 @@<br>
-=C2=A0/** Allwinner sun5i family and newer (A13, H2+, H3, etc) */<br>
-=C2=A0#define TYPE_AW_SDHOST_SUN5I TYPE_AW_SDHOST &quot;-sun5i&quot;<br>
-<br>
-+/** Allwinner sun50i-a64 */<br>
-+#define TYPE_AW_SDHOST_SUN50I_A64 TYPE_AW_SDHOST &quot;-sun50i-a64&quot;<b=
++<br>
++=C2=A0 =C2=A0 def test_arm_bpim2u_initrd(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:arm<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Daccel:tcg<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:bpim2u<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_url =3D (&#39;<a href=3D"https://apt.armbi=
+an.com/pool/main/l/linux-5.10.16-sunxi/" rel=3D"noreferrer" target=3D"_blan=
+k">https://apt.armbian.com/pool/main/l/linux-5.10.16-sunxi/</a>&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;=
+linux-image-current-sunxi_21.02.2_armhf.deb&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_hash =3D &#39;9fa84beda245cabf0b4fa84cf6ea=
+a7738ead1da0&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_path =3D self.fetch_asset(deb_url, asset_h=
+ash=3Ddeb_hash)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_path =3D self.extract_from_deb(deb_path=
+,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 &#39;/boot/vmlinuz-5.10.16-sunxi&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_path =3D (&#39;/usr/lib/linux-image-curren=
+t-sunxi/&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;sun8i-r40-bananapi-m2-ultra.dtb&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_path =3D self.extract_from_deb(deb_path, d=
+tb_path)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 initrd_url =3D (&#39;<a href=3D"https://github=
+.com/groeck/linux-build-test/raw/" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://github.com/groeck/linux-build-test/raw/</a>&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &#39;2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &#39;arm/rootfs-armv7a.cpio.gz&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 initrd_hash =3D &#39;604b2e45cdf35045846b8bbfb=
+f2129b1891bdc9c&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 initrd_path_gz =3D self.fetch_asset(initrd_url=
+, asset_hash=3Dinitrd_hash)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 initrd_path =3D os.path.join(self.workdir, &#3=
+9;rootfs.cpio&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.gzip_uncompress(initrd_path_gz, initrd=
+_path)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.set_console()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (self.KERNEL_COMMON_CO=
+MMAND_LINE +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;console=3DttyS0,115200 &#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;panic=3D-1 noreboot&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-kernel&#39;, kernel_pat=
+h,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-dtb&#39;, dtb_path,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-initrd&#39;, initrd_path,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-append&#39;, kernel_command_line,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-no-reboot&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.launch()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(&#39;Boot succes=
+sful.&#39;)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;c=
+at /proc/cpuinfo&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &#39;Allwinner sun8i Family&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;c=
+at /proc/iomem&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &#39;system-control@1c00000&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;r=
+eboot&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &#39;reboot: Restarting system&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Wait for VM to shut down gracefully<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.wait()<br>
++<br>
++=C2=A0 =C2=A0 def test_arm_bpim2u_gmac(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:arm<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Daccel:tcg<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:bpim2u<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:sd<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.require_netdev(&#39;user&#39;)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_url =3D (&#39;<a href=3D"https://apt.armbi=
+an.com/pool/main/l/linux-5.10.16-sunxi/" rel=3D"noreferrer" target=3D"_blan=
+k">https://apt.armbian.com/pool/main/l/linux-5.10.16-sunxi/</a>&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;=
+linux-image-current-sunxi_21.02.2_armhf.deb&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_hash =3D &#39;9fa84beda245cabf0b4fa84cf6ea=
+a7738ead1da0&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 deb_path =3D self.fetch_asset(deb_url, asset_h=
+ash=3Ddeb_hash)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_path =3D self.extract_from_deb(deb_path=
+,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 &#39;/boot/vmlinuz-5.10.16-sunxi&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_path =3D (&#39;/usr/lib/linux-image-curren=
+t-sunxi/&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39=
+;sun8i-r40-bananapi-m2-ultra.dtb&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb_path =3D self.extract_from_deb(deb_path, d=
+tb_path)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rootfs_url =3D (&#39;<a href=3D"http://storage=
+.kernelci.org/images/rootfs/buildroot/" rel=3D"noreferrer" target=3D"_blank=
+">http://storage.kernelci.org/images/rootfs/buildroot/</a>&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &#39;buildroot-baseline/20221116.0/armel/rootfs.ext2.xz&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rootfs_hash =3D &#39;fae32f337c7b87547b10f4259=
+9acf109da8b6d9a&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rootfs_path_xz =3D self.fetch_asset(rootfs_url=
+, asset_hash=3Drootfs_hash)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rootfs_path =3D os.path.join(self.workdir, &#3=
+9;rootfs.cpio&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.lzma_uncompress(rootfs_path_xz, rootfs=
+_path)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_pow2ceil_expand(rootfs_path)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.set_console()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (self.KERNEL_COMMON_CO=
+MMAND_LINE +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;console=3DttyS0,115200 &#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;root=3D/dev/mmcblk0 rootwait rw =
+&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;panic=3D-1 noreboot&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-kernel&#39;, kernel_pat=
+h,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-dtb&#39;, dtb_path,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-drive&#39;, &#39;file=3D&#39; + rootfs_path + &#39;,=
+if=3Dsd,format=3Draw&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-net&#39;, &#39;nic,model=3Dgmac,netdev=3Dhost_gmac&#=
+39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-netdev&#39;, &#39;user,id=3Dhost_gmac&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-append&#39;, kernel_command_line,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-no-reboot&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.launch()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 shell_ready =3D &quot;/bin/sh: can&#39;t acces=
+s tty; job control turned off&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(shell_ready)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;c=
+at /proc/cpuinfo&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &#39;Allwinner sun8i Family&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;c=
+at /proc/partitions&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &#39;mmcblk0&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;i=
+fconfig eth0 up&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;eth0: Link is Up&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;u=
+dhcpc eth0&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;udhcpc: lease of 10.0.2.15 =
+obtained&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;p=
+ing -c 3 10.0.2.2&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;3 packets transmitted, 3 pa=
+ckets received, 0% packet loss&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;r=
+eboot&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &#39;reboot: Restarting system&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Wait for VM to shut down gracefully<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.wait()<br>
++<br>
++=C2=A0 =C2=A0 @skipUnless(os.getenv(&#39;AVOCADO_ALLOW_LARGE_STORAGE&#39;)=
+, &#39;storage limited&#39;)<br>
++=C2=A0 =C2=A0 def test_arm_bpim2u_openwrt_22_03_3(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:arm<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:bpim2u<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:sd<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This test download a 8.9 MiB compressed imag=
+e and expand it<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # to 127 MiB.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_url =3D (&#39;<a href=3D"https://downloa=
+ds.openwrt.org/releases/22.03.3/targets/" rel=3D"noreferrer" target=3D"_bla=
+nk">https://downloads.openwrt.org/releases/22.03.3/targets/</a>&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&#39;sunxi/cortexa7/openwrt-22.03.3-sunxi-cortexa7-&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&#39;sinovoip_bananapi-m2-ultra-ext4-sdcard.img.gz&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_hash =3D (&#39;5b41b4e11423e562c6011640f=
+9a7cd3b&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &#39;dd0a3d42b83430f7caa70a432e6cd82c&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_path_gz =3D self.fetch_asset(image_url, =
+asset_hash=3Dimage_hash,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0al=
+gorithm=3D&#39;sha256&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_path =3D archive.extract(image_path_gz, =
+self.workdir)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_pow2ceil_expand(image_path)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.set_console()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-drive&#39;, &#39;file=
+=3D&#39; + image_path + &#39;,if=3Dsd,format=3Draw&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-nic&#39;, &#39;user&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&#39;-no-reboot&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.launch()<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (self.KERNEL_COMMON_CO=
+MMAND_LINE +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;usbcore.nousb &#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;noreboot&#39;)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(&#39;U-Boot SPL&=
+#39;)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 interrupt_interactive_console_until_pattern(<b=
 r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self, &#39;Hit any=
+ key to stop autoboot:&#39;, &#39;=3D&gt;&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &quot;=
+setenv extraargs &#39;&quot; +<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 kernel_command_line + &quot;&#39;&quot;, &#39;=3D&gt;&=
+#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;b=
+oot&#39;, &#39;Starting kernel ...&#39;);<br>
 +<br>
-+/** Allwinner sun50i-a64 emmc */<br>
-+#define TYPE_AW_SDHOST_SUN50I_A64_EMMC=C2=A0 TYPE_AW_SDHOST &quot;-sun50i-=
-a64-emmc&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;Please press Enter to activ=
+ate this console.&#39;)<br>
 +<br>
-=C2=A0/** @} */<br>
-<br>
-=C2=A0/**<br>
-@@ -110,6 +116,7 @@ struct AwSdHostState {<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t startbit_detect;=C2=A0 =C2=A0/**&lt; eMMC DDR =
-Start Bit Detection Control */<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t response_crc;=C2=A0 =C2=A0 =C2=A0 /**&lt; Resp=
-onse CRC */<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t data_crc[8];=C2=A0 =C2=A0 =C2=A0 =C2=A0/**&lt;=
- Data CRC */<br>
-+=C2=A0 =C2=A0 uint32_t sample_delay;=C2=A0 =C2=A0 =C2=A0 /**&lt; Sample de=
-lay control */<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t status_crc;=C2=A0 =C2=A0 =C2=A0 =C2=A0 /**&lt;=
- Status CRC */<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/** @} */<br>
-@@ -132,6 +139,8 @@ struct AwSdHostClass {<br>
-=C2=A0 =C2=A0 =C2=A0size_t max_desc_size;<br>
-=C2=A0 =C2=A0 =C2=A0bool=C2=A0 =C2=A0is_sun4i;<br>
-<br>
-+=C2=A0 =C2=A0 /** does the IP block support autocalibration? */<br>
-+=C2=A0 =C2=A0 bool can_calibrate;<br>
-=C2=A0};<br>
-<br>
-=C2=A0#endif /* HW_SD_ALLWINNER_SDHOST_H */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39; =
+&#39;, &#39;root@&#39;)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;c=
+at /proc/cpuinfo&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &#39;Allwinner sun8i Family&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &#39;c=
+at /proc/iomem&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 &#39;system-control@1c00000&#39;)<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0def test_arm_orangepi(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0:avocado: tags=3Darch:arm<br>
 -- <br>
 2.25.1<br>
 <br>
-</blockquote></div><div><br></div><div>In this patch, I don&#39;t see any u=
-pdate to the new allwinner-r40.c file.</div><div>If you make the required c=
-hanges to allwinner-r40.c in this patch, you can also avoid having patch 08=
-.</div><div><br></div><div>Regards,</div><div>Niek<br></div><br><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></div></=
-div>
+</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
+fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
+tr"><div>Niek Linnenbank<br><br></div></div></div>
 
---000000000000fc2a9005f8b09ee2--
+--00000000000056af0505f8b0a83c--
 
