@@ -2,112 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984D36D9B79
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 17:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150BD6D9BAB
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 17:05:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkR6D-0003dO-Pl; Thu, 06 Apr 2023 11:00:29 -0400
+	id 1pkR9e-0005sJ-Nz; Thu, 06 Apr 2023 11:04:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pkR69-0003XP-E4
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 11:00:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1pkR9b-0005qm-D0; Thu, 06 Apr 2023 11:03:59 -0400
+Received: from mail-co1nam11on2061e.outbound.protection.outlook.com
+ ([2a01:111:f400:7eab::61e]
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1pkR66-0007Cy-Ll
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 11:00:24 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 336EwY6o026380; Thu, 6 Apr 2023 15:00:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=ppmTb7bOqloop2C4fYOYZT4N9waaoksU5QSwJNNPoHk=;
- b=ktoAwjN9oI+FV6ZxePcku2nROMZ0a3OSpRQTmW2PNFmo+KbcvKn/jFoX3gYx8fwdiqbb
- pe/nIzJ9XZkXYgZRG24L82Ar0A+9jgeZqhYLGMzHGoCoeB+LLTgvLancOti+vvSachWP
- vMqXkHrDyho0yoEHTXk+dTLpB+wza2uMbfD4iQiVvRFMUujOOB606ejzC9VRXYw/kg5b
- GL2DFndW1RiGEpVJPwQOiDqTJDN/VxgWu+26ZEAShJBlH2xXE5N8Wkm+AV4XJBazKJJW
- 4pdgW8zS+hTTKY6Mg0rSvua8Wvb/NhNiNCUQ+XQAo+31d73TC6UA4+CVIVY2WMUIZTJm 7Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3psyqeh605-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 15:00:18 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 336EwdOA027060;
- Thu, 6 Apr 2023 15:00:13 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3psyqeh5y8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 15:00:13 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 336D3Cjw031588;
- Thu, 6 Apr 2023 15:00:12 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([9.208.130.97])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3ppc88htwm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 15:00:12 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com
- [10.39.53.233])
- by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 336F0BHA30605606
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 6 Apr 2023 15:00:11 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 20C315804E;
- Thu,  6 Apr 2023 15:00:11 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2100858062;
- Thu,  6 Apr 2023 15:00:10 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  6 Apr 2023 15:00:09 +0000 (GMT)
-Message-ID: <328a2ae2-ca27-0dee-6fae-7536128955bd@linux.ibm.com>
-Date: Thu, 6 Apr 2023 11:00:09 -0400
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1pkR9Y-00081g-Um; Thu, 06 Apr 2023 11:03:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Uwp9TebUAikp0RjHDJ4+AhHwOxRizdcDUL8uyF+otGvUj49OhofTA64Kkwvff8O2fmTEx0fkcZ+6uKMnhMmvwwa1WMIezX4e9axTbA1ty+CRdR6cuzxb1tIMsn9eerShYEAqgEUS4GUJ+gvyY2s/Y1ZKYGkAaT704qyJevAyIxraEJC9+FYON3NzzUojTuBL0ccZQ1eiAol/XkeviRVyEctvoZEJhl8W1jR17Ttd9xifTL+j5K54kMvb6yXcgBKzQpLwiUT5P1D5pZ+huvWdmaiQm0axGkL06Porh3OXVEkmbHS4P+FBt4bHxqM7mfABVQGFL20S9IdWQxcf/QDuEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CbFWMOPbsPOkDILFfb0VYQoG1xPEGkDyZVocN9GQArg=;
+ b=E8GOJEJDHOoEJh45oKjMbmd4qwH6xzlvr+iODUNHjO1RJjHsH5oPbYLRozet20UlZwEycXVVyY5M7pja9SvmKlQ5eMIT1/1qVzf2K/Y2qx7mezJexdWNw7ZJ73qQxAIpKVSVtaBxN0B4CmH/0o0ASJxVxcZhISyZeDk3RflmgRN6qZUCh/h67fcJYFUHNbPOdnAk/yz806uS5IJRI4zzrufLfW9/nYplzgUEO5yllpHQnViR/7hRdjZEcKKpYTjeVFEyymjaOCs4wXl3ylWJeReG76v77qlmxbT6vYxcZDDAGhVFjj5vogftYW2HKafniIyT1kdIQnq+/rt3U9EZ/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=tls.msk.ru smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CbFWMOPbsPOkDILFfb0VYQoG1xPEGkDyZVocN9GQArg=;
+ b=OH+6lMG26wB6MyuE8eIL6qjFdsUk8MtrqXMmPMHm2PkFQvGso36QjFjH0uNZQdZ+pwiKkI92ZvMF2Q93uxaIfjPQ81y1GXVXVXv/JPo+BPjKok1S0uEGz2Dij3+K98DOAEUxogy7xgKrWWlD1ca73Sfre64mWSlQ6OFGWR4yKZ4=
+Received: from DM6PR06CA0037.namprd06.prod.outlook.com (2603:10b6:5:54::14) by
+ SA3PR12MB7781.namprd12.prod.outlook.com (2603:10b6:806:31a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.33; Thu, 6 Apr
+ 2023 15:03:52 +0000
+Received: from DM6NAM11FT067.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:54:cafe::80) by DM6PR06CA0037.outlook.office365.com
+ (2603:10b6:5:54::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.37 via Frontend
+ Transport; Thu, 6 Apr 2023 15:03:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT067.mail.protection.outlook.com (10.13.172.76) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6277.31 via Frontend Transport; Thu, 6 Apr 2023 15:03:50 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 6 Apr
+ 2023 10:03:50 -0500
+Date: Thu, 6 Apr 2023 10:01:26 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+CC: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-stable <qemu-stable@nongnu.org>
+Subject: Re: QEMU stable 7.2.1
+Message-ID: <20230406150126.tan4npfartb4oyhm@amd.com>
+References: <62db7253-9cd7-e095-6b9f-ffcdecfa9bf6@msgid.tls.msk.ru>
+ <20230405135818.52ggpbvumybryvr7@amd.com>
+ <ce3bbb93-2534-e2bc-ece5-8bc4e2943bb8@msgid.tls.msk.ru>
+ <20230405185720.2yxd52njk3tcsauk@amd.com>
+ <20230405210658.yg2i6grklgqp73rr@amd.com>
+ <9d2a753d-0b50-8fa4-2a71-590fd5ffd22f@msgid.tls.msk.ru>
+ <734b7b91-0305-1358-15f4-f63d7d272e7f@redhat.com>
+ <199575b7-b4ce-b502-a1dd-d5f1174c0b87@msgid.tls.msk.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PULL v2 05/25] error: add global &error_warn destination
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
- <20230313114648.426607-6-marcandre.lureau@redhat.com>
- <CAFEAcA9zNpzj_VU3ysWaa24tTqaBDcB9o1+0HhO0R7hhVOdgdA@mail.gmail.com>
- <CAFEAcA9_GP8HqtYgG4mice_ACd8eqFLF6qrMYRz_5oe_HSM=-g@mail.gmail.com>
- <8520898b-14e8-33a8-c34f-e98fecbedcb3@linux.ibm.com>
- <CAFEAcA_Sagzoqy+GcdPgFyGLG9zenxWWFknzMz+gSrMPVuSsDQ@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <CAFEAcA_Sagzoqy+GcdPgFyGLG9zenxWWFknzMz+gSrMPVuSsDQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: JSKHNVM3vhVphF7vs-Akt2MlJm5l9rVW
-X-Proofpoint-ORIG-GUID: ep7-ZIaT72VCFcH3x0LqR48Q9pmbtDq4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-06_08,2023-04-06_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- impostorscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304060129
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <199575b7-b4ce-b502-a1dd-d5f1174c0b87@msgid.tls.msk.ru>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT067:EE_|SA3PR12MB7781:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77db0a87-4781-494e-62cf-08db36b021a0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ECmt4wVqKO9WN3OcJW+IPLkj7PQXaBpgrGQRcvZ8C09j6nf+nzpj9EOBiVnknGau8EV1s1dfKb8f5dLZPiPDj9+SdCOlq/ufgZtOn1eyCB7c+oTa1HN0PYlIDynBC/nAqOciv2J5meFxlxxPrI0e7KVoPrLnU7nWgkbIWudCxOX8Sbc8nnB2P3tGhtroGP+WJW+fGLbB79vzDu0X3gq+9aG8gKJ0mY6hSALEh8GDhdk3l88TgRzNNkqsGE6NXj3z7VxEkoJKB+oc2fAXcPLLDmUOrGhKOeFNy0as/lEePuo5Z5o6M7ALELvruxc/tjl7VgR2masQPG8WWaqZsRPTptfWULBXz9sqg7TqzIYPVeO2mAt8O4FpyuPGVGsFKVw5V/0pvoYiFaR1cvraAtrzSgGXLyqIrQw5cxP0zIT5auf61GYzUjLSv4cgemxAZzwqesOJ35octnP4sYjK2oc1eiqQxaT++e1mBpfIOvDNrKpRN2hjYdVoXlR/UtQjwnrx+L+EhfStsKMpLsZ8UDpy2NSeLnc4NVcTDRubCkvin9hdD8zk7HqbmSiIZqmydrqmyoacW9hO/+N+jTWpoeJ4fsu2ME6aJUssIDs9Kp0RYCtrSfMz73v7c6aFpUhxWirEJRT1wr9SxNuVBWeNBtQZi3QtgMkJuBCK0C30kjz2Uqv82aVybHeoz+SNPIvCrXIwJuLZ6C7GJ0XLqAmRd0xMdib/1Ix0R9edc9VnlQaajmJJsjxmyynopyMjFFQ0OKOmdgT8GCkKvhS7EQa7k+jRvg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(136003)(376002)(39860400002)(396003)(451199021)(36840700001)(40470700004)(46966006)(81166007)(356005)(5660300002)(44832011)(82310400005)(47076005)(2616005)(26005)(336012)(426003)(66574015)(83380400001)(54906003)(316002)(1076003)(86362001)(4326008)(16526019)(36756003)(966005)(40480700001)(186003)(478600001)(6666004)(36860700001)(70206006)(7116003)(40460700003)(6916009)(8936002)(8676002)(41300700001)(70586007)(82740400003)(2906002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 15:03:50.8579 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77db0a87-4781-494e-62cf-08db36b021a0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT067.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7781
+Received-SPF: softfail client-ip=2a01:111:f400:7eab::61e;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,94 +126,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 4/6/23 10:36, Peter Maydell wrote:
-> On Thu, 6 Apr 2023 at 15:13, Stefan Berger <stefanb@linux.ibm.com> wrote:
->> I'll be out starting tomorrow. I don't see Marc-André online.
->>
->> Would this be acceptable?
->> It ensures that if error_handle() returns, err has been freed.
->> In the other two cases a copy is being made of the Error that can then be used after the error_handle() call.
+On Thu, Apr 06, 2023 at 09:54:55AM +0300, Michael Tokarev wrote:
+> 06.04.2023 09:48, Thomas Huth пишет:
+> ..>> There's one minor caveat still, though: it is missing in the
+> > > "Full list of releases" for whatever reason.  Dunno how that
+> > > happened, maybe that page hasn't been (re)generated yet.
+> > 
+> > FWIW, I can see it on https://download.qemu.org/ now.
 > 
-> "Not error_warn" is the common case, so it doesn't seem
-> great to copy the error around like that. My thoughts were
-> either:
->   (1) error_handle() should handle all of the error cases,
-> like this:
+> I still can't, no matter how many times I hit browser "Reload"
+> button, or try another browser or even another computer.
 > 
->      if (errp == &error_abort) {
->         ...
->         abort();
->      }
->      if (errp == &error_fatal) {
->         ...
->         exit(1);
->      }
->      if (errp = &error_warn) {
->          warn_report_err(err);
->      } else if (errp && !*errp) {
->          *errp = err;
->      } else {
->          error_free(err);
->      }
-> 
-> and delete the "set *errp" logic from the callers.
+> It's available as a direct link but not in the listing page.
 
+Yah... I'm noticing the same issue with 8.0.0-rc3 not showing up under
+"Full list of releases" either. 8.0.0-rc2 shows up fine however, and I'm
+not aware of any changes between -rc2 and -rc3 that would affect how
+these pages are generated.
 
-Like this?
+The associated gitlab build jobs for the latest qemu-web.git update look
+okay to me too:
 
-diff --git a/util/error.c b/util/error.c
-index 5537245da6..e5e247209a 100644
---- a/util/error.c
-+++ b/util/error.c
-@@ -46,6 +46,10 @@ static void error_handle(Error **errp, Error *err)
-      }
-      if (errp == &error_warn) {
-          warn_report_err(err);
-+    } else if (errp && !*errp) {
-+        *errp = err;
-+    } else {
-+        error_free(err);
-      }
-  }
+  https://gitlab.com/qemu-project/qemu-web/-/pipelines/830133154/builds
 
-@@ -76,7 +80,6 @@ static void error_setv(Error **errp,
-      err->func = func;
+I'm not even sure this page is actually generated by those jobs though,
+it just seems like a direct link to whatever download.qemu.org statically
+points to. So maybe there something else server-side that might be going
+wrong?
 
-      error_handle(errp, err);
--    *errp = err;
+I suppose it could just be some aggressive caching somewhere
+server-side. I've never actually checked the "Full list of releases"
+right after uploading, so it's possible it takes ~days to refresh and
+we just happen to be noticing that now.
 
-      errno = saved_errno;
-  }
-@@ -289,11 +292,6 @@ void error_propagate(Error **dst_errp, Error *local_err)
-          return;
-      }
-      error_handle(dst_errp, local_err);
--    if (dst_errp && !*dst_errp) {
--        *dst_errp = local_err;
--    } else {
--        error_free(local_err);
--    }
-  }
-
-  void error_propagate_prepend(Error **dst_errp, Error *err,
-
+-Mike
 
 
 > 
-> (note that error_setv() has done checks already that mean it
-> will always take the "(errp && !*errp)" path, so we don't need
-> to special-case for which caller this was.)
+> /mjt
 > 
-> (2) error_handle() should return a bool to say whether it's handled
-> the error entirely and the callsite should do nothing further
-
-> with it.
-> 
-> I prefer (1) I think but would defer to people with more
-> experience with the Error APIs.
-> 
-> thanks
-> -- PMM
 
