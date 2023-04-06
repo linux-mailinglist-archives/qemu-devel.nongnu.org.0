@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD7C6D97C3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AA16D97D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:18:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkPTT-00073s-Oq; Thu, 06 Apr 2023 09:16:24 -0400
+	id 1pkPVE-0007rv-B7; Thu, 06 Apr 2023 09:18:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pkPTM-00073N-Jk
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:16:18 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ id 1pkPVA-0007r3-Ou
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:18:09 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pkPTK-0000df-BZ
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:16:15 -0400
-Received: by mail-ej1-x635.google.com with SMTP id g18so1300583ejj.5
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 06:16:13 -0700 (PDT)
+ id 1pkPV9-0000t6-2O
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:18:08 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id j22so1325766ejv.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 06:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680786972; x=1683378972;
+ d=linaro.org; s=google; t=1680787085; x=1683379085;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jE98TjuvqrqZo7dS5XGPVqd4QzQvq9MbHwXt8hhCm80=;
- b=j7KnP8kvUy3qYJstcnIqnHfPCCTOmlcIJ9yjZuD5fQ9DUKQIxC2cXEYll396hwRDIE
- fmWr0pINcKJHi+hQlRicVEVvs35HfBCllhgPkTBvupZEX+82YMEYAsEsKP1ds7PMBwIU
- j7PLtEco8IR+TMRTw5B07OQq1dNNrWCmmKiA2ACjz9P/e4FONTCpDJwFstpXxzOSqE+p
- 6ZgZkd19Npn0b8KnKYhPaLC3Q5K5aLHuY/CBrfvfrX4sqDZHyjE6WOL1oYNZCi69oQC/
- Ljziz8O3gGykKgm3W5qacNVZmxdv/YBac0hx001aR/Rj4L4PCjn9SBKA53aLTDMxUEx7
- yWSg==
+ bh=MePkcZK9+0N5SFuUzJVo7UXokkGUia+UbDGQ1kTrS40=;
+ b=Qv6oNEHuZ7S+MiwnfElvveJtfKV6cqO2nM8fGkdKQKF5f2u7ocw9gQmVJERXDN5fsX
+ AX5AANG7lI5cqWBJvtgb29ncMjHHiqKEhxpx1i6znwpu9Hvidspp16u5PNpEbskZxooT
+ frR7WRoSscnwvH5RBFu5KzInIrgyns46bmX4lf33baxnN1m7Dg2Mgm2x7qi+ocTCywH+
+ 48hhncr66sXrfMT+0L7NS4it4tHQFQLXpRmkU2dbkaLr36h+uu11t/JUNKuwl7W6R5ru
+ p5r0fVfmkiWrgezxAQ/dl5jdehYOVDrBBCXrPFJwgpt6+eJFm+6Tq2thc104wfWPHl3o
+ XC1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680786972; x=1683378972;
+ d=1e100.net; s=20210112; t=1680787085; x=1683379085;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jE98TjuvqrqZo7dS5XGPVqd4QzQvq9MbHwXt8hhCm80=;
- b=FuRie0IRr7uCu3ge7dimqAi25uRpLhWIE8guSc0rABN8vF+fopBcEEKMIyngSvoPpx
- kYBJN0ggbEW/SLpEecg00X/4R6/xBejZrxmYe0uWoGDk0Yfn5eak655ohGxA3gB8bfbo
- tlxfDlLTxD3HBbV1xaJkRmg9KPDldEKR8Y0Rxtv/0/Bwg3OE/R4YkbuJDMnpEgz6N1hh
- g33h8ENBnDAyN7erlRE19sBwT57ZYHYPkVBEcqu4YEq26fp3gzzCHeplcEUNgPniIxRh
- iy4yZmZ3wfE2xHPwwstmbxD3UJCE3ToxNqNHhYoqVH7tEfQTTfB9CEuM2UPOP79D0ODr
- 0pig==
-X-Gm-Message-State: AAQBX9d6fPlZBvfi4m5gwhImlEA23mb1n32vihiL+jyZBUyCRCQbcNLu
- hYkcskuIJGQEJIERHyRz7Nx9VZhvez4rxVcpLZIZiA==
-X-Google-Smtp-Source: AKy350YBujJNrDWOJhpSxwvoCcz5BLRpOWduG1oPBI6+lU1/AfBvD5Bfu8iFo0p+qWUG4qGpu7/tzOd07FANKYU2Ivc=
-X-Received: by 2002:a17:906:3e0d:b0:92f:cbfe:1635 with SMTP id
- k13-20020a1709063e0d00b0092fcbfe1635mr3614935eji.6.1680786972209; Thu, 06 Apr
- 2023 06:16:12 -0700 (PDT)
+ bh=MePkcZK9+0N5SFuUzJVo7UXokkGUia+UbDGQ1kTrS40=;
+ b=GimjPllQfj5WL2iKgCtKlxrhEIm0qTH+/MKPlYRS3pumqSHdzNMpEChdsWAk7eKvlA
+ gA/b+znEOMTPFmFPPc6LsdaYoF7OnmkaIsL6AmnLKVysSORKhCDIkco6qsOo5d3a/CUw
+ +Qg2GxSLPtq/4Fl87KUgWOx6bc8pguFSOEwSChxAMiInpXFSSNkJu0yIj1UHFmeoq8sG
+ sKdoV2xVI03lu2T4UaaIceRpGX9Hwd7V68+DwFnJ3IwiMlMTL68tDYQ0F5AOk++oHg1C
+ p2P3WLkzeUvZ8d0lQ8tMfWqO3PcXbIXHdxuF1vkYYvBlYgelNiKe6PFCTd8Ig79lt3ky
+ mdHQ==
+X-Gm-Message-State: AAQBX9ewyAvXUo40feWpmFxQN2RkRJ76udJ1glX2Xkrq82MDw+uZTvI7
+ YV6/DVO1SW2FCe4pjw6ydMnrpJYSHPZpR2uZvxhFEVZWDAMuSgCRyYQ=
+X-Google-Smtp-Source: AKy350YhFx4tldmBbqI4H/XZzH7e61czZUBkEYH5F2F5jN7u8HBNHTNEnSQmTw6ei9F/LzEMGq+i0jH0fv6zBqWbDQY=
+X-Received: by 2002:a17:906:1619:b0:878:4a24:1a5c with SMTP id
+ m25-20020a170906161900b008784a241a5cmr3203211ejd.6.1680787084808; Thu, 06 Apr
+ 2023 06:18:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
  <20230313114648.426607-6-marcandre.lureau@redhat.com>
-In-Reply-To: <20230313114648.426607-6-marcandre.lureau@redhat.com>
+ <CAFEAcA9zNpzj_VU3ysWaa24tTqaBDcB9o1+0HhO0R7hhVOdgdA@mail.gmail.com>
+In-Reply-To: <CAFEAcA9zNpzj_VU3ysWaa24tTqaBDcB9o1+0HhO0R7hhVOdgdA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Apr 2023 14:16:01 +0100
-Message-ID: <CAFEAcA9zNpzj_VU3ysWaa24tTqaBDcB9o1+0HhO0R7hhVOdgdA@mail.gmail.com>
+Date: Thu, 6 Apr 2023 14:17:54 +0100
+Message-ID: <CAFEAcA9_GP8HqtYgG4mice_ACd8eqFLF6qrMYRz_5oe_HSM=-g@mail.gmail.com>
 Subject: Re: [PULL v2 05/25] error: add global &error_warn destination
 To: marcandre.lureau@redhat.com
 Cc: qemu-devel@nongnu.org,
@@ -65,8 +66,8 @@ Cc: qemu-devel@nongnu.org,
  Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,75 +90,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Mar 2023 at 11:47, <marcandre.lureau@redhat.com> wrote:
+On Thu, 6 Apr 2023 at 14:16, Peter Maydell <peter.maydell@linaro.org> wrote=
+:
 >
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> On Mon, 13 Mar 2023 at 11:47, <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > This can help debugging issues or develop, when error handling is
+> > introduced.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> > Message-Id: <20230221124802.4103554-6-marcandre.lureau@redhat.com>
 >
-> This can help debugging issues or develop, when error handling is
-> introduced.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-> Message-Id: <20230221124802.4103554-6-marcandre.lureau@redhat.com>
+> Hi; Coverity points out that this introduces a use-after-free
+> (CID 1507493):
 
-Hi; Coverity points out that this introduces a use-after-free
-(CID 1507493):
-
-> -static void error_handle_fatal(Error **errp, Error *err)
-> +static void error_handle(Error **errp, Error *err)
->  {
->      if (errp =3D=3D &error_abort) {
->          fprintf(stderr, "Unexpected error in %s() at %s:%d:\n",
-> @@ -43,6 +44,9 @@ static void error_handle_fatal(Error **errp, Error *err=
-)
->          error_report_err(err);
->          exit(1);
->      }
-> +    if (errp =3D=3D &error_warn) {
-> +        warn_report_err(err);
-> +    }
->  }
-
-The old error_handle_fatal() either:
- * did not return
- * or it left the passed in 'err' alone
-
-The new error_handle() introduces a new case, which
-calls warn_report_err() and returns. warn_report_err()
-prints the error and frees 'err'. Neither of the callsites
-seems to expect the possibility "error_handle() returned
-but 'err' is no longer valid":
-
->  G_GNUC_PRINTF(6, 0)
-> @@ -71,7 +75,7 @@ static void error_setv(Error **errp,
->      err->line =3D line;
->      err->func =3D func;
->
-> -    error_handle_fatal(errp, err);
-> +    error_handle(errp, err);
->      *errp =3D err;
-
-Here we stuff the now-invalid pointer into *errp
-(ie into the global local_error). Probably harmless
-but definitely rather odd.
-
->      errno =3D saved_errno;
-> @@ -284,7 +288,7 @@ void error_propagate(Error **dst_errp, Error *local_e=
-rr)
->      if (!local_err) {
->          return;
->      }
-> -    error_handle_fatal(dst_errp, local_err);
-> +    error_handle(dst_errp, local_err);
->      if (dst_errp && !*dst_errp) {
->          *dst_errp =3D local_err;
->      } else {
-
-Here, if error_warn happens to be NULL then we'll
-stuff the freed pointer into it. But if error_warn
-is not NULL (eg because we've already had one use of
-it) then the 'else' clause here does an error_free(local_err),
-which is a double-free.
+...and also CID 1508179 (same issue, just one warning about the
+callsite in error_setv() and one about the callsite in
+error_propagate()).
 
 thanks
 -- PMM
