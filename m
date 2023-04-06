@@ -2,97 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A696D970A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 14:31:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A5D6D9713
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 14:35:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkOkr-00082T-Dw; Thu, 06 Apr 2023 08:30:17 -0400
+	id 1pkOof-0001Cb-Ou; Thu, 06 Apr 2023 08:34:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pkOkp-00082G-H2
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:30:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pkOkn-0001G1-3l
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:30:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680784211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lbxf8vfUgb/jvG7YwM2nix/LKGhjkHm6Lc3zb/PVftE=;
- b=N6HUZil31ymUEHxYCX1f34f7T8lDck0yhs1sks7cYBH4DPrkDf6EumKlgl6Oqsqe6SDW/2
- ZLRz5UuFhTc5RUpI5oteqCxW+7fX/kcrZbTpxKTptvMVZuAvcHgni7he+BWMuKvBrRjOyJ
- XODcZ8cdk4sD/UgAM5Q5ne4jKTi1aMk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-43-rqWpqseqP4W_v2PdvxPyVQ-1; Thu, 06 Apr 2023 08:30:10 -0400
-X-MC-Unique: rqWpqseqP4W_v2PdvxPyVQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- 195-20020a3705cc000000b00746a3ab9426so17609765qkf.20
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 05:30:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pkOod-0001Bo-Br
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:34:11 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pkOob-0006xR-JO
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:34:11 -0400
+Received: by mail-wr1-x436.google.com with SMTP id r11so39343888wrr.12
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 05:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680784447;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ds/F9OlROTEKxLkVyHV0gRUJPwdvQ4uY5VLl4wwZEws=;
+ b=wBmHhLYbOjnELI1Sd88BPhPrCCIRMRLQ8OAyksMWNdBTQ1owNkZ0vxhpJT+j97Y2BA
+ 4bGH84SqPBTzBWHnyyUDblLoEQQ6zFH1wEcEOVyzM+GPzHf5wvVSmSZpTyJxFn7a/uWJ
+ xra9FLSBjPXkIJpx3Wo2+9tGPtE2hIdqfpOcGIi4TT1yHe/kKJKzMgN+NlX/N+WUOFgQ
+ RbqaOO3QkuK2Dm0WV460TxCiYMcukEqfVC+vsYg3UvKs9xhBIqIf2cFWGQTGQHqrBaLR
+ Fq4/IQXdb97O3Zn0uKVutaBmPBTZsgRYWzGXEd28PZNnIYbiBBl/U64adwpGUk7H1THe
+ hKDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680784210;
+ d=1e100.net; s=20210112; t=1680784447;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Lbxf8vfUgb/jvG7YwM2nix/LKGhjkHm6Lc3zb/PVftE=;
- b=dCtV45NiKUwQRC1pAXWT2Mfjhpk04mVdejbH6EvBA7neahuR06sUTRljCqC9LgCtJG
- Xuh0OTmA/RZlPVnbvE98ZwyFOhkeaeMbU2tETHiVInr9nxMMEQXNEYvtNFHrqHAYsGd4
- khrBjxF5+BXraoOarY0vkwPIQcrplmk2Cql39WvI7q+tHozGZR0EBbKERAoBb4hGlVcO
- rmdjDzmWanpTxAL0pSnulp1xhJYl9BpvGJxKLL2ehOlfMyS6yflv4s5s6kGFyw1hSwTC
- DIJcQWmJTobZf5Nr9Br5MEShk1O3OfYjVvnorigfr1SqoTe4L0FYQZ7CPR2KXQvke2kp
- S5bQ==
-X-Gm-Message-State: AAQBX9euiXGUSxDjXQ/YR/wzIBLcpBw8JgK9kZvfMWK9aRozv5nZHHkk
- AQ9TFYB2on0YpKXf2SK5QCb6g+70VJ7sLknBhEB6nlUcMgfkwhL8B2LZjGqS7LNYtD5f3Zi4oaN
- BchdWf+kwe1IEe5k=
-X-Received: by 2002:a05:6214:2342:b0:5e0:2d2a:33d7 with SMTP id
- hu2-20020a056214234200b005e02d2a33d7mr4176524qvb.34.1680784209701; 
- Thu, 06 Apr 2023 05:30:09 -0700 (PDT)
-X-Google-Smtp-Source: AKy350antCZKUmf7g1enHQjajfKzh2k3TDNU2QnqJ+40xE2TM8Yn3Y5pGwl4EC+jH4Z8YDfJpanRrw==
-X-Received: by 2002:a05:6214:2342:b0:5e0:2d2a:33d7 with SMTP id
- hu2-20020a056214234200b005e02d2a33d7mr4176476qvb.34.1680784209334; 
- Thu, 06 Apr 2023 05:30:09 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-178-193.web.vodafone.de.
- [109.43.178.193]) by smtp.gmail.com with ESMTPSA id
- lf20-20020a0562142cd400b005dd8b9345f2sm456497qvb.138.2023.04.06.05.30.08
+ bh=ds/F9OlROTEKxLkVyHV0gRUJPwdvQ4uY5VLl4wwZEws=;
+ b=yUwxxNOC61h0W8optvxRkO1dPkqh833SoRfU9zdrWYjqTfrbTyL6PpSfBAafE4OaLd
+ XpCGmlQ498UVKNpukY71/UvvaUB7L4/1BV9ZXow9Il6Qts7SYdn34e1Yo0irlgzyeSgZ
+ efcjqHgHASjQ2bAq2f41hHDaev1f79FA0rYVTvM54zN9/ztUz5moWD+UicvRxC3K/Jlf
+ 21EnibcVPcEsecHKUJLayyRru6ywU/LftIQOUC+afs/NvfbEutpHhA1MYLcNv90DegG0
+ By20lEVFPjSDF/SnTkNRUCGxf1bawtLNfYRatDx61a1nN6lZvMEKNrhZGN3J3XkxD53P
+ p77g==
+X-Gm-Message-State: AAQBX9ezRmuau88//i/XNxva9F1oQY1Mp/yx0ULHgkEQ1ii+mreBd0uY
+ oZ4wDoj/hrXM2DwIUtzlvfiTHw==
+X-Google-Smtp-Source: AKy350ZxJC+l3qt9cG+0WN7HV5u8NyC3NVD5rvgqxVEmNvlnppyVmO55/1DzDwOSF6kDgQdbFuNLew==
+X-Received: by 2002:adf:e7ce:0:b0:2ef:1088:1100 with SMTP id
+ e14-20020adfe7ce000000b002ef10881100mr1382313wrn.52.1680784447430; 
+ Thu, 06 Apr 2023 05:34:07 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ f4-20020adff8c4000000b002cff06039d7sm1690826wrq.39.2023.04.06.05.34.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Apr 2023 05:30:08 -0700 (PDT)
-Message-ID: <2e529c06-199f-6d5a-a75b-5b88aae44b2c@redhat.com>
-Date: Thu, 6 Apr 2023 14:30:06 +0200
+ Thu, 06 Apr 2023 05:34:07 -0700 (PDT)
+Message-ID: <8e935a0b-583b-ed14-fded-b0af760ae99d@linaro.org>
+Date: Thu, 6 Apr 2023 14:34:05 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: s390 private runner CI job timing out
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH] net: tap: Drop the close of fds for child process
 Content-Language: en-US
-To: Christian Borntraeger <borntraeger@linux.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <CAFEAcA_7+5tK+rM6dBgozNJmMmL7fU3MHLuvzJtb7-zWK4rMTQ@mail.gmail.com>
- <4521ce29-1d11-f253-7a7d-342f6bd9e6b0@redhat.com>
- <CAFEAcA_HVpYajJ5yP7+eYKNhKggtNjgFyQ_V3WqSPf4dGL=zKQ@mail.gmail.com>
- <3b5cc225-50e8-e56d-3fa8-da052a515beb@linux.ibm.com>
- <CAFEAcA_Uh+20w1gnCBXe6Go9WqkUu+SUeRtsrrbwEO4j48OjGQ@mail.gmail.com>
- <149e9342-b48b-0871-ee4d-96c6f1d3f198@linux.ibm.com>
- <CAFEAcA_SgAZmv8YpaR0v7iU1oMdNTAMcrcYWaqGPzHDxjSP=wQ@mail.gmail.com>
- <c974308f-42a1-9163-5c4f-54bda7050ee8@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <c974308f-42a1-9163-5c4f-54bda7050ee8@linux.ibm.com>
+To: Bin Meng <bmeng@tinylab.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Zhangjin Wu <falcon@tinylab.org>
+References: <20230406112041.798585-1-bmeng@tinylab.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230406112041.798585-1-bmeng@tinylab.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.224, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,57 +91,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06/04/2023 14.13, Christian Borntraeger wrote:
+On 6/4/23 13:20, Bin Meng wrote:
+> Current codes using a brute-force traversal of all file descriptors
+> do not scale on a system where the maximum number of file descriptors
+> are set to a very large value (e.g.: in a Docker container of Manjaro
+> distribution it is set to 1073741816). QEMU just looks freezed during
+> start-up.
 > 
+> The close-on-exec flag was introduced since a faily old Linux kernel
+> (2.6.23). With recent newer kernels that QEMU supports, we don't need
+> to manually close the fds for child process as the proper O_CLOEXEC
+> flag should have been set properly on files that we don't want child
+> process to see.
+
+But this file is common to all POSIX implementations, not only Linux.
+
+> Reported-by: Zhangjin Wu <falcon@tinylab.org>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> ---
 > 
-> Am 06.04.23 um 14:05 schrieb Peter Maydell:
->> On Thu, 6 Apr 2023 at 12:17, Christian Borntraeger
->> <borntraeger@linux.ibm.com> wrote:
->>>
->>> Am 06.04.23 um 12:44 schrieb Peter Maydell:
->>>> On Thu, 6 Apr 2023 at 11:40, Christian Borntraeger
->>>> <borntraeger@linux.ibm.com> wrote:
->>>>> Am 06.04.23 um 11:21 schrieb Peter Maydell:
->>>>>> Christian, does our S390X machine get a guaranteed amount of CPU,
->>>>>> or does it depend on what else is running on the hardware?
->>>>>
->>>>> I think its a shared system with shared CPUs. Can you check the steal
->>>>> time in top or proc? If this is far too high we could ask to give you
->>>>> more weight for that VM.
->>>>
->>>> It's idle at the moment and steal time seems to be low (0.0 .. 0.3);
->>>> I'll try to remember to check next time it's running a job.
->>>>
->>>
->>> Do you have /proc/stat ?
->>
->> Yes; hopefully it means more to you than it does to me :-)
->>
->> linux1@qemu01:~$ cat /proc/stat
->> cpu  60904459 604975 15052194 1435958176 17128179 351949 758578 22218760 0 0
->> cpu0 15022535 146734 3786909 358774818 4283172 98313 237156 5894809 0 0
->> cpu1 15306890 151164 3746024 358968957 4378864 85629 172492 5434255 0 0
->> cpu2 15307709 157180 3762691 359141276 4138714 85736 176367 5474594 0 0
->> cpu3 15267324 149895 3756569 359073124 4327428 82269 172562 5415101 0 0
+>   net/tap.c | 14 --------------
+>   1 file changed, 14 deletions(-)
 > 
-> This is
-> user,nice,system,idle,iowait,irq,softirq,steal,guest,guest_nice
-> So overall there is some (20-30% since the last reboot) steal going on.
-> Not sure if this is the real problem since it is only Ubuntu 20.04.
-> Does a higher timeout make the problem go away?
+> diff --git a/net/tap.c b/net/tap.c
+> index 1bf085d422..49e1915484 100644
+> --- a/net/tap.c
+> +++ b/net/tap.c
+> @@ -446,13 +446,6 @@ static void launch_script(const char *setup_script, const char *ifname,
+>           return;
+>       }
+>       if (pid == 0) {
 
-The thing is: it shouldn't take that long to build QEMU and run the tests 
-here, theoretically. Some days ago, the job was finishing in 39 minutes:
+Maybe guard with #ifndef O_CLOEXEC
 
-  https://gitlab.com/qemu-project/qemu/-/jobs/3973481571
+> -        int open_max = sysconf(_SC_OPEN_MAX), i;
+> -
+> -        for (i = 3; i < open_max; i++) {
+> -            if (i != fd) {
+> -                close(i);
+> -            }
+> -        }
 
-The recent run took 74 minutes:
+or add qemu_close_cloexec() in util/osdep.c similar to qemu_open_cloexec()?
 
-  https://gitlab.com/qemu-project/qemu/-/jobs/4066136770
-
-That's almost a factor of two! So there is definitely something strange 
-going on.
-
-  Thomas
+>           parg = args;
+>           *parg++ = (char *)setup_script;
+>           *parg++ = (char *)ifname;
+> @@ -536,17 +529,10 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
+>           return -1;
+>       }
+>       if (pid == 0) {
+> -        int open_max = sysconf(_SC_OPEN_MAX), i;
+>           char *fd_buf = NULL;
+>           char *br_buf = NULL;
+>           char *helper_cmd = NULL;
+>   
+> -        for (i = 3; i < open_max; i++) {
+> -            if (i != sv[1]) {
+> -                close(i);
+> -            }
+> -        }
+> -
+>           fd_buf = g_strdup_printf("%s%d", "--fd=", sv[1]);
+>   
+>           if (strrchr(helper, ' ') || strrchr(helper, '\t')) {
 
 
