@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09EC6D90CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 09:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652C46D9102
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 10:02:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkKON-0003Oc-Lp; Thu, 06 Apr 2023 03:50:47 -0400
+	id 1pkKYS-0006Cz-T0; Thu, 06 Apr 2023 04:01:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pkKOL-0003Nz-He
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 03:50:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pkKOK-0004qV-0K
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 03:50:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680767443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zfpt1hWlJeW+De1zXUq58qE//gZcupovgtklglmgOFw=;
- b=CdXSE1zlSnfXN4yIK3R51Ko5+6TVHy7MPmZ0n1rOtqgtpI7fuSvd26qbCSBnX2+GSlgQGy
- u+GF5W+niaczqLX1HnAM97kpQ3Zhg+qXdI/f3C0/owUDX6pyB5sB9xd55tFwFO0mVgv7m3
- Bb+GmJIlELW7gIjUyH30Qnf1Uo9vfXQ=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-572-33yQ9FZ1Pk6SgkOHkLUKmA-1; Thu, 06 Apr 2023 03:50:41 -0400
-X-MC-Unique: 33yQ9FZ1Pk6SgkOHkLUKmA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- h7-20020a0cd807000000b005dd254e7babso17504947qvj.14
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 00:50:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pkKYM-0006AX-Vj
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:01:08 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pkKYK-0007tM-T8
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:01:06 -0400
+Received: by mail-wr1-x430.google.com with SMTP id v1so38601768wrv.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 01:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680768063;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rC7T51oJUAEvDMhKoe2KU4JQ5os89UllKPg0c8I6IaA=;
+ b=nPCoHIJx3H+2DSomb/+Lt9OyQSPaxewgW7efOd+oVAA7H4/+2zsIjoYCUESUrC+su+
+ LNoMNUOhCimqB60Qf/h4Fwrl3G2wfERQkOU+vvQOzjxW9HF6Ucfg4zCdZA01dNS9KFbh
+ WsH9V/44E5WgjqOQEaf7lbpRIggpkALW1d6x3PZU88KF8xPh649hjj4aOy3Ge89pl5rL
+ EECp82LppVU5aVw/Pel0on/uSlmapCWoFCny5lAl+h7tVAQAHPw2GtmntmA3mqKk/lvX
+ rpU54uS6ZepBKvhVBaR9XYWqn8UnMczqkZPGvYONSFXkI64lyZ3FcqEq47qsCmxZA127
+ P1rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680767441;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Zfpt1hWlJeW+De1zXUq58qE//gZcupovgtklglmgOFw=;
- b=Y+23aIo037aPju9bqQ87+i4J2RD0ZDP9fX/x0j5pfhM523/gmDZbhwadQgNJp17Be7
- 8FpEhxlUCheBgmbHQSAb5XTp5IRA/pm5jmS0hYWOhU7CnJjiKLp6dvw5QerbUspIJTWm
- mjkK3yHpQi4Eggx6kWSVGQRpb2yLSb1qra6vQjkDmqu4x5/5ALsf8cNHUm6L3HaAxSnU
- /LoHlYDZBguFV4b5HmK/yiOFFURyvpOFDfDf65BWsvTvrcp+rIq8mRa+eMOVrGynTRko
- C2ClS+wF9Pb0DpEqlKIVjJ/M5vDHEWsewr/0+oChcCUXVFBmYI+4Y7Dy4xmP1FAknBaO
- 0gGA==
-X-Gm-Message-State: AAQBX9f5e5PktJro0FZtvT8xDRQnmgZ8FcMC6DTrHvdugfns0+xdzpVe
- ZuQw/OefL2eX/Uue1NX+Hx6LPr1S+4Wa931cSAOUF8QZZEcK2te4QnBZfejccQT3KuCh6cvnJCR
- MSoEQOsm4wVuivjI=
-X-Received: by 2002:a05:6214:19c3:b0:5a5:b269:bfd7 with SMTP id
- j3-20020a05621419c300b005a5b269bfd7mr3536296qvc.8.1680767441138; 
- Thu, 06 Apr 2023 00:50:41 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aOTMeFA6L3L3kDCyW2m/d0fTHZIJmC7P+sa1stPv6snl6xCxTWIR0yTmfZxFMazbqwU1fSEQ==
-X-Received: by 2002:a05:6214:19c3:b0:5a5:b269:bfd7 with SMTP id
- j3-20020a05621419c300b005a5b269bfd7mr3536276qvc.8.1680767440725; 
- Thu, 06 Apr 2023 00:50:40 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-178-193.web.vodafone.de.
- [109.43.178.193]) by smtp.gmail.com with ESMTPSA id
- 65-20020a370c44000000b00746777fd176sm297041qkm.26.2023.04.06.00.50.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Apr 2023 00:50:40 -0700 (PDT)
-Message-ID: <3cccc7e6-3a39-b3b4-feaf-85a3faa58570@redhat.com>
-Date: Thu, 6 Apr 2023 09:50:36 +0200
+ d=1e100.net; s=20210112; t=1680768063;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rC7T51oJUAEvDMhKoe2KU4JQ5os89UllKPg0c8I6IaA=;
+ b=7fckCED5+6iX4dJqgKV3/J3LiFSexXID7RPXWXFIJ5jsGltHcJcGjrMB4RqGvkhOUe
+ 0Nx6UJAV6aGgyDc+Mn3swgJsW9GFfaxqViDLZ0cL9eaNuPP2uRkxTwGT16PDy0Q/1X6q
+ r3CJ0BUWxe/ghVOQpSuKeNIK89TBTkFhH7hgixeA4o4Pb9go96TfehWqL3fRa9gbX0mq
+ 5ZEnqlh9LkD/XKM2NokxcrOTI4rDMazzfi7JR1bTPbS6R7hk+1uUB1L+Tfm7ItOBkmR2
+ T5H2Sx83PAT8BAq/++emRtty/KZwDnTWVyqD08FT8g8/JLSNiu43W1BQsYN5/0EZ3I+L
+ u9PA==
+X-Gm-Message-State: AAQBX9eSyA23Z3gpE3dssLDcKheWFa2eXTo6P0HFdh/7Km5sZg949Cvg
+ mWjCD6dMAjK75Ar/SDK2rXw86Q==
+X-Google-Smtp-Source: AKy350Zc48gXiU9SWY8iuJ8A/gb6unyUyB6qd5Dv/Apnj4da9QijKQdqtAKWjxevNbXCEu1oHHEO2A==
+X-Received: by 2002:adf:df0a:0:b0:2cf:ee28:5024 with SMTP id
+ y10-20020adfdf0a000000b002cfee285024mr5744234wrl.42.1680768062419; 
+ Thu, 06 Apr 2023 01:01:02 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ m3-20020adfdc43000000b002c5691f13eesm1006880wrj.50.2023.04.06.01.01.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 01:01:02 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 93C4F1FFB7;
+ Thu,  6 Apr 2023 09:01:01 +0100 (BST)
+References: <20230406022751.757980-1-fei2.wu@intel.com>
+ <20230406022751.757980-3-fei2.wu@intel.com>
+User-agent: mu4e 1.10.0; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Fei Wu <fei2.wu@intel.com>
+Cc: richard.henderson@linaro.org, pbonzini@redhat.com, erdnaxe@crans.org,
+ ma.mandourr@gmail.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/2] plugins/hotblocks: add host insn size
+Date: Thu, 06 Apr 2023 08:54:54 +0100
+In-reply-to: <20230406022751.757980-3-fei2.wu@intel.com>
+Message-ID: <87r0sxjv7m.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 10/10] hw/s390x: Rename pv.c -> pv-kvm.c
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>
-Cc: qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- kvm@vger.kernel.org, qemu-ppc@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230405160454.97436-1-philmd@linaro.org>
- <20230405160454.97436-11-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230405160454.97436-11-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.355, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,39 +96,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/04/2023 18.04, Philippe Mathieu-Daudé wrote:
-> Protected Virtualization is specific to KVM.
-> Rename the file as 'pv-kvm.c' to make this clearer.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+Fei Wu <fei2.wu@intel.com> writes:
+
+> It's only valid when inline=3Dfalse, otherwise it's default to 0.
+>
+> Signed-off-by: Fei Wu <fei2.wu@intel.com>
 > ---
->   hw/s390x/{pv.c => pv-kvm.c} | 0
->   hw/s390x/meson.build        | 2 +-
->   2 files changed, 1 insertion(+), 1 deletion(-)
->   rename hw/s390x/{pv.c => pv-kvm.c} (100%)
-> 
-> diff --git a/hw/s390x/pv.c b/hw/s390x/pv-kvm.c
-> similarity index 100%
-> rename from hw/s390x/pv.c
-> rename to hw/s390x/pv-kvm.c
-> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-> index f291016fee..2f43b6c473 100644
-> --- a/hw/s390x/meson.build
-> +++ b/hw/s390x/meson.build
-> @@ -22,7 +22,7 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
->     'tod-kvm.c',
->     's390-skeys-kvm.c',
->     's390-stattrib-kvm.c',
-> -  'pv.c',
-> +  'pv-kvm.c',
->     's390-pci-kvm.c',
->   ))
->   s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
+>  contrib/plugins/hotblocks.c | 24 +++++++++++++++---------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
+>
+> diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
+> index 062200a7a4..c9716da7fe 100644
+> --- a/contrib/plugins/hotblocks.c
+> +++ b/contrib/plugins/hotblocks.c
+> @@ -37,6 +37,8 @@ typedef struct {
+>      uint64_t exec_count;
+>      int      trans_count;
+>      unsigned long insns;
+> +    void    *p_host_insn_size;
+> +    uint64_t host_insn_size;
+>  } ExecCount;
+>=20=20
+>  static gint cmp_exec_count(gconstpointer a, gconstpointer b)
+> @@ -59,13 +61,17 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+>      it =3D g_list_sort(counts, cmp_exec_count);
+>=20=20
+>      if (it) {
+> -        g_string_append_printf(report, "pc, tcount, icount, ecount\n");
+> +        g_string_append_printf(report,
+> +                               "host isize is only valid when inline=3Df=
+alse\n"
+> +                               "pc, tcount, icount, ecount, host isize\n=
+");
+>=20=20
+>          for (i =3D 0; i < limit && it->next; i++, it =3D it->next) {
+>              ExecCount *rec =3D (ExecCount *) it->data;
+> -            g_string_append_printf(report, "0x%016"PRIx64", %d, %ld, %"P=
+RId64"\n",
+> +            g_string_append_printf(report, "0x%016"PRIx64", %d, %ld, %"P=
+RId64
+> +                                   ", %"PRIu64"\n",
+>                                     rec->start_addr, rec->trans_count,
+> -                                   rec->insns, rec->exec_count);
+> +                                   rec->insns, rec->exec_count,
+> +                                   rec->host_insn_size);
+>          }
+>=20=20
+>          g_list_free(it);
+> @@ -82,14 +88,13 @@ static void plugin_init(void)
+>=20=20
+>  static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
+>  {
+> -    ExecCount *cnt;
+> -    uint64_t hash =3D (uint64_t) udata;
+> +    ExecCount *cnt =3D (ExecCount *) udata;
+>=20=20
+>      g_mutex_lock(&lock);
+> -    cnt =3D (ExecCount *) g_hash_table_lookup(hotblocks, (gconstpointer)=
+ hash);
+> -    /* should always succeed */
+> -    g_assert(cnt);
+>      cnt->exec_count++;
+> +    if (cnt->host_insn_size =3D=3D 0) {
+> +        cnt->host_insn_size =3D *((uint64_t *)cnt->p_host_insn_size);
 
-Hmmm, maybe we should rather move it to target/s390x/kvm/ instead?
+No - passing an internal TCG pointer across different phases of
+translation/execution is a definite no no. We explicitly state that
+handles are only valid for callbacks in the docs:
 
-Janosch, what's your opinion?
+  Lifetime of the query handle
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  Thomas
+  Each callback provides an opaque anonymous information handle which
+  can usually be further queried to find out information about a
+  translation, instruction or operation. The handles themselves are only
+  valid during the lifetime of the callback so it is important that any
+  information that is needed is extracted during the callback and saved
+  by the plugin.
 
+to avoid this sort of tangling of implementation details into the
+plugins.
+
+
+> +    }
+>      g_mutex_unlock(&lock);
+>  }
+>=20=20
+> @@ -114,6 +119,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct=
+ qemu_plugin_tb *tb)
+>          cnt->start_addr =3D pc;
+>          cnt->trans_count =3D 1;
+>          cnt->insns =3D insns;
+> +        cnt->p_host_insn_size =3D qemu_plugin_tb_host_insn_size(tb);
+>          g_hash_table_insert(hotblocks, (gpointer) hash, (gpointer) cnt);
+>      }
+>=20=20
+> @@ -125,7 +131,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct=
+ qemu_plugin_tb *tb)
+>      } else {
+>          qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
+>                                               QEMU_PLUGIN_CB_NO_REGS,
+> -                                             (void *)hash);
+> +                                             (void *)cnt);
+>      }
+>  }
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
