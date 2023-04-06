@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C11B6D9403
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 12:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248716D9436
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 12:34:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkMqu-00061N-BL; Thu, 06 Apr 2023 06:28:24 -0400
+	id 1pkMvc-0000vR-Mj; Thu, 06 Apr 2023 06:33:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pkMqt-000619-5O
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:28:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pkMqr-00016y-Im
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:28:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680776901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DNkvfx+kGEh89wIXPzxwukB9fxTI4/0RedqvfKhPobU=;
- b=ezCksBasWFx1mY30WNtoai/1+xyWJBEjDl59Ds58ZNB8QmyYLKz7gua8vxvciEuvR/zlPD
- rtES6rV6bzIkbomGM4UWkQpqSWZYW38voQ5ZBb4qr10s8vUiR865d9wUnFA6/T+s49FMGK
- ZK8+/GU7IYFPZNfdMRKrwgP1b9e4Nf4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-3LWSSKxpOQOgaj3-azLAow-1; Thu, 06 Apr 2023 06:28:17 -0400
-X-MC-Unique: 3LWSSKxpOQOgaj3-azLAow-1
-Received: by mail-ed1-f72.google.com with SMTP id
- m17-20020a509991000000b0050463defdabso776229edb.6
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 03:28:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pkMvZ-0000uy-Cm
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:33:13 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pkMvX-0003Ap-RB
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:33:12 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id f188so27152421ybb.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 03:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680777190;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mqlnxqpV2NrEC/WUGnGc9rNQge8tUbFlILyuOiKjh/4=;
+ b=URoLVYU9IDLyI2y6TpmMH3ah8rmqAwe+gtFq7KMqjC4OMaJ6jPPJY+t9yjIT8mgott
+ e+2Q8ljoPouIEBfiTr2UbdxKmtEcpNhKBz5gh6Y9pem9sbCEfq6mIoeu2TkdGKtOKNDs
+ NyygJPRs3OPzsrPZtqL6mbetOwevSzEUoPk0+b+f9Ef97H4hbJyCtcDHkxdX71R3efk9
+ E+u76DJR1MPj4v6pBLvYZOK/F6G4JKOGeQgy+E5qJK5FfBdmZcKYCCYLEjbdb6XH+KrW
+ 55IVREkOb/J68o4x4LyIVWaeqdUHZuvEvXg77fPZScBEMLydQ6wA/CFcxnHEGURg1f1q
+ DlPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680776896; x=1683368896;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20210112; t=1680777190;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=DNkvfx+kGEh89wIXPzxwukB9fxTI4/0RedqvfKhPobU=;
- b=s4PJU8haQ57xDqf1vNS580hExvEiRc+OYjFYjLFRjt/I4ySsloxcvtYITuBcVXdobI
- tJRRiveokn82dkgUwjb3QAtFSPhzzevfqTf7St7bbupSY7EaF1smTEznBxKZEWk/X15X
- 7raL4hobFZUkgpH0ZcTK6WsuV3KBPIeJos0Zsb1j8KJS5waBzLtUh2i7i+wIZqIuLvYp
- bA2AZzGlUgw9RSMOgwq78H6mW5sYZLEVs9gOBDGQghh+UT6DwaHdDjWfesOjDPGzB6N2
- /z1AQU+JdxiDDQctSzcgFMKm1kAhLjKeufg0YFabkvvsIOBikL+dWaN+e1hQ4b5wjDCr
- VXvw==
-X-Gm-Message-State: AAQBX9eAT9ipJZjGSTxEA1Qf/nddcFD+eL7uH14oowz6DQVuuEgqfv1G
- rKaNoOAYFGvsWxjQIg89rxp9D9FaI0MfmeNhbuWQMMIsvDwIXyhURyzv7xtP5fMLSlmK/OfdDGW
- 7b4KVuCejTHdPD7+MrDkHCeUQDpva3LWPFEZjvvRbYPzX/tM5VXJ9DohcYtgiM1w8/1eJtvnk+w
- k=
-X-Received: by 2002:a17:907:1dd1:b0:933:44ef:e5b5 with SMTP id
- og17-20020a1709071dd100b0093344efe5b5mr6622351ejc.30.1680776896094; 
- Thu, 06 Apr 2023 03:28:16 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YPCBR0q7ZDJpllmdl++OSzKnEWjJaKoDpIiMJlSMgZHkGVvIFN7reddUN8jo1lTa+/IIyVAA==
-X-Received: by 2002:a17:907:1dd1:b0:933:44ef:e5b5 with SMTP id
- og17-20020a1709071dd100b0093344efe5b5mr6622338ejc.30.1680776895811; 
- Thu, 06 Apr 2023 03:28:15 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- kg13-20020a17090776ed00b008bc8ad41646sm621247ejc.157.2023.04.06.03.28.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 03:28:15 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com
-Subject: [PATCH] monitor: mark mixed functions that can suspend
-Date: Thu,  6 Apr 2023 12:28:14 +0200
-Message-Id: <20230406102814.243516-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.2
+ bh=mqlnxqpV2NrEC/WUGnGc9rNQge8tUbFlILyuOiKjh/4=;
+ b=B6T/NTAWGec3CwkBZe/KAXmZipa6CRvMX/nuzxUkt9+5/bevtnkScK9Un6yHeyABvq
+ nteaGQvzcyyVyWTuw9cvIWzt2NeoNrbPTVt9R9MF8sNp8F/rKTIIt23jYDSAtbqYyxD5
+ PRd6TKJMmSpk1RHb87ast07Wm/xVW+EoRIH68Xcxb/aj1dGnmqmTsGhZCmBGLoJ74a/2
+ Fj/8YCppM610fvUgK9G/xxs+tNhUwR70jNSAlwVC8P3vuyc9lRw9oHvFZWRrvccADw9i
+ 0TxGWJyhpaEnK6vADV28u8+kIdaFe45cWyjinwMZsZlccm1OWHTiYD0vd6E6yll+tFpd
+ szxQ==
+X-Gm-Message-State: AAQBX9cOvdSbfCo6K4wrET3dMlCdGouojJzgxyqhSdDUOL4sWt1Y1qYA
+ 1wRdDHEyEI8qp1JLdnEpZOJT6mEZY0BFc2La9ofuo1A3
+X-Google-Smtp-Source: AKy350Y66ugAa2e8qA5bxc20vX1hnp6020ZGzy52taRY3MgxPBmfKj+kfGMZ4Ql83vctl03/890EbLXP+27vk2bayjg=
+X-Received: by 2002:a25:cfc8:0:b0:b73:caa7:f05e with SMTP id
+ f191-20020a25cfc8000000b00b73caa7f05emr1788124ybg.2.1680777190379; Thu, 06
+ Apr 2023 03:33:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230406100759.240870-2-pbonzini@redhat.com>
+In-Reply-To: <20230406100759.240870-2-pbonzini@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 6 Apr 2023 06:32:58 -0400
+Message-ID: <CAJSP0QVmJ4j9YTB96070tjEnzsLzvp=qMpwkBrdNsb+NJMwMew@mail.gmail.com>
+Subject: Re: [PATCH for-8.1] block-backend: remove qatomic_mb_read()
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,55 +83,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There should be no paths from a coroutine_fn to aio_poll, however in
-practice coroutine_mixed_fn will call aio_poll in the !qemu_in_coroutine()
-path.  By marking mixed functions, we can track accurately the call paths
-that execute entirely in coroutine context, and find more missing
-coroutine_fn markers.  This results in more accurate checks that
-coroutine code does not end up blocking.
+On Thu, 6 Apr 2023 at 06:08, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> There is already a barrier in AIO_WAIT_WHILE_INTERNAL(), thus the
+> qatomic_mb_read() is not adding anything.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  block/block-backend.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-If the marking were extended transitively to all functions that call
-these ones, static analysis could be done much more efficiently.
-However, this is a start and makes it possible to use vrc's path-based
-searches to find potential bugs where coroutine_fns call blocking functions.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/qapi/qmp/dispatch.h | 4 ++--
- qapi/qmp-dispatch.c         | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 1e4240fd0dbc..f2e956813a14 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -55,8 +55,8 @@ bool qmp_command_available(const QmpCommand *cmd, Error **errp);
- const char *qmp_command_name(const QmpCommand *cmd);
- bool qmp_has_success_response(const QmpCommand *cmd);
- QDict *qmp_error_response(Error *err);
--QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
--                    bool allow_oob, Monitor *cur_mon);
-+QDict *coroutine_mixed_fn qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-+                                       bool allow_oob, Monitor *cur_mon);
- bool qmp_is_oob(const QDict *dict);
- 
- typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaque);
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 0990873ec8ec..555528b6bbd3 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -134,8 +134,8 @@ static void do_qmp_dispatch_bh(void *opaque)
-  * Runs outside of coroutine context for OOB commands, but in coroutine
-  * context for everything else.
-  */
--QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
--                    bool allow_oob, Monitor *cur_mon)
-+QDict *coroutine_mixed_fn qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-+                                       bool allow_oob, Monitor *cur_mon)
- {
-     Error *err = NULL;
-     bool oob;
--- 
-2.39.2
-
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
