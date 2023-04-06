@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3640F6DA2A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 22:25:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBCA16DA3E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 22:44:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkWAT-0001Ng-Vk; Thu, 06 Apr 2023 16:25:14 -0400
+	id 1pkWRe-0004he-Hv; Thu, 06 Apr 2023 16:42:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <reinoud@gorilla.13thmonkey.org>)
- id 1pkWAQ-0001N8-Mf; Thu, 06 Apr 2023 16:25:10 -0400
-Received: from 77-173-18-117.fixed.kpn.net ([77.173.18.117]
- helo=gorilla.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@gorilla.13thmonkey.org>)
- id 1pkWAO-0001jv-Ma; Thu, 06 Apr 2023 16:25:10 -0400
-Received: by gorilla.13thmonkey.org (Postfix, from userid 103)
- id 579ED2FF0958; Thu,  6 Apr 2023 22:23:59 +0200 (CEST)
-Date: Thu, 6 Apr 2023 22:23:59 +0200
-From: Reinoud Zandijk <reinoud@NetBSD.org>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Michael Tokarev <mjt@tls.msk.ru>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Warner Losh <imp@bsdimp.com>,
- Beraldo Leal <bleal@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Kyle Evans <kevans@freebsd.org>, kvm@vger.kernel.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
- armbru@redhat.com
-Subject: Re: [PATCH v2 05/11] qemu-options: finesse the recommendations
- around -blockdev
-Message-ID: <ZC8qXxB6X8t7RBa+@gorilla.13thmonkey.org>
-References: <20230403134920.2132362-1-alex.bennee@linaro.org>
- <20230403134920.2132362-6-alex.bennee@linaro.org>
- <ZCwsvaxRzx4bzbXo@redhat.com>
- <cbb3df0a-7714-cbc0-efda-45f1d608e988@msgid.tls.msk.ru>
- <ZCxNqb9tEO24KaxX@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pkWRb-0004h9-RV
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 16:42:55 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pkWRa-0000YS-2w
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 16:42:55 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ hg25-20020a05600c539900b003f05a99a841so6417212wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 13:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680813772;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4AD3Uic8gD168QJjpJzqusml8cbEibOHgzvF8XkpqJ8=;
+ b=YRjxieod/ln1No5DqVkKroaUJ2lN4PJVCKLGo/jodn/a87IrBKubSNs9FGOc8OCuIk
+ wrnD1+iho1LVjf+9UHQoD8Yj2NofGRumSyS39/sBrNoaA9hK5vXjYtnkI0GQERDGYCo2
+ g0JZ7q03GL0ubmwaojBjlI1snjGCuojxpnm7wen9m6A6syzbEmdEdHEDgssWlv14NAX8
+ zXmIz0z9BGuGaFpWAoui1+UbKGpR4tKO2PEdFFfMPax8nxtbiJcPW3o0vopGRJFUSn2S
+ f4ozU097Uw+tJ90dHF7MhwgN3+B3CscyoIBqbeIgOpMogr/gKd+4nUtxaaxXnqfpN/0Z
+ qtpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680813772;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4AD3Uic8gD168QJjpJzqusml8cbEibOHgzvF8XkpqJ8=;
+ b=tSfR+rtD2mGK5h2tsi/j7/pPoZpX6s+HHH+Vy03RxLXfNo3jB4PdOBnCFDqmN/7/4e
+ pT88BvSybhz0kergDEfHERaSsdTHCy/zoEqul9ac+t4Gho2NsSwrl5QTnTv+ta+Rl7Hc
+ yVGO+V7H69neN07XcwAtAjz+uUwDtdI5G6k2mzspHjWPiP8t2+St1Vn/nM7ZjmGSl6c3
+ XYrzCYhpC8D5BARU+9VOXDHhbCnbFn7YNPP2CB/3IxMi+3gcGjKJrmmuuYZ/T0+U8bBa
+ lmqNBmoKQkNiI4L30jLBNORjZ6xJL3KhwCpTidNoIbonLIX2F/tRnJSPL724PCa5+cmN
+ qvPQ==
+X-Gm-Message-State: AAQBX9f9WGbT56U7pIQhj3RiHpnGg0o66Bbj/f7rOOa+yY9h4DOoW8RH
+ qNYL0dhSpAsoHsTxkbR5bp1uYg==
+X-Google-Smtp-Source: AKy350ZE04YBAopxgVED6sY2dtODiNsXBIpRzVNHi8QI/oKWbY4h/R8MnONT27TJdeHRsR52toFirw==
+X-Received: by 2002:a1c:6a13:0:b0:3df:e468:17dc with SMTP id
+ f19-20020a1c6a13000000b003dfe46817dcmr7835537wmc.40.1680813771903; 
+ Thu, 06 Apr 2023 13:42:51 -0700 (PDT)
+Received: from [192.168.1.101] ([176.176.140.188])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020adfe68a000000b002c7b229b1basm2696271wrm.15.2023.04.06.13.42.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Apr 2023 13:42:51 -0700 (PDT)
+Message-ID: <b966fe8f-5a02-7cff-2d45-40c3aa0686c4@linaro.org>
+Date: Thu, 6 Apr 2023 22:42:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.9.1
+Subject: Re: [PATCH] target/i386: Avoid unreachable variable declaration in
+ mmu_translate()
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+References: <20230406155946.3362077-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230406155946.3362077-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZCxNqb9tEO24KaxX@redhat.com>
-Received-SPF: none client-ip=77.173.18.117;
- envelope-from=reinoud@gorilla.13thmonkey.org; helo=gorilla.13thmonkey.org
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, KHOP_HELO_FCRDNS=0.015,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- TVD_RCVD_IP=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,27 +94,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 04, 2023 at 06:17:45PM +0200, Kevin Wolf wrote:
-> Am 04.04.2023 um 17:07 hat Michael Tokarev geschrieben:
-> > 04.04.2023 16:57, Kevin Wolf пишет:
-> Maybe -snapshot should error out if -blockdev is in use. You'd generally
-> expect that either -blockdev is used primarily and snapshots are done
-> externally (if the command line is generated by some management tool),
-> or that -drive is used consistently (by a human who likes the
-> convenience). In both cases, we wouldn't hit the error path.
+On 6/4/23 17:59, Peter Maydell wrote:
+> Coverity complains (CID 1507880) that the declaration "int error_code;"
+> in mmu_translate() is unreachable code. Since this is only a declaration,
+> this isn't actually a bug, but:
+>   * it's a bear-trap for future changes, because if it was changed to
+>     include an initialization 'int error_code = foo;' then the
+>     initialization wouldn't actually happen (being dead code)
+>   * it's against our coding style, which wants declarations to be
+>     at the start of blocks
+>   * it means that anybody reading the code has to go and look up
+>     exactly what the C rules are for skipping over variable declarations
+>     using a goto
 > 
-> There may be some exceptional cases where you have both -drive and
-> -blockdev (maybe because a human users needs more control for one
-> specific disk). This is the case where you can get a nasty surprise and
-> that would error out. If you legitimately want the -drive images
-> snapshotted, but not the -blockdev ones, you can still use individual
-> '-drive snapshot=on' options instead of the global '-snapshot' (and the
-> error message should mention this).
+> Move the declaration to the top of the function.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   target/i386/tcg/sysemu/excp_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-I didn't know that! I normally use the -snapshot as global option. Is there a
-reason why -blockdev isn't honouring -snapshot?
-
-With regards,
-Reinoud
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
