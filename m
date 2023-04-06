@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1936D97B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD7C6D97C3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:16:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkPRZ-0004sy-QB; Thu, 06 Apr 2023 09:14:25 -0400
+	id 1pkPTT-00073s-Oq; Thu, 06 Apr 2023 09:16:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1pkPRY-0004sk-6m
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:14:24 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pkPTM-00073N-Jk
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:16:18 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1pkPRW-0008FA-MJ
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:14:23 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id kc4so37446958plb.10
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 06:14:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pkPTK-0000df-BZ
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:16:15 -0400
+Received: by mail-ej1-x635.google.com with SMTP id g18so1300583ejj.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 06:16:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680786861;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1680786972; x=1683378972;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HjOK+tBjt0Y5rlqq1jyo1reCaE99Updmk/TbhFmql3A=;
- b=VifbmWaTVw9L9jvQFjk3Rq/zXwnCU0LD8bltMWXcwymnNNgQtIGuboA/JVHdQ8WwRd
- BhitIQPHVvn4CSZfQ8W3GN2HpnobZrvsZKoTMd59hRpKPUE98kdU+eJfEkG9flyx5u3d
- iIIj5W/b3tsfxDsfQsFfof26FZampvYeToL1VVDofba08hvZziZtfthQXNkIUgwXFH7h
- HMN7NP2bNln9ME+l88hp2Poo6/tOKeXRlWTicwg4E6X2TDYvJkCBxlNNlL/EW5Cs4Xs1
- OphfPkZR5lAeP7LKlcvtLgybWQhxDbzKQUaQelnxNdOg27u+oM/qs98tUaEiHsP+8uv/
- QABg==
+ bh=jE98TjuvqrqZo7dS5XGPVqd4QzQvq9MbHwXt8hhCm80=;
+ b=j7KnP8kvUy3qYJstcnIqnHfPCCTOmlcIJ9yjZuD5fQ9DUKQIxC2cXEYll396hwRDIE
+ fmWr0pINcKJHi+hQlRicVEVvs35HfBCllhgPkTBvupZEX+82YMEYAsEsKP1ds7PMBwIU
+ j7PLtEco8IR+TMRTw5B07OQq1dNNrWCmmKiA2ACjz9P/e4FONTCpDJwFstpXxzOSqE+p
+ 6ZgZkd19Npn0b8KnKYhPaLC3Q5K5aLHuY/CBrfvfrX4sqDZHyjE6WOL1oYNZCi69oQC/
+ Ljziz8O3gGykKgm3W5qacNVZmxdv/YBac0hx001aR/Rj4L4PCjn9SBKA53aLTDMxUEx7
+ yWSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680786861;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1680786972; x=1683378972;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HjOK+tBjt0Y5rlqq1jyo1reCaE99Updmk/TbhFmql3A=;
- b=nEZmEGD69SmPfJxsOV5B/prRnIA5b9FIwn4hcQ9MbfXrrsZplpAbAJCbpeIzPxwKiu
- 5r1OpkChMe4KF/IBAtHWZBdw3tyb3PDNvKwmh/F2P3XQulcTLVCOkLW5D5+/KLEAENVm
- YWSBwnGY2N60nlstUM4B9Ncg6DZXAQhjrQq2AxGXrKXNsxULmu/8fW/eSit0a8hov1UP
- rITyYDkcQnhqoxV+h4cCX5EWjwxdECx6u2ustG4KiwD2/nHHQkpVCKqQ4U0x+6Rfo5Ss
- 4oBKZQV7mVJAXuIQ5+LvkgxcBeA1ivpzkqy06haMp1MG7RvQd66OvvJsNzNC08MWzEX/
- CGBA==
-X-Gm-Message-State: AAQBX9f+5CLBsE5IEqkUEWo5EPy28knHhn1DGRLmhpRklOLb+2Emu+8t
- 8M6b0PElTnPK+lO+pTZKcER1TVYaLyY=
-X-Google-Smtp-Source: AKy350Z2emKHp7+xLkHIfkWMsOKsUAb/ZkKUD3dNxjpj6/0TIQHg6MJdpA8EkrXIvorwgUVnLTxpQA==
-X-Received: by 2002:a05:6a20:a89c:b0:c2:f930:45e8 with SMTP id
- ca28-20020a056a20a89c00b000c2f93045e8mr2752130pzb.46.1680786861114; 
- Thu, 06 Apr 2023 06:14:21 -0700 (PDT)
-Received: from raghuh-elastics.. ([2406:7400:56:45c3:5697:bbf2:968:7051])
- by smtp.gmail.com with ESMTPSA id
- y32-20020a631820000000b00513b3ea831esm1088326pgl.29.2023.04.06.06.14.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 06:14:20 -0700 (PDT)
-From: Raghu H <raghuhack78@gmail.com>
-To: maverickk1778@gmail.com, Jonathan.Cameron@huawei.com, qemu-devel@nongnu.org
-Cc: Raghu H <raghuhack78@gmail.com>
-Subject: [PATCH v1 2/2] docs/cxl: Replace unsupported AARCH64 with x86_64
-Date: Thu,  6 Apr 2023 18:43:25 +0530
-Message-Id: <20230406131325.3329590-3-raghuhack78@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230406131325.3329590-1-raghuhack78@gmail.com>
-References: <20230406113640.0000277c@Huawei.com>
- <20230406131325.3329590-1-raghuhack78@gmail.com>
+ bh=jE98TjuvqrqZo7dS5XGPVqd4QzQvq9MbHwXt8hhCm80=;
+ b=FuRie0IRr7uCu3ge7dimqAi25uRpLhWIE8guSc0rABN8vF+fopBcEEKMIyngSvoPpx
+ kYBJN0ggbEW/SLpEecg00X/4R6/xBejZrxmYe0uWoGDk0Yfn5eak655ohGxA3gB8bfbo
+ tlxfDlLTxD3HBbV1xaJkRmg9KPDldEKR8Y0Rxtv/0/Bwg3OE/R4YkbuJDMnpEgz6N1hh
+ g33h8ENBnDAyN7erlRE19sBwT57ZYHYPkVBEcqu4YEq26fp3gzzCHeplcEUNgPniIxRh
+ iy4yZmZ3wfE2xHPwwstmbxD3UJCE3ToxNqNHhYoqVH7tEfQTTfB9CEuM2UPOP79D0ODr
+ 0pig==
+X-Gm-Message-State: AAQBX9d6fPlZBvfi4m5gwhImlEA23mb1n32vihiL+jyZBUyCRCQbcNLu
+ hYkcskuIJGQEJIERHyRz7Nx9VZhvez4rxVcpLZIZiA==
+X-Google-Smtp-Source: AKy350YBujJNrDWOJhpSxwvoCcz5BLRpOWduG1oPBI6+lU1/AfBvD5Bfu8iFo0p+qWUG4qGpu7/tzOd07FANKYU2Ivc=
+X-Received: by 2002:a17:906:3e0d:b0:92f:cbfe:1635 with SMTP id
+ k13-20020a1709063e0d00b0092fcbfe1635mr3614935eji.6.1680786972209; Thu, 06 Apr
+ 2023 06:16:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=raghuhack78@gmail.com; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
+ <20230313114648.426607-6-marcandre.lureau@redhat.com>
+In-Reply-To: <20230313114648.426607-6-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 Apr 2023 14:16:01 +0100
+Message-ID: <CAFEAcA9zNpzj_VU3ysWaa24tTqaBDcB9o1+0HhO0R7hhVOdgdA@mail.gmail.com>
+Subject: Re: [PULL v2 05/25] error: add global &error_warn destination
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,50 +89,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently Qemu CXL emulation support is not availabe on AARCH64 but its
-available with qemu x86_64 architecture, updating the document to reflect
-the supported platform.
+On Mon, 13 Mar 2023 at 11:47, <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> This can help debugging issues or develop, when error handling is
+> introduced.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> Message-Id: <20230221124802.4103554-6-marcandre.lureau@redhat.com>
 
-Signed-off-by: Raghu H <raghuhack78@gmail.com>
----
- docs/system/devices/cxl.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Hi; Coverity points out that this introduces a use-after-free
+(CID 1507493):
 
-diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-index 46f9ae9bf1..c786f0f312 100644
---- a/docs/system/devices/cxl.rst
-+++ b/docs/system/devices/cxl.rst
-@@ -302,7 +302,8 @@ Example command lines
- ---------------------
- A very simple setup with just one directly attached CXL Type 3 device::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 \
-+  -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
-   ...
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
-@@ -315,7 +316,8 @@ A setup suitable for 4 way interleave. Only one fixed window provided, to enable
- interleave across 2 CXL host bridges.  Each host bridge has 2 CXL Root Ports, with
- the CXL Type3 device directly attached (no switches).::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 \
-+  -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
-   ...
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M \
-@@ -339,7 +341,8 @@ the CXL Type3 device directly attached (no switches).::
- 
- An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
- 
--  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 \
-+  -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
-   ...
-   -object memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M \
-   -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M \
--- 
-2.34.1
+> -static void error_handle_fatal(Error **errp, Error *err)
+> +static void error_handle(Error **errp, Error *err)
+>  {
+>      if (errp =3D=3D &error_abort) {
+>          fprintf(stderr, "Unexpected error in %s() at %s:%d:\n",
+> @@ -43,6 +44,9 @@ static void error_handle_fatal(Error **errp, Error *err=
+)
+>          error_report_err(err);
+>          exit(1);
+>      }
+> +    if (errp =3D=3D &error_warn) {
+> +        warn_report_err(err);
+> +    }
+>  }
 
+The old error_handle_fatal() either:
+ * did not return
+ * or it left the passed in 'err' alone
+
+The new error_handle() introduces a new case, which
+calls warn_report_err() and returns. warn_report_err()
+prints the error and frees 'err'. Neither of the callsites
+seems to expect the possibility "error_handle() returned
+but 'err' is no longer valid":
+
+>  G_GNUC_PRINTF(6, 0)
+> @@ -71,7 +75,7 @@ static void error_setv(Error **errp,
+>      err->line =3D line;
+>      err->func =3D func;
+>
+> -    error_handle_fatal(errp, err);
+> +    error_handle(errp, err);
+>      *errp =3D err;
+
+Here we stuff the now-invalid pointer into *errp
+(ie into the global local_error). Probably harmless
+but definitely rather odd.
+
+>      errno =3D saved_errno;
+> @@ -284,7 +288,7 @@ void error_propagate(Error **dst_errp, Error *local_e=
+rr)
+>      if (!local_err) {
+>          return;
+>      }
+> -    error_handle_fatal(dst_errp, local_err);
+> +    error_handle(dst_errp, local_err);
+>      if (dst_errp && !*dst_errp) {
+>          *dst_errp =3D local_err;
+>      } else {
+
+Here, if error_warn happens to be NULL then we'll
+stuff the freed pointer into it. But if error_warn
+is not NULL (eg because we've already had one use of
+it) then the 'else' clause here does an error_free(local_err),
+which is a double-free.
+
+thanks
+-- PMM
 
