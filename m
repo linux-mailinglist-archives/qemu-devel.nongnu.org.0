@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F4A6D9CEA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 18:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C63B6D9CF5
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 18:03:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkS1h-0002ll-Jl; Thu, 06 Apr 2023 11:59:53 -0400
+	id 1pkS41-0004zY-Op; Thu, 06 Apr 2023 12:02:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pkS1e-0002lI-VH
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 11:59:50 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pkS3z-0004xT-Dz
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 12:02:15 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pkS1d-0003R6-5K
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 11:59:50 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id o32so22836098wms.1
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 08:59:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pkS3x-00049u-Ov
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 12:02:15 -0400
+Received: by mail-lf1-x134.google.com with SMTP id x17so51507661lfu.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 09:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680796787; x=1683388787;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Ghy81EekBAOnqDStLjJy01CkdBOBv7GWVAE81d+KVFE=;
- b=K/K4nSGP7NG73a3AXNhCeeYmGZ2tvcDs9f3lQVM+4J70HoP7RKEqsZ70wT4W3E12BD
- sR3VLqnzX3IzcfN/z3f1feADNahSAmZMMEXZ6sjsya47w5aKKWiXIeRwpFCdXyPYGHsu
- RalGiJoZwZkCVsk2rKJgzLASkQzZTF3+1MfdEDecjV+BnhKmWy3ifp0+ZfqERA+rMjSs
- EbiMF4K4AmzhkBzQUStuuMn/Fuc/bMAoWOlTBmbWjG4H/4p9WeCsA0qp/DmpMmHTL/rw
- g23HX6DSIt9K8IeLiHeeW7JkZQwuS/kxlJyxMYrAQ5Fzh8oJL5c2LZtniWk5ecn5mAya
- qrsQ==
+ d=gmail.com; s=20210112; t=1680796931; x=1683388931;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qjh1vGWNr9t/smkoxT4yFwEIqwWUVvUCZrdIrD5LlBU=;
+ b=MJErEnTKJExzqZ2WhRwexCymx4BFBcOKht1P95UBXqoSNXQduqxicz2J+J/5xq0ftU
+ LmDLHsgcehCwRdAxiABVvQ+XfgmWlikT2bmksWOR2nK/vOIab7cG73y4pjOMw2qtlY0J
+ d2cDJO/jGpa7T2KUKRedEG3zLJvwTW+xWCimk9iiNOZ724tSxbMJxxUT88cJmwKfoAx3
+ CaCLMqsdF9e7RNAM7mZKtdb+YM10xGKqwezdOgR7Gd2UZAo14/qz1qZy7CVDIS//GMhw
+ bK2GoWTKwWxIY6myom+R6Q2gUow8UM4y0kZBV6TeMpBcRZSRI+3iaq7B408v7d70i33m
+ +hFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680796787; x=1683388787;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ghy81EekBAOnqDStLjJy01CkdBOBv7GWVAE81d+KVFE=;
- b=RyNVQTN0QxlbRvVgE0QsaqJr2C58jxmh/weIY5Pa2j8y7azUQsrx7oxRF3TnWMUxB1
- ks29A0lkCofUAygAzatEvCaIUOoQayXfYTNjnZHXcDy4TkQntpiv0ysrnuvAZRhfGFC6
- KSMueegbel2ileyl5tKXRmrHv7ZbdW9uCmtAzjgIxw8UQDcAmwKWAz8wJ7wEPGJYuanb
- Ui/VkcLza4s5x7GNLkQFQKLTESEelseuddZ7Q0oELIbDkeR6ntij7cyidHU1VF7Sv8O3
- buwvWbugpDDTXL5XDHA9+90usJhKAQVN2GORIp2oublEG97ugPnFmqkFOmoLEb6cwoHE
- Q5hA==
-X-Gm-Message-State: AAQBX9cCqvstY75KQz8ZJgHn5YBwHGE9TwLuHbAdqo++/MUbrlSvk8F9
- PRBL42vNxRCn6rGvsBxaM7ss9wozlf7i4V12Ct4=
-X-Google-Smtp-Source: AKy350bq9idVVNELVXVn+O/E+HV/5U/+mBilg81L1yzSHAdjJmdYLa35eok3rOZ7W7Lhlfcxl0cYCg==
-X-Received: by 2002:a7b:cb97:0:b0:3ed:5d41:f9a7 with SMTP id
- m23-20020a7bcb97000000b003ed5d41f9a7mr8210661wmi.2.1680796787397; 
- Thu, 06 Apr 2023 08:59:47 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- o22-20020a05600c511600b003ef5bb63f13sm5773390wms.10.2023.04.06.08.59.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 08:59:47 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH] target/i386: Avoid unreachable variable declaration in
- mmu_translate()
-Date: Thu,  6 Apr 2023 16:59:46 +0100
-Message-Id: <20230406155946.3362077-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20210112; t=1680796931; x=1683388931;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qjh1vGWNr9t/smkoxT4yFwEIqwWUVvUCZrdIrD5LlBU=;
+ b=BNhcC8QVMKShyM1olU2wKfVBCdfpucG1afofS+kZRTZP2JUPyPpdvG/l/8TQkDiwll
+ J640tXaYK04g/VbEN1L7hc7/+yCNEyNZhgsP3LjWJEOy3ullv6xjsAqMeEMClSxxSQKJ
+ lQrV4eCMuUEJEDCYTWzT+bBah8oF2dLlomNY7YUAIakhVPRgaGoVeSLsDSpdwIDDu/j+
+ uiU4bC0rDbbTh50TKTDAPkYOvSQ7MpSkoCvyj6+OTOnEJlWOQHdnK86kbJbMRFx/GD0O
+ aUXwLl54GBP3Re4Y0CuMHLHYttTNTrn8Vpp9tmhSrg7KWadtd5sZar0O8jg81XluMkb5
+ VDKg==
+X-Gm-Message-State: AAQBX9fr6Z0KTCs1Kpn5U72JfeXYtb+XVvzbnPRoCLH+YmigxgAfvsHQ
+ HJMZ0vDdIPohTj//lNLtVaEQ1QE2NP4sFKKI2/4=
+X-Google-Smtp-Source: AKy350a+snKBOWBGQM1FyZp50cXD96JqL1dNABNg59A7yId0JadF0MH/sbfsWdayVXfP4I7FYfFFJ1hTOKLiLOfc6Cs=
+X-Received: by 2002:a05:6512:1026:b0:4e8:c8f1:a010 with SMTP id
+ r6-20020a056512102600b004e8c8f1a010mr3085297lfr.11.1680796931344; Thu, 06 Apr
+ 2023 09:02:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+References: <20230406154347.4100700-1-stefanb@linux.ibm.com>
+In-Reply-To: <20230406154347.4100700-1-stefanb@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 6 Apr 2023 20:01:59 +0400
+Message-ID: <CAJ+F1CL1_PcyowNdbn-N1jczNAGJ9SJwxP62MXVjro+-PODO6Q@mail.gmail.com>
+Subject: Re: [PATCH] util/error: Fix use-after-free errors reported by Coverity
+To: Stefan Berger <stefanb@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, armbru@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,46 +85,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Coverity complains (CID 1507880) that the declaration "int error_code;"
-in mmu_translate() is unreachable code. Since this is only a declaration,
-this isn't actually a bug, but:
- * it's a bear-trap for future changes, because if it was changed to
-   include an initialization 'int error_code = foo;' then the
-   initialization wouldn't actually happen (being dead code)
- * it's against our coding style, which wants declarations to be
-   at the start of blocks
- * it means that anybody reading the code has to go and look up
-   exactly what the C rules are for skipping over variable declarations
-   using a goto
+Hi
 
-Move the declaration to the top of the function.
+On Thu, Apr 6, 2023 at 7:43=E2=80=AFPM Stefan Berger <stefanb@linux.ibm.com=
+> wrote:
+>
+> Fix use-after-free errors in the code path that called error_handle(). A
+> call to error_handle() will now either free the passed Error 'err' or
+> assign it to '*errp' if '*errp' is currently NULL. This ensures that 'err=
+'
+> either has been freed or is assigned to '*errp' if this function returns.
+> Adjust the two callers of this function to not assign the 'err' to '*errp=
+'
+> themselves, since this is now handled by error_handle().
+>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/i386/tcg/sysemu/excp_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fixes: commit 3ffef1a55ca3 ("error: add global &error_warn destination")
 
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index e87f90dbe3c..b5f0abffa3d 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -147,6 +147,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
-     hwaddr pte_addr, paddr;
-     uint32_t pkr;
-     int page_size;
-+    int error_code;
- 
-  restart_all:
-     rsvd_mask = ~MAKE_64BIT_MASK(0, env_archcpu(env)->phys_bits);
-@@ -467,7 +468,6 @@ do_check_protect_pse36:
-     out->page_size = page_size;
-     return true;
- 
--    int error_code;
-  do_fault_rsvd:
-     error_code = PG_ERROR_RSVD_MASK;
-     goto do_fault_cont;
--- 
-2.34.1
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+worth including for 8.0 imho.
+
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+> ---
+>  util/error.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/util/error.c b/util/error.c
+> index 5537245da6..e5e247209a 100644
+> --- a/util/error.c
+> +++ b/util/error.c
+> @@ -46,6 +46,10 @@ static void error_handle(Error **errp, Error *err)
+>      }
+>      if (errp =3D=3D &error_warn) {
+>          warn_report_err(err);
+> +    } else if (errp && !*errp) {
+> +        *errp =3D err;
+> +    } else {
+> +        error_free(err);
+>      }
+>  }
+>
+> @@ -76,7 +80,6 @@ static void error_setv(Error **errp,
+>      err->func =3D func;
+>
+>      error_handle(errp, err);
+> -    *errp =3D err;
+>
+>      errno =3D saved_errno;
+>  }
+> @@ -289,11 +292,6 @@ void error_propagate(Error **dst_errp, Error *local_=
+err)
+>          return;
+>      }
+>      error_handle(dst_errp, local_err);
+> -    if (dst_errp && !*dst_errp) {
+> -        *dst_errp =3D local_err;
+> -    } else {
+> -        error_free(local_err);
+> -    }
+>  }
+>
+>  void error_propagate_prepend(Error **dst_errp, Error *err,
+> --
+> 2.39.1
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
