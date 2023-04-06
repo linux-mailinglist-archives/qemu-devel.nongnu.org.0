@@ -2,52 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842B76D943F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 12:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD036D944A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 12:41:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkMz8-0002H0-40; Thu, 06 Apr 2023 06:36:54 -0400
+	id 1pkN2z-0003We-8w; Thu, 06 Apr 2023 06:40:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pkMz2-0002FG-Gp
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:36:48 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1pkN2w-0003Vz-C9
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:40:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pkMz0-00048s-2d
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:36:48 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PsdFP1M4vz687PR
- for <qemu-devel@nongnu.org>; Thu,  6 Apr 2023 18:35:53 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 6 Apr
- 2023 11:36:41 +0100
-Date: Thu, 6 Apr 2023 11:36:40 +0100
-To: Raghu H <raghuhack78@gmail.com>
-CC: <maverickk1778@gmail.com>, <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] docs:remove cxl3 device size
-Message-ID: <20230406113640.0000277c@Huawei.com>
-In-Reply-To: <20230405102738.2062169-1-raghuhack78@gmail.com>
-References: <20230405102738.2062169-1-raghuhack78@gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1pkN2u-0005jt-0e
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:40:50 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33696iQ2028232; Thu, 6 Apr 2023 10:40:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=oyFTiBHupcXAOyoz2uQRDScuG86QNvaKbBscPyj5Erc=;
+ b=VrantqLvIfIQgEMPv4uaaE9LLh5QVadUB6mSx1jK2Pfwm8smDKgFHJFlnZ9Q61Ptio4U
+ 2VxoKv8y/DKuY1WagISVWE0H0Z/eJznAalaMizzOG0lEczp5fD9A/A2k6ueldb6GOLZi
+ aBLJ6IziOPUZFDkATX2P5oG6UJVXYaQNAlycjKQ/zWNPGHuU6UN/EagtuoGTo1J0r4N7
+ gZLsV+Xcv9yxHzW1aiYBmvGNdLCUIzA4R+snI/TIm6JwOHRYNspMhrIlLIugkzN1LM1/
+ OsM1mgktpYsND3lF8nfReZq3+lJj4WZ0EKQDdEP7NcjEfSNWfZpztinpnhkmB79cZREI 9A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3psaang2wa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Apr 2023 10:40:43 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3369umlU012455;
+ Thu, 6 Apr 2023 10:40:43 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3psaang2vq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Apr 2023 10:40:42 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33629rHf015468;
+ Thu, 6 Apr 2023 10:40:40 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3ppc8747gt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Apr 2023 10:40:40 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 336AebZv41812256
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 6 Apr 2023 10:40:37 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B8D022004B;
+ Thu,  6 Apr 2023 10:40:37 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6B92F20040;
+ Thu,  6 Apr 2023 10:40:37 +0000 (GMT)
+Received: from [9.171.86.230] (unknown [9.171.86.230])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  6 Apr 2023 10:40:37 +0000 (GMT)
+Message-ID: <3b5cc225-50e8-e56d-3fa8-da052a515beb@linux.ibm.com>
+Date: Thu, 6 Apr 2023 12:40:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: s390 private runner CI job timing out
+To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <CAFEAcA_7+5tK+rM6dBgozNJmMmL7fU3MHLuvzJtb7-zWK4rMTQ@mail.gmail.com>
+ <4521ce29-1d11-f253-7a7d-342f6bd9e6b0@redhat.com>
+ <CAFEAcA_HVpYajJ5yP7+eYKNhKggtNjgFyQ_V3WqSPf4dGL=zKQ@mail.gmail.com>
+Content-Language: en-US
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <CAFEAcA_HVpYajJ5yP7+eYKNhKggtNjgFyQ_V3WqSPf4dGL=zKQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rkn6Uu634dkY9yveroRMLeVK5KWocFUj
+X-Proofpoint-ORIG-GUID: EmKsn-TQhbPZbeXdWXLnJnXThYgcd2xW
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-06_04,2023-04-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1011
+ spamscore=0 suspectscore=0 phishscore=0 mlxlogscore=999 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
+ definitions=main-2304060091
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.355, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,96 +115,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed,  5 Apr 2023 15:57:38 +0530
-Raghu H <raghuhack78@gmail.com> wrote:
-Hi Raghu,
-
-Thanks for tidying this up! (and reporting it in the first place)
-A few minor comments for v2.
 
 
-A better title might be
-docs/cxl: Remove incorrect CXL type 3 size parameter.
-
-> cxl device typ3 size is read from the memory backend device, removing the
-
-cxl-type3 memory size is read directly from the provided memory backed end device.
-Remove non existent size option.
-
-> size option specified in cxl sample command.
+Am 06.04.23 um 11:21 schrieb Peter Maydell:
+> On Thu, 6 Apr 2023 at 07:57, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 05/04/2023 17.15, Peter Maydell wrote:
+>>> The s390 private runner CI job ubuntu-20.04-s390x-all seems to have
+>>> started timing out a lot recently. Here's an example where it passed,
+>>> but with only 53 seconds left on the clock before it would have been
+>>> killed:
+>>>
+>>> https://gitlab.com/qemu-project/qemu/-/jobs/4066136770
+>>>
+>>> It looks like 'make check' was about 30 minutes of the 75 minutes
+>>> total, and compilation was 45 minutes.
+>>>
+>>> Any suggestions for how we can trim this down? (Presumably we
+>>> could also raise the time limit given that this is a private
+>>> runner job...)
+>>
+>> I don't have access to that system, so I can only guess: Did you check
+>> whether there are any other processes still running (leftovers from earlier
+>> test runs)?
 > 
-> Updating sample command to reflect target architecture as x86_64.
-
-There are two changes in here.  Please split it into two patches and
-add a minimal cover letter (mostly as it gives a place for people to
-respond to both of them with tags etc).
-
+> I did check for that, as it's been a problem in the past, but
+> no, in this case no other jobs are running in the VM.
 > 
-> Signed-off-by: Raghu H <raghuhack78@gmail.com>
-> ---
->  docs/system/devices/cxl.rst | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>> If not, it's maybe because it is a VM that is running with other
+>> VMs in parallel that hog the CPU? In that case, you could contact the owner
+>> of the machine and ask whether there  is anything that could be done about
+>> it. Or simply increase the timeout a little bit more... (our highest timeout
+>> in another job is 90 minutes, so I think that would still be OK?).
 > 
-> diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-> index f25783a4ec..b228146cec 100644
-> --- a/docs/system/devices/cxl.rst
-> +++ b/docs/system/devices/cxl.rst
-> @@ -302,7 +302,7 @@ Example command lines
->  ---------------------
->  A very simple setup with just one directly attached CXL Type 3 device::
->  
-> -  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-> +  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
+> Christian, does our S390X machine get a guaranteed amount of CPU,
+> or does it depend on what else is running on the hardware?
 
-Minimize the change (and definitely don't tell people to use kvm as that's broken for
-some usecases - instructions in CXL memory).
-
-+ qemu-system-x86_64 -M q35,cxl=on -m 4G,maxmem=8G,slots=8 \
-is probably the right combination (I tidied up the g / G mix whilst touching the line.
-
->    ...
->    -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
->    -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
-> @@ -315,7 +315,7 @@ A setup suitable for 4 way interleave. Only one fixed window provided, to enable
->  interleave across 2 CXL host bridges.  Each host bridge has 2 CXL Root Ports, with
->  the CXL Type3 device directly attached (no switches).::
->  
-> -  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-> +  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
->    ...
->    -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
->    -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=256M \
-> @@ -339,7 +339,7 @@ the CXL Type3 device directly attached (no switches).::
->  
->  An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
->  
-> -  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-> +  qemu-system-x86_64 -m 4G,slots=8,maxmem=8G -smp 4 -machine type=q35,accel=kvm,nvdimm=on,cxl=on -enable-kvm \
->    ...
->    -object memory-backend-file,id=cxl-mem0,share=on,mem-path=/tmp/cxltest.raw,size=256M \
->    -object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest1.raw,size=256M \
-> @@ -354,13 +354,13 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
->    -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
->    -device cxl-upstream,bus=root_port0,id=us0 \
->    -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
-> -  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
-> +  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0 \
->    -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
-> -  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
-> +  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1 \
->    -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
-> -  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
-> +  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2 \
->    -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
-> -  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
-> +  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3 \
->    -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
->  
->  Kernel Configuration Options
-
+I think its a shared system with shared CPUs. Can you check the steal
+time in top or proc? If this is far too high we could ask to give you
+more weight for that VM.
 
