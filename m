@@ -2,113 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244966D9121
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 10:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8406D9131
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 10:08:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkKbk-0007k1-Vq; Thu, 06 Apr 2023 04:04:37 -0400
+	id 1pkKew-0000Lx-Hm; Thu, 06 Apr 2023 04:07:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1pkKbh-0007jT-3v; Thu, 06 Apr 2023 04:04:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pkKer-0000Lb-Ta
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:07:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1pkKbf-00029m-2A; Thu, 06 Apr 2023 04:04:32 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3366VoEv029569; Thu, 6 Apr 2023 08:04:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=MrE4uEormCPNF2aheHPYCeZ1g12Sic721BFSzIfL51M=;
- b=IXhAMZMkTbmTyLCBtQem1Ln6b2O6w4wtWsLMojP95fdXbrTLI6xRcJVJjvcqTBSqLyp6
- suMaLi/C+pszkQDl71lAgRZtw2l+8k7b69fowZkhj018cVf4twnoRmKmV7Kac3pA9WXP
- iMvTws4o1SL/Q54VqvxSSeW55SRIsWLnKtxkhT8PlH3huDHv4gvlzD9PrBms3tfxy6Zp
- 0Yztfhc9vLCOByfVXuAF4qkK65sNkk5WjwW/PpcMyjWnYBQiWVsUYMjcCcjXiopRt39r
- p/1KCF925Q7i0qi9P7cjURglsQk+4qJCK2jWyVNBmAntKXezoOKuizKUO7IVd3PyIfHg pA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ps9un6byg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 08:04:26 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3367ElYM019708;
- Thu, 6 Apr 2023 08:04:25 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ps9un6bxg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 08:04:25 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 335Nxs3v004693;
- Thu, 6 Apr 2023 08:04:23 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3ppbvg439y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 08:04:23 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 33684HLD44696018
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 6 Apr 2023 08:04:17 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CA3E720043;
- Thu,  6 Apr 2023 08:04:17 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E14C120040;
- Thu,  6 Apr 2023 08:04:16 +0000 (GMT)
-Received: from [9.179.16.135] (unknown [9.179.16.135])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  6 Apr 2023 08:04:16 +0000 (GMT)
-Message-ID: <3fe240da-9a75-0e39-7762-cd91af9ed3f0@linux.ibm.com>
-Date: Thu, 6 Apr 2023 10:04:16 +0200
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pkKeq-0003hh-5T
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:07:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680768467;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M3QOwMCglVKmUSpe3UpnHZy8GKlB6kDkbGKOAU8ZVbs=;
+ b=LTQ/2UH0S+KyhQds1quaHfCEem2iVPuCjIMfU8PZ+rj8b02yU3pWlDDlP6dN7lv68XoS67
+ GavVIK3I8OXVCXWcl7d4VbZLt3l83TTTbwZ2NbUtzCAJBkY4pne8EUB2xUWEFRKlM05fWk
+ tcDMK902UBqkWwat0PttUROEA0nLJrw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-601-aUuG8gSTObC_o4N7PkjSag-1; Thu, 06 Apr 2023 04:07:45 -0400
+X-MC-Unique: aUuG8gSTObC_o4N7PkjSag-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 61C24800B23;
+ Thu,  6 Apr 2023 08:07:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 382C62166B26;
+ Thu,  6 Apr 2023 08:07:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 92BFF21E6926; Thu,  6 Apr 2023 10:07:42 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Antonio Apostoliu" <antonio.apostoliu@cestrin.ro>
+Cc: <qemu-devel@nongnu.org>
+Subject: Re: Please help me with with one information
+References: <000001d96849$fb7d3b50$f277b1f0$@cestrin.ro>
+Date: Thu, 06 Apr 2023 10:07:42 +0200
+In-Reply-To: <000001d96849$fb7d3b50$f277b1f0$@cestrin.ro> (Antonio Apostoliu's
+ message of "Thu, 6 Apr 2023 08:38:14 +0300")
+Message-ID: <87ile9ph69.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 10/10] hw/s390x: Rename pv.c -> pv-kvm.c
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>,
- qemu-devel@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
-Cc: qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-arm@nongnu.org, kvm@vger.kernel.org, qemu-ppc@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230405160454.97436-1-philmd@linaro.org>
- <20230405160454.97436-11-philmd@linaro.org>
- <3cccc7e6-3a39-b3b4-feaf-85a3faa58570@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-In-Reply-To: <3cccc7e6-3a39-b3b4-feaf-85a3faa58570@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: dGFDklUxK1mPdfJzLpXjzFcSYk_ZmlDd
-X-Proofpoint-GUID: Np6po_7yXNh0DAMOXfeAhoM8cvVtN9zQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-06_02,2023-04-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 malwarescore=0
- spamscore=0 bulkscore=0 mlxlogscore=925 mlxscore=0 adultscore=0
- priorityscore=1501 phishscore=0 suspectscore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304060066
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.355,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,27 +78,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gNC82LzIzIDA5OjUwLCBUaG9tYXMgSHV0aCB3cm90ZToNCj4gT24gMDUvMDQvMjAyMyAx
-OC4wNCwgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgd3JvdGU6DQo+PiBQcm90ZWN0ZWQgVmly
-dHVhbGl6YXRpb24gaXMgc3BlY2lmaWMgdG8gS1ZNLg0KPj4gUmVuYW1lIHRoZSBmaWxlIGFz
-ICdwdi1rdm0uYycgdG8gbWFrZSB0aGlzIGNsZWFyZXIuDQo+Pg0KPj4gU2lnbmVkLW9mZi1i
-eTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPHBoaWxtZEBsaW5hcm8ub3JnPg0KPj4gLS0t
-DQo+PiAgICBody9zMzkweC97cHYuYyA9PiBwdi1rdm0uY30gfCAwDQo+PiAgICBody9zMzkw
-eC9tZXNvbi5idWlsZCAgICAgICAgfCAyICstDQo+PiAgICAyIGZpbGVzIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+PiAgICByZW5hbWUgaHcvczM5MHgve3B2
-LmMgPT4gcHYta3ZtLmN9ICgxMDAlKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9ody9zMzkweC9w
-di5jIGIvaHcvczM5MHgvcHYta3ZtLmMNCj4+IHNpbWlsYXJpdHkgaW5kZXggMTAwJQ0KPj4g
-cmVuYW1lIGZyb20gaHcvczM5MHgvcHYuYw0KPj4gcmVuYW1lIHRvIGh3L3MzOTB4L3B2LWt2
-bS5jDQo+PiBkaWZmIC0tZ2l0IGEvaHcvczM5MHgvbWVzb24uYnVpbGQgYi9ody9zMzkweC9t
-ZXNvbi5idWlsZA0KPj4gaW5kZXggZjI5MTAxNmZlZS4uMmY0M2I2YzQ3MyAxMDA2NDQNCj4+
-IC0tLSBhL2h3L3MzOTB4L21lc29uLmJ1aWxkDQo+PiArKysgYi9ody9zMzkweC9tZXNvbi5i
-dWlsZA0KPj4gQEAgLTIyLDcgKzIyLDcgQEAgczM5MHhfc3MuYWRkKHdoZW46ICdDT05GSUdf
-S1ZNJywgaWZfdHJ1ZTogZmlsZXMoDQo+PiAgICAgICd0b2Qta3ZtLmMnLA0KPj4gICAgICAn
-czM5MC1za2V5cy1rdm0uYycsDQo+PiAgICAgICdzMzkwLXN0YXR0cmliLWt2bS5jJywNCj4+
-IC0gICdwdi5jJywNCj4+ICsgICdwdi1rdm0uYycsDQo+PiAgICAgICdzMzkwLXBjaS1rdm0u
-YycsDQo+PiAgICApKQ0KPj4gICAgczM5MHhfc3MuYWRkKHdoZW46ICdDT05GSUdfVENHJywg
-aWZfdHJ1ZTogZmlsZXMoDQo+IA0KPiBIbW1tLCBtYXliZSB3ZSBzaG91bGQgcmF0aGVyIG1v
-dmUgaXQgdG8gdGFyZ2V0L3MzOTB4L2t2bS8gaW5zdGVhZD8NCj4gDQo+IEphbm9zY2gsIHdo
-YXQncyB5b3VyIG9waW5pb24/DQo+IA0KPiAgICBUaG9tYXMNCj4gDQo+IA0KDQpEb24ndCBj
-YXJlIGFzIGxvbmcgYXMgdGhlIGZpbGUgaXMgbm90IGRlbGV0ZWQgOikNCg==
+"Antonio Apostoliu" <antonio.apostoliu@cestrin.ro> writes:
+
+> Hello 
+>
+>  
+>
+> You are so kind to tell me how can I use qmp to send colon character . I
+> speak about this character   :
+>
+>  
+>
+> I tried:
+>
+> {"execute":"send-key","arguments":{"keys":[{"type":"qcode","data":"shift-sem
+> icolon"}]}}
+
+Reply:
+
+  {"error": {"class": "GenericError", "desc": "Parameter 'data' does not accept value 'shift-semicolon'"}}
+
+There is no key code "shift-semicolon".
+
+The "QEMU QMP Reference Manual" lists the key codes:
+https://qemu.readthedocs.io/en/latest/interop/qemu-qmp-ref.html#qapidoc-1729
+
+> {"execute":"send-key","arguments":{"keys":[{"type":"qcode","data":"shift","d
+> ata":"semicolon"}]}}
+
+Reply:
+
+    {"error": {"class": "GenericError", "desc": "JSON parse error, duplicate key"}}
+
+Repeated keys don't make lists, lists do:
+
+    {"execute": "send-key",
+     "arguments": {"keys": [
+         {"type": "qcode","data": "shift"},
+         {"type": "qcode","data": "semicolon"}]}}
+
+> Both don't sent the character in my case
+
+Next time, include the replies you observe in your question.
+
+> All others character worked
+>
+>  
+>
+> Best regards
+
 
