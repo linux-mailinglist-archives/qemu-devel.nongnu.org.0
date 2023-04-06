@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F4C6DA160
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 21:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 755D16DA183
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 21:36:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkVMZ-0005Sn-UT; Thu, 06 Apr 2023 15:33:39 -0400
+	id 1pkVOv-0006UY-SA; Thu, 06 Apr 2023 15:36:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pkVMX-0005SF-VN
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 15:33:38 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pkVOu-0006U1-AV
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 15:36:04 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pkVMW-0005zT-BS
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 15:33:37 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id n14so22583800plc.8
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 12:33:35 -0700 (PDT)
+ id 1pkVOn-0007de-Iy
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 15:36:03 -0400
+Received: by mail-pl1-x631.google.com with SMTP id n14so22588740plc.8
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 12:35:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680809614;
+ d=linaro.org; s=google; t=1680809755;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Q5fLqYRjHiLLivlpZdwF47imcOn5GRt0O0to3ptExhc=;
- b=sd41DWUT7sKfwtRh83v+9UJvuXUAxTl1mNXcPybweZo6ldJwyjonSyvwOI/8+61obz
- dYF21bPjvub2DsgmwnpIe0knS1jOsackJ/ZF4RUUQChipeWqBXIuU+uBWct6cUYNN1nb
- a83/4sVq+CUmhJ/MNPb6UsCuiwTrk5DgvONEsT1obsjztVLPCEnCKYewOHgUopqGRpWU
- CW/O1br3PU2X3hxReaR2ZEMVHpRiMp/QjARWRaFukKODHsuZvqxU+TiC5qjzSjooVryh
- 4iWKw7nvuf9LKZkXu7Um362fnJEgr8EJBn7J3xo43NPovtihQy4TbRgOxl8dEeu9kfZb
- OJrQ==
+ bh=8ZLzuwGqqykiaxEF6DFaoodhCEP5ZYjTzLhoJsO9SWc=;
+ b=rztuEfru4dr/BOHgyJfTgbmzHBxrM3h7J21enzPJxNe/I4lpuNSR8qXb0RvHiTJOrb
+ yS2ygQU6CVaQlOGM7eyetXNXR6tMRk4ENaj/so+eKxz32VilTHQNjjJNXYcc38GTBkyX
+ +7x/zf+HFxOy2LOMq73aThKiC1dzDlXB/pTkNGP6dOhOXjlmL+JrsXUWXoKUVNpj07KF
+ AUuKXV5VJ2katgJzMJt0B7tVRLvpVL+BWOi8iuKKSZZt/UeXQxqRHJEaSzVmL9OoQuvX
+ rJoGSmvYaD/JS59sEbIyVihAZ1tr0nLrQnexFkLGJAwjbAWI3TzfGiAjoPZZTvKKa5eG
+ OFWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680809614;
+ d=1e100.net; s=20210112; t=1680809755;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Q5fLqYRjHiLLivlpZdwF47imcOn5GRt0O0to3ptExhc=;
- b=8BwSsTLwp6Sb3dJqRHPhmC8kBNtMsxSYGo0ugg0YvFpPbPj4a3peBsz6Zjrnd2ZzjO
- 7YEMgJSaCGWqtkXIZWRklnfZ1C/Jly629gLtrb+xGENlKJsujSLBsD1Dlp9FUgG9gLX1
- 2AcD9/b+qIzcTcEiOBYX5oNu1mwqiCNVwMN6gcagMEJpBmOxyPQ1fRAH1Fxj39laG56G
- 9gSWHpnuuCMlvk8bVXbrZtSNnnCDc58rulkivDfP3Z5OKZRa/mTIR2dmMdwCjuCzkL4u
- xLMKo1rJBV7Sit+F/8kC8avd4wEkAa958ijRb4R1lbwh8TFUS5ehe3QHloUYFOwK+6Ek
- fx6Q==
-X-Gm-Message-State: AAQBX9fl7HdnqNAtDjaq0PMittOnRfN93sANkkNTsATswJDO+r98b9sp
- GbtTW7n0/CrwqIMTWrmxnF/V/w==
-X-Google-Smtp-Source: AKy350bfYSkuh3qGMwzcXvrwwQq+w1k1LxIRSTCmwgBIvVWpAi6NLUycNmrk7G2Inbu9dz0DgceFvw==
-X-Received: by 2002:a17:902:f54a:b0:1a0:6721:6cdb with SMTP id
- h10-20020a170902f54a00b001a067216cdbmr273319plf.40.1680809614610; 
- Thu, 06 Apr 2023 12:33:34 -0700 (PDT)
+ bh=8ZLzuwGqqykiaxEF6DFaoodhCEP5ZYjTzLhoJsO9SWc=;
+ b=cmcM9rij1+q2h9x6TaIObR874rAjEqc6pg4qgWX8poRBT+b8vKeSI446RYXZXNkfk7
+ Q0ZS5209JoC2KGaPG/Fc5wNFOvbYPyKxBZzoDEZMdOA68Ejdz3NZ2uYpmIneHgnNmtLa
+ ro3GkjVeyzmKKpSg/6Ug20GylwcGY49lemlgrexagC0ORrkpQ81dchRn1EB+3IkC/1om
+ 7OzahOKDI12wAnkpaxBVqlhW5bJV93xeL9waLgknpyJnPQOX/cEcOe/emHZWk4W20UU4
+ dGJ//kUVVmG2eRD5dAlC3UZp6s0AxLw0JCoJIIbhMzFNCm5+gBvYVqfO2VBIKk0YWWho
+ 4sUw==
+X-Gm-Message-State: AAQBX9cfUYHgMINP76ljhsZLWbo3hvP3G/hCe7EwrpAfN1jL2dBuGi1X
+ IalPuhnyCAJK2Vv4T/OLeA7yWA==
+X-Google-Smtp-Source: AKy350ZQJXf/uiKkjhE6hDQVj7sJ9h2r3Nw8qI1yshAwjI7XYgn22U3n7p7+YtW/LAXM61o0ZuAiFw==
+X-Received: by 2002:a17:902:e846:b0:1a1:a4eb:54de with SMTP id
+ t6-20020a170902e84600b001a1a4eb54demr416952plg.26.1680809755497; 
+ Thu, 06 Apr 2023 12:35:55 -0700 (PDT)
 Received: from [192.168.0.4] (174-21-65-249.tukw.qwest.net. [174.21.65.249])
  by smtp.gmail.com with ESMTPSA id
- s15-20020a65584f000000b00502fd70b0bdsm1465347pgr.52.2023.04.06.12.33.33
+ c18-20020a170902c1d200b0019e8c3cd3f4sm1715055plc.201.2023.04.06.12.35.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Apr 2023 12:33:34 -0700 (PDT)
-Message-ID: <8bbf3df9-1e90-7976-7273-41cab3e96881@linaro.org>
-Date: Thu, 6 Apr 2023 12:33:32 -0700
+ Thu, 06 Apr 2023 12:35:55 -0700 (PDT)
+Message-ID: <fabfb2ca-d77a-a2a4-1a95-21d466d397fe@linaro.org>
+Date: Thu, 6 Apr 2023 12:35:53 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/2] target/riscv: Legalize MPP value in write_mstatus
+Subject: Re: [PATCH] target/arm: Report pauth information to gdb as 'pauth_v2'
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230406072555.21927-1-liweiwei@iscas.ac.cn>
- <20230406072555.21927-3-liweiwei@iscas.ac.cn>
+Cc: Luis Machado <luis.machado@arm.com>
+References: <20230406150827.3322670-1-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230406072555.21927-3-liweiwei@iscas.ac.cn>
+In-Reply-To: <20230406150827.3322670-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -97,41 +94,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/6/23 00:25, Weiwei Li wrote:
-> +static target_ulong legalize_mpp(CPURISCVState *env, target_ulong old_mpp,
-> +                                 target_ulong val)
-> +{
-> +    target_ulong new_mpp = get_field(val, MSTATUS_MPP);
-> +    bool mpp_invalid = (new_mpp == PRV_S && !riscv_has_ext(env, RVS)) ||
-> +                       (new_mpp == PRV_U && !riscv_has_ext(env, RVU)) ||
-> +                       (new_mpp == PRV_H);
-> +
-> +    /* Remain field unchanged if new_mpp value is invalid */
-> +    return mpp_invalid ? set_field(val, MSTATUS_MPP, old_mpp) : val;
-> +}
+On 4/6/23 08:08, Peter Maydell wrote:
+> So that we can avoid the "older gdb crashes" problem described in
+> commit 5787d17a42f7af4 and which caused us to disable reporting pauth
+> information via the gdbstub, newer gdb is going to implement support
+> for recognizing the pauth information via a new feature name:
+>   org.gnu.gdb.aarch64.pauth_v2
+> 
+> Older gdb won't recognize this feature name, so we can re-enable the
+> pauth support under the new name without risking them crashing.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+> I think the gdb change isn't quite upstream yet, but this is
+> for 8.1 so I would expect it to be there by the time we
+> get around to committing this patch to QEMU.
+> ---
+>   target/arm/gdbstub.c      | 9 ++++-----
+>   gdb-xml/aarch64-pauth.xml | 2 +-
+>   2 files changed, 5 insertions(+), 6 deletions(-)
 
-Does anyone find PRV_H confusing, since that's not what it is?
-I think it would be nice to remove it entirely.
-
-This function might be better as
-
-     bool valid = false;
-
-     switch (new_mpp) {
-     case PRV_M:
-         valid = true;
-         break;
-     case PRV_S:
-         valid = riscv_has_ext(env, RVS);
-         break;
-     case PRV_U:
-         valid = riscv_has_ext(env, RVU);
-         break;
-     }
-     if (!valid) {
-         val = set_field(...);
-     }
-     return val;
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
