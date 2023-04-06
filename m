@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879336D8BCE
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 02:25:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4A96D8BDD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 02:26:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkDR5-0004qE-Q6; Wed, 05 Apr 2023 20:25:07 -0400
+	id 1pkDSC-0007Ue-Ub; Wed, 05 Apr 2023 20:26:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3VREuZAcKClgAECBE386EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--komlodi.bounces.google.com>)
- id 1pkDR3-0004mp-3h
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 20:25:05 -0400
-Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pkDSA-0007TZ-9D; Wed, 05 Apr 2023 20:26:14 -0400
+Received: from mail-ua1-x932.google.com ([2607:f8b0:4864:20::932])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3VREuZAcKClgAECBE386EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--komlodi.bounces.google.com>)
- id 1pkDR0-0005EQ-Fi
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 20:25:04 -0400
-Received: by mail-pf1-x449.google.com with SMTP id
- n3-20020a056a00212300b0062dfd10c477so5776070pfj.20
- for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 17:24:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pkDS8-0005oD-8C; Wed, 05 Apr 2023 20:26:13 -0400
+Received: by mail-ua1-x932.google.com with SMTP id n1so312126uae.9;
+ Wed, 05 Apr 2023 17:26:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680740693;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=c73IHAi+aPqB32XxKH0euKSiA4W+L+UT08GhoM3WrRI=;
- b=f3brdb2gLxSeDXEv9Rrq13ek9vvvxJF8IrGVCxBDmTZgX7wlmqA5MewnZrXUm9y+o1
- DfOv2FDGT+PC7OOw06XpBN2C0kbgNrIajdxylQojMTOjvE/7bKDi6kYFO8kY11s7Zd1c
- DOdEYeq/WhU1Zn3eF5wprYgSxeIXrA/383C6RBt8YX5CHqC32WDukOL30ywarXxipmzk
- R8Ssv0umqHzXqWgU/geGyomVWmft9+4UqbchmCc9vMFO+q2ujJJYdRn8jczyES1R9tUP
- HNfnWMCm7dpm0gt20LYj1QWVqri/lyCXGS3jM3BHlhuRrnWSpTPl5wT1aR41y+4QeueK
- lQMw==
+ d=gmail.com; s=20210112; t=1680740771;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KSkimFoCOI3XMOV8pq1KeeCiIo28vIwHwjIPtM9H8/g=;
+ b=Ox7KUvv+uxAYpvKDAc6hQcBo4ZsO2R1q+evHbKfPjogwi/0sbsIvBULIXJGQS9EXOQ
+ rJcEa9IKplHOypP/beW1mWYrkI//sgSpNQ9Tgz6gLCq7wuPb5RYZJl1+GIPCoSD9MxpJ
+ yoOjx0JyY5mMTknx35+eTeBenWgNlcNLte+g/HM6i+dD1RwI2o1xoq+tXG1W+FIyem18
+ DyHx3oTT12qPbNU4wzB71BnzM07pIGq78wroF4DK4wGp7JsxzgL9RKQnIuSpP74fwuIc
+ uFYUtP/yoUzF+gx2f5bJCwuwNk9QZ4IpBgZgblE9B42MvzadSqhgGB3OaLPcUkAIwt8C
+ be/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680740693;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=c73IHAi+aPqB32XxKH0euKSiA4W+L+UT08GhoM3WrRI=;
- b=aXU87oCBNfFL02Wa4x+Qe6BW9AuNMiUhlepddtRVjcFQrSMjhI4akY9cxmSdzf8f0P
- NhVliZbJC3MhdDK4UpjvCEC5ZSkkHV4tQCYc9bHhxHCJeNjlUp94pxWrGKMxI0D4domw
- gARQ8+XWrr4/EsqkDG3fN9inoVnyW+vGyZJu2KnN/a75bK7wj9hGzmMqEpgWRBGQ3WOu
- No8du9lPtZzt/6PRzV6BRNrVNt3Wt0SLLB3EqfvuiAXAmvvlhb1AyXFG8+WDqbtTu9PT
- T8pIWwP6F05g1KbXD/uWZZ5mSKkhnAfhxjGFw2qjcrnIx+LZ+8lb5ksvC8Qorpq5EUDH
- V5UQ==
-X-Gm-Message-State: AAQBX9eWhb1GOiExbq839xktCC5KVuZFhOE0J4lmd4WPy4Zvu8t+rnuD
- B0s+AmuAeu/HijOArYIhFgFid2qLc4ZaPZ9OzNbIxfXs7LFq/hmxce05LHkxKOFV8tnJbilSoLz
- 6rs9cvtMrFXVIj0l7RoKkiYCwEhFyAjh72S5KGoNU+rUx4+Js/dgcIGo6zmmOjFk=
-X-Google-Smtp-Source: AKy350a6HtIRv4dIRXUg5O+lh1rU1PuAnL2l714ZewTmS4LqQPAyollh1I64MyqXdf5S34FvD7r+Mcz/uWa1
-X-Received: from komlodi.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:35ee])
- (user=komlodi job=sendgmr) by 2002:a65:5887:0:b0:513:f8ae:5bf6 with SMTP id
- d7-20020a655887000000b00513f8ae5bf6mr2573288pgu.6.1680740693100; Wed, 05 Apr
- 2023 17:24:53 -0700 (PDT)
-Date: Thu,  6 Apr 2023 00:24:47 +0000
-In-Reply-To: <20230406002447.4046378-1-komlodi@google.com>
-Mime-Version: 1.0
-References: <20230406002447.4046378-1-komlodi@google.com>
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-Message-ID: <20230406002447.4046378-3-komlodi@google.com>
-Subject: [PATCH 2/2] hw/gpio/npcm7xx: Support qom-get on GPIO pin level
-From: Joe Komlodi <komlodi@google.com>
-To: qemu-devel@nongnu.org
-Cc: komlodi@google.com, wuhaotsh@google.com, kfting@nuvoton.com, 
- qemu-arm@nongnu.org
+ d=1e100.net; s=20210112; t=1680740771;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KSkimFoCOI3XMOV8pq1KeeCiIo28vIwHwjIPtM9H8/g=;
+ b=FRqaVF6kObV4MAZKTm5bKcLf2C05YsSpMOIbrYvgJfpYjXeBAe3Lij+ceVR0ZoiMkP
+ PVwcx65sB6pIHrTTSCG/D40lWtsD9edBCoOQ/+Le7btR2rng2ac+1qXnwWtcsZXP4upX
+ UkmpydsJVS8dfwmiGf7RC3Jdah9qtfvCBvGW3sp0OBpLBWVO3RvgtMbSAEHTZyQGrNQ9
+ r88gEIz2a4z0L+auwiUOx3ok8hrechyctSc7s6azmHb82oO3yk4CvcC8J7ERkbGo1UQF
+ HSIUtlKKyS+pbVsSdKWcUgfw23f/EKywwm+yHHlpXs8B6ONxAFsag94N9VRAzXcimb8K
+ zcfg==
+X-Gm-Message-State: AAQBX9edCuOqvtLE5lwzNuV7sZV3mBjZGtzkKzA9PWhmvmi6awNajvKV
+ 8ssQqcIM6EKhDP+2pOOSQEnBy9axkYV/hDVSdIA=
+X-Google-Smtp-Source: AKy350ZrUY2YPDLmGqg1Wllrjv4H/8FNWTvIewo1lOjInSIE4gRnRQOK5YV4ni4wpvoYOaI3gNxx/p3GYcGAlpQUOlU=
+X-Received: by 2002:a9f:305c:0:b0:68a:5c52:7f2b with SMTP id
+ i28-20020a9f305c000000b0068a5c527f2bmr5404802uab.1.1680740770902; Wed, 05 Apr
+ 2023 17:26:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230329172903.636383-1-dbarboza@ventanamicro.com>
+ <20230329172903.636383-21-dbarboza@ventanamicro.com>
+In-Reply-To: <20230329172903.636383-21-dbarboza@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 Apr 2023 10:25:44 +1000
+Message-ID: <CAKmqyKNGBU4_yFHq5c1Cz-KiGsRGobngN4hvjSei_FTF5LCjQQ@mail.gmail.com>
+Subject: Re: [PATCH v3 20/20] target/riscv/cpu.c: redesign register_cpu_props()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
+ palmer@rivosinc.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
- envelope-from=3VREuZAcKClgAECBE386EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--komlodi.bounces.google.com;
- helo=mail-pf1-x449.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x932.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,36 +87,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This goes along with input pin modification. In some cases it's easier
-to know the state of all pins on the GPIO controller before modifying
-input pins, rather than knowing only the state of input pins.
+On Thu, Mar 30, 2023 at 3:32=E2=80=AFAM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+> The function is now a no-op for all cpu_init() callers that are setting
+> a non-zero misa value in set_misa(), since it's no longer used to sync
+> cpu->cfg props with env->misa_ext bits. Remove it in those cases.
+>
+> While we're at it, rename the function to match what it's actually
+> doing: create user properties to set/remove CPU extensions. Make a note
+> that it will overwrite env->misa_ext with the defaults set by each user
+> property.
+>
+> Update the MISA bits comment in cpu.h as well.
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
-For example over QMP:
-{"execute":"qom-get","arguments":{
-    "path":"/machine/soc/gpio[0]",
-    "property":"gpio-pin-level"
-}}
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Joe Komlodi <komlodi@google.com>
----
- hw/gpio/npcm7xx_gpio.c | 3 +++
- 1 file changed, 3 insertions(+)
+Alistair
 
-diff --git a/hw/gpio/npcm7xx_gpio.c b/hw/gpio/npcm7xx_gpio.c
-index 2a7be60d8d..58db3a8d64 100644
---- a/hw/gpio/npcm7xx_gpio.c
-+++ b/hw/gpio/npcm7xx_gpio.c
-@@ -399,6 +399,9 @@ static void npcm7xx_gpio_init(Object *obj)
-     object_property_add(obj, "gpio-pins-in", "uint32",
-                         npcm7xx_gpio_get_pins_in,  npcm7xx_gpio_set_pins_in,
-                         NULL, &s->regs[NPCM7XX_GPIO_DIN]);
-+
-+    object_property_add_uint32_ptr(obj, "gpio-pin-level", &s->pin_level,
-+                                   OBJ_PROP_FLAG_READ);
- }
- 
- static const VMStateDescription vmstate_npcm7xx_gpio = {
--- 
-2.40.0.348.gf938b09366-goog
-
+> ---
+>  target/riscv/cpu.c | 41 ++++++++++-------------------------------
+>  target/riscv/cpu.h |  5 +----
+>  2 files changed, 11 insertions(+), 35 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 6988ff443a..d8568a024c 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -221,7 +221,7 @@ static const char * const riscv_intr_names[] =3D {
+>      "reserved"
+>  };
+>
+> -static void register_cpu_props(Object *obj);
+> +static void riscv_cpu_add_user_properties(Object *obj);
+>
+>  const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
+>  {
+> @@ -349,7 +349,6 @@ static void riscv_any_cpu_init(Object *obj)
+>  #endif
+>
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+> -    register_cpu_props(obj);
+>  }
+>
+>  #if defined(TARGET_RISCV64)
+> @@ -358,7 +357,7 @@ static void rv64_base_cpu_init(Object *obj)
+>      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV64, 0);
+> -    register_cpu_props(obj);
+> +    riscv_cpu_add_user_properties(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+>  #ifndef CONFIG_USER_ONLY
+> @@ -370,7 +369,6 @@ static void rv64_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RV=
+U);
+> -    register_cpu_props(obj);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>  #ifndef CONFIG_USER_ONLY
+>      set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV39);
+> @@ -383,7 +381,6 @@ static void rv64_sifive_e_cpu_init(Object *obj)
+>      RISCVCPU *cpu =3D RISCV_CPU(obj);
+>
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
+> -    register_cpu_props(obj);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu =3D false;
+>  #ifndef CONFIG_USER_ONLY
+> @@ -429,7 +426,7 @@ static void rv128_base_cpu_init(Object *obj)
+>      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV128, 0);
+> -    register_cpu_props(obj);
+> +    riscv_cpu_add_user_properties(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+>  #ifndef CONFIG_USER_ONLY
+> @@ -442,7 +439,7 @@ static void rv32_base_cpu_init(Object *obj)
+>      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV32, 0);
+> -    register_cpu_props(obj);
+> +    riscv_cpu_add_user_properties(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+>  #ifndef CONFIG_USER_ONLY
+> @@ -454,7 +451,6 @@ static void rv32_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RV=
+U);
+> -    register_cpu_props(obj);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>  #ifndef CONFIG_USER_ONLY
+>      set_satp_mode_max_supported(RISCV_CPU(obj), VM_1_10_SV32);
+> @@ -467,7 +463,6 @@ static void rv32_sifive_e_cpu_init(Object *obj)
+>      RISCVCPU *cpu =3D RISCV_CPU(obj);
+>
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
+> -    register_cpu_props(obj);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu =3D false;
+>  #ifndef CONFIG_USER_ONLY
+> @@ -481,7 +476,6 @@ static void rv32_ibex_cpu_init(Object *obj)
+>      RISCVCPU *cpu =3D RISCV_CPU(obj);
+>
+>      set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
+> -    register_cpu_props(obj);
+>      set_priv_version(env, PRIV_VERSION_1_11_0);
+>      cpu->cfg.mmu =3D false;
+>  #ifndef CONFIG_USER_ONLY
+> @@ -496,7 +490,6 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>      RISCVCPU *cpu =3D RISCV_CPU(obj);
+>
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
+> -    register_cpu_props(obj);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu =3D false;
+>  #ifndef CONFIG_USER_ONLY
+> @@ -514,7 +507,7 @@ static void riscv_host_cpu_init(Object *obj)
+>  #elif defined(TARGET_RISCV64)
+>      set_misa(env, MXL_RV64, 0);
+>  #endif
+> -    register_cpu_props(obj);
+> +    riscv_cpu_add_user_properties(obj);
+>  }
+>  #endif
+>
+> @@ -1508,30 +1501,16 @@ static Property riscv_cpu_extensions[] =3D {
+>  };
+>
+>  /*
+> - * Register CPU props based on env.misa_ext. If a non-zero
+> - * value was set, register only the required cpu->cfg.ext_*
+> - * properties and leave. env.misa_ext =3D 0 means that we want
+> - * all the default properties to be registered.
+> + * Add CPU properties with user-facing flags.
+> + *
+> + * This will overwrite existing env->misa_ext values with the
+> + * defaults set via riscv_cpu_add_misa_properties().
+>   */
+> -static void register_cpu_props(Object *obj)
+> +static void riscv_cpu_add_user_properties(Object *obj)
+>  {
+> -    RISCVCPU *cpu =3D RISCV_CPU(obj);
+>      Property *prop;
+>      DeviceState *dev =3D DEVICE(obj);
+>
+> -    /*
+> -     * If misa_ext is not zero, set cfg properties now to
+> -     * allow them to be read during riscv_cpu_realize()
+> -     * later on.
+> -     */
+> -    if (cpu->env.misa_ext !=3D 0) {
+> -        /*
+> -         * We don't want to set the default riscv_cpu_extensions
+> -         * in this case.
+> -         */
+> -        return;
+> -    }
+> -
+>      riscv_cpu_add_misa_properties(obj);
+>
+>      for (prop =3D riscv_cpu_extensions; prop && prop->name; prop++) {
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index ce92e8393d..02f26130d5 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -65,10 +65,7 @@
+>
+>  #define RV(x) ((target_ulong)1 << (x - 'A'))
+>
+> -/*
+> - * Consider updating register_cpu_props() when adding
+> - * new MISA bits here.
+> - */
+> +/* Consider updating misa_ext_cfgs[] when adding new MISA bits here */
+>  #define RVI RV('I')
+>  #define RVE RV('E') /* E and I are mutually exclusive */
+>  #define RVM RV('M')
+> --
+> 2.39.2
+>
+>
 
