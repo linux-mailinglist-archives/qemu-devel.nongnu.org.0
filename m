@@ -2,113 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5456D972A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 14:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFED06D9731
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 14:45:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkOyZ-0004h4-Bk; Thu, 06 Apr 2023 08:44:27 -0400
+	id 1pkOzN-0005F7-FJ; Thu, 06 Apr 2023 08:45:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1pkOyW-0004f8-GY
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:44:24 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1pkOyT-0000fy-Vw
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:44:23 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 336B22Ha023421; Thu, 6 Apr 2023 12:44:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=ZcRzqlJTZjVLiVQOAEpUoIQHbfvdk8DLNxrCSWZgo/Q=;
- b=PYK4ZmROB2edYeVsYn00rs4YPRsS6R4mq8AtPh+AawuuA/WxXhjm/Amml69ncNXm5zU/
- 7AqxrNp3wtKZ/0MN7VL/pcniYtsmkOeXs3SbmUVLOy1Q27glUPFiItbeocH8GzdC/DaW
- qP4wDQf70qyueRN3z9zAoq6/6Sr/yVBorP0STjf37OgMN7N8OHtzuY1TRSOIz3VywH7P
- JUW9hZc5dy6Ct6IldKunHK+KKt7lWXlhgVsqDXZJeSzjNbCLDESEg45MF6t3aN5ggPXP
- 6L13cFyovDPTyzz0l+E8R9ePqgvxSeFhsXLYpFvo9aGVSBA83uV1Nim8vtOXKXTQILYu dw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3psa3tc7xj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 12:44:19 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 336CVtqP030762;
- Thu, 6 Apr 2023 12:44:18 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3psa3tc7ww-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 12:44:18 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3363FYQK002267;
- Thu, 6 Apr 2023 12:44:16 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3ppc87cb9c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 12:44:16 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 336CiDkp19202618
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 6 Apr 2023 12:44:13 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C4CD32004F;
- Thu,  6 Apr 2023 12:44:13 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B2C92004B;
- Thu,  6 Apr 2023 12:44:13 +0000 (GMT)
-Received: from [9.171.86.230] (unknown [9.171.86.230])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  6 Apr 2023 12:44:13 +0000 (GMT)
-Message-ID: <38857c4f-8a3f-909e-2517-4f094513ce99@linux.ibm.com>
-Date: Thu, 6 Apr 2023 14:44:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: s390 private runner CI job timing out
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <CAFEAcA_7+5tK+rM6dBgozNJmMmL7fU3MHLuvzJtb7-zWK4rMTQ@mail.gmail.com>
- <4521ce29-1d11-f253-7a7d-342f6bd9e6b0@redhat.com>
- <CAFEAcA_HVpYajJ5yP7+eYKNhKggtNjgFyQ_V3WqSPf4dGL=zKQ@mail.gmail.com>
- <3b5cc225-50e8-e56d-3fa8-da052a515beb@linux.ibm.com>
- <CAFEAcA_Uh+20w1gnCBXe6Go9WqkUu+SUeRtsrrbwEO4j48OjGQ@mail.gmail.com>
- <149e9342-b48b-0871-ee4d-96c6f1d3f198@linux.ibm.com>
- <CAFEAcA_SgAZmv8YpaR0v7iU1oMdNTAMcrcYWaqGPzHDxjSP=wQ@mail.gmail.com>
- <c974308f-42a1-9163-5c4f-54bda7050ee8@linux.ibm.com>
- <2e529c06-199f-6d5a-a75b-5b88aae44b2c@redhat.com>
- <CAFEAcA_mUb+2gXDzMoD+rOvN9y5tvPyp4QXNtPGkk0bzg1t5vA@mail.gmail.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <CAFEAcA_mUb+2gXDzMoD+rOvN9y5tvPyp4QXNtPGkk0bzg1t5vA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: cxPob6fgpJ6IqD8f35CrXvEkhz0D6OD3
-X-Proofpoint-GUID: 9KdEkUMnwodzgxss1E8D05IrA3-se5yU
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pkOzF-00056Q-AI
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:45:11 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pkOzC-0000lD-OH
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:45:09 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-5002bb40596so1246123a12.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 05:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680785105;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QAHiCbBETMHWZFpGLlHqRTjPOIshy7V6m1ZC2PVupwQ=;
+ b=UvPOamAUu8NmGJ1KoHO+HuAs/wC2Cwx8ILSeU/lrJW8vik0QuQQueGr8QshcTcsAK2
+ JGv531SSRJ8Qj9mP0Rch5lkV5MBk5BvEYRft5FLj7CP2lSPzm28yeDySMHwvynbXComu
+ ZrIzODKNXBx0aFxzHpYlw2XrOvD3zFFQzjQdy60bzZ49t81BBhDcsK2Rp3gPpDs826EF
+ Aq9plu62NZK/3M3RBNONMikw5Lofx1B/QMKxg7mOU4MXE5egRdHPyU6ANhX2HNUle0WD
+ B3g7MkECfwK+sZXaKe/jQTWqmBAUnRcsbarmWDSPB1iqiywyrQzORBVmdLAXjRj1cY7q
+ eHCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680785105;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QAHiCbBETMHWZFpGLlHqRTjPOIshy7V6m1ZC2PVupwQ=;
+ b=jJp00LW5Pm0RoLkpBFLiaTqPJ5w1FA6/OgaNr39TAzEk4Js8+F99qLnnOLLHSkAiDy
+ slIWr2DTplcGPsjSGqfP8DBYLlpnhqjRES1bASo9kqstGiunWs7/hFOBnc2HkClx/CYN
+ c9cj0afzT5xzERuDF6Ktm2K0CCihxDeni6DVPzVRxUSnHBzTCMzBTjZd1UUTgEfdZhaf
+ xHxVB28j64HCDbKBb/kEqEynmDOwg7/rbyvc0QM2kMCjDv6nzTlZB1bMI2O4t/PImxmO
+ j1eHrSIlKA+E25kAmB6VTaLQQYnE8KpwvYzittsqMGCgTAYS7rxT7PEv5Bb/obqQe5cY
+ 5wSw==
+X-Gm-Message-State: AAQBX9d5797oIN4T3qBVwlU9zcKWrHkSVmxvQUyn8PM748+/jlQVMTiL
+ ZbL8FswA3PwXlSkVQvx8zw5c+DIlfE7KdUZwU7Q=
+X-Google-Smtp-Source: AKy350bLQLoB+DAsyX9CiMgc4zAIdKE4go+JF7Of10tQZwgJa2VWYrm2EI+03j8z4VjXcvqciczZbB4wH59es9MMtcg=
+X-Received: by 2002:a50:9f2d:0:b0:501:c965:33bd with SMTP id
+ b42-20020a509f2d000000b00501c96533bdmr3003319edf.6.1680785104610; Thu, 06 Apr
+ 2023 05:45:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-06_06,2023-04-06_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- bulkscore=0 adultscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 spamscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304060110
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224, SPF_HELO_NONE=0.001,
+References: <20230406112041.798585-1-bmeng@tinylab.org>
+ <8e935a0b-583b-ed14-fded-b0af760ae99d@linaro.org>
+In-Reply-To: <8e935a0b-583b-ed14-fded-b0af760ae99d@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 6 Apr 2023 20:44:53 +0800
+Message-ID: <CAEUhbmWbG9cizASqfeFxXjusb8cw2vHT2yGEzuxpH98eKhv1bw@mail.gmail.com>
+Subject: Re: [PATCH] net: tap: Drop the close of fds for child process
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Bin Meng <bmeng@tinylab.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Zhangjin Wu <falcon@tinylab.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,32 +88,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Apr 6, 2023 at 8:34=E2=80=AFPM Philippe Mathieu-Daud=C3=A9 <philmd@=
+linaro.org> wrote:
+>
+> On 6/4/23 13:20, Bin Meng wrote:
+> > Current codes using a brute-force traversal of all file descriptors
+> > do not scale on a system where the maximum number of file descriptors
+> > are set to a very large value (e.g.: in a Docker container of Manjaro
+> > distribution it is set to 1073741816). QEMU just looks freezed during
+> > start-up.
+> >
+> > The close-on-exec flag was introduced since a faily old Linux kernel
+> > (2.6.23). With recent newer kernels that QEMU supports, we don't need
+> > to manually close the fds for child process as the proper O_CLOEXEC
+> > flag should have been set properly on files that we don't want child
+> > process to see.
+>
+> But this file is common to all POSIX implementations, not only Linux.
 
+Yes, this file is used for Linux, BSD and Solaris.
+I checked that O_CLOEXEC is available on Linux (2.6.23), FreeBSD
+(8.3), OpenBSD 5.0, Solaris 11. This flag is part of POSIX.1-2008.
 
-Am 06.04.23 um 14:39 schrieb Peter Maydell:
-> On Thu, 6 Apr 2023 at 13:30, Thomas Huth <thuth@redhat.com> wrote:
->> The thing is: it shouldn't take that long to build QEMU and run the tests
->> here, theoretically. Some days ago, the job was finishing in 39 minutes:
->>
->>    https://gitlab.com/qemu-project/qemu/-/jobs/3973481571
->>
->> The recent run took 74 minutes:
->>
->>    https://gitlab.com/qemu-project/qemu/-/jobs/4066136770
->>
->> That's almost a factor of two! So there is definitely something strange
->> going on.
-> 
-> So that 39 minute run was about 22 minutes compile, 17 minutes test.
-> The 74 minute run was 45 minutes compile, 30 minutes test.
-> The number of compile steps in meson was pretty much the same
-> (10379 vs 10384) in each case. So the most plausible conclusion
-> seems like "the VM mysteriously got slower by nearly a factor of 2",
-> given that the slowdown seems to affect the compile and test
-> stages about equally.
-> 
-> The VM has been up for 44 days, so we can rule out "rebooted into
-> a new kernel with some kind of perf bug".
+Question is do we still need to support OSes that are older and do not
+have this support?
 
-I will ask around if we can get a higher share of the system.
+>
+> > Reported-by: Zhangjin Wu <falcon@tinylab.org>
+> > Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> > ---
+> >
+> >   net/tap.c | 14 --------------
+> >   1 file changed, 14 deletions(-)
+> >
+> > diff --git a/net/tap.c b/net/tap.c
+> > index 1bf085d422..49e1915484 100644
+> > --- a/net/tap.c
+> > +++ b/net/tap.c
+> > @@ -446,13 +446,6 @@ static void launch_script(const char *setup_script=
+, const char *ifname,
+> >           return;
+> >       }
+> >       if (pid =3D=3D 0) {
+>
+> Maybe guard with #ifndef O_CLOEXEC
+>
+> > -        int open_max =3D sysconf(_SC_OPEN_MAX), i;
+> > -
+> > -        for (i =3D 3; i < open_max; i++) {
+> > -            if (i !=3D fd) {
+> > -                close(i);
+> > -            }
+> > -        }
+>
+> or add qemu_close_cloexec() in util/osdep.c similar to qemu_open_cloexec(=
+)?
+>
+> >           parg =3D args;
+> >           *parg++ =3D (char *)setup_script;
+> >           *parg++ =3D (char *)ifname;
+> > @@ -536,17 +529,10 @@ static int net_bridge_run_helper(const char *help=
+er, const char *bridge,
+> >           return -1;
+> >       }
+> >       if (pid =3D=3D 0) {
+> > -        int open_max =3D sysconf(_SC_OPEN_MAX), i;
+> >           char *fd_buf =3D NULL;
+> >           char *br_buf =3D NULL;
+> >           char *helper_cmd =3D NULL;
+> >
+> > -        for (i =3D 3; i < open_max; i++) {
+> > -            if (i !=3D sv[1]) {
+> > -                close(i);
+> > -            }
+> > -        }
+> > -
+> >           fd_buf =3D g_strdup_printf("%s%d", "--fd=3D", sv[1]);
+> >
+> >           if (strrchr(helper, ' ') || strrchr(helper, '\t')) {
+
+Regards,
+Bin
 
