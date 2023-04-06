@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B696D9839
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27F06D983B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:30:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkPfe-0002wq-VT; Thu, 06 Apr 2023 09:28:59 -0400
+	id 1pkPfg-0002xn-V3; Thu, 06 Apr 2023 09:29:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1pkPfc-0002wE-Tc
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:28:56 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1pkPff-0002xM-S7
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:28:59 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <raghuhack78@gmail.com>)
- id 1pkPfb-0004cT-2M
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:28:56 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- h12-20020a17090aea8c00b0023d1311fab3so40636978pjz.1
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 06:28:54 -0700 (PDT)
+ id 1pkPfe-0004d2-BM
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 09:28:59 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id n14so21637936plc.8
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 06:28:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680787734;
+ d=gmail.com; s=20210112; t=1680787737;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1GbwkVL4dWB7PttvxkStaPImqbp/cFdbD1DV4GoX7/o=;
- b=eSXWj+6pvEVDxQHXlbSA6Au4VjRGmDTrK9noR161GftVXui2OemZVPtvC2vNEX3ZDv
- 7wfrQck6VlKXBwutSQujQhDU+RzjR+3tf6PZbfb1oeJt2Qe77YXRIUZwcvGUaonqxL1s
- 8Up7ElirEEptWQvEYWQH1yDGIOmlsAtkrQ7Gsd/BbRfs59KqmxBusoB2XaFvxpSrEacq
- k2y6NiPtMDCIHpwgJz0UmnODwu4H9JK6tZMVxhUOeJEjc1N/evKPK1eHRCHAC3liARX6
- zvtCJtA2Hv2ZwPUHWdv4spK0odNel8bxC8QATeQImwxx+P0KM0kmOHj4noGRFIRj6IbO
- othw==
+ bh=cPXFEUFf25Y21YGkG2dEE4rWjH8ObY0y16yXPeKRivo=;
+ b=n4diX++RcnMJ7PM/WG4d4CglCb+qvzl1NkBFXpPejK9u0DIHN9YUC48eJlMqPx8P0Z
+ EEGdeIPE0jiLWfAeyPWZbLe1t0f1mDowpoLVQ4dROHqLbsCVh4u81kdyP8VQFhqPQ+UT
+ rRIUA7QWF0JpZYO4vIEROccaug+Bb7IoSBBJerHetWthS00KDPuIZmo5Wo6cWkjcVl+X
+ vxSyTpQ+opzIjJ5tilAH40Kn2kqjIl9xkphhamL7wZda7jjOXd8qTjz6fciPcQxKZhdX
+ 5uW+WavdLVp3+9ZRIl+PPD/zgJgVSaZZXzC4KxQDO1ebf4CcYdKsC1PXuJHm1Kjv6GFb
+ +slQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680787734;
+ d=1e100.net; s=20210112; t=1680787737;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1GbwkVL4dWB7PttvxkStaPImqbp/cFdbD1DV4GoX7/o=;
- b=WqrdZyH3hSRJu4ui1MDMdLNJz/jRfHwtzwFLxmBkha3j1nCb3HEG7awu6M70VGJQJJ
- TLrKM8H6/W3iHjRF7ax6/a6lV3AwGTSJu07flxz3XyQ9qmrpGkNJUy187y7nrP1CX4oG
- w69ubA7aJjcETMvzRSVPGzCu77aykfIK8l/z95TGtxUy6IRYjvQbKpbl1K2GaPHnLrto
- haL7gwC+DtQXgyabHixUbgOMRCY0tOA2nLrKmaRsjXkMfWfPYOn6Mswjl/HJO/9I756W
- ZLNIF51xJWcl45TqO83bSmFANShKfGsXJCD5P/pR5+IowL0dmALAHLirvzEIsX7gA4oU
- c9bQ==
-X-Gm-Message-State: AAQBX9fmqkYPRBLa27ZyQm2vvFO+xCb/rcGVxjie+L8bGG5jpKvw7JEx
- fg5ZSb4c/z3YUE6kH82ieec=
-X-Google-Smtp-Source: AKy350Y4BXX9DS62XX4U8loswYggJl/3m8MzKGxRQaMvDO5fGWJW6QJM0SUSokCvqMLOwQrc3VM6Ag==
-X-Received: by 2002:a05:6a20:c746:b0:d9:6c8b:e9aa with SMTP id
- hj6-20020a056a20c74600b000d96c8be9aamr2845473pzb.0.1680787733714; 
- Thu, 06 Apr 2023 06:28:53 -0700 (PDT)
+ bh=cPXFEUFf25Y21YGkG2dEE4rWjH8ObY0y16yXPeKRivo=;
+ b=J6g6oVhyHAINIxzLCGuJ+MucQDWnebkeOBMDKkCIpkzSIHGvXMoZdYosO0gA0tVu3k
+ b9mxLJGeTGWcBlcTy26jnCBmyqhmco6Q/fUg/7aeVxcguvaMDMFZItkKyZIilWfT1h1d
+ YDsoY+sgKtCXYYtqyR7Kllavsf4eb5NJuVdGRyV63kE8pwn9dqClBcfXSLzJZgPq3pfI
+ BcG87ZHIXMB0aOIGi3EILNRbQhCOVEdrRFjuHwOyY2v93UoBYlro6WANHwIuctgh4ANo
+ G32scwD5HasxGO/Xbz94HLjxEZ3Xw/1WMQN7eRYBbUO4FMpKpZt3CQpWXy7U4o0gxCI+
+ zeRw==
+X-Gm-Message-State: AAQBX9eKCE2N7RJJGFbg3HZzOLPk1xLnYUS4veHSgmhR8sW3zfxUdkJC
+ yWEGFOu4dpJtu/QFJNQGqyM=
+X-Google-Smtp-Source: AKy350atqq6n+nsflvjz9LtbCAbewQzmPzl+NgslIJ03AClzhIk4os31Vgs5VUvUKc0L/+L43JyYaw==
+X-Received: by 2002:a05:6a20:bb06:b0:d5:58df:fb7a with SMTP id
+ fc6-20020a056a20bb0600b000d558dffb7amr3302994pzb.3.1680787736833; 
+ Thu, 06 Apr 2023 06:28:56 -0700 (PDT)
 Received: from raghuh-elastics.. ([2406:7400:56:45c3:5697:bbf2:968:7051])
  by smtp.gmail.com with ESMTPSA id
- c20-20020a62e814000000b005cdbd9c8825sm1349883pfi.195.2023.04.06.06.28.51
+ c20-20020a62e814000000b005cdbd9c8825sm1349883pfi.195.2023.04.06.06.28.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 06:28:53 -0700 (PDT)
+ Thu, 06 Apr 2023 06:28:56 -0700 (PDT)
 From: Raghu H <raghuhack78@gmail.com>
 To: maverickk1778@gmail.com, Jonathan.Cameron@huawei.com, qemu-devel@nongnu.org
 Cc: Raghu H <raghuhack78@gmail.com>
-Subject: [PATCH v1 0/2] Update CXL documentation
-Date: Thu,  6 Apr 2023 18:58:37 +0530
-Message-Id: <20230406132839.3357195-1-raghuhack78@gmail.com>
+Subject: [PATCH v2 1/2] docs/cxl: Remove incorrect CXL type 3 size parameter
+Date: Thu,  6 Apr 2023 18:58:38 +0530
+Message-Id: <20230406132839.3357195-2-raghuhack78@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230406113640.0000277c@Huawei.com>
+In-Reply-To: <20230406132839.3357195-1-raghuhack78@gmail.com>
 References: <20230406113640.0000277c@Huawei.com>
+ <20230406132839.3357195-1-raghuhack78@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=raghuhack78@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=raghuhack78@gmail.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,30 +92,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thanks Jonathan for quick review/comments on earlier patch, as suggested
-splitting into two separate patches
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg952999.html
+cxl-type3 memory size is read directly from the provided memory backed end
+device. Remove non existent size option
 
-Removed the unsupported size option for cxl-type3 device, Qemu reads
-the device size directly from the backend memory device config.
+Signed-off-by: Raghu H <raghuhack78@gmail.com>
+---
+ docs/system/devices/cxl.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Currently the Qemu CXL emulation for AARCH64 is not available and its
-only supported on x86_64 platform emulations. Removing the incorrect
-information and populating with supported x86_64 sample command to
-emulate cxl devices.
-
-The document will be updated when the AARCH64 support is mainlined.
-
-
-Raghu H (2):
-  docs/cxl: Remove incorrect CXL type 3 size parameter
-  docs/cxl: Replace unsupported AARCH64 with x86_64
-
- docs/system/devices/cxl.rst | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
-
-
-base-commit: 7d0334e49111787ae19fbc8d29ff6e7347f0605e
+diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
+index f25783a4ec..46f9ae9bf1 100644
+--- a/docs/system/devices/cxl.rst
++++ b/docs/system/devices/cxl.rst
+@@ -354,13 +354,13 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
+   -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
+   -device cxl-upstream,bus=root_port0,id=us0 \
+   -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
+-  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
++  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0 \
+   -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
+-  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
++  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1 \
+   -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
+-  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
++  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2 \
+   -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
+-  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
++  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3 \
+   -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
+ 
+ Kernel Configuration Options
 -- 
 2.34.1
 
