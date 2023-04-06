@@ -2,86 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652C46D9102
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 10:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0530F6D9810
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:22:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkKYS-0006Cz-T0; Thu, 06 Apr 2023 04:01:12 -0400
+	id 1pkPZ2-0000cH-2L; Thu, 06 Apr 2023 09:22:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pkKYM-0006AX-Vj
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:01:08 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pkKYK-0007tM-T8
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:01:06 -0400
-Received: by mail-wr1-x430.google.com with SMTP id v1so38601768wrv.1
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 01:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680768063;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rC7T51oJUAEvDMhKoe2KU4JQ5os89UllKPg0c8I6IaA=;
- b=nPCoHIJx3H+2DSomb/+Lt9OyQSPaxewgW7efOd+oVAA7H4/+2zsIjoYCUESUrC+su+
- LNoMNUOhCimqB60Qf/h4Fwrl3G2wfERQkOU+vvQOzjxW9HF6Ucfg4zCdZA01dNS9KFbh
- WsH9V/44E5WgjqOQEaf7lbpRIggpkALW1d6x3PZU88KF8xPh649hjj4aOy3Ge89pl5rL
- EECp82LppVU5aVw/Pel0on/uSlmapCWoFCny5lAl+h7tVAQAHPw2GtmntmA3mqKk/lvX
- rpU54uS6ZepBKvhVBaR9XYWqn8UnMczqkZPGvYONSFXkI64lyZ3FcqEq47qsCmxZA127
- P1rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680768063;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=rC7T51oJUAEvDMhKoe2KU4JQ5os89UllKPg0c8I6IaA=;
- b=7fckCED5+6iX4dJqgKV3/J3LiFSexXID7RPXWXFIJ5jsGltHcJcGjrMB4RqGvkhOUe
- 0Nx6UJAV6aGgyDc+Mn3swgJsW9GFfaxqViDLZ0cL9eaNuPP2uRkxTwGT16PDy0Q/1X6q
- r3CJ0BUWxe/ghVOQpSuKeNIK89TBTkFhH7hgixeA4o4Pb9go96TfehWqL3fRa9gbX0mq
- 5ZEnqlh9LkD/XKM2NokxcrOTI4rDMazzfi7JR1bTPbS6R7hk+1uUB1L+Tfm7ItOBkmR2
- T5H2Sx83PAT8BAq/++emRtty/KZwDnTWVyqD08FT8g8/JLSNiu43W1BQsYN5/0EZ3I+L
- u9PA==
-X-Gm-Message-State: AAQBX9eSyA23Z3gpE3dssLDcKheWFa2eXTo6P0HFdh/7Km5sZg949Cvg
- mWjCD6dMAjK75Ar/SDK2rXw86Q==
-X-Google-Smtp-Source: AKy350Zc48gXiU9SWY8iuJ8A/gb6unyUyB6qd5Dv/Apnj4da9QijKQdqtAKWjxevNbXCEu1oHHEO2A==
-X-Received: by 2002:adf:df0a:0:b0:2cf:ee28:5024 with SMTP id
- y10-20020adfdf0a000000b002cfee285024mr5744234wrl.42.1680768062419; 
- Thu, 06 Apr 2023 01:01:02 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- m3-20020adfdc43000000b002c5691f13eesm1006880wrj.50.2023.04.06.01.01.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 01:01:02 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 93C4F1FFB7;
- Thu,  6 Apr 2023 09:01:01 +0100 (BST)
-References: <20230406022751.757980-1-fei2.wu@intel.com>
- <20230406022751.757980-3-fei2.wu@intel.com>
-User-agent: mu4e 1.10.0; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Fei Wu <fei2.wu@intel.com>
-Cc: richard.henderson@linaro.org, pbonzini@redhat.com, erdnaxe@crans.org,
- ma.mandourr@gmail.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/2] plugins/hotblocks: add host insn size
-Date: Thu, 06 Apr 2023 08:54:54 +0100
-In-reply-to: <20230406022751.757980-3-fei2.wu@intel.com>
-Message-ID: <87r0sxjv7m.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <thomas.de_schampheleire@nokia.com>)
+ id 1pkKdb-00008s-Uk
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:06:31 -0400
+Received: from mail-am7eur03on2121.outbound.protection.outlook.com
+ ([40.107.105.121] helo=EUR03-AM7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thomas.de_schampheleire@nokia.com>)
+ id 1pkKdZ-0003S9-Ph
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:06:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BBN8J8r1iDag6nDfonJUd/1SW/FMqoUK1X4gxBYIL96q9u73fCRrrq/ZmREokLG1Ak/59qmC40Bgp/rlLni+UiFRRZRRa2kdt747UVOCtnlik30Zm8rxtypeqaAJyj9YeeTiH/GGDgfAVVbOyEmAPuQIg0dR0Dljp8hynukRlsgA3AeaFDRUCYIT83xIi6ZV4YY+o0aMk5x5lhE+sg/J8YvD0+nqaBQti0kWfIPgne5Gfn7PmG0K1MtxTfCsZOCSaB0Z2wPdr1fSrXDkpDfpIDihFY/22PqS4TEBztAdt3vLf+C5/6XLv5lT8Kj3NYS8X/eQVGbjy2KQGRKnq6gmuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ga/1jfshazGodK69eCCwnBlyiQgrK8CYKOUVlPmTV+A=;
+ b=XzkOsct6SRVvgZ6fo6/M3IllG5TnC3Zp2r2wiQQmdzJik6zNH5DCHWxkGgYygmcNppXli/HEW5GJ0RxySGRK5ELu1zr309vIUGussuY7f3GDEzUTtEixVwUzfX9jAtWymT4vm6NdpcGjv/8c+Vre+6DLHOnfMSit736eRJ5UE/d/RhEqU8j0vtkU6DESYglMvJj7D2QuLsKYjLOK2nOD/2/75YXkEOfkkPn7ekdIgRGE2HMZRq2gPCgYcI+c/Fh8gzubcGEYfxvEILTcAKZ15ujBUFYEV58cnxnGf8FTUjAWesed3NHCKp9ODAvuEREDO9FmUM/y81BYGq8icQdP1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
+ dkim=pass header.d=nokia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ga/1jfshazGodK69eCCwnBlyiQgrK8CYKOUVlPmTV+A=;
+ b=OTtYf9DT+TwD4FV5Q36q+Liw/fYu7203J4SzLB/jhl8M50KGNc5WO5UyS0GdV9T/Ugt7X0N1iudv9llPKily/Vvz3h+WXfYFaKkIav6J/VSqppnLf+FEUdbfIIAUczMC8lHochcqnp0lMLWyJFIU83+OVxD49bDVi7jgsh1CIvUFwKQL8k/zrni3f7l0oIU6m86fG7CylxVSuQxYUnbRLN7AlnrF6E9Tel5kVZK0GQpZWqvl0X/HyLMrS2mgHmLcEutM14AHxrvJnUYkQT81A3s1nvC0imYWmus7isbg4MedYUkFP7xQoegtlu0LedXQa74A10/nEwl8FxLygki64g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nokia.com;
+Received: from AM0PR0702MB3700.eurprd07.prod.outlook.com
+ (2603:10a6:208:23::27) by DBBPR07MB7609.eurprd07.prod.outlook.com
+ (2603:10a6:10:1e1::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Thu, 6 Apr
+ 2023 08:01:23 +0000
+Received: from AM0PR0702MB3700.eurprd07.prod.outlook.com
+ ([fe80::447d:928b:ac32:587e]) by AM0PR0702MB3700.eurprd07.prod.outlook.com
+ ([fe80::447d:928b:ac32:587e%5]) with mapi id 15.20.6254.035; Thu, 6 Apr 2023
+ 08:01:23 +0000
+From: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
+To: qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
+Subject: [PATCH] tracetool: use relative paths for '#line' preprocessor
+ directives
+Date: Thu,  6 Apr 2023 10:00:45 +0200
+Message-Id: <20230406080045.21696-1-thomas.de_schampheleire@nokia.com>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HE1PR0501CA0034.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::44) To AM0PR0702MB3700.eurprd07.prod.outlook.com
+ (2603:10a6:208:23::27)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR0702MB3700:EE_|DBBPR07MB7609:EE_
+X-MS-Office365-Filtering-Correlation-Id: 272576ef-509d-482a-01e6-08db36751d02
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: slmUxtVQLsjddoiYAK9aeIXMHQSCesP6BiUkj//2tWO9T8acOPLS+XvZ1jmDMQW+tFi7u1um0Wgl2gEi7QGuy8sP+qE8D2hdt73rUtcUMmz//8wl7xt1xXmZfc2Rv2gZrjNcN5bk/aBQg0gaTLqocGMO9jJX6lvNtkgXvOSLb6kjaNeDVzWgchZtJnw9Ps79aRjfC46Ekn6sHD9ao91Ceg8wAWzVsBZO34QiQ/85rS454ugH4N/JAY4GiHk+edR4gk/ej+faHDg8VhiqmS+lTxrZu4yjFcO4s4z0qFXLsQu35h7JPYgjW9h9Xu+V+iGun/C+/40DKfbyVBgg7SLqMR8FgKHcNxjSRya39MAhcurFfSay9aSffCDnshD8eDwc2+YNW136yWIoO5tDJeWmM50gFpHBuYts/A9HTxmc1CboA3OgNerw6DUxRud4ziPaL12hI3zJhhKJuhoF2f9mQSxkxMIsIhTp9hoJG2RKoTtB/pSPqk0dtwng3CrfPSCjaX69/FFigSz1xmJkO3WTiO1w4ztKUXNmLUMSGdpRwP/KmvFOk/9N8fry34tM+cnvk1QAiNy+mzVzHj3W7PhrJwaCLM+KHS4r+LU50Cy5Fwg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR0702MB3700.eurprd07.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(346002)(376002)(39860400002)(136003)(366004)(451199021)(6916009)(4326008)(41300700001)(66476007)(66556008)(8676002)(66946007)(478600001)(5660300002)(8936002)(54906003)(6506007)(316002)(6512007)(6486002)(1076003)(6666004)(107886003)(2906002)(2616005)(186003)(83380400001)(86362001)(82960400001)(38100700002)(36756003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q1OBJofTUVveuKPZAZ90h163L5YfiASsRtxB/1JEaCbYT9IyFiYgF+73p7zN?=
+ =?us-ascii?Q?vGCNfK+vILexG1xhAFg8fNbjTUZk8qou3QhDs3ZLUug1BcOQmog5Mu1OlEpg?=
+ =?us-ascii?Q?vHiHQP+Q/sKKRGoHg5VdEZQwmEVTt0qpY/UkxSLvV08oFKsAK35neP0Vuoxo?=
+ =?us-ascii?Q?or5M/8OV5oH8xN6Az/FQXpydW4uF6S+Dljmba7TPBzvCknGEn1PZHwzs2e/c?=
+ =?us-ascii?Q?BerulryqvvjNLx91e6qMZyEmaoDq8VWFwx+YsrzG7pyt3ygwPDlkiL3SoWtc?=
+ =?us-ascii?Q?+zzmU44qwzLaWptefs1A2+/9OtpVu5HWsehi53fKH4goSla6/WzvUb/mpe8Q?=
+ =?us-ascii?Q?lB7Pen2r6A6h59tiEJUiQaOkwjp6sjWzB3OJDTunmKYsUip+zZjqXUSwF/vR?=
+ =?us-ascii?Q?vxDsT71oqnKzWR9My88cXRvOAkBKuiodKrzouZUVYHSgewQKvq5nFDNfisL2?=
+ =?us-ascii?Q?cRGJup4kb+iDa2XOfcqvp07Yj6k9ORhGu8oTVO8XNr5Q88Br/IuZr7HDcgWh?=
+ =?us-ascii?Q?3pSAqz3e2GEpmjTS93rRZnzicbRN8jJW6azVXjYxGtElqhzULOtAcjtR1Y/h?=
+ =?us-ascii?Q?UsZbHTCA9lBtnH706E9u0CS8wDzHI/0w1W1cfrh5w8LICG/2yY94Da9rs8aH?=
+ =?us-ascii?Q?TgN5SwqF6fhDtZKNQv2qbU5ocg2tswPjHnVq1US+aOBJO9OIJj+VM9Yr8R2C?=
+ =?us-ascii?Q?+wmvJDSp6yuUVjK6l/jgywhJqVkr3h8kK5Nv1ayON+xZuhY8VHlC0BEcjOLB?=
+ =?us-ascii?Q?Lv7XLQqJo9/iVYbtSGgJVRU3rmL+a+ykOrEa4jxOfhJ12H6vhxSxLQAmzQV9?=
+ =?us-ascii?Q?13NPNNsS27vUJhnVGkx9EXSGiVfg4EBB4rL80heFKCWr93gLnlZGaXsOThrr?=
+ =?us-ascii?Q?c5ebhIaYeMfnu6J39MY1ZGZMivHCMxmZmQtT2pPv5mo5avLdnbrLxw25HYBD?=
+ =?us-ascii?Q?J+CP7y3WLfikFqP0bTZg7BZbGZxmluKqtEKaZ6/AQpO2ooln1367445XktKx?=
+ =?us-ascii?Q?XdmsJIMnOomogZ2hsvZTJaulhxhlVkumJ5d6BbcJDrBQTuefI7Y0W22j4Oxe?=
+ =?us-ascii?Q?EfuXWm4G7mIZg8rEjeNAl1t1qNIyyb4yVJPjcQkYO+/qTitw2MyxVPJmPLx5?=
+ =?us-ascii?Q?5F3a3tIOMO2iQM+ZfL5nYW/RcP7epDZfD6K5WgN0t25qE0PDOfjNEKwWo7ue?=
+ =?us-ascii?Q?exIYWNK+YiEbxavPctnm/w0F+Vd4MBUVMDNdcoaKKh76Jgl+Bk41W0qs/+lp?=
+ =?us-ascii?Q?nxNQI475ha0vSVTIIyihRFEVLyDoAUGAwRGTvWU2fQmsXHy4/T/LRXHsGAzf?=
+ =?us-ascii?Q?35tU4J/+oRllpk6862ruxmxO4LNN7rSCGYSfY8NWBRuf2YleGysZYzXmE5Pz?=
+ =?us-ascii?Q?3pVkUd05oh46bD23FmSp7qeG/0kqE1bxjKJgJxvydMm6fLA4adoqLjsW3+o+?=
+ =?us-ascii?Q?Whq/FfnQxMehmtJsOuJchOBYNTvkxDTcS/Hrr2Zhf8Grp1b7zOTCsdtGNIt7?=
+ =?us-ascii?Q?CCejvyIvc8aEn03CCf4CUFmPRFH3urOxpM1BgwzfVNAPpRoRT2MNbwtnGBM9?=
+ =?us-ascii?Q?qXFA/LKwb9NTT9jOPBY82hjX9M8hmAzdZ06SyF+ytusa7xCb7DCoiTeKqsWq?=
+ =?us-ascii?Q?t9aVylEQwlu02gBNVpjAMPG5YPYIvQHXK6c+crUiNQCQeUbgEHD3yRgYXwX/?=
+ =?us-ascii?Q?ha7xxneNdy/Wp+seIwxYqEpTyHY=3D?=
+X-OriginatorOrg: nokia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 272576ef-509d-482a-01e6-08db36751d02
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR0702MB3700.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 08:01:23.5835 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3RgUs4asPKpyVlam6Uk1eljnsT3HwdbrwFqSUK7aCxQUswT4eiedsynYgqzoyk5fcgTIR8g6eTKQbETtWNy9IzBh4ljToz7reUWEY6wUOGp0H4EwO+RaMPCqhEgXyr1j
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR07MB7609
+Received-SPF: pass client-ip=40.107.105.121;
+ envelope-from=thomas.de_schampheleire@nokia.com;
+ helo=EUR03-AM7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 06 Apr 2023 09:22:02 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,114 +136,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The event filename is an absolute path. Convert it to a relative path when
+writing '#line' directives, to preserve reproducibility of the generated
+output when different base paths are used.
 
-Fei Wu <fei2.wu@intel.com> writes:
+Signed-off-by: Thomas De Schampheleire <thomas.de_schampheleire@nokia.com>
+---
+ scripts/tracetool/backend/ftrace.py | 4 +++-
+ scripts/tracetool/backend/log.py    | 4 +++-
+ scripts/tracetool/backend/syslog.py | 4 +++-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
-> It's only valid when inline=3Dfalse, otherwise it's default to 0.
->
-> Signed-off-by: Fei Wu <fei2.wu@intel.com>
-> ---
->  contrib/plugins/hotblocks.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
->
-> diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
-> index 062200a7a4..c9716da7fe 100644
-> --- a/contrib/plugins/hotblocks.c
-> +++ b/contrib/plugins/hotblocks.c
-> @@ -37,6 +37,8 @@ typedef struct {
->      uint64_t exec_count;
->      int      trans_count;
->      unsigned long insns;
-> +    void    *p_host_insn_size;
-> +    uint64_t host_insn_size;
->  } ExecCount;
->=20=20
->  static gint cmp_exec_count(gconstpointer a, gconstpointer b)
-> @@ -59,13 +61,17 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
->      it =3D g_list_sort(counts, cmp_exec_count);
->=20=20
->      if (it) {
-> -        g_string_append_printf(report, "pc, tcount, icount, ecount\n");
-> +        g_string_append_printf(report,
-> +                               "host isize is only valid when inline=3Df=
-alse\n"
-> +                               "pc, tcount, icount, ecount, host isize\n=
-");
->=20=20
->          for (i =3D 0; i < limit && it->next; i++, it =3D it->next) {
->              ExecCount *rec =3D (ExecCount *) it->data;
-> -            g_string_append_printf(report, "0x%016"PRIx64", %d, %ld, %"P=
-RId64"\n",
-> +            g_string_append_printf(report, "0x%016"PRIx64", %d, %ld, %"P=
-RId64
-> +                                   ", %"PRIu64"\n",
->                                     rec->start_addr, rec->trans_count,
-> -                                   rec->insns, rec->exec_count);
-> +                                   rec->insns, rec->exec_count,
-> +                                   rec->host_insn_size);
->          }
->=20=20
->          g_list_free(it);
-> @@ -82,14 +88,13 @@ static void plugin_init(void)
->=20=20
->  static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
->  {
-> -    ExecCount *cnt;
-> -    uint64_t hash =3D (uint64_t) udata;
-> +    ExecCount *cnt =3D (ExecCount *) udata;
->=20=20
->      g_mutex_lock(&lock);
-> -    cnt =3D (ExecCount *) g_hash_table_lookup(hotblocks, (gconstpointer)=
- hash);
-> -    /* should always succeed */
-> -    g_assert(cnt);
->      cnt->exec_count++;
-> +    if (cnt->host_insn_size =3D=3D 0) {
-> +        cnt->host_insn_size =3D *((uint64_t *)cnt->p_host_insn_size);
+diff --git a/scripts/tracetool/backend/ftrace.py b/scripts/tracetool/backend/ftrace.py
+index 5fa30ccc08..baed2ae61c 100644
+--- a/scripts/tracetool/backend/ftrace.py
++++ b/scripts/tracetool/backend/ftrace.py
+@@ -12,6 +12,8 @@
+ __email__      = "stefanha@redhat.com"
+ 
+ 
++import os.path
++
+ from tracetool import out
+ 
+ 
+@@ -45,7 +47,7 @@ def generate_h(event, group):
+         args=event.args,
+         event_id="TRACE_" + event.name.upper(),
+         event_lineno=event.lineno,
+-        event_filename=event.filename,
++        event_filename=os.path.relpath(event.filename),
+         fmt=event.fmt.rstrip("\n"),
+         argnames=argnames)
+ 
+diff --git a/scripts/tracetool/backend/log.py b/scripts/tracetool/backend/log.py
+index 17ba1cd90e..de27b7e62e 100644
+--- a/scripts/tracetool/backend/log.py
++++ b/scripts/tracetool/backend/log.py
+@@ -12,6 +12,8 @@
+ __email__      = "stefanha@redhat.com"
+ 
+ 
++import os.path
++
+ from tracetool import out
+ 
+ 
+@@ -53,7 +55,7 @@ def generate_h(event, group):
+         '    }',
+         cond=cond,
+         event_lineno=event.lineno,
+-        event_filename=event.filename,
++        event_filename=os.path.relpath(event.filename),
+         name=event.name,
+         fmt=event.fmt.rstrip("\n"),
+         argnames=argnames)
+diff --git a/scripts/tracetool/backend/syslog.py b/scripts/tracetool/backend/syslog.py
+index 5a3a00fe31..012970f6cc 100644
+--- a/scripts/tracetool/backend/syslog.py
++++ b/scripts/tracetool/backend/syslog.py
+@@ -12,6 +12,8 @@
+ __email__      = "stefanha@redhat.com"
+ 
+ 
++import os.path
++
+ from tracetool import out
+ 
+ 
+@@ -41,7 +43,7 @@ def generate_h(event, group):
+         '    }',
+         cond=cond,
+         event_lineno=event.lineno,
+-        event_filename=event.filename,
++        event_filename=os.path.relpath(event.filename),
+         name=event.name,
+         fmt=event.fmt.rstrip("\n"),
+         argnames=argnames)
+-- 
+2.39.2
 
-No - passing an internal TCG pointer across different phases of
-translation/execution is a definite no no. We explicitly state that
-handles are only valid for callbacks in the docs:
-
-  Lifetime of the query handle
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  Each callback provides an opaque anonymous information handle which
-  can usually be further queried to find out information about a
-  translation, instruction or operation. The handles themselves are only
-  valid during the lifetime of the callback so it is important that any
-  information that is needed is extracted during the callback and saved
-  by the plugin.
-
-to avoid this sort of tangling of implementation details into the
-plugins.
-
-
-> +    }
->      g_mutex_unlock(&lock);
->  }
->=20=20
-> @@ -114,6 +119,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct=
- qemu_plugin_tb *tb)
->          cnt->start_addr =3D pc;
->          cnt->trans_count =3D 1;
->          cnt->insns =3D insns;
-> +        cnt->p_host_insn_size =3D qemu_plugin_tb_host_insn_size(tb);
->          g_hash_table_insert(hotblocks, (gpointer) hash, (gpointer) cnt);
->      }
->=20=20
-> @@ -125,7 +131,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct=
- qemu_plugin_tb *tb)
->      } else {
->          qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
->                                               QEMU_PLUGIN_CB_NO_REGS,
-> -                                             (void *)hash);
-> +                                             (void *)cnt);
->      }
->  }
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
