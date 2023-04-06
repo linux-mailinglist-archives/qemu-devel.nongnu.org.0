@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC78B6DA149
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 21:31:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154126DA142
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 21:31:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkVJV-00081a-5h; Thu, 06 Apr 2023 15:30:29 -0400
+	id 1pkVJj-00089d-By; Thu, 06 Apr 2023 15:30:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1pkVJT-0007zj-3i
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 15:30:27 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ id 1pkVJh-00087h-3B
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 15:30:41 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_mathbern@quicinc.com>)
- id 1pkVJR-0002EN-55
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 15:30:26 -0400
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ id 1pkVJc-0002HW-SZ
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 15:30:38 -0400
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 336IltXL031287; Thu, 6 Apr 2023 19:30:21 GMT
+ 336IxolA026564; Thu, 6 Apr 2023 19:30:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=4JPX1fLmwIPyNb9BPwjyB2T5lW+SGB1SJKcJ2nmV3aU=;
- b=AoGnArKwid3fKgEBXWAN4tUuIWWn1i7IgnuYiMLAxyYPwGkEWqhskThfxPdZ1dv4aAg8
- 0Ajk01AV8A6e1C5qeOQGgiYUEoztHyAb7TGGmSeJg41+MZ92MCSqeaX1Knzumn4kq35E
- uI5DqmirysJ3ci7ojteCttQ1ubpYvtu5AUiYxqD9SddkBmSSdcg/PsoxIUEPIm9NZDi1
- BhVv17poPejJRTqo96fFBSJjAeMn60tbcrdNCVkvwcFs1/2okb+dHjbt0hdea5wAghb5
- m996ADy1yp+rZASXZjo2WgAvIoXO/SgZQuHVYeY9pQBvmbBwsf5jM0C3GYHpY/beJNnV cg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=h66j6eZ+I80USXh0GrYgRS1QgD8Txh3yUiMfM2aguDc=;
+ b=k3NaIIZ9XnEJQ9mD5jqhq/sFGpdtKHFt/hfxOA8VezHSmniOhujCYVr4OqZOk5497Dml
+ +fkfSROqONQpUK6cdL+3ROlrqE5mwBYUNS8vw7jP9u1GOrbSNZlkYTLSw1g7HYZO05f0
+ 7z1T5iz7iP57gzEHPLb48XK3JKJPyFB6+OzlJr7eD5eFPEkxfXnI7im3mBmQZKNQYywb
+ FLXqNu2HKm6hru4gyJLdM55LQ0fjGvgA34rjFv47WFQP+vyUe4ICOOXKJuikiabbOWll
+ O+++OM8CM96fZlN754GZQWCHOpMJyLFkCkZK+VFv6cddJpYM5S9LosG3gaNkdmxK8J4G FA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3psnp9a4cw-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3psmyx2750-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 19:30:20 +0000
+ Thu, 06 Apr 2023 19:30:32 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 336JUJpT012967
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 336JUVcM018594
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 6 Apr 2023 19:30:19 GMT
+ Thu, 6 Apr 2023 19:30:31 GMT
 Received: from NASANPPMTA02.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Thu, 6 Apr 2023 12:30:17 -0700
+ 15.2.986.42; Thu, 6 Apr 2023 12:30:29 -0700
 From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 To: <qemu-devel@nongnu.org>
 CC: <bcain@quicinc.com>, <tsimpson@quicinc.com>, <alex.bennee@linaro.org>,
- <f4bug@amsat.org>, <peter.maydell@linaro.org>
-Subject: [PATCH 0/7] Hexagon: add lldb support
-Date: Thu, 6 Apr 2023 16:29:42 -0300
-Message-ID: <cover.1680808943.git.quic_mathbern@quicinc.com>
+ <f4bug@amsat.org>, <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 1/7] gdbstub: only send stop-reply packets when allowed to
+Date: Thu, 6 Apr 2023 16:29:43 -0300
+Message-ID: <48bce1b417f9701be26d737b596ccbd3dc2db573.1680808943.git.quic_mathbern@quicinc.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <cover.1680808943.git.quic_mathbern@quicinc.com>
+References: <cover.1680808943.git.quic_mathbern@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -62,24 +65,25 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: z7AKM0--xqQUi3pVqC6qaMObkebobjm1
-X-Proofpoint-GUID: z7AKM0--xqQUi3pVqC6qaMObkebobjm1
+X-Proofpoint-GUID: -axWKKILaxyytaEu9zX2d3ENeQVceC1d
+X-Proofpoint-ORIG-GUID: -axWKKILaxyytaEu9zX2d3ENeQVceC1d
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-04-06_11,2023-04-06_03,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=512
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 spamscore=0
- bulkscore=0 phishscore=0 suspectscore=0 impostorscore=0 mlxscore=0
- adultscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304060171
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=quic_mathbern@quicinc.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ priorityscore=1501
+ phishscore=0 impostorscore=0 adultscore=0 clxscore=1011 mlxlogscore=999
+ bulkscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304060172
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=quic_mathbern@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,41 +100,253 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series allows hexagon programs to be debugged under qemu user-mode
-through LLDB and qemu's gdbstub. LLDB implements the GDB remote serial
-protocol, so most of the necessary changes are in the Hexagon part itself.
-However, one fix is needed at the arch-independent side too. This comes
-from [1], which is now incorporated in this series.
+GDB's remote serial protocol allows stop-reply messages to be sent by
+the stub either as a notification packet or as a reply to a GDB command
+(provided that the cmd accepts such a response). QEMU currently does not
+implement notification packets, so it should only send stop-replies
+synchronously and when requested. Nevertheless, it still issues
+unsolicited stop messages through gdb_vm_state_change().
 
-[1]: https://lore.kernel.org/qemu-devel/cover.1663677789.git.quic_mathbern@quicinc.com/
+Although this behavior doesn't seem to cause problems with GDB itself
+(the messages are just ignored), it can impact other debuggers that
+implement the GDB remote serial protocol, like hexagon-lldb. Let's
+change the gdbstub to send stop messages only as a response to a
+previous GDB command that accepts such a reply.
 
-Brian Cain (3):
-  gdbstub: add support for the qRegisterInfo query
-  Hexagon: support qRegisterInfo at gdbstub
-  Hexagon (gdbstub): fix p3:0 read and write via stub
+Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+---
+ gdbstub/internals.h |  5 +++++
+ gdbstub/gdbstub.c   | 37 ++++++++++++++++++++++++++++---------
+ gdbstub/softmmu.c   | 13 +++++++++++--
+ gdbstub/user.c      | 17 +++++++++++------
+ 4 files changed, 55 insertions(+), 17 deletions(-)
 
-Matheus Tavares Bernardino (2):
-  gdbstub: only send stop-reply packets when allowed to
-  gdbstub: add test for untimely stop-reply packets
-
-Taylor Simpson (2):
-  Hexagon (gdbstub): add HVX support
-  Hexagon (linux-user/hexagon): handle breakpoints
-
- gdbstub/internals.h                           |   5 +
- include/hw/core/cpu.h                         |   4 +
- target/hexagon/gdb_qreginfo.h                 | 124 ++++++++++++++++++
- gdbstub/gdbstub.c                             |  64 +++++++--
- gdbstub/softmmu.c                             |  13 +-
- gdbstub/user.c                                |  17 ++-
- linux-user/hexagon/cpu_loop.c                 |  10 ++
- target/hexagon/cpu.c                          |   3 +
- target/hexagon/gdbstub.c                      |  76 +++++++++++
- tests/guest-debug/run-test.py                 |  16 ++-
- .../multiarch/system/Makefile.softmmu-target  |  16 ++-
- 11 files changed, 326 insertions(+), 22 deletions(-)
- create mode 100644 target/hexagon/gdb_qreginfo.h
-
+diff --git a/gdbstub/internals.h b/gdbstub/internals.h
+index 94ddff4495..33d21d6488 100644
+--- a/gdbstub/internals.h
++++ b/gdbstub/internals.h
+@@ -65,6 +65,11 @@ typedef struct GDBState {
+     GByteArray *mem_buf;
+     int sstep_flags;
+     int supported_sstep_flags;
++    /*
++     * Whether we are allowed to send a stop reply packet at this moment.
++     * Must be set off after sending the stop reply itself.
++     */
++    bool allow_stop_reply;
+ } GDBState;
+ 
+ /* lives in main gdbstub.c */
+diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+index 2a66371aa5..9d326a1d2d 100644
+--- a/gdbstub/gdbstub.c
++++ b/gdbstub/gdbstub.c
+@@ -777,6 +777,10 @@ typedef void (*GdbCmdHandler)(GArray *params, void *user_ctx);
+ /*
+  * cmd_startswith -> cmd is compared using startswith
+  *
++ * allow_stop_reply -> true iff the gdbstub can respond to this command with a
++ *   "stop reply" packet. The list of commands that accept such response is
++ *   defined at the GDB Remote Serial Protocol documentation. see:
++ *   https://sourceware.org/gdb/onlinedocs/gdb/Stop-Reply-Packets.html#Stop-Reply-Packets.
+  *
+  * schema definitions:
+  * Each schema parameter entry consists of 2 chars,
+@@ -802,6 +806,7 @@ typedef struct GdbCmdParseEntry {
+     const char *cmd;
+     bool cmd_startswith;
+     const char *schema;
++    bool allow_stop_reply;
+ } GdbCmdParseEntry;
+ 
+ static inline int startswith(const char *string, const char *pattern)
+@@ -835,6 +840,7 @@ static int process_string_cmd(void *user_ctx, const char *data,
+             }
+         }
+ 
++        gdbserver_state.allow_stop_reply = cmd->allow_stop_reply;
+         cmd->handler(params, user_ctx);
+         return 0;
+     }
+@@ -1283,11 +1289,14 @@ static void handle_v_attach(GArray *params, void *user_ctx)
+     gdbserver_state.g_cpu = cpu;
+     gdbserver_state.c_cpu = cpu;
+ 
+-    g_string_printf(gdbserver_state.str_buf, "T%02xthread:", GDB_SIGNAL_TRAP);
+-    gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+-    g_string_append_c(gdbserver_state.str_buf, ';');
++    if (gdbserver_state.allow_stop_reply) {
++        g_string_printf(gdbserver_state.str_buf, "T%02xthread:", GDB_SIGNAL_TRAP);
++        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
++        g_string_append_c(gdbserver_state.str_buf, ';');
++        gdbserver_state.allow_stop_reply = false;
+ cleanup:
+-    gdb_put_strbuf();
++        gdb_put_strbuf();
++    }
+ }
+ 
+ static void handle_v_kill(GArray *params, void *user_ctx)
+@@ -1310,12 +1319,14 @@ static const GdbCmdParseEntry gdb_v_commands_table[] = {
+         .handler = handle_v_cont,
+         .cmd = "Cont",
+         .cmd_startswith = 1,
++        .allow_stop_reply = true,
+         .schema = "s0"
+     },
+     {
+         .handler = handle_v_attach,
+         .cmd = "Attach;",
+         .cmd_startswith = 1,
++        .allow_stop_reply = true,
+         .schema = "l0"
+     },
+     {
+@@ -1698,10 +1709,13 @@ static void handle_gen_set(GArray *params, void *user_ctx)
+ 
+ static void handle_target_halt(GArray *params, void *user_ctx)
+ {
+-    g_string_printf(gdbserver_state.str_buf, "T%02xthread:", GDB_SIGNAL_TRAP);
+-    gdb_append_thread_id(gdbserver_state.c_cpu, gdbserver_state.str_buf);
+-    g_string_append_c(gdbserver_state.str_buf, ';');
+-    gdb_put_strbuf();
++    if (gdbserver_state.allow_stop_reply) {
++        g_string_printf(gdbserver_state.str_buf, "T%02xthread:", GDB_SIGNAL_TRAP);
++        gdb_append_thread_id(gdbserver_state.c_cpu, gdbserver_state.str_buf);
++        g_string_append_c(gdbserver_state.str_buf, ';');
++        gdb_put_strbuf();
++        gdbserver_state.allow_stop_reply = false;
++    }
+     /*
+      * Remove all the breakpoints when this query is issued,
+      * because gdb is doing an initial connect and the state
+@@ -1725,7 +1739,8 @@ static int gdb_handle_packet(const char *line_buf)
+             static const GdbCmdParseEntry target_halted_cmd_desc = {
+                 .handler = handle_target_halt,
+                 .cmd = "?",
+-                .cmd_startswith = 1
++                .cmd_startswith = 1,
++                .allow_stop_reply = true,
+             };
+             cmd_parser = &target_halted_cmd_desc;
+         }
+@@ -1736,6 +1751,7 @@ static int gdb_handle_packet(const char *line_buf)
+                 .handler = handle_continue,
+                 .cmd = "c",
+                 .cmd_startswith = 1,
++                .allow_stop_reply = true,
+                 .schema = "L0"
+             };
+             cmd_parser = &continue_cmd_desc;
+@@ -1747,6 +1763,7 @@ static int gdb_handle_packet(const char *line_buf)
+                 .handler = handle_cont_with_sig,
+                 .cmd = "C",
+                 .cmd_startswith = 1,
++                .allow_stop_reply = true,
+                 .schema = "l0"
+             };
+             cmd_parser = &cont_with_sig_cmd_desc;
+@@ -1785,6 +1802,7 @@ static int gdb_handle_packet(const char *line_buf)
+                 .handler = handle_step,
+                 .cmd = "s",
+                 .cmd_startswith = 1,
++                .allow_stop_reply = true,
+                 .schema = "L0"
+             };
+             cmd_parser = &step_cmd_desc;
+@@ -1976,6 +1994,7 @@ void gdb_read_byte(uint8_t ch)
+ {
+     uint8_t reply;
+ 
++    gdbserver_state.allow_stop_reply = false;
+ #ifndef CONFIG_USER_ONLY
+     if (gdbserver_state.last_packet->len) {
+         /* Waiting for a response to the last packet.  If we see the start
+diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
+index 22ecd09d04..99d994e6bf 100644
+--- a/gdbstub/softmmu.c
++++ b/gdbstub/softmmu.c
+@@ -43,6 +43,7 @@ static void reset_gdbserver_state(void)
+     g_free(gdbserver_state.processes);
+     gdbserver_state.processes = NULL;
+     gdbserver_state.process_num = 0;
++    gdbserver_state.allow_stop_reply = false;
+ }
+ 
+ /*
+@@ -139,6 +140,10 @@ static void gdb_vm_state_change(void *opaque, bool running, RunState state)
+         return;
+     }
+ 
++    if (!gdbserver_state.allow_stop_reply) {
++        return;
++    }
++
+     gdb_append_thread_id(cpu, tid);
+ 
+     switch (state) {
+@@ -205,6 +210,7 @@ static void gdb_vm_state_change(void *opaque, bool running, RunState state)
+ 
+ send_packet:
+     gdb_put_packet(buf->str);
++    gdbserver_state.allow_stop_reply = false;
+ 
+     /* disable single step if it was enabled */
+     cpu_single_step(cpu, 0);
+@@ -422,8 +428,11 @@ void gdb_exit(int code)
+ 
+     trace_gdbstub_op_exiting((uint8_t)code);
+ 
+-    snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
+-    gdb_put_packet(buf);
++    if (gdbserver_state.allow_stop_reply) {
++        snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
++        gdb_put_packet(buf);
++        gdbserver_state.allow_stop_reply = false;
++    }
+ 
+     qemu_chr_fe_deinit(&gdbserver_system_state.chr, true);
+ }
+diff --git a/gdbstub/user.c b/gdbstub/user.c
+index 80488b6bb9..bb03622c83 100644
+--- a/gdbstub/user.c
++++ b/gdbstub/user.c
+@@ -127,11 +127,14 @@ int gdb_handlesig(CPUState *cpu, int sig)
+ 
+     if (sig != 0) {
+         gdb_set_stop_cpu(cpu);
+-        g_string_printf(gdbserver_state.str_buf,
+-                        "T%02xthread:", gdb_target_signal_to_gdb(sig));
+-        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+-        g_string_append_c(gdbserver_state.str_buf, ';');
+-        gdb_put_strbuf();
++        if (gdbserver_state.allow_stop_reply) {
++            g_string_printf(gdbserver_state.str_buf,
++                            "T%02xthread:", gdb_target_signal_to_gdb(sig));
++            gdb_append_thread_id(cpu, gdbserver_state.str_buf);
++            g_string_append_c(gdbserver_state.str_buf, ';');
++            gdb_put_strbuf();
++            gdbserver_state.allow_stop_reply = false;
++        }
+     }
+     /*
+      * gdb_put_packet() might have detected that the peer terminated the
+@@ -174,12 +177,14 @@ void gdb_signalled(CPUArchState *env, int sig)
+ {
+     char buf[4];
+ 
+-    if (!gdbserver_state.init || gdbserver_user_state.fd < 0) {
++    if (!gdbserver_state.init || gdbserver_user_state.fd < 0 ||
++        !gdbserver_state.allow_stop_reply) {
+         return;
+     }
+ 
+     snprintf(buf, sizeof(buf), "X%02x", gdb_target_signal_to_gdb(sig));
+     gdb_put_packet(buf);
++    gdbserver_state.allow_stop_reply = false;
+ }
+ 
+ static void gdb_accept_init(int fd)
 -- 
 2.39.1
 
