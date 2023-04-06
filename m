@@ -2,86 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC39A6DA29C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 22:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3640F6DA2A3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 22:25:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkW8V-0000cI-I9; Thu, 06 Apr 2023 16:23:11 -0400
+	id 1pkWAT-0001Ng-Vk; Thu, 06 Apr 2023 16:25:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pkW8T-0000bd-E7
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 16:23:09 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pkW8Q-0001XQ-M4
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 16:23:09 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id r14so24248302oiw.12
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 13:23:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680812585;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LGsH0T4rpvXZphJHuGKDTr8Qu98eS2FRuQum4y+QxbM=;
- b=A1cerQcFJ6gj/UI2IGJwVDm+XaIwF3UTZsVTrDYZ2Om6NQdw8LJHIUhDIfZ54MxQEP
- ASvgncDq2XKLaKxP30+rlIOb/g9UNwoxZ1rWxomBuh33a3jc/6JfXoekKOu9xbZ8Elf1
- hzt5b8hSWzKr9717BuG6emixaq8MlM/I0AlPwSKQHe7vhUAaH1/2boacyA2wZ0D+Pql3
- SwWnxwYFGDyzgyIvuQhOmyT5aGB8fGLLMv0MbmPaIQFK/9slnjTiVrnyEdLEpWDl9oGx
- pxvZHzBzV/b52ZqFQgpCWBlCMtrJ7YNQ7shQbKHGeZ3gbYNmarY8IiOh8JEeHHx6Qw5o
- c2fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680812585;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LGsH0T4rpvXZphJHuGKDTr8Qu98eS2FRuQum4y+QxbM=;
- b=Y/c/FooqvPLWKaEe3xxCgLZk+ikfz0MG+lSbVksFc2TgVB88gJdm1UHasDOOxMW+XG
- LpdHhpkpKBbGY4ePs80tbw/uSJ0Yrqo9wqbdUiTaFn435Q1cMm3te7/yNwcUa4jRK3NV
- CLqaSQDNdKFolbXD2KyvzIz7Wngqlpz7vX7x0x9jKyTQYjpm5WYckSMw7mkxj6fBcQl8
- qb3YOPMY7KxNajC1hwG+A5bbglZ6Z+ZpYk3J0FP48EyjgsgwlrntOUyUneJT7p2rOPqc
- S5rCtTLr+NQ3fwN0QY+fBTmfzl4bwbadi9SJuT0wTInxee9z58fvweJ87jSg9ths4v8C
- 4NtQ==
-X-Gm-Message-State: AAQBX9dBAAeTEf+JeprJmKpW8V7IbZi3+xCOKQw/j2AtCROXiEE4KReO
- BmX5FwEJ1xY5rbjH7SzX/XqgwA==
-X-Google-Smtp-Source: AKy350Z1wdJYTARcOyeIDYZVSYT+uI3hVbPYbBLUec+ZevoHqBhhpASmgMMG5WKfE1lAypZ/jRbl2Q==
-X-Received: by 2002:aca:e108:0:b0:389:4d01:de0d with SMTP id
- y8-20020acae108000000b003894d01de0dmr3585399oig.15.1680812585326; 
- Thu, 06 Apr 2023 13:23:05 -0700 (PDT)
-Received: from [192.168.68.107] ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- u10-20020a056808150a00b0037832f60518sm1059448oiw.14.2023.04.06.13.23.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Apr 2023 13:23:04 -0700 (PDT)
-Message-ID: <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
-Date: Thu, 6 Apr 2023 17:22:59 -0300
+ (Exim 4.90_1) (envelope-from <reinoud@gorilla.13thmonkey.org>)
+ id 1pkWAQ-0001N8-Mf; Thu, 06 Apr 2023 16:25:10 -0400
+Received: from 77-173-18-117.fixed.kpn.net ([77.173.18.117]
+ helo=gorilla.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <reinoud@gorilla.13thmonkey.org>)
+ id 1pkWAO-0001jv-Ma; Thu, 06 Apr 2023 16:25:10 -0400
+Received: by gorilla.13thmonkey.org (Postfix, from userid 103)
+ id 579ED2FF0958; Thu,  6 Apr 2023 22:23:59 +0200 (CEST)
+Date: Thu, 6 Apr 2023 22:23:59 +0200
+From: Reinoud Zandijk <reinoud@NetBSD.org>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Michael Tokarev <mjt@tls.msk.ru>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ Ryo ONODERA <ryoon@netbsd.org>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>, kvm@vger.kernel.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ armbru@redhat.com
+Subject: Re: [PATCH v2 05/11] qemu-options: finesse the recommendations
+ around -blockdev
+Message-ID: <ZC8qXxB6X8t7RBa+@gorilla.13thmonkey.org>
+References: <20230403134920.2132362-1-alex.bennee@linaro.org>
+ <20230403134920.2132362-6-alex.bennee@linaro.org>
+ <ZCwsvaxRzx4bzbXo@redhat.com>
+ <cbb3df0a-7714-cbc0-efda-45f1d608e988@msgid.tls.msk.ru>
+ <ZCxNqb9tEO24KaxX@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v12 02/10] target/riscv: add support for Zca extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>, richard.henderson@linaro.org,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
- <20230307081403.61950-3-liweiwei@iscas.ac.cn>
-Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230307081403.61950-3-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <ZCxNqb9tEO24KaxX@redhat.com>
+Received-SPF: none client-ip=77.173.18.117;
+ envelope-from=reinoud@gorilla.13thmonkey.org; helo=gorilla.13thmonkey.org
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, KHOP_HELO_FCRDNS=0.015,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ TVD_RCVD_IP=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,122 +70,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-This patch is going to break the sifive_u boot if I rebase
-
-"[PATCH v6 0/9] target/riscv: rework CPU extensions validation​"
-
-on top of it, as it is the case today with the current riscv-to-apply.next.
-
-The reason is that the priv spec version for Zca is marked as 1_12_0, and
-the priv spec version for both sifive CPUs is 1_10_0, and both are enabling
-RVC.
-
-This patch from that series above:
-
-"[PATCH v6 5/9] target/riscv/cpu.c: add priv_spec validate/disable_exts helpers"
-
-Makes the disabling of the extension based on priv version to happen *after* we
-do all the validations, instead of before as we're doing today. Zca (and Zcd) will
-be manually enabled just to be disabled shortly after by the priv spec code. And
-this will happen:
-
-qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000000 because privilege spec version does not match
-qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000001 because privilege spec version does not match
-qemu-system-riscv64: warning: disabling zcd extension for hart 0x0000000000000001 because privilege spec version does not match
-(--- hangs ---)
-
-This means that the assumption made in this patch - that Zca implies RVC - is no
-longer valid, and all these translations won't work.
-
-
-Some possible solutions:
-
-- Do not use Zca as a synonym for RVC, i.e. drop this patch. We would need to convert
-all Zca checks to RVC checks in all translation code.
-
-- Do not apply patch 5/9 from that series that moves the disable_ext code to the end
-of validation. Also a possibility, but we would be sweeping the problem under the rug.
-Zca still can't be used as a RVC replacement due to priv spec version constraints, but
-we just won't disable Zca because we'll keep validating exts too early (which is the
-problem that the patch addresses).
-
-- change the priv spec of the sifive CPUs - and everyone that uses RVC -  to 1_12_0. Not
-sure if this makes sense.
-
-- do not disable any extensions due to privilege spec version mismatch. This would make
-all the priv_version related artifacts to be more "educational" than to be an actual
-configuration we want to enforce. Not sure if that would do any good in the end, but
-it's also a possibility.
-
-
-I'll hold the rebase of that series until we sort this out. Thanks,
-
-
-Daniel
-
-
-
-On 3/7/23 05:13, Weiwei Li wrote:
-> Modify the check for C extension to Zca (C implies Zca).
+On Tue, Apr 04, 2023 at 06:17:45PM +0200, Kevin Wolf wrote:
+> Am 04.04.2023 um 17:07 hat Michael Tokarev geschrieben:
+> > 04.04.2023 16:57, Kevin Wolf пишет:
+> Maybe -snapshot should error out if -blockdev is in use. You'd generally
+> expect that either -blockdev is used primarily and snapshots are done
+> externally (if the command line is generated by some management tool),
+> or that -drive is used consistently (by a human who likes the
+> convenience). In both cases, we wouldn't hit the error path.
 > 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> ---
->   target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
->   target/riscv/translate.c                | 8 ++++++--
->   2 files changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> index 4ad54e8a49..c70c495fc5 100644
-> --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
->       tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
->   
->       gen_set_pc(ctx, cpu_pc);
-> -    if (!has_ext(ctx, RVC)) {
-> +    if (!ctx->cfg_ptr->ext_zca) {
->           TCGv t0 = tcg_temp_new();
->   
->           misaligned = gen_new_label();
-> @@ -169,7 +169,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
->   
->       gen_set_label(l); /* branch taken */
->   
-> -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
-> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
->           /* misaligned */
->           gen_exception_inst_addr_mis(ctx);
->       } else {
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 0ee8ee147d..d1fdd0c2d7 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -549,7 +549,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
->   
->       /* check misaligned: */
->       next_pc = ctx->base.pc_next + imm;
-> -    if (!has_ext(ctx, RVC)) {
-> +    if (!ctx->cfg_ptr->ext_zca) {
->           if ((next_pc & 0x3) != 0) {
->               gen_exception_inst_addr_mis(ctx);
->               return;
-> @@ -1122,7 +1122,11 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->       if (insn_len(opcode) == 2) {
->           ctx->opcode = opcode;
->           ctx->pc_succ_insn = ctx->base.pc_next + 2;
-> -        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
-> +        /*
-> +         * The Zca extension is added as way to refer to instructions in the C
-> +         * extension that do not include the floating-point loads and stores
-> +         */
-> +        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
->               return;
->           }
->       } else {
+> There may be some exceptional cases where you have both -drive and
+> -blockdev (maybe because a human users needs more control for one
+> specific disk). This is the case where you can get a nasty surprise and
+> that would error out. If you legitimately want the -drive images
+> snapshotted, but not the -blockdev ones, you can still use individual
+> '-drive snapshot=on' options instead of the global '-snapshot' (and the
+> error message should mention this).
+
+I didn't know that! I normally use the -snapshot as global option. Is there a
+reason why -blockdev isn't honouring -snapshot?
+
+With regards,
+Reinoud
+
 
