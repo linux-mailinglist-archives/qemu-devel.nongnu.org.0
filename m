@@ -2,109 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9F56D96DD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 14:14:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB6E6D96FF
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 14:27:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkOUi-0003xL-69; Thu, 06 Apr 2023 08:13:36 -0400
+	id 1pkOgk-0006Hr-Nc; Thu, 06 Apr 2023 08:26:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1pkOUg-0003xC-Es
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:13:34 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1pkOUe-0001ae-EQ
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:13:34 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 336C1vK6015416; Thu, 6 Apr 2023 12:13:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Q0FAgoWMyzpoLzKFXME+uR0hLG11eOQTKkp3Vwm/p8U=;
- b=sV5Ad+RcfOmuFU7cck8xx+XWUtsqvz4ITC1zyxIf+JzDYXwlRhXRbScuWmjuIM8Imb2b
- 2HetOBL60wA0Py9Mu6D2Mn6ESdQWbtYqIZYD8cMOZsL65PXXEJfanwB5EizIHRtGUeUf
- 3tZrfe5AX5owzMf5OhtbMyjTH6aRea/aRGfDXN+teD5vP7ilCEgsfJv9yeJpUfxblrwU
- HKjcgd0DVKNcpgpZOQGNBg2ggLvBoCB7Lgq6SrcfhVUZoa/aT6/YYfkCag6lydiE/yGX
- a/pyzH0Lx358l8Sbjm12c5vuFx0GPqwMVP94xLJ755wiInDZLylpde/TFb/yClIj5YHo UQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3psa3tbhck-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 12:13:29 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 336CA9oP007831;
- Thu, 6 Apr 2023 12:13:29 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3psa3tbhc3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 12:13:28 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 33600Bao032282;
- Thu, 6 Apr 2023 12:13:26 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3ppc874a5t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Apr 2023 12:13:26 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 336CDO8F49086826
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 6 Apr 2023 12:13:24 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 193D02004F;
- Thu,  6 Apr 2023 12:13:24 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE55620040;
- Thu,  6 Apr 2023 12:13:23 +0000 (GMT)
-Received: from [9.171.86.230] (unknown [9.171.86.230])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  6 Apr 2023 12:13:23 +0000 (GMT)
-Message-ID: <c974308f-42a1-9163-5c4f-54bda7050ee8@linux.ibm.com>
-Date: Thu, 6 Apr 2023 14:13:23 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pkOgi-0006Hj-T9
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:26:00 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pkOge-0000R3-6M
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:25:57 -0400
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-4fa3c1a7a41so1072188a12.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 05:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680783954; x=1683375954;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8GJX9uvis/fBtbax3ZSylvM9CyUXcUN7rBTejAJ2WyU=;
+ b=H+mL0Ga7PGP+nzI+60BkAYgK5/GzYEUiz7L0z4JDs9UiEtlB6VtN8AeKgCXZwYZT78
+ PZYIjWTp8ic6rHYPFuC6lV+cGa4Nvz2ATjwOFdBgMs8ilLxAxbfehRAtWp6glucgv+to
+ yDw9S1pATFYV+bAIABy/JiFHOUN3XqmkPM6P2wEz5fPebRef48sOMZid5ywH5Gb0Izj8
+ vIwf4Re18eTrGh4Kd8Bgirb7HtEljja3PCLiAHnqWMwDZrSAi7F7mYGEh8LfKY/zaXeX
+ XF+2O2Vr9euCTVnsoVsfU4yY4a1klW2wxGJe0WChyrYnS7JTCmGRLhjlS1kpg2+1cJ7Z
+ F4Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680783954; x=1683375954;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8GJX9uvis/fBtbax3ZSylvM9CyUXcUN7rBTejAJ2WyU=;
+ b=zXPLn/gj+7vKtsMBvVWG7S2vV0HeiQQ8Eg/fMwWm6aVdMBwK9z2xuqPn2IayJVUGt7
+ PiEz2mVk9vIc4aVF0uhSInqGK0tOZimh0GNpXO5hdfoFAKb7v7FxNhl99EWzzkPmN9g6
+ ZmQLZCPO9kkp3YoLxnLNWcOjIua26Kbj/XRLpwYz75hP18m3cB7VUQDbS+wJvvFrZHdv
+ BEEY2ij/mcnJUJBM+WEm/9tkiGsckd2yTIOWBO0HaRFjCyHSlvv/aOLtPMShIrdOi9hO
+ 2i9x20aLKdTnK5UgEWdSbr9NergQ79ZSPoraNgMsrSxyr4O4Gw5IHg3n0P5xRSuyk7Tw
+ ip5A==
+X-Gm-Message-State: AAQBX9dyBrXLLktaKRGibcxitxy+dbx+XU+XKlSzNj++2xe9aQbgy5Ka
+ Lf7AJF4q6FCZOQ/50tE0ZUmkDHv6aSGEmOQq3lMJtP1/qsc/ESF1fE0=
+X-Google-Smtp-Source: AKy350Y4Cu4CWI2cPn6Q1I+wkQZpUQwhVuquml1Bt1Bk7dWt95UowacqSjUAqy8GGu8P9TnFBZXn7MRKRF/iRL75qgY=
+X-Received: by 2002:a50:874e:0:b0:4fb:7e7a:ebf1 with SMTP id
+ 14-20020a50874e000000b004fb7e7aebf1mr2885540edv.6.1680783954009; Thu, 06 Apr
+ 2023 05:25:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: s390 private runner CI job timing out
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <CAFEAcA_7+5tK+rM6dBgozNJmMmL7fU3MHLuvzJtb7-zWK4rMTQ@mail.gmail.com>
- <4521ce29-1d11-f253-7a7d-342f6bd9e6b0@redhat.com>
- <CAFEAcA_HVpYajJ5yP7+eYKNhKggtNjgFyQ_V3WqSPf4dGL=zKQ@mail.gmail.com>
- <3b5cc225-50e8-e56d-3fa8-da052a515beb@linux.ibm.com>
- <CAFEAcA_Uh+20w1gnCBXe6Go9WqkUu+SUeRtsrrbwEO4j48OjGQ@mail.gmail.com>
- <149e9342-b48b-0871-ee4d-96c6f1d3f198@linux.ibm.com>
- <CAFEAcA_SgAZmv8YpaR0v7iU1oMdNTAMcrcYWaqGPzHDxjSP=wQ@mail.gmail.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <CAFEAcA_SgAZmv8YpaR0v7iU1oMdNTAMcrcYWaqGPzHDxjSP=wQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: zZR3Dc5rX3VSKndqpDPpvZm4ACjCmdUo
-X-Proofpoint-GUID: KxQmyOG1OyPgEdJO8CKZR6Dl5d_mtEmn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-06_06,2023-04-06_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- bulkscore=0 adultscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 spamscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304060101
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224, SPF_HELO_NONE=0.001,
+References: <20221020122146.3177980-1-peter.maydell@linaro.org>
+ <20221020122146.3177980-6-peter.maydell@linaro.org>
+In-Reply-To: <20221020122146.3177980-6-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 Apr 2023 13:25:43 +0100
+Message-ID: <CAFEAcA9=uXLOpJrOK4jJXTyq=WUDOHOq33m2LeX-1P1zXoZ9sg@mail.gmail.com>
+Subject: Re: [PULL 05/24] target/arm: Use probe_access_full for BTI
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,41 +83,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 20 Oct 2022 at 13:21, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> From: Richard Henderson <richard.henderson@linaro.org>
+>
+> Add a field to TARGET_PAGE_ENTRY_EXTRA to hold the guarded bit.
+> In is_guarded_page, use probe_access_full instead of just guessing
+> that the tlb entry is still present.  Also handles the FIXME about
+> executing from device memory.
 
+Hi, Richard -- Coverity spotted a problem (CID 1507929) with
+this addition of 'guarded' to the ARMCacheAttrs struct, and
+then looking at the code I noticed another one...
 
-Am 06.04.23 um 14:05 schrieb Peter Maydell:
-> On Thu, 6 Apr 2023 at 12:17, Christian Borntraeger
-> <borntraeger@linux.ibm.com> wrote:
->>
->> Am 06.04.23 um 12:44 schrieb Peter Maydell:
->>> On Thu, 6 Apr 2023 at 11:40, Christian Borntraeger
->>> <borntraeger@linux.ibm.com> wrote:
->>>> Am 06.04.23 um 11:21 schrieb Peter Maydell:
->>>>> Christian, does our S390X machine get a guaranteed amount of CPU,
->>>>> or does it depend on what else is running on the hardware?
->>>>
->>>> I think its a shared system with shared CPUs. Can you check the steal
->>>> time in top or proc? If this is far too high we could ask to give you
->>>> more weight for that VM.
->>>
->>> It's idle at the moment and steal time seems to be low (0.0 .. 0.3);
->>> I'll try to remember to check next time it's running a job.
->>>
->>
->> Do you have /proc/stat ?
-> 
-> Yes; hopefully it means more to you than it does to me :-)
-> 
-> linux1@qemu01:~$ cat /proc/stat
-> cpu  60904459 604975 15052194 1435958176 17128179 351949 758578 22218760 0 0
-> cpu0 15022535 146734 3786909 358774818 4283172 98313 237156 5894809 0 0
-> cpu1 15306890 151164 3746024 358968957 4378864 85629 172492 5434255 0 0
-> cpu2 15307709 157180 3762691 359141276 4138714 85736 176367 5474594 0 0
-> cpu3 15267324 149895 3756569 359073124 4327428 82269 172562 5415101 0 0
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index 9566364dcae..c3c3920ded2 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -1095,6 +1095,7 @@ typedef struct ARMCacheAttrs {
+>      unsigned int attrs:8;
+>      unsigned int shareability:2; /* as in the SH field of the VMSAv8-64 PTEs */
+>      bool is_s2_format:1;
+> +    bool guarded:1;              /* guarded bit of the v8-64 PTE */
+>  } ARMCacheAttrs;
 
-This is
-user,nice,system,idle,iowait,irq,softirq,steal,guest,guest_nice
-So overall there is some (20-30% since the last reboot) steal going on.
-Not sure if this is the real problem since it is only Ubuntu 20.04.
-Does a higher timeout make the problem go away?
+The one Coverity spots is that combine_cacheattrs() was never
+updated to do anything with 'guarded' so the struct value it
+returns now has an uninitialized value for that field.
+Since the GP bit only exists at stage 1 presumably this should be
+   ret.guarded = s1.guarded;
+? (If I'm not misreading the code this is an actual bug
+because we'll use the field for the case where s1 and s2
+are enabled.)
+
+The issue I noticed is that in ptw.c when we set the
+'guarded' field we do it like this:
+
+    if (aarch64 && cpu_isar_feature(aa64_bti, cpu)) {
+        result->f.guarded = extract64(attrs, 50, 1); /* GP */
+    }
+
+The GP bit only exists in stage 1 descriptors but we don't check
+that here, so we will set the 'guarded' bit in the result if
+the guest (incorrectly) sets the RES0 bit 50 in a stage 2 descriptor.
+We should move this check into the else clause of the immediately
+following "if (regime_is_stage2(mmu_idx)) ..." I think.
+
+(It looks like this one pre-dates this patch to shift to
+using f.guarded.)
+
+thanks
+-- PMM
 
