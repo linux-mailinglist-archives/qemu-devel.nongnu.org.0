@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737DA6D8D70
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 04:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17B36D8D8D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 04:37:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkFL6-0005Tz-9D; Wed, 05 Apr 2023 22:27:04 -0400
+	id 1pkFTu-0008L3-DQ; Wed, 05 Apr 2023 22:36:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1pkFKy-0005K8-Ms
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 22:26:57 -0400
-Received: from mga12.intel.com ([192.55.52.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fei2.wu@intel.com>) id 1pkFKv-0007ho-Rx
- for qemu-devel@nongnu.org; Wed, 05 Apr 2023 22:26:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680748014; x=1712284014;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=kDHQnfJgU6ibBWZVvy1+72aoPESwVWeS6Oj+qyGolVs=;
- b=L55vAleDs+ZSOZebTJrFhLtudRcfTGPxdyGiSKrnH4ahuZLuxzGkGeo9
- ZywKxM2h30kyCP24bpF28mE+4ZodfOah9k2RyxokNyIloFW07FACiJgcG
- N9lH2MjbV7W1UGy4JJ/lzdK1KLXX4JD1W7B4M9AMy3hQWwAIrKRGlXtEc
- 3dPoI/ksAk1R3h4RwLeqGZjf/xVurUFnfw0gBNp0GQLUW58ZSCrsqWU4V
- sI+DPTjk/iEvN1Ri3oQj2eHMvQjkCC/p7bWY9HCALEt34CZwsK8sZ++gl
- loSdAOzwTjDqylMo2APoIqTOiZ2VQyWtsZaQOtJvHGEZeKvmDaZLzY+ww Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="322269685"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="322269685"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 19:26:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="751487715"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="751487715"
-Received: from wufei-optiplex-7090.sh.intel.com ([10.238.200.247])
- by fmsmga008.fm.intel.com with ESMTP; 05 Apr 2023 19:26:42 -0700
-From: Fei Wu <fei2.wu@intel.com>
-To: richard.henderson@linaro.org, pbonzini@redhat.com, alex.bennee@linaro.org,
- erdnaxe@crans.org, ma.mandourr@gmail.com, qemu-devel@nongnu.org
-Cc: Fei Wu <fei2.wu@intel.com>
-Subject: [PATCH 2/2] plugins/hotblocks: add host insn size
-Date: Thu,  6 Apr 2023 10:27:51 +0800
-Message-Id: <20230406022751.757980-3-fei2.wu@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230406022751.757980-1-fei2.wu@intel.com>
-References: <20230406022751.757980-1-fei2.wu@intel.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pkFTr-0008JW-V4; Wed, 05 Apr 2023 22:36:08 -0400
+Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pkFTq-0000Jm-4U; Wed, 05 Apr 2023 22:36:07 -0400
+Received: by mail-ua1-x92a.google.com with SMTP id r21so1156989uaf.6;
+ Wed, 05 Apr 2023 19:36:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680748564;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0WuSEfAZZ6VJncZ0TDs/AoDIqiw+TYmpwDkoGRiUxwA=;
+ b=GU/2qoEHfmiJVqIFSCQ3squ4AJQBhsa0NPFEzRL7P3Nf7bfrK6xjcQLBuNfXOpA/As
+ JLkE1zqSU0t9Qt7kjA0Bq3P6O1dFU89PJ1mnIaZHpA/vr7xMbjZ1HuCGDJRc2Gy+QavA
+ KrMTKbkUiE9DzfVs+5Gz7IQAqGVyDweZWA/sfxLhGq0VP7yr+l5mIFAbeePGSjRz6h3Z
+ aPaCKhjoV8XFcAQuie/NhYRFdxwNAtpThHXgN5bYEabZB0998wE/llU1uuI0/RAKxHRb
+ UYXjh+Hr2DQ2g3aioX8PIzlPItJNiJb7csTILA9MFfFRq+QSx/zPcuFgnSdPbhNUugJ/
+ v0TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680748564;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0WuSEfAZZ6VJncZ0TDs/AoDIqiw+TYmpwDkoGRiUxwA=;
+ b=uxoBvRh7+UQHpZhKpy4+4xHJVwt/D+p5s/4dWztpZ4d/jPCsPaoaR5iE7GVvSfrGDC
+ u2/ocblbMsvEH9inq30Ghr1DkWPrIpNHUIEEMrtfvZkB0oUhIES+QF3rHSR3LytbgqKg
+ +eyTtjEE+jRARlC1lQcaxDa3gpGuEyWrP2w3S2QrfXhM5y/I25ViSK3X2DxMBw12JHhp
+ Bys3afgEWx4vi+4iP20ge5YiRZlPVTm9gEYs93ryGNV+6PZJG5wv8EWuRqWb34paD+UT
+ 7ATonFOkg4VkrsezGtvcCN5xPbz9DgBrkshusECzhv01Kb70ZzTStXSrn41wfNlI8jsp
+ z8Dg==
+X-Gm-Message-State: AAQBX9focVbhfnFDJ2VOdqmUdDQ2C+LsuNsBJz4e9ypgYX0DxXuiMIK/
+ fBOvcWEMfUIh8Vq84te3KaihySPLsjrOL/l7yGFjluVFb6Q=
+X-Google-Smtp-Source: AKy350btYrpb7D/q+4NB239aHYxkxJlFiB5gDi6Lpu5xo4876DG40fK10K0gOHZf1tiSwYbxZ/hz8a+nR9oB6j6DDQQ=
+X-Received: by 2002:ab0:474f:0:b0:688:c23f:c22f with SMTP id
+ i15-20020ab0474f000000b00688c23fc22fmr6610910uac.1.1680748564605; Wed, 05 Apr
+ 2023 19:36:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=fei2.wu@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+References: <20230325105429.1142530-1-richard.henderson@linaro.org>
+ <20230325105429.1142530-2-richard.henderson@linaro.org>
+In-Reply-To: <20230325105429.1142530-2-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 Apr 2023 12:35:38 +1000
+Message-ID: <CAKmqyKMMNGw-W1cUhmOnkKwj3KV5mi-iNMFdJ0o-Picm_T0efA@mail.gmail.com>
+Subject: Re: [PATCH v6 01/25] target/riscv: Extract virt enabled state from tb
+ flags
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ palmer@dabbelt.com, zhiwei_liu@linux.alibaba.com, fei2.wu@intel.com, 
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x92a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,84 +88,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It's only valid when inline=false, otherwise it's default to 0.
+On Sat, Mar 25, 2023 at 9:58=E2=80=AFPM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+>
+> Virt enabled state is not a constant. So we should put it into tb flags.
+> Thus we can use it like a constant condition at translation phase.
+>
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Message-Id: <20230324143031.1093-2-zhiwei_liu@linux.alibaba.com>
 
-Signed-off-by: Fei Wu <fei2.wu@intel.com>
----
- contrib/plugins/hotblocks.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
-index 062200a7a4..c9716da7fe 100644
---- a/contrib/plugins/hotblocks.c
-+++ b/contrib/plugins/hotblocks.c
-@@ -37,6 +37,8 @@ typedef struct {
-     uint64_t exec_count;
-     int      trans_count;
-     unsigned long insns;
-+    void    *p_host_insn_size;
-+    uint64_t host_insn_size;
- } ExecCount;
- 
- static gint cmp_exec_count(gconstpointer a, gconstpointer b)
-@@ -59,13 +61,17 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
-     it = g_list_sort(counts, cmp_exec_count);
- 
-     if (it) {
--        g_string_append_printf(report, "pc, tcount, icount, ecount\n");
-+        g_string_append_printf(report,
-+                               "host isize is only valid when inline=false\n"
-+                               "pc, tcount, icount, ecount, host isize\n");
- 
-         for (i = 0; i < limit && it->next; i++, it = it->next) {
-             ExecCount *rec = (ExecCount *) it->data;
--            g_string_append_printf(report, "0x%016"PRIx64", %d, %ld, %"PRId64"\n",
-+            g_string_append_printf(report, "0x%016"PRIx64", %d, %ld, %"PRId64
-+                                   ", %"PRIu64"\n",
-                                    rec->start_addr, rec->trans_count,
--                                   rec->insns, rec->exec_count);
-+                                   rec->insns, rec->exec_count,
-+                                   rec->host_insn_size);
-         }
- 
-         g_list_free(it);
-@@ -82,14 +88,13 @@ static void plugin_init(void)
- 
- static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
- {
--    ExecCount *cnt;
--    uint64_t hash = (uint64_t) udata;
-+    ExecCount *cnt = (ExecCount *) udata;
- 
-     g_mutex_lock(&lock);
--    cnt = (ExecCount *) g_hash_table_lookup(hotblocks, (gconstpointer) hash);
--    /* should always succeed */
--    g_assert(cnt);
-     cnt->exec_count++;
-+    if (cnt->host_insn_size == 0) {
-+        cnt->host_insn_size = *((uint64_t *)cnt->p_host_insn_size);
-+    }
-     g_mutex_unlock(&lock);
- }
- 
-@@ -114,6 +119,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-         cnt->start_addr = pc;
-         cnt->trans_count = 1;
-         cnt->insns = insns;
-+        cnt->p_host_insn_size = qemu_plugin_tb_host_insn_size(tb);
-         g_hash_table_insert(hotblocks, (gpointer) hash, (gpointer) cnt);
-     }
- 
-@@ -125,7 +131,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-     } else {
-         qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
-                                              QEMU_PLUGIN_CB_NO_REGS,
--                                             (void *)hash);
-+                                             (void *)cnt);
-     }
- }
- 
--- 
-2.25.1
+Alistair
 
+> ---
+>  target/riscv/cpu.h        |  2 ++
+>  target/riscv/cpu_helper.c |  2 ++
+>  target/riscv/translate.c  | 10 +---------
+>  3 files changed, 5 insertions(+), 9 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 638e47c75a..12fe8d8546 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -650,6 +650,8 @@ FIELD(TB_FLAGS, VTA, 24, 1)
+>  FIELD(TB_FLAGS, VMA, 25, 1)
+>  /* Native debug itrigger */
+>  FIELD(TB_FLAGS, ITRIGGER, 26, 1)
+> +/* Virtual mode enabled */
+> +FIELD(TB_FLAGS, VIRT_ENABLED, 27, 1)
+>
+>  #ifdef TARGET_RISCV32
+>  #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index f88c503cf4..9d50e7bbb6 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -104,6 +104,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_=
+ulong *pc,
+>
+>          flags =3D FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_VS,
+>                             get_field(env->mstatus_hs, MSTATUS_VS));
+> +        flags =3D FIELD_DP32(flags, TB_FLAGS, VIRT_ENABLED,
+> +                           get_field(env->virt, VIRT_ONOFF));
+>      }
+>      if (cpu->cfg.debug && !icount_enabled()) {
+>          flags =3D FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_en=
+abled);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 0ee8ee147d..880f6318aa 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -1156,15 +1156,7 @@ static void riscv_tr_init_disas_context(DisasConte=
+xtBase *dcbase, CPUState *cs)
+>      ctx->mstatus_fs =3D tb_flags & TB_FLAGS_MSTATUS_FS;
+>      ctx->mstatus_vs =3D tb_flags & TB_FLAGS_MSTATUS_VS;
+>      ctx->priv_ver =3D env->priv_ver;
+> -#if !defined(CONFIG_USER_ONLY)
+> -    if (riscv_has_ext(env, RVH)) {
+> -        ctx->virt_enabled =3D riscv_cpu_virt_enabled(env);
+> -    } else {
+> -        ctx->virt_enabled =3D false;
+> -    }
+> -#else
+> -    ctx->virt_enabled =3D false;
+> -#endif
+> +    ctx->virt_enabled =3D FIELD_EX32(tb_flags, TB_FLAGS, VIRT_ENABLED);
+>      ctx->misa_ext =3D env->misa_ext;
+>      ctx->frm =3D -1;  /* unknown rounding mode */
+>      ctx->cfg_ptr =3D &(cpu->cfg);
+> --
+> 2.34.1
+>
+>
 
