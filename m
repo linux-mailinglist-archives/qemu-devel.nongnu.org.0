@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653B66D9229
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 10:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCA66D922A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 10:59:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkLR9-0001HZ-Gh; Thu, 06 Apr 2023 04:57:43 -0400
+	id 1pkLS4-0001c5-1P; Thu, 06 Apr 2023 04:58:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pkLR7-0001H9-89
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:57:41 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1pkLS1-0001bK-Uj
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:58:37 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pkLR5-0004dm-L0
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:57:41 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- d11-20020a05600c3acb00b003ef6e6754c5so19698421wms.5
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 01:57:38 -0700 (PDT)
+ id 1pkLS0-0004px-Ez
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 04:58:37 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n19-20020a05600c501300b003f064936c3eso2551151wmr.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 01:58:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680771457;
+ d=linaro.org; s=google; t=1680771515;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=23+JA5FlEZCg1D64QOnQdOwDxYykg/lmXxygdJKaZZA=;
- b=VnpgcH6HY+GW51/aS4vxzm8kXxK+wGTShFnc0u2zL59zFjHKVcChsAU7siD6qaLwAM
- 4u6Iq5eJw+UlrtqhrhFNDz0z432Ufg2zXUZwm7jrGFJv2a+FjLn8X/8q87RsPyfkAazk
- /fOByH74i3aucbPGo3avUWx3ViHt0xjwrWV+vx0A11bRVOkl5OcB2oma7b05ZKRv6SMI
- sQLQB9shWz08wZCgKMFDTbojMiw72k/4VP+z32P7zxV86m5qet8XE4AebFn219g8pazh
- EXXVaKnoueTJ9fDomRP9q5hOcJ8aaqtfF8K9dJ/JNsbtzBYcf2mjcRA3z0j9fugwOwmb
- zpHg==
+ bh=hHzSA/w+tX29wdWiyiod4QQFWJP9A2SW72Qr9AlU6gA=;
+ b=CfPEMKLKqOz/c3+hZ29YAY4dhnm3/P8Qdd5ytuaG4hm36heD2Zf/Ekwv2bz3sieyAU
+ lCS9A60SVmslx2d+mK0nvxajpqAbWWH58sSX50rXMYKxvlOJT8cQtIKonxVMWaQJgpr2
+ z9ZCuQsrxcXpHJS4q4vmTB5xM1uqNH2aZXDpGq8XaLTUE+9L4Qj3x4aveWKuZTctKpoq
+ f8HBIJM2csKrijwyNxnz2n8JvCN9mEFcSyULbkVvfCxdojQtvuuPHIcmvsnvIdlISU8C
+ 08sGcS1Kmk+2IN2DdDH14DbP5n3N0njIrvaDv8nFRT+8d50kImoO+gz6xnUFNzAelVyz
+ NqLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680771457;
+ d=1e100.net; s=20210112; t=1680771515;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=23+JA5FlEZCg1D64QOnQdOwDxYykg/lmXxygdJKaZZA=;
- b=7hq2DOcO28FIUWcj1kzmWgD+0c1vpHZBzi2S4UQA5OLnDvTzzT+/9YfKdq9rTErYd5
- P8auQx3ZtV2amPoBE9SuWOpBvmlPrsGFdhVeaGNaMXplUQBD4uDonB7wInajFjt4W3Io
- MATVvGhb+/1hjU4gOXl2Qm64gKfFFH8X+sLHj+MrBKKbVFbu6sJ+Hn5vPhKGI07mmtnk
- U/mL7Wm+P7y9uZWOwd38FczyTHmV6bJC1KkKedSQM/Y4ila8eh8Tuycsvrr1naBlW45n
- +F6aHDZF2dWOJBN+Yg4lr8YyYfhzUDXzPR+kFdE4nm7VOamE/yROvr8vKrJIl1Be4jfj
- jkRg==
-X-Gm-Message-State: AAQBX9dNuXha9ynoKpyAOQwZPaFE2KzJGFhZt7dSTiG2lgTo73m8YuDc
- pSjn8YrwyO82BU+aGyBwmkcc1l62s4U4h0/ZBeE=
-X-Google-Smtp-Source: AKy350YWCoGsGxX7aKZcNN0SmYkJXPKQ8SudsQszOYbiNz/NsNc0jOlGYIoMeVpTC5pfqZtSniSN3Q==
-X-Received: by 2002:a05:600c:22d6:b0:3eb:2da5:e19 with SMTP id
- 22-20020a05600c22d600b003eb2da50e19mr6798850wmg.27.1680771457201; 
- Thu, 06 Apr 2023 01:57:37 -0700 (PDT)
+ bh=hHzSA/w+tX29wdWiyiod4QQFWJP9A2SW72Qr9AlU6gA=;
+ b=ozUpKDTswwZL5HIUlSqFbay2u5UdSv5ZL83nL0S5VVuOrIsZH38PDhEO79jX5rzd9U
+ limhWW3G9JoKrUcFdWEK6CFX1S9SIqw6Aw79nrqu3j5OD4PV8qbHxFYvtL/M4M2BQ11y
+ 4H1DqKg79xrTi3Nq2XLqHWsUOlRxve2RPhyOO0/KKEPrQR79NMEYQRDKoOf4EWJ/Wtyz
+ lEtjDhO5hETTBio8beQr/pMBEKF+q1DGAi9Aju15JmNzni1vIZ63WFb3bMLiKc4pnZNV
+ 6bLN9WFnLH7cLS1gAWfZ47kiLbw/aQY8weXaFTso1tbpkiliWF1/u6lXfZZ+qwA7sC0R
+ p78w==
+X-Gm-Message-State: AAQBX9fFQ5pOMIrODdTrGslFLxi4bAueUo0aUgfSKLPaqB224W7S9aA2
+ KR1Opvhfv0v00jt4Yt2WIp2QHw==
+X-Google-Smtp-Source: AKy350ZvO2HEFpt6fKATtkVuDR9PZfHcx1kRVj+R7uhiRUrRmPQtOUp51lr7nDaatafZ7WJbFafRmg==
+X-Received: by 2002:a7b:c34d:0:b0:3f0:44d1:3ba7 with SMTP id
+ l13-20020a7bc34d000000b003f044d13ba7mr3420294wmj.17.1680771515016; 
+ Thu, 06 Apr 2023 01:58:35 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- fc9-20020a05600c524900b003f046ad52efsm4704170wmb.31.2023.04.06.01.57.36
+ i16-20020a05600c355000b003ede6540190sm4772378wmq.0.2023.04.06.01.58.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 01:57:36 -0700 (PDT)
+ Thu, 06 Apr 2023 01:58:34 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5339C1FFB7;
- Thu,  6 Apr 2023 09:57:36 +0100 (BST)
-References: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
- <TYZPR06MB5418A6BDB94FB0D97ABA31299D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
- <87edp6oy7g.fsf@pond.sub.org>
- <TYZPR06MB5418A3EB07F30B8AEC1A28229D8F9@TYZPR06MB5418.apcprd06.prod.outlook.com>
+ by zen.linaroharston (Postfix) with ESMTP id 2B7231FFB7;
+ Thu,  6 Apr 2023 09:58:34 +0100 (BST)
+References: <20230405160454.97436-1-philmd@linaro.org>
+ <20230405160454.97436-2-philmd@linaro.org>
 User-agent: mu4e 1.10.0; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Yohei Kojima <y-koj@outlook.jp>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Daniel_P=2EBerrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 1/4] util: Add thread-safe qemu_strerror() function
-Date: Thu, 06 Apr 2023 09:57:07 +0100
-In-reply-to: <TYZPR06MB5418A3EB07F30B8AEC1A28229D8F9@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Message-ID: <87mt3ljslb.fsf@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-arm@nongnu.org, kvm@vger.kernel.org, qemu-ppc@nongnu.org, Paolo
+ Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 01/10] sysemu/kvm: Remove unused headers
+Date: Thu, 06 Apr 2023 09:58:24 +0100
+In-reply-to: <20230405160454.97436-2-philmd@linaro.org>
+Message-ID: <87ile9jsjp.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,43 +99,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Yohei Kojima <y-koj@outlook.jp> writes:
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> On 2023/03/31 4:06, Markus Armbruster wrote:
->> Yohei Kojima <y-koj@outlook.jp> writes:
->>=20
->>> Add qemu_strerror() which follows the POSIX specification for
->>> strerror(). While strerror() is not guaranteed to be thread-safe, this
->>> function is thread-safe.
->>=20
->> Why not g_strerror()?
->>=20
+> All types used are forward-declared in "qemu/typedefs.h".
 >
-> Because g_strerror() uses mutex in its implementation and there is a
-> risk to occur the deadlock. If one thread enters g_strerror() (soon the
-> mutex is locked), then another thread calls fork(), and the forked
-> child process try to call g_strerror(), then deadlock occurs.
-
-I think we should mention this avoids the deadlock in the commit
-message. With that:
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-
->
->>> This function is added to solve the following issue:
->>> https://gitlab.com/qemu-project/qemu/-/issues/416
->>=20
->> The issue even asks for it...
->>=20
->
-> Originally yes, but Daniel told the deadlock (or a mutex starvation)
-> risk for g_strerror() in the later discussion of the issue. Probably I
-> should have mention that in the commit message or the cover letter.
->
->>> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
->>=20
-
 
 --=20
 Alex Benn=C3=A9e
