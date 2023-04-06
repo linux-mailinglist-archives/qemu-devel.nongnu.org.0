@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55646D93F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 12:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FAE6D9402
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 12:28:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkMpT-0004uo-D1; Thu, 06 Apr 2023 06:26:55 -0400
+	id 1pkMqh-0005vS-Mp; Thu, 06 Apr 2023 06:28:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pkMoh-0004WG-67
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:26:07 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pkMqe-0005uk-IB
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:28:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pkMod-0000WJ-9R
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:26:06 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PsczQ5X3Zz6J7Cv;
- Thu,  6 Apr 2023 18:23:46 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 6 Apr
- 2023 11:25:49 +0100
-Date: Thu, 6 Apr 2023 11:25:47 +0100
-To: Jonathan Cameron via <qemu-devel@nongnu.org>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Michael Tsirkin
- <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, <ani@anisinha.ca>,
- <berrange@redhat.com>, Fan Ni <fan.ni@samsung.com>, Dave Jiang
- <dave.jiang@intel.com>
-Subject: Re: [RFC PATCH 0/4] hw/i386: Factor out PXB parts of DSDT into an
- SSDT table
-Message-ID: <20230406112529.00006533@huawei.com>
-In-Reply-To: <20230317165440.24846-1-Jonathan.Cameron@huawei.com>
-References: <20230317165440.24846-1-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pkMqc-00013M-7w
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:28:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680776885;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jR1//7G8zZnp/oLXpFnyph+CIJPDHdrclB0rs5VJfSk=;
+ b=P9YIjB6SG1LIDpxwZBE0xCFyTurvwrs6pydlOY2K6qKjNtoOc75rjFMTBjDQ/xnxBZD/+S
+ f5PXvfXcokhAfyuaE8cdcZepHa5h/gc8hbaxpXxOXij3LYJO3xgrWa0UcnKLrd9bWPNMMR
+ jyA/3HjlpEBkmd55yMnQvgrm23CwNdA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-138-QSfyvd35P66EEk_EEr350Q-1; Thu, 06 Apr 2023 06:28:03 -0400
+X-MC-Unique: QSfyvd35P66EEk_EEr350Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-4f9ceb7f6d7so816656a12.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 03:28:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680776882; x=1683368882;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jR1//7G8zZnp/oLXpFnyph+CIJPDHdrclB0rs5VJfSk=;
+ b=RY7EZ1F2LeODaUa7AfyFsvd+vh/moM8rUz0xEE5ZrGxz3gE5Ccq/VCL8JjfWZhqeOk
+ eITI39z7P6T7rX82G8yApSsDKuiTlqpG7wyO8rHm7nIQyaY9Xml/NntBUAvZc/VM7hvK
+ qK4LqqNe8ks/UerKBp86wB06zM5NnYvqN+2GwJVQ2ZSfaMAehfMWQJXmXWRDMueV5FJI
+ l3ZcR+Gr+kkDlCXC9vhqSyV6twlc7uXGwcGc7FDxZrViesku4LOuKSs6sqiWAvkB6Vhe
+ CrCRUwMcHg0NTlr5O7vN47xB9oQCp8DOzn8EacYMPUNwgrR6+M3jL+GQ988EFPy9VtJE
+ EMSQ==
+X-Gm-Message-State: AAQBX9cOjoPk3ENcmgilXuyBBHFZ1cbnhuNV2OvfkbSrOvfD2T8D/6j1
+ KzuTIGFnuZ2s0de190AB2i2J3AxCoRze1z2fTR/s1w2QAA83iX0/fBRheD1sZl7SKN3rZPy2IqC
+ kyUaE9aFtLG7OnsMcAfJ7laVhuKVkHCqXpwo2mTFjOUVgmsyF59gooKb7hLF2tldJ/Q2U3+23xz
+ c=
+X-Received: by 2002:a05:6402:748:b0:500:46f2:e7db with SMTP id
+ p8-20020a056402074800b0050046f2e7dbmr5140638edy.15.1680776882383; 
+ Thu, 06 Apr 2023 03:28:02 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ass+JweocgoBJoE+PtYMqj4V1s2Fa5sISunR00M1ksYCER6YpI2989r1YJ5EK65gL4bE+Ojg==
+X-Received: by 2002:a05:6402:748:b0:500:46f2:e7db with SMTP id
+ p8-20020a056402074800b0050046f2e7dbmr5140625edy.15.1680776882037; 
+ Thu, 06 Apr 2023 03:28:02 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ o2-20020a056402444200b00501c2a9e16dsm550838edb.74.2023.04.06.03.28.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 03:28:01 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com
+Subject: [PATCH] io: mark mixed functions that can suspend
+Date: Thu,  6 Apr 2023 12:28:00 +0200
+Message-Id: <20230406102800.243353-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,72 +94,307 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 17 Mar 2023 16:54:36 +0000
-Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+There should be no paths from a coroutine_fn to aio_poll, however in
+practice coroutine_mixed_fn will call aio_poll in the !qemu_in_coroutine()
+path.  By marking mixed functions, we can track accurately the call paths
+that execute entirely in coroutine context, and find more missing
+coroutine_fn markers.  This results in more accurate checks that
+coroutine code does not end up blocking.
 
-> Michael Tsirkin raised that we have recently had churn in the bios-tables-test
-> and perhaps it was worth factoring some parts of DSDT out as SSDT files.
-> This is an attempt to do that for the entries from pxb-pcie and pxb-cxl
-> PCI root bridges.
-> 
-> The main PCI root bridge and related elements are left in DSDT as they
-> are present in many more tests than PXB.  However things brings some
-> complexity as some of the DSDT parts are then dependent on building up
-> information whilst creating the PXB entries.  The ordering constraints
-> of RSDT entries prevent easily generating the new SSDT table first
-> (see patch 3)
-> 
-> This series works around that by separating that build up of information from
-> the build up of the PXB parts of the SSDT.  That allows the tables to be
-> build in the standard order, based on knowledge that the SSDT parts will
-> definitely be built later.
-> 
-> Personally, having tried this, I'm not convinced that the advantages of
-> simplifying updates to the test data justify the complexity increase needed.
-> However I will add that I have a series adding CXL QTG DSM support form Dave
-> Jiang in my tree that will only result in updates to SSDT.cxl after this patch
-> rather than DSDT.cxl reducing chance of a clash with other changes
-> in flight. Hence this is an RFC to find out if people think this is
-> a good direction to go in.
-> 
-> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> https://lore.kernel.org/qemu-devel/20230302055544-mutt-send-email-mst@kernel.
+If the marking were extended transitively to all functions that call
+these ones, static analysis could be done much more efficiently.
+However, this is a start and makes it possible to use vrc's path-based
+searches to find potential bugs where coroutine_fns call blocking functions.
 
-Michael / all, at first glance at least, is sensible to take forwards?
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/io/channel.h | 78 ++++++++++++++++++++++----------------------
+ io/channel.c         | 78 ++++++++++++++++++++++----------------------
+ 2 files changed, 78 insertions(+), 78 deletions(-)
 
-Whilst I'm not in a rush on this, I'm carrying a bunch of patches
-for next cycle that are on top of this at the moment, so I'm just wondering
-whether it makes sense reorder things based on what might land first
-/ not land at all.
-
-Thanks,
-
-Jonathan
-
-> 
-> 
-> Jonathan Cameron (4):
->   hw/acpi: Make Aml and / or crs_range_set optional in build_crs
->   tests/acpi: Allow changes to DSDT.cxl/viot and SSDT.cxl/viot
->   hw/i386/acpi: Separate PXB related parts of DSDT into an SSDT table.
->   tests/acpi: Updated DSDT and SSDT due to move of PXB info to SSDT
-> 
->  hw/acpi/aml-build.c           |  75 +++++-----
->  hw/i386/acpi-build.c          | 249 ++++++++++++++++++++++------------
->  hw/pci-host/gpex-acpi.c       |   5 +-
->  include/hw/acpi/aml-build.h   |   4 +-
->  tests/data/acpi/q35/DSDT.cxl  | Bin 9673 -> 8474 bytes
->  tests/data/acpi/q35/DSDT.viot | Bin 9470 -> 8429 bytes
->  tests/data/acpi/q35/SSDT.cxl  | Bin 0 -> 1235 bytes
->  tests/data/acpi/q35/SSDT.viot | Bin 0 -> 1077 bytes
->  8 files changed, 208 insertions(+), 125 deletions(-)
->  create mode 100644 tests/data/acpi/q35/SSDT.cxl
->  create mode 100644 tests/data/acpi/q35/SSDT.viot
-> 
+diff --git a/include/io/channel.h b/include/io/channel.h
+index 153fbd29049f..446a566e5e1b 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -301,10 +301,10 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+  * Returns: 1 if all bytes were read, 0 if end-of-file
+  *          occurs without data, or -1 on error
+  */
+-int qio_channel_readv_all_eof(QIOChannel *ioc,
+-                              const struct iovec *iov,
+-                              size_t niov,
+-                              Error **errp);
++int coroutine_mixed_fn qio_channel_readv_all_eof(QIOChannel *ioc,
++                                                 const struct iovec *iov,
++                                                 size_t niov,
++                                                 Error **errp);
+ 
+ /**
+  * qio_channel_readv_all:
+@@ -328,10 +328,10 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were read, or -1 on error
+  */
+-int qio_channel_readv_all(QIOChannel *ioc,
+-                          const struct iovec *iov,
+-                          size_t niov,
+-                          Error **errp);
++int coroutine_mixed_fn qio_channel_readv_all(QIOChannel *ioc,
++                                             const struct iovec *iov,
++                                             size_t niov,
++                                             Error **errp);
+ 
+ 
+ /**
+@@ -353,10 +353,10 @@ int qio_channel_readv_all(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+-int qio_channel_writev_all(QIOChannel *ioc,
+-                           const struct iovec *iov,
+-                           size_t niov,
+-                           Error **errp);
++int coroutine_mixed_fn qio_channel_writev_all(QIOChannel *ioc,
++                                              const struct iovec *iov,
++                                              size_t niov,
++                                              Error **errp);
+ 
+ /**
+  * qio_channel_readv:
+@@ -437,10 +437,10 @@ ssize_t qio_channel_write(QIOChannel *ioc,
+  * Returns: 1 if all bytes were read, 0 if end-of-file occurs
+  *          without data, or -1 on error
+  */
+-int qio_channel_read_all_eof(QIOChannel *ioc,
+-                             char *buf,
+-                             size_t buflen,
+-                             Error **errp);
++int coroutine_mixed_fn qio_channel_read_all_eof(QIOChannel *ioc,
++                                                char *buf,
++                                                size_t buflen,
++                                                Error **errp);
+ 
+ /**
+  * qio_channel_read_all:
+@@ -457,10 +457,10 @@ int qio_channel_read_all_eof(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were read, or -1 on error
+  */
+-int qio_channel_read_all(QIOChannel *ioc,
+-                         char *buf,
+-                         size_t buflen,
+-                         Error **errp);
++int coroutine_mixed_fn qio_channel_read_all(QIOChannel *ioc,
++                                            char *buf,
++                                            size_t buflen,
++                                            Error **errp);
+ 
+ /**
+  * qio_channel_write_all:
+@@ -476,10 +476,10 @@ int qio_channel_read_all(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+-int qio_channel_write_all(QIOChannel *ioc,
+-                          const char *buf,
+-                          size_t buflen,
+-                          Error **errp);
++int coroutine_mixed_fn qio_channel_write_all(QIOChannel *ioc,
++                                             const char *buf,
++                                             size_t buflen,
++                                             Error **errp);
+ 
+ /**
+  * qio_channel_set_blocking:
+@@ -812,11 +812,11 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
+  *          occurs without data, or -1 on error
+  */
+ 
+-int qio_channel_readv_full_all_eof(QIOChannel *ioc,
+-                                   const struct iovec *iov,
+-                                   size_t niov,
+-                                   int **fds, size_t *nfds,
+-                                   Error **errp);
++int coroutine_mixed_fn qio_channel_readv_full_all_eof(QIOChannel *ioc,
++                                                      const struct iovec *iov,
++                                                      size_t niov,
++                                                      int **fds, size_t *nfds,
++                                                      Error **errp);
+ 
+ /**
+  * qio_channel_readv_full_all:
+@@ -838,11 +838,11 @@ int qio_channel_readv_full_all_eof(QIOChannel *ioc,
+  * Returns: 0 if all bytes were read, or -1 on error
+  */
+ 
+-int qio_channel_readv_full_all(QIOChannel *ioc,
+-                               const struct iovec *iov,
+-                               size_t niov,
+-                               int **fds, size_t *nfds,
+-                               Error **errp);
++int coroutine_mixed_fn qio_channel_readv_full_all(QIOChannel *ioc,
++                                                  const struct iovec *iov,
++                                                  size_t niov,
++                                                  int **fds, size_t *nfds,
++                                                  Error **errp);
+ 
+ /**
+  * qio_channel_writev_full_all:
+@@ -872,11 +872,11 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+ 
+-int qio_channel_writev_full_all(QIOChannel *ioc,
+-                                const struct iovec *iov,
+-                                size_t niov,
+-                                int *fds, size_t nfds,
+-                                int flags, Error **errp);
++int coroutine_mixed_fn qio_channel_writev_full_all(QIOChannel *ioc,
++                                                   const struct iovec *iov,
++                                                   size_t niov,
++                                                   int *fds, size_t nfds,
++                                                   int flags, Error **errp);
+ 
+ /**
+  * qio_channel_flush:
+diff --git a/io/channel.c b/io/channel.c
+index a8c7f1164901..375a130a398d 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -109,27 +109,27 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+ }
+ 
+ 
+-int qio_channel_readv_all_eof(QIOChannel *ioc,
+-                              const struct iovec *iov,
+-                              size_t niov,
+-                              Error **errp)
++int coroutine_mixed_fn qio_channel_readv_all_eof(QIOChannel *ioc,
++                                                 const struct iovec *iov,
++                                                 size_t niov,
++                                                 Error **errp)
+ {
+     return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
+ }
+ 
+-int qio_channel_readv_all(QIOChannel *ioc,
+-                          const struct iovec *iov,
+-                          size_t niov,
+-                          Error **errp)
++int coroutine_mixed_fn qio_channel_readv_all(QIOChannel *ioc,
++                                             const struct iovec *iov,
++                                             size_t niov,
++                                             Error **errp)
+ {
+     return qio_channel_readv_full_all(ioc, iov, niov, NULL, NULL, errp);
+ }
+ 
+-int qio_channel_readv_full_all_eof(QIOChannel *ioc,
+-                                   const struct iovec *iov,
+-                                   size_t niov,
+-                                   int **fds, size_t *nfds,
+-                                   Error **errp)
++int coroutine_mixed_fn qio_channel_readv_full_all_eof(QIOChannel *ioc,
++                                                      const struct iovec *iov,
++                                                      size_t niov,
++                                                      int **fds, size_t *nfds,
++                                                      Error **errp)
+ {
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+@@ -215,11 +215,11 @@ next_iter:
+     return ret;
+ }
+ 
+-int qio_channel_readv_full_all(QIOChannel *ioc,
+-                               const struct iovec *iov,
+-                               size_t niov,
+-                               int **fds, size_t *nfds,
+-                               Error **errp)
++int coroutine_mixed_fn qio_channel_readv_full_all(QIOChannel *ioc,
++                                                  const struct iovec *iov,
++                                                  size_t niov,
++                                                  int **fds, size_t *nfds,
++                                                  Error **errp)
+ {
+     int ret = qio_channel_readv_full_all_eof(ioc, iov, niov, fds, nfds, errp);
+ 
+@@ -234,19 +234,19 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+     return ret;
+ }
+ 
+-int qio_channel_writev_all(QIOChannel *ioc,
+-                           const struct iovec *iov,
+-                           size_t niov,
+-                           Error **errp)
++int coroutine_mixed_fn qio_channel_writev_all(QIOChannel *ioc,
++                                              const struct iovec *iov,
++                                              size_t niov,
++                                              Error **errp)
+ {
+     return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, 0, errp);
+ }
+ 
+-int qio_channel_writev_full_all(QIOChannel *ioc,
+-                                const struct iovec *iov,
+-                                size_t niov,
+-                                int *fds, size_t nfds,
+-                                int flags, Error **errp)
++int coroutine_mixed_fn qio_channel_writev_full_all(QIOChannel *ioc,
++                                                   const struct iovec *iov,
++                                                   size_t niov,
++                                                   int *fds, size_t nfds,
++                                                   int flags, Error **errp)
+ {
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+@@ -325,30 +325,30 @@ ssize_t qio_channel_write(QIOChannel *ioc,
+ }
+ 
+ 
+-int qio_channel_read_all_eof(QIOChannel *ioc,
+-                             char *buf,
+-                             size_t buflen,
+-                             Error **errp)
++int coroutine_mixed_fn qio_channel_read_all_eof(QIOChannel *ioc,
++                                                char *buf,
++                                                size_t buflen,
++                                                Error **errp)
+ {
+     struct iovec iov = { .iov_base = buf, .iov_len = buflen };
+     return qio_channel_readv_all_eof(ioc, &iov, 1, errp);
+ }
+ 
+ 
+-int qio_channel_read_all(QIOChannel *ioc,
+-                         char *buf,
+-                         size_t buflen,
+-                         Error **errp)
++int coroutine_mixed_fn qio_channel_read_all(QIOChannel *ioc,
++                                            char *buf,
++                                            size_t buflen,
++                                            Error **errp)
+ {
+     struct iovec iov = { .iov_base = buf, .iov_len = buflen };
+     return qio_channel_readv_all(ioc, &iov, 1, errp);
+ }
+ 
+ 
+-int qio_channel_write_all(QIOChannel *ioc,
+-                          const char *buf,
+-                          size_t buflen,
+-                          Error **errp)
++int coroutine_mixed_fn qio_channel_write_all(QIOChannel *ioc,
++                                             const char *buf,
++                                             size_t buflen,
++                                             Error **errp)
+ {
+     struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
+     return qio_channel_writev_all(ioc, &iov, 1, errp);
+-- 
+2.39.2
 
 
