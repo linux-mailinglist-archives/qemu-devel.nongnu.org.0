@@ -2,116 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C5F6D972C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 14:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3A66D971F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 14:40:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkOyf-0004hj-Fm; Thu, 06 Apr 2023 08:44:33 -0400
+	id 1pkOuY-00038H-FZ; Thu, 06 Apr 2023 08:40:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pkOyc-0004hQ-Er
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:44:30 -0400
-Received: from mail-psaapc01olkn2061.outbound.protection.outlook.com
- ([40.92.52.61] helo=APC01-PSA-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <y-koj@outlook.jp>) id 1pkOya-0000gX-Du
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:44:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=irA+I5RIcHtFzFHTtzg5KB/dCdp+9/5zleei4YwSXSDiFNUpRrEEAdcd6lKZuiEersY+vjf9IuqhhxlmqXDfraCbeHonVenGDCMXyK+Ou4xwvWYGXLlPrS3HJh0BBTTwDiGa8tnmcSMlPBFrlM6QXXP+1fZiy2leg1YG5uW4C2sW+gYS3MRSYNzh8YvmpYAkgF7GLDQ0xwAb7ztxuAWDZlmmXrgGCtVXP1NNh9L4YTEZZazW+lmi/nudOWrbXMuCqVrjjyVYPJN1kDDflkyHzkpLCQ4z4fTt84zjsq3FJOlkNw66pAoFgFvxAV5haNwp6DbkzmVQiV/aVnrw5su7CQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jefl8DY1iLaiI+RD7QHWc4nEKselBPKMEMBynVrXmnA=;
- b=iUlc7f01R7HgY/42UMby9jblehCbbjVqa2EjzFEmwfrn3ztf5jU6ROLKsnDOqD2wZkCKd2V+SyWyIUJMwUbHIKOYXh8wgYoflvf1pqpFx0Jgpx7s3+E+OCzjKRPEWmwODwyxgxjHD79k2V2LFzynthE/kl7GQGe9Poi4s3+phVrIYdxUvGNTPaIjT+Wm2ufxSqpvB5+KTv7AwT1fPVaUMjWKK/3ssLKrgXoMBG/WBfi7LhyGyg/dqhSbtZkMWfmrQVmluMxIJnW7cTsAo9F/lmBX0CGYuaUGSQkucJG4KFBT2hJwuIaXUxbyDzJGD/Wdsp+zR5sRz5U2MJpbMdif7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from TYZPR06MB5418.apcprd06.prod.outlook.com (2603:1096:400:202::7)
- by KL1PR0601MB5464.apcprd06.prod.outlook.com (2603:1096:820:c5::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6277.29; Thu, 6 Apr
- 2023 12:39:19 +0000
-Received: from TYZPR06MB5418.apcprd06.prod.outlook.com
- ([fe80::1c39:fb04:b3c2:5a26]) by TYZPR06MB5418.apcprd06.prod.outlook.com
- ([fe80::1c39:fb04:b3c2:5a26%2]) with mapi id 15.20.6254.035; Thu, 6 Apr 2023
- 12:39:19 +0000
-Message-ID: <TYZPR06MB5418B404755830EDA5DE964E9D919@TYZPR06MB5418.apcprd06.prod.outlook.com>
-Date: Thu, 6 Apr 2023 21:39:18 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v3 1/4] util: Add thread-safe qemu_strerror() function
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>
-References: <TYZPR06MB5418D71BB6F2BBFD80C01E559D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
- <TYZPR06MB5418A6BDB94FB0D97ABA31299D8E9@TYZPR06MB5418.apcprd06.prod.outlook.com>
- <87edp6oy7g.fsf@pond.sub.org>
- <TYZPR06MB5418A3EB07F30B8AEC1A28229D8F9@TYZPR06MB5418.apcprd06.prod.outlook.com>
- <87mt3ljslb.fsf@linaro.org>
-From: Yohei Kojima <y-koj@outlook.jp>
-In-Reply-To: <87mt3ljslb.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TMN: [kGNWvlSrIkwLsNcf1B1NnXwVwnyfNN7+3/0yukpLPuB9esDNZewhKTCDGc4TJKRccZHRYgUCg5A=]
-X-ClientProxiedBy: TYCPR01CA0042.jpnprd01.prod.outlook.com
- (2603:1096:405:1::30) To TYZPR06MB5418.apcprd06.prod.outlook.com
- (2603:1096:400:202::7)
-X-Microsoft-Original-Message-ID: <9d6d1412-dc2b-3fda-75ac-6f567a9d50ff@outlook.jp>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pkOuC-00037U-Q4
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:39:56 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pkOu7-0007vF-HC
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 08:39:54 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id 11so1029498ejw.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 05:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680784784; x=1683376784;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=iycLXyyaKNlURjvk/xMSQ8w0TknS4goAK7XT0wGeGoA=;
+ b=KSmvYJeb6DLthRuVbbGc/EX0Tq/RV9kDOb3pJ13zt4dGE9iUtur7DPMN5aHgqa28CO
+ blea1OxwRGeeNwZLRc0EpOY0HloREzQFQKjbjwiYkoHVhGmurRL1OF5OSuYH3vuuf2vi
+ YitGoCHythOAMKDm+AEDMuU28U3oWSIvHsmrDVuLJmlBtKqDwQA1sYaohygumojMzOXe
+ h3cYkDSI9cvTuqVhVOEyoDUzg2RaMvpW7LAhy8uYYKP4QQaoJdJD5wbqN+8spDwTTMHf
+ XfZ/KbL2eryvEW5dIeO0Ko674ysNqscsaIkKX+D+5FnCOcPwdmHOKl7Y5t3MCss3kYye
+ x1rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680784784; x=1683376784;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iycLXyyaKNlURjvk/xMSQ8w0TknS4goAK7XT0wGeGoA=;
+ b=IFH3HnxiOOdUYHkJS29gxJB59hO4z8VMJ9TEyDrnnpP+azH5mCzMx7IPIo7EXgkakS
+ iXGuxOI2LcpboOpx0gT9eLXoWrxlHa2NaBIs3Uj7h7vsEXsGQFXBNvfuLeGsyb//19Ew
+ UCsOG1bxNxqJ+gygIM74VZn56QNEfmxm5Vid3RUzKU8MOgYHeR8UBFrzcQJQYrII1oJu
+ WW0I0eVleeAeTZMcjFZ6kvmLHWh7niqZP3+oUrDiFglQ5w6TmoIaZjDjmk2rmcMkKSUR
+ hngh7a3bz6i2bguP+g4P09YPJFuUSIvDQPM8sL2+fxSmE72MfXhFPSwuNmXGCPrrZ+y7
+ pi1w==
+X-Gm-Message-State: AAQBX9faluJu0aAhO3HhzuRCDkWuvzVZzCUJw9fRFF4g004T4RulWXC0
+ pkoxyjN3g0NDk2BnNLi0jN3HbVMwlPIX+ZwHPLwS3g==
+X-Google-Smtp-Source: AKy350aOn2aTVlmJyFIs5Qv8It9JyfM2X6Imk+gGt0ESygCtCgwNUUCxpiLE9X3Scx6iFvMHyUDEiD4kbESVR0v/DA0=
+X-Received: by 2002:a17:907:3f15:b0:947:f389:58ca with SMTP id
+ hq21-20020a1709073f1500b00947f38958camr3540146ejc.2.1680784784683; Thu, 06
+ Apr 2023 05:39:44 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB5418:EE_|KL1PR0601MB5464:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd312923-84fb-4cf3-a074-08db369bf108
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: o1x9jPW0JqG4/Zehig3Yh1Ioe3E7Di4IMrk/bmMAyQm4J0tsDeOgwZdYNK/HRYtyJIl7EHUScZ6mmhOylg+jH+PcZEvkmB2zRd3YOmlxucC3UtEpAOI1/nx3hS6awzGAs4NhtFHdgARLgRJ2NiXie/FNZ1B3eOOPzpdtHphacQpU1IuY1Cd7DahLWA5Jk1powyCUVnJ5qZeja8q1I+8xiQVZsl4wUKFGnf5YKf+I6vYdZKMXGw3MaFoDNeAO+gl6m77uBk6CWjJLfoMAF6s2LVaRuswtayTwhIv+uupvxr2sqCCetQ5LNWQwplFTQE0GMoSUE2fTxJTVpCqTjgS9f+ynJ52YxNruRyMjBDT6NeR+BzSet48TDE0gjGAVCeP4TKNzVDf3cb5/+gtU4boWvDx0PkR5xeDGJtHiGhtBxRc04iMDu4I7MiSFdzwZvGfRj3TdK6CfMIwqGI9cMoYLAIaSNZVMqTKC3e9sGTVQguJfzv6ZhYkcUCHk/gMe2ZhzAe8C8Q7FJ7Ag80nq6kFqBW9CiAjMwM7kRskyR5gxpcwNPMWau3BncsPN98DlrtkWlrok9RqVbn+HOZQXBHMFBUy3pCFk3dEKHtUvTDdzjNs=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cGw2Q2lSbUs4YnRhRkMzS0JiOUV3TTgzb2xhb0FFZjB3bjQwN3Vqa3JURk9N?=
- =?utf-8?B?YStEWDZ5M2IrOHNoV0p4R3gvd2x0dlNLVzlTUHd5dm5qWHVqeTQwSGFITXQy?=
- =?utf-8?B?RmF1WVkrYTRtQmh6RFlmQ0NzN1FibFpnYTJvYmQyazJjZGlGYWdLTGVvRWtN?=
- =?utf-8?B?U0xmMCtOQjJubmVwcmtpODVNcU55NVNIV2ZQN2w2N1ZZWko2aUdvRVZkYTRQ?=
- =?utf-8?B?N3JNWkY1TlFGQ2lCazFyWEtUUzZVQWVoUTcwZzVadnZRaDI4VVhnNEszbGVD?=
- =?utf-8?B?dmhRcGFHdHpTRnlJRVdWemk3dkJnQm4vSE04VnlGQ0owL1pOMTFzUWNyc29j?=
- =?utf-8?B?UkNXM1VvZSt0STNyb0I5Q2VVc2s0TjU0M2NOTUxJSDRvR3dqYzA1M3RoWXZ4?=
- =?utf-8?B?MGFCanpsRG5lT29jNVZXaFJBS2NLcXRNb3paRjFVZ0pHTlR6QmhyTDlnL0Vx?=
- =?utf-8?B?eG84NlNBZm9TWU1kMThuZ29XTHNvWlNvc0R1SkREL3FHUURFamhWSGpuTDQr?=
- =?utf-8?B?d05raXJZREpaUEVEQ3dUdzFrSnQyQXo0NGNPYW5xSUpNUlVTMU5wTzUyZXFo?=
- =?utf-8?B?bnhnbllrVEQ1UzdvcEZITFIwdG10RVB5ZjIraHZnSm1aeUNpZUV5NUZYWFBG?=
- =?utf-8?B?UWRhZmlPMEk2cElaQk5GeWF1S245RTkwbVJqVVhxVEx1N0VGbnNSWVRrYlg1?=
- =?utf-8?B?QkxMQkFuY25Ra1NjSVNrS09vcTNlbktLKzg1dk12ODE2WVJXZXFuWjZ2L1Q2?=
- =?utf-8?B?T3c5aEdaRlJVMEp3WnVOVnFaZjhUODJIdWZHSTl1aWREYUZQelpOYlh2cm45?=
- =?utf-8?B?SDV0ZlBIc2FQUU9LbCtySlNVVU84R1pzKytzU2RUUk1NTlhKTnRtcnQ1dklP?=
- =?utf-8?B?eEpUa2k1SjRUOTZqdURWMlN5TUFzTy9GUnNXVStuTzI3V2Z1akwyVUZDOVc4?=
- =?utf-8?B?YVNLNjQwR3c2YTgxVXNqc2FDeDRFWHN2S1FXazNKWVh6d3hWQ2wwUlJ5bnNx?=
- =?utf-8?B?SDlVQjgxZW9uVHV1VCtVdmdtRmltWlRoYmpUdjFML3FJT2c4ZzJGVjE5OUdU?=
- =?utf-8?B?OUFzNk9STGwvcnc5UVdxaDZmUXhwVFQyc0cxQUFwWjFKUGViWkpmK20rVkg5?=
- =?utf-8?B?RHY2Uk5KVFRuaVk5QnhBRDlabG9CTE5TY2VJcTVYelFGdzFaSk5EODVCM0pp?=
- =?utf-8?B?NVRHMGNIaU4vVTB4OHZOMlVaVjRmZlF3K2I5OUU2ajl6bEJlS1ZGcCs1Q1pj?=
- =?utf-8?B?K0pMYWZqcHN3QUF1bElKVC9ScGUrdzNqVEczaTBaNTNCcVIwN0d1Sm9kdFlM?=
- =?utf-8?B?aUpTSEE5dU5PZ04reldvYnF1S2h2WGFaVGJNZzF0ZG00NzdaVjAveU9jYnF3?=
- =?utf-8?B?UUs0bW5jcjdjZFJTUlRWcGFmSTNBRkVDZmJza0dBMlZZTzMxbFdqS3QreVA3?=
- =?utf-8?B?dXlDbWVPeFcvMDViRGtJTmNoYlNVMjMwZ2h4T00rakQ0WTZRbGJlclNDK0JG?=
- =?utf-8?B?Ky94NnhnOVIxOUgrYXU4VmdJTndBVkVidlcyTTZUUlBHMmxnbTNLU2JoZGIw?=
- =?utf-8?B?SUtsNFJyYUZ1OE5mYnlQQ2VjRUVrUGozWlhpK0lTNXB6SnRrQTd0Y09qNzV3?=
- =?utf-8?B?SFEzT1lrZVJyRlhkRmcraVAvenlUYUdpeVZSY0hQWWQ5bmU3RXpTdTJGRmxD?=
- =?utf-8?B?cU5pcHpyYVFnRDZ5Ymg4TWhtTzVkWDRUWWh1N242K3diS243ZnBnUTR3PT0=?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-3208f.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd312923-84fb-4cf3-a074-08db369bf108
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5418.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2023 12:39:19.7683 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB5464
-Received-SPF: pass client-ip=40.92.52.61; envelope-from=y-koj@outlook.jp;
- helo=APC01-PSA-obe.outbound.protection.outlook.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.224, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+References: <CAFEAcA_7+5tK+rM6dBgozNJmMmL7fU3MHLuvzJtb7-zWK4rMTQ@mail.gmail.com>
+ <4521ce29-1d11-f253-7a7d-342f6bd9e6b0@redhat.com>
+ <CAFEAcA_HVpYajJ5yP7+eYKNhKggtNjgFyQ_V3WqSPf4dGL=zKQ@mail.gmail.com>
+ <3b5cc225-50e8-e56d-3fa8-da052a515beb@linux.ibm.com>
+ <CAFEAcA_Uh+20w1gnCBXe6Go9WqkUu+SUeRtsrrbwEO4j48OjGQ@mail.gmail.com>
+ <149e9342-b48b-0871-ee4d-96c6f1d3f198@linux.ibm.com>
+ <CAFEAcA_SgAZmv8YpaR0v7iU1oMdNTAMcrcYWaqGPzHDxjSP=wQ@mail.gmail.com>
+ <c974308f-42a1-9163-5c4f-54bda7050ee8@linux.ibm.com>
+ <2e529c06-199f-6d5a-a75b-5b88aae44b2c@redhat.com>
+In-Reply-To: <2e529c06-199f-6d5a-a75b-5b88aae44b2c@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 Apr 2023 13:39:33 +0100
+Message-ID: <CAFEAcA_mUb+2gXDzMoD+rOvN9y5tvPyp4QXNtPGkk0bzg1t5vA@mail.gmail.com>
+Subject: Re: s390 private runner CI job timing out
+To: Thomas Huth <thuth@redhat.com>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,48 +93,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 6 Apr 2023 at 13:30, Thomas Huth <thuth@redhat.com> wrote:
+> The thing is: it shouldn't take that long to build QEMU and run the tests
+> here, theoretically. Some days ago, the job was finishing in 39 minutes:
+>
+>   https://gitlab.com/qemu-project/qemu/-/jobs/3973481571
+>
+> The recent run took 74 minutes:
+>
+>   https://gitlab.com/qemu-project/qemu/-/jobs/4066136770
+>
+> That's almost a factor of two! So there is definitely something strange
+> going on.
 
-On 2023/04/06 17:57, Alex Bennée wrote:
-> 
-> Yohei Kojima <y-koj@outlook.jp> writes:
-> 
->> On 2023/03/31 4:06, Markus Armbruster wrote:
->>> Yohei Kojima <y-koj@outlook.jp> writes:
->>>
->>>> Add qemu_strerror() which follows the POSIX specification for
->>>> strerror(). While strerror() is not guaranteed to be thread-safe, this
->>>> function is thread-safe.
->>>
->>> Why not g_strerror()?
->>>
->>
->> Because g_strerror() uses mutex in its implementation and there is a
->> risk to occur the deadlock. If one thread enters g_strerror() (soon the
->> mutex is locked), then another thread calls fork(), and the forked
->> child process try to call g_strerror(), then deadlock occurs.
-> 
-> I think we should mention this avoids the deadlock in the commit
-> message. With that:
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+So that 39 minute run was about 22 minutes compile, 17 minutes test.
+The 74 minute run was 45 minutes compile, 30 minutes test.
+The number of compile steps in meson was pretty much the same
+(10379 vs 10384) in each case. So the most plausible conclusion
+seems like "the VM mysteriously got slower by nearly a factor of 2",
+given that the slowdown seems to affect the compile and test
+stages about equally.
 
-Thank you for the review. I will address that in the next version.
+The VM has been up for 44 days, so we can rule out "rebooted into
+a new kernel with some kind of perf bug".
 
-> 
-> 
->>
->>>> This function is added to solve the following issue:
->>>> https://gitlab.com/qemu-project/qemu/-/issues/416
->>>
->>> The issue even asks for it...
->>>
->>
->> Originally yes, but Daniel told the deadlock (or a mutex starvation)
->> risk for g_strerror() in the later discussion of the issue. Probably I
->> should have mention that in the commit message or the cover letter.
->>
->>>> Signed-off-by: Yohei Kojima <y-koj@outlook.jp>
->>>
-> 
-> 
+thanks
+-- PMM
 
