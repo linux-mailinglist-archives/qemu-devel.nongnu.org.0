@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B936D8F8B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 08:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4D66D8FA0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 08:42:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkJCk-000558-F2; Thu, 06 Apr 2023 02:34:42 -0400
+	id 1pkJJM-0006TN-Bf; Thu, 06 Apr 2023 02:41:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pkJCB-00052g-4a; Thu, 06 Apr 2023 02:34:12 -0400
-Received: from isrv.corpit.ru ([86.62.121.231])
+ (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
+ id 1pkJJH-0006TC-S9
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 02:41:27 -0400
+Received: from mga02.intel.com ([134.134.136.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1pkJC7-0007eQ-TF; Thu, 06 Apr 2023 02:34:05 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 6A4EE4000C;
- Thu,  6 Apr 2023 09:33:51 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 09F28DD;
- Thu,  6 Apr 2023 09:33:51 +0300 (MSK)
-Message-ID: <9d2a753d-0b50-8fa4-2a71-590fd5ffd22f@msgid.tls.msk.ru>
-Date: Thu, 6 Apr 2023 09:33:50 +0300
+ (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
+ id 1pkJJB-0001Ey-Kl
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 02:41:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680763281; x=1712299281;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CcCeNIlq4T8FY057+idL1UGOPgkJVbviAmX/bP7agjg=;
+ b=ly1l4I9zmRw9fnLXSmRpufoVB6a7kC04mmZUMIN3XaFlqquM4Od09vIN
+ I9mk/9h6tupr2otKhOQyPxQgYOIMb5d/GwmFZ36l0tI4SwdvtHjNRQzTp
+ SUJ4dEgAP96sTtiyhduKofW3w23gIj4zqt49JP7o8dHkc2SuC3sYBP+eN
+ HiSKykQTuECucjP2qRgigqNx7bJqBlMwAH/JRjRrFWLJ4BhxU1Wh0JQvk
+ ED2txeG9ZW2hl2sE6Yg212nsArgrdtbKZXCQe44hX9c1mhbFDreMe3OD/
+ iEfBFp0fvhFHxv4dlK/ivGR/njxx6uz/Raqbd4QKBu+5TKy2Duj5HuIm/ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="331265041"
+X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="331265041"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2023 23:40:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="830637053"
+X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="830637053"
+Received: from icx.bj.intel.com ([10.240.193.41])
+ by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2023 23:40:56 -0700
+From: Yang Zhong <yang.zhong@linux.intel.com>
+To: pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, seanjc@google.com, christian.ehrhardt@canonical.com,
+ kai.huang@intel.com, weijiang.yang@intel.com, yang.zhong@linux.intel.com
+Subject: [PATCH v3] target/i386: Change wrong XFRM value
+Date: Thu,  6 Apr 2023 02:40:41 -0400
+Message-Id: <20230406064041.420039-1-yang.zhong@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: QEMU stable 7.2.1
-Content-Language: en-US
-To: Michael Roth <michael.roth@amd.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- qemu-stable <qemu-stable@nongnu.org>
-References: <62db7253-9cd7-e095-6b9f-ffcdecfa9bf6@msgid.tls.msk.ru>
- <20230405135818.52ggpbvumybryvr7@amd.com>
- <ce3bbb93-2534-e2bc-ece5-8bc4e2943bb8@msgid.tls.msk.ru>
- <20230405185720.2yxd52njk3tcsauk@amd.com>
- <20230405210658.yg2i6grklgqp73rr@amd.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-In-Reply-To: <20230405210658.yg2i6grklgqp73rr@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -82
-X-Spam_score: -8.3
-X-Spam_bar: --------
-X-Spam_report: (-8.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.355,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=yang.zhong@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,18 +75,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-06.04.2023 00:06, Michael Roth пишет:
-..
-> Re-packaged tarball based on your 7.2.1 tag is now uploaded:
-> 
->    https://www.qemu.org/download/
+The previous patch wrongly replaced FEAT_XSAVE_XCR0_{LO|HI} with
+FEAT_XSAVE_XSS_{LO|HI} in CPUID(EAX=12,ECX=1):{ECX,EDX}, which made
+SGX enclave only supported SSE and x87 feature(xfrm=0x3).
 
-Thank you Michael!  Finally it's there :)
+Fixes: 301e90675c3f ("target/i386: Enable support for XSAVES based features")
 
-There's one minor caveat still, though: it is missing in the
-"Full list of releases" for whatever reason.  Dunno how that
-happened, maybe that page hasn't been (re)generated yet.
+Signed-off-by: Yang Zhong <yang.zhong@linux.intel.com>
+Reviewed-by: Yang Weijiang <weijiang.yang@intel.com>
+---
+ target/i386/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-/mjt
-
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6576287e5b..f083ff4335 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5718,8 +5718,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         } else {
+             *eax &= env->features[FEAT_SGX_12_1_EAX];
+             *ebx &= 0; /* ebx reserve */
+-            *ecx &= env->features[FEAT_XSAVE_XSS_LO];
+-            *edx &= env->features[FEAT_XSAVE_XSS_HI];
++            *ecx &= env->features[FEAT_XSAVE_XCR0_LO];
++            *edx &= env->features[FEAT_XSAVE_XCR0_HI];
+ 
+             /* FP and SSE are always allowed regardless of XSAVE/XCR0. */
+             *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
 
