@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC3B6D9C08
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA986D9C07
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 17:19:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkRMj-0003Yu-4t; Thu, 06 Apr 2023 11:17:33 -0400
+	id 1pkRNe-0003ge-J2; Thu, 06 Apr 2023 11:18:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pkRMg-0003Yd-4q
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 11:17:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pkRMc-0003ns-96
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 11:17:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680794244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wK+luXm6zOtRMvSJ+ka0ItZDNGPBd4wZWMVxrebQxzI=;
- b=JZJA/0zRWltQf2Q9kKZJOvncGkykJfohzxtt34iD5rGFipzuJsJ84ipdQioIFJnoX23JML
- 53qICXtMKhLTRXEAW4v6oBdGqcknm9aKMfbIqfXPNGMjpwrrlHvWtdx5S6u2v5ijpttZHL
- E/CoDwupOejjqDxxM0ZTn8uO8+SdFQ8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-jrg4FQu2PYe2B-27Znow8A-1; Thu, 06 Apr 2023 11:17:15 -0400
-X-MC-Unique: jrg4FQu2PYe2B-27Znow8A-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F30529ABA1E;
- Thu,  6 Apr 2023 15:17:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 59968492C3E;
- Thu,  6 Apr 2023 15:17:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6994321E6926; Thu,  6 Apr 2023 17:17:13 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,  marcandre.lureau@redhat.com,
- qemu-devel@nongnu.org,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Stefan Berger <stefanb@linux.vnet.ibm.com>
-Subject: Re: [PULL v2 05/25] error: add global &error_warn destination
-References: <20230313114648.426607-1-marcandre.lureau@redhat.com>
- <20230313114648.426607-6-marcandre.lureau@redhat.com>
- <CAFEAcA9zNpzj_VU3ysWaa24tTqaBDcB9o1+0HhO0R7hhVOdgdA@mail.gmail.com>
- <CAFEAcA9_GP8HqtYgG4mice_ACd8eqFLF6qrMYRz_5oe_HSM=-g@mail.gmail.com>
- <8520898b-14e8-33a8-c34f-e98fecbedcb3@linux.ibm.com>
-Date: Thu, 06 Apr 2023 17:17:13 +0200
-In-Reply-To: <8520898b-14e8-33a8-c34f-e98fecbedcb3@linux.ibm.com> (Stefan
- Berger's message of "Thu, 6 Apr 2023 10:13:31 -0400")
-Message-ID: <87edoxm45i.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pkRNc-0003f0-Gs
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 11:18:28 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pkRNa-0004xU-UZ
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 11:18:28 -0400
+Received: by mail-ej1-x631.google.com with SMTP id qb20so2235596ejc.6
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 08:18:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680794305; x=1683386305;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DTYmK8YkPVhMeVdQAleCZ/tAcp1XekiLSY2jWJ8OVn0=;
+ b=o3sXOGaTy35TBrWdA/ZCTjDHsafZroabmM7isj5bmvtyQzYNf8w0e6W2k5tDIZJOT5
+ ZtB6SjqdlNsiTLK5jMTOa65QbxUKFL1QtdRlcLTCok/3waNhaSOTzSZm+sRQY+yAK0lW
+ Gi4So07q5CVUbS2L9HUiwJvvYHUB6Q4vj3e6EhKcFFbiC8jMzEAQh9aTrDG3uGQUY/U5
+ kzzUHFzg/wt6ZN4jsviiQ2NQraL5cbmbtq4S1ATmJ48Y0P7bFi3K5BWWuFpKUGrOiNDC
+ NEYh2UGteXEvs2orgNeNIg/6c4ya/viPWQqtTpBOFtAM6nVYAKwullSbt+p47ZKT1Mhp
+ zyZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680794305; x=1683386305;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DTYmK8YkPVhMeVdQAleCZ/tAcp1XekiLSY2jWJ8OVn0=;
+ b=z10iIItyW1NzPDkjLGeoEQsNHLaNgXa/v0izwASkbMSnHEAKUG6yyTYr6LVTHxU6kf
+ W50Q+AsEsPp8TUesFZP38WNhURfbkjHq5hTvPWxGx5a8uFlu4Leu+2WGZxsZOA7qiyHZ
+ lVKhCGmHzYv/HAmI2lijQzW48Q/lYqC3UTJv0xttqR6JIPpzJd0iJw+V01eP3GMCpdX9
+ Ss2WEtIgHyyr9eMnrCxHlO0s4j1yS1sYEygJF3+cPQJaNhznzUD1msRLrG/eSMdAAO/g
+ Mz13SLqDn8kc1VO/WmHHj7BsGA75fV8tSV1EPvNmkkxjmfh4grta0L6pKQrI0aMOrfA/
+ lGRg==
+X-Gm-Message-State: AAQBX9e4bVnMQWdAe1qUiaMtMrDKoOe35djvZAUCzr9ljB7Q2h+1rm7U
+ 5g4xLk6N5nOiJdVOkzftjmf9M4cGRAQF9Uc2SH2HyA==
+X-Google-Smtp-Source: AKy350Zs8ZnFOSDFZhmrHpJmPBzmdZ0OVPINfkHmM71Js2ejfgFIiy9ZLXoyIwUqzPcpT94JVtx18iJ0Fh+BaFTYbQU=
+X-Received: by 2002:a17:906:73d8:b0:939:a51a:dc30 with SMTP id
+ n24-20020a17090673d800b00939a51adc30mr4786343ejl.2.1680794305057; Thu, 06 Apr
+ 2023 08:18:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230307182707.2298618-1-dwmw2@infradead.org>
+ <20230307182707.2298618-15-dwmw2@infradead.org>
+In-Reply-To: <20230307182707.2298618-15-dwmw2@infradead.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 Apr 2023 16:18:14 +0100
+Message-ID: <CAFEAcA-9GDCa8ZrxjZJBq7wx=pVDAdvvDvTQs_oVyhD-HNSsrA@mail.gmail.com>
+Subject: Re: [PULL 14/27] hw/xen: Move xenstore_store_pv_console_info to
+ xen_console.c
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Durrant <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>, 
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com, 
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org, 
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,47 +91,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stefan Berger <stefanb@linux.ibm.com> writes:
-
-> On 4/6/23 09:17, Peter Maydell wrote:
->> On Thu, 6 Apr 2023 at 14:16, Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->>>
->>> On Mon, 13 Mar 2023 at 11:47, <marcandre.lureau@redhat.com> wrote:
->>>>
->>>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>>>
->>>> This can help debugging issues or develop, when error handling is
->>>> introduced.
->>>>
->>>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>>> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
->>>> Message-Id: <20230221124802.4103554-6-marcandre.lureau@redhat.com>
->>>
->>> Hi; Coverity points out that this introduces a use-after-free
->>> (CID 1507493):
->>
->> ...and also CID 1508179 (same issue, just one warning about the
->> callsite in error_setv() and one about the callsite in
->> error_propagate()).
->>
->> thanks
->> -- PMM
->>=20
+On Tue, 7 Mar 2023 at 18:28, David Woodhouse <dwmw2@infradead.org> wrote:
 >
-> I'll be out starting tomorrow. I don't see Marc-Andr=C3=A9 online.
+> From: David Woodhouse <dwmw@amazon.co.uk>
+>
+> There's no need for this to be in the Xen accel code, and as we want to
+> use the Xen console support with KVM-emulated Xen we'll want to have a
+> platform-agnostic version of it. Make it use GString to build up the
+> path while we're at it.
+>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Reviewed-by: Paul Durrant <paul@xen.org>
 
-I'll also be out starting tomorrow, until April 17.
+Hi; Coverity points out a double-free here (CID 1508254):
 
-The patch went in without my review, because I was unable to review it
-in time.
+> +static int store_con_info(struct XenConsole *con)
+> +{
+> +    Chardev *cs = qemu_chr_fe_get_driver(&con->chr);
+> +    char *pts = NULL;
+> +    char *dom_path;
+> +    GString *path;
+> +    int ret = -1;
+> +
+> +    /* Only continue if we're talking to a pty. */
+> +    if (!CHARDEV_IS_PTY(cs)) {
+> +        return 0;
+> +    }
+> +    pts = cs->filename + 4;
+> +
+> +    dom_path = qemu_xen_xs_get_domain_path(xenstore, xen_domid);
+> +    if (!dom_path) {
+> +        return 0;
+> +    }
+> +
+> +    path = g_string_new(dom_path);
+> +    free(dom_path);
+> +
+> +    if (con->xendev.dev) {
+> +        g_string_append_printf(path, "/device/console/%d", con->xendev.dev);
+> +    } else {
+> +        g_string_append(path, "/console");
+> +    }
+> +    g_string_append(path, "/tty");
+> +
+> +    if (xenstore_write_str(con->console, path->str, pts)) {
+> +        fprintf(stderr, "xenstore_write_str for '%s' fail", path->str);
+> +        goto out;
+> +    }
+> +    ret = 0;
+> +
+> +out:
+> +    g_string_free(path, true);
+> +    free(path);
 
-As Coverity points out, it broke a design invariant.  Red "rethink this"
-flag.  Can't do until I'm back.  Can't review the Stefan's proposed fix
-either, because that one needs just as much thinking.
+g_string_free frees the GString, but then we call free() on it
+as well. Presumably the free() should just be deleted ?
 
-I suggest to treat &error_warn exactly like NULL for the release.
+> +
+> +    return ret;
+> +}
 
-[...]
-
+thanks
+-- PMM
 
