@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0466D9063
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 09:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787B16D9065
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 09:26:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkJyq-00066v-PJ; Thu, 06 Apr 2023 03:24:24 -0400
+	id 1pkK0r-0006pl-FD; Thu, 06 Apr 2023 03:26:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pkJyk-00066c-H5
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 03:24:18 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pkJyg-0007VY-AI
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 03:24:15 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r11so38493919wrr.12
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 00:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680765852;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=r5md0Hic8N7yJjUaBjpyttLhL1BGAgobEwoST2yM+4Y=;
- b=oMxublAr9TkwWSwPt0ZsU5ZV4GPYM4ADCKwIAYz6EmetU1bC5RGh7YRI+AfRY4ECPC
- i1ddL79PcGARYv+FhWQWoDN64oov1xPIZqjSp0f+w7eYM1CH4HHfy5dTP8SLbs+TJHoo
- H3H6HVoQ+c3Nq27yG8NNLGA0ppU3hRcOHDn3l53aDqO7Ry/O1GrZRrl14KW1KU0insYM
- hYIuyMXlLjZEvlNez7DFtcrpMvsbruZsXgp1bKGMRkK8XaO8qQnXTVMtv7FAJJZXy7T0
- uXQuKrfHZa+DNolWye5Bi8ArwedUc40Csk0o4zeNuC0kFCI02zlThXckYK8qM9z0ULto
- Jpzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680765852;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r5md0Hic8N7yJjUaBjpyttLhL1BGAgobEwoST2yM+4Y=;
- b=NrwwlL9PQtQvol/RTxbUcyDUeP2daGbui4ycxQ45f8CuBW55XTbkbTi5STv1NNFwlq
- wxrFRbyUYWtiIH+djCyQnZ9THnROxBXFsxNmwjFHRhc5TLOeinWCHTj/gVg9YpjJHu9u
- g7i8Kp4IM/A/gpqVacwfSYDazUWsttUCvDfRAHnj5Osg7WhQ95U0PeTImJNdubUBlEdd
- eeq9etztzEYQ9CY/6bxULjzkukOBUwc5FS0cCp/hdqT13p+anHdvn0kIBa8ehr4iumeU
- 46drN1NWzagphE52nI6zgCU1GueSW0jW6iwD27ngN+odzPoymjDFFVUbojPw62RC4FWh
- DlEA==
-X-Gm-Message-State: AAQBX9fR1YCdQ/vv1NuDGHYJFYXq8yblSiyTk6Tc8k0i0TLC5x48W3bb
- t0hKVQ1D0Ef3sg5qOWShotuF2A==
-X-Google-Smtp-Source: AKy350b1DwFUiZTDtePfv5vC+3jpNK8Av1BBgzvEWkny/iZWnjd8DhD6UZlD1HjIeQHYCplfkJoEdQ==
-X-Received: by 2002:adf:e2c4:0:b0:2c7:dad:5630 with SMTP id
- d4-20020adfe2c4000000b002c70dad5630mr6137639wrj.27.1680765852080; 
- Thu, 06 Apr 2023 00:24:12 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- x16-20020a5d6510000000b002e71156b0fcsm952881wru.6.2023.04.06.00.24.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Apr 2023 00:24:11 -0700 (PDT)
-Message-ID: <c1980337-ff85-b7fe-b607-a2044743d5c0@linaro.org>
-Date: Thu, 6 Apr 2023 09:24:10 +0200
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkK0Z-0006mN-0T; Thu, 06 Apr 2023 03:26:11 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkK0W-0000aQ-54; Thu, 06 Apr 2023 03:26:10 -0400
+Received: from localhost.localdomain (unknown [180.175.29.170])
+ by APP-05 (Coremail) with SMTP id zQCowADHzMwGdC5kQlGzDg--.14061S2;
+ Thu, 06 Apr 2023 15:25:59 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 0/2] target/riscv: Fix mstatus.MPP related support
+Date: Thu,  6 Apr 2023 15:25:53 +0800
+Message-Id: <20230406072555.21927-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.1
-Subject: Re: [PATCH] Hexagon (tests/tcg/hexagon) Move HVX test infra to header
- file
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, 
- quic_mathbern@quicinc.com
-References: <20230405193945.169854-1-tsimpson@quicinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230405193945.169854-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.355,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowADHzMwGdC5kQlGzDg--.14061S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrCFyxtry7Ar18Kr4UXr1DJrb_yoWxWFXEgr
+ W0gFyIg3s293WDCFWYk3W5try5GrW8ur1aya17tF4jkry7u347Gw4vgF9rAr1UZF1kW3Z3
+ ArsrXFyfCF42gjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb4AFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+ AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
+ Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbU
+ UUUUU==
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,40 +73,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/4/23 21:39, Taylor Simpson wrote:
-> This will facilitate adding additional tests in separate .c files
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->   tests/tcg/hexagon/hvx_misc.h      | 178 ++++++++++++++++++++++++++++++
->   tests/tcg/hexagon/hvx_misc.c      | 160 +--------------------------
->   tests/tcg/hexagon/Makefile.target |   1 +
->   3 files changed, 181 insertions(+), 158 deletions(-)
->   create mode 100644 tests/tcg/hexagon/hvx_misc.h
-> 
-> diff --git a/tests/tcg/hexagon/hvx_misc.h b/tests/tcg/hexagon/hvx_misc.h
-> new file mode 100644
-> index 0000000000..ebcdb9f033
-> --- /dev/null
-> +++ b/tests/tcg/hexagon/hvx_misc.h
+This patchset tries to fix some problems in current implementation for mstatus.MPP
 
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-mpp-fix-v2
 
-> +static void init_buffers(void)
+v2:
+* Modify commit message and add comment to specify MPP field becomes a WARL field since priv version 1.11 in patch 2
+* rebase on riscv-to-apply.next
 
-inline?
+Weiwei Li (2):
+  target/riscv: Fix the mstatus.MPP value after executing MRET
+  target/riscv: Legalize MPP value in write_mstatus
 
-> +{
-> +    int counter0 = 0;
-> +    int counter1 = 17;
-> +    for (int i = 0; i < BUFSIZE; i++) {
-> +        for (int j = 0; j < MAX_VEC_SIZE_BYTES; j++) {
-> +            buffer0[i].b[j] = counter0++;
-> +            buffer1[i].b[j] = counter1++;
-> +        }
-> +        for (int j = 0; j < MAX_VEC_SIZE_BYTES / 4; j++) {
-> +            mask[i].w[j] = (i + j % MASKMOD == 0) ? 0 : 1;
-> +        }
-> +    }
-> +}
+ target/riscv/cpu_helper.c |  5 +----
+ target/riscv/csr.c        | 18 ++++++++++++++++++
+ target/riscv/op_helper.c  |  3 ++-
+ 3 files changed, 21 insertions(+), 5 deletions(-)
+
+-- 
+2.25.1
 
 
