@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7D46D980F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 15:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3CF6D92CF
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 11:34:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkPZ6-0000dT-Df; Thu, 06 Apr 2023 09:22:13 -0400
+	id 1pkLzE-0001ow-7Q; Thu, 06 Apr 2023 05:32:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robin@streamhpc.com>)
- id 1pkLw6-0001Cz-Jm
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 05:29:42 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ (Exim 4.90_1) (envelope-from <morbidrsa@gmail.com>)
+ id 1pkLzC-0001oi-BJ
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 05:32:54 -0400
+Received: from mail-wm1-f46.google.com ([209.85.128.46])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robin@streamhpc.com>)
- id 1pkLw4-0004Bh-CZ
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 05:29:42 -0400
-Received: by mail-ed1-x536.google.com with SMTP id cn12so147792550edb.4
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 02:29:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=streamhpc-com.20210112.gappssmtp.com; s=20210112; t=1680773376;
- h=content-transfer-encoding:to:content-language:subject:from
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=M/MDnH4ld+IMQbZg62h/8OKXUOoWcpWthApmSKgzSaw=;
- b=Yo7xP4S0ZQQ9E8yY42CnjjC7obDmY/Xv6czhTWiYH3aBk0/5KZh27W+eQSQm3rgmtR
- ZZ/FnQZ4QJ9uTtf/XVHfUbMNVnfLhVngtEetYOHLY6fzE5j4FfwMK8vp4ELh74bpHV4+
- LNatKAq1eK2omD3PtBhLe+zhk/eEeMes5e2eKvmoH7xiygjq1PK0DMmR9QAMsFZqT+vp
- gEyXOhWNlFNlegCN/fJDbFwILlBfF4YxH5LE1TaNYgPgJkoocl8MgxKyhR4PZayJxpgz
- vpIKRr5ASUgOzYkU39oGIjiC1mxnSH8aVg9HRToYTpVnw1lcAYNrh2+9q/+/MtyF2N47
- mY8A==
+ (Exim 4.90_1) (envelope-from <morbidrsa@gmail.com>)
+ id 1pkLzA-0006qg-Hw
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 05:32:53 -0400
+Received: by mail-wm1-f46.google.com with SMTP id
+ i5-20020a05600c354500b003edd24054e0so25189202wmq.4
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 02:32:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680773376;
- h=content-transfer-encoding:to:content-language:subject:from
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=M/MDnH4ld+IMQbZg62h/8OKXUOoWcpWthApmSKgzSaw=;
- b=RjYKCfDIvOkMxkjM2QwSBxHB9mna7Wk7qAUkXGRoeBODdBzjP3Ix3i4KdpLuamsmR7
- wew1BCS7E5H6dHyEfFlMRpn1fxXtfav1i4PNcjb40RKdHC1NQ53TY9HOhbB9Q3kxN1/1
- t8nULje9PRbDrXlzupEZL2RuvJHqV1yFQJWOIAlxAWGh821XmtO904qGpXfOtRI9lnyc
- q54nB1G7MEmpU11BmGCYHUhiLlKjPHdxDPYVS2PXGghb2pyEB6v6CnJLFRXP6io36GsO
- RxMMTtUk3eDuHsFHClqmV4qzQfceQvu5I6zAtImFqoGZzDHY0FPt4XOIzM4n1Xi3XH8p
- jsDg==
-X-Gm-Message-State: AAQBX9d7lqzOHJKWZH0Cq07HVvwQjVnaHj6qQujlUwWT4KeHN5NjA3TM
- vvBenVQ/meLCsz705Yeg5efU0VTgZfDndS0yBU8=
-X-Google-Smtp-Source: AKy350YoXYCCcc8O9tNSdJIryXYRv5izoAQSxE2v5ODn0t+s4SFStK1n0ynZMUa+YZgsOtF3dp5BkQ==
-X-Received: by 2002:a17:906:144d:b0:93f:2256:fc05 with SMTP id
- q13-20020a170906144d00b0093f2256fc05mr5661752ejc.55.1680773376247; 
- Thu, 06 Apr 2023 02:29:36 -0700 (PDT)
-Received: from [192.168.8.135] (095-097-139-014.static.chello.nl.
- [95.97.139.14]) by smtp.gmail.com with ESMTPSA id
- c17-20020a50f611000000b004c19f1891fasm364261edn.59.2023.04.06.02.29.35
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Apr 2023 02:29:35 -0700 (PDT)
-Message-ID: <b30370f5-0b52-d2de-6e47-8f288a219a43@streamhpc.com>
-Date: Thu, 6 Apr 2023 11:29:34 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Robin Voetter <robin@streamhpc.com>
-Subject: PCIe atomics in pcie-root-port
-Content-Language: en-US
+ d=1e100.net; s=20210112; t=1680773570;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nhthalH//vyRAfoqK1ee+1ZEpriCLUxfDBX4GUo7IxA=;
+ b=kVUjRQoFQP0ZMVdXT7AKY60OiL1TvdCe5+BZjBkZcRe8JIxr7o8D7XyPh1OfD5HL8+
+ UzOTwzm+o87nFKBUNYPm6E2NVJN8vKLMxhFFneepRt0xfu0yCvS5MVA+iq0F93rOsJg3
+ FseXMpuG3lI0ZybEaApoRVg6gdQaA9h7xKin5YEnyKI4za91Bbl3etbQEtG/J+ynYAxH
+ 0eR2sP8XCAAifXYBOCGnjlQFoYEWZi8uTEajYmrYuiy6CpfFTAE5as0XisuGgwS/FvZ0
+ hh/hjs2UYcbJj2KZhzOtj7JoSjSGqpXkpn8TA5M3D3370CQ1oOJA1l0DxgCmCmSp7xis
+ 60QQ==
+X-Gm-Message-State: AAQBX9f+Du3husG5XPTXbGxB6X/ehvbdtsPtMBAASnZaE7GMiL31EQBC
+ Ck9NfC587pklOkrzOshVAPCX0kIVVw1fNVhv
+X-Google-Smtp-Source: AKy350YAxBMKWSknia119RYrFNePFNJwaikfDtVYnIkq+cyuEye7RIjmOXsgqcIZb/IG5KJ/a458vQ==
+X-Received: by 2002:a05:600c:cc:b0:3eb:39e7:35fe with SMTP id
+ u12-20020a05600c00cc00b003eb39e735femr6903614wmm.30.1680773570046; 
+ Thu, 06 Apr 2023 02:32:50 -0700 (PDT)
+Received: from localhost.localdomain
+ (aftr-82-135-86-174.dynamic.mnet-online.de. [82.135.86.174])
+ by smtp.googlemail.com with ESMTPSA id
+ g6-20020a05600c4ec600b003edc4788fa0sm4914832wmq.2.2023.04.06.02.32.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Apr 2023 02:32:49 -0700 (PDT)
+From: Johannes Thumshirn <jth@kernel.org>
 To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: Alistair Francis <alistair@alistair23.me>,
+ Javier Rodriguez <josejavier.rodriguez@duagon.com>,
+ =?UTF-8?q?Jorge=20Sanjuan=20Garc=C3=ADa?= <Jorge.SanjuanGarcia@duagon.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Johannes Thumshirn <jth@kernel.org>
+Subject: [PATCH v2 0/4] Add emulation of MEN Chameleon Hardware
+Date: Thu,  6 Apr 2023 11:31:53 +0200
+Message-Id: <20230406093157.104145-1-jth@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=robin@streamhpc.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=209.85.128.46; envelope-from=morbidrsa@gmail.com;
+ helo=mail-wm1-f46.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 06 Apr 2023 09:22:01 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,44 +82,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+Add emulation of MEN Chameleon Hardware to Qemu.
+This emulation is specifically designed to test the upstream Linux kernel
+drivers when one has no access to the hardware.
 
-I am trying to use qemu to run ROCm in a virtual machine via GPU 
-passthrough with vfio-pci. While this mostly works out of the box, ROCm 
-requires PCIe atomics to function properly, and it seems like that this 
-is a feature that is missing in qemu. The setup is using a simple PCie 
-topology, where the GPU is connected to a pcie-root-port as follows:
-    -device pcie-root-port,id=pcie.1
-    -device vfio-pci,host=<host_pci_address>,bus=pcie.1
+The emulation consists of the bus itself, a PCI hardware target creating the
+bus, MEN Micro Electronic's 8250 based UART via MCB and a watchdog timer.
 
-When the amdgpu kernel module is loaded in the guest, enabling PCIe 
-atomics fails because it requires that PCIe root ports support 32- and 
-64-bit atomic completion, see commits 430a2368 and 8e6d0b69 in Linux.
+Changes since v1:
+- Converted DPRINTF() to tracing infrastructure (Alistair)
+- Fixed style issues (Alistair)
 
-I patched the required flags into the DevCap2 register in qemu and 
-everything seems to work fine. I'm interested in getting this change 
-into qemu proper, but I have some questions about how to do that:
+Johannes Thumshirn (4):
+  Add MEN Chameleon Bus emulation
+  Add MEN Chameleon Bus via PCI carrier
+  serial-mcb: Add serial via MEN chameleon bus
+  wdt_z069: Add support for MEN 16z069 Watchdog
 
-1. In order for PCIe atomics to be supported, every bridge in the path 
-between the root complex and the device in question needs to support the 
-routing capability, as well as the device being required to support the 
-atomic requester/completer capabilities of course. When a certain device 
-from the host is connected to a root port in qemu, that path will be 
-abstracted away into the virtual PCIe topology. Should this property 
-from the host be reflected into the virtual path in qemu, or is it 
-better to gate this behind a property of the pcie-root-port? For 
-example, the user could then simply pass -device 
-pcie-root-port,id=pcie.1,atomics=on to make the pcie-root-port report 
-that it supports these operations. If this should be reflected from the 
-host automatically, how should this be tested for? I checked around the 
-source for how for example the link speed is set, but it seems like that 
-is not reflected from the host system automatically either.
+ MAINTAINERS             |   6 +
+ hw/Kconfig              |   1 +
+ hw/char/Kconfig         |   6 +
+ hw/char/meson.build     |   1 +
+ hw/char/serial-mcb.c    | 115 ++++++++++++++++
+ hw/mcb/Kconfig          |   8 ++
+ hw/mcb/mcb-pci.c        | 297 ++++++++++++++++++++++++++++++++++++++++
+ hw/mcb/mcb.c            | 182 ++++++++++++++++++++++++
+ hw/mcb/meson.build      |   2 +
+ hw/mcb/trace-events     |   3 +
+ hw/mcb/trace.h          |   1 +
+ hw/meson.build          |   1 +
+ hw/watchdog/Kconfig     |   5 +
+ hw/watchdog/meson.build |   1 +
+ hw/watchdog/wdt_z069.c  | 218 +++++++++++++++++++++++++++++
+ include/hw/mcb/mcb.h    | 106 ++++++++++++++
+ meson.build             |   1 +
+ 17 files changed, 954 insertions(+)
+ create mode 100644 hw/char/serial-mcb.c
+ create mode 100644 hw/mcb/Kconfig
+ create mode 100644 hw/mcb/mcb-pci.c
+ create mode 100644 hw/mcb/mcb.c
+ create mode 100644 hw/mcb/meson.build
+ create mode 100644 hw/mcb/trace-events
+ create mode 100644 hw/mcb/trace.h
+ create mode 100644 hw/watchdog/wdt_z069.c
+ create mode 100644 include/hw/mcb/mcb.h
 
-2. Is anything else required to support PCIe atomics, or did I just get 
-lucky that my programs work?
 
-Thanks,
-
-Robin Voetter, Stream HPC
+base-commit: 652737c8090eb3792f8b4c4b22ab12d7cc32073f
+-- 
+2.39.2
 
 
