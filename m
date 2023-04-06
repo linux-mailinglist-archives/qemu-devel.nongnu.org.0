@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E326D8BCC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 02:24:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2806D8BCF
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 02:25:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkDQl-0004fg-Ly; Wed, 05 Apr 2023 20:24:47 -0400
+	id 1pkDR6-0004sB-W5; Wed, 05 Apr 2023 20:25:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pkDQk-0004fS-AP; Wed, 05 Apr 2023 20:24:46 -0400
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+ (Exim 4.90_1) (envelope-from
+ <3UREuZAcKClQ6A87Az42AA270.yA8C08G-z0H079A929G.AD2@flex--komlodi.bounces.google.com>)
+ id 1pkDR3-0004ms-6E
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 20:25:05 -0400
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pkDQi-0005BY-BW; Wed, 05 Apr 2023 20:24:45 -0400
-Received: by mail-vs1-xe32.google.com with SMTP id dg15so21418718vsb.13;
- Wed, 05 Apr 2023 17:24:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <3UREuZAcKClQ6A87Az42AA270.yA8C08G-z0H079A929G.AD2@flex--komlodi.bounces.google.com>)
+ id 1pkDR0-0005CK-Dp
+ for qemu-devel@nongnu.org; Wed, 05 Apr 2023 20:25:04 -0400
+Received: by mail-pg1-x549.google.com with SMTP id
+ v135-20020a63618d000000b005139242a138so7006547pgb.7
+ for <qemu-devel@nongnu.org>; Wed, 05 Apr 2023 17:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680740683;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EbAH86KQKVoCbn73cV3run/EtmMCpm2ghNbx9aN0bPk=;
- b=TqPFC0bKXksfXvtEnewl0Ds3oCQnBJDNJ6PjlidoxET5pU9Slk1r984fs279EgT4bb
- uLWsYNd8a7i96ZChL1gFSyvFqZs9OEDCC0oAnhuRDUjkkQOltSLEpWU4UldsqTGBUcQY
- JS2MyXDR6ip/YXECDzkGaqZ9SBRuqT4zAXkbOfIJlkLBKvRdvCPm2OfZuD29HRn5fPhP
- RqYhjONmhDI5fOnzdQFixx9iDZGg0QGgut1m5E/A91nwxWIUisb4gE4YFEQ1h5/QU0nl
- uPvM+wgaKXUmV2mm2MTkSPEO/SLmjUM9e5k92jfo/wJyCNnintRygnOQyohlfJh6nYds
- V+OA==
+ d=google.com; s=20210112; t=1680740689;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=m8tjpnf+cHao99aT7XBTFSlb0niM4wdXOo9nIIJzY/0=;
+ b=mUMyDnILMAEzoqBJA2qc00QHg3xmx7ewTp+036PbRUjQi/W/EBLMAiordN95KgF9ZW
+ xU+3CVFMR2aF8juJ5mnRQ9mnQa+c934YO8qDbBVKl1cU1dz46Xbk0KqApRAy8rm45DMI
+ acn8ew/XtguuzL2CrFE/Wg5MXXvuBhwFv2lLVJp9Pj/YUFWCnjDNuVyI83ajhxHKYaVG
+ 54tcL18vJCE9zYWWFBQ+RrLnlsskU9a8OIKMfmfTVph8hj5b28nQePF24iHhPfuXnsvd
+ 048GCJd+j+dBm4YChXhJsDyms/ap3ERy0FfkGOCrEOz+/D/f3yG+9VR+kMyEu8hoxU5R
+ u33Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680740683;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EbAH86KQKVoCbn73cV3run/EtmMCpm2ghNbx9aN0bPk=;
- b=fWEDOTqDhuVblFuD6VBszpudZsh+EbDgLE/jKvBugm8FoTbpXc0BGU4ml3+lUCYmvQ
- PCXK3rCux+riDWrqQ9jDjhjaeC7pkPUUGPLokbDWM2zbISwnV5zHKj6MAUYR+lEEMaJJ
- WJntBSydYe+5AAt+VjVXguqwQzBwYmV2zzodVA0KG7gIgzlOPu+pZNbEhxNw2bru/2uj
- YPRLD8GtctIk5jBR560eeZZ1W+QAxQrdLsXngJLZvtyf7Pxwy0Ug8ASUC2pJ5kUxN6ul
- hs89wlhbplcI1PzL9mY0Hi2Hrj8xaEz+DTvl352p6VgQWIG5AVH14DBsZyKW3YUHEZyN
- YFjQ==
-X-Gm-Message-State: AAQBX9fIQuudRKO/cLIdbuag8g8dc+2auqmHIPhsZ9g6X5b7nrlCH9Kh
- T8VhRR1Mb3nlIigHFGlRnVKD98+TfXv649LfBZ4=
-X-Google-Smtp-Source: AKy350bDaDYwNgQgWZNbkGlQZb16+cF0mbMpKSLQ05n3LVZ/swwKz008GHhkee8/QpeSTF2SB++dUSas0B6cSD/Om9g=
-X-Received: by 2002:a67:c890:0:b0:425:8e57:7bfd with SMTP id
- v16-20020a67c890000000b004258e577bfdmr5669181vsk.3.1680740682890; Wed, 05 Apr
- 2023 17:24:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230329172903.636383-1-dbarboza@ventanamicro.com>
- <20230329172903.636383-20-dbarboza@ventanamicro.com>
-In-Reply-To: <20230329172903.636383-20-dbarboza@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 6 Apr 2023 10:24:16 +1000
-Message-ID: <CAKmqyKPvLtoHQuG_+QbZRLJTPubM5H1Mzt=Xo9d=+8WHLio7Ng@mail.gmail.com>
-Subject: Re: [PATCH v3 19/20] target/riscv: add RVG and remove cpu->cfg.ext_g
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
- palmer@rivosinc.com
+ d=1e100.net; s=20210112; t=1680740689;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=m8tjpnf+cHao99aT7XBTFSlb0niM4wdXOo9nIIJzY/0=;
+ b=dGCe0OOPPj/YfukBxLoI/tpMnqPj2aLTJR8B7qVykmAxb7CQftHd2G971N24MY8zkz
+ jG3Yi8FBZHVWD1NHU8IVVehCUpHd5yU0q7mqYYYutQWmgkhnwupbGus6x9ljmBaPjGX6
+ kzZMisInNJ1Gm9nIWYET/R95aDYrnJICUIIDrMKpNLR3iDzZ4oM5rmq2H1tklnYMTVE2
+ o33sgrkJM/0rnGwGlU3Gf6gqE+QnvMecu11ticCZi0SuCEE05Pn0aUiInZa+rrX8bCgh
+ LU7kq86q9ImgPPu5dnco0XGfwhACuY2Tvuxw/aXW+xrajRGD23RSmqSwu2MQlVsq1wqG
+ TYBA==
+X-Gm-Message-State: AAQBX9cUa8RmPVpbXbhl9+vksKRExVxc/8IOrzkwoz7JqkfM7aem/rkk
+ qRWnyDMphlCX78pwMIQ1d98vrUh0i5fSj9qY0VTmxxnCylJFvhDZUZi+VgXLfDQmwMCPWUyhgSw
+ T5LRmKW+R++4XpdGRTczjyk/bXa+SByh6pNgGUcpVt7OEyHaaIAkQGQIVw6MK54c=
+X-Google-Smtp-Source: AKy350YKBj5e9YNGTjxEMpMy361AVb1w32F4gLGinXAftp4I7p7E36vOZd+KioZWXKUOr3RyPqsFtcgqXm3F
+X-Received: from komlodi.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:35ee])
+ (user=komlodi job=sendgmr) by 2002:a17:902:a70d:b0:1a1:ffc6:de9b with SMTP id
+ w13-20020a170902a70d00b001a1ffc6de9bmr3151017plq.6.1680740689415; Wed, 05 Apr
+ 2023 17:24:49 -0700 (PDT)
+Date: Thu,  6 Apr 2023 00:24:45 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
+Message-ID: <20230406002447.4046378-1-komlodi@google.com>
+Subject: [PATCH 0/2] hw/arm/npcm7xx_gpio: Add some pin state QOM
+From: Joe Komlodi <komlodi@google.com>
+To: qemu-devel@nongnu.org
+Cc: komlodi@google.com, wuhaotsh@google.com, kfting@nuvoton.com, 
+ qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe32.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
+ envelope-from=3UREuZAcKClQ6A87Az42AA270.yA8C08G-z0H079A929G.AD2@flex--komlodi.bounces.google.com;
+ helo=mail-pg1-x549.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,113 +89,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Mar 30, 2023 at 3:33=E2=80=AFAM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> We're still have one RISCVCPUConfig MISA flag, 'ext_g'. We'll remove it
-> the same way we did with the others: create a "g" RISCVCPUMisaExtConfig
-> property, remove the old "g" property, remove all instances of 'cfg.ext_g=
-'
-> and use riscv_has_ext(env, RVG).
->
-> The caveat is that we don't have RVG, so add it. RVG will be used right
-> off the bat in set_misa() of rv64_thead_c906_cpu_init() because the CPU i=
-s
-> enabling G via the now removed 'ext_g' flag.
->
-> After this patch, there are no more MISA extensions represented by flags
-> in RISCVCPUConfig.
->
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Hi all,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This series adds a couple QOM properties for retrieving and setting pin
+state via qom-get and qom-get.
 
-Alistair
+We ran into a situation in multi-SoC simulation where the BMC would need
+to update its input pin state based on behavior from the other SoC. It
+made the most sense to expose this over QMP, so this adds properties to
+allow people to do so.
 
-> ---
->  target/riscv/cpu.c | 17 ++++++++---------
->  target/riscv/cpu.h |  2 +-
->  2 files changed, 9 insertions(+), 10 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 036d6191ca..6988ff443a 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -396,10 +396,9 @@ static void rv64_thead_c906_cpu_init(Object *obj)
->      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
->      RISCVCPU *cpu =3D RISCV_CPU(obj);
->
-> -    set_misa(env, MXL_RV64, RVC | RVS | RVU);
-> +    set_misa(env, MXL_RV64, RVG | RVC | RVS | RVU);
->      set_priv_version(env, PRIV_VERSION_1_11_0);
->
-> -    cpu->cfg.ext_g =3D true;
->      cpu->cfg.ext_zfh =3D true;
->      cpu->cfg.mmu =3D true;
->      cpu->cfg.ext_xtheadba =3D true;
-> @@ -807,12 +806,11 @@ static void riscv_cpu_validate_set_extensions(RISCV=
-CPU *cpu, Error **errp)
->      CPURISCVState *env =3D &cpu->env;
->
->      /* Do some ISA extension error checking */
-> -    if (cpu->cfg.ext_g && !(riscv_has_ext(env, RVI) &&
-> -                            riscv_has_ext(env, RVM) &&
-> -                            riscv_has_ext(env, RVA) &&
-> -                            riscv_has_ext(env, RVF) &&
-> -                            riscv_has_ext(env, RVD) &&
-> -                            cpu->cfg.ext_icsr && cpu->cfg.ext_ifencei)) =
-{
-> +    if (riscv_has_ext(env, RVG) &&
-> +        !(riscv_has_ext(env, RVI) && riscv_has_ext(env, RVM) &&
-> +          riscv_has_ext(env, RVA) && riscv_has_ext(env, RVF) &&
-> +          riscv_has_ext(env, RVD) &&
-> +          cpu->cfg.ext_icsr && cpu->cfg.ext_ifencei)) {
->          warn_report("Setting G will also set IMAFD_Zicsr_Zifencei");
->          cpu->cfg.ext_icsr =3D true;
->          cpu->cfg.ext_ifencei =3D true;
-> @@ -1402,6 +1400,8 @@ static const RISCVCPUMisaExtConfig misa_ext_cfgs[] =
-=3D {
->       .misa_bit =3D RVJ, .enabled =3D false},
->      {.name =3D "v", .description =3D "Vector operations",
->       .misa_bit =3D RVV, .enabled =3D false},
-> +    {.name =3D "g", .description =3D "General purpose (IMAFD_Zicsr_Zifen=
-cei)",
-> +     .misa_bit =3D RVG, .enabled =3D false},
->  };
->
->  static void riscv_cpu_add_misa_properties(Object *cpu_obj)
-> @@ -1424,7 +1424,6 @@ static void riscv_cpu_add_misa_properties(Object *c=
-pu_obj)
->
->  static Property riscv_cpu_extensions[] =3D {
->      /* Defaults for standard extensions */
-> -    DEFINE_PROP_BOOL("g", RISCVCPU, cfg.ext_g, false),
->      DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
->      DEFINE_PROP_BOOL("sscofpmf", RISCVCPU, cfg.ext_sscofpmf, false),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index c0280ace2a..ce92e8393d 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -81,6 +81,7 @@
->  #define RVU RV('U')
->  #define RVH RV('H')
->  #define RVJ RV('J')
-> +#define RVG RV('G')
->
->
->  /* Privileged specification version */
-> @@ -418,7 +419,6 @@ typedef struct {
->  } RISCVSATPMap;
->
->  struct RISCVCPUConfig {
-> -    bool ext_g;
->      bool ext_zba;
->      bool ext_zbb;
->      bool ext_zbc;
-> --
-> 2.39.2
->
->
+Since the NPCM7xx is typically used to help manage other SoCs, hopefully
+other people will find this useful as well.
+
+Thanks!
+Joe
+
+Joe Komlodi (2):
+  hw/gpio/npcm7xx: Add GPIO DIN object property
+  hw/gpio/npcm7xx: Support qom-get on GPIO pin level
+
+ hw/gpio/npcm7xx_gpio.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+-- 
+2.40.0.348.gf938b09366-goog
+
 
