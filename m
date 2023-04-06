@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7006D8EDA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 07:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D5A6D8EDF
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 07:39:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkIEy-0006av-9K; Thu, 06 Apr 2023 01:32:56 -0400
+	id 1pkIKI-0007zf-5S; Thu, 06 Apr 2023 01:38:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
- id 1pkIEu-0006ak-Og
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 01:32:53 -0400
-Received: from mga17.intel.com ([192.55.52.151])
+ (Exim 4.90_1) (envelope-from <antonio.apostoliu@cestrin.ro>)
+ id 1pkIKF-0007zT-4U
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 01:38:23 -0400
+Received: from mail.cestrin.ro ([89.42.116.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
- id 1pkIEs-0001Nk-FQ
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 01:32:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680759170; x=1712295170;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=cMFk0kD0fD4lzWVclNnHbpr4Qy6lzQjrbBOjirg5Flo=;
- b=kO3HEUd0p+gW/XUkUqqrxaf87wUYRYq4/C1y31tBHtnL3SrWNSHXauMk
- F51wWX0jo480a2EzZxHR/+njtN3xdF9e9Qi3EKAWmMmCzQcU+BuDiy3ES
- zcCUqgMmCzEktYZzucaHghhieg6b0/yMnfNhcKShd90Yc2vrfUkiWBnSv
- ALTtGIgI4JqpQZZ1uVTJItM7U1QmAwI21aULU09C7sbYNJJzGQRaNokfo
- 21GC4HxtnPasoQJ6o67OZFiKPrvFI+BQBA0Gq5KcskFWskW1wlKO9O+HV
- f3uXui9GoHCTO3Qe7WpYR4WuVjRLrUcYzeApiem1bJFop4CwwdDpS/xV8 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="323021863"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="323021863"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 22:32:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10671"; a="719567164"
-X-IronPort-AV: E=Sophos;i="5.98,322,1673942400"; d="scan'208";a="719567164"
-Received: from yangzhon.bj.intel.com (HELO yangzhon) ([10.238.157.60])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2023 22:32:43 -0700
-Date: Thu, 6 Apr 2023 01:32:26 -0400
-From: Yang Zhong <yang.zhong@linux.intel.com>
-To: "Yang, Weijiang" <weijiang.yang@intel.com>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Cc: Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "Zhong, Yang" <yang.zhong@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [RESEND PATCH v2] target/i386: Switch back XFRM value
-Message-ID: <ZC5ZasjwCbnoA04A@yangzhon>
-References: <20221026115745.528314-1-yang.zhong@intel.com>
- <253335ef-5e63-0182-f92b-a576b2459cff@intel.com>
- <CAATJJ0JLFA3b=KYP-OKXzritJGY1GuuRh+E4D6XZ3RLa6zKn_g@mail.gmail.com>
- <3df48e2b-f417-21dc-d386-95399c3e694e@intel.com>
+ (Exim 4.90_1) (envelope-from <antonio.apostoliu@cestrin.ro>)
+ id 1pkIKC-0004Hg-HC
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 01:38:22 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mail.cestrin.ro (Postfix) with ESMTP id 2924E300340
+ for <qemu-devel@nongnu.org>; Thu,  6 Apr 2023 05:50:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cestrin.ro
+Received: from mail.cestrin.ro ([127.0.0.1])
+ by localhost (mail.cestrin.ro [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1Yz2htQiU07m for <qemu-devel@nongnu.org>;
+ Thu,  6 Apr 2023 08:50:27 +0300 (EEST)
+Received: from C04E02P124API (unknown [192.168.104.15])
+ by mail.cestrin.ro (Postfix) with ESMTPSA id 17E793000EA
+ for <qemu-devel@nongnu.org>; Thu,  6 Apr 2023 05:50:27 +0000 (UTC)
+From: "Antonio Apostoliu" <antonio.apostoliu@cestrin.ro>
+To: <qemu-devel@nongnu.org>
+Subject: Please help me with with one information
+Date: Thu, 6 Apr 2023 08:38:14 +0300
+Message-ID: <000001d96849$fb7d3b50$f277b1f0$@cestrin.ro>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3df48e2b-f417-21dc-d386-95399c3e694e@intel.com>
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=yang.zhong@linux.intel.com; helo=mga17.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_000_0001_01D96863.20CAC170"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdloSK9oWz2igEAIQ3y28n7tsAXeEg==
+Content-Language: en-us
+X-Antivirus: Avast (VPS 230405-14, 5/4/2023), Outbound message
+X-Antivirus-Status: Clean
+Received-SPF: none client-ip=89.42.116.26;
+ envelope-from=antonio.apostoliu@cestrin.ro; helo=mail.cestrin.ro
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) BAYES_40=-0.001, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_REMOTE_IMAGE=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,64 +65,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Mar 27, 2023 at 04:03:54PM +0800, Yang, Weijiang wrote:
-> 
-> On 3/27/2023 3:33 PM, Christian Ehrhardt wrote:
-> > On Thu, Oct 27, 2022 at 2:36 AM Yang, Weijiang <weijiang.yang@intel.com> wrote:
-> > > 
-> > > On 10/26/2022 7:57 PM, Zhong, Yang wrote:
-> > > > The previous patch wrongly replaced FEAT_XSAVE_XCR0_{LO|HI} with
-> > > > FEAT_XSAVE_XSS_{LO|HI} in CPUID(EAX=12,ECX=1):{ECX,EDX}, which made
-> > > > SGX enclave only supported SSE and x87 feature(xfrm=0x3).
-> > > > 
-> > > > Fixes: 301e90675c3f ("target/i386: Enable support for XSAVES based features")
-> > > > 
-> > > > Signed-off-by: Yang Zhong <yang.zhong@linux.intel.com>
-> > > > ---
-> > > >    target/i386/cpu.c | 4 ++--
-> > > >    1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > > > index ad623d91e4..19aaed877b 100644
-> > > > --- a/target/i386/cpu.c
-> > > > +++ b/target/i386/cpu.c
-> > > > @@ -5584,8 +5584,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> > > >            } else {
-> > > >                *eax &= env->features[FEAT_SGX_12_1_EAX];
-> > > >                *ebx &= 0; /* ebx reserve */
-> > > > -            *ecx &= env->features[FEAT_XSAVE_XSS_LO];
-> > > > -            *edx &= env->features[FEAT_XSAVE_XSS_HI];
-> > > > +            *ecx &= env->features[FEAT_XSAVE_XCR0_LO];
-> > > > +            *edx &= env->features[FEAT_XSAVE_XCR0_HI];
-> > > Oops, that's my fault to replace with wrong definitions, thanks for the fix!
-> > > 
-> > > Reviewed-by:  Yang Weijiang <weijiang.yang@intel.com>
-> > Hi,
-> > I do not have any background on this but stumbled over this and wondered,
-> > is there any particular reason why this wasn't applied yet?
-> > 
-> > It seemed to fix a former mistake, was acked and then ... silence
-> 
-> Chris, thanks for the catch!
-> 
-> I double checked this patch isn't in the latest 8.0.0-rc1 tree.
-> 
-> 
-> Hi, Paolo,
-> 
-> Could you help merge this fixup patch? Thanks!
+This is a multipart message in MIME format.
+
+------=_NextPart_000_0001_01D96863.20CAC170
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+Hello 
+
+ 
+
+You are so kind to tell me how can I use qmp to send colon character . I
+speak about this character   :
+
+ 
+
+I tried:
+
+{"execute":"send-key","arguments":{"keys":[{"type":"qcode","data":"shift-sem
+icolon"}]}}
+
+{"execute":"send-key","arguments":{"keys":[{"type":"qcode","data":"shift","d
+ata":"semicolon"}]}}
+
+ 
+
+Both don't sent the character in my case
+
+All others character worked
+
+ 
+
+Best regards
+
+ 
+
+ 
 
 
-  Hello all,
 
-  Let me rebase this patch and resend it, thanks!
+-- 
+This email has been checked for viruses by Avast antivirus software.
+www.avast.com
+------=_NextPart_000_0001_01D96863.20CAC170
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-  Yang
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40"><head><meta http-equiv=3DContent-Type content=
+=3D"text/html; charset=3Dus-ascii"><meta name=3DGenerator content=3D"Micros=
+oft Word 15 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+=2EMsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-GB link=3D"#0563C1=
+" vlink=3D"#954F72"><div class=3DWordSection1><p class=3DMsoNormal><span la=
+ng=3DEN-US>Hello <o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN=
+-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal style=3D'text-indent:.=
+5in'><span lang=3DEN-US>You are so kind to tell me how can I use qmp to sen=
+d colon character . I speak about this character&nbsp;&nbsp; :<o:p></o:p></=
+span></p><p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></=
+p><p class=3DMsoNormal><span lang=3DEN-US>I tried:<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US>{&quot;execute&quot;:&quot;send-key&qu=
+ot;,&quot;arguments&quot;:{&quot;keys&quot;:[{&quot;type&quot;:&quot;qcode&=
+quot;,&quot;data&quot;:&quot;shift-semicolon&quot;}]}}<o:p></o:p></span></p=
+><p class=3DMsoNormal><span lang=3DEN-US>{&quot;execute&quot;:&quot;send-ke=
+y&quot;,&quot;arguments&quot;:{&quot;keys&quot;:[{&quot;type&quot;:&quot;qc=
+ode&quot;,&quot;data&quot;:&quot;shift&quot;,&quot;data&quot;:&quot;semicol=
+on&quot;}]}}<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US><=
+o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal style=3D'text-indent:.5in'>=
+<span lang=3DEN-US>Both don&#8217;t sent the character in my case<o:p></o:p=
+></span></p><p class=3DMsoNormal style=3D'text-indent:.5in'><span lang=3DEN=
+-US>All others character worked<o:p></o:p></span></p><p class=3DMsoNormal><=
+span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span la=
+ng=3DEN-US>Best regards<o:p></o:p></span></p><p class=3DMsoNormal><span lan=
+g=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3DEN-=
+US><o:p>&nbsp;</o:p></span></p></div><div id=3D"DAB4FAD8-2DD7-40BB-A1B8-4E2=
+AA1F9FDF2"><br /><table style=3D"border-top: 1px solid #D3D4DE;"><tr><td st=
+yle=3D"width: 55px; padding-top: 13px;"><a href=3D"https://www.avast.com/si=
+g-email?utm_medium=3Demail&utm_source=3Dlink&utm_campaign=3Dsig-email&utm_c=
+ontent=3Demailclient" target=3D"_blank"><img src=3D"https://s-install.avcdn=
+=2Enet/ipm/preview/icons/icon-envelope-tick-round-orange-animated-no-repeat=
+-v1.gif" alt=3D"" width=3D"46" height=3D"29" style=3D"width: 46px; height: =
+29px;"/></a></td><td style=3D"width: 470px; padding-top: 12px; color: #4142=
+4e; font-size: 13px; font-family: Arial, Helvetica, sans-serif; line-height=
+: 18px;">Virus-free.<a href=3D"https://www.avast.com/sig-email?utm_medium=
+=3Demail&utm_source=3Dlink&utm_campaign=3Dsig-email&utm_content=3Demailclie=
+nt" target=3D"_blank" style=3D"color: #4453ea;">www.avast.com</a></td></tr>=
+</table><a href=3D"#DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2" width=3D"1" heigh=
+t=3D"1"> </a></div></body></html>
+------=_NextPart_000_0001_01D96863.20CAC170--
 
-
-> 
-> > 
-> > > >                /* FP and SSE are always allowed regardless of XSAVE/XCR0. */
-> > > >                *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
-> > 
 
