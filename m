@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843CE6D93B3
+	by mail.lfdr.de (Postfix) with ESMTPS id 939156D93B4
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 12:09:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkMXM-0005w6-Gg; Thu, 06 Apr 2023 06:08:12 -0400
+	id 1pkMXr-0006Qz-Vc; Thu, 06 Apr 2023 06:08:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pkMXK-0005vh-68
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:08:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pkMXp-0006Jn-7L
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:08:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pkMXI-0006Tc-Br
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:08:09 -0400
+ id 1pkMXn-000730-Py
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 06:08:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680775687;
+ s=mimecast20190719; t=1680775717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=cy9d6Q4bho3M7ZjyIEL2//50hRS6YbKgrLDG0/3R0SM=;
- b=ZuSfb5vT7Vp7rfW4JmJ0PVO/gHnRKhYz8Z7Ui9Rg/qNkuh5NmlsDMkgNvcvDnocKl9gs6D
- 2wP3DWcSalG6tZvryP8atmkuxtJOwiP9Cndy3glsmisFHPw8e9LmmRNwlgCkgcWlWGXPkG
- 5RMAJXVUuwNoxc0SGxQxLahCpJESb+M=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=m/RoZJi40Lp8gYTMdfqkmMDVB/8YmAs3esq5d2bXeeY=;
+ b=YvXIiIqMWt4pBjlKOwGmx1vWfr+S7kOfzwCKtrITvjBWo9rhRzuGyGwrzoKNqThMyHiX4Z
+ fIRwSI4GJIDsX84WeodFDJlUxg4cJqEHBG+MDeiNf3oZlMlCriqnChhuYml6UgcNO1lnEB
+ +wuzqRECt9mkXepCcQiljSvWEfn1jvA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-139-fBNnaTIZMqix1uM6C5hIsg-1; Thu, 06 Apr 2023 06:08:04 -0400
-X-MC-Unique: fBNnaTIZMqix1uM6C5hIsg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-501db0e2307so633969a12.2
- for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 03:08:04 -0700 (PDT)
+ us-mta-202-UxvXPTS1MwGPwnIeaBF7hQ-1; Thu, 06 Apr 2023 06:08:34 -0400
+X-MC-Unique: UxvXPTS1MwGPwnIeaBF7hQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ 18-20020a17090600d200b0093c44a07ad1so10436eji.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Apr 2023 03:08:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680775683; x=1683367683;
+ d=1e100.net; s=20210112; t=1680775712; x=1683367712;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=cy9d6Q4bho3M7ZjyIEL2//50hRS6YbKgrLDG0/3R0SM=;
- b=HQFZV+XAOo0EIwqGJ4QEOGB/LdBVMw8Mue0ZpNjR7D62gh25VrwaEz1vV2jiom8k1h
- 3MzBPtHk83nRhofTObrQCShS6pokO9ClNd7ZY9fRnR9aByOiD16g6/6ckwilzlzEQkmc
- CrMTQndca4WE27/GG+JXDlPSf+2evzfEuBf1O5AYT3Dqo/SQFXdD0PlUvFPwAdjZKWYS
- e0uzEdSrsfL9VrjW9/bbBE246uwtswqj77yh5efJpn4v8ZJxeMDY2Ow8xWa/DBkgvOxg
- aTW7qG85XBYWOOi58GjQ6A9kfj+bG7KgVQVztVpmxwFFdqRsu6VM/P6t0dyuoivXJOyL
- CDhw==
-X-Gm-Message-State: AAQBX9eMU5hqPAYdQbVClmSQctCfCqhsSkJDgvQzl5tk6j0bl5/g/bRB
- XjaX9Cc2ntbF/iHBcncgz65HSYx6ScJrrlFfj0daVkgPc4y79sUY5U880OuJz/FCCusFLVb3mcR
- UtKxrOetDPLw3hDyi1xPSrTbHxAbRZ1nBkq8ZvK/5d3rLPVJ6OEa7RayLZDGiR6gohnFMPZmfBh
- k=
-X-Received: by 2002:aa7:ccce:0:b0:502:3376:7872 with SMTP id
- y14-20020aa7ccce000000b0050233767872mr5206536edt.35.1680775682879; 
- Thu, 06 Apr 2023 03:08:02 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Z/JM1KVyBVNjAEzwH1hjjOeJsZifBjrU8Uu3Uaenwy2Qewmkxi3LfAm/Bf5Vl7s3B2tQEcOA==
-X-Received: by 2002:aa7:ccce:0:b0:502:3376:7872 with SMTP id
- y14-20020aa7ccce000000b0050233767872mr5206519edt.35.1680775682551; 
- Thu, 06 Apr 2023 03:08:02 -0700 (PDT)
+ bh=m/RoZJi40Lp8gYTMdfqkmMDVB/8YmAs3esq5d2bXeeY=;
+ b=XhZOr1Tl5GkTlPT7XMG61f06qDti6tyiYH21xH+3BkhjYxus92h1WRckGQRZ/bz22z
+ 9PAVk6UUNY/+KRByNicstgWDajkisUOgNvxKNPajaLJ8Rb3Ca10FjXFVupz5i5OeOV4E
+ AHDnJJiKbXpfnyzlcCPPOlL6qM8mpeRbLvsftDzImpcB+ehlf8iAJp0tqzYOI+2wQurV
+ NPiwbbf39x1gfcqd8S+8HebIvk2AyDbUES4nlg3+ytRsj44MA88mMoGDPe9ikVA1aW4n
+ hgen61cyqK0KvOAfmsKT/yP6fY6LDO8jEMpHbKVDUzE9RJI5x8JnWhebQLMJNxC9oViz
+ bjiw==
+X-Gm-Message-State: AAQBX9dLMo74Pcf1lePGCFELS8aKkd8uI3liNOxvsuKiiAQ9mFF3nta/
+ 8Xo5twPeeILRapzLKznvBojdjqClzXwH9dOXzvSFG8cizA8yixvmocDKzOoTpqOickkG75/oWjk
+ u1V8Vc5/h0si7/iaFEf1qTLjyJ08mR0bCPufLu9/6TbzLxnXT8scH1E271m2prjZtqXSmd7QRkH
+ w=
+X-Received: by 2002:a17:906:3b86:b0:8de:e66a:ece9 with SMTP id
+ u6-20020a1709063b8600b008dee66aece9mr6217095ejf.24.1680775712558; 
+ Thu, 06 Apr 2023 03:08:32 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YGiCAlKEUHT6RbpXbd97YUL1ARiGVBUHQkMEQxUj2ybw8Fp04isSasxYA7Mmd9Gyi9znry6g==
+X-Received: by 2002:a17:906:3b86:b0:8de:e66a:ece9 with SMTP id
+ u6-20020a1709063b8600b008dee66aece9mr6217075ejf.24.1680775712199; 
+ Thu, 06 Apr 2023 03:08:32 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- ek14-20020a056402370e00b005028e87068fsm530048edb.73.2023.04.06.03.08.01
+ xa16-20020a170907b9d000b00948aae5e3d3sm594716ejc.184.2023.04.06.03.08.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Apr 2023 03:08:02 -0700 (PDT)
+ Thu, 06 Apr 2023 03:08:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com
-Subject: [PATCH for-8.1] block-backend: remove qatomic_mb_read()
-Date: Thu,  6 Apr 2023 12:07:59 +0200
-Message-Id: <20230406100759.240870-2-pbonzini@redhat.com>
+Subject: [PATCH for-8.1] block/nfs: do not use qatomic_mb_set
+Date: Thu,  6 Apr 2023 12:08:30 +0200
+Message-Id: <20230406100830.240914-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,36 +97,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There is already a barrier in AIO_WAIT_WHILE_INTERNAL(), thus the
-qatomic_mb_read() is not adding anything.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/block-backend.c | 4 ++--
+ block/nfs.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 2ee39229e4cf..b6297aae6ad0 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1821,7 +1821,7 @@ void blk_drain(BlockBackend *blk)
- 
-     /* We may have -ENOMEDIUM completions in flight */
-     AIO_WAIT_WHILE(blk_get_aio_context(blk),
--                   qatomic_mb_read(&blk->in_flight) > 0);
-+                   qatomic_read(&blk->in_flight) > 0);
- 
-     if (bs) {
-         bdrv_drained_end(bs);
-@@ -1843,7 +1843,7 @@ void blk_drain_all(void)
-         aio_context_acquire(ctx);
- 
-         /* We may have -ENOMEDIUM completions in flight */
--        AIO_WAIT_WHILE(ctx, qatomic_mb_read(&blk->in_flight) > 0);
-+        AIO_WAIT_WHILE(ctx, qatomic_read(&blk->in_flight) > 0);
- 
-         aio_context_release(ctx);
+diff --git a/block/nfs.c b/block/nfs.c
+index 351dc6ec8d14..0ee63f44deb0 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -727,8 +727,8 @@ nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs, void *data,
+         error_report("NFS Error: %s", nfs_get_error(nfs));
      }
+ 
+-    /* Set task->complete before reading bs->wakeup.  */
+-    qatomic_mb_set(&task->complete, 1);
++    /* Memory barrier already included in bdrv_wakeup(), via aio_wait_kick().  */
++    qatomic_set(&task->complete, 1);
+     bdrv_wakeup(task->bs);
+ }
+ 
 -- 
 2.39.2
 
