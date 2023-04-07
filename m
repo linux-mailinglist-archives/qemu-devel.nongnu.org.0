@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA836DB6C3
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 01:04:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75496DB6D6
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 01:07:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkv7c-0005yV-LW; Fri, 07 Apr 2023 19:03:56 -0400
+	id 1pkvAv-0006rz-PQ; Fri, 07 Apr 2023 19:07:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pkv7b-0005yL-0y
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 19:03:55 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pkvAt-0006ro-Ob
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 19:07:19 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pkv7Z-0007bQ-G0
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 19:03:54 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- 98e67ed59e1d1-23d27d721d1so173621a91.3
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 16:03:52 -0700 (PDT)
+ id 1pkvAr-0000AP-V7
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 19:07:19 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id g3so713511pja.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 16:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680908632;
+ d=linaro.org; s=google; t=1680908836;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hZqP/mMtrcpUQSJ0MIEuq6L7i9BJbItpoxQhlUdV2j0=;
- b=OScsKdJq+aKS4EMfnsQDF1A4ZpE9lHLC3dBugCWoYJ+T+zxfKuy7Bcfowv1Z4sMNGt
- 5Tvqtj2tiQHF/cjx4hdeKJ6bZl9Y/HxUihnLOA+u6o+0o8KEhFMiBHXApK9qw2CCJXQY
- B/O1pBojgVNojn4tHZwtZ9Gj8964Bhc4vqVPOXtmkWUbZHDB/khpku9T9hNbVRaYpnKf
- 6WkmzIgkqbHy5Lu85TuUalah4TTDdXAr+WRzB+W03rr+p/gGfvJi+W66/flHhGLrSK6a
- w5iWxWFxH44qZpC/JwuKPFVtQLmfZeKHX2acjMCobg3Mcp8TCtZQwPxUU3D6tMzl+TdP
- a4Tg==
+ bh=JAx0qx3C6KbkeA3/DQYQ7BheR/mOc8zbOwn50MI/ySU=;
+ b=mbYbKfx8mUmFoekiQdkNphSpXLmmbqH8glL3AwV4W3HVWtDJAciucY0lPbRfBpEDFq
+ gLlOvNgZ1aLfgvbPXG+Qx/8/igjS3HTbQe0TOOhogHHLu6CsdelnF0yAQM3P4NvkeUlZ
+ /xxR7Zdqi7rV2zCgA4fHc1MzHVBEyEVNb2vgXSmk+/mwYBQWFUuxDl3NGR/k474i1eEt
+ GapH/ZtfQMmDXQlxBXlVSl3mvt6+PQYPigGuP+NMhSb2Yk4I8i4WH+/5bJi5N0/JyBg7
+ qvyMaJ5KjlSKrhsg0GppELpMFE4U4M6ddit4DbdCD0iuZxi2OYxIn/vTltNF+s2Tq4mQ
+ uM6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680908632;
+ d=1e100.net; s=20210112; t=1680908836;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hZqP/mMtrcpUQSJ0MIEuq6L7i9BJbItpoxQhlUdV2j0=;
- b=zn1I6vUY4IQMhVKshL6v8l9c8XX5IsznKAYN9PSBhOHrEemn6rqgK+83EESII7MB5B
- BQcvVdmYPdyTnESdhOlEnDoJKtAOVnd8sl03dT2GJ2x0xfUl1PREiNUdCE1eLUtE4mUO
- oJI3E6dN4NN9g4+prGybjsM7RqavzI+hTEuDSfJ6dCvuQ6saUdISUShuxSxku+hHzI3q
- oQM8Nt0ZUoedl78rBRMkSfo5pvp5vIgKAk1zh2c6MwKOXinKJEZpQvjr+b7nPCAFhopO
- kKgLy+Qv4mumYv+FOkez663ARYCdNaoyQVCPWM31RzvjeGtP7s3djwzG+1tItBA59E29
- ogTw==
-X-Gm-Message-State: AAQBX9cQ5UIGPlaNdx/WVK3hm+7OQDPsvt3xbdyvUnbz8921YHSBxYxF
- HkORTVCuKhMVvG5PzyNxP3XjZA==
-X-Google-Smtp-Source: AKy350an52aELf6hlPTEwYKQg2oGfdoio44PzUivo7lHIUSuO2HA+GtnFtvlc2ICRNAVAvj8q2M6tQ==
-X-Received: by 2002:a62:5e41:0:b0:626:2ae6:31f6 with SMTP id
- s62-20020a625e41000000b006262ae631f6mr3993369pfb.7.1680908631953; 
- Fri, 07 Apr 2023 16:03:51 -0700 (PDT)
+ bh=JAx0qx3C6KbkeA3/DQYQ7BheR/mOc8zbOwn50MI/ySU=;
+ b=Obh0XX6mcoyEfyvLlFcCZY0oorqhV8FC4pYYkefhthxQ0+mn6Zzl9935zqeCbwRxTA
+ NoKgL8ei+6XqSS5c1sGmZIMMfMINVfsGH+KF2QytXECXFd5Db7tQU9+0GROh36UfihkG
+ DMgKCtOENl77SsRBYIhRX6RFpkejk+x/rTqrxg2E1tqYhjrhz+cQkVDpr5fyrC08A3g3
+ Cz6EsYd42vd8ccf5NAQZuywSJrsm0G5AfllVsVBGmz8FymjrZOZJ/rS/IXNe2Gndyd4l
+ jl+IQESKm+bYw0ZiUrKDmyQrnTF8/EWt+GPSBj11h3noM+h+thIDXkAXvYrvWgQZdgvu
+ 4xxA==
+X-Gm-Message-State: AAQBX9eDhDKjp4humuVB0somwsZDE3xcY6iiHPDbgoXloDsllZ0sjM2f
+ FfVrp3MOyVJngdOdTrf1Jg7bhA==
+X-Google-Smtp-Source: AKy350ZaLWvNZM1+jRdEw1wsK7EItizE9LE7fAUvdw6zSKnESjRPfP7KFdel4FWtCgR78LROUj0RRA==
+X-Received: by 2002:a05:6a20:ca4e:b0:d7:34a1:85b9 with SMTP id
+ hg14-20020a056a20ca4e00b000d734a185b9mr108846pzb.7.1680908836058; 
+ Fri, 07 Apr 2023 16:07:16 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8?
  ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
  by smtp.gmail.com with ESMTPSA id
- b13-20020aa7870d000000b0062e26487e7esm3525658pfo.155.2023.04.07.16.03.51
+ w8-20020a63c108000000b005141e2c733dsm3117978pgf.11.2023.04.07.16.07.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Apr 2023 16:03:51 -0700 (PDT)
-Message-ID: <f28d2337-37c0-5a93-438f-7ce0ea7fc565@linaro.org>
-Date: Fri, 7 Apr 2023 16:03:49 -0700
+ Fri, 07 Apr 2023 16:07:15 -0700 (PDT)
+Message-ID: <7f1385f0-b0bc-090a-4437-434cb72a7cc6@linaro.org>
+Date: Fri, 7 Apr 2023 16:07:13 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 05/14] accel: Rename 'hax_vcpu' as 'accel' in CPUState
+Subject: Re: [PATCH 07/14] accel: Rename struct hax_vcpu_state -> struct
+ AccelvCPUState
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -73,13 +73,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  Yanan Wang <wangyanan55@huawei.com>, Reinoud Zandijk <reinoud@netbsd.org>,
  Sunil Muthuswamy <sunilmut@microsoft.com>
 References: <20230405101811.76663-1-philmd@linaro.org>
- <20230405101811.76663-6-philmd@linaro.org>
+ <20230405101811.76663-8-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230405101811.76663-6-philmd@linaro.org>
+In-Reply-To: <20230405101811.76663-8-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -103,12 +103,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/5/23 03:18, Philippe Mathieu-Daudé wrote:
-> All accelerators will share a single opaque context
-> in CPUState. Start by renaming 'hax_vcpu' as 'accelCPUState'.
+> We want all accelerators to share the same opaque pointer in
+> CPUState. Start with the HAX context, renaming its forward
+> declarated structure 'hax_vcpu_state' as 'AccelvCPUState'.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> ---
+>   include/hw/core/cpu.h       | 7 +++----
+>   target/i386/hax/hax-i386.h  | 3 ++-
+>   target/i386/nvmm/nvmm-all.c | 2 +-
+>   target/i386/whpx/whpx-all.c | 2 +-
+>   4 files changed, 7 insertions(+), 7 deletions(-)
 
-Pasto in 'accel' here.
+Can this be squashed with previous?  It seems odd to change the name twice in a row.
+Is the "v" in AccelvCPUState helpful?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> +    struct AccelvCPUState *accel;
+>      /* shared by kvm, hax and hvf */
+>      bool vcpu_dirty;
+
+Move below the comment?  Or is that later?
 
 
 r~
