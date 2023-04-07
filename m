@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B956DAFB9
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 17:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BE76DAFBD
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 17:34:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pko5S-0007b3-AZ; Fri, 07 Apr 2023 11:33:14 -0400
+	id 1pko5V-0007dF-I3; Fri, 07 Apr 2023 11:33:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pko5R-0007at-4F
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:33:13 -0400
+ id 1pko5T-0007bp-E8
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:33:15 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pko5P-0003TX-2V
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:33:12 -0400
+ id 1pko5R-0003aM-PB
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:33:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680881590;
+ s=mimecast20190719; t=1680881593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0aEPzaPevddFSsPSDOUvK1Jtpd81nOT9/nMcTZup4zQ=;
- b=jEnCP0UX4gWxYkTOdRlyQzDY6uP3wH3WdP5i6P7SkEVoAo1UDXjVmZU2qOr+IDrm8W47wQ
- GFSv+6WZxCsNH2vZWaKUor8iGYRWJIbFjTACXvfoHmm27MNQ+3TSmkZhfOtCppZGKqJ2nH
- 3pfkYRP1iv9zCwufsb45iDPAv7Ijjxw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HpTNIJp2jzLQWaYj8M/uAT/YjQMVtu79+bYHv9/gMhM=;
+ b=h2OiZ1MHmvSaXlpzE5zvY/MvvIeph9VfiOuUzDVa2fiqiueGXRyF9FNFJ8eY8aT7ZNXD/U
+ usKBjfNLCaxazgadT8a0Q+92vodCtF4R3MXTKDUz5y0UBW81OBGXUgDFyKxH/U3tDyNaNJ
+ tnbQPi2hX9k7GqEI7IM5NNreLFnhidw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-27-OtVdL9zPMga0p06Y48HQAA-1; Fri, 07 Apr 2023 11:33:09 -0400
-X-MC-Unique: OtVdL9zPMga0p06Y48HQAA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o1-20020a05600c4fc100b003edecc610abso890164wmq.7
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 08:33:09 -0700 (PDT)
+ us-mta-277-3jJX1g0WPNSKxyETachBFA-1; Fri, 07 Apr 2023 11:33:11 -0400
+X-MC-Unique: 3jJX1g0WPNSKxyETachBFA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ gw11-20020a05600c850b00b003ee8db23ef9so758889wmb.8
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 08:33:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680881588; x=1683473588;
+ d=1e100.net; s=20210112; t=1680881589; x=1683473589;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0aEPzaPevddFSsPSDOUvK1Jtpd81nOT9/nMcTZup4zQ=;
- b=RePDVkMEqN69VOd+kwOCjZFzGL+2mwThRf/oxh4MG5joUmXwfEbPzj5roQ0qSkm1G2
- vQe1/7nW81HtMjc9mwgdp/Jkx0rIQv5f4Kpd6MMINoaiPQ1D0YvknBHEn7byRrDNqxXj
- 2Hetno5URvA6AcvhzighUTbWLrWo8178KXp+kP06P7XyRTVzrCfTp0YRQ+bOlijYVu2q
- rcGXYOPyzw34LKWJ9BrzCyzJv+xQPaBxlkfRp+p8Fj+kZW7ofhzBdzegyLkz/ciwVE3X
- RZRQSra1ni7gIGA3PomsTnEzwCht3HDXYwrjYUiCd60S4Yr8YFEKfieb5wgnqWjlThX1
- 4LDg==
-X-Gm-Message-State: AAQBX9fwAOEAcQw1e8khCe9WHeuQavRbfjg0FWF0NsuUynW3+/v2+Dsc
- xc9U8PUC3HxkTNEMz6OAA9jv/ekAq0V8PaF8wXOm+W809edlOQY1Daly19X46kWA2+9wMM9+hHZ
- 1ydUvpKH5kiehUqxGjy2bVDPKM0YrhMv9MDgMCGNqiFP/GoArnSYsE8vidO25FhJuIMliol7yll
- k=
-X-Received: by 2002:adf:f1c9:0:b0:2cf:e3d8:5dff with SMTP id
- z9-20020adff1c9000000b002cfe3d85dffmr1177790wro.9.1680881587794; 
- Fri, 07 Apr 2023 08:33:07 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aM7mhPPrcXFxWuGz7yQXAQ3k0b4bVdqleRTYu9An/AsXxxNtRMaSnEpIQFVW+LmWnrR00Gbw==
-X-Received: by 2002:adf:f1c9:0:b0:2cf:e3d8:5dff with SMTP id
- z9-20020adff1c9000000b002cfe3d85dffmr1177778wro.9.1680881587384; 
- Fri, 07 Apr 2023 08:33:07 -0700 (PDT)
+ bh=HpTNIJp2jzLQWaYj8M/uAT/YjQMVtu79+bYHv9/gMhM=;
+ b=pzRjAzmPSIwjSSGWLjvHb0n8pnBBXfuqiiphCjtjvyO+YpPCF9ZZlhuhqLKzKKeZ/Z
+ 7uWG5Zep++vurOQiQmRgVowdiWuqqy4GtV6h8FmDKlz8SDebbubCfg8Rvh4EWjlQW3a2
+ 89Ki85cFQrAHL/53PsYdi3fFUjrScr8zguFCn0QDEdeko+d/oqDhBX0Ympp69MHME0+p
+ qJaUb9MBGp/RMyrjaCamaz2sxCpBjIe6hpQ+Mg9ThzOMWleukEPft+GYyjxbvq4qFKph
+ WauYgcMH1exwcYwnBMHGqOMO6p+yDpMeWDgSVNiDCmbPJ4OBhVFhEY9qHS7sJM+9eTOa
+ weMw==
+X-Gm-Message-State: AAQBX9eu4Yq2bVGb4C/D4hXbBmMfPPgFf83xCPsAj5970fivlf91n/u4
+ liSC1F98YpmTL+wpEeDQOz2k4FHk7C5iZWr9sDH3MwQ/jBm8Cd71vWwa0tEcVT06dJBq7+kfOup
+ ZQmG3DAVZrBpuNZXS5RkLm+o1MSp7xZsMuRU474Xs2VqE09KFi6Np0vZJaffwZNiJC2okVsu6u2
+ 8=
+X-Received: by 2002:a05:6000:12cb:b0:2e6:348:5fef with SMTP id
+ l11-20020a05600012cb00b002e603485fefmr1974179wrx.55.1680881589492; 
+ Fri, 07 Apr 2023 08:33:09 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aSWKUhipA5WWZc4xUget97iWnYnsU5s8XukW90/I7DzOMDzvgfQ3A3KmxHKIu2kUjmhMbViA==
+X-Received: by 2002:a05:6000:12cb:b0:2e6:348:5fef with SMTP id
+ l11-20020a05600012cb00b002e603485fefmr1974166wrx.55.1680881589220; 
+ Fri, 07 Apr 2023 08:33:09 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- iz1-20020a05600c554100b003ed51cdb94csm8437106wmb.26.2023.04.07.08.33.05
+ n11-20020a5d420b000000b002ceacff44c7sm4751913wrq.83.2023.04.07.08.33.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Apr 2023 08:33:06 -0700 (PDT)
+ Fri, 07 Apr 2023 08:33:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, kwolf@redhat.com, qemu-block@nongnu.org,
  hreitz@redhat.com
-Subject: [PATCH 1/8] block: move has_variable_length to BlockLimits
-Date: Fri,  7 Apr 2023 17:32:56 +0200
-Message-Id: <20230407153303.391121-2-pbonzini@redhat.com>
+Subject: [PATCH 2/8] block: remove has_variable_length from filters
+Date: Fri,  7 Apr 2023 17:32:57 +0200
+Message-Id: <20230407153303.391121-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230407153303.391121-1-pbonzini@redhat.com>
 References: <20230407153303.391121-1-pbonzini@redhat.com>
@@ -101,83 +101,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At the protocol level, has_variable_length only needs to be true in the
-very special case of host CD-ROM drives, so that they do not need an
-explicit monitor command to read the new size when a disc is loaded
-in the tray.
-
-However, at the format level has_variable_length has to be true for all
-raw blockdevs and for all filters, even though in practice the length
-depends on the underlying file and thus will not change except in the
-case of host CD-ROM drives.
-
-As a first step towards computing an accurate value of has_variable_length,
-add the value into the BlockLimits structure and initialize the field
-from the BlockDriver.
+Filters automatically get has_variable_length from their underlying
+BlockDriverState.  There is no need to mark them as variable-length
+in the BlockDriver.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block.c                          | 2 +-
- block/io.c                       | 6 ++++++
- include/block/block_int-common.h | 8 ++++++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+ block/copy-on-read.c    | 1 -
+ block/filter-compress.c | 1 -
+ block/preallocate.c     | 1 -
+ block/replication.c     | 1 -
+ 4 files changed, 4 deletions(-)
 
-diff --git a/block.c b/block.c
-index 89a79c321fab..b1b7c7efe036 100644
---- a/block.c
-+++ b/block.c
-@@ -5849,7 +5849,7 @@ int64_t coroutine_fn bdrv_co_nb_sectors(BlockDriverState *bs)
-     if (!drv)
-         return -ENOMEDIUM;
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index cc0f848b0f10..b4d6b7efc30f 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -259,7 +259,6 @@ static BlockDriver bdrv_copy_on_read = {
+     .bdrv_co_eject                      = cor_co_eject,
+     .bdrv_co_lock_medium                = cor_co_lock_medium,
  
--    if (drv->has_variable_length) {
-+    if (bs->bl.has_variable_length) {
-         int ret = bdrv_co_refresh_total_sectors(bs, bs->total_sectors);
-         if (ret < 0) {
-             return ret;
-diff --git a/block/io.c b/block/io.c
-index db438c765757..c49917c74677 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -182,6 +182,8 @@ void bdrv_refresh_limits(BlockDriverState *bs, Transaction *tran, Error **errp)
-                                 drv->bdrv_aio_preadv ||
-                                 drv->bdrv_co_preadv_part) ? 1 : 512;
+-    .has_variable_length                = true,
+     .is_filter                          = true,
+ };
  
-+    bs->bl.has_variable_length = drv->has_variable_length;
-+
-     /* Take some limits from the children as a default */
-     have_limits = false;
-     QLIST_FOREACH(c, &bs->children, next) {
-@@ -190,6 +192,10 @@ void bdrv_refresh_limits(BlockDriverState *bs, Transaction *tran, Error **errp)
-             bdrv_merge_limits(&bs->bl, &c->bs->bl);
-             have_limits = true;
-         }
-+
-+        if (c->role & BDRV_CHILD_FILTERED) {
-+            bs->bl.has_variable_length |= c->bs->bl.has_variable_length;
-+        }
-     }
+diff --git a/block/filter-compress.c b/block/filter-compress.c
+index ac285f4b6657..320d9576fa1c 100644
+--- a/block/filter-compress.c
++++ b/block/filter-compress.c
+@@ -146,7 +146,6 @@ static BlockDriver bdrv_compress = {
+     .bdrv_co_eject                      = compress_co_eject,
+     .bdrv_co_lock_medium                = compress_co_lock_medium,
  
-     if (!have_limits) {
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index ce51c1f7f999..95c934589571 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -855,6 +855,14 @@ typedef struct BlockLimits {
+-    .has_variable_length                = true,
+     .is_filter                          = true,
+ };
  
-     /* maximum number of iovec elements */
-     int max_iov;
-+
-+    /*
-+     * true if the length of the underlying file can change, and QEMU
-+     * is expected to adjust automatically.  Mostly for CD-ROM drives,
-+     * whose length is zero when the tray is empty (they don't need
-+     * an explicit monitor command to load the disk inside the guest).
-+     */
-+    bool has_variable_length;
- } BlockLimits;
+diff --git a/block/preallocate.c b/block/preallocate.c
+index 71c360180945..4d821250366e 100644
+--- a/block/preallocate.c
++++ b/block/preallocate.c
+@@ -558,7 +558,6 @@ BlockDriver bdrv_preallocate_filter = {
+     .bdrv_set_perm = preallocate_set_perm,
+     .bdrv_child_perm = preallocate_child_perm,
  
- typedef struct BdrvOpBlocker BdrvOpBlocker;
+-    .has_variable_length = true,
+     .is_filter = true,
+ };
+ 
+diff --git a/block/replication.c b/block/replication.c
+index de01f9618467..ea4bf1aa8012 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -762,7 +762,6 @@ static BlockDriver bdrv_replication = {
+ 
+     .is_filter                  = true,
+ 
+-    .has_variable_length        = true,
+     .strong_runtime_opts        = replication_strong_runtime_opts,
+ };
+ 
 -- 
 2.39.2
 
