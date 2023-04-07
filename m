@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB026DAB8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 12:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FCA36DABA0
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 12:49:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkjSL-0003dN-35; Fri, 07 Apr 2023 06:36:33 -0400
+	id 1pkje5-0007rr-25; Fri, 07 Apr 2023 06:48:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pkjSJ-0003dB-5B
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 06:36:31 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pkjSG-0001nU-AL
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 06:36:30 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8BCA1222B9;
- Fri,  7 Apr 2023 10:36:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680863785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5MC2NE+5NL1Cd2lOaC3Ld0qX3CcG4KYHCsaGSvHlQ84=;
- b=uQGItqM5jxSVbByAHkEb6fizRvdnSv3HyAwvlspLOjLMm6ZqpP+ThgaJqt0jSq8BCnyr5z
- sifzexUh0Lcqmc9IwmVWp2JP8svs13qYR/UGmYFf/pBedgJXoIFBNxjC5AYWuKsFPZqtSc
- HqXgiWlL3zIrzoa/p599yx44yymvHRU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680863785;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5MC2NE+5NL1Cd2lOaC3Ld0qX3CcG4KYHCsaGSvHlQ84=;
- b=1NYT/FFXk93cawGmiZGd72qtdQlbiwV778LS2CskBUYDuz65yNjSe/7iOK+OHmoEo+sMgo
- CIsfnGz5T5MUPrAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 43EBB13911;
- Fri,  7 Apr 2023 10:36:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id NYHeDinyL2TGMAAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 07 Apr 2023 10:36:25 +0000
-Message-ID: <2cc6ddd3-9cd3-242c-cc06-29a58dd796ad@suse.de>
-Date: Fri, 7 Apr 2023 12:36:24 +0200
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkjdy-0007rN-N3; Fri, 07 Apr 2023 06:48:34 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkjdv-00079P-9y; Fri, 07 Apr 2023 06:48:34 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-05 (Coremail) with SMTP id zQCowAAHDV309C9kQ2ceDw--.21533S2;
+ Fri, 07 Apr 2023 18:48:21 +0800 (CST)
+Message-ID: <f8ecc209-dd4f-0fc4-7e21-b22335606b43@iscas.ac.cn>
+Date: Fri, 7 Apr 2023 18:48:20 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC PATCH v1 00/26] migration: File based migration with multifd
- and fixed-ram
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v12 02/10] target/riscv: add support for Zca extension
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, Peter Xu <peterx@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, jfehlig@suse.com, dfaggioli@suse.com,
- dgilbert@redhat.com, Juan Quintela <quintela@redhat.com>
-References: <ZCcCV8PIsuvab1lO@x1n> <ZCcF6I0qb+1xlPhJ@redhat.com>
- <ZCcKBDM9sLomGOQE@x1n> <875yagpywy.fsf@suse.de> <ZCdWJ59rqY6oScvg@x1n>
- <d2b40262-3791-8820-5104-e4eb313cd796@suse.de> <ZCsogia3r7ePKBR9@x1n>
- <e4a0c911-aa51-e700-640d-2876881bd077@suse.de> <ZCw56BMiiZlX6nTH@x1n>
- <ef16fb3d-e7ff-198a-6cb6-d0bdae5dfb3c@suse.de> <ZCxIwtW0rrbHEEJu@x1n>
- <87fs9duff9.fsf@suse.de>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <87fs9duff9.fsf@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -65
-X-Spam_score: -6.6
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ liweiwei <liweiwei@iscas.ac.cn>, richard.henderson@linaro.org,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
+ <20230307081403.61950-3-liweiwei@iscas.ac.cn>
+ <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
+ <ac342677-a7f5-52d6-0410-cd1c84b2197e@iscas.ac.cn>
+ <b3d62dc1-13e9-c6df-34e5-d50ed167f474@ventanamicro.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <b3d62dc1-13e9-c6df-34e5-d50ed167f474@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAHDV309C9kQ2ceDw--.21533S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Wr45Wr15WF1xtrWUKrWxJFb_yoW3XFykpF
+ 18CFy2krZ8Jr93AryIgr1UJryUtr48Ka18Xr1kt3W8JrZIyr1Yqr4jqrZ0gFyUArs5Wr1j
+ vF4UAF9xZF1UAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
+ 04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -63
+X-Spam_score: -6.4
 X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.224,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,245 +83,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/6/23 18:46, Fabiano Rosas wrote:
-> Peter Xu <peterx@redhat.com> writes:
-> 
->> On Tue, Apr 04, 2023 at 05:10:52PM +0200, Claudio Fontana wrote:
->>> On 4/4/23 16:53, Peter Xu wrote:
->>>> On Tue, Apr 04, 2023 at 10:00:16AM +0200, Claudio Fontana wrote:
->>>>> Hi Peter,
->>>>
->>>> Hi, Claudio,
->>>>
->>>>>
->>>>> On 4/3/23 21:26, Peter Xu wrote:
->>>>>> Hi, Claudio,
->>>>>>
->>>>>> Thanks for the context.
->>>>>>
->>>>>> On Mon, Apr 03, 2023 at 09:47:26AM +0200, Claudio Fontana wrote:
->>>>>>> Hi, not sure if what is asked here is context in terms of the previous
->>>>>>> upstream discussions or our specific requirement we are trying to bring
->>>>>>> upstream.
->>>>>>>
->>>>>>> In terms of the specific requirement we are trying to bring upstream, we
->>>>>>> need to get libvirt+QEMU VM save and restore functionality to be able to
->>>>>>> transfer VM sizes of ~30 GB (4/8 vcpus) in roughly 5 seconds.  When an
->>>>>>> event trigger happens, the VM needs to be quickly paused and saved to
->>>>>>> disk safely, including datasync, and another VM needs to be restored,
->>>>>>> also in ~5 secs.  For our specific requirement, the VM is never running
->>>>>>> when its data (mostly consisting of RAM) is saved.
->>>>>>>
->>>>>>> I understand that the need to handle also the "live" case comes from
->>>>>>> upstream discussions about solving the "general case", where someone
->>>>>>> might want to do this for "live" VMs, but if helpful I want to highlight
->>>>>>> that it is not part of the specific requirement we are trying to address,
->>>>>>> and for this specific case won't also in the future, as the whole point
->>>>>>> of the trigger is to replace the running VM with another VM, so it cannot
->>>>>>> be kept running.
->>>>>>
->>>>>> From what I read so far, that scenario suites exactly what live snapshot
->>>>>> would do with current QEMU - that at least should involve a snapshot on the
->>>>>> disks being used or I can't see how that can be live.  So it looks like a
->>>>>> separate request.
->>>>>>
->>>>>>> The reason we are using "migrate" here likely stems from the fact that
->>>>>>> existing libvirt code currently uses QMP migrate to implement the save
->>>>>>> and restore commands.  And in my personal view, I think that reusing the
->>>>>>> existing building blocks (migration, multifd) would be preferable, to
->>>>>>> avoid having to maintain two separate ways to do the same thing.  That
->>>>>>> said, it could be done in a different way, if the performance can keep
->>>>>>> up. Just thinking of reducing the overall effort and also maintenance
->>>>>>> surface.
->>>>>>
->>>>>> I would vaguely guess the performance can not only keep up but better than
->>>>>> what the current solution would provide, due to the possibility of (1)
->>>>>> batch handling of continuous guest pages, and (2) completely no dirty
->>>>>> tracking overhead.
->>>>>>
->>>>>> For (2), it's not about wr-protect page faults or vmexits due to PML being
->>>>>> full (because vcpus will be stopped anyway..), it's about enabling the
->>>>>> dirty tracking (which already contains overhead, especially when huge pages
->>>>>> are enabled, to split huge pages in EPT pgtables) and all the bitmap
->>>>>> operations QEMU does during live migration even if the VM is not live.
->>>>>
->>>>> something we could profile for, I do not remember it being really an important source of overhead in my previous profile runs,
->>>>> but maybe worthwhile redoing the profiling with Fabiano's patchset.
->>>>
->>>> Yes I don't know the detailed number either, it should depend on the guest
->>>> configuration (mem size, mem type, kernel version etc).  It could be less a
->>>> concern comparing to the time used elsewhere.  More on this on below.
->>>>
->>>>>
->>>>>>
->>>>>> IMHO reusing multifd may or may not be a good idea here, because it'll of
->>>>>> course also complicate multifd code, hence makes multifd harder to
->>>>>> maintain, while not in a good way, because as I mentioned I don't think it
->>>>>> can use much of what multifd provides.
->>>>>
->>>>>
->>>>> The main advantage we get is the automatic multithreading of the qemu_savevm_state_iterate code in my view.
->>>>>
->>>>> Reimplementing the same thing again has the potential to cause bitrot for this use case, and using multiple fds for the transfer is exactly what is needed here,
->>>>> and in my understanding the same exact reason multifd exists: to take advantage of high bandwidth migration channels.
->>>>>
->>>>> The only adjustment needed to multifd is the ability to work with block devices (file fds) as the migration channels instead of just sockets,
->>>>> so it seems a very natural extension of multifd to me.
->>>>
->>>> Yes, since I haven't looked at the multifd patches at all so I don't have
->>>> solid clue on how much it'll affect multifd.  I'll leave that to Juan.
->>>>
->>>>>
->>>>>>
->>>>>> I don't have a strong opinion on the impl (even though I do have a
->>>>>> preference..), but I think at least we should still check on two things:
->>>>>>
->>>>>>   - Being crystal clear on the use case above, and double check whether "VM
->>>>>>     stop" should be the default operation at the start of the new cmd - we
->>>>>>     shouldn't assume the user will be aware of doing this, neither should
->>>>>>     we assume the user is aware of the performance implications.
->>>>>
->>>>>
->>>>> Not sure I can identify what you are asking specifically: the use case is to stop executing the currently running VM as soon as possible, save it to disk, then restore another VM as soon as possible.
->>>>> Probably I missed something there.
->>>>
->>>> Yes, then IMHO as mentioned we should make "vm stop" part of the command
->>>> procedure if vm was still running when invoked.  Then we can already
->>>> optimize dirty logging of above (2) with the current framework. E.g., we
->>>> already optimized live snapshot to not enable dirty logging:
->>>>
->>>>         if (!migrate_background_snapshot()) {
->>>>             memory_global_dirty_log_start(GLOBAL_DIRTY_MIGRATION);
->>>>             migration_bitmap_sync_precopy(rs);
->>>>         }
->>>>
->>>> Maybe that can also be done for fixed-ram migration, so no matter how much
->>>> overhead there will be, that can be avoided.
+
+On 2023/4/7 18:28, Daniel Henrique Barboza wrote:
+>
+>
+> On 4/6/23 22:14, liweiwei wrote:
+>>
+>> On 2023/4/7 04:22, Daniel Henrique Barboza wrote:
+>>> Hi,
 >>>
->>> Understood, agree.
+>>> This patch is going to break the sifive_u boot if I rebase
 >>>
->>> Would it make sense to check for something like if (!runstate_is_running())
->>> instead of checking for the specific multifd + fixed-ram feature?
+>>> "[PATCH v6 0/9] target/riscv: rework CPU extensions validation​"
 >>>
->>> I think from a high level perspective, there should not be dirtying if the vcpus are not running right?
->>> This could even be a bit more future proof to avoid checking for many features, if they all happen to share the fact that vcpus are not running.
+>>> on top of it, as it is the case today with the current 
+>>> riscv-to-apply.next.
+>>>
+>>> The reason is that the priv spec version for Zca is marked as 
+>>> 1_12_0, and
+>>> the priv spec version for both sifive CPUs is 1_10_0, and both are 
+>>> enabling
+>>> RVC.
+>>>
+>>> This patch from that series above:
+>>>
+>>> "[PATCH v6 5/9] target/riscv/cpu.c: add priv_spec 
+>>> validate/disable_exts helpers"
+>>>
+>>> Makes the disabling of the extension based on priv version to happen 
+>>> *after* we
+>>> do all the validations, instead of before as we're doing today. Zca 
+>>> (and Zcd) will
+>>> be manually enabled just to be disabled shortly after by the priv 
+>>> spec code. And
+>>> this will happen:
 >>
->> Hmm I'm not sure.  I think we still allow use to stop/start VMs during
->> migration?  If so, probably not applicable.
+>> Yeah, I didn't take priv_version into consideration before.
 >>
->> And it won't cover live snapshot too - live snapshot always run with VM
->> running, but it doesn't need to track dirty.  It actually needs to track
->> dirty, but in a synchronous way to make it efficient (while kvm dirty
->> tracking is asynchronous, aka, vcpu won't be blocked if dirtied).
+>> This is a new problem if we disable them at the end and was not 
+>> triggered in my previous tests.
 >>
->> So here we can make it "if (migrate_needs_async_dirty_tracking())", and
->> having both live snapshot and fixed-ram migration covered in the helper to
->> opt-out dirty tracking.
->>
->> One thing worth keeping an eye here is if we go that way we need to make
->> sure VM won't be started during the fixed-ram migration.  IOW, we can
->> cancel the fixed-ram migration (in this case, more suitable to be called
->> "vm suspend") if the user starts the VM during the process.
+>> Not only Zca and Zcd, Zcf also has the same problem.
 >>
 >>>
+>>> qemu-system-riscv64: warning: disabling zca extension for hart 
+>>> 0x0000000000000000 because privilege spec version does not match
+>>> qemu-system-riscv64: warning: disabling zca extension for hart 
+>>> 0x0000000000000001 because privilege spec version does not match
+>>> qemu-system-riscv64: warning: disabling zcd extension for hart 
+>>> 0x0000000000000001 because privilege spec version does not match
+>>> (--- hangs ---)
+>>>
+>>> This means that the assumption made in this patch - that Zca implies 
+>>> RVC - is no
+>>> longer valid, and all these translations won't work.
+>>>
+>> As specified in Zc* spec,  Zca is the subset of RVC.  C & F include 
+>> Zcf in RV32. C & D include Zcd.
+>>>
+>>> Some possible solutions:
+>>>
+>>> - Do not use Zca as a synonym for RVC, i.e. drop this patch. We 
+>>> would need to convert
+>>> all Zca checks to RVC checks in all translation code.
+>>
+>> We should check both Zca and RVC in this way.
+>>
+>> Similarly, we also should check both C&F and Zcf for Zcf 
+>> instructions, C&D and Zcd for Zcd instructions.
+>>
+>> I can update this patchset or add a new patch for it if needed.
+>>
+>>>
+>>> - Do not apply patch 5/9 from that series that moves the disable_ext 
+>>> code to the end
+>>> of validation. Also a possibility, but we would be sweeping the 
+>>> problem under the rug.
+>>> Zca still can't be used as a RVC replacement due to priv spec 
+>>> version constraints, but
+>>> we just won't disable Zca because we'll keep validating exts too 
+>>> early (which is the
+>>> problem that the patch addresses).
+>>>
+>>> - change the priv spec of the sifive CPUs - and everyone that uses 
+>>> RVC -  to 1_12_0. Not
+>>> sure if this makes sense.
+>>>
+>>> - do not disable any extensions due to privilege spec version 
+>>> mismatch. This would make
+>>> all the priv_version related artifacts to be more "educational" than 
+>>> to be an actual
+>>> configuration we want to enforce. Not sure if that would do any good 
+>>> in the end, but
+>>> it's also a possibility.
+>>
+>> I prefer this way. For vendor-specific cpu types, the implicitly 
+>> implied extensions will have no effect on its function,
+>>
+>> and this can be invisible to user if we mask them in isa_string 
+>> exposed to the kernel.
+>
+> Problem is that, at least for now, we can't say whether a Z extension 
+> was enabled
+> by the user or by us. We'll end up masking user selection in the 
+> isa_string as
+> well.
+
+No, for vendor-specific cpu,  extension support is stable, and the Z* 
+extension related property isn't registered for them.
+
+So they cannot be enabled by user.
+
+>
+>
+>>
+>> The question is whether we need constrain the  configuration for 
+>> general cpu type.
+>
+> General CPU types aren't affected at all by these changes because 
+> they'll always run
+> with PRIV_VERSION_LATEST. This particular problem is something that 
+> affects only
+> named CPUs.
+>
+>
+Yeah, the default priv version is PRIV_VERSION_LATEST, However User can 
+specify the priv_version they needs.
+
+Regards,
+
+Weiwei Li
+
+> Thanks,
+>
+> Daniel
+>
+>>
+>> Regards,
+>>
+>> Weiwei Li
+>>
+>>> I'll hold the rebase of that series until we sort this out. Thanks,
+>>>
+>>>
+>>> Daniel
+>>>
+>>>
+>>>
+>>> On 3/7/23 05:13, Weiwei Li wrote:
+>>>> Modify the check for C extension to Zca (C implies Zca).
 >>>>
->>>> PS: I think similar optimizations can be done too in ram_save_complete() or
->>>> ram_state_pending_exact().. maybe we should move the check into
->>>> migration_bitmap_sync_precopy() so it can be skipped as a whole when it can.
->>>
->>> makes sense, interesting.
->>>
->>> I wonder if ramblock_is_ignored() could be optimized a bit too, since it seems to consume roughly the same amount of cpu as the dirty bitmap handling, even when "ignore-shared" is not used.
+>>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>>> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>>>> ---
+>>>>   target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+>>>>   target/riscv/translate.c                | 8 ++++++--
+>>>>   2 files changed, 8 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc 
+>>>> b/target/riscv/insn_trans/trans_rvi.c.inc
+>>>> index 4ad54e8a49..c70c495fc5 100644
+>>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+>>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+>>>> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, 
+>>>> arg_jalr *a)
+>>>>       tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+>>>>         gen_set_pc(ctx, cpu_pc);
+>>>> -    if (!has_ext(ctx, RVC)) {
+>>>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>>>           TCGv t0 = tcg_temp_new();
+>>>>             misaligned = gen_new_label();
+>>>> @@ -169,7 +169,7 @@ static bool gen_branch(DisasContext *ctx, arg_b 
+>>>> *a, TCGCond cond)
+>>>>         gen_set_label(l); /* branch taken */
+>>>>   -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 
+>>>> 0x3)) {
+>>>> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 
+>>>> 0x3)) {
+>>>>           /* misaligned */
+>>>>           gen_exception_inst_addr_mis(ctx);
+>>>>       } else {
+>>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>>>> index 0ee8ee147d..d1fdd0c2d7 100644
+>>>> --- a/target/riscv/translate.c
+>>>> +++ b/target/riscv/translate.c
+>>>> @@ -549,7 +549,7 @@ static void gen_jal(DisasContext *ctx, int rd, 
+>>>> target_ulong imm)
+>>>>         /* check misaligned: */
+>>>>       next_pc = ctx->base.pc_next + imm;
+>>>> -    if (!has_ext(ctx, RVC)) {
+>>>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>>>           if ((next_pc & 0x3) != 0) {
+>>>>               gen_exception_inst_addr_mis(ctx);
+>>>>               return;
+>>>> @@ -1122,7 +1122,11 @@ static void decode_opc(CPURISCVState *env, 
+>>>> DisasContext *ctx, uint16_t opcode)
+>>>>       if (insn_len(opcode) == 2) {
+>>>>           ctx->opcode = opcode;
+>>>>           ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>>>> -        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
+>>>> +        /*
+>>>> +         * The Zca extension is added as way to refer to 
+>>>> instructions in the C
+>>>> +         * extension that do not include the floating-point loads 
+>>>> and stores
+>>>> +         */
+>>>> +        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
+>>>>               return;
+>>>>           }
+>>>>       } else {
 >>
->> Do you mean we can skip dirty tracking when ramblock_is_ignored() for a
->> ramblock?  I think it's doable but it'll be slightly more involved, because
->> ignored/shared ramblocks can be used together with private/non-ignored
->> ramblocks, hence at least it's not applicable globally.
->>
->>>
->>> this feature was added by:
->>>
->>> commit fbd162e629aaf8a7e464af44d2f73d06b26428ad
->>> Author: Yury Kotov <yury-kotov@yandex-team.ru>
->>> Date:   Fri Feb 15 20:45:46 2019 +0300
->>>
->>>     migration: Add an ability to ignore shared RAM blocks
->>>     
->>>     If ignore-shared capability is set then skip shared RAMBlocks during the
->>>     RAM migration.
->>>     Also, move qemu_ram_foreach_migratable_block (and rename) to the
->>>     migration code, because it requires access to the migration capabilities.
->>>     
->>>     Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
->>>     Message-Id: <20190215174548.2630-4-yury-kotov@yandex-team.ru>
->>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>>     Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>>
->>> Probably not that important, just to mention since we were thinking of possible small optimizations.
->>> I would like to share the complete previous callgrind data, but cannot find a way to export them in a readable state, could export the graph though as PDF if helpful.
->>>
->>> Likely we'd need a new round of measurements with perf...
->>
->> Yes it would be good to know. Said that, I think it'll also be fine if
->> optimizations are done on top, as long as the change will be compatible
->> with the interface being proposed.
->>
->> Here e.g. "stop the VM within the cmd" is part of the interface so IMHO it
->> should be decided before this series got merged.
->>
-> 
-> Ok, so in summary, the high level requirement says we need to stop the
-> VM and we've determined that stopping it before the migration is what
-> probably makes more sense.
-> 
-> Keeping in mind that the design of fixed-ram already supports live
-> migration, I see three options for the interface so far:
 
-(just my opinion here, I might be wrong and is not directly a requirement I am presenting here)
-
-Maybe there are other reasons to provide the fixed-ram offsets thing beyond the live case? I am unclear on that.
-
-If the live case is a potential requirement for someone else, or there are other reasons for fixed-ram offsets anyway,
-I think it would be better to leave the decision of whether to stop or not to stop the vm prior to transfer to the user, or to the management tools (libvirt ...)
-
-We care about the stop case, but since the proposal already supports live too, there is no real good reason I think to force the user to stop the VM, forcing our own use case when others might find use for "live".
-
-If we want to detect the two cases at runtime separately in the future for potential additional performance gain, that is a possibility in my view for future work,
-but we know already experimentally that the bits of extra overhead for the dirty bitmap tracking is not the real bottleneck at least in our testing,
-even with devices capable of transfering ~6 gigabytes per second.
-
-But again this is assuming that the live case is compatible and does not make things overly complicated,
-otherwise looking instead at the thing from purely these business requirements perspective we don't need it, and we could even scrap live.
-
-> 
-> 1) Add a new command that does vm_stop + fixed-ram migrate;
-> 
-> 2) Arbitrarily declare that fixed-ram is always non-live and hardcode
->    that;
-> 
-> 3) Add a new migration capability "live migration", ON by default and
->    have the management layer set fixed-ram=on, live-migration=off.
-
-(just minor point, for the case where this would apply): instead of an additional options, could we not just detect whether we are "live" or not by just checking whether the guest is in a running state?
-I suppose we don't allow to start/stop guests while the migration is running..
-
-
-> 
-> I guess this also largely depends on what direction we're going with the
-> migration code in general. I.e. do we prefer a more isolated
-> implementation or keep the new feature flexible for future use-cases?
-
-right, looking for the migration experts and maintainers to chime in here :-)
-
-> 
-> I'll give people time to catch up and in the meantime work on adding the
-> stop and the safeguards around the user re-starting.
-> 
-> Thanks all for the input so far.
-
-Thanks and as again: all this is just my 2c truly.
-
-Ciao,
-
-Claudio
 
