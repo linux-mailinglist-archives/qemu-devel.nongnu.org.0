@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B358B6DAC3B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 13:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F236DAC4D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 13:41:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkkIa-00024K-4R; Fri, 07 Apr 2023 07:30:32 -0400
+	id 1pkkRx-0004Hh-Qt; Fri, 07 Apr 2023 07:40:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pkkIX-000246-Vd
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 07:30:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pkkIW-0007wy-1I
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 07:30:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680867026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NtfQbhfX5QYdxw0EJ/QYJ7eXlNUpLL9gqz3vr0BpmRE=;
- b=XI+iWjkX/Lc7VYsUtBZsl5XUOVKZTgnufLPZGp3IWjUOj/kXWON9AHB4ov/M03Z8P376DL
- 26Iu7459FGS7nIq3Hh9hNJyZoaAqgDsSwGOygOEkZkeN4w29Xv7tAIYhFjFNfkwyJLOyJa
- RtNaxHiVNnUSJlg0JUEAY94yddOvd8o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-286-t2tx6aHPP9-flp5R_4ePDg-1; Fri, 07 Apr 2023 07:30:22 -0400
-X-MC-Unique: t2tx6aHPP9-flp5R_4ePDg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB1CF185A78F;
- Fri,  7 Apr 2023 11:30:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 311CB40C6EC4;
- Fri,  7 Apr 2023 11:30:20 +0000 (UTC)
-Date: Fri, 7 Apr 2023 07:30:19 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
-	qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH for-8.1] qemu-coroutine: remove qatomic_mb_read()
-Message-ID: <20230407113019.GA778714@fedora>
-References: <20230406100759.240870-1-pbonzini@redhat.com>
- <CAJSP0QVkrcU=v77jjnLZsUN3eVKF4RyJ+aLT2_EV4hX=HfL6Vg@mail.gmail.com>
- <CABgObfbCV+KVCq6Cj7_70OcOmuj8ZiULBeSjK19n6ia=n3OTNw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkkRp-0004H3-6K; Fri, 07 Apr 2023 07:40:05 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkkRl-0003px-Rd; Fri, 07 Apr 2023 07:40:04 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowADn758FATBkB0uJAA--.20762S2;
+ Fri, 07 Apr 2023 19:39:50 +0800 (CST)
+Message-ID: <e11774cb-7917-4e55-55f0-7901a78b6c1e@iscas.ac.cn>
+Date: Fri, 7 Apr 2023 19:39:48 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lUCAjG79jun5LiAT"
-Content-Disposition: inline
-In-Reply-To: <CABgObfbCV+KVCq6Cj7_70OcOmuj8ZiULBeSjK19n6ia=n3OTNw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] target/riscv: Mask the implicitly enabled extensions in
+ isa_string based on priv version
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230407033014.40901-1-liweiwei@iscas.ac.cn>
+ <c65a5831-ce79-f198-f491-37707abf9f81@ventanamicro.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <c65a5831-ce79-f198-f491-37707abf9f81@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADn758FATBkB0uJAA--.20762S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr17Kr1xuw17JFy3GFyrXrb_yoW8KrWkpr
+ WkGFWUKrWDJ348Ga4Iqr1UXFyUCrZ5Wa1UJrn5Ka4UArW3AryFgr9ruw4FgF1DJrs5GrWa
+ vw1DArnxZr4UXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
+ 04v7Mxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+ 42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.03,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,92 +81,72 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---lUCAjG79jun5LiAT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2023/4/7 18:58, Daniel Henrique Barboza wrote:
+>
+>
+> On 4/7/23 00:30, Weiwei Li wrote:
+>> Using implicitly enabled extensions such as Zca/Zcf/Zcd instead of their
+>> super extensions can simplify the extension related check. However, they
+>> may have higher priv version than their super extensions. So we 
+>> should mask
+>> them in the isa_string based on priv version to make them invisible 
+>> to user
+>> if the specified priv version is lower than their minimal priv version.
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/cpu.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index cb68916fce..1a5099382c 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -1709,6 +1709,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, 
+>> char **isa_str,
+>>         for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+>>           if (isa_edata_arr[i].multi_letter &&
+>> +            (cpu->env.priv_ver >= isa_edata_arr[i].min_version) &&
+>
+> We don't have a way of telling whether an extension was enabled by us 
+> or by the user.
+> This will end up filtering user extensions from the isa_string.
 
-On Fri, Apr 07, 2023 at 10:32:39AM +0200, Paolo Bonzini wrote:
-> Il gio 6 apr 2023, 12:55 Stefan Hajnoczi <stefanha@gmail.com> ha scritto:
->=20
-> > On Thu, 6 Apr 2023 at 06:09, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > >
-> > > Replace with an explicit barrier and a comment.
-> > >
-> > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > ---
-> > >  util/qemu-coroutine.c | 10 +++++++---
-> > >  1 file changed, 7 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
-> > > index 849452369201..17a88f65053e 100644
-> > > --- a/util/qemu-coroutine.c
-> > > +++ b/util/qemu-coroutine.c
-> > > @@ -127,9 +127,13 @@ void qemu_aio_coroutine_enter(AioContext *ctx,
-> > Coroutine *co)
-> > >          Coroutine *to =3D QSIMPLEQ_FIRST(&pending);
-> > >          CoroutineAction ret;
-> > >
-> > > -        /* Cannot rely on the read barrier for to in aio_co_wake(), =
-as
-> > there are
-> > > -         * callers outside of aio_co_wake() */
-> > > -        const char *scheduled =3D qatomic_mb_read(&to->scheduled);
-> > > +        /*
-> > > +         * Read to before to->scheduled; pairs with qatomic_cmpxchg =
-in
-> > > +         * qemu_co_sleep(), aio_co_schedule() etc.
-> > > +         */
-> > > +        smp_read_barrier_depends();
-> >
-> > I'm not a fan of nuanced memory ordering primitives. I don't
-> > understand or remember all the primitives available in
-> > docs/devel/atomics.rst and especially not how they interact with each
-> > other.
-> >
->=20
-> Understood, that's why I want to remove qatomic_mb_read().
->=20
-> Does smp_read_barrier_depends() make sense for QEMU? Does QEMU support
-> > Alpha host CPUs?
-> >
->=20
-> It makes sense in that it's cheaper than qatomic_load_acquire() or
-> smp_rmb() on ARM and PPC (32-bit ARM is especially bad). Here I can use
-> smp_rmb() if you prefer; I thought that the comment, explicitly referring
-> to "to->scheduled" which depends on "to", would be enough.
->=20
-> I could also use QSIMPLEQ_FIRST_RCU(&pending) to hide the barrier, but it
-> seems to be a bad idea because there's no RCU involvement here.
+As the method described in the 
+https://lists.gnu.org/archive/html/qemu-riscv/2023-04/msg00200.html:
 
-If smp_read_barrier_depends() is cheaper on ARM and PPC than
-qatomic_load_acquire() or smp_rmb(), then this seems like a good use of
-it:
+The user specified extension have been disabled in realize(), So what 
+needs masked is the implied extensions here.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>
+> IMHO, the way the logic is working today, we can't enable Z extensions 
+> based on enabled
+> MISA bits alone and disable extensions based on priv_spec at the same 
+> time. We would
+> need to check for priv_version when enabling these extensions 
+> implicitly during realize().
 
-I didn't know that smp_read_barrier_depends() is relevant on any
-architecture other than Alpha. It would be nice if atomics.rst mentioned
-ARM and PPC rather than Alpha.
+If we check this in realize(), we also need check them in support of the 
+extension. So this is unnecessary.
 
-Thanks,
-Stefan
+Regards,
 
---lUCAjG79jun5LiAT
-Content-Type: application/pgp-signature; name="signature.asc"
+Weiwei Li
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQv/ssACgkQnKSrs4Gr
-c8gjpQgAirLB1XwzH5vIL9MMRAGOoJ5xB/dL2o2aDWrKiJtfrJUh5RN695B7Q4mI
-OBsMeXvAczPxWV8zMBjiQJKVpocpg7sSqJWwx89NaGNSivg9QX8jZNdMdiDA8sim
-uQY7+mb5JASoNQfudkL2AVHZej49SmTfjjpXZoBwciWERMndqYX9tBAVHN6J020i
-gePSFCIpldhdOgmXq/LmuKCGELV0rwQ+U4c+lVbGzCYipjBohzWyn6ZTs07i/5lM
-QBG1yho6YBWUsAk08H2ckXaB54AMQUxIiH91SYFe2KQcl6ILchppjT8yX0qv9+SN
-v4aaOEfkNKjxTN0xBQxLLAPpLUmquA==
-=G9/G
------END PGP SIGNATURE-----
-
---lUCAjG79jun5LiAT--
+> Another alternative is to not disable any extensions at all based on 
+> priv spec - we send
+> a warning about the priv mismatch and that's it.
+>
+>
+> Thanks,
+>
+> Daniel
+>
+>
+>
+>>               isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
+>>               new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+>>               g_free(old);
 
 
