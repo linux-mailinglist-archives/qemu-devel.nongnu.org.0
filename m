@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99856DB4A2
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 22:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFED6DB4A7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 22:05:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pksGH-0005Kt-M0; Fri, 07 Apr 2023 16:00:41 -0400
+	id 1pksK3-0006W3-So; Fri, 07 Apr 2023 16:04:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pksG1-0005G7-CS
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 16:00:29 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pksK1-0006Vn-Ko
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 16:04:33 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pksFz-00049v-T8
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 16:00:25 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pksK0-0005Jh-9z
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 16:04:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680897623;
+ s=mimecast20190719; t=1680897871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=y2/5INaA05F44KaDlbzl8O2ITzlHFw0INjYt+rltqpU=;
- b=Cnb6nrNqEn0m9KOdX8y9G41082KkOW3iQ/duzbe+UswWiqESKTxpueb39iuty2cekbuvwL
- P0QbKkk9eDlCoFW1s1DanrtrLW1xEGUqCYsyTIbYlXP0e8jrTuisYHFN5GToWNp621R7/+
- BouuMVq2Ld0u/iFXHUQPz5u1LOwjkYU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=T+NrTQCRRemossuN8Ns6C691CX+ZNCNp2ElCIGl+5pA=;
+ b=MIA+KsKSW/XS4oPh4Uvqu71PIiC4l8twXtsvx8QDLabj1ipaqDsyeLO+vRYrmK6SvsrYE/
+ kAMlb5YBHZoBNaaM5qq3NmsdfJYSa4fBbmEL7O93gYZV1q60PsKELyYV8GO66JHrB1w5Uk
+ 8ThT1dEgipkljnTu9UpD1Uxlj7kEBL0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-SE5xQtM2OgOFXBAfVMpBMA-1; Fri, 07 Apr 2023 16:00:18 -0400
-X-MC-Unique: SE5xQtM2OgOFXBAfVMpBMA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-421-MnuyBEDCPamR4YGaF8ZnKQ-1; Fri, 07 Apr 2023 16:04:28 -0400
+X-MC-Unique: MnuyBEDCPamR4YGaF8ZnKQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C8DE29DD988;
- Fri,  7 Apr 2023 20:00:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6DFB85C064;
+ Fri,  7 Apr 2023 20:04:27 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6404D40C83B6;
- Fri,  7 Apr 2023 20:00:17 +0000 (UTC)
-Date: Fri, 7 Apr 2023 15:00:15 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E0C140C6EC4;
+ Fri,  7 Apr 2023 20:04:26 +0000 (UTC)
+Date: Fri, 7 Apr 2023 15:04:24 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org, stefanha@redhat.com, kwolf@redhat.com, 
  qemu-block@nongnu.org, hreitz@redhat.com
-Subject: Re: [PATCH 7/8] block-backend: ignore inserted state in
- blk_co_nb_sectors
-Message-ID: <zpcsnuz4sy2fxxgqiulny7wsdypm5ajqbofn2iioeven4r32pq@id5wqf5rncnr>
+Subject: Re: [PATCH 8/8] block, block-backend: write some hot coroutine
+ wrappers by hand
+Message-ID: <efzg2o4orxbbtaxxw2wqxao3jfqh7bgomd2wni63ck4zxhzrbz@ma6uxp4msloy>
 References: <20230407153303.391121-1-pbonzini@redhat.com>
- <20230407153303.391121-8-pbonzini@redhat.com>
+ <20230407153303.391121-9-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230407153303.391121-8-pbonzini@redhat.com>
+In-Reply-To: <20230407153303.391121-9-pbonzini@redhat.com>
 User-Agent: NeoMutt/20230322
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,23 +79,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Apr 07, 2023 at 05:33:02PM +0200, Paolo Bonzini wrote:
-> All callers of blk_co_nb_sectors (and blk_nb_sectors) are able to
-> handle a non-inserted CD-ROM as a zero-length file, they do not need
-> to raise an error.
+On Fri, Apr 07, 2023 at 05:33:03PM +0200, Paolo Bonzini wrote:
+> The introduction of the graph lock is causing blk_get_geometry, a hot function
+> used in the I/O path, to create a coroutine.  However, the only part that really
+> needs to run in coroutine context is the call to bdrv_co_refresh_total_sectors,
+> which in turn only happens in the rare case of host CD-ROM devices.
 > 
-> Not using blk_co_is_available() aligns the function with
-> blk_co_get_geometry(), which becomes a simple wrapper for
-> blk_co_nb_sectors().  It will also make it possible to skip the creation
-> of a coroutine in the (common) case where bs->bl.has_variable_length
-> is false.
+> So, write by hand the three wrappers on the path from blk_co_get_geometry to
+> bdrv_co_refresh_total_sectors, so that the coroutine wrapper is only created
+> if bdrv_nb_sectors actually calls bdrv_refresh_total_sectors.
 > 
+> Reported-by: Stefan Hajnoczi <stefanha@redhat.com>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  block/block-backend.c | 23 ++++++++---------------
->  1 file changed, 8 insertions(+), 15 deletions(-)
+>  block.c                           | 22 ++++++++++++++++++++++
+>  block/block-backend.c             | 27 +++++++++++++++++++++++++++
+>  
+>  include/sysemu/block-backend-io.h |  5 ++---
+>  4 files changed, 52 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block.c b/block.c
+> index dbbc8de30c24..3390efd18cf6 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -5859,6 +5859,28 @@ int64_t coroutine_fn bdrv_co_nb_sectors(BlockDriverState *bs)
+>      return bs->total_sectors;
+>  }
+>  
+> +/*
+> + * This wrapper is written by hand because this function is in the hot I/O path,
+> + * via blk_get_geometry.
+> + */
+> +int64_t coroutine_mixed_fn bdrv_nb_sectors(BlockDriverState *bs)
+> +{
+> +    BlockDriver *drv = bs->drv;
+> +    IO_CODE();
+> +
+> +    if (!drv)
+> +        return -ENOMEDIUM;
+> +
+> +    if (!bs->bl.has_variable_length) {
+> +        int ret = bdrv_refresh_total_sectors(bs, bs->total_sectors);
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Is this logic backwards?  Why are we only refreshing the total sectors
+when we don't have variable length?
+
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    return bs->total_sectors;
+> +}
+> +
 
 -- 
 Eric Blake, Principal Software Engineer
