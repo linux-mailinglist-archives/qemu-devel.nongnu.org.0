@@ -2,90 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68B76DB429
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 21:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3093A6DB454
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 21:40:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkriS-0004lv-NH; Fri, 07 Apr 2023 15:25:44 -0400
+	id 1pkrv1-0007CR-G3; Fri, 07 Apr 2023 15:38:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pkriQ-0004lA-Po
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 15:25:42 -0400
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pkriO-0007Hx-OP
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 15:25:42 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-17fcc07d6c4so32534406fac.8
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 12:25:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1680895539;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lOeaABbNnI1zs0Ki/VjrMozk6cQYjqM60wgl/ce3eww=;
- b=IXEbgNy6B255gii7fCobI6xTFyu1dmIzi6P9sWIJ4cHEIf1bD7oPd1syCIp9F6dHt8
- bAAu0rvIbM7HR19GAqANs8buyquIfFmtzOLgsu1uR+lsB6YgUKR/uizNd40Kv/0FMbPX
- Uv4V5H1muuWo9+lV5QWEfT0cyHWqI5RIZiz0230tkRapqgxU4h4PbjhbumjsAmwH47hL
- bIH5ukRLddzOOCWJSGvm9DardwzHFfqzsbF5ldS6QGKwdsewMkedmY5arwHfKCVASPGX
- CrQEV4IYc6gNQOJJ+UT7F6XIGEeY3pf1eB0q9oCyx9dpEktnNP1MbCMDpm1waIMQ7L1a
- ZuyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680895539;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lOeaABbNnI1zs0Ki/VjrMozk6cQYjqM60wgl/ce3eww=;
- b=MdnSFfbiiOoX50nvdqqsbxl8yrNo79F0oG79gZUglhFNpEQRMAVJz8A1DXNerCjAOe
- XVSYKvq0+suTVFnnB/c7R6lVAmbZw/HgqKB4uxQdJRpeqP8RyWF8EmL2Zll9+9wZF5jp
- 4HRB7IObLLqfeQHXqwbhi0fAJuf3+nPXEG3OpX/7GPbSgV8V4nqqGkhIVsaSD7+H1osi
- mVDSZzwwTGROdZHe7h5GnFtcniVbCN6M6VnXdQKo07Y1rcjF6Cgitpw8b36FRdrBlP7g
- 0r/QyDQnoKW9pqtyQrRiZnSc8/fwOUqXy3YUFq91CAdlag2wTV1hgq49f7ZrUR96FFmR
- UVig==
-X-Gm-Message-State: AAQBX9dig1HHLkp+u5qeYzMDR/Yk3eZgOdxoU2GjZnMC5WM7CFgJXN/m
- lukv8IxRFoi96oIosX6DMzIpiQ==
-X-Google-Smtp-Source: AKy350abBI3MBpdEILR20cW6YcwlgrbpizGa73idR2C66jArr/Q5eRkT2q6nImvyt9fRRnA0uCVaiw==
-X-Received: by 2002:a05:6870:5817:b0:17e:8a6b:82c with SMTP id
- r23-20020a056870581700b0017e8a6b082cmr1869637oap.56.1680895538756; 
- Fri, 07 Apr 2023 12:25:38 -0700 (PDT)
-Received: from [192.168.68.107] ([191.255.108.232])
- by smtp.gmail.com with ESMTPSA id
- zh20-20020a0568716b9400b0017281100b75sm1845211oab.42.2023.04.07.12.25.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Apr 2023 12:25:38 -0700 (PDT)
-Message-ID: <b5dc4c40-f375-89e8-c953-9045211b05d0@ventanamicro.com>
-Date: Fri, 7 Apr 2023 16:25:33 -0300
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pkrv0-0007CB-50
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 15:38:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pkruy-0004Yo-LI
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 15:38:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680896318;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wtA6ag02v2gkdNxfHzl+K+FNhWDXbIO3gb3mseShmoc=;
+ b=UKDV85s6Wx88BmeRW90ImXvfisys2b+1LbRRsPc0sVLMZUvxbr0Q/kuLdK2QEcJxZZ+1X3
+ Y3wOTPJu0mdJEaH1p1ge9eeXbtYyCtYnMdfcccQrXBMpfJMiAP7Mo8KcZMZh19zHIZkPzM
+ BCHzMrLC2KOsd7FUO35TZBOH1oGk7Vs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-588-qbG8d6jXPa6SXPc7b2g4DQ-1; Fri, 07 Apr 2023 15:38:36 -0400
+X-MC-Unique: qbG8d6jXPa6SXPc7b2g4DQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B1B429AA3B0;
+ Fri,  7 Apr 2023 19:38:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF6C1492B00;
+ Fri,  7 Apr 2023 19:38:35 +0000 (UTC)
+Date: Fri, 7 Apr 2023 14:38:34 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, kwolf@redhat.com, 
+ qemu-block@nongnu.org, hreitz@redhat.com
+Subject: Re: [PATCH 1/8] block: move has_variable_length to BlockLimits
+Message-ID: <zgxk4cdsfv4sgzdvreuhcisyzf37qu22ghwk2amf4syoferydv@fwz5jvxqvyjv>
+References: <20230407153303.391121-1-pbonzini@redhat.com>
+ <20230407153303.391121-2-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v12 02/10] target/riscv: add support for Zca extension
-Content-Language: en-US
-To: liweiwei <liweiwei@iscas.ac.cn>, richard.henderson@linaro.org,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
- <20230307081403.61950-3-liweiwei@iscas.ac.cn>
- <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
- <ac342677-a7f5-52d6-0410-cd1c84b2197e@iscas.ac.cn>
- <727caa86-0dbb-67f1-068f-e72f79c5e001@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <727caa86-0dbb-67f1-068f-e72f79c5e001@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2a.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.03,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230407153303.391121-2-pbonzini@redhat.com>
+User-Agent: NeoMutt/20230322
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,190 +78,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 4/7/23 00:34, liweiwei wrote:
+On Fri, Apr 07, 2023 at 05:32:56PM +0200, Paolo Bonzini wrote:
+> At the protocol level, has_variable_length only needs to be true in the
+> very special case of host CD-ROM drives, so that they do not need an
+> explicit monitor command to read the new size when a disc is loaded
+> in the tray.
 > 
-> On 2023/4/7 09:14, liweiwei wrote:
->>
->> On 2023/4/7 04:22, Daniel Henrique Barboza wrote:
->>> Hi,
->>>
->>> This patch is going to break the sifive_u boot if I rebase
->>>
->>> "[PATCH v6 0/9] target/riscv: rework CPU extensions validation​"
->>>
->>> on top of it, as it is the case today with the current riscv-to-apply.next.
->>>
->>> The reason is that the priv spec version for Zca is marked as 1_12_0, and
->>> the priv spec version for both sifive CPUs is 1_10_0, and both are enabling
->>> RVC.
->>>
->>> This patch from that series above:
->>>
->>> "[PATCH v6 5/9] target/riscv/cpu.c: add priv_spec validate/disable_exts helpers"
->>>
->>> Makes the disabling of the extension based on priv version to happen *after* we
->>> do all the validations, instead of before as we're doing today. Zca (and Zcd) will
->>> be manually enabled just to be disabled shortly after by the priv spec code. And
->>> this will happen:
->>
->> Yeah, I didn't take priv_version into consideration before.
->>
->> This is a new problem if we disable them at the end and was not triggered in my previous tests.
->>
->> Not only Zca and Zcd, Zcf also has the same problem.
->>
->>>
->>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000000 because privilege spec version does not match
->>> qemu-system-riscv64: warning: disabling zca extension for hart 0x0000000000000001 because privilege spec version does not match
->>> qemu-system-riscv64: warning: disabling zcd extension for hart 0x0000000000000001 because privilege spec version does not match
->>> (--- hangs ---)
->>>
->>> This means that the assumption made in this patch - that Zca implies RVC - is no
->>> longer valid, and all these translations won't work.
->>>
->> As specified in Zc* spec,  Zca is the subset of RVC.  C & F include Zcf  in RV32. C & D include Zcd.
->>>
->>> Some possible solutions:
->>>
->>> - Do not use Zca as a synonym for RVC, i.e. drop this patch. We would need to convert
->>> all Zca checks to RVC checks in all translation code.
->>
->> We should check both Zca and RVC in this way.
->>
->> Similarly, we also should check both C&F and Zcf for Zcf instructions, C&D and Zcd for Zcd instructions.
->>
->> I can update this patchset or add a new patch for it if needed.
->>
->>>
->>> - Do not apply patch 5/9 from that series that moves the disable_ext code to the end
->>> of validation. Also a possibility, but we would be sweeping the problem under the rug.
->>> Zca still can't be used as a RVC replacement due to priv spec version constraints, but
->>> we just won't disable Zca because we'll keep validating exts too early (which is the
->>> problem that the patch addresses).
->>>
->>> - change the priv spec of the sifive CPUs - and everyone that uses RVC -  to 1_12_0. Not
->>> sure if this makes sense.
->>>
->>> - do not disable any extensions due to privilege spec version mismatch. This would make
->>> all the priv_version related artifacts to be more "educational" than to be an actual
->>> configuration we want to enforce. Not sure if that would do any good in the end, but
->>> it's also a possibility.
->>
->> I prefer this way. For vendor-specific cpu types, the implicitly implied extensions will have no effect on its function,
->>
->> and this can be invisible to user if we mask them in isa_string exposed to the kernel.
->>
->> The question is whether we need constrain the  configuration for general cpu type.
+> However, at the format level has_variable_length has to be true for all
+> raw blockdevs and for all filters, even though in practice the length
+> depends on the underlying file and thus will not change except in the
+> case of host CD-ROM drives.
 > 
-> Subset extension for another extension is not a single case in RISC-V. such as zaamo is subset of A. Zfhmin is subset of Zfh.
-> 
-> Maybe some of them don't have this problem. However,  I think it's better to take the related work away from the developer.
-> 
-> I think we can combine the two method if we want to constrain the configuration for general cpu type:
-> 
-> - remain disable  extensions due to privilege spec version mismatch before validation to disable the extensions manually set by users
-> 
-> - mask the implicitly enabled extensions in isa_string to make them invisible to users (I have sent a new patch to do this, you can pick it into
-> 
-> your patchset if this way is acceptable).
+> As a first step towards computing an accurate value of has_variable_length,
+> add the value into the BlockLimits structure and initialize the field
+> from the BlockDriver.
 
-I tested that patch with my series. If we keep the disable extension code to be executed
-before the validation, filtering the extensions that were user enabled only, it fixes
-the problem I reported here.
+My assumption here is that all other resizes (such as a block device
+that can be externally enlarged upon seeing the guest pause due to an
+ENOSPC condition on the current size) are NOT expected to have
+automatic reaction in qemu, but instead rely on some other external
+action (such as resuming after ENOSPC or an explicit monitor command)
+as the reason for why qemu eventually learns the new size.  If my
+assumption is right, then you do sound correct in stating that CDROMs
+are special in that the guest OS can request the tray to be loaded and
+change the size from 0 to the size of the newly-inserted disc, with no
+intervening action or QMP command, and qemu must react to that size
+change.
 
-It's worth noticing though that we would be making the intended, conscious decision of
-hiding extensions from the isa_string that are actually enabled in the hart. And CPUs
-such as SIFIVE_CPU will start working with Z extensions that are beyond their declared
-priv spec. This wouldn't be a problem if we could guarantee that userland would always
-read 'isa_string' before using an extension, but in reality we can't guarantee that.
-Firing an instruction for a given extension and capturing SIGILL to see if the hart supports
-it or not isn't forbidden by the ISA.
-
-
-All this said, I don't mind the proposed solution, as long as we're on the same boat
-w.r.t. the design changes and potential userspace impact this might have.
-
-
-Thanks,
-
-
-Daniel
-
+I'm asking because at one point, there was a proposal to extend the
+NBD protocol to allow dynamic resizing, somewhat similar to how a
+block device can be externally resized; there were questions on how
+much of a resize action has to be from client-to-server "please poll
+if the server has changed size recently" instead of server-to-client
+"by the way, the size just changed".  I don't want NBD resize (if
+someone ever fleshes out the extension propsal into an actual
+implementation) to be hamstrung by an inability to reflect size
+changes initiated on the server side, rather than triggered at the
+client side.  But since I think regular files and block devices have
+the same considerations, I don't think it is a show-stopper to this
+series.
 
 > 
-> Regards,
-> 
-> Weiwei Li
-> 
->>
->> Regards,
->>
->> Weiwei Li
->>
->>> I'll hold the rebase of that series until we sort this out. Thanks,
->>>
->>>
->>> Daniel
->>>
->>>
->>>
->>> On 3/7/23 05:13, Weiwei Li wrote:
->>>> Modify the check for C extension to Zca (C implies Zca).
->>>>
->>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>>> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
->>>> ---
->>>>   target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
->>>>   target/riscv/translate.c                | 8 ++++++--
->>>>   2 files changed, 8 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
->>>> index 4ad54e8a49..c70c495fc5 100644
->>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
->>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
->>>> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
->>>>       tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
->>>>         gen_set_pc(ctx, cpu_pc);
->>>> -    if (!has_ext(ctx, RVC)) {
->>>> +    if (!ctx->cfg_ptr->ext_zca) {
->>>>           TCGv t0 = tcg_temp_new();
->>>>             misaligned = gen_new_label();
->>>> @@ -169,7 +169,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
->>>>         gen_set_label(l); /* branch taken */
->>>>   -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
->>>> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 0x3)) {
->>>>           /* misaligned */
->>>>           gen_exception_inst_addr_mis(ctx);
->>>>       } else {
->>>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->>>> index 0ee8ee147d..d1fdd0c2d7 100644
->>>> --- a/target/riscv/translate.c
->>>> +++ b/target/riscv/translate.c
->>>> @@ -549,7 +549,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
->>>>         /* check misaligned: */
->>>>       next_pc = ctx->base.pc_next + imm;
->>>> -    if (!has_ext(ctx, RVC)) {
->>>> +    if (!ctx->cfg_ptr->ext_zca) {
->>>>           if ((next_pc & 0x3) != 0) {
->>>>               gen_exception_inst_addr_mis(ctx);
->>>>               return;
->>>> @@ -1122,7 +1122,11 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
->>>>       if (insn_len(opcode) == 2) {
->>>>           ctx->opcode = opcode;
->>>>           ctx->pc_succ_insn = ctx->base.pc_next + 2;
->>>> -        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
->>>> +        /*
->>>> +         * The Zca extension is added as way to refer to instructions in the C
->>>> +         * extension that do not include the floating-point loads and stores
->>>> +         */
->>>> +        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
->>>>               return;
->>>>           }
->>>>       } else {
-> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  block.c                          | 2 +-
+>  block/io.c                       | 6 ++++++
+>  include/block/block_int-common.h | 8 ++++++++
+>  3 files changed, 15 insertions(+), 1 deletion(-)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
