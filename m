@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4FC6DA977
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 09:41:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9093C6DA9A5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 09:58:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkgiH-0003X5-Cp; Fri, 07 Apr 2023 03:40:49 -0400
+	id 1pkgxo-0006ZE-Ns; Fri, 07 Apr 2023 03:56:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pkgiE-0003Wx-Lf
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 03:40:46 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pkgiC-0007zt-DD
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 03:40:46 -0400
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8Dxldj2yC9kvcIXAA--.41821S3;
- Fri, 07 Apr 2023 15:40:38 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxLL70yC9kDQ4YAA--.23847S3; 
- Fri, 07 Apr 2023 15:40:37 +0800 (CST)
-Subject: Re: [RFC PATCH v2 30/44] target/loongarch: Implement vclo vclz
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230328030631.3117129-1-gaosong@loongson.cn>
- <20230328030631.3117129-31-gaosong@loongson.cn>
- <d81762ea-f939-ac48-018c-826c581e5fad@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <cee17e01-4f4a-6c1d-9808-08f7ca083ff7@loongson.cn>
-Date: Fri, 7 Apr 2023 15:40:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pkgxl-0006Yu-Su
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 03:56:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pkgxj-00073m-OX
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 03:56:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680854206;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sje0Q+4LXGwH5IAycnvuTRfLXx0J9razPXdJLOsb1mw=;
+ b=jJMXOmrBQC3no1BKAC3ZVMennkhZwvfksm0x1WfBT5WMPwdJ4isFcjAeU5X7BreXn8TkRg
+ rstz1sjrMiliJOeNDs6uZ7kBW9m82bSwLz94yVTLz7C7YxRBParHAyzSJ4/5AL1fJehRot
+ EGuEayIvLJocM/jY1X6kjNCxjUHfwaA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-251-8Akh3BdIMVOX_gmAZzMF1g-1; Fri, 07 Apr 2023 03:56:44 -0400
+X-MC-Unique: 8Akh3BdIMVOX_gmAZzMF1g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ gw11-20020a05600c850b00b003ee8db23ef9so356505wmb.8
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 00:56:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680854203;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sje0Q+4LXGwH5IAycnvuTRfLXx0J9razPXdJLOsb1mw=;
+ b=79IRfLDNP+HOXIc4uITEV/0q+7CYiaggFwjrTUy5q1gnR9Y0bFzMGlcGp30IIYaQTo
+ wFsN68OsA9N6j3edvhl+Rf4H+5Xru1oChS9ny1y5bO4Gv9P9MRV0eAm38/ILCxx/txAI
+ 6rKLa7rSg+kP4xc/uq/LyCF7lBYod78S/bsQqst9AczE0NRup1fUbyU+sBDItAGVDc4a
+ HnxcM+hQAGQtwzFZjAK4U+uJLnHsudDq5o6QGIuVniO5JQFqAxTJqEMqULYanXvoSaNB
+ cNfiIWTz2QDhh461srNp6JEVudUleUYrjUX7jwxIBINbTNDzonLB+UVFqZVwj/lk18Wr
+ V9Yg==
+X-Gm-Message-State: AAQBX9f0HtArorluBiMhyQ6cexNt6JhVzMI7Qi5CcWnvwaSVIDpWuh1s
+ k3YHokKbpXhaJCj+an+xW/CW1ZOcEtnvDQkcHSwnidNJB387pLM0CsJSgT4Yclmp6LJ1VxY0uho
+ VikqK2VE3caddmns=
+X-Received: by 2002:a5d:5255:0:b0:2ef:a4c5:ed63 with SMTP id
+ k21-20020a5d5255000000b002efa4c5ed63mr578916wrc.22.1680854202909; 
+ Fri, 07 Apr 2023 00:56:42 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aLAcivQeVLjFdFgpThnD62SeRhU79+o+kATBkRP5gJMUe2Xo69zbf0xq7Rg59NAoyg9lnszw==
+X-Received: by 2002:a5d:5255:0:b0:2ef:a4c5:ed63 with SMTP id
+ k21-20020a5d5255000000b002efa4c5ed63mr578908wrc.22.1680854202552; 
+ Fri, 07 Apr 2023 00:56:42 -0700 (PDT)
+Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
+ by smtp.gmail.com with ESMTPSA id
+ m13-20020a056000180d00b002efac42ff35sm1687963wrh.37.2023.04.07.00.56.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Apr 2023 00:56:41 -0700 (PDT)
+Date: Fri, 7 Apr 2023 03:56:39 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David 'Digit' Turner <digit@google.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] Fix libvhost-user.c compilation.
+Message-ID: <20230407035423-mutt-send-email-mst@kernel.org>
+References: <20230405125920.2951721-1-digit@google.com>
+ <20230405125920.2951721-2-digit@google.com>
 MIME-Version: 1.0
-In-Reply-To: <d81762ea-f939-ac48-018c-826c581e5fad@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxLL70yC9kDQ4YAA--.23847S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvdXoW7Xry7Ary3JFyDXw4DJF4DXFb_yoWxurg_Gr
- ZxX3ZrC3ZFk3WktF10yF48Ja1xX3WDJrW8uw15XF9xWr90grZxJ3s5CrWfJF18K3Z3XryY
- 9a45ZFZ3ua90gjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
- c7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
- AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
- 6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
- xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWle2I2
- 62IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4
- CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvj
- eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw2
- 8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
- x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrw
- CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI
- 42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.224,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230405125920.2951721-2-digit@google.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,26 +96,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Apr 05, 2023 at 02:59:19PM +0200, David 'Digit' Turner wrote:
+> The source file uses VIRTIO_F_VERSION_1 which is
+> not defined by <linux/virtio_config.h> on Debian 10.
+> 
+> The system-provided <linux/virtio_config.h> which
+> does not include the macro definition is included
+> through <linux/vhost.h>, so fix the issue by including
+> the standard-headers version before that.
+> 
+> Signed-off-by: David 'Digit' Turner <digit@google.com>
 
-在 2023/4/2 上午11:34, Richard Henderson 写道:
-> On 3/27/23 20:06, Song Gao wrote:
->> +#define DO_CLO_B(N)  (clz32((uint8_t)~N) - 24)
->> +#define DO_CLO_H(N)  (clz32((uint16_t)~N) - 16)
->
-> I think this is wrong. 
-It is wried,  the result is always right. :-\
-and  (clz32(~N) - 24)  or (clz32((uint32_t)~N) - 24) is wrong.
-> You *want* the high bits to be set, so that they are ones, and 
-> included in the count, which you then subtract off.  You want the 
-> "real" count to start after the 24th leading 1.
->
-Yes,
-and  we use clz32(),   how about the following way?
+I don't get it. ./linux-headers/linux/vhost.h does not seem
+to use <linux/virtio_config.h> for me.
+In fact nothing does:
+$ git grep linux/virtio_config.h
+include/hw/virtio/virtio.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/vhost_types.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_9p.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_balloon.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_blk.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_console.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_crypto.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_fs.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_mem.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_net.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_pmem.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_rng.h:#include "standard-headers/linux/virtio_config.h"
+include/standard-headers/linux/virtio_vsock.h:#include "standard-headers/linux/virtio_config.h"
+linux-headers/linux/virtio_config.h:#include "standard-headers/linux/virtio_config.h"
+scripts/update-linux-headers.sh:cat <<EOF >$output/linux-headers/linux/virtio_config.h
+scripts/update-linux-headers.sh:#include "standard-headers/linux/virtio_config.h"
+subprojects/libvduse/libvduse.c:#include "linux-headers/linux/virtio_config.h"
+tests/qtest/fuzz/virtio_net_fuzz.c:#include "standard-headers/linux/virtio_config.h"
+tests/qtest/libqos/virtio-gpio.c:#include "standard-headers/linux/virtio_config.h"
+tests/qtest/libqos/virtio-pci-modern.c:#include "standard-headers/linux/virtio_config.h"
+tests/qtest/libqos/virtio.c:#include "standard-headers/linux/virtio_config.h"
 
-#define DO_CLO_B(N)  (clz32( ~N & 0xff) -24)
-#define DO_CLO_H(N)  (clz32( ~N & 0xffff) -16)
 
-Thanks.
-Song Gao
+
+
+> ---
+>  subprojects/libvhost-user/libvhost-user.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+> index 0200b78e8e..0a5768cb55 100644
+> --- a/subprojects/libvhost-user/libvhost-user.c
+> +++ b/subprojects/libvhost-user/libvhost-user.c
+> @@ -32,6 +32,12 @@
+>  #include <sys/mman.h>
+>  #include <endian.h>
+>  
+> +/* Necessary to provide VIRTIO_F_VERSION_1 on system
+> + * with older linux headers. Must appear before
+> + * <linux/vhost.h> below.
+> + */
+> +#include "standard-headers/linux/virtio_config.h"
+> +
+>  #if defined(__linux__)
+>  #include <sys/syscall.h>
+>  #include <fcntl.h>
+> -- 
+> 2.40.0.348.gf938b09366-goog
 
 
