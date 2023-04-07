@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57346DA71A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 03:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C6B6DA790
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 04:13:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkbCs-00072t-Ch; Thu, 06 Apr 2023 21:48:03 -0400
+	id 1pkba1-00044h-7d; Thu, 06 Apr 2023 22:11:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pkbCm-000723-MN; Thu, 06 Apr 2023 21:47:56 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pkbZz-00044V-AZ
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 22:11:55 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pkbCk-0007Ba-5a; Thu, 06 Apr 2023 21:47:56 -0400
-Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowAAH6oJAdi9kmEpeAA--.11004S5;
- Fri, 07 Apr 2023 09:47:47 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v3 3/3] target/riscv: Legalize MPP value in write_mstatus
-Date: Fri,  7 Apr 2023 09:47:43 +0800
-Message-Id: <20230407014743.18779-4-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230407014743.18779-1-liweiwei@iscas.ac.cn>
-References: <20230407014743.18779-1-liweiwei@iscas.ac.cn>
+ (envelope-from <gaosong@loongson.cn>) id 1pkbZw-0001lJ-Fw
+ for qemu-devel@nongnu.org; Thu, 06 Apr 2023 22:11:54 -0400
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8Dx3trhey9kL6kXAA--.25399S3;
+ Fri, 07 Apr 2023 10:11:46 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxX+They9kB8EXAA--.59245S3; 
+ Fri, 07 Apr 2023 10:11:45 +0800 (CST)
+Subject: Re: [RFC PATCH] hw/intc: don't use target_ulong for LoongArch ipi
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20230404132711.2563638-1-alex.bennee@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <afd693ce-e723-4408-df18-0a044be79856@loongson.cn>
+Date: Fri, 7 Apr 2023 10:11:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20230404132711.2563638-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAAH6oJAdi9kmEpeAA--.11004S5
-X-Coremail-Antispam: 1UD129KBjvJXoWxuF13Aw4ftr1DXF4fKrW5trb_yoW5Jw1Upr
- WkC3y3GrWUGa9rKa4fJF48WF15ArWxGrWUCan3Jw48tw4rJ398Cr1qq3y3uF1DWFW7Wr12
- 93WDuas8CF4UZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
- x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
- 8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
- JwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
- IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
- M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
- kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd8n5U
- UUUU=
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8BxX+They9kB8EXAA--.59245S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvdXoW7Wr15Gr17XrW8Kw4rCFW8tFb_yoWfAwc_XF
+ 1Iyry8CrsrAry3A3WIqryUCr1rJa1rJFW3CFn7Xws3K345Aanav34DWa4YvwnagrWrZr9x
+ t3W2yrn8Cr1aqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ s7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84
+ ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+ M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4
+ xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8
+ JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8w
+ CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
+ 6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64
+ vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_
+ Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
+ vEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL05UUUUU==
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.224,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,87 +79,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-mstatus.MPP field is a WARL field since priv version 1.11, so we
-remain it unchanged if an invalid value is written into it. And
-after this, RVH shouldn't be passed to riscv_cpu_set_mode().
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/cpu_helper.c |  8 ++------
- target/riscv/csr.c        | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 34 insertions(+), 6 deletions(-)
+在 2023/4/4 下午9:27, Alex Bennée 写道:
+> The calling function is already working with hwaddr and uint64_t so
+> lets avoid bringing target_ulong in if we don't need to.
+>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   hw/intc/loongarch_ipi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Song Gao <gaosong@loongson.cn>
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 2310c7905f..433ea529b0 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -647,12 +647,8 @@ void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *env, uint32_t priv,
- 
- void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
- {
--    if (newpriv > PRV_M) {
--        g_assert_not_reached();
--    }
--    if (newpriv == PRV_H) {
--        newpriv = PRV_U;
--    }
-+    g_assert(newpriv <= PRV_M && newpriv != PRV_RESERVED);
-+
-     if (icount_enabled() && newpriv != env->priv) {
-         riscv_itrigger_update_priv(env);
-     }
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index e0b871f6dc..f4d2dcfdc8 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1230,6 +1230,32 @@ static bool validate_vm(CPURISCVState *env, target_ulong vm)
-            satp_mode_max_from_map(riscv_cpu_cfg(env)->satp_mode.map);
- }
- 
-+static target_ulong legalize_mpp(CPURISCVState *env, target_ulong old_mpp,
-+                                 target_ulong val)
-+{
-+    bool valid = false;
-+    target_ulong new_mpp = get_field(val, MSTATUS_MPP);
-+
-+    switch (new_mpp) {
-+    case PRV_M:
-+        valid = true;
-+        break;
-+    case PRV_S:
-+        valid = riscv_has_ext(env, RVS);
-+        break;
-+    case PRV_U:
-+        valid = riscv_has_ext(env, RVU);
-+        break;
-+    }
-+
-+    /* Remain field unchanged if new_mpp value is invalid */
-+    if (!valid) {
-+        val = set_field(val, MSTATUS_MPP, old_mpp);
-+    }
-+
-+    return val;
-+}
-+
- static RISCVException write_mstatus(CPURISCVState *env, int csrno,
-                                     target_ulong val)
- {
-@@ -1237,6 +1263,12 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
-     uint64_t mask = 0;
-     RISCVMXL xl = riscv_cpu_mxl(env);
- 
-+    /*
-+     * MPP field have been made WARL since priv version 1.11. However,
-+     * legalization for it will not break any software running on 1.10.
-+     */
-+    val = legalize_mpp(env, get_field(mstatus, MSTATUS_MPP), val);
-+
-     /* flush tlb on mstatus fields that affect VM */
-     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-             MSTATUS_MPRV | MSTATUS_SUM)) {
--- 
-2.25.1
+Thanks.
+Song Gao
+> diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+> index aa4bf9eb74..bdba0f8107 100644
+> --- a/hw/intc/loongarch_ipi.c
+> +++ b/hw/intc/loongarch_ipi.c
+> @@ -50,7 +50,7 @@ static uint64_t loongarch_ipi_readl(void *opaque, hwaddr addr, unsigned size)
+>       return ret;
+>   }
+>   
+> -static void send_ipi_data(CPULoongArchState *env, target_ulong val, target_ulong addr)
+> +static void send_ipi_data(CPULoongArchState *env, uint64_t val, hwaddr addr)
+>   {
+>       int i, mask = 0, data = 0;
+>   
 
 
