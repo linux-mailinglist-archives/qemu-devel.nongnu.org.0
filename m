@@ -2,94 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C014D6DB5CE
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 23:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC956DB7E3
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 02:53:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkth4-0006wh-Mu; Fri, 07 Apr 2023 17:32:26 -0400
+	id 1pkwop-0003oD-OT; Fri, 07 Apr 2023 20:52:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1pkth2-0006wZ-7w
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 17:32:24 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.162])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1pkth0-0006es-Dj
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 17:32:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1680903135; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=N47fsBzHrMoIK8TggcF1+2usarDcqiqBF8XsyxwJiWrl64kB/QQ7EHRvWKPp9TRahV
- wMp1K9aQJhH0WirKW31p/FEYZfBh04AqOsdsAzzCmszEpLYI/H5ULaPaZzhCQOGNH1Sm
- mIZR1hbZKQqPCxMiV34tpy1aNAVIm3aNTXn8bS3nwDlkon2o4XaIpIikB3QksUypoQTK
- IiQBoy3r+oGYzLLR5k1m9pvHg7VaqY2JGdGvneUVUqQmiQ1Hp4F5fWjBbgbzBtuy+39g
- /2jkw6dMMQsHYQtC7OPENdNAEjkOKplXt3SP2BbGajh/aaSNMuu/FcmfOWcsPnwUGbds
- OKbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1680903135;
- s=strato-dkim-0002; d=strato.com;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=XFiS0oKQYXqHvajqJey6wUUC38b7yqOWk2P7FXbEcwU=;
- b=dyHt4qIiq4tH9ulGO7lcXk3GqHA3dOjEtqNsrbjHqqjX1eBNPTkknQIta6L7Bd94ZM
- fqHoRMOH733/57Irn+jJMnn42Ca1gPLRWz1o24p9i1Te4hIjoUz3WIO9f50bW1LG88uG
- jE9euFSBOwID3sX3HddFhwfJ6liG1JT6xfcOrmO/6A6Zb9MJL/JBpMpJ2hw5+0hxmrBI
- 9a1t8Bm0qzRc9zf9EOqpJlJoKcJrza4ui2SxaUY0++0kT2BvGNQz/S7DWvQl0/tlt+bJ
- 9qW5or3+1XkkdcvFDCW87pfCJDvQt9BMEUWO36SdqDJOcWQM3VEJ4DocSYtPucsSVWG/
- 5FSg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1680903135;
- s=strato-dkim-0002; d=aepfle.de;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=XFiS0oKQYXqHvajqJey6wUUC38b7yqOWk2P7FXbEcwU=;
- b=VsAS12tyrQXUVV4wI/wDUPKrKBXZSGGPqwSBkxNRLjErFCp9kXd4R4MLLMnWM2QYM8
- D9deLDEcZC4m68BYuK9eFxtzL5M/E8lJK15NJLZLdQikJieUZUQwhNyXc5Cf9p6Ikn+k
- r1ZG08FInE+oWpq5wY/u5okeX3vqx/xk4hKn5ZT43nzKh/370bBanG0g23/s2hNsVjZe
- jb1xAkOOGiK9zC0R/kbMVHD3wnQ8h9LLDUVu52yRC4yRhPNLg6T/axVMf11QO7WgscwX
- lxuWcHb3RvoGTZB996lHO9Pt0XES5oeq2RmYH1iRiqLJ1WpPzpQ2GFQgbRNahXYXQ3Ga
- nszA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1680903135;
- s=strato-dkim-0003; d=aepfle.de;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=XFiS0oKQYXqHvajqJey6wUUC38b7yqOWk2P7FXbEcwU=;
- b=Sk4HNlqzwFrGYr9CXXxlQPoTgZqpNn1ZOdVY8HMyDux8lUTs8hDiChg2ndB4mtJHmW
- jE1oJKDGYWFaU7G+DCAA==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDX3y/OuD5rXVisR5AEWIPBvsPI52f2TnxTwFPmhSWhc+9ByBCFU+BA=="
-Received: from sender by smtp.strato.de (RZmta 49.4.0 AUTH)
- with ESMTPSA id x6987cz37LWFF1b
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Fri, 7 Apr 2023 23:32:15 +0200 (CEST)
-Date: Fri, 7 Apr 2023 23:32:02 +0200
-From: Olaf Hering <olaf@aepfle.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Philippe
- =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Ani Sinha
- <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PULL 5/6] edk2: replace build scripts
-Message-ID: <20230407233202.51e9938c.olaf@aepfle.de>
-In-Reply-To: <20230320093847.539751-6-kraxel@redhat.com>
-References: <20230320093847.539751-1-kraxel@redhat.com>
- <20230320093847.539751-6-kraxel@redhat.com>
-X-Mailer: Claws Mail 20220819T065813.516423bc hat ein Softwareproblem,
- kann man nichts machen.
+ (Exim 4.90_1) (envelope-from <lukts330@gmail.com>)
+ id 1pkuJ7-0005gK-2w; Fri, 07 Apr 2023 18:11:45 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lukts330@gmail.com>)
+ id 1pkuJ5-0006K0-90; Fri, 07 Apr 2023 18:11:44 -0400
+Received: by mail-wr1-x442.google.com with SMTP id h17so43246437wrt.8;
+ Fri, 07 Apr 2023 15:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680905500; x=1683497500;
+ h=content-transfer-encoding:cc:subject:from:to:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y/8EIferPDosy0OJzf3MZ/j4h9qECl+ovy1rLZhgpiE=;
+ b=Ptm2BbDC7RYa2fWP2qVCnHM33Vuq6Nva/z0t/3L5gLED55Y+7rZgboAhGSV/PkRck3
+ UeN2Q/vsjVlgMXBkrfsKhdKE/1eeogd2EaOYjMeq7kCXt6h1GiXQjbEuCP1Ea9TIPj9E
+ oeI81hvGcPS5WG998XTXNxLRENf2HPPDEPX9WkSwoNymz5ivKPfoR5YBtNN8XLxqe3dm
+ T1PtSIuu8Gun89C/rUii8jlnuWN4e1/ZZ3IyFG44t4Wuyp9jNXRVYH9ElFAAuqiJUBAd
+ 2BFW2CgPoZwW1scUdzbjs2iU0Q7dLVQtAQowOd5pYrGGl523FXPF4wxz00lh813slRGD
+ b9Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680905500; x=1683497500;
+ h=content-transfer-encoding:cc:subject:from:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=y/8EIferPDosy0OJzf3MZ/j4h9qECl+ovy1rLZhgpiE=;
+ b=T6NiNgPGaQG/w/p5Jkxd3Y4fs0UGzAP3OVCQl073tsMZwp+t0lMK7YRkPY0Ve2Rstb
+ CGrQLW/MdwKj0vSZ4nN/RoflmWMhxXy+EEovNcdLh0P+h6Aze63Oei8AihFtjA8NmGp9
+ n++fDSRFkgluvNmA2HPZ7AELUFYyIb2luI3Dh0vAOT80tznFir4gxnLcPZonogD8LjB1
+ qEFm54Fxc0VyfFNoUDtK6xY8xmzb8FpSAdwU3jmS22UMPXbQPYzDI+Pv9hjBZkFuPu9v
+ o2VVVdjB2EzNufYHgh52Qn66EiQ8wVbpAd0MwrN+iqKjL3014V/m77H84bcot83rK5K4
+ 90Lg==
+X-Gm-Message-State: AAQBX9fGAYw+oPkDpbdQ6MLXAzt8EmfYqFIDAloEn17j833DS1bMMt34
+ V4zHJD4B7xJQv2rzAFZyAqEng2tPTxnOfAJWsjY=
+X-Google-Smtp-Source: AKy350bOLN/epeSAoXRjSErqsGYSTVkDBWZdG13wT6HbzawV4IOba8Pipj06wuAS0w7Uee76gX2VUg==
+X-Received: by 2002:a5d:5451:0:b0:2ef:b433:2942 with SMTP id
+ w17-20020a5d5451000000b002efb4332942mr1483177wrv.21.1680905500418; 
+ Fri, 07 Apr 2023 15:11:40 -0700 (PDT)
+Received: from ?IPV6:2003:f8:5704:ee00:e891:d419:e775:59fe?
+ (p200300f85704ee00e891d419e77559fe.dip0.t-ipconnect.de.
+ [2003:f8:5704:ee00:e891:d419:e775:59fe])
+ by smtp.gmail.com with ESMTPSA id
+ w9-20020adfec49000000b002cde25fba30sm5511335wrn.1.2023.04.07.15.11.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Apr 2023 15:11:39 -0700 (PDT)
+Message-ID: <6cfb6d6b-adc5-7772-c8a5-6bae9a0ad668@gmail.com>
+Date: Sat, 8 Apr 2023 00:11:38 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/N.A5z4X_H+tBpM9bscI7ML7";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+From: Lukas Tschoke <lukts330@gmail.com>
+Subject: [PATCH] block/vhdx: fix dynamic VHDX BAT corruption
+Cc: qemu-block@nongnu.org, kwolf@redhat.com, lukts330@gmail.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=81.169.146.162; envelope-from=olaf@aepfle.de;
- helo=mo4-p00-ob.smtp.rzone.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=lukts330@gmail.com; helo=mail-wr1-x442.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 07 Apr 2023 20:52:38 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,41 +93,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/N.A5z4X_H+tBpM9bscI7ML7
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The corruption occurs when a BAT entry aligned to 4096 bytes is changed.
 
-Mon, 20 Mar 2023 10:38:46 +0100 Gerd Hoffmann <kraxel@redhat.com>:
+Specifically, the corruption occurs during the creation of the LOG Data
+Descriptor. The incorrect behavior involves copying 4088 bytes from the
+original 4096 bytes aligned offset to `tmp[8..4096]` and then copying
+the new value for the first BAT entry to the beginning `tmp[0..8]`.
+This results in all existing BAT entries inside the 4K region being
+incorrectly moved by 8 bytes and the last entry being lost.
 
-> Remove Makefile.edk2 and the edk2*.sh scripts and replace them
-> with a python script (which already handles fedora rpm builds)
-> and a config file for it.
+This bug did not cause noticeable corruption when only sequentially
+writing once to an empty dynamic VHDX (e.g.
+using `qemu-img convert -O vhdx -o subformat=dynamic ...`), but it
+still resulted in invalid values for the (unused) Sector Bitmap BAT
+entries.
 
-This breaks 'make roms efirom' (in case this happens to be a valid make tar=
-get).
+Importantly, this corruption would only become noticeable after the
+corrupted BAT is re-read from the file.
 
-Olaf
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/727
+Signed-off-by: Lukas Tschoke <lukts330@gmail.com>
+---
+ block/vhdx-log.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---Sig_/N.A5z4X_H+tBpM9bscI7ML7
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
+diff --git a/block/vhdx-log.c b/block/vhdx-log.c
+index c48cf65d62..38148f107a 100644
+--- a/block/vhdx-log.c
++++ b/block/vhdx-log.c
+@@ -981,7 +981,7 @@ static int vhdx_log_write(BlockDriverState *bs, BDRVVHDXState *s,
+             sector_write = merged_sector;
+         } else if (i == sectors - 1 && trailing_length) {
+             /* partial sector at the end of the buffer */
+-            ret = bdrv_pread(bs->file, file_offset,
++            ret = bdrv_pread(bs->file, file_offset + trailing_length,
+                              VHDX_LOG_SECTOR_SIZE - trailing_length,
+                              merged_sector + trailing_length, 0);
+             if (ret < 0) {
+-- 
+2.40.0
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmQwi9IACgkQ86SN7mm1
-DoCz0xAAhtniqt7ZADfdTyk0IvTH5dmknmEw62xUjMyn7x6lOTzuVJzo2JzqQ1/2
-AGp2UyiL8fV4QhjmVqszkCTbStnycerwx+9mDyN1bEU9+y9uE+gmAVghI+oqN0I3
-nlxe8U6SRpop8tbRPk4hdRmb3LKejOffzy3Rd/oq7Iarc11ONMRVzlZDi0Gx0E3L
-HLdw58mLjfB4O65pdfkUrCCudvCE8pohWgJWbjP1HjUk4N8LpheavtPIok+hTI2J
-woH0rJT+BBp0T8sh7sm5PZ2+p9dbg5QfL2dYpQsPF7KtWy9IKPtRQaGq1gsZk9kg
-vJB8iHXV21QA8ZQI2Bd3rc1blhwOuqPl6sChlOSYaz+ZNophgM/qRUu8tRlrQp2d
-5VbYPuPUMmQc2s225mrUkOrGp5uTZ27FXn5WxvBKA7orzS6aYwNFMAzUhGdqPUyD
-0OYjpJUv03dAScTY3C8oQvJWlJaPvBMhEAHN71bfRh2wmzl8XACPmD/nKNmy6B0s
-6I8xVDM2HxS+05A6eNM6Nmwycqn2Q8dSmetjAX0UYRV+q6sSymIx4YJfNIujT4Wz
-vB2CKUtpEXGZSvRRtbeVKgbxrdv0T98BygpqM/9tlbaXRtLdDeAA87E9HkblSW6c
-kHbcxZXREoQOHG8zcMwR99YVQWWFDU7+aMm1Dyb0hWePV+1ZJp8=
-=h8eQ
------END PGP SIGNATURE-----
-
---Sig_/N.A5z4X_H+tBpM9bscI7ML7--
 
