@@ -2,89 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547D76DA974
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 09:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4FC6DA977
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 09:41:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkger-0002iu-GV; Fri, 07 Apr 2023 03:37:17 -0400
+	id 1pkgiH-0003X5-Cp; Fri, 07 Apr 2023 03:40:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pkgel-0002im-Kx
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 03:37:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pkgej-00078L-3f
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 03:37:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680853026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Bm586z1Ms9Jk/Cgge79gTRee0TwA0r6g36Vf4DKWc/Y=;
- b=g3EyDgo0kh0BMkwU/zzd4xpYpWVU6Z9XM30MWhGpqG35jSWaWOR0M433pnmCMEb/ulDn3o
- /foAnr/fxEW5TLtaZj+kka1rrk0FYZtzC3qIsCRgHj+IhlT6/jttvljMHGfJDvRnmQfPMD
- lzPabOAH47zLeiTu3LYiP4/Ts8mQLDY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-336--quL9HHHMs6hcVCl-sb2UA-1; Fri, 07 Apr 2023 03:37:04 -0400
-X-MC-Unique: -quL9HHHMs6hcVCl-sb2UA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- hg24-20020a05600c539800b003f066c0b044so2468112wmb.0
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 00:37:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680853023;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Bm586z1Ms9Jk/Cgge79gTRee0TwA0r6g36Vf4DKWc/Y=;
- b=cO/rs9ODu/6f3Cqj3en03irGmX9klFf3EmWruF5BGQv291HOQxvJguzTo+trwxlgLv
- 8KVIQfF0gB0DokBb4x4GHiF6hpicD91lZyZDG8ECgg5iRd68/NtBxugryQWRm1VajzO8
- Or25fcaxK1GCb8e7kaXGzrR3h5VQ366G670cZx2gzQHi7PhjvpGbdwg72TYI1fv6FBXC
- gdTa6TK5CpEsyaUD4k+L3femB5y8xFfoIqsC7l4TKIU7uzdNwyC0/Hf0SHMK8iaSEzEa
- U2YCZouudA42cIfIV4Opo+b0HR44e9YFJWM2Dpw4K1CJj5TWIU+2tKXyMBJh1bgJ03il
- WnZA==
-X-Gm-Message-State: AAQBX9c+pYNhJ/ea2V/AX/GjepCRKKDd56VhbxK7T2X/W70sivkJjwW4
- t0NnFxH8opTlQ28e/UCqt6uJXsn7cRqvEuvAo9Bzgv7Ii9vDZGDWh/HfC73fi5kfTcRIH7Vix4c
- KSjU8yGEK+kjrwIU=
-X-Received: by 2002:a7b:cd10:0:b0:3e2:19b0:887d with SMTP id
- f16-20020a7bcd10000000b003e219b0887dmr610237wmj.25.1680853023643; 
- Fri, 07 Apr 2023 00:37:03 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bjpsC3+JNXEwadYo9sena4fnEcL1/5HG0DAzEiBmY9CpQxwB3ZEX1eaoxVemHhKK1zVT0CCg==
-X-Received: by 2002:a7b:cd10:0:b0:3e2:19b0:887d with SMTP id
- f16-20020a7bcd10000000b003e219b0887dmr610216wmj.25.1680853023344; 
- Fri, 07 Apr 2023 00:37:03 -0700 (PDT)
-Received: from redhat.com ([2a06:c701:742d:fd00:c847:221d:9254:f7ce])
- by smtp.gmail.com with ESMTPSA id
- iv11-20020a05600c548b00b003ed29189777sm7582776wmb.47.2023.04.07.00.37.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Apr 2023 00:37:02 -0700 (PDT)
-Date: Fri, 7 Apr 2023 03:37:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Jonathan Cameron via <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, ani@anisinha.ca,
- berrange@redhat.com, Fan Ni <fan.ni@samsung.com>,
- Dave Jiang <dave.jiang@intel.com>
-Subject: Re: [RFC PATCH 0/4] hw/i386: Factor out PXB parts of DSDT into an
- SSDT table
-Message-ID: <20230407033509-mutt-send-email-mst@kernel.org>
-References: <20230317165440.24846-1-Jonathan.Cameron@huawei.com>
- <20230406112529.00006533@huawei.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pkgiE-0003Wx-Lf
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 03:40:46 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pkgiC-0007zt-DD
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 03:40:46 -0400
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8Dxldj2yC9kvcIXAA--.41821S3;
+ Fri, 07 Apr 2023 15:40:38 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxLL70yC9kDQ4YAA--.23847S3; 
+ Fri, 07 Apr 2023 15:40:37 +0800 (CST)
+Subject: Re: [RFC PATCH v2 30/44] target/loongarch: Implement vclo vclz
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230328030631.3117129-1-gaosong@loongson.cn>
+ <20230328030631.3117129-31-gaosong@loongson.cn>
+ <d81762ea-f939-ac48-018c-826c581e5fad@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <cee17e01-4f4a-6c1d-9808-08f7ca083ff7@loongson.cn>
+Date: Fri, 7 Apr 2023 15:40:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230406112529.00006533@huawei.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d81762ea-f939-ac48-018c-826c581e5fad@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8BxLL70yC9kDQ4YAA--.23847S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvdXoW7Xry7Ary3JFyDXw4DJF4DXFb_yoWxurg_Gr
+ ZxX3ZrC3ZFk3WktF10yF48Ja1xX3WDJrW8uw15XF9xWr90grZxJ3s5CrWfJF18K3Z3XryY
+ 9a45ZFZ3ua90gjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ c7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
+ xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWle2I2
+ 62IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4
+ CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvj
+ eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw2
+ 8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
+ x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrw
+ CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI
+ 42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
+ 80aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.224,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,72 +79,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Apr 06, 2023 at 11:25:47AM +0100, Jonathan Cameron wrote:
-> On Fri, 17 Mar 2023 16:54:36 +0000
-> Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
-> 
-> > Michael Tsirkin raised that we have recently had churn in the bios-tables-test
-> > and perhaps it was worth factoring some parts of DSDT out as SSDT files.
-> > This is an attempt to do that for the entries from pxb-pcie and pxb-cxl
-> > PCI root bridges.
-> > 
-> > The main PCI root bridge and related elements are left in DSDT as they
-> > are present in many more tests than PXB.  However things brings some
-> > complexity as some of the DSDT parts are then dependent on building up
-> > information whilst creating the PXB entries.  The ordering constraints
-> > of RSDT entries prevent easily generating the new SSDT table first
-> > (see patch 3)
-> > 
-> > This series works around that by separating that build up of information from
-> > the build up of the PXB parts of the SSDT.  That allows the tables to be
-> > build in the standard order, based on knowledge that the SSDT parts will
-> > definitely be built later.
-> > 
-> > Personally, having tried this, I'm not convinced that the advantages of
-> > simplifying updates to the test data justify the complexity increase needed.
-> > However I will add that I have a series adding CXL QTG DSM support form Dave
-> > Jiang in my tree that will only result in updates to SSDT.cxl after this patch
-> > rather than DSDT.cxl reducing chance of a clash with other changes
-> > in flight. Hence this is an RFC to find out if people think this is
-> > a good direction to go in.
-> > 
-> > Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> > https://lore.kernel.org/qemu-devel/20230302055544-mutt-send-email-mst@kernel.
-> 
-> Michael / all, at first glance at least, is sensible to take forwards?
-> 
-> Whilst I'm not in a rush on this, I'm carrying a bunch of patches
-> for next cycle that are on top of this at the moment, so I'm just wondering
-> whether it makes sense reorder things based on what might land first
-> / not land at all.
-> 
-> Thanks,
-> 
-> Jonathan
 
-Yes, I like this. Igor had some reservations about the split-up. Igor
-can you comment please?
+在 2023/4/2 上午11:34, Richard Henderson 写道:
+> On 3/27/23 20:06, Song Gao wrote:
+>> +#define DO_CLO_B(N)  (clz32((uint8_t)~N) - 24)
+>> +#define DO_CLO_H(N)  (clz32((uint16_t)~N) - 16)
+>
+> I think this is wrong. 
+It is wried,  the result is always right. :-\
+and  (clz32(~N) - 24)  or (clz32((uint32_t)~N) - 24) is wrong.
+> You *want* the high bits to be set, so that they are ones, and 
+> included in the count, which you then subtract off.  You want the 
+> "real" count to start after the 24th leading 1.
+>
+Yes,
+and  we use clz32(),   how about the following way?
 
+#define DO_CLO_B(N)  (clz32( ~N & 0xff) -24)
+#define DO_CLO_H(N)  (clz32( ~N & 0xffff) -16)
 
-> > 
-> > 
-> > Jonathan Cameron (4):
-> >   hw/acpi: Make Aml and / or crs_range_set optional in build_crs
-> >   tests/acpi: Allow changes to DSDT.cxl/viot and SSDT.cxl/viot
-> >   hw/i386/acpi: Separate PXB related parts of DSDT into an SSDT table.
-> >   tests/acpi: Updated DSDT and SSDT due to move of PXB info to SSDT
-> > 
-> >  hw/acpi/aml-build.c           |  75 +++++-----
-> >  hw/i386/acpi-build.c          | 249 ++++++++++++++++++++++------------
-> >  hw/pci-host/gpex-acpi.c       |   5 +-
-> >  include/hw/acpi/aml-build.h   |   4 +-
-> >  tests/data/acpi/q35/DSDT.cxl  | Bin 9673 -> 8474 bytes
-> >  tests/data/acpi/q35/DSDT.viot | Bin 9470 -> 8429 bytes
-> >  tests/data/acpi/q35/SSDT.cxl  | Bin 0 -> 1235 bytes
-> >  tests/data/acpi/q35/SSDT.viot | Bin 0 -> 1077 bytes
-> >  8 files changed, 208 insertions(+), 125 deletions(-)
-> >  create mode 100644 tests/data/acpi/q35/SSDT.cxl
-> >  create mode 100644 tests/data/acpi/q35/SSDT.viot
-> > 
+Thanks.
+Song Gao
 
 
