@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFD86DAA90
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 11:04:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293E06DAAD8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 11:26:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkhzj-00087m-U1; Fri, 07 Apr 2023 05:02:55 -0400
+	id 1pkiKy-0003C3-30; Fri, 07 Apr 2023 05:24:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pkhzh-0007xe-6g; Fri, 07 Apr 2023 05:02:53 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ (Exim 4.90_1) (envelope-from <digit@google.com>) id 1pkiKu-0003BS-PE
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 05:24:49 -0400
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pkhzf-00018i-5a; Fri, 07 Apr 2023 05:02:52 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- nh20-20020a17090b365400b0024496d637e1so3784239pjb.5; 
- Fri, 07 Apr 2023 02:02:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <digit@google.com>) id 1pkiKr-0001S7-Bo
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 05:24:47 -0400
+Received: by mail-il1-x130.google.com with SMTP id t5so10569612ilu.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 02:24:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680858166; x=1683450166;
- h=to:from:subject:cc:message-id:date:content-transfer-encoding
+ d=google.com; s=20210112; t=1680859483; x=1683451483;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=U3vYh4wBxeALICsHqGaNz+6QzYeHaYPS4NyTqx0X6co=;
- b=USQlsQkoEKoxYr6E7y0ShX6G/4KX/yUwUENqsiBx2HgXn9uQG69DxRAWexc//Zio5d
- glNBkrO7DsdcnaTGkvXahlmo34CQFj5yHpPh1ynuCq11dYZn45nmLlQRdXVlUbxLmovK
- rnrmR42fWfaaAED/tYeMbZxyer5ceaGPgxO7fZ+Se0C7kc2PLqZljjI4bNTaakGKN7PB
- Ur8KKphM6gY8vKX35dJpV6YOlWqNAksVEAVt5yeCztpqNnKtoZsMrNDrSlUDdHHW3x1B
- Xzw7ssn6uYDkixxK5aph570ysz9gggXlPQD/Y1lMLD8mckZEkiSTX75F4hae2qdRjuq7
- +Umw==
+ bh=8RAGYZ37ImIGmfU8cYTgZPjkvmpZVWuj6In1+rB5upg=;
+ b=d/QzDwEwRWz0kS2hI9keDeAujx5Vtc4+vAWI7P8OLsFLl0wgvQd6Zv1EpSzz1g2BYH
+ 4r/M3DzRqrq8VhCx1GcLcMqtWyqbqJg3VMxG+Ss1FZBjdBBkNdiVs57vn77s+k3cL1Mw
+ +9/hkPY6Rovlx1Hgv/h+Ie9C0Zz55X6BL3/evH4AVzi/ucVZMzGCaQTyaAp7AI4jscA/
+ fUxPSOGmIW5RLQEsDauRu3ozl6w907TdMnqwFUyIboXQwqUrjazE+/fT/ppZOSKm9aPo
+ H8eby83/yoWcdjxYh8/Q/tJjZM7XeNFC0k9sQCcGvLX7zc6RSVhmYRzCGz7a6YqtuN5x
+ 0xdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680858166; x=1683450166;
- h=to:from:subject:cc:message-id:date:content-transfer-encoding
+ d=1e100.net; s=20210112; t=1680859483; x=1683451483;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=U3vYh4wBxeALICsHqGaNz+6QzYeHaYPS4NyTqx0X6co=;
- b=BC2TWjA2qJsZAT3nIsI0Rw/QZyU1sPnhXnylY3SyhK71YdEMSSO+xH/IkZnsObbC6C
- BJmXzHfOfw0wfwpI7JVBarnJjzdBf+WehkRPhdTQxNTtFxxG8S6f12J38PF9/42iq/dN
- Lgmz/CuyEcZCOqxpxN6fc72jAqPfPVmLWENiwd5HsGNBu/KgW6sPgx9i/4bJ6P1RzEBF
- zZIbRJ3JW575UUrqq5V97zF+GE/kwyY96L2jF05ciC6aziZ2vh99OacvLih2BsUrXzB6
- oASd/7t/fQ3Ol9etY0xRAST+vR/lF8Qx9d5s+9x1H7TZE/uyyvcdAWcrcaPyZAuLlZ9X
- mtbg==
-X-Gm-Message-State: AAQBX9d77jU4nyVS0WNaRj//KSCTS8pa8fcEEcABIzBOe1CwOeMN+Mjb
- i8T8JiDNTGUYsg2FTk1tuov9BWp7+FRxHA==
-X-Google-Smtp-Source: AKy350ZlLWPpE3d0zFggVQXaVRj7zSR3BBJmx0+uyYNRriT2n5dtlNagJF8UrgDiMV/F6WTBX1dEJg==
-X-Received: by 2002:a05:6a20:b547:b0:de:d3ce:9d14 with SMTP id
- ev7-20020a056a20b54700b000ded3ce9d14mr2121881pzb.60.1680858166480; 
- Fri, 07 Apr 2023 02:02:46 -0700 (PDT)
-Received: from localhost ([203.59.189.25]) by smtp.gmail.com with ESMTPSA id
- bm17-20020a056a00321100b0062de3e977bcsm2603493pfb.26.2023.04.07.02.02.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Apr 2023 02:02:46 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 07 Apr 2023 19:02:41 +1000
-Message-Id: <CRQEHNGPTSUM.34NYFP2RDLQA6@wheely>
-Cc: "Richard Henderson" <richard.henderson@linaro.org>, <qemu-ppc@nongnu.org>
-Subject: assert !temp_readonly(ts) in tcg_reg_alloc_op
-From: "Nicholas Piggin" <npiggin@gmail.com>
-To: <qemu-devel@nongnu.org>
-X-Mailer: aerc 0.14.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ bh=8RAGYZ37ImIGmfU8cYTgZPjkvmpZVWuj6In1+rB5upg=;
+ b=lI8E0CeaYVIjhyJGStJDChgCtRk9Qr5ZHFS5z6knHxPZhYP5VNFuBOCuBy3pHzZxyE
+ fMH62oImXxdMbl8JziAQ3zHEF9DgRHfg6FK9+i1CybEbiDMfBhikEZGtJLqt5/32AI4o
+ Mtm3vZbslhVHzqMiy8a+GkCkZCp2AaNU3s+XgGMHjKqin/d2/bQLRSKzKvp8gVNS8o6L
+ K7kL0s+Qx288DhIo+9HsW59MeF/WVzQv9EOePz3em7uNmglde+6pn/oOPDF0IB58hkok
+ D3Sj4UWXEEJcwHwWrZCDl3iAaCYRWpGDPB9slawqnc0SvG/coPaG/Ml7WZiQ9xvhD0ZJ
+ pgKA==
+X-Gm-Message-State: AAQBX9et7j/XYwL3OvxQ4QrIK6Z5GpId/ZmdGV1TorRDIz4UYBO1g73r
+ Buv/S4bmDhjlKgXvqI1whoQKgD8q4lo5egLvSUY+jOO9V9Z0yIx5Cld5jw==
+X-Google-Smtp-Source: AKy350YI5kr9a3TmPwjz4oHEeY7Qcf9hdpWjoogHXx439mNUIZKnhMnPj21n/VkxCC4YcFZe9aM1mVZJ+9h4TemTYX8=
+X-Received: by 2002:a92:ca4b:0:b0:323:cab8:3c0c with SMTP id
+ q11-20020a92ca4b000000b00323cab83c0cmr1003958ilo.5.1680859482981; Fri, 07 Apr
+ 2023 02:24:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230405172109.3081788-1-digit@google.com>
+ <20230405172109.3081788-2-digit@google.com>
+ <20230407035709-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230407035709-mutt-send-email-mst@kernel.org>
+From: David Turner <digit@google.com>
+Date: Fri, 7 Apr 2023 11:24:30 +0200
+Message-ID: <CACnJMqpF9FPwtZz3Uj_amCbrRtQo7WWPm0bY_qy=80+ihb8Uhw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] Fix libvhost-user.c compilation.
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000670f7205f8bb987b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=digit@google.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,81 +84,289 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I get a crash running a powerpc64 TCG machine on x86.
+--000000000000670f7205f8bb987b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It can be triggered by booting a custom vmlinux patched to use powerpc
-prefix instructions and pcrel addressing, I don't know if that's related
-or coincidence. I can give Linux patches or a vmlinux file to reproduce
-if needed, or I can test patches quickly.
+The <linux/vhost.h> of glib-2.17 begins with:
 
-The first bad commit is 7058ff5231a0 ("target/ppc: Avoid tcg_const_* in
-translate.c")
+#ifndef _LINUX_VHOST_H
+#define _LINUX_VHOST_H
+/* Userspace interface for in-kernel virtio accelerators. */
+/* vhost is used to reduce the number of system calls involved in virtio.
+ *
+ * Existing virtio net code is used in the guest without modification.
+ *
+ * This header includes interface used by userspace hypervisor for
+ * device configuration.
+ */
+#include <linux/types.h>
+#include <linux/ioctl.h>
+#include <linux/virtio_config.h>
+#include <linux/virtio_ring.h>
 
-Some gdb stuff
 
-  0x00007ffff76d5395 in __assert_fail_base
-    (fmt=3D0x7ffff7849a70 "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n", asse=
-rtion=3Dassertion@entry=3D0x55555625a99c "!temp_readonly(ts)", file=3Dfile@=
-entry=3D0x555556256211 "../tcg/tcg.c", line=3Dline@entry=3D4450, function=
-=3Dfunction@entry=3D0x55555625b640 <__PRETTY_FUNCTION__.9> "tcg_reg_alloc_o=
-p") at ./assert/assert.c:92
-#5  0x00007ffff76e3df2 in __GI___assert_fail
-    (assertion=3D0x55555625a99c "!temp_readonly(ts)", file=3D0x555556256211=
- "../tcg/tcg.c", line=3D4450, function=3D0x55555625b640 <__PRETTY_FUNCTION_=
-_.9> "tcg_reg_alloc_op") at ./assert/assert.c:101
-#6  0x0000555555e078b9 in tcg_reg_alloc_op
-    (s=3D0x7ffd60000b70, op=3D0x7ffd600097f8) at ../tcg/tcg.c:4450
-#7  0x0000555555e08e77 in tcg_gen_code
-    (s=3D0x7ffd60000b70, tb=3D0x7fffb07612c0, pc_start=3D138350580552863879=
-16)
-    at ../tcg/tcg.c:5122
-#8  0x0000555555e49a3f in setjmp_gen_code
-    (env=3D0x555556be9e30, tb=3D0x7fffb07612c0, pc=3D13835058055286387916, =
-host_pc=3D0x7ffd702074cc, max_insns=3D0x7ffff65076ac, ti=3D0x7ffff65076c8)
-    at ../accel/tcg/translate-all.c:297
-#9  0x0000555555e49c67 in tb_gen_code
-    (cpu=3D0x555556be7a40, pc=3D13835058055286387916, cs_base=3D0, flags=3D=
-3053453367, cflags=3D-16777216) at ../accel/tcg/translate-all.c:365
-#10 0x0000555555e40db4 in cpu_exec_loop (cpu=3D0x555556be7a40, sc=3D0x7ffff=
-6507800)
-    at ../accel/tcg/cpu-exec.c:978
-#11 0x0000555555e40f95 in cpu_exec_setjmp
-    (cpu=3D0x555556be7a40, sc=3D0x7ffff6507800) at ../accel/tcg/cpu-exec.c:=
-1043
-#12 0x0000555555e4101c in cpu_exec (cpu=3D0x555556be7a40)
-    at ../accel/tcg/cpu-exec.c:1069
+See
+https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/host/x86_=
+64-linux-glibc2.17-4.8/+/refs/heads/master/sysroot/usr/include/linux/vhost.=
+h
 
-(gdb) frame 6
-#6  0x0000555555e078b9 in tcg_reg_alloc_op (s=3D0x7ffd60000b70,
-    op=3D0x7ffd600097f8) at ../tcg/tcg.c:4450
-4450	            tcg_debug_assert(!temp_readonly(ts));
-(gdb) p *op
-$1 =3D {opc =3D INDEX_op_divu2_i32, nargs =3D 5, param1 =3D 0, param2 =3D 0=
-,
-  life =3D 464, link =3D {tqe_next =3D 0x7ffd60009840, tqe_circ =3D {
-      tql_next =3D 0x7ffd60009840, tql_prev =3D 0x7ffd60009770}}, output_pr=
-ef =3D {
-    0, 4}, args =3D 0x7ffd60009818}
-(gdb) print *def
-$2 =3D {name =3D 0x55555625baf5 "divu2_i32", nb_oargs =3D 2 '\002',
-  nb_iargs =3D 3 '\003', nb_cargs =3D 0 '\000', nb_args =3D 5 '\005',
-  flags =3D 0 '\000', args_ct =3D 0x555556ba793c}
-(gdb) p k
-$3 =3D 1
-(gdb) p *ts
-$4 =3D {reg =3D TCG_REG_R12, val_type =3D TEMP_VAL_CONST, base_type =3D TCG=
-_TYPE_I32,
-  type =3D TCG_TYPE_I32, kind =3D TEMP_CONST, indirect_reg =3D 0, indirect_=
-base =3D 0,
-  mem_coherent =3D 0, mem_allocated =3D 0, temp_allocated =3D 1, temp_subin=
-dex =3D 0,
-  val =3D 0, mem_base =3D 0x0, mem_offset =3D 0, name =3D 0x0, state =3D 0,
-  state_ptr =3D 0x7ffd6000a9fc}
-(gdb) p *arg_ct
-$5 =3D {ct =3D 0, alias_index =3D 3, sort_index =3D 1, pair_index =3D 0, pa=
-ir =3D 0,
-  oalias =3D true, ialias =3D false, newreg =3D false, regs =3D 4}
+Here's the compilation error I get in this case:
 
-Thanks,
-Nick
+FAILED: subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o
+
+/src/prebuilts/clang/clang-r487747/bin/clang --sysroot=3D/out/sysroot -m64
+-mcx16 -Isubprojects/libvhost-user/libvhost-user.a.p
+-Isubprojects/libvhost-user -I../../
+src/third_party/qemu/subprojects/libvhost-user
+-I/out/dest-install/usr/include -fcolor-diagnostics -Wall -Winvalid-pch
+-std=3Dgnu99 -O2 -g -Wsign-compare -Wdeclarat
+ion-after-statement -Wstrict-aliasing -fno-pie -D_FILE_OFFSET_BITS=3D64
+-D_LARGEFILE_SOURCE -fno-strict-aliasing -fno-common -fwrapv -Wundef
+-Wwrite-strings -Wmissi
+ng-prototypes -Wstrict-prototypes -Wredundant-decls -Wold-style-definition
+-Wtype-limits -Wformat-security -Wformat-y2k -Winit-self
+-Wignored-qualifiers -Wempty-b
+ody -Wnested-externs -Wendif-labels -Wexpansion-to-defined
+-Wmissing-format-attribute -Wthread-safety -Wno-initializer-overrides
+-Wno-missing-include-dirs -Wno-sh
+ift-negative-value -Wno-string-plus-int -Wno-typedef-redefinition
+-Wno-tautological-type-limit-compare -Wno-psabi
+-Wno-gnu-variable-sized-type-not-at-end -fstack-
+protector-strong -pthread -D_GNU_SOURCE -MD -MQ
+subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o -MF
+subprojects/libvhost-user/libvhost-user.a.p/libv
+host-user.c.o.d -o
+subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o -c
+../../src/third_party/qemu/subprojects/libvhost-user/libvhost-user.c
+
+../../src/third_party/qemu/subprojects/libvhost-user/libvhost-user.c:529:17=
+:
+error: use of undeclared identifier 'VIRTIO_F_VERSION_1'
+
+        1ULL << VIRTIO_F_VERSION_1 |
+
+                ^
+../../src/third_party/qemu/subprojects/libvhost-user/libvhost-user.c:563:30=
+:
+error: use of undeclared identifier 'VIRTIO_F_VERSION_1'
+
+    if (!vu_has_feature(dev, VIRTIO_F_VERSION_1)) {
+
+                             ^
+../../src/third_party/qemu/subprojects/libvhost-user/libvhost-user.c:632:22=
+:
+warning: unused variable 'dev_region' [-Wunused-variable]
+
+        VuDevRegion *dev_region =3D &dev->regions[i];
+
+                     ^
+../../src/third_party/qemu/subprojects/libvhost-user/libvhost-user.c:633:13=
+:
+warning: unused variable 'ret' [-Wunused-variable]
+
+        int ret;
+
+            ^
+2 warnings and 2 errors generated.
+
+
+On Fri, Apr 7, 2023 at 10:03=E2=80=AFAM Michael S. Tsirkin <mst@redhat.com>=
+ wrote:
+
+> If you are reposting, please version patchsets, E.g.
+> -v2 flag for git format-patch will enerate [PATCH v2] for you.
+>
+> Repeating what I said on previous version:
+>
+> On Wed, Apr 05, 2023 at 07:21:07PM +0200, David 'Digit' Turner wrote:
+> > The source file uses VIRTIO_F_VERSION_1 which is
+> > not defined by <linux/virtio_config.h> on Debian 10.
+> >
+> > The system-provided <linux/virtio_config.h> which
+> > does not include the macro definition is included
+> > through <linux/vhost.h>, so fix the issue by including
+> > the standard-headers version before that.
+> >
+> > Signed-off-by: David 'Digit' Turner <digit@google.com>
+>
+> This happens to work usually but there's no guarantee
+> "standard-headers/linux/virtio_config.h"
+> and <linux/virtio_config.h> are interchangeable or
+> even do not conflict.
+>
+> But where is <linux/vhost.h> using <linux/virtio_config.h>?
+> Everyone should be using "standard-headers/linux/virtio_config.h".
+>
+>
+> > ---
+> >  subprojects/libvhost-user/libvhost-user.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/subprojects/libvhost-user/libvhost-user.c
+> b/subprojects/libvhost-user/libvhost-user.c
+> > index 0200b78e8e..0a5768cb55 100644
+> > --- a/subprojects/libvhost-user/libvhost-user.c
+> > +++ b/subprojects/libvhost-user/libvhost-user.c
+> > @@ -32,6 +32,12 @@
+> >  #include <sys/mman.h>
+> >  #include <endian.h>
+> >
+> > +/* Necessary to provide VIRTIO_F_VERSION_1 on system
+> > + * with older linux headers. Must appear before
+> > + * <linux/vhost.h> below.
+> > + */
+> > +#include "standard-headers/linux/virtio_config.h"
+> > +
+> >  #if defined(__linux__)
+> >  #include <sys/syscall.h>
+> >  #include <fcntl.h>
+> > --
+> > 2.40.0.348.gf938b09366-goog
+>
+>
+
+--000000000000670f7205f8bb987b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The &lt;linux/vhost.h&gt; of glib-2.17 begins with:<br><br=
+><blockquote style=3D"margin:0 0 0 40px;border:none;padding:0px"><font face=
+=3D"monospace" size=3D"1">#ifndef _LINUX_VHOST_H<br>#define _LINUX_VHOST_H<=
+br>/* Userspace interface for in-kernel virtio accelerators. */<br>/* vhost=
+ is used to reduce the number of system calls involved in virtio.<br>=C2=A0=
+*<br>=C2=A0* Existing virtio net code is used in the guest without modifica=
+tion.<br>=C2=A0*<br>=C2=A0* This header includes interface used by userspac=
+e hypervisor for<br>=C2=A0* device configuration.<br>=C2=A0*/<br>#include &=
+lt;linux/types.h&gt;<br>#include &lt;linux/ioctl.h&gt;<br>#include &lt;linu=
+x/virtio_config.h&gt;<br>#include &lt;linux/virtio_ring.h&gt;</font></block=
+quote><br>See=C2=A0<a href=3D"https://android.googlesource.com/platform/pre=
+builts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/+/refs/heads/master/sy=
+sroot/usr/include/linux/vhost.h">https://android.googlesource.com/platform/=
+prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/+/refs/heads/master=
+/sysroot/usr/include/linux/vhost.h</a><br><br>Here&#39;s the compilation er=
+ror I get in this case:<br><br><blockquote style=3D"margin:0 0 0 40px;borde=
+r:none;padding:0px"><font face=3D"monospace">FAILED: subprojects/libvhost-u=
+ser/libvhost-user.a.p/libvhost-user.c.o =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0<br></font><font face=3D"monospace">/src/prebuilts/clang/clang-r48774=
+7/bin/clang --sysroot=3D/out/sysroot -m64 -mcx16 -Isubprojects/libvhost-use=
+r/libvhost-user.a.p -Isubprojects/libvhost-user -I../../<br></font><font fa=
+ce=3D"monospace">src/third_party/qemu/subprojects/libvhost-user -I/out/dest=
+-install/usr/include -fcolor-diagnostics -Wall -Winvalid-pch -std=3Dgnu99 -=
+O2 -g -Wsign-compare -Wdeclarat<br></font><font face=3D"monospace">ion-afte=
+r-statement -Wstrict-aliasing -fno-pie -D_FILE_OFFSET_BITS=3D64 -D_LARGEFIL=
+E_SOURCE -fno-strict-aliasing -fno-common -fwrapv -Wundef -Wwrite-strings -=
+Wmissi<br></font><font face=3D"monospace">ng-prototypes -Wstrict-prototypes=
+ -Wredundant-decls -Wold-style-definition -Wtype-limits -Wformat-security -=
+Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-b<br></font><font face=
+=3D"monospace">ody -Wnested-externs -Wendif-labels -Wexpansion-to-defined -=
+Wmissing-format-attribute -Wthread-safety -Wno-initializer-overrides -Wno-m=
+issing-include-dirs -Wno-sh<br></font><font face=3D"monospace">ift-negative=
+-value -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-typ=
+e-limit-compare -Wno-psabi -Wno-gnu-variable-sized-type-not-at-end -fstack-=
+<br></font><font face=3D"monospace">protector-strong -pthread -D_GNU_SOURCE=
+ -MD -MQ subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o -MF =
+subprojects/libvhost-user/libvhost-user.a.p/libv<br></font><font face=3D"mo=
+nospace">host-user.c.o.d -o subprojects/libvhost-user/libvhost-user.a.p/lib=
+vhost-user.c.o -c ../../src/third_party/qemu/subprojects/libvhost-user/libv=
+host-user.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br></font><font face=3D"mono=
+space">../../src/third_party/qemu/subprojects/libvhost-user/libvhost-user.c=
+:529:17: error: use of undeclared identifier &#39;VIRTIO_F_VERSION_1&#39; =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0<br> </font><font face=3D"monospace">=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 1ULL &lt;&lt; VIRTIO_F_VERSION_1 | =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br> </font><font fa=
+ce=3D"monospace">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^ =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br> <=
+/font><font face=3D"monospace">../../src/third_party/qemu/subprojects/libvh=
+ost-user/libvhost-user.c:563:30: error: use of undeclared identifier &#39;V=
+IRTIO_F_VERSION_1&#39; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br> </font><font face=3D"mono=
+space">=C2=A0 =C2=A0 if (!vu_has_feature(dev, VIRTIO_F_VERSION_1)) { =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0<br></font><font face=3D"monospace">=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0^ =C2=A0 =C2=A0 =C2=A0 =C2=A0<br></font><font face=3D"mono=
+space">../../src/third_party/qemu/subprojects/libvhost-user/libvhost-user.c=
+:632:22: warning: unused variable &#39;dev_region&#39; [-Wunused-variable] =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0<br></font><font face=3D"monospace">=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 VuDevRegion *dev_region =3D &amp;dev-&gt;regions[i]; =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0<br></font><font face=3D"monospace">=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^ =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br> </font><font face=3D"monospace">=
+../../src/third_party/qemu/subprojects/libvhost-user/libvhost-user.c:633:13=
+: warning: unused variable &#39;ret&#39; [-Wunused-variable] =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br> </font><font face=3D"monospace">=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 int ret; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br> </font><font face=3D"monospace">=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br></font><font face=3D"monos=
+pace">2 warnings and 2 errors generated.=C2=A0=C2=A0</font></blockquote></d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Fri, Apr 7, 2023 at 10:03=E2=80=AFAM Michael S. Tsirkin &lt;<a href=3D"mail=
+to:mst@redhat.com">mst@redhat.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">If you are reposting, please version patch=
+sets, E.g.<br>
+-v2 flag for git format-patch will enerate [PATCH v2] for you.<br>
+<br>
+Repeating what I said on previous version:<br>
+<br>
+On Wed, Apr 05, 2023 at 07:21:07PM +0200, David &#39;Digit&#39; Turner wrot=
+e:<br>
+&gt; The source file uses VIRTIO_F_VERSION_1 which is<br>
+&gt; not defined by &lt;linux/virtio_config.h&gt; on Debian 10.<br>
+&gt; <br>
+&gt; The system-provided &lt;linux/virtio_config.h&gt; which<br>
+&gt; does not include the macro definition is included<br>
+&gt; through &lt;linux/vhost.h&gt;, so fix the issue by including<br>
+&gt; the standard-headers version before that.<br>
+&gt; <br>
+&gt; Signed-off-by: David &#39;Digit&#39; Turner &lt;<a href=3D"mailto:digi=
+t@google.com" target=3D"_blank">digit@google.com</a>&gt;<br>
+<br>
+This happens to work usually but there&#39;s no guarantee<br>
+&quot;standard-headers/linux/virtio_config.h&quot;<br>
+and &lt;linux/virtio_config.h&gt; are interchangeable or<br>
+even do not conflict.<br>
+<br>
+But where is &lt;linux/vhost.h&gt; using &lt;linux/virtio_config.h&gt;?<br>
+Everyone should be using &quot;standard-headers/linux/virtio_config.h&quot;=
+.<br>
+<br>
+<br>
+&gt; ---<br>
+&gt;=C2=A0 subprojects/libvhost-user/libvhost-user.c | 6 ++++++<br>
+&gt;=C2=A0 1 file changed, 6 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/l=
+ibvhost-user/libvhost-user.c<br>
+&gt; index 0200b78e8e..0a5768cb55 100644<br>
+&gt; --- a/subprojects/libvhost-user/libvhost-user.c<br>
+&gt; +++ b/subprojects/libvhost-user/libvhost-user.c<br>
+&gt; @@ -32,6 +32,12 @@<br>
+&gt;=C2=A0 #include &lt;sys/mman.h&gt;<br>
+&gt;=C2=A0 #include &lt;endian.h&gt;<br>
+&gt;=C2=A0 <br>
+&gt; +/* Necessary to provide VIRTIO_F_VERSION_1 on system<br>
+&gt; + * with older linux headers. Must appear before<br>
+&gt; + * &lt;linux/vhost.h&gt; below.<br>
+&gt; + */<br>
+&gt; +#include &quot;standard-headers/linux/virtio_config.h&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 #if defined(__linux__)<br>
+&gt;=C2=A0 #include &lt;sys/syscall.h&gt;<br>
+&gt;=C2=A0 #include &lt;fcntl.h&gt;<br>
+&gt; -- <br>
+&gt; 2.40.0.348.gf938b09366-goog<br>
+<br>
+</blockquote></div>
+
+--000000000000670f7205f8bb987b--
 
