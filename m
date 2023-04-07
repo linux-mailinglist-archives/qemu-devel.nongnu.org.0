@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488FE6DAFB7
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B956DAFB9
 	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 17:33:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pko5S-0007b2-AX; Fri, 07 Apr 2023 11:33:14 -0400
+	id 1pko5S-0007b3-AZ; Fri, 07 Apr 2023 11:33:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pko5Q-0007aU-1p
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:33:12 -0400
+ id 1pko5R-0007at-4F
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:33:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pko5N-0003Pj-JI
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:33:11 -0400
+ id 1pko5P-0003TX-2V
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:33:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680881588;
+ s=mimecast20190719; t=1680881590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tR/TbxSGD1/P0pW27JZmMmk8kjb1ILop01ce2tftF2Q=;
- b=ffOVddUVuHWF+SS1JyI43PjCpgjNm6nYu4TbzHCehzpHeBtwYnjhu4oU2LNVmPGC7gUJuY
- Ir5NARwC1//f1JFjSeFww5rNiLK68nlx8RlufFeUcbe2yrfxjxSDvwU9rME+5YgSBZFeMj
- 9kqPC2NUCuZ0E+j4XLWC4zmsygHVX5A=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0aEPzaPevddFSsPSDOUvK1Jtpd81nOT9/nMcTZup4zQ=;
+ b=jEnCP0UX4gWxYkTOdRlyQzDY6uP3wH3WdP5i6P7SkEVoAo1UDXjVmZU2qOr+IDrm8W47wQ
+ GFSv+6WZxCsNH2vZWaKUor8iGYRWJIbFjTACXvfoHmm27MNQ+3TSmkZhfOtCppZGKqJ2nH
+ 3pfkYRP1iv9zCwufsb45iDPAv7Ijjxw=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-453-nlemSjouOCSjIu1aG56gdA-1; Fri, 07 Apr 2023 11:33:07 -0400
-X-MC-Unique: nlemSjouOCSjIu1aG56gdA-1
+ us-mta-27-OtVdL9zPMga0p06Y48HQAA-1; Fri, 07 Apr 2023 11:33:09 -0400
+X-MC-Unique: OtVdL9zPMga0p06Y48HQAA-1
 Received: by mail-wm1-f69.google.com with SMTP id
- r20-20020a05600c35d400b003edd2023418so901116wmq.4
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 08:33:07 -0700 (PDT)
+ o1-20020a05600c4fc100b003edecc610abso890164wmq.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 08:33:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680881586; x=1683473586;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tR/TbxSGD1/P0pW27JZmMmk8kjb1ILop01ce2tftF2Q=;
- b=kEmtZIzS0tDngF6cRbXObUg114BnTRHq91zO7GmlO3pmF6SD+3m6uYc745wCoKwQPt
- mZZuEcV+gSHCxUNI6/N5tw2X7IvjRNSK0SZgUL1jxGZAWOuFZOc4RDsgKMBqD+Ob/JQa
- u395973KqEr8G8qb2N9ChnwHvcrc2wrw4DgelOICv1zeWA3mV8Q9YnsGIwOYgRRvi8OO
- kqhl1F386F+Kb9DxzYVVQ+4amkkxts94TBmdRvk3mjs6IucsBA/8+gmFGEo9FbblW5O8
- YvwjVw6zlEtorHm2miG+EcD0RWi/dqr4sgr/XYrgmPcmsUeethk+yFAbq6N1lT0TfjCi
- DXWA==
-X-Gm-Message-State: AAQBX9d/ps8VfdQ2TqJJYjnPENZzoDtIPWpar5pYzf9X3rVF1VOwReKf
- VQApEYcXkEfJJja6aOghP+Qi/qcmAta1IzO/B8wE9nJwHHetKeUQU9FtbbWZ3zoUhS7Q8bdVRWy
- c8gVWgKjQgBn9vzf1uTYD3/RZWrH6o5a+bbCYGg0ALPjoOdhAH9fYV+AslVlYN64GAF2Of38xlF
- I=
-X-Received: by 2002:adf:dc92:0:b0:2ca:2794:87e8 with SMTP id
- r18-20020adfdc92000000b002ca279487e8mr1869609wrj.21.1680881585909; 
- Fri, 07 Apr 2023 08:33:05 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YrPkFNI4EA+HJscV/bx/Pbmp3FR2FzTiYlXfbUflzN8tDKnGIl/5e5Y0QdEYf2bFkstXkaBg==
-X-Received: by 2002:adf:dc92:0:b0:2ca:2794:87e8 with SMTP id
- r18-20020adfdc92000000b002ca279487e8mr1869591wrj.21.1680881585442; 
- Fri, 07 Apr 2023 08:33:05 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680881588; x=1683473588;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0aEPzaPevddFSsPSDOUvK1Jtpd81nOT9/nMcTZup4zQ=;
+ b=RePDVkMEqN69VOd+kwOCjZFzGL+2mwThRf/oxh4MG5joUmXwfEbPzj5roQ0qSkm1G2
+ vQe1/7nW81HtMjc9mwgdp/Jkx0rIQv5f4Kpd6MMINoaiPQ1D0YvknBHEn7byRrDNqxXj
+ 2Hetno5URvA6AcvhzighUTbWLrWo8178KXp+kP06P7XyRTVzrCfTp0YRQ+bOlijYVu2q
+ rcGXYOPyzw34LKWJ9BrzCyzJv+xQPaBxlkfRp+p8Fj+kZW7ofhzBdzegyLkz/ciwVE3X
+ RZRQSra1ni7gIGA3PomsTnEzwCht3HDXYwrjYUiCd60S4Yr8YFEKfieb5wgnqWjlThX1
+ 4LDg==
+X-Gm-Message-State: AAQBX9fwAOEAcQw1e8khCe9WHeuQavRbfjg0FWF0NsuUynW3+/v2+Dsc
+ xc9U8PUC3HxkTNEMz6OAA9jv/ekAq0V8PaF8wXOm+W809edlOQY1Daly19X46kWA2+9wMM9+hHZ
+ 1ydUvpKH5kiehUqxGjy2bVDPKM0YrhMv9MDgMCGNqiFP/GoArnSYsE8vidO25FhJuIMliol7yll
+ k=
+X-Received: by 2002:adf:f1c9:0:b0:2cf:e3d8:5dff with SMTP id
+ z9-20020adff1c9000000b002cfe3d85dffmr1177790wro.9.1680881587794; 
+ Fri, 07 Apr 2023 08:33:07 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aM7mhPPrcXFxWuGz7yQXAQ3k0b4bVdqleRTYu9An/AsXxxNtRMaSnEpIQFVW+LmWnrR00Gbw==
+X-Received: by 2002:adf:f1c9:0:b0:2cf:e3d8:5dff with SMTP id
+ z9-20020adff1c9000000b002cfe3d85dffmr1177778wro.9.1680881587384; 
+ Fri, 07 Apr 2023 08:33:07 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- n5-20020a5d6b85000000b002d97529b3bbsm4773019wrx.96.2023.04.07.08.33.04
+ iz1-20020a05600c554100b003ed51cdb94csm8437106wmb.26.2023.04.07.08.33.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Apr 2023 08:33:04 -0700 (PDT)
+ Fri, 07 Apr 2023 08:33:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, kwolf@redhat.com, qemu-block@nongnu.org,
  hreitz@redhat.com
-Subject: [PATCH 8.0 regression 0/8] block: remove bdrv_co_get_geometry
- coroutines from I/O hot path
-Date: Fri,  7 Apr 2023 17:32:55 +0200
-Message-Id: <20230407153303.391121-1-pbonzini@redhat.com>
+Subject: [PATCH 1/8] block: move has_variable_length to BlockLimits
+Date: Fri,  7 Apr 2023 17:32:56 +0200
+Message-Id: <20230407153303.391121-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230407153303.391121-1-pbonzini@redhat.com>
+References: <20230407153303.391121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -83,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,70 +101,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The introduction of the graph lock is causing blk_get_geometry, a hot
-function used in the I/O path, to create a coroutine for the call to
-bdrv_co_refresh_total_sectors.
+At the protocol level, has_variable_length only needs to be true in the
+very special case of host CD-ROM drives, so that they do not need an
+explicit monitor command to read the new size when a disc is loaded
+in the tray.
 
-In theory the call to bdrv_co_refresh_total_sectors should only matter
-in the rare case of host CD-ROM devices, whose size changes when a medium
-is added or removed.  However, the call is actually keyed by a field in
-BlockDriver, drv->has_variable_length, and the field is true in the common
-case of the raw driver!  This is because the host CD-ROM is usually
-layered below the raw driver.
+However, at the format level has_variable_length has to be true for all
+raw blockdevs and for all filters, even though in practice the length
+depends on the underlying file and thus will not change except in the
+case of host CD-ROM drives.
 
-So, this series starts by moving has_variable_length from BlockDriver to
-BlockLimits.  This is patches 1-4, which also include a fix for a small
-latent bug (patch 3).
+As a first step towards computing an accurate value of has_variable_length,
+add the value into the BlockLimits structure and initialize the field
+from the BlockDriver.
 
-The second half of the series then cleans up the functions to retrieve
-the BlockDriverState's size (patches 5-7) to limit the amount of duplicated
-code introduced by the hand-written wrappers of patch 8.  The final result
-is that blk_get_geometry will not anymore create a coroutine.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block.c                          | 2 +-
+ block/io.c                       | 6 ++++++
+ include/block/block_int-common.h | 8 ++++++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-This series applies to qemu.git, or to the block-next branch if commit
-d8fbf9aa85ae ("block/export: Fix graph locking in blk_get_geometry()
-call", 2023-03-27) is cherry picked.  Commit d8fbf9aa85ae is also where
-bdrv_co_get_geometry() was introduced and with it the performance
-regression.  It is quite a recent change, and therefore this is
-probably a regression in 8.0 that had not been detected yet (except by
-Stefan who talked to Kevin and me about it yesterday).  I'm not sure how
-we can avoid the regression, if not by disabling completely the graph lock
-(!) or applying this large series.
-
-I'm throwing this out before disappearing for a couple days for Easter;
-I have only tested it with qemu-iotests and "make check-unit".
-
-Thanks,
-
-Paolo
-
-Paolo Bonzini (8):
-  block: move has_variable_length to BlockLimits
-  block: remove has_variable_length from filters
-  block: refresh bs->total_sectors on reopen
-  block: remove has_variable_length from BlockDriver
-  migration/block: replace uses of blk_nb_sectors that do not check
-    result
-  block-backend: inline bdrv_co_get_geometry
-  block-backend: ignore inserted state in blk_co_nb_sectors
-  block, block-backend: write some hot coroutine wrappers by hand
-
- block.c                           | 35 ++++++++++++++++++--------
- block/block-backend.c             | 42 ++++++++++++++++++++++++-------
- block/copy-on-read.c              |  1 -
- block/file-posix.c                | 12 ++++++---
- block/file-win32.c                |  2 +-
- block/filter-compress.c           |  1 -
- block/io.c                        |  4 +++
- block/preallocate.c               |  1 -
- block/raw-format.c                |  3 ++-
- block/replication.c               |  1 -
- include/block/block-io.h          |  5 +---
- include/block/block_int-common.h  | 10 ++++++--
- include/sysemu/block-backend-io.h |  5 ++--
- migration/block.c                 |  5 ++--
- 14 files changed, 85 insertions(+), 42 deletions(-)
-
+diff --git a/block.c b/block.c
+index 89a79c321fab..b1b7c7efe036 100644
+--- a/block.c
++++ b/block.c
+@@ -5849,7 +5849,7 @@ int64_t coroutine_fn bdrv_co_nb_sectors(BlockDriverState *bs)
+     if (!drv)
+         return -ENOMEDIUM;
+ 
+-    if (drv->has_variable_length) {
++    if (bs->bl.has_variable_length) {
+         int ret = bdrv_co_refresh_total_sectors(bs, bs->total_sectors);
+         if (ret < 0) {
+             return ret;
+diff --git a/block/io.c b/block/io.c
+index db438c765757..c49917c74677 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -182,6 +182,8 @@ void bdrv_refresh_limits(BlockDriverState *bs, Transaction *tran, Error **errp)
+                                 drv->bdrv_aio_preadv ||
+                                 drv->bdrv_co_preadv_part) ? 1 : 512;
+ 
++    bs->bl.has_variable_length = drv->has_variable_length;
++
+     /* Take some limits from the children as a default */
+     have_limits = false;
+     QLIST_FOREACH(c, &bs->children, next) {
+@@ -190,6 +192,10 @@ void bdrv_refresh_limits(BlockDriverState *bs, Transaction *tran, Error **errp)
+             bdrv_merge_limits(&bs->bl, &c->bs->bl);
+             have_limits = true;
+         }
++
++        if (c->role & BDRV_CHILD_FILTERED) {
++            bs->bl.has_variable_length |= c->bs->bl.has_variable_length;
++        }
+     }
+ 
+     if (!have_limits) {
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index ce51c1f7f999..95c934589571 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -855,6 +855,14 @@ typedef struct BlockLimits {
+ 
+     /* maximum number of iovec elements */
+     int max_iov;
++
++    /*
++     * true if the length of the underlying file can change, and QEMU
++     * is expected to adjust automatically.  Mostly for CD-ROM drives,
++     * whose length is zero when the tray is empty (they don't need
++     * an explicit monitor command to load the disk inside the guest).
++     */
++    bool has_variable_length;
+ } BlockLimits;
+ 
+ typedef struct BdrvOpBlocker BdrvOpBlocker;
 -- 
 2.39.2
 
