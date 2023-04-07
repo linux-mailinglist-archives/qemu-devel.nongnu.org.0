@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202066DB6BE
+	by mail.lfdr.de (Postfix) with ESMTPS id 2890D6DB6BF
 	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 01:02:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkv4z-0003Rm-Fb; Fri, 07 Apr 2023 19:01:13 -0400
+	id 1pkv57-0003Xn-1P; Fri, 07 Apr 2023 19:01:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pkv4w-0003QM-1D
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 19:01:10 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pkv55-0003Xa-Lb
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 19:01:19 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pkv4s-0006nJ-6s
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 19:01:09 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- qe8-20020a17090b4f8800b0023f07253a2cso44384573pjb.3
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 16:01:05 -0700 (PDT)
+ id 1pkv54-0006rr-4J
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 19:01:19 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ c10-20020a17090abf0a00b0023d1bbd9f9eso2591269pjs.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 16:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680908464;
+ d=linaro.org; s=google; t=1680908477;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Pwlm1lMKQRjwxkmrW2F8t3gfYFcIvBu5GbvK5p1f3qI=;
- b=WYmgbbs2HSI1ZfANhB99p0It58GikHCFHg8GiCJM3VQAfDfBj7TpC/bvTiV2pJ79UV
- KAS5g4RAW3gC6aKuL00Z27MQAUOxZbmVQcMfZCDSB1r0VuBIuxLsMFHZKi1LaGTK3hGD
- QdhxTCrlzTDRZmVjPx1eYN/x1bPBMtI6NsRmoM2cgteOFw+t/qEnW3IymFjABKUtyO2w
- 8JLLbEMqf+MaY87jjDzMDFdSjZ/ZhpXDV5gbgrECBEdb7dvChp+koaU4p/FdyjA+cGPu
- Q4it2C7c8GRxrjcQrXOBMNxBTHsarpA5kw1bkpmHXyGaIy0+DjId1bO+doBUisVu8LKa
- wxmA==
+ bh=FM1IoSWydLocj7jgKW9MEFCM/UyoS3Vw58k8MbYXpPI=;
+ b=VQRL/jwZ/iwhTjW4uDgB/xQLypDFRo9dz1YtZKQWTGVtHNnhpUq2Kgr4tJlXpVc9Qj
+ KBbQLfG2Z5FHXSI2VMMAmE9q1dOQk2iWj8kn9Q3lFDBbsPO0CVUPQMhVWuKl2kkGhFG/
+ 8Zx43AFsVbKUnCTXY9xLDWzf05mzNP0m7zfiIrbp+mM1baQPyagVzxLIe6pjmdO2GbAF
+ FeHj3l+btpKL7NfDJ58MeRoUTWNwI8jp8DY7i9J3B7PBjUoMr2KbS1QbvXFBz9wfhpPH
+ DHITQUJiwZ2kYMJ1/oiVdG61WqG2rvBx9o0dwXq2wqhvT0EMxe8M67t1dsAj1odQ8rE9
+ zrLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680908464;
+ d=1e100.net; s=20210112; t=1680908477;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pwlm1lMKQRjwxkmrW2F8t3gfYFcIvBu5GbvK5p1f3qI=;
- b=1nfJk3UPAIHtAG1YJdDyHCR1NMsAbsC98Id8ZTPmnPRsxFuzHLXfCOPXrdyxfDsjf9
- ZOLRDIa53yTRjzfO9iP72JTyLY1Yvg3IuxCfLE3KgjqI/xaTWHjfu/ugcCHH3ZXFW/V9
- Q24t1dpqB3+Ds4EUsYZfle2xWnffY3KxAU3hZKtFVVIRGQXlwPB2PIT5EE7zdCqP3PXD
- x2ldfblP+czepGwGbbHmUI0fmJOEWsMCg1E1Zjwav7yQT5IJhNhmacjbVqbvwb8rcf8G
- Fl8xbyN3mQ4e4rjLNR/OsqpNxnLZNIMY1LL4HJNdWneUZv/R8OIKf96CY41TV92pZOS1
- OWMA==
-X-Gm-Message-State: AAQBX9eWpab7a7z9mcJ9gltyjbKGWuzdijbMVsPyDVaYcd92OJpNx+Hm
- 2YhxfQDZUcsaJ4gfOaLHf94+8Q==
-X-Google-Smtp-Source: AKy350aJv8JM6VFQdChjoum7LkzJsp3BEooDRP1tQQsqzUK9IOYyaf2AaDi9zqTn0y042mdujiyLbw==
-X-Received: by 2002:a05:6a20:cd5d:b0:d9:f539:727f with SMTP id
- hn29-20020a056a20cd5d00b000d9f539727fmr4424102pzb.28.1680908463869; 
- Fri, 07 Apr 2023 16:01:03 -0700 (PDT)
+ bh=FM1IoSWydLocj7jgKW9MEFCM/UyoS3Vw58k8MbYXpPI=;
+ b=TfTtF4TnSsK6Ube5ld5Wxf/wFIk+Hg0pUyhOA7FvwrmSPkyMBMuhlXAVDX8rYocl8n
+ k+BZULyhCD0+/mP/tDAoX6OqPibKVK8ZdDq1cYaJAXEc3vFgYLSGTLHWmX0HYv1VIZTe
+ 1K1+EwlxLZhkMqBW1GdP8pPJYdZrT3VSmmSB4n6llk/3bTmhOESRhQk4h6opocrIWL6Y
+ iZpxnXVRABSiNBclIqLFuyTFHWBl6dB895bRcud1upoRvfIrXdiwmfOPKLUMJpwC5CSk
+ ATYzZdQT+I8I22IcTON9n4ZpwzPiTJB8WoQIZAem9EVkMx6vOQIFC6SjU6krN66tZ7Ri
+ hZzA==
+X-Gm-Message-State: AAQBX9cFn2QANu57D4B1EXn3uNp81JIe1eDUZI8j1wgYFesoBjTW2Frp
+ 9NJzpboYX+dkbU2D4RuMWoDqyzKCbmfb4gtyuLI=
+X-Google-Smtp-Source: AKy350bRqvhbX5rOLuwqRdImyfLdTcBcyn1BquKHrKT2CT3Zjs0A2Q1f98kdBv1POsH49ZV8G3BXyw==
+X-Received: by 2002:a17:902:d2c9:b0:1a0:50bd:31a8 with SMTP id
+ n9-20020a170902d2c900b001a050bd31a8mr5700663plc.26.1680908476761; 
+ Fri, 07 Apr 2023 16:01:16 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8?
  ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
  by smtp.gmail.com with ESMTPSA id
- s21-20020aa78295000000b0062dc14ee2a7sm3505522pfm.211.2023.04.07.16.01.02
+ n10-20020a170902968a00b0019f3cc463absm3447735plp.0.2023.04.07.16.01.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Apr 2023 16:01:03 -0700 (PDT)
-Message-ID: <8174dba8-3d19-58e6-9bcc-cb8b58d76c1b@linaro.org>
-Date: Fri, 7 Apr 2023 16:01:01 -0700
+ Fri, 07 Apr 2023 16:01:16 -0700 (PDT)
+Message-ID: <af0397ba-f714-427f-c050-10b423cc772e@linaro.org>
+Date: Fri, 7 Apr 2023 16:01:14 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 01/14] accel: Document generic accelerator headers
+Subject: Re: [PATCH 02/14] accel: Remove unused hThread variable on TCG/WHPX
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, xen-devel@lists.xenproject.org,
- kvm@vger.kernel.org, Reinoud Zandijk <reinoud@netbsd.org>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+ kvm@vger.kernel.org, Sunil Muthuswamy <sunilmut@microsoft.com>
 References: <20230405101811.76663-1-philmd@linaro.org>
- <20230405101811.76663-2-philmd@linaro.org>
+ <20230405101811.76663-3-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230405101811.76663-2-philmd@linaro.org>
+In-Reply-To: <20230405101811.76663-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -103,21 +100,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/5/23 03:17, Philippe Mathieu-Daudé wrote:
-> These headers are meant to be include by any file to check
-> the availability of accelerators, thus are not accelerator
-> specific.
+> On Windows hosts, cpu->hThread is assigned but never accessed:
+> remove it.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   include/sysemu/hax.h  | 2 ++
->   include/sysemu/kvm.h  | 2 ++
->   include/sysemu/nvmm.h | 2 ++
->   include/sysemu/tcg.h  | 2 ++
->   include/sysemu/whpx.h | 2 ++
->   include/sysemu/xen.h  | 2 ++
->   6 files changed, 12 insertions(+)
+>   accel/tcg/tcg-accel-ops-mttcg.c   | 4 ----
+>   accel/tcg/tcg-accel-ops-rr.c      | 3 ---
+>   target/i386/whpx/whpx-accel-ops.c | 3 ---
+>   3 files changed, 10 deletions(-)
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
