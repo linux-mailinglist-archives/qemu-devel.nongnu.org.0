@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392D56DAA34
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 10:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFD86DAA90
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 11:04:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkhWk-0003PQ-K0; Fri, 07 Apr 2023 04:32:58 -0400
+	id 1pkhzj-00087m-U1; Fri, 07 Apr 2023 05:02:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pkhWi-0003PI-SS
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 04:32:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pkhWg-0004AL-Nu
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 04:32:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680856373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ggWmzcW0OEkexloKIT9OvHh6Wl1QbpLuN7PTXxNAstw=;
- b=EDt1f6z7Dgnmp8KO1mboamUdhlbYTM+3TKZrz1nggoASnJatwhUCfCOluRQI0BUO1p3DUe
- xxfn7L4Ucew0kyIWEAWiYB0aEg82dpG3eexbCfgg+ahVo0FDSNu/8vi9DZ5ZyzaaW+H3dY
- WR+odu3nY/jq72o7V6q4KM0KWLXBw0w=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-349-_WxX8bIUOt-H7dOpq7Ex4A-1; Fri, 07 Apr 2023 04:32:51 -0400
-X-MC-Unique: _WxX8bIUOt-H7dOpq7Ex4A-1
-Received: by mail-ua1-f72.google.com with SMTP id
- d42-20020ab014ad000000b0075c9df2d66bso18235758uae.14
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 01:32:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1pkhzh-0007xe-6g; Fri, 07 Apr 2023 05:02:53 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1pkhzf-00018i-5a; Fri, 07 Apr 2023 05:02:52 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ nh20-20020a17090b365400b0024496d637e1so3784239pjb.5; 
+ Fri, 07 Apr 2023 02:02:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680858166; x=1683450166;
+ h=to:from:subject:cc:message-id:date:content-transfer-encoding
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=U3vYh4wBxeALICsHqGaNz+6QzYeHaYPS4NyTqx0X6co=;
+ b=USQlsQkoEKoxYr6E7y0ShX6G/4KX/yUwUENqsiBx2HgXn9uQG69DxRAWexc//Zio5d
+ glNBkrO7DsdcnaTGkvXahlmo34CQFj5yHpPh1ynuCq11dYZn45nmLlQRdXVlUbxLmovK
+ rnrmR42fWfaaAED/tYeMbZxyer5ceaGPgxO7fZ+Se0C7kc2PLqZljjI4bNTaakGKN7PB
+ Ur8KKphM6gY8vKX35dJpV6YOlWqNAksVEAVt5yeCztpqNnKtoZsMrNDrSlUDdHHW3x1B
+ Xzw7ssn6uYDkixxK5aph570ysz9gggXlPQD/Y1lMLD8mckZEkiSTX75F4hae2qdRjuq7
+ +Umw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680856370; x=1683448370;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
+ d=1e100.net; s=20210112; t=1680858166; x=1683450166;
+ h=to:from:subject:cc:message-id:date:content-transfer-encoding
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ggWmzcW0OEkexloKIT9OvHh6Wl1QbpLuN7PTXxNAstw=;
- b=i9a4BbSTeCkCzTWQHFTSWtdqn7wr5K2mBZ7LOkWkq6CFaPlojePZwzjzmR7sj3Bhzn
- sdqUx5KgV705wM1auWCI6cNoo5RYPlxY1f8+ZhQJeOH95ofYmWFZmDbLjZOVxkVPqruA
- CrLaj67pVmloSSJPfoEoBiIcPgiwZM9EaGKYwJ9X9mkv7XAQC1W46D1tz5Cmw6L5LvMd
- iGzYt8JWGoNMPxZxiM4/2PdNjYLToQ6SdPouZHTBzDqYS4ABRa3r0UdWfsZrFsGUSdVm
- tuL1WPi74rNR0GrRR7Dr3GK8y6/bAA/1+7K8pvr5021YcwURYXwgQ9d/VUj873Xt289g
- Jf4A==
-X-Gm-Message-State: AAQBX9cajPhZfMV0Lhso2Vk1gmClA9Si1Ip52dZC/JOd8rJmUnZftJfB
- RGR/spR9ViaX4vRa43YRR07I5hqry2yj5D3n3jT6wRWuZuJwsJIPBs1g9+uNTVOuyYcud0riLU+
- CZDCYPfBjBXPwwZLD2PyGy4nf5WSYrtY=
-X-Received: by 2002:ab0:6cec:0:b0:764:64c1:9142 with SMTP id
- l12-20020ab06cec000000b0076464c19142mr702352uai.0.1680856370709; 
- Fri, 07 Apr 2023 01:32:50 -0700 (PDT)
-X-Google-Smtp-Source: AKy350be18cLSI+yommYdDoLRh+Oba6rPG+ngbpCcLgxXXSjr+AFisQBGYQ+gCYwNIFrg6myppe+tcvNogKe/uc2Spc=
-X-Received: by 2002:ab0:6cec:0:b0:764:64c1:9142 with SMTP id
- l12-20020ab06cec000000b0076464c19142mr702343uai.0.1680856370450; Fri, 07 Apr
- 2023 01:32:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230406100759.240870-1-pbonzini@redhat.com>
- <CAJSP0QVkrcU=v77jjnLZsUN3eVKF4RyJ+aLT2_EV4hX=HfL6Vg@mail.gmail.com>
-In-Reply-To: <CAJSP0QVkrcU=v77jjnLZsUN3eVKF4RyJ+aLT2_EV4hX=HfL6Vg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 7 Apr 2023 10:32:39 +0200
-Message-ID: <CABgObfbCV+KVCq6Cj7_70OcOmuj8ZiULBeSjK19n6ia=n3OTNw@mail.gmail.com>
-Subject: Re: [PATCH for-8.1] qemu-coroutine: remove qatomic_mb_read()
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Hajnoczi,
- Stefan" <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e12cbf05f8bade85"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+ bh=U3vYh4wBxeALICsHqGaNz+6QzYeHaYPS4NyTqx0X6co=;
+ b=BC2TWjA2qJsZAT3nIsI0Rw/QZyU1sPnhXnylY3SyhK71YdEMSSO+xH/IkZnsObbC6C
+ BJmXzHfOfw0wfwpI7JVBarnJjzdBf+WehkRPhdTQxNTtFxxG8S6f12J38PF9/42iq/dN
+ Lgmz/CuyEcZCOqxpxN6fc72jAqPfPVmLWENiwd5HsGNBu/KgW6sPgx9i/4bJ6P1RzEBF
+ zZIbRJ3JW575UUrqq5V97zF+GE/kwyY96L2jF05ciC6aziZ2vh99OacvLih2BsUrXzB6
+ oASd/7t/fQ3Ol9etY0xRAST+vR/lF8Qx9d5s+9x1H7TZE/uyyvcdAWcrcaPyZAuLlZ9X
+ mtbg==
+X-Gm-Message-State: AAQBX9d77jU4nyVS0WNaRj//KSCTS8pa8fcEEcABIzBOe1CwOeMN+Mjb
+ i8T8JiDNTGUYsg2FTk1tuov9BWp7+FRxHA==
+X-Google-Smtp-Source: AKy350ZlLWPpE3d0zFggVQXaVRj7zSR3BBJmx0+uyYNRriT2n5dtlNagJF8UrgDiMV/F6WTBX1dEJg==
+X-Received: by 2002:a05:6a20:b547:b0:de:d3ce:9d14 with SMTP id
+ ev7-20020a056a20b54700b000ded3ce9d14mr2121881pzb.60.1680858166480; 
+ Fri, 07 Apr 2023 02:02:46 -0700 (PDT)
+Received: from localhost ([203.59.189.25]) by smtp.gmail.com with ESMTPSA id
+ bm17-20020a056a00321100b0062de3e977bcsm2603493pfb.26.2023.04.07.02.02.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Apr 2023 02:02:46 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 07 Apr 2023 19:02:41 +1000
+Message-Id: <CRQEHNGPTSUM.34NYFP2RDLQA6@wheely>
+Cc: "Richard Henderson" <richard.henderson@linaro.org>, <qemu-ppc@nongnu.org>
+Subject: assert !temp_readonly(ts) in tcg_reg_alloc_op
+From: "Nicholas Piggin" <npiggin@gmail.com>
+To: <qemu-devel@nongnu.org>
+X-Mailer: aerc 0.14.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,136 +86,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000e12cbf05f8bade85
-Content-Type: text/plain; charset="UTF-8"
+I get a crash running a powerpc64 TCG machine on x86.
 
-Il gio 6 apr 2023, 12:55 Stefan Hajnoczi <stefanha@gmail.com> ha scritto:
+It can be triggered by booting a custom vmlinux patched to use powerpc
+prefix instructions and pcrel addressing, I don't know if that's related
+or coincidence. I can give Linux patches or a vmlinux file to reproduce
+if needed, or I can test patches quickly.
 
-> On Thu, 6 Apr 2023 at 06:09, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > Replace with an explicit barrier and a comment.
-> >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  util/qemu-coroutine.c | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
-> > index 849452369201..17a88f65053e 100644
-> > --- a/util/qemu-coroutine.c
-> > +++ b/util/qemu-coroutine.c
-> > @@ -127,9 +127,13 @@ void qemu_aio_coroutine_enter(AioContext *ctx,
-> Coroutine *co)
-> >          Coroutine *to = QSIMPLEQ_FIRST(&pending);
-> >          CoroutineAction ret;
-> >
-> > -        /* Cannot rely on the read barrier for to in aio_co_wake(), as
-> there are
-> > -         * callers outside of aio_co_wake() */
-> > -        const char *scheduled = qatomic_mb_read(&to->scheduled);
-> > +        /*
-> > +         * Read to before to->scheduled; pairs with qatomic_cmpxchg in
-> > +         * qemu_co_sleep(), aio_co_schedule() etc.
-> > +         */
-> > +        smp_read_barrier_depends();
->
-> I'm not a fan of nuanced memory ordering primitives. I don't
-> understand or remember all the primitives available in
-> docs/devel/atomics.rst and especially not how they interact with each
-> other.
->
+The first bad commit is 7058ff5231a0 ("target/ppc: Avoid tcg_const_* in
+translate.c")
 
-Understood, that's why I want to remove qatomic_mb_read().
+Some gdb stuff
 
-Does smp_read_barrier_depends() make sense for QEMU? Does QEMU support
-> Alpha host CPUs?
->
+  0x00007ffff76d5395 in __assert_fail_base
+    (fmt=3D0x7ffff7849a70 "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n", asse=
+rtion=3Dassertion@entry=3D0x55555625a99c "!temp_readonly(ts)", file=3Dfile@=
+entry=3D0x555556256211 "../tcg/tcg.c", line=3Dline@entry=3D4450, function=
+=3Dfunction@entry=3D0x55555625b640 <__PRETTY_FUNCTION__.9> "tcg_reg_alloc_o=
+p") at ./assert/assert.c:92
+#5  0x00007ffff76e3df2 in __GI___assert_fail
+    (assertion=3D0x55555625a99c "!temp_readonly(ts)", file=3D0x555556256211=
+ "../tcg/tcg.c", line=3D4450, function=3D0x55555625b640 <__PRETTY_FUNCTION_=
+_.9> "tcg_reg_alloc_op") at ./assert/assert.c:101
+#6  0x0000555555e078b9 in tcg_reg_alloc_op
+    (s=3D0x7ffd60000b70, op=3D0x7ffd600097f8) at ../tcg/tcg.c:4450
+#7  0x0000555555e08e77 in tcg_gen_code
+    (s=3D0x7ffd60000b70, tb=3D0x7fffb07612c0, pc_start=3D138350580552863879=
+16)
+    at ../tcg/tcg.c:5122
+#8  0x0000555555e49a3f in setjmp_gen_code
+    (env=3D0x555556be9e30, tb=3D0x7fffb07612c0, pc=3D13835058055286387916, =
+host_pc=3D0x7ffd702074cc, max_insns=3D0x7ffff65076ac, ti=3D0x7ffff65076c8)
+    at ../accel/tcg/translate-all.c:297
+#9  0x0000555555e49c67 in tb_gen_code
+    (cpu=3D0x555556be7a40, pc=3D13835058055286387916, cs_base=3D0, flags=3D=
+3053453367, cflags=3D-16777216) at ../accel/tcg/translate-all.c:365
+#10 0x0000555555e40db4 in cpu_exec_loop (cpu=3D0x555556be7a40, sc=3D0x7ffff=
+6507800)
+    at ../accel/tcg/cpu-exec.c:978
+#11 0x0000555555e40f95 in cpu_exec_setjmp
+    (cpu=3D0x555556be7a40, sc=3D0x7ffff6507800) at ../accel/tcg/cpu-exec.c:=
+1043
+#12 0x0000555555e4101c in cpu_exec (cpu=3D0x555556be7a40)
+    at ../accel/tcg/cpu-exec.c:1069
 
-It makes sense in that it's cheaper than qatomic_load_acquire() or
-smp_rmb() on ARM and PPC (32-bit ARM is especially bad). Here I can use
-smp_rmb() if you prefer; I thought that the comment, explicitly referring
-to "to->scheduled" which depends on "to", would be enough.
+(gdb) frame 6
+#6  0x0000555555e078b9 in tcg_reg_alloc_op (s=3D0x7ffd60000b70,
+    op=3D0x7ffd600097f8) at ../tcg/tcg.c:4450
+4450	            tcg_debug_assert(!temp_readonly(ts));
+(gdb) p *op
+$1 =3D {opc =3D INDEX_op_divu2_i32, nargs =3D 5, param1 =3D 0, param2 =3D 0=
+,
+  life =3D 464, link =3D {tqe_next =3D 0x7ffd60009840, tqe_circ =3D {
+      tql_next =3D 0x7ffd60009840, tql_prev =3D 0x7ffd60009770}}, output_pr=
+ef =3D {
+    0, 4}, args =3D 0x7ffd60009818}
+(gdb) print *def
+$2 =3D {name =3D 0x55555625baf5 "divu2_i32", nb_oargs =3D 2 '\002',
+  nb_iargs =3D 3 '\003', nb_cargs =3D 0 '\000', nb_args =3D 5 '\005',
+  flags =3D 0 '\000', args_ct =3D 0x555556ba793c}
+(gdb) p k
+$3 =3D 1
+(gdb) p *ts
+$4 =3D {reg =3D TCG_REG_R12, val_type =3D TEMP_VAL_CONST, base_type =3D TCG=
+_TYPE_I32,
+  type =3D TCG_TYPE_I32, kind =3D TEMP_CONST, indirect_reg =3D 0, indirect_=
+base =3D 0,
+  mem_coherent =3D 0, mem_allocated =3D 0, temp_allocated =3D 1, temp_subin=
+dex =3D 0,
+  val =3D 0, mem_base =3D 0x0, mem_offset =3D 0, name =3D 0x0, state =3D 0,
+  state_ptr =3D 0x7ffd6000a9fc}
+(gdb) p *arg_ct
+$5 =3D {ct =3D 0, alias_index =3D 3, sort_index =3D 1, pair_index =3D 0, pa=
+ir =3D 0,
+  oalias =3D true, ialias =3D false, newreg =3D false, regs =3D 4}
 
-I could also use QSIMPLEQ_FIRST_RCU(&pending) to hide the barrier, but it
-seems to be a bad idea because there's no RCU involvement here.
-
-Paolo
-
-
-> Stefan
->
->
-
---000000000000e12cbf05f8bade85
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il gio 6 apr 2023, 12:55 Stefan Hajnoczi &lt;<a href=
-=3D"mailto:stefanha@gmail.com">stefanha@gmail.com</a>&gt; ha scritto:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">On Thu, 6 Apr 2023 at 06:09, Paolo Bonzi=
-ni &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" rel=3D"nore=
-ferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Replace with an explicit barrier and a comment.<br>
-&gt;<br>
-&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
-" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 util/qemu-coroutine.c | 10 +++++++---<br>
-&gt;=C2=A0 1 file changed, 7 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c<br>
-&gt; index 849452369201..17a88f65053e 100644<br>
-&gt; --- a/util/qemu-coroutine.c<br>
-&gt; +++ b/util/qemu-coroutine.c<br>
-&gt; @@ -127,9 +127,13 @@ void qemu_aio_coroutine_enter(AioContext *ctx, Co=
-routine *co)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Coroutine *to =3D QSIMPLEQ_FIRST(&am=
-p;pending);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CoroutineAction ret;<br>
-&gt;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Cannot rely on the read barrier for to=
- in aio_co_wake(), as there are<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* callers outside of aio_co_wake() =
-*/<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *scheduled =3D qatomic_mb_read=
-(&amp;to-&gt;scheduled);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Read to before to-&gt;scheduled; =
-pairs with qatomic_cmpxchg in<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* qemu_co_sleep(), aio_co_schedule(=
-) etc.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 smp_read_barrier_depends();<br>
-<br>
-I&#39;m not a fan of nuanced memory ordering primitives. I don&#39;t<br>
-understand or remember all the primitives available in<br>
-docs/devel/atomics.rst and especially not how they interact with each<br>
-other.<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">Understood, that&#39;s why I want to remove qatomic_mb_read().</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">
-Does smp_read_barrier_depends() make sense for QEMU? Does QEMU support<br>
-Alpha host CPUs?<br></blockquote></div></div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">It makes sense in that it&#39;s cheaper than qatomic_load_a=
-cquire() or smp_rmb() on ARM and PPC (32-bit ARM is especially bad). Here I=
- can use smp_rmb() if you prefer; I thought that the comment, explicitly re=
-ferring to &quot;to-&gt;scheduled&quot; which depends on &quot;to&quot;, wo=
-uld be enough.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I could a=
-lso use QSIMPLEQ_FIRST_RCU(&amp;pending) to hide the barrier, but it seems =
-to be a bad idea because there&#39;s no RCU involvement here.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">
-<br>
-Stefan<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000e12cbf05f8bade85--
-
+Thanks,
+Nick
 
