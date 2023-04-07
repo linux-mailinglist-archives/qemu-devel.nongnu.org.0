@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F036DAFAA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 17:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3687F6DAFB6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 17:33:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pko0i-0004XE-2k; Fri, 07 Apr 2023 11:28:20 -0400
+	id 1pko5J-0007Z9-20; Fri, 07 Apr 2023 11:33:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pko0f-0004X3-Ej
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:28:17 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pko0d-00005h-NZ
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 11:28:17 -0400
-Received: by mail-ej1-x629.google.com with SMTP id j22so9138890ejv.1
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 08:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680881293; x=1683473293;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Y72eIsr9+Guc6UFJEvsBb5ie7J96MpWiJt73EhTX27o=;
- b=V3M9Js7JgejRQJ4jAFUz6V86WxzJlBj1vtseD+yvtlGmwRYcsS+74fOS4Kt09kJbPT
- kUA1ommkbUDCOQ5VxiJ5hF8mbXF8ndKaGG6hPGG8jJsMNkBrEEOLmroGmoTynCn6QYLG
- DXkGSmLjGktfYj516lx1CmN+b3ziDGdFX6lXBzDfYAh65QFdzGiFoqmTIJvSu62FuN+A
- VwtFeaQ/qx92Du3jEkZJf1PukbCU4OcNeLMygeyAEA9OZO5xOOcrE2Bx0I9AK1s78K8r
- g5yfw00CcJmpV0kbA6SFWTEVPJ0G2Pf6B87vd9AcEKtJ4gv1Ddq/sRhV24oxrWYlfN3n
- yfjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680881293; x=1683473293;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y72eIsr9+Guc6UFJEvsBb5ie7J96MpWiJt73EhTX27o=;
- b=fSy3rtj6MEwVSy8Ho6RTceBUNvB/rq985CAK9HOI1LkomD+GOiTzUfmt4BDlZtQScy
- CMktvTfdIyK9yuXp4jzczZWkfXnE3Ufk4CDeBf2+TVR48LeeVyVJmYrLHPtDVoRuAUEV
- MUKPGrgrf4p1Q8pJ0KbLlvKN/OxoSdRKv9ZxnshBW5UeFvzctJS1OYiWApN5DKRxVcdZ
- Qfy3uSQjbwJRH080s+t5rbTg84Coxt6XrxuFCeG7ouieoiZE+bt1nl9cNsQoLxzqCTKm
- OJOPqCTr4Z0XLzCNw6+iVBquwafr3ni0qxOt5kBPLbrItAeKxPzNmjuumHXV2dAeV3j2
- 7yFQ==
-X-Gm-Message-State: AAQBX9en9HHpQBaTACjjvNhdhB261V773x7FVZwZqsH/h0r/HLStU+Rj
- e8csN+Kp/IUJUg28c7BvNyOP7H57aTsPtKO6tnoCbQ==
-X-Google-Smtp-Source: AKy350ZBOIkvKeWsx5LjwxWkSufeYDCN7mTvgCOl3jeEMY1LhjI9sqA+dHeCJPfZz5V7M4J5lR6Xb07H+2JjRVd7ty0=
-X-Received: by 2002:a17:906:2847:b0:920:da8c:f7b0 with SMTP id
- s7-20020a170906284700b00920da8cf7b0mr1274939ejc.6.1680881293287; Fri, 07 Apr
- 2023 08:28:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <irina.ryapolova@syntacore.com>)
+ id 1pko5H-0007Yu-6o; Fri, 07 Apr 2023 11:33:03 -0400
+Received: from forward101b.mail.yandex.net ([178.154.239.148])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <irina.ryapolova@syntacore.com>)
+ id 1pko5F-00038w-Eu; Fri, 07 Apr 2023 11:33:02 -0400
+Received: from mail-nwsmtp-smtp-production-main-10.sas.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-10.sas.yp-c.yandex.net
+ [IPv6:2a02:6b8:c14:2481:0:640:e0:0])
+ by forward101b.mail.yandex.net (Yandex) with ESMTP id 0051A600C1;
+ Fri,  7 Apr 2023 18:32:55 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-10.sas.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id qWTExFWWv8c0-TQlMbU41; 
+ Fri, 07 Apr 2023 18:32:54 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
+ t=1680881574; bh=qHvpvSfgkj9tu+hRk0yn7GWcOobm4PCzYSJvGPlX4lw=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=vKo6e/Wu7l9M59JwYdwi7wXKSqSDOWFH+oEYVhYJCq4Q/v/L5v2c28AquvHwv34T+
+ YFmBLBpPGzsxEOyZhskobUI4nxTUYvmzx7h96DCRnu8/ICirDWVerSx3lTyyF4muYs
+ XOJiQbEvmPmu8c33HnSAuKmu/HiDgRiW1yFFcCTo=
+Authentication-Results: mail-nwsmtp-smtp-production-main-10.sas.yp-c.yandex.net;
+ dkim=pass header.i=@syntacore.com
+From: Irina Ryapolova <irina.ryapolova@syntacore.com>
+To: qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com,
+ zhiwei_liu@linux.alibaba.com, qemu-riscv@nongnu.org,
+ Irina Ryapolova <irina.ryapolova@syntacore.com>
+Subject: [PATCH v2] target/riscv: Fix Guest Physical Address Translation
+Date: Fri,  7 Apr 2023 18:32:25 +0300
+Message-Id: <20230407153225.156395-1-irina.ryapolova@syntacore.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230407134044.11638-1-pbonzini@redhat.com>
-In-Reply-To: <20230407134044.11638-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Apr 2023 16:28:02 +0100
-Message-ID: <CAFEAcA-Ymuo7aFafReStB8mTEf3cG7JZh-cN65kZbKLtkg=zdQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: explain effect of smp_read_barrier_depends() on
- modern architectures
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.154.239.148;
+ envelope-from=irina.ryapolova@syntacore.com; helo=forward101b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,57 +69,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 7 Apr 2023 at 14:41, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The documentation for smp_read_barrier_depends() does not mention the architectures
-> for which it is an optimization, for example ARM and PPC.  As a result, it is not
-> clear to the reader why one would use it.  Relegate Alpha to a footnote together
-> with other architectures where it is equivalent to smp_rmb().
->
-> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  docs/devel/atomics.rst | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/docs/devel/atomics.rst b/docs/devel/atomics.rst
-> index 2157d3312956..8f6273c9283e 100644
-> --- a/docs/devel/atomics.rst
-> +++ b/docs/devel/atomics.rst
-> @@ -201,10 +201,9 @@ They come in six kinds:
->    retrieves the address to which the second load will be directed),
->    the processor will guarantee that the first LOAD will appear to happen
->    before the second with respect to the other components of the system.
-> -  However, this is not always true---for example, it was not true on
-> -  Alpha processors.  Whenever this kind of access happens to shared
-> -  memory (that is not protected by a lock), a read barrier is needed,
-> -  and ``smp_read_barrier_depends()`` can be used instead of ``smp_rmb()``.
-> +  Therefore, unlike ``smp_rmb()`` or ``qatomic_load_acquire()``,
-> +  ``smp_read_barrier_depends()`` can be just a compiler barrier on
-> +  weakly-ordered architectures such as ARM or PPC[#]_.
+Before changing the flow check for sv39/48/57.
 
-If you want to be super-picky, the preferred capitalization
-these days is "Arm" :-)
+According to specification (for Supervisor mode):
+Sv39 implementations support a 39-bit virtual address space, divided into 4 KiB pages.
+Instruction fetch addresses and load and store effective addresses, which are 64 bits,
+must have bits 63–39 all equal to bit 38, or else a page-fault exception will occur.
+Likewise for Sv48 and Sv57.
 
->    Note that the first load really has to have a _data_ dependency and not
->    a control dependency.  If the address for the second load is dependent
-> @@ -212,6 +211,10 @@ They come in six kinds:
->    than actually loading the address itself, then it's a _control_
->    dependency and a full read barrier or better is required.
->
-> +.. [#] The DEC Alpha is an exception, because ``smp_read_barrier_depends()``
-> +   needs a processor barrier.  On strongly-ordered architectures such
-> +   as x86 or s390, ``smp_rmb()`` and ``qatomic_load_acquire()`` can
-> +   also be a compiler barriers.
+So the high bits are equal to bit 38 for sv39.
 
-s/a //;
+According to specification (for Hypervisor mode):
+For Sv39x4, address bits of the guest physical address 63:41 must all be zeros, or else a
+guest-page-fault exception occurs.
 
->
->  Memory barriers and ``qatomic_load_acquire``/``qatomic_store_release`` are
->  mostly used when a data structure has one thread that is always a writer
-> --
-> 2.39.2
+Likewise for Sv48x4 and Sv57x4.
+For Sv48x4 address bits 63:50 must all be zeros, or else a guest-page-fault exception occurs.
+For Sv57x4 address bits 63:59 must all be zeros, or else a guest-page-fault exception occurs.
 
-thanks
--- PMM
+For example we are trying to access address 0xffff_ffff_ff01_0000 with only G-translation enabled.
+So expected behavior is to generate exception. But qemu doesn't generate such exception.
+
+For the old check, we get
+va_bits == 41, mask == (1 << 24) - 1, masked_msbs == (0xffff_ffff_ff01_0000 >> 40) & mask == mask.
+Accordingly, the condition masked_msbs != 0 && masked_msbs != mask is not fulfilled
+and the check passes.
+
+Signed-off-by: Irina Ryapolova <irina.ryapolova@syntacore.com>
+---
+Changes for v2:
+  -Add more detailed commit message
+---
+ target/riscv/cpu_helper.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f88c503cf4..27289f2305 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -863,17 +863,24 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+ 
+     CPUState *cs = env_cpu(env);
+     int va_bits = PGSHIFT + levels * ptidxbits + widened;
+-    target_ulong mask, masked_msbs;
+ 
+-    if (TARGET_LONG_BITS > (va_bits - 1)) {
+-        mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
+-    } else {
+-        mask = 0;
+-    }
+-    masked_msbs = (addr >> (va_bits - 1)) & mask;
++    if (first_stage == true) {
++        target_ulong mask, masked_msbs;
++
++        if (TARGET_LONG_BITS > (va_bits - 1)) {
++            mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
++        } else {
++            mask = 0;
++        }
++        masked_msbs = (addr >> (va_bits - 1)) & mask;
+ 
+-    if (masked_msbs != 0 && masked_msbs != mask) {
+-        return TRANSLATE_FAIL;
++        if (masked_msbs != 0 && masked_msbs != mask) {
++            return TRANSLATE_FAIL;
++        }
++    } else {
++        if (vm != VM_1_10_SV32 && addr >> va_bits != 0) {
++            return TRANSLATE_FAIL;
++        }
+     }
+ 
+     int ptshift = (levels - 1) * ptidxbits;
+-- 
+2.25.1
+
 
