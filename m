@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B276DA4C8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Apr 2023 23:37:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1514D6DA6D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 03:16:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkXHQ-00078e-04; Thu, 06 Apr 2023 17:36:28 -0400
+	id 1pkagm-000067-0H; Thu, 06 Apr 2023 21:14:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pkXHE-00077x-Jz; Thu, 06 Apr 2023 17:36:18 -0400
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pkXH4-0003Y7-Rq; Thu, 06 Apr 2023 17:36:10 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c0d:3786:0:640:7c97:0])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 3EF0A6029D;
- Fri,  7 Apr 2023 00:35:55 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:227::1:e] (unknown [2a02:6b8:b081:227::1:e])
- by mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id rZYbcJ0OjiE0-wJviEjjd; Fri, 07 Apr 2023 00:35:54 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1680816954; bh=nD8P4wruKP4OrojEnguAkzER0LPK7h1/Uvr/uELUKoA=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=zp2MOluYHMYn5Zpt16wgvw+WGx8WD04W1XAL6qaX7O4gQ457dfCxawQHwQaaRRqY7
- itNh2X34yZpCwXQiW4jJYl7Da6KKSNAcusZvJfhqjFlB2xFMCrI7z0JPoWEfpnbfji
- Xp+/jArbd+zD2EVqflQd0RId2f6CoKLpl6ffU1Dg=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <c4845d76-2d4f-2390-7272-0bbe6f188fc4@yandex-team.ru>
-Date: Fri, 7 Apr 2023 00:35:53 +0300
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkagj-00005r-1q; Thu, 06 Apr 2023 21:14:49 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkage-0005ia-HT; Thu, 06 Apr 2023 21:14:48 -0400
+Received: from [192.168.0.120] (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowAD3_2N1bi9k8WFcAA--.15306S2;
+ Fri, 07 Apr 2023 09:14:30 +0800 (CST)
+Message-ID: <ac342677-a7f5-52d6-0410-cd1c84b2197e@iscas.ac.cn>
+Date: Fri, 7 Apr 2023 09:14:29 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 2/4] block: Split padded I/O vectors exceeding IOV_MAX
+Cc: liweiwei@iscas.ac.cn, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: Re: [PATCH v12 02/10] target/riscv: add support for Zca extension
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20230307081403.61950-1-liweiwei@iscas.ac.cn>
+ <20230307081403.61950-3-liweiwei@iscas.ac.cn>
+ <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
 Content-Language: en-US
-To: Hanna Czenczek <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>
-References: <20230317175019.10857-1-hreitz@redhat.com>
- <20230317175019.10857-3-hreitz@redhat.com>
- <794be57d-9bbb-4de4-00ef-32df10cc3eaa@yandex-team.ru>
- <751be7a2-f32a-569d-c464-c7821560edea@redhat.com>
- <9bf47acd-9c41-b838-c6a9-fea2c586d385@yandex-team.ru>
- <251b1d36-7fe0-498d-f257-b1a0d256779f@redhat.com>
- <163e2982-e055-2f42-8540-b6688dadd3b6@yandex-team.ru>
- <fb428514-964f-93b6-065e-6399abd5ac24@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <fb428514-964f-93b6-065e-6399abd5ac24@redhat.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <0d3b3e7f-3b9a-e08c-dd77-3d5933977701@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+X-CM-TRANSID: qwCowAD3_2N1bi9k8WFcAA--.15306S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3XF13CrWUCrW3tw47JF13urg_yoWxXFWDpF
+ 18Cry7KrWkJr9ayryxGr4UJryUJr4Fga18Jr1vg3WUJr43Jr4jqrWqgrySgF1UAF4kWr1j
+ yF4qyFnxZF1UZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
+ Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+ x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
+ 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+ JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+ sGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.224,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.224,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,118 +80,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06.04.23 19:51, Hanna Czenczek wrote:
-> On 05.04.23 11:59, Vladimir Sementsov-Ogievskiy wrote:
->> On 04.04.23 20:32, Hanna Czenczek wrote:
->>> On 04.04.23 10:10, Vladimir Sementsov-Ogievskiy wrote:
->>>> On 03.04.23 16:33, Hanna Czenczek wrote:
->>>>> (Sorry for the rather late reply... Thanks for the review!)
->>>>>
->>>>> On 20.03.23 11:31, Vladimir Sementsov-Ogievskiy wrote:
->>>>>> On 17.03.23 20:50, Hanna Czenczek wrote:
->>>>>
->>>>> [...]
->>>>>
->>>>>>> diff --git a/block/io.c b/block/io.c
->>>>>>> index 8974d46941..1e9cdba17a 100644
->>>>>>> --- a/block/io.c
->>>>>>> +++ b/block/io.c
->>>>>>
->>>>>> [..]
->>>>>>
->>>>>>> +    pad->write = write;
->>>>>>> +
->>>>>>>       return true;
->>>>>>>   }
->>>>>>>   @@ -1545,6 +1561,18 @@ zero_mem:
->>>>>>>     static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->>>>>>
->>>>>> Maybe, rename to _finalize, to stress that it's not only freeing memory.
->>>>>
->>>>> Sounds good!
->>>>>
->>>>> [...]
->>>>>
->>>>>>> @@ -1552,6 +1580,101 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
->>>>>>>       memset(pad, 0, sizeof(*pad));
->>>>>>>   }
->>>>>>>   +/*
->>>>>>> + * Create pad->local_qiov by wrapping @iov in the padding head and tail, while
->>>>>>> + * ensuring that the resulting vector will not exceed IOV_MAX elements.
->>>>>>> + *
->>>>>>> + * To ensure this, when necessary, the first couple of elements (up to three)
->>>>>>
->>>>>> maybe, "first two-three elements"
->>>>>
->>>>> Sure (here and...
->>>>>
->>>>> [...]
->>>>>
->>>>>>> +    /*
->>>>>>> +     * If padded_niov > IOV_MAX, we cannot just concatenate everything.
->>>>>>> +     * Instead, merge the first couple of elements of @iov to reduce the number
->>>>>>
->>>>>> maybe, "first two-three elements"
->>>>>
->>>>> ...here).
->>>>>
->>>>>>
->>>>>>> +     * of vector elements as necessary.
->>>>>>> +     */
->>>>>>> +    if (padded_niov > IOV_MAX) {
->>>>>>>
->>>>>>
->>>>>> [..]
->>>>>>
->>>>>>> @@ -1653,8 +1786,8 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
->>>>>>>           flags |= BDRV_REQ_COPY_ON_READ;
->>>>>>>       }
->>>>>>>   -    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
->>>>>>> -                           NULL, &flags);
->>>>>>> +    ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, false,
->>>>>>> +                           &pad, NULL, &flags);
->>>>>>>       if (ret < 0) {
->>>>>>>           goto fail;
->>>>>>>       }
->>>>>>
->>>>>> a bit later:
->>>>>>
->>>>>> tracked_request_end(&req);
->>>>>> bdrv_padding_destroy(&pad);
->>>>>>
->>>>>>
->>>>>> Now, the request is formally finished inside bdrv_padding_destroy().. Not sure, does it really violate something, but seems safer to swap these two calls. 
->>>>>
->>>>> I’d rather not, for two reasons: First, tracked requests are (as far as I understand) only there to implement request serialization, and so only care about metadata (offset, length, and type), which is not changed by changes to the I/O vector.
->>>>>
->>>>> Second, even if the state of the I/O vector were relevant to tracked requests, I think it would actually be the other way around, i.e. the tracked request must be ended before the padding is finalized/destroyed.  The tracked request is about the actual request we submit to `child` (which is why tracked_request_begin() is called after bdrv_pad_request()), and that request is done using the modified I/O vector.  So if the tracked request had any connection to the request’s I/O vector (which it doesn’t), it would be to this modified one, so we mustn’t invalidate it via bdrv_padding_finalize() while the tracked request lives.
->>>>>
->>>>> Or, said differently: I generally try to clean up things in the inverse way they were set up, and because bdrv_pad_requests() comes before tracked_request_begin(), I think tracked_request_end() should come before bdrv_padding_finalize().
->>>>
->>>> Note, that it's wise-versa in bdrv_co_pwritev_part().
->>>
->>> Well, and it’s this way here.  We agree that for clean-up, the order doesn’t functionally matter, so either way is actually fine.
->>>
->>>> For me it's just simpler to think that the whole request, including filling user-given qiov with data on read part is inside tracked_request_begin() / tracked_request_end().
->>>
->>> It isn’t, though, because padding must be done before the tracked request is created.  The tracked request uses the request’s actual offset and length, after padding, so bdrv_pad_request() must always be done before (i.e., outside) tracked_request_begin().
->>>
->>>> And moving the last manipulation with qiov out of it breaks this simple thought.
->>>> Guest should not care of it, as it doesn't know about request tracking.. But what about internal code? Some code may depend on some requests be finished after bdrv_drained_begin() call, but now they may be not fully finished, and some data may be not copied back to original qiov.
+
+On 2023/4/7 04:22, Daniel Henrique Barboza wrote:
+> Hi,
+>
+> This patch is going to break the sifive_u boot if I rebase
+>
+> "[PATCH v6 0/9] target/riscv: rework CPU extensions validation​"
+>
+> on top of it, as it is the case today with the current 
+> riscv-to-apply.next.
+>
+> The reason is that the priv spec version for Zca is marked as 1_12_0, and
+> the priv spec version for both sifive CPUs is 1_10_0, and both are 
+> enabling
+> RVC.
+>
+> This patch from that series above:
+>
+> "[PATCH v6 5/9] target/riscv/cpu.c: add priv_spec 
+> validate/disable_exts helpers"
+>
+> Makes the disabling of the extension based on priv version to happen 
+> *after* we
+> do all the validations, instead of before as we're doing today. Zca 
+> (and Zcd) will
+> be manually enabled just to be disabled shortly after by the priv spec 
+> code. And
+> this will happen:
+
+Yeah, I didn't take priv_version into consideration before.
+
+This is a new problem if we disable them at the end and was not 
+triggered in my previous tests.
+
+Not only Zca and Zcd, Zcf also has the same problem.
+
+>
+> qemu-system-riscv64: warning: disabling zca extension for hart 
+> 0x0000000000000000 because privilege spec version does not match
+> qemu-system-riscv64: warning: disabling zca extension for hart 
+> 0x0000000000000001 because privilege spec version does not match
+> qemu-system-riscv64: warning: disabling zcd extension for hart 
+> 0x0000000000000001 because privilege spec version does not match
+> (--- hangs ---)
+>
+> This means that the assumption made in this patch - that Zca implies 
+> RVC - is no
+> longer valid, and all these translations won't work.
+>
+As specified in Zc* spec,  Zca is the subset of RVC.  C & F include Zcf  
+in RV32. C & D include Zcd.
+>
+> Some possible solutions:
+>
+> - Do not use Zca as a synonym for RVC, i.e. drop this patch. We would 
+> need to convert
+> all Zca checks to RVC checks in all translation code.
+
+We should check both Zca and RVC in this way.
+
+Similarly, we also should check both C&F and Zcf for Zcf instructions, 
+C&D and Zcd for Zcd instructions.
+
+I can update this patchset or add a new patch for it if needed.
+
+>
+> - Do not apply patch 5/9 from that series that moves the disable_ext 
+> code to the end
+> of validation. Also a possibility, but we would be sweeping the 
+> problem under the rug.
+> Zca still can't be used as a RVC replacement due to priv spec version 
+> constraints, but
+> we just won't disable Zca because we'll keep validating exts too early 
+> (which is the
+> problem that the patch addresses).
+>
+> - change the priv spec of the sifive CPUs - and everyone that uses RVC 
+> -  to 1_12_0. Not
+> sure if this makes sense.
+>
+> - do not disable any extensions due to privilege spec version 
+> mismatch. This would make
+> all the priv_version related artifacts to be more "educational" than 
+> to be an actual
+> configuration we want to enforce. Not sure if that would do any good 
+> in the end, but
+> it's also a possibility.
+
+I prefer this way. For vendor-specific cpu types, the implicitly implied 
+extensions will have no effect on its function,
+
+and this can be invisible to user if we mask them in isa_string exposed 
+to the kernel.
+
+The question is whether we need constrain the  configuration for general 
+cpu type.
+
+Regards,
+
+Weiwei Li
+
+> I'll hold the rebase of that series until we sort this out. Thanks,
+>
+>
+> Daniel
+>
+>
+>
+> On 3/7/23 05:13, Weiwei Li wrote:
+>> Modify the check for C extension to Zca (C implies Zca).
 >>
->> You didn't answered here. Do you think that's wrong assumption for the user of drained sections?
-> 
-> Tracked requests are about request (write) serialization, they have nothing to do with draining.  Draining is about waiting until the in_flight counter is 0, i.e. waiting for bdrv_dec_in_flight(), which is separate from tracked_request_end() and always comes after bdrv_padding_finalize().
-> 
-
-Oh, right, I was wrong, sorry for long arguing.
-
-No more objections:
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-
--- 
-Best regards,
-Vladimir
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>> Reviewed-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>> ---
+>>   target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+>>   target/riscv/translate.c                | 8 ++++++--
+>>   2 files changed, 8 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc 
+>> b/target/riscv/insn_trans/trans_rvi.c.inc
+>> index 4ad54e8a49..c70c495fc5 100644
+>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+>> @@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>>       tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+>>         gen_set_pc(ctx, cpu_pc);
+>> -    if (!has_ext(ctx, RVC)) {
+>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>           TCGv t0 = tcg_temp_new();
+>>             misaligned = gen_new_label();
+>> @@ -169,7 +169,7 @@ static bool gen_branch(DisasContext *ctx, arg_b 
+>> *a, TCGCond cond)
+>>         gen_set_label(l); /* branch taken */
+>>   -    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
+>> +    if (!ctx->cfg_ptr->ext_zca && ((ctx->base.pc_next + a->imm) & 
+>> 0x3)) {
+>>           /* misaligned */
+>>           gen_exception_inst_addr_mis(ctx);
+>>       } else {
+>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>> index 0ee8ee147d..d1fdd0c2d7 100644
+>> --- a/target/riscv/translate.c
+>> +++ b/target/riscv/translate.c
+>> @@ -549,7 +549,7 @@ static void gen_jal(DisasContext *ctx, int rd, 
+>> target_ulong imm)
+>>         /* check misaligned: */
+>>       next_pc = ctx->base.pc_next + imm;
+>> -    if (!has_ext(ctx, RVC)) {
+>> +    if (!ctx->cfg_ptr->ext_zca) {
+>>           if ((next_pc & 0x3) != 0) {
+>>               gen_exception_inst_addr_mis(ctx);
+>>               return;
+>> @@ -1122,7 +1122,11 @@ static void decode_opc(CPURISCVState *env, 
+>> DisasContext *ctx, uint16_t opcode)
+>>       if (insn_len(opcode) == 2) {
+>>           ctx->opcode = opcode;
+>>           ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>> -        if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
+>> +        /*
+>> +         * The Zca extension is added as way to refer to 
+>> instructions in the C
+>> +         * extension that do not include the floating-point loads 
+>> and stores
+>> +         */
+>> +        if (ctx->cfg_ptr->ext_zca && decode_insn16(ctx, opcode)) {
+>>               return;
+>>           }
+>>       } else {
 
 
