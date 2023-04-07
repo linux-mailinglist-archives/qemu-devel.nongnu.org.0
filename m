@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B82C6DA791
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 04:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D633C6DA7FE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 05:32:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkbbI-0004lx-W5; Thu, 06 Apr 2023 22:13:17 -0400
+	id 1pkco5-0006W0-I6; Thu, 06 Apr 2023 23:30:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pkbbF-0004l9-JM
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 22:13:13 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkco1-0006TH-Rk; Thu, 06 Apr 2023 23:30:30 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pkbbD-00023r-ML
- for qemu-devel@nongnu.org; Thu, 06 Apr 2023 22:13:13 -0400
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8CxztozfC9kUakXAA--.25144S3;
- Fri, 07 Apr 2023 10:13:08 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Axnr4yfC9kUsEXAA--.53000S3; 
- Fri, 07 Apr 2023 10:13:07 +0800 (CST)
-Subject: Re: [PATCH] target/loongarch/README: Remove unnecessary parameter.
-From: gaosong <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, philmd@linaro.org
-References: <20230328093555.3539823-1-gaosong@loongson.cn>
-Message-ID: <ecc4556f-629b-6b83-cb4c-ff9c3cf53667@loongson.cn>
-Date: Fri, 7 Apr 2023 10:13:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pkcny-0001oC-TO; Thu, 06 Apr 2023 23:30:29 -0400
+Received: from localhost.localdomain (unknown [180.175.29.170])
+ by APP-01 (Coremail) with SMTP id qwCowACXIdRIji9kvdtkAA--.16022S2;
+ Fri, 07 Apr 2023 11:30:17 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH] target/riscv: Mask the implicitly enabled extensions in
+ isa_string based on priv version
+Date: Fri,  7 Apr 2023 11:30:14 +0800
+Message-Id: <20230407033014.40901-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20230328093555.3539823-1-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Axnr4yfC9kUsEXAA--.53000S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvdXoW7Jw18CrWUWw4rArWkXr13Arb_yoWfAwb_Za
- y3Xw1Duw4UWFn7tw1Svr95JF13G3W8GFnavFWDXr48tr9xXF4Syw4vq3Z5Aa15trs5Wrs8
- Jrs7JryDCr4rZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
- s7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
- AFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
- 6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84
- ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4
- xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8
- JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8w
- CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
- 6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64
- vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_
- Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
- vEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8r9N3UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.224,
+X-CM-TRANSID: qwCowACXIdRIji9kvdtkAA--.16022S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKF4UAF17JFyrXF47ZrWUArb_yoWkJrX_Gw
+ n2gFn7Xw1jqF4j9ay5XayYyr1xG3s5Grs5Gws3Kw47Ja47WrZ7Z3W0qFWDJr1Uu3yxCF93
+ t39rJa47Gr1rujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbxxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+ xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+ MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+ 0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+ JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoO
+ J5UUUUU
+X-Originating-IP: [180.175.29.170]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,31 +74,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping~
+Using implicitly enabled extensions such as Zca/Zcf/Zcd instead of their
+super extensions can simplify the extension related check. However, they
+may have higher priv version than their super extensions. So we should mask
+them in the isa_string based on priv version to make them invisible to user
+if the specified priv version is lower than their minimal priv version.
 
-在 2023/3/28 下午5:35, Song Gao 写道:
-> The parameter '--disable-werror' is not required
-> when building the 'loongarch64-linux-user' target.
->
-> Fixes: c32b3fec34 ("target/loongarch: Update README")
-> Reported-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   target/loongarch/README | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/loongarch/README b/target/loongarch/README
-> index 0b9dc0d40a..488b802d5c 100644
-> --- a/target/loongarch/README
-> +++ b/target/loongarch/README
-> @@ -24,7 +24,7 @@
->   
->     2. Test tests/tcg/multiarch.
->   
-> -     ./configure  --static  --prefix=/usr  --disable-werror --target-list="loongarch64-linux-user" --enable-debug
-> +     ./configure --static --prefix=/usr --target-list="loongarch64-linux-user" --enable-debug
->   
->        cd build
->   
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+---
+ target/riscv/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cb68916fce..1a5099382c 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -1709,6 +1709,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str,
+ 
+     for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+         if (isa_edata_arr[i].multi_letter &&
++            (cpu->env.priv_ver >= isa_edata_arr[i].min_version) &&
+             isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
+             new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+             g_free(old);
+-- 
+2.25.1
 
 
