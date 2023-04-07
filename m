@@ -2,51 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4046DB3B3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 20:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E9D6DB3DB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 21:02:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkrEy-0007Co-Jz; Fri, 07 Apr 2023 14:55:16 -0400
+	id 1pkrLc-0000AK-1H; Fri, 07 Apr 2023 15:02:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>)
- id 1pkrEx-0007Ca-0J; Fri, 07 Apr 2023 14:55:15 -0400
-Received: from rev.ng ([5.9.113.41])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>)
- id 1pkrEv-0000nu-51; Fri, 07 Apr 2023 14:55:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:Reply-To:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=BpknPCcOFtfJv3UuKu4tyq8GVMTjcyHW4tylVVO7M7I=; b=SnG4D/IlNzpP5U6qsFhjDHfRFa
- 2t/ZcKQRX24RC+JcWotmkVZwxxppKNv9zvcNy5UyQZ/sjPGftKNnObPXd4m3bggESQW7SNzAg0SQv
- rPPBkIBpOHLJFrLSXUJfBBT/WL8p799b21kOWuK52amAOkJkOlPVLqZs2nkiiXFrcdhc=;
-Message-ID: <7df7c2ab-4b54-daa8-90ca-2c671a8bb19b@rev.ng>
-Date: Fri, 7 Apr 2023 20:54:59 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pkrLZ-0000A7-Te
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 15:02:05 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pkrLY-00046F-5m
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 15:02:05 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id l7so40433064pjg.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 12:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680894122;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rcNEhGFLchqZMB3huLw45XXaPWISEFJfrSvpuPV2BPc=;
+ b=rMblbD2odMTUnuW8jivPu+nH+4U7J73whYaNk7FMLX5QFvV+O3v6PX3WahZa8y17jd
+ xXM4FYdCL+QINKXvFce9yFsjFKnYhbkfh67wIR1SZn5O9zhOGhGniqMiDmXSVriDgvrD
+ ISnvsfFFu9hw/AqxOWX5mXr0AnIF7mo9wv4pp9XxFhqVY9Ytbc2bUaeDXGsIK+SZpfd+
+ F5YJFnPZgRgHOYUZcl6VbF6lvxmoItl8zmeXayUlcwidIxqcJ63CFjopjUc7XKF6nYH6
+ 6ZCs34CudW5z51ELAvtzL/ZyhgS4zzEIW945p4UK8KkqG0rC2zsJSfmHtwyjfgRYnOy0
+ 34Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680894122;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rcNEhGFLchqZMB3huLw45XXaPWISEFJfrSvpuPV2BPc=;
+ b=uwZqTe9N3dwgznAdYQYqkhozY896ZFnNvF1Ob0VXoJsmaBWu40qsukxmLXOxrz16V7
+ FTckUSFZ2zx0vlKH96w/uxi2FeDohTm/Nhzx3donMJX0479vI74XLadHuTWbQrvIHUwQ
+ wfO538TLA+8oaaUa9gSoh9/gMsNaf2Mm9iWg/Uzk4BqjMoav36dtFgv2DkVXncK4Pyre
+ mkOwZHhwdv4OTyDLcA1elD9/E2qzk3HqpN03L6orioub80+WoPz99sWp0zH7vCko8S53
+ go5JIrqjGCvp8MfkpuIDXUzgZMCDp8UCc5J1inikxv8nDSubTBHdsJJCcdJnRjj5DwDt
+ SJig==
+X-Gm-Message-State: AAQBX9eXu9dmkX9wQ4X6l/NTBXbP7KONUhChZXyz55La1fWoA7+3LCjF
+ obJigABVOks/eOi+jfx7E47EtEPoTCfBvTZLdGg=
+X-Google-Smtp-Source: AKy350YI3IYRqur3PHBsOBxf4FgCInbRjsA6kiFsXGJouRJfPtIYetDfBAACsrLyrV/d+8EpW805Sw==
+X-Received: by 2002:a05:6a20:cb47:b0:cb:af96:ace7 with SMTP id
+ hd7-20020a056a20cb4700b000cbaf96ace7mr2712196pzb.46.1680894122151; 
+ Fri, 07 Apr 2023 12:02:02 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
+ by smtp.gmail.com with ESMTPSA id
+ q11-20020a63cc4b000000b0050bc4ca9024sm2951221pgi.65.2023.04.07.12.02.01
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Apr 2023 12:02:01 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-8.0] tcg/i386: Adjust assert in tcg_out_addi_ptr
+Date: Fri,  7 Apr 2023 12:02:00 -0700
+Message-Id: <20230407190200.3259312-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH for-8.0] target/ppc: Fix temp usage in gen_op_arith_modw
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: danielhb413@gmail.com, david@gibson.dropbear.id.au, clg@kaod.org,
- groug@kaod.org, qemu-ppc@nongnu.org, Nicholas Piggin <npiggin@gmail.com>
-References: <20230407183628.3239304-1-richard.henderson@linaro.org>
-Content-Language: en-US
-Organization: rev.ng
-In-Reply-To: <20230407183628.3239304-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.03,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,24 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  anjo@rev.ng
-X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+We can arrive here on _WIN64 because Int128 is passed by reference.
+Change the assert to check that the immediate is in range,
+instead of attempting to check the host ABI.
 
-On 4/7/23 20:36, Richard Henderson wrote:
-> Fix a crash writing to 't3', which is now a constant.
-> Instead, write the result of the remu to 'ret'.
->
-> Fixes: 7058ff5231a ("target/ppc: Avoid tcg_const_* in translate.c")
-> Reported-by: Nicholas Piggin <npiggin@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/ppc/translate.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+Fixes: 6a6d772e30d ("tcg: Introduce tcg_out_addi_ptr")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1581
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/i386/tcg-target.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Anton Johansson <anjo@rev.ng>
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 4444eb9234..5a151fe64a 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -1082,7 +1082,7 @@ static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+                              tcg_target_long imm)
+ {
+     /* This function is only used for passing structs by reference. */
+-    tcg_debug_assert(TCG_TARGET_REG_BITS == 32);
++    tcg_debug_assert(imm == (int32_t)imm);
+     tcg_out_modrm_offset(s, OPC_LEA, rd, rs, imm);
+ }
+ 
+-- 
+2.34.1
 
 
