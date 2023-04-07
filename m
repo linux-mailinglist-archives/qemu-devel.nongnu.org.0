@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769876DADFF
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 15:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814066DAF37
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Apr 2023 17:04:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkmKk-00073I-JZ; Fri, 07 Apr 2023 09:40:54 -0400
+	id 1pkncG-0007Fl-HN; Fri, 07 Apr 2023 11:03:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pkmKi-000732-IB
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 09:40:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <cconte@redhat.com>) id 1pknUW-00053v-7e
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 10:55:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pkmKg-0006WF-Qx
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 09:40:52 -0400
+ (Exim 4.90_1) (envelope-from <cconte@redhat.com>) id 1pknUU-000468-Fc
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 10:55:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680874849;
+ s=mimecast20190719; t=1680879301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=K34whxsFccY3w+HOAFXRpHnp1vpSRgJtjT258xh/XzM=;
- b=VutibfSFM32TQgPyxcLuGkyY0sDKhAIia6u+LzAfoXZwQjP0Nt9GRarW1EW6JH5R2zJn1x
- yeUbsG0HcENSVviQM6nzhnH337Drm+GhokFCd3ud0ntpFodXSMtY1pXpA4T6k4BwErUP3o
- 5Jo9Il5qW4TwRJ+kE36sjxjuCneyrf0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dzFO32mdrAR/VUPVh3EYrQGRuh0hQbS52iKIdgPQxfk=;
+ b=GnHFak6dUr88SbZjpKLl4NZNTy1InueDGMAZCQnTHTNsQKINB0f3qFXR5ey8CdMl2ds0gy
+ ic6Ggs52hbbZ4edhEGN4OIKJqXxLDUCDI9Pw/UVEIY+K2uXELPcmZYlniCx3Yp1KvL4aLj
+ c1I2PXx8zQjFY5VEg4MIDYrd7imGQUM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-26--_y24t8ePXGqhgvcRc43gg-1; Fri, 07 Apr 2023 09:40:48 -0400
-X-MC-Unique: -_y24t8ePXGqhgvcRc43gg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n19-20020a05600c3b9300b003ef63ef4519so18201713wms.3
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 06:40:48 -0700 (PDT)
+ us-mta-135-oQnr7m0LOkixPUqD8NhCjw-1; Fri, 07 Apr 2023 10:53:09 -0400
+X-MC-Unique: oQnr7m0LOkixPUqD8NhCjw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o1-20020a05600c4fc100b003edecc610abso853309wmq.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 07:53:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680874847; x=1683466847;
+ d=1e100.net; s=20210112; t=1680879188; x=1683471188;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=K34whxsFccY3w+HOAFXRpHnp1vpSRgJtjT258xh/XzM=;
- b=ENHRJ//Rlur71ofAXewsLoDsLGR5S5YSAqTErMK3p1PTLLisN33tuWMpnaj8P+kXvu
- fPPgLP/9Ef+7eDA+NdFg7l+vODUfIGezL5F4oPvKnCa9EVZoWuHBbXGmJjMswVIBEd9r
- nxqQkBodD0FSMU05wpyZm8u14i9oPL4q2CuRLX34kBZOEjhiXG0MvJoerwsQUM52jeXJ
- lWa+3rj75f6nogw64PAwiUbEgrjLYo5MzTiglDADpGqV28glAs0POco35PWf1CwPPusw
- EAi+QuUzFYoD+BfeZVaJW1kPJBLMzdbS9b5txa1fhudwK+QduxjSCJ8JmFBCeluV9WPM
- HfHg==
-X-Gm-Message-State: AAQBX9fjiY1NejdfOnvFa64Pn7R4u+wiau2WXvO222iHvlJdEuhWXzNy
- stZtwnm/jCkyxTXglGgWOT7RALZ9CedadgvtDiRXATaogm+Rjg/CHwlpEiKPKWJBESb/dEjavdq
- kb+Zw4pg9AEndo+0qQMz2Tzsn6NP+D20nQSHRBk4wPRScYJIYbR0kjmggO5GDKMVY2Tv0yHDhTo
- s=
-X-Received: by 2002:a5d:6282:0:b0:2ce:a6f3:34ab with SMTP id
- k2-20020a5d6282000000b002cea6f334abmr1326826wru.6.1680874846938; 
- Fri, 07 Apr 2023 06:40:46 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ba1kjZg9mbSVhKQ9SBEpsKMEOLYrPjNFCpNgAZhmJVzCeLDlkrF6G3IJTRbL/uiGygfS27tw==
-X-Received: by 2002:a5d:6282:0:b0:2ce:a6f3:34ab with SMTP id
- k2-20020a5d6282000000b002cea6f334abmr1326813wru.6.1680874846437; 
- Fri, 07 Apr 2023 06:40:46 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ bh=dzFO32mdrAR/VUPVh3EYrQGRuh0hQbS52iKIdgPQxfk=;
+ b=LxSx0ZkYFfOY5VxHZFqWW7Qb/g9lnIQOnetsZDB4/uABCRU5aSqOuSSCMHqUfxtiAf
+ itnsAX9Mk3FNvmwBbejlJQiQokQMgMe0vkLJf45To7bUCBjp2mWvDArITuWmq0U8NOfL
+ bK7z8JHMIz0qPvkiyXOa0Eez09M/uuNLUyAmkH05wZmI5Qkqt2rglX6uxMvU+GbyeZ2k
+ SdRDQM//3cZQaO2W8R0guybI3n+Rk53/2nsXKOm9DKdymrr/ysZxbPsdTkWqpxQKeRz4
+ 9zADvH+05ZSpJ/0Dis5gM1QTkB0ZOy++Y+D845zklk95/m84Ad9cZX81xl9XYSxPXntS
+ 0icg==
+X-Gm-Message-State: AAQBX9f+6dMEVujnePAfsrSNjM3Zu9wW+EF1x0QOfz0M/rBXWN4+SmtI
+ m/vYSL8B9KXcb7Z2RWx6s/g20TEAV9ZptGTek3zh61NmL8SkVF+EoWWYBZ9oF7Ers1vdSaW4/2F
+ CJMBCQCw4CReJxAJgdKfC97vD8dDpztnbn0ey6w/cjmqvj8TJXhG9uWvBs+G3fYIu0waUL+i3
+X-Received: by 2002:a7b:c018:0:b0:3f0:39ab:347c with SMTP id
+ c24-20020a7bc018000000b003f039ab347cmr1455115wmb.23.1680879188349; 
+ Fri, 07 Apr 2023 07:53:08 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZsNfvI0BGt8eVATfUMTbJOZGwcpog9fWV4QDBnsqGsinx3vdtpzAOVMLkK0w1jneHzBMGwVg==
+X-Received: by 2002:a7b:c018:0:b0:3f0:39ab:347c with SMTP id
+ c24-20020a7bc018000000b003f039ab347cmr1455104wmb.23.1680879188039; 
+ Fri, 07 Apr 2023 07:53:08 -0700 (PDT)
+Received: from pinkpad.lan ([2001:b07:ad4:d988:168b:4301:918a:373e])
  by smtp.gmail.com with ESMTPSA id
- h18-20020a5d5052000000b002cfe0ab1246sm4589344wrt.20.2023.04.07.06.40.45
+ h4-20020a1ccc04000000b003ed2433aa4asm4812694wmb.41.2023.04.07.07.53.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Apr 2023 06:40:45 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ Fri, 07 Apr 2023 07:53:07 -0700 (PDT)
+From: Camilla Conte <cconte@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH] docs: explain effect of smp_read_barrier_depends() on modern
- architectures
-Date: Fri,  7 Apr 2023 15:40:44 +0200
-Message-Id: <20230407134044.11638-1-pbonzini@redhat.com>
+Cc: Camilla Conte <cconte@redhat.com>
+Subject: [PATCH 1/2] Add CI configuration for Kubernetes
+Date: Fri,  7 Apr 2023 15:52:51 +0100
+Message-Id: <20230407145252.32955-1-cconte@redhat.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cconte@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,6 +79,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 07 Apr 2023 11:02:57 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,46 +94,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The documentation for smp_read_barrier_depends() does not mention the architectures
-for which it is an optimization, for example ARM and PPC.  As a result, it is not
-clear to the reader why one would use it.  Relegate Alpha to a footnote together
-with other architectures where it is equivalent to smp_rmb().
+Configure Gitlab CI to run on Kubernetes
+according to the official documentation.
+https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#docker-in-docker-with-tls-enabled-in-kubernetes
 
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+These changes are needed because of the CI jobs
+using Docker-in-Docker (dind).
+As soon as Docker-in-Docker is replaced with Kaniko,
+these changes can be reverted.
+
+I documented what I did to set up the Kubernetes runner on the wiki:
+https://wiki.qemu.org/Testing/CI/KubernetesRunners
+
+Signed-off-by: Camilla Conte <cconte@redhat.com>
 ---
- docs/devel/atomics.rst | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ .gitlab-ci.d/container-template.yml |  6 +++---
+ .gitlab-ci.d/default.yml            |  3 +++
+ .gitlab-ci.d/opensbi.yml            |  8 +++-----
+ .gitlab-ci.d/qemu-project.yml       | 17 +++++++++++++++++
+ 4 files changed, 26 insertions(+), 8 deletions(-)
+ create mode 100644 .gitlab-ci.d/default.yml
 
-diff --git a/docs/devel/atomics.rst b/docs/devel/atomics.rst
-index 2157d3312956..8f6273c9283e 100644
---- a/docs/devel/atomics.rst
-+++ b/docs/devel/atomics.rst
-@@ -201,10 +201,9 @@ They come in six kinds:
-   retrieves the address to which the second load will be directed),
-   the processor will guarantee that the first LOAD will appear to happen
-   before the second with respect to the other components of the system.
--  However, this is not always true---for example, it was not true on
--  Alpha processors.  Whenever this kind of access happens to shared
--  memory (that is not protected by a lock), a read barrier is needed,
--  and ``smp_read_barrier_depends()`` can be used instead of ``smp_rmb()``.
-+  Therefore, unlike ``smp_rmb()`` or ``qatomic_load_acquire()``,
-+  ``smp_read_barrier_depends()`` can be just a compiler barrier on
-+  weakly-ordered architectures such as ARM or PPC[#]_.
+diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
+index 519b8a9482..f55a954741 100644
+--- a/.gitlab-ci.d/container-template.yml
++++ b/.gitlab-ci.d/container-template.yml
+@@ -1,14 +1,14 @@
+ .container_job_template:
+   extends: .base_job_template
+-  image: docker:stable
++  image: docker:20.10.16
+   stage: containers
+   services:
+-    - docker:dind
++    - docker:20.10.16-dind
+   before_script:
+     - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+     - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
+     - apk add python3
+-    - docker info
++    - until docker info; do sleep 1; done
+     - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+   script:
+     - echo "TAG:$TAG"
+diff --git a/.gitlab-ci.d/default.yml b/.gitlab-ci.d/default.yml
+new file mode 100644
+index 0000000000..292be8b91c
+--- /dev/null
++++ b/.gitlab-ci.d/default.yml
+@@ -0,0 +1,3 @@
++default:
++  tags:
++    - $RUNNER_TAG
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index 9a651465d8..5b0b47b57b 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -42,17 +42,15 @@
+ docker-opensbi:
+   extends: .opensbi_job_rules
+   stage: containers
+-  image: docker:stable
++  image: docker:20.10.16
+   services:
+-    - docker:stable-dind
++    - docker:20.10.16-dind
+   variables:
+     GIT_DEPTH: 3
+     IMAGE_TAG: $CI_REGISTRY_IMAGE:opensbi-cross-build
+-    # We don't use TLS
+-    DOCKER_HOST: tcp://docker:2375
+-    DOCKER_TLS_CERTDIR: ""
+   before_script:
+     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
++    - until docker info; do sleep 1; done
+   script:
+     - docker pull $IMAGE_TAG || true
+     - docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
+index a7ed447fe4..57b175f5c2 100644
+--- a/.gitlab-ci.d/qemu-project.yml
++++ b/.gitlab-ci.d/qemu-project.yml
+@@ -1,7 +1,24 @@
+ # This file contains the set of jobs run by the QEMU project:
+ # https://gitlab.com/qemu-project/qemu/-/pipelines
  
-   Note that the first load really has to have a _data_ dependency and not
-   a control dependency.  If the address for the second load is dependent
-@@ -212,6 +211,10 @@ They come in six kinds:
-   than actually loading the address itself, then it's a _control_
-   dependency and a full read barrier or better is required.
- 
-+.. [#] The DEC Alpha is an exception, because ``smp_read_barrier_depends()``
-+   needs a processor barrier.  On strongly-ordered architectures such
-+   as x86 or s390, ``smp_rmb()`` and ``qatomic_load_acquire()`` can
-+   also be a compiler barriers.
- 
- Memory barriers and ``qatomic_load_acquire``/``qatomic_store_release`` are
- mostly used when a data structure has one thread that is always a writer
++variables:
++  RUNNER_TAG: ""
++
++workflow:
++  rules:
++    # Set additional variables when running on Kubernetes.
++    # https://wiki.qemu.org/Testing/CI/KubernetesRunners
++    - if: $RUNNER_TAG == "k8s"
++      variables:
++        DOCKER_HOST: tcp://docker:2376
++        DOCKER_TLS_CERTDIR: "/certs"
++        DOCKER_TLS_VERIFY: 1
++        DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
++    # Run the pipeline in other cases.
++    - when: always
++
+ include:
++  - local: '/.gitlab-ci.d/default.yml'
+   - local: '/.gitlab-ci.d/base.yml'
+   - local: '/.gitlab-ci.d/stages.yml'
+   - local: '/.gitlab-ci.d/opensbi.yml'
 -- 
 2.39.2
 
