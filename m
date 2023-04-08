@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147FF6DBBBF
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 17:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988286DBBF5
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 17:45:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plAD7-0003Mi-Hc; Sat, 08 Apr 2023 11:10:37 -0400
+	id 1plAit-0001TM-P4; Sat, 08 Apr 2023 11:43:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plAD5-0003MM-Tk
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 11:10:35 -0400
+ id 1plAiq-0001Rz-UI
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 11:43:25 -0400
 Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plAD4-000563-CX
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 11:10:35 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- 60-20020a17090a09c200b0023fcc8ce113so3551102pjo.4
- for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 08:10:33 -0700 (PDT)
+ id 1plAim-0003d4-KR
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 11:43:24 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id c3so1491026pjg.1
+ for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 08:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680966632;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/i5tVwta6k/eKukialX3f/m2MgHvEMBlUMZ17oSWClU=;
- b=dDynZon4vcVnPrXTw+7EGmdF1hvQP+E5TOcBZQs7SVMOoG3BNUJm4z7Ejjbhsq2r1O
- raThZpqp1TvKc8NOHhbL69DGQj8eEX1ygKHMsgD18iJdqQHW9tyJRtEet6XKyRMPedYE
- BJ+uFn7aoha8pb+b3HXnMqdeOJ4GED12l6qSMWw5S1wxtNmE2e5QEL+L24i27Z21ESh+
- VPFswuvCzFvFxtQa6MkxGhGSJaIcwNi9KiE0xRIZwBi8XpUvfNU+on3IWWZfDyJ0BqrS
- ct2GyeJkpM7xjxa1oyIU8b9T/A/k1T72hVh7TkV4Yy0I/0wT9IufGn3LY4SKFX84yZjr
- uvRQ==
+ d=linaro.org; s=google; t=1680968597;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=h1m1skUerP745G4hFY+E0hiRSYGVJiW6Qdqxzxq+yLk=;
+ b=SS1N0VOtQBbPzJ7ayHwb8Jl67hj00803vCFeZ0F/b5EfoLK3gOzghbIxmhFgAHAeMo
+ pzTV+R/L176kjfGaVMDVM3IBXVxk/QwE7BslAswHpLiPgA2OFPYn9iBWlgCToKL2z1lH
+ /3SVc8z2N28Yvs7FJk6JoGb8mAplu1OuyJ+FXhr4OW7WnjwjzOA9c0t0IBreEGN0CwJH
+ l0s9qSv3agh7hMvNdBcY+J7zTAILF9j99FLRev49HXvLdABMJkS4F9peO5DacRfNvN58
+ nrpuqdrzpkxJBOG4Fr9knCSdrCJXOVuRllawErq5MiCtAhAm4ibFNUIgECbQSYZ338Sr
+ /QDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680966632;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/i5tVwta6k/eKukialX3f/m2MgHvEMBlUMZ17oSWClU=;
- b=J0DdNLzI8a7Cpklw6OOrE7dhBt6BQuphkQ4cZTSJd8nUobMHaHBfiojIU+x4IyrFub
- T8JDWuz8Apr1B7On2VGRrVSfA8oBXyeNuXqJw4a2Hb6JcJQI3ChaOPuBlW5A2mqus2+q
- 6osoQpXxzUYKrh93Isk7cy+92hmVgDea6Qi/L3oeJVERsO3cqu1GxarcCUzP6giqpkef
- /+vuwcieOblPkPewarqAqosYHufLSbiqH1vm52o7V3f8UL6l50AIh6TJa7VrKpq4lRDn
- HDujrvUwI51WJBFnzqPYmHuYhQAElmKmokTr0N1ooVJ7SbwX7iLCCFYSdojWViD1IBbC
- ShnQ==
-X-Gm-Message-State: AAQBX9cU+lfjaQWH5twEz4rU3N7Ym5pA7OPr1IhnHwBHfqUyameUGjIh
- PX/2de1DvEAFp1cGR8QSSq+xNQ==
-X-Google-Smtp-Source: AKy350YjeiUl+DWqyhaKAX1z50gKGyc5C22gwA2wE9nQCBsHhIxeNu63KpR+Aql6I90zw2L7qQza7g==
-X-Received: by 2002:a17:903:2291:b0:1a2:1042:cadc with SMTP id
- b17-20020a170903229100b001a21042cadcmr2622045plh.18.1680966632340; 
- Sat, 08 Apr 2023 08:10:32 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:fcd:4458:21c7:367e?
- ([2602:ae:1541:f901:fcd:4458:21c7:367e])
+ d=1e100.net; s=20210112; t=1680968597;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=h1m1skUerP745G4hFY+E0hiRSYGVJiW6Qdqxzxq+yLk=;
+ b=aCAIOggsVw+aHSFHJGlsoqAb59z3iXgFY9gl7VWvJ24Wet9uZ76cJ8kEqbocO6VQKz
+ h7wYzv3RZZgYdLf10lgiLnaCHV1hlL/em+LyG4sEHYbZqEwnGISakmSOdizYRFUW6wfR
+ i5QXsYSwgnOIXUrdsU0qth1LOsBFjrCIkGnHOhAzf6oHhLCNRSIu1cjA7ppu1454JJwW
+ AqS6doDeq04Pcx3mBwZZQ7pdUNAM5/AsYl4elf3KeN6oPfcTmMNuui2Wr55Nor+3qTD2
+ 5d/+HppGhMpzb7X/sJjWTyQDIs4QV9ew1HQ02K7uyfRWc6tVJ6/K3W8Ee/e0MmwFWfmC
+ YLeA==
+X-Gm-Message-State: AAQBX9dVnulWCeolESUXnc9DrwQQbo2WgxTRG4gIhT7CyHSMwWDOtKtb
+ V7Rje+3oTr9AP23k8EI3Sob+Ln0WPiVg9AWp9yM=
+X-Google-Smtp-Source: AKy350am7DYpC8pXZefRCGC4X1XSK4tHqamT0wFw0Ksriu04a1OuSC8sWKzlzF5Mhn6e5LPJApBw/w==
+X-Received: by 2002:a17:902:ec8a:b0:1a1:ee8c:eef7 with SMTP id
+ x10-20020a170902ec8a00b001a1ee8ceef7mr8619846plg.48.1680968597403; 
+ Sat, 08 Apr 2023 08:43:17 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1541:f901:fcd:4458:21c7:367e])
  by smtp.gmail.com with ESMTPSA id
- a10-20020a170902b58a00b0019edc1b9eb2sm4656208pls.238.2023.04.08.08.10.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Apr 2023 08:10:31 -0700 (PDT)
-Message-ID: <f5c7761b-2398-92fd-0ce7-d03b3315ce45@linaro.org>
-Date: Sat, 8 Apr 2023 08:10:29 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] Hexagon (target/hexagon) Remove unused slot variable in
- helpers
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
- quic_mathbern@quicinc.com
-References: <20230407204521.357244-1-tsimpson@quicinc.com>
-Content-Language: en-US
+ je9-20020a170903264900b0019f3e339fb4sm4690345plb.187.2023.04.08.08.43.16
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Apr 2023 08:43:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230407204521.357244-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-8.0] tcg/ppc: Fix TCG_TARGET_CALL_{ARG, RET}_I128 for ppc32
+Date: Sat,  8 Apr 2023 08:43:16 -0700
+Message-Id: <20230408154316.3812709-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
  envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.113,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,21 +86,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/7/23 13:45, Taylor Simpson wrote:
-> The slot variable in helpers was only passed to log_reg_write function
-> where the argument is unused.
-> - Remove declaration from generated helper functions
-> - Remove slot argument from log_reg_write
-> 
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
-> ---
->   target/hexagon/macros.h            | 2 +-
->   target/hexagon/op_helper.h         | 2 +-
->   target/hexagon/op_helper.c         | 2 +-
->   target/hexagon/gen_helper_funcs.py | 2 --
->   4 files changed, 3 insertions(+), 5 deletions(-)
+For both _CALL_SYSV and _CALL_DARWIN, return is by reference,
+not in 4 integer registers.  For _CALL_SYSV, argument is also
+by reference.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This error resulted in
 
-r~
+    $ ./qemu-system-i386 -nographic
+    qemu-system-i386: tcg/ppc/tcg-target.c.inc:185: \
+        tcg_target_call_oarg_reg: Assertion `slot >= 0 && slot <= 1' failed.
+
+Fixes: 5427a9a7604 ("tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128")
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/ppc/tcg-target.c.inc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index eb9e80ad37..8e6039576a 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -44,17 +44,18 @@
+ 
+ #if TCG_TARGET_REG_BITS == 64
+ # define TCG_TARGET_CALL_ARG_I32   TCG_CALL_ARG_EXTEND
++# define TCG_TARGET_CALL_RET_I128  TCG_CALL_RET_NORMAL
+ #else
+ # define TCG_TARGET_CALL_ARG_I32   TCG_CALL_ARG_NORMAL
++# define TCG_TARGET_CALL_RET_I128  TCG_CALL_RET_BY_REF
+ #endif
+ #ifdef _CALL_SYSV
+ # define TCG_TARGET_CALL_ARG_I64   TCG_CALL_ARG_EVEN
++# define TCG_TARGET_CALL_ARG_I128  TCG_CALL_ARG_BY_REF
+ #else
+ # define TCG_TARGET_CALL_ARG_I64   TCG_CALL_ARG_NORMAL
++# define TCG_TARGET_CALL_ARG_I128  TCG_CALL_ARG_NORMAL
+ #endif
+-/* Note sysv arg alignment applies only to 2-word types, not more. */
+-#define TCG_TARGET_CALL_ARG_I128   TCG_CALL_ARG_NORMAL
+-#define TCG_TARGET_CALL_RET_I128   TCG_CALL_RET_NORMAL
+ 
+ #include "../tcg-pool.c.inc"
+ #include "../tcg-ldst.c.inc"
+-- 
+2.34.1
+
 
