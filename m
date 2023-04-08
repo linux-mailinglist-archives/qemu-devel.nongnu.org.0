@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4926DBCCA
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 21:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5B46DBCD5
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 21:49:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plEHg-0003L1-6R; Sat, 08 Apr 2023 15:31:36 -0400
+	id 1plEXW-0007JA-Vr; Sat, 08 Apr 2023 15:47:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1plEHa-0003JL-Bw
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:31:32 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1plEHW-0008S4-D9
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:31:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3kJr8qp6CCbsXVmWIj4xa6pR0o/+TJIc3dhcEHRmCkc=; b=MgAu2+zpYrAMt8CpJNDluCv/HD
- dKIU8QI+Es4Oa0xAd5XiUqunzQRMwUcleIaLy6k0i/f7Cf22wMTyP5vls+aoKYPeHKI+ME0C2cHYD
- AZD3m+Oor+H/B2rcH6vE9fPf2KmZzDS9oKn5WIVYw5zjQWWnQbFp7MxFsCVx20JU5p8rM1nYkx6HV
- t3tVai9/lkov4uK42HXT8FRxi6VD1UyHpccdAcr3DcInqBxusHJwcGFRCtbcyrPMW/EOymmfn/T3/
- SO/OvHJp/hxuU8a9CS0dgQuyxwEHeww031HpsGPS2OF04K/VMqvK+XeCwTzlewyjg694JoxFG/AI2
- KFvn5fJOt6ESZgwI7hF5x9gxaMD5PqigsKOgHOpqDa7zXH5Jf8r9Q997UCMdB5r4AfscG5KNRrMxj
- CWFwzpze1AkHWccmNplhUQEAgl1R92aGqz0KdkEiCsJD/yQpZ/Z2qYZNL+UpVUPUedSaKXShB92xb
- enQPBpxAINefdAtzQsdvkMuAwnfM2ujdGfI6XpNM2UkrdyqHoHxzMRjHxGO3pWOXx6tr30pFs9998
- FwkZcgJbik2zYuDZAVCRpgEg2DTpLtdsc/AakDgB7LBXLpuq7cIycP1TNkd+DDfYn8BNhUo8C9ftw
- wBIBXtRFSOSM8QE11yLotd1GyPnIIpJNiiJU8mvi8=;
-Received: from [2a00:23c4:8bac:6900:b726:cf58:4c12:f013]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1plEGd-0007RF-F7; Sat, 08 Apr 2023 20:30:35 +0100
-Message-ID: <dbea646f-5f0e-da25-e727-d26e5399e186@ilande.co.uk>
-Date: Sat, 8 Apr 2023 20:31:14 +0100
+ (Exim 4.90_1) (envelope-from <landoncoolman@gmail.com>)
+ id 1plEVZ-0006y0-FD; Sat, 08 Apr 2023 15:45:57 -0400
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <landoncoolman@gmail.com>)
+ id 1plEVX-0003Ul-Rz; Sat, 08 Apr 2023 15:45:57 -0400
+Received: by mail-qv1-xf34.google.com with SMTP id ly9so4481061qvb.5;
+ Sat, 08 Apr 2023 12:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680983154; x=1683575154;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=t5sSnWd5PI6RbM5XO/pRbSTNTAn2fP7zcPuoCnva3aE=;
+ b=qmypWPrPny0lHtSWYhX8ggfCgC5QAH8BmBw2XVl/h/yerLMqiW9Pm5e+4b3iyXtlCa
+ tYImSpZzMZzVfIdFTLN3VAYlIszDyJeH2iQ7OOD3F5AZF0paxeJXG01nZARlOacn2Bf/
+ 1U2iNppqOeeCvaiefn3TQNUIeN+Ngn6tRn+HIJd5Q4XCpf2cEJY5N7WrKkkJisry3kkE
+ hduBk0mTUDl/PXKc+GQmYYdyB7aKc2HiNdrhp4IGp2QtZMxRUq2y6qKBmXzYcK42yOXV
+ 9NnghLzATM7H366FzMjtQ+4IO4Zre13zR0XzQX3COfF6v8FWBSQYFsCvmUV19ZxTJTEM
+ nXsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680983154; x=1683575154;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=t5sSnWd5PI6RbM5XO/pRbSTNTAn2fP7zcPuoCnva3aE=;
+ b=acvIshqOnXsG2Q1mRzMXYrB+ZIhqszkW7AZi4J7RIMDY9HwS1EaHNHct5kQJ21pxB2
+ JbjlKxooDolnmNtcFzURA35p/3y7EB9mrIdmx+Ol0oyHLIiWly++PHN7TF1Kqsezbd80
+ sysz3YMNwGuO3DduWB5HvBKYQkzcer1BHoZvrGJow1NluwXCXBa5stvWCDnFiqXDbfRO
+ 4REPg6vZvUVHVUtICAv/ihY4bP1AKF8mjf5VR/kUsekc2//XEvU3mNKgS6uktz1C2wRu
+ a6dUMDUvk0iEP07+6V5tHJ+9O3V2MQdT7j+3Sp0pxDpw0ciPBosfwr7D4C43PPj/mNkT
+ DUoA==
+X-Gm-Message-State: AAQBX9cj2vUFfNgdw3g+oTvNDbpv222U5QfBYtF2R0aOub8KhCxyCiV9
+ COdnDL5ZxbxoHhdbXcJhhGKOsBcqwd8Kbq2YvHEYuExGpGU=
+X-Google-Smtp-Source: AKy350b07ZOZGAiPcs5dID4b3R76MMFKWSXrm3SkSV6Kj7RawuNTAVn/VnA+a8ILPR8qFIjtzFQqa5kcP4fz+hBgNyg=
+X-Received: by 2002:a05:6214:192d:b0:56e:96c3:e0f0 with SMTP id
+ es13-20020a056214192d00b0056e96c3e0f0mr1203067qvb.0.1680983153719; Sat, 08
+ Apr 2023 12:45:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230408154316.3812709-1-richard.henderson@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230408154316.3812709-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8bac:6900:b726:cf58:4c12:f013
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH for-8.0] tcg/ppc: Fix TCG_TARGET_CALL_{ARG, RET}_I128 for
- ppc32
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+From: Landon Johnson <landoncoolman@gmail.com>
+Date: Sat, 8 Apr 2023 14:45:43 -0500
+Message-ID: <CAN8SqADF=F0AOJR6smxNKCEASJ_ocx3RWLGor6Vs8hPfYJLexQ@mail.gmail.com>
+Subject: Error handling: Audit callers of load_image_targphys,...
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, "jsnow@redhat.com" <jsnow@redhat.com>,
+ toria.mendoza@live.com, "EylamTagor@gmail.com" <EylamTagor@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000c0400305f8d8633b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=landoncoolman@gmail.com; helo=mail-qv1-xf34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.113,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 08 Apr 2023 15:47:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,57 +80,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 08/04/2023 16:43, Richard Henderson wrote:
+--000000000000c0400305f8d8633b
+Content-Type: text/plain; charset="UTF-8"
 
-> For both _CALL_SYSV and _CALL_DARWIN, return is by reference,
-> not in 4 integer registers.  For _CALL_SYSV, argument is also
-> by reference.
-> 
-> This error resulted in
-> 
->      $ ./qemu-system-i386 -nographic
->      qemu-system-i386: tcg/ppc/tcg-target.c.inc:185: \
->          tcg_target_call_oarg_reg: Assertion `slot >= 0 && slot <= 1' failed.
-> 
-> Fixes: 5427a9a7604 ("tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128")
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/ppc/tcg-target.c.inc | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-> index eb9e80ad37..8e6039576a 100644
-> --- a/tcg/ppc/tcg-target.c.inc
-> +++ b/tcg/ppc/tcg-target.c.inc
-> @@ -44,17 +44,18 @@
->   
->   #if TCG_TARGET_REG_BITS == 64
->   # define TCG_TARGET_CALL_ARG_I32   TCG_CALL_ARG_EXTEND
-> +# define TCG_TARGET_CALL_RET_I128  TCG_CALL_RET_NORMAL
->   #else
->   # define TCG_TARGET_CALL_ARG_I32   TCG_CALL_ARG_NORMAL
-> +# define TCG_TARGET_CALL_RET_I128  TCG_CALL_RET_BY_REF
->   #endif
->   #ifdef _CALL_SYSV
->   # define TCG_TARGET_CALL_ARG_I64   TCG_CALL_ARG_EVEN
-> +# define TCG_TARGET_CALL_ARG_I128  TCG_CALL_ARG_BY_REF
->   #else
->   # define TCG_TARGET_CALL_ARG_I64   TCG_CALL_ARG_NORMAL
-> +# define TCG_TARGET_CALL_ARG_I128  TCG_CALL_ARG_NORMAL
->   #endif
-> -/* Note sysv arg alignment applies only to 2-word types, not more. */
-> -#define TCG_TARGET_CALL_ARG_I128   TCG_CALL_ARG_NORMAL
-> -#define TCG_TARGET_CALL_RET_I128   TCG_CALL_RET_NORMAL
->   
->   #include "../tcg-pool.c.inc"
->   #include "../tcg-ldst.c.inc"
+Hello,
 
-Excellent - this fixes running qemu-system-ppc with TCG on my Mac Mini G4 :)
+I am a student at UT Austin. A few other students and I would like to work
+on this issue as part of a group project in our virtualization class: Error
+handling: Audit callers of load_image_targphys, get_image_size,
+event_notifier_init, msix_init
+<https://gitlab.com/qemu-project/qemu/-/issues/413>.
 
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+We have looked through all of the callers of these methods and identified
+where changes need to be made, but have not made any of the changes yet. We
+weren't quite sure where it would be best to make these changes.
 
+I have CC'd the trivial patches mailing list because it seems like this
+might be a possible route forward.
 
-ATB,
+--000000000000c0400305f8d8633b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Mark.
+<div dir=3D"ltr">Hello,=C2=A0<div><br></div><div>I am a student at UT Austi=
+n. A few other students and I would like to work on this issue as part of a=
+ group project in our virtualization class: <a href=3D"https://gitlab.com/q=
+emu-project/qemu/-/issues/413" target=3D"_blank">Error handling: Audit call=
+ers of load_image_targphys, get_image_size, event_notifier_init, msix_init<=
+/a>.=C2=A0<br></div><div><br></div><div>We have looked through all of the c=
+allers of these methods and identified where changes need to be made, but h=
+ave not made any of the changes yet. We weren&#39;t quite sure where it wou=
+ld be best to make these changes.=C2=A0 =C2=A0</div><div><br></div><div>I h=
+ave CC&#39;d the trivial patches mailing list because it seems like this mi=
+ght be a possible route forward.</div></div>
+
+--000000000000c0400305f8d8633b--
 
