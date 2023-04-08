@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1385A6DB8C4
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 06:18:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7733F6DB8C8
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 06:22:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pl01D-0004m4-0F; Sat, 08 Apr 2023 00:17:39 -0400
+	id 1pl05w-0006AQ-0R; Sat, 08 Apr 2023 00:22:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pl01B-0004lf-NK
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:17:37 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ id 1pl05t-00068J-BS
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:22:29 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pl01A-0003lz-47
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:17:37 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id
- d2e1a72fcca58-63262355155so68218b3a.2
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 21:17:35 -0700 (PDT)
+ id 1pl05q-0005Zv-QW
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:22:29 -0400
+Received: by mail-pl1-x632.google.com with SMTP id 20so2277751plk.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 21:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680927454;
+ d=linaro.org; s=google; t=1680927745;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=lVJTv/KYcj5s5h2/xecWpW4NQ7yGRWj+kwesUyQ0/6E=;
- b=lh+bRpyRPfWIYK6yDR5IjTMiYWJGB77utURwDzV6Bl/oIYOf7nCGv3aFA7zNzSFcb1
- cxWz5jy6CNko3Mf/dD+aUe0971/72MjGLXYXh44U1rZzefX6QnQMepdkWdk/FmzBDMGs
- 9wTAS4lj63gS/o4jRcv3qj0RL8W+7jh7G7/ae4RhiqTOXPDnXyIq09WKMoF5ayue2uUb
- fBXhFbdpfFaV7tdHY1xQcNFmHyKtWoSsa1XtUnQFHkGjhP0pFzOYrLtmhZIWnOE+ZQCb
- gIBKcGqnKr5vMXDcc+nUBTDL/NStbfFuqcZMBZTJmlwlyoTmUXNAEuMHnpxl/Q1gWfoU
- Hy7A==
+ bh=3XA7xu7b05KgVtUtSLaFSgkNI9Huml9S1qbjZOV/CIM=;
+ b=A7AGaQS8AbhPZNUGaFRYZb7iEGObdhqjJ974H7//mCKlXrIg4OfqiRIcLdRBxjVvsQ
+ V/PC2nHH1tjANBFhCUrhQphDxJsayHejY59urWvCAzvJULXR7k2rEBd4LLApbpSfcffa
+ M3c8+w30vxLQcPAz2mYTDSlVm5EuIAOQV2SEJU5gewelFxp3kgxbnIcS+41B4xxkDx4R
+ g6khRJK4GaDk3S7SHTMoQGcWpUBhe5Y+EWVjJPyhfHZe5J7lTuORb5onupkUjGObjLqU
+ Ydr4smfjNYVBosDNqTGxlP67sc/c/W3g72Uh9CQKwIFlkUDjDKwKP/m2crmREuyCZFk/
+ nkyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680927454;
+ d=1e100.net; s=20210112; t=1680927745;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lVJTv/KYcj5s5h2/xecWpW4NQ7yGRWj+kwesUyQ0/6E=;
- b=UiBzsCha/hWnaS43d89F1tVMdBaVvrsfTFG79KoB1x2p/OlYUi1zKIy/UxmqI4v3qR
- jcGff485VxUqF+W+twIunND0xcJnpA0FfoFMvBLriA9RTiaaiYqt7Nj5WnyJfNtCY0Wm
- ugjBeK5C/bmW2+41bX13e4xNirrbb2CyTNmpS577v4wQL84gh5ssFZMe708W26PqyhqZ
- 6MeyXK7gd9ssCIZQwB+bpd2EGYIm7NxkLjf731Z+tr0RthTDhONwpbnyAp9reMlquoWP
- 0p/cmQPA2lW8B89j9DbChgrqWbse/VSJGTXtp6DUokOIu0/Ow04Duor28WV6hUg6Hf6H
- rHDw==
-X-Gm-Message-State: AAQBX9dh168uehjp3+vvTwD+pk7htH45ERJcmLiIYqINMfJnqwhPz3P7
- y/P6LgB9cMtqNpY2o0bDZ+19qw==
-X-Google-Smtp-Source: AKy350aHIKNyYYlBX6ZXpb40vFVJhyNbb03665wmaURB5Zdo7JNTR2xMbpGJ4FGDw2bv4w/s7FpYFQ==
-X-Received: by 2002:a62:1c58:0:b0:626:2984:8a76 with SMTP id
- c85-20020a621c58000000b0062629848a76mr772678pfc.34.1680927454081; 
- Fri, 07 Apr 2023 21:17:34 -0700 (PDT)
+ bh=3XA7xu7b05KgVtUtSLaFSgkNI9Huml9S1qbjZOV/CIM=;
+ b=7KotZbSZRrjgH7Yz3HZ0P6xaz7YQzUgv0IpBwoI6OiJkCQDNPG7TexecieOsKYzIsH
+ 4R50FabBZlGZ2LOiiQfsqSDt4KVEHu8jVR/vbRfRjY2JEL8yaYUnW2zoC6rxYTHE8I+c
+ uS1MOsxtpQSMofxsRqpCM1rpDK+aTZM+7q43TcXD536RhtafzOp5G33tBMJ/GCYqaAYO
+ qy8GV8Slm7B9H4T36mhvJJ9BM5+Ue6Exsxr1jvxi8a7Q8clL7ou+V9xDd+QPzx2nkPkc
+ zFG2zaVO2eEvL6wJGvoCL9Quc/d1zUyW3jBirq+BGylu7HtCL+2zzJk3KBHWs3vqNJSR
+ 9nwg==
+X-Gm-Message-State: AAQBX9fFZb2ZYU+cZ6iktBTSrM0SCAQx8s1vJ5qB0C9Yxp4G7EPpCYp3
+ Ciu3t+sDUqR0BTxkFq4I8eUhpg==
+X-Google-Smtp-Source: AKy350ZvPzfE+y1QUhk2IBKWNvy8QImEs21aIMlCoaYiiwpGFf/8mac80Q8PkAy37yOwVjV6IBpT/Q==
+X-Received: by 2002:a05:6a20:c12f:b0:d8:f082:437e with SMTP id
+ bh47-20020a056a20c12f00b000d8f082437emr3896972pzb.12.1680927745360; 
+ Fri, 07 Apr 2023 21:22:25 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8?
  ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
  by smtp.gmail.com with ESMTPSA id
- n9-20020a62e509000000b00580e3917af7sm3758893pff.117.2023.04.07.21.17.33
+ z6-20020aa785c6000000b00571cdbd0771sm3781871pfn.102.2023.04.07.21.22.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Apr 2023 21:17:33 -0700 (PDT)
-Message-ID: <c56f4f56-6cba-ceaa-9f89-228fafcbc2ac@linaro.org>
-Date: Fri, 7 Apr 2023 21:17:31 -0700
+ Fri, 07 Apr 2023 21:22:24 -0700 (PDT)
+Message-ID: <f56d8333-2cb1-b612-ba7a-9acdceb62cc8@linaro.org>
+Date: Fri, 7 Apr 2023 21:22:22 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] target/arm: Fix debugging of ARMv8M Secure code
+Subject: Re: [PATCH 03/10] hw/intc/arm_gic: Un-inline GIC*/ITS class_name()
+ helpers
 Content-Language: en-US
-To: pbartell@amazon.com, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20230408000118.50854-1-pbartell@amazon.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
+ kvm@vger.kernel.org, qemu-ppc@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230405160454.97436-1-philmd@linaro.org>
+ <20230405160454.97436-4-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230408000118.50854-1-pbartell@amazon.com>
+In-Reply-To: <20230405160454.97436-4-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -95,44 +103,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/7/23 17:01, pbartell@amazon.com wrote:
-> From: Paul Bartell <pbartell@amazon.com>
+On 4/5/23 09:04, Philippe Mathieu-Daudé wrote:
+> "kvm_arm.h" contains external and internal prototype declarations.
+> Files under the hw/ directory should only access the KVM external
+> API.
 > 
-> Revert changes to arm_cpu_get_phys_page_attrs_debug made in commit
-> 4a35855682cebb89f9630b07aa9fd37c4e8c733b.
+> In order to avoid machine / device models to include "kvm_arm.h"
+> simply to get the QOM GIC/ITS class name, un-inline each class
+> name getter to the proper device model file.
 > 
-> Commit 4a35855682 modifies the arm_cpu_get_phys_page_attrs_debug function
-> so that it calls get_phys_addr_with_struct rather than get_phys_addr, which
-> leads to a variety of memory access errors when debugging secure state
-> code on qemu ARMv8M targets with gdb.
-> 
-> This commit fixes a variety of gdb memory access errors including:
-> "error reading variable" and "Cannot access memory at address" when
-> attempting to read any memory address via gdb.
-> 
-> Signed-off-by: Paul Bartell <pbartell@amazon.com>
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   target/arm/ptw.c | 8 ++------
->   1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index ec3f51782a..5a1339d38f 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -2999,16 +2999,12 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
->   {
->       ARMCPU *cpu = ARM_CPU(cs);
->       CPUARMState *env = &cpu->env;
-> -    S1Translate ptw = {
-> -        .in_mmu_idx = arm_mmu_idx(env),
-> -        .in_secure = arm_is_secure(env),
-> -        .in_debug = true,
+>   include/hw/intc/arm_gic.h              |  2 ++
+>   include/hw/intc/arm_gicv3_common.h     | 10 ++++++
+>   include/hw/intc/arm_gicv3_its_common.h |  9 ++++++
+>   target/arm/kvm_arm.h                   | 45 --------------------------
+>   hw/arm/virt-acpi-build.c               |  2 +-
+>   hw/arm/virt.c                          |  1 +
+>   hw/intc/arm_gic_common.c               |  7 ++++
+>   hw/intc/arm_gicv3_common.c             | 14 ++++++++
+>   hw/intc/arm_gicv3_its_common.c         | 12 +++++++
+>   9 files changed, 56 insertions(+), 46 deletions(-)
 
-Nack.  This will now affect vcpu state by changing the contents of the softmmu tlb, as 
-well as changing the contents of memory (!) via PTE access/dirty bit updates.
-
-A more complete description of "a variety of ... errors", and the conditions under which 
-they are produced, would be appreciated.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
