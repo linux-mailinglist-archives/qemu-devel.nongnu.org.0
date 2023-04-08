@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CD36DBAEB
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 14:32:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BDE6DBB4E
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 15:53:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pl7iv-000735-4x; Sat, 08 Apr 2023 08:31:18 -0400
+	id 1pl8zY-0007Ls-9v; Sat, 08 Apr 2023 09:52:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pl7ip-00072D-Ac; Sat, 08 Apr 2023 08:31:11 -0400
-Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pl7ik-0004fM-NC; Sat, 08 Apr 2023 08:31:10 -0400
-Received: from [192.168.0.120] (unknown [180.175.29.170])
- by APP-01 (Coremail) with SMTP id qwCowAD3_2N6XjFkwOUCAQ--.31232S2;
- Sat, 08 Apr 2023 20:30:51 +0800 (CST)
-Message-ID: <da9f34ac-3c40-de1f-5e3e-942b93b7a42e@iscas.ac.cn>
-Date: Sat, 8 Apr 2023 20:30:50 +0800
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pl8zR-0007L5-DL
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 09:52:25 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pl8zP-0003tI-Tj
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 09:52:25 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id sb12so2627168ejc.11
+ for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 06:52:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680961942; x=1683553942;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3CNDWoamjsf5MiGR8eh7cg7n+vECFA2qV3423wVkc4k=;
+ b=OtafJBhLPaz0ogKwxqNhmXbocKtupWyhjUP0O+2CSMZPyZVbGozsZtp2tHnakTaVws
+ vuXjjDcj2YDgKL3K6NaCzZTcCy7BU9NynX/e4vG8IxY9qZQbHbaKXE1LJyQCXNpy7Lpm
+ AHgThlvI6q6HQ3h7lS6K8isSiZopMbQIUIsiuevEEQ7trhKnjT7og+S7lquNb7PFjTVq
+ O8WaloZxhj5gQ1ZkztJvzYdQFa9U0eNlJVDm6iqwzvKkKHCKuRi1Nnt88UgW87lw93eI
+ d8LkCRW+f1vADkOgHQVEpYC7pwtjr8soIrrbK4Y9PPr7Txq21e2Bfn6k+RmsvMJA16O5
+ fibg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680961942; x=1683553942;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3CNDWoamjsf5MiGR8eh7cg7n+vECFA2qV3423wVkc4k=;
+ b=INqpI4oL6w8wBFQvj7LYVcEwX9LLCZ6aIC6hDdwJ8Yv9WSP5Nb6f5Rrbar2diGIwRc
+ 8Nm6ya4oOJfBkR1hQhsT+qHvWr2VL0uKiAshlWZdN1rRk1cr/L/oaslu6yKofMD/TrKo
+ Do23roXy1O9sVw0elAUpwNE7kRVdNXUZlx4nZJ8mve/qAIkHZhU3Wa9pFswRw6l9ZDqX
+ mvEPJP5HxCmUUOdbwnIBASzKb+Ixqo1VwYJrCdsK0bUiyKH1YZBM1u24xa6BrRB85llb
+ JC1RREcNh+baosDqaYYmvpgoP2bqP6a29xizi+U2BmEu/LK56wN4QHEGebufV7qfQg98
+ 345Q==
+X-Gm-Message-State: AAQBX9clCrH6SucgxGMWib9zGktP7xwXtDaDFSSSeoDvOjvgr3jhczQ1
+ Y/fHs+JhqKfpdXZurNYR2VKEQv2qgXqUK/rhDKP8yQ==
+X-Google-Smtp-Source: AKy350aMt4kHcmpkLG3yGcpmMCfZWjQn89peUXp9DG7A3TxkgqH/QQmBSlEFNKseWw5c9NJ5K8Yt8FSVkZBRoVdYcao=
+X-Received: by 2002:a17:907:8b99:b0:924:efbb:8a8b with SMTP id
+ tb25-20020a1709078b9900b00924efbb8a8bmr1175693ejc.6.1680961941944; Sat, 08
+ Apr 2023 06:52:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, dbarboza@ventanamicro.com,
- zhiwei_liu@linux.alibaba.com, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v2] target/riscv: Fix Guest Physical Address Translation
-Content-Language: en-US
-To: Irina Ryapolova <irina.ryapolova@syntacore.com>, qemu-devel@nongnu.org
-References: <20230407153225.156395-1-irina.ryapolova@syntacore.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230407153225.156395-1-irina.ryapolova@syntacore.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAD3_2N6XjFkwOUCAQ--.31232S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFy3Gw18XryUKF13ZF45GFg_yoW5Ww1xp3
- 97C3yakFs5t3ZIyan2qr1jgas0kFZ7Kr48Xw4xtr1ruws8G348uryxK3ySk3sxXr1xZF1I
- vr4qkr109w1qqa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
- AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
- c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
- AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
- Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbU
- UUUUU==
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230407185149.3253946-1-richard.henderson@linaro.org>
+In-Reply-To: <20230407185149.3253946-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 8 Apr 2023 14:52:11 +0100
+Message-ID: <CAFEAcA89EfOzFdcvaxqzvbSTCgL3t7+Wsxqr=ON7onHJJVwutw@mail.gmail.com>
+Subject: Re: [PATCH for-8.0? 0/2] target/arm: BTI guarded bit fixes
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.113,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,86 +83,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, 7 Apr 2023 at 19:52, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> As reported by Coverity and triaged by Peter.
+>
+>
+> r~
+>
+> Richard Henderson (2):
+>   target/arm: PTE bit GP only applies to stage1
+>   target/arm: Copy guarded bit in combine_cacheattrs
+>
+>  target/arm/ptw.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 
-On 2023/4/7 23:32, Irina Ryapolova wrote:
-> Before changing the flow check for sv39/48/57.
->
-> According to specification (for Supervisor mode):
-> Sv39 implementations support a 39-bit virtual address space, divided into 4 KiB pages.
-> Instruction fetch addresses and load and store effective addresses, which are 64 bits,
-> must have bits 63–39 all equal to bit 38, or else a page-fault exception will occur.
-> Likewise for Sv48 and Sv57.
->
-> So the high bits are equal to bit 38 for sv39.
->
-> According to specification (for Hypervisor mode):
-> For Sv39x4, address bits of the guest physical address 63:41 must all be zeros, or else a
-> guest-page-fault exception occurs.
->
-> Likewise for Sv48x4 and Sv57x4.
-> For Sv48x4 address bits 63:50 must all be zeros, or else a guest-page-fault exception occurs.
-> For Sv57x4 address bits 63:59 must all be zeros, or else a guest-page-fault exception occurs.
->
-> For example we are trying to access address 0xffff_ffff_ff01_0000 with only G-translation enabled.
-> So expected behavior is to generate exception. But qemu doesn't generate such exception.
->
-> For the old check, we get
-> va_bits == 41, mask == (1 << 24) - 1, masked_msbs == (0xffff_ffff_ff01_0000 >> 40) & mask == mask.
-> Accordingly, the condition masked_msbs != 0 && masked_msbs != mask is not fulfilled
-> and the check passes.
->
-> Signed-off-by: Irina Ryapolova <irina.ryapolova@syntacore.com>
-> ---
-> Changes for v2:
->    -Add more detailed commit message
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-I remember I have sent Reviewed-by for last version of this patch.  And 
-it seems no change in following code.
+It looks like we'll need an rc4, so I guess these are safe enough
+to go into it.
 
-Weiwei Li
-
-> ---
->   target/riscv/cpu_helper.c | 25 ++++++++++++++++---------
->   1 file changed, 16 insertions(+), 9 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index f88c503cf4..27289f2305 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -863,17 +863,24 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
->   
->       CPUState *cs = env_cpu(env);
->       int va_bits = PGSHIFT + levels * ptidxbits + widened;
-> -    target_ulong mask, masked_msbs;
->   
-> -    if (TARGET_LONG_BITS > (va_bits - 1)) {
-> -        mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
-> -    } else {
-> -        mask = 0;
-> -    }
-> -    masked_msbs = (addr >> (va_bits - 1)) & mask;
-> +    if (first_stage == true) {
-> +        target_ulong mask, masked_msbs;
-> +
-> +        if (TARGET_LONG_BITS > (va_bits - 1)) {
-> +            mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
-> +        } else {
-> +            mask = 0;
-> +        }
-> +        masked_msbs = (addr >> (va_bits - 1)) & mask;
->   
-> -    if (masked_msbs != 0 && masked_msbs != mask) {
-> -        return TRANSLATE_FAIL;
-> +        if (masked_msbs != 0 && masked_msbs != mask) {
-> +            return TRANSLATE_FAIL;
-> +        }
-> +    } else {
-> +        if (vm != VM_1_10_SV32 && addr >> va_bits != 0) {
-> +            return TRANSLATE_FAIL;
-> +        }
->       }
->   
->       int ptshift = (levels - 1) * ptidxbits;
-
+thanks
+-- PMM
 
