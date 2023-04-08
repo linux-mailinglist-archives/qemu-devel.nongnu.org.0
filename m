@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F966DBC94
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 21:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD536DBC95
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 21:16:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plE2F-0007jJ-Sz; Sat, 08 Apr 2023 15:15:39 -0400
+	id 1plE2O-0007kg-GX; Sat, 08 Apr 2023 15:15:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plE1w-0007iV-5W
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:15:34 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1plE2L-0007k9-IL
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:15:45 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plE1u-0004ip-CM
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:15:19 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- q15-20020a17090a2dcf00b0023efab0e3bfso3999741pjm.3
- for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 12:15:17 -0700 (PDT)
+ id 1plE2J-0004rc-UL
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:15:45 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ l9-20020a17090a3f0900b0023d32684e7fso10077950pjc.1
+ for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 12:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680981316;
+ d=linaro.org; s=google; t=1680981342;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0P1IpatEkoKAE94v3x75BOBCAVTwE9iieBx8rgyawYY=;
- b=uFKb82CJiaXVzIhOQtPbt+SCIk89ETaqtEsFlnnbpkSlanZz7oPPYqI+CtrS7B+lea
- 4g6+upMeq9peYJc7FzsCGc+LoVr4xAuF2GlxPlX1iqPKkj/TgXkEpp+1ofGc7HBjbnC5
- tECH7REyuuJPpnbJ2qaZh2CrrOwkk187GoSmE1nLhhV2jVkP8YGQ6hmS+IonwlMDQDKy
- 6eKZ5i76LNTSJQMMlhtAxemtVpakQXhKNY4ScjmE1tWsfR3yv2utDHFBqb5WAy1xJ4DA
- hTW9w/m2EGJFUY9j26DFn7aot2ZEsd6GSngqdJEuzam1Wot40Ny/VLb7P1/V99lhkLmJ
- ZO3g==
+ bh=tgbl4+mOHh+fBaNlvF/iGh5ZJyDPrDUKY85Ht2AqUXw=;
+ b=uR3QaMudSD3194bwFzFpHqgCFrDfiIBS2eortpnwDkj5nLwPs5cQgcXo7va8qfptqS
+ 7LgVEHvpXwM5sC7Kq+Rmsa8uuucow6KeEqjbbEiTJ9RHXOwAk91GB+oCne25m1S+fY+o
+ DLfDCAV5/nlCL1jGEzbSVDALon7/b5099sgANCrsEKje72Lx817DmF/1sJB8rFPYWh2C
+ UL5Ql8h+8MyFcu1vJxDnvnTi1lyDQrPZ0ApqlYQgY/LTt7I1M/nHEeXWdHEMdIyTn8gm
+ TcExDwUX7YVc3+sxaF1yXQXytqOp4Z7hTzNQRF858a3KUs26bAbP0F+QqObDnyCvbcmr
+ 9Q9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680981316;
+ d=1e100.net; s=20210112; t=1680981342;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0P1IpatEkoKAE94v3x75BOBCAVTwE9iieBx8rgyawYY=;
- b=IoVm38hiIYRmu5Je+L9jceEfFJvihsjNvZk3muO5dWiLPxqM+UpqgZ+BM/BePdY1qw
- okmtXQfqgsKYDUdI61NhKJzVcGzOkhPHIt3rUs7c8fcYEHZVkIvG57/X4lcmKOHYhJzk
- sVp0J+AipZu3OZq2X0ozWfudzT4qZBwiS2IqCSFtQNcIccUzgu1N1TmXlrGzyaD0/smY
- WromlYe9s0eVXpRyUo3szsYKL+D01pufgSDH4Au+eB64Ug0VkljgU182XY18lhqngTYK
- H9gvK+7Iv8VOyvio+3LINW/r6G/GdJX1vwxstkbhyNo46HEwjubBrAMIOY9ws3iy1amK
- KQVw==
-X-Gm-Message-State: AAQBX9dW7LgC4gkVzy55goH84OVobm/f8n/2BEwKsm2uyQXf/QTOGlKD
- WrtmjiYyEBvUQsrzQwrNX2n9pg==
-X-Google-Smtp-Source: AKy350ZwD4XJrPez0bV0UNMXQiTV7HIKAGwkmhx1XBTvag/WwzuTUC7HAUOnJ/liJEvEv1KkoE+TBQ==
-X-Received: by 2002:a17:903:706:b0:1a1:af64:380c with SMTP id
- kk6-20020a170903070600b001a1af64380cmr2572563plb.27.1680981316210; 
- Sat, 08 Apr 2023 12:15:16 -0700 (PDT)
+ bh=tgbl4+mOHh+fBaNlvF/iGh5ZJyDPrDUKY85Ht2AqUXw=;
+ b=hEVAJu1nFc8ASGHhNKnUXB0Ud2ivfn1fzyltXH3xohQMD43vFedMx9bB9CbtuMXiBu
+ twujaCfd2Z1ZNIQeAusK8uwlqQZWHL7/GL6MKYhLXITl9vDqUlzzVAxnuMB77kr6em9Y
+ ISQAS7ddtIx4oa/fDrH0jBNvf4+aMj75wiu/KTEqOPhyDZ6HcMHjvrwoR02XNQe4WCO7
+ fLwc6fXq21QfByJynu7ESftiEe6o2ipvqomf9p1cgvIJcHNiPJDtkia5i9tnlWUPGf2r
+ DmTqpmHpEndszSc7zv2jBZufPApn2jk3jOidqb9xHhcCfn3JzRGAz5caqQVOu6AMzgM4
+ Q/bg==
+X-Gm-Message-State: AAQBX9dnrMvZuF25Wg29D1YfuFs21E0R0ED4ougmd1om5mN8k44CtXEI
+ Z+ZLtMagXNjmQoEVY3i9X+YBig==
+X-Google-Smtp-Source: AKy350bM10pEWdEX3e6iEzJUyTKv+F7yMcx/0QCaVnpHs3m3OAyNbpnCUhg8V6lUb82FeTigINCJRw==
+X-Received: by 2002:a05:6a20:1a89:b0:d9:e6a9:d3e2 with SMTP id
+ ci9-20020a056a201a8900b000d9e6a9d3e2mr5750503pzb.3.1680981342251; 
+ Sat, 08 Apr 2023 12:15:42 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:fcd:4458:21c7:367e?
  ([2602:ae:1541:f901:fcd:4458:21c7:367e])
  by smtp.gmail.com with ESMTPSA id
- e2-20020a170902744200b001a5266b90aesm1566024plt.122.2023.04.08.12.15.15
+ b17-20020aa78111000000b005825b8e0540sm5054909pfi.204.2023.04.08.12.15.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Apr 2023 12:15:15 -0700 (PDT)
-Message-ID: <ec3175a6-e793-9ad0-3afc-15db35281385@linaro.org>
-Date: Sat, 8 Apr 2023 12:15:13 -0700
+ Sat, 08 Apr 2023 12:15:41 -0700 (PDT)
+Message-ID: <e2ba5c00-1d13-3df9-240c-1ac231ddded7@linaro.org>
+Date: Sat, 8 Apr 2023 12:15:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 14/16] bsd-user: Implment core dumps
+Subject: Re: [PATCH 15/16] bsd-user: Add SIGSYS to core dump signals.
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 Cc: reinoud@netbsd.org, riastradh@netbsd.org, ryoon@netbsd.org,
- jrtc27@jrtc27.com, kevans@freebsd.org, Brad Smith <brad@comstyle.com>,
- Stacey Son <sson@FreeBSD.org>, Ed Schouten <ed@nuxi.nl>
+ jrtc27@jrtc27.com, kevans@freebsd.org, Brad Smith <brad@comstyle.com>
 References: <20230405213612.15942-1-imp@bsdimp.com>
- <20230405213612.15942-15-imp@bsdimp.com>
+ <20230405213612.15942-16-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230405213612.15942-15-imp@bsdimp.com>
+In-Reply-To: <20230405213612.15942-16-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -99,58 +98,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/5/23 14:36, Warner Losh wrote:
-> From: Stacey Son <sson@FreeBSD.org>
+> SIGSYS creates a core by default if uncaught. Follow that here. Sort
+> with the same order as is in the kernel.
 > 
-> Bring in the code that was originally copied from linxu-user/elfload.c
-> and moved to elfcore.c. This code then removed the Linux specific bits,
-> replacing them with FreeBSD specific bits. The commit history for this
-> is not at all what we'd like (it was done in one go by sson in
-> 227070562fc in one commit, with very few followup tweaks). Since the
-> original commit, this code has been moved, and updated by sson and ed
-> slightly. That makes it hard to split into smaller commits.
-> 
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
-> Signed-off-by: Ed Schouten <ed@nuxi.nl>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/elfcore.c | 1318 +++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 1315 insertions(+), 3 deletions(-)
-> 
-> diff --git a/bsd-user/elfcore.c b/bsd-user/elfcore.c
-> index c49d9280e2d..2905f2b8414 100644
-> --- a/bsd-user/elfcore.c
-> +++ b/bsd-user/elfcore.c
-> @@ -1,10 +1,1322 @@
-> -/* Stubbed out version of core dump support, explicitly in public domain */
-> +/*
-> + *  ELF loading code
-> + *
-> + *  Copyright (c) 2015 Stacey D. Son
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +#include "qemu/osdep.h"
->   
-> -static int elf_core_dump(int signr, CPUArchState *env)
-> +#ifdef USE_ELF_CORE_DUMP
+>   bsd-user/signal.c | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
 
-Would this ever be unset?
-
-Typo in subject.
-I'm not going to review this one line by line, but
-
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
