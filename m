@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5B46DBCD5
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 21:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC966DBD29
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 23:16:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plEXW-0007JA-Vr; Sat, 08 Apr 2023 15:47:59 -0400
+	id 1plFtg-0002m3-FB; Sat, 08 Apr 2023 17:14:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <landoncoolman@gmail.com>)
- id 1plEVZ-0006y0-FD; Sat, 08 Apr 2023 15:45:57 -0400
-Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <landoncoolman@gmail.com>)
- id 1plEVX-0003Ul-Rz; Sat, 08 Apr 2023 15:45:57 -0400
-Received: by mail-qv1-xf34.google.com with SMTP id ly9so4481061qvb.5;
- Sat, 08 Apr 2023 12:45:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680983154; x=1683575154;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=t5sSnWd5PI6RbM5XO/pRbSTNTAn2fP7zcPuoCnva3aE=;
- b=qmypWPrPny0lHtSWYhX8ggfCgC5QAH8BmBw2XVl/h/yerLMqiW9Pm5e+4b3iyXtlCa
- tYImSpZzMZzVfIdFTLN3VAYlIszDyJeH2iQ7OOD3F5AZF0paxeJXG01nZARlOacn2Bf/
- 1U2iNppqOeeCvaiefn3TQNUIeN+Ngn6tRn+HIJd5Q4XCpf2cEJY5N7WrKkkJisry3kkE
- hduBk0mTUDl/PXKc+GQmYYdyB7aKc2HiNdrhp4IGp2QtZMxRUq2y6qKBmXzYcK42yOXV
- 9NnghLzATM7H366FzMjtQ+4IO4Zre13zR0XzQX3COfF6v8FWBSQYFsCvmUV19ZxTJTEM
- nXsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680983154; x=1683575154;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=t5sSnWd5PI6RbM5XO/pRbSTNTAn2fP7zcPuoCnva3aE=;
- b=acvIshqOnXsG2Q1mRzMXYrB+ZIhqszkW7AZi4J7RIMDY9HwS1EaHNHct5kQJ21pxB2
- JbjlKxooDolnmNtcFzURA35p/3y7EB9mrIdmx+Ol0oyHLIiWly++PHN7TF1Kqsezbd80
- sysz3YMNwGuO3DduWB5HvBKYQkzcer1BHoZvrGJow1NluwXCXBa5stvWCDnFiqXDbfRO
- 4REPg6vZvUVHVUtICAv/ihY4bP1AKF8mjf5VR/kUsekc2//XEvU3mNKgS6uktz1C2wRu
- a6dUMDUvk0iEP07+6V5tHJ+9O3V2MQdT7j+3Sp0pxDpw0ciPBosfwr7D4C43PPj/mNkT
- DUoA==
-X-Gm-Message-State: AAQBX9cj2vUFfNgdw3g+oTvNDbpv222U5QfBYtF2R0aOub8KhCxyCiV9
- COdnDL5ZxbxoHhdbXcJhhGKOsBcqwd8Kbq2YvHEYuExGpGU=
-X-Google-Smtp-Source: AKy350b07ZOZGAiPcs5dID4b3R76MMFKWSXrm3SkSV6Kj7RawuNTAVn/VnA+a8ILPR8qFIjtzFQqa5kcP4fz+hBgNyg=
-X-Received: by 2002:a05:6214:192d:b0:56e:96c3:e0f0 with SMTP id
- es13-20020a056214192d00b0056e96c3e0f0mr1203067qvb.0.1680983153719; Sat, 08
- Apr 2023 12:45:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pali@kernel.org>)
+ id 1plFtf-0002lq-2C; Sat, 08 Apr 2023 17:14:55 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pali@kernel.org>)
+ id 1plFtd-0002aT-Gp; Sat, 08 Apr 2023 17:14:54 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A359D60AD9;
+ Sat,  8 Apr 2023 21:14:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9849C433D2;
+ Sat,  8 Apr 2023 21:14:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680988484;
+ bh=Vo5nLmrf6z33Or3scG8N3FLyeOo3L8XLOetrrRaZJvY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bzUxpRx3lKLiY22FTLzROFu9JAGHmgqJX3jhU7G+PEuDWh3MT4fgrTatGuSv5cXbU
+ quI9OKdH47I8MQjO0Poho8ViskHFlCwfdIVPuVBbSr3Ywd3Z4piJmD7rMdU14il5o5
+ osPRFo6FNZ/CWY4zoeG7kqtNpOzJZtK37arvD46wuzZfpuWbGDVeZzfIbP0zC5M3LX
+ Gxo7EOcMfbFjRL9dxfcbj2ZVblCmYoCM5bebTmJSOfTqECg4tmrNPT1R6Po0qmWFt5
+ pQosCw+NCztG08shc0ECQQoRfo1ryB3lPsioRtREsDvd787K3urazlxZsd+SM7HIlP
+ 0Q8xLaWpoRLuw==
+Received: by pali.im (Postfix)
+ id 0FF927B7; Sat,  8 Apr 2023 23:14:41 +0200 (CEST)
+Date: Sat, 8 Apr 2023 23:14:40 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: Fix MPC8555 and MPC8560 core type to e500v1
+Message-ID: <20230408211440.vdkgjorvipxgayke@pali>
+References: <20220703195029.23793-1-pali@kernel.org>
+ <20220704101851.lgbeojdntx2bzm4f@pali>
 MIME-Version: 1.0
-From: Landon Johnson <landoncoolman@gmail.com>
-Date: Sat, 8 Apr 2023 14:45:43 -0500
-Message-ID: <CAN8SqADF=F0AOJR6smxNKCEASJ_ocx3RWLGor6Vs8hPfYJLexQ@mail.gmail.com>
-Subject: Error handling: Audit callers of load_image_targphys,...
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, "jsnow@redhat.com" <jsnow@redhat.com>,
- toria.mendoza@live.com, "EylamTagor@gmail.com" <EylamTagor@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000c0400305f8d8633b"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
- envelope-from=landoncoolman@gmail.com; helo=mail-qv1-xf34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220704101851.lgbeojdntx2bzm4f@pali>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=pali@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 08 Apr 2023 15:47:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,39 +75,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000c0400305f8d8633b
-Content-Type: text/plain; charset="UTF-8"
+On Monday 04 July 2022 12:18:51 Pali Rohár wrote:
+> Just for completeness, here is list of all Motorola/Freescale/NXP
+> processors which were released and have e500v1 or e500v2 cores.
+> 
+> e500v1:
+> MPC8540
+> MPC8541
+> MPC8555
+> MPC8560
+> 
+> e500v2:
+> BSC9131
+> BSC9132
+> C291
+> C292
+> C293
+> MPC8533
+> MPC8535
+> MPC8536
+> MPC8543
+> MPC8544
+> MPC8545
+> MPC8547
+> MPC8548
+> MPC8567
+> MPC8568
+> MPC8569
+> MPC8572
+> P1010
+> P1011
+> P1012
+> P1013
+> P1014
+> P1015
+> P1016
+> P1020
+> P1021
+> P1022
+> P1024
+> P1025
+> P2010
+> P2020
 
-Hello,
+Now I figured out that also P1017 and P1023 processors were released
+with e500v2 core. And I have not included them in above listing.
 
-I am a student at UT Austin. A few other students and I would like to work
-on this issue as part of a group project in our virtualization class: Error
-handling: Audit callers of load_image_targphys, get_image_size,
-event_notifier_init, msix_init
-<https://gitlab.com/qemu-project/qemu/-/issues/413>.
+They are not linked from the main NXP P-series webpage, so I did not
+find them at that time. Product URL has to be "guessed":
+https://www.nxp.com/products/processors-and-microcontrollers/power-architecture/qoriq-communication-processors/p-series/qoriq-p1023-17-low-end-single-and-dual-core-communications-processors-with-data-path:P1023
 
-We have looked through all of the callers of these methods and identified
-where changes need to be made, but have not made any of the changes yet. We
-weren't quite sure where it would be best to make these changes.
-
-I have CC'd the trivial patches mailing list because it seems like this
-might be a possible route forward.
-
---000000000000c0400305f8d8633b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,=C2=A0<div><br></div><div>I am a student at UT Austi=
-n. A few other students and I would like to work on this issue as part of a=
- group project in our virtualization class: <a href=3D"https://gitlab.com/q=
-emu-project/qemu/-/issues/413" target=3D"_blank">Error handling: Audit call=
-ers of load_image_targphys, get_image_size, event_notifier_init, msix_init<=
-/a>.=C2=A0<br></div><div><br></div><div>We have looked through all of the c=
-allers of these methods and identified where changes need to be made, but h=
-ave not made any of the changes yet. We weren&#39;t quite sure where it wou=
-ld be best to make these changes.=C2=A0 =C2=A0</div><div><br></div><div>I h=
-ave CC&#39;d the trivial patches mailing list because it seems like this mi=
-ght be a possible route forward.</div></div>
-
---000000000000c0400305f8d8633b--
+> (sorted alphabetically; not by release date / generation / feature set)
+> 
+> All this is from public information available on NXP website.
 
