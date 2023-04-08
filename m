@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CC16DB7DD
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 02:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4730C6DB7E9
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 03:05:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkwaL-0000Cs-9K; Fri, 07 Apr 2023 20:37:41 -0400
+	id 1pkx0F-00071f-Kq; Fri, 07 Apr 2023 21:04:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pkwaI-0000B6-Eq
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 20:37:38 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pkwaG-0005yI-UE
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 20:37:38 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id
- 41be03b00d2f7-517baf1bc87so33614a12.0
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 17:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680914255;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FlnYyalzN/iYxpFe1DybwocYPl8XORXDn/OIhRtakc4=;
- b=jD/5aTfjyaqC30FvcPzK1FczFQvjqacUTe6hG7h7Zdejg2oqWWAxgluXNmGIKRau7Z
- aCv0iGDV9NKf/eTTyW03asl72Ya09KyKgvltAiInJJ7jP3tIPSLwGu/U8PKdhS+BUSje
- o0IMuUyW0Wp56hmbf1TkgK5jgSn0hDE5uleDPAoa3y6mXvo6uAvglTH0VAD4WsZzqMve
- xHOcVyp1Is8jg2qJ3e1Xs0LP/X147jJLfPm3uHUN5aQ7m4kGtDxuSUfWbi+J105NC+Bo
- FJc1L95ryAhR3qGy+BLef2OPTuiayCPXNzvjEYwZyHqWiCZqWlaChfRFFBJqLFw6IAi7
- SzsA==
+ (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
+ id 1pkx0D-00071O-1D
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 21:04:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
+ id 1pkx0B-0005m9-H7
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 21:04:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680915861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=a6YA3eTTcy8F3zokFufVOEGJWuBmzbx0b8aP7pipWmY=;
+ b=I0sqOhjaw2pC5KPLaKvlQXt7QtxjsMQ9AyHOPmm4FIP4MPQUhFQ7cCo4jgrfX+k8mjOvxl
+ iRH0UN3HlEibgtUp4u0dcJFI1/kx/I+bXS8UO/ccluvdUw/2IZt8Rcl86qo3hcP0/Bp25f
+ Q8AtFN//NDhMAzcnilkHMSbhVQ/CFVM=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-N3Lk9SfLMkSvqa0VFMkoLQ-1; Fri, 07 Apr 2023 21:04:18 -0400
+X-MC-Unique: N3Lk9SfLMkSvqa0VFMkoLQ-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ l8-20020a05683004a800b006a384299c67so5276575otd.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 18:04:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680914255;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FlnYyalzN/iYxpFe1DybwocYPl8XORXDn/OIhRtakc4=;
- b=hbrwggWHLUhE72CowuLWO+NHyK/x7CJT9IxLpE+EhHEkOHuJfg64wr3driPw226Z9u
- 0ecJPE7tjgda6IiBL75/fR5nZRofOzEaTAqGHNRxcRyDUpFL/1doCFxBZLNWDstMkyhl
- CY1O808qQWpDhgOt3TkAh6dcXR/Jpx0vq41xre5MJdqo0rl5IRF3r1juy3hW5AZXMIJd
- Qm2Qe0q/Xk+g1EOIIBug2shWqxGJttk8bFRU0w0058MvLgG+2IpNwcaduT0NVHJQx1RT
- ilUPfnZ83m0UFYWi2vpIyJBD6Y+mxNkmNYbDP5jn8s3BJivW0owDVmH591IsCKJ/fW9X
- /tgw==
-X-Gm-Message-State: AAQBX9fC1CN4wJ1qZPDzAgeraePIIvugNT3B/491xIGEwn1gCUWGsfP5
- SyZwVe8BtwsgFzTT0SihXV6y4g==
-X-Google-Smtp-Source: AKy350ZFn5BoldKrbBUWslJpxAkAjDJBSYdQq+Ec5vWs6+jDZvrCocT7tagi2MsZlaQ9G0+7PoMgYg==
-X-Received: by 2002:a62:3884:0:b0:623:165e:e459 with SMTP id
- f126-20020a623884000000b00623165ee459mr3904159pfa.7.1680914255611; 
- Fri, 07 Apr 2023 17:37:35 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8?
- ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
+ d=1e100.net; s=20210112; t=1680915857;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a6YA3eTTcy8F3zokFufVOEGJWuBmzbx0b8aP7pipWmY=;
+ b=3TGnNPznzkjPEFKDKmNZ7+IuBeurFI1W+8QU4H2aqTMlPl+Y9oa4Md5JcZd97dlSNx
+ lf3dpaesY7+h/63oHqpiNHROtQW22WvOQl1zYck/xhgojuO94iQ7Wkavrc+OKmf8ofsu
+ KBfWuN/Z5YxJOrvWMHeb5CYJx6zE+i4S8qj41eY0e5mL1wVj1VyZQHSsWaOQHlyv0TpD
+ eslgTWGvPju2okJAv27QUds/OlTdjjZzrmiIeCKp4FOBati23pTB/ToEHZZJbSBCAoi+
+ ngHf5yG5WzLmpwuJ/kN5MvjhVdZ3VIF9VDhTpkRxWBGcNSMOEFqCIHn7kDb1lvUq3Svr
+ GgZQ==
+X-Gm-Message-State: AAQBX9fjYPLmn7r0ntodMVt/wh8vcJtALuc6Nul1MySkmZXIDxn9bu0R
+ 4sbsvz4otawYr6kYPbBfzR4iuFg6JXkN2Ni4ZIqcTQOVn0DAKvjNcK/mUA4B+v/48Su0EOEbeGg
+ 5HNHBc6gqEi2th+zPS4ZL05XCKgUpZETqmpXKTl1IUzY0UiDbU8gXoi8/ZrWaVJ4QhVrnztwDC0
+ k=
+X-Received: by 2002:a05:6808:8:b0:384:34e:bf2 with SMTP id
+ u8-20020a056808000800b00384034e0bf2mr1537550oic.49.1680915856668; 
+ Fri, 07 Apr 2023 18:04:16 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YhpmtBew0N9Mk3EPGQuSzQDXHyH5Wda+GkO5zu0poQEmUzHK4Kiof5SY644H5lLNWXcWMFfQ==
+X-Received: by 2002:a05:6808:8:b0:384:34e:bf2 with SMTP id
+ u8-20020a056808000800b00384034e0bf2mr1537543oic.49.1680915856398; 
+ Fri, 07 Apr 2023 18:04:16 -0700 (PDT)
+Received: from casantos.remote.csb ([177.158.136.22])
  by smtp.gmail.com with ESMTPSA id
- 6-20020a630706000000b00517be28bcf9sm145504pgh.86.2023.04.07.17.37.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Apr 2023 17:37:35 -0700 (PDT)
-Message-ID: <bbb6afe3-60b7-04c5-a65e-62873744d3fe@linaro.org>
-Date: Fri, 7 Apr 2023 17:37:33 -0700
+ v5-20020aca6105000000b003896e31867esm2161390oib.49.2023.04.07.18.04.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Apr 2023 18:04:16 -0700 (PDT)
+From: casantos@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Carlos Santos <casantos@redhat.com>
+Subject: [PATCH V4] tracing: install trace events file only if necessary
+Date: Fri,  7 Apr 2023 22:04:10 -0300
+Message-Id: <20230408010410.281263-1-casantos@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 02/10] accel/kvm: Declare kvm_direct_msi_allowed in stubs
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- kvm@vger.kernel.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-References: <20230405160454.97436-1-philmd@linaro.org>
- <20230405160454.97436-3-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230405160454.97436-3-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.03,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=casantos@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,21 +96,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/5/23 09:04, Philippe Mathieu-Daudé wrote:
-> Avoid when calling kvm_direct_msi_enabled() from
-> arm_gicv3_its_common.c the next commit:
-> 
->    Undefined symbols for architecture arm64:
->      "_kvm_direct_msi_allowed", referenced from:
->          _its_class_name in hw_intc_arm_gicv3_its_common.c.o
->    ld: symbol(s) not found for architecture arm64
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
-> ---
->   accel/stubs/kvm-stub.c | 1 +
->   1 file changed, 1 insertion(+)
+From: Carlos Santos <casantos@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+It is not useful when configuring with --enable-trace-backends=nop.
 
-r~
+Signed-off-by: Carlos Santos <casantos@redhat.com>
+---
+Changes v1->v2:
+  Install based on chosen trace backend, not on chosen emulators.
+Changes v2->v3:
+  Add missing comma
+Changes v3->v4:
+  Fix array comparison:
+    get_option('trace_backends') != [ 'nop' ]
+  not
+    get_option('trace_backends') != 'nop'
+---
+ trace/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/trace/meson.build b/trace/meson.build
+index 8e80be895c..30b1d942eb 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -64,7 +64,7 @@ trace_events_all = custom_target('trace-events-all',
+                                  input: trace_events_files,
+                                  command: [ 'cat', '@INPUT@' ],
+                                  capture: true,
+-                                 install: true,
++                                 install: get_option('trace_backends') != [ 'nop' ],
+                                  install_dir: qemu_datadir)
+ 
+ if 'ust' in get_option('trace_backends')
+-- 
+2.31.1
+
 
