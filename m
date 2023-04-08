@@ -2,94 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B106DB8DC
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 06:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B916DB8E4
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 06:43:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pl0DJ-0004Hg-9Y; Sat, 08 Apr 2023 00:30:09 -0400
+	id 1pl0Oy-0007Yj-5Q; Sat, 08 Apr 2023 00:42:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pl0DG-0004Gz-Dp
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:30:06 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1pl0Ow-0007YW-5k
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:42:10 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pl0DE-0007Dh-14
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:30:06 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- bp17-20020a17090b0c1100b0023f187954acso306593pjb.2
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 21:30:03 -0700 (PDT)
+ id 1pl0Ou-0002cX-Em
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:42:09 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 90-20020a17090a0fe300b0023b4bcf0727so339371pjz.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 21:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680928202;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=wQs4SC5lYlKd/34OSFcaA0sSEu14qWxU3jsCupypxlU=;
- b=kUaGPTveG0lxEI28vTpDb9Jw7OfLi4TPDm7kQSZcLfBmpgcZpWdfC+nC/VxxkU8g0D
- uhY6ay8Ow6fqnxgPs2ScCkFW1hcpY7bHeEG4IdUb84QinAnoHlZ/bD+jiGDDXNMAb7wl
- Npca4GkUEsp31W/9wZ0nnBKCzHIqzQFY5qH9Qc0eEflC/0q10hpGTG2fpyWmuFAX5HvI
- oK64dK+t86fzN0Fs16v9ZDiZm2LWdeyflbaMdQKGIXyrAgXu103KIOcVnM9mWpipo5OX
- Nh6sD6s0cr0WvBlYzRNzJAi8pxf7y2zmuhnUcQx+8qbwYEnNCaHWH/aUzB2Bef22N40d
- KNIQ==
+ d=linaro.org; s=google; t=1680928926;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/R6K9j2UDTmlrhY8unJfWDiWZthhSfm0yGTDLYttVEY=;
+ b=Ei2X5YB44XcDKuqiFoF54BPeHtEOPGX+ibZtCXWibl+zXSYzFM0BFncJqiSAxbjV4q
+ W/TsZLfwj35KaWfaogVAVDu+VqZDFXpwIpLh6xZaw5COc5zCayKo4om5SRMkklRmhmJ5
+ tD16TnY9rYVkReS7KQYZnM0xLiCc7OUv0mtrUGbEuh+mbZcsYIRpZV8IGQk6O2PidKsF
+ 3BKx94BWD/pGDm3ssBSpmDeT46kYhVGrE2gz4FKrH0eUdzHD/FqOqvfvCudWEPKO/l4w
+ c3uS5hXOJ7j4UyA/Yi8po/uzfbjVyhTwkvROxC6E94NAB5iChJEjCnapm5YGo8Zu7nhr
+ zd1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680928202;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wQs4SC5lYlKd/34OSFcaA0sSEu14qWxU3jsCupypxlU=;
- b=XEYHqJ4umyGgMPkTC2JjM6D6IlKxD2gOYbo6wK2vMrocY1a6WN8bNQTVm1/ahfSV+7
- vC+jTULL5UB08edVzQHM9/ndo8D+jkIkqVqGJ8ITvyoRLB2AaXG3c1upjLIZNpwGkzHb
- er7zN4ppV3FDWVExGfpvnc4qVF3vIHc0/QfCCvHV902JtrA9nvyyIcZ7hizJG6erXKun
- YR5o15B+IEOLw3ntN5yZYdkL87RaBl3Y70uvVuCA88I6is72ZnZmSBS0KdyuZQGRtOqI
- OmNwSqDFd8a28YQIAT5seBuinq5CedG8srH1Sxpk4+y+9NEN7OV4gHOOgErFEsqw8n+r
- 7+Bg==
-X-Gm-Message-State: AAQBX9cnkcIONr7Xv2BPSlO0UL8Uc58O9uA/F8JfUvD3SDJ0JFWVJNrs
- vguhzkFlQKzi3Foi6A7oovrFDQ==
-X-Google-Smtp-Source: AKy350bSf+NJer4y36s5JHSJa51+w0WLdRxuVnS+TxQLWRCkIT+ZrofzrzsIKVKZztNYWN9UFvABiw==
-X-Received: by 2002:a05:6a20:ce1f:b0:d8:bed9:33cf with SMTP id
- ic31-20020a056a20ce1f00b000d8bed933cfmr4258225pzb.17.1680928202146; 
- Fri, 07 Apr 2023 21:30:02 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8?
- ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
+ d=1e100.net; s=20210112; t=1680928926;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/R6K9j2UDTmlrhY8unJfWDiWZthhSfm0yGTDLYttVEY=;
+ b=2e5VOlVnF6MQ3YKJCHioV0w9uN9L4zQvWYWFK0Wntpj1N2HXakmfUuZXwKpeNO2BxZ
+ 5IHfYHDyA+vHQrH8dLrhg1FreyQ3gupyI0WPCrtjvHWAAkQRrrOZaJAI4a5aIMxWjWUi
+ UEhvwfsT+6IqMf6lJ/tJm2tYtQ80+eyYh5wUj7v6BurZaE27Pqv9VC1xyUhY7ORifdNc
+ jeVj5e4ElLzswJuWZvwXpzVJIPh5y3z7jHJtEXKqxBm5Y3lgX9ILaw247/OwnE+oePMl
+ 1aQtzZGrpp+P9AVC6mQBiMBDyUbUoYGuUActLeBDxSmMeP2/w/hJzfRLAUvA10cElJ+P
+ yq9Q==
+X-Gm-Message-State: AAQBX9eco6O67gE7V6lLrD84SwVn2HJvCkrRpibITTgCUSRyKfOOazPi
+ zNdoV+WcfISDr8AznD7yYOMjjq8mIjo4+z/5hNg=
+X-Google-Smtp-Source: AKy350btoRP9moqHRPmFFx4SnmpW1orwm8yAtSc41oc4afhPFOCzinSQdmStpMdY6QoHiPW0Lh6jSQ==
+X-Received: by 2002:a17:90b:4a8e:b0:23d:4e9d:2eb0 with SMTP id
+ lp14-20020a17090b4a8e00b0023d4e9d2eb0mr1236333pjb.36.1680928926278; 
+ Fri, 07 Apr 2023 21:42:06 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
  by smtp.gmail.com with ESMTPSA id
- j10-20020a62e90a000000b005a7f8a326a3sm3781655pfh.50.2023.04.07.21.30.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Apr 2023 21:30:01 -0700 (PDT)
-Message-ID: <73bb88d3-7218-6ecf-2feb-2ad340d5e61c@linaro.org>
-Date: Fri, 7 Apr 2023 21:29:59 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 09/10] target/riscv: Restrict KVM-specific fields from
- ArchCPU
-Content-Language: en-US
+ x2-20020a170902ea8200b001a1cf0744a2sm3670559plb.247.2023.04.07.21.42.05
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Apr 2023 21:42:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- kvm@vger.kernel.org, qemu-ppc@nongnu.org, Palmer Dabbelt
- <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
-References: <20230405160454.97436-1-philmd@linaro.org>
- <20230405160454.97436-10-philmd@linaro.org>
- <ef63cacd-ea5a-16bb-994c-bf7a0ea3ac6a@linaro.org>
-In-Reply-To: <ef63cacd-ea5a-16bb-994c-bf7a0ea3ac6a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-8.0] tcg/mips: Fix TCG_TARGET_CALL_RET_I128 for o32 abi
+Date: Fri,  7 Apr 2023 21:42:04 -0700
+Message-Id: <20230408044204.3484337-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.03,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,32 +87,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/7/23 21:28, Richard Henderson wrote:
-> On 4/5/23 09:04, Philippe Mathieu-Daudé wrote:
->> These fields shouldn't be accessed when KVM is not available.
->>
->> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
->> ---
->> RFC: The migration part is likely invalid...
->>
->> kvmtimer_needed() is defined in target/riscv/machine.c as
->>
->>    static bool kvmtimer_needed(void *opaque)
->>    {
->>        return kvm_enabled();
->>    }
->>
->> which depends on a host feature.
->> ---
->>   target/riscv/cpu.h     | 2 ++
->>   target/riscv/machine.c | 4 ++++
->>   2 files changed, 6 insertions(+)
-> 
-> Yeah, the kvm parts need to be extracted to their own subsection.
+The return is by reference, not in 4 integer registers.
 
-Oh, but they are.  Ho hum, it's getting late.
+This error resulted in
 
+  qemu-system-i386: tcg/mips/tcg-target.c.inc:140: \
+    tcg_target_call_oarg_reg: Assertion `slot >= 0 && slot <= 1' failed.
 
-r~
+Fixes: 5427a9a7604 ("tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128")
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/mips/tcg-target.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+index 88a8137bcc..88d45245e8 100644
+--- a/tcg/mips/tcg-target.h
++++ b/tcg/mips/tcg-target.h
+@@ -84,13 +84,14 @@ typedef enum {
+ #if _MIPS_SIM == _ABIO32
+ # define TCG_TARGET_CALL_STACK_OFFSET 16
+ # define TCG_TARGET_CALL_ARG_I64      TCG_CALL_ARG_EVEN
++# define TCG_TARGET_CALL_RET_I128     TCG_CALL_RET_BY_REF
+ #else
+ # define TCG_TARGET_CALL_STACK_OFFSET 0
+ # define TCG_TARGET_CALL_ARG_I64      TCG_CALL_ARG_NORMAL
++# define TCG_TARGET_CALL_RET_I128     TCG_CALL_RET_NORMAL
+ #endif
+ #define TCG_TARGET_CALL_ARG_I32       TCG_CALL_ARG_NORMAL
+ #define TCG_TARGET_CALL_ARG_I128      TCG_CALL_ARG_EVEN
+-#define TCG_TARGET_CALL_RET_I128      TCG_CALL_RET_NORMAL
+ 
+ /* MOVN/MOVZ instructions detection */
+ #if (defined(__mips_isa_rev) && (__mips_isa_rev >= 1)) || \
+-- 
+2.34.1
 
 
