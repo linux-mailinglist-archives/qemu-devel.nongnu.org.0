@@ -2,63 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475AA6DBB55
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 16:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147FF6DBBBF
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 17:12:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pl96X-0000Tu-Ki; Sat, 08 Apr 2023 09:59:45 -0400
+	id 1plAD7-0003Mi-Hc; Sat, 08 Apr 2023 11:10:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pl96Q-0000SZ-9E; Sat, 08 Apr 2023 09:59:38 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pl96N-0005mE-OF; Sat, 08 Apr 2023 09:59:38 -0400
-Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAD3_88zczFk3ImkDw--.48560S2;
- Sat, 08 Apr 2023 21:59:16 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH] target/riscv: Use check for relationship between
- Zdinx/Zhinx{min} and Zfinx
-Date: Sat,  8 Apr 2023 21:59:08 +0800
-Message-Id: <20230408135908.25269-1-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1plAD5-0003MM-Tk
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 11:10:35 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1plAD4-000563-CX
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 11:10:35 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ 60-20020a17090a09c200b0023fcc8ce113so3551102pjo.4
+ for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 08:10:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680966632;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/i5tVwta6k/eKukialX3f/m2MgHvEMBlUMZ17oSWClU=;
+ b=dDynZon4vcVnPrXTw+7EGmdF1hvQP+E5TOcBZQs7SVMOoG3BNUJm4z7Ejjbhsq2r1O
+ raThZpqp1TvKc8NOHhbL69DGQj8eEX1ygKHMsgD18iJdqQHW9tyJRtEet6XKyRMPedYE
+ BJ+uFn7aoha8pb+b3HXnMqdeOJ4GED12l6qSMWw5S1wxtNmE2e5QEL+L24i27Z21ESh+
+ VPFswuvCzFvFxtQa6MkxGhGSJaIcwNi9KiE0xRIZwBi8XpUvfNU+on3IWWZfDyJ0BqrS
+ ct2GyeJkpM7xjxa1oyIU8b9T/A/k1T72hVh7TkV4Yy0I/0wT9IufGn3LY4SKFX84yZjr
+ uvRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680966632;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/i5tVwta6k/eKukialX3f/m2MgHvEMBlUMZ17oSWClU=;
+ b=J0DdNLzI8a7Cpklw6OOrE7dhBt6BQuphkQ4cZTSJd8nUobMHaHBfiojIU+x4IyrFub
+ T8JDWuz8Apr1B7On2VGRrVSfA8oBXyeNuXqJw4a2Hb6JcJQI3ChaOPuBlW5A2mqus2+q
+ 6osoQpXxzUYKrh93Isk7cy+92hmVgDea6Qi/L3oeJVERsO3cqu1GxarcCUzP6giqpkef
+ /+vuwcieOblPkPewarqAqosYHufLSbiqH1vm52o7V3f8UL6l50AIh6TJa7VrKpq4lRDn
+ HDujrvUwI51WJBFnzqPYmHuYhQAElmKmokTr0N1ooVJ7SbwX7iLCCFYSdojWViD1IBbC
+ ShnQ==
+X-Gm-Message-State: AAQBX9cU+lfjaQWH5twEz4rU3N7Ym5pA7OPr1IhnHwBHfqUyameUGjIh
+ PX/2de1DvEAFp1cGR8QSSq+xNQ==
+X-Google-Smtp-Source: AKy350YjeiUl+DWqyhaKAX1z50gKGyc5C22gwA2wE9nQCBsHhIxeNu63KpR+Aql6I90zw2L7qQza7g==
+X-Received: by 2002:a17:903:2291:b0:1a2:1042:cadc with SMTP id
+ b17-20020a170903229100b001a21042cadcmr2622045plh.18.1680966632340; 
+ Sat, 08 Apr 2023 08:10:32 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:fcd:4458:21c7:367e?
+ ([2602:ae:1541:f901:fcd:4458:21c7:367e])
+ by smtp.gmail.com with ESMTPSA id
+ a10-20020a170902b58a00b0019edc1b9eb2sm4656208pls.238.2023.04.08.08.10.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Apr 2023 08:10:31 -0700 (PDT)
+Message-ID: <f5c7761b-2398-92fd-0ce7-d03b3315ce45@linaro.org>
+Date: Sat, 8 Apr 2023 08:10:29 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAD3_88zczFk3ImkDw--.48560S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF1fKryfZw4fuw15CF4rZrb_yoWfWrg_G3
- 4F9r97Zw1UWF1Igr4UA3Wrtr1rWws7KanYganxtFWrWFyDWry3twn7Kr1rCrZ09rW5uFyf
- AwnrJ343GFn09jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbxxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
- 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
- Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
- xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
- MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
- 0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
- JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoO
- J5UUUUU
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] Hexagon (target/hexagon) Remove unused slot variable in
+ helpers
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
+ quic_mathbern@quicinc.com
+References: <20230407204521.357244-1-tsimpson@quicinc.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230407204521.357244-1-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.113,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,32 +97,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Zdinx/Zhinx{min} require Zfinx. And require relationship is usually done
-by check currently.
+On 4/7/23 13:45, Taylor Simpson wrote:
+> The slot variable in helpers was only passed to log_reg_write function
+> where the argument is unused.
+> - Remove declaration from generated helper functions
+> - Remove slot argument from log_reg_write
+> 
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> ---
+>   target/hexagon/macros.h            | 2 +-
+>   target/hexagon/op_helper.h         | 2 +-
+>   target/hexagon/op_helper.c         | 2 +-
+>   target/hexagon/gen_helper_funcs.py | 2 --
+>   4 files changed, 3 insertions(+), 5 deletions(-)
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/cpu.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1a5099382c..35bee8ff42 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -930,8 +930,9 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         cpu->cfg.ext_zhinxmin = true;
-     }
- 
--    if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinxmin) {
--        cpu->cfg.ext_zfinx = true;
-+    if ((cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinxmin) && !cpu->cfg.ext_zfinx) {
-+        error_setg(errp, "Zdinx/Zhinx/Zhinxmin extensions require Zfinx");
-+        return;
-     }
- 
-     if (cpu->cfg.ext_zfinx) {
--- 
-2.25.1
-
+r~
 
