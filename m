@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0056DB940
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 09:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0E46DB9D1
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 11:23:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pl2e3-00062K-8d; Sat, 08 Apr 2023 03:05:55 -0400
+	id 1pl4m3-00057q-5y; Sat, 08 Apr 2023 05:22:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pl2e1-000625-4L
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 03:05:53 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pl2dz-0001on-HX
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 03:05:52 -0400
-Received: by mail-pl1-x630.google.com with SMTP id ji2so2022824plb.0
- for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 00:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680937550;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=v6VkWLjZbM7hAKIP0N7uvC4J2jk98t6PtPKdHAfgn94=;
- b=eiHB9sFs0k8+1L3dUZEwnUCawqU152xOoGA/2FBRit85+bRpCD1WY+nS7ZR4WI2l9O
- TAdr9tELVvHXyEORQdiyj2n33Gj9eeQpoqxNPZaE9jPmzgka9MgRECsAXNZpG0pFsxYT
- 8TL/+bQCwOmaXjiG13xbmcQvCetJE2ll3tUja5QIr4dXGfzlDVN7rdvlbAkgrjF0um8i
- aNqoINWNv0eiYDC/CW05F4/pp8xLwkVt+CBUNSMDqfZbUFPCEutZhnS3DW1p3GMrzmho
- XX3Ml9hnmYz/LgQAD390gOxfU6JMd3AVsDb7Yr72E03ZlXo1FftU+A8562S8TvqtaPSv
- 2XoQ==
+ (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
+ id 1pl4m0-00057I-NS
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 05:22:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
+ id 1pl4ly-0004On-R3
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 05:22:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1680945733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZGP0y+SaPekxP1kD3NlTbAXEbA3CZ4hH0/9Z5w5XwBo=;
+ b=e4Tw1Vm7pMPgw8iNtsKELi59CRvHXWYHiu7mo0N8vN9Tw/HhGPol8gkSwmi6sotkbZbOEV
+ 5E7XKYbBgOp+HgO55WvxU58VR0H10Kqfa5y04Y+MgdlUlJn6oy8w0UU3WbKQf0VFGt0UE0
+ cj0b3fviE08wrz+oZ0Khu1L12ydwh7U=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-614-ZH6_5jeYN4CHh-fpwNTczA-1; Sat, 08 Apr 2023 05:22:11 -0400
+X-MC-Unique: ZH6_5jeYN4CHh-fpwNTczA-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ h21-20020a9d7995000000b00694299f6ea9so317623otm.19
+ for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 02:22:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680937550;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v6VkWLjZbM7hAKIP0N7uvC4J2jk98t6PtPKdHAfgn94=;
- b=3kg5o6SRV1EQw0DpNLE8uLyOmGmTPRBXj3VY/a3M+p6XJnonz6ngTuJ0AgMbPam8+o
- HyEBH8XoNMue98pWVuVMjkidk2YKhTBtF8wgbPt3QBz4rZhmWP8FOizewVsIaBe2bPSy
- PhTXfKg4LJSxsC8VW1M9o0HgG1vjLs7WyWOAr+LmpFVsXZT9eHZKQgbaSmSJwxbCAbmC
- Y6HlMZT1Bzl5GtHj4XWowCQkvjwzQDsmQ7WNHnkNTYb2k4PMr/DjB5elkGVu0Dd3fYg3
- PA7CYGkxi2cE1QFh/KC1vAhgYZV83G+aOsqYNH6R36HKieY4Zl0pQbvqGe/vTDFPiGpB
- 61zA==
-X-Gm-Message-State: AAQBX9fXpa4W+rAyMCbWin+xxum3134Bw8TSVs5cWGHXdJ886aHw3SH6
- o/bymAd+X4DeGEkElbi5HGgOMl7sX5hDuS6zPsM=
-X-Google-Smtp-Source: AKy350YEvvx7XE47IlpC47j1/tlcDtLJ0tzyOnjvjcnvrwLNoIxmnp+UMoNM869g/H2ivzr6vX9jAw==
-X-Received: by 2002:a05:6a20:465c:b0:d8:f312:b3b with SMTP id
- eb28-20020a056a20465c00b000d8f3120b3bmr4692225pzb.3.1680937549647; 
- Sat, 08 Apr 2023 00:05:49 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
- by smtp.gmail.com with ESMTPSA id
- u22-20020aa78496000000b005938f5b7231sm4040268pfn.201.2023.04.08.00.05.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Apr 2023 00:05:49 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: danielhb413@gmail.com, david@gibson.dropbear.id.au, clg@kaod.org,
- groug@kaod.org, qemu-ppc@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
- Anton Johansson <anjo@rev.ng>
-Subject: [PATCH for-8.0 v2] target/ppc: Fix temp usage in gen_op_arith_modw
-Date: Sat,  8 Apr 2023 00:05:47 -0700
-Message-Id: <20230408070547.3609447-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20210112; t=1680945731;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZGP0y+SaPekxP1kD3NlTbAXEbA3CZ4hH0/9Z5w5XwBo=;
+ b=T7f+Al872OroU5+2u2vtSxPk/fM5CoBGNAIt2disoBs210b2LhLqw6642vWdNVSFNV
+ h9kG+O+6Aah5maN3lhjCn/iDTc7mxfy2o6QR4eK+gEkfLdJgwfx1e503eGtUppOED9bN
+ hZGqWVvrtkNnR/5QluuQyC9wcNfRi9g9G9Kz/2Vtxxj1Z177YVP+tmtQ4MM4g84c7VvW
+ 5aX+PI7gmsuMiGW6ckItcy6erF/9mX0Im51TfpULs34OOULTbzYEXLj5REbzmzHYuGcT
+ muupBdeRkUHe3WseIJ8aswVvJ3dK7LxZQFyAqzIhDe86SVKO4mKUeFh/jgv9/mGxdx0X
+ pXNA==
+X-Gm-Message-State: AAQBX9c8A5dCHFE/wX2tNbZb/73jy8OZu9HUXbOOT1wtBd5nabqG7EAz
+ 8oc/N0YhBpYJ4d3pxSzTcItWVRlNQSmhMFGG3yWn83PnBpOwjAB9N6mUrsXrtKGwtLKGQu8ittX
+ gCOvIABonBiSiH0IoJm0aoyzUvMVNS2o=
+X-Received: by 2002:a05:6870:971e:b0:184:2e38:c7af with SMTP id
+ n30-20020a056870971e00b001842e38c7afmr439365oaq.3.1680945731012; 
+ Sat, 08 Apr 2023 02:22:11 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZhcBD79FyMovWcOWkEuovzxMMlMqeQgkLsY/ohCbJFbNt2ielppqAiBwSrNCx+gqUfEMRku9nqutb/2N6ia1I=
+X-Received: by 2002:a05:6870:971e:b0:184:2e38:c7af with SMTP id
+ n30-20020a056870971e00b001842e38c7afmr439360oaq.3.1680945730719; Sat, 08 Apr
+ 2023 02:22:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+References: <20230327173058.199027-1-casantos@redhat.com>
+ <ZCHZjfytWZ6pPzpk@redhat.com>
+In-Reply-To: <ZCHZjfytWZ6pPzpk@redhat.com>
+From: Carlos Santos <casantos@redhat.com>
+Date: Sat, 8 Apr 2023 06:21:59 -0300
+Message-ID: <CAC1VKkOn-DowAnszwzV_aRgsNQUYTOSwHti1ADAm0oyr8VNSXQ@mail.gmail.com>
+Subject: Re: [PATCH V2] tracing: install trace events file only if necessary
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=casantos@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,40 +94,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix a crash writing to 't3', which is now a constant.
-Instead, write the result of the remu to 't1'.
+On Mon, Mar 27, 2023 at 2:59=E2=80=AFPM Daniel P. Berrang=C3=A9 <berrange@r=
+edhat.com> wrote:
+>
+> On Mon, Mar 27, 2023 at 02:30:58PM -0300, casantos@redhat.com wrote:
+> > From: Carlos Santos <casantos@redhat.com>
+> >
+> > It is not useful when configuring with --enable-trace-backends=3Dnop.
+> >
+> > Signed-off-by: Carlos Santos <casantos@redhat.com>
+> > ---
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
-Fixes: 7058ff5231a ("target/ppc: Avoid tcg_const_* in translate.c")
-Reported-by: Nicholas Piggin <npiggin@gmail.com>
-Reviewed-by: Anton Johansson <anjo@rev.ng>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
+I updated the patch to fix the array comparison and add a missing comma.
 
-v2: Use a temp of the correct type, for ppc64.
-    It's what I get for rushing things this afternoon.
-
-r~
-
----
- target/ppc/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 9d05357d03..f603f1a939 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -1807,8 +1807,8 @@ static inline void gen_op_arith_modw(DisasContext *ctx, TCGv ret, TCGv arg1,
-         TCGv_i32 t2 = tcg_constant_i32(1);
-         TCGv_i32 t3 = tcg_constant_i32(0);
-         tcg_gen_movcond_i32(TCG_COND_EQ, t1, t1, t3, t2, t1);
--        tcg_gen_remu_i32(t3, t0, t1);
--        tcg_gen_extu_i32_tl(ret, t3);
-+        tcg_gen_remu_i32(t0, t0, t1);
-+        tcg_gen_extu_i32_tl(ret, t0);
-     }
- }
- 
--- 
-2.34.1
+--=20
+Carlos Santos
+Senior Software Maintenance Engineer
+Red Hat
+casantos@redhat.com    T: +55-11-3534-6186
 
 
