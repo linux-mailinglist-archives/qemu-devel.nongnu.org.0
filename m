@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6751A6DB7B0
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 02:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FF66DB7B8
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 02:18:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pkwAd-0003BZ-RI; Fri, 07 Apr 2023 20:11:07 -0400
+	id 1pkwGT-0004oN-Jt; Fri, 07 Apr 2023 20:17:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pkwAc-0003B8-0S
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 20:11:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <casantos@redhat.com>)
- id 1pkwAY-0004xB-5H
- for qemu-devel@nongnu.org; Fri, 07 Apr 2023 20:11:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680912660;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=EOUnZWgHr3yewzZ84CYw6CF0CpmkfMoZx/iEHJcgiqU=;
- b=b28nU80kT71GiujQ2sgSe6hF1rCdmnjDSnzl0JVxmpdcB0G78ovziyTruCqylyCukv9is6
- yjxTd83x4Tfrs/JpPvNhoRcom9kqZXTkH3g4j2mVmfgSyJRYtYTdpTlb/fKzwKKxU8BlIP
- wzHXRW83f1KePR/AG9VOCkoQyWxy95k=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-144-Zn38R-1KNZSjbCmKaEQGIw-1; Fri, 07 Apr 2023 20:10:58 -0400
-X-MC-Unique: Zn38R-1KNZSjbCmKaEQGIw-1
-Received: by mail-oi1-f197.google.com with SMTP id
- a9-20020a05680802c900b00388734df7e8so10236220oid.15
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 17:10:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pkwGR-0004oB-0e
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 20:17:07 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pkwGL-0006mx-Uz
+ for qemu-devel@nongnu.org; Fri, 07 Apr 2023 20:17:06 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ j14-20020a17090a7e8e00b002448c0a8813so4594912pjl.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 17:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680913019;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=W7cwNQrhKFMtaLgzbF1sx/y8o+P1z23KbhinULFm+gc=;
+ b=em19M48QhkYSSHPVPnPx3CBQeDPaBNoUVnovdrq69dJTBmnna4fWnqm96S09zwVhj6
+ SPIuz3TlxjPmkdMk6KyWGgjZYfvivLawGALDYsN6SXT+hGkBjGsV2p0ahSO1uVcq5MNv
+ GSg2HF5VY5ma8dHV5LwAEDH/dDprkrTD5VUko9hGQIfj8jzz7wt4DqwuCUw0F162cDZy
+ JtFmJ2einuPBhc/NgQPWQHgBo2VWek6bMFNIAaacQ6p7NOZdYcYikpcVWZwKUdXm0G3R
+ Ayy2D336Uu8kZmd03N3WkOqyoy76vmmcolin7aUrfmbUm/WOhHjbbNEoBz1INDCiCUiA
+ PNXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680912657;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EOUnZWgHr3yewzZ84CYw6CF0CpmkfMoZx/iEHJcgiqU=;
- b=pF/ogbBbdqgHbmR405lG3cqX24gPuOcBfkw8PuRhnmwTxJ9Ca/uJO1jY/esjbtsxVR
- jt/cry8s6rm4WHMp+1nnYD0q9Dw6hL9g5vYIn2583IOGatkz8nwe2DKJ/ATmkUgcq5BK
- nRY9mWunZBWK+/EJF8cZb3UfUaR4/3SIm0OrBJjo/Qp1yMzq9kPfbFGRQUG4lEdqoDOd
- rYBVtCs87DIupmU6cB6LH0sPXMNkjBzqAKEwRqk4tQjtNZ9XFveD3ti0BKLzGCjsaeeu
- UGjm+Ly98gaVxgV4oG3JMqcBSK+7eBZBpiei2Whx52yJqU+AyWBiAMfVXo1EJDhDlBCo
- AUNQ==
-X-Gm-Message-State: AAQBX9d6yNE6/WwxFEiMhIiIxGtdSl9dvELFzaySIYqJ70vMgjTsmYxT
- PJBvAVwPM/vyNI5i7mRmzSUh5DlntciVsMNl8s4kx4dM9Rq3IbUCjq3DYGUGgLID5qdDPl5rWCk
- 6Vu0S1yvPRDTozyabPSmj33DqTRBN7PCtr5SUZXcCgrew71UOZ6zvBR+48j/Mi8xduA5Qm5orjO
- w=
-X-Received: by 2002:a05:6870:51f:b0:17e:9b7:387b with SMTP id
- j31-20020a056870051f00b0017e09b7387bmr343725oao.11.1680912657559; 
- Fri, 07 Apr 2023 17:10:57 -0700 (PDT)
-X-Google-Smtp-Source: AKy350auXEOro8E73MDURcU0avCJeY7dtsc4ph6lfApeO8oBh8eFn7wpbFiIVYO3/bCVJo1k8Jh2og==
-X-Received: by 2002:a05:6870:51f:b0:17e:9b7:387b with SMTP id
- j31-20020a056870051f00b0017e09b7387bmr343714oao.11.1680912657264; 
- Fri, 07 Apr 2023 17:10:57 -0700 (PDT)
-Received: from casantos.remote.csb ([177.158.136.22])
+ d=1e100.net; s=20210112; t=1680913019;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=W7cwNQrhKFMtaLgzbF1sx/y8o+P1z23KbhinULFm+gc=;
+ b=Ba82ye+net12shnNgjfpWuedSEuwKWbD64+7usHO7oqHgS9D5ilVnpb+Glp/MGIcc8
+ VWnv/rqFVCZC+C95VTGBWsanBdpBW+8EsTtP4K5XP6YqhtiUBAKqRRGjpvNi5gYpzMbi
+ RVsC9188PUXAQqHdC/bXRk9LcF+cG/xlaeOrbJpqR0WafVgzsaKddjtq95pootwUHEgP
+ QUFlYhusQNIgmZTLuSqY2yxcBYsuFMEcPqZa4SoBN8MhCvL7nMe7zKi/S+ZK4tGo5mdd
+ Y1BFpLWDF2+CX+EWWhmjmjusqzjzpQBnLY/UKpaD6maIJOjrYTJVI19as9bZ5RHRNtjB
+ xZWg==
+X-Gm-Message-State: AAQBX9e0V2ENK6iSuWgh8UjuOrlVCt3v0ozAi3pgRASy15+zQHEH5MRC
+ 3ntjFKbuEoRUQ15Z/Yxlb4nS/w==
+X-Google-Smtp-Source: AKy350Z6S/V6iPcFxAsexzytePwFO9OrjXUaunvxoRyTjJA47ucqwC2NcJ6HQ7t06511pumZwpjjCw==
+X-Received: by 2002:a05:6a20:2a0a:b0:de:9f78:f677 with SMTP id
+ e10-20020a056a202a0a00b000de9f78f677mr4233959pzh.23.1680913019625; 
+ Fri, 07 Apr 2023 17:16:59 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8?
+ ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
  by smtp.gmail.com with ESMTPSA id
- e5-20020a4a8f05000000b0054157801d51sm2074377ool.38.2023.04.07.17.10.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Apr 2023 17:10:56 -0700 (PDT)
-From: casantos@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Carlos Santos <casantos@redhat.com>
-Subject: [PATCH V3] tracing: install trace events file only if necessary
-Date: Fri,  7 Apr 2023 21:10:49 -0300
-Message-Id: <20230408001049.206563-1-casantos@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ z14-20020aa785ce000000b0062dd1c55346sm3596844pfn.67.2023.04.07.17.16.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Apr 2023 17:16:59 -0700 (PDT)
+Message-ID: <4cd70b77-807a-07be-c82d-d62eaf3b19ee@linaro.org>
+Date: Fri, 7 Apr 2023 17:16:57 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/2] accel/stubs: Remove kvm_flush_coalesced_mmio_buffer()
+ stub
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, kvm@vger.kernel.org
+References: <20230405161356.98004-1-philmd@linaro.org>
+ <20230405161356.98004-2-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230405161356.98004-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=casantos@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.03,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,34 +99,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Carlos Santos <casantos@redhat.com>
+On 4/5/23 09:13, Philippe Mathieu-Daudé wrote:
+> kvm_flush_coalesced_mmio_buffer() is only called from
+> qemu_flush_coalesced_mmio_buffer() where it is protected
+> by a kvm_enabled() check. When KVM is not available, the
+> call is elided, there is no need for a stub definition.
 
-It is not useful when configuring with --enable-trace-backends=nop.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Carlos Santos <casantos@redhat.com>
----
-Changes v1->v2:
-  Install based on chosen trace backend, not on chosen emulators.
-Changes v2->v3:
-  Add missing comma
----
- trace/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/trace/meson.build b/trace/meson.build
-index 8e80be895c..833bb57113 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -64,7 +64,7 @@ trace_events_all = custom_target('trace-events-all',
-                                  input: trace_events_files,
-                                  command: [ 'cat', '@INPUT@' ],
-                                  capture: true,
--                                 install: true,
-+                                 install: get_option('trace_backends') != 'nop',
-                                  install_dir: qemu_datadir)
- 
- if 'ust' in get_option('trace_backends')
--- 
-2.31.1
-
+r~
 
