@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E350B6DBC96
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 21:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D036DBCC4
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 21:30:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plE2n-0008Ee-C4; Sat, 08 Apr 2023 15:16:13 -0400
+	id 1plEFd-0002JC-9P; Sat, 08 Apr 2023 15:29:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plE2h-0007xK-6M
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:16:10 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1plEFU-0002Il-MV
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:29:20 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plE2e-0004uy-Dl
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:16:06 -0400
-Received: by mail-pl1-x631.google.com with SMTP id o2so1535075plg.4
- for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 12:16:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1plEFS-0007qS-EY
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 15:29:20 -0400
+Received: by mail-ej1-x635.google.com with SMTP id gb34so4183408ejc.12
+ for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 12:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680981363;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dO5mP0nMk4iN83RUsd+w2e5lmWKlhoCqx+MVGKsRC4A=;
- b=Cfsf9OZIX887G4fsA0Vfbhun2dwFhxVc+NdIy+1Zx2ftY5dQAcwcgWXNXAaT5acC+v
- 8voRRdvd/GwFgxmgCD4/JSH1Al4TH8Tqov2P62hSfj0Gdc7LGhUVUhcBz/qWSXpHBtEh
- sfKgX1ZIyUsGcThkTS8WFCtUebUrikG/anTjHVMaDg3Rocu6Wa9+4wQBX+qxoZ5d2FYq
- XryOb5bYweEUa6eXVzWWmQwPuT8TK6lP9wQsDnBCXty7Q+Re8g8S3/08VqaCcpgzJ/D3
- vg8lMCfD/H8VZEUWft3hfhjL6SfoLfUshaCWCQzFqIIA9BvKm8HGz0LCsbzE5y0NZ2Hz
- bO2g==
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1680982154;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=HBwZjoMef3VxK6BVfK8AV5+XcZanopEEzqB864jQj/k=;
+ b=027qqZUGChhS9jiu8HcuYFDJuGtebvIDhsjhZoEbgcY5DgJKUL5rEVVavPJeaH7ayr
+ eCMzWvlol0f3yxccp4Souq1LcaQbDnDjH5VL25zNbGQd82FLsyH/JbY/u7DqzRkZPtcK
+ innUGgVBiaCub+OeYBEZDQrgAzNgELMtek0ghRPOF3y49j4KAaMw6ji43GrO6lMGBQOg
+ Oon7w8dsp9OG/QyNybfG4yoWheZxTBwGVS9li77Bj13mRbUcZyA2h+AG8CaVtXFbQIok
+ g5Q/nHGrJmW7cbLEdtz17beXvqLpZEPJ3jBLXKrxFyl0kRE79hroBoxmqHP8Uw8nNraB
+ R7ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680981363;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dO5mP0nMk4iN83RUsd+w2e5lmWKlhoCqx+MVGKsRC4A=;
- b=Uh4gn29Weu6qOD4LU3mlGp0t4vXUChjOQ3JHMXre1lLU2c/XERyvmIxbOjd9YL9KC8
- DD/KzX39E0irzFAvFs9L7EyLHfvLYVczBqkOx2X4vwS8psMyzfsI8tlwWmv0fSF3Q/L2
- zsx2jYpxz1hTsEej9GGOIVCuJ/09c9XRD6Q0buzX8jDoGzKAPaElr7mFzINl0WrdNiO3
- CbyDk/jvP+0A7XSIcnN61JXEs7bvhNsic2UReklPQY6MYumDhTu3HxJE6AcbBkbqPgMT
- HsMJ4tundnRrYfwxy4kNNlALYfLlN3Mp++7D95dKZ1Sy/D9p7W1fJHI6QAsNNi9OPyuF
- lI8A==
-X-Gm-Message-State: AAQBX9do3W0IaUY5C3Lh28wK5vBgtGldWgYYYLSD08ERAhLNw62PEwDG
- pEtpvFrJq/Dw9m8dWt4C9LM/mg==
-X-Google-Smtp-Source: AKy350ZVApYtG79xG3U/KhQ0m6sObbKs/pR57lZMwt28j37CtH7ZRwfPi+cYs6yK/nCStk7g6HyvrA==
-X-Received: by 2002:a17:90a:41:b0:23f:1165:b49f with SMTP id
- 1-20020a17090a004100b0023f1165b49fmr7213913pjb.38.1680981362971; 
- Sat, 08 Apr 2023 12:16:02 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:fcd:4458:21c7:367e?
- ([2602:ae:1541:f901:fcd:4458:21c7:367e])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a17090a638900b002465a7fc0cfsm2864026pjj.44.2023.04.08.12.16.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Apr 2023 12:16:02 -0700 (PDT)
-Message-ID: <0aafc76c-19e2-2fb8-a764-69f4d2fee11e@linaro.org>
-Date: Sat, 8 Apr 2023 12:16:00 -0700
+ d=1e100.net; s=20210112; t=1680982154;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HBwZjoMef3VxK6BVfK8AV5+XcZanopEEzqB864jQj/k=;
+ b=iL+kOlCCibQqEcv8riQEjhandbsDnFAhi2iShRJNq+bcn1yvACmvwPk2tJTd4X6YYN
+ nO0l5btKty+Jm6RhFMBfKIygD2kj9GgOa952tfFK/Vp8KOR9AQPjMY2jKzHKuG+XNQld
+ G27CEx4p0bGoViEq5TM8N2bslaCeeLgQL8P6bulLDn6d3cTy7HLj5hBFsZtGb6KlJP5C
+ CMmsE4ZbeY/rW8/aKndDCHcD3RlqgDDtZvr5x05xezYsfcAiwY+iZ4kio2lcD7QCUQ+b
+ Nya1ZlF1P9sfUWKiVFANHF6c2flLqMHznUzh9kTYo3EFMUabXfKe2En1zQ4lsT4OIzKr
+ U5pg==
+X-Gm-Message-State: AAQBX9ftOjQqcb4i64t4Wagt2JvOPwASm/c0hkEniH+wVENVOkoBsKKs
+ 51Z+TJT5pRcKZHdF4gDPgrmi8Jm/roROm2Shi+yfXw==
+X-Google-Smtp-Source: AKy350aZKgTErbeqlYdC6cJhGumvHS7cOKP0oPuTeX90nLDJsAbSqkIs686+lsXwK01PTPU7TFHZKe7/fU4RmjZYxls=
+X-Received: by 2002:a17:907:c208:b0:947:c623:2c84 with SMTP id
+ ti8-20020a170907c20800b00947c6232c84mr1479498ejc.2.1680982154366; Sat, 08 Apr
+ 2023 12:29:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 16/16] bsd-user: Implement SIGSYS on arm
-Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: reinoud@netbsd.org, riastradh@netbsd.org, ryoon@netbsd.org,
- jrtc27@jrtc27.com, kevans@freebsd.org, Brad Smith <brad@comstyle.com>
 References: <20230405213612.15942-1-imp@bsdimp.com>
- <20230405213612.15942-17-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230405213612.15942-17-imp@bsdimp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.113,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <20230405213612.15942-3-imp@bsdimp.com>
+ <c90d9be4-45bf-5aee-0765-369dbe75aaad@linaro.org>
+In-Reply-To: <c90d9be4-45bf-5aee-0765-369dbe75aaad@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sat, 8 Apr 2023 13:29:05 -0600
+Message-ID: <CANCZdfrcbWnDw4DoGthQrQkro1MdDsau94BCO-BOEgKnzX4Arg@mail.gmail.com>
+Subject: Re: [PATCH 02/16] bsd-user: Ifdef a few MAP_ constants for NetBSD
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, reinoud@netbsd.org, riastradh@netbsd.org, 
+ ryoon@netbsd.org, jrtc27@jrtc27.com, kevans@freebsd.org, 
+ Brad Smith <brad@comstyle.com>
+Content-Type: multipart/alternative; boundary="0000000000002f66de05f8d8286b"
+Received-SPF: none client-ip=2a00:1450:4864:20::635;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,16 +84,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/5/23 14:36, Warner Losh wrote:
-> When a system call returns ENOSYS, send a SIGSYS to the process (to
-> generate a core dump).
-> 
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> ---
->   bsd-user/arm/target_arch_cpu.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
+--0000000000002f66de05f8d8286b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Sat, Apr 8, 2023 at 1:03=E2=80=AFPM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-r~
+> On 4/5/23 14:35, Warner Losh wrote:
+> > MAP_GUARD, MAP_EXCL, and MAP_NOCORE are FreeBSD only. Add back the
+> > ifdefs that I removed in 36d5d891559f (but only these ifdefs, the
+> > rest of the commit is not reverted).
+> >
+> > Signed-off-by: Warner Losh<imp@bsdimp.com>
+> > ---
+> >   bsd-user/mmap.c | 10 ++++++++++
+> >   1 file changed, 10 insertions(+)
+> >
+> > diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
+> > index d6c5a344c9b..f732a6f6f2b 100644
+> > --- a/bsd-user/mmap.c
+> > +++ b/bsd-user/mmap.c
+> > @@ -416,27 +416,33 @@ abi_long target_mmap(abi_ulong start, abi_ulong
+> len, int prot,
+> >               qemu_log("MAP_ALIGNED(%u) ",
+> >                        (flags & MAP_ALIGNMENT_MASK) >>
+> MAP_ALIGNMENT_SHIFT);
+> >           }
+> > +#ifdef MAP_GUARD
+> >           if (flags & MAP_GUARD) {
+> >               qemu_log("MAP_GUARD ");
+> >           }
+> > +#endif
+>
+> Maybe better as
+>
+> #ifndef MAP_GUARD
+> #define MAP_GUARD 0
+> #endif
+>
+> etc, somewhere common, and let the compiler eliminate the always false
+> conditions.
+>
+
+Interesting notion...  I can do that in syscall_defs.h. If that's the
+pattern in qemu I'll
+do it here.... but I've been burned in the past by warnings about always
+true or always
+false conditions...  It would be less invasive though...
+
+Warner
+
+--0000000000002f66de05f8d8286b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Apr 8, 2023 at 1:03=E2=80=AFP=
+M Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">ric=
+hard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On 4/5/23 14:35, Warner Losh wrote:<br>
+&gt; MAP_GUARD, MAP_EXCL, and MAP_NOCORE are FreeBSD only. Add back the<br>
+&gt; ifdefs that I removed in 36d5d891559f (but only these ifdefs, the<br>
+&gt; rest of the commit is not reverted).<br>
+&gt; <br>
+&gt; Signed-off-by: Warner Losh&lt;<a href=3D"mailto:imp@bsdimp.com" target=
+=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0bsd-user/mmap.c | 10 ++++++++++<br>
+&gt;=C2=A0 =C2=A01 file changed, 10 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c<br>
+&gt; index d6c5a344c9b..f732a6f6f2b 100644<br>
+&gt; --- a/bsd-user/mmap.c<br>
+&gt; +++ b/bsd-user/mmap.c<br>
+&gt; @@ -416,27 +416,33 @@ abi_long target_mmap(abi_ulong start, abi_ulong =
+len, int prot,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log(&quot;M=
+AP_ALIGNED(%u) &quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 (flags &amp; MAP_ALIGNMENT_MASK) &gt;&gt; MAP_ALIGNMENT_SHIFT=
+);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +#ifdef MAP_GUARD<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (flags &amp; MAP_GUARD) {<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log(&quot;M=
+AP_GUARD &quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +#endif<br>
+<br>
+Maybe better as<br>
+<br>
+#ifndef MAP_GUARD<br>
+#define MAP_GUARD 0<br>
+#endif<br>
+<br>
+etc, somewhere common, and let the compiler eliminate the always false cond=
+itions.<br></blockquote><div><br></div><div>Interesting notion...=C2=A0 I c=
+an do that in syscall_defs.h. If that&#39;s the pattern in qemu I&#39;ll</d=
+iv><div>do it here.... but I&#39;ve been burned in the past by warnings abo=
+ut always true or always</div><div>false conditions...=C2=A0 It would be le=
+ss invasive though...<br></div><div><br></div><div>Warner<br></div></div></=
+div>
+
+--0000000000002f66de05f8d8286b--
 
