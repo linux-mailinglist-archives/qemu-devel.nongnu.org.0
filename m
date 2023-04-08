@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6516DB8D1
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 06:25:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387BF6DB8D3
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Apr 2023 06:26:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pl08t-0000jh-Ta; Sat, 08 Apr 2023 00:25:35 -0400
+	id 1pl09Y-00022g-8i; Sat, 08 Apr 2023 00:26:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pl08Z-0000Rl-8G
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:25:22 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ id 1pl09C-0001qA-3V
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:25:55 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pl08W-0006En-SC
- for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:25:14 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- r21-20020a17090aa09500b0024663a79050so1895656pjp.4
- for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 21:25:11 -0700 (PDT)
+ id 1pl098-0006Sg-7R
+ for qemu-devel@nongnu.org; Sat, 08 Apr 2023 00:25:52 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id c3so765304pjg.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Apr 2023 21:25:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680927911;
+ d=linaro.org; s=google; t=1680927949;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hW/VSf7Q3/d56s71eq7R7lxXfgNg9+7clCwmfbVpN/Y=;
- b=AD0MsyTBfV0voztSlaCjS4/i8WtfCkzfpKBNK/v6C6M8jjO/kXSKCc0dYSUPMWO3/c
- mioyBcuh9dbN5ZUB4ifq0fkuqnxYXzP4KyuHu1SdBKyT3uSi3f1bxld3EEtOXumjKsrD
- UM0RuTSzyddlVlfnRFuKOYnPHAfUeu7YYbuqoc9sU7sBzUg3Mli9fq3oBFUfoZZE1gAZ
- DcaFqJU9Zw/bmGDE0gGhdAekfTlGITjw9XkE6+dYDbfIl2O2IwqTPC/l3yo+rBcoet8u
- 7hWl8wsCBXfi3VcPWH1UcC+diy5cURNzdIot8UWAyQSObeTmkpMzbUhezy0KAgQ7Z4of
- 5CIA==
+ bh=PXCwDtr2uHzOCiDI6gx9ciDRk0+XSVPCl10fYBMrOZU=;
+ b=ajc5KDjyqXmm3NUhwaTQfNt74Vh03C8A4QjJBsHhqpatOEHjIwrsnnsJeIV1mR4Q//
+ IH0YOeZ/wRmreO2AyYzmeyJuhK4a6Ljm4vkvshnwFkSu++QDSSNkcr1mYou8eymOKNTK
+ w786J7PWGGOOgTqhO2r20p26oOpmjkka4g434lWGOkcRHf0lWcSAZ4Ucf+lH5lPKTUC1
+ 6/h8tPD5w6rtPylQwXgYWq8OwBkeRZWmcZK8oSylz77qxoRqauLmZnakWNVN//mmkUBs
+ PgAZXndCQqApDyeml0rj84fIz0mO/XpJ+yqvRosXHibT0pibUfgwKQSPUhd4KFp4CWUG
+ uqcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680927911;
+ d=1e100.net; s=20210112; t=1680927949;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hW/VSf7Q3/d56s71eq7R7lxXfgNg9+7clCwmfbVpN/Y=;
- b=GLBpaj957O74WKgBjaPz5CE0tyKtMyUK17x4011acyXh3vSb/O59PIPzGhG9B/uwz3
- k/vWAiReT/Lwm9YGkV0vZnSyGUCxmNmhui69Bz6MOQ0NyNd9E+JGmPCKW12Pw2dVRv5k
- gjzf2a5jPCcf0SHRglHvdo43VqVyO7z2A8vKa4xOYWo1csZhJ3QuGcCAPyAM7KjzSLj4
- fm+ib41/7QswY9anKclBSaX/4itwbGFLtOxKpmujjVADHKRs3CY00T86lsFpSaRu8l6i
- Dupu3OHpcCzpcOYOZd9wmxKJULKtAWI6XOFLbu3oJJQUC28JgrqD1dpECJBUY/UYPcX2
- UAvg==
-X-Gm-Message-State: AAQBX9f7MWoW2Q8cfGbg7FR3AvzTzlhYvk1NiVRAPNLyMu67xCNuicLr
- OBcQIcyaA4MDz1zeQO+AO75PgA==
-X-Google-Smtp-Source: AKy350ZUbQYkpHgjHTHqWPoCLiXyBP/r0ksrikXsadVUUJ0Z9+D+HwacqU3D1RBcoFMeI9Y1KRfWMw==
-X-Received: by 2002:a17:90b:1c91:b0:22b:b832:d32 with SMTP id
- oo17-20020a17090b1c9100b0022bb8320d32mr5197335pjb.9.1680927910856; 
- Fri, 07 Apr 2023 21:25:10 -0700 (PDT)
+ bh=PXCwDtr2uHzOCiDI6gx9ciDRk0+XSVPCl10fYBMrOZU=;
+ b=o8EFpqWGqa/ysbF7yCNmHzCG8hNrOVfJ0erNHQrydU5ilotKScE7aucFz1d/F+ptW8
+ npo7j4tergXJNW/KXsdFhH1rPT3X/9emwUO9DQ+NxHEn5igp8httBR/vC107YbPllF/m
+ /TJ0Gzrzt/Sy7xnOpIAMrhBTHPo7L6s5tHPkhHlWlhlUnkjGoTZkUSldukUbNrYJwF2K
+ FjN7Cpqa+iAY0AgHI7vg7tdrRNoDuA/Zsl6KMphu41q5yS5aGH3nigg21TGPPhq+GvK8
+ lGuNBSiMzB1spCdMUb+Bpeib2QadUmgQ26CD+bZoTbOF3D+UN6u17Sf0D+ADmEJIYAS7
+ /BhA==
+X-Gm-Message-State: AAQBX9f+VziQkJIZi5Ds3BT5xc8q6VHSOfOyFEN27MZg1LHBD2huMRY2
+ Lj54+R8JYj0qbUBOh9QVeKWMeQ==
+X-Google-Smtp-Source: AKy350bDO0xahEhFC+PBYeLvGOB3qgL/GrI8UhnYhnHZrwNfuMLU6DzeTNpPUrbd5lsuyvBPxO8WQQ==
+X-Received: by 2002:a17:903:2452:b0:19d:1fce:c9ec with SMTP id
+ l18-20020a170903245200b0019d1fcec9ecmr6359202pls.37.1680927948795; 
+ Fri, 07 Apr 2023 21:25:48 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8?
  ([2602:ae:1541:f901:8bb4:5a9d:7ab7:b4b8])
  by smtp.gmail.com with ESMTPSA id
- gd22-20020a17090b0fd600b002465ff5d829sm1432776pjb.13.2023.04.07.21.25.10
+ a18-20020a170902b59200b0019f1264c7d7sm3631549pls.103.2023.04.07.21.25.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Apr 2023 21:25:10 -0700 (PDT)
-Message-ID: <ef9c1261-2f9c-0f22-b502-56b5f9c52618@linaro.org>
-Date: Fri, 7 Apr 2023 21:25:08 -0700
+ Fri, 07 Apr 2023 21:25:48 -0700 (PDT)
+Message-ID: <c7be234f-331f-0dfe-3fd4-04896c094680@linaro.org>
+Date: Fri, 7 Apr 2023 21:25:46 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 06/10] target/arm: Reduce QMP header pressure by not
- including 'kvm_arm.h'
+Subject: Re: [PATCH 07/10] target/arm: Restrict KVM-specific fields from
+ ArchCPU
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -72,13 +71,13 @@ Cc: qemu-s390x@nongnu.org, qemu-riscv@nongnu.org,
  kvm@vger.kernel.org, qemu-ppc@nongnu.org,
  Peter Maydell <peter.maydell@linaro.org>
 References: <20230405160454.97436-1-philmd@linaro.org>
- <20230405160454.97436-7-philmd@linaro.org>
+ <20230405160454.97436-8-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230405160454.97436-7-philmd@linaro.org>
+In-Reply-To: <20230405160454.97436-8-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -102,14 +101,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 4/5/23 09:04, Philippe Mathieu-Daudé wrote:
-> We only need "sysemu/kvm.h" for kvm_enabled() and "cpu.h"
-> for the QOM type definitions (TYPE_ARM_CPU). Avoid including
-> the heavy "kvm_arm.h" header.
+> These fields shouldn't be accessed when KVM is not available.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   target/arm/arm-qmp-cmds.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   target/arm/cpu.h | 2 ++
+>   1 file changed, 2 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
