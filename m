@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C68226DC0A5
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 18:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B8D6DC0E0
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 19:31:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plXtB-0007Rs-8O; Sun, 09 Apr 2023 12:27:37 -0400
+	id 1plYra-0000zE-No; Sun, 09 Apr 2023 13:30:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plXt8-0007Ra-GE
- for qemu-devel@nongnu.org; Sun, 09 Apr 2023 12:27:34 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plXt6-0006Cc-NT
- for qemu-devel@nongnu.org; Sun, 09 Apr 2023 12:27:34 -0400
-Received: by mail-pf1-x435.google.com with SMTP id
- d2e1a72fcca58-6354dce93d2so263226b3a.0
- for <qemu-devel@nongnu.org>; Sun, 09 Apr 2023 09:27:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681057651;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bWio9yybJbmL3UAuPrlxFZT9v6imFS1CqHG2sJIEakk=;
- b=gLBw7iEKCL8aC/dSird8qrWxK5KI7lC3Djaj7CQem6ynLrG02GMGX09qwXuMvRsNg7
- RWlMYosBGpxsvEXSYmyHBvEusGNwVSOPObWE2lJlNt5oL/31cuEwKGQsJ1IERAb6jiFB
- hHe27lVhXBiL3XakdNv9TlpwMW4MtozjIkOj0IxL3NV907ljGg8ZJ5VAfojHZcsH/SZ2
- /mcBAzimuSsvctksembbe+JkJK9qV8jC+4FrWbyKRFEAX3iXsjXXE4w/FIPKyRRU5Dd+
- MELhiJdR0xoZu1JHB473DlqZik/Kq7N+5iOSUfgjZ1aDSjyHOLDBYgBzsUU8un6shTKq
- 6dyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681057651;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bWio9yybJbmL3UAuPrlxFZT9v6imFS1CqHG2sJIEakk=;
- b=YGZBcQdowRBJ0rIff6tKN465ax8kQ1BI2JlYWr5fR5QkDTmEhib1FFsTMkxxZA2EwB
- GbMuJ+mHF+4txjigivAYk9bBpxMx7qzk7A1+GCruagr1XOD/I6+vLDgg6fcUDX1YIlD3
- 4U6q7aXHICzt2iYJhx8iRL42rdcpsLPRYgJW9FmQ6O4pttFAkH7OPmbjb22Yue2Syn0i
- P+33Xk441BOYmdJiQjyUXCT0IpwY2sqVFKNxAefKPOYsugaSaTzRxoBDOSW8VHYIknCZ
- xu5/r32HV0CB50hmEAFMiQSN204P0EQbL5fyZlyzvZI+1ncRYGlXwI41nOHj1DfhBa6s
- XqpQ==
-X-Gm-Message-State: AAQBX9evXWuUIwcA+FvRTCTaF48R24Uj5SU+ZPFt4H/TnawllR11EEEf
- yvH1sKKDTjO7s2t+oW0oSVwEHw==
-X-Google-Smtp-Source: AKy350avWtVQmLvWhdLtJZ1z23+2Jd80WQLLJ3/4c9UeZc/2nL2RQUwhp8o346Ados0mNlDqWo19nQ==
-X-Received: by 2002:a62:1bd4:0:b0:632:34ef:7669 with SMTP id
- b203-20020a621bd4000000b0063234ef7669mr5832109pfb.7.1681057650571; 
- Sun, 09 Apr 2023 09:27:30 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:d714:12f0:3102:b5ae?
- ([2602:ae:1541:f901:d714:12f0:3102:b5ae])
- by smtp.gmail.com with ESMTPSA id
- i13-20020aa78d8d000000b0062bada5db75sm6505226pfr.172.2023.04.09.09.27.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 09 Apr 2023 09:27:30 -0700 (PDT)
-Message-ID: <056da0a5-5437-0cac-a2a0-c992386bf4c2@linaro.org>
-Date: Sun, 9 Apr 2023 09:27:28 -0700
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1plYrZ-0000ya-52; Sun, 09 Apr 2023 13:30:01 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1plYrX-0000dt-HE; Sun, 09 Apr 2023 13:30:00 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.179])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8E4A120AB7;
+ Sun,  9 Apr 2023 17:29:47 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sun, 9 Apr
+ 2023 19:29:47 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G0069ed3360e-b9f2-4f15-88da-a426a3e6fb7c,
+ E084EAA979036BB7449ED778253F1391A5EEEA31) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <72e69d86-cf6c-a621-d2dc-42fc26cbe396@kaod.org>
+Date: Sun, 9 Apr 2023 19:29:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: qemu-user: avoid allocations to convert stuff when not necessary
+ Thunderbird/102.9.1
+Subject: Re: [PATCH for-8.0 v2] target/ppc: Fix temp usage in gen_op_arith_modw
+To: Richard Henderson <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>
+CC: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>, <groug@kaod.org>, 
+ <qemu-ppc@nongnu.org>, Nicholas Piggin <npiggin@gmail.com>, Anton Johansson
+ <anjo@rev.ng>
+References: <20230408070547.3609447-1-richard.henderson@linaro.org>
+ <606b0b02-a167-8cb1-db0f-119442d0aa16@kaod.org>
+ <9bf63987-e868-d663-b8a4-e6a4f7ab0eba@linaro.org>
 Content-Language: en-US
-To: Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-References: <cd93a0e0-6047-c511-9b96-35bf4e0adce0@msgid.tls.msk.ru>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <cd93a0e0-6047-c511-9b96-35bf4e0adce0@msgid.tls.msk.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <9bf63987-e868-d663-b8a4-e6a4f7ab0eba@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.888,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 1e639ab7-155f-4100-9c91-e1fe536ba18b
+X-Ovh-Tracer-Id: 17729264361517386604
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdektddgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeethedtgfeltdelhedtkefhfeekffegvdekhfdttedvtdevgedvgeeftdfgvdffnecuffhomhgrihhnpehgihhtlhgrsgdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehpdekvddrieeirdejjedrudduheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhnphhighhgihhnsehgmhgrihhlrdgtoh
+ hmpdgrnhhjohesrhgvvhdrnhhgpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.888,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,21 +77,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/9/23 01:52, Michael Tokarev wrote:
-> Hi!
+On 4/9/23 18:21, Richard Henderson wrote:
+> On 4/8/23 14:24, Cédric Le Goater wrote:
+>> On 4/8/23 09:05, Richard Henderson wrote:
+>>> Fix a crash writing to 't3', which is now a constant.
+>>> Instead, write the result of the remu to 't1'.
+>>>
+>>> Fixes: 7058ff5231a ("target/ppc: Avoid tcg_const_* in translate.c")
+>>> Reported-by: Nicholas Piggin <npiggin@gmail.com>
+>>> Reviewed-by: Anton Johansson <anjo@rev.ng>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> Looks good:
+>>
+>>    https://gitlab.com/legoater/qemu/-/pipelines/831847446
+>>
+>> I have a PR ready for this same branch. If you want to me send,
+>> just tell.
 > 
-> In the qemu-user case, we allocate various structures and arrays
-> for conversion of data between host and guest byte orders and sizes.
-> But it is actually not necessary to do such allocation when the
-> *size* is the same, and only byte order is different, because the
-> conversion can be done in-place.  Does it make any sense to avoid'
-> allocations in such cases?
+> Yes, please.  Also, the comment above needs s/t1/t0/.  :-P
 
-Alignment can also change.  This is especially visible with m68k guest, where even 'int' 
-is 2-byte aligned.
+sure :)
 
-So, no.  It's best to just allocate and convert always.
+Are you taking care of :
+
+   https://lore.kernel.org/r/20230408154316.3812709-1-richard.henderson@linaro.org
+
+C.
 
 
-r~
+> 
+> 
+> r~
+> 
+>>
+>> I don't think we have tcg tests for the prefix or mma instructions
+>> introduced in P10. That would be good to have.
+>>
+>> C.
+>>
+> 
+
 
