@@ -2,65 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633D66DBF9C
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:55:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E536DBF96
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:54:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plSfu-0000DV-Ju; Sun, 09 Apr 2023 06:53:34 -0400
+	id 1plSfz-0000F5-Me; Sun, 09 Apr 2023 06:53:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plSfo-0000A7-Kw; Sun, 09 Apr 2023 06:53:29 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plSfl-0002Xq-DK; Sun, 09 Apr 2023 06:53:27 -0400
-Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAAHHhYUmTJkVyANEA--.55439S9;
- Sun, 09 Apr 2023 18:53:13 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 7/7] target/riscv: Remove pc_succ_insn from DisasContext
-Date: Sun,  9 Apr 2023 18:53:06 +0800
-Message-Id: <20230409105306.28575-8-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
-References: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plSfu-0000Dg-Us
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 06:53:34 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plSfs-0002aW-KD
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 06:53:34 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 6ACBF4000C;
+ Sun,  9 Apr 2023 13:53:30 +0300 (MSK)
+Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with SMTP id A8E27DD;
+ Sun,  9 Apr 2023 13:53:29 +0300 (MSK)
+Received: (nullmailer pid 1273422 invoked by uid 1000);
+ Sun, 09 Apr 2023 10:53:29 -0000
+From: Michael Tokarev <mjt@tls.msk.ru>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH v4] linux-user: fix getgroups/setgroups allocations
+Date: Sun,  9 Apr 2023 13:53:27 +0300
+Message-Id: <20230409105327.1273372-1-mjt@msgid.tls.msk.ru>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAHHhYUmTJkVyANEA--.55439S9
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWxWFyfXw13CrWkJFWkZwb_yoW8Zr4xpF
- 48CrW7Kr98WFy3Cas5JF47XFy7Gw45GrW8Ww1q9ws3GF43Zws5CrWDGryYgF4kXFW09ryq
- yF4qyry5AF12kaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
- 1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j
- 6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7V
- C0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j
- 6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x0262
- 8vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
- ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
- WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
- OBTYUUUUU
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,53 +57,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-pc_succ_insn is no longer useful after the introduce of cur_insn_len
-and all pc related value use diff value instead of absolute value.
+linux-user getgroups(), setgroups(), getgroups32() and setgroups32()
+used alloca() to allocate grouplist arrays, with unchecked gidsetsize
+coming from the "guest".  With NGROUPS_MAX being 65536 (linux, and it
+is common for an application to allocate NGROUPS_MAX for getgroups()),
+this means a typical allocation is half the megabyte on the stack.
+Which just overflows stack, which leads to immediate SIGSEGV in actual
+system getgroups() implementation.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+An example of such issue is aptitude, eg
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=811087#72
+
+Cap gidsetsize to NGROUPS_MAX (return EINVAL if it is larger than that),
+and use heap allocation for grouplist instead of alloca().  While at it,
+fix coding style and make all 4 implementations identical.
+
+Try to not impose random limits - for example, allow gidsetsize to be
+negative for getgroups() - just do not allocate negative-sized grouplist
+in this case but still do actual getgroups() call.  But do not allow
+negative gidsetsize for setgroups() since its argument is unsigned.
+
+Capping by NGROUPS_MAX seems a bit arbitrary, - we can do more, it is
+not an error if set size will be NGROUPS_MAX+1. But we should not allow
+integer overflow for the array being allocated. Maybe it is enough to
+just call g_try_new() and return ENOMEM if it fails.
+
+Maybe there's also no need to convert setgroups() since this one is
+usually smaller and known beforehand (KERN_NGROUPS_MAX is actually 63, -
+this is apparently a kernel-imposed limit for runtime group set).
+
+The patch fixes aptitude segfault mentioned above.
+
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 ---
- target/riscv/translate.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+v4:
+ - the same ret-vs-gidsetsize fix in getgroups32.
+v3:
+ - fix a bug in getgroups(). In initial implementation I checked
+   for ret>0 in order to convert returned list of groups to target
+   byte order. But this clashes with unusual corner case for this
+   syscall: getgroups(0,NULL) return current number of groups in
+   the set, so this resulted in writing to *NULL. The right condition
+   here is gidsetsize>0:
+   -            if (!is_error(ret) && ret > 0) {
+   +            if (!is_error(ret) && gidsetsize > 0) {
+v2:
+ - remove g_free, use g_autofree annotations instead,
+ - a bit more coding style changes, makes checkpatch.pl happy
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 632e1cef59..d8899fcc4b 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1150,7 +1150,6 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-     /* Check for compressed insn */
-     if (ctx->cur_insn_len == 2) {
-         ctx->opcode = opcode;
--        ctx->pc_succ_insn = ctx->base.pc_next + 2;
-         if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
-             return;
+ linux-user/syscall.c | 99 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 68 insertions(+), 31 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 24b25759be..c532ee92c1 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11433,39 +11433,58 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             target_id *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+ 
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (gidsetsize > NGROUPS_MAX) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++            }
+             ret = get_errno(getgroups(gidsetsize, grouplist));
+-            if (gidsetsize == 0)
+-                return ret;
+-            if (!is_error(ret)) {
+-                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * sizeof(target_id), 0);
+-                if (!target_grouplist)
++            if (!is_error(ret) && gidsetsize > 0) {
++                target_grouplist = lock_user(VERIFY_WRITE, arg2,
++                                             gidsetsize * sizeof(target_id), 0);
++                if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+-                for(i = 0;i < ret; i++)
++                }
++                for (i = 0; i < ret; i++) {
+                     target_grouplist[i] = tswapid(high2lowgid(grouplist[i]));
+-                unlock_user(target_grouplist, arg2, gidsetsize * sizeof(target_id));
++                }
++                unlock_user(target_grouplist, arg2,
++                            gidsetsize * sizeof(target_id));
+             }
++            return ret;
          }
-@@ -1160,7 +1159,6 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-                              translator_lduw(env, &ctx->base,
-                                              ctx->base.pc_next + 2));
-         ctx->opcode = opcode32;
--        ctx->pc_succ_insn = ctx->base.pc_next + 4;
+-        return ret;
+     case TARGET_NR_setgroups:
+         {
+             int gidsetsize = arg1;
+             target_id *target_grouplist;
+-            gid_t *grouplist = NULL;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+-            if (gidsetsize) {
+-                grouplist = alloca(gidsetsize * sizeof(gid_t));
+-                target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * sizeof(target_id), 1);
++
++            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++                target_grouplist = lock_user(VERIFY_READ, arg2,
++                                             gidsetsize * sizeof(target_id), 1);
+                 if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+                 }
+                 for (i = 0; i < gidsetsize; i++) {
+                     grouplist[i] = low2highgid(tswapid(target_grouplist[i]));
+                 }
+-                unlock_user(target_grouplist, arg2, 0);
++                unlock_user(target_grouplist, arg2,
++                            gidsetsize * sizeof(target_id));
+             }
+             return get_errno(setgroups(gidsetsize, grouplist));
+         }
+@@ -11750,41 +11769,59 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             uint32_t *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
  
-         for (size_t i = 0; i < ARRAY_SIZE(decoders); ++i) {
-             if (decoders[i].guard_func(ctx) &&
-@@ -1181,7 +1179,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     uint32_t tb_flags = ctx->base.tb->flags;
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (gidsetsize > NGROUPS_MAX) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++            }
+             ret = get_errno(getgroups(gidsetsize, grouplist));
+-            if (gidsetsize == 0)
+-                return ret;
+-            if (!is_error(ret)) {
+-                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * 4, 0);
++            if (!is_error(ret) && gidsetsize > 0) {
++                target_grouplist = lock_user(VERIFY_WRITE, arg2,
++                                             gidsetsize * 4, 0);
+                 if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+                 }
+-                for(i = 0;i < ret; i++)
++                for (i = 0; i < ret; i++) {
+                     target_grouplist[i] = tswap32(grouplist[i]);
++                }
+                 unlock_user(target_grouplist, arg2, gidsetsize * 4);
+             }
++            return ret;
+         }
+-        return ret;
+ #endif
+ #ifdef TARGET_NR_setgroups32
+     case TARGET_NR_setgroups32:
+         {
+             int gidsetsize = arg1;
+             uint32_t *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
  
-     ctx->pc_save = ctx->base.pc_first;
--    ctx->pc_succ_insn = ctx->base.pc_first;
-     ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
-     ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
-     ctx->mstatus_vs = tb_flags & TB_FLAGS_MSTATUS_VS;
-@@ -1244,7 +1241,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
- 
-     ctx->ol = ctx->xl;
-     decode_opc(env, ctx, opcode16);
--    ctx->base.pc_next = ctx->pc_succ_insn;
-+    ctx->base.pc_next += ctx->cur_insn_len;
- 
-     /* Only the first insn within a TB is allowed to cross a page boundary. */
-     if (ctx->base.is_jmp == DISAS_NEXT) {
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
+-            target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * 4, 1);
+-            if (!target_grouplist) {
+-                return -TARGET_EFAULT;
++            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++                target_grouplist = lock_user(VERIFY_READ, arg2,
++                                             gidsetsize * 4, 1);
++                if (!target_grouplist) {
++                    return -TARGET_EFAULT;
++                }
++                for (i = 0; i < gidsetsize; i++) {
++                    grouplist[i] = tswap32(target_grouplist[i]);
++                }
++                unlock_user(target_grouplist, arg2, 0);
+             }
+-            for(i = 0;i < gidsetsize; i++)
+-                grouplist[i] = tswap32(target_grouplist[i]);
+-            unlock_user(target_grouplist, arg2, 0);
+             return get_errno(setgroups(gidsetsize, grouplist));
+         }
+ #endif
 -- 
-2.25.1
+2.30.2
 
 
