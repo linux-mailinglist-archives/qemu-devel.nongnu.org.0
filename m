@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED9E6DBF97
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81BD6DBFAA
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 13:33:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plSgd-0000jV-32; Sun, 09 Apr 2023 06:54:19 -0400
+	id 1plTGz-0004BV-11; Sun, 09 Apr 2023 07:31:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plSgb-0000hx-BQ
- for qemu-devel@nongnu.org; Sun, 09 Apr 2023 06:54:17 -0400
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plTGv-00049B-Rq
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 07:31:49 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plSgZ-0002f6-By
- for qemu-devel@nongnu.org; Sun, 09 Apr 2023 06:54:16 -0400
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plTGt-0002jc-LP
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 07:31:49 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id AEF294000C;
- Sun,  9 Apr 2023 13:54:14 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 579D84000C;
+ Sun,  9 Apr 2023 14:31:43 +0300 (MSK)
 Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 044C3DD;
- Sun,  9 Apr 2023 13:54:14 +0300 (MSK)
-Message-ID: <2f0fdd84-7469-9b63-7ecf-558c61d9c8a9@msgid.tls.msk.ru>
-Date: Sun, 9 Apr 2023 13:54:13 +0300
+ by tsrv.corpit.ru (Postfix) with ESMTP id 840B0DD;
+ Sun,  9 Apr 2023 14:31:42 +0300 (MSK)
+Message-ID: <ddeaf5a3-1d3d-d6ef-a523-29a67716fbc1@msgid.tls.msk.ru>
+Date: Sun, 9 Apr 2023 14:31:42 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v3] linux-user: fix getgroups/setgroups allocations
+Subject: Re: [PATCH] linux-user: ppoll: eliminate large alloca
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-References: <20230409104819.1273141-1-mjt@msgid.tls.msk.ru>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20221216192220.2881898-1-mjt@msgid.tls.msk.ru>
+ <6b04aaaf-75a1-6578-c975-148508656382@linaro.org>
 From: Michael Tokarev <mjt@tls.msk.ru>
-In-Reply-To: <20230409104819.1273141-1-mjt@msgid.tls.msk.ru>
+In-Reply-To: <6b04aaaf-75a1-6578-c975-148508656382@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
 X-Spam_score_int: -97
@@ -59,19 +60,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-09.04.2023 13:48, Michael Tokarev пишет:
->..
-> v3:
->   - fix a bug in getgroups(). In initial implementation I checked
->     for ret>0 in order to convert returned list of groups to target
->     byte order. But this clashes with unusual corner case for this
->     syscall: getgroups(0,NULL) return current number of groups in
->     the set, so this resulted in writing to *NULL. The right condition
->     here is gidsetsize>0:
->     -            if (!is_error(ret) && ret > 0) {
->     +            if (!is_error(ret) && gidsetsize > 0) {
+(Replying to an old(ish) email... original thread:
+https://patchwork.ozlabs.org/project/qemu-devel/patch/20221216192220.2881898-1-mjt@msgid.tls.msk.ru/ )
 
-The same fix is needed for getgroups32. v4 sent.
+16.12.2022 23:44, Richard Henderson wrote:
+> On 12/16/22 11:22, Michael Tokarev wrote:
+>> do_ppoll() in linux-user/syscall.c uses alloca() to
+>> allocate an array of struct pullfds on the stack.
+>> The only upper boundary for number of entries for this
+>> array is so that whole thing fits in INT_MAX. But this
+>> is definitely too much for a stack allocation.
+>>
+>> Use heap allocation when large number of entries
+>> is requested (currently 128, arbitrary), and continue
+>> to use alloca() for smaller allocations, to optimize
+>> small operations for small sizes.
+> 
+> I think it would be cleaner to always use heap allocation, and use g_autofree for the pointer.
+
+Yes it is cleaner to always use the same type of allocation.
+Does it really unnecessary to try to avoid heap allocations
+for small things? It costs not that much, but might speed
+some things up. Dunno how much it saves though.  Maybe it
+is from the "premature optimization" field :)
+
+Speaking of g_autofree, we already have to unlock_user anyway
+(which we forgot to call), - so it makes no difference
+between marking it as g_autofree or explicitly freeing it.
+
+Thanks,
 
 /mjt
 
