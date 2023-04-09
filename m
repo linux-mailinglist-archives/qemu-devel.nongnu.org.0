@@ -2,52 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AD26DBF55
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 11:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1976DBF8B
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:49:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plRAs-00025W-B9; Sun, 09 Apr 2023 05:17:26 -0400
+	id 1plSb2-0007cd-Fz; Sun, 09 Apr 2023 06:48:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plRAp-00025M-Ju
- for qemu-devel@nongnu.org; Sun, 09 Apr 2023 05:17:23 -0400
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plSaz-0007cR-PE
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 06:48:29 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plRAn-00029s-U0
- for qemu-devel@nongnu.org; Sun, 09 Apr 2023 05:17:23 -0400
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1plSax-0001cJ-6t
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 06:48:29 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 962884000C;
- Sun,  9 Apr 2023 12:17:18 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 0C40EDD;
- Sun,  9 Apr 2023 12:17:18 +0300 (MSK)
-Message-ID: <35050f16-8d20-3027-e41c-56ec32413883@msgid.tls.msk.ru>
-Date: Sun, 9 Apr 2023 12:17:17 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2] linux-user: fix getgroups/setgroups allocations
-Content-Language: en-US
+ by isrv.corpit.ru (Postfix) with ESMTP id B9E684000C;
+ Sun,  9 Apr 2023 13:48:22 +0300 (MSK)
+Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with SMTP id 0904CDD;
+ Sun,  9 Apr 2023 13:48:22 +0300 (MSK)
+Received: (nullmailer pid 1273191 invoked by uid 1000);
+ Sun, 09 Apr 2023 10:48:21 -0000
 From: Michael Tokarev <mjt@tls.msk.ru>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20221217093127.3085329-1-mjt@msgid.tls.msk.ru>
- <8ce38f3c-1f24-c3fb-bf49-deb265418163@vivier.eu>
- <3027627c-e8ce-c2fc-1ffe-85850968b131@vivier.eu>
- <128e1f17-b069-b45d-5b2a-1a2fceeabe27@linaro.org>
- <ab6d983a-1ff1-6555-2f28-e765277150c1@vivier.eu>
- <7a3beebe-5593-8fda-f8ec-7e08789da12f@tls.msk.ru>
-In-Reply-To: <7a3beebe-5593-8fda-f8ec-7e08789da12f@tls.msk.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: [PATCH v3] linux-user: fix getgroups/setgroups allocations
+Date: Sun,  9 Apr 2023 13:48:19 +0300
+Message-Id: <20230409104819.1273141-1-mjt@msgid.tls.msk.ru>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
  helo=isrv.corpit.ru
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.113,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,13 +55,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-09.04.2023 12:06, Michael Tokarev пишет:
-..
+linux-user getgroups(), setgroups(), getgroups32() and setgroups32()
+used alloca() to allocate grouplist arrays, with unchecked gidsetsize
+coming from the "guest".  With NGROUPS_MAX being 65536 (linux, and it
+is common for an application to allocate NGROUPS_MAX for getgroups()),
+this means a typical allocation is half the megabyte on the stack.
+Which just overflows stack, which leads to immediate SIGSEGV in actual
+system getgroups() implementation.
 
-> Laurent, can you describe what you're doing there in a bit more details please?
-> I'd love to fix this one.  Do you know which test is/was failing?
+An example of such issue is aptitude, eg
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=811087#72
 
-Oh, n/m, I found it: it's getgroups01 test in testcases/kernel/syscalls/getgroups/.
+Cap gidsetsize to NGROUPS_MAX (return EINVAL if it is larger than that),
+and use heap allocation for grouplist instead of alloca().  While at it,
+fix coding style and make all 4 implementations identical.
 
-/mjt
+Try to not impose random limits - for example, allow gidsetsize to be
+negative for getgroups() - just do not allocate negative-sized grouplist
+in this case but still do actual getgroups() call.  But do not allow
+negative gidsetsize for setgroups() since its argument is unsigned.
+
+Capping by NGROUPS_MAX seems a bit arbitrary, - we can do more, it is
+not an error if set size will be NGROUPS_MAX+1. But we should not allow
+integer overflow for the array being allocated. Maybe it is enough to
+just call g_try_new() and return ENOMEM if it fails.
+
+Maybe there's also no need to convert setgroups() since this one is
+usually smaller and known beforehand (KERN_NGROUPS_MAX is actually 63, -
+this is apparently a kernel-imposed limit for runtime group set).
+
+The patch fixes aptitude segfault mentioned above.
+
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+---
+v3:
+ - fix a bug in getgroups(). In initial implementation I checked
+   for ret>0 in order to convert returned list of groups to target
+   byte order. But this clashes with unusual corner case for this
+   syscall: getgroups(0,NULL) return current number of groups in
+   the set, so this resulted in writing to *NULL. The right condition
+   here is gidsetsize>0:
+   -            if (!is_error(ret) && ret > 0) {
+   +            if (!is_error(ret) && gidsetsize > 0) {
+v2:
+ - remove g_free, use g_autofree annotations instead,
+ - a bit more coding style changes, makes checkpatch.pl happy
+
+ linux-user/syscall.c | 99 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 68 insertions(+), 31 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 24b25759be..52020c5aed 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11433,39 +11433,58 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             target_id *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+ 
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (gidsetsize > NGROUPS_MAX) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++            }
+             ret = get_errno(getgroups(gidsetsize, grouplist));
+-            if (gidsetsize == 0)
+-                return ret;
+-            if (!is_error(ret)) {
+-                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * sizeof(target_id), 0);
+-                if (!target_grouplist)
++            if (!is_error(ret) && gidsetsize > 0) {
++                target_grouplist = lock_user(VERIFY_WRITE, arg2,
++                                             gidsetsize * sizeof(target_id), 0);
++                if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+-                for(i = 0;i < ret; i++)
++                }
++                for (i = 0; i < ret; i++) {
+                     target_grouplist[i] = tswapid(high2lowgid(grouplist[i]));
+-                unlock_user(target_grouplist, arg2, gidsetsize * sizeof(target_id));
++                }
++                unlock_user(target_grouplist, arg2,
++                            gidsetsize * sizeof(target_id));
+             }
++            return ret;
+         }
+-        return ret;
+     case TARGET_NR_setgroups:
+         {
+             int gidsetsize = arg1;
+             target_id *target_grouplist;
+-            gid_t *grouplist = NULL;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+-            if (gidsetsize) {
+-                grouplist = alloca(gidsetsize * sizeof(gid_t));
+-                target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * sizeof(target_id), 1);
++
++            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++                target_grouplist = lock_user(VERIFY_READ, arg2,
++                                             gidsetsize * sizeof(target_id), 1);
+                 if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+                 }
+                 for (i = 0; i < gidsetsize; i++) {
+                     grouplist[i] = low2highgid(tswapid(target_grouplist[i]));
+                 }
+-                unlock_user(target_grouplist, arg2, 0);
++                unlock_user(target_grouplist, arg2,
++                            gidsetsize * sizeof(target_id));
+             }
+             return get_errno(setgroups(gidsetsize, grouplist));
+         }
+@@ -11750,41 +11769,59 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             uint32_t *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+ 
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (gidsetsize > NGROUPS_MAX) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++            }
+             ret = get_errno(getgroups(gidsetsize, grouplist));
+-            if (gidsetsize == 0)
+-                return ret;
+-            if (!is_error(ret)) {
+-                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * 4, 0);
++            if (!is_error(ret) && ret > 0) {
++                target_grouplist = lock_user(VERIFY_WRITE, arg2,
++                                             gidsetsize * 4, 0);
+                 if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+                 }
+-                for(i = 0;i < ret; i++)
++                for (i = 0; i < ret; i++) {
+                     target_grouplist[i] = tswap32(grouplist[i]);
++                }
+                 unlock_user(target_grouplist, arg2, gidsetsize * 4);
+             }
++            return ret;
+         }
+-        return ret;
+ #endif
+ #ifdef TARGET_NR_setgroups32
+     case TARGET_NR_setgroups32:
+         {
+             int gidsetsize = arg1;
+             uint32_t *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+ 
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
+-            target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * 4, 1);
+-            if (!target_grouplist) {
+-                return -TARGET_EFAULT;
++            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
++                return -TARGET_EINVAL;
++            }
++            if (gidsetsize > 0) {
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
++                target_grouplist = lock_user(VERIFY_READ, arg2,
++                                             gidsetsize * 4, 1);
++                if (!target_grouplist) {
++                    return -TARGET_EFAULT;
++                }
++                for (i = 0; i < gidsetsize; i++) {
++                    grouplist[i] = tswap32(target_grouplist[i]);
++                }
++                unlock_user(target_grouplist, arg2, 0);
+             }
+-            for(i = 0;i < gidsetsize; i++)
+-                grouplist[i] = tswap32(target_grouplist[i]);
+-            unlock_user(target_grouplist, arg2, 0);
+             return get_errno(setgroups(gidsetsize, grouplist));
+         }
+ #endif
+-- 
+2.30.2
+
 
