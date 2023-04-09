@@ -2,88 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BF46DC0EC
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 20:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C6C6DC149
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 22:07:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plZTJ-0007bO-6C; Sun, 09 Apr 2023 14:09:01 -0400
+	id 1plbIP-0000vV-Pf; Sun, 09 Apr 2023 16:05:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plZTH-0007bC-Pw
- for qemu-devel@nongnu.org; Sun, 09 Apr 2023 14:08:59 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1plZTG-0007CA-4s
- for qemu-devel@nongnu.org; Sun, 09 Apr 2023 14:08:59 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- jx2-20020a17090b46c200b002469a9ff94aso887830pjb.3
- for <qemu-devel@nongnu.org>; Sun, 09 Apr 2023 11:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681063737;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+5AxvFijExpfEnefNRgM5Vj7cd3P3WCl3Vela4w4AGQ=;
- b=NuMNxdrqJ+5jDuKzz7tCuwdH0x5a79nZAoRkM4SJfdxAjX7QD96ramqo0AdaERoGwU
- Z99sr0c0WNwusC5mNA9MoqpoUUUtGldE02StYD+KL4NTeQtgmLnRtUP7YdOiVPF4st8h
- Hmj45iyczywIxIX37E24VinHrAcinvfhwjcwozm/yDtbdXNzNT776f2d6L11ix9LxNIO
- d33Fv04iKpDW+IUEEshoMqqTtOFW0B6Tz/wHDehkM4ULCEUqPkppYCHA62MTpflrUm6H
- hGTZcisi1gUEenSergzGgPagGin4y/wJ780HJbUW2ATqjWqIBZBbtqxvgaZhH/9b9cSa
- LGiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681063737;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+5AxvFijExpfEnefNRgM5Vj7cd3P3WCl3Vela4w4AGQ=;
- b=hY2Zm1Ym2BbZWw86IqkqVy8HQgz4OD0JIlCsVhxNmqQJ12fSOqeWE8ObC+O0cHhrqX
- XpQpbBMGNPTt0lGvOysElkVP/MIeGf/4vzglaG1llxojnzBo4dvQ36sGgkR73CYqSPC8
- 9fu3xR2n3Us0UWXIZp1Q3Bj/VEw9fQfnuov7RRdTyXeHChfYIpsYEJ/tdIgWq/1bKS0S
- DGLm6ZWo9e2BBz+yjNEHgiMHe2TBos3iBSvwZTMwAwbO73ASi4cghbbtOXwuU9EtIzko
- IIUeO7UL0d6IPLiLGAxjzsFwlQlSjWw0gpNZCgqHs6FrhCLBtILR/oRAru9vxh3fa4E2
- CJrQ==
-X-Gm-Message-State: AAQBX9fIIz8GFyGmx7wgKNDQMvOimtRQD1o2LZhLDuKQjsUCT8QEuPjI
- W4/O3OUKkqCdovYvGKQiVLQFYQ==
-X-Google-Smtp-Source: AKy350bEq8flFmylzk+5gSAzCEmaDVXnEboHfcdM1L5P+oB0Ja7HHKzLD2qlvYdTDVy0Ww3UPtcarw==
-X-Received: by 2002:a17:903:22c7:b0:1a1:dd3a:7509 with SMTP id
- y7-20020a17090322c700b001a1dd3a7509mr7750064plg.48.1681063736758; 
- Sun, 09 Apr 2023 11:08:56 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1541:f901:d714:12f0:3102:b5ae?
- ([2602:ae:1541:f901:d714:12f0:3102:b5ae])
- by smtp.gmail.com with ESMTPSA id
- b7-20020a170902b60700b0019cbabf127dsm6120578pls.182.2023.04.09.11.08.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 09 Apr 2023 11:08:56 -0700 (PDT)
-Message-ID: <68a80aab-4aa8-446c-c3cd-f756574c769f@linaro.org>
-Date: Sun, 9 Apr 2023 11:08:54 -0700
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1plbII-0000ub-1s; Sun, 09 Apr 2023 16:05:47 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1plbIG-0006UN-4J; Sun, 09 Apr 2023 16:05:45 -0400
+Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id 80C1EDA0498;
+ Sun,  9 Apr 2023 22:05:38 +0200 (CEST)
+Received: by qemu.weilnetz.de (Postfix, from userid 1000)
+ id C7F5F4668B2; Sun,  9 Apr 2023 22:05:37 +0200 (CEST)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH] hw/arm: Fix some typos in comments (most found by codespell)
+Date: Sun,  9 Apr 2023 22:05:25 +0200
+Message-Id: <20230409200526.1156456-1-sw@weilnetz.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH for-8.0 v2] target/ppc: Fix temp usage in gen_op_arith_modw
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Cc: danielhb413@gmail.com, david@gibson.dropbear.id.au, groug@kaod.org,
- qemu-ppc@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
- Anton Johansson <anjo@rev.ng>
-References: <20230408070547.3609447-1-richard.henderson@linaro.org>
- <606b0b02-a167-8cb1-db0f-119442d0aa16@kaod.org>
- <9bf63987-e868-d663-b8a4-e6a4f7ab0eba@linaro.org>
- <72e69d86-cf6c-a621-d2dc-42fc26cbe396@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <72e69d86-cf6c-a621-d2dc-42fc26cbe396@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.888,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,39 +52,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/9/23 10:29, Cédric Le Goater wrote:
-> On 4/9/23 18:21, Richard Henderson wrote:
->> On 4/8/23 14:24, Cédric Le Goater wrote:
->>> On 4/8/23 09:05, Richard Henderson wrote:
->>>> Fix a crash writing to 't3', which is now a constant.
->>>> Instead, write the result of the remu to 't1'.
->>>>
->>>> Fixes: 7058ff5231a ("target/ppc: Avoid tcg_const_* in translate.c")
->>>> Reported-by: Nicholas Piggin <npiggin@gmail.com>
->>>> Reviewed-by: Anton Johansson <anjo@rev.ng>
->>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>>
->>> Looks good:
->>>
->>>    https://gitlab.com/legoater/qemu/-/pipelines/831847446
->>>
->>> I have a PR ready for this same branch. If you want to me send,
->>> just tell.
->>
->> Yes, please.  Also, the comment above needs s/t1/t0/.  :-P
-> 
-> sure :)
-> 
-> Are you taking care of :
-> 
->    https://lore.kernel.org/r/20230408154316.3812709-1-richard.henderson@linaro.org
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+---
 
-Yes, I'll send that with two other tcg fixes.
+The patch does not change code and could also be applied for 8.0.
 
+ hw/arm/Kconfig            | 2 +-
+ hw/arm/exynos4210.c       | 4 ++--
+ hw/arm/musicpal.c         | 2 +-
+ hw/arm/omap1.c            | 2 +-
+ hw/arm/omap2.c            | 2 +-
+ hw/arm/virt-acpi-build.c  | 2 +-
+ hw/arm/virt.c             | 2 +-
+ hw/arm/xlnx-versal-virt.c | 2 +-
+ 8 files changed, 9 insertions(+), 9 deletions(-)
 
-r~
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index b5aed4aff5..db1105c717 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -126,7 +126,7 @@ config OLIMEX_STM32_H405
+ config NSERIES
+     bool
+     select OMAP
+-    select TMP105   # tempature sensor
++    select TMP105   # temperature sensor
+     select BLIZZARD # LCD/TV controller
+     select ONENAND
+     select TSC210X  # touchscreen/sensors/audio
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 6f2dda13f6..de39fb0ece 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -326,7 +326,7 @@ static int mapline_size(const int *mapline)
+ 
+ /*
+  * Initialize board IRQs.
+- * These IRQs contain splitted Int/External Combiner and External Gic IRQs.
++ * These IRQs contain split Int/External Combiner and External Gic IRQs.
+  */
+ static void exynos4210_init_board_irqs(Exynos4210State *s)
+ {
+@@ -744,7 +744,7 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+          * - SDMA
+          * - ADMA2
+          *
+-         * As this part of the Exynos4210 is not publically available,
++         * As this part of the Exynos4210 is not publicly available,
+          * we used the "HS-MMC Controller S3C2416X RISC Microprocessor"
+          * public datasheet which is very similar (implementing
+          * MMC Specification Version 4.0 being the only difference noted)
+diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+index c9010b2ffb..58f3d30c9b 100644
+--- a/hw/arm/musicpal.c
++++ b/hw/arm/musicpal.c
+@@ -100,7 +100,7 @@
+ #define MP_LCD_SPI_CMD          0x00104011
+ #define MP_LCD_SPI_INVALID      0x00000000
+ 
+-/* Commmands */
++/* Commands */
+ #define MP_LCD_INST_SETPAGE0    0xB0
+ /* ... */
+ #define MP_LCD_INST_SETPAGE7    0xB7
+diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
+index 559c066ce9..d5438156ee 100644
+--- a/hw/arm/omap1.c
++++ b/hw/arm/omap1.c
+@@ -4057,7 +4057,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegion *dram,
+     s->led[1] = omap_lpg_init(system_memory,
+                               0xfffbd800, omap_findclk(s, "clk32-kHz"));
+ 
+-    /* Register mappings not currenlty implemented:
++    /* Register mappings not currently implemented:
+      * MCSI2 Comm	fffb2000 - fffb27ff (not mapped on OMAP310)
+      * MCSI1 Bluetooth	fffb2800 - fffb2fff (not mapped on OMAP310)
+      * USB W2FC		fffb4000 - fffb47ff
+diff --git a/hw/arm/omap2.c b/hw/arm/omap2.c
+index 366d6af1b6..d5a2ae7af6 100644
+--- a/hw/arm/omap2.c
++++ b/hw/arm/omap2.c
+@@ -2523,7 +2523,7 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegion *sdram,
+                     omap_findclk(s, "func_96m_clk"),
+                     omap_findclk(s, "core_l4_iclk"));
+ 
+-    /* All register mappings (includin those not currenlty implemented):
++    /* All register mappings (including those not currently implemented):
+      * SystemControlMod	48000000 - 48000fff
+      * SystemControlL4	48001000 - 48001fff
+      * 32kHz Timer Mod	48004000 - 48004fff
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 4156111d49..4af0de8b24 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -694,7 +694,7 @@ static void build_append_gicr(GArray *table_data, uint64_t base, uint32_t size)
+     build_append_int_noprefix(table_data, 0xE, 1);  /* Type */
+     build_append_int_noprefix(table_data, 16, 1);   /* Length */
+     build_append_int_noprefix(table_data, 0, 2);    /* Reserved */
+-    /* Discovery Range Base Addres */
++    /* Discovery Range Base Address */
+     build_append_int_noprefix(table_data, base, 8);
+     build_append_int_noprefix(table_data, size, 4); /* Discovery Range Length */
+ }
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index ac626b3bef..4983f5fc93 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2052,7 +2052,7 @@ static void machvirt_init(MachineState *machine)
+         int pa_bits;
+ 
+         /*
+-         * Instanciate a temporary CPU object to find out about what
++         * Instantiate a temporary CPU object to find out about what
+          * we are about to deal with. Once this is done, get rid of
+          * the object.
+          */
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 37fc9b919c..668a9d65a4 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -659,7 +659,7 @@ static void versal_virt_init(MachineState *machine)
+     fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
+ 
+     /* Make the APU cpu address space visible to virtio and other
+-     * modules unaware of muliple address-spaces.  */
++     * modules unaware of multiple address-spaces.  */
+     memory_region_add_subregion_overlap(get_system_memory(),
+                                         0, &s->soc.fpd.apu.mr, 0);
+ 
+-- 
+2.39.2
 
 
