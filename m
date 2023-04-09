@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1EA6DBF98
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368B86DBF95
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:54:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plSfz-0000Fe-Q3; Sun, 09 Apr 2023 06:53:39 -0400
+	id 1plSfz-0000FD-Di; Sun, 09 Apr 2023 06:53:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plSfp-0000AR-Fe; Sun, 09 Apr 2023 06:53:29 -0400
+ id 1plSfp-0000AS-Gc; Sun, 09 Apr 2023 06:53:30 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plSfl-0002XS-Ff; Sun, 09 Apr 2023 06:53:28 -0400
+ id 1plSfl-0002Xa-Fv; Sun, 09 Apr 2023 06:53:29 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAAHHhYUmTJkVyANEA--.55439S4;
- Sun, 09 Apr 2023 18:53:10 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAAHHhYUmTJkVyANEA--.55439S5;
+ Sun, 09 Apr 2023 18:53:11 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,32 +26,32 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 2/7] target/riscv: Introduce cur_insn_len into DisasContext
-Date: Sun,  9 Apr 2023 18:53:01 +0800
-Message-Id: <20230409105306.28575-3-liweiwei@iscas.ac.cn>
+Subject: [PATCH 3/7] target/riscv: Change gen_goto_tb to work on displacements
+Date: Sun,  9 Apr 2023 18:53:02 +0800
+Message-Id: <20230409105306.28575-4-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
 References: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAHHhYUmTJkVyANEA--.55439S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrtry8GF15ur43Ar4rtw1xAFb_yoWkuFX_Cr
- 97WF4xu348ua4Ivr18Cr15JF10krykGw4rtan3KFWjkFyYg3y7uw1vqF93Cr15Crs5Xrnr
- Gwn7XryxCr1fCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbDxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
- 0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
- 8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
- jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
- kIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
- xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
- kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
- 6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
- CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOJPEUUUU
- U
+X-CM-TRANSID: zQCowAAHHhYUmTJkVyANEA--.55439S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFyruw1UtF4fArW7Xr43KFg_yoW8KFyxpF
+ 4Ikr47GFW5WFWrJa40gF4UJF13JF4agrW8K3s3twn5tF43JrWrAF4DKay3KF4UZFW8Xr1j
+ kF4qyF98ur47tFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUPY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+ x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+ 8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
+ JwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+ IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+ M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+ kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+ 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+ kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+ wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+ 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd8n5U
+ UUUU=
 X-Originating-IP: [180.175.29.170]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -76,38 +76,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use cur_insn_len to store the length of the current instruction to
-prepare for PC-relative translation.
+Reduce reliance on absolute value to prepare for PC-relative translation.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/translate.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+ target/riscv/translate.c                | 8 +++++---
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index cc72864d32..f9a2464287 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -171,7 +171,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+     } else {
+         tcg_gen_brcond_tl(cond, src1, src2, l);
+     }
+-    gen_goto_tb(ctx, 1, ctx->pc_succ_insn);
++    gen_goto_tb(ctx, 1, ctx->cur_insn_len);
+ 
+     gen_set_label(l); /* branch taken */
+ 
+@@ -182,7 +182,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+         gen_pc_plus_diff(target_pc, ctx, next_pc);
+         gen_exception_inst_addr_mis(ctx, target_pc);
+     } else {
+-        gen_goto_tb(ctx, 0, ctx->base.pc_next + a->imm);
++        gen_goto_tb(ctx, 0, a->imm);
+     }
+     ctx->base.is_jmp = DISAS_NORETURN;
+ 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 1c8eae86c5..eee13b1225 100644
+index eee13b1225..8c157d947e 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -59,6 +59,7 @@ typedef struct DisasContext {
-     DisasContextBase base;
-     /* pc_succ_insn points to the instruction following base.pc_next */
-     target_ulong pc_succ_insn;
-+    target_ulong cur_insn_len;
-     target_ulong priv_ver;
-     RISCVMXL misa_mxl_max;
-     RISCVMXL xl;
-@@ -1117,8 +1118,9 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-     };
+@@ -281,8 +281,10 @@ static void exit_tb(DisasContext *ctx)
+     tcg_gen_exit_tb(NULL, 0);
+ }
  
-     ctx->virt_inst_excp = false;
-+    ctx->cur_insn_len = insn_len(opcode);
-     /* Check for compressed insn */
--    if (insn_len(opcode) == 2) {
-+    if (ctx->cur_insn_len == 2) {
-         ctx->opcode = opcode;
-         ctx->pc_succ_insn = ctx->base.pc_next + 2;
-         if (has_ext(ctx, RVC) && decode_insn16(ctx, opcode)) {
+-static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
++static void gen_goto_tb(DisasContext *ctx, int n, target_long diff)
+ {
++    target_ulong dest = ctx->base.pc_next + diff;
++
+      /*
+       * Under itrigger, instruction executes one by one like singlestep,
+       * direct block chain benefits will be small.
+@@ -557,7 +559,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+     }
+ 
+     gen_set_gpri(ctx, rd, ctx->pc_succ_insn);
+-    gen_goto_tb(ctx, 0, ctx->base.pc_next + imm); /* must use this for safety */
++    gen_goto_tb(ctx, 0, imm); /* must use this for safety */
+     ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -1237,7 +1239,7 @@ static void riscv_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+ 
+     switch (ctx->base.is_jmp) {
+     case DISAS_TOO_MANY:
+-        gen_goto_tb(ctx, 0, ctx->base.pc_next);
++        gen_goto_tb(ctx, 0, 0);
+         break;
+     case DISAS_NORETURN:
+         break;
 -- 
 2.25.1
 
