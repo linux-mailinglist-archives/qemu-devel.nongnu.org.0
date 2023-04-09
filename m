@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E556DBF9A
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B4F6DBF94
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:53:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plSfy-0000Eu-44; Sun, 09 Apr 2023 06:53:38 -0400
+	id 1plSfv-0000Df-4u; Sun, 09 Apr 2023 06:53:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plSfp-0000AV-I0; Sun, 09 Apr 2023 06:53:30 -0400
+ id 1plSfo-0000A8-Kn; Sun, 09 Apr 2023 06:53:29 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plSfl-0002XV-Ec; Sun, 09 Apr 2023 06:53:28 -0400
+ id 1plSfk-0002Xt-Rb; Sun, 09 Apr 2023 06:53:27 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAAHHhYUmTJkVyANEA--.55439S6;
- Sun, 09 Apr 2023 18:53:11 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAAHHhYUmTJkVyANEA--.55439S7;
+ Sun, 09 Apr 2023 18:53:12 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -26,18 +26,18 @@ Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 4/7] target/riscv: Change gen_set_pc_imm to gen_update_pc
-Date: Sun,  9 Apr 2023 18:53:03 +0800
-Message-Id: <20230409105306.28575-5-liweiwei@iscas.ac.cn>
+Subject: [PATCH 5/7] target/riscv: Use true diff for gen_pc_plus_diff
+Date: Sun,  9 Apr 2023 18:53:04 +0800
+Message-Id: <20230409105306.28575-6-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
 References: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAHHhYUmTJkVyANEA--.55439S6
-X-Coremail-Antispam: 1UD129KBjvJXoW3AFWUCw4fGFWDZrWUXFy3twb_yoW7ur4Upr
- 4Fkr4xKryrXFyrA3WSqFsrAF13Ja15K3y0kwn2ywn3JF4av3yrCr4DKa1a9F1UXF48Zrn0
- kF4jyas8urW0gFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: zQCowAAHHhYUmTJkVyANEA--.55439S7
+X-Coremail-Antispam: 1UD129KBjvJXoWxurW8CrWUAFWxKw17Kw4rXwb_yoW5Wryxpr
+ WIkwsrurW5JFWFvayrGF4UZF15Jrs8K3y2kwn3twn7ta1ftrW5Zwn8t3y3KF4UWF93WryY
+ kFs0ya4jvw47XFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -48,7 +48,7 @@ X-Coremail-Antispam: 1UD129KBjvJXoW3AFWUCw4fGFWDZrWUXFy3twb_yoW7ur4Upr
  6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x0262
  8vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
  F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
- ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+ ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7Cj
  xVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxV
  WUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU
  OBTYUUUUU
@@ -76,147 +76,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reduce reliance on absolute values(by passing pc difference) to
-prepare for PC-relative translation.
+Reduce reliance on absolute values by using true pc difference for
+gen_pc_plus_diff() to prepare for PC-relative translation.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/insn_trans/trans_privileged.c.inc |  2 +-
- target/riscv/insn_trans/trans_rvi.c.inc        |  6 +++---
- target/riscv/insn_trans/trans_rvv.c.inc        |  4 ++--
- target/riscv/insn_trans/trans_rvzawrs.c.inc    |  2 +-
- target/riscv/insn_trans/trans_xthead.c.inc     |  2 +-
- target/riscv/translate.c                       | 10 +++++-----
- 6 files changed, 13 insertions(+), 13 deletions(-)
+ target/riscv/insn_trans/trans_rvi.c.inc |  6 ++----
+ target/riscv/translate.c                | 13 ++++++-------
+ 2 files changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-index 59501b2780..f45859ba1e 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -106,7 +106,7 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
- {
- #ifndef CONFIG_USER_ONLY
-     decode_save_opc(ctx);
--    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-+    gen_update_pc(ctx, ctx->cur_insn_len);
-     gen_helper_wfi(cpu_env);
-     return true;
- #else
 diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index f9a2464287..012534c883 100644
+index 012534c883..b77e6c4fb6 100644
 --- a/target/riscv/insn_trans/trans_rvi.c.inc
 +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -776,7 +776,7 @@ static bool trans_pause(DisasContext *ctx, arg_pause *a)
-      * PAUSE is a no-op in QEMU,
-      * end the TB and return to main loop
-      */
--    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-+    gen_update_pc(ctx, ctx->cur_insn_len);
-     exit_tb(ctx);
-     ctx->base.is_jmp = DISAS_NORETURN;
+@@ -158,7 +158,6 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+     TCGLabel *l = gen_new_label();
+     TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
+     TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
+-    target_ulong next_pc;
  
-@@ -800,7 +800,7 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
-      * FENCE_I is a no-op in QEMU,
-      * however we need to end the translation block
-      */
--    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-+    gen_update_pc(ctx, ctx->cur_insn_len);
-     exit_tb(ctx);
-     ctx->base.is_jmp = DISAS_NORETURN;
-     return true;
-@@ -811,7 +811,7 @@ static bool do_csr_post(DisasContext *ctx)
-     /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
-     decode_save_opc(ctx);
-     /* We may have changed important cpu state -- exit to main loop. */
--    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-+    gen_update_pc(ctx, ctx->cur_insn_len);
-     exit_tb(ctx);
-     ctx->base.is_jmp = DISAS_NORETURN;
-     return true;
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index f2e3d38515..fc666c113a 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -169,7 +169,7 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs1, TCGv s2)
-     gen_set_gpr(s, rd, dst);
-     mark_vs_dirty(s);
+     if (get_xl(ctx) == MXL_RV128) {
+         TCGv src1h = get_gprh(ctx, a->rs1);
+@@ -175,11 +174,10 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
  
--    gen_set_pc_imm(s, s->pc_succ_insn);
-+    gen_update_pc(s, s->cur_insn_len);
-     lookup_and_goto_ptr(s);
-     s->base.is_jmp = DISAS_NORETURN;
-     return true;
-@@ -188,7 +188,7 @@ static bool do_vsetivli(DisasContext *s, int rd, TCGv s1, TCGv s2)
-     gen_helper_vsetvl(dst, cpu_env, s1, s2);
-     gen_set_gpr(s, rd, dst);
-     mark_vs_dirty(s);
--    gen_set_pc_imm(s, s->pc_succ_insn);
-+    gen_update_pc(s, s->cur_insn_len);
-     lookup_and_goto_ptr(s);
-     s->base.is_jmp = DISAS_NORETURN;
+     gen_set_label(l); /* branch taken */
  
-diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc b/target/riscv/insn_trans/trans_rvzawrs.c.inc
-index 8254e7dfe2..32efbff4d5 100644
---- a/target/riscv/insn_trans/trans_rvzawrs.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc
-@@ -33,7 +33,7 @@ static bool trans_wrs(DisasContext *ctx)
-     /* Clear the load reservation  (if any).  */
-     tcg_gen_movi_tl(load_res, -1);
- 
--    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-+    gen_update_pc(ctx, ctx->cur_insn_len);
-     tcg_gen_exit_tb(NULL, 0);
-     ctx->base.is_jmp = DISAS_NORETURN;
- 
-diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/insn_trans/trans_xthead.c.inc
-index df504c3f2c..16b9a4b806 100644
---- a/target/riscv/insn_trans/trans_xthead.c.inc
-+++ b/target/riscv/insn_trans/trans_xthead.c.inc
-@@ -1011,7 +1011,7 @@ static void gen_th_sync_local(DisasContext *ctx)
-      * Emulate out-of-order barriers with pipeline flush
-      * by exiting the translation block.
-      */
--    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-+    gen_update_pc(ctx, ctx->cur_insn_len);
-     tcg_gen_exit_tb(NULL, 0);
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
+-    next_pc = ctx->base.pc_next + a->imm;
+-    if (!has_ext(ctx, RVC) && (next_pc & 0x3)) {
++    if (!has_ext(ctx, RVC) && (a->imm & 0x3)) {
+         /* misaligned */
+         TCGv target_pc = tcg_temp_new();
+-        gen_pc_plus_diff(target_pc, ctx, next_pc);
++        gen_pc_plus_diff(target_pc, ctx, a->imm);
+         gen_exception_inst_addr_mis(ctx, target_pc);
+     } else {
+         gen_goto_tb(ctx, 0, a->imm);
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 8c157d947e..db061064a6 100644
+index db061064a6..50a87d7367 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -232,14 +232,14 @@ static void gen_pc_plus_diff(TCGv target, DisasContext *ctx,
-     tcg_gen_movi_tl(target, dest);
+@@ -224,8 +224,10 @@ static void decode_save_opc(DisasContext *ctx)
  }
  
--static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
-+static void gen_update_pc(DisasContext *ctx, target_long diff)
+ static void gen_pc_plus_diff(TCGv target, DisasContext *ctx,
+-                             target_ulong dest)
++                             target_long diff)
  {
--    gen_pc_plus_diff(cpu_pc, ctx, dest);
-+    gen_pc_plus_diff(cpu_pc, ctx, ctx->base.pc_next + diff);
++    target_ulong dest = ctx->base.pc_next + diff;
++
+     if (get_xl(ctx) == MXL_RV32) {
+         dest = (int32_t)dest;
+     }
+@@ -234,7 +236,7 @@ static void gen_pc_plus_diff(TCGv target, DisasContext *ctx,
+ 
+ static void gen_update_pc(DisasContext *ctx, target_long diff)
+ {
+-    gen_pc_plus_diff(cpu_pc, ctx, ctx->base.pc_next + diff);
++    gen_pc_plus_diff(cpu_pc, ctx, diff);
  }
  
  static void generate_exception(DisasContext *ctx, int excp)
+@@ -545,14 +547,11 @@ static void gen_set_fpr_d(DisasContext *ctx, int reg_num, TCGv_i64 t)
+ 
+ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
  {
--    gen_set_pc_imm(ctx, ctx->base.pc_next);
-+    gen_update_pc(ctx, 0);
-     gen_helper_raise_exception(cpu_env, tcg_constant_i32(excp));
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
-@@ -291,10 +291,10 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_long diff)
-       */
-     if (translator_use_goto_tb(&ctx->base, dest) && !ctx->itrigger) {
-         tcg_gen_goto_tb(n);
--        gen_set_pc_imm(ctx, dest);
-+        gen_update_pc(ctx, diff);
-         tcg_gen_exit_tb(ctx->base.tb, n);
-     } else {
--        gen_set_pc_imm(ctx, dest);
-+        gen_update_pc(ctx, diff);
-         lookup_and_goto_ptr(ctx);
-     }
- }
+-    target_ulong next_pc;
+-
+     /* check misaligned: */
+-    next_pc = ctx->base.pc_next + imm;
+     if (!has_ext(ctx, RVC)) {
+-        if ((next_pc & 0x3) != 0) {
++        if ((imm & 0x3) != 0) {
+             TCGv target_pc = tcg_temp_new();
+-            gen_pc_plus_diff(target_pc, ctx, next_pc);
++            gen_pc_plus_diff(target_pc, ctx, imm);
+             gen_exception_inst_addr_mis(ctx, target_pc);
+             return;
+         }
 -- 
 2.25.1
 
