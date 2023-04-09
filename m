@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE34A6DBE49
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 04:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1374C6DBEB2
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 07:02:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plKbn-00082u-Kd; Sat, 08 Apr 2023 22:16:47 -0400
+	id 1plNAm-0003ja-JF; Sun, 09 Apr 2023 01:01:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1plKbl-00082f-Ia; Sat, 08 Apr 2023 22:16:45 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1plNAj-0003hy-Lh
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 01:01:02 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1plKbj-0007CK-Sn; Sat, 08 Apr 2023 22:16:45 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- h24-20020a17090a9c1800b002404be7920aso1513446pjp.5; 
- Sat, 08 Apr 2023 19:16:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1plNAd-0008Bx-V0
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 01:01:01 -0400
+Received: by mail-ej1-x631.google.com with SMTP id sg7so16974213ejc.9
+ for <qemu-devel@nongnu.org>; Sat, 08 Apr 2023 22:00:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681006601; x=1683598601;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7TnVBzbCReM+vOVNY8l2dG0DBHMhU6LYE1w3dfohFCs=;
- b=ViMFYgjjJlApO87Fj42ZiaNV0/xax+LornFnYQOLsn9sD/rpqR7BBYhYv/qJ2gQPT0
- SSs4CJz1pDm7l13o+wGNJHhuGEPGLjHdXVU6Bh6EdYIagSmWnc6IRSeq5RROkYOZ7frS
- /7FMX0A7MsmRTDaneaMfVN6l5Zwg4OamobNT4Sqp++4Ru6EE0zdswz9lEUrinE4Usn+/
- UxxwGli34wZwpYeVXqsMxiOHKUXUBKG3b5MIgLbJ9ggL4OfKt+ceNvueB7B2kfYi88pc
- BsHJfZI+tNhpFJPytlMnms+M6oSfDCgueq3NyJ1yqRA0XrHSveVOgmgNu3NB2O5/Y8oA
- ofFg==
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681016454;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=q58XBBYIFMh0zwY1x60q0iOmVZ6R/79z2AnAHuA5nvQ=;
+ b=kC4DBf2qhmkfIWdUEtpNOF/KN6unsZFcxKdilzyy7jcXt1vLZ5wufuslxMpjazfhXR
+ ufKmbNDdoCoyqerdqX6ksosXW+k0MF52yJ8MJRKMStmaQhZfQtI4i9CR0CU6GXfUWZpL
+ pXL/DAcc42aDfkJ8mwsrJeVUj5rdFImGkcFtbV07wrSC/AMnlh1DolRk59hYmKvrXb7v
+ Qp1pMnSLJEwsaMGGv5OW5IU9id2AURF3H6R/IXurLEqeK0/kl4/TIcd/2mB5qdFaAHGL
+ uXL4EgT7U1qWQSiwKMdrA3NWAHqcjdRu7K7bN3ivLZMiDlcLI18+ejturfMYaEkLezVd
+ 46rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681006601; x=1683598601;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=7TnVBzbCReM+vOVNY8l2dG0DBHMhU6LYE1w3dfohFCs=;
- b=nq/cCjXkRpwZEz5J9vt1WzDaFezA/4H5+I8SyJyl+rc2wEbgSF4VDRplzztATyyWAC
- 3556M/CLN05gP2EhU3GSvmpf5ZHXvlwjaPrZXqTgRS3n8ZK7y1JccjQt4sJ1gIRxsw5O
- Tz4iCvKOTqZDfO1Ck07LAHJmC3UThHvs3Vvot9BtHznBmA/l9QDB8CHkecfwylEqrC0S
- sIgf9ijg2DkMIeMbD9AcUssGiCYCrnj69lDSIynsPtPPApha92lCHcSpeRcqalfsMt4I
- +VGlAZH2CNtrHUpYj21SUeTGqpiptU7vanIUY69yYHq+GAiLcjno/l0bfCz6f48s/vaS
- GlxA==
-X-Gm-Message-State: AAQBX9csS45TAW/9FVRoNdzjdLx3TO/sKUgZC4XBN2SSKfKp1H+kiGfS
- bvo5RsygBUGqYXbj4Kjh0A4=
-X-Google-Smtp-Source: AKy350ZZDKIHYltOsbz6eNIUHt9dhxCxPhTw1FjfxV4juSyuSSTlzs+m2tWKGWzaW2cF9aRnD51AfA==
-X-Received: by 2002:a17:90b:1d88:b0:23d:2415:c9a9 with SMTP id
- pf8-20020a17090b1d8800b0023d2415c9a9mr8625819pjb.34.1681006601269; 
- Sat, 08 Apr 2023 19:16:41 -0700 (PDT)
-Received: from localhost ([203.59.189.25]) by smtp.gmail.com with ESMTPSA id
- ne2-20020a17090b374200b002342ccc8280sm4908438pjb.6.2023.04.08.19.16.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Apr 2023 19:16:40 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 09 Apr 2023 12:16:34 +1000
-Message-Id: <CRRV3SRW7H2U.14JIRTJFPXRSU@wheely>
-Cc: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>,
- <groug@kaod.org>, <qemu-ppc@nongnu.org>, "Anton Johansson" <anjo@rev.ng>
-Subject: Re: [PATCH for-8.0 v2] target/ppc: Fix temp usage in gen_op_arith_modw
-From: "Nicholas Piggin" <npiggin@gmail.com>
-To: =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, "Richard Henderson"
- <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>
-X-Mailer: aerc 0.14.0
-References: <20230408070547.3609447-1-richard.henderson@linaro.org>
- <606b0b02-a167-8cb1-db0f-119442d0aa16@kaod.org>
-In-Reply-To: <606b0b02-a167-8cb1-db0f-119442d0aa16@kaod.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ d=1e100.net; s=20210112; t=1681016454;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=q58XBBYIFMh0zwY1x60q0iOmVZ6R/79z2AnAHuA5nvQ=;
+ b=oqOGgX/N4geC7rbO5FkGB8v5Jd7uESH46NwcKQuwbPbNBAJeZ7KvzQeyNFYYNUiRKP
+ A7DfXYfwQgKKkhagCe4fHxsHPRfGw/DwCts55WUx+oS+KxoNof6L7rXfPIi56F+TNXuF
+ dV9ytu8r111WrjMa4tr4W+eZa3rwK0j5ApQdwmv74Fsf733Rn4ICbv0Fmd/OEQuqrLJa
+ ovL9+t3tmpXniGbm8nP0JXQl1m9RYYXpd8NpGEGMc95p56CPaZlUXWV5tPQxtiOOzNxc
+ Ctcb+v4yEmszWQO0anz2I80tC4kB0xKL4fTvepnX9eplrOJprRmStwLTP1RgTVsMa0Nj
+ yHtQ==
+X-Gm-Message-State: AAQBX9cofHtNN0F9WNzDshRr0H+KgMfWj0zzu4DyvQzBrAjSOlQPnVV6
+ nJvX/bl5KC0UdexAMX7Wqf7xcssS4mgh8A3b/1axpw==
+X-Google-Smtp-Source: AKy350YfpRew6z+9V+qMT8cEAXYEG/G2VSn99ACqhPhEGm8AAvPPhUK1leq4yCpfQYVYTnwJPvJWmN5ACEfzQ460aAA=
+X-Received: by 2002:a17:906:4a88:b0:931:6921:bdbb with SMTP id
+ x8-20020a1709064a8800b009316921bdbbmr1512421eju.2.1681016453805; Sat, 08 Apr
+ 2023 22:00:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230405213612.15942-1-imp@bsdimp.com>
+ <20230405213612.15942-15-imp@bsdimp.com>
+ <ec3175a6-e793-9ad0-3afc-15db35281385@linaro.org>
+In-Reply-To: <ec3175a6-e793-9ad0-3afc-15db35281385@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sat, 8 Apr 2023 23:00:46 -0600
+Message-ID: <CANCZdfpoO_bSn6BObQT+Dy=cON_MBFODGQU3OjHyzgu1bggt+w@mail.gmail.com>
+Subject: Re: [PATCH 14/16] bsd-user: Implment core dumps
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, reinoud@netbsd.org, riastradh@netbsd.org, 
+ ryoon@netbsd.org, jrtc27@jrtc27.com, kevans@freebsd.org, 
+ Brad Smith <brad@comstyle.com>, Stacey Son <sson@freebsd.org>,
+ Ed Schouten <ed@nuxi.nl>
+Content-Type: multipart/alternative; boundary="000000000000974a7f05f8e0241d"
+Received-SPF: none client-ip=2a00:1450:4864:20::631;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,41 +85,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun Apr 9, 2023 at 7:24 AM AEST, C=C3=A9dric Le Goater wrote:
-> On 4/8/23 09:05, Richard Henderson wrote:
-> > Fix a crash writing to 't3', which is now a constant.
-> > Instead, write the result of the remu to 't1'.
-> >=20
-> > Fixes: 7058ff5231a ("target/ppc: Avoid tcg_const_* in translate.c")
-> > Reported-by: Nicholas Piggin <npiggin@gmail.com>
-> > Reviewed-by: Anton Johansson <anjo@rev.ng>
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+--000000000000974a7f05f8e0241d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Apr 8, 2023 at 1:15=E2=80=AFPM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 4/5/23 14:36, Warner Losh wrote:
+> > From: Stacey Son <sson@FreeBSD.org>
+> >
+> > Bring in the code that was originally copied from linxu-user/elfload.c
+> > and moved to elfcore.c. This code then removed the Linux specific bits,
+> > replacing them with FreeBSD specific bits. The commit history for this
+> > is not at all what we'd like (it was done in one go by sson in
+> > 227070562fc in one commit, with very few followup tweaks). Since the
+> > original commit, this code has been moved, and updated by sson and ed
+> > slightly. That makes it hard to split into smaller commits.
+> >
+> > Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> > Signed-off-by: Ed Schouten <ed@nuxi.nl>
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >   bsd-user/elfcore.c | 1318 +++++++++++++++++++++++++++++++++++++++++++=
+-
+> >   1 file changed, 1315 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/bsd-user/elfcore.c b/bsd-user/elfcore.c
+> > index c49d9280e2d..2905f2b8414 100644
+> > --- a/bsd-user/elfcore.c
+> > +++ b/bsd-user/elfcore.c
+> > @@ -1,10 +1,1322 @@
+> > -/* Stubbed out version of core dump support, explicitly in public
+> domain */
+> > +/*
+> > + *  ELF loading code
+> > + *
+> > + *  Copyright (c) 2015 Stacey D. Son
+> > + *
+> > + *  This program is free software; you can redistribute it and/or modi=
+fy
+> > + *  it under the terms of the GNU General Public License as published =
+by
+> > + *  the Free Software Foundation; either version 2 of the License, or
+> > + *  (at your option) any later version.
+> > + *
+> > + *  This program is distributed in the hope that it will be useful,
+> > + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > + *  GNU General Public License for more details.
+> > + *
+> > + *  You should have received a copy of the GNU General Public License
+> > + *  along with this program; if not, see <http://www.gnu.org/licenses/
+> >.
+> > + */
+> > +#include "qemu/osdep.h"
+> >
+> > -static int elf_core_dump(int signr, CPUArchState *env)
+> > +#ifdef USE_ELF_CORE_DUMP
 >
-> Looks good:
+> Would this ever be unset?
 >
->    https://gitlab.com/legoater/qemu/-/pipelines/831847446
+
+I was sure that some architectures didn't use this. However, they all have
+them, so I'll
+remove it.
+
+
+> Typo in subject.
 >
-> I have a PR ready for this same branch. If you want to me send,
-> just tell.
 
-Thanks Richard and Cedric. LGTM.
+Doh! Yes. Thanks.
 
-> I don't think we have tcg tests for the prefix or mma instructions
-> introduced in P10. That would be good to have.
 
-I agree, we need to do a bit better on ppc.
+> I'm not going to review this one line by line, but
+>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+>
 
-I'm trying to get a handle on all the tests we have for these things,
-I haven't looked too closely before. kvm-unit-tests actually works
-well for TCG and I did find some (system level) prefix issues with it.
-I don't know if that's the right place to focus on instruction level
-testing though. QEMU's tcg tests sounds like a better place for it,
-but is it only for userspace tests? There are also some verification
-tests people are using for verifying hardware cores.
+I've looked at this at a high level, and it seems legit...  But it is a bit
+daunting... And for a 'debug' feature,
+I'm OK with 'working and looks OK'... If it were more central, I'd worry
+more about it, but we still have
+about 20k lines to upstream and I'd rather more of them be looked at than
+this if push comes to shove....
 
-Seems like a common upstream project that others can use might be
-useful.
+Warner
 
-Thanks,
-Nick
+
+> r~
+>
+
+--000000000000974a7f05f8e0241d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Apr 8, 2023 at 1:15=E2=80=AFP=
+M Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">ric=
+hard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On 4/5/23 14:36, Warner Losh wrote:<br>
+&gt; From: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
+&gt; <br>
+&gt; Bring in the code that was originally copied from linxu-user/elfload.c=
+<br>
+&gt; and moved to elfcore.c. This code then removed the Linux specific bits=
+,<br>
+&gt; replacing them with FreeBSD specific bits. The commit history for this=
+<br>
+&gt; is not at all what we&#39;d like (it was done in one go by sson in<br>
+&gt; 227070562fc in one commit, with very few followup tweaks). Since the<b=
+r>
+&gt; original commit, this code has been moved, and updated by sson and ed<=
+br>
+&gt; slightly. That makes it hard to split into smaller commits.<br>
+&gt; <br>
+&gt; Signed-off-by: Stacey Son &lt;sson@FreeBSD.org&gt;<br>
+&gt; Signed-off-by: Ed Schouten &lt;<a href=3D"mailto:ed@nuxi.nl" target=3D=
+"_blank">ed@nuxi.nl</a>&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0bsd-user/elfcore.c | 1318 ++++++++++++++++++++++++++++++++=
++++++++++++-<br>
+&gt;=C2=A0 =C2=A01 file changed, 1315 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/bsd-user/elfcore.c b/bsd-user/elfcore.c<br>
+&gt; index c49d9280e2d..2905f2b8414 100644<br>
+&gt; --- a/bsd-user/elfcore.c<br>
+&gt; +++ b/bsd-user/elfcore.c<br>
+&gt; @@ -1,10 +1,1322 @@<br>
+&gt; -/* Stubbed out version of core dump support, explicitly in public dom=
+ain */<br>
+&gt; +/*<br>
+&gt; + *=C2=A0 ELF loading code<br>
+&gt; + *<br>
+&gt; + *=C2=A0 Copyright (c) 2015 Stacey D. Son<br>
+&gt; + *<br>
+&gt; + *=C2=A0 This program is free software; you can redistribute it and/o=
+r modify<br>
+&gt; + *=C2=A0 it under the terms of the GNU General Public License as publ=
+ished by<br>
+&gt; + *=C2=A0 the Free Software Foundation; either version 2 of the Licens=
+e, or<br>
+&gt; + *=C2=A0 (at your option) any later version.<br>
+&gt; + *<br>
+&gt; + *=C2=A0 This program is distributed in the hope that it will be usef=
+ul,<br>
+&gt; + *=C2=A0 but WITHOUT ANY WARRANTY; without even the implied warranty =
+of<br>
+&gt; + *=C2=A0 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 S=
+ee the<br>
+&gt; + *=C2=A0 GNU General Public License for more details.<br>
+&gt; + *<br>
+&gt; + *=C2=A0 You should have received a copy of the GNU General Public Li=
+cense<br>
+&gt; + *=C2=A0 along with this program; if not, see &lt;<a href=3D"http://w=
+ww.gnu.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.o=
+rg/licenses/</a>&gt;.<br>
+&gt; + */<br>
+&gt; +#include &quot;qemu/osdep.h&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -static int elf_core_dump(int signr, CPUArchState *env)<br>
+&gt; +#ifdef USE_ELF_CORE_DUMP<br>
+<br>
+Would this ever be unset?<br></blockquote><div><br></div><div>I was sure th=
+at some architectures didn&#39;t use this. However, they all have them, so =
+I&#39;ll</div><div>remove it.<br></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+Typo in subject.<br></blockquote><div><br></div><div>Doh! Yes. Thanks.<br><=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+I&#39;m not going to review this one line by line, but<br>
+<br>
+Acked-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.=
+org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockquote=
+><div><br></div><div>I&#39;ve looked at this at a high level, and it seems =
+legit...=C2=A0 But it is a bit daunting... And for a &#39;debug&#39; featur=
+e,</div><div>I&#39;m OK with &#39;working and looks OK&#39;... If it were m=
+ore central, I&#39;d worry more about it, but we still have</div><div>about=
+ 20k lines to upstream and I&#39;d rather more of them be looked at than th=
+is if push comes to shove....<br></div><div><br></div><div>Warner <br></div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+r~<br>
+</blockquote></div></div>
+
+--000000000000974a7f05f8e0241d--
 
