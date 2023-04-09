@@ -2,43 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B88C6DC15F
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 22:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C611A6DC182
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 23:25:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plbV5-0003cf-DX; Sun, 09 Apr 2023 16:18:59 -0400
+	id 1plcWC-00044Y-7U; Sun, 09 Apr 2023 17:24:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1plbV3-0003cT-TT; Sun, 09 Apr 2023 16:18:57 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <SRS0=exYW=AA=kaod.org=clg@ozlabs.org>)
+ id 1plcWA-00044C-Bg
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 17:24:10 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1plbV2-0008Lv-5u; Sun, 09 Apr 2023 16:18:57 -0400
-Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id 9A237DA0498;
- Sun,  9 Apr 2023 22:18:54 +0200 (CEST)
-Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id 6A3B84668B2; Sun,  9 Apr 2023 22:18:54 +0200 (CEST)
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH for-8.0] docs/cxl: Fix sentence
-Date: Sun,  9 Apr 2023 22:18:28 +0200
-Message-Id: <20230409201828.1159568-1-sw@weilnetz.de>
+ (Exim 4.90_1) (envelope-from <SRS0=exYW=AA=kaod.org=clg@ozlabs.org>)
+ id 1plcW8-0005Ke-3C
+ for qemu-devel@nongnu.org; Sun, 09 Apr 2023 17:24:10 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PvlTl12pfz4xG6;
+ Mon, 10 Apr 2023 07:23:55 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PvlTj3XmPz4xFv;
+ Mon, 10 Apr 2023 07:23:52 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 0/1] ppc queue
+Date: Sun,  9 Apr 2023 23:23:46 +0200
+Message-Id: <20230409212347.16028-1-clg@kaod.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=SRS0=exYW=AA=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -51,37 +60,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
----
+The following changes since commit c6f3cbca32bde9ee94d9949aa63e8a7ef2d7bc5b:
 
-If my change is okay I suggest to apply the patch for 8.0
-because it fixes documentation.
+  Update version for v8.0.0-rc3 release (2023-04-05 17:26:14 +0100)
 
-Regards,
-Stefan W.
+are available in the Git repository at:
 
- docs/system/devices/cxl.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  https://github.com/legoater/qemu/ tags/pull-ppc-20230409
 
-diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-index f25783a4ec..4c38223069 100644
---- a/docs/system/devices/cxl.rst
-+++ b/docs/system/devices/cxl.rst
-@@ -111,7 +111,7 @@ Interfaces provided include:
- 
- CXL Root Ports (CXL RP)
- ~~~~~~~~~~~~~~~~~~~~~~~
--A CXL Root Port servers te same purpose as a PCIe Root Port.
-+A CXL Root Port serves the same purpose as a PCIe Root Port.
- There are a number of CXL specific Designated Vendor Specific
- Extended Capabilities (DVSEC) in PCIe Configuration Space
- and associated component register access via PCI bars.
--- 
-2.39.2
+for you to fetch changes up to a253231fbede6e69bf287afd90f67347a7383aab:
 
+  target/ppc: Fix temp usage in gen_op_arith_modw (2023-04-09 19:21:27 +0200)
+
+----------------------------------------------------------------
+ppc queue:
+
+* Fix regresion with prefix instructions and pcrel addressing
+
+----------------------------------------------------------------
+Richard Henderson (1):
+      target/ppc: Fix temp usage in gen_op_arith_modw
+
+ target/ppc/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
