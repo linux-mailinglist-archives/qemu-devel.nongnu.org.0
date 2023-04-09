@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2168D6DBF9E
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77ED6DBF9B
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Apr 2023 12:55:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plSfx-0000El-O6; Sun, 09 Apr 2023 06:53:37 -0400
+	id 1plSfv-0000Di-BQ; Sun, 09 Apr 2023 06:53:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plSfp-0000AU-GH; Sun, 09 Apr 2023 06:53:30 -0400
+ id 1plSfp-0000AT-Gg; Sun, 09 Apr 2023 06:53:30 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plSfl-0002XQ-EE; Sun, 09 Apr 2023 06:53:28 -0400
+ id 1plSfl-0002Xe-EX; Sun, 09 Apr 2023 06:53:28 -0400
 Received: from localhost.localdomain (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowAAHHhYUmTJkVyANEA--.55439S2;
- Sun, 09 Apr 2023 18:53:09 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAAHHhYUmTJkVyANEA--.55439S3;
+ Sun, 09 Apr 2023 18:53:10 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH 0/7] target/riscv: Add support for PC-relative translation
-Date: Sun,  9 Apr 2023 18:52:59 +0800
-Message-Id: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
+ Weiwei Li <liweiwei@iscas.ac.cn>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 1/7] target/riscv: Fix target address to update badaddr
+Date: Sun,  9 Apr 2023 18:53:00 +0800
+Message-Id: <20230409105306.28575-2-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
+References: <20230409105306.28575-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAAHHhYUmTJkVyANEA--.55439S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7urykWF4ftw4fGr48XrW5Jrb_yoW8Gr45pr
- WrK3yxCrZ8trWfAw4fXF4DAry5GF4rWrWkA3Z2ywn3Jw4YyrW5Jr9rK34fKrsrJFy8Xr1q
- k3WUCw43ur45ArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
- 628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
- 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
- GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
- CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
- 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUb
- XdbUUUUUU==
+X-CM-TRANSID: zQCowAAHHhYUmTJkVyANEA--.55439S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxurykJF4kGrWxJw15Kr1rJFb_yoWrKF1kpF
+ 13Cw17urWDJFZIvay0ga1jkF15Gr4SgrWUKw4Skwn5Ka13trW5CrnrtayakFyj9FZ5Xr4Y
+ 9FZ8AF1j9w4jqa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUP014x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+ x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+ ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+ M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+ v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+ F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
+ IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+ wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
+ 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+ xVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+ 1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbec_DUU
+ UUU==
 X-Originating-IP: [180.175.29.170]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -73,37 +77,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patchset tries to add support for PC-relative translation.
+Compute the target address before storing it into badaddr
+when mis-aligned exception is triggered.
+Use a target_pc temp to store the target address to avoid
+the confusing operation that udpate target address into
+cpu_pc before misalign check, then update it into badaddr
+and restore cpu_pc to current pc if exception is triggered.
 
-The existence of CF_PCREL can improve performance with the guest
-kernel's address space randomization.  Each guest process maps libc.so
-(et al) at a different virtual address, and this allows those
-translations to be shared.
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/insn_trans/trans_rvi.c.inc | 23 ++++++++++++++++-------
+ target/riscv/translate.c                | 21 ++++++++++-----------
+ 2 files changed, 26 insertions(+), 18 deletions(-)
 
-And support of PC-relative translation is the precondition to support
-pointer mask for instruction.
-
-The port is available here:
-https://github.com/plctlab/plct-qemu/tree/plct-pcrel-upstream
-
-Weiwei Li (7):
-  target/riscv: Fix target address to update badaddr
-  target/riscv: Introduce cur_insn_len into DisasContext
-  target/riscv: Change gen_goto_tb to work on displacements
-  target/riscv: Change gen_set_pc_imm to gen_update_pc
-  target/riscv: Use true diff for gen_pc_plus_diff
-  target/riscv: Enable PC-relative translation
-  target/riscv: Remove pc_succ_insn from DisasContext
-
- target/riscv/cpu.c                            | 31 +++++--
- .../riscv/insn_trans/trans_privileged.c.inc   |  2 +-
- target/riscv/insn_trans/trans_rvi.c.inc       | 43 ++++++---
- target/riscv/insn_trans/trans_rvv.c.inc       |  4 +-
- target/riscv/insn_trans/trans_rvzawrs.c.inc   |  2 +-
- target/riscv/insn_trans/trans_xthead.c.inc    |  2 +-
- target/riscv/translate.c                      | 92 +++++++++++++------
- 7 files changed, 117 insertions(+), 59 deletions(-)
-
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index 4ad54e8a49..cc72864d32 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -51,25 +51,30 @@ static bool trans_jal(DisasContext *ctx, arg_jal *a)
+ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+ {
+     TCGLabel *misaligned = NULL;
++    TCGv target_pc = tcg_temp_new();
+ 
+-    tcg_gen_addi_tl(cpu_pc, get_gpr(ctx, a->rs1, EXT_NONE), a->imm);
+-    tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
++    tcg_gen_addi_tl(target_pc, get_gpr(ctx, a->rs1, EXT_NONE), a->imm);
++    tcg_gen_andi_tl(target_pc, target_pc, (target_ulong)-2);
++
++    if (get_xl(ctx) == MXL_RV32) {
++        tcg_gen_ext32s_tl(target_pc, target_pc);
++    }
+ 
+-    gen_set_pc(ctx, cpu_pc);
+     if (!has_ext(ctx, RVC)) {
+         TCGv t0 = tcg_temp_new();
+ 
+         misaligned = gen_new_label();
+-        tcg_gen_andi_tl(t0, cpu_pc, 0x2);
++        tcg_gen_andi_tl(t0, target_pc, 0x2);
+         tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
+     }
+ 
+     gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
++    tcg_gen_mov_tl(cpu_pc, target_pc);
+     lookup_and_goto_ptr(ctx);
+ 
+     if (misaligned) {
+         gen_set_label(misaligned);
+-        gen_exception_inst_addr_mis(ctx);
++        gen_exception_inst_addr_mis(ctx, target_pc);
+     }
+     ctx->base.is_jmp = DISAS_NORETURN;
+ 
+@@ -153,6 +158,7 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+     TCGLabel *l = gen_new_label();
+     TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
+     TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
++    target_ulong next_pc;
+ 
+     if (get_xl(ctx) == MXL_RV128) {
+         TCGv src1h = get_gprh(ctx, a->rs1);
+@@ -169,9 +175,12 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+ 
+     gen_set_label(l); /* branch taken */
+ 
+-    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
++    next_pc = ctx->base.pc_next + a->imm;
++    if (!has_ext(ctx, RVC) && (next_pc & 0x3)) {
+         /* misaligned */
+-        gen_exception_inst_addr_mis(ctx);
++        TCGv target_pc = tcg_temp_new();
++        gen_pc_plus_diff(target_pc, ctx, next_pc);
++        gen_exception_inst_addr_mis(ctx, target_pc);
+     } else {
+         gen_goto_tb(ctx, 0, ctx->base.pc_next + a->imm);
+     }
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 0ee8ee147d..1c8eae86c5 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -222,21 +222,18 @@ static void decode_save_opc(DisasContext *ctx)
+     ctx->insn_start = NULL;
+ }
+ 
+-static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
++static void gen_pc_plus_diff(TCGv target, DisasContext *ctx,
++                             target_ulong dest)
+ {
+     if (get_xl(ctx) == MXL_RV32) {
+         dest = (int32_t)dest;
+     }
+-    tcg_gen_movi_tl(cpu_pc, dest);
++    tcg_gen_movi_tl(target, dest);
+ }
+ 
+-static void gen_set_pc(DisasContext *ctx, TCGv dest)
++static void gen_set_pc_imm(DisasContext *ctx, target_ulong dest)
+ {
+-    if (get_xl(ctx) == MXL_RV32) {
+-        tcg_gen_ext32s_tl(cpu_pc, dest);
+-    } else {
+-        tcg_gen_mov_tl(cpu_pc, dest);
+-    }
++    gen_pc_plus_diff(cpu_pc, ctx, dest);
+ }
+ 
+ static void generate_exception(DisasContext *ctx, int excp)
+@@ -257,9 +254,9 @@ static void gen_exception_illegal(DisasContext *ctx)
+     }
+ }
+ 
+-static void gen_exception_inst_addr_mis(DisasContext *ctx)
++static void gen_exception_inst_addr_mis(DisasContext *ctx, TCGv target)
+ {
+-    tcg_gen_st_tl(cpu_pc, cpu_env, offsetof(CPURISCVState, badaddr));
++    tcg_gen_st_tl(target, cpu_env, offsetof(CPURISCVState, badaddr));
+     generate_exception(ctx, RISCV_EXCP_INST_ADDR_MIS);
+ }
+ 
+@@ -551,7 +548,9 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+     next_pc = ctx->base.pc_next + imm;
+     if (!has_ext(ctx, RVC)) {
+         if ((next_pc & 0x3) != 0) {
+-            gen_exception_inst_addr_mis(ctx);
++            TCGv target_pc = tcg_temp_new();
++            gen_pc_plus_diff(target_pc, ctx, next_pc);
++            gen_exception_inst_addr_mis(ctx, target_pc);
+             return;
+         }
+     }
 -- 
 2.25.1
 
