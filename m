@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03ED46DCA1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 19:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFA66DCA34
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 19:50:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plvVk-0007vZ-FY; Mon, 10 Apr 2023 13:41:00 -0400
+	id 1plvdB-0000um-V5; Mon, 10 Apr 2023 13:48:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <morbidrsa@gmail.com>)
- id 1plvVY-0007vO-48
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 13:40:48 -0400
-Received: from mail-wm1-f51.google.com ([209.85.128.51])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <morbidrsa@gmail.com>)
- id 1plvVW-0000XU-6D
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 13:40:47 -0400
-Received: by mail-wm1-f51.google.com with SMTP id
- gw11-20020a05600c850b00b003f07d305b32so4101215wmb.4
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 10:40:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681148443;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a5i58Hb9p6+TuRBaiKmm6hJk2nYTdJ8C4Hjw8Hr76D0=;
- b=WqpYQyvwkJIrAV8gjhaFwp55HH077Mvt+qz+HVcSiBxyIiwtfOcv+Nt/IeHnxLBu7s
- QrIC3YJNpL0Ku1vEPf+nSIxzZYhmJjGcq+xAmTpNVInyBIX6N1Bd57DbhLCDqSWX3Nig
- q0IyTynq2WvPNyEyBxPvVEXJNNauX7nHCPwK8P18NokdL9JB+HdBNcAMQ+LcTpmXAhoU
- xutsTORw4D9PV8uS+W/e8/Ifn4nBK9nuMiblIjUc/+5L9hunyj3gaPDdtGLyZd3/TxJR
- s2UvMwSo0OugdEA4dFqL3f5GB0dpEhbxDtulXdK7L+jVPd6u7munKYnl4W7aU5GCjs9A
- C3gA==
-X-Gm-Message-State: AAQBX9ep34ArHYhWktMuKndJ9ebi3gdQlxmsKRXf08oY9HIIEu/Bs9fy
- fX2C1cd8DY7TfdvgUE8nrS0=
-X-Google-Smtp-Source: AKy350ZP5flHBVnd9vtXlgHZywc1LFkJFHjpGfVqR9oBzVwV0ERvTGyqBZfOerh+Y6ixKgWuJfXbJg==
-X-Received: by 2002:a1c:f705:0:b0:3ed:9212:b4fe with SMTP id
- v5-20020a1cf705000000b003ed9212b4femr5398900wmh.0.1681148443028; 
- Mon, 10 Apr 2023 10:40:43 -0700 (PDT)
-Received: from [192.168.32.129] (aftr-82-135-86-174.dynamic.mnet-online.de.
- [82.135.86.174]) by smtp.gmail.com with ESMTPSA id
- z12-20020a7bc7cc000000b003edd1c44b57sm14251400wmk.27.2023.04.10.10.40.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Apr 2023 10:40:42 -0700 (PDT)
-Message-ID: <88e630a8-a8a4-1ac3-476d-0c00b82817f1@kernel.org>
-Date: Mon, 10 Apr 2023 19:40:41 +0200
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1plvd8-0000uX-Db; Mon, 10 Apr 2023 13:48:38 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1plvd5-00023N-UJ; Mon, 10 Apr 2023 13:48:38 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id B60D6400F6;
+ Mon, 10 Apr 2023 20:48:23 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 7397CDD;
+ Mon, 10 Apr 2023 20:48:22 +0300 (MSK)
+Message-ID: <81e6d05f-a540-8ca5-4f0b-f8eafba4315a@msgid.tls.msk.ru>
+Date: Mon, 10 Apr 2023 20:48:22 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 1/4] Add MEN Chameleon Bus emulation
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair@alistair23.me>,
- Javier Rodriguez <josejavier.rodriguez@duagon.com>,
- =?UTF-8?Q?Jorge_Sanjuan_Garc=c3=ada?= <Jorge.SanjuanGarcia@duagon.com>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>
-References: <20230406093157.104145-1-jth@kernel.org>
- <20230406093157.104145-2-jth@kernel.org>
- <CAFEAcA9Qu-dtjrKDUyT0UMg40EmjBHD4J3GLzQNhPkOhATN2Xg@mail.gmail.com>
+Subject: Re: [PATCH v1] hw/pvrdma: Protect against buggy or malicious guest
+ driver
 Content-Language: en-US
-From: Johannes Thumshirn <jth@kernel.org>
-In-Reply-To: <CAFEAcA9Qu-dtjrKDUyT0UMg40EmjBHD4J3GLzQNhPkOhATN2Xg@mail.gmail.com>
+To: Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org,
+ soulchen8650@gmail.com, mcascell@redhat.com, qemu-security@nongnu.org,
+ marcel.apfelbaum@gmail.com
+References: <20230301142926.18686-1-yuval.shaia.ml@gmail.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <20230301142926.18686-1-yuval.shaia.ml@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=209.85.128.51; envelope-from=morbidrsa@gmail.com;
- helo=mail-wm1-f51.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.246,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -100
+X-Spam_score: -10.1
+X-Spam_bar: ----------
+X-Spam_report: (-10.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.246,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,28 +61,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 06/04/2023 12:01, Peter Maydell wrote:
-> On Thu, 6 Apr 2023 at 10:34, Johannes Thumshirn <jth@kernel.org> wrote:
->>
->> The MEN Chameleon Bus (MCB) is an on-chip bus system exposing IP Cores of an
->> FPGA to a outside bus system like PCIe.
->>
->> Acked-by: Alistair Francis <alistair.francis@wdc.com>
->> Signed-off-by: Johannes Thumshirn <jth@kernel.org>
->> @@ -0,0 +1,182 @@
->> +/*
->> + * QEMU MEN Chameleon Bus emulation
->> + *
->> + * Copyright (C) 2023 Johannes Thumshirn <jth@kernel.org>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2.  See
->> + * the COPYING file in the top-level directory.
->> + */
+01.03.2023 17:29, Yuval Shaia wrote:
+> Guest driver allocates and initialize page tables to be used as a ring
+> of descriptors for CQ and async events.
+> The page table that represents the ring, along with the number of pages
+> in the page table is passed to the device.
+> Currently our device supports only one page table for a ring.
 > 
-> Really version-2-only? We prefer 2-or-later, as noted in LICENSE...
-> 
-> thanks
-> -- PMM
+> Let's make sure that the number of page table entries the driver
+> reports, do not exceeds the one page table size.
 
-Sure will do.
+Ping? This seems to has been missing..
+
+/mjt
 
