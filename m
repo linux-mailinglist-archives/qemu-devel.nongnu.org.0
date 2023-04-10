@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D007E6DC745
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 15:28:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DD46DC746
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 15:29:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plrZ4-0004Ji-N1; Mon, 10 Apr 2023 09:28:10 -0400
+	id 1plrZn-0004Ox-1a; Mon, 10 Apr 2023 09:28:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1plrZ3-0004JM-8a
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:28:09 -0400
+ id 1plrZH-0004Lv-K1
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:28:24 -0400
 Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1plrZ1-0006wF-Ir
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:28:09 -0400
-Received: by mail-ej1-x629.google.com with SMTP id qb20so12039837ejc.6
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 06:28:06 -0700 (PDT)
+ id 1plrZF-00070L-EJ
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:28:23 -0400
+Received: by mail-ej1-x629.google.com with SMTP id sg7so23887514ejc.9
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 06:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1681133285; x=1683725285;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ncClKoZiXr0a9DRK37kCQ/gNllB6AHeZwn1tdTUt0N4=;
- b=kpNdzYCWKsMbTOt903eBOmn0kgq7cwxzvgBsdrYtNkKRNX2yBZKeICad1qqjOw4WvE
- dkMaCOf/UL9ItUrLKQCQRsPAam4GJ3x7G4Be06idsi+P69vsFbqGnZUHpcedzplLruo+
- GOYGjcvbGlClMounZyuIj+ZaWxU5Sr46D5lWATi6HFO5IQQUndPVHmGfMJDTIqUgOJ3W
- zUPeDORVDo9WC3VdEvkPF2mGxx0urGFfvaAxgEWJaX+2o7TkNllZ6Nv8JzqIra39oNkN
- pT7dHqXhWbbb8uQ4mE3Ig2k12mBbaSRYola1gC+wm6vzW6LF9Zqe3ItUAm/0ZLZquaKF
- +Exg==
+ d=linaro.org; s=google; t=1681133300; x=1683725300;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KL7qKIrzETF0DLj0SN/RDsYoN4Wj6iKIwkYCIbr6ZcQ=;
+ b=lhp9UGTxa2ORcnNC7JqKZOm/IYn3QujVhz/4cOg+RDl7gt8iuEueWTpXxo5m2lO4ni
+ gGFQh+QfrZ9nQNc6ulPUQz5Q7fIohjd+4zs3ZoLnPPgDGOpDGnk0DnVPmhwxY1WnYRNG
+ OvArHzjjOcHnZxr2FTEwJhEUearmKSHUsfkwr1L9+ujQtHj9TEcQ2WnIrHF6Gc47ggEQ
+ TB1872mN/dI4SiT+xpNOIXNZMZ6mTV52hu0Ls3OjAV4dB20wD6qyU64do3zQQfcH7pbG
+ WgJxVOtTXt4TEt2DnfbNaIcOekxijg6ZRkY0WO9RwG3KQY+bsXLnrX4n0Q1Yl/T+fAM9
+ 9HgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681133285; x=1683725285;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ncClKoZiXr0a9DRK37kCQ/gNllB6AHeZwn1tdTUt0N4=;
- b=pxzXdZ1kfB9KvHeg2K/wpjenstdHc3eWrfWUbNGDWEo4xJwnxFLg6rH+QvIk1h2smV
- oSqh4crWIs0eDrfvYDEN2OW/FpqlKA+FeOXwpNe8T7VZAsyMaRI2Ii6h62Nw25jLqLm/
- YwXGRTJ2yG+zKZ9KSKnovC07/RTYXbAZ2tNDIxr7JzBUNeVgUrg8CS+CD9QmWtKFgjNt
- h759SR6aKQhCwb5XXTPG+IyMrNHAZx4izBul68oYxeZrpp3cQdfWAZ39LIuMKUtx7KTF
- dJECKUjA5wavfe+BSQyumehHDnCUt8qCUKD+BmkiEPiWOzCnq9EHZtKjZlkrgiGsSJq9
- 7zew==
-X-Gm-Message-State: AAQBX9cC7Lpn0T/36LfhQvz10m/OgllbZ7GdMbVu+K7DhJ/N6LK5ka6o
- CUgfYMDU7z6nGo6/CgweflwqBYwbrTiDaMJoZ5JIeoelZi9I/V7K
-X-Google-Smtp-Source: AKy350ZhDf8acwSTsTM204AoUVvNNwACFcbQQHqFTzDJL9MVptknxmUBwSx8LLY0wBisltgBzCIPEbAGwEPD71AAUSY=
-X-Received: by 2002:a17:906:2a48:b0:920:da8c:f7b0 with SMTP id
- k8-20020a1709062a4800b00920da8cf7b0mr3641628eje.6.1681133284797; Mon, 10 Apr
- 2023 06:28:04 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681133300; x=1683725300;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KL7qKIrzETF0DLj0SN/RDsYoN4Wj6iKIwkYCIbr6ZcQ=;
+ b=3lW8IpSxEhxCOue0YbySA/lO5lCr/ZLjIdbe8SVSNI8CY1AB+v67DcojmNFKF4WBX3
+ N1iWVrpNplpFy+dJFAYkI/JcLNOBHxQs3Gn8vqAIF9DlV1DIQNwH+QwCPP6rX1crUoch
+ 5q+3HDyfx5FAsM9kl8qHSmgcduhbGkcJHve6GaFtZVIRIxqEE2c/vRLVhiNMxvoc+iXu
+ WIjZsGDU2u54O4AgPgGXkTfCdTO5e/1Fjbo1pOix9aNSwU2tfwBpTxOkiax0W3gr8Lgh
+ QKE028aSjmSVbgL542YSjAbFu7UOYhRBbMYa5UPQx/qMR7Z8UPtGqEtWTB/1cO4+Yy5U
+ NXhw==
+X-Gm-Message-State: AAQBX9d/QYawCp+U8lv0McHa8+bfHOMajApaWROJiapm8a/ekMbhxvOR
+ T0q3vQDLphO6gAbq0Uu4za+h6VoTGWAA+ODgemCAMg==
+X-Google-Smtp-Source: AKy350b3/+QjRIF1S/rG9VRevfVFopGND/Qrf+R+zjAdLcNAu9tbpwWzB57IMb4nEBdJzK9Hk/kGjC68yVND+7JeLFY=
+X-Received: by 2002:a17:906:730b:b0:939:a51a:dc30 with SMTP id
+ di11-20020a170906730b00b00939a51adc30mr4210759ejc.2.1681133300071; Mon, 10
+ Apr 2023 06:28:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230406165615.4102782-1-stefanb@linux.ibm.com>
-In-Reply-To: <20230406165615.4102782-1-stefanb@linux.ibm.com>
+References: <20230409212347.16028-1-clg@kaod.org>
+In-Reply-To: <20230409212347.16028-1-clg@kaod.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Apr 2023 14:27:53 +0100
-Message-ID: <CAFEAcA_wG5z_2iou00pgdnkBndeCutA1zy37Ng8Y_OZhT3WKaA@mail.gmail.com>
-Subject: Re: [PULL 0/1] Fix use-after-free errors in util/error.c
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: qemu-devel@nongnu.org
+Date: Mon, 10 Apr 2023 14:28:09 +0100
+Message-ID: <CAFEAcA8M1dOgDkn0JfWPmDue7Kzn1oKyXXHHsUW8-v2YwbJa+g@mail.gmail.com>
+Subject: Re: [PULL 0/1] ppc queue
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::629;
  envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
@@ -83,31 +85,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 6 Apr 2023 at 17:56, Stefan Berger <stefanb@linux.ibm.com> wrote:
+On Sun, 9 Apr 2023 at 22:23, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> Hello!
+> The following changes since commit c6f3cbca32bde9ee94d9949aa63e8a7ef2d7bc=
+5b:
 >
->    This PR fixes use-after-free errors in util/error.c as reported by Coverity.
->
-> Regards,
->    Stefan
->
->
-> The following changes since commit 60ca584b8af0de525656f959991a440f8c191f12:
->
->   Merge tag 'pull-for-8.0-220323-1' of https://gitlab.com/stsquad/qemu into staging (2023-03-22 17:58:12 +0000)
+>   Update version for v8.0.0-rc3 release (2023-04-05 17:26:14 +0100)
 >
 > are available in the Git repository at:
 >
->   https://github.com/stefanberger/qemu-tpm.git tags/pull_error_handle_fix_use_after_free.v1
+>   https://github.com/legoater/qemu/ tags/pull-ppc-20230409
 >
-> for you to fetch changes up to cc40b8b8448de351f0d15412f20d428712b2e207:
+> for you to fetch changes up to a253231fbede6e69bf287afd90f67347a7383aab:
 >
->   util/error: Fix use-after-free errors reported by Coverity (2023-04-06 12:38:42 -0400)
+>   target/ppc: Fix temp usage in gen_op_arith_modw (2023-04-09 19:21:27 +0=
+200)
 >
 > ----------------------------------------------------------------
-> Stefan Berger (1):
->       util/error: Fix use-after-free errors reported by Coverity
+> ppc queue:
+>
+> * Fix regresion with prefix instructions and pcrel addressing
 
 
 Applied, thanks.
