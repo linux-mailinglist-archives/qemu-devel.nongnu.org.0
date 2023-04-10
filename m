@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFEBA6DC7B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 16:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3FFF6DC7BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 16:15:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plsHe-0001Cs-MK; Mon, 10 Apr 2023 10:14:14 -0400
+	id 1plsHf-0001Cz-0Y; Mon, 10 Apr 2023 10:14:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1plsHc-0001CS-US
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 10:14:12 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ id 1plsHd-0001CZ-86
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 10:14:13 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1plsHb-0000Rw-DV
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 10:14:12 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- n9-20020a05600c4f8900b003f05f617f3cso9421714wmq.2
+ id 1plsHb-0000Ss-Q8
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 10:14:13 -0400
+Received: by mail-wm1-x336.google.com with SMTP id q5so2851356wmo.4
  for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 07:14:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1681136050; x=1683728050;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=goC2KTdCIkvqONgwVMav+ADKaZdno6NhfhK+xBTVzDU=;
- b=P5+hhvUylyxaSSwcIQvrEJ4li7XLb336sjhNq8oUNWeyDWludWsvyKKKGz8jNRQau+
- 2ZpTNPL07u7tcwCF4Sbj3uiIbeotX9YGvcO2zSRgMhKxHuSAP/FXBJYp3uiZvQrNs8pV
- VRtc6G5v5vHNEN7y1eN8rU6sq/z0Yw6k+6vX5c+aRCRwUo9KgzSfXqu2vtv6HbOx7wxZ
- EZD6rSL/mA5CCHLyvGfufwqZ0YBlAgqL5/YfuQ1wIPMVsknFQH3GnDoJK4MK2PA3VxJZ
- 1j4toR0n/r8gmf1NM7nb9QJ8GY4DPIBJeXIvvTbZznqWlEg//+pda12LlbjQCheDNrdx
- SQ0Q==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=wwcJMYioCETaUAbI9id00MHSwcNGqBVlBGyKFH1vsv4=;
+ b=nC6fbiUv0lgpxZZqx269YJ1xlXnThxXv2LwcHSfHt+uAyWitZAlvWCGI3UFSeiZ3Gn
+ pt5CGY93FwAcCYq7otv+toJXg7FkvH+Hs3Qx1ZvN0zxaJe9qelUkrCHDqZEKG9MEw0z6
+ X2H++BGz5vghVntOfZoFc8gckPvqEdBRC5Q3nM6vbcgot0ZDzJqLdomWcmrqtB0N/o6H
+ nGZjX8JMnauZHZO/Qx5ru59lVnkkb6s0Q3iuiPPLH0qXARwCzLxJ01I7k/u4oyh0cP31
+ PiTV5cI+KV4FCtVVkh1D61fR872ZpgneEulDemJ2FqO5hHEGATICIlHTRzhIhM9ja5oy
+ kDwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1681136050; x=1683728050;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=goC2KTdCIkvqONgwVMav+ADKaZdno6NhfhK+xBTVzDU=;
- b=hK61Njk0YnCxKuCqwE2ECguYkDTpVhXA4wG5LxwQoY18w+tkaoy5jxXx2pwXfjmFI/
- c+c2ciya49DOJ2vrDJikbUeYRycNgLzsxpe/SlWHuiDtu7LAjnnsvnPT/PcQ3Qt/Zu2E
- Wbfdru7Fg7QYEOc/fW0Qk4x5lmuwmPOh4h2glx1J7ROhqJLuk+55TB39m37QdtruULY6
- QGN55dIEaS+9Ssr+3Me0VQ1iIID/s1vOUB3ZATXSH5ApPFiOMjUfMVJpdb96s2EJDR10
- 6hvJBLBh8cV0LUnuG8T8xpzlskC2mcIRq6fKwpGd5b7gdM2Cm1dN+2EogYPA6N6S/WlX
- yLvg==
-X-Gm-Message-State: AAQBX9dFBYR01G3D3DdVpGG4U+UCK7fG4o9R/GzmXLkFAV07VLujHQ1c
- FPyR7NUCeqKln807FO6QnYFTdXi63yjrbvvSOrE=
-X-Google-Smtp-Source: AKy350Ygneg1h9xMT51xbzX9qnyAKsXc7pJMYgHiLgGCZneOdkpy8o/OeNjiUKIAwyvdZoUd0a5V4w==
-X-Received: by 2002:a05:600c:4e44:b0:3ed:de03:7f0a with SMTP id
- e4-20020a05600c4e4400b003edde037f0amr7176243wmq.10.1681136049976; 
- Mon, 10 Apr 2023 07:14:09 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wwcJMYioCETaUAbI9id00MHSwcNGqBVlBGyKFH1vsv4=;
+ b=G1VvvBySxJcZkS6uRg9nmfmCTT7Dj1ycHtV2ewykZQSJl20164Y1JbcHYyqaVVH2OI
+ WPU/MqvO+9HYkSh27aSkcgFP5XifaSX7OFFGvR/vs9YSlC1x12UQuR1Pmcmhtnkw7bzI
+ vtaX7/pWM8YVDGMBTgcXrj6lf4XfhV8ifySKjrw2wP4agN4amqaZUHmvAG87f6b65mOc
+ k1RL9GkGBAASCfOZ0dm4R+CGlSqCbL2ZQakPk8pgdZoszA5KfFVwoG6ifsnJrq9+BFr1
+ n4IRsnh7Da8WJ5i4/0EEh6D0pu2L8XC7WUKa8tpNnIh9J/0Db+VFbheHR2X9y+5uNrvh
+ 0VJQ==
+X-Gm-Message-State: AAQBX9esGhQ6FjVjsUIAkhB1sY4An/VXuu4YYv7/L5JFuIfSSnQUexGU
+ 4OrD2t5jA+oT1SG/QYh9NGRIrXvAXXzxwRQJ9Jw=
+X-Google-Smtp-Source: AKy350YDl/LTen+Ux81JgAFw4mVKsgaJIcXbJD7zN+ajxieMWCI4hsozcoo0Jj+GTECXJjj9cBJsVg==
+X-Received: by 2002:a7b:cd87:0:b0:3ee:19b4:a2e6 with SMTP id
+ y7-20020a7bcd87000000b003ee19b4a2e6mr7628805wmj.19.1681136050396; 
+ Mon, 10 Apr 2023 07:14:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a7bc389000000b003ef64affec7sm13793060wmj.22.2023.04.10.07.14.09
+ s9-20020a7bc389000000b003ef64affec7sm13793060wmj.22.2023.04.10.07.14.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 07:14:09 -0700 (PDT)
+ Mon, 10 Apr 2023 07:14:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] target-arm queue
-Date: Mon, 10 Apr 2023 15:14:06 +0100
-Message-Id: <20230410141408.3564269-1-peter.maydell@linaro.org>
+Subject: [PULL 1/2] target/arm: PTE bit GP only applies to stage1
+Date: Mon, 10 Apr 2023 15:14:07 +0100
+Message-Id: <20230410141408.3564269-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230410141408.3564269-1-peter.maydell@linaro.org>
+References: <20230410141408.3564269-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,34 +89,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This bug seemed worth fixing for 8.0 since we need an rc4 anyway:
-we were using uninitialized data for the guarded bit when
-combining stage 1 and stage 2 attrs.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+Only perform the extract of GP during the stage1 walk.
 
-The following changes since commit 08dede07030973c1053868bc64de7e10bfa02ad6:
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20230407185149.3253946-2-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/ptw.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-  Merge tag 'pull-ppc-20230409' of https://github.com/legoater/qemu into staging (2023-04-10 11:47:52 +0100)
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index ec3f51782aa..58a6de09bc9 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -1585,11 +1585,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+         result->f.attrs.secure = false;
+     }
+ 
+-    /* When in aarch64 mode, and BTI is enabled, remember GP in the TLB.  */
+-    if (aarch64 && cpu_isar_feature(aa64_bti, cpu)) {
+-        result->f.guarded = extract64(attrs, 50, 1); /* GP */
+-    }
+-
+     if (regime_is_stage2(mmu_idx)) {
+         result->cacheattrs.is_s2_format = true;
+         result->cacheattrs.attrs = extract32(attrs, 2, 4);
+@@ -1600,6 +1595,11 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+         assert(attrindx <= 7);
+         result->cacheattrs.is_s2_format = false;
+         result->cacheattrs.attrs = extract64(mair, attrindx * 8, 8);
++
++        /* When in aarch64 mode, and BTI is enabled, remember GP in the TLB. */
++        if (aarch64 && cpu_isar_feature(aa64_bti, cpu)) {
++            result->f.guarded = extract64(attrs, 50, 1); /* GP */
++        }
+     }
+ 
+     /*
+-- 
+2.34.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230410
-
-for you to fetch changes up to 8539dc00552e8ea60420856fc1262c8299bc6308:
-
-  target/arm: Copy guarded bit in combine_cacheattrs (2023-04-10 14:31:40 +0100)
-
-----------------------------------------------------------------
-target-arm: Fix bug where we weren't initializing
-            guarded bit state when combining S1/S2 attrs
-
-----------------------------------------------------------------
-Richard Henderson (2):
-      target/arm: PTE bit GP only applies to stage1
-      target/arm: Copy guarded bit in combine_cacheattrs
-
- target/arm/ptw.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
 
