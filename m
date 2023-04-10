@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C736DC7FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 16:46:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6954A6DC855
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 17:21:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plsku-0005zH-LA; Mon, 10 Apr 2023 10:44:28 -0400
+	id 1pltJ7-00046M-UW; Mon, 10 Apr 2023 11:19:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plskr-0005yY-Tv; Mon, 10 Apr 2023 10:44:25 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1plskp-0007W2-2U; Mon, 10 Apr 2023 10:44:25 -0400
-Received: from [192.168.0.120] (unknown [180.175.29.170])
- by APP-05 (Coremail) with SMTP id zQCowACHjxe8IDRkCB+LEA--.2399S2;
- Mon, 10 Apr 2023 22:44:12 +0800 (CST)
-Message-ID: <81f02e0c-0615-da98-5d4d-6f08b6131e45@iscas.ac.cn>
-Date: Mon, 10 Apr 2023 22:44:11 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Cc: liweiwei@iscas.ac.cn, Alistair Francis <alistair23@gmail.com>,
- Daniel Barboza <dbarboza@ventanamicro.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RFC PATCH 1/4] target/riscv: smstateen check for fcsr
+ (Exim 4.90_1) (envelope-from <gudkov.andrei@huawei.com>)
+ id 1pltJ5-000466-77
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 11:19:47 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gudkov.andrei@huawei.com>)
+ id 1pltJ2-00066p-NA
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 11:19:46 -0400
+Received: from lhrpeml500002.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PwCFm25vZz6D8WH;
+ Mon, 10 Apr 2023 23:15:08 +0800 (CST)
+Received: from lhrpeml500004.china.huawei.com (7.191.163.9) by
+ lhrpeml500002.china.huawei.com (7.191.160.78) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 10 Apr 2023 16:19:24 +0100
+Received: from lhrpeml500004.china.huawei.com ([7.191.163.9]) by
+ lhrpeml500004.china.huawei.com ([7.191.163.9]) with mapi id 15.01.2507.023;
+ Mon, 10 Apr 2023 16:19:24 +0100
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "quintela@redhat.com" <quintela@redhat.com>, "dgilbert@redhat.com"
+ <dgilbert@redhat.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>
+Subject: RE: [PATCH 0/2] Migration time prediction using calc-dirty-rate
+Thread-Topic: [PATCH 0/2] Migration time prediction using calc-dirty-rate
+Thread-Index: AQHZS3aRtGZM76pP4kuX+gBWTVyc1a7/EcKwgA/B7XCACwoFEIALChNA
+Date: Mon, 10 Apr 2023 15:19:24 +0000
+Message-ID: <e95294fcbe054857ac8901d0793662e0@huawei.com>
+References: <cover.1677589218.git.gudkov.andrei@huawei.com>   
+Accept-Language: en-US
 Content-Language: en-US
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20230410141316.3317474-1-mchitale@ventanamicro.com>
- <20230410141316.3317474-2-mchitale@ventanamicro.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230410141316.3317474-2-mchitale@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACHjxe8IDRkCB+LEA--.2399S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw47uFW8Xr18AFWrZrWUurg_yoWrJF1Upr
- 4kA39xC3yktF9Fvan3GF1DWFn8Gw4kG3yS93ZFgayvqFsxtrWrKF1Dt347Zr1DWay7Xr4a
- vay0kF1Dur47AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
- IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU1a9aPUUUU
- U==
-X-Originating-IP: [180.175.29.170]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.246,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.199.58.101]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=gudkov.andrei@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,126 +67,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Gudkov Andrei <gudkov.andrei@huawei.com>
+From:  Gudkov Andrei via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+ping4
 
-On 2023/4/10 22:13, Mayuresh Chitale wrote:
-> If smstateen is implemented and sstateen0.fcsr is clear then the
-> floating point operations must return illegal instruction exception
-> or virtual instruction trap, if relevant.
+https://patchew.org/QEMU/cover.1677589218.git.gudkov.andrei@huawei.com/
 
-typo. sstateen0 -> smstateen
+-----Original Message-----
+From: Gudkov Andrei=20
+Sent: Monday, April 3, 2023 17:42
+To: 'qemu-devel@nongnu.org' <qemu-devel@nongnu.org>
+Cc: 'quintela@redhat.com' <quintela@redhat.com>; 'dgilbert@redhat.com' <dgi=
+lbert@redhat.com>
+Subject: RE: [PATCH 0/2] Migration time prediction using calc-dirty-rate
 
-And fcsr bit only work when F is not enabled.
+ping3
 
->
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> ---
->   target/riscv/cpu.h |  3 +++
->   target/riscv/csr.c | 25 ++++++++++++++++++++++++-
->   2 files changed, 27 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 638e47c75a..132cf06ff2 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -613,6 +613,9 @@ void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *env, uint32_t priv,
->                                                    target_ulong new_val,
->                                                    target_ulong write_mask),
->                                      void *rmw_fn_arg);
-> +RISCVException smstateen_acc_ok(CPURISCVState *env, int index, uint64_t bit);
-This have been added in the latest riscv-to-apply.next.
-> +#else
-> +#define smstateen_acc_ok(env, index, bit) RISCV_EXCP_NONE
+https://patchew.org/QEMU/cover.1677589218.git.gudkov.andrei@huawei.com/
 
-This seems unnecessary.  smstateen_acc_ok in this patch works only in 
-system mode.
+-----Original Message-----
+From: Gudkov Andrei=20
+Sent: Monday, March 27, 2023 17:09
+To: 'qemu-devel@nongnu.org' <qemu-devel@nongnu.org>
+Cc: 'quintela@redhat.com' <quintela@redhat.com>; 'dgilbert@redhat.com' <dgi=
+lbert@redhat.com>
+Subject: RE: [PATCH 0/2] Migration time prediction using calc-dirty-rate
 
-Regards,
+ping2
 
-Weiwei Li
+https://patchew.org/QEMU/cover.1677589218.git.gudkov.andrei@huawei.com/
 
->   #endif
->   void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv);
->   
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d522efc0b6..4979058434 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -43,7 +43,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
->   
->   /* Predicates */
->   #if !defined(CONFIG_USER_ONLY)
-> -static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
-> +RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
->                                          uint64_t bit)
->   {
->       bool virt = riscv_cpu_virt_enabled(env);
-> @@ -83,6 +83,10 @@ static RISCVException fs(CPURISCVState *env, int csrno)
->           !riscv_cpu_cfg(env)->ext_zfinx) {
->           return RISCV_EXCP_ILLEGAL_INST;
->       }
-> +
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
-> +    }
->   #endif
->       return RISCV_EXCP_NONE;
->   }
-> @@ -2056,6 +2060,9 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
->                                         target_ulong new_val)
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
->   
->       return write_mstateen(env, csrno, wr_mask, new_val);
->   }
-> @@ -2092,6 +2099,10 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_mstateenh(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -2129,6 +2140,10 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_hstateen(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -2168,6 +2183,10 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_hstateenh(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -2215,6 +2234,10 @@ static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_sstateen(env, csrno, wr_mask, new_val);
->   }
->   
+-----Original Message-----
+From: Gudkov Andrei=20
+Sent: Friday, March 17, 2023 16:29
+To: qemu-devel@nongnu.org
+Cc: quintela@redhat.com; dgilbert@redhat.com
+Subject: RE: [PATCH 0/2] Migration time prediction using calc-dirty-rate
+
+ping
+
+https://patchew.org/QEMU/cover.1677589218.git.gudkov.andrei@huawei.com/
+
+-----Original Message-----
+From: Gudkov Andrei=20
+Sent: Tuesday, February 28, 2023 16:16
+To: qemu-devel@nongnu.org
+Cc: quintela@redhat.com; dgilbert@redhat.com; Gudkov Andrei <gudkov.andrei@=
+huawei.com>
+Subject: [PATCH 0/2] Migration time prediction using calc-dirty-rate
+
 
 
