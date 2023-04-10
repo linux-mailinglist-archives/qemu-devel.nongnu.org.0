@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A946DC6CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 14:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00ADD6DC6C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 14:31:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plqfM-0007ST-BB; Mon, 10 Apr 2023 08:30:36 -0400
+	id 1plqfL-0007Q0-MG; Mon, 10 Apr 2023 08:30:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1plqer-0007Ag-Mb
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 08:30:06 -0400
+ id 1plqey-0007I7-2c
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 08:30:13 -0400
 Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1plqeo-0000tq-UE
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 08:30:05 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id bf5so3050794oib.8
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 05:30:02 -0700 (PDT)
+ id 1plqet-000162-6Q
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 08:30:09 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id bl22so21003659oib.11
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 05:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1681129801;
+ d=ventanamicro.com; s=google; t=1681129805;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QQVAabeAJXG93R9o2+wybfrTUqipz7vwVTHH4p1nQcc=;
- b=dkiqu/aTnyD3IXaXxzQiOJz2WPJeLXwU5/yfjrucXPCvZyURP9CBZTMGBYe8Xhsm17
- TgTSsPGaVjXq/LVBxvfHKj/tv7VnvAf+aITYdTXAlz6ZqlmM85hFszbGWRhfA2TBv2gY
- tDE5ZofV73oFaf6eLtrm2UYG3cYOHSS0VfkzWOq8Z/O+G5eXWp9sSVjvj5B4lssl0nMg
- 3mPvHAkgyEY2pw38LVSeRvz1rFvGRHRtaeU0n0SxHAguWnjdlvTSusXhBFa5fyN8t8EG
- isN50P08Uq3XJ7vkfdwALM0Bcua+WIbUWsHmjlprBaR6EKRPRLQSXGNPhEmQhkVWpYjc
- 9IgQ==
+ bh=+8eN100PVmLq4Irfczq1tK9TJADhtWJGfBNp8oFnf+o=;
+ b=jtXYKgf+GwxgzXxnxsueQlBrr2Z+i0D1XGTDZiZSPurucYJVdIBAlC8OM2nr5AH+qs
+ zeaxvZQm9XpzIQj56PQDsYKwLICzg1hLk6BSJLC5Ab8yRjEQ9GDU7UA67sCTKAQYBGlc
+ J59NH/fr3DylmkNbktwhgHn2B9yLaNU4S4tgAagvfVQf5s05xn7B8Ywcj8NmLPrr3hlp
+ wLCVRKTCuzUsJDu5muwJbqpmTlLCuj48BaSuNdP8JSLv564sLlhzfTkZ+ptNextjOsEM
+ 4k25tRE+GEMFnxD8ws5cHCHhY+tJNQmhggSviTs7/ljBipL27FFTiisOeqf/kcMQr8XM
+ PV0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681129801;
+ d=1e100.net; s=20210112; t=1681129805;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QQVAabeAJXG93R9o2+wybfrTUqipz7vwVTHH4p1nQcc=;
- b=fCxtxcRInJkQauDuH1cA15BOFZZ0hL/bEYFiGrZAXWDXHGQsNM49TnRausUhFj7w36
- ECVQcT884Ir9OdTiVeeHL5kPGOeIdw2aRNX8jTSkxLv74RnzKonlAJZafxXVD7dkokMf
- KL2MoquzBl/dcJNOIAjf8qf2c78BZbfrHdjgiUhl8k+i0bKjpSn96Jh4qylAVAdPxX16
- 4ze3RmlDcd588NGedX1+T0o2+alW26n8MInt4fS0jfVKimRRHMT21/RrdI5X72x1fIG7
- QMnk/K8zHD1BDPwH89QmHTkPkmMoiObBxWbEPRUl4pyfBIjphe5NWGMjW4d8E+KUXjPl
- Z15A==
-X-Gm-Message-State: AAQBX9dLYiKuUCwO23HBJZH2KVBe2Tj/wlzMB6ZF646Vxzb3mICNwd1t
- B2x3if81RFyDGg2yzU+FALcSJdkDJ/gKX0aEHzI=
-X-Google-Smtp-Source: AKy350b5y/gGpGqg2jB8WE73FEy7r038wHNPXEeQQgzDU42hmzapxIurR8h+5r4PkI6lgw3Sb8QG0g==
-X-Received: by 2002:a05:6808:1a11:b0:386:e309:cfbf with SMTP id
- bk17-20020a0568081a1100b00386e309cfbfmr5966386oib.13.1681129801386; 
- Mon, 10 Apr 2023 05:30:01 -0700 (PDT)
+ bh=+8eN100PVmLq4Irfczq1tK9TJADhtWJGfBNp8oFnf+o=;
+ b=bIvsIuiuOuQEMCwWLpt/2qoqmKqJs8oILleBOy67rZhcZoE4rvdQLiBXmEZNXF0/83
+ 7fdFA7ck68vBBi1HlTRv0VMkCCFPuZAHWO+EWFGgFS0gEr+C7n6DS4mdkAYbFftAQ34I
+ Tt2xaZgURur9rrCs8d3seoHtKRIMaSkU8E0zcqRob8Kjy486ILC4vEbd0oDs1/4l9GV4
+ N60KlO30+7ejUuk28GDtBut/Oa5fABtOWfztoChsJ0R/Vn+zbyMcAGQXGHtLW3mVXKRV
+ tj6St9X/gr4ft5Xd0xS0p62XB3ciIZtb9Jm9atsaZglBtM9S4YRLJY2/JzO5lbVbUTCx
+ QWwQ==
+X-Gm-Message-State: AAQBX9fC6AZk3b9Zl3qbkiENWUYRWOaTF+eHteA2sWRrFZbDE0++JkRo
+ INf1pFKZ/8SYE8ZZYzTZKS/yezRkwpsfTn4azAE=
+X-Google-Smtp-Source: AKy350alOk807TBHvhHO8UOElQ1z3yZ6e7+PjYJENPl4huS2NW6Flz+Jg9povlm39SIHbgfKNUeMWw==
+X-Received: by 2002:aca:1715:0:b0:38b:79e1:3fda with SMTP id
+ j21-20020aca1715000000b0038b79e13fdamr4282593oii.34.1681129804497; 
+ Mon, 10 Apr 2023 05:30:04 -0700 (PDT)
 Received: from grind.. ([191.255.108.232]) by smtp.gmail.com with ESMTPSA id
- o13-20020a056808124d00b00387160bcd46sm4297016oiv.46.2023.04.10.05.29.58
+ o13-20020a056808124d00b00387160bcd46sm4297016oiv.46.2023.04.10.05.30.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 05:30:01 -0700 (PDT)
+ Mon, 10 Apr 2023 05:30:04 -0700 (PDT)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH 3/4] target/riscv: add 'static' attribute of
- query-cpu-definitions
-Date: Mon, 10 Apr 2023 09:29:44 -0300
-Message-Id: <20230410122945.77439-4-dbarboza@ventanamicro.com>
+Subject: [PATCH 4/4] target/riscv: make generic cpus not static
+Date: Mon, 10 Apr 2023 09:29:45 -0300
+Message-Id: <20230410122945.77439-5-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230410122945.77439-1-dbarboza@ventanamicro.com>
 References: <20230410122945.77439-1-dbarboza@ventanamicro.com>
@@ -92,84 +91,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-'static' is defined in the QMP doc as:
+A CPU is declared static or not by changing the class attribute
+'static'. For now the base class is defining every CPU as static via
+riscv_cpu_class_init().
 
-"whether a CPU definition is static and will not change depending on
-QEMU version, machine type, machine options and accelerator options. A
-static model is always migration-safe."
+To change this setting for generic CPUs we'll need a different class
+init for them. Then we'll ned a macro that allows us to set a different
+.class_init implementation for the CPU. With all that we're now able to
+set 'static' as false for the 'any', 'rv32', 'rv64' and 'x-rv128' CPUs.
+For the riscv64 target:
 
-For RISC-V we'll consider all named CPUs as static since their
-extensions can't be changed by user input. Generic CPUs will be
-considered non-static.
-
-We aren't ready to make the change for generic CPUs yet because we're
-using the same class init for every CPU. We'll deal with it next.
+$ ./build/qemu-system-riscv64 -S -M virt -display none -qmp stdio
+{"QMP": {"version": (...) }
+{"execute": "qmp_capabilities", "arguments": {"enable": ["oob"]}}
+{"return": {}}
+{"execute": "query-cpu-definitions"}
+{"return": [
+{"name": "rv64", "typename": "rv64-riscv-cpu", "static": false, "deprecated": false},
+{"name": "sifive-e51", "typename": "sifive-e51-riscv-cpu", "static": true, "deprecated": false},
+{"name": "any", "typename": "any-riscv-cpu", "static": false, "deprecated": false},
+{"name": "x-rv128", "typename": "x-rv128-riscv-cpu", "static": false, "deprecated": false},
+{"name": "shakti-c", "typename": "shakti-c-riscv-cpu", "static": true, "deprecated": false},
+{"name": "thead-c906", "typename": "thead-c906-riscv-cpu", "static": true, "deprecated": false},
+{"name": "sifive-u54", "typename": "sifive-u54-riscv-cpu", "static": true, "deprecated": false}]
+}
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- target/riscv/cpu-qom.h        | 3 +++
- target/riscv/cpu.c            | 6 ++++++
- target/riscv/riscv-qmp-cmds.c | 2 ++
- 3 files changed, 11 insertions(+)
+ target/riscv/cpu.c | 48 ++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 44 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu-qom.h b/target/riscv/cpu-qom.h
-index b9318e0783..687cb6f4d0 100644
---- a/target/riscv/cpu-qom.h
-+++ b/target/riscv/cpu-qom.h
-@@ -54,6 +54,7 @@ OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
- 
- /**
-  * RISCVCPUClass:
-+ * @static_model: See CpuDefinitionInfo::static
-  * @parent_realize: The parent class' realize handler.
-  * @parent_phases: The parent class' reset phase handlers.
-  *
-@@ -65,6 +66,8 @@ struct RISCVCPUClass {
-     /*< public >*/
-     DeviceRealize parent_realize;
-     ResettablePhases parent_phases;
-+
-+    bool static_model;
- };
- 
- #endif /* RISCV_CPU_QOM_H */
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index cb68916fce..30a1e74ea6 100644
+index 30a1e74ea6..4a9624404c 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -1679,6 +1679,12 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     resettable_class_set_parent_phases(rc, NULL, riscv_cpu_reset_hold, NULL,
-                                        &mcc->parent_phases);
- 
-+    /*
-+     * Consider all models to be static. Each CPU is free to
-+     * set it to false if needed.
-+     */
-+    mcc->static_model = true;
-+
-     cc->class_by_name = riscv_cpu_class_by_name;
-     cc->has_work = riscv_cpu_has_work;
-     cc->dump_state = riscv_cpu_dump_state;
-diff --git a/target/riscv/riscv-qmp-cmds.c b/target/riscv/riscv-qmp-cmds.c
-index 128677add9..639f2c052e 100644
---- a/target/riscv/riscv-qmp-cmds.c
-+++ b/target/riscv/riscv-qmp-cmds.c
-@@ -30,6 +30,7 @@
- static void riscv_cpu_add_definition(gpointer data, gpointer user_data)
- {
-     ObjectClass *oc = data;
-+    RISCVCPUClass *cc = RISCV_CPU_CLASS(oc);
-     CpuDefinitionInfoList **cpu_list = user_data;
-     CpuDefinitionInfo *info = g_malloc0(sizeof(*info));
-     const char *typename = object_class_get_name(oc);
-@@ -37,6 +38,7 @@ static void riscv_cpu_add_definition(gpointer data, gpointer user_data)
-     info->name = g_strndup(typename,
-                            strlen(typename) - strlen("-" TYPE_RISCV_CPU));
-     info->q_typename = g_strdup(typename);
-+    info->q_static = cc->static_model;
- 
-     QAPI_LIST_PREPEND(*cpu_list, info);
+@@ -340,6 +340,13 @@ static void set_satp_mode_default_map(RISCVCPU *cpu)
  }
+ #endif
+ 
++static void riscv_any_cpu_class_init(ObjectClass *c, void *data)
++{
++    RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
++
++    mcc->static_model = false;
++}
++
+ static void riscv_any_cpu_init(Object *obj)
+ {
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+@@ -360,6 +367,13 @@ static void riscv_any_cpu_init(Object *obj)
+ }
+ 
+ #if defined(TARGET_RISCV64)
++static void rv64_base_cpu_class_init(ObjectClass *c, void *data)
++{
++    RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
++
++    mcc->static_model = false;
++}
++
+ static void rv64_base_cpu_init(Object *obj)
+ {
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+@@ -430,6 +444,13 @@ static void rv64_thead_c906_cpu_init(Object *obj)
+ #endif
+ }
+ 
++static void rv128_base_cpu_class_init(ObjectClass *c, void *data)
++{
++    RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
++
++    mcc->static_model = false;
++}
++
+ static void rv128_base_cpu_init(Object *obj)
+ {
+     if (qemu_tcg_mttcg_enabled()) {
+@@ -449,6 +470,13 @@ static void rv128_base_cpu_init(Object *obj)
+ #endif
+ }
+ #else
++static void rv32_base_cpu_class_init(ObjectClass *c, void *data)
++{
++    RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
++
++    mcc->static_model = false;
++}
++
+ static void rv32_base_cpu_init(Object *obj)
+ {
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+@@ -1779,6 +1807,14 @@ void riscv_cpu_list(void)
+         .instance_init = initfn            \
+     }
+ 
++#define DEFINE_CPU_WITH_CLASSFN(type_name, initfn, classfn) \
++    {                                      \
++        .name = type_name,                 \
++        .parent = TYPE_RISCV_CPU,          \
++        .instance_init = initfn,           \
++        .class_init = classfn              \
++    }
++
+ static const TypeInfo riscv_cpu_type_infos[] = {
+     {
+         .name = TYPE_RISCV_CPU,
+@@ -1790,23 +1826,27 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+         .class_size = sizeof(RISCVCPUClass),
+         .class_init = riscv_cpu_class_init,
+     },
+-    DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
++    DEFINE_CPU_WITH_CLASSFN(TYPE_RISCV_CPU_ANY, riscv_any_cpu_init,
++                            riscv_any_cpu_class_init),
+ #if defined(CONFIG_KVM)
+     DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
+ #endif
+ #if defined(TARGET_RISCV32)
+-    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
++    DEFINE_CPU_WITH_CLASSFN(TYPE_RISCV_CPU_BASE32, rv32_base_cpu_init,
++                            rv32_base_cpu_class_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
+ #elif defined(TARGET_RISCV64)
+-    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
++    DEFINE_CPU_WITH_CLASSFN(TYPE_RISCV_CPU_BASE64, rv64_base_cpu_init,
++                            rv64_base_cpu_class_init),
++    DEFINE_CPU_WITH_CLASSFN(TYPE_RISCV_CPU_BASE128, rv128_base_cpu_init,
++                            rv128_base_cpu_class_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C906,       rv64_thead_c906_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_BASE128,          rv128_base_cpu_init),
+ #endif
+ };
+ 
 -- 
 2.39.2
 
