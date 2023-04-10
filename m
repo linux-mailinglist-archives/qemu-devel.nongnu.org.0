@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04BD96DC5A7
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABD46DC5A8
 	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 12:12:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ploV1-0005Aa-Mi; Mon, 10 Apr 2023 06:11:47 -0400
+	id 1ploV2-0005AZ-Fw; Mon, 10 Apr 2023 06:11:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tanxiongchuan@isrc.iscas.ac.cn>)
- id 1ploUv-00059J-Ut
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 06:11:41 -0400
+ id 1ploUw-00059V-Ip
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 06:11:45 -0400
 Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tanxiongchuan@isrc.iscas.ac.cn>) id 1ploUr-00021M-87
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 06:11:41 -0400
+ (envelope-from <tanxiongchuan@isrc.iscas.ac.cn>) id 1ploUr-00021L-LC
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 06:11:42 -0400
 Received: from localhost.localdomain (unknown [223.72.42.7])
- by APP-05 (Coremail) with SMTP id zQCowAD35xTR4DNkglhzEA--.63784S4;
+ by APP-05 (Coremail) with SMTP id zQCowAD35xTR4DNkglhzEA--.63784S5;
  Mon, 10 Apr 2023 18:11:29 +0800 (CST)
 From: Xiongchuan Tan <tanxiongchuan@isrc.iscas.ac.cn>
 To: qemu-devel@nongnu.org
 Cc: Xiongchuan Tan <tanxiongchuan@isrc.iscas.ac.cn>
-Subject: [PATCH 2/3] linux-user: Add more drm ioctls for mesa
-Date: Mon, 10 Apr 2023 18:11:17 +0800
-Message-Id: <20230410101118.59564-3-tanxiongchuan@isrc.iscas.ac.cn>
+Subject: [PATCH 3/3] linux-user: Add amdgpu specific drm ioctls for mesa
+Date: Mon, 10 Apr 2023 18:11:18 +0800
+Message-Id: <20230410101118.59564-4-tanxiongchuan@isrc.iscas.ac.cn>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230410101118.59564-1-tanxiongchuan@isrc.iscas.ac.cn>
 References: <20230410101118.59564-1-tanxiongchuan@isrc.iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowAD35xTR4DNkglhzEA--.63784S4
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jr4DtFWUKryDuFyxuw1xZrb_yoW3Cr1xpF
- WUKr43JF4rtrZ2g39Fka1UA3WfXw18Kr17Ca1xGw4rA3ZYqrykKF1DCasFyF4rJFy7CFWj
- k3WqyayFkrWUuwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9v14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWUJVWUGwAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
- x26xkF7I0E14v26r1Y6r1xM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
- ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
- vE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
- r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxC20s
- 026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
- JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
- v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xva
- j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
- W8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU12Nt3UUUUU==
+X-CM-TRANSID: zQCowAD35xTR4DNkglhzEA--.63784S5
+X-Coremail-Antispam: 1UD129KBjvAXoW3tF18XF4fWFWUWry7KF1rWFg_yoW8Ar4rXo
+ WfWr43Zr18Jw1Fyr90yws7JFsrK34UG398AF4Ikr1UWF1DAry3Zay7GFsxuFy2gFWfJFs5
+ G3y2q3Z5Xan3Aa18n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjp_UUUYm7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+ j40_Jr0_Jr4l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r1rM28IrcIa0x
+ kI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
+ jcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM2
+ 8EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+ IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+ Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrwCFx2
+ IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
+ 6r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
+ AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IY
+ s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+ 0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUlLvNUUUUU=
 X-Originating-IP: [223.72.42.7]
 X-CM-SenderInfo: xwdq5xprqjuxxxdqqxxvufhxpvfd2hldfou0/
 Received-SPF: none client-ip=159.226.251.25;
@@ -75,239 +75,542 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Xiongchuan Tan <tanxiongchuan@isrc.iscas.ac.cn>
 ---
- linux-user/ioctls.h        | 11 ++++-
- linux-user/syscall.c       | 98 ++++++++++++++++++++++++++++++++++++--
- linux-user/syscall_defs.h  | 34 +++++++++++++
- linux-user/syscall_types.h | 24 ++++++++++
- 4 files changed, 163 insertions(+), 4 deletions(-)
+ linux-user/ioctls.h        |  16 ++
+ linux-user/syscall.c       | 312 +++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_defs.h  | 100 +++++++++++-
+ linux-user/syscall_types.h |  55 +++++++
+ 4 files changed, 482 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 54b44a29a9..83ccf785b5 100644
+index 83ccf785b5..fa0a583954 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -685,7 +685,16 @@
- #ifdef HAVE_DRM_H
-   IOCTL_SPECIAL(DRM_IOCTL_VERSION, IOC_RW, do_ioctl_drm,
-                 MK_PTR(MK_STRUCT(STRUCT_drm_version)))
--
-+  IOCTL_SPECIAL(DRM_IOCTL_GET_MAGIC, IOC_R, do_ioctl_drm,
-+                MK_PTR(MK_STRUCT(STRUCT_drm_auth)))
-+  IOCTL_SPECIAL(DRM_IOCTL_GET_CLIENT, IOC_RW, do_ioctl_drm,
-+                MK_PTR(MK_STRUCT(STRUCT_drm_client)))
-+  IOCTL_SPECIAL(DRM_IOCTL_GEM_CLOSE, IOC_W, do_ioctl_drm,
-+                MK_PTR(MK_STRUCT(STRUCT_drm_gem_close)))
-+  IOCTL_SPECIAL(DRM_IOCTL_GET_CAP, IOC_RW, do_ioctl_drm,
-+                MK_PTR(MK_STRUCT(STRUCT_drm_get_cap)))
-+  IOCTL_SPECIAL(DRM_IOCTL_PRIME_HANDLE_TO_FD, IOC_RW, do_ioctl_drm,
-+                MK_PTR(MK_STRUCT(STRUCT_drm_prime_handle)))
+@@ -696,6 +696,22 @@
+   IOCTL_SPECIAL(DRM_IOCTL_PRIME_HANDLE_TO_FD, IOC_RW, do_ioctl_drm,
+                 MK_PTR(MK_STRUCT(STRUCT_drm_prime_handle)))
  #ifdef CONFIG_DRM_AMDGPU
++  IOCTL_SPECIAL(DRM_IOCTL_AMDGPU_GEM_CREATE, IOC_RW, do_ioctl_drm_amdgpu,
++                MK_PTR(MK_STRUCT(STRUCT_drm_amdgpu_gem_create)))
++  IOCTL_SPECIAL(DRM_IOCTL_AMDGPU_GEM_MMAP, IOC_RW, do_ioctl_drm_amdgpu,
++                MK_PTR(MK_STRUCT(STRUCT_drm_amdgpu_gem_mmap)))
++  IOCTL_SPECIAL(DRM_IOCTL_AMDGPU_CTX, IOC_RW, do_ioctl_drm_amdgpu,
++                MK_PTR(MK_STRUCT(STRUCT_drm_amdgpu_ctx)))
++  IOCTL_SPECIAL(DRM_IOCTL_AMDGPU_CS, IOC_RW, do_ioctl_drm_amdgpu,
++                MK_PTR(MK_STRUCT(STRUCT_drm_amdgpu_cs)))
++  IOCTL_SPECIAL(DRM_IOCTL_AMDGPU_INFO, IOC_W, do_ioctl_drm_amdgpu,
++                MK_PTR(MK_STRUCT(STRUCT_drm_amdgpu_info)))
++  IOCTL_SPECIAL(DRM_IOCTL_AMDGPU_GEM_METADATA, IOC_RW, do_ioctl_drm_amdgpu,
++                MK_PTR(MK_STRUCT(STRUCT_drm_amdgpu_gem_metadata)))
++  IOCTL_SPECIAL(DRM_IOCTL_AMDGPU_GEM_VA, IOC_RW, do_ioctl_drm_amdgpu,
++                MK_PTR(MK_STRUCT(STRUCT_drm_amdgpu_gem_va)))
++  IOCTL_SPECIAL(DRM_IOCTL_AMDGPU_WAIT_CS, IOC_RW, do_ioctl_drm_amdgpu,
++                MK_PTR(MK_STRUCT(STRUCT_drm_amdgpu_wait_cs)))
  #else
    IOCTL_SPECIAL(DRM_IOCTL_I915_GETPARAM, IOC_RW, do_ioctl_drm_i915,
+                 MK_PTR(MK_STRUCT(STRUCT_drm_i915_getparam)))
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index bb0db61990..698b44da03 100644
+index 698b44da03..c276e4ef02 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -5624,15 +5624,48 @@ static inline void host_to_target_drmversion(
-     unlock_drm_version(host_ver, target_ver, true);
- }
+@@ -5746,6 +5746,318 @@ static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
  
-+static abi_long do_ioctl_drm_get_client(const IOCTLEntry *ie,
-+                                        struct drm_client *host_client,
-+                                        int fd, abi_long arg)
+ #ifdef CONFIG_DRM_AMDGPU
+ 
++static abi_long do_ioctl_drm_amdgpu_gem_create(
++                                       const IOCTLEntry *ie,
++                                       union drm_amdgpu_gem_create *host_create,
++                                       int fd, abi_long arg)
 +{
 +    abi_long ret;
-+    struct target_drm_client *target_client;
++    union target_drm_amdgpu_gem_create *target_create;
 +
-+    if (!lock_user_struct(VERIFY_WRITE, target_client, arg, 0)) {
++    if (!lock_user_struct(VERIFY_WRITE, target_create, arg, 0)) {
 +        return -TARGET_EFAULT;
 +    }
 +
-+    __get_user(host_client->idx, &target_client->idx);
-+    __get_user(host_client->auth, &target_client->auth);
-+    __get_user(host_client->pid, &target_client->pid);
-+    __get_user(host_client->uid, &target_client->uid);
-+    __get_user(host_client->magic, &target_client->magic);
-+    __get_user(host_client->iocs, &target_client->iocs);
++    __get_user(host_create->in.bo_size, &target_create->in.bo_size);
++    __get_user(host_create->in.alignment, &target_create->in.alignment);
++    __get_user(host_create->in.domains, &target_create->in.domains);
++    __get_user(host_create->in.domain_flags, &target_create->in.domain_flags);
 +
-+    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_client));
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_create));
 +
 +    if (!is_error(ret)) {
-+        __put_user(host_client->idx, &target_client->idx);
-+        __put_user(host_client->auth, &target_client->auth);
-+        __put_user(host_client->pid, &target_client->pid);
-+        __put_user(host_client->uid, &target_client->uid);
-+        __put_user(host_client->magic, &target_client->magic);
-+        __put_user(host_client->iocs, &target_client->iocs);
++        __put_user(host_create->out.handle, &target_create->out.handle);
++        __put_user(host_create->out._pad, &target_create->out._pad);
 +    }
 +
-+    unlock_user_struct(target_client, arg, 0);
++    unlock_user_struct(target_create, arg, 0);
 +    return ret;
 +}
 +
- static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
-                              int fd, int cmd, abi_long arg)
- {
--    struct drm_version *ver;
--    struct target_drm_version *target_ver;
-     abi_long ret;
- 
-     switch (ie->host_cmd) {
--    case DRM_IOCTL_VERSION:
-+    case DRM_IOCTL_VERSION: {
-+        struct drm_version *ver;
-+        struct target_drm_version *target_ver;
-         if (!lock_user_struct(VERIFY_WRITE, target_ver, arg, 0)) {
-             return -TARGET_EFAULT;
-         }
-@@ -5649,6 +5682,65 @@ static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
-         unlock_user_struct(target_ver, arg, 0);
-         return ret;
-     }
-+    case DRM_IOCTL_GET_MAGIC: {
-+        struct drm_auth *auth;
-+        struct target_drm_auth *target_auth;
-+        if (!lock_user_struct(VERIFY_READ, target_auth, arg, 0)) {
-+            return -TARGET_EFAULT;
-+        }
-+        auth = (struct drm_auth *)buf_temp;
-+        __get_user(auth->magic, &target_auth->magic);
-+        ret = get_errno(safe_ioctl(fd, ie->host_cmd, auth));
-+        unlock_user_struct(target_auth, arg, 0);
-+        return ret;
++static abi_long do_ioctl_drm_amdgpu_gem_mmap(
++                                           const IOCTLEntry *ie,
++                                           union drm_amdgpu_gem_mmap *host_mmap,
++                                           int fd, abi_long arg)
++{
++    abi_long ret;
++    union target_drm_amdgpu_gem_mmap *target_mmap;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_mmap, arg, 0)) {
++        return -TARGET_EFAULT;
 +    }
-+    case DRM_IOCTL_GEM_CLOSE: {
-+        struct drm_gem_close *gem_close;
-+        struct target_drm_gem_close *target_gem_close;
-+        if (!lock_user_struct(VERIFY_WRITE, target_gem_close, arg, 0)) {
-+            return -TARGET_EFAULT;
-+        }
-+        gem_close = (struct drm_gem_close *)buf_temp;
-+        __get_user(gem_close->handle, &target_gem_close->handle);
-+        ret = get_errno(safe_ioctl(fd, ie->host_cmd, gem_close));
-+        __put_user(gem_close->handle, &target_gem_close->handle);
-+        unlock_user_struct(target_gem_close, arg, 0);
-+        return ret;
++
++    __get_user(host_mmap->in.handle, &target_mmap->in.handle);
++    __get_user(host_mmap->in._pad, &target_mmap->in._pad);
++
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_mmap));
++
++    if (!is_error(ret)) {
++        __put_user(host_mmap->out.addr_ptr, &target_mmap->out.addr_ptr);
 +    }
-+    case DRM_IOCTL_GET_CAP: {
-+        struct drm_get_cap *cap;
-+        struct target_drm_get_cap *target_cap;
-+        if (!lock_user_struct(VERIFY_WRITE, target_cap, arg, 0)) {
-+            return -TARGET_EFAULT;
-+        }
-+        cap = (struct drm_get_cap *)buf_temp;
-+        __get_user(cap->capability, &target_cap->capability);
-+        __get_user(cap->value, &target_cap->value);
-+        ret = get_errno(safe_ioctl(fd, ie->host_cmd, cap));
-+        __put_user(cap->value, &target_cap->value);
-+        unlock_user_struct(target_cap, arg, 0);
-+        return ret;
++
++    unlock_user_struct(target_mmap, arg, 0);
++    return ret;
++}
++
++static abi_long do_ioctl_drm_amdgpu_ctx(const IOCTLEntry *ie,
++                                        union drm_amdgpu_ctx *host_ctx,
++                                        int fd, abi_long arg)
++{
++    abi_long ret;
++    struct target_drm_amdgpu_ctx *target_ctx;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_ctx, arg, 0)) {
++        return -TARGET_EFAULT;
 +    }
-+    case DRM_IOCTL_GET_CLIENT:
-+        return do_ioctl_drm_get_client(ie,
-+                                       (struct drm_client *)buf_temp,
++
++    __get_user(host_ctx->in.op, &target_ctx->op);
++    __get_user(host_ctx->in.flags, &target_ctx->flags);
++    __get_user(host_ctx->in.ctx_id, &target_ctx->ctx_id);
++    __get_user(host_ctx->in.priority, &target_ctx->priority);
++
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_ctx));
++
++    if (!is_error(ret)) {
++        memcpy(target_ctx, host_ctx, sizeof(*target_ctx));
++    }
++
++    unlock_user_struct(target_ctx, arg, 0);
++    return ret;
++}
++
++static abi_long do_ioctl_drm_amdgpu_cs(const IOCTLEntry *ie,
++                                       union drm_amdgpu_cs *host_info,
++                                       int fd, abi_long arg)
++{
++    abi_long ret;
++    union target_drm_amdgpu_cs *target_info;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_info, arg, 0)) {
++        return -TARGET_EFAULT;
++    }
++
++    __get_user(host_info->in.ctx_id, &target_info->in.ctx_id);
++    __get_user(host_info->in.bo_list_handle, &target_info->in.bo_list_handle);
++    __get_user(host_info->in.num_chunks, &target_info->in.num_chunks);
++    __get_user(host_info->in.flags, &target_info->in.flags);
++
++    host_info->in.chunks = (abi_ullong)lock_user(
++                                  VERIFY_READ,
++                                  target_info->in.chunks,
++                                  target_info->in.num_chunks * sizeof(abi_long),
++                                  1);
++    void *chunks = (void *)host_info->in.chunks;
++    if (!host_info->in.chunks) {
++        unlock_user_struct(target_info, arg, 0);
++        return -EFAULT;
++    }
++
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_info));
++
++    if (is_error(ret)) {
++        goto fail;
++    }
++
++    __put_user(host_info->out.handle, &target_info->out.handle);
++    unlock_user(chunks, target_info->in.chunks, 0);
++    unlock_user_struct(target_info, arg, 0);
++    return ret;
++
++fail:
++    unlock_user_struct(target_info, arg, 0);
++    return -EFAULT;
++}
++
++static abi_long do_ioctl_drm_amdgpu_info(const IOCTLEntry *ie,
++                                         struct drm_amdgpu_info *host_info,
++                                         int fd, abi_long arg)
++{
++    abi_long ret;
++    struct target_drm_amdgpu_info *target_info;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_info, arg, 0)) {
++        return -TARGET_EFAULT;
++    }
++    __get_user(host_info->return_pointer, &target_info->return_pointer);
++    __get_user(host_info->return_size, &target_info->return_size);
++    __get_user(host_info->query, &target_info->query);
++    __get_user(host_info->read_mmr_reg.dword_offset, &target_info->value[0]);
++    __get_user(host_info->read_mmr_reg.count, &target_info->value[1]);
++    __get_user(host_info->read_mmr_reg.instance, &target_info->value[2]);
++    __get_user(host_info->read_mmr_reg.flags, &target_info->value[3]);
++
++    abi_ullong return_pointer = host_info->return_pointer;
++    host_info->return_pointer = (abi_ullong)lock_user(VERIFY_WRITE,
++                                                      return_pointer,
++                                                      host_info->return_size,
++                                                      1);
++    if (!host_info->return_pointer) {
++        unlock_user_struct(target_info, arg, 0);
++        return -EFAULT;
++    }
++
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_info));
++
++    if (!is_error(ret)) {
++        unlock_user((void *)host_info->return_pointer,
++                    return_pointer,
++                    host_info->return_size);
++    } else {
++        unlock_user((void *)host_info->return_pointer,
++                    return_pointer, 0);
++    }
++
++    unlock_user_struct(target_info, arg, 0);
++    return ret;
++}
++
++static abi_long do_ioctl_drm_amdgpu_gem_metadata(
++                                  const IOCTLEntry *ie,
++                                  struct drm_amdgpu_gem_metadata *host_metadata,
++                                  int fd, abi_long arg)
++{
++    abi_long ret;
++    struct target_drm_amdgpu_gem_metadata *target_metadata;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_metadata, arg, 0)) {
++        return -TARGET_EFAULT;
++    }
++    __get_user(host_metadata->handle, &target_metadata->handle);
++    __get_user(host_metadata->op, &target_metadata->op);
++    __get_user(host_metadata->data.flags, &target_metadata->flags);
++    __get_user(host_metadata->data.tiling_info, &target_metadata->tiling_info);
++    __get_user(host_metadata->data.data_size_bytes,
++               &target_metadata->data_size_bytes);
++    for (int i = 0; i < 64; i++) {
++        __get_user(host_metadata->data.data[i], &target_metadata->data[i]);
++    }
++
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_metadata));
++
++    if (!is_error(ret)) {
++        __put_user(host_metadata->handle, &target_metadata->handle);
++        __put_user(host_metadata->op, &target_metadata->op);
++        __put_user(host_metadata->data.flags, &target_metadata->flags);
++        __put_user(host_metadata->data.tiling_info,
++                   &target_metadata->tiling_info);
++        __put_user(host_metadata->data.data_size_bytes,
++                   &target_metadata->data_size_bytes);
++        for (int i = 0; i < 64; i++) {
++            __put_user(host_metadata->data.data[i], &target_metadata->data[i]);
++        }
++    }
++
++    unlock_user_struct(target_metadata, arg, 0);
++    return ret;
++}
++
++static abi_long do_ioctl_drm_amdgpu_gem_va(const IOCTLEntry *ie,
++                                           struct drm_amdgpu_gem_va *host_va,
++                                           int fd, abi_long arg)
++{
++    abi_long ret;
++    struct target_drm_amdgpu_gem_va *target_va;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_va, arg, 0)) {
++        return -TARGET_EFAULT;
++    }
++    __get_user(host_va->handle, &target_va->handle);
++    __get_user(host_va->_pad, &target_va->_pad);
++    __get_user(host_va->operation, &target_va->operation);
++    __get_user(host_va->flags, &target_va->flags);
++    __get_user(host_va->va_address, &target_va->va_address);
++    __get_user(host_va->offset_in_bo, &target_va->offset_in_bo);
++    __get_user(host_va->map_size, &target_va->map_size);
++
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_va));
++
++    if (!is_error(ret)) {
++        __put_user(host_va->handle, &target_va->handle);
++        __put_user(host_va->_pad, &target_va->_pad);
++        __put_user(host_va->operation, &target_va->operation);
++        __put_user(host_va->flags, &target_va->flags);
++        __put_user(host_va->va_address, &target_va->va_address);
++        __put_user(host_va->offset_in_bo, &target_va->offset_in_bo);
++        __put_user(host_va->map_size, &target_va->map_size);
++    }
++
++    unlock_user_struct(target_va, arg, 0);
++    return ret;
++}
++
++static abi_long do_ioctl_drm_amdgpu_wait_cs(
++                                         const IOCTLEntry *ie,
++                                         union drm_amdgpu_wait_cs *host_wait_cs,
++                                         int fd, abi_long arg)
++{
++    abi_long ret;
++    union target_drm_amdgpu_wait_cs *target_wait_cs;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_wait_cs, arg, 0)) {
++        return -TARGET_EFAULT;
++    }
++    __get_user(host_wait_cs->in.handle, &target_wait_cs->in.handle);
++    __get_user(host_wait_cs->in.timeout, &target_wait_cs->in.timeout);
++    __get_user(host_wait_cs->in.ip_type, &target_wait_cs->in.ip_type);
++    __get_user(host_wait_cs->in.ip_instance, &target_wait_cs->in.ip_instance);
++    __get_user(host_wait_cs->in.ring, &target_wait_cs->in.ring);
++    __get_user(host_wait_cs->in.ctx_id, &target_wait_cs->in.ctx_id);
++
++    ret = get_errno(safe_ioctl(fd, ie->host_cmd, host_wait_cs));
++
++    if (!is_error(ret)) {
++        __put_user(host_wait_cs->out.status, &target_wait_cs->out.status);
++    }
++
++    unlock_user_struct(target_wait_cs, arg, 0);
++    return ret;
++}
++
++static abi_long do_ioctl_drm_amdgpu(const IOCTLEntry *ie, uint8_t *buf_temp,
++                                    int fd, int cmd, abi_long arg)
++{
++    switch (ie->host_cmd) {
++    case DRM_IOCTL_AMDGPU_GEM_CREATE:
++        return do_ioctl_drm_amdgpu_gem_create(
++                                        ie,
++                                        (union drm_amdgpu_gem_create *)buf_temp,
++                                        fd, arg);
++    case DRM_IOCTL_AMDGPU_GEM_MMAP:
++        return do_ioctl_drm_amdgpu_gem_mmap(
++                                          ie,
++                                          (union drm_amdgpu_gem_mmap *)buf_temp,
++                                          fd, arg);
++
++    case DRM_IOCTL_AMDGPU_CTX:
++        return do_ioctl_drm_amdgpu_ctx(ie,
++                                       (union drm_amdgpu_ctx *)buf_temp,
 +                                       fd, arg);
-+    case DRM_IOCTL_PRIME_HANDLE_TO_FD: {
-+        struct drm_prime_handle *prime_handle;
-+        struct target_drm_prime_handle *target_prime_handle;
-+        if (!lock_user_struct(VERIFY_WRITE, target_prime_handle, arg, 0)) {
-+            return -TARGET_EFAULT;
-+        }
-+        prime_handle = (struct drm_prime_handle *)buf_temp;
-+        __get_user(prime_handle->handle, &target_prime_handle->handle);
-+        __get_user(prime_handle->flags, &target_prime_handle->flags);
-+        __get_user(prime_handle->fd, &target_prime_handle->fd);
-+        ret = get_errno(safe_ioctl(fd, ie->host_cmd, prime_handle));
-+        __put_user(prime_handle->fd, &target_prime_handle->fd);
-+        unlock_user_struct(target_prime_handle, arg, 0);
-+        return ret;
++    case DRM_IOCTL_AMDGPU_CS:
++        return do_ioctl_drm_amdgpu_cs(ie,
++                                      (union drm_amdgpu_cs *)buf_temp,
++                                      fd, arg);
++    case DRM_IOCTL_AMDGPU_INFO:
++        return do_ioctl_drm_amdgpu_info(ie,
++                                        (struct drm_amdgpu_info *)buf_temp,
++                                        fd, arg);
++    case DRM_IOCTL_AMDGPU_GEM_METADATA:
++        return do_ioctl_drm_amdgpu_gem_metadata(
++                                     ie,
++                                     (struct drm_amdgpu_gem_metadata *)buf_temp,
++                                     fd, arg);
++    case DRM_IOCTL_AMDGPU_GEM_VA:
++        return do_ioctl_drm_amdgpu_gem_va(ie,
++                                          (struct drm_amdgpu_gem_va *)buf_temp,
++                                          fd, arg);
++    case DRM_IOCTL_AMDGPU_WAIT_CS:
++        return do_ioctl_drm_amdgpu_wait_cs(ie,
++                                           (union drm_amdgpu_wait_cs *)buf_temp,
++                                           fd, arg);
++    default:
++        return -TARGET_ENOSYS;
 +    }
-+    }
-     return -TARGET_ENOSYS;
- }
++}
++
+ #else
  
+ static abi_long do_ioctl_drm_i915_getparam(const IOCTLEntry *ie,
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index e435649693..5429834236 100644
+index 5429834236..d3d12ab918 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -1226,6 +1226,11 @@ struct target_rtc_pll_info {
- 
- /* drm ioctls */
- #define TARGET_DRM_IOCTL_VERSION      TARGET_IOWRU('d', 0x00)
-+#define TARGET_DRM_IOCTL_GET_MAGIC    TARGET_IORU('d', 0x02)
-+#define TARGET_DRM_IOCTL_GET_CLIENT   TARGET_IOWRU('d', 0x05)
-+#define TARGET_DRM_IOCTL_GEM_CLOSE    TARGET_IOWU('d', 0x09)
-+#define TARGET_DRM_IOCTL_GET_CAP      TARGET_IOWRU('d', 0x0c)
-+#define TARGET_DRM_IOCTL_PRIME_HANDLE_TO_FD  TARGET_IOWRU('d', 0x2d)
+@@ -1233,7 +1233,15 @@ struct target_rtc_pll_info {
+ #define TARGET_DRM_IOCTL_PRIME_HANDLE_TO_FD  TARGET_IOWRU('d', 0x2d)
  
  #ifdef CONFIG_DRM_AMDGPU
- 
-@@ -2690,6 +2695,35 @@ struct target_drm_version {
-     abi_ulong desc;
+-
++/* drm amdgpu ioctls */
++#define TARGET_DRM_IOCTL_AMDGPU_GEM_CREATE   TARGET_IOWRU('d', 0x40)
++#define TARGET_DRM_IOCTL_AMDGPU_GEM_MMAP     TARGET_IOWRU('d', 0x41)
++#define TARGET_DRM_IOCTL_AMDGPU_CTX   TARGET_IOWRU('d', 0x42)
++#define TARGET_DRM_IOCTL_AMDGPU_CS    TARGET_IOWRU('d', 0x44)
++#define TARGET_DRM_IOCTL_AMDGPU_INFO  TARGET_IOWU('d', 0x45)
++#define TARGET_DRM_IOCTL_AMDGPU_GEM_METADATA TARGET_IOWRU('d', 0x46)
++#define TARGET_DRM_IOCTL_AMDGPU_GEM_VA       TARGET_IOWRU('d', 0x48)
++#define TARGET_DRM_IOCTL_AMDGPU_WAIT_CS      TARGET_IOWRU('d', 0x49)
+ #else
+ /* drm i915 ioctls */
+ #define TARGET_DRM_IOCTL_I915_GETPARAM              TARGET_IOWRU('d', 0x46)
+@@ -2724,6 +2732,96 @@ struct target_drm_prime_handle {
+     int fd;
  };
  
-+struct target_drm_auth {
-+    int magic;
++/* amdgpu specific */
++union target_drm_amdgpu_gem_create {
++    struct {
++        abi_ullong bo_size;
++        abi_ullong alignment;
++        abi_ulong domains;
++        abi_ulong domain_flags;
++    } in;
++    struct {
++        int handle;
++        int _pad;
++    } out;
 +};
 +
-+struct target_drm_client {
-+    int idx;
-+    int auth;
-+    abi_ulong pid;
-+    abi_ulong uid;
-+    abi_ulong magic;
-+    abi_ulong iocs;
++union target_drm_amdgpu_gem_mmap {
++    struct {
++        int handle;
++        int _pad;
++    } in;
++    struct {
++        abi_ulong addr_ptr;
++    } out;
 +};
 +
-+struct target_drm_gem_close {
-+    int handle;
-+    int pad;
-+};
-+
-+struct target_drm_get_cap {
-+    abi_ulong capability;
-+    abi_ulong value;
-+};
-+
-+struct target_drm_prime_handle {
-+    int handle;
++struct target_drm_amdgpu_ctx {
++    int op;
 +    int flags;
-+    int fd;
++    int ctx_id;
++    int priority;
++};
++
++struct target_drm_amdgpu_info {
++    abi_ulong return_pointer;
++    int return_size;
++    int query;
++    int value[4];
++};
++
++struct target_drm_amdgpu_gem_metadata {
++    int handle;
++    int op;
++    abi_ulong flags;
++    abi_ulong tiling_info;
++    int data_size_bytes;
++    int data[64];
++};
++
++struct target_drm_amdgpu_gem_va {
++    int handle;
++    int _pad;
++    int operation;
++    int flags;
++    abi_ulong va_address;
++    abi_ulong offset_in_bo;
++    abi_ulong map_size;
++};
++
++struct target_drm_amdgpu_cs_chunk {
++    int chunk_id;
++    int length_dw;
++    abi_ulong chunk_data;
++};
++
++union target_drm_amdgpu_cs {
++    struct {
++        int ctx_id;
++        int bo_list_handle;
++        int num_chunks;
++        int flags;
++        abi_ulong chunks;
++    } in;
++    struct {
++        abi_ulong handle;
++    } out;
++};
++
++union target_drm_amdgpu_wait_cs {
++    struct {
++        abi_ullong handle;
++        abi_ullong timeout;
++        int ip_type;
++        int ip_instance;
++        int ring;
++        int ctx_id;
++    } in;
++    struct {
++        abi_ullong status;
++    } out;
 +};
 +
  struct target_drm_i915_getparam {
      int param;
      abi_ulong value;
 diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index c3b43f8022..2a48b2ec47 100644
+index 2a48b2ec47..b90bfdbbfd 100644
 --- a/linux-user/syscall_types.h
 +++ b/linux-user/syscall_types.h
-@@ -331,6 +331,30 @@ STRUCT(drm_version,
-        TYPE_ULONG, /* desc_len */
-        TYPE_PTRVOID) /* desc */
+@@ -355,6 +355,61 @@ STRUCT(drm_prime_handle,
+        TYPE_INT, /* flags */
+        TYPE_INT) /* fd */
  
-+STRUCT(drm_auth,
-+       TYPE_INT) /* magic */
++/* amdgpu specific */
++STRUCT(drm_amdgpu_gem_create,
++       TYPE_INT, /* [out] handle */
++       TYPE_INT, /* [out] _pad; [in] bo_size */
++       TYPE_ULONGLONG, /* [in] alignment */
++       TYPE_ULONGLONG, /* [in] domains */
++       TYPE_ULONGLONG) /* [in] domain_flags */
 +
-+STRUCT(drm_client,
-+       TYPE_INT, /* idx */
-+       TYPE_INT, /* auth */
-+       TYPE_ULONG, /* pid */
-+       TYPE_ULONG, /* uid */
-+       TYPE_ULONG, /* magic */
-+       TYPE_ULONG) /* iocs */
++STRUCT(drm_amdgpu_gem_mmap,
++       TYPE_ULONGLONG) /* [out] addr_ptr */
 +
-+STRUCT(drm_gem_close,
++STRUCT(drm_amdgpu_ctx,
++       TYPE_INT, /* [in] op */
++       TYPE_INT, /* [in] flags */
++       TYPE_INT, /* [in] ctx_id */
++       TYPE_INT) /* [in] priority */
++
++STRUCT(drm_amdgpu_cs,
++       TYPE_INT, /* [in] ctx_id */
++       TYPE_INT, /* [in] bo_list_handle */
++       TYPE_INT, /* [in] num_chunks */
++       TYPE_INT, /* [in] flags */
++       TYPE_PTRVOID) /* [in] chunks */
++
++STRUCT(drm_amdgpu_info,
++       TYPE_PTRVOID, /* return pointer */
++       TYPE_INT, /* return size */
++       TYPE_INT, /* query id */
++       MK_ARRAY(TYPE_INT, 4)) /* union */
++
++STRUCT(drm_amdgpu_gem_metadata,
 +       TYPE_INT, /* handle */
-+       TYPE_INT) /* pad */
++       TYPE_INT, /* op */
++       TYPE_ULONGLONG, /* flags */
++       TYPE_ULONGLONG, /* tiling_info */
++       TYPE_INT, /* data_size_bytes */
++       MK_ARRAY(TYPE_INT, 64)) /* data */
 +
-+STRUCT(drm_get_cap,
-+       TYPE_ULONGLONG, /* capability */
-+       TYPE_ULONGLONG) /* value */
-+
-+STRUCT(drm_prime_handle,
++STRUCT(drm_amdgpu_gem_va,
 +       TYPE_INT, /* handle */
++       TYPE_INT, /* pad */
++       TYPE_INT, /* operation */
 +       TYPE_INT, /* flags */
-+       TYPE_INT) /* fd */
++       TYPE_ULONGLONG, /* va_address */
++       TYPE_ULONGLONG, /* offset_in_bo */
++       TYPE_ULONGLONG) /* map_size */
++
++STRUCT(drm_amdgpu_wait_cs,
++       TYPE_ULONGLONG, /* [in] handle; [out] status */
++       TYPE_ULONGLONG, /* [in] timeout */
++       TYPE_INT, /* [in] ip_type */
++       TYPE_INT, /* [in] ip_instance */
++       TYPE_INT, /* [in] ring */
++       TYPE_INT) /* [in] ctx_id */
 +
  STRUCT(drm_i915_getparam,
         TYPE_INT, /* param */
