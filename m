@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09816DC8A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 17:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBD96DC8BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 17:47:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pltcp-00044Y-Er; Mon, 10 Apr 2023 11:40:11 -0400
+	id 1pltiy-0005SJ-SV; Mon, 10 Apr 2023 11:46:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arbn@yandex-team.com>)
- id 1pltch-00041o-1f; Mon, 10 Apr 2023 11:40:08 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1pltix-0005S9-7Q
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 11:46:31 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arbn@yandex-team.com>)
- id 1pltce-0001ny-NO; Mon, 10 Apr 2023 11:40:02 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:7f29:0:640:9a2b:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 7FEFE600C7;
- Mon, 10 Apr 2023 18:39:47 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:83:11:14df:f716:b8ed:439d] (unknown
- [2a02:6b8:83:11:14df:f716:b8ed:439d])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id VdWFrr0OcW20-Jnn3RuaA; Mon, 10 Apr 2023 18:39:46 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.com;
- s=default; 
- t=1681141186; bh=3OCwzW6XOm3K9lJaXxUxJBXZPopaPJWt2tW9UwkVWc4=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=Cc9D1+dHxj/BVFMRvsTsijL54Ggv9d//IjguzPmmEKpPcao0d6j7fBsVxcOtp38gF
- tds8+y/t/QIXVTDZBUOEj11AuXKcGbZlCEEde8g9n0LeCvhpYuOPByplodxkLisXEO
- VWoM/9U3egyeu3IajnjfiMC1/FzBk6MigJJgse48=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.com
-Message-ID: <fcc6073f-280b-580e-b6f7-bc176a64e810@yandex-team.com>
-Date: Mon, 10 Apr 2023 17:39:55 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH] block/vhost-user-blk: Fix hang on boot for some odd guests
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: Yongji Xie <xieyongji@baidu.com>, Chai Wen <chaiwen@baidu.com>,
- Ni Xun <nixun@baidu.com>, d-tatianin@yandex-team.com,
- yc-core@yandex-team.com, vsementsov@yandex-team.com
-References: <20230410083509.3311-1-arbn@yandex-team.com>
-Content-Language: en-US
-From: Andrey Ryabinin <arbn@yandex-team.com>
-In-Reply-To: <20230410083509.3311-1-arbn@yandex-team.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=arbn@yandex-team.com; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.246,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1pltiv-0003B2-2Y
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 11:46:30 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 33ACjvAw003211; Mon, 10 Apr 2023 15:46:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2022-7-12;
+ bh=kexfzPCu/mIbhi14BXzDFpgVXAZerqYoD2zEbcJHNSw=;
+ b=qorrzqjS/1KX1faLGgrzc9OD7JEBMDkhtqfp8IAH1N+gTUL0Tz0cohFy7LJTDcSdazO5
+ wqEl7fec2XTXZShK6+XHEpifiF/nQcJEhPzbNCfaInp8YetJ5iXEwCntbtgmjuQ2dtLg
+ qiF8pRzqDgXkyP0qQsk7zbVjDfYJ1cZvPYb21lTvxqAIWNGI+hUc5TqMSIwgeQV7ws+h
+ ffG+esBQWvcHSHM9OBmjU9u3Zwkx5UDO2yk+iHy2YxpC9rrndASzqf45IGnY8wT1Ifgb
+ 6h2ntc5nM/wqmH+4aXX+EMT68q48qHlq4wC1NAps9IeuBtsteM00Z5j7x0nBsjrit47J DQ== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pu0hc350f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 10 Apr 2023 15:46:25 +0000
+Received: from pps.filterd
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
+ with ESMTP id 33AENPNw038384; Mon, 10 Apr 2023 15:46:24 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3puw854m73-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 10 Apr 2023 15:46:24 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33AFkNh1021871;
+ Mon, 10 Apr 2023 15:46:23 GMT
+Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
+ ESMTP id 3puw854m6f-1; Mon, 10 Apr 2023 15:46:23 +0000
+From: Steve Sistare <steven.sistare@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Peter Xu <peterx@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Steve Sistare <steven.sistare@oracle.com>
+Subject: [PATCH] util/mmap: optimize qemu_ram_mmap() alignment
+Date: Mon, 10 Apr 2023 08:46:23 -0700
+Message-Id: <1681141583-87816-1-git-send-email-steven.sistare@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-10_11,2023-04-06_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=999
+ phishscore=0 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304100134
+X-Proofpoint-GUID: dyCYF51uHFB8HwjIq6skQxdrcl_yzYde
+X-Proofpoint-ORIG-GUID: dyCYF51uHFB8HwjIq6skQxdrcl_yzYde
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,176 +95,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Guest RAM created with memory-backend-memfd is aligned to a
+QEMU_VMALLOC_ALIGN=2M boundary, and memory-backend-memfd does not support
+the "align" parameter to change the default.  This is sub-optimal on
+aarch64 kernels with a 64 KB page size and 512 MB huge page size, as the
+range will not be backed by huge pages.  Moreover, any shared allocation
+using qemu_ram_mmap() will be sub-optimal on such a system if the align
+parameter is less than 512 MB.
 
+The kernel is smart enough to return a hugely aligned pointer for MAP_SHARED
+mappings when /sys/kernel/mm/transparent_hugepage/shmem_enabled allows it.
+However, the qemu function qemu_ram_mmap() mmap's twice to perform its own
+alignment:
 
-On 4/10/23 10:35, Andrey Ryabinin wrote:
-> Some guests hang on boot when using the vhost-user-blk-pci device,
-> but boot normally when using the virtio-blk device. The problem occurs
-> because the guest advertises VIRTIO_F_VERSION_1 but kicks the virtqueue
-> before setting VIRTIO_CONFIG_S_DRIVER_OK, causing vdev->start_on_kick to
-> be false in vhost_user_blk_handle_output() and preventing the device from
-> starting.
-> 
-> Fix this by removing the check for vdev->start_on_kick to ensure
-> that the device starts after the kick. This aligns the behavior of
-> 'vhost-user-blk-pci' device with 'virtio-blk' as it does the similar
-> thing in its virtio_blk_handle_output() function.
-> 
-> Fixes: 110b9463d5c8 ("vhost-user-blk: start vhost when guest kicks")
-> Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
-> ---
->  hw/block/vhost-user-blk.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index aff4d2b8cbd..448ead448f3 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -279,10 +279,6 @@ static void vhost_user_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
->      Error *local_err = NULL;
->      int i, ret;
->  
-> -    if (!vdev->start_on_kick) {
-> -        return;
-> -    }
-> -
->      if (!s->connected) {
->          return;
->      }
+    guardptr = mmap(0, total, PROT_NONE, flags, ...
+    flags |= shared ? MAP_SHARED : MAP_PRIVATE;
+    ptr = mmap(guardptr + offset, size, prot, flags | map_sync_flags, ...
 
+On the first call, flags has MAP_PRIVATE, hence the kernel does not apply
+its shared memory policy, and returns a non-huge-aligned guardptr.
 
-After looking a bit closer to this ->start_on_kick thing ( commit badaf79cfdbd ("virtio: Introduce started flag to VirtioDevice")
-and follow ups) I'm starting to think that removing it entirely would be the right thing to do here.
-The whole reason for it was to add special case for !VIRTIO_F_VERSION_1 guests.
-If we making start on kick thing for misbehaving VIRTIO_F_VERSION_1 guests too, than the flag is no longer required,
-so we can do following:
+To fix, for shared mappings, pass MAP_SHARED to both mmap calls.
 
+Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
 ---
- hw/block/vhost-user-blk.c  |  4 ----
- hw/virtio/virtio-qmp.c     |  2 +-
- hw/virtio/virtio.c         | 21 ++-------------------
- include/hw/virtio/virtio.h |  5 -----
- 4 files changed, 3 insertions(+), 29 deletions(-)
+ util/mmap-alloc.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index aff4d2b8cbd..448ead448f3 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -279,10 +279,6 @@ static void vhost_user_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-     Error *local_err = NULL;
-     int i, ret;
- 
--    if (!vdev->start_on_kick) {
--        return;
--    }
--
-     if (!s->connected) {
-         return;
-     }
-diff --git a/hw/virtio/virtio-qmp.c b/hw/virtio/virtio-qmp.c
-index e4d4bece2d7..4865819cd2f 100644
---- a/hw/virtio/virtio-qmp.c
-+++ b/hw/virtio/virtio-qmp.c
-@@ -773,7 +773,7 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
-     status->disabled = vdev->disabled;
-     status->use_started = vdev->use_started;
-     status->started = vdev->started;
--    status->start_on_kick = vdev->start_on_kick;
-+    status->start_on_kick = true;
-     status->disable_legacy_check = vdev->disable_legacy_check;
-     status->bus_name = g_strdup(vdev->bus_name);
-     status->use_guest_notifier_mask = vdev->use_guest_notifier_mask;
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index f35178f5fcd..218584eae85 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2126,7 +2126,6 @@ void virtio_reset(void *opaque)
-         k->reset(vdev);
-     }
- 
--    vdev->start_on_kick = false;
-     vdev->started = false;
-     vdev->broken = false;
-     vdev->guest_features = 0;
-@@ -2248,9 +2247,7 @@ static void virtio_queue_notify_vq(VirtQueue *vq)
-         trace_virtio_queue_notify(vdev, vq - vdev->vq, vq);
-         vq->handle_output(vdev, vq);
- 
--        if (unlikely(vdev->start_on_kick)) {
--            virtio_set_started(vdev, true);
--        }
-+        virtio_set_started(vdev, true);
-     }
- }
- 
-@@ -2268,9 +2265,7 @@ void virtio_queue_notify(VirtIODevice *vdev, int n)
-     } else if (vq->handle_output) {
-         vq->handle_output(vdev, vq);
- 
--        if (unlikely(vdev->start_on_kick)) {
--            virtio_set_started(vdev, true);
--        }
-+        virtio_set_started(vdev, true);
-     }
- }
- 
-@@ -2881,12 +2876,6 @@ int virtio_set_features(VirtIODevice *vdev, uint64_t val)
-             }
-         }
-     }
--    if (!ret) {
--        if (!virtio_device_started(vdev, vdev->status) &&
--            !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
--            vdev->start_on_kick = true;
--        }
--    }
-     return ret;
- }
- 
-@@ -3039,11 +3028,6 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
-         }
-     }
- 
--    if (!virtio_device_started(vdev, vdev->status) &&
--        !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
--        vdev->start_on_kick = true;
--    }
--
-     RCU_READ_LOCK_GUARD();
-     for (i = 0; i < num; i++) {
-         if (vdev->vq[i].vring.desc) {
-@@ -3162,7 +3146,6 @@ void virtio_init(VirtIODevice *vdev, uint16_t device_id, size_t config_size)
-             g_malloc0(sizeof(*vdev->vector_queues) * nvectors);
-     }
- 
--    vdev->start_on_kick = false;
-     vdev->started = false;
-     vdev->vhost_started = false;
-     vdev->device_id = device_id;
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 77c6c55929f..5742876b4fa 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -144,7 +144,6 @@ struct VirtIODevice
-      */
-     bool use_started;
-     bool started;
--    bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
-     bool disable_legacy_check;
-     bool vhost_started;
-     VMChangeStateEntry *vmstate;
-@@ -460,10 +459,6 @@ static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status
- 
- static inline void virtio_set_started(VirtIODevice *vdev, bool started)
+diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+index 5ed7d29..37a0d1e 100644
+--- a/util/mmap-alloc.c
++++ b/util/mmap-alloc.c
+@@ -121,7 +121,7 @@ static bool map_noreserve_effective(int fd, uint32_t qemu_map_flags)
+  * Reserve a new memory region of the requested size to be used for mapping
+  * from the given fd (if any).
+  */
+-static void *mmap_reserve(size_t size, int fd)
++static void *mmap_reserve(size_t size, int fd, int final_flags)
  {
--    if (started) {
--        vdev->start_on_kick = false;
--    }
--
-     if (vdev->use_started) {
-         vdev->started = started;
+     int flags = MAP_PRIVATE;
+ 
+@@ -144,6 +144,7 @@ static void *mmap_reserve(size_t size, int fd)
+ #else
+     fd = -1;
+     flags |= MAP_ANONYMOUS;
++    flags |= final_flags & MAP_SHARED;
+ #endif
+ 
+     return mmap(0, size, PROT_NONE, flags, fd, 0);
+@@ -232,7 +233,7 @@ void *qemu_ram_mmap(int fd,
+      */
+     total = size + align;
+ 
+-    guardptr = mmap_reserve(total, fd);
++    guardptr = mmap_reserve(total, fd, qemu_map_flags);
+     if (guardptr == MAP_FAILED) {
+         return MAP_FAILED;
      }
 -- 
-2.39.2
+1.8.3.1
 
 
