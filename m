@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDEB6DC79F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 16:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333806DC7BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 16:15:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pls7e-0007GY-5f; Mon, 10 Apr 2023 10:03:54 -0400
+	id 1plsGy-0000xj-J4; Mon, 10 Apr 2023 10:13:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pls7b-0007G3-Pp; Mon, 10 Apr 2023 10:03:51 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1plsGw-0000xQ-1o
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 10:13:30 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pls7a-000706-3O; Mon, 10 Apr 2023 10:03:51 -0400
-Received: by mail-ej1-x630.google.com with SMTP id sh8so12654663ejc.10;
- Mon, 10 Apr 2023 07:03:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1plsGu-0000Nf-0m
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 10:13:29 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ 98e67ed59e1d1-246a1c48021so128856a91.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 07:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681135428;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=F8hgBVeahqvBLV5ViG+HU7KHlwQMo/H6mIRC2Z1Z+Ck=;
- b=RqHjT8N13PPvEkF/gFAV7oSQHfQ+UyaaNZjHt8WK8GZLzUXhmw5q0kZtZ5wLnP/MTZ
- UyXnI2sXYKuJt8dcnE/1nLhbW+0D2H+GSpp8b1eMVxqnjUVZZfajixeaYeynS1DBxfat
- hErs8aWxVSBJDOlImEITrBmn6tU4jaHHcAc/JANwnsLXQc+1g8TLbBaWQiJMo0OwJm/9
- v0Yh+XGwOptnL8ZCCaMsfaPhRPANxJY5ElgN6XE6YRcjwqiZ3Q3EKQSx9Ggn4St/O92B
- yl8Vaaf+YvxBsp5qbKDqVjaAqg9SbNLrL8seGj+gC9vzSpC+Ab4j+NHmeX3xLnydE83z
- V0Qw==
+ d=ventanamicro.com; s=google; t=1681136006; x=1683728006;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sbelkXj5/xY8TaRMGMYt1lsv6AVM2L6f4uqa2EtkMaQ=;
+ b=DxEEYPFhWkFMlT3Mfs5cfBgw6zy5aepnorrey4XBhXo5KX1xCJce2PSm2NQ9tPjtyl
+ y8xzfyWVCXGus/xMq2F/g5GdjxyTtR9dSCS0AgRCUGB99miDfv3B8aG0QCX5CTu6ZHpx
+ oqAq3+slqy1y3ypbU+ZgH14lKA8JP1RY5Mr2bcGkYxavqnW0NDMoS14+rGjoofD3mdyy
+ rUl+ccD2vrfpBlKsCwkQUQpfoSHOJ+CKiwtn1R6xYr6F3jKo9AEAnshwWVKwjiEKnAbR
+ 4CIKCMUZc7LrhMiH4BMl7gAZ6gfAoTM8lDW01apjUZMG5tmwhiZMuwHIJHECeiWgz6ds
+ emzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681135428;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=F8hgBVeahqvBLV5ViG+HU7KHlwQMo/H6mIRC2Z1Z+Ck=;
- b=nA1kAZJ4pVZV+arrDKAN9LSgoUJjLxU2OnH/FvXrQPiXxLdW+ZMoMHzKlven5JyjU3
- Tj+8Uu5MjF0E2/WjKgccSmn5nQoeH7MoZtL94Mhz9mRXRTwhqmujLLY/YEF9ypvS/F5a
- 9p+b++U16lMrXyprm9Cg++P0nQq0OSItBcbV4+fAtpQrVyyLECeRhY6oUfGJ59Z87STT
- RNtY03PSL4+FZZAUMLD3lU2gXFpb4ceP8dAb9brJPklUnYhmKytTK3hspYaSCJ+gu8YL
- Tlx6OBVoMFPzKHWtOtFL6gCHsv988+vk/WkEYhe1VufxWjDK6372nEK6LzDqTbrdVPEo
- nKcw==
-X-Gm-Message-State: AAQBX9fL74qRT10aZ3p6RkPHlraB9IjaB+gwA9LDOYicpXwwQ1FxTLY1
- 3i00zpdVfez40mtpZKr7NP6pxmd7UhyMlKbfKvE=
-X-Google-Smtp-Source: AKy350Z1ZDCsAFd3zlxc0Iq7nfrIoLAxgl56RVDFisHYAhZJ3SDueVoYOBWpvsbHL17ebSN1zxSez7if8Q3I1NFU2mI=
-X-Received: by 2002:a17:907:94cc:b0:8e3:da0f:f3ea with SMTP id
- dn12-20020a17090794cc00b008e3da0ff3eamr2949624ejc.7.1681135427581; Mon, 10
- Apr 2023 07:03:47 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681136006; x=1683728006;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sbelkXj5/xY8TaRMGMYt1lsv6AVM2L6f4uqa2EtkMaQ=;
+ b=PsfSzix+1mAKJruR7NqDduAN/vL+hjyrMUhSlLNw6tmyghgdTcWSVszHDhWJ7LNS/u
+ fOI7nIeJVGoF6ItuU4aDS5XuOEh2X1lR24Zd7D1RKDWb5eMu2cI2z3xW7uZTjOmiNo4+
+ KlcnaonQybZmZq2o/7COKOcYH05V8AUpdZlBsg4l4fe3yNiVSuyl6Lit2Ggg720u+fUF
+ VxvIYo2nDlJL1Kk54gREJbihiOVM3Go4h9eMInB3vK6Lmx32X8V/AOf6psOkyxBKT1LM
+ 5I2d6zc7QuEcEtjaTSUDwC8NcQgmt0kiF2HdkD9Eu3vAqysKxF6g4j0hmwd/57sxVKNH
+ pV5A==
+X-Gm-Message-State: AAQBX9eOoUa2YNyp0dWwhNhWvuzwzKnhhXjIfFoCB6WBGCSAdIyy6wid
+ VuNopGSgBLOxrjKTEDExChWaP0bvVqo9Ee49juwSsw==
+X-Google-Smtp-Source: AKy350b7ROScqzIrDmoV+6/N3OCLRR1fduTcnnYKi6Hd++BkuExJCuMjYwwi3TkCjhv2z/O863YyIw==
+X-Received: by 2002:a62:1b85:0:b0:626:17b8:8586 with SMTP id
+ b127-20020a621b85000000b0062617b88586mr11258684pfb.30.1681136005834; 
+ Mon, 10 Apr 2023 07:13:25 -0700 (PDT)
+Received: from mchitale-vm.. ([103.97.165.210])
+ by smtp.googlemail.com with ESMTPSA id
+ b22-20020aa78716000000b0063486255a87sm3783526pfo.142.2023.04.10.07.13.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Apr 2023 07:13:25 -0700 (PDT)
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org,
+	alistair.francis@wdc.com
+Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ Daniel Barboza <dbarboza@ventanamicro.com>, liweiwei@iscas.ac.cn,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [RFC PATCH 0/4] Smstateen FCSR implementation
+Date: Mon, 10 Apr 2023 19:43:12 +0530
+Message-Id: <20230410141316.3317474-1-mchitale@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230410134938.907457-1-stefanha@redhat.com>
-In-Reply-To: <20230410134938.907457-1-stefanha@redhat.com>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Mon, 10 Apr 2023 22:03:21 +0800
-Message-ID: <CAAAx-8JW0yHdRTxx9RHch+bS_J-OfDKCBrpDgfw78i7GLYATsw@mail.gmail.com>
-Subject: Re: [PATCH] block/file-posix: use unsigned int for zones consistently
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=faithilikerun@gmail.com; helo=mail-ej1-x630.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,78 +93,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8810=E6=
-=97=A5=E5=91=A8=E4=B8=80 21:49=E5=86=99=E9=81=93=EF=BC=9A
->
-> Avoid mixing int and unsigned int for zone index and count values. This
-> eliminates the possibility of accidental negative write pointer array
-> indices. It also makes code review easier because we don't need to worry
-> about signed/unsigned comparisons.
->
-> In practice I don't think zoned devices are likely to exceed MAX_INT
-> zones any time soon, so this is mostly a code cleanup.
->
-> Cc: Sam Li <faithilikerun@gmail.com>
-> Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> Cc: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  block/file-posix.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->
-> This is a cleanup on top of "[PATCH v9 0/4] Add zone append write for
-> zoned device".
->
-> Based-on: <20230407081657.17947-1-faithilikerun@gmail.com>
+Patch 4 and 5 of the smstateen series need to be re-submitted with
+changes described in the email below:
+https://lists.nongnu.org/archive/html/qemu-riscv/2022-11/msg00155.html
+Hence spliting the patch 4 of the original series into three patches and
+re-submitting along with the original patch 5.
 
-Reviewed-by: Sam Li <faithilikerun@gmail.com>
+Mayuresh Chitale (4):
+  target/riscv: smstateen check for fcsr
+  target/riscv: Add fcsr field in tb->flags
+  target/riscv: check smstateen fcsr flag
+  target/riscv: smstateen knobs
 
->
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 32b16bc4fb..77fbf9e33e 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1338,8 +1338,9 @@ static int get_zones_wp(BlockDriverState *bs, int f=
-d, int64_t offset,
->      size_t rep_size;
->      uint64_t sector =3D offset >> BDRV_SECTOR_BITS;
->      BlockZoneWps *wps =3D bs->wps;
-> -    int j =3D offset / bs->bl.zone_size;
-> -    int ret, n =3D 0, i =3D 0;
-> +    unsigned int j =3D offset / bs->bl.zone_size;
-> +    int ret;
-> +    unsigned int n =3D 0, i =3D 0;
->      rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(struct bl=
-k_zone);
->      g_autofree struct blk_zone_report *rep =3D NULL;
->
-> @@ -2092,7 +2093,8 @@ static int handle_aiocb_zone_report(void *opaque)
->      struct blk_zone *blkz;
->      size_t rep_size;
->      unsigned int nrz;
-> -    int ret, n =3D 0, i =3D 0;
-> +    int ret;
-> +    unsigned int n =3D 0, i =3D 0;
->
->      nrz =3D *nr_zones;
->      rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(struct bl=
-k_zone);
-> @@ -3507,11 +3509,11 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDri=
-verState *bs, BlockZoneOp op,
->              return ret;
->          }
->      } else if (zo =3D=3D BLKRESETZONE) {
-> -        for (int j =3D 0; j < nrz; ++j) {
-> +        for (unsigned int j =3D 0; j < nrz; ++j) {
->              wp[j] =3D offset + j * zone_size;
->          }
->      } else if (zo =3D=3D BLKFINISHZONE) {
-> -        for (int j =3D 0; j < nrz; ++j) {
-> +        for (unsigned int j =3D 0; j < nrz; ++j) {
->              /* The zoned device allows the last zone smaller that the
->               * zone size. */
->              wp[j] =3D MIN(offset + (j + 1) * zone_size, offset + len);
-> --
-> 2.39.2
->
+ target/riscv/cpu.c                        |  3 ++-
+ target/riscv/cpu.h                        |  4 ++++
+ target/riscv/cpu_helper.c                 |  5 +++++
+ target/riscv/csr.c                        | 25 ++++++++++++++++++++++-
+ target/riscv/insn_trans/trans_rvf.c.inc   | 24 +++++++++++++++++++---
+ target/riscv/insn_trans/trans_rvzfh.c.inc |  4 ++++
+ target/riscv/translate.c                  |  2 ++
+ 7 files changed, 62 insertions(+), 5 deletions(-)
+
+-- 
+2.34.1
+
 
