@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16376DC6DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 14:47:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAE66DC6EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 14:51:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plqtr-00065g-OF; Mon, 10 Apr 2023 08:45:35 -0400
+	id 1plqyr-0000Jj-0X; Mon, 10 Apr 2023 08:50:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1plqtn-00064G-KP; Mon, 10 Apr 2023 08:45:31 -0400
-Received: from forward206b.mail.yandex.net ([178.154.239.151])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1plqtk-0004F8-VC; Mon, 10 Apr 2023 08:45:31 -0400
-Received: from mail-nwsmtp-smtp-production-main-25.sas.yp-c.yandex.net
- (mail-nwsmtp-smtp-production-main-25.sas.yp-c.yandex.net
- [IPv6:2a02:6b8:c08:2e14:0:640:2cd1:0])
- by forward206b.mail.yandex.net (Yandex) with ESMTP id 1A97F600A8;
- Mon, 10 Apr 2023 15:45:24 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-25.sas.yp-c.yandex.net
- (smtp/Yandex) with ESMTPSA id GjTsr15WxCg0-LXsPkfRK; 
- Mon, 10 Apr 2023 15:45:23 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
- t=1681130723; bh=9Mb4Qwkx8fOHD6B0/BJrqGmPRtDY8NFbHmHYbVZV5AE=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=OpPS8Fac/XbYKqlvENFYXn6rF7Udw4MCTNMvVBpJcQ9fdoK5SGaMOI5NE7e+vnw1E
- BUddlO2aKZ0ECGgHpgwrF0uZ1wil90pkjhdBO6sPY2X6ITJoY/cqDLO5d37V2Bf93M
- xsqm3Wo7pl2wrQdeHBBGoo7rf/LYWVTPgctmPE2E=
-Authentication-Results: mail-nwsmtp-smtp-production-main-25.sas.yp-c.yandex.net;
- dkim=pass header.i=@syntacore.com
-From: Ivan Klokov <ivan.klokov@syntacore.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, richard.henderson@linaro.org, pbonzini@redhat.com,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, philmd@linaro.org,
- wangyanan55@huawei.com, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, liweiwei@iscas.ac.cn, dbarboza@ventanamicro.com,
- zhiwei_liu@linux.alibaba.com, Ivan Klokov <ivan.klokov@syntacore.com>
-Subject: [PATCH v3 2/2] target/riscv: Add RVV registers to log
-Date: Mon, 10 Apr 2023 15:44:51 +0300
-Message-Id: <20230410124451.15929-3-ivan.klokov@syntacore.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230410124451.15929-1-ivan.klokov@syntacore.com>
-References: <20230410124451.15929-1-ivan.klokov@syntacore.com>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1plqyo-0000Hs-KG; Mon, 10 Apr 2023 08:50:42 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1plqym-0005MY-TZ; Mon, 10 Apr 2023 08:50:42 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0A5C31FDCD;
+ Mon, 10 Apr 2023 12:50:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1681131036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e2Uys96eshA/XpUSHgzibBLVcW2vmr8GQRQfTJ4Zdr8=;
+ b=VGyj3jgpvilucik3KxQeqoiMfqkYJpJf4IGSGn6LVMrIPqj4KgJBH4wIiApffPY5xE2YlG
+ Tv60Tc5eWWjl1JzK5JNh64dHxhr6f4QBWjPtDrjE8d0Q5RhPPZTIiJtQhULI+ZI9l6ONT+
+ 4NngN5WUFMtsWimpjGThnD16eKznEw0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1681131036;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e2Uys96eshA/XpUSHgzibBLVcW2vmr8GQRQfTJ4Zdr8=;
+ b=sJDfFpx2atRBoIGU+Uyn3m/XPexvZA74gmCkO3LA1sS/GWoBeo0pY56XnhQForf2QF9/Ac
+ o4lsuyfiL+LPxsCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8636513902;
+ Mon, 10 Apr 2023 12:50:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id N8GHExsGNGTgNQAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 10 Apr 2023 12:50:35 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Nicholas Piggin <npiggin@gmail.com>, =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@kaod.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: danielhb413@gmail.com, david@gibson.dropbear.id.au, groug@kaod.org,
+ qemu-ppc@nongnu.org, Anton Johansson <anjo@rev.ng>
+Subject: Re: [PATCH for-8.0 v2] target/ppc: Fix temp usage in gen_op_arith_modw
+In-Reply-To: <CRRV3SRW7H2U.14JIRTJFPXRSU@wheely>
+References: <20230408070547.3609447-1-richard.henderson@linaro.org>
+ <606b0b02-a167-8cb1-db0f-119442d0aa16@kaod.org>
+ <CRRV3SRW7H2U.14JIRTJFPXRSU@wheely>
+Date: Mon, 10 Apr 2023 09:50:28 -0300
+Message-ID: <87leizkijv.fsf@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.151;
- envelope-from=ivan.klokov@syntacore.com; helo=forward206b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,95 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Print RvV extesion register to log if VPU option is enabled.
+"Nicholas Piggin" <npiggin@gmail.com> writes:
 
-Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
----
- target/riscv/cpu.c | 56 +++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 55 insertions(+), 1 deletion(-)
+> On Sun Apr 9, 2023 at 7:24 AM AEST, C=C3=A9dric Le Goater wrote:
+>> On 4/8/23 09:05, Richard Henderson wrote:
+>> > Fix a crash writing to 't3', which is now a constant.
+>> > Instead, write the result of the remu to 't1'.
+>> >=20
+>> > Fixes: 7058ff5231a ("target/ppc: Avoid tcg_const_* in translate.c")
+>> > Reported-by: Nicholas Piggin <npiggin@gmail.com>
+>> > Reviewed-by: Anton Johansson <anjo@rev.ng>
+>> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> Looks good:
+>>
+>>    https://gitlab.com/legoater/qemu/-/pipelines/831847446
+>>
+>> I have a PR ready for this same branch. If you want to me send,
+>> just tell.
+>
+> Thanks Richard and Cedric. LGTM.
+>
+>> I don't think we have tcg tests for the prefix or mma instructions
+>> introduced in P10. That would be good to have.
+>
+> I agree, we need to do a bit better on ppc.
+>
+> I'm trying to get a handle on all the tests we have for these things,
+> I haven't looked too closely before. kvm-unit-tests actually works
+> well for TCG and I did find some (system level) prefix issues with it.
+> I don't know if that's the right place to focus on instruction level
+> testing though. QEMU's tcg tests sounds like a better place for it,
+> but is it only for userspace tests?
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 5bc0005cc7..cfd063a5dc 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -172,6 +172,14 @@ const char * const riscv_fpr_regnames[] = {
-   "f30/ft10", "f31/ft11"
- };
- 
-+const char * const riscv_rvv_regnames[] = {
-+  "v0",  "v1",  "v2",  "v3",  "v4",  "v5",  "v6",
-+  "v7",  "v8",  "v9",  "v10", "v11", "v12", "v13",
-+  "v14", "v15", "v16", "v17", "v18", "v19", "v20",
-+  "v21", "v22", "v23", "v24", "v25", "v26", "v27",
-+  "v28", "v29", "v30", "v31"
-+};
-+
- static const char * const riscv_excp_names[] = {
-     "misaligned_fetch",
-     "fault_fetch",
-@@ -422,7 +430,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
--    int i;
-+    int i, j;
-+    uint8_t *p;
- 
- #if !defined(CONFIG_USER_ONLY)
-     if (riscv_has_ext(env, RVH)) {
-@@ -506,6 +515,51 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-             }
-         }
-     }
-+    if (riscv_has_ext(env, RVV) && (flags & CPU_DUMP_VPU)) {
-+        static const int dump_rvv_csrs[] = {
-+                    CSR_VSTART,
-+                    CSR_VXSAT,
-+                    CSR_VXRM,
-+                    CSR_VCSR,
-+                    CSR_VL,
-+                    CSR_VTYPE,
-+                    CSR_VLENB,
-+                };
-+        for (int i = 0; i < ARRAY_SIZE(dump_rvv_csrs); ++i) {
-+            int csrno = dump_rvv_csrs[i];
-+            target_ulong val = 0;
-+            RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0);
-+
-+            /*
-+             * Rely on the smode, hmode, etc, predicates within csr.c
-+             * to do the filtering of the registers that are present.
-+             */
-+            if (res == RISCV_EXCP_NONE) {
-+                qemu_fprintf(f, " %-8s " TARGET_FMT_lx "\n",
-+                             csr_ops[csrno].name, val);
-+            }
-+        }
-+        uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-+
-+/*
-+ * From vector_helper.c
-+ * Note that vector data is stored in host-endian 64-bit chunks,
-+ * so addressing bytes needs a host-endian fixup.
-+ */
-+#if HOST_BIG_ENDIAN
-+#define BYTE(x)   ((x) ^ 7)
-+#else
-+#define BYTE(x)   (x)
-+#endif
-+        for (i = 0; i < 32; i++) {
-+            qemu_fprintf(f, " %-8s ", riscv_rvv_regnames[i]);
-+            p = (uint8_t *)env->vreg;
-+            for (j = vlenb - 1 ; j >= 0; j--) {
-+                qemu_fprintf(f, "%02x", *(p + i * vlenb + BYTE(j)));
-+            }
-+            qemu_fprintf(f, "\n");
-+        }
-+    }
- }
- 
- static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
--- 
-2.34.1
+Last time we looked at adding softmmu to the tests:
 
+https://lore.kernel.org/all/20220324190854.156898-1-leandro.lupori@eldorado=
+.org.br/
 
