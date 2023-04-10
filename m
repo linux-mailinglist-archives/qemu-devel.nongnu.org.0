@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1146DCAA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 20:22:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 528CE6DCAAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 20:23:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plw8i-0002eD-9I; Mon, 10 Apr 2023 14:21:16 -0400
+	id 1plw8w-0002k3-SL; Mon, 10 Apr 2023 14:21:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8c-0002bq-OH
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:10 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134])
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8f-0002eH-36
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:13 -0400
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8a-0000ec-D7
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:10 -0400
-Received: by mail-il1-x134.google.com with SMTP id s4so2662966ilv.11
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 11:21:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8a-0000ei-DC
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:12 -0400
+Received: by mail-il1-x129.google.com with SMTP id s4so2662980ilv.11
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 11:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681150865;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=hc1Fiq7lpQJllIA5RpRAXFMfgI7s9IAeyjPAAa+Q3UI=;
- b=PCjZY/eKBFTtmBe5E4QoFO3bJm9mZwiGL8fRvA4qraTfp7pCzlqP+1cSL2Zmu5ss3K
- 9FACQcexHU+2dlw3sESyqCXB5qub9TI/LGeList+uaeLgjYxqAXpCJkCaKHH1CG02uEW
- CFs+FVozjOSpSUCei60+NRpUiaquQYLNKcyQs4OGMDlwcLhQvpxTQKx2KrS4mA0tYDRK
- neRH2ORh2OmR30lVRD2LMKiGjYW4+8gsO419PsuVFCh8nIuE47v2cZnrhFFq1LlMJA/1
- e0SCoRcBjRrVC3etgiQAxn1x57e+bQ6H4joQCqtJlLeHRswxFeO3UXG6zJGSBSNNyDTv
- zQ1Q==
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681150866;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZT5fLQSNvwvtBf2Szoe2FViWNomI0FmkPHfn6pZOtis=;
+ b=gETlza9NjXIn40l15kDfOHL8ahJPjhzFZPB59ZedY37d3pOvIC85j26xsAPSRJimgy
+ sH4ibl8yWEOFvmW+fH2DATeLqZYzRarE3NGh2k4p3dpPm5jPQA+R9+rpqTVb5RKcVeSk
+ hVz9A73wsaT5mQR+laBZ40buv2nPwGH16qRHvF6ipSxQvbLOtMFyXGGKVbpqzWj2MRH0
+ b4Zfc1XOGZ6FgSkdRr3B2hSs7YWGi2ZQVJ4ibm1QR18Z560/dc4ykXAsC8fHNLGphOD5
+ QbgWTvlWxCvo0dUyqvTepwzGbaY1h/zQzfhw1fsP5VQSu34igeIc+Jduyh6YIGNVthrE
+ lBQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681150865;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hc1Fiq7lpQJllIA5RpRAXFMfgI7s9IAeyjPAAa+Q3UI=;
- b=k2SXagFR0Mi3I77bvW2tuVzkpoojVt4mVKxXBJ+rTl3qW2weIhAsePX9OimVXPOpoA
- wmGA1skeUXXJy+/c32lKN/Kso6Zw3ih8/smJ2o6AHoi/lIfzs4MvGbE6/J8WR3OTng5C
- CquGvswkdha5swuHYOD8oz2HjrE/+DfttAwehv9FLeOP2hcP5puyNIa9vrLBnbrxEA9K
- Q/gdH7qF+dK8tu6o5ZDlpM8wL1rrx6TrRzrns9nkAHfZ0VvhxPKmKTMTfxKiuEVoSoso
- KFMd6xURYntOLdyvQqmgpZ7pcTrg8iyv6+JtehzMrHcseIkB4Sa0LNxH7NSCC0hsB0gX
- Z/zw==
-X-Gm-Message-State: AAQBX9fc+a5dQ67eIpdskA3X4tMbDn6W1EYTylicmFYwoDwdf9IPHdht
- p19tdHDJkmLnivM8W+jFBWnn8zGiR8JGhWnENHI=
-X-Google-Smtp-Source: AKy350Z/PoUFCm+XkWFa4chWCqXaPxXeXY8bctDzdZOinZNx9V6JS/dcSE+fB9AcdnQRw2no3qO+Cw==
-X-Received: by 2002:a92:60c:0:b0:326:1f4a:276c with SMTP id
- x12-20020a92060c000000b003261f4a276cmr7349003ilg.21.1681150865438; 
- Mon, 10 Apr 2023 11:21:05 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1681150866;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZT5fLQSNvwvtBf2Szoe2FViWNomI0FmkPHfn6pZOtis=;
+ b=CSUIXPwobCZyBc8UFqilgnerNFgrPrfP776e1bLvhCkYuTpV6FEJLrJr+kRngj9KJm
+ WJ68XSYiN60AJeaTrMKjUOBAHlXoWRXBu/fTY5m/bmG371mno8eYwrZjfMNF56/pdpa4
+ E90lS22XVvaty2vQP+Pg6MmOfz4ssUANzx+EwSfZ/ntv3v4ggMbciEQ2MnkJE1jsL01R
+ OPxdptVYN4Ks1QkO/MmSwNj52tanRqF+53GnsPSSFpvY+TcZIx2fpE+MeSGO5ND3HhWc
+ qBlf9nrrF1NZNTPk6xJ8f1ssXi4dEqfyPupf3rKM6Vw6gDvuG9/2f9SgCe1lASQbwOGn
+ oP8A==
+X-Gm-Message-State: AAQBX9dWWx2kBv0IDNVzxBbmz96ZQTC6AmY2/+PICzUR3mXVk1/WRPGD
+ IE1GGxFh17UWwIjAUEzQ46Wds/yGJx1v9YAXMuo=
+X-Google-Smtp-Source: AKy350bpgBwdap36kMgiExxDPOqcwwxtOB5w0ZR3ArOUqGoIvKPZNsd2Gnbxli/wWxlfH1cijsGtAg==
+X-Received: by 2002:a92:c985:0:b0:326:3001:1f85 with SMTP id
+ y5-20020a92c985000000b0032630011f85mr246513iln.9.1681150866237; 
+ Mon, 10 Apr 2023 11:21:06 -0700 (PDT)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- a15-20020a056e02120f00b00313b281ecd2sm3104314ilq.70.2023.04.10.11.21.04
+ a15-20020a056e02120f00b00313b281ecd2sm3104314ilq.70.2023.04.10.11.21.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 10 Apr 2023 11:21:05 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: jrtc27@jrtc27.com, riastradh@netbsd.org, Kyle Evans <kevans@freebsd.org>,
  Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
- Warner Losh <imp@bsdimp.com>, reinoud@netbsd.org
-Subject: [PATCH v2 00/19] bsd-user 2023 Q2 first batch
-Date: Mon, 10 Apr 2023 12:20:37 -0600
-Message-Id: <20230410182056.320-1-imp@bsdimp.com>
+ Warner Losh <imp@bsdimp.com>, reinoud@netbsd.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v2 01/19] bsd-user: Make print_* public
+Date: Mon, 10 Apr 2023 12:20:38 -0600
+Message-Id: <20230410182056.320-2-imp@bsdimp.com>
 X-Mailer: git-send-email 2.40.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230410182056.320-1-imp@bsdimp.com>
+References: <20230410182056.320-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::134;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::129;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,111 +90,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series is a number of misc cleanups.
+Make these functions public. Due to coming restructuring, we'll need to
+call these from *bsd/os-syscall.c. Add declarations to qemu.h.
 
-First, this replaces my plans to remove netbsd and openbsd code entirely. I've
-been in contact with the NetBSD folks that would like to make things work. The
-plan is that I'll not remove it in qemu-project, and restore them in bsd-user
-fork. These changes clean up some of the mess that's here: I've moved the bits
-that make sense here, and removed the ones that don't (but upstream I've moved
-them when it makes sense). My intention is to work with the NetBSD folks (and
-OpenBSD too if they want) to cope with the structural issues I'm aware of in
-bsd-user fork. Future contributions should go via that route at a rate of
-contributions (I have little time to do the work, but will commit to finding
-time to do the coordination and review work).
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ bsd-user/qemu.h   | 20 ++++++++++++++++++++
+ bsd-user/strace.c | 29 +++++++++++++----------------
+ 2 files changed, 33 insertions(+), 16 deletions(-)
 
-Next I've #ifdef'd some mmap handling based on certain flags being defined or
-not. This was something I'd removed before, and were in what Taylor sent me, so
-I've restored the relevant ones. The rest of the patch that Taylor sent me
-conflicts with bsd-user and needs some work to get it in upstream. I removed a
-few unused mmap defines as well. And I cleanup mmap.c to remove gratuitous
-differences and pass checkpatch.pl.
-
-Next, I've made unimplmeneted system calls generate SIGSYS. For the moment, this
-is the best we should do since so much is unimplemented and as things get
-implemented this will allow controlled testing of code to ensure it doesn't
-silently succeed, giving the impression things are working when they aren't. I
-also add SIGSYS to the uncaught coredump signal list, to match FreeBSD's
-behavior. I only do this on arm, though, because the signal implementation on
-x86 is incomplete (even upstream) and I didn't want to take chances.
-
-Finally, I've included the core dump code. There's about 600 lines of sysctl
-support that I've included as separate commits of ~150 lines each (and
-incidentlaly, added the translation to os-sys.c for those bits). The core dump
-code itself is largely copied from linux-user/elfload.c by sson (so he gets the
-author credit). I moved it to elfcore.c when I was upstremaing in the past and
-upstreamed a stub. One of the patches in this series replaces elfcore.c and is
-1300 lines long. It's not easily sliced up into smaller bits that compile, but
-I'm open to suggestions. It's known to "work" in the sense that it will generate
-core files that gdb can read and intelligently parse.
-
-This patch series is for after 8.0 is done, but before any GSoC projects start,
-and will be independent of any GSoC contribution tasks.
-
-v2: A few more 'high line count, easy to review' changes:
-- Remove a few more files
-- Regenerate FreeBSD system calls
-- Remove host-os.h, since we no longer plan to support multiple BSDs in one
-  binary.
-- Review comments: Remove USE_ELF_CORE_DUMP and change ifdefs for MAP_
-
-Need reviews for parts 2, 17, 18, 19 for sure. Parts 3 and 14 just have Acked-by.
-
-Stacey Son (6):
-  bsd-user: h2g_rusage
-  bsd-user: Implement do_sysctl_kern_getprocs
-  bsd-user: Implement do_sysctl_kern_proc_filedesc
-  bsd-user: Implement do_sysctl_kern_proc_vmmap
-  bsd-user: Implement sysctl kern.proc, except kern.proc.full_path
-  bsd-user: Implement core dumps
-
-Warner Losh (13):
-  bsd-user: Make print_* public
-  bsd-user: Ifdef a few MAP_ constants for NetBSD / OpenBSD.
-  bsd-user: Cleanup style.
-  bsd-user: Move system FreeBSD call table to freebsd/os-syscall.c
-  bsd-user: Remove NetBSD specific syscall printing
-  bsd-user: Remove OpenBSD specific syscall printing
-  bsd-user: Move system call include to os-syscall.h
-  bsd-user: Remove useless mmap definitions
-  bsd-user: Add SIGSYS to core dump signals.
-  bsd-user: Implement SIGSYS on arm
-  bsd-user: Remove host-os.h
-  bsd-user: Update system call list
-  bsd-user: Eliminate USE_ELF_CORE_DUMP
-
- bsd-user/arm/target_arch_cpu.h             |    8 +
- bsd-user/arm/target_arch_elf.h             |    1 -
- bsd-user/bsd-proc.c                        |   48 +
- bsd-user/elfcore.c                         | 1315 +++++++++++++++++++-
- bsd-user/elfload.c                         |    5 -
- bsd-user/freebsd/os-sys.c                  |  508 +++++++-
- bsd-user/freebsd/os-syscall.c              |   19 +
- bsd-user/freebsd/os-syscall.h              |   23 +
- bsd-user/freebsd/syscall_nr.h              | 1035 +++++++--------
- bsd-user/i386/target_arch_elf.h            |    1 -
- bsd-user/main.c                            |    1 -
- bsd-user/meson.build                       |    1 +
- bsd-user/mmap.c                            |  105 +-
- bsd-user/netbsd/host-os.h                  |   25 -
- bsd-user/netbsd/os-syscall.h               |   16 +
- bsd-user/openbsd/host-os.h                 |   25 -
- bsd-user/openbsd/os-syscall.h              |   16 +
- bsd-user/{freebsd/host-os.h => qemu-bsd.h} |   15 +-
- bsd-user/qemu.h                            |   44 +-
- bsd-user/signal.c                          |   13 +-
- bsd-user/strace.c                          |   88 +-
- bsd-user/syscall_defs.h                    |   69 +-
- bsd-user/x86_64/target_arch_elf.h          |    1 -
- 23 files changed, 2616 insertions(+), 766 deletions(-)
- create mode 100644 bsd-user/bsd-proc.c
- create mode 100644 bsd-user/freebsd/os-syscall.h
- delete mode 100644 bsd-user/netbsd/host-os.h
- create mode 100644 bsd-user/netbsd/os-syscall.h
- delete mode 100644 bsd-user/openbsd/host-os.h
- create mode 100644 bsd-user/openbsd/os-syscall.h
- rename bsd-user/{freebsd/host-os.h => qemu-bsd.h} (72%)
-
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 41d84e0b81b..22e16816a9e 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -211,6 +211,26 @@ print_openbsd_syscall(int num,
+                       abi_long arg1, abi_long arg2, abi_long arg3,
+                       abi_long arg4, abi_long arg5, abi_long arg6);
+ void print_openbsd_syscall_ret(int num, abi_long ret);
++void print_execve(const struct syscallname *name, abi_long arg1,
++                  abi_long arg2, abi_long arg3, abi_long arg4,
++                  abi_long arg5, abi_long arg6);
++void print_ioctl(const struct syscallname *name,
++                 abi_long arg1, abi_long arg2, abi_long arg3,
++                 abi_long arg4, abi_long arg5, abi_long arg6);
++void print_sysarch(const struct syscallname *name, abi_long arg1,
++                   abi_long arg2, abi_long arg3, abi_long arg4,
++                   abi_long arg5, abi_long arg6);
++void print_sysctl(const struct syscallname *name, abi_long arg1,
++                  abi_long arg2, abi_long arg3, abi_long arg4,
++                  abi_long arg5, abi_long arg6);
++void print_syscall(int num, const struct syscallname *scnames,
++                   unsigned int nscnames, abi_long arg1, abi_long arg2,
++                   abi_long arg3, abi_long arg4, abi_long arg5,
++                   abi_long arg6);
++void print_syscall_ret(int num, abi_long ret,
++                       const struct syscallname *scnames,
++                       unsigned int nscnames);
++void print_syscall_ret_addr(const struct syscallname *name, abi_long ret);
+ /**
+  * print_taken_signal:
+  * @target_signum: target signal being taken
+diff --git a/bsd-user/strace.c b/bsd-user/strace.c
+index 96499751eb0..e45909b8688 100644
+--- a/bsd-user/strace.c
++++ b/bsd-user/strace.c
+@@ -49,7 +49,7 @@ print_raw_param(const char *fmt, abi_long param, int last)
+     gemu_log(format, param);
+ }
+ 
+-static void print_sysctl(const struct syscallname *name, abi_long arg1,
++void print_sysctl(const struct syscallname *name, abi_long arg1,
+         abi_long arg2, abi_long arg3, abi_long arg4, abi_long arg5,
+         abi_long arg6)
+ {
+@@ -71,9 +71,8 @@ static void print_sysctl(const struct syscallname *name, abi_long arg1,
+         (uint32_t)arg2, arg3, arg4, arg5, arg6);
+ }
+ 
+-static void print_execve(const struct syscallname *name, abi_long arg1,
+-        abi_long arg2, abi_long arg3, abi_long arg4, abi_long arg5,
+-        abi_long arg6)
++void print_execve(const struct syscallname *name, abi_long arg1, abi_long arg2,
++                  abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
+ {
+     abi_ulong arg_ptr_addr;
+     char *s;
+@@ -105,9 +104,8 @@ static void print_execve(const struct syscallname *name, abi_long arg1,
+     gemu_log("NULL})");
+ }
+ 
+-static void print_ioctl(const struct syscallname *name,
+-        abi_long arg1, abi_long arg2, abi_long arg3, abi_long arg4,
+-        abi_long arg5, abi_long arg6)
++void print_ioctl(const struct syscallname *name, abi_long arg1, abi_long arg2,
++                 abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
+ {
+     /* Decode the ioctl request */
+     gemu_log("%s(%d, 0x%0lx { IO%s%s GRP:0x%x('%c') CMD:%d LEN:%d }, 0x"
+@@ -124,9 +122,8 @@ static void print_ioctl(const struct syscallname *name,
+             arg3);
+ }
+ 
+-static void print_sysarch(const struct syscallname *name, abi_long arg1,
+-        abi_long arg2, abi_long arg3, abi_long arg4, abi_long arg5,
+-        abi_long arg6)
++void print_sysarch(const struct syscallname *name, abi_long arg1, abi_long arg2,
++                   abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
+ {
+     /* This is os dependent. */
+     do_os_print_sysarch(name, arg1, arg2, arg3, arg4, arg5, arg6);
+@@ -136,7 +133,7 @@ static void print_sysarch(const struct syscallname *name, abi_long arg1,
+  * Variants for the return value output function
+  */
+ 
+-static void print_syscall_ret_addr(const struct syscallname *name, abi_long ret)
++void print_syscall_ret_addr(const struct syscallname *name, abi_long ret)
+ {
+     if (ret == -1) {
+         gemu_log(" = -1 errno=%d (%s)\n", errno, strerror(errno));
+@@ -159,9 +156,9 @@ static const struct syscallname openbsd_scnames[] = {
+ #include "openbsd/strace.list"
+ };
+ 
+-static void print_syscall(int num, const struct syscallname *scnames,
+-        unsigned int nscnames, abi_long arg1, abi_long arg2, abi_long arg3,
+-        abi_long arg4, abi_long arg5, abi_long arg6)
++void print_syscall(int num, const struct syscallname *scnames,
++                   unsigned int nscnames, abi_long arg1, abi_long arg2,
++                   abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
+ {
+     unsigned int i;
+     const char *format="%s(" TARGET_ABI_FMT_ld "," TARGET_ABI_FMT_ld ","
+@@ -190,8 +187,8 @@ static void print_syscall(int num, const struct syscallname *scnames,
+     gemu_log("Unknown syscall %d\n", num);
+ }
+ 
+-static void print_syscall_ret(int num, abi_long ret,
+-        const struct syscallname *scnames, unsigned int nscnames)
++void print_syscall_ret(int num, abi_long ret, const struct syscallname *scnames,
++                       unsigned int nscnames)
+ {
+     unsigned int i;
+ 
 -- 
 2.40.0
 
