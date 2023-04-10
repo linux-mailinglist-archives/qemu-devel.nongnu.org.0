@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057856DCAB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 20:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E79C6DCAA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 20:22:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plw8z-0002ku-2C; Mon, 10 Apr 2023 14:21:33 -0400
+	id 1plw8z-0002l3-H8; Mon, 10 Apr 2023 14:21:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8l-0002fx-9s
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8l-0002gB-Pl
  for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:20 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134])
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8j-0000iD-KI
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8k-0000gk-2Q
  for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:19 -0400
-Received: by mail-il1-x134.google.com with SMTP id a4so2738587ilj.10
+Received: by mail-il1-x129.google.com with SMTP id o12so21100451ilh.13
  for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 11:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681150876;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681150877;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7NzCz/sF8P038tTGJ2ITOmZzOTs2PdrJIGIXZvdsTJ8=;
- b=ecAPfMBzq417wv/NZczxAcrMdjbGFD3io1X0BxUrqs0RI5QdVQ74Xy95FnMxjDNX7q
- mhV7K7vpzA4S1dxx4lmJhNJe8alIBCqAkSK+kcmwRARK568f8DRf0ur4IsZBog6sFTKf
- tFK0oYcsQgTUDAVn0GQ2vdxqooGKtE3sMUlvmxZUOl9IcAokrnJulumlvSjacYI3aZn8
- W9vGzhcDI8SW6+l6PpWby/VZoWmYqljdlLaN6/ASLP84aLNOTnMAGZMJtcOwP5ZbbLMK
- JKXUpCJ/M8nXX5ACeSZ11rwyIcPexWGpgeBSI2z9HIi1P54o2fz9FZw03hQ0M/9d6gBz
- jNeg==
+ bh=Hvg0H+jAXckcuN28KMVfXkb7fwvWyCcCCQgrLkQjtV8=;
+ b=Tjoxy6VuxnMkEwLnB6Z6ybsqqQ6KUW4LcJja6iRu0NtoSZqeXPv4eKzzhIi7mfi+J/
+ Mxxc2FkQ0hSJ8TG504R+Q2Lc2hUsaMkU+b5uYeh6TgawAmB+jGsGbiLv4omWgl8dfeyn
+ WFTmf6P6S3e6FO3tHDy/wXyQT8O3WU2jQouGrzdtXOFG/6UTyvZba/PxIjr3sGwS1B05
+ 059nGJE+5SqYiVirASjAr+iZSIEAhqe8rP+j5APiLtyafzcF32HTJ715miQk0jDFPlgK
+ CAMjFaOIHD1hkuce5AB+a8pMLdO9o1cQ2pbbeiIFr0tVZn8/fVS6G4Sfr29sfR44PtXo
+ 4eNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681150876;
+ d=1e100.net; s=20210112; t=1681150877;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7NzCz/sF8P038tTGJ2ITOmZzOTs2PdrJIGIXZvdsTJ8=;
- b=g0dfXaxYy+Sq/qqLE6burTmzFL4nZw9RpZO6QDeiJMp34droBz/u1g0vOpmsUoy5v+
- +yrOwe3l/5cahHxnQO02+/gI0IfFsx4fjaZCC+veYDUmxBeWT6jnoEfm+sj125BBkxMk
- CCukIBDcxG5ip669OZyVJAWgwvLgucRQxpxfQd5y/2nZ+SwTF8gOVJsF79iHC/R2dWM/
- M+JJDcP6+Ui5BgZPU+wkm+F4aKGNMN1jQDeIH25L0zZ7fZBg3cETV2MA5O3wJJKArPo+
- nyGQ7IOvIK9nQA0MmjZZ1t4GGtnpkyix3SfFzJevND3F7qMXc1gbVvRRboAQ0cXz8Vfl
- MJiw==
-X-Gm-Message-State: AAQBX9f1DlRKjgjrIz7XA17Ki7uve6CYDXEFrdTSI/L0o0ZrjesQJBXH
- O09VSbteCJbsJxsnRE4Rg5opyVKVd/hd0o60ewE=
-X-Google-Smtp-Source: AKy350bfaVZkOBdfBxxRuTm7ncic+uK3tIU23MpJTORJoRgz8LLeh9vt6INQYboijhA6Hp5YSTe06Q==
-X-Received: by 2002:a92:c642:0:b0:31f:9b6e:2f4d with SMTP id
- 2-20020a92c642000000b0031f9b6e2f4dmr6665159ill.0.1681150876262; 
- Mon, 10 Apr 2023 11:21:16 -0700 (PDT)
+ bh=Hvg0H+jAXckcuN28KMVfXkb7fwvWyCcCCQgrLkQjtV8=;
+ b=hjYGk4eMQ9UCG1YlogswS/lUvS9ZWYVbTZi+lJHE6wIvSi2wHYF9bvfbcT0VICQMM4
+ ZOIQeMgFcswAJKx2cpfsCkeRzfH8cru/91Cl8y7nbr5eAt49Pu2vw09PJhEQASrOH+t6
+ lwRx1hl5AnCrrA/PENNkzQfIoI7m8PQbHxAuKbDuuCDUd8nWVvKkdT7vbBgoUJGoPWl/
+ qbsvLpPuXvuBEiHmPP33ohFAQGVpSbOmthoWwIkRE6bfG0Nzbq3swsLFWUdm2Ok+2C9V
+ 7Z5eBJDQ7f7cwdqDHnS7o5F1v9eT3afEZ2ledfL7psHXJLlXTrVXrBmIo3qSfriopTrT
+ HH9g==
+X-Gm-Message-State: AAQBX9eITbTxFST94WO1RqhnHk+5rCGDFgqLHOgfcMBAhbJNyxK7cGPS
+ WYkgoAafdP8Txxhm1fkVefr8d68g8Vrj4VtOvJk=
+X-Google-Smtp-Source: AKy350ZiuLG6M6Qh9RPr812ixEAieuKXDnf3dSdrYG8e+ZrARK/yeIT5Vjj8evLylxxc8oT+UlYHgA==
+X-Received: by 2002:a92:608:0:b0:322:fe79:8141 with SMTP id
+ x8-20020a920608000000b00322fe798141mr270238ilg.1.1681150877098; 
+ Mon, 10 Apr 2023 11:21:17 -0700 (PDT)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- a15-20020a056e02120f00b00313b281ecd2sm3104314ilq.70.2023.04.10.11.21.15
+ a15-20020a056e02120f00b00313b281ecd2sm3104314ilq.70.2023.04.10.11.21.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 11:21:15 -0700 (PDT)
+ Mon, 10 Apr 2023 11:21:16 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: jrtc27@jrtc27.com, riastradh@netbsd.org, Kyle Evans <kevans@freebsd.org>,
@@ -60,16 +60,17 @@ Cc: jrtc27@jrtc27.com, riastradh@netbsd.org, Kyle Evans <kevans@freebsd.org>,
  Warner Losh <imp@bsdimp.com>, reinoud@netbsd.org,
  Stacey Son <sson@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 12/19] bsd-user: Implement do_sysctl_kern_proc_vmmap
-Date: Mon, 10 Apr 2023 12:20:49 -0600
-Message-Id: <20230410182056.320-13-imp@bsdimp.com>
+Subject: [PATCH v2 13/19] bsd-user: Implement sysctl kern.proc,
+ except kern.proc.full_path
+Date: Mon, 10 Apr 2023 12:20:50 -0600
+Message-Id: <20230410182056.320-14-imp@bsdimp.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230410182056.320-1-imp@bsdimp.com>
 References: <20230410182056.320-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::134;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::129;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,161 +94,63 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Stacey Son <sson@FreeBSD.org>
 
-Implement do_sysctl_kern_proc_vmmap. This pulls kern.proc.vmmap out of
-the host kernel and converts it to the guest's format.
+Use the recently committed conversion routines to implement all the
+kern.proc flavors, except for the full path (the prereqs of which aren't
+yet in qemu-project's master branch).
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/os-sys.c | 115 ++++++++++++++++++++++++++++++++++++++
- bsd-user/qemu.h           |   3 +
- 2 files changed, 118 insertions(+)
+ bsd-user/freebsd/os-sys.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
-index 00b2dcc9641..418358adc1e 100644
+index 418358adc1e..3772cf500ba 100644
 --- a/bsd-user/freebsd/os-sys.c
 +++ b/bsd-user/freebsd/os-sys.c
-@@ -463,6 +463,121 @@ do_sysctl_kern_proc_filedesc(int pid, size_t olen,
-     return ret;
- }
+@@ -753,6 +753,41 @@ static abi_long do_freebsd_sysctl_oid(CPUArchState *env, int32_t *snamep,
+             ret = 0;
+             goto out;
  
-+static void
-+host_to_target_kinfo_vmentry(struct target_kinfo_vmentry *tkve,
-+        struct kinfo_vmentry *hkve)
-+{
++        case KERN_PROC:
++            switch (snamep[2]) {
++            case KERN_PROC_ALL:
++            case KERN_PROC_PROC:
++            case KERN_PROC_PID:
++            case KERN_PROC_PID | KERN_PROC_INC_THREAD:
++            case KERN_PROC_PGRP:
++            case KERN_PROC_PGRP | KERN_PROC_INC_THREAD:
++            case KERN_PROC_SESSION:
++            case KERN_PROC_SESSION | KERN_PROC_INC_THREAD:
++            case KERN_PROC_TTY:
++            case KERN_PROC_TTY | KERN_PROC_INC_THREAD:
++            case KERN_PROC_UID:
++            case KERN_PROC_UID | KERN_PROC_INC_THREAD:
++            case KERN_PROC_RUID:
++            case KERN_PROC_RUID | KERN_PROC_INC_THREAD:
++                ret = do_sysctl_kern_getprocs(snamep[2], snamep[3], oldlen,
++                                              holdp, &holdlen);
++                goto out;
 +
-+    __put_user(hkve->kve_structsize, &tkve->kve_structsize);
-+    __put_user(hkve->kve_type, &tkve->kve_type);
-+    __put_user(hkve->kve_start, &tkve->kve_start);
-+    __put_user(hkve->kve_end, &tkve->kve_end);
-+    __put_user(hkve->kve_offset, &tkve->kve_offset);
-+    __put_user(hkve->kve_vn_fileid, &tkve->kve_vn_fileid);
-+    __put_user(hkve->kve_vn_fsid_freebsd11, &tkve->kve_vn_fsid_freebsd11);
-+    __put_user(hkve->kve_vn_fsid, &tkve->kve_vn_fsid);
-+    __put_user(hkve->kve_flags, &tkve->kve_flags);
-+    __put_user(hkve->kve_resident, &tkve->kve_resident);
-+    __put_user(hkve->kve_private_resident, &tkve->kve_private_resident);
-+    __put_user(hkve->kve_protection, &tkve->kve_protection);
-+    __put_user(hkve->kve_ref_count, &tkve->kve_ref_count);
-+    __put_user(hkve->kve_shadow_count, &tkve->kve_shadow_count);
-+    __put_user(hkve->kve_vn_type, &tkve->kve_vn_type);
-+    __put_user(hkve->kve_vn_size, &tkve->kve_vn_size);
-+    __put_user(hkve->kve_vn_rdev_freebsd11, &tkve->kve_vn_rdev_freebsd11);
-+    __put_user(hkve->kve_vn_rdev, &tkve->kve_vn_rdev);
-+    __put_user(hkve->kve_vn_mode, &tkve->kve_vn_mode);
-+    __put_user(hkve->kve_status, &tkve->kve_status);
-+    strncpy(tkve->kve_path, hkve->kve_path, sizeof(tkve->kve_path));
-+}
++            case KERN_PROC_FILEDESC:
++                ret = do_sysctl_kern_proc_filedesc(snamep[3], oldlen, holdp,
++                                                   &holdlen);
++                goto out;
 +
-+abi_long
-+do_sysctl_kern_proc_vmmap(int pid, size_t olen,
-+        struct target_kinfo_vmentry *tkve, size_t *tlen)
-+{
-+    abi_long ret;
-+    int mib[4], sz;
-+    size_t len;
-+    char *buf, *bp, *eb, *tp;
-+    struct kinfo_vmentry *kve, kvme;
-+    struct target_kinfo_vmentry target_kvme;
++            case KERN_PROC_VMMAP:
++                ret = do_sysctl_kern_proc_vmmap(snamep[3], oldlen, holdp,
++                                                &holdlen);
++                goto out;
 +
-+    if (tlen == NULL) {
-+        return -TARGET_EINVAL;
-+    }
++            default:
++                break;
++            }
++            break;
 +
-+    len = 0;
-+    mib[0] = CTL_KERN;
-+    mib[1] = KERN_PROC;
-+    mib[2] = KERN_PROC_VMMAP;
-+    mib[3] = pid;
-+
-+    ret = get_errno(sysctl(mib, 4, NULL, &len, NULL, 0));
-+    if (is_error(ret)) {
-+        return ret;
-+    }
-+    if (tkve == NULL) {
-+        *tlen = len;
-+        return ret;
-+    }
-+    len = len * 4 / 3;
-+    buf = g_malloc(len);
-+    if (buf == NULL) {
-+        return -TARGET_ENOMEM;
-+    }
-+
-+    /*
-+     * Count the number of records.
-+     *
-+     * Given that the kinfo_file information returned by
-+     * the kernel may be differents sizes per record we have
-+     * to read it in and count the variable length records
-+     * by walking them.
-+     */
-+    ret = get_errno(sysctl(mib, 4, buf, &len, NULL, 0));
-+    if (is_error(ret)) {
-+        g_free(buf);
-+        return ret;
-+    }
-+    *tlen = len;
-+    bp = buf;
-+    eb = buf + len;
-+    while (bp < eb) {
-+        kve = (struct kinfo_vmentry *)(uintptr_t)bp;
-+        bp += kve->kve_structsize;
-+    }
-+    if (olen < *tlen) {
-+        g_free(buf);
-+        return -TARGET_EINVAL;
-+    }
-+
-+    /*
-+     * Unpack the records from the kernel into full length records
-+     * and byte swap, if needed.
-+     */
-+    bp = buf;
-+    eb = buf + len;
-+    tp = (char *)tkve;
-+    while (bp < eb) {
-+        kve = (struct kinfo_vmentry *)(uintptr_t)bp;
-+        sz = kve->kve_structsize;
-+        /* Copy/expand into a zeroed buffer */
-+        memset(&kvme, 0, sizeof(kvme));
-+        memcpy(&kvme, kve, sz);
-+        /* Byte swap and copy into a target aligned buffer. */
-+        host_to_target_kinfo_vmentry(&target_kvme, &kvme);
-+        /* Copy target buffer to user buffer, packed. */
-+        memcpy(tp, &target_kvme, sz);
-+        /* Advance to next packed record. */
-+        bp += sz;
-+        /* Advance to next packed, target record. */
-+        tp += sz;
-+    }
-+
-+    g_free(buf);
-+    return ret;
-+}
-+
- /*
-  * This uses the undocumented oidfmt interface to find the kind of a requested
-  * sysctl, see /sys/kern/kern_sysctl.c:sysctl_sysctl_oidfmt() (compare to
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 5926bdcc101..aed0d481cba 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -260,10 +260,13 @@ int host_to_target_errno(int err);
- /* os-sys.c */
- struct target_kinfo_proc;
- struct target_kinfo_file;
-+struct target_kinfo_vmentry;
- abi_long do_sysctl_kern_getprocs(int op, int arg, size_t olen,
-         struct target_kinfo_proc *tki, size_t *tlen);
- abi_long do_sysctl_kern_proc_filedesc(int pid, size_t olen,
-         struct target_kinfo_file *tkif, size_t *tlen);
-+abi_long do_sysctl_kern_proc_vmmap(int pid, size_t olen,
-+        struct target_kinfo_vmentry *tkve, size_t *tlen);
- abi_long do_freebsd_sysctl(CPUArchState *env, abi_ulong namep, int32_t namelen,
-         abi_ulong oldp, abi_ulong oldlenp, abi_ulong newp, abi_ulong newlen);
- abi_long do_freebsd_sysctlbyname(CPUArchState *env, abi_ulong namep,
+         default:
+             break;
+         }
 -- 
 2.40.0
 
