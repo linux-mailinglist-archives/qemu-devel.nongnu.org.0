@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBBD96DC8BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 17:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6706DC995
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 18:54:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pltiy-0005SJ-SV; Mon, 10 Apr 2023 11:46:32 -0400
+	id 1plulM-0003iI-Hd; Mon, 10 Apr 2023 12:53:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pltix-0005S9-7Q
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 11:46:31 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1pltiv-0003B2-2Y
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 11:46:30 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 33ACjvAw003211; Mon, 10 Apr 2023 15:46:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id; s=corp-2022-7-12;
- bh=kexfzPCu/mIbhi14BXzDFpgVXAZerqYoD2zEbcJHNSw=;
- b=qorrzqjS/1KX1faLGgrzc9OD7JEBMDkhtqfp8IAH1N+gTUL0Tz0cohFy7LJTDcSdazO5
- wqEl7fec2XTXZShK6+XHEpifiF/nQcJEhPzbNCfaInp8YetJ5iXEwCntbtgmjuQ2dtLg
- qiF8pRzqDgXkyP0qQsk7zbVjDfYJ1cZvPYb21lTvxqAIWNGI+hUc5TqMSIwgeQV7ws+h
- ffG+esBQWvcHSHM9OBmjU9u3Zwkx5UDO2yk+iHy2YxpC9rrndASzqf45IGnY8wT1Ifgb
- 6h2ntc5nM/wqmH+4aXX+EMT68q48qHlq4wC1NAps9IeuBtsteM00Z5j7x0nBsjrit47J DQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pu0hc350f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Apr 2023 15:46:25 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
- with ESMTP id 33AENPNw038384; Mon, 10 Apr 2023 15:46:24 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3puw854m73-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Apr 2023 15:46:24 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33AFkNh1021871;
- Mon, 10 Apr 2023 15:46:23 GMT
-Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3puw854m6f-1; Mon, 10 Apr 2023 15:46:23 +0000
-From: Steve Sistare <steven.sistare@oracle.com>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1plulJ-0003hT-WF
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 12:53:02 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1plulI-0007Io-EW
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 12:53:01 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-18447b9a633so3924129fac.7
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 09:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1681145579;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=w508CrB3oDkV8UYU+LPQv6kXFdaQIJvJRtv5f8FmnQ0=;
+ b=Zhm/cgvSjTEvWL1IPWPggAsNoxHWBvWXR4rBLVyQ7tPhQOJHE+QbZ2XG7jHJo8Zqf0
+ 8+o7Z4wxd0gv5h3oWuCWsTMbBIISvwLQB9IoO3pavQOYeQtyIDJze6+tzaDAxxsIOtTH
+ kZVqvfgscDOHAjwPNgHOVCdtRLF6Zj31R1SWBTlTcDCnyml4b3sBcv9XN0T/oIn5X4St
+ S1OoxMBMuJZ8Ygq1r9FDAqrWMYu0hGvpdGsj3pYLL7dvxobMeyTy2qtOmpPifH7k1Pr9
+ 0657fVszwXG014/VoRW99mD76PoH4ol62AkUpJU2/TxqxHxuLt/nynlVUsVTaF+ghChs
+ fIDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1681145579;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=w508CrB3oDkV8UYU+LPQv6kXFdaQIJvJRtv5f8FmnQ0=;
+ b=xCsQnCZifYv8dXm/sLJQZCW7UA56YenqfT3JZubEFVFyIY0dvV9i6K6IgtPbCSh361
+ 0/BBvdaHzAclef85Y0VCND5U+UN8BVzVfh3GUxsVyCmgCl6WKEyvDOamwU8dGB6rNvje
+ SK2II1blymEkTZeAOs6ruCk9sUSND3wMQY/mmqkIFx/Hrcv4KylwtZutzos35zTGME15
+ cYdP7xlhooUlOrRJJnxFqVoF4AGAwvV2hmRSYtGkJvJxGPwdyFUTgccoulrP/Jk3mDyn
+ h7hY2biKbi/jn6tIdWVd1TgPP+XcN55BpMRgQ/fUu4vvVosMrw4GHNFOtdo1MnqNIiMi
+ byiA==
+X-Gm-Message-State: AAQBX9dx/9WF7HZW0K9nYQ2U2c+hJgUIg3wPkkaOyWdk1xZN/Kjvx6oC
+ QKYIn/sXK8yRTOhQoeSLR/tlieDUgrMOCLiqBbk=
+X-Google-Smtp-Source: AKy350YDdOnOofVfBvu2MDfSJYlHRBAJHZU9uqrrhyqgME7ipWQsoYE2Zhk8QxQNLsFqBx1z/YArOA==
+X-Received: by 2002:a05:6870:a10b:b0:184:42a2:cad1 with SMTP id
+ m11-20020a056870a10b00b0018442a2cad1mr2692358oae.44.1681145578830; 
+ Mon, 10 Apr 2023 09:52:58 -0700 (PDT)
+Received: from grind.. ([191.255.108.232]) by smtp.gmail.com with ESMTPSA id
+ zq36-20020a0568718ea400b0017f647294f5sm4191896oab.16.2023.04.10.09.52.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Apr 2023 09:52:58 -0700 (PDT)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Peter Xu <peterx@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Steve Sistare <steven.sistare@oracle.com>
-Subject: [PATCH] util/mmap: optimize qemu_ram_mmap() alignment
-Date: Mon, 10 Apr 2023 08:46:23 -0700
-Message-Id: <1681141583-87816-1-git-send-email-steven.sistare@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-10_11,2023-04-06_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999
- phishscore=0 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304100134
-X-Proofpoint-GUID: dyCYF51uHFB8HwjIq6skQxdrcl_yzYde
-X-Proofpoint-ORIG-GUID: dyCYF51uHFB8HwjIq6skQxdrcl_yzYde
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v2 0/4] target/riscv: implement query-cpu-definitions
+Date: Mon, 10 Apr 2023 13:52:47 -0300
+Message-Id: <20230410165251.99107-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,65 +89,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Guest RAM created with memory-backend-memfd is aligned to a
-QEMU_VMALLOC_ALIGN=2M boundary, and memory-backend-memfd does not support
-the "align" parameter to change the default.  This is sub-optimal on
-aarch64 kernels with a 64 KB page size and 512 MB huge page size, as the
-range will not be backed by huge pages.  Moreover, any shared allocation
-using qemu_ram_mmap() will be sub-optimal on such a system if the align
-parameter is less than 512 MB.
+Hi,
 
-The kernel is smart enough to return a hugely aligned pointer for MAP_SHARED
-mappings when /sys/kernel/mm/transparent_hugepage/shmem_enabled allows it.
-However, the qemu function qemu_ram_mmap() mmap's twice to perform its own
-alignment:
+This v2 contains a change suggested by Weiwei Li in patch 4. No
+functional changes made from the previous version.
 
-    guardptr = mmap(0, total, PROT_NONE, flags, ...
-    flags |= shared ? MAP_SHARED : MAP_PRIVATE;
-    ptr = mmap(guardptr + offset, size, prot, flags | map_sync_flags, ...
+Changes from v1:
+- patch 4:
+  - use a common class_init() fn instead of one class fn per generic CPU
+- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg01266.html
 
-On the first call, flags has MAP_PRIVATE, hence the kernel does not apply
-its shared memory policy, and returns a non-huge-aligned guardptr.
+Daniel Henrique Barboza (4):
+  target/riscv: add CPU QOM header
+  target/riscv: add query-cpy-definitions support
+  target/riscv: add 'static' attribute of query-cpu-definitions
+  target/riscv: make generic cpus not static
 
-To fix, for shared mappings, pass MAP_SHARED to both mmap calls.
+ qapi/machine-target.json      |  6 ++-
+ target/riscv/cpu-qom.h        | 73 +++++++++++++++++++++++++++++++++++
+ target/riscv/cpu.c            | 33 ++++++++++++++--
+ target/riscv/cpu.h            | 46 +---------------------
+ target/riscv/meson.build      |  3 +-
+ target/riscv/riscv-qmp-cmds.c | 55 ++++++++++++++++++++++++++
+ 6 files changed, 164 insertions(+), 52 deletions(-)
+ create mode 100644 target/riscv/cpu-qom.h
+ create mode 100644 target/riscv/riscv-qmp-cmds.c
 
-Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
----
- util/mmap-alloc.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 5ed7d29..37a0d1e 100644
---- a/util/mmap-alloc.c
-+++ b/util/mmap-alloc.c
-@@ -121,7 +121,7 @@ static bool map_noreserve_effective(int fd, uint32_t qemu_map_flags)
-  * Reserve a new memory region of the requested size to be used for mapping
-  * from the given fd (if any).
-  */
--static void *mmap_reserve(size_t size, int fd)
-+static void *mmap_reserve(size_t size, int fd, int final_flags)
- {
-     int flags = MAP_PRIVATE;
- 
-@@ -144,6 +144,7 @@ static void *mmap_reserve(size_t size, int fd)
- #else
-     fd = -1;
-     flags |= MAP_ANONYMOUS;
-+    flags |= final_flags & MAP_SHARED;
- #endif
- 
-     return mmap(0, size, PROT_NONE, flags, fd, 0);
-@@ -232,7 +233,7 @@ void *qemu_ram_mmap(int fd,
-      */
-     total = size + align;
- 
--    guardptr = mmap_reserve(total, fd);
-+    guardptr = mmap_reserve(total, fd, qemu_map_flags);
-     if (guardptr == MAP_FAILED) {
-         return MAP_FAILED;
-     }
 -- 
-1.8.3.1
+2.39.2
 
 
