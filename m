@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6CF6DC707
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 15:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FCA6DC726
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 15:11:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plrCd-0004Qf-4E; Mon, 10 Apr 2023 09:04:59 -0400
+	id 1plrI0-00061w-QL; Mon, 10 Apr 2023 09:10:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1plrCY-0004NR-Ea
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:04:54 -0400
+ id 1plrHz-00061e-14
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:10:31 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1plrCV-00011l-F7
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:04:53 -0400
+ id 1plrHw-0002WZ-Hd
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:10:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681131889;
+ s=mimecast20190719; t=1681132227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bA+YxTG6x5m1BzpYkiWRssHeCYpkIB8ZaCchZ1il4oc=;
- b=dRJIbam4OqtQn2VO1gwa8ZvBPoa2QYIzLu99CLhdcMyF5T3kKQ6V8OkKyQiJlLKUBsTQ2h
- R4kDmrq4OHEXYQ8MKZpcKrex5623LUMVxNw5RiP2ooeV0hBAcUDfM49y9l9w1ybH9R1MKC
- xDGQHGYAAaU1gB4EZGcKv7dcjPb1zaY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=n10Xj6d/xAmEj8OO0NXz6ZSZ9xAXlH5i5TY6X9R/9o8=;
+ b=TlOIjRVJ2JNgpjGlRelZ0hDljb/67imjiYLOd/2VfCALGsruvlAoWKFLJZa2K3dEy9FhML
+ OAgLK4b5vKzb6VgMSZxMWpFmmgkmymiy5NPslgG9V4CJmpLHv5WnbFWxjI8M2o77kFAL+U
+ BB2UXtBymvwRWjpeMZOGYngb4msOBiU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-IsgUuz2aNzWffaPIQOrXWg-1; Mon, 10 Apr 2023 09:04:47 -0400
-X-MC-Unique: IsgUuz2aNzWffaPIQOrXWg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-612-Wf8P9cmgMzyD90mY4qVOfw-1; Mon, 10 Apr 2023 09:10:22 -0400
+X-MC-Unique: Wf8P9cmgMzyD90mY4qVOfw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9248811E7C;
- Mon, 10 Apr 2023 13:04:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AD841C05B00;
+ Mon, 10 Apr 2023 13:10:22 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 660262166B30;
- Mon, 10 Apr 2023 13:04:45 +0000 (UTC)
-Date: Mon, 10 Apr 2023 09:04:44 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C79A40C83B6;
+ Mon, 10 Apr 2023 13:10:21 +0000 (UTC)
+Date: Mon, 10 Apr 2023 09:10:20 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Sam Li <faithilikerun@gmail.com>
 Cc: qemu-devel@nongnu.org, dmitry.fomichev@wdc.com,
@@ -51,16 +51,15 @@ Cc: qemu-devel@nongnu.org, dmitry.fomichev@wdc.com,
  damien.lemoal@opensource.wdc.com, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>, hare@suse.de,
  Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v9 1/4] file-posix: add tracking of the zone write pointers
-Message-ID: <20230410130444.GB888305@fedora>
+Subject: Re: [PATCH v9 0/4] Add zone append write for zoned device
+Message-ID: <20230410131020.GC888305@fedora>
 References: <20230407081657.17947-1-faithilikerun@gmail.com>
- <20230407081657.17947-2-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vIYnR7XIWMk/XsHg"
+ protocol="application/pgp-signature"; boundary="UXmZ3gGaDCKL3bXO"
 Content-Disposition: inline
-In-Reply-To: <20230407081657.17947-2-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+In-Reply-To: <20230407081657.17947-1-faithilikerun@gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -86,398 +85,113 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---vIYnR7XIWMk/XsHg
+--UXmZ3gGaDCKL3bXO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 07, 2023 at 04:16:54PM +0800, Sam Li wrote:
-> Since Linux doesn't have a user API to issue zone append operations to
-> zoned devices from user space, the file-posix driver is modified to add
-> zone append emulation using regular writes. To do this, the file-posix
-> driver tracks the wp location of all zones of the device. It uses an
-> array of uint64_t. The most significant bit of each wp location indicates
-> if the zone type is conventional zones.
+On Fri, Apr 07, 2023 at 04:16:53PM +0800, Sam Li wrote:
+> This patch series add zone append operation based on the previous
+> zoned device support part. The file-posix driver is modified to
+> add zone append emulation using regular writes.
 >=20
-> The zones wp can be changed due to the following operations issued:
-> - zone reset: change the wp to the start offset of that zone
-> - zone finish: change to the end location of that zone
-> - write to a zone
-> - zone append
+> v9:
+> - address review comments [Stefan]
+>   * fix get_zones_wp() for wrong offset index
+>   * fix misuses of QEMU_LOCK_GUARD()
+>   * free and allocate wps in refresh_limits for now
 >=20
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> ---
->  block/file-posix.c               | 173 ++++++++++++++++++++++++++++++-
->  include/block/block-common.h     |  14 +++
->  include/block/block_int-common.h |   5 +
->  3 files changed, 189 insertions(+), 3 deletions(-)
+> v8:
+> - address review comments [Stefan]
+>   * fix zone_mgmt covering multiple zones case
+>   * fix memory leak bug of wps in refresh_limits()
+>   * mv BlockZoneWps field from BlockLimits to BlockDriverState
+>   * add check_qiov_request() to bdrv_co_zone_append
 >=20
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 65efe5147e..e7957f5559 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1324,6 +1324,90 @@ static int hdev_get_max_segments(int fd, struct st=
-at *st)
->  #endif
->  }
-> =20
-> +#if defined(CONFIG_BLKZONED)
-> +/*
-> + * If the reset_all flag is true, then the wps of zone whose state is
-> + * not readonly or offline should be all reset to the start sector.
-> + * Else, take the real wp of the device.
-> + */
-> +static int get_zones_wp(BlockDriverState *bs, int fd, int64_t offset,
-> +                        unsigned int nrz, bool reset_all)
-> +{
-> +    struct blk_zone *blkz;
-> +    size_t rep_size;
-> +    uint64_t sector =3D offset >> BDRV_SECTOR_BITS;
-> +    BlockZoneWps *wps =3D bs->wps;
-> +    int j =3D offset / bs->bl.zone_size;
-> +    int ret, n =3D 0, i =3D 0;
-
-I would feel more comfortable if i, j, and n were unsigned int like nrz.
-That way we don't need to worry about negative array indices when int
-wraps to INT_MIN.
-
-In practice we'll probably hit scalability problems before nrz becomes
-greater than INT_MAX. Also, such devices probably don't exist. A 5 TB
-drive with 256 MB zones only has 20,480 zones.
-
-So for now I think you can keep the code the way it is.
-
-> +    rep_size =3D sizeof(struct blk_zone_report) + nrz * sizeof(struct bl=
-k_zone);
-> +    g_autofree struct blk_zone_report *rep =3D NULL;
-> +
-> +    rep =3D g_malloc(rep_size);
-> +    blkz =3D (struct blk_zone *)(rep + 1);
-> +    while (n < nrz) {
-> +        memset(rep, 0, rep_size);
-> +        rep->sector =3D sector;
-> +        rep->nr_zones =3D nrz - n;
-> +
-> +        do {
-> +            ret =3D ioctl(fd, BLKREPORTZONE, rep);
-> +        } while (ret !=3D 0 && errno =3D=3D EINTR);
-> +        if (ret !=3D 0) {
-> +            error_report("%d: ioctl BLKREPORTZONE at %" PRId64 " failed =
-%d",
-> +                    fd, offset, errno);
-> +            return -errno;
-> +        }
-> +
-> +        if (!rep->nr_zones) {
-> +            break;
-> +        }
-> +
-> +        for (i =3D 0; i < rep->nr_zones; ++i, ++n, ++j) {
-> +            /*
-> +             * The wp tracking cares only about sequential writes requir=
-ed and
-> +             * sequential write preferred zones so that the wp can advan=
-ce to
-> +             * the right location.
-> +             * Use the most significant bit of the wp location to indica=
-te the
-> +             * zone type: 0 for SWR/SWP zones and 1 for conventional zon=
-es.
-> +             */
-> +            if (blkz[i].type =3D=3D BLK_ZONE_TYPE_CONVENTIONAL) {
-> +                wps->wp[j] |=3D 1ULL << 63;
-> +            } else {
-> +                switch(blkz[i].cond) {
-> +                case BLK_ZONE_COND_FULL:
-> +                case BLK_ZONE_COND_READONLY:
-> +                    /* Zone not writable */
-> +                    wps->wp[j] =3D (blkz[i].start + blkz[i].len) << BDRV=
-_SECTOR_BITS;
-> +                    break;
-> +                case BLK_ZONE_COND_OFFLINE:
-> +                    /* Zone not writable nor readable */
-> +                    wps->wp[j] =3D (blkz[i].start) << BDRV_SECTOR_BITS;
-> +                    break;
-> +                default:
-> +                    if (reset_all) {
-> +                        wps->wp[j] =3D blkz[i].start << BDRV_SECTOR_BITS;
-> +                    } else {
-> +                        wps->wp[j] =3D blkz[i].wp << BDRV_SECTOR_BITS;
-> +                    }
-> +                    break;
-> +                }
-> +            }
-> +        }
-> +        sector =3D blkz[i - 1].start + blkz[i - 1].len;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static void update_zones_wp(BlockDriverState *bs, int fd, int64_t offset,
-> +                            unsigned int nrz)
-> +{
-> +    if (get_zones_wp(bs, fd, offset, nrz, 0) < 0) {
-> +        error_report("update zone wp failed");
-> +    }
-> +}
-> +#endif
-> +
->  static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
->  {
->      BDRVRawState *s =3D bs->opaque;
-> @@ -1413,6 +1497,23 @@ static void raw_refresh_limits(BlockDriverState *b=
-s, Error **errp)
->          if (ret >=3D 0) {
->              bs->bl.max_active_zones =3D ret;
->          }
-> +
-> +        ret =3D get_sysfs_long_val(&st, "physical_block_size");
-> +        if (ret >=3D 0) {
-> +            bs->bl.write_granularity =3D ret;
-> +        }
-> +
-> +        /* The refresh_limits() function can be called multiple times. */
-> +        g_free(bs->wps);
-> +        bs->wps =3D g_malloc(sizeof(BlockZoneWps) +
-> +                sizeof(int64_t) * bs->bl.nr_zones);
-> +        ret =3D get_zones_wp(bs, s->fd, 0, bs->bl.nr_zones, 0);
-> +        if (ret < 0) {
-> +            error_setg_errno(errp, -ret, "report wps failed");
-> +            bs->wps =3D NULL;
-> +            return;
-> +        }
-> +        qemu_co_mutex_init(&bs->wps->colock);
-
-I suggest moving qemu_co_mutex_init() to raw_open_common() in the future
-to eliminate the assumption that raw_refresh_limits() is called before
-other functions that use colock. But there is no need to resend the
-patch series.
-
->          return;
->      }
->  out:
-> @@ -2338,9 +2439,15 @@ static int coroutine_fn raw_co_prw(BlockDriverStat=
-e *bs, uint64_t offset,
->  {
->      BDRVRawState *s =3D bs->opaque;
->      RawPosixAIOData acb;
-> +    int ret;
-> =20
->      if (fd_open(bs) < 0)
->          return -EIO;
-> +#if defined(CONFIG_BLKZONED)
-> +    if (type & QEMU_AIO_WRITE && bs->wps) {
-> +        qemu_co_mutex_lock(&bs->wps->colock);
-> +    }
-> +#endif
-> =20
->      /*
->       * When using O_DIRECT, the request must be aligned to be able to use
-> @@ -2354,14 +2461,16 @@ static int coroutine_fn raw_co_prw(BlockDriverSta=
-te *bs, uint64_t offset,
->      } else if (s->use_linux_io_uring) {
->          LuringState *aio =3D aio_get_linux_io_uring(bdrv_get_aio_context=
-(bs));
->          assert(qiov->size =3D=3D bytes);
-> -        return luring_co_submit(bs, aio, s->fd, offset, qiov, type);
-> +        ret =3D luring_co_submit(bs, aio, s->fd, offset, qiov, type);
-> +        goto out;
->  #endif
->  #ifdef CONFIG_LINUX_AIO
->      } else if (s->use_linux_aio) {
->          LinuxAioState *aio =3D aio_get_linux_aio(bdrv_get_aio_context(bs=
-));
->          assert(qiov->size =3D=3D bytes);
-> -        return laio_co_submit(bs, aio, s->fd, offset, qiov, type,
-> +        ret =3D laio_co_submit(bs, aio, s->fd, offset, qiov, type,
->                                s->aio_max_batch);
-> +        goto out;
->  #endif
->      }
-> =20
-> @@ -2378,7 +2487,32 @@ static int coroutine_fn raw_co_prw(BlockDriverStat=
-e *bs, uint64_t offset,
->      };
-> =20
->      assert(qiov->size =3D=3D bytes);
-> -    return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
-> +    ret =3D raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
-> +
-> +out:
-> +#if defined(CONFIG_BLKZONED)
-> +    BlockZoneWps *wps =3D bs->wps;
-> +    if (ret =3D=3D 0) {
-> +        if (type & QEMU_AIO_WRITE && wps && bs->bl.zone_size) {
-> +            uint64_t *wp =3D &wps->wp[offset / bs->bl.zone_size];
-> +            if (!BDRV_ZT_IS_CONV(*wp)) {
-> +                /* Advance the wp if needed */
-> +                if (offset + bytes > *wp) {
-> +                    *wp =3D offset + bytes;
-> +                }
-> +            }
-> +        }
-> +    } else {
-> +        if (type & QEMU_AIO_WRITE) {
-> +            update_zones_wp(bs, s->fd, 0, 1);
-> +        }
-> +    }
-> +
-> +    if (type & QEMU_AIO_WRITE && wps) {
-> +        qemu_co_mutex_unlock(&wps->colock);
-> +    }
-> +#endif
-> +    return ret;
->  }
-> =20
->  static int coroutine_fn raw_co_preadv(BlockDriverState *bs, int64_t offs=
-et,
-> @@ -2486,6 +2620,9 @@ static void raw_close(BlockDriverState *bs)
->      BDRVRawState *s =3D bs->opaque;
-> =20
->      if (s->fd >=3D 0) {
-> +#if defined(CONFIG_BLKZONED)
-> +        g_free(bs->wps);
-> +#endif
->          qemu_close(s->fd);
->          s->fd =3D -1;
->      }
-> @@ -3283,6 +3420,7 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDrive=
-rState *bs, BlockZoneOp op,
->      const char *op_name;
->      unsigned long zo;
->      int ret;
-> +    BlockZoneWps *wps =3D bs->wps;
->      int64_t capacity =3D bs->total_sectors << BDRV_SECTOR_BITS;
-> =20
->      zone_size =3D bs->bl.zone_size;
-> @@ -3300,6 +3438,15 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDriv=
-erState *bs, BlockZoneOp op,
->          return -EINVAL;
->      }
-> =20
-> +    QEMU_LOCK_GUARD(&wps->colock);
-> +    uint32_t i =3D offset / bs->bl.zone_size;
-> +    uint32_t nrz =3D len / bs->bl.zone_size;
-> +    uint64_t *wp =3D &wps->wp[i];
-> +    if (BDRV_ZT_IS_CONV(*wp) && len !=3D capacity) {
-> +        error_report("zone mgmt operations are not allowed for conventio=
-nal zones");
-> +        return -EIO;
-> +    }
-> +
->      switch (op) {
->      case BLK_ZO_OPEN:
->          op_name =3D "BLKOPENZONE";
-> @@ -3337,8 +3484,28 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDriv=
-erState *bs, BlockZoneOp op,
->                          len >> BDRV_SECTOR_BITS);
->      ret =3D raw_thread_pool_submit(bs, handle_aiocb_zone_mgmt, &acb);
->      if (ret !=3D 0) {
-> +        update_zones_wp(bs, s->fd, offset, i);
->          ret =3D -errno;
->          error_report("ioctl %s failed %d", op_name, ret);
-> +        return ret;
-> +    }
-> +
-> +    if (zo =3D=3D BLKRESETZONE && len =3D=3D capacity) {
-> +        ret =3D get_zones_wp(bs, s->fd, 0, bs->bl.nr_zones, 1);
-> +        if (ret < 0) {
-> +            error_report("reporting single wp failed");
-> +            return ret;
-> +        }
-> +    } else if (zo =3D=3D BLKRESETZONE) {
-> +        for (int j =3D 0; j < nrz; ++j) {
-> +            wp[j] =3D offset + j * zone_size;
-> +        }
-> +    } else if (zo =3D=3D BLKFINISHZONE) {
-> +        for (int j =3D 0; j < nrz; ++j) {
-> +            /* The zoned device allows the last zone smaller that the
-> +             * zone size. */
-> +            wp[j] =3D MIN(offset + (j + 1) * zone_size, offset + len);
-> +        }
->      }
-> =20
->      return ret;
-> diff --git a/include/block/block-common.h b/include/block/block-common.h
-> index 1576fcf2ed..93196229ac 100644
-> --- a/include/block/block-common.h
-> +++ b/include/block/block-common.h
-> @@ -118,6 +118,14 @@ typedef struct BlockZoneDescriptor {
->      BlockZoneState state;
->  } BlockZoneDescriptor;
-> =20
-> +/*
-> + * Track write pointers of a zone in bytes.
-> + */
-> +typedef struct BlockZoneWps {
-> +    CoMutex colock;
-> +    uint64_t wp[];
-> +} BlockZoneWps;
-> +
->  typedef struct BlockDriverInfo {
->      /* in bytes, 0 if irrelevant */
->      int cluster_size;
-> @@ -240,6 +248,12 @@ typedef enum {
->  #define BDRV_SECTOR_BITS   9
->  #define BDRV_SECTOR_SIZE   (1ULL << BDRV_SECTOR_BITS)
-> =20
-> +/*
-> + * Get the first most significant bit of wp. If it is zero, then
-> + * the zone type is SWR.
-> + */
-> +#define BDRV_ZT_IS_CONV(wp)    (wp & (1ULL << 63))
-> +
->  #define BDRV_REQUEST_MAX_SECTORS MIN_CONST(SIZE_MAX >> BDRV_SECTOR_BITS,=
- \
->                                             INT_MAX >> BDRV_SECTOR_BITS)
->  #define BDRV_REQUEST_MAX_BYTES (BDRV_REQUEST_MAX_SECTORS << BDRV_SECTOR_=
-BITS)
-> diff --git a/include/block/block_int-common.h b/include/block/block_int-c=
-ommon.h
-> index 1bd2aef4d5..b34a7f175d 100644
-> --- a/include/block/block_int-common.h
-> +++ b/include/block/block_int-common.h
-> @@ -884,6 +884,8 @@ typedef struct BlockLimits {
-> =20
->      /* maximum number of active zones */
->      int64_t max_active_zones;
-> +
-> +    int64_t write_granularity;
->  } BlockLimits;
-> =20
->  typedef struct BdrvOpBlocker BdrvOpBlocker;
-> @@ -1245,6 +1247,9 @@ struct BlockDriverState {
->      CoMutex bsc_modify_lock;
->      /* Always non-NULL, but must only be dereferenced under an RCU read =
-guard */
->      BdrvBlockStatusCache *block_status_cache;
-> +
-> +    /* array of write pointers' location of each zone in the zoned devic=
-e. */
-> +    BlockZoneWps *wps;
->  };
-> =20
->  struct BlockBackendRootState {
+> v7:
+> - address review comments
+>   * fix wp assignment [Stefan]
+>   * fix reset_all cases, skip R/O & offline zones [Dmitry, Damien]
+>   * fix locking on non-zap related cases [Stefan]
+>   * cleanups and typos correction
+> - add "zap -p" option to qemuio-cmds [Stefan]
+>=20
+> v6:
+> - add small fixes
+>=20
+> v5:
+> - fix locking conditions and error handling
+> - drop some trival optimizations
+> - add tracing points for zone append
+>=20
+> v4:
+> - fix lock related issues[Damien]
+> - drop all field in zone_mgmt op [Damien]
+> - fix state checks in zong_mgmt command [Damien]
+> - return start sector of wp when issuing zap req [Damien]
+>=20
+> v3:
+> - only read wps when it is locked [Damien]
+> - allow last smaller zone case [Damien]
+> - add zone type and state checks in zone_mgmt command [Damien]
+> - fix RESET_ALL related problems
+>=20
+> v2:
+> - split patch to two patches for better reviewing
+> - change BlockZoneWps's structure to an array of integers
+> - use only mutex lock on locking conditions of zone wps
+> - coding styles and clean-ups
+>=20
+> v1:
+> - introduce zone append write
+>=20
+> Sam Li (4):
+>   file-posix: add tracking of the zone write pointers
+>   block: introduce zone append write for zoned devices
+>   qemu-iotests: test zone append operation
+>   block: add some trace events for zone append
+>=20
+>  block/block-backend.c              |  60 ++++++++
+>  block/file-posix.c                 | 226 ++++++++++++++++++++++++++++-
+>  block/io.c                         |  27 ++++
+>  block/io_uring.c                   |   4 +
+>  block/linux-aio.c                  |   3 +
+>  block/raw-format.c                 |   8 +
+>  block/trace-events                 |   2 +
+>  include/block/block-common.h       |  14 ++
+>  include/block/block-io.h           |   4 +
+>  include/block/block_int-common.h   |   8 +
+>  include/block/raw-aio.h            |   4 +-
+>  include/sysemu/block-backend-io.h  |   9 ++
+>  qemu-io-cmds.c                     |  75 ++++++++++
+>  tests/qemu-iotests/tests/zoned     |  16 ++
+>  tests/qemu-iotests/tests/zoned.out |  16 ++
+>  15 files changed, 469 insertions(+), 7 deletions(-)
+>=20
 > --=20
 > 2.39.2
 >=20
 
---vIYnR7XIWMk/XsHg
+Thanks, applied to my block-next tree:
+https://gitlab.com/stefanha/qemu/commits/block-next
+
+Stefan
+
+--UXmZ3gGaDCKL3bXO
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQ0CWsACgkQnKSrs4Gr
-c8jbEQgAkiRTUjKCucqjkF6D2SKmzJjGsk7dE8at8PgN1fA0/JY9EHgTSsgy2FaO
-f5JgjzidEfmdZhLphvVf8RdYDhEwKRkx5TD5vaRrhHsddPk3IZ5GWMMy+w7U7Z+S
-6Vpc6JJx7NxCB+bOeYNv1oB4WnOz2VDkLbtBrOheBYWt34Zz7lT7KsdTHdshhOKw
-NG9yZL/3S9jXpgRoZvsl734+usSEM7Isg8KShO8sGRKefZMNRgETzNQDid1zLhIn
-2RnSCuuJ85f9NSkKhOtabZul4wy3Luai7K1pu20oPMksgSjOIQYHqbklPm+hXY5U
-tmHyT3uVjc67TlnlZXojBaPjd68v7Q==
-=FwSx
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQ0CrwACgkQnKSrs4Gr
+c8htwggAs6mGvdlhvbfhdwrfE/OHbydoXIHxOJQPXBBsgXz93SUi3fAwtnlMFHiL
+gt4px4KFnH04n97r1+pGL1Wfh+1DJUQgVB1Z7LlHMgf5H9XGEMxctu53IgQWqDn8
+YDU1ORk7o2Nn9QEoj4+nlj7hYT/oo97VORPak+uJywV5RycayGV71CMB5Naacr6w
+VNa93W51N7IIopPnRuJbeZx8dAJv2y60gjEHWo03VK6OJwLuZwLXwmnV4+NnPV/M
+VsdXXyq2PkYZKtbf8zytF0IeoHxJdDj0OvXQPNiU87LhsCI8jHogWAYZRf6T9sEL
+WeRJDSR54JERdosUCGdr1HNZwGSdKg==
+=JTqt
 -----END PGP SIGNATURE-----
 
---vIYnR7XIWMk/XsHg--
+--UXmZ3gGaDCKL3bXO--
 
 
