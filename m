@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A7C6DCAB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 20:23:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3416DCAB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 20:24:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plw8x-0002km-HM; Mon, 10 Apr 2023 14:21:31 -0400
+	id 1plw8r-0002gl-SX; Mon, 10 Apr 2023 14:21:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8g-0002fI-I6
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8h-0002fJ-8I
  for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:16 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129])
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8e-0000h3-VW
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:14 -0400
-Received: by mail-il1-x129.google.com with SMTP id b7so1324346ilm.4
- for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 11:21:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1plw8f-0000hM-Oo
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 14:21:15 -0400
+Received: by mail-il1-x12b.google.com with SMTP id r11so2066689ilb.9
+ for <qemu-devel@nongnu.org>; Mon, 10 Apr 2023 11:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681150871;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1681150872;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jwIHVc41F1vGdAlrXUv6Uz16Se8rtJQuutqsrYhY8XA=;
- b=fvbhl8vXqM6FIhTEfPcJfhKFBzZR3ayJJjO8MudSQPRKuu5FFIL3JI6F9rBUThjuVE
- 7wBYV44HeoQI+NQX+ozUu5tv+kv0K3ghXvBNiZM/T4lgioNvwVDA0HAjrWGRtAqGoSj5
- NWDr6iaPF/i9IUgDvoDUz5/tgcszKjqEVMsJwKPuykGf0tXaTO+jJqRVqBbDqCOPD+wi
- fRUxEpurH3CuFIVvgZMnnK6EuZqeKGLvDh5JfldgunDIRu79QQn3W2HR6LHbwxn0+Dn/
- tLiQJ3jnnyqAW/WHLcLjqF+70CBnhu3t+Pznmj8SLHAMIFu0+pmLZcRpp7PNUkMF/3qU
- CkKA==
+ bh=p/770m3m0UuWja7n7zJRMdkcuTqSX6pSDmKn7o3gni8=;
+ b=jP28ot3lOoWTfCEYsoXSNyqLume40JINZCkOT9k6UaZxuLSQWM86TY7kqlnc4XOlYj
+ l6YSk2f0dGv1xeAJj59qU/WXKhyW0bHHX1xM3/OJe10vctwiWpqq8AKTt7QugODDSKCc
+ wzC/J0si6OdXhXN7XI5BE2ZstRpun1lojN+jHPGORJ/ZZPiUQ+hi6qk+ax/8CABSuzOL
+ hlDYCWADf/BUu2ElPrljnmFeLKh8dKadWLkynOgZ2LHfMFP+Z4aQWYa06ChtV++4dd9e
+ AYlaU+UONFncBoB8yt96b3QKqI3Redob5TzFynKZR8kx0aLJwjioiGA8AYiwBuQiLiCX
+ YEJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681150871;
+ d=1e100.net; s=20210112; t=1681150872;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jwIHVc41F1vGdAlrXUv6Uz16Se8rtJQuutqsrYhY8XA=;
- b=sOnjXtth0myJeFpKbAqxlAtpa7gjMKcYg8J3GOoClUjkBw/EkS0JvZaJwVVIyC1CxL
- ZhesEAKH7X8mfoKT/S5vuWOhFNjdOkmzDU7b+PmiuxhrHuVR0zMvCbWTRIU8e6hVtRTN
- BjoWdO6KCkAXhMLYrEQZwWpWKXC9UAjJ1cTYGIBKLfA0ZM3BKNNkhgk4wACsEpsH6vuh
- TyGnJKvEghDsTIRsEfx5iNF/IQJILrnoz5UowyQe2WDd5K9nCbLkJ1iAiPc4y9sNTOCr
- 2fiM/EdZZZsnHM6cLUwA4JpI3Mp63RL4TsUePpyqUYbzHfSi/6I3jHpHOSTe+9VI2gvw
- BOCg==
-X-Gm-Message-State: AAQBX9dNtRbQ3CZJIZTZfVxZeYOa6ywEfj0tmfyQajbhruHgQgYXAjM4
- ukf9nSrAcXfzy2O7Yx5HGNMq+Y7zdoAZ3F/gKMU=
-X-Google-Smtp-Source: AKy350a7+aKeBoLhvzGushb7NonfJOF5ESOAh30XWgRY8mocwkavzGZj5kRw5OmN2dw6p0kI0AEIkQ==
-X-Received: by 2002:a92:c501:0:b0:325:b96e:6709 with SMTP id
- r1-20020a92c501000000b00325b96e6709mr7475087ilg.11.1681150871392; 
- Mon, 10 Apr 2023 11:21:11 -0700 (PDT)
+ bh=p/770m3m0UuWja7n7zJRMdkcuTqSX6pSDmKn7o3gni8=;
+ b=TGrewesVwPdtb1MuerkE4jEBIqiMQMHFwA9dG/wO6lm8S4smCbLE5lbuSI8Dxx4LBW
+ vlItYALGIeEggfyPHkK/957OIpemjm5euTiyRwLGdIeR+efo6dyfBcJ0FZZTCY03a2Fz
+ /RElOViUZjDerNeDmriBRyy9AOSwbY4mkwytOcmL14Q1uttwTHqQ0xAbcNQ7OOaEllXq
+ t9eNctNb9WqltTVGbAw/d8Bu3rxAgfktKHF7M0LcHVemKU7CG7i7VEtEaPYBa7GR4qXh
+ o87wslhizFf5FxXg+ruJ1ugqR7lwiA6OxneCGojYiolp3o4ownmM7A7a9vGfpXjCeA0A
+ 8xag==
+X-Gm-Message-State: AAQBX9eRIhk70KLGNvgziMzRFATK/diGdv67Cdu0aTtb2bHUy+HqgLnj
+ DEBed3SchdbezWqFO6YVK9eWdIN4f3LMeC4gPdM=
+X-Google-Smtp-Source: AKy350aXi/xRkI5BxO3ySTHiPg3Bc3FvC6Bpk3O9eS1TeP2gFOXuApCNQMZEyO9wxw08v+t6ytauSg==
+X-Received: by 2002:a92:d9cf:0:b0:317:93dc:1122 with SMTP id
+ n15-20020a92d9cf000000b0031793dc1122mr4678565ilq.14.1681150872393; 
+ Mon, 10 Apr 2023 11:21:12 -0700 (PDT)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- a15-20020a056e02120f00b00313b281ecd2sm3104314ilq.70.2023.04.10.11.21.10
+ a15-20020a056e02120f00b00313b281ecd2sm3104314ilq.70.2023.04.10.11.21.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 11:21:11 -0700 (PDT)
+ Mon, 10 Apr 2023 11:21:12 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: jrtc27@jrtc27.com, riastradh@netbsd.org, Kyle Evans <kevans@freebsd.org>,
  Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
  Warner Losh <imp@bsdimp.com>, reinoud@netbsd.org,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 07/19] bsd-user: Move system call include to os-syscall.h
-Date: Mon, 10 Apr 2023 12:20:44 -0600
-Message-Id: <20230410182056.320-8-imp@bsdimp.com>
+Subject: [PATCH v2 08/19] bsd-user: Remove useless mmap definitions
+Date: Mon, 10 Apr 2023 12:20:45 -0600
+Message-Id: <20230410182056.320-9-imp@bsdimp.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230410182056.320-1-imp@bsdimp.com>
 References: <20230410182056.320-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::129;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,154 +90,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Move the include of the system calls to os-syscall.h. Include that from
-syscall_defs.h. Use target_time_t and target_suseconds_t instead of the
-variant that has _freebsd_ in the name. Define these for OpenBSD and
-NetBSD based on comments in the file.
+On BSD, all architectures have the same mmap flags. Since we don't
+translate the flags, we don't need these defines here. We can't
+cross-run different BSD binaries.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/os-syscall.h | 21 +++++++++++++++++++++
- bsd-user/netbsd/os-syscall.h  | 16 ++++++++++++++++
- bsd-user/openbsd/os-syscall.h | 16 ++++++++++++++++
- bsd-user/syscall_defs.h       | 33 ++++-----------------------------
- 4 files changed, 57 insertions(+), 29 deletions(-)
- create mode 100644 bsd-user/freebsd/os-syscall.h
- create mode 100644 bsd-user/netbsd/os-syscall.h
- create mode 100644 bsd-user/openbsd/os-syscall.h
+ bsd-user/syscall_defs.h | 36 ------------------------------------
+ 1 file changed, 36 deletions(-)
 
-diff --git a/bsd-user/freebsd/os-syscall.h b/bsd-user/freebsd/os-syscall.h
-new file mode 100644
-index 00000000000..1f2c0acb1c5
---- /dev/null
-+++ b/bsd-user/freebsd/os-syscall.h
-@@ -0,0 +1,21 @@
-+/*
-+ * Copyright (c) 2023 Warner Losh <imp@bsdimp.com>
-+ *
-+ * SPDX-License-Identifier: BSD-2-Clause
-+ *
-+ * OS-Specific portion of syscall_defs.h
-+ */
-+
-+#include "freebsd/syscall_nr.h"
-+
-+/*
-+ * FreeBSD uses a 64bits time_t except on i386 so we have to add a special case
-+ * here.
-+ */
-+#if (!defined(TARGET_I386))
-+typedef int64_t target_time_t;
-+#else
-+typedef int32_t target_time_t;
-+#endif
-+
-+typedef abi_long target_suseconds_t;
-diff --git a/bsd-user/netbsd/os-syscall.h b/bsd-user/netbsd/os-syscall.h
-new file mode 100644
-index 00000000000..7507350d8d2
---- /dev/null
-+++ b/bsd-user/netbsd/os-syscall.h
-@@ -0,0 +1,16 @@
-+/*
-+ * Copyright (c) 2023 Warner Losh <imp@bsdimp.com>
-+ *
-+ * SPDX-License-Identifier: BSD-2-Clause
-+ *
-+ * OS-Specific portion of syscall_defs.h
-+ */
-+
-+#include "netbsd/syscall_nr.h"
-+
-+/*
-+ * time_t seems to be very inconsistly defined for the different *BSD's...
-+ *
-+ * NetBSD always uses int64_t.
-+ */
-+typedef int64_t target_time_t;
-diff --git a/bsd-user/openbsd/os-syscall.h b/bsd-user/openbsd/os-syscall.h
-new file mode 100644
-index 00000000000..191a76fa935
---- /dev/null
-+++ b/bsd-user/openbsd/os-syscall.h
-@@ -0,0 +1,16 @@
-+/*
-+ * Copyright (c) 2023 Warner Losh <imp@bsdimp.com>
-+ *
-+ * SPDX-License-Identifier: BSD-2-Clause
-+ *
-+ * OS-Specific portion of syscall_defs.h
-+ */
-+
-+#include "openbsd/syscall_nr.h"
-+
-+/*
-+ * time_t seems to be very inconsistly defined for the different *BSD's...
-+ *
-+ * OpenBSD always uses int.
-+ */
-+typedef int target_time_t;
 diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
-index b6d113d24a7..489d3a2e292 100644
+index 489d3a2e292..0604e96973e 100644
 --- a/bsd-user/syscall_defs.h
 +++ b/bsd-user/syscall_defs.h
-@@ -25,30 +25,7 @@
- 
- #include "errno_defs.h"
- 
--#include "freebsd/syscall_nr.h"
--#include "netbsd/syscall_nr.h"
--#include "openbsd/syscall_nr.h"
--
--/*
-- * machine/_types.h
-- * or x86/_types.h
-- */
--
--/*
-- * time_t seems to be very inconsistly defined for the different *BSD's...
-- *
-- * FreeBSD uses a 64bits time_t except on i386
-- * so we have to add a special case here.
-- *
-- * On NetBSD time_t is always defined as an int64_t.  On OpenBSD time_t
-- * is always defined as an int.
-- *
-- */
--#if (!defined(TARGET_I386))
--typedef int64_t target_freebsd_time_t;
--#else
--typedef int32_t target_freebsd_time_t;
--#endif
-+#include "os-syscall.h"
- 
- struct target_iovec {
-     abi_long iov_base;   /* Starting address */
-@@ -98,11 +75,9 @@ struct target_iovec {
-  * sys/timex.h
-  */
- 
--typedef abi_long target_freebsd_suseconds_t;
--
- /* compare to sys/timespec.h */
- struct target_freebsd_timespec {
--    target_freebsd_time_t   tv_sec;     /* seconds */
-+    target_time_t   tv_sec;     /* seconds */
-     abi_long                tv_nsec;    /* and nanoseconds */
- #if !defined(TARGET_I386) && TARGET_ABI_BITS == 32
-     abi_long _pad;
-@@ -120,8 +95,8 @@ struct target_freebsd__umtx_time {
+@@ -32,42 +32,6 @@ struct target_iovec {
+     abi_long iov_len;   /* Number of bytes */
  };
  
- struct target_freebsd_timeval {
--    target_freebsd_time_t       tv_sec; /* seconds */
--    target_freebsd_suseconds_t  tv_usec;/* and microseconds */
-+    target_time_t       tv_sec; /* seconds */
-+    target_suseconds_t  tv_usec;/* and microseconds */
- #if !defined(TARGET_I386) && TARGET_ABI_BITS == 32
-     abi_long _pad;
- #endif
+-/*
+- *  sys/mman.h
+- */
+-#define TARGET_FREEBSD_MAP_RESERVED0080 0x0080  /* previously misimplemented */
+-                                                /* MAP_INHERIT */
+-#define TARGET_FREEBSD_MAP_RESERVED0100 0x0100  /* previously unimplemented */
+-                                                /* MAP_NOEXTEND */
+-#define TARGET_FREEBSD_MAP_STACK        0x0400  /* region grows down, like a */
+-                                                /* stack */
+-#define TARGET_FREEBSD_MAP_NOSYNC       0x0800  /* page to but do not sync */
+-                                                /* underlying file */
+-
+-#define TARGET_FREEBSD_MAP_FLAGMASK     0x1ff7
+-
+-#define TARGET_NETBSD_MAP_INHERIT       0x0080  /* region is retained after */
+-                                                /* exec */
+-#define TARGET_NETBSD_MAP_TRYFIXED      0x0400  /* attempt hint address, even */
+-                                                /* within break */
+-#define TARGET_NETBSD_MAP_WIRED         0x0800  /* mlock() mapping when it is */
+-                                                /* established */
+-
+-#define TARGET_NETBSD_MAP_STACK         0x2000  /* allocated from memory, */
+-                                                /* swap space (stack) */
+-
+-#define TARGET_NETBSD_MAP_FLAGMASK      0x3ff7
+-
+-#define TARGET_OPENBSD_MAP_INHERIT      0x0080  /* region is retained after */
+-                                                /* exec */
+-#define TARGET_OPENBSD_MAP_NOEXTEND     0x0100  /* for MAP_FILE, don't change */
+-                                                /* file size */
+-#define TARGET_OPENBSD_MAP_TRYFIXED     0x0400  /* attempt hint address, */
+-                                                /* even within heap */
+-
+-#define TARGET_OPENBSD_MAP_FLAGMASK     0x17f7
+-
+-/* XXX */
+ #define TARGET_BSD_MAP_FLAGMASK         0x3ff7
+ 
+ /*
 -- 
 2.40.0
 
