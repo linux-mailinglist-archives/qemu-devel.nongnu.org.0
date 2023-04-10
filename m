@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FCA6DC726
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 15:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA696DC732
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Apr 2023 15:13:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1plrI0-00061w-QL; Mon, 10 Apr 2023 09:10:32 -0400
+	id 1plrKu-0007U7-7B; Mon, 10 Apr 2023 09:13:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1plrHz-00061e-14
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:10:31 -0400
+ id 1plrKs-0007TP-2N
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:13:30 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1plrHw-0002WZ-Hd
- for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:10:30 -0400
+ id 1plrKq-000392-EK
+ for qemu-devel@nongnu.org; Mon, 10 Apr 2023 09:13:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1681132227;
+ s=mimecast20190719; t=1681132407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=n10Xj6d/xAmEj8OO0NXz6ZSZ9xAXlH5i5TY6X9R/9o8=;
- b=TlOIjRVJ2JNgpjGlRelZ0hDljb/67imjiYLOd/2VfCALGsruvlAoWKFLJZa2K3dEy9FhML
- OAgLK4b5vKzb6VgMSZxMWpFmmgkmymiy5NPslgG9V4CJmpLHv5WnbFWxjI8M2o77kFAL+U
- BB2UXtBymvwRWjpeMZOGYngb4msOBiU=
+ bh=rVq4rLpOqMxQg/zoPqfstsjr4bU27Vqu2lYJG9JB7Jg=;
+ b=Neer2J3iYZ4552VS85GhInGOGI8fhazFMMwgND05k+355SZAPrer7WLVW4Mm9DmLiDoL+n
+ ZMvTrSwyuyic8xSJ3YM0kdKMDbL6gPOlFmzwgQ2giAPRK8bjspQoWsyf2dxTF1w9bDC9qE
+ zNF3mynj5O7mG8DvycZyqzn2gX+TlaI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-Wf8P9cmgMzyD90mY4qVOfw-1; Mon, 10 Apr 2023 09:10:22 -0400
-X-MC-Unique: Wf8P9cmgMzyD90mY4qVOfw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-110-mEMg47PaMB6eyEL48codSQ-1; Mon, 10 Apr 2023 09:13:24 -0400
+X-MC-Unique: mEMg47PaMB6eyEL48codSQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AD841C05B00;
- Mon, 10 Apr 2023 13:10:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D92E52A5956A;
+ Mon, 10 Apr 2023 13:13:23 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C79A40C83B6;
- Mon, 10 Apr 2023 13:10:21 +0000 (UTC)
-Date: Mon, 10 Apr 2023 09:10:20 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62A8A492B00;
+ Mon, 10 Apr 2023 13:13:23 +0000 (UTC)
+Date: Mon, 10 Apr 2023 09:13:22 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, dmitry.fomichev@wdc.com,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Julia Suvorova <jusual@redhat.com>,
- damien.lemoal@opensource.wdc.com, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Fam Zheng <fam@euphon.net>, hare@suse.de,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v9 0/4] Add zone append write for zoned device
-Message-ID: <20230410131020.GC888305@fedora>
-References: <20230407081657.17947-1-faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ damien.lemoal@opensource.wdc.com, qemu-block@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, hare@suse.de,
+ "Michael S. Tsirkin" <mst@redhat.com>, dmitry.fomichev@wdc.com,
+ kvm@vger.kernel.org
+Subject: Re: [PATCH v10 0/5] Add zoned storage emulation to virtio-blk driver
+Message-ID: <20230410131322.GD888305@fedora>
+References: <20230407082528.18841-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UXmZ3gGaDCKL3bXO"
+ protocol="application/pgp-signature"; boundary="pO7awKOZ8/9N5zcX"
 Content-Disposition: inline
-In-Reply-To: <20230407081657.17947-1-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+In-Reply-To: <20230407082528.18841-1-faithilikerun@gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -68,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,88 +86,99 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---UXmZ3gGaDCKL3bXO
+--pO7awKOZ8/9N5zcX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 07, 2023 at 04:16:53PM +0800, Sam Li wrote:
-> This patch series add zone append operation based on the previous
-> zoned device support part. The file-posix driver is modified to
-> add zone append emulation using regular writes.
+On Fri, Apr 07, 2023 at 04:25:23PM +0800, Sam Li wrote:
+> This patch adds zoned storage emulation to the virtio-blk driver. It
+> implements the virtio-blk ZBD support standardization that is
+> recently accepted by virtio-spec. The link to related commit is at
+>=20
+> https://github.com/oasis-tcs/virtio-spec/commit/b4e8efa0fa6c8d844328090ad=
+15db65af8d7d981
+>=20
+> The Linux zoned device code that implemented by Dmitry Fomichev has been
+> released at the latest Linux version v6.3-rc1.
+>=20
+> Aside: adding zoned=3Don alike options to virtio-blk device will be
+> considered in following-up plan.
+>=20
+> v10:
+> - adapt to the latest zone-append patches: rename bs->bl.wps to bs->wps
 >=20
 > v9:
-> - address review comments [Stefan]
->   * fix get_zones_wp() for wrong offset index
->   * fix misuses of QEMU_LOCK_GUARD()
->   * free and allocate wps in refresh_limits for now
+> - address review comments
+>   * add docs for zoned emulation use case [Matias]
+>   * add the zoned feature bit to qmp monitor [Matias]
+>   * add the version number for newly added configs of accounting [Markus]
 >=20
 > v8:
-> - address review comments [Stefan]
->   * fix zone_mgmt covering multiple zones case
->   * fix memory leak bug of wps in refresh_limits()
->   * mv BlockZoneWps field from BlockLimits to BlockDriverState
->   * add check_qiov_request() to bdrv_co_zone_append
+> - address Stefan's review comments
+>   * rm aio_context_acquire/release in handle_req
+>   * rename function return type
+>   * rename BLOCK_ACCT_APPEND to BLOCK_ACCT_ZONE_APPEND for clarity
 >=20
 > v7:
-> - address review comments
->   * fix wp assignment [Stefan]
->   * fix reset_all cases, skip R/O & offline zones [Dmitry, Damien]
->   * fix locking on non-zap related cases [Stefan]
->   * cleanups and typos correction
-> - add "zap -p" option to qemuio-cmds [Stefan]
+> - update headers to v6.3-rc1
 >=20
 > v6:
-> - add small fixes
+> - address Stefan's review comments
+>   * add accounting for zone append operation
+>   * fix in_iov usage in handle_request, error handling and typos
 >=20
 > v5:
-> - fix locking conditions and error handling
-> - drop some trival optimizations
-> - add tracing points for zone append
+> - address Stefan's review comments
+>   * restore the way writing zone append result to buffer
+>   * fix error checking case and other errands
 >=20
 > v4:
-> - fix lock related issues[Damien]
-> - drop all field in zone_mgmt op [Damien]
-> - fix state checks in zong_mgmt command [Damien]
-> - return start sector of wp when issuing zap req [Damien]
+> - change the way writing zone append request result to buffer
+> - change zone state, zone type value of virtio_blk_zone_descriptor
+> - add trace events for new zone APIs
 >=20
 > v3:
-> - only read wps when it is locked [Damien]
-> - allow last smaller zone case [Damien]
-> - add zone type and state checks in zone_mgmt command [Damien]
-> - fix RESET_ALL related problems
+> - use qemuio_from_buffer to write status bit [Stefan]
+> - avoid using req->elem directly [Stefan]
+> - fix error checkings and memory leak [Stefan]
 >=20
 > v2:
-> - split patch to two patches for better reviewing
-> - change BlockZoneWps's structure to an array of integers
-> - use only mutex lock on locking conditions of zone wps
-> - coding styles and clean-ups
+> - change units of emulated zone op coresponding to block layer APIs
+> - modify error checking cases [Stefan, Damien]
 >=20
 > v1:
-> - introduce zone append write
+> - add zoned storage emulation
 >=20
-> Sam Li (4):
->   file-posix: add tracking of the zone write pointers
->   block: introduce zone append write for zoned devices
->   qemu-iotests: test zone append operation
->   block: add some trace events for zone append
+> Sam Li (5):
+>   include: update virtio_blk headers to v6.3-rc1
+>   virtio-blk: add zoned storage emulation for zoned devices
+>   block: add accounting for zone append operation
+>   virtio-blk: add some trace events for zoned emulation
+>   docs/zoned-storage:add zoned emulation use case
 >=20
->  block/block-backend.c              |  60 ++++++++
->  block/file-posix.c                 | 226 ++++++++++++++++++++++++++++-
->  block/io.c                         |  27 ++++
->  block/io_uring.c                   |   4 +
->  block/linux-aio.c                  |   3 +
->  block/raw-format.c                 |   8 +
->  block/trace-events                 |   2 +
->  include/block/block-common.h       |  14 ++
->  include/block/block-io.h           |   4 +
->  include/block/block_int-common.h   |   8 +
->  include/block/raw-aio.h            |   4 +-
->  include/sysemu/block-backend-io.h  |   9 ++
->  qemu-io-cmds.c                     |  75 ++++++++++
->  tests/qemu-iotests/tests/zoned     |  16 ++
->  tests/qemu-iotests/tests/zoned.out |  16 ++
->  15 files changed, 469 insertions(+), 7 deletions(-)
+>  block/qapi-sysemu.c                          |  11 +
+>  block/qapi.c                                 |  18 +
+>  docs/devel/zoned-storage.rst                 |  17 +
+>  hw/block/trace-events                        |   7 +
+>  hw/block/virtio-blk-common.c                 |   2 +
+>  hw/block/virtio-blk.c                        | 405 +++++++++++++++++++
+>  hw/virtio/virtio-qmp.c                       |   2 +
+>  include/block/accounting.h                   |   1 +
+>  include/standard-headers/drm/drm_fourcc.h    |  12 +
+>  include/standard-headers/linux/ethtool.h     |  48 ++-
+>  include/standard-headers/linux/fuse.h        |  45 ++-
+>  include/standard-headers/linux/pci_regs.h    |   1 +
+>  include/standard-headers/linux/vhost_types.h |   2 +
+>  include/standard-headers/linux/virtio_blk.h  | 105 +++++
+>  linux-headers/asm-arm64/kvm.h                |   1 +
+>  linux-headers/asm-x86/kvm.h                  |  34 +-
+>  linux-headers/linux/kvm.h                    |   9 +
+>  linux-headers/linux/vfio.h                   |  15 +-
+>  linux-headers/linux/vhost.h                  |   8 +
+>  qapi/block-core.json                         |  68 +++-
+>  qapi/block.json                              |   4 +
+>  21 files changed, 794 insertions(+), 21 deletions(-)
 >=20
 > --=20
 > 2.39.2
@@ -177,21 +189,21 @@ https://gitlab.com/stefanha/qemu/commits/block-next
 
 Stefan
 
---UXmZ3gGaDCKL3bXO
+--pO7awKOZ8/9N5zcX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQ0CrwACgkQnKSrs4Gr
-c8htwggAs6mGvdlhvbfhdwrfE/OHbydoXIHxOJQPXBBsgXz93SUi3fAwtnlMFHiL
-gt4px4KFnH04n97r1+pGL1Wfh+1DJUQgVB1Z7LlHMgf5H9XGEMxctu53IgQWqDn8
-YDU1ORk7o2Nn9QEoj4+nlj7hYT/oo97VORPak+uJywV5RycayGV71CMB5Naacr6w
-VNa93W51N7IIopPnRuJbeZx8dAJv2y60gjEHWo03VK6OJwLuZwLXwmnV4+NnPV/M
-VsdXXyq2PkYZKtbf8zytF0IeoHxJdDj0OvXQPNiU87LhsCI8jHogWAYZRf6T9sEL
-WeRJDSR54JERdosUCGdr1HNZwGSdKg==
-=JTqt
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmQ0C3EACgkQnKSrs4Gr
+c8hUTgf+MvSIhNQHcki7xIgGAulx4dPt6u2vKFB204hIxHFAsmuickp7ysM2/Qd/
+irPT2aOG/e7ixAdAfy18wF8+mRTuTWixcwXgRY8GYeKm8Q7gb9ydl0/BKBvuQvNp
+FDXkG2ZemWyIbHDcOaGo2TH6FJIWlJWkFh7qL9APdJ7p3fpmX6sQs4RWoPhcFYr/
+4PWmzXOaR/xyE7SYMmH8DpsDPPnPRNLfQmVN7kupvOX0tHRlC26Tg4maYZmrbXAd
+143PcfarjYYwe9BZ4Yo+T0eKnVMdbg3kugEMgBTvgFmy0UR074NrWFV/lZSAQDB+
+vwV7SfBWVh4tUdZ+eQsk9efxLT5HJA==
+=SfKn
 -----END PGP SIGNATURE-----
 
---UXmZ3gGaDCKL3bXO--
+--pO7awKOZ8/9N5zcX--
 
 
